@@ -1,0 +1,177 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-05-31",
+  "purpose": "Controlled vocabulary for the mechanism-fidelity check. Every port's source-leg and port-leg names a primitive { action, target, effect }. The fidelity comparator checks whether source.actionClass === port.actionClass AND source.effectClass === port.effectClass. Verdict: mechanism-coherent if both match; primitive-substituted if either differs; no-source-mechanism if source primitive is null. The two class enumerations below are the load-bearing concept — they define what counts as 'the same primitive'. They are intentionally narrow: ~13 action classes + ~10 effect classes. If a primitive doesn't fit any class, the verdict is ambiguous and gets human review rather than a vibe-grade pass.",
+
+  "actionClasses": {
+    "re-application": {
+      "definition": "Repeated, controlled re-presentation of a stimulus or signal to the system until the system's response to it changes. The signal is preserved; what changes is the system's response.",
+      "primitives": ["graded re-exposure", "iterative re-presentation", "controlled repetition", "extinction training"],
+      "antonyms": ["flooding (uncontrolled)", "removal", "suppression"],
+      "examples": ["exposure therapy for phobias", "interoceptive exposure", "extinction trials"]
+    },
+    "blockade": {
+      "definition": "Antagonism or structural inhibition of a signal pathway. The signal cannot act on its target; the target's response is preserved but uncoupled from the signal.",
+      "primitives": ["receptor antagonism", "structural inhibition", "competitive binding"],
+      "antonyms": ["stimulation", "amplification"],
+      "examples": ["naltrexone (mu-opioid antagonism)", "beta-blockers (β-AR antagonism)"]
+    },
+    "baseline-shift": {
+      "definition": "Tonic modulation of a system's baseline state, changing the reference point from which phasic responses are computed. Long-running, not event-triggered.",
+      "primitives": ["tonic elevation", "tonic suppression", "setpoint modulation"],
+      "antonyms": ["phasic stimulation", "window-intervention"],
+      "examples": ["SSRI (tonic serotonergic elevation)", "permanent reduction of credit haircuts"]
+    },
+    "stimulation": {
+      "definition": "Phasic activation of a signal pathway, typically time-locked to a target window.",
+      "primitives": ["phasic activation", "evoked response induction", "pulse delivery"],
+      "antonyms": ["blockade", "suppression"],
+      "examples": ["TMS pulse trains", "DBS phasic bursts"]
+    },
+    "high-frequency-disruption": {
+      "definition": "Sustained high-frequency stimulation that overrides or scrambles a pathological firing pattern. Distinct from stimulation because the target is the pattern, not the message; the goal is disruption.",
+      "primitives": ["high-frequency override", "pattern-scrambling stimulation"],
+      "antonyms": ["pattern restoration"],
+      "examples": ["DBS-STN for Parkinson's", "DBS habenula for treatment-resistant depression"]
+    },
+    "flooding": {
+      "definition": "Mass uncontrolled injection of resource into a system to override or suppress a signal. Distinct from re-application: signal is not preserved; it is drowned.",
+      "primitives": ["mass injection", "resource saturation", "buffer overflow"],
+      "antonyms": ["re-application", "graded exposure"],
+      "examples": ["Credit Market Liquidity Facilities", "benzodiazepine acute administration"]
+    },
+    "forced-reset": {
+      "definition": "External party rewrites a system's setpoint or rule from outside, bypassing the system's own regulatory machinery.",
+      "primitives": ["external rewrite", "exogenous setpoint change", "rule replacement"],
+      "antonyms": ["self-regulation", "baseline-shift (internal)"],
+      "examples": ["covenant reset by lender", "ECT for treatment-resistant depression (in some framings)"]
+    },
+    "window-intervention": {
+      "definition": "Action timed to a specific reactivation or sensitive window in which the system is plastic. The intervention is brief; the timing is essential. Distinct from baseline-shift (continuous) and blockade (continuous-unless-bound).",
+      "primitives": ["intervention during reactivation", "consolidation-window blockade", "anniversary-window action"],
+      "antonyms": ["continuous blockade", "baseline-shift"],
+      "examples": ["propranolol during memory reactivation", "policy intervention at crisis anniversary"],
+      "requiredFields": ["outsideWindowAssertion"],
+      "qualifyingAssertion": "A primitive qualifies as window-intervention ONLY IF its outsideWindowAssertion field explicitly states that the action would not produce the named effect outside the plasticity/reactivation window. Mere timing — 'we scheduled this at anniversary because attention is high' — does not qualify. Efficacy must be gated on the window, not merely scheduled within it. Without this field populated, the comparator returns ambiguous, not mechanism-coherent."
+    },
+    "parallel-processing": {
+      "definition": "Presentation of input through multiple independent channels simultaneously so processing is distributed rather than single-channel.",
+      "primitives": ["bilateral stimulation", "multi-channel delivery", "distributed processing"],
+      "antonyms": ["single-channel input", "serial processing"],
+      "examples": ["EMDR bilateral stimulation", "parallel-channel disclosure"]
+    },
+    "restructuring": {
+      "definition": "Reorganization of relationships or connections within a system. The components remain; their wiring changes.",
+      "primitives": ["redistribution of edges", "structural reorganization", "topology change"],
+      "antonyms": ["component replacement"],
+      "examples": ["antitrust action (structural separation)", "synaptic pruning"]
+    },
+    "removal": {
+      "definition": "Withdrawal or extraction of an existing input/stimulus/agent.",
+      "primitives": ["withdrawal", "extraction", "deletion"],
+      "antonyms": ["re-application", "stimulation"],
+      "examples": ["drug withdrawal", "covenant removal"]
+    },
+    "pre-commitment": {
+      "definition": "Binding the system to a rule-based response that fires automatically when a threshold is crossed, removing discretion at the moment of activation.",
+      "primitives": ["binding rule", "automatic trigger", "Ulysses contract"],
+      "antonyms": ["discretionary response", "case-by-case decision"],
+      "examples": ["Debt Sustainability Framework triggers", "advance directives"]
+    },
+    "restoration": {
+      "definition": "Repair or regeneration of a damaged circuit/structure. Distinct from re-application (which preserves the signal and changes the response) and baseline-shift (which changes the operating point).",
+      "primitives": ["circuit repair", "regeneration", "connectivity restoration"],
+      "antonyms": ["removal", "blockade"],
+      "examples": ["NEURO-RESTORATIVE interventions (largely theoretical)"],
+      "requiredFields": ["repairMechanismAssertion"],
+      "qualifyingAssertion": "A primitive qualifies as restoration ONLY IF its repairMechanismAssertion field explicitly characterizes (a) what specific structure or circuit is being repaired AND (b) by what means the repair operates. Unstated mechanisms — 'restore investor confidence', 'repair institutional trust' — do not qualify. This is the class-level catch for the vmPFC failure mode: if no repair mechanism is characterized, the comparator returns ambiguous regardless of whether the source primitive is null."
+    },
+    "monitoring": {
+      "definition": "Detection-only intervention that surfaces a signal without acting on it. Diagnostic, not curative.",
+      "primitives": ["detection", "signal surfacing", "audit"],
+      "antonyms": ["intervention", "treatment"],
+      "examples": ["Pipeline velocity metrics", "early warning indicators"]
+    }
+  },
+
+  "effectClasses": {
+    "recalibration": {
+      "definition": "A threshold or setpoint moves to a new value as a result of the action. The system's reference shifts; phasic responses are now computed relative to the new threshold.",
+      "antonyms": ["suppression", "amplification"],
+      "examples": ["prediction-error threshold recalibration after exposure", "risk-pricing threshold recalibration after market re-exposure"]
+    },
+    "attenuation": {
+      "definition": "A signal reduces in amplitude or reactivity. The signal still occurs but with smaller magnitude.",
+      "antonyms": ["amplification"],
+      "examples": ["amygdala reactivity attenuation under SSRI", "credit-spread reactivity attenuation under tighter regulation"]
+    },
+    "amplification": {
+      "definition": "A signal increases in amplitude or reactivity.",
+      "antonyms": ["attenuation", "suppression"],
+      "examples": ["dopaminergic burst amplification", "leverage amplification"]
+    },
+    "suppression": {
+      "definition": "A signal is blocked, masked, or replaced. Distinct from attenuation: the signal does not get through at all rather than getting through with reduced amplitude.",
+      "antonyms": ["recalibration", "amplification"],
+      "examples": ["liquidity flooding suppresses credit panic signal", "GABA flooding suppresses excitatory output"]
+    },
+    "interference": {
+      "definition": "A process (typically consolidation or learning) is blocked during a specific window. Distinct from suppression: the window is bounded; outside the window the process operates normally.",
+      "antonyms": ["consolidation", "reinforcement"],
+      "examples": ["propranolol interferes with reconsolidation", "anniversary-window policy interferes with re-encoding"],
+      "requiredFields": ["targetMustBeActiveAssertion"],
+      "qualifyingAssertion": "A primitive qualifies as interference ONLY IF its targetMustBeActiveAssertion field explicitly names (a) the process being interfered with AND (b) asserts that process must be active/reactivated for the interference to act. Interference with nothing is not interference. If the target process is dormant the action produces no effect; that conditional must be stated, not implied."
+    },
+    "redistribution": {
+      "definition": "Allocation of resource or signal changes across the system without net change in total resource.",
+      "antonyms": ["accumulation", "depletion"],
+      "examples": ["antitrust redistributes market power", "synaptic remapping redistributes input"]
+    },
+    "return-to-prior": {
+      "definition": "System state returns to a previously-established setpoint or baseline. Merges the former 'normalization' (endogenous) and 'reset' (exogenous) classes — they were a collision-shape suspect pair where the only distinguishing axis (agency: who/what does the returning) was already captured by the action class. Forced-reset action → return-to-prior effect = exogenous reset. Baseline-shift or stimulation action → return-to-prior effect = endogenous normalization. The merged effect class does not lose discrimination because action-class match already fires substitution when agency-of-effect differs.",
+      "antonyms": ["adaptation (permanent rewire to new setpoint)", "deviation"],
+      "examples": ["restoration of regulated firing pattern (endogenous via vagal nerve stimulation)", "covenant reset to prior debt-service ratio (exogenous via lender action)"],
+      "merge_record": {
+        "merged_from": ["normalization", "reset"],
+        "merged_at": "2026-05-31",
+        "reason": "Collision shape — definitions overlap on 'system returns to baseline'; the discriminator (endogenous vs exogenous) is already captured by action class. Required-field option (force agency declaration on assignment) would not have eliminated collision because authors could honestly write either prose for the same intervention. Merge eliminates the picking-which-class problem entirely; substitution detection at action level handles the cases where agency-of-effect matters."
+      }
+    },
+    "adaptation": {
+      "definition": "System rewires permanently to a new operating mode in response to repeated input. The system's structure changes, not just its state.",
+      "antonyms": ["return-to-prior", "transient response"],
+      "examples": ["EMDR-driven adaptation of limbic reactivity", "market structural adaptation after repeated parallel-channel disclosure"]
+    },
+    "protection": {
+      "definition": "System insulation from a specific input — the input still exists but cannot reach the target.",
+      "antonyms": ["sensitization"],
+      "examples": ["blood-brain barrier protection", "regulatory ringfencing"]
+    }
+  },
+
+  "fidelityVerdicts": {
+    "mechanism-coherent": {
+      "definition": "Source and port primitives share both actionClass AND effectClass. The transfer preserves the mechanism.",
+      "lane_eligibility": "Source-verified + mechanism-coherent → grant/SBA/investment lane. Source-real-but-unverified + mechanism-coherent → research/patent lane."
+    },
+    "primitive-substituted": {
+      "definition": "Source and port primitives differ on actionClass or effectClass (or both). The port substitutes a different mechanism while claiming transfer. Rejected from all lanes.",
+      "lane_eligibility": "Rejected. Engine output that cites a primitive-substituted residual as a transfer claim has misrepresented the source mechanism."
+    },
+    "no-source-mechanism": {
+      "definition": "Source has no extractable structured primitive — either the named intervention does not exist as a clinical protocol, or its mechanism is not characterized in literature. The port may be a real proposal but it is not a transfer.",
+      "lane_eligibility": "Rejected as a port. May be valid as a standalone hypothesis but cannot claim mechanistic transfer."
+    },
+    "ambiguous": {
+      "definition": "Source or port primitive does not cleanly fit any action or effect class in the ontology. Verdict requires human review. Margin case.",
+      "lane_eligibility": "Held. Operator reviews before lane assignment."
+    }
+  },
+
+  "audit_notes": [
+    "The ontology is intentionally narrow. If it is too narrow, more cases land as ambiguous (held for review) — that is the failure-safe direction. If it is too wide, more cases land as mechanism-coherent — that is the failure-unsafe direction. Bias the ontology toward narrow.",
+    "Adding new classes should require evidence that a class genuinely missing — not that an existing class is 'close but not quite'. Close-but-not-quite should be ambiguous.",
+    "When an action could plausibly belong to two classes (e.g. window-intervention vs blockade for propranolol-memory-reconsolidation), the more specific class wins. window-intervention is more specific than blockade because it specifies the temporal binding.",
+    "The fidelity check makes no claim about EFFICACY — only about COHERENCE. A mechanism-coherent port may still fail in practice; a primitive-substituted port may still produce a desired outcome via a different mechanism. The check rejects mis-labeling, not bad ideas."
+  ]
+}

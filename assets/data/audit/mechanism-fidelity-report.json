@@ -1,0 +1,181 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-05-31T14:56:06.302Z",
+  "ontologySource": "assets/data/audit/mechanism-ontology.json",
+  "statementsSource": "assets/data/audit/port-mechanism-statements.json",
+  "summary": {
+    "portsChecked": 6,
+    "verdictDistribution": {
+      "mechanism-coherent": 4,
+      "primitive-substituted": 1,
+      "no-source-mechanism": 1,
+      "ambiguous": 0
+    },
+    "predictionMatch": 6,
+    "predictionMismatch": 0,
+    "marginCases": 1
+  },
+  "verdicts": [
+    {
+      "id": "BLA-hyper-economy-exposure-to-volatility-reexposure",
+      "sourceTreatment": "exposure therapy",
+      "isControl": false,
+      "isMarginCase": false,
+      "sourcePrimitive": {
+        "action": "graded re-application of the feared signal",
+        "actionClass": "re-application",
+        "target": "prediction-error threshold of the threat-detection circuit",
+        "effect": "threshold recalibrates downward to match actual outcome distribution",
+        "effectClass": "recalibration"
+      },
+      "portPrimitive": {
+        "action": "graded re-application of volatility signal at scheduled intervals",
+        "actionClass": "re-application",
+        "target": "risk-pricing threshold of the credit/equity-spread response circuit",
+        "effect": "threshold recalibrates to match actual outcome distribution",
+        "effectClass": "recalibration"
+      },
+      "verdict": "mechanism-coherent",
+      "rationale": "Source primitive (action=\"re-application\", effect=\"recalibration\") and port primitive (action=\"re-application\", effect=\"recalibration\") share both structural dimensions. Transfer preserves the mechanism.",
+      "operatorPredicted": [
+        "mechanism-coherent"
+      ],
+      "operatorPredictionRaw": "mechanism-coherent",
+      "matchesPrediction": true
+    },
+    {
+      "id": "BLA-hyper-economy-exposure-to-LIQUIDITY-FLOODING-CONTROL",
+      "sourceTreatment": "exposure therapy",
+      "isControl": true,
+      "isMarginCase": false,
+      "sourcePrimitive": {
+        "action": "graded re-application of the feared signal",
+        "actionClass": "re-application",
+        "target": "prediction-error threshold",
+        "effect": "threshold recalibrates",
+        "effectClass": "recalibration"
+      },
+      "portPrimitive": {
+        "action": "mass injection of resource to saturate the signal pathway",
+        "actionClass": "flooding",
+        "target": "credit panic signal",
+        "effect": "signal is masked/replaced by saturation; no threshold update",
+        "effectClass": "suppression"
+      },
+      "verdict": "primitive-substituted",
+      "rationale": "Port substitutes one or both primitive dimensions of the source. actionClass differs: source=\"re-application\" vs port=\"flooding\"; effectClass differs: source=\"recalibration\" vs port=\"suppression\". The port may produce a desired outcome via a different mechanism, but it is not a transfer.",
+      "operatorPredicted": [
+        "primitive-substituted"
+      ],
+      "operatorPredictionRaw": "primitive-substituted",
+      "matchesPrediction": true
+    },
+    {
+      "id": "BLA-hyper-economy-ssri-to-baseline-haircut-reduction",
+      "sourceTreatment": "SSRI",
+      "isControl": false,
+      "isMarginCase": false,
+      "sourcePrimitive": {
+        "action": "tonic elevation of baseline serotonergic tone",
+        "actionClass": "baseline-shift",
+        "target": "amygdala reactivity setpoint",
+        "effect": "phasic reactivity amplitude reduces (signal still occurs but smaller)",
+        "effectClass": "attenuation"
+      },
+      "portPrimitive": {
+        "action": "tonic reduction of baseline collateral haircut",
+        "actionClass": "baseline-shift",
+        "target": "credit-spread reactivity setpoint",
+        "effect": "phasic spread-widening amplitude reduces (still occurs but smaller)",
+        "effectClass": "attenuation"
+      },
+      "verdict": "mechanism-coherent",
+      "rationale": "Source primitive (action=\"baseline-shift\", effect=\"attenuation\") and port primitive (action=\"baseline-shift\", effect=\"attenuation\") share both structural dimensions. Transfer preserves the mechanism.",
+      "operatorPredicted": [
+        "mechanism-coherent"
+      ],
+      "operatorPredictionRaw": "mechanism-coherent",
+      "matchesPrediction": true
+    },
+    {
+      "id": "BLA-hyper-economy-propranolol-to-anniversary-window-policy",
+      "sourceTreatment": "propranolol (memory reconsolidation)",
+      "isControl": false,
+      "isMarginCase": true,
+      "sourcePrimitive": {
+        "action": "β-adrenergic blockade administered during a reactivation window",
+        "actionClass": "window-intervention",
+        "outsideWindowAssertion": "Outside the reactivation window, β-AR blockade has no effect on the memory. The same drug administered when the memory is dormant (not retrieved) does not alter the consolidated trace. Efficacy is gated on the lability of the trace during reactivation, not on the drug being administered.",
+        "target": "memory consolidation process during plasticity window",
+        "effect": "re-consolidation is blocked during the window; memory trace is not strengthened",
+        "effectClass": "interference",
+        "targetMustBeActiveAssertion": "The re-consolidation process must be active for interference to act. Re-consolidation only occurs when the memory is in the labile, reactivated state. If the trace is not reactivated, there is no re-consolidation process for the β-AR blockade to interfere with, and the drug produces no effect on memory."
+      },
+      "portPrimitive": {
+        "action": "policy intervention administered during a reactivation window",
+        "actionClass": "window-intervention",
+        "outsideWindowAssertion": "Outside the anniversary window, the same regulatory action has no special effect. The same policy administered during a quiescent period — when markets are not actively reactivating crisis memory — produces ordinary regulatory effect but no interference with re-encoding. Efficacy is gated on the market's plasticity during reactivation, not on the policy itself.",
+        "target": "market re-encoding process during anniversary plasticity window",
+        "effect": "re-encoding of historical panic into current pricing is interfered with",
+        "effectClass": "interference",
+        "targetMustBeActiveAssertion": "The re-encoding process must be active for interference to act. Re-encoding only occurs when market participants are observably reactivating prior crisis memory. If the trace is not reactivated — markets are quiescent, not retrieving — there is no re-encoding process for the structural signal to compete with, and the regulatory action has no special effect."
+      },
+      "verdict": "mechanism-coherent",
+      "rationale": "Source primitive (action=\"window-intervention\", effect=\"interference\") and port primitive (action=\"window-intervention\", effect=\"interference\") share both structural dimensions. Transfer preserves the mechanism.",
+      "operatorPredicted": [
+        "mechanism-coherent",
+        "ambiguous"
+      ],
+      "operatorPredictionRaw": "mechanism-coherent OR ambiguous — this is the margin test",
+      "matchesPrediction": true
+    },
+    {
+      "id": "BLA-hyper-economy-emdr-to-parallel-channel-disclosure",
+      "sourceTreatment": "EMDR",
+      "isControl": false,
+      "isMarginCase": false,
+      "sourcePrimitive": {
+        "action": "bilateral parallel-channel delivery of input during recall",
+        "actionClass": "parallel-processing",
+        "target": "limbic-reactivity-during-memory-recall circuit",
+        "effect": "limbic reactivity adapts permanently — single-channel high-reactivity response is no longer the dominant processing path",
+        "effectClass": "adaptation"
+      },
+      "portPrimitive": {
+        "action": "parallel-channel delivery of distress signal across multiple independent channels",
+        "actionClass": "parallel-processing",
+        "target": "market-reactivity-during-signal-processing circuit",
+        "effect": "market reactivity adapts permanently — single-channel panic response is no longer dominant",
+        "effectClass": "adaptation"
+      },
+      "verdict": "mechanism-coherent",
+      "rationale": "Source primitive (action=\"parallel-processing\", effect=\"adaptation\") and port primitive (action=\"parallel-processing\", effect=\"adaptation\") share both structural dimensions. Transfer preserves the mechanism.",
+      "operatorPredicted": [
+        "mechanism-coherent"
+      ],
+      "operatorPredictionRaw": "mechanism-coherent",
+      "matchesPrediction": true
+    },
+    {
+      "id": "BLA-hyper-economy-vmpfc-connectivity-restoration",
+      "sourceTreatment": "vmPFC-to-amygdala connectivity restoration",
+      "isControl": false,
+      "isMarginCase": false,
+      "sourcePrimitive": null,
+      "portPrimitive": {
+        "action": "binding rule-based response to a threshold being crossed",
+        "actionClass": "pre-commitment",
+        "target": "credit-market threat-pricing feedback loop",
+        "effect": "discretion removed; response becomes automatic when threshold crosses",
+        "effectClass": "return-to-prior"
+      },
+      "verdict": "no-source-mechanism",
+      "rationale": "Source has no extractable primitive (sourceMechanism.primitive is null). The port may be a valid standalone proposal, but it cannot claim mechanistic transfer FROM the named source because no source mechanism is characterized.",
+      "operatorPredicted": [
+        "no-source-mechanism"
+      ],
+      "operatorPredictionRaw": "no-source-mechanism",
+      "matchesPrediction": true
+    }
+  ]
+}

@@ -1,0 +1,917 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-05-30",
+  "description": "Catalog of every portal + domain + bridge + aggregated-treatment + taxonomy field that carries diagnostic or treatment meaning, with cardinality, render surface, timing/gating dimensions, and role in the six-step treatment-discovery chain (issue → node → disorder → neuro-Rx → domain-Rx → residual).",
+  "chainSteps": {
+    "1": "ISSUE — domain symptom",
+    "2": "NODE — brain node + state",
+    "3": "DISORDER — clinical condition for (node, state)",
+    "4": "NEURO_TX — treatments for the disorder",
+    "5": "DOMAIN_TX — comparison-domain playbook for the analogous issue",
+    "6": "RESIDUAL — set-difference both directions"
+  },
+  "treatmentRoles": [
+    "issue",
+    "diagnostic-trigger",
+    "treatment-option",
+    "state-label",
+    "binding",
+    "propagation-edge",
+    "gating-signal",
+    "evidence",
+    "context",
+    "engine-output",
+    "provenance"
+  ],
+  "gatingDimensions": [
+    "phase",
+    "salience",
+    "state",
+    "condition",
+    "readiness",
+    "distressBand",
+    "bindingStrength"
+  ],
+  "verifiers": [
+    "pubmed",
+    "edgar",
+    "websearch",
+    "rule-based",
+    "internal-consistency",
+    "manual",
+    "n/a"
+  ],
+
+  "portalFields": [
+    {
+      "fieldId": "portal.financialHealth.dominantPhase",
+      "path": "$.financialHealth.dominantPhase",
+      "sourceFilePattern": "assets/data/companies/*.json",
+      "cardinalityPct": 99.6,
+      "dataShape": "string (P0-P10 enum)",
+      "sampleValue": "p6",
+      "treatmentRole": "gating-signal",
+      "chainStep": 1,
+      "gatingDimensions": ["phase"],
+      "renderSurfaces": ["company-portal.html", "assets/js/company-portal-ui.js", "assets/js/limen/brain-grid-ui.js"],
+      "rendersAs": "Phase badge top of portal card; color-coded",
+      "verifier": "internal-consistency",
+      "notes": "Sets which treatments are executable NOW vs phase-out-of-range. Joins to brain-node-map.json:phase_archetype and bridge-patterns.business.phaseAffinity."
+    },
+    {
+      "fieldId": "portal.financialHealth.compositeScore",
+      "path": "$.financialHealth.compositeScore",
+      "sourceFilePattern": "assets/data/companies/*.json",
+      "cardinalityPct": 99.6,
+      "dataShape": "number (0-1)",
+      "sampleValue": 0.288,
+      "treatmentRole": "gating-signal",
+      "chainStep": 1,
+      "gatingDimensions": ["salience"],
+      "renderSurfaces": ["company-portal.html", "assets/js/company-portal-ui.js"],
+      "rendersAs": "Numeric score + gauge (green ≥0.6 / yellow / red <0.4)",
+      "verifier": "edgar",
+      "notes": "Salience floor for cell surfacing. Composite of revenue slope, OCF slope, debt/cash."
+    },
+    {
+      "fieldId": "portal.financialHealth.distressBand",
+      "path": "$.financialHealth.distressBand",
+      "sourceFilePattern": "assets/data/companies/*.json",
+      "cardinalityPct": 99.6,
+      "dataShape": "string enum",
+      "sampleValue": "yellow",
+      "treatmentRole": "gating-signal",
+      "chainStep": 1,
+      "gatingDimensions": ["distressBand"],
+      "renderSurfaces": ["company-portal.html"],
+      "rendersAs": "Color-coded band on portal card",
+      "verifier": "rule-based"
+    },
+    {
+      "fieldId": "portal.financialHealth.alert",
+      "path": "$.financialHealth.alert",
+      "sourceFilePattern": "assets/data/companies/*.json",
+      "cardinalityPct": 99.6,
+      "dataShape": "boolean",
+      "treatmentRole": "gating-signal",
+      "chainStep": 1,
+      "gatingDimensions": ["salience"],
+      "renderSurfaces": ["company-portal.html", "civilization-opportunities.html"],
+      "rendersAs": "Alert badge"
+    },
+    {
+      "fieldId": "portal.financialHealth.financialState",
+      "path": "$.financialHealth.financialState",
+      "sourceFilePattern": "assets/data/companies/*.json",
+      "cardinalityPct": 99.6,
+      "dataShape": "object {revVariance, revSlope, ocfSlope, cashLatest, debtLatest, cashRunwayQ}",
+      "treatmentRole": "context",
+      "chainStep": 1,
+      "verifier": "edgar",
+      "notes": "Raw numerics that feed compositeScore. EDGAR-verifiable."
+    },
+    {
+      "fieldId": "portal.warningSignals[]",
+      "path": "$.warningSignals[*]",
+      "sourceFilePattern": "assets/data/companies/*.json",
+      "cardinalityPct": 80.8,
+      "dataShape": "array of {id, engine, type, message, evidence, severity, sourceType[]}",
+      "treatmentRole": "issue",
+      "chainStep": 1,
+      "gatingDimensions": ["distressBand", "salience"],
+      "renderSurfaces": ["company-portal.html (warning panel)", "civilization-opportunities.html", "assets/js/recommendations/portal-treatment-resolver.js"],
+      "rendersAs": "Colored warning badges; click reveals matched treatments",
+      "verifier": "edgar",
+      "notes": "PRIMARY ISSUE INGEST — each signal looks up domain.activations[].diagnosticTriggers via keyword match to find treatments. evidence.kernelShaLock chain back to source kernel run."
+    },
+    {
+      "fieldId": "portal.opportunitySignals[]",
+      "path": "$.opportunitySignals[*]",
+      "sourceFilePattern": "assets/data/companies/*.json",
+      "cardinalityPct": 82.7,
+      "dataShape": "array of {id, engine, type, message, evidence, estimatedValue, createdAt, status}",
+      "treatmentRole": "issue",
+      "chainStep": 1,
+      "renderSurfaces": ["company-portal.html (opportunity panel)", "civilization-opportunities.html"],
+      "verifier": "edgar"
+    },
+    {
+      "fieldId": "portal.intelligenceCycle[layer=signal].items[]",
+      "path": "$.intelligenceCycle[?layer=='signal'].items[*]",
+      "sourceFilePattern": "assets/data/companies/*.json",
+      "cardinalityPct": 99.6,
+      "dataShape": "array of strings (data sources / feeds)",
+      "treatmentRole": "context",
+      "chainStep": 1,
+      "renderSurfaces": ["assets/js/limen/markdown-renderer.js"],
+      "notes": "Sensory input quality — diagnosis confidence depends on signal freshness."
+    },
+    {
+      "fieldId": "portal.intelligenceCycle[layer=state].items[]",
+      "path": "$.intelligenceCycle[?layer=='state'].items[*]",
+      "sourceFilePattern": "assets/data/companies/*.json",
+      "cardinalityPct": 99.6,
+      "dataShape": "array of strings (estimated state observations)",
+      "treatmentRole": "state-label",
+      "chainStep": 2,
+      "gatingDimensions": ["phase"]
+    },
+    {
+      "fieldId": "portal.intelligenceCycle[layer=diagnosis].items[]",
+      "path": "$.intelligenceCycle[?layer=='diagnosis'].items[*]",
+      "sourceFilePattern": "assets/data/companies/*.json",
+      "cardinalityPct": 99.6,
+      "dataShape": "array of prose diagnostic strings",
+      "treatmentRole": "issue",
+      "chainStep": 1,
+      "renderSurfaces": ["company-portal.html (diagnosis card)"],
+      "verifier": "websearch",
+      "notes": "Pattern-match output. Keyword-match to domain.activations.diagnosticTriggers to surface treatments. Highest-density issue source per portal."
+    },
+    {
+      "fieldId": "portal.intelligenceCycle[layer=regulate].items[]",
+      "path": "$.intelligenceCycle[?layer=='regulate'].items[*]",
+      "sourceFilePattern": "assets/data/companies/*.json",
+      "cardinalityPct": 99.6,
+      "dataShape": "array of regulatory/thesis strings",
+      "treatmentRole": "treatment-option",
+      "chainStep": 5,
+      "renderSurfaces": ["company-portal.html (strategy panel)"],
+      "verifier": "websearch",
+      "notes": "Currently-pursued regulatory & strategic interventions. THIS IS THE DOMAIN PLAYBOOK at the portal level."
+    },
+    {
+      "fieldId": "portal.intelligenceCycle[layer=action].items[]",
+      "path": "$.intelligenceCycle[?layer=='action'].items[*]",
+      "sourceFilePattern": "assets/data/companies/*.json",
+      "cardinalityPct": 99.6,
+      "dataShape": "array of executed/approved capital actions",
+      "treatmentRole": "treatment-option",
+      "chainStep": 5,
+      "renderSurfaces": ["company-portal.html (action card)"],
+      "verifier": "edgar",
+      "notes": "Already-executed treatments. Critical for residual computation — interventions in action[] are NOT residuals, they're tried."
+    },
+    {
+      "fieldId": "portal.intelligenceCycle[layer=feedback].items[]",
+      "path": "$.intelligenceCycle[?layer=='feedback'].items[*]",
+      "sourceFilePattern": "assets/data/companies/*.json",
+      "cardinalityPct": 99.6,
+      "dataShape": "array of outcome-tracking strings",
+      "treatmentRole": "evidence",
+      "chainStep": 5,
+      "notes": "Did the action work? Feeds treatment evidence grade."
+    },
+    {
+      "fieldId": "portal.intelligenceCycle[layer=adapt].items[]",
+      "path": "$.intelligenceCycle[?layer=='adapt'].items[*]",
+      "sourceFilePattern": "assets/data/companies/*.json",
+      "cardinalityPct": 99.6,
+      "dataShape": "array of model-recalibration strings",
+      "treatmentRole": "treatment-option",
+      "chainStep": 5,
+      "notes": "Meta-treatments (model updates). May produce DOMAIN_TO_NEURO residuals (organizational recalibration analogs in neuroscience)."
+    },
+    {
+      "fieldId": "portal.functionalNetwork.suppliers[]",
+      "path": "$.functionalNetwork.suppliers[*]",
+      "sourceFilePattern": "assets/data/companies/*.json",
+      "cardinalityPct": 99.6,
+      "dataShape": "array of {name, ticker, cik, slug, neuralRole, brainNodeId, brainNodeRole, relationshipNote, confidence, sourceType[]}",
+      "treatmentRole": "binding",
+      "chainStep": 2,
+      "gatingDimensions": ["bindingStrength"],
+      "renderSurfaces": ["company-portal.html (supply chain map)", "assets/js/limen/brain-grid-ui.js", "assets/js/recommendations/portal-treatment-resolver.js"],
+      "verifier": "rule-based",
+      "notes": "PRIMARY NODE BINDING. brainNodeId joins portal to (node × domain × state) cell."
+    },
+    {
+      "fieldId": "portal.functionalNetwork.customers[]",
+      "path": "$.functionalNetwork.customers[*]",
+      "sourceFilePattern": "assets/data/companies/*.json",
+      "cardinalityPct": 98.0,
+      "dataShape": "array same as suppliers",
+      "treatmentRole": "binding",
+      "chainStep": 2,
+      "verifier": "rule-based"
+    },
+    {
+      "fieldId": "portal.functionalNetwork.competitors[]",
+      "path": "$.functionalNetwork.competitors[*]",
+      "sourceFilePattern": "assets/data/companies/*.json",
+      "cardinalityPct": 99.5,
+      "dataShape": "array same as suppliers",
+      "treatmentRole": "binding",
+      "chainStep": 2,
+      "verifier": "rule-based",
+      "notes": "neuralRole often 'Peer'. Used for theory-of-mind / TPJ binding."
+    },
+    {
+      "fieldId": "portal.functionalNetwork.regulators[]",
+      "path": "$.functionalNetwork.regulators[*]",
+      "sourceFilePattern": "assets/data/companies/*.json",
+      "cardinalityPct": 97.8,
+      "dataShape": "array same as suppliers",
+      "treatmentRole": "binding",
+      "chainStep": 2,
+      "verifier": "rule-based",
+      "notes": "Salience network nodes (dACC/AI). External threat-monitoring layer."
+    },
+    {
+      "fieldId": "portal.functionalNetwork.auditor",
+      "path": "$.functionalNetwork.auditor",
+      "sourceFilePattern": "assets/data/companies/*.json",
+      "cardinalityPct": 97.8,
+      "dataShape": "single object (firm, opinion, tenure)",
+      "treatmentRole": "binding",
+      "chainStep": 2,
+      "verifier": "edgar"
+    },
+    {
+      "fieldId": "portal.functionalNetwork.capitalProviders[]",
+      "path": "$.functionalNetwork.capitalProviders[*]",
+      "sourceFilePattern": "assets/data/companies/*.json",
+      "cardinalityPct": 97.8,
+      "dataShape": "array same as suppliers",
+      "treatmentRole": "binding",
+      "chainStep": 2,
+      "verifier": "edgar",
+      "notes": "Limbic-network bindings (OFC/mPFC) — value integration layer."
+    },
+    {
+      "fieldId": "portal.functionalNetwork.executiveTeam[]",
+      "path": "$.functionalNetwork.executiveTeam[*]",
+      "sourceFilePattern": "assets/data/companies/*.json",
+      "cardinalityPct": 97.8,
+      "dataShape": "array of executive role-bindings",
+      "treatmentRole": "binding",
+      "chainStep": 2,
+      "verifier": "edgar"
+    },
+    {
+      "fieldId": "portal.functionalNetwork.logisticsPartners[]",
+      "path": "$.functionalNetwork.logisticsPartners[*]",
+      "sourceFilePattern": "assets/data/companies/*.json",
+      "cardinalityPct": 97.8,
+      "dataShape": "array of distribution / fulfillment / freight bindings",
+      "treatmentRole": "binding",
+      "chainStep": 2
+    },
+    {
+      "fieldId": "portal.functionalNetwork.marketSignals[]",
+      "path": "$.functionalNetwork.marketSignals[*]",
+      "sourceFilePattern": "assets/data/companies/*.json",
+      "cardinalityPct": 97.8,
+      "dataShape": "array of market-feed signals",
+      "treatmentRole": "context",
+      "chainStep": 1,
+      "verifier": "websearch"
+    },
+    {
+      "fieldId": "portal.functionalNetwork.model",
+      "path": "$.functionalNetwork.model",
+      "sourceFilePattern": "assets/data/companies/*.json",
+      "cardinalityPct": 96.3,
+      "dataShape": "string (prose model description)",
+      "treatmentRole": "context",
+      "chainStep": 2
+    },
+    {
+      "fieldId": "portal.commercializationStatus",
+      "path": "$.commercializationStatus",
+      "sourceFilePattern": "assets/data/companies/*.json",
+      "cardinalityPct": 99.2,
+      "dataShape": "object {enginesRun[], engineOutputs[]}",
+      "treatmentRole": "engine-output",
+      "chainStep": 6,
+      "gatingDimensions": ["readiness"],
+      "renderSurfaces": ["assets/js/limen/engine-runner-claude.js", "assets/js/limen/artifact-viewer-ui.js"],
+      "notes": "Engine readiness + output store. fireScore in master-inbox derives from this."
+    },
+    {
+      "fieldId": "portal.commodityExposure[]",
+      "path": "$.commodityExposure[*]",
+      "sourceFilePattern": "assets/data/companies/*.json",
+      "cardinalityPct": 93.6,
+      "dataShape": "array of commodity codes (e.g., 'WTI')",
+      "treatmentRole": "context",
+      "chainStep": 1,
+      "verifier": "websearch"
+    },
+    {
+      "fieldId": "portal.fredSeries[]",
+      "path": "$.fredSeries[*]",
+      "sourceFilePattern": "assets/data/companies/*.json",
+      "cardinalityPct": 100.0,
+      "dataShape": "array of FRED series IDs",
+      "treatmentRole": "context",
+      "chainStep": 1
+    },
+    {
+      "fieldId": "portal.feedSources[]",
+      "path": "$.feedSources[*]",
+      "sourceFilePattern": "assets/data/companies/*.json",
+      "cardinalityPct": 100.0,
+      "dataShape": "array of feed identifiers",
+      "treatmentRole": "provenance",
+      "chainStep": 1
+    },
+    {
+      "fieldId": "portal.kernelStatus",
+      "path": "$.kernelStatus",
+      "sourceFilePattern": "assets/data/companies/*.json",
+      "cardinalityPct": 99.6,
+      "dataShape": "string enum (ELIGIBLE_NOW / INELIGIBLE / ...)",
+      "treatmentRole": "gating-signal",
+      "chainStep": 1,
+      "gatingDimensions": ["readiness"]
+    },
+    {
+      "fieldId": "portal.brainNodeMapping",
+      "path": "$.brainNodeMapping",
+      "sourceFilePattern": "assets/data/companies/*.json",
+      "cardinalityPct": 59.5,
+      "dataShape": "object {schemaVersion, source, overrides}",
+      "treatmentRole": "binding",
+      "chainStep": 2,
+      "notes": "Per-portal overrides to canonical brain-node-business-mapping."
+    },
+    {
+      "fieldId": "portal.newsFeed[]",
+      "path": "$.newsFeed[*]",
+      "sourceFilePattern": "assets/data/companies/*.json",
+      "cardinalityPct": 6.0,
+      "dataShape": "array of news items",
+      "treatmentRole": "evidence",
+      "chainStep": 1,
+      "verifier": "websearch",
+      "notes": "Low cardinality — most portals don't populate."
+    },
+    {
+      "fieldId": "portal.domainRelevance",
+      "path": "$.domainRelevance",
+      "sourceFilePattern": "assets/data/companies/*.json",
+      "cardinalityPct": 100.0,
+      "dataShape": "number (0-1)",
+      "treatmentRole": "context",
+      "chainStep": 2
+    }
+  ],
+
+  "domainFields": [
+    {
+      "fieldId": "domain.activations[].brainNodeId",
+      "path": "$.activations[*].brainNodeId",
+      "sourceFilePattern": "assets/data/domains/*.json",
+      "cardinalityPct": 100.0,
+      "dataShape": "string (124-node taxonomy ID)",
+      "treatmentRole": "binding",
+      "chainStep": 2,
+      "renderSurfaces": ["domain-console.html", "assets/js/limen/brain-grid-ui.js"],
+      "notes": "PRIMARY DOMAIN→NODE BINDING. Joins activation to canonical taxonomy."
+    },
+    {
+      "fieldId": "domain.activations[].state",
+      "path": "$.activations[*].state",
+      "sourceFilePattern": "assets/data/domains/*.json",
+      "cardinalityPct": 100.0,
+      "dataShape": "string ('active' currently; should expand to hyper/hypo/regulated)",
+      "treatmentRole": "state-label",
+      "chainStep": 2,
+      "notes": "STATE NORMALIZATION NEEDED — current value 'active' for nearly all entries; pivot organ will refine to STATE_BUCKETS using brain-nodes-111.dysregulation + bridge.neural.state when available."
+    },
+    {
+      "fieldId": "domain.activations[].domainLabel",
+      "path": "$.activations[*].domainLabel",
+      "sourceFilePattern": "assets/data/domains/*.json",
+      "cardinalityPct": 100.0,
+      "dataShape": "string (e.g., 'Primary Care', 'Labor Markets')",
+      "treatmentRole": "context",
+      "chainStep": 5
+    },
+    {
+      "fieldId": "domain.activations[].diagnosticTriggers[]",
+      "path": "$.activations[*].diagnosticTriggers[*]",
+      "sourceFilePattern": "assets/data/domains/*.json",
+      "cardinalityPct": 100.0,
+      "dataShape": "array of strings",
+      "treatmentRole": "diagnostic-trigger",
+      "chainStep": 1,
+      "renderSurfaces": ["assets/js/recommendations/portal-treatment-resolver.js"],
+      "verifier": "websearch",
+      "notes": "PRIMARY DIAGNOSIS-TREATMENT BRIDGE. portal.warningSignals[].message keyword-matches to these to surface treatments."
+    },
+    {
+      "fieldId": "domain.activations[].treatments[]",
+      "path": "$.activations[*].treatments[*]",
+      "sourceFilePattern": "assets/data/domains/*.json",
+      "cardinalityPct": 100.0,
+      "dataShape": "array of {label, type, description, evidence}",
+      "treatmentRole": "treatment-option",
+      "chainStep": 5,
+      "renderSurfaces": ["company-portal.html (treatment options panel)", "assets/js/recommendations/portal-treatment-resolver.js"],
+      "verifier": "websearch",
+      "notes": "PRIMARY DOMAIN PLAYBOOK. Each treatment carries type (STRUCTURAL/DIAGNOSTIC) + evidence grade (Strong/Moderate/Weak). Cross-domain residuals compute over this set."
+    },
+    {
+      "fieldId": "domain.activations[].companies[]",
+      "path": "$.activations[*].companies[*]",
+      "sourceFilePattern": "assets/data/domains/*.json",
+      "cardinalityPct": 100.0,
+      "dataShape": "array of {name, ticker_or_id, functional_reason, binding_strength}",
+      "treatmentRole": "binding",
+      "chainStep": 2,
+      "gatingDimensions": ["bindingStrength"],
+      "renderSurfaces": ["assets/js/limen/brain-grid-ui.js"],
+      "notes": "Which companies operationalize this domain activation? Cross-references portal slugs."
+    },
+    {
+      "fieldId": "domain.activations[].crossDomainAffinities[]",
+      "path": "$.activations[*].crossDomainAffinities[*]",
+      "sourceFilePattern": "assets/data/domains/*.json",
+      "cardinalityPct": 100.0,
+      "dataShape": "array of {domain, role}",
+      "treatmentRole": "propagation-edge",
+      "chainStep": 6,
+      "renderSurfaces": ["assets/js/limen/master-living-brain.js", "company-portal.html"],
+      "notes": "PROPAGATION EDGES. For each node × stateBucket, these edges connect domain.activations to siblings in OTHER domains — driving cross-domain similar + residual computation."
+    },
+    {
+      "fieldId": "domain.activations[].phase_archetype",
+      "path": "$.activations[*].phase_archetype",
+      "sourceFilePattern": "assets/data/domains/*.json",
+      "cardinalityPct": 100.0,
+      "dataShape": "string (P0-P10)",
+      "treatmentRole": "gating-signal",
+      "chainStep": 5,
+      "gatingDimensions": ["phase"],
+      "notes": "Phase-gates which treatments are appropriate now."
+    },
+    {
+      "fieldId": "domain.activations[].functional_role",
+      "path": "$.activations[*].functional_role",
+      "sourceFilePattern": "assets/data/domains/*.json",
+      "cardinalityPct": 100.0,
+      "dataShape": "string enum (gatekeeper/signal_detector/amplifier/router/allocator/buffer/executor/simulator/arbitrator/stabilizer)",
+      "treatmentRole": "context",
+      "chainStep": 2
+    },
+    {
+      "fieldId": "domain.activations[].neuralRole",
+      "path": "$.activations[*].neuralRole",
+      "sourceFilePattern": "assets/data/domains/*.json",
+      "cardinalityPct": 100.0,
+      "dataShape": "string (DMN/Sensory/Motor/Salience/Limbic/PFC/etc)",
+      "treatmentRole": "context",
+      "chainStep": 2
+    },
+    {
+      "fieldId": "domain.activations[].brainNodeRoleCanonical",
+      "path": "$.activations[*].brainNodeRoleCanonical",
+      "sourceFilePattern": "assets/data/domains/*.json",
+      "cardinalityPct": 100.0,
+      "dataShape": "string (canonical role label)",
+      "treatmentRole": "context",
+      "chainStep": 2
+    },
+    {
+      "fieldId": "domain.activations[].whyThisNode",
+      "path": "$.activations[*].whyThisNode",
+      "sourceFilePattern": "assets/data/domains/*.json",
+      "cardinalityPct": 100.0,
+      "dataShape": "string (prose justification)",
+      "treatmentRole": "evidence",
+      "chainStep": 2,
+      "verifier": "pubmed",
+      "notes": "Theoretical mapping justification — verifier flags as THEORETICAL by default; PubMed check on the underlying claim."
+    },
+    {
+      "fieldId": "domain.activations[].weight",
+      "path": "$.activations[*].weight",
+      "sourceFilePattern": "assets/data/domains/*.json",
+      "cardinalityPct": 100.0,
+      "dataShape": "number (0-1)",
+      "treatmentRole": "gating-signal",
+      "chainStep": 5,
+      "gatingDimensions": ["salience"]
+    },
+    {
+      "fieldId": "domain.activations[].group",
+      "path": "$.activations[*].group",
+      "sourceFilePattern": "assets/data/domains/*.json",
+      "cardinalityPct": 100.0,
+      "dataShape": "string categorical",
+      "treatmentRole": "context",
+      "chainStep": 5
+    },
+    {
+      "fieldId": "domain.issues[]",
+      "path": "$.issues[*]",
+      "sourceFilePattern": "assets/data/domains/*.json",
+      "cardinalityPct": 100.0,
+      "dataShape": "array of domain-level issues",
+      "treatmentRole": "issue",
+      "chainStep": 1
+    },
+    {
+      "fieldId": "domain.edges[]",
+      "path": "$.edges[*]",
+      "sourceFilePattern": "assets/data/domains/*.json",
+      "cardinalityPct": 100.0,
+      "dataShape": "array of within-domain node edges",
+      "treatmentRole": "propagation-edge",
+      "chainStep": 6
+    }
+  ],
+
+  "bridgeFields": [
+    {
+      "fieldId": "bridge.patterns[].id",
+      "path": "$.patterns[*].id",
+      "sourceFilePattern": "assets/data/bridge-patterns.json",
+      "cardinalityCount": 15,
+      "dataShape": "string canonical id",
+      "treatmentRole": "context",
+      "chainStep": 2
+    },
+    {
+      "fieldId": "bridge.patterns[].neural.region",
+      "path": "$.patterns[*].neural.region",
+      "cardinalityCount": 15,
+      "dataShape": "string (brainNodeId)",
+      "treatmentRole": "binding",
+      "chainStep": 2,
+      "notes": "Joins bridge pattern to (node × state) cell."
+    },
+    {
+      "fieldId": "bridge.patterns[].neural.state",
+      "path": "$.patterns[*].neural.state",
+      "cardinalityCount": 15,
+      "dataShape": "string (tonic_hyperactivation / hypoactivation / etc)",
+      "treatmentRole": "state-label",
+      "chainStep": 2,
+      "notes": "Maps to STATE_BUCKETS (hyperactive / hypoactive / regulated / mixed)."
+    },
+    {
+      "fieldId": "bridge.patterns[].neural.mechanism",
+      "path": "$.patterns[*].neural.mechanism",
+      "cardinalityCount": 15,
+      "dataShape": "string prose",
+      "treatmentRole": "evidence",
+      "chainStep": 3,
+      "verifier": "pubmed"
+    },
+    {
+      "fieldId": "bridge.patterns[].neural.knownTreatments[]",
+      "path": "$.patterns[*].neural.knownTreatments[*]",
+      "cardinalityCount": 15,
+      "dataShape": "array of treatment strings",
+      "treatmentRole": "treatment-option",
+      "chainStep": 4,
+      "verifier": "pubmed",
+      "notes": "PRIMARY NEURO TREATMENT LIBRARY. Currently only 15 nodes covered; task #34 extends to all 124."
+    },
+    {
+      "fieldId": "bridge.patterns[].neural.clinicalReferences[]",
+      "path": "$.patterns[*].neural.clinicalReferences[*]",
+      "cardinalityCount": 15,
+      "dataShape": "array of citation strings",
+      "treatmentRole": "evidence",
+      "chainStep": 4,
+      "verifier": "pubmed"
+    },
+    {
+      "fieldId": "bridge.patterns[].business.signature",
+      "path": "$.patterns[*].business.signature",
+      "cardinalityCount": 15,
+      "dataShape": "string canonical business pathology",
+      "treatmentRole": "issue",
+      "chainStep": 1
+    },
+    {
+      "fieldId": "bridge.patterns[].business.indicators[]",
+      "path": "$.patterns[*].business.indicators[*]",
+      "cardinalityCount": 15,
+      "dataShape": "array of {id, description, detector}",
+      "treatmentRole": "diagnostic-trigger",
+      "chainStep": 1
+    },
+    {
+      "fieldId": "bridge.patterns[].business.phaseAffinity",
+      "path": "$.patterns[*].business.phaseAffinity",
+      "cardinalityCount": 15,
+      "dataShape": "array of P-phase strings",
+      "treatmentRole": "gating-signal",
+      "chainStep": 5,
+      "gatingDimensions": ["phase"]
+    },
+    {
+      "fieldId": "bridge.patterns[].business.examples[]",
+      "path": "$.patterns[*].business.examples[*]",
+      "cardinalityCount": 15,
+      "dataShape": "array of example company-period strings",
+      "treatmentRole": "evidence",
+      "chainStep": 1,
+      "verifier": "edgar"
+    },
+    {
+      "fieldId": "bridge.patterns[].business.businessReferences[]",
+      "path": "$.patterns[*].business.businessReferences[*]",
+      "cardinalityCount": 15,
+      "dataShape": "array of citation strings",
+      "treatmentRole": "evidence",
+      "chainStep": 5,
+      "verifier": "websearch"
+    },
+    {
+      "fieldId": "bridge.patterns[].bridge.confidence",
+      "path": "$.patterns[*].bridge.confidence",
+      "cardinalityCount": 15,
+      "dataShape": "number (0-1)",
+      "treatmentRole": "gating-signal",
+      "chainStep": 6,
+      "gatingDimensions": ["salience"]
+    },
+    {
+      "fieldId": "bridge.patterns[].bridge.mappingType",
+      "path": "$.patterns[*].bridge.mappingType",
+      "cardinalityCount": 15,
+      "dataShape": "string (isomorphic_pathology / functional_analog / etc)",
+      "treatmentRole": "context",
+      "chainStep": 6
+    },
+    {
+      "fieldId": "bridge.patterns[].bridge.rationale",
+      "path": "$.patterns[*].bridge.rationale",
+      "cardinalityCount": 15,
+      "dataShape": "string prose",
+      "treatmentRole": "evidence",
+      "chainStep": 6,
+      "verifier": "internal-consistency"
+    },
+    {
+      "fieldId": "bridge.patterns[].derivedAngles.{patent,grant,investment,research,franchise,sba}",
+      "path": "$.patterns[*].derivedAngles.*",
+      "cardinalityCount": 15,
+      "dataShape": "object per-lane",
+      "treatmentRole": "engine-output",
+      "chainStep": 6,
+      "notes": "LEGACY — replaced by per-cell residuals from cube. Retain for backward compatibility during transition."
+    }
+  ],
+
+  "aggregatedFields": [
+    {
+      "fieldId": "aggregated.[archetype].diagnosisId",
+      "path": "$.diagnosisId",
+      "sourceFilePattern": "assets/data/aggregated/*.deep.json",
+      "cardinalityCount": 6,
+      "dataShape": "string (canonical distress archetype id)",
+      "treatmentRole": "issue",
+      "chainStep": 1
+    },
+    {
+      "fieldId": "aggregated.[archetype].treatments[]",
+      "path": "$.treatments[*]",
+      "sourceFilePattern": "assets/data/aggregated/*.deep.json",
+      "cardinalityCount": 6,
+      "treatmentCounts": {
+        "CASH_FLOW_CRISIS": 13559,
+        "DROUGHT": 13500,
+        "EQUIPMENT_FAILURE": 13400,
+        "MARKET_COLLAPSE": 13200,
+        "PEST_OUTBREAK": 13300,
+        "SUPPLY_CHAIN_BREAKDOWN": 13450
+      },
+      "dataShape": "array of {label, type, evidence, description, cite?, steps[]?, monitoring?, escalation?, target?, nodeId?, portalDomain?, ancestryPath?, depth?}",
+      "treatmentRole": "treatment-option",
+      "chainStep": 5,
+      "verifier": "websearch",
+      "notes": "DEEPEST DOMAIN TREATMENT LIBRARY in the corpus. ~13K treatments per archetype indexed to diagnosisId. portalDomain + nodeId fields connect treatments to (node × domain) cells. ancestryPath traces depth-of-derivation."
+    }
+  ],
+
+  "taxonomyFields": [
+    {
+      "fieldId": "taxonomy.[brainNodeId]",
+      "path": "$.{NAcc,VTA,OFC,...}",
+      "sourceFilePattern": "assets/data/brain-node-business-mapping.json",
+      "cardinalityCount": 124,
+      "dataShape": "object {region, network, phase, function, dysregulation, business, source, domainBindings[]}",
+      "treatmentRole": "context",
+      "chainStep": 2,
+      "notes": "CANONICAL 124-NODE TAXONOMY. Joined by every binding via brainNodeId."
+    },
+    {
+      "fieldId": "taxonomy.[node].dysregulation",
+      "path": "$.[node].dysregulation",
+      "sourceFilePattern": "assets/data/brain-node-business-mapping.json",
+      "cardinalityCount": 124,
+      "dataShape": "string ('Hyperactive → X; Hypoactive → Y')",
+      "treatmentRole": "state-label",
+      "chainStep": 3,
+      "verifier": "pubmed",
+      "notes": "Prose dysregulation description. Task #34 extracts structured (state → disorders) lookup from this."
+    },
+    {
+      "fieldId": "taxonomy.[node].domainBindings[]",
+      "path": "$.[node].domainBindings[*]",
+      "sourceFilePattern": "assets/data/brain-node-business-mapping.json",
+      "cardinalityCount": 124,
+      "dataShape": "array of {domain, label, role}",
+      "treatmentRole": "binding",
+      "chainStep": 5,
+      "notes": "CANONICAL ROLE TABLE per (node × domain). Binding fidelity audit (#27) checks portal bindings against this."
+    },
+    {
+      "fieldId": "taxonomy.[node].function",
+      "path": "$.[node].function",
+      "sourceFilePattern": "assets/data/brain-node-business-mapping.json",
+      "cardinalityCount": 124,
+      "dataShape": "string prose",
+      "treatmentRole": "context",
+      "chainStep": 2,
+      "verifier": "pubmed"
+    },
+    {
+      "fieldId": "taxonomy.[node].network",
+      "path": "$.[node].network",
+      "sourceFilePattern": "assets/data/brain-node-business-mapping.json",
+      "cardinalityCount": 124,
+      "dataShape": "string (Reward/DMN/Sensory/Motor/Salience/Limbic/etc)",
+      "treatmentRole": "context",
+      "chainStep": 2
+    },
+    {
+      "fieldId": "taxonomy.[node].phase",
+      "path": "$.[node].phase",
+      "sourceFilePattern": "assets/data/brain-node-business-mapping.json",
+      "cardinalityCount": 124,
+      "dataShape": "string (P-phase, often dual e.g. 'P5/P0')",
+      "treatmentRole": "gating-signal",
+      "chainStep": 5,
+      "gatingDimensions": ["phase"]
+    },
+    {
+      "fieldId": "nodes111.[].dysregulation",
+      "path": "$.{id}.dysregulation",
+      "sourceFilePattern": "assets/data/brain-nodes-111.json",
+      "cardinalityCount": 129,
+      "dataShape": "string prose ('Hyperactive → ...; Hypoactive → ...')",
+      "treatmentRole": "state-label",
+      "chainStep": 3,
+      "verifier": "pubmed",
+      "notes": "Source for state-bucket extraction. Both 111 and 124 files carry this; reconcile in #34."
+    },
+    {
+      "fieldId": "nodeMap.[brainNodeId]",
+      "path": "$.{id}",
+      "sourceFilePattern": "assets/data/brain-node-map.json",
+      "cardinalityCount": 103,
+      "dataShape": "object {phase_archetype, functional_role}",
+      "treatmentRole": "gating-signal",
+      "chainStep": 2,
+      "notes": "Compact canonical phase + functional_role lookup."
+    }
+  ],
+
+  "masterInboxFields": [
+    {
+      "fieldId": "masterInbox.items[].readiness",
+      "path": "$.items[*].readiness",
+      "sourceFilePattern": "assets/data/_master-inbox.json",
+      "dataShape": "number (0-1)",
+      "treatmentRole": "gating-signal",
+      "chainStep": 6,
+      "gatingDimensions": ["readiness"]
+    },
+    {
+      "fieldId": "masterInbox.items[].salience",
+      "path": "$.items[*].salience",
+      "sourceFilePattern": "assets/data/_master-inbox.json",
+      "dataShape": "number (0-1)",
+      "treatmentRole": "gating-signal",
+      "chainStep": 6,
+      "gatingDimensions": ["salience"]
+    },
+    {
+      "fieldId": "masterInbox.items[].fireScore",
+      "path": "$.items[*].fireScore",
+      "sourceFilePattern": "assets/data/_master-inbox.json",
+      "dataShape": "number (0-1)",
+      "treatmentRole": "gating-signal",
+      "chainStep": 6,
+      "gatingDimensions": ["readiness"],
+      "notes": "Currently the master-inbox ranking key; task #32 replaces with residual yield."
+    }
+  ],
+
+  "renderSurfaceInventory": [
+    {
+      "surface": "company-portal.html",
+      "consumers": ["assets/js/company-portal-ui.js"],
+      "readsFromPortal": ["financialHealth.*", "functionalNetwork.*", "intelligenceCycle[*]", "warningSignals[*]", "opportunitySignals[*]", "commercializationStatus", "commodityExposure[*]"],
+      "readsFromDomain": ["activations[?brainNodeId in portal bindings].diagnosticTriggers", "activations[].treatments"],
+      "rendersAs": "Per-company portal page with multiple panels (health card, supply chain map, intelligence cycle timeline, warning/opportunity, treatment options)"
+    },
+    {
+      "surface": "domain-console.html",
+      "consumers": ["assets/js/limen/brain-grid-ui.js", "assets/js/limen/master-living-brain.js"],
+      "readsFromPortal": ["functionalNetwork.suppliers[].brainNodeRole"],
+      "readsFromDomain": ["activations[*]"],
+      "rendersAs": "Per-domain console — 2D grid of brain nodes × companies, cell binding strength"
+    },
+    {
+      "surface": "civilization-opportunities.html",
+      "consumers": ["assets/js/limen/master-living-brain.js"],
+      "readsFromPortal": ["warningSignals[*]", "opportunitySignals[*]", "commercializationStatus"],
+      "rendersAs": "Cross-domain opportunity stream"
+    },
+    {
+      "surface": "master-inbox.html",
+      "consumers": ["/api/master-inbox"],
+      "readsFrom": ["assets/data/_master-inbox.json (live-computed)"],
+      "rendersAs": "Ranked ready-to-fire artifacts across 6 engine lanes"
+    },
+    {
+      "surface": "medicine_*_portal.html (and 14 other sub-portals)",
+      "consumers": ["assets/js/domain-brains/portal-content-resolver.js"],
+      "readsFromPortal": ["functionalNetwork bindings to this sub-portal's brainNodeId"],
+      "readsFromDomain": ["activations[?brainNodeId == this-sub-portal].{diagnosticTriggers, treatments, companies, crossDomainAffinities}"],
+      "rendersAs": "PER-CELL TREATMENT-DISCOVERY UI — already shows diagnosis × treatment × executor for ONE (node × domain) at a time. This is the existing template the unified report generalizes."
+    },
+    {
+      "surface": "agriculture-circuit.html, communication_accesscomm_*_portal.html, etc.",
+      "consumers": ["domain-specific render JS"],
+      "rendersAs": "Per-cell treatment-discovery UI — same pattern as medicine sub-portals"
+    },
+    {
+      "surface": "treatment-discovery.html (TO BE BUILT in task #31)",
+      "consumers": ["/api/treatment-discovery (TO BE BUILT)"],
+      "readsFrom": ["assets/data/treatment-discovery-cube.json (TO BE BUILT in #29)"],
+      "rendersAs": "UNIFIED per-node sections with all 6 chain steps + cross-domain similar + residuals + per-claim verification badges"
+    }
+  ],
+
+  "summary": {
+    "portalFieldCount": 31,
+    "domainFieldCount": 16,
+    "bridgeFieldCount": 15,
+    "aggregatedFieldCount": 2,
+    "taxonomyFieldCount": 8,
+    "masterInboxFieldCount": 3,
+    "renderSurfaceCount": 7,
+    "pivotOrganRequiredReads": [
+      "assets/data/companies/*.json (767 portals)",
+      "assets/data/domains/*.json (28 L1 + nested)",
+      "assets/data/bridge-patterns.json (15 patterns)",
+      "assets/data/aggregated/*.deep.json (6 archetypes, ~80K treatments total)",
+      "assets/data/brain-node-business-mapping.json (124 nodes)",
+      "assets/data/brain-nodes-111.json (129 entries)",
+      "assets/data/brain-node-map.json (103 nodes)",
+      "assets/data/_master-inbox.json (live readiness)",
+      "assets/data/neuro-disorder-lookup.json (TO BE BUILT in #34)",
+      "assets/data/audit/binding-fidelity-report.json (from #27 — gates which bindings the pivot trusts)"
+    ]
+  }
+}

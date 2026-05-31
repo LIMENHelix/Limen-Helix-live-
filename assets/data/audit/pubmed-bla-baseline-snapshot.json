@@ -1,0 +1,140 @@
+{
+  "capturedAt": "2026-05-31T13:47:09.080Z",
+  "note": "Pre-tightening snapshot of PubMed verdicts on BLA claims. Used to compute the delta after buildPubMedQuery is tightened. The 20 claim IDs here are the exact set re-verified in the next run.",
+  "verdicts": {
+    "dx::BLA-hyperactive-ptsd": {
+      "verdict": "VERIFIED",
+      "verifier": "pubmed",
+      "evidence": [
+        "pubmed:41922345",
+        "pubmed:41860965",
+        "pubmed:41279575"
+      ],
+      "confidence": 0.7,
+      "checkedAt": "2026-05-31T13:29:42.236Z",
+      "note": "3 PubMed article(s) match this claim's keywords."
+    },
+    "dx::BLA-hyperactive-anxiety-disorders": {
+      "verdict": "VERIFIED",
+      "verifier": "pubmed",
+      "evidence": [
+        "pubmed:42069281",
+        "pubmed:42051124",
+        "pubmed:41625327"
+      ],
+      "confidence": 0.7,
+      "checkedAt": "2026-05-31T13:29:42.992Z",
+      "note": "3 PubMed article(s) match this claim's keywords."
+    },
+    "dx::BLA-hyperactive-phobias": {
+      "verdict": "VERIFIED",
+      "verifier": "pubmed",
+      "evidence": [
+        "pubmed:34190369",
+        "pubmed:31233821",
+        "pubmed:30670681"
+      ],
+      "confidence": 0.7,
+      "checkedAt": "2026-05-31T13:29:43.614Z",
+      "note": "3 PubMed article(s) match this claim's keywords."
+    },
+    "ntx::BLA-hyperactive-exposure-therapy": {
+      "verdict": "VERIFIED",
+      "verifier": "pubmed",
+      "evidence": [
+        "pubmed:42218569",
+        "pubmed:42218433",
+        "pubmed:42218410"
+      ],
+      "confidence": 0.7,
+      "checkedAt": "2026-05-31T13:29:44.255Z",
+      "note": "3 PubMed article(s) match this claim's keywords."
+    },
+    "ntx::BLA-hyperactive-ssri": {
+      "verdict": "VERIFIED",
+      "verifier": "pubmed",
+      "evidence": [
+        "pubmed:42206608",
+        "pubmed:42205096",
+        "pubmed:42204761"
+      ],
+      "confidence": 0.7,
+      "checkedAt": "2026-05-31T13:29:44.887Z",
+      "note": "3 PubMed article(s) match this claim's keywords."
+    },
+    "ntx::BLA-hyperactive-propranolol-memory-reconsolidation": {
+      "verdict": "VERIFIED",
+      "verifier": "pubmed",
+      "evidence": [
+        "pubmed:41599635",
+        "pubmed:41595724",
+        "pubmed:41513054"
+      ],
+      "confidence": 0.7,
+      "checkedAt": "2026-05-31T13:29:45.540Z",
+      "note": "3 PubMed article(s) match this claim's keywords."
+    },
+    "ntx::BLA-hyperactive-emdr": {
+      "verdict": "VERIFIED",
+      "verifier": "pubmed",
+      "evidence": [
+        "pubmed:42216112",
+        "pubmed:42188247",
+        "pubmed:42179853"
+      ],
+      "confidence": 0.7,
+      "checkedAt": "2026-05-31T13:29:46.170Z",
+      "note": "3 PubMed article(s) match this claim's keywords."
+    },
+    "ntx::BLA-hyperactive-vmpfc-to-amygdala-connectivity-restoration": {
+      "verdict": "DISPUTED",
+      "verifier": "pubmed",
+      "evidence": [
+        "query:vmPFC-to-amygdala connectivity restoration"
+      ],
+      "confidence": 0.55,
+      "checkedAt": "2026-05-31T13:29:47.251Z",
+      "note": "PubMed returned 0 articles for this claim query — possibly fabricated or mis-cited."
+    },
+    "res::residual-BLA-hyperactive-addiction-D2N-addiction-BLA-gabapentin-gabaergic-anxiolysis": {
+      "verdict": "DISPUTED",
+      "verifier": "pubmed",
+      "evidence": [
+        "query:Gabapentin (GABAergic anxiolysis) BLA"
+      ],
+      "confidence": 0.55,
+      "checkedAt": "2026-05-31T13:29:40.940Z",
+      "note": "PubMed returned 0 articles for this claim query — possibly fabricated or mis-cited."
+    },
+    "res::residual-BLA-hyperactive-addiction-D2N-addiction-BLA-trauma-focused-therapy-integration": {
+      "verdict": "DISPUTED",
+      "verifier": "pubmed",
+      "evidence": [
+        "query:Trauma-focused therapy integration BLA"
+      ],
+      "confidence": 0.55,
+      "checkedAt": "2026-05-31T13:29:41.608Z",
+      "note": "PubMed returned 0 articles for this claim query — possibly fabricated or mis-cited."
+    },
+    "res::residual-BLA-hyperactive-business-D2N-business-BLA-enterprise-risk-register": {
+      "verdict": "DISPUTED",
+      "verifier": "pubmed",
+      "evidence": [
+        "query:Enterprise risk register BLA"
+      ],
+      "confidence": 0.55,
+      "checkedAt": "2026-05-31T13:29:47.924Z",
+      "note": "PubMed returned 0 articles for this claim query — possibly fabricated or mis-cited."
+    },
+    "res::residual-BLA-hyperactive-business-D2N-business-BLA-scenario-stress-testing": {
+      "verdict": "DISPUTED",
+      "verifier": "pubmed",
+      "evidence": [
+        "query:Scenario stress testing BLA"
+      ],
+      "confidence": 0.55,
+      "checkedAt": "2026-05-31T13:29:48.556Z",
+      "note": "PubMed returned 0 articles for this claim query — possibly fabricated or mis-cited."
+    }
+  }
+}

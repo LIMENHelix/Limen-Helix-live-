@@ -1,0 +1,209 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-05-31",
+
+  "DISPOSITION_AUTHOR_ON_FIRE_ONLY": "Operator decision 2026-05-31. Primitives in this file are authored ONLY when an engine lane is about to cite the specific residual in a printed artifact (patent claim, grant abstract, research note, etc.). NO bulk authoring — not by hand, not by Claude-with-vocabulary-constraint, not by any automated pass. The mechanism-fidelity gate's integrity rests on honest class assignment from prose mechanism statement to actionClass/effectClass. That step is the one thing the deterministic comparator cannot verify — class assignment IS the audit point. Mass-authoring industrializes exactly that unauditable step: ~8400 primitive pairs across the cube's NEURO→DOMAIN + DOMAIN→NEURO residuals, each of which would have to be re-read by a human to trust. Either we don't read them — and the gate becomes a vibe-grade pass with structure on top, fixed-cost confabulation at scale — or we do read them, and bulk authoring saved no time. Author-on-fire keeps authoring and human audit IN THE SAME MOTION, on the cells that actually matter, at a rate we can inspect. If a future session is tempted to 'optimize' this by bulk-generating primitive pairs across the cube — DON'T. The optimization defeats the gate. The calibration set in this file (6 ports at BLA × economy) is the only batch ever authored without an engine fire driving it; those existed to validate the comparator. All future primitives in this file enter one residual at a time, with a specific engine artifact citing the residual at authoring time.",
+
+  "scope": "BLA × hyperactive × economy — 5 NEURO→DOMAIN ports already in the cube + 1 deliberate primitive-substituted control + 1 margin case. Hand-authored as the calibration set: the operator can grade each by eye, and the fidelity check's verdict must match. Once the comparator is validated on this set, the schema extension is ready to apply to the bulk corpus — at fire time, per the disposition above.",
+
+  "note_on_authoring": "Source mechanism statements come from the existing clinical literature (PubMed-verified in the prior pass where possible). Port mechanism statements are drafted to be EXPLICIT about (a) what the source's action+effect primitive is, (b) what the proposed port's action+effect primitive is, and (c) which structural element transfers vs. is substituted. The whole point of the check is that BOTH legs are statable in writing — no implicit 'this is analogous because it feels analogous'.",
+
+  "ports": [
+    {
+      "id": "BLA-hyper-economy-exposure-to-volatility-reexposure",
+      "sourceTreatment": "exposure therapy",
+      "sourceTreatmentVerified": {
+        "verdict": "VERIFIED",
+        "pubmed": "34954460 (Exposure therapy for PTSD: A meta-analysis, Clin Psychol Rev 2022)"
+      },
+      "sourceMechanism": {
+        "statement": "Graded controlled re-exposure to a feared stimulus, repeated until the system's prediction-error signal recalibrates and the threshold at which the stimulus is classified as threat updates to match the actual outcome distribution. The stimulus is preserved; the system's response threshold moves.",
+        "primitive": {
+          "action": "graded re-application of the feared signal",
+          "actionClass": "re-application",
+          "target": "prediction-error threshold of the threat-detection circuit",
+          "effect": "threshold recalibrates downward to match actual outcome distribution",
+          "effectClass": "recalibration"
+        }
+      },
+      "portMechanism": {
+        "statement": "Graded controlled re-exposure of market participants to volatility shocks at pre-announced intervals, repeated until risk-pricing thresholds recalibrate and signals previously classified as systemic threats are reclassified as within-band variance. The volatility signal is preserved; the market's response threshold moves.",
+        "primitive": {
+          "action": "graded re-application of volatility signal at scheduled intervals",
+          "actionClass": "re-application",
+          "target": "risk-pricing threshold of the credit/equity-spread response circuit",
+          "effect": "threshold recalibrates to match actual outcome distribution",
+          "effectClass": "recalibration"
+        }
+      },
+      "operatorPrediction": "mechanism-coherent",
+      "rationale_if_correct": "Same actionClass (re-application), same effectClass (recalibration). Both preserve the signal and update the threshold."
+    },
+
+    {
+      "id": "BLA-hyper-economy-exposure-to-LIQUIDITY-FLOODING-CONTROL",
+      "is_control": true,
+      "control_purpose": "Deliberate primitive-substituted port. Same source (exposure therapy) ported to a structurally inverted action+effect. If the fidelity check returns mechanism-coherent on this, the check is broken — coherence machinery is failing on the obvious case. Expected: primitive-substituted with rationale naming both differing dimensions.",
+      "sourceTreatment": "exposure therapy",
+      "sourceMechanism": {
+        "statement": "Same as exposure → volatility-reexposure source (graded re-application of feared signal → threshold recalibration).",
+        "primitive": {
+          "action": "graded re-application of the feared signal",
+          "actionClass": "re-application",
+          "target": "prediction-error threshold",
+          "effect": "threshold recalibrates",
+          "effectClass": "recalibration"
+        }
+      },
+      "portMechanism": {
+        "statement": "Mass uncontrolled injection of liquidity into credit markets during stress events to drown out the panic signal and prevent it from propagating to pricing. The signal is suppressed by saturation; no threshold update; the system's response to actual volatility is preserved-but-masked, not retrained.",
+        "primitive": {
+          "action": "mass injection of resource to saturate the signal pathway",
+          "actionClass": "flooding",
+          "target": "credit panic signal",
+          "effect": "signal is masked/replaced by saturation; no threshold update",
+          "effectClass": "suppression"
+        }
+      },
+      "operatorPrediction": "primitive-substituted",
+      "rationale_if_correct": "actionClass differs (re-application vs flooding); effectClass differs (recalibration vs suppression). Both primitive dimensions substituted — this is the canonical example the operator named."
+    },
+
+    {
+      "id": "BLA-hyper-economy-ssri-to-baseline-haircut-reduction",
+      "sourceTreatment": "SSRI",
+      "sourceTreatmentVerified": {
+        "verdict": "VERIFIED (weak — broad pharma review)",
+        "pubmed": "32439401 — top hit for SSRI claim in last run, but verification organ flagged this as a broad anxiety pharmacotherapy review"
+      },
+      "sourceMechanism": {
+        "statement": "Tonic elevation of serotonergic baseline reduces amygdala reactivity to threat-relevant stimuli over weeks of administration. The setpoint at which the amygdala responds shifts; phasic responses become smaller because they are computed from a lower baseline.",
+        "primitive": {
+          "action": "tonic elevation of baseline serotonergic tone",
+          "actionClass": "baseline-shift",
+          "target": "amygdala reactivity setpoint",
+          "effect": "phasic reactivity amplitude reduces (signal still occurs but smaller)",
+          "effectClass": "attenuation"
+        }
+      },
+      "portMechanism": {
+        "statement": "Permanent reduction of collateral haircut levels during quiet periods reduces the baseline credit-spread reactivity to minor signals. The setpoint at which markets respond to risk indicators shifts downward; phasic responses become smaller because they are computed from a lower baseline.",
+        "primitive": {
+          "action": "tonic reduction of baseline collateral haircut",
+          "actionClass": "baseline-shift",
+          "target": "credit-spread reactivity setpoint",
+          "effect": "phasic spread-widening amplitude reduces (still occurs but smaller)",
+          "effectClass": "attenuation"
+        }
+      },
+      "operatorPrediction": "mechanism-coherent",
+      "rationale_if_correct": "Same actionClass (baseline-shift), same effectClass (attenuation). Both move a tonic baseline; both produce attenuated phasic response."
+    },
+
+    {
+      "id": "BLA-hyper-economy-propranolol-to-anniversary-window-policy",
+      "is_margin_case": true,
+      "margin_purpose": "Tests whether window-intervention is load-bearing or decorative as an actionClass. Propranolol-memory-reconsolidation works by β-AR blockade DURING a memory-reactivation window. The proposed port is a regulatory action timed to crisis-anniversary windows. If window-intervention is real, both belong to it and the verdict is coherent. If the action concept is too fuzzy, the verdict should be ambiguous — that is the failure-safe outcome.",
+      "sourceTreatment": "propranolol (memory reconsolidation)",
+      "sourceTreatmentVerified": {
+        "verdict": "VERIFIED",
+        "pubmed": "Cánovas-Cabanes 2025 — propranolol during reconsolidation attenuates aversive memory reinstatement (original loose-query run; confirmed on-topic)"
+      },
+      "sourceMechanism": {
+        "statement": "β-adrenergic blockade administered DURING the brief reactivation window when a previously consolidated fear memory is labile interferes with its re-consolidation. The memory is not erased; what is blocked is its re-encoding during the specific time window when the trace is plastic. Outside that window, β-AR blockade has no effect on the memory.",
+        "primitive": {
+          "action": "β-adrenergic blockade administered during a reactivation window",
+          "actionClass": "window-intervention",
+          "outsideWindowAssertion": "Outside the reactivation window, β-AR blockade has no effect on the memory. The same drug administered when the memory is dormant (not retrieved) does not alter the consolidated trace. Efficacy is gated on the lability of the trace during reactivation, not on the drug being administered.",
+          "target": "memory consolidation process during plasticity window",
+          "effect": "re-consolidation is blocked during the window; memory trace is not strengthened",
+          "effectClass": "interference",
+          "targetMustBeActiveAssertion": "The re-consolidation process must be active for interference to act. Re-consolidation only occurs when the memory is in the labile, reactivated state. If the trace is not reactivated, there is no re-consolidation process for the β-AR blockade to interfere with, and the drug produces no effect on memory."
+        }
+      },
+      "portMechanism": {
+        "statement": "Regulatory policy intervention timed to historical crisis-anniversary windows — when market participants are observably reactivating prior crisis memory and re-encoding it into current pricing — interferes with the re-encoding by introducing structural signals that compete with the reactivated trace. Outside the anniversary window, the same regulatory action has no special effect.",
+        "primitive": {
+          "action": "policy intervention administered during a reactivation window",
+          "actionClass": "window-intervention",
+          "outsideWindowAssertion": "Outside the anniversary window, the same regulatory action has no special effect. The same policy administered during a quiescent period — when markets are not actively reactivating crisis memory — produces ordinary regulatory effect but no interference with re-encoding. Efficacy is gated on the market's plasticity during reactivation, not on the policy itself.",
+          "target": "market re-encoding process during anniversary plasticity window",
+          "effect": "re-encoding of historical panic into current pricing is interfered with",
+          "effectClass": "interference",
+          "targetMustBeActiveAssertion": "The re-encoding process must be active for interference to act. Re-encoding only occurs when market participants are observably reactivating prior crisis memory. If the trace is not reactivated — markets are quiescent, not retrieving — there is no re-encoding process for the structural signal to compete with, and the regulatory action has no special effect."
+        }
+      },
+      "operatorPrediction": "mechanism-coherent OR ambiguous — this is the margin test",
+      "rationale_if_correct_coherent": "Same actionClass (window-intervention) if the ontology genuinely treats temporal binding as the load-bearing structural feature regardless of pharmacological vs. policy nature.",
+      "rationale_if_correct_ambiguous": "The port maps pharmacological blockade onto policy intervention. If actionClass requires same modality (chemical vs. institutional), this should be ambiguous. The ontology choice to define window-intervention purely by temporal binding (not by modality) makes this coherent. If the operator reads it as a stretch, the ontology should be revised to require modality match — but that would block almost all neuro↔business transfers."
+    },
+
+    {
+      "id": "BLA-hyper-economy-emdr-to-parallel-channel-disclosure",
+      "sourceTreatment": "EMDR",
+      "sourceTreatmentVerified": {
+        "verdict": "VERIFIED",
+        "pubmed": "34924624 (EMDR for combat-related PTSD per top hit)"
+      },
+      "sourceMechanism": {
+        "statement": "Bilateral stimulation (alternating left-right sensory input) during recall of a traumatic memory delivers the memory through multiple parallel processing channels simultaneously. The limbic reactivity to the memory adapts because the memory is no longer being processed through a single high-reactivity channel.",
+        "primitive": {
+          "action": "bilateral parallel-channel delivery of input during recall",
+          "actionClass": "parallel-processing",
+          "target": "limbic-reactivity-during-memory-recall circuit",
+          "effect": "limbic reactivity adapts permanently — single-channel high-reactivity response is no longer the dominant processing path",
+          "effectClass": "adaptation"
+        }
+      },
+      "portMechanism": {
+        "statement": "Distress information disclosed through multiple independent channels simultaneously (e.g. central bank channel + private analyst channel + regulatory channel firing in parallel rather than sequentially) is processed through parallel pathways rather than a single high-reactivity dominant channel. Market reactivity to subsequent similar distress signals adapts permanently as the parallel-processing pathway becomes the default.",
+        "primitive": {
+          "action": "parallel-channel delivery of distress signal across multiple independent channels",
+          "actionClass": "parallel-processing",
+          "target": "market-reactivity-during-signal-processing circuit",
+          "effect": "market reactivity adapts permanently — single-channel panic response is no longer dominant",
+          "effectClass": "adaptation"
+        }
+      },
+      "operatorPrediction": "mechanism-coherent",
+      "rationale_if_correct": "Same actionClass (parallel-processing), same effectClass (adaptation). Both deliver through parallel channels; both produce permanent adaptive rewiring of the processing pathway."
+    },
+
+    {
+      "id": "BLA-hyper-economy-vmpfc-connectivity-restoration",
+      "sourceTreatment": "vmPFC-to-amygdala connectivity restoration",
+      "sourceTreatmentVerified": {
+        "verdict": "DISPUTED",
+        "note": "Both loose-query and tightened-query PubMed runs returned 0 articles. Named clinical protocol does not exist in literature."
+      },
+      "sourceMechanism": {
+        "statement": "(null) — no named clinical protocol exists. The concept of top-down PFC regulation of amygdala is real and well-documented, but there is no specific intervention by this name that can be characterized mechanistically. Any port built on this 'source' is not a transfer because there is nothing to transfer FROM.",
+        "primitive": null
+      },
+      "portMechanism": {
+        "statement": "Strengthen the regulatory-policy → credit-market threat-pricing feedback loop via binding pre-commitment to intervention triggers, removing discretionary case-by-case response. Note: this proposal may be substantively reasonable on its own merits — but it is not a transfer FROM the named neuro source because the named neuro source has no characterized mechanism.",
+        "primitive": {
+          "action": "binding rule-based response to a threshold being crossed",
+          "actionClass": "pre-commitment",
+          "target": "credit-market threat-pricing feedback loop",
+          "effect": "discretion removed; response becomes automatic when threshold crosses",
+          "effectClass": "return-to-prior"
+        }
+      },
+      "operatorPrediction": "no-source-mechanism",
+      "rationale_if_correct": "Source primitive is null. Port primitive may be coherent in isolation but cannot claim to transfer FROM the source. Lane: rejected as a port; potentially valid as a standalone hypothesis if reframed."
+    }
+  ],
+
+  "calibration_summary": {
+    "ports_authored": 6,
+    "operator_predicted_verdicts": {
+      "mechanism-coherent": 3,
+      "primitive-substituted": 1,
+      "no-source-mechanism": 1,
+      "ambiguous-or-coherent (margin)": 1
+    },
+    "comparator_acceptance_criteria": "Verdicts on the 5 non-margin ports MUST match operator predictions byte-for-byte. The margin port (propranolol → anniversary-window-policy) may return either mechanism-coherent or ambiguous; whichever the comparator returns, the operator reviews whether the ontology choice (window-intervention defined by temporal binding only, modality-agnostic) reads as right or as a stretch. If the latter, the ontology gets a modality-match constraint added and the comparator re-runs.",
+    "fail-safe_direction": "If a port's primitive doesn't cleanly fit a class, the comparator returns ambiguous (held for human review) rather than mechanism-coherent. Bias is toward not-passing-things-through-the-gate."
+  }
+}

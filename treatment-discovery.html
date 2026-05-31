@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LIMEN HELIX · Treatment Discovery</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#050810;color:#e8e3d9;font-family:'IBM Plex Mono',monospace;padding:20px 24px;font-size:12px}
+h1{font-size:0.7rem;letter-spacing:4px;color:#C9A94E;margin-bottom:4px}
+.sub{font-size:0.38rem;color:rgba(200,195,184,0.4);letter-spacing:1.5px;margin-bottom:20px;line-height:1.7}
+.nav{display:flex;gap:14px;margin-bottom:18px;font-size:0.32rem;letter-spacing:1.5px;flex-wrap:wrap}
+a{color:rgba(201,169,78,0.5);text-decoration:none}
+a:hover{color:#C9A94E}
+
+.banner{display:flex;align-items:center;gap:22px;padding:16px 24px;border:1px solid rgba(201,169,78,0.15);border-radius:3px;background:rgba(0,0,0,0.3);margin-bottom:20px;flex-wrap:wrap}
+.banner-stat{display:flex;flex-direction:column;min-width:120px}
+.banner-stat-val{font-size:1.2rem;letter-spacing:1px;color:#C9A94E;line-height:1}
+.banner-stat-val.alt{color:#5ab5a0}
+.banner-stat-val.pending{color:#dca87e}
+.banner-stat-label{font-size:0.3rem;color:rgba(200,195,184,0.35);letter-spacing:2px;text-transform:uppercase;margin-top:6px}
+
+.sect{font-size:0.42rem;letter-spacing:3px;color:rgba(201,169,78,0.45);margin:24px 0 10px;padding-top:14px;border-top:1px solid rgba(201,169,78,0.08)}
+
+.filters{display:flex;gap:16px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
+.filter-group{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.filter-label{font-size:0.3rem;color:rgba(200,195,184,0.4);letter-spacing:1.5px;text-transform:uppercase}
+.filter-chip{font-size:0.32rem;padding:3px 10px;border:1px solid rgba(201,169,78,0.2);border-radius:2px;cursor:pointer;color:rgba(201,169,78,0.6);letter-spacing:0.5px}
+.filter-chip:hover{color:#C9A94E;border-color:rgba(201,169,78,0.5)}
+.filter-chip.active{background:rgba(201,169,78,0.1);color:#C9A94E;border-color:#C9A94E}
+.search-input{font-family:inherit;font-size:0.34rem;padding:4px 10px;background:rgba(0,0,0,0.3);border:1px solid rgba(201,169,78,0.2);color:#e8e3d9;border-radius:2px;width:220px;letter-spacing:0.5px}
+.search-input:focus{outline:none;border-color:#C9A94E}
+
+.node-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px;margin-bottom:16px}
+.node-card{padding:12px 14px;border:1px solid rgba(201,169,78,0.12);background:rgba(0,0,0,0.15);border-radius:3px;cursor:pointer;transition:border-color 0.15s}
+.node-card:hover{border-color:rgba(201,169,78,0.45);background:rgba(0,0,0,0.25)}
+.node-card.expanded{border-color:#C9A94E;background:rgba(201,169,78,0.04)}
+.node-card-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.node-id{font-size:0.58rem;letter-spacing:2px;color:#C9A94E}
+.node-residual-count{font-size:0.42rem;letter-spacing:1px;color:#5ab5a0}
+.node-region{font-size:0.34rem;color:rgba(200,195,184,0.5);letter-spacing:0.5px;margin-bottom:4px}
+.node-network{font-size:0.3rem;color:rgba(200,195,184,0.4);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.node-stats{display:flex;gap:10px;font-size:0.3rem;color:rgba(200,195,184,0.5);letter-spacing:0.5px}
+.node-stats span{color:rgba(201,169,78,0.7)}
+.node-states{margin-top:6px;display:flex;gap:4px;flex-wrap:wrap}
+.state-pill{font-size:0.26rem;padding:1px 6px;border-radius:1px;letter-spacing:1px;text-transform:uppercase}
+.state-pill.hyperactive{color:#e85454;background:rgba(232,84,84,0.08)}
+.state-pill.hypoactive{color:#4a8fd4;background:rgba(74,143,212,0.08)}
+.state-pill.mixed{color:#dca87e;background:rgba(220,168,126,0.08)}
+.state-pill.regulated{color:#5ab5a0;background:rgba(90,181,160,0.08)}
+.state-pill.unknown{color:rgba(200,195,184,0.4);background:rgba(255,255,255,0.03)}
+
+.node-detail{display:none;margin:14px 0 24px;padding:18px 24px;border:1px solid rgba(201,169,78,0.25);border-radius:3px;background:rgba(0,0,0,0.4)}
+.node-detail.open{display:block}
+.detail-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(201,169,78,0.1)}
+.detail-title{font-size:0.7rem;letter-spacing:3px;color:#C9A94E}
+.detail-close{cursor:pointer;font-size:0.32rem;color:rgba(232,84,84,0.6);letter-spacing:1px;padding:3px 10px;border:1px solid rgba(232,84,84,0.3);border-radius:2px}
+.detail-close:hover{color:#e85454;border-color:#e85454}
+
+.cell{margin-bottom:14px;padding:12px 16px;border:1px solid rgba(201,169,78,0.08);border-radius:2px;background:rgba(0,0,0,0.25)}
+.cell-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.cell-id{font-size:0.4rem;letter-spacing:1.5px;color:rgba(201,169,78,0.7)}
+.cell-state-pill{font-size:0.28rem;padding:2px 8px;border-radius:1px;letter-spacing:1.5px;text-transform:uppercase}
+.cell-domain{font-size:0.32rem;color:rgba(200,195,184,0.6);letter-spacing:1px;text-transform:uppercase}
+.chain{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px}
+.chain-step{padding:8px 12px;border-left:2px solid rgba(201,169,78,0.15);background:rgba(0,0,0,0.2)}
+.chain-step-label{font-size:0.3rem;color:rgba(201,169,78,0.5);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px}
+.chain-step-items{font-size:0.32rem;color:#e8e3d9;line-height:1.6}
+.chain-step-items div{margin-bottom:2px}
+.verification-badge{display:inline-block;font-size:0.24rem;padding:1px 5px;margin-left:4px;border-radius:1px;letter-spacing:1px;text-transform:uppercase;vertical-align:middle}
+.v-PENDING{color:rgba(220,168,126,0.7);background:rgba(220,168,126,0.06)}
+.v-VERIFIED{color:#5ab5a0;background:rgba(90,181,160,0.08)}
+.v-DISPUTED{color:#e85454;background:rgba(232,84,84,0.08)}
+.v-THEORETICAL{color:#a87edc;background:rgba(168,126,220,0.08)}
+.v-FABRICATED{color:#e85454;background:rgba(232,84,84,0.15)}
+.v-UNVERIFIABLE{color:rgba(200,195,184,0.4);background:rgba(255,255,255,0.04)}
+
+.residuals{margin-top:10px;padding-top:10px;border-top:1px dashed rgba(201,169,78,0.1)}
+.residuals-label{font-size:0.36rem;letter-spacing:2.5px;color:#5ab5a0;text-transform:uppercase;margin-bottom:6px}
+.residual{padding:6px 10px;margin-bottom:4px;border-left:2px solid rgba(90,181,160,0.4);background:rgba(90,181,160,0.04);font-size:0.32rem;line-height:1.5}
+.residual.d2n{border-left-color:rgba(168,126,220,0.4);background:rgba(168,126,220,0.04)}
+.residual-direction{font-size:0.26rem;color:rgba(90,181,160,0.7);letter-spacing:1px;text-transform:uppercase;margin-right:6px}
+.residual.d2n .residual-direction{color:rgba(168,126,220,0.7)}
+.residual-name{color:#C9A94E}
+.residual-port{display:block;margin-top:3px;color:rgba(200,195,184,0.6);font-size:0.3rem}
+
+.gating{font-size:0.3rem;color:rgba(200,195,184,0.5);margin-top:6px;padding:4px 8px;background:rgba(0,0,0,0.3);border-radius:1px;letter-spacing:0.5px}
+.gating strong{color:#C9A94E}
+
+.empty{text-align:center;padding:60px;color:rgba(200,195,184,0.4);font-size:0.4rem;letter-spacing:2px}
+.loading{font-size:0.4rem;color:rgba(201,169,78,0.5);letter-spacing:2px;text-align:center;padding:40px}
+
+.print-action{margin-top:14px;padding-top:10px;border-top:1px solid rgba(201,169,78,0.1);display:flex;gap:8px}
+.print-action button{font-size:0.32rem;padding:5px 12px;background:none;border:1px solid rgba(201,169,78,0.3);color:rgba(201,169,78,0.7);font-family:inherit;cursor:pointer;letter-spacing:1px;text-transform:uppercase;border-radius:2px}
+.print-action button:hover{color:#C9A94E;border-color:#C9A94E}
+
+@media print {
+  body{background:#fff;color:#000;font-size:9px}
+  .nav,.filters,.banner,.detail-close,.print-action{display:none}
+  .node-detail{border:1px solid #000;page-break-inside:avoid}
+  .node-card{display:none}
+  .node-card.expanded{display:block;border:1px solid #000;background:#fff}
+  .cell{border:1px solid #ccc;background:#fff;page-break-inside:avoid}
+  .chain-step{background:#f5f5f5;border-left-color:#999}
+  .residual{background:#f0faf6;border-left-color:#5ab5a0}
+  .residual.d2n{background:#f7f1fa;border-left-color:#a87edc}
+}
+</style>
+</head>
+<body>
+
+<h1>LIMEN HELIX · TREATMENT DISCOVERY</h1>
+<div class="sub">
+  Per-node cells across the 6-step chain — ISSUE → NODE → DISORDER → NEURO_TX → DOMAIN_TX → RESIDUAL.<br>
+  Residuals = candidate treatment transfers between neurology and comparison domains.<br>
+  Most claims are PENDING verification — task #33 (Main Brain verification organ) PubMed-checks each.
+</div>
+
+<div class="nav">
+  <a href="/master-inbox.html">◉ MASTER INBOX</a>
+  <a href="/vitals.html">⚠ VITALS</a>
+  <a href="/pattern-proposals.html">⊕ PATTERN PROPOSALS</a>
+  <a href="/my-documents.html">⬇ MY DOCUMENTS</a>
+  <a href="/operator-guide.html">★ OPERATOR GUIDE</a>
+  <a href="/civilization.html">▦ CIVILIZATION</a>
+</div>
+
+<div class="banner" id="banner">
+  <div class="loading">loading...</div>
+</div>
+
+<div class="filters">
+  <div class="filter-group">
+    <span class="filter-label">State:</span>
+    <span class="filter-chip active" data-state="all">all</span>
+    <span class="filter-chip" data-state="hyperactive">hyperactive</span>
+    <span class="filter-chip" data-state="hypoactive">hypoactive</span>
+    <span class="filter-chip" data-state="mixed">mixed</span>
+    <span class="filter-chip" data-state="regulated">regulated</span>
+  </div>
+  <div class="filter-group">
+    <span class="filter-label">Domain:</span>
+    <span class="filter-chip active" data-domain="all">all</span>
+    <span class="filter-chip" data-domain="business">business</span>
+    <span class="filter-chip" data-domain="medicine">medicine</span>
+    <span class="filter-chip" data-domain="economy">economy</span>
+    <span class="filter-chip" data-domain="environment">environment</span>
+    <span class="filter-chip" data-domain="population">population</span>
+    <span class="filter-chip" data-domain="more">more…</span>
+  </div>
+  <div class="filter-group">
+    <span class="filter-label">Search:</span>
+    <input type="text" class="search-input" id="search" placeholder="node, region, disorder, treatment, keyword…">
+  </div>
+</div>
+
+<div class="sect" id="sect-nodes">NODES — sorted by residual count</div>
+
+<div class="node-grid" id="node-grid">
+  <div class="loading">loading nodes…</div>
+</div>
+
+<div id="detail-mount"></div>
+
+<script>
+let INDEX_DATA = null;
+let SUMMARY_DATA = null;
+let FILTER_STATE = 'all';
+let FILTER_DOMAIN = 'all';
+let SEARCH_QUERY = '';
+let DOMAIN_FILTER_EXPANDED = false;
+
+const PER_NODE_CACHE = new Map();
+
+async function loadIndex() {
+  const [indexRes, summaryRes] = await Promise.all([
+    fetch('/assets/data/treatment-discovery/_index.json'),
+    fetch('/assets/data/treatment-discovery/_summary.json'),
+  ]);
+  INDEX_DATA = await indexRes.json();
+  SUMMARY_DATA = await summaryRes.json();
+  renderBanner();
+  renderNodeGrid();
+}
+
+function renderBanner() {
+  const s = SUMMARY_DATA;
+  const banner = document.getElementById('banner');
+  banner.innerHTML = '';
+  const cells = [
+    { v: s.totalCells, l: 'TOTAL CELLS', cls: '' },
+    { v: s.populatedCells, l: 'POPULATED', cls: 'alt' },
+    { v: s.cellsWithResiduals, l: 'WITH RESIDUALS', cls: 'alt' },
+    { v: (s.residualSummary?.totalNeuroResiduals || 0) + (s.residualSummary?.totalDomainResiduals || 0), l: 'TOTAL RESIDUALS', cls: '' },
+    { v: s.residualSummary?.totalSimilarPairs || 0, l: 'SIMILAR PAIRS', cls: '' },
+    { v: s.unverifiedClaimsCount, l: 'PENDING VERIFY', cls: 'pending' },
+    { v: s.loadedComparisonDomains?.length || 0, l: 'COMPARISON DOMAINS', cls: '' },
+  ];
+  for (const c of cells) {
+    const el = document.createElement('div');
+    el.className = 'banner-stat';
+    el.innerHTML = `<div class="banner-stat-val ${c.cls}">${formatNum(c.v)}</div><div class="banner-stat-label">${c.l}</div>`;
+    banner.appendChild(el);
+  }
+}
+
+function formatNum(n) {
+  if (typeof n !== 'number') return n;
+  if (n >= 10000) return (n / 1000).toFixed(1) + 'K';
+  return String(n);
+}
+
+function renderNodeGrid() {
+  const grid = document.getElementById('node-grid');
+  grid.innerHTML = '';
+  const nodes = filterNodes(INDEX_DATA.nodes);
+  if (nodes.length === 0) {
+    grid.innerHTML = '<div class="empty">no nodes match filter</div>';
+    return;
+  }
+  for (const n of nodes) {
+    const card = document.createElement('div');
+    card.className = 'node-card';
+    card.dataset.nodeId = n.brainNodeId;
+    card.onclick = () => toggleNode(n.brainNodeId);
+    const statePills = (n.states || [])
+      .map((s) => `<span class="state-pill ${s}">${s}</span>`)
+      .join('');
+    card.innerHTML = `
+      <div class="node-card-head">
+        <div class="node-id">${n.brainNodeId}</div>
+        <div class="node-residual-count">${n.stats.residuals} residuals</div>
+      </div>
+      <div class="node-region">${n.region || ''}</div>
+      <div class="node-network">${n.network || ''}</div>
+      <div class="node-stats">
+        <div>iss: <span>${n.stats.issues}</span></div>
+        <div>dx: <span>${n.stats.disorders}</span></div>
+        <div>nRx: <span>${n.stats.neuroTreatments}</span></div>
+        <div>dRx: <span>${n.stats.domainTreatments}</span></div>
+        <div>bind: <span>${n.stats.bindings}</span></div>
+      </div>
+      <div class="node-states">${statePills}</div>
+    `;
+    grid.appendChild(card);
+  }
+}
+
+function filterNodes(nodes) {
+  let out = nodes;
+  if (SEARCH_QUERY) {
+    const q = SEARCH_QUERY.toLowerCase();
+    out = out.filter((n) => {
+      if (n.brainNodeId.toLowerCase().includes(q)) return true;
+      if (n.region?.toLowerCase().includes(q)) return true;
+      if (n.network?.toLowerCase().includes(q)) return true;
+      if (n.topDisorders?.some((d) => d.toLowerCase().includes(q))) return true;
+      if (n.topNeuroTreatments?.some((t) => t.toLowerCase().includes(q))) return true;
+      return false;
+    });
+  }
+  if (FILTER_STATE !== 'all') {
+    out = out.filter((n) => n.states.includes(FILTER_STATE));
+  }
+  if (FILTER_DOMAIN !== 'all') {
+    out = out.filter((n) => n.domains.includes(FILTER_DOMAIN));
+  }
+  return out;
+}
+
+async function toggleNode(nodeId) {
+  const existing = document.getElementById('detail-' + nodeId);
+  if (existing) {
+    existing.remove();
+    document.querySelector(`.node-card[data-node-id="${nodeId}"]`)?.classList.remove('expanded');
+    return;
+  }
+  // Close any other open detail
+  document.querySelectorAll('.node-detail.open').forEach((el) => el.remove());
+  document.querySelectorAll('.node-card.expanded').forEach((el) => el.classList.remove('expanded'));
+
+  const card = document.querySelector(`.node-card[data-node-id="${nodeId}"]`);
+  card?.classList.add('expanded');
+
+  const mount = document.getElementById('detail-mount');
+  const wrap = document.createElement('div');
+  wrap.id = 'detail-' + nodeId;
+  wrap.className = 'node-detail open';
+  wrap.innerHTML = `<div class="loading">loading ${nodeId} cells…</div>`;
+  mount.appendChild(wrap);
+
+  let data;
+  if (PER_NODE_CACHE.has(nodeId)) {
+    data = PER_NODE_CACHE.get(nodeId);
+  } else {
+    // Look up the actual per-node filename in the index — it may be
+    // prefixed with underscore on Windows-reserved names like CON.
+    const idxEntry = INDEX_DATA.nodes.find((n) => n.brainNodeId === nodeId);
+    const fileUrl = idxEntry?.perNodeFile
+      ? '/' + idxEntry.perNodeFile
+      : `/assets/data/treatment-discovery/by-node/${nodeId}.json`;
+    const res = await fetch(fileUrl);
+    data = await res.json();
+    PER_NODE_CACHE.set(nodeId, data);
+  }
+  renderNodeDetail(wrap, data, nodeId);
+  wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function renderNodeDetail(wrap, data, nodeId) {
+  const node = data.node || {};
+  let cells = (data.cells || []).filter((c) => c.issues.length + c.disorders.length + c.neuroTreatments.length + c.domainTreatments.length + c.portalBindings.length > 0);
+  if (FILTER_STATE !== 'all') cells = cells.filter((c) => c.stateBucket === FILTER_STATE);
+  if (FILTER_DOMAIN !== 'all') cells = cells.filter((c) => c.comparisonDomain === FILTER_DOMAIN);
+
+  // Sort by residual count descending
+  cells.sort((a, b) => b.residuals.length - a.residuals.length);
+
+  wrap.innerHTML = `
+    <div class="detail-head">
+      <div>
+        <div class="detail-title">${nodeId} — ${node.region || ''}</div>
+        <div class="node-network">${node.network || ''} · phase ${(node.limen_phase || []).join('/')} · ${node.functional_role || ''}</div>
+      </div>
+      <div class="detail-close" onclick="toggleNode('${nodeId}')">close ×</div>
+    </div>
+    <div class="sub" style="font-size:0.3rem">function: ${node.function || '—'}</div>
+    <div class="sub" style="font-size:0.3rem;color:rgba(200,195,184,0.4)">dysregulation: ${node.dysregulationProse || '—'}</div>
+    <div id="cells-${nodeId}"></div>
+    <div class="print-action">
+      <button onclick="window.print()">PRINT THIS NODE</button>
+      <button onclick="exportNodeJson('${nodeId}')">EXPORT JSON</button>
+    </div>
+  `;
+
+  const mount = document.getElementById('cells-' + nodeId);
+  if (cells.length === 0) {
+    mount.innerHTML = '<div class="empty">no cells match current filter for this node</div>';
+    return;
+  }
+  for (const cell of cells) renderCell(mount, cell);
+}
+
+function renderCell(mount, cell) {
+  const el = document.createElement('div');
+  el.className = 'cell';
+
+  const stateBucket = cell.stateBucket || 'unknown';
+  const stateClass = `state-pill ${stateBucket}`;
+  const cellStatePill = `<span class="cell-state-pill ${stateClass}">${stateBucket}</span>`;
+  const cellDomain = `<span class="cell-domain">${cell.comparisonDomain}</span>`;
+
+  el.innerHTML = `
+    <div class="cell-head">
+      <div class="cell-id">${cell.cellId}</div>
+      <div>${cellStatePill} ${cellDomain}</div>
+    </div>
+    <div class="chain">
+      ${renderChainStep('1 — issues', cell.issues, (i) => `${escapeHtml((i.symptom||'').substring(0,180))} <span class="verification-badge v-${i.verification?.verdict||'PENDING'}">${i.verification?.verdict||'PENDING'}</span>`)}
+      ${renderChainStep('3 — disorders', cell.disorders, (d) => `${escapeHtml(d.name)} <span class="verification-badge v-${d.verification?.verdict||'PENDING'}">${d.verification?.verdict||'PENDING'}</span>`)}
+      ${renderChainStep('4 — neuro treatments', cell.neuroTreatments, (t) => `<strong>${escapeHtml(t.name)}</strong> <em style="color:rgba(200,195,184,0.4);font-size:0.28rem">(${t.type})</em> <span class="verification-badge v-${t.verification?.verdict||'PENDING'}">${t.verification?.verdict||'PENDING'}</span>`)}
+      ${renderChainStep('5 — ' + cell.comparisonDomain + ' treatments', cell.domainTreatments, (t) => `<strong>${escapeHtml(t.name)}</strong> <em style="color:rgba(200,195,184,0.4);font-size:0.28rem">(${t.type}, ${t.evidenceGrade||'N/A'})</em>`)}
+    </div>
+    ${renderGating(cell.gating)}
+    ${renderResiduals(cell.residuals)}
+  `;
+  mount.appendChild(el);
+}
+
+function renderChainStep(label, items, formatter) {
+  const slice = (items || []).slice(0, 8);
+  const more = (items || []).length - slice.length;
+  const rows = slice.map((i) => `<div>${formatter(i)}</div>`).join('');
+  const moreText = more > 0 ? `<div style="color:rgba(200,195,184,0.3);font-size:0.28rem">…and ${more} more</div>` : '';
+  return `
+    <div class="chain-step">
+      <div class="chain-step-label">${label}</div>
+      <div class="chain-step-items">${rows || '<div style="color:rgba(200,195,184,0.3)">—</div>'}${moreText}</div>
+    </div>
+  `;
+}
+
+function renderGating(g) {
+  if (!g) return '';
+  const items = [];
+  if (g.phase?.length) items.push(`phase: <strong>${g.phase.join('/')}</strong>`);
+  if (g.distressBands?.length) items.push(`distressBands: <strong>${g.distressBands.join('/')}</strong>`);
+  if (g.salienceFloor > 0) items.push(`salienceFloor: <strong>${g.salienceFloor.toFixed(2)}</strong>`);
+  if (g.bindingStrengthFloor > 0) items.push(`bindingStrengthFloor: <strong>${g.bindingStrengthFloor.toFixed(2)}</strong>`);
+  return items.length ? `<div class="gating">${items.join(' · ')}</div>` : '';
+}
+
+function renderResiduals(residuals) {
+  if (!residuals || residuals.length === 0) return '';
+  const n2d = residuals.filter((r) => r.direction === 'NEURO_TO_DOMAIN');
+  const d2n = residuals.filter((r) => r.direction === 'DOMAIN_TO_NEURO');
+  let html = '<div class="residuals"><div class="residuals-label">6 — residuals (candidate transfers)</div>';
+  for (const r of n2d.slice(0, 6)) {
+    html += `<div class="residual">
+      <span class="residual-direction">NEURO → DOMAIN</span>
+      <span class="residual-name">${escapeHtml(r.sourceTreatment?.name || '?')}</span>
+      <span class="residual-port">${escapeHtml((r.candidatePort||'').substring(0,200))}</span>
+    </div>`;
+  }
+  for (const r of d2n.slice(0, 6)) {
+    html += `<div class="residual d2n">
+      <span class="residual-direction">DOMAIN → NEURO</span>
+      <span class="residual-name">${escapeHtml(r.sourceTreatment?.name || '?')}</span>
+      <span class="residual-port">${escapeHtml((r.candidatePort||'').substring(0,200))}</span>
+    </div>`;
+  }
+  if (n2d.length > 6 || d2n.length > 6) {
+    html += `<div style="font-size:0.28rem;color:rgba(200,195,184,0.3);margin-top:4px">…${n2d.length - Math.min(6,n2d.length) + d2n.length - Math.min(6,d2n.length)} more</div>`;
+  }
+  html += '</div>';
+  return html;
+}
+
+function escapeHtml(s) {
+  return String(s || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function exportNodeJson(nodeId) {
+  const data = PER_NODE_CACHE.get(nodeId);
+  if (!data) return;
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `treatment-discovery-${nodeId}.json`;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 100);
+}
+
+// Filter chip handlers
+document.querySelectorAll('.filter-chip[data-state]').forEach((chip) => {
+  chip.onclick = () => {
+    document.querySelectorAll('.filter-chip[data-state]').forEach((c) => c.classList.remove('active'));
+    chip.classList.add('active');
+    FILTER_STATE = chip.dataset.state;
+    renderNodeGrid();
+    // Re-render any open detail
+    document.querySelectorAll('.node-detail.open').forEach((el) => {
+      const id = el.id.replace('detail-', '');
+      if (PER_NODE_CACHE.has(id)) renderNodeDetail(el, PER_NODE_CACHE.get(id), id);
+    });
+  };
+});
+
+document.querySelectorAll('.filter-chip[data-domain]').forEach((chip) => {
+  chip.onclick = () => {
+    if (chip.dataset.domain === 'more') {
+      // Expand to show all 28 comparison domains
+      if (DOMAIN_FILTER_EXPANDED) return;
+      DOMAIN_FILTER_EXPANDED = true;
+      const allDomains = SUMMARY_DATA?.loadedComparisonDomains || [];
+      const visible = new Set(['business','medicine','economy','environment','population']);
+      const parent = chip.parentElement;
+      chip.remove();
+      for (const d of allDomains) {
+        if (visible.has(d)) continue;
+        const c = document.createElement('span');
+        c.className = 'filter-chip';
+        c.dataset.domain = d;
+        c.textContent = d;
+        c.onclick = chip.onclick; // same handler
+        parent.appendChild(c);
+      }
+      return;
+    }
+    document.querySelectorAll('.filter-chip[data-domain]').forEach((c) => c.classList.remove('active'));
+    chip.classList.add('active');
+    FILTER_DOMAIN = chip.dataset.domain;
+    renderNodeGrid();
+    document.querySelectorAll('.node-detail.open').forEach((el) => {
+      const id = el.id.replace('detail-', '');
+      if (PER_NODE_CACHE.has(id)) renderNodeDetail(el, PER_NODE_CACHE.get(id), id);
+    });
+  };
+});
+
+document.getElementById('search').oninput = (e) => {
+  SEARCH_QUERY = e.target.value.trim();
+  renderNodeGrid();
+};
+
+loadIndex();
+</script>
+
+</body>
+</html>
