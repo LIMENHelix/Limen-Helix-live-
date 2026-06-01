@@ -4,9 +4,11 @@
   "crons": [
     { "path": "/api/limen-worker-ingest", "schedule": "*/2 * * * *" },
     { "path": "/api/limen-worker-snapshot", "schedule": "*/3 * * * *" },
+    { "path": "/api/limen-worker-stress-refresh", "schedule": "*/30 * * * *" }
+  ],
+  "_crons_paused_2026_06_01_pre_gate_a": [
     { "path": "/api/limen-worker-autoqueue", "schedule": "*/15 * * * *" },
     { "path": "/api/limen-worker-autofire", "schedule": "*/30 * * * *" },
-    { "path": "/api/limen-worker-stress-refresh", "schedule": "*/30 * * * *" },
     { "path": "/api/limen-worker-multipass", "schedule": "*/5 * * * *" },
     { "path": "/api/limen-worker-sleep-cycle", "schedule": "0 * * * *" }
   ],
