@@ -516,13 +516,60 @@ function _buildExpandContent(d) {
 
   h += '</div>'; // grid
 
-  // Operator interpretation: WHY INVEST / WATCH / AVOID
+  // Operator interpretation: WHY INVEST / WATCH / AVOID — gated.
+  //
+  // Gate B #47 — only validated Thing 1 rows render the full position
+  // verdict (AVOID / WHY INVEST / WATCH headline + reason + whatNow).
+  // All other rows render a suppressed banner; the raw classifier
+  // output is preserved only inside a collapsed audit drawer.
+  //
+  // Doctrine:
+  //   A candidate signal may be shown. A suppressed directive may be
+  //   audited. But the action word cannot remain the headline.
+  //   (See feedback_execution_evidence_not_entity_specific in operator
+  //    memory; same shape as the company-portal v0.2 suppression.)
+  //
+  // The classifier still runs unconditionally — `interp.label`,
+  // `interp.reason`, `interp.whatNow` are computed for all rows — but
+  // for non-validated rows none of those strings reach the operator
+  // surface; only `interp.label` appears inside the collapsed audit
+  // <details> below.
   var interp = _classifyAction(d);
-  h += '<div style="margin-top:8px;padding:6px 10px;border-left:3px solid ' + interp.color + ';background:rgba(0,0,0,0.12)">';
-  h += '<div style="font-size:0.4rem;letter-spacing:2px;color:' + interp.color + ';margin-bottom:3px">' + interp.label + '</div>';
-  h += '<div style="font-size:0.36rem;color:rgba(220,215,200,0.6);line-height:1.5">' + interp.reason + '</div>';
-  h += '<div style="font-size:0.34rem;color:rgba(200,195,184,0.35);margin-top:3px">' + interp.whatNow + '</div>';
-  h += '</div>';
+  var isValidatedThing1 = (d.vs === 'validated' && d.kid === 'limen_backtest.py');
+
+  if (isValidatedThing1) {
+    // Full position verdict — render unchanged.
+    h += '<div style="margin-top:8px;padding:6px 10px;border-left:3px solid ' + interp.color + ';background:rgba(0,0,0,0.12)">';
+    h += '<div style="font-size:0.4rem;letter-spacing:2px;color:' + interp.color + ';margin-bottom:3px">' + interp.label + '</div>';
+    h += '<div style="font-size:0.36rem;color:rgba(220,215,200,0.6);line-height:1.5">' + interp.reason + '</div>';
+    h += '<div style="font-size:0.34rem;color:rgba(200,195,184,0.35);margin-top:3px">' + interp.whatNow + '</div>';
+    h += '</div>';
+  } else {
+    // Non-validated row — verdict suppressed.
+    var rowVs = d.vs || d.validation_status || 'unknown';
+    var rowKid = d.kid || d.kernel_id || 'phase_engine.py';
+    var isUnsupported = (rowVs === 'unsupported');
+    var suppressedLabel = isUnsupported
+      ? 'UNSUPPORTED SIGNAL — VERDICT SUPPRESSED'
+      : 'CANDIDATE SIGNAL — NOT A POSITION VERDICT';
+    var suppressedReason = isUnsupported
+      ? 'Row carries an unsupported kernel/validation status. No position verdict is rendered.'
+      : 'Row was not scored by the validated Thing 1 kernel. No position verdict is rendered.';
+    var bannerColor = isUnsupported ? '#e85454' : '#C9A94E';
+
+    h += '<div style="margin-top:8px;padding:6px 10px;border-left:3px solid ' + bannerColor + '59;background:rgba(0,0,0,0.12)">';
+    h += '<div style="font-size:0.4rem;letter-spacing:2px;color:' + bannerColor + ';margin-bottom:3px">' + suppressedLabel + '</div>';
+    h += '<div style="font-size:0.36rem;color:rgba(220,215,200,0.5);line-height:1.5">' + suppressedReason + '</div>';
+    h += '<div style="font-size:0.32rem;color:rgba(200,195,184,0.3);margin-top:3px">authority state: <code style="color:#C9A94E">EXECUTION_EVIDENCE_PRESENT_CONTENT_UNVERIFIED</code> · kernel: <code>' + rowKid + '</code> · validation: <code>' + rowVs + '</code></div>';
+    // Audit drawer — closed by default. Exposes raw classifier output
+    // for audit ONLY; the action word never reaches the operator above
+    // this <details> element.
+    h += '<details style="margin-top:6px;padding:4px 8px;border:1px dashed rgba(232,84,84,0.2);border-radius:2px">';
+    h += '<summary style="cursor:pointer;font-size:0.3rem;letter-spacing:2px;color:rgba(232,180,180,0.5);text-transform:uppercase;outline:none">audit · suppressed raw classifier output</summary>';
+    h += '<div style="margin-top:4px;font-size:0.32rem;color:rgba(200,195,184,0.45);line-height:1.5">Suppressed raw classifier output: <code style="color:rgba(220,215,200,0.6)">' + interp.label + '</code><br>Suppression reason: not validated Thing 1 (kid=<code>' + rowKid + '</code>, vs=<code>' + rowVs + '</code>)</div>';
+    h += '</details>';
+    h += '</div>';
+  }
 
   // Source authority badges — kernel/validation badge is conditional.
   // The snapshot file (command-board-data.json) is generated offline. Each row
