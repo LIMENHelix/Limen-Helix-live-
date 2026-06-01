@@ -22,24 +22,14 @@
     return d.innerHTML;
   }
 
-  // Gate B v0.1 predicate helpers — empirically matched against production
-  // data shape (assets/data/companies/*.json). Production uses empty string
-  // for unexecuted financialHealth.asOf (e.g. chevron); v0's null-only check
-  // produced a false negative. These helpers treat null, undefined, empty
-  // string, and whitespace-only strings as non-execution. Container helper
-  // treats empty array / empty object as absence regardless of presence of
-  // the slot itself.
-  function hasNonBlankValue(value) {
-    return value !== null &&
-           value !== undefined &&
-           String(value).trim().length > 0;
-  }
-
-  function hasSubstantiveEntries(value) {
-    if (Array.isArray(value)) return value.length > 0;
-    if (value && typeof value === 'object') return Object.keys(value).length > 0;
-    return false;
-  }
+  // Gate B v0.1 predicate + banner extracted to assets/js/render-authority.js
+  // (commit 2b1d082). The inline hasNonBlankValue / hasSubstantiveEntries
+  // helpers + the _executed branch below now call window.LIMENRenderAuthority.
+  // This makes the predicate the single canonical authority across every
+  // claim-painting renderer rather than a per-renderer inline patch.
+  //
+  // Doctrine: a render gate implemented inside one renderer is not a gate;
+  // it is a patched exit. The shared module is the contract.
 
   function getParam(name) {
     var url = new URL(window.location.href);
@@ -158,32 +148,20 @@
 
     // Intelligence Cycle
     if (co.intelligenceCycle && co.intelligenceCycle.length > 0) {
-      // Gate B v0.1 \u2014 render execution gate. Categorical: if no execution
-      // evidence exists for this entity, the intelligence-cycle text is a
-      // procedure template, not entity-specific diagnosis. v0 used a
-      // null-only predicate which produced a false negative on Chevron
-      // (asOf=""). v0.1 uses helpers that treat null, undefined, empty
-      // string, and whitespace-only strings as non-execution.
-      // Existing fields read; no schema migration. Strong-form: banner at
-      // section-title weight, not as a caveat below the verdict.
-      // Boolean() coercion forces _executed to true/false so downstream
-      // code cannot rely on a truthy non-boolean ("2024-Q3", arrays, etc).
-      var _executed = Boolean(
-        (co.financialHealth && hasNonBlankValue(co.financialHealth.asOf)) ||
-        hasSubstantiveEntries(co.engineOutputs) ||
-        hasSubstantiveEntries(co.bridgeReadings)
-      );
+      // Gate B render-authority contract. Section-title and banner are
+      // both decided by classifyAuthorityV01 against the shared module.
+      // Same behavior as the prior inline v0.1; the difference is that
+      // the predicate now lives in one place and any other renderer
+      // (engine outputs, kernel verdicts, domain panels) gets the same
+      // semantics by calling the same contract.
+      var RA = window.LIMENRenderAuthority;
+      var _state = RA ? RA.classifyAuthorityV01(co) : null;
+      var _noEvidence = RA && _state === RA.STATES.NO_EXECUTION_EVIDENCE;
 
       rightHtml += '<div class="cp-section">';
-      if (!_executed) {
+      if (_noEvidence) {
         rightHtml += '<div class="cp-section-title" style="color:#e85454">Intelligence Cycle \u2014 Procedure Template, Not Executed</div>';
-        rightHtml += '<div style="padding:10px 12px;margin:6px 0 10px;border:1px solid rgba(232,84,84,0.35);background:rgba(232,84,84,0.06);border-radius:3px;font-size:0.4rem;line-height:1.7;color:rgba(232,180,180,0.85)">';
-        rightHtml += '<strong style="letter-spacing:1.5px;color:#e85454">PROCEDURE TEMPLATE \u2014 NOT RUN FOR THIS ENTITY.</strong> ';
-        rightHtml += 'The text below describes how diagnosis <em>would</em> be performed for ' + esc(co.name || 'this entity') + ', not what diagnosis has found. No execution recorded: ';
-        rightHtml += '<code style="color:#e85454">financialHealth.asOf=' + (co.financialHealth && co.financialHealth.asOf != null ? esc(String(co.financialHealth.asOf)) : 'null') + '</code> &middot; ';
-        rightHtml += '<code style="color:#e85454">engineOutputs=' + (Array.isArray(co.engineOutputs) && co.engineOutputs.length > 0 ? co.engineOutputs.length + ' items' : 'absent') + '</code> &middot; ';
-        rightHtml += '<code style="color:#e85454">bridgeReadings=' + (Array.isArray(co.bridgeReadings) && co.bridgeReadings.length > 0 ? co.bridgeReadings.length + ' items' : 'absent') + '</code>';
-        rightHtml += '</div>';
+        rightHtml += RA.renderAuthorityBanner(co, { sectionLabel: 'diagnosis' });
       } else {
         rightHtml += '<div class="cp-section-title">Intelligence Cycle</div>';
       }
