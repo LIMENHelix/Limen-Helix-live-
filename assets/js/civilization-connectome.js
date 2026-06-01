@@ -169,14 +169,14 @@ var DOMAIN_PORTALS = {
   ],
   science:[
     {name:'Danaher (DHR)',url:'/company-portal?company=danaher'},
-    {name:'Agilent (A)',url:'/company-portal?company=agilent'},
+    {name:'Agilent (A)',url:'/company-portal?company=agilent_technologies'},
     {name:'Bruker (BRKR)',url:'/company-portal?company=bruker'},
     {name:'Illumina (ILMN)',url:'/company-portal?company=illumina'},
-    {name:'Charles River (CRL)',url:'/company-portal?company=charles_river_labs'}
+    {name:'Charles River (CRL)',url:'/company-portal?company=charles_river_laboratories'}
   ],
   education:[
     {name:'Coursera (COUR)',url:'/company-portal?company=coursera'},
-    {name:'Stride (LRN)',url:'/company-portal?company=stride'},
+    {name:'Stride (LRN)',url:'/company-portal?company=stride_inc'},
     {name:'Chegg (CHGG)',url:'/company-portal?company=chegg'},
     {name:'Pearson (PSO)',url:'/company-portal?company=pearson'},
     {name:'2U (TWOU)',url:'/company-portal?company=2u'}
@@ -204,7 +204,7 @@ var DOMAIN_PORTALS = {
   ],
   trade:[
     {name:'FedEx (FDX)',url:'/company-portal?company=fedex'},
-    {name:'UPS (UPS)',url:'/company-portal?company=united_parcel_service'},
+    {name:'UPS (UPS)',url:'/company-portal?company=ups'},
     {name:'Expeditors (EXPD)',url:'/company-portal?company=expeditors_international'},
     {name:'C.H. Robinson (CHRW)',url:'/company-portal?company=c_h_robinson'},
     {name:'XPO (XPO)',url:'/company-portal?company=xpo'}
@@ -228,7 +228,7 @@ var DOMAIN_PORTALS = {
     {name:'CACI (CACI)',url:'/company-portal?company=caci_international'},
     {name:'Maximus (MMS)',url:'/company-portal?company=maximus'},
     {name:'ManTech (MANT)',url:'/company-portal?company=mantech_international'},
-    {name:'Accenture Fed (ACN)',url:'/company-portal?company=accenture_federal_services'}
+    {name:'Accenture (ACN)',url:'/company-portal?company=accenture'}
   ],
   agriculture:[
     {name:'Agriculture Portal',url:'/p2_agri_portal'},
@@ -261,7 +261,7 @@ var DOMAIN_PORTALS = {
   ],
   metabolic:[
     {name:'Novo Nordisk (NVO)',url:'/company-portal?company=novo_nordisk'},
-    {name:'Dexcom (DXCM)',url:'/company-portal?company=dexcom_meta'},
+    {name:'Dexcom (DXCM)',url:'/company-portal?company=dexcom'},
     {name:'Insulet (PODD)',url:'/company-portal?company=insulet'},
     {name:'Tandem (TNDM)',url:'/company-portal?company=tandem_diabetes'},
     {name:'Abbott (ABT)',url:'/company-portal?company=abbott_metabolic'}
