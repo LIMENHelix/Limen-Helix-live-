@@ -1,0 +1,842 @@
+/**
+ * kernel-comparison.js — Command Board (extracted from kernel-comparison.html).
+ *
+ * Status: extraction commit. This file's content is identical to the inline
+ * <script> block that previously lived in kernel-comparison.html between
+ * lines 150-965 (pre-extraction). No behavior change here — the verdict
+ * painters (_classifyAction returning AVOID / WHY INVEST / WATCH per row,
+ * _buildExpandContent painting them into the expand drawer, renderStats,
+ * renderDomainPanel, renderTable) work exactly as they did inline.
+ *
+ * Why extract: kernel-comparison.html previously rendered its
+ * AVOID-style verdicts from inline <script> blocks, so the Renderer
+ * Authority Census flagged it as a claim-painting surface that
+ * cannot be wired to the shared Gate B contract without first
+ * being a callable module. This commit makes it a callable module.
+ * A separate commit (#47) wires it to window.LIMENRenderAuthority.
+ *
+ * Doctrine:
+ *   A render gate implemented inside one renderer is not a gate.
+ *   It is a patched exit.
+ *
+ * Loaded by kernel-comparison.html via <script src="assets/js/kernel-comparison.js">
+ * at the same position the inline block previously occupied. Globals exported
+ * (DATA, classifySignal, computeSeverity, _classifyAction, renderStats,
+ * renderDomainPanel, renderTable, applyFilterSort, _initBoard, etc.) are
+ * unchanged so the small upstream inline scripts referencing them continue
+ * to work without modification.
+ */
+var DATA = [];
+var _CMD_DOMAIN_FILTER = (new URLSearchParams(window.location.search)).get('domain') || null;
+var _CMD_DOMAIN_SK = null; // Resolved via LIMENDomainIdentity
+var _CMD_RESOLVED = _CMD_DOMAIN_FILTER ? (window.LIMENDomainIdentity ? window.LIMENDomainIdentity.snapshotKey(_CMD_DOMAIN_FILTER) : _CMD_DOMAIN_FILTER) : null;
+var _CMD_LABELS = {energy:'Energy',defense:'Defense',trade:'Supply Chain',finance:'Finance',health:'Health',agriculture:'Agriculture',technology:'Technology',environment:'Environment',industry:'Industry',governance:'Governance',economy:'Economy',infrastructure:'Infrastructure',communication:'Communication',culture:'Culture',law:'Law',religion:'Religion',intelligence:'Intelligence',population:'Population',education:'Education',research:'Research',supplyChain:'Supply Chain'};
+
+// Load company data — primary source is command-board-eligible.json (302
+// CIKs the validated kernel can score per Operating Envelope §4.1–§4.4).
+// Built by scripts/build-command-board.js from kernel-eligibility-frontier.json.
+// Falls back to legacy command-board-data.json if eligible feed isn't built yet.
+(function() {
+  var primary = 'assets/data/command-board-eligible.json';
+  var fallback = 'assets/data/command-board-data.json';
+  function loadFrom(url, allowFallback) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        try {
+          var parsed = JSON.parse(xhr.responseText);
+          DATA = parsed.companies || [];
+          if (_CMD_RESOLVED) {
+            DATA = DATA.filter(function(c) { return (c.d || c.domain) === _CMD_RESOLVED; });
+          }
+          console.log('[CommandBoard] Loaded ' + DATA.length + ' companies from ' + url + (_CMD_RESOLVED ? ' (filtered: ' + _CMD_RESOLVED + ')' : ''));
+          _initBoard();
+        } catch (e) {
+          console.error('[CommandBoard] Parse error:', e);
+          document.getElementById('statsBar').innerHTML = '<div class="stat"><div class="stat-val" style="color:#e85454">DATA ERROR</div><div class="stat-label">Failed to parse company data</div></div>';
+        }
+      } else if (allowFallback) {
+        console.warn('[CommandBoard] ' + url + ' missing; falling back to ' + fallback);
+        loadFrom(fallback, false);
+      } else {
+        console.error('[CommandBoard] Failed to load data:', xhr.status);
+        document.getElementById('statsBar').innerHTML = '<div class="stat"><div class="stat-val" style="color:#e85454">LOAD ERROR</div><div class="stat-label">No company feed available</div></div>';
+      }
+    };
+    xhr.onerror = function() {
+      if (allowFallback) loadFrom(fallback, false);
+      else {
+        console.error('[CommandBoard] Network error loading data');
+        document.getElementById('statsBar').innerHTML = '<div class="stat"><div class="stat-val" style="color:#e85454">NETWORK ERROR</div><div class="stat-label">Could not fetch company data</div></div>';
+      }
+    };
+    xhr.send();
+  }
+  loadFrom(primary, true);
+})();
+
+// ═══════════════════════════════════════════════════════════════════════
+// TASK 1 — SIGNAL CLASSIFICATION ENGINE (deterministic enum)
+// ═══════════════════════════════════════════════════════════════════════
+
+var SIGNAL_ENUM = {
+  DATA_ERROR:       { label: 'DATA ERROR',        color: '#555',     icon: '✖' },
+  ALERT:            { label: 'ALERT',             color: '#e85454',  icon: '⚠' },
+  EARLY_WARNING:    { label: 'EARLY WARNING',     color: '#e8a44e',  icon: '▲' },
+  FRAGILE_STABILITY:{ label: 'FRAGILE STABILITY', color: '#C9A94E',  icon: '◆' },
+  ORDERED_WATCH:    { label: 'ORDERED WATCH',     color: '#4a8fd4',  icon: '○' },
+  SECTOR_PRESSURE:  { label: 'SECTOR PRESSURE',   color: '#C9A94E',  icon: '▷' },
+  NOMINAL:          { label: 'NOMINAL',           color: '#5ab5a0',  icon: '✓' }
+};
+
+var TERMINAL_PHASES = ['p7','p7a','p9'];
+var STABLE_PHASES = ['p4','p5','p6'];
+var ORDERED_PHASES = ['p6','p10'];
+
+function classifySignal(d) {
+  // Rule 1: HTTP/API/extraction failure
+  if (d.p === 'ERROR') return 'DATA_ERROR';
+  // Rule 2: Terminal-like phase but domain stress low → likely extraction bug
+  if (TERMINAL_PHASES.indexOf(d.p) !== -1 && d.ds < 0.30) return 'DATA_ERROR';
+  // Rule 3: Linear alert with no data contradiction
+  if (d.a && d.p !== 'ERROR') return 'ALERT';
+  // Rule 4: Stable phase but extreme domain stress
+  if (STABLE_PHASES.indexOf(d.p) !== -1 && d.ds >= 0.90) return 'EARLY_WARNING';
+  // Rule 5: Stable phase in high-stress domain
+  if (STABLE_PHASES.indexOf(d.p) !== -1 && d.ds >= 0.70) return 'FRAGILE_STABILITY';
+  // Rule 6: Ordered/resurrected in moderate stress
+  if (ORDERED_PHASES.indexOf(d.p) !== -1 && d.ds >= 0.50) return 'ORDERED_WATCH';
+  // Rule 7: Stable in moderate stress
+  if (STABLE_PHASES.indexOf(d.p) !== -1 && d.ds >= 0.50) return 'SECTOR_PRESSURE';
+  // Rule 8: Default
+  return 'NOMINAL';
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// TASK 2 — SEVERITY SCORE (deterministic)
+// ═══════════════════════════════════════════════════════════════════════
+
+var SEVERITY_BASE = {
+  DATA_ERROR: 100, ALERT: 90, EARLY_WARNING: 75,
+  FRAGILE_STABILITY: 65, ORDERED_WATCH: 55,
+  SECTOR_PRESSURE: 45, NOMINAL: 10
+};
+
+function computeSeverity(d) {
+  var base = SEVERITY_BASE[d._signal] || 10;
+  if (d.ds >= 0.80) base += 10;
+  if (d.a) base += 10;
+  if (d.co >= 1.0) base += 5;
+  if (d.tr === 'STABLE' && d.ds < 0.40) base -= 10;
+  return Math.max(0, base);
+}
+
+// DATA enrichment (signal + severity) now happens in _initBoard() after JSON loads
+
+// ═══════════════════════════════════════════════════════════════════════
+// DISPLAY HELPERS
+// ═══════════════════════════════════════════════════════════════════════
+
+function phaseColor(p) {
+  var m = {p0:'#5ab5a0',p1:'#C9A94E',p2:'#4a8fd4',p3:'#e85454',p4:'#5ab5a0',p5:'#C9A94E',p6:'#4a8fd4',p7:'#C9A94E',p7a:'#e85454',p7b:'#C9A94E',p8:'#8a7aaa',p9:'#e85454',p10:'#5ab5a0',ERROR:'#555'};
+  return m[p] || '#888';
+}
+function stressColor(v) { return v > 0.65 ? '#e85454' : v > 0.4 ? '#C9A94E' : '#5ab5a0'; }
+function trajColor(t) {
+  if (t.indexOf('TERMINAL') !== -1 || t.indexOf('UNRECOVERED') !== -1) return '#e85454';
+  if (t.indexOf('MILD') !== -1) return '#C9A94E';
+  if (t.indexOf('RECOVERED') !== -1) return '#4a8fd4';
+  return '#5ab5a0';
+}
+// Phase verbiage — Thing 2's native PHASE_META.label vocabulary, byte-for-byte
+// from api/helix_app/thing2/phase_engine.py:121 (mirrored in helix-report.html:243).
+// Single source string per phase across Thing 1, Thing 2, Command Board, Helix
+// Report. Verdict register (TERMINAL_DIVERGENCE etc.) is reserved for alert rows
+// where Thing 1 has confirmed via the validated kernel — see _isValidatedAlert(d).
+var PHASE_LABELS = {
+  p0: 'P0 · SOURCE',  p1: 'P1 · RUPTURE',  p2: 'P2 · RHYTHM',
+  p3: 'P3 · INSTABILITY', p4: 'P4 · STABILISATION', p5: 'P5 · ENDURANCE',
+  p6: 'P6 · ORDER', p7: 'P7 · DIVERGENCE',
+  p7a:'P7a · TERMINAL', p7b:'P7b · SEPARATION',
+  p8: 'P8 · PIVOT', p9: 'P9 · COLLAPSE', p10:'P10 · RESURRECTION',
+  ERROR:'ERROR'
+};
+// VERDICT_TAG — alert-verdict register. Only renderable when Thing 1 has
+// fired alert AND the row was scored by the validated kernel. Mirrors
+// helix-report.html VERDICT_TAG one-for-one.
+var VERDICT_TAG = {
+  p0:'BASELINE_EQUILIBRIUM', p1:'ALARM_ACTIVATION', p2:'BONDING_REGULATION',
+  p3:'STRESS_ESCALATION', p4:'VAGAL_RECOVERY', p5:'EXECUTIVE_UNDER_LOAD',
+  p6:'EXECUTIVE_RESTORED', p7:'STRUCTURAL_DIVERGENCE',
+  p7a:'TERMINAL_DIVERGENCE', p7b:'CONTROLLED_PIVOT',
+  p8:'PIVOT_RECOGNIZED', p9:'CASCADE_FAILURE', p10:'NEUROPLASTIC_REFORMATION'
+};
+function _isValidatedAlert(d) {
+  return d && d.a === true && d.kid === 'limen_backtest.py' && d.vs === 'validated';
+}
+
+// Game plan — six LIMEN engines per limen_engine_sequence_and_specs:
+// Research / Patent / Grant / SBA / Franchise / Investment. Color shifts
+// with alert state — alert rows surface "rescue" framing; no-alert rows
+// surface "expansion" framing. SBA is gated to private filers in real
+// pricing; for public ELIGIBLE_NOW rows it represents M&A / restructuring
+// finance, kept under "S" for now until the engine taxonomy splits.
+var ENGINE_DEFS = [
+  { id: 'R', name: 'Research',   tip: 'Evidence packet — kernel verdict + sector context, board-ready PDF' },
+  { id: 'P', name: 'Patent',     tip: 'IP audit — file unfiled provisionals before §363 sale or BK creditor claim' },
+  { id: 'G', name: 'Grant',      tip: 'Match to federal/state programs aligned with the company domain' },
+  { id: 'S', name: 'SBA / M&A',  tip: 'Bridge financing or restructuring buyer identification' },
+  { id: 'F', name: 'Franchise',  tip: 'Identify replicable IP/process licensable to peers for non-dilutive cash' },
+  { id: 'I', name: 'Investment', tip: 'Paper-trade thesis (Alpaca paper-before-live) + acquirer outreach' }
+];
+function _planBadges(d) {
+  var alerted = _isValidatedAlert(d);
+  var border = alerted ? 'rgba(232,84,84,0.35)' : 'rgba(201,169,78,0.18)';
+  var color  = alerted ? '#e85454' : 'rgba(201,169,78,0.55)';
+  var bg     = alerted ? 'rgba(232,84,84,0.06)' : 'rgba(201,169,78,0.04)';
+  var html = '<span style="display:inline-flex;gap:2px;font-size:0.32rem;letter-spacing:0;font-family:IBM Plex Mono,monospace">';
+  for (var i = 0; i < ENGINE_DEFS.length; i++) {
+    var e = ENGINE_DEFS[i];
+    html += '<span title="' + e.name + ' — ' + e.tip + '" style="display:inline-block;width:14px;text-align:center;color:' + color + ';background:' + bg + ';border:1px solid ' + border + ';border-radius:2px;padding:1px 0;cursor:help">' + e.id + '</span>';
+  }
+  html += '</span>';
+  return html;
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// TASK 4 (partial) — EXECUTIVE SUMMARY STRIP
+// ═══════════════════════════════════════════════════════════════════════
+
+// ═══════════════════════════════════════════════════════════════════════
+// TASK 4 — EXECUTIVE SUMMARY STRIP (expanded)
+// ═══════════════════════════════════════════════════════════════════════
+
+function renderStats() {
+  var counts = {};
+  for (var k in SIGNAL_ENUM) counts[k] = 0;
+  var highStress = 0, p7count = 0, stableCount = 0;
+  var domainStressMap = {}, domainContradictions = {};
+
+  DATA.forEach(function(d) {
+    counts[d._signal]++;
+    if (d.ds >= 0.70) highStress++;
+    if (TERMINAL_PHASES.indexOf(d.p) !== -1) p7count++;
+    if (['p4','p6','p10'].indexOf(d.p) !== -1) stableCount++;
+    // Track per-domain stress
+    if (!domainStressMap[d.d]) domainStressMap[d.d] = { total: 0, count: 0 };
+    domainStressMap[d.d].total += d.ds;
+    domainStressMap[d.d].count++;
+    // Track contradictions: terminal phase + low domain stress
+    if (d._signal === 'DATA_ERROR') {
+      domainContradictions[d.d] = (domainContradictions[d.d] || 0) + 1;
+    }
+  });
+
+  // Find most stressed domain
+  var topDomain = '', topDomainStress = 0;
+  for (var dk in domainStressMap) {
+    var avg = domainStressMap[dk].total / domainStressMap[dk].count;
+    if (avg > topDomainStress) { topDomainStress = avg; topDomain = dk; }
+  }
+
+  // Find domain with most contradictions
+  var topContra = '', topContraCount = 0;
+  for (var ck in domainContradictions) {
+    if (domainContradictions[ck] > topContraCount) { topContraCount = domainContradictions[ck]; topContra = ck; }
+  }
+
+  var h = '';
+  h += '<div class="stat"><div class="stat-val">' + DATA.length + '</div><div class="stat-label">TRACKED</div></div>';
+  h += '<div class="stat"><div class="stat-val" style="color:' + SIGNAL_ENUM.DATA_ERROR.color + '">' + counts.DATA_ERROR + '</div><div class="stat-label">DATA ERRORS</div></div>';
+  h += '<div class="stat"><div class="stat-val" style="color:' + SIGNAL_ENUM.ALERT.color + '">' + counts.ALERT + '</div><div class="stat-label">ALERTS</div></div>';
+  h += '<div class="stat"><div class="stat-val" style="color:' + SIGNAL_ENUM.EARLY_WARNING.color + '">' + counts.EARLY_WARNING + '</div><div class="stat-label">EARLY WARN</div></div>';
+  h += '<div class="stat"><div class="stat-val" style="color:' + SIGNAL_ENUM.FRAGILE_STABILITY.color + '">' + counts.FRAGILE_STABILITY + '</div><div class="stat-label">FRAGILE</div></div>';
+  h += '<div class="stat"><div class="stat-val" style="color:' + SIGNAL_ENUM.ORDERED_WATCH.color + '">' + counts.ORDERED_WATCH + '</div><div class="stat-label">WATCH</div></div>';
+  h += '<div class="stat"><div class="stat-val" style="color:' + SIGNAL_ENUM.SECTOR_PRESSURE.color + '">' + counts.SECTOR_PRESSURE + '</div><div class="stat-label">PRESSURE</div></div>';
+  h += '<div class="stat"><div class="stat-val" style="color:' + SIGNAL_ENUM.NOMINAL.color + '">' + counts.NOMINAL + '</div><div class="stat-label">NOMINAL</div></div>';
+  h += '<div class="stat"><div class="stat-val" style="color:#e85454">' + highStress + '</div><div class="stat-label">STRESS &ge;70%</div></div>';
+  h += '<div class="stat"><div class="stat-val" style="color:#e85454">' + p7count + '</div><div class="stat-label">P7/P7a/P9</div></div>';
+  h += '<div class="stat"><div class="stat-val" style="color:#5ab5a0">' + stableCount + '</div><div class="stat-label">P4/P6/P10</div></div>';
+  document.getElementById('statsBar').innerHTML = h;
+
+  // Extra summary line
+  var ex = '';
+  ex += 'Most stressed domain: <b>' + topDomain.toUpperCase() + ' (' + Math.round(topDomainStress * 100) + '%)</b>';
+  if (topContra) ex += ' · Most contradictions: <b>' + topContra.toUpperCase() + ' (' + topContraCount + ')</b>';
+  document.getElementById('statsExtra').innerHTML = ex;
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// TASK 5 — DOMAIN AGGREGATION PANEL
+// ═══════════════════════════════════════════════════════════════════════
+
+function renderDomainPanel() {
+  var domains = {};
+  DATA.forEach(function(d) {
+    if (!domains[d.d]) domains[d.d] = { name: d.d, count: 0, stressTotal: 0, signals: {} };
+    var dom = domains[d.d];
+    dom.count++;
+    dom.stressTotal += d.ds;
+    dom.signals[d._signal] = (dom.signals[d._signal] || 0) + 1;
+  });
+
+  // Sort: avg stress desc, then alerts+errors desc
+  var sorted = Object.values(domains).sort(function(a, b) {
+    var aAvg = a.stressTotal / a.count, bAvg = b.stressTotal / b.count;
+    if (bAvg !== aAvg) return bAvg - aAvg;
+    var aProb = (a.signals.ALERT || 0) + (a.signals.DATA_ERROR || 0);
+    var bProb = (b.signals.ALERT || 0) + (b.signals.DATA_ERROR || 0);
+    return bProb - aProb;
+  });
+
+  var h = '';
+  for (var i = 0; i < sorted.length; i++) {
+    var dom = sorted[i];
+    var avgStress = dom.stressTotal / dom.count;
+    var sc = stressColor(avgStress);
+    var errCount = (dom.signals.DATA_ERROR || 0);
+    var alertCount = (dom.signals.ALERT || 0);
+    var warnCount = (dom.signals.EARLY_WARNING || 0) + (dom.signals.FRAGILE_STABILITY || 0) + (dom.signals.ORDERED_WATCH || 0);
+    var nomCount = (dom.signals.NOMINAL || 0);
+    var pressCount = (dom.signals.SECTOR_PRESSURE || 0);
+
+    h += '<div class="domain-card">';
+    h += '<div class="domain-card-name" style="color:' + sc + '">' + dom.name + '</div>';
+    h += '<div class="domain-card-row"><span>Companies</span><b>' + dom.count + '</b></div>';
+    h += '<div class="domain-card-row"><span>Avg Stress</span><b style="color:' + sc + '">' + Math.round(avgStress * 100) + '%</b></div>';
+    if (errCount) h += '<div class="domain-card-row"><span>Data Errors</span><b style="color:#555">' + errCount + '</b></div>';
+    if (alertCount) h += '<div class="domain-card-row"><span>Alerts</span><b style="color:#e85454">' + alertCount + '</b></div>';
+    if (warnCount) h += '<div class="domain-card-row"><span>Warn/Watch</span><b style="color:#C9A94E">' + warnCount + '</b></div>';
+    if (pressCount) h += '<div class="domain-card-row"><span>Pressure</span><b style="color:#C9A94E">' + pressCount + '</b></div>';
+    if (nomCount) h += '<div class="domain-card-row"><span>Nominal</span><b style="color:#5ab5a0">' + nomCount + '</b></div>';
+    h += '</div>';
+  }
+  document.getElementById('domainPanel').innerHTML = h;
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// TASK 3 — SORT / FILTER ENGINE
+// ═══════════════════════════════════════════════════════════════════════
+
+var _currentFilter = 'all';
+var _currentSort = 'severity';
+var _currentPage = 1;
+var _pageSize = 50;
+var _filteredData = [];
+
+function _getWatchlist() {
+  try { return JSON.parse(localStorage.getItem('limen_watchlist') || '[]'); } catch(e) { return []; }
+}
+
+function applyFilterSort() {
+  var filtered = DATA;
+
+  // Filter
+  if (_currentFilter === 'high-stress') {
+    filtered = DATA.filter(function(d) { return d.ds >= 0.70; });
+  } else if (_currentFilter === 'watchlist') {
+    var wl = _getWatchlist();
+    filtered = DATA.filter(function(d) { return wl.indexOf(d.t) !== -1; });
+  } else if (_currentFilter !== 'all' && SIGNAL_ENUM[_currentFilter]) {
+    filtered = DATA.filter(function(d) { return d._signal === _currentFilter; });
+  }
+
+  // Sort
+  filtered = filtered.slice(); // copy before sort
+  if (_currentSort === 'severity') {
+    filtered.sort(function(a, b) { return b._severity - a._severity; });
+  } else if (_currentSort === 'stress') {
+    filtered.sort(function(a, b) { return b.ds - a.ds || b._severity - a._severity; });
+  } else if (_currentSort === 'composite') {
+    filtered.sort(function(a, b) { return b.co - a.co || b._severity - a._severity; });
+  } else if (_currentSort === 'alpha') {
+    filtered.sort(function(a, b) { return a.n < b.n ? -1 : a.n > b.n ? 1 : 0; });
+  }
+
+  _filteredData = filtered;
+  var totalPages = Math.ceil(filtered.length / _pageSize) || 1;
+  if (_currentPage > totalPages) _currentPage = 1;
+  var start = (_currentPage - 1) * _pageSize;
+  var pageRows = filtered.slice(start, start + _pageSize);
+  renderTable(pageRows, start);
+  _renderPagination(filtered.length, totalPages);
+}
+
+function _renderPagination(total, totalPages) {
+  var el = document.getElementById('pagination');
+  if (!el || totalPages <= 1) { if (el) el.innerHTML = ''; return; }
+  var h = '<button class="page-btn" onclick="_goPage(1)" ' + (_currentPage === 1 ? 'disabled' : '') + '>&laquo;</button>';
+  h += '<button class="page-btn" onclick="_goPage(' + (_currentPage - 1) + ')" ' + (_currentPage === 1 ? 'disabled' : '') + '>&lsaquo;</button>';
+  var startP = Math.max(1, _currentPage - 3);
+  var endP = Math.min(totalPages, _currentPage + 3);
+  for (var p = startP; p <= endP; p++) {
+    h += '<button class="page-btn' + (p === _currentPage ? ' active' : '') + '" onclick="_goPage(' + p + ')">' + p + '</button>';
+  }
+  h += '<button class="page-btn" onclick="_goPage(' + (_currentPage + 1) + ')" ' + (_currentPage === totalPages ? 'disabled' : '') + '>&rsaquo;</button>';
+  h += '<button class="page-btn" onclick="_goPage(' + totalPages + ')" ' + (_currentPage === totalPages ? 'disabled' : '') + '>&raquo;</button>';
+  h += '<span class="page-info">' + total + ' companies · page ' + _currentPage + ' of ' + totalPages + '</span>';
+  el.innerHTML = h;
+}
+
+function _goPage(p) {
+  _currentPage = p;
+  applyFilterSort();
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// TASK 6 — TABLE RENDERER (expandable rows, command board)
+// ═══════════════════════════════════════════════════════════════════════
+
+// Signal classification rule explanations
+var SIGNAL_RULES = {
+  DATA_ERROR: 'API/extraction failure or terminal phase with low domain stress (likely OCF bug)',
+  ALERT: 'Linear kernel fired alert — composite above threshold, no data contradiction',
+  EARLY_WARNING: 'Company stable but domain stress extreme (≥90%) — watch for stress transmission',
+  FRAGILE_STABILITY: 'Company stable but domain stress high (≥70%) — fragile operating environment',
+  ORDERED_WATCH: 'Ordered/recovered company in moderately stressed domain (≥50%)',
+  SECTOR_PRESSURE: 'Stable company in stressed sector (≥50%) — monitor for deterioration',
+  NOMINAL: 'Both layers agree — no concern'
+};
+
+var _expandedIdx = -1;
+
+function renderTable(rows, startOffset) {
+  startOffset = startOffset || 0;
+  var body = document.getElementById('tableBody');
+  var frag = document.createDocumentFragment();
+
+  for (var i = 0; i < rows.length; i++) {
+    var d = rows[i];
+    var pc = phaseColor(d.p);
+    var tc = trajColor(d.tr);
+    var sc = stressColor(d.ds);
+    var sig = SIGNAL_ENUM[d._signal] || SIGNAL_ENUM.NOMINAL;
+    var dsPct = Math.round(d.ds * 100);
+    var compPct = Math.min(Math.round(d.co * 50), 100);
+
+    // Watchlist star
+    var wl = _getWatchlist();
+    var isWatched = wl.indexOf(d.t) !== -1;
+
+    // Source badges
+    var srcData = d.p === 'ERROR' ? 'ERR' : (d.ds > 0 ? 'OK' : 'PART');
+    var srcDataClass = d.p === 'ERROR' ? 'src-dat-err' : (d.ds > 0 ? 'src-dat-ok' : 'src-dat-part');
+    var srcBadges = '<span class="src-badge src-lin">LIN:VALID</span>' +
+      '<span class="src-badge src-rec">REC:LIVE</span>' +
+      '<span class="src-badge ' + srcDataClass + '">DAT:' + srcData + '</span>';
+
+    // Main row
+    var tr = document.createElement('tr');
+    tr.className = 'expandable';
+    tr.setAttribute('data-company-idx', i);
+    tr.innerHTML =
+      '<td style="color:#555"><span class="wl-star' + (isWatched ? ' active' : '') + '" onclick="_toggleStar(\'' + d.t + '\',event)">' + (isWatched ? '★' : '☆') + '</span>' + (startOffset + i + 1) + '</td>' +
+      '<td><span style="color:rgba(201,169,78,0.5)">' + d.n + '</span></td>' +
+      '<td style="color:#C9A94E">' + d.t + '</td>' +
+      '<td><span class="phase" style="background:' + pc + '22;color:' + pc + ';border:1px solid ' + pc + '44">' + (PHASE_LABELS[d.p] || d.p.toUpperCase()) + '</span></td>' +
+      '<td style="color:' + tc + '">' + d.tr.replace(/_/g, ' ') + '</td>' +
+      '<td>' + d.co.toFixed(2) + ' <span class="bar-bg"><span class="bar" style="width:' + compPct + '%;background:' + tc + '"></span></span></td>' +
+      '<td style="color:rgba(200,195,184,0.4)">' + d.d + '</td>' +
+      '<td>' + dsPct + '% <span class="bar-bg"><span class="bar" style="width:' + dsPct + '%;background:' + sc + '"></span></span></td>' +
+      '<td>' + srcBadges + '</td>' +
+      '<td><span style="color:' + sig.color + '">' + sig.icon + ' ' + sig.label + '</span></td>' +
+      '<td style="color:rgba(200,195,184,0.3)">' + d._severity + '</td>' +
+      '<td>' + _planBadges(d) + '</td>';
+    frag.appendChild(tr);
+
+    // Expand row (hidden by default)
+    var expandTr = document.createElement('tr');
+    expandTr.className = 'expand-row';
+    expandTr.setAttribute('data-expand-idx', i);
+    var expandTd = document.createElement('td');
+    expandTd.colSpan = 12;
+    expandTd.innerHTML = _buildExpandContent(d);
+    expandTr.appendChild(expandTd);
+    frag.appendChild(expandTr);
+  }
+
+  body.innerHTML = '';
+  body.appendChild(frag);
+  _expandedIdx = -1;
+}
+
+function _buildExpandContent(d) {
+  var sig = SIGNAL_ENUM[d._signal] || SIGNAL_ENUM.NOMINAL;
+  var rule = SIGNAL_RULES[d._signal] || '';
+  var sc = stressColor(d.ds);
+  var tc = trajColor(d.tr);
+
+  var h = '<div class="expand-content">';
+  h += '<div class="expand-grid">';
+
+  // Col 1: Thing 1 — Validated Distress (matches Helix Report verbiage)
+  // Phase line uses PHASE_META.label register ("P7A TERMINAL"). Verdict
+  // register ("TERMINAL_DIVERGENCE") shown only when row is a validated
+  // Thing 1 alert — never on Thing 2 posture alone.
+  h += '<div>';
+  h += '<div class="expand-label">THING 1 — VALIDATED DISTRESS</div>';
+  h += '<div style="color:rgba(200,195,184,0.6)">Phase: <b style="color:' + phaseColor(d.p) + '">' + (PHASE_LABELS[d.p] || d.p.toUpperCase()) + '</b></div>';
+  if (_isValidatedAlert(d) && VERDICT_TAG[d.p]) {
+    h += '<div style="color:#e85454;font-size:0.4rem;letter-spacing:1px;font-weight:600">' + VERDICT_TAG[d.p] + ' — ALERT FIRED</div>';
+  }
+  h += '<div style="color:rgba(200,195,184,0.6)">Composite: <b>' + d.co.toFixed(3) + '</b>'
+     + (d.path ? ' · Path <b>' + d.path + '</b>' : '') + '</div>';
+  if (typeof d.pa === 'number' || typeof d.pb === 'number' || typeof d.pc === 'number') {
+    h += '<div style="color:rgba(200,195,184,0.45);font-size:0.34rem">'
+       + 'A:' + (d.pa || 0).toFixed(2)
+       + ' · B:' + (d.pb || 0).toFixed(2)
+       + ' · C:' + (d.pc || 0).toFixed(2)
+       + '</div>';
+  }
+  h += '<div style="color:rgba(200,195,184,0.6)">Alert: <b style="color:' + (d.a ? '#e85454' : '#5ab5a0') + '">' + (d.a ? 'ALERT FIRED' : 'NO ALERT') + '</b>'
+     + (d.fq ? ' · ' + d.fq : '') + '</div>';
+  h += '<div style="font-size:0.32rem;color:rgba(200,195,184,0.35);margin-top:2px">'
+     + (d.q ? 'latest ' + d.q + ' · ' : '')
+     + (d.hist ? d.hist + 'Q history' : '')
+     + '</div>';
+  h += '<div style="font-size:0.28rem;color:rgba(200,195,184,0.2);margin-top:4px">CIK: ' + d.c + '</div>';
+  h += '</div>';
+
+  // Col 2: Recursive domain context
+  h += '<div>';
+  h += '<div class="expand-label">RECURSIVE DOMAIN</div>';
+  h += '<div style="color:rgba(200,195,184,0.6)">Domain: <b>' + d.d.toUpperCase() + '</b></div>';
+  h += '<div style="color:rgba(200,195,184,0.6)">Stress: <b style="color:' + sc + '">' + Math.round(d.ds * 100) + '%</b></div>';
+  h += '<div style="margin-top:4px"><span class="bar-bg" style="width:120px"><span class="bar" style="width:' + Math.round(d.ds * 100) + '%;background:' + sc + '"></span></span></div>';
+  h += '</div>';
+
+  // Col 3: Signal classification
+  h += '<div>';
+  h += '<div class="expand-label">SIGNAL CLASSIFICATION</div>';
+  h += '<div style="color:' + sig.color + ';font-size:0.42rem">' + sig.icon + ' ' + sig.label + '</div>';
+  h += '<div style="font-size:0.32rem;color:rgba(200,195,184,0.35);margin-top:4px;line-height:1.5">' + rule + '</div>';
+  h += '<div style="font-size:0.3rem;color:rgba(200,195,184,0.2);margin-top:4px">Severity: ' + d._severity + '</div>';
+  h += '</div>';
+
+  h += '</div>'; // grid
+
+  // Operator interpretation: WHY INVEST / WATCH / AVOID
+  var interp = _classifyAction(d);
+  h += '<div style="margin-top:8px;padding:6px 10px;border-left:3px solid ' + interp.color + ';background:rgba(0,0,0,0.12)">';
+  h += '<div style="font-size:0.4rem;letter-spacing:2px;color:' + interp.color + ';margin-bottom:3px">' + interp.label + '</div>';
+  h += '<div style="font-size:0.36rem;color:rgba(220,215,200,0.6);line-height:1.5">' + interp.reason + '</div>';
+  h += '<div style="font-size:0.34rem;color:rgba(200,195,184,0.35);margin-top:3px">' + interp.whatNow + '</div>';
+  h += '</div>';
+
+  // Source authority badges — kernel/validation badge is conditional.
+  // The snapshot file (command-board-data.json) is generated offline. Each row
+  // may carry a `kernel_id` and `validation_status`; if absent we fall back to
+  // a non-validated label rather than asserting validation.
+  var rowKernelId = d.kernel_id || null;
+  var rowValidation = d.validation_status || 'unsupported';
+  // Validated brand renders ONLY when the row was scored by the real Thing 1.
+  // limen_backtest_kernel.js is Thing 2 lineage, NOT Thing 1.
+  var isValidatedRow = rowKernelId === 'limen_backtest.py' && rowValidation === 'validated';
+  var kernelBadgeColor = isValidatedRow ? '#5ab5a0' : '#C9A94E';
+  var kernelBadgeText = isValidatedRow
+    ? 'VALIDATED · ' + rowKernelId
+    : (rowKernelId || 'phase_engine.py') + ' · ' + rowValidation;
+  var srcData = d.p === 'ERROR' ? 'ERROR' : (d.ds > 0 ? 'OK' : 'PARTIAL');
+  var srcDatColor = d.p === 'ERROR' ? '#e85454' : (d.ds > 0 ? '#5ab5a0' : '#C9A94E');
+  h += '<div style="margin-top:6px;font-size:0.28rem;letter-spacing:1px;color:rgba(200,195,184,0.2)">';
+  h += '<span style="color:' + kernelBadgeColor + ';margin-right:8px">KERNEL: ' + kernelBadgeText + '</span>';
+  h += '<span style="color:#4a8fd4;margin-right:8px">RECURSIVE: LIVE DOMAIN</span>';
+  h += '<span style="color:' + srcDatColor + '">DATA: ' + srcData + '</span>';
+  h += '</div>';
+
+  // Quick actions — pass safe context so the report endpoint sees source surface
+  var helixHref = 'helix-report.html?cik=' + encodeURIComponent(d.c)
+    + '&source_surface=command_board'
+    + (d.t ? '&ticker=' + encodeURIComponent(d.t) : '')
+    + '&requested_report_type=partial_phase_snapshot';
+  h += '<div class="expand-actions">';
+  h += '<a href="' + helixHref + '" target="_blank">HELIX REPORT</a>';
+  // COMPANY PORTAL only renders when this row has a built portal (d.hp set by
+  // scripts/wire-eligible-slugs.mjs). Avoids dead links while the eligible-
+  // portal build is in progress; HELIX REPORT + WATCHLIST stay for every row.
+  if (d.hp) h += '<a href="company-portal.html?company=' + d.s + '">COMPANY PORTAL</a>';
+  h += '<button onclick="toggleWatchlist(\'' + d.t + '\',event)">WATCHLIST</button>';
+  h += '</div>';
+
+  h += '</div>';
+  return h;
+}
+
+// WHY INVEST / WATCH / AVOID — deterministic from row data
+function _classifyAction(d) {
+  var stablePhases = ['p4','p5','p6','p0','p10'];
+  var isStable = stablePhases.indexOf(d.p) !== -1;
+
+  // AVOID conditions
+  if (d._signal === 'DATA_ERROR') {
+    return { label: 'AVOID', color: '#e85454', reason: 'Data error detected. Phase scoring may be unreliable due to extraction or API failure.', whatNow: 'Do not act. Check Helix Report for this CIK to verify data quality.' };
+  }
+  if (d.a) {
+    return { label: 'AVOID', color: '#e85454', reason: 'Snapshot row flagged. Composite ' + d.co.toFixed(2) + ' · trajectory ' + d.tr.replace(/_/g, ' ') + '. This decision predates the two-kernel architecture and is not a Thing 1 validated alert. Re-run /api/helix-report/score for a current safe-packet verdict.', whatNow: 'Investigate via Helix Report before any position.' };
+  }
+  if (d.p === 'p7a' || d.p === 'p9') {
+    return { label: 'AVOID', color: '#e85454', reason: 'Terminal or collapse phase detected. ' + d.p.toUpperCase() + ' indicates structural distress.', whatNow: 'Do not enter. If holding, review exit conditions.' };
+  }
+
+  // INVEST conditions
+  if (isStable && d.ds >= 0.60 && d.co < 0.8 && !d.a && d._signal !== 'DATA_ERROR') {
+    return { label: 'WHY INVEST', color: '#5ab5a0', reason: 'Company financially stable (' + d.p.toUpperCase() + ') while its sector (' + d.d + ') is under ' + Math.round(d.ds * 100) + '% stress. Stress creates demand that stable operators can capture.', whatNow: 'Check company portal for kernel phase detail. Set watchlist or open position.' };
+  }
+  if (isStable && d.ds >= 0.40 && d.co < 0.5) {
+    return { label: 'WHY INVEST', color: '#5ab5a0', reason: 'Stable company (' + d.p.toUpperCase() + ', composite ' + d.co.toFixed(2) + ') in moderately stressed sector. Low composite suggests healthy fundamentals.', whatNow: 'Monitor domain stress trend. Consider entry if stress persists.' };
+  }
+
+  // WATCH conditions
+  if (isStable && d.ds >= 0.30) {
+    return { label: 'WATCH', color: '#C9A94E', reason: 'Company stable but sector shows moderate pressure (' + Math.round(d.ds * 100) + '%). Context is mixed — not enough signal to act.', whatNow: 'Add to watchlist. Re-evaluate if domain stress rises above 50%.' };
+  }
+  if (d.p === 'p7b' || d.p === 'p8') {
+    return { label: 'WATCH', color: '#C9A94E', reason: 'Company in transition phase (' + d.p.toUpperCase() + '). May be restructuring or pivoting. Outcome uncertain.', whatNow: 'Monitor via Helix Report. Do not enter until phase resolves.' };
+  }
+
+  // DEFAULT: nominal
+  return { label: 'WATCH', color: '#888', reason: 'Both layers show nominal conditions. No strong signal in either direction.', whatNow: 'No action needed. Re-check on next refresh cycle.' };
+}
+
+// Row click handler for expansion
+document.getElementById('tableBody').addEventListener('click', function(e) {
+  var row = e.target.closest('tr.expandable');
+  if (!row) return;
+  var idx = row.getAttribute('data-company-idx');
+  var expandRow = document.querySelector('[data-expand-idx="' + idx + '"]');
+  if (!expandRow) return;
+
+  // Close previous
+  if (_expandedIdx !== -1 && _expandedIdx !== idx) {
+    var prev = document.querySelector('[data-expand-idx="' + _expandedIdx + '"]');
+    if (prev) prev.classList.remove('open');
+  }
+
+  // Toggle current
+  expandRow.classList.toggle('open');
+  _expandedIdx = expandRow.classList.contains('open') ? idx : -1;
+});
+
+// ═══════════════════════════════════════════════════════════════════════
+// CONTROL BAR EVENT HANDLERS
+// ═══════════════════════════════════════════════════════════════════════
+
+document.getElementById('controlBar').addEventListener('click', function(e) {
+  var btn = e.target;
+  if (!btn.classList.contains('filter-btn')) return;
+
+  if (btn.dataset.filter) {
+    _currentFilter = btn.dataset.filter;
+    _currentPage = 1; // reset on filter change
+    document.querySelectorAll('[data-filter]').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+  }
+  if (btn.dataset.sort) {
+    _currentSort = btn.dataset.sort;
+    _currentPage = 1; // reset on sort change
+    document.querySelectorAll('[data-sort]').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+  }
+  applyFilterSort();
+});
+
+// ═══════════════════════════════════════════════════════════════════════
+// TASK 8 — WATCHLIST (localStorage, star toggle, filter)
+// ═══════════════════════════════════════════════════════════════════════
+
+function toggleWatchlist(ticker, e) {
+  if (e) e.stopPropagation();
+  var wl = _getWatchlist();
+  var idx = wl.indexOf(ticker);
+  if (idx === -1) { wl.push(ticker); } else { wl.splice(idx, 1); }
+  localStorage.setItem('limen_watchlist', JSON.stringify(wl));
+  var btn = e ? e.target : null;
+  if (btn) btn.textContent = idx === -1 ? '★ WATCHED' : 'WATCHLIST';
+}
+
+function _toggleStar(ticker, e) {
+  e.stopPropagation();
+  var wl = _getWatchlist();
+  var idx = wl.indexOf(ticker);
+  if (idx === -1) { wl.push(ticker); } else { wl.splice(idx, 1); }
+  localStorage.setItem('limen_watchlist', JSON.stringify(wl));
+  // Re-render to update stars (lightweight — only if on watchlist filter)
+  if (_currentFilter === 'watchlist') { applyFilterSort(); return; }
+  // Just toggle the star visually
+  var star = e.target;
+  if (idx === -1) { star.textContent = '★'; star.classList.add('active'); }
+  else { star.textContent = '☆'; star.classList.remove('active'); }
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// TASK 7 — LIVE REFRESH (restrained, domain stress only)
+// ═══════════════════════════════════════════════════════════════════════
+
+var _autoRefreshTimer = null;
+var _domainStressCache = {};
+
+function _updateTimestamp() {
+  document.getElementById('lastUpdated').textContent = new Date().toLocaleString();
+}
+
+function _refreshDomainStress() {
+  fetch('/api/domain-snapshot')
+    .then(function(r) { return r.ok ? r.json() : null; })
+    .then(function(snap) {
+      if (!snap || !snap.domains) return;
+      var changed = false;
+      var doms = snap.domains;
+      for (var dk in doms) {
+        var newStress = doms[dk].stress || 0;
+        if (_domainStressCache[dk] !== newStress) {
+          _domainStressCache[dk] = newStress;
+          changed = true;
+        }
+      }
+      if (changed) {
+        // Update DATA rows with new domain stress
+        DATA.forEach(function(d) {
+          if (_domainStressCache[d.d] !== undefined) {
+            d.ds = _domainStressCache[d.d];
+          }
+          // Recompute signal + severity with new stress
+          d._signal = classifySignal(d);
+          d._severity = computeSeverity(d);
+        });
+        renderStats();
+        renderDomainPanel();
+        applyFilterSort();
+        // Subtle pulse on table
+        document.getElementById('tableBody').classList.add('refresh-pulse');
+        setTimeout(function() { document.getElementById('tableBody').classList.remove('refresh-pulse'); }, 300);
+      }
+      _updateTimestamp();
+    })
+    .catch(function() { /* silent — don't break the board on fetch fail */ });
+}
+
+function _manualRefresh() {
+  _refreshDomainStress();
+}
+
+function _toggleAutoRefresh() {
+  var toggle = document.getElementById('autoRefreshToggle');
+  if (toggle.checked) {
+    _autoRefreshTimer = setInterval(_refreshDomainStress, 60000);
+  } else {
+    if (_autoRefreshTimer) { clearInterval(_autoRefreshTimer); _autoRefreshTimer = null; }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// TASK 3 — PORTFOLIO (localStorage, XOM seed)
+// ═══════════════════════════════════════════════════════════════════════
+
+var PORTFOLIO_KEY = 'limen_portfolio';
+
+function _getPortfolio() {
+  try { return JSON.parse(localStorage.getItem(PORTFOLIO_KEY) || '[]'); } catch(e) { return []; }
+}
+
+function _savePortfolio(pf) {
+  localStorage.setItem(PORTFOLIO_KEY, JSON.stringify(pf));
+}
+
+function _seedPortfolio() {
+  var pf = _getPortfolio();
+  if (pf.length > 0) return; // already seeded
+  pf.push({
+    ticker: 'XOM', entry_date: '2026-03-21',
+    thesis: 'Energy sector stress play',
+    exit_condition: 'Energy stress below 40% OR phase shifts to P7a',
+    status: 'OPEN'
+  });
+  _savePortfolio(pf);
+}
+
+function _getSignalForTicker(ticker) {
+  for (var i = 0; i < DATA.length; i++) {
+    if (DATA[i].t === ticker) return DATA[i];
+  }
+  return null;
+}
+
+function renderPortfolio() {
+  var el = document.getElementById('portfolioSection');
+  var pf = _getPortfolio();
+  if (pf.length === 0) { el.style.display = 'none'; return; }
+
+  var openCount = pf.filter(function(p) { return p.status === 'OPEN'; }).length;
+
+  var h = '<div class="port-header" onclick="document.getElementById(\'portBody\').classList.toggle(\'open\')">';
+  h += '<span class="port-title">PORTFOLIO</span>';
+  h += '<span class="port-count">' + openCount + ' OPEN / ' + pf.length + ' TOTAL</span>';
+  h += '<span style="margin-left:auto;font-size:0.3rem;color:rgba(200,195,184,0.2)">▼</span>';
+  h += '</div>';
+  h += '<div class="port-body open" id="portBody">';
+
+  // Header row
+  h += '<div class="port-row port-row-header"><span>TICKER</span><span>THESIS</span><span>SIGNAL</span><span>EXIT</span><span>STATUS</span></div>';
+
+  for (var i = 0; i < pf.length; i++) {
+    var pos = pf[i];
+    var match = _getSignalForTicker(pos.ticker);
+    var sig = match ? (SIGNAL_ENUM[match._signal] || SIGNAL_ENUM.NOMINAL) : { label: '?', color: '#555' };
+    var sigText = match ? sig.icon + ' ' + sig.label : 'NOT TRACKED';
+    var sigColor = match ? sig.color : '#555';
+    var statusColor = pos.status === 'OPEN' ? '#5ab5a0' : '#888';
+
+    h += '<div class="port-row">';
+    h += '<span style="color:#C9A94E;font-size:0.42rem;letter-spacing:1px">' + pos.ticker + '</span>';
+    h += '<span style="color:rgba(220,215,200,0.6)">' + pos.thesis + '</span>';
+    h += '<span style="color:' + sigColor + '">' + sigText + '</span>';
+    h += '<span style="color:rgba(200,195,184,0.35);font-size:0.32rem">' + (pos.exit_condition || '').substring(0, 30) + '</span>';
+    h += '<span class="port-status" style="color:' + statusColor + ';border:1px solid ' + statusColor + '33">' + pos.status + '</span>';
+    h += '</div>';
+  }
+
+  h += '<div style="margin-top:6px"><a class="port-add" onclick="_addPortfolioPrompt()">+ ADD POSITION</a></div>';
+  h += '</div>';
+  el.innerHTML = h;
+  el.style.display = 'block';
+}
+
+function _addPortfolioPrompt() {
+  var ticker = prompt('Ticker:');
+  if (!ticker) return;
+  var thesis = prompt('Thesis:') || '';
+  var exit_cond = prompt('Exit condition:') || '';
+  var pf = _getPortfolio();
+  pf.push({
+    ticker: ticker.toUpperCase().trim(),
+    entry_date: new Date().toISOString().slice(0, 10),
+    thesis: thesis,
+    exit_condition: exit_cond,
+    status: 'OPEN'
+  });
+  _savePortfolio(pf);
+  renderPortfolio();
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════════════
+
+// Board init — called after DATA loads from JSON
+function _initBoard() {
+  // Enrich DATA with signal + severity
+  DATA.forEach(function(d) {
+    d._signal = classifySignal(d);
+    d._severity = computeSeverity(d);
+  });
+  _updateTimestamp();
+  _seedPortfolio();
+  renderPortfolio();
+  renderStats();
+  renderDomainPanel();
+  applyFilterSort();
+}
+
+// Auto-refresh toggle listener
+document.getElementById('autoRefreshToggle').addEventListener('change', _toggleAutoRefresh);
