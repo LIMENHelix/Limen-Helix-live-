@@ -68,7 +68,24 @@
     '.cp-toast{position:fixed;bottom:20px;right:20px;padding:10px 16px;background:rgba(0,0,0,0.85);border:1px solid rgba(201,169,78,0.4);color:#e8e3d9;font-size:0.36rem;border-radius:3px;letter-spacing:1px;z-index:9999;display:none}' +
     '.cp-toast.show{display:block}' +
     '.cp-toast.ok{border-color:rgba(90,181,160,0.5)}' +
-    '.cp-toast.err{border-color:rgba(232,84,84,0.5)}';
+    '.cp-toast.err{border-color:rgba(232,84,84,0.5)}' +
+
+    // Gate B v0.2 — PLACEHOLDER_CONTAMINATED suppression styles
+    '.cp-v02-section-banner{margin:0 0 14px}' +
+    '.cp-v02-card{padding:14px 16px;border:1px solid rgba(232,84,84,0.35);background:rgba(232,84,84,0.04);border-radius:3px;margin-bottom:10px}' +
+    '.cp-v02-card-banner{font-size:0.4rem;line-height:1.7;color:rgba(232,180,180,0.95);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(232,84,84,0.2)}' +
+    '.cp-v02-card-banner strong{letter-spacing:1.5px;color:#e85454;display:block;margin-bottom:4px}' +
+    '.cp-v02-meta{display:grid;grid-template-columns:auto 1fr;column-gap:14px;row-gap:3px;font-size:0.34rem;color:rgba(220,215,200,0.55);margin-bottom:10px}' +
+    '.cp-v02-meta .k{color:rgba(200,195,184,0.4);letter-spacing:1.5px;text-transform:uppercase;font-size:0.3rem;padding-top:2px}' +
+    '.cp-v02-meta .v{color:#e8e3d9;font-family:"IBM Plex Mono",monospace;font-size:0.34rem;word-break:break-all}' +
+    '.cp-v02-meta .v.state{color:#e85454}' +
+    '.cp-v02-placeholders{margin-bottom:10px;padding:8px 10px;background:rgba(0,0,0,0.2);border-left:2px solid rgba(232,84,84,0.4);border-radius:2px}' +
+    '.cp-v02-placeholders-label{font-size:0.3rem;letter-spacing:2px;color:rgba(232,180,180,0.55);text-transform:uppercase;margin-bottom:6px}' +
+    '.cp-v02-placeholders-list code{display:inline-block;font-size:0.34rem;color:#e85454;background:rgba(232,84,84,0.08);padding:2px 6px;margin:2px 4px 2px 0;border:1px solid rgba(232,84,84,0.2);border-radius:2px;font-family:"IBM Plex Mono",monospace}' +
+    '.cp-v02-raw-details{margin-top:8px;padding:6px 10px;border:1px dashed rgba(232,84,84,0.25);border-radius:2px;background:rgba(0,0,0,0.15)}' +
+    '.cp-v02-raw-details>summary{cursor:pointer;font-size:0.3rem;letter-spacing:2px;color:rgba(232,180,180,0.55);text-transform:uppercase;outline:none}' +
+    '.cp-v02-raw-details>summary:hover{color:rgba(232,180,180,0.85)}' +
+    '.cp-v02-raw-details>pre{margin:8px 0 0;font-size:0.32rem;line-height:1.5;color:rgba(200,195,184,0.45);font-family:"IBM Plex Mono",monospace;white-space:pre-wrap;word-break:break-all;max-height:280px;overflow:auto}';
 
   function injectStyles() {
     if (document.getElementById('cp-engine-styles')) return;
@@ -145,6 +162,20 @@
     html += '<div class="cp-engine-title">Engine outputs</div>';
     html += '<div class="cp-engine-summary">' + eo.totalArtifacts + ' artifacts from ' + (eo.bridgeCount || 0) + ' bridge patterns · generated ' + new Date(eo.generatedAt || Date.now()).toLocaleString() + '</div>';
     html += '</div>';
+
+    // Gate B v0.2 — top-level section banner if any engineOutput is
+    // placeholder-contaminated. Reads the shared render-authority
+    // contract; defensive fallback if the module isn't loaded.
+    var RA = window.LIMENRenderAuthority;
+    if (RA && RA.classifyAuthority) {
+      var sectionAuth = RA.classifyAuthority(co);
+      if (sectionAuth.state === RA.STATES.PLACEHOLDER_CONTAMINATED) {
+        html += '<div class="cp-v02-section-banner">' +
+                RA.renderAuthorityBanner(co, { sectionLabel: 'engine output' }) +
+                '</div>';
+      }
+    }
+
     html += '<div class="cp-engine-tabs">';
     for (var i = 0; i < available.length; i++) {
       var L = available[i];
@@ -248,9 +279,78 @@
     setTimeout(function(){ t.classList.remove('show'); }, 3500);
   }
 
+  // Gate B v0.2 — suppressed-artifact card. Replaces the full
+  // artifact body when classifyArtifactAuthority returns
+  // PLACEHOLDER_CONTAMINATED. Strong-form discipline:
+  // operator sees the artifact slot is occupied + why it's
+  // suppressed, plus the detected placeholders. No buttons; no
+  // visible body. Raw artifact JSON available via a collapsed
+  // <details> drawer for audit debugging only.
+  function renderSuppressedArtifact(item, laneId, index, artAuth) {
+    var placeholders = (artAuth && artAuth.placeholdersFound) || [];
+    var visible = placeholders.slice(0, 24);
+    var rest = placeholders.length - visible.length;
+    var phCodes = visible.map(function (p) { return '<code>' + esc(p) + '</code>'; }).join(' ');
+    if (rest > 0) phCodes += ' <span style="opacity:0.6;font-size:0.3rem">… (' + rest + ' more)</span>';
+
+    var h = '<div class="cp-v02-card">';
+    h += '<div class="cp-v02-card-banner">';
+    h += '<strong>INCOMPLETE ARTIFACT — SUPPRESSED.</strong>';
+    h += 'This artifact contains unfilled template placeholders and is suppressed.';
+    h += '</div>';
+
+    h += '<div class="cp-v02-meta">';
+    h += '<div class="k">lane</div><div class="v">' + esc(laneId) + '</div>';
+    h += '<div class="k">patternId</div><div class="v">' + esc(item.patternId || '—') + '</div>';
+    h += '<div class="k">index</div><div class="v">' + (index != null ? index : 0) + '</div>';
+    if (item.confidence != null) {
+      h += '<div class="k">confidence</div><div class="v">' + (typeof item.confidence === 'number' ? item.confidence.toFixed(3) : esc(String(item.confidence))) + '</div>';
+    }
+    h += '<div class="k">authority state</div><div class="v state">PLACEHOLDER_CONTAMINATED</div>';
+    h += '<div class="k">suppressDirective</div><div class="v">true</div>';
+    h += '<div class="k">placeholderCount</div><div class="v">' + placeholders.length + '</div>';
+    h += '</div>';
+
+    h += '<div class="cp-v02-placeholders">';
+    h += '<div class="cp-v02-placeholders-label">Detected placeholders</div>';
+    h += '<div class="cp-v02-placeholders-list">' + (phCodes || '<span style="opacity:0.5">none</span>') + '</div>';
+    h += '</div>';
+
+    // Collapsed raw drawer — for audit/debug only, closed by default.
+    var rawJson;
+    try { rawJson = JSON.stringify(item.artifact || item, null, 2); }
+    catch (e) { rawJson = '[unable to serialize: ' + esc(String(e && e.message)) + ']'; }
+    h += '<details class="cp-v02-raw-details">';
+    h += '<summary>RAW INCOMPLETE TEMPLATE — DO NOT USE</summary>';
+    h += '<pre>' + esc(rawJson) + '</pre>';
+    h += '</details>';
+
+    // No action buttons. Print / Refresh / Decline are hidden for
+    // contaminated artifacts until they can route through Gate A
+    // (state-write chokepoint) or a gated regenerate flow.
+    h += '</div>';
+    return h;
+  }
+
   function renderArtifact(item, laneId, index) {
     var art = item.artifact || {};
     var artifactRef = (window.__currentPortalSlug || _slugFromUrl()) + '/' + laneId + '/' + (index != null ? index : 0);
+
+    // Gate B v0.2 — artifact-level suppression. If the artifact (or
+    // anything inside it) contains uppercase template placeholders,
+    // suppress the body and render only the metadata + placeholder
+    // list. No action buttons; optional collapsed raw drawer for
+    // audit debugging. Operator doctrine:
+    //   Placeholder-contaminated text may be shown as evidence of
+    //   incompleteness, not as artifact content.
+    var RA = window.LIMENRenderAuthority;
+    if (RA && RA.classifyArtifactAuthority) {
+      var artAuth = RA.classifyArtifactAuthority(item);
+      if (artAuth.state === RA.STATES.PLACEHOLDER_CONTAMINATED) {
+        return renderSuppressedArtifact(item, laneId, index, artAuth);
+      }
+    }
+
     var h = '<div class="cp-artifact">';
     h += '<div class="cp-artifact-head">';
     h += '<div class="cp-artifact-pattern">' + esc(item.patternId || '—') + '</div>';
