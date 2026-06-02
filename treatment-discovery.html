@@ -105,6 +105,14 @@ a:hover{color:#C9A94E}
   .residual{background:#f0faf6;border-left-color:#5ab5a0}
   .residual.d2n{background:#f7f1fa;border-left-color:#a87edc}
 }
+
+/* Four epistemic-state buckets — keep everything, separate by state */
+.buckets{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.bucket{flex:1;min-width:160px;padding:12px 14px;border-radius:3px;border:1px solid rgba(201,169,78,0.15);background:rgba(0,0,0,0.25)}
+.bucket-count{font-size:1.1rem;letter-spacing:1px;line-height:1}
+.bucket-label{font-size:0.34rem;letter-spacing:2px;text-transform:uppercase;margin-top:6px}
+.bucket-move{font-size:0.28rem;color:rgba(200,195,184,0.5);margin-top:6px;line-height:1.5}
+.buckets-caption{font-size:0.3rem;color:rgba(200,195,184,0.4);letter-spacing:1px;margin:-8px 0 14px;line-height:1.6}
 </style>
 </head>
 <body>
@@ -113,7 +121,8 @@ a:hover{color:#C9A94E}
 <div class="sub">
   Per-node cells across the 6-step chain — ISSUE → NODE → DISORDER → NEURO_TX → DOMAIN_TX → RESIDUAL.<br>
   Residuals = candidate treatment transfers between neurology and comparison domains.<br>
-  Most claims are PENDING verification — task #33 (Main Brain verification organ) PubMed-checks each.
+  Nothing is deleted for being unproven — every claim is kept and labeled by epistemic state.
+  PROVEN · UNPROVEN · UNKNOWN · IMPOSSIBLE. The state tells you the next move, not whether to keep it.
 </div>
 
 <div class="nav">
@@ -128,6 +137,9 @@ a:hover{color:#C9A94E}
 <div class="banner" id="banner">
   <div class="loading">loading...</div>
 </div>
+
+<div class="buckets" id="buckets"></div>
+<div class="buckets-caption" id="buckets-caption"></div>
 
 <div class="filters">
   <div class="filter-group">
@@ -162,6 +174,7 @@ a:hover{color:#C9A94E}
 
 <div id="detail-mount"></div>
 
+<script src="/assets/js/epistemic-state.js"></script>
 <script>
 let INDEX_DATA = null;
 let SUMMARY_DATA = null;
@@ -180,7 +193,36 @@ async function loadIndex() {
   INDEX_DATA = await indexRes.json();
   SUMMARY_DATA = await summaryRes.json();
   renderBanner();
+  renderBuckets();
   renderNodeGrid();
+}
+
+// The four epistemic buckets — global tally across all claims, written into
+// _summary.json by scripts/build-epistemic-buckets.mjs. Reads the shared
+// classifier (window.EpistemicState) so the collapse is defined in one place.
+function renderBuckets() {
+  const host = document.getElementById('buckets');
+  const caption = document.getElementById('buckets-caption');
+  const ES = window.EpistemicState;
+  const b = SUMMARY_DATA && SUMMARY_DATA.epistemicBuckets;
+  if (!host || !ES || !b) { if (host) host.style.display = 'none'; return; }
+  host.innerHTML = '';
+  for (const state of ES.STATES) {
+    const m = ES.STATE_META[state];
+    const count = b[state] || 0;
+    const el = document.createElement('div');
+    el.className = 'bucket';
+    el.style.borderColor = m.color;
+    el.innerHTML =
+      `<div class="bucket-count" style="color:${m.color}">${formatNum(count)}</div>` +
+      `<div class="bucket-label" style="color:${m.color}">${m.label}</div>` +
+      `<div class="bucket-move">${m.nextMove}</div>`;
+    host.appendChild(el);
+  }
+  if (caption) {
+    caption.textContent = b.note ||
+      'Every claim, transfer, and residual is kept. Verification writes the state; it never deletes the finding.';
+  }
 }
 
 function renderBanner() {
@@ -396,16 +438,20 @@ function renderResiduals(residuals) {
   const d2n = residuals.filter((r) => r.direction === 'DOMAIN_TO_NEURO');
   let html = '<div class="residuals"><div class="residuals-label">6 — residuals (candidate transfers)</div>';
   for (const r of n2d.slice(0, 6)) {
+    const v = r.verification?.verdict || 'PENDING';
     html += `<div class="residual">
       <span class="residual-direction">NEURO → DOMAIN</span>
       <span class="residual-name">${escapeHtml(r.sourceTreatment?.name || '?')}</span>
+      <span class="verification-badge v-${v}" title="${escapeHtml(epistemicDescribe(v))}">${v}</span>
       <span class="residual-port">${escapeHtml((r.candidatePort||'').substring(0,200))}</span>
     </div>`;
   }
   for (const r of d2n.slice(0, 6)) {
+    const v = r.verification?.verdict || 'PENDING';
     html += `<div class="residual d2n">
       <span class="residual-direction">DOMAIN → NEURO</span>
       <span class="residual-name">${escapeHtml(r.sourceTreatment?.name || '?')}</span>
+      <span class="verification-badge v-${v}" title="${escapeHtml(epistemicDescribe(v))}">${v}</span>
       <span class="residual-port">${escapeHtml((r.candidatePort||'').substring(0,200))}</span>
     </div>`;
   }
@@ -414,6 +460,13 @@ function renderResiduals(residuals) {
   }
   html += '</div>';
   return html;
+}
+
+// What does this verdict mean epistemically + what's the next move?
+// (tooltip text — reads the shared classifier with a safe fallback)
+function epistemicDescribe(verdict) {
+  if (window.EpistemicState) return window.EpistemicState.describe(verdict);
+  return verdict;
 }
 
 function escapeHtml(s) {

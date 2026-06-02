@@ -85,5 +85,21 @@
     "technology",
     "trade"
   ],
-  "note": "Treatment-discovery report uses (brainNodeId × comparisonDomain × stateBucket) cells. Six-step chain per cell: ISSUE → NODE → DISORDER → NEURO_TX → DOMAIN_TX → RESIDUAL. Verification: PENDING (most claims), VERIFIED (post-#33), DISPUTED / FABRICATED suppress residuals."
+  "note": "Treatment-discovery report uses (brainNodeId × comparisonDomain × stateBucket) cells. Six-step chain per cell: ISSUE → NODE → DISORDER → NEURO_TX → DOMAIN_TX → RESIDUAL. Verification labels each claim by epistemic state (PROVEN / UNPROVEN / UNKNOWN / IMPOSSIBLE) and keeps every residual — none are suppressed.",
+  "epistemicBuckets": {
+    "proven": 3462,
+    "unproven": 1583,
+    "unknown": 64276,
+    "impossible": 1,
+    "totalClaims": 69322,
+    "processedVerdicts": 5050,
+    "verdictCounts": {
+      "VERIFIED": 3462,
+      "THEORETICAL": 1583,
+      "DISPUTED": 1,
+      "UNVERIFIABLE": 4
+    },
+    "note": "Every claim kept and separated by epistemic state. Verification writes the state; it never deletes the finding. Impossible = study why it fails (kept, not discarded).",
+    "computedAt": "2026-06-02T03:46:43.222Z"
+  }
 }

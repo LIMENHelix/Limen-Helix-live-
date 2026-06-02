@@ -39,8 +39,16 @@
  * post-processor to:
  *   - propagate verdicts onto cells
  *   - recompute aggregate verificationProfile per cell
- *   - exclude DISPUTED + FABRICATED claims from residual computation
- *     by re-running compute-cross-domain-readout.mjs in verified-only mode
+ *
+ * DOCTRINE — residuals survive. Verification WRITES an epistemic state onto a
+ * claim; it never DELETES the residual. Do NOT exclude DISPUTED/FABRICATED
+ * claims from residual computation. A contradicted/refuted transfer is the
+ * "impossible" state — and impossible is research (study WHY it fails, where
+ * the analogy breaks), not garbage. The four operator-facing states (see
+ * assets/js/epistemic-state.js) are kept and labeled:
+ *   VERIFIED → proven · THEORETICAL → unproven ·
+ *   PENDING / UNVERIFIABLE → unknown · DISPUTED / FABRICATED → impossible.
+ * compute-cross-domain-readout.mjs keeps every residual regardless of verdict.
  *
  * Usage:
  *   node scripts/organ-claim-verification.mjs              # full run, paced
@@ -273,7 +281,8 @@ async function main() {
     console.log(`NOTE: ${claims.length - processed} claims remain PENDING — re-run to continue.`);
   }
   console.log('After full verification, re-run compute-cross-domain-readout');
-  console.log('to recompute residuals over verified-only claims.');
+  console.log('to recompute residuals — ALL residuals are kept and labeled by');
+  console.log('epistemic state (proven/unproven/unknown/impossible); none are dropped.');
 }
 
 // ============================================================================
