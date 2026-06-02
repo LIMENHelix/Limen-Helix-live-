@@ -64,7 +64,6 @@ a:hover{color:#C9A94E;text-decoration:underline}
 
 <div class="nav">
   <a href="/">← INDEX</a>
-  <a href="/vitals.html">SYSTEM VITALS</a>
   <a href="/master-inbox.html">MASTER BRAIN INBOX</a>
   <a href="/pattern-proposals.html">PATTERN PROPOSALS</a>
   <a href="/kernel-comparison.html">COMMAND BOARD</a>
@@ -108,7 +107,7 @@ a:hover{color:#C9A94E;text-decoration:underline}
   </div>
 
   <div class="surface-name" style="margin:18px 0 8px;color:#C9A94E">Your first session, step by step</div>
-  <div class="flow"><div class="flow-num">1</div><div class="flow-text">Open <b><a href="/vitals.html">SYSTEM VITALS</a></b>. Glance at the 12 organ cards. Green-ish = healthy. If something is red, read the "operator attention" queue — it tells you what's broken and how to fix it. Don't panic; just note it.</div></div>
+  <div class="flow"><div class="flow-num">1</div><div class="flow-text"><b>System health</b> is produced by a local audit script (<code>scripts/audit-system-vitals.mjs</code>) that scores 12 organs — there is <b>no live Vitals page in this build</b> (<code>/vitals</code> returns 404). Treat it as a maintainer tool, not a daily surface. Your day-to-day start is the Master Brain Inbox (next step).</div></div>
   <div class="flow"><div class="flow-num">2</div><div class="flow-text">Open <b><a href="/master-inbox.html">MASTER BRAIN INBOX</a></b>. This is your daily worklist — the system's ranked "what deserves attention first." Read the top few items.</div></div>
   <div class="flow"><div class="flow-num">3</div><div class="flow-text">Click into one item to open its <b>COMPANY PORTAL</b>. Read the bridge pattern (why the system thinks this brain↔business mapping applies) and the engine outputs (patent / grant / investment / research tabs).</div></div>
   <div class="flow"><div class="flow-num">4</div><div class="flow-text"><b>Check the state badge before you believe a claim.</b> A confident-looking paragraph with a PENDING/UNKNOWN badge is a lead, not a fact. A PROVEN badge means it's backed by evidence.</div></div>
@@ -128,7 +127,7 @@ a:hover{color:#C9A94E;text-decoration:underline}
   </div>
 
   <div class="surface-detail" style="margin-top:10px">
-    <b>If something looks wrong:</b> check <a href="/vitals.html">VITALS</a> first (is an organ down?), note the surface + what you saw, and report it. You cannot break the system by clicking PRINT/REFRESH/DECLINE — those are safe. Nothing on these pages reaches an external party.
+    <b>If something looks wrong:</b> note the surface + what you saw, and report it. (System health is a local audit script, <code>scripts/audit-system-vitals.mjs</code> — not a live page in this build.) You cannot break the system by clicking PRINT/REFRESH/DECLINE — those are safe. Nothing on these pages reaches an external party.
   </div>
 </div>
 
@@ -136,7 +135,7 @@ a:hover{color:#C9A94E;text-decoration:underline}
 <div class="section" id="big-picture">
   <div class="sect-num">1</div>
   <div class="sect-title">The big picture</div>
-  <div class="sect-sub">LIMEN Helix is a <b style="color:#5ab5a0">cross-domain discovery instrument</b> running as an autonomic body. It maps clinical-neuroscience pathologies and treatments onto other domains, surfaces transfers that have no analog yet as candidate research, mints patent / grant / investment / research seed artifacts, gates them by phase + readiness + salience, surfaces a prioritized inbox, and prints filing-ready documents on operator approval. The job is <b>not</b> to prove every output before you see it — it is to surface what may matter and label honestly what stage each thing is at. Every 6 hours it senses, bridges, mints, gates, responds to your decisions, identifies what's missing, and heals itself.</div>
+  <div class="sect-sub">LIMEN Helix is a <b style="color:#5ab5a0">cross-domain discovery instrument</b> running as an autonomic body. It maps clinical-neuroscience pathologies and treatments onto other domains, surfaces transfers that have no analog yet as candidate research, mints patent / grant / investment / research seed artifacts, gates them by phase + readiness + salience, surfaces a prioritized inbox, and prints filing-ready documents on operator approval. The job is <b>not</b> to prove every output before you see it — it is to surface what may matter and label honestly what stage each thing is at. The autonomic chain (sense → bridge → mint → gate → respond → heal) runs <b>on demand / locally</b> in this build — see § 4 for the real scheduling status.</div>
 
   <div class="bigbox">
     <b>Keep everything — separate by epistemic state.</b> LIMEN never deletes a finding for being unproven; unproven is a reason for research, not to hide. Four states (full detail in <a href="#start-here">Start here</a>): <b style="color:#5ab5a0">PROVEN</b> → strengthen &amp; cite · <b style="color:#a87edc">UNPROVEN</b> → design the test · <b style="color:#dca87e">UNKNOWN</b> → go look · <b style="color:#e85454">IMPOSSIBLE</b> → study why it fails. Verification <b>writes</b> the state; it never <b>deletes</b> the finding.
@@ -145,21 +144,21 @@ a:hover{color:#C9A94E;text-decoration:underline}
   <div class="bigbox">
     <b>The closed loop</b>:<br>
     sense → bridge (brain ↔ business) → mint (patent / grant / investment / research) → gate (phase + readiness + salience) → respond (your PRINT/REFRESH/DECLINE) → identify missing → autonomously author new patterns → heal → remember<br><br>
-    Runs every 6h via GitHub Actions (autonomic cron). Operator role: review the inbox, approve/reject Claude-authored pattern proposals, print the documents that matter, refresh the ones that need more depth.
+    <b>Scheduling note:</b> this chain is <b>not</b> wired to an automatic cron in this build (no <code>.github/workflows</code> in canonical — see § 4); the scripts run on demand. Operator role: review the inbox, approve/reject Claude-authored pattern proposals, print the documents that matter, refresh the ones that need more depth.
   </div>
 </div>
 
 <!-- ──────────────────────────────────────────────────────────── -->
 <div class="section" id="surfaces">
   <div class="sect-num">2</div>
-  <div class="sect-title">The 10 surfaces</div>
-  <div class="sect-sub">After audit: no real redundancy. Each surface answers a different question.</div>
+  <div class="sect-title">The 10 surfaces (7 currently deployed)</div>
+  <div class="sect-sub">After audit: no real redundancy. Each surface answers a different question. <b style="color:#e85454">3 are not currently deployed in this build</b> (Vitals, Opportunities, Connectome) — their routes 404; flagged inline below.</div>
 
   <div class="surface">
-    <div class="surface-name">SYSTEM VITALS <a href="/vitals.html">/vitals.html</a></div>
-    <div class="surface-what">"How is the body doing?" 12-organ interoception. One card per organ (feeds, L1 nodes, domains, portal corpus, dead-link risk, kernel coverage, connectome, civilization, propagator, master brain, pattern bus, bridge layer). Click any organ to drill into its metrics + per-organ attention queue.</div>
-    <div class="surface-when">When to look</div>
-    <div class="surface-detail">After running anything new, or when something feels off. The "operator attention" queue lists what's broken and how to fix it.</div>
+    <div class="surface-name">SYSTEM VITALS <span style="color:#e85454;letter-spacing:1px">⚠ NOT DEPLOYED IN THIS BUILD</span></div>
+    <div class="surface-what"><b><code>/vitals</code> returns 404 — there is no live Vitals page in canonical.</b> System health is produced by a local audit script, <code>scripts/audit-system-vitals.mjs</code>: 12-organ interoception (feeds, L1 nodes, domains, portal corpus, dead-link risk, kernel coverage, connectome, civilization, propagator, master brain, pattern bus, bridge layer). Run it locally to see the report.</div>
+    <div class="surface-when">Status</div>
+    <div class="surface-detail">Local maintainer tool, not a deployed operator surface. (The live page + 6h cron exist only in the old repo, which no longer serves the domain.)</div>
   </div>
 
   <div class="surface">
@@ -171,9 +170,9 @@ a:hover{color:#C9A94E;text-decoration:underline}
 
   <div class="surface">
     <div class="surface-name">PATTERN PROPOSALS <a href="/pattern-proposals.html">/pattern-proposals.html</a></div>
-    <div class="surface-what">"What new brain ↔ business mappings has Claude proposed?" Every 6h, Claude proposes up to 3 new bridge patterns for portals the existing 15 can't reach (the K3 frontier). You approve (merges into library; instantly available across the corpus) or reject.</div>
+    <div class="surface-what">"What new brain ↔ business mappings has Claude proposed?" When the pattern-author step is run, Claude proposes up to 3 new bridge patterns for portals the existing 15 can't reach (the K3 frontier). You approve (merges into library; instantly available across the corpus) or reject.</div>
     <div class="surface-when">When to look</div>
-    <div class="surface-detail">After every 6h cron cycle. Each approval expands what the body can reason about — including cross-domain (environment / population / supply-chain / etc).</div>
+    <div class="surface-detail">After each pattern-author run. Each approval expands what the body can reason about — including cross-domain (environment / population / supply-chain / etc).</div>
   </div>
 
   <div class="surface">
@@ -198,10 +197,10 @@ a:hover{color:#C9A94E;text-decoration:underline}
   </div>
 
   <div class="surface">
-    <div class="surface-name">OPPORTUNITIES <a href="/opportunities.html">/opportunities.html</a></div>
-    <div class="surface-what">"What are ALL the possible opportunities across all domains?" Cross-domain opportunity discovery (unranked superset of what the inbox shows ranked). Includes neurological cross-binding cards (purple styling) — companies co-activated via shared brain nodes.</div>
-    <div class="surface-when">When to look</div>
-    <div class="surface-detail">When you want to browse — not the inbox's "what should I do RIGHT NOW" view but the wider "what's available."</div>
+    <div class="surface-name">OPPORTUNITIES <span style="color:#e85454;letter-spacing:1px">⚠ NOT DEPLOYED IN THIS BUILD</span></div>
+    <div class="surface-what"><b><code>/opportunities</code> returns 404 — not migrated to canonical.</b> Intended view: cross-domain opportunity discovery (unranked superset of what the inbox shows ranked), including neurological cross-binding cards — companies co-activated via shared brain nodes. In the meantime use the Master Brain Inbox (ranked) and Treatment Discovery (research leads).</div>
+    <div class="surface-when">Status</div>
+    <div class="surface-detail">Not-yet-migrated. Capability described here for when/if it is deployed.</div>
   </div>
 
   <div class="surface">
@@ -212,10 +211,10 @@ a:hover{color:#C9A94E;text-decoration:underline}
   </div>
 
   <div class="surface">
-    <div class="surface-name">CONNECTOME <a href="/connectome.html">/connectome.html</a></div>
-    <div class="surface-what">"Show me the universe." Interactive canvas network graph of the 20 domains as nodes with pathways as edges. Hover to see domain taglines and entry portal links.</div>
-    <div class="surface-when">When to look</div>
-    <div class="surface-detail">Navigational. When you want to jump into a domain by clicking it visually.</div>
+    <div class="surface-name">CONNECTOME <span style="color:#e85454;letter-spacing:1px">⚠ NOT DEPLOYED IN THIS BUILD</span></div>
+    <div class="surface-what"><b><code>/connectome</code> returns 404 — not migrated to canonical.</b> Intended view: interactive canvas network graph of the 20 domains as nodes with pathways as edges; hover for domain taglines and entry portal links.</div>
+    <div class="surface-when">Status</div>
+    <div class="surface-detail">Not-yet-migrated.</div>
   </div>
 
   <div class="surface">
@@ -233,11 +232,11 @@ a:hover{color:#C9A94E;text-decoration:underline}
 
   <div class="surface-name" style="margin:14px 0 10px;color:#C9A94E">On artifact cards (inbox + portal page)</div>
   <div class="button-doc"><div class="button-doc-name print">PRINT</div><div class="button-doc-text"><b>Downloads a 20-30 page DOCX</b> to your browser. Calls Claude Sonnet via <code>/api/print-document</code> to expand the seed artifact into a full filing-ready document calibrated for a <b>new business with no investor yet</b> (USPTO Pro Se / Micro Entity for patents, NIH SBIR Phase I for grants, SBA Microloan for loans, OSF preregistration for research). Browser asks where to save — point at your <code>LIMEN Helix Files</code> desktop folder. <b>Takes 30-90 seconds</b> because it's a real long-form Anthropic call.</div></div>
-  <div class="button-doc"><div class="button-doc-name refresh">REFRESH</div><div class="button-doc-text"><b>Regenerate this specific artifact with greater detail.</b> Adds to the action queue; the next 6h cron tick calls Claude with portal context (suppliers, customers, kernel phase) + bridge mechanism to rewrite the seed. After it runs, the inbox/portal-page render the improved version.</div></div>
+  <div class="button-doc"><div class="button-doc-name refresh">REFRESH</div><div class="button-doc-text"><b>Regenerate this specific artifact with greater detail.</b> Adds to the action queue; the next run of the refresh step calls Claude with portal context (suppliers, customers, kernel phase) + bridge mechanism to rewrite the seed. After it runs, the inbox/portal-page render the improved version. <i>(Run on demand — no automatic cron in this build.)</i></div></div>
   <div class="button-doc"><div class="button-doc-name decline">DECLINE</div><div class="button-doc-text"><b>"Don't surface this again."</b> Marks the action complete with <code>declined: true</code>. Future inbox sorts deprioritize declined items.</div></div>
 
   <div class="surface-name" style="margin:22px 0 10px;color:#C9A94E">On pattern proposals (Claude-authored new bridges)</div>
-  <div class="button-doc"><div class="button-doc-name approve">APPROVE · MERGE INTO LIBRARY</div><div class="button-doc-text"><b>The proposal pattern becomes part of <code>bridge-patterns.json</code></b>. Next bridge-build pass (every 6h cron) re-matches it against all 767 portals; new artifacts mint anywhere it matches. Once approved, it's permanent unless you manually remove it.</div></div>
+  <div class="button-doc"><div class="button-doc-name approve">APPROVE · MERGE INTO LIBRARY</div><div class="button-doc-text"><b>The proposal pattern becomes part of <code>bridge-patterns.json</code></b>. The next bridge-build pass (run on demand) re-matches it against all 767 portals; new artifacts mint anywhere it matches. Once approved, it's permanent unless you manually remove it.</div></div>
   <div class="button-doc"><div class="button-doc-name reject">REJECT</div><div class="button-doc-text">Marks <code>status: REJECTED</code>. Library untouched. The proposal stays visible in the Recently Rejected section.</div></div>
   <div class="button-doc"><div class="button-doc-name">↗ SOURCE PORTAL</div><div class="button-doc-text">Open the company portal that triggered the proposal — see why the body wanted a new pattern for this entity.</div></div>
 </div>
@@ -245,8 +244,8 @@ a:hover{color:#C9A94E;text-decoration:underline}
 <!-- ──────────────────────────────────────────────────────────── -->
 <div class="section" id="autonomic">
   <div class="sect-num">4</div>
-  <div class="sect-title">What fires without you · every 6 hours via GitHub Actions</div>
-  <div class="sect-sub">The autonomic cron in <code>.github/workflows/immune-system.yml</code> runs the full chain end-to-end. You don't trigger any of this manually — it just runs.</div>
+  <div class="sect-title">The autonomic chain · run on demand (no 6h cron in this build)</div>
+  <div class="sect-sub"><b>Correction:</b> there is <b>no <code>.github/workflows</code> in this repo</b>, so the 6-hour GitHub Actions "immune-system" cron described in earlier versions <b>does not run here</b>. The chain below is real and runs end-to-end, but it is invoked <b>on demand / locally</b> (e.g. <code>node scripts/audit-system-vitals.mjs</code>). The only live scheduled jobs in this build are three Vercel worker crons — <code>/api/limen-worker-ingest</code> (2m), <code>/api/limen-worker-snapshot</code> (3m), <code>/api/limen-worker-stress-refresh</code> (30m) — which do not run the chain below.</div>
 
   <div class="flow"><div class="flow-num">1</div><div class="flow-text"><b>SENSE</b> · <code>audit-system-vitals.mjs</code> — 12 organs report their score. Writes <code>_vitals.json</code>.</div></div>
   <div class="flow"><div class="flow-num">2</div><div class="flow-text"><b>BRIDGE</b> · <code>build-bridge-readings.mjs</code> — re-matches the 15 (or more) patterns across all 767 portals.</div></div>
@@ -256,7 +255,7 @@ a:hover{color:#C9A94E;text-decoration:underline}
   <div class="flow"><div class="flow-num">6</div><div class="flow-text"><b>AUTHOR</b> · <code>author-bridge-patterns.mjs --max=3</code> — Claude Opus proposes up to 3 new patterns for the K3 frontier (portals with kernel signal but no existing pattern match).</div></div>
   <div class="flow"><div class="flow-num">7</div><div class="flow-text"><b>REGEN QUEUE</b> · <code>autonomous-portal-regen.mjs</code> — finds CB rows pointing at missing portals + portals with kernel signal but thin functional network. Writes regen queue.</div></div>
   <div class="flow"><div class="flow-num">8</div><div class="flow-text"><b>HEAL</b> · <code>heal-corpus.mjs</code> — applies safe heals (scrub placeholders, wire CB slugs, fix category bleed). Operator-only items stay in attention.</div></div>
-  <div class="flow"><div class="flow-num">9</div><div class="flow-text"><b>REMEMBER</b> · commits all deltas to <code>main</code> branch. Vercel auto-redeploys. Next tick sees the new state.</div></div>
+  <div class="flow"><div class="flow-num">9</div><div class="flow-text"><b>REMEMBER</b> · commit the deltas to <code>main</code> (manual in this build — no auto-commit cron); Vercel auto-redeploys on push. The next run sees the new state.</div></div>
 </div>
 
 <!-- ──────────────────────────────────────────────────────────── -->
@@ -341,7 +340,7 @@ a:hover{color:#C9A94E;text-decoration:underline}
 </div>
 
 <div class="footer">
-  LIMEN Helix · operator guide · maintained alongside the code. Every surface, button, and loop documented here is live. When the body changes, this page changes.
+  LIMEN Helix · operator guide · maintained alongside the code. Surfaces marked "⚠ NOT DEPLOYED IN THIS BUILD" are not currently live (their routes 404); everything else documented here is live. When the body changes, this page changes.
 </div>
 
 </body>
