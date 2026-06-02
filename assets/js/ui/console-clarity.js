@@ -4319,11 +4319,18 @@
         var statuses = _getCapOppStatuses();
         var curStatus = statuses[oppId] || 'NEW';
         var statusColors = { NEW: '#C9A94E', IN_PROGRESS: '#4a8fd4', APPLIED: '#5ab5a0' };
-        var statusLabels = { NEW: 'NEW', IN_PROGRESS: 'IN PROGRESS', APPLIED: 'APPLIED' };
+        // Gate B #9C.4.1 — rename status display "APPLIED" → "PURSUED".
+        // Internal status key stays 'APPLIED' so existing localStorage
+        // state (set by prior versions) keeps working without migration.
+        // Only the operator-facing label changes — "PURSUED" is honest
+        // about what the button records (the operator chose to follow
+        // up on this opportunity locally), while "APPLIED" wrongly
+        // implied an external filing/application had been submitted.
+        var statusLabels = { NEW: 'NEW', IN_PROGRESS: 'IN PROGRESS', APPLIED: 'PURSUED' };
         oh += '<div style="display:flex;align-items:center;gap:8px;margin-top:6px;padding-top:4px;border-top:1px solid rgba(255,255,255,0.03)">';
         oh += '<span style="font-size:0.3rem;letter-spacing:1.5px;color:' + (statusColors[curStatus] || '#888') + ';padding:1px 6px;border:1px solid ' + (statusColors[curStatus] || '#888') + '33;border-radius:2px">' + (statusLabels[curStatus] || curStatus) + '</span>';
         if (curStatus !== 'IN_PROGRESS') oh += '<span style="font-size:0.28rem;color:rgba(200,195,184,0.3);cursor:pointer;letter-spacing:1px" onclick="window._setCapOppStatus(\'' + oppId + '\',\'IN_PROGRESS\')">Mark In Progress</span>';
-        if (curStatus !== 'APPLIED') oh += '<span style="font-size:0.28rem;color:rgba(200,195,184,0.3);cursor:pointer;letter-spacing:1px" onclick="window._setCapOppStatus(\'' + oppId + '\',\'APPLIED\')">Mark Applied</span>';
+        if (curStatus !== 'APPLIED') oh += '<span style="font-size:0.28rem;color:rgba(200,195,184,0.3);cursor:pointer;letter-spacing:1px" onclick="window._setCapOppStatus(\'' + oppId + '\',\'APPLIED\')">Mark Pursued</span>';
         if (curStatus !== 'NEW') oh += '<span style="font-size:0.28rem;color:rgba(200,195,184,0.2);cursor:pointer;letter-spacing:1px" onclick="window._setCapOppStatus(\'' + oppId + '\',\'NEW\')">Reset</span>';
         // Outcome recording
         oh += '<span style="font-size:0.28rem;color:rgba(90,181,160,0.4);cursor:pointer;letter-spacing:1px;margin-left:auto" onclick="window._recordOutcome(\'' + oppId + '\',\'SUCCESS\')">+Success</span>';
@@ -4343,13 +4350,13 @@
         if (opp._priority) oh += '<span style="font-size:0.26rem;color:rgba(200,195,184,0.2);letter-spacing:1px;margin-right:4px">PRI:' + opp._priority + '</span>';
         if (opp._execReady) {
           if (opp.path === 'PATENTABLE') {
-            oh += '<span style="font-size:0.28rem;color:#C9A94E;cursor:pointer;padding:2px 6px;border:1px solid rgba(201,169,78,0.2);border-radius:2px;letter-spacing:1px" onclick="window._execGenerate(\'' + oppId + '\',\'patent\')">Generate Patent Draft</span>';
+            oh += '<span style="font-size:0.28rem;color:#C9A94E;cursor:pointer;padding:2px 6px;border:1px solid rgba(201,169,78,0.2);border-radius:2px;letter-spacing:1px" onclick="window._execGenerate(\'' + oppId + '\',\'patent\')">Draft Candidate Patent Memo</span>';
           }
           if ((opp.path === 'GRANT-ELIGIBLE' || opp.path === 'PATENTABLE') && canGrant) {
-            oh += '<span style="font-size:0.28rem;color:#4a8fd4;cursor:pointer;padding:2px 6px;border:1px solid rgba(74,143,212,0.2);border-radius:2px;letter-spacing:1px" onclick="window._execGenerate(\'' + oppId + '\',\'grant\')">Generate Grant App</span>';
+            oh += '<span style="font-size:0.28rem;color:#4a8fd4;cursor:pointer;padding:2px 6px;border:1px solid rgba(74,143,212,0.2);border-radius:2px;letter-spacing:1px" onclick="window._execGenerate(\'' + oppId + '\',\'grant\')">Draft Candidate Grant Memo</span>';
           }
           if (opp.path === 'LOAN/INFRASTRUCTURE' || opp.path === 'INVESTABLE') {
-            oh += '<span style="font-size:0.28rem;color:#5ab5a0;cursor:pointer;padding:2px 6px;border:1px solid rgba(90,181,160,0.2);border-radius:2px;letter-spacing:1px" onclick="window._execGenerate(\'' + oppId + '\',\'loan\')">Generate Loan Package</span>';
+            oh += '<span style="font-size:0.28rem;color:#5ab5a0;cursor:pointer;padding:2px 6px;border:1px solid rgba(90,181,160,0.2);border-radius:2px;letter-spacing:1px" onclick="window._execGenerate(\'' + oppId + '\',\'loan\')">Draft Candidate Loan Memo</span>';
           }
         } else {
           oh += '<span style="font-size:0.28rem;color:#555;padding:2px 6px;letter-spacing:1px">' + (!canGrant ? 'Insufficient grounding' : 'Below confidence threshold') + '</span>';
