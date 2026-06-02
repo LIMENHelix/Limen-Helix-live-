@@ -186,9 +186,80 @@
 
       // Empty state
       '.lreg-empty { text-align:center; padding:40px 20px; color:' + TEXT_DIM + ';',
-      '  font-size:0.6rem; font-style:italic; }'
+      '  font-size:0.6rem; font-style:italic; }',
+
+      // Gate B #9b — confidence authority badges
+      '.lreg-conf-badge { font-size:0.45rem; letter-spacing:1.5px; padding:3px 7px;',
+      '  border-radius:2px; margin:6px 0 8px; text-transform:uppercase;',
+      '  display:inline-block; }',
+      '.lreg-conf-badge.low { color:#e85454; background:rgba(232,84,84,0.06);',
+      '  border:1px solid rgba(232,84,84,0.25); }',
+      '.lreg-conf-badge.moderate { color:#FF9800; background:rgba(255,152,0,0.05);',
+      '  border:1px solid rgba(255,152,0,0.25); }',
+      '.lreg-conf-badge-reason { display:block; font-size:0.4rem; color:rgba(200,195,184,0.55);',
+      '  letter-spacing:0.5px; text-transform:none; margin-top:2px; }'
     ].join('\n');
     document.head.appendChild(s);
+  }
+
+  // ═══════════════════════════════════════════════════════════════
+  // Gate B #9b — Confidence authority classification.
+  //
+  // Per-domain regulation block authority. Visual downgrade only —
+  // body remains visible at all confidence levels. The classifier
+  // reads reg.confidence (already populated in the regulation engine
+  // output) and decides whether to add a header badge above the
+  // claim-bearing body.
+  //
+  // Doctrine carried (operator 2026-06-01):
+  //   Reliability signals govern rendering, not just display adjacent.
+  //
+  // The existing per-card "conf" stress-row at line ~513 continues to
+  // display the numeric confidence value; the badge sits ABOVE the
+  // stress/conf bars so the operator sees authority status before
+  // reading the values.
+  //
+  // ABSENT is not reachable in _buildUnifiedCard / renderCompactRegulation
+  // because callers (renderRegulationTab / renderDomainRegulation /
+  // domain-repair-map host) already filter out null/error regs upstream.
+  // Source-absent at the whole-tab level is handled by the pre-existing
+  // honest empty-state in renderRegulationTab at line 421 ("Regulation
+  // engine has not run yet. Waiting for domain data...") — preserved
+  // per the doctrine "don't over-banner honest empty states."
+  // ═══════════════════════════════════════════════════════════════
+
+  function _classifyRegulationAuthority(reg) {
+    var conf = reg && typeof reg.confidence === 'number' ? reg.confidence : 0;
+    if (conf < 0.4) {
+      return {
+        level: 'LOW_CONFIDENCE',
+        badge: 'LOW CONFIDENCE · ' + Math.round(conf * 100) + '%',
+        reason: 'Regulation engine confidence below 40% — interpret with caution.'
+      };
+    }
+    if (conf < 0.65) {
+      return {
+        level: 'MODERATE_CONFIDENCE',
+        badge: 'MODERATE CONFIDENCE · ' + Math.round(conf * 100) + '%',
+        reason: null
+      };
+    }
+    return { level: 'FULL', badge: null, reason: null };
+  }
+
+  function _appendRegulationBadge(authority, parent) {
+    if (!authority || !authority.badge) return;
+    var el = document.createElement('div');
+    var cls = authority.level === 'LOW_CONFIDENCE' ? 'low' : 'moderate';
+    el.className = 'lreg-conf-badge ' + cls;
+    el.textContent = authority.badge;
+    if (authority.reason) {
+      var r = document.createElement('span');
+      r.className = 'lreg-conf-badge-reason';
+      r.textContent = authority.reason;
+      el.appendChild(r);
+    }
+    parent.appendChild(el);
   }
 
   // ═══════════════════════════════════════════════════════════════
@@ -508,6 +579,11 @@
     header.appendChild(badges);
     card.appendChild(header);
 
+    // Gate B #9b — confidence authority badge above the body. Visual
+    // downgrade only; the body and the per-card conf bar below remain
+    // visible at all confidence levels.
+    _appendRegulationBadge(_classifyRegulationAuthority(reg), card);
+
     // ── 2. Stress + Confidence bars ──
     card.appendChild(_stressRow('stress', reg.stress || 0, 'lreg-stress-fill'));
     card.appendChild(_stressRow('conf', reg.confidence || 0, 'lreg-conf-fill'));
@@ -815,6 +891,13 @@
     var output = window.LIMENRegulationOutput;
     if (!output || !output[domainId]) return;
     var reg = output[domainId];
+
+    // Gate B #9b — confidence authority badge at the top of the compact
+    // block (before summary sentence). When this renders inside a
+    // domain-repair-map card the host card already has its own
+    // domain-level Gate B (#9a); this badge specifically signals the
+    // REGULATION block's confidence, separate from the host's.
+    _appendRegulationBadge(_classifyRegulationAuthority(reg), hostCard);
 
     // Summary sentence
     var summary = document.createElement('div');
