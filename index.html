@@ -6,78 +6,152 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>LIMEN HELIX — Cross-Domain Discovery Engine</title>
-<meta name="description" content="LIMEN Helix is a cross-domain discovery engine that maps patterns across neuroscience, medicine, markets, infrastructure, and environment to surface research leads, operational risks, and artifact opportunities.">
+<title>LIMEN HELIX — Civilization-Scale Discovery Engine</title>
+<meta name="description" content="LIMEN Helix is a civilization-scale, evidence-labeled cross-domain discovery engine. It maps stress, failure, repair, and opportunity across 20 domains on a 123-node connectome, and routes discoveries into research, patent, grant, investment, and operator workflows — drafts only, human review required.">
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
-  :root{--gold:#C9A94E;--gold-soft:rgba(201,169,78,0.7);--ink:rgba(220,215,200,0.92);--bg:#05060a}
+  :root{
+    --gold:#C9A94E;--gold-soft:rgba(201,169,78,0.72);
+    --cyan:#4cc4e0;--cyan-soft:rgba(76,196,224,0.72);
+    --green:#5ab5a0;--purple:#a87edc;--amber:#e0a458;--red:#e85454;
+    --ink:rgba(222,217,202,0.92);--ink-dim:rgba(214,209,194,0.6);
+    --bg:#04050a;--panel:rgba(8,11,18,0.55);--line:rgba(201,169,78,0.12);
+  }
   html{scroll-behavior:smooth}
   body{background:var(--bg);font-family:Georgia,'Times New Roman',serif;color:var(--ink);line-height:1.6;overflow-x:hidden}
-  body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(201,169,78,0.07) 0%,transparent 55%),radial-gradient(ellipse at 50% 100%,rgba(168,148,204,0.05) 0%,transparent 55%);pointer-events:none;z-index:0}
-  .wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:0 24px}
+  /* cinematic background: dot-grid + dual glows + slow signal sweep */
+  body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(circle at 1px 1px, rgba(201,169,78,0.05) 1px, transparent 0) 0 0/38px 38px,
+      radial-gradient(ellipse at 50% -10%, rgba(201,169,78,0.10) 0%, transparent 55%),
+      radial-gradient(ellipse at 50% 110%, rgba(76,196,224,0.08) 0%, transparent 55%);}
+  body::after{content:'';position:fixed;inset:-50% -50% auto -50%;height:200%;z-index:0;pointer-events:none;opacity:.5;
+    background:conic-gradient(from 0deg at 50% 0%, transparent 0deg, rgba(76,196,224,0.06) 12deg, transparent 24deg, transparent 336deg, rgba(201,169,78,0.06) 348deg, transparent 360deg);
+    animation:sweep 38s linear infinite}
+  @keyframes sweep{to{transform:rotate(360deg)}}
+  @media(prefers-reduced-motion:reduce){body::after{animation:none}}
+
+  .wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 26px}
   a{color:var(--gold-soft);text-decoration:none}a:hover{color:var(--gold)}
+  em{font-style:italic;color:var(--gold)}
 
   /* top bar */
-  .top{display:flex;justify-content:space-between;align-items:center;padding:22px 0;position:relative;z-index:3}
-  .top .brand{font-size:0.7rem;letter-spacing:7px;color:var(--gold-soft);text-transform:uppercase;cursor:default;user-select:none}
-  .top .login{font-size:0.6rem;letter-spacing:3px;text-transform:uppercase;border:1px solid rgba(201,169,78,0.3);padding:7px 14px;cursor:pointer}
-  .top .login:hover{background:rgba(201,169,78,0.08)}
+  .top{display:flex;justify-content:space-between;align-items:center;padding:22px 0;position:relative;z-index:5}
+  .top .brand{font-size:0.72rem;letter-spacing:8px;color:var(--gold-soft);text-transform:uppercase;cursor:default;user-select:none}
+  .top .brand b{color:var(--gold);font-weight:400}
+  .top .login{font-size:0.6rem;letter-spacing:3px;text-transform:uppercase;border:1px solid rgba(201,169,78,0.32);padding:8px 15px;cursor:pointer;color:var(--gold-soft);transition:all .2s}
+  .top .login:hover{background:rgba(201,169,78,0.1);color:var(--gold)}
+
+  /* buttons */
+  .btn{display:inline-block;font-family:Georgia,serif;font-size:0.74rem;letter-spacing:3px;text-transform:uppercase;padding:15px 28px;border:1px solid var(--gold);color:var(--gold);background:transparent;cursor:pointer;transition:all .2s}
+  .btn:hover{background:rgba(201,169,78,0.12);box-shadow:0 0 26px rgba(201,169,78,0.18)}
+  .btn.solid{background:rgba(201,169,78,0.16)}
+  .btn.cyan{border-color:var(--cyan);color:var(--cyan)}
+  .btn.cyan:hover{background:rgba(76,196,224,0.12);box-shadow:0 0 26px rgba(76,196,224,0.18)}
 
   /* hero */
-  .hero{min-height:78vh;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:60px 0 40px}
-  .hero h1{font-size:clamp(2.2rem,6vw,4.4rem);font-weight:300;letter-spacing:1px;line-height:1.1;color:rgba(235,230,215,0.97)}
-  .hero h1 .em{color:var(--gold);font-style:italic}
-  .hero .sub{margin:26px auto 0;max-width:680px;font-size:clamp(1rem,2.2vw,1.25rem);color:rgba(220,215,200,0.7);font-weight:300}
-  .hero .cta{margin-top:40px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
-  .btn{font-family:Georgia,serif;font-size:0.72rem;letter-spacing:3px;text-transform:uppercase;padding:14px 26px;border:1px solid var(--gold);color:var(--gold);background:transparent;cursor:pointer;transition:all .2s}
-  .btn:hover{background:rgba(201,169,78,0.1)}
-  .btn.solid{background:rgba(201,169,78,0.14)}
-  .scrolldot{margin-top:54px;font-size:0.55rem;letter-spacing:4px;color:rgba(200,195,184,0.4);text-transform:uppercase}
+  .hero{min-height:90vh;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:48px 0 56px;position:relative}
+  .hero .kicker{font-size:0.62rem;letter-spacing:6px;text-transform:uppercase;color:var(--cyan-soft);margin-bottom:24px}
+  .hero h1{font-size:clamp(2.6rem,8vw,6rem);font-weight:300;letter-spacing:-0.5px;line-height:1.02;color:rgba(238,233,219,0.98)}
+  .hero h1 .em{color:var(--gold);font-style:italic;text-shadow:0 0 40px rgba(201,169,78,0.35)}
+  .hero h1 .cy{color:var(--cyan);font-style:italic;text-shadow:0 0 40px rgba(76,196,224,0.3)}
+  .hero .sub{margin:30px auto 0;max-width:760px;font-size:clamp(1.04rem,2.2vw,1.32rem);color:var(--ink-dim);font-weight:300}
+  .hero .cta{margin-top:42px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+  .hero .tagline{margin-top:30px;font-size:0.74rem;letter-spacing:2px;color:rgba(214,209,194,0.5);text-transform:uppercase}
+  .hero .tagline b{color:var(--gold-soft);font-weight:400}
 
-  section{padding:64px 0;border-top:1px solid rgba(201,169,78,0.08)}
-  h2{font-size:clamp(1.3rem,3vw,1.9rem);font-weight:300;letter-spacing:1px;color:var(--gold);margin-bottom:20px}
-  p.lead{font-size:1.1rem;color:rgba(220,215,200,0.8);max-width:760px;font-weight:300}
-  p.body{color:rgba(220,215,200,0.65);max-width:760px;margin-top:14px}
+  /* proof strip */
+  #proof{padding:30px 0 8px}
+  .counters{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  @media(max-width:860px){.counters{grid-template-columns:repeat(2,1fr)}}
+  .ctr{border:1px solid var(--line);background:var(--panel);padding:22px 18px;text-align:center;position:relative;overflow:hidden}
+  .ctr::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(201,169,78,0.5),transparent)}
+  .ctr.live::before{background:linear-gradient(90deg,transparent,rgba(76,196,224,0.55),transparent)}
+  .ctr .n{font-size:clamp(1.8rem,4.4vw,3rem);line-height:1;color:var(--gold);font-weight:400;letter-spacing:-0.5px}
+  .ctr.live .n{color:var(--cyan)}
+  .ctr .n.green{color:var(--green)}.ctr .n.amber{color:var(--amber)}.ctr .n.cyan{color:var(--cyan)}
+  .ctr .lbl{margin-top:10px;font-size:0.62rem;letter-spacing:2.5px;text-transform:uppercase;color:rgba(214,209,194,0.62)}
+  .ctr .cap{margin-top:6px;font-size:0.56rem;letter-spacing:1px;color:rgba(214,209,194,0.34);text-transform:uppercase}
+  .ctr.live .lbl::after{content:'● live';display:block;margin-top:5px;font-size:0.5rem;letter-spacing:2px;color:var(--cyan-soft)}
+  .strip-note{text-align:center;margin-top:16px;font-size:0.66rem;letter-spacing:1px;color:rgba(214,209,194,0.4)}
 
-  .domains{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:24px}
-  .domains span{font-size:0.78rem;letter-spacing:1px;color:rgba(220,215,200,0.7);border:1px solid rgba(201,169,78,0.14);padding:12px 14px;text-align:center;text-transform:uppercase}
+  section{padding:74px 0;border-top:1px solid var(--line);position:relative}
+  .eyebrow{font-size:0.6rem;letter-spacing:5px;text-transform:uppercase;color:var(--cyan-soft);margin-bottom:14px}
+  h2{font-size:clamp(1.6rem,3.6vw,2.5rem);font-weight:300;letter-spacing:0.5px;color:rgba(238,233,219,0.96);margin-bottom:18px;line-height:1.12}
+  h2 .g{color:var(--gold)}h2 .c{color:var(--cyan)}
+  p.lead{font-size:1.18rem;color:rgba(222,217,202,0.82);max-width:820px;font-weight:300}
+  p.body{color:var(--ink-dim);max-width:820px;margin-top:14px;font-size:1.02rem}
+  .pillrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+  .pill{font-size:0.62rem;letter-spacing:2px;text-transform:uppercase;color:var(--cyan-soft);border:1px solid rgba(76,196,224,0.25);padding:6px 12px}
 
-  .states{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:24px}
-  .state{padding:18px 20px;border-left:3px solid;background:rgba(0,0,0,0.25)}
-  .state h3{font-size:0.8rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
-  .state p{font-size:0.9rem;color:rgba(220,215,200,0.65)}
-  .s-proven{border-color:#5ab5a0}.s-proven h3{color:#5ab5a0}
-  .s-unproven{border-color:#a87edc}.s-unproven h3{color:#a87edc}
-  .s-unknown{border-color:#dca87e}.s-unknown h3{color:#dca87e}
-  .s-impossible{border-color:#e85454}.s-impossible h3{color:#e85454}
+  /* domains grid */
+  .domains{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:9px;margin-top:28px}
+  .domains span{font-size:0.72rem;letter-spacing:1.5px;color:rgba(222,217,202,0.74);border:1px solid var(--line);padding:13px 10px;text-align:center;text-transform:uppercase;background:var(--panel);transition:all .2s}
+  .domains span:hover{border-color:rgba(201,169,78,0.4);color:var(--gold)}
 
-  .cols{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:24px}
-  .cols .col{padding:22px 24px;border:1px solid rgba(201,169,78,0.12);background:rgba(0,0,0,0.2)}
-  .cols .col h3{font-size:0.95rem;letter-spacing:1px;color:rgba(235,230,215,0.95);margin-bottom:10px}
-  .cols .col p{font-size:0.92rem;color:rgba(220,215,200,0.62)}
-  @media(max-width:640px){.cols{grid-template-columns:1fr}}
+  /* connectome node-web (CSS only) */
+  .nodeweb{position:relative;height:300px;margin-top:30px;border:1px solid var(--line);background:
+    radial-gradient(circle at 1px 1px, rgba(76,196,224,0.06) 1px, transparent 0) 0 0/26px 26px, var(--panel);overflow:hidden}
+  .nodeweb .node{position:absolute;width:11px;height:11px;border-radius:50%;background:var(--cyan);
+    box-shadow:0 0 16px 3px rgba(76,196,224,0.55);animation:pulse 3.6s ease-in-out infinite}
+  .nodeweb .node.g{background:var(--gold);box-shadow:0 0 18px 4px rgba(201,169,78,0.6)}
+  .nodeweb .node.big{width:16px;height:16px}
+  @keyframes pulse{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.5);opacity:1}}
+  .nodeweb .edge{position:absolute;height:1px;transform-origin:0 50%;
+    background:linear-gradient(90deg,rgba(76,196,224,0.45),rgba(201,169,78,0.18),transparent)}
+  .nodeweb .label{position:absolute;bottom:12px;left:16px;font-size:0.58rem;letter-spacing:3px;text-transform:uppercase;color:rgba(76,196,224,0.5)}
+  @media(prefers-reduced-motion:reduce){.nodeweb .node{animation:none}}
 
-  .how{display:flex;gap:14px;flex-wrap:wrap;margin-top:20px}
-  .how .step{flex:1;min-width:150px;padding:16px;border:1px solid rgba(201,169,78,0.12);font-size:0.85rem;color:rgba(220,215,200,0.7)}
-  .how .step b{color:var(--gold);display:block;margin-bottom:6px;font-size:0.72rem;letter-spacing:2px;text-transform:uppercase}
+  /* evidence states */
+  .states{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-top:30px}
+  .state{padding:20px;border-left:3px solid;background:var(--panel);position:relative}
+  .state .sc{font-size:clamp(1.5rem,3vw,2.1rem);line-height:1;font-weight:400}
+  .state h3{font-size:0.72rem;letter-spacing:2.5px;text-transform:uppercase;margin:10px 0 8px}
+  .state p{font-size:0.86rem;color:var(--ink-dim)}
+  .s-proven{border-color:var(--green)}.s-proven h3,.s-proven .sc{color:var(--green)}
+  .s-unproven{border-color:var(--purple)}.s-unproven h3,.s-unproven .sc{color:var(--purple)}
+  .s-unknown{border-color:var(--amber)}.s-unknown h3,.s-unknown .sc{color:var(--amber)}
+  .s-impossible{border-color:var(--red)}.s-impossible h3,.s-impossible .sc{color:var(--red)}
+
+  /* card grids */
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:30px}
+  .card{padding:24px;border:1px solid var(--line);background:var(--panel);transition:all .2s}
+  .card:hover{border-color:rgba(201,169,78,0.32)}
+  .card .ic{font-size:0.6rem;letter-spacing:3px;text-transform:uppercase;color:var(--cyan-soft);margin-bottom:10px}
+  .card h3{font-size:1.04rem;letter-spacing:0.5px;color:rgba(238,233,219,0.95);margin-bottom:9px}
+  .card p{font-size:0.9rem;color:var(--ink-dim)}
+  .lanes{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:30px}
+  @media(max-width:760px){.lanes{grid-template-columns:repeat(2,1fr)}}
+  .lane{padding:18px 14px;border:1px solid var(--line);background:var(--panel);text-align:center}
+  .lane .ln{font-size:0.78rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold)}
+  .lane .ld{margin-top:8px;font-size:0.7rem;color:var(--ink-dim);letter-spacing:.5px}
+
+  .how{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:28px}
+  @media(max-width:760px){.how{grid-template-columns:repeat(2,1fr)}}
+  .how .step{padding:18px;border:1px solid var(--line);background:var(--panel);font-size:0.88rem;color:var(--ink-dim)}
+  .how .step b{color:var(--cyan);display:block;margin-bottom:7px;font-size:0.66rem;letter-spacing:2.5px;text-transform:uppercase}
+
+  .banner{margin-top:30px;padding:24px 26px;border:1px solid rgba(76,196,224,0.28);background:rgba(76,196,224,0.05)}
+  .banner b{color:var(--cyan)}
 
   /* lead form */
   #contact{background:rgba(201,169,78,0.03)}
-  form.lead-form{margin-top:24px;max-width:640px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  form.lead-form{margin-top:28px;max-width:680px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
   form.lead-form .full{grid-column:1/-1}
-  form.lead-form label{display:block;font-size:0.62rem;letter-spacing:2px;text-transform:uppercase;color:rgba(200,195,184,0.5);margin-bottom:5px}
-  form.lead-form input,form.lead-form select,form.lead-form textarea{width:100%;background:rgba(0,0,0,0.35);border:1px solid rgba(201,169,78,0.25);color:var(--ink);font-family:Georgia,serif;font-size:0.95rem;padding:10px 12px;outline:none}
+  form.lead-form label{display:block;font-size:0.62rem;letter-spacing:2px;text-transform:uppercase;color:rgba(214,209,194,0.5);margin-bottom:5px}
+  form.lead-form input,form.lead-form select,form.lead-form textarea{width:100%;background:rgba(0,0,0,0.4);border:1px solid rgba(201,169,78,0.25);color:var(--ink);font-family:Georgia,serif;font-size:0.95rem;padding:11px 12px;outline:none}
   form.lead-form input:focus,form.lead-form select:focus,form.lead-form textarea:focus{border-color:var(--gold)}
-  form.lead-form textarea{min-height:90px;resize:vertical}
-  .consent{font-size:0.8rem;color:rgba(220,215,200,0.6);display:flex;gap:8px;align-items:flex-start}
+  form.lead-form textarea{min-height:96px;resize:vertical}
+  .consent{font-size:0.8rem;color:rgba(222,217,202,0.6);display:flex;gap:8px;align-items:flex-start}
   .consent input{width:auto;margin-top:3px}
+  .formnote{grid-column:1/-1;font-size:0.7rem;color:rgba(214,209,194,0.4);letter-spacing:.5px}
   #lead-msg{grid-column:1/-1;min-height:20px;font-size:0.85rem;letter-spacing:1px}
-  #lead-msg.ok{color:#5ab5a0}#lead-msg.err{color:#e85454}
+  #lead-msg.ok{color:var(--green)}#lead-msg.err{color:var(--red)}
   @media(max-width:640px){form.lead-form{grid-template-columns:1fr}}
 
-  footer{padding:40px 0 60px;border-top:1px solid rgba(201,169,78,0.08);text-align:center}
-  footer .disc{font-size:0.78rem;color:rgba(200,195,184,0.45);max-width:720px;margin:0 auto 16px;line-height:1.7}
-  footer .legal{font-size:0.55rem;letter-spacing:3px;color:rgba(200,195,184,0.3);text-transform:uppercase}
+  footer{padding:46px 0 64px;border-top:1px solid var(--line);text-align:center}
+  footer .disc{font-size:0.78rem;color:rgba(214,209,194,0.46);max-width:780px;margin:0 auto 16px;line-height:1.75}
+  footer .legal{font-size:0.55rem;letter-spacing:3px;color:rgba(214,209,194,0.32);text-transform:uppercase}
 
   /* admin login overlay — preserved from prior gate */
   .admin-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.92);display:none;align-items:center;justify-content:center;z-index:50;padding:24px}
@@ -88,93 +162,162 @@
   .admin-card input[type=password]:focus{border-bottom-color:rgba(201,169,78,0.8)}
   .admin-card button{margin-top:22px;background:transparent;border:1px solid rgba(201,169,78,0.45);color:var(--gold-soft);font-family:Georgia,serif;font-size:0.7rem;letter-spacing:4px;text-transform:uppercase;padding:10px 24px;cursor:pointer}
   .admin-card button:hover{background:rgba(201,169,78,0.08)}
-  .admin-card .close{position:absolute;top:8px;right:12px;background:none;border:none;color:rgba(200,195,184,0.4);font-size:1.2rem;cursor:pointer;padding:4px 8px}
+  .admin-card .close{position:absolute;top:8px;right:12px;background:none;border:none;color:rgba(214,209,194,0.4);font-size:1.2rem;cursor:pointer;padding:4px 8px}
   .admin-error{margin-top:14px;min-height:14px;font-size:0.65rem;letter-spacing:2px;color:rgba(220,120,100,0.85);text-transform:uppercase}
-  .admin-hint{margin-top:18px;font-size:0.55rem;letter-spacing:2px;color:rgba(200,195,184,0.35);text-transform:uppercase}
+  .admin-hint{margin-top:18px;font-size:0.55rem;letter-spacing:2px;color:rgba(214,209,194,0.35);text-transform:uppercase}
 </style>
 </head>
 <body>
 <div class="wrap">
 
   <div class="top">
-    <div class="brand" id="brand">LIMEN HELIX</div>
+    <div class="brand" id="brand">LIMEN <b>HELIX</b></div>
     <div class="login" id="authorized-login">Authorized login →</div>
   </div>
 
   <!-- HERO -->
   <header class="hero">
-    <h1>A <span class="em">nervous system</span><br>for civilization.</h1>
-    <div class="sub">LIMEN Helix is a cross-domain discovery engine. It maps where systems break, where they heal, and where undiscovered opportunities may exist — across neuroscience, medicine, markets, infrastructure, and environment.</div>
+    <div class="kicker">Civilization-scale discovery engine</div>
+    <h1>A <span class="em">nervous system</span><br>for <span class="cy">civilization</span>.</h1>
+    <div class="sub">LIMEN Helix maps stress, failure, repair, and opportunity across medicine, markets, infrastructure, defense, energy, governance, education, and beyond — then routes what it finds into research, patent, grant, investment, and operator workflows.</div>
     <div class="cta">
       <button class="btn solid" onclick="document.getElementById('contact').scrollIntoView()">Request investor briefing</button>
-      <button class="btn" onclick="document.getElementById('what').scrollIntoView()">See what it does</button>
+      <button class="btn cyan" onclick="document.getElementById('system').scrollIntoView()">Explore the system</button>
     </div>
-    <div class="scrolldot">↓ scroll</div>
+    <div class="tagline"><b>Evidence-labeled.</b> Operator-reviewed. Drafts only — nothing files, trades, diagnoses, or submits automatically.</div>
   </header>
+</div>
 
-  <!-- WHAT -->
-  <section id="what">
-    <h2>What LIMEN Helix is</h2>
-    <p class="lead">A cross-domain discovery engine that maps patterns across many fields to surface research leads, treatment hypotheses, operational risks, patentable patterns, grant concepts, and investment theses — and separates <em>proven, unproven, unknown,</em> and <em>impossible</em> states so discoveries can be explored without overstating them.</p>
-  </section>
-
-  <!-- WHY NOW -->
-  <section id="why">
-    <h2>Why now</h2>
-    <p class="body">Signal is everywhere; meaning is not. Most systems score data inside a single domain. LIMEN Helix maps signals <em>across</em> domains — treating the patterns that break a market, a body, a supply chain, or an institution as variations of the same underlying dynamics — and routes what it finds into research, protection, and execution workflows with an explicit evidence posture attached to every claim.</p>
-  </section>
-
-  <!-- DOMAINS -->
-  <section id="domains">
-    <h2>The domains it maps</h2>
-    <div class="domains">
-      <span>Neuroscience</span><span>Medicine</span><span>Economy</span><span>Finance</span><span>Markets</span><span>Energy</span><span>Environment</span><span>Infrastructure</span><span>Technology</span><span>Defense</span><span>Governance</span><span>Population</span><span>Supply Chain</span><span>Education</span><span>Communication</span><span>Agriculture</span>
+<!-- PROOF STRIP -->
+<div class="wrap">
+  <section id="proof" style="border-top:none">
+    <div class="counters">
+      <div class="ctr"><div class="n">20</div><div class="lbl">Domains</div></div>
+      <div class="ctr"><div class="n">123</div><div class="lbl">Brain-network nodes</div></div>
+      <div class="ctr"><div class="n">260+</div><div class="lbl">Public &amp; institutional sources</div><div class="cap">~30-sec refresh</div></div>
+      <div class="ctr live"><div class="n" id="ctr-claims" data-count="69322">69,322</div><div class="lbl">Mapped claims</div></div>
+      <div class="ctr live"><div class="n green" id="ctr-proven" data-count="3462">3,462</div><div class="lbl">Literature-supported</div><div class="cap">not clinical validation</div></div>
+      <div class="ctr live"><div class="n amber" id="ctr-unknown" data-count="64276">64,276</div><div class="lbl">Not yet examined</div><div class="cap">a queue, not failure</div></div>
+      <div class="ctr"><div class="n">5</div><div class="lbl">Artifact lanes</div></div>
+      <div class="ctr"><div class="n cyan">6-hr</div><div class="lbl">Self-audit loop</div></div>
     </div>
+    <div class="strip-note">Live counts read from the system and move as it maps and verifies more — proven rises, not-yet-examined falls.</div>
   </section>
 
-  <!-- EVIDENCE DISCIPLINE -->
-  <section id="evidence">
-    <h2>Honest by design</h2>
-    <p class="body">Every signal carries an evidence posture. Nothing is discarded for being unproven, and nothing is dressed up as more certain than it is.</p>
-    <div class="states">
-      <div class="state s-proven"><h3>Proven</h3><p>Evidence supports it — strengthen and cite.</p></div>
-      <div class="state s-unproven"><h3>Unproven</h3><p>A claim worth testing — a research target.</p></div>
-      <div class="state s-unknown"><h3>Unknown</h3><p>A gap not yet examined — go look.</p></div>
-      <div class="state s-impossible"><h3>Impossible</h3><p>Contradicted — studied for <em>why</em> it fails.</p></div>
-    </div>
-  </section>
-
-  <!-- POTENTIAL -->
-  <section id="potential">
-    <h2>What it can surface</h2>
-    <div class="cols">
-      <div class="col">
-        <h3>Research &amp; medical</h3>
-        <p>Candidate cross-domain treatment transfers and research hypotheses, each labeled by evidence state. LIMEN Helix models pathology <em>patterns</em> to suggest where to look — it is not a clinical tool, makes no diagnoses, and claims no cures.</p>
-      </div>
-      <div class="col">
-        <h3>Business · patent · grant · investment</h3>
-        <p>Patentable-pattern concepts, grant concepts, and investment theses surfaced for human review. Drafts are drafts: nothing is filed, submitted, bought, or invested automatically, and nothing here is investment advice.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- HOW -->
-  <section id="how">
-    <h2>How it works, at a high level</h2>
-    <p class="body">LIMEN Helix does not just score data. It maps signals into domains, verifies evidence posture, detects gaps, and routes opportunities into research, patent, grant, investment, and operator workflows.</p>
+  <!-- THE LIVING MAP -->
+  <section id="system">
+    <div class="eyebrow">The living map</div>
+    <h2>One engine. <span class="g">Twenty domains.</span> <span class="c">One connected picture.</span></h2>
+    <p class="lead">Signal is everywhere; meaning is not. Most systems score data inside a single domain. LIMEN Helix treats the patterns that break a market, a body, a supply chain, or an institution as variations of the same underlying dynamics — and maps them onto one shared structure.</p>
+    <p class="body">It ingests <em>260+ public and institutional sources</em> on a roughly 30-second refresh, scores stress and phase across 20 domains, connects them through a 123-region connectome, and surfaces what's worth a human's attention — with an evidence label on every claim.</p>
     <div class="how">
-      <div class="step"><b>Score</b>Layered scoring of signals and phase across domains.</div>
-      <div class="step"><b>Map</b>Translate signals into domains, nodes, and patterns.</div>
-      <div class="step"><b>Verify</b>Classify each claim: proven / unproven / unknown / impossible.</div>
-      <div class="step"><b>Route</b>Send opportunities to research, protection, and execution.</div>
+      <div class="step"><b>Ingest</b>260+ public &amp; institutional sources, refreshed on a ~30-second cycle.</div>
+      <div class="step"><b>Map</b>Score stress and phase across 20 domains; connect through the connectome.</div>
+      <div class="step"><b>Label</b>Classify every claim: proven · unproven · unknown · impossible.</div>
+      <div class="step"><b>Route</b>Draft artifacts into research, patent, grant, investment &amp; operator lanes.</div>
+    </div>
+  </section>
+
+  <!-- DOMAIN BRAINS -->
+  <section id="domains">
+    <div class="eyebrow">Domain models</div>
+    <h2><span class="g">20 domains</span>, each reading the same world.</h2>
+    <p class="body">Twenty domain models — each computing stress, phase, diagnoses, and opportunities from the same refreshed public-data snapshot, then passing cross-domain signals to one another. A shock in energy is felt in finance; a failure in supply chains surfaces in trade and infrastructure.</p>
+    <div class="domains">
+      <span>Governance</span><span>Economy</span><span>Finance</span><span>Energy</span><span>Medicine</span><span>Infrastructure</span><span>Defense</span><span>Technology</span><span>Trade</span><span>Agriculture</span><span>Industry</span><span>Science</span><span>Education</span><span>Communication</span><span>Environment</span><span>Law</span><span>Population</span><span>Culture</span><span>Religion</span><span>Intelligence</span>
+    </div>
+  </section>
+
+  <!-- THE CONNECTOME -->
+  <section id="connectome">
+    <div class="eyebrow">The connectome</div>
+    <h2>A <span class="c">123-node</span> coordinate system for everything.</h2>
+    <p class="body">At the center is a connectome of 123 brain regions, networks, and molecular targets — a shared coordinate system. Each node binds to the domains it informs, so a pattern detected in one domain can be mapped, by structure, into another. This is how a discovery in neuroscience becomes a candidate hypothesis in medicine, or in markets.</p>
+    <div class="nodeweb" aria-hidden="true">
+      <span class="node g big" style="left:50%;top:46%"></span>
+      <span class="node" style="left:18%;top:28%"></span>
+      <span class="node" style="left:78%;top:24%"></span>
+      <span class="node g" style="left:30%;top:70%"></span>
+      <span class="node" style="left:68%;top:72%"></span>
+      <span class="node" style="left:12%;top:60%"></span>
+      <span class="node g" style="left:86%;top:54%"></span>
+      <span class="node" style="left:44%;top:18%"></span>
+      <span class="node" style="left:60%;top:40%"></span>
+      <span class="edge" style="left:50%;top:46%;width:34%;transform:rotate(200deg)"></span>
+      <span class="edge" style="left:50%;top:46%;width:32%;transform:rotate(-26deg)"></span>
+      <span class="edge" style="left:50%;top:46%;width:26%;transform:rotate(120deg)"></span>
+      <span class="edge" style="left:50%;top:46%;width:30%;transform:rotate(56deg)"></span>
+      <span class="edge" style="left:50%;top:46%;width:24%;transform:rotate(150deg)"></span>
+      <span class="edge" style="left:50%;top:46%;width:20%;transform:rotate(-80deg)"></span>
+      <div class="label">123-node connectome · 20 domains bound</div>
+    </div>
+  </section>
+
+  <!-- DISCOVERY ENGINE / EVIDENCE -->
+  <section id="discovery">
+    <div class="eyebrow">The discovery engine</div>
+    <h2>69,322 mapped claims — <span class="g">each labeled by evidence.</span></h2>
+    <p class="lead">This is the discipline that makes the scale trustworthy: every claim carries an evidence posture, and nothing is dressed up as more certain than it is. Nothing is discarded for being unproven, either.</p>
+    <div class="states">
+      <div class="state s-proven"><div class="sc" id="ev-proven">3,462</div><h3>Proven</h3><p>Supported in the literature. Strengthen and cite. <em>(Literature-supported — not clinical validation.)</em></p></div>
+      <div class="state s-unproven"><div class="sc" id="ev-unproven">1,583</div><h3>Unproven</h3><p>A claim worth testing — a research target.</p></div>
+      <div class="state s-unknown"><div class="sc" id="ev-unknown">64,276</div><h3>Unknown</h3><p>Not yet examined — a gap to explore. A queue, not a failure.</p></div>
+      <div class="state s-impossible"><div class="sc" id="ev-impossible">1</div><h3>Impossible</h3><p>Contradicted — kept and studied for <em>why</em> it fails.</p></div>
+    </div>
+    <p class="body">About 5% of mapped claims are literature-proven today, and the rest are labeled plainly. As verification works the queue, proven rises and not-yet-examined falls — in the open.</p>
+  </section>
+
+  <!-- TREATMENT / RESEARCH -->
+  <section id="research">
+    <div class="eyebrow">Cross-domain discovery</div>
+    <h2>Where one field's answer is <span class="c">another field's untried hypothesis.</span></h2>
+    <p class="body">LIMEN surfaces candidate cross-domain treatment hypotheses — where an intervention that works in one field suggests an untried analog in another — and labels each by evidence state. Proven claims carry real citations linked to their source literature.</p>
+    <div class="banner">LIMEN models pathology <b>patterns</b> to suggest where to look. It is <b>not a clinical tool</b>, makes no diagnoses, and claims no cures. Every hypothesis is for research and human review.</div>
+  </section>
+
+  <!-- ARTIFACT FACTORY -->
+  <section id="artifacts">
+    <div class="eyebrow">The artifact factory</div>
+    <h2><span class="g">Five lanes</span> from signal to reviewable draft.</h2>
+    <p class="body">When the system finds something worth pursuing, it drafts the paperwork across five lanes. Drafts are drafts: buttons say <em>"Draft Candidate Memo,"</em> not "File."</p>
+    <div class="lanes">
+      <div class="lane"><div class="ln">Research</div><div class="ld">Cited research notes &amp; hypotheses</div></div>
+      <div class="lane"><div class="ln">Patent</div><div class="ld">Candidate patentable patterns</div></div>
+      <div class="lane"><div class="ln">Grant</div><div class="ld">Grant concepts &amp; framing</div></div>
+      <div class="lane"><div class="ln">Investment</div><div class="ld">Theses for review — not advice</div></div>
+      <div class="lane"><div class="ln">SBA / Operator</div><div class="ld">Financing &amp; operator work</div></div>
+    </div>
+  </section>
+
+  <!-- HUMAN IN THE LOOP -->
+  <section id="human">
+    <div class="eyebrow">Human in the loop</div>
+    <h2>It surfaces and drafts. <span class="g">People decide and act.</span></h2>
+    <div class="cards">
+      <div class="card"><div class="ic">No autopilot</div><h3>Nothing acts on its own</h3><p>Nothing is filed, submitted, traded, applied for, or diagnosed automatically. The autonomous fire pipeline stays gated by design.</p></div>
+      <div class="card"><div class="ic">Operator-reviewed</div><h3>Drafts await a decision</h3><p>Every artifact is a draft for human review. The operator reviews, decides, and separately acts — every time.</p></div>
+      <div class="card"><div class="ic">Self-aware</div><h3>A bounded self-audit loop</h3><p>Roughly every six hours the system checks its own integrity and applies only known-safe, mechanical fixes. Anything needing judgment is flagged for an operator — never silently changed.</p></div>
+    </div>
+  </section>
+
+  <!-- BUILT TO BE OPERATED -->
+  <section id="operate">
+    <div class="eyebrow">Built to be operated</div>
+    <h2>An engine designed for a <span class="c">human workforce.</span></h2>
+    <p class="body">LIMEN is built to be run by people. Twenty domains map to a future of domain operators — humans who review, decide, and pursue what the system surfaces. The engine finds and drafts; people judge and act. That is the design, not an afterthought.</p>
+    <div class="pillrow">
+      <span class="pill">Per-domain operator consoles</span>
+      <span class="pill">Master review queue</span>
+      <span class="pill">Evidence-labeled handoffs</span>
+      <span class="pill">Audit trail</span>
     </div>
   </section>
 
   <!-- CONTACT / LEAD -->
   <section id="contact">
-    <h2>Get involved</h2>
-    <p class="body">Investors, research partners, and domain operators: tell us how you'd like to engage. We'll be in touch.</p>
+    <div class="eyebrow">Get involved</div>
+    <h2>Investors, research partners, <span class="g">domain operators.</span></h2>
+    <p class="body">Tell us how you'd like to engage. We read every message — no automated outreach, a person follows up.</p>
     <form class="lead-form" id="lead-form" autocomplete="on">
       <div><label>Name</label><input type="text" name="name" maxlength="200"></div>
       <div><label>Email *</label><input type="email" name="email" required maxlength="200"></div>
@@ -191,13 +334,14 @@
       <div class="full"><label>Message</label><textarea name="message" maxlength="4000"></textarea></div>
       <label class="consent full"><input type="checkbox" name="consent" required> I agree to be contacted about LIMEN Helix.</label>
       <label class="consent full"><input type="checkbox" name="accredited"> I am an accredited investor (optional).</label>
-      <div class="full"><button type="submit" class="btn solid" id="lead-submit">Submit</button></div>
+      <div class="formnote">No spam, no automated outreach — a person reviews each request.</div>
+      <div class="full"><button type="submit" class="btn solid" id="lead-submit">Request briefing</button></div>
       <div id="lead-msg" aria-live="polite"></div>
     </form>
   </section>
 
   <footer>
-    <div class="disc">LIMEN Helix is a research and discovery system. Nothing here is medical, legal, financial, or investment advice. Outputs are hypotheses and drafts for human review; nothing is filed, submitted, traded, or contacted automatically.</div>
+    <div class="disc">LIMEN Helix is a research and discovery system. It maps patterns and drafts documents for human review. Nothing here is medical, legal, financial, or investment advice. Outputs are hypotheses and drafts — nothing is filed, submitted, traded, diagnosed, or acted on automatically. "Proven" indicates support in published literature, not clinical validation. Evidence labels reflect the system's current assessment and change as verification continues.</div>
     <div class="legal">LIMEN HELIX TRANSFORMATIONAL SCIENCES LLC</div>
   </footer>
 
@@ -218,6 +362,50 @@
 </div>
 
 <script>
+/* ── Live proof counters: animate to fallback values, then bind to the live
+      system summary so the numbers reflect the corpus as it grows. Safe: the
+      summary file is aggregate counts only (no PII, no claim content). ── */
+(function () {
+  'use strict';
+  function fmt(n){ try { return Number(n).toLocaleString('en-US'); } catch (e) { return String(n); } }
+  function animate(el, to){
+    if (!el || typeof to !== 'number' || !isFinite(to)) return;
+    var dur = 1300, start = null, from = 0;
+    function step(ts){
+      if (!start) start = ts;
+      var p = Math.min(1, (ts - start) / dur);
+      var eased = 0.5 - Math.cos(p * Math.PI) / 2;
+      el.textContent = fmt(Math.floor(from + (to - from) * eased));
+      if (p < 1) requestAnimationFrame(step); else el.textContent = fmt(to);
+    }
+    requestAnimationFrame(step);
+  }
+  function setText(id, v){ var el = document.getElementById(id); if (el && v != null) el.textContent = fmt(v); }
+
+  var fallbacks = [['ctr-claims',69322],['ctr-proven',3462],['ctr-unknown',64276]];
+  var ran = false;
+  function run(){
+    if (ran) return; ran = true;
+    fallbacks.forEach(function (m){ animate(document.getElementById(m[0]), m[1]); });
+    fetch('/assets/data/treatment-discovery/_summary.json', { cache: 'no-store' })
+      .then(function (r){ return r.ok ? r.json() : null; })
+      .then(function (j){
+        var b = j && j.epistemicBuckets; if (!b) return;
+        if (b.totalClaims != null) animate(document.getElementById('ctr-claims'), b.totalClaims);
+        if (b.proven != null) animate(document.getElementById('ctr-proven'), b.proven);
+        if (b.unknown != null) animate(document.getElementById('ctr-unknown'), b.unknown);
+        setText('ev-proven', b.proven); setText('ev-unproven', b.unproven);
+        setText('ev-unknown', b.unknown); setText('ev-impossible', b.impossible);
+      })
+      .catch(function () {});
+  }
+  var strip = document.getElementById('proof');
+  if ('IntersectionObserver' in window && strip) {
+    var io = new IntersectionObserver(function (es){ es.forEach(function (e){ if (e.isIntersecting) run(); }); }, { threshold: 0.15 });
+    io.observe(strip);
+  } else { run(); }
+})();
+
 /* ── Lead capture: success shown ONLY after server confirms a durable write ── */
 (function () {
   'use strict';
