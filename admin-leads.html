@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LIMEN HELIX · Leads (admin)</title>
+<!-- Client-side gate: bounces to / if not authorized. Same posture as other
+     internal pages. NOT real security; see _front-door-and-access-spec.md. -->
+<script src="/assets/js/auth-gate.js"></script>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#05060a;color:rgba(220,215,200,0.9);font-family:'IBM Plex Mono',monospace;padding:24px;font-size:13px}
+  h1{font-size:0.8rem;letter-spacing:4px;color:#C9A94E;text-transform:uppercase;margin-bottom:4px}
+  .sub{font-size:0.62rem;letter-spacing:2px;color:rgba(200,195,184,0.4);margin-bottom:18px}
+  .bar{margin-bottom:14px;font-size:0.7rem;color:rgba(200,195,184,0.6)}
+  .bar a{color:rgba(201,169,78,0.7)}
+  table{width:100%;border-collapse:collapse;font-size:0.72rem}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid rgba(201,169,78,0.1);vertical-align:top}
+  th{color:rgba(201,169,78,0.6);letter-spacing:1px;text-transform:uppercase;font-size:0.6rem}
+  tr.test{opacity:0.55}
+  .tag{font-size:0.55rem;letter-spacing:1px;padding:1px 6px;border:1px solid rgba(220,168,126,0.5);color:#dca87e;text-transform:uppercase}
+  .del{cursor:pointer;color:#e85454;border:1px solid rgba(232,84,84,0.4);padding:2px 8px;font-size:0.6rem;background:none;font-family:inherit}
+  .del:hover{background:rgba(232,84,84,0.1)}
+  .empty,.loading{padding:40px;text-align:center;color:rgba(200,195,184,0.4);letter-spacing:2px}
+  .note{margin-top:16px;font-size:0.6rem;color:rgba(200,195,184,0.35);line-height:1.6;max-width:680px}
+</style>
+</head>
+<body>
+  <h1>Captured Leads</h1>
+  <div class="sub">admin-only · key-gated read of /api/lead</div>
+  <div class="bar"><a href="/master-inbox">← internal</a> · <span id="count">loading…</span> · <a href="#" id="reload">reload</a></div>
+  <div id="mount"><div class="loading">loading…</div></div>
+  <div class="note">Minimal protection only (client gate + a query key). Not real auth. Leads contain PII — do not share this URL. "Test" rows are flagged; use Delete to remove them.</div>
+
+<script>
+  // Same key as the access gate (already present in public source) — minimal,
+  // not real security. Override server-side with LEAD_ADMIN_KEY when ready.
+  var KEY = '209913';
+
+  function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  function render(leads){
+    var mount = document.getElementById('mount');
+    document.getElementById('count').textContent = leads.length + ' lead(s)';
+    if(!leads.length){ mount.innerHTML = '<div class="empty">no leads yet</div>'; return; }
+    var rows = leads.map(function(l){
+      return '<tr class="'+(l.test?'test':'')+'">'+
+        '<td>'+esc(l.ts)+'</td>'+
+        '<td>'+esc(l.name)+(l.test?' <span class="tag">test</span>':'')+'</td>'+
+        '<td>'+esc(l.email)+'</td>'+
+        '<td>'+esc(l.phone)+'</td>'+
+        '<td>'+esc(l.organization)+'</td>'+
+        '<td>'+esc(l.interest)+(l.accredited?' · accredited':'')+'</td>'+
+        '<td>'+esc(l.message)+'</td>'+
+        '<td><button class="del" data-id="'+esc(l.id)+'">delete</button></td>'+
+      '</tr>';
+    }).join('');
+    mount.innerHTML = '<table><thead><tr><th>when</th><th>name</th><th>email</th><th>phone</th><th>org</th><th>interest</th><th>message</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>';
+    Array.prototype.forEach.call(mount.querySelectorAll('.del'), function(b){
+      b.addEventListener('click', function(){
+        if(!confirm('Delete lead '+b.dataset.id+'?')) return;
+        fetch('/api/lead?key='+encodeURIComponent(KEY)+'&id='+encodeURIComponent(b.dataset.id),{method:'DELETE'})
+          .then(function(r){return r.json();}).then(function(){ load(); });
+      });
+    });
+  }
+
+  function load(){
+    document.getElementById('mount').innerHTML = '<div class="loading">loading…</div>';
+    fetch('/api/lead?key='+encodeURIComponent(KEY))
+      .then(function(r){ return r.json(); })
+      .then(function(j){ if(j && j.ok){ render(j.leads||[]); } else { document.getElementById('mount').innerHTML = '<div class="empty">'+esc(j&&j.error||'error')+'</div>'; } })
+      .catch(function(e){ document.getElementById('mount').innerHTML = '<div class="empty">network error</div>'; });
+  }
+  document.getElementById('reload').addEventListener('click', function(e){ e.preventDefault(); load(); });
+  load();
+</script>
+</body>
+</html>

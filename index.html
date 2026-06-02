@@ -6,274 +6,325 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>LIMEN HELIX — In Progress</title>
+<title>LIMEN HELIX — Cross-Domain Discovery Engine</title>
+<meta name="description" content="LIMEN Helix is a cross-domain discovery engine that maps patterns across neuroscience, medicine, markets, infrastructure, and environment to surface research leads, operational risks, and artifact opportunities.">
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
-  html,body{height:100%;background:#000;font-family:Georgia,serif;color:rgba(220,215,200,0.92);overflow:hidden}
-  body{display:flex;align-items:center;justify-content:center;padding:24px;position:relative}
+  :root{--gold:#C9A94E;--gold-soft:rgba(201,169,78,0.7);--ink:rgba(220,215,200,0.92);--bg:#05060a}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);font-family:Georgia,'Times New Roman',serif;color:var(--ink);line-height:1.6;overflow-x:hidden}
+  body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(201,169,78,0.07) 0%,transparent 55%),radial-gradient(ellipse at 50% 100%,rgba(168,148,204,0.05) 0%,transparent 55%);pointer-events:none;z-index:0}
+  .wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:0 24px}
+  a{color:var(--gold-soft);text-decoration:none}a:hover{color:var(--gold)}
 
-  /* Subtle background atmosphere matching the rest of the site */
-  body::before{
-    content:'';position:fixed;inset:0;
-    background:radial-gradient(ellipse at 50% 35%,rgba(201,169,78,0.06) 0%,transparent 55%),
-               radial-gradient(ellipse at 50% 100%,rgba(168,148,204,0.04) 0%,transparent 50%);
-    pointer-events:none;z-index:0;
-  }
+  /* top bar */
+  .top{display:flex;justify-content:space-between;align-items:center;padding:22px 0;position:relative;z-index:3}
+  .top .brand{font-size:0.7rem;letter-spacing:7px;color:var(--gold-soft);text-transform:uppercase;cursor:default;user-select:none}
+  .top .login{font-size:0.6rem;letter-spacing:3px;text-transform:uppercase;border:1px solid rgba(201,169,78,0.3);padding:7px 14px;cursor:pointer}
+  .top .login:hover{background:rgba(201,169,78,0.08)}
 
-  main{position:relative;z-index:1;text-align:center;max-width:680px;width:100%}
+  /* hero */
+  .hero{min-height:78vh;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:60px 0 40px}
+  .hero h1{font-size:clamp(2.2rem,6vw,4.4rem);font-weight:300;letter-spacing:1px;line-height:1.1;color:rgba(235,230,215,0.97)}
+  .hero h1 .em{color:var(--gold);font-style:italic}
+  .hero .sub{margin:26px auto 0;max-width:680px;font-size:clamp(1rem,2.2vw,1.25rem);color:rgba(220,215,200,0.7);font-weight:300}
+  .hero .cta{margin-top:40px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+  .btn{font-family:Georgia,serif;font-size:0.72rem;letter-spacing:3px;text-transform:uppercase;padding:14px 26px;border:1px solid var(--gold);color:var(--gold);background:transparent;cursor:pointer;transition:all .2s}
+  .btn:hover{background:rgba(201,169,78,0.1)}
+  .btn.solid{background:rgba(201,169,78,0.14)}
+  .scrolldot{margin-top:54px;font-size:0.55rem;letter-spacing:4px;color:rgba(200,195,184,0.4);text-transform:uppercase}
 
-  .brand{
-    font-size:0.7rem;letter-spacing:9px;color:rgba(201,169,78,0.55);
-    text-transform:uppercase;font-weight:400;margin-bottom:48px;
-    cursor:default;user-select:none;
-  }
+  section{padding:64px 0;border-top:1px solid rgba(201,169,78,0.08)}
+  h2{font-size:clamp(1.3rem,3vw,1.9rem);font-weight:300;letter-spacing:1px;color:var(--gold);margin-bottom:20px}
+  p.lead{font-size:1.1rem;color:rgba(220,215,200,0.8);max-width:760px;font-weight:300}
+  p.body{color:rgba(220,215,200,0.65);max-width:760px;margin-top:14px}
 
-  .note{
-    font-size:2.4rem;letter-spacing:1.5px;line-height:1.35;
-    color:rgba(220,215,200,0.95);font-weight:300;margin-bottom:42px;
-  }
-  .note .emph{color:rgba(201,169,78,0.85);font-style:italic}
+  .domains{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:24px}
+  .domains span{font-size:0.78rem;letter-spacing:1px;color:rgba(220,215,200,0.7);border:1px solid rgba(201,169,78,0.14);padding:12px 14px;text-align:center;text-transform:uppercase}
 
-  .divider{
-    width:60px;height:1px;background:rgba(201,169,78,0.3);
-    margin:0 auto 38px auto;
-  }
+  .states{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:24px}
+  .state{padding:18px 20px;border-left:3px solid;background:rgba(0,0,0,0.25)}
+  .state h3{font-size:0.8rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+  .state p{font-size:0.9rem;color:rgba(220,215,200,0.65)}
+  .s-proven{border-color:#5ab5a0}.s-proven h3{color:#5ab5a0}
+  .s-unproven{border-color:#a87edc}.s-unproven h3{color:#a87edc}
+  .s-unknown{border-color:#dca87e}.s-unknown h3{color:#dca87e}
+  .s-impossible{border-color:#e85454}.s-impossible h3{color:#e85454}
 
-  .status{
-    font-size:0.72rem;letter-spacing:4px;color:rgba(201,169,78,0.55);
-    text-transform:uppercase;font-weight:500;
-    display:inline-flex;align-items:center;gap:10px;
-    padding:8px 16px;border:1px solid rgba(201,169,78,0.25);
-  }
-  .status .dot{
-    width:8px;height:8px;border-radius:50%;background:rgba(201,169,78,0.85);
-    animation:pulse 2.4s ease-in-out infinite;
-  }
-  @keyframes pulse{
-    0%,100%{opacity:0.35;box-shadow:0 0 0 0 rgba(201,169,78,0.4)}
-    50%{opacity:1;box-shadow:0 0 14px 2px rgba(201,169,78,0.45)}
-  }
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:24px}
+  .cols .col{padding:22px 24px;border:1px solid rgba(201,169,78,0.12);background:rgba(0,0,0,0.2)}
+  .cols .col h3{font-size:0.95rem;letter-spacing:1px;color:rgba(235,230,215,0.95);margin-bottom:10px}
+  .cols .col p{font-size:0.92rem;color:rgba(220,215,200,0.62)}
+  @media(max-width:640px){.cols{grid-template-columns:1fr}}
 
-  footer{
-    position:fixed;bottom:24px;left:0;right:0;text-align:center;
-    font-size:0.5rem;letter-spacing:3px;color:rgba(200,195,184,0.25);
-    text-transform:uppercase;
-  }
+  .how{display:flex;gap:14px;flex-wrap:wrap;margin-top:20px}
+  .how .step{flex:1;min-width:150px;padding:16px;border:1px solid rgba(201,169,78,0.12);font-size:0.85rem;color:rgba(220,215,200,0.7)}
+  .how .step b{color:var(--gold);display:block;margin-bottom:6px;font-size:0.72rem;letter-spacing:2px;text-transform:uppercase}
 
-  /* Admin login — hidden by default. Revealed via #admin URL hash,
-     Ctrl+Shift+A keypress, or triple-click on the LIMEN HELIX brand. */
-  .admin-overlay{
-    position:fixed;inset:0;background:rgba(0,0,0,0.92);
-    display:none;align-items:center;justify-content:center;
-    z-index:10;padding:24px;
-  }
+  /* lead form */
+  #contact{background:rgba(201,169,78,0.03)}
+  form.lead-form{margin-top:24px;max-width:640px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  form.lead-form .full{grid-column:1/-1}
+  form.lead-form label{display:block;font-size:0.62rem;letter-spacing:2px;text-transform:uppercase;color:rgba(200,195,184,0.5);margin-bottom:5px}
+  form.lead-form input,form.lead-form select,form.lead-form textarea{width:100%;background:rgba(0,0,0,0.35);border:1px solid rgba(201,169,78,0.25);color:var(--ink);font-family:Georgia,serif;font-size:0.95rem;padding:10px 12px;outline:none}
+  form.lead-form input:focus,form.lead-form select:focus,form.lead-form textarea:focus{border-color:var(--gold)}
+  form.lead-form textarea{min-height:90px;resize:vertical}
+  .consent{font-size:0.8rem;color:rgba(220,215,200,0.6);display:flex;gap:8px;align-items:flex-start}
+  .consent input{width:auto;margin-top:3px}
+  #lead-msg{grid-column:1/-1;min-height:20px;font-size:0.85rem;letter-spacing:1px}
+  #lead-msg.ok{color:#5ab5a0}#lead-msg.err{color:#e85454}
+  @media(max-width:640px){form.lead-form{grid-template-columns:1fr}}
+
+  footer{padding:40px 0 60px;border-top:1px solid rgba(201,169,78,0.08);text-align:center}
+  footer .disc{font-size:0.78rem;color:rgba(200,195,184,0.45);max-width:720px;margin:0 auto 16px;line-height:1.7}
+  footer .legal{font-size:0.55rem;letter-spacing:3px;color:rgba(200,195,184,0.3);text-transform:uppercase}
+
+  /* admin login overlay — preserved from prior gate */
+  .admin-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.92);display:none;align-items:center;justify-content:center;z-index:50;padding:24px}
   .admin-overlay.show{display:flex}
-
-  .admin-card{
-    background:#0a0a0a;border:1px solid rgba(201,169,78,0.35);
-    padding:36px 32px 28px;max-width:380px;width:100%;
-    text-align:center;position:relative;
-  }
-  .admin-card .label{
-    font-size:0.65rem;letter-spacing:6px;color:rgba(201,169,78,0.65);
-    text-transform:uppercase;margin-bottom:24px;
-  }
-  .admin-card input[type=password]{
-    width:100%;background:transparent;border:none;
-    border-bottom:1px solid rgba(201,169,78,0.35);
-    color:rgba(220,215,200,0.95);font-family:Georgia,serif;
-    font-size:1rem;padding:10px 4px;letter-spacing:2px;
-    text-align:center;outline:none;
-  }
-  .admin-card input[type=password]:focus{
-    border-bottom-color:rgba(201,169,78,0.8);
-  }
-  .admin-card button{
-    margin-top:22px;background:transparent;
-    border:1px solid rgba(201,169,78,0.45);
-    color:rgba(201,169,78,0.85);font-family:Georgia,serif;
-    font-size:0.7rem;letter-spacing:4px;text-transform:uppercase;
-    padding:10px 24px;cursor:pointer;transition:all .2s;
-  }
-  .admin-card button:hover{
-    background:rgba(201,169,78,0.08);color:rgba(220,200,140,0.95);
-  }
-  .admin-card .close{
-    position:absolute;top:8px;right:12px;
-    background:none;border:none;color:rgba(200,195,184,0.4);
-    font-size:1.2rem;cursor:pointer;padding:4px 8px;
-  }
-  .admin-card .close:hover{color:rgba(220,215,200,0.8)}
-  .admin-error{
-    margin-top:14px;min-height:14px;
-    font-size:0.65rem;letter-spacing:2px;color:rgba(220,120,100,0.85);
-    text-transform:uppercase;
-  }
-  .admin-hint{
-    margin-top:18px;font-size:0.55rem;letter-spacing:2px;
-    color:rgba(200,195,184,0.35);text-transform:uppercase;
-  }
-
-  @media (max-width: 540px){
-    .note{font-size:1.6rem}
-    .brand{letter-spacing:6px;margin-bottom:32px}
-  }
+  .admin-card{background:#0a0a0a;border:1px solid rgba(201,169,78,0.35);padding:36px 32px 28px;max-width:380px;width:100%;text-align:center;position:relative}
+  .admin-card .label{font-size:0.65rem;letter-spacing:6px;color:var(--gold-soft);text-transform:uppercase;margin-bottom:24px}
+  .admin-card input[type=password]{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(201,169,78,0.35);color:var(--ink);font-family:Georgia,serif;font-size:1rem;padding:10px 4px;letter-spacing:2px;text-align:center;outline:none}
+  .admin-card input[type=password]:focus{border-bottom-color:rgba(201,169,78,0.8)}
+  .admin-card button{margin-top:22px;background:transparent;border:1px solid rgba(201,169,78,0.45);color:var(--gold-soft);font-family:Georgia,serif;font-size:0.7rem;letter-spacing:4px;text-transform:uppercase;padding:10px 24px;cursor:pointer}
+  .admin-card button:hover{background:rgba(201,169,78,0.08)}
+  .admin-card .close{position:absolute;top:8px;right:12px;background:none;border:none;color:rgba(200,195,184,0.4);font-size:1.2rem;cursor:pointer;padding:4px 8px}
+  .admin-error{margin-top:14px;min-height:14px;font-size:0.65rem;letter-spacing:2px;color:rgba(220,120,100,0.85);text-transform:uppercase}
+  .admin-hint{margin-top:18px;font-size:0.55rem;letter-spacing:2px;color:rgba(200,195,184,0.35);text-transform:uppercase}
 </style>
 </head>
 <body>
-  <main>
-    <div class="brand" id="brand">LIMEN HELIX</div>
-    <div class="note">
-      Site under <span class="emph">reconstruction</span>.
-    </div>
-    <div class="divider"></div>
-    <div class="status">
-      <span class="dot"></span>
-      <span>In progress</span>
-    </div>
-  </main>
-  <footer>LIMEN HELIX TRANSFORMATIONAL SCIENCES LLC</footer>
+<div class="wrap">
 
-  <!-- Admin login overlay — discreet entry to bypass reconstruction wall.
-       Reveal via: #admin URL hash, Ctrl+Shift+A, or 3× click on brand. -->
-  <div class="admin-overlay" id="admin-overlay" role="dialog" aria-modal="true" aria-labelledby="admin-label">
-    <div class="admin-card">
-      <button class="close" id="admin-close" aria-label="Close">×</button>
-      <div class="label" id="admin-label">Admin Access</div>
-      <form id="admin-form" autocomplete="off">
-        <input
-          type="password"
-          id="admin-pw"
-          name="admin-pw"
-          placeholder="code"
-          inputmode="numeric"
-          autocomplete="off"
-          spellcheck="false"
-          aria-label="Admin code"
-        />
-        <div class="admin-error" id="admin-error" role="alert" aria-live="polite"></div>
-        <button type="submit">Enter</button>
-      </form>
-      <div class="admin-hint">Ctrl + Shift + A · #admin</div>
-    </div>
+  <div class="top">
+    <div class="brand" id="brand">LIMEN HELIX</div>
+    <div class="login" id="authorized-login">Authorized login →</div>
   </div>
 
+  <!-- HERO -->
+  <header class="hero">
+    <h1>A <span class="em">nervous system</span><br>for civilization.</h1>
+    <div class="sub">LIMEN Helix is a cross-domain discovery engine. It maps where systems break, where they heal, and where undiscovered opportunities may exist — across neuroscience, medicine, markets, infrastructure, and environment.</div>
+    <div class="cta">
+      <button class="btn solid" onclick="document.getElementById('contact').scrollIntoView()">Request investor briefing</button>
+      <button class="btn" onclick="document.getElementById('what').scrollIntoView()">See what it does</button>
+    </div>
+    <div class="scrolldot">↓ scroll</div>
+  </header>
+
+  <!-- WHAT -->
+  <section id="what">
+    <h2>What LIMEN Helix is</h2>
+    <p class="lead">A cross-domain discovery engine that maps patterns across many fields to surface research leads, treatment hypotheses, operational risks, patentable patterns, grant concepts, and investment theses — and separates <em>proven, unproven, unknown,</em> and <em>impossible</em> states so discoveries can be explored without overstating them.</p>
+  </section>
+
+  <!-- WHY NOW -->
+  <section id="why">
+    <h2>Why now</h2>
+    <p class="body">Signal is everywhere; meaning is not. Most systems score data inside a single domain. LIMEN Helix maps signals <em>across</em> domains — treating the patterns that break a market, a body, a supply chain, or an institution as variations of the same underlying dynamics — and routes what it finds into research, protection, and execution workflows with an explicit evidence posture attached to every claim.</p>
+  </section>
+
+  <!-- DOMAINS -->
+  <section id="domains">
+    <h2>The domains it maps</h2>
+    <div class="domains">
+      <span>Neuroscience</span><span>Medicine</span><span>Economy</span><span>Finance</span><span>Markets</span><span>Energy</span><span>Environment</span><span>Infrastructure</span><span>Technology</span><span>Defense</span><span>Governance</span><span>Population</span><span>Supply Chain</span><span>Education</span><span>Communication</span><span>Agriculture</span>
+    </div>
+  </section>
+
+  <!-- EVIDENCE DISCIPLINE -->
+  <section id="evidence">
+    <h2>Honest by design</h2>
+    <p class="body">Every signal carries an evidence posture. Nothing is discarded for being unproven, and nothing is dressed up as more certain than it is.</p>
+    <div class="states">
+      <div class="state s-proven"><h3>Proven</h3><p>Evidence supports it — strengthen and cite.</p></div>
+      <div class="state s-unproven"><h3>Unproven</h3><p>A claim worth testing — a research target.</p></div>
+      <div class="state s-unknown"><h3>Unknown</h3><p>A gap not yet examined — go look.</p></div>
+      <div class="state s-impossible"><h3>Impossible</h3><p>Contradicted — studied for <em>why</em> it fails.</p></div>
+    </div>
+  </section>
+
+  <!-- POTENTIAL -->
+  <section id="potential">
+    <h2>What it can surface</h2>
+    <div class="cols">
+      <div class="col">
+        <h3>Research &amp; medical</h3>
+        <p>Candidate cross-domain treatment transfers and research hypotheses, each labeled by evidence state. LIMEN Helix models pathology <em>patterns</em> to suggest where to look — it is not a clinical tool, makes no diagnoses, and claims no cures.</p>
+      </div>
+      <div class="col">
+        <h3>Business · patent · grant · investment</h3>
+        <p>Patentable-pattern concepts, grant concepts, and investment theses surfaced for human review. Drafts are drafts: nothing is filed, submitted, bought, or invested automatically, and nothing here is investment advice.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW -->
+  <section id="how">
+    <h2>How it works, at a high level</h2>
+    <p class="body">LIMEN Helix does not just score data. It maps signals into domains, verifies evidence posture, detects gaps, and routes opportunities into research, patent, grant, investment, and operator workflows.</p>
+    <div class="how">
+      <div class="step"><b>Score</b>Layered scoring of signals and phase across domains.</div>
+      <div class="step"><b>Map</b>Translate signals into domains, nodes, and patterns.</div>
+      <div class="step"><b>Verify</b>Classify each claim: proven / unproven / unknown / impossible.</div>
+      <div class="step"><b>Route</b>Send opportunities to research, protection, and execution.</div>
+    </div>
+  </section>
+
+  <!-- CONTACT / LEAD -->
+  <section id="contact">
+    <h2>Get involved</h2>
+    <p class="body">Investors, research partners, and domain operators: tell us how you'd like to engage. We'll be in touch.</p>
+    <form class="lead-form" id="lead-form" autocomplete="on">
+      <div><label>Name</label><input type="text" name="name" maxlength="200"></div>
+      <div><label>Email *</label><input type="email" name="email" required maxlength="200"></div>
+      <div><label>Phone</label><input type="tel" name="phone" maxlength="60"></div>
+      <div><label>Organization</label><input type="text" name="organization" maxlength="200"></div>
+      <div class="full"><label>Interest</label>
+        <select name="interest">
+          <option value="">Select…</option>
+          <option>Investor</option><option>Research Partner</option><option>Medical</option>
+          <option>Business</option><option>Grant</option><option>Patent</option>
+          <option>Domain Operator</option><option>Other</option>
+        </select>
+      </div>
+      <div class="full"><label>Message</label><textarea name="message" maxlength="4000"></textarea></div>
+      <label class="consent full"><input type="checkbox" name="consent" required> I agree to be contacted about LIMEN Helix.</label>
+      <label class="consent full"><input type="checkbox" name="accredited"> I am an accredited investor (optional).</label>
+      <div class="full"><button type="submit" class="btn solid" id="lead-submit">Submit</button></div>
+      <div id="lead-msg" aria-live="polite"></div>
+    </form>
+  </section>
+
+  <footer>
+    <div class="disc">LIMEN Helix is a research and discovery system. Nothing here is medical, legal, financial, or investment advice. Outputs are hypotheses and drafts for human review; nothing is filed, submitted, traded, or contacted automatically.</div>
+    <div class="legal">LIMEN HELIX TRANSFORMATIONAL SCIENCES LLC</div>
+  </footer>
+
+</div>
+
+<!-- Authorized login overlay (access control preserved from prior gate) -->
+<div class="admin-overlay" id="admin-overlay" role="dialog" aria-modal="true" aria-labelledby="admin-label">
+  <div class="admin-card">
+    <button class="close" id="admin-close" aria-label="Close">×</button>
+    <div class="label" id="admin-label">Authorized Access</div>
+    <form id="admin-form" autocomplete="off">
+      <input type="password" id="admin-pw" name="admin-pw" placeholder="code" inputmode="numeric" autocomplete="off" spellcheck="false" aria-label="Access code" />
+      <div class="admin-error" id="admin-error" role="alert" aria-live="polite"></div>
+      <button type="submit">Enter</button>
+    </form>
+    <div class="admin-hint">Authorized operators only</div>
+  </div>
+</div>
+
 <script>
+/* ── Lead capture: success shown ONLY after server confirms a durable write ── */
 (function () {
   'use strict';
+  var form = document.getElementById('lead-form');
+  var msg = document.getElementById('lead-msg');
+  var btn = document.getElementById('lead-submit');
+  if (!form) return;
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    msg.className = ''; msg.textContent = '';
+    var fd = new FormData(form);
+    var email = (fd.get('email') || '').trim();
+    if (!email) { msg.className = 'err'; msg.textContent = 'Email is required.'; return; }
+    if (!form.querySelector('[name=consent]').checked) { msg.className = 'err'; msg.textContent = 'Please agree to be contacted.'; return; }
+    var payload = {
+      name: fd.get('name') || '', email: email, phone: fd.get('phone') || '',
+      organization: fd.get('organization') || '', interest: fd.get('interest') || '',
+      message: fd.get('message') || '', consent: true,
+      accredited: !!form.querySelector('[name=accredited]').checked,
+      sourcePage: location.pathname
+    };
+    btn.disabled = true; var orig = btn.textContent; btn.textContent = 'Sending…';
+    fetch('/api/lead', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(payload) })
+      .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(function (res) {
+        if (res.ok && res.j && res.j.ok) {
+          form.reset();
+          msg.className = 'ok'; msg.textContent = 'Thank you — your message was received. We\'ll be in touch.';
+        } else {
+          msg.className = 'err';
+          msg.textContent = 'Sorry — we could not save your message. Please email us directly.';
+        }
+      })
+      .catch(function () { msg.className = 'err'; msg.textContent = 'Network error — please try again or email us directly.'; })
+      .finally(function () { btn.disabled = false; btn.textContent = orig; });
+  });
+})();
 
-  // ────────────────────────────────────────────────────────────────────
-  // Admin access code. Client-side check only; matches the existing
-  // sessionStorage gate (see assets/js/auth-gate.js). Not real security;
-  // just access friction against random visitors hitting protected pages
-  // while reconstruction is in progress. Rotate as needed.
-  // ────────────────────────────────────────────────────────────────────
+/* ── Authorized access gate (PRESERVED from prior index.html; client-side only,
+      not real security — matches assets/js/auth-gate.js). Only change vs prior:
+      DEFAULT_LANDING now points at a real page (/master-inbox) instead of the
+      missing /civilization.html, and a visible "Authorized login" trigger. ── */
+(function () {
+  'use strict';
   var ADMIN_PASSPHRASE = '209913';
-
-  var AUTH_KEY   = 'limen_access';
+  var AUTH_KEY = 'limen_access';
   var AUTH_VALUE = 'granted';
-  var DEFAULT_LANDING = '/civilization.html';
+  var DEFAULT_LANDING = '/master-inbox';
 
-  var overlay  = document.getElementById('admin-overlay');
-  var form     = document.getElementById('admin-form');
-  var pwInput  = document.getElementById('admin-pw');
+  var overlay = document.getElementById('admin-overlay');
+  var form = document.getElementById('admin-form');
+  var pwInput = document.getElementById('admin-pw');
   var errorBox = document.getElementById('admin-error');
   var closeBtn = document.getElementById('admin-close');
-  var brand    = document.getElementById('brand');
+  var brand = document.getElementById('brand');
+  var loginLink = document.getElementById('authorized-login');
 
-  function show() {
-    overlay.classList.add('show');
-    setTimeout(function () { pwInput.focus(); }, 50);
-  }
+  function show() { overlay.classList.add('show'); setTimeout(function () { pwInput.focus(); }, 50); }
   function hide() {
-    overlay.classList.remove('show');
-    errorBox.textContent = '';
-    pwInput.value = '';
-    if (location.hash === '#admin') {
-      history.replaceState(null, '', location.pathname + location.search);
-    }
+    overlay.classList.remove('show'); errorBox.textContent = ''; pwInput.value = '';
+    if (location.hash === '#admin') history.replaceState(null, '', location.pathname + location.search);
   }
-
   function getReturnParam() {
     try {
-      var params = new URLSearchParams(location.search);
-      var ret = params.get('return');
+      var ret = new URLSearchParams(location.search).get('return');
       if (ret && ret.charAt(0) === '/' && ret.indexOf('//') === -1) return ret;
-    } catch (e) { /* fall through */ }
+    } catch (e) {}
     return null;
   }
-
   function grantAndRedirect() {
-    try { sessionStorage.setItem(AUTH_KEY, AUTH_VALUE); } catch (e) { /* no-op */ }
-    var target = getReturnParam() || DEFAULT_LANDING;
-    window.location.replace(target);
+    try { sessionStorage.setItem(AUTH_KEY, AUTH_VALUE); } catch (e) {}
+    window.location.replace(getReturnParam() || DEFAULT_LANDING);
   }
 
-  // Reveal triggers
-  function checkHash() {
-    if (location.hash === '#admin') show();
-  }
+  function checkHash() { if (location.hash === '#admin') show(); }
   checkHash();
   window.addEventListener('hashchange', checkHash);
+  if (loginLink) loginLink.addEventListener('click', function (e) { e.preventDefault(); show(); });
 
   document.addEventListener('keydown', function (e) {
-    // Ctrl+Shift+A (or Cmd+Shift+A on macOS)
-    if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
-      e.preventDefault();
-      show();
-    }
-    // Escape closes overlay
-    if (e.key === 'Escape' && overlay.classList.contains('show')) {
-      hide();
-    }
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'A' || e.key === 'a')) { e.preventDefault(); show(); }
+    if (e.key === 'Escape' && overlay.classList.contains('show')) hide();
   });
 
-  // Triple-click on the LIMEN HELIX brand reveals the form
-  var brandClicks = 0;
-  var brandTimer  = null;
+  var brandClicks = 0, brandTimer = null;
   brand.addEventListener('click', function () {
-    brandClicks++;
-    clearTimeout(brandTimer);
-    if (brandClicks >= 3) {
-      brandClicks = 0;
-      show();
-    } else {
-      brandTimer = setTimeout(function () { brandClicks = 0; }, 600);
-    }
+    brandClicks++; clearTimeout(brandTimer);
+    if (brandClicks >= 3) { brandClicks = 0; show(); }
+    else brandTimer = setTimeout(function () { brandClicks = 0; }, 600);
   });
 
-  // Form submit
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     var entered = (pwInput.value || '').trim();
-    if (!entered) {
-      errorBox.textContent = 'Enter code';
-      return;
-    }
-    if (entered === ADMIN_PASSPHRASE) {
-      errorBox.textContent = '';
-      grantAndRedirect();
-    } else {
-      errorBox.textContent = 'Incorrect';
-      pwInput.value = '';
-      pwInput.focus();
-    }
+    if (!entered) { errorBox.textContent = 'Enter code'; return; }
+    if (entered === ADMIN_PASSPHRASE) { errorBox.textContent = ''; grantAndRedirect(); }
+    else { errorBox.textContent = 'Incorrect'; pwInput.value = ''; pwInput.focus(); }
   });
 
   closeBtn.addEventListener('click', hide);
-  overlay.addEventListener('click', function (e) {
-    // Click outside the card closes the overlay
-    if (e.target === overlay) hide();
-  });
+  overlay.addEventListener('click', function (e) { if (e.target === overlay) hide(); });
 
-  // If session is already granted and ?return= is set, auto-redirect.
-  // This makes a refresh-after-login bounce straight to the intended page.
   try {
     if (sessionStorage.getItem(AUTH_KEY) === AUTH_VALUE) {
-      var ret = getReturnParam();
-      if (ret) window.location.replace(ret);
+      var ret = getReturnParam(); if (ret) window.location.replace(ret);
     }
-  } catch (e) { /* no-op */ }
+  } catch (e) {}
 })();
 </script>
 </body>
