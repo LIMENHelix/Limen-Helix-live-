@@ -256,16 +256,20 @@
   });
 })();
 
-/* ── Authorized access gate (PRESERVED from prior index.html; client-side only,
-      not real security — matches assets/js/auth-gate.js). Only change vs prior:
-      DEFAULT_LANDING now points at a real page (/master-inbox) instead of the
-      missing /civilization.html, and a visible "Authorized login" trigger. ── */
+/* ── Authorized access gate (client-side only, not real security — matches
+      assets/js/auth-gate.js). Model 1: limenhelix.com is the PUBLIC front door;
+      the full LIMEN system lives in a separate deployment. Authorized Login
+      therefore routes operators to the full system's Civilization cockpit
+      (DEFAULT_LANDING, cross-origin). ?return= is still honored only for safe
+      SAME-ORIGIN front-door/internal routes via the allowlist below; deprecated
+      routes like /limen-report and any external/protocol-relative URL are
+      rejected and fall back to DEFAULT_LANDING. ── */
 (function () {
   'use strict';
   var ADMIN_PASSPHRASE = '209913';
   var AUTH_KEY = 'limen_access';
   var AUTH_VALUE = 'granted';
-  var DEFAULT_LANDING = '/civilization';
+  var DEFAULT_LANDING = 'https://limen-helix.vercel.app/civilization';
 
   var overlay = document.getElementById('admin-overlay');
   var form = document.getElementById('admin-form');
