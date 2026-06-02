@@ -464,6 +464,33 @@
       '.clr-handoff-packet-why { color:#a89c7a; font-size:0.42rem; padding:3px 0;',
       '  letter-spacing:0.3px; line-height:1.5; font-style:italic; }',
 
+      /* Gate B #9C.5 Phase 1 — handoff queue source-state authority badge */
+      '.clr-handoff-source-badge { display:block; letter-spacing:1.5px;',
+      '  text-transform:uppercase; padding:5px 9px; border-radius:2px;',
+      '  margin:0 0 8px; font-weight:600; font-size:0.45rem; }',
+      /* FRESH: small, low-key — operator does not need to act on this */
+      '.clr-handoff-source-badge.fresh { color:#5ab5a0; font-size:0.4rem;',
+      '  letter-spacing:1px; font-weight:normal;',
+      '  background:rgba(90,181,160,0.04);',
+      '  border:1px solid rgba(90,181,160,0.20); }',
+      /* STALE: amber — operator should know the queue may be out-of-date */
+      '.clr-handoff-source-badge.stale { color:#FF9800;',
+      '  background:rgba(255,152,0,0.05);',
+      '  border:1px solid rgba(255,152,0,0.30); }',
+      /* VERY_STALE: red — operator should not trust queue contents */
+      '.clr-handoff-source-badge.very-stale { color:#e85454;',
+      '  background:rgba(232,84,84,0.06);',
+      '  border:1px solid rgba(232,84,84,0.30); }',
+      /* NO_TIMESTAMP: gray — freshness unknown, distinct from stale */
+      '.clr-handoff-source-badge.no-timestamp { color:#888;',
+      '  background:rgba(255,255,255,0.02);',
+      '  border:1px solid rgba(200,195,184,0.18); }',
+      /* NO_SOURCE / NO_PIPELINE: red — pipeline itself is broken */
+      '.clr-handoff-source-badge.no-source,',
+      '.clr-handoff-source-badge.no-pipeline { color:#e85454;',
+      '  background:rgba(232,84,84,0.06);',
+      '  border:1px solid rgba(232,84,84,0.30); }',
+
       /* ARTIFACT-UI-0 — Artifact Council */
       '.clr-council { padding:10px 12px; background:#161821;',
       '  border:1px solid rgba(74,143,212,0.18); border-radius:3px;',
@@ -2064,6 +2091,91 @@
     return html;
   }
 
+  // ─── Gate B #9C.5 Phase 1 — handoff source-state classifier ──────────
+  // Returns a card-level authority classification for the MASTER BRAIN
+  // HANDOFF QUEUE based on producer presence, summary() shape, and
+  // LIMENMainBrainHandoffState.timestamp age. Visual authority downgrade
+  // only — never suppresses body, never invents packet counts.
+  //
+  // Thresholds are deliberately forgiving (queue is a review surface,
+  // not a market-tick surface): FRESH <= 15 min, STALE <= 60 min,
+  // VERY_STALE > 60 min.
+  //
+  // Doctrine: handoff readiness must be visually subordinated to
+  // handoff freshness. A queue can be honest about its packet statuses
+  // and still be misleading if the queue's own source state is stale.
+  var HANDOFF_FRESH_MS      = 15 * 60 * 1000;   // 15 minutes
+  var HANDOFF_STALE_MS      = 60 * 60 * 1000;   // 60 minutes
+
+  function _classifyHandoffSourceState(api, state, summaryResult) {
+    // 1. NO_SOURCE — producer module not loaded at all.
+    if (!api || typeof api.summary !== 'function') {
+      return {
+        level:  'NO_SOURCE',
+        badge:  'HANDOFF PIPELINE UNAVAILABLE',
+        reason: 'Handoff producer not loaded.'
+      };
+    }
+    // 2. NO_PIPELINE — summary() threw (caller passes undefined) or
+    // returned a shape we cannot use. Distinguished from NO_SOURCE so
+    // operator knows the producer loaded but failed.
+    if (summaryResult === undefined) {
+      return {
+        level:  'NO_PIPELINE',
+        badge:  'HANDOFF PIPELINE FAILED',
+        reason: 'summary() threw during read.'
+      };
+    }
+    if (!Array.isArray(summaryResult) || summaryResult.length === 0 ||
+        typeof summaryResult[0] !== 'object' || summaryResult[0] === null ||
+        typeof summaryResult[0].lane !== 'string') {
+      return {
+        level:  'NO_PIPELINE',
+        badge:  'HANDOFF PIPELINE RETURNED NO LANES',
+        reason: 'summary() returned invalid lane shape.'
+      };
+    }
+    // 3. NO_TIMESTAMP — pipeline works but freshness is unknown.
+    // Distinct from STALE because we cannot say it's old, only that we
+    // cannot tell. Operator should not treat as either FRESH or STALE.
+    var ts = state && state.timestamp;
+    if (typeof ts !== 'number' || !isFinite(ts) || ts <= 0) {
+      return {
+        level:  'NO_TIMESTAMP',
+        badge:  'HANDOFF FRESHNESS UNKNOWN',
+        reason: 'No valid handoff state timestamp.'
+      };
+    }
+    // 4. Age-banded classification.
+    var now = Date.now();
+    var ageMs = now - ts;
+    if (ageMs < 0) ageMs = 0;   // clock skew / future timestamp tolerance
+    var ageMin = Math.floor(ageMs / 60000);
+    if (ageMs <= HANDOFF_FRESH_MS) {
+      return {
+        level:  'FRESH',
+        badge:  'HANDOFF SOURCE FRESH · updated ' + ageMin + 'm ago',
+        ageMinutes: ageMin
+      };
+    }
+    if (ageMs <= HANDOFF_STALE_MS) {
+      return {
+        level:  'STALE',
+        badge:  'HANDOFF SOURCE STALE · updated ' + ageMin + 'm ago',
+        ageMinutes: ageMin
+      };
+    }
+    // VERY_STALE — render hours rather than minutes so the visual
+    // weight matches the magnitude of the gap.
+    var ageHours = Math.floor(ageMs / 3600000);
+    return {
+      level:  'VERY_STALE',
+      badge:  'HANDOFF SOURCE VERY STALE · updated ' + ageHours + 'h ago',
+      ageMinutes: ageMin,
+      ageHours:   ageHours
+    };
+  }
+
   function _refreshHandoff() {
     if (!_handoffEl) return;
     _handoffEl.innerHTML = '';
@@ -2104,8 +2216,43 @@
     explainer.textContent = 'Ready = enough evidence for draft review. Pending = packet exists but has not met the readyForGeneration gate this cycle.';
     _handoffEl.appendChild(explainer);
 
-    // Defensive: pipeline may not be present.
+    // Defensive: pipeline may not be present. Probe api/state/summary
+    // up front so Gate B #9C.5 Phase 1 source-state badge classifier
+    // runs on the same evidence the missing-pipeline checks below use.
+    // The probe try/catch preserves the original console.warn behavior;
+    // existing checks below read the pre-probed values rather than
+    // re-calling api.summary() (no double-call).
     var api = window.LIMENMainBrainHandoff;
+    var state = window.LIMENMainBrainHandoffState;
+    var summary;
+    var summaryThrew = false;
+    if (api && typeof api.summary === 'function') {
+      try {
+        summary = api.summary();
+      } catch (e) {
+        summaryThrew = true;
+        try { console.warn('[Handoff] summary() threw:', e && e.message); } catch (_) {}
+      }
+    }
+
+    // Gate B #9C.5 Phase 1 — source-state authority badge.
+    // Sits between explainer and lane list. Always renders one badge.
+    // Visual authority downgrade only — body, lane chips, packet cards
+    // remain visible for STALE / VERY_STALE / NO_TIMESTAMP. Pipeline
+    // failure cases (NO_SOURCE / NO_PIPELINE) get a red badge above the
+    // existing honest missing-pipeline text below — both layers stay.
+    var sourceAuth = _classifyHandoffSourceState(
+      api, state, summaryThrew ? undefined : summary
+    );
+    var srcBadgeEl = document.createElement('div');
+    srcBadgeEl.className = 'clr-handoff-source-badge ' +
+      sourceAuth.level.toLowerCase().replace(/_/g, '-');
+    srcBadgeEl.textContent = sourceAuth.badge;
+    _handoffEl.appendChild(srcBadgeEl);
+
+    // Existing missing-pipeline messages — preserved verbatim, but now
+    // read the pre-probed api/summary/summaryThrew values (no second
+    // api.summary() call). Behavior unchanged for the operator.
     if (!api || typeof api.summary !== 'function') {
       var miss = document.createElement('div');
       miss.className = 'clr-handoff-warn';
@@ -2113,15 +2260,7 @@
       _handoffEl.appendChild(miss);
       return;
     }
-
-    // Pull the summary defensively. If summary() throws or returns a
-    // non-array, surface that as a distinct (and honest) message rather
-    // than rendering misleading lane chips.
-    var summary;
-    try {
-      summary = api.summary();
-    } catch (e) {
-      try { console.warn('[Handoff] summary() threw:', e && e.message); } catch (_) {}
+    if (summaryThrew) {
       var failed = document.createElement('div');
       failed.className = 'clr-handoff-warn';
       failed.textContent = 'Handoff summary failed.';
