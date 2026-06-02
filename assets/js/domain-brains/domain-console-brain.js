@@ -143,6 +143,159 @@
   }
 
   // ══════════════════════════════════════════════════════════════════════
+  // Gate B δ — Panel-authority classification.
+  //
+  // Visual authority DOWNGRADE for the 4 HIGH claim-bearing panels
+  // (state / diagnoses / playbook / opportunities). Per operator
+  // doctrine 2026-06-01:
+  //
+  //   Placeholder scanning prevents malformed artifacts. It does not
+  //   prove panel authority.
+  //
+  //   Domain-console authority must be grounded in runtime brain
+  //   state, not static portal schema.
+  //
+  //   STALE content may remain visible for audit, but not at full
+  //   authority. Missing brain state suppresses content; weak brain
+  //   state downgrades content. Ontology gaps are not a side panel.
+  //   They are an authority input.
+  //
+  // Body is suppressed ONLY when content genuinely doesn't exist or
+  // shouldn't be acted on:
+  //   NO_BRAIN          — brain instance not registered
+  //   BRAIN_NOT_READY   — INIT or READY-no-cycle
+  //   BRAIN_STOPPED     — explicitly stopped
+  //
+  // STALE, CANDIDATE, NO_CONTENT keep their body visible. CANDIDATE
+  // and STALE add a header badge; NO_CONTENT keeps the existing
+  // honest empty-state text.
+  //
+  // δ logic stays local to domain-console-brain.js — brain-lifecycle
+  // states (RUNNING/STOPPED/INIT) are not surfaces that exist on
+  // company-portal or kernel-comparison, so render-authority.js
+  // surface stays small.
+  function classifyPanelAuthority(panelId, brain, state, ctx) {
+    ctx = ctx || {};
+    if (!brain) {
+      return { level: 'NO_BRAIN', badge: 'NO BRAIN', reason: 'Domain brain not registered for this domain.', suppressBody: true };
+    }
+    if (!state) {
+      return { level: 'BRAIN_NOT_READY', badge: 'NOT READY', reason: 'Brain has no state object.', suppressBody: true };
+    }
+    if (state.status === 'INIT') {
+      return { level: 'BRAIN_NOT_READY', badge: 'INITIALIZING', reason: 'Brain is initializing.', suppressBody: true };
+    }
+    if (state.status === 'READY' && !state.updated) {
+      return { level: 'BRAIN_NOT_READY', badge: 'AWAITING FIRST CYCLE', reason: 'Brain is ready but has not run a cycle yet.', suppressBody: true };
+    }
+    if (state.status === 'STOPPED') {
+      return { level: 'BRAIN_STOPPED', badge: 'BRAIN STOPPED', reason: 'Brain was stopped. Re-enter domain to restart.', suppressBody: true };
+    }
+    // Freshness gate — applies once RUNNING
+    if (state.status === 'RUNNING') {
+      if (!state.updated) {
+        // Running but no cycle timestamp — freshness unknown, content still rendered
+        return { level: 'CANDIDATE', badge: 'FRESHNESS UNKNOWN', reason: 'Brain running but cycle timestamp missing.', suppressBody: false };
+      }
+      var age = Date.now() - state.updated;
+      var staleAfter = (brain.cycleInterval || 30000) * 3; // 90s default
+      if (age > staleAfter) {
+        var ageSec = Math.round(age / 1000);
+        return { level: 'STALE', badge: 'STALE · last cycle ' + ageSec + 's ago', reason: 'Last cycle older than ' + Math.round(staleAfter / 1000) + 's.', suppressBody: false };
+      }
+    }
+    // Content presence — empty-state existing render handles its own message
+    if (panelId === 'diagnoses' && (!state.diagnoses || state.diagnoses.length === 0)) {
+      return { level: 'NO_CONTENT', badge: null, reason: null, suppressBody: false };
+    }
+    if (panelId === 'playbook' && (!state.treatments || state.treatments.length === 0)) {
+      return { level: 'NO_CONTENT', badge: null, reason: null, suppressBody: false };
+    }
+    if (panelId === 'opportunities' && (!state.opportunities || state.opportunities.length === 0)) {
+      return { level: 'NO_CONTENT', badge: null, reason: null, suppressBody: false };
+    }
+    // Ontology-gap downgrade — applies to state, diagnoses, playbook.
+    // Ontology gaps are a self-reported brain-precision weakness;
+    // they downgrade panel authority because the brain is admitting
+    // its diagnosis ontology doesn't cover all currently-active
+    // conditions.
+    if (typeof ctx.unmappedConditionCount === 'number' && ctx.unmappedConditionCount > 0 &&
+        (panelId === 'state' || panelId === 'diagnoses' || panelId === 'playbook')) {
+      return { level: 'CANDIDATE', badge: 'ONTOLOGY COVERAGE INCOMPLETE · ' + ctx.unmappedConditionCount + ' gaps', reason: 'Brain reports unmapped active conditions; coverage incomplete.', suppressBody: false };
+    }
+    // Panel-specific authority
+    if (panelId === 'state') {
+      if (state.maturity === 'EARLY') {
+        return { level: 'CANDIDATE', badge: 'EARLY-MATURITY DOMAIN', reason: 'Domain is still maturing; interpret with care.', suppressBody: false };
+      }
+      return { level: 'FULL', badge: null, reason: null, suppressBody: false };
+    }
+    if (panelId === 'diagnoses') {
+      if (typeof ctx.activeDxCount === 'number' && ctx.activeDxCount === 0) {
+        return { level: 'CANDIDATE', badge: 'MONITORED · no active diagnoses', reason: 'Diagnoses monitored but none active; per-item dxStage hedging applies.', suppressBody: false };
+      }
+      return { level: 'FULL', badge: null, reason: null, suppressBody: false };
+    }
+    if (panelId === 'playbook') {
+      // Evidence field is empirically populated 100% in canonical data;
+      // this rule is forward-protection. Any treatment missing .evidence
+      // (or with blank string) downgrades the whole playbook to CANDIDATE.
+      var hasMissingEvidence = state.treatments.some(function (t) {
+        return !t || t.evidence === undefined || t.evidence === null ||
+               (typeof t.evidence === 'string' && t.evidence.trim().length === 0);
+      });
+      if (hasMissingEvidence) {
+        return { level: 'CANDIDATE', badge: 'TREATMENT EVIDENCE INCOMPLETE', reason: 'One or more treatments lack evidence value.', suppressBody: false };
+      }
+      return { level: 'FULL', badge: null, reason: null, suppressBody: false };
+    }
+    if (panelId === 'opportunities') {
+      var hasMissingMeta = state.opportunities.some(function (o) {
+        return !o || !o.path || o.urgency === undefined || o.urgency === null;
+      });
+      if (hasMissingMeta) {
+        return { level: 'CANDIDATE', badge: 'OPPORTUNITY LANE INCOMPLETE', reason: 'One or more opportunities missing path or urgency.', suppressBody: false };
+      }
+      return { level: 'FULL', badge: null, reason: null, suppressBody: false };
+    }
+    return { level: 'FULL', badge: null, reason: null, suppressBody: false };
+  }
+
+  // Header badge for CANDIDATE / STALE / FRESHNESS_UNKNOWN states.
+  // Empty string for FULL / NO_CONTENT (those use existing render).
+  function renderPanelAuthorityBadge(authority) {
+    if (!authority || !authority.badge) return '';
+    if (authority.level === 'FULL' || authority.level === 'NO_CONTENT') return '';
+    var color =
+      (authority.level === 'STALE') ? '#e8a44e' :
+      (authority.level === 'CANDIDATE') ? '#C9A94E' :
+      '#C9A94E';
+    var bg = (authority.level === 'STALE') ? 'rgba(232,164,78,0.06)' : 'rgba(201,169,78,0.04)';
+    var border = (authority.level === 'STALE') ? 'rgba(232,164,78,0.25)' : 'rgba(201,169,78,0.20)';
+    var h = '<div style="font-size:0.30rem;letter-spacing:1.5px;color:' + color + ';background:' + bg + ';padding:4px 8px;border-radius:2px;margin:0 0 6px;border:1px solid ' + border + ';text-transform:uppercase">';
+    h += esc(authority.badge);
+    if (authority.reason) {
+      h += '<div style="font-size:0.28rem;color:rgba(200,195,184,0.55);margin-top:2px;letter-spacing:0.5px;text-transform:none">' + esc(authority.reason) + '</div>';
+    }
+    h += '</div>';
+    return h;
+  }
+
+  // Replacement body for NO_BRAIN / BRAIN_NOT_READY / BRAIN_STOPPED.
+  // These states mean the panel content genuinely doesn't exist or
+  // shouldn't be acted on — show the operator why.
+  function renderSuppressedPanelBody(authority) {
+    var color = (authority.level === 'BRAIN_STOPPED' || authority.level === 'NO_BRAIN') ? '#e85454' : '#C9A94E';
+    var bg = (authority.level === 'BRAIN_STOPPED' || authority.level === 'NO_BRAIN') ? 'rgba(232,84,84,0.05)' : 'rgba(201,169,78,0.04)';
+    var border = (authority.level === 'BRAIN_STOPPED' || authority.level === 'NO_BRAIN') ? 'rgba(232,84,84,0.25)' : 'rgba(201,169,78,0.25)';
+    var h = '<div style="padding:14px 12px;text-align:center;background:' + bg + ';border:1px solid ' + border + ';border-radius:3px">';
+    h += '<div style="font-size:0.42rem;letter-spacing:2px;color:' + color + ';text-transform:uppercase;margin-bottom:6px">' + esc(authority.badge) + '</div>';
+    h += '<div style="font-size:0.32rem;color:rgba(200,195,184,0.55);line-height:1.5">' + esc(authority.reason) + '</div>';
+    h += '</div>';
+    return h;
+  }
+
+  // ══════════════════════════════════════════════════════════════════════
   // DATA FETCH
   // ══════════════════════════════════════════════════════════════════════
 
@@ -435,6 +588,14 @@
       }
     }
 
+    // Gate B δ — panel-authority context. Built once per render(); fed into
+    // classifyPanelAuthority() for the 4 HIGH claim-bearing panels (state,
+    // diagnoses, playbook, opportunities).
+    var __dcbPanelCtx = {
+      unmappedConditionCount: unmappedConditions.length,
+      activeDxCount: activeDx.length
+    };
+
     var h = '';
 
     // ── EXECUTIVE STRIP ──
@@ -639,9 +800,14 @@
     h += '<div class="dcb-col">';
 
     // Domain State — derived narrative
+    var __authState = classifyPanelAuthority('state', _brainRef, state, __dcbPanelCtx);
     h += '<div class="dcb-panel' + (isLive ? ' dcb-live' : '') + '" data-panel="state">';
     h += '<div class="dcb-panel-title"><span>' + DOMAIN_LABEL.toUpperCase() + ' STATE ASSESSMENT</span></div>';
     h += '<div class="dcb-panel-body">';
+    if (__authState.suppressBody) {
+      h += renderSuppressedPanelBody(__authState);
+    } else {
+      h += renderPanelAuthorityBadge(__authState);
     h += '<div class="dcb-bar"><div class="dcb-bar-fill" style="width:' + stressPct + '%;background:' + sc + '"></div></div>';
     h += '<div class="dcb-meta" style="margin-top:6px">' + stressPct + '% stress \u00b7 ' + confPct + '% confidence \u00b7 ' + Math.round((state.activity || 0) * 100) + '% activity \u00b7 phase <b style="color:' + phaseColor(state.phase) + '">' + (state.phase || 'p0').toUpperCase() + ' ' + phaseName(state.phase) + '</b></div>';
     // Derived narrative
@@ -656,12 +822,18 @@
       }
       h += '</div>';
     }
+    }
     h += '</div></div>';
 
     // Diagnosis Chain — deep explanations
+    var __authDiagnoses = classifyPanelAuthority('diagnoses', _brainRef, state, __dcbPanelCtx);
     h += '<div class="dcb-panel' + (hasFiring ? ' dcb-firing' : isLive ? ' dcb-live' : '') + '" data-panel="diagnoses">';
     h += '<div class="dcb-panel-title"><span>DIAGNOSIS CHAIN \u00b7 ' + activeDx.length + ' active / ' + diagnoses.length + ' monitored</span></div>';
     h += '<div class="dcb-panel-body">';
+    if (__authDiagnoses.suppressBody) {
+      h += renderSuppressedPanelBody(__authDiagnoses);
+    } else {
+      h += renderPanelAuthorityBadge(__authDiagnoses);
     if (diagnoses.length === 0) {
       h += '<div class="dcb-empty">No diagnoses derived \u2014 portal structure not yet loaded or no conditions matched.</div>';
     } else {
@@ -737,12 +909,18 @@
         h += '</div>';
       }
     }
+    }
     h += '</div></div>';
 
     // ═══ REGULATION PLAYBOOK — grouped by diagnosis ═══
+    var __authPlaybook = classifyPanelAuthority('playbook', _brainRef, state, __dcbPanelCtx);
     h += '<div class="dcb-panel' + (treatments.length > 0 ? ' dcb-firing' : isLive ? ' dcb-live' : '') + '" data-panel="playbook">';
     h += '<div class="dcb-panel-title"><span>REGULATION PLAYBOOK \u00b7 ' + treatments.length + ' treatments across ' + activeDx.length + ' diagnoses</span></div>';
     h += '<div class="dcb-panel-body">';
+    if (__authPlaybook.suppressBody) {
+      h += renderSuppressedPanelBody(__authPlaybook);
+    } else {
+      h += renderPanelAuthorityBadge(__authPlaybook);
 
     if (treatments.length === 0 && activeDx.length === 0) {
       h += '<div style="font-size:0.30rem;color:#9a9080;line-height:1.5">No active regulation pathways. Playbook populates when diagnosis triggers fire against live feed data.</div>';
@@ -892,6 +1070,7 @@
         }
         h += '</div>';
       }
+    }
     }
     h += '</div></div>';
 
@@ -1116,9 +1295,14 @@
       else secondary.push(s);
     }
 
+    var __authOpportunities = classifyPanelAuthority('opportunities', _brainRef, state, __dcbPanelCtx);
     h += '<div class="dcb-panel' + (opportunities.length > 0 ? ' dcb-live' : '') + '" data-panel="opportunities">';
     h += '<div class="dcb-panel-title"><span>DECISION SURFACE \u00b7 ' + opportunities.length + ' OPPORTUNITIES</span></div>';
     h += '<div class="dcb-panel-body">';
+    if (__authOpportunities.suppressBody) {
+      h += renderSuppressedPanelBody(__authOpportunities);
+    } else {
+      h += renderPanelAuthorityBadge(__authOpportunities);
 
     if (opportunities.length === 0) {
       h += '<div style="font-size:0.30rem;color:#9a9080;line-height:1.5">';
@@ -1176,6 +1360,7 @@
       }
 
       h += '<div style="margin-top:6px"><a href="/' + DOMAIN + '-opportunities" style="font-size:0.3rem;color:rgba(201,169,78,0.4);text-decoration:none;letter-spacing:2px">VIEW ALL OPPORTUNITIES \u2192</a></div>';
+    }
     }
     h += '</div></div>';
 
