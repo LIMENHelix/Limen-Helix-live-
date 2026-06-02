@@ -257,6 +257,40 @@
       '  border:1px solid rgba(255,152,0,0.30); }',
       '.clr-action-conf-badge.unknown { color:#888; background:rgba(255,255,255,0.03);',
       '  border:1px solid rgba(200,195,184,0.20); }',
+      /* Gate B #9C.3 — Executive Strip + Domain Health authority */
+      '.clr-exec-conf-badge { display:block; font-size:0.4rem; letter-spacing:1.5px;',
+      '  text-transform:uppercase; padding:3px 8px; border-radius:2px;',
+      '  margin:4px 0 0; font-weight:600; }',
+      '.clr-exec-conf-badge.low { color:#e85454; background:rgba(232,84,84,0.06);',
+      '  border:1px solid rgba(232,84,84,0.28); }',
+      '.clr-exec-conf-badge.moderate { color:#FF9800; background:rgba(255,152,0,0.05);',
+      '  border:1px solid rgba(255,152,0,0.28); }',
+      '.clr-exec-conf-badge.unknown { color:#888; background:rgba(255,255,255,0.02);',
+      '  border:1px solid rgba(200,195,184,0.18); }',
+      '.clr-exec-suppress { padding:10px 14px; border:1px solid rgba(232,84,84,0.30);',
+      '  background:rgba(232,84,84,0.05); border-radius:2px;',
+      '  color:#e85454; font-size:0.5rem; letter-spacing:1.5px;',
+      '  text-transform:uppercase; }',
+      '.clr-exec-suppress small { display:block; margin-top:4px; font-size:0.36rem;',
+      '  color:rgba(200,195,184,0.55); letter-spacing:0.5px; text-transform:none; }',
+      '.clr-dh-tile-badge { display:block; font-size:0.32rem; letter-spacing:1px;',
+      '  text-transform:uppercase; padding:2px 6px; border-radius:2px;',
+      '  margin:0 0 3px; font-weight:600; }',
+      '.clr-dh-tile-badge.low { color:#e85454; background:rgba(232,84,84,0.07);',
+      '  border:1px solid rgba(232,84,84,0.25); }',
+      '.clr-dh-tile-badge.moderate { color:#FF9800; background:rgba(255,152,0,0.06);',
+      '  border:1px solid rgba(255,152,0,0.25); }',
+      '.clr-dh-tile-badge.unknown { color:#888; background:rgba(255,255,255,0.02);',
+      '  border:1px solid rgba(200,195,184,0.18); }',
+      '.clr-dh-tile-badge.fallback { color:#C9A94E; background:rgba(201,169,78,0.06);',
+      '  border:1px solid rgba(201,169,78,0.30); }',
+      '.clr-dh-absent { padding:6px 8px; border-left:3px solid rgba(232,84,84,0.45);',
+      '  background:rgba(0,0,0,0.10); opacity:0.7; }',
+      '.clr-dh-absent-label { font-size:0.42rem; letter-spacing:1px; color:#c0b8a5; }',
+      '.clr-dh-absent-banner { display:block; margin-top:2px; font-size:0.34rem;',
+      '  letter-spacing:1.5px; color:#e85454; text-transform:uppercase; }',
+      '.clr-dh-absent-reason { display:block; margin-top:1px; font-size:0.32rem;',
+      '  color:rgba(200,195,184,0.45); }',
       '.clr-event-label { color:#bbb; flex:1; }',
       '.clr-event-score { color:#888; flex-shrink:0; width:32px; text-align:right; }',
       '.clr-action-item { padding:5px 0 5px 10px; font-size:0.52rem; color:#bbb;',
@@ -626,11 +660,77 @@
   // Executive Strip
   // ═══════════════════════════════════════════════════════════════════════════
 
+  // Gate B #9C.3 — Executive Strip authority classifier.
+  //
+  // Doctrine (operator 2026-06-02):
+  //   Falsy fallback is not authority logic.
+  //   Measured zero is a signal; missing data is a different state.
+  //
+  // NO_SOURCE replaces the entire strip with a banner — the existing
+  // `mode || 'stable'` fallback would otherwise paint a fake "STABLE"
+  // state when the pipeline is genuinely missing, which is dishonest.
+  // UNKNOWN keeps the strip visible but adds a badge below it because
+  // some signal might exist (mode/drivers) even when confidence is
+  // absent. LOW / MODERATE add a structural badge below the strip
+  // without suppressing content — the existing "CONF N%" inline
+  // display stays in the meta row.
+  //
+  // The `_confidenceKnown` pattern from #9C.2 is reused via the
+  // isFinite() check on gs.confidence.
+
+  function _classifyExecStripAuthority(gs) {
+    if (!gs || typeof gs !== 'object' || Array.isArray(gs) || Object.keys(gs).length === 0) {
+      return {
+        level: 'NO_SOURCE',
+        badge: 'EXECUTIVE STATE PIPELINE NOT AVAILABLE',
+        reason: 'window.LIMENGlobalState is missing or empty. Strip content suppressed.',
+        suppressBody: true
+      };
+    }
+    var hasConf = typeof gs.confidence === 'number' && isFinite(gs.confidence);
+    if (!hasConf) {
+      return { level: 'UNKNOWN', badge: 'CONFIDENCE UNKNOWN', reason: null, suppressBody: false };
+    }
+    var conf = gs.confidence;
+    if (conf < 0.4) {
+      return {
+        level: 'LOW_CONFIDENCE',
+        badge: 'LOW CONFIDENCE · ' + Math.round(conf * 100) + '%',
+        reason: 'Mode signal interpretation may be unreliable.',
+        suppressBody: false
+      };
+    }
+    if (conf < 0.65) {
+      return {
+        level: 'MODERATE_CONFIDENCE',
+        badge: 'MODERATE CONFIDENCE · ' + Math.round(conf * 100) + '%',
+        reason: null,
+        suppressBody: false
+      };
+    }
+    return { level: 'FULL', badge: null, reason: null, suppressBody: false };
+  }
+
   var _execStripEl = null;
 
   function _refreshExecStrip() {
     if (!_execStripEl) return;
-    var gs = window.LIMENGlobalState || {};
+
+    // Gate B #9C.3 — classify before painting. NO_SOURCE replaces the
+    // entire strip with a banner; UNKNOWN / LOW / MODERATE add a badge
+    // below the existing strip content; FULL renders as before.
+    var __gsRaw = window.LIMENGlobalState;
+    var __auth = _classifyExecStripAuthority(__gsRaw);
+
+    if (__auth.suppressBody) {
+      _execStripEl.innerHTML = '<div class="clr-exec-suppress">' +
+        __auth.badge +
+        (__auth.reason ? '<small>' + __auth.reason + '</small>' : '') +
+        '</div>';
+      return;
+    }
+
+    var gs = __gsRaw || {};
     var mode = gs.mode || 'stable';
     var confidence = gs.confidence || 0;
     var drivers = gs.topDrivers || [];
@@ -688,6 +788,28 @@
     }
 
     _execStripEl.innerHTML = html;
+
+    // Gate B #9C.3 \u2014 append authority badge BELOW the existing strip
+    // when level is UNKNOWN / LOW_CONFIDENCE / MODERATE_CONFIDENCE.
+    // FULL appends nothing. NO_SOURCE was already handled above with
+    // an early-return.
+    if (__auth.badge) {
+      var __badgeCls = __auth.level === 'LOW_CONFIDENCE' ? 'low'
+                     : __auth.level === 'MODERATE_CONFIDENCE' ? 'moderate'
+                     : 'unknown';
+      var __badgeEl = document.createElement('div');
+      __badgeEl.className = 'clr-exec-conf-badge ' + __badgeCls;
+      __badgeEl.textContent = __auth.badge;
+      if (__auth.reason) {
+        // Small wrapping for the reason text \u2014 using a span keeps the
+        // badge a single block-level element with a 2-line look.
+        var __reasonEl = document.createElement('span');
+        __reasonEl.style.cssText = 'display:block;margin-top:2px;font-size:0.32rem;color:rgba(200,195,184,0.55);letter-spacing:0.5px;text-transform:none;font-weight:normal';
+        __reasonEl.textContent = __auth.reason;
+        __badgeEl.appendChild(__reasonEl);
+      }
+      _execStripEl.appendChild(__badgeEl);
+    }
   }
 
   // ═══════════════════════════════════════════════════════════════════════════
@@ -899,6 +1021,85 @@
     }
   }
 
+  // Gate B #9C.3 — Domain Health per-tile authority classifier.
+  //
+  // Doctrine carried:
+  //   Zero-defaults are not neutral.
+  //   Falsy fallback is not authority logic.
+  //
+  // The earlier per-tile build read
+  //   var d = domains[dk] || { stress: 0, trend: 0 };
+  // and then displayed 0% bars + "→" stable trend regardless of whether
+  // the domain entry was absent or genuinely all-zero. The classifier
+  // distinguishes:
+  //   ABSENT             — no measurement at all (replaces fake-zero tile)
+  //   FALLBACK           — domain present + has sources but all .live === false
+  //   UNKNOWN            — measured but confidence not a finite number
+  //   LOW / MODERATE     — measured + confidence below FULL threshold
+  //   FULL               — measured + confidence >= 0.65
+  //
+  // _hasDomainMeasurement mirrors #9a's domain-repair-map predicate but
+  // is local to console-clarity (different runtime, slightly different
+  // signal set — includes brainTreatments, maturity, trend).
+
+  function _hasDomainMeasurement(d) {
+    if (!d) return false;
+    if (typeof d.stress === 'number' && d.stress > 0) return true;
+    if (typeof d.confidence === 'number' && d.confidence > 0) return true;
+    if (typeof d.activity === 'number' && d.activity > 0) return true;
+    if (typeof d.trend === 'number' && d.trend !== 0) return true;
+    if (d.maturity && typeof d.maturity === 'string' && d.maturity.length > 0) return true;
+    if (Array.isArray(d.signals) && d.signals.length > 0) return true;
+    if (Array.isArray(d.sources) && d.sources.length > 0) return true;
+    if (Array.isArray(d.brainTreatments) && d.brainTreatments.length > 0) return true;
+    if (d.brainPhase) return true;
+    return false;
+  }
+
+  function _classifyDomainTileAuthority(d, dk) {
+    if (!d || !_hasDomainMeasurement(d)) {
+      return {
+        level: 'ABSENT',
+        badge: null,
+        bannerLabel: 'ABSENT — no measurement',
+        reason: 'No measurement available for ' + (DOMAIN_LABELS[dk] || dk) + '.',
+        suppressBody: true
+      };
+    }
+    // FALLBACK — domain present, has sources, but no source is live
+    var sources = Array.isArray(d.sources) ? d.sources : [];
+    if (sources.length > 0) {
+      var liveCount = 0, fallbackCount = 0;
+      for (var i = 0; i < sources.length; i++) {
+        if (!sources[i]) continue;
+        if (sources[i].live) liveCount++;
+        else fallbackCount++;
+      }
+      if (liveCount === 0 && fallbackCount > 0) {
+        return {
+          level: 'FALLBACK',
+          badge: 'FALLBACK SOURCES · ' + fallbackCount + ' fallback / 0 live',
+          bannerLabel: null,
+          reason: null,
+          suppressBody: false
+        };
+      }
+    }
+    // Confidence bands
+    var hasConf = typeof d.confidence === 'number' && isFinite(d.confidence);
+    if (!hasConf) {
+      return { level: 'UNKNOWN', badge: 'CONFIDENCE UNKNOWN', bannerLabel: null, reason: null, suppressBody: false };
+    }
+    var conf = d.confidence;
+    if (conf < 0.4) {
+      return { level: 'LOW_CONFIDENCE', badge: 'LOW CONFIDENCE · ' + Math.round(conf * 100) + '%', bannerLabel: null, reason: null, suppressBody: false };
+    }
+    if (conf < 0.65) {
+      return { level: 'MODERATE_CONFIDENCE', badge: 'MODERATE CONFIDENCE · ' + Math.round(conf * 100) + '%', bannerLabel: null, reason: null, suppressBody: false };
+    }
+    return { level: 'FULL', badge: null, bannerLabel: null, reason: null, suppressBody: false };
+  }
+
   function _refreshDomainsInner() {
     if (!_domainsEl) return;
     _domainsEl.innerHTML = '';
@@ -935,14 +1136,60 @@
 
     for (var i = 0; i < DOMAIN_ORDER.length; i++) {
       var dk = DOMAIN_ORDER[i];
-      var d = domains[dk] || { stress: 0, trend: 0 };
-      var stress = d.stress || 0;
-      var trend = d.trend || 0;
-      var activity = d.activity || 0;
-      var confidence = d.confidence || 0;
+
+      // Gate B #9C.3 — explicit-ABSENT classification BEFORE zero-default
+      // fallback. Earlier behavior: `domains[dk] || { stress: 0, trend: 0 }`
+      // painted fake-zero bars on absent domains. New behavior: ABSENT
+      // tile renders a minimal explanatory cell instead.
+      var __rawD = domains[dk];
+      var __tileAuth = _classifyDomainTileAuthority(__rawD, dk);
+
+      if (__tileAuth.suppressBody) {
+        // ABSENT tile — header (label) + banner + reason. No bars, no
+        // trend arrow, no fake zero values.
+        var __absentCell = document.createElement('div');
+        __absentCell.className = 'clr-dh-absent';
+        var __absLabel = document.createElement('div');
+        __absLabel.className = 'clr-dh-absent-label';
+        __absLabel.textContent = DOMAIN_LABELS[dk] || dk;
+        __absentCell.appendChild(__absLabel);
+        var __absBanner = document.createElement('span');
+        __absBanner.className = 'clr-dh-absent-banner';
+        __absBanner.textContent = __tileAuth.bannerLabel;
+        __absentCell.appendChild(__absBanner);
+        if (__tileAuth.reason) {
+          var __absReason = document.createElement('span');
+          __absReason.className = 'clr-dh-absent-reason';
+          __absReason.textContent = __tileAuth.reason;
+          __absentCell.appendChild(__absReason);
+        }
+        grid.appendChild(__absentCell);
+        continue;
+      }
+
+      var d = __rawD;
+      var stress = typeof d.stress === 'number' && isFinite(d.stress) ? d.stress : 0;
+      var trend = typeof d.trend === 'number' && isFinite(d.trend) ? d.trend : 0;
+      var activity = typeof d.activity === 'number' && isFinite(d.activity) ? d.activity : 0;
+      var confidence = typeof d.confidence === 'number' && isFinite(d.confidence) ? d.confidence : 0;
 
       // Wrap row + feed hint in a container
       var cell = document.createElement('div');
+
+      // Gate B #9C.3 — per-tile authority badge above the row.
+      // FULL renders nothing. UNKNOWN / LOW / MODERATE / FALLBACK
+      // render a small badge ABOVE the row. Body stays visible at
+      // all levels — visual downgrade only.
+      if (__tileAuth.badge) {
+        var __tileBadgeCls = __tileAuth.level === 'LOW_CONFIDENCE' ? 'low'
+                           : __tileAuth.level === 'MODERATE_CONFIDENCE' ? 'moderate'
+                           : __tileAuth.level === 'FALLBACK' ? 'fallback'
+                           : 'unknown';
+        var __tileBadgeEl = document.createElement('div');
+        __tileBadgeEl.className = 'clr-dh-tile-badge ' + __tileBadgeCls;
+        __tileBadgeEl.textContent = __tileAuth.badge;
+        cell.appendChild(__tileBadgeEl);
+      }
 
       var row = document.createElement('div');
       row.className = 'clr-domain-row';
