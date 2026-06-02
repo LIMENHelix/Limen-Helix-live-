@@ -280,10 +280,21 @@
     overlay.classList.remove('show'); errorBox.textContent = ''; pwInput.value = '';
     if (location.hash === '#admin') history.replaceState(null, '', location.pathname + location.search);
   }
+  // Only honor ?return= for known-good internal routes. Anything else
+  // (deprecated/missing routes like /limen-report, or external URLs) is ignored
+  // and login falls back to DEFAULT_LANDING. Routes here are verified to exist.
+  var RETURN_ALLOWLIST = [
+    '/master-inbox', '/operator-guide', '/my-documents', '/pattern-proposals',
+    '/kernel-comparison', '/domain-console', '/master-brain', '/treatment-discovery',
+    '/admin-leads'
+  ];
   function getReturnParam() {
     try {
       var ret = new URLSearchParams(location.search).get('return');
-      if (ret && ret.charAt(0) === '/' && ret.indexOf('//') === -1) return ret;
+      if (!ret || ret.charAt(0) !== '/' || ret.indexOf('//') !== -1) return null;
+      // Compare path only (tolerate query/hash and a trailing .html or /).
+      var pathOnly = ret.split('?')[0].split('#')[0].replace(/\.html$/, '').replace(/\/+$/, '');
+      if (RETURN_ALLOWLIST.indexOf(pathOnly) !== -1) return ret;
     } catch (e) {}
     return null;
   }
