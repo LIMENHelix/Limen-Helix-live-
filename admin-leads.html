@@ -33,11 +33,29 @@
   <div class="note">Minimal protection only (client gate + a query key). Not real auth. Leads contain PII — do not share this URL. "Test" rows are flagged; use Delete to remove them.</div>
 
 <script>
-  // Same key as the access gate (already present in public source) — minimal,
-  // not real security. Override server-side with LEAD_ADMIN_KEY when ready.
-  var KEY = '209913';
+  // SECURITY: no key is stored in source. The admin pastes the LEAD_ADMIN_KEY
+  // (the value set in Vercel) at runtime; it is kept ONLY in sessionStorage for
+  // this browser tab (never localStorage, never source). The server enforces it.
+  var KEY_STORE = 'limen_lead_admin_key';
 
   function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  function getKey(forcePrompt){
+    var k = '';
+    try { k = sessionStorage.getItem(KEY_STORE) || ''; } catch(e){}
+    if (!k || forcePrompt) {
+      k = (window.prompt('Paste the lead admin key (LEAD_ADMIN_KEY, set in Vercel).\nStored only in this browser tab — never saved to source.') || '').trim();
+      try { if (k) sessionStorage.setItem(KEY_STORE, k); } catch(e){}
+    }
+    return k;
+  }
+  function clearKey(){ try { sessionStorage.removeItem(KEY_STORE); } catch(e){} }
+
+  function showMsg(html){ document.getElementById('mount').innerHTML = html; }
+  function wireEnter(){
+    var a = document.getElementById('enterkey');
+    if (a) a.addEventListener('click', function(e){ e.preventDefault(); load(true); });
+  }
 
   function render(leads){
     var mount = document.getElementById('mount');
@@ -59,21 +77,32 @@
     Array.prototype.forEach.call(mount.querySelectorAll('.del'), function(b){
       b.addEventListener('click', function(){
         if(!confirm('Delete lead '+b.dataset.id+'?')) return;
-        fetch('/api/lead?key='+encodeURIComponent(KEY)+'&id='+encodeURIComponent(b.dataset.id),{method:'DELETE'})
-          .then(function(r){return r.json();}).then(function(){ load(); });
+        var k = getKey(false);
+        if(!k){ load(true); return; }
+        fetch('/api/lead?key='+encodeURIComponent(k)+'&id='+encodeURIComponent(b.dataset.id),{method:'DELETE'})
+          .then(function(r){return r.json();}).then(function(){ load(false); });
       });
     });
   }
 
-  function load(){
-    document.getElementById('mount').innerHTML = '<div class="loading">loading…</div>';
-    fetch('/api/lead?key='+encodeURIComponent(KEY))
-      .then(function(r){ return r.json(); })
-      .then(function(j){ if(j && j.ok){ render(j.leads||[]); } else { document.getElementById('mount').innerHTML = '<div class="empty">'+esc(j&&j.error||'error')+'</div>'; } })
-      .catch(function(e){ document.getElementById('mount').innerHTML = '<div class="empty">network error</div>'; });
+  function load(forcePrompt){
+    var k = getKey(forcePrompt);
+    if(!k){ showMsg('<div class="empty">a lead admin key is required · <a href="#" id="enterkey">enter key</a></div>'); wireEnter(); return; }
+    showMsg('<div class="loading">loading…</div>');
+    fetch('/api/lead?key='+encodeURIComponent(k))
+      .then(function(r){ return r.json().then(function(j){ return { status: r.status, j: j }; }); })
+      .then(function(res){
+        if(res.j && res.j.ok){ render(res.j.leads||[]); return; }
+        // wrong / missing / unconfigured key → drop stored key, offer re-entry
+        if(res.status === 403 || res.status === 503){ clearKey(); }
+        showMsg('<div class="empty">'+esc((res.j&&res.j.error)||('error '+res.status))+' · <a href="#" id="enterkey">re-enter key</a></div>');
+        wireEnter();
+      })
+      .catch(function(){ showMsg('<div class="empty">network error · <a href="#" id="enterkey">retry</a></div>'); wireEnter(); });
   }
-  document.getElementById('reload').addEventListener('click', function(e){ e.preventDefault(); load(); });
-  load();
+
+  document.getElementById('reload').addEventListener('click', function(e){ e.preventDefault(); load(false); });
+  load(false);
 </script>
 </body>
 </html>

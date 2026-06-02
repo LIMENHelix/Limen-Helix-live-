@@ -12,9 +12,10 @@
  * at `leads_index` (LPUSH, newest first). Read skips ids whose record is gone
  * so DELETE needs no list rewrite.
  *
- * SECURITY NOTE: the admin key is MINIMAL protection (matches the existing
- * client-side gate), NOT real auth. Set LEAD_ADMIN_KEY in Vercel to override
- * the fallback. Leads contain PII — do not expose GET without the key.
+ * SECURITY NOTE: the admin key is MINIMAL protection, NOT real auth. There is
+ * NO fallback key. GET/DELETE require process.env.LEAD_ADMIN_KEY to be set in
+ * Vercel; if it is unset, admin read/delete is disabled and zero leads are
+ * exposed. Leads contain PII — never expose GET without the key.
  *
  * Guardrail: nothing here emails, files, submits, or contacts anyone. It only
  * persists the form payload for the operator to read.
@@ -91,10 +92,16 @@ module.exports = async function handler(req, res) {
   var u;
   try { u = new URL(req.url, 'http://x'); } catch (e) { u = { searchParams: new URLSearchParams('') }; }
   var key = u.searchParams.get('key') || '';
-  var ADMIN_KEY = process.env.LEAD_ADMIN_KEY || '209913';
-  if (key !== ADMIN_KEY) {
+  var ADMIN_KEY = process.env.LEAD_ADMIN_KEY || '';
+  // No fallback key. If LEAD_ADMIN_KEY is unset, admin read/delete is disabled
+  // entirely and zero leads are exposed.
+  if (!ADMIN_KEY) {
+    res.statusCode = 503;
+    return res.end(JSON.stringify({ ok: false, error: 'Lead admin access is not configured (LEAD_ADMIN_KEY not set). No leads exposed.' }));
+  }
+  if (!key || key !== ADMIN_KEY) {
     res.statusCode = 403;
-    return res.end(JSON.stringify({ ok: false, error: 'Admin key required (?key=). Minimal protection, not real auth.' }));
+    return res.end(JSON.stringify({ ok: false, error: 'Valid admin key required (?key=). Minimal protection, not real auth.' }));
   }
 
   if (method === 'DELETE') {
