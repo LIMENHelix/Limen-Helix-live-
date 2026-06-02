@@ -291,6 +291,29 @@
       '  letter-spacing:1.5px; color:#e85454; text-transform:uppercase; }',
       '.clr-dh-absent-reason { display:block; margin-top:1px; font-size:0.32rem;',
       '  color:rgba(200,195,184,0.45); }',
+      /* Gate B #9C.4 Phase 1 — Capital Conversion action-verb demotion.
+         Replaces the "DO NOW: {action}" headline with a hedged label and
+         moves the original action text into a collapsed audit drawer.
+         Mirrors the kernel-comparison #47 suppressed-classifier-output
+         drawer style. */
+      '.clr-cap-hedged-label { display:block; font-size:0.4rem; letter-spacing:1.5px;',
+      '  text-transform:uppercase; padding:5px 8px; border-radius:2px;',
+      '  margin:4px 0 4px; font-weight:600; }',
+      '.clr-cap-hedged-label.candidate { color:#C9A94E; background:rgba(201,169,78,0.06);',
+      '  border:1px solid rgba(201,169,78,0.30); border-left:3px solid rgba(201,169,78,0.55); }',
+      '.clr-cap-hedged-label.unsupported { color:#e85454; background:rgba(232,84,84,0.06);',
+      '  border:1px solid rgba(232,84,84,0.30); border-left:3px solid rgba(232,84,84,0.55); }',
+      '.clr-cap-audit-drawer { margin-top:4px; padding:4px 8px;',
+      '  border:1px dashed rgba(232,84,84,0.22); border-radius:2px;',
+      '  background:rgba(0,0,0,0.10); }',
+      '.clr-cap-audit-drawer > summary { cursor:pointer; font-size:0.3rem;',
+      '  letter-spacing:2px; color:rgba(232,180,180,0.5);',
+      '  text-transform:uppercase; outline:none; }',
+      '.clr-cap-audit-drawer > summary:hover { color:rgba(232,180,180,0.8); }',
+      '.clr-cap-audit-body { margin-top:6px; font-size:0.32rem;',
+      '  color:rgba(200,195,184,0.55); line-height:1.5; }',
+      '.clr-cap-audit-body strong { color:rgba(232,180,180,0.7); font-weight:600;',
+      '  letter-spacing:0.5px; }',
       '.clr-event-label { color:#bbb; flex:1; }',
       '.clr-event-score { color:#888; flex-shrink:0; width:32px; text-align:right; }',
       '.clr-action-item { padding:5px 0 5px 10px; font-size:0.52rem; color:#bbb;',
@@ -3637,6 +3660,142 @@
     detectCycles: _longDetectCycles
   };
 
+  // ═══════════════════════════════════════════════════════════════════════════
+  // Gate B #9C.4 Phase 1 — Capital Conversion authority classifier.
+  //
+  // Doctrine carried (operator 2026-06-02):
+  //   A candidate capital signal is not a filing, grant, loan, or
+  //   investment recommendation.
+  //
+  //   When the action verb is the dangerous part, a badge is not
+  //   enough. The verb must be demoted.
+  //
+  // Different shape from #9C.1-3's badge-above-body family. Here the
+  // load-bearing thing is the imperative action text rendered at
+  // "DO NOW: {opp.action}" (file line 4033 of the pre-edit file).
+  // Operator-facing verbs like "File provisional...", "Apply to SBIR...",
+  // "Position in strongest..." are directly action-triggering. A badge
+  // above them would still leave the operator processing the verb.
+  // The fix: the verb itself changes shape — replaced by a hedged
+  // label, and the original action text moves into a collapsed audit
+  // drawer.
+  //
+  // FULL_ACTION_AUTHORITY is documented but unreachable today. No
+  // upstream field on opp proves verified filing/investment/grant/loan
+  // authority. When a future schema adds verified_filing /
+  // executed_position / equivalent, the unreachable check below can
+  // flip to a real predicate.
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  var _CAP_KNOWN_SOURCE_TYPES = {
+    brain_opportunity: true,
+    brain_emission: true,
+    treatment_gap: true,
+    macro_shock: true,
+    temporal_gap: true,
+    filing_density: true,
+    novelty: true,
+    cross_domain: true,
+    cross_domain_node: true,
+    institutional_gap: true,
+    medium_confidence_gap: true
+  };
+
+  var _CAP_KNOWN_PATHS = {
+    'PATENTABLE': true,
+    'INVESTABLE': true,
+    'GRANT-ELIGIBLE': true,
+    'LOAN/INFRASTRUCTURE': true
+  };
+
+  function _capEscapeText(s) {
+    if (s == null) return '';
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function _hedgedLabelForPath(path) {
+    if (path === 'PATENTABLE')          return 'CANDIDATE PATENTABLE — not a filing recommendation';
+    if (path === 'INVESTABLE')          return 'CANDIDATE INVESTABLE — not a position recommendation';
+    if (path === 'GRANT-ELIGIBLE')      return 'CANDIDATE GRANT-ELIGIBLE — not an application recommendation';
+    if (path === 'LOAN/INFRASTRUCTURE') return 'CANDIDATE FINANCING SIGNAL — not a loan recommendation';
+    return 'CAPITAL SIGNAL — AUTHORITY UNKNOWN';
+  }
+
+  function _classifyCapitalOpportunityAuthority(opp) {
+    // FULL_ACTION_AUTHORITY branch — currently unreachable. Documented
+    // here so a future upstream change (verified_filing /
+    // executed_position / etc.) can flip the predicate without
+    // restructuring the classifier shape. The predicate is
+    // false-by-construction today.
+    var __hasVerifiedAuthority = false;
+    if (__hasVerifiedAuthority) {
+      return {
+        level: 'FULL_ACTION_AUTHORITY',
+        hedgedLabel: null,
+        suppressActionText: false,
+        reason: null
+      };
+    }
+
+    // UNSUPPORTED_OR_INCOMPLETE — malformed opp, missing/unrecognized
+    // sourceType, missing/unrecognized path. Any of these means
+    // authority cannot be determined, so the action verb must be
+    // suppressed and the label demoted to authority-unknown.
+    if (!opp || typeof opp !== 'object') {
+      return {
+        level: 'UNSUPPORTED_OR_INCOMPLETE',
+        hedgedLabel: 'CAPITAL SIGNAL — AUTHORITY UNKNOWN',
+        suppressActionText: true,
+        reason: 'Opportunity object is missing or malformed.'
+      };
+    }
+
+    var sourceType = opp.sourceType;
+    var path = opp.path;
+    var sourceOK = typeof sourceType === 'string' &&
+                   _CAP_KNOWN_SOURCE_TYPES[sourceType] === true;
+    var pathOK = typeof path === 'string' &&
+                 _CAP_KNOWN_PATHS[path] === true;
+
+    if (!sourceOK || !pathOK) {
+      var __unsupReasonParts = [];
+      if (!sourceOK) {
+        __unsupReasonParts.push('sourceType ' +
+          (typeof sourceType === 'string' && sourceType.length > 0
+            ? '"' + sourceType + '" is not recognized'
+            : 'is missing'));
+      }
+      if (!pathOK) {
+        __unsupReasonParts.push('path ' +
+          (typeof path === 'string' && path.length > 0
+            ? '"' + path + '" is not recognized'
+            : 'is missing'));
+      }
+      return {
+        level: 'UNSUPPORTED_OR_INCOMPLETE',
+        hedgedLabel: 'CAPITAL SIGNAL — AUTHORITY UNKNOWN',
+        suppressActionText: true,
+        reason: 'Authority cannot be determined: ' +
+                __unsupReasonParts.join('; ') + '.'
+      };
+    }
+
+    // CANDIDATE_CAPITAL_SIGNAL — recognized source AND recognized path.
+    // Engine-derived signal exists; action text suppressed because no
+    // field proves the underlying action is verified or has been
+    // executed.
+    return {
+      level: 'CANDIDATE_CAPITAL_SIGNAL',
+      hedgedLabel: _hedgedLabelForPath(path),
+      suppressActionText: true,
+      reason: 'Source is engine-derived (' + sourceType + '), not ' +
+              'verified filing/investment authority. Action text ' +
+              'retained for audit only.'
+    };
+  }
+
   function _renderTabPatent() {
     var reports = window.LIMENReports || {};
     var report = reports.patentOpportunity;
@@ -4028,10 +4187,51 @@
           oh += '<div style="font-size:0.34rem;color:rgba(200,195,184,0.4)">' + opp.domain.toUpperCase() + ' stress: ' + Math.round(opp.stress * 100) + '%</div>';
         }
 
-        // What to do now
-        oh += '<div style="font-size:0.36rem;color:rgba(201,169,78,0.6);margin-top:4px;padding:3px 6px;border-left:2px solid rgba(201,169,78,0.15)">';
-        oh += 'DO NOW: ' + opp.action;
-        oh += '</div>';
+        // Gate B #9C.4 Phase 1 — capital opportunity authority.
+        // Replaces the "DO NOW: {opp.action}" headline with a hedged
+        // label. Original action text moves into a collapsed audit
+        // drawer below. FULL_ACTION_AUTHORITY branch retains the
+        // existing "DO NOW:" rendering for the future case when an
+        // upstream verified-filing field exists; today it is
+        // unreachable.
+        var __capAuth = _classifyCapitalOpportunityAuthority(opp);
+        if (__capAuth.level === 'FULL_ACTION_AUTHORITY') {
+          // Unreachable today; documented branch for future verified
+          // filing/investment authority.
+          oh += '<div style="font-size:0.36rem;color:rgba(201,169,78,0.6);margin-top:4px;padding:3px 6px;border-left:2px solid rgba(201,169,78,0.15)">';
+          oh += 'DO NOW: ' + _capEscapeText(opp.action);
+          oh += '</div>';
+        } else {
+          // Hedged label replaces the DO NOW headline. CANDIDATE or
+          // UNSUPPORTED. The action verb is demoted out of the
+          // operator-facing surface entirely; it remains visible only
+          // inside the collapsed audit drawer for inspection.
+          var __capLabelCls = __capAuth.level === 'UNSUPPORTED_OR_INCOMPLETE'
+                            ? 'unsupported'
+                            : 'candidate';
+          oh += '<div class="clr-cap-hedged-label ' + __capLabelCls + '">' +
+                _capEscapeText(__capAuth.hedgedLabel) +
+                '</div>';
+
+          // Audit drawer — collapsed by default. Holds the original
+          // action text + suppression reason. Honest about what the
+          // engine produced; explicit that it is NOT a recommendation.
+          if (opp.action) {
+            oh += '<details class="clr-cap-audit-drawer">';
+            oh += '<summary>audit · suppressed action text</summary>';
+            oh += '<div class="clr-cap-audit-body">';
+            oh += '<div><strong>Suppressed action:</strong> "' +
+                  _capEscapeText(opp.action) + '"</div>';
+            if (__capAuth.reason) {
+              oh += '<div style="margin-top:4px"><strong>Suppression reason:</strong> ' +
+                    _capEscapeText(__capAuth.reason) + '</div>';
+            }
+            oh += '<div style="margin-top:4px">Action text retained for audit only. ' +
+                  'It is not a filing, grant, loan, or investment recommendation.</div>';
+            oh += '</div>';
+            oh += '</details>';
+          }
+        }
 
         // Implementation from portal treatments
         if (opp.implementations.length > 0) {
