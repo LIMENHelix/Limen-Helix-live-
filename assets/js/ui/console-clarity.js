@@ -247,6 +247,16 @@
       '.clr-civ-conf-badge-reason { display:block; font-size:0.4rem;',
       '  color:rgba(200,195,184,0.55); letter-spacing:0.5px;',
       '  text-transform:none; font-weight:normal; margin-top:2px; }',
+      /* Gate B #9C.2 — Regulation TOP 3 ACTIONS NOW per-action confidence badge */
+      '.clr-action-conf-badge { display:inline-block; font-size:0.36rem;',
+      '  letter-spacing:1px; text-transform:uppercase; padding:2px 6px;',
+      '  border-radius:2px; margin:0 0 4px; font-weight:600; }',
+      '.clr-action-conf-badge.low { color:#e85454; background:rgba(232,84,84,0.08);',
+      '  border:1px solid rgba(232,84,84,0.30); }',
+      '.clr-action-conf-badge.moderate { color:#FF9800; background:rgba(255,152,0,0.07);',
+      '  border:1px solid rgba(255,152,0,0.30); }',
+      '.clr-action-conf-badge.unknown { color:#888; background:rgba(255,255,255,0.03);',
+      '  border:1px solid rgba(200,195,184,0.20); }',
       '.clr-event-label { color:#bbb; flex:1; }',
       '.clr-event-score { color:#888; flex-shrink:0; width:32px; text-align:right; }',
       '.clr-action-item { padding:5px 0 5px 10px; font-size:0.52rem; color:#bbb;',
@@ -5372,6 +5382,46 @@
 
   // ─── Regulation ──────────────────────────────────────────────────────────
 
+  // ═══════════════════════════════════════════════════════════════════════════
+  // Gate B #9C.2 — Regulation TOP 3 ACTIONS NOW per-action authority.
+  //
+  // Doctrine (operator 2026-06-01):
+  //   A confidence number beside a claim is not an authority gate
+  //   until it changes the claim's visual authority.
+  //
+  // The existing per-action meta line displays "conf: N%" inline (line
+  // ~5414 of the post-edit file). That is display-adjacent; the action
+  // row renders at full visual weight regardless. This classifier +
+  // inline badge converts the confidence number into a structural
+  // authority signal at the top of each action row.
+  //
+  // UNKNOWN handling: the existing `confidence: topTx.confidence ||
+  // reg.confidence || 0` falls back to 0 when neither source has a
+  // value — but 0 looks identical to a real measured-zero. To preserve
+  // the UNKNOWN signal, the action push now also carries a
+  // _confidenceKnown flag that is true iff topTx.confidence or
+  // reg.confidence is a finite number. The classifier reads that flag
+  // to distinguish "0 by default" from "0 by measurement".
+  //
+  // Scope: TOP 3 ACTIONS NOW summary only. The delegated
+  // LIMENRegulationRenderer.renderRegulationTab call at the end of
+  // _renderTabRegulation is already #9B-gated and is untouched here.
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  function _classifyActionAuthority(act) {
+    if (!act || !act._confidenceKnown) {
+      return { level: 'UNKNOWN', badge: 'CONFIDENCE UNKNOWN' };
+    }
+    var conf = typeof act.confidence === 'number' && isFinite(act.confidence) ? act.confidence : 0;
+    if (conf < 0.4) {
+      return { level: 'LOW_CONFIDENCE', badge: 'LOW CONFIDENCE · ' + Math.round(conf * 100) + '%' };
+    }
+    if (conf < 0.65) {
+      return { level: 'MODERATE_CONFIDENCE', badge: 'MODERATE CONFIDENCE · ' + Math.round(conf * 100) + '%' };
+    }
+    return { level: 'FULL', badge: null };
+  }
+
   function _renderTabRegulation() {
     var renderer = window.LIMENRegulationRenderer;
     if (!renderer) {
@@ -5387,12 +5437,17 @@
         var reg = regOut[rk];
         if (!reg || !reg.treatments || reg.treatments.length === 0) continue;
         var topTx = reg.treatments[0];
+        // Gate B #9C.2 — preserve raw-source-known flag so the classifier
+        // can distinguish "0 from measurement" vs "0 from || fallback".
+        var __hasTopTxConf = typeof topTx.confidence === 'number' && isFinite(topTx.confidence);
+        var __hasRegConf = typeof reg.confidence === 'number' && isFinite(reg.confidence);
         actions.push({
           domain: rk,
           action: topTx.title || topTx.label || 'intervention',
           confidence: topTx.confidence || reg.confidence || 0,
           urgency: reg.urgency || 'low',
-          stress: reg.stress || 0
+          stress: reg.stress || 0,
+          _confidenceKnown: __hasTopTxConf || __hasRegConf
         });
       }
       // Sort by urgency weight then stress
@@ -5412,6 +5467,23 @@
           actDiv.style.cssText = 'padding:4px 8px;margin-bottom:4px;border-left:3px solid ' + urgColor + ';background:rgba(0,0,0,0.12)';
           actDiv.innerHTML = '<div style="font-size:0.42rem;color:#e8e3d9">' + (ai + 1) + '. ' + act.action + '</div>' +
             '<div style="font-size:0.34rem;color:rgba(200,195,184,0.4)">' + act.domain.toUpperCase() + ' \u00b7 urgency: ' + act.urgency + ' \u00b7 stress: ' + Math.round(act.stress * 100) + '% \u00b7 conf: ' + Math.round(act.confidence * 100) + '%</div>';
+
+          // Gate B #9C.2 \u2014 per-action confidence authority badge inserted
+          // at the top of the action row, BEFORE the title line. The
+          // existing inline "conf: N%" display in the meta row below
+          // stays unchanged. Two layers stack: badge above (structural
+          // authority), inline number below (numeric display).
+          var __actAuth = _classifyActionAuthority(act);
+          if (__actAuth.badge) {
+            var __badgeCls = __actAuth.level === 'LOW_CONFIDENCE' ? 'low'
+                           : __actAuth.level === 'MODERATE_CONFIDENCE' ? 'moderate'
+                           : 'unknown';
+            var __badgeEl = document.createElement('div');
+            __badgeEl.className = 'clr-action-conf-badge ' + __badgeCls;
+            __badgeEl.textContent = __actAuth.badge;
+            actDiv.insertBefore(__badgeEl, actDiv.firstChild);
+          }
+
           top3Card.appendChild(actDiv);
         }
         _tabContentEl.appendChild(top3Card);
