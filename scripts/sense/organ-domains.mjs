@@ -39,13 +39,13 @@ export function sense() {
   }
 
   // packet adapter — memory says #1 pathology was loop open at domain-packet-adapter.js
-  const ADAPTER = path.join(ROOT, 'assets', 'js', 'limen', 'domain-packet-adapter.js');
+  const ADAPTER = path.join(ROOT, 'assets', 'js', 'civilization', 'domain-packet-adapter.js');
   const adapterPresent = fs.existsSync(ADAPTER);
 
   const attention = [];
   if (missing.length > 0) attention.push({ issue: 'Missing canonical domain brain files', severity: 'high', count: missing.length, action: 'create ' + missing.map(d => `assets/js/domain-brains/${d}-brain.js`).join(', '), organ: id });
   if (malformed.length > 0) attention.push({ issue: 'Domain brain files lacking required markers (brainId / feedSources / kernels)', severity: 'med', count: malformed.length, action: 'inspect: ' + malformed.slice(0, 5).map(m => m.file).join(', '), organ: id });
-  if (!adapterPresent) attention.push({ issue: 'domain-packet-adapter.js missing — loop between domains and Main Brain is OPEN', severity: 'high', count: 1, action: 'restore assets/js/limen/domain-packet-adapter.js (memory: this was canonical #1 pathology)', organ: id });
+  if (!adapterPresent) attention.push({ issue: 'domain-packet-adapter.js missing — loop between domains and Main Brain is OPEN', severity: 'high', count: 1, action: 'restore assets/js/civilization/domain-packet-adapter.js (memory: this was canonical #1 pathology)', organ: id });
 
   const countScore = Math.round(present.size / EXPECTED_DOMAINS.length * 100);
   const structuralScore = files.length === 0 ? 0 : Math.round((files.length - malformed.length) / files.length * 100);
