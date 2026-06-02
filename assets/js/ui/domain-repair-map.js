@@ -1,7 +1,8 @@
 /**
  * LIMEN Domain Repair Map — Visual Component
  *
- * Renders a visual panel showing 7 civilization domains with:
+ * Renders a visual panel showing 20 civilization domains (DOMAINS array
+ * below) with:
  *   - stress score bars
  *   - propagation depth indicators
  *   - dominant signals
@@ -9,10 +10,25 @@
  *
  * Read-only consumer of domain/recommendation data.
  *
+ * Gate B #9a — Source/measurement authority layer added 2026-06-01.
+ * Map-level body suppression when window.LIMENDomains is absent or empty.
+ * Per-domain ABSENT card when no measurement is present (replaces the
+ * earlier zero-default rendering which would paint 0% bars + "unknown"
+ * trend as if measured). Per-domain confidence badge above body when
+ * confidence falls below 0.65 (LOW < 0.4, MODERATE < 0.65, FULL >= 0.65).
+ *
+ * Doctrine carried:
+ *   Reliability signals govern rendering, not just display adjacent.
+ *   (See feedback_panel_authority_vs_content_validation in operator memory.)
+ *
  * Depends on:
  *   window.LIMENDomains
  *   window.LIMENRegulationReports
  *   window.LIMENReportSynthesizer
+ *   window.LIMENRemedyRegistryManager
+ *   window.LIMENRegulationRenderer  (optional, for compact regulation block)
+ *   window.LIMENRegulationOutput     (optional)
+ *   window.LIMENLongMemory           (optional, for regime tag)
  *
  * Exposes: window.LIMENDomainRepairMap
  */
@@ -107,9 +123,104 @@
       '.ldr-trend { font-size:0.55rem; display:inline-block; margin-left:4px; }',
       '.ldr-trend.rising { color:#e85454; }',
       '.ldr-trend.declining { color:#4a8fd4; }',
-      '.ldr-trend.stable { color:#888; }'
+      '.ldr-trend.stable { color:#888; }',
+
+      /* Gate B #9a — authority badges + suppression */
+      '.ldr-map-suppress { padding:18px 16px; border:1px solid rgba(232,84,84,0.3); background:rgba(232,84,84,0.04); border-radius:4px; text-align:center; }',
+      '.ldr-map-suppress-title { font-size:0.5rem; letter-spacing:1.5px; color:#e85454; text-transform:uppercase; margin-bottom:6px; }',
+      '.ldr-map-suppress-reason { font-size:0.4rem; color:rgba(220,215,200,0.55); line-height:1.5; }',
+      '.ldr-card.absent { border-left:3px solid rgba(232,84,84,0.5); opacity:0.7; }',
+      '.ldr-absent-banner { font-size:0.5rem; letter-spacing:1.5px; color:#e85454; text-transform:uppercase; padding:6px 0 2px; }',
+      '.ldr-absent-reason { font-size:0.45rem; color:rgba(220,215,200,0.45); margin-top:2px; line-height:1.4; }',
+      '.ldr-conf-badge { font-size:0.45rem; letter-spacing:1.5px; padding:3px 6px; border-radius:2px; margin:4px 0 6px; text-transform:uppercase; display:inline-block; }',
+      '.ldr-conf-badge.low { color:#e85454; background:rgba(232,84,84,0.07); border:1px solid rgba(232,84,84,0.25); }',
+      '.ldr-conf-badge.moderate { color:#FF9800; background:rgba(255,152,0,0.06); border:1px solid rgba(255,152,0,0.25); }'
     ].join('\n');
     document.head.appendChild(style);
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // Gate B #9a — authority classification
+  //
+  // Doctrine: reliability signals govern rendering, not just display adjacent.
+  // Map-level: suppress whole map when source (window.LIMENDomains) absent.
+  // Per-domain: replace zero-default render with explicit ABSENT card when the
+  //   domain has no measurement of any kind.
+  // Per-domain visual downgrade: confidence < 0.65 surfaces a badge above the
+  //   body content. Body remains visible at all confidence levels — this is
+  //   downgrade, not suppression.
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  function _classifyMapAuthority() {
+    var src = window.LIMENDomains;
+    if (src == null) {
+      return {
+        level: 'NO_SOURCE',
+        title: 'DOMAIN DATA NOT AVAILABLE',
+        reason: 'window.LIMENDomains is not loaded. The Domain Repair Map requires the domain data pipeline to be populated before it can render.',
+        suppressBody: true
+      };
+    }
+    if (typeof src !== 'object' || Array.isArray(src)) {
+      return {
+        level: 'NO_SOURCE',
+        title: 'DOMAIN DATA SHAPE INVALID',
+        reason: 'window.LIMENDomains is not an object map. Expected { domainKey: data, ... }.',
+        suppressBody: true
+      };
+    }
+    if (Object.keys(src).length === 0) {
+      return {
+        level: 'NO_SOURCE',
+        title: 'DOMAIN DATA EMPTY',
+        reason: 'window.LIMENDomains is an empty object — no domain entries available to render.',
+        suppressBody: true
+      };
+    }
+    return { level: 'OK', title: null, reason: null, suppressBody: false };
+  }
+
+  // A "measurement" is any non-zero stress, non-zero confidence, or any non-
+  // empty signals / interventions / diagnoses array. A card with all-zero,
+  // all-empty data is treated as ABSENT — the earlier behavior of rendering
+  // zero-default bars + "unknown" trend made absent domains look measured.
+  function _hasMeasurement(info) {
+    if (!info) return false;
+    if (typeof info.stress === 'number' && info.stress > 0) return true;
+    if (typeof info.confidence === 'number' && info.confidence > 0) return true;
+    if (Array.isArray(info.signals) && info.signals.length > 0) return true;
+    if (Array.isArray(info.interventions) && info.interventions.length > 0) return true;
+    if (Array.isArray(info.diagnoses) && info.diagnoses.length > 0) return true;
+    return false;
+  }
+
+  function _classifyCardAuthority(domainKey, info) {
+    if (!info || !_hasMeasurement(info)) {
+      return {
+        level: 'ABSENT',
+        badge: null,
+        suppressBody: true,
+        reason: 'No measurement available for ' + (DOMAIN_LABELS[domainKey] || domainKey) + '.'
+      };
+    }
+    var conf = typeof info.confidence === 'number' ? info.confidence : 0;
+    if (conf < 0.4) {
+      return {
+        level: 'LOW_CONFIDENCE',
+        badge: 'LOW CONFIDENCE · ' + Math.round(conf * 100) + '%',
+        suppressBody: false,
+        reason: null
+      };
+    }
+    if (conf < 0.65) {
+      return {
+        level: 'MODERATE_CONFIDENCE',
+        badge: 'MODERATE CONFIDENCE · ' + Math.round(conf * 100) + '%',
+        suppressBody: false,
+        reason: null
+      };
+    }
+    return { level: 'FULL', badge: null, suppressBody: false, reason: null };
   }
 
   // ═══════════════════════════════════════════════════════════════════════════
@@ -125,7 +236,6 @@
       el.id = 'limen-domain-repair-map';
     }
     _container = el;
-    _data = reportData || _gatherData();
 
     el.className = 'ldr-container';
     el.innerHTML = '';
@@ -134,6 +244,30 @@
     title.className = 'ldr-title';
     title.textContent = 'Domain Repair Map';
     el.appendChild(title);
+
+    // Gate B #9a — map-level source-absent suppression. If the caller passed
+    // reportData explicitly, trust it as data; otherwise gather from the
+    // pipeline globals and check whether window.LIMENDomains is present.
+    if (reportData) {
+      _data = reportData;
+    } else {
+      var mapAuth = _classifyMapAuthority();
+      if (mapAuth.suppressBody) {
+        var sup = document.createElement('div');
+        sup.className = 'ldr-map-suppress';
+        var sTitle = document.createElement('div');
+        sTitle.className = 'ldr-map-suppress-title';
+        sTitle.textContent = mapAuth.title;
+        var sReason = document.createElement('div');
+        sReason.className = 'ldr-map-suppress-reason';
+        sReason.textContent = mapAuth.reason;
+        sup.appendChild(sTitle);
+        sup.appendChild(sReason);
+        el.appendChild(sup);
+        return el;
+      }
+      _data = _gatherData();
+    }
 
     var grid = document.createElement('div');
     grid.className = 'ldr-grid';
@@ -147,7 +281,34 @@
   }
 
   function _renderDomainCard(domainKey) {
-    var info = _data[domainKey] || { stress: 0, trend: 'unknown', confidence: 0, signals: [], interventions: [] };
+    // Gate B #9a — no zero-default fallback. _data[domainKey] either exists
+    // with measurement OR the card classifies as ABSENT and renders the
+    // explicit "no measurement" variant. Earlier behavior would paint 0%
+    // stress + 0% confidence + "unknown" trend as if measured.
+    var info = _data[domainKey] || null;
+    var cardAuth = _classifyCardAuthority(domainKey, info);
+
+    if (cardAuth.suppressBody) {
+      // ABSENT card — minimal render. Operator sees the domain slot is occupied
+      // but no measurement is available; not a zero reading.
+      var absentCard = document.createElement('div');
+      absentCard.className = 'ldr-card absent';
+      var absentHeader = document.createElement('div');
+      absentHeader.className = 'ldr-card-header';
+      absentHeader.innerHTML = '<span class="ldr-domain-name">' + (DOMAIN_LABELS[domainKey] || domainKey) + '</span>' +
+        '<span class="ldr-domain-icon">' + (DOMAIN_ICONS[domainKey] || '') + '</span>';
+      absentCard.appendChild(absentHeader);
+      var absentBanner = document.createElement('div');
+      absentBanner.className = 'ldr-absent-banner';
+      absentBanner.textContent = 'ABSENT — no measurement';
+      absentCard.appendChild(absentBanner);
+      var absentReason = document.createElement('div');
+      absentReason.className = 'ldr-absent-reason';
+      absentReason.textContent = cardAuth.reason;
+      absentCard.appendChild(absentReason);
+      return absentCard;
+    }
+
     var stressClass = info.stress > 0.65 ? 'stressed' : (info.stress > 0.4 ? 'elevated' : 'stable');
     var trendClass = info.trend === 'rising' ? 'rising' : (info.trend === 'declining' ? 'declining' : 'stable');
 
@@ -160,6 +321,16 @@
     header.innerHTML = '<span class="ldr-domain-name">' + (DOMAIN_LABELS[domainKey] || domainKey) + '</span>' +
       '<span class="ldr-domain-icon">' + (DOMAIN_ICONS[domainKey] || '') + '</span>';
     card.appendChild(header);
+
+    // Gate B #9a — confidence authority badge above the body content.
+    // Visual downgrade only; body stays visible at all confidence levels.
+    if (cardAuth.badge) {
+      var badge = document.createElement('div');
+      var badgeClass = cardAuth.level === 'LOW_CONFIDENCE' ? 'low' : 'moderate';
+      badge.className = 'ldr-conf-badge ' + badgeClass;
+      badge.textContent = cardAuth.badge;
+      card.appendChild(badge);
+    }
 
     // Stress bar
     card.appendChild(_barRow('Stress', info.stress, 'stress-fill'));
