@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "createdAt": "2026-05-31T02:11:40.256Z",
-  "lastUpdatedAt": "2026-05-31T13:56:03.839Z",
+  "lastUpdatedAt": "2026-06-02T23:36:59.583Z",
   "verdicts": {
     "bind::AI__hyperactive__economy::vtr::regulators::Centers for Medicare & Medicaid Services (CMS)": {
       "verdict": "VERIFIED",
@@ -50508,10 +50508,22 @@
       "confidence": 0,
       "checkedAt": "2026-05-31T13:51:50.939Z",
       "note": "no PubMed query producible from this claim"
+    },
+    "dx::A1-mixed-cortical-deafness": {
+      "verdict": "VERIFIED",
+      "verifier": "pubmed",
+      "evidence": [
+        "pubmed:31220837",
+        "pubmed:30844182",
+        "pubmed:10598334"
+      ],
+      "confidence": 0.8,
+      "checkedAt": "2026-06-02T23:36:59.078Z",
+      "note": "Top PMID 31220837's abstract contains claim phrase \"cortical deafness\". Title: 30."
     }
   },
   "stats": {
-    "VERIFIED": 3634,
+    "VERIFIED": 3635,
     "DISPUTED": 25,
     "THEORETICAL": 1583,
     "UNVERIFIABLE": 4,
@@ -50520,7 +50532,7 @@
     "byVerifier": {
       "rule-based": 5030,
       "internal-consistency": 8,
-      "pubmed": 208
+      "pubmed": 209
     }
   }
 }
