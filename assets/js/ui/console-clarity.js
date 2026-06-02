@@ -5444,7 +5444,17 @@
         actions.push({
           domain: rk,
           action: topTx.title || topTx.label || 'intervention',
-          confidence: topTx.confidence || reg.confidence || 0,
+          // Gate B #9C.2.1 — preference fix. The earlier expression
+          //   topTx.confidence || reg.confidence || 0
+          // collapsed topTx.confidence === 0 (a real measured zero on
+          // the displayed top treatment) into a fall-through to reg's
+          // higher value via JS's truthy-|| semantics. The displayed
+          // action verb is topTx.title, so the confidence shown to the
+          // operator must reflect topTx's measurement when present
+          // (including 0), not reg's domain-rollup value.
+          // Falls through to reg.confidence only when topTx truly has
+          // no finite confidence value.
+          confidence: __hasTopTxConf ? topTx.confidence : (__hasRegConf ? reg.confidence : 0),
           urgency: reg.urgency || 'low',
           stress: reg.stress || 0,
           _confidenceKnown: __hasTopTxConf || __hasRegConf
