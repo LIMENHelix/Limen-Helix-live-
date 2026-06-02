@@ -265,7 +265,7 @@
   var ADMIN_PASSPHRASE = '209913';
   var AUTH_KEY = 'limen_access';
   var AUTH_VALUE = 'granted';
-  var DEFAULT_LANDING = '/master-inbox';
+  var DEFAULT_LANDING = '/civilization';
 
   var overlay = document.getElementById('admin-overlay');
   var form = document.getElementById('admin-form');
@@ -284,9 +284,9 @@
   // (deprecated/missing routes like /limen-report, or external URLs) is ignored
   // and login falls back to DEFAULT_LANDING. Routes here are verified to exist.
   var RETURN_ALLOWLIST = [
-    '/master-inbox', '/operator-guide', '/my-documents', '/pattern-proposals',
-    '/kernel-comparison', '/domain-console', '/master-brain', '/treatment-discovery',
-    '/admin-leads'
+    '/civilization', '/master-inbox', '/operator-guide', '/my-documents',
+    '/pattern-proposals', '/kernel-comparison', '/domain-console', '/master-brain',
+    '/treatment-discovery', '/admin-leads'
   ];
   function getReturnParam() {
     try {
