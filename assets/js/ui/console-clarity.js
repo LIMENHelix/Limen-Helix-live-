@@ -234,6 +234,19 @@
       '.clr-tier-immediate { background:rgba(232,84,84,0.15); color:#e85454; }',
       '.clr-tier-developing { background:rgba(255,152,0,0.12); color:#FF9800; }',
       '.clr-tier-watch { background:rgba(90,181,160,0.1); color:#5ab5a0; }',
+      /* Gate B #9C.1 — Civilization tab confidence authority badge */
+      '.clr-civ-conf-badge { display:block; font-size:0.5rem; letter-spacing:1.5px;',
+      '  text-transform:uppercase; padding:5px 9px; border-radius:2px;',
+      '  margin:0 0 8px; font-weight:600; }',
+      '.clr-civ-conf-badge.low { color:#e85454; background:rgba(232,84,84,0.06);',
+      '  border:1px solid rgba(232,84,84,0.28); }',
+      '.clr-civ-conf-badge.moderate { color:#FF9800; background:rgba(255,152,0,0.05);',
+      '  border:1px solid rgba(255,152,0,0.28); }',
+      '.clr-civ-conf-badge.unknown { color:#888; background:rgba(255,255,255,0.02);',
+      '  border:1px solid rgba(200,195,184,0.18); }',
+      '.clr-civ-conf-badge-reason { display:block; font-size:0.4rem;',
+      '  color:rgba(200,195,184,0.55); letter-spacing:0.5px;',
+      '  text-transform:none; font-weight:normal; margin-top:2px; }',
       '.clr-event-label { color:#bbb; flex:1; }',
       '.clr-event-score { color:#888; flex-shrink:0; width:32px; text-align:right; }',
       '.clr-action-item { padding:5px 0 5px 10px; font-size:0.52rem; color:#bbb;',
@@ -2073,6 +2086,78 @@
 
   // ─── Civilization ─────────────────────────────────────────────────────────
 
+  // ═══════════════════════════════════════════════════════════════════════════
+  // Gate B #9C.1 — Civilization tab confidence authority.
+  //
+  // Doctrine (operator 2026-06-01):
+  //   The confidence row is not the gate. The badge above the
+  //   claim-bearing card is the gate.
+  //
+  // The existing per-row "Confidence" display at the bottom of the
+  // CIVILIZATION STATE card (line ~2098-2106 of the original file)
+  // shows the numeric value + tier, but the card body renders at
+  // full visual weight regardless. This badge sits ABOVE the card
+  // and is the structural authority signal — visual downgrade only,
+  // body stays visible. The existing row stays unchanged.
+  //
+  // OR semantics: if EITHER the numeric value OR the tier triggers
+  // a lower bucket, render the lower bucket. Conservative — defer to
+  // the worse signal. Example: globalConfidence=0.8 but tier="low"
+  // → render LOW (because tier disagrees with the number).
+  //
+  // CONFIDENCE UNKNOWN: report exists with summary but neither a
+  // finite globalConfidence nor a confidenceTier present. Honest;
+  // doesn't claim FULL by default.
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  function _classifyCivilizationAuthority(s) {
+    var hasNum = !!(s && typeof s.globalConfidence === 'number' && isFinite(s.globalConfidence));
+    var tier = (s && typeof s.confidenceTier === 'string') ? s.confidenceTier.toLowerCase() : null;
+
+    // Missing both → UNKNOWN
+    if (!hasNum && !tier) {
+      return { level: 'UNKNOWN', badge: 'CONFIDENCE UNKNOWN', reason: 'Report has no confidence value or tier.' };
+    }
+
+    var pct = hasNum ? Math.round(s.globalConfidence * 100) : null;
+
+    // LOW path — either number < 0.4 OR tier === 'low'
+    var lowByNum = hasNum && s.globalConfidence < 0.4;
+    var lowByTier = tier === 'low';
+    if (lowByNum || lowByTier) {
+      var badgeLow = 'LOW CONFIDENCE' + (pct != null ? ' · ' + pct + '%' : '') + (tier ? ' · tier: ' + tier : '');
+      return { level: 'LOW_CONFIDENCE', badge: badgeLow, reason: 'Civilization confidence below 40% — interpret with caution.' };
+    }
+
+    // MODERATE path — number in [0.4, 0.65) OR tier === 'medium'
+    var modByNum = hasNum && s.globalConfidence >= 0.4 && s.globalConfidence < 0.65;
+    var modByTier = tier === 'medium' || tier === 'moderate';
+    if (modByNum || modByTier) {
+      var badgeMod = 'MODERATE CONFIDENCE' + (pct != null ? ' · ' + pct + '%' : '') + (tier ? ' · tier: ' + tier : '');
+      return { level: 'MODERATE_CONFIDENCE', badge: badgeMod, reason: null };
+    }
+
+    // Full path — number >= 0.65 OR tier === 'high'
+    return { level: 'FULL', badge: null, reason: null };
+  }
+
+  function _appendCivilizationBadge(authority, parent) {
+    if (!authority || !authority.badge) return;
+    var cls = authority.level === 'LOW_CONFIDENCE' ? 'low'
+            : authority.level === 'MODERATE_CONFIDENCE' ? 'moderate'
+            : 'unknown';
+    var el = document.createElement('div');
+    el.className = 'clr-civ-conf-badge ' + cls;
+    el.textContent = authority.badge;
+    if (authority.reason) {
+      var r = document.createElement('span');
+      r.className = 'clr-civ-conf-badge-reason';
+      r.textContent = authority.reason;
+      el.appendChild(r);
+    }
+    parent.appendChild(el);
+  }
+
   function _renderTabCivilization() {
     var reports = window.LIMENReports || {};
     var report = reports.civilization;
@@ -2086,6 +2171,15 @@
     // missing/empty fields produce no row (no placeholders, no synthesis,
     // no new data sources).
     if (report.summary) {
+      // Gate B #9C.1 — confidence authority badge above the card.
+      // The existing per-row Confidence display inside the card stays
+      // unchanged; this is the structural authority signal that draws
+      // operator attention BEFORE they read the body.
+      _appendCivilizationBadge(
+        _classifyCivilizationAuthority(report.summary),
+        _tabContentEl
+      );
+
       var card = _subCard('CIVILIZATION STATE');
       var s = report.summary;
 
