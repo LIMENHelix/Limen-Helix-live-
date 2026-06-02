@@ -57,8 +57,23 @@
   .hero h1 .cy{color:var(--cyan);font-style:italic;text-shadow:0 0 40px rgba(76,196,224,0.3)}
   .hero .sub{margin:30px auto 0;max-width:760px;font-size:clamp(1.04rem,2.2vw,1.32rem);color:var(--ink-dim);font-weight:300}
   .hero .cta{margin-top:42px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
-  .hero .tagline{margin-top:30px;font-size:0.74rem;letter-spacing:2px;color:rgba(214,209,194,0.5);text-transform:uppercase}
+  .hero .creed{margin-top:30px;font-size:clamp(1.1rem,2.7vw,1.65rem);font-weight:300;color:rgba(238,233,219,0.92);letter-spacing:.3px}
+  .hero .creed b{color:var(--gold);font-style:italic;font-weight:400}
+  .hero .tagline{margin-top:22px;font-size:0.74rem;letter-spacing:2px;color:rgba(214,209,194,0.5);text-transform:uppercase}
   .hero .tagline b{color:var(--gold-soft);font-weight:400}
+
+  /* mission / outcome band */
+  .mission{padding:34px 0 10px;text-align:center}
+  .mission .stmt{max-width:940px;margin:0 auto;font-size:clamp(1.18rem,2.7vw,1.78rem);font-weight:300;line-height:1.42;color:rgba(231,226,211,0.92)}
+  .mission .stmt .g{color:var(--gold)}.mission .stmt .c{color:var(--cyan)}
+
+  /* who this is for */
+  .who{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:30px}
+  @media(max-width:860px){.who{grid-template-columns:repeat(2,1fr)}}
+  .who .w{padding:20px 16px;border:1px solid var(--line);background:var(--panel);transition:all .2s}
+  .who .w:hover{border-color:rgba(76,196,224,0.35)}
+  .who .w h3{font-size:0.72rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--cyan);margin-bottom:9px}
+  .who .w p{font-size:0.86rem;color:var(--ink-dim)}
 
   /* proof strip */
   #proof{padding:30px 0 8px}
@@ -177,19 +192,25 @@
 
   <!-- HERO -->
   <header class="hero">
-    <div class="kicker">Civilization-scale discovery engine</div>
-    <h1>A <span class="em">nervous system</span><br>for <span class="cy">civilization</span>.</h1>
-    <div class="sub">LIMEN Helix maps stress, failure, repair, and opportunity across medicine, markets, infrastructure, defense, energy, governance, education, and beyond — then routes what it finds into research, patent, grant, investment, and operator workflows.</div>
+    <div class="kicker">Cross-domain discovery engine</div>
+    <h1>Find the world's <span class="em">hidden problems</span><br>before they become <span class="cy">obvious</span>.</h1>
+    <div class="sub">LIMEN Helix maps stress, failure, repair, and opportunity across medicine, markets, infrastructure, energy, defense, governance, and beyond — then turns those signals into research leads, patent concepts, grant opportunities, investment theses, and operator work queues.</div>
     <div class="cta">
       <button class="btn solid" onclick="document.getElementById('contact').scrollIntoView()">Request investor briefing</button>
       <button class="btn cyan" onclick="document.getElementById('system').scrollIntoView()">Explore the system</button>
     </div>
+    <div class="creed">We don't predict the future. <b>We find where the future needs help.</b></div>
     <div class="tagline"><b>Evidence-labeled.</b> Operator-reviewed. Drafts only — nothing files, trades, diagnoses, or submits automatically.</div>
   </header>
 </div>
 
-<!-- PROOF STRIP -->
+<!-- MISSION / OUTCOME -->
 <div class="wrap">
+  <section id="mission" style="border-top:none">
+    <div class="stmt">LIMEN Helix exists to <span class="g">find hidden problems before they become obvious</span> — and turn them into opportunities for research, innovation, investment, and <span class="c">action</span>.</div>
+  </section>
+
+  <!-- PROOF STRIP -->
   <section id="proof" style="border-top:none">
     <div class="counters">
       <div class="ctr"><div class="n">20</div><div class="lbl">Domains</div></div>
@@ -202,6 +223,19 @@
       <div class="ctr"><div class="n cyan">6-hr</div><div class="lbl">Self-audit loop</div></div>
     </div>
     <div class="strip-note">Live counts read from the system and move as it maps and verifies more — proven rises, not-yet-examined falls.</div>
+  </section>
+
+  <!-- WHO THIS IS FOR -->
+  <section id="who">
+    <div class="eyebrow">Who this is for</div>
+    <h2>Built for the people who <span class="g">act on what others miss.</span></h2>
+    <div class="who">
+      <div class="w"><h3>Investors</h3><p>See cross-domain risks and opportunities early — as evidence-labeled investment theses for review. Never advice, never automated trades.</p></div>
+      <div class="w"><h3>Researchers</h3><p>Get candidate hypotheses and research leads with their evidence posture attached — and a citation when a claim is literature-supported.</p></div>
+      <div class="w"><h3>Builders</h3><p>Turn detected gaps into patent concepts and buildable opportunities, drafted for you to carry forward.</p></div>
+      <div class="w"><h3>Institutions</h3><p>Spot operational stress and failure patterns across domains before they become public — with a human in every loop.</p></div>
+      <div class="w"><h3>Domain operators</h3><p>Run a domain from a review queue of surfaced problems and drafted work. You decide what gets pursued.</p></div>
+    </div>
   </section>
 
   <!-- THE LIVING MAP -->
