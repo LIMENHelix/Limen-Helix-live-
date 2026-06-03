@@ -89,6 +89,10 @@
   .ctr .cap{margin-top:6px;font-size:0.56rem;letter-spacing:1px;color:rgba(214,209,194,0.34);text-transform:uppercase}
   .ctr.live .lbl::after{content:'● live';display:block;margin-top:5px;font-size:0.5rem;letter-spacing:2px;color:var(--cyan-soft)}
   .strip-note{text-align:center;margin-top:16px;font-size:0.66rem;letter-spacing:1px;color:rgba(214,209,194,0.4)}
+  #ctr-live{color:var(--cyan);display:inline-block}
+  #ctr-live.pulse{animation:ctrpulse 1.1s ease}
+  @keyframes ctrpulse{0%{opacity:.35;transform:scale(1)}40%{opacity:1;transform:scale(1.5)}100%{opacity:.55;transform:scale(1)}}
+  #ctr-updated{color:var(--cyan-soft)}
 
   section{padding:74px 0;border-top:1px solid var(--line);position:relative}
   .eyebrow{font-size:0.6rem;letter-spacing:5px;text-transform:uppercase;color:var(--cyan-soft);margin-bottom:14px}
@@ -224,7 +228,7 @@
       <div class="ctr"><div class="n">5</div><div class="lbl">Artifact lanes</div></div>
       <div class="ctr"><div class="n cyan">6-hr</div><div class="lbl">Self-audit loop</div></div>
     </div>
-    <div class="strip-note">Live counts read from the system and move as it maps and verifies more — proven rises, not-yet-examined falls.</div>
+    <div class="strip-note"><span id="ctr-live">●</span> live · <span id="ctr-updated">reading…</span> — counts roll as the system maps and verifies more.</div>
   </section>
 
   <!-- WHO THIS IS FOR -->
@@ -419,23 +423,33 @@
   function setText(id, v){ var el = document.getElementById(id); if (el && v != null) el.textContent = fmt(v); }
 
   var fallbacks = [['ctr-claims',69322],['ctr-proven',3462],['ctr-unproven',1583],['ctr-unknown',64276],['ctr-impossible',1]];
+  var lastVals = {};
+  function applyBuckets(b){
+    if (!b) return;
+    var map = { 'ctr-claims': b.totalClaims, 'ctr-proven': b.proven, 'ctr-unproven': b.unproven, 'ctr-unknown': b.unknown, 'ctr-impossible': b.impossible };
+    Object.keys(map).forEach(function (id){
+      var v = map[id]; if (v == null) return;
+      if (lastVals[id] !== v) { animate(document.getElementById(id), v); lastVals[id] = v; }
+    });
+    setText('ev-proven', b.proven); setText('ev-unproven', b.unproven);
+    setText('ev-unknown', b.unknown); setText('ev-impossible', b.impossible);
+    var u = document.getElementById('ctr-updated');
+    if (u) { try { u.textContent = 'updated ' + new Date().toLocaleTimeString(); } catch (e) {} }
+    var dot = document.getElementById('ctr-live');
+    if (dot) { dot.classList.remove('pulse'); void dot.offsetWidth; dot.classList.add('pulse'); }
+  }
+  function refresh(){
+    fetch('/assets/data/treatment-discovery/_summary.json', { cache: 'no-store' })
+      .then(function (r){ return r.ok ? r.json() : null; })
+      .then(function (j){ applyBuckets(j && j.epistemicBuckets); })
+      .catch(function () {});
+  }
   var ran = false;
   function run(){
     if (ran) return; ran = true;
-    fallbacks.forEach(function (m){ animate(document.getElementById(m[0]), m[1]); });
-    fetch('/assets/data/treatment-discovery/_summary.json', { cache: 'no-store' })
-      .then(function (r){ return r.ok ? r.json() : null; })
-      .then(function (j){
-        var b = j && j.epistemicBuckets; if (!b) return;
-        if (b.totalClaims != null) animate(document.getElementById('ctr-claims'), b.totalClaims);
-        if (b.proven != null) animate(document.getElementById('ctr-proven'), b.proven);
-        if (b.unproven != null) animate(document.getElementById('ctr-unproven'), b.unproven);
-        if (b.unknown != null) animate(document.getElementById('ctr-unknown'), b.unknown);
-        if (b.impossible != null) animate(document.getElementById('ctr-impossible'), b.impossible);
-        setText('ev-proven', b.proven); setText('ev-unproven', b.unproven);
-        setText('ev-unknown', b.unknown); setText('ev-impossible', b.impossible);
-      })
-      .catch(function () {});
+    fallbacks.forEach(function (m){ animate(document.getElementById(m[0]), m[1]); lastVals[m[0]] = m[1]; });
+    refresh();
+    setInterval(refresh, 20000); // poll every 20s → counters roll as the system verifies more
   }
   var strip = document.getElementById('proof');
   if ('IntersectionObserver' in window && strip) {
