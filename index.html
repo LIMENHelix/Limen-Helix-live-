@@ -422,7 +422,7 @@
   }
   function setText(id, v){ var el = document.getElementById(id); if (el && v != null) el.textContent = fmt(v); }
 
-  var fallbacks = [['ctr-claims',69322],['ctr-proven',3462],['ctr-unproven',1583],['ctr-unknown',64276],['ctr-impossible',1]];
+  var fallbacks = [['ctr-claims',71723],['ctr-proven',3700],['ctr-unproven',1583],['ctr-unknown',66351],['ctr-impossible',89]];
   var lastVals = {};
   function applyBuckets(b){
     if (!b) return;
@@ -444,18 +444,24 @@
       .then(function (j){ applyBuckets(j && j.epistemicBuckets); })
       .catch(function () {});
   }
-  var ran = false;
-  function run(){
-    if (ran) return; ran = true;
-    fallbacks.forEach(function (m){ animate(document.getElementById(m[0]), m[1]); lastVals[m[0]] = m[1]; });
-    refresh();
-    setInterval(refresh, 20000); // poll every 20s → counters roll as the system verifies more
+  // Count-up roll: animate each counter from 0 → its current value. Re-plays on
+  // page load AND every time the strip scrolls into view, so the numbers visibly
+  // move on every login instead of sitting static.
+  function rollUp(){
+    fallbacks.forEach(function (m){
+      var v = (lastVals[m[0]] != null) ? lastVals[m[0]] : m[1];
+      animate(document.getElementById(m[0]), v);
+    });
   }
+  fallbacks.forEach(function (m){ if (lastVals[m[0]] == null) lastVals[m[0]] = m[1]; });
+  rollUp();                       // animate immediately on load
+  refresh();                      // pull live values (re-animates anything changed)
+  setInterval(refresh, 20000);    // keep polling so it climbs as verification runs
   var strip = document.getElementById('proof');
   if ('IntersectionObserver' in window && strip) {
-    var io = new IntersectionObserver(function (es){ es.forEach(function (e){ if (e.isIntersecting) run(); }); }, { threshold: 0.15 });
+    var io = new IntersectionObserver(function (es){ es.forEach(function (e){ if (e.isIntersecting) rollUp(); }); }, { threshold: 0.25 });
     io.observe(strip);
-  } else { run(); }
+  }
 })();
 
 /* ── Lead capture: success shown ONLY after server confirms a durable write ── */

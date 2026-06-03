@@ -87,19 +87,19 @@
   ],
   "note": "Treatment-discovery report uses (brainNodeId × comparisonDomain × stateBucket) cells. Six-step chain per cell: ISSUE → NODE → DISORDER → NEURO_TX → DOMAIN_TX → RESIDUAL. Verification labels each claim by epistemic state (PROVEN / UNPROVEN / UNKNOWN / IMPOSSIBLE) and keeps every residual — none are suppressed.",
   "epistemicBuckets": {
-    "proven": 3629,
+    "proven": 3700,
     "unproven": 1583,
-    "unknown": 65253,
-    "impossible": 58,
-    "totalClaims": 70523,
-    "processedVerdicts": 6251,
+    "unknown": 66351,
+    "impossible": 89,
+    "totalClaims": 71723,
+    "processedVerdicts": 7451,
     "verdictCounts": {
-      "VERIFIED": 3629,
+      "VERIFIED": 3700,
       "THEORETICAL": 1583,
-      "DISPUTED": 58,
-      "UNVERIFIABLE": 981
+      "DISPUTED": 89,
+      "UNVERIFIABLE": 2079
     },
     "note": "Every claim kept and separated by epistemic state. Verification writes the state; it never deletes the finding. Impossible = study why it fails (kept, not discarded).",
-    "computedAt": "2026-06-03T02:36:31.365Z"
+    "computedAt": "2026-06-03T11:45:09.365Z"
   }
 }
