@@ -74,7 +74,8 @@
     { name: 'console-clarity',     api: 'LIMENClarity' },
     { name: 'phase-domain-adapter', api: 'LIMENPhaseDomainAdapter' },
     { name: 'gap-synthesis-engine', api: 'LIMENGapSynthesis' },
-    { name: 'inter-brain-bus', api: 'LIMENInterBrainBus' }
+    { name: 'inter-brain-bus', api: 'LIMENInterBrainBus' },
+    { name: 'action-selection-gate', api: 'LIMENActionGate' } // Stage-4 basal-ganglia chokepoint; DARK unless window.LIMEN_ENABLE_ACTION_GATE
   ];
 
   // Minimal subset — started on connectome page
