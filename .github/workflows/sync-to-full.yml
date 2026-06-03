@@ -1,0 +1,92 @@
+name: Sync canonical (lean) → full
+
+# Auto-mirrors shared LOGIC from this canonical lean repo (Limen-Helix-live-)
+# into the full repo (LIMENHelix/Limen-Helix → limen-helix.vercel.app), so the
+# operator never has to remember a manual "Sync from canonical" step.
+#
+# SAFETY — this is a SCOPED, NO-DELETE OVERLAY. It only copies an allowlist of
+# shared paths and NEVER deletes anything in full. It deliberately does NOT touch
+# files that legitimately differ between the repos:
+#   - index.html / vercel.json / package.json / treatment-discovery.html (full has its own)
+#   - assets/data/** (full holds the 85MB cube + audit data lean lacks — must survive)
+#   - api/lead.js (lean-only), api/helix_app/** (python kernel — do not auto-touch)
+#   - any full-only file (preserved, since we only copy lean→full without --delete)
+#
+# REQUIRES a one-time secret: FULL_REPO_TOKEN (a PAT/fine-grained token with
+# contents:write on LIMENHelix/Limen-Helix). Until that secret exists, this
+# workflow no-ops on the checkout step — it cannot push without it.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'assets/js/**'
+      - 'api/**'
+      - 'civilization.html'
+      - 'domain-console.html'
+      - 'master-inbox.html'
+      - '.github/workflows/sync-to-full.yml'
+  workflow_dispatch: {}   # allow manual run from the Actions tab
+
+concurrency:
+  group: sync-to-full
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout lean (canonical)
+        uses: actions/checkout@v4
+        with:
+          path: lean
+          fetch-depth: 1
+
+      - name: Checkout full (target)
+        uses: actions/checkout@v4
+        with:
+          repository: LIMENHelix/Limen-Helix
+          token: ${{ secrets.FULL_REPO_TOKEN }}
+          path: full
+          fetch-depth: 1
+
+      - name: Overlay shared logic (lean → full, NO delete, allowlist only)
+        run: |
+          set -euo pipefail
+          # 1. assets/js — full logic tree, verified 0 divergence. No --delete so
+          #    full-only files (there are none here) and assets/data are untouched.
+          rsync -a lean/assets/js/ full/assets/js/
+          # 2. shared api JS only — top-level *.js (minus lean-only lead.js) + lib/*.js.
+          #    Never touches api/helix_app (python kernel) or api/__pycache__,
+          #    and never deletes full-only endpoints (k3 / td-residual / print-from-residual).
+          find lean/api -maxdepth 1 -name '*.js' ! -name 'lead.js' -exec cp -f {} full/api/ \;
+          if [ -d lean/api/lib ]; then
+            mkdir -p full/api/lib
+            cp -f lean/api/lib/*.js full/api/lib/ 2>/dev/null || true
+          fi
+          # 3. shared console surfaces — confirmed in-sync. NOT index/treatment-discovery.
+          for f in civilization.html domain-console.html master-inbox.html; do
+            [ -f "lean/$f" ] && cp -f "lean/$f" "full/$f" || true
+          done
+
+      - name: Commit + push to full if changed
+        run: |
+          set -euo pipefail
+          cd full
+          git config user.name  "limen-sync-bot"
+          git config user.email "noreply@anthropic.com"
+          # Stage ONLY the allowlisted paths — double safety against stray writes.
+          git add assets/js api civilization.html domain-console.html master-inbox.html 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "No shared-logic changes to sync — full is already current."
+            exit 0
+          fi
+          LEAN_SHA="${GITHUB_SHA:0:9}"
+          git commit -m "Auto-sync from canonical (lean) @ ${LEAN_SHA}
+
+Mirrored shared logic (assets/js, shared api/*.js, console HTML) from
+Limen-Helix-live-@${LEAN_SHA}. Scoped no-delete overlay — index.html,
+vercel.json, package.json, treatment-discovery.html, assets/data, lead.js,
+and the python kernel are intentionally NOT synced."
+          git push origin HEAD:main
+          echo "Synced lean@${LEAN_SHA} → full."
