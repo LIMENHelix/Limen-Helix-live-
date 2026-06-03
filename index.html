@@ -84,7 +84,7 @@
   .ctr.live::before{background:linear-gradient(90deg,transparent,rgba(76,196,224,0.55),transparent)}
   .ctr .n{font-size:clamp(1.8rem,4.4vw,3rem);line-height:1;color:var(--gold);font-weight:400;letter-spacing:-0.5px}
   .ctr.live .n{color:var(--cyan)}
-  .ctr .n.green{color:var(--green)}.ctr .n.amber{color:var(--amber)}.ctr .n.cyan{color:var(--cyan)}
+  .ctr .n.green{color:var(--green)}.ctr .n.amber{color:var(--amber)}.ctr .n.cyan{color:var(--cyan)}.ctr .n.purple{color:var(--purple)}.ctr .n.red{color:var(--red)}
   .ctr .lbl{margin-top:10px;font-size:0.62rem;letter-spacing:2.5px;text-transform:uppercase;color:rgba(214,209,194,0.62)}
   .ctr .cap{margin-top:6px;font-size:0.56rem;letter-spacing:1px;color:rgba(214,209,194,0.34);text-transform:uppercase}
   .ctr.live .lbl::after{content:'● live';display:block;margin-top:5px;font-size:0.5rem;letter-spacing:2px;color:var(--cyan-soft)}
@@ -217,8 +217,10 @@
       <div class="ctr"><div class="n">123</div><div class="lbl">Brain-network nodes</div></div>
       <div class="ctr"><div class="n">260+</div><div class="lbl">Public &amp; institutional sources</div><div class="cap">~30-sec refresh</div></div>
       <div class="ctr live"><div class="n" id="ctr-claims" data-count="69322">69,322</div><div class="lbl">Mapped claims</div></div>
-      <div class="ctr live"><div class="n green" id="ctr-proven" data-count="3462">3,462</div><div class="lbl">Literature-supported</div><div class="cap">not clinical validation</div></div>
-      <div class="ctr live"><div class="n amber" id="ctr-unknown" data-count="64276">64,276</div><div class="lbl">Not yet examined</div><div class="cap">a queue, not failure</div></div>
+      <div class="ctr live"><div class="n green" id="ctr-proven" data-count="3462">3,462</div><div class="lbl">Proven</div><div class="cap">literature-supported · e.g. PMID 34954460</div></div>
+      <div class="ctr live"><div class="n purple" id="ctr-unproven" data-count="1583">1,583</div><div class="lbl">Unproven</div><div class="cap">research target</div></div>
+      <div class="ctr live"><div class="n amber" id="ctr-unknown" data-count="64276">64,276</div><div class="lbl">Unknown</div><div class="cap">not yet examined</div></div>
+      <div class="ctr live"><div class="n red" id="ctr-impossible" data-count="1">1</div><div class="lbl">Impossible</div><div class="cap">studied, not discarded</div></div>
       <div class="ctr"><div class="n">5</div><div class="lbl">Artifact lanes</div></div>
       <div class="ctr"><div class="n cyan">6-hr</div><div class="lbl">Self-audit loop</div></div>
     </div>
@@ -416,7 +418,7 @@
   }
   function setText(id, v){ var el = document.getElementById(id); if (el && v != null) el.textContent = fmt(v); }
 
-  var fallbacks = [['ctr-claims',69322],['ctr-proven',3462],['ctr-unknown',64276]];
+  var fallbacks = [['ctr-claims',69322],['ctr-proven',3462],['ctr-unproven',1583],['ctr-unknown',64276],['ctr-impossible',1]];
   var ran = false;
   function run(){
     if (ran) return; ran = true;
@@ -427,7 +429,9 @@
         var b = j && j.epistemicBuckets; if (!b) return;
         if (b.totalClaims != null) animate(document.getElementById('ctr-claims'), b.totalClaims);
         if (b.proven != null) animate(document.getElementById('ctr-proven'), b.proven);
+        if (b.unproven != null) animate(document.getElementById('ctr-unproven'), b.unproven);
         if (b.unknown != null) animate(document.getElementById('ctr-unknown'), b.unknown);
+        if (b.impossible != null) animate(document.getElementById('ctr-impossible'), b.impossible);
         setText('ev-proven', b.proven); setText('ev-unproven', b.unproven);
         setText('ev-unknown', b.unknown); setText('ev-impossible', b.impossible);
       })
