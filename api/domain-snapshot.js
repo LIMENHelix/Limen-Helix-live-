@@ -325,7 +325,12 @@ module.exports = async function handler(req, res) {
         "FedRegDEA",
         "FedRegBOP",
         "FedRegPTO",
-        "BBCWorldNews"
+        "BBCWorldNews",
+        "WBGovEffectiveness",
+        "WBRuleOfLaw",
+        "WBInternetUsers",
+        "WBLogisticsLPI",
+        "WBManufacturing"
       ];
     var nonGdeltResults = await Promise.allSettled([
       fetchFRED(),                // 0: economy A
@@ -588,7 +593,12 @@ module.exports = async function handler(req, res) {
       fetchFedRegDEA(),                // 257: law G — Fed Reg DEA (Drug Enforcement Administration)
       fetchFedRegBOP(),                // 258: law H — Fed Reg Bureau of Prisons
       fetchFedRegPTO(),                // 259: research replacement — Fed Reg Patent & Trademark Office (replaces key-gated USPTO)
-      fetchBBCWorldNews()              // 260: communication replacement — BBC World News (replaces key-gated NewsAPI)
+      fetchBBCWorldNews(),             // 260: communication replacement — BBC World News (replaces key-gated NewsAPI)
+      fetchWBGovEffectiveness(),       // 261: governance — WB Government Effectiveness (GE.EST)
+      fetchWBRuleOfLaw(),              // 262: governance — WB Rule of Law (RL.EST)
+      fetchWBInternetUsers(),          // 263: communication — WB Internet Users % (IT.NET.USER.ZS)
+      fetchWBLogisticsLPI(),           // 264: supplyChain — WB Logistics Performance Index (LP.LPI.OVRL.XQ)
+      fetchWBManufacturing()           // 265: industry — WB Manufacturing %GDP (NV.MNF.TOTL.ZS)
     ]);
 
     // Fetch GDELT sources in parallel with fast timeout (2s)
@@ -833,6 +843,7 @@ module.exports = async function handler(req, res) {
       supplyChain:    buildDomain('supplyChain',    [
         src('BLS Freight PPI', byKey('BLSFreight')),
         src('RSS Supply Chain', byKey('RSSSupplyChain')),
+        src('World Bank Logistics Index', byKey('WBLogisticsLPI')), // WB LPI — supply-chain-specific real driver
         src('NOAA NWS Alerts', byKey('NOAANWSAlerts')),
         src('USGS Earthquakes', byKey('USGSEarthquakes')),
         src('CISA KEV', byKey('CISAKEV_2')),
@@ -851,6 +862,8 @@ module.exports = async function handler(req, res) {
         // Washington Times / National Review / Daily Caller) — labeled "positional
         // only" in brain, only fired trust_erosion, single shared noise floor.
         src('World Bank Governance', byKey('WorldBankGovernance')),   // 1: WB JSON API (institutional indicator)
+        src('World Bank Gov Effectiveness', byKey('WBGovEffectiveness')),   // WB government effectiveness (real numeric driver)
+        src('World Bank Rule of Law', byKey('WBRuleOfLaw')),   // WB rule of law (real numeric driver)
         src('GovTrack', byKey('GovTrack')),   // 2: direct govtrack.us RSS (legislative activity)
         src('Congress.gov', byKey('CongressGov')),   // 3: direct congress.gov RSS (institutional)
         src('GAO Reports', byKey('GAOReports')),   // 4: direct gao.gov RSS (oversight)
@@ -891,6 +904,7 @@ module.exports = async function handler(req, res) {
       industry:       buildDomain('industry',       [
         src('BLS Manufacturing PPI', byKey('BLSManufacturing')),
         src('NHTSA Recalls', byKey('NHTSARecalls')),
+        src('World Bank Manufacturing', byKey('WBManufacturing')), // WB manufacturing %GDP (real numeric driver)
         src('CPSC Recalls', byKey('CPSCRecalls')),
         src('PHMSA Incidents', byKey('PHMSAIncidents')),
         src('CSB Investigations', byKey('CSBInvestigations')),
@@ -920,6 +934,7 @@ module.exports = async function handler(req, res) {
         // 10 feeds, all keyless after cleanup (NewsAPI key-gated slot replaced
         // with BBC World News direct RSS).
         src('BBC World News', byKey('BBCWorldNews')), // 1: BBC World News (keyless replacement for NewsAPI)
+        src('World Bank Internet Users', byKey('WBInternetUsers')), // WB internet penetration (real numeric driver)
         src('RSS Media', byKey('RSSMedia')),  // 2: RSS keyword
         src('Reporters Without Borders', byKey('RSF')),  // 3: press freedom watchdog RSS
         src('CPJ Press Freedom', byKey('CPJ')),  // 4: Committee to Protect Journalists RSS
@@ -2381,6 +2396,63 @@ async function fetchWorldBankGovernance() {
     trackHealth('World Bank Governance', 'governance', 'live', null, val);
     return { value: round(val), label: 'governance score ' + val.toFixed(2), stress: round(stress), signal: 'control of corruption index ' + val.toFixed(2), updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: data[1][0].date || null };
   } catch (e) { trackHealth('World Bank Governance', 'governance', 'fallback', e.message); return null; }
+}
+
+// ── Free World Bank numeric drivers added to starved domains (real stress signal,
+//    lifts them out of the 0-real-driver LOW_SIGNAL cap). All keyless. ──
+async function fetchWBGovEffectiveness() {
+  try {
+    var data = await timedJSON('https://api.worldbank.org/v2/country/USA/indicator/GE.EST?format=json&date=2015:2024&per_page=5');
+    var val = _extractWorldBankValue(data);
+    if (val === null) { trackHealth('World Bank Gov Effectiveness', 'governance', 'fallback', 'no non-null value'); return null; }
+    var stress = clamp((1.5 - val) / 3, 0, 1); // GE.EST ~ -2.5..2.5, higher=better → invert
+    trackHealth('World Bank Gov Effectiveness', 'governance', 'live', null, val);
+    return { value: round(val), label: 'gov effectiveness ' + val.toFixed(2), stress: round(stress), signal: 'government effectiveness index ' + val.toFixed(2), updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: (data[1] && data[1][0] && data[1][0].date) || null };
+  } catch (e) { trackHealth('World Bank Gov Effectiveness', 'governance', 'fallback', e.message); return null; }
+}
+
+async function fetchWBRuleOfLaw() {
+  try {
+    var data = await timedJSON('https://api.worldbank.org/v2/country/USA/indicator/RL.EST?format=json&date=2015:2024&per_page=5');
+    var val = _extractWorldBankValue(data);
+    if (val === null) { trackHealth('World Bank Rule of Law', 'governance', 'fallback', 'no non-null value'); return null; }
+    var stress = clamp((1.5 - val) / 3, 0, 1); // RL.EST ~ -2.5..2.5, higher=better → invert
+    trackHealth('World Bank Rule of Law', 'governance', 'live', null, val);
+    return { value: round(val), label: 'rule of law ' + val.toFixed(2), stress: round(stress), signal: 'rule of law index ' + val.toFixed(2), updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: (data[1] && data[1][0] && data[1][0].date) || null };
+  } catch (e) { trackHealth('World Bank Rule of Law', 'governance', 'fallback', e.message); return null; }
+}
+
+async function fetchWBInternetUsers() {
+  try {
+    var data = await timedJSON('https://api.worldbank.org/v2/country/USA/indicator/IT.NET.USER.ZS?format=json&date=2012:2024&per_page=12');
+    var val = _extractWorldBankValue(data);
+    if (val === null) { trackHealth('World Bank Internet Users', 'communication', 'fallback', 'no non-null value'); return null; }
+    var stress = clamp((100 - val) / 100, 0, 1); // % individuals using internet, higher=better connectivity → invert
+    trackHealth('World Bank Internet Users', 'communication', 'live', null, val);
+    return { value: round(val), label: 'internet users ' + val.toFixed(1) + '%', stress: round(stress), signal: 'individuals using the internet ' + val.toFixed(1) + '%', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: (data[1] && data[1][0] && data[1][0].date) || null };
+  } catch (e) { trackHealth('World Bank Internet Users', 'communication', 'fallback', e.message); return null; }
+}
+
+async function fetchWBLogisticsLPI() {
+  try {
+    var data = await timedJSON('https://api.worldbank.org/v2/country/USA/indicator/LP.LPI.OVRL.XQ?format=json&date=2012:2024&per_page=12');
+    var val = _extractWorldBankValue(data);
+    if (val === null) { trackHealth('World Bank Logistics Index', 'supplyChain', 'fallback', 'no non-null value'); return null; }
+    var stress = clamp((5 - val) / 4, 0, 1); // LPI 1..5, higher=better logistics → invert
+    trackHealth('World Bank Logistics Index', 'supplyChain', 'live', null, val);
+    return { value: round(val), label: 'logistics index ' + val.toFixed(2), stress: round(stress), signal: 'logistics performance index ' + val.toFixed(2) + '/5', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: (data[1] && data[1][0] && data[1][0].date) || null };
+  } catch (e) { trackHealth('World Bank Logistics Index', 'supplyChain', 'fallback', e.message); return null; }
+}
+
+async function fetchWBManufacturing() {
+  try {
+    var data = await timedJSON('https://api.worldbank.org/v2/country/USA/indicator/NV.MNF.TOTL.ZS?format=json&date=2012:2024&per_page=12');
+    var val = _extractWorldBankValue(data);
+    if (val === null) { trackHealth('World Bank Manufacturing', 'industry', 'fallback', 'no non-null value'); return null; }
+    var stress = clamp((18 - val) / 18, 0, 1); // manufacturing %GDP, lower share = higher structural stress
+    trackHealth('World Bank Manufacturing', 'industry', 'live', null, val);
+    return { value: round(val), label: 'manufacturing ' + val.toFixed(1) + '% GDP', stress: round(stress), signal: 'manufacturing value added ' + val.toFixed(1) + '% of GDP', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: (data[1] && data[1][0] && data[1][0].date) || null };
+  } catch (e) { trackHealth('World Bank Manufacturing', 'industry', 'fallback', e.message); return null; }
 }
 
 async function fetchGDELTGovernance() {

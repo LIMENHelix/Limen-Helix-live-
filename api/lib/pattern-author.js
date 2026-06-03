@@ -245,6 +245,23 @@ async function proposePattern(portal, opts) {
     return { ok: false, error: 'missing required fields', proposal: parsed };
   }
 
+  // ── Author-time dedup guard ──────────────────────────────────────────────
+  // Claude is *instructed* to avoid dupes, but enforce it hard so the store
+  // doesn't bloat with thinly-disguised duplicates. Reject before saving if the
+  // candidate collides on pattern.id OR on (source-portal × business-signature)
+  // — the "same portal + same signature, different neural region" case the
+  // operator flagged. Returns ok:true so the caller treats it as a clean skip.
+  const _candSig = String((parsed.business && parsed.business.signature) || '').toLowerCase();
+  const _candPortal = (portal.slug || (portal.name || '').toLowerCase().replace(/\s+/g, '_'));
+  const _dupe = existing.find(function (e) {
+    if (e.id && parsed.id && String(e.id).toLowerCase() === String(parsed.id).toLowerCase()) return true;
+    if (_candSig && e.target && String(e.target).toLowerCase() === _candSig && e.sourcePortal && e.sourcePortal === _candPortal) return true;
+    return false;
+  });
+  if (_dupe) {
+    return { ok: true, duplicate: true, reason: 'duplicate of ' + _dupe.id + ' (same pattern.id or same source-portal × business-signature)', candidate: parsed.id, tokensUsed: (r.tokensIn || 0) + (r.tokensOut || 0) };
+  }
+
   // Persist for operator review (Redis on Vercel, file locally)
   const persistResult = await _saveProposal({
     id: parsed.id,
