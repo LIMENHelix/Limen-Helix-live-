@@ -82,11 +82,6 @@ jobs:
             exit 0
           fi
           LEAN_SHA="${GITHUB_SHA:0:9}"
-          git commit -m "Auto-sync from canonical (lean) @ ${LEAN_SHA}
-
-Mirrored shared logic (assets/js, shared api/*.js, console HTML) from
-Limen-Helix-live-@${LEAN_SHA}. Scoped no-delete overlay — index.html,
-vercel.json, package.json, treatment-discovery.html, assets/data, lead.js,
-and the python kernel are intentionally NOT synced."
+          git commit -m "Auto-sync from canonical (lean) @ ${LEAN_SHA} — shared-logic overlay (assets/js, api/*.js, console HTML); no-delete; excludes index/vercel/package/treatment-discovery/assets-data/lead/kernel"
           git push origin HEAD:main
           echo "Synced lean@${LEAN_SHA} → full."
