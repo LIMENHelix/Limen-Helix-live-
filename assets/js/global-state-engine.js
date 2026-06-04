@@ -209,10 +209,18 @@
     var uniqueDrivers = [];
     var seen = {};
     for (var dr = 0; dr < drivers.length && uniqueDrivers.length < 4; dr++) {
-      var key = drivers[dr].toLowerCase();
+      // A driver should be a display string, but some sources (e.g. a domain's
+      // signals[0]) can hand us a structured object/number. Coerce safely — a
+      // single malformed driver was throwing here and ABORTING the whole compute
+      // BEFORE it dispatched limen:global-state-update, so the exec strip + the
+      // Civilization tab silently froze at stale/zero (the "0% confidence" bug).
+      var dv = drivers[dr];
+      if (typeof dv !== 'string') dv = (dv && (dv.signal || dv.text || dv.label || dv.name)) || (dv != null ? String(dv) : '');
+      if (!dv) continue;
+      var key = dv.toLowerCase();
       if (!seen[key]) {
         seen[key] = true;
-        uniqueDrivers.push(drivers[dr]);
+        uniqueDrivers.push(dv);
       }
     }
     _topDrivers = uniqueDrivers;
