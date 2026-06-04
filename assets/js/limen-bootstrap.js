@@ -84,7 +84,8 @@
     { name: 'gap-synthesis-engine', api: 'LIMENGapSynthesis' },
     { name: 'inter-brain-bus', api: 'LIMENInterBrainBus' },
     { name: 'action-selection-gate', api: 'LIMENActionGate' }, // Stage-4 basal-ganglia chokepoint; DARK unless window.LIMEN_ENABLE_ACTION_GATE
-    { name: 'live-discoveries', api: 'LIMENLiveDiscoveriesUI' } // Feed→Discovery; DARK unless window.LIMEN_ENABLE_LIVE_DISCOVERIES (folds into console-clarity)
+    { name: 'live-discoveries', api: 'LIMENLiveDiscoveriesUI' }, // Feed→Discovery; DARK unless window.LIMEN_ENABLE_LIVE_DISCOVERIES (folds into console-clarity)
+    { name: 'interoceptive-divergence', api: 'LIMENInteroception' } // multi-modal divergence INSTRUMENT (observe-only, no health-number effect); DARK unless window.LIMEN_ENABLE_INTEROCEPTION
   ];
 
   // Minimal subset — started on connectome page
