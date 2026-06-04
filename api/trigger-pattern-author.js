@@ -59,17 +59,28 @@ async function _alreadyProposedSlugs() {
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
-  if (req.method !== 'POST') return res.status(405).json({ error: 'POST required' });
+  // Vercel Cron fires a GET on a schedule (it runs on Vercel, where the Claude
+  // key already lives — no GitHub secrets needed). Accept that GET, but ONLY
+  // from a genuine cron tick, so this paid authoring endpoint can't be spammed.
+  // The operator's "Author 3 more" button still POSTs as before.
+  var _isCron = req.method === 'GET' && (
+    /vercel-cron/i.test(req.headers['user-agent'] || '') ||
+    req.headers['x-vercel-cron'] != null ||
+    (process.env.CRON_SECRET && req.headers['authorization'] === 'Bearer ' + process.env.CRON_SECRET)
+  );
+  if (req.method !== 'POST' && !_isCron) return res.status(405).json({ error: 'POST required (Vercel cron GET also accepted)' });
 
   try {
     // Check provider availability and budget BEFORE any portal scanning
     const orchStatus = orchestrator.status();
     if (!orchStatus.providers.anthropic) return res.status(503).json({ error: 'ANTHROPIC_API_KEY not set in Vercel project environment', providers: orchStatus.providers });
 
-    const body = (typeof req.body === 'object' && req.body) ? req.body : (req.body ? JSON.parse(req.body) : {});
+    const body = _isCron
+      ? { max: (req.query && req.query.max) || 3, targetDomain: (req.query && req.query.targetDomain) || 'business' }
+      : ((typeof req.body === 'object' && req.body) ? req.body : (req.body ? JSON.parse(req.body) : {}));
     const max = Math.min(parseInt(body.max || 3, 10), 5);   // hard cap 5 per request
     const targetDomain = body.targetDomain || 'business';
     const forceSlug = body.slug || null;
