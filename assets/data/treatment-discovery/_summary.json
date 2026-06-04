@@ -1,14 +1,14 @@
 {
   "schemaVersion": "1.0.0",
-  "builtAt": "2026-05-31T02:00:51.220Z",
-  "totalCells": 4944,
-  "populatedCells": 4903,
-  "cellsWithResiduals": 1455,
+  "builtAt": "2026-06-04T14:21:53.355Z",
+  "totalCells": 5234,
+  "populatedCells": 5186,
+  "cellsWithResiduals": 1545,
   "perStateBreakdown": {
-    "mixed": 1698,
-    "hyperactive": 1563,
-    "hypoactive": 1402,
-    "regulated": 281
+    "mixed": 1789,
+    "hyperactive": 1674,
+    "hypoactive": 1485,
+    "regulated": 286
   },
   "perDomainBreakdown": {
     "addiction": 163,
@@ -39,22 +39,22 @@
     "science": 182,
     "technology": 182,
     "trade": 182,
-    "agriculture": 26,
-    "supplyChain": 44,
-    "health": 14
+    "supplyChain": 182,
+    "health": 166,
+    "agriculture": 26
   },
   "residualSummary": {
     "groupsProcessed": 241,
     "groupsWithBothSides": 13,
     "totalSimilarPairs": 2,
-    "totalNeuroResiduals": 1350,
-    "totalDomainResiduals": 2522,
-    "cellsWithResiduals": 1455,
+    "totalNeuroResiduals": 1421,
+    "totalDomainResiduals": 2692,
+    "cellsWithResiduals": 1545,
     "cellsWithSimilar": 2,
     "similarityThreshold": 0.3,
-    "computedAt": "2026-05-31T02:03:23.542Z"
+    "computedAt": "2026-06-04T14:22:47.302Z"
   },
-  "unverifiedClaimsCount": 64272,
+  "unverifiedClaimsCount": 66025,
   "loadedComparisonDomains": [
     "addiction",
     "business",
@@ -83,23 +83,9 @@
     "religion",
     "science",
     "technology",
-    "trade"
+    "trade",
+    "supplyChain",
+    "health"
   ],
-  "note": "Treatment-discovery report uses (brainNodeId × comparisonDomain × stateBucket) cells. Six-step chain per cell: ISSUE → NODE → DISORDER → NEURO_TX → DOMAIN_TX → RESIDUAL. Verification labels each claim by epistemic state (PROVEN / UNPROVEN / UNKNOWN / IMPOSSIBLE) and keeps every residual — none are suppressed.",
-  "epistemicBuckets": {
-    "proven": 3700,
-    "unproven": 1583,
-    "unknown": 66800,
-    "impossible": 89,
-    "totalClaims": 72172,
-    "processedVerdicts": 7900,
-    "verdictCounts": {
-      "VERIFIED": 3700,
-      "THEORETICAL": 1583,
-      "DISPUTED": 89,
-      "UNVERIFIABLE": 2528
-    },
-    "note": "Every claim kept and separated by epistemic state. Verification writes the state; it never deletes the finding. Impossible = study why it fails (kept, not discarded).",
-    "computedAt": "2026-06-04T02:26:34.235Z"
-  }
+  "note": "Treatment-discovery report uses (brainNodeId × comparisonDomain × stateBucket) cells. Six-step chain per cell: ISSUE → NODE → DISORDER → NEURO_TX → DOMAIN_TX → RESIDUAL. Verification: PENDING (most claims), VERIFIED (post-#33), DISPUTED / FABRICATED suppress residuals."
 }

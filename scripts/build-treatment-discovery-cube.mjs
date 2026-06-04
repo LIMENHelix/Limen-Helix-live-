@@ -143,6 +143,17 @@ async function main() {
       console.log(`  [warn] could not parse domain ${id}: ${err.message}`);
     }
   }
+  // Sub-domain aliases: supplyChain and health are comparison domains (surfaced
+  // via crossDomainAffinities + the page's button list) but have no L1 template
+  // of their own, so their cells were empty. Alias each to its nearest parent
+  // domain's treatment knowledge — supplyChain≈trade (logistics/trade), health≈
+  // medicine (clinical). By-reference is safe (STEP A/B only READ dom.activations).
+  // This fills those views with REAL treatments (a transparent alias, not bespoke
+  // data). NOTE: agriculture also lacks a template but has NO parent domain to
+  // alias to (its data lives only in deep p2_agri_* files, never aggregated) — so
+  // it is left unsourced rather than mislabeled with another domain's treatments.
+  if (domains['trade'] && !domains['supplyChain']) domains['supplyChain'] = domains['trade'];
+  if (domains['medicine'] && !domains['health']) domains['health'] = domains['medicine'];
   const domainIds = Object.keys(domains);
   console.log(`[pivot-organ] L1 domain templates loaded: ${domainIds.length}`);
   console.log(`  ${domainIds.join(', ')}`);
