@@ -90,6 +90,51 @@ CRITICAL RULES:
 - If after considering the full alreadyConsideredPatterns list you cannot find a genuinely new, well-grounded mapping, return {"refused": true, "reason": "..."} instead of repeating one.
 - Return ONLY the JSON object. No preamble, no markdown wrapper, no commentary.`;
 
+// System prompt for the self-correction pass: when authored indicators don't
+// fire on the source portal, re-author ONLY the indicators against the portal's
+// real, detectable signals so they actually detect something present in THIS
+// portal. The neural mechanism, signature, and bridge stay fixed — we're fixing
+// the *encoding*, not changing the claim.
+const REPAIR_SYSTEM_PROMPT = `You are repairing the business.indicators of a bridge pattern so they actually FIRE against a specific portal's REAL data. You are given (1) the existing pattern and (2) the portal's actual detectable signals. Rewrite business.indicators so at least one detector matches the provided signals at meaningful confidence. Keep neural, business.signature, business.description, bridge, and derivedAngles UNCHANGED — change only business.indicators.
+
+Detector types and exactly what each reads:
+- kernel_phase: { "type":"kernel_phase", "kernels":["k1"|"k2"], "phases":[...] } — fires if the portal's kernel phase is in phases. Use the portal's ACTUAL kernel phases from portalDetectableSignals.kernelPhases.
+- fn_phase_share: { "type":"fn_phase_share", "category":"<fn category>", "stressPhases":[...], "minShare":0.3 } — fires if >= minShare of that category's entries are in stressPhases. Use categories that EXIST in portalDetectableSignals.functionalNetwork and phases present in that category's phaseDistribution.
+- fn_text_match: { "type":"fn_text_match", "category":"<fn category>", "patterns":[...] } — fires if any entry's note/role/name contains a pattern substring. Use words ACTUALLY PRESENT in that category's sampleNotes/sampleRoles/sampleNames.
+- text_match: { "type":"text_match", "fields":[...], "patterns":[...] } — fires if the listed portal text fields contain a pattern substring. Use fields and words ACTUALLY PRESENT in portalDetectableSignals.textFields.
+
+Return the COMPLETE pattern object as JSON (same schema, same id), with only business.indicators changed. Return ONLY the JSON object — no preamble, no markdown.`;
+
+// Extract exactly the signals the detectors can read, so the repair pass can
+// author indicators that actually fire (rather than guessing blind).
+function _portalDetectableSignals(portal) {
+  const out = { kernelPhases: {}, functionalNetwork: {}, textFields: {}, presentFields: [] };
+  const kr = portal.kernelReadings || {};
+  if (kr.k1 && kr.k1.phase) out.kernelPhases.k1 = String(kr.k1.phase).toLowerCase();
+  if (kr.k2 && kr.k2.phase) out.kernelPhases.k2 = String(kr.k2.phase).toLowerCase();
+  if (portal.financialHealth && portal.financialHealth.dominantPhase) out.kernelPhases.financialHealth = String(portal.financialHealth.dominantPhase).toLowerCase();
+  const fn = portal.functionalNetwork || {};
+  for (const cat of Object.keys(fn)) {
+    const arr = Array.isArray(fn[cat]) ? fn[cat] : (fn[cat] ? [fn[cat]] : []);
+    if (!arr.length) continue;
+    const phaseDistribution = {}; const sampleNotes = [], sampleRoles = [], sampleNames = [];
+    for (const e of arr) {
+      if (e && e.phase) { const ph = String(e.phase).toLowerCase(); phaseDistribution[ph] = (phaseDistribution[ph] || 0) + 1; }
+      if (e && e.relationshipNote && sampleNotes.length < 5) sampleNotes.push(e.relationshipNote);
+      if (e && e.brainNodeRole && sampleRoles.length < 5) sampleRoles.push(e.brainNodeRole);
+      if (e && e.name && sampleNames.length < 5) sampleNames.push(e.name);
+    }
+    out.functionalNetwork[cat] = { count: arr.length, phaseDistribution, sampleNotes, sampleRoles, sampleNames };
+  }
+  for (const f of ['description', 'businessSummary', 'summary', 'sector', 'industry', 'name', 'tags', 'keywords', 'sic']) {
+    const v = portal[f];
+    if (typeof v === 'string' && v.trim()) out.textFields[f] = v.slice(0, 400);
+    else if (Array.isArray(v) && v.length) out.textFields[f] = v.filter(x => typeof x === 'string').slice(0, 10).join(', ').slice(0, 400);
+  }
+  for (const f of Object.keys(portal)) { const v = portal[f]; if (v != null && v !== '' && !(Array.isArray(v) && v.length === 0)) out.presentFields.push(f); }
+  return out;
+}
+
 function _existingPatternsCompactList() {
   try {
     const lib = JSON.parse(fs.readFileSync(PATTERNS_PATH, 'utf8'));
@@ -275,6 +320,39 @@ async function proposePattern(portal, opts) {
   // re-encoded detectors) — buckets are revisable; the brain reconsolidates.
   let sourceMatch = null;
   try { sourceMatch = scorePattern(parsed, portal); } catch (e) { sourceMatch = null; }
+
+  // Self-correction (ONE attempt): if the indicators don't fire on the source,
+  // re-author them against the portal's REAL detectable signals before giving
+  // up. This is what fills the active queue with patterns that actually match —
+  // Claude authored the first pass blind to the portal's concrete data. We fix
+  // the encoding, not the claim; if it still doesn't fire, it's held (not lost).
+  let repairAttempted = false, repairSucceeded = false, repairTokens = 0;
+  if (!sourceMatch) {
+    repairAttempted = true;
+    try {
+      const signals = _portalDetectableSignals(portal);
+      const repairPrompt = JSON.stringify({
+        instruction: 'Rewrite business.indicators so at least one detector FIRES on these real signals. Keep neural, signature, description, bridge, derivedAngles unchanged.',
+        pattern: parsed,
+        portalDetectableSignals: signals
+      });
+      // AUTHOR_PATTERN intent = Anthropic (sonnet, schema-bound). The repair
+      // system prompt is what makes this a re-encode rather than a fresh author.
+      const rr = await orchestrator.call('AUTHOR_PATTERN', { system: REPAIR_SYSTEM_PROMPT, prompt: repairPrompt, maxTokens: 8192 });
+      repairTokens = (rr.tokensIn || 0) + (rr.tokensOut || 0);
+      if (rr.ok && rr.text) {
+        const a = rr.text.indexOf('{'), b = rr.text.lastIndexOf('}');
+        if (a >= 0 && b > a) {
+          const repaired = JSON.parse(rr.text.slice(a, b + 1));
+          if (repaired && repaired.id === parsed.id && repaired.business && Array.isArray(repaired.business.indicators)) {
+            const reMatch = scorePattern(repaired, portal);
+            if (reMatch) { parsed = repaired; sourceMatch = reMatch; repairSucceeded = true; }
+          }
+        }
+      }
+    } catch (e) { /* repair failed — fall through to HELD; nothing lost */ }
+  }
+
   const firesOnSource = !!sourceMatch;
   const status = firesOnSource ? 'PENDING_REVIEW' : 'HELD_UNMATCHED';
 
@@ -286,7 +364,7 @@ async function proposePattern(portal, opts) {
     targetDomain,
     sourcePortal: portal.slug || (portal.name || '').toLowerCase().replace(/\s+/g, '_'),
     pattern: parsed,
-    tokensUsed: (r.tokensIn || 0) + (r.tokensOut || 0),
+    tokensUsed: (r.tokensIn || 0) + (r.tokensOut || 0) + repairTokens,
     provider: r.provider,
     model: r.model,
     status,
@@ -296,6 +374,8 @@ async function proposePattern(portal, opts) {
       confidence: firesOnSource ? sourceMatch.confidence : 0,
       matchRate: firesOnSource ? sourceMatch.matchRate : 0,
       matchedIndicators: firesOnSource ? sourceMatch.matchedIndicators : [],
+      repairAttempted,
+      repairSucceeded,
       evaluatedAt: new Date().toISOString()
     }
   });
@@ -306,7 +386,9 @@ async function proposePattern(portal, opts) {
     status,
     firesOnSource,
     sourceConfidence: firesOnSource ? sourceMatch.confidence : 0,
-    tokensUsed: (r.tokensIn || 0) + (r.tokensOut || 0),
+    repairAttempted,
+    repairSucceeded,
+    tokensUsed: (r.tokensIn || 0) + (r.tokensOut || 0) + repairTokens,
     storage: persistResult.storage
   };
 }
