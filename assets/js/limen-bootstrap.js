@@ -310,6 +310,8 @@
   var _harvestComplete = false;
   var _reportsGeneratedOnce = false;
   var _reportsRefreshedAfterHarvest = false;
+  var _lastReportGenAt = 0;             // throttle stamp for state-driven regen
+  var REPORT_REGEN_THROTTLE_MS = 30000; // min gap between global-state-driven regens
 
   function _populateRegistry() {
     if (_registryPopulated) return;
@@ -530,6 +532,7 @@
       }
 
       _reportsGeneratedOnce = true;
+      _lastReportGenAt = Date.now();
     } catch (e) {
       console.warn('[LIMEN] report generation failed:', e.message);
     }
@@ -621,6 +624,20 @@
     if (!_harvestComplete) return;
     if (_reportsRefreshedAfterHarvest) return;
     _reportsRefreshedAfterHarvest = true;
+    _generateReports();
+  });
+
+  // State-driven report refresh — the civilization report (and its confidence
+  // badge / CIVILIZATION STATE card in the Evidence Workspace) snapshots
+  // window.LIMENGlobalState at synthesis time. Without this, the report froze
+  // at boot (when global-state confidence was still 0) and never tracked the
+  // live engine, so the badge showed a stale "LOW CONFIDENCE 0%" while the
+  // exec strip — which reads the engine directly — correctly showed ~66%.
+  // Regenerate on global-state updates, throttled so the heavy synth runs at
+  // most once per REPORT_REGEN_THROTTLE_MS while the page is open.
+  window.addEventListener('limen:global-state-update', function () {
+    if (!_reportsGeneratedOnce) return; // don't race the boot sequence
+    if (Date.now() - _lastReportGenAt < REPORT_REGEN_THROTTLE_MS) return;
     _generateReports();
   });
 
