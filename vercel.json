@@ -1,11 +1,7 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
-  "crons": [
-    { "path": "/api/limen-worker-ingest", "schedule": "*/2 * * * *" },
-    { "path": "/api/limen-worker-snapshot", "schedule": "*/3 * * * *" },
-    { "path": "/api/limen-worker-stress-refresh", "schedule": "*/30 * * * *" }
-  ],
+  "crons": [],
   "functions": {
     "api/**": {
       "excludeFiles": "{assets/**,*.html,_*.js,*.json,scripts/**}",
