@@ -25,6 +25,14 @@
   var isConnectome = pathname === 'connectome.html' || pathname === 'connectome';
   var isCanonical = isConsole || isConnectome || isDomainConsole || isEnergyPage;
 
+  // ─── Spine: ARMED by default on console surfaces (operator turned it on) ──
+  // Feed→Discovery renders the LIVE DISCOVERIES panel; the action-selection gate
+  // selects + broadcasts (never auto-executes). Set either to false to disable.
+  if (isConsole || isDomainConsole) {
+    if (window.LIMEN_ENABLE_LIVE_DISCOVERIES === undefined) window.LIMEN_ENABLE_LIVE_DISCOVERIES = true;
+    if (window.LIMEN_ENABLE_ACTION_GATE === undefined) window.LIMEN_ENABLE_ACTION_GATE = true;
+  }
+
   // ─── Debug object ─────────────────────────────────────────────────────
 
   var pageType = isConsole ? 'console' : isDomainConsole ? 'domain-console' : isEnergyPage ? 'energy-page' : isConnectome ? 'connectome' : 'passive';

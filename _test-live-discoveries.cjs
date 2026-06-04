@@ -21,7 +21,12 @@ global.window.LIMENDomainBrainBase = { getAllStates: function(){ return {
 
 // Mock the Stage-2 cube index fetch
 const CUBE = { byDomain: {
-  energy:  [{ treatment:'biofeedback', port:'Port to energy', novelty:0.7, feasibility:0.5, percentVerified:0.3, node:'AI', rationale:'port the mechanism' }],
+  energy:  [
+    { treatment:'biofeedback', port:'Port to energy', novelty:0.7, feasibility:0.5, percentVerified:0.3, node:'AI', rationale:'port the mechanism' },
+    { treatment:'EMDR', port:'Port to energy', novelty:0.5, feasibility:0.5, percentVerified:0.2, node:'AI', rationale:'x' },
+    { treatment:'SSRI', port:'Port to energy', novelty:0.5, feasibility:0.4, percentVerified:0.2, node:'AI', rationale:'x' },
+    { treatment:'exposure', port:'Port to energy', novelty:0.4, feasibility:0.4, percentVerified:0.2, node:'AI', rationale:'x' }
+  ],
   finance: [{ treatment:'CBT', port:'Port to finance', novelty:0.6, feasibility:0.6, percentVerified:0.6, node:'vmPFC', rationale:'port the mechanism' }]
 }};
 global.fetch = function(){ return Promise.resolve({ ok:true, json:function(){ return Promise.resolve(CUBE); } }); };

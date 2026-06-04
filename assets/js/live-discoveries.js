@@ -125,7 +125,20 @@
       }
     }
     out.sort(function (a, b) { return b.score - a.score; });
-    var top = out.slice(0, MAX);
+    // Diversify: cap per-domain so the single hottest domain can't monopolize the
+    // panel (e.g. energy at stress 1.0 filling every slot). Take the top
+    // PER_DOMAIN per domain in score order, then backfill if room remains.
+    var PER_DOMAIN = 2;
+    var perDom = {}, top = [];
+    for (var ti = 0; ti < out.length && top.length < MAX; ti++) {
+      var dk = out[ti].domain;
+      if ((perDom[dk] || 0) >= PER_DOMAIN) continue;
+      perDom[dk] = (perDom[dk] || 0) + 1;
+      top.push(out[ti]);
+    }
+    for (var bi = 0; bi < out.length && top.length < MAX; bi++) {
+      if (top.indexOf(out[bi]) === -1) top.push(out[bi]);
+    }
     try { window.LIMENLiveDiscoveries = top; } catch (e) {}
     _dispatch('limen:live-discoveries-updated', { count: top.length });
     return top;
