@@ -23,8 +23,23 @@
 (function () {
   'use strict';
 
-  var MAX = 12;
+  var MAX = 16;
   var _debounce = null;
+  var _cube = null, _cubeTried = false;
+
+  // Stage 2: fetch the slim per-domain cube discovery index once. Exists on the
+  // full deployment (where the cube lives); 404s harmlessly elsewhere (then only
+  // the Stage-1 brain-diagnosis discoveries show).
+  function _fetchCube() {
+    if (_cubeTried) return; _cubeTried = true;
+    try {
+      if (typeof fetch !== 'function') return;
+      fetch('/assets/data/treatment-discovery/discoveries-by-domain.json', { cache: 'force-cache' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (j) { if (j && j.byDomain) { _cube = j.byDomain; compute(); } })
+        .catch(function () {});
+    } catch (e) {}
+  }
 
   function _enabled() {
     try { return !!(typeof window !== 'undefined' && window.LIMEN_ENABLE_LIVE_DISCOVERIES); }
@@ -69,7 +84,7 @@
         var rel = (typeof dx.relevance === 'number') ? dx.relevance : 0;
         var score = Math.round((stress * 0.6 + rel * 0.4) * 1000) / 1000;
         out.push({
-          domain: domain,
+          domain: domain, type: 'diagnosis',
           label: dx.label || dx.id || 'diagnosis',
           summary: dx.summary || '',
           stress: Math.round(stress * 100) / 100,
@@ -80,6 +95,33 @@
           source: dx.source || 'canonical',
           evidenceState: 'inferred' // a diagnosis — inferred, never "proven"
         });
+      }
+    }
+    // Stage 2: merge the cube's real residual-discoveries for each domain,
+    // weighted by the SAME live feed-stress (0.6*stress + 0.4*novelty*feasibility).
+    if (_cube) {
+      for (var dom2 in states) {
+        if (!Object.prototype.hasOwnProperty.call(states, dom2)) continue;
+        var s2 = states[dom2]; if (!s2) continue;
+        var stress2 = (typeof s2.stress === 'number') ? s2.stress
+                    : (typeof s2.brainStress === 'number') ? s2.brainStress : 0;
+        var cubeList = _cube[dom2]; if (!cubeList || !cubeList.length) continue;
+        for (var ci = 0; ci < cubeList.length; ci++) {
+          var cd = cubeList[ci];
+          var nf = (cd.novelty || 0) * (cd.feasibility || 0);
+          out.push({
+            domain: dom2, type: 'discovery',
+            label: (cd.treatment || 'discovery') + ' → ' + dom2,
+            summary: cd.rationale || '',
+            stress: Math.round(stress2 * 100) / 100,
+            phase: (s2.phaseLabel || s2.phase || ''),
+            novelty: cd.novelty, feasibility: cd.feasibility, node: cd.node,
+            percentVerified: cd.percentVerified,
+            score: Math.round((stress2 * 0.6 + nf * 0.4) * 1000) / 1000,
+            source: 'cube-residual',
+            evidenceState: (cd.percentVerified >= 0.5 ? 'partly-verified' : 'inferred')
+          });
+        }
       }
     }
     out.sort(function (a, b) { return b.score - a.score; });
@@ -109,10 +151,13 @@
     for (var i = 0; i < list.length; i++) {
       var d = list[i];
       var relTxt = (d.matched != null && d.total != null) ? (d.matched + '/' + d.total) : (d.relevance != null ? d.relevance : '?');
+      var badge = (d.type === 'discovery')
+        ? 'DISCOVERY · nov ' + _esc(d.novelty != null ? d.novelty : '?')
+        : 'DIAGNOSIS · ' + _esc(relTxt);
       html += '<div class="clr-disc-row">' +
         '<span class="clr-disc-dom">' + _esc(d.domain) + '</span>' +
         '<span class="clr-disc-label">' + _esc(d.label) + '</span>' +
-        '<span class="clr-disc-badge">DIAGNOSIS · ' + _esc(relTxt) + '</span>' +
+        '<span class="clr-disc-badge">' + badge + '</span>' +
         '<span class="clr-disc-meta">stress ' + _esc(d.stress) + (d.phase ? ' · ' + _esc(d.phase) : '') + '</span>' +
         (d.summary ? '<div class="clr-disc-sum">' + _esc(d.summary) + '</div>' : '') +
         '</div>';
@@ -148,6 +193,7 @@
           catch (e) { _debounce = null; }
         });
       }
+      _fetchCube();   // Stage 2: pull the cube discovery index (async; recomputes on load)
       compute();
     } catch (e) {}
   }
