@@ -236,10 +236,10 @@
         _addRow(card, 'Systems', (rec.affectedSystems || []).join(', '));
 
         var tier = rec.confidenceDetail ? rec.confidenceDetail.confidenceTier : 'moderate';
-        _addRow(card, 'Confidence', (rec.confidence * 100).toFixed(0) + '% (' + tier + ')', tier);
+        _addRow(card, 'Confidence', ((rec.confidence || 0) * 100).toFixed(0) + '% (' + tier + ')', tier);
         _addRow(card, 'Evidence Tier', rec.evidenceEnvelope ? rec.evidenceEnvelope.overallTier : 'n/a');
         _addRow(card, 'Time Horizon', rec.timeHorizon);
-        _addRow(card, 'Urgency', rec.urgency.toFixed(2));
+        _addRow(card, 'Urgency', (rec.urgency || 0).toFixed(2));
 
         // Remedy
         var actions = rec.recommendedActions || [];
@@ -295,8 +295,8 @@
     _addRow(summaryCard, 'Pattern', report.summary.patternLabel);
     _addRow(summaryCard, 'Propagation Steps', report.propagationSteps);
     _addRow(summaryCard, 'Converged', report.convergenceAchieved ? 'Yes' : 'No');
-    _addRow(summaryCard, 'Confidence', (report.summary.confidence * 100).toFixed(0) + '%', report.summary.confidenceTier);
-    _addRow(summaryCard, 'Urgency', report.summary.urgency.toFixed(2));
+    _addRow(summaryCard, 'Confidence', ((report.summary.confidence || 0) * 100).toFixed(0) + '%', report.summary.confidenceTier);
+    _addRow(summaryCard, 'Urgency', (report.summary.urgency || 0).toFixed(2));
     panel.appendChild(summaryCard);
 
     // Domain stress
@@ -320,7 +320,7 @@
       val.style.fontSize = '0.6rem';
       val.style.width = '80px';
       val.style.textAlign = 'right';
-      val.textContent = d.stress.toFixed(2) + ' ' + d.trend;
+      val.textContent = (d.stress || 0).toFixed(2) + ' ' + d.trend;
       row.appendChild(val);
       stressCard.appendChild(row);
     }
@@ -363,11 +363,11 @@
     // Global state
     var globalCard = _card('GLOBAL STATE');
     _addRow(globalCard, 'Mode', report.summary.globalMode);
-    _addRow(globalCard, 'Score', report.summary.globalScore.toFixed(2));
-    _addRow(globalCard, 'Confidence', report.summary.globalConfidence.toFixed(2));
+    _addRow(globalCard, 'Score', (report.summary.globalScore || 0).toFixed(2));
+    _addRow(globalCard, 'Confidence', (report.summary.globalConfidence || 0).toFixed(2));
     _addRow(globalCard, 'Top Drivers', (report.summary.topDrivers || []).join(', '));
     _addRow(globalCard, 'Pattern', report.summary.patternLabel);
-    _addRow(globalCard, 'Urgency', report.summary.urgency.toFixed(2));
+    _addRow(globalCard, 'Urgency', (report.summary.urgency || 0).toFixed(2));
     panel.appendChild(globalCard);
 
     // Domain overview
@@ -390,7 +390,7 @@
       val.style.fontSize = '0.6rem';
       val.style.width = '80px';
       val.style.textAlign = 'right';
-      val.textContent = d.stress.toFixed(2) + ' ' + d.trend;
+      val.textContent = (d.stress || 0).toFixed(2) + ' ' + d.trend;
       row.appendChild(val);
       domCard.appendChild(row);
     }
@@ -399,12 +399,12 @@
     // Polarity
     if (report.polarity) {
       var polCard = _card('POLARITY');
-      _addRow(polCard, 'Overall', report.polarity.overall.toFixed(2));
+      _addRow(polCard, 'Overall', (report.polarity.overall || 0).toFixed(2));
       _addRow(polCard, 'Trend', report.polarity.trend || 'n/a');
       if (report.polarity.byDomain) {
         var pdk = Object.keys(report.polarity.byDomain);
         for (var p = 0; p < pdk.length; p++) {
-          _addRow(polCard, pdk[p], report.polarity.byDomain[pdk[p]].toFixed(2));
+          _addRow(polCard, pdk[p], (report.polarity.byDomain[pdk[p]] || 0).toFixed(2));
         }
       }
       panel.appendChild(polCard);
@@ -453,12 +453,12 @@
 
     // Summary
     var summaryCard = _card('PATENT OPPORTUNITY SUMMARY');
-    _addRow(summaryCard, 'Opportunity Score', report.summary.opportunityScore.toFixed(2));
+    _addRow(summaryCard, 'Opportunity Score', (report.summary.opportunityScore || 0).toFixed(2));
     _addRow(summaryCard, 'Signal Count', report.summary.signalCount);
     _addRow(summaryCard, 'Top Domain', report.summary.topDomain || 'none');
-    _addRow(summaryCard, 'Tech Hub Activation', report.techHubActivation.toFixed(2));
+    _addRow(summaryCard, 'Tech Hub Activation', (report.techHubActivation || 0).toFixed(2));
     _addRow(summaryCard, 'Legal Review', report.legalReviewRequired ? 'Required' : 'Not Required');
-    _addRow(summaryCard, 'Confidence', (report.summary.confidence * 100).toFixed(0) + '%', report.summary.confidenceTier);
+    _addRow(summaryCard, 'Confidence', ((report.summary.confidence || 0) * 100).toFixed(0) + '%', report.summary.confidenceTier);
     panel.appendChild(summaryCard);
 
     // Signals
@@ -548,7 +548,7 @@
     if (sourceChain && sourceChain.seedNodes) {
       var seedKeys = Object.keys(sourceChain.seedNodes);
       seedDetail = seedKeys.length + ' nodes seeded: ' + seedKeys.map(function (k) {
-        return 'node ' + k + ' (' + sourceChain.seedNodes[k].toFixed(2) + ')';
+        return 'node ' + k + ' (' + (sourceChain.seedNodes[k] || 0).toFixed(2) + ')';
       }).join(', ');
     }
     chain.appendChild(_chainStep('SEEDS', seedDetail));
