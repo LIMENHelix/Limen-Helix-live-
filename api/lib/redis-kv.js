@@ -42,17 +42,25 @@ async function redisGet(key) {
   try { return JSON.parse(r.result); } catch (_) { return r.result; }
 }
 
-// Batched read — one round-trip for many keys. Returns { key: parsedValue }
-// (missing keys omitted).
+// Chunked batched read. A single MGET of all engine-output keys returns ~9.5MB
+// and climbing, which trips Upstash's 10MB max-request limit (master-inbox then
+// errors). Slice into small parallel batches so no one request nears the ceiling
+// — ~50 keys × ~21KB avg ≈ 1MB/request. Transparent to callers; the cap is the
+// fix, not a bigger Upstash plan. Returns { key: parsedValue } (missing omitted).
+const MGET_BATCH = 50;
 async function redisMGet(keys) {
   if (!HAS_REDIS || !keys || !keys.length) return {};
-  const r = await redisCmd(['MGET'].concat(keys));
+  const chunks = [];
+  for (let i = 0; i < keys.length; i += MGET_BATCH) chunks.push(keys.slice(i, i + MGET_BATCH));
   const out = {};
-  if (r.ok && Array.isArray(r.result)) {
-    for (let i = 0; i < keys.length; i++) {
-      const v = r.result[i];
-      if (v == null) continue;
-      try { out[keys[i]] = JSON.parse(v); } catch (_) { out[keys[i]] = v; }
+  const settled = await Promise.all(chunks.map(slice => redisCmd(['MGET'].concat(slice)).then(r => ({ slice, r }))));
+  for (const { slice, r } of settled) {
+    if (r.ok && Array.isArray(r.result)) {
+      for (let j = 0; j < slice.length; j++) {
+        const v = r.result[j];
+        if (v == null) continue;
+        try { out[slice[j]] = JSON.parse(v); } catch (_) { out[slice[j]] = v; }
+      }
     }
   }
   return out;
