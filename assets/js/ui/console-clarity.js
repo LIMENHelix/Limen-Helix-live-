@@ -685,6 +685,18 @@
     _refreshHandoff();
     commandZone.appendChild(_handoffEl);
 
+    // ── Live Discoveries (Feed→Discovery; DARK unless window.LIMEN_ENABLE_LIVE_DISCOVERIES) ──
+    // Folds the feed-weighted, brain-diagnosis-derived discoveries in here. When
+    // the flag is off, renderInto() leaves the element empty and it is not appended.
+    try {
+      if (window.LIMENLiveDiscoveriesUI && typeof window.LIMENLiveDiscoveriesUI.renderInto === 'function') {
+        var _discEl = document.createElement('div');
+        _discEl.className = 'clr-section';
+        window.LIMENLiveDiscoveriesUI.renderInto(_discEl);
+        if (_discEl.innerHTML) commandZone.appendChild(_discEl);
+      }
+    } catch (e) {}
+
     _container.appendChild(commandZone);
 
     // ── Zone C: Evidence Workspace ──
