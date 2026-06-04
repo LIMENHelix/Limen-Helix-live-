@@ -99,8 +99,21 @@ const MATCH_THRESHOLD = 0.15;
  * Used both by matchPortal (over the whole library) and by the author-time
  * salience pre-filter (does a freshly-authored pattern fire on its own source).
  */
+// Sector-classifier text matches (text_match whose fields are ONLY sic/industry)
+// fire for ANY company in the sector — they confirm the sector, not the pathology.
+// Excluded from scoring entirely so confidence reflects substantive grounding, not
+// padding. (A pattern that matches ONLY on its sector tag therefore scores null.)
+const CLASSIFIER_FIELDS = new Set(['sic', 'industry']);
+function _isClassifierDetector(d) {
+  return d && d.type === 'text_match' && Array.isArray(d.fields) && d.fields.length > 0
+    && d.fields.every(f => CLASSIFIER_FIELDS.has(String(f).toLowerCase()));
+}
+
 function scorePattern(pattern, portal) {
-  const indicators = (pattern && pattern.business && pattern.business.indicators) || [];
+  const allIndicators = (pattern && pattern.business && pattern.business.indicators) || [];
+  // Score on SUBSTANTIVE indicators only — classifier-only matches neither count
+  // toward the firing rate nor pad the denominator.
+  const indicators = allIndicators.filter(ind => !_isClassifierDetector(ind.detector));
   if (indicators.length === 0) return null;
   const matchedIndicators = [];
   for (const ind of indicators) {
