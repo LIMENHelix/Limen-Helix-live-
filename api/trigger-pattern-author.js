@@ -138,8 +138,8 @@ module.exports = async (req, res) => {
       const c = candidates[i];
       try {
         const r = await proposePattern(c, { targetDomain, reason: 'on-demand operator trigger' });
-        if (r.ok && !r.refused && r.status === 'PENDING_REVIEW') proposed.push({ slug: c.slug, patternId: r.proposal.id, sourceConfidence: r.sourceConfidence, repaired: !!r.repairSucceeded, tokensUsed: r.tokensUsed });
-        else if (r.ok && !r.refused && r.status === 'HELD_UNMATCHED') held.push({ slug: c.slug, patternId: r.proposal.id, reason: r.repairAttempted ? 'did not fire even after indicator repair (held, will re-check)' : 'indicators did not fire on source portal (held, will re-check)', tokensUsed: r.tokensUsed });
+        if (r.ok && !r.refused && r.status === 'PENDING_REVIEW') proposed.push({ slug: c.slug, patternId: r.proposal.id, sourceConfidence: r.sourceConfidence, tokensUsed: r.tokensUsed });
+        else if (r.ok && !r.refused && r.status === 'HELD_UNMATCHED') held.push({ slug: c.slug, patternId: r.proposal.id, reason: 'indicators did not fire on source portal (held for offline repair worker)', tokensUsed: r.tokensUsed });
         else if (r.ok && (r.refused || r.duplicate)) failed.push({ slug: c.slug, reason: r.reason || 'refused/duplicate' });
         else failed.push({ slug: c.slug, reason: r.error || r.reason || 'unknown' });
       } catch (e) {

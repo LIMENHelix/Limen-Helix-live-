@@ -318,41 +318,15 @@ async function proposePattern(portal, opts) {
   // A held pattern is re-checked on every rebuild tick and GRADUATES back to
   // PENDING_REVIEW automatically if it later starts firing (corpus drift or
   // re-encoded detectors) — buckets are revisable; the brain reconsolidates.
+  // Reality-test ONLY — does this pattern fire on its own source portal?
+  // No repair here. Repair is an OFFLINE pass (api/cron-repair-held.js): brains
+  // generate fast and reconsolidate offline, they don't block authoring to
+  // reality-test. Keeping repair off the request path is what keeps this
+  // endpoint synchronous-safe (one model call, well under the 300s ceiling).
+  // Non-firing patterns route to HELD_UNMATCHED and the repair worker re-authors
+  // their indicators against the portal's real signals on the next offline tick.
   let sourceMatch = null;
   try { sourceMatch = scorePattern(parsed, portal); } catch (e) { sourceMatch = null; }
-
-  // Self-correction (ONE attempt): if the indicators don't fire on the source,
-  // re-author them against the portal's REAL detectable signals before giving
-  // up. This is what fills the active queue with patterns that actually match —
-  // Claude authored the first pass blind to the portal's concrete data. We fix
-  // the encoding, not the claim; if it still doesn't fire, it's held (not lost).
-  let repairAttempted = false, repairSucceeded = false, repairTokens = 0;
-  if (!sourceMatch) {
-    repairAttempted = true;
-    try {
-      const signals = _portalDetectableSignals(portal);
-      const repairPrompt = JSON.stringify({
-        instruction: 'Rewrite business.indicators so at least one detector FIRES on these real signals. Keep neural, signature, description, bridge, derivedAngles unchanged.',
-        pattern: parsed,
-        portalDetectableSignals: signals
-      });
-      // AUTHOR_PATTERN intent = Anthropic (sonnet, schema-bound). The repair
-      // system prompt is what makes this a re-encode rather than a fresh author.
-      const rr = await orchestrator.call('AUTHOR_PATTERN', { system: REPAIR_SYSTEM_PROMPT, prompt: repairPrompt, maxTokens: 8192 });
-      repairTokens = (rr.tokensIn || 0) + (rr.tokensOut || 0);
-      if (rr.ok && rr.text) {
-        const a = rr.text.indexOf('{'), b = rr.text.lastIndexOf('}');
-        if (a >= 0 && b > a) {
-          const repaired = JSON.parse(rr.text.slice(a, b + 1));
-          if (repaired && repaired.id === parsed.id && repaired.business && Array.isArray(repaired.business.indicators)) {
-            const reMatch = scorePattern(repaired, portal);
-            if (reMatch) { parsed = repaired; sourceMatch = reMatch; repairSucceeded = true; }
-          }
-        }
-      }
-    } catch (e) { /* repair failed — fall through to HELD; nothing lost */ }
-  }
-
   const firesOnSource = !!sourceMatch;
   const status = firesOnSource ? 'PENDING_REVIEW' : 'HELD_UNMATCHED';
 
@@ -364,18 +338,17 @@ async function proposePattern(portal, opts) {
     targetDomain,
     sourcePortal: portal.slug || (portal.name || '').toLowerCase().replace(/\s+/g, '_'),
     pattern: parsed,
-    tokensUsed: (r.tokensIn || 0) + (r.tokensOut || 0) + repairTokens,
+    tokensUsed: (r.tokensIn || 0) + (r.tokensOut || 0),
     provider: r.provider,
     model: r.model,
     status,
+    repairAttempts: 0,   // offline repair worker increments this
     prefilter: {
       firesOnSource,
       threshold: MATCH_THRESHOLD,
       confidence: firesOnSource ? sourceMatch.confidence : 0,
       matchRate: firesOnSource ? sourceMatch.matchRate : 0,
       matchedIndicators: firesOnSource ? sourceMatch.matchedIndicators : [],
-      repairAttempted,
-      repairSucceeded,
       evaluatedAt: new Date().toISOString()
     }
   });
@@ -386,11 +359,43 @@ async function proposePattern(portal, opts) {
     status,
     firesOnSource,
     sourceConfidence: firesOnSource ? sourceMatch.confidence : 0,
-    repairAttempted,
-    repairSucceeded,
-    tokensUsed: (r.tokensIn || 0) + (r.tokensOut || 0) + repairTokens,
+    tokensUsed: (r.tokensIn || 0) + (r.tokensOut || 0),
     storage: persistResult.storage
   };
+}
+
+/**
+ * repairPattern — afferent enrichment. Re-author a pattern's business.indicators
+ * against the portal's REAL detectable signals so they actually fire. This is
+ * the OFFLINE counterpart to authoring (called by api/cron-repair-held.js on the
+ * consolidation cadence, NEVER on the synchronous author path). Fixes the
+ * encoding, never the claim. Returns { ok, fired, repaired:<pattern>, match, tokensUsed }.
+ */
+async function repairPattern(pattern, portal) {
+  let tokensUsed = 0;
+  try {
+    const signals = _portalDetectableSignals(portal);
+    const repairPrompt = JSON.stringify({
+      instruction: 'Rewrite business.indicators so at least one detector FIRES on these real signals. Keep neural, signature, description, bridge, derivedAngles unchanged.',
+      pattern,
+      portalDetectableSignals: signals
+    });
+    // AUTHOR_PATTERN intent = Anthropic (sonnet, schema-bound). The repair system
+    // prompt makes this a re-encode against real afferents, not a fresh author.
+    const rr = await orchestrator.call('AUTHOR_PATTERN', { system: REPAIR_SYSTEM_PROMPT, prompt: repairPrompt, maxTokens: 8192 });
+    tokensUsed = (rr.tokensIn || 0) + (rr.tokensOut || 0);
+    if (!rr.ok || !rr.text) return { ok: false, error: rr.error || 'no repair response', repaired: null, tokensUsed };
+    const a = rr.text.indexOf('{'), b = rr.text.lastIndexOf('}');
+    if (a < 0 || b <= a) return { ok: false, error: 'no JSON in repair response', repaired: null, tokensUsed };
+    let repaired; try { repaired = JSON.parse(rr.text.slice(a, b + 1)); } catch (e) { return { ok: false, error: 'repair JSON parse: ' + e.message, repaired: null, tokensUsed }; }
+    if (!repaired || repaired.id !== pattern.id || !repaired.business || !Array.isArray(repaired.business.indicators)) {
+      return { ok: false, error: 'repaired pattern malformed or id changed', repaired: null, tokensUsed };
+    }
+    const match = scorePattern(repaired, portal);
+    return { ok: true, fired: !!match, repaired, match: match || null, tokensUsed };
+  } catch (e) {
+    return { ok: false, error: String(e && e.message || e), repaired: null, tokensUsed };
+  }
 }
 
 async function listProposals() { return await _loadProposals(); }
@@ -445,4 +450,4 @@ async function rejectProposal(proposalId) {
   return await _updateProposalStatus(proposalId, { status: 'REJECTED', rejectedAt: new Date().toISOString() });
 }
 
-module.exports = { proposePattern, listProposals, approveProposal, rejectProposal };
+module.exports = { proposePattern, listProposals, approveProposal, rejectProposal, repairPattern };
