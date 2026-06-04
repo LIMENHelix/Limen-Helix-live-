@@ -88,40 +88,55 @@ function evalDetector(d, portal) {
   return false;
 }
 
+// Minimum confidence for a pattern to count as a real match. A pattern below
+// this against a given portal does not appear in that portal's bridgeReadings.
+const MATCH_THRESHOLD = 0.15;
+
+/**
+ * Score ONE pattern against ONE portal using the exact production match logic.
+ * Returns the match object (same shape matchPortal emits) or null if the
+ * pattern's indicators don't fire / the confidence is below MATCH_THRESHOLD.
+ * Used both by matchPortal (over the whole library) and by the author-time
+ * salience pre-filter (does a freshly-authored pattern fire on its own source).
+ */
+function scorePattern(pattern, portal) {
+  const indicators = (pattern && pattern.business && pattern.business.indicators) || [];
+  if (indicators.length === 0) return null;
+  const matchedIndicators = [];
+  for (const ind of indicators) {
+    if (evalDetector(ind.detector, portal)) matchedIndicators.push(ind.id);
+  }
+  if (matchedIndicators.length === 0) return null;
+  const matchRate = matchedIndicators.length / indicators.length;
+  const baseConfidence = (pattern.bridge && pattern.bridge.confidence) || 0.5;
+  const confidence = +(matchRate * baseConfidence).toFixed(3);
+  if (confidence < MATCH_THRESHOLD) return null;
+  return {
+    patternId: pattern.id,
+    neuralRegion: pattern.neural && pattern.neural.region,
+    neuralRegionLabel: pattern.neural && pattern.neural.regionLabel,
+    businessSignature: pattern.business && pattern.business.signature,
+    mappingType: pattern.bridge && pattern.bridge.mappingType,
+    matchedIndicators,
+    totalIndicators: indicators.length,
+    matchRate: +matchRate.toFixed(3),
+    confidence,
+    derivedAngles: pattern.derivedAngles || {},
+    phaseAffinity: (pattern.business && pattern.business.phaseAffinity) || [],
+    knownTreatments: (pattern.neural && pattern.neural.knownTreatments) || []
+  };
+}
+
 function matchPortal(portal) {
   const lib = loadPatterns();
   const out = { matched: [], evaluatedAt: new Date().toISOString(), patternsConsidered: (lib.patterns || []).length };
   for (const pattern of (lib.patterns || [])) {
-    const indicators = pattern.business && pattern.business.indicators || [];
-    if (indicators.length === 0) continue;
-    const matchedIndicators = [];
-    for (const ind of indicators) {
-      if (evalDetector(ind.detector, portal)) matchedIndicators.push(ind.id);
-    }
-    if (matchedIndicators.length === 0) continue;
-    const matchRate = matchedIndicators.length / indicators.length;
-    const baseConfidence = (pattern.bridge && pattern.bridge.confidence) || 0.5;
-    const confidence = +(matchRate * baseConfidence).toFixed(3);
-    // Skip matches below a meaningful threshold
-    if (confidence < 0.15) continue;
-    out.matched.push({
-      patternId: pattern.id,
-      neuralRegion: pattern.neural && pattern.neural.region,
-      neuralRegionLabel: pattern.neural && pattern.neural.regionLabel,
-      businessSignature: pattern.business && pattern.business.signature,
-      mappingType: pattern.bridge && pattern.bridge.mappingType,
-      matchedIndicators,
-      totalIndicators: indicators.length,
-      matchRate: +matchRate.toFixed(3),
-      confidence,
-      derivedAngles: pattern.derivedAngles || {},
-      phaseAffinity: (pattern.business && pattern.business.phaseAffinity) || [],
-      knownTreatments: (pattern.neural && pattern.neural.knownTreatments) || []
-    });
+    const m = scorePattern(pattern, portal);
+    if (m) out.matched.push(m);
   }
   // Sort by confidence DESC, then by match-rate DESC
   out.matched.sort((a, b) => b.confidence - a.confidence || b.matchRate - a.matchRate);
   return out;
 }
 
-module.exports = { matchPortal, loadPatterns };
+module.exports = { matchPortal, loadPatterns, scorePattern, MATCH_THRESHOLD };

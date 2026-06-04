@@ -19,6 +19,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const orchestrator = require('./ai-orchestrator.js');
+const { scorePattern, MATCH_THRESHOLD } = require('./bridge-engine.js');
 
 const PATTERNS_PATH = path.join(__dirname, '..', '..', 'assets', 'data', 'bridge-patterns.json');
 const PROPOSALS_PATH = path.join(__dirname, '..', '..', 'assets', 'data', '_pattern-proposals.json');
@@ -262,7 +263,23 @@ async function proposePattern(portal, opts) {
     return { ok: true, duplicate: true, reason: 'duplicate of ' + _dupe.id + ' (same pattern.id or same source-portal × business-signature)', candidate: parsed.id, tokensUsed: (r.tokensIn || 0) + (r.tokensOut || 0) };
   }
 
-  // Persist for operator review (Redis on Vercel, file locally)
+  // ── Author-time salience pre-filter (thalamic gate) ──────────────────────
+  // Does this pattern's indicators actually FIRE on the very portal it was
+  // authored from, at the production match threshold? This is NOT approval and
+  // NOT a verdict on whether the scenario is true — it only routes WHAT reaches
+  // the human operator, protecting scarce review attention from noise.
+  //   fires      → PENDING_REVIEW  (active queue; the operator approves/rejects)
+  //   does not   → HELD_UNMATCHED  (holding bucket; KEPT, never deleted)
+  // A held pattern is re-checked on every rebuild tick and GRADUATES back to
+  // PENDING_REVIEW automatically if it later starts firing (corpus drift or
+  // re-encoded detectors) — buckets are revisable; the brain reconsolidates.
+  let sourceMatch = null;
+  try { sourceMatch = scorePattern(parsed, portal); } catch (e) { sourceMatch = null; }
+  const firesOnSource = !!sourceMatch;
+  const status = firesOnSource ? 'PENDING_REVIEW' : 'HELD_UNMATCHED';
+
+  // Persist (Redis on Vercel, file locally). Status routes the bucket; nothing
+  // is discarded either way.
   const persistResult = await _saveProposal({
     id: parsed.id,
     proposedAt: new Date().toISOString(),
@@ -272,10 +289,26 @@ async function proposePattern(portal, opts) {
     tokensUsed: (r.tokensIn || 0) + (r.tokensOut || 0),
     provider: r.provider,
     model: r.model,
-    status: 'PENDING_REVIEW'
+    status,
+    prefilter: {
+      firesOnSource,
+      threshold: MATCH_THRESHOLD,
+      confidence: firesOnSource ? sourceMatch.confidence : 0,
+      matchRate: firesOnSource ? sourceMatch.matchRate : 0,
+      matchedIndicators: firesOnSource ? sourceMatch.matchedIndicators : [],
+      evaluatedAt: new Date().toISOString()
+    }
   });
 
-  return { ok: true, proposal: parsed, tokensUsed: (r.tokensIn || 0) + (r.tokensOut || 0), storage: persistResult.storage };
+  return {
+    ok: true,
+    proposal: parsed,
+    status,
+    firesOnSource,
+    sourceConfidence: firesOnSource ? sourceMatch.confidence : 0,
+    tokensUsed: (r.tokensIn || 0) + (r.tokensOut || 0),
+    storage: persistResult.storage
+  };
 }
 
 async function listProposals() { return await _loadProposals(); }

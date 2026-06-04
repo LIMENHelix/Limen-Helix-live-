@@ -126,14 +126,21 @@ module.exports = async (req, res) => {
       storage: _redisEnabled() ? 'upstash-redis' : 'file'
     });
 
-    // Author up to `max` proposals
-    const proposed = [];
+    // Author up to `max` proposals. The salience pre-filter (in proposePattern)
+    // routes each result: those that fire on their source portal land in the
+    // active review queue (PENDING_REVIEW); those that don't are held (kept,
+    // re-checked each rebuild tick). Reported separately so a run is honest
+    // about how many actually reached the operator's queue.
+    const proposed = [];   // reached PENDING_REVIEW — operator sees these
+    const held = [];       // HELD_UNMATCHED — kept, didn't fire on source yet
     const failed = [];
     for (let i = 0; i < Math.min(max, candidates.length); i++) {
       const c = candidates[i];
       try {
         const r = await proposePattern(c, { targetDomain, reason: 'on-demand operator trigger' });
-        if (r.ok && !r.refused) proposed.push({ slug: c.slug, patternId: r.proposal.id, tokensUsed: r.tokensUsed });
+        if (r.ok && !r.refused && r.status === 'PENDING_REVIEW') proposed.push({ slug: c.slug, patternId: r.proposal.id, sourceConfidence: r.sourceConfidence, tokensUsed: r.tokensUsed });
+        else if (r.ok && !r.refused && r.status === 'HELD_UNMATCHED') held.push({ slug: c.slug, patternId: r.proposal.id, reason: 'indicators did not fire on source portal (held, will re-check)', tokensUsed: r.tokensUsed });
+        else if (r.ok && (r.refused || r.duplicate)) failed.push({ slug: c.slug, reason: r.reason || 'refused/duplicate' });
         else failed.push({ slug: c.slug, reason: r.error || r.reason || 'unknown' });
       } catch (e) {
         failed.push({ slug: c.slug, reason: String(e.message || e) });
@@ -144,6 +151,7 @@ module.exports = async (req, res) => {
     return res.status(200).json({
       ok: true,
       proposed,
+      held,
       failed,
       candidatesConsidered: candidates.length,
       portalsScanned: files.length,
