@@ -17,16 +17,15 @@ name: Sync canonical (lean) → full
 # workflow no-ops on the checkout step — it cannot push without it.
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'assets/js/**'
-      - 'api/**'
-      - 'civilization.html'
-      - 'domain-console.html'
-      - 'master-inbox.html'
-      - '.github/workflows/sync-to-full.yml'
-  workflow_dispatch: {}   # allow manual run from the Actions tab
+  # Auto-push trigger DISABLED 2026-06-03 — FULL_REPO_TOKEN returned "Bad
+  # credentials", so the Action failed on every push (red-X noise). Re-add the
+  # push block below once a VALID token (classic PAT, repo scope) is in the
+  # secret. Until then, lean→full is mirrored in-session. Manual run still works.
+  #
+  # push:
+  #   branches: [main]
+  #   paths: ['assets/js/**','api/**','civilization.html','domain-console.html','master-inbox.html']
+  workflow_dispatch: {}   # manual run only (Actions tab)
 
 concurrency:
   group: sync-to-full

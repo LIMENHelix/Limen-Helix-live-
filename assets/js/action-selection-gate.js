@@ -220,4 +220,3 @@
   // CommonJS export for the node test harness (browser ignores this).
   if (typeof module !== 'undefined' && module.exports) { module.exports = API; }
 })();
-// auto-sync canary 2026-06-03 (run 3, fresh token): verifying the lean→full GitHub Action mirrors this. Safe to remove.
