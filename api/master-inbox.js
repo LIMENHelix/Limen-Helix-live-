@@ -14,6 +14,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { buildInbox } = require('./lib/master-brain-consumer.js');
+const redisKv = require('./lib/redis-kv.js');
 
 const PORTALS_DIR = path.join(__dirname, '..', 'assets', 'data', 'companies');
 
@@ -37,6 +38,16 @@ module.exports = async (req, res) => {
   res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=60, stale-while-revalidate=300');
   try {
     const portals = _iterPortals();
+    // REROUTE: overlay Redis-fresh engine-outputs (written by build-engine-outputs
+    // each cron tick) over the committed-file ones, so newly-approved patterns
+    // surface live. Falls back silently to the file outputs if Redis is empty/down.
+    if (redisKv.HAS_REDIS && portals.length) {
+      try {
+        const keys = portals.map(p => 'limen:eo:' + p.slug);
+        const fresh = await redisKv.redisMGet(keys);
+        for (const p of portals) { const v = fresh['limen:eo:' + p.slug]; if (v) p.engineOutputs = v; }
+      } catch (e) { /* keep file engine-outputs */ }
+    }
     const inbox = buildInbox(portals);
     return res.status(200).json(inbox);
   } catch (err) {
