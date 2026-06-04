@@ -80,6 +80,36 @@
         }
       }
     } catch (e) {}
+    // Source 3 — UPWARD PORT (cortico-striatal): co-elevated cross-domain patterns
+    // projected up from the lateral brain network (cross-domain-detector), scored
+    // by the live feed-stress of the pattern's domains. This is the missing
+    // brain→decision wire — a high-stress cross-domain pressure now competes for
+    // selection instead of only firing laterally.
+    try {
+      var cd = (typeof window !== 'undefined') && window.LIMENCrossDomain;
+      var active = (cd && cd.active) || [];
+      var doms = (typeof window !== 'undefined' && window.LIMENDomains) || {};
+      for (var xi = 0; xi < active.length; xi++) {
+        var p = active[xi];
+        if (!p || !p.domains || !p.domains.length) continue;
+        var sum = 0, nn = 0;
+        for (var di = 0; di < p.domains.length; di++) {
+          var dd = doms[p.domains[di]];
+          if (dd && typeof dd.stress === 'number') { sum += dd.stress; nn++; }
+        }
+        var xs = nn ? (sum / nn)
+               : (typeof p.severity === 'number' ? (p.severity > 1 ? p.severity / 100 : p.severity) : 0.5);
+        out.push({
+          source: 'cross-domain',
+          action: {
+            id: 'xdom-' + (p.pattern || p.domains.join('-')),
+            title: (p.pattern || 'cross-domain pressure') + ' (' + p.domains.join(' + ') + ')',
+            domains: p.domains.slice(), xdomActions: p.actions || []
+          },
+          score: Math.round(xs * 1000) / 1000
+        });
+      }
+    } catch (e) {}
     return out;
   }
 
@@ -195,6 +225,9 @@
       window.addEventListener('limen:domain-update', _schedule);
       window.addEventListener('limen:civilization-packets-update', _schedule);
       window.addEventListener('limen:global-state-update', _schedule);
+      // Upward port: wake on cross-domain salience (cortico-striatal projection).
+      window.addEventListener('limen:cross-domain-signal', _schedule);
+      window.addEventListener('limen:opportunity-detected', _schedule);
     } catch (e) {}
   }
 

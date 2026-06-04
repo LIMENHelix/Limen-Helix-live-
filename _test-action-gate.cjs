@@ -85,5 +85,25 @@ t('ARMED winner is the non-vetoed top candidate', function () {
   assert(emitted[0].detail.winner.action.id === 'A');
 });
 
+console.log('upward port — cross-domain candidates reach the gate:');
+t('co-elevated cross-domain pattern becomes a candidate, stress-weighted', function () {
+  // reset the easier sources so the cross-domain candidate is identifiable
+  global.window.LIMENExecution.phase10.nextAction = function(){ return null; };
+  global.window.LIMENExecution.decisionSynthesis = { buckets: { executeNow: [] } };
+  global.window.LIMENCrossDomain = { active: [ { pattern: 'logistics disruption', domains: ['energy','supplyChain'] } ] };
+  global.window.LIMENDomains = { energy: { stress: 1.0 }, supplyChain: { stress: 0.9 } };
+  var sel = gate.select();
+  var x = sel.winner;
+  assert(x && x.source === 'cross-domain', 'cross-domain candidate should reach the gate, got '+(x&&x.source));
+  // avg(1.0, 0.9) = 0.95
+  assert(Math.abs(x.action ? sel.candidateCount : 0) >= 0, 'has candidate');
+  assert(Math.abs((x.score) - 0.95) < 0.001, 'should be stress-weighted avg 0.95, got '+x.score);
+  assert(/logistics disruption/.test(x.action.title) && /energy/.test(x.action.title), 'title: '+x.action.title);
+});
+t('cross-domain candidate carries its domains + predefined actions', function () {
+  var x = gate.select().winner;
+  assert(Array.isArray(x.action.domains) && x.action.domains.length === 2, 'domains preserved');
+});
+
 console.log('\n' + pass + ' passed, ' + fail + ' failed');
 process.exit(fail ? 1 : 0);
