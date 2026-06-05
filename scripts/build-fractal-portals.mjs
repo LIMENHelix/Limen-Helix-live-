@@ -56,6 +56,12 @@ const getArg = (n, d) => { const i = args.indexOf('--' + n); return i === -1 ? d
 const TIER = String(getArg('tier', '1'));
 const LIMIT = parseInt(getArg('limit', '5'), 10);
 const DRY = args.includes('--dry-run');
+// --queue <path> : drain the autonomous-portal-regen queue (the body's OWN
+// self-identified backlog) instead of a tier scan. This is the find→build link
+// of the autonomy loop: regen flags what's missing → this builds it. Entries
+// carry {slug,name,cik,ticker,domain,trigger}; we build each under its
+// name-slug (like tier-1) and apply the same existing-portal/alias/fail gates.
+const QUEUE_FILE = getArg('queue', null);
 // --source data (default) -> command-board-data.json (the curated 506)
 // --source eligible        -> command-board-eligible.json (the kernel-eligible 302)
 const SOURCE = String(getArg('source', 'data')).toLowerCase();
@@ -124,6 +130,32 @@ function buildQueue() {
   const ov = loadOverrides();
   const fails = loadFailCounts();
   const q = [];
+  if (QUEUE_FILE) {
+    // Drain the regen queue. Each entry → a target built under its name-slug,
+    // skipping any that already resolve (own slug, CIK, name, or alias) so the
+    // body never re-builds what it already has.
+    const qf = JSON.parse(fs.readFileSync(QUEUE_FILE, 'utf8'));
+    const entries = qf.queue || qf.companies || (Array.isArray(qf) ? qf : []);
+    const c2s = cikToSlugMap(slugSet);
+    const pNames = portalNameKeys();
+    const seen = new Set();
+    for (const e of entries) {
+      const cik = e.cik || e.c || null;
+      const name = e.name || e.n || e.slug || e.s;
+      const cbSlug = e.slug || e.s || null;
+      const hasPortal = (cbSlug && slugSet.has(cbSlug)) || (cbSlug && ALIAS[cbSlug] && slugSet.has(ALIAS[cbSlug])) || c2s[normCik(cik)] || pNames.has(nameKey(name));
+      if (hasPortal) continue;
+      const slug = nameSlug(name) || cbSlug;
+      if (!slug || slugSet.has(slug) || seen.has(slug)) continue;
+      if (ov.skip && ov.skip[slug]) continue;
+      if ((fails[slug] || 0) >= MAX_FAILS) continue;
+      seen.add(slug);
+      const t = { slug, name, ticker: e.ticker || e.t || null, cik, domainId: canonDomain(e.domain || e.d), _cbSlug: cbSlug, _trigger: e.trigger || null };
+      if (ov.fields && ov.fields[slug]) Object.assign(t, ov.fields[slug]);
+      q.push(t);
+    }
+    return q;
+  }
   if (TIER === '1') {
     const cb = JSON.parse(fs.readFileSync(CB_PATH, 'utf8')).companies || [];
     const seen = new Set();
@@ -209,7 +241,7 @@ const errStr = j => { const e = j && j.error; if (e == null) return j ? JSON.str
 
 async function main() {
   const queue = buildQueue();
-  console.log(`=== fractal portal build — tier ${TIER} ===`);
+  console.log(`=== fractal portal build — ${QUEUE_FILE ? 'regen-queue drain' : 'tier ' + TIER} ===`);
   console.log(`base: ${BASE_URL}  queue: ${queue.length}  limit: ${LIMIT}  dryRun: ${DRY}`);
   let done = 0, failed = 0, skipped = 0;
   for (const t of queue) {

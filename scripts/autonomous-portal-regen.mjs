@@ -30,16 +30,25 @@ const CB_CURATED = path.join(ROOT, 'assets', 'data', 'command-board-data.json');
 const CB_ELIG = path.join(ROOT, 'assets', 'data', 'command-board-eligible.json');
 const VITALS_PATH = path.join(ROOT, 'assets', 'data', '_vitals.json');
 const REGEN_QUEUE = path.join(ROOT, 'assets', 'data', '_autonomous-regen-queue.json');
+const ALIAS_PATH = path.join(ROOT, 'assets', 'data', 'company-aliases.json');
 
 const DRY = !process.argv.includes('--apply');
 console.log('=== autonomous-portal-regen ' + (DRY ? '(DRY RUN)' : '(APPLY)') + ' ===');
 
-let cbCurated = {}, cbElig = {}, vitals = {};
+let cbCurated = {}, cbElig = {}, vitals = {}, ALIAS = {};
 try { cbCurated = JSON.parse(fs.readFileSync(CB_CURATED, 'utf8')); } catch (e) {}
 try { cbElig = JSON.parse(fs.readFileSync(CB_ELIG, 'utf8')); } catch (e) {}
 try { vitals = JSON.parse(fs.readFileSync(VITALS_PATH, 'utf8')); } catch (e) {}
+try { ALIAS = JSON.parse(fs.readFileSync(ALIAS_PATH, 'utf8')).aliases || {}; } catch (e) {}
 
-const has = slug => fs.existsSync(path.join(DIR, slug + '.json'));
+// A CB row is satisfied if a portal file exists for its own slug OR for its
+// alias target. WITHOUT this, the regen over-counts: every CB row whose slug
+// resolves to an existing portal under a different canonical slug (via the
+// alias map) was being reported as "missing", inflating the backlog. The
+// build runner already applies aliases — so the two disagreed (regen said 188,
+// builder tier-1 said 0). Resolve aliases here so the backlog is honest.
+const _fileExists = slug => fs.existsSync(path.join(DIR, slug + '.json'));
+const has = slug => _fileExists(slug) || (ALIAS[slug] && _fileExists(ALIAS[slug]));
 const queue = [];
 
 // Trigger 1: CB rows pointing at missing portals
