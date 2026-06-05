@@ -35,6 +35,8 @@ a:hover{color:#C9A94E}
 .lane-franchise{color:#e8e3d9;border:1px solid rgba(232,227,217,0.2);background:rgba(232,227,217,0.04)}
 .entity{color:#e8e3d9}
 .pattern{color:rgba(200,195,184,0.5);font-size:0.32rem}
+.pat-neural{display:block;color:rgba(201,169,78,0.88);font-size:0.34rem;letter-spacing:0.5px;line-height:1.35}
+.pat-instance{display:block;color:rgba(200,195,184,0.32);font-size:0.28rem;font-style:italic;line-height:1.3;margin-top:1px}
 .action{display:flex;gap:4px;flex-wrap:wrap}
 .action a, .action button{font-size:0.3rem;color:rgba(201,169,78,0.55);padding:3px 8px;border:1px solid rgba(201,169,78,0.2);border-radius:2px;background:none;font-family:inherit;cursor:pointer;letter-spacing:0.5px}
 .action a:hover, .action button:hover{color:#C9A94E;border-color:rgba(201,169,78,0.5)}
@@ -126,6 +128,28 @@ a:hover{color:#C9A94E}
 <script>
 function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];}); }
 
+// Re-headline a pattern id as the NEURAL STRUCTURE (the structural claim that
+// actually travels across domains), with the authoring business-instance
+// demoted. patternId = NEURAL_x_BUSINESS, e.g.
+// SPT_reward_sequence_chunking_failure_x_cgm_consumable_refill_abandonment.
+// The business half is just the portal it was first authored from — leading with
+// it makes correct cross-domain matches (SPT → AMC) read as absurd. The neural
+// structure + the phase column = the real (structure × P0-P10) claim.
+function _patternHeadline(pid) {
+  var s = String(pid || '');
+  var i = s.indexOf('_x_');
+  var neural = i >= 0 ? s.slice(0, i) : s;
+  var instance = i >= 0 ? s.slice(i + 3) : '';
+  var nt = neural.split('_');
+  return { region: nt[0] || '', failure: nt.slice(1).join(' '), instance: instance.replace(/_/g, ' ') };
+}
+function _patternCell(pid) {
+  var h = _patternHeadline(pid);
+  var head = h.region + (h.failure ? ' · ' + h.failure : '');
+  return '<span class="pat-neural">' + esc(head) + '</span>' +
+         (h.instance ? '<span class="pat-instance">' + esc(h.instance) + '</span>' : '');
+}
+
 // Live endpoint computes the inbox on demand. Falls back to the static file
 // (used during local dev or if the endpoint is down).
 fetch('/api/master-inbox?_=' + Date.now())
@@ -162,7 +186,7 @@ function render(d) {
     topHtml += '<div><span class="lane-tag lane-' + esc(t.lane) + '">' + esc(t.lane) + '</span></div>';
     topHtml += '<div class="entity">' + esc(t.portalName) + (t.portalTicker ? ' (' + esc(t.portalTicker) + ')' : '') + '</div>';
     topHtml += '<div class="reason">' + esc(t.phase || '—') + '</div>';
-    topHtml += '<div class="pattern">' + esc(t.patternId) + '</div>';
+    topHtml += '<div class="pattern">' + _patternCell(t.patternId) + '</div>';
     topHtml += '<div class="action">' +
       actionButtons(t) +
       '<a href="/company-portal.html?company=' + encodeURIComponent(t.portalSlug) + '">open</a>' +
@@ -204,7 +228,7 @@ function render(d) {
       laneHtml += '<div class="row">';
       laneHtml += '<div class="fire-score">' + (r.fireScore != null ? r.fireScore.toFixed(3) : '—') + '</div>';
       laneHtml += '<div class="entity">' + esc(r.portalName) + (r.portalTicker ? ' (' + esc(r.portalTicker) + ')' : '') + '</div>';
-      laneHtml += '<div class="pattern">' + esc(r.patternId) + '</div>';
+      laneHtml += '<div class="pattern">' + _patternCell(r.patternId) + '</div>';
       laneHtml += '<div class="reason">' + esc(r.phase || '—') + '</div>';
       laneHtml += '<div class="reason">' + (r.readiness != null ? r.readiness.toFixed(2) : '—') + ' · ' + (r.salience != null ? r.salience.toFixed(2) : '—') + '</div>';
       laneHtml += '<div class="action">' + actionButtons(r) + '<a href="/company-portal.html?company=' + encodeURIComponent(r.portalSlug) + '">open</a></div>';
@@ -219,7 +243,7 @@ function render(d) {
         laneHtml += '<div class="row inhibited">';
         laneHtml += '<div class="fire-score">' + (x.fireScore != null ? x.fireScore.toFixed(3) : '—') + '</div>';
         laneHtml += '<div class="entity">' + esc(x.portalName) + '</div>';
-        laneHtml += '<div class="pattern">' + esc(x.patternId) + '</div>';
+        laneHtml += '<div class="pattern">' + _patternCell(x.patternId) + '</div>';
         laneHtml += '<div class="reason">' + esc(x.phase || '—') + '</div>';
         laneHtml += '<div class="reason">' + esc(x.reason || '') + '</div>';
         laneHtml += '<div class="action">' + actionButtons(x) + '<a href="/company-portal.html?company=' + encodeURIComponent(x.portalSlug) + '">open</a></div>';
