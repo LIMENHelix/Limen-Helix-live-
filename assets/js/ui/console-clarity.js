@@ -2648,30 +2648,12 @@
       _tabContentEl.appendChild(card);
     }
 
-    // Trust posture — observatory-framing rows sourced only from
-    // report.evidence. Every row is presence-guarded; missing/empty
-    // fields produce no row. No placeholders, no synthesis, no new
-    // data sources. temporalBalance is an object on the evidence
-    // contract rather than a string and is intentionally not rendered
-    // here.
-    if (report.evidence) {
-      var tpEv = report.evidence;
-      var tpCard = _subCard('TRUST POSTURE');
-      var tpRows = 0;
-      if (typeof tpEv.overallConfidence === 'number' && isFinite(tpEv.overallConfidence)) {
-        _addRow(tpCard, 'Overall Confidence', tpEv.overallConfidence.toFixed(2));
-        tpRows++;
-      }
-      if (typeof tpEv.overallTier === 'string' && tpEv.overallTier) {
-        _addRow(tpCard, 'Confidence Tier', tpEv.overallTier);
-        tpRows++;
-      }
-      if (typeof tpEv.uncertaintyStatement === 'string' && tpEv.uncertaintyStatement) {
-        _addRow(tpCard, 'Uncertainty', tpEv.uncertaintyStatement);
-        tpRows++;
-      }
-      if (tpRows > 0) _tabContentEl.appendChild(tpCard);
-    }
+    // TRUST POSTURE card removed (operator call). It rendered the
+    // recommendation-evidence envelope (report.evidence), which is null
+    // whenever the propagation recommendation engine produces no graded
+    // recs — so it permanently displayed "0.00 / insufficient / No data."
+    // Removed rather than show a dead metric. The envelope/engine code is
+    // left intact; if that pipeline is ever revived this card can return.
 
     // Cross-domain conflicts — enumerate civilization-level tensions
     // already present on report.conflicts. Each conflict is a structured
@@ -2706,13 +2688,10 @@
 
     // Domain overview REMOVED — duplicates Zone B domain health grid
 
-    // Polarity
-    if (report.polarity) {
-      var polCard = _subCard('POLARITY');
-      _addRow(polCard, 'Overall', (report.polarity.overall || 0).toFixed(2));
-      _addRow(polCard, 'Trend', report.polarity.trend || 'n/a');
-      _tabContentEl.appendChild(polCard);
-    }
+    // POLARITY card removed (operator call). It read report.polarity.overall
+    // / .trend, but report.polarity is the domain-keyed LIMENPolarity map with
+    // no .overall/.trend fields — so it permanently showed "Overall 0.00 /
+    // Trend n/a." Per-domain polarity still renders in the Zone B domain grid.
 
     // Registry diagnoses/treatments — prefer brain diagnoses when available.
     // Build rows first into a detached fragment; only mount the card if at least
