@@ -228,7 +228,14 @@
         if (action === 'PRINT') {
           btn.disabled = true; btn.textContent = 'generating 30-90s…';
           showToast('Generating long-form DOCX (20-30 pages, takes 30-90s)…', 'ok');
-          var url = '/api/print-document?slug=' + encodeURIComponent(slug) + '&lane=' + encodeURIComponent(lane) + '&index=' + encodeURIComponent(index);
+          // Prefer print-from-pattern (builds the doc from the pattern; no
+          // committed bridge match on the portal file required) so Redis-injected
+          // matches print. Fall back to print-document only when patternId is
+          // absent. Same fix as the master-inbox Print button.
+          var patternId = btn.dataset.pattern;
+          var url = patternId
+            ? '/api/print-from-pattern?slug=' + encodeURIComponent(slug) + '&lane=' + encodeURIComponent(lane) + '&patternId=' + encodeURIComponent(patternId)
+            : '/api/print-document?slug=' + encodeURIComponent(slug) + '&lane=' + encodeURIComponent(lane) + '&index=' + encodeURIComponent(index);
           fetch(url)
             .then(function(r){
               if (!r.ok) return r.json().then(function(j){ throw new Error(j.error || ('HTTP ' + r.status)); });
