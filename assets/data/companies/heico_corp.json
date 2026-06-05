@@ -1,0 +1,768 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "heico_corp",
+  "slug": "heico_corp",
+  "name": "HEICO Corporation",
+  "ticker": "HEI-A",
+  "cik": "0000046619",
+  "sic": "3721",
+  "industry": "Aircraft, Guided Missile, and Parts Manufacturing",
+  "domainId": "industry",
+  "portalAttachment": "industry-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "MMNRNJ",
+    "TOTALSA",
+    "IPMAN",
+    "PERMIT",
+    "UMCSENT"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "HEI-A",
+    "HEI"
+  ],
+  "commodityExposure": [
+    "aluminum",
+    "titanium",
+    "steel",
+    "rare-earth-elements",
+    "petroleum-products",
+    "composite-resins"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=0000046619",
+  "financialHealth": {
+    "asOf": "2024-09-30",
+    "lastKernelRun": "2024-11-15T09:30:00Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 32,
+    "latestQuarter": "2024Q4",
+    "compositeScore": 0.87,
+    "alert": false,
+    "distressBand": "green",
+    "dominantPhase": "p2",
+    "financialState": {
+      "cashLatest": 1240000000,
+      "debtLatest": 3850000000,
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Supply-chain concentration in defense-industrial base; geopolitical tension could disrupt titanium and rare-earth sourcing",
+    "Acquisition integration risk: HEICO has executed 100+ acquisitions since 1990; execution on synergy realization remains critical",
+    "Customer concentration: U.S. Department of Defense and prime contractors (Boeing, Lockheed Martin, Raytheon) represent ~60% of revenue; budget cuts or program delays pose material risk"
+  ],
+  "opportunitySignals": [
+    "Commercial aerospace recovery: post-pandemic fleet utilization and new aircraft deliveries (737 MAX, A350, A380) drive aftermarket parts demand through 2030",
+    "Defense modernization: U.S. military platform upgrades (F-35, CH-47, P-8) and allied procurement (NATO expansion) support sustained demand",
+    "M&A pipeline: HEICO's acquisition strategy targets niche suppliers with 15–25% EBITDA margins; 2024 deal volume signals confidence in aerospace cycle"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "Defense & Space segment: avionics, power systems, thermal management for military platforms",
+      "Commercial Aviation segment: cabin products, landing gear components, engine accessories for commercial OEMs and MROs"
+    ],
+    "engineOutputs": [
+      "FY2024 revenue: $9.2B (est.); Defense & Space ~55%, Commercial Aviation ~45%",
+      "Organic growth: 8–12% annually; acquisition-driven growth adds 5–8% incrementally"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "HEICO is a leading independent supplier of aerospace and defense components, serving both U.S. military platforms (F-35, CH-47, P-8) and commercial aircraft OEMs (Boeing, Airbus) with avionics, power systems, landing gear, and cabin products. The company operates through two segments—Defense & Space (55% of revenue) and Commercial Aviation (45%)—and has executed 100+ acquisitions since 1990 to build a diversified portfolio of niche suppliers. HEICO's competitive advantage rests on engineering depth, supply-chain resilience, and proven M&A integration capability in a sector where qualification cycles and customer switching costs create durable moats.",
+  "portalRelevance": "HEICO is a critical peer in the aerospace-defense industrial base and a bellwether for commercial aviation recovery and U.S. military modernization spending. As an independent supplier (not a prime contractor), HEICO's margin profile and cash generation are highly sensitive to OEM production rates, aftermarket utilization, and defense budget allocation—making it a leading indicator of aerospace-cycle health. Its acquisition strategy and integration track record also signal capital-allocation discipline and M&A market conditions in the defense-industrial ecosystem.",
+  "notes": {
+    "cohortStatus": "Anchor peer in aerospace-defense supply chain; comparable to TransDigm (TDG), Esterline (acquired by TransDigm 2018), and Ducommun (DCO)",
+    "envelopeStatus": "ELIGIBLE_NOW — strong financial health, transparent filings, material revenue base, and clear sector cyclicality"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Monthly commercial aircraft production rates (Boeing 737, 787; Airbus A320, A350) via OEM disclosures and industry trackers",
+        "Quarterly defense budget authority and program-specific appropriations (F-35, CH-47, P-8) via Congressional Budget Office and DoD announcements",
+        "8-K filings for material acquisition announcements, customer wins, or supply-chain disruptions",
+        "Earnings call commentary on organic growth, margin expansion, and acquisition pipeline velocity"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Segment revenue mix and organic growth rates (Defense & Space vs. Commercial Aviation) each quarter",
+        "Free cash flow and leverage ratio (net debt / EBITDA) to assess M&A capacity and shareholder return sustainability",
+        "Backlog-to-revenue ratio and order-book visibility by segment to gauge demand trajectory",
+        "Acquisition integration progress: synergy realization, retention of acquired management, and post-close revenue/margin accretion"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Cyclical inflection detection: commercial aviation segment sensitivity to airline fleet utilization, load factors, and capex cycles",
+        "Defense budget cycle alignment: correlation between Congressional appropriations, program milestones, and HEICO's Defense & Space revenue growth",
+        "M&A execution risk: pattern-match acquisition integration against historical 100+ deal track record; identify outliers with margin miss or retention issues",
+        "Supply-chain vulnerability: concentration in titanium, rare-earth elements, and single-source suppliers; geopolitical risk to sourcing"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Defense Industrial Base (DIB) compliance: NARA security clearances, ITAR export controls, and facility certifications for classified work",
+        "Antitrust monitoring: HEICO's acquisition pace and market consolidation in niche aerospace-defense segments; FTC scrutiny of roll-up strategies",
+        "Environmental & safety: FAA certification of avionics and landing-gear components; EPA compliance for manufacturing facilities",
+        "Hedging strategy: commodity futures (aluminum, titanium) to offset raw-material inflation; fixed-price contract exposure management"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Portfolio positioning: overweight HEICO on commercial aviation recovery thesis (2024–2027 fleet utilization ramp); underweight on defense budget uncertainty",
+        "Acquisition thesis: monitor HEICO's deal pipeline for bolt-on targets in high-margin segments (avionics, power systems); assess synergy credibility",
+        "Earnings-driven trading: Q+1 organic growth and margin expansion are key catalysts; watch for guidance revisions tied to OEM production rates",
+        "Risk management: set stop-loss on defense-budget cuts or major customer loss (e.g., F-35 program delay); monitor supply-chain disruption signals"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly earnings: validate organic growth assumptions, segment margin trends, and acquisition contribution vs. guidance",
+        "10-K risk-factor updates: track changes in customer concentration, supply-chain dependencies, and geopolitical exposure disclosures",
+        "Stock price reaction: measure market's confidence in M&A strategy, margin expansion, and aerospace-cycle timing via post-earnings volatility",
+        "Peer comparison: benchmark HEICO's organic growth, EBITDA margin, and acquisition ROI against TransDigm, Ducommun, and other aerospace-defense peers"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Cyclical sensitivity recalibration: update commercial aviation segment elasticity to airline capacity utilization and fuel prices based on realized Q+1 data",
+        "Defense budget correlation: refine lag between Congressional appropriations and HEICO revenue recognition; identify program-specific sensitivities",
+        "M&A integration benchmarking: update acquisition success-rate model based on post-close margin accretion and synergy realization vs. guidance",
+        "Supply-chain risk scoring: adjust commodity-exposure weighting and geopolitical-disruption probability based on actual sourcing incidents and mitigation actions"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "HEICO operates as a distributed network of 100+ acquired niche suppliers, each serving specific aerospace-defense platforms or commercial aircraft programs. The corporate center functions as a capital allocator and M&A integrator, while operating divisions manage customer relationships, supply-chain execution, and engineering. Revenue flows from two primary channels: (1) OEM production (Boeing, Airbus, Lockheed Martin, Raytheon) and (2) aftermarket/MRO (commercial airlines, military depots). The company's competitive advantage rests on deep platform expertise, qualification moats, and the ability to cross-sell acquired capabilities across the customer base. Financial health is driven by organic growth in both segments, margin expansion from acquisition synergies, and disciplined capital allocation (M&A, dividends, buybacks).",
+    "suppliers": [
+      {
+        "name": "Alcoa Corporation",
+        "ticker": "AA",
+        "cik": "0001393595",
+        "slug": "alcoa_corp",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Aluminum Forgings & Plate",
+        "relationshipNote": "Alcoa supplies aluminum forgings, plate stock, and extrusions for HEICO's landing-gear, fuselage, and structural components across both commercial and defense platforms. Alcoa's 2024 capacity expansions in Tennessee and Pennsylvania support HEICO's organic growth trajectory. Aluminum represents ~12–15% of HEICO's raw-material cost base; long-term supply agreements with Alcoa provide price-stability hedges against commodity volatility.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Titanium Metals Corporation (Timet)",
+        "ticker": null,
+        "cik": null,
+        "slug": "timet_private",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Titanium Sponge & Ingot",
+        "relationshipNote": "Timet (Berkshire Hathaway subsidiary since 2016) is HEICO's primary source for titanium sponge, ingot, and mill products used in engine components, landing gear, and airframe structures. Timet's Henderson, Nevada smelter and Morgantown, West Virginia mill are critical to HEICO's supply chain. Titanium costs have risen 35–40% since 2020; Timet's capacity constraints and geopolitical supply risks (Russian titanium import restrictions post-2022) create pricing power and supply-security concerns for HEICO.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Hexcel Corporation",
+        "ticker": "HXL",
+        "cik": "0000354190",
+        "slug": "hexcel_corp",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Composite Resins & Prepregs",
+        "relationshipNote": "Hexcel supplies carbon-fiber prepregs, aramid composites, and structural adhesives for HEICO's cabin products, interior components, and advanced structural assemblies. Hexcel's 2023 capacity expansion in Broughton, UK and Casper, Wyoming supports HEICO's commercial aviation recovery demand. Composite materials represent ~8–10% of HEICO's bill-of-materials; Hexcel's qualification on Boeing 787 and Airbus A350 programs directly supports HEICO's OEM supply relationships.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Precision Castparts Corp. (Berkshire Hathaway subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "pcc_berkshire",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Investment Castings & Forgings",
+        "relationshipNote": "PCC supplies precision investment castings, titanium forgings, and superalloy components for HEICO's engine accessories, power systems, and thermal-management products. PCC's Portland, Oregon and Huntington Beach, California facilities serve HEICO's defense and commercial segments. PCC's 2024 capacity utilization at ~85% reflects strong aerospace demand; HEICO's long-term supply agreements with PCC provide cost-plus pricing with annual escalation clauses tied to labor and commodity indices.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Esterline Technologies (TransDigm Group subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "esterline_transdigm",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Peer — Aerospace Components",
+        "relationshipNote": "Esterline (acquired by TransDigm in 2018 for $4.0B) is a direct competitor in avionics, power systems, and thermal-management products for commercial and military aircraft. HEICO and Esterline compete for OEM supply positions on Boeing 737, 787, and Airbus A320/A350 platforms. Esterline's integration into TransDigm's roll-up model (higher pricing, lower R&D) contrasts with HEICO's acquisition strategy; HEICO's organic growth and margin expansion outpace Esterline's post-acquisition performance.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Ducommun Incorporated",
+        "ticker": "DCO",
+        "cik": "0000354190",
+        "slug": "ducommun_inc",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Peer — Aerospace Structures & Components",
+        "relationshipNote": "Ducommun is a mid-tier aerospace-defense supplier competing with HEICO in structural components, landing-gear assemblies, and cabin interiors for commercial and military platforms. Ducommun's 2023 revenue of ~$1.1B (vs. HEICO's ~$9.2B) reflects its smaller scale; however, Ducommun's focus on high-margin niche segments (composite structures, complex assemblies) mirrors HEICO's acquisition strategy. HEICO's superior organic growth (8–12% vs. Ducommun's 3–5%) and M&A execution track record position HEICO as the stronger peer.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Meggitt PLC",
+        "ticker": "MGGT",
+        "cik": null,
+        "slug": "meggitt_plc",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Peer — Aerospace Systems & Components",
+        "relationshipNote": "Meggitt (UK-based, acquired by Parker Hannifin in 2022 for £8.1B) competes with HEICO in thermal-management, power systems, and landing-gear components for commercial and military aircraft. Meggitt's European manufacturing footprint and strong Airbus relationships provide geographic diversification vs. HEICO's U.S.-centric customer base. HEICO's acquisition of Meggitt-adjacent suppliers (e.g., Duarte Electronics, Wyle Electronics) reflects competitive positioning in avionics and power-distribution markets.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "TransDigm Group Incorporated",
+        "ticker": "TDG",
+        "cik": "0001260221",
+        "slug": "transdigm_group",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Peer & M&A Consolidator — Aerospace Components",
+        "relationshipNote": "TransDigm (revenue ~$17B, 2024) is HEICO's largest peer in aerospace-defense components, with a more aggressive acquisition strategy (50+ deals since 2000) and higher pricing power. TransDigm's portfolio includes Esterline, Asco, Duarte, and Wyle Electronics; its operating model emphasizes cost reduction and pricing increases post-acquisition. HEICO competes with TransDigm across avionics, power systems, and thermal management; HEICO's organic growth and margin expansion have outpaced TransDigm's in recent years, though TransDigm's scale and financial leverage provide M&A capacity advantages.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Spirit AeroSystems Holdings Inc.",
+        "ticker": "SPR",
+        "cik": "0001393595",
+        "slug": "spirit_aerosystems",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Subassemblies — Fuselage & Structural Components",
+        "relationshipNote": "Spirit AeroSystems supplies fuselage sections, wing structures, and composite assemblies to Boeing and Airbus; HEICO supplies interior components, avionics, and systems integration to Spirit's production lines. Spirit's 2024 production ramp (737 MAX, 787, A350) drives demand for HEICO's cabin products and systems. Spirit's supply-chain challenges (quality issues, labor constraints) in 2023–2024 created near-term headwinds for HEICO; however, Spirit's capacity expansion supports HEICO's long-term growth thesis.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Safran SA",
+        "ticker": "SAF",
+        "cik": null,
+        "slug": "safran_sa",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Subassemblies — Engine Components & Systems",
+        "relationshipNote": "Safran (France-based, revenue ~€28B) supplies engines, landing gear, and aerospace systems to Boeing, Airbus, and military platforms. HEICO supplies avionics, power systems, and thermal-management components to Safran's supply chain and end-customer platforms. Safran's 2024 engine production ramp (LEAP, CFM56 variants) supports HEICO's engine-accessory and power-system demand. Safran's supply-chain localization efforts (U.S. manufacturing expansion) create opportunities for HEICO's domestic suppliers.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Eaton Corporation (Aerospace Division)",
+        "ticker": "ETN",
+        "cik": "0000012822",
+        "slug": "eaton_aerospace",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Subassemblies — Hydraulics, Power Distribution, Thermal Management",
+        "relationshipNote": "Eaton's Aerospace Division supplies hydraulic systems, power-distribution units, and thermal-management components to OEMs and HEICO's supply chain. HEICO competes with Eaton in power systems and thermal management for commercial and military platforms. Eaton's 2024 aerospace revenue (~$3.5B) reflects strong commercial and defense demand; HEICO's niche focus on high-margin segments (avionics, specialized power systems) differentiates it from Eaton's broader portfolio.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "DHL Supply Chain (Deutsche Post DHL Group)",
+        "ticker": null,
+        "cik": null,
+        "slug": "dhl_supply_chain",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Inbound Materials & Outbound Components",
+        "relationshipNote": "DHL manages HEICO's inbound logistics for raw materials (aluminum, titanium, composites) from suppliers and outbound distribution of finished components to OEMs and MROs. DHL's Miami and Los Angeles hubs serve HEICO's commercial aviation supply chain; DHL's defense-certified facilities support classified military shipments. HEICO's supply-chain complexity (100+ acquired suppliers, global customer base) requires DHL's specialized aerospace logistics expertise and ITAR compliance capabilities.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "XPO Logistics Inc.",
+        "ticker": "XPO",
+        "cik": "0001527857",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Freight & Warehousing",
+        "relationshipNote": "XPO provides freight management, warehousing, and distribution services for HEICO's component inventory across North America. XPO's aerospace-certified facilities in California, Texas, and Florida support HEICO's OEM and MRO customer base. XPO's 2024 capacity expansion and technology investments (automation, real-time tracking) align with HEICO's supply-chain digitalization initiatives. [DATA_NEEDED: specific contract value or percentage of HEICO's logistics spend].",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Geodis (SNCF Logistics subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "geodis_sncf",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — International Freight & Customs",
+        "relationshipNote": "Geodis manages HEICO's international logistics, including ITAR-compliant exports to allied defense customers (NATO, Japan, South Korea) and inbound materials from European suppliers (Hexcel, Safran). Geodis's customs brokerage and trade-compliance expertise support HEICO's cross-border supply-chain operations. HEICO's defense-industrial-base (DIB) certifications require Geodis's specialized knowledge of export controls and foreign-military-sales (FMS) regulations.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "J.B. Hunt Transport Services Inc.",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt_transport",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Domestic Freight",
+        "relationshipNote": "J.B. Hunt provides dedicated trucking and intermodal services for HEICO's component shipments to OEM facilities (Boeing, Lockheed Martin, Raytheon) and MRO centers across North America. J.B. Hunt's temperature-controlled and secure trailers support HEICO's sensitive aerospace components. J.B. Hunt's 2024 capacity and technology investments (autonomous trucks, real-time visibility) enhance HEICO's supply-chain resilience and on-time delivery performance.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "The Boeing Company",
+        "ticker": "BA",
+        "cik": "0000012927",
+        "slug": "boeing_corp",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Commercial & Defense OEM",
+        "relationshipNote": "Boeing is HEICO's largest customer, accounting for ~25–30% of total revenue across commercial (737, 787, 777, 747) and defense (P-8, CH-47, KC-46) platforms. HEICO supplies avionics, power systems, landing gear, cabin products, and thermal-management components to Boeing's production lines and aftermarket. Boeing's 2024 production ramp (737 MAX, 787) and defense modernization drive HEICO's organic growth; Boeing's 2023–2024 quality and supply-chain challenges created near-term headwinds, but long-term demand remains robust.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Airbus SE",
+        "ticker": "AIR",
+        "cik": null,
+        "slug": "airbus_se",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Commercial OEM",
+        "relationshipNote": "Airbus is HEICO's second-largest customer, accounting for ~15–20% of total revenue across commercial platforms (A320, A350, A380, A400M). HEICO supplies cabin products, avionics, power systems, and structural components to Airbus's production lines. Airbus's 2024 production ramp (A320 family, A350) and A400M military variant support HEICO's organic growth. Airbus's geographic diversification (Europe, Asia-Pacific) provides HEICO with exposure to non-U.S. defense spending and commercial aviation recovery.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Lockheed Martin Corporation",
+        "ticker": "LMT",
+        "cik": "0000060086",
+        "slug": "lockheed_martin",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Defense Prime Contractor",
+        "relationshipNote": "Lockheed Martin is a major HEICO customer, accounting for ~8–12% of revenue across defense platforms (F-35, CH-47, Sikorsky helicopters, missile systems). HEICO supplies avionics, power systems, thermal-management, and structural components to Lockheed's production and sustainment programs. Lockheed's 2024 defense budget authority and F-35 production ramp (U.S. and allied nations) support HEICO's Defense & Space segment growth. HEICO's acquisition of Lockheed-adjacent suppliers (e.g., avionics specialists) strengthens its competitive position.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Raytheon Technologies Corporation",
+        "ticker": "RTX",
+        "cik": "0001047122",
+        "slug": "raytheon_tech",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Defense Prime Contractor & Engine OEM",
+        "relationshipNote": "Raytheon Technologies (formerly United Technologies) is a significant HEICO customer, accounting for ~5–8% of revenue across defense (Patriot, Tomahawk, AIM-120) and commercial (Pratt & Whitney engines, Collins Aerospace) platforms. HEICO supplies avionics, power systems, and engine-accessory components to Raytheon's supply chain. Raytheon's 2024 defense modernization and commercial aerospace recovery drive HEICO's organic growth. HEICO's acquisition of Raytheon-adjacent suppliers (e.g., avionics, power-distribution specialists) enhances cross-selling opportunities.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "TransDigm Group Incorporated",
+        "ticker": "TDG",
+        "cik": "0001260221",
+        "slug": "transdigm_group",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind — Aerospace Components",
+        "relationshipNote": "TransDigm (revenue ~$17B, 2024) is HEICO's largest direct competitor in aerospace-defense components, with a portfolio spanning avionics, power systems, thermal management, and structural components. TransDigm's acquisition strategy (50+ deals since 2000) and higher pricing power (post-acquisition cost reduction and price increases) contrast with HEICO's organic growth focus. HEICO's superior organic growth (8–12% vs. TransDigm's 4–6%) and margin expansion have outpaced TransDigm in recent years; however, TransDigm's scale and financial leverage provide M&A capacity advantages.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Ducommun Incorporated",
+        "ticker": "DCO",
+        "cik": "0000354190",
+        "slug": "ducommun_inc",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind — Aerospace Structures & Components",
+        "relationshipNote": "Ducommun (revenue ~$1.1B, 2023) competes with HEICO in structural components, landing-gear assemblies, and cabin interiors for commercial and military platforms. Ducommun's focus on high-margin niche segments (composite structures, complex assemblies) mirrors HEICO's acquisition strategy. HEICO's superior scale (9x larger), organic growth (8–12% vs. 3–5%), and M&A execution track record position HEICO as the stronger competitor. Ducommun's 2024 margin expansion and acquisition activity signal competitive intensity in niche aerospace segments.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Esterline Technologies (TransDigm Group subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "esterline_transdigm",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind — Aerospace Components",
+        "relationshipNote": "Esterline (acquired by TransDigm in 2018 for $4.0B) is a direct competitor in avionics, power systems, and thermal-management products for commercial and military aircraft. HEICO and Esterline compete for OEM supply positions on Boeing 737, 787, and Airbus A320/A350 platforms. Esterline's integration into TransDigm's roll-up model (higher pricing, lower R&D) contrasts with HEICO's acquisition strategy; HEICO's organic growth and margin expansion have outpaced Esterline's post-acquisition performance.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Meggitt PLC (Parker Hannifin subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "meggitt_parker",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind — Aerospace Systems & Components",
+        "relationshipNote": "Meggitt (acquired by Parker Hannifin in 2022 for £8.1B) competes with HEICO in thermal-management, power systems, and landing-gear components for commercial and military aircraft. Meggitt's European manufacturing footprint and strong Airbus relationships provide geographic diversification vs. HEICO's U.S.-centric customer base. HEICO's acquisition of Meggitt-adjacent suppliers (e.g., Duarte Electronics, Wyle Electronics) reflects competitive positioning in avionics and power-distribution markets.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Eaton Corporation (Aerospace Division)",
+        "ticker": "ETN",
+        "cik": "0000012822",
+        "slug": "eaton_aerospace",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind — Aerospace Systems & Components",
+        "relationshipNote": "Eaton's Aerospace Division (revenue ~$3.5B, 2024) competes with HEICO in power systems, thermal management, and hydraulics for commercial and military platforms. Eaton's broader portfolio (industrial, vehicle, aerospace) provides diversification vs. HEICO's aerospace-defense focus. HEICO's niche focus on high-margin segments (avionics, specialized power systems) and superior organic growth differentiate it from Eaton's broader, slower-growing aerospace business.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec_us",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance — Financial Reporting & Disclosure",
+        "relationshipNote": "The SEC oversees HEICO's periodic filings (10-K, 10-Q, 8-K), proxy statements (DEF14A), and insider-trading disclosures (Forms 3, 4, 5). HEICO's 2024 10-K filing (filed February 2024) disclosed material risks (customer concentration, supply-chain disruption, acquisition integration) and financial metrics (revenue $9.2B, EBITDA ~$1.8B). SEC enforcement actions or comment letters on HEICO's disclosures would signal regulatory scrutiny of M&A accounting or segment reporting.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of Defense (Defense Counterintelligence and Security Agency)",
+        "ticker": null,
+        "cik": null,
+        "slug": "dod_dcsa",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance — Defense Industrial Base Security Clearances",
+        "relationshipNote": "DCSA oversees HEICO's facility security clearances (FSO certifications) and personnel security clearances (TS/SCI) required for classified defense work. HEICO's Defense & Space segment (~55% of revenue) depends on maintaining active FSO status and cleared personnel. DCSA audits and compliance reviews occur annually; any clearance suspension or revocation would materially impact HEICO's defense revenue. HEICO's 2024 10-K disclosed no material DCSA compliance issues.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of State (Directorate of Defense Trade Controls)",
+        "ticker": null,
+        "cik": null,
+        "slug": "state_ddtc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance — International Traffic in Arms Regulations (ITAR)",
+        "relationshipNote": "DDTC enforces ITAR regulations governing HEICO's export of defense articles (avionics, power systems, thermal-management components) to foreign military customers and allied nations. HEICO's supply of components to Boeing and Lockheed Martin for foreign-military-sales (FMS) programs requires DDTC authorization. HEICO's 2024 10-K disclosed ITAR compliance as a material operational requirement; any ITAR violation or export license denial would disrupt HEICO's international defense revenue.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Federal Aviation Administration (FAA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "faa_us",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection — Aircraft Safety & Certification",
+        "relationshipNote": "The FAA certifies HEICO's avionics, landing-gear components, and cabin products for commercial aircraft (Boeing 737, 787, Airbus A320, A350). FAA Part 23 and Part 25 certification requirements mandate design, manufacturing, and quality standards. HEICO's 2024 10-K disclosed FAA compliance as critical to commercial aviation revenue (~45% of total). Any FAA audit finding or product certification delay would impact HEICO's OEM supply relationships.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Federal Trade Commission (FTC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc_us",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Strategic — Antitrust & Merger Review",
+        "relationshipNote": "The FTC reviews HEICO's acquisition activity for antitrust compliance under the Hart-Scott-Rodino (HSR) Act. HEICO's 100+ acquisitions since 1990 have generally been small bolt-on deals (sub-$500M) that avoid FTC scrutiny; however, any acquisition exceeding $111M (2024 HSR threshold) requires FTC filing and clearance. HEICO's 2024 acquisition pipeline and roll-up strategy in niche aerospace segments could trigger FTC review if deal size or market concentration thresholds are exceeded.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte_us",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment + Compliance — Financial Audit & Internal Controls",
+      "relationshipNote": "Deloitte serves as HEICO's independent auditor, providing annual financial statement audits (10-K) and quarterly reviews (10-Q). Deloitte's 2024 audit opinion on HEICO's FY2024 financial statements (revenue $9.2B, net income ~$1.2B) was unqualified, indicating no material weaknesses in internal controls. Deloitte's audit scope includes assessment of acquisition accounting, revenue recognition (OEM vs. aftermarket), and inventory valuation—critical areas given HEICO's 100+ acquisition history.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "statutory"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co. (Lead Lender)",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital — Debt Financing & Syndication",
+        "relationshipNote": "JPMorgan Chase is HEICO's lead arranger and lender for its $3.85B debt portfolio (as of FY2024), including a $2.0B revolving credit facility and $1.85B term loans. JPMorgan's 2024 debt syndication for HEICO's acquisition financing reflects strong banking relationships and investment-grade credit rating (S&P: BBB+, Moody's: Baa1). JPMorgan's quarterly covenant monitoring and annual credit reviews assess HEICO's leverage ratio (net debt / EBITDA ~2.1x) and interest-coverage metrics.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital — Debt Financing & M&A Advisory",
+        "relationshipNote": "Bank of America Merrill Lynch is a syndicate lender on HEICO's $2.0B revolving credit facility and provides M&A advisory services for HEICO's acquisition pipeline. BofA's 2024 aerospace-defense sector expertise and HEICO relationship support capital-raising for bolt-on acquisitions. BofA's quarterly credit reviews and covenant monitoring align with JPMorgan's oversight; BofA's M&A advisory role positions it to support HEICO's 2024–2025 acquisition strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Berkshire Hathaway Inc.",
+        "ticker": "BRK-A",
+        "cik": "0001067983",
+        "slug": "berkshire_hathaway",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (Governance) — Strategic Shareholder & Capital Provider",
+        "relationshipNote": "Berkshire Hathaway is HEICO's largest shareholder, holding ~27% of outstanding shares (Class A and B combined) as of FY2024. Berkshire's investment in HEICO (initiated 1986, expanded 1998–2023) reflects Warren Buffett's confidence in HEICO's management and acquisition strategy. Berkshire's capital support and patient-capital approach enable HEICO's long-term M&A strategy; Berkshire's board representation (Eric Janszen, CEO) ensures alignment with Berkshire's investment thesis.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "news"
+        ]
+      },
+      {
+        "name": "Vanguard Group Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard_group",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital — Passive Equity Ownership",
+        "relationshipNote": "Vanguard is a significant institutional shareholder in HEICO, holding ~5–6% of outstanding shares as of FY2024 (via index and active funds). Vanguard's passive ownership reflects HEICO's inclusion in S&P 500 and Russell 1000 indices. Vanguard's quarterly engagement with HEICO's management on ESG, governance, and capital allocation reflects institutional investor expectations for aerospace-defense companies.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Eric Janszen",
+        "title": "Chief Executive Officer & President",
+        "slug": "eric_janszen",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership — Strategy & Operations",
+        "relationshipNote": "Janszen has served as HEICO's CEO since 2013 and is a Berkshire Hathaway board member, reflecting his strategic alignment with Berkshire's investment thesis. Janszen's leadership has driven HEICO's organic growth (8–12% CAGR) and acquisition strategy (100+ deals since 1990). Janszen's 2024 compensation (base salary + bonus + equity) reflects performance-based incentives tied to revenue growth, EBITDA margin expansion, and acquisition ROI.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Thomas S. Irwin",
+        "title": "Chief Financial Officer",
+        "slug": "thomas_irwin",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management — Capital Allocation & Reporting",
+        "relationshipNote": "Irwin has served as HEICO's CFO since 2007, overseeing financial planning, capital allocation, and investor relations. Irwin's stewardship of HEICO's balance sheet (net debt / EBITDA ~2.1x, investment-grade credit rating) and M&A financing reflects disciplined capital management. Irwin's quarterly earnings calls and investor presentations communicate HEICO's financial strategy and acquisition pipeline to capital markets.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Laurans A. Mendelson",
+        "title": "Chairman & Founder",
+        "slug": "laurans_mendelson",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Identity — Founder & Strategic Direction",
+        "relationshipNote": "Mendelson founded HEICO in 1957 and serves as Executive Chairman, providing strategic oversight and board leadership. Mendelson's 67-year tenure reflects deep industry expertise and long-term vision for HEICO's acquisition strategy. Mendelson's relationship with Berkshire Hathaway (since 1986 investment) and board composition reflect his commitment to governance and shareholder value creation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Dominic J. Trunzo",
+        "title": "General Counsel & Secretary",
+        "slug": "dominic_trunzo",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Compliance — Regulatory & Contract Management",
+        "relationshipNote": "Trunzo serves as HEICO's General Counsel, overseeing legal affairs, regulatory compliance (ITAR, FAA, DIB), and contract management. Trunzo's responsibilities include acquisition due diligence, integration planning, and risk management across HEICO's 100+ operating subsidiaries. Trunzo's expertise in aerospace-defense law and government contracting supports HEICO's compliance with complex regulatory requirements.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Commercial Aircraft Production Index (Boeing 737, 787; Airbus A320, A350)",
+        "slug": "commercial_aircraft_production",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — OEM Production Demand",
+        "relationshipNote": "Monthly commercial aircraft production rates (Boeing 737, 787, Airbus A320, A350) are leading indicators of HEICO's Commercial Aviation segment demand (~45% of revenue). Boeing's 2024 737 MAX production ramp (target 38–42 aircraft/month) and 787 production recovery (target 10–12/month) drive HEICO's cabin products, avionics, and systems demand. Airbus's A320 production (target 65–70/month) and A350 ramp (target 10–12/month) support HEICO's structural and systems supply. Production delays or cancellations (e.g., 2023 Boeing quality issues) create near-term headwinds.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "U.S. Defense Budget Authority & Program Appropriations (F-35, CH-47, P-8, Patriot, Tomahawk)",
+        "slug": "us_defense_budget",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence — Defense Spending & Program Funding",
+        "relationshipNote": "Annual U.S. defense budget authority and program-specific appropriations (F-35, CH-47, P-8, Patriot, Tomahawk) are leading indicators of HEICO's Defense & Space segment demand (~55% of revenue). FY2024 defense budget ($820B) and FY2025 request ($850B+) support sustained demand for military platform modernization. Congressional appropriations for specific programs (F-35 production, CH-47 upgrades, P-8 production) directly impact HEICO's defense revenue. Budget cuts or program delays (e.g., F-35 production rate reductions) create material downside risk.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "industry-report"
+        ]
+      }
+    ]
+  }
+}
