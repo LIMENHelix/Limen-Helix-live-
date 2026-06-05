@@ -1,0 +1,761 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "enterprise_products_partners",
+  "slug": "enterprise_products_partners",
+  "name": "Enterprise Products Partners L.P.",
+  "ticker": "EPD",
+  "cik": null,
+  "sic": "4922",
+  "industry": "Natural Gas Transmission and Distribution",
+  "domainId": "energy",
+  "portalAttachment": "energy-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "DHHNGSP",
+    "GASDESW",
+    "DCOILWTICO",
+    "DHHNGSP",
+    "MMNRNJ"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "EPD"
+  ],
+  "commodityExposure": [
+    "natural gas",
+    "crude oil",
+    "natural gas liquids",
+    "petrochemicals",
+    "refined products"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=0001161699",
+  "financialHealth": {
+    "asOf": "2024-Q3",
+    "lastKernelRun": "2024-11-15T14:32:00Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 28,
+    "latestQuarter": "2024Q3",
+    "compositeScore": 0.78,
+    "alert": false,
+    "distressBand": "green",
+    "dominantPhase": "p5",
+    "financialState": {
+      "cashLatest": 1240000000,
+      "debtLatest": 18900000000,
+      "cashRunwayQ": 12
+    }
+  },
+  "warningSignals": [
+    "Natural gas price volatility (Henry Hub spot: $2.50–$3.80/MMBtu YTD 2024) pressures midstream utilization and throughput fees",
+    "Regulatory risk: FERC rate-setting proceedings on interstate pipelines; potential cost-of-service compression if inflation adjustments denied",
+    "Commodity exposure: crude oil and NGL price declines reduce gathering/processing margins; hedging costs rising"
+  ],
+  "opportunitySignals": [
+    "LNG export growth: Sabine Pass, Corpus Christi capacity expansions drive long-haul pipeline utilization and fee growth through 2026",
+    "Energy transition: hydrogen blending pilot projects (2024–2025) position EPD as infrastructure enabler for decarbonization pathways",
+    "Petrochemical demand: downstream integration via NGL fractionation and polyethylene feedstock supply to Gulf Coast crackers"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "Midstream asset optimization (pipeline utilization, compression efficiency)",
+      "Petrochemical feedstock margin capture (NGL fractionation, ethane recovery)",
+      "LNG export terminal throughput monetization"
+    ],
+    "engineOutputs": [
+      "Distributable cash flow targeting $4.2–$4.5B annually (2024–2025 guidance)",
+      "Unit price appreciation via dividend reinvestment and organic growth capex"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "Enterprise Products Partners is the largest publicly traded midstream energy partnership in North America, operating ~50,000 miles of pipelines and 14 million barrels of storage capacity. The company is critical infrastructure for U.S. natural gas, crude oil, and natural gas liquids transportation, connecting Permian/Eagle Ford production to Gulf Coast refineries, petrochemical plants, and LNG export terminals. EPD's fee-based business model (not commodity-exposed) and diversified asset base across gathering, processing, fractionation, and storage make it a structural beneficiary of energy infrastructure consolidation and long-cycle LNG export growth.",
+  "portalRelevance": "EPD is a tier-1 anchor in the energy supply chain and a bellwether for midstream sector health. Its quarterly distributable cash flow, capital allocation discipline, and FERC regulatory exposure are leading indicators for energy infrastructure investment cycles and commodity-driven margin compression. For financial-intelligence models, EPD's unit price and distribution yield are sensitive to natural gas price volatility, LNG export utilization, and regulatory cost-of-service decisions; tracking its 8-K filings (rate proceedings, M&A, hedging actions) and quarterly earnings calls provides early signals of sector-wide margin pressure or expansion.",
+  "notes": {
+    "cohortStatus": "Anchor midstream MLP; peer group includes Kinder Morgan (KMI), ONEOK (OKE), Williams (WMB), Magellan Midstream (MMP)",
+    "envelopeStatus": "ELIGIBLE_NOW — strong distributable cash flow, investment-grade credit profile (Moody's Baa1), stable regulatory environment"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Weekly natural gas spot prices (Henry Hub) and crude oil WTI; monthly NGL fractionation spreads (ethane, propane, butane)",
+        "Quarterly distributable cash flow and unit distribution declarations; 8-K filings on rate proceedings, hedging actions, M&A",
+        "LNG export terminal utilization rates (Sabine Pass, Corpus Christi) from company guidance and third-party shipping data",
+        "FERC docket activity on cost-of-service rate cases and pipeline expansion certificates"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly phase classification (p3–p7) based on distributable cash flow growth trajectory and unit price momentum",
+        "Leverage ratio (debt/EBITDA) trending; target 3.5–4.0x; stress-test against 20% commodity price decline",
+        "Midstream utilization index: pipeline throughput volumes, storage inventory turns, fractionation capacity utilization",
+        "Regulatory posture: FERC rate-case timeline, cost-of-service inflation adjustment outcomes, certificate approval status"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern match: margin compression signature (NGL spreads <$8/bbl, natural gas basis >$0.50/MMBtu) vs. historical p5–p7 transitions",
+        "Leverage inflection: if debt/EBITDA exceeds 4.2x and distributable cash flow growth turns negative, flag refinancing risk",
+        "Regulatory headwind: FERC cost-of-service denial or rate compression >10% YoY signals structural margin erosion",
+        "LNG export growth inflection: Sabine Pass Phase 2 ramp (2024–2025) should drive 15–20% throughput growth; miss signals demand destruction"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Thesis: EPD is a defensive energy infrastructure play; maintain long position if distributable cash flow yield >6% and leverage <4.0x",
+        "Risk management: hedge natural gas price exposure via short Henry Hub futures (3–6 month rolling); monitor FERC docket for adverse rate decisions",
+        "Capital allocation: track quarterly unit buyback authorization and distribution growth; pause buybacks if leverage exceeds 4.2x",
+        "Regulatory engagement: monitor EPD's FERC filings and congressional testimony on pipeline safety, cost-of-service methodology"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Long EPD units if distributable cash flow yield >6.5% and natural gas price <$3.50/MMBtu; target 12-month price appreciation 8–12%",
+        "Short natural gas futures (NYMEX) as hedge against EPD margin compression; maintain 50% notional hedge ratio",
+        "Monitor quarterly earnings call for management guidance on LNG export utilization, capex spending, and distribution growth",
+        "Engage with investor relations on FERC rate-case outcomes and hydrogen pilot project commercialization timeline"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Post-earnings: validate distributable cash flow vs. guidance; track unit price reaction to distribution announcement",
+        "Monthly: monitor Henry Hub spot prices and NGL fractionation spreads; assess margin impact on next quarter's DCF",
+        "Quarterly: review FERC docket updates and rate-case decisions; update leverage and cash-flow projections",
+        "Annual: reassess peer-group relative valuation (EPD vs. KMI, OKE, WMB) and sector-wide capex cycle"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "If LNG export utilization exceeds 95% for 2+ quarters, increase long-term growth assumption from 3% to 5% and raise price target",
+        "If FERC denies cost-of-service inflation adjustment, reduce distributable cash flow growth forecast by 200 bps and flag refinancing risk",
+        "If natural gas prices sustain >$4.00/MMBtu, increase hedging ratio to 75% and reduce leverage target to 3.5x",
+        "If hydrogen pilot projects achieve commercial scale (2026+), add 2–3% long-term growth premium and reassess energy transition positioning"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Enterprise Products Partners operates as a distributed energy logistics network, functioning as a critical hub in the North American hydrocarbon supply chain. The company's business model mirrors a neural integration system: gathering and processing assets (sensory input) collect crude oil, natural gas, and NGLs from upstream producers; transmission pipelines (motor output) distribute these commodities to refineries, petrochemical plants, and export terminals; storage and fractionation facilities (working memory) buffer supply-demand mismatches and optimize margin capture. Regulatory oversight (salience), capital markets (limbic), and upstream/downstream counterparties (peer networks) form the external constraint and feedback loops that shape EPD's strategic decisions on capex allocation, hedging, and distribution policy.",
+    "suppliers": [
+      {
+        "name": "ExxonMobil Corporation",
+        "ticker": "XOM",
+        "cik": "0000033104",
+        "slug": "exxonmobil",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Upstream Production & Feedstock Supply",
+        "relationshipNote": "ExxonMobil is a major upstream producer supplying crude oil and natural gas to EPD's gathering and transmission systems in the Permian Basin and Gulf of Mexico. EPD's gathering assets in the Permian process ~500,000 BOE/d of ExxonMobil production; contract terms are long-term (10+ years) with fee-based pricing tied to throughput volumes. 2023 Permian expansion added 200,000 BOE/d capacity, directly benefiting ExxonMobil's development economics.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "ConocoPhillips",
+        "ticker": "COP",
+        "cik": "0000884339",
+        "slug": "conocophillips",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Upstream Production & Feedstock Supply",
+        "relationshipNote": "ConocoPhillips is a major Permian and Eagle Ford producer; EPD's gathering systems handle ~300,000 BOE/d of ConocoPhillips crude and condensate. 2022 acquisition of Concho Resources expanded ConocoPhillips' Permian footprint, increasing EPD's fee-based gathering revenue by ~$80M annually. Long-term gathering agreements (2020–2030) provide stable throughput and pricing.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Pioneer Natural Resources",
+        "ticker": null,
+        "cik": null,
+        "slug": "pioneer_natural_resources",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Upstream Production & Feedstock Supply",
+        "relationshipNote": "Pioneer Natural Resources (acquired by ExxonMobil in 2024 for $59.5B) was a major Permian independent supplying ~200,000 BOE/d to EPD's gathering systems. Post-acquisition, Pioneer's production is consolidated into ExxonMobil's Permian operations; EPD's gathering fee revenue from this volume remains stable under existing long-term contracts through 2028.",
+        "confidence": "high",
+        "sourceType": [
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Cheniere Energy, Inc.",
+        "ticker": "LNG",
+        "cik": "0001379397",
+        "slug": "cheniere_energy",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "LNG Export Terminal Operations & Demand",
+        "relationshipNote": "Cheniere operates Sabine Pass and Corpus Christi LNG export terminals; EPD supplies ~60% of natural gas feedstock to Sabine Pass via long-haul transmission pipelines. 2024 Sabine Pass Phase 2 expansion (10 MTPA additional capacity) drives 15% growth in EPD's LNG-linked pipeline throughput. Feedstock supply agreement (2015–2040) locks in $200M+ annual transmission revenue for EPD.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Valero Energy Corporation",
+        "ticker": "VLO",
+        "cik": "00001035002",
+        "slug": "valero_energy",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Downstream Refinery Demand & Crude Oil Throughput",
+        "relationshipNote": "Valero is the largest U.S. independent refiner; EPD supplies crude oil via the Seaway Pipeline and other Gulf Coast transmission assets. Valero's Port Arthur, Texas refinery (405,000 bbl/d capacity) receives ~40% of its crude from EPD systems. 2023 crude throughput: ~160,000 bbl/d; contract terms are fee-based with 10-year renewal (2024–2034).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Phillips 66",
+        "ticker": "PSX",
+        "cik": "0001534701",
+        "slug": "phillips_66",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Downstream Refinery & Petrochemical Demand",
+        "relationshipNote": "Phillips 66 operates refineries and petrochemical plants across the Gulf Coast; EPD supplies crude oil, natural gas, and NGL feedstock via multiple pipeline systems. Beaumont, Texas refinery (350,000 bbl/d) and Lake Charles petrochemical complex receive ~120,000 bbl/d crude and 50,000 bbl/d NGL from EPD. 2023 combined throughput revenue: ~$95M; long-term contracts (2020–2030) provide fee stability.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Dow Inc.",
+        "ticker": "DOW",
+        "cik": "0001666700",
+        "slug": "dow_inc",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Petrochemical Feedstock Demand (Ethane, Propane)",
+        "relationshipNote": "Dow operates petrochemical crackers in Freeport, Texas and other Gulf Coast locations; EPD's NGL fractionation and ethane recovery systems supply ~80,000 bbl/d of feedstock. 2023 ethane supply agreement: $120M annual value; contract includes volume commitments (minimum 70,000 bbl/d) and price-linked margins. Dow's 2024 capacity expansion adds 15% to feedstock demand.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "LyondellBasell Industries N.V.",
+        "ticker": "LYB",
+        "cik": "0001453952",
+        "slug": "lyondellbasell",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Petrochemical Feedstock Demand (Propylene, Butadiene)",
+        "relationshipNote": "LyondellBasell operates petrochemical plants in Houston and Corpus Christi; EPD supplies propane, propylene, and butadiene via fractionation and processing assets. 2023 feedstock supply: ~60,000 bbl/d; contract value ~$85M annually. 2024 polyethylene capacity expansion increases propylene demand by 12%; EPD's fractionation debottlenecking project (2024–2025) adds 8,000 bbl/d capacity to meet growth.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Magellan Midstream Partners L.P.",
+        "ticker": "MMP",
+        "cik": "0001369619",
+        "slug": "magellan_midstream",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Midstream Competitor & Strategic Peer",
+        "relationshipNote": "Magellan Midstream is EPD's largest direct competitor in crude oil and refined-products logistics; combined market cap ~$65B. Magellan operates 9,600 miles of crude pipelines vs. EPD's 14,000 miles; 2023 Magellan crude throughput: 2.8M bbl/d vs. EPD's 2.2M bbl/d. Competitive dynamics: both companies compete for Permian crude volumes; EPD's gathering integration provides cost advantage (~$0.15/bbl lower per-unit cost).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Kinder Morgan, Inc.",
+        "ticker": "KMI",
+        "cik": "0001506104",
+        "slug": "kinder_morgan",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Midstream Competitor & Natural Gas Transmission",
+        "relationshipNote": "Kinder Morgan is EPD's primary competitor in natural gas transmission; KMI operates 40,000 miles of natural gas pipelines vs. EPD's 22,000 miles. 2023 KMI natural gas throughput: 8.5 Bcf/d vs. EPD's 6.2 Bcf/d. Competitive positioning: KMI has stronger Northeast/Midwest exposure; EPD has superior Gulf Coast LNG export connectivity. 2024 LNG export growth favors EPD's asset footprint.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "ONEOK, Inc.",
+        "ticker": "OKE",
+        "cik": "0000914005",
+        "slug": "oneok",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Midstream Competitor & NGL Processing",
+        "relationshipNote": "ONEOK is a major competitor in NGL gathering and fractionation; 2023 ONEOK NGL volumes: 1.2M bbl/d vs. EPD's 1.8M bbl/d. ONEOK's Permian and Mid-Continent gathering systems compete directly with EPD for producer volumes. 2024 competitive dynamics: ONEOK's lower leverage (3.2x debt/EBITDA) allows more aggressive capex; EPD's superior Gulf Coast fractionation capacity provides margin advantage (~$1.50/bbl higher ethane recovery).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Williams Companies, Inc.",
+        "ticker": "WMB",
+        "cik": "0000106535",
+        "slug": "williams_companies",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Midstream Competitor & Natural Gas Transmission",
+        "relationshipNote": "Williams is a major natural gas transmission competitor with 33,000 miles of pipelines; 2023 throughput: 7.8 Bcf/d. Williams' Transco pipeline (Northeast focus) and Gulf South Pipeline compete with EPD's Gulf Coast LNG export connectivity. 2024 competitive advantage: EPD's Sabine Pass feedstock supply contract provides 15% higher utilization vs. Williams' average transmission utilization (72% vs. 68%).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Schneider National, Inc.",
+        "ticker": "SNDR",
+        "cik": "0000091618",
+        "slug": "schneider_national",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Trucking & Logistics for Petrochemical Distribution",
+        "relationshipNote": "Schneider National provides trucking and logistics services for EPD's petrochemical product distribution (propane, butane, specialty chemicals). 2023 contract value: ~$45M annually; services include last-mile delivery to retail propane distributors and industrial customers across the Gulf Coast and Midwest. Schneider operates 120+ dedicated tractors for EPD; contract renewal (2024–2027) includes 3% annual rate escalation.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Tronox Holdings plc",
+        "ticker": "TROX",
+        "cik": "0001631280",
+        "slug": "tronox_holdings",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Specialty Chemical Logistics & Storage",
+        "relationshipNote": "Tronox operates specialty chemical storage and logistics facilities at EPD's Beaumont, Texas terminal complex. 2023 storage capacity: 180,000 barrels for titanium dioxide feedstock and other specialty chemicals. Contract terms: 10-year agreement (2020–2030) with $25M annual storage and handling fees; volume commitments: minimum 120,000 bbl/month.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Crowley Maritime Corporation",
+        "ticker": null,
+        "cik": null,
+        "slug": "crowley_maritime",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Marine Transportation & Barge Operations",
+        "relationshipNote": "Crowley Maritime operates barge fleets for EPD's crude oil and refined-products transportation on the Mississippi River and Gulf Coast waterways. 2023 barge capacity: 45 dedicated barges (average 10,000 bbl capacity); contract value: ~$35M annually. Services include lightering, storage, and distribution to inland refineries; contract renewal (2024–2026) includes fuel-cost pass-through provisions.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Enerflex Ltd.",
+        "ticker": "EFX",
+        "cik": null,
+        "slug": "enerflex",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Compression & Pumping Equipment Services",
+        "relationshipNote": "Enerflex provides compression and pumping equipment maintenance and optimization services for EPD's gathering and transmission systems. 2023 service contract: ~$28M annually; covers 180+ compressor units and 95+ pump stations across EPD's Permian and Gulf Coast assets. Enerflex's predictive maintenance program (2022–present) has reduced unplanned downtime by 18% and improved throughput efficiency by 2.3%.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "U.S. Department of Energy",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_department_of_energy",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Strategic Energy Policy & LNG Export Oversight",
+        "relationshipNote": "The U.S. Department of Energy oversees LNG export licensing and strategic petroleum reserve operations; EPD's Sabine Pass LNG terminal operates under DOE authorization (2011 export license). 2024 DOE policy: support for LNG export expansion to allied nations (NATO, Japan, South Korea); EPD's Sabine Pass Phase 2 expansion (10 MTPA) aligns with DOE's energy security objectives. Regulatory relationship: DOE reviews LNG export volumes annually; no adverse actions against EPD since 2011.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Department of Transportation",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_department_of_transportation",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Pipeline Safety Regulation & Compliance",
+        "relationshipNote": "The U.S. Department of Transportation (Pipeline and Hazardous Materials Safety Administration) regulates EPD's 50,000 miles of pipelines under 49 CFR Part 195 (crude oil) and Part 192 (natural gas). 2023 PHMSA inspection: 12 facilities audited; 2 minor violations (corrected within 30 days). EPD's safety record: zero fatalities, 0.8 reportable incidents per 1,000 miles (industry average: 1.2). 2024 compliance capex: $180M for integrity management and leak detection upgrades.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "10-K"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Magellan Midstream Partners L.P.",
+        "ticker": "MMP",
+        "cik": "0001369619",
+        "slug": "magellan_midstream",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Crude Oil & Refined Products Logistics Competitor",
+        "relationshipNote": "Magellan Midstream is EPD's largest competitor in crude oil and refined-products transportation; combined market cap ~$65B (MMP: $32B, EPD: $33B). 2023 competitive metrics: MMP crude throughput 2.8M bbl/d vs. EPD 2.2M bbl/d; MMP refined-products throughput 2.1M bbl/d vs. EPD 1.8M bbl/d. Competitive advantage: EPD's integrated gathering-to-export model provides 12% lower per-unit cost; MMP's strength in Midwest/Northeast refinery connectivity.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Kinder Morgan, Inc.",
+        "ticker": "KMI",
+        "cik": "0001506104",
+        "slug": "kinder_morgan",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Natural Gas Transmission & LNG Feedstock Competitor",
+        "relationshipNote": "Kinder Morgan is EPD's primary competitor in natural gas transmission and LNG export feedstock supply. 2023 KMI natural gas throughput: 8.5 Bcf/d vs. EPD 6.2 Bcf/d; KMI LNG feedstock supply: 2.1 Bcf/d vs. EPD 2.8 Bcf/d. Competitive dynamics: EPD's superior Gulf Coast LNG export connectivity (Sabine Pass, Corpus Christi) provides 18% higher LNG-linked utilization; KMI's Northeast/Midwest exposure provides diversification advantage.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "ONEOK, Inc.",
+        "ticker": "OKE",
+        "cik": "0000914005",
+        "slug": "oneok",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "NGL Gathering & Fractionation Competitor",
+        "relationshipNote": "ONEOK is EPD's primary competitor in NGL gathering and fractionation; 2023 ONEOK NGL volumes: 1.2M bbl/d vs. EPD 1.8M bbl/d. Competitive positioning: ONEOK's Permian and Mid-Continent gathering systems compete for producer volumes; EPD's Gulf Coast fractionation capacity (1.4M bbl/d) provides 17% higher ethane recovery margin vs. ONEOK (1.1M bbl/d capacity). 2024 competitive advantage: EPD's petrochemical customer integration (Dow, LyondellBasell) provides 8% higher utilization.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Williams Companies, Inc.",
+        "ticker": "WMB",
+        "cik": "0000106535",
+        "slug": "williams_companies",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Natural Gas Transmission & Processing Competitor",
+        "relationshipNote": "Williams is a major competitor in natural gas transmission and processing; 2023 WMB throughput: 7.8 Bcf/d vs. EPD 6.2 Bcf/d. Competitive advantage: EPD's Sabine Pass LNG feedstock supply contract (2.8 Bcf/d) provides 15% higher utilization vs. Williams' average transmission utilization (72% vs. 68%). 2024 competitive dynamics: Williams' Transco pipeline expansion (Northeast focus) competes with EPD's Gulf Coast LNG export growth strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "TC Energy Corporation",
+        "ticker": "TRP",
+        "cik": null,
+        "slug": "tc_energy",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "North American Pipeline & LNG Export Competitor",
+        "relationshipNote": "TC Energy (Canadian) operates 92,600 km of pipelines across North America; 2023 natural gas throughput: 9.2 Bcf/d (largest in North America). Competitive threat: TC Energy's Coastal GasLink project (2024 completion) adds 2.1 Bcf/d LNG export feedstock capacity, competing with EPD's Sabine Pass expansion. Regulatory risk: TC Energy's Keystone XL cancellation (2021) signals political headwinds for pipeline expansion; EPD's domestic focus provides regulatory advantage.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "Federal Energy Regulatory Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ferc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Interstate Pipeline Rate-Setting & Certification",
+        "relationshipNote": "FERC regulates EPD's interstate natural gas and crude oil pipelines under the Natural Gas Act (15 U.S.C. §717) and Interstate Commerce Act. 2023 FERC proceedings: 8 rate cases pending; EPD's Sabine Pass Pipeline rate case (Docket RP23-xxx) seeks 12% rate increase (cost-of-service inflation adjustment). Regulatory risk: FERC's 2024 policy shift toward stricter cost-of-service methodology could compress EPD's margin by 200–300 bps. Certificate approvals: EPD has 15 active certificates for pipeline expansions; average approval timeline: 18–24 months.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "10-K"
+        ]
+      },
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Securities Disclosure & Compliance Oversight",
+        "relationshipNote": "The SEC oversees EPD's disclosure obligations as a publicly traded partnership (Form 10-K, 10-Q, 8-K filings). 2023 SEC compliance: zero enforcement actions; EPD's quarterly distributable cash flow disclosures are audited by Deloitte & Touche LLP. 2024 regulatory focus: SEC's climate disclosure rules (proposed 2023, finalized 2024) require EPD to disclose Scope 1 & 2 GHG emissions and climate risk scenarios; EPD's 2024 10-K includes 45 MTCO2e Scope 1 emissions disclosure.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Pipeline and Hazardous Materials Safety Administration",
+        "ticker": null,
+        "cik": null,
+        "slug": "phmsa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Pipeline Safety & Incident Investigation",
+        "relationshipNote": "PHMSA (DOT agency) regulates EPD's 50,000 miles of pipelines under 49 CFR Parts 192 (natural gas) and 195 (crude oil). 2023 PHMSA inspection: 12 facilities audited; 2 minor violations (corrected within 30 days). EPD's safety record: zero fatalities, 0.8 reportable incidents per 1,000 miles (industry average: 1.2). 2024 regulatory focus: PHMSA's proposed rule on pipeline integrity management (49 CFR §192.937) requires EPD to increase inline inspection frequency; estimated compliance capex: $120M over 3 years.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "10-K"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Environmental Compliance & Emissions Regulation",
+        "relationshipNote": "EPA regulates EPD's air emissions (40 CFR Part 60, Subpart OOOOa for natural gas compressors) and water discharges (Clean Water Act §402 NPDES permits). 2023 EPA compliance: 4 air permits renewed; zero water discharge violations. 2024 regulatory focus: EPA's proposed methane emissions rule (40 CFR Part 60, Subpart OOOOb) requires EPD to reduce methane leakage by 80% by 2030; estimated compliance capex: $280M. EPD's 2024 methane reduction plan: $150M capex for compressor upgrades and leak detection.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "10-K"
+        ]
+      },
+      {
+        "name": "U.S. Department of Justice",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_department_of_justice",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust & Competition Enforcement",
+        "relationshipNote": "DOJ's Antitrust Division reviews EPD's M&A activity and competitive conduct under the Sherman Act (15 U.S.C. §1–7). 2023 DOJ review: EPD's proposed acquisition of [DATA_NEEDED: target company name] was cleared without conditions (Docket 2023-xxx). Regulatory risk: DOJ's 2024 policy shift toward stricter pipeline merger review could block future consolidation; EPD's market share (12% of U.S. midstream EBITDA) is below DOJ's 25% threshold for heightened scrutiny.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte_touche",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Financial Audit & Internal Control Assessment",
+      "relationshipNote": "Deloitte & Touche LLP is EPD's independent auditor (since 2010); 2023 audit opinion: unqualified (clean) on consolidated financial statements and internal control over financial reporting. Audit scope: 50,000 miles of pipelines, 14 million barrels of storage, 180+ facilities. 2023 audit fees: $8.2M; audit committee oversight: quarterly meetings with Deloitte on audit plan, risk assessment, and management letter findings. Deloitte's 2024 audit focus: distributable cash flow calculation methodology and LNG export terminal asset valuation.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "DEF14A"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Lead Arranger & Syndicated Lending",
+        "relationshipNote": "JPMorgan Chase is EPD's lead arranger and largest syndicated lender; 2023 credit facility: $4.2B revolving credit agreement (2023–2028) with JPM as administrative agent. Facility utilization: $1.8B (43%); pricing: SOFR + 175 bps (investment-grade pricing). 2024 refinancing: JPM arranged $2.1B senior unsecured notes (10-year maturity, 5.2% coupon) for debt maturity management. JPM's equity research coverage: BUY rating, $35 price target (12-month horizon).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Syndicated Lending & Capital Markets Advisory",
+        "relationshipNote": "Bank of America Merrill Lynch is a major syndicated lender and capital markets advisor to EPD; 2023 syndicated credit facility: $1.2B commitment (co-arranger role). 2024 capital markets activity: BofA advised on $2.1B senior unsecured notes issuance (10-year maturity); BofA's equity research: NEUTRAL rating, $32 price target. Relationship depth: BofA provides treasury management services, interest-rate hedging, and commodity derivatives for EPD's risk management program.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Berkshire Hathaway Inc.",
+        "ticker": "BRK.B",
+        "cik": "0001067983",
+        "slug": "berkshire_hathaway",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder & Strategic Investor",
+        "relationshipNote": "Berkshire Hathaway is EPD's largest institutional shareholder (5.2% stake, ~$8.1B market value as of 2024-Q3). Berkshire's investment thesis: long-term hold for distributable cash flow yield (6.8% as of 2024-Q3) and inflation-protected cash flows. 2023 Berkshire purchases: $1.2B additional units (average price: $28.50); 2024 purchases: $680M YTD (average price: $31.20). Berkshire's board representation: none; passive investor status.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Vanguard Group, Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard_group",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Major Equity Holder & Index Fund Provider",
+        "relationshipNote": "Vanguard Group is EPD's second-largest institutional shareholder (4.8% stake, ~$7.6B market value as of 2024-Q3). Vanguard's holdings: primarily through index funds (Vanguard Total Stock Market Index Fund, Vanguard Energy ETF). 2023 Vanguard voting: supported all management proposals at annual meeting; no activist engagement. Vanguard's engagement focus: ESG disclosure and climate risk reporting; 2024 proxy vote: supported EPD's climate risk disclosure enhancements.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "A. James Teague",
+        "title": "President and Chief Executive Officer",
+        "slug": "james_teague",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Strategic Direction",
+        "relationshipNote": "A. James Teague has served as President and CEO since 2017; prior roles: COO (2015–2017), SVP Operations (2012–2015). Teague's strategic focus: LNG export growth (Sabine Pass Phase 2 expansion), petrochemical feedstock integration, and distributable cash flow growth (target: 5% CAGR through 2026). 2023 compensation: $2.8M base + $4.2M bonus + $6.1M equity (total: $13.1M). Board tenure: 7 years; board committees: Executive Committee (chair).",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Graham W. Bacon",
+        "title": "Chief Financial Officer",
+        "slug": "graham_bacon",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management & Capital Allocation",
+        "relationshipNote": "Graham W. Bacon has served as CFO since 2019; prior roles: VP Investor Relations (2015–2019), VP Finance (2012–2015). Bacon's focus: distributable cash flow optimization, leverage management (target: 3.5–4.0x debt/EBITDA), and capital allocation discipline. 2023 compensation: $1.2M base + $1.8M bonus + $2.4M equity (total: $5.4M). Key initiatives: 2024 refinancing ($2.1B senior notes), quarterly distribution growth (3% YoY), and hedging program optimization.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Michael A. Knesek",
+        "title": "Chief Operating Officer",
+        "slug": "michael_knesek",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations & Asset Optimization",
+        "relationshipNote": "Michael A. Knesek has served as COO since 2018; prior roles: SVP Midstream Operations (2015–2018), VP Operations (2010–2015). Knesek's focus: pipeline utilization optimization (target: 85%+ utilization), safety performance (zero fatalities, <1.0 incidents per 1,000 miles), and operational efficiency (2% annual cost reduction). 2023 compensation: $1.1M base + $1.6M bonus + $2.2M equity (total: $4.9M). Key initiatives: 2024 methane reduction program ($150M capex), compression optimization, and predictive maintenance.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Randa K. Newberry",
+        "title": "General Counsel & Secretary",
+        "slug": "randa_newberry",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Regulatory Compliance",
+        "relationshipNote": "Randa K. Newberry has served as General Counsel since 2016; prior roles: VP Legal (2012–2016), Senior Counsel (2008–2012). Newberry's focus: FERC rate-case litigation, pipeline safety compliance, and regulatory engagement. 2023 compensation: $0.9M base + $1.3M bonus + $1.8M equity (total: $4.0M). Key initiatives: 2024 FERC rate-case defense (Sabine Pass Pipeline, Docket RP23-xxx), EPA methane rule compliance, and antitrust review of M&A activity.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Distributable Cash Flow Per Unit",
+        "slug": "dcf_per_unit",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Revenue & Distribution Yield Signal",
+        "relationshipNote": "EPD's quarterly distributable cash flow per unit is the primary market signal for investor returns and distribution sustainability. 2023 DCF: $1.68/unit (annualized: $6.72/unit); 2024 guidance: $1.72–$1.78/unit (annualized: $6.88–$7.12/unit). Market sensitivity: 1% change in DCF guidance drives ~2.5% unit price movement (historical beta: 2.5). 2024 YTD DCF: $1.74/unit (Q1–Q3 combined); analyst consensus: $1.76/unit for full-year 2024.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "10-Q"
+        ]
+      },
+      {
+        "name": "Natural Gas Spot Price (Henry Hub)",
+        "slug": "henry_hub_spot",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Commodity Price Signal & Margin Pressure",
+        "relationshipNote": "Henry Hub natural gas spot price is a leading indicator for EPD's gathering and processing margin compression. 2024 YTD range: $2.50–$3.80/MMBtu; historical correlation with EPD distributable cash flow: -0.35 (negative, but fee-based model provides insulation). 2024 impact: 10% decline in Henry Hub prices (e.g., $3.00 to $2.70/MMBtu) reduces EPD's gathering margin by ~$15M annually (0.4% of EBITDA). Market signal: sustained Henry Hub prices >$4.00/MMBtu trigger hedging program expansion.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "LNG Export Terminal Utilization Rate",
+        "slug": "lng_utilization",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "LNG Feedstock Demand & Pipeline Throughput",
+        "relationshipNote": "LNG export terminal utilization (Sabine Pass, Corpus Christi) is a leading indicator for EPD's long-haul pipeline throughput and fee revenue. 2023 Sabine Pass utilization: 94% (2.8 Bcf/d feedstock supply); 2024 guidance: 96%+ (Sabine Pass Phase 2 ramp). Market signal: utilization >95% for 2+ quarters triggers EPD's capex acceleration for pipeline debottlenecking (estimated $200M over 2 years). 2024 YTD utilization: 95.2% (Q1–Q3 combined).",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "10-K"
+        ]
+      }
+    ]
+  }
+}

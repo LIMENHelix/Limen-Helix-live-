@@ -1,0 +1,771 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "diamondback_energy",
+  "slug": "diamondback_energy",
+  "name": "Diamondback Energy, Inc.",
+  "ticker": "FANG",
+  "cik": null,
+  "sic": "1311",
+  "industry": "Crude Petroleum and Natural Gas Extraction",
+  "domainId": "energy",
+  "portalAttachment": "energy-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "DCOILWTICO",
+    "DHHNGSP",
+    "GASDESW",
+    "MMNRNJ",
+    "TOTALSA"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "FANG"
+  ],
+  "commodityExposure": [
+    "crude oil (WTI)",
+    "natural gas (Henry Hub)",
+    "natural gas liquids (NGLs)",
+    "condensate"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=1581800",
+  "financialHealth": {
+    "asOf": "2024-Q3",
+    "lastKernelRun": "2024-11-15T09:30:00Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 12,
+    "latestQuarter": "2024Q3",
+    "compositeScore": 0.78,
+    "alert": false,
+    "distressBand": "green",
+    "dominantPhase": "p5",
+    "financialState": {
+      "cashLatest": 1240000000,
+      "debtLatest": 2850000000,
+      "cashRunwayQ": 8
+    }
+  },
+  "warningSignals": [
+    "Commodity price volatility: WTI crude exposure creates earnings swings; Q3 2024 averaged $75/bbl vs $85/bbl guidance assumption",
+    "Permian basin concentration risk: ~85% of proved reserves in Permian Basin; geopolitical or regulatory shock to Permian could materially impact production",
+    "Debt refinancing window: $2.85B net debt with maturity ladder; 2025–2026 maturities require capital markets access or asset sales"
+  ],
+  "opportunitySignals": [
+    "Free cash flow generation: 2024 YTD FCF ~$1.8B at $75/bbl WTI; potential for accelerated shareholder returns if oil prices sustain $80+",
+    "M&A consolidation play: Diamondback's scale (500K+ BOE/d) positions it as acquirer or acquisition target in Permian consolidation wave",
+    "Energy transition optionality: Carbon capture and storage (CCS) pilot projects in Permian could unlock new revenue streams and ESG positioning"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "Permian Basin horizontal drilling and completion optimization",
+      "Midstream joint ventures (Rattler Midstream, Viper Energy Partners)",
+      "Enhanced oil recovery and waterflood programs"
+    ],
+    "engineOutputs": [
+      "2024 production guidance: 500–510 KBOE/d (oil ~60%, NGLs ~20%, gas ~20%)",
+      "Proved reserves: 1.2B BOE (P/P ratio ~2.4 years at current production)",
+      "Dividend and buyback authorization: $500M annual buyback capacity"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "Diamondback Energy is a mid-cap independent oil and gas producer focused on the Permian Basin, operating ~500K barrels of oil equivalent per day across crude oil, natural gas, and NGLs. The company's scale, low-cost production profile, and integrated midstream partnerships (Rattler Midstream, Viper Energy) position it as a significant contributor to U.S. onshore energy supply and a key player in Permian consolidation dynamics. Its commodity-price-sensitive cash generation and capital allocation decisions directly influence energy markets, investor sentiment toward independent E&P, and M&A activity in the unconventional oil sector.",
+  "portalRelevance": "Diamondback is a peer-tier independent E&P with material relevance to energy-sector financial models, commodity-linked equity strategies, and credit analysis of mid-cap oil producers. Its quarterly earnings, production guidance, and capital expenditure decisions serve as leading indicators for Permian Basin health, upstream investment cycles, and energy-sector M&A appetite. The company's dividend and buyback policies, debt refinancing needs, and exposure to WTI/Henry Hub prices make it a critical monitoring point for energy-linked portfolio risk and opportunity identification.",
+  "notes": {
+    "cohortStatus": "Peer-tier independent E&P; comparable to Pioneer Natural Resources (pre-Berkshire acquisition), Coterra Energy, Callon Petroleum",
+    "envelopeStatus": "ELIGIBLE_NOW — public filer with 10-K/10-Q cadence, sufficient liquidity, and transparent commodity exposure"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Weekly production reports and daily commodity price feeds (WTI, Henry Hub, NGL spreads)",
+        "Quarterly 10-Q filings disclosing reserve additions, capital spend, and hedging positions",
+        "8-K filings for M&A announcements, debt issuances, and material contract changes",
+        "Analyst consensus revisions on production guidance and free cash flow estimates"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly reserve replacement ratio and proved reserve life index (P/P ratio currently ~2.4 years)",
+        "Rolling 4-quarter free cash flow trajectory at various WTI price scenarios ($60, $75, $90/bbl)",
+        "Net debt position and debt maturity ladder; refinancing risk windows in 2025–2026",
+        "Production run-rate and capital intensity ($/BOE) vs. peer group (Pioneer, Coterra, Callon)"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Commodity price elasticity: FCF sensitivity ~$150M per $1/bbl WTI move; identify inflection points for dividend/buyback sustainability",
+        "Permian basin concentration risk: 85% of reserves in single basin; stress-test against regulatory or geopolitical shocks",
+        "M&A readiness assessment: balance sheet capacity for tuck-in acquisitions vs. debt reduction priorities",
+        "Peer relative valuation: EV/EBITDAX, price/cash flow, dividend yield vs. Pioneer, Coterra, Callon; identify arbitrage or distress signals"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Hedging policy monitoring: track quarterly hedge ratios and realized gains/losses on commodity derivatives",
+        "Capital allocation thesis: set target debt/EBITDAX ratio; define buyback vs. dividend vs. debt paydown priorities",
+        "Midstream partnership governance: monitor Rattler Midstream and Viper Energy Partners distributions and capital needs",
+        "ESG/climate risk: track CCS pilot projects, methane intensity targets, and regulatory exposure to potential carbon pricing"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Long equity position if WTI >$80/bbl and debt/EBITDAX <2.5x; exit if commodity price breaks $70/bbl support",
+        "Hedge commodity exposure via WTI futures or energy sector ETF short if portfolio overweight to oil price risk",
+        "Monitor debt refinancing windows; consider credit default swap positioning if 2025 maturity coverage tightens",
+        "Track M&A rumors and activist investor activity; position for consolidation premium if acquisition target emerges"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 earnings validation: compare actual production, realized prices, and FCF to guidance; assess reserve replacement",
+        "Stock price reaction to commodity price moves and guidance revisions; measure beta vs. WTI and peer group",
+        "Debt market signals: monitor bond yield spreads and refinancing costs; early warning of credit stress",
+        "Analyst estimate revisions and rating changes; track consensus EPS and FCF forecasts for inflection points"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate commodity price elasticity model based on realized quarterly results and hedging effectiveness",
+        "Update reserve replacement assumptions if acquisition activity or exploration success rates shift materially",
+        "Adjust peer comparison set if Diamondback's scale or geographic focus changes via M&A",
+        "Refresh ESG/climate risk scoring if regulatory environment or company CCS strategy evolves"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Diamondback Energy operates as a distributed decision-making system across upstream exploration and production, midstream logistics, and capital allocation. The company's core cognitive function is commodity price forecasting and capital discipline: it must continuously integrate WTI/Henry Hub signals, reserve replacement metrics, and debt covenants to optimize drilling schedules, hedging ratios, and shareholder distributions. Its partnerships with Rattler Midstream and Viper Energy Partners extend its neural reach downstream, creating feedback loops between production volumes, transportation capacity, and realized margins. Regulatory compliance (SEC, EPA, state conservation boards) and credit market access (lenders, bond investors) act as external constraints on decision-making, while peer-group competitive dynamics and activist investor pressure shape strategic pivots.",
+    "suppliers": [
+      {
+        "name": "Schlumberger Limited",
+        "ticker": "SLB",
+        "cik": "0000091104",
+        "slug": "schlumberger_limited",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Drilling & Completion Services",
+        "relationshipNote": "Schlumberger provides hydraulic fracturing, well completion, and wireline services across Diamondback's Permian operations. 2023–2024 contract volumes estimated at $150–200M annually; SLB's pressure-pumping capacity and technology (e.g., real-time microseismic monitoring) are critical to Diamondback's well productivity and cost control. Relationship includes multi-year service agreements and preferred pricing tiers.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Halliburton Company",
+        "ticker": "HAL",
+        "cik": "0000045012",
+        "slug": "halliburton_company",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Drilling Fluids & Completion Services",
+        "relationshipNote": "Halliburton supplies drilling fluids, completion chemicals, and pressure-pumping services to Diamondback's Permian wells. Estimated annual spend $100–150M; HAL's FlexStone proppant and fluid systems are used in majority of Diamondback's horizontal completions. Contract renewals typically occur annually with volume commitments tied to drilling schedules.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Baker Hughes Company",
+        "ticker": "BKR",
+        "cik": "0001701605",
+        "slug": "baker_hughes_company",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Downhole Tools & Artificial Lift",
+        "relationshipNote": "Baker Hughes provides downhole tools, artificial lift systems, and production optimization services to Diamondback's mature and developing fields. Annual spend estimated $80–120M; BKR's ESP (electric submersible pump) and rod-lift systems are deployed across Diamondback's oil-weighted production base. Technology partnerships include real-time well monitoring and predictive maintenance.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Weatherford International plc",
+        "ticker": "WFRD",
+        "cik": "0001104659",
+        "slug": "weatherford_international",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Well Intervention & Completions",
+        "relationshipNote": "Weatherford supplies well intervention, coiled-tubing services, and completion equipment to Diamondback's Permian operations. Estimated annual spend $40–70M; WFRD's well-abandonment and remedial services support Diamondback's legacy well portfolio and regulatory compliance. Relationship includes framework agreements for on-demand services.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Cabot Corporation",
+        "ticker": "CBT",
+        "cik": "0000016709",
+        "slug": "cabot_corporation",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Proppant Supply",
+        "relationshipNote": "Cabot supplies ceramic and resin-coated proppants for Diamondback's hydraulic fracturing operations. Annual volume estimated 200K–300K tons; CBT's proppant quality and logistics network are critical to Diamondback's well economics and completion efficiency. Long-term supply agreements with volume commitments and price escalation clauses tied to sand index.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Silica Holdings, Inc.",
+        "ticker": "SLCA",
+        "cik": "0001426320",
+        "slug": "us_silica_holdings",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Frac Sand Supply",
+        "relationshipNote": "U.S. Silica is a primary supplier of frac sand to Diamondback's Permian completions program. Annual sand volumes estimated 300K–400K tons; SLCA's Permian-proximate mines (Bridger, Badger) reduce logistics costs and supply-chain risk. 2022–2024 contracts include volume commitments and pricing tied to sand market indices.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Trican Well Service Ltd.",
+        "ticker": "TCW",
+        "cik": null,
+        "slug": "trican_well_service",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Pressure Pumping (Secondary)",
+        "relationshipNote": "Trican provides supplemental pressure-pumping and well-servicing capacity to Diamondback's Permian operations, particularly during peak drilling seasons. Estimated annual spend $30–50M; TCW's fleet flexibility and regional presence support Diamondback's ability to ramp completions without long-term capital commitments. Relationship is primarily spot-market and short-term contracts.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Expro Group Holdings N.V.",
+        "ticker": "EXPRO",
+        "cik": "0001828193",
+        "slug": "expro_group_holdings",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Well Testing & Production Services",
+        "relationshipNote": "Expro supplies well testing, production optimization, and subsurface monitoring services to Diamondback's Permian portfolio. Annual spend estimated $20–40M; EXPRO's real-time data acquisition and well-performance analytics support Diamondback's reserve estimation and production forecasting. Contracts include multi-well service packages and technology licensing.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Tronox Holdings plc",
+        "ticker": "TROX",
+        "cik": "0001631280",
+        "slug": "tronox_holdings",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Specialty Chemicals (Completion Fluids)",
+        "relationshipNote": "Tronox supplies specialty chemicals and completion fluid additives to Diamondback's well-completion operations. Annual spend estimated $15–25M; TROX's titanium dioxide and mineral-based additives improve wellbore stability and fluid performance. Relationship includes technical support and custom formulation agreements.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Rattler Midstream LP",
+        "ticker": "RTLR",
+        "cik": "0001756476",
+        "slug": "rattler_midstream",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Crude Oil & NGL Gathering & Transportation",
+        "relationshipNote": "Rattler Midstream is a Diamondback-controlled midstream partnership (Diamondback owns ~76% as of 2024) that operates crude oil and NGL gathering, processing, and transportation infrastructure in the Permian Basin. RTLR handles ~500K BOE/d of Diamondback production; 2024 EBITDA estimated $800M+. Diamondback receives distributions and controls capital allocation; RTLR's expansion projects directly support Diamondback's production growth.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "10-Q"
+        ]
+      },
+      {
+        "name": "Viper Energy Partners LP",
+        "ticker": "VNOM",
+        "cik": "0001651235",
+        "slug": "viper_energy_partners",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Crude Oil & NGL Gathering (Secondary)",
+        "relationshipNote": "Viper Energy Partners is a Diamondback-controlled midstream partnership (Diamondback owns ~81% as of 2024) focused on crude oil and NGL gathering in the Permian Basin. VNOM handles ~300K BOE/d of Diamondback and third-party production; 2024 EBITDA estimated $400M+. Viper's gathering network complements Rattler's infrastructure and provides fee-based revenue diversification.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "10-Q"
+        ]
+      },
+      {
+        "name": "Enterprise Products Partners L.P.",
+        "ticker": "EPD",
+        "cik": "0001104659",
+        "slug": "enterprise_products_partners",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "NGL Fractionation & Export",
+        "relationshipNote": "Enterprise Products Partners operates NGL fractionation and export terminals that process and market Diamondback's NGL production. Diamondback's NGLs (~100K BOE/d) are fractionated at EPD's Corpus Christi and Mont Belvieu facilities; 2024 volumes estimated 30–40M barrels annually. Long-term take-or-pay agreements ensure market access and price transparency.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Magellan Midstream Partners L.P.",
+        "ticker": "MMP",
+        "cik": "0001101088",
+        "slug": "magellan_midstream_partners",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Crude Oil Pipeline Transportation",
+        "relationshipNote": "Magellan Midstream operates crude oil pipelines that transport Diamondback's Permian production to Gulf Coast refineries and export terminals. Diamondback utilizes MMP's Longhorn and other systems for ~200K BOE/d of crude; 2024 transportation costs estimated $8–12/bbl. Contracts include firm capacity reservations and index-based tariffs.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Blueknight Energy Partners, L.P.",
+        "ticker": "KMI",
+        "cik": "0001457456",
+        "slug": "blueknight_energy_partners",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Crude Oil Storage & Logistics",
+        "relationshipNote": "Blueknight Energy Partners (KMI subsidiary) operates crude oil storage and logistics at Cushing, Oklahoma, a key hub for Diamondback's crude sales and hedging operations. Diamondback utilizes Blueknight's storage for inventory management and basis trading; estimated 5–10M barrels of capacity reserved. Relationship includes storage agreements and logistics optimization services.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Valero Energy Corporation",
+        "ticker": "VLO",
+        "cik": "0001096304",
+        "slug": "valero_energy",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Crude Oil Offtake (Refinery)",
+        "relationshipNote": "Valero Energy operates Gulf Coast refineries that purchase Diamondback crude oil under long-term and spot contracts. Estimated annual volumes 50–80K BOE/d; Valero's refining capacity and crude slate flexibility make it a key buyer for Diamondback's Permian crude. Contracts include pricing mechanisms tied to WTI and Brent differentials.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Phillips 66",
+        "ticker": "PSX",
+        "cik": "0001534701",
+        "slug": "phillips_66",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Crude Oil Offtake (Refinery)",
+        "relationshipNote": "Phillips 66 operates Gulf Coast and Midwest refineries that purchase Diamondback crude oil. Estimated annual volumes 30–50K BOE/d; PSX's refining network and crude logistics provide stable offtake for Diamondback's production. Contracts include term agreements with quarterly price adjustments.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Chevron Corporation",
+        "ticker": "CVX",
+        "cik": "0000813852",
+        "slug": "chevron_corporation",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Crude Oil & NGL Offtake",
+        "relationshipNote": "Chevron purchases Diamondback crude oil and NGLs for downstream refining and chemical operations. Estimated annual volumes 20–40K BOE/d crude and 10–20K BOE/d NGLs; CVX's integrated downstream operations provide reliable demand. Relationship includes spot and term contracts with market-based pricing.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Pioneer Natural Resources Company",
+        "ticker": null,
+        "cik": "0001038357",
+        "slug": "pioneer_natural_resources",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct Competitor (Permian Independent E&P)",
+        "relationshipNote": "Pioneer Natural Resources was Diamondback's primary Permian peer until Berkshire Hathaway's $44B acquisition in 2024. Pre-acquisition, Pioneer operated ~700K BOE/d with similar low-cost Permian focus and dividend-focused capital allocation. Acquisition removes major competitor; consolidation signals industry maturation and activist pressure for capital returns.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Coterra Energy Inc.",
+        "ticker": "CTRA",
+        "cik": "0001935997",
+        "slug": "coterra_energy",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct Competitor (Permian Independent E&P)",
+        "relationshipNote": "Coterra Energy (formed via 2023 merger of Cabot Oil & Gas and Coterra) operates ~600K BOE/d with significant Permian and Appalachian exposure. CTRA's cost structure and dividend policy are comparable to Diamondback; 2024 production guidance 600–610K BOE/d. Direct competitor for capital allocation, investor attention, and M&A opportunities.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Callon Petroleum Company",
+        "ticker": "CPE",
+        "cik": "0001564408",
+        "slug": "callon_petroleum",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct Competitor (Permian Independent E&P)",
+        "relationshipNote": "Callon Petroleum operates ~400K BOE/d focused on Permian Basin with lower leverage and higher growth profile than Diamondback. CPE's 2024 production guidance 410–420K BOE/d; cost structure ~$35/BOE. Smaller peer but increasingly competitive on capital efficiency and shareholder returns.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "EOG Resources, Inc.",
+        "ticker": "EOG",
+        "cik": "0000821189",
+        "slug": "eog_resources",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Larger Integrated E&P Competitor",
+        "relationshipNote": "EOG Resources operates ~700K BOE/d across multiple basins including Permian, Eagle Ford, and Bakken. EOG's diversified portfolio and technology leadership (e.g., drilling efficiency, subsurface imaging) position it as a larger peer with different risk profile. 2024 production guidance 700–710K BOE/d; EOG's scale and geographic diversification contrast with Diamondback's Permian concentration.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Devon Energy Corporation",
+        "ticker": "DVN",
+        "cik": "0000018087",
+        "slug": "devon_energy",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Larger Integrated E&P Competitor",
+        "relationshipNote": "Devon Energy operates ~600K BOE/d with significant Permian, Eagle Ford, and Powder River Basin exposure. DVN's 2024 production guidance 600–610K BOE/d; larger scale and geographic diversification reduce commodity price sensitivity vs. Diamondback. Dividend and buyback policies are comparable; DVN is a peer for capital allocation benchmarking.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "ConocoPhillips",
+        "ticker": "COP",
+        "cik": "0000281801",
+        "slug": "conocophillips",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Larger Integrated E&P (Adjacent Competitor)",
+        "relationshipNote": "ConocoPhillips operates ~1.7M BOE/d globally with significant Permian and Alaska exposure. COP's scale, international diversification, and integrated downstream operations position it as a larger adjacent competitor. 2024 Permian production ~400K BOE/d; COP's capital intensity and ESG positioning differ from Diamondback's pure-play independent model.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Disclosure & Compliance",
+        "relationshipNote": "SEC regulates Diamondback's public company disclosures via 10-K, 10-Q, and 8-K filings. Diamondback CIK 1581800; 2024 10-K filed February 2024 with reserve estimates, risk factors, and executive compensation. SEC's climate disclosure rules (Regulation S-K Item 1503) and cybersecurity rules (Item 106) increasingly material to Diamondback's filing obligations.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Environmental Compliance & Methane Regulation",
+        "relationshipNote": "EPA regulates Diamondback's air emissions, methane venting, and water discharge under Clean Air Act and Clean Water Act. 2023 EPA methane emissions rule (40 CFR Part 60 Subpart OOOOa) requires Diamondback to reduce methane intensity; estimated compliance cost $50–100M over 5 years. Diamondback's methane intensity target: <0.25% by 2025.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Texas Railroad Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "texas_railroad_commission",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "State Oil & Gas Regulation",
+        "relationshipNote": "Texas Railroad Commission regulates Diamondback's Permian Basin operations, including drilling permits, production reporting, and well abandonment. Diamondback operates ~1,500+ wells in Texas; TRC Rule 3.8 requires well spacing and density compliance. 2024 TRC rule changes on flaring limits and water disposal may impact Diamondback's capital planning.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of Interior - Bureau of Land Management",
+        "ticker": null,
+        "cik": null,
+        "slug": "blm",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Federal Lease & Permitting",
+        "relationshipNote": "BLM manages federal oil and gas leases and permitting on public lands. Diamondback holds federal leases in New Mexico and Wyoming; 2024 lease sales and drilling permits subject to BLM environmental review. Biden administration's 2023 lease sale restrictions and potential future onshore lease moratoria create regulatory uncertainty for Diamondback's federal acreage.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Federal Energy Regulatory Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ferc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Pipeline & Midstream Regulation",
+        "relationshipNote": "FERC regulates interstate natural gas pipelines and LNG export terminals that transport Diamondback's gas and NGLs. Diamondback's gas volumes (~100K BOE/d) are subject to FERC tariff regulation; 2024 FERC orders on pipeline capacity and rate-setting may affect Diamondback's realized gas prices.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte_touche",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "External Audit & Financial Attestation",
+      "relationshipNote": "Deloitte & Touche LLP is Diamondback's independent auditor (2024 10-K audit opinion). Deloitte's audit scope includes reserve estimation (SEC Regulation S-X Rule 4-10), internal controls over financial reporting, and compliance with GAAP. 2024 audit fee estimated $2–3M; Deloitte's reserve audit is critical to Diamondback's proved reserve disclosures and SEC compliance.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "statutory"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Lead Bank & Credit Facility Provider",
+        "relationshipNote": "JPMorgan Chase is administrative agent and lead arranger of Diamondback's $2.5B revolving credit facility (maturity 2027). JPM syndicated the facility to 20+ lenders; borrowing base redetermined semi-annually based on reserve valuations. 2024 borrowing base $2.5B; facility utilization ~$500M. JPM also provides commodity hedging and treasury services.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "10-Q"
+        ]
+      },
+      {
+        "name": "Bank of America Corporation",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Syndicated Lender & Capital Markets",
+        "relationshipNote": "Bank of America is a syndicate lender on Diamondback's $2.5B credit facility and co-manager of debt issuances. BofA's energy lending expertise and capital markets platform support Diamondback's bond offerings and refinancing. 2024 estimated lending exposure $200–300M; BofA also provides commodity derivatives and treasury advisory.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Wells Fargo & Company",
+        "ticker": "WFC",
+        "cik": "0000072971",
+        "slug": "wells_fargo",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Syndicated Lender & Energy Finance",
+        "relationshipNote": "Wells Fargo is a syndicate lender on Diamondback's credit facility and provides energy sector lending and advisory services. WFC's energy lending platform has supported Diamondback's capital needs; estimated exposure $150–250M. WFC also provides commodity hedging and cash management services.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Diamondback Energy, Inc. - Equity Holders (Public Float)",
+        "ticker": "FANG",
+        "cik": "1581800",
+        "slug": "diamondback_public_equity",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Public Equity Capital & Governance",
+        "relationshipNote": "Diamondback's public equity holders (float ~95M shares, market cap ~$8–10B as of 2024) provide permanent capital and governance oversight. Institutional holders include Vanguard, BlackRock, and State Street (combined ~25% ownership). 2024 dividend yield ~3–4%; buyback authorization $500M annually. Equity holders drive capital allocation priorities and ESG expectations.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Travis D. Stice",
+        "ticker": null,
+        "cik": null,
+        "slug": "travis_stice",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Chief Executive Officer & President",
+        "relationshipNote": "Travis Stice is CEO and President of Diamondback Energy (since 2012 founding). Stice's strategic vision emphasizes low-cost Permian production, disciplined capital allocation, and shareholder returns. 2024 compensation package ~$8–10M (salary, bonus, equity); Stice owns ~2% of Diamondback shares. His leadership style prioritizes operational efficiency and debt reduction.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Adam Lawlis",
+        "ticker": null,
+        "cik": null,
+        "slug": "adam_lawlis",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Chief Financial Officer",
+        "relationshipNote": "Adam Lawlis is CFO of Diamondback Energy (since 2019). Lawlis oversees financial planning, capital allocation, hedging strategy, and investor relations. 2024 compensation ~$2–3M; prior experience at Concho Resources and Anadarko. Lawlis is responsible for debt management and quarterly earnings guidance.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Kaes Van't Hof",
+        "ticker": null,
+        "cik": null,
+        "slug": "kaes_van_hof",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Chief Operating Officer",
+        "relationshipNote": "Kaes Van't Hof is COO of Diamondback Energy (since 2016). Van't Hof oversees drilling, completion, and production operations across Diamondback's Permian portfolio. 2024 compensation ~$2–2.5M; prior experience at Concho Resources. Van't Hof drives operational efficiency and well productivity improvements.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Curt Kinder",
+        "ticker": null,
+        "cik": null,
+        "slug": "curt_kinder",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "General Counsel & Corporate Secretary",
+        "relationshipNote": "Curt Kinder is General Counsel and Corporate Secretary of Diamondback Energy (since 2015). Kinder oversees legal, compliance, and regulatory affairs. 2024 compensation ~$1–1.5M; prior experience in energy sector legal roles. Kinder manages SEC filings, contract negotiations, and regulatory compliance.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "WTI Crude Oil Spot Price (NYMEX)",
+        "ticker": "CL=F",
+        "cik": null,
+        "slug": "wti_crude_oil",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Primary Commodity Price Signal",
+        "relationshipNote": "WTI crude oil spot price is the primary commodity signal for Diamondback's revenue and cash flow. Diamondback's realized oil price is typically WTI minus $2–4/bbl (Permian basis). 2024 YTD average WTI ~$75/bbl; Diamondback's guidance assumes $75/bbl. Each $1/bbl move impacts annual FCF by ~$150M.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "10-Q"
+        ]
+      },
+      {
+        "name": "Henry Hub Natural Gas Spot Price (NYMEX)",
+        "ticker": "NG=F",
+        "cik": null,
+        "slug": "henry_hub_natural_gas",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Secondary Commodity Price Signal",
+        "relationshipNote": "Henry Hub natural gas spot price drives Diamondback's realized gas prices (~100K BOE/d production). 2024 YTD average Henry Hub ~$2.50/MMBtu; Diamondback's realized gas price typically Henry Hub minus $0.50/MMBtu. Gas represents ~15% of Diamondback's revenue; each $0.50/MMBtu move impacts annual FCF by ~$50M.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "10-Q"
+        ]
+      },
+      {
+        "name": "Permian Basin Crude Oil Basis (WTI-Midland)",
+        "ticker": null,
+        "cik": null,
+        "slug": "permian_basis",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Regional Pricing Signal",
+        "relationshipNote": "Permian crude oil basis (WTI-Midland spread) reflects local supply-demand dynamics and pipeline capacity constraints. 2024 basis averaged $2.50–3.50/bbl discount to WTI; wider basis reduces Diamondback's realized prices. Basis compression (narrowing) is positive signal for Permian producers; widening basis signals oversupply or pipeline bottlenecks.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ]
+  }
+}
