@@ -54,6 +54,8 @@ a:hover{color:#C9A94E}
 .row-actions button.reject:hover{color:#e85454;border-color:rgba(232,84,84,0.7);background:rgba(232,84,84,0.06)}
 .row-actions button.expand{color:rgba(201,169,78,0.55);border-color:rgba(201,169,78,0.25)}
 .row-actions button.expand:hover{color:#C9A94E;border-color:rgba(201,169,78,0.5)}
+.row-actions button.restore{color:#C9A94E;border-color:rgba(201,169,78,0.4)}
+.row-actions button.restore:hover{color:#C9A94E;border-color:rgba(201,169,78,0.8);background:rgba(201,169,78,0.08)}
 .row-actions button:disabled{opacity:0.4;cursor:default}
 .row-actions .status{font-size:0.3rem;letter-spacing:1.5px;padding:4px 8px;border-radius:2px}
 .row-actions .status.approved{color:#5ab5a0;border:1px solid rgba(90,181,160,0.4);background:rgba(90,181,160,0.05)}
@@ -224,7 +226,10 @@ function renderRow(p) {
       (status === 'PENDING_REVIEW' || !status
         ? '<button class="approve" data-action="approve" data-id="' + esc(pat.id) + '">✓ Approve</button>' +
           '<button class="reject" data-action="reject" data-id="' + esc(pat.id) + '">✗ Reject</button>'
-        : '<span class="status ' + statusClass + '">' + status + '</span>') +
+        : status === 'REJECTED'
+          ? '<span class="status rejected">REJECTED</span>' +
+            '<button class="restore" data-action="restore" data-id="' + esc(pat.id) + '">↺ Restore</button>'
+          : '<span class="status ' + statusClass + '">' + status + '</span>') +
       '<button class="expand" data-expand>▼</button>' +
     '</div>' +
   '</div>';
@@ -318,12 +323,12 @@ function wireRowActions() {
         .then(function(r){ return r.json().then(function(j){ return { ok: r.ok, j: j }; }); })
         .then(function(out){
           if (!out.ok) throw new Error((out.j && out.j.error) || 'request failed');
-          toast(action === 'approve' ? '✓ Approved' : '✗ Rejected', 'ok');
+          toast(action === 'approve' ? '✓ Approved' : action === 'restore' ? '↺ Restored — back in Pending' : '✗ Rejected', 'ok');
           setTimeout(function(){ window.location.reload(); }, 800);
         })
         .catch(function(err){
           row.querySelectorAll('button').forEach(function(b){ b.disabled = false; });
-          btn.textContent = action === 'approve' ? '✓ Approve' : '✗ Reject';
+          btn.textContent = action === 'approve' ? '✓ Approve' : action === 'restore' ? '↺ Restore' : '✗ Reject';
           toast('Action failed: ' + err.message, 'err');
         });
     });
