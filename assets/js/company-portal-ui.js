@@ -202,7 +202,14 @@
     if (co.financialHealth && Object.keys(co.financialHealth).length > 0) {
       var keys = Object.keys(co.financialHealth);
       for (var k = 0; k < keys.length; k++) {
-        rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(keys[k]) + '</span><span class="cp-value">' + esc(String(co.financialHealth[keys[k]])) + '</span></div>';
+        var _fv = co.financialHealth[keys[k]];
+        // Nested objects (e.g. financialState = {cashLatest, debtLatest,
+        // cashRunwayQ}) were String()-coerced to "[object Object]". Expand them
+        // into readable "subkey: value" instead.
+        var _fvStr = (_fv && typeof _fv === 'object' && !Array.isArray(_fv))
+          ? Object.keys(_fv).map(function(sk){ return sk + ': ' + _fv[sk]; }).join('  ·  ')
+          : String(_fv);
+        rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(keys[k]) + '</span><span class="cp-value">' + esc(_fvStr) + '</span></div>';
       }
     } else {
       rightHtml += '<div class="cp-empty">Run HELIX Analysis to populate</div>';

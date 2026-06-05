@@ -45,15 +45,22 @@
     var kr = portal.kernelReadings;
     if (_has(kr) && _has(kr.k1) && _phaseOf(kr.k1)) return kr.k1;
     var fh = portal.financialHealth;
-    if (_has(fh) && (typeof fh.composite === 'number' || fh.dominantPhase)) {
-      return {
-        phase: fh.dominantPhase || null,
-        composite: typeof fh.composite === 'number' ? fh.composite : null,
-        alert: !!fh.alert,
-        trajectory: fh.trajectory || null,
-        kernelId: fh.kernelId || 'legacy_financialHealth',
-        lastScored: fh.lastScored || null
-      };
+    if (_has(fh)) {
+      // Field-name drift: portals store the score as `compositeScore` (not
+      // `composite`), so the old check read undefined → K1 rendered phase but a
+      // NULL score. Accept either field.
+      var _comp = (typeof fh.composite === 'number') ? fh.composite
+                : (typeof fh.compositeScore === 'number') ? fh.compositeScore : null;
+      if (_comp !== null || fh.dominantPhase) {
+        return {
+          phase: fh.dominantPhase || null,
+          composite: _comp,
+          alert: !!fh.alert,
+          trajectory: fh.trajectory || null,
+          kernelId: fh.kernelId || 'legacy_financialHealth',
+          lastScored: fh.lastScored || fh.lastKernelRun || null
+        };
+      }
     }
     return null;
   }
