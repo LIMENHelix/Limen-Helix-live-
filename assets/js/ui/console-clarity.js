@@ -54,7 +54,6 @@
   };
 
   var TABS = [
-    { id: 'civilization',    label: 'Civilization' },
     { id: 'evidence',        label: 'Source Audit' },
     { id: 'regulation',      label: 'Regulation' },
     { id: 'patent',          label: 'Capital Conversion' },
@@ -2507,7 +2506,6 @@
     }
 
     switch (_activeTab) {
-      case 'civilization':    _renderTabCivilization(); break;
       case 'patent':          _renderTabPatent(); break;
       case 'evidence':        _renderTabEvidence(); break;
       case 'regulation':      _renderTabRegulation(); break;
@@ -2515,189 +2513,9 @@
     }
   }
 
-  // ─── Civilization ─────────────────────────────────────────────────────────
-
-  // ═══════════════════════════════════════════════════════════════════════════
-  // Gate B #9C.1 — Civilization tab confidence authority.
-  //
-  // Doctrine (operator 2026-06-01):
-  //   The confidence row is not the gate. The badge above the
-  //   claim-bearing card is the gate.
-  //
-  // The existing per-row "Confidence" display at the bottom of the
-  // CIVILIZATION STATE card (line ~2098-2106 of the original file)
-  // shows the numeric value + tier, but the card body renders at
-  // full visual weight regardless. This badge sits ABOVE the card
-  // and is the structural authority signal — visual downgrade only,
-  // body stays visible. The existing row stays unchanged.
-  //
-  // OR semantics: if EITHER the numeric value OR the tier triggers
-  // a lower bucket, render the lower bucket. Conservative — defer to
-  // the worse signal. Example: globalConfidence=0.8 but tier="low"
-  // → render LOW (because tier disagrees with the number).
-  //
-  // CONFIDENCE UNKNOWN: report exists with summary but neither a
-  // finite globalConfidence nor a confidenceTier present. Honest;
-  // doesn't claim FULL by default.
-  // ═══════════════════════════════════════════════════════════════════════════
-
-  function _classifyCivilizationAuthority(s) {
-    var hasNum = !!(s && typeof s.globalConfidence === 'number' && isFinite(s.globalConfidence));
-    var tier = (s && typeof s.confidenceTier === 'string') ? s.confidenceTier.toLowerCase() : null;
-
-    // Missing both → UNKNOWN
-    if (!hasNum && !tier) {
-      return { level: 'UNKNOWN', badge: 'CONFIDENCE UNKNOWN', reason: 'Report has no confidence value or tier.' };
-    }
-
-    var pct = hasNum ? Math.round(s.globalConfidence * 100) : null;
-
-    // LOW path — either number < 0.4 OR tier === 'low'
-    var lowByNum = hasNum && s.globalConfidence < 0.4;
-    var lowByTier = tier === 'low';
-    if (lowByNum || lowByTier) {
-      var badgeLow = 'LOW CONFIDENCE' + (pct != null ? ' · ' + pct + '%' : '') + (tier ? ' · tier: ' + tier : '');
-      return { level: 'LOW_CONFIDENCE', badge: badgeLow, reason: 'Civilization confidence below 40% — interpret with caution.' };
-    }
-
-    // MODERATE path — number in [0.4, 0.65) OR tier === 'medium'
-    var modByNum = hasNum && s.globalConfidence >= 0.4 && s.globalConfidence < 0.65;
-    var modByTier = tier === 'medium' || tier === 'moderate';
-    if (modByNum || modByTier) {
-      var badgeMod = 'MODERATE CONFIDENCE' + (pct != null ? ' · ' + pct + '%' : '') + (tier ? ' · tier: ' + tier : '');
-      return { level: 'MODERATE_CONFIDENCE', badge: badgeMod, reason: null };
-    }
-
-    // Full path — number >= 0.65 OR tier === 'high'
-    return { level: 'FULL', badge: null, reason: null };
-  }
-
-  function _appendCivilizationBadge(authority, parent) {
-    if (!authority || !authority.badge) return;
-    var cls = authority.level === 'LOW_CONFIDENCE' ? 'low'
-            : authority.level === 'MODERATE_CONFIDENCE' ? 'moderate'
-            : 'unknown';
-    var el = document.createElement('div');
-    el.className = 'clr-civ-conf-badge ' + cls;
-    el.textContent = authority.badge;
-    if (authority.reason) {
-      var r = document.createElement('span');
-      r.className = 'clr-civ-conf-badge-reason';
-      r.textContent = authority.reason;
-      el.appendChild(r);
-    }
-    parent.appendChild(el);
-  }
-
-  function _renderTabCivilization() {
-    var reports = window.LIMENReports || {};
-    var report = reports.civilization;
-    if (!report) {
-      _renderEmpty('civilization');
-      return;
-    }
-
-    // Civilization state — dossier opener. All rows are driven by fields
-    // already present on report.summary. Every row is presence-guarded;
-    // missing/empty fields produce no row (no placeholders, no synthesis,
-    // no new data sources).
-    if (report.summary) {
-      // Gate B #9C.1 — confidence authority badge above the card.
-      // The existing per-row Confidence display inside the card stays
-      // unchanged; this is the structural authority signal that draws
-      // operator attention BEFORE they read the body.
-      _appendCivilizationBadge(
-        _classifyCivilizationAuthority(report.summary),
-        _tabContentEl
-      );
-
-      var card = _subCard('CIVILIZATION STATE');
-      var s = report.summary;
-
-      if (s.globalMode) _addRow(card, 'Mode', String(s.globalMode));
-
-      if (typeof s.globalScore === 'number' && isFinite(s.globalScore)) {
-        _addRow(card, 'Score', s.globalScore.toFixed(2));
-      }
-
-      var confHasNum = (typeof s.globalConfidence === 'number' && isFinite(s.globalConfidence));
-      var confHasTier = !!s.confidenceTier;
-      if (confHasNum && confHasTier) {
-        _addRow(card, 'Confidence', s.globalConfidence.toFixed(2) + ' (' + s.confidenceTier + ')');
-      } else if (confHasNum) {
-        _addRow(card, 'Confidence', s.globalConfidence.toFixed(2));
-      } else if (confHasTier) {
-        _addRow(card, 'Confidence', String(s.confidenceTier));
-      }
-
-      var driverText = (s.topDrivers || []).join(', ');
-      if (driverText) {
-        _addRow(card, 'Top Drivers', driverText + ' (interpreted)');
-      }
-
-      if (s.patternLabel && s.patternLabel !== 'none') {
-        _addRow(card, 'Pattern', String(s.patternLabel));
-      }
-
-      if (s.timeHorizon) _addRow(card, 'Time Horizon', String(s.timeHorizon));
-
-      if (typeof s.urgency === 'number' && isFinite(s.urgency)) {
-        _addRow(card, 'Urgency', s.urgency.toFixed(2));
-      }
-
-      _tabContentEl.appendChild(card);
-    }
-
-    // TRUST POSTURE card removed (operator call). It rendered the
-    // recommendation-evidence envelope (report.evidence), which is null
-    // whenever the propagation recommendation engine produces no graded
-    // recs — so it permanently displayed "0.00 / insufficient / No data."
-    // Removed rather than show a dead metric. The envelope/engine code is
-    // left intact; if that pipeline is ever revived this card can return.
-
-    // Cross-domain conflicts — enumerate civilization-level tensions
-    // already present on report.conflicts. Each conflict is a structured
-    // object produced by scale-translator's detectConflicts(). The row
-    // composes raw fields (type, scaleA, scaleB, confidenceGap, nodeId)
-    // with neutral glue; no paraphrase, no summarization, no resolution
-    // or winner framing (that would cross into execution language).
-    // Card mounts only when at least one conflict produces a non-empty
-    // composed value; malformed/underspecified entries are skipped.
-    if (Array.isArray(report.conflicts) && report.conflicts.length > 0) {
-      var cdCard = _subCard('CROSS-SCALE CONFLICTS');
-      var cdRows = 0;
-      for (var cdi = 0; cdi < report.conflicts.length; cdi++) {
-        var cd = report.conflicts[cdi];
-        if (!cd || typeof cd.type !== 'string' || !cd.type) continue;
-        var cdVal = '';
-        if (cd.scaleA && cd.scaleB) cdVal = cd.scaleA + ' vs ' + cd.scaleB;
-        else if (cd.scaleA) cdVal = cd.scaleA;
-        else if (cd.scaleB) cdVal = cd.scaleB;
-        if (typeof cd.confidenceGap === 'number' && isFinite(cd.confidenceGap)) {
-          cdVal += (cdVal ? ' \u00b7 ' : '') + 'gap ' + cd.confidenceGap.toFixed(2);
-        }
-        if (cd.nodeId != null && String(cd.nodeId).length > 0) {
-          cdVal += (cdVal ? ' \u00b7 ' : '') + 'node ' + cd.nodeId;
-        }
-        if (!cdVal) continue;
-        _addRow(cdCard, cd.type, cdVal);
-        cdRows++;
-      }
-      if (cdRows > 0) _tabContentEl.appendChild(cdCard);
-    }
-
-    // Domain overview REMOVED — duplicates Zone B domain health grid
-
-    // POLARITY card removed (operator call). It read report.polarity.overall
-    // / .trend, but report.polarity is the domain-keyed LIMENPolarity map with
-    // no .overall/.trend fields — so it permanently showed "Overall 0.00 /
-    // Trend n/a." Per-domain polarity still renders in the Zone B domain grid.
-
-    // DETECTED DIAGNOSES & TREATMENTS card removed (operator call). It rendered
-    // brain/registry diagnoses + treatments per domain; those still render in
-    // the per-domain consoles, so nothing is lost system-wide — this aggregate
-    // card was removed from the Civilization tab to declutter it.
-  }
+  // (Civilization Evidence-Workspace tab removed — operator call. Render code
+  //  + confidence-badge/authority helpers deleted. The civilization REPORT is
+  //  still generated; it simply has no dedicated tab now.)
 
   // ─── Patent Opportunities ─────────────────────────────────────────────────
 
