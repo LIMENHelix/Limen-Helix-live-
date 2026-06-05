@@ -113,4 +113,31 @@ if (!DRY) {
   fs.writeFileSync(REGEN_QUEUE, JSON.stringify(summary, null, 2));
   console.log('\nwritten: ' + REGEN_QUEUE);
   console.log('\nDrain with: node scripts/build-fractal-portals.mjs --queue ' + REGEN_QUEUE);
+
+  // Surface the backlog on the VITALS page. The queue file above is gitignored +
+  // ephemeral (it dies with the CI runner, so the operator never sees it).
+  // _vitals.json IS committed by the immune cron, so write a compact summary +
+  // an operatorAttention line here — "what the body needs to build" becomes
+  // visible at /vitals instead of vanishing every tick.
+  try {
+    const vp = JSON.parse(fs.readFileSync(VITALS_PATH, 'utf8'));
+    vp.portalRegen = {
+      total: dedup.length,
+      byTrigger: summary.byTrigger,
+      topPriority: dedup.slice(0, 15).map(q => ({ slug: q.slug, name: q.name || null, trigger: q.trigger })),
+      generatedAt: summary.generatedAt
+    };
+    vp.operatorAttention = (vp.operatorAttention || []).filter(a => a.organ !== 'portalRegen');
+    if (dedup.length > 0) {
+      vp.operatorAttention.push({
+        issue: 'Portal regen backlog — entities the body needs but has no portal for',
+        severity: dedup.length > 500 ? 'high' : 'med',
+        count: dedup.length,
+        action: 'drain: build-fractal-portals.mjs (autonomous drain not yet wired)',
+        organ: 'portalRegen'
+      });
+    }
+    fs.writeFileSync(VITALS_PATH, JSON.stringify(vp, null, 2));
+    console.log('surfaced portalRegen backlog (' + dedup.length + ') -> _vitals.json + operatorAttention');
+  } catch (e) { console.warn('could not surface to vitals:', e.message); }
 }

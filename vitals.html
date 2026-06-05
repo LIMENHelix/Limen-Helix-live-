@@ -105,6 +105,9 @@ a:hover{color:#C9A94E}
 <div class="sect">OPERATOR ATTENTION · ACROSS ALL ORGANS</div>
 <div id="attn-list" class="attn-list"></div>
 
+<div class="sect" id="regen-sect" style="display:none">PORTAL REGEN BACKLOG · entities the body needs but has no portal for</div>
+<div id="regen-panel"></div>
+
 <div class="sect">IMMUNE LOG · RECENT HEALS</div>
 <div id="heal-log"></div>
 
@@ -180,6 +183,28 @@ function render(d) {
       al.appendChild(row);
     }
   }
+
+  // ─── portal regen backlog (autonomous-portal-regen → what the body needs) ──
+  const rp = document.getElementById('regen-panel');
+  const rsect = document.getElementById('regen-sect');
+  const pr = d.portalRegen;
+  function _e(s){ return String(s == null ? '' : s).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+  if (pr && pr.total > 0) {
+    rsect.style.display = '';
+    const byTrig = Object.entries(pr.byTrigger || {}).map(([k, v]) => _e(k.replace(/_/g, ' ')) + ': ' + v).join('  ·  ');
+    let h = '<div style="font-size:0.4rem;color:rgba(200,195,184,0.6);letter-spacing:1px;margin-bottom:8px">' +
+      '<span style="font-size:0.7rem;color:#C9A94E;font-weight:600">' + pr.total + '</span> queued · ' +
+      '<span style="color:rgba(200,195,184,0.4);font-size:0.34rem">' + byTrig + '</span></div>';
+    h += '<div style="border:1px solid rgba(201,169,78,0.1);border-radius:3px;background:rgba(0,0,0,0.2);margin-bottom:8px">';
+    (pr.topPriority || []).forEach(q => {
+      h += '<div style="display:flex;justify-content:space-between;gap:12px;padding:5px 14px;border-bottom:1px solid rgba(255,255,255,0.03);font-size:0.36rem">' +
+        '<span style="color:#e8e3d9">' + _e(q.name || q.slug) + '</span>' +
+        '<span style="color:rgba(201,169,78,0.5);font-size:0.3rem;letter-spacing:1px;text-transform:uppercase;white-space:nowrap">' + _e((q.trigger || '').replace(/_/g, ' ')) + '</span></div>';
+    });
+    h += '</div>';
+    h += '<div style="font-size:0.3rem;color:rgba(200,195,184,0.3);font-style:italic;margin-bottom:16px">Autonomous finder writes this every immune tick; the build is drained by build-fractal-portals.mjs (auto-drain not yet wired). Updated ' + (pr.generatedAt ? new Date(pr.generatedAt).toLocaleString() : '—') + '</div>';
+    rp.innerHTML = h;
+  } else if (rsect) { rsect.style.display = 'none'; rp.innerHTML = ''; }
 
   // ─── immune log ─────────────────────────────────────────────────────
   const hl = document.getElementById('heal-log');

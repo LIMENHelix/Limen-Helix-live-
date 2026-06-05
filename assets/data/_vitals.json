@@ -1,24 +1,24 @@
 {
   "schemaVersion": "vitals/2.0",
-  "generatedAt": "2026-06-02T10:37:28.346Z",
+  "generatedAt": "2026-06-04T18:58:50.140Z",
   "overall": {
-    "score": 74,
-    "status": "IN_PAIN",
-    "summary": "12 organs · 24 attention items · feeds 55 · l1Nodes 97 · domains 98 · portalCorpus 76 · deadLinks 31 · kernel 0 · connectome 100 · civilization 100 · masterBrain 95 · propagator 66 · patternBus 100 · bridge 68"
+    "score": 79,
+    "status": "DEGRADED",
+    "summary": "12 organs · 24 attention items · feeds 55 · l1Nodes 97 · domains 65 · portalCorpus 76 · deadLinks 76 · kernel 0 · connectome 100 · civilization 100 · masterBrain 95 · propagator 100 · patternBus 100 · bridge 80"
   },
   "scores": {
     "feeds": 55,
     "l1Nodes": 97,
-    "domains": 98,
+    "domains": 65,
     "portalCorpus": 76,
-    "deadLinks": 31,
+    "deadLinks": 76,
     "kernel": 0,
     "connectome": 100,
     "civilization": 100,
     "masterBrain": 95,
-    "propagator": 66,
+    "propagator": 100,
     "patternBus": 100,
-    "bridge": 68
+    "bridge": 80
   },
   "organs": {
     "feeds": {
@@ -234,9 +234,9 @@
       "id": "domains",
       "role": "21 cortical circuits (domain brains)",
       "order": 30,
-      "score": 98,
-      "status": "HEALTHY",
-      "summary": "21/21 domains · 20/21 structurally complete · packet-adapter ✓",
+      "score": 65,
+      "status": "IN_PAIN",
+      "summary": "21/21 domains · 20/21 structurally complete · packet-adapter ✗ OPEN LOOP",
       "metrics": {
         "fileCount": 21,
         "presentDomains": [
@@ -276,11 +276,11 @@
             ]
           }
         ],
-        "adapterPresent": true,
+        "adapterPresent": false,
         "scoreParts": {
           "count": 100,
           "structural": 95,
-          "adapter": 100
+          "adapter": 0
         }
       },
       "attention": [
@@ -296,6 +296,13 @@
           "severity": "med",
           "count": 1,
           "action": "inspect: domain-console-brain.js",
+          "organ": "domains"
+        },
+        {
+          "issue": "domain-packet-adapter.js missing — loop between domains and Main Brain is OPEN",
+          "severity": "high",
+          "count": 1,
+          "action": "restore assets/js/limen/domain-packet-adapter.js (memory: this was canonical #1 pathology)",
           "organ": "domains"
         }
       ]
@@ -809,144 +816,24 @@
       "id": "deadLinks",
       "role": "surface link integrity (no dead-portal navigation)",
       "order": 45,
-      "score": 31,
-      "status": "IN_PAIN",
-      "summary": "63 unguarded surfaces · 87 total emitters · 188 CB rows point at missing portals (fallback page now handles)",
+      "score": 76,
+      "status": "DEGRADED",
+      "summary": "2 unguarded surfaces · 2 total emitters · 188 CB rows point at missing portals (fallback page now handles)",
       "metrics": {
         "unguardedSurfaces": [
           {
-            "file": "agriculture-command.html",
+            "file": "scripts/score-companies.js",
             "unguarded": 1,
             "gated": 0
           },
           {
-            "file": "agriculture-opportunities.html",
-            "unguarded": 2,
-            "gated": 0
-          },
-          {
-            "file": "assets/js/agriculture-clarity-operator.js",
-            "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "assets/js/communication-clarity-operator.js",
-            "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "assets/js/company-resolver.js",
-            "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "assets/js/culture-clarity-operator.js",
-            "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "assets/js/defense-clarity-operator.js",
-            "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "assets/js/economy-clarity-operator.js",
-            "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "assets/js/energy-clarity-operator.js",
-            "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "assets/js/environment-clarity-operator.js",
-            "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "assets/js/finance-clarity-operator.js",
-            "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "assets/js/governance-clarity-operator.js",
-            "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "assets/js/industry-clarity-operator.js",
-            "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "assets/js/infrastructure-clarity-operator.js",
-            "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "assets/js/intelligence-clarity-operator.js",
-            "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "assets/js/population-clarity-operator.js",
-            "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "assets/js/religion-clarity-operator.js",
-            "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "assets/js/technology-clarity-operator.js",
-            "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "communication-command.html",
-            "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "communication-opportunities.html",
-            "unguarded": 2,
-            "gated": 0
-          },
-          {
-            "file": "company-lookup.html",
-            "unguarded": 2,
-            "gated": 0
-          },
-          {
-            "file": "company-portal.html",
-            "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "culture-command.html",
-            "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "culture-opportunities.html",
-            "unguarded": 2,
-            "gated": 0
-          },
-          {
-            "file": "defense-command.html",
+            "file": "scripts/sense/organ-dead-links.mjs",
             "unguarded": 1,
             "gated": 0
           }
         ],
-        "guardedSurfaces": [
-          {
-            "file": "assets/js/kernel-comparison.js",
-            "gated": 1
-          }
-        ],
-        "totalEmitters": 87,
+        "guardedSurfaces": [],
+        "totalEmitters": 2,
         "cbDeadCount": 188,
         "cbDeadSample": [
           {
@@ -1011,7 +898,7 @@
           }
         ],
         "scoreParts": {
-          "surface": 0,
+          "surface": 90,
           "realized": 62
         }
       },
@@ -1019,8 +906,8 @@
         {
           "issue": "Surfaces build company-portal links without an hp gate",
           "severity": "high",
-          "count": 63,
-          "action": "add `if (d.hp)` guard before rendering link, OR rely on company-portal-ui.js graceful fallback (lands on absent-portal page, not a 404). Worst: agriculture-command.html, agriculture-opportunities.html, assets/js/agriculture-clarity-operator.js, assets/js/communication-clarity-operator.js, assets/js/company-resolver.js",
+          "count": 2,
+          "action": "add `if (d.hp)` guard before rendering link, OR rely on company-portal-ui.js graceful fallback (lands on absent-portal page, not a 404). Worst: scripts/score-companies.js, scripts/sense/organ-dead-links.mjs",
           "organ": "deadLinks"
         },
         {
@@ -1187,18 +1074,6 @@
             "domain": "finance"
           },
           {
-            "slug": "airbnb",
-            "name": "Airbnb, Inc.",
-            "sector": "Online marketplace for short-term and long-term home and experience stays; Icons program launched May 2024",
-            "domain": "culture"
-          },
-          {
-            "slug": "airbus",
-            "name": "Airbus SE",
-            "sector": "Aircraft Manufacturing",
-            "domain": "defense"
-          },
-          {
             "slug": "air_liquide",
             "name": "Air Liquide S.A.",
             "sector": "Industrial Gases",
@@ -1209,6 +1084,18 @@
             "name": "Air Products and Chemicals, Inc.",
             "sector": "Industrial gases (oxygen, nitrogen, argon, hydrogen, helium) + clean hydrogen mega-projects",
             "domain": "industry"
+          },
+          {
+            "slug": "airbnb",
+            "name": "Airbnb, Inc.",
+            "sector": "Online marketplace for short-term and long-term home and experience stays; Icons program launched May 2024",
+            "domain": "culture"
+          },
+          {
+            "slug": "airbus",
+            "name": "Airbus SE",
+            "sector": "Aircraft Manufacturing",
+            "domain": "defense"
           }
         ],
         "worstSectors": [
@@ -1425,14 +1312,14 @@
       "order": 80,
       "score": 95,
       "status": "HEALTHY",
-      "summary": "6/6 engine lanes · 8/9 markers · inbox 1861/2504 ready (6.8h old)",
+      "summary": "6/6 engine lanes · 8/9 markers · inbox ✗",
       "metrics": {
         "present": {
           "masterBrain": true,
           "executor": true,
           "enginePersist": true,
           "consumer": true,
-          "inbox": true
+          "inbox": false
         },
         "lanesPresent": [
           "patent",
@@ -1454,22 +1341,8 @@
           "readyToSignGate": true,
           "patternEnvelopeEmit": false
         },
-        "inbox": {
-          "portalsScanned": 767,
-          "portalsWithArtifacts": 461,
-          "totalCandidates": 2504,
-          "readyToFire": 1861,
-          "inhibited": 643,
-          "byLaneReady": {
-            "patent": 614,
-            "grant": 621,
-            "sba": 0,
-            "franchise": 0,
-            "investment": 0,
-            "research": 626
-          }
-        },
-        "inboxAgeHours": 6.787198611111111,
+        "inbox": null,
+        "inboxAgeHours": null,
         "scoreParts": {
           "lanes": 100,
           "structural": 89
@@ -1477,10 +1350,10 @@
       },
       "attention": [
         {
-          "issue": "Master Brain inbox stale (>6h)",
-          "severity": "low",
-          "count": 7,
-          "action": "invoke build-master-inbox.mjs (also runs in the autonomic loop)",
+          "issue": "Master Brain inbox never built — engine outputs not gated/prioritized yet",
+          "severity": "med",
+          "count": 1,
+          "action": "run scripts/build-master-inbox.mjs --apply",
           "organ": "masterBrain"
         }
       ]
@@ -1489,15 +1362,15 @@
       "id": "propagator",
       "role": "spider-web stress propagator",
       "order": 90,
-      "score": 66,
-      "status": "IN_PAIN",
-      "summary": "496 nodes · 7111 edges · 386 damped · 10 pathC · 0 alert · snapshot 181.7h old",
+      "score": 100,
+      "status": "HEALTHY",
+      "summary": "496 nodes · 7111 edges · 386 damped · 10 pathC · 0 alert · snapshot 0.0h old",
       "metrics": {
         "present": {
           "propagator": true,
           "snapshot": true
         },
-        "ageHours": 181.6605622222222,
+        "ageHours": 0.013155628051757812,
         "nodeCount": 496,
         "edgeCount": 7111,
         "dampedCount": 386,
@@ -1506,18 +1379,11 @@
         "networkPushedCount": 338,
         "scoreParts": {
           "presence": 100,
-          "fresh": 0,
+          "fresh": 100,
           "size": 99
         }
       },
       "attention": [
-        {
-          "issue": "stress-network snapshot stale (>6h)",
-          "severity": "med",
-          "count": 182,
-          "action": "invoke api/limen-worker-stress-refresh OR investigate the cron",
-          "organ": "propagator"
-        },
         {
           "issue": "path-C anomalies in propagator output (unbounded composites)",
           "severity": "med",
@@ -1567,11 +1433,11 @@
       "id": "bridge",
       "role": "brain↔business bridge layer (idea generation)",
       "order": 110,
-      "score": 68,
-      "status": "IN_PAIN",
-      "summary": "15 patterns · 461/767 portals bridged (60%) · 626 bridges · 2504 engine artifacts on 461 portals · verbiage ✓",
+      "score": 80,
+      "status": "DEGRADED",
+      "summary": "31 patterns · 461/767 portals bridged (60%) · 626 bridges · 2504 engine artifacts on 461 portals · verbiage ✓",
       "metrics": {
-        "patternCount": 15,
+        "patternCount": 31,
         "coverage": 0.601,
         "portalsWithBridges": 461,
         "portalsBlindToBridge": 306,
@@ -1671,12 +1537,12 @@
             "name": "AMC ENTERTAINMENT HOLDINGS, INC."
           },
           {
-            "slug": "anixter_international",
-            "name": "Anixter International Inc."
-          },
-          {
             "slug": "ani_pharmaceuticals_inc",
             "name": "ANI PHARMACEUTICALS INC"
+          },
+          {
+            "slug": "anixter_international",
+            "name": "Anixter International Inc."
           },
           {
             "slug": "applied_materials",
@@ -1732,7 +1598,7 @@
         },
         "scoreParts": {
           "coverage": 60,
-          "library": 75
+          "library": 100
         }
       },
       "attention": [
@@ -1790,13 +1656,6 @@
       "organ": "portalCorpus"
     },
     {
-      "issue": "stress-network snapshot stale (>6h)",
-      "severity": "med",
-      "count": 182,
-      "action": "invoke api/limen-worker-stress-refresh OR investigate the cron",
-      "organ": "propagator"
-    },
-    {
       "issue": "Feed source count low (<30)",
       "severity": "med",
       "count": 22,
@@ -1832,6 +1691,13 @@
       "organ": "domains"
     },
     {
+      "issue": "Master Brain inbox never built — engine outputs not gated/prioritized yet",
+      "severity": "med",
+      "count": 1,
+      "action": "run scripts/build-master-inbox.mjs --apply",
+      "organ": "masterBrain"
+    },
+    {
       "issue": "Propagator output has NO downstream consumers (per [[limen_full_system_audit_2026_05_25]])",
       "severity": "med",
       "count": 1,
@@ -1851,13 +1717,6 @@
       "count": 230,
       "action": "tighten indicators in pattern HAB_anti_reward_x_contrarian_board_lock to be more specific",
       "organ": "bridge"
-    },
-    {
-      "issue": "Master Brain inbox stale (>6h)",
-      "severity": "low",
-      "count": 7,
-      "action": "invoke build-master-inbox.mjs (also runs in the autonomic loop)",
-      "organ": "masterBrain"
     },
     {
       "issue": "Portals with brain-tagging below 90%",
@@ -1881,13 +1740,6 @@
       "organ": "portalCorpus"
     },
     {
-      "issue": "Surfaces build company-portal links without an hp gate",
-      "severity": "high",
-      "count": 63,
-      "action": "add `if (d.hp)` guard before rendering link, OR rely on company-portal-ui.js graceful fallback (lands on absent-portal page, not a 404). Worst: agriculture-command.html, agriculture-opportunities.html, assets/js/agriculture-clarity-operator.js, assets/js/communication-clarity-operator.js, assets/js/company-resolver.js",
-      "organ": "deadLinks"
-    },
-    {
       "issue": "Canonical domains with NO feed source",
       "severity": "high",
       "count": 9,
@@ -1909,10 +1761,24 @@
       "organ": "portalCorpus"
     },
     {
+      "issue": "Surfaces build company-portal links without an hp gate",
+      "severity": "high",
+      "count": 2,
+      "action": "add `if (d.hp)` guard before rendering link, OR rely on company-portal-ui.js graceful fallback (lands on absent-portal page, not a 404). Worst: scripts/score-companies.js, scripts/sense/organ-dead-links.mjs",
+      "organ": "deadLinks"
+    },
+    {
       "issue": "Missing canonical domain brain files",
       "severity": "high",
       "count": 1,
       "action": "create assets/js/domain-brains/supplyChain-brain.js",
+      "organ": "domains"
+    },
+    {
+      "issue": "domain-packet-adapter.js missing — loop between domains and Main Brain is OPEN",
+      "severity": "high",
+      "count": 1,
+      "action": "restore assets/js/limen/domain-packet-adapter.js (memory: this was canonical #1 pathology)",
       "organ": "domains"
     },
     {
@@ -1921,7 +1787,644 @@
       "count": 1,
       "action": "inspect — usually intentional segment, else dedup",
       "organ": "kernel"
+    },
+    {
+      "issue": "Portal regen backlog — entities the body needs but has no portal for",
+      "severity": "med",
+      "count": 188,
+      "action": "drain: build-fractal-portals.mjs (autonomous drain not yet wired)",
+      "organ": "portalRegen"
     }
   ],
-  "lastHeals": []
+  "lastHeals": [
+    {
+      "startedAt": "2026-05-29T13:37:52.670Z",
+      "finishedAt": "2026-05-29T13:37:55.553Z",
+      "preScore": 76,
+      "postScore": 76,
+      "heals": [
+        {
+          "name": "wire-eligible-cb",
+          "issue": "Eligible CB rows with broken portal links",
+          "countBefore": 187,
+          "ranAt": "2026-05-29T13:37:52.674Z",
+          "success": true,
+          "summary": "completed",
+          "exitCode": 0
+        }
+      ],
+      "skipped": [
+        {
+          "issue": "CIK collisions (real ciks shared)",
+          "severity": "high",
+          "count": 2,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Thin portals (<20 fn entries)",
+          "severity": "med",
+          "count": 3,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Domain mis-routing (pharma SIC on non-medicine domain)",
+          "severity": "med",
+          "count": 5,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Portals with brain-tagging below 90%",
+          "severity": "low",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Null kernel composite on ELIGIBLE-marked portals",
+          "severity": "high",
+          "count": 683,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Truncated prose in fn entries (ellipsis / fragment / empty)",
+          "severity": "med",
+          "count": 515,
+          "reason": "operator-only (requires human judgment)"
+        }
+      ]
+    },
+    {
+      "startedAt": "2026-05-29T13:37:55.804Z",
+      "finishedAt": "2026-05-29T13:37:58.718Z",
+      "preScore": 76,
+      "postScore": 76,
+      "heals": [
+        {
+          "name": "wire-eligible-cb",
+          "issue": "Eligible CB rows with broken portal links",
+          "countBefore": 187,
+          "ranAt": "2026-05-29T13:37:55.808Z",
+          "success": true,
+          "summary": "completed",
+          "exitCode": 0
+        }
+      ],
+      "skipped": [
+        {
+          "issue": "CIK collisions (real ciks shared)",
+          "severity": "high",
+          "count": 2,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Thin portals (<20 fn entries)",
+          "severity": "med",
+          "count": 3,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Domain mis-routing (pharma SIC on non-medicine domain)",
+          "severity": "med",
+          "count": 5,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Portals with brain-tagging below 90%",
+          "severity": "low",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Null kernel composite on ELIGIBLE-marked portals",
+          "severity": "high",
+          "count": 683,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Truncated prose in fn entries (ellipsis / fragment / empty)",
+          "severity": "med",
+          "count": 515,
+          "reason": "operator-only (requires human judgment)"
+        }
+      ]
+    },
+    {
+      "startedAt": "2026-05-29T19:34:28.287Z",
+      "finishedAt": "2026-05-29T19:34:32.638Z",
+      "preScore": 82,
+      "postScore": 82,
+      "heals": [
+        {
+          "name": "wire-eligible-cb",
+          "issue": "Eligible CB rows with broken portal links",
+          "countBefore": 187,
+          "ranAt": "2026-05-29T19:34:28.321Z",
+          "success": true,
+          "summary": "completed",
+          "exitCode": 0
+        }
+      ],
+      "skipped": [
+        {
+          "issue": "Truncated prose in fn entries (ellipsis / fragment / empty)",
+          "severity": "med",
+          "count": 515,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "stress-network snapshot stale (>6h)",
+          "severity": "med",
+          "count": 95,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Feed source count low (<30)",
+          "severity": "med",
+          "count": 22,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "path-C anomalies in propagator output (unbounded composites)",
+          "severity": "med",
+          "count": 10,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Domain mis-routing (pharma SIC on non-medicine domain)",
+          "severity": "med",
+          "count": 5,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Thin portals (<20 fn entries)",
+          "severity": "med",
+          "count": 3,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Domain brain files lacking required markers (brainId / feedSources / kernels)",
+          "severity": "med",
+          "count": 1,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Propagator output has NO downstream consumers (per [[limen_full_system_audit_2026_05_25]])",
+          "severity": "med",
+          "count": 1,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Portals with brain-tagging below 90%",
+          "severity": "low",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Null kernel composite on ELIGIBLE-marked portals",
+          "severity": "high",
+          "count": 683,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Kernel never finished scoring ELIGIBLE-marked portals (null composites)",
+          "severity": "high",
+          "count": 683,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Canonical domains with NO feed source",
+          "severity": "high",
+          "count": 9,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Canonical domains with NO L1 node binding",
+          "severity": "high",
+          "count": 2,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "CIK collisions (real ciks shared)",
+          "severity": "high",
+          "count": 2,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Missing canonical domain brain files",
+          "severity": "high",
+          "count": 1,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "domain-packet-adapter.js missing — loop between domains and Main Brain is OPEN",
+          "severity": "high",
+          "count": 1,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "CIK collisions in companies-manifest (multiple slugs → one CIK)",
+          "severity": "high",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        }
+      ]
+    },
+    {
+      "startedAt": "2026-06-04T16:04:01.927Z",
+      "finishedAt": "2026-06-04T16:04:03.967Z",
+      "preScore": 79,
+      "postScore": 79,
+      "heals": [
+        {
+          "name": "wire-eligible-cb",
+          "issue": "Eligible CB rows with broken portal links",
+          "countBefore": 187,
+          "ranAt": "2026-06-04T16:04:01.932Z",
+          "success": true,
+          "summary": "completed",
+          "exitCode": 0
+        }
+      ],
+      "skipped": [
+        {
+          "issue": "Portals with NO kernel reading (K1/K2/K3 all empty) — K3 frontier",
+          "severity": "med",
+          "count": 767,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Truncated prose in fn entries (ellipsis / fragment / empty)",
+          "severity": "med",
+          "count": 515,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Bridge coverage below 70% — many portals have no neuro↔business mapping",
+          "severity": "med",
+          "count": 306,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "CB rows pointing to a portal slug with NO file on disk (dead clicks waiting)",
+          "severity": "med",
+          "count": 188,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Feed source count low (<30)",
+          "severity": "med",
+          "count": 22,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "path-C anomalies in propagator output (unbounded composites)",
+          "severity": "med",
+          "count": 10,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Domain mis-routing (pharma SIC on non-medicine domain)",
+          "severity": "med",
+          "count": 5,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Thin portals (<20 fn entries)",
+          "severity": "med",
+          "count": 3,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Domain brain files lacking required markers (brainId / feedSources / kernels)",
+          "severity": "med",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Master Brain inbox never built — engine outputs not gated/prioritized yet",
+          "severity": "med",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Propagator output has NO downstream consumers (per [[limen_full_system_audit_2026_05_25]])",
+          "severity": "med",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "K1 (financial kernel) ZERO coverage — expected during migration if all readings are in legacy financialHealth slot",
+          "severity": "low",
+          "count": 767,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Pattern dominance: HAB_anti_reward_x_contrarian_board_lock matches 37% of all bridges (over-firing?)",
+          "severity": "low",
+          "count": 230,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Portals with brain-tagging below 90%",
+          "severity": "low",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "K2 (universal kernel) coverage below 100%",
+          "severity": "high",
+          "count": 767,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Null kernel composite on ELIGIBLE-marked portals",
+          "severity": "high",
+          "count": 683,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Canonical domains with NO feed source",
+          "severity": "high",
+          "count": 9,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Canonical domains with NO L1 node binding",
+          "severity": "high",
+          "count": 2,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "CIK collisions (real ciks shared)",
+          "severity": "high",
+          "count": 2,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Surfaces build company-portal links without an hp gate",
+          "severity": "high",
+          "count": 2,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Missing canonical domain brain files",
+          "severity": "high",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "domain-packet-adapter.js missing — loop between domains and Main Brain is OPEN",
+          "severity": "high",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "CIK collisions in companies-manifest",
+          "severity": "high",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        }
+      ]
+    },
+    {
+      "startedAt": "2026-06-04T18:58:47.967Z",
+      "finishedAt": "2026-06-04T18:58:50.152Z",
+      "preScore": 79,
+      "postScore": 79,
+      "heals": [
+        {
+          "name": "wire-eligible-cb",
+          "issue": "Eligible CB rows with broken portal links",
+          "countBefore": 187,
+          "ranAt": "2026-06-04T18:58:47.974Z",
+          "success": true,
+          "summary": "completed",
+          "exitCode": 0
+        }
+      ],
+      "skipped": [
+        {
+          "issue": "Portals with NO kernel reading (K1/K2/K3 all empty) — K3 frontier",
+          "severity": "med",
+          "count": 767,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Truncated prose in fn entries (ellipsis / fragment / empty)",
+          "severity": "med",
+          "count": 515,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Bridge coverage below 70% — many portals have no neuro↔business mapping",
+          "severity": "med",
+          "count": 306,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "CB rows pointing to a portal slug with NO file on disk (dead clicks waiting)",
+          "severity": "med",
+          "count": 188,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Feed source count low (<30)",
+          "severity": "med",
+          "count": 22,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "path-C anomalies in propagator output (unbounded composites)",
+          "severity": "med",
+          "count": 10,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Domain mis-routing (pharma SIC on non-medicine domain)",
+          "severity": "med",
+          "count": 5,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Thin portals (<20 fn entries)",
+          "severity": "med",
+          "count": 3,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Domain brain files lacking required markers (brainId / feedSources / kernels)",
+          "severity": "med",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Master Brain inbox never built — engine outputs not gated/prioritized yet",
+          "severity": "med",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Propagator output has NO downstream consumers (per [[limen_full_system_audit_2026_05_25]])",
+          "severity": "med",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "K1 (financial kernel) ZERO coverage — expected during migration if all readings are in legacy financialHealth slot",
+          "severity": "low",
+          "count": 767,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Pattern dominance: HAB_anti_reward_x_contrarian_board_lock matches 37% of all bridges (over-firing?)",
+          "severity": "low",
+          "count": 230,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Portals with brain-tagging below 90%",
+          "severity": "low",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "K2 (universal kernel) coverage below 100%",
+          "severity": "high",
+          "count": 767,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Null kernel composite on ELIGIBLE-marked portals",
+          "severity": "high",
+          "count": 683,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Canonical domains with NO feed source",
+          "severity": "high",
+          "count": 9,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Canonical domains with NO L1 node binding",
+          "severity": "high",
+          "count": 2,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "CIK collisions (real ciks shared)",
+          "severity": "high",
+          "count": 2,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Surfaces build company-portal links without an hp gate",
+          "severity": "high",
+          "count": 2,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Missing canonical domain brain files",
+          "severity": "high",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "domain-packet-adapter.js missing — loop between domains and Main Brain is OPEN",
+          "severity": "high",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "CIK collisions in companies-manifest",
+          "severity": "high",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        }
+      ]
+    }
+  ],
+  "portalRegen": {
+    "total": 188,
+    "byTrigger": {
+      "cb_row_missing_portal": 188
+    },
+    "topPriority": [
+      {
+        "slug": "paychex_inc",
+        "name": "Paychex",
+        "trigger": "cb_row_missing_portal"
+      },
+      {
+        "slug": "groove_botanicals_inc",
+        "name": "GROOVE BOTANICALS INC.",
+        "trigger": "cb_row_missing_portal"
+      },
+      {
+        "slug": "mnr",
+        "name": "MACH NATURAL RESOURCES LP",
+        "trigger": "cb_row_missing_portal"
+      },
+      {
+        "slug": "soc",
+        "name": "Sable Offshore Corp.",
+        "trigger": "cb_row_missing_portal"
+      },
+      {
+        "slug": "abeo",
+        "name": "ABEONA THERAPEUTICS INC.",
+        "trigger": "cb_row_missing_portal"
+      },
+      {
+        "slug": "aytu",
+        "name": "AYTU BIOPHARMA, INC",
+        "trigger": "cb_row_missing_portal"
+      },
+      {
+        "slug": "tcrt",
+        "name": "Alaunos Therapeutics, Inc.",
+        "trigger": "cb_row_missing_portal"
+      },
+      {
+        "slug": "aldx",
+        "name": "Aldeyra Therapeutics, Inc.",
+        "trigger": "cb_row_missing_portal"
+      },
+      {
+        "slug": "apvo",
+        "name": "Aptevo Therapeutics Inc.",
+        "trigger": "cb_row_missing_portal"
+      },
+      {
+        "slug": "arct",
+        "name": "Arcturus Therapeutics Holdings Inc.",
+        "trigger": "cb_row_missing_portal"
+      },
+      {
+        "slug": "avtx",
+        "name": "Avalo Therapeutics, Inc.",
+        "trigger": "cb_row_missing_portal"
+      },
+      {
+        "slug": "cort",
+        "name": "CORCEPT THERAPEUTICS INC",
+        "trigger": "cb_row_missing_portal"
+      },
+      {
+        "slug": "cvsi",
+        "name": "CV Sciences, Inc.",
+        "trigger": "cb_row_missing_portal"
+      },
+      {
+        "slug": "cytk",
+        "name": "CYTOKINETICS INC",
+        "trigger": "cb_row_missing_portal"
+      },
+      {
+        "slug": "celuw",
+        "name": "Celularity Inc",
+        "trigger": "cb_row_missing_portal"
+      }
+    ],
+    "generatedAt": "2026-06-05T18:35:43.877Z"
+  }
 }
