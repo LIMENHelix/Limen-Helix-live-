@@ -71,6 +71,18 @@ function _synthesizeSeed(pattern, lane, portal) {
   };
 }
 
+// Document section outline per lane (what the generated DOCX will contain) —
+// used by the preview so the operator sees the structure before generating.
+function _laneOutline(lane) {
+  switch (lane) {
+    case 'patent':   return ['Title', 'Abstract', 'Background', 'Summary of the Invention', 'Detailed Description', 'Claims'];
+    case 'grant':    return ['Specific Aims', 'Significance', 'Innovation', 'Approach / Research Strategy', 'Commercialization', 'Budget Justification'];
+    case 'sba':      return ['Executive Summary', 'Business Overview', 'Market & Competition', 'Use of Funds', 'Financial Projections', 'Repayment Plan', 'Risk & Mitigation'];
+    case 'research': return ['Study Information', 'Hypotheses', 'Design Plan', 'Sampling Plan', 'Variables', 'Analysis Plan'];
+    default:         return [];
+  }
+}
+
 function _bridgeFromPattern(pattern) {
   return {
     patternId: pattern.id,
@@ -102,6 +114,27 @@ module.exports = async (req, res) => {
 
     const found = await _findPattern(patternId);
     if (!found) return res.status(404).json({ error: 'pattern not found in bridge-patterns.json or Redis: ' + patternId });
+
+    // PREVIEW mode — return what the document will be built from (bridge, lane
+    // angle, section outline) WITHOUT the Anthropic generation. Lets the operator
+    // see + approve before committing to the ~30-90s paid call (the master-inbox
+    // "blind print" gap). No tokens spent.
+    if (q.preview === '1' || q.preview === 'true') {
+      const n = found.pattern.neural || {};
+      const b = found.pattern.business || {};
+      const br = found.pattern.bridge || {};
+      return res.status(200).json({
+        ok: true, preview: true,
+        entity: portal.name || slug, ticker: portal.ticker || null,
+        lane, patternId, patternSource: found.source,
+        neural: { region: n.region, regionLabel: n.regionLabel, state: n.state, mechanism: n.mechanism },
+        business: { signature: (b.signature || '').replace(/_/g, ' '), description: b.description },
+        bridge: { mappingType: br.mappingType, confidence: br.confidence, rationale: br.rationale },
+        derivedAngle: (found.pattern.derivedAngles || {})[lane] || {},
+        sectionOutline: _laneOutline(lane),
+        note: '20-30 page DOCX generated from the above via Claude Sonnet (~30-90s).'
+      });
+    }
 
     const seed = _synthesizeSeed(found.pattern, lane, portal);
     const bridge = _bridgeFromPattern(found.pattern);

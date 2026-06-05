@@ -69,6 +69,27 @@ a:hover{color:#C9A94E}
 .row-expandable{cursor:pointer}
 
 .footer{margin-top:30px;font-size:0.28rem;color:rgba(200,195,184,0.12);letter-spacing:1.5px;text-align:center}
+/* ── print preview modal ── */
+.pp-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.78);z-index:2000;display:flex;align-items:center;justify-content:center;padding:24px}
+.pp-panel{background:#0a0e16;border:1px solid rgba(201,169,78,0.3);border-radius:4px;max-width:720px;width:100%;max-height:86vh;overflow:auto;box-shadow:0 8px 44px rgba(0,0,0,0.6)}
+.pp-head{font-size:0.46rem;letter-spacing:2.5px;color:#C9A94E;padding:14px 20px;border-bottom:1px solid rgba(201,169,78,0.15);display:flex;justify-content:space-between;align-items:center;text-transform:uppercase}
+.pp-close{cursor:pointer;color:rgba(200,195,184,0.5);font-size:0.55rem;line-height:1}
+.pp-close:hover{color:#e85454}
+.pp-body{padding:18px 20px;font-size:0.36rem;color:rgba(220,215,200,0.82);line-height:1.7}
+.pp-row{display:flex;gap:12px;margin-bottom:7px}
+.pp-k{min-width:64px;color:rgba(201,169,78,0.55);text-transform:uppercase;letter-spacing:1px;font-size:0.3rem;padding-top:2px}
+.pp-v{flex:1;color:#e8e3d9}
+.pp-block{margin:13px 0;padding:10px 14px;border-left:2px solid rgba(90,181,160,0.3);background:rgba(0,0,0,0.22)}
+.pp-bk{font-size:0.3rem;letter-spacing:1.5px;text-transform:uppercase;color:rgba(90,181,160,0.7);margin-bottom:5px}
+.pp-sec{display:inline-block;font-size:0.3rem;color:rgba(200,195,184,0.75);border:1px solid rgba(201,169,78,0.22);border-radius:2px;padding:2px 7px;margin:2px 5px 2px 0}
+.pp-note{margin-top:14px;font-size:0.32rem;color:rgba(200,195,184,0.45);font-style:italic}
+.pp-loading{padding:34px;text-align:center;color:rgba(200,195,184,0.5);letter-spacing:1px}
+.pp-actions{padding:14px 20px;border-top:1px solid rgba(201,169,78,0.15);display:flex;gap:10px;justify-content:flex-end}
+.pp-actions button{font-family:inherit;font-size:0.36rem;cursor:pointer;padding:9px 16px;border-radius:2px;letter-spacing:1px;text-transform:uppercase;border:1px solid}
+.pp-cancel{color:rgba(200,195,184,0.6);border-color:rgba(200,195,184,0.25);background:none}
+.pp-cancel:hover{color:#e8e3d9;border-color:rgba(200,195,184,0.5)}
+.pp-go{color:#5ab5a0;border-color:rgba(90,181,160,0.5);background:rgba(90,181,160,0.08)}
+.pp-go:hover{color:#5ab5a0;border-color:#5ab5a0;background:rgba(90,181,160,0.16)}
 </style>
 </head>
 <body>
@@ -233,39 +254,13 @@ function wireActionButtons(scope) {
       // PRINT = download long-form DOCX directly (uses real Anthropic call,
       // browser saves to wherever operator chose — e.g., LIMEN Helix Files).
       if (action === 'PRINT') {
-        btn.disabled = true; btn.textContent = 'generating · 30-90s...';
-        toast('Generating long-form DOCX for ' + slug + '/' + lane + ' (uses Anthropic; 20-30 pages; takes 30-90 seconds)', 'ok');
-        // Prefer print-from-pattern: it builds the document straight from the
-        // (approved) pattern, so it does NOT require a committed bridge match on
-        // the portal file — which is what made the old print-document path fail
-        // ("no bridge match on portal") for the Redis-injected candidates that
-        // now make up most of the queue. Fall back to print-document only when
-        // the candidate has no patternId.
-        var url = patternId
-          ? '/api/print-from-pattern?slug=' + encodeURIComponent(slug) + '&lane=' + encodeURIComponent(lane) + '&patternId=' + encodeURIComponent(patternId)
-          : '/api/print-document?slug=' + encodeURIComponent(slug) + '&lane=' + encodeURIComponent(lane) + '&index=' + encodeURIComponent(index);
-        fetch(url)
-          .then(function(r){
-            if (!r.ok) return r.json().then(function(j){ throw new Error(j.error || ('HTTP ' + r.status)); });
-            return r.blob().then(function(blob){
-              var cd = r.headers.get('Content-Disposition') || '';
-              var m = cd.match(/filename="([^"]+)"/);
-              var fname = m ? m[1] : (slug + '__' + lane + '.docx');
-              var dl = document.createElement('a');
-              dl.href = URL.createObjectURL(blob);
-              dl.download = fname;
-              document.body.appendChild(dl); dl.click(); document.body.removeChild(dl);
-              URL.revokeObjectURL(dl.href);
-              btn.textContent = '✓ downloaded';
-              toast('Downloaded ' + fname + ' — save to LIMEN Helix Files', 'ok');
-              // Also log the operator action for audit
-              fetch('/api/operator-action', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'PRINT', artifactRef: btn.dataset.ref, portalSlug: slug, lane: lane, patternId: patternId }) });
-            });
-          })
-          .catch(function(err){
-            btn.disabled = false; btn.textContent = 'print';
-            toast('Print failed: ' + (err.message || err), 'err');
-          });
+        // See-before-you-generate: open a preview of what the document will be
+        // built from (bridge, lane angle, section outline) + a Generate/Cancel,
+        // instead of firing the blind ~30-90s Anthropic call. Only the
+        // print-from-pattern path has a preview; a rare no-patternId candidate
+        // falls back to the old blind generate.
+        if (patternId) { openPrintPreview(slug, lane, patternId, index, btn); }
+        else { __doGenerate(slug, lane, patternId, index, btn); }
         return;
       }
 
@@ -286,6 +281,79 @@ function wireActionButtons(scope) {
   });
 }
 
+// ─── print preview (see-before-you-generate) ──────────────────────
+function openPrintPreview(slug, lane, patternId, index, btn) {
+  var ov = document.getElementById('printPreviewOverlay');
+  ov.querySelector('.pp-sub').textContent = lane + ' · ' + slug;
+  ov.querySelector('.pp-body').innerHTML = '<div class="pp-loading">Loading preview…</div>';
+  ov.querySelector('.pp-actions').innerHTML = '';
+  ov.style.display = 'flex';
+  fetch('/api/print-from-pattern?slug=' + encodeURIComponent(slug) + '&lane=' + encodeURIComponent(lane) + '&patternId=' + encodeURIComponent(patternId) + '&preview=1')
+    .then(function(r){ return r.json().then(function(j){ return { ok: r.ok, j: j }; }); })
+    .then(function(o){
+      if (!o.ok || !o.j || !o.j.preview) throw new Error((o.j && o.j.error) || 'preview failed');
+      renderPrintPreview(o.j, slug, lane, patternId, index, btn);
+    })
+    .catch(function(err){
+      ov.querySelector('.pp-body').innerHTML = '<div class="pp-loading" style="color:#e85454">Preview failed: ' + esc(err.message || err) + '</div>';
+      ov.querySelector('.pp-actions').innerHTML = '<button class="pp-cancel" id="ppCancel">Close</button>';
+      document.getElementById('ppCancel').onclick = closePrintPreview;
+    });
+}
+
+function renderPrintPreview(p, slug, lane, patternId, index, btn) {
+  var ov = document.getElementById('printPreviewOverlay');
+  var da = p.derivedAngle || {};
+  var angle = '';
+  if (lane === 'patent') angle = esc(da.claimDirection || '') + (da.noveltyAnchor ? '<br><b>Novelty:</b> ' + esc(da.noveltyAnchor) : '');
+  else if (lane === 'grant') angle = esc(da.angle || '') + (da.programMatch && da.programMatch.length ? '<br><b>Programs:</b> ' + esc(da.programMatch.join('; ')) : '');
+  else if (lane === 'research') angle = esc(da.hypothesis || '') + (da.methodology ? '<br><b>Method:</b> ' + esc(da.methodology) : '');
+  else angle = esc(da.thesis || da.angle || '');
+  var nq = p.neural || {}, bq = p.business || {}, brq = p.bridge || {};
+  var h = '';
+  h += '<div class="pp-row"><span class="pp-k">Entity</span><span class="pp-v">' + esc(p.entity) + (p.ticker ? ' (' + esc(p.ticker) + ')' : '') + '</span></div>';
+  h += '<div class="pp-row"><span class="pp-k">Bridge</span><span class="pp-v">' + esc(nq.regionLabel || nq.region || '—') + (nq.state ? ' · ' + esc(nq.state) : '') + ' &nbsp;→&nbsp; ' + esc(bq.signature || '—') + ' &nbsp;· conf ' + (brq.confidence != null ? Number(brq.confidence).toFixed(2) : '—') + '</span></div>';
+  if (brq.rationale) h += '<div class="pp-block"><div class="pp-bk">Why this bridge</div>' + esc(brq.rationale) + '</div>';
+  if (angle) h += '<div class="pp-block"><div class="pp-bk">' + esc(lane) + ' angle — what the document argues</div>' + angle + '</div>';
+  if (p.sectionOutline && p.sectionOutline.length) h += '<div class="pp-block"><div class="pp-bk">Document sections (' + p.sectionOutline.length + ')</div>' + p.sectionOutline.map(function(s){ return '<span class="pp-sec">' + esc(s) + '</span>'; }).join('') + '</div>';
+  h += '<div class="pp-note">' + esc(p.note || '') + '</div>';
+  ov.querySelector('.pp-body').innerHTML = h;
+  ov.querySelector('.pp-actions').innerHTML = '<button class="pp-cancel" id="ppCancel">Cancel</button><button class="pp-go" id="ppGo">⚙ Generate 20-30 pg DOCX</button>';
+  document.getElementById('ppCancel').onclick = closePrintPreview;
+  document.getElementById('ppGo').onclick = function(){ closePrintPreview(); __doGenerate(slug, lane, patternId, index, btn); };
+}
+
+function closePrintPreview() { var ov = document.getElementById('printPreviewOverlay'); if (ov) ov.style.display = 'none'; }
+
+// the actual paid generation + download (extracted from the old PRINT handler)
+function __doGenerate(slug, lane, patternId, index, btn) {
+  if (btn) { btn.disabled = true; btn.textContent = 'generating · 30-90s...'; }
+  toast('Generating long-form DOCX for ' + slug + '/' + lane + ' (Anthropic; 20-30 pages; 30-90s)', 'ok');
+  var url = patternId
+    ? '/api/print-from-pattern?slug=' + encodeURIComponent(slug) + '&lane=' + encodeURIComponent(lane) + '&patternId=' + encodeURIComponent(patternId)
+    : '/api/print-document?slug=' + encodeURIComponent(slug) + '&lane=' + encodeURIComponent(lane) + '&index=' + encodeURIComponent(index);
+  fetch(url)
+    .then(function(r){
+      if (!r.ok) return r.json().then(function(j){ throw new Error(j.error || ('HTTP ' + r.status)); });
+      return r.blob().then(function(blob){
+        var cd = r.headers.get('Content-Disposition') || '';
+        var m = cd.match(/filename="([^"]+)"/);
+        var fname = m ? m[1] : (slug + '__' + lane + '.docx');
+        var dl = document.createElement('a');
+        dl.href = URL.createObjectURL(blob); dl.download = fname;
+        document.body.appendChild(dl); dl.click(); document.body.removeChild(dl);
+        URL.revokeObjectURL(dl.href);
+        if (btn) btn.textContent = '✓ downloaded';
+        toast('Downloaded ' + fname + ' — save to LIMEN Helix Files', 'ok');
+        fetch('/api/operator-action', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'PRINT', artifactRef: (btn && btn.dataset.ref) || '', portalSlug: slug, lane: lane, patternId: patternId }) });
+      });
+    })
+    .catch(function(err){
+      if (btn) { btn.disabled = false; btn.textContent = 'print'; }
+      toast('Print failed: ' + (err.message || err), 'err');
+    });
+}
+
 function toast(msg, kind) {
   var t = document.getElementById('toast');
   if (!t) {
@@ -297,5 +365,14 @@ function toast(msg, kind) {
   setTimeout(function(){ t.classList.remove('show'); }, 3500);
 }
 </script>
+
+<div id="printPreviewOverlay" class="pp-overlay" style="display:none" onclick="if(event.target===this)closePrintPreview()">
+  <div class="pp-panel">
+    <div class="pp-head"><span>PRINT PREVIEW · <span class="pp-sub" style="color:rgba(200,195,184,0.45);letter-spacing:1px"></span></span><span class="pp-close" onclick="closePrintPreview()">✕</span></div>
+    <div class="pp-body"></div>
+    <div class="pp-actions"></div>
+  </div>
+</div>
+
 </body>
 </html>
