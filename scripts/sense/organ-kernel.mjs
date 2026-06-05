@@ -38,8 +38,13 @@ const FILES = {
 };
 
 function hasK1(p) {
-  // legacy K1 reading lives at financialHealth.composite (numeric)
-  if (p.financialHealth && typeof p.financialHealth.composite === 'number') return true;
+  // legacy K1 reading lives at financialHealth — but portals store the score as
+  // `compositeScore`, NOT `composite` (same field-name drift fixed in
+  // kernel-reading-helper.js). Checking only `.composite` read undefined and
+  // reported K1 0% while 539/798 portals actually carry a real financial score.
+  // Accept either field so the kernel organ reflects reality.
+  const fh = p.financialHealth;
+  if (fh && (typeof fh.compositeScore === 'number' || typeof fh.composite === 'number')) return true;
   // new shape: kernelReadings.k1.composite
   if (p.kernelReadings && p.kernelReadings.k1 && typeof p.kernelReadings.k1.composite === 'number') return true;
   return false;
