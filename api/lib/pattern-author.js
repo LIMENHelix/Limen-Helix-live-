@@ -325,6 +325,23 @@ async function proposePattern(portal, opts) {
   // endpoint synchronous-safe (one model call, well under the 300s ceiling).
   // Non-firing patterns route to HELD_UNMATCHED and the repair worker re-authors
   // their indicators against the portal's real signals on the next offline tick.
+  // Region+target uniqueness gate — refuse a second card on a neural region this
+  // portal already has a live (non-rejected) proposal for. Stops same-region-
+  // same-target duplication (e.g. two PPN/Abbott cards) that the per-target count
+  // cap alone doesn't catch. REJECTED cards don't block — the region frees up.
+  const _slug = portal.slug || (portal.name || '').toLowerCase().replace(/\s+/g, '_');
+  const _newRegion = parsed.neural && parsed.neural.region;
+  if (_newRegion) {
+    try {
+      const _existing = await _loadProposals();
+      const _dup = (_existing.proposals || []).some(p =>
+        p.status !== 'REJECTED' && p.sourcePortal === _slug &&
+        p.pattern && p.pattern.neural && p.pattern.neural.region &&
+        String(p.pattern.neural.region).toUpperCase() === String(_newRegion).toUpperCase());
+      if (_dup) return { ok: true, duplicate: true, reason: 'region ' + _newRegion + ' already has a live proposal for ' + _slug, region: _newRegion, sourcePortal: _slug };
+    } catch (e) { /* non-fatal — fall through and let it save */ }
+  }
+
   let sourceMatch = null;
   try { sourceMatch = scorePattern(parsed, portal); } catch (e) { sourceMatch = null; }
   const firesOnSource = !!sourceMatch;
@@ -450,4 +467,11 @@ async function rejectProposal(proposalId) {
   return await _updateProposalStatus(proposalId, { status: 'REJECTED', rejectedAt: new Date().toISOString() });
 }
 
-module.exports = { proposePattern, listProposals, approveProposal, rejectProposal, repairPattern };
+// Un-reject: bring a REJECTED proposal back into the human review queue. The
+// status-update LPUSHes a fresh PENDING_REVIEW copy (latest-wins on read), so it
+// re-surfaces; the old REJECTED entry is superseded. rejectedAt cleared.
+async function restoreProposal(proposalId) {
+  return await _updateProposalStatus(proposalId, { status: 'PENDING_REVIEW', restoredAt: new Date().toISOString(), rejectedAt: null });
+}
+
+module.exports = { proposePattern, listProposals, approveProposal, rejectProposal, restoreProposal, repairPattern };

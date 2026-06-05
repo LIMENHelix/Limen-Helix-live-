@@ -1,9 +1,11 @@
 /**
  * /api/pattern-proposal — operator review + approve pending pattern proposals.
  *
- * GET                       — list all pending proposals
+ * GET                        — list all proposals
+ * GET   ?status=REJECTED      — list one bucket (e.g. to find cards to restore)
  * POST  { id, approve:true }  — merge into bridge-patterns.json
  * POST  { id, reject:true  }  — mark REJECTED, leave out of library
+ * POST  { id, restore:true }  — un-reject: return a REJECTED card to the queue
  */
 const author = require('./lib/pattern-author.js');
 
@@ -15,6 +17,17 @@ module.exports = async (req, res) => {
   try {
     if (req.method === 'GET') {
       const state = await author.listProposals();
+      // Optional ?status=REJECTED (etc.) to list a single bucket — used to find
+      // rejected proposals to restore. Dedup latest-wins by pattern id first.
+      const want = (req.query && req.query.status) ? String(req.query.status).toUpperCase() : null;
+      if (want && state && Array.isArray(state.proposals)) {
+        const seen = new Set();
+        const filtered = state.proposals.filter(p => {
+          const id = p.pattern && p.pattern.id; if (!id || seen.has(id)) return false; seen.add(id);
+          return (p.status || '') === want;
+        });
+        return res.status(200).json({ status: want, count: filtered.length, proposals: filtered });
+      }
       return res.status(200).json(state);
     }
     if (req.method === 'POST') {
@@ -28,7 +41,11 @@ module.exports = async (req, res) => {
         const r = await author.rejectProposal(body.id);
         return res.status(r.ok ? 200 : 400).json(r);
       }
-      return res.status(400).json({ error: 'expected approve:true OR reject:true' });
+      if (body.restore) {
+        const r = await author.restoreProposal(body.id);
+        return res.status(r.ok ? 200 : 400).json(r);
+      }
+      return res.status(400).json({ error: 'expected approve:true OR reject:true OR restore:true' });
     }
     return res.status(405).json({ error: 'method not allowed' });
   } catch (e) {
