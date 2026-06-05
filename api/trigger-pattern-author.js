@@ -33,6 +33,22 @@ async function _redisCmd(cmd) {
   return (await r.json()).result;
 }
 
+// Rotating scan cursor — persisted so each cron tick resumes where the last
+// run stopped, instead of always restarting at the alphabetical front of the
+// portal list (which left the back of the corpus never scanned).
+const CURSOR_KEY = 'limen:pattern-author-cursor';
+async function _loadCursor() {
+  if (_redisEnabled()) {
+    try { const v = await _redisCmd(['GET', CURSOR_KEY]); const n = parseInt(v, 10); return Number.isFinite(n) ? n : 0; } catch (e) {}
+  }
+  return 0;
+}
+async function _saveCursor(n) {
+  if (_redisEnabled()) {
+    try { await _redisCmd(['SET', CURSOR_KEY, String(n)]); } catch (e) {}
+  }
+}
+
 function _loadPortalsList() {
   let files = [];
   try { files = fs.readdirSync(DIR).filter(f => f.endsWith('.json') && !f.startsWith('_')); } catch (e) {}
@@ -90,10 +106,18 @@ module.exports = async (req, res) => {
     // patterns for entities K1/K2 can't reach (private, pre-revenue, off-EDGAR).
     // Functional-network richness is the real eligibility signal.
     const alreadyProposed = await _alreadyProposedSlugs();
-    const files = _loadPortalsList();
+    const allFiles = _loadPortalsList();
+    const total = allFiles.length;
+    // Start this scan where the last one stopped (rotating cursor), so the cron
+    // sweeps the whole corpus over successive ticks rather than re-scanning the
+    // same alphabetical front every run. Force-slug runs ignore the cursor.
+    const scanStart = (!forceSlug && total) ? (((await _loadCursor()) % total) + total) % total : 0;
+    const files = scanStart ? allFiles.slice(scanStart).concat(allFiles.slice(0, scanStart)) : allFiles;
     const candidates = [];
+    let examined = 0;
     let skippedAlreadyProposed = 0, skippedHasBridge = 0, skippedThinFn = 0, skippedUnreadable = 0;
     for (const f of files) {
+      examined++;
       const slug = f.replace(/\.json$/, '');
       if (forceSlug && slug !== forceSlug) continue;
       if (!forceSlug && alreadyProposed.has(slug)) { skippedAlreadyProposed++; continue; }
@@ -110,6 +134,12 @@ module.exports = async (req, res) => {
       if (candidates.length >= max * 3) break;
     }
 
+    // Advance the rotating cursor past everything examined this run, so the
+    // next tick resumes further along the corpus (full sweep over time).
+    if (!forceSlug && total) {
+      try { await _saveCursor((scanStart + examined) % total); } catch (e) {}
+    }
+
     if (candidates.length === 0) return res.status(200).json({
       ok: true,
       message: 'no candidates after filters',
@@ -117,6 +147,8 @@ module.exports = async (req, res) => {
       failed: [],
       candidatesConsidered: 0,
       portalsScanned: files.length,
+      scanStartIndex: scanStart,
+      portalsExamined: examined,
       filterCounts: { skippedAlreadyProposed, skippedHasBridge, skippedThinFn, skippedUnreadable },
       hint: skippedHasBridge >= files.length * 0.95
         ? 'ALL portals already have bridge matches — pass {"slug":"<portal>"} to force-author for a specific portal'
@@ -155,6 +187,10 @@ module.exports = async (req, res) => {
       failed,
       candidatesConsidered: candidates.length,
       portalsScanned: files.length,
+      scanStartIndex: scanStart,
+      portalsExamined: examined,
+      nextCursor: total ? (scanStart + examined) % total : 0,
+      corpusSize: total,
       budget: finalStatus.budget,
       storage: _redisEnabled() ? 'upstash-redis' : 'file (assets/data/_pattern-proposals.json)'
     });
