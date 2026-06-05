@@ -59,18 +59,36 @@ function _readPortal(f) {
   try { return JSON.parse(fs.readFileSync(path.join(DIR, f), 'utf8')); } catch (e) { return null; }
 }
 
-async function _alreadyProposedSlugs() {
-  // Pull from Redis if enabled
+// Portals whose ingestion the pipeline already flagged as unreliable. Authoring
+// from these (e.g. AGIG/abundia, classified only by a stale legacy SIC) produces
+// cards built on bad data that never fit and never match. PRIVATE/FOREIGN_FILER
+// are intentionally KEPT — K3 authoring is meant to reach off-EDGAR/private entities.
+const SUSPECT_STATUSES = new Set(['INGESTION_SUSPECT', 'STALE', 'INSUFFICIENT_HISTORY', 'TERMINAL_DIVERGENCE']);
+
+// Count DISTINCT non-rejected proposals per source portal across the full list.
+// Replaces the old _alreadyProposedSlugs(), which called an UNDEFINED _redisCall
+// (ReferenceError -> swallowed -> empty set every run), so the dedup NEVER worked
+// on Vercel — the actual engine of the target over-density (7+ near-duplicate
+// cards on one portal). The list LPUSHes a fresh copy on every status update, so
+// raw entries double-count; dedup by pattern id, latest-wins (LPUSH = newest first).
+async function _proposalCountsByPortal() {
+  let raw = [];
   if (_redisEnabled()) {
-    try {
-      const raw = await _redisCall('LRANGE', ['limen:pattern-proposals', '0', '200']);
-      return new Set((raw || []).map(s => { try { return JSON.parse(s).sourcePortal; } catch (e) { return null; } }).filter(Boolean));
-    } catch (e) { /* fall through */ }
+    try { raw = (await _redisCmd(['LRANGE', 'limen:pattern-proposals', '0', '500'])) || []; } catch (e) {}
   }
-  try {
-    const state = JSON.parse(fs.readFileSync(PROPOSALS_PATH, 'utf8'));
-    return new Set((state.proposals || []).slice(0, 200).map(p => p.sourcePortal));
-  } catch (e) { return new Set(); }
+  if (raw.length === 0) {
+    try { const st = JSON.parse(fs.readFileSync(PROPOSALS_PATH, 'utf8')); raw = (st.proposals || []).map(p => JSON.stringify(p)); } catch (e) {}
+  }
+  const seenIds = new Set(), counts = new Map();
+  for (const s of raw) {
+    let p; try { p = (typeof s === 'string') ? JSON.parse(s) : s; } catch (e) { continue; }
+    const id = p && p.pattern && p.pattern.id;
+    if (!id || seenIds.has(id)) continue;        // collapse status-update copies
+    seenIds.add(id);
+    if (p.status === 'REJECTED') continue;        // a rejected card frees the slot
+    if (p.sourcePortal) counts.set(p.sourcePortal, (counts.get(p.sourcePortal) || 0) + 1);
+  }
+  return counts;
 }
 
 module.exports = async (req, res) => {
@@ -100,12 +118,16 @@ module.exports = async (req, res) => {
     const max = Math.min(parseInt(body.max || 3, 10), 5);   // hard cap 5 per request
     const targetDomain = body.targetDomain || 'business';
     const forceSlug = body.slug || null;
+    // Per-target card cap — refuse an Nth card on a portal already covered, so
+    // one target can't accumulate 6-7 near-duplicate cards (the over-density the
+    // analyst flagged). Tunable; default 2 live (non-rejected) cards per portal.
+    const maxPerTarget = Math.max(1, parseInt(body.maxPerTarget || 2, 10));
 
     // Build candidate list — K3 frontier = portals without a bridge match.
     // Kernel-signal requirement DROPPED: the whole point of K3 is to author
     // patterns for entities K1/K2 can't reach (private, pre-revenue, off-EDGAR).
     // Functional-network richness is the real eligibility signal.
-    const alreadyProposed = await _alreadyProposedSlugs();
+    const proposalCounts = await _proposalCountsByPortal();
     const allFiles = _loadPortalsList();
     const total = allFiles.length;
     // Start this scan where the last one stopped (rotating cursor), so the cron
@@ -115,14 +137,17 @@ module.exports = async (req, res) => {
     const files = scanStart ? allFiles.slice(scanStart).concat(allFiles.slice(0, scanStart)) : allFiles;
     const candidates = [];
     let examined = 0;
-    let skippedAlreadyProposed = 0, skippedHasBridge = 0, skippedThinFn = 0, skippedUnreadable = 0;
+    let skippedAlreadyProposed = 0, skippedHasBridge = 0, skippedThinFn = 0, skippedUnreadable = 0, skippedSuspectData = 0;
     for (const f of files) {
       examined++;
       const slug = f.replace(/\.json$/, '');
       if (forceSlug && slug !== forceSlug) continue;
-      if (!forceSlug && alreadyProposed.has(slug)) { skippedAlreadyProposed++; continue; }
+      // Per-target cap — skip portals already at the live-card limit.
+      if (!forceSlug && (proposalCounts.get(slug) || 0) >= maxPerTarget) { skippedAlreadyProposed++; continue; }
       const p = _readPortal(f);
       if (!p) { skippedUnreadable++; continue; }
+      // Data-quality gate — skip portals the ingestion pipeline flagged unreliable.
+      if (!forceSlug && SUSPECT_STATUSES.has(p.kernelStatus)) { skippedSuspectData++; continue; }
       const hasBridge = p.bridgeReadings && p.bridgeReadings.matched && p.bridgeReadings.matched.length > 0;
       if (hasBridge && !forceSlug) { skippedHasBridge++; continue; }
       // Require ≥ 2 functional-network categories (was 4 and required signal).
@@ -149,7 +174,7 @@ module.exports = async (req, res) => {
       portalsScanned: files.length,
       scanStartIndex: scanStart,
       portalsExamined: examined,
-      filterCounts: { skippedAlreadyProposed, skippedHasBridge, skippedThinFn, skippedUnreadable },
+      filterCounts: { skippedAlreadyProposed, skippedHasBridge, skippedThinFn, skippedUnreadable, skippedSuspectData },
       hint: skippedHasBridge >= files.length * 0.95
         ? 'ALL portals already have bridge matches — pass {"slug":"<portal>"} to force-author for a specific portal'
         : skippedAlreadyProposed > 0 && skippedAlreadyProposed >= (files.length - skippedHasBridge) * 0.9
