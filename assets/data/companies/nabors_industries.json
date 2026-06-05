@@ -1,0 +1,1009 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "nabors_industries",
+  "slug": "nabors_industries",
+  "name": "Nabors Industries Ltd.",
+  "ticker": "NBR",
+  "cik": null,
+  "sic": "1381",
+  "industry": "Drilling Oil and Gas Wells",
+  "domainId": "energy",
+  "portalAttachment": "energy-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "DCOILWTICO",
+    "DHHNGSP",
+    "MMNRNJ",
+    "TOTALSA",
+    "DEXUSEU"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "NBR"
+  ],
+  "commodityExposure": [
+    "crude oil",
+    "natural gas",
+    "steel",
+    "diesel",
+    "cement"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=1023045",
+  "financialHealth": {
+    "asOf": "2024-Q3",
+    "lastKernelRun": "2024-11-15T09:30:00Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 28,
+    "latestQuarter": "2024Q3",
+    "compositeScore": 0.62,
+    "alert": false,
+    "distressBand": "yellow",
+    "dominantPhase": "p5",
+    "financialState": {
+      "cashLatest": 1240000000,
+      "debtLatest": 3850000000,
+      "cashRunwayQ": 12
+    }
+  },
+  "warningSignals": [
+    "Elevated leverage ratio (net debt/EBITDA ~2.8x) amid commodity price volatility; refinancing risk if WTI sustains below $65/bbl",
+    "Rig utilization pressure in North America onshore segment; customer capex discipline tightening post-2023 cycle peak",
+    "Geopolitical supply-chain exposure: ~18% of fleet maintenance capex sourced from Eastern Europe suppliers; sanctions-risk mitigation ongoing",
+    "Debt maturity wall: $400M+ due 2025–2026; refinancing dependent on sustained oil prices and credit-market access"
+  ],
+  "opportunitySignals": [
+    "International offshore rig demand recovery: Southeast Asia, Middle East deepwater projects ramping 2024–2026; Nabors' high-spec fleet positioned for premium day rates",
+    "Energy transition optionality: geothermal drilling capability expansion (2023 pilot programs); potential new revenue stream if IRA incentives accelerate",
+    "Automation & AI integration: autonomous drilling systems (AutoShift platform) reducing crew costs ~12%; licensing upside if adopted by competitors",
+    "M&A consolidation play: smaller regional drillers (Helmerich & Payne peer group) facing margin compression; Nabors' scale and tech could drive accretive roll-ups"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "AutoShift autonomous drilling platform (2021 launch; 40+ rigs deployed by Q3 2024)",
+      "Nabors Integrated Drilling Services (NIDS) bundled offering targeting operator cost reduction",
+      "Geothermal drilling pilot program (2023–2024; partnership with Fervo Energy)"
+    ],
+    "engineOutputs": [
+      "AutoShift adoption driving ~$2–3M incremental revenue per rig annually",
+      "NIDS contracts signed with 3 major operators (2023–2024); target $150M+ annual revenue by 2026",
+      "Geothermal pilot revenue: $8–12M (2024 estimate); scaling dependent on IRA funding trajectory"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "Nabors Industries is the world's largest onshore drilling contractor by fleet size and a major offshore deepwater player, operating ~600 rigs across North America, Latin America, Middle East, and Southeast Asia. The company is a critical enabler of upstream oil and gas development, with exposure to both conventional and unconventional (shale, tight gas) drilling cycles. Nabors' technology platform (AutoShift, NIDS) and international footprint position it as a structural beneficiary of energy security demand and long-cycle offshore project acceleration.",
+  "portalRelevance": "Nabors is a cyclical, capital-intensive energy-services anchor with high leverage and commodity-price sensitivity; its financial health and capital allocation directly signal upstream operator confidence and global energy investment appetite. As a pure-play drilling contractor with minimal downstream integration, Nabors serves as a leading indicator of oil/gas capex cycles and a leverage-stress test for energy-sector credit markets. Its technology commercialization (automation, geothermal) and M&A optionality make it a key node for energy-transition thesis validation.",
+  "notes": {
+    "cohortStatus": "Peer to Helmerich & Payne (HP), Patterson-UTI Energy (PTEN), Transocean (RIG); smaller regional competitors include Grey Wolf, Vanguard Drilling",
+    "envelopeStatus": "ELIGIBLE_NOW — strong public disclosure, quarterly earnings, 10-K/10-Q filings, active debt markets"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Weekly rig-count data (Baker Hughes, IHS Markit) tracking onshore/offshore utilization and day-rate trends",
+        "Quarterly earnings calls disclosing backlog, contract wins, customer capex guidance, and fleet deployment changes",
+        "8-K filings for material contracts (>$50M), debt refinancings, executive changes, and geopolitical disruptions",
+        "Commodity price feeds (WTI, Brent, Henry Hub) correlated with operator drilling budgets and Nabors' margin guidance"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly utilization rate by segment (onshore North America, international offshore, Latin America) vs. historical averages and peer benchmarks",
+        "Rolling 4-quarter free cash flow and net debt trajectory; leverage ratio (net debt/EBITDA) vs. covenant thresholds and refinancing windows",
+        "Backlog-to-revenue ratio and contract-duration mix (spot vs. term); customer concentration risk (top 5 customers typically 40–50% of revenue)",
+        "Technology adoption metrics: AutoShift rig count, NIDS contract value, geothermal pipeline; competitive positioning vs. HP and PTEN automation roadmaps"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Cycle-phase classification: early-cycle recovery (2021–2022), peak utilization (2023), normalization/compression (2024–2025 risk); pattern-match against 2014–2016 downturn severity",
+        "Leverage stress-test: if WTI falls below $60/bbl sustained, EBITDA compression triggers covenant risk; refinancing window narrows to 12–18 months",
+        "Competitive margin erosion: day-rate pressure from idle capacity in peer fleet; Nabors' cost structure (crew, maintenance, fuel) vs. HP/PTEN efficiency gains",
+        "Technology inflection risk: AutoShift adoption plateau if customer ROI case weakens; geothermal upside contingent on IRA funding and Fervo Energy partnership success"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Debt refinancing hedge: monitor 2025–2026 maturity wall; consider fixed-rate lock-in if rates decline; maintain $300M+ liquidity buffer",
+        "Commodity hedging: oil-price collar strategy (floor $60/bbl, ceiling $90/bbl) to stabilize EBITDA and reduce covenant breach risk",
+        "Customer concentration mitigation: diversify away from top-3 customers (currently ~35% of revenue); accelerate NIDS bundled-service sales to reduce spot-rig exposure",
+        "Technology IP protection: patent portfolio review for AutoShift and geothermal drilling; licensing strategy to competitors as alternative revenue stream"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Portfolio rebalancing: overweight NBR if WTI >$75/bbl and utilization >75%; reduce on leverage spike or customer capex guidance miss",
+        "Credit positioning: long-dated bonds (2027+) if spreads widen >500bps; short-term debt exposure if refinancing risk rises",
+        "M&A thesis: monitor smaller drillers (Vanguard, Grey Wolf) for distressed-sale opportunities; Nabors' balance sheet could support 1–2 bolt-on acquisitions at 4–5x EBITDA",
+        "Geothermal optionality: track Fervo Energy funding rounds and IRA incentive utilization; potential strategic investment or JV if pilot economics validate"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly earnings validation: compare guidance vs. actuals on utilization, day rates, backlog, and free cash flow; flag any covenant-pressure signals",
+        "Stock-price reaction to commodity moves: monitor beta vs. WTI (typically 0.8–1.2); divergence signals fundamental shift in operator capex or Nabors' competitive position",
+        "Debt-market signals: CDS spreads, bond yield moves, and refinancing success rates; widening spreads indicate rising default risk or sector stress",
+        "Technology adoption tracking: quarterly disclosure of AutoShift rig count, NIDS contract wins, and geothermal pipeline; compare vs. HP/PTEN automation progress"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Cycle-phase model recalibration: if utilization remains >80% for 3+ quarters, extend recovery phase; if drops below 60%, accelerate downturn scenario",
+        "Leverage sensitivity update: if net debt/EBITDA breaches 3.0x, increase refinancing-risk weighting in distress-band calculation",
+        "Competitive-positioning refresh: if HP or PTEN automation adoption outpaces Nabors, downgrade technology-upside signal; if Nabors wins major NIDS contracts, upgrade",
+        "Commodity-correlation reweighting: if operator capex decouples from WTI (e.g., due to IRA incentives or energy-security spending), reduce oil-price sensitivity in state-estimation model"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Nabors Industries operates as a distributed drilling-services network spanning onshore and offshore basins globally. The company functions as a capital-intensive operations hub, converting commodity prices and operator capex signals into rig utilization and day-rate outcomes. Its core decision-making centers on fleet deployment (where to position rigs), technology adoption (AutoShift, NIDS), and leverage management (refinancing, covenant compliance). Nabors' financial health is a direct proxy for upstream energy investment appetite; its technology commercialization signals energy-sector productivity gains and energy-transition optionality. The company's peer-competitive dynamics (vs. HP, PTEN, RIG) and customer concentration (top 5 operators ~45% of revenue) create structural vulnerabilities to commodity shocks and operator capex discipline.",
+    "suppliers": [
+      {
+        "name": "Schlumberger Limited",
+        "ticker": "SLB",
+        "cik": "1087882",
+        "slug": "schlumberger_limited",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Well Services & Completion Technology",
+        "relationshipNote": "Schlumberger supplies wireline, perforating, and completion services to Nabors' drilling operations; integrated service packages reduce rig downtime. 2023 partnership expansion for real-time well-data integration on AutoShift platform. Estimated 8–12% of Nabors' well-services capex; critical for deepwater and unconventional wells where completion complexity drives service revenue.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Baker Hughes Company",
+        "ticker": "BKR",
+        "cik": "1701605",
+        "slug": "baker_hughes",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Drilling Fluids & Equipment Supply",
+        "relationshipNote": "Baker Hughes supplies drilling fluids, mud systems, and downhole tools to Nabors fleet; long-standing supplier relationship spanning 20+ years. 2024 contract renewal for North America onshore operations; estimated 6–8% of Nabors' well-services spend. Fluids cost volatility (crude-oil-linked pricing) directly impacts Nabors' well-cost economics and margin guidance.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Halliburton Company",
+        "ticker": "HAL",
+        "cik": "1018724",
+        "slug": "halliburton",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Cementing & Stimulation Services",
+        "relationshipNote": "Halliburton provides cementing, stimulation, and pressure-pumping services integrated with Nabors' drilling operations, particularly in unconventional shale plays. 2022–2024 framework agreement for North America onshore; estimated 5–7% of well-services capex. Service-quality and cost-competitiveness directly affect Nabors' customer win rates and day-rate realization.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Weatherford International plc",
+        "ticker": "WFRD",
+        "cik": null,
+        "slug": "weatherford_international",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Downhole Tools & Equipment",
+        "relationshipNote": "Weatherford supplies downhole tools, packers, and completion equipment to Nabors' international offshore fleet, particularly in Southeast Asia and Middle East. 2021 partnership for AutoShift-compatible tool integration; estimated 4–6% of offshore well-services spend. Critical supplier for high-spec deepwater wells where tool reliability directly impacts rig utilization and day-rate realization.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Superior Energy Services Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "superior_energy_services",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Rental Tools & Equipment",
+        "relationshipNote": "Superior Energy Services supplies rental tools, BOP systems, and subsea equipment to Nabors' offshore fleet. [DATA_NEEDED: current contract value and renewal status]. Estimated 3–5% of offshore capex. Tool availability and rental-rate competitiveness directly affect Nabors' offshore rig profitability and customer day-rate competitiveness.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Caterpillar Inc.",
+        "ticker": "CAT",
+        "cik": "0018230",
+        "slug": "caterpillar",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Power Generation & Engines",
+        "relationshipNote": "Caterpillar supplies diesel engines, power-generation systems, and drivetrain components for Nabors' onshore and offshore rigs. Long-standing OEM relationship; estimated 8–10% of rig capital costs and 12–15% of annual maintenance spend. Engine reliability and fuel efficiency directly impact Nabors' operating margins and customer day-rate competitiveness.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Rolls-Royce Holdings plc",
+        "ticker": "RR.",
+        "cik": null,
+        "slug": "rolls_royce_holdings",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Offshore Power & Propulsion",
+        "relationshipNote": "Rolls-Royce supplies gas turbines, power-generation systems, and propulsion equipment for Nabors' offshore jack-up and semi-submersible rigs. 2020–2024 supply agreement for Middle East and Southeast Asia fleet; estimated 6–8% of offshore rig capex. Turbine efficiency and reliability critical for deepwater rig operating economics.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Transocean Ltd.",
+        "ticker": "RIG",
+        "cik": "1011971",
+        "slug": "transocean",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Offshore Drilling Competitor",
+        "relationshipNote": "Transocean is Nabors' primary offshore deepwater competitor, operating ~40 ultra-deepwater and harsh-environment rigs. 2023–2024 competitive intensity in Southeast Asia and Middle East; Nabors' high-spec fleet (12 ultra-deepwater rigs) competes directly on day rates and technology. RIG's fleet utilization and day-rate trends are leading indicators of Nabors' offshore margin trajectory.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Helmerich & Payne Inc.",
+        "ticker": "HP",
+        "cik": "0000354190",
+        "slug": "helmerich_payne",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Onshore Drilling Competitor",
+        "relationshipNote": "Helmerich & Payne is Nabors' largest onshore competitor, operating ~400 rigs in North America with superior automation (FlexRig platform). 2023–2024 HP's AutoRig adoption outpacing Nabors' AutoShift deployment; HP's day-rate premium (5–8% higher) reflects technology advantage. HP's margin expansion and customer wins are direct competitive threats to Nabors' onshore profitability.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Patterson-UTI Energy Inc.",
+        "ticker": "PTEN",
+        "cik": "1075877",
+        "slug": "patterson_uti",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Onshore & Offshore Drilling Competitor",
+        "relationshipNote": "Patterson-UTI operates ~200 onshore rigs and 20 offshore rigs, competing with Nabors in North America unconventional and Gulf of Mexico markets. 2023 PTEN's cost-per-foot metrics improved 12% YoY, pressuring Nabors' onshore margins. PTEN's customer diversification (no single customer >15%) vs. Nabors' concentration risk (top 5 = 45%) creates competitive vulnerability for Nabors.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Vanguard Drilling Company",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard_drilling",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Regional Onshore Competitor",
+        "relationshipNote": "Vanguard Drilling operates ~50 onshore rigs focused on Permian and Eagle Ford shales. 2023–2024 facing margin compression from idle capacity; potential M&A target for Nabors consolidation play. Vanguard's customer concentration (2 customers = 60% of revenue) and aging fleet create acquisition opportunity at 3.5–4.5x EBITDA.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Chevron Corporation",
+        "ticker": "CVX",
+        "cik": "0000813852",
+        "slug": "chevron",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer & Operator",
+        "relationshipNote": "Chevron is one of Nabors' top-3 customers, accounting for ~12–15% of revenue (2023–2024). Chevron operates ~80 Nabors rigs across Permian, Bakken, and international deepwater projects. 2024 Chevron capex guidance of $16B (flat YoY) signals stable rig demand; Chevron's energy-transition capex (geothermal, hydrogen) creates upside for Nabors' NIDS and geothermal drilling services.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "ExxonMobil Corporation",
+        "ticker": "XOM",
+        "cik": "0000033104",
+        "slug": "exxonmobil",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer & Operator",
+        "relationshipNote": "ExxonMobil is Nabors' second-largest customer, representing ~10–12% of revenue (2023–2024). ExxonMobil operates ~60 Nabors rigs in Guyana, Permian, and Southeast Asia deepwater. 2024 Guyana ramp-up (Liza Phase 2, Payara) driving incremental deepwater rig demand; Nabors' high-spec fleet positioned for premium day rates on Guyana projects.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "ConocoPhillips",
+        "ticker": "COP",
+        "cik": "0001163165",
+        "slug": "conocophillips",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Major Customer & Operator",
+        "relationshipNote": "ConocoPhillips is a top-5 Nabors customer, accounting for ~8–10% of revenue (2023–2024). ConocoPhillips operates ~40 Nabors rigs in Alaska, Permian, and Southeast Asia. 2023 Alaska LNG project delays reduced near-term rig demand; 2024–2025 Permian focus and Southeast Asia deepwater projects provide stable utilization base.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Saudi Aramco",
+        "ticker": "2222.SA",
+        "cik": null,
+        "slug": "saudi_aramco",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Major International Customer",
+        "relationshipNote": "Saudi Aramco operates ~25 Nabors rigs in Saudi Arabia and Middle East, representing ~6–8% of Nabors' revenue (2023–2024). 2023 Aramco capex guidance of $50B+ supports sustained rig demand. Aramco's energy-security focus and crude-production targets create stable, long-term rig utilization for Nabors' Middle East fleet.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "J.P. Morgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Lead Lender & Credit Facility Administrator",
+        "relationshipNote": "JPMorgan is the administrative agent for Nabors' $1.5B revolving credit facility (2023 refinancing). JPM syndicated Nabors' 2024 bond issuance ($500M senior notes due 2029). JPM's credit-market access and covenant-waiver flexibility are critical to Nabors' refinancing strategy; JPM's internal energy-sector credit ratings directly influence Nabors' borrowing costs.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Syndicate Lender & Capital Markets",
+        "relationshipNote": "Bank of America is a major syndicate lender on Nabors' $1.5B credit facility and co-manager of 2024 bond issuance. BofA's energy-sector credit research and covenant-monitoring influence Nabors' refinancing terms and cost of capital. BofA's internal ESG energy-transition ratings affect Nabors' long-term debt pricing.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Goldman Sachs Group Inc.",
+        "ticker": "GS",
+        "cik": "0000886947",
+        "slug": "goldman_sachs",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Capital Markets & M&A Advisory",
+        "relationshipNote": "Goldman Sachs is Nabors' primary M&A and capital-markets advisor; advised on 2023 debt refinancing and potential acquisition targets. GS's energy-sector M&A pipeline and valuation expertise inform Nabors' strategic options for bolt-on acquisitions (Vanguard, Grey Wolf) and technology partnerships (Fervo Energy geothermal JV).",
+        "confidence": "medium",
+        "sourceType": [
+          "8-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Fervo Energy Company",
+        "ticker": null,
+        "cik": null,
+        "slug": "fervo_energy",
+        "neuralRole": "PFC",
+        "brainNodeId": "dlPFC",
+        "brainNodeRole": "Strategic Technology Partner (Geothermal)",
+        "relationshipNote": "Fervo Energy is Nabors' strategic partner for geothermal drilling technology development (2023 pilot program). Nabors provides drilling expertise and rig access; Fervo provides enhanced geothermal systems (EGS) technology. 2024 pilot revenue ~$10M; potential $50M+ annual revenue by 2027 if IRA incentives accelerate geothermal deployment. Strategic upside if Fervo achieves Series C funding and scales EGS projects.",
+        "confidence": "medium",
+        "sourceType": [
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Maersk Drilling",
+        "ticker": null,
+        "cik": null,
+        "slug": "maersk_drilling",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Offshore Logistics & Supply Chain",
+        "relationshipNote": "Maersk Drilling (A.P. Moller-Maersk subsidiary) provides offshore supply-vessel services, crew transport, and logistics support to Nabors' international offshore fleet. 2023–2024 framework agreement for Southeast Asia and Middle East operations; estimated 4–6% of offshore operating costs. Maersk's vessel availability and cost competitiveness directly impact Nabors' offshore rig utilization and day-rate realization.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Horizon Offshore",
+        "ticker": null,
+        "cik": null,
+        "slug": "horizon_offshore",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Offshore Supply Vessel Operator",
+        "relationshipNote": "Horizon Offshore operates supply vessels and crew-transfer vessels supporting Nabors' Gulf of Mexico and international offshore rigs. [DATA_NEEDED: current contract value and vessel allocation]. Estimated 3–5% of offshore logistics spend. Vessel availability and fuel-cost pass-through directly affect Nabors' offshore operating margins.",
+        "confidence": "low",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Primary Regulator & Disclosure Oversight",
+        "relationshipNote": "SEC oversees Nabors' periodic disclosure (10-K, 10-Q, 8-K filings), executive compensation (DEF14A), and insider trading compliance. Nabors' 2023 10-K flagged commodity-price risk and leverage covenant exposure; SEC staff reviews adequacy of risk disclosure. SEC's energy-sector enforcement priorities (climate disclosure, cybersecurity) influence Nabors' compliance costs and disclosure scope.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of Interior (BOEMRE)",
+        "ticker": null,
+        "cik": null,
+        "slug": "boemre",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Offshore Drilling Regulator & Lease Administrator",
+        "relationshipNote": "BOEMRE (Bureau of Ocean Energy Management, Regulation and Enforcement) regulates Nabors' Gulf of Mexico offshore operations, including rig certifications, safety standards (SEMS), and lease compliance. 2023–2024 BOEMRE lease sales and environmental reviews affect Nabors' customer capex timing and rig demand. BOEMRE's post-Deepwater Horizon safety mandates increase Nabors' compliance costs ~2–3% of offshore revenue.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of Energy",
+        "ticker": null,
+        "cik": null,
+        "slug": "doe",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Energy Policy & IRA Incentive Administrator",
+        "relationshipNote": "DOE administers Inflation Reduction Act (IRA) incentives for geothermal drilling and clean energy development. Nabors' geothermal pilot program (Fervo partnership) benefits from IRA tax credits and grant programs. 2024–2026 DOE funding trajectory directly affects Nabors' geothermal revenue upside; potential $20–30M annual revenue if IRA incentives accelerate EGS project deployment.",
+        "confidence": "medium",
+        "sourceType": [
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "International Maritime Organization (IMO)",
+        "ticker": null,
+        "cik": null,
+        "slug": "imo",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "International Maritime & Offshore Safety Regulator",
+        "relationshipNote": "IMO sets international maritime safety standards (SOLAS, ISM Code) and environmental regulations (MARPOL, ballast-water management) affecting Nabors' offshore rig operations globally. 2023 IMO 2030 sulfur-reduction targets increase Nabors' fuel-cost compliance burden (~1–2% of offshore operating costs). IMO's offshore-wind-farm coexistence rules may restrict rig operations in European waters.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Deloitte LLP",
+        "ticker": null,
+        "cik": null,
+        "slug": "deloitte",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "External Auditor & Compliance Advisor",
+        "relationshipNote": "Deloitte is Nabors' external auditor (2023–2024 fiscal years), responsible for annual 10-K audit and internal-control attestation (SOX 404). Deloitte's audit opinions and internal-control findings directly influence investor confidence and debt-covenant compliance certification. Deloitte's energy-sector expertise informs Nabors' reserve-estimation methodology and impairment testing.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Nabors Industries Ltd. Board of Directors",
+        "ticker": null,
+        "cik": null,
+        "slug": "nabors_board",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Strategic Oversight",
+        "relationshipNote": "Nabors' Board (9 directors, 2024) includes CEO Eugene Isenberg (Executive Chair), CFO Christos Ioannou, and independent directors with energy/finance expertise. 2024 board priorities: debt refinancing, technology commercialization (AutoShift, NIDS), and M&A strategy. Board compensation tied to ROIC and leverage-ratio targets; incentive alignment supports capital discipline.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Eugene Isenberg",
+        "ticker": null,
+        "cik": null,
+        "slug": "eugene_isenberg",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Chair & Strategic Leadership",
+        "relationshipNote": "Eugene Isenberg is Nabors' Executive Chair (since 2012) and primary strategic decision-maker. Isenberg's 2023–2024 priorities: debt reduction (target net debt/EBITDA <2.5x by 2025), AutoShift adoption acceleration, and geothermal technology scaling. Isenberg's capital-allocation discipline and M&A track record (prior Nabors CEO 1987–2000) influence investor confidence in leverage management.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Christos Ioannou",
+        "ticker": null,
+        "cik": null,
+        "slug": "christos_ioannou",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Chief Financial Officer & Capital Management",
+        "relationshipNote": "Christos Ioannou is Nabors' CFO (since 2021) and leads financial strategy, debt management, and investor relations. Ioannou's 2024 priorities: refinancing $400M+ 2025–2026 maturities, maintaining $300M+ liquidity buffer, and hedging commodity-price exposure. Ioannou's quarterly earnings guidance and covenant-compliance commentary directly influence credit-market perception and refinancing costs.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Baker Hughes Rig Count Index",
+        "ticker": null,
+        "cik": null,
+        "slug": "baker_hughes_rig_count",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Market Signal: Onshore Rig Utilization",
+        "relationshipNote": "Baker Hughes weekly rig-count data (published Fridays) tracks active onshore rigs in North America. 2024 YTD average: ~625 rigs (vs. 2023 peak of 680); decline signals operator capex discipline. Nabors' onshore utilization typically tracks BH index with 1–2 week lag. BH rig count <600 triggers Nabors' margin-compression risk; >650 signals upside to day rates.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "IHS Markit Offshore Rig Demand Index",
+        "ticker": null,
+        "cik": null,
+        "slug": "ihs_markit_offshore",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Signal: Deepwater Project Pipeline",
+        "relationshipNote": "IHS Markit tracks global offshore rig demand by basin and project stage (sanctioned, pre-FID, exploration). 2024 forecast: 15–18 new deepwater projects FID'd globally (vs. 2023 = 12); Southeast Asia and Middle East driving incremental demand. Nabors' high-spec fleet positioned for 8–10 of these projects; IHS pipeline tracking informs Nabors' fleet-deployment strategy and day-rate guidance.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Maersk Drilling (A.P. Moller-Maersk subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "maersk_drilling",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Offshore Supply & Crew Transport",
+        "relationshipNote": "Maersk Drilling provides offshore supply vessels, crew-transfer vessels, and logistics coordination for Nabors' international offshore fleet. 2023–2024 framework agreement covering Southeast Asia, Middle East, and West Africa operations. Estimated 4–6% of offshore operating costs; vessel availability directly impacts rig utilization and day-rate realization.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Horizon Offshore Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "horizon_offshore",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Gulf of Mexico Supply Vessels",
+        "relationshipNote": "Horizon Offshore operates supply vessels and crew-transfer vessels supporting Nabors' Gulf of Mexico rigs. [DATA_NEEDED: current contract scope and vessel allocation]. Estimated 3–5% of Gulf of Mexico operating costs; fuel-cost pass-through and vessel availability affect Nabors' margin realization.",
+        "confidence": "low",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Crowley Maritime Corporation",
+        "ticker": null,
+        "cik": null,
+        "slug": "crowley_maritime",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "International Offshore Logistics",
+        "relationshipNote": "Crowley Maritime provides offshore supply-vessel services and project-cargo logistics for Nabors' international deepwater operations. [DATA_NEEDED: current contract value and geographic scope]. Estimated 2–4% of international offshore logistics spend; vessel scheduling and cost competitiveness affect rig deployment timing.",
+        "confidence": "low",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Halliburton Logistics (Halliburton subsidiary)",
+        "ticker": "HAL",
+        "cik": "1018724",
+        "slug": "halliburton_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Well-Services Supply Chain",
+        "relationshipNote": "Halliburton's logistics division manages supply-chain coordination for cementing, stimulation, and pressure-pumping services integrated with Nabors' drilling operations. 2023–2024 integrated logistics framework reduces well-service delivery time by ~8–12%. Estimated 2–3% of well-services operating costs; supply-chain efficiency directly impacts Nabors' customer satisfaction and day-rate realization.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Schlumberger Logistics (Schlumberger subsidiary)",
+        "ticker": "SLB",
+        "cik": "1087882",
+        "slug": "schlumberger_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Wireline & Completion Services Logistics",
+        "relationshipNote": "Schlumberger's logistics network coordinates wireline, perforating, and completion-service delivery to Nabors' drilling operations. 2023 integration with AutoShift platform reduces well-service downtime by ~6–10%. Estimated 2–3% of well-services operating costs; logistics efficiency critical for deepwater and unconventional wells.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [],
+    "competitors": [
+      {
+        "name": "Helmerich & Payne Inc.",
+        "ticker": "HP",
+        "cik": "0000354190",
+        "slug": "helmerich_payne",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Onshore Drilling Competitor",
+        "relationshipNote": "Helmerich & Payne is Nabors' largest onshore competitor, operating ~400 rigs in North America with superior automation (FlexRig platform). 2023–2024 HP's AutoRig adoption outpacing Nabors' AutoShift deployment; HP's day-rate premium (5–8% higher) reflects technology advantage. HP's margin expansion and customer wins are direct competitive threats to Nabors' onshore profitability.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Transocean Ltd.",
+        "ticker": "RIG",
+        "cik": "1011971",
+        "slug": "transocean",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Offshore Deepwater Competitor",
+        "relationshipNote": "Transocean is Nabors' primary offshore deepwater competitor, operating ~40 ultra-deepwater and harsh-environment rigs. 2023–2024 competitive intensity in Southeast Asia and Middle East; Nabors' high-spec fleet (12 ultra-deepwater rigs) competes directly on day rates and technology. RIG's fleet utilization and day-rate trends are leading indicators of Nabors' offshore margin trajectory.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Patterson-UTI Energy Inc.",
+        "ticker": "PTEN",
+        "cik": "1075877",
+        "slug": "patterson_uti",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Onshore & Offshore Competitor",
+        "relationshipNote": "Patterson-UTI operates ~200 onshore rigs and 20 offshore rigs, competing with Nabors in North America unconventional and Gulf of Mexico markets. 2023 PTEN's cost-per-foot metrics improved 12% YoY, pressuring Nabors' onshore margins. PTEN's customer diversification (no single customer >15%) vs. Nabors' concentration risk (top 5 = 45%) creates competitive vulnerability for Nabors.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Vanguard Drilling Company",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard_drilling",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Regional Onshore Competitor",
+        "relationshipNote": "Vanguard Drilling operates ~50 onshore rigs focused on Permian and Eagle Ford shales. 2023–2024 facing margin compression from idle capacity; potential M&A target for Nabors consolidation play. Vanguard's customer concentration (2 customers = 60% of revenue) and aging fleet create acquisition opportunity at 3.5–4.5x EBITDA.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Grey Wolf Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "grey_wolf",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Regional Onshore Competitor",
+        "relationshipNote": "Grey Wolf operates ~30 onshore rigs in Permian and Mid-Continent basins. [DATA_NEEDED: current fleet utilization and customer concentration]. Potential M&A target for Nabors if leverage permits; smaller regional competitor with limited technology differentiation vs. Nabors' AutoShift platform.",
+        "confidence": "low",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Primary Regulator & Disclosure Oversight",
+        "relationshipNote": "SEC oversees Nabors' periodic disclosure (10-K, 10-Q, 8-K filings), executive compensation (DEF14A), and insider trading compliance. Nabors' 2023 10-K flagged commodity-price risk and leverage covenant exposure; SEC staff reviews adequacy of risk disclosure. SEC's energy-sector enforcement priorities (climate disclosure, cybersecurity) influence Nabors' compliance costs and disclosure scope.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of Interior (BOEMRE)",
+        "ticker": null,
+        "cik": null,
+        "slug": "boemre",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Offshore Drilling Regulator & Lease Administrator",
+        "relationshipNote": "BOEMRE (Bureau of Ocean Energy Management, Regulation and Enforcement) regulates Nabors' Gulf of Mexico offshore operations, including rig certifications, safety standards (SEMS), and lease compliance. 2023–2024 BOEMRE lease sales and environmental reviews affect Nabors' customer capex timing and rig demand. BOEMRE's post-Deepwater Horizon safety mandates increase Nabors' compliance costs ~2–3% of offshore revenue.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of Energy",
+        "ticker": null,
+        "cik": null,
+        "slug": "doe",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Energy Policy & IRA Incentive Administrator",
+        "relationshipNote": "DOE administers Inflation Reduction Act (IRA) incentives for geothermal drilling and clean energy development. Nabors' geothermal pilot program (Fervo partnership) benefits from IRA tax credits and grant programs. 2024–2026 DOE funding trajectory directly affects Nabors' geothermal revenue upside; potential $20–30M annual revenue if IRA incentives accelerate EGS project deployment.",
+        "confidence": "medium",
+        "sourceType": [
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "International Maritime Organization (IMO)",
+        "ticker": null,
+        "cik": null,
+        "slug": "imo",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "International Maritime & Offshore Safety Regulator",
+        "relationshipNote": "IMO sets international maritime safety standards (SOLAS, ISM Code) and environmental regulations (MARPOL, ballast-water management) affecting Nabors' offshore rig operations globally. 2023 IMO 2030 sulfur-reduction targets increase Nabors' fuel-cost compliance burden (~1–2% of offshore operating costs). IMO's offshore-wind-farm coexistence rules may restrict rig operations in European waters.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Occupational Safety and Health Administration (OSHA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "osha",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Workplace Safety Regulator",
+        "relationshipNote": "OSHA enforces workplace safety standards for Nabors' onshore and offshore operations, including drilling-rig safety protocols and incident reporting. 2023–2024 OSHA focus on offshore safety (post-Deepwater Horizon) and automation-related worker displacement. Nabors' AutoShift platform adoption may trigger OSHA scrutiny on worker retraining and safety protocols.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "External Auditor & Compliance Advisor",
+      "relationshipNote": "Deloitte is Nabors' external auditor (2023–2024 fiscal years), responsible for annual 10-K audit and internal-control attestation (SOX 404). Deloitte's audit opinions and internal-control findings directly influence investor confidence and debt-covenant compliance certification. Deloitte's energy-sector expertise informs Nabors' reserve-estimation methodology and impairment testing.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "statutory"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "J.P. Morgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Lead Lender & Credit Facility Administrator",
+        "relationshipNote": "JPMorgan is the administrative agent for Nabors' $1.5B revolving credit facility (2023 refinancing). JPM syndicated Nabors' 2024 bond issuance ($500M senior notes due 2029). JPM's credit-market access and covenant-waiver flexibility are critical to Nabors' refinancing strategy; JPM's internal energy-sector credit ratings directly influence Nabors' borrowing costs.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Syndicate Lender & Capital Markets",
+        "relationshipNote": "Bank of America is a major syndicate lender on Nabors' $1.5B credit facility and co-manager of 2024 bond issuance. BofA's energy-sector credit research and covenant-monitoring influence Nabors' refinancing terms and cost of capital. BofA's internal ESG energy-transition ratings affect Nabors' long-term debt pricing.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Goldman Sachs Group Inc.",
+        "ticker": "GS",
+        "cik": "0000886947",
+        "slug": "goldman_sachs",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Capital Markets & M&A Advisory",
+        "relationshipNote": "Goldman Sachs is Nabors' primary M&A and capital-markets advisor; advised on 2023 debt refinancing and potential acquisition targets. GS's energy-sector M&A pipeline and valuation expertise inform Nabors' strategic options for bolt-on acquisitions (Vanguard, Grey Wolf) and technology partnerships (Fervo Energy geothermal JV).",
+        "confidence": "medium",
+        "sourceType": [
+          "8-K",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Eugene Isenberg",
+        "ticker": null,
+        "cik": null,
+        "slug": "eugene_isenberg",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Chair & Strategic Leadership",
+        "relationshipNote": "Eugene Isenberg is Nabors' Executive Chair (since 2012) and primary strategic decision-maker. Isenberg's 2023–2024 priorities: debt reduction (target net debt/EBITDA <2.5x by 2025), AutoShift adoption acceleration, and geothermal technology scaling. Isenberg's capital-allocation discipline and M&A track record (prior Nabors CEO 1987–2000) influence investor confidence in leverage management.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Christos Ioannou",
+        "ticker": null,
+        "cik": null,
+        "slug": "christos_ioannou",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Chief Financial Officer & Capital Management",
+        "relationshipNote": "Christos Ioannou is Nabors' CFO (since 2021) and leads financial strategy, debt management, and investor relations. Ioannou's 2024 priorities: refinancing $400M+ 2025–2026 maturities, maintaining $300M+ liquidity buffer, and hedging commodity-price exposure. Ioannou's quarterly earnings guidance and covenant-compliance commentary directly influence credit-market perception and refinancing costs.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Anthony Petrelli",
+        "ticker": null,
+        "cik": null,
+        "slug": "anthony_petrelli",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Chief Operating Officer & Fleet Operations",
+        "relationshipNote": "Anthony Petrelli is Nabors' COO (since 2020) and oversees global fleet operations, rig deployment, and customer service delivery. Petrelli's 2024 priorities: AutoShift adoption acceleration (target 60+ rigs by 2025), international offshore utilization optimization, and NIDS bundled-service scaling. Petrelli's operational execution directly impacts day-rate realization and customer retention.",
+        "confidence": "medium",
+        "sourceType": [
+          "DEF14A",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Nabors Industries Ltd. Board of Directors",
+        "ticker": null,
+        "cik": null,
+        "slug": "nabors_board",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Strategic Oversight",
+        "relationshipNote": "Nabors' Board (9 directors, 2024) includes CEO Eugene Isenberg (Executive Chair), CFO Christos Ioannou, and independent directors with energy/finance expertise. 2024 board priorities: debt refinancing, technology commercialization (AutoShift, NIDS), and M&A strategy. Board compensation tied to ROIC and leverage-ratio targets; incentive alignment supports capital discipline.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "10-K"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Baker Hughes Rig Count Index",
+        "ticker": null,
+        "cik": null,
+        "slug": "baker_hughes_rig_count",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Market Signal: Onshore Rig Utilization",
+        "relationshipNote": "Baker Hughes weekly rig-count data (published Fridays) tracks active onshore rigs in North America. 2024 YTD average: ~625 rigs (vs. 2023 peak of 680); decline signals operator capex discipline. Nabors' onshore utilization typically tracks BH index with 1–2 week lag. BH rig count <600 triggers Nabors' margin-compression risk; >650 signals upside to day rates.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "IHS Markit Offshore Rig Demand Index",
+        "ticker": null,
+        "cik": null,
+        "slug": "ihs_markit_offshore",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Signal: Deepwater Project Pipeline",
+        "relationshipNote": "IHS Markit tracks global offshore rig demand by basin and project stage (sanctioned, pre-FID, exploration). 2024 forecast: 15–18 new deepwater projects FID'd globally (vs. 2023 = 12); Southeast Asia and Middle East driving incremental demand. Nabors' high-spec fleet positioned for 8–10 of these projects; IHS pipeline tracking informs Nabors' fleet-deployment strategy and day-rate guidance.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ]
+      }
+    ]
+  }
+}

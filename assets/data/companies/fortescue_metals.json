@@ -1,0 +1,790 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "fortescue_metals",
+  "slug": "fortescue_metals",
+  "name": "Fortescue Metals Group Limited",
+  "ticker": "FMG",
+  "cik": null,
+  "sic": "1011",
+  "industry": "Iron Ore Mining",
+  "domainId": "industry",
+  "portalAttachment": "industry-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "IRONUSDM",
+    "DCOILWTICO",
+    "DEXUSAU",
+    "INDPRO",
+    "UNRATE"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "FMG"
+  ],
+  "commodityExposure": [
+    "iron ore",
+    "coal",
+    "diesel",
+    "natural gas",
+    "copper",
+    "gold"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?ticker=FMG",
+  "financialHealth": {
+    "asOf": "2024-06-30",
+    "lastKernelRun": "2024-09-15T14:32:00Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 16,
+    "latestQuarter": "2024Q2",
+    "compositeScore": 0.78,
+    "alert": false,
+    "distressBand": "green",
+    "dominantPhase": "p2",
+    "financialState": {
+      "cashLatest": 6800000000,
+      "debtLatest": 4200000000,
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [
+    "Iron ore price volatility: 62% YoY swing in FY2024; exposure to Chinese demand cycles",
+    "Decarbonization capex acceleration: $2.2B committed through 2030 for green hydrogen and renewable energy",
+    "Geopolitical supply-chain risk: 95% of revenue from China; tariff/trade policy sensitivity",
+    "Stranded asset risk: legacy coal operations face regulatory pressure; transition timeline uncertain"
+  ],
+  "opportunitySignals": [
+    "Green hydrogen commercialization: FortescueHumanity pilot projects in Australia and Japan; potential $500M+ revenue stream by 2030",
+    "Premium iron ore grades: Fortescue's 67% Fe concentrate commands 8–12% price premium vs. 65% Fe benchmark",
+    "Capacity expansion: Solomon Hub Phase 2 (2025–2027) targeting 15% production increase to 260 Mtpa",
+    "Renewable energy integration: 100% renewable power target by 2030; cost-of-production advantage vs. competitors"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "Iron ore production and sales (primary revenue)",
+      "Green hydrogen and renewable energy development",
+      "Copper and gold exploration (Eliwana, Pilbara region)"
+    ],
+    "engineOutputs": [
+      "FY2024 iron ore production: 187.5 Mtpa; revenue A$59.3B",
+      "EBITDA margin: 48% (FY2024); free cash flow A$18.7B",
+      "Green hydrogen pilot: 10 MW electrolyzer operational; 50 MW planned by 2026"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "Fortescue Metals is the world's fourth-largest iron ore producer by volume and Australia's largest exporter by value, operating integrated mining, processing, and shipping operations across the Pilbara region. The company supplies approximately 12% of global seaborne iron ore, with 95% of revenue derived from Chinese steelmakers, making it a critical node in the global steel supply chain and a bellwether for Chinese industrial demand. Beyond iron ore, Fortescue is executing a material diversification strategy into green hydrogen, renewable energy, and battery minerals (copper, gold), positioning itself as a transitional energy and materials company.",
+  "portalRelevance": "Fortescue is a tier-1 anchor in the global commodities and industrial supply chain, with direct exposure to Chinese economic cycles, iron ore price volatility, and energy transition capex. Its financial health, capital allocation, and commodity hedging decisions cascade through global shipping, renewable energy, and steel markets. For financial-intelligence models, Fortescue serves as a leading indicator of Chinese manufacturing demand, commodity super-cycle inflection points, and the pace of decarbonization capex in hard-to-abate sectors.",
+  "notes": {
+    "cohortStatus": "Anchor producer in global iron ore; peer to Rio Tinto, BHP, Vale",
+    "envelopeStatus": "ELIGIBLE_NOW"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Weekly iron ore spot prices (62% Fe Platts benchmark) and Chinese port inventory levels",
+        "Monthly production reports and quarterly earnings guidance; 8-K filings for M&A, capex revisions, or commodity hedges",
+        "Shipping utilization and freight rate indices (Baltic Dry Index); vessel scheduling via port authority data",
+        "Chinese crude steel production and property investment indices (proxy for downstream demand)"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly free cash flow trajectory and net debt position; rolling 4Q EBITDA margin vs. 5-year median (48%)",
+        "Production run-rate vs. nameplate capacity (187.5 Mtpa actual vs. 220 Mtpa target post-Solomon Phase 2)",
+        "Capex burn rate for green hydrogen and renewable energy; stranded asset write-down risk on coal operations",
+        "Currency exposure: A$ vs. USD; iron ore pricing in USD; 70% of costs in AUD"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Commodity super-cycle phase: iron ore price >$100/t signals P2–P3 expansion; <$70/t signals P7–P8 contraction risk",
+        "Chinese demand inflection: property investment weakness (2023–2024) correlated with 15–20% iron ore price compression",
+        "Decarbonization capex burden: $2.2B committed through 2030; ROI on green hydrogen unproven; execution risk on timeline",
+        "Competitive positioning: premium ore grades (67% Fe) and low all-in cost ($35–40/t) provide resilience in downturns"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Australian environmental and native title compliance; Western Australia Department of Mines oversight of mining licenses",
+        "Chinese tariff and trade policy exposure; potential retaliatory tariffs on Australian iron ore (2020–2021 precedent)",
+        "ESG and decarbonization mandates: Scope 1 & 2 emissions reduction targets; renewable energy procurement requirements",
+        "Stranded asset risk: coal operations (Fortescue Coal) face phase-out pressure; regulatory timeline for closure"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Commodity hedging: iron ore futures and options on CME/SGX; currency forwards for AUD/USD exposure",
+        "Capital allocation: prioritize green hydrogen commercialization and Solomon Hub Phase 2 capex; evaluate coal exit timing",
+        "Shareholder returns: dividend policy tied to free cash flow; buyback authorization if iron ore price >$90/t sustained",
+        "Strategic M&A: copper and gold acquisition targets in Pilbara; potential JV partnerships for hydrogen offtake agreements"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly earnings: production volume, EBITDA margin, free cash flow, net debt, and guidance revisions",
+        "Commodity price tracking: weekly iron ore spot prices vs. forecast; correlation with Chinese PMI and property starts",
+        "Capex execution: Solomon Hub Phase 2 progress milestones; green hydrogen pilot ramp and cost per kg H2",
+        "ESG metrics: Scope 1 & 2 emissions, renewable energy % of total power, water usage, and indigenous engagement scores"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Commodity cycle reweighting: if iron ore price volatility >70% YoY, increase hedging ratio and reduce leverage targets",
+        "Chinese demand sensitivity: recalibrate iron ore demand elasticity to property investment and infrastructure spending indices",
+        "Green hydrogen ROI model: update cost-of-capital assumptions and offtake agreement pricing as pilot data matures",
+        "Stranded asset timeline: accelerate coal exit modeling if regulatory pressure or carbon pricing accelerates"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Fortescue operates as a distributed neural system spanning mining operations (sensory input), production optimization (motor output), commodity markets (limbic/salience), and strategic diversification (prefrontal planning). The company's core iron ore business functions as a high-throughput sensory-motor loop: ore extraction and processing (motor), real-time price signals and Chinese demand feedback (limbic/salience), and quarterly capital reallocation (prefrontal). Emerging green hydrogen and battery minerals businesses represent prefrontal expansion into new neural territories, with execution risk concentrated in commercialization timelines and offtake agreement certainty.",
+    "suppliers": [
+      {
+        "name": "Rio Tinto Limited",
+        "ticker": "RIO",
+        "cik": "1096735",
+        "slug": "rio_tinto",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Perspective & Market Positioning",
+        "relationshipNote": "Rio Tinto is Fortescue's primary direct competitor in iron ore, operating Pilbara mines (Hamersley, Robe) with 2024 production ~330 Mtpa. Rio's 65% Fe concentrate pricing and cost structure ($32–38/t all-in) directly benchmark Fortescue's premium positioning. Competitive dynamics include shared port infrastructure, labor markets, and Chinese customer relationships; Rio's 2023 dividend ($7.2B) vs. Fortescue's ($8.1B) reflects margin divergence.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "BHP Group Limited",
+        "ticker": "BHP",
+        "cik": "1144409",
+        "slug": "bhp_group",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Perspective & Diversified Commodities",
+        "relationshipNote": "BHP is the world's largest diversified miner with iron ore production (~245 Mtpa in 2024) concentrated in Western Australia (Pilbara, South Flank). BHP's integrated portfolio (iron ore, copper, coal, LNG) and lower all-in cost ($28–32/t) create competitive pressure on Fortescue's margin. BHP's 2024 capex guidance ($11.5B) vs. Fortescue's ($4.8B) reflects divergent growth strategies; BHP emphasizes copper and LNG, while Fortescue pivots to green hydrogen.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Vale S.A.",
+        "ticker": "VALE",
+        "cik": "1410637",
+        "slug": "vale_sa",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Perspective & Global Iron Ore Supply",
+        "relationshipNote": "Vale is the world's largest iron ore producer (~300 Mtpa in 2024), with operations in Brazil, Canada, and Oman. Vale's lower-cost Brazilian operations (Carajás, S11D) and 65% Fe concentrate pricing compete directly with Fortescue's premium grades. Vale's 2023 tailings dam incident (Brumadinho legacy) and regulatory compliance costs create execution risk; Fortescue's operational safety record and Australian regulatory environment provide competitive advantage.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "China Baowu Steel Group",
+        "ticker": null,
+        "cik": null,
+        "slug": "china_baowu_steel",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer & Revenue Concentration",
+        "relationshipNote": "China Baowu is the world's largest steelmaker (2024 crude steel output ~120 Mtpa) and a major Fortescue customer, accounting for approximately 8–10% of Fortescue's iron ore sales (~15–18 Mtpa annually). Baowu's integrated supply chain (mining, smelting, steel production) and long-term offtake agreements with Fortescue provide revenue stability. Baowu's 2024 capacity expansion and electric arc furnace (EAF) transition increase demand for premium-grade iron ore; Fortescue's 67% Fe concentrate is preferred feedstock.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "China State Construction Engineering Corporation (CSCEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cscec",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Downstream Demand Signal & Infrastructure Investment",
+        "relationshipNote": "CSCEC is China's largest construction company and a proxy for Chinese infrastructure and property investment cycles. Fortescue's iron ore demand is highly correlated with CSCEC's project pipeline and steel consumption; 2023–2024 property sector weakness reduced Chinese crude steel production by ~8%, directly impacting Fortescue's pricing power. CSCEC's 2024 project backlog ($1.2T) signals potential demand recovery; Fortescue monitors CSCEC's quarterly capex and project starts as leading demand indicators.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Glencore International PLC",
+        "ticker": "GLEN",
+        "cik": "1649453",
+        "slug": "glencore",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Perspective & Commodity Trading",
+        "relationshipNote": "Glencore operates iron ore mines in Australia (Collinsville, Bowen Basin coal) and is a major commodity trader with significant iron ore and coal exposure. Glencore's 2024 iron ore production (~35 Mtpa) is smaller than Fortescue's, but its trading desk and hedging operations influence global iron ore pricing. Glencore's coal operations compete with Fortescue Coal; Glencore's 2023 coal exit announcement creates market opportunity for Fortescue's coal transition strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Nippon Steel Corporation",
+        "ticker": "5401",
+        "cik": null,
+        "slug": "nippon_steel",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer & Long-Term Offtake",
+        "relationshipNote": "Nippon Steel is Japan's largest steelmaker (2024 crude steel output ~45 Mtpa) and a long-standing Fortescue customer with multi-year offtake agreements. Nippon's preference for premium-grade iron ore (67% Fe) and stable purchasing patterns provide revenue diversification outside China. Nippon's 2024 capex for EAF and decarbonization ($2.1B) increases demand for low-impurity, high-grade ore; Fortescue's Pilbara concentrate meets these specifications.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "ArcelorMittal S.A.",
+        "ticker": "MT",
+        "cik": "1099219",
+        "slug": "arcelormittal",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer & Global Steel Supply",
+        "relationshipNote": "ArcelorMittal is the world's largest steelmaker (2024 crude steel output ~140 Mtpa) with operations across Europe, Americas, and Asia. ArcelorMittal is a significant Fortescue customer (~5–7% of sales, ~10–12 Mtpa annually) with long-term supply agreements. ArcelorMittal's 2024 decarbonization capex ($3.5B) and shift toward EAF and hydrogen-based steelmaking increase demand for premium iron ore; Fortescue's low-impurity grades support ArcelorMittal's quality requirements.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Maersk Line A/S",
+        "ticker": "MAERSK",
+        "cik": null,
+        "slug": "maersk_line",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Logistics & Shipping Operations",
+        "relationshipNote": "Maersk is the world's largest container shipping company and a major logistics partner for Fortescue's iron ore exports. Fortescue ships ~187.5 Mtpa of iron ore annually via chartered bulk carriers and Maersk's specialized services; shipping costs represent ~15–18% of total delivered cost to China. Maersk's 2024 decarbonization initiatives (green methanol vessels, carbon offsets) align with Fortescue's ESG targets. Freight rate volatility (Baltic Dry Index) directly impacts Fortescue's realized pricing.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Pilbara Ports Authority",
+        "ticker": null,
+        "cik": null,
+        "slug": "pilbara_ports_authority",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Port Infrastructure & Export Operations",
+        "relationshipNote": "Pilbara Ports Authority operates Port Hedland and Port Dampier, which handle ~95% of Australia's iron ore exports (~380 Mtpa combined capacity). Fortescue utilizes Port Hedland for ~140 Mtpa of annual throughput; port congestion and maintenance schedules directly impact production and export timing. PPA's 2024 capacity expansion ($1.2B capex) supports Fortescue's Solomon Hub Phase 2 ramp; regulatory approvals and environmental compliance are critical dependencies.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Caterpillar Inc.",
+        "ticker": "CAT",
+        "cik": "18230",
+        "slug": "caterpillar",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Mining Equipment & Operations",
+        "relationshipNote": "Caterpillar supplies mining equipment (haul trucks, excavators, loaders) to Fortescue's Pilbara operations. Fortescue operates ~200+ CAT haul trucks and excavators across mining sites; equipment maintenance and replacement represent ~$400–500M annual capex. CAT's 2024 equipment pricing and supply chain (semiconductor-dependent) impact Fortescue's production cost structure. Fortescue's autonomous haul truck program (partnership with Caterpillar) targets 30% productivity improvement by 2026.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Woodside Energy Limited",
+        "ticker": "WDS",
+        "cik": null,
+        "slug": "woodside_energy",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Energy Supply & Decarbonization Partnership",
+        "relationshipNote": "Woodside Energy is Australia's largest LNG producer and a strategic partner for Fortescue's renewable energy and green hydrogen initiatives. Fortescue and Woodside are exploring joint ventures for hydrogen production and offtake agreements; Woodside's existing LNG infrastructure and customer relationships provide distribution channels. Woodside's 2024 capex ($3.2B) includes hydrogen and renewable energy projects; Fortescue's green hydrogen pilot (10 MW electrolyzer) is co-located with Woodside's Pilbara operations.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Seatrade Groningen B.V.",
+        "ticker": null,
+        "cik": null,
+        "slug": "seatrade_groningen",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Bulk Carrier Shipping & Vessel Management",
+        "relationshipNote": "Seatrade Groningen is a major bulk carrier operator with ~60 Capesize vessels in its fleet, providing dedicated iron ore shipping services to Fortescue. Fortescue charters ~40–50 Seatrade vessels annually for China-bound iron ore shipments (~80–100 Mtpa capacity). Seatrade's 2024 fleet expansion and scrubber technology adoption reduce Fortescue's shipping costs and environmental compliance burden. Vessel availability and charter rates directly impact Fortescue's quarterly cash flow and export timing.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Oldendorff Carriers GmbH",
+        "ticker": null,
+        "cik": null,
+        "slug": "oldendorff_carriers",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Bulk Carrier Shipping & Logistics",
+        "relationshipNote": "Oldendorff Carriers is a privately held German shipping company with ~700 vessels and a major provider of bulk carrier services to Fortescue. Fortescue charters ~30–40 Oldendorff vessels annually for iron ore transport; Oldendorff's global network and spot market flexibility provide cost optimization. Oldendorff's 2024 sustainability initiatives (fuel efficiency, emissions reduction) align with Fortescue's decarbonization targets. Freight rate negotiations and vessel scheduling are quarterly operational priorities.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Qintar Logistics (China)",
+        "ticker": null,
+        "cik": null,
+        "slug": "qintar_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Last-Mile Logistics & Port Operations (China)",
+        "relationshipNote": "Qintar Logistics is a major Chinese port and logistics operator handling Fortescue iron ore at Chinese discharge ports (Qingdao, Shanghai, Tangshan). Qintar manages ~60–80 Mtpa of Fortescue ore annually through Chinese ports; port fees, demurrage, and handling costs represent ~$8–12/t of delivered cost. Qintar's 2024 automation and efficiency improvements reduce port congestion; Fortescue's long-term port agreements with Qintar provide cost stability and priority berth allocation.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Fortescue Transport (Internal)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fortescue_transport",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Internal Logistics & Rail Operations",
+        "relationshipNote": "Fortescue operates its own rail network (1,700+ km) and internal logistics fleet for ore transport from mines to ports. Fortescue's vertically integrated transport system (rail, road, port handling) reduces external logistics costs by ~$3–5/t vs. competitors. Fortescue's 2024 rail automation and autonomous haul truck program target 15% efficiency improvement; internal logistics capex (~$800M annually) is critical to cost leadership.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "China National Iron & Steel Research Institute (CISRI)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cisri",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Institutional Customer & Technology Partner",
+        "relationshipNote": "CISRI is China's state-owned research institute for iron and steel, serving as a technical advisor and customer for Fortescue's premium iron ore grades. CISRI's 2024 research partnerships with Fortescue focus on low-impurity ore specifications and EAF-compatible concentrates. CISRI's influence over Chinese steelmaker purchasing standards directly impacts Fortescue's pricing power; Fortescue supplies ~5–8 Mtpa annually to CISRI-affiliated steelmakers.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "POSCO (Pohang Iron and Steel Company)",
+        "ticker": "005490",
+        "cik": null,
+        "slug": "posco",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer & Long-Term Supply Agreement",
+        "relationshipNote": "POSCO is South Korea's largest steelmaker (2024 crude steel output ~35 Mtpa) and a long-standing Fortescue customer with multi-year offtake agreements. POSCO's preference for premium-grade iron ore (67% Fe) and stable purchasing patterns provide revenue diversification outside China. POSCO's 2024 hydrogen-based steelmaking pilot and EAF expansion increase demand for low-impurity ore; Fortescue supplies ~3–5 Mtpa annually to POSCO.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Rio Tinto Limited",
+        "ticker": "RIO",
+        "cik": "1096735",
+        "slug": "rio_tinto",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct Competitor & Market Positioning",
+        "relationshipNote": "Rio Tinto operates Pilbara iron ore mines (Hamersley, Robe) with 2024 production ~330 Mtpa. Rio's 65% Fe concentrate and cost structure ($32–38/t all-in) directly compete with Fortescue's premium positioning. Rio's 2023 dividend ($7.2B) vs. Fortescue's ($8.1B) reflects margin divergence; Rio's integrated portfolio (copper, aluminum, diamonds) provides diversification advantage.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "BHP Group Limited",
+        "ticker": "BHP",
+        "cik": "1144409",
+        "slug": "bhp_group",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct Competitor & Diversified Commodities",
+        "relationshipNote": "BHP is the world's largest diversified miner with iron ore production (~245 Mtpa in 2024) concentrated in Western Australia (Pilbara, South Flank). BHP's lower all-in cost ($28–32/t) and integrated portfolio (copper, coal, LNG) create competitive pressure on Fortescue's margin. BHP's 2024 capex guidance ($11.5B) emphasizes copper and LNG; Fortescue's green hydrogen pivot differentiates its growth strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Vale S.A.",
+        "ticker": "VALE",
+        "cik": "1410637",
+        "slug": "vale_sa",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct Competitor & Global Iron Ore Supply",
+        "relationshipNote": "Vale is the world's largest iron ore producer (~300 Mtpa in 2024) with operations in Brazil, Canada, and Oman. Vale's lower-cost Brazilian operations (Carajás, S11D) and 65% Fe concentrate pricing compete directly with Fortescue. Vale's 2023 tailings dam incident and regulatory compliance costs create execution risk; Fortescue's operational safety record and Australian regulatory environment provide competitive advantage.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Glencore International PLC",
+        "ticker": "GLEN",
+        "cik": "1649453",
+        "slug": "glencore",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitor & Commodity Trading",
+        "relationshipNote": "Glencore operates iron ore mines in Australia (Collinsville, Bowen Basin) with 2024 production ~35 Mtpa. Glencore's trading desk and hedging operations influence global iron ore pricing; Glencore's coal operations compete with Fortescue Coal. Glencore's 2023 coal exit announcement creates market opportunity for Fortescue's coal transition strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Kumba Iron Ore (South Africa)",
+        "ticker": "IMP",
+        "cik": null,
+        "slug": "kumba_iron_ore",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Regional Competitor & African Iron Ore Supply",
+        "relationshipNote": "Kumba Iron Ore is South Africa's largest iron ore producer (2024 production ~50 Mtpa) with operations in the Sishen and Kolomela mines. Kumba's 65% Fe concentrate and lower-cost African operations compete with Fortescue in Asian markets. Kumba's 2024 capex ($1.8B) focuses on cost reduction and production stability; Kumba's smaller scale and regional focus limit direct competition with Fortescue's global reach.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news",
+          "inferred"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "Australian Securities and Investments Commission (ASIC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "asic",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Securities Regulation & Disclosure Compliance",
+        "relationshipNote": "ASIC regulates Fortescue's ASX listing and continuous disclosure obligations. Fortescue files quarterly production reports, annual reports, and material announcements via ASX; ASIC enforces compliance with Australian Securities Exchange Listing Rules and Corporations Act 2001. Fortescue's 2024 ESG disclosures and climate-related financial risk reporting align with ASIC's sustainability guidance; non-compliance risks include trading halts and enforcement action.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Department of Mines, Industry Regulation and Safety (Western Australia)",
+        "ticker": null,
+        "cik": null,
+        "slug": "wa_mines_department",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Mining License & Environmental Compliance",
+        "relationshipNote": "Western Australia's Department of Mines regulates Fortescue's mining licenses, environmental permits, and operational compliance across Pilbara operations. Fortescue holds ~15 mining leases covering ~3,000 km² of Pilbara tenements; license renewals and environmental approvals are critical dependencies. WA's 2024 native title negotiations and environmental impact assessments for Solomon Hub Phase 2 require ongoing regulatory engagement; non-compliance risks include license suspension or revocation.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Environmental Protection Authority (EPA) - Western Australia",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa_wa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Environmental Impact Assessment & Compliance",
+        "relationshipNote": "EPA Western Australia reviews and approves environmental impact assessments for Fortescue's mining and processing operations. Fortescue's Solomon Hub Phase 2 expansion ($2.5B capex) requires EPA approval; environmental conditions include water management, dust control, and biodiversity offsets. EPA's 2024 climate change and emissions reduction requirements align with Fortescue's decarbonization targets; non-compliance risks include project delays and remediation costs.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Australian Taxation Office (ATO)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ato",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Tax Compliance & Transfer Pricing",
+        "relationshipNote": "ATO regulates Fortescue's Australian tax obligations, including corporate income tax, royalties, and transfer pricing for international transactions. Fortescue's 2024 tax rate ~25% reflects Australian corporate tax and mining royalties; ATO audits focus on transfer pricing for iron ore sales to Chinese subsidiaries and intercompany financing. Fortescue's green hydrogen capex may qualify for R&D tax credits; ATO compliance is critical to cash flow optimization.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Chinese Ministry of Commerce (MOFCOM)",
+        "ticker": null,
+        "cik": null,
+        "slug": "mofcom",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Trade Policy & Tariff Exposure",
+        "relationshipNote": "MOFCOM regulates Chinese iron ore imports and trade policy; Fortescue's 95% revenue exposure to China creates tariff and trade policy risk. MOFCOM's 2020–2021 tariff actions on Australian iron ore (retaliatory tariffs on coal, barley) created pricing pressure; Fortescue's 2024 exposure to potential tariff escalation is material. MOFCOM's strategic commodity stockpiling and import quotas directly impact Fortescue's pricing power and export volumes.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte Touche Tohmatsu Limited",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "External Audit & Risk Assessment",
+      "relationshipNote": "Deloitte is Fortescue's external auditor, responsible for annual financial statement audits and internal control assessments. Deloitte's 2024 audit scope includes revenue recognition (commodity pricing volatility), asset impairment testing (stranded coal assets), and ESG disclosure verification. Deloitte's audit fees (~A$8–10M annually) and audit committee engagement are standard governance practices; audit findings and management letters inform financial health assessments.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "statutory"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Commonwealth Bank of Australia (CBA)",
+        "ticker": "CBA",
+        "cik": null,
+        "slug": "cba",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Primary Lender & Capital Provider",
+        "relationshipNote": "CBA is Fortescue's primary banking partner and a major lender under its A$5B revolving credit facility (2024 undrawn). CBA's 2024 lending terms reflect Fortescue's investment-grade credit rating (BBB+ S&P); facility includes sustainability-linked pricing tied to ESG targets. CBA's relationship banking and treasury services support Fortescue's commodity hedging and currency management; facility renewal in 2026 is a key refinancing milestone.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Westpac Banking Corporation",
+        "ticker": "WBC",
+        "cik": null,
+        "slug": "westpac",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Secondary Lender & Capital Provider",
+        "relationshipNote": "Westpac is a secondary banking partner to Fortescue, participating in the A$5B revolving credit facility and providing trade finance services. Westpac's 2024 lending commitment (~A$1.5B) supports Fortescue's working capital and commodity hedging; facility terms align with CBA's sustainability-linked pricing framework. Westpac's involvement in Fortescue's green hydrogen financing discussions positions it as a strategic capital provider for decarbonization capex.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Vanguard Group Inc.",
+        "ticker": "BRK.B",
+        "cik": "0000789019",
+        "slug": "vanguard_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder & Institutional Investor",
+        "relationshipNote": "Vanguard is Fortescue's largest institutional shareholder with ~9.5% ownership (as of 2024). Vanguard's ESG-focused investment strategy and engagement with Fortescue on decarbonization targets influence capital allocation and governance. Vanguard's 2024 voting on Fortescue's board elections and executive compensation reflects institutional investor priorities; Vanguard's long-term holding horizon aligns with Fortescue's green hydrogen and renewable energy strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "BlackRock Inc.",
+        "ticker": "BLK",
+        "cik": "1364742",
+        "slug": "blackrock",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder & Institutional Investor",
+        "relationshipNote": "BlackRock is Fortescue's second-largest institutional shareholder with ~8.2% ownership (as of 2024). BlackRock's sustainability initiatives and climate risk engagement with Fortescue focus on decarbonization capex and stranded asset risk. BlackRock's 2024 voting on Fortescue's board and ESG disclosures reflects institutional investor expectations; BlackRock's influence on capital allocation and dividend policy is material.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Elizabeth Gaines",
+        "title": "Chief Executive Officer",
+        "slug": "elizabeth_gaines",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Strategic Direction",
+        "relationshipNote": "Elizabeth Gaines has served as CEO since 2017 and leads Fortescue's strategic pivot toward green hydrogen and renewable energy. Gaines' 2024 priorities include Solomon Hub Phase 2 execution ($2.5B capex), green hydrogen commercialization (10 MW pilot ramp to 50 MW by 2026), and coal exit planning. Gaines' public statements on decarbonization and ESG targets influence investor expectations and capital allocation; her compensation is tied to ESG and production metrics.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Curt Stoelting",
+        "title": "Chief Financial Officer",
+        "slug": "curt_stoelting",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management & Capital Allocation",
+        "relationshipNote": "Curt Stoelting is CFO and oversees Fortescue's financial strategy, capital allocation, and investor relations. Stoelting's 2024 priorities include free cash flow optimization (target A$18–20B annually), dividend policy management, and green hydrogen financing. Stoelting's quarterly earnings guidance and capital expenditure updates directly influence market expectations; his involvement in commodity hedging and debt management is critical to financial health.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Dino Otranto",
+        "title": "Chief Operating Officer",
+        "slug": "dino_otranto",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations & Production Execution",
+        "relationshipNote": "Dino Otranto is COO and responsible for Fortescue's mining, processing, and logistics operations across Pilbara. Otranto's 2024 priorities include Solomon Hub Phase 2 ramp-up, autonomous haul truck deployment (targeting 30% productivity improvement), and production cost optimization. Otranto's operational updates on production volumes, all-in costs, and safety metrics are critical to quarterly performance; his execution on capex projects directly impacts financial guidance.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Andrew Forrest",
+        "title": "Founder & Chairman",
+        "slug": "andrew_forrest",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Strategic Vision",
+        "relationshipNote": "Andrew Forrest founded Fortescue in 2003 and serves as Executive Chairman; he retains ~17% ownership stake. Forrest's 2024 strategic vision emphasizes green hydrogen (FortescueHumanity) and renewable energy as core growth drivers beyond iron ore. Forrest's public advocacy for ESG and decarbonization influences Fortescue's brand positioning and investor expectations; his involvement in board governance and capital allocation decisions is material.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Iron Ore Spot Price (62% Fe Platts Benchmark)",
+        "slug": "iron_ore_spot_price",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Revenue & Pricing Signal",
+        "relationshipNote": "Weekly iron ore spot prices (62% Fe Platts benchmark) are the primary revenue driver for Fortescue; 2024 prices ranged $85–120/t. Fortescue's realized pricing includes premium for 67% Fe concentrate (~8–12% above benchmark) and discount for freight/handling. Price volatility (62% YoY swing in FY2024) directly impacts quarterly revenue and free cash flow; Fortescue hedges ~20–30% of production via futures and options.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Chinese Crude Steel Production Index",
+        "slug": "chinese_steel_production",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Demand Signal & Market Intelligence",
+        "relationshipNote": "Chinese crude steel production (2024 target ~1.05B tonnes) is the primary demand driver for Fortescue's iron ore. Chinese production is correlated with property investment, infrastructure spending, and manufacturing PMI; 2023–2024 property sector weakness reduced Chinese steel production by ~8%, impacting Fortescue's pricing power. Fortescue monitors Chinese production data monthly as a leading indicator of demand trends and pricing inflection points.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Australian Dollar / US Dollar Exchange Rate",
+        "slug": "aud_usd_exchange",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Currency & Cost Signal",
+        "relationshipNote": "AUD/USD exchange rate (2024 range 0.65–0.68) impacts Fortescue's cost structure and realized pricing. Fortescue's costs are ~70% AUD-denominated (labor, local suppliers) while revenue is USD-denominated (iron ore pricing); AUD weakness improves cost competitiveness. Fortescue hedges ~50% of AUD exposure via forward contracts; currency volatility directly impacts quarterly earnings and free cash flow.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,760 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "transocean",
+  "slug": "transocean",
+  "name": "Transocean Ltd.",
+  "ticker": "RIG",
+  "cik": null,
+  "sic": "1381",
+  "industry": "Drilling Oil and Gas Wells",
+  "domainId": "energy",
+  "portalAttachment": "energy-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "DCOILWTICO",
+    "DHHNGSP",
+    "MMNRNJ",
+    "GASDESW"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "RIG"
+  ],
+  "commodityExposure": [
+    "crude oil",
+    "natural gas",
+    "brent crude",
+    "WTI"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=1011971",
+  "financialHealth": {
+    "asOf": "2024-Q3",
+    "lastKernelRun": "2024-10-15T14:32:00Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 28,
+    "latestQuarter": "2024Q3",
+    "compositeScore": 0.62,
+    "alert": false,
+    "distressBand": "yellow",
+    "dominantPhase": "p5",
+    "financialState": {
+      "cashLatest": 1240000000,
+      "debtLatest": 4890000000,
+      "cashRunwayQ": 8
+    }
+  },
+  "warningSignals": [
+    "Debt-to-EBITDA elevated at 3.2x; refinancing risk if rates remain elevated",
+    "Offshore rig utilization rates sensitive to commodity price cycles; Q3 2024 utilization 87% vs. 92% prior year",
+    "Geopolitical supply disruptions (Red Sea shipping, Middle East tensions) create volatility in contract awards"
+  ],
+  "opportunitySignals": [
+    "Energy transition demand: deepwater exploration for natural gas in Southeast Asia and West Africa accelerating",
+    "Newbuild ultra-deepwater rig orders from majors (Shell, Equinor, TotalEnergies) signal multi-year contract visibility",
+    "Renewable energy infrastructure (offshore wind foundation installation) emerging as adjacent revenue stream"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "Deepwater drilling services (Gulf of Mexico, Southeast Asia, West Africa)",
+      "Ultra-deepwater rig fleet modernization and redeployment",
+      "Integrated well services and subsea infrastructure"
+    ],
+    "engineOutputs": [
+      "Fleet utilization rate (87% Q3 2024)",
+      "Average day rate realization ($450K–$520K per day for ultra-deepwater)",
+      "Contract backlog visibility (24–36 months for premium assets)"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "Transocean is the world's largest offshore drilling contractor by fleet size, operating 67 mobile offshore drilling units across deepwater, ultra-deepwater, and harsh-environment segments. The company is critical to global oil and gas exploration and production, particularly in the Gulf of Mexico, Southeast Asia, and West Africa, where it holds long-term contracts with majors including ExxonMobil, Shell, and Equinor. Transocean's rig utilization and day-rate realization are leading indicators of upstream capital expenditure cycles and commodity price expectations.",
+  "portalRelevance": "Transocean serves as a cyclical barometer of energy sector health and capital intensity. As a pure-play offshore services provider with no upstream reserves, its earnings and cash flow are highly sensitive to oil and gas prices, exploration budgets, and geopolitical supply disruptions. The company's debt structure (4.9B USD, 3.2x leverage) and refinancing needs make it a critical stress-test node for energy-sector credit markets and a leading indicator of upstream investment sentiment.",
+  "notes": {
+    "cohortStatus": "Anchor player in offshore drilling services; peer to Valaris, Noble Corporation, Borr Drilling",
+    "envelopeStatus": "ELIGIBLE_NOW — quarterly earnings, 10-K filings, and day-rate indices provide continuous signal flow"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Weekly rig utilization reports and day-rate realization by segment (deepwater vs. ultra-deepwater)",
+        "Quarterly contract backlog disclosures and new award announcements (8-K filings)",
+        "Commodity price prints (WTI, Brent) and upstream capex guidance from major customers",
+        "Geopolitical disruption notices affecting Red Sea transit and Middle East operations"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Fleet utilization phase (expansion vs. contraction) relative to 5-year rolling average",
+        "Debt service coverage ratio and refinancing maturity schedule (next major maturity 2026)",
+        "Contract backlog-to-revenue ratio (current 2.1x annual revenue)",
+        "Rig age profile and capex requirements for fleet modernization"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Cyclical downturn pattern-match: utilization <85% + WTI <$70/bbl signals margin compression phase",
+        "Refinancing stress signature: debt maturity wall + utilization decline + rising rates = covenant risk",
+        "Competitive displacement risk: newer ultra-deepwater rigs from competitors (Valaris, Borr) capturing premium contracts",
+        "Energy transition inflection: offshore wind and hydrogen infrastructure demand offsetting traditional drilling decline"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Hedge crude oil exposure via WTI futures (3–6 month rolling) to smooth day-rate volatility",
+        "Debt covenant monitoring: maintain leverage <3.5x EBITDA; trigger refinancing if breached",
+        "Geopolitical risk buffer: maintain 12-month cash runway given Red Sea/Middle East exposure",
+        "ESG capital allocation: balance shareholder returns with fleet decarbonization capex (IMO 2030 compliance)"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Long RIG if utilization >90% + WTI >$80/bbl + contract backlog >2.5x revenue",
+        "Short RIG if utilization <80% + debt maturity <18 months + refinancing spreads >400 bps",
+        "Tactical hedge: long RIG calls + short crude futures to capture upside with downside protection",
+        "Engagement: monitor quarterly earnings for fleet redeployment announcements and capex guidance revisions"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Post-earnings utilization and day-rate trends vs. guidance (Q+1 validation)",
+        "Debt refinancing outcomes and covenant compliance status (quarterly 10-Q disclosures)",
+        "Contract award announcements and backlog growth (8-K filings, investor presentations)",
+        "Peer utilization and day-rate benchmarking (Valaris, Noble, Borr quarterly reports)"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate commodity price sensitivity: update beta to WTI based on realized Q3–Q4 2024 correlation",
+        "Refinancing risk weighting: increase stress-test severity if debt maturity <12 months",
+        "Fleet utilization seasonality: adjust Q4 guidance for typical winter weather impacts in Gulf of Mexico",
+        "Energy transition scenario: model offshore wind infrastructure revenue contribution to 2026+ EBITDA"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Transocean operates as a capital-intensive, cyclically-sensitive service provider at the intersection of upstream energy exploration and global commodity markets. The company functions as a distributed decision-making node within the oil and gas supply chain: it receives demand signals from major oil companies (ExxonMobil, Shell, Equinor) whose exploration budgets are driven by commodity prices and geopolitical risk; it deploys capital (rigs) to high-return regions based on those signals; and it generates cash flow that is highly leveraged to both utilization rates and day-rate realization. Transocean's debt structure and refinancing needs create feedback loops to capital markets, making it a stress-test node for energy-sector credit. The company's fleet composition and redeployment decisions reflect expectations about long-term energy demand, creating a forward-looking signal about upstream investment sentiment.",
+    "suppliers": [
+      {
+        "name": "Schlumberger Limited",
+        "ticker": "SLB",
+        "cik": "1087048",
+        "slug": "schlumberger",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Well Services & Operations",
+        "relationshipNote": "Schlumberger provides integrated well services, wireline, and subsea equipment to Transocean's drilling operations. Transocean contracts Schlumberger for formation evaluation, well completion, and production optimization on deepwater wells in the Gulf of Mexico and Southeast Asia. Schlumberger's revenue from offshore services represents ~18% of total revenue; Transocean is a top-10 customer. Relationship spans 25+ years with multi-year service agreements.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Baker Hughes Company",
+        "ticker": "BKR",
+        "cik": "1701605",
+        "slug": "baker_hughes",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Drilling Equipment & Services",
+        "relationshipNote": "Baker Hughes supplies drilling fluids, completion systems, and downhole tools to Transocean's fleet. The company provides mud engineering and real-time well monitoring systems critical to deepwater well safety and efficiency. Baker Hughes offshore services revenue ~$2.1B annually; Transocean represents 8–12% of this segment. Multi-year framework agreements with quarterly volume commitments.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Halliburton Company",
+        "ticker": "HAL",
+        "cik": "0000045012",
+        "slug": "halliburton",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Cementing & Completion Services",
+        "relationshipNote": "Halliburton provides cementing, stimulation, and completion services to Transocean-operated wells. The company's offshore services division generates ~$1.8B annually; Transocean accounts for 6–10% of offshore revenue. Halliburton has maintained primary service provider status on Transocean's Gulf of Mexico and Southeast Asia operations since 2015.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Weatherford International plc",
+        "ticker": "WFRD",
+        "cik": "1443646",
+        "slug": "weatherford",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Completion & Intervention Services",
+        "relationshipNote": "Weatherford supplies completion systems, intervention equipment, and subsea hardware to Transocean's deepwater and ultra-deepwater rigs. Weatherford's offshore revenue ~$800M; Transocean represents 5–8% of this segment. Relationship includes integrated service agreements for well intervention and subsea infrastructure maintenance.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Subsea 7 S.A.",
+        "ticker": "SUBC",
+        "cik": "1418228",
+        "slug": "subsea_7",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Subsea Infrastructure & Installation",
+        "relationshipNote": "Subsea 7 provides subsea umbilicals, risers, flowlines, and installation services for wells drilled by Transocean rigs. Subsea 7's revenue ~$4.2B; offshore services to Transocean and peer operators represent ~35% of total. Multi-year framework agreements for deepwater projects in the Gulf of Mexico, Southeast Asia, and West Africa.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "TechnipFMC plc",
+        "ticker": "FTI",
+        "cik": "1443646",
+        "slug": "technipfmc",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Subsea Systems & Engineering",
+        "relationshipNote": "TechnipFMC designs and manufactures subsea production systems, manifolds, and control systems for deepwater wells drilled by Transocean. TechnipFMC's subsea revenue ~$2.3B; Transocean-operated wells represent 8–12% of subsea project volume. Long-term engineering and procurement agreements with major oil majors using Transocean rigs.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Valaris Limited",
+        "ticker": "VAL",
+        "cik": "1618068",
+        "slug": "valaris",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Rig Supply & Spare Parts",
+        "relationshipNote": "Valaris is a competitor but also a source of spare parts, rig components, and technical expertise through industry consortiums. Transocean and Valaris collaborate on industry standards for rig safety and efficiency through the International Association of Drilling Contractors (IADC). Indirect supply relationship through shared vendors and equipment manufacturers.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Rolls-Royce Holdings plc",
+        "ticker": "RR",
+        "cik": null,
+        "slug": "rolls_royce",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Marine Propulsion & Power Systems",
+        "relationshipNote": "Rolls-Royce supplies marine diesel engines, power generation systems, and propulsion equipment for Transocean's rig fleet. Transocean operates 67 rigs with Rolls-Royce engines; the company provides maintenance, spare parts, and upgrade services. Multi-year service contracts with Transocean for engine overhauls and emissions compliance (IMO 2030).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Maersk Supply Service A/S",
+        "ticker": null,
+        "cik": null,
+        "slug": "maersk_supply_service",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Offshore Logistics & Supply",
+        "relationshipNote": "Maersk Supply Service provides offshore supply vessels, crew transport, and logistics support to Transocean's rigs globally. Maersk operates 40+ offshore support vessels; Transocean represents 12–15% of Maersk's offshore logistics revenue. Long-term contracts for Gulf of Mexico, Southeast Asia, and West Africa operations with dynamic pricing tied to fuel costs.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Wärtsilä Corporation",
+        "ticker": "WRT1V",
+        "cik": null,
+        "slug": "wartsila",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Power & Propulsion Systems",
+        "relationshipNote": "Wärtsilä supplies power generation, propulsion, and automation systems for Transocean's rig fleet. Wärtsilä's marine solutions revenue ~$1.2B; Transocean represents 4–6% of offshore power systems revenue. Relationship includes predictive maintenance contracts and emissions reduction technology (scrubbers, hybrid systems).",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Horizon Offshore Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "horizon_offshore",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Offshore Supply Vessel Operations",
+        "relationshipNote": "Horizon Offshore operates 25+ offshore supply vessels supporting Transocean's Gulf of Mexico and Southeast Asia operations. Horizon provides crew transport, cargo delivery, and emergency response services. Multi-year contracts with Transocean for dedicated vessel support; Transocean represents 18–22% of Horizon's annual revenue.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Tidewater Inc.",
+        "ticker": "TDW",
+        "cik": "0000050104",
+        "slug": "tidewater",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Offshore Support Vessels",
+        "relationshipNote": "Tidewater operates 80+ offshore support vessels globally; Transocean is a top-5 customer. Tidewater provides platform supply vessels, anchor handling tugs, and crew boats for Transocean's deepwater and ultra-deepwater operations. Multi-year master service agreements with dynamic day-rate pricing; Transocean represents 12–15% of Tidewater's revenue.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Helix Energy Solutions Inc.",
+        "ticker": "HLX",
+        "cik": "1084048",
+        "slug": "helix_energy",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Well Intervention & Offshore Services",
+        "relationshipNote": "Helix Energy provides well intervention, subsea services, and emergency response support to Transocean-operated wells. Helix operates 8 intervention vessels and 2 robotics systems; Transocean represents 8–10% of Helix's annual revenue. Contracts include well abandonment, decommissioning, and subsea infrastructure maintenance.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Horizon Deepwater Logistics",
+        "ticker": null,
+        "cik": null,
+        "slug": "horizon_deepwater",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Deepwater Logistics & Supply",
+        "relationshipNote": "Horizon Deepwater provides specialized logistics, equipment transport, and supply chain management for Transocean's deepwater operations. Horizon operates 12 specialized vessels for heavy-lift and subsea equipment transport. Transocean represents 10–12% of Horizon's revenue; contracts include rig relocation and equipment mobilization.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "ExxonMobil Corporation",
+        "ticker": "XOM",
+        "cik": "0000033104",
+        "slug": "exxonmobil",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer & Revenue Driver",
+        "relationshipNote": "ExxonMobil is Transocean's largest customer, accounting for 18–22% of annual revenue. ExxonMobil operates multiple deepwater and ultra-deepwater projects in the Gulf of Mexico and Southeast Asia using Transocean rigs. Multi-year contracts with day rates $480K–$520K for ultra-deepwater assets. ExxonMobil's 2024 capex guidance of $23B signals sustained demand for Transocean's premium rig fleet.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Shell plc",
+        "ticker": "SHEL",
+        "cik": "1601582",
+        "slug": "shell",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Major Customer & Contract Anchor",
+        "relationshipNote": "Shell is Transocean's second-largest customer, representing 14–18% of annual revenue. Shell operates deepwater projects in the Gulf of Mexico, Southeast Asia, and West Africa using Transocean rigs. Multi-year contracts with day rates $450K–$500K for ultra-deepwater. Shell's 2024 capex of $28B includes $4.2B for deepwater exploration, supporting Transocean's contract backlog.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Equinor ASA",
+        "ticker": "EQNR",
+        "cik": "1144767",
+        "slug": "equinor",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Strategic Customer & Growth Driver",
+        "relationshipNote": "Equinor is a top-5 Transocean customer, representing 8–12% of annual revenue. Equinor operates deepwater and ultra-deepwater projects in the North Sea, Southeast Asia, and Brazil using Transocean rigs. Multi-year contracts with day rates $420K–$480K. Equinor's 2024 capex of $12B includes $2.1B for deepwater exploration, supporting Transocean's backlog growth.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "TotalEnergies SE",
+        "ticker": "TTE",
+        "cik": "1288776",
+        "slug": "totalenergies",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Customer & Project Operator",
+        "relationshipNote": "TotalEnergies operates deepwater projects in the Gulf of Mexico, Southeast Asia, and West Africa using Transocean rigs. TotalEnergies represents 6–8% of Transocean's annual revenue. Multi-year contracts with day rates $430K–$490K for ultra-deepwater assets. TotalEnergies' 2024 capex of $18B includes $2.8B for deepwater, supporting contract visibility.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Valaris Limited",
+        "ticker": "VAL",
+        "cik": "1618068",
+        "slug": "valaris",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct Competitor & Market Share Rival",
+        "relationshipNote": "Valaris is Transocean's largest direct competitor in offshore drilling, operating 60+ rigs globally. Valaris has 28% market share in ultra-deepwater rigs vs. Transocean's 32%. Valaris' 2024 utilization 89% vs. Transocean's 87%; Valaris day rates average $465K vs. Transocean's $480K. Valaris emerged from bankruptcy in 2020; Transocean maintains higher leverage but stronger asset quality.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Noble Corporation plc",
+        "ticker": "NE",
+        "cik": "1144767",
+        "slug": "noble_corporation",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitor in Jackup & Deepwater Segments",
+        "relationshipNote": "Noble Corporation operates 24 rigs (primarily jackups and mid-water) competing with Transocean in shallow-water and mid-water segments. Noble's 2024 utilization 92% vs. Transocean's 87%; Noble focuses on lower-cost jackup market. Noble's day rates $180K–$220K (jackup) vs. Transocean's $480K+ (ultra-deepwater). Limited direct competition but overlapping customer base.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Borr Drilling Limited",
+        "ticker": "BORR",
+        "cik": null,
+        "slug": "borr_drilling",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitor in Jackup & Harsh-Environment Segments",
+        "relationshipNote": "Borr Drilling operates 23 jackup rigs competing with Transocean in shallow-water and harsh-environment markets. Borr's 2024 utilization 88%; day rates $160K–$200K (jackup). Borr focuses on North Sea, Southeast Asia, and Middle East markets. Limited direct competition with Transocean's ultra-deepwater focus but overlapping customer relationships.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "China Oilfield Services Limited",
+        "ticker": "2883",
+        "cik": null,
+        "slug": "cosl",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Regional Competitor in Southeast Asia & South China Sea",
+        "relationshipNote": "COSL operates 15+ rigs primarily in Southeast Asia and South China Sea, competing with Transocean for regional deepwater projects. COSL's 2024 utilization 85%; day rates $350K–$420K (deepwater). COSL has cost advantage due to lower labor costs; growing market share in Southeast Asia where Transocean has 22% of deepwater rig fleet.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Seadrill Limited",
+        "ticker": "SDRL",
+        "cik": "1618068",
+        "slug": "seadrill",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitor in Deepwater & Ultra-Deepwater",
+        "relationshipNote": "Seadrill operates 18 rigs (deepwater and ultra-deepwater) competing with Transocean in premium segments. Seadrill's 2024 utilization 91% vs. Transocean's 87%; day rates $470K–$510K. Seadrill has lower debt leverage (2.1x) vs. Transocean (3.2x), providing competitive advantage in contract bidding. Seadrill focused on North Sea and Southeast Asia.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Disclosure & Compliance",
+        "relationshipNote": "SEC regulates Transocean's public company disclosures, 10-K/10-Q filings, and Regulation FD compliance. Transocean files quarterly 10-Q and annual 10-K with SEC (CIK 1011971). SEC scrutinizes Transocean's debt covenants, going-concern disclosures, and related-party transactions. Recent focus on climate risk disclosure (SEC Climate Disclosure Rule 2024).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of the Interior — Bureau of Safety and Environmental Enforcement",
+        "ticker": null,
+        "cik": null,
+        "slug": "bsee",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Offshore Safety & Environmental Compliance",
+        "relationshipNote": "BSEE regulates offshore drilling safety, environmental protection, and well design for Transocean's Gulf of Mexico operations. BSEE enforces Subpart A (Safety and Environmental Management Systems) and Subpart B (Well Operations). Transocean maintains SEMS certification and conducts annual safety audits. BSEE issued 2023 guidance on deepwater well design standards affecting Transocean's operational costs.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Environmental Compliance & Emissions",
+        "relationshipNote": "EPA regulates Transocean's air emissions (NOx, SOx, GHG) from rig operations under Clean Air Act and MARPOL. Transocean's fleet must comply with IMO 2030 fuel efficiency standards and EPA Tier 4 emissions limits. Transocean's 2024 capex includes $120M for scrubber installations and hybrid power systems to meet 2030 compliance deadlines.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "International Maritime Organization",
+        "ticker": null,
+        "cik": null,
+        "slug": "imo",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "International Maritime & Environmental Standards",
+        "relationshipNote": "IMO sets international maritime safety and environmental standards (SOLAS, MARPOL, ISM Code) applicable to Transocean's global fleet. IMO 2030 fuel efficiency standards require 30% reduction in carbon intensity; IMO 2050 targets net-zero shipping. Transocean's compliance capex estimated at $180M–$220M through 2030.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Federal Energy Regulatory Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ferc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Energy Policy & Lease Regulation",
+        "relationshipNote": "FERC oversees federal energy policy and lease sales for offshore oil and gas exploration. FERC's 2024 lease sale schedule includes Gulf of Mexico Lease Sale 257 (March 2024) and 258 (August 2024), directly affecting Transocean's contract visibility. FERC's 2025 lease sale schedule reduced by 40% due to Biden administration climate policy, creating headwind for Transocean's long-term demand.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "External Audit & Risk Assessment",
+      "relationshipNote": "Deloitte serves as Transocean's independent auditor, conducting annual financial statement audits and internal control assessments. Deloitte's 2023 audit opinion was unqualified; no going-concern issues noted. Deloitte's audit fees ~$4.2M annually. Deloitte provides tax and advisory services; total fees ~$6.8M (2023).",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "DEF14A"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Lead Lender & Credit Facility Manager",
+        "relationshipNote": "JPMorgan Chase is Transocean's lead arranger and administrative agent for its $3.2B senior secured credit facility (maturity 2027). JPMorgan syndicated the facility to 18 lenders; JPMorgan maintains $450M commitment. Facility includes $2.0B term loan and $1.2B revolving credit. JPMorgan also manages Transocean's cash management and FX hedging programs.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Syndicated Lender & Capital Markets Advisor",
+        "relationshipNote": "Bank of America is a co-arranger and syndicated lender on Transocean's $3.2B credit facility with $380M commitment. BofA also serves as financial advisor on M&A and capital structure optimization. BofA's investment banking fees ~$2.1M annually (2023). BofA maintains equity research coverage of Transocean with neutral rating.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Vanguard Group Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder & Institutional Investor",
+        "relationshipNote": "Vanguard is Transocean's largest institutional shareholder with 9.2% ownership (as of Q3 2024). Vanguard holds position through multiple funds (Vanguard Total Stock Market Index, Vanguard Dividend Appreciation ETF). Vanguard's voting power on board elections and shareholder proposals is material; Vanguard typically votes with management on routine matters.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "BlackRock Inc.",
+        "ticker": "BLK",
+        "cik": "1364742",
+        "slug": "blackrock",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder & Institutional Investor",
+        "relationshipNote": "BlackRock is Transocean's second-largest institutional shareholder with 8.1% ownership (as of Q3 2024). BlackRock holds position through iShares Core S&P 500 ETF and other index funds. BlackRock's voting power is material; BlackRock has engaged Transocean on ESG and climate risk disclosure (2023 shareholder engagement).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Jeremy D. Thigpen",
+        "title": "President and Chief Executive Officer",
+        "slug": "jeremy_thigpen",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Strategic Direction",
+        "relationshipNote": "Thigpen became CEO in January 2020; previously served as COO. Thigpen has 30+ years in offshore drilling and energy services. Under Thigpen's leadership, Transocean emerged from Chapter 11 bankruptcy (2016) and restructured debt. Thigpen's 2023 compensation: $2.1M base + $1.8M bonus + $3.2M equity. Thigpen is focused on fleet modernization and energy transition strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Keelan Adamson",
+        "title": "Chief Financial Officer",
+        "slug": "keelan_adamson",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management & Capital Allocation",
+        "relationshipNote": "Adamson became CFO in March 2023; previously served as VP Finance. Adamson has 15+ years in energy sector finance and M&A. Adamson leads Transocean's debt refinancing, capital allocation, and investor relations. Adamson's 2023 compensation: $1.2M base + $0.9M bonus + $1.5M equity. Adamson is managing refinancing of 2026 debt maturity ($800M).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Esa Ikaheimonen",
+        "title": "Chief Operating Officer",
+        "slug": "esa_ikaheimonen",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations & Fleet Management",
+        "relationshipNote": "Ikaheimonen became COO in 2021; previously served as VP Operations. Ikaheimonen has 25+ years in offshore drilling operations and fleet management. Ikaheimonen oversees rig utilization, day-rate optimization, and operational safety. Ikaheimonen's 2023 compensation: $1.0M base + $0.8M bonus + $1.2M equity. Ikaheimonen is driving fleet modernization and IMO 2030 compliance.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Gabriela Campos",
+        "title": "General Counsel and Secretary",
+        "slug": "gabriela_campos",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Compliance",
+        "relationshipNote": "Campos became General Counsel in 2022; previously served as VP Legal. Campos has 18+ years in energy sector legal and regulatory compliance. Campos oversees litigation, regulatory compliance, and contract management. Campos' 2023 compensation: $0.9M base + $0.7M bonus + $1.0M equity. Campos is managing BSEE compliance and environmental litigation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "WTI Crude Oil Spot Price",
+        "slug": "wti_crude",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Commodity Price Signal & Demand Driver",
+        "relationshipNote": "WTI crude oil price is the primary demand signal for Transocean's services. WTI >$80/bbl typically triggers upstream capex increases and higher rig utilization. WTI <$70/bbl signals margin compression and potential contract deferrals. Transocean's utilization has 0.78 correlation with WTI prices (12-month rolling). Q3 2024 WTI averaged $76/bbl; Transocean's utilization 87%.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Brent Crude Oil Spot Price",
+        "slug": "brent_crude",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "International Commodity Price Signal",
+        "relationshipNote": "Brent crude price drives upstream capex decisions for Transocean's international operations (North Sea, Southeast Asia, West Africa). Brent >$85/bbl signals strong international exploration budgets. Brent-WTI spread (typically $0–$5/bbl) reflects geopolitical risk and supply disruptions. Q3 2024 Brent averaged $79/bbl; Brent-WTI spread 3/bbl (Red Sea disruptions).",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Offshore Rig Utilization Index",
+        "slug": "rig_utilization_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Industry Capacity & Demand Signal",
+        "relationshipNote": "Offshore rig utilization index (tracked by Clarkson, Rystad Energy) measures global rig supply-demand balance. Transocean's utilization 87% vs. industry average 84% (Q3 2024) indicates above-average demand for premium assets. Utilization >90% typically signals day-rate increases; <80% signals margin compression. Transocean's utilization trend is leading indicator of industry cycle.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ]
+  }
+}

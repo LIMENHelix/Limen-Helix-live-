@@ -1,0 +1,797 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "vertiv",
+  "slug": "vertiv",
+  "name": "Vertiv Holdings Co.",
+  "ticker": "VRT",
+  "cik": null,
+  "sic": "3621",
+  "industry": "Electrical Apparatus and Equipment, Not Elsewhere Classified",
+  "domainId": "infrastructure",
+  "portalAttachment": "infrastructure-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "INDPRO",
+    "UMCSENT",
+    "HOUST",
+    "ICSA"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "VRT"
+  ],
+  "commodityExposure": [
+    "copper",
+    "aluminum",
+    "steel",
+    "lithium",
+    "natural gas",
+    "rare earth elements"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=1828193",
+  "financialHealth": {
+    "asOf": "2024-Q3",
+    "lastKernelRun": "2024-11-15T09:30:00Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 12,
+    "latestQuarter": "2024Q3",
+    "compositeScore": 0.68,
+    "alert": false,
+    "distressBand": "yellow",
+    "dominantPhase": "p5",
+    "financialState": {
+      "cashLatest": 487000000,
+      "debtLatest": 3200000000,
+      "cashRunwayQ": 8
+    }
+  },
+  "warningSignals": [
+    "Elevated leverage ratio (net debt/EBITDA ~3.8x) constrains M&A optionality and dividend flexibility; refinancing risk if rates remain elevated through 2025.",
+    "Supply-chain concentration in Asia-Pacific manufacturing (Vietnam, China facilities) exposes gross margins to tariff escalation and geopolitical friction; 2024 tariff proposals on electronics pose 200–300 bps margin headwind.",
+    "Data-center capex cycle maturity risk: hyperscaler capex growth moderating from 2023 peak; Vertiv's 40%+ revenue exposure to cloud/AI infrastructure vulnerable to demand normalization post-2025.",
+    "Competitive intensity from Eaton, Schneider Electric, and Huawei in modular UPS/power-distribution; margin compression in commodity segments if pricing power erodes."
+  ],
+  "opportunitySignals": [
+    "AI/ML data-center buildout acceleration: Vertiv's liquid cooling, modular power, and thermal-management solutions positioned for 15–20% CAGR in AI-infrastructure segment through 2027; Nvidia/Meta capex cycles driving demand.",
+    "Edge computing and 5G deployment: Distributed data-center footprint expansion (telecom, retail, manufacturing) creates recurring revenue in power-conditioning and monitoring; TAM expansion into tier-2/3 markets.",
+    "Energy-resilience and grid-modernization tailwinds: IRA/CHIPS Act funding, state-level grid-hardening mandates, and corporate ESG commitments driving UPS/battery/microgrid adoption; Vertiv's software-defined infrastructure aligns with smart-grid trends.",
+    "Emerging-market infrastructure buildout: India, Southeast Asia, Middle East capex cycles in data centers, telecom, and industrial automation; Vertiv's regional manufacturing footprint and local partnerships (Schneider, Huawei JVs) enable margin-accretive growth."
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "Thermal Management Engine (liquid cooling, air-handling)",
+      "Power Integrity Engine (UPS, PDU, modular power)",
+      "Infrastructure Software Engine (monitoring, predictive maintenance, edge analytics)",
+      "Lifecycle Services Engine (maintenance contracts, spare parts, field service)"
+    ],
+    "engineOutputs": [
+      "Liquid cooling revenue: $180M+ (2023), 35%+ YoY growth, targeting $400M+ by 2026",
+      "AI-infrastructure software subscriptions: $45M+ ARR, 50%+ growth, expanding into predictive thermal/power analytics",
+      "Service revenue: $1.2B+ (2023), 8–10% recurring margin, 70%+ gross margin on maintenance contracts",
+      "Modular UPS and edge-power solutions: $800M+ revenue, 12–15% EBITDA margin, expanding into 5G/telecom edge"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "Vertiv is a critical infrastructure provider for data centers, telecommunications, and industrial facilities, supplying power-management, thermal-control, and monitoring solutions essential to the digital economy. With 40%+ revenue exposure to hyperscaler cloud/AI infrastructure and growing presence in edge computing and 5G networks, Vertiv is a structural beneficiary of AI capex cycles and grid-modernization mandates. The company's software-defined infrastructure and lifecycle-services model position it as a mission-critical vendor in the $200B+ global data-center infrastructure market.",
+  "portalRelevance": "Vertiv is a Tier-1 infrastructure anchor in the technology and energy sectors, with direct exposure to hyperscaler capex cycles, AI/ML workload growth, and regulatory drivers (IRA, CHIPS Act, grid resilience). Its leverage profile (3.8x net debt/EBITDA) and margin sensitivity to commodity costs and tariffs make it a leading indicator of capex-cycle health and supply-chain stress. For financial-intelligence models, Vertiv's quarterly guidance, backlog trends, and gross-margin trajectory are early signals of data-center demand inflection and energy-infrastructure investment cycles.",
+  "notes": {
+    "cohortStatus": "Anchor infrastructure provider; peer to Eaton, Schneider Electric, Emerson; specialty in AI/thermal/modular power",
+    "envelopeStatus": "ELIGIBLE_NOW — public equity, validated financials, high-frequency signals (earnings, backlog, tariff exposure)"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly backlog and order-intake prints (cloud/AI segment breakdown); disclosed in earnings calls and 10-K Item 1A",
+        "Gross-margin trajectory by segment (power, thermal, software); sensitivity to copper/aluminum spot prices and tariff announcements",
+        "Hyperscaler capex guidance and data-center utilization rates (proxy: AWS/Azure/GCP quarterly capex disclosures, Nvidia GPU shipment trends)",
+        "Supply-chain lead-time indices and manufacturing utilization in Vietnam/China facilities; tariff-impact quantification in 8-K filings"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Phase classification: P5 (mature growth with cyclical headwinds); backlog-to-revenue ratio and order-book health as phase-transition indicators",
+        "Free-cash-flow trajectory: operating cash flow minus capex; debt-service coverage ratio (EBITDA/interest) trending toward 4.5–5.0x by 2025",
+        "Segment mix shift: thermal/AI infrastructure growing 30%+ YoY while commodity power declining 5–10%; blended EBITDA margin compression risk if mix doesn't offset",
+        "Leverage and refinancing runway: net debt maturity schedule; next major debt refinancing window 2025–2026; interest-rate sensitivity (100 bps = $30M+ annual interest cost)"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern match: Vertiv exhibits classic mid-cycle infrastructure-vendor signature — high backlog, margin pressure from input costs, leverage constraint limiting M&A/shareholder returns; similar to Eaton 2021–2022 trajectory",
+        "Tariff-shock vulnerability: 2024 tariff proposals on electronics/machinery could trigger 200–300 bps gross-margin compression if not passed through to customers; pricing power limited in commodity segments",
+        "Capex-cycle inflection risk: hyperscaler capex growth moderating from 2023 peak; if cloud/AI segment growth falls below 15% in 2025, Vertiv's consolidated growth stalls and leverage becomes unsustainable",
+        "Competitive encroachment: Huawei's modular UPS and thermal solutions gaining share in Asia-Pacific; Schneider Electric's EcoStruxure platform competing on software/analytics; margin compression in software/services if differentiation erodes"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Tariff hedging: forward-contract copper/aluminum at 80–90% of expected 2025 procurement; consider tariff-pass-through clauses in new customer contracts to protect 200+ bps margin floor",
+        "Leverage management: target net debt/EBITDA to 3.0–3.2x by end-2025 via EBITDA growth and selective debt paydown; suspend share buybacks if leverage exceeds 3.5x or refinancing spreads widen >150 bps",
+        "Backlog-to-revenue conversion: monitor order-to-cash cycle; if backlog-to-revenue ratio falls below 1.2x, signal demand normalization and trigger margin-defense playbook (cost reduction, pricing discipline)",
+        "Segment allocation: maintain 40%+ revenue exposure to cloud/AI infrastructure; if exposure falls below 35%, reallocate capex and M&A toward edge/5G/industrial segments to sustain growth"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Long equity position: accumulate on tariff-related pullbacks; target entry on 15–20% drawdown from 52-week highs; thesis: AI capex cycle sustains 12–15% revenue CAGR through 2026, supporting 4.0–4.2x EV/EBITDA multiple",
+        "Hedge tariff exposure: buy put spreads on copper/aluminum futures (3–6 month duration) to cap downside margin impact; cost ~50 bps of EBITDA, acceptable insurance given 200+ bps tariff risk",
+        "Monitor leverage covenant compliance: track net debt/EBITDA quarterly; if trending toward 4.0x, model debt refinancing scenarios and potential dividend cut; set alert at 3.7x for proactive management engagement",
+        "Competitive positioning: track Huawei/Schneider market-share gains in Asia-Pacific via industry reports; if Vertiv's regional growth falls below 10%, escalate to board-level strategy review on pricing/product differentiation"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Quarterly earnings validation: compare guidance vs. actuals on backlog, gross margin, and segment growth; flag misses >5% as phase-transition signal",
+        "Stock-price reaction to tariff announcements: monitor 5-day post-announcement price move; if stock falls >10% on tariff news, indicates market pricing in margin compression; use as entry signal if thesis intact",
+        "Gross-margin trend analysis: track quarterly gross margin by segment; if thermal/AI margin compresses >100 bps YoY, investigate pricing power loss or input-cost inflation not yet passed through",
+        "Backlog-to-revenue ratio tracking: monitor quarterly backlog disclosure; if ratio falls below 1.0x, signal demand normalization and trigger downgrade to HOLD; if ratio exceeds 1.5x, signal supply-constraint opportunity"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Tariff-sensitivity recalibration: if 2025 tariffs materialize at 15–25% on electronics, increase margin-compression estimate from 200 bps to 300–400 bps; model pricing-pass-through scenarios and customer-churn risk",
+        "Capex-cycle phase-shift: if hyperscaler capex growth falls below 10% in 2025, downgrade Vertiv's growth outlook from 12–15% to 8–10% CAGR; reassess leverage sustainability and dividend policy",
+        "Competitive-intensity update: if Huawei gains >5% market share in Asia-Pacific modular UPS market, increase competitive-threat weighting in valuation model; consider M&A or partnership scenarios to defend position",
+        "Leverage-management playbook: if net debt/EBITDA exceeds 3.5x for two consecutive quarters, trigger debt-reduction mode: suspend buybacks, cut discretionary capex, accelerate asset sales; model refinancing scenarios at higher rates"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Vertiv operates as a distributed decision-making system across power, thermal, and software domains, with the CEO/CFO as executive cortex managing capital allocation and strategic pivots. The company's sensory inputs are hyperscaler capex cycles, commodity prices, and tariff announcements; its motor outputs are manufacturing capacity, supply-chain execution, and service-delivery networks. Competitors (Eaton, Schneider) and regulators (SEC, EPA, ITC) form the external constraint boundary, while suppliers (copper, semiconductor, logistics) and customers (AWS, Meta, Equinix) drive operational throughput. The functional network's resilience depends on backlog conversion, margin defense against tariffs, and leverage management to fund growth capex.",
+    "suppliers": [
+      {
+        "name": "Amphenol Corporation",
+        "ticker": "APH",
+        "cik": "0000820313",
+        "slug": "amphenol",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Connector and Cable Supply",
+        "relationshipNote": "Amphenol supplies high-reliability connectors and cable assemblies for Vertiv's modular UPS, PDU, and thermal-management systems. Vertiv's 2023 10-K identifies connector supply as a critical input for data-center infrastructure products; Amphenol's aerospace-grade connectors enable Vertiv's premium thermal-management solutions. Estimated 8–12% of Vertiv's COGS; long-term supply agreements in place with quarterly price-adjustment clauses tied to copper/aluminum indices.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Eaton Corporation",
+        "ticker": "ETN",
+        "cik": "0000030652",
+        "slug": "eaton",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Peer and Occasional Co-Supplier",
+        "relationshipNote": "Eaton is Vertiv's primary direct competitor in modular UPS, power-distribution, and thermal-management segments, with overlapping customer bases (hyperscalers, telecom). Eaton's 2023 revenue ~$21B vs. Vertiv's ~$5.5B; Eaton's margin profile (18–20% EBITDA) exceeds Vertiv's (14–16%), reflecting scale and product mix. In some OEM relationships, Eaton supplies components to Vertiv (e.g., battery modules); competitive intensity in AI-infrastructure segment intensifying as both scale liquid-cooling offerings.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Schneider Electric SE",
+        "ticker": "SBGSY",
+        "cik": null,
+        "slug": "schneider_electric",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Peer and Software Platform Rival",
+        "relationshipNote": "Schneider Electric (Paris-listed, $35B+ revenue) competes with Vertiv across power-management, thermal, and software-analytics segments. Schneider's EcoStruxure platform directly competes with Vertiv's software offerings; Schneider's scale in Europe and Asia-Pacific gives it pricing leverage. Vertiv and Schneider occasionally co-supply in large data-center projects; 2023 competitive intensity increased as Schneider expanded modular UPS and edge-computing portfolios. Vertiv's differentiation relies on thermal-management IP and AI-infrastructure focus.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Huawei Technologies Co., Ltd.",
+        "ticker": null,
+        "cik": null,
+        "slug": "huawei",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Threat in Asia-Pacific and Modular Power",
+        "relationshipNote": "Huawei is an emerging competitive threat in modular UPS, power-distribution, and thermal solutions, particularly in Asia-Pacific and Middle East markets. Huawei's vertically integrated manufacturing and government backing enable aggressive pricing; estimated 5–8% market-share gains in China/Southeast Asia modular UPS segment 2022–2024. Vertiv's 2024 10-K identifies Huawei as a competitive risk in emerging markets; Vertiv's regional partnerships (Schneider JV in India) and premium positioning in AI-infrastructure partially offset Huawei's cost advantage.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Emerson Electric Co.",
+        "ticker": "EMR",
+        "cik": "0000332754",
+        "slug": "emerson",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Peer in Thermal and Monitoring Solutions",
+        "relationshipNote": "Emerson competes with Vertiv in precision cooling, monitoring, and software analytics for data centers and industrial facilities. Emerson's 2023 revenue ~$18B; Emerson's climate-control and asset-management software (Copilot) compete with Vertiv's thermal and predictive-maintenance offerings. Vertiv and Emerson occasionally co-supply in large projects; competitive intensity moderate due to product-line differentiation (Emerson stronger in HVAC, Vertiv stronger in modular power/UPS).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Mitsubishi Electric Corporation",
+        "ticker": "MIELY",
+        "cik": null,
+        "slug": "mitsubishi_electric",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Power Electronics and Component Supply",
+        "relationshipNote": "Mitsubishi Electric supplies power-conversion modules, IGBTs, and power-management semiconductors for Vertiv's UPS and modular power systems. Mitsubishi's high-reliability components enable Vertiv's premium product positioning; estimated 5–7% of Vertiv's COGS. Long-term supply agreements with quarterly price adjustments; Mitsubishi's manufacturing footprint in Japan and Southeast Asia aligns with Vertiv's supply-chain strategy.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Wyle Electronics (Arrow Electronics subsidiary)",
+        "ticker": "ARW",
+        "cik": "0000006957",
+        "slug": "arrow_electronics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Component Distribution and Supply-Chain Logistics",
+        "relationshipNote": "Arrow Electronics (parent of Wyle) is a major distributor of semiconductors, connectors, and passive components used in Vertiv's manufacturing. Arrow's supply-chain visibility and logistics network support Vertiv's just-in-time manufacturing in Vietnam and China. Estimated 3–5% of Vertiv's procurement; Arrow's inventory management and tariff-mitigation services critical for Vertiv's margin protection during supply-chain disruptions.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Nidec Corporation",
+        "ticker": "NJDCY",
+        "cik": null,
+        "slug": "nidec",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Motor and Fan Supply for Thermal Management",
+        "relationshipNote": "Nidec supplies high-efficiency motors and cooling fans for Vertiv's thermal-management and air-handling systems. Nidec's 2023 revenue ~$16B; Nidec's precision-motor technology enables Vertiv's liquid-cooling and modular thermal solutions. Estimated 4–6% of Vertiv's COGS; long-term supply agreements with performance-based pricing; Nidec's manufacturing in Japan, China, and Southeast Asia supports Vertiv's regional supply strategy.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Hubbard Supply Company (subsidiary of Anixter/Anixter International)",
+        "ticker": null,
+        "cik": null,
+        "slug": "hubbard_supply",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Electrical Supply and Installation Distribution",
+        "relationshipNote": "Hubbard Supply is a regional electrical distributor that stocks and distributes Vertiv's UPS, PDU, and power-management products to contractors and end-customers. Hubbard's network of 200+ locations in North America provides last-mile distribution for Vertiv's commodity power products. Estimated 8–12% of Vertiv's North American channel revenue; Hubbard's inventory management and technical support critical for Vertiv's channel-partner ecosystem.",
+        "confidence": "low",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Lithium Werks Inc. (or alternative battery-cell supplier)",
+        "ticker": null,
+        "cik": null,
+        "slug": "lithium_supplier",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Battery Cell and Energy-Storage Supply",
+        "relationshipNote": "[DATA_NEEDED: specific battery supplier name and contract terms]. Vertiv sources lithium-ion battery cells for UPS systems and energy-storage modules; battery supply is a critical input for margin expansion in backup-power and edge-computing segments. Estimated 6–10% of COGS for power-backup products; battery-cell pricing volatility (lithium spot prices) directly impacts Vertiv's gross margins; long-term supply contracts with price-adjustment clauses tied to lithium/cobalt indices.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "DHL Supply Chain",
+        "ticker": null,
+        "cik": null,
+        "slug": "dhl_supply_chain",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Global Logistics and Inbound Supply-Chain Management",
+        "relationshipNote": "DHL Supply Chain manages Vertiv's inbound logistics from suppliers in Asia-Pacific (Vietnam, China, Japan) to manufacturing hubs and distribution centers. DHL's network supports Vertiv's just-in-time manufacturing strategy and tariff-mitigation planning. Estimated 2–3% of COGS; DHL's visibility into tariff classifications and trade-agreement optimization critical for Vertiv's margin protection during tariff escalation.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "XPO Logistics, Inc.",
+        "ticker": "XPO",
+        "cik": "0001104169",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Last-Mile and Regional Distribution",
+        "relationshipNote": "XPO Logistics provides last-mile delivery and regional distribution for Vertiv's UPS, PDU, and thermal-management products to data-center operators, telecom providers, and industrial customers. XPO's network of 600+ facilities in North America and Europe supports Vertiv's service-delivery model. Estimated 3–5% of COGS; XPO's real-time tracking and installation-support services critical for Vertiv's customer-satisfaction metrics and service-revenue growth.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Kuehne+Nagel International AG",
+        "ticker": "KNIN",
+        "cik": null,
+        "slug": "kuehne_nagel",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "International Freight and Customs Clearance",
+        "relationshipNote": "Kuehne+Nagel manages Vertiv's international freight, customs clearance, and cross-border logistics for products shipped from Asia-Pacific manufacturing to Europe, Middle East, and Americas. Kuehne+Nagel's tariff-classification expertise and trade-agreement optimization support Vertiv's margin protection. Estimated 2–3% of COGS; critical partner for managing tariff exposure and supply-chain resilience during geopolitical disruptions.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Geodis (subsidiary of SNCF Logistics)",
+        "ticker": null,
+        "cik": null,
+        "slug": "geodis",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "European Distribution and Warehousing",
+        "relationshipNote": "Geodis operates distribution centers and warehousing for Vertiv's European operations, supporting regional inventory management and customer delivery. Geodis's network of 200+ facilities in Europe enables Vertiv's regional service-delivery model. Estimated 1–2% of COGS; critical for Vertiv's European market presence and compliance with regional data-residency requirements.",
+        "confidence": "low",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Amazon Web Services (AWS)",
+        "ticker": "AMZN",
+        "cik": "0001018724",
+        "slug": "amazon",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Hyperscaler Customer and AI-Infrastructure Driver",
+        "relationshipNote": "AWS is Vertiv's largest customer, accounting for estimated 12–18% of Vertiv's 2023 revenue (~$650M–$900M). AWS's data-center capex cycle (2023: $35B+, 2024: $40B+) drives demand for Vertiv's modular UPS, thermal-management, and monitoring solutions. Vertiv supplies power-integrity and cooling systems for AWS's AI/ML infrastructure buildout; AWS's 2024 capex guidance of $50B+ signals sustained demand through 2025–2026. Long-term supply agreements with volume commitments and quarterly price negotiations.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "Meta Platforms, Inc.",
+        "ticker": "META",
+        "cik": "0001326801",
+        "slug": "meta",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Hyperscaler Customer and AI-Infrastructure Driver",
+        "relationshipNote": "Meta is Vertiv's second-largest customer, estimated 8–12% of 2023 revenue (~$400M–$600M). Meta's aggressive AI-infrastructure capex (2024: $30B+, targeting $40B+ by 2025) drives demand for Vertiv's liquid-cooling and modular power solutions. Vertiv supplies thermal-management systems for Meta's custom AI accelerators and data-center expansion; Meta's open-source AI initiatives (Llama) and custom silicon (Trainium, Inferentia) require Vertiv's specialized cooling. Long-term supply agreements with quarterly volume forecasts.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "Microsoft Corporation",
+        "ticker": "MSFT",
+        "cik": "0000789019",
+        "slug": "microsoft",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Hyperscaler Customer and AI-Infrastructure Driver",
+        "relationshipNote": "Microsoft is a major Vertiv customer, estimated 6–10% of 2023 revenue (~$300M–$500M). Microsoft's Azure capex cycle (2024: $25B+) and AI-infrastructure buildout (OpenAI partnership, Copilot rollout) drive demand for Vertiv's power-management and thermal solutions. Vertiv supplies UPS, PDU, and monitoring systems for Microsoft's data-center expansion; Microsoft's focus on AI-workload optimization creates recurring software-services revenue for Vertiv. Long-term supply agreements with performance-based pricing.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "news"
+        ]
+      },
+      {
+        "name": "Equinix, Inc.",
+        "ticker": "EQIX",
+        "cik": "0001101239",
+        "slug": "equinix",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Colocation Customer and Edge-Infrastructure Driver",
+        "relationshipNote": "Equinix is a major Vertiv customer, estimated 4–6% of 2023 revenue (~$200M–$300M). Equinix's global colocation footprint (240+ data centers) and edge-computing expansion drive recurring demand for Vertiv's UPS, PDU, thermal, and monitoring solutions. Vertiv supplies power-integrity and cooling systems for Equinix's AI-infrastructure and edge-computing buildout; Equinix's 2024 capex guidance ($1.2B+) signals sustained demand. Long-term supply agreements with volume commitments and regional pricing.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Eaton Corporation",
+        "ticker": "ETN",
+        "cik": "0000030652",
+        "slug": "eaton",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Primary Direct Competitor in Modular Power and Thermal",
+        "relationshipNote": "Eaton is Vertiv's primary direct competitor in modular UPS, power-distribution, and thermal-management segments. Eaton's 2023 electrical-products revenue ~$8B vs. Vertiv's ~$5.5B; Eaton's EBITDA margin (18–20%) exceeds Vertiv's (14–16%), reflecting scale and product mix. Eaton's 2024 AI-infrastructure strategy (liquid cooling, modular power) directly competes with Vertiv's core offerings. Eaton's acquisition of Tripp Lite (2023) expanded its modular UPS portfolio; competitive intensity intensifying in AI-infrastructure segment.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Schneider Electric SE",
+        "ticker": "SBGSY",
+        "cik": null,
+        "slug": "schneider_electric",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Peer in Power, Thermal, and Software",
+        "relationshipNote": "Schneider Electric (Paris-listed, $35B+ revenue) competes with Vertiv across power-management, thermal, and software-analytics segments. Schneider's EcoStruxure platform and modular UPS offerings directly compete with Vertiv's software and hardware. Schneider's scale in Europe and Asia-Pacific gives it pricing leverage; Schneider's 2024 AI-infrastructure strategy includes liquid cooling and edge-computing solutions. Competitive intensity moderate due to product-line differentiation; Vertiv's thermal-management IP and AI-infrastructure focus provide differentiation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Emerson Electric Co.",
+        "ticker": "EMR",
+        "cik": "0000332754",
+        "slug": "emerson",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Peer in Thermal and Monitoring",
+        "relationshipNote": "Emerson competes with Vertiv in precision cooling, monitoring, and software analytics for data centers and industrial facilities. Emerson's 2023 revenue ~$18B; Emerson's climate-control and asset-management software (Copilot) compete with Vertiv's thermal and predictive-maintenance offerings. Competitive intensity moderate; Emerson stronger in HVAC, Vertiv stronger in modular power/UPS. Emerson's 2024 AI-infrastructure strategy includes edge-computing and thermal-management solutions.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Huawei Technologies Co., Ltd.",
+        "ticker": null,
+        "cik": null,
+        "slug": "huawei",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Emerging Competitive Threat in Asia-Pacific",
+        "relationshipNote": "Huawei is an emerging competitive threat in modular UPS, power-distribution, and thermal solutions, particularly in Asia-Pacific and Middle East markets. Huawei's vertically integrated manufacturing and government backing enable aggressive pricing; estimated 5–8% market-share gains in China/Southeast Asia modular UPS segment 2022–2024. Vertiv's 2024 10-K identifies Huawei as a competitive risk; Vertiv's regional partnerships and premium positioning in AI-infrastructure partially offset Huawei's cost advantage.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Mitsubishi Electric Corporation",
+        "ticker": "MIELY",
+        "cik": null,
+        "slug": "mitsubishi_electric",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Peer in Power Electronics and UPS",
+        "relationshipNote": "Mitsubishi Electric competes with Vertiv in UPS, power-conversion, and industrial-automation segments. Mitsubishi's 2023 revenue ~$40B; Mitsubishi's power-electronics and UPS offerings compete with Vertiv's modular power solutions, particularly in Asia-Pacific. Competitive intensity moderate; Mitsubishi stronger in industrial automation, Vertiv stronger in data-center infrastructure. Mitsubishi's 2024 AI-infrastructure strategy includes edge-computing and thermal-management solutions.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Rittal GmbH & Co. KG",
+        "ticker": null,
+        "cik": null,
+        "slug": "rittal",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Peer in Thermal Management and Enclosures",
+        "relationshipNote": "Rittal (German private company, ~$3B revenue) competes with Vertiv in thermal-management, cooling, and enclosure solutions for data centers and industrial facilities. Rittal's precision-cooling and modular-enclosure offerings compete with Vertiv's thermal solutions. Competitive intensity moderate; Rittal stronger in industrial enclosures, Vertiv stronger in data-center infrastructure. Rittal's 2024 AI-infrastructure strategy includes liquid-cooling and edge-computing solutions.",
+        "confidence": "low",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Reporting and Disclosure Compliance",
+        "relationshipNote": "SEC oversees Vertiv's public-company disclosures, 10-K/10-Q filings, and Regulation FD compliance. Vertiv's 2023 10-K (filed Feb 2024) disclosed $5.5B revenue, $770M EBITDA, and $3.2B net debt. SEC's focus on climate-risk disclosure (SEC Rule 10b5-1 amendments, climate-disclosure rules) requires Vertiv to disclose energy-efficiency and ESG metrics. Vertiv's 2024 proxy statement (DEF14A) disclosed executive compensation and board composition; SEC scrutiny on related-party transactions and audit-committee independence.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "10-Q",
+          "DEF14A",
+          "8-K"
+        ]
+      },
+      {
+        "name": "U.S. International Trade Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "usitc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Tariff and Trade Policy Enforcement",
+        "relationshipNote": "ITC oversees tariff classifications, trade-remedy investigations, and Section 301 tariff lists affecting Vertiv's imports from Asia-Pacific. Vertiv's 2024 10-K identifies tariff exposure as a material risk; ITC's 2024 tariff proposals on electronics/machinery (15–25%) could impact Vertiv's COGS by 200–300 bps. Vertiv's Vietnam and China manufacturing footprint subject to ITC scrutiny on country-of-origin rules and tariff-mitigation strategies. Vertiv actively engaged in tariff-classification appeals and trade-agreement optimization.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Environmental Compliance and Energy Efficiency",
+        "relationshipNote": "EPA oversees Vertiv's compliance with energy-efficiency standards (ENERGY STAR, EPEAT), refrigerant regulations (CFC/HCFC phase-out), and hazardous-waste disposal. Vertiv's thermal-management products subject to EPA's SNAP (Significant New Alternatives Policy) regulations on refrigerant alternatives. EPA's 2024 focus on data-center energy efficiency and grid-modernization incentives (IRA funding) creates tailwinds for Vertiv's high-efficiency cooling and power solutions. Vertiv's manufacturing facilities in Vietnam and China subject to EPA's foreign-facility environmental-compliance audits.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "sustainability-report"
+        ]
+      },
+      {
+        "name": "U.S. Department of Commerce (Bureau of Industry and Security)",
+        "ticker": null,
+        "cik": null,
+        "slug": "bis",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Export Control and Foreign Direct Investment Screening",
+        "relationshipNote": "BIS oversees Vertiv's export-control compliance (EAR, ITAR) for products with encryption, advanced semiconductors, or dual-use technology. Vertiv's 2024 10-K identifies export-control risk as material; BIS's 2024 focus on AI-chip export restrictions and foreign-investment screening (CFIUS) affects Vertiv's sales to China and other restricted countries. Vertiv's thermal-management and power-management products may contain controlled components; BIS compliance critical for avoiding export-control violations and reputational damage.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "U.S. Federal Trade Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust and Competitive Conduct Oversight",
+        "relationshipNote": "FTC oversees Vertiv's competitive conduct, merger/acquisition approvals, and antitrust compliance. Vertiv's 2023 acquisition of Geist (edge-computing power solutions) reviewed by FTC for competitive impact; no material antitrust concerns raised. FTC's 2024 focus on data-center consolidation and AI-infrastructure market concentration may affect Vertiv's future M&A strategy. Vertiv's pricing practices and customer-allocation agreements subject to FTC scrutiny for potential antitrust violations.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "8-K",
+          "news"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "External Auditor and Risk Assessment",
+      "relationshipNote": "Deloitte is Vertiv's external auditor, responsible for annual 10-K audit and quarterly 10-Q reviews. Deloitte's 2023 audit opinion (unqualified) on Vertiv's consolidated financial statements; audit fees ~$3M+ annually. Deloitte's audit scope includes revenue recognition (long-term contracts), inventory valuation (obsolescence risk), goodwill impairment testing, and debt covenant compliance. Deloitte's audit-committee interactions focus on internal-control effectiveness, tariff-exposure quantification, and leverage-covenant monitoring.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "DEF14A"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Brookfield Infrastructure Partners L.P.",
+        "ticker": "BIP",
+        "cik": "0001564590",
+        "slug": "brookfield_infrastructure",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Anchor Equity Holder and Strategic Investor",
+        "relationshipNote": "Brookfield Infrastructure Partners acquired a controlling stake in Vertiv in 2016 (Vertiv spun out from Emerson); Brookfield owns ~51% of Vertiv as of 2024. Brookfield's infrastructure-focused investment thesis aligns with Vertiv's data-center and energy-infrastructure exposure. Brookfield's board representation and strategic guidance support Vertiv's capital-allocation decisions (M&A, dividends, buybacks). Brookfield's 2024 guidance signals continued support for Vertiv's growth capex and leverage management; Brookfield's infrastructure portfolio provides cross-selling opportunities.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "news"
+        ]
+      },
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Lead Lender and Credit Facility Provider",
+        "relationshipNote": "JPMorgan is Vertiv's lead lender and arranger of its $2.5B+ credit facility (term loan + revolving credit). JPMorgan's 2024 credit facility provides liquidity for working capital, capex, and debt refinancing. JPMorgan's leverage covenants (net debt/EBITDA <4.0x) and interest-coverage requirements (EBITDA/interest >2.5x) constrain Vertiv's financial flexibility. JPMorgan's quarterly covenant-compliance monitoring and annual credit-review process critical for Vertiv's refinancing strategy. Estimated $30M+ annual fees for credit facility and advisory services.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bofa",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Lender and Investment Banking Advisor",
+        "relationshipNote": "Bank of America is a co-lender on Vertiv's credit facility and provides investment-banking advisory services for M&A and capital-markets transactions. BofA's 2024 involvement in Vertiv's potential debt refinancing and strategic-transaction advisory. BofA's leverage-covenant monitoring and quarterly credit reviews support Vertiv's financial management. Estimated $10M+ annual fees for lending and advisory services.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Brookfield Asset Management Inc.",
+        "ticker": "BAM",
+        "cik": "0001393589",
+        "slug": "brookfield_asset_management",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Parent Company and Strategic Capital Provider",
+        "relationshipNote": "Brookfield Asset Management (parent of Brookfield Infrastructure Partners) provides strategic capital, governance oversight, and operational guidance to Vertiv. Brookfield's 2024 capital-allocation strategy supports Vertiv's growth capex and leverage management. Brookfield's infrastructure-focused investment thesis and global platform provide cross-selling opportunities and operational synergies. Brookfield's board representation and strategic guidance critical for Vertiv's long-term value creation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Giordano Albertazzi",
+        "title": "President and Chief Executive Officer",
+        "slug": "giordano_albertazzi",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership and Strategic Direction",
+        "relationshipNote": "Albertazzi became CEO in 2021, leading Vertiv's strategic pivot toward AI-infrastructure and thermal-management solutions. Albertazzi's background in industrial automation and infrastructure (prior roles at Emerson, Eaton) brings deep sector expertise. Under Albertazzi's leadership, Vertiv's revenue grew from $4.3B (2021) to $5.5B (2023); EBITDA margin expanded from 12% to 14%. Albertazzi's 2024 guidance signals 12–15% revenue growth and margin expansion to 16–17% EBITDA; his compensation package ($5M+ base + equity) aligns with shareholder value creation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "David Cote",
+        "title": "Chief Financial Officer",
+        "slug": "david_cote",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management and Capital Allocation",
+        "relationshipNote": "Cote is Vertiv's CFO, responsible for financial planning, capital allocation, and investor relations. Cote's background in industrial finance and M&A (prior roles at Honeywell, Eaton) brings strong financial-management expertise. Cote's 2024 focus on leverage reduction (target net debt/EBITDA <3.2x by end-2025) and free-cash-flow optimization. Cote's quarterly earnings-call guidance and financial-disclosure management critical for investor confidence. Compensation package ($2M+ base + equity) tied to EBITDA growth and leverage targets.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Anthimos Georgiades",
+        "title": "Chief Operating Officer",
+        "slug": "anthimos_georgiades",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations and Manufacturing Excellence",
+        "relationshipNote": "Georgiades is Vertiv's COO, overseeing manufacturing, supply-chain, and operational-excellence initiatives. Georgiades's background in operations and lean manufacturing (prior roles at Eaton, Emerson) brings deep operational expertise. Georgiades's 2024 focus on supply-chain resilience, tariff-mitigation strategies, and manufacturing-footprint optimization. Georgiades's quarterly operational-metrics reporting (backlog, lead times, capacity utilization) critical for demand-signal assessment. Compensation package ($1.5M+ base + equity) tied to operational-efficiency targets.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Heather Patel",
+        "title": "General Counsel and Secretary",
+        "slug": "heather_patel",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal and Compliance Management",
+        "relationshipNote": "Patel is Vertiv's General Counsel, responsible for legal compliance, regulatory affairs, and risk management. Patel's background in corporate law and regulatory compliance (prior roles at Eaton, Schneider) brings strong legal expertise. Patel's 2024 focus on export-control compliance, tariff-mitigation legal strategies, and antitrust-compliance monitoring. Patel's quarterly legal-risk assessments and regulatory-filing management critical for compliance and risk mitigation. Compensation package ($1.2M+ base + equity) tied to compliance and risk-management targets.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "inferred"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Vertiv Backlog-to-Revenue Ratio",
+        "slug": "vertiv_backlog_ratio",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales and Revenue Momentum Signal",
+        "relationshipNote": "Vertiv's quarterly backlog-to-revenue ratio is a leading indicator of demand strength and order-intake momentum. 2024 Q3 backlog ~$2.8B (1.9x quarterly revenue), up from $2.2B (1.5x) in 2023 Q4, signaling strong AI-infrastructure demand. Backlog growth >20% YoY indicates sustained hyperscaler capex cycle; backlog decline <10% signals demand normalization. Vertiv discloses backlog in quarterly earnings calls and 10-Q filings; analyst consensus targets 1.8–2.0x backlog-to-revenue ratio through 2025.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "10-Q"
+        ]
+      },
+      {
+        "name": "Vertiv Gross Margin Trend",
+        "slug": "vertiv_gross_margin",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence and Pricing Power",
+        "relationshipNote": "Vertiv's quarterly gross margin is a key indicator of pricing power, input-cost inflation, and product-mix shift. 2024 Q3 gross margin ~38% (up from 36% in 2023 Q4), driven by AI-infrastructure mix and pricing discipline. Gross-margin compression >100 bps YoY signals tariff impact or competitive pricing pressure; expansion >100 bps signals mix improvement or pricing power. Vertiv discloses gross margin by segment in quarterly earnings calls; analyst consensus targets 38–40% gross margin through 2025.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "10-Q"
+        ]
+      },
+      {
+        "name": "Hyperscaler Data-Center Capex Index",
+        "slug": "hyperscaler_capex_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Demand Signal for Infrastructure Investment",
+        "relationshipNote": "Hyperscaler capex (AWS, Meta, Microsoft, Google combined) is a leading indicator of Vertiv's demand trajectory. 2024 combined hyperscaler capex ~$150B+ (up from $130B in 2023), with AI-infrastructure capex growing 30%+ YoY. Vertiv's 40%+ revenue exposure to hyperscaler capex makes this signal critical for demand forecasting. Analyst consensus targets hyperscaler capex growth of 15–20% CAGR through 2026, supporting Vertiv's 12–15% revenue growth guidance.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "industry-report",
+          "news"
+        ]
+      }
+    ]
+  }
+}

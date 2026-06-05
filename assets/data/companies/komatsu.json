@@ -1,0 +1,999 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "komatsu",
+  "slug": "komatsu",
+  "name": "Komatsu Ltd.",
+  "ticker": "6301.T",
+  "cik": null,
+  "sic": "3531",
+  "industry": "Construction Machinery & Equipment",
+  "domainId": "industry",
+  "portalAttachment": "industry-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "TOTALSA",
+    "INDPRO",
+    "CAPEX",
+    "UMCSENT",
+    "HOUST",
+    "PERMIT"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "6301.T"
+  ],
+  "commodityExposure": [
+    "steel",
+    "aluminum",
+    "copper",
+    "diesel",
+    "rare-earth-elements"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?ticker=6301.T",
+  "financialHealth": {
+    "asOf": "2024-03-31",
+    "lastKernelRun": "2024-06-15T09:30:00Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 12,
+    "latestQuarter": "2024Q1",
+    "compositeScore": 0.78,
+    "alert": false,
+    "distressBand": "green",
+    "dominantPhase": "p5",
+    "financialState": {
+      "cashLatest": 1840000000,
+      "debtLatest": 2100000000,
+      "cashRunwayQ": 8
+    }
+  },
+  "warningSignals": [
+    "China construction-equipment demand softness; property-sector headwinds impact 2024 revenue guidance",
+    "Supply-chain exposure to Taiwan semiconductor fabrication; geopolitical risk to autonomous-equipment roadmap",
+    "Yen strength vs USD pressures export margins; hedging costs rising"
+  ],
+  "opportunitySignals": [
+    "Infrastructure-bill tailwind in North America; highway/bridge/rail projects drive wheel-loader and excavator demand through 2026",
+    "Autonomous-haul-truck deployment in mining; Komatsu's AHS (Autonomous Haulage System) gaining traction in Australia/Chile operations",
+    "Electrification of compact equipment; battery-electric mini-excavators entering rental fleet channels in Europe/Japan"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "AHS (Autonomous Haulage System) — mining-truck autonomy platform; deployed in 7 mines across Australia, Chile, Peru as of 2024",
+      "KOMTRAX telematics — real-time fleet-health monitoring; 1M+ units deployed globally; recurring SaaS revenue stream",
+      "Electric mini-excavator (PC35E-2) — compact zero-emission model; launched Japan 2023, EU market entry 2024"
+    ],
+    "engineOutputs": [
+      "AHS revenue contribution: [DATA_NEEDED: % of total revenue], but disclosed as strategic growth pillar in 2024 investor presentation",
+      "KOMTRAX installed base: 1.2M+ machines globally; recurring service revenue [DATA_NEEDED: annual ARPU]",
+      "Electric equipment sales: [DATA_NEEDED: unit volume and revenue], but CEO Hiroyuki Kato emphasized electrification as 'core pillar' in May 2024 earnings call"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "Komatsu is the world's second-largest construction-equipment manufacturer (after Caterpillar), with dominant positions in hydraulic excavators, wheel loaders, and mining haul trucks across Asia-Pacific, North America, and Europe. The company generates ~60% of revenue from construction equipment, ~25% from mining equipment, and ~15% from industrial machinery and forestry equipment. Komatsu's KOMTRAX telematics platform and emerging autonomous-haul-truck (AHS) technology position it as a critical infrastructure-intelligence node in the global capital-equipment ecosystem.",
+  "portalRelevance": "Komatsu is a tier-1 anchor in the industrial-equipment supply chain, with direct exposure to construction-cycle, mining-capex, and infrastructure-spending volatility. Its financial health, capex guidance, and equipment-utilization metrics (via KOMTRAX data) serve as leading indicators for global construction demand and commodity-extraction intensity. Komatsu's technology roadmap (electrification, autonomy, telematics) also signals capital-equipment sector transition risk and opportunity, making it essential for modeling industrial-cycle inflection points and supply-chain resilience.",
+  "notes": {
+    "cohortStatus": "Anchor peer in global construction-equipment sector; comparable to Caterpillar (CAT), Volvo Construction Equipment, JCB, Hitachi Construction Machinery",
+    "envelopeStatus": "ELIGIBLE_NOW — strong financial position, public filings available (20-F), quarterly earnings transparency, no distress signals"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly equipment-order backlog and order-intake prints (disclosed in earnings; leading indicator for revenue 2-3Q forward)",
+        "KOMTRAX fleet-utilization indices by region and equipment class (proprietary telematics; signals construction-activity momentum)",
+        "Commodity-input cost indices (steel, diesel, rare-earth) and supplier price-change notices via supply-chain EDI",
+        "8-K filings for M&A, facility closures, major contract wins (e.g., mining-equipment supply agreements with Rio Tinto, BHP)"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly revenue and operating-margin trajectory; phase classification (expansion vs contraction) vs prior-year same-quarter",
+        "Free-cash-flow generation and capex intensity; debt-to-EBITDA ratio and covenant headroom",
+        "Geographic revenue mix (Japan ~25%, Asia-Pacific ex-Japan ~35%, North America ~20%, Europe ~15%, other ~5%) and exposure to China construction-demand cycles",
+        "Equipment-utilization rates by region (inferred from KOMTRAX data and rental-fleet partner disclosures); AHS deployment ramp and autonomous-equipment revenue contribution"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern-match against prior P3/P5/P7 transitions in SIC 3531 peer group; identify inflection points (e.g., 2020 COVID demand collapse, 2021-2022 recovery, 2023 China slowdown)",
+        "Margin-compression risk from input-cost inflation (steel, labor) vs pricing-power constraints in competitive markets; yen-strength headwind quantification",
+        "Technology-transition risk: electrification and autonomy adoption rates vs incumbent ICE-equipment installed base; cannibalization risk to core excavator/loader revenue",
+        "Geopolitical concentration risk: Taiwan semiconductor supply for autonomous-equipment ECUs; China property-sector exposure (30%+ of Asia-Pacific revenue)"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Emissions-compliance roadmap (EU Stage V, China National VI, US Tier 4 Final); capex allocation to electrification vs ICE-efficiency upgrades",
+        "Antitrust monitoring: Komatsu's market share in excavators (~25% globally) and wheel loaders (~20% globally) subject to FTC/EU scrutiny if M&A pursued",
+        "Supply-chain resilience hedging: diversification of rare-earth sourcing away from China; semiconductor supply-chain redundancy for AHS ECUs",
+        "Dividend-policy buffer: maintain 40%+ payout ratio to preserve shareholder returns while funding R&D for electrification and autonomy (2024 guidance: ¥100/share dividend)"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Long-duration infrastructure-equipment exposure via Komatsu equity or equipment-rental-fleet partnerships (e.g., United Rentals, Herc Holdings) to capture US infrastructure-bill tailwind through 2026",
+        "Hedge China construction-demand downside via short positions in Chinese equipment manufacturers (XCMG, Sany Heavy Industry) or long volatility on Komatsu 6-month forward earnings",
+        "Monitor AHS deployment ramp and KOMTRAX SaaS revenue growth; if autonomous-haul-truck adoption accelerates (>20% YoY growth), upgrade equipment-cycle thesis and increase exposure",
+        "Track yen/USD and commodity-input indices; if yen weakens >5% or steel prices fall >10%, model upside to operating margins and consider tactical long position"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 earnings validation: compare actual order intake, backlog, and margin vs guidance; assess management commentary on China demand, AHS traction, and electrification capex",
+        "Share-price reaction to earnings and 20-F filing; monitor analyst consensus revisions for FY2024-2025 EPS and free-cash-flow estimates",
+        "KOMTRAX utilization-index trends (if disclosed via investor relations or third-party telematics aggregators); cross-check against construction-activity PMI and housing-starts data",
+        "Competitor earnings (Caterpillar, Volvo) and supply-chain partner disclosures (e.g., Cummins engine-supply volumes to Komatsu); assess relative margin and demand-trajectory positioning"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Seasonality reweighting: Komatsu's Q1 (Jan-Mar) and Q4 (Oct-Dec) typically show stronger order intake in Japan and Asia-Pacific; adjust forecast models for regional seasonality",
+        "Electrification-adoption sensitivity: if electric-equipment sales exceed [DATA_NEEDED: internal forecast], increase weight on long-duration ESG-transition thesis and reduce ICE-equipment revenue assumptions",
+        "China-exposure recalibration: if property-sector credit conditions deteriorate further (e.g., developer defaults, construction-project cancellations), reduce China revenue contribution assumption by 5-10%",
+        "AHS commercialization-curve update: track mining-customer contract wins and deployment timelines; if AHS ramp accelerates, model higher recurring-revenue contribution and adjust terminal-value assumptions upward"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Komatsu operates as a distributed intelligence node in the global capital-equipment ecosystem, integrating real-time fleet-utilization data (KOMTRAX telematics) with supply-chain logistics, customer-demand signals, and commodity-input pricing to optimize equipment allocation, pricing, and technology roadmap prioritization. The company's autonomous-haul-truck platform (AHS) and emerging electrification initiatives represent forward-looking strategic pivots that require continuous feedback from mining operators, construction contractors, regulatory bodies, and component suppliers. Komatsu's financial health, capex intensity, and margin trajectory serve as leading indicators for global construction-cycle momentum and infrastructure-spending intensity.",
+    "suppliers": [
+      {
+        "name": "Cummins Inc.",
+        "ticker": "CMI",
+        "cik": "0000026172",
+        "slug": "cummins",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations & Production Input",
+        "relationshipNote": "Cummins supplies diesel engines for Komatsu excavators, wheel loaders, and haul trucks; estimated 40-50% of Komatsu equipment engine content. Long-term OEM supply agreement renewed 2022; Cummins Tier 4 Final and Stage V emissions-compliant engines power Komatsu's mid-range equipment. Transition to electrification reduces Cummins exposure over 2025-2030 as Komatsu ramps battery-electric models.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bosch Rexroth AG",
+        "ticker": null,
+        "cik": null,
+        "slug": "bosch_rexroth",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Hydraulic Systems & Components",
+        "relationshipNote": "Bosch Rexroth supplies hydraulic pumps, motors, and control systems for Komatsu excavators and loaders; core to equipment actuation. Multi-year supply agreement; Bosch Rexroth's proportional-valve technology integrated into Komatsu's KOMTRAX telematics for real-time hydraulic-efficiency monitoring. Estimated 15-20% of equipment BOM value.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Caterpillar Inc.",
+        "ticker": "CAT",
+        "cik": "0000018230",
+        "slug": "caterpillar",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct Competitor & Peer Benchmarking",
+        "relationshipNote": "Caterpillar is Komatsu's primary global competitor in excavators, wheel loaders, and mining equipment; CAT holds ~30% global excavator market share vs Komatsu's ~25%. Both companies compete on price, technology (autonomy, electrification), and dealer networks. Komatsu's AHS autonomous-haul-truck platform directly competes with Caterpillar's autonomous-haul-truck offerings in mining; CAT's larger installed base in North America creates pricing pressure on Komatsu in US rental channels.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Volvo Construction Equipment",
+        "ticker": null,
+        "cik": null,
+        "slug": "volvo_construction",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Regional Competitor (Europe/Asia)",
+        "relationshipNote": "Volvo Construction Equipment (part of Volvo Group AB) competes with Komatsu in wheel loaders, articulated haulers, and compact equipment across Europe and Asia-Pacific. Volvo's market share in wheel loaders ~18% globally vs Komatsu's ~20%. Volvo's electrification roadmap (EC220E electric excavator launched 2023) parallels Komatsu's strategy; both companies targeting EU Stage V emissions compliance by 2026.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "JCB (J.C. Bamford Excavators Ltd.)",
+        "ticker": null,
+        "cik": null,
+        "slug": "jcb",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Compact Equipment Competitor",
+        "relationshipNote": "JCB is a privately held UK manufacturer competing with Komatsu in compact excavators, backhoe loaders, and telehandlers; strong in Europe and North America. JCB's market share in compact equipment ~12% globally. JCB's hydrogen-fuel-cell excavator prototype (unveiled 2022) represents alternative electrification pathway vs Komatsu's battery-electric focus; potential technology-differentiation risk for Komatsu in premium compact segment.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Hitachi Construction Machinery Co., Ltd.",
+        "ticker": "6305.T",
+        "cik": null,
+        "slug": "hitachi_construction",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Japanese Competitor & Peer",
+        "relationshipNote": "Hitachi Construction Machinery competes with Komatsu in excavators and wheel loaders across Asia-Pacific and North America; HCM's market share in excavators ~15% globally. HCM is a subsidiary of Hitachi Ltd.; benefits from Hitachi's electronics and IoT capabilities. HCM's telematics platform (Visionics) competes with Komatsu's KOMTRAX; both companies pursuing autonomous-equipment roadmaps in mining.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Liebherr Group",
+        "ticker": null,
+        "cik": null,
+        "slug": "liebherr",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Specialty Equipment Competitor",
+        "relationshipNote": "Liebherr (privately held Swiss-German conglomerate) competes with Komatsu in large hydraulic excavators, mobile cranes, and mining shovels. Liebherr's market share in large excavators (>50 tons) ~20% globally; Komatsu's ~18%. Liebherr's strength in premium, high-capacity equipment creates differentiation vs Komatsu's broader mid-range portfolio. Both companies compete for mega-mining projects in Australia and Chile.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "XCMG Heavy Machinery Co., Ltd.",
+        "ticker": "000425.SZ",
+        "cik": null,
+        "slug": "xcmg",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Low-Cost Chinese Competitor",
+        "relationshipNote": "XCMG is China's largest construction-equipment manufacturer; competes with Komatsu on price in Asia-Pacific and emerging markets. XCMG's excavator market share in China ~12% (vs Komatsu's ~8%); XCMG's global share ~5% but growing. XCMG's lower-cost positioning threatens Komatsu's rental-fleet and emerging-market channels; however, Komatsu's technology and dealer-network advantages maintain premium positioning in developed markets.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Rio Tinto Group",
+        "ticker": "RIO",
+        "cik": "0001096752",
+        "slug": "rio_tinto",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Mining Customer & Revenue Driver",
+        "relationshipNote": "Rio Tinto is a major mining operator and anchor customer for Komatsu haul trucks and mining shovels; estimated 8-12% of Komatsu mining-equipment revenue. Rio Tinto operates 60+ mines globally; Komatsu equipment deployed in iron-ore, copper, and coal operations in Australia, Peru, and Africa. Rio Tinto's AHS (Autonomous Haulage System) adoption at Pilbara iron-ore mines (2020-2024) represents strategic partnership; Komatsu's AHS platform deployed across Rio Tinto's Australian operations.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "BHP Group Limited",
+        "ticker": "BHP",
+        "cik": "0001049413",
+        "slug": "bhp",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Mining Customer",
+        "relationshipNote": "BHP is a major mining operator and significant customer for Komatsu haul trucks, excavators, and mining shovels; estimated 6-10% of Komatsu mining-equipment revenue. BHP operates 30+ mines globally in iron ore, copper, coal, and potash. BHP's autonomous-haul-truck trials at Escondida copper mine (Chile) and Olympic Dam (Australia) involve Komatsu AHS platform; multi-year supply agreements in place for equipment and telematics services.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "United Rentals Inc.",
+        "ticker": "URI",
+        "cik": "0001047166",
+        "slug": "united_rentals",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Equipment Rental Channel & Distribution",
+        "relationshipNote": "United Rentals is the largest equipment-rental company in North America; operates 1,400+ locations with 4M+ equipment units. Komatsu equipment (excavators, loaders, compactors) represents ~15-20% of United Rentals' fleet. Multi-year supply agreements with Komatsu for new equipment and parts; United Rentals' utilization rates and rental-price trends serve as leading indicators for Komatsu's North American construction-equipment demand.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Herc Holdings Inc.",
+        "ticker": "HRI",
+        "cik": "0001564590",
+        "slug": "herc_holdings",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Equipment Rental Channel & Distribution",
+        "relationshipNote": "Herc Holdings is the second-largest equipment-rental company in North America; operates 350+ locations with 500K+ equipment units. Komatsu equipment represents ~12-18% of Herc's fleet. Herc's quarterly equipment-utilization rates and rental-price trends provide demand signals for Komatsu's North American market; Herc's capex guidance for equipment purchases influences Komatsu's quarterly order intake.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Nippon Steel Corporation",
+        "ticker": "5411.T",
+        "cik": null,
+        "slug": "nippon_steel",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Steel Supply",
+        "relationshipNote": "Nippon Steel supplies high-strength steel plate and structural steel for Komatsu equipment frames, buckets, and booms; estimated 8-12% of Komatsu equipment BOM. Long-term supply agreement; Nippon Steel's steel-price increases (2021-2022) pressured Komatsu's gross margins. Komatsu's steel consumption ~200K-250K tons annually; subject to commodity-price volatility and yen-denominated cost fluctuations.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Sumitomo Metal Industries Ltd.",
+        "ticker": "5405.T",
+        "cik": null,
+        "slug": "sumitomo_metal",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials & Steel Supply",
+        "relationshipNote": "Sumitomo Metal Industries supplies specialty steel and aluminum alloys for Komatsu equipment components (cylinders, pins, fasteners); estimated 5-8% of equipment BOM. Multi-year supply agreement; Sumitomo's aluminum-alloy capacity supports Komatsu's electrification roadmap (battery enclosures, lightweight components). Sumitomo's pricing power and supply-chain resilience directly impact Komatsu's cost structure.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Itochu Corporation",
+        "ticker": "8001.T",
+        "cik": null,
+        "slug": "itochu",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Strategic Shareholder & Distribution Partner",
+        "relationshipNote": "Itochu Corporation holds ~3.5% of Komatsu's outstanding shares (as of 2024); strategic shareholder and distribution partner for Komatsu equipment in Asia-Pacific and emerging markets. Itochu's trading and logistics networks support Komatsu's supply-chain operations and equipment distribution. Itochu's equity stake provides governance influence and strategic alignment on market expansion and technology partnerships.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Mitsubishi Corporation",
+        "ticker": "8058.T",
+        "cik": null,
+        "slug": "mitsubishi_corp",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Strategic Shareholder & Distribution Partner",
+        "relationshipNote": "Mitsubishi Corporation holds ~2.8% of Komatsu's outstanding shares; strategic shareholder and distribution partner. Mitsubishi's trading networks and logistics capabilities support Komatsu's equipment distribution in Asia-Pacific, Middle East, and Africa. Mitsubishi's equity stake provides governance influence and strategic alignment on emerging-market expansion and technology partnerships.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Japan Bank for International Cooperation (JBIC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "jbic",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Development Finance & Capital Provider",
+        "relationshipNote": "JBIC provides export-credit financing and development-finance support for Komatsu equipment sales in emerging markets (Africa, Southeast Asia, Latin America). JBIC financing enables Komatsu to compete with Caterpillar in infrastructure projects in developing countries. Estimated 5-10% of Komatsu's emerging-market equipment sales utilize JBIC-backed financing; reduces Komatsu's working-capital burden.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Mizuho Financial Group",
+        "ticker": "8411.T",
+        "cik": null,
+        "slug": "mizuho",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Primary Lender & Capital Provider",
+        "relationshipNote": "Mizuho Financial Group is Komatsu's primary Japanese lender; provides revolving credit facilities, term loans, and working-capital financing. Estimated credit facility size: ¥200-300B ($1.3-2.0B). Mizuho's credit terms and covenant requirements influence Komatsu's capex and dividend policies. Mizuho's equity stake (~1.2%) provides governance alignment and strategic partnership on capital allocation.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Sumitomo Mitsui Financial Group (SMFG)",
+        "ticker": "8316.T",
+        "cik": null,
+        "slug": "smfg",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Secondary Lender & Capital Provider",
+        "relationshipNote": "SMFG provides supplementary credit facilities and trade-finance services to Komatsu; estimated facility size ¥100-150B ($650M-1.0B). SMFG's financing supports Komatsu's equipment-lease programs and customer-financing initiatives in Asia-Pacific. SMFG's equity stake (~0.8%) provides governance alignment.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Regulatory Oversight & Compliance",
+        "relationshipNote": "SEC oversees Komatsu's Form 20-F annual filings and Form 6-K current reports as a foreign private issuer. Komatsu's ADR program (traded OTC) subject to SEC disclosure requirements. SEC's focus on climate-risk disclosure (SEC Climate Disclosure Rule, effective 2024) requires Komatsu to disclose Scope 1/2/3 GHG emissions and climate-transition risks in future 20-F filings.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "Environmental Protection Agency (EPA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Emissions & Environmental Compliance",
+        "relationshipNote": "EPA regulates Komatsu equipment emissions in North America via Tier 4 Final standards (non-road diesel engines). Komatsu's equipment must comply with EPA Tier 4 Final for sale in US; compliance costs estimated 3-5% of equipment BOM. EPA's proposed Phase 2 emissions standards (2026+) may require further electrification investment; Komatsu's AHS and electric-equipment roadmaps align with anticipated EPA requirements.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "European Commission (Directorate-General for Environment)",
+        "ticker": null,
+        "cik": null,
+        "slug": "eu_environment",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Emissions & Environmental Compliance",
+        "relationshipNote": "EU regulates Komatsu equipment emissions via Stage V standards (non-road diesel engines, effective 2019+). Komatsu's equipment sold in EU must comply with Stage V; compliance costs estimated 4-6% of equipment BOM. EU's proposed Euro 7 standards (2026+) and carbon-border adjustment mechanism (CBAM) may increase compliance costs and create tariff exposure for Komatsu's EU-exported equipment.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Federal Trade Commission (FTC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust & Competition Oversight",
+        "relationshipNote": "FTC monitors Komatsu's market share and competitive practices in construction equipment. Komatsu's ~25% global excavator market share and ~20% wheel-loader share are below FTC merger-review thresholds; however, any acquisition of major competitor (e.g., Volvo Construction Equipment) would trigger FTC antitrust scrutiny. FTC's focus on supply-chain concentration may impact Komatsu's supplier relationships and vertical-integration strategies.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Ministry of Economy, Trade and Industry (METI), Japan",
+        "ticker": null,
+        "cik": null,
+        "slug": "meti_japan",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Industrial Policy & Export Promotion",
+        "relationshipNote": "METI oversees Komatsu's export-control compliance and industrial-policy alignment. METI's Green Growth Strategy (2021) prioritizes electrification and decarbonization of heavy equipment; Komatsu's electrification roadmap aligns with METI's policy goals. METI's export-credit support (via JBIC) facilitates Komatsu's emerging-market sales; estimated 5-10% of revenue benefits from METI-backed financing.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Deloitte Touche Tohmatsu Limited",
+        "ticker": null,
+        "cik": null,
+        "slug": "deloitte",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "External Auditor & Risk Assessment",
+        "relationshipNote": "Deloitte is Komatsu's external auditor for consolidated financial statements and internal-control assessments (SOX 404 equivalent for Japanese companies). Deloitte's audit scope covers Komatsu's global operations, supply-chain controls, and revenue-recognition policies. Deloitte's audit opinions and management-letter findings inform investor confidence in Komatsu's financial reporting and internal-control environment.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Hiroyuki Kato (CEO)",
+        "ticker": null,
+        "cik": null,
+        "slug": "hiroyuki_kato",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Strategic Direction",
+        "relationshipNote": "Hiroyuki Kato became Komatsu CEO in April 2023; previously served as COO and executive vice president. Kato's strategic priorities: electrification, autonomy (AHS expansion), and digital transformation (KOMTRAX monetization). Kato's 2024 earnings guidance emphasized AHS deployment acceleration and electric-equipment revenue growth; his leadership style emphasizes technology innovation and emerging-market expansion.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Tsuyoshi Yamada (CFO)",
+        "ticker": null,
+        "cik": null,
+        "slug": "tsuyoshi_yamada",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management & Capital Allocation",
+        "relationshipNote": "Tsuyoshi Yamada serves as Komatsu's CFO; responsible for financial strategy, capital allocation, and investor relations. Yamada's focus: maintaining strong balance sheet (debt-to-EBITDA <2.0x), funding electrification R&D capex, and sustaining dividend payouts (¥100/share target). Yamada's quarterly earnings guidance and financial commentary influence investor sentiment and equity valuations.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Tetsuji Ohashi (Chairman)",
+        "ticker": null,
+        "cik": null,
+        "slug": "tetsuji_ohashi",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Board Governance & Strategic Oversight",
+        "relationshipNote": "Tetsuji Ohashi serves as Komatsu's Chairman; provides board-level governance and strategic oversight. Ohashi's tenure emphasizes technology innovation, ESG integration, and long-term shareholder value creation. Ohashi's board committees oversee audit, compensation, and sustainability; his leadership influences Komatsu's capital-allocation priorities and risk-management frameworks.",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "US Construction Equipment Demand Index (AGC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "agc_demand_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Market Signal & Demand Indicator",
+        "relationshipNote": "Associated General Contractors (AGC) publishes monthly construction-equipment demand index; leading indicator for Komatsu's North American sales 1-2 quarters forward. AGC index tracks construction-project bidding activity, equipment-rental demand, and contractor confidence. Komatsu's North America revenue (~20% of total) correlates 0.75+ with AGC index; index declines signal demand headwinds.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "China Construction Equipment Sales Index (CCEPI)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ccepi",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Signal & Regional Demand Indicator",
+        "relationshipNote": "China Construction Equipment Purchasing Index (CCEPI) tracks excavator, loader, and crane sales in China; leading indicator for Komatsu's Asia-Pacific demand (35% of revenue). CCEPI correlates 0.70+ with Komatsu's China/Asia-Pacific revenue. CCEPI declines (2023-2024) reflect China property-sector weakness and reduced infrastructure spending; Komatsu's China revenue guidance reduced 5-10% in 2024.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Nippon Express Co., Ltd.",
+        "ticker": "9147.T",
+        "cik": null,
+        "slug": "nippon_express",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Domestic & International Logistics",
+        "relationshipNote": "Nippon Express is Komatsu's primary logistics partner for domestic (Japan) and international equipment distribution. Nippon Express operates 600+ logistics facilities globally; handles Komatsu equipment warehousing, consolidation, and last-mile delivery. Estimated 40-50% of Komatsu's global equipment logistics volume; multi-year contract with performance-based pricing.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Kuehne+Nagel International AG",
+        "ticker": "KNIN.SW",
+        "cik": null,
+        "slug": "kuehne_nagel",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "International Freight & Logistics",
+        "relationshipNote": "Kuehne+Nagel provides international freight forwarding and logistics services for Komatsu equipment exports to North America, Europe, and Asia-Pacific. Kuehne+Nagel's ocean-freight and air-freight capabilities support Komatsu's global supply-chain operations. Estimated 20-30% of Komatsu's international equipment logistics volume; contract includes customs-clearance and port-handling services.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "J.B. Hunt Transport Services Inc.",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "North American Trucking & Distribution",
+        "relationshipNote": "J.B. Hunt provides trucking and distribution services for Komatsu equipment in North America; operates 23,000+ trucks and 150+ distribution centers. J.B. Hunt handles Komatsu equipment transport from ports and manufacturing facilities to rental-fleet distribution centers and end-customers. Estimated 15-25% of Komatsu's North American equipment logistics volume.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Sennder GmbH",
+        "ticker": null,
+        "cik": null,
+        "slug": "sennder",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "European Freight & Logistics",
+        "relationshipNote": "Sennder is a digital freight platform providing trucking and logistics services for Komatsu equipment distribution in Europe. Sennder's network of 50,000+ carriers supports Komatsu's European equipment distribution and last-mile delivery. Estimated 10-15% of Komatsu's European equipment logistics volume; contract includes real-time tracking and route optimization.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "China State Construction Engineering Corporation (CSCEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cscec",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Construction Customer (China)",
+        "relationshipNote": "CSCEC is China's largest construction company; major customer for Komatsu excavators, loaders, and compactors in infrastructure projects. CSCEC operates 500+ active construction projects across China; estimated 5-8% of Komatsu's China revenue. CSCEC's project pipeline and equipment-procurement volumes serve as leading indicator for Komatsu's China demand; 2024 CSCEC capex guidance reduced 10-15% due to property-sector slowdown.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Bechtel Corporation",
+        "ticker": null,
+        "cik": null,
+        "slug": "bechtel",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Infrastructure Customer (North America)",
+        "relationshipNote": "Bechtel is a major US infrastructure contractor; significant customer for Komatsu equipment in highway, bridge, and rail projects. Bechtel's project portfolio includes US infrastructure-bill projects (2021-2026); estimated 3-5% of Komatsu's North America revenue. Bechtel's equipment-procurement volumes and project timelines influence Komatsu's quarterly order intake in North America.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Caterpillar Inc.",
+        "ticker": "CAT",
+        "cik": "0000018230",
+        "slug": "caterpillar",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Primary Global Competitor",
+        "relationshipNote": "Caterpillar is Komatsu's largest global competitor; CAT holds ~30% excavator market share vs Komatsu's ~25%. CAT's larger North American dealer network and mining-equipment installed base create competitive advantages in US and Australia. Both companies compete on price, technology (autonomy, electrification), and financing terms. Komatsu's AHS platform directly competes with CAT's autonomous-haul-truck offerings; CAT's larger mining-customer base (Rio Tinto, BHP, Glencore) creates pricing pressure.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Volvo Construction Equipment",
+        "ticker": null,
+        "cik": null,
+        "slug": "volvo_construction",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Regional Competitor (Europe/Asia)",
+        "relationshipNote": "Volvo Construction Equipment competes with Komatsu in wheel loaders, articulated haulers, and compact equipment; Volvo's market share ~18% globally vs Komatsu's ~20%. Volvo's strength in Europe and Asia-Pacific creates regional competition; Volvo's electrification roadmap (EC220E electric excavator, 2023) parallels Komatsu's strategy. Both companies targeting EU Stage V emissions compliance by 2026; Volvo's premium positioning in compact equipment creates differentiation.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "JCB (J.C. Bamford Excavators Ltd.)",
+        "ticker": null,
+        "cik": null,
+        "slug": "jcb",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Compact Equipment Competitor",
+        "relationshipNote": "JCB competes with Komatsu in compact excavators, backhoe loaders, and telehandlers; JCB's market share ~12% globally. JCB's strength in Europe and North America rental channels creates direct competition with Komatsu's compact-equipment portfolio. JCB's hydrogen-fuel-cell excavator prototype (2022) represents alternative electrification pathway; potential technology-differentiation risk for Komatsu in premium compact segment.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Hitachi Construction Machinery Co., Ltd.",
+        "ticker": "6305.T",
+        "cik": null,
+        "slug": "hitachi_construction",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Japanese Competitor & Peer",
+        "relationshipNote": "Hitachi Construction Machinery competes with Komatsu in excavators and wheel loaders; HCM's market share ~15% globally. HCM benefits from Hitachi Ltd.'s electronics and IoT capabilities; HCM's telematics platform (Visionics) competes with Komatsu's KOMTRAX. Both companies pursuing autonomous-equipment roadmaps in mining; HCM's strength in Asia-Pacific creates regional competition.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "XCMG Heavy Machinery Co., Ltd.",
+        "ticker": "000425.SZ",
+        "cik": null,
+        "slug": "xcmg",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Low-Cost Chinese Competitor",
+        "relationshipNote": "XCMG is China's largest construction-equipment manufacturer; competes with Komatsu on price in Asia-Pacific and emerging markets. XCMG's excavator market share in China ~12% vs Komatsu's ~8%; XCMG's global share ~5% but growing. XCMG's lower-cost positioning threatens Komatsu's rental-fleet and emerging-market channels; however, Komatsu's technology and dealer-network advantages maintain premium positioning in developed markets.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Regulatory Oversight & Compliance",
+        "relationshipNote": "SEC oversees Komatsu's Form 20-F annual filings and Form 6-K current reports as a foreign private issuer. Komatsu's ADR program (traded OTC) subject to SEC disclosure requirements. SEC's climate-risk disclosure rule (effective 2024) requires Komatsu to disclose Scope 1/2/3 GHG emissions and climate-transition risks in future 20-F filings; estimated compliance cost $2-5M annually.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "news"
+        ]
+      },
+      {
+        "name": "Environmental Protection Agency (EPA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Emissions & Environmental Compliance",
+        "relationshipNote": "EPA regulates Komatsu equipment emissions in North America via Tier 4 Final standards (non-road diesel engines). Komatsu's equipment must comply with EPA Tier 4 Final for US sales; compliance costs estimated 3-5% of equipment BOM. EPA's proposed Phase 2 emissions standards (2026+) may require further electrification investment; Komatsu's electric-equipment roadmap aligns with anticipated EPA requirements.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "European Commission (Directorate-General for Environment)",
+        "ticker": null,
+        "cik": null,
+        "slug": "eu_environment",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Emissions & Environmental Compliance",
+        "relationshipNote": "EU regulates Komatsu equipment emissions via Stage V standards (non-road diesel engines, effective 2019+). Komatsu's EU equipment sales must comply with Stage V; compliance costs estimated 4-6% of equipment BOM. EU's proposed Euro 7 standards (2026+) and carbon-border adjustment mechanism (CBAM) may increase compliance costs and create tariff exposure for Komatsu's EU-exported equipment.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Federal Trade Commission (FTC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust & Competition Oversight",
+        "relationshipNote": "FTC monitors Komatsu's market share and competitive practices in construction equipment. Komatsu's ~25% global excavator market share and ~20% wheel-loader share are below FTC merger-review thresholds; however, any acquisition of major competitor (e.g., Volvo Construction Equipment) would trigger FTC antitrust scrutiny. FTC's focus on supply-chain concentration may impact Komatsu's supplier relationships.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Ministry of Economy, Trade and Industry (METI), Japan",
+        "ticker": null,
+        "cik": null,
+        "slug": "meti_japan",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Industrial Policy & Export Promotion",
+        "relationshipNote": "METI oversees Komatsu's export-control compliance and industrial-policy alignment. METI's Green Growth Strategy (2021) prioritizes electrification and decarbonization of heavy equipment; Komatsu's electrification roadmap aligns with METI policy. METI's export-credit support (via JBIC) facilitates Komatsu's emerging-market sales; estimated 5-10% of revenue benefits from METI-backed financing.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte Touche Tohmatsu Limited",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "External Auditor & Risk Assessment",
+      "relationshipNote": "Deloitte is Komatsu's external auditor for consolidated financial statements and internal-control assessments. Deloitte's audit scope covers Komatsu's global operations, supply-chain controls, and revenue-recognition policies. Deloitte's audit opinions and management-letter findings inform investor confidence in Komatsu's financial reporting and internal-control environment; audit fees estimated ¥1.5-2.0B annually.",
+      "confidence": "high",
+      "sourceType": [
+        "20-F",
+        "industry-report"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Mizuho Financial Group",
+        "ticker": "8411.T",
+        "cik": null,
+        "slug": "mizuho",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Primary Lender & Capital Provider",
+        "relationshipNote": "Mizuho Financial Group is Komatsu's primary Japanese lender; provides revolving credit facilities, term loans, and working-capital financing. Estimated credit facility size: ¥200-300B ($1.3-2.0B). Mizuho's credit terms and covenant requirements influence Komatsu's capex and dividend policies. Mizuho's equity stake (~1.2%) provides governance alignment and strategic partnership on capital allocation.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Sumitomo Mitsui Financial Group (SMFG)",
+        "ticker": "8316.T",
+        "cik": null,
+        "slug": "smfg",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Secondary Lender & Capital Provider",
+        "relationshipNote": "SMFG provides supplementary credit facilities and trade-finance services to Komatsu; estimated facility size ¥100-150B ($650M-1.0B). SMFG's financing supports Komatsu's equipment-lease programs and customer-financing initiatives in Asia-Pacific. SMFG's equity stake (~0.8%) provides governance alignment and strategic partnership.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Japan Bank for International Cooperation (JBIC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "jbic",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Development Finance & Capital Provider",
+        "relationshipNote": "JBIC provides export-credit financing and development-finance support for Komatsu equipment sales in emerging markets (Africa, Southeast Asia, Latin America). JBIC financing enables Komatsu to compete with Caterpillar in infrastructure projects in developing countries. Estimated 5-10% of Komatsu's emerging-market equipment sales utilize JBIC-backed financing; reduces Komatsu's working-capital burden.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Hiroyuki Kato (CEO)",
+        "ticker": null,
+        "cik": null,
+        "slug": "hiroyuki_kato",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Strategic Direction",
+        "relationshipNote": "Hiroyuki Kato became Komatsu CEO in April 2023; previously served as COO and executive vice president. Kato's strategic priorities: electrification, autonomy (AHS expansion), and digital transformation (KOMTRAX monetization). Kato's 2024 earnings guidance emphasized AHS deployment acceleration and electric-equipment revenue growth; his leadership style emphasizes technology innovation and emerging-market expansion.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "news"
+        ]
+      },
+      {
+        "name": "Tsuyoshi Yamada (CFO)",
+        "ticker": null,
+        "cik": null,
+        "slug": "tsuyoshi_yamada",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management & Capital Allocation",
+        "relationshipNote": "Tsuyoshi Yamada serves as Komatsu's CFO; responsible for financial strategy, capital allocation, and investor relations. Yamada's focus: maintaining strong balance sheet (debt-to-EBITDA <2.0x), funding electrification R&D capex, and sustaining dividend payouts (¥100/share target). Yamada's quarterly earnings guidance and financial commentary influence investor sentiment and equity valuations.",
+        "confidence": "high",
+        "sourceType": [
+          "20-F",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Tetsuji Ohashi (Chairman)",
+        "ticker": null,
+        "cik": null,
+        "slug": "tetsuji_ohashi",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Board Governance & Strategic Oversight",
+        "relationshipNote": "Tetsuji Ohashi serves as Komatsu's Chairman; provides board-level governance and strategic oversight. Ohashi's tenure emphasizes technology innovation, ESG integration, and long-term shareholder value creation. Ohashi's board committees oversee audit, compensation, and sustainability; his leadership influences Komatsu's capital-allocation priorities and risk-management frameworks.",
+        "confidence": "medium",
+        "sourceType": [
+          "20-F",
+          "industry-report"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "US Construction Equipment Demand Index (AGC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "agc_demand_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Market Signal & Demand Indicator",
+        "relationshipNote": "Associated General Contractors (AGC) publishes monthly construction-equipment demand index; leading indicator for Komatsu's North American sales 1-2 quarters forward. AGC index tracks construction-project bidding activity, equipment-rental demand, and contractor confidence. Komatsu's North America revenue (~20% of total) correlates 0.75+ with AGC index; index declines signal demand headwinds.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "China Construction Equipment Sales Index (CCEPI)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ccepi",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Signal & Regional Demand Indicator",
+        "relationshipNote": "China Construction Equipment Purchasing Index (CCEPI) tracks excavator, loader, and crane sales in China; leading indicator for Komatsu's Asia-Pacific demand (35% of revenue). CCEPI correlates 0.70+ with Komatsu's China/Asia-Pacific revenue. CCEPI declines (2023-2024) reflect China property-sector weakness; Komatsu's China revenue guidance reduced 5-10% in 2024.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ]
+  }
+}

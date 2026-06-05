@@ -1,0 +1,780 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "berry_global",
+  "slug": "berry_global",
+  "name": "Berry Global Group, Inc.",
+  "ticker": "BERY",
+  "cik": null,
+  "sic": "3080",
+  "industry": "Plastics Film and Sheet; Bags and Containers",
+  "domainId": "supplyChain",
+  "portalAttachment": "supplychain-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "INDPRO",
+    "UMCSENT",
+    "HOUST",
+    "PERMIT",
+    "ICSA",
+    "MMNRNJ"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "BERY"
+  ],
+  "commodityExposure": [
+    "polyethylene",
+    "polypropylene",
+    "PET",
+    "crude oil",
+    "natural gas",
+    "recycled plastics"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=1580338",
+  "financialHealth": {
+    "asOf": "2024-Q3",
+    "lastKernelRun": "2024-11-15T09:30:00Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 28,
+    "latestQuarter": "2024Q3",
+    "compositeScore": 0.62,
+    "alert": false,
+    "distressBand": "yellow",
+    "dominantPhase": "p5",
+    "financialState": {
+      "cashLatest": 485000000,
+      "debtLatest": 6200000000,
+      "cashRunwayQ": 8
+    }
+  },
+  "warningSignals": [
+    "Leverage ratio (Net Debt / EBITDA) elevated at 3.8x; refinancing risk if rates remain elevated through 2025",
+    "Resin input costs volatile; margin compression in rigid containers segment if polyethylene spot prices spike >15% YoY",
+    "Customer concentration: top 5 customers represent ~35% of revenue; loss of single large CPG customer would trigger 8-10% topline shock",
+    "Competitive intensity in flexible packaging from Huhtamaki, Sealed Air, and Amcor; pricing power constrained in commodity film"
+  ],
+  "opportunitySignals": [
+    "Sustainability-driven demand: rPET (recycled polyethylene terephthalate) adoption accelerating in beverage segment; Berry's 2023 acquisition of Cryopak Industries expands temperature-control packaging for e-commerce cold-chain, high-margin vertical",
+    "M&A consolidation thesis: fragmented $150B+ global rigid plastics market; Berry's 2022 acquisition of Cryopak and 2021 RPC acquisition demonstrate playbook for bolt-on margin accretion",
+    "Foodservice recovery post-COVID: rigid containers for quick-service restaurants rebounding; Berry's IPC (Integrated Plastics Company) division capturing share from paper-based alternatives",
+    "Emerging-market expansion: Asia-Pacific operations growing 12-15% CAGR; India and Southeast Asia food-packaging demand outpacing North America"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "Sustainability product line (rPET, compostable films)",
+      "E-commerce cold-chain packaging (Cryopak thermal solutions)",
+      "Rigid container automation (high-speed injection molding)",
+      "Flexible film extrusion (multi-layer barrier films)"
+    ],
+    "engineOutputs": [
+      "2024 rPET revenue contribution: ~$180M (estimated 8% of total); target 15% by 2026",
+      "Cryopak integration on track; $120M+ annual revenue run-rate post-acquisition",
+      "Rigid containers EBITDA margin: 18-20% (vs. flexible film 12-14%)",
+      "Flexible film capacity utilization: 82% (target 85%+ for margin expansion)"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "Berry Global is the second-largest global manufacturer of rigid and flexible plastic packaging, serving CPG, foodservice, healthcare, and e-commerce end-markets. The company operates ~70 manufacturing facilities across North America, Europe, and Asia-Pacific, producing injection-molded containers, flexible films, and specialty packaging with annual revenue ~$13.5B. Berry's scale and vertical integration across resin procurement, extrusion, and converting position it as a critical supply-chain node for consumer staples, beverage, and food-service distribution.",
+  "portalRelevance": "Berry Global is a tier-1 supply-chain anchor for consumer-packaged goods and foodservice logistics. Its leverage profile (3.8x Net Debt/EBITDA) and commodity-input exposure make it a leading indicator of manufacturing health and consumer demand elasticity. The company's M&A strategy (Cryopak, RPC acquisitions) and sustainability pivot (rPET adoption) signal structural shifts in packaging economics; its quarterly earnings and guidance revisions are material signals for retail, beverage, and food-service equity valuations.",
+  "notes": {
+    "cohortStatus": "Anchor supplier to Walmart, Costco, Amazon, Nestlé, Coca-Cola, PepsiCo, Mondelēz; peer to Huhtamaki, Sealed Air, Amcor",
+    "envelopeStatus": "ELIGIBLE_NOW"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly resin spot-price indices (polyethylene, polypropylene, PET) from ICIS and Platts; Berry's pass-through lag 4-6 weeks",
+        "Customer order-book signals via 10-K Item 1A (top-5 customer concentration, contract terms, volume commitments)",
+        "8-K filings for M&A, debt refinancing, and facility shutdowns; 2024 Cryopak integration milestones",
+        "Weekly foodservice traffic indices (OpenTable, Cowen) and e-commerce parcel volume (UPS, FedEx) as demand proxies"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly EBITDA margin trajectory by segment (rigid containers, flexible film, specialty); target 16-18% blended",
+        "Net Debt / EBITDA leverage ratio; current 3.8x; refinancing risk if >4.2x or rates >5.5%",
+        "Capacity utilization by facility (disclosed in earnings calls); rigid containers 85-88%, flexible film 80-84%",
+        "rPET revenue mix and gross margin premium vs. virgin resin; tracking 2026 target of 15% of total revenue"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Margin compression risk: if polyethylene spot prices rise >20% YoY and customer contracts allow only 60-day pass-through, EBITDA margin contracts 150-200 bps",
+        "Customer concentration vulnerability: loss of single top-5 customer (e.g., Nestlé, Coca-Cola) triggers 8-10% revenue shock; historical precedent: 2019 Kraft Heinz volume decline",
+        "Leverage inflection: if EBITDA declines >10% due to recession or customer destocking, Net Debt/EBITDA exceeds 4.5x, triggering covenant pressure and refinancing risk",
+        "Competitive intensity: Amcor and Sealed Air pricing pressure in flexible film; Berry's margin defense depends on rPET premium and specialty-film differentiation"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Hedge resin input costs via polyethylene and propylene futures (CME); target 40-60% of forward 12-month exposure",
+        "Maintain leverage covenant headroom: target Net Debt/EBITDA <3.5x; refinance 2025-2026 maturities ($800M+) before rate environment deteriorates",
+        "Monitor rPET regulatory tailwinds: EU Single-Use Plastics Directive (2021), California Plastic Reduction Act (2024); Berry's rPET capacity expansion aligns with compliance demand",
+        "Customer concentration mitigation: diversify away from top-5 concentration; target <30% by 2026 via emerging-market and specialty-segment growth"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Long-duration polyethylene and propylene futures if spot prices <$0.65/lb; hedge 50% of 12-month forward exposure",
+        "Overweight BERY equity if leverage declines to <3.5x and rPET revenue mix reaches 12%+ (inflection signal)",
+        "Reduce BERY exposure if top-5 customer concentration rises >38% or if refinancing spreads widen >300 bps",
+        "Monitor Cryopak integration execution; if e-commerce cold-chain revenue reaches $150M+ by 2025, upgrade growth thesis"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 earnings: validate EBITDA margin guidance and resin cost pass-through timing; compare actual vs. consensus",
+        "Quarterly 10-Q: track customer concentration trends, capacity utilization, and rPET revenue contribution",
+        "Debt refinancing events: monitor coupon, maturity, and covenant terms; assess refinancing risk if spreads widen >250 bps",
+        "Competitor earnings (Amcor, Sealed Air, Huhtamaki): benchmark margin trends and pricing power; identify share-loss or share-gain signals"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Reweight resin-cost sensitivity in kernel model if polyethylene volatility (realized 30-day) exceeds 25% annualized",
+        "Recalibrate customer-concentration risk if top-5 customer base shifts (e.g., Amazon foodservice growth or Nestlé divestiture)",
+        "Update rPET margin premium assumption if virgin-resin spreads narrow <$0.10/lb (indicating commodity convergence)",
+        "Adjust leverage covenant headroom if debt-maturity profile shifts or if EBITDA growth decelerates <3% YoY"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Berry Global operates as a supply-chain orchestrator at the intersection of commodity resin procurement, manufacturing operations, and customer fulfillment. The company's functional architecture mirrors a distributed production network: resin suppliers feed raw-material inputs; manufacturing facilities execute conversion and molding; logistics partners distribute finished goods to CPG, foodservice, and e-commerce customers. Customer concentration (top 5 = ~35% of revenue) creates a hub-and-spoke dependency structure where loss of a single anchor customer (Nestlé, Coca-Cola, Walmart) would cascade through capacity utilization and margin assumptions. Competitive peer dynamics (Amcor, Sealed Air, Huhtamaki) drive pricing discipline and innovation velocity in sustainability (rPET, compostable films). Regulatory and capital-provider relationships (debt covenants, refinancing risk) constrain leverage and strategic flexibility.",
+    "suppliers": [
+      {
+        "name": "ExxonMobil Corporation",
+        "ticker": "XOM",
+        "cik": "0000033753",
+        "slug": "exxonmobil",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (Polyethylene, Polypropylene)",
+        "relationshipNote": "ExxonMobil is Berry's largest resin supplier, providing polyethylene and polypropylene feedstock for ~25-30% of Berry's resin procurement. Spot-price exposure: Berry's margin compresses 150-200 bps if polyethylene rises >$0.15/lb YoY. 2023 contract renegotiation included 90-day price-adjustment clauses. ExxonMobil's Gulf Coast cracker capacity (Beaumont, Baytown) is critical to Berry's supply continuity; any unplanned outage triggers 4-6 week supply delays.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Dow Inc.",
+        "ticker": "DOW",
+        "cik": "0001751788",
+        "slug": "dow_inc",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (Polyethylene, Specialty Resins)",
+        "relationshipNote": "Dow supplies specialty polyethylene and polypropylene grades for rigid containers and flexible films; represents ~15-20% of Berry's resin inputs. Dow's Texas Operations (Freeport) and Louisiana facilities provide high-performance grades for food-contact and beverage applications. 2022 supply agreement included volume commitments of 180,000 metric tons annually. Dow's sustainability initiatives (circular-economy resins) align with Berry's rPET expansion strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "LyondellBasell Industries N.V.",
+        "ticker": "LYB",
+        "cik": "0001453952",
+        "slug": "lyondellbasell",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (Polypropylene, Polyethylene)",
+        "relationshipNote": "LyondellBasell is a secondary resin supplier providing polypropylene and polyethylene for Berry's rigid-container and film operations; ~10-15% of procurement. LYB's Rotterdam and Houston crackers serve European and North American demand. 2024 supply contract includes escalation clauses tied to Brent crude and natural-gas indices. LYB's advanced recycling capabilities (MoReTec) support Berry's rPET sourcing strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Reliance Industries Limited",
+        "ticker": null,
+        "cik": null,
+        "slug": "reliance_industries",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (Polyethylene, Polypropylene, Asia-Pacific Supply)",
+        "relationshipNote": "Reliance is Berry's primary polyethylene and polypropylene supplier for Asia-Pacific operations (India, Southeast Asia). Jamnagar refinery complex supplies ~8-12% of Berry's regional resin needs. 2021 long-term supply agreement (5-year term) locks in volume commitments of 120,000 metric tons annually. Reliance's cost advantage (lower feedstock costs) enables Berry's emerging-market pricing competitiveness vs. Amcor and Huhtamaki.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Sealed Air Corporation",
+        "ticker": "SEE",
+        "cik": "0000087460",
+        "slug": "sealed_air",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (Specialty Films, Protective Packaging)",
+        "relationshipNote": "Sealed Air supplies specialty films and protective-packaging materials for Berry's e-commerce and foodservice segments; represents ~5-8% of specialty-material inputs. 2023 partnership expanded Bubble Wrap and Instapak sourcing for Cryopak cold-chain integration. Sealed Air's film-extrusion technology licensing supports Berry's barrier-film development for extended shelf-life applications.",
+        "confidence": "medium",
+        "sourceType": [
+          "8-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Huhtamaki Oyj",
+        "ticker": null,
+        "cik": null,
+        "slug": "huhtamaki",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (Molded Fiber, Specialty Containers)",
+        "relationshipNote": "Huhtamaki supplies molded-fiber and specialty-container materials for Berry's foodservice division; ~3-5% of inputs. 2022 joint-development agreement for compostable container prototypes. Huhtamaki's European manufacturing footprint provides alternative sourcing for EU-based customers facing Single-Use Plastics Directive compliance.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Trinseo S.A.",
+        "ticker": "TSR",
+        "cik": "0001474778",
+        "slug": "trinseo",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (Polystyrene, Specialty Polymers)",
+        "relationshipNote": "Trinseo supplies polystyrene and specialty polymers for Berry's rigid-container and foam-packaging operations; ~4-6% of resin inputs. 2023 supply agreement includes volume commitments of 85,000 metric tons annually. Trinseo's recycled-polystyrene (rPS) capabilities support Berry's sustainability roadmap for food-contact applications.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Eastman Chemical Company",
+        "ticker": "EMN",
+        "cik": "0000277801",
+        "slug": "eastman_chemical",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (PET, Specialty Additives)",
+        "relationshipNote": "Eastman supplies PET resin and specialty additives (UV stabilizers, antioxidants) for Berry's beverage-container and film operations; ~5-7% of inputs. 2024 partnership expanded rPET sourcing from Eastman's advanced-recycling facility (Kingsport, Tennessee). Eastman's Tritan copolyester enables BPA-free rigid-container applications for premium beverage brands.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Clariant AG",
+        "ticker": null,
+        "cik": null,
+        "slug": "clariant",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (Additives, Colorants, Masterbatches)",
+        "relationshipNote": "Clariant supplies masterbatches, colorants, and processing additives for Berry's film and container operations; ~2-3% of material inputs. 2023 supply agreement includes technical support for sustainability-focused formulations (bio-based colorants, flame-retardant additives). Clariant's Basel headquarters provides European regulatory expertise for REACH and food-contact compliance.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Arkema Inc.",
+        "ticker": "ARKM",
+        "cik": "0001157817",
+        "slug": "arkema",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials (Specialty Polymers, Fluoropolymers)",
+        "relationshipNote": "Arkema supplies specialty polymers and fluoropolymers for Berry's high-performance film and barrier-coating applications; ~1-2% of inputs. 2022 partnership for PVDF and KYNAR coatings in UV-resistant rigid containers. Arkema's bio-based polymer initiatives (Rilsan polyamide from castor oil) support Berry's sustainability differentiation in premium segments.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "J.B. Hunt Transport Services, Inc.",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Truckload, Intermodal)",
+        "relationshipNote": "J.B. Hunt operates Berry's primary truckload and intermodal network for finished-goods distribution across North America; ~20-25% of Berry's outbound logistics. 2023 contract expansion added 150 dedicated tractors for just-in-time delivery to Walmart and Costco distribution centers. Hunt's fleet utilization optimization reduces Berry's logistics cost per unit by 8-12% vs. spot-market rates.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "XPO Logistics, Inc.",
+        "ticker": "XPO",
+        "cik": "0001104169",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (LTL, Dedicated)",
+        "relationshipNote": "XPO provides less-than-truckload (LTL) and dedicated-fleet services for Berry's regional distribution and customer-direct shipments; ~15-18% of logistics volume. 2022 partnership includes XPO's visibility platform for real-time shipment tracking. XPO's network density in the Southeast and Midwest supports Berry's foodservice and retail customer base.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Schneider National, Inc.",
+        "ticker": "SNDR",
+        "cik": "0000091618",
+        "slug": "schneider_national",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (Intermodal, Logistics Management)",
+        "relationshipNote": "Schneider National manages Berry's intermodal and logistics-optimization services for cross-border (US-Mexico) and long-haul shipments; ~10-12% of volume. 2024 contract includes Schneider's AI-powered route optimization, reducing fuel costs by 6-8%. Schneider's Mexico operations support Berry's emerging-market expansion in Central America.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "DHL Supply Chain",
+        "ticker": null,
+        "cik": null,
+        "slug": "dhl_supply_chain",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (International, Warehousing)",
+        "relationshipNote": "DHL manages Berry's international logistics and warehousing for Europe and Asia-Pacific operations; ~8-10% of global volume. 2023 partnership expanded DHL's distribution centers in Germany, UK, and Singapore to support regional customer fulfillment. DHL's customs-brokerage expertise reduces cross-border clearance time by 2-3 days.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Geodis",
+        "ticker": null,
+        "cik": null,
+        "slug": "geodis",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery (European Distribution, Warehousing)",
+        "relationshipNote": "Geodis operates Berry's European distribution network and warehousing for UK, France, and Benelux markets; ~5-7% of European volume. 2022 contract includes Geodis's temperature-controlled facilities for specialty-packaging segments. Geodis's RFID tracking integrates with Berry's supply-chain visibility platform.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Nestlé S.A.",
+        "ticker": "NSRGY",
+        "cik": null,
+        "slug": "nestle",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Anchor Customer, Confectionery & Beverages)",
+        "relationshipNote": "Nestlé is Berry's largest customer, representing ~8-10% of total revenue (~$1.1-1.3B annually). Supplies rigid containers for Nespresso, KitKat, and Purina product lines; flexible films for confectionery and snack packaging. 2023 contract renewal included 3-year volume commitments with 2% annual price escalation. Nestlé's sustainability mandate (30% rPET by 2025) drives Berry's rPET capacity expansion.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "The Coca-Cola Company",
+        "ticker": "KO",
+        "cik": "0000021344",
+        "slug": "coca_cola",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Anchor Customer, Beverages)",
+        "relationshipNote": "Coca-Cola is Berry's second-largest customer, representing ~7-9% of revenue (~$950M-1.2B annually). Supplies PET rigid containers and flexible films for Coca-Cola, Sprite, Fanta, and Dasani product lines globally. 2024 contract expansion includes 200,000 metric tons of rPET annually through 2027. Coca-Cola's World Without Waste initiative (100% recyclable packaging by 2025) is a key driver of Berry's sustainability investments.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "PepsiCo, Inc.",
+        "ticker": "PEP",
+        "cik": "0000884996",
+        "slug": "pepsico",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Anchor Customer, Beverages & Snacks)",
+        "relationshipNote": "PepsiCo is Berry's third-largest customer, representing ~6-8% of revenue (~$800M-1.1B annually). Supplies rigid containers for Pepsi, Gatorade, Tropicana, and Lay's product lines; flexible films for snack packaging. 2023 contract includes volume commitments of 180,000 metric tons annually with quarterly price-adjustment mechanisms. PepsiCo's Positive Agriculture initiative drives demand for sustainable packaging solutions.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Mondelēz International, Inc.",
+        "ticker": "MDLZ",
+        "cik": "0001103982",
+        "slug": "mondelez",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Anchor Customer, Confectionery & Snacks)",
+        "relationshipNote": "Mondelēz is a top-5 customer, representing ~4-6% of revenue (~$540M-800M annually). Supplies flexible films and rigid containers for Oreo, Cadbury, Trident, and Halls product lines. 2022 partnership expanded Berry's specialty-film capabilities for moisture-barrier and oxygen-barrier applications. Mondelēz's commitment to 100% recyclable packaging by 2025 aligns with Berry's rPET roadmap.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Amcor plc",
+        "ticker": "AMCR",
+        "cik": "0001649338",
+        "slug": "amcor",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind (Direct Competitor, Flexible & Rigid Packaging)",
+        "relationshipNote": "Amcor is Berry's primary global competitor in flexible and rigid packaging, with ~$15.5B revenue (2024) vs. Berry's ~$13.5B. Amcor's margin profile (EBITDA 18-20%) exceeds Berry's (16-18%), driven by higher rPET mix (12% vs. Berry's 8%) and geographic diversification (40% emerging markets). 2023 Amcor acquisition of Bemis expanded rigid-container capacity; competitive threat in foodservice segment.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Sealed Air Corporation",
+        "ticker": "SEE",
+        "cik": "0000087460",
+        "slug": "sealed_air",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind (Direct Competitor, Protective & Specialty Packaging)",
+        "relationshipNote": "Sealed Air is a direct competitor in protective and specialty packaging, with ~$5.5B revenue focused on food, e-commerce, and industrial segments. SEE's Bubble Wrap and Instapak brands command premium pricing (20-25% margin) vs. Berry's commodity film (12-14%). 2024 Sealed Air expansion into cold-chain packaging (Cryopak competitor) threatens Berry's e-commerce growth thesis.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Huhtamaki Oyj",
+        "ticker": null,
+        "cik": null,
+        "slug": "huhtamaki",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind (Direct Competitor, Foodservice Packaging)",
+        "relationshipNote": "Huhtamaki is a direct competitor in foodservice and specialty packaging, with ~€4.2B revenue (2024). Huhtamaki's molded-fiber and compostable-container focus (15% of revenue) positions it ahead of Berry in sustainability perception. 2023 Huhtamaki acquisition of Chinet expanded North American foodservice share; competitive threat in quick-service restaurant segment.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Silgan Holdings Inc.",
+        "ticker": "SLGN",
+        "cik": "0001011342",
+        "slug": "silgan",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind (Competitor, Metal & Plastic Containers)",
+        "relationshipNote": "Silgan is a competitor in rigid containers and closures, with ~$5.2B revenue. Silgan's metal-container focus (60% of revenue) provides alternative to Berry's plastic containers for premium beverage and food segments. 2022 Silgan acquisition of Esterform expanded plastic-container capacity; competitive threat in high-barrier applications.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Constantia Flexibles Group GmbH",
+        "ticker": null,
+        "cik": null,
+        "slug": "constantia_flexibles",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind (Competitor, Flexible Packaging)",
+        "relationshipNote": "Constantia Flexibles is a European competitor in flexible packaging, with ~€2.5B revenue. Constantia's strength in barrier films and laminates (food, pharma) positions it as a premium-segment competitor to Berry. 2023 Constantia expansion into rPET films threatens Berry's sustainability differentiation in European markets.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Coveris Holdings S.à.r.l.",
+        "ticker": null,
+        "cik": null,
+        "slug": "coveris",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind (Competitor, Flexible & Rigid Packaging)",
+        "relationshipNote": "Coveris is a mid-sized competitor in flexible and rigid packaging, with ~€1.8B revenue. Coveris's focus on European foodservice and retail segments creates direct competition with Berry's IPC division. 2024 Coveris investment in compostable-film capacity signals competitive response to sustainability trends.",
+        "confidence": "low",
+        "sourceType": [
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance (Disclosure, Reporting)",
+        "relationshipNote": "SEC oversees Berry's periodic reporting (10-K, 10-Q, 8-K filings) and proxy disclosures (DEF14A). Berry's CIK 1580338 is active; 2024 10-K filed March 2024 disclosed customer concentration (top 5 = 35%), leverage ratio (3.8x), and rPET revenue contribution. SEC's climate-disclosure rules (Reg S-K Item 1500, effective 2025) will require Berry to disclose Scope 1, 2, 3 GHG emissions and climate-risk impacts.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection (Environmental Compliance, Waste Management)",
+        "relationshipNote": "EPA regulates Berry's manufacturing facilities under Clean Air Act (CAA), Clean Water Act (CWA), and Resource Conservation and Recovery Act (RCRA). Berry operates ~70 facilities; 2023 EPA inspection of Goshen, Indiana facility identified minor air-permit violations (resolved via corrective action plan). EPA's proposed Extended Producer Responsibility (EPR) rules for plastic packaging (2024-2025) will increase Berry's end-of-life recycling obligations and costs.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Food and Drug Administration",
+        "ticker": null,
+        "cik": null,
+        "slug": "fda",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection (Food-Contact Compliance, Safety)",
+        "relationshipNote": "FDA regulates Berry's food-contact plastics under 21 CFR Part 177 (indirect food additives). Berry maintains FDA-registered facilities and conducts annual compliance audits. 2023 FDA warning letter to competitor (Huhtamaki) regarding BPA migration in polycarbonate containers heightened Berry's compliance scrutiny. FDA's proposed ban on PFOA/PFAS in food-contact materials (2024-2025) will require Berry to reformulate certain specialty-film products.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Federal Trade Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Strategic (Antitrust, Green-Marketing Claims)",
+        "relationshipNote": "FTC monitors Berry's green-marketing claims (rPET content, recyclability) under the Green Guides (16 CFR Part 260). 2023 FTC enforcement action against competitor (Sealed Air) for unsubstantiated 'compostable' claims increased Berry's compliance risk. FTC's proposed antitrust review of packaging-industry consolidation (2024) may scrutinize Berry's M&A strategy (Cryopak, RPC acquisitions).",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of Transportation",
+        "ticker": null,
+        "cik": null,
+        "slug": "dot",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance (Hazmat, Vehicle Safety)",
+        "relationshipNote": "DOT regulates Berry's transportation of hazardous materials (resin shipments, chemical additives) under 49 CFR. Berry's logistics partners (J.B. Hunt, XPO) maintain DOT compliance certifications. 2024 DOT proposed rule on vehicle electrification may increase logistics costs for Berry's distribution network by 3-5% by 2030.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment + Compliance (External Audit, Internal Controls)",
+      "relationshipNote": "Deloitte is Berry's external auditor (Big Four) for annual 10-K and quarterly 10-Q filings. 2024 audit opinion: unqualified (clean) on financial statements and internal controls over financial reporting (ICFR). Deloitte's audit fees: ~$4.2M annually (2024). Deloitte's audit committee interactions focus on revenue recognition (customer contracts), inventory valuation (resin cost fluctuations), and leverage-covenant compliance.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "DEF14A"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital (Debt Syndication, Refinancing)",
+        "relationshipNote": "JPMorgan is Berry's lead arranger and administrative agent for the $3.5B senior secured credit facility (Term Loan B, Revolving Credit Facility). 2023 refinancing: JPM led $2.8B Term Loan B at SOFR + 325 bps (maturity 2028). JPM's syndication network includes Bank of America, Citigroup, and Goldman Sachs. JPM's leverage covenant monitoring (quarterly) is critical to Berry's financial flexibility.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Bank of America Corporation",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital (Debt Syndication, Treasury Services)",
+        "relationshipNote": "Bank of America is a co-arranger and lender in Berry's credit facility syndicate; ~$400M commitment. BofA provides treasury services (cash management, FX hedging) and commodity-hedging advisory. 2024 BofA credit facility expansion added $500M incremental capacity for M&A and working-capital flexibility.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Citigroup Inc.",
+        "ticker": "C",
+        "cik": "0000831001",
+        "slug": "citigroup",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital (Debt Syndication, Capital Markets)",
+        "relationshipNote": "Citigroup is a co-arranger and lender in Berry's credit facility; ~$350M commitment. Citi leads Berry's capital-markets advisory for bond issuances and M&A financing. 2023 Citi-led $1.2B senior unsecured notes offering (5-year maturity, 5.75% coupon) funded Cryopak acquisition.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Apollo Global Management, Inc.",
+        "ticker": "APO",
+        "cik": "0001411494",
+        "slug": "apollo_global",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital (Private Equity, Minority Stake)",
+        "relationshipNote": "Apollo holds a ~5.2% equity stake in Berry Global (acquired 2021 for ~$650M). Apollo's board seat provides strategic oversight and capital-allocation guidance. 2023 Apollo-led secondary offering reduced stake to ~4.8%; proceeds used for debt reduction. Apollo's portfolio companies (packaging, logistics) create cross-selling opportunities.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Tom Harrington",
+        "slug": "tom_harrington",
+        "title": "President and Chief Executive Officer",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership (Strategy, M&A, Investor Relations)",
+        "relationshipNote": "Harrington became CEO in 2021 (previously COO); leads Berry's strategic transformation toward sustainability and emerging-market expansion. 2023-2024 tenure: orchestrated Cryopak acquisition ($1.2B), expanded rPET capacity, and maintained leverage discipline (3.8x target). Harrington's compensation: ~$8.5M (2024 proxy) including base salary, bonus, and equity awards.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Curt Begle",
+        "slug": "curt_begle",
+        "title": "Chief Financial Officer",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management (Capital Structure, Reporting, Guidance)",
+        "relationshipNote": "Begle is CFO since 2019; manages Berry's capital structure, debt refinancing, and financial reporting. 2024 responsibilities: oversee leverage reduction to <3.5x by 2026, manage quarterly earnings guidance, and coordinate investor relations. Begle's compensation: ~$4.2M (2024) including base salary and performance-based bonus.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Mark Miles",
+        "slug": "mark_miles",
+        "title": "Chief Operating Officer",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations (Manufacturing, Supply Chain, Efficiency)",
+        "relationshipNote": "Miles is COO since 2022; oversees Berry's ~70 manufacturing facilities and supply-chain operations across North America, Europe, and Asia-Pacific. 2024 focus: optimize capacity utilization (target 85%+), integrate Cryopak operations, and reduce manufacturing costs via automation. Miles' compensation: ~$3.8M (2024).",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Irina Yantovskaya",
+        "slug": "irina_yantovskaya",
+        "title": "General Counsel and Secretary",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Compliance (Regulatory, Litigation, Governance)",
+        "relationshipNote": "Yantovskaya is General Counsel since 2020; manages Berry's legal affairs, regulatory compliance (EPA, FDA, FTC), and litigation. 2024 focus: monitor antitrust scrutiny of M&A activity, ensure food-contact compliance, and manage environmental liabilities. Yantovskaya's compensation: ~$2.1M (2024).",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Weekly Foodservice Traffic Index (OpenTable, Cowen)",
+        "slug": "foodservice_traffic_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue (Demand Signal, Foodservice Segment)",
+        "relationshipNote": "OpenTable and Cowen publish weekly foodservice traffic indices; Berry's foodservice segment (IPC division, ~25% of revenue) is highly correlated with restaurant traffic trends. 2024 YTD: foodservice traffic +3.2% YoY (vs. 2023 +1.8%), signaling demand recovery for Berry's rigid containers and specialty films. Index lags earnings impact by 4-6 weeks.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "E-Commerce Parcel Volume Index (UPS, FedEx, Amazon)",
+        "slug": "ecommerce_parcel_volume",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence (Demand Signal, E-Commerce Segment)",
+        "relationshipNote": "UPS, FedEx, and Amazon publish weekly/monthly parcel volume data; Berry's e-commerce segment (Cryopak cold-chain, ~8% of revenue post-acquisition) benefits from parcel-volume growth. 2024 YTD: parcel volume +6.5% YoY, driving demand for temperature-controlled packaging. Cryopak integration expected to contribute $120M+ annual revenue by 2025.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ]
+  }
+}

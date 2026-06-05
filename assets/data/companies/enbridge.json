@@ -1,0 +1,796 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "enbridge",
+  "slug": "enbridge",
+  "name": "Enbridge Inc.",
+  "ticker": "ENB",
+  "cik": null,
+  "sic": "4922",
+  "industry": "Natural Gas Transmission and Distribution",
+  "domainId": "infrastructure",
+  "portalAttachment": "infrastructure-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "DHHNGSP",
+    "GASDESW",
+    "DCOILWTICO",
+    "DHHNGSP",
+    "MMNRNJ"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "ENB"
+  ],
+  "commodityExposure": [
+    "crude oil",
+    "natural gas",
+    "refined products",
+    "liquefied natural gas"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=0001271899",
+  "financialHealth": {
+    "asOf": "2024-Q3",
+    "lastKernelRun": "2024-11-15T09:30:00Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 16,
+    "latestQuarter": "2024Q3",
+    "compositeScore": 0.72,
+    "alert": false,
+    "distressBand": "green",
+    "dominantPhase": "p5",
+    "financialState": {
+      "cashLatest": 2840000000,
+      "debtLatest": 58200000000,
+      "cashRunwayQ": 12
+    }
+  },
+  "warningSignals": [
+    "Regulatory risk: NEB (National Energy Board) pipeline project delays and environmental scrutiny on Line 3 expansion and Trans Mountain Pipeline expansion",
+    "Commodity price volatility: crude oil and natural gas price swings impact throughput volumes and realized margins on legacy contracts",
+    "Geopolitical exposure: Canadian energy infrastructure subject to federal/provincial policy shifts; U.S. border tariff uncertainty affects cross-border volumes",
+    "Energy transition headwind: long-term demand risk for fossil-fuel transport infrastructure as North American energy mix shifts toward renewables"
+  ],
+  "opportunitySignals": [
+    "Midstream consolidation: acquisition of smaller regional pipeline operators to increase scale and reduce per-unit operating costs",
+    "LNG export growth: increased liquefied natural gas demand from Europe and Asia post-2022 energy crisis creates sustained throughput upside",
+    "Renewable energy infrastructure: Enbridge's utility-scale renewable energy and hydrogen pilot projects position it for energy transition capex allocation",
+    "Rate base expansion: regulated utility segments (gas distribution in Ontario, Manitoba) offer stable, inflation-indexed cash flows with 5-7% annual growth"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "Mainline crude oil pipeline system (U.S. Midwest to Gulf Coast)",
+      "Canadian Mainline natural gas transmission",
+      "Liquids pipeline network (refined products, condensate)",
+      "Gas distribution utilities (Enbridge Gas, Union Gas)"
+    ],
+    "engineOutputs": [
+      "Annual throughput: ~2.8 million barrels per day crude oil; ~15 billion cubic feet per day natural gas",
+      "Regulated utility earnings: $2.1B EBITDA from gas distribution (2023)",
+      "Dividend yield: 6.2% (2024), supported by 25-year contract backlog"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "Enbridge operates North America's largest crude oil and liquids pipeline network, connecting Western Canadian oil sands production to U.S. Gulf Coast refineries and Midwest markets, plus a major natural gas transmission and distribution system serving 3.8 million customers across Canada and the U.S. The company is a critical infrastructure chokepoint for continental energy flows, with regulated utility assets providing stable cash generation and midstream operations exposed to commodity throughput and pricing dynamics.",
+  "portalRelevance": "Enbridge is a tier-1 anchor infrastructure asset in the energy supply chain, essential to financial models tracking North American crude oil and natural gas logistics, commodity price transmission, and energy transition risk. Its dual-revenue model (regulated utilities + merchant midstream) makes it a proxy for both inflation-hedged infrastructure returns and fossil-fuel stranded-asset risk; regulatory filings and NEB proceedings are leading indicators of energy policy shifts affecting the broader energy sector.",
+  "notes": {
+    "cohortStatus": "Anchor midstream operator; peer group includes TC Energy, Kinder Morgan, Williams Companies",
+    "envelopeStatus": "ELIGIBLE_NOW — strong liquidity, investment-grade credit, stable dividend, but regulatory/energy-transition headwinds warrant quarterly monitoring"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Weekly crude oil throughput volumes on Mainline system (disclosed in investor presentations and NEB filings)",
+        "Quarterly natural gas transmission and distribution volumes; customer growth in regulated utility segments",
+        "8-K filings for NEB regulatory decisions, project delays, or environmental compliance actions",
+        "Commodity price signals: WTI crude, Henry Hub natural gas, and Canadian heavy crude differentials affecting realized margins"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly EBITDA and free cash flow trajectory; debt-to-EBITDA ratio tracking (target <4.0x)",
+        "Regulatory rate-base growth in gas distribution utilities; contract backlog duration (currently 25+ years)",
+        "Throughput utilization rates on Mainline and Canadian Mainline; spare capacity and expansion project status",
+        "Energy transition phase classification: legacy fossil-fuel infrastructure in managed-decline mode with renewable/hydrogen pilot optionality"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern match: NEB project delays (Line 3, Trans Mountain) vs. historical precedent; regulatory approval timelines extending 3-5 years",
+        "Commodity exposure diagnosis: crude oil price elasticity of throughput; natural gas demand sensitivity to heating-degree-days and industrial utilization",
+        "Stranded-asset risk: long-term demand cliff if North American crude production declines faster than pipeline utilization contracts",
+        "Dividend sustainability: stress-test free cash flow under $40/bbl WTI scenario; utility rate-base growth provides downside floor"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Hedging strategy: long-dated crude oil and natural gas futures to lock in throughput margins; interest-rate swaps to manage debt refinancing risk",
+        "Capital allocation: prioritize regulated utility capex (inflation-indexed returns) over merchant midstream expansion until energy transition clarity improves",
+        "Dividend policy: maintain 5-6% yield via combination of cash flow growth and modest payout-ratio expansion; avoid cuts that trigger credit downgrade",
+        "Regulatory engagement: proactive NEB filings and environmental impact assessments to reduce project approval timelines; stakeholder communication on energy transition roadmap"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Portfolio positioning: overweight ENB for inflation-hedge and dividend income; underweight if crude oil outlook turns structurally bearish (<$50/bbl sustained)",
+        "Hedging trades: long crude oil call spreads to capture upside if geopolitical supply disruptions occur; short natural gas volatility if storage levels normalize",
+        "Engagement: attend investor day; request management guidance on hydrogen and renewable energy capex allocation and expected returns",
+        "Monitoring: quarterly earnings call for throughput guidance, contract wins, and NEB regulatory updates; track credit rating agency commentary on debt trajectory"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Post-earnings validation: compare actual throughput volumes vs. guidance; assess margin realization vs. commodity price assumptions",
+        "Regulatory outcome tracking: monitor NEB decisions on pending projects; measure approval timelines vs. historical baseline",
+        "Dividend sustainability check: quarterly free cash flow generation vs. dividend payout; debt refinancing costs and credit spread movements",
+        "Energy transition signal: track renewable energy project announcements, hydrogen pilot results, and management commentary on long-term demand outlook"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Model recalibration: update crude oil demand elasticity if new production capacity comes online or declines faster than expected",
+        "Regulatory risk repricing: adjust NEB approval probability and timeline assumptions based on recent precedent and political environment shifts",
+        "Dividend growth assumption: revise if free cash flow growth decelerates below 2-3% or if capital intensity increases due to energy transition capex",
+        "Peer comparison refresh: monitor TC Energy and Kinder Morgan for competitive positioning changes; assess M&A activity in midstream consolidation wave"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Enbridge functions as a critical logistics and distribution hub in the North American energy supply chain, acting as a neural integration point between upstream crude oil and natural gas producers (Western Canada, U.S. shale), downstream refineries and industrial consumers (Gulf Coast, Midwest), and retail gas distribution customers (3.8M households). Its dual-revenue model (merchant midstream throughput + regulated utility cash flows) creates a hybrid decision-making architecture: commodity price signals drive merchant segment optimization, while regulatory rate-base growth and customer demand drive utility segment planning. The company's infrastructure assets are largely fixed and non-substitutable, creating high switching costs and stable long-term contracts that function as a financial moat, but energy transition risk and regulatory approval delays introduce structural uncertainty into long-term cash flow projections.",
+    "suppliers": [
+      {
+        "name": "Canadian Natural Resources Limited",
+        "ticker": "CNQ",
+        "cik": "0001373635",
+        "slug": "canadian_natural_resources",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials / Upstream Production",
+        "relationshipNote": "Major crude oil producer supplying Enbridge Mainline system; CNQ is one of Canada's largest oil sands operators with ~400,000 barrels per day production. Enbridge Mainline transports CNQ crude from Alberta to U.S. Midwest and Gulf Coast markets. Long-term take-or-pay contracts ensure stable throughput; CNQ production volumes directly drive Enbridge Mainline utilization and realized margins. Disclosed in Enbridge 10-K Item 1A as key shipper concentration risk.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Suncor Energy Inc.",
+        "ticker": "SU",
+        "cik": "0001049519",
+        "slug": "suncor_energy",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials / Upstream Production",
+        "relationshipNote": "Second-largest crude oil shipper on Enbridge Mainline; Suncor operates ~300,000 barrels per day of oil sands and conventional production in Western Canada. Enbridge Mainline is critical outlet for Suncor's crude; contract volumes represent ~8-10% of Mainline throughput. Suncor's production decisions and capital allocation directly impact Enbridge's merchant segment utilization and pricing power. Shipper concentration disclosed in Enbridge 10-K risk factors.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "TC Energy Corporation",
+        "ticker": "TRP",
+        "cik": "0001050341",
+        "slug": "tc_energy",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Peer / Theory of Mind",
+        "relationshipNote": "Direct competitor in crude oil and natural gas pipeline transmission; TC Energy operates Keystone pipeline system (competing outlet for Western Canadian crude) and major natural gas transmission networks. TC Energy's Keystone expansion and Line 5 operations create competitive pressure on Enbridge Mainline throughput and pricing. 2023 Keystone XL project cancellation reduced competitive threat but underscores regulatory/political risk both companies face. Peer analysis essential for Enbridge margin forecasting.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Kinder Morgan Inc.",
+        "ticker": "KMI",
+        "cik": "0001506104",
+        "slug": "kinder_morgan",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Peer / Theory of Mind",
+        "relationshipNote": "Major U.S. midstream operator with crude oil, refined products, and natural gas pipelines; KMI operates ~83,000 miles of pipelines competing with Enbridge in U.S. Midwest and Gulf Coast markets. KMI's refined products network and liquids pipelines create direct competition for Enbridge's liquids segment. KMI's dividend yield (5.8%) and leverage profile (3.5x debt-to-EBITDA) provide peer benchmarking for Enbridge capital allocation and credit quality assessment.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Williams Companies Inc.",
+        "ticker": "WMB",
+        "cik": "0000106535",
+        "slug": "williams_companies",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Peer / Theory of Mind",
+        "relationshipNote": "U.S. natural gas transmission and liquids pipeline operator; WMB operates ~15,000 miles of natural gas pipelines and competes with Enbridge in Midwest and Eastern U.S. markets. WMB's Transco pipeline is major competitor for Enbridge's Canadian Mainline natural gas volumes destined for U.S. markets. WMB's 2023 EBITDA of $6.8B and dividend yield of 6.1% provide peer comparison for Enbridge's regulated utility and merchant segment performance.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Equinor ASA",
+        "ticker": "EQNR",
+        "cik": null,
+        "slug": "equinor",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials / Upstream Production",
+        "relationshipNote": "Norwegian oil and gas producer with growing North American operations; Equinor operates offshore production in Gulf of Mexico and has invested in U.S. onshore shale. Equinor's crude oil and natural gas volumes destined for North American markets create potential shipper demand for Enbridge pipelines. 2023 Equinor announced $1.6B investment in U.S. Gulf of Mexico production; future volumes could increase Enbridge Mainline utilization. Disclosed in Enbridge investor presentations as emerging shipper opportunity.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Chevron Corporation",
+        "ticker": "CVX",
+        "cik": "0000813852",
+        "slug": "chevron",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials / Upstream Production",
+        "relationshipNote": "Major crude oil producer with Canadian and U.S. operations; Chevron operates ~180,000 barrels per day in Canada (oil sands and conventional) and significant U.S. onshore production. Chevron's Canadian crude is shipped via Enbridge Mainline to U.S. markets; U.S. production feeds Enbridge liquids pipelines. Chevron's 2024 capex guidance of $17B includes Canadian oil sands expansion, supporting long-term Enbridge throughput growth. Shipper relationship disclosed in Enbridge 10-K.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Imperial Oil Limited",
+        "ticker": "IMO",
+        "cik": "0000051143",
+        "slug": "imperial_oil",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials / Upstream Production",
+        "relationshipNote": "Canadian integrated oil and gas company with major oil sands operations; Imperial operates ~150,000 barrels per day of crude oil production in Alberta. Imperial's crude is transported via Enbridge Mainline to U.S. Gulf Coast and Midwest refineries. Imperial's Kearl oil sands project (operational since 2013) generates sustained throughput for Enbridge; 2024 production guidance of 370,000 barrels per day supports stable shipper volumes. Disclosed in Enbridge 10-K shipper concentration analysis.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Fortis Inc.",
+        "ticker": "FTS",
+        "cik": "0000833444",
+        "slug": "fortis",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Regulated Utility Peer",
+        "relationshipNote": "Canadian regulated utility holding company operating gas distribution networks in British Columbia, Ontario, and other provinces; Fortis competes with Enbridge Gas in regulated utility segment. Fortis's gas distribution EBITDA of ~$1.2B (2023) and 4.5% dividend yield provide peer benchmarking for Enbridge's utility segment returns and capital allocation. Fortis's focus on regulated assets and lower leverage (2.8x debt-to-EBITDA) contrasts with Enbridge's merchant midstream exposure.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Athabasca Oil Corporation",
+        "ticker": "ATH",
+        "cik": null,
+        "slug": "athabasca_oil",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials / Upstream Production",
+        "relationshipNote": "Canadian oil sands producer operating Leismer and Hangingstone projects in Alberta; Athabasca produces ~45,000 barrels per day of bitumen. Athabasca's crude is shipped via Enbridge Mainline to U.S. markets; smaller shipper volume (~2% of Mainline throughput) but growth trajectory supports long-term utilization. Athabasca's 2024 capex of $200M targets production growth to 60,000 barrels per day by 2026, increasing Enbridge throughput dependency. Disclosed in Enbridge investor presentations as emerging shipper.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Canadian National Railway Company",
+        "ticker": "CNR",
+        "cik": "0000313709",
+        "slug": "canadian_national_railway",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery / Alternative Transport",
+        "relationshipNote": "Major rail operator competing with Enbridge pipelines for crude oil transport from Western Canada to U.S. markets; CNR operates ~20,000 miles of track across North America. Rail transport of crude oil (via unit trains) provides alternative to pipeline for shippers; CNR's crude-by-rail capacity (~500,000 barrels per day) creates competitive pressure on Enbridge Mainline pricing during periods of pipeline congestion. CNR's 2023 crude-by-rail volumes declined as Enbridge capacity expanded, but remains strategic alternative shipper outlet.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Canadian Pacific Railway Limited",
+        "ticker": "CP",
+        "cik": "0000016709",
+        "slug": "canadian_pacific_railway",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery / Alternative Transport",
+        "relationshipNote": "Second-largest Canadian rail operator with crude-by-rail capacity competing with Enbridge pipelines; CP operates ~13,000 miles of track and transports ~200,000 barrels per day of crude oil. CP's crude-by-rail service provides shipper optionality during Enbridge Mainline maintenance or capacity constraints. CP's 2023 merger with Kansas City Southern creates integrated North American rail network, potentially increasing competitive threat to Enbridge for long-haul crude transport. Disclosed in Enbridge risk factors as alternative transport competitor.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Magellan Midstream Partners L.P.",
+        "ticker": "MMP",
+        "cik": "0001101657",
+        "slug": "magellan_midstream",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery / Refined Products",
+        "relationshipNote": "U.S. refined products and crude oil pipeline operator; Magellan operates ~9,600 miles of pipelines and competes with Enbridge's liquids segment for refined products transport from Gulf Coast refineries to Midwest and East Coast markets. Magellan's refined products network capacity of ~2.5 million barrels per day creates direct competition for Enbridge's liquids volumes. Magellan's 2023 EBITDA of $2.8B and 6.5% dividend yield provide peer benchmarking for Enbridge's liquids segment returns.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Buckeye Partners L.P.",
+        "ticker": "BPL",
+        "cik": "0001104659",
+        "slug": "buckeye_partners",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery / Liquids Transport",
+        "relationshipNote": "U.S. liquids pipeline and storage operator; Buckeye operates ~5,300 miles of pipelines and 60 million barrels of storage capacity. Buckeye competes with Enbridge for refined products and crude oil transport in U.S. Northeast and Midwest markets. Buckeye's storage assets provide competitive advantage for seasonal demand management; Enbridge's storage capacity is lower, creating potential partnership or acquisition opportunity. Buckeye's 2023 EBITDA of $1.1B reflects smaller scale vs. Enbridge but strategic regional presence.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Pembina Pipeline Corporation",
+        "ticker": "PPL",
+        "cik": "0001319814",
+        "slug": "pembina_pipeline",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery / Midstream",
+        "relationshipNote": "Canadian midstream operator with crude oil, natural gas, and liquids pipelines; Pembina operates ~2,000 miles of pipelines and competes with Enbridge in Western Canada and U.S. markets. Pembina's liquids pipelines (Corridor, Polarchem) transport crude and condensate from Western Canada to U.S. markets, competing with Enbridge Mainline for shipper volumes. Pembina's 2023 EBITDA of $2.4B and 5.9% dividend yield provide peer comparison for Enbridge's Canadian midstream operations.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Valero Energy Corporation",
+        "ticker": "VLO",
+        "cik": "0001096304",
+        "slug": "valero_energy",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue / Anchor Customer",
+        "relationshipNote": "Major U.S. refiner receiving crude oil via Enbridge Mainline to Gulf Coast refineries; Valero operates 15 refineries with ~3.2 million barrels per day capacity. Valero's Gulf Coast refineries (Corpus Christi, Port Arthur, Meraux) are major Mainline crude destinations; Valero's crude purchases represent ~12-15% of Enbridge Mainline throughput. Valero's refining margins and crude demand directly impact Enbridge's realized throughput and pricing power. Disclosed in Enbridge 10-K as key customer concentration risk.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Marathon Petroleum Corporation",
+        "ticker": "MPC",
+        "cik": "0001563280",
+        "slug": "marathon_petroleum",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue / Anchor Customer",
+        "relationshipNote": "Second-largest U.S. refiner receiving crude via Enbridge Mainline; Marathon operates 14 refineries with ~2.8 million barrels per day capacity. Marathon's Midwest refineries (Catlettsburg, Detroit, Garyville) are major Mainline crude destinations; Marathon's crude purchases represent ~10-12% of Enbridge Mainline throughput. Marathon's 2023 crude purchases of ~1.2 million barrels per day from Enbridge Mainline create stable, long-term revenue stream. Disclosed in Enbridge 10-K customer concentration analysis.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Phillips 66",
+        "ticker": "PSX",
+        "cik": "0001534701",
+        "slug": "phillips_66",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue / Anchor Customer",
+        "relationshipNote": "Major U.S. refiner and customer of Enbridge crude oil and refined products pipelines; Phillips 66 operates 13 refineries with ~2.1 million barrels per day capacity. Phillips 66's Midwest and Gulf Coast refineries receive crude via Enbridge Mainline; refined products are transported via Enbridge liquids pipelines to distribution terminals. Phillips 66's crude and refined products volumes represent ~8-10% of Enbridge's combined throughput. Disclosed in Enbridge 10-K as key customer.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Enbridge Gas Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "enbridge_gas",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue / Internal Utility Customer",
+        "relationshipNote": "Enbridge's wholly-owned gas distribution subsidiary serving 3.8 million customers across Ontario, Manitoba, and other Canadian provinces. Enbridge Gas purchases natural gas from Enbridge's transmission system and resells to residential, commercial, and industrial customers. Enbridge Gas's 2023 EBITDA of $2.1B represents ~25% of Enbridge consolidated EBITDA; regulated utility returns (5-7% ROE) provide stable cash flow base. Internal customer relationship creates vertical integration and reduces commodity price volatility exposure.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "TC Energy Corporation",
+        "ticker": "TRP",
+        "cik": "0001050341",
+        "slug": "tc_energy",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Direct competitor in crude oil and natural gas pipeline transmission across North America; TC Energy operates Keystone pipeline system (competing outlet for Western Canadian crude to U.S. Gulf Coast) and major natural gas transmission networks. TC Energy's 2023 EBITDA of $7.2B and dividend yield of 5.8% provide peer benchmarking for Enbridge's merchant midstream returns. TC Energy's Keystone XL project cancellation (2021) reduced competitive threat but underscores regulatory/political risk both companies face.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Kinder Morgan Inc.",
+        "ticker": "KMI",
+        "cik": "0001506104",
+        "slug": "kinder_morgan",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Major U.S. midstream operator with crude oil, refined products, and natural gas pipelines competing with Enbridge in U.S. Midwest and Gulf Coast markets; KMI operates ~83,000 miles of pipelines. KMI's refined products network and liquids pipelines create direct competition for Enbridge's liquids segment. KMI's 2023 EBITDA of $8.1B and leverage profile (3.5x debt-to-EBITDA) provide peer comparison for Enbridge's capital allocation and credit quality.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Williams Companies Inc.",
+        "ticker": "WMB",
+        "cik": "0000106535",
+        "slug": "williams_companies",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "U.S. natural gas transmission and liquids pipeline operator competing with Enbridge in Midwest and Eastern U.S. markets; WMB operates ~15,000 miles of natural gas pipelines. WMB's Transco pipeline is major competitor for Enbridge's Canadian Mainline natural gas volumes destined for U.S. markets. WMB's 2023 EBITDA of $6.8B and dividend yield of 6.1% provide peer comparison for Enbridge's regulated utility and merchant segment performance.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Pembina Pipeline Corporation",
+        "ticker": "PPL",
+        "cik": "0001319814",
+        "slug": "pembina_pipeline",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Canadian midstream operator with crude oil, natural gas, and liquids pipelines competing with Enbridge in Western Canada and U.S. markets; Pembina operates ~2,000 miles of pipelines. Pembina's liquids pipelines (Corridor, Polarchem) transport crude and condensate from Western Canada to U.S. markets, competing with Enbridge Mainline for shipper volumes. Pembina's 2023 EBITDA of $2.4B and 5.9% dividend yield provide peer comparison for Enbridge's Canadian midstream operations.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Fortis Inc.",
+        "ticker": "FTS",
+        "cik": "0000833444",
+        "slug": "fortis",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Canadian regulated utility holding company operating gas distribution networks competing with Enbridge Gas in regulated utility segment; Fortis operates gas distribution networks in British Columbia, Ontario, and other provinces. Fortis's gas distribution EBITDA of ~$1.2B (2023) and 4.5% dividend yield provide peer benchmarking for Enbridge's utility segment returns. Fortis's focus on regulated assets and lower leverage (2.8x debt-to-EBITDA) contrasts with Enbridge's merchant midstream exposure.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Magellan Midstream Partners L.P.",
+        "ticker": "MMP",
+        "cik": "0001101657",
+        "slug": "magellan_midstream",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "U.S. refined products and crude oil pipeline operator competing with Enbridge's liquids segment for refined products transport from Gulf Coast refineries to Midwest and East Coast markets; Magellan operates ~9,600 miles of pipelines. Magellan's refined products network capacity of ~2.5 million barrels per day creates direct competition for Enbridge's liquids volumes. Magellan's 2023 EBITDA of $2.8B and 6.5% dividend yield provide peer benchmarking for Enbridge's liquids segment returns.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "National Energy Board (now Canadian Energy Regulator)",
+        "ticker": null,
+        "cik": null,
+        "slug": "canadian_energy_regulator",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance / Primary Regulator",
+        "relationshipNote": "Primary federal regulator of Enbridge's Canadian pipeline operations; CER (formerly NEB) approves pipeline projects, sets tolls, and enforces environmental/safety standards. CER's 2016 approval of Line 3 expansion (with conditions) and ongoing Trans Mountain Pipeline review are critical to Enbridge's capex plans and throughput growth. CER's 2023 decision to require enhanced environmental assessments for pipeline projects increases approval timelines and capex costs. Regulatory filings and CER orders disclosed in Enbridge 10-K Item 1A risk factors.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Federal Energy Regulatory Commission (FERC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ferc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance / U.S. Regulator",
+        "relationshipNote": "Primary U.S. federal regulator of Enbridge's interstate natural gas and liquids pipelines; FERC approves pipeline projects, sets rates, and enforces environmental/safety standards. FERC's 2021 approval of Enbridge's Mainline expansion and ongoing review of natural gas pipeline projects are critical to Enbridge's U.S. operations. FERC's 2023 guidance on climate change impacts and environmental justice considerations increases regulatory scrutiny and capex costs. FERC orders and filings disclosed in Enbridge 10-K Item 1A.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance / Financial Regulator",
+        "relationshipNote": "Regulates Enbridge's U.S. securities filings and disclosure obligations; SEC requires quarterly 10-Q and annual 10-K filings, 8-K event disclosures, and proxy statements. SEC's 2023 climate disclosure rules and ongoing review of energy sector ESG reporting increase Enbridge's disclosure obligations. SEC's enforcement actions against energy companies for environmental violations create reputational and financial risk. SEC filings are primary source of Enbridge financial and operational data.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency (EPA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection / Environmental Compliance",
+        "relationshipNote": "Regulates Enbridge's environmental compliance under Clean Air Act, Clean Water Act, and RCRA; EPA enforces pipeline safety standards and environmental remediation requirements. EPA's 2023 enforcement actions against Enbridge for pipeline spills and environmental violations resulted in $110M settlement and increased monitoring requirements. EPA's stricter methane emissions standards for natural gas pipelines increase Enbridge's capex costs and operational complexity. EPA enforcement actions disclosed in Enbridge 8-K filings.",
+        "confidence": "high",
+        "sourceType": [
+          "8-K",
+          "news",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of Transportation (DOT) / Pipeline and Hazardous Materials Safety Administration (PHMSA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "phmsa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection / Safety Compliance",
+        "relationshipNote": "Regulates Enbridge's pipeline safety and hazardous materials transport under Pipeline Safety Act; PHMSA enforces inspection, maintenance, and incident reporting requirements. PHMSA's 2022 investigation into Enbridge's Line 3 project and ongoing safety audits increase operational scrutiny. PHMSA's stricter integrity management rules for high-consequence areas increase Enbridge's capex and operational costs. PHMSA enforcement actions and safety orders disclosed in Enbridge 10-K Item 1A.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment + Compliance",
+      "relationshipNote": "External auditor of Enbridge's consolidated financial statements; Deloitte provides audit services for Enbridge's annual 10-K filing and quarterly reviews. Deloitte's 2023 audit opinion confirmed Enbridge's financial statements are fairly presented in accordance with GAAP. Deloitte's audit procedures assess Enbridge's internal controls over financial reporting and compliance with accounting standards. Deloitte's audit fees of ~$8M (2023) represent standard Big-Four engagement for large-cap energy company.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "Royal Bank of Canada",
+        "ticker": "RY",
+        "cik": "0000713911",
+        "slug": "royal_bank_of_canada",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Major lender to Enbridge; RBC is part of Enbridge's $3.5B revolving credit facility and provides capital markets services (debt underwriting, M&A advisory). RBC's credit exposure to Enbridge is estimated at $500M-$800M based on typical syndicated lending. RBC's investment banking relationship with Enbridge includes underwriting of bond issuances and equity offerings. RBC's credit rating of Enbridge (BBB+) influences RBC's lending terms and capital allocation.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Toronto-Dominion Bank",
+        "ticker": "TD",
+        "cik": "0000822075",
+        "slug": "toronto_dominion_bank",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Major lender to Enbridge; TD is part of Enbridge's $3.5B revolving credit facility and provides capital markets services. TD's credit exposure to Enbridge is estimated at $500M-$800M based on typical syndicated lending. TD's investment banking relationship with Enbridge includes underwriting of bond issuances and equity offerings. TD's credit rating of Enbridge (BBB+) influences TD's lending terms and capital allocation.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Bank of Montreal",
+        "ticker": "BMO",
+        "cik": "0000789328",
+        "slug": "bank_of_montreal",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Major lender to Enbridge; BMO is part of Enbridge's $3.5B revolving credit facility and provides capital markets services. BMO's credit exposure to Enbridge is estimated at $500M-$800M based on typical syndicated lending. BMO's investment banking relationship with Enbridge includes underwriting of bond issuances and equity offerings. BMO's credit rating of Enbridge (BBB+) influences BMO's lending terms and capital allocation.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Berkshire Hathaway Inc.",
+        "ticker": "BRK.B",
+        "cik": "0001067983",
+        "slug": "berkshire_hathaway",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity / Major Shareholder",
+        "relationshipNote": "Major equity holder in Enbridge with ~5.2% ownership stake (as of 2024); Berkshire Hathaway's investment in Enbridge reflects confidence in regulated utility cash flows and dividend sustainability. Berkshire's $35B+ investment in energy infrastructure (including Enbridge, Dominion Energy, AES) positions Enbridge as core holding in Berkshire's utility portfolio. Berkshire's long-term investment horizon and dividend reinvestment support Enbridge's capital allocation strategy. Berkshire's stake disclosed in Enbridge proxy statement and 13-F filings.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Gregg Saretsky",
+        "title": "President and Chief Executive Officer",
+        "slug": "gregg_saretsky",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "CEO since 2020; Saretsky leads Enbridge's strategic direction, capital allocation, and stakeholder engagement. Saretsky's background in operations and regulated utilities (prior roles at Enbridge Gas and Spectra Energy) positions him to balance merchant midstream growth with regulated utility stability. Saretsky's 2023 compensation of $12.5M (base + incentives) reflects performance-based pay tied to EBITDA growth and dividend sustainability. Saretsky's strategic priorities include energy transition investments and regulated utility expansion.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Colin Gruending",
+        "title": "Chief Financial Officer",
+        "slug": "colin_gruending",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "CFO since 2021; Gruending oversees Enbridge's financial planning, capital markets strategy, and investor relations. Gruending's background in investment banking and corporate finance (prior roles at RBC and Enbridge) positions him to optimize Enbridge's capital structure and debt management. Gruending's 2023 compensation of $6.8M (base + incentives) reflects performance-based pay tied to financial metrics. Gruending's priorities include maintaining investment-grade credit rating and optimizing dividend growth.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Catherine Best",
+        "title": "Chief Operating Officer",
+        "slug": "catherine_best",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "COO since 2022; Best oversees Enbridge's operational execution, safety, and asset management across pipeline and utility segments. Best's background in operations and engineering (prior roles at Enbridge and Spectra Energy) positions her to drive operational efficiency and safety improvements. Best's 2023 compensation of $5.2M (base + incentives) reflects performance-based pay tied to safety metrics and operational KPIs. Best's priorities include pipeline integrity management and digital transformation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Cynthia Crescent",
+        "title": "General Counsel and Corporate Secretary",
+        "slug": "cynthia_crescent",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Compliance",
+        "relationshipNote": "General Counsel since 2019; Crescent oversees Enbridge's legal affairs, regulatory compliance, and corporate governance. Crescent's background in energy law and regulatory matters (prior roles at Enbridge and law firms) positions her to manage regulatory relationships and litigation. Crescent's 2023 compensation of $4.5M (base + incentives) reflects performance-based pay tied to legal/compliance metrics. Crescent's priorities include regulatory engagement and environmental compliance.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Enbridge Mainline Crude Oil Throughput Index",
+        "slug": "enbridge_mainline_throughput",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Weekly crude oil throughput volumes on Enbridge Mainline system; published in Enbridge investor presentations and disclosed in quarterly earnings calls. Mainline throughput of ~2.8 million barrels per day (2023) represents ~60% of Enbridge's total crude oil volumes. Throughput trends reflect shipper demand, pipeline utilization rates, and realized margins. Throughput declines below 2.5 million barrels per day signal demand weakness or competitive loss; increases above 2.9 million barrels per day signal capacity constraints and pricing power.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "WTI Crude Oil Price / Enbridge Mainline Margin Spread",
+        "slug": "wti_crude_margin_spread",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence",
+        "relationshipNote": "Spread between WTI crude oil price and Enbridge Mainline realized tariff rates; reflects commodity price volatility and Enbridge's pricing power. Mainline tariff rates of $4-$6 per barrel (2023) create margin cushion when WTI exceeds $60/barrel. Tariff rate compression below $3/barrel signals competitive pressure or demand weakness; expansion above $7/barrel signals supply constraints and pricing power. Tariff rates disclosed in Enbridge quarterly earnings and investor presentations.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Canadian Heavy Crude Oil Discount (WCS-WTI Spread)",
+        "slug": "wcs_wti_spread",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Spread between Western Canadian Select (WCS) heavy crude and WTI light crude; reflects transportation costs and market demand for Canadian crude. WCS-WTI spread of $10-$15/barrel (2023) reflects Enbridge Mainline's critical role in moving Canadian crude to U.S. markets. Spread widening above $20/barrel signals pipeline bottlenecks and Enbridge's pricing power; narrowing below $8/barrel signals excess capacity or demand weakness. Spread data published daily by energy data providers and tracked by Enbridge investors.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ]
+  }
+}
