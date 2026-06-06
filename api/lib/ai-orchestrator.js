@@ -115,7 +115,7 @@ async function _callOpenAI(opts) {
 async function _callGrok(opts) {
   const key = process.env.GROK_API_KEY || process.env.XAI_API_KEY;
   if (!key) return { ok: false, error: 'GROK_API_KEY not set' };
-  const model = opts.model || 'grok-2-latest';
+  const model = opts.model || process.env.GROK_MODEL || 'grok-4';   // grok-2/3 retired; override via GROK_MODEL env
   const r = await fetch('https://api.x.ai/v1/chat/completions', {
     method: 'POST',
     headers: { 'content-type': 'application/json', authorization: 'Bearer ' + key },
