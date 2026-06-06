@@ -270,5 +270,19 @@ module.exports = async function handler(req, res) {
     return res.status(200).json(r);
   }
 
-  return res.status(400).json({ ok: false, error: 'unknown action: ' + action, valid: ['streams', 'status', 'route', 'orchestrate', 'ledger', 'queue', 'produce', 'publish', 'checkout', 'stripe-webhook', 'tick', 'articles', 'subscribe', 'package-patent', 'patent-listings', 'audit-application', 'rewrite-application', 'applications', 'application-approve', 'application-submit'] });
+  // ── ADVERSARIAL-REVIEW: hostile reviewer tears a doc apart vs the lessons rubric ──
+  if (action === 'adversarial-review') {
+    if (req.method !== 'POST') return res.status(405).json({ ok: false, error: 'adversarial-review requires POST' });
+    const aud = require('../lib/application-auditor');
+    const b = req.body || {};
+    let text = b.text, funder = b.funder, lane = b.lane;
+    if (!text && b.id) {
+      const all = await aud.list(200);
+      const it = all.find(function (x) { return x.id === b.id; });
+      if (it) { text = it.sourceText; funder = funder || it.funder; }
+    }
+    return res.status(200).json(await aud.adversarialReview({ text: text, funder: funder, lane: lane }));
+  }
+
+  return res.status(400).json({ ok: false, error: 'unknown action: ' + action, valid: ['streams', 'status', 'route', 'orchestrate', 'ledger', 'queue', 'produce', 'publish', 'checkout', 'stripe-webhook', 'tick', 'articles', 'subscribe', 'package-patent', 'patent-listings', 'audit-application', 'rewrite-application', 'applications', 'application-approve', 'application-submit', 'adversarial-review'] });
 };

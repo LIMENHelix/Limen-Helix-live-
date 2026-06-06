@@ -68,7 +68,8 @@ pre{white-space:pre-wrap;font-size:11px;background:rgba(0,0,0,.25);border:1px so
       h+='<div class="prov">provenance — rules: '+esc((a.provenance||{}).rules)+' · audit: '+esc((a.provenance||{}).audit)+' · verify: '+esc((a.provenance||{}).verify)+'</div>';
       h+='<div class="row"><button class="rw" data-id="'+esc(a.id)+'">▸ Generate compliant rewrite</button>'
         +'<button class="go ap" data-id="'+esc(a.id)+'">✓ Approve &amp; sign</button>'
-        +'<button class="sb" data-id="'+esc(a.id)+'">→ Mark submitted</button><span class="stat" id="st-'+esc(a.id)+'"></span></div>';
+        +'<button class="sb" data-id="'+esc(a.id)+'">→ Mark submitted</button>'
+        +'<button class="adv" data-id="'+esc(a.id)+'" style="background:rgba(212,87,75,.1);color:var(--oxide)">⚔ Adversarial review</button><span class="stat" id="st-'+esc(a.id)+'"></span></div>';
       h+='<pre id="pre-'+esc(a.id)+'"></pre></div>';
     }
     el.innerHTML=h;wire(apps);
@@ -79,6 +80,8 @@ pre{white-space:pre-wrap;font-size:11px;background:rgba(0,0,0,.25);border:1px so
     document.querySelectorAll('.sb').forEach(function(b){b.addEventListener('click',function(){var id=this.getAttribute('data-id');post('application-submit',{id:id},id,'submitted');});});
     document.querySelectorAll('.rw').forEach(function(b){b.addEventListener('click',function(){var id=this.getAttribute('data-id');var a=find(id);var st=document.getElementById('st-'+id);var pre=document.getElementById('pre-'+id);st.textContent='rewriting… (AI)';
       fetch('/api/capital-engine?action=rewrite-application',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({funder:a.funder,program:(a.audit||{}).recommendedProgram||'',text:a.sourceText})}).then(function(r){return r.json();}).then(function(j){if(j.ok){pre.style.display='block';pre.textContent=j.draft;st.textContent='✓ draft ('+j.provider+')';}else st.textContent='✗ '+(j.error||'');}).catch(function(e){st.textContent='✗ '+e.message;});});});
+    document.querySelectorAll('.adv').forEach(function(b){b.addEventListener('click',function(){var id=this.getAttribute('data-id');var st=document.getElementById('st-'+id);var pre=document.getElementById('pre-'+id);st.textContent='tearing it apart… (hostile reviewer)';
+      fetch('/api/capital-engine?action=adversarial-review',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id,lane:'grant'})}).then(function(r){return r.json();}).then(function(j){if(!j.ok){st.textContent='✗ '+(j.error||'');return;}var rv=j.review||{};pre.style.display='block';var out='GATE: '+(rv.gate||'?')+'   (rubric applied: '+(j.rubricApplied||0)+')\n\nTOP FIXES:\n'+((rv.topThreeFixes||[]).map(function(f){return '• '+f;}).join('\n'))+'\n\nTEARDOWN:\n'+((rv.teardown||[]).map(function(t){return '['+(t.severity||'?')+'] '+(t.lesson||'')+': '+(t.finding||'')+'\n   -> '+(t.fix||'');}).join('\n\n'))+((rv.integrityFlags&&rv.integrityFlags.length)?('\n\nINTEGRITY:\n'+rv.integrityFlags.map(function(x){return '! '+x;}).join('\n')):'');pre.textContent=out;st.textContent='gate: '+(rv.gate||'?')+' ('+j.provider+')';}).catch(function(e){st.textContent='✗ '+e.message;});});});
   }
   function post(action,body,id,okmsg){var st=document.getElementById('st-'+id);st.textContent='…';
     fetch('/api/capital-engine?action='+action,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){return r.json();}).then(function(j){st.textContent=j.ok?okmsg+(j.notice?(' — '+j.notice):''):('✗ '+(j.error||''));}).catch(function(e){st.textContent='✗ '+e.message;});}
