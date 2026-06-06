@@ -151,7 +151,7 @@ a:hover{color:#C9A94E;text-decoration:underline}
 <!-- ──────────────────────────────────────────────────────────── -->
 <div class="section" id="surfaces">
   <div class="sect-num">2</div>
-  <div class="sect-title">The 10 surfaces (7 currently deployed)</div>
+  <div class="sect-title">The surfaces — including the Finance Domain trio (Capital Engine · Applications · Journal)</div>
   <div class="sect-sub">After audit: no real redundancy. Each surface answers a different question. <b style="color:#e85454">3 are not currently deployed in this build</b> (Vitals, Opportunities, Connectome) — their routes 404; flagged inline below.</div>
 
   <div class="surface">
@@ -222,6 +222,27 @@ a:hover{color:#C9A94E;text-decoration:underline}
     <div class="surface-what">"Executive cockpit." Shows 20-domain posture grid, recent state transitions, hierarchy diagram (Master Brain → Civilization → Domains). Entry points to Inbox + Executor.</div>
     <div class="surface-when">When to look</div>
     <div class="surface-detail">Glance — see body-wide posture in one view. Then jump to Inbox to act.</div>
+  </div>
+
+  <div class="surface">
+    <div class="surface-name">$ CAPITAL ENGINE <a href="/capital-engine">/capital-engine</a></div>
+    <div class="surface-what">"How does the finance domain fund the rest?" The finance treasury cockpit: revenue-stream table (tier, phase, connector readiness), capital flow + lendable surplus, AI-orchestration telemetry (Anthropic / OpenAI / Grok), the self-audit ledger, and a "Run autonomic tick" button (audit → heal → build). Income is accepted via Stripe; money OUT (fees, lending) is proposal-only and halts for your signature.</div>
+    <div class="surface-when">When to look</div>
+    <div class="surface-detail">When you want the money view — what's earning, what's ready to activate, what the treasury proposes routing to other domains. Connectors flip green as you add API keys to the Vercel env.</div>
+  </div>
+
+  <div class="surface">
+    <div class="surface-name">⚖ APPLICATIONS — AUDIT &amp; SIGN <a href="/applications">/applications</a></div>
+    <div class="surface-what">"Is my grant/patent application fundable before I submit?" The master-brain auditor scores each application (multi-AI: Grok pulls funder rules, Anthropic audits, OpenAI cross-checks) with fatal/merit findings, a budget-math check, and a one-click compliant REWRITE. The <b>⚔ Adversarial Review</b> button runs a hostile reviewer that tears the doc apart against a growing lessons rubric (team gaps, Phase-I scope creep, kernel-vs-app framing, unsourced stats, integrity) and returns a gate + fixes BEFORE you submit.</div>
+    <div class="surface-when">When to look</div>
+    <div class="surface-detail">Before submitting any grant/patent. Flow: you draft → drop in the Google Drive "LIMEN Helix Applications" folder → the system audits/rewrites → it lands in "LIMEN Helix Approvals" → you submit. The in-app "approve" is your <i>internal</i> sign-off; the legal signature is you submitting on Research.gov / SAM as the registered AOR.</div>
+  </div>
+
+  <div class="surface">
+    <div class="surface-name">✎ JOURNAL <a href="/journal">/journal</a></div>
+    <div class="surface-what">The owned publishing surface. AI-produced, corpus-grounded essays (cited, IP-firewalled) published to a LIMEN-owned page — no third-party platform gate. Carries email capture + affiliate/Stripe CTAs. Produced via the Capital Engine's tri-model pipeline (Grok → Anthropic → OpenAI) and draft-published here.</div>
+    <div class="surface-when">When to look</div>
+    <div class="surface-detail">When you want the owned content funnel. Traffic builds over time via SEO; platforms with their own audiences (Beehiiv, etc.) are fed manually where their APIs gate automation.</div>
   </div>
 </div>
 

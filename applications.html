@@ -7,9 +7,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#080a0f;--panel:#0c0f16;--bone:#e8e3d9;--gold:#c9a94e;--oxide:#d4574b;--emerald:#5ab590;--amber:#e0a437;--dim:rgba(200,195,184,.45);--line:rgba(201,169,78,.12)}
+:root{--bg:#080a0f;--panel:#0c0f16;--bone:#e8e3d9;--gold:#c9a94e;--oxide:#d4574b;--emerald:#5ab590;--amber:#e0a437;--dim:rgba(214,209,198,.8);--line:rgba(201,169,78,.16)}
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--bone);font-family:'IBM Plex Mono',monospace;font-size:13px;line-height:1.6;padding-bottom:60px}
+body{background:var(--bg);color:var(--bone);font-family:'IBM Plex Mono',monospace;font-size:15px;line-height:1.65;padding-bottom:60px}
 a{color:var(--gold)}
 .wrap{max-width:980px;margin:0 auto;padding:0 18px}
 header{border-bottom:1px solid var(--line);padding:12px 0;position:sticky;top:0;background:rgba(8,10,15,.96);backdrop-filter:blur(6px);z-index:10}
@@ -25,7 +25,7 @@ header{border-bottom:1px solid var(--line);padding:12px 0;position:sticky;top:0;
 .badge{font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:2px;white-space:nowrap}
 .b-rwr{background:rgba(212,87,75,.16);color:var(--oxide)}.b-major{background:rgba(224,164,55,.16);color:var(--amber)}
 .b-minor{background:rgba(201,169,78,.16);color:var(--gold)}.b-ok{background:rgba(90,181,144,.16);color:var(--emerald)}
-.sec{margin-top:12px}.sec h3{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,169,78,.5);margin-bottom:5px}
+.sec{margin-top:12px}.sec h3{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(224,200,130,.92);margin-bottom:5px}
 .item{padding:5px 0 5px 12px;border-left:2px solid var(--oxide);margin:4px 0;font-size:12px}
 .item.m{border-left-color:var(--amber)}.item.s{border-left-color:var(--emerald)}
 .item .fix{color:var(--dim);font-size:11px;margin-top:2px}
@@ -40,7 +40,9 @@ pre{white-space:pre-wrap;font-size:11px;background:rgba(0,0,0,.25);border:1px so
 .stat{font-size:10px;color:var(--dim);margin-left:8px}
 </style></head>
 <body>
-<header><div class="wrap brand"><a href="/capital-engine" style="color:rgba(201,169,78,.6)">LIMEN HELIX</a> / APPLICATIONS · AUDIT &amp; SIGN</div></header>
+<div id="limen-topbar"></div>
+<script src="assets/js/limen-topbar.js"></script>
+<header style="position:static"><div class="wrap brand"><a href="/capital-engine" style="color:rgba(201,169,78,.6)">LIMEN HELIX</a> / APPLICATIONS · AUDIT &amp; SIGN</div></header>
 <div class="wrap">
   <div class="masthead"><h1>Applications</h1><div class="sub">Multi-AI audit (Grok rules · Anthropic audit/rewrite · OpenAI cross-check) → review → sign → ship what's legal.</div></div>
   <div id="list"><div class="loading">Loading audited applications…</div></div>
