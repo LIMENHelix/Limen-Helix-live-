@@ -223,5 +223,19 @@ module.exports = async function handler(req, res) {
     return res.status(200).json({ ok: true, subscribed: true });
   }
 
-  return res.status(400).json({ ok: false, error: 'unknown action: ' + action, valid: ['streams', 'status', 'route', 'orchestrate', 'ledger', 'queue', 'produce', 'publish', 'checkout', 'stripe-webhook', 'tick', 'articles', 'subscribe'] });
+  // ── PACKAGE-PATENT: filed patent draft → marketplace listing + targets ──
+  if (action === 'package-patent') {
+    if (req.method !== 'POST') return res.status(405).json({ ok: false, error: 'package-patent requires POST' });
+    const pp = require('../lib/patent-packager');
+    const b = req.body || {};
+    return res.status(200).json(await pp.packageListing({ id: b.id, title: b.title, patentText: b.patentText, domain: b.domain }));
+  }
+
+  // ── PATENT-LISTINGS: packaged listings + status (operator view) ────
+  if (action === 'patent-listings') {
+    const pp = require('../lib/patent-packager');
+    return res.status(200).json({ ok: true, listings: await pp.listings(100) });
+  }
+
+  return res.status(400).json({ ok: false, error: 'unknown action: ' + action, valid: ['streams', 'status', 'route', 'orchestrate', 'ledger', 'queue', 'produce', 'publish', 'checkout', 'stripe-webhook', 'tick', 'articles', 'subscribe', 'package-patent', 'patent-listings'] });
 };
