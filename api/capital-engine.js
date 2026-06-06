@@ -205,5 +205,23 @@ module.exports = async function handler(req, res) {
     return res.status(200).json({ ok: true, report: await autonomic.tick({ buildCap: cap }) });
   }
 
-  return res.status(400).json({ ok: false, error: 'unknown action: ' + action, valid: ['streams', 'status', 'route', 'orchestrate', 'ledger', 'produce', 'publish', 'checkout', 'stripe-webhook', 'tick'] });
+  // ── ARTICLES: published owned-site journal (public read) ───────────
+  if (action === 'articles') {
+    const db = require('./lib/limen-db');
+    const list = await db.lrange('site:articles', 0, 100);
+    return res.status(200).json({ ok: true, articles: list });
+  }
+
+  // ── SUBSCRIBE: email capture for the journal (monetization funnel) ──
+  if (action === 'subscribe') {
+    if (req.method !== 'POST') return res.status(405).json({ ok: false, error: 'subscribe requires POST' });
+    const db = require('./lib/limen-db');
+    const email = ((req.body && req.body.email) || (req.query && req.query.email) || '').toString().trim().toLowerCase();
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return res.status(400).json({ ok: false, error: 'invalid email' });
+    await db.lpush('site:subscribers', { email: email, ts: new Date().toISOString() });
+    await db.ltrim('site:subscribers', 0, 99999);
+    return res.status(200).json({ ok: true, subscribed: true });
+  }
+
+  return res.status(400).json({ ok: false, error: 'unknown action: ' + action, valid: ['streams', 'status', 'route', 'orchestrate', 'ledger', 'queue', 'produce', 'publish', 'checkout', 'stripe-webhook', 'tick', 'articles', 'subscribe'] });
 };
