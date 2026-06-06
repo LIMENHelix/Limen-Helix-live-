@@ -143,21 +143,21 @@ module.exports = async function handler(req, res) {
 
   // ── LEDGER: self-audit P&L + finance health + lendable surplus ──────
   if (action === 'ledger') {
-    const ledger = require('./lib/finance-ledger');
-    const autonomic = require('./lib/finance-autonomic');
+    const ledger = require('../lib/finance-ledger');
+    const autonomic = require('../lib/finance-autonomic');
     return res.status(200).json({ ok: true, summary: await ledger.summary(), health: await autonomic.health(), approvals: await autonomic.approvals(20), events: await ledger.events(50) });
   }
 
   // ── QUEUE: content queue + published log (operator view) ───────────
   if (action === 'queue') {
-    const ops = require('./lib/stream-ops');
+    const ops = require('../lib/stream-ops');
     return res.status(200).json({ ok: true, queue: await ops.queue(50), published: await ops.published(50) });
   }
 
   // ── PRODUCE: AI-generate content for one stream (budget-gated) ──────
   if (action === 'produce') {
     if (req.method !== 'POST') return res.status(405).json({ ok: false, error: 'produce requires POST' });
-    const ops = require('./lib/stream-ops');
+    const ops = require('../lib/stream-ops');
     const id = (req.query && req.query.stream) || (req.body && req.body.stream);
     const s = _findStream(contract, id);
     if (!s) return res.status(400).json({ ok: false, error: 'unknown stream: ' + id });
@@ -167,7 +167,7 @@ module.exports = async function handler(req, res) {
   // ── PUBLISH: dispatch a queued artifact if its token exists ─────────
   if (action === 'publish') {
     if (req.method !== 'POST') return res.status(405).json({ ok: false, error: 'publish requires POST' });
-    const ops = require('./lib/stream-ops');
+    const ops = require('../lib/stream-ops');
     const id = (req.query && req.query.artifact) || (req.body && req.body.artifact);
     const q = await ops.queue(500);
     const art = q.find(function (a) { return a.id === id; });
@@ -178,7 +178,7 @@ module.exports = async function handler(req, res) {
   // ── CHECKOUT: create a Stripe payment link (ACCEPT income) ─────────
   if (action === 'checkout') {
     if (req.method !== 'POST') return res.status(405).json({ ok: false, error: 'checkout requires POST' });
-    const stripe = require('./lib/stripe-rail');
+    const stripe = require('../lib/stripe-rail');
     const b = req.body || {};
     return res.status(200).json(await stripe.createPaymentLink({ name: b.name, amount: Number(b.amount), streamId: b.stream, currency: b.currency }));
   }
@@ -186,7 +186,7 @@ module.exports = async function handler(req, res) {
   // ── STRIPE WEBHOOK: verify + record income to ledger ───────────────
   if (action === 'stripe-webhook') {
     if (req.method !== 'POST') return res.status(405).json({ ok: false, error: 'webhook requires POST' });
-    const stripe = require('./lib/stripe-rail');
+    const stripe = require('../lib/stripe-rail');
     const raw = await _readRaw(req);
     const sig = req.headers['stripe-signature'];
     const result = await stripe.recordWebhook(raw, sig);
@@ -196,7 +196,7 @@ module.exports = async function handler(req, res) {
   // ── TICK: run one autonomic cycle (audit → heal → build) ───────────
   if (action === 'tick') {
     if (req.method !== 'POST') return res.status(405).json({ ok: false, error: 'tick requires POST' });
-    const autonomic = require('./lib/finance-autonomic');
+    const autonomic = require('../lib/finance-autonomic');
     const cap = req.query && req.query.cap ? parseInt(req.query.cap, 10) : 3;
     return res.status(200).json({ ok: true, report: await autonomic.tick({ buildCap: cap }) });
   }
