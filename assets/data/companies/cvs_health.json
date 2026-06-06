@@ -1700,7 +1700,7 @@
         "provenance": {
           "kernelId": "engine_output_generator/1.0",
           "sourceLane": "patent",
-          "generatedAt": "2026-05-30T11:14:11.983Z"
+          "generatedAt": "2026-06-06T00:00:18.737Z"
         }
       },
       {
@@ -1726,7 +1726,7 @@
         "provenance": {
           "kernelId": "engine_output_generator/1.0",
           "sourceLane": "patent",
-          "generatedAt": "2026-05-30T11:14:11.983Z"
+          "generatedAt": "2026-06-06T00:00:18.738Z"
         }
       },
       {
@@ -1752,7 +1752,7 @@
         "provenance": {
           "kernelId": "engine_output_generator/1.0",
           "sourceLane": "patent",
-          "generatedAt": "2026-05-30T11:14:11.983Z"
+          "generatedAt": "2026-06-06T00:00:18.738Z"
         }
       },
       {
@@ -1778,7 +1778,7 @@
         "provenance": {
           "kernelId": "engine_output_generator/1.0",
           "sourceLane": "patent",
-          "generatedAt": "2026-05-30T11:14:11.983Z"
+          "generatedAt": "2026-06-06T00:00:18.738Z"
         }
       }
     ],
@@ -1812,7 +1812,7 @@
         "provenance": {
           "kernelId": "engine_output_generator/1.0",
           "sourceLane": "grant",
-          "generatedAt": "2026-05-30T11:14:11.983Z"
+          "generatedAt": "2026-06-06T00:00:18.737Z"
         }
       },
       {
@@ -1844,7 +1844,7 @@
         "provenance": {
           "kernelId": "engine_output_generator/1.0",
           "sourceLane": "grant",
-          "generatedAt": "2026-05-30T11:14:11.983Z"
+          "generatedAt": "2026-06-06T00:00:18.738Z"
         }
       },
       {
@@ -1875,7 +1875,7 @@
         "provenance": {
           "kernelId": "engine_output_generator/1.0",
           "sourceLane": "grant",
-          "generatedAt": "2026-05-30T11:14:11.983Z"
+          "generatedAt": "2026-06-06T00:00:18.738Z"
         }
       },
       {
@@ -1906,7 +1906,7 @@
         "provenance": {
           "kernelId": "engine_output_generator/1.0",
           "sourceLane": "grant",
-          "generatedAt": "2026-05-30T11:14:11.983Z"
+          "generatedAt": "2026-06-06T00:00:18.738Z"
         }
       }
     ],
@@ -1916,100 +1916,256 @@
         "lane": "investment",
         "patternId": "STN_inhibition_x_regulatory_hold_response",
         "confidence": 0.385,
-        "side": "LONG",
+        "side": "SHORT",
         "horizon": "6-18mo",
+        "valuationBasis": {
+          "price": 95.93,
+          "side": "SHORT",
+          "horizonYears": 1,
+          "currentMultiple": 2.95,
+          "phaseFactor": 0.65,
+          "targetMultiple": 1.92,
+          "multipleRange": [
+            0.94,
+            2.89
+          ],
+          "multipleDelta": 1.03,
+          "target": 59.95,
+          "targetBull": 93.72,
+          "targetBear": 26.18,
+          "upsidePct": -37.5,
+          "probWeightedTarget": 56.57,
+          "probWeightedUpsidePct": -41,
+          "probabilities": {
+            "base": 0.52,
+            "bull": 0.19,
+            "bear": 0.29
+          },
+          "irrPct": -41,
+          "stop": 109.91,
+          "asymmetry": 2.82,
+          "positionSizePct": 2.2,
+          "nextPhase": "p6",
+          "metric": "EV/Revenue",
+          "marketDataAsOf": "2026-03-28",
+          "sources": {
+            "quote": "yahoo_v8",
+            "fundamentals": "edgar_companyfacts"
+          }
+        },
         "artifact": {
-          "header": "CVS Health Corporation (CVS) — LONG — [POSITION_SIZE_PCT]% of capital\nInitiated: 2026-05-30    Current price: $[PRICE]    Cost basis: $[BASIS]\nTarget: $[TARGET] ([UPSIDE_PCT]% / 6-18mo months)    Stop / re-review: $[STOP]\nKernel phase: CONSERVE-MODE    Composite: [COMPOSITE]    Peer-cohort delta: [DELTA]\nBridge pattern: STN_inhibition_x_regulatory_hold_response (confidence 0.385)",
-          "variantView": "CVS screens as retail drug stores + health services + pharmacy benefit management-typical. Underneath, the operative driver is Subthalamic Nucleus-equivalent isomorphic pathology — (regulatory hold freeze) which neither the sector index nor the comparable cohort price into the entity at current levels.",
-          "catalystBlock": "Hard catalysts (dated, falsifiable):\n  • Next quarterly earnings — scheduled [NEXT_EARNINGS_DATE] — historical post-earnings move for Retail Drug Stores + Health Services + Pharmacy Benefit Management entities exhibiting regulatory hold freeze: median [HISTORICAL_REACTION]\n  • Auditor / regulatory action window — [DATE_RANGE] — probability we assign: [PROB]\n  • Refinancing / facility maturity — [DATE_3]\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress propagation — leading indicator: spider-web induced stress on CVS Health Corporation\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate for this pattern across peer cohort\n\nWe expect the re-rating to materialize over 6-18mo months because once the regulatory hold freeze pattern is recognized by sell-side, the gap between current pricing and the bridge-pattern-implied valuation compresses.",
-          "valuation": "Base case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BASE]    ([P_BASE]% probability)\nBull case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BULL]    ([P_BULL]% probability)\nBear case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BEAR]    ([P_BEAR]% probability)\nProbability-weighted: $[PWAVG]    Implied IRR over 6-18momo: [IRR]%\n\nMultiple chosen because: Retail Drug Stores + Health Services + Pharmacy Benefit Management peer set traded at [MULTIPLE_RANGE] during analogous bridge-pattern phases historically, adjusted [DELTA]x for the specific bridge-pattern confidence (0.385).",
-          "positionSizing": "Sized at [PCT]% of portfolio because:\n  • Conviction: bridge confidence 0.385, matched indicators 1 of 2.\n  • Asymmetry: [UPSIDE]:1 expected return-to-risk ratio.\n  • Correlation: position correlates [RHO] with existing exposure to Retail Drug Stores + Health Services + Pharmacy Benefit Management; additive on net.\n  • Liquidity: average daily volume $[ADV]M.\n  • Pre-existing kernel inhibition: CONSERVE-MODE blocks upsize until phase reading stabilizes for two consecutive quarters.",
-          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"merger_pending_review\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase progresses to [NEXT_PHASE] without [EXPECTED_PRECURSOR].\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Subthalamic Nucleus ↔ regulatory hold freeze mapping confidence (see pattern file).",
-          "exit": "We will exit upon:\n  (a) Price reaches $[TARGET] OR\n  (b) Variant view confirmed and consensus converges (sell-side revision of >[N]%) OR\n  (c) Any of the \"we are wrong if\" triggers fires at the confirm threshold OR\n  (d) 6-18mo months elapsed without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent fundamental bridge-pattern shift.",
+          "header": "CVS Health Corporation (CVS) — SHORT — 2.2% of capital\nInitiated: 2026-06-06    Current price: $95.93    Cost basis: $95.93\nTarget (base): $59.95 (-37.5% / 6-18 months)    Stop / re-review: $109.91\nKernel phase: CONSERVE-MODE    Composite: 0.620\nValuation: 2.95x EV/Revenue → phase-implied 1.92x (factor 0.65)\nBridge pattern: STN_inhibition_x_regulatory_hold_response (confidence 0.385)",
+          "variantView": "CVS screens as retail drug stores + health services + pharmacy benefit management-typical. Underneath, the operative driver is Subthalamic Nucleus-equivalent isomorphic pathology (regulatory hold freeze) which the sector index does not price in at current levels. the market values CVS at 2.95x EV/Revenue.",
+          "catalystBlock": "Hard catalysts (falsifiable):\n  • Next quarterly earnings release — post-earnings drift is the primary re-rating window for the regulatory hold freeze signature.\n  • Cash runway — approximately 12 quarters on the latest filing ⇒ a financing/refinancing event is likely within ~36 months (dated, falsifiable).\n  • Going-concern language — monitor the next annual filing for a going-concern modification.\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress — leading indicator: spider-web induced stress on CVS Health Corporation.\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate across the peer cohort.\n\nWe expect the re-rating to materialize over 6-18 months: once the regulatory hold freeze pattern is recognized, the gap between current pricing and the phase-implied valuation compresses.",
+          "valuation": "Method: EV/Revenue re-rated by kernel phase. Current 2.95x × phase factor 0.65 (CONSERVE-MODE) → target 1.92x.\nBase case:  1.92x → $59.95    (52% probability)\nBull case:  2.89x → $93.72    (19% probability)\nBear case:  0.94x → $26.18    (29% probability)\nProbability-weighted: $56.57 (-41%)    Implied IRR over 6-18mo: -41%\n\nNet debt of $1331M against $7011M revenue is the load-bearing input — it is why the bear multiple maps to $26.18/share. Bands widen as bridge confidence (0.385) falls.",
+          "positionSizing": "Sized at 2.2% of portfolio because:\n  • Conviction: bridge confidence 0.385, matched indicators 1 of 2.\n  • Asymmetry: 2.82:1 probability-weighted reward-to-risk (target $56.57 vs stop $109.91).\n  • Liquidity: average daily dollar volume $920.5M.\n  • Phase governor: CONSERVE-MODE caps upsize until the phase reading stabilizes for two consecutive quarters.",
+          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"merger_pending_review\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase IMPROVES (distress reverses toward an earlier / recovery phase) for two consecutive readings — the short is invalidated.\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Subthalamic Nucleus ↔ regulatory hold freeze mapping confidence (see pattern file).",
+          "exit": "We will exit upon:\n  (a) Price reaches $59.95, OR\n  (b) Variant view confirmed and consensus converges, OR\n  (c) Any \"we are wrong if\" trigger fires at the confirm threshold, OR\n  (d) 6-18 months elapse without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent a fundamental bridge-pattern shift.",
           "thesisStatement": "Event-driven plays on regulatory-resolution timing",
           "instruments": [
             "common equity"
           ]
         },
         "provenance": {
-          "kernelId": "engine_output_generator/1.0",
+          "kernelId": "engine_output_generator/2.0_market_data",
           "sourceLane": "investment",
-          "generatedAt": "2026-05-30T11:14:11.983Z"
+          "generatedAt": "2026-06-06T00:00:18.738Z",
+          "marketDataSources": {
+            "quote": "yahoo_v8",
+            "fundamentals": "edgar_companyfacts"
+          }
         }
       },
       {
         "lane": "investment",
         "patternId": "LC_arousal_dysregulation_x_analyst_attention_concentration",
         "confidence": 0.34,
-        "side": "LONG",
+        "side": "SHORT",
         "horizon": "1-6mo",
+        "valuationBasis": {
+          "price": 95.93,
+          "side": "SHORT",
+          "horizonYears": 0.2916666666666667,
+          "currentMultiple": 2.95,
+          "phaseFactor": 0.65,
+          "targetMultiple": 1.92,
+          "multipleRange": [
+            0.9,
+            2.93
+          ],
+          "multipleDelta": 1.03,
+          "target": 59.95,
+          "targetBull": 95.21,
+          "targetBear": 24.69,
+          "upsidePct": -37.5,
+          "probWeightedTarget": 56.42,
+          "probWeightedUpsidePct": -41.2,
+          "probabilities": {
+            "base": 0.5,
+            "bull": 0.2,
+            "bear": 0.3
+          },
+          "irrPct": -83.8,
+          "stop": 109.91,
+          "asymmetry": 2.83,
+          "positionSizePct": 1.9,
+          "nextPhase": "p6",
+          "metric": "EV/Revenue",
+          "marketDataAsOf": "2026-03-28",
+          "sources": {
+            "quote": "yahoo_v8",
+            "fundamentals": "edgar_companyfacts"
+          }
+        },
         "artifact": {
-          "header": "CVS Health Corporation (CVS) — LONG — [POSITION_SIZE_PCT]% of capital\nInitiated: 2026-05-30    Current price: $[PRICE]    Cost basis: $[BASIS]\nTarget: $[TARGET] ([UPSIDE_PCT]% / 1-6mo months)    Stop / re-review: $[STOP]\nKernel phase: CONSERVE-MODE    Composite: [COMPOSITE]    Peer-cohort delta: [DELTA]\nBridge pattern: LC_arousal_dysregulation_x_analyst_attention_concentration (confidence 0.34)",
-          "variantView": "CVS screens as retail drug stores + health services + pharmacy benefit management-typical. Underneath, the operative driver is Locus Coeruleus-equivalent isomorphic pathology — (analyst attention concentration) which neither the sector index nor the comparable cohort price into the entity at current levels.",
-          "catalystBlock": "Hard catalysts (dated, falsifiable):\n  • Next quarterly earnings — scheduled [NEXT_EARNINGS_DATE] — historical post-earnings move for Retail Drug Stores + Health Services + Pharmacy Benefit Management entities exhibiting analyst attention concentration: median [HISTORICAL_REACTION]\n  • Auditor / regulatory action window — [DATE_RANGE] — probability we assign: [PROB]\n  • Refinancing / facility maturity — [DATE_3]\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress propagation — leading indicator: spider-web induced stress on CVS Health Corporation\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate for this pattern across peer cohort\n\nWe expect the re-rating to materialize over 1-6mo months because once the analyst attention concentration pattern is recognized by sell-side, the gap between current pricing and the bridge-pattern-implied valuation compresses.",
-          "valuation": "Base case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BASE]    ([P_BASE]% probability)\nBull case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BULL]    ([P_BULL]% probability)\nBear case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BEAR]    ([P_BEAR]% probability)\nProbability-weighted: $[PWAVG]    Implied IRR over 1-6momo: [IRR]%\n\nMultiple chosen because: Retail Drug Stores + Health Services + Pharmacy Benefit Management peer set traded at [MULTIPLE_RANGE] during analogous bridge-pattern phases historically, adjusted [DELTA]x for the specific bridge-pattern confidence (0.34).",
-          "positionSizing": "Sized at [PCT]% of portfolio because:\n  • Conviction: bridge confidence 0.34, matched indicators 1 of 2.\n  • Asymmetry: [UPSIDE]:1 expected return-to-risk ratio.\n  • Correlation: position correlates [RHO] with existing exposure to Retail Drug Stores + Health Services + Pharmacy Benefit Management; additive on net.\n  • Liquidity: average daily volume $[ADV]M.\n  • Pre-existing kernel inhibition: CONSERVE-MODE blocks upsize until phase reading stabilizes for two consecutive quarters.",
-          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"fn_executive_attention_signals\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase progresses to [NEXT_PHASE] without [EXPECTED_PRECURSOR].\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Locus Coeruleus ↔ analyst attention concentration mapping confidence (see pattern file).",
-          "exit": "We will exit upon:\n  (a) Price reaches $[TARGET] OR\n  (b) Variant view confirmed and consensus converges (sell-side revision of >[N]%) OR\n  (c) Any of the \"we are wrong if\" triggers fires at the confirm threshold OR\n  (d) 1-6mo months elapsed without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent fundamental bridge-pattern shift.",
+          "header": "CVS Health Corporation (CVS) — SHORT — 1.9% of capital\nInitiated: 2026-06-06    Current price: $95.93    Cost basis: $95.93\nTarget (base): $59.95 (-37.5% / 1-6 months)    Stop / re-review: $109.91\nKernel phase: CONSERVE-MODE    Composite: 0.620\nValuation: 2.95x EV/Revenue → phase-implied 1.92x (factor 0.65)\nBridge pattern: LC_arousal_dysregulation_x_analyst_attention_concentration (confidence 0.34)",
+          "variantView": "CVS screens as retail drug stores + health services + pharmacy benefit management-typical. Underneath, the operative driver is Locus Coeruleus-equivalent isomorphic pathology (analyst attention concentration) which the sector index does not price in at current levels. the market values CVS at 2.95x EV/Revenue.",
+          "catalystBlock": "Hard catalysts (falsifiable):\n  • Next quarterly earnings release — post-earnings drift is the primary re-rating window for the analyst attention concentration signature.\n  • Cash runway — approximately 12 quarters on the latest filing ⇒ a financing/refinancing event is likely within ~36 months (dated, falsifiable).\n  • Going-concern language — monitor the next annual filing for a going-concern modification.\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress — leading indicator: spider-web induced stress on CVS Health Corporation.\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate across the peer cohort.\n\nWe expect the re-rating to materialize over 1-6 months: once the analyst attention concentration pattern is recognized, the gap between current pricing and the phase-implied valuation compresses.",
+          "valuation": "Method: EV/Revenue re-rated by kernel phase. Current 2.95x × phase factor 0.65 (CONSERVE-MODE) → target 1.92x.\nBase case:  1.92x → $59.95    (50% probability)\nBull case:  2.93x → $95.21    (20% probability)\nBear case:  0.9x → $24.69    (30% probability)\nProbability-weighted: $56.42 (-41.2%)    Implied IRR over 1-6mo: -83.8%\n\nNet debt of $1331M against $7011M revenue is the load-bearing input — it is why the bear multiple maps to $24.69/share. Bands widen as bridge confidence (0.34) falls.",
+          "positionSizing": "Sized at 1.9% of portfolio because:\n  • Conviction: bridge confidence 0.34, matched indicators 1 of 2.\n  • Asymmetry: 2.83:1 probability-weighted reward-to-risk (target $56.42 vs stop $109.91).\n  • Liquidity: average daily dollar volume $920.5M.\n  • Phase governor: CONSERVE-MODE caps upsize until the phase reading stabilizes for two consecutive quarters.",
+          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"fn_executive_attention_signals\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase IMPROVES (distress reverses toward an earlier / recovery phase) for two consecutive readings — the short is invalidated.\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Locus Coeruleus ↔ analyst attention concentration mapping confidence (see pattern file).",
+          "exit": "We will exit upon:\n  (a) Price reaches $59.95, OR\n  (b) Variant view confirmed and consensus converges, OR\n  (c) Any \"we are wrong if\" trigger fires at the confirm threshold, OR\n  (d) 1-6 months elapse without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent a fundamental bridge-pattern shift.",
           "thesisStatement": "Sell tonic-elevation attention; buy phasic-resolution post-disclosure",
           "instruments": [
             "common equity"
           ]
         },
         "provenance": {
-          "kernelId": "engine_output_generator/1.0",
+          "kernelId": "engine_output_generator/2.0_market_data",
           "sourceLane": "investment",
-          "generatedAt": "2026-05-30T11:14:11.983Z"
+          "generatedAt": "2026-06-06T00:00:18.738Z",
+          "marketDataSources": {
+            "quote": "yahoo_v8",
+            "fundamentals": "edgar_companyfacts"
+          }
         }
       },
       {
         "lane": "investment",
         "patternId": "HAB_anti_reward_x_contrarian_board_lock",
         "confidence": 0.325,
-        "side": "LONG",
+        "side": "SHORT",
         "horizon": "12-24mo",
+        "valuationBasis": {
+          "price": 95.93,
+          "side": "SHORT",
+          "horizonYears": 1.5,
+          "currentMultiple": 2.95,
+          "phaseFactor": 0.65,
+          "targetMultiple": 1.92,
+          "multipleRange": [
+            0.89,
+            2.95
+          ],
+          "multipleDelta": 1.03,
+          "target": 59.95,
+          "targetBull": 95.71,
+          "targetBear": 24.19,
+          "upsidePct": -37.5,
+          "probWeightedTarget": 56.37,
+          "probWeightedUpsidePct": -41.2,
+          "probabilities": {
+            "base": 0.5,
+            "bull": 0.2,
+            "bear": 0.3
+          },
+          "irrPct": -29.8,
+          "stop": 109.91,
+          "asymmetry": 2.83,
+          "positionSizePct": 1.8,
+          "nextPhase": "p6",
+          "metric": "EV/Revenue",
+          "marketDataAsOf": "2026-03-28",
+          "sources": {
+            "quote": "yahoo_v8",
+            "fundamentals": "edgar_companyfacts"
+          }
+        },
         "artifact": {
-          "header": "CVS Health Corporation (CVS) — LONG — [POSITION_SIZE_PCT]% of capital\nInitiated: 2026-05-30    Current price: $[PRICE]    Cost basis: $[BASIS]\nTarget: $[TARGET] ([UPSIDE_PCT]% / 12-24mo months)    Stop / re-review: $[STOP]\nKernel phase: CONSERVE-MODE    Composite: [COMPOSITE]    Peer-cohort delta: [DELTA]\nBridge pattern: HAB_anti_reward_x_contrarian_board_lock (confidence 0.325)",
-          "variantView": "CVS screens as retail drug stores + health services + pharmacy benefit management-typical. Underneath, the operative driver is Habenula-equivalent isomorphic pathology — (contrarian board lock) which neither the sector index nor the comparable cohort price into the entity at current levels.",
-          "catalystBlock": "Hard catalysts (dated, falsifiable):\n  • Next quarterly earnings — scheduled [NEXT_EARNINGS_DATE] — historical post-earnings move for Retail Drug Stores + Health Services + Pharmacy Benefit Management entities exhibiting contrarian board lock: median [HISTORICAL_REACTION]\n  • Auditor / regulatory action window — [DATE_RANGE] — probability we assign: [PROB]\n  • Refinancing / facility maturity — [DATE_3]\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress propagation — leading indicator: spider-web induced stress on CVS Health Corporation\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate for this pattern across peer cohort\n\nWe expect the re-rating to materialize over 12-24mo months because once the contrarian board lock pattern is recognized by sell-side, the gap between current pricing and the bridge-pattern-implied valuation compresses.",
-          "valuation": "Base case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BASE]    ([P_BASE]% probability)\nBull case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BULL]    ([P_BULL]% probability)\nBear case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BEAR]    ([P_BEAR]% probability)\nProbability-weighted: $[PWAVG]    Implied IRR over 12-24momo: [IRR]%\n\nMultiple chosen because: Retail Drug Stores + Health Services + Pharmacy Benefit Management peer set traded at [MULTIPLE_RANGE] during analogous bridge-pattern phases historically, adjusted [DELTA]x for the specific bridge-pattern confidence (0.325).",
-          "positionSizing": "Sized at [PCT]% of portfolio because:\n  • Conviction: bridge confidence 0.325, matched indicators 1 of 2.\n  • Asymmetry: [UPSIDE]:1 expected return-to-risk ratio.\n  • Correlation: position correlates [RHO] with existing exposure to Retail Drug Stores + Health Services + Pharmacy Benefit Management; additive on net.\n  • Liquidity: average daily volume $[ADV]M.\n  • Pre-existing kernel inhibition: CONSERVE-MODE blocks upsize until phase reading stabilizes for two consecutive quarters.",
-          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"kernel_p5_stuck\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase progresses to [NEXT_PHASE] without [EXPECTED_PRECURSOR].\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Habenula ↔ contrarian board lock mapping confidence (see pattern file).",
-          "exit": "We will exit upon:\n  (a) Price reaches $[TARGET] OR\n  (b) Variant view confirmed and consensus converges (sell-side revision of >[N]%) OR\n  (c) Any of the \"we are wrong if\" triggers fires at the confirm threshold OR\n  (d) 12-24mo months elapsed without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent fundamental bridge-pattern shift.",
+          "header": "CVS Health Corporation (CVS) — SHORT — 1.8% of capital\nInitiated: 2026-06-06    Current price: $95.93    Cost basis: $95.93\nTarget (base): $59.95 (-37.5% / 12-24 months)    Stop / re-review: $109.91\nKernel phase: CONSERVE-MODE    Composite: 0.620\nValuation: 2.95x EV/Revenue → phase-implied 1.92x (factor 0.65)\nBridge pattern: HAB_anti_reward_x_contrarian_board_lock (confidence 0.325)",
+          "variantView": "CVS screens as retail drug stores + health services + pharmacy benefit management-typical. Underneath, the operative driver is Habenula-equivalent isomorphic pathology (contrarian board lock) which the sector index does not price in at current levels. the market values CVS at 2.95x EV/Revenue.",
+          "catalystBlock": "Hard catalysts (falsifiable):\n  • Next quarterly earnings release — post-earnings drift is the primary re-rating window for the contrarian board lock signature.\n  • Cash runway — approximately 12 quarters on the latest filing ⇒ a financing/refinancing event is likely within ~36 months (dated, falsifiable).\n  • Going-concern language — monitor the next annual filing for a going-concern modification.\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress — leading indicator: spider-web induced stress on CVS Health Corporation.\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate across the peer cohort.\n\nWe expect the re-rating to materialize over 12-24 months: once the contrarian board lock pattern is recognized, the gap between current pricing and the phase-implied valuation compresses.",
+          "valuation": "Method: EV/Revenue re-rated by kernel phase. Current 2.95x × phase factor 0.65 (CONSERVE-MODE) → target 1.92x.\nBase case:  1.92x → $59.95    (50% probability)\nBull case:  2.95x → $95.71    (20% probability)\nBear case:  0.89x → $24.19    (30% probability)\nProbability-weighted: $56.37 (-41.2%)    Implied IRR over 12-24mo: -29.8%\n\nNet debt of $1331M against $7011M revenue is the load-bearing input — it is why the bear multiple maps to $24.19/share. Bands widen as bridge confidence (0.325) falls.",
+          "positionSizing": "Sized at 1.8% of portfolio because:\n  • Conviction: bridge confidence 0.325, matched indicators 1 of 2.\n  • Asymmetry: 2.83:1 probability-weighted reward-to-risk (target $56.37 vs stop $109.91).\n  • Liquidity: average daily dollar volume $920.5M.\n  • Phase governor: CONSERVE-MODE caps upsize until the phase reading stabilizes for two consecutive quarters.",
+          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"kernel_p5_stuck\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase IMPROVES (distress reverses toward an earlier / recovery phase) for two consecutive readings — the short is invalidated.\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Habenula ↔ contrarian board lock mapping confidence (see pattern file).",
+          "exit": "We will exit upon:\n  (a) Price reaches $59.95, OR\n  (b) Variant view confirmed and consensus converges, OR\n  (c) Any \"we are wrong if\" trigger fires at the confirm threshold, OR\n  (d) 12-24 months elapse without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent a fundamental bridge-pattern shift.",
           "thesisStatement": "Activist-investor catalysts during contrarian-board lock",
           "instruments": [
             "common equity"
           ]
         },
         "provenance": {
-          "kernelId": "engine_output_generator/1.0",
+          "kernelId": "engine_output_generator/2.0_market_data",
           "sourceLane": "investment",
-          "generatedAt": "2026-05-30T11:14:11.983Z"
+          "generatedAt": "2026-06-06T00:00:18.738Z",
+          "marketDataSources": {
+            "quote": "yahoo_v8",
+            "fundamentals": "edgar_companyfacts"
+          }
         }
       },
       {
         "lane": "investment",
         "patternId": "VTA_dopaminergic_projection_x_capital_attractor_instability",
         "confidence": 0.31,
-        "side": "LONG",
+        "side": "SHORT",
         "horizon": "1-6mo",
+        "valuationBasis": {
+          "price": 95.93,
+          "side": "SHORT",
+          "horizonYears": 0.2916666666666667,
+          "currentMultiple": 2.95,
+          "phaseFactor": 0.65,
+          "targetMultiple": 1.92,
+          "multipleRange": [
+            0.87,
+            2.96
+          ],
+          "multipleDelta": 1.03,
+          "target": 59.95,
+          "targetBull": 96.21,
+          "targetBear": 23.69,
+          "upsidePct": -37.5,
+          "probWeightedTarget": 55.96,
+          "probWeightedUpsidePct": -41.7,
+          "probabilities": {
+            "base": 0.49,
+            "bull": 0.2,
+            "bear": 0.31
+          },
+          "irrPct": -84.2,
+          "stop": 109.91,
+          "asymmetry": 2.86,
+          "positionSizePct": 1.8,
+          "nextPhase": "p6",
+          "metric": "EV/Revenue",
+          "marketDataAsOf": "2026-03-28",
+          "sources": {
+            "quote": "yahoo_v8",
+            "fundamentals": "edgar_companyfacts"
+          }
+        },
         "artifact": {
-          "header": "CVS Health Corporation (CVS) — LONG — [POSITION_SIZE_PCT]% of capital\nInitiated: 2026-05-30    Current price: $[PRICE]    Cost basis: $[BASIS]\nTarget: $[TARGET] ([UPSIDE_PCT]% / 1-6mo months)    Stop / re-review: $[STOP]\nKernel phase: CONSERVE-MODE    Composite: [COMPOSITE]    Peer-cohort delta: [DELTA]\nBridge pattern: VTA_dopaminergic_projection_x_capital_attractor_instability (confidence 0.31)",
-          "variantView": "CVS screens as retail drug stores + health services + pharmacy benefit management-typical. Underneath, the operative driver is Ventral Tegmental Area-equivalent isomorphic pathology — (capital attractor instability) which neither the sector index nor the comparable cohort price into the entity at current levels.",
-          "catalystBlock": "Hard catalysts (dated, falsifiable):\n  • Next quarterly earnings — scheduled [NEXT_EARNINGS_DATE] — historical post-earnings move for Retail Drug Stores + Health Services + Pharmacy Benefit Management entities exhibiting capital attractor instability: median [HISTORICAL_REACTION]\n  • Auditor / regulatory action window — [DATE_RANGE] — probability we assign: [PROB]\n  • Refinancing / facility maturity — [DATE_3]\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress propagation — leading indicator: spider-web induced stress on CVS Health Corporation\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate for this pattern across peer cohort\n\nWe expect the re-rating to materialize over 1-6mo months because once the capital attractor instability pattern is recognized by sell-side, the gap between current pricing and the bridge-pattern-implied valuation compresses.",
-          "valuation": "Base case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BASE]    ([P_BASE]% probability)\nBull case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BULL]    ([P_BULL]% probability)\nBear case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BEAR]    ([P_BEAR]% probability)\nProbability-weighted: $[PWAVG]    Implied IRR over 1-6momo: [IRR]%\n\nMultiple chosen because: Retail Drug Stores + Health Services + Pharmacy Benefit Management peer set traded at [MULTIPLE_RANGE] during analogous bridge-pattern phases historically, adjusted [DELTA]x for the specific bridge-pattern confidence (0.31).",
-          "positionSizing": "Sized at [PCT]% of portfolio because:\n  • Conviction: bridge confidence 0.31, matched indicators 1 of 2.\n  • Asymmetry: [UPSIDE]:1 expected return-to-risk ratio.\n  • Correlation: position correlates [RHO] with existing exposure to Retail Drug Stores + Health Services + Pharmacy Benefit Management; additive on net.\n  • Liquidity: average daily volume $[ADV]M.\n  • Pre-existing kernel inhibition: CONSERVE-MODE blocks upsize until phase reading stabilizes for two consecutive quarters.",
-          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"meme_attention_pattern\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase progresses to [NEXT_PHASE] without [EXPECTED_PRECURSOR].\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Ventral Tegmental Area ↔ capital attractor instability mapping confidence (see pattern file).",
-          "exit": "We will exit upon:\n  (a) Price reaches $[TARGET] OR\n  (b) Variant view confirmed and consensus converges (sell-side revision of >[N]%) OR\n  (c) Any of the \"we are wrong if\" triggers fires at the confirm threshold OR\n  (d) 1-6mo months elapsed without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent fundamental bridge-pattern shift.",
+          "header": "CVS Health Corporation (CVS) — SHORT — 1.8% of capital\nInitiated: 2026-06-06    Current price: $95.93    Cost basis: $95.93\nTarget (base): $59.95 (-37.5% / 1-6 months)    Stop / re-review: $109.91\nKernel phase: CONSERVE-MODE    Composite: 0.620\nValuation: 2.95x EV/Revenue → phase-implied 1.92x (factor 0.65)\nBridge pattern: VTA_dopaminergic_projection_x_capital_attractor_instability (confidence 0.31)",
+          "variantView": "CVS screens as retail drug stores + health services + pharmacy benefit management-typical. Underneath, the operative driver is Ventral Tegmental Area-equivalent isomorphic pathology (capital attractor instability) which the sector index does not price in at current levels. the market values CVS at 2.95x EV/Revenue.",
+          "catalystBlock": "Hard catalysts (falsifiable):\n  • Next quarterly earnings release — post-earnings drift is the primary re-rating window for the capital attractor instability signature.\n  • Cash runway — approximately 12 quarters on the latest filing ⇒ a financing/refinancing event is likely within ~36 months (dated, falsifiable).\n  • Going-concern language — monitor the next annual filing for a going-concern modification.\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress — leading indicator: spider-web induced stress on CVS Health Corporation.\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate across the peer cohort.\n\nWe expect the re-rating to materialize over 1-6 months: once the capital attractor instability pattern is recognized, the gap between current pricing and the phase-implied valuation compresses.",
+          "valuation": "Method: EV/Revenue re-rated by kernel phase. Current 2.95x × phase factor 0.65 (CONSERVE-MODE) → target 1.92x.\nBase case:  1.92x → $59.95    (49% probability)\nBull case:  2.96x → $96.21    (20% probability)\nBear case:  0.87x → $23.69    (31% probability)\nProbability-weighted: $55.96 (-41.7%)    Implied IRR over 1-6mo: -84.2%\n\nNet debt of $1331M against $7011M revenue is the load-bearing input — it is why the bear multiple maps to $23.69/share. Bands widen as bridge confidence (0.31) falls.",
+          "positionSizing": "Sized at 1.8% of portfolio because:\n  • Conviction: bridge confidence 0.31, matched indicators 1 of 2.\n  • Asymmetry: 2.86:1 probability-weighted reward-to-risk (target $55.96 vs stop $109.91).\n  • Liquidity: average daily dollar volume $920.5M.\n  • Phase governor: CONSERVE-MODE caps upsize until the phase reading stabilizes for two consecutive quarters.",
+          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"meme_attention_pattern\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase IMPROVES (distress reverses toward an earlier / recovery phase) for two consecutive readings — the short is invalidated.\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Ventral Tegmental Area ↔ capital attractor instability mapping confidence (see pattern file).",
+          "exit": "We will exit upon:\n  (a) Price reaches $59.95, OR\n  (b) Variant view confirmed and consensus converges, OR\n  (c) Any \"we are wrong if\" trigger fires at the confirm threshold, OR\n  (d) 1-6 months elapse without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent a fundamental bridge-pattern shift.",
           "thesisStatement": "Identify burst-decoupling before retail flow reversal",
           "instruments": [
             "common equity"
           ]
         },
         "provenance": {
-          "kernelId": "engine_output_generator/1.0",
+          "kernelId": "engine_output_generator/2.0_market_data",
           "sourceLane": "investment",
-          "generatedAt": "2026-05-30T11:14:11.983Z"
+          "generatedAt": "2026-06-06T00:00:18.738Z",
+          "marketDataSources": {
+            "quote": "yahoo_v8",
+            "fundamentals": "edgar_companyfacts"
+          }
         }
       }
     ],
@@ -2024,14 +2180,14 @@
           "hypothesis": "Companies emerging from regulatory hold show characteristic initiation-rebound pattern",
           "methodology": "event-study of merger-clearance outcomes",
           "preregistration": "Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.",
-          "falsifiability": "Hypothesis is falsified if effect size is below [THRESHOLD] or if matched controls show equivalent effect.",
+          "falsifiability": "Hypothesis is falsified if the effect size is below a pre-registered minimum (set at OSF preregistration) or if matched controls show an equivalent effect.",
           "expectedOutcome": "Confirmation of the bridge-pattern mapping would establish empirical basis for Subthalamic Nucleus-equivalent corporate-pathology detection across the phase-affinity phases.",
           "bridgeReference": "STN_inhibition_x_regulatory_hold_response"
         },
         "provenance": {
           "kernelId": "engine_output_generator/1.0",
           "sourceLane": "research",
-          "generatedAt": "2026-05-30T11:14:11.983Z"
+          "generatedAt": "2026-06-06T00:00:18.738Z"
         }
       },
       {
@@ -2043,14 +2199,14 @@
           "hypothesis": "Companies with sustained tonic news-attention without resolution have higher 12mo distress probability",
           "methodology": "news-flow analysis with distress-event coding",
           "preregistration": "Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.",
-          "falsifiability": "Hypothesis is falsified if effect size is below [THRESHOLD] or if matched controls show equivalent effect.",
+          "falsifiability": "Hypothesis is falsified if the effect size is below a pre-registered minimum (set at OSF preregistration) or if matched controls show an equivalent effect.",
           "expectedOutcome": "Confirmation of the bridge-pattern mapping would establish empirical basis for Locus Coeruleus-equivalent corporate-pathology detection across the phase-affinity phases.",
           "bridgeReference": "LC_arousal_dysregulation_x_analyst_attention_concentration"
         },
         "provenance": {
           "kernelId": "engine_output_generator/1.0",
           "sourceLane": "research",
-          "generatedAt": "2026-05-30T11:14:11.983Z"
+          "generatedAt": "2026-06-06T00:00:18.738Z"
         }
       },
       {
@@ -2062,14 +2218,14 @@
           "hypothesis": "Board-composition changes restore initiation analogous to habenula modulation",
           "methodology": "event-study of board refresh and subsequent capital-action",
           "preregistration": "Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.",
-          "falsifiability": "Hypothesis is falsified if effect size is below [THRESHOLD] or if matched controls show equivalent effect.",
+          "falsifiability": "Hypothesis is falsified if the effect size is below a pre-registered minimum (set at OSF preregistration) or if matched controls show an equivalent effect.",
           "expectedOutcome": "Confirmation of the bridge-pattern mapping would establish empirical basis for Habenula-equivalent corporate-pathology detection across the phase-affinity phases.",
           "bridgeReference": "HAB_anti_reward_x_contrarian_board_lock"
         },
         "provenance": {
           "kernelId": "engine_output_generator/1.0",
           "sourceLane": "research",
-          "generatedAt": "2026-05-30T11:14:11.983Z"
+          "generatedAt": "2026-06-06T00:00:18.738Z"
         }
       },
       {
@@ -2081,18 +2237,18 @@
           "hypothesis": "Companies with VTA-equivalent capital-flow patterns show predictable 90d reversal",
           "methodology": "high-frequency capital-flow analysis",
           "preregistration": "Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.",
-          "falsifiability": "Hypothesis is falsified if effect size is below [THRESHOLD] or if matched controls show equivalent effect.",
+          "falsifiability": "Hypothesis is falsified if the effect size is below a pre-registered minimum (set at OSF preregistration) or if matched controls show an equivalent effect.",
           "expectedOutcome": "Confirmation of the bridge-pattern mapping would establish empirical basis for Ventral Tegmental Area-equivalent corporate-pathology detection across the phase-affinity phases.",
           "bridgeReference": "VTA_dopaminergic_projection_x_capital_attractor_instability"
         },
         "provenance": {
           "kernelId": "engine_output_generator/1.0",
           "sourceLane": "research",
-          "generatedAt": "2026-05-30T11:14:11.983Z"
+          "generatedAt": "2026-06-06T00:00:18.738Z"
         }
       }
     ],
-    "generatedAt": "2026-05-30T11:14:11.983Z",
+    "generatedAt": "2026-06-06T00:00:18.737Z",
     "generatorVersion": "1.0",
     "bridgeCount": 4,
     "artifactsByLane": {

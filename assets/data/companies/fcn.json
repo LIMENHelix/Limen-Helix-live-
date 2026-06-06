@@ -1046,7 +1046,7 @@
         "provenance": {
           "kernelId": "engine_output_generator/1.0",
           "sourceLane": "patent",
-          "generatedAt": "2026-05-30T11:14:12.131Z"
+          "generatedAt": "2026-06-06T00:00:34.875Z"
         }
       }
     ],
@@ -1079,7 +1079,7 @@
         "provenance": {
           "kernelId": "engine_output_generator/1.0",
           "sourceLane": "grant",
-          "generatedAt": "2026-05-30T11:14:12.131Z"
+          "generatedAt": "2026-06-06T00:00:34.875Z"
         }
       }
     ],
@@ -1091,23 +1091,62 @@
         "confidence": 0.33,
         "side": "LONG",
         "horizon": "12-24mo",
+        "valuationBasis": {
+          "price": 159.7,
+          "side": "LONG",
+          "horizonYears": 1.5,
+          "currentMultiple": 1.42,
+          "phaseFactor": 1.2,
+          "targetMultiple": 1.7,
+          "multipleRange": [
+            0.79,
+            2.62
+          ],
+          "multipleDelta": -0.28,
+          "target": 195.73,
+          "targetBull": 310.32,
+          "targetBear": 81.15,
+          "upsidePct": 22.6,
+          "probWeightedTarget": 207.19,
+          "probWeightedUpsidePct": 29.7,
+          "probabilities": {
+            "base": 0.5,
+            "bull": 0.3,
+            "bear": 0.2
+          },
+          "irrPct": 19,
+          "stop": 142.74,
+          "asymmetry": 2.8,
+          "positionSizePct": 1.8,
+          "nextPhase": "p7",
+          "metric": "EV/Revenue",
+          "marketDataAsOf": "2026-03-31",
+          "sources": {
+            "quote": "yahoo_v8",
+            "fundamentals": "edgar_companyfacts"
+          }
+        },
         "artifact": {
-          "header": "FTI Consulting, Inc. (FCN) — LONG — [POSITION_SIZE_PCT]% of capital\nInitiated: 2026-05-30    Current price: $[PRICE]    Cost basis: $[BASIS]\nTarget: $[TARGET] ([UPSIDE_PCT]% / 12-24mo months)    Stop / re-review: $[STOP]\nKernel phase: EXPANSION    Composite: [COMPOSITE]    Peer-cohort delta: [DELTA]\nBridge pattern: DMN_self_reference_x_strategic_drift (confidence 0.33)",
-          "variantView": "The market is pricing this for continued distress, but the functional-network and kernel readings from the bridge-pattern engine show Default Mode Network-equivalent isomorphic pathology that the Street's models are not registering. Specifically: frequent_restructuring.",
-          "catalystBlock": "Hard catalysts (dated, falsifiable):\n  • Next quarterly earnings — scheduled [NEXT_EARNINGS_DATE] — historical post-earnings move for Management and Public Relations Consultants entities exhibiting strategic drift via internal focus: median [HISTORICAL_REACTION]\n  • Auditor / regulatory action window — [DATE_RANGE] — probability we assign: [PROB]\n  • Refinancing / facility maturity — [DATE_3]\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress propagation — leading indicator: spider-web induced stress on FTI Consulting, Inc.\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate for this pattern across peer cohort\n\nWe expect the re-rating to materialize over 12-24mo months because once the strategic drift via internal focus pattern is recognized by sell-side, the gap between current pricing and the bridge-pattern-implied valuation compresses.",
-          "valuation": "Base case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BASE]    ([P_BASE]% probability)\nBull case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BULL]    ([P_BULL]% probability)\nBear case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BEAR]    ([P_BEAR]% probability)\nProbability-weighted: $[PWAVG]    Implied IRR over 12-24momo: [IRR]%\n\nMultiple chosen because: Management and Public Relations Consultants peer set traded at [MULTIPLE_RANGE] during analogous bridge-pattern phases historically, adjusted [DELTA]x for the specific bridge-pattern confidence (0.33).",
-          "positionSizing": "Sized at [PCT]% of portfolio because:\n  • Conviction: bridge confidence 0.33, matched indicators 1 of 2.\n  • Asymmetry: [UPSIDE]:1 expected return-to-risk ratio.\n  • Correlation: position correlates [RHO] with existing exposure to Management and Public Relations Consultants; additive on net.\n  • Liquidity: average daily volume $[ADV]M.\n  • Pre-existing kernel inhibition: EXPANSION blocks upsize until phase reading stabilizes for two consecutive quarters.",
-          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"frequent_restructuring\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase progresses to [NEXT_PHASE] without [EXPECTED_PRECURSOR].\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Default Mode Network ↔ strategic drift via internal focus mapping confidence (see pattern file).",
-          "exit": "We will exit upon:\n  (a) Price reaches $[TARGET] OR\n  (b) Variant view confirmed and consensus converges (sell-side revision of >[N]%) OR\n  (c) Any of the \"we are wrong if\" triggers fires at the confirm threshold OR\n  (d) 12-24mo months elapsed without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent fundamental bridge-pattern shift.",
+          "header": "FTI Consulting, Inc. (FCN) — LONG — 1.8% of capital\nInitiated: 2026-06-06    Current price: $159.7    Cost basis: $159.7\nTarget (base): $195.73 (+22.6% / 12-24 months)    Stop / re-review: $142.74\nKernel phase: EXPANSION    Composite: 0.720\nValuation: 1.42x EV/Revenue → phase-implied 1.7x (factor 1.2)\nBridge pattern: DMN_self_reference_x_strategic_drift (confidence 0.33)",
+          "variantView": "The market is pricing this for continued distress, but the functional-network and kernel readings show Default Mode Network-equivalent isomorphic pathology the Street's models are not registering. Specifically: frequent_restructuring. the market values FCN at 1.42x EV/Revenue.",
+          "catalystBlock": "Hard catalysts (falsifiable):\n  • Next quarterly earnings release — post-earnings drift is the primary re-rating window for the strategic drift via internal focus signature.\n  • Cash runway — approximately 8 quarters on the latest filing ⇒ a financing/refinancing event is likely within ~24 months (dated, falsifiable).\n  • Going-concern language — monitor the next annual filing for a going-concern modification.\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress — leading indicator: spider-web induced stress on FTI Consulting, Inc..\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate across the peer cohort.\n\nWe expect the re-rating to materialize over 12-24 months: once the strategic drift via internal focus pattern is recognized, the gap between current pricing and the phase-implied valuation compresses.",
+          "valuation": "Method: EV/Revenue re-rated by kernel phase. Current 1.42x × phase factor 1.2 (EXPANSION) → target 1.7x.\nBase case:  1.7x → $195.73    (50% probability)\nBull case:  2.62x → $310.32    (30% probability)\nBear case:  0.79x → $81.15    (20% probability)\nProbability-weighted: $207.19 (+29.7%)    Implied IRR over 12-24mo: 19%\n\nNet debt of $556M against $3789M revenue is the load-bearing input — it is why the bear multiple maps to $81.15/share. Bands widen as bridge confidence (0.33) falls.",
+          "positionSizing": "Sized at 1.8% of portfolio because:\n  • Conviction: bridge confidence 0.33, matched indicators 1 of 2.\n  • Asymmetry: 2.8:1 probability-weighted reward-to-risk (target $207.19 vs stop $142.74).\n  • Liquidity: average daily dollar volume $66.5M.\n  • Phase governor: EXPANSION caps upsize until the phase reading stabilizes for two consecutive quarters.",
+          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"frequent_restructuring\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase deteriorates to p7 for two consecutive readings — the long is invalidated.\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Default Mode Network ↔ strategic drift via internal focus mapping confidence (see pattern file).",
+          "exit": "We will exit upon:\n  (a) Price reaches $195.73, OR\n  (b) Variant view confirmed and consensus converges, OR\n  (c) Any \"we are wrong if\" trigger fires at the confirm threshold, OR\n  (d) 12-24 months elapse without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent a fundamental bridge-pattern shift.",
           "thesisStatement": "Avoid companies in DMN-dominance; investigate post-activist-driven external refocus",
           "instruments": [
             "common equity"
           ]
         },
         "provenance": {
-          "kernelId": "engine_output_generator/1.0",
+          "kernelId": "engine_output_generator/2.0_market_data",
           "sourceLane": "investment",
-          "generatedAt": "2026-05-30T11:14:12.131Z"
+          "generatedAt": "2026-06-06T00:00:34.875Z",
+          "marketDataSources": {
+            "quote": "yahoo_v8",
+            "fundamentals": "edgar_companyfacts"
+          }
         }
       }
     ],
@@ -1122,18 +1161,18 @@
           "hypothesis": "Companies in repeated-restructuring cycles benefit from board-mandated external-engagement KPIs analogous to behavioral-activation protocols",
           "methodology": "intervention study",
           "preregistration": "Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.",
-          "falsifiability": "Hypothesis is falsified if effect size is below [THRESHOLD] or if matched controls show equivalent effect.",
+          "falsifiability": "Hypothesis is falsified if the effect size is below a pre-registered minimum (set at OSF preregistration) or if matched controls show an equivalent effect.",
           "expectedOutcome": "Confirmation of the bridge-pattern mapping would establish empirical basis for Default Mode Network-equivalent corporate-pathology detection across the phase-affinity phases.",
           "bridgeReference": "DMN_self_reference_x_strategic_drift"
         },
         "provenance": {
           "kernelId": "engine_output_generator/1.0",
           "sourceLane": "research",
-          "generatedAt": "2026-05-30T11:14:12.131Z"
+          "generatedAt": "2026-06-06T00:00:34.875Z"
         }
       }
     ],
-    "generatedAt": "2026-05-30T11:14:12.131Z",
+    "generatedAt": "2026-06-06T00:00:34.875Z",
     "generatorVersion": "1.0",
     "bridgeCount": 1,
     "artifactsByLane": {

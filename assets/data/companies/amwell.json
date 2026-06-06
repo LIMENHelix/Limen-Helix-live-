@@ -868,7 +868,7 @@
         "provenance": {
           "kernelId": "engine_output_generator/1.0",
           "sourceLane": "patent",
-          "generatedAt": "2026-05-30T11:14:11.671Z"
+          "generatedAt": "2026-06-05T23:59:41.334Z"
         }
       }
     ],
@@ -902,7 +902,7 @@
         "provenance": {
           "kernelId": "engine_output_generator/1.0",
           "sourceLane": "grant",
-          "generatedAt": "2026-05-30T11:14:11.671Z"
+          "generatedAt": "2026-06-05T23:59:41.334Z"
         }
       }
     ],
@@ -914,23 +914,62 @@
         "confidence": 0.395,
         "side": "SHORT",
         "horizon": "18-36mo",
+        "valuationBasis": {
+          "price": 8.62,
+          "side": "SHORT",
+          "horizonYears": 2.25,
+          "currentMultiple": 0.34,
+          "phaseFactor": 0.85,
+          "targetMultiple": 0.29,
+          "multipleRange": [
+            0.14,
+            0.43
+          ],
+          "multipleDelta": 0.05,
+          "target": 7.97,
+          "targetBull": 10.01,
+          "targetBear": 5.94,
+          "upsidePct": -7.5,
+          "probWeightedTarget": 7.77,
+          "probWeightedUpsidePct": -9.9,
+          "probabilities": {
+            "base": 0.52,
+            "bull": 0.19,
+            "bear": 0.29
+          },
+          "irrPct": -4.5,
+          "stop": 10.81,
+          "asymmetry": 0.39,
+          "positionSizePct": 0.5,
+          "nextPhase": "p5",
+          "metric": "EV/Revenue",
+          "marketDataAsOf": "2017-03-31",
+          "sources": {
+            "quote": "yahoo_v8",
+            "fundamentals": "edgar_companyfacts"
+          }
+        },
         "artifact": {
-          "header": "American Well Corporation (AMWL) — SHORT — [POSITION_SIZE_PCT]% of capital\nInitiated: 2026-05-30    Current price: $[PRICE]    Cost basis: $[BASIS]\nTarget: $[TARGET] ([UPSIDE_PCT]% / 18-36mo months)    Stop / re-review: $[STOP]\nKernel phase: RECOVERY-ATTEMPT    Composite: [COMPOSITE]    Peer-cohort delta: [DELTA]\nBridge pattern: OFC_value_x_capital_allocation_pathology (confidence 0.395)",
-          "variantView": "Consensus prices AMWL for continued operational normalization — sell-side median EV/EBITDA of [CONSENSUS_VALUE] for FY+1, implying a stable margin and capital-allocation profile. We believe consensus is wrong on the capital allocation reversal failure signature: American Well Corporation's functional-network exhibits Orbitofrontal Cortex-equivalent isomorphic pathology, (matched indicators: kernel_p4_persistence) and the kernel reading is RECOVERY-ATTEMPT. The Street's model implicitly requires persistent capital discipline that the bridge pattern is incompatible with, which we view as unrealistic because the underlying pattern matches a known Orbitofrontal Cortex pathology with documented intervention pathways.",
-          "catalystBlock": "Hard catalysts (dated, falsifiable):\n  • Next quarterly earnings — scheduled [NEXT_EARNINGS_DATE] — historical post-earnings move for Prepackaged Software / Digital Health Platform entities exhibiting capital allocation reversal failure: median [HISTORICAL_REACTION]\n  • Auditor / regulatory action window — [DATE_RANGE] — probability we assign: [PROB]\n  • Refinancing / facility maturity — [DATE_3]\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress propagation — leading indicator: spider-web induced stress on American Well Corporation\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate for this pattern across peer cohort\n\nWe expect the re-rating to materialize over 18-36mo months because once the capital allocation reversal failure pattern is recognized by sell-side, the gap between current pricing and the bridge-pattern-implied valuation compresses.",
-          "valuation": "Base case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BASE]    ([P_BASE]% probability)\nBull case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BULL]    ([P_BULL]% probability)\nBear case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BEAR]    ([P_BEAR]% probability)\nProbability-weighted: $[PWAVG]    Implied IRR over 18-36momo: [IRR]%\n\nMultiple chosen because: Prepackaged Software / Digital Health Platform peer set traded at [MULTIPLE_RANGE] during analogous bridge-pattern phases historically, adjusted [DELTA]x for the specific bridge-pattern confidence (0.395).",
-          "positionSizing": "Sized at [PCT]% of portfolio because:\n  • Conviction: bridge confidence 0.395, matched indicators 1 of 2.\n  • Asymmetry: [UPSIDE]:1 expected return-to-risk ratio.\n  • Correlation: position correlates [RHO] with existing exposure to Prepackaged Software / Digital Health Platform; additive on net.\n  • Liquidity: average daily volume $[ADV]M.\n  • Pre-existing kernel inhibition: RECOVERY-ATTEMPT blocks upsize until phase reading stabilizes for two consecutive quarters.",
-          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"kernel_p4_persistence\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase progresses to [NEXT_PHASE] without [EXPECTED_PRECURSOR].\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Orbitofrontal Cortex ↔ capital allocation reversal failure mapping confidence (see pattern file).",
-          "exit": "We will exit upon:\n  (a) Price reaches $[TARGET] OR\n  (b) Variant view confirmed and consensus converges (sell-side revision of >[N]%) OR\n  (c) Any of the \"we are wrong if\" triggers fires at the confirm threshold OR\n  (d) 18-36mo months elapsed without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent fundamental bridge-pattern shift.",
+          "header": "American Well Corporation (AMWL) — SHORT — 0.5% of capital\nInitiated: 2026-06-05    Current price: $8.62    Cost basis: $8.62\nTarget (base): $7.97 (-7.5% / 18-36 months)    Stop / re-review: $10.81\nKernel phase: RECOVERY-ATTEMPT    Composite: 0.420\nValuation: 0.34x EV/Revenue → phase-implied 0.29x (factor 0.85)\nBridge pattern: OFC_value_x_capital_allocation_pathology (confidence 0.395)",
+          "variantView": "Consensus prices AMWL for continued operational normalization — the market values AMWL at 0.34x EV/Revenue, implying a stable margin and capital-allocation profile. We believe consensus is wrong on the capital allocation reversal failure signature: American Well Corporation's functional-network exhibits Orbitofrontal Cortex-equivalent isomorphic pathology (matched indicators: kernel_p4_persistence), and the kernel reading is RECOVERY-ATTEMPT. The Street's model implicitly requires persistent capital discipline that the bridge pattern is incompatible with, which we view as unrealistic because the underlying pattern matches a known Orbitofrontal Cortex pathology with documented intervention pathways.",
+          "catalystBlock": "Hard catalysts (falsifiable):\n  • Next quarterly earnings release — post-earnings drift is the primary re-rating window for the capital allocation reversal failure signature.\n  • Cash runway — approximately 8 quarters on the latest filing ⇒ a financing/refinancing event is likely within ~24 months (dated, falsifiable).\n  • Going-concern language — monitor the next annual filing for a going-concern modification.\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress — leading indicator: spider-web induced stress on American Well Corporation.\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate across the peer cohort.\n\nWe expect the re-rating to materialize over 18-36 months: once the capital allocation reversal failure pattern is recognized, the gap between current pricing and the phase-implied valuation compresses.",
+          "valuation": "Method: EV/Revenue re-rated by kernel phase. Current 0.34x × phase factor 0.85 (RECOVERY-ATTEMPT) → target 0.29x.\nBase case:  0.29x → $7.97    (52% probability)\nBull case:  0.43x → $10.01    (19% probability)\nBear case:  0.14x → $5.94    (29% probability)\nProbability-weighted: $7.77 (-9.9%)    Implied IRR over 18-36mo: -4.5%\n\nNet debt of $-708M against $2530M revenue is the load-bearing input — it is why the bear multiple maps to $5.94/share. Bands widen as bridge confidence (0.395) falls.",
+          "positionSizing": "Sized at 0.5% of portfolio because:\n  • Conviction: bridge confidence 0.395, matched indicators 1 of 2.\n  • Asymmetry: 0.39:1 probability-weighted reward-to-risk (target $7.77 vs stop $10.81).\n  • Liquidity: average daily dollar volume $1.0M.\n  • Phase governor: RECOVERY-ATTEMPT caps upsize until the phase reading stabilizes for two consecutive quarters.",
+          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"kernel_p4_persistence\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase IMPROVES (distress reverses toward an earlier / recovery phase) for two consecutive readings — the short is invalidated.\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Orbitofrontal Cortex ↔ capital allocation reversal failure mapping confidence (see pattern file).",
+          "exit": "We will exit upon:\n  (a) Price reaches $7.97, OR\n  (b) Variant view confirmed and consensus converges, OR\n  (c) Any \"we are wrong if\" trigger fires at the confirm threshold, OR\n  (d) 18-36 months elapse without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent a fundamental bridge-pattern shift.",
           "thesisStatement": "Long companies adopting reversal-protocols; short companies in sunk-cost persistence",
           "instruments": [
             "common equity"
           ]
         },
         "provenance": {
-          "kernelId": "engine_output_generator/1.0",
+          "kernelId": "engine_output_generator/2.0_market_data",
           "sourceLane": "investment",
-          "generatedAt": "2026-05-30T11:14:11.671Z"
+          "generatedAt": "2026-06-05T23:59:41.334Z",
+          "marketDataSources": {
+            "quote": "yahoo_v8",
+            "fundamentals": "edgar_companyfacts"
+          }
         }
       }
     ],
@@ -945,18 +984,18 @@
           "hypothesis": "Boards trained in reversal-protocols make faster divestiture decisions",
           "methodology": "intervention study with board-decision speed coding",
           "preregistration": "Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.",
-          "falsifiability": "Hypothesis is falsified if effect size is below [THRESHOLD] or if matched controls show equivalent effect.",
+          "falsifiability": "Hypothesis is falsified if the effect size is below a pre-registered minimum (set at OSF preregistration) or if matched controls show an equivalent effect.",
           "expectedOutcome": "Confirmation of the bridge-pattern mapping would establish empirical basis for Orbitofrontal Cortex-equivalent corporate-pathology detection across the phase-affinity phases.",
           "bridgeReference": "OFC_value_x_capital_allocation_pathology"
         },
         "provenance": {
           "kernelId": "engine_output_generator/1.0",
           "sourceLane": "research",
-          "generatedAt": "2026-05-30T11:14:11.671Z"
+          "generatedAt": "2026-06-05T23:59:41.334Z"
         }
       }
     ],
-    "generatedAt": "2026-05-30T11:14:11.671Z",
+    "generatedAt": "2026-06-05T23:59:41.333Z",
     "generatorVersion": "1.0",
     "bridgeCount": 1,
     "artifactsByLane": {

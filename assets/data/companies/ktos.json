@@ -1114,7 +1114,7 @@
         "provenance": {
           "kernelId": "engine_output_generator/1.0",
           "sourceLane": "patent",
-          "generatedAt": "2026-05-30T11:14:12.430Z"
+          "generatedAt": "2026-06-06T00:01:00.611Z"
         }
       }
     ],
@@ -1148,7 +1148,7 @@
         "provenance": {
           "kernelId": "engine_output_generator/1.0",
           "sourceLane": "grant",
-          "generatedAt": "2026-05-30T11:14:12.430Z"
+          "generatedAt": "2026-06-06T00:01:00.611Z"
         }
       }
     ],
@@ -1160,23 +1160,62 @@
         "confidence": 0.395,
         "side": "SHORT",
         "horizon": "18-36mo",
+        "valuationBasis": {
+          "price": 58.52,
+          "side": "SHORT",
+          "horizonYears": 2.25,
+          "currentMultiple": 7.28,
+          "phaseFactor": 0.85,
+          "targetMultiple": 6.19,
+          "multipleRange": [
+            3.08,
+            9.3
+          ],
+          "multipleDelta": 1.09,
+          "target": 50.67,
+          "targetBull": 73,
+          "targetBear": 28.34,
+          "upsidePct": -13.4,
+          "probWeightedTarget": 48.44,
+          "probWeightedUpsidePct": -17.2,
+          "probabilities": {
+            "base": 0.52,
+            "bull": 0.19,
+            "bear": 0.29
+          },
+          "irrPct": -8.1,
+          "stop": 92.16,
+          "asymmetry": 0.3,
+          "positionSizePct": 0.5,
+          "nextPhase": "p5",
+          "metric": "EV/Revenue",
+          "marketDataAsOf": "2021-12-26",
+          "sources": {
+            "quote": "yahoo_v8",
+            "fundamentals": "edgar_companyfacts"
+          }
+        },
         "artifact": {
-          "header": "Kratos Defense & Security Solutions, Inc. (KTOS) — SHORT — [POSITION_SIZE_PCT]% of capital\nInitiated: 2026-05-30    Current price: $[PRICE]    Cost basis: $[BASIS]\nTarget: $[TARGET] ([UPSIDE_PCT]% / 18-36mo months)    Stop / re-review: $[STOP]\nKernel phase: RECOVERY-ATTEMPT    Composite: [COMPOSITE]    Peer-cohort delta: [DELTA]\nBridge pattern: OFC_value_x_capital_allocation_pathology (confidence 0.395)",
-          "variantView": "The market is pricing this for continued resilience, but the functional-network and kernel readings from the bridge-pattern engine show Orbitofrontal Cortex-equivalent isomorphic pathology that the Street's models are not registering. Specifically: kernel_p4_persistence.",
-          "catalystBlock": "Hard catalysts (dated, falsifiable):\n  • Next quarterly earnings — scheduled [NEXT_EARNINGS_DATE] — historical post-earnings move for Aircraft, Guided Missile, and Space Vehicle Manufacturing entities exhibiting capital allocation reversal failure: median [HISTORICAL_REACTION]\n  • Auditor / regulatory action window — [DATE_RANGE] — probability we assign: [PROB]\n  • Refinancing / facility maturity — [DATE_3]\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress propagation — leading indicator: spider-web induced stress on Kratos Defense & Security Solutions, Inc.\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate for this pattern across peer cohort\n\nWe expect the re-rating to materialize over 18-36mo months because once the capital allocation reversal failure pattern is recognized by sell-side, the gap between current pricing and the bridge-pattern-implied valuation compresses.",
-          "valuation": "Base case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BASE]    ([P_BASE]% probability)\nBull case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BULL]    ([P_BULL]% probability)\nBear case:  [METRIC] of [VALUE] × [MULTIPLE]x = $[TARGET_BEAR]    ([P_BEAR]% probability)\nProbability-weighted: $[PWAVG]    Implied IRR over 18-36momo: [IRR]%\n\nMultiple chosen because: Aircraft, Guided Missile, and Space Vehicle Manufacturing peer set traded at [MULTIPLE_RANGE] during analogous bridge-pattern phases historically, adjusted [DELTA]x for the specific bridge-pattern confidence (0.395).",
-          "positionSizing": "Sized at [PCT]% of portfolio because:\n  • Conviction: bridge confidence 0.395, matched indicators 1 of 2.\n  • Asymmetry: [UPSIDE]:1 expected return-to-risk ratio.\n  • Correlation: position correlates [RHO] with existing exposure to Aircraft, Guided Missile, and Space Vehicle Manufacturing; additive on net.\n  • Liquidity: average daily volume $[ADV]M.\n  • Pre-existing kernel inhibition: RECOVERY-ATTEMPT blocks upsize until phase reading stabilizes for two consecutive quarters.",
-          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"kernel_p4_persistence\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase progresses to [NEXT_PHASE] without [EXPECTED_PRECURSOR].\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Orbitofrontal Cortex ↔ capital allocation reversal failure mapping confidence (see pattern file).",
-          "exit": "We will exit upon:\n  (a) Price reaches $[TARGET] OR\n  (b) Variant view confirmed and consensus converges (sell-side revision of >[N]%) OR\n  (c) Any of the \"we are wrong if\" triggers fires at the confirm threshold OR\n  (d) 18-36mo months elapsed without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent fundamental bridge-pattern shift.",
+          "header": "Kratos Defense & Security Solutions, Inc. (KTOS) — SHORT — 0.5% of capital\nInitiated: 2026-06-06    Current price: $58.52    Cost basis: $58.52\nTarget (base): $50.67 (-13.4% / 18-36 months)    Stop / re-review: $92.16\nKernel phase: RECOVERY-ATTEMPT    Composite: 0.680\nValuation: 7.28x EV/Revenue → phase-implied 6.19x (factor 0.85)\nBridge pattern: OFC_value_x_capital_allocation_pathology (confidence 0.395)",
+          "variantView": "The market is pricing this for continued resilience, but the functional-network and kernel readings show Orbitofrontal Cortex-equivalent isomorphic pathology the Street's models are not registering. Specifically: kernel_p4_persistence. the market values KTOS at 7.28x EV/Revenue.",
+          "catalystBlock": "Hard catalysts (falsifiable):\n  • Next quarterly earnings release — post-earnings drift is the primary re-rating window for the capital allocation reversal failure signature.\n  • Cash runway — approximately 8 quarters on the latest filing ⇒ a financing/refinancing event is likely within ~24 months (dated, falsifiable).\n  • Going-concern language — monitor the next annual filing for a going-concern modification.\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress — leading indicator: spider-web induced stress on Kratos Defense & Security Solutions, Inc..\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate across the peer cohort.\n\nWe expect the re-rating to materialize over 18-36 months: once the capital allocation reversal failure pattern is recognized, the gap between current pricing and the phase-implied valuation compresses.",
+          "valuation": "Method: EV/Revenue re-rated by kernel phase. Current 7.28x × phase factor 0.85 (RECOVERY-ATTEMPT) → target 6.19x.\nBase case:  6.19x → $50.67    (52% probability)\nBull case:  9.3x → $73    (19% probability)\nBear case:  3.08x → $28.34    (29% probability)\nProbability-weighted: $48.44 (-17.2%)    Implied IRR over 18-36mo: -8.1%\n\nNet debt of $-1168M against $1347M revenue is the load-bearing input — it is why the bear multiple maps to $28.34/share. Bands widen as bridge confidence (0.395) falls.",
+          "positionSizing": "Sized at 0.5% of portfolio because:\n  • Conviction: bridge confidence 0.395, matched indicators 1 of 2.\n  • Asymmetry: 0.3:1 probability-weighted reward-to-risk (target $48.44 vs stop $92.16).\n  • Liquidity: average daily dollar volume $204.2M.\n  • Phase governor: RECOVERY-ATTEMPT caps upsize until the phase reading stabilizes for two consecutive quarters.",
+          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"kernel_p4_persistence\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase IMPROVES (distress reverses toward an earlier / recovery phase) for two consecutive readings — the short is invalidated.\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Orbitofrontal Cortex ↔ capital allocation reversal failure mapping confidence (see pattern file).",
+          "exit": "We will exit upon:\n  (a) Price reaches $50.67, OR\n  (b) Variant view confirmed and consensus converges, OR\n  (c) Any \"we are wrong if\" trigger fires at the confirm threshold, OR\n  (d) 18-36 months elapse without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent a fundamental bridge-pattern shift.",
           "thesisStatement": "Long companies adopting reversal-protocols; short companies in sunk-cost persistence",
           "instruments": [
             "common equity"
           ]
         },
         "provenance": {
-          "kernelId": "engine_output_generator/1.0",
+          "kernelId": "engine_output_generator/2.0_market_data",
           "sourceLane": "investment",
-          "generatedAt": "2026-05-30T11:14:12.430Z"
+          "generatedAt": "2026-06-06T00:01:00.612Z",
+          "marketDataSources": {
+            "quote": "yahoo_v8",
+            "fundamentals": "edgar_companyfacts"
+          }
         }
       }
     ],
@@ -1191,18 +1230,18 @@
           "hypothesis": "Boards trained in reversal-protocols make faster divestiture decisions",
           "methodology": "intervention study with board-decision speed coding",
           "preregistration": "Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.",
-          "falsifiability": "Hypothesis is falsified if effect size is below [THRESHOLD] or if matched controls show equivalent effect.",
+          "falsifiability": "Hypothesis is falsified if the effect size is below a pre-registered minimum (set at OSF preregistration) or if matched controls show an equivalent effect.",
           "expectedOutcome": "Confirmation of the bridge-pattern mapping would establish empirical basis for Orbitofrontal Cortex-equivalent corporate-pathology detection across the phase-affinity phases.",
           "bridgeReference": "OFC_value_x_capital_allocation_pathology"
         },
         "provenance": {
           "kernelId": "engine_output_generator/1.0",
           "sourceLane": "research",
-          "generatedAt": "2026-05-30T11:14:12.430Z"
+          "generatedAt": "2026-06-06T00:01:00.612Z"
         }
       }
     ],
-    "generatedAt": "2026-05-30T11:14:12.430Z",
+    "generatedAt": "2026-06-06T00:01:00.611Z",
     "generatorVersion": "1.0",
     "bridgeCount": 1,
     "artifactsByLane": {
