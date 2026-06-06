@@ -1,0 +1,41 @@
+{
+  "_meta": {
+    "title": "Affiliate link configuration — data-driven, no code change to add merchants",
+    "how": "The injector reads this file. Amazon works from AMAZON_ASSOC_TAG env alone (search links). Other networks need a per-advertiser deeplink template you copy from your network dashboard: use {url} for the destination and {tag}/{campaign} where the network requires them.",
+    "disclosure": "FTC affiliate disclosure is injected separately by stream-ops produce(); links here are always presented under a disclosed 'Recommended' block.",
+    "lastAuthored": "2026-06-06"
+  },
+  "networks": {
+    "amazon": {
+      "tagEnv": "AMAZON_ASSOC_TAG",
+      "searchTemplate": "https://www.amazon.com/s?k={q}&tag={tag}",
+      "domains": ["amazon.com", "amzn.to"],
+      "urlTagParam": "tag",
+      "enabled": true
+    },
+    "impact": {
+      "note": "Paste a deeplink template from Impact.com (Brand → Tracking Links → deep link). Use {url} for destination.",
+      "deeplinkTemplate": "",
+      "enabled": false
+    },
+    "shareasale": {
+      "note": "ShareASale custom link: https://shareasale.com/r.cfm?b=BANNER&u=AFFID&m=MERCHID&urllink={url}. Fill from your account.",
+      "deeplinkTemplate": "",
+      "enabled": false
+    },
+    "cj": {
+      "note": "CJ deep link from Link Generator. Use {url}.",
+      "deeplinkTemplate": "",
+      "enabled": false
+    }
+  },
+  "merchants": [
+    {
+      "_example": true,
+      "name": "Example merchant",
+      "domain": "example.com",
+      "network": "impact",
+      "note": "When a bare https://example.com/... URL appears in generated content, it gets wrapped with this network's deeplinkTemplate. Remove this example and add real ones."
+    }
+  ]
+}

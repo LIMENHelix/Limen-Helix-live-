@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LIMEN HELIX · FINANCE — CAPITAL ENGINE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080a0f; --panel:#0c0f16; --bone:#e8e3d9; --gold:#c9a94e;
+  --amber:#e0a437; --oxide:#d4574b; --emerald:#5ab590; --blue:#4a8fd4; --violet:#8b5cf6;
+  --line:rgba(201,169,78,0.10); --dim:rgba(200,195,184,0.34);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--bone);font-family:'IBM Plex Mono',monospace;font-size:13px;line-height:1.5;padding:0 0 60px;
+  background-image:linear-gradient(rgba(201,169,78,0.015) 1px,transparent 1px),linear-gradient(90deg,rgba(201,169,78,0.015) 1px,transparent 1px);
+  background-size:28px 28px;}
+.serif{font-family:'Instrument Serif',serif;letter-spacing:.3px}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1280px;margin:0 auto;padding:0 18px}
+
+/* header */
+header{border-bottom:1px solid var(--line);padding:10px 0;position:sticky;top:0;background:rgba(8,10,15,.96);backdrop-filter:blur(6px);z-index:50}
+.hbar{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(201,169,78,.55)}
+.brand a{color:rgba(201,169,78,.45)} .brand a:hover{color:var(--gold)}
+.heartbeat{font-size:9px;letter-spacing:1.5px;color:var(--dim);display:flex;align-items:center;gap:6px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--emerald);box-shadow:0 0 8px var(--emerald)}
+.domain-switch{font-size:9px;letter-spacing:1.5px;color:var(--dim)}
+.domain-switch select{background:var(--panel);color:var(--bone);border:1px solid var(--line);font-family:inherit;font-size:10px;padding:3px 6px;border-radius:2px}
+
+/* hero */
+.hero{display:flex;align-items:flex-end;gap:24px;flex-wrap:wrap;padding:22px 0 16px;border-bottom:1px solid var(--line)}
+.hero h1{font-size:46px;font-weight:400;line-height:.95;color:var(--bone)}
+.hero .role{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(201,169,78,.5);margin-bottom:6px}
+.pstate{margin-left:auto;text-align:right}
+.pstate .pbig{font-size:34px;color:var(--amber)}
+.pstate .plabel{font-size:10px;letter-spacing:3px;color:var(--dim)}
+.flowtag{font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:3px 9px;border:1px solid var(--oxide);color:var(--oxide);border-radius:2px}
+
+/* layout */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+@media(max-width:820px){.grid2{grid-template-columns:1fr}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:3px;padding:14px 16px}
+.panel h2{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(201,169,78,.5);margin-bottom:12px;font-weight:400;font-family:'IBM Plex Mono'}
+
+/* phase ladder */
+.ladder{display:flex;flex-direction:column;gap:3px}
+.rung{display:flex;align-items:center;gap:10px;font-size:11px;padding:3px 0}
+.rung .pn{width:34px;color:var(--dim);font-size:10px}
+.rung .bar{flex:1;height:8px;background:rgba(255,255,255,.03);border-radius:2px;overflow:hidden}
+.rung .fill{height:100%;background:rgba(201,169,78,.25)}
+.rung.active .pn{color:var(--amber)} .rung.active .fill{background:var(--amber)}
+
+/* capital flow */
+.flowrow{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.03);font-size:12px}
+.flowrow .v{color:var(--bone)} .flowrow.in .v{color:var(--emerald)} .flowrow.out .v{color:var(--oxide)} .flowrow.net .v{color:var(--gold);font-weight:500}
+.flowrow .l{color:var(--dim);font-size:10px;letter-spacing:1.5px;text-transform:uppercase}
+
+/* streams table */
+.tablewrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:11.5px}
+th{text-align:left;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);padding:7px 8px;border-bottom:1px solid var(--line);font-weight:400;cursor:pointer;white-space:nowrap}
+th:hover{color:var(--gold)}
+td{padding:7px 8px;border-bottom:1px solid rgba(255,255,255,.03);vertical-align:top}
+tr:hover td{background:rgba(201,169,78,.025)}
+.tier-sep td{background:rgba(201,169,78,.05);color:rgba(201,169,78,.6);font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:6px 8px}
+.name{color:var(--bone)} .cat{color:var(--dim);font-size:10px}
+.badge{font-size:8.5px;letter-spacing:1px;text-transform:uppercase;padding:2px 6px;border-radius:2px;white-space:nowrap}
+.b-live{background:rgba(90,181,144,.14);color:var(--emerald)}
+.b-setup{background:rgba(224,164,55,.14);color:var(--amber)}
+.b-prerev{background:rgba(200,195,184,.08);color:var(--dim)}
+.b-gated{background:rgba(139,92,246,.14);color:var(--violet)}
+.b-needskey{background:rgba(74,143,212,.14);color:var(--blue)}
+.b-attach{background:rgba(201,169,78,.14);color:var(--gold)}
+.b-mature{background:rgba(90,181,144,.2);color:var(--emerald)}
+.phasecell{color:var(--amber);font-size:10px}
+.signoff{color:var(--oxide);font-size:10px} .free{color:var(--emerald);font-size:10px}
+.flags{font-size:9px;color:rgba(201,169,78,.5);letter-spacing:1px}
+
+/* routing + approval */
+.routerow,.qrow{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.03);font-size:11px}
+.routerow .arrow{color:var(--oxide)} .routerow .to{color:var(--gold);min-width:90px}
+.qrow .ico{color:var(--oxide)} .qrow .qbody{flex:1} .qrow .law{color:var(--dim);font-size:9px;letter-spacing:1px;text-transform:uppercase}
+.blocked{font-size:8.5px;letter-spacing:1px;text-transform:uppercase;color:var(--oxide);border:1px solid rgba(212,87,75,.3);padding:1px 5px;border-radius:2px}
+
+/* telemetry strip */
+.telem{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.tcell{border:1px solid var(--line);border-radius:3px;padding:8px 10px;background:rgba(0,0,0,.15)}
+.tcell .tl{font-size:9px;letter-spacing:1.5px;color:var(--dim);text-transform:uppercase}
+.tcell .tv{font-size:15px;margin-top:3px}
+.ok{color:var(--emerald)} .miss{color:var(--oxide)}
+
+/* connectors */
+.conngrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:6px}
+.conn{border:1px solid var(--line);border-radius:2px;padding:6px 9px;font-size:10px;display:flex;justify-content:space-between;align-items:center;gap:6px}
+.conn .cn{color:var(--bone)} .conn .cs{font-size:8px;letter-spacing:1px;text-transform:uppercase}
+
+footer{border-top:1px solid var(--line);margin-top:24px;padding:14px 0;font-size:9px;letter-spacing:1.5px;color:rgba(200,195,184,.25);text-align:center}
+.note{font-size:10px;color:var(--dim);margin-top:10px;line-height:1.6}
+.loading{color:var(--dim);padding:30px;text-align:center;font-size:11px;letter-spacing:2px}
+</style>
+</head>
+<body>
+
+<header><div class="wrap hbar">
+  <div class="brand"><a href="/civilization">LIMEN HELIX</a> <span style="opacity:.4">/</span> <a href="/finance-console">FINANCE</a> <span style="opacity:.4">/</span> CAPITAL ENGINE</div>
+  <div class="heartbeat"><span class="dot"></span><span id="hb">kernel · live</span></div>
+  <div class="domain-switch">DOMAIN
+    <select id="domsel" onchange="if(this.value)location.href=this.value">
+      <option value="">finance ▾</option>
+      <option value="/finance-console">finance · console</option>
+      <option value="/civilization">← all domains</option>
+    </select>
+  </div>
+</div></header>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div>
+      <div class="role">Finance Domain · Capital Engine</div>
+      <h1 class="serif" id="dname">Finance</h1>
+    </div>
+    <div class="pstate">
+      <div class="pbig" id="phero">P1</div>
+      <div class="plabel" id="plabel">SIGNAL</div>
+    </div>
+    <div><span class="flowtag" id="flowtag">NET-OUTFLOW</span></div>
+  </div>
+
+  <div id="root"><div class="loading">LOADING CAPITAL ENGINE…</div></div>
+
+</div>
+
+<footer class="wrap">
+  FRACTAL DEPTH · master kernel ▸ finance portal ▸ revenue streams ▸ micro-streams &nbsp;·&nbsp;
+  ENGINE NEVER MOVES MONEY — proposals only; signoffRequired halts for a human signature &nbsp;·&nbsp;
+  LIMEN HELIX TRANSFORMATIONAL SCIENCES LLC
+</footer>
+
+<script>
+(function(){
+  'use strict';
+  var PHASES=['p0','p1','p2','p3','p4','p5','p6','p7','p8','p9','p10'];
+  var PLAB={p0:'SOURCE',p1:'SIGNAL',p2:'PATTERN',p3:'STRESS',p4:'ADAPT',p5:'STABILIZE',p6:'INTEGRATE',p7:'CONVERGE',p8:'PEAK',p9:'TERMINAL',p10:'RENEW'};
+  var BADGE={live:'b-live',setup:'b-setup','pre-revenue':'b-prerev',gated:'b-gated','needs-key':'b-needskey',attach:'b-attach',mature:'b-mature'};
+  var TIERLBL={1:'TIER 1 · near-zero capital · time-bound (highest $-ROI)',2:'TIER 2 · $1–100 · reusable digital assets',3:'TIER 3 · $100–1k · platform & tooling',4:'TIER 4 · $1k–10k · inventory / paid acquisition',5:'TIER 5 · $10k+ · acquisition (lowest $-ROI, highest absolute)'};
+  var sortKey='tier',sortDir=1,DATA=null;
+
+  function fmtMoney(v){return v==null?'—':(typeof v==='number'?('$'+v.toLocaleString()):v);}
+
+  function render(){
+    if(!DATA)return;
+    var d=DATA.domain||{};
+    document.getElementById('dname').textContent=(d.name||'Finance');
+    var ph=(d.phase||'p1');
+    document.getElementById('phero').textContent=ph.toUpperCase();
+    document.getElementById('plabel').textContent=d.phaseLabel||PLAB[ph]||'';
+    document.getElementById('flowtag').textContent=(d.flow||'net-outflow').toUpperCase().replace('-',' ');
+
+    var ai=DATA.ai||{};var prov=(ai.providers)||{};
+    var conns=DATA.connectors||[];
+    var streams=(DATA.streams||[]).slice();
+
+    // counts
+    var live=streams.filter(function(s){return s.status==='live';}).length;
+    var keyReady=conns.filter(function(c){return c.readiness==='key-present';}).length;
+    var freeNow=streams.filter(function(s){return !s.signoffRequired && (s.status==='needs-key'||s.status==='pre-revenue'||s.status==='setup');}).length;
+
+    var h='';
+
+    // ── phase ladder + capital flow ──
+    h+='<div class="grid2">';
+    h+='<div class="panel"><h2>Phase Ladder · kernel view</h2><div class="ladder">';
+    for(var i=PHASES.length-1;i>=0;i--){var p=PHASES[i];var act=(p===ph);var pct=act?100:(PHASES.indexOf(ph)>i?100:8);
+      h+='<div class="rung'+(act?' active':'')+'"><span class="pn">'+p.toUpperCase()+'</span><span class="bar"><span class="fill" style="width:'+pct+'%"></span></span><span style="font-size:9px;color:var(--dim);min-width:62px">'+(PLAB[p]||'')+'</span></div>';}
+    h+='</div></div>';
+
+    h+='<div class="panel"><h2>Capital Flow · financial reality</h2>';
+    h+='<div class="flowrow in"><span class="l">Inflow (streams live)</span><span class="v">'+live+' active</span></div>';
+    h+='<div class="flowrow out"><span class="l">Outflow → peer domains</span><span class="v">'+((DATA.capitalRouting&&DATA.capitalRouting.proposedRoutes||[]).length)+' proposed</span></div>';
+    h+='<div class="flowrow net"><span class="l">Net role</span><span class="v">FUNDER</span></div>';
+    h+='<div class="flowrow"><span class="l">Key-ready connectors</span><span class="v">'+keyReady+' / '+conns.length+'</span></div>';
+    h+='<div class="flowrow"><span class="l">Free streams ready to activate</span><span class="v" style="color:var(--emerald)">'+freeNow+'</span></div>';
+    h+='</div></div>';
+
+    // ── streams table ──
+    h+='<div class="panel"><h2>Revenue Streams · '+streams.length+' &nbsp;<span style="color:var(--dim);font-size:9px">(click headers to sort)</span></h2><div class="tablewrap"><table id="stbl">';
+    h+='<thead><tr>'
+      +'<th data-k="name">Stream</th><th data-k="category">Cat</th><th data-k="tier">Tier</th>'
+      +'<th data-k="status">Status</th><th data-k="phase">Phase</th><th data-k="connector">Connector</th>'
+      +'<th data-k="signoffRequired">Sign-off</th><th>Flags</th></tr></thead><tbody>';
+
+    streams.sort(function(a,b){var x=a[sortKey],y=b[sortKey];if(x==null)x='';if(y==null)y='';return (x>y?1:x<y?-1:0)*sortDir;});
+    var lastTier=null;
+    for(var s=0;s<streams.length;s++){var st=streams[s];
+      if(sortKey==='tier' && st.tier!==lastTier){lastTier=st.tier;h+='<tr class="tier-sep"><td colspan="8">'+(TIERLBL[st.tier]||('Tier '+st.tier))+'</td></tr>';}
+      var flags=[];if(st.recursive)flags.push('R');if(st.category==='content'||st.connector==='youtube'||st.connector==='tiktok'||st.id.indexOf('faceless')>-1)flags.push('AI');if(st.signoffRequired)flags.push('$');if(st.connector==='allaccesskc')flags.push('K');
+      h+='<tr>'
+        +'<td class="name">'+st.name+(st.note?'<div style="font-size:9px;color:var(--dim);margin-top:2px">'+st.note+'</div>':'')+'</td>'
+        +'<td class="cat">'+(st.category||'')+'</td>'
+        +'<td>'+st.tier+'</td>'
+        +'<td><span class="badge '+(BADGE[st.status]||'b-prerev')+'">'+st.status+'</span></td>'
+        +'<td class="phasecell">'+(st.phase||'').toUpperCase()+'</td>'
+        +'<td style="color:var(--dim);font-size:10px">'+(st.connector||'')+'</td>'
+        +'<td>'+(st.signoffRequired?'<span class="signoff">⚑ required</span>':'<span class="free">✓ free</span>')+'</td>'
+        +'<td class="flags">'+flags.join(' · ')+'</td>'
+        +'</tr>';
+    }
+    h+='</tbody></table></div></div>';
+
+    // ── routing + approval ──
+    h+='<div class="grid2">';
+    h+='<div class="panel"><h2>Inter-Domain Routing · proposals</h2>';
+    var routes=(DATA.capitalRouting&&DATA.capitalRouting.proposedRoutes)||[];
+    for(var r=0;r<routes.length;r++){h+='<div class="routerow"><span class="arrow">→</span><span class="to">'+routes[r].to+'</span><span style="flex:1;color:var(--dim)">'+routes[r].reason+'</span><span class="blocked">'+(routes[r].status||'')+'</span></div>';}
+    if(!routes.length)h+='<div style="color:var(--dim);font-size:10px">No routes proposed.</div>';
+    h+='<div class="note">'+((DATA.capitalRouting&&DATA.capitalRouting.policy)||'')+'</div></div>';
+
+    h+='<div class="panel"><h2>Approval Queue · human-required</h2>';
+    var q=DATA.approvalQueue||[];
+    for(var k=0;k<q.length;k++){h+='<div class="qrow"><span class="ico">⚑</span><div class="qbody"><div>'+q[k].title+'</div><div class="law">'+q[k].law+'</div></div><span class="blocked">'+q[k].status+'</span></div>';}
+    h+='</div></div>';
+
+    // ── AI orchestration telemetry ──
+    h+='<div class="panel"><h2>AI Orchestration · production layer</h2><div class="telem">';
+    h+='<div class="tcell"><div class="tl">Anthropic (primary)</div><div class="tv '+(prov.anthropic?'ok':'miss')+'">'+(prov.anthropic?'● ready':'○ no key')+'</div></div>';
+    h+='<div class="tcell"><div class="tl">OpenAI (verify)</div><div class="tv '+(prov.openai?'ok':'miss')+'">'+(prov.openai?'● ready':'○ no key')+'</div></div>';
+    h+='<div class="tcell"><div class="tl">Grok (retrieve)</div><div class="tv '+(prov.grok?'ok':'miss')+'">'+(prov.grok?'● ready':'○ no key')+'</div></div>';
+    var b=ai.budget||{};
+    h+='<div class="tcell"><div class="tl">Tokens this tick</div><div class="tv">'+((b.tokensUsed||0).toLocaleString())+'</div></div>';
+    h+='<div class="tcell"><div class="tl">Calls this tick</div><div class="tv">'+(b.callsMade||0)+'</div></div>';
+    h+='</div>';
+    h+='<div style="margin-top:12px"><button id="propose" style="font-family:inherit;font-size:10px;letter-spacing:2px;text-transform:uppercase;background:rgba(201,169,78,.08);color:var(--gold);border:1px solid var(--line);padding:7px 16px;border-radius:2px;cursor:pointer">▸ Ask kernel: what to activate next</button> <span id="propstat" style="font-size:9px;color:var(--dim);margin-left:10px"></span></div>';
+    h+='<pre id="propout" style="white-space:pre-wrap;font-size:11px;color:var(--bone);margin-top:12px;display:none;background:rgba(0,0,0,.25);padding:12px;border-radius:3px;border:1px solid var(--line)"></pre>';
+    h+='</div>';
+
+    // ── self-audit ledger + autonomic tick ──
+    h+='<div class="panel"><h2>Self-Audit · Ledger &amp; Health</h2>';
+    h+='<div class="telem" id="ledgercells"><div class="tcell"><div class="tl">loading…</div></div></div>';
+    h+='<div style="margin-top:12px"><button id="tick" style="font-family:inherit;font-size:10px;letter-spacing:2px;text-transform:uppercase;background:rgba(90,181,144,.08);color:var(--emerald);border:1px solid var(--line);padding:7px 16px;border-radius:2px;cursor:pointer">▸ Run autonomic tick (audit → heal → build)</button> <span id="tickstat" style="font-size:9px;color:var(--dim);margin-left:10px"></span></div>';
+    h+='<pre id="tickout" style="white-space:pre-wrap;font-size:10px;color:var(--bone);margin-top:10px;display:none;background:rgba(0,0,0,.25);padding:12px;border-radius:3px;border:1px solid var(--line);max-height:260px;overflow:auto"></pre>';
+    h+='<div class="note">Tick generates content for starved streams (budget-gated) and PROPOSES lending when surplus exists. Money movement always halts for single-signature sign-off.</div></div>';
+
+    // ── content queue · produce + publish per stream ──
+    var ops=streams.filter(function(s){return !s.signoffRequired && ['needs-key','pre-revenue','setup','live'].indexOf(s.status)>-1;});
+    h+='<div class="panel"><h2>Content Queue · produce &amp; publish</h2>';
+    h+='<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px"><select id="prodsel" style="background:var(--bg);color:var(--bone);border:1px solid var(--line);font-family:inherit;font-size:10px;padding:5px 8px;border-radius:2px">';
+    for(var pi=0;pi<ops.length;pi++)h+='<option value="'+ops[pi].id+'">'+ops[pi].name+' ('+ops[pi].connector+')</option>';
+    h+='</select><button id="produce-btn" style="font-family:inherit;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;background:rgba(201,169,78,.08);color:var(--gold);border:1px solid var(--line);padding:6px 14px;border-radius:2px;cursor:pointer">▸ Produce</button><span id="prodstat" style="font-size:9px;color:var(--dim)"></span></div>';
+    h+='<div id="queuelist" style="font-size:10px;color:var(--dim)">loading queue…</div>';
+    h+='<div class="note">Produce = AI writes the post (affiliate links + disclosures auto-injected). Publish = draft to the platform (Beehiiv draft / Gumroad package). Auto-send stays off unless LIMEN_AUTOPUBLISH=1.</div></div>';
+
+    // ── connectors readiness ──
+    h+='<div class="panel"><h2>Connectors · '+keyReady+' key-ready / '+conns.length+'</h2><div class="conngrid">';
+    for(var c=0;c<conns.length;c++){var cc=conns[c];var cls=cc.readiness==='key-present'?'ok':(cc.readiness==='mcp-auth'?'free':'miss');
+      var lbl=cc.readiness==='key-present'?'● ready':(cc.readiness==='mcp-auth'?'◆ mcp':(cc.readiness==='needs-key'?'○ needs key':cc.readiness));
+      h+='<div class="conn"><span class="cn">'+cc.name+(cc.signoffRequired?' <span style="color:var(--oxide)">⚑</span>':'')+'</span><span class="cs '+cls+'">'+lbl+'</span></div>';}
+    h+='</div></div>';
+
+    document.getElementById('root').innerHTML=h;
+
+    // wire sort
+    var ths=document.querySelectorAll('#stbl th[data-k]');
+    for(var t=0;t<ths.length;t++){ths[t].addEventListener('click',function(){var k=this.getAttribute('data-k');if(sortKey===k)sortDir*=-1;else{sortKey=k;sortDir=1;}render();});}
+    // wire ledger + tick + queue
+    loadLedger();
+    loadQueue();
+    var prb=document.getElementById('produce-btn');
+    if(prb)prb.addEventListener('click',function(){
+      var sel=document.getElementById('prodsel');var ps=document.getElementById('prodstat');
+      if(!sel||!sel.value)return;ps.textContent='producing… (AI, budget-gated)';
+      fetch('/api/capital-engine?action=produce&stream='+encodeURIComponent(sel.value),{method:'POST'}).then(function(r){return r.json();}).then(function(j){
+        ps.textContent=j.ok?('✓ '+(j.artifact.format||'')+' produced'):('✗ '+(j.error||''));loadQueue();
+      }).catch(function(e){ps.textContent='✗ '+e.message;});
+    });
+    var tk=document.getElementById('tick');
+    if(tk)tk.addEventListener('click',function(){
+      var ts=document.getElementById('tickstat');var to=document.getElementById('tickout');
+      ts.textContent='running tick… (budget-gated AI)';
+      fetch('/api/capital-engine?action=tick',{method:'POST'}).then(function(r){return r.json();}).then(function(j){
+        to.style.display='block';to.textContent=JSON.stringify(j.report||j,null,2);
+        ts.textContent=j.ok?('built '+(j.report.build.length)+' · healed '+(j.report.heal.length)+' findings'):('✗ '+(j.error||''));
+        loadLedger();
+      }).catch(function(e){ts.textContent='✗ '+e.message;});
+    });
+    // wire propose
+    var pb=document.getElementById('propose');
+    if(pb)pb.addEventListener('click',function(){
+      var ps=document.getElementById('propstat');var po=document.getElementById('propout');
+      ps.textContent='asking kernel… (budget-gated)';
+      fetch('/api/capital-engine?action=orchestrate',{method:'POST'}).then(function(r){return r.json();}).then(function(j){
+        if(j.ok){po.style.display='block';po.textContent=j.proposal;ps.textContent=j.provider+' · '+j.model+' · '+(j.tokens?(j.tokens.in+j.tokens.out)+' tok':'');}
+        else{ps.textContent='✗ '+(j.error||'unavailable')+(j.error&&j.error.indexOf('ANTHROPIC')>-1?' — add ANTHROPIC_API_KEY in Vercel':'');}
+      }).catch(function(e){ps.textContent='✗ '+e.message;});
+    });
+  }
+
+  function loadLedger(){
+    var el=document.getElementById('ledgercells');if(!el)return;
+    fetch('/api/capital-engine?action=ledger').then(function(r){return r.json();}).then(function(j){
+      if(!j.ok){el.innerHTML='<div class="tcell"><div class="tl">ledger</div><div class="tv miss">'+(j.error||'err')+'</div></div>';return;}
+      var s=j.summary||{};var hc=s.health>=0.66?'ok':(s.health>=0.4?'':'miss');
+      var cells=[
+        {l:'Finance health',v:(Math.round((s.health||0)*100))+'%',c:hc},
+        {l:'Net (income−spend)',v:'$'+((s.net||0).toLocaleString()),c:(s.net||0)>=0?'ok':'miss'},
+        {l:'Income',v:'$'+((s.income||0).toLocaleString()),c:'ok'},
+        {l:'Spend',v:'$'+((s.spend||0).toLocaleString()),c:''},
+        {l:'Active streams',v:(s.activeStreams||0)+'',c:''},
+        {l:'Lendable surplus',v:'$'+((s.lendableSurplus||0).toLocaleString()),c:(s.lendableSurplus||0)>0?'ok':''},
+        {l:'Ledger events',v:(s.eventCount||0)+'',c:''},
+        {l:'Store',v:(s.backend||'?'),c:s.backend==='redis'?'ok':''}
+      ];
+      var hh='';for(var i=0;i<cells.length;i++){hh+='<div class="tcell"><div class="tl">'+cells[i].l+'</div><div class="tv '+cells[i].c+'">'+cells[i].v+'</div></div>';}
+      el.innerHTML=hh;
+    }).catch(function(e){el.innerHTML='<div class="tcell"><div class="tl">ledger offline</div></div>';});
+  }
+
+  function loadQueue(){
+    var el=document.getElementById('queuelist');if(!el)return;
+    fetch('/api/capital-engine?action=queue').then(function(r){return r.json();}).then(function(j){
+      if(!j.ok){el.textContent='queue offline';return;}
+      var q=j.queue||[];var pub=j.published||[];var hh='';
+      if(!q.length)hh+='<div style="color:var(--dim)">No queued content. Click Produce.</div>';
+      for(var i=0;i<q.length;i++){var a=q[i];
+        hh+='<div style="border:1px solid var(--line);border-radius:2px;padding:7px 9px;margin:4px 0;background:rgba(0,0,0,.15)">'
+          +'<div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><span class="name">'+((a.content&&a.content.title)||a.streamId)+'</span>'
+          +'<button class="pubbtn" data-id="'+a.id+'" style="font-family:inherit;font-size:8.5px;letter-spacing:1px;text-transform:uppercase;background:rgba(90,181,144,.08);color:var(--emerald);border:1px solid var(--line);padding:3px 9px;border-radius:2px;cursor:pointer">Publish</button></div>'
+          +'<div style="font-size:9px;color:var(--dim);margin-top:3px">'+a.connector+' · '+(a.format||'')+' · '+(a.tokenReady?'token ready':'no token')+(a.affiliateLinks&&a.affiliateLinks.length?(' · '+a.affiliateLinks.length+' aff-link'):'')+'</div>'
+          +'<div style="font-size:9px;color:rgba(200,195,184,.45);margin-top:4px;max-height:46px;overflow:hidden">'+(((a.content&&a.content.body)||'').slice(0,260))+'…</div></div>';
+      }
+      if(pub.length){hh+='<div style="font-size:9px;letter-spacing:1.5px;color:rgba(201,169,78,.4);margin:10px 0 4px;text-transform:uppercase">Published log</div>';
+        for(var p=0;p<Math.min(pub.length,8);p++){var pr=pub[p];hh+='<div style="font-size:9px;color:var(--dim);padding:2px 0">'+(pr.ok?'✓':'⚑')+' '+pr.connector+' · '+pr.status+' · '+(pr.title||'').slice(0,40)+'</div>';}}
+      el.innerHTML=hh;
+      var pbs=el.querySelectorAll('.pubbtn');
+      for(var b=0;b<pbs.length;b++){pbs[b].addEventListener('click',function(){var id=this.getAttribute('data-id');this.textContent='…';var self=this;
+        fetch('/api/capital-engine?action=publish&artifact='+encodeURIComponent(id),{method:'POST'}).then(function(r){return r.json();}).then(function(j){self.textContent=j.status||(j.ok?'done':'err');loadQueue();loadLedger();}).catch(function(){self.textContent='err';});});}
+    }).catch(function(){el.textContent='queue offline (deploy required)';});
+  }
+
+  function load(){
+    fetch('/api/capital-engine?action=streams').then(function(r){return r.json();}).then(function(j){
+      if(!j.ok){document.getElementById('root').innerHTML='<div class="loading">ENGINE ERROR: '+(j.error||'?')+'</div>';return;}
+      DATA=j;render();
+      document.getElementById('hb').textContent='kernel · '+new Date().toLocaleTimeString();
+    }).catch(function(e){document.getElementById('root').innerHTML='<div class="loading">OFFLINE — '+e.message+'<br><span style="font-size:9px">(serve via vercel dev / deploy; static file:// can\'t reach /api)</span></div>';});
+  }
+  load();setInterval(load,60000);
+})();
+</script>
+</body>
+</html>

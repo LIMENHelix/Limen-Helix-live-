@@ -1,0 +1,109 @@
+{
+  "_meta": {
+    "title": "LIMEN HELIX · Finance Domain — Capital Engine",
+    "purpose": "The finance domain instantiated as a REVENUE node (net-outflow) that funds the other domains. Distinct from finance-console.html, which monitors finance as a SIGNAL node. This is the static data contract; api/capital-engine.js overlays live AI/market/connector status at read time.",
+    "schemaVersion": 1,
+    "lastAuthored": "2026-06-06",
+    "entity": "LIMEN Helix Transformational Sciences LLC",
+    "rail": "Stripe (existing account, via Stripe Connect sub-accounts per domain)",
+    "humanInLoop": "Autonomous build/route/propose. Every money MOVEMENT and every legal filing halts for a human signature — see FINANCE_PORTAL_SIGNOFF.md and the approvalQueue below.",
+    "signoffModel": { "current": "single-signature", "signer": "Chris Hubbel (Managing Member)", "scope": "ALL items with signoffRequired=true halt for the single signer", "future": "threshold-tiered — auto-approve under an operator-set $ ceiling; defined later", "decidedOn": "2026-06-06" },
+    "note": "All MTD/24h/$ figures here are illustrative placeholders until a connector is live and reporting. status drives what the page shows; phase is the kernel's P0–P10 read of the stream itself."
+  },
+
+  "domain": {
+    "id": "finance",
+    "name": "Finance Domain",
+    "role": "capital-engine",
+    "flow": "net-outflow",
+    "phase": "p1",
+    "phaseLabel": "SIGNAL",
+    "note": "Phase is overlaid live from /api/domain-snapshot when available; this is the floor."
+  },
+
+  "aiOrchestration": {
+    "engine": "api/lib/ai-orchestrator.js",
+    "providers": {
+      "anthropic": { "role": "primary — pattern authoring, capital-routing rationale", "envKeys": ["ANTHROPIC_API_KEY"] },
+      "openai":    { "role": "verification cross-check of routing decisions",        "envKeys": ["OPENAI_API_KEY", "OPEN_AI_API_KEY"] },
+      "grok":      { "role": "fast web-grounded retrieval (rates, TOS, opportunity scan)", "envKeys": ["GROK_API_KEY", "XAI_API_KEY"] }
+    },
+    "intents": ["AUTHOR_PATTERN", "REFRESH_ARTIFACT", "VERIFY", "RETRIEVE"],
+    "budgetGate": "MAX_TOKENS_PER_TICK / MAX_CALLS_PER_TICK in ai-orchestrator (env-tunable). The autonomic loop cannot burn credits unattended."
+  },
+
+  "connectors": [
+    { "id": "stripe",         "name": "Stripe",                "type": "rail",       "tier": 0, "envKeys": ["STRIPE_SECRET_KEY", "STRIPE_WEBHOOK_SECRET"], "signoffRequired": true,  "signoffReason": "Payouts/transfers move real money — bank resolution + named authorization required before any transfer is enabled.", "status": "connected-on-allaccesskc", "note": "Stripe account exists and is connected to AllAccessKC.com (live). COLLECTING money is available now. For /capital-engine on limenhelix to see it, add STRIPE_SECRET_KEY (a restricted key is fine) to the limenhelix Vercel project env — same Stripe account, just visible to this project. TRANSFERS/payouts between domains still halt for single-signature sign-off." },
+    { "id": "amazon_paapi",   "name": "Amazon Associates / PA-API", "type": "affiliate", "tier": 1, "envKeys": ["AMAZON_PAAPI_KEY", "AMAZON_PAAPI_SECRET", "AMAZON_ASSOC_TAG"], "signoffRequired": false, "status": "needs-key" },
+    { "id": "impact",         "name": "Impact.com",            "type": "affiliate", "tier": 1, "envKeys": ["IMPACT_API_KEY", "IMPACT_ACCOUNT_SID"], "signoffRequired": false, "status": "needs-key" },
+    { "id": "rakuten",        "name": "Rakuten Advertising",   "type": "affiliate", "tier": 1, "envKeys": ["RAKUTEN_API_KEY"], "signoffRequired": false, "status": "needs-key" },
+    { "id": "shareasale",     "name": "ShareASale",            "type": "affiliate", "tier": 1, "envKeys": ["SHAREASALE_API_TOKEN", "SHAREASALE_API_SECRET"], "signoffRequired": false, "status": "needs-key" },
+    { "id": "cj",             "name": "CJ Affiliate",          "type": "affiliate", "tier": 1, "envKeys": ["CJ_API_KEY"], "signoffRequired": false, "status": "needs-key" },
+    { "id": "clickbank",      "name": "ClickBank",             "type": "affiliate", "tier": 1, "envKeys": ["CLICKBANK_API_KEY", "CLICKBANK_CLERK_KEY"], "signoffRequired": false, "status": "needs-key" },
+    { "id": "youtube",        "name": "YouTube Data API / YPP","type": "platform",  "tier": 1, "envKeys": ["YOUTUBE_API_KEY"], "signoffRequired": false, "status": "needs-key" },
+    { "id": "tiktok",         "name": "TikTok (Creator/Shop) API", "type": "platform", "tier": 1, "envKeys": ["TIKTOK_CLIENT_KEY", "TIKTOK_CLIENT_SECRET"], "signoffRequired": false, "status": "needs-key", "note": "TOS shifts frequently — verify at execution." },
+    { "id": "meta",           "name": "Meta / Facebook Graph API", "type": "platform", "tier": 1, "envKeys": ["META_APP_ID", "META_APP_SECRET", "META_ACCESS_TOKEN"], "signoffRequired": false, "status": "needs-key" },
+    { "id": "beehiiv",        "name": "Beehiiv",               "type": "publishing","tier": 2, "envKeys": ["BEEHIIV_API_KEY", "BEEHIIV_PUB_ID"], "signoffRequired": false, "status": "needs-key" },
+    { "id": "gumroad",        "name": "Gumroad",               "type": "storefront","tier": 2, "envKeys": ["GUMROAD_ACCESS_TOKEN"], "signoffRequired": false, "status": "needs-key" },
+    { "id": "etsy",           "name": "Etsy Open API",         "type": "storefront","tier": 2, "envKeys": ["ETSY_API_KEY", "ETSY_SHARED_SECRET"], "signoffRequired": false, "status": "needs-key" },
+    { "id": "shopify",        "name": "Shopify Admin API",     "type": "storefront","tier": 3, "envKeys": ["SHOPIFY_API_KEY", "SHOPIFY_API_SECRET", "SHOPIFY_SHOP"], "signoffRequired": false, "status": "needs-key" },
+    { "id": "printful",       "name": "Printful / Printify",   "type": "fulfillment","tier": 2, "envKeys": ["PRINTFUL_API_KEY"], "signoffRequired": false, "status": "needs-key" },
+    { "id": "elevenlabs",     "name": "ElevenLabs (voice)",    "type": "production","tier": 2, "envKeys": ["ELEVENLABS_API_KEY"], "signoffRequired": false, "status": "needs-key" },
+    { "id": "higgsfield",     "name": "Higgsfield (video, via MCP)", "type": "production", "tier": 2, "envKeys": [], "signoffRequired": false, "status": "mcp", "note": "Authenticated via Higgsfield MCP server, not an env key." },
+    { "id": "allaccesskc",    "name": "AllAccessKC.com (KC vertical node)", "type": "domain-node", "tier": 3, "envKeys": [], "signoffRequired": false, "status": "live", "note": "LIVE with traffic, and HOLDS the Stripe rail. Modeled as the Stripe-holding sub-node that routes net-inflow up to finance. KC plays (paid listings, lead-gen, newsletter) are buildable now." }
+  ],
+
+  "streams": [
+    { "id": "fetch_cashback",     "tier": 1, "name": "Receipt-scan cashback (Fetch / Ibotta / Receipt Hog)", "category": "cashback",   "connector": "manual",      "phase": "p0", "status": "pre-revenue", "capital": "time-bound", "recursive": false, "signoffRequired": false, "note": "Legitimate cashback only. NO fabricated receipts / refund manipulation — that is fraud and out of scope." },
+    { "id": "amazon_associates",  "tier": 1, "name": "Amazon Associates affiliate links",                 "category": "affiliate",  "connector": "amazon_paapi","phase": "p0", "status": "needs-key",  "capital": "near-zero", "recursive": true,  "signoffRequired": false },
+    { "id": "impact_affiliate",   "tier": 1, "name": "Impact.com affiliate placements",                   "category": "affiliate",  "connector": "impact",      "phase": "p0", "status": "needs-key",  "capital": "near-zero", "recursive": true,  "signoffRequired": false },
+    { "id": "rakuten_portal",     "tier": 1, "name": "Rakuten / cashback portal stacking",                "category": "affiliate",  "connector": "rakuten",     "phase": "p0", "status": "needs-key",  "capital": "near-zero", "recursive": true,  "signoffRequired": false },
+    { "id": "shareasale",         "tier": 1, "name": "ShareASale niche merchant affiliate",               "category": "affiliate",  "connector": "shareasale",  "phase": "p0", "status": "needs-key",  "capital": "near-zero", "recursive": true,  "signoffRequired": false },
+    { "id": "cj_affiliate",       "tier": 1, "name": "CJ Affiliate placements",                           "category": "affiliate",  "connector": "cj",          "phase": "p0", "status": "needs-key",  "capital": "near-zero", "recursive": true,  "signoffRequired": false },
+    { "id": "clickbank",          "tier": 1, "name": "ClickBank digital-product affiliate",               "category": "affiliate",  "connector": "clickbank",   "phase": "p0", "status": "needs-key",  "capital": "near-zero", "recursive": true,  "signoffRequired": false },
+    { "id": "yt_shorts",          "tier": 1, "name": "YouTube Shorts (YPP)",                              "category": "platform",   "connector": "youtube",     "phase": "p0", "status": "gated",      "capital": "near-zero", "recursive": true,  "signoffRequired": false, "note": "Eligibility-gated: 1K subs + watch-time threshold." },
+    { "id": "tiktok_program",     "tier": 1, "name": "TikTok Creativity Program",                         "category": "platform",   "connector": "tiktok",      "phase": "p0", "status": "gated",      "capital": "near-zero", "recursive": true,  "signoffRequired": false, "note": "10K followers + 100K 30-day views." },
+    { "id": "pinterest_affiliate","tier": 1, "name": "Pinterest affiliate pinning",                       "category": "affiliate",  "connector": "impact",      "phase": "p0", "status": "pre-revenue","capital": "near-zero", "recursive": true,  "signoffRequired": false },
+    { "id": "medium_partner",     "tier": 1, "name": "Medium Partner Program",                            "category": "content",    "connector": "manual",      "phase": "p0", "status": "pre-revenue","capital": "near-zero", "recursive": true,  "signoffRequired": false },
+    { "id": "substack_funnel",    "tier": 1, "name": "Substack free→paid funnel",                         "category": "subscription","connector": "stripe",     "phase": "p0", "status": "pre-revenue","capital": "near-zero", "recursive": true,  "signoffRequired": true,  "signoffReason": "Charges customers via Stripe." },
+
+    { "id": "etsy_digital",       "tier": 2, "name": "Etsy digital downloads (templates/printables)",     "category": "digital-asset","connector": "etsy",      "phase": "p0", "status": "needs-key",  "capital": "$1-100",   "recursive": true,  "signoffRequired": false },
+    { "id": "gumroad_templates",  "tier": 2, "name": "Notion/Canva templates on Gumroad",                 "category": "digital-asset","connector": "gumroad",   "phase": "p0", "status": "needs-key",  "capital": "$1-100",   "recursive": true,  "signoffRequired": false },
+    { "id": "kdp_lowcontent",     "tier": 2, "name": "Amazon KDP low-content books",                       "category": "digital-asset","connector": "manual",    "phase": "p0", "status": "pre-revenue","capital": "$1-100",   "recursive": true,  "signoffRequired": false, "note": "AI-content disclosure rules apply." },
+    { "id": "promptbase",         "tier": 2, "name": "PromptBase prompt sales",                           "category": "digital-asset","connector": "manual",    "phase": "p0", "status": "pre-revenue","capital": "$1-100",   "recursive": true,  "signoffRequired": false },
+    { "id": "pod_etsy",           "tier": 2, "name": "Print-on-demand (Printful + Etsy)",                 "category": "storefront", "connector": "printful",    "phase": "p0", "status": "needs-key",  "capital": "$1-100",   "recursive": true,  "signoffRequired": false },
+    { "id": "stock_media",        "tier": 2, "name": "Stock video / audio contributor",                   "category": "digital-asset","connector": "manual",    "phase": "p0", "status": "pre-revenue","capital": "$1-100",   "recursive": true,  "signoffRequired": false },
+
+    { "id": "faceless_youtube",   "tier": 3, "name": "Faceless YouTube (Claude script + Higgsfield video + ElevenLabs voice)", "category": "content", "connector": "youtube", "phase": "p0", "status": "setup", "capital": "$100-1k", "recursive": true, "signoffRequired": false, "note": "AI production pipeline — the [AI] flagship lane." },
+    { "id": "faceless_tiktok",    "tier": 3, "name": "Faceless TikTok/Reels + affiliate or TikTok Shop",  "category": "content",    "connector": "tiktok",      "phase": "p0", "status": "setup",      "capital": "$100-1k",  "recursive": true,  "signoffRequired": false },
+    { "id": "kc_directory",       "tier": 3, "name": "AllAccessKC paid listings / events directory",       "category": "local",      "connector": "allaccesskc", "phase": "p0", "status": "attach",     "capital": "$100-1k",  "recursive": true,  "signoffRequired": true,  "signoffReason": "Takes payment for listings via Stripe." },
+    { "id": "kc_leadgen",         "tier": 3, "name": "AllAccessKC lead-gen to KC service businesses",      "category": "local",      "connector": "allaccesskc", "phase": "p0", "status": "attach",     "capital": "$100-1k",  "recursive": true,  "signoffRequired": true,  "signoffReason": "B2B invoicing." },
+    { "id": "newsletter_beehiiv", "tier": 3, "name": "Niche newsletter (Beehiiv) sponsor slots",          "category": "content",    "connector": "beehiiv",     "phase": "p0", "status": "needs-key",  "capital": "$100-1k",  "recursive": true,  "signoffRequired": false },
+    { "id": "skool_community",    "tier": 3, "name": "Skool / Whop paid community",                        "category": "subscription","connector": "stripe",     "phase": "p0", "status": "pre-revenue","capital": "$100-1k",  "recursive": true,  "signoffRequired": true,  "signoffReason": "Recurring billing." },
+    { "id": "course",             "tier": 3, "name": "Online course (Teachable/Thinkific)",               "category": "education",  "connector": "stripe",      "phase": "p0", "status": "pre-revenue","capital": "$100-1k",  "recursive": true,  "signoffRequired": true,  "signoffReason": "Charges learners." },
+    { "id": "micro_saas",         "tier": 3, "name": "AI-powered niche tool (Stripe billing)",            "category": "saas",       "connector": "stripe",      "phase": "p0", "status": "pre-revenue","capital": "$100-1k",  "recursive": true,  "signoffRequired": true,  "signoffReason": "Subscription billing." },
+    { "id": "api_resale",         "tier": 3, "name": "API resale via RapidAPI (wrap + bill)",             "category": "saas",       "connector": "stripe",      "phase": "p0", "status": "pre-revenue","capital": "$100-1k",  "recursive": true,  "signoffRequired": true,  "signoffReason": "Metered billing." },
+
+    { "id": "investment_lane",    "tier": 4, "name": "Engine-output investment lane (real market data)",  "category": "investment", "connector": "manual",      "phase": "p1", "status": "live",       "capital": "$1k-10k",  "recursive": true,  "signoffRequired": true,  "signoffReason": "Any actual order placement requires a human/fiduciary signature; system only PROPOSES. Paper-trade only until signed.", "note": "Wired to Yahoo+EDGAR + phase-conditioned valuation (commit 89afff8)." },
+    { "id": "fba_private_label",  "tier": 4, "name": "Amazon FBA private label",                          "category": "ecommerce",  "connector": "amazon_paapi","phase": "p0", "status": "pre-revenue","capital": "$1k-10k",  "recursive": false, "signoffRequired": true,  "signoffReason": "Inventory purchase + merchant payouts." },
+    { "id": "tiktok_shop",        "tier": 4, "name": "TikTok Shop with creator-partnership budget",       "category": "ecommerce",  "connector": "tiktok",      "phase": "p0", "status": "pre-revenue","capital": "$1k-10k",  "recursive": false, "signoffRequired": true,  "signoffReason": "Ad spend + payouts." },
+
+    { "id": "microsaas_acquire",  "tier": 5, "name": "Acquire a profitable micro-SaaS",                   "category": "acquisition","connector": "stripe",      "phase": "p0", "status": "pre-revenue","capital": "$10k+",    "recursive": true,  "signoffRequired": true,  "signoffReason": "Asset purchase agreement + capital outlay." },
+    { "id": "sba_cashflow_buy",   "tier": 5, "name": "SBA-financed cash-flow business (laundromat/carwash/self-storage)", "category": "acquisition", "connector": "manual", "phase": "p0", "status": "pre-revenue", "capital": "$10k+", "recursive": false, "signoffRequired": true, "signoffReason": "Debt instrument + personal guarantee — wet signature, lights up the SBA lane." }
+  ],
+
+  "capitalRouting": {
+    "policy": "Finance is net-outflow: surplus above an operating reserve is routed to the domain with the highest funding-need score (low runway + high phase-progress potential). Routing is PROPOSED autonomously and EXECUTED only after sign-off.",
+    "reserveFloor": "operator-set",
+    "proposedRoutes": [
+      { "to": "research",   "reason": "SBIR resubmission runway", "status": "proposed", "signoffRequired": true },
+      { "to": "technology", "reason": "patent conversion fees",   "status": "proposed", "signoffRequired": true }
+    ]
+  },
+
+  "approvalQueue": [
+    { "id": "q-stripe-enable",  "title": "Enable Stripe transfers (bank resolution + named authorization)", "law": "Banking / KYC", "status": "blocked-on-human", "signoffRequired": true },
+    { "id": "q-intercompany",   "title": "Adopt intercompany agreement templates (mgmt fee / license / services)", "law": "Tax — intercompany transfer pricing", "status": "blocked-on-human", "signoffRequired": true },
+    { "id": "q-501c3-firewall", "title": "Confirm 501(c)(3) firewall: for-profit earnings never flow into the Chapel unrestricted", "law": "UBIT / private inurement", "status": "blocked-on-human", "signoffRequired": true }
+  ]
+}
