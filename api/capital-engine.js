@@ -198,8 +198,8 @@ module.exports = async function handler(req, res) {
   }
 
   // ── TICK: run one autonomic cycle (audit → heal → build) ───────────
+  // GET allowed so Vercel cron can fire it; tick proposes only, never moves money.
   if (action === 'tick') {
-    if (req.method !== 'POST') return res.status(405).json({ ok: false, error: 'tick requires POST' });
     const autonomic = require('../lib/finance-autonomic');
     const cap = req.query && req.query.cap ? parseInt(req.query.cap, 10) : 3;
     return res.status(200).json({ ok: true, report: await autonomic.tick({ buildCap: cap }) });
