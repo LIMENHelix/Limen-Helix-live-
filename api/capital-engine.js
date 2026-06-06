@@ -47,14 +47,18 @@ function _connectorReadiness(contract) {
   const connectors = (contract && contract.connectors) || [];
   for (let i = 0; i < connectors.length; i++) {
     const c = connectors[i];
-    const keys = c.envKeys || [];
-    let present = keys.length === 0 ? null : keys.every(function (k) { return !!process.env[k]; });
-    // 'mcp'/'manual'/'attach' connectors have no env keys — readiness is N/A
+    const req = c.envKeys || [];          // REQUIRED to function
+    const opt = c.optionalKeys || [];     // optional enhancements (e.g. Stripe webhook, Amazon PA-API)
+    const has = function (k) { return !!process.env[k]; };
+    // 'mcp'/'manual'/'attach'/'live' connectors have no env keys — readiness is N/A
     let live;
     if (c.status === 'mcp') live = 'mcp-auth';
-    else if (keys.length === 0) live = c.status || 'manual';
-    else live = present ? 'key-present' : 'needs-key';
-    out.push({ id: c.id, name: c.name, type: c.type, tier: c.tier, signoffRequired: !!c.signoffRequired, readiness: live });
+    else if (req.length === 0) live = c.status || 'manual';
+    else if (!req.every(has)) live = 'needs-key';
+    else if (opt.length && !opt.every(has)) live = 'partial';   // functional, enhancement pending
+    else live = 'key-present';
+    const missing = req.concat(opt).filter(function (k) { return !has(k); });
+    out.push({ id: c.id, name: c.name, type: c.type, tier: c.tier, signoffRequired: !!c.signoffRequired, readiness: live, missing: missing });
   }
   return out;
 }

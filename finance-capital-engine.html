@@ -167,7 +167,7 @@ footer{border-top:1px solid var(--line);margin-top:24px;padding:14px 0;font-size
 
     // counts
     var live=streams.filter(function(s){return s.status==='live';}).length;
-    var keyReady=conns.filter(function(c){return c.readiness==='key-present';}).length;
+    var keyReady=conns.filter(function(c){return c.readiness==='key-present'||c.readiness==='partial';}).length;
     var freeNow=streams.filter(function(s){return !s.signoffRequired && (s.status==='needs-key'||s.status==='pre-revenue'||s.status==='setup');}).length;
 
     var h='';
@@ -256,8 +256,8 @@ footer{border-top:1px solid var(--line);margin-top:24px;padding:14px 0;font-size
 
     // ── connectors readiness ──
     h+='<div class="panel"><h2>Connectors · '+keyReady+' key-ready / '+conns.length+'</h2><div class="conngrid">';
-    for(var c=0;c<conns.length;c++){var cc=conns[c];var cls=cc.readiness==='key-present'?'ok':(cc.readiness==='mcp-auth'?'free':'miss');
-      var lbl=cc.readiness==='key-present'?'● ready':(cc.readiness==='mcp-auth'?'◆ mcp':(cc.readiness==='needs-key'?'○ needs key':cc.readiness));
+    for(var c=0;c<conns.length;c++){var cc=conns[c];var cls=(cc.readiness==='key-present'||cc.readiness==='partial')?'ok':(cc.readiness==='mcp-auth'?'free':'miss');
+      var lbl=cc.readiness==='key-present'?'● ready':(cc.readiness==='partial'?'◐ ready (basic)':(cc.readiness==='mcp-auth'?'◆ mcp':(cc.readiness==='needs-key'?'○ needs key':cc.readiness)));
       h+='<div class="conn"><span class="cn">'+cc.name+(cc.signoffRequired?' <span style="color:var(--oxide)">⚑</span>':'')+'</span><span class="cs '+cls+'">'+lbl+'</span></div>';}
     h+='</div></div>';
 
