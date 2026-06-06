@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LIMEN HELIX · Applications — Audit &amp; Sign</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080a0f;--panel:#0c0f16;--bone:#e8e3d9;--gold:#c9a94e;--oxide:#d4574b;--emerald:#5ab590;--amber:#e0a437;--dim:rgba(200,195,184,.45);--line:rgba(201,169,78,.12)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--bone);font-family:'IBM Plex Mono',monospace;font-size:13px;line-height:1.6;padding-bottom:60px}
+a{color:var(--gold)}
+.wrap{max-width:980px;margin:0 auto;padding:0 18px}
+header{border-bottom:1px solid var(--line);padding:12px 0;position:sticky;top:0;background:rgba(8,10,15,.96);backdrop-filter:blur(6px);z-index:10}
+.brand{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(201,169,78,.6)}
+.masthead{padding:26px 0 8px}
+.masthead h1{font-family:'Instrument Serif',serif;font-size:40px;font-weight:400}
+.masthead .sub{font-size:12px;color:var(--dim);margin-top:4px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:16px 18px;margin:16px 0}
+.chead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.ctitle{font-family:'Instrument Serif',serif;font-size:22px}
+.cmeta{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);margin-top:3px}
+.score{font-size:30px;font-weight:500}
+.badge{font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.b-rwr{background:rgba(212,87,75,.16);color:var(--oxide)}.b-major{background:rgba(224,164,55,.16);color:var(--amber)}
+.b-minor{background:rgba(201,169,78,.16);color:var(--gold)}.b-ok{background:rgba(90,181,144,.16);color:var(--emerald)}
+.sec{margin-top:12px}.sec h3{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,169,78,.5);margin-bottom:5px}
+.item{padding:5px 0 5px 12px;border-left:2px solid var(--oxide);margin:4px 0;font-size:12px}
+.item.m{border-left-color:var(--amber)}.item.s{border-left-color:var(--emerald)}
+.item .fix{color:var(--dim);font-size:11px;margin-top:2px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+button{font-family:inherit;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;border:1px solid var(--line);padding:8px 16px;border-radius:3px;cursor:pointer;background:rgba(201,169,78,.06);color:var(--gold)}
+button.go{background:rgba(90,181,144,.1);color:var(--emerald)}
+button:hover{filter:brightness(1.3)}
+.note{font-size:10px;color:var(--dim);margin-top:8px}
+pre{white-space:pre-wrap;font-size:11px;background:rgba(0,0,0,.25);border:1px solid var(--line);border-radius:3px;padding:12px;margin-top:10px;max-height:420px;overflow:auto;display:none}
+.loading,.empty{color:var(--dim);text-align:center;padding:46px 0}
+.prov{font-size:9px;color:rgba(201,169,78,.5);margin-top:8px}
+.stat{font-size:10px;color:var(--dim);margin-left:8px}
+</style></head>
+<body>
+<header><div class="wrap brand"><a href="/capital-engine" style="color:rgba(201,169,78,.6)">LIMEN HELIX</a> / APPLICATIONS · AUDIT &amp; SIGN</div></header>
+<div class="wrap">
+  <div class="masthead"><h1>Applications</h1><div class="sub">Multi-AI audit (Grok rules · Anthropic audit/rewrite · OpenAI cross-check) → review → sign → ship what's legal.</div></div>
+  <div id="list"><div class="loading">Loading audited applications…</div></div>
+</div>
+<script>
+(function(){
+  'use strict';
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  var RB={'return-without-review':['b-rwr','RETURN W/O REVIEW'],'major-revisions':['b-major','MAJOR REVISIONS'],'minor-revisions':['b-minor','MINOR REVISIONS'],'submittable':['b-ok','SUBMITTABLE']};
+  function render(apps){
+    var el=document.getElementById('list');
+    if(!apps||!apps.length){el.innerHTML='<div class="empty">No audited applications yet. POST text to /api/capital-engine?action=audit-application.</div>';return;}
+    var h='';
+    for(var i=0;i<apps.length;i++){var a=apps[i];var au=a.audit||{};var rb=RB[a.readiness]||['b-major',(a.readiness||'?').toUpperCase()];
+      h+='<div class="card" id="c-'+esc(a.id)+'">';
+      h+='<div class="chead"><div><div class="ctitle">'+esc(a.title||a.funder)+'</div><div class="cmeta">'+esc(a.funder)+' · '+esc(a.status)+(au.recommendedProgram?(' · rec: '+esc(au.recommendedProgram)):'')+'</div></div>';
+      h+='<div style="text-align:right"><div class="score">'+(a.score!=null?esc(a.score):'—')+'<span style="font-size:12px;color:var(--dim)">/100</span></div><span class="badge '+rb[0]+'">'+rb[1]+'</span></div></div>';
+      if(au.fatal&&au.fatal.length){h+='<div class="sec"><h3>Fatal / compliance ('+au.fatal.length+')</h3>';au.fatal.forEach(function(f){h+='<div class="item">'+esc(f.issue)+'<div class="fix">→ '+esc(f.fix)+'</div></div>';});h+='</div>';}
+      if(au.merit&&au.merit.length){h+='<div class="sec"><h3>Merit</h3>';au.merit.forEach(function(f){h+='<div class="item m">'+esc(f.issue)+'<div class="fix">→ '+esc(f.fix)+'</div></div>';});h+='</div>';}
+      if(au.missingDocs&&au.missingDocs.length)h+='<div class="sec"><h3>Missing docs</h3><div class="item">'+au.missingDocs.map(esc).join(' · ')+'</div></div>';
+      if(au.budgetCheck)h+='<div class="sec"><h3>Budget check</h3><div class="item '+(au.budgetCheck.consistent?'s':'')+'">stated '+esc(au.budgetCheck.statedTotal)+' vs computed '+esc(au.budgetCheck.computedTotal)+' — '+(au.budgetCheck.consistent?'consistent':'MISMATCH')+'<div class="fix">'+esc(au.budgetCheck.notes)+'</div></div></div>';
+      if(au.humanMustSupply&&au.humanMustSupply.length)h+='<div class="sec"><h3>You must supply</h3><div class="item m">'+au.humanMustSupply.map(esc).join(' · ')+'</div></div>';
+      if(au.strengths&&au.strengths.length){h+='<div class="sec"><h3>Strengths (keep)</h3>';au.strengths.forEach(function(s){h+='<div class="item s">'+esc(s)+'</div>';});h+='</div>';}
+      if(a.secondPass&&a.secondPass.toUpperCase().indexOf('NONE')!==0)h+='<div class="sec"><h3>OpenAI second pass</h3><div class="item m">'+esc(a.secondPass)+'</div></div>';
+      h+='<div class="prov">provenance — rules: '+esc((a.provenance||{}).rules)+' · audit: '+esc((a.provenance||{}).audit)+' · verify: '+esc((a.provenance||{}).verify)+'</div>';
+      h+='<div class="row"><button class="rw" data-id="'+esc(a.id)+'">▸ Generate compliant rewrite</button>'
+        +'<button class="go ap" data-id="'+esc(a.id)+'">✓ Approve &amp; sign</button>'
+        +'<button class="sb" data-id="'+esc(a.id)+'">→ Mark submitted</button><span class="stat" id="st-'+esc(a.id)+'"></span></div>';
+      h+='<pre id="pre-'+esc(a.id)+'"></pre></div>';
+    }
+    el.innerHTML=h;wire(apps);
+  }
+  function wire(apps){
+    function find(id){return apps.filter(function(a){return a.id===id;})[0];}
+    document.querySelectorAll('.ap').forEach(function(b){b.addEventListener('click',function(){var id=this.getAttribute('data-id');post('application-approve',{id:id},id,'signed ✓');});});
+    document.querySelectorAll('.sb').forEach(function(b){b.addEventListener('click',function(){var id=this.getAttribute('data-id');post('application-submit',{id:id},id,'submitted');});});
+    document.querySelectorAll('.rw').forEach(function(b){b.addEventListener('click',function(){var id=this.getAttribute('data-id');var a=find(id);var st=document.getElementById('st-'+id);var pre=document.getElementById('pre-'+id);st.textContent='rewriting… (AI)';
+      fetch('/api/capital-engine?action=rewrite-application',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({funder:a.funder,program:(a.audit||{}).recommendedProgram||'',text:a.sourceText})}).then(function(r){return r.json();}).then(function(j){if(j.ok){pre.style.display='block';pre.textContent=j.draft;st.textContent='✓ draft ('+j.provider+')';}else st.textContent='✗ '+(j.error||'');}).catch(function(e){st.textContent='✗ '+e.message;});});});
+  }
+  function post(action,body,id,okmsg){var st=document.getElementById('st-'+id);st.textContent='…';
+    fetch('/api/capital-engine?action='+action,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){return r.json();}).then(function(j){st.textContent=j.ok?okmsg+(j.notice?(' — '+j.notice):''):('✗ '+(j.error||''));}).catch(function(e){st.textContent='✗ '+e.message;});}
+  fetch('/api/capital-engine?action=applications').then(function(r){return r.json();}).then(function(j){render((j&&j.applications)||[]);}).catch(function(){document.getElementById('list').innerHTML='<div class="empty">Offline.</div>';});
+})();
+</script>
+</body></html>

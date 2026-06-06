@@ -237,5 +237,38 @@ module.exports = async function handler(req, res) {
     return res.status(200).json({ ok: true, listings: await pp.listings(100) });
   }
 
-  return res.status(400).json({ ok: false, error: 'unknown action: ' + action, valid: ['streams', 'status', 'route', 'orchestrate', 'ledger', 'queue', 'produce', 'publish', 'checkout', 'stripe-webhook', 'tick', 'articles', 'subscribe', 'package-patent', 'patent-listings'] });
+  // ── APPLICATION AUDITOR (master-brain): multi-AI audit / rewrite / approve / submit ──
+  if (action === 'audit-application') {
+    if (req.method !== 'POST') return res.status(405).json({ ok: false, error: 'audit-application requires POST' });
+    const aud = require('../lib/application-auditor');
+    const b = req.body || {};
+    return res.status(200).json(await aud.audit({ id: b.id, title: b.title, funder: b.funder, text: b.text }));
+  }
+  if (action === 'rewrite-application') {
+    if (req.method !== 'POST') return res.status(405).json({ ok: false, error: 'rewrite-application requires POST' });
+    const aud = require('../lib/application-auditor');
+    const b = req.body || {};
+    return res.status(200).json(await aud.rewrite({ funder: b.funder, program: b.program, fixes: b.fixes, text: b.text }));
+  }
+  if (action === 'applications') {
+    const aud = require('../lib/application-auditor');
+    return res.status(200).json({ ok: true, applications: await aud.list(50) });
+  }
+  if (action === 'application-approve') {
+    if (req.method !== 'POST') return res.status(405).json({ ok: false, error: 'approve requires POST' });
+    const aud = require('../lib/application-auditor');
+    const b = req.body || {};
+    return res.status(200).json(await aud.setStatus(b.id, 'approved', { approvedBy: b.signer || 'operator' }));
+  }
+  if (action === 'application-submit') {
+    if (req.method !== 'POST') return res.status(405).json({ ok: false, error: 'submit requires POST' });
+    const aud = require('../lib/application-auditor');
+    const b = req.body || {};
+    const r = await aud.setStatus(b.id, 'submitted', { channel: b.channel || 'manual' });
+    // Honest: federal grants must be filed by a registered AOR on Research.gov/Grants.gov (no API).
+    r.notice = 'Marked submitted. Federal grants must be filed by your registered AOR on Research.gov — system cannot auto-file. Patent/marketplace outreach can be auto-sent via Gmail.';
+    return res.status(200).json(r);
+  }
+
+  return res.status(400).json({ ok: false, error: 'unknown action: ' + action, valid: ['streams', 'status', 'route', 'orchestrate', 'ledger', 'queue', 'produce', 'publish', 'checkout', 'stripe-webhook', 'tick', 'articles', 'subscribe', 'package-patent', 'patent-listings', 'audit-application', 'rewrite-application', 'applications', 'application-approve', 'application-submit'] });
 };
