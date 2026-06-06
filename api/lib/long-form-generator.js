@@ -41,8 +41,8 @@ Style rules (load-bearing):
 
 Return the entire patent specification as a single Markdown document. Do not wrap in JSON. Begin with "# PATENT APPLICATION — [Title]" and end with "## ABSTRACT".`;
 
-// NIH/NSF SBIR Phase I proposal — 20-30 pages
-const GRANT_SYSTEM = `You are an experienced grants writer preparing an NIH SBIR PHASE I application (Topic 357 neuroscience-business interface or NSF SBIR Phase I IIP, depending on bridge pattern). The applicant is a NEW SMALL BUSINESS WITH NO PRIOR FUNDING — a sole proprietorship or single-member LLC filing for the first time. Maximum direct + F&A: \$314,363 (current NIH SBIR Phase I ceiling). Maximum project duration: 6 months (NIH) or 12 months (NSF). Phase I is PROOF-OF-FEASIBILITY only — do NOT propose deliverables that require Phase II maturity.
+// NIH SBIR Phase I proposal — 20-30 pages
+const NIH_GRANT_SYSTEM = `You are an experienced grants writer preparing an NIH SBIR PHASE I application (Topic 357 neuroscience-business interface or NSF SBIR Phase I IIP, depending on bridge pattern). The applicant is a NEW SMALL BUSINESS WITH NO PRIOR FUNDING — a sole proprietorship or single-member LLC filing for the first time. Maximum direct + F&A: \$314,363 (current NIH SBIR Phase I ceiling). Maximum project duration: 6 months (NIH) or 12 months (NSF). Phase I is PROOF-OF-FEASIBILITY only — do NOT propose deliverables that require Phase II maturity.
 
 Required sections in this exact order:
 
@@ -71,6 +71,32 @@ Style rules:
 - Do NOT pretend the applicant has institutional resources they don't have
 
 Return as single Markdown document. Begin with "# NIH/NSF SBIR PHASE I APPLICATION — [Title]" and end with the budget table.`;
+
+// NSF SBIR Phase I proposal — distinct from NIH (different applicant rules, structure, ceiling, criteria)
+const NSF_GRANT_SYSTEM = `You are an experienced grants writer preparing an NSF SBIR PHASE I proposal under the current solicitation (NSF 26-510), for a NEW SMALL BUSINESS WITH NO PRIOR FUNDING — a single-member LLC filing for the first time. The applicant IS the small business (not a university or nonprofit). NSF SBIR Phase I is PROOF-OF-FEASIBILITY R&D: ~12 months, up to the current Phase I ceiling (approximately \$305,000 — insert [[PLACEHOLDER: confirm current ceiling in NSF 26-510]]). NO voluntary cost-share (NSF prohibits it; 2 CFR 200.306). Indirect at the 10% de minimis rate (2 CFR 200.414) unless a negotiated rate exists. The PI requires NO advanced degree; primary employment (>=51%) must be with the small business at the time of award.
+
+NSF reviews on TWO criteria: Intellectual Merit and Broader Impacts (the latter explicitly includes Commercial Potential). Frame everything as deep-technology innovation with genuine technical risk and commercial promise.
+
+Required sections in this exact order:
+
+PROJECT SUMMARY (1 page; three headers each on their own line: "Overview", "Intellectual Merit", "Broader Impacts". The Intellectual Merit paragraph MUST begin with "This Small Business Innovation Research Phase I project...". Overview names the product/process/service outcome, lists keywords, and states the topic area.)
+PROJECT DESCRIPTION (the core, up to 15 pages):
+  - The Technology Innovation (the high-risk, unproven innovation; its origin; how it differs from and beats incumbents)
+  - Technical Objectives and the highest-risk research challenges SPECIFIC to the innovation (not industry-common)
+  - R&D Plan / Approach (tasks, methods, what proves feasibility, explicit falsification criteria, 12-month timeline)
+  - Preliminary work / feasibility evidence (honest for a pre-revenue sole founder)
+COMMERCIALIZATION PLAN (customer, market, competition, business model, path to revenue, sustainable advantage)
+DATA MANAGEMENT AND SHARING PLAN (one sentence is sufficient: "All data generated in this NSF SBIR/STTR project is considered proprietary.")
+BUDGET AND BUDGET JUSTIFICATION (line items that total within the ceiling; PI fractional salary, personnel, materials, travel; 10% de minimis indirect; NO cost-share; reconcile the total exactly)
+REFERENCES CITED (only real, relevant references; no fabrication)
+
+Style rules:
+- Anchor every claim of effect to a specific portal indicator or bridge-pattern reference; do not fabricate data, dollar amounts, or citations.
+- Where a fact only the applicant can supply is needed (PI credentials, IRB of record, exact salary figures, EIN), insert a clearly marked [[PLACEHOLDER: ...]] — never invent credentials.
+- Reserve causal claims for Phase II; Phase I results are exploratory feasibility.
+- Open Intellectual Merit with the exact phrase "This Small Business Innovation Research Phase I project...".
+
+Return the entire proposal as a single Markdown document. Begin with "# NSF SBIR PHASE I PROPOSAL — [Title]".`;
 
 // SBA Microloan / Express loan package for new business pre-revenue
 const LOAN_SYSTEM = `You are a small-business lending consultant preparing an SBA MICROLOAN application (up to \$50,000) OR SBA EXPRESS LOAN application (up to \$500,000 if some operating signal exists) for a PRE-REVENUE NEW BUSINESS. The borrower is a sole proprietor / single-member LLC with no operating history and no prior business loans. They do NOT qualify for SBA 7(a) standard because they lack cash-flow history.
@@ -134,9 +160,11 @@ Style rules:
 
 Return as Markdown. 8-15 pages typical. Begin with "# PREREGISTRATION — [Title]" and end with the timeline.`;
 
-const SYSTEMS = { patent: PATENT_SYSTEM, grant: GRANT_SYSTEM, sba: LOAN_SYSTEM, research: RESEARCH_SYSTEM };
+const SYSTEMS = { patent: PATENT_SYSTEM, grant: NSF_GRANT_SYSTEM, sba: LOAN_SYSTEM, research: RESEARCH_SYSTEM };
+// grant lane is agency-selectable; default NSF. Add more funders here as one line each.
+const GRANT_SYSTEMS = { nsf: NSF_GRANT_SYSTEM, nih: NIH_GRANT_SYSTEM };
 
-function buildPrompt(lane, seedArtifact, bridge, portal) {
+function buildPrompt(lane, seedArtifact, bridge, portal, agency) {
   const seed = JSON.stringify(seedArtifact.artifact || seedArtifact, null, 2);
   const ctx = {
     portal: {
@@ -160,15 +188,17 @@ function buildPrompt(lane, seedArtifact, bridge, portal) {
       matchedIndicators: bridge.matchedIndicators
     },
     seedArtifact: seed,
-    instruction: 'Expand this seed into a full ' + (lane === 'sba' ? 'SBA Microloan' : lane === 'grant' ? 'NIH SBIR Phase I' : lane === 'patent' ? 'USPTO Pro Se / Micro Entity patent specification' : 'preregistration') + ' document for a NEW BUSINESS WITH NO INVESTOR YET. Target 6000-10000 words (20-30 pages at 12pt double-spaced).'
+    instruction: 'Expand this seed into a full ' + (lane === 'sba' ? 'SBA Microloan' : lane === 'grant' ? (((agency || 'nsf').toLowerCase() === 'nih' ? 'NIH' : 'NSF') + ' SBIR Phase I') : lane === 'patent' ? 'USPTO Pro Se / Micro Entity patent specification' : 'preregistration') + ' document for a NEW BUSINESS WITH NO INVESTOR YET. Target a complete, well-structured document.'
   };
   return JSON.stringify(ctx);
 }
 
-async function generate({ lane, seedArtifact, bridge, portal, maxTokens }) {
-  const system = SYSTEMS[lane];
+async function generate({ lane, seedArtifact, bridge, portal, maxTokens, agency }) {
+  // grant lane selects the funder template (default NSF); other lanes use SYSTEMS
+  let system = SYSTEMS[lane];
+  if (lane === 'grant') system = GRANT_SYSTEMS[(agency || 'nsf').toLowerCase()] || NSF_GRANT_SYSTEM;
   if (!system) return { ok: false, error: 'no long-form system prompt for lane: ' + lane + ' (supported: patent, grant, sba, research)' };
-  const prompt = buildPrompt(lane, seedArtifact, bridge, portal);
+  const prompt = buildPrompt(lane, seedArtifact, bridge, portal, agency);
   const r = await orchestrator.call('REFRESH_ARTIFACT', {
     system,
     prompt,

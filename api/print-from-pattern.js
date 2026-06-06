@@ -105,6 +105,7 @@ module.exports = async (req, res) => {
     const lane = q.lane;
     const patternId = q.patternId;
     const format = (q.format || 'docx').toLowerCase();
+    const agency = (q.agency || 'nsf').toLowerCase();   // grant lane: nsf (default) | nih
 
     if (!slug || !lane || !patternId) return res.status(400).json({ error: 'slug + lane + patternId all required' });
     if (!['patent', 'grant', 'sba', 'research'].includes(lane)) return res.status(400).json({ error: 'lane must be patent | grant | sba | research' });
@@ -144,7 +145,7 @@ module.exports = async (req, res) => {
     // 6000 tokens returns in ~45-60s (no timeout) and yields ~12-15 pages — which is
     // the right size anyway (NSF/NIH cap the project description at 15 pages).
     // For true 20-30 page output, an async job pattern is needed (generate → Redis → poll).
-    const result = await generate({ lane, seedArtifact: seed, bridge, portal, maxTokens: 6000 });
+    const result = await generate({ lane, seedArtifact: seed, bridge, portal, maxTokens: 6000, agency });
     if (!result.ok) return res.status(502).json({ error: 'long-form generation failed', details: result.error });
 
     if (format === 'md' || format === 'markdown') {
@@ -155,7 +156,7 @@ module.exports = async (req, res) => {
       return res.status(200).send(result.markdown);
     }
 
-    const titlePrefix = lane === 'patent' ? 'PATENT APPLICATION' : lane === 'grant' ? 'NIH SBIR PHASE I' : lane === 'sba' ? 'SBA MICROLOAN' : 'PREREGISTRATION';
+    const titlePrefix = lane === 'patent' ? 'PATENT APPLICATION' : lane === 'grant' ? ((agency === 'nih' ? 'NIH' : 'NSF') + ' SBIR PHASE I') : lane === 'sba' ? 'SBA MICROLOAN' : 'PREREGISTRATION';
     const buf = await renderToBuffer(result.markdown, {
       title: titlePrefix + ' — ' + (portal.name || slug),
       subject: patternId,
