@@ -106,9 +106,10 @@ module.exports = async (req, res) => {
     const patternId = q.patternId;
     const format = (q.format || 'docx').toLowerCase();
     const agency = (q.agency || 'nsf').toLowerCase();   // grant lane: nsf (default) | nih
+    const part = q.part ? String(q.part) : null;        // null = full; '1'|'2' = half-render (avoids truncation)
 
     if (!slug || !lane || !patternId) return res.status(400).json({ error: 'slug + lane + patternId all required' });
-    if (!['patent', 'grant', 'sba', 'research'].includes(lane)) return res.status(400).json({ error: 'lane must be patent | grant | sba | research' });
+    if (!['patent', 'grant', 'sba', 'research', 'investment'].includes(lane)) return res.status(400).json({ error: 'lane must be patent | grant | sba | research | investment' });
 
     const portal = _loadPortal(slug);
     if (!portal) return res.status(404).json({ error: 'portal not found: ' + slug });
@@ -145,24 +146,24 @@ module.exports = async (req, res) => {
     // most demanding, grant next, etc. Synchronous budget stays ~6000 tokens (~60s) to
     // avoid the HTTP-gateway 504; the lanes' fuller fullTokens depth needs the sectioned
     // render (generate section-by-section, assemble) — the roadmap follow-up.
-    const result = await generate({ lane, seedArtifact: seed, bridge, portal, agency });
+    const result = await generate({ lane, seedArtifact: seed, bridge, portal, agency, part });
     if (!result.ok) return res.status(502).json({ error: 'long-form generation failed', details: result.error });
 
     if (format === 'md' || format === 'markdown') {
-      const fname = (portal.ticker || slug).toUpperCase() + '__' + lane + '__' + patternId.replace(/[^A-Za-z0-9_-]+/g, '_').slice(0, 50) + '.md';
+      const fname = (portal.ticker || slug).toUpperCase() + '__' + lane + '__' + patternId.replace(/[^A-Za-z0-9_-]+/g, '_').slice(0, 50) + (part ? '__part' + part : '') + '.md';
       res.setHeader('Content-Type', 'text/markdown; charset=utf-8');
       res.setHeader('Content-Disposition', 'attachment; filename="' + fname + '"');
       res.setHeader('X-Limen-Pattern-Source', found.source);
       return res.status(200).send(result.markdown);
     }
 
-    const titlePrefix = lane === 'patent' ? 'PATENT APPLICATION' : lane === 'grant' ? ((agency === 'nih' ? 'NIH' : 'NSF') + ' SBIR PHASE I') : lane === 'sba' ? 'SBA MICROLOAN' : 'PREREGISTRATION';
+    const titlePrefix = (lane === 'patent' ? 'PATENT APPLICATION' : lane === 'grant' ? ((agency === 'nih' ? 'NIH' : 'NSF') + ' SBIR PHASE I') : lane === 'sba' ? 'SBA MICROLOAN' : lane === 'investment' ? 'INVESTMENT THESIS' : 'PREREGISTRATION') + (part ? ' (PART ' + part + ' OF 2)' : '');
     const buf = await renderToBuffer(result.markdown, {
       title: titlePrefix + ' — ' + (portal.name || slug),
       subject: patternId,
       description: 'LIMEN Helix · pattern ' + patternId + ' · source: ' + found.source
     });
-    const fname = (portal.ticker || slug).toUpperCase() + '__' + lane + '__' + patternId.replace(/[^A-Za-z0-9_-]+/g, '_').slice(0, 60) + '__' + new Date().toISOString().slice(0, 10) + '.docx';
+    const fname = (portal.ticker || slug).toUpperCase() + '__' + lane + '__' + patternId.replace(/[^A-Za-z0-9_-]+/g, '_').slice(0, 60) + (part ? '__part' + part : '') + '__' + new Date().toISOString().slice(0, 10) + '.docx';
     res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
     res.setHeader('Content-Disposition', 'attachment; filename="' + fname + '"');
     res.setHeader('X-Limen-Tokens-Used', String(result.tokensUsed || 0));

@@ -192,6 +192,25 @@ function renderCard(p) {
   var slug = p.sourcePortal || 'unknown';
   var id = pat.id || '';
 
+  // Score-gating: read the Lane-Fit route saved when you hit "⚖ Score lanes" on /pattern-proposals.
+  var lf = null; try { lf = JSON.parse(localStorage.getItem('limen_lanefit_' + id) || 'null'); } catch (e) {}
+  var route = lf && lf.route && lf.route.length ? lf.route : null;
+  var scores = (lf && lf.scores) || {};
+  var ALL_LANES = ['patent', 'grant', 'research', 'investment', 'sba'];
+  function _laneLabel(L){ return L === 'sba' ? 'SBA loan' : L.charAt(0).toUpperCase() + L.slice(1); }
+  function _laneBtn(L){
+    var sc = scores[L] && scores[L].score; var badge = (sc != null ? ' ' + sc + '/10' : '');
+    if (route) {
+      if (route.indexOf(L) >= 0) return '<button data-lane="' + L + '">' + _laneLabel(L) + badge + '</button>';
+      return '<button data-lane="' + L + '" title="below threshold — click to print anyway" style="opacity:.38">' + _laneLabel(L) + badge + ' ⚠</button>';
+    }
+    return '<button data-lane="' + L + '">' + _laneLabel(L) + ' only</button>';
+  }
+  var lanesHtml = ALL_LANES.map(_laneBtn).join('');
+  var routeNote = route
+    ? '<div style="font-size:0.3rem;color:#5ab5a0;margin-top:4px">scored route → ' + route.join(' · ') + ' (others dimmed; click to print anyway)</div>'
+    : '<div style="font-size:0.3rem;color:rgba(200,195,184,0.4);margin-top:4px">not scored — run ⚖ Score lanes on /pattern-proposals to gate these</div>';
+
   return '<div class="pattern-card" data-id="' + esc(id) + '" data-slug="' + esc(slug) + '">' +
     '<div class="pc-head">' +
       '<div class="pc-id">' + esc(id) + '</div>' +
@@ -212,12 +231,10 @@ function renderCard(p) {
       '</div>' +
     '</div>' +
     '<div class="pc-actions">' +
-      '<button class="all" data-action="all">⬇ Download all 4 documents</button>' +
-      '<button data-lane="patent">Patent only</button>' +
-      '<button data-lane="grant">Grant only</button>' +
-      '<button data-lane="sba">SBA loan only</button>' +
-      '<button data-lane="research">Research only</button>' +
+      '<button class="all" data-action="all">⬇ Download ' + (route ? route.length + ' qualifying lane(s)' : 'all lanes') + ' (2 files each)</button>' +
+      lanesHtml +
       '<span class="pc-progress" data-progress></span>' +
+      routeNote +
     '</div>' +
   '</div>';
 }
@@ -251,13 +268,14 @@ async function downloadAll(btn) {
   var slug = card.dataset.slug;
   var progressEl = card.querySelector('[data-progress]');
   card.querySelectorAll('button').forEach(function(b){ b.disabled = true; });
-  var lanes = ['patent', 'grant', 'sba', 'research'];
+  var lfA = null; try { lfA = JSON.parse(localStorage.getItem('limen_lanefit_' + id) || 'null'); } catch (e) {}
+  var lanes = (lfA && lfA.route && lfA.route.length) ? lfA.route : ['patent', 'grant', 'research', 'investment', 'sba'];
   var succeeded = [];
   var failed = [];
   for (var i = 0; i < lanes.length; i++) {
     var lane = lanes[i];
     progressEl.className = 'pc-progress';
-    progressEl.textContent = '[' + (i+1) + '/4] generating ' + lane + ' · 30-90s...';
+    progressEl.textContent = '[' + (i+1) + '/' + lanes.length + '] generating ' + lane + ' (2 parts) · 60-120s...';
     try {
       await downloadDocx(slug, lane, id);
       succeeded.push(lane);
@@ -267,32 +285,35 @@ async function downloadAll(btn) {
   }
   if (failed.length === 0) {
     progressEl.className = 'pc-progress success';
-    progressEl.textContent = '✓ All 4 documents downloaded';
-    toast('All 4 documents downloaded — save them to LIMEN Helix Files', 'ok');
+    progressEl.textContent = '✓ ' + lanes.length + ' lane(s) downloaded (2 files each)';
+    toast(lanes.length + ' lane(s) downloaded — save them to LIMEN Helix Files', 'ok');
   } else {
     progressEl.className = 'pc-progress error';
-    progressEl.textContent = succeeded.length + '/4 succeeded · failed: ' + failed.join(', ');
+    progressEl.textContent = succeeded.length + '/' + lanes.length + ' succeeded · failed: ' + failed.join(', ');
   }
   card.querySelectorAll('button').forEach(function(b){ b.disabled = false; });
 }
 
 async function downloadDocx(slug, lane, patternId) {
-  var url = '/api/print-from-pattern?slug=' + encodeURIComponent(slug) + '&lane=' + encodeURIComponent(lane) + '&patternId=' + encodeURIComponent(patternId);
-  var r = await fetch(url);
-  if (!r.ok) {
-    var t = '';
-    try { var j = await r.json(); t = j.error || ('HTTP ' + r.status); } catch (e) { t = 'HTTP ' + r.status; }
-    throw new Error(t);
+  // Two-part render: fetch part 1 then part 2 (each a safe ~half call) → two .docx files per lane.
+  for (var part = 1; part <= 2; part++) {
+    var url = '/api/print-from-pattern?slug=' + encodeURIComponent(slug) + '&lane=' + encodeURIComponent(lane) + '&patternId=' + encodeURIComponent(patternId) + '&part=' + part;
+    var r = await fetch(url);
+    if (!r.ok) {
+      var t = '';
+      try { var j = await r.json(); t = j.error || ('HTTP ' + r.status); } catch (e) { t = 'HTTP ' + r.status; }
+      throw new Error('part ' + part + ': ' + t);
+    }
+    var blob = await r.blob();
+    var cd = r.headers.get('Content-Disposition') || '';
+    var m = cd.match(/filename="([^"]+)"/);
+    var fname = m ? m[1] : (slug + '__' + lane + '__part' + part + '.docx');
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = fname;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(a.href);
   }
-  var blob = await r.blob();
-  var cd = r.headers.get('Content-Disposition') || '';
-  var m = cd.match(/filename="([^"]+)"/);
-  var fname = m ? m[1] : (slug + '__' + lane + '.docx');
-  var a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = fname;
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
-  URL.revokeObjectURL(a.href);
 }
 
 function toast(msg, kind) {

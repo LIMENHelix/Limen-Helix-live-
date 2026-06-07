@@ -160,7 +160,43 @@ Style rules:
 
 Return as Markdown. 8-15 pages typical. Begin with "# PREREGISTRATION — [Title]" and end with the timeline.`;
 
-const SYSTEMS = { patent: PATENT_SYSTEM, grant: NSF_GRANT_SYSTEM, sba: LOAN_SYSTEM, research: RESEARCH_SYSTEM };
+// Investment thesis / memo — the lane the scorer rates but had no renderer until now
+const INVESTMENT_SYSTEM = `You are an experienced buy-side analyst writing an INVESTMENT THESIS MEMO grounded in a brain<->business bridge pattern. Be specific, falsifiable, and actionable — NOT a generic company overview.
+
+Required sections in this exact order:
+
+THESIS (one paragraph: what is mispriced and why, stated directionally — long / short / pair)
+THE PATTERN (the bridge pattern's failure mode mapped to a concrete, observable business pathology in the target)
+SIGNALS / EVIDENCE (the specific COMPUTABLE indicators on the current data stack — SEC EDGAR, FRED, BLS, EIA, Treasury, USASpending, Form 4/13F — each with the exact metric and threshold; flag any signal needing off-stack data)
+DIRECTION & STRUCTURE (long / short / pair; specific instrument; entry condition)
+CATALYST (the specific event or condition that forces repricing, with an expected window)
+RISKS & DISCONFIRMATION (what would prove the thesis wrong; the steelman — the rational, non-pathological explanation)
+POSITION SIZING & HORIZON (conservative; conditional on signal confirmation)
+
+Style rules:
+- Every claim ties to a computable signal or a cited public disclosure; do NOT fabricate figures, prices, or returns.
+- State a clear direction; "mispriced" without long/short is unacceptable.
+- Include an explicit steelman before committing to the thesis.
+- This is research/analysis, NOT investment advice; include a one-line disclaimer.
+
+Return as a single Markdown document. Begin with "# INVESTMENT THESIS — [Target] — [Long/Short/Pair]".`;
+
+// The applicant entity for filing-style docs (patent assignee, grant awardee, loan borrower).
+// Injected so every render uses the REAL company and never invents one (entity-coherence).
+const APPLICANT = { legalName: 'LIMEN Helix Transformational Sciences LLC', entityType: 'single-member LLC', state: 'Kansas' };
+
+// Two-part render: each lane splits into two ~half calls so neither hits the token/timeout wall.
+// Part 1 = first half; Part 2 = second half INCLUDING the load-bearing tail (patent CLAIMS,
+// grant Budget+Commercialization, etc.). Each part is a complete, self-contained file.
+const PART_SPLIT = {
+  patent:     { 1: 'Cross-Reference, Field, Background, Brief Summary, Brief Description of the Drawings, and the FIRST HALF of the Detailed Description (overview + module descriptions through roughly the midpoint)', 2: 'the REMAINDER of the Detailed Description (remaining modules + all worked numerical examples), then the full CLAIMS section (18-20 claims), then the ABSTRACT' },
+  grant:      { 1: 'Project Summary (Overview/Intellectual Merit/Broader Impacts) and the Project Description (Technology Innovation, Technical Objectives & Challenges, R&D Plan/Approach, Preliminary Work)', 2: 'Commercialization Plan, Budget AND Budget Justification, References Cited, plus brief Biographical Sketch / Current & Pending Support / Facilities & Resources / Data Management Plan sections ([[PLACEHOLDER]] for operator-supplied facts)' },
+  sba:        { 1: 'Executive Summary, Borrower Profile, Use of Proceeds (Sources & Uses table), and Sources of Repayment', 2: 'Business Plan Summary (market, competition, go-to-market, projections), Personal Financial Statement (template), Credit Not Available Elsewhere narrative, Collateral, Risk Factors & Mitigants, and the Intermediary Lender Attachments checklist' },
+  research:   { 1: 'Title, Hypotheses, Rationale, Data Collection, Study Design Overview, and Study 1', 2: 'the remaining Studies (2, 3, ...), Analysis Plan, Sample Size Justification, Confounds, A Priori Exclusions, Open Materials/Data, and Timeline & Commitments' },
+  investment: { 1: 'Thesis, The Pattern, and Signals / Evidence', 2: 'Direction & Structure, Catalyst, Risks & Disconfirmation (incl. steelman), and Position Sizing & Horizon' }
+};
+
+const SYSTEMS = { patent: PATENT_SYSTEM, grant: NSF_GRANT_SYSTEM, sba: LOAN_SYSTEM, research: RESEARCH_SYSTEM, investment: INVESTMENT_SYSTEM };
 // grant lane is agency-selectable; default NSF. Add more funders here as one line each.
 const GRANT_SYSTEMS = { nsf: NSF_GRANT_SYSTEM, nih: NIH_GRANT_SYSTEM };
 
@@ -173,10 +209,11 @@ const LANE_CONFIG = {
   patent:   { maxTokens: 6000, fullTokens: 9000, intensity: 'highest',     requires: '18-20 claims + detailed description (60-70%) + worked examples' },
   grant:    { maxTokens: 6000, fullTokens: 7000, intensity: 'high',        requires: 'Project Summary (3 headers) + Project Description + Commercialization + Budget' },
   sba:      { maxTokens: 5000, fullTokens: 6500, intensity: 'medium-high', requires: 'Sources-and-Uses + credit memo + business-plan summary' },
-  research: { maxTokens: 4500, fullTokens: 5500, intensity: 'medium',      requires: 'OSF preregistration: hypotheses + design + analysis plan + power' }
+  research: { maxTokens: 4500, fullTokens: 5500, intensity: 'medium',      requires: 'OSF preregistration: hypotheses + design + analysis plan + power' },
+  investment:{ maxTokens: 5000, fullTokens: 6000, intensity: 'medium-high', requires: 'thesis + computable signals + direction + catalyst + steelman' }
 };
 
-function buildPrompt(lane, seedArtifact, bridge, portal, agency) {
+function buildPrompt(lane, seedArtifact, bridge, portal, agency, part) {
   const seed = JSON.stringify(seedArtifact.artifact || seedArtifact, null, 2);
   const ctx = {
     portal: {
@@ -200,17 +237,24 @@ function buildPrompt(lane, seedArtifact, bridge, portal, agency) {
       matchedIndicators: bridge.matchedIndicators
     },
     seedArtifact: seed,
-    instruction: 'Expand this seed into a full ' + (lane === 'sba' ? 'SBA Microloan' : lane === 'grant' ? (((agency || 'nsf').toLowerCase() === 'nih' ? 'NIH' : 'NSF') + ' SBIR Phase I') : lane === 'patent' ? 'USPTO Pro Se / Micro Entity patent specification' : 'preregistration') + ' document for a NEW BUSINESS WITH NO INVESTOR YET. Target a complete, well-structured document.'
+    applicant: APPLICANT,
+    instruction: 'Expand this seed into ' + (part ? ('PART ' + part + ' OF 2 of ') : 'a full ')
+      + (lane === 'sba' ? 'an SBA Microloan' : lane === 'grant' ? ('an ' + (((agency || 'nsf').toLowerCase() === 'nih') ? 'NIH' : 'NSF') + ' SBIR Phase I') : lane === 'patent' ? 'a USPTO Micro-Entity patent specification' : lane === 'investment' ? 'an investment thesis memo' : 'a preregistration')
+      + ' document. The applicant/assignee entity is ' + APPLICANT.legalName + ' (' + APPLICANT.entityType + ', ' + APPLICANT.state + ') — use this EXACT legal name throughout; NEVER invent another company name. Leave EIN/UEI/PI-name/salary as [[PLACEHOLDER: ...]]. '
+      + (part
+          ? ('Generate ONLY PART ' + part + ' of 2: ' + ((PART_SPLIT[lane] && PART_SPLIT[lane][part]) || 'this half') + '. Do NOT repeat sections belonging to the other part. Produce a complete, self-contained file segment'
+             + (Number(part) === 2 ? ', beginning directly with the first section listed (it continues a Part 1 that already covered the earlier sections; do not re-emit the title page or earlier sections).' : '.'))
+          : 'Target a complete, well-structured document.')
   };
   return JSON.stringify(ctx);
 }
 
-async function generate({ lane, seedArtifact, bridge, portal, maxTokens, agency }) {
+async function generate({ lane, seedArtifact, bridge, portal, maxTokens, agency, part }) {
   // grant lane selects the funder template (default NSF); other lanes use SYSTEMS
   let system = SYSTEMS[lane];
   if (lane === 'grant') system = GRANT_SYSTEMS[(agency || 'nsf').toLowerCase()] || NSF_GRANT_SYSTEM;
-  if (!system) return { ok: false, error: 'no long-form system prompt for lane: ' + lane + ' (supported: patent, grant, sba, research)' };
-  const prompt = buildPrompt(lane, seedArtifact, bridge, portal, agency);
+  if (!system) return { ok: false, error: 'no long-form system prompt for lane: ' + lane + ' (supported: patent, grant, sba, research, investment)' };
+  const prompt = buildPrompt(lane, seedArtifact, bridge, portal, agency, part);
   const r = await orchestrator.call('REFRESH_ARTIFACT', {
     system,
     prompt,

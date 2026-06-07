@@ -365,7 +365,10 @@ function wireRowActions() {
       fetch('/api/capital-engine?action=score-lanes', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ card: card }) })
         .then(function(r){ return r.json(); })
         .then(function(j){ btn.disabled = false; btn.textContent = old;
-          lf.innerHTML = j.ok ? renderLaneFit(j.scoring) : '<div style="padding:8px;color:#e85454">✗ ' + esc(j.error || 'failed') + '</div>'; })
+          if (j.ok) {
+            try { localStorage.setItem('limen_lanefit_' + id, JSON.stringify({ route: (j.scoring && j.scoring.route) || [], scores: (j.scoring && j.scoring.lanes) || {}, verdict: j.scoring && j.scoring.verdict })); } catch (e) {}
+            lf.innerHTML = renderLaneFit(j.scoring);
+          } else { lf.innerHTML = '<div style="padding:8px;color:#e85454">✗ ' + esc(j.error || 'failed') + '</div>'; } })
         .catch(function(err){ btn.disabled = false; btn.textContent = old; lf.innerHTML = '<div style="padding:8px;color:#e85454">✗ ' + esc(err.message) + '</div>'; });
     });
   });
