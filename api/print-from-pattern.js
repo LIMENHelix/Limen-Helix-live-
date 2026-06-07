@@ -141,11 +141,11 @@ module.exports = async (req, res) => {
     const bridge = _bridgeFromPattern(found.pattern);
 
     console.log('[print-from-pattern] generating', { slug, lane, patternId, patternSource: found.source });
-    // 16000-token single calls run 2-3 min and 504 at the HTTP gateway (~60-100s).
-    // 6000 tokens returns in ~45-60s (no timeout) and yields ~12-15 pages — which is
-    // the right size anyway (NSF/NIH cap the project description at 15 pages).
-    // For true 20-30 page output, an async job pattern is needed (generate → Redis → poll).
-    const result = await generate({ lane, seedArtifact: seed, bridge, portal, maxTokens: 6000, agency });
+    // Render intensity is per-lane (LANE_CONFIG in long-form-generator): patent is the
+    // most demanding, grant next, etc. Synchronous budget stays ~6000 tokens (~60s) to
+    // avoid the HTTP-gateway 504; the lanes' fuller fullTokens depth needs the sectioned
+    // render (generate section-by-section, assemble) — the roadmap follow-up.
+    const result = await generate({ lane, seedArtifact: seed, bridge, portal, agency });
     if (!result.ok) return res.status(502).json({ error: 'long-form generation failed', details: result.error });
 
     if (format === 'md' || format === 'markdown') {

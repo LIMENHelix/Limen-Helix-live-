@@ -164,6 +164,18 @@ const SYSTEMS = { patent: PATENT_SYSTEM, grant: NSF_GRANT_SYSTEM, sba: LOAN_SYST
 // grant lane is agency-selectable; default NSF. Add more funders here as one line each.
 const GRANT_SYSTEMS = { nsf: NSF_GRANT_SYSTEM, nih: NIH_GRANT_SYSTEM };
 
+// Per-lane render intensity — the tunable "settings" knob (one line per lane).
+// maxTokens = synchronous-safe budget (a single render caps ~6000 tokens / ~60s before
+// the HTTP-gateway 504). fullTokens = the intended depth, reachable via the SECTIONED
+// render (generate section-by-section, assemble) — the way to make patent genuinely
+// more intensive than grant without timing out.
+const LANE_CONFIG = {
+  patent:   { maxTokens: 6000, fullTokens: 9000, intensity: 'highest',     requires: '18-20 claims + detailed description (60-70%) + worked examples' },
+  grant:    { maxTokens: 6000, fullTokens: 7000, intensity: 'high',        requires: 'Project Summary (3 headers) + Project Description + Commercialization + Budget' },
+  sba:      { maxTokens: 5000, fullTokens: 6500, intensity: 'medium-high', requires: 'Sources-and-Uses + credit memo + business-plan summary' },
+  research: { maxTokens: 4500, fullTokens: 5500, intensity: 'medium',      requires: 'OSF preregistration: hypotheses + design + analysis plan + power' }
+};
+
 function buildPrompt(lane, seedArtifact, bridge, portal, agency) {
   const seed = JSON.stringify(seedArtifact.artifact || seedArtifact, null, 2);
   const ctx = {
@@ -202,11 +214,11 @@ async function generate({ lane, seedArtifact, bridge, portal, maxTokens, agency 
   const r = await orchestrator.call('REFRESH_ARTIFACT', {
     system,
     prompt,
-    maxTokens: maxTokens || 16000,
+    maxTokens: maxTokens || (LANE_CONFIG[lane] && LANE_CONFIG[lane].maxTokens) || 6000,
     model: 'claude-sonnet-4-6'
   });
   if (!r.ok) return r;
   return { ok: true, lane, markdown: r.text, tokensUsed: (r.tokensIn || 0) + (r.tokensOut || 0), provider: r.provider, model: r.model };
 }
 
-module.exports = { generate };
+module.exports = { generate, LANE_CONFIG };
