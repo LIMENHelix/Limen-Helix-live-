@@ -13,7 +13,7 @@
  * Either way the response is ~tens of KB and cacheable.
  */
 
-var db = require('./lib/limen-db');
+var db = require('../lib/limen-db');
 var fs = require('fs');
 var path = require('path');
 

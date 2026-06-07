@@ -26,10 +26,10 @@
  *   -> { ok, nodes, withCik, slugMissingCik, bytes, computeMs, backend }
  */
 
-var db = require('./lib/limen-db');
+var db = require('../lib/limen-db');
 var fs = require('fs');
 var path = require('path');
-var propagator = require('./lib/limen-stress-propagator.js');
+var propagator = require('../lib/limen-stress-propagator.js');
 
 var SLIM_KEY = 'stress_slim';
 var META_KEY = 'stress_meta';

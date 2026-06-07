@@ -13,8 +13,8 @@
  */
 const fs = require('node:fs');
 const path = require('node:path');
-const { buildInbox } = require('./lib/master-brain-consumer.js');
-const redisKv = require('./lib/redis-kv.js');
+const { buildInbox } = require('../lib/master-brain-consumer.js');
+const redisKv = require('../lib/redis-kv.js');
 
 const PORTALS_DIR = path.join(__dirname, '..', 'assets', 'data', 'companies');
 

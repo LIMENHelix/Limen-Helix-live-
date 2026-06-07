@@ -22,7 +22,7 @@
  *   Returns examples + auth state.
  */
 
-var db = require('./lib/limen-db');
+var db = require('../lib/limen-db');
 
 var AUTOQUEUE_KEY = 'autoqueue';
 var AUTOQUEUE_TTL = 14 * 86400;

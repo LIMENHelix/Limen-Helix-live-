@@ -37,7 +37,7 @@ const {
   getIterRecord,
   listIterBySlug,
   listIterByCycle
-} = require('./lib/limen-iteration-cache.js');
+} = require('../lib/limen-iteration-cache.js');
 
 const OPERATOR_TOKEN = process.env.LIMEN_OPERATOR_TOKEN || '';
 const AUTH_ON = !!OPERATOR_TOKEN;

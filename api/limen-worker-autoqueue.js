@@ -18,8 +18,8 @@
  * is empty (first deploy, or quiet period) returns processed=0.
  */
 
-var db = require('./lib/limen-db');
-var policy = require('./lib/limen-policy');
+var db = require('../lib/limen-db');
+var policy = require('../lib/limen-policy');
 
 var TRANSITION_LOG_KEY = 'phase_transitions';
 var AUTOQUEUE_KEY = 'autoqueue';

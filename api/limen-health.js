@@ -6,7 +6,7 @@
  * Returns status of all backend systems.
  */
 
-var db = require('./lib/limen-db');
+var db = require('../lib/limen-db');
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');

@@ -689,7 +689,7 @@ async function _handleNsfProjectPitch(artifactPacket, requestLane, requestOption
   };
 
   // Delegate to the lane module.
-  var nsfModule = require('./lanes/nsf-project-pitch');
+  var nsfModule = require('../lanes/nsf-project-pitch');
   var result;
   try {
     result = await nsfModule.generateNsfProjectPitchDraft(artifactPacket, openaiClient);

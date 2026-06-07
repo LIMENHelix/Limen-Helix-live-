@@ -13,7 +13,7 @@
  *   Also returns today's budget state.
  */
 
-var db = require('./lib/limen-db');
+var db = require('../lib/limen-db');
 
 var AUTOFIRE_AUDIT_LOG = 'autofire_audit_log';
 var BUDGET_KEY_PREFIX = 'autofire_budget_';

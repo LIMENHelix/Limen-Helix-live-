@@ -13,8 +13,8 @@
  */
 const fs = require('node:fs');
 const path = require('node:path');
-const { proposePattern } = require('./lib/pattern-author.js');
-const orchestrator = require('./lib/ai-orchestrator.js');
+const { proposePattern } = require('../lib/pattern-author.js');
+const orchestrator = require('../lib/ai-orchestrator.js');
 
 const DIR = path.join(__dirname, '..', 'assets', 'data', 'companies');
 const PROPOSALS_PATH = path.join(__dirname, '..', 'assets', 'data', '_pattern-proposals.json');

@@ -7,7 +7,7 @@
  * POST  { id, reject:true  }  — mark REJECTED, leave out of library
  * POST  { id, restore:true }  — un-reject: return a REJECTED card to the queue
  */
-const author = require('./lib/pattern-author.js');
+const author = require('../lib/pattern-author.js');
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');

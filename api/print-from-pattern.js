@@ -17,8 +17,8 @@
  */
 const fs = require('node:fs');
 const path = require('node:path');
-const { generate } = require('./lib/long-form-generator.js');
-const { renderToBuffer } = require('./lib/markdown-to-docx.js');
+const { generate } = require('../lib/long-form-generator.js');
+const { renderToBuffer } = require('../lib/markdown-to-docx.js');
 
 const PORTALS_DIR = path.join(__dirname, '..', 'assets', 'data', 'companies');
 const PATTERNS_PATH = path.join(__dirname, '..', 'assets', 'data', 'bridge-patterns.json');

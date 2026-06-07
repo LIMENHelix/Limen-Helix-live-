@@ -39,7 +39,7 @@
  * Every action is logged. Safe to manual-trigger any time.
  */
 
-var db = require('./lib/limen-db');
+var db = require('../lib/limen-db');
 
 var TRANSITION_LOG_KEY = 'phase_transitions';
 var AUTOQUEUE_KEY = 'autoqueue';

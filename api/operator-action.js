@@ -8,7 +8,7 @@
  *
  * GET returns the current queue summary for the UI to render status badges.
  */
-const queue = require('./lib/operator-action-queue.js');
+const queue = require('../lib/operator-action-queue.js');
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');

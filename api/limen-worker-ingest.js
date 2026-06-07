@@ -10,7 +10,7 @@
  * No browser needed. No localStorage. Uses limen-db.
  */
 
-var db = require('./lib/limen-db');
+var db = require('../lib/limen-db');
 
 // Import defense signal logic (same as api/defense-signals.js core)
 var FEED_URLS = [

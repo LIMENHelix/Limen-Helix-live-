@@ -26,8 +26,8 @@
  *   errors, sample }.
  */
 
-var db = require('./lib/limen-db');
-var stageClassifier = require('./lib/limen-stage-classifier');
+var db = require('../lib/limen-db');
+var stageClassifier = require('../lib/limen-stage-classifier');
 var fs = require('fs');
 var path = require('path');
 

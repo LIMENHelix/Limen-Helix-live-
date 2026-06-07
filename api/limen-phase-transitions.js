@@ -18,7 +18,7 @@
  *   No auth (read-only audit surface for operators + ops dashboards).
  */
 
-var db = require('./lib/limen-db');
+var db = require('../lib/limen-db');
 
 var TRANSITION_LOG_KEY = 'phase_transitions';
 

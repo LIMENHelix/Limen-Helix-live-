@@ -12,7 +12,7 @@
  *              COMPANY_CHANGE, CONVERGENCE_CHANGE
  */
 
-var db = require('./lib/limen-db');
+var db = require('../lib/limen-db');
 
 var MAX_ENTRIES = 500; // per domain
 var TTL_SECONDS = 604800; // 7 days

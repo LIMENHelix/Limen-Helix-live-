@@ -8,8 +8,8 @@
  * Called by cron every 2-5 minutes.
  */
 
-var db = require('./lib/limen-db');
-var companyScorer = require('./lib/company-phase-scorer');
+var db = require('../lib/limen-db');
+var companyScorer = require('../lib/company-phase-scorer');
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');

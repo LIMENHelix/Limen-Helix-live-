@@ -20,7 +20,7 @@
  * Guardrail: nothing here emails, files, submits, or contacts anyone. It only
  * persists the form payload for the operator to read.
  */
-var db = require('./lib/limen-db');
+var db = require('../lib/limen-db');
 
 function readBody(req) {
   return new Promise(function (resolve) {

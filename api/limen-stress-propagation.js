@@ -39,7 +39,7 @@ const CB_PATH = path.join(process.cwd(), 'assets/data/command-board-data.json');
 let _propagator = null;
 function getPropagator() {
   if (_propagator) return _propagator;
-  _propagator = require('./lib/limen-stress-propagator.js');
+  _propagator = require('../lib/limen-stress-propagator.js');
   return _propagator;
 }
 

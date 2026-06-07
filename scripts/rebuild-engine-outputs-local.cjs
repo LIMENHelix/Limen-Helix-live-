@@ -17,8 +17,8 @@
  */
 const fs = require('node:fs');
 const path = require('node:path');
-const { getMarketData } = require('../api/lib/market-data.js');
-const gen = require('../api/lib/engine-output-generator.js');
+const { getMarketData } = require('../lib/market-data.js');
+const gen = require('../lib/engine-output-generator.js');
 
 const DIR = path.join(__dirname, '..', 'assets', 'data', 'companies');
 const PLACEHOLDER_RE = /\$?\[[A-Z][A-Z0-9_]{1,80}\]/g;

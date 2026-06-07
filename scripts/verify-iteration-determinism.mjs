@@ -31,7 +31,7 @@ import path from 'node:path';
 import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
-const propagator = require('../api/lib/limen-stress-propagator.js');
+const propagator = require('../lib/limen-stress-propagator.js');
 
 // ─── CLI parsing ──────────────────────────────────────────────────
 const args = process.argv.slice(2);

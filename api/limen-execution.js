@@ -15,7 +15,7 @@
  * TTL: 30 days
  */
 
-var db = require('./lib/limen-db');
+var db = require('../lib/limen-db');
 
 var TTL = 2592000; // 30 days
 

@@ -13,7 +13,7 @@
  * No-key APIs: openFDA, arXiv, PubMed, BLS v2
  */
 
-var db = require('./lib/limen-db');
+var db = require('../lib/limen-db');
 
 var TIMEOUT = 5000;
 var RETRY_DELAY = 800;

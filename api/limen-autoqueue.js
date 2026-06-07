@@ -19,7 +19,7 @@
  *   which IS auth-gated when LIMEN_OPERATOR_TOKEN is set.
  */
 
-var db = require('./lib/limen-db');
+var db = require('../lib/limen-db');
 
 var AUTOQUEUE_KEY = 'autoqueue';
 var OPERATOR_TOKEN = process.env.LIMEN_OPERATOR_TOKEN || '';

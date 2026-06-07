@@ -9,7 +9,7 @@
  * 24h TTL — intents older than that are stale anyway.
  */
 
-var db = require('./lib/limen-db');
+var db = require('../lib/limen-db');
 
 var TTL_SECONDS = 86400; // 24 hours
 

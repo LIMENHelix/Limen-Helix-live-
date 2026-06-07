@@ -26,8 +26,8 @@
  *   multipass_audit_log       — append-only completed-job log
  */
 
-var db = require('./lib/limen-db');
-var stageClassifier = require('./lib/limen-stage-classifier');
+var db = require('../lib/limen-db');
+var stageClassifier = require('../lib/limen-stage-classifier');
 var fs = require('fs');
 var path = require('path');
 
