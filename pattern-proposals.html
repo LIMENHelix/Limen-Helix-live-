@@ -202,8 +202,25 @@ function render(d) {
   wireRowActions();
 }
 
+function renderLaneFit(s){
+  if(!s||!s.lanes) return '<div style="padding:8px;color:#e85454">no score returned'+(s&&s.raw?': '+esc(s.raw).slice(0,200):'')+'</div>';
+  var lanes=['patent','grant','research','investment'];
+  var h='<div style="margin-top:12px;border:1px solid rgba(201,169,78,0.25);padding:10px;background:rgba(201,169,78,0.03)">';
+  h+='<div style="font-size:0.34rem;letter-spacing:2px;text-transform:uppercase;color:#c9a94e;margin-bottom:8px">Lane-Fit Matrix · '+(s.verdict==='keep'?'<span style="color:#5ab5a0">KEEP</span>':'<span style="color:#e85454">REJECT</span>')+' · type '+esc(s.type||'?')+'</div>';
+  lanes.forEach(function(k){
+    var l=s.lanes[k]||{};var q=(typeof l.score==='number'&&l.score>=6);var sc=(l.score!=null?l.score:'—');
+    h+='<div style="margin-bottom:6px"><b style="color:'+(q?'#5ab5a0':'rgba(200,195,184,0.5)')+'">'+k+' '+sc+'/10'+(q?' → route':'')+'</b><div style="color:rgba(220,215,200,0.7);line-height:1.5">'+esc(l.rationale||'')+'</div></div>';
+  });
+  if(s.gates){h+='<div style="margin-top:8px">';['existenceAudit','steelman','dataFeasibility'].forEach(function(g){var gg=s.gates[g]||{};h+='<div style="color:'+(gg.pass?'#5ab5a0':'#e85454')+'">'+(gg.pass?'✓':'✗')+' '+g+(gg.reason?': <span style="color:rgba(220,215,200,0.7)">'+esc(gg.reason)+'</span>':'')+'</div>';});h+='</div>';}
+  if(s.route&&s.route.length)h+='<div style="margin-top:8px;color:#5ab5a0;letter-spacing:1px">ROUTE → '+s.route.join(' · ')+'</div>';
+  if(s.topFixes&&s.topFixes.length)h+='<div style="margin-top:6px;color:rgba(224,164,78,0.95)">fixes: '+s.topFixes.map(esc).join(' · ')+'</div>';
+  h+='</div>';
+  return h;
+}
+
 function renderRow(p) {
   var pat = p.pattern || {};
+  (window.__patIndex = window.__patIndex || {})[pat.id] = pat;
   var n = pat.neural || {};
   var b = pat.business || {};
   var br = pat.bridge || {};
@@ -230,6 +247,7 @@ function renderRow(p) {
           ? '<span class="status rejected">REJECTED</span>' +
             '<button class="restore" data-action="restore" data-id="' + esc(pat.id) + '">↺ Restore</button>'
           : '<span class="status ' + statusClass + '">' + status + '</span>') +
+      '<button class="scorebtn" data-score="' + esc(pat.id) + '" style="color:#c9a94e;border:1px solid rgba(201,169,78,0.4);background:rgba(201,169,78,0.05)">⚖ Score lanes</button>' +
       '<button class="expand" data-expand>▼</button>' +
     '</div>' +
   '</div>';
@@ -291,6 +309,7 @@ function renderRow(p) {
     'model: <code>' + esc(p.model || '?') + '</code> · tokens: ' + (p.tokensUsed || '?') +
   '</div>';
 
+  detail += '<div class="lanefit" id="lf-' + esc(pat.id) + '"></div>';
   detail += '</div>';
 
   return '<div class="row ' + statusClass + '" data-id="' + esc(pat.id) + '">' + head + detail + '</div>';
@@ -331,6 +350,23 @@ function wireRowActions() {
           btn.textContent = action === 'approve' ? '✓ Approve' : action === 'restore' ? '↺ Restore' : '✗ Reject';
           toast('Action failed: ' + err.message, 'err');
         });
+    });
+  });
+
+  document.querySelectorAll('button[data-score]').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      var id = btn.dataset.score;
+      var card = (window.__patIndex || {})[id];
+      var row = btn.closest('.row'); if (row) row.classList.add('open');
+      var lf = document.getElementById('lf-' + id); if (!lf) return;
+      lf.innerHTML = '<div style="padding:8px;color:#5ab5a0">⚖ scoring lanes against the rubric…</div>';
+      btn.disabled = true; var old = btn.textContent; btn.textContent = '…';
+      fetch('/api/capital-engine?action=score-lanes', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ card: card }) })
+        .then(function(r){ return r.json(); })
+        .then(function(j){ btn.disabled = false; btn.textContent = old;
+          lf.innerHTML = j.ok ? renderLaneFit(j.scoring) : '<div style="padding:8px;color:#e85454">✗ ' + esc(j.error || 'failed') + '</div>'; })
+        .catch(function(err){ btn.disabled = false; btn.textContent = old; lf.innerHTML = '<div style="padding:8px;color:#e85454">✗ ' + esc(err.message) + '</div>'; });
     });
   });
 }

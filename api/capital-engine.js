@@ -284,5 +284,14 @@ module.exports = async function handler(req, res) {
     return res.status(200).json(await aud.adversarialReview({ text: text, funder: funder, lane: lane }));
   }
 
-  return res.status(400).json({ ok: false, error: 'unknown action: ' + action, valid: ['streams', 'status', 'route', 'orchestrate', 'ledger', 'queue', 'produce', 'publish', 'checkout', 'stripe-webhook', 'tick', 'articles', 'subscribe', 'package-patent', 'patent-listings', 'audit-application', 'rewrite-application', 'applications', 'application-approve', 'application-submit', 'adversarial-review'] });
+  // ── SCORE-LANES: the loose gate. Scores a card per lane (the operator's manual rubric, automated) ──
+  if (action === 'score-lanes') {
+    if (req.method !== 'POST') return res.status(405).json({ ok: false, error: 'score-lanes requires POST' });
+    const aud = require('../lib/application-auditor');
+    const b = req.body || {};
+    const card = b.card || b;
+    return res.status(200).json(await aud.scoreLanes(card));
+  }
+
+  return res.status(400).json({ ok: false, error: 'unknown action: ' + action, valid: ['streams', 'status', 'route', 'orchestrate', 'ledger', 'queue', 'produce', 'publish', 'checkout', 'stripe-webhook', 'tick', 'articles', 'subscribe', 'package-patent', 'patent-listings', 'audit-application', 'rewrite-application', 'applications', 'application-approve', 'application-submit', 'adversarial-review', 'score-lanes'] });
 };
