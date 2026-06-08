@@ -1468,6 +1468,24 @@
 
     h += '</div>'; // end dcb-root
 
+    // ── Skip the rebuild when nothing actually changed (anti-flicker) ──
+    // render() fires every 30s brain / 60s page / signal cycle, but the only
+    // thing that changes most cycles is the live timestamp ("FETCHED 3s ago").
+    // Blowing away cv.innerHTML every cycle makes the DIAGNOSIS CHAIN and
+    // REGULATION PLAYBOOK panels flicker/redraw even when their content is
+    // identical. So we compare everything EXCEPT the volatile timestamp; if
+    // the substantive markup is unchanged, we update ONLY the timestamp text
+    // in place and return — no panel repaint, listeners/scroll/collapse all
+    // left intact.
+    var _stable = h.replace(/<div id="dcb-timestamp">[\s\S]*?<\/div>/, '<div id="dcb-timestamp"></div>');
+    if (_stable === _lastStableHtml && cv.querySelector('#dcb-root')) {
+      var _tsEl = document.getElementById('dcb-timestamp');
+      var _tsMatch = h.match(/<div id="dcb-timestamp">([\s\S]*?)<\/div>/);
+      if (_tsEl && _tsMatch) _tsEl.innerHTML = _tsMatch[1];
+      return; // content unchanged — no rebuild, no flicker
+    }
+    _lastStableHtml = _stable;
+
     // Preserve per-panel scroll position across the re-render. Each
     // .dcb-panel-body is its own overflow-y:auto scroll container, so the
     // innerHTML swap below would otherwise reset every panel to the top on
@@ -1542,6 +1560,10 @@
   // Per-panel scroll position persists across re-renders (data-panel -> scrollTop),
   // so the 30s/60s refresh cycles don't reset scroll while the operator reads.
   var _panelScroll = {};
+
+  // Signature of the last substantive render (timestamp excluded). When the
+  // next render matches it, we skip the innerHTML rebuild to avoid flicker.
+  var _lastStableHtml = null;
 
   // Delegate click on panel titles to toggle collapse
   document.addEventListener('click', function (e) {
