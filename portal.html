@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LIMEN HELIX</title>
+<link rel="stylesheet" href="assets/css/portal.css">
+<style>
+/* portal.html: hide the thin portal-nav strip content but keep grid slot */
+.portal-nav { visibility: hidden; height: 0; min-height: 0; padding: 0; border: none; overflow: hidden; }
+.app { grid-template-rows: 48px 0px 1fr 36px; }
+</style>
+</head>
+<body>
+<script src="assets/js/auth-gate.js"></script>
+<div class="app">
+
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-brand"><a href="civilization.html">LIMEN HELIX</a> <span class="topbar-separator">&middot;</span></div>
+      <div class="topbar-title" id="portalTitle"></div>
+    </div>
+    <div class="topbar-right">
+      <div class="topbar-bc" id="portalBreadcrumb"></div>
+      <a href="civilization.html" class="topbar-back" id="portalBack">&larr; CIVILIZATION</a>
+      <button class="print-btn" onclick="PortalUI.printSnapshot()" title="Print Report">PRINT</button>
+      <span class="topbar-disclaimer">REFERENCE TOOL &middot; NOT PROFESSIONAL ADVICE</span>
+    </div>
+  </div>
+
+  <div class="portal-nav"></div>
+
+  <div class="left-panel" id="leftPanel">
+    <div id="issueSection"></div>
+    <div class="search-box"><input type="text" id="searchInput" placeholder="Search issues &amp; nodes..."></div>
+    <div id="nodeList"></div>
+    <div class="dx-stats" id="dxStats"></div>
+  </div>
+
+  <div class="center-view" id="centerView">
+    <canvas id="connectome-canvas"></canvas>
+    <div id="brain3dContainer" class="brain3d-container"></div>
+    <button id="brain3dToggle" class="brain3d-toggle">&#129504; 3D</button>
+    <div id="brain3dHint" class="brain3d-hint">DRAG TO ROTATE &middot; SCROLL TO ZOOM &middot; CLICK NODES</div>
+    <div class="circuit-legend" id="phaseLegend"></div>
+    <div class="node-count" id="nodeCount"></div>
+  </div>
+
+  <div class="right-panel" id="rightPanel">
+    <div class="right-empty" id="rightEmpty">
+      <div class="re-title" id="reTitle"></div>
+      <div class="re-phase" id="rePhase"></div>
+      <div class="re-desc" id="reDesc"></div>
+      <div class="re-stats" id="reStats"></div>
+    </div>
+    <div id="interventionContent" style="display:none"></div>
+    <div id="nodeDeepDive" style="display:none"></div>
+  </div>
+
+  <div class="bottombar">
+    <div id="bottomTitle">LIMEN HELIX TRANSFORMATIONAL SCIENCES LLC</div>
+    <div id="bottomStats"></div>
+  </div>
+
+</div>
+<div id="drugOverlay" onclick="if(event.target===this)closeDrugOverlay()"></div>
+<div id="therapyOverlay" onclick="if(event.target===this)closeTherapyOverlay()"></div>
+<div id="somaticOverlay" onclick="if(event.target===this)closeSomaticOverlay()"></div>
+<div id="supplementOverlay" onclick="if(event.target===this)closeSupplementOverlay()"></div>
+<div id="nutritionOverlay" onclick="if(event.target===this)closeNutritionOverlay()"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="assets/js/connectome-core.js"></script>
+<script src="assets/js/connectome-renderer.js"></script>
+<script src="assets/js/observer-node.js"></script>
+<script src="assets/js/limen-ui-state.js"></script>
+<script src="assets/js/node-translation.js"></script>
+<script src="assets/js/remedy/limen-remedy-registry.js"></script>
+<script src="assets/js/recommendations/portal-treatment-resolver.js"></script>
+<script src="assets/js/portal-ui.js"></script>
+<script src="assets/js/portal-router.js"></script>
+</body>
+</html>
