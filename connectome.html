@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>LIMEN HELIX &middot; CONNECTOME</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#050810;color:#e8e3d9;font-family:monospace;overflow:hidden;height:100%;width:100%;-webkit-user-select:none;user-select:none}
+canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;background:#050810}
+.scanline{position:fixed;top:0;left:0;right:0;bottom:0;z-index:5;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.02) 2px,rgba(0,0,0,0.02) 4px)}
+#breadcrumb{position:fixed;top:12px;left:14px;z-index:200;font-size:clamp(0.55rem,1.8vw,0.7rem);letter-spacing:3px;text-transform:uppercase}
+#breadcrumb a{color:rgba(201,169,78,0.3);text-decoration:none;cursor:pointer;transition:color 0.3s}
+#breadcrumb a:hover{color:rgba(201,169,78,0.7)}
+#breadcrumb span.bc-sep{color:rgba(201,169,78,0.2);margin:0 2px}
+#breadcrumb span.bc-current{color:rgba(201,169,78,0.6)}
+.center-label{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:50;text-align:center;pointer-events:none;transition:opacity 1.5s}
+.center-label .title{font-size:clamp(1.2rem,4vw,2rem);font-weight:100;letter-spacing:clamp(6px,2vw,15px);opacity:0.04;font-family:Georgia,serif;color:rgba(140,170,200,0.5)}
+.center-label .subtitle{font-size:clamp(0.45rem,1.4vw,0.6rem);letter-spacing:clamp(4px,1.5vw,10px);text-transform:uppercase;opacity:0.2;margin-top:4px;color:rgba(140,170,200,0.4)}
+.hud{position:fixed;z-index:100;font-size:clamp(0.35rem,1vw,0.45rem);letter-spacing:2px;text-transform:uppercase;color:rgba(201,169,78,0.4)}
+.hud-tl{top:40px;left:14px}.hud-tr{top:12px;right:14px;text-align:right}
+.hud-bl{bottom:12px;left:14px}.hud-br{bottom:12px;right:14px;text-align:right}
+#tooltip{position:fixed;z-index:400;background:rgba(5,8,16,0.96);border:1px solid rgba(140,170,200,0.15);padding:14px 18px;max-width:340px;width:max-content;pointer-events:none;display:none;font-family:monospace}
+#subMenu{position:fixed;z-index:500;background:rgba(5,8,16,0.96);border:1px solid rgba(140,170,200,0.15);padding:12px 16px;display:none;font-family:monospace;min-width:200px}
+#subMenu .sm-title{font-size:0.5rem;letter-spacing:3px;text-transform:uppercase;margin-bottom:8px;color:rgba(180,200,220,0.4)}
+#subMenu a{display:block;color:rgba(140,170,200,0.6);text-decoration:none;font-size:clamp(0.6rem,1.8vw,0.72rem);letter-spacing:1px;padding:5px 0;transition:color 0.2s}
+#subMenu a:hover{color:rgba(201,169,78,0.9)}
+#subMenu .sm-main{color:rgba(180,200,220,0.8);font-size:clamp(0.65rem,1.9vw,0.75rem);letter-spacing:2px}
+#subMenu .sm-sep{border-top:1px solid rgba(140,170,200,0.08);margin:6px 0}
+#tooltip .tt-phase{font-size:0.5rem;letter-spacing:3px;text-transform:uppercase;margin-bottom:4px}
+#tooltip .tt-name{font-size:clamp(0.85rem,2.8vw,1rem);color:rgba(180,200,220,0.9);letter-spacing:2px;margin-bottom:2px}
+#tooltip .tt-tagline{font-family:Georgia,serif;font-size:0.8rem;color:rgba(180,200,220,0.45);line-height:1.5;margin-bottom:8px}
+#tooltip .tt-enter{font-size:0.5rem;letter-spacing:3px;color:rgba(140,170,200,0.5);text-transform:uppercase}
+#entry-veil{position:fixed;inset:0;z-index:50;background:#050810;pointer-events:none;transition:opacity 2s}
+</style>
+</head>
+<body>
+<script src="assets/js/auth-gate.js"></script>
+<div id="limen-topbar"></div>
+<script src="assets/js/limen-topbar.js"></script>
+<canvas id="c"></canvas>
+<div class="scanline"></div>
+  <!-- topbar removed: see assets/js/limen-topbar.js -->
+<div class="center-label" id="center-label">
+  <div class="title" id="cl-title">CIVILIZATION</div>
+  <div class="subtitle" id="cl-sub">SYSTEM ATLAS &middot; 20 SECTORS</div>
+</div>
+<div class="hud hud-tl" id="htl">NODES: 20 &middot; PATHWAYS: 30</div>
+<div class="hud hud-tr" id="htr">CONNECTOME</div>
+<div class="hud hud-bl" id="hbl"></div>
+<div class="hud hud-br" id="hbr">LIMEN HELIX &middot; CONNECTOME</div>
+<div id="tooltip">
+  <div class="tt-phase" id="ttPhase"></div>
+  <div class="tt-name" id="ttName"></div>
+  <div class="tt-tagline" id="ttTagline"></div>
+  <div class="tt-enter" id="ttEnter">Enter portal &rarr;</div>
+</div>
+<div id="subMenu"></div>
+<div id="entry-veil"></div>
+<script src="assets/js/limen-ui-state.js"></script>
+<script src="assets/js/civilization-connectome.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  // Consume-and-clear context handoff (new API with fallback to legacy)
+  var ctx;
+  if (window.LIMENUIState) {
+    ctx = window.LIMENUIState.getConnectomeContext() || {};
+  } else {
+    ctx = JSON.parse(sessionStorage.getItem('limen_connectome_context') || '{}');
+    sessionStorage.removeItem('limen_connectome_context');
+  }
+  CivilizationConnectome.init('c', {
+    miniMode: false,
+    focusDomain: ctx.focusDomain || null
+  });
+
+  // Entry veil fade
+  setTimeout(function () {
+    var v = document.getElementById('entry-veil');
+    if (v) {
+      v.style.opacity = '0';
+      setTimeout(function () { v.remove(); }, 2000);
+    }
+  }, 300);
+
+})();
+</script>
+</body>
+</html>
