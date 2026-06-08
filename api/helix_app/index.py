@@ -1186,7 +1186,7 @@ def _build_safe_packet(
     if requested_report_type == "validated_financial_distress" and validated_signal.get("validation_status") != "validated":
         warnings.append(
             f"requested validated kernel; served validation_status="
-            f"{validated_signal.get('validation_status')} (Thing 1 not yet imported)."
+            f"{validated_signal.get('validation_status')} (see unsupported_reasons)."
         )
 
     confidence_status = _confidence_status(

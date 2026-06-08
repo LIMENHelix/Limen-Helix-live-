@@ -10,9 +10,16 @@ truth). It is the ONLY code path in the system permitted to:
     `Chapter 11`, `intervention window closing`,
     `terminal path`, `point of no return`.
 
-CURRENT STATUS: real `limen_backtest.py` has NOT been imported. The stub
-below returns `available=False, validation_status="unavailable"` for every
-CIK. Phase 4 imports the real file and flips the lock.
+CURRENT STATUS: PHASE 4 LANDED (2026-06-08). The validated limen_backtest.py
+is deployed, its sha256 matches VALIDATION_LOCK.json, and the match branch
+below calls the real kernel: extract series from the server-fetched SEC facts
+(mirroring fetch_company_data byte-for-byte, minus the refetch), then
+compute_all_features -> score_all_phases -> analyse_trajectory ->
+compute_trajectory_alert at the locked HOLDOUT_P3_ENTRY=0.59 operating point.
+Plot/report-only imports (matplotlib, sklearn.metrics) are satisfied with
+inert shims when absent — they are never executed on the scoring path, and
+the locked file is not modified. Any error returns a refusal, never a fake
+score.
 
 VALIDATION_LOCK.json holds the bytes-level fingerprint that the deployed
 `limen_backtest.py` must match. Mismatch is a hard fail — the stub returns
@@ -79,6 +86,74 @@ def fingerprint_status() -> dict:
     if kernel_sha == lock_sha:
         return {"state": "match", "kernel_sha256": kernel_sha, "lock_sha256": lock_sha}
     return {"state": "mismatch", "kernel_sha256": kernel_sha, "lock_sha256": lock_sha}
+
+
+def _ensure_optional_dep_shims() -> list:
+    """Satisfy limen_backtest.py's module-level plot/report-only imports.
+
+    The locked kernel imports sklearn.metrics and matplotlib at module level,
+    but the validated SCORING path (extract -> features -> phases ->
+    trajectory -> composite alert) never executes them: sklearn.metrics is
+    used only in run_backtest/write_summary/plot_roc_pr (PR-AUC reporting)
+    and matplotlib only in plot_company/plot_roc_pr. Those packages are not
+    in api/requirements.txt and would add ~200MB to the function. Since the
+    locked file cannot be edited, when they are absent we register inert
+    stand-in modules so the import succeeds; any actual call into a shimmed
+    symbol raises. numpy / pandas / statsmodels / requests — everything the
+    scoring path executes — are real installed dependencies.
+
+    Returns the list of shimmed module names (empty if real packages exist).
+    """
+    import sys
+    import types
+
+    shimmed = []
+
+    def _refuse(*_a, **_k):
+        raise RuntimeError(
+            "shimmed plot/report dependency called at runtime — the scoring "
+            "path must never reach this; refusing rather than fabricating."
+        )
+
+    try:
+        import sklearn.metrics  # noqa: F401
+    except Exception:
+        skl = types.ModuleType("sklearn")
+        met = types.ModuleType("sklearn.metrics")
+        met.average_precision_score = _refuse
+        met.precision_recall_curve = _refuse
+        met.roc_curve = _refuse
+        met.auc = _refuse
+        skl.metrics = met
+        sys.modules["sklearn"] = skl
+        sys.modules["sklearn.metrics"] = met
+        shimmed.append("sklearn.metrics")
+
+    try:
+        import matplotlib  # noqa: F401
+    except Exception:
+        mpl = types.ModuleType("matplotlib")
+        mpl.use = lambda *a, **k: None
+        plt = types.ModuleType("matplotlib.pyplot")
+        plt.__getattr__ = lambda name: _refuse  # PEP 562 fallback
+        mdates = types.ModuleType("matplotlib.dates")
+        mdates.__getattr__ = lambda name: _refuse
+        mpl.pyplot = plt
+        mpl.dates = mdates
+        sys.modules["matplotlib"] = mpl
+        sys.modules["matplotlib.pyplot"] = plt
+        sys.modules["matplotlib.dates"] = mdates
+        shimmed.append("matplotlib")
+
+    return shimmed
+
+
+def _quarter_str(q) -> str | None:
+    """Kernel quarters are (year, q) tuples; serialize as '2023Q1'."""
+    try:
+        return f"{int(q[0])}Q{int(q[1])}"
+    except Exception:
+        return str(q) if q is not None else None
 
 
 def score_validated(
@@ -171,17 +246,158 @@ def score_validated(
         )
         return base
 
-    # ── state == "match": real Thing 1 is present and locked ─────
-    # Phase 4 will replace this branch with the real call into limen_backtest.
-    # For Phases 1-3 the stub still returns unavailable so no validated alert
-    # can ever be emitted before the real file is dropped in.
-    base["validation_status"] = "unavailable"
-    base["narrative_safe"].append(
-        "Validated distress scorer is present and lock-verified, but the "
-        "Phase 4 runtime wiring has not yet been added. Server returns "
-        "unavailable until Phase 4 imports the validated entry points."
-    )
-    base["unsupported_reasons"].append(
-        "thing1_runtime_not_wired: Phase 4 has not landed."
-    )
-    return base
+    # ── state == "match": Phase 4 — run the validated kernel ─────
+    # The deployed limen_backtest.py hashes to the signed lock. This branch
+    # executes the exact validated pipeline. Any failure is a refusal
+    # (available=False + reason), never a fabricated score.
+    shimmed = _ensure_optional_dep_shims()
+
+    try:
+        from . import limen_backtest as _lb
+    except Exception as e:
+        base["validation_status"] = "kernel_import_failed"
+        base["narrative_safe"].append(
+            "Validated distress scorer could not be imported in this runtime; "
+            "no validated assessment is available."
+        )
+        base["unsupported_reasons"].append(
+            f"kernel_import_failed: {type(e).__name__}: {e}"
+        )
+        return base
+
+    try:
+        facts = sec_facts if sec_facts is not None else _lb.fetch_sec_facts(cik)
+        if not facts:
+            base["validation_status"] = "insufficient_data"
+            base["narrative_safe"].append(
+                "No SEC company facts available for this CIK; the validated "
+                "scorer requires quarterly XBRL history."
+            )
+            base["unsupported_reasons"].append("no_sec_facts")
+            return base
+
+        # Mirror of the validated fetch_company_data() series extraction
+        # (limen_backtest.py lines 294-301), minus the network refetch —
+        # the server has already fetched `facts`.
+        data = {}
+        data["Revenue"] = _lb.extract_quarterly_series(
+            facts, _lb.TAG_MAP["Revenue"], "Revenue", is_flow=True)
+        data["OCF"] = _lb.extract_quarterly_series(
+            facts, _lb.TAG_MAP["OCF"], "OCF", is_flow=True)
+        data["Cash"] = _lb.extract_quarterly_series(
+            facts, _lb.TAG_MAP["Cash"], "Cash", is_flow=False)
+        dc = _lb.extract_quarterly_series(
+            facts, _lb.TAG_MAP["DebtCurrent"], "DebtCurrent", is_flow=False)
+        dl = _lb.extract_quarterly_series(
+            facts, _lb.TAG_MAP["DebtLong"], "DebtLong", is_flow=False)
+        all_q = sorted(set(list(dc.keys()) + list(dl.keys())))
+        data["Debt"] = {q: dc.get(q, 0) + dl.get(q, 0) for q in all_q}
+
+        if not any(data.values()):
+            base["validation_status"] = "insufficient_data"
+            base["narrative_safe"].append(
+                "SEC facts contained none of the four required quarterly "
+                "series (Revenue, OCF, Cash, Debt)."
+            )
+            base["unsupported_reasons"].append("no_extractable_series")
+            return base
+
+        # Validated pipeline, in the validated order. analyse_trajectory must
+        # precede the composite (it writes stress_accum). The alert is
+        # evaluated at the LOCKED holdout operating point (HOLDOUT_P3_ENTRY
+        # = 0.59 — "locked operating point — never sweep in holdout"), the
+        # configuration recorded in VALIDATION_LOCK.validation_evidence.
+        df = _lb.compute_all_features(data, fred_delta or {})
+        if df is None or df.empty:
+            base["validation_status"] = "insufficient_data"
+            base["narrative_safe"].append(
+                "Insufficient quarterly history to compute rolling features "
+                "(the validated scorer needs at least 4 consecutive quarters "
+                "per series)."
+            )
+            base["unsupported_reasons"].append("feature_window_empty")
+            return base
+        df = _lb.score_all_phases(df)
+        df = _lb.analyse_trajectory(df)
+        alert, first_q, composite = _lb.compute_trajectory_alert(
+            df, p3_entry=_lb.HOLDOUT_P3_ENTRY)
+
+        recovered_now = (
+            bool(df["recovered"].iloc[-1]) if "recovered" in df.columns and len(df) else None
+        )
+
+        # Band: ALERT is the validated classification. Sub-alert gradation is
+        # descriptive only (composite vs the lowest alert threshold) and is
+        # labeled as such in the narrative.
+        min_thresh = min(
+            _lb.COMPOSITE_THRESH_A, _lb.COMPOSITE_THRESH_B, _lb.COMPOSITE_THRESH_C)
+        if alert:
+            band = "ALERT"
+        elif composite >= 0.75 * min_thresh:
+            band = "ELEVATED"
+        elif composite >= 0.40 * min_thresh:
+            band = "WATCH"
+        else:
+            band = "LOW"
+
+        base["available"] = True
+        base["validation_status"] = "validated"
+        base["alert"] = bool(alert)
+        base["first_alert_quarter"] = _quarter_str(first_q)
+        base["distress_band"] = band
+        base["recovered"] = recovered_now
+        base["composite_score"] = round(float(composite), 3)
+
+        base["narrative_safe"].append(
+            f"Validated distress scorer ran. Kernel fingerprint "
+            f"{(fp.get('kernel_sha256') or '')[:12]} matches VALIDATION_LOCK "
+            f"(operating point P3_ENTRY=0.59, locked holdout threshold)."
+        )
+        if alert:
+            base["narrative_safe"].append(
+                f"ALERT FIRED — validated financial distress signal. "
+                f"First alert quarter: {_quarter_str(first_q)}."
+            )
+        else:
+            base["narrative_safe"].append(
+                "No validated distress alert at the locked operating point."
+            )
+        if recovered_now:
+            base["narrative_safe"].append(
+                "Most recent quarter shows recovery-phase dominance "
+                "(accumulator discharging)."
+            )
+        if not alert and band in ("ELEVATED", "WATCH"):
+            base["narrative_safe"].append(
+                f"Band '{band}' is descriptive (composite {composite:.2f} vs "
+                f"alert threshold {min_thresh:.2f}) — it is NOT a validated "
+                f"distress classification; only ALERT is."
+            )
+        if not fred_delta:
+            base["narrative_safe"].append(
+                "FRED macro series not supplied in this runtime; the P9 "
+                "macro bias term is inactive for this run."
+            )
+        base["narrative_safe"].append(
+            "Break detector: "
+            + ("ruptures" if getattr(_lb, "HAS_RUPTURES", False)
+               else "built-in PELT fallback (ruptures not installed)")
+            + "."
+        )
+        if shimmed:
+            base["unsupported_reasons"].append(
+                "plot_report_deps_shimmed: " + ", ".join(shimmed)
+                + " (reporting-only; never on the scoring path)"
+            )
+        return base
+
+    except Exception as e:
+        base["validation_status"] = "scoring_error"
+        base["narrative_safe"].append(
+            "Validated distress scorer raised an error during scoring; no "
+            "validated result is available for this request."
+        )
+        base["unsupported_reasons"].append(
+            f"scoring_error: {type(e).__name__}: {e}"
+        )
+        return base
