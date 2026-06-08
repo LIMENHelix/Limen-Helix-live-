@@ -1468,6 +1468,23 @@
 
     h += '</div>'; // end dcb-root
 
+    // Preserve per-panel scroll position across the re-render. Each
+    // .dcb-panel-body is its own overflow-y:auto scroll container, so the
+    // innerHTML swap below would otherwise reset every panel to the top on
+    // each 30s brain / 60s page / signal-engine cycle — making it impossible
+    // to read through long panels (DIAGNOSIS CHAIN, REGULATION PLAYBOOK).
+    // Mirrors the _collapsedPanels persistence pattern; keyed by data-panel.
+    var _prevPanels = cv.querySelectorAll('.dcb-panel[data-panel]');
+    for (var _sp = 0; _sp < _prevPanels.length; _sp++) {
+      var _spKey = _prevPanels[_sp].getAttribute('data-panel');
+      var _spBody = _prevPanels[_sp].querySelector('.dcb-panel-body');
+      if (_spKey && _spBody && _spBody.scrollTop > 0) {
+        _panelScroll[_spKey] = _spBody.scrollTop;
+      } else if (_spKey) {
+        delete _panelScroll[_spKey];
+      }
+    }
+
     cv.innerHTML = h;
 
     // Wire BLE HR strap connect button (requires user gesture)
@@ -1510,11 +1527,21 @@
       } else {
         panels[pi].classList.add('collapsed');
       }
+      // Restore the panel-body scroll position captured before this render
+      // so a refresh cycle no longer yanks the reader back to the top.
+      if (_panelScroll[key] != null) {
+        var _rb = panels[pi].querySelector('.dcb-panel-body');
+        if (_rb) _rb.scrollTop = _panelScroll[key];
+      }
     }
   }
 
   // Collapsed state persists across re-renders (true=collapsed, false=expanded)
   var _collapsedPanels = {};
+
+  // Per-panel scroll position persists across re-renders (data-panel -> scrollTop),
+  // so the 30s/60s refresh cycles don't reset scroll while the operator reads.
+  var _panelScroll = {};
 
   // Delegate click on panel titles to toggle collapse
   document.addEventListener('click', function (e) {
