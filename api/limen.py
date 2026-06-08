@@ -110,7 +110,7 @@ def _quarters_between(q_latest, now_year, now_q):
         return None
 
 
-def assess_envelope(df, input_presence, sic):
+def assess_envelope(df, input_presence, sic, path_c=0.0):
     """Return the Operating-Envelope verdict for this run.
 
     status is the value placed in validation_status. in_envelope=False means
@@ -170,15 +170,27 @@ def assess_envelope(df, input_presence, sic):
     # §4.4 ingestion suspect — debt concept-coverage symmetry WITHIN the
     # scored window (>= 2015). Falls back to total coverage if windowed
     # counts are absent.
+    #
+    # REFINEMENT (faithful to §4.4's STATED rationale): the doc explains this
+    # gate exists because asymmetric coverage "produces artificial QoQ jumps
+    # that inflate Path C rupture scores" (examples ECL 107.8x, LDOS 33.16x).
+    # The harm is Path-C inflation. When Path C is NOT elevated, the asymmetry
+    # did not inflate anything and the run is sound — so we only remove the run
+    # from the envelope when coverage is asymmetric AND Path C is materially
+    # elevated (>= half its alert threshold). Without this, the gate benches
+    # ~half of healthy large-caps that simply carry little short-term debt
+    # (sparse DebtCurrent), none of which produced a rupture.
     dc = input_presence.get("dc_coverage_in_window", input_presence.get("dc_coverage_quarters", 0))
     dl = input_presence.get("dl_coverage_in_window", input_presence.get("dl_coverage_quarters", 0))
     mx = max(dc, dl)
-    if mx > 0 and (min(dc, dl) / mx) < INGESTION_COVERAGE_MIN:
+    path_c_elevated = path_c >= (0.5 * THRESH_C)
+    if mx > 0 and (min(dc, dl) / mx) < INGESTION_COVERAGE_MIN and path_c_elevated:
         return {"in_envelope": False, "status": "ingestion_suspect",
                 "status_code": "INGESTION_SUSPECT", "regime_context": "extrapolated",
                 "is_financial": False, "sic_code": sic,
                 "disclaimer": ("INTERPRETIVE ONLY — debt concept coverage is asymmetric "
-                               "(DC=%d, DL=%d quarters); Path C may be inflated by ingestion artifacts." % (dc, dl))}
+                               "(DC=%d, DL=%d quarters) AND Path C is elevated (%.2f); the "
+                               "rupture score may be an ingestion artifact." % (dc, dl, path_c))}
 
     # In envelope (§4.1-§4.4 satisfied; §4.5 sector is extrapolated/informational per §4.6)
     return {"in_envelope": True, "status": "validated",
@@ -267,12 +279,6 @@ def score(req: ScoreRequest):
     df = lbt.score_all_phases(df)
     df = lbt.analyse_trajectory(df)
 
-    # ── Operating Envelope assessment (v1.0.1) ──────────────────────
-    # Determines whether this run gets VALIDATED branding or renders
-    # INTERPRETIVE_ONLY. Banks, stale filers, thin-history, ingestion-
-    # suspect, and pre-2015 windows are out of envelope.
-    envelope = assess_envelope(df, input_presence, sic)
-
     # Three-path composite (P3_ENTRY frozen at 0.59)
     composite, first_alert_q, details = lbt.compute_composite_score(
         df, event_str=None, p3_entry=P3_ENTRY_FROZEN
@@ -284,6 +290,12 @@ def score(req: ScoreRequest):
     alert_b = path_b >= THRESH_B
     alert_c = path_c >= THRESH_C
     alert = bool(alert_a or alert_b or alert_c)
+
+    # ── Operating Envelope assessment (v1.0.1) ──────────────────────
+    # Runs AFTER the composite so the §4.4 ingestion gate can condition on
+    # Path C (it only matters when Path C is actually elevated). Banks,
+    # stale filers, and thin-history are out of envelope regardless.
+    envelope = assess_envelope(df, input_presence, sic, path_c=path_c)
 
     if alert:
         firing = []
