@@ -43,9 +43,12 @@ def _date_le(d, cutoff):
 
 
 def _latest(facts, tags, kind, cutoff):
-    """Latest USD value for any of `tags`, on or before cutoff (YYYY-MM-DD)."""
+    """Point-in-time latest USD value for any of `tags`, using ONLY data that
+    was publicly FILED on or before `cutoff` (no lookahead, no post-event
+    restatements). Among eligible points, take the latest period-end, then the
+    latest filing date (the most recent view available as of the cutoff)."""
     gaap = (facts or {}).get("facts", {}).get("us-gaap", {})
-    best_val, best_end = None, None
+    best = None  # (end, filed, val)
     for tag in tags:
         node = gaap.get(tag)
         if not node:
@@ -54,17 +57,17 @@ def _latest(facts, tags, kind, cutoff):
         arr = units.get("USD") or next(iter(units.values()), [])
         for e in arr:
             end = e.get("end")
+            filed = e.get("filed")
             if not _date_le(end, cutoff):
-                continue
-            # for duration (flow) prefer annual (FY) to approximate TTM EBIT
-            if kind == "duration" and e.get("fp") not in ("FY", None) and e.get("form") != "10-K":
-                # still accept, but annuals preferred via the end-date tiebreak below
-                pass
-            if best_end is None or (end and end > best_end):
-                best_end, best_val = end, e.get("val")
-        if best_val is not None:
+                continue                      # period must be in the past
+            if cutoff and filed and filed > cutoff:
+                continue                      # not yet public as of cutoff — avoid lookahead
+            key = (end or "", filed or "")
+            if best is None or key > (best[0], best[1]):
+                best = (end or "", filed or "", e.get("val"))
+        if best is not None:
             break
-    return best_val
+    return best[2] if best else None
 
 
 def z_from_facts(facts, event_str=None):
