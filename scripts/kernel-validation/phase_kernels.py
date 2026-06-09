@@ -54,17 +54,16 @@ def k_p0_source(facts, cutoff, dfc):
 
 
 def k_p2_rhythm(facts, cutoff, dfc):
-    """Kuramoto phase-lock: bounded REGULAR oscillation (healthy seasonality)."""
-    rev = _series(facts, "Revenue", True, cutoff)[-12:]
-    if len(rev) < 8:
+    """P2 = dyadic recurrence x_n = f(x_{n-1}, x_{n-2}) HOLDING (operator algebra).
+    Operationalized as AR(2) coherence (R^2) across the core signals: a healthy
+    system follows its own dyadic recurrence (high coherence); P3 is this
+    recurrence breaking (|R|>theta -> decoherence). Validated directionally
+    (dyadic.py): healthy mean 0.61 vs distress 0.39."""
+    import dyadic
+    coh = dyadic.coherence(facts, cutoff)
+    if coh is None:
         return False, 0.0, "insufficient"
-    r = np.array(rev, float)
-    # seasonal coherence: autocorrelation at lag 4 (quarterly cycle) high, variance bounded
-    r = r - r.mean()
-    ac4 = np.corrcoef(r[:-4], r[4:])[0, 1] if len(r) > 5 else 0
-    cv = np.std(rev) / (abs(np.mean(rev)) + 1e-9)
-    fires = ac4 > 0.5 and cv < 0.25
-    return fires, round(max(ac4, 0), 2), "ac4=%.2f cv=%.2f" % (ac4, cv)
+    return coh > 0.5, round(coh, 2), "ar2_coherence=%.2f" % coh
 
 
 def k_p3_fracture(facts, cutoff, dfc):
