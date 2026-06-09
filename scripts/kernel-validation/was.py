@@ -19,6 +19,7 @@ kernel). The same surface state resolves to different modes given different
 histories — the operator's founding insight, made computable.
 """
 import sys, os
+from datetime import datetime
 sys.path.insert(0, os.path.dirname(__file__))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'api', 'helix_app', 'thing1'))
 import limen_backtest as lb           # noqa: E402
@@ -29,7 +30,11 @@ from pit_trajectory import clean_df, extract_pit  # noqa: E402
 def phase_history(facts, end_cutoff=None, lookback=16):
     """Run the Is-kernels point-in-time at each of the last `lookback` quarters."""
     rev = extract_pit(facts, lb.TAG_MAP["Revenue"], True, end_cutoff)
-    quarters = sorted(rev.keys())[-lookback:]
+    quarters = sorted(rev.keys())
+    if end_cutoff:                      # enforce the window by quarter date
+        ec = datetime.strptime(end_cutoff, "%Y-%m-%d")
+        quarters = [q for q in quarters if lb.quarter_to_date(q) <= ec]
+    quarters = quarters[-lookback:]
     H = []
     for yq in quarters:
         cutoff = lb.quarter_to_date(yq).strftime("%Y-%m-%d")

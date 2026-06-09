@@ -111,8 +111,9 @@ def k_p4_scaffold(facts, cutoff, dfc):
     (p45_validate.py 6/6): annual OCF burning AND financing inflow plugging it
     (cff > 0.5*|ocf|). Annual flows + no solvency guard (annual OCF<0 already
     excludes cash machines). Would collapse if the raised capital stopped."""
-    ocf = annual_flow(facts, lb.TAG_MAP["OCF"], cutoff)
-    cff = annual_flow(facts, CFF_TAGS, cutoff)
+    import flows
+    ocf = flows.ttm_flow(facts, lb.TAG_MAP["OCF"], cutoff)
+    cff = flows.ttm_flow(facts, flows.CFF_TAGS, cutoff)
     if ocf is None or cff is None:
         return False, 0.0, "no flows"
     fires = ocf < 0 and cff > 0.5 * abs(ocf)
@@ -125,8 +126,9 @@ def k_p5_endurance(facts, cutoff, dfc):
     """P5 = Delta = R_new - R_old: a new self-sustaining regime on the system's
     OWN operating cash (opposite of P4). VALIDATED (p45_validate.py 6/6): annual
     OCF positive AND operations dominate financing (cff < ocf)."""
-    ocf = annual_flow(facts, lb.TAG_MAP["OCF"], cutoff)
-    cff = annual_flow(facts, CFF_TAGS, cutoff)
+    import flows
+    ocf = flows.ttm_flow(facts, lb.TAG_MAP["OCF"], cutoff)
+    cff = flows.ttm_flow(facts, flows.CFF_TAGS, cutoff)
     if ocf is None or cff is None:
         return False, 0.0, "no flows"
     fires = ocf > 0 and cff < ocf
