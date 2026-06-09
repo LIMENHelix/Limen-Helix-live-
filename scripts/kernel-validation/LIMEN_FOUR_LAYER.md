@@ -69,6 +69,8 @@ P5 proved Was is **necessary**: `Δ=R_new−R_old` only means *endurance* if the
 
 **Proof it's real: Carnival reads SCAFFOLDING during COVID and ENDURANCE now — same surface, opposite mode, difference = history/time.** The masking/scaffolding/endurance distinction is a computed system output, not a framing claim.
 
+**VALIDATED AT SCALE (`mode_validate.py`, 20 company-scorings): 16/20 = 0.80** — BASELINE 4/6, SCAFFOLDING 4/5, ENDURANCE 5/5, MASKING 3/4. **Temporal test 5/5: every COVID survivor (CCL/AAL/NCLH/RCL/UAL) reads a DISTINCT mode at the 2021 trough vs now** (scaffolding→endurance). The 4 misses are known: COST/PEP = the buyback/grey-Altman trajectory FP (market-equity veto, in fusion4, not yet wired into the live Was path); RCL@2021 mis-sub-classified (P3 vs P4, still distress); PIR@2019-09 timing (P3 not yet firing).
+
 ---
 
 ## 4. Key findings (this session)
@@ -105,8 +107,8 @@ P5 proved Was is **necessary**: `Δ=R_new−R_old` only means *endurance* if the
 
 ## 7. Open work
 
-- **Validate the Was triad at scale** — labeled cohort of known masking/scaffolding/endurance companies (like P7's 22, P4/P5's 12). [NEXT]
-- Wire the market-equity veto into the live trajectory path (kills FIS/SBUX FPs).
+- ✅ **Validated the Was triad at scale** — `mode_validate.py`, 16/20 = 0.80, temporal test 5/5 distinct.
+- Wire the market-equity veto into the live trajectory path (kills the COST/PEP/FIS/SBUX FPs → would push triad accuracy higher). [NEXT — cheap, fixes the main miss class]
 - Build remaining Is kernels: P1, P6, P8, P9, P10.
 - Build the **Going** layer (transition operator over phases + forcing) and **Why** layer (causal attribution).
 - Larger stratified cohorts; financial-institution model for banks (Altman doesn't transfer).
