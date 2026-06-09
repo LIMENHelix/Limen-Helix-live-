@@ -193,24 +193,37 @@ def k_p6_order(facts, cutoff, dfc):
         ("%.1f" % zval) if zval else "?", coh or 0, growing)
 
 
+def _kendall(y):
+    y = np.asarray(y, float)
+    n = len(y)
+    if n < 3:
+        return 0.0
+    s = sum(np.sign(y[j] - y[i]) for i in range(n) for j in range(i + 1, n))
+    return s / (0.5 * n * (n - 1))
+
+
 def k_p8_reflection(facts, cutoff, dfc):
-    """P8 = R(R): recursion on itself — proactive DELEVERAGING (the system acting
-    on its own stress: debt falling materially). Was-layer adds prior-distress."""
+    """P8 = R(R): recursion on itself — proactive self-repair, a SUSTAINED
+    DELEVERAGING trend (debt/assets falling steadily). Was-layer adds prior-
+    distress (deleveraging from a high-leverage start = self-correction)."""
     dc = _series(facts, "DebtCurrent", False, cutoff)[-8:]
     dl = _series(facts, "DebtLong", False, cutoff)[-8:]
     n = min(len(dc), len(dl))
-    if n < 4:
+    if n < 5:
         return False, 0.0, "insufficient"
     debt = [dc[-n + i] + dl[-n + i] for i in range(n)]
-    if not debt[0] or debt[0] == 0:
+    tau = _kendall(debt)                      # sustained direction of debt
+    if not debt[0]:
         return False, 0.0, "no debt"
-    chg = (debt[-1] - debt[max(0, n - 5)]) / abs(debt[max(0, n - 5)])
-    return chg < -0.15, round(abs(min(chg, 0)), 2), "debt_chg=%.0f%%" % (chg * 100)
+    chg = (debt[-1] - debt[0]) / abs(debt[0])
+    fires = tau < -0.4 and chg < -0.08        # steadily down, materially
+    return fires, round(abs(min(tau, 0)), 2), "debt_trend=%.2f chg=%.0f%%" % (tau, chg * 100)
 
 
 def k_p9_threshold(facts, cutoff, dfc):
-    """P9 = R_syn=∪Rᵢ: maximal tension — all stress signals converge at once
-    (composite elevated AND solvency in the grey zone AND high leverage)."""
+    """P9 = R_syn=∪Rᵢ: the POISED threshold — high leverage + composite ELEVATED
+    but not yet full rupture (0.8 ≤ comp < 2.0) + not clearly safe. The knife-edge
+    BEFORE the P3 fracture, not the fracture itself."""
     TA = altman._latest(facts, ["Assets"], "instant", cutoff)
     TL = altman._latest(facts, ["Liabilities"], "instant", cutoff)
     z = altman.z_from_facts(facts, cutoff)
@@ -222,9 +235,9 @@ def k_p9_threshold(facts, cutoff, dfc):
         except Exception:
             c = 0.0
     lev = (TL / TA) if (TA and TL) else 0
-    fires = (zval is not None and 1.1 < zval < 2.6 and c >= 0.8 and lev > 0.6)
-    return fires, round(float(c), 2), "z=%s comp=%.2f lev=%.2f" % (
-        ("%.1f" % zval) if zval else "?", c, lev)
+    fires = (lev > 0.65 and 0.8 <= c < 2.0 and (zval is None or zval < 3.0))
+    return fires, round(float(c), 2), "comp=%.2f lev=%.2f z=%s" % (
+        c, lev, ("%.1f" % zval) if zval else "?")
 
 
 def k_p10_return(facts, cutoff, dfc):
