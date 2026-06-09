@@ -24,17 +24,19 @@ Book I cites continuous dynamics per phase (Kuramoto, Hopf, symmetry-breaking, c
 
 | Phase | Operator form | Financial signature | Kernel status |
 |---|---|---|---|
-| P0 Source | `S₀, ∄R` | flat, low-variance, solvent | built |
-| P1 Collapse | `R(Σ)→R(L), Σ̇≈0` | contraction to frozen core; absorbing state | partial |
+| P0 Source | `S₀, ∄R` | flat, low-variance, solvent | built / face-valid |
+| P1 Collapse | `R(Σ)→R(L), Σ̇≈0` | acute recent single-quarter rupture | built / face-valid (CCL COVID) |
 | P2 Rhythm | `xₙ=f(xₙ₋₁,xₙ₋₂)` | **AR(2) coherence** (healthy 0.61 / distress 0.39) | directional |
 | P3 Fracture | `\|R\|>θ → decoherence` | rising variance/slope — masking signal | **✅ validated** |
 | P4 Scaffolding | `R_int=∫Rᵢ` | survival on **raised** capital (CFF plugs OCF burn) | **✅ validated** |
 | P5 Endurance | `Δ=R_new−R_old` | recovered on **own** operating cash | **✅ validated** |
-| P6 Order | `x(t)→ω-lock` | mature multi-signal lock | spec |
+| P6 Order | `x(t)→ω-lock` | strong solvency + AR(2) coherence + growth | built / face-valid (WMT) |
 | P7 Shear/fork | `R→R₁∨R₂` | liquidate (7a) ∨ restructure (7b) | **✅ validated** |
-| P8 Reflection | `R(R)` | proactive self-correction after stress | spec |
-| P9 Threshold | `R_syn=∪Rᵢ` | maximal coupling/tension (knife-edge) | spec |
-| P10 Return | `R→S₀` | return to transformed baseline | spec |
+| P8 Reflection | `R(R)` | proactive deleveraging after stress | built — not yet firing (tuning) |
+| P9 Threshold | `R_syn=∪Rᵢ` | grey solvency + elevated composite + high leverage | built — not yet firing (tuning) |
+| P10 Return | `R→S₀` | solvent/stable/own-cash (Was separates from P0) | built / face-valid (WMT/KO) |
+
+**All 11 Is kernels now built.** With 11 kernels every company multi-fires (WMT → P0+P2+P5+P6+P10) → **the Is-posterior arbitration is now the critical next piece** (resolve the multi-fire to a dominant phase / ranked posterior). P8/P9 need signature tuning against their intended cases (AT&T deleveraging, WBD leveraged cliff).
 
 **Why one kernel per phase (not one monolith):** the monolithic `score_all_phases` is decoration — it collapses to "flat→P4" because it scores 11 phases from one shared feature set (measured: `phase_walk.py`; bankrupts and healthy both pool in P4/P6). A dedicated binary kernel per phase, each in its OWN feature space, dissolves the feature-underdetermination (and the §112(a) gap): each only answers "am I in *this* phase?"
 

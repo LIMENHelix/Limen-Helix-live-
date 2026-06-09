@@ -162,9 +162,95 @@ def k_p7_fork(facts, cutoff, dfc):
     return fork, round(ocf_ta, 3), "ocf/ta=%.3f" % ocf_ta
 
 
-KERNELS = [("P0_source", k_p0_source), ("P2_rhythm", k_p2_rhythm),
-           ("P3_fracture", k_p3_fracture), ("P4_scaffold", k_p4_scaffold),
-           ("P5_endurance", k_p5_endurance), ("P7_fork", k_p7_fork)]
+def k_p1_collapse(facts, cutoff, dfc):
+    """P1 = R(Σ)→R(L), Σ̇≈0: collapse to a localized frozen core — an ACUTE
+    single-quarter rupture (sudden contraction in revenue or cash)."""
+    # only the RECENT transitions — P1 is collapsing NOW, not any past sharp quarter
+    rev = _series(facts, "Revenue", True, cutoff)[-3:]
+    cash = _series(facts, "Cash", False, cutoff)[-3:]
+    drops = []
+    for s in (rev, cash):
+        for i in range(1, len(s)):
+            if s[i - 1] and abs(s[i - 1]) > 0:
+                drops.append((s[i] - s[i - 1]) / abs(s[i - 1]))
+    if not drops:
+        return False, 0.0, "insufficient"
+    worst = min(drops)
+    return worst < -0.40, round(abs(worst), 2), "recent_q_drop=%.0f%%" % (worst * 100)
+
+
+def k_p6_order(facts, cutoff, dfc):
+    """P6 = x(t)→ω-lock: mature coordinated ORDER — strong solvency + dyadic
+    coherence + growing (active order, vs P0's quiet null)."""
+    import dyadic
+    z = altman.z_from_facts(facts, cutoff)
+    zval = None if z.get("error") else z["Z"]
+    coh = dyadic.coherence(facts, cutoff)
+    rev = _series(facts, "Revenue", True, cutoff)[-8:]
+    growing = len(rev) >= 4 and np.mean(rev[-2:]) > np.mean(rev[:2])
+    fires = (zval is not None and zval > 4 and coh is not None and coh > 0.5 and growing)
+    return fires, round(coh or 0, 2), "z=%s coh=%.2f grow=%s" % (
+        ("%.1f" % zval) if zval else "?", coh or 0, growing)
+
+
+def k_p8_reflection(facts, cutoff, dfc):
+    """P8 = R(R): recursion on itself — proactive DELEVERAGING (the system acting
+    on its own stress: debt falling materially). Was-layer adds prior-distress."""
+    dc = _series(facts, "DebtCurrent", False, cutoff)[-8:]
+    dl = _series(facts, "DebtLong", False, cutoff)[-8:]
+    n = min(len(dc), len(dl))
+    if n < 4:
+        return False, 0.0, "insufficient"
+    debt = [dc[-n + i] + dl[-n + i] for i in range(n)]
+    if not debt[0] or debt[0] == 0:
+        return False, 0.0, "no debt"
+    chg = (debt[-1] - debt[max(0, n - 5)]) / abs(debt[max(0, n - 5)])
+    return chg < -0.15, round(abs(min(chg, 0)), 2), "debt_chg=%.0f%%" % (chg * 100)
+
+
+def k_p9_threshold(facts, cutoff, dfc):
+    """P9 = R_syn=∪Rᵢ: maximal tension — all stress signals converge at once
+    (composite elevated AND solvency in the grey zone AND high leverage)."""
+    TA = altman._latest(facts, ["Assets"], "instant", cutoff)
+    TL = altman._latest(facts, ["Liabilities"], "instant", cutoff)
+    z = altman.z_from_facts(facts, cutoff)
+    zval = None if z.get("error") else z["Z"]
+    c = 0.0
+    if dfc is not None:
+        try:
+            c, _, _ = lb.compute_composite_score(dfc, cutoff, lb.HOLDOUT_P3_ENTRY)
+        except Exception:
+            c = 0.0
+    lev = (TL / TA) if (TA and TL) else 0
+    fires = (zval is not None and 1.1 < zval < 2.6 and c >= 0.8 and lev > 0.6)
+    return fires, round(float(c), 2), "z=%s comp=%.2f lev=%.2f" % (
+        ("%.1f" % zval) if zval else "?", c, lev)
+
+
+def k_p10_return(facts, cutoff, dfc):
+    """P10 = R→S₀: return to a (transformed) stable baseline — solvent, low
+    composite, positive own cash. Was-layer distinguishes it from P0 (prior
+    distress = returned; no prior distress = never left)."""
+    z = altman.z_from_facts(facts, cutoff)
+    zval = None if z.get("error") else z["Z"]
+    c = 0.0
+    if dfc is not None:
+        try:
+            c, _, _ = lb.compute_composite_score(dfc, cutoff, lb.HOLDOUT_P3_ENTRY)
+        except Exception:
+            c = 0.0
+    ocf = annual_flow(facts, lb.TAG_MAP["OCF"], cutoff)
+    fires = (zval is not None and zval > 2.6 and c < 0.8 and ocf is not None and ocf > 0)
+    return fires, round(1.0 if fires else 0.0, 2), "z=%s comp=%.2f ocf+=%s" % (
+        ("%.1f" % zval) if zval else "?", c, (ocf or 0) > 0)
+
+
+KERNELS = [("P0_source", k_p0_source), ("P1_collapse", k_p1_collapse),
+           ("P2_rhythm", k_p2_rhythm), ("P3_fracture", k_p3_fracture),
+           ("P4_scaffold", k_p4_scaffold), ("P5_endurance", k_p5_endurance),
+           ("P6_order", k_p6_order), ("P7_fork", k_p7_fork),
+           ("P8_reflection", k_p8_reflection), ("P9_threshold", k_p9_threshold),
+           ("P10_return", k_p10_return)]
 
 # hand-labeled face-validity panel: which phase SHOULD dominate
 PANEL = [
@@ -176,6 +262,9 @@ PANEL = [
     ("CHK",  "0000895126", "2020-06-28", "viable core bankrupt -> P7b restructure"),
     ("SHLDQ","0001310067", "2018-10-15", "viability breach -> P7a liquidate"),
     ("DAL",  "0000027904", "2021-06-30", "post-COVID recovery on own cash -> P5"),
+    ("T",    "0000732717", None,         "AT&T deleveraging post-WarnerMedia -> P8"),
+    ("CCL",  "0000815097", "2020-08-31", "COVID acute rupture -> P1"),
+    ("WBD",  "0001437107", "2023-06-30", "Warner Bros Discovery levered cliff -> P9"),
 ]
 
 
