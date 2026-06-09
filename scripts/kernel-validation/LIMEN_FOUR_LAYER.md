@@ -5,6 +5,10 @@ Derived 2026-06-08/09. The locked Thing 1 kernel (`api/helix_app/thing1/limen_ba
 
 ---
 
+## 0b. Design principle — RE-ENTRY IS PHASE-VARIABLE (operator insight, 2026-06-09)
+
+When a system dysregulates it re-enters the arc **wherever its current state + the trigger put it — NOT at P0.** A healthy company hit by a sudden shock enters at P1 (collapse) or P3 (fracture) directly; a leveraged one tipped by a rate move enters at P9 (threshold); it never walks P0→P1→P2 first. **The P0–P10 arc is a MAP OF STATES, not a mandatory sequence.** This retroactively justifies the architecture: per-phase BINARY detectors (a system can BE in any phase without traversing the prior ones); the Was layer (`Was × Is` = where it re-entered conditioned on where it's been, not a fixed cycle position); the peer-relative Going (reads current relative position). It also seeds the WHY layer: **the re-entry phase encodes the causal trigger** — re-entry at P1 ⇒ external shock; re-entry at P9 ⇒ slow internal accumulation hitting a wall. Where a system re-enters is a clue to why.
+
 ## 0. The thesis
 
 A system does not *sit* in a phase. It moves recursively through phases under internal state + external forcing. To regulate it you need four things — **where it was, where it is, where it's going, and why.** This came from the operator regulating his daughter through dysregulation; the financial substrate is where it's testable with dense, labeled data. The same architecture appears in the NSF "Relapse Operating Model" grant (organizational substrate).
@@ -13,7 +17,7 @@ A system does not *sit* in a phase. It moves recursively through phases under in
 |---|---|---|---|
 | **WAS** | where has it been? | path history H(t): phase sequence, dwell, prior-distress | **LIVE** |
 | **IS** | where is it now? | phase posterior (ensemble of per-phase binary kernels) | **4/~12 validated** |
-| **GOING** | where is it heading? | transition projection under forcing | **hard — naive approach refuted** |
+| **GOING** | where is it heading? | transition projection under forcing | **✅ peer-relative: 12/12** |
 | **WHY** | what's driving it? | causal attribution (internal / external / capacity) | spec |
 
 ---
@@ -85,7 +89,9 @@ P5 proved Was is **necessary**: `Δ=R_new−R_old` only means *endurance* if the
 4. **The P7 bifurcation fork is a genuine cross-substrate convergence** — Book I predicted a fork at P7 from polyvagal theory; the kernel found it independently in SEC XBRL (viability breach → liquidate vs restructure).
 5. **Mechanism = temporal process detection, NOT restatement-robustness** (disproven by direct test, `restatement_test.py`).
 6. **A pervasive data bug fixed:** `extract_pit` returned the first revenue tag (truncated at the ASC-606 switch year) and dropped cumulative-YTD flows; fixed by merging tags + de-cumulating. Unblocked the live triad and improved P3 recall.
-7. **The GOING layer is the hard frontier — the naive approach is REFUTED** (`going.py`, 3/14 = 0.21, anti-correlated). Forecasting ≠ detection: the momentary viable-core derivative (OCF trend) is fooled by turning points — a company at its trough (about to recover) shows the worst trend; a slow-decliner with a seasonal uptick looks like it's recovering right before filing. Miss pattern shows the real discriminators are STRUCTURAL and PEER-RELATIVE: capital access + shock type (exogenous/sector-wide & temporary → recover; idiosyncratic/secular → terminal). This is "Amazon ≠ Burger King" resurfacing as the binding constraint for projection — NOT computable from one company's filings in isolation; needs cross-sectional/sector context.
+7. **The GOING layer: naive derivative REFUTED (0.21), PEER-RELATIVE CRACKS IT (12/12).** `going.py` (absolute OCF-trend) failed — fooled by turning points. `going_peer.py` (distress vs sector peers) nails it: SHARED distress (peer median also distressed = exogenous shock → reversible → recover) vs IDIOSYNCRATIC (peers healthy, target alone → secular → collapse). The subtle proof: JCP had POSITIVE absolute OCF but was BELOW its peers → correctly called collapse. **"Amazon ≠ Burger King" operationalized for FORECASTING** — a single company's filings can't predict its fate; its fate RELATIVE to peers can. Context = the binding constraint for projection. (Small curated cohort; needs scale-up.)
+8. **Arbitration-into-Was REGRESSED (0.90→0.40):** the Is-posterior (single dominant phase) and the Was regulation-mode (how is it surviving) are DIFFERENT outputs — the mode needs specific kernel combinations, not the most-salient phase. Reverted; arbitration stays standalone.
+9. **RE-ENTRY IS PHASE-VARIABLE** (see §0b): dysregulation re-enters the arc at a phase set by current-state + trigger, not P0 — justifying per-phase binary detectors + the Was layer, and seeding the Why layer (re-entry phase encodes the trigger).
 
 ---
 
