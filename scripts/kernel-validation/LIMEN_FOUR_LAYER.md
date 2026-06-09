@@ -13,7 +13,7 @@ A system does not *sit* in a phase. It moves recursively through phases under in
 |---|---|---|---|
 | **WAS** | where has it been? | path history H(t): phase sequence, dwell, prior-distress | **LIVE** |
 | **IS** | where is it now? | phase posterior (ensemble of per-phase binary kernels) | **4/~12 validated** |
-| **GOING** | where is it heading? | transition projection under forcing | spec |
+| **GOING** | where is it heading? | transition projection under forcing | **hard — naive approach refuted** |
 | **WHY** | what's driving it? | causal attribution (internal / external / capacity) | spec |
 
 ---
@@ -81,6 +81,7 @@ P5 proved Was is **necessary**: `Δ=R_new−R_old` only means *endurance* if the
 4. **The P7 bifurcation fork is a genuine cross-substrate convergence** — Book I predicted a fork at P7 from polyvagal theory; the kernel found it independently in SEC XBRL (viability breach → liquidate vs restructure).
 5. **Mechanism = temporal process detection, NOT restatement-robustness** (disproven by direct test, `restatement_test.py`).
 6. **A pervasive data bug fixed:** `extract_pit` returned the first revenue tag (truncated at the ASC-606 switch year) and dropped cumulative-YTD flows; fixed by merging tags + de-cumulating. Unblocked the live triad and improved P3 recall.
+7. **The GOING layer is the hard frontier — the naive approach is REFUTED** (`going.py`, 3/14 = 0.21, anti-correlated). Forecasting ≠ detection: the momentary viable-core derivative (OCF trend) is fooled by turning points — a company at its trough (about to recover) shows the worst trend; a slow-decliner with a seasonal uptick looks like it's recovering right before filing. Miss pattern shows the real discriminators are STRUCTURAL and PEER-RELATIVE: capital access + shock type (exogenous/sector-wide & temporary → recover; idiosyncratic/secular → terminal). This is "Amazon ≠ Burger King" resurfacing as the binding constraint for projection — NOT computable from one company's filings in isolation; needs cross-sectional/sector context.
 
 ---
 
@@ -110,6 +111,7 @@ P5 proved Was is **necessary**: `Δ=R_new−R_old` only means *endurance* if the
 - ✅ **Validated the Was triad at scale** — `mode_validate.py`, 16/20 = 0.80, temporal test 5/5 distinct.
 - ✅ Wired the market-equity veto into the P3 kernel (Was path) → triad 0.80 → 0.90, BASELINE 6/6.
 - Build remaining Is kernels: P1, P6, P8, P9, P10.
-- Build the **Going** layer (transition operator over phases + forcing) and **Why** layer (causal attribution).
+- **Going** layer: naive viable-core-derivative refuted (`going.py`). Next attempt must be PEER-RELATIVE — distress shared by the sector (exogenous/temporary → recover) vs idiosyncratic (secular → terminal) + capital-access features. Needs cross-sectional/sector data, not single-company filings.
+- **Why** layer (causal attribution: internal accumulation vs external forcing vs capacity loss) — note the Going miss pattern already implicates the same internal-vs-external decomposition.
 - Larger stratified cohorts; financial-institution model for banks (Altman doesn't transfer).
 - Patent framing per layer (4 independently-claimable layers) — when/if pursued.
