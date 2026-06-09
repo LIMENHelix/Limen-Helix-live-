@@ -31,42 +31,66 @@ TAGS = {
 
 
 def extract_pit(facts, tag_names, is_flow, cutoff):
-    """As-originally-reported quarterly series using only filings <= cutoff."""
+    """As-originally-reported quarterly series, filings <= cutoff. MERGES across
+    all tags (fixes ASC-606-style tag changes that truncated the series at the
+    switch year) and DE-CUMULATES YTD flow reporters (cash-flow statements are
+    YTD-only; the old 60-120-day filter dropped all but Q1)."""
     us_gaap = (facts or {}).get("facts", {}).get("us-gaap", {})
+    merged = {}  # yq -> (filed, val); first tag (then earliest filing) wins
     for tag_path in tag_names:
-        tag = tag_path.split("/")[-1]
-        node = us_gaap.get(tag)
+        node = us_gaap.get(tag_path.split("/")[-1])
         if not node:
             continue
-        units = node.get("units", {})
-        arr = units.get("USD") or (list(units.values())[0] if units else [])
-        per_q = {}  # yq -> (filed, val) keep EARLIEST filing (as-reported)
-        for e in arr:
-            if e.get("form", "") not in ("10-Q", "10-K", "10-Q/A", "10-K/A"):
-                continue
-            val, end, filed, start = e.get("val"), e.get("end"), e.get("filed"), e.get("start")
-            if val is None or not end or not filed:
-                continue
-            if cutoff and filed > cutoff:
-                continue                       # not public yet — no lookahead
-            try:
-                end_dt = datetime.strptime(end, "%Y-%m-%d")
-                start_dt = datetime.strptime(start, "%Y-%m-%d") if start else None
-            except Exception:
-                continue
-            if is_flow:
-                if not start_dt:
+        arr = node.get("units", {}).get("USD") or (list(node.get("units", {}).values())[0] if node.get("units") else [])
+        if is_flow:
+            # collect per-(start,end) period, earliest filing <= cutoff
+            periods = {}
+            for e in arr:
+                if e.get("form", "") not in ("10-Q", "10-K", "10-Q/A", "10-K/A"):
                     continue
-                days = (end_dt - start_dt).days
-                if not (60 <= days <= 120):       # quarterly flow only
+                val, end, filed, start = e.get("val"), e.get("end"), e.get("filed"), e.get("start")
+                if val is None or not end or not filed or not start:
                     continue
-            yq = lb.date_to_quarter(end_dt)
-            if yq not in per_q or filed < per_q[yq][0]:
-                per_q[yq] = (filed, val)
-        result = {yq: v for yq, (f, v) in per_q.items()}
-        if len(result) >= 2:
-            return result
-    return {}
+                if cutoff and filed > cutoff:
+                    continue
+                try:
+                    days = (datetime.strptime(end, "%Y-%m-%d") - datetime.strptime(start, "%Y-%m-%d")).days
+                except Exception:
+                    continue
+                if not (75 <= days <= 400):       # quarter through annual
+                    continue
+                k = (start, end)
+                if k not in periods or filed < periods[k][0]:
+                    periods[k] = (filed, val)
+            # group by fiscal-year start, difference consecutive cumulatives
+            groups = {}
+            for (start, end), (filed, val) in periods.items():
+                groups.setdefault(start, []).append((end, filed, val))
+            for start, lst in groups.items():
+                lst.sort()                         # by end date
+                prev = 0.0
+                for (end, filed, val) in lst:
+                    yq = lb.date_to_quarter(datetime.strptime(end, "%Y-%m-%d"))
+                    if yq not in merged:
+                        merged[yq] = (filed, val - prev)
+                    prev = val
+        else:
+            for e in arr:
+                if e.get("form", "") not in ("10-Q", "10-K", "10-Q/A", "10-K/A"):
+                    continue
+                val, end, filed = e.get("val"), e.get("end"), e.get("filed")
+                if val is None or not end or not filed:
+                    continue
+                if cutoff and filed > cutoff:
+                    continue
+                try:
+                    end_dt = datetime.strptime(end, "%Y-%m-%d")
+                except Exception:
+                    continue
+                yq = lb.date_to_quarter(end_dt)
+                if yq not in merged or filed < merged[yq][0]:
+                    merged[yq] = (filed, val)
+    return {yq: v for yq, (f, v) in merged.items()}
 
 
 def clean_df(facts, cutoff):
