@@ -114,17 +114,20 @@ def k_p5_endurance(facts, cutoff, dfc):
 
 
 def k_p7_fork(facts, cutoff, dfc):
-    """Bifurcation node: among distress, viability breach (neg equity, no viable
-    core) -> 7a terminal/liquidation; viable core -> 7b restructure/re-entry."""
+    """Bifurcation node (VALIDATED, p7_validate.py: 77% on 22 labeled outcomes).
+    The discriminator is the VIABLE CORE = operating cash to reorganize around,
+    NOT equity (equity is negative for liquidators AND survivors alike).
+      OCF/assets > 0  -> 7b restructure (viable core)
+      OCF/assets <= 0 -> 7a liquidate   (no core, terminal)
+    Known blind spots: intangible cores (brand/franchise -> REV, RAD emerged on
+    negative OCF) and retailer-lender hybrids (CONN)."""
     TA = altman._latest(facts, ["Assets"], "instant", cutoff)
-    EQ = altman._latest(facts, ["StockholdersEquity"], "instant", cutoff)
-    ocf = sum(_series(facts, "OCF", True, cutoff)[-4:]) if _series(facts, "OCF", True, cutoff) else 0
-    if TA is None or EQ is None:
-        return "unknown", 0.0, "no balance"
-    # viability breach: deeply negative equity AND operating cash can't service
-    breach = (EQ < -0.2 * TA) and (ocf < 0)
-    fork = "7a_liquidate" if breach else "7b_restructure"
-    return fork, round(EQ / TA, 2), "eq/ta=%.2f ocf=%.0fM" % (EQ / TA, ocf / 1e6)
+    ocf = sum(_series(facts, "OCF", True, cutoff)[-4:]) if _series(facts, "OCF", True, cutoff) else None
+    if TA is None or TA == 0 or ocf is None:
+        return "unknown", 0.0, "no data"
+    ocf_ta = ocf / TA
+    fork = "7b_restructure" if ocf_ta > 0 else "7a_liquidate"
+    return fork, round(ocf_ta, 3), "ocf/ta=%.3f" % ocf_ta
 
 
 KERNELS = [("P0_source", k_p0_source), ("P2_rhythm", k_p2_rhythm),
