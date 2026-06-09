@@ -21,6 +21,7 @@ Phase signatures (Book I -> finance):
 """
 import sys, os
 import numpy as np
+from datetime import datetime
 sys.path.insert(0, os.path.dirname(__file__))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'api', 'helix_app', 'thing1'))
 import limen_backtest as lb           # noqa: E402
@@ -29,6 +30,34 @@ from pit_trajectory import clean_df, extract_pit  # noqa: E402
 
 CFF_TAGS = ["NetCashProvidedByUsedInFinancingActivities",
             "NetCashProvidedByUsedInFinancingActivitiesContinuingOperations"]
+
+
+def annual_flow(facts, tags, cutoff):
+    """Most recent ANNUAL (FY ~365-day) flow value, filed<=cutoff. Use this for
+    cash-flow signals: the quarterly extractor breaks on cumulative-YTD reporters
+    (validated in p45_validate.py — fixed P4/P5 from 0.42 to 1.00)."""
+    gaap = (facts or {}).get("facts", {}).get("us-gaap", {})
+    best = None
+    for tag in tags:
+        node = gaap.get(tag.split("/")[-1])
+        if not node:
+            continue
+        for e in node.get("units", {}).get("USD") or []:
+            start, end, filed, val = e.get("start"), e.get("end"), e.get("filed"), e.get("val")
+            if not (start and end and val is not None):
+                continue
+            try:
+                days = (datetime.strptime(end, "%Y-%m-%d") - datetime.strptime(start, "%Y-%m-%d")).days
+            except Exception:
+                continue
+            if not (330 <= days <= 400):
+                continue
+            if cutoff and (end > cutoff or (filed and filed > cutoff)):
+                continue
+            key = (end, filed or "")
+            if best is None or key > (best[0], best[1]):
+                best = (end, filed or "", val)
+    return best[2] if best else None
 
 
 def _series(facts, tag_key, is_flow, cutoff):
@@ -78,38 +107,30 @@ def k_p3_fracture(facts, cutoff, dfc):
 
 
 def k_p4_scaffold(facts, cutoff, dfc):
-    """Exogenous support: living on RAISED capital — financing inflow funding an
-    operating-cash deficit. Would collapse if the external capital stopped."""
-    ocf = _series(facts, "OCF", True, cutoff)[-4:]
-    cff = _cff(facts, cutoff)[-4:]
-    if len(ocf) < 2 or len(cff) < 2:
-        return False, 0.0, "insufficient"
-    ocf_ttm, cff_ttm = sum(ocf), sum(cff)
-    # burning operationally AND plugging the hole with financing inflow AND not
-    # independently solvent (a cash machine with a one-off negative-OCF quarter
-    # is NOT scaffolded — guard on solvency).
-    z = altman.z_from_facts(facts, cutoff)
-    zval = None if z.get("error") else z["Z"]
-    solvent = zval is not None and zval > 2.6
-    fires = ocf_ttm < 0 and cff_ttm > 0 and cff_ttm > 0.5 * abs(ocf_ttm) and not solvent
-    cover = (cff_ttm / abs(ocf_ttm)) if ocf_ttm < 0 else 0
-    return fires, round(min(cover, 2) / 2, 2), "ocf=%.0fM cff=%.0fM cover=%.1f" % (
-        ocf_ttm / 1e6, cff_ttm / 1e6, cover)
+    """P4 = R_int = integral R_i: survival BOUND by external capital. VALIDATED
+    (p45_validate.py 6/6): annual OCF burning AND financing inflow plugging it
+    (cff > 0.5*|ocf|). Annual flows + no solvency guard (annual OCF<0 already
+    excludes cash machines). Would collapse if the raised capital stopped."""
+    ocf = annual_flow(facts, lb.TAG_MAP["OCF"], cutoff)
+    cff = annual_flow(facts, CFF_TAGS, cutoff)
+    if ocf is None or cff is None:
+        return False, 0.0, "no flows"
+    fires = ocf < 0 and cff > 0.5 * abs(ocf)
+    cover = cff / abs(ocf) if ocf else 0
+    return fires, round(min(max(cover, 0), 3) / 3, 2), "ocf=%.0fM cff=%.0fM cff/|ocf|=%.1f" % (
+        ocf / 1e6, cff / 1e6, cover)
 
 
 def k_p5_endurance(facts, cutoff, dfc):
-    """Internal recursion: recovered on its OWN cash — OCF turned/held positive
-    WITHOUT relying on financing inflow (the opposite of P4 scaffolding)."""
-    ocf = _series(facts, "OCF", True, cutoff)[-6:]
-    cff = _cff(facts, cutoff)[-6:]
-    if len(ocf) < 4:
-        return False, 0.0, "insufficient"
-    recent_ocf = sum(ocf[-4:])
-    cff_ttm = sum(cff[-4:]) if len(cff) >= 4 else 0
-    # positive operating cash, NOT propped by financing (cff <= 0 = repaying, not raising)
-    fires = recent_ocf > 0 and cff_ttm <= 0
-    return fires, round(1.0 if fires else 0.0, 2), "ocf=%.0fM cff=%.0fM" % (
-        recent_ocf / 1e6, cff_ttm / 1e6)
+    """P5 = Delta = R_new - R_old: a new self-sustaining regime on the system's
+    OWN operating cash (opposite of P4). VALIDATED (p45_validate.py 6/6): annual
+    OCF positive AND operations dominate financing (cff < ocf)."""
+    ocf = annual_flow(facts, lb.TAG_MAP["OCF"], cutoff)
+    cff = annual_flow(facts, CFF_TAGS, cutoff)
+    if ocf is None or cff is None:
+        return False, 0.0, "no flows"
+    fires = ocf > 0 and cff < ocf
+    return fires, round(1.0 if fires else 0.0, 2), "ocf=%.0fM cff=%.0fM" % (ocf / 1e6, cff / 1e6)
 
 
 def k_p7_fork(facts, cutoff, dfc):
