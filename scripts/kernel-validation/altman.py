@@ -67,8 +67,9 @@ def _latest(facts, tags, kind, cutoff):
     return best_val
 
 
-def altman_z2(cik, event_str=None):
-    facts = lb.fetch_sec_facts(cik)
+def z_from_facts(facts, event_str=None):
+    """Compute Z'' from an already-fetched companyfacts object (lets callers
+    evaluate Z'' at many cutoff dates without re-fetching)."""
     if not facts:
         return {"error": "no_facts"}
     v = {k: _latest(facts, tags, kind, event_str) for k, (tags, kind) in CONCEPTS.items()}
@@ -94,6 +95,13 @@ def altman_z2(cik, event_str=None):
     return {"Z": round(Z, 2), "zone": zone, "entity": facts.get("entityName", ""),
             "X1": round(X1, 3), "X2": round(X2, 3), "X3": round(X3, 3), "X4": round(X4, 3),
             "as_of": event_str or "current"}
+
+
+def altman_z2(cik, event_str=None):
+    facts = lb.fetch_sec_facts(cik)
+    if not facts:
+        return {"error": "no_facts"}
+    return z_from_facts(facts, event_str)
 
 
 if __name__ == "__main__":
