@@ -26,12 +26,17 @@ import limen_backtest as lb           # noqa: E402
 import altman, phase_kernels as pk    # noqa: E402
 from pit_trajectory import clean_df, extract_pit  # noqa: E402
 
+# NOTE: the Was regulation-MODE uses SPECIFIC kernel combinations (is it scaffolded?
+# recovered?), NOT the single arbitration-dominant phase. Wiring the arbitration
+# dominant in here regressed 0.90 -> 0.40 (distress-dominance hides the scaffolding
+# signal at the trough). arbitration.py stays as the standalone Is-posterior.
+
 
 def phase_history(facts, ticker=None, end_cutoff=None, lookback=16):
-    """Run the Is-kernels point-in-time at each of the last `lookback` quarters."""
+    """Run the mode-relevant Is-kernels point-in-time at each quarter."""
     rev = extract_pit(facts, lb.TAG_MAP["Revenue"], True, end_cutoff)
     quarters = sorted(rev.keys())
-    if end_cutoff:                      # enforce the window by quarter date
+    if end_cutoff:
         ec = datetime.strptime(end_cutoff, "%Y-%m-%d")
         quarters = [q for q in quarters if lb.quarter_to_date(q) <= ec]
     quarters = quarters[-lookback:]
@@ -39,24 +44,17 @@ def phase_history(facts, ticker=None, end_cutoff=None, lookback=16):
     for yq in quarters:
         cutoff = lb.quarter_to_date(yq).strftime("%Y-%m-%d")
         dfc = clean_df(facts, cutoff)
-        p3 = pk.k_p3_fracture(facts, cutoff, dfc, ticker)[0]
-        p4 = pk.k_p4_scaffold(facts, cutoff, dfc)[0]
-        p5 = pk.k_p5_endurance(facts, cutoff, dfc)[0]
-        z = altman.z_from_facts(facts, cutoff)
-        zval = None if z.get("error") else z["Z"]
-        H.append({"q": yq, "P3": p3, "P4": p4, "P5": p5,
-                  "solvent": (zval is None or zval > 1.1), "z": zval})
+        H.append({"q": yq,
+                  "P3": pk.k_p3_fracture(facts, cutoff, dfc, ticker)[0],
+                  "P4": pk.k_p4_scaffold(facts, cutoff, dfc)[0],
+                  "P5": pk.k_p5_endurance(facts, cutoff, dfc)[0],
+                  "solvent": (lambda z: z.get("error") or z["Z"] > 1.1)(altman.z_from_facts(facts, cutoff))})
     return H
 
 
 def was_features(H):
-    return {
-        "ever_p3": any(h["P3"] for h in H),
-        "p3_count": sum(h["P3"] for h in H),
-        "ever_p4": any(h["P4"] for h in H),
-        "last_p3_idx": max([i for i, h in enumerate(H) if h["P3"]], default=-1),
-        "n": len(H),
-    }
+    return {"ever_p3": any(h["P3"] for h in H), "p3_count": sum(h["P3"] for h in H),
+            "ever_p4": any(h["P4"] for h in H), "n": len(H)}
 
 
 def regulation_mode(facts, ticker=None, end_cutoff=None):
@@ -66,19 +64,17 @@ def regulation_mode(facts, ticker=None, end_cutoff=None):
     f = was_features(H)
     cur = H[-1]
     walk = "".join("3" if h["P3"] else ("4" if h["P4"] else ("5" if h["P5"] else ".")) for h in H)
-    # prior distress = ever in P3 (instability) OR P4 (scaffolded) — both are
-    # distress states; a company can be scaffolded without the P3 composite firing.
     prior_distress = f["ever_p3"] or f["ever_p4"]
     if not prior_distress:
-        mode = "GENUINE-BASELINE"            # never distressed -> P5 firing here is just "healthy"
+        mode = "GENUINE-BASELINE"
     elif cur["P3"] and cur["solvent"]:
-        mode = "MASKING"                      # internal P3, presents solvent (the gap)
+        mode = "MASKING"
     elif cur["P3"]:
         mode = "OVERT-DISTRESS"
     elif cur["P4"]:
-        mode = "SCAFFOLDING"                  # prior P3, held by raised capital
+        mode = "SCAFFOLDING"
     elif cur["P5"]:
-        mode = "ENDURANCE"                    # prior P3, recovered on own cash
+        mode = "ENDURANCE"
     else:
         mode = "POST-DISTRESS-STABLE"
     return mode, walk, f
