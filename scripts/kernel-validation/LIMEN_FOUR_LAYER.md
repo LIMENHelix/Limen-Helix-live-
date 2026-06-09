@@ -36,7 +36,9 @@ Book I cites continuous dynamics per phase (Kuramoto, Hopf, symmetry-breaking, c
 | P9 Threshold | `R_syn=∪Rᵢ` | grey solvency + elevated composite + high leverage | built — not yet firing (tuning) |
 | P10 Return | `R→S₀` | solvent/stable/own-cash (Was separates from P0) | built / face-valid (WMT/KO) |
 
-**All 11 Is kernels now built.** With 11 kernels every company multi-fires (WMT → P0+P2+P5+P6+P10) → **the Is-posterior arbitration is now the critical next piece** (resolve the multi-fire to a dominant phase / ranked posterior). P8/P9 need signature tuning against their intended cases (AT&T deleveraging, WBD leveraged cliff).
+**All 11 Is kernels now built.** With 11 kernels every company multi-fires (WMT → P0+P2+P5+P6+P10).
+
+**Is-POSTERIOR ARBITRATION built (`arbitration.py`):** resolves the multi-fire to ONE dominant phase + fork modifier. Principle = DISTRESS dominates HEALTH (salience: P7 fork 10 · P3 9 · P9 8 · P1 7 · P4 6 · P8 5 · P6 4 · P5 3 · P10 2 · P2 1 · P0 0); the P7 fork (7a/7b) rides along when distress is dominant; Was conditions the health side. Results sensible + match outcomes: WMT→P6, WE→P1/7a, BBBY→P3/**7a (liquidated ✓)**, CHK→P3/**7b (emerged ✓)**, Sears→P4/**7a (liquidated ✓)**, CCL@2021→P4(scaffold) vs CCL-now→P5(endurance). P8/P9 still need signature tuning (AT&T deleveraging, WBD leveraged cliff).
 
 **Why one kernel per phase (not one monolith):** the monolithic `score_all_phases` is decoration — it collapses to "flat→P4" because it scores 11 phases from one shared feature set (measured: `phase_walk.py`; bankrupts and healthy both pool in P4/P6). A dedicated binary kernel per phase, each in its OWN feature space, dissolves the feature-underdetermination (and the §112(a) gap): each only answers "am I in *this* phase?"
 
