@@ -95,15 +95,25 @@ def k_p2_rhythm(facts, cutoff, dfc):
     return coh > 0.5, round(coh, 2), "ar2_coherence=%.2f" % coh
 
 
-def k_p3_fracture(facts, cutoff, dfc):
-    """Pattern instability — the VALIDATED masking/instability composite."""
+def k_p3_fracture(facts, cutoff, dfc, ticker=None):
+    """Pattern instability — the VALIDATED masking/instability composite, with an
+    optional market-equity VETO: if the market values equity > 1.2x total
+    liabilities, the trajectory is buyback/structural noise, not distress (kills
+    COST/PEP/FIS/SBUX). Real distress (BBBY/JCP/PIR) has a collapsed market cap
+    so it is NOT vetoed."""
     if dfc is None:
         return False, 0.0, "no df"
     try:
         c, _, _ = lb.compute_composite_score(dfc, cutoff, lb.HOLDOUT_P3_ENTRY)
     except Exception:
         return False, 0.0, "err"
-    return (c >= 1.1), round(float(c), 2), "composite=%.2f" % c
+    fires = c >= 1.1
+    if fires and ticker:
+        import marketcap
+        _, ratio = marketcap.mve_to_liabilities(facts, ticker, cutoff)
+        if ratio is not None and ratio > 1.2:
+            return False, round(float(c), 2), "composite=%.2f VETOED(mve/tl=%.1f)" % (c, ratio)
+    return fires, round(float(c), 2), "composite=%.2f" % c
 
 
 def k_p4_scaffold(facts, cutoff, dfc):

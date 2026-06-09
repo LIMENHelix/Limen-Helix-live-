@@ -52,7 +52,7 @@ def main():
     print("%-6s %-11s %-12s %-16s %s" % ("TICK", "cutoff", "expected", "got", ""))
     for (t, cik, cut, exp) in COHORT:
         facts = lb.fetch_sec_facts(cik)
-        mode, walk, f = was.regulation_mode(facts, cut)
+        mode, walk, f = was.regulation_mode(facts, t, cut)
         ok = (mode == exp) or (exp == "MASKING" and mode in DISTRESS_OK)
         rows.append({"t": t, "exp": exp, "got": mode, "ok": ok})
         print("%-6s %-11s %-12s %-16s %s" % (t, str(cut or "current"), exp, mode, "OK" if ok else "MISS"))

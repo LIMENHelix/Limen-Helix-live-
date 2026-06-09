@@ -27,7 +27,7 @@ import altman, phase_kernels as pk    # noqa: E402
 from pit_trajectory import clean_df, extract_pit  # noqa: E402
 
 
-def phase_history(facts, end_cutoff=None, lookback=16):
+def phase_history(facts, ticker=None, end_cutoff=None, lookback=16):
     """Run the Is-kernels point-in-time at each of the last `lookback` quarters."""
     rev = extract_pit(facts, lb.TAG_MAP["Revenue"], True, end_cutoff)
     quarters = sorted(rev.keys())
@@ -39,7 +39,7 @@ def phase_history(facts, end_cutoff=None, lookback=16):
     for yq in quarters:
         cutoff = lb.quarter_to_date(yq).strftime("%Y-%m-%d")
         dfc = clean_df(facts, cutoff)
-        p3 = pk.k_p3_fracture(facts, cutoff, dfc)[0]
+        p3 = pk.k_p3_fracture(facts, cutoff, dfc, ticker)[0]
         p4 = pk.k_p4_scaffold(facts, cutoff, dfc)[0]
         p5 = pk.k_p5_endurance(facts, cutoff, dfc)[0]
         z = altman.z_from_facts(facts, cutoff)
@@ -59,8 +59,8 @@ def was_features(H):
     }
 
 
-def regulation_mode(facts, end_cutoff=None):
-    H = phase_history(facts, end_cutoff)
+def regulation_mode(facts, ticker=None, end_cutoff=None):
+    H = phase_history(facts, ticker, end_cutoff)
     if not H:
         return "unknown", "", {}
     f = was_features(H)
@@ -99,7 +99,7 @@ def main():
     print("  walk: 3=P3  4=P4-scaffold  5=P5-endurance  .=other  (oldest->newest)\n")
     for (t, cik, cut, note) in PANEL:
         facts = lb.fetch_sec_facts(cik)
-        mode, walk, f = regulation_mode(facts, cut)
+        mode, walk, f = regulation_mode(facts, t, cut)
         print("%-6s %-44s" % (t, note))
         print("       walk: %s" % walk)
         print("       ever_P3=%s  P3_dwell=%d  ever_P4=%s  =>  MODE: %s\n" % (
