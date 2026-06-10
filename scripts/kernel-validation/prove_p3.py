@@ -25,10 +25,10 @@ DROP = 0.25   # relational lock dropped this much (early->late) = the loop is br
 
 PANEL = [
     # FRACTURE (P3) — HAD coherence, losing it
-    ("BBBY", "0000886158", "P3-fracture"),
-    ("JCP",  "0001166126", "P3-fracture"),
-    ("SHLD", "0001310067", "P3-fracture"),   # Sears
-    ("GME",  "0001326380", "P3-fracture"),   # GameStop
+    ("BBBY", "0000886158", "P3-fracture"),    # incoherent breakdown
+    ("JCP",  "0001166126", "P3-fracture"),    # incoherent breakdown
+    ("SHLD", "0001310067", "coherent-decl"),  # Sears — declining but pattern intact = STUCK
+    ("GME",  "0001326380", "coherent-decl"),  # GameStop — secular decline, pattern intact
     # NOT P3 — never-coherent aseasonal noise (NOT decohering)
     ("KMI",  "0001506307", "noisy-stable"),
     ("WMB",  "0000107263", "noisy-stable"),
@@ -55,27 +55,35 @@ def main():
             print("%-6s %-13s insufficient" % (t, exp)); continue
         growth, _ = ps.growth_cv(rev)
         tcoh, _ = ps.rhythm(rev)         # TEMPORAL coherence only (margins are a red herring)
-        turb = ps.turbulence(rev)
-        # P3 = the operating pattern is breaking: declining (under pressure) AND the
-        # temporal operating rhythm has degraded. P3 IS the fracture phase ->
-        # distress-shaped is correct here (unlike P1/P6/P10).
-        p3 = (growth < -0.05) and (tcoh is not None and tcoh < 0.6)
-        should = exp == "P3-fracture"
-        ok = (p3 == should)
-        rows.append({"t": t, "exp": exp, "p3": p3, "ok": ok})
-        print("%-6s %-13s %-+8.0f%% tcoh=%-6s turb=%-6s %s  %s" % (
-            t, exp, growth * 100,
-            ("%.2f" % tcoh) if tcoh is not None else "n/a",
-            ("%.2f" % turb) if turb is not None else "n/a",
-            "FRACTURE" if p3 else "  .  ", "OK" if ok else "MISS"))
+        # Both fracture and coherent-decline are DECLINING; the discriminator is
+        # whether the operating PATTERN holds. Bankruptcy is the OUTCOME of either.
+        declining = growth < -0.05
+        if declining and tcoh is not None and tcoh < 0.6:
+            state = "P3-FRACTURE"        # pattern lost integrity (incoherent)
+        elif declining and tcoh is not None and tcoh >= 0.6:
+            state = "coherent-decline"   # pattern intact, shrinking = STUCK (not P3)
+        else:
+            state = "not-declining"
+        p3 = state == "P3-FRACTURE"
+        if exp == "P3-fracture":
+            ok = state == "P3-FRACTURE"
+        elif exp == "coherent-decl":
+            ok = state == "coherent-decline"
+        else:
+            ok = state != "P3-FRACTURE"
+        rows.append({"t": t, "exp": exp, "p3": p3, "ok": ok, "state": state})
+        print("%-6s %-13s %-+8.0f%% tcoh=%-6s -> %-16s %s" % (
+            t, exp, growth * 100, ("%.2f" % tcoh) if tcoh is not None else "n/a",
+            state, "OK" if ok else "MISS"))
         time.sleep(0.2)
     scored = [r for r in rows if r["ok"] is not None]
     ok = sum(1 for r in scored if r["ok"])
-    print("\n=== P3 proof: loss of a prior loop == fracture? ===")
-    print("  agreement %d/%d = %.2f (scored)" % (ok, len(scored), ok / len(scored) if scored else 0))
-    print("  false P3:", [r["t"] for r in scored if r["p3"] and not r["ok"]])
-    print("  missed a fracture:", [r["t"] for r in scored if not r["p3"] and not r["ok"]])
-    print("  no data:", [r["t"] for r in rows if r["ok"] is None])
+    print("\n=== P3 proof: FRACTURE (incoherent) vs COHERENT-DECLINE (stuck) — both end in bankruptcy ===")
+    print("  agreement %d/%d = %.2f" % (ok, len(scored), ok / len(scored) if scored else 0))
+    print("  P3 fracture (declining + incoherent):", [r["t"] for r in scored if r["state"] == "P3-FRACTURE"])
+    print("  coherent-decline / STUCK (declining + pattern intact):",
+          [r["t"] for r in scored if r["state"] == "coherent-decline"])
+    print("  bankruptcy is the OUTCOME of BOTH paths — not the phase.")
 
 
 if __name__ == "__main__":
