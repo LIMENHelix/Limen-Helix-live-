@@ -35,17 +35,34 @@ def _q_debt(facts):
     return d
 
 
+def _q_assets(facts):
+    node = facts.get("facts", {}).get("us-gaap", {}).get("Assets")
+    d = {}
+    if node:
+        by_end = {}
+        for e in node.get("units", {}).get("USD", []):
+            end, val, filed = e.get("end"), e.get("val"), e.get("filed")
+            if not end or val is None or val <= 0:
+                continue
+            if end not in by_end or (filed and filed > by_end[end][0]):
+                by_end[end] = (filed, val)
+        for end, (f, v) in by_end.items():
+            d[(int(end[:4]), (int(end[5:7]) - 1) // 3 + 1)] = v
+    return d
+
+
 def build(facts):
     rev = decumulate(facts, lb.TAG_MAP["Revenue"])
     ocf = decumulate(facts, OCF_T)
     cff = decumulate(facts, CFF_T)
     debt = _q_debt(facts)
+    assets = _q_assets(facts)
     cdict = ps._cost_dict(facts)
     qs = sorted(set(rev) & set(ocf) & set(cff))
     rows = {}
     for q in qs:
         rows[q] = {"rev": rev.get(q), "ocf": ocf.get(q), "cff": cff.get(q),
-                   "debt": debt.get(q), "cost": (cdict or {}).get(q)}
+                   "debt": debt.get(q), "cost": (cdict or {}).get(q), "assets": assets.get(q)}
     return sorted(rows), rows
 
 

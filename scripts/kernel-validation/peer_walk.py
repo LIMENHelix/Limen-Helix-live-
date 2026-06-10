@@ -95,6 +95,10 @@ def arbitrate_rel(qs, rows, i, secmed):
     idio_weak = g_rel < -0.05                # worse than sector = idiosyncratic
     idio_strong = g_rel > 0.05               # better than sector = idiosyncratic
 
+    # NOTE: tried wiring P7-separation from an asset-shed proxy (assets down >15%
+    # while viable) -- REVERTED. It conflated deliberate spinoffs (HON) with distress
+    # WRITEDOWNS (OXY oil-crash/COVID impairments): both shrink assets while viable.
+    # P1/P7 genuinely need 8-K EVENT confirmation, not a financial-magnitude proxy.
     if burn and (take_in or lever):
         return "P4-scaffold"
     if abs_decline and idio_weak and mt < -0.02:
