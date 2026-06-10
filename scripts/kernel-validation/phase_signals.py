@@ -22,19 +22,68 @@ COST_TAGS = ["CostOfRevenue", "CostOfGoodsAndServicesSold", "CostOfGoodsSold",
              "CostsAndExpenses", "OperatingExpenses"]
 
 
-def rev_series(facts, cutoff=None, n=16):
-    d = decumulate(facts, lb.TAG_MAP["Revenue"], cutoff)
-    return [v for _, v in sorted(d.items())][-n:]
+def _clean_interp(vals):
+    """Replace de-cumulation artifacts with the mean of neighbors, keeping the series
+    REGULAR for lag-4/YoY. Two artifact types:
+      - TOO SMALL (<15% of median): restated-annual minus original-interim (MMM 11M)
+      - TOO LARGE (>3.5x median): an annual figure that never got de-cumulated (TGT
+        cost -> impossible -134% gross margin)
+    Seasonal highs (~1.3x) are well inside the band, so they're untouched."""
+    if len(vals) < 5:
+        return list(vals)
+    med = float(np.median(np.abs(vals)))
+    if med <= 0:
+        return list(vals)
+
+    def is_bad(v):
+        return abs(v) < 0.15 * med or abs(v) > 3.5 * med
+    out = list(vals)
+    for i in [i for i, v in enumerate(out) if is_bad(v)]:
+        nb = [out[j] for j in (i - 1, i + 1) if 0 <= j < len(out) and not is_bad(out[j])]
+        if nb:
+            out[i] = sum(nb) / len(nb)
+    return out
 
 
-def cost_series(facts, cutoff=None, n=16):
+def _rev_dict(facts, cutoff=None):
+    return decumulate(facts, lb.TAG_MAP["Revenue"], cutoff)
+
+
+def _cost_dict(facts, cutoff=None):
     for tag in COST_TAGS:
         if not (facts or {}).get("facts", {}).get("us-gaap", {}).get(tag):
             continue
-        v = [x for _, x in sorted(decumulate(facts, [tag], cutoff).items())][-n:]
-        if len(v) >= 8 and all(x > 0 for x in v):
-            return v
+        d = decumulate(facts, [tag], cutoff)
+        v = [x for _, x in sorted(d.items())]
+        if len(v) >= 8 and all(x > 0 for x in v[-8:]):
+            return d
     return None
+
+
+def rev_series(facts, cutoff=None, n=16):
+    d = _rev_dict(facts, cutoff)
+    return _clean_interp([v for _, v in sorted(d.items())])[-n:]
+
+
+def cost_series(facts, cutoff=None, n=16):
+    d = _cost_dict(facts, cutoff)
+    if d is None:
+        return None
+    return _clean_interp([v for _, v in sorted(d.items())])[-n:]
+
+
+def margin_series(facts, cutoff=None, n=16):
+    """Gross-margin series ALIGNED by quarter key (not by position) — fixes the
+    rev/cost misalignment that spiked TGT. Returns a list of (rev-cost)/rev."""
+    rd, cd = _rev_dict(facts, cutoff), _cost_dict(facts, cutoff)
+    if cd is None:
+        return None
+    shared = sorted(set(rd) & set(cd))[-n:]
+    if len(shared) < 8:
+        return None
+    r = _clean_interp([rd[q] for q in shared])
+    c = _clean_interp([cd[q] for q in shared])
+    return [(r[i] - c[i]) / (r[i] + 1e-9) for i in range(len(shared))]
 
 
 def growth_cv(rev):

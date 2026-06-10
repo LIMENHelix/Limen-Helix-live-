@@ -44,16 +44,14 @@ def revenue_line(rev):
     return "P0-flat"
 
 
-def margin_line(rev, cost):
-    """gross margin trajectory: expanding / stable / COMPRESSING (fracture)."""
-    if cost is None or len(rev) < 12 or len(cost) < 12:
+def margin_line(facts):
+    """gross margin trajectory: expanding / stable / COMPRESSING (fracture).
+    Uses aligned-by-quarter, artifact-cleaned margin_series."""
+    gm = ps.margin_series(facts)
+    if gm is None or len(gm) < 12:
         return "?"
-    n = min(len(rev), len(cost))
-    r, c = np.array(rev[-n:], float), np.array(cost[-n:], float)
-    gm = (r - c) / (r + 1e-9)
-    h = n // 2
-    early, late = float(np.mean(gm[:h])), float(np.mean(gm[h:]))
-    d = late - early
+    h = len(gm) // 2
+    d = float(np.mean(gm[h:]) - np.mean(gm[:h]))
     if d < -0.03:
         return "COMPRESS"      # margins fracturing (P3-on-margin)
     if d > 0.03:
@@ -108,7 +106,7 @@ def main():
         if not rev:
             print("%-6s insufficient" % t); continue
         print("%-6s %-16s %-10s %-9s %-18s %s" % (
-            t, revenue_line(rev), margin_line(rev, cost), cash_line(facts),
+            t, revenue_line(rev), margin_line(facts), cash_line(facts),
             capital_line(facts), structure_line(facts)))
         time.sleep(0.15)
     print("\n  A company = a PROFILE across lines, not one phase.")

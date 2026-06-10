@@ -32,14 +32,10 @@ COMPRESS = -0.03
 
 
 def margin_delta(facts):
-    rev = ps.rev_series(facts, n=20)
-    cost = ps.cost_series(facts, n=20)
-    if cost is None or len(rev) < 12 or len(cost) < 12:
+    gm = ps.margin_series(facts, n=20)   # aligned-by-quarter, artifact-cleaned
+    if gm is None or len(gm) < 12:
         return None
-    n = min(len(rev), len(cost))
-    r, c = np.array(rev[-n:], float), np.array(cost[-n:], float)
-    gm = (r - c) / (r + 1e-9)
-    h = n // 2
+    h = len(gm) // 2
     return float(np.mean(gm[h:]) - np.mean(gm[:h]))
 
 
