@@ -71,15 +71,22 @@ def _cff(facts, cutoff):
 # ── one detector per phase: returns (fires: bool, score, evidence) ──
 
 def k_p0_source(facts, cutoff, dfc):
-    """Null symmetry: flat, low-variance, solvent — undifferentiated baseline."""
-    rev = _series(facts, "Revenue", True, cutoff)[-8:]
-    if len(rev) < 4:
+    """P0 null symmetry: steady-state equilibrium — FLAT (low growth), low-
+    variance, solvent. The flat-growth requirement separates P0 from P6 (growing).
+    PROVEN on prove_p0.py (12/12: tags flat staples/telecom KO/VZ, excludes
+    growers Visa/AAPL/MSFT and decliners BBBY/JCP)."""
+    rev = _series(facts, "Revenue", True, cutoff)[-12:]
+    if len(rev) < 8:
         return False, 0.0, "insufficient"
-    cv = np.std(rev) / (abs(np.mean(rev)) + 1e-9)            # coefficient of variation
+    arr = np.array(rev, float)
+    cv = np.std(arr) / (abs(np.mean(arr)) + 1e-9)            # coefficient of variation
+    yoy = [(arr[i] - arr[i - 4]) / abs(arr[i - 4]) for i in range(4, len(arr)) if abs(arr[i - 4]) > 1e6]
+    growth = float(np.mean(yoy)) if yoy else 0.0
     z = altman.z_from_facts(facts, cutoff)
     zval = None if z.get("error") else z["Z"]
-    fires = cv < 0.08 and zval is not None and zval > 2.6
-    return fires, round(1 - min(cv / 0.08, 1), 2), "cv=%.3f z=%s" % (cv, zval)
+    fires = cv < 0.10 and abs(growth) < 0.04 and zval is not None and zval > 2.6
+    return fires, round(1 - min(cv / 0.10, 1), 2), "cv=%.3f growth=%+.0f%% z=%s" % (
+        cv, growth * 100, ("%.1f" % zval) if zval else "?")
 
 
 def k_p2_rhythm(facts, cutoff, dfc):
