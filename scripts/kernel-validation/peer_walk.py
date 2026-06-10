@@ -30,13 +30,14 @@ SECTOR_PEERS = {
 
 
 def yoy_by_q(facts):
+    """YoY growth keyed by quarter (q vs same quarter prior year) -- robust to
+    MISSING quarters (AAPL drops 2023Q1), which position-based lag-4 mangles."""
     rev = decumulate(facts, lb.TAG_MAP["Revenue"])
-    qs = sorted(rev)
     out = {}
-    for i in range(4, len(qs)):
-        a, b = rev[qs[i]], rev[qs[i - 4]]
-        if a and b and b > 0:
-            out[qs[i]] = (a - b) / abs(b)
+    for q in rev:
+        qp = (q[0] - 1, q[1])
+        if qp in rev and rev[q] and rev[qp] and rev[qp] > 0:
+            out[q] = (rev[q] - rev[qp]) / rev[qp]
     return out
 
 
@@ -52,37 +53,63 @@ def sector_median_growth(sector):
 
 
 def arbitrate_rel(qs, rows, i, secmed):
-    """integrated_walk.arbitrate but with SECTOR-RELATIVE growth."""
+    """ABSOLUTE growth -> fracture/decline (real distress); RELATIVE growth ->
+    outperform/lag (positioning). A company growing absolutely but slower than a hot
+    sector is LAGGING (healthy), NOT fracturing (fixes AAPL)."""
     if i < 8:
         return None
     q = qs[i]
-    rv = [rows[qs[j]]["rev"] for j in range(i - 7, i + 1) if rows[qs[j]]["rev"]]
-    if len(rv) < 6 or rv[-1] is None or rv[-5] is None or rv[-5] == 0:
+    qp = (q[0] - 1, q[1])                      # same quarter, prior year (gap-robust)
+    rev_now = rows[q]["rev"]
+    rev_prior = rows[qp]["rev"] if qp in rows else None
+    if not rev_now or not rev_prior or rev_prior <= 0:
         return None
-    g_abs = (rv[-1] - rv[-5]) / abs(rv[-5])
-    g = g_abs - secmed.get(q, 0.0)                  # SECTOR-RELATIVE growth
+    g_abs = (rev_now - rev_prior) / rev_prior
+    g_rel = g_abs - secmed.get(q, 0.0)
     ocf_ttm = sum(rows[qs[j]]["ocf"] or 0 for j in range(i - 3, i + 1))
     cff_ttm = sum(rows[qs[j]]["cff"] or 0 for j in range(i - 3, i + 1))
+    # margin trend (absolute fracture needs it)
+    costs = [rows[qs[j]]["cost"] for j in range(i - 7, i + 1)]
+    revs = [rows[qs[j]]["rev"] for j in range(i - 7, i + 1)]
+    gm = [(revs[k] - costs[k]) / revs[k] for k in range(len(costs))
+          if costs[k] and revs[k] and revs[k] > 0 and -0.5 <= (revs[k] - costs[k]) / revs[k] <= 0.95]
+    mt = float(np.mean(gm[-3:]) - np.mean(gm[:3])) if len(gm) >= 6 else 0.0
     dch = None
-    d_now, d_then = rows[q]["debt"], rows[qs[i - 4]]["debt"]
+    d_now = rows[q]["debt"]
+    d_then = rows[qp]["debt"] if qp in rows else None
     if d_now and d_then and d_then > 0:
         dch = (d_now - d_then) / d_then
     burn = ocf_ttm < 0
     take_in = cff_ttm > 0 and cff_ttm > 0.5 * abs(ocf_ttm)
     delever = dch is not None and dch < -0.12
     lever = dch is not None and dch > 0.12
+
+    # ABSOLUTE = direction; RELATIVE = is it the company's OWN phase (idiosyncratic)
+    # vs riding the macro (sector-shared = beta, not a phase).
+    abs_decline = g_abs < -0.04
+    idio_weak = g_rel < -0.05                # worse than sector = idiosyncratic
+    idio_strong = g_rel > 0.05               # better than sector = idiosyncratic
+
     if burn and (take_in or lever):
         return "P4-scaffold"
-    if g < -0.06:
-        return "P3-fracture-or-lag"     # declining RELATIVE to sector = idiosyncratic
+    if abs_decline and idio_weak and mt < -0.02:
+        return "P3-fracture"                 # idiosyncratic absolute decline + margin = real fracture
+    if abs_decline and idio_weak:
+        return "coherent-decline"            # idiosyncratic absolute decline, pattern intact
+    if abs_decline and not idio_weak:
+        return "sector-headwind(riding-macro)"   # declining WITH sector = beta, not own phase (OXY/oil)
     if delever and not burn:
         return "P8-self-correct"
-    if g > 0.05 and not burn:
-        return "P6-OUTgrow-sector"      # outgrowing sector = idiosyncratic strength
+    if idio_strong and not burn:
+        return "P6-OUTgrow-sector"           # idiosyncratic strength
+    if idio_weak and g_abs > 0 and not burn:
+        return "P6-LAG-sector(healthy)"      # grows but lags sector = lag, NOT fracture (AAPL)
+    if g_abs > 0.04 and not burn:
+        return "P6-order"
     if not burn and lever:
         return "P6-strategic-lever"
     if not burn:
-        return "P2/P5-stable(in-line)"  # in-line with sector = riding the macro
+        return "P2/P5-stable(in-line)"
     return "transition"
 
 
