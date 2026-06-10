@@ -23,25 +23,28 @@ COST_TAGS = ["CostOfRevenue", "CostOfGoodsAndServicesSold", "CostOfGoodsSold",
 
 
 def _clean_interp(vals):
-    """Replace de-cumulation artifacts with the mean of neighbors, keeping the series
-    REGULAR for lag-4/YoY. Two artifact types:
-      - TOO SMALL (<15% of median): restated-annual minus original-interim (MMM 11M)
-      - TOO LARGE (>3.5x median): an annual figure that never got de-cumulated (TGT
-        cost -> impossible -134% gross margin)
-    Seasonal highs (~1.3x) are well inside the band, so they're untouched."""
+    """Replace de-cumulation artifacts (ISOLATED spikes/dips) with the mean of
+    neighbors, keeping the series REGULAR for lag-4/YoY. Compares each quarter to its
+    LOCAL neighbors (median of i-2..i+2), NOT the global median, so a smooth growth
+    RAMP (NVDA: big quarters next to big quarters) is preserved while an isolated
+    artifact is caught:
+      - TOO SMALL (<15% of local): restated-annual minus original-interim (MMM 11M
+        between ~6000M neighbors)
+      - TOO LARGE (>3.5x local): an un-de-cumulated annual (TGT cost spike)
+    Seasonal highs (~1.3x) and sustained hypergrowth are within the local band."""
     if len(vals) < 5:
         return list(vals)
-    med = float(np.median(np.abs(vals)))
-    if med <= 0:
-        return list(vals)
-
-    def is_bad(v):
-        return abs(v) < 0.15 * med or abs(v) > 3.5 * med
     out = list(vals)
-    for i in [i for i, v in enumerate(out) if is_bad(v)]:
-        nb = [out[j] for j in (i - 1, i + 1) if 0 <= j < len(out) and not is_bad(out[j])]
-        if nb:
-            out[i] = sum(nb) / len(nb)
+    for i in range(len(out)):
+        nb = [out[j] for j in (i - 2, i - 1, i + 1, i + 2) if 0 <= j < len(out)]
+        loc = float(np.median(np.abs(nb))) if nb else 0.0
+        if loc <= 0:
+            continue
+        if abs(out[i]) < 0.15 * loc or abs(out[i]) > 3.5 * loc:
+            good = [out[j] for j in (i - 1, i + 1)
+                    if 0 <= j < len(out) and 0.15 * loc <= abs(out[j]) <= 3.5 * loc]
+            if good:
+                out[i] = sum(good) / len(good)
     return out
 
 
@@ -73,17 +76,23 @@ def cost_series(facts, cutoff=None, n=16):
 
 
 def margin_series(facts, cutoff=None, n=16):
-    """Gross-margin series ALIGNED by quarter key (not by position) — fixes the
-    rev/cost misalignment that spiked TGT. Returns a list of (rev-cost)/rev."""
+    """Gross-margin series ALIGNED by quarter key (not by position). Applies a
+    DOMAIN-VALIDITY clamp: a real gross margin is in [-0.5, 0.95]; anything outside
+    is provably a data artifact (un-de-cumulated annual cost -> TGT -134%; near-zero
+    revenue -> RIVN/LCID +4500%) and is DROPPED (not interpolated). Returns the valid
+    margins, or None if too few survive (e.g. pre-revenue companies -> margin N/A)."""
     rd, cd = _rev_dict(facts, cutoff), _cost_dict(facts, cutoff)
     if cd is None:
         return None
-    shared = sorted(set(rd) & set(cd))[-n:]
-    if len(shared) < 8:
-        return None
-    r = _clean_interp([rd[q] for q in shared])
-    c = _clean_interp([cd[q] for q in shared])
-    return [(r[i] - c[i]) / (r[i] + 1e-9) for i in range(len(shared))]
+    shared = sorted(set(rd) & set(cd))[-(n + 6):]      # extra headroom for drops
+    gm = []
+    for q in shared:
+        r, c = rd[q], cd[q]
+        if r and r > 0:
+            m = (r - c) / r
+            if -0.5 <= m <= 0.95:                       # domain-valid only
+                gm.append(m)
+    return gm[-n:] if len(gm) >= 8 else None
 
 
 def growth_cv(rev):
