@@ -74,6 +74,50 @@ def relational_lock(rev, cost):
     return 1 - min(cv / 0.15, 1)
 
 
+def turbulence(rev):
+    """Amplitude of the irregular (detrended) component. P0 = low (still); P2 & P3
+    both elevated — but P2's is COHERENT (rhythmic), P3's is INCOHERENT (broken)."""
+    if len(rev) < 8 or any(v <= 0 for v in rev):
+        return None
+    lx = np.log(np.array(rev, float))
+    t = np.arange(len(lx))
+    return float(np.std(lx - np.polyval(np.polyfit(t, lx, 1), t)))
+
+
+def coherence_decline(rev, cost):
+    """Fracture (P3) = LOSS of a prior loop, not mere noise. Compare coupling
+    coherence in the early half vs the late half. P3 = had coherence, losing it.
+    Returns (early, late) relational locks, or None if no cost data.
+    (KMI/WMB never-coherent -> early~late~low -> NOT decohering -> not P3.
+     BBBY/JCP were-coherent -> early high, late collapsed -> decohering -> P3.)"""
+    if cost is None or len(rev) < 16 or len(cost) < 16:
+        return None
+    n = min(len(rev), len(cost))
+    r, c = rev[-n:], cost[-n:]
+    h = n // 2
+    early = relational_lock(r[:h], c[:h])
+    late = relational_lock(r[h:], c[h:])
+    if early is None or late is None:
+        return None
+    return early, late
+
+
+def critical_slowing(rev):
+    """Scheffer early-warning: rising variance + lag-1 autocorrelation (resilience
+    loss approaching a tipping point). Returns (variance_rising, ar1)."""
+    if len(rev) < 12 or any(v <= 0 for v in rev):
+        return None, None
+    lx = np.log(np.array(rev, float))
+    t = np.arange(len(lx))
+    resid = lx - np.polyval(np.polyfit(t, lx, 1), t)
+    h = len(resid) // 2
+    ve, vl = np.var(resid[:h]), np.var(resid[h:])
+    var_rising = float((vl - ve) / (ve + 1e-9))
+    r = resid[h:]
+    ar1 = float(np.corrcoef(r[:-1], r[1:])[0, 1]) if len(r) > 2 and np.std(r) > 1e-9 else 0.0
+    return var_rising, ar1
+
+
 # thresholds (hand-set on small panels; revisit on cohort expansion)
 RHYTHM_COH, RHYTHM_AMP = 0.5, 0.03      # a STABLE rhythm exists (P2 temporal dyad)
 RELATIONAL_LOCK = 0.6                     # streams are phase-locked (P2 relational dyad)
