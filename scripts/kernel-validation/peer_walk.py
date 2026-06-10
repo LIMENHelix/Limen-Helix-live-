@@ -41,15 +41,20 @@ def yoy_by_q(facts):
     return out
 
 
-def sector_median_growth(sector):
-    peer_g = [yoy_by_q(lb.fetch_sec_facts(cik)) for _, cik in SECTOR_PEERS[sector]]
-    allq = sorted(set().union(*[set(g) for g in peer_g]))
+def sector_median_growth_from(peer_list):
+    """sector-median YoY growth per quarter from an explicit peer list."""
+    peer_g = [yoy_by_q(lb.fetch_sec_facts(cik)) for _, cik in peer_list]
+    allq = sorted(set().union(*[set(g) for g in peer_g])) if peer_g else []
     med = {}
     for q in allq:
         vals = [g[q] for g in peer_g if q in g]
         if len(vals) >= 3:
             med[q] = float(np.median(vals))
     return med
+
+
+def sector_median_growth(sector):
+    return sector_median_growth_from(SECTOR_PEERS[sector])
 
 
 def arbitrate_rel(qs, rows, i, secmed):
