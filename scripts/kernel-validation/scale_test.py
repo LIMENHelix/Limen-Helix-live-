@@ -17,7 +17,7 @@ import sys, os, json, urllib.request, time
 sys.path.insert(0, os.path.dirname(__file__))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'api', 'helix_app', 'thing1'))
 import limen_backtest as lb           # noqa: E402
-import altman, liquidity, marketcap, snr_envelope  # noqa: E402
+import altman, liquidity, marketcap, snr_envelope, fca_gate  # noqa: E402
 from pit_trajectory import clean_df   # noqa: E402
 
 MVE_VETO = 1.2
@@ -40,8 +40,13 @@ def market_ok(facts, ticker, cutoff):
     return ratio is not None and ratio > MVE_VETO
 
 
-def assess(facts, ticker, cutoff):
-    """FCA-calibrated distress call. Returns (flag, tier, in_env, snr)."""
+def assess(facts, ticker, cutoff, cik=None):
+    """FCA-calibrated distress call. Returns (flag, tier, in_env, snr).
+    FCA scope gate FIRST: financials (Altman invalid) -> EXCLUDED, never flagged."""
+    if cik is not None:
+        sc, _, _ = fca_gate.scope(cik)
+        if sc == "exclude":
+            return False, "excluded-financial", False, None
     snr, _ = snr_envelope.transition_snr(facts, cutoff)
     in_env = snr is not None and snr >= snr_envelope.ABSTAIN_SNR
     z = altman.z_from_facts(facts, cutoff)
@@ -89,13 +94,16 @@ def main():
     uni = universe(500)
     known = {t: (cik, ev) for (t, cik, ev) in KNOWN_DISTRESS}
     rows = []
-    flagged, abstained, processed = [], 0, 0
+    flagged, abstained, processed, excluded = [], 0, 0, 0
     print("FCA-calibration scale test — %d-company universe + %d known bankruptcies\n" % (len(uni), len(known)))
     for (t, cik) in uni:
         facts = lb.fetch_sec_facts(cik)
         if not facts:
             continue
-        flag, tier, in_env, snr = assess(facts, t, None)
+        flag, tier, in_env, snr = assess(facts, t, None, cik)
+        if tier == "excluded-financial":
+            excluded += 1
+            continue
         processed += 1
         if not in_env:
             abstained += 1
@@ -110,13 +118,13 @@ def main():
         facts = lb.fetch_sec_facts(cik)
         if not facts:
             continue
-        flag, tier, in_env, snr = assess(facts, t, ev)
+        flag, tier, in_env, snr = assess(facts, t, ev, cik)
         if flag:
             caught += 1
         bk_results.append((t, flag, tier))
         time.sleep(0.05)
 
-    print("=== UNIVERSE CALIBRATION (n=%d processed) ===" % processed)
+    print("=== UNIVERSE CALIBRATION (n=%d in-scope; %d financials EXCLUDED) ===" % (processed, excluded))
     fr = len(flagged) / processed if processed else 0
     print("  distress-flagged: %d/%d = %.1f%%   (base rate of corporate distress ~5-15%%)" % (
         len(flagged), processed, fr * 100))
