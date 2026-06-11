@@ -79,6 +79,14 @@ def arbitrate_rel(qs, rows, i, secmed):
     gm = [(revs[k] - costs[k]) / revs[k] for k in range(len(costs))
           if costs[k] and revs[k] and revs[k] > 0 and -0.5 <= (revs[k] - costs[k]) / revs[k] <= 0.95]
     mt = float(np.mean(gm[-3:]) - np.mean(gm[:3])) if len(gm) >= 6 else 0.0
+    # PROFITABILITY line: operating margin (op income / revenue). Catches earnings
+    # collapse that gross-margin + cash miss (ROKU: revenue grows, OCF~0 via SBC, but
+    # operating-loss).
+    op = [rows[qs[j]]["opinc"] for j in range(i - 7, i + 1)]
+    opm = [op[k] / revs[k] for k in range(len(op))
+           if op[k] is not None and revs[k] and revs[k] > 0 and -1 <= op[k] / revs[k] <= 1]
+    op_now = opm[-1] if opm else None
+    op_mt = float(np.mean(opm[-3:]) - np.mean(opm[:3])) if len(opm) >= 6 else 0.0
     dch = None
     d_now = rows[q]["debt"]
     d_then = rows[qp]["debt"] if qp in rows else None
@@ -107,6 +115,10 @@ def arbitrate_rel(qs, rows, i, secmed):
         return "coherent-decline"            # idiosyncratic absolute decline, pattern intact
     if abs_decline and not idio_weak:
         return "sector-headwind(riding-macro)"   # declining WITH sector = beta, not own phase (OXY/oil)
+    # profitability fracture: operating-loss AND deteriorating, while NOT cash-burning
+    # (else P4) and NOT revenue-declining (else above) -> the ROKU gap.
+    if op_now is not None and op_now < -0.02 and op_mt < -0.03 and not burn:
+        return "P3-fracture(profitability)"
     if delever and not burn:
         return "P8-self-correct"
     if idio_strong and not burn:

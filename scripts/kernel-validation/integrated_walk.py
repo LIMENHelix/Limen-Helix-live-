@@ -55,6 +55,7 @@ def build(facts):
     rev = decumulate(facts, lb.TAG_MAP["Revenue"])
     ocf = decumulate(facts, OCF_T)
     cff = decumulate(facts, CFF_T)
+    opinc = decumulate(facts, ["OperatingIncomeLoss"])   # profitability line (flow)
     debt = _q_debt(facts)
     assets = _q_assets(facts)
     cdict = ps._cost_dict(facts)
@@ -62,7 +63,8 @@ def build(facts):
     rows = {}
     for q in qs:
         rows[q] = {"rev": rev.get(q), "ocf": ocf.get(q), "cff": cff.get(q),
-                   "debt": debt.get(q), "cost": (cdict or {}).get(q), "assets": assets.get(q)}
+                   "debt": debt.get(q), "cost": (cdict or {}).get(q), "assets": assets.get(q),
+                   "opinc": opinc.get(q)}
     return sorted(rows), rows
 
 
