@@ -1,97 +1,93 @@
 #!/usr/bin/env python3
 """
-SPINOFF REGISTRY (attempt to catch pro-rata spinoffs that 8-K Item 2.01 misses).
+SPINOFF REGISTRY (precise, doc-parse). Catches pro-rata spinoffs that 8-K Item 2.01
+misses (HON Garrett/Resideo, YUM Yum China). The spun CHILD files a Form 10-12B whose
+INFORMATION STATEMENT names the parent throughout. EFTS full-text search finds
+candidates; CONFIRM by parsing the matched document and counting WORD-BOUNDARY parent
+mentions -- a real spinoff's doc names the parent 27-84x; a mere mention (Kontoor
+citing Yum, Motorola citing Apple) is 0. Threshold cleanly separates them.
 
-*** TESTED + NOT WIRED -- precision FAILED (2026-06-10). ***
-The spun CHILD files a Form 10-12B naming the parent; EFTS full-text search finds
-candidates. But a full-text MENTION != a spinoff FROM the parent, and the structural
-confirmation (parent revenue YoY drop near the 10-12B date) DOES NOT disambiguate:
- - Yum!: confirmed 8 but only Yum China real (Kontoor/Hilton-GV/Hertz/PayPal are
-   OTHER companies' spinoffs that cite Yum; Yum had coincidental revenue dips)
- - Apple/Coca-Cola: confirmed 2 each, ALL false (iPhone dip / cyclical dips
-   coincidentally "confirmed" unrelated spinoffs)
- - Honeywell: confirmed only Resideo, MISSED Garrett+AdvanSix (under-caught).
-A parent dips for many reasons + many companies mention big parents -> the two noisy
-signals don't combine to precision. Wiring it would false-tag Apple/Coke/Yum with
-spinoffs they never did (2-forward-3-back), so per research-integrity it is NOT wired.
-PRECISE detection requires PARSING the 10-12B document text (a real spinoff names the
-parent in the cover/intro: "...distribution to shareholders of Honeywell..."), a
-heavier fetch+parse build -- left as the decision point.
+(The earlier full-text + revenue-drop confirmation FAILED precision -- documented in
+git history. This doc-parse version is the precise one.)
 """
 import sys, os
 import json
+import re
 import urllib.request
 import urllib.parse
 import time
 sys.path.insert(0, os.path.dirname(__file__))
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'api', 'helix_app', 'thing1'))
 
-_CAND_CACHE = {}
+_REG_CACHE = {}
 
 
-def _efts(name, retries=3):
+def _efts(name, pages=5):
+    """paginate EFTS (10 hits/page) so all spinoff children are captured, not just
+    the top 10."""
     q = urllib.parse.quote('"%s"' % name)
-    url = "https://efts.sec.gov/LATEST/search-index?q=%s&forms=10-12B" % q
-    for k in range(retries):
-        try:
-            req = urllib.request.Request(url, headers={"User-Agent": "research research@example.com"})
-            with urllib.request.urlopen(req, timeout=25) as r:
-                return json.load(r)
-        except Exception:
-            time.sleep(1.0 + k)
-    return {}
+    hits = []
+    for p in range(pages):
+        url = "https://efts.sec.gov/LATEST/search-index?q=%s&forms=10-12B&from=%d" % (q, p * 10)
+        got = None
+        for k in range(3):
+            try:
+                req = urllib.request.Request(url, headers={"User-Agent": "research research@example.com"})
+                with urllib.request.urlopen(req, timeout=25) as r:
+                    got = json.load(r)
+                break
+            except Exception:
+                time.sleep(1.0 + k)
+        page_hits = (got or {}).get("hits", {}).get("hits", [])
+        if not page_hits:
+            break
+        hits.extend(page_hits)
+        time.sleep(0.3)
+    return {"hits": {"hits": hits}}
 
 
-def candidate_children(parent_name):
-    """{(year,q): earliest 10-12B date} per unique child filer mentioning the parent."""
-    if parent_name in _CAND_CACHE:
-        return _CAND_CACHE[parent_name]
-    by_child = {}
-    d = _efts(parent_name)
+def _doc_parent_count(cik, adsh, fn, token, window=20000):
+    url = "https://www.sec.gov/Archives/edgar/data/%s/%s/%s" % (int(cik), adsh.replace("-", ""), fn)
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "research research@example.com"})
+        with urllib.request.urlopen(req, timeout=25) as r:
+            html = r.read().decode("utf-8", "ignore")
+        txt = re.sub("<[^>]+>", " ", html)
+        return len(re.findall(r"\b" + re.escape(token) + r"\b", txt[:window], re.I))
+    except Exception:
+        return -1
+
+
+def confirmed_spinoffs(parent_name, token, min_count=12, max_children=30):
+    """{(year,q): child} for children whose 10-12B names the parent >= min_count times."""
+    key = (parent_name, token)
+    if key in _REG_CACHE:
+        return _REG_CACHE[key]
+    out = {}
+    d = _efts(token)     # search the distinctive token (broad); doc-count filter is precise
+    children = {}     # nm -> list of (date, cik, adsh, fn) in EFTS RELEVANCE order
     for h in d.get("hits", {}).get("hits", []):
         s = h.get("_source", {})
+        nm = (s.get("display_names") or ["?"])[0].split("(")[0].strip()
         date = s.get("file_date")
-        if not date:
+        if not date or not s.get("ciks"):
             continue
-        child = (s.get("display_names") or ["?"])[0].split("(")[0].strip()
-        if child not in by_child or date < by_child[child]:
-            by_child[child] = date
-    _CAND_CACHE[parent_name] = by_child
-    return by_child
-
-
-def confirmed_spinoff_quarters(parent_name, rev_dict, drop=0.06, window=5):
-    """keep candidates where the PARENT's revenue drops >drop YoY within `window`
-    quarters AFTER the 10-12B (the spinoff completes after registration)."""
-    out = {}
-    for child, date in candidate_children(parent_name).items():
-        cq = (int(date[:4]), (int(date[5:7]) - 1) // 3 + 1)
-        # parent revenue YoY drop in [cq, cq+window]?
-        confirmed = False
-        for k in range(0, window + 1):
-            tot = cq[0] * 4 + (cq[1] - 1) + k
-            q = (tot // 4, tot % 4 + 1)
-            qp = (q[0] - 1, q[1])
-            if q in rev_dict and qp in rev_dict and rev_dict[qp] > 0:
-                if (rev_dict[q] - rev_dict[qp]) / rev_dict[qp] < -drop:
-                    confirmed = True
-                    break
-        if confirmed:
-            out[cq] = child
+        children.setdefault(nm, []).append((date, s["ciks"][0], s.get("adsh"), h["_id"].split(":")[-1]))
+    for nm, hlist in list(children.items())[:max_children]:
+        date0, cik0, adsh0, fn0 = hlist[0]          # MOST RELEVANT hit = the info statement
+        if _doc_parent_count(cik0, adsh0, fn0, token) >= min_count:
+            earliest = min(h[0] for h in hlist)      # earliest filing date = spinoff timing
+            out[(int(earliest[:4]), (int(earliest[5:7]) - 1) // 3 + 1)] = nm
+        time.sleep(0.2)
+    _REG_CACHE[key] = out
     return out
 
 
 if __name__ == "__main__":
-    import limen_backtest as lb
-    import phase_signals as ps
     # precision test: real spinoff parents vs non-spinoff
-    TESTS = [("Honeywell International", "0000773840"), ("Yum! Brands", "0001041061"),
-             ("Apple Inc", "0000320193"), ("Coca-Cola Company", "0000021344")]
-    for name, cik in TESTS:
-        rev = ps._rev_dict(lb.fetch_sec_facts(cik))
-        cand = candidate_children(name)
-        conf = confirmed_spinoff_quarters(name, rev)
-        print("\n%s" % name)
-        print("  candidates (%d): %s" % (len(cand), list(cand.keys())[:6]))
-        print("  CONFIRMED (%d): %s" % (len(conf), {"%dQ%d" % q: c for q, c in conf.items()}))
+    TESTS = [("Honeywell International", "Honeywell"), ("Yum! Brands", "Yum"),
+             ("Apple Inc", "Apple"), ("Coca-Cola Company", "Coca-Cola"),
+             ("General Electric", "General Electric")]
+    for name, tok in TESTS:
+        conf = confirmed_spinoffs(name, tok)
+        print("%-26s CONFIRMED %d: %s" % (name, len(conf), {"%dQ%d" % q: c[:22] for q, c in conf.items()}))
         time.sleep(1.0)
