@@ -59,8 +59,8 @@ def build(facts):
     debt = _q_debt(facts)
     assets = _q_assets(facts)
     cdict = ps._cost_dict(facts)
-    qs = sorted(set(rev) & set(ocf) & set(cff))
-    rows = {}
+    qs = sorted(rev)                   # revenue spine (not 3-way intersection) -> a gap
+    rows = {}                          # in OCF/CFF no longer silently truncates the walk
     for q in qs:
         rows[q] = {"rev": rev.get(q), "ocf": ocf.get(q), "cff": cff.get(q),
                    "debt": debt.get(q), "cost": (cdict or {}).get(q), "assets": assets.get(q),

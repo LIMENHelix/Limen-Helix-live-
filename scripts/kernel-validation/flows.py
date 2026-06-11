@@ -49,11 +49,22 @@ def decumulate(facts, tags, cutoff=None):
     discrete = {}
     for start, lst in groups.items():
         lst.sort()
-        prev = 0.0
+        prev_val = 0.0
+        prev_end = start
         for (end, val) in lst:
-            yq = lb.date_to_quarter(datetime.strptime(end, "%Y-%m-%d"))
-            discrete[yq] = val - prev
-            prev = val
+            try:
+                inc = (datetime.strptime(end, "%Y-%m-%d") - datetime.strptime(prev_end, "%Y-%m-%d")).days
+            except Exception:
+                inc = 0
+            # only emit a QUARTER when the increment is ~quarter-length (a de-cumulated
+            # YTD step, or a discrete quarter). Skips an annual-only value being injected
+            # as a fake single quarter (SHOP 2018-20: $2929M annual != a Q4), and skips
+            # over-long increments left by a gap in the YTD sequence.
+            if 60 <= inc <= 120:
+                yq = lb.date_to_quarter(datetime.strptime(end, "%Y-%m-%d"))
+                discrete[yq] = val - prev_val
+            prev_val = val
+            prev_end = end
     return discrete
 
 
