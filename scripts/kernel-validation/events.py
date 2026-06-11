@@ -15,24 +15,42 @@ import urllib.request
 _CACHE = {}
 
 
+def _fetch_json(url):
+    req = urllib.request.Request(url, headers={"User-Agent": "research research@example.com"})
+    with urllib.request.urlopen(req, timeout=20) as r:
+        return json.load(r)
+
+
 def event_quarters(cik):
-    """quarters with a confirmed 8-K Item 2.01 (acquisition/disposition)."""
+    """quarters with a confirmed 8-K Item 2.01 (acquisition/disposition), from BOTH
+    the recent submissions AND the historical filing-files (>=2010) -> catches
+    pre-2020 acq/disp for high-volume filers (recent window was ~2020+).
+    NOTE: pro-rata SPINOFFS (HON/YUM) use generic Item 8.01, not 2.01, so they are
+    NOT caught -- a filing-convention limit (5.04 tested unreliable: misses YUM,
+    false-fires KO). The reliable spinoff signal (child's Form 10-12B) needs a
+    parent-child cross-ref the per-company data lacks."""
     cik = str(cik).zfill(10)
     if cik in _CACHE:
         return _CACHE[cik]
     out = set()
-    try:
-        url = "https://data.sec.gov/submissions/CIK%s.json" % cik
-        req = urllib.request.Request(url, headers={"User-Agent": "research research@example.com"})
-        with urllib.request.urlopen(req, timeout=20) as r:
-            d = json.load(r)
-        rec = d.get("filings", {}).get("recent", {})
+
+    def process(rec):
         forms, items, dates = rec.get("form", []), rec.get("items", []), rec.get("filingDate", [])
         for i, f in enumerate(forms):
             it = items[i] if i < len(items) else ""
-            if f == "8-K" and "2.01" in it:
+            if f.startswith("8-K") and "2.01" in it:
                 dt = dates[i]
                 out.add((int(dt[:4]), (int(dt[5:7]) - 1) // 3 + 1))
+
+    try:
+        d = _fetch_json("https://data.sec.gov/submissions/CIK%s.json" % cik)
+        process(d.get("filings", {}).get("recent", {}))
+        for fo in d.get("filings", {}).get("files", []):
+            if fo.get("filingTo", "") >= "2010":
+                try:
+                    process(_fetch_json("https://data.sec.gov/submissions/%s" % fo["name"]))
+                except Exception:
+                    pass
     except Exception:
         pass
     _CACHE[cik] = out
