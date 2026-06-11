@@ -65,11 +65,21 @@ def arbitrate_rel(qs, rows, i, secmed):
         return None
     q = qs[i]
     qp = (q[0] - 1, q[1])                      # same quarter, prior year (gap-robust)
-    rev_now = rows[q]["rev"]
-    rev_prior = rows[qp]["rev"] if qp in rows else None
-    if not rev_now or not rev_prior or rev_prior <= 0:
+    # SMOOTHED YoY growth (3q trailing average) so a flat-but-noisy company does not
+    # FLICKER into coherent-decline on single-quarter dips (HON 2021-23 was flat-to-
+    # growing, +2..+9% smoothed, but single quarters bounced -1/-3%). Sustained
+    # declines (INTC/EL/BA) stay strongly negative -> still caught.
+    gs = []
+    for j in range(max(0, i - 2), i + 1):
+        qj = qs[j]
+        qjp = (qj[0] - 1, qj[1])
+        rn = rows[qj]["rev"]
+        rp = rows[qjp]["rev"] if qjp in rows else None
+        if rn and rp and rp > 0:
+            gs.append((rn - rp) / rp)
+    if not gs:
         return None
-    g_abs = (rev_now - rev_prior) / rev_prior
+    g_abs = sum(gs) / len(gs)
     g_rel = g_abs - secmed.get(q, 0.0)
     ocf_ttm = sum(rows[qs[j]]["ocf"] or 0 for j in range(i - 3, i + 1))
     cff_ttm = sum(rows[qs[j]]["cff"] or 0 for j in range(i - 3, i + 1))

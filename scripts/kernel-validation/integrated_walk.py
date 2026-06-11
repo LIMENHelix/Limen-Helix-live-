@@ -116,43 +116,66 @@ def arbitrate(qs, rows, i):
     return "transition"
 
 
+_UP = {"P6-order", "P6-OUTgrow-sector", "P6-LAG-sector(healthy)", "P2/P5-stable(in-line)",
+       "P8-self-correct", "P6-strategic-lever", "P5-endurance"}
+_DOWN = {"coherent-decline", "P3-fracture", "P3-fracture(profitability)",
+         "sector-headwind(riding-macro)", "post-spinoff-rebasing"}
+
+
+def _cat(p):
+    if p in _UP:
+        return "up"
+    if p in _DOWN:
+        return "down"
+    if p == "P4-scaffold":
+        return "scaffold"
+    return "other"
+
+
 def persist(phases, min_dwell=3):
     """Semi-Markov residency: collapse runs shorter than min_dwell quarters into the
-    surrounding phase, so a real episode must DWELL (the book's residency layer).
-    Removes single-quarter noise without over-smoothing the major arcs."""
+    surrounding phase. CATEGORY-AWARE: a short run is only absorbed into a SAME-CATEGORY
+    (up/down/scaffold) neighbor -- so a varied-but-healthy stretch (HON 2021-23: order/
+    lag/P8/stable, no single label sustaining 3q) is NOT absorbed into the surrounding
+    decline. Merges within a direction; never across it."""
     idx = [i for i, p in enumerate(phases) if p is not None]
     if not idx:
         return phases
-    seq = [phases[i] for i in idx]
-    # build runs
     runs = []
-    for p in seq:
+    for p in [phases[i] for i in idx]:
         if runs and runs[-1][0] == p:
             runs[-1][1] += 1
         else:
             runs.append([p, 1])
-    # iteratively absorb short runs into the longer adjacent neighbor
+
+    def remerge(rs):
+        m = []
+        for p, ln in rs:
+            if m and m[-1][0] == p:
+                m[-1][1] += ln
+            else:
+                m.append([p, ln])
+        return m
+
     changed = True
     while changed and len(runs) > 1:
         changed = False
         for k in range(len(runs)):
             if runs[k][1] < min_dwell:
-                left = runs[k - 1] if k > 0 else None
-                right = runs[k + 1] if k < len(runs) - 1 else None
-                tgt = max([r for r in (left, right) if r], key=lambda r: r[1])
+                nbrs = []
+                if k > 0:
+                    nbrs.append(runs[k - 1])
+                if k < len(runs) - 1:
+                    nbrs.append(runs[k + 1])
+                same = [r for r in nbrs if _cat(r[0]) == _cat(runs[k][0])]
+                if not same:
+                    continue                       # no same-category neighbor -> keep
+                tgt = max(same, key=lambda r: r[1])
                 tgt[1] += runs[k][1]
                 runs.pop(k)
-                # re-merge same-label adjacents
-                m = []
-                for p, ln in runs:
-                    if m and m[-1][0] == p:
-                        m[-1][1] += ln
-                    else:
-                        m.append([p, ln])
-                runs = m
+                runs = remerge(runs)
                 changed = True
                 break
-    # expand back
     flat = []
     for p, ln in runs:
         flat += [p] * ln
