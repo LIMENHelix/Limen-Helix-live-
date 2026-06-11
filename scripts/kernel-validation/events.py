@@ -81,9 +81,16 @@ def spinoff_overlay(qs, phases, facts):
         return phases
     spins = sr.confirmed_spinoffs(tok, tok)
     out = list(phases)
+    suppressible = ("coherent-decline", "P3-fracture", "sector-headwind(riding-macro)")
     for i, q in enumerate(qs):
         if q in spins and out[i] is not None:
             out[i] = "P7-spinoff(10-12B)"
+            # the parent's revenue REBASES lower for ~4q (until YoY laps the spinoff);
+            # that drop is the spinoff footprint, not a decline phase. Applied AFTER
+            # persist -> bounded to the 4q window (not absorbed into a long episode).
+            for k in range(1, 5):
+                if i + k < len(out) and out[i + k] in suppressible:
+                    out[i + k] = "post-spinoff-rebasing"
     return out
 
 

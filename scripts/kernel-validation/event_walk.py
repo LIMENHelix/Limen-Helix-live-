@@ -22,6 +22,7 @@ def event_walk(t, cik, sec):
     qs, rows = iw.build(facts)
     base = iw.persist([pw.arbitrate_rel(qs, rows, i, secmed) for i in range(len(qs))])
     over = ev.overlay(qs, base, rows, ev.event_quarters(cik))
+    over = ev.spinoff_overlay(qs, over, facts)   # 10-12B spinoffs + post-spinoff rebasing (slow)
     return qs, rows, over
 
 
