@@ -57,6 +57,36 @@ def event_quarters(cik):
     return out
 
 
+def parent_token(facts):
+    """distinctive parent name token from entityName (Honeywell Intl Inc -> Honeywell)."""
+    import re
+    nm = re.sub(r"(?i)\b(inc|corp|corporation|company|co|international|holdings|group|plc|ltd|the|llc|sa|nv)\b",
+                "", (facts or {}).get("entityName", ""))
+    parts = re.sub(r"[^A-Za-z ]", " ", nm).strip().split()
+    return parts[0].title() if parts else None
+
+
+def spinoff_overlay(qs, phases, facts):
+    """OPTIONAL + SLOW (~30 doc fetches/company, cached): tag confirmed 10-12B spinoff
+    quarters as P7-spinoff. Catches PRO-RATA spinoffs that 8-K Item 2.01 misses (HON
+    Garrett/Resideo, YUM Yum China). Additive (only overlays confirmed quarters).
+    NOTE: the parent's revenue REBASES lower for ~4q post-spinoff, which the decline
+    detector may still read as coherent-decline -- a separate residual artifact."""
+    try:
+        import spinoff_registry as sr
+    except Exception:
+        return phases
+    tok = parent_token(facts)
+    if not tok:
+        return phases
+    spins = sr.confirmed_spinoffs(tok, tok)
+    out = list(phases)
+    for i, q in enumerate(qs):
+        if q in spins and out[i] is not None:
+            out[i] = "P7-spinoff(10-12B)"
+    return out
+
+
 def classify_event(rows, q):
     """acquisition (P1) vs disposition/separation (P7) by asset direction YoY."""
     qp = (q[0] - 1, q[1])
