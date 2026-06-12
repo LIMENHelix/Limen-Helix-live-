@@ -1,6 +1,6 @@
 {
   "schemaVersion": "bridge/1.0",
-  "generatedAt": "2026-06-05T04:10:00.000Z",
+  "generatedAt": "2026-06-07T01:35:53.115Z",
   "description": "Bridge patterns map neural mechanisms to business signatures and back. Each pattern is a CLAIM that two literatures describe the same underlying pathology — and that clinical treatments for the neural side suggest interventions for the business side, and vice versa. derivedAngles per pattern are the seeds that the 6 engine lanes (patent/grant/sba/franchise/investment/research) consume to produce concrete artifacts.",
   "patterns": [
     {
@@ -3854,6 +3854,151 @@
         "research": {
           "hypothesis": "Government-contract-dependent pharmaceutical firms exhibiting grant-tranche-to-milestone-completion lag >90 days across two consecutive funding cycles will show statistically significant increases in voluntary key-personnel attrition and downward guidance revision frequency within the following two quarters, consistent with reward-timing desynchronization theory derived from PPTN-VTA circuit pathology.",
           "methodology": "Retrospective cohort analysis of SEC 10-K/10-Q filings and USASpending.gov contract award data for n=40 small-cap government-funded biopharma firms (2015-2024); compute milestone-payment lag distributions; correlate with personnel attrition proxy (risk-factor language NLP) and guidance revision counts; test against matched commercial-revenue firms as control group using difference-in-differences design."
+        },
+        "sba": null,
+        "franchise": null
+      }
+    },
+    {
+      "id": "SPN_striatal_interneuron_phasic_gating_x_payment_network_interchange_fee_passthrough_rigidity",
+      "neural": {
+        "region": "SPN",
+        "regionLabel": "Striatal Projection Neurons (Cholinergic Interneuron–Mediated Phasic Gating Circuit)",
+        "state": "tonic_cholinergic_interneuron_hyperactivation_with_phasic_pause_suppression",
+        "mechanism": "Tonically active cholinergic interneurons (TANs) in the striatum normally pause briefly in response to salient reward-predictive stimuli, releasing cortical inputs from inhibitory gating and enabling flexible action selection. When TAN pause responses are suppressed—via excess muscarinic M1 autoreceptor activity or dopaminergic hypofunction—phasic disinhibition fails and striatal projection neurons remain tonically gated, preventing adaptive switching to newly reinforced response contingencies. The result is perseverative adherence to previously reinforced action sequences even as environmental contingencies shift, a mechanism implicated in habit rigidity and compulsive behavior.",
+        "knownTreatments": [
+          "Scopolamine (muscarinic antagonist reducing TAN tonic excitability to restore phasic pause window)",
+          "L-DOPA augmentation (restoring dopaminergic D2 modulation of TAN pause probability)",
+          "Deep brain stimulation of striatum (exogenous phasic interruption of tonic cholinergic suppression)"
+        ],
+        "clinicalReferences": [
+          "Aosaki T et al. 1994 Science",
+          "Goldberg JA et al. 2012 Neuron",
+          "Raz A et al. 1996 Journal of Neurophysiology"
+        ]
+      },
+      "business": {
+        "signature": "payment_network_interchange_passthrough_rigidity_with_margin_gating_collapse",
+        "description": "Shift4 operates as an integrated payment technology layer whose margin is partly determined by the spread between the interchange and assessment fees it pays upstream (Visa, Mastercard, Amex) and the blended rate it charges merchants. When payment network rule changes—new interchange categories, surcharge rules, or network assessment adjustments—arrive as salient contingency shifts, a processor with rigid passthrough logic (hardcoded rate tables, inflexible billing engines, or contractual floors) cannot execute a phasic switching response; it continues passing through the old cost structure or absorbing the new cost silently. The business circuit remains 'tonically gated,' unable to disinhibit a fresh pricing action, so margin degrades monotonically until a manual repricing event occurs—mirroring the TAN-suppressed striatum that perseverates on the obsolete action even after the reward contingency has changed.",
+        "indicators": [
+          {
+            "id": "financial_health_phase_gate",
+            "description": "Portal's financial health kernel is in phase p8, consistent with yield-compression stress. Fire on the documented kernel phase to anchor pattern activation.",
+            "detector": {
+              "type": "kernel_phase",
+              "kernels": [
+                "k1"
+              ],
+              "phases": [
+                "p8"
+              ]
+            }
+          },
+          {
+            "id": "visa_mastercard_interchange_cost_pressure_supplier_notes",
+            "description": "Supplier notes for Visa and Mastercard explicitly reference interchange fee schedule changes, margin pressure, and cost passthrough dynamics that are the core signal of phasic gating failure.",
+            "detector": {
+              "type": "fn_text_match",
+              "category": "suppliers",
+              "patterns": [
+                "interchange",
+                "margin",
+                "interchange fee",
+                "cost structure",
+                "passthrough",
+                "fee schedule",
+                "interchange-fee"
+              ]
+            }
+          },
+          {
+            "id": "amex_optblue_hospitality_gaming_interchange_mismatch",
+            "description": "Customer notes for hospitality and gaming verticals reference interchange qualification tiers and high-value Amex transactions, signaling vertical-specific interchange mismatch risk.",
+            "detector": {
+              "type": "fn_text_match",
+              "category": "customers",
+              "patterns": [
+                "interchange",
+                "hospitality",
+                "gaming",
+                "Amex",
+                "compliance",
+                "regulatory",
+                "margin"
+              ]
+            }
+          },
+          {
+            "id": "payment_processing_industry_text_match",
+            "description": "Portal industry field confirms payment processing context, anchoring all interchange-passthrough indicators to the correct business domain.",
+            "detector": {
+              "type": "text_match",
+              "fields": [
+                "industry"
+              ],
+              "patterns": [
+                "Payment Processing",
+                "Prepackaged Software"
+              ]
+            }
+          },
+          {
+            "id": "visa_network_fee_supplier_role_match",
+            "description": "Supplier role labels confirm the presence of payment network counterparties whose interchange rule changes are the triggering contingency shift in the pattern.",
+            "detector": {
+              "type": "fn_text_match",
+              "category": "suppliers",
+              "patterns": [
+                "Payment Network",
+                "Interchange Rules",
+                "Interchange",
+                "Settlement"
+              ]
+            }
+          }
+        ],
+        "phaseAffinity": [
+          "p8"
+        ],
+        "examples": [
+          "Shift4 Payments 2023-2024 margin discussion noting Visa/MC fee schedule changes absorbed within payment processing costs without corresponding merchant rate adjustment in short term",
+          "Heartland Payment Systems (pre-Global Payments acquisition) recurring interchange downgrade losses in hospitality vertical due to PMS integration latency",
+          "WorldPay legacy platform interchange optimization failures cited in 2018 FIS acquisition due-diligence findings"
+        ],
+        "businessReferences": [
+          "Shift4 Payments 10-K 2023 (payment processing costs as % of revenue disclosure)",
+          "Visa Inc. April 2024 U.S. interchange rate schedule update",
+          "Mastercard 2024 U.S. merchant rate restructuring announcement"
+        ]
+      },
+      "bridge": {
+        "mappingType": "analogous_mechanism",
+        "confidence": 0.63,
+        "rationale": "In both systems a tonically active inhibitory gating signal (TAN hyperactivation / hardcoded rate-table logic) prevents a phasic switching response to a salient contingency change (reward schedule shift / network fee update), causing the downstream effector (striatal projection neuron / merchant billing engine) to perseverate on the obsolete action pattern and progressively degrade reward yield—making margin compression the direct business analog of habit rigidity from failed TAN pause."
+      },
+      "derivedAngles": {
+        "patent": {
+          "claimDirection": "Automated interchange contingency-detection engine that monitors real-time network fee schedule feeds and triggers phasic merchant rate adjustment events within a configurable latency window, analogous to a synthetic TAN pause signal.",
+          "noveltyAnchor": "Dynamic phasic repricing trigger keyed to network fee effective-date metadata rather than manual billing cycle, with per-vertical interchange qualification scoring to minimize downgrade exposure."
+        },
+        "grant": {
+          "programMatch": [
+            "NSF Future of Work at the Human-Technology Frontier",
+            "DARPA Transparent Computing (adaptive pricing infrastructure)"
+          ],
+          "angle": "Frame as adaptive financial infrastructure research: real-time payment cost contingency learning systems that reduce systemic merchant margin volatility, with the neural habit-rigidity model as the formal dynamical reference."
+        },
+        "investment": {
+          "thesis": "Processors with demonstrated interchange optimization automation (real-time qualification scoring, dynamic rate-table patching) will sustain net revenue yield through network fee cycles; those without show lagged margin compression detectable 1-2 quarters post-schedule change—a timing arbitrage opportunity in Shift4 vs. peers.",
+          "horizon": "2-4 quarters post Visa/MC fee schedule change events",
+          "instruments": [
+            "FOUR long/short relative to payment processor peers on yield compression signal",
+            "options on FOUR straddling Q1 earnings following April interchange schedule effective dates"
+          ]
+        },
+        "research": {
+          "hypothesis": "Payment processors exhibiting lower interchange optimization automation scores will show statistically greater net revenue yield compression in the two quarters following a major network fee schedule update, controlling for volume mix and vertical concentration.",
+          "methodology": "Collect quarterly net revenue yield ratios for Shift4, Adyen, Stripe (via investor data proxies), and legacy processors across 2019-2024 Visa/MC fee change events; run interrupted time-series analysis with fee-change event as intervention, automation score as moderator derived from patent filings and product capability disclosures."
         },
         "sba": null,
         "franchise": null
