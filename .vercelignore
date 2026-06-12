@@ -78,3 +78,18 @@ SYSTEM_MAP_SIMPLE.md
 
 # KERNEL P3 validation record + harness — internal, keep off the public site
 scripts/kernel-validation/
+
+# ─── EXTENDED 2026-06-12: drop build-only giant JSON tanks from the deploy ───
+# ~115MB of top-level data tanks read ONLY by local build scripts in scripts/
+# (build-company-registry, build-historical-distress-cohort, probe-eligibility,
+# validate-reciprocity). Grep-verified: NO deployed function (api/ + lib/) and
+# NO page/browser-js (*.html + assets/js) reads them. Excluding them from the
+# deploy shrinks every function bundle ~229MB -> ~122MB (includeFiles stays the
+# short proven-good wildcard; Vercel caps that field at 256 chars). Files stay
+# in the repo so the local build scripts still work. Reversible: delete these.
+# NOTE: portal-registry.json is deliberately NOT here — portal-router.js fetches
+# it as a live browser fallback on 250+ portal pages.
+assets/data/treatment-discovery-cube.json
+assets/data/company-registry.json
+assets/data/orphan-stakeholders.json
+assets/data/eligible-universe.json
