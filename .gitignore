@@ -55,3 +55,26 @@ assets/printed/
 
 # 84MB build artifact — render files in treatment-discovery/ are the committed output
 assets/data/treatment-discovery-cube.json
+
+# Kernel-validation bytecode + working logs (runtime, not source)
+scripts/kernel-validation/__pycache__/
+scripts/*.log
+scripts/*.jsonl
+
+# Session scratch — root-level working/diagnostic files (regenerable)
+/_*.txt
+/_*.cjs
+/_live*.json
+/_props*.json
+/_snap.json
+/_fstat.json
+/_live_render.js
+/_wip-backup/
+
+# Generated lane DRAFT documents — keep LOCAL, never deploy (would be public at
+# limenhelix.com/_fired_*.md). Patent/grant/research/spec drafts; regenerable.
+/_fired*.md
+/_fired-*.md
+/_nsf_rewrite.md
+/_sbir_rewrite.md
+/_front-door-and-access-spec.md

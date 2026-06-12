@@ -756,7 +756,7 @@ function applyResults(data) {
   var activeMeta = data.phases.find(function(p) { return p.active; }) || {};
   var modeLabel = currentMode === 'inward' ? 'YOUR FIRM: ' : '';
   document.getElementById('overlayName').textContent = modeLabel + (data.entity_name || '');
-  document.getElementById('overlayPhase').textContent = (activeMeta.label || dom.toUpperCase()) + (data.alert ? ' \u2014 ALERT' : '');
+  document.getElementById('overlayPhase').textContent = (activeMeta.label || dom.toUpperCase()) + ' (interpretive)' + (_provValidatedAlert(data) ? ' \u00b7 ALERT FIRED' : '');
   document.getElementById('overlayScore').textContent = data.trajectory + ' | Composite: ' + data.composite.toFixed(3);
 
   // Show right panel
@@ -828,12 +828,24 @@ function computeReferralRanking(data) {
   };
 }
 
+// Thing 1 validated-alert gate — the ONLY place "ALERT" authority is allowed.
+// data.alert (legacy raw) is NOT the validated signal under the new architecture;
+// validation belongs to the proxy, so we gate on the validated_signal explicitly.
+function _provValidatedAlert(data) {
+  var t1 = (data && data.validated_signal) || {};
+  return t1.alert === true
+    && t1.validation_status === 'validated'
+    && t1.kernel_id === 'limen_backtest.py';
+}
+// Thing 2 phase reads are interpretive/unvalidated proxies — render with this frame.
+var T2_FRAME = 'INTERPRETIVE · UNVALIDATED PHASE PROXY';
+
 // ═══════════════════════════════════════════════════════════════════
 // OUTWARD MODE RENDERERS
 // ═══════════════════════════════════════════════════════════════════
 
 function renderOutwardDiagnosis(data) {
-  var alertClass = data.alert ? 'alert' : 'stable';
+  var alertClass = _provValidatedAlert(data) ? 'alert' : 'stable';
   var rel = getBKRelevance(data);
   var h = '';
 
@@ -854,8 +866,9 @@ function renderOutwardDiagnosis(data) {
   // Dominant Phase
   var activeMeta = data.phases.find(function(p) { return p.active; }) || {};
   h += '<div class="diag-section">';
-  h += '<div class="diag-label">DOMINANT PHASE</div>';
+  h += '<div class="diag-label">DOMINANT PHASE · ' + T2_FRAME + '</div>';
   h += '<div class="diag-value" style="color:' + (PHASE_COLORS[data.dominant_phase] || 'var(--text)') + '">' + (activeMeta.label || data.dominant_phase) + '</div>';
+  h += '<div style="font-size:0.4rem;color:var(--text-ghost);margin-top:3px;line-height:1.5">Thing 2 phase-tracker proxy — not a validated distress finding; validated authority belongs only to the gated Thing 1 ALERT.</div>';
   h += '</div>';
 
   // Trajectory
@@ -933,8 +946,8 @@ function renderOutwardSignals(data) {
   });
 
   h += '<div style="margin-top:14px;padding-top:10px;border-top:1px solid rgba(201,169,78,0.06)">';
-  h += '<div class="diag-label">ALERT STATUS</div>';
-  h += '<div class="diag-value ' + (data.alert ? 'alert' : 'stable') + '">' + (data.alert ? 'ALERT ACTIVE' : 'NO ALERT') + '</div>';
+  h += '<div class="diag-label">ALERT STATUS (Thing 1, validated)</div>';
+  h += '<div class="diag-value ' + (_provValidatedAlert(data) ? 'alert' : 'stable') + '">' + (_provValidatedAlert(data) ? 'ALERT ACTIVE' : 'NO ALERT') + '</div>';
   h += '</div>';
 
   document.getElementById('tab-signals').innerHTML = h;
@@ -1006,11 +1019,11 @@ function renderOutwardReport(data) {
   h += '</div>';
 
   h += '<div class="report-section">';
-  h += '<div class="report-heading">PHASE DIAGNOSIS</div>';
-  h += '<div class="report-line">Dominant: ' + (activeMeta.label || data.dominant_phase) + '</div>';
+  h += '<div class="report-heading">PHASE DIAGNOSIS — ' + T2_FRAME + '</div>';
+  h += '<div class="report-line">Dominant: ' + (activeMeta.label || data.dominant_phase) + ' (interpretive, unvalidated)</div>';
   h += '<div class="report-line">Trajectory: ' + data.trajectory + '</div>';
   h += '<div class="report-line">Composite: ' + data.composite.toFixed(4) + '</div>';
-  h += '<div class="report-line">Alert: ' + (data.alert ? 'YES' : 'NO') + '</div>';
+  h += '<div class="report-line">Validated distress alert (Thing 1): ' + (_provValidatedAlert(data) ? 'YES' : 'NO') + '</div>';
   h += '</div>';
 
   h += '<div class="report-section">';
@@ -1043,7 +1056,7 @@ function renderOutwardReport(data) {
 // ═══════════════════════════════════════════════════════════════════
 
 function renderInwardDiagnosis(data) {
-  var alertClass = data.alert ? 'alert' : 'stable';
+  var alertClass = _provValidatedAlert(data) ? 'alert' : 'stable';
   var activeMeta = data.phases.find(function(p) { return p.active; }) || {};
   var h = '';
 
@@ -1054,13 +1067,14 @@ function renderInwardDiagnosis(data) {
   h += '</div>';
 
   h += '<div class="diag-section">';
-  h += '<div class="diag-label">FIRM DOMINANT PHASE</div>';
+  h += '<div class="diag-label">FIRM DOMINANT PHASE · ' + T2_FRAME + '</div>';
   h += '<div class="diag-value" style="color:' + (PHASE_COLORS[data.dominant_phase] || 'var(--text)') + '">' + (activeMeta.label || data.dominant_phase) + '</div>';
+  h += '<div style="font-size:0.4rem;color:var(--text-ghost);margin-top:3px;line-height:1.5">Thing 2 phase-tracker proxy — not a validated distress finding; validated authority belongs only to the gated Thing 1 ALERT.</div>';
   h += '</div>';
 
   h += '<div class="diag-section">';
   h += '<div class="diag-label">TRAJECTORY</div>';
-  h += '<div class="diag-value ' + alertClass + '">' + data.trajectory + (data.alert ? ' \u2014 ALERT' : '') + '</div>';
+  h += '<div class="diag-value ' + alertClass + '">' + data.trajectory + (_provValidatedAlert(data) ? ' \u2014 ALERT FIRED' : '') + '</div>';
   h += '</div>';
 
   h += '<div class="diag-section">';
@@ -1187,8 +1201,8 @@ function renderInwardReport(data) {
   h += '</div>';
 
   h += '<div class="report-section">';
-  h += '<div class="report-heading">PHASE DIAGNOSIS</div>';
-  h += '<div class="report-line">Dominant: ' + (activeMeta.label || data.dominant_phase) + '</div>';
+  h += '<div class="report-heading">PHASE DIAGNOSIS — ' + T2_FRAME + '</div>';
+  h += '<div class="report-line">Dominant: ' + (activeMeta.label || data.dominant_phase) + ' (interpretive, unvalidated)</div>';
   h += '<div class="report-line">Trajectory: ' + data.trajectory + '</div>';
   h += '<div class="report-line">Composite: ' + data.composite.toFixed(4) + '</div>';
   h += '</div>';

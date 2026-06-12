@@ -76,7 +76,7 @@ h1{font-size:19px;letter-spacing:3px;color:var(--gold);margin:0 0 4px}
 </style></head><body><div class="wrap">
 <h1>LIMEN HELIX — 30 WALKS (fresh validation)</h1>
 <div class="sub">30 companies never used in building the engine · per-line, sector-relative, over time, with 8-K events · 2026-06</div>
-<div class="verdict"><b>Result:</b> ~80%+ proven against documented history on a fresh set — certifying today's core changes (smoothed growth + category-aware persistence). The engine SURFACED real arcs it had no way to know: <b>MRNA</b> COVID boom→bust, <b>ENPH</b> solar boom→bust, <b>MDLZ</b> the 2012 Kraft split, <b>NCLH</b> COVID debt-scaffold, <b>NEM</b> Goldcorp+Newcrest, <b>LIN</b> Praxair merger, <b>VFC</b> Supreme sale. Each bar is a company's phase WALK over time.</div>
+<div class="verdict"><b>Result:</b> 24/30 matched documented history on a held-out set (Wilson 95% CI 62–91%) — <b>retrospective, not yet pre-registered</b>; it certifies today's core changes (smoothed growth + category-aware persistence) as description, not forecast. The engine SURFACED real arcs it had no way to know: <b>MRNA</b> COVID boom→bust, <b>ENPH</b> solar boom→bust, <b>MDLZ</b> the 2012 Kraft split, <b>NCLH</b> COVID debt-scaffold, <b>NEM</b> Goldcorp+Newcrest, <b>LIN</b> Praxair merger, <b>VFC</b> Supreme sale. Each bar is a company's phase WALK over time — it identifies &amp; explains; it does not forecast.</div>
 <div class="axis">__TICKS__</div>
 __ROWS__
 <div class="lg">
