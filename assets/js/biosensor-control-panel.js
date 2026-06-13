@@ -97,6 +97,21 @@
 
     document.body.appendChild(_root);
 
+    // ── Docked into the top bar (operator request 2026-06-13) ───────────────
+    // Don't float over the cockpit: hide the panel by default and toggle it from
+    // the topbar's existing biosensor indicator (#ltb-bio). Falls back to simply
+    // staying hidden if the topbar isn't present (panel still openable via API).
+    _root.style.display = 'none';
+    (function dockToTopbar(tries) {
+      var dot = document.getElementById('ltb-bio');
+      if (!dot) { if (tries < 25) setTimeout(function () { dockToTopbar(tries + 1); }, 120); return; }
+      dot.style.cursor = 'pointer';
+      dot.title = 'Toggle biosensor panel';
+      dot.addEventListener('click', function () {
+        _root.style.display = (_root.style.display === 'none') ? 'block' : 'none';
+      });
+    })(0);
+
     // Cache references
     _els.status = $('lbp-status');
     _els.body   = $('lbp-body');

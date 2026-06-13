@@ -15,6 +15,7 @@
       '#lnav-btn{position:fixed;top:12px;right:12px;z-index:99998;background:#0b1018;color:rgba(201,169,78,1);' +
       'border:1px solid rgba(201,169,78,.45);border-radius:5px;font:600 12px ui-monospace,Menlo,monospace;' +
       'letter-spacing:1px;padding:8px 12px;cursor:pointer}' +
+      '#lnav-btn.lnav-in-bar{position:static;top:auto;right:auto;z-index:auto;padding:4px 10px;font-size:11px;border-radius:3px}' +
       '#lnav-btn:hover{background:rgba(201,169,78,.12)}' +
       '#lnav-ov{position:fixed;inset:0;z-index:99998;background:rgba(2,4,8,.55);display:none}' +
       '#lnav-panel{position:fixed;top:0;right:0;z-index:99999;width:min(420px,92vw);height:100vh;overflow:auto;' +
@@ -58,7 +59,11 @@
       '<input id="lnav-f" type="search" placeholder="Filter pages…"></div>' +
       '<div id="lnav-body">' + rows + '</div>';
 
-    document.body.appendChild(btn); document.body.appendChild(ov); document.body.appendChild(panel);
+    // Dock the trigger into the top bar if present (operator request 2026-06-13);
+    // otherwise float it (pages without a topbar, e.g. the front door).
+    var _slot = (window.LIMENTopbar && typeof window.LIMENTopbar.getActionsSlot === 'function') ? window.LIMENTopbar.getActionsSlot() : null;
+    if (_slot) { btn.classList.add('lnav-in-bar'); _slot.appendChild(btn); } else { document.body.appendChild(btn); }
+    document.body.appendChild(ov); document.body.appendChild(panel);
     function open() { ov.style.display = 'block'; panel.classList.add('open'); var f = document.getElementById('lnav-f'); if (f) setTimeout(function(){f.focus();}, 60); }
     function close() { ov.style.display = 'none'; panel.classList.remove('open'); }
     btn.addEventListener('click', open);
