@@ -5849,28 +5849,11 @@
     });
     slot.appendChild(btn);
 
-    // Generate Reports button
-    var reportBtn = document.createElement('button');
-    reportBtn.className = 'clr-refresh-btn';
-    reportBtn.id = 'clarity-report-btn';
-    reportBtn.textContent = 'GENERATE REPORTS';
-    reportBtn.title = 'Generate analyst reports';
-    reportBtn.addEventListener('click', function () {
-      reportBtn.textContent = 'GENERATING...';
-      reportBtn.style.opacity = '0.6';
-      _triggerReportGeneration();
-      setTimeout(function () {
-        var keys = window.LIMENReports ? Object.keys(window.LIMENReports) : [];
-        reportBtn.textContent = keys.length > 0 ? 'REPORTS (' + keys.length + ')' : 'GENERATE REPORTS';
-        reportBtn.style.opacity = '';
-        if (keys.length > 0 && window.LIMENReportConsole && typeof window.LIMENReportConsole.show === 'function') {
-          window.LIMENReportConsole.show();
-        }
-      }, 2000);
-    });
-    slot.appendChild(reportBtn);
+    // Generate Reports button — REMOVED per operator request (2026-06-13).
+    // (Was a topbar actions-slot button; _triggerReportGeneration still exists if
+    // ever re-wired elsewhere.)
 
-    // Hide the fixed-position bootstrap report button (we replaced it)
+    // Hide the fixed-position bootstrap report button (kept hidden too)
     setTimeout(function () {
       var oldBtn = document.getElementById('limen-report-btn');
       if (oldBtn) oldBtn.style.display = 'none';
