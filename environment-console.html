@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>LIMEN HELIX &middot; ENVIRONMENT CONSOLE</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#050810;color:#e8e3d9;font-family:monospace;height:100%;width:100%;overflow-x:hidden;-webkit-user-select:none;user-select:none}
+
+/* ═══ FULL-HEIGHT CONSOLE GRID ════════════════════════════════ */
+#console-grid{
+  display:grid;
+  grid-template-columns:1fr 1.2fr 1fr;
+  grid-template-rows:auto 1fr auto;
+  grid-template-areas:
+    "header  header  header"
+    "left    center  right"
+    "footer  footer  footer";
+  min-height:100vh;
+  gap:0 8px;
+}
+
+/* ─── Clarity view — overlaps columns in row 2 ──────────────── */
+#clarity-view{
+  grid-column:1 / -1;
+  grid-row:2;
+  z-index:1;
+}
+
+/* ─── Header bar ──────────────────────────────────────────────── */
+#console-header{
+  grid-area:header;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:8px 16px;
+  border-bottom:1px solid rgba(201,169,78,0.08);
+  background:rgba(5,8,16,0.95);
+  z-index:100;
+  position:relative;
+}
+.ch-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.ch-title{
+  font-size:clamp(0.48rem,1.4vw,0.60rem);
+  letter-spacing:4px;
+  text-transform:uppercase;
+  color:rgba(201,169,78,0.5);
+}
+.ch-title a{color:rgba(201,169,78,0.45);text-decoration:none;transition:color 0.2s}
+.ch-title a:hover{color:rgba(201,169,78,0.9)}
+.ch-bc-sep{color:rgba(201,169,78,0.2)}
+.ch-bc-active{color:rgba(201,169,78,0.7)}
+.ch-right{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.ch-status{
+  font-size:0.40rem;
+  letter-spacing:1.5px;
+  color:rgba(200,195,184,0.35);
+}
+.ch-cmd-hint{
+  font-size:0.36rem;
+  letter-spacing:1px;
+  color:rgba(200,195,184,0.2);
+  cursor:pointer;
+  padding:3px 8px;
+  border:1px solid rgba(201,169,78,0.08);
+  border-radius:2px;
+  transition:border-color 0.2s,color 0.2s;
+}
+.ch-cmd-hint:hover{
+  border-color:rgba(201,169,78,0.2);
+  color:rgba(200,195,184,0.4);
+}
+#enter-connectome{
+  font-family:monospace;
+  font-size:0.40rem;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:rgba(201,169,78,0.45);
+  cursor:pointer;
+  padding:4px 12px;
+  border:1px solid rgba(201,169,78,0.15);
+  border-radius:2px;
+  background:rgba(201,169,78,0.04);
+  transition:background 0.3s,color 0.3s,border-color 0.3s;
+}
+#enter-connectome:hover{
+  background:rgba(201,169,78,0.12);
+  color:rgba(201,169,78,0.9);
+  border-color:rgba(201,169,78,0.35);
+}
+
+/* ─── Column containers ───────────────────────────────────────── */
+.console-col{
+  overflow-y:auto;
+  padding:8px 8px 60px;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(201,169,78,0.1) transparent;
+  position:relative;
+  min-height:0;
+}
+.console-col::-webkit-scrollbar{width:3px}
+.console-col::-webkit-scrollbar-thumb{background:rgba(201,169,78,0.1);border-radius:2px}
+
+#col-left{grid-area:left;border-right:1px solid rgba(201,169,78,0.04)}
+#col-center{grid-area:center}
+#col-right{grid-area:right;border-left:1px solid rgba(201,169,78,0.04)}
+
+/* ─── Column labels ───────────────────────────────────────────── */
+.col-label{
+  font-size:0.34rem;
+  letter-spacing:2.5px;
+  text-transform:uppercase;
+  color:rgba(201,169,78,0.2);
+  padding:6px 8px 8px;
+  border-bottom:1px solid rgba(201,169,78,0.06);
+  margin-bottom:8px;
+}
+
+/* ─── Panel overrides: make fixed panels flow inside columns ──── */
+.console-col > [id^="limen-"]{
+  position:relative !important;
+  top:auto !important;
+  left:auto !important;
+  right:auto !important;
+  bottom:auto !important;
+  transform:none !important;
+  width:100% !important;
+  max-width:100% !important;
+  margin-bottom:8px;
+  padding:10px 12px;
+  border-radius:2px;
+  box-shadow:none !important;
+  pointer-events:auto !important;
+}
+
+/* ─── Investigation panel scroll fix ─────────────────────────── */
+.console-col > #limen-investigation-drawer{
+  max-height:420px !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  min-height:0 !important;
+  pointer-events:auto !important;
+}
+
+/* ─── Footer area ─────────────────────────────────────────────── */
+#console-footer{
+  grid-area:footer;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  border-top:1px solid rgba(201,169,78,0.06);
+  background:rgba(5,8,16,0.95);
+  padding:3px 12px;
+  font-size:0.36rem;
+  letter-spacing:1.2px;
+  color:rgba(200,195,184,0.2);
+  z-index:100;
+  min-height:24px;
+  position:relative;
+}
+#footer-left{flex:1}
+#footer-center{text-align:center;flex:1}
+#footer-right{text-align:right;flex:1}
+
+/* Footer panel overrides */
+#console-footer > [id^="limen-"]{
+  position:relative !important;
+  top:auto !important;
+  left:auto !important;
+  right:auto !important;
+  bottom:auto !important;
+  transform:none !important;
+  max-width:none !important;
+  margin:0;
+  display:inline-flex !important;
+  align-items:center;
+}
+
+/* ─── Mode bar — docked just above footer ─────────────────────── */
+#limen-mode-bar{
+  position:fixed !important;
+  bottom:26px !important;
+  left:50% !important;
+  transform:translateX(-50%) !important;
+  z-index:101 !important;
+}
+
+/* ─── Stress strip — clear the mode bar area ──────────────────── */
+#limen-stress-strip{
+  bottom:52px !important;
+}
+
+/* ─── Bottom-edge controls — vertical separation ─────────────── */
+#limen-voice-control{
+  bottom:4px !important;
+  right:12px !important;
+}
+#limen-report-btn{
+  display:none !important;  /* replaced by header button */
+}
+/* (removed) */
+
+/* ─── Stability HUD ──────────────────────────────────────────── */
+#limen-stability-hud{
+  top:36px !important;
+  left:auto !important;
+  right:12px !important;
+}
+
+/* ─── Responsive ──────────────────────────────────────────────── */
+@media(max-width:900px){
+  #console-grid{
+    grid-template-columns:1fr 1fr;
+    grid-template-areas:
+      "header  header"
+      "left    center"
+      "right   right"
+      "footer  footer";
+  }
+  #col-right{border-left:none;border-top:1px solid rgba(201,169,78,0.04)}
+}
+@media(max-width:600px){
+  #console-grid{
+    grid-template-columns:1fr;
+    grid-template-areas:
+      "header"
+      "left"
+      "center"
+      "right"
+      "footer";
+  }
+  #col-left,#col-right{border:none}
+}
+
+/* ═══ RESEARCH OBSERVATORY ═══ */
+#limen-research-observatory{margin-top:4px}
+.ro-header{padding:8px 12px;cursor:pointer;border-bottom:1px solid rgba(201,169,78,0.06)}
+.ro-title{font-size:0.42rem;letter-spacing:3px;color:rgba(201,169,78,0.55);text-transform:uppercase}
+.ro-subtitle{font-size:0.34rem;color:rgba(200,195,184,0.25);letter-spacing:1.5px;margin-top:2px}
+.ro-section{border-bottom:1px solid rgba(201,169,78,0.04)}
+.ro-section-header{padding:6px 12px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:background 0.15s}
+.ro-section-header:hover{background:rgba(201,169,78,0.03)}
+.ro-section-arrow{font-size:0.35rem;color:rgba(201,169,78,0.3);min-width:10px}
+.ro-section-title{font-size:0.36rem;letter-spacing:2.5px;color:rgba(201,169,78,0.45);text-transform:uppercase}
+.ro-section-count{font-size:0.32rem;color:rgba(200,195,184,0.2);letter-spacing:1px;margin-left:auto}
+.ro-section-body{padding:4px 12px 8px;max-height:300px;overflow-y:auto}
+.ro-section-body::-webkit-scrollbar{width:2px}.ro-section-body::-webkit-scrollbar-thumb{background:rgba(201,169,78,0.1)}
+.ro-item{padding:5px 8px;margin:3px 0;border-left:2px solid rgba(201,169,78,0.08);background:rgba(0,0,0,0.15);border-radius:2px;font-size:0.4rem;line-height:1.5}
+.ro-item-head{color:rgba(220,215,200,0.7);font-size:0.42rem}
+.ro-node{color:rgba(201,169,78,0.6);font-weight:500;letter-spacing:1.5px}
+.ro-entity{color:rgba(200,195,184,0.4);font-size:0.38rem;letter-spacing:1px}
+.ro-count{color:rgba(201,169,78,0.35);font-size:0.34rem}
+.ro-item-detail{color:rgba(200,195,184,0.35);font-size:0.36rem;margin-top:2px}
+.ro-item-gap{color:rgba(232,84,84,0.5);font-size:0.36rem;margin-top:2px}
+.ro-item-opp{color:rgba(74,170,106,0.5);font-size:0.36rem;margin-top:2px;font-style:italic}
+.ro-item-meta{color:rgba(200,195,184,0.2);font-size:0.32rem;margin-top:2px;letter-spacing:1px}
+.ro-conflict{border-left-color:rgba(232,84,84,0.2)}
+.ro-cluster{border-left-color:rgba(74,143,212,0.2)}
+.ro-gap{border-left-color:rgba(212,168,74,0.2)}
+.ro-hypothesis{border-left-color:rgba(74,170,106,0.2)}
+.ro-patent-feed{padding:8px 12px;border-top:1px solid rgba(201,169,78,0.06);margin-top:4px}
+.ro-patent-title{font-size:0.36rem;letter-spacing:2.5px;color:rgba(74,170,106,0.4);text-transform:uppercase;margin-bottom:4px}
+.ro-patent-count{font-size:0.32rem;color:rgba(200,195,184,0.2);letter-spacing:1px;margin-bottom:4px}
+.ro-patent-item{font-size:0.34rem;color:rgba(74,170,106,0.35);padding:2px 0;border-bottom:1px solid rgba(0,0,0,0.1)}
+</style>
+
+</head>
+<body>
+<div id="limen-topbar"></div>
+<script src="assets/js/limen-topbar.js"></script>
+
+<div id="console-grid">
+  <!-- topbar removed: see assets/js/limen-topbar.js -->
+  <div id="clarity-view"></div>
+  <div class="console-col" id="col-left"><div class="col-label">ENVIRONMENT SIGNALS &middot; FEEDS</div></div>
+  <div class="console-col" id="col-center"><div class="col-label">ENVIRONMENT DIAGNOSES &middot; TREATMENTS</div></div>
+  <div class="console-col" id="col-right"><div class="col-label">COMPANIES &middot; CONVERGENCE</div></div>
+  <div id="console-footer">
+    <div id="footer-left"></div>
+    <div id="footer-center">LIMEN HELIX &middot; ENVIRONMENT DOMAIN</div>
+    <div id="footer-right"></div>
+  </div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var E={stress:0,confidence:0,activity:0,maturity:'EARLY',phase:'p0',phaseLabel:'SOURCE',signals:[],feeds:[],status:'LOADING',liveCount:0,stressHistory:[],companies:[],convergence:null,opportunities:[],diagnoses:[],treatments:[],changeLog:[]};
+  var PC={p0:'#0EA5E9',p1:'#06B6D4',p2:'#0EA5E9',p3:'#EF7346',p4:'#10B981',p5:'#22C55E',p6:'#10B981',p7b:'#8B5CF6',p7a:'#7B5EA7',p9:'#8B5CF6',p10:'#EAB308'};
+  var MC={STRUCTURAL:'#e85454',CONFIRMED:'#FF9800',FORMING:'#C9A94E',EARLY:'#555'};
+
+  function load(){
+    Promise.all([
+      fetch('/api/domain-snapshot').then(function(r){return r.json();}),
+      fetch('/api/limen-snapshot?type=console').then(function(r){return r.json();}),
+      fetch('/api/limen-snapshot?type=opportunities').then(function(r){return r.json();}),
+      fetch('/api/fetch-portal?domainId=environment').then(function(r){return r.json();}).catch(function(){return null;}),
+      fetch('/api/limen-changelog?domain=environment&limit=40').then(function(r){return r.json();}).catch(function(){return{entries:[]};})
+    ]).then(function(res){
+      var d=(res[0].domains||{}).environment||{};
+      var sd=((res[1].domains||{}).environment)||{};
+      var join=((res[1].domainCompanyJoin||{}).environment)||{};
+      var conv=((res[1].convergenceSignals||{}).environment)||null;
+      var opps=((res[2]||{}).opportunities||[]).filter(function(o){return o.domain==='environment';});
+      var portal=res[3];var cl=res[4];
+      E.stress=d.stress||0;E.confidence=d.confidence||0;E.activity=d.activity||0;E.maturity=d.maturity||'EARLY';
+      E.signals=d.signals||[];E.feeds=d.sources||[];E.status=d.status||'UNKNOWN';E.liveCount=d.liveCount||0;
+      E.phase=sd.phase||'p0';E.phaseLabel=sd.phaseLabel||'SOURCE';
+      E.companies=join.companies||[];E.convergence=conv;E.opportunities=opps;
+      E.diagnoses=portal?(portal.issues||[]):[];E.treatments=[];
+      if(portal&&portal.activations){for(var ai=0;ai<portal.activations.length;ai++){var act=portal.activations[ai];var tx=act.treatments||[];for(var ti=0;ti<tx.length;ti++){E.treatments.push({label:tx[ti].label,type:tx[ti].type,evidence:tx[ti].evidence,nodeId:act.brainNodeId});}}}
+      E.changeLog=(cl&&cl.entries)||[];
+      E.stressHistory.push({s:E.stress,t:Date.now()});if(E.stressHistory.length>80)E.stressHistory.shift();
+      render();
+    });
+  }
+
+  function render(){
+    var s=E.stress;var c=s>0.65?'#e85454':(s>0.4?'#FF9800':'#5ab5a0');var mc=MC[E.maturity]||'#555';var pc=PC[E.phase]||'#666';
+    // CLARITY VIEW - hero strip + metrics grid
+    var cv=document.getElementById('clarity-view');var h='';
+    h+='<div style="padding:12px 16px;border-bottom:1px solid rgba(201,169,78,0.08)">';
+    h+='<div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">';
+    h+='<div style="font-size:1.2rem;font-weight:500;color:'+c+';letter-spacing:2px">'+Math.round(s*100)+'%</div>';
+    h+='<div style="flex:1;min-width:120px;height:6px;background:rgba(255,255,255,0.03);border-radius:3px;overflow:hidden"><div style="height:100%;width:'+Math.round(s*100)+'%;background:'+c+';border-radius:3px"></div></div>';
+    h+='<span style="font-size:0.4rem;letter-spacing:2px;color:'+mc+';padding:2px 8px;border-radius:2px;background:'+mc+'18">'+E.maturity+'</span>';
+    h+='<span style="font-size:0.4rem;letter-spacing:2px;color:'+pc+';padding:2px 8px;border-radius:2px;background:'+pc+'18">'+E.phase.toUpperCase()+' '+E.phaseLabel+'</span>';
+    h+='<span style="font-size:0.38rem;color:rgba(200,195,184,0.4)">Conf: '+Math.round(E.confidence*100)+'% | Activity: '+Math.round(E.activity*100)+'%</span>';
+    h+='</div>';
+    h+='<div style="font-size:0.42rem;color:rgba(200,195,184,0.55);margin-top:6px">'+(s>0.65?'Environment domain under elevated stress.':s>0.4?'Environment domain at moderate stress.':'Environment domain within baseline.')+'</div>';
+    h+='</div>';
+    h+='<div style="padding:8px 16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:6px">';
+    var metrics=[{l:'STRESS',v:Math.round(s*100)+'%',c:c},{l:'CONFIDENCE',v:Math.round(E.confidence*100)+'%',c:'#e8e3d9'},{l:'ACTIVITY',v:Math.round(E.activity*100)+'%',c:'#e8e3d9'},{l:'FEEDS',v:E.liveCount+'/'+E.feeds.length,c:E.liveCount===E.feeds.length?'#5ab5a0':'#FF9800'},{l:'SIGNALS',v:E.signals.length+'',c:E.signals.length>0?'#e85454':'#5ab5a0'},{l:'COMPANIES',v:E.companies.length+'',c:'#e8e3d9'},{l:'OPPORTUNITIES',v:E.opportunities.length+'',c:'#e8e3d9'},{l:'DIAGNOSES',v:E.diagnoses.length+'',c:'#e8e3d9'}];
+    for(var mi=0;mi<metrics.length;mi++){var m=metrics[mi];h+='<div style="padding:6px 8px;border:1px solid rgba(201,169,78,0.06);border-radius:3px;background:rgba(0,0,0,0.15)"><div style="font-size:0.32rem;letter-spacing:2px;color:rgba(200,195,184,0.3)">'+m.l+'</div><div style="font-size:0.5rem;color:'+m.c+';font-weight:500">'+m.v+'</div></div>';}
+    h+='</div>';cv.innerHTML=h;
+
+    // LEFT COL - signals + feeds + memory + changelog
+    var lc=document.getElementById('col-left');h='<div class="col-label">ENVIRONMENT SIGNALS &middot; FEEDS</div>';
+    for(var i=0;i<E.signals.length;i++)h+='<div style="padding:4px 8px;margin:2px 0;font-size:0.38rem;border-left:2px solid #e85454;background:rgba(232,84,84,0.02);color:rgba(220,215,200,0.7)">'+E.signals[i]+'</div>';
+    if(!E.signals.length)h+='<div style="font-size:0.36rem;color:rgba(200,195,184,0.2);padding:6px 0">No signals</div>';
+    h+='<div style="font-size:0.34rem;letter-spacing:2.5px;color:rgba(201,169,78,0.3);margin:12px 0 6px">FEED HEALTH</div>';
+    for(var fi=0;fi<E.feeds.length;fi++){var f=E.feeds[fi];h+='<div style="display:flex;align-items:center;gap:6px;padding:3px 0;font-size:0.36rem;border-bottom:1px solid rgba(255,255,255,0.015)"><div style="width:6px;height:6px;border-radius:50%;background:'+(f.live?'#5ab5a0':'#e85454')+'"></div><span style="color:rgba(220,215,200,0.65);flex:1">'+f.name+'</span><span style="font-size:0.32rem;color:rgba(200,195,184,0.35)">'+(f.live?(f.label||f.value||'OK'):(f.failReason||'DOWN'))+'</span></div>';}
+    if(E.stressHistory.length>3){h+='<div style="font-size:0.34rem;letter-spacing:2.5px;color:rgba(201,169,78,0.3);margin:12px 0 6px">STRESS MEMORY</div><div style="display:flex;height:30px;gap:1px;align-items:flex-end">';var rec=E.stressHistory.slice(-50);for(var si=0;si<rec.length;si++){var sv=rec[si].s;var sc2=sv>0.65?'#e85454':(sv>0.4?'#FF9800':'#5ab5a0');h+='<div style="flex:1;height:'+Math.max(2,Math.round(sv*100))+'%;background:'+sc2+';border-radius:1px 1px 0 0;min-width:2px"></div>';}h+='</div>';}
+    if(E.changeLog.length){h+='<div style="font-size:0.34rem;letter-spacing:2.5px;color:rgba(201,169,78,0.3);margin:12px 0 6px">CHANGE LOG</div>';var TC={EVENT_CHANGE:'#4a8fd4',HEALTH_CHANGE:'#e85454',DIAGNOSIS_CHANGE:'#FF9800',OPPORTUNITY_CHANGE:'#C9A94E',EXECUTION_CHANGE:'#8B5CF6'};for(var li=0;li<Math.min(E.changeLog.length,15);li++){var le=E.changeLog[li];var lcc=TC[le.type]||'#888';h+='<div style="padding:3px 6px;margin:2px 0;font-size:0.32rem;border-left:2px solid '+lcc+';color:rgba(220,215,200,0.6)"><span style="font-size:0.24rem;color:rgba(200,195,184,0.25)">'+new Date(le.timestamp).toLocaleString()+'</span> <span style="color:'+lcc+'">'+le.title+'</span></div>';}}
+    lc.innerHTML=h;
+
+    // CENTER COL - diagnoses + treatments + opportunities
+    var cc=document.getElementById('col-center');h='<div class="col-label">ENVIRONMENT DIAGNOSES &middot; TREATMENTS</div>';
+    for(var di=0;di<E.diagnoses.length;di++){var dx=E.diagnoses[di];h+='<div style="padding:6px 8px;margin:3px 0;border-left:3px solid rgba(201,169,78,0.15);background:rgba(0,0,0,0.12);border-radius:2px;cursor:pointer" onclick="var d=this.querySelector(\'.dxd\');d.style.display=d.style.display===\'block\'?\'none\':\'block\'"><div style="font-size:0.4rem;color:rgba(220,215,200,0.8)">'+dx.label+'</div><div class="dxd" style="display:none;margin-top:4px;padding-top:4px;border-top:1px solid rgba(255,255,255,0.03)">';if(dx.summary)h+='<div style="font-size:0.36rem;color:rgba(200,195,184,0.5);line-height:1.5">'+dx.summary+'</div>';var cir=dx.circuits||[];for(var ci=0;ci<cir.length;ci++){h+='<div style="font-size:0.34rem;color:rgba(200,195,184,0.4);padding:2px 0"><span style="color:rgba(201,169,78,0.6)">'+cir[ci].nodeId+'</span> <span style="color:'+(cir[ci].dir==='Hyper-stressed'?'#e85454':'#4a8fd4')+'">'+cir[ci].dir+'</span></div>';}h+='</div></div>';}
+    if(!E.diagnoses.length)h+='<div style="font-size:0.36rem;color:rgba(200,195,184,0.2);padding:6px 0">No diagnoses</div>';
+    h+='<div style="font-size:0.34rem;letter-spacing:2.5px;color:rgba(201,169,78,0.3);margin:12px 0 6px">TOP TREATMENTS</div>';
+    var evC={A:'#5ab5a0',Strong:'#5ab5a0',B:'#4a8fd4',Moderate:'#4a8fd4',C:'#C9A94E',Emerging:'#888'};
+    for(var tti=0;tti<Math.min(E.treatments.length,15);tti++){var ttx=E.treatments[tti];var ecc=evC[ttx.evidence]||'#888';h+='<div style="padding:4px 6px;margin:2px 0;border-left:2px solid '+ecc+';background:rgba(0,0,0,0.06);font-size:0.34rem"><span style="font-size:0.26rem;letter-spacing:1px;padding:1px 3px;border-radius:1px;font-weight:bold;background:'+ecc+'22;color:'+ecc+'">'+(ttx.evidence||'?')+'</span> <span style="color:rgba(220,215,200,0.65)">'+(ttx.label||'').substring(0,55)+'</span></div>';}
+    h+='<div style="font-size:0.34rem;letter-spacing:2.5px;color:rgba(201,169,78,0.3);margin:12px 0 6px">OPPORTUNITIES</div>';
+    for(var oi=0;oi<Math.min(E.opportunities.length,6);oi++){var op=E.opportunities[oi];var isConv=op.source==='convergence';h+='<div style="padding:5px 8px;margin:2px 0;border-left:3px solid '+(isConv?'#e85454':'#5ab5a0')+';background:rgba(0,0,0,0.08);border-radius:2px"><div style="font-size:0.38rem;color:rgba(220,215,200,0.7)">'+op.title+'</div><div style="font-size:0.28rem;color:rgba(200,195,184,0.35)">rank: '+(op.rank||0)+' | '+(op.path||'')+' | '+(op.urgency||'')+'</div></div>';}
+    if(E.opportunities.length>6)h+='<a href="/environment-opportunities" style="display:block;font-size:0.34rem;color:rgba(201,169,78,0.5);text-decoration:none;letter-spacing:2px;margin-top:6px">VIEW ALL '+E.opportunities.length+' OPPORTUNITIES \u2192</a>';
+    cc.innerHTML=h;
+
+    // RIGHT COL - companies + convergence
+    var rc=document.getElementById('col-right');h='<div class="col-label">COMPANIES &middot; CONVERGENCE</div>';
+    for(var cci=0;cci<E.companies.length;cci++){var co=E.companies[cci];var pp=co.phase||'p0';var ppc=PC[pp]||'#666';var isTerm=pp==='p7a'||pp==='p9';h+='<div style="display:flex;justify-content:space-between;align-items:center;padding:5px 8px;margin:2px 0;background:rgba(0,0,0,0.08);border-left:2px solid '+ppc+'"><span style="color:rgba(201,169,78,0.7);font-size:0.42rem;letter-spacing:2px;font-weight:500">'+co.ticker+'</span><span><span style="font-size:0.36rem;color:'+ppc+'">'+pp.toUpperCase()+'</span> <span style="font-size:0.28rem;color:rgba(200,195,184,0.3)">'+(co.trajectory||'')+'</span>'+(isTerm?' <span style="color:#e85454">\u26A0</span>':'')+'</span></div>';}
+    if(!E.companies.length)h+='<div style="font-size:0.36rem;color:rgba(200,195,184,0.2);padding:6px 0">No companies scored</div>';
+    h+='<div style="font-size:0.34rem;letter-spacing:2.5px;color:rgba(201,169,78,0.3);margin:12px 0 6px">CONVERGENCE</div>';
+    if(E.convergence){var cvv=E.convergence;var cvColors={CONVERGENCE_TERMINAL:'#e85454',CONVERGENCE_INSTABILITY:'#FF9800',DOMAIN_STRUCTURAL:'#C9A94E',COMPANY_FAILURE_CLUSTER:'#8B5CF6'};var cvC=cvColors[cvv.primary_signal]||'#888';h+='<div style="padding:8px 10px;border-left:3px solid '+cvC+';background:rgba(0,0,0,0.12);border-radius:2px"><div style="font-size:0.4rem;font-weight:bold;color:'+cvC+'">'+cvv.primary_signal.replace(/_/g,' ')+'</div><div style="font-size:0.3rem;color:rgba(200,195,184,0.4);margin-top:3px">P7a: '+cvv.p7a_count+'/'+cvv.mapped_company_count+' | '+(cvv.provenance.financial_kernel?'Kernel \u2713':'Domain only')+'</div></div>';}
+    else h+='<div style="font-size:0.36rem;color:rgba(200,195,184,0.2)">No convergence</div>';
+    rc.innerHTML=h;
+
+    // FOOTER
+    document.getElementById('footer-left').innerHTML='<span style="color:rgba(200,195,184,0.15)">'+E.feeds.filter(function(f){return f.live;}).length+'/'+E.feeds.length+' feeds</span>';
+    document.getElementById('footer-right').innerHTML='<span style="color:rgba(200,195,184,0.15)">'+new Date().toLocaleTimeString()+'</span>';
+  }
+  setInterval(function(){var el=document.getElementById('ch-clock');if(el)el.textContent=new Date().toLocaleTimeString();},1000);
+  load();setInterval(load,30000);
+})();
+
+</script>
+</body>
+</html>
