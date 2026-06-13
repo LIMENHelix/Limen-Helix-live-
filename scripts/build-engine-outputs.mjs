@@ -20,7 +20,7 @@ const DIR = path.join(ROOT, 'assets', 'data', 'companies');
 const LOG_PATH = path.join(ROOT, 'assets', 'data', '_engine-build-log.json');
 
 const require = createRequire(import.meta.url);
-const { generateForPortal } = require(path.join(ROOT, 'api', 'lib', 'engine-output-generator.js'));
+const { generateForPortal } = require(path.join(ROOT, 'lib', 'engine-output-generator.js'));
 
 const arg = (name, dflt) => { const i = process.argv.findIndex(a => a === '--' + name || a.startsWith('--' + name + '=')); if (i === -1) return dflt; const a = process.argv[i]; if (a.includes('=')) return a.split('=')[1]; return process.argv[i + 1] || dflt; };
 const DRY = !process.argv.includes('--apply');

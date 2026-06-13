@@ -17,9 +17,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const require = createRequire(import.meta.url);
 
-const queue = require(path.join(ROOT, 'api', 'lib', 'operator-action-queue.js'));
-const { printArtifact } = require(path.join(ROOT, 'api', 'lib', 'print-pipeline.js'));
-const { refreshArtifact } = require(path.join(ROOT, 'api', 'lib', 'refresh-pipeline.js'));
+const queue = require(path.join(ROOT, 'lib', 'operator-action-queue.js'));
+const { printArtifact } = require(path.join(ROOT, 'lib', 'print-pipeline.js'));
+const { refreshArtifact } = require(path.join(ROOT, 'lib', 'refresh-pipeline.js'));
 
 const DRY = !process.argv.includes('--apply');
 console.log('=== process-operator-actions ' + (DRY ? '(DRY RUN)' : '(APPLY)') + ' ===');

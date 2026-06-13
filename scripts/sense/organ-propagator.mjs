@@ -16,7 +16,7 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..', '..');
-const PROPAGATOR = path.join(ROOT, 'api', 'lib', 'limen-stress-propagator.js');
+const PROPAGATOR = path.join(ROOT, 'lib', 'limen-stress-propagator.js');
 const SNAPSHOT = path.join(ROOT, 'assets', 'data', 'stress-network-state.json');
 
 export const id = 'propagator';

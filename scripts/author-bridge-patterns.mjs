@@ -28,8 +28,8 @@ const ROOT = path.resolve(__dirname, '..');
 const DIR = path.join(ROOT, 'assets', 'data', 'companies');
 const require = createRequire(import.meta.url);
 
-const { proposePattern } = require(path.join(ROOT, 'api', 'lib', 'pattern-author.js'));
-const orchestrator = require(path.join(ROOT, 'api', 'lib', 'ai-orchestrator.js'));
+const { proposePattern } = require(path.join(ROOT, 'lib', 'pattern-author.js'));
+const orchestrator = require(path.join(ROOT, 'lib', 'ai-orchestrator.js'));
 
 const arg = (n, d) => { const i = process.argv.findIndex(a => a === '--' + n || a.startsWith('--' + n + '=')); if (i === -1) return d; const a = process.argv[i]; return a.includes('=') ? a.split('=')[1] : (process.argv[i + 1] || d); };
 const DRY = !process.argv.includes('--apply');

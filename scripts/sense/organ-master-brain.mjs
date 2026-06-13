@@ -14,7 +14,7 @@ const MASTER_BRAIN = path.join(ROOT, 'assets', 'js', 'limen', 'master-living-bra
 const EXECUTOR = path.join(ROOT, 'assets', 'js', 'master-brain-executor.js');
 const ENGINE_PERSIST = path.join(ROOT, 'api', 'limen-engine-output.js');
 const INBOX_PATH = path.join(ROOT, 'assets', 'data', '_master-inbox.json');
-const CONSUMER_PATH = path.join(ROOT, 'api', 'lib', 'master-brain-consumer.js');
+const CONSUMER_PATH = path.join(ROOT, 'lib', 'master-brain-consumer.js');
 
 export const id = 'masterBrain';
 export const role = 'PFC / executive cortex (6 engine gates)';

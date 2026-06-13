@@ -20,7 +20,7 @@ const DIR = path.join(ROOT, 'assets', 'data', 'companies');
 const LOG_PATH = path.join(ROOT, 'assets', 'data', '_bridge-build-log.json');
 
 const require = createRequire(import.meta.url);
-const { matchPortal, loadPatterns } = require(path.join(ROOT, 'api', 'lib', 'bridge-engine.js'));
+const { matchPortal, loadPatterns } = require(path.join(ROOT, 'lib', 'bridge-engine.js'));
 
 const arg = (name, dflt) => {
   const i = process.argv.findIndex(a => a === '--' + name || a.startsWith('--' + name + '='));

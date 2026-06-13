@@ -18,7 +18,7 @@ const INBOX_PATH = path.join(ROOT, 'assets', 'data', '_master-inbox.json');
 const DRY = !process.argv.includes('--apply');
 
 const require = createRequire(import.meta.url);
-const { buildInbox } = require(path.join(ROOT, 'api', 'lib', 'master-brain-consumer.js'));
+const { buildInbox } = require(path.join(ROOT, 'lib', 'master-brain-consumer.js'));
 
 console.log('=== build-master-inbox ' + (DRY ? '(DRY RUN)' : '(APPLY)') + ' ===');
 
