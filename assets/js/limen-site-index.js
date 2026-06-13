@@ -30,11 +30,6 @@ window.LIMEN_SITE_INDEX = {
           "stem": "phase-map"
         },
         {
-          "label": "Phase Observer",
-          "url": "/phase-observer",
-          "stem": "phase-observer"
-        },
-        {
           "label": "Spiral",
           "url": "/spiral",
           "stem": "spiral"
@@ -788,6 +783,16 @@ window.LIMEN_SITE_INDEX = {
           "label": "Portal Template",
           "url": "/portal-template",
           "stem": "portal-template"
+        }
+      ]
+    },
+    {
+      "name": "Other",
+      "items": [
+        {
+          "label": "Appendix",
+          "url": "/appendix",
+          "stem": "appendix"
         }
       ]
     }
