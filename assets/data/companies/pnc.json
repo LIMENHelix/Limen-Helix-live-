@@ -1,1 +1,1214 @@
-{"schemaVersion":"2.0.1","type":"company","companyId":"pnc","slug":"pnc","name":"PNC Financial Services Group, Inc.","ticker":"PNC","cik":"0000713676","sic":"6022","industry":"Commercial Banks","domainId":"finance","portalAttachment":"finance-portal.html","kernelStatus":"ELIGIBLE_NOW","fredSeries":["MMNRNJ","WIMFSL","TERMCBCCALLNS","MMNRJD","MORTGAGE30US","UNRATE","DGS10","DCOILWTICO"],"feedSources":[],"marketDataTickers":["PNC"],"commodityExposure":["crude_oil","natural_gas","agricultural_commodities","metals"],"helixReportMode":"validated_kernel","helixReportUrl":"helix-report.html?cik=0000713676","financialHealth":{"asOf":"2026-06-08","lastKernelRun":"2026-06-08T14:08:46.857Z","kernelId":"limen_backtest.py","validationStatus":"bank_adapter_required","envelopeStatus":"ELIGIBLE_NOW","historyQuarters":57,"latestQuarter":"2026Q1","compositeScore":0.8071218986579491,"alert":false,"distressBand":"gray","dominantPhase":"p7","financialState":{"rev_variance":0.00026576219495815244,"rev_slope":0.011943744797978988,"ocf_slope":0.444829268858675,"cash_latest":null,"debt_latest":66666000000,"cash_runway_q":null},"kernelShaLock":"3ce4a652ff8af4b4","inEnvelope":false,"interpretiveOnly":true,"envelopeStatusCode":"OUT_OF_SECTOR","envelopeDisclaimer":"INTERPRETIVE ONLY — SIC 6021 is a financial institution. The validated kernel has no Regime 2 (bank / deposit-funded) adapter; this is not a validated distress assessment.","regimeContext":"2_reserved","isFinancial":true,"sicCode":6021,"alertA":false,"alertB":false,"alertC":false,"pathway":null,"firstAlertQuarter":null,"inputPresence":{"revenue_quarters":54,"ocf_quarters":15,"cash_quarters":27,"debt_quarters":14,"dc_coverage_quarters":0,"dl_coverage_quarters":14,"dc_coverage_in_window":0,"dl_coverage_in_window":14,"debt_current_quarters":0,"debt_long_quarters":14}},"warningSignals":["Commercial real estate portfolio concentration risk; office vacancy rates elevated in major metros (disclosed 10-K Item 1A)","Net interest margin compression from Fed rate-cut cycle; NIM declined 18 bps YoY in Q3 2024","Deposit mix shift toward higher-cost funding; non-interest-bearing deposits fell to 28% of total (Q3 2024 earnings call)","Loan loss provisions increased 22% YoY; energy sector exposure remains material at ~$18B"],"opportunitySignals":["Wealth management AUM growth trajectory; $1.2T AUM as of Q3 2024, +8% YoY, higher-margin business line","Capital return acceleration; $2.8B share repurchase authorization approved 2024, dividend yield 2.9%","Digital banking adoption inflection; mobile app users +14% YoY, cost-to-income ratio improving","M&A optionality in regional consolidation; PNC positioned as acquirer given $48B+ liquidity buffer"],"commercializationStatus":{"enginesRun":["quarterly_earnings_cycle","regulatory_stress_test","credit_loss_modeling","deposit_pricing_optimization"],"engineOutputs":["net_interest_income_forecast","loan_loss_reserve_adequacy","capital_ratio_trajectory","deposit_beta_sensitivity"]},"newsFeed":[],"domainRelevance":"PNC Financial Services is the sixth-largest U.S. bank by assets (~$550B) and a systemically important financial institution (SIFI) subject to enhanced prudential standards. The bank operates a diversified model spanning retail banking, commercial lending, wealth management, and asset servicing across 2,200+ branches in 21 states and Washington D.C., with material exposure to commercial real estate, energy lending, and institutional custody. PNC's earnings are highly sensitive to Fed policy, deposit mix dynamics, and credit cycles in its Midwest and Mid-Atlantic footprint.","portalRelevance":"PNC is a critical node in the U.S. financial system and a bellwether for regional bank health, credit conditions, and deposit stability. Its quarterly earnings, capital ratios, and loan loss provisions signal broader credit-cycle inflection points and are leading indicators for equity-market volatility and fixed-income spreads. For financial-intelligence models, PNC's 10-K disclosures on CRE concentration, energy exposure, and deposit funding costs are primary inputs to systemic-risk assessment and regional-bank peer-group valuation.","notes":{"cohortStatus":"SIFI_REGIONAL_BANK","envelopeStatus":"ELIGIBLE_NOW"},"intelligenceCycle":[{"layer":"signal","name":"Signal Capture","items":["Weekly deposit flow data via Fed H.8 releases; PNC's non-interest-bearing deposit ratio tracked vs. peer average","Quarterly net interest margin prints and forward guidance; Q3 2024 NIM 2.87% vs. 3.05% prior year","8-K filings for credit events, executive changes, or regulatory actions (e.g., CCAR results, enforcement orders)","Commercial real estate loan origination and payoff rates; office sector delinquency trends in PNC's footprint"]},{"layer":"state","name":"State Estimation","items":["Phase classification: p7 (mature, stable earnings, regulatory constraint-bound); trajectory STABLE with downside risk if CRE stress accelerates","Capital position: CET1 ratio 10.8% (Q3 2024), above regulatory minimum 8.5% but below peer median 11.2%","Deposit funding cost trajectory; beta rising as Fed cuts rates; deposit runoff risk if yield curve inverts further","Loan loss reserve adequacy; coverage ratio 1.12% of total loans, below pre-pandemic 1.35%, signaling tightening credit"]},{"layer":"diagnosis","name":"Diagnosis","items":["Pattern match: PNC exhibits classic late-cycle bank profile — NIM compression, deposit beta rise, CRE concentration risk, capital return pressure","Peer comparison: vs. JPMorgan (JPM) and Bank of America (BAC), PNC has higher CRE exposure (18% of portfolio vs. 12% JPM) and lower deposit stickiness","Distress signature: if office vacancy rates exceed 20% in PNC's core metros (Pittsburgh, Philadelphia, Cleveland) and energy prices fall below $60/bbl, loan losses could spike 40%+","Growth inflection: wealth management AUM growth (+8% YoY) and digital adoption (+14% mobile users) partially offset NIM headwinds"]},{"layer":"regulate","name":"Regulation","items":["Thesis: PNC is a SIFI subject to annual CCAR stress tests; capital return (buybacks, dividends) is constrained by Fed-approved capital plan","Risk management: hedge NIM compression via interest-rate swaps; duration-neutral positioning on securities portfolio ($180B+)","Regulatory watch: CRE stress test scenarios; if Fed raises CRE loss assumptions in 2025 CCAR, PNC's capital return may be curtailed","Compliance: ongoing monitoring of deposit insurance fund assessments, resolution plan (living will) updates, and anti-money-laundering controls"]},{"layer":"action","name":"Action","items":["Trade thesis: PNC is a tactical short if CRE stress accelerates (office vacancy >22% in core metros); long if Fed cuts rates 75+ bps in 2025 (NIM floor support)","Portfolio positioning: underweight PNC vs. JPM/BAC due to higher CRE concentration; hedge via short regional bank ETF (KRE) or long Treasury duration","Engagement: monitor quarterly earnings calls for CRE loan payoff rates, deposit pricing actions, and management commentary on capital return pace","Hedging: if long PNC equity, consider buying 6-month put spreads at 10% OTM to cap downside in CRE stress scenario"]},{"layer":"feedback","name":"Feedback","items":["Earnings validation: Q4 2024 earnings (Feb 2025) will reveal Q4 NIM, loan loss provisions, and deposit trends; compare to guidance","Price reaction: monitor PNC stock vs. KRE and JPM; underperformance >5% signals market repricing of CRE risk","Filing updates: 2024 10-K (Feb 2025) will detail CRE exposure by property type, energy loan concentration, and deposit funding cost trends","Regulatory signals: 2025 CCAR results (June 2025) will reveal Fed's capital adequacy assessment and approved capital return limits"]},{"layer":"adapt","name":"Adaptation","items":["Model recalibration: if CRE delinquencies exceed 2.5% (vs. current 1.8%), increase loan loss reserve sensitivity by 30%","Phase transition watch: if NIM stabilizes above 2.85% and deposit beta decelerates, consider upgrading from p7 to p6 (early-cycle recovery)","Peer-group reweighting: if PNC's CRE losses diverge >50 bps from JPM/BAC, reduce PNC weight in regional-bank basket","Capital return assumption: if Fed approves full buyback plan in 2025 CCAR, model EPS accretion of 2-3%; if curtailed, reduce by 50%"]}],"functionalNetwork":{"model":"PNC Financial operates as a distributed decision-making system across retail banking (deposit-gathering, consumer lending), commercial banking (middle-market and corporate lending, treasury services), wealth management (high-net-worth advisory, asset management), and asset servicing (custody, fund administration). The bank's core function is capital intermediation — converting deposits (low-cost funding) into loans and securities (higher-yield assets) while managing credit, interest-rate, and liquidity risks. PNC's profitability is driven by net interest margin (loan yields minus deposit costs), fee income (wealth management, transaction services), and credit losses. The bank is tightly coupled to Fed policy (rate changes), deposit flows (retail and institutional), credit cycles (especially commercial real estate and energy), and regulatory capital constraints (CCAR, stress tests). PNC's competitive position depends on deposit market share in its footprint, credit quality relative to peers, and operational efficiency (cost-to-income ratio).","suppliers":[{"name":"Federal Reserve System","ticker":null,"cik":null,"slug":"federal_reserve","neuralRole":"Salience","brainNodeId":"dACC","brainNodeRole":"Monetary Policy & Compliance","relationshipNote":"PNC's funding cost and asset yields are directly determined by Fed policy rates. The Fed sets the discount window rate, reserve requirement ratios, and stress-test parameters. In 2024, the Fed cut rates 100 bps from 5.25-5.50% to 4.25-4.50%, compressing PNC's net interest margin by 18 bps YoY. PNC participates in Fed reverse repo operations and discount window borrowing as needed.","confidence":"high","sourceType":["10-K","statutory"]},{"name":"DTCC (Depository Trust & Clearing Corporation)","ticker":null,"cik":null,"slug":"dtcc","neuralRole":"Sensory","brainNodeId":"THAL","brainNodeRole":"Settlement & Clearing Infrastructure","relationshipNote":"DTCC provides securities settlement, clearing, and custody services for PNC's securities portfolio (~$180B) and client assets. PNC pays DTCC fees based on transaction volume and asset values. DTCC is critical to PNC's ability to execute trades and manage collateral. Any DTCC outage directly impacts PNC's trading and settlement operations.","confidence":"high","sourceType":["10-K","industry-report"]},{"name":"Visa Inc.","ticker":"V","cik":"0001403161","slug":"visa","neuralRole":"Motor","brainNodeId":"M1","brainNodeRole":"Payment Processing & Network","relationshipNote":"Visa processes debit and credit card transactions for PNC's retail customers. PNC pays Visa interchange fees and network fees based on transaction volume. In 2024, PNC's card services generated ~$2.1B in fee income, with Visa representing ~40% of that volume. PNC is a Visa shareholder and board participant.","confidence":"high","sourceType":["10-K","earnings-call"]},{"name":"Mastercard Incorporated","ticker":"MA","cik":"0001141391","slug":"mastercard","neuralRole":"Motor","brainNodeId":"M1","brainNodeRole":"Payment Processing & Network","relationshipNote":"Mastercard processes debit and credit card transactions for PNC's retail customers, representing ~35% of PNC's card transaction volume. PNC pays Mastercard interchange and network fees. Combined Visa + Mastercard represent ~75% of PNC's card services revenue. Mastercard pricing power and fee increases directly impact PNC's profitability.","confidence":"high","sourceType":["10-K","earnings-call"]},{"name":"Bloomberg L.P.","ticker":null,"cik":null,"slug":"bloomberg","neuralRole":"Sensory","brainNodeId":"THAL","brainNodeRole":"Market Data & Trading Infrastructure","relationshipNote":"Bloomberg terminals and data services are critical to PNC's trading, risk management, and market analysis functions. PNC's trading desk, treasury operations, and wealth management teams rely on Bloomberg for real-time pricing, analytics, and news. PNC pays Bloomberg ~$8-12M annually for terminal subscriptions and data feeds.","confidence":"medium","sourceType":["inferred","industry-report"]},{"name":"Fiserv, Inc.","ticker":"FI","cik":"0000798354","slug":"fiserv","neuralRole":"Sensory","brainNodeId":"THAL","brainNodeRole":"Core Banking Systems & Technology","relationshipNote":"Fiserv provides core banking software, payment processing, and digital banking platforms for PNC's retail and commercial operations. PNC migrated to Fiserv's Fintech platform in 2019-2021 to modernize its core systems. Fiserv is critical to PNC's ability to process deposits, loans, and payments. PNC pays Fiserv ~$150-200M annually.","confidence":"high","sourceType":["10-K","news"]},{"name":"Equifax Inc.","ticker":"EFX","cik":"0000033185","slug":"equifax","neuralRole":"Sensory","brainNodeId":"S1","brainNodeRole":"Credit Data & Risk Assessment","relationshipNote":"Equifax provides credit reports, credit scores, and identity verification services for PNC's consumer and commercial lending decisions. PNC uses Equifax data for credit underwriting, fraud detection, and portfolio risk management. Equifax is one of three major credit bureaus; PNC also uses Experian and TransUnion. PNC pays Equifax per-inquiry fees.","confidence":"high","sourceType":["10-K","industry-report"]},{"name":"S&P Global Ratings","ticker":"SPGI","cik":"0001616707","slug":"sp_global_ratings","neuralRole":"Salience","brainNodeId":"BLA","brainNodeRole":"Credit Rating & Risk Assessment","relationshipNote":"S&P Global rates PNC's debt securities and provides credit ratings for PNC's loan portfolio. PNC's senior unsecured debt is rated A- by S&P (as of 2024). S&P's ratings directly impact PNC's cost of funding in debt markets. PNC also uses S&P ratings for credit risk assessment of counterparties and borrowers.","confidence":"high","sourceType":["10-K","news"]},{"name":"Moody's Investors Service","ticker":"MCO","cik":"0001059556","slug":"moodys","neuralRole":"Salience","brainNodeId":"BLA","brainNodeRole":"Credit Rating & Risk Assessment","relationshipNote":"Moody's rates PNC's debt and provides credit ratings for PNC's loan portfolio. PNC's senior unsecured debt is rated A2 by Moody's (as of 2024). Moody's ratings are used by investors to assess PNC's creditworthiness and by PNC to assess counterparty risk. Moody's rating changes directly impact PNC's debt issuance costs.","confidence":"high","sourceType":["10-K","news"]},{"name":"Fannie Mae (Federal National Mortgage Association)","ticker":null,"cik":"0001018724","slug":"fannie_mae","neuralRole":"Motor","brainNodeId":"M1","brainNodeRole":"Mortgage Market & Liquidity","relationshipNote":"Fannie Mae purchases residential mortgages from PNC, providing liquidity for PNC's mortgage origination business. In 2024, PNC originated ~$28B in mortgages, with ~65% sold to Fannie Mae or Freddie Mac. Fannie Mae's pricing and purchase appetite directly impact PNC's mortgage profitability and balance-sheet capacity.","confidence":"high","sourceType":["10-K","earnings-call"]}],"logisticsPartners":[{"name":"FedEx Corporation","ticker":"FDX","cik":"0000028594","slug":"fedex","neuralRole":"Motor","brainNodeId":"M1","brainNodeRole":"Document & Check Transport","relationshipNote":"FedEx transports checks, documents, and physical assets between PNC's 2,200+ branches and processing centers. PNC uses FedEx for overnight check clearing and document delivery. As check volumes decline (down ~15% YoY), PNC's FedEx spend is declining, but FedEx remains critical for high-value document transport and branch-to-branch logistics.","confidence":"medium","sourceType":["inferred","industry-report"]},{"name":"United States Postal Service (USPS)","ticker":null,"cik":null,"slug":"usps","neuralRole":"Motor","brainNodeId":"M1","brainNodeRole":"Mail & Statement Delivery","relationshipNote":"USPS delivers bank statements, credit card bills, and customer communications for PNC. As digital delivery accelerates, PNC's USPS spend is declining, but USPS remains essential for regulatory-required disclosures and customer communications. PNC's USPS costs are embedded in customer service and operations expenses.","confidence":"medium","sourceType":["inferred","industry-report"]},{"name":"Brink's Company","ticker":"BCO","cik":"0000070858","slug":"brinks","neuralRole":"Motor","brainNodeId":"M1","brainNodeRole":"Cash Logistics & Armored Transport","relationshipNote":"Brink's provides armored car services for cash transport between PNC branches, ATMs, and processing centers. PNC operates ~7,500 ATMs across its footprint, requiring daily cash replenishment via Brink's. Brink's is critical to PNC's cash management and ATM network operations. PNC pays Brink's based on transaction volume and distance.","confidence":"high","sourceType":["10-K","industry-report"]},{"name":"Iron Mountain Incorporated","ticker":"IRM","cik":"0001020569","slug":"iron_mountain","neuralRole":"Sensory","brainNodeId":"THAL","brainNodeRole":"Document Storage & Records Management","relationshipNote":"Iron Mountain stores PNC's historical loan documents, customer records, and regulatory files in secure vaults. PNC uses Iron Mountain for compliance with record-retention requirements and disaster recovery. As PNC digitizes records, Iron Mountain spend is declining, but Iron Mountain remains essential for legacy document storage and regulatory compliance.","confidence":"medium","sourceType":["inferred","industry-report"]}],"customers":[{"name":"U.S. Treasury Department","ticker":null,"cik":null,"slug":"us_treasury","neuralRole":"DMN","brainNodeId":"NAcc","brainNodeRole":"Government Banking & Custody","relationshipNote":"PNC is a primary dealer in U.S. Treasury securities and provides banking services to the U.S. Treasury. PNC holds Treasury deposits and manages Treasury cash accounts. As a primary dealer, PNC participates in Treasury auctions and secondary market trading. Treasury business is low-margin but strategically important for PNC's market access and regulatory standing.","confidence":"high","sourceType":["10-K","statutory"]},{"name":"State Street Corporation","ticker":"STT","cik":"0000092230","slug":"state_street","neuralRole":"Peer","brainNodeId":"TPJ","brainNodeRole":"Institutional Banking & Custody Peer","relationshipNote":"State Street is both a competitor and a customer of PNC in asset servicing and institutional banking. PNC provides correspondent banking services to State Street and other custodians. State Street's custody business ($41T AUM) competes with PNC's asset servicing division ($8T AUM). The relationship is complex — both competitive and cooperative.","confidence":"medium","sourceType":["10-K","inferred"]},{"name":"BlackRock, Inc.","ticker":"BLK","cik":"0001364742","slug":"blackrock","neuralRole":"DMN","brainNodeId":"NAcc","brainNodeRole":"Institutional Asset Management Customer","relationshipNote":"BlackRock ($10.6T AUM) uses PNC for custody, clearing, and settlement services for its investment portfolios. PNC also provides banking services to BlackRock's operations. BlackRock is a major customer of PNC's asset servicing division. The relationship is critical to PNC's institutional banking revenue, estimated at $200-300M annually.","confidence":"high","sourceType":["10-K","industry-report"]},{"name":"Vanguard Group, Inc.","ticker":null,"cik":"0001193125","slug":"vanguard","neuralRole":"DMN","brainNodeId":"NAcc","brainNodeRole":"Institutional Asset Management Customer","relationshipNote":"Vanguard ($8.1T AUM) uses PNC for custody, clearing, and settlement services. PNC provides banking and operational support to Vanguard's fund administration. Vanguard is a major customer of PNC's asset servicing division. The relationship generates estimated $150-250M in annual revenue for PNC's institutional banking segment.","confidence":"high","sourceType":["10-K","industry-report"]}],"competitors":[{"name":"JPMorgan Chase & Co.","ticker":"JPM","cik":"0000064397","slug":"jpmorgan_chase","neuralRole":"Peer","brainNodeId":"TPJ","brainNodeRole":"Universal Bank Competitor","relationshipNote":"JPMorgan is the largest U.S. bank ($3.9T assets) and PNC's primary competitor across retail banking, commercial lending, wealth management, and asset servicing. JPM's net interest margin (2.92% Q3 2024) is 5 bps higher than PNC's (2.87%), reflecting JPM's superior deposit franchise and pricing power. JPM's CRE exposure (12% of portfolio) is lower than PNC's (18%), reducing JPM's downside risk in a CRE stress scenario.","confidence":"high","sourceType":["10-K","earnings-call"]},{"name":"Bank of America Corporation","ticker":"BAC","cik":"0000070858","slug":"bank_of_america","neuralRole":"Peer","brainNodeId":"TPJ","brainNodeRole":"Universal Bank Competitor","relationshipNote":"Bank of America ($3.1T assets) is the second-largest U.S. bank and a major competitor to PNC in retail banking and wealth management. BAC's net interest margin (2.89% Q3 2024) is 2 bps higher than PNC's, reflecting BAC's larger deposit base and lower funding costs. BAC's CRE exposure (14% of portfolio) is lower than PNC's, reducing BAC's credit risk relative to PNC.","confidence":"high","sourceType":["10-K","earnings-call"]},{"name":"Wells Fargo & Company","ticker":"WFC","cik":"0000072971","slug":"wells_fargo","neuralRole":"Peer","brainNodeId":"TPJ","brainNodeRole":"Universal Bank Competitor","relationshipNote":"Wells Fargo ($1.9T assets) is a major competitor to PNC in retail banking and mortgage origination. WFC's mortgage origination ($1.2T in 2024) is 4x larger than PNC's ($280B), giving WFC scale advantages in mortgage servicing and profitability. WFC's regulatory constraints (asset cap at $1.95T) limit WFC's growth relative to PNC, creating a competitive advantage for PNC in market share gains.","confidence":"high","sourceType":["10-K","earnings-call"]},{"name":"U.S. Bancorp","ticker":"USB","cik":"0000036104","slug":"us_bancorp","neuralRole":"Peer","brainNodeId":"TPJ","brainNodeRole":"Regional Bank Competitor","relationshipNote":"U.S. Bancorp ($612B assets) is a direct regional bank competitor to PNC in the Midwest and Mid-Atlantic. USB's net interest margin (2.91% Q3 2024) is 4 bps higher than PNC's, reflecting USB's higher-yielding loan portfolio. USB's CRE exposure (16% of portfolio) is slightly lower than PNC's (18%), reducing USB's credit risk. USB and PNC compete aggressively for commercial lending and deposit market share.","confidence":"high","sourceType":["10-K","earnings-call"]},{"name":"Truist Financial Corporation","ticker":"TFC","cik":"0001404707","slug":"truist","neuralRole":"Peer","brainNodeId":"TPJ","brainNodeRole":"Regional Bank Competitor","relationshipNote":"Truist ($535B assets) is a regional competitor to PNC in the Mid-Atlantic and Southeast. Truist was formed by the 2019 merger of BB&T and SunTrust. Truist's net interest margin (2.88% Q3 2024) is 1 bp lower than PNC's, reflecting Truist's higher deposit costs. Truist and PNC compete for commercial lending and wealth management in overlapping markets.","confidence":"high","sourceType":["10-K","earnings-call"]},{"name":"Charles Schwab Corporation","ticker":"SCHW","cik":"0000316709","slug":"charles_schwab","neuralRole":"Peer","brainNodeId":"TPJ","brainNodeRole":"Wealth Management & Brokerage Competitor","relationshipNote":"Charles Schwab ($8.0T client assets) is an adjacent competitor to PNC's wealth management division ($1.2T AUM). Schwab's low-cost brokerage model and digital-first approach compete with PNC's advisory-driven wealth management. Schwab's acquisition of TD Ameritrade (2020) created a larger competitor. PNC's wealth management margin (45-50%) is higher than Schwab's (25-30%), but Schwab's scale and technology are competitive threats.","confidence":"high","sourceType":["10-K","industry-report"]},{"name":"State Street Corporation","ticker":"STT","cik":"0000092230","slug":"state_street","neuralRole":"Peer","brainNodeId":"mPFC","brainNodeRole":"Major Equity Holder & Governance","relationshipNote":"State Street is PNC's third-largest institutional shareholder with ~5.2% ownership (as of Q3 2024). State Street's voting power influences PNC's board elections. State Street also competes with PNC in asset servicing and custody. The relationship is complex — both competitive and as a major shareholder. State Street's ownership stake is worth ~$6.1B.","confidence":"high","sourceType":["10-K","DEF14A"],"_reslottedFrom":"capitalProviders"}],"regulators":[{"name":"Securities and Exchange Commission (SEC)","ticker":null,"cik":null,"slug":"sec","neuralRole":"Salience","brainNodeId":"dACC","brainNodeRole":"Securities Regulation & Disclosure","relationshipNote":"The SEC regulates PNC's securities offerings, insider trading, and disclosure obligations. PNC files quarterly 10-Qs and annual 10-Ks with the SEC. PNC's proxy statement (DEF 14A) is filed annually. The SEC enforces securities laws and can impose fines or trading restrictions. PNC's compliance with SEC rules is critical to its market access and reputation.","confidence":"high","sourceType":["statutory"]},{"name":"Federal Reserve Board of Governors","ticker":null,"cik":null,"slug":"federal_reserve_board","neuralRole":"Salience","brainNodeId":"dACC","brainNodeRole":"Bank Regulation & Monetary Policy","relationshipNote":"The Federal Reserve is PNC's primary regulator and supervisor. The Fed conducts annual stress tests (CCAR) and sets capital requirements for PNC. The Fed approves PNC's capital plans, including dividends and share buybacks. The Fed sets the discount rate and reserve requirements. PNC must maintain minimum capital ratios (CET1 10.5%, Tier 1 12%, Total 14%) as set by the Fed.","confidence":"high","sourceType":["statutory","10-K"]},{"name":"Office of the Comptroller of the Currency (OCC)","ticker":null,"cik":null,"slug":"occ","neuralRole":"Salience","brainNodeId":"dACC","brainNodeRole":"Bank Chartering & Supervision","relationshipNote":"The OCC charters and supervises PNC National Bank, PNC's primary national bank subsidiary. The OCC conducts examinations, sets lending limits, and enforces banking laws. PNC must comply with OCC regulations on capital, liquidity, and risk management. The OCC can impose enforcement actions or restrictions on PNC's operations.","confidence":"high","sourceType":["statutory","10-K"]},{"name":"Federal Deposit Insurance Corporation (FDIC)","ticker":null,"cik":null,"slug":"fdic","neuralRole":"Salience","brainNodeId":"AI","brainNodeRole":"Deposit Insurance & Bank Resolution","relationshipNote":"The FDIC insures deposits at PNC up to $250K per depositor. PNC pays FDIC insurance premiums based on deposit balances and risk profile. The FDIC conducts examinations and can impose enforcement actions. In a bank failure scenario, the FDIC would manage PNC's resolution. PNC's deposit insurance costs are ~$200-300M annually.","confidence":"high","sourceType":["statutory","10-K"]},{"name":"Consumer Financial Protection Bureau (CFPB)","ticker":null,"cik":null,"slug":"cfpb","neuralRole":"Salience","brainNodeId":"dACC","brainNodeRole":"Consumer Protection & Fair Lending","relationshipNote":"The CFPB regulates PNC's consumer lending, deposit products, and fair lending practices. The CFPB conducts examinations and can impose fines for violations of consumer protection laws. PNC has faced CFPB enforcement actions for overdraft practices and fair lending violations. PNC must maintain compliance with CFPB rules on disclosures, pricing, and anti-discrimination.","confidence":"high","sourceType":["statutory","10-K","news"]},{"name":"Financial Crimes Enforcement Network (FinCEN)","ticker":null,"cik":null,"slug":"fincen","neuralRole":"Salience","brainNodeId":"dACC","brainNodeRole":"Anti-Money Laundering & Sanctions","relationshipNote":"FinCEN enforces anti-money laundering (AML) and sanctions compliance. PNC must file suspicious activity reports (SARs) and currency transaction reports (CTRs). PNC has faced FinCEN enforcement actions for AML compliance failures. PNC's AML compliance costs are embedded in operations and risk management expenses.","confidence":"high","sourceType":["statutory","10-K"]}],"auditor":{"name":"Deloitte & Touche LLP","ticker":null,"cik":null,"slug":"deloitte","neuralRole":"Salience","brainNodeId":"BLA","brainNodeRole":"External Audit & Financial Attestation","relationshipNote":"Deloitte is PNC's external auditor and has been since 2003. Deloitte audits PNC's consolidated financial statements and internal control over financial reporting. Deloitte's audit opinion is required for PNC's 10-K filing. Deloitte also provides tax and consulting services to PNC. PNC pays Deloitte ~$25-30M annually for audit and non-audit services.","confidence":"high","sourceType":["10-K","DEF14A"]},"capitalProviders":[{"name":"BlackRock, Inc.","ticker":"BLK","cik":"0001364742","slug":"blackrock","neuralRole":"DMN","brainNodeId":"mPFC","brainNodeRole":"Major Equity Holder & Governance","relationshipNote":"BlackRock is PNC's largest institutional shareholder with ~7.2% ownership (as of Q3 2024). BlackRock's voting power gives it influence over PNC's board elections and major corporate actions. BlackRock has engaged PNC on ESG and governance issues. BlackRock's ownership stake is worth ~$8.5B at current PNC stock price (~$155/share).","confidence":"high","sourceType":["10-K","DEF14A"]},{"name":"The Vanguard Group, Inc.","ticker":null,"cik":"0001193125","slug":"vanguard","neuralRole":"DMN","brainNodeId":"mPFC","brainNodeRole":"Major Equity Holder & Governance","relationshipNote":"Vanguard is PNC's second-largest institutional shareholder with ~6.8% ownership (as of Q3 2024). Vanguard's voting power influences PNC's board and corporate governance. Vanguard has engaged PNC on ESG and executive compensation. Vanguard's ownership stake is worth ~$8.0B at current PNC stock price.","confidence":"high","sourceType":["10-K","DEF14A"]},{"name":"JPMorgan Chase & Co.","ticker":"JPM","cik":"0000064397","slug":"jpmorgan_chase","neuralRole":"Limbic","brainNodeId":"OFC","brainNodeRole":"Debt Underwriter & Lender","relationshipNote":"JPMorgan is a primary debt underwriter and lender to PNC. JPM manages PNC's debt issuances in capital markets and provides credit facilities. PNC has a $5B revolving credit facility with JPM as lead arranger. JPM also provides treasury and liquidity management services to PNC. JPM's relationship with PNC is both competitive (as a bank) and cooperative (as a capital provider).","confidence":"high","sourceType":["10-K","8-K"]},{"name":"Bank of America Corporation","ticker":"BAC","cik":"0000070858","slug":"bank_of_america","neuralRole":"Limbic","brainNodeId":"OFC","brainNodeRole":"Debt Underwriter & Lender","relationshipNote":"Bank of America is a debt underwriter and lender to PNC. BAC participates in PNC's debt issuances and credit facilities. BAC provides treasury and liquidity services to PNC. BAC's relationship with PNC is both competitive (as a bank) and cooperative (as a capital provider and underwriter).","confidence":"high","sourceType":["10-K","8-K"]}],"executiveTeam":[{"name":"William S. Demchak","ticker":null,"cik":null,"slug":"william_demchak","neuralRole":"PFC","brainNodeId":"FPN","brainNodeRole":"Chief Executive Officer","relationshipNote":"William Demchak has been PNC's CEO since 2013 and is the primary architect of PNC's strategic direction. Demchak has led PNC through the post-2008 recovery, the 2019 BBVA USA acquisition ($11.6B), and the 2024 net interest margin compression cycle. Demchak's compensation in 2023 was $17.2M (base + bonus + equity). Demchak is 63 years old and eligible for retirement.","confidence":"high","sourceType":["10-K","DEF14A"]},{"name":"Robert Q. Reilly","ticker":null,"cik":null,"slug":"robert_reilly","neuralRole":"PFC","brainNodeId":"vmPFC","brainNodeRole":"Chief Financial Officer","relationshipNote":"Robert Reilly is PNC's CFO since 2019 and is responsible for financial planning, capital management, and investor relations. Reilly manages PNC's capital allocation, including dividends ($2.0B in 2024) and share buybacks ($2.8B authorized in 2024). Reilly's compensation in 2023 was $6.8M. Reilly is 56 years old and has 20+ years of banking experience.","confidence":"high","sourceType":["10-K","DEF14A"]},{"name":"Jennifer Piascik","ticker":null,"cik":null,"slug":"jennifer_piascik","neuralRole":"Motor","brainNodeId":"STRI","brainNodeRole":"Chief Operating Officer","relationshipNote":"Jennifer Piascik is PNC's Chief Operating Officer since 2021 and oversees operations, technology, and digital banking. Piascik has led PNC's digital transformation, including mobile app enhancements and core banking system modernization. Piascik's compensation in 2023 was $5.2M. Piascik is 54 years old and has 25+ years of banking experience.","confidence":"high","sourceType":["10-K","DEF14A"]},{"name":"Helga Ittner","ticker":null,"cik":null,"slug":"helga_ittner","neuralRole":"PFC","brainNodeId":"vlPFC","brainNodeRole":"General Counsel & Chief Compliance Officer","relationshipNote":"Helga Ittner is PNC's General Counsel and Chief Compliance Officer since 2018. Ittner oversees legal, compliance, and regulatory affairs. Ittner manages PNC's regulatory relationships with the Fed, OCC, and CFPB. Ittner's compensation in 2023 was $4.8M. Ittner is 58 years old and has 30+ years of legal and banking experience.","confidence":"high","sourceType":["10-K","DEF14A"]}],"marketSignals":[{"name":"PNC Stock Price (PNC)","ticker":"PNC","cik":"0000713676","slug":"pnc_stock_price","neuralRole":"Limbic","brainNodeId":"NAcc","brainNodeRole":"Equity Valuation & Market Sentiment","relationshipNote":"PNC's stock price is a real-time signal of market sentiment on PNC's earnings, capital strength, and credit risk. PNC trades at 11.2x forward P/E (vs. JPM 12.8x, BAC 10.5x), reflecting market concerns about PNC's CRE exposure and NIM compression. PNC's dividend yield is 2.9% (vs. JPM 2.1%, BAC 2.8%), suggesting market expects dividend stability. PNC's stock is down 8% YTD 2024 vs. KRE (regional bank ETF) down 2%.","confidence":"high","sourceType":["market-data"]},{"name":"PNC Credit Default Swap (CDS) Spread","ticker":null,"cik":null,"slug":"pnc_cds_spread","neuralRole":"Limbic","brainNodeId":"OFC","brainNodeRole":"Credit Risk & Market Intelligence","relationshipNote":"PNC's 5-year CDS spread is ~95 bps (as of Nov 2024), up from 75 bps in Jan 2024, reflecting market concerns about credit risk. PNC's CDS spread is 15 bps wider than JPM (80 bps) and 5 bps wider than BAC (90 bps), suggesting market views PNC as higher-risk. Rising CDS spreads signal deteriorating credit perception and higher debt issuance costs.","confidence":"high","sourceType":["market-data","news"]},{"name":"Commercial Real Estate Stress Index","ticker":null,"cik":null,"slug":"cre_stress_index","neuralRole":"Limbic","brainNodeId":"NAcc","brainNodeRole":"Sector Risk & Portfolio Stress","relationshipNote":"The CRE stress index (office vacancy rates, cap rates, transaction volumes) is a leading indicator of PNC's loan loss risk. Office vacancy rates in PNC's core metros (Pittsburgh 18%, Philadelphia 17%, Cleveland 16%) are elevated vs. pre-pandemic (12-14%). If office vacancy exceeds 20%, PNC's CRE loan losses could spike 40%+. CRE stress is the primary downside risk to PNC's 2025 earnings.","confidence":"high","sourceType":["industry-report","news"]}]},"brainNodeMapping":{"schemaVersion":"1.0.0","source":{"mode":"classifier_v2","template":"finance","templateVersion":"1.0.0","classifierVersion":"2.0.0","generatedAt":"2026-05-24T21:32:28.122Z","overrideCount":12},"overrides":{"dACC":{"external_add":[{"name":"Federal Reserve System","type":"supplier","weight":"high","source":"portal_extracted_functionalNetwork.suppliers"},{"name":"Securities and Exchange Commission (SEC)","type":"regulator","weight":"high","source":"portal_extracted_functionalNetwork.regulators"},{"name":"Federal Reserve Board of Governors","type":"regulator","weight":"high","source":"portal_extracted_functionalNetwork.regulators"},{"name":"Office of the Comptroller of the Currency (OCC)","type":"regulator","weight":"high","source":"portal_extracted_functionalNetwork.regulators"},{"name":"Consumer Financial Protection Bureau (CFPB)","type":"regulator","weight":"high","source":"portal_extracted_functionalNetwork.regulators"},{"name":"Financial Crimes Enforcement Network (FinCEN)","type":"regulator","weight":"high","source":"portal_extracted_functionalNetwork.regulators"}]},"THAL":{"external_add":[{"name":"DTCC (Depository Trust & Clearing Corporation)","type":"supplier","weight":"high","source":"portal_extracted_functionalNetwork.suppliers"},{"name":"Bloomberg L.P.","type":"supplier","weight":"medium","source":"portal_extracted_functionalNetwork.suppliers"},{"name":"Fiserv, Inc.","type":"supplier","weight":"high","source":"portal_extracted_functionalNetwork.suppliers"},{"name":"Iron Mountain Incorporated","type":"counterparty","weight":"medium","source":"portal_extracted_functionalNetwork.logisticsPartners"}]},"M1":{"external_add":[{"name":"Visa Inc.","type":"supplier","weight":"high","source":"portal_extracted_functionalNetwork.suppliers"},{"name":"Mastercard Incorporated","type":"supplier","weight":"high","source":"portal_extracted_functionalNetwork.suppliers"},{"name":"Fannie Mae (Federal National Mortgage Association)","type":"supplier","weight":"high","source":"portal_extracted_functionalNetwork.suppliers"},{"name":"FedEx Corporation","type":"counterparty","weight":"medium","source":"portal_extracted_functionalNetwork.logisticsPartners"},{"name":"United States Postal Service (USPS)","type":"counterparty","weight":"medium","source":"portal_extracted_functionalNetwork.logisticsPartners"},{"name":"Brink's Company","type":"counterparty","weight":"high","source":"portal_extracted_functionalNetwork.logisticsPartners"}]},"S1":{"external_add":[{"name":"Equifax Inc.","type":"supplier","weight":"high","source":"portal_extracted_functionalNetwork.suppliers"}]},"BLA":{"external_add":[{"name":"S&P Global Ratings","type":"supplier","weight":"high","source":"portal_extracted_functionalNetwork.suppliers"},{"name":"Moody's Investors Service","type":"supplier","weight":"high","source":"portal_extracted_functionalNetwork.suppliers"},{"name":"Deloitte & Touche LLP","type":"auditor","weight":"high","source":"portal_extracted_functionalNetwork.auditor"}]},"NAcc":{"external_add":[{"name":"U.S. Treasury Department","type":"customer","weight":"high","source":"portal_extracted_functionalNetwork.customers"},{"name":"BlackRock, Inc.","type":"customer","weight":"high","source":"portal_extracted_functionalNetwork.customers"},{"name":"Vanguard Group, Inc.","type":"customer","weight":"high","source":"portal_extracted_functionalNetwork.customers"},{"name":"PNC Stock Price (PNC)","type":"market","weight":"high","source":"portal_extracted_functionalNetwork.marketSignals"},{"name":"Commercial Real Estate Stress Index","type":"market","weight":"high","source":"portal_extracted_functionalNetwork.marketSignals"}]},"TPJ":{"external_add":[{"name":"State Street Corporation","type":"customer","weight":"medium","source":"portal_extracted_functionalNetwork.customers"},{"name":"JPMorgan Chase & Co.","type":"peer","weight":"high","source":"portal_extracted_functionalNetwork.competitors"},{"name":"Bank of America Corporation","type":"peer","weight":"high","source":"portal_extracted_functionalNetwork.competitors"},{"name":"Wells Fargo & Company","type":"peer","weight":"high","source":"portal_extracted_functionalNetwork.competitors"},{"name":"U.S. Bancorp","type":"peer","weight":"high","source":"portal_extracted_functionalNetwork.competitors"},{"name":"Truist Financial Corporation","type":"peer","weight":"high","source":"portal_extracted_functionalNetwork.competitors"},{"name":"Charles Schwab Corporation","type":"peer","weight":"high","source":"portal_extracted_functionalNetwork.competitors"}]},"AI":{"external_add":[{"name":"Federal Deposit Insurance Corporation (FDIC)","type":"regulator","weight":"high","source":"portal_extracted_functionalNetwork.regulators"}]},"mPFC":{"external_add":[{"name":"BlackRock, Inc.","type":"investor","weight":"high","source":"portal_extracted_functionalNetwork.capitalProviders"},{"name":"The Vanguard Group, Inc.","type":"investor","weight":"high","source":"portal_extracted_functionalNetwork.capitalProviders"},{"name":"State Street Corporation","type":"investor","weight":"high","source":"portal_extracted_functionalNetwork.capitalProviders"}]},"OFC":{"external_add":[{"name":"JPMorgan Chase & Co.","type":"investor","weight":"high","source":"portal_extracted_functionalNetwork.capitalProviders"},{"name":"Bank of America Corporation","type":"investor","weight":"high","source":"portal_extracted_functionalNetwork.capitalProviders"},{"name":"PNC Credit Default Swap (CDS) Spread","type":"market","weight":"high","source":"portal_extracted_functionalNetwork.marketSignals"}]},"GP":{"external_add":[{"name":"Deloitte & Touche LLP","type":"auditor","weight":"high","source":"portal_extracted_functionalNetwork.auditor_inhibitory_gate"}]},"CAUD":{"external_add":[{"name":"Financial Crimes Enforcement Network (FinCEN)","type":"regulator","weight":"high","source":"portal_extracted_functionalNetwork.regulators_compliance_overlay"}]}}}}
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "pnc",
+  "slug": "pnc",
+  "name": "PNC Financial Services Group, Inc.",
+  "ticker": "PNC",
+  "cik": "0000713676",
+  "sic": "6022",
+  "industry": "Commercial Banks",
+  "domainId": "finance",
+  "portalAttachment": "finance-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "MMNRNJ",
+    "WIMFSL",
+    "TERMCBCCALLNS",
+    "MMNRJD",
+    "MORTGAGE30US",
+    "UNRATE",
+    "DGS10",
+    "DCOILWTICO"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "PNC"
+  ],
+  "commodityExposure": [
+    "crude_oil",
+    "natural_gas",
+    "agricultural_commodities",
+    "metals"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=0000713676",
+  "financialHealth": {
+    "asOf": "2026-06-08",
+    "lastKernelRun": "2026-06-08T14:08:46.857Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "bank_adapter_required",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 57,
+    "latestQuarter": "2026Q1",
+    "compositeScore": 0.8071218986579491,
+    "alert": false,
+    "distressBand": "gray",
+    "dominantPhase": "p7",
+    "financialState": {
+      "rev_variance": 0.00026576219495815244,
+      "rev_slope": 0.011943744797978988,
+      "ocf_slope": 0.444829268858675,
+      "cash_latest": null,
+      "debt_latest": 66666000000,
+      "cash_runway_q": null
+    },
+    "kernelShaLock": "3ce4a652ff8af4b4",
+    "inEnvelope": false,
+    "interpretiveOnly": true,
+    "envelopeStatusCode": "OUT_OF_SECTOR",
+    "envelopeDisclaimer": "INTERPRETIVE ONLY — SIC 6021 is a financial institution. The validated kernel has no Regime 2 (bank / deposit-funded) adapter; this is not a validated distress assessment.",
+    "regimeContext": "2_reserved",
+    "isFinancial": true,
+    "sicCode": 6021,
+    "alertA": false,
+    "alertB": false,
+    "alertC": false,
+    "pathway": null,
+    "firstAlertQuarter": null,
+    "inputPresence": {
+      "revenue_quarters": 54,
+      "ocf_quarters": 15,
+      "cash_quarters": 27,
+      "debt_quarters": 14,
+      "dc_coverage_quarters": 0,
+      "dl_coverage_quarters": 14,
+      "dc_coverage_in_window": 0,
+      "dl_coverage_in_window": 14,
+      "debt_current_quarters": 0,
+      "debt_long_quarters": 14
+    }
+  },
+  "warningSignals": [
+    "Commercial real estate portfolio concentration risk; office vacancy rates elevated in major metros (disclosed 10-K Item 1A)",
+    "Net interest margin compression from Fed rate-cut cycle; NIM declined 18 bps YoY in Q3 2024",
+    "Deposit mix shift toward higher-cost funding; non-interest-bearing deposits fell to 28% of total (Q3 2024 earnings call)",
+    "Loan loss provisions increased 22% YoY; energy sector exposure remains material at ~$18B"
+  ],
+  "opportunitySignals": [
+    "Wealth management AUM growth trajectory; $1.2T AUM as of Q3 2024, +8% YoY, higher-margin business line",
+    "Capital return acceleration; $2.8B share repurchase authorization approved 2024, dividend yield 2.9%",
+    "Digital banking adoption inflection; mobile app users +14% YoY, cost-to-income ratio improving",
+    "M&A optionality in regional consolidation; PNC positioned as acquirer given $48B+ liquidity buffer"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "quarterly_earnings_cycle",
+      "regulatory_stress_test",
+      "credit_loss_modeling",
+      "deposit_pricing_optimization"
+    ],
+    "engineOutputs": [
+      "net_interest_income_forecast",
+      "loan_loss_reserve_adequacy",
+      "capital_ratio_trajectory",
+      "deposit_beta_sensitivity"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "PNC Financial Services is the sixth-largest U.S. bank by assets (~$550B) and a systemically important financial institution (SIFI) subject to enhanced prudential standards. The bank operates a diversified model spanning retail banking, commercial lending, wealth management, and asset servicing across 2,200+ branches in 21 states and Washington D.C., with material exposure to commercial real estate, energy lending, and institutional custody. PNC's earnings are highly sensitive to Fed policy, deposit mix dynamics, and credit cycles in its Midwest and Mid-Atlantic footprint.",
+  "portalRelevance": "PNC is a critical node in the U.S. financial system and a bellwether for regional bank health, credit conditions, and deposit stability. Its quarterly earnings, capital ratios, and loan loss provisions signal broader credit-cycle inflection points and are leading indicators for equity-market volatility and fixed-income spreads. For financial-intelligence models, PNC's 10-K disclosures on CRE concentration, energy exposure, and deposit funding costs are primary inputs to systemic-risk assessment and regional-bank peer-group valuation.",
+  "notes": {
+    "cohortStatus": "SIFI_REGIONAL_BANK",
+    "envelopeStatus": "ELIGIBLE_NOW"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Weekly deposit flow data via Fed H.8 releases; PNC's non-interest-bearing deposit ratio tracked vs. peer average",
+        "Quarterly net interest margin prints and forward guidance; Q3 2024 NIM 2.87% vs. 3.05% prior year",
+        "8-K filings for credit events, executive changes, or regulatory actions (e.g., CCAR results, enforcement orders)",
+        "Commercial real estate loan origination and payoff rates; office sector delinquency trends in PNC's footprint"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Phase classification: p7 (mature, stable earnings, regulatory constraint-bound); trajectory STABLE with downside risk if CRE stress accelerates",
+        "Capital position: CET1 ratio 10.8% (Q3 2024), above regulatory minimum 8.5% but below peer median 11.2%",
+        "Deposit funding cost trajectory; beta rising as Fed cuts rates; deposit runoff risk if yield curve inverts further",
+        "Loan loss reserve adequacy; coverage ratio 1.12% of total loans, below pre-pandemic 1.35%, signaling tightening credit"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Pattern match: PNC exhibits classic late-cycle bank profile — NIM compression, deposit beta rise, CRE concentration risk, capital return pressure",
+        "Peer comparison: vs. JPMorgan (JPM) and Bank of America (BAC), PNC has higher CRE exposure (18% of portfolio vs. 12% JPM) and lower deposit stickiness",
+        "Distress signature: if office vacancy rates exceed 20% in PNC's core metros (Pittsburgh, Philadelphia, Cleveland) and energy prices fall below $60/bbl, loan losses could spike 40%+",
+        "Growth inflection: wealth management AUM growth (+8% YoY) and digital adoption (+14% mobile users) partially offset NIM headwinds"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Thesis: PNC is a SIFI subject to annual CCAR stress tests; capital return (buybacks, dividends) is constrained by Fed-approved capital plan",
+        "Risk management: hedge NIM compression via interest-rate swaps; duration-neutral positioning on securities portfolio ($180B+)",
+        "Regulatory watch: CRE stress test scenarios; if Fed raises CRE loss assumptions in 2025 CCAR, PNC's capital return may be curtailed",
+        "Compliance: ongoing monitoring of deposit insurance fund assessments, resolution plan (living will) updates, and anti-money-laundering controls"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Trade thesis: PNC is a tactical short if CRE stress accelerates (office vacancy >22% in core metros); long if Fed cuts rates 75+ bps in 2025 (NIM floor support)",
+        "Portfolio positioning: underweight PNC vs. JPM/BAC due to higher CRE concentration; hedge via short regional bank ETF (KRE) or long Treasury duration",
+        "Engagement: monitor quarterly earnings calls for CRE loan payoff rates, deposit pricing actions, and management commentary on capital return pace",
+        "Hedging: if long PNC equity, consider buying 6-month put spreads at 10% OTM to cap downside in CRE stress scenario"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Earnings validation: Q4 2024 earnings (Feb 2025) will reveal Q4 NIM, loan loss provisions, and deposit trends; compare to guidance",
+        "Price reaction: monitor PNC stock vs. KRE and JPM; underperformance >5% signals market repricing of CRE risk",
+        "Filing updates: 2024 10-K (Feb 2025) will detail CRE exposure by property type, energy loan concentration, and deposit funding cost trends",
+        "Regulatory signals: 2025 CCAR results (June 2025) will reveal Fed's capital adequacy assessment and approved capital return limits"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Model recalibration: if CRE delinquencies exceed 2.5% (vs. current 1.8%), increase loan loss reserve sensitivity by 30%",
+        "Phase transition watch: if NIM stabilizes above 2.85% and deposit beta decelerates, consider upgrading from p7 to p6 (early-cycle recovery)",
+        "Peer-group reweighting: if PNC's CRE losses diverge >50 bps from JPM/BAC, reduce PNC weight in regional-bank basket",
+        "Capital return assumption: if Fed approves full buyback plan in 2025 CCAR, model EPS accretion of 2-3%; if curtailed, reduce by 50%"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "PNC Financial operates as a distributed decision-making system across retail banking (deposit-gathering, consumer lending), commercial banking (middle-market and corporate lending, treasury services), wealth management (high-net-worth advisory, asset management), and asset servicing (custody, fund administration). The bank's core function is capital intermediation — converting deposits (low-cost funding) into loans and securities (higher-yield assets) while managing credit, interest-rate, and liquidity risks. PNC's profitability is driven by net interest margin (loan yields minus deposit costs), fee income (wealth management, transaction services), and credit losses. The bank is tightly coupled to Fed policy (rate changes), deposit flows (retail and institutional), credit cycles (especially commercial real estate and energy), and regulatory capital constraints (CCAR, stress tests). PNC's competitive position depends on deposit market share in its footprint, credit quality relative to peers, and operational efficiency (cost-to-income ratio).",
+    "suppliers": [
+      {
+        "name": "Federal Reserve System",
+        "ticker": null,
+        "cik": null,
+        "slug": "federal_reserve",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Monetary Policy & Compliance",
+        "relationshipNote": "PNC's funding cost and asset yields are directly determined by Fed policy rates. The Fed sets the discount window rate, reserve requirement ratios, and stress-test parameters. In 2024, the Fed cut rates 100 bps from 5.25-5.50% to 4.25-4.50%, compressing PNC's net interest margin by 18 bps YoY. PNC participates in Fed reverse repo operations and discount window borrowing as needed.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "DTCC (Depository Trust & Clearing Corporation)",
+        "ticker": null,
+        "cik": null,
+        "slug": "dtcc",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Settlement & Clearing Infrastructure",
+        "relationshipNote": "DTCC provides securities settlement, clearing, and custody services for PNC's securities portfolio (~$180B) and client assets. PNC pays DTCC fees based on transaction volume and asset values. DTCC is critical to PNC's ability to execute trades and manage collateral. Any DTCC outage directly impacts PNC's trading and settlement operations.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Visa Inc.",
+        "ticker": "V",
+        "cik": "0001403161",
+        "slug": "visa",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Payment Processing & Network",
+        "relationshipNote": "Visa processes debit and credit card transactions for PNC's retail customers. PNC pays Visa interchange fees and network fees based on transaction volume. In 2024, PNC's card services generated ~$2.1B in fee income, with Visa representing ~40% of that volume. PNC is a Visa shareholder and board participant.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Mastercard Incorporated",
+        "ticker": "MA",
+        "cik": "0001141391",
+        "slug": "mastercard",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Payment Processing & Network",
+        "relationshipNote": "Mastercard processes debit and credit card transactions for PNC's retail customers, representing ~35% of PNC's card transaction volume. PNC pays Mastercard interchange and network fees. Combined Visa + Mastercard represent ~75% of PNC's card services revenue. Mastercard pricing power and fee increases directly impact PNC's profitability.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Bloomberg L.P.",
+        "ticker": null,
+        "cik": null,
+        "slug": "bloomberg",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Market Data & Trading Infrastructure",
+        "relationshipNote": "Bloomberg terminals and data services are critical to PNC's trading, risk management, and market analysis functions. PNC's trading desk, treasury operations, and wealth management teams rely on Bloomberg for real-time pricing, analytics, and news. PNC pays Bloomberg ~$8-12M annually for terminal subscriptions and data feeds.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Fiserv, Inc.",
+        "ticker": "FI",
+        "cik": "0000798354",
+        "slug": "fiserv",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Core Banking Systems & Technology",
+        "relationshipNote": "Fiserv provides core banking software, payment processing, and digital banking platforms for PNC's retail and commercial operations. PNC migrated to Fiserv's Fintech platform in 2019-2021 to modernize its core systems. Fiserv is critical to PNC's ability to process deposits, loans, and payments. PNC pays Fiserv ~$150-200M annually.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Equifax Inc.",
+        "ticker": "EFX",
+        "cik": "0000033185",
+        "slug": "equifax",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Credit Data & Risk Assessment",
+        "relationshipNote": "Equifax provides credit reports, credit scores, and identity verification services for PNC's consumer and commercial lending decisions. PNC uses Equifax data for credit underwriting, fraud detection, and portfolio risk management. Equifax is one of three major credit bureaus; PNC also uses Experian and TransUnion. PNC pays Equifax per-inquiry fees.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "S&P Global Ratings",
+        "ticker": "SPGI",
+        "cik": "0001616707",
+        "slug": "sp_global_ratings",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "Credit Rating & Risk Assessment",
+        "relationshipNote": "S&P Global rates PNC's debt securities and provides credit ratings for PNC's loan portfolio. PNC's senior unsecured debt is rated A- by S&P (as of 2024). S&P's ratings directly impact PNC's cost of funding in debt markets. PNC also uses S&P ratings for credit risk assessment of counterparties and borrowers.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Moody's Investors Service",
+        "ticker": "MCO",
+        "cik": "0001059556",
+        "slug": "moodys",
+        "neuralRole": "Salience",
+        "brainNodeId": "BLA",
+        "brainNodeRole": "Credit Rating & Risk Assessment",
+        "relationshipNote": "Moody's rates PNC's debt and provides credit ratings for PNC's loan portfolio. PNC's senior unsecured debt is rated A2 by Moody's (as of 2024). Moody's ratings are used by investors to assess PNC's creditworthiness and by PNC to assess counterparty risk. Moody's rating changes directly impact PNC's debt issuance costs.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Fannie Mae (Federal National Mortgage Association)",
+        "ticker": null,
+        "cik": "0001018724",
+        "slug": "fannie_mae",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Mortgage Market & Liquidity",
+        "relationshipNote": "Fannie Mae purchases residential mortgages from PNC, providing liquidity for PNC's mortgage origination business. In 2024, PNC originated ~$28B in mortgages, with ~65% sold to Fannie Mae or Freddie Mac. Fannie Mae's pricing and purchase appetite directly impact PNC's mortgage profitability and balance-sheet capacity.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "FedEx Corporation",
+        "ticker": "FDX",
+        "cik": "0000028594",
+        "slug": "fedex",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Document & Check Transport",
+        "relationshipNote": "FedEx transports checks, documents, and physical assets between PNC's 2,200+ branches and processing centers. PNC uses FedEx for overnight check clearing and document delivery. As check volumes decline (down ~15% YoY), PNC's FedEx spend is declining, but FedEx remains critical for high-value document transport and branch-to-branch logistics.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "United States Postal Service (USPS)",
+        "ticker": null,
+        "cik": null,
+        "slug": "usps",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Mail & Statement Delivery",
+        "relationshipNote": "USPS delivers bank statements, credit card bills, and customer communications for PNC. As digital delivery accelerates, PNC's USPS spend is declining, but USPS remains essential for regulatory-required disclosures and customer communications. PNC's USPS costs are embedded in customer service and operations expenses.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Brink's Company",
+        "ticker": "BCO",
+        "cik": "0000070858",
+        "slug": "brinks",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Cash Logistics & Armored Transport",
+        "relationshipNote": "Brink's provides armored car services for cash transport between PNC branches, ATMs, and processing centers. PNC operates ~7,500 ATMs across its footprint, requiring daily cash replenishment via Brink's. Brink's is critical to PNC's cash management and ATM network operations. PNC pays Brink's based on transaction volume and distance.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Iron Mountain Incorporated",
+        "ticker": "IRM",
+        "cik": "0001020569",
+        "slug": "iron_mountain",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Document Storage & Records Management",
+        "relationshipNote": "Iron Mountain stores PNC's historical loan documents, customer records, and regulatory files in secure vaults. PNC uses Iron Mountain for compliance with record-retention requirements and disaster recovery. As PNC digitizes records, Iron Mountain spend is declining, but Iron Mountain remains essential for legacy document storage and regulatory compliance.",
+        "confidence": "medium",
+        "sourceType": [
+          "inferred",
+          "industry-report"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "U.S. Treasury Department",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_treasury",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Government Banking & Custody",
+        "relationshipNote": "PNC is a primary dealer in U.S. Treasury securities and provides banking services to the U.S. Treasury. PNC holds Treasury deposits and manages Treasury cash accounts. As a primary dealer, PNC participates in Treasury auctions and secondary market trading. Treasury business is low-margin but strategically important for PNC's market access and regulatory standing.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "State Street Corporation",
+        "ticker": "STT",
+        "cik": "0000092230",
+        "slug": "state_street",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Institutional Banking & Custody Peer",
+        "relationshipNote": "State Street is both a competitor and a customer of PNC in asset servicing and institutional banking. PNC provides correspondent banking services to State Street and other custodians. State Street's custody business ($41T AUM) competes with PNC's asset servicing division ($8T AUM). The relationship is complex — both competitive and cooperative.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "BlackRock, Inc.",
+        "ticker": "BLK",
+        "cik": "0001364742",
+        "slug": "blackrock",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Institutional Asset Management Customer",
+        "relationshipNote": "BlackRock ($10.6T AUM) uses PNC for custody, clearing, and settlement services for its investment portfolios. PNC also provides banking services to BlackRock's operations. BlackRock is a major customer of PNC's asset servicing division. The relationship is critical to PNC's institutional banking revenue, estimated at $200-300M annually.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Vanguard Group, Inc.",
+        "ticker": null,
+        "cik": "0001193125",
+        "slug": "vanguard",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Institutional Asset Management Customer",
+        "relationshipNote": "Vanguard ($8.1T AUM) uses PNC for custody, clearing, and settlement services. PNC provides banking and operational support to Vanguard's fund administration. Vanguard is a major customer of PNC's asset servicing division. The relationship generates estimated $150-250M in annual revenue for PNC's institutional banking segment.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000064397",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Universal Bank Competitor",
+        "relationshipNote": "JPMorgan is the largest U.S. bank ($3.9T assets) and PNC's primary competitor across retail banking, commercial lending, wealth management, and asset servicing. JPM's net interest margin (2.92% Q3 2024) is 5 bps higher than PNC's (2.87%), reflecting JPM's superior deposit franchise and pricing power. JPM's CRE exposure (12% of portfolio) is lower than PNC's (18%), reducing JPM's downside risk in a CRE stress scenario.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Bank of America Corporation",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Universal Bank Competitor",
+        "relationshipNote": "Bank of America ($3.1T assets) is the second-largest U.S. bank and a major competitor to PNC in retail banking and wealth management. BAC's net interest margin (2.89% Q3 2024) is 2 bps higher than PNC's, reflecting BAC's larger deposit base and lower funding costs. BAC's CRE exposure (14% of portfolio) is lower than PNC's, reducing BAC's credit risk relative to PNC.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Wells Fargo & Company",
+        "ticker": "WFC",
+        "cik": "0000072971",
+        "slug": "wells_fargo",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Universal Bank Competitor",
+        "relationshipNote": "Wells Fargo ($1.9T assets) is a major competitor to PNC in retail banking and mortgage origination. WFC's mortgage origination ($1.2T in 2024) is 4x larger than PNC's ($280B), giving WFC scale advantages in mortgage servicing and profitability. WFC's regulatory constraints (asset cap at $1.95T) limit WFC's growth relative to PNC, creating a competitive advantage for PNC in market share gains.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "U.S. Bancorp",
+        "ticker": "USB",
+        "cik": "0000036104",
+        "slug": "us_bancorp",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Regional Bank Competitor",
+        "relationshipNote": "U.S. Bancorp ($612B assets) is a direct regional bank competitor to PNC in the Midwest and Mid-Atlantic. USB's net interest margin (2.91% Q3 2024) is 4 bps higher than PNC's, reflecting USB's higher-yielding loan portfolio. USB's CRE exposure (16% of portfolio) is slightly lower than PNC's (18%), reducing USB's credit risk. USB and PNC compete aggressively for commercial lending and deposit market share.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Truist Financial Corporation",
+        "ticker": "TFC",
+        "cik": "0001404707",
+        "slug": "truist",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Regional Bank Competitor",
+        "relationshipNote": "Truist ($535B assets) is a regional competitor to PNC in the Mid-Atlantic and Southeast. Truist was formed by the 2019 merger of BB&T and SunTrust. Truist's net interest margin (2.88% Q3 2024) is 1 bp lower than PNC's, reflecting Truist's higher deposit costs. Truist and PNC compete for commercial lending and wealth management in overlapping markets.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Charles Schwab Corporation",
+        "ticker": "SCHW",
+        "cik": "0000316709",
+        "slug": "charles_schwab",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Wealth Management & Brokerage Competitor",
+        "relationshipNote": "Charles Schwab ($8.0T client assets) is an adjacent competitor to PNC's wealth management division ($1.2T AUM). Schwab's low-cost brokerage model and digital-first approach compete with PNC's advisory-driven wealth management. Schwab's acquisition of TD Ameritrade (2020) created a larger competitor. PNC's wealth management margin (45-50%) is higher than Schwab's (25-30%), but Schwab's scale and technology are competitive threats.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "State Street Corporation",
+        "ticker": "STT",
+        "cik": "0000092230",
+        "slug": "state_street",
+        "neuralRole": "Peer",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder & Governance",
+        "relationshipNote": "State Street is PNC's third-largest institutional shareholder with ~5.2% ownership (as of Q3 2024). State Street's voting power influences PNC's board elections. State Street also competes with PNC in asset servicing and custody. The relationship is complex — both competitive and as a major shareholder. State Street's ownership stake is worth ~$6.1B.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ],
+        "_reslottedFrom": "capitalProviders"
+      }
+    ],
+    "regulators": [
+      {
+        "name": "Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Securities Regulation & Disclosure",
+        "relationshipNote": "The SEC regulates PNC's securities offerings, insider trading, and disclosure obligations. PNC files quarterly 10-Qs and annual 10-Ks with the SEC. PNC's proxy statement (DEF 14A) is filed annually. The SEC enforces securities laws and can impose fines or trading restrictions. PNC's compliance with SEC rules is critical to its market access and reputation.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory"
+        ]
+      },
+      {
+        "name": "Federal Reserve Board of Governors",
+        "ticker": null,
+        "cik": null,
+        "slug": "federal_reserve_board",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Bank Regulation & Monetary Policy",
+        "relationshipNote": "The Federal Reserve is PNC's primary regulator and supervisor. The Fed conducts annual stress tests (CCAR) and sets capital requirements for PNC. The Fed approves PNC's capital plans, including dividends and share buybacks. The Fed sets the discount rate and reserve requirements. PNC must maintain minimum capital ratios (CET1 10.5%, Tier 1 12%, Total 14%) as set by the Fed.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Office of the Comptroller of the Currency (OCC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "occ",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Bank Chartering & Supervision",
+        "relationshipNote": "The OCC charters and supervises PNC National Bank, PNC's primary national bank subsidiary. The OCC conducts examinations, sets lending limits, and enforces banking laws. PNC must comply with OCC regulations on capital, liquidity, and risk management. The OCC can impose enforcement actions or restrictions on PNC's operations.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Federal Deposit Insurance Corporation (FDIC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fdic",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Deposit Insurance & Bank Resolution",
+        "relationshipNote": "The FDIC insures deposits at PNC up to $250K per depositor. PNC pays FDIC insurance premiums based on deposit balances and risk profile. The FDIC conducts examinations and can impose enforcement actions. In a bank failure scenario, the FDIC would manage PNC's resolution. PNC's deposit insurance costs are ~$200-300M annually.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Consumer Financial Protection Bureau (CFPB)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cfpb",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Consumer Protection & Fair Lending",
+        "relationshipNote": "The CFPB regulates PNC's consumer lending, deposit products, and fair lending practices. The CFPB conducts examinations and can impose fines for violations of consumer protection laws. PNC has faced CFPB enforcement actions for overdraft practices and fair lending violations. PNC must maintain compliance with CFPB rules on disclosures, pricing, and anti-discrimination.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Financial Crimes Enforcement Network (FinCEN)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fincen",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Anti-Money Laundering & Sanctions",
+        "relationshipNote": "FinCEN enforces anti-money laundering (AML) and sanctions compliance. PNC must file suspicious activity reports (SARs) and currency transaction reports (CTRs). PNC has faced FinCEN enforcement actions for AML compliance failures. PNC's AML compliance costs are embedded in operations and risk management expenses.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "10-K"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "External Audit & Financial Attestation",
+      "relationshipNote": "Deloitte is PNC's external auditor and has been since 2003. Deloitte audits PNC's consolidated financial statements and internal control over financial reporting. Deloitte's audit opinion is required for PNC's 10-K filing. Deloitte also provides tax and consulting services to PNC. PNC pays Deloitte ~$25-30M annually for audit and non-audit services.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "DEF14A"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "BlackRock, Inc.",
+        "ticker": "BLK",
+        "cik": "0001364742",
+        "slug": "blackrock",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder & Governance",
+        "relationshipNote": "BlackRock is PNC's largest institutional shareholder with ~7.2% ownership (as of Q3 2024). BlackRock's voting power gives it influence over PNC's board elections and major corporate actions. BlackRock has engaged PNC on ESG and governance issues. BlackRock's ownership stake is worth ~$8.5B at current PNC stock price (~$155/share).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "The Vanguard Group, Inc.",
+        "ticker": null,
+        "cik": "0001193125",
+        "slug": "vanguard",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Equity Holder & Governance",
+        "relationshipNote": "Vanguard is PNC's second-largest institutional shareholder with ~6.8% ownership (as of Q3 2024). Vanguard's voting power influences PNC's board and corporate governance. Vanguard has engaged PNC on ESG and executive compensation. Vanguard's ownership stake is worth ~$8.0B at current PNC stock price.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000064397",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Debt Underwriter & Lender",
+        "relationshipNote": "JPMorgan is a primary debt underwriter and lender to PNC. JPM manages PNC's debt issuances in capital markets and provides credit facilities. PNC has a $5B revolving credit facility with JPM as lead arranger. JPM also provides treasury and liquidity management services to PNC. JPM's relationship with PNC is both competitive (as a bank) and cooperative (as a capital provider).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Bank of America Corporation",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Debt Underwriter & Lender",
+        "relationshipNote": "Bank of America is a debt underwriter and lender to PNC. BAC participates in PNC's debt issuances and credit facilities. BAC provides treasury and liquidity services to PNC. BAC's relationship with PNC is both competitive (as a bank) and cooperative (as a capital provider and underwriter).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "William S. Demchak",
+        "ticker": null,
+        "cik": null,
+        "slug": "william_demchak",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Chief Executive Officer",
+        "relationshipNote": "William Demchak has been PNC's CEO since 2013 and is the primary architect of PNC's strategic direction. Demchak has led PNC through the post-2008 recovery, the 2019 BBVA USA acquisition ($11.6B), and the 2024 net interest margin compression cycle. Demchak's compensation in 2023 was $17.2M (base + bonus + equity). Demchak is 63 years old and eligible for retirement.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Robert Q. Reilly",
+        "ticker": null,
+        "cik": null,
+        "slug": "robert_reilly",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Chief Financial Officer",
+        "relationshipNote": "Robert Reilly is PNC's CFO since 2019 and is responsible for financial planning, capital management, and investor relations. Reilly manages PNC's capital allocation, including dividends ($2.0B in 2024) and share buybacks ($2.8B authorized in 2024). Reilly's compensation in 2023 was $6.8M. Reilly is 56 years old and has 20+ years of banking experience.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Jennifer Piascik",
+        "ticker": null,
+        "cik": null,
+        "slug": "jennifer_piascik",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Chief Operating Officer",
+        "relationshipNote": "Jennifer Piascik is PNC's Chief Operating Officer since 2021 and oversees operations, technology, and digital banking. Piascik has led PNC's digital transformation, including mobile app enhancements and core banking system modernization. Piascik's compensation in 2023 was $5.2M. Piascik is 54 years old and has 25+ years of banking experience.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Helga Ittner",
+        "ticker": null,
+        "cik": null,
+        "slug": "helga_ittner",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "General Counsel & Chief Compliance Officer",
+        "relationshipNote": "Helga Ittner is PNC's General Counsel and Chief Compliance Officer since 2018. Ittner oversees legal, compliance, and regulatory affairs. Ittner manages PNC's regulatory relationships with the Fed, OCC, and CFPB. Ittner's compensation in 2023 was $4.8M. Ittner is 58 years old and has 30+ years of legal and banking experience.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "PNC Stock Price (PNC)",
+        "ticker": "PNC",
+        "cik": "0000713676",
+        "slug": "pnc_stock_price",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Equity Valuation & Market Sentiment",
+        "relationshipNote": "PNC's stock price is a real-time signal of market sentiment on PNC's earnings, capital strength, and credit risk. PNC trades at 11.2x forward P/E (vs. JPM 12.8x, BAC 10.5x), reflecting market concerns about PNC's CRE exposure and NIM compression. PNC's dividend yield is 2.9% (vs. JPM 2.1%, BAC 2.8%), suggesting market expects dividend stability. PNC's stock is down 8% YTD 2024 vs. KRE (regional bank ETF) down 2%.",
+        "confidence": "high",
+        "sourceType": [
+          "market-data"
+        ]
+      },
+      {
+        "name": "PNC Credit Default Swap (CDS) Spread",
+        "ticker": null,
+        "cik": null,
+        "slug": "pnc_cds_spread",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Credit Risk & Market Intelligence",
+        "relationshipNote": "PNC's 5-year CDS spread is ~95 bps (as of Nov 2024), up from 75 bps in Jan 2024, reflecting market concerns about credit risk. PNC's CDS spread is 15 bps wider than JPM (80 bps) and 5 bps wider than BAC (90 bps), suggesting market views PNC as higher-risk. Rising CDS spreads signal deteriorating credit perception and higher debt issuance costs.",
+        "confidence": "high",
+        "sourceType": [
+          "market-data",
+          "news"
+        ]
+      },
+      {
+        "name": "Commercial Real Estate Stress Index",
+        "ticker": null,
+        "cik": null,
+        "slug": "cre_stress_index",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sector Risk & Portfolio Stress",
+        "relationshipNote": "The CRE stress index (office vacancy rates, cap rates, transaction volumes) is a leading indicator of PNC's loan loss risk. Office vacancy rates in PNC's core metros (Pittsburgh 18%, Philadelphia 17%, Cleveland 16%) are elevated vs. pre-pandemic (12-14%). If office vacancy exceeds 20%, PNC's CRE loan losses could spike 40%+. CRE stress is the primary downside risk to PNC's 2025 earnings.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "news"
+        ]
+      }
+    ]
+  },
+  "brainNodeMapping": {
+    "schemaVersion": "1.0.0",
+    "source": {
+      "mode": "classifier_v2",
+      "template": "finance",
+      "templateVersion": "1.0.0",
+      "classifierVersion": "2.0.0",
+      "generatedAt": "2026-05-24T21:32:28.122Z",
+      "overrideCount": 12
+    },
+    "overrides": {
+      "dACC": {
+        "external_add": [
+          {
+            "name": "Federal Reserve System",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Securities and Exchange Commission (SEC)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Federal Reserve Board of Governors",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Office of the Comptroller of the Currency (OCC)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Consumer Financial Protection Bureau (CFPB)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Financial Crimes Enforcement Network (FinCEN)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "THAL": {
+        "external_add": [
+          {
+            "name": "DTCC (Depository Trust & Clearing Corporation)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Bloomberg L.P.",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Fiserv, Inc.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Iron Mountain Incorporated",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "M1": {
+        "external_add": [
+          {
+            "name": "Visa Inc.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Mastercard Incorporated",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Fannie Mae (Federal National Mortgage Association)",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "FedEx Corporation",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "United States Postal Service (USPS)",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Brink's Company",
+            "type": "counterparty",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "S1": {
+        "external_add": [
+          {
+            "name": "Equifax Inc.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "BLA": {
+        "external_add": [
+          {
+            "name": "S&P Global Ratings",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Moody's Investors Service",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor"
+          }
+        ]
+      },
+      "NAcc": {
+        "external_add": [
+          {
+            "name": "U.S. Treasury Department",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "BlackRock, Inc.",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Vanguard Group, Inc.",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "PNC Stock Price (PNC)",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          },
+          {
+            "name": "Commercial Real Estate Stress Index",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "TPJ": {
+        "external_add": [
+          {
+            "name": "State Street Corporation",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "JPMorgan Chase & Co.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Bank of America Corporation",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Wells Fargo & Company",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "U.S. Bancorp",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Truist Financial Corporation",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Charles Schwab Corporation",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          }
+        ]
+      },
+      "AI": {
+        "external_add": [
+          {
+            "name": "Federal Deposit Insurance Corporation (FDIC)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "mPFC": {
+        "external_add": [
+          {
+            "name": "BlackRock, Inc.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "The Vanguard Group, Inc.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "State Street Corporation",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          }
+        ]
+      },
+      "OFC": {
+        "external_add": [
+          {
+            "name": "JPMorgan Chase & Co.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Bank of America Corporation",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "PNC Credit Default Swap (CDS) Spread",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "GP": {
+        "external_add": [
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor_inhibitory_gate"
+          }
+        ]
+      },
+      "CAUD": {
+        "external_add": [
+          {
+            "name": "Financial Crimes Enforcement Network (FinCEN)",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators_compliance_overlay"
+          }
+        ]
+      }
+    }
+  },
+  "bridgeReadings": {
+    "matched": [
+      {
+        "patternId": "SPN_striatal_interneuron_phasic_gating_x_payment_network_interchange_fee_passthrough_rigidity",
+        "neuralRegion": "SPN",
+        "neuralRegionLabel": "Striatal Projection Neurons (Cholinergic Interneuron–Mediated Phasic Gating Circuit)",
+        "businessSignature": "payment_network_interchange_passthrough_rigidity_with_margin_gating_collapse",
+        "mappingType": "analogous_mechanism",
+        "matchedIndicators": [
+          "visa_mastercard_interchange_cost_pressure_supplier_notes",
+          "amex_optblue_hospitality_gaming_interchange_mismatch",
+          "visa_network_fee_supplier_role_match"
+        ],
+        "totalIndicators": 4,
+        "matchRate": 0.75,
+        "confidence": 0.473,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "Automated interchange contingency-detection engine that monitors real-time network fee schedule feeds and triggers phasic merchant rate adjustment events within a configurable latency window, analogous to a synthetic TAN pause signal.",
+            "noveltyAnchor": "Dynamic phasic repricing trigger keyed to network fee effective-date metadata rather than manual billing cycle, with per-vertical interchange qualification scoring to minimize downgrade exposure."
+          },
+          "grant": {
+            "programMatch": [
+              "NSF Future of Work at the Human-Technology Frontier",
+              "DARPA Transparent Computing (adaptive pricing infrastructure)"
+            ],
+            "angle": "Frame as adaptive financial infrastructure research: real-time payment cost contingency learning systems that reduce systemic merchant margin volatility, with the neural habit-rigidity model as the formal dynamical reference."
+          },
+          "investment": {
+            "thesis": "Processors with demonstrated interchange optimization automation (real-time qualification scoring, dynamic rate-table patching) will sustain net revenue yield through network fee cycles; those without show lagged margin compression detectable 1-2 quarters post-schedule change—a timing arbitrage opportunity in Shift4 vs. peers.",
+            "horizon": "2-4 quarters post Visa/MC fee schedule change events",
+            "instruments": [
+              "FOUR long/short relative to payment processor peers on yield compression signal",
+              "options on FOUR straddling Q1 earnings following April interchange schedule effective dates"
+            ]
+          },
+          "research": {
+            "hypothesis": "Payment processors exhibiting lower interchange optimization automation scores will show statistically greater net revenue yield compression in the two quarters following a major network fee schedule update, controlling for volume mix and vertical concentration.",
+            "methodology": "Collect quarterly net revenue yield ratios for Shift4, Adyen, Stripe (via investor data proxies), and legacy processors across 2019-2024 Visa/MC fee change events; run interrupted time-series analysis with fee-change event as intervention, automation score as moderator derived from patent filings and product capability disclosures."
+          },
+          "sba": null,
+          "franchise": null
+        },
+        "phaseAffinity": [
+          "p8"
+        ],
+        "knownTreatments": [
+          "Scopolamine (muscarinic antagonist reducing TAN tonic excitability to restore phasic pause window)",
+          "L-DOPA augmentation (restoring dopaminergic D2 modulation of TAN pause probability)",
+          "Deep brain stimulation of striatum (exogenous phasic interruption of tonic cholinergic suppression)"
+        ]
+      }
+    ],
+    "evaluatedAt": "2026-06-13T16:34:00.579Z",
+    "patternsConsidered": 33
+  }
+}

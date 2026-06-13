@@ -793,10 +793,114 @@
           "biofeedback",
           "vagal nerve stimulation"
         ]
+      },
+      {
+        "patternId": "PPTN_dopaminergic_reward_timing_x_milestone_payment_desynchronization",
+        "neuralRegion": "PPTN",
+        "neuralRegionLabel": "Pedunculopontine Tegmental Nucleus",
+        "businessSignature": "milestone_payment_desynchronization_with_sustained_effort_collapse",
+        "mappingType": "analogous_mechanism",
+        "matchedIndicators": [
+          "nih_dod_customer_concentration_signal",
+          "sovereign_funding_timing_risk_in_supplier_notes",
+          "defense_medical_countermeasures_funding_dependency"
+        ],
+        "totalIndicators": 5,
+        "matchRate": 0.6,
+        "confidence": 0.378,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "Automated milestone-payment timing analytics system that detects effort-reward temporal decoupling in government-funded biotech firms using SEC filing text, contract award databases, and internal burn-rate signals, generating early-warning scores before runway crisis",
+            "noveltyAnchor": "Application of reward-timing neuroscience constructs (inter-reward interval variance, temporal credit assignment failure) as the formal model underlying a financial early-warning algorithm for contract-dependent pharmaceutical companies"
+          },
+          "grant": {
+            "programMatch": [
+              "NIH SBIR PA-23-185: Small Business Innovation in Health Data Analytics",
+              "NSF SBIR Topic: AI for Financial Risk in Life Sciences",
+              "DoD SBIR: Contractor performance prediction and resilience assessment"
+            ],
+            "angle": "Frame as a neuroscience-derived behavioral finance tool for predicting government contractor persistence and completion risk, directly relevant to NIH/DoD program officer stewardship of small biotech grantees like 60 Degrees"
+          },
+          "investment": {
+            "thesis": "60 Degrees Pharmaceuticals is structurally exposed to PPTN-analog temporal decoupling risk: with NIH and DoD as near-exclusive revenue sources and no commercial product cash flow, any sovereign payment delay propagates directly into organizational motivational decoherence. Short thesis on warrant recovery (SXTPW) if next contract milestone slips; watch 90-day burn-vs-inflow divergence ratio as primary signal.",
+            "horizon": "6-18 months",
+            "instruments": [
+              "SXTPW warrants (asymmetric downside exposure)",
+              "Put options on peer basket (Ultragenyx, Agios) if sector-level DoD/NIH budget timing risk materializes",
+              "Long position contingent on confirmed on-time milestone payment + commercial partnership announcement"
+            ]
+          },
+          "research": {
+            "hypothesis": "Government-contract-dependent pharmaceutical firms exhibiting grant-tranche-to-milestone-completion lag >90 days across two consecutive funding cycles will show statistically significant increases in voluntary key-personnel attrition and downward guidance revision frequency within the following two quarters, consistent with reward-timing desynchronization theory derived from PPTN-VTA circuit pathology.",
+            "methodology": "Retrospective cohort analysis of SEC 10-K/10-Q filings and USASpending.gov contract award data for n=40 small-cap government-funded biopharma firms (2015-2024); compute milestone-payment lag distributions; correlate with personnel attrition proxy (risk-factor language NLP) and guidance revision counts; test against matched commercial-revenue firms as control group using difference-in-differences design."
+          },
+          "sba": null,
+          "franchise": null
+        },
+        "phaseAffinity": [
+          "p3",
+          "p7b"
+        ],
+        "knownTreatments": [
+          "Deep brain stimulation of PPTN (restores cholinergic entrainment of VTA burst timing)",
+          "Cholinesterase inhibitors — donepezil (amplifies residual PPTN cholinergic signal to VTA)",
+          "Interval training behavioral protocols (externally scaffolds reward-timing expectation to rebuild internal clock)"
+        ]
+      },
+      {
+        "patternId": "BG_tonic_inhibition_x_monopsony_supplier_throttle",
+        "neuralRegion": "BG",
+        "neuralRegionLabel": "Basal Ganglia (indirect pathway / globus pallidus internus)",
+        "businessSignature": "monopsony_supplier_throttle",
+        "mappingType": "isomorphic_pathology",
+        "matchedIndicators": [
+          "supplier_margin_compression_cohort"
+        ],
+        "totalIndicators": 4,
+        "matchRate": 0.25,
+        "confidence": 0.18,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "Method for detecting monopsony-induced supplier throttle via cross-entity gross-margin divergence kernels in SEC filing graphs",
+            "noveltyAnchor": "Mapping basal-ganglia indirect-pathway tonic-firing biomarkers onto supplier-graph margin telemetry as an early-warning index for supplier-cohort capex collapse"
+          },
+          "grant": {
+            "programMatch": [
+              "NSF SBIR Phase I — Industrial Organization Analytics",
+              "FTC Bureau of Economics research grants",
+              "Sloan Foundation Economic Institutions"
+            ],
+            "angle": "Empirical detection of buyer-power pathology in retail-CPG dyads using firm-level filings, with neural-systems analogy as theoretical scaffold for distinguishing efficient gating from pathological throttle"
+          },
+          "investment": {
+            "thesis": "Short basket of tonic-inhibited CPG suppliers with >15% Walmart revenue concentration and declining capex/sales; pair-long against retailer; unwind on antitrust catalyst or supplier consolidation event",
+            "horizon": "18-36 months",
+            "instruments": [
+              "Equity pairs (WMT long / KHC, CPB, CAG short basket)",
+              "CDS on highly-throttled suppliers",
+              "Long-dated put spreads on private-label-exposed CPG names"
+            ]
+          },
+          "research": {
+            "hypothesis": "CPG suppliers crossing a Walmart-revenue-concentration threshold of ~20% exhibit a measurable lag-2-year decline in R&D and capex intensity relative to category peers, isomorphic to bradykinesia onset following dopaminergic depletion past a striatal threshold",
+            "methodology": "Panel regression of supplier capex/R&D intensity on lagged buyer-concentration disclosures across 1995-2024 CPG cohort, with synthetic-control matching on category and pre-period growth; event-study around antitrust interventions as 'DBS analog' shocks"
+          },
+          "sba": null,
+          "franchise": null
+        },
+        "phaseAffinity": [
+          "p6",
+          "p7b"
+        ],
+        "knownTreatments": [
+          "Levodopa (restores dopaminergic disinhibition of striatum)",
+          "Deep brain stimulation of STN/GPi (high-frequency disruption of pathological tonic inhibitory firing)",
+          "MAO-B inhibitors (prolong dopamine availability to reduce indirect-pathway dominance)"
+        ]
       }
     ],
-    "evaluatedAt": "2026-05-30T07:30:00.201Z",
-    "patternsConsidered": 15
+    "evaluatedAt": "2026-06-13T16:33:59.105Z",
+    "patternsConsidered": 33
   },
   "engineOutputs": {
     "patent": [

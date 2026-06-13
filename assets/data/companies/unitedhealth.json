@@ -1,1 +1,1291 @@
-{"schemaVersion":"2.0.1","type":"company","companyId":"unitedhealth","slug":"unitedhealth","name":"UnitedHealth Group Incorporated","ticker":"UNH","cik":"0000731766","sic":"6324","industry":"Hospital/Medical Service Plans","domainId":"health","portalAttachment":"health-portal.html","kernelStatus":"ELIGIBLE_NOW","fredSeries":["DHSFRBN","CPIHLTH","PPIIDC","CES6562000001","IMPGS","EMRATIO","UNRATE","HOUST"],"feedSources":[{"type":"sec_edgar","url":"https://data.sec.gov/api/xbrl/companyfacts/CIK0000731766.json"},{"type":"fred","seriesIds":["DHSFRBN","CPIHLTH","PPIIDC","CES6562000001","IMPGS"]}],"marketDataTickers":["UNH"],"commodityExposure":["pharmaceutical_pricing","medical_devices","hospital_labor","data_infrastructure"],"helixReportMode":"validated_kernel","helixReportUrl":"helix-report.html?cik=731766","financialHealth":{"asOf":"2026-06-08","lastKernelRun":"2026-06-08T14:08:46.857Z","kernelId":"limen_backtest.py","validationStatus":"validated","envelopeStatus":"ELIGIBLE_NOW","historyQuarters":69,"latestQuarter":"2026Q1","compositeScore":0.6548186196090289,"alert":false,"distressBand":"green","dominantPhase":"p3","financialState":{"rev_variance":0.001248181630097308,"rev_slope":-0.02929461552604842,"ocf_slope":0.23279180115497378,"cash_latest":28001000000,"debt_latest":77917000000,"cash_runway_q":3.141943447037702},"kernelShaLock":"3ce4a652ff8af4b4","inEnvelope":true,"interpretiveOnly":false,"envelopeStatusCode":null,"envelopeDisclaimer":null,"regimeContext":"extrapolated","isFinancial":false,"sicCode":6324,"alertA":false,"alertB":false,"alertC":false,"pathway":null,"firstAlertQuarter":null,"inputPresence":{"revenue_quarters":55,"ocf_quarters":18,"cash_quarters":73,"debt_quarters":68,"dc_coverage_quarters":39,"dl_coverage_quarters":68,"dc_coverage_in_window":37,"dl_coverage_in_window":45,"debt_current_quarters":39,"debt_long_quarters":68}},"warningSignals":[],"opportunitySignals":[],"commercializationStatus":{"enginesRun":[],"engineOutputs":[]},"newsFeed":[],"domainRelevance":"UnitedHealth is the largest US health insurer by enrollment and revenue, operating dual-platform model: UnitedHealthcare insurance (medical, dental, vision, behavioral) covering ~50M members across commercial, Medicare Advantage, Medicaid; Optum health services division (CVS Health partnership post-2023, OptumCare clinics, UnitedHealth Ventures) generating ~45% of total revenue. Medical loss ratio (MLR) and care-cost inflation are primary operational levers; Optum's integrated care delivery model and data analytics represent structural competitive moat in value-based care transition.","portalRelevance":"UnitedHealth's enrollment trends, medical loss ratios, and care-cost inflation rates serve as leading indicators of US healthcare utilization, labor market health, and consumer financial stress. Optum's revenue growth and margin expansion signal adoption of value-based care models and data monetization; regulatory actions (antitrust scrutiny on vertical integration, state MLR audits) directly impact capital allocation and earnings trajectory. As anchor institutional buyer of pharmaceutical, medical device, and hospital services, UnitedHealth's contracting decisions propagate through entire healthcare supply chain.","notes":{"cohortStatus":"","envelopeStatus":"ELIGIBLE_NOW"},"intelligenceCycle":[{"layer":"signal","name":"Signal Capture","items":["Quarterly medical loss ratio (MLR) and care-cost trend disclosures in 10-Q earnings releases; target <82% MLR threshold for margin expansion signals","UnitedHealthcare enrollment changes by segment (commercial, Medicare Advantage, Medicaid) and premium rate increases filed with state regulators; 8-K triggers on major contract wins/losses (e.g., Fortune 500 employer renewals)","Optum revenue and adjusted operating margin growth; OptumCare clinic utilization and integrated care penetration metrics disclosed in investor presentations","Regulatory filing alerts: state insurance commissioner MLR audits, DOJ antitrust investigation updates on CVS/Aetna vertical integration, CMS Medicare Advantage star ratings and payment adjustments"]},{"layer":"state","name":"State Estimation","items":["Phase classification based on MLR trajectory (compression = growth phase; expansion = margin pressure / distress signal), enrollment momentum (net adds vs. attrition), and Optum margin expansion","Cash generation assessment: free cash flow from insurance float and Optum operations; debt service coverage ratio on $50B+ debt load; dividend sustainability under stress scenarios","Competitive positioning: market share vs. Anthem, Cigna, Aetna in commercial and Medicare Advantage; Optum's data/analytics competitive moat vs. CVS Health integration synergies","Regulatory risk vector: antitrust case timeline and settlement probability; state-level MLR audit outcomes and potential rebate/refund liabilities"]},{"layer":"diagnosis","name":"Diagnosis","items":["Medical cost inflation signature: if care-cost trend >5% YoY and MLR expands >100bps, signals pricing power loss and potential margin compression cycle (P4/P5 distress pattern)","Enrollment cliff risk: Medicare Advantage star rating downgrades or CMS payment cuts triggering member attrition; commercial employer churn from competitor pricing or service failures","Vertical integration contagion: CVS Health integration delays or OptumCare clinic profitability shortfalls propagate to parent earnings; antitrust settlement could force divestitures (Optum Care or Aetna operations)","Regulatory failure mode: state insurance commissioner intervention on MLR compliance, federal antitrust consent decree limiting contracting power, or CMS payment model shifts (e.g., move away from MA capitation)"]},{"layer":"regulate","name":"Regulation","items":["Investment thesis: long UNH if MLR compression and Optum margin expansion offset insurance underwriting pressure; short if care-cost inflation outpaces premium growth or antitrust settlement impairs Optum synergies","Risk hedge: long healthcare services ETF (XHS) to hedge Optum clinic profitability; short pharmaceutical index (XPH) to hedge drug-cost inflation exposure; interest-rate hedge on $50B debt via long-duration bonds","Regulatory engagement: monitor DOJ antitrust case filings and settlement negotiations; track state insurance commissioner MLR audit outcomes and potential rebate liabilities; model CMS Medicare Advantage payment cuts under different political scenarios","Capital allocation strategy: dividend sustainability under stress; share buyback pace contingent on free cash flow and debt reduction targets; M&A appetite for health IT or primary care clinic networks"]},{"layer":"action","name":"Action","items":["Trade execution: establish long UNH position if Q+1 MLR compression >50bps and Optum margin expansion >100bps; scale into position on antitrust settlement clarity (if favorable, add 25% position; if unfavorable, reduce 50%)","Portfolio rebalancing: reduce healthcare services exposure (XHS) if UnitedHealth underperforms peers on enrollment or MLR; increase pharmaceutical short (XPH) if UNH's contracting power signals drug-cost deflation","Monitoring setup: daily tracking of UNH stock price vs. healthcare services index; weekly MLR and enrollment trend monitoring via investor relations updates; monthly antitrust case filing review via SEC EDGAR and DOJ press releases","Engagement strategy: attend quarterly earnings calls to assess management confidence on MLR guidance and Optum synergy realization; request investor day presentation on OptumCare clinic economics and data monetization roadmap"]},{"layer":"feedback","name":"Feedback","items":["Earnings validation: Q+1 actual MLR vs. guidance; Optum revenue growth and adjusted operating margin vs. consensus; enrollment net adds by segment vs. prior-year trends","Price action: UNH stock reaction to earnings surprise (±2% = thesis neutral; >+3% = bullish MLR/Optum signal; <-3% = bearish enrollment/care-cost signal); relative performance vs. Anthem (ANTM) and Cigna (CI)","Filing delta: 10-Q changes in medical loss ratio reserve estimates, Optum goodwill impairment risk disclosures, antitrust settlement accruals, or debt covenant amendments","Regulatory outcome: DOJ antitrust case resolution (settlement terms, divestitures, operational restrictions); state insurance commissioner MLR audit results and rebate/refund liabilities; CMS Medicare Advantage star rating changes"]},{"layer":"adapt","name":"Adaptation","items":["Model recalibration: if realized MLR compression exceeds forecast by >50bps, increase weight on care-cost deflation signal in next quarter's kernel run; if Optum margin expansion underperforms, reduce synergy realization assumption","Signal reweighting: if antitrust case resolution has >2x impact on stock price vs. earnings surprise, increase weight on regulatory signal source in next cycle; if enrollment trends lag MLR as predictor, reduce enrollment signal weight","Sector prior update: if UnitedHealth's MLR compression outpaces Anthem and Cigna, update sector-level care-cost inflation prior downward; if Optum clinic profitability lags CVS Health integration, reduce vertical integration synergy prior","Thesis refinement: if antitrust settlement impairs Optum synergies, shift thesis from growth-phase to mature-phase positioning; if Medicare Advantage payment cuts accelerate, increase regulatory risk weight in capital allocation model"]}],"functionalNetwork":{"model":"UnitedHealth operates as a dual-brain system: the insurance underwriting core (UnitedHealthcare) functions as a risk-assessment and capital-allocation engine, processing enrollment, claims, and premium data to optimize medical loss ratios and reserve adequacy; the Optum health services division functions as an execution and data-monetization engine, integrating primary care delivery, behavioral health, pharmacy, and analytics to reduce care costs and generate high-margin data products. The two divisions are increasingly interdependent: Optum's care-delivery network and claims data inform UnitedHealthcare's contracting and pricing strategy, while UnitedHealthcare's enrollment and claims volume drive Optum's clinic utilization and analytics revenue. Regulatory constraints (antitrust scrutiny on vertical integration, state MLR audits) and competitive pressures (Anthem's scale, CVS Health's retail pharmacy integration) create constant tension between margin expansion and market-share defense.","suppliers":[{"name":"Merck & Co., Inc.","ticker":"MRK","cik":"0000310158","slug":"merck","neuralRole":"Sensory","brainNodeId":"S1","brainNodeRole":"Pharmaceutical Cost Driver","relationshipNote":"Merck is a top-5 pharmaceutical supplier to UnitedHealth's pharmacy benefit management (PBM) operations and UnitedHealthcare medical plans. UnitedHealth's formulary decisions and rebate negotiations with Merck directly impact drug-cost trends and medical loss ratios. Specialty drugs (oncology, immunology) represent growing cost pressure; UnitedHealth's contracting power and Optum's clinical integration influence Merck's pricing strategy and market access.","confidence":"high","sourceType":["10-K","industry-report"]},{"name":"Johnson & Johnson","ticker":"JNJ","cik":"0000200406","slug":"johnson_johnson","neuralRole":"Sensory","brainNodeId":"S1","brainNodeRole":"Pharmaceutical & Medical Device Cost Driver","relationshipNote":"J&J is a major supplier of both pharmaceuticals and medical devices to UnitedHealth's insurance plans and OptumCare clinics. UnitedHealth's contracting leverage on J&J's drug portfolio (immunology, oncology) and device offerings (orthopedics, cardiovascular) directly impacts care costs and MLR. J&J's pricing power and UnitedHealth's formulary restrictions create ongoing tension; specialty drug rebates and outcomes-based contracting are key negotiation levers.","confidence":"high","sourceType":["10-K","industry-report"]},{"name":"Humana Inc.","ticker":"HUM","cik":"0000354922","slug":"humana","neuralRole":"Peer","brainNodeId":"TPJ","brainNodeRole":"Medicare Advantage Specialist Competitor","relationshipNote":"Humana is a specialized competitor in Medicare Advantage and Medicaid, with ~7M Medicare Advantage members. Humana's focus on senior care and Medicaid creates direct competition with UnitedHealthcare's Medicare Advantage and Medicaid segments. Humana's acquisition of Kindred Healthcare (2023) signals vertical integration strategy similar to UnitedHealth's Optum model. CMS payment cuts and star rating changes disproportionately impact Humana's earnings; UnitedHealth's scale provides competitive advantage in absorbing regulatory headwinds.","confidence":"high","sourceType":["10-K","news","industry-report"]},{"name":"UnitedHealth Ventures (Internal)","ticker":null,"cik":null,"slug":"unitedhealth_ventures","neuralRole":"Motor","brainNodeId":"STRI","brainNodeRole":"Health Tech & Innovation","relationshipNote":"UnitedHealth Ventures is the corporate venture capital arm investing in health tech, digital health, and care-delivery innovation. Portfolio companies (e.g., Livongo, Proteus Digital Health, Surgical Theater) feed data and capabilities into Optum's care-delivery and analytics platforms. Venture investments signal UnitedHealth's strategic priorities (behavioral health, remote monitoring, AI-driven diagnostics) and create optionality for future acquisitions or partnerships.","confidence":"medium","sourceType":["news","inferred"]},{"name":"Optum Health (Internal Division)","ticker":null,"cik":null,"slug":"optum_health","neuralRole":"Motor","brainNodeId":"M1","brainNodeRole":"Care Delivery & Operations","relationshipNote":"Optum Health is UnitedHealth's internal health services division, operating ~1,500 OptumCare clinics, behavioral health services, and care management programs. Optum generates ~45% of UnitedHealth's total revenue and is the primary driver of margin expansion through integrated care delivery and data monetization. OptumCare's primary care network and behavioral health integration reduce medical loss ratios for UnitedHealthcare plans; Optum's analytics and data products generate high-margin recurring revenue. Vertical integration creates competitive moat but also antitrust scrutiny.","confidence":"high","sourceType":["10-K","earnings-call"]},{"name":"Optum Insight (Internal Division)","ticker":null,"cik":null,"slug":"optum_insight","neuralRole":"Sensory","brainNodeId":"THAL","brainNodeRole":"Data & Analytics Infrastructure","relationshipNote":"Optum Insight is UnitedHealth's data analytics and health IT division, providing claims processing, revenue cycle management, and clinical analytics to hospitals, health systems, and payers. Optum Insight's data assets (claims, clinical, pharmacy) are monetized through software subscriptions and consulting services. The division's growth and margin expansion are key drivers of Optum's overall profitability; data network effects create competitive moat.","confidence":"high","sourceType":["10-K","earnings-call"]},{"name":"Pfizer Inc.","ticker":"PFE","cik":"0000078003","slug":"pfizer","neuralRole":"Sensory","brainNodeId":"S1","brainNodeRole":"Pharmaceutical Cost Driver","relationshipNote":"Pfizer is a major pharmaceutical supplier to UnitedHealth's pharmacy benefit management and medical plans. Pfizer's specialty drugs (oncology, immunology, vaccines) and primary care portfolio create significant cost exposure for UnitedHealth. UnitedHealth's formulary decisions and rebate negotiations with Pfizer directly impact medical loss ratios; specialty drug pricing power and UnitedHealth's contracting leverage are ongoing negotiation points. Post-COVID vaccine revenue volatility affects Pfizer's pricing strategy.","confidence":"high","sourceType":["10-K","industry-report"]},{"name":"McKesson Corporation","ticker":"MCK","cik":"0000063908","slug":"mckesson","neuralRole":"Motor","brainNodeId":"M1","brainNodeRole":"Pharmaceutical & Medical Supply Distribution","relationshipNote":"McKesson is a major pharmaceutical and medical supply distributor serving OptumCare clinics and UnitedHealth's health services operations. McKesson's distribution network and specialty pharmacy services are critical to Optum's care delivery efficiency and cost management. Volume commitments and pricing negotiations with McKesson directly impact OptumCare's clinic profitability and supply-chain costs.","confidence":"medium","sourceType":["industry-report","inferred"]},{"name":"AbbVie Inc.","slug":"abbvie","ticker":"ABBV","cik":"0001551152","brainNodeId":"NAcc","relationshipNote":"Critical pharmaceutical supplier whose immunology and oncology portfolio directly impacts UnitedHealth's formulary economics and specialty-drug cost management. AbbVie's pricing negotiations, rebate structures, and pipeline advancement serve as leading indicators of pharmaceutical innovation velocity and payer negotiation leverage across UnitedHealth's 50M+ covered lives.","_autoReciprocityFill":true,"_filledFrom":"customers","_filledAt":"2026-05-19","sourceType":["10-K","industry-report","reciprocity_inferred"],"confidence":"medium","brainNodeRole":"upstream_supply_anchor","neuralRole":"feedforward_supply_signal","_reciprocityResolvedAt":"2026-05-22T17:26:22.757Z","_resolvedFromPartnerEntry":{"partnerSlug":"abbvie","partnerCategory":"customers","partnerFingerprint":"united_healthcare|0000731766|unitedhealthcaregroupinc"},"_proseRewrittenAt":"2026-05-23T14:45:40.140Z"},{"name":"Amgen Inc.","slug":"amgen","ticker":"AMGN","cik":"0000318154","brainNodeId":"NAcc","relationshipNote":"Tier-1 biologics supplier and major revenue contributor to UnitedHealth's pharmaceutical costs. Amgen's pipeline velocity, biosimilar adoption trends, and manufacturing capacity directly influence UnitedHealth's formulary strategy and specialty-drug reimbursement decisions across oncology, cardiovascular, and bone-health therapeutics.","_autoReciprocityFill":true,"_filledFrom":"customers","_filledAt":"2026-05-19","sourceType":["10-K","industry-report","reciprocity_inferred"],"confidence":"medium","brainNodeRole":"upstream_supply_anchor","neuralRole":"feedforward_supply_signal","_reciprocityResolvedAt":"2026-05-22T17:26:22.757Z","_resolvedFromPartnerEntry":{"partnerSlug":"amgen","partnerCategory":"customers","partnerFingerprint":"unitedhealth|0000731766|unitedhealthgroupinc"},"_proseRewrittenAt":"2026-05-23T14:45:40.140Z"},{"name":"Biogen Inc.","slug":"biogen","ticker":"BIIB","cik":"0000875045","brainNodeId":"NAcc","relationshipNote":"Critical neuroscience pharmaceutical supplier whose disease-modifying therapies drive UnitedHealth's specialty-drug expenditure and formulary coverage decisions. Biogen's manufacturing capacity, pipeline velocity, and market access strategies directly impact patient access to treatments across neurodegeneration and neuroinflammation indications.","_autoReciprocityFill":true,"_filledFrom":"customers","_filledAt":"2026-05-19","sourceType":["10-K","earnings-call","reciprocity_inferred"],"confidence":"medium","brainNodeRole":"upstream_supply_anchor","neuralRole":"feedforward_supply_signal","_reciprocityResolvedAt":"2026-05-22T17:26:22.757Z","_resolvedFromPartnerEntry":{"partnerSlug":"biogen","partnerCategory":"customers","partnerFingerprint":"unitedhealth|0001447669|unitedhealthgroupinc"},"_proseRewrittenAt":"2026-05-23T14:45:40.140Z"},{"name":"Calm.com, Inc.","slug":"calm_com","ticker":null,"cik":null,"brainNodeId":"NAcc","relationshipNote":"Digital wellness platform integrated into UnitedHealth's employer-sponsored benefit packages and insurance offerings. Calm.com's subscription retention, pricing power, and B2B growth directly reflect consumer discretionary spending trends and healthcare cost-containment effectiveness within UnitedHealth's preventive care portfolio.","_autoReciprocityFill":true,"_filledFrom":"customers","_filledAt":"2026-05-19","sourceType":["news","industry-report","reciprocity_inferred"],"confidence":"medium","brainNodeRole":"upstream_supply_anchor","neuralRole":"feedforward_supply_signal","_reciprocityResolvedAt":"2026-05-22T17:26:22.757Z","_resolvedFromPartnerEntry":{"partnerSlug":"calm_com","partnerCategory":"customers","partnerFingerprint":"unitedhealth_group|0731766|unitedhealthgroupincorporated"},"_proseRewrittenAt":"2026-05-23T14:45:40.140Z"},{"name":"Cognizant Technology Solutions Corporation","slug":"cognizant","ticker":"CTSH","cik":"1058290","brainNodeId":"NAcc","relationshipNote":"Major IT services partner supporting UnitedHealth's digital transformation, data analytics, and AI operationalization initiatives. Cognizant's healthcare vertical revenue and multi-year engagement portfolio reflect UnitedHealth's ongoing investment in claims modernization, intelligence infrastructure, and healthcare-AI capabilities.","_autoReciprocityFill":true,"_filledFrom":"customers","_filledAt":"2026-05-19","sourceType":["10-K","inferred","reciprocity_inferred"],"confidence":"low","brainNodeRole":"upstream_supply_anchor","neuralRole":"feedforward_supply_signal","_reciprocityResolvedAt":"2026-05-22T17:26:22.757Z","_resolvedFromPartnerEntry":{"partnerSlug":"cognizant","partnerCategory":"customers","partnerFingerprint":"unitedhealth_group|0000731766|unitedhealthgroupincorporated"},"_proseRewrittenAt":"2026-05-23T14:45:40.140Z"},{"name":"Eli Lilly and Company","slug":"eli_lilly","ticker":"LLY","cik":"0000059478","brainNodeId":"NAcc","relationshipNote":"Pharmaceutical innovator whose GLP-1 and specialty-therapeutics portfolio drives significant formulary and cost-management challenges for UnitedHealth. Lilly's manufacturing capacity, pipeline velocity, and obesity-treatment adoption rates serve as leading indicators of healthcare inflation and specialty-drug cost trends.","_autoReciprocityFill":true,"_filledFrom":"customers","_filledAt":"2026-05-19","sourceType":["10-K","earnings-call","news","reciprocity_inferred"],"confidence":"medium","brainNodeRole":"upstream_supply_anchor","neuralRole":"feedforward_supply_signal","_reciprocityResolvedAt":"2026-05-22T17:26:22.757Z","_resolvedFromPartnerEntry":{"partnerSlug":"eli_lilly","partnerCategory":"customers","partnerFingerprint":"unitedhealth_group|0001447669|unitedhealthgroupinc"},"_proseRewrittenAt":"2026-05-23T14:45:40.140Z"},{"name":"HCA Healthcare, Inc.","slug":"hca_healthcare","ticker":"HCA","cik":"0000860730","brainNodeId":"NAcc","relationshipNote":"Major hospital network supplier whose financial performance, operating margins, and reimbursement negotiations directly influence UnitedHealth's inpatient and acute-care contracting economics. HCA's same-store sales, debt management, and supply-chain dependencies signal broader healthcare-system stress and payer pricing power.","_autoReciprocityFill":true,"_filledFrom":"customers","_filledAt":"2026-05-19","sourceType":["10-K","earnings-call","reciprocity_inferred"],"confidence":"medium","brainNodeRole":"upstream_supply_anchor","neuralRole":"feedforward_supply_signal","_reciprocityResolvedAt":"2026-05-22T17:26:22.757Z","_resolvedFromPartnerEntry":{"partnerSlug":"hca_healthcare","partnerCategory":"customers","partnerFingerprint":"united_healthcare|0001447182|unitedhealthcaregroupinc"},"_proseRewrittenAt":"2026-05-23T14:45:40.140Z"},{"name":"Neurocrine Biosciences, Inc.","slug":"neurocrine_biosciences","ticker":"NBIX","cik":"0000914475","brainNodeId":"dACC","relationshipNote":"Specialty pharmaceutical supplier whose movement-disorder therapies require UnitedHealth's prior-authorization and formulary management. Neurocrine's revenue trajectory and reimbursement success directly reflect UnitedHealth's market-access decisions and specialty-drug cost-containment effectiveness across rare-disease indications.","_autoReciprocityFill":true,"_filledFrom":"customers","_filledAt":"2026-05-19","sourceType":["industry-report","inferred","reciprocity_inferred"],"confidence":"medium","brainNodeRole":"upstream_supply_anchor","neuralRole":"feedforward_supply_signal","_reciprocityResolvedAt":"2026-05-22T17:26:22.757Z","_resolvedFromPartnerEntry":{"partnerSlug":"neurocrine_biosciences","partnerCategory":"customers","partnerFingerprint":"unitedhealth_group|0000731766|unitedhealthgroupinc"},"_proseRewrittenAt":"2026-05-23T14:45:40.140Z"},{"name":"Teva Pharmaceutical Industries Ltd.","slug":"teva_pharmaceutical","ticker":"TEVA","cik":"0000818686","brainNodeId":"NAcc","relationshipNote":"Generic pharmaceutical supplier critical to UnitedHealth's cost-containment strategy and formulary economics. Teva's supply-chain resilience, pricing power, and debt management signal generic-drug affordability trends and manufacturing capacity constraints affecting UnitedHealth's drug-cost inflation trajectory.","_autoReciprocityFill":true,"_filledFrom":"customers","_filledAt":"2026-05-19","sourceType":["10-K","industry-report","reciprocity_inferred"],"confidence":"medium","brainNodeRole":"upstream_supply_anchor","neuralRole":"feedforward_supply_signal","_reciprocityResolvedAt":"2026-05-22T17:26:22.757Z","_resolvedFromPartnerEntry":{"partnerSlug":"teva_pharmaceutical","partnerCategory":"customers","partnerFingerprint":"unitedhealth_group|0001447669|hospitalsystemspharmacybenefitmanagersun"},"_proseRewrittenAt":"2026-05-23T14:45:40.140Z"},{"name":"Amazon Pharmacy (Emerging Competitor/Partner)","ticker":"AMZN","cik":"0001018724","slug":"amazon","neuralRole":"Motor","brainNodeId":"M1","brainNodeRole":"Pharmacy Distribution Disruptor","relationshipNote":"Amazon Pharmacy represents emerging competitive threat to UnitedHealth's OptumRx PBM operations and pharmacy distribution model. Amazon's low-cost pharmacy model and direct-to-consumer distribution could disrupt traditional PBM economics and reduce UnitedHealth's drug-cost management leverage. UnitedHealth's response (partnerships, pricing adjustments, service differentiation) will determine competitive impact.","confidence":"medium","sourceType":["news","inferred"]}],"logisticsPartners":[{"name":"UnitedHealth Logistics (Internal)","ticker":null,"cik":null,"slug":"unitedhealth_logistics","neuralRole":"Motor","brainNodeId":"M1","brainNodeRole":"Claims Processing & Distribution","relationshipNote":"UnitedHealth operates internal claims processing, pharmacy distribution, and care coordination logistics. Claims processing infrastructure handles ~100M+ claims annually across UnitedHealthcare and Optum divisions. Pharmacy distribution through OptumRx (PBM operations) reaches ~70M members. Care coordination logistics (referrals, prior authorizations, care management) are critical to medical loss ratio management and member satisfaction.","confidence":"high","sourceType":["10-K","inferred"]},{"name":"Cardinal Health, Inc.","ticker":"CAH","cik":"0000721371","slug":"cardinal_health","neuralRole":"Motor","brainNodeId":"M1","brainNodeRole":"Pharmaceutical Distribution","relationshipNote":"Cardinal Health is a major pharmaceutical distributor supplying drugs to OptumCare clinics and UnitedHealth's pharmacy benefit management operations. Cardinal's distribution network and specialty pharmacy services support UnitedHealth's care delivery and drug-cost management. Pricing negotiations and volume commitments with Cardinal directly impact Optum's clinic profitability and PBM margins.","confidence":"medium","sourceType":["industry-report","inferred"]}],"customers":[{"name":"U.S. Federal Government (Medicare, Medicaid, TRICARE)","ticker":null,"cik":null,"slug":"us_federal_government","neuralRole":"DMN","brainNodeId":"NAcc","brainNodeRole":"Anchor Customer & Regulator","relationshipNote":"The U.S. federal government is UnitedHealth's largest customer through Medicare Advantage contracts (~7M members), Medicaid managed care contracts (~10M members), and TRICARE military health contracts. CMS payment rates, star rating adjustments, and regulatory changes directly impact UnitedHealth's revenue and profitability. Medicare Advantage payment cuts and Medicaid rate compression are primary regulatory risks; UnitedHealth's scale and Optum integration provide competitive advantage in managing government program economics.","confidence":"high","sourceType":["10-K","news"]},{"name":"Fortune 500 Employers (Aggregate)","ticker":null,"cik":null,"slug":"fortune_500_employers","neuralRole":"Motor","brainNodeId":"M1","brainNodeRole":"Commercial Insurance Customers","relationshipNote":"UnitedHealth's commercial insurance segment serves ~25M members through employer-sponsored plans with Fortune 500 and mid-market companies. Major employer contracts (e.g., General Motors, Amazon, Microsoft) represent significant revenue and renewal risk. Employer churn to competitors (Anthem, Cigna) or self-insurance models directly impacts commercial segment revenue. UnitedHealth's Optum integration and care-cost management capabilities are key selling points in employer renewal negotiations.","confidence":"high","sourceType":["10-K","earnings-call"]},{"name":"Insulet Corporation","slug":"insulet","ticker":"PODD","cik":"1145197","brainNodeId":"NAcc","relationshipNote":"Medical-device supplier whose insulin-pump portfolio and reimbursement status directly impact UnitedHealth's diabetes-management costs and digital health initiatives. Insulet's growth trajectory and gross margins reflect UnitedHealth's coverage decisions and adoption velocity of automated diabetes-management systems among covered populations.","_autoReciprocityFill":true,"_filledFrom":"suppliers","_filledAt":"2026-05-19","sourceType":["earnings-call","news","inferred","reciprocity_inferred"],"confidence":"medium","brainNodeRole":"downstream_demand_anchor","neuralRole":"feedforward_demand_signal","_reciprocityResolvedAt":"2026-05-22T17:26:22.757Z","_resolvedFromPartnerEntry":{"partnerSlug":"insulet","partnerCategory":"suppliers","partnerFingerprint":"unitedhealth|0001447669|unitedhealthgroupinc"},"_proseRewrittenAt":"2026-05-23T14:45:40.140Z"},{"name":"Pediatrix Medical Group, Inc.","slug":"pediatric_medical_group","ticker":"MD","cik":"1110893","brainNodeId":"M1","relationshipNote":"Pediatric care provider and customer dependent on UnitedHealth's Medicaid and commercial reimbursement policies. Pediatrix's physician retention, hospital partnerships, and Medicaid exposure directly signal UnitedHealth's pediatric care network strength and payer-provider margin compression dynamics.","_autoReciprocityFill":true,"_filledFrom":"logisticsPartners","_filledAt":"2026-05-19","sourceType":["inferred","industry-report","reciprocity_inferred"],"confidence":"medium","brainNodeRole":"downstream_demand_anchor","neuralRole":"feedforward_demand_signal","_reciprocityResolvedAt":"2026-05-22T17:26:22.757Z","_resolvedFromPartnerEntry":{"partnerSlug":"pediatric_medical_group","partnerCategory":"logisticsPartners","partnerFingerprint":"unitedhealth_group|0001571902|unitedhealthcareservicesincunitedhealthg"},"_proseRewrittenAt":"2026-05-23T14:45:40.140Z"}],"competitors":[{"name":"Anthem, Inc.","ticker":"ANTM","cik":"0001124865","slug":"anthem","neuralRole":"Peer","brainNodeId":"TPJ","brainNodeRole":"Direct Competitor","relationshipNote":"Anthem is UnitedHealth's largest direct competitor in commercial and Medicare Advantage insurance with ~48M members. Anthem's pending acquisition of Cigna (subject to regulatory approval) would create a combined entity approaching UnitedHealth's scale. Pricing, MLR performance, and enrollment trends are key competitive metrics. Anthem's acquisition of Cigna and integration of Express Scripts PBM mirrors UnitedHealth's Optum model; regulatory approval timeline directly impacts competitive dynamics.","confidence":"high","sourceType":["10-K","news","industry-report"]},{"name":"Cigna Group","ticker":"CI","cik":"0000701985","slug":"cigna","neuralRole":"Peer","brainNodeId":"TPJ","brainNodeRole":"Direct Competitor","relationshipNote":"Cigna is a major competitor in commercial, Medicare Advantage, and international health insurance with ~20M members. Cigna's Evernorth health services division and Express Scripts PBM integration create competitive pressure on UnitedHealth's Optum model. Pending acquisition by Anthem creates uncertainty in competitive positioning; potential divestitures (e.g., Express Scripts) could reshape competitive landscape. Cigna's international operations provide diversification advantage vs. UnitedHealth's domestic focus.","confidence":"high","sourceType":["10-K","news","industry-report"]},{"name":"CVS Health Corporation","ticker":"CVS","cik":"0001116132","slug":"cvs_health","neuralRole":"Peer","brainNodeId":"TPJ","brainNodeRole":"Integrated Care Competitor","relationshipNote":"CVS Health is UnitedHealth's primary integrated-care competitor, combining retail pharmacy, MinuteClinic primary care, and Aetna insurance. CVS's vertical integration model (~1,100 MinuteClinic locations) competes directly with UnitedHealth's OptumCare (~1,500 clinics). Data monetization and care-cost management capabilities are key competitive differentiators. Antitrust scrutiny on both companies' vertical integration affects strategic options and M&A appetite.","confidence":"high","sourceType":["10-K","news","industry-report"]},{"name":"Humana Inc.","ticker":"HUM","cik":"0000354922","slug":"humana","neuralRole":"Peer","brainNodeId":"TPJ","brainNodeRole":"Medicare Advantage Specialist","relationshipNote":"Humana is a specialized competitor in Medicare Advantage and Medicaid with ~7M Medicare Advantage members. Humana's focus on senior care and Medicaid creates direct competition with UnitedHealthcare's Medicare Advantage and Medicaid segments. Humana's acquisition of Kindred Healthcare signals vertical integration strategy similar to UnitedHealth's Optum model. CMS payment cuts and star rating changes disproportionately impact Humana's earnings; UnitedHealth's scale provides competitive advantage.","confidence":"high","sourceType":["10-K","news","industry-report"]},{"name":"Aetna (CVS Health subsidiary)","ticker":"CVS","cik":"0001116132","slug":"aetna","neuralRole":"Peer","brainNodeId":"TPJ","brainNodeRole":"Integrated Insurance Competitor","relationshipNote":"Aetna, acquired by CVS Health in 2018, is now integrated into CVS's health services model. Aetna's commercial and Medicare Advantage operations compete directly with UnitedHealthcare. CVS's vertical integration of Aetna insurance with retail pharmacy and MinuteClinic creates competitive pressure on UnitedHealth's Optum model. Aetna's enrollment (~22M members) and market share in employer-sponsored insurance are key competitive metrics.","confidence":"high","sourceType":["10-K","news","industry-report"]},{"name":"HCA Healthcare, Inc.","slug":"hca_healthcare","ticker":"HCA","cik":"0000860730","brainNodeId":"TPJ","relationshipNote":"Major hospital network supplier whose financial performance, operating margins, and reimbursement negotiations directly influence UnitedHealth's inpatient and acute-care contracting economics. HCA's same-store sales, debt management, and supply-chain dependencies signal broader healthcare-system stress and payer pricing power.","_autoReciprocityFill":true,"_filledFrom":"competitors","_filledAt":"2026-05-19","sourceType":["10-K","earnings-call","industry-report","reciprocity_inferred"],"confidence":"medium","brainNodeRole":"Integrated Healthcare & Payer","neuralRole":"Peer","_reciprocityResolvedAt":"2026-05-22T17:26:22.757Z","_resolvedFromPartnerEntry":{"partnerSlug":"hca_healthcare","partnerCategory":"competitors","partnerFingerprint":"united_healthcare_optum|0001447182|unitedhealthgroupinc"},"_proseRewrittenAt":"2026-05-23T14:45:40.140Z"}],"regulators":[{"name":"U.S. Securities and Exchange Commission (SEC)","ticker":null,"cik":null,"slug":"sec","neuralRole":"Salience","brainNodeId":"dACC","brainNodeRole":"Financial Disclosure & Compliance","relationshipNote":"The SEC oversees UnitedHealth's financial reporting, disclosure controls, and compliance with securities laws. UnitedHealth's 10-K and 10-Q filings are primary sources of financial and operational data. SEC investigations or enforcement actions (e.g., on data privacy, cybersecurity disclosures) directly impact investor confidence and stock price. UnitedHealth's Sarbanes-Oxley compliance and internal control assessments are critical to institutional investor confidence.","confidence":"high","sourceType":["10-K","statutory"]},{"name":"Centers for Medicare & Medicaid Services (CMS)","ticker":null,"cik":null,"slug":"cms","neuralRole":"Salience","brainNodeId":"dACC","brainNodeRole":"Medicare Advantage & Medicaid Regulator","relationshipNote":"CMS is the primary regulator of UnitedHealth's Medicare Advantage and Medicaid managed care operations. CMS payment rates, star rating adjustments, and regulatory changes directly impact UnitedHealth's revenue and profitability. Medicare Advantage payment cuts (e.g., 2024 payment reductions) and Medicaid rate compression are primary regulatory risks. UnitedHealth's compliance with CMS quality metrics and data reporting requirements is critical to contract renewals and payment adjustments.","confidence":"high","sourceType":["10-K","news","statutory"]},{"name":"U.S. Department of Justice (DOJ) — Antitrust Division","ticker":null,"cik":null,"slug":"doj_antitrust","neuralRole":"Salience","brainNodeId":"dACC","brainNodeRole":"Antitrust & Vertical Integration Oversight","relationshipNote":"The DOJ Antitrust Division is investigating UnitedHealth's vertical integration (insurance + Optum health services) for potential anticompetitive effects. The investigation focuses on UnitedHealth's contracting practices, data leverage, and market power in health insurance and health services. Potential settlement could require divestitures (e.g., Optum Care or insurance operations), operational restrictions, or behavioral remedies. Investigation timeline and settlement terms directly impact UnitedHealth's strategic options and earnings trajectory.","confidence":"high","sourceType":["news","8-K"]},{"name":"State Insurance Commissioners (Aggregate)","ticker":null,"cik":null,"slug":"state_insurance_commissioners","neuralRole":"Salience","brainNodeId":"AI","brainNodeRole":"Medical Loss Ratio & Consumer Protection","relationshipNote":"State insurance commissioners regulate UnitedHealth's medical loss ratio (MLR) compliance, rate filings, and consumer protection. State-level MLR audits can result in rebates or refunds to policyholders if MLR falls below 80-85% thresholds. Rate approval processes and consumer complaint investigations directly impact UnitedHealth's pricing power and operational flexibility. State-level antitrust scrutiny on vertical integration mirrors federal DOJ investigation.","confidence":"high","sourceType":["10-K","news","statutory"]},{"name":"U.S. Food and Drug Administration (FDA)","ticker":null,"cik":null,"slug":"fda","neuralRole":"Salience","brainNodeId":"AI","brainNodeRole":"Drug & Device Safety Oversight","relationshipNote":"The FDA regulates pharmaceutical and medical device safety, which indirectly affects UnitedHealth's formulary decisions and care protocols. FDA drug approvals, safety warnings, and device recalls influence UnitedHealth's coverage decisions and medical loss ratios. UnitedHealth's OptumCare clinics and Optum Insight analytics must comply with FDA regulations on clinical decision support and data use.","confidence":"medium","sourceType":["10-K","inferred"]}],"auditor":{"name":"Deloitte & Touche LLP","ticker":null,"cik":null,"slug":"deloitte","neuralRole":"Salience","brainNodeId":"BLA","brainNodeRole":"Financial Audit & Risk Assessment","relationshipNote":"Deloitte & Touche LLP is UnitedHealth's independent auditor, responsible for auditing consolidated financial statements and internal control effectiveness. Deloitte's audit opinions and management letter comments are critical to investor confidence and regulatory compliance. Audit scope includes claims reserves, medical loss ratio estimates, goodwill impairment assessments, and cybersecurity controls. Any audit qualifications or material weaknesses would signal financial reporting risks.","confidence":"high","sourceType":["10-K","statutory"]},"capitalProviders":[{"name":"JPMorgan Chase & Co.","ticker":"JPM","cik":"0000064397","slug":"jpmorgan_chase","neuralRole":"Limbic","brainNodeId":"OFC","brainNodeRole":"Primary Lender & Investment Banker","relationshipNote":"JPMorgan Chase is a primary lender and investment banker for UnitedHealth, providing credit facilities, debt underwriting, and M&A advisory services. JPMorgan's credit lines and bond underwriting support UnitedHealth's $50B+ debt load and capital allocation strategy. JPMorgan's equity research and credit analysis influence institutional investor sentiment and bond pricing.","confidence":"medium","sourceType":["10-K","inferred"]},{"name":"Berkshire Hathaway Inc.","ticker":"BRK.B","cik":"0001067983","slug":"berkshire_hathaway","neuralRole":"DMN","brainNodeId":"mPFC","brainNodeRole":"Major Shareholder & Strategic Investor","relationshipNote":"Berkshire Hathaway is a major shareholder of UnitedHealth with ~5% ownership stake (as of 2023). Berkshire's investment signals confidence in UnitedHealth's long-term value creation and healthcare sector positioning. Berkshire's healthcare strategy (direct primary care initiatives, insurance operations) creates both partnership and competitive dynamics with UnitedHealth. Berkshire's voting power and board representation influence UnitedHealth's capital allocation and strategic direction.","confidence":"high","sourceType":["10-K","news"]},{"name":"Vanguard Group, Inc.","ticker":null,"cik":null,"slug":"vanguard","neuralRole":"Limbic","brainNodeId":"OFC","brainNodeRole":"Major Institutional Shareholder","relationshipNote":"Vanguard is one of UnitedHealth's largest institutional shareholders with ~8% ownership stake. Vanguard's passive index funds and active equity strategies hold significant UnitedHealth positions. Vanguard's voting power on governance issues (executive compensation, board composition, antitrust strategy) influences UnitedHealth's strategic direction. Vanguard's engagement on ESG and healthcare policy issues affects UnitedHealth's stakeholder relations.","confidence":"high","sourceType":["10-K","news"]},{"name":"BlackRock, Inc.","ticker":"BLK","cik":"0001364742","slug":"blackrock","neuralRole":"Limbic","brainNodeId":"OFC","brainNodeRole":"Major Institutional Shareholder","relationshipNote":"BlackRock is one of UnitedHealth's largest institutional shareholders with ~7% ownership stake. BlackRock's passive index funds and active equity strategies hold significant UnitedHealth positions. BlackRock's voting power and engagement on governance, ESG, and healthcare policy issues influence UnitedHealth's strategic direction. BlackRock's healthcare sector expertise and engagement strategy affect UnitedHealth's stakeholder relations and capital allocation.","confidence":"high","sourceType":["10-K","news"]}],"executiveTeam":[{"name":"Andrew Witty","title":"Chief Executive Officer","slug":"andrew_witty","neuralRole":"PFC","brainNodeId":"FPN","brainNodeRole":"Executive Leadership & Strategy","relationshipNote":"Andrew Witty became CEO in 2021, replacing David Wichmann. Witty's background in pharmaceutical industry (GSK) and healthcare strategy brings external perspective to UnitedHealth's integrated care model. Witty's strategic priorities include Optum expansion, data monetization, and antitrust risk management. Witty's compensation and performance metrics are tied to revenue growth, margin expansion, and shareholder returns.","confidence":"high","sourceType":["10-K","DEF14A"]},{"name":"John Rex","title":"Chief Financial Officer","slug":"john_rex","neuralRole":"PFC","brainNodeId":"vmPFC","brainNodeRole":"Financial Management & Capital Allocation","relationshipNote":"John Rex is UnitedHealth's CFO, responsible for financial planning, capital allocation, and investor relations. Rex's background in healthcare finance and operations brings deep sector expertise. Rex's priorities include debt management, dividend sustainability, and free cash flow optimization. Rex's quarterly earnings calls and investor guidance directly influence institutional investor sentiment and stock valuation.","confidence":"high","sourceType":["10-K","earnings-call"]},{"name":"Dirk McMahon","title":"Chief Operating Officer","slug":"dirk_mcmahon","neuralRole":"Motor","brainNodeId":"STRI","brainNodeRole":"Operations & Execution","relationshipNote":"Dirk McMahon is UnitedHealth's COO, overseeing operational execution across UnitedHealthcare and Optum divisions. McMahon's background in healthcare operations and process improvement drives efficiency gains and cost management. McMahon's priorities include care-cost reduction, claims processing optimization, and OptumCare clinic profitability. McMahon's operational metrics (MLR, enrollment, care-cost trends) are key performance indicators for investor assessment.","confidence":"medium","sourceType":["10-K","earnings-call"]},{"name":"Marianne Short","title":"General Counsel","slug":"marianne_short","neuralRole":"PFC","brainNodeId":"vlPFC","brainNodeRole":"Legal & Compliance","relationshipNote":"Marianne Short is UnitedHealth's General Counsel, responsible for legal strategy, regulatory compliance, and antitrust defense. Short's background in healthcare law and regulatory affairs is critical to managing DOJ antitrust investigation and state-level regulatory challenges. Short's priorities include antitrust settlement negotiations, data privacy compliance, and cybersecurity risk management. Short's legal strategy directly impacts UnitedHealth's strategic options and capital allocation.","confidence":"medium","sourceType":["10-K","news"]}],"marketSignals":[{"name":"UnitedHealth Medical Loss Ratio (MLR) Trend","slug":"unitedhealth_mlr_trend","neuralRole":"Limbic","brainNodeId":"NAcc","brainNodeRole":"Operational Performance & Profitability","relationshipNote":"UnitedHealth's quarterly medical loss ratio (MLR) is a leading indicator of care-cost inflation, pricing power, and margin expansion. MLR compression (<82%) signals pricing power and cost management success; MLR expansion (>85%) signals care-cost inflation and margin pressure. Quarterly MLR trends are disclosed in earnings releases and 10-Q filings. MLR trajectory directly influences stock price and institutional investor sentiment.","confidence":"high","sourceType":["earnings-call","10-Q"]},{"name":"UnitedHealth Enrollment Trends (Commercial, Medicare Advantage, Medicaid)","slug":"unitedhealth_enrollment_trends","neuralRole":"Limbic","brainNodeId":"NAcc","brainNodeRole":"Revenue Growth & Market Share","relationshipNote":"UnitedHealth's quarterly enrollment changes by segment (commercial, Medicare Advantage, Medicaid) are leading indicators of revenue growth and competitive positioning. Net enrollment adds signal market share gains; net enrollment losses signal competitive pressure or regulatory headwinds. Enrollment trends are disclosed in earnings releases and investor presentations. Medicare Advantage enrollment is particularly sensitive to CMS payment changes and star rating adjustments.","confidence":"high","sourceType":["earnings-call","10-Q"]},{"name":"Optum Revenue & Margin Growth","slug":"optum_revenue_margin_growth","neuralRole":"Limbic","brainNodeId":"OFC","brainNodeRole":"Strategic Growth & Profitability","relationshipNote":"Optum's revenue and adjusted operating margin growth are leading indicators of UnitedHealth's strategic transformation toward integrated care and data monetization. Optum margin expansion (>10% operating margin) signals successful care-cost reduction and data product adoption. Optum revenue growth (>10% YoY) signals market share gains in health services and analytics. Optum metrics are disclosed in quarterly earnings releases and investor presentations.","confidence":"high","sourceType":["earnings-call","10-Q"]}]}}
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "unitedhealth",
+  "slug": "unitedhealth",
+  "name": "UnitedHealth Group Incorporated",
+  "ticker": "UNH",
+  "cik": "0000731766",
+  "sic": "6324",
+  "industry": "Hospital/Medical Service Plans",
+  "domainId": "health",
+  "portalAttachment": "health-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "DHSFRBN",
+    "CPIHLTH",
+    "PPIIDC",
+    "CES6562000001",
+    "IMPGS",
+    "EMRATIO",
+    "UNRATE",
+    "HOUST"
+  ],
+  "feedSources": [
+    {
+      "type": "sec_edgar",
+      "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000731766.json"
+    },
+    {
+      "type": "fred",
+      "seriesIds": [
+        "DHSFRBN",
+        "CPIHLTH",
+        "PPIIDC",
+        "CES6562000001",
+        "IMPGS"
+      ]
+    }
+  ],
+  "marketDataTickers": [
+    "UNH"
+  ],
+  "commodityExposure": [
+    "pharmaceutical_pricing",
+    "medical_devices",
+    "hospital_labor",
+    "data_infrastructure"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=731766",
+  "financialHealth": {
+    "asOf": "2026-06-08",
+    "lastKernelRun": "2026-06-08T14:08:46.857Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 69,
+    "latestQuarter": "2026Q1",
+    "compositeScore": 0.6548186196090289,
+    "alert": false,
+    "distressBand": "green",
+    "dominantPhase": "p3",
+    "financialState": {
+      "rev_variance": 0.001248181630097308,
+      "rev_slope": -0.02929461552604842,
+      "ocf_slope": 0.23279180115497378,
+      "cash_latest": 28001000000,
+      "debt_latest": 77917000000,
+      "cash_runway_q": 3.141943447037702
+    },
+    "kernelShaLock": "3ce4a652ff8af4b4",
+    "inEnvelope": true,
+    "interpretiveOnly": false,
+    "envelopeStatusCode": null,
+    "envelopeDisclaimer": null,
+    "regimeContext": "extrapolated",
+    "isFinancial": false,
+    "sicCode": 6324,
+    "alertA": false,
+    "alertB": false,
+    "alertC": false,
+    "pathway": null,
+    "firstAlertQuarter": null,
+    "inputPresence": {
+      "revenue_quarters": 55,
+      "ocf_quarters": 18,
+      "cash_quarters": 73,
+      "debt_quarters": 68,
+      "dc_coverage_quarters": 39,
+      "dl_coverage_quarters": 68,
+      "dc_coverage_in_window": 37,
+      "dl_coverage_in_window": 45,
+      "debt_current_quarters": 39,
+      "debt_long_quarters": 68
+    }
+  },
+  "warningSignals": [],
+  "opportunitySignals": [],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "UnitedHealth is the largest US health insurer by enrollment and revenue, operating dual-platform model: UnitedHealthcare insurance (medical, dental, vision, behavioral) covering ~50M members across commercial, Medicare Advantage, Medicaid; Optum health services division (CVS Health partnership post-2023, OptumCare clinics, UnitedHealth Ventures) generating ~45% of total revenue. Medical loss ratio (MLR) and care-cost inflation are primary operational levers; Optum's integrated care delivery model and data analytics represent structural competitive moat in value-based care transition.",
+  "portalRelevance": "UnitedHealth's enrollment trends, medical loss ratios, and care-cost inflation rates serve as leading indicators of US healthcare utilization, labor market health, and consumer financial stress. Optum's revenue growth and margin expansion signal adoption of value-based care models and data monetization; regulatory actions (antitrust scrutiny on vertical integration, state MLR audits) directly impact capital allocation and earnings trajectory. As anchor institutional buyer of pharmaceutical, medical device, and hospital services, UnitedHealth's contracting decisions propagate through entire healthcare supply chain.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly medical loss ratio (MLR) and care-cost trend disclosures in 10-Q earnings releases; target <82% MLR threshold for margin expansion signals",
+        "UnitedHealthcare enrollment changes by segment (commercial, Medicare Advantage, Medicaid) and premium rate increases filed with state regulators; 8-K triggers on major contract wins/losses (e.g., Fortune 500 employer renewals)",
+        "Optum revenue and adjusted operating margin growth; OptumCare clinic utilization and integrated care penetration metrics disclosed in investor presentations",
+        "Regulatory filing alerts: state insurance commissioner MLR audits, DOJ antitrust investigation updates on CVS/Aetna vertical integration, CMS Medicare Advantage star ratings and payment adjustments"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Phase classification based on MLR trajectory (compression = growth phase; expansion = margin pressure / distress signal), enrollment momentum (net adds vs. attrition), and Optum margin expansion",
+        "Cash generation assessment: free cash flow from insurance float and Optum operations; debt service coverage ratio on $50B+ debt load; dividend sustainability under stress scenarios",
+        "Competitive positioning: market share vs. Anthem, Cigna, Aetna in commercial and Medicare Advantage; Optum's data/analytics competitive moat vs. CVS Health integration synergies",
+        "Regulatory risk vector: antitrust case timeline and settlement probability; state-level MLR audit outcomes and potential rebate/refund liabilities"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Medical cost inflation signature: if care-cost trend >5% YoY and MLR expands >100bps, signals pricing power loss and potential margin compression cycle (P4/P5 distress pattern)",
+        "Enrollment cliff risk: Medicare Advantage star rating downgrades or CMS payment cuts triggering member attrition; commercial employer churn from competitor pricing or service failures",
+        "Vertical integration contagion: CVS Health integration delays or OptumCare clinic profitability shortfalls propagate to parent earnings; antitrust settlement could force divestitures (Optum Care or Aetna operations)",
+        "Regulatory failure mode: state insurance commissioner intervention on MLR compliance, federal antitrust consent decree limiting contracting power, or CMS payment model shifts (e.g., move away from MA capitation)"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Investment thesis: long UNH if MLR compression and Optum margin expansion offset insurance underwriting pressure; short if care-cost inflation outpaces premium growth or antitrust settlement impairs Optum synergies",
+        "Risk hedge: long healthcare services ETF (XHS) to hedge Optum clinic profitability; short pharmaceutical index (XPH) to hedge drug-cost inflation exposure; interest-rate hedge on $50B debt via long-duration bonds",
+        "Regulatory engagement: monitor DOJ antitrust case filings and settlement negotiations; track state insurance commissioner MLR audit outcomes and potential rebate liabilities; model CMS Medicare Advantage payment cuts under different political scenarios",
+        "Capital allocation strategy: dividend sustainability under stress; share buyback pace contingent on free cash flow and debt reduction targets; M&A appetite for health IT or primary care clinic networks"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Trade execution: establish long UNH position if Q+1 MLR compression >50bps and Optum margin expansion >100bps; scale into position on antitrust settlement clarity (if favorable, add 25% position; if unfavorable, reduce 50%)",
+        "Portfolio rebalancing: reduce healthcare services exposure (XHS) if UnitedHealth underperforms peers on enrollment or MLR; increase pharmaceutical short (XPH) if UNH's contracting power signals drug-cost deflation",
+        "Monitoring setup: daily tracking of UNH stock price vs. healthcare services index; weekly MLR and enrollment trend monitoring via investor relations updates; monthly antitrust case filing review via SEC EDGAR and DOJ press releases",
+        "Engagement strategy: attend quarterly earnings calls to assess management confidence on MLR guidance and Optum synergy realization; request investor day presentation on OptumCare clinic economics and data monetization roadmap"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Earnings validation: Q+1 actual MLR vs. guidance; Optum revenue growth and adjusted operating margin vs. consensus; enrollment net adds by segment vs. prior-year trends",
+        "Price action: UNH stock reaction to earnings surprise (±2% = thesis neutral; >+3% = bullish MLR/Optum signal; <-3% = bearish enrollment/care-cost signal); relative performance vs. Anthem (ANTM) and Cigna (CI)",
+        "Filing delta: 10-Q changes in medical loss ratio reserve estimates, Optum goodwill impairment risk disclosures, antitrust settlement accruals, or debt covenant amendments",
+        "Regulatory outcome: DOJ antitrust case resolution (settlement terms, divestitures, operational restrictions); state insurance commissioner MLR audit results and rebate/refund liabilities; CMS Medicare Advantage star rating changes"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Model recalibration: if realized MLR compression exceeds forecast by >50bps, increase weight on care-cost deflation signal in next quarter's kernel run; if Optum margin expansion underperforms, reduce synergy realization assumption",
+        "Signal reweighting: if antitrust case resolution has >2x impact on stock price vs. earnings surprise, increase weight on regulatory signal source in next cycle; if enrollment trends lag MLR as predictor, reduce enrollment signal weight",
+        "Sector prior update: if UnitedHealth's MLR compression outpaces Anthem and Cigna, update sector-level care-cost inflation prior downward; if Optum clinic profitability lags CVS Health integration, reduce vertical integration synergy prior",
+        "Thesis refinement: if antitrust settlement impairs Optum synergies, shift thesis from growth-phase to mature-phase positioning; if Medicare Advantage payment cuts accelerate, increase regulatory risk weight in capital allocation model"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "UnitedHealth operates as a dual-brain system: the insurance underwriting core (UnitedHealthcare) functions as a risk-assessment and capital-allocation engine, processing enrollment, claims, and premium data to optimize medical loss ratios and reserve adequacy; the Optum health services division functions as an execution and data-monetization engine, integrating primary care delivery, behavioral health, pharmacy, and analytics to reduce care costs and generate high-margin data products. The two divisions are increasingly interdependent: Optum's care-delivery network and claims data inform UnitedHealthcare's contracting and pricing strategy, while UnitedHealthcare's enrollment and claims volume drive Optum's clinic utilization and analytics revenue. Regulatory constraints (antitrust scrutiny on vertical integration, state MLR audits) and competitive pressures (Anthem's scale, CVS Health's retail pharmacy integration) create constant tension between margin expansion and market-share defense.",
+    "suppliers": [
+      {
+        "name": "Merck & Co., Inc.",
+        "ticker": "MRK",
+        "cik": "0000310158",
+        "slug": "merck",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Pharmaceutical Cost Driver",
+        "relationshipNote": "Merck is a top-5 pharmaceutical supplier to UnitedHealth's pharmacy benefit management (PBM) operations and UnitedHealthcare medical plans. UnitedHealth's formulary decisions and rebate negotiations with Merck directly impact drug-cost trends and medical loss ratios. Specialty drugs (oncology, immunology) represent growing cost pressure; UnitedHealth's contracting power and Optum's clinical integration influence Merck's pricing strategy and market access.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Johnson & Johnson",
+        "ticker": "JNJ",
+        "cik": "0000200406",
+        "slug": "johnson_johnson",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Pharmaceutical & Medical Device Cost Driver",
+        "relationshipNote": "J&J is a major supplier of both pharmaceuticals and medical devices to UnitedHealth's insurance plans and OptumCare clinics. UnitedHealth's contracting leverage on J&J's drug portfolio (immunology, oncology) and device offerings (orthopedics, cardiovascular) directly impacts care costs and MLR. J&J's pricing power and UnitedHealth's formulary restrictions create ongoing tension; specialty drug rebates and outcomes-based contracting are key negotiation levers.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Humana Inc.",
+        "ticker": "HUM",
+        "cik": "0000354922",
+        "slug": "humana",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Medicare Advantage Specialist Competitor",
+        "relationshipNote": "Humana is a specialized competitor in Medicare Advantage and Medicaid, with ~7M Medicare Advantage members. Humana's focus on senior care and Medicaid creates direct competition with UnitedHealthcare's Medicare Advantage and Medicaid segments. Humana's acquisition of Kindred Healthcare (2023) signals vertical integration strategy similar to UnitedHealth's Optum model. CMS payment cuts and star rating changes disproportionately impact Humana's earnings; UnitedHealth's scale provides competitive advantage in absorbing regulatory headwinds.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "UnitedHealth Ventures (Internal)",
+        "ticker": null,
+        "cik": null,
+        "slug": "unitedhealth_ventures",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Health Tech & Innovation",
+        "relationshipNote": "UnitedHealth Ventures is the corporate venture capital arm investing in health tech, digital health, and care-delivery innovation. Portfolio companies (e.g., Livongo, Proteus Digital Health, Surgical Theater) feed data and capabilities into Optum's care-delivery and analytics platforms. Venture investments signal UnitedHealth's strategic priorities (behavioral health, remote monitoring, AI-driven diagnostics) and create optionality for future acquisitions or partnerships.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Optum Health (Internal Division)",
+        "ticker": null,
+        "cik": null,
+        "slug": "optum_health",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Care Delivery & Operations",
+        "relationshipNote": "Optum Health is UnitedHealth's internal health services division, operating ~1,500 OptumCare clinics, behavioral health services, and care management programs. Optum generates ~45% of UnitedHealth's total revenue and is the primary driver of margin expansion through integrated care delivery and data monetization. OptumCare's primary care network and behavioral health integration reduce medical loss ratios for UnitedHealthcare plans; Optum's analytics and data products generate high-margin recurring revenue. Vertical integration creates competitive moat but also antitrust scrutiny.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Optum Insight (Internal Division)",
+        "ticker": null,
+        "cik": null,
+        "slug": "optum_insight",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Data & Analytics Infrastructure",
+        "relationshipNote": "Optum Insight is UnitedHealth's data analytics and health IT division, providing claims processing, revenue cycle management, and clinical analytics to hospitals, health systems, and payers. Optum Insight's data assets (claims, clinical, pharmacy) are monetized through software subscriptions and consulting services. The division's growth and margin expansion are key drivers of Optum's overall profitability; data network effects create competitive moat.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Pfizer Inc.",
+        "ticker": "PFE",
+        "cik": "0000078003",
+        "slug": "pfizer",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Pharmaceutical Cost Driver",
+        "relationshipNote": "Pfizer is a major pharmaceutical supplier to UnitedHealth's pharmacy benefit management and medical plans. Pfizer's specialty drugs (oncology, immunology, vaccines) and primary care portfolio create significant cost exposure for UnitedHealth. UnitedHealth's formulary decisions and rebate negotiations with Pfizer directly impact medical loss ratios; specialty drug pricing power and UnitedHealth's contracting leverage are ongoing negotiation points. Post-COVID vaccine revenue volatility affects Pfizer's pricing strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "McKesson Corporation",
+        "ticker": "MCK",
+        "cik": "0000063908",
+        "slug": "mckesson",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Pharmaceutical & Medical Supply Distribution",
+        "relationshipNote": "McKesson is a major pharmaceutical and medical supply distributor serving OptumCare clinics and UnitedHealth's health services operations. McKesson's distribution network and specialty pharmacy services are critical to Optum's care delivery efficiency and cost management. Volume commitments and pricing negotiations with McKesson directly impact OptumCare's clinic profitability and supply-chain costs.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "AbbVie Inc.",
+        "slug": "abbvie",
+        "ticker": "ABBV",
+        "cik": "0001551152",
+        "brainNodeId": "NAcc",
+        "relationshipNote": "Critical pharmaceutical supplier whose immunology and oncology portfolio directly impacts UnitedHealth's formulary economics and specialty-drug cost management. AbbVie's pricing negotiations, rebate structures, and pipeline advancement serve as leading indicators of pharmaceutical innovation velocity and payer negotiation leverage across UnitedHealth's 50M+ covered lives.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "customers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "upstream_supply_anchor",
+        "neuralRole": "feedforward_supply_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.757Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "abbvie",
+          "partnerCategory": "customers",
+          "partnerFingerprint": "united_healthcare|0000731766|unitedhealthcaregroupinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:45:40.140Z"
+      },
+      {
+        "name": "Amgen Inc.",
+        "slug": "amgen",
+        "ticker": "AMGN",
+        "cik": "0000318154",
+        "brainNodeId": "NAcc",
+        "relationshipNote": "Tier-1 biologics supplier and major revenue contributor to UnitedHealth's pharmaceutical costs. Amgen's pipeline velocity, biosimilar adoption trends, and manufacturing capacity directly influence UnitedHealth's formulary strategy and specialty-drug reimbursement decisions across oncology, cardiovascular, and bone-health therapeutics.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "customers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "upstream_supply_anchor",
+        "neuralRole": "feedforward_supply_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.757Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "amgen",
+          "partnerCategory": "customers",
+          "partnerFingerprint": "unitedhealth|0000731766|unitedhealthgroupinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:45:40.140Z"
+      },
+      {
+        "name": "Biogen Inc.",
+        "slug": "biogen",
+        "ticker": "BIIB",
+        "cik": "0000875045",
+        "brainNodeId": "NAcc",
+        "relationshipNote": "Critical neuroscience pharmaceutical supplier whose disease-modifying therapies drive UnitedHealth's specialty-drug expenditure and formulary coverage decisions. Biogen's manufacturing capacity, pipeline velocity, and market access strategies directly impact patient access to treatments across neurodegeneration and neuroinflammation indications.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "customers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "upstream_supply_anchor",
+        "neuralRole": "feedforward_supply_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.757Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "biogen",
+          "partnerCategory": "customers",
+          "partnerFingerprint": "unitedhealth|0001447669|unitedhealthgroupinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:45:40.140Z"
+      },
+      {
+        "name": "Calm.com, Inc.",
+        "slug": "calm_com",
+        "ticker": null,
+        "cik": null,
+        "brainNodeId": "NAcc",
+        "relationshipNote": "Digital wellness platform integrated into UnitedHealth's employer-sponsored benefit packages and insurance offerings. Calm.com's subscription retention, pricing power, and B2B growth directly reflect consumer discretionary spending trends and healthcare cost-containment effectiveness within UnitedHealth's preventive care portfolio.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "customers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "news",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "upstream_supply_anchor",
+        "neuralRole": "feedforward_supply_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.757Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "calm_com",
+          "partnerCategory": "customers",
+          "partnerFingerprint": "unitedhealth_group|0731766|unitedhealthgroupincorporated"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:45:40.140Z"
+      },
+      {
+        "name": "Cognizant Technology Solutions Corporation",
+        "slug": "cognizant",
+        "ticker": "CTSH",
+        "cik": "1058290",
+        "brainNodeId": "NAcc",
+        "relationshipNote": "Major IT services partner supporting UnitedHealth's digital transformation, data analytics, and AI operationalization initiatives. Cognizant's healthcare vertical revenue and multi-year engagement portfolio reflect UnitedHealth's ongoing investment in claims modernization, intelligence infrastructure, and healthcare-AI capabilities.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "customers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "low",
+        "brainNodeRole": "upstream_supply_anchor",
+        "neuralRole": "feedforward_supply_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.757Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "cognizant",
+          "partnerCategory": "customers",
+          "partnerFingerprint": "unitedhealth_group|0000731766|unitedhealthgroupincorporated"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:45:40.140Z"
+      },
+      {
+        "name": "Eli Lilly and Company",
+        "slug": "eli_lilly",
+        "ticker": "LLY",
+        "cik": "0000059478",
+        "brainNodeId": "NAcc",
+        "relationshipNote": "Pharmaceutical innovator whose GLP-1 and specialty-therapeutics portfolio drives significant formulary and cost-management challenges for UnitedHealth. Lilly's manufacturing capacity, pipeline velocity, and obesity-treatment adoption rates serve as leading indicators of healthcare inflation and specialty-drug cost trends.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "customers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "news",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "upstream_supply_anchor",
+        "neuralRole": "feedforward_supply_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.757Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "eli_lilly",
+          "partnerCategory": "customers",
+          "partnerFingerprint": "unitedhealth_group|0001447669|unitedhealthgroupinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:45:40.140Z"
+      },
+      {
+        "name": "HCA Healthcare, Inc.",
+        "slug": "hca_healthcare",
+        "ticker": "HCA",
+        "cik": "0000860730",
+        "brainNodeId": "NAcc",
+        "relationshipNote": "Major hospital network supplier whose financial performance, operating margins, and reimbursement negotiations directly influence UnitedHealth's inpatient and acute-care contracting economics. HCA's same-store sales, debt management, and supply-chain dependencies signal broader healthcare-system stress and payer pricing power.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "customers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "upstream_supply_anchor",
+        "neuralRole": "feedforward_supply_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.757Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "hca_healthcare",
+          "partnerCategory": "customers",
+          "partnerFingerprint": "united_healthcare|0001447182|unitedhealthcaregroupinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:45:40.140Z"
+      },
+      {
+        "name": "Neurocrine Biosciences, Inc.",
+        "slug": "neurocrine_biosciences",
+        "ticker": "NBIX",
+        "cik": "0000914475",
+        "brainNodeId": "dACC",
+        "relationshipNote": "Specialty pharmaceutical supplier whose movement-disorder therapies require UnitedHealth's prior-authorization and formulary management. Neurocrine's revenue trajectory and reimbursement success directly reflect UnitedHealth's market-access decisions and specialty-drug cost-containment effectiveness across rare-disease indications.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "customers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "industry-report",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "upstream_supply_anchor",
+        "neuralRole": "feedforward_supply_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.757Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "neurocrine_biosciences",
+          "partnerCategory": "customers",
+          "partnerFingerprint": "unitedhealth_group|0000731766|unitedhealthgroupinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:45:40.140Z"
+      },
+      {
+        "name": "Teva Pharmaceutical Industries Ltd.",
+        "slug": "teva_pharmaceutical",
+        "ticker": "TEVA",
+        "cik": "0000818686",
+        "brainNodeId": "NAcc",
+        "relationshipNote": "Generic pharmaceutical supplier critical to UnitedHealth's cost-containment strategy and formulary economics. Teva's supply-chain resilience, pricing power, and debt management signal generic-drug affordability trends and manufacturing capacity constraints affecting UnitedHealth's drug-cost inflation trajectory.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "customers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "upstream_supply_anchor",
+        "neuralRole": "feedforward_supply_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.757Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "teva_pharmaceutical",
+          "partnerCategory": "customers",
+          "partnerFingerprint": "unitedhealth_group|0001447669|hospitalsystemspharmacybenefitmanagersun"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:45:40.140Z"
+      },
+      {
+        "name": "Amazon Pharmacy (Emerging Competitor/Partner)",
+        "ticker": "AMZN",
+        "cik": "0001018724",
+        "slug": "amazon",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Pharmacy Distribution Disruptor",
+        "relationshipNote": "Amazon Pharmacy represents emerging competitive threat to UnitedHealth's OptumRx PBM operations and pharmacy distribution model. Amazon's low-cost pharmacy model and direct-to-consumer distribution could disrupt traditional PBM economics and reduce UnitedHealth's drug-cost management leverage. UnitedHealth's response (partnerships, pricing adjustments, service differentiation) will determine competitive impact.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "UnitedHealth Logistics (Internal)",
+        "ticker": null,
+        "cik": null,
+        "slug": "unitedhealth_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Claims Processing & Distribution",
+        "relationshipNote": "UnitedHealth operates internal claims processing, pharmacy distribution, and care coordination logistics. Claims processing infrastructure handles ~100M+ claims annually across UnitedHealthcare and Optum divisions. Pharmacy distribution through OptumRx (PBM operations) reaches ~70M members. Care coordination logistics (referrals, prior authorizations, care management) are critical to medical loss ratio management and member satisfaction.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Cardinal Health, Inc.",
+        "ticker": "CAH",
+        "cik": "0000721371",
+        "slug": "cardinal_health",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Pharmaceutical Distribution",
+        "relationshipNote": "Cardinal Health is a major pharmaceutical distributor supplying drugs to OptumCare clinics and UnitedHealth's pharmacy benefit management operations. Cardinal's distribution network and specialty pharmacy services support UnitedHealth's care delivery and drug-cost management. Pricing negotiations and volume commitments with Cardinal directly impact Optum's clinic profitability and PBM margins.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "U.S. Federal Government (Medicare, Medicaid, TRICARE)",
+        "ticker": null,
+        "cik": null,
+        "slug": "us_federal_government",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Anchor Customer & Regulator",
+        "relationshipNote": "The U.S. federal government is UnitedHealth's largest customer through Medicare Advantage contracts (~7M members), Medicaid managed care contracts (~10M members), and TRICARE military health contracts. CMS payment rates, star rating adjustments, and regulatory changes directly impact UnitedHealth's revenue and profitability. Medicare Advantage payment cuts and Medicaid rate compression are primary regulatory risks; UnitedHealth's scale and Optum integration provide competitive advantage in managing government program economics.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Fortune 500 Employers (Aggregate)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fortune_500_employers",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Commercial Insurance Customers",
+        "relationshipNote": "UnitedHealth's commercial insurance segment serves ~25M members through employer-sponsored plans with Fortune 500 and mid-market companies. Major employer contracts (e.g., General Motors, Amazon, Microsoft) represent significant revenue and renewal risk. Employer churn to competitors (Anthem, Cigna) or self-insurance models directly impacts commercial segment revenue. UnitedHealth's Optum integration and care-cost management capabilities are key selling points in employer renewal negotiations.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Insulet Corporation",
+        "slug": "insulet",
+        "ticker": "PODD",
+        "cik": "1145197",
+        "brainNodeId": "NAcc",
+        "relationshipNote": "Medical-device supplier whose insulin-pump portfolio and reimbursement status directly impact UnitedHealth's diabetes-management costs and digital health initiatives. Insulet's growth trajectory and gross margins reflect UnitedHealth's coverage decisions and adoption velocity of automated diabetes-management systems among covered populations.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "earnings-call",
+          "news",
+          "inferred",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.757Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "insulet",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "unitedhealth|0001447669|unitedhealthgroupinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:45:40.140Z"
+      },
+      {
+        "name": "Pediatrix Medical Group, Inc.",
+        "slug": "pediatric_medical_group",
+        "ticker": "MD",
+        "cik": "1110893",
+        "brainNodeId": "M1",
+        "relationshipNote": "Pediatric care provider and customer dependent on UnitedHealth's Medicaid and commercial reimbursement policies. Pediatrix's physician retention, hospital partnerships, and Medicaid exposure directly signal UnitedHealth's pediatric care network strength and payer-provider margin compression dynamics.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "logisticsPartners",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "inferred",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.757Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "pediatric_medical_group",
+          "partnerCategory": "logisticsPartners",
+          "partnerFingerprint": "unitedhealth_group|0001571902|unitedhealthcareservicesincunitedhealthg"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:45:40.140Z"
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Anthem, Inc.",
+        "ticker": "ANTM",
+        "cik": "0001124865",
+        "slug": "anthem",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct Competitor",
+        "relationshipNote": "Anthem is UnitedHealth's largest direct competitor in commercial and Medicare Advantage insurance with ~48M members. Anthem's pending acquisition of Cigna (subject to regulatory approval) would create a combined entity approaching UnitedHealth's scale. Pricing, MLR performance, and enrollment trends are key competitive metrics. Anthem's acquisition of Cigna and integration of Express Scripts PBM mirrors UnitedHealth's Optum model; regulatory approval timeline directly impacts competitive dynamics.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Cigna Group",
+        "ticker": "CI",
+        "cik": "0000701985",
+        "slug": "cigna",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Direct Competitor",
+        "relationshipNote": "Cigna is a major competitor in commercial, Medicare Advantage, and international health insurance with ~20M members. Cigna's Evernorth health services division and Express Scripts PBM integration create competitive pressure on UnitedHealth's Optum model. Pending acquisition by Anthem creates uncertainty in competitive positioning; potential divestitures (e.g., Express Scripts) could reshape competitive landscape. Cigna's international operations provide diversification advantage vs. UnitedHealth's domestic focus.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "CVS Health Corporation",
+        "ticker": "CVS",
+        "cik": "0001116132",
+        "slug": "cvs_health",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Integrated Care Competitor",
+        "relationshipNote": "CVS Health is UnitedHealth's primary integrated-care competitor, combining retail pharmacy, MinuteClinic primary care, and Aetna insurance. CVS's vertical integration model (~1,100 MinuteClinic locations) competes directly with UnitedHealth's OptumCare (~1,500 clinics). Data monetization and care-cost management capabilities are key competitive differentiators. Antitrust scrutiny on both companies' vertical integration affects strategic options and M&A appetite.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Humana Inc.",
+        "ticker": "HUM",
+        "cik": "0000354922",
+        "slug": "humana",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Medicare Advantage Specialist",
+        "relationshipNote": "Humana is a specialized competitor in Medicare Advantage and Medicaid with ~7M Medicare Advantage members. Humana's focus on senior care and Medicaid creates direct competition with UnitedHealthcare's Medicare Advantage and Medicaid segments. Humana's acquisition of Kindred Healthcare signals vertical integration strategy similar to UnitedHealth's Optum model. CMS payment cuts and star rating changes disproportionately impact Humana's earnings; UnitedHealth's scale provides competitive advantage.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Aetna (CVS Health subsidiary)",
+        "ticker": "CVS",
+        "cik": "0001116132",
+        "slug": "aetna",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Integrated Insurance Competitor",
+        "relationshipNote": "Aetna, acquired by CVS Health in 2018, is now integrated into CVS's health services model. Aetna's commercial and Medicare Advantage operations compete directly with UnitedHealthcare. CVS's vertical integration of Aetna insurance with retail pharmacy and MinuteClinic creates competitive pressure on UnitedHealth's Optum model. Aetna's enrollment (~22M members) and market share in employer-sponsored insurance are key competitive metrics.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "HCA Healthcare, Inc.",
+        "slug": "hca_healthcare",
+        "ticker": "HCA",
+        "cik": "0000860730",
+        "brainNodeId": "TPJ",
+        "relationshipNote": "Major hospital network supplier whose financial performance, operating margins, and reimbursement negotiations directly influence UnitedHealth's inpatient and acute-care contracting economics. HCA's same-store sales, debt management, and supply-chain dependencies signal broader healthcare-system stress and payer pricing power.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "competitors",
+        "_filledAt": "2026-05-19",
+        "sourceType": [
+          "10-K",
+          "earnings-call",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "Integrated Healthcare & Payer",
+        "neuralRole": "Peer",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.757Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "hca_healthcare",
+          "partnerCategory": "competitors",
+          "partnerFingerprint": "united_healthcare_optum|0001447182|unitedhealthgroupinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:45:40.140Z"
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission (SEC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Disclosure & Compliance",
+        "relationshipNote": "The SEC oversees UnitedHealth's financial reporting, disclosure controls, and compliance with securities laws. UnitedHealth's 10-K and 10-Q filings are primary sources of financial and operational data. SEC investigations or enforcement actions (e.g., on data privacy, cybersecurity disclosures) directly impact investor confidence and stock price. UnitedHealth's Sarbanes-Oxley compliance and internal control assessments are critical to institutional investor confidence.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Centers for Medicare & Medicaid Services (CMS)",
+        "ticker": null,
+        "cik": null,
+        "slug": "cms",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Medicare Advantage & Medicaid Regulator",
+        "relationshipNote": "CMS is the primary regulator of UnitedHealth's Medicare Advantage and Medicaid managed care operations. CMS payment rates, star rating adjustments, and regulatory changes directly impact UnitedHealth's revenue and profitability. Medicare Advantage payment cuts (e.g., 2024 payment reductions) and Medicaid rate compression are primary regulatory risks. UnitedHealth's compliance with CMS quality metrics and data reporting requirements is critical to contract renewals and payment adjustments.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Department of Justice (DOJ) — Antitrust Division",
+        "ticker": null,
+        "cik": null,
+        "slug": "doj_antitrust",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust & Vertical Integration Oversight",
+        "relationshipNote": "The DOJ Antitrust Division is investigating UnitedHealth's vertical integration (insurance + Optum health services) for potential anticompetitive effects. The investigation focuses on UnitedHealth's contracting practices, data leverage, and market power in health insurance and health services. Potential settlement could require divestitures (e.g., Optum Care or insurance operations), operational restrictions, or behavioral remedies. Investigation timeline and settlement terms directly impact UnitedHealth's strategic options and earnings trajectory.",
+        "confidence": "high",
+        "sourceType": [
+          "news",
+          "8-K"
+        ]
+      },
+      {
+        "name": "State Insurance Commissioners (Aggregate)",
+        "ticker": null,
+        "cik": null,
+        "slug": "state_insurance_commissioners",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Medical Loss Ratio & Consumer Protection",
+        "relationshipNote": "State insurance commissioners regulate UnitedHealth's medical loss ratio (MLR) compliance, rate filings, and consumer protection. State-level MLR audits can result in rebates or refunds to policyholders if MLR falls below 80-85% thresholds. Rate approval processes and consumer complaint investigations directly impact UnitedHealth's pricing power and operational flexibility. State-level antitrust scrutiny on vertical integration mirrors federal DOJ investigation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Food and Drug Administration (FDA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "fda",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Drug & Device Safety Oversight",
+        "relationshipNote": "The FDA regulates pharmaceutical and medical device safety, which indirectly affects UnitedHealth's formulary decisions and care protocols. FDA drug approvals, safety warnings, and device recalls influence UnitedHealth's coverage decisions and medical loss ratios. UnitedHealth's OptumCare clinics and Optum Insight analytics must comply with FDA regulations on clinical decision support and data use.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Financial Audit & Risk Assessment",
+      "relationshipNote": "Deloitte & Touche LLP is UnitedHealth's independent auditor, responsible for auditing consolidated financial statements and internal control effectiveness. Deloitte's audit opinions and management letter comments are critical to investor confidence and regulatory compliance. Audit scope includes claims reserves, medical loss ratio estimates, goodwill impairment assessments, and cybersecurity controls. Any audit qualifications or material weaknesses would signal financial reporting risks.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "statutory"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000064397",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Primary Lender & Investment Banker",
+        "relationshipNote": "JPMorgan Chase is a primary lender and investment banker for UnitedHealth, providing credit facilities, debt underwriting, and M&A advisory services. JPMorgan's credit lines and bond underwriting support UnitedHealth's $50B+ debt load and capital allocation strategy. JPMorgan's equity research and credit analysis influence institutional investor sentiment and bond pricing.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Berkshire Hathaway Inc.",
+        "ticker": "BRK.B",
+        "cik": "0001067983",
+        "slug": "berkshire_hathaway",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Major Shareholder & Strategic Investor",
+        "relationshipNote": "Berkshire Hathaway is a major shareholder of UnitedHealth with ~5% ownership stake (as of 2023). Berkshire's investment signals confidence in UnitedHealth's long-term value creation and healthcare sector positioning. Berkshire's healthcare strategy (direct primary care initiatives, insurance operations) creates both partnership and competitive dynamics with UnitedHealth. Berkshire's voting power and board representation influence UnitedHealth's capital allocation and strategic direction.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "Vanguard Group, Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Major Institutional Shareholder",
+        "relationshipNote": "Vanguard is one of UnitedHealth's largest institutional shareholders with ~8% ownership stake. Vanguard's passive index funds and active equity strategies hold significant UnitedHealth positions. Vanguard's voting power on governance issues (executive compensation, board composition, antitrust strategy) influences UnitedHealth's strategic direction. Vanguard's engagement on ESG and healthcare policy issues affects UnitedHealth's stakeholder relations.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "BlackRock, Inc.",
+        "ticker": "BLK",
+        "cik": "0001364742",
+        "slug": "blackrock",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Major Institutional Shareholder",
+        "relationshipNote": "BlackRock is one of UnitedHealth's largest institutional shareholders with ~7% ownership stake. BlackRock's passive index funds and active equity strategies hold significant UnitedHealth positions. BlackRock's voting power and engagement on governance, ESG, and healthcare policy issues influence UnitedHealth's strategic direction. BlackRock's healthcare sector expertise and engagement strategy affect UnitedHealth's stakeholder relations and capital allocation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Andrew Witty",
+        "title": "Chief Executive Officer",
+        "slug": "andrew_witty",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership & Strategy",
+        "relationshipNote": "Andrew Witty became CEO in 2021, replacing David Wichmann. Witty's background in pharmaceutical industry (GSK) and healthcare strategy brings external perspective to UnitedHealth's integrated care model. Witty's strategic priorities include Optum expansion, data monetization, and antitrust risk management. Witty's compensation and performance metrics are tied to revenue growth, margin expansion, and shareholder returns.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "John Rex",
+        "title": "Chief Financial Officer",
+        "slug": "john_rex",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management & Capital Allocation",
+        "relationshipNote": "John Rex is UnitedHealth's CFO, responsible for financial planning, capital allocation, and investor relations. Rex's background in healthcare finance and operations brings deep sector expertise. Rex's priorities include debt management, dividend sustainability, and free cash flow optimization. Rex's quarterly earnings calls and investor guidance directly influence institutional investor sentiment and stock valuation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Dirk McMahon",
+        "title": "Chief Operating Officer",
+        "slug": "dirk_mcmahon",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations & Execution",
+        "relationshipNote": "Dirk McMahon is UnitedHealth's COO, overseeing operational execution across UnitedHealthcare and Optum divisions. McMahon's background in healthcare operations and process improvement drives efficiency gains and cost management. McMahon's priorities include care-cost reduction, claims processing optimization, and OptumCare clinic profitability. McMahon's operational metrics (MLR, enrollment, care-cost trends) are key performance indicators for investor assessment.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "earnings-call"
+        ]
+      },
+      {
+        "name": "Marianne Short",
+        "title": "General Counsel",
+        "slug": "marianne_short",
+        "neuralRole": "PFC",
+        "brainNodeId": "vlPFC",
+        "brainNodeRole": "Legal & Compliance",
+        "relationshipNote": "Marianne Short is UnitedHealth's General Counsel, responsible for legal strategy, regulatory compliance, and antitrust defense. Short's background in healthcare law and regulatory affairs is critical to managing DOJ antitrust investigation and state-level regulatory challenges. Short's priorities include antitrust settlement negotiations, data privacy compliance, and cybersecurity risk management. Short's legal strategy directly impacts UnitedHealth's strategic options and capital allocation.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "UnitedHealth Medical Loss Ratio (MLR) Trend",
+        "slug": "unitedhealth_mlr_trend",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Operational Performance & Profitability",
+        "relationshipNote": "UnitedHealth's quarterly medical loss ratio (MLR) is a leading indicator of care-cost inflation, pricing power, and margin expansion. MLR compression (<82%) signals pricing power and cost management success; MLR expansion (>85%) signals care-cost inflation and margin pressure. Quarterly MLR trends are disclosed in earnings releases and 10-Q filings. MLR trajectory directly influences stock price and institutional investor sentiment.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "10-Q"
+        ]
+      },
+      {
+        "name": "UnitedHealth Enrollment Trends (Commercial, Medicare Advantage, Medicaid)",
+        "slug": "unitedhealth_enrollment_trends",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Revenue Growth & Market Share",
+        "relationshipNote": "UnitedHealth's quarterly enrollment changes by segment (commercial, Medicare Advantage, Medicaid) are leading indicators of revenue growth and competitive positioning. Net enrollment adds signal market share gains; net enrollment losses signal competitive pressure or regulatory headwinds. Enrollment trends are disclosed in earnings releases and investor presentations. Medicare Advantage enrollment is particularly sensitive to CMS payment changes and star rating adjustments.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "10-Q"
+        ]
+      },
+      {
+        "name": "Optum Revenue & Margin Growth",
+        "slug": "optum_revenue_margin_growth",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Strategic Growth & Profitability",
+        "relationshipNote": "Optum's revenue and adjusted operating margin growth are leading indicators of UnitedHealth's strategic transformation toward integrated care and data monetization. Optum margin expansion (>10% operating margin) signals successful care-cost reduction and data product adoption. Optum revenue growth (>10% YoY) signals market share gains in health services and analytics. Optum metrics are disclosed in quarterly earnings releases and investor presentations.",
+        "confidence": "high",
+        "sourceType": [
+          "earnings-call",
+          "10-Q"
+        ]
+      }
+    ]
+  },
+  "bridgeReadings": {
+    "matched": [
+      {
+        "patternId": "SPN_striatal_interneuron_phasic_gating_x_payment_network_interchange_fee_passthrough_rigidity",
+        "neuralRegion": "SPN",
+        "neuralRegionLabel": "Striatal Projection Neurons (Cholinergic Interneuron–Mediated Phasic Gating Circuit)",
+        "businessSignature": "payment_network_interchange_passthrough_rigidity_with_margin_gating_collapse",
+        "mappingType": "analogous_mechanism",
+        "matchedIndicators": [
+          "visa_mastercard_interchange_cost_pressure_supplier_notes",
+          "amex_optblue_hospitality_gaming_interchange_mismatch"
+        ],
+        "totalIndicators": 4,
+        "matchRate": 0.5,
+        "confidence": 0.315,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "Automated interchange contingency-detection engine that monitors real-time network fee schedule feeds and triggers phasic merchant rate adjustment events within a configurable latency window, analogous to a synthetic TAN pause signal.",
+            "noveltyAnchor": "Dynamic phasic repricing trigger keyed to network fee effective-date metadata rather than manual billing cycle, with per-vertical interchange qualification scoring to minimize downgrade exposure."
+          },
+          "grant": {
+            "programMatch": [
+              "NSF Future of Work at the Human-Technology Frontier",
+              "DARPA Transparent Computing (adaptive pricing infrastructure)"
+            ],
+            "angle": "Frame as adaptive financial infrastructure research: real-time payment cost contingency learning systems that reduce systemic merchant margin volatility, with the neural habit-rigidity model as the formal dynamical reference."
+          },
+          "investment": {
+            "thesis": "Processors with demonstrated interchange optimization automation (real-time qualification scoring, dynamic rate-table patching) will sustain net revenue yield through network fee cycles; those without show lagged margin compression detectable 1-2 quarters post-schedule change—a timing arbitrage opportunity in Shift4 vs. peers.",
+            "horizon": "2-4 quarters post Visa/MC fee schedule change events",
+            "instruments": [
+              "FOUR long/short relative to payment processor peers on yield compression signal",
+              "options on FOUR straddling Q1 earnings following April interchange schedule effective dates"
+            ]
+          },
+          "research": {
+            "hypothesis": "Payment processors exhibiting lower interchange optimization automation scores will show statistically greater net revenue yield compression in the two quarters following a major network fee schedule update, controlling for volume mix and vertical concentration.",
+            "methodology": "Collect quarterly net revenue yield ratios for Shift4, Adyen, Stripe (via investor data proxies), and legacy processors across 2019-2024 Visa/MC fee change events; run interrupted time-series analysis with fee-change event as intervention, automation score as moderator derived from patent filings and product capability disclosures."
+          },
+          "sba": null,
+          "franchise": null
+        },
+        "phaseAffinity": [
+          "p8"
+        ],
+        "knownTreatments": [
+          "Scopolamine (muscarinic antagonist reducing TAN tonic excitability to restore phasic pause window)",
+          "L-DOPA augmentation (restoring dopaminergic D2 modulation of TAN pause probability)",
+          "Deep brain stimulation of striatum (exogenous phasic interruption of tonic cholinergic suppression)"
+        ]
+      },
+      {
+        "patternId": "HPA_chronic_stress_x_covenant_distress_chronification",
+        "neuralRegion": "HYPO",
+        "neuralRegionLabel": "Hypothalamus-Pituitary-Adrenal axis",
+        "businessSignature": "covenant_distress_chronification",
+        "mappingType": "isomorphic_pathology",
+        "matchedIndicators": [
+          "kernel_p3_chronic"
+        ],
+        "totalIndicators": 3,
+        "matchRate": 0.333,
+        "confidence": 0.28,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "System for distinguishing covenant-distress chronification (HPA-pattern) from acute covenant-stress via flatness of cortisol-equivalent recovery cycle",
+            "noveltyAnchor": "Time-domain analysis of distress recovery applied to covenant trajectory"
+          },
+          "grant": {
+            "programMatch": [
+              "FRB financial stability research",
+              "OFR Treasury distress modeling"
+            ],
+            "angle": "Stress-pattern recovery analysis for financial-stability monitoring"
+          },
+          "investment": {
+            "thesis": "Short companies entering covenant-chronification (vs acute); long companies post-deleveraging with restored recovery cycles",
+            "horizon": "12-24mo"
+          },
+          "research": {
+            "hypothesis": "Companies with HPA-equivalent flat-recovery covenant patterns have higher 24mo bankruptcy probability than equivalent acute-distress companies",
+            "methodology": "matched-cohort study with bankruptcy-event coding"
+          },
+          "franchise": null,
+          "sba": null
+        },
+        "phaseAffinity": [
+          "p3",
+          "p7",
+          "p7b"
+        ],
+        "knownTreatments": [
+          "CBT for chronic stress",
+          "mindfulness-based stress reduction",
+          "vagal nerve stimulation",
+          "metyrapone for cortisol suppression"
+        ]
+      },
+      {
+        "patternId": "dlPFC_executive_function_x_strategic_planning_collapse",
+        "neuralRegion": "dlPFC",
+        "neuralRegionLabel": "dorsolateral Prefrontal Cortex",
+        "businessSignature": "strategic_planning_collapse",
+        "mappingType": "isomorphic_pathology",
+        "matchedIndicators": [
+          "capex_compression"
+        ],
+        "totalIndicators": 3,
+        "matchRate": 0.333,
+        "confidence": 0.267,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "Method for detecting strategic-planning collapse via dlPFC-equivalent working-memory degradation metric applied to capital-allocation drift",
+            "noveltyAnchor": "Maps clinical executive-function diagnostics to capital-allocation pattern"
+          },
+          "grant": {
+            "programMatch": [
+              "NSF Decision Risk Management",
+              "DARPA Strategic Planning AI"
+            ],
+            "angle": "AI-augmented strategic planning protocols modeled on dlPFC working-memory training"
+          },
+          "investment": {
+            "thesis": "Avoid companies in dlPFC-collapse signature; investigate companies post-strategy-reset with working-memory-equivalent protocols",
+            "horizon": "18-36mo"
+          },
+          "research": {
+            "hypothesis": "Board-level scenario-planning protocols restore long-horizon decision-making analogous to clinical dlPFC training",
+            "methodology": "intervention study across companies emerging from p4 RECOVERY phase"
+          },
+          "franchise": null,
+          "sba": null
+        },
+        "phaseAffinity": [
+          "p3",
+          "p4",
+          "p7b"
+        ],
+        "knownTreatments": [
+          "working-memory training (n-back)",
+          "TMS to dlPFC",
+          "cognitive remediation therapy",
+          "stimulant pharmacotherapy"
+        ]
+      },
+      {
+        "patternId": "NAc_reward_dysregulation_x_revenue_chase",
+        "neuralRegion": "NAcc",
+        "neuralRegionLabel": "Nucleus Accumbens",
+        "businessSignature": "revenue_chase_at_margin_expense",
+        "mappingType": "isomorphic_pathology",
+        "matchedIndicators": [
+          "sga_outpaces_gm"
+        ],
+        "totalIndicators": 3,
+        "matchRate": 0.333,
+        "confidence": 0.26,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "System and method for detecting corporate revenue-chase signature via reward-prediction-error decoupling metric applied to SG&A vs GM trajectory",
+            "noveltyAnchor": "First application of NAcc-equivalent tonic-hyperactivation detection to corporate financial signal"
+          },
+          "grant": {
+            "programMatch": [
+              "NIH SBIR Topic 357 (neuroscience-finance interface)",
+              "NSF I-Corps Lean Translation"
+            ],
+            "angle": "Translational research applying contingency-management protocols to corporate compensation design"
+          },
+          "investment": {
+            "thesis": "Short companies entering revenue-chase signature; long companies with restored capital discipline post-board intervention",
+            "horizon": "6-12mo",
+            "instruments": [
+              "short equity",
+              "put spreads"
+            ]
+          },
+          "research": {
+            "hypothesis": "Companies in revenue-chase signature respond to contingency-management-equivalent interventions (board-level reward restructuring)",
+            "methodology": "longitudinal comparison of incentive-restructured vs control firms"
+          },
+          "franchise": null,
+          "sba": null
+        },
+        "phaseAffinity": [
+          "p3",
+          "p7b"
+        ],
+        "knownTreatments": [
+          "naltrexone (mu-opioid antagonism)",
+          "CBT relapse prevention",
+          "contingency management",
+          "DBT distress tolerance",
+          "TMS to dlPFC for top-down control"
+        ]
+      },
+      {
+        "patternId": "PPTN_dopaminergic_reward_timing_x_milestone_payment_desynchronization",
+        "neuralRegion": "PPTN",
+        "neuralRegionLabel": "Pedunculopontine Tegmental Nucleus",
+        "businessSignature": "milestone_payment_desynchronization_with_sustained_effort_collapse",
+        "mappingType": "analogous_mechanism",
+        "matchedIndicators": [
+          "sovereign_funding_timing_risk_in_supplier_notes",
+          "defense_medical_countermeasures_funding_dependency"
+        ],
+        "totalIndicators": 5,
+        "matchRate": 0.4,
+        "confidence": 0.252,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "Automated milestone-payment timing analytics system that detects effort-reward temporal decoupling in government-funded biotech firms using SEC filing text, contract award databases, and internal burn-rate signals, generating early-warning scores before runway crisis",
+            "noveltyAnchor": "Application of reward-timing neuroscience constructs (inter-reward interval variance, temporal credit assignment failure) as the formal model underlying a financial early-warning algorithm for contract-dependent pharmaceutical companies"
+          },
+          "grant": {
+            "programMatch": [
+              "NIH SBIR PA-23-185: Small Business Innovation in Health Data Analytics",
+              "NSF SBIR Topic: AI for Financial Risk in Life Sciences",
+              "DoD SBIR: Contractor performance prediction and resilience assessment"
+            ],
+            "angle": "Frame as a neuroscience-derived behavioral finance tool for predicting government contractor persistence and completion risk, directly relevant to NIH/DoD program officer stewardship of small biotech grantees like 60 Degrees"
+          },
+          "investment": {
+            "thesis": "60 Degrees Pharmaceuticals is structurally exposed to PPTN-analog temporal decoupling risk: with NIH and DoD as near-exclusive revenue sources and no commercial product cash flow, any sovereign payment delay propagates directly into organizational motivational decoherence. Short thesis on warrant recovery (SXTPW) if next contract milestone slips; watch 90-day burn-vs-inflow divergence ratio as primary signal.",
+            "horizon": "6-18 months",
+            "instruments": [
+              "SXTPW warrants (asymmetric downside exposure)",
+              "Put options on peer basket (Ultragenyx, Agios) if sector-level DoD/NIH budget timing risk materializes",
+              "Long position contingent on confirmed on-time milestone payment + commercial partnership announcement"
+            ]
+          },
+          "research": {
+            "hypothesis": "Government-contract-dependent pharmaceutical firms exhibiting grant-tranche-to-milestone-completion lag >90 days across two consecutive funding cycles will show statistically significant increases in voluntary key-personnel attrition and downward guidance revision frequency within the following two quarters, consistent with reward-timing desynchronization theory derived from PPTN-VTA circuit pathology.",
+            "methodology": "Retrospective cohort analysis of SEC 10-K/10-Q filings and USASpending.gov contract award data for n=40 small-cap government-funded biopharma firms (2015-2024); compute milestone-payment lag distributions; correlate with personnel attrition proxy (risk-factor language NLP) and guidance revision counts; test against matched commercial-revenue firms as control group using difference-in-differences design."
+          },
+          "sba": null,
+          "franchise": null
+        },
+        "phaseAffinity": [
+          "p3",
+          "p7b"
+        ],
+        "knownTreatments": [
+          "Deep brain stimulation of PPTN (restores cholinergic entrainment of VTA burst timing)",
+          "Cholinesterase inhibitors — donepezil (amplifies residual PPTN cholinergic signal to VTA)",
+          "Interval training behavioral protocols (externally scaffolds reward-timing expectation to rebuild internal clock)"
+        ]
+      }
+    ],
+    "evaluatedAt": "2026-06-13T16:34:01.017Z",
+    "patternsConsidered": 33
+  }
+}

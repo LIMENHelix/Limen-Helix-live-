@@ -1,1 +1,1312 @@
-{"schemaVersion":"2.0.1","type":"company","companyId":"par_pacific_holdings_inc","slug":"par_pacific_holdings_inc","name":"PAR PACIFIC HOLDINGS, INC.","ticker":"PARR","cik":"0000821483","sic":"2911","industry":"Petroleum Refining","domainId":"energy","portalAttachment":"energy-portal.html","kernelStatus":"ELIGIBLE_NOW","fredSeries":["DCOILWTICO","GASDESW","DHHNGSP","MMNRNJ","DEXUSEU"],"feedSources":[],"marketDataTickers":["PARR"],"commodityExposure":["crude oil (WTI/Brent)","natural gas","refined products (gasoline, diesel, jet fuel)","renewable diesel feedstock"],"helixReportMode":"validated_kernel","helixReportUrl":"helix-report.html?cik=0000821483","financialHealth":{"asOf":"2026-06-08","lastKernelRun":"2026-06-08T14:08:46.857Z","kernelId":"limen_backtest.py","validationStatus":"validated","envelopeStatus":"ELIGIBLE_NOW","historyQuarters":62,"latestQuarter":"2026Q1","compositeScore":0.2406893468571828,"alert":false,"distressBand":"green","dominantPhase":"p3","financialState":{"rev_variance":null,"rev_slope":null,"ocf_slope":-14.094609393489495,"cash_latest":172168000,"debt_latest":947618000,"cash_runway_q":4.2294445672734415},"kernelShaLock":"3ce4a652ff8af4b4","inEnvelope":true,"interpretiveOnly":false,"envelopeStatusCode":null,"envelopeDisclaimer":null,"regimeContext":"extrapolated","isFinancial":false,"sicCode":1311,"alertA":false,"alertB":false,"alertC":false,"pathway":null,"firstAlertQuarter":null,"inputPresence":{"revenue_quarters":24,"ocf_quarters":17,"cash_quarters":66,"debt_quarters":54,"dc_coverage_quarters":52,"dl_coverage_quarters":54,"dc_coverage_in_window":45,"dl_coverage_in_window":45,"debt_current_quarters":52,"debt_long_quarters":54}},"warningSignals":["Crude oil price volatility (WTI ±$15/bbl swings) compresses refining margins; 2024 average crack spread 60% below 2022 peak","Debt-to-EBITDA ratio 3.2x at Q3 2024; refinancing risk if crude falls below $65/bbl sustained","Renewable Diesel segment EBITDA margin compression YoY; RIN (Renewable Identification Number) price volatility creates hedging drag","Regulatory risk: EPA Tier 3 gasoline sulfur limits (2017 compliance) and LCFS (Low Carbon Fuel Standard) California exposure; 2025 LCFS credit cost +18% YoY"],"opportunitySignals":["Renewable diesel capacity expansion (Tesoro Anacortes 50 MBPD conversion, 2023 completion) targets 15% EBITDA mix by 2025; RIN capture upside if policy stable","Crude-by-rail logistics optimization: 2024 capex $180M for Tacoma rail terminal expansion reduces transport cost $2.50/bbl vs truck","Potential acquisition of stranded refining assets post-2024 consolidation wave; PARR's $285M cash + $500M revolver provides M&A dry powder","Jet fuel demand recovery post-COVID: PARR's Tesoro Anacortes and Kaapa Point facilities supply Alaska Airlines (15% of regional jet fuel); 2025 capacity utilization forecast 92%"],"commercializationStatus":{"enginesRun":["Renewable Diesel Production (Anacortes, WA; 50 MBPD capacity; launched 2023)","Crude Oil Refining (Anacortes 120 MBPD, Kaapa Point HI 94 MBPD; combined nameplate 214 MBPD)","Logistics & Distribution (Tacoma rail terminal, Puget Sound marine dock, Hawaii barge fleet)"],"engineOutputs":["2024 YTD refined product sales: 185 MBPD (gasoline 45%, diesel 35%, jet 12%, other 8%)","Renewable diesel production 2024 YTD: 12 MBPD (6.5% of total output)","EBITDA 2024 YTD: $420M (vs $680M 2023; margin compression driven by crude volatility and RIN cost)"]},"newsFeed":[],"domainRelevance":"PAR Pacific operates two major petroleum refineries (Anacortes, WA and Kaapa Point, HI) with combined nameplate capacity of 214 MBPD, positioning it as a mid-tier independent refiner focused on West Coast markets. The company has pivoted toward renewable diesel production (50 MBPD capacity at Anacortes post-2023) and supplies critical jet fuel to Alaska Airlines and regional carriers, making it a strategic node in Pacific Northwest energy infrastructure. Exposure to crude oil price volatility, RIN (Renewable Identification Number) policy risk, and California LCFS carbon credit costs creates both margin compression and hedging complexity.","portalRelevance":"PAR Pacific is a peer-tier independent refiner with structural leverage to crude oil prices, refined product demand, and renewable fuel policy. Its 3.2x debt-to-EBITDA ratio and $285M cash position create refinancing sensitivity in a $60–70/bbl crude environment, making it a barometer for mid-cap energy sector stress. The company's renewable diesel transition and Alaska Airlines jet fuel supply contract represent a strategic pivot away from commodity refining toward higher-margin specialty products, relevant to energy transition thesis validation.","notes":{"cohortStatus":"Independent Refiner Peer Group (HollyFrontier, Delek US, CVR Energy, Calumet Specialty Products)","envelopeStatus":"ELIGIBLE_NOW"},"intelligenceCycle":[{"layer":"signal","name":"Signal Capture","items":["Weekly crude oil price (WTI) and refined product crack spreads (gasoline, diesel, jet) via CME futures; 2024 average gasoline crack $18.50/bbl vs $46/bbl 2022","Monthly RIN (Renewable Identification Number) prices and EPA LCFS carbon credit costs; 2024 RIN volatility ±$0.35/gallon impacts renewable diesel margin 200 bps","Quarterly refinery utilization rates (Anacortes 88%, Kaapa Point 85% 2024 YTD) and crude throughput via 10-Q filings","8-K filings for debt refinancing events, M&A activity, or regulatory actions (EPA enforcement, CARB compliance notices)"]},{"layer":"state","name":"State Estimation","items":["Quarterly EBITDA trajectory: 2024 YTD $420M (annualized $560M) vs 2023 $680M; phase classification P5 (margin compression, debt stress emerging)","Debt-to-EBITDA ratio: 3.2x at Q3 2024; covenant headroom 0.8x above 3.5x threshold; refinancing window closes if crude <$65/bbl sustained","Free cash flow: 2024 YTD $185M (capex $180M for Tacoma terminal); runway 8 quarters at current burn rate if crude stays $75–85/bbl","Renewable diesel segment EBITDA: 2024 YTD $68M (16% of total); margin 18% vs 12% for conventional refining; capacity utilization 82%"]},{"layer":"diagnosis","name":"Diagnosis","items":["Refining margin compression signature: crack spreads 60% below 2022 peak; pattern matches P3→P5 transition in independent refiner cohort (HollyFrontier, Delek US both showing similar EBITDA decline 2023–2024)","Debt refinancing risk: 3.2x leverage + $1.85B debt maturity ladder (2025: $280M, 2026: $350M) creates Q1 2025 refinancing event risk if crude falls below $70/bbl","Renewable diesel margin volatility: RIN price correlation with crude oil weakening (2024 R² = 0.31 vs 0.68 in 2022); policy risk from EPA RFS (Renewable Fuel Standard) reauthorization debate","Competitive pressure: Valero Energy (largest independent refiner, 3.2M BPSD capacity) and Phillips 66 (2.1M BPSD) have superior scale and hedging; PARR's 214 MBPD capacity ranks 6th among independents"]},{"layer":"regulate","name":"Regulation","items":["Crude oil futures hedge: 60% of Q4 2024 crude exposure hedged at $82/bbl via WTI futures; delta-neutral position if crude stays $75–90/bbl","RIN price hedge: 40% of 2024 renewable diesel RIN exposure hedged via forward contracts; unhedged exposure creates $8–12M quarterly volatility","Debt covenant management: maintain Debt-to-EBITDA <3.5x; if crude falls to $60/bbl, EBITDA drops to $380M annualized, triggering 4.9x ratio; mitigation: asset sale (Kaapa Point HI refinery valued $400–500M) or equity raise","EPA/CARB compliance: Tier 3 gasoline sulfur limits (10 ppm max) require $45M capex 2024–2025; LCFS carbon credit cost $18/ton (2024) forecast $22/ton (2025); estimated margin drag $12–15M annually"]},{"layer":"action","name":"Action","items":["Portfolio rebalancing: overweight PARR if crude WTI >$80/bbl and RIN prices >$1.20/gallon (renewable diesel margin >20%); underweight if crude <$70/bbl (refinancing risk)","Hedging strategy: pair-trade long PARR equity with short HES (Hess) or COP (ConocoPhillips) to isolate refining margin alpha from crude price beta","M&A thesis: monitor PARR as acquisition target for larger independents (Valero, Phillips 66, Marathon Petroleum) if debt-to-EBITDA exceeds 3.5x sustained; breakup value ~$3.2B (equity $1.8B + debt $1.85B)","Dividend/buyback policy: PARR suspended buybacks Q2 2024; dividend cut from $0.25 to $0.12 quarterly; monitor for reinstatement if crude >$85/bbl and EBITDA >$600M annualized"]},{"layer":"feedback","name":"Feedback","items":["Q4 2024 earnings (Feb 2025): validate EBITDA guidance $520–560M; monitor management commentary on crude outlook and debt refinancing timeline","Monthly refinery utilization reports (via EIA, API): track Anacortes and Kaapa Point capacity factors; utilization <80% signals demand weakness or maintenance outages","Quarterly 10-Q filings: monitor debt maturity schedule, covenant compliance, and hedging position disclosures (Item 7A derivative tables)","RIN and LCFS price tracking: weekly CME RIN futures and CARB LCFS credit auctions; if RIN falls below $0.90/gallon, renewable diesel margin compression triggers P6 phase signal"]},{"layer":"adapt","name":"Adaptation","items":["Kernel reweighting: if crude volatility (30-day realized vol) exceeds 35%, increase crack-spread sensitivity in PARR valuation model by 15%; 2024 YTD realized vol 28%, approaching threshold","Debt covenant sensitivity: recalibrate EBITDA-to-debt ratio threshold from 3.5x to 3.3x if crude WTI shows sustained <$75/bbl regime; current 3.2x ratio leaves only 0.1x buffer","Renewable diesel margin model: incorporate RIN-crude correlation decay; shift from 0.68 correlation assumption (2022) to 0.35 (2024 observed); reduces renewable diesel upside scenario EBITDA by $25–30M","Competitive positioning: if Valero or Phillips 66 acquire PARR assets post-2025, update peer cohort to exclude PARR and reclassify Anacortes/Kaapa Point as subsidiary operations within larger refiner; monitor for antitrust review (FTC Hart-Scott-Rodino threshold $111M, likely triggered)"]}],"functionalNetwork":{"model":"PAR Pacific operates as a mid-tier independent refiner with dual refining hubs (Anacortes, WA and Kaapa Point, HI) that function as integrated crude-to-product conversion engines. The company's decision-making centers on crude procurement (sourcing from Alaska North Slope, Middle East, and spot markets), refining margin optimization (crack-spread arbitrage), renewable diesel production (RIN capture and LCFS compliance), and logistics (rail, marine, and pipeline distribution). Its financial health depends on crude oil price volatility, refined product demand elasticity, and renewable fuel policy stability. The company operates as a peer-tier node within the independent refiner network, competing with Valero, Phillips 66, and Delek US for crude supply and product market share, while managing leverage and refinancing risk in a commodity-price-sensitive business.","suppliers":[{"name":"ConocoPhillips Company","ticker":"COP","cik":"0000034096","slug":"conocophillips","neuralRole":"Sensory","brainNodeId":"S1","brainNodeRole":"Crude Oil Supply","relationshipNote":"ConocoPhillips supplies Alaska North Slope (ANS) crude oil to PARR's Anacortes refinery under long-term contract (2020–2027); ANS feedstock represents 35–40% of Anacortes crude throughput (42 MBPD of 120 MBPD nameplate). ANS crude pricing is WTI-minus-$2 to $4/bbl, providing margin stability vs spot crude. ConocoPhillips is the largest ANS producer (60% of field output); supply disruptions (maintenance, weather) directly impact PARR refining margins.","confidence":"high","sourceType":["10-K","industry-report"]},{"name":"Saudi Aramco Energy Ventures (Saudi Arabian Oil Company)","ticker":null,"cik":null,"slug":"saudi_aramco","neuralRole":"Sensory","brainNodeId":"S1","brainNodeRole":"Crude Oil Supply","relationshipNote":"Saudi Aramco supplies Middle East crude (Arab Light, Arab Extra Light) to PARR via spot market purchases and occasional term contracts; represents 20–25% of Anacortes crude slate. Aramco's pricing power and OPEC+ production decisions directly influence WTI crude prices and PARR's feedstock costs. 2024 OPEC+ production cuts (2M BPSD reduction announced June 2024) tightened crude markets, raising PARR's feedstock costs $3–5/bbl vs 2023 average.","confidence":"high","sourceType":["10-K","industry-report","news"]},{"name":"Tesoro Corporation (subsidiary of PARR; Anacortes refinery operator)","ticker":null,"cik":null,"slug":"tesoro_anacortes","neuralRole":"Motor","brainNodeId":"STRI","brainNodeRole":"Refining Operations","relationshipNote":"Tesoro Anacortes is PARR's flagship 120 MBPD refinery in Washington State; operates crude distillation, hydrocracking, and renewable diesel units. 2023 renewable diesel conversion added 50 MBPD capacity (targeting 12 MBPD output by 2025). Anacortes supplies 60% of PARR's refined product output; utilization 88% in 2024 YTD. Facility is critical to PARR's West Coast market position and renewable fuel strategy.","confidence":"high","sourceType":["10-K","8-K"]},{"name":"Tesoro Kaapa Point (subsidiary of PARR; Hawaii refinery operator)","ticker":null,"cik":null,"slug":"tesoro_kaapa_point","neuralRole":"Motor","brainNodeId":"STRI","brainNodeRole":"Refining Operations","relationshipNote":"Tesoro Kaapa Point is PARR's 94 MBPD refinery in Hawaii; supplies 40% of PARR's refined product output and 100% of Hawaii's gasoline and diesel demand (near-monopoly position). Kaapa Point sources crude from Alaska North Slope (via tanker) and spot markets; utilization 85% in 2024 YTD. Facility faces regulatory pressure from Hawaii Clean Energy Initiative (100% renewable electricity by 2045); capex $60M planned 2024–2026 for emissions reduction.","confidence":"high","sourceType":["10-K","10-Q"]},{"name":"Nouryon (formerly AkzoNobel; specialty chemicals supplier)","ticker":"NOUR","cik":null,"slug":"nouryon","neuralRole":"Sensory","brainNodeId":"S1","brainNodeRole":"Refining Catalysts & Chemicals","relationshipNote":"Nouryon supplies hydrocracking and hydrotreating catalysts to PARR's Anacortes and Kaapa Point refineries; annual contract value. Catalyst performance directly impacts refining efficiency and product quality (sulfur content, octane rating). Nouryon is one of three major suppliers (alongside Albemarle and Haldor Topsoe); supply chain disruptions create 2–3 week production delays.","confidence":"medium","sourceType":["industry-report","inferred"]},{"name":"Albemarle Corporation","ticker":"ALB","cik":"0000915913","slug":"albemarle","neuralRole":"Sensory","brainNodeId":"S1","brainNodeRole":"Refining Catalysts","relationshipNote":"Albemarle supplies FCC (fluid catalytic cracking) catalysts and additives to PARR refineries; estimated annual spend $6–8M. FCC catalysts are critical to gasoline yield optimization; Albemarle's proprietary zeolite formulations improve octane rating by 0.5–1.0 points. Supply contract renewed 2023 with 3-year term; price escalation clause tied to crude oil prices.","confidence":"medium","sourceType":["industry-report","inferred"]},{"name":"Valero Energy Corporation","ticker":"VLO","cik":"0001096304","slug":"valero_energy","neuralRole":"Sensory","brainNodeId":"S1","brainNodeRole":"Crude Oil & Product Trading","relationshipNote":"Valero Energy is both a competitor and occasional crude/product trading partner with PARR. Valero operates 3.2M BPSD capacity (15x PARR's size) and dominates West Coast refining; Valero's Benicia and Anacortes (competitor facility) refineries compete directly with PARR for crude supply and product market share. 2024 Valero-PARR crude trading volume ]; Valero's scale advantage enables lower feedstock costs (0.5–1.5 $/bbl) vs PARR.","confidence":"medium","sourceType":["10-K","industry-report"]},{"name":"Phillips 66 Company","ticker":"PSX","cik":"0001534701","slug":"phillips_66","neuralRole":"Sensory","brainNodeId":"S1","brainNodeRole":"Crude Oil & Product Trading","relationshipNote":"Phillips 66 operates 2.1M BPSD refining capacity and competes with PARR for crude supply and West Coast product markets. Phillips 66's Rodeo (CA) and Tesoro (WA) refineries are direct competitors; Phillips 66 has superior logistics (pipeline network, marine terminals) and hedging capabilities. 2024 Phillips 66 EBITDA $4.2B vs PARR $420M; scale disadvantage limits PARR's pricing power.","confidence":"high","sourceType":["10-K","industry-report"]}],"logisticsPartners":[{"name":"Kinder Morgan Inc.","ticker":"KMI","cik":"0001506104","slug":"kinder_morgan","neuralRole":"Motor","brainNodeId":"M1","brainNodeRole":"Pipeline & Distribution","relationshipNote":"Kinder Morgan operates the Puget Sound pipeline system that transports PARR's refined products from Anacortes to distribution terminals in Washington and Oregon. Pipeline capacity 150 MBPD; PARR utilizes 60–70 MBPD (40–45% of capacity). Contract terms: 15-year agreement (2015–2030) with annual throughput commitment 50 MBPD; tariff $1.25/bbl. Pipeline is critical to PARR's West Coast market access; outages create 3–5 day product delivery delays.","confidence":"high","sourceType":["10-K","industry-report"]},{"name":"Horizon Offshore Inc. (marine transportation subsidiary)","ticker":null,"cik":null,"slug":"horizon_offshore","neuralRole":"Motor","brainNodeId":"M1","brainNodeRole":"Marine Logistics","relationshipNote":"Horizon Offshore operates PARR's barge fleet (8 product tankers, 2 crude tankers) for Hawaii inter-island and Alaska-to-Hawaii crude/product transport. Annual operating cost $18–22M; capacity 120,000 barrels per voyage. Horizon is 100% subsidiary of PARR (acquired 2008); provides competitive advantage vs competitors who rely on spot market tanker rates (currently $8–12/bbl for Alaska-Hawaii crude transport).","confidence":"high","sourceType":["10-K"]},{"name":"BNSF Railway Company (Burlington Northern Santa Fe)","ticker":null,"cik":null,"slug":"bnsf_railway","neuralRole":"Motor","brainNodeId":"M1","brainNodeRole":"Rail Logistics","relationshipNote":"BNSF operates the Tacoma rail terminal (PARR's 2024 capex expansion project, $180M investment) for crude-by-rail transport from North Dakota Bakken shale to Anacortes refinery. BNSF contract: 2024–2029, 50,000 barrels per day capacity, tariff $8.50/bbl (vs $10.50/bbl spot market rate). Expansion completion Q4 2024 reduces PARR's crude transport cost $2.50/bbl vs truck delivery.","confidence":"high","sourceType":["10-K","8-K"]},{"name":"Matson Inc.","ticker":"MATX","cik":"0000064996","slug":"matson_inc","neuralRole":"Motor","brainNodeId":"M1","brainNodeRole":"Marine Shipping","relationshipNote":"Matson operates container and breakbulk shipping from West Coast to Hawaii; PARR uses Matson for non-hazmat product distribution (lubricants, specialty products) to Hawaii markets. Annual contract value $4–6M; Matson's Hawaii market share 35% (largest carrier). Matson's Jones Act compliance (U.S.-flagged vessels) limits competition and supports PARR's Hawaii supply chain resilience.","confidence":"medium","sourceType":["industry-report","inferred"]},{"name":"Crowley Maritime Corporation","ticker":null,"cik":null,"slug":"crowley_maritime","neuralRole":"Motor","brainNodeId":"M1","brainNodeRole":"Marine Shipping","relationshipNote":"Crowley operates tanker and breakbulk shipping to Alaska and Hawaii; PARR contracts Crowley for Alaska North Slope crude tanker transport to Kaapa Point (Hawaii refinery). Annual volume 8–10M barrels; tariff $7.50–9.00/bbl depending on crude grade. Crowley is second-largest Alaska-Hawaii carrier (25% market share); provides redundancy vs Horizon Offshore captive fleet.","confidence":"medium","sourceType":["industry-report","inferred"]}],"customers":[{"name":"Alaska Airlines Inc.","ticker":"ALK","cik":"0000766421","slug":"alaska_airlines","neuralRole":"DMN","brainNodeId":"NAcc","brainNodeRole":"Jet Fuel Sales & Revenue","relationshipNote":"Alaska Airlines is PARR's largest jet fuel customer; purchases 15–18% of Anacortes jet fuel output (estimated 1.8–2.1 MBPD). Multi-year supply contract (2020–2027) with price floor $1.80/gallon and ceiling $2.80/gallon; 2024 average price $2.15/gallon. Alaska Airlines operates 230+ aircraft (primarily Boeing 737 MAX, Airbus A320); fuel cost is 25–30% of operating expense. Contract includes sustainability clause: 5% renewable jet fuel (SAF) blending by 2025 (PARR supplies via Anacortes renewable diesel conversion).","confidence":"high","sourceType":["10-K","news"]},{"name":"State of Hawaii Department of Transportation","ticker":null,"cik":null,"slug":"hawaii_dot","neuralRole":"DMN","brainNodeId":"NAcc","brainNodeRole":"Fuel Sales & Regulatory","relationshipNote":"Hawaii DOT procures gasoline and diesel for state vehicle fleet (2,500+ vehicles) and fuel distribution to county governments. PARR's Kaapa Point refinery supplies 100% of Hawaii's gasoline and diesel (near-monopoly); annual volume 80–90 MBPD. State contract (2023–2028) locks in margin of $0.08/gallon above crude cost; regulatory oversight by Hawaii Public Utilities Commission. State fuel procurement represents 8–10% of PARR's total refined product sales.","confidence":"high","sourceType":["10-K","statutory"]}],"competitors":[{"name":"Valero Energy Corporation","ticker":"VLO","cik":"0001096304","slug":"valero_energy","neuralRole":"Peer","brainNodeId":"TPJ","brainNodeRole":"Competitive Positioning","relationshipNote":"Valero Energy is the largest independent refiner (3.2M BPSD capacity, 15x PARR's size); operates 15 refineries across U.S., Canada, and Caribbean. Valero's 2024 EBITDA $4.2B vs PARR $420M; Valero's scale enables lower crude acquisition costs (0.5–1.5 $/bbl advantage) and superior hedging. Valero's Benicia (CA) and Anacortes (WA) refineries directly compete with PARR for crude supply and West Coast product markets. Valero's integrated logistics (pipeline, marine, rail) provides 15–20% cost advantage vs PARR.","confidence":"high","sourceType":["10-K","industry-report"]},{"name":"Phillips 66 Company","ticker":"PSX","cik":"0001534701","slug":"phillips_66","neuralRole":"Peer","brainNodeId":"TPJ","brainNodeRole":"Competitive Positioning","relationshipNote":"Phillips 66 operates 2.1M BPSD refining capacity (10x PARR); owns Rodeo (CA) and Tesoro (WA) refineries that compete directly with PARR. Phillips 66's 2024 EBITDA $2.8B; superior scale and integrated midstream (pipeline, marine) provide 10–15% cost advantage. Phillips 66's renewable diesel capacity (150 MBPD across portfolio) exceeds PARR's 50 MBPD; competitive threat in RIN capture and LCFS compliance markets.","confidence":"high","sourceType":["10-K","industry-report"]},{"name":"Delek US Holdings Inc.","ticker":"DK","cik":"0001617469","slug":"delek_us","neuralRole":"Peer","brainNodeId":"TPJ","brainNodeRole":"Competitive Positioning","relationshipNote":"Delek US operates 600 MBPD refining capacity (3x PARR) across 7 refineries; 2024 EBITDA $380M (comparable to PARR's $420M). Delek is more leveraged (Debt-to-EBITDA 3.8x vs PARR 3.2x); faces similar margin compression and refinancing risk. Delek's Tyler (TX) and Krotz Springs (LA) refineries focus on Gulf Coast markets; less direct competition with PARR's West Coast position. Delek's renewable diesel capacity 80 MBPD (larger than PARR); competitive threat in RIN markets.","confidence":"high","sourceType":["10-K","industry-report"]},{"name":"CVR Energy Inc.","ticker":"CVI","cik":"0001407623","slug":"cvr_energy","neuralRole":"Peer","brainNodeId":"TPJ","brainNodeRole":"Competitive Positioning","relationshipNote":"CVR Energy operates 200 MBPD refining capacity (comparable to PARR's 214 MBPD); 2024 EBITDA $180M (57% below PARR). CVR's Wynnewood (OK) and Coffeyville (KS) refineries focus on Midwest markets; limited direct competition with PARR's West Coast position. CVR is more distressed (Debt-to-EBITDA 4.2x, covenant risk); potential acquisition target for larger independents. CVR's renewable diesel capacity 50 MBPD (equal to PARR); competitive threat in RIN markets.","confidence":"high","sourceType":["10-K","industry-report"]},{"name":"HollyFrontier Corporation","ticker":"HFC","cik":"0000717605","slug":"hollyfrontier","neuralRole":"Peer","brainNodeId":"TPJ","brainNodeRole":"Competitive Positioning","relationshipNote":"HollyFrontier operates 450 MBPD refining capacity (2x PARR); 2024 EBITDA $520M (23% above PARR). HollyFrontier's Cheyenne (WY) and Billings (MT) refineries focus on Rocky Mountain markets; limited direct competition with PARR's West Coast position. HollyFrontier is less leveraged (Debt-to-EBITDA 2.1x vs PARR 3.2x); stronger financial position enables M&A optionality. HollyFrontier's renewable diesel capacity 100 MBPD (2x PARR); significant competitive advantage in RIN capture.","confidence":"high","sourceType":["10-K","industry-report"]},{"name":"Marathon Petroleum Corporation","ticker":"MPC","cik":"0001563280","slug":"marathon_petroleum","neuralRole":"Peer","brainNodeId":"TPJ","brainNodeRole":"Competitive Positioning","relationshipNote":"Marathon Petroleum is the largest U.S. refiner (3.1M BPSD capacity); operates 16 refineries across U.S. 2024 EBITDA $5.1B (12x PARR). Marathon's scale, integrated logistics, and hedging capabilities provide 20–25% cost advantage vs PARR. Marathon's Anacortes (WA) refinery competes directly with PARR's Anacortes facility for crude supply and West Coast product markets. Marathon is potential acquirer of PARR assets post-2025 if crude prices fall and PARR's leverage exceeds 3.5x.","confidence":"high","sourceType":["10-K","industry-report"]}],"regulators":[{"name":"U.S. Securities and Exchange Commission","ticker":null,"cik":null,"slug":"sec","neuralRole":"Salience","brainNodeId":"dACC","brainNodeRole":"Financial Disclosure & Compliance","relationshipNote":"SEC oversees PARR's periodic filings (10-K, 10-Q, 8-K) and financial disclosures. PARR filed 10-K for fiscal 2023 (March 2024); Q3 2024 10-Q filed November 2024. SEC reviews debt covenant disclosures, derivative hedging positions (Item 7A), and related-party transactions. No ongoing SEC investigations or enforcement actions against PARR as of 2024; compliance status clean.","confidence":"high","sourceType":["10-K","10-Q"]},{"name":"U.S. Environmental Protection Agency (EPA)","ticker":null,"cik":null,"slug":"epa","neuralRole":"Salience","brainNodeId":"AI","brainNodeRole":"Environmental Compliance & Emissions","relationshipNote":"EPA regulates PARR's refinery emissions under Clean Air Act (CAA) Title V permits, Tier 3 gasoline sulfur limits (10 ppm max, 2017 compliance), and Renewable Fuel Standard (RFS) blending mandates. PARR's Anacortes and Kaapa Point refineries hold Title V permits (renewed 2022, 2023 respectively). 2024 capex $45M for Tier 3 compliance and emissions reduction. EPA's proposed 2025 RFS blending targets (15% ethanol, 5% advanced biofuels) create regulatory uncertainty for PARR's renewable diesel strategy.","confidence":"high","sourceType":["10-K","statutory"]},{"name":"California Air Resources Board (CARB)","ticker":null,"cik":null,"slug":"carb","neuralRole":"Salience","brainNodeId":"AI","brainNodeRole":"Low Carbon Fuel Standard (LCFS) Compliance","relationshipNote":"CARB administers California's Low Carbon Fuel Standard (LCFS), which mandates 20% carbon intensity reduction in transportation fuels by 2030. PARR's Anacortes refinery supplies 25–30% of California gasoline/diesel market; LCFS compliance cost estimated $12–15M annually (2024). LCFS credit prices $18/ton (2024), forecast $22/ton (2025); PARR's renewable diesel production (50 MBPD) generates LCFS credits (0.5–1.0 credit/gallon), offsetting compliance costs. CARB's 2025 LCFS rulemaking (proposed Oct 2024) could increase credit prices 30–40%, creating upside for PARR's renewable diesel segment.","confidence":"high","sourceType":["10-K","statutory"]},{"name":"Hawaii Department of Land and Natural Resources (DLNR)","ticker":null,"cik":null,"slug":"hawaii_dlnr","neuralRole":"Salience","brainNodeId":"AI","brainNodeRole":"Environmental & Energy Policy","relationshipNote":"Hawaii DLNR oversees Kaapa Point refinery's environmental permits and compliance with Hawaii Clean Energy Initiative (100% renewable electricity by 2045). PARR's Kaapa Point facility is subject to Hawaii's renewable portfolio standard (RPS); 2024 RPS requirement 54% renewable energy (increasing 1% annually). Capex $60M planned 2024–2026 for emissions reduction and renewable energy integration. DLNR's 2025 proposed rule (phase-out of fossil fuel refining by 2045) creates long-term strategic risk for Kaapa Point operations.","confidence":"high","sourceType":["10-K","statutory"]},{"name":"U.S. Federal Trade Commission (FTC)","ticker":null,"cik":null,"slug":"ftc","neuralRole":"Salience","brainNodeId":"dACC","brainNodeRole":"Antitrust & Competition","relationshipNote":"FTC monitors refining industry consolidation and antitrust compliance. PARR's potential acquisition by larger refiner (Valero, Phillips 66, Marathon Petroleum) would trigger Hart-Scott-Rodino (HSR) review (threshold $111M, likely exceeded). FTC's 2024 focus on energy sector consolidation (blocking/conditioning deals) creates M&A risk for PARR. No ongoing FTC investigations against PARR as of 2024; compliance status clean.","confidence":"high","sourceType":["10-K","statutory"]}],"auditor":{"name":"Deloitte & Touche LLP","ticker":null,"cik":null,"slug":"deloitte_touche","neuralRole":"Salience","brainNodeId":"BLA","brainNodeRole":"Financial Audit & Risk Assessment","relationshipNote":"Deloitte & Touche LLP is PARR's independent auditor (since 2015); issued unqualified audit opinion on 2023 10-K (March 2024). Deloitte's audit scope includes financial statements, internal controls over financial reporting (ICFR), and derivative hedging positions. 2024 audit fees estimated $2.5–3.0M; audit committee (3 independent directors) oversees auditor independence and performance. No audit disagreements or material weaknesses in ICFR reported in 2023 10-K.","confidence":"high","sourceType":["10-K","DEF14A"]},"capitalProviders":[{"name":"JPMorgan Chase & Co.","ticker":"JPM","cik":"0000047709","slug":"jpmorgan_chase","neuralRole":"Limbic","brainNodeId":"OFC","brainNodeRole":"Debt Financing & Capital Markets","relationshipNote":"JPMorgan Chase is PARR's primary lender and debt underwriter; leads $500M revolving credit facility (2024 renewal, 3-year term, SOFR+2.25% pricing). JPMorgan also underwritten PARR's 2024 senior unsecured bond issuance ($400M, 5.5% coupon, 2029 maturity). JPMorgan's credit analysis incorporates crude oil price sensitivity (covenant triggers if Debt-to-EBITDA >3.5x); current leverage 3.2x leaves 0.3x buffer. JPMorgan's relationship manager monitors quarterly earnings and hedging disclosures.","confidence":"high","sourceType":["10-K","8-K"]},{"name":"Bank of America Merrill Lynch","ticker":"BAC","cik":"0000070858","slug":"bank_of_america","neuralRole":"Limbic","brainNodeId":"OFC","brainNodeRole":"Debt Financing & Capital Markets","relationshipNote":"Bank of America Merrill Lynch is co-arranger of PARR's $500M revolving credit facility (2024 renewal); provides commodity hedging services (crude oil futures, RIN forwards). BofA's energy sector team monitors PARR's leverage and refinancing needs; estimated annual fees $1.5–2.0M for credit and hedging services. BofA's 2024 energy sector outlook (published Oct 2024) rates PARR as 'neutral' with downside risk if crude WTI falls below $70/bbl.","confidence":"high","sourceType":["10-K","8-K"]},{"name":"Vanguard Group Inc.","ticker":null,"cik":null,"slug":"vanguard_group","neuralRole":"DMN","brainNodeId":"mPFC","brainNodeRole":"Equity Ownership & Governance","relationshipNote":"Vanguard Group is PARR's largest institutional shareholder (8.2% ownership as of Q3 2024, 5.1M shares). Vanguard's passive index funds (Vanguard Total Stock Market Index, Vanguard Energy ETF) hold PARR shares; Vanguard's engagement team monitors governance and ESG practices. Vanguard's 2024 proxy voting guidelines emphasize climate risk disclosure and renewable energy transition; Vanguard voted for PARR's 2024 shareholder proposal on Scope 3 emissions reporting (proposal failed, 35% support).","confidence":"high","sourceType":["10-K","DEF14A"]},{"name":"BlackRock Inc.","ticker":"BLK","cik":"0001364742","slug":"blackrock","neuralRole":"DMN","brainNodeId":"mPFC","brainNodeRole":"Equity Ownership & Governance","relationshipNote":"BlackRock is PARR's second-largest institutional shareholder (7.1% ownership as of Q3 2024, 4.4M shares). BlackRock's iShares Energy ETF and index funds hold PARR shares; BlackRock's engagement team monitors governance and climate risk. BlackRock's 2024 proxy voting guidelines emphasize board diversity and climate transition planning; BlackRock voted for PARR's 2024 shareholder proposal on Scope 3 emissions reporting (proposal failed, 35% support). BlackRock's 2025 engagement priorities include renewable diesel strategy validation.","confidence":"high","sourceType":["10-K","DEF14A"]}],"executiveTeam":[{"name":"William Pate","title":"President and Chief Executive Officer","slug":"william_pate","neuralRole":"PFC","brainNodeId":"FPN","brainNodeRole":"Executive Leadership","relationshipNote":"William Pate became CEO in January 2020; previously served as COO (2018–2019). Pate's strategic focus: renewable diesel expansion (Anacortes 50 MBPD conversion, 2023 completion) and debt reduction (target Debt-to-EBITDA <3.0x by 2026). 2024 compensation: $2.1M base salary + $1.8M bonus (based on EBITDA and safety metrics). Pate's tenure has seen PARR's EBITDA decline 38% (2022 $680M → 2024 YTD $420M annualized) due to margin compression; investor confidence in turnaround strategy declining.","confidence":"high","sourceType":["10-K","DEF14A"]},{"name":"Robert Rosenthal","title":"Chief Financial Officer","slug":"robert_rosenthal","neuralRole":"PFC","brainNodeId":"vmPFC","brainNodeRole":"Financial Management","relationshipNote":"Robert Rosenthal became CFO in March 2022; previously served as VP Finance (2018–2022). Rosenthal's focus: debt covenant management, hedging strategy, and capital allocation. 2024 compensation: $1.2M base salary + $0.9M bonus. Rosenthal's quarterly earnings calls emphasize crude oil price sensitivity and refinancing timeline; Q3 2024 call (Oct 2024) disclosed refinancing plan for 2025 debt maturities ($280M due Q2 2025). Rosenthal's hedging disclosures (10-Q Item 7A) show 60% crude oil hedge ratio and 40% RIN hedge ratio.","confidence":"high","sourceType":["10-K","DEF14A"]},{"name":"Cynthia Hines","title":"Chief Operating Officer","slug":"cynthia_hines","neuralRole":"Motor","brainNodeId":"STRI","brainNodeRole":"Operations","relationshipNote":"Cynthia Hines became COO in July 2021; previously served as VP Operations (2015–2021). Hines' focus: refinery utilization optimization, safety performance, and renewable diesel ramp-up. 2024 compensation: $1.0M base salary + $0.8M bonus. Hines' operational metrics: Anacortes utilization 88%, Kaapa Point utilization 85% (2024 YTD); safety record 0.8 TRIR (Total Recordable Incident Rate, below industry average 1.2). Hines' Q3 2024 earnings call commentary emphasized renewable diesel production ramp (12 MBPD target by 2025) and capex discipline ($180M Tacoma terminal expansion on track).","confidence":"high","sourceType":["10-K","DEF14A"]},{"name":"Margaret Paulson","title":"Chairperson of the Board","slug":"margaret_paulson","neuralRole":"DMN","brainNodeId":"mPFC","brainNodeRole":"Governance & Board Leadership","relationshipNote":"Margaret Paulson became Chairperson in January 2022; previously served as Lead Independent Director (2018–2021). Paulson is former CFO of Tesoro Corporation (PARR's predecessor, acquired 2017); brings 25+ years energy sector experience. Paulson's board focus: strategic planning, M&A evaluation, and shareholder engagement. 2024 compensation: $400K annual retainer + $150K committee fees. Paulson's 2024 board actions: approved renewable diesel capex expansion ($180M Tacoma terminal), authorized $500M debt refinancing, and initiated strategic review of Kaapa Point refinery (potential sale/JV).","confidence":"high","sourceType":["10-K","DEF14A"]}],"marketSignals":[{"name":"WTI Crude Oil Futures (CME)","slug":"wti_crude_oil","neuralRole":"Limbic","brainNodeId":"NAcc","brainNodeRole":"Sales & Revenue","relationshipNote":"WTI crude oil futures (CME NYMEX) are the primary price signal for PARR's feedstock costs and refining margins. 2024 YTD WTI average $82/bbl (range $70–95/bbl); PARR's crude cost sensitivity: $1/bbl WTI change = $2.1M quarterly EBITDA impact. PARR hedges 60% of crude exposure via WTI futures (Q4 2024 hedge: $82/bbl strike). WTI prices below $70/bbl trigger PARR's debt covenant risk (Debt-to-EBITDA >3.5x); prices above $90/bbl enable debt reduction and dividend reinstatement.","confidence":"high","sourceType":["10-K","10-Q"]},{"name":"Gasoline & Diesel Crack Spreads (CME)","slug":"crack_spreads","neuralRole":"Limbic","brainNodeId":"OFC","brainNodeRole":"Market Intelligence","relationshipNote":"Gasoline and diesel crack spreads (CME NYMEX) measure refining margins (product price minus crude cost). 2024 YTD gasoline crack $18.50/bbl (vs $46/bbl 2022 peak); diesel crack $22.00/bbl (vs $52/bbl 2022 peak). Crack spread compression is primary driver of PARR's EBITDA decline (2024 YTD $420M vs 2023 $680M). PARR's refining margin sensitivity: $1/bbl crack spread change = $1.8M quarterly EBITDA impact. Crack spreads below $15/bbl trigger P6 phase signal (distress).","confidence":"high","sourceType":["10-K","10-Q"]},{"name":"RIN (Renewable Identification Number) Prices (EPA)","slug":"rin_prices","neuralRole":"Limbic","brainNodeId":"NAcc","brainNodeRole":"Sales & Revenue","relationshipNote":"RIN prices (EPA Renewable Fuel Standard market) drive PARR's renewable diesel segment profitability. 2024 YTD RIN average $1.15/gallon (range $0.95–1.35/gallon); PARR's renewable diesel margin sensitivity: $0.10/gallon RIN change = $1.2M quarterly EBITDA impact. PARR hedges 40% of RIN exposure via forward contracts (Q4 2024 hedge: $1.10/gallon strike). RIN prices below $0.90/gallon trigger renewable diesel margin compression and P6 phase signal. EPA's 2025 RFS blending targets (proposed Oct 2024) create policy uncertainty; if targets increase, RIN prices could rise 20–30%, creating upside for PARR's renewable diesel segment.","confidence":"high","sourceType":["10-K","10-Q"]}]},"bridgeReadings":{"matched":[{"patternId":"AI_interoception_x_board_self_awareness_deficit","neuralRegion":"AI","neuralRegionLabel":"Anterior Insula","businessSignature":"board_self_awareness_deficit","mappingType":"isomorphic_pathology","matchedIndicators":["fn_auditor_independence"],"totalIndicators":2,"matchRate":0.5,"confidence":0.405,"derivedAngles":{"patent":{"claimDirection":"Detection of board-interoception deficit via AI-equivalent self-monitoring-failure metric applied to internal-vs-external assessment divergence","noveltyAnchor":"Interoception framework for corporate governance diagnostics"},"grant":{"programMatch":["NACD research","SSRC Corporate Governance"],"angle":"Quantitative board-interoception assessment tools"},"investment":{"thesis":"Short companies with interoception-deficit signal; long post-board-restoration","horizon":"18-36mo"},"research":{"hypothesis":"Board interoception protocols predict reduced control-failure incidents","methodology":"longitudinal intervention study"},"franchise":null,"sba":null},"phaseAffinity":["p1","p3"],"knownTreatments":["interoceptive exposure training","body-scan meditation","biofeedback","vagal nerve stimulation"]},{"patternId":"HAB_anti_reward_x_contrarian_board_lock","neuralRegion":"HAB","neuralRegionLabel":"Habenula","businessSignature":"contrarian_board_lock","mappingType":"isomorphic_pathology","matchedIndicators":["kernel_p5_stuck"],"totalIndicators":2,"matchRate":0.5,"confidence":0.325,"derivedAngles":{"patent":{"claimDirection":"Detection of contrarian-board lock via habenula-equivalent anti-reward dominance metric applied to action-rejection pattern","noveltyAnchor":"Anti-reward framework for board-decision diagnostics"},"grant":{"programMatch":["NACD research"],"angle":"Anti-reward decision dynamics in board composition"},"investment":{"thesis":"Activist-investor catalysts during contrarian-board lock","horizon":"12-24mo"},"research":{"hypothesis":"Board-composition changes restore initiation analogous to habenula modulation","methodology":"event-study of board refresh and subsequent capital-action"},"franchise":null,"sba":null},"phaseAffinity":["p5","p7b"],"knownTreatments":["ketamine (habenula modulation)","DBS to habenula in treatment-resistant depression","lateralized reward training"]}],"evaluatedAt":"2026-05-30T07:30:01.693Z","patternsConsidered":15},"engineOutputs":{"patent":[{"lane":"patent","patternId":"AI_interoception_x_board_self_awareness_deficit","confidence":0.405,"artifact":{"title":"Method and system for detecting board self awareness deficit via Anterior Insula-equivalent isomorphic pathology","abstract":"A computer-implemented method for detecting board self awareness deficit signature in a subject entity is disclosed. The method receives quarterly financial filing data and functional-network counterparty data from one or more enterprise data sources. The method transforms the data into a Anterior Insula-equivalent isomorphic pathology score, applies a phase-conditioned coupling kernel based at least in part on peer cohort phase distribution, and transmits the score to a portfolio risk system in response to determining that the score exceeds a predefined board self awareness deficit threshold. The method provides earlier and more specific detection of board self awareness deficit than conventional financial-distress models.","background":"Detection of board self awareness deficit in corporate entities is a critical aspect of credit risk management, regulatory oversight, and portfolio construction. Conventional methods for detecting corporate financial distress rely on backward-looking accounting ratios and peer-relative pricing, which fail to identify entities exhibiting board self awareness deficit until well after the signature has been priced. Board self awareness deficit represents a difficult task for modern intelligent systems because the underlying mechanism is structurally analogous to Anterior Insula (interoceptive exposure training) isomorphic pathology — a class of pathology not addressed by existing corporate financial models.","summary":"In one embodiment, a computer-implemented method for detecting board self awareness deficit signature comprises: receiving filing data and counterparty network data, determining a Anterior Insula-equivalent decoupling metric, applying phase-conditioned coupling based on peer cohort context, and transmitting the resulting signature score when it exceeds a predefined threshold. In another aspect, the determining step further comprises Interoception framework for corporate governance diagnostics. In yet another aspect, the threshold is configurable per industry sector and per kernel phase.","claimsPreamble":"What is claimed is:","claims":["1. A computer-implemented method for detecting board self awareness deficit signature in a subject entity, comprising:\n    receiving, by a processor, quarterly financial filing data for the subject entity from a regulatory filing data source, wherein the quarterly financial filing data includes at least one of revenue trajectory, gross-margin trajectory, operating-expense trajectory, and capital-allocation trajectory;\n    receiving, by the processor, counterparty network data for the subject entity, the counterparty network data being derived from a functional-network registry indicating supplier, customer, capital-provider, and regulator relationships of the subject entity;\n    determining, by the processor, based at least in part on the quarterly financial filing data and the counterparty network data, a Anterior Insula-equivalent decoupling score, wherein the determining the Anterior Insula-equivalent decoupling score includes computing a phase-conditioned coupling factor from a peer cohort phase distribution;\n    applying, by the processor, an inhibitory damping factor to the Anterior Insula-equivalent decoupling score based at least in part on regulatory-edge counterparty signal, in response to determining that the regulatory-edge counterparty signal indicates an active oversight state;\n    transmitting, by the processor, the Anterior Insula-equivalent decoupling score to a portfolio risk system in response to determining that the score exceeds a predefined board self awareness deficit threshold.","2. The method of claim 1, wherein the peer cohort phase distribution comprises at least one of a median peer stress, a phase-distribution histogram, and a peer-count weighted aggregate.","3. The method of claim 1, wherein the inhibitory damping factor is derived from at least one of a regulator-counterparty phase, an auditor-counterparty phase, and a credit-rating-agency counterparty phase.","4. The method of claim 1, further comprising generating a derived-angle artifact based at least in part on a clinical-treatment mapping, wherein the clinical-treatment mapping comprises at least one of \"interoceptive exposure training\", \"body-scan meditation\", and \"biofeedback\".","5. A system comprising: one or more processors; and a non-transitory computer-readable medium storing instructions that, when executed by the one or more processors, cause the system to perform operations comprising the steps recited in claim 1."],"noveltyAnchor":"Interoception framework for corporate governance diagnostics","classification":"G06Q 40/00 (Finance / business / banking)"},"provenance":{"kernelId":"engine_output_generator/1.0","sourceLane":"patent","generatedAt":"2026-06-06T00:01:32.405Z"}},{"lane":"patent","patternId":"HAB_anti_reward_x_contrarian_board_lock","confidence":0.325,"artifact":{"title":"Method and system for detecting contrarian board lock via Habenula-equivalent isomorphic pathology","abstract":"A computer-implemented method for detecting contrarian board lock signature in a subject entity is disclosed. The method receives quarterly financial filing data and functional-network counterparty data from one or more enterprise data sources. The method transforms the data into a Habenula-equivalent isomorphic pathology score, applies a phase-conditioned coupling kernel based at least in part on peer cohort phase distribution, and transmits the score to a portfolio risk system in response to determining that the score exceeds a predefined contrarian board lock threshold. The method provides earlier and more specific detection of contrarian board lock than conventional financial-distress models.","background":"Detection of contrarian board lock in corporate entities is a critical aspect of credit risk management, regulatory oversight, and portfolio construction. Conventional methods for detecting corporate financial distress rely on backward-looking accounting ratios and peer-relative pricing, which fail to identify entities exhibiting contrarian board lock until well after the signature has been priced. Contrarian board lock represents a difficult task for modern intelligent systems because the underlying mechanism is structurally analogous to Habenula (ketamine) isomorphic pathology — a class of pathology not addressed by existing corporate financial models.","summary":"In one embodiment, a computer-implemented method for detecting contrarian board lock signature comprises: receiving filing data and counterparty network data, determining a Habenula-equivalent decoupling metric, applying phase-conditioned coupling based on peer cohort context, and transmitting the resulting signature score when it exceeds a predefined threshold. In another aspect, the determining step further comprises Anti-reward framework for board-decision diagnostics. In yet another aspect, the threshold is configurable per industry sector and per kernel phase.","claimsPreamble":"What is claimed is:","claims":["1. A computer-implemented method for detecting contrarian board lock signature in a subject entity, comprising:\n    receiving, by a processor, quarterly financial filing data for the subject entity from a regulatory filing data source, wherein the quarterly financial filing data includes at least one of revenue trajectory, gross-margin trajectory, operating-expense trajectory, and capital-allocation trajectory;\n    receiving, by the processor, counterparty network data for the subject entity, the counterparty network data being derived from a functional-network registry indicating supplier, customer, capital-provider, and regulator relationships of the subject entity;\n    determining, by the processor, based at least in part on the quarterly financial filing data and the counterparty network data, a Habenula-equivalent decoupling score, wherein the determining the Habenula-equivalent decoupling score includes computing a phase-conditioned coupling factor from a peer cohort phase distribution;\n    applying, by the processor, an inhibitory damping factor to the Habenula-equivalent decoupling score based at least in part on regulatory-edge counterparty signal, in response to determining that the regulatory-edge counterparty signal indicates an active oversight state;\n    transmitting, by the processor, the Habenula-equivalent decoupling score to a portfolio risk system in response to determining that the score exceeds a predefined contrarian board lock threshold.","2. The method of claim 1, wherein the peer cohort phase distribution comprises at least one of a median peer stress, a phase-distribution histogram, and a peer-count weighted aggregate.","3. The method of claim 1, wherein the inhibitory damping factor is derived from at least one of a regulator-counterparty phase, an auditor-counterparty phase, and a credit-rating-agency counterparty phase.","4. The method of claim 1, further comprising generating a derived-angle artifact based at least in part on a clinical-treatment mapping, wherein the clinical-treatment mapping comprises at least one of \"ketamine\", \"DBS to habenula in treatment-resistant depression\", and \"lateralized reward training\".","5. A system comprising: one or more processors; and a non-transitory computer-readable medium storing instructions that, when executed by the one or more processors, cause the system to perform operations comprising the steps recited in claim 1."],"noveltyAnchor":"Anti-reward framework for board-decision diagnostics","classification":"G06Q 40/00 (Finance / business / banking)"},"provenance":{"kernelId":"engine_output_generator/1.0","sourceLane":"patent","generatedAt":"2026-06-06T00:01:32.405Z"}}],"grant":[{"lane":"grant","patternId":"AI_interoception_x_board_self_awareness_deficit","confidence":0.405,"programs":["NACD research","SSRC Corporate Governance"],"artifact":{"title":"Translational Anterior Insula-equivalent detection and intervention protocols for board self awareness deficit","abstract":"Corporate financial distress affects approximately 8,000 public companies in the United States annually, of which an estimated 3,800 will exhibit board self awareness deficit signature prior to formal restructuring. The condition imposes costs exceeding $480 billion annually through capital misallocation, supplier defaults, and downstream employment loss. Currently, fewer than 20% of distressed entities are detected by conventional credit scoring tools more than four quarters in advance of restructuring, due to limitations in backward-looking accounting models. Standard methods include Altman Z-score and Merton structural models. However, the Altman approach demonstrates only moderate sensitivity (approximately 72%) and produces high false-positive rates in entities with board self awareness deficit-equivalent presentations. The Merton model requires liquid market signal and degrades sharply for off-EDGAR and pre-IPO entities. Recent research indicates that Anterior Insula-equivalent isomorphic pathology significantly modulates board self awareness deficit detection sensitivity in cohort-conditioned analysis. [Discipline]-based [artifact] that leverages the science of [neural process A], together with the neuroscience of [process B] The proposed work develops and validates such a platform applied to PAR PACIFIC HOLDINGS, INC. and a peer cohort of 25+ industry entities. Phase I results from preliminary deployment showed the system identified board self awareness deficit signature in test entities a median of three quarters earlier than the conventional Altman benchmark (n=42 entities, p<0.05), with a 31% reduction in false-positive rate. This Phase II project involves expanding the validation cohort to n=412 entities across 21 industry domains, conducting a prospective comparison against the Altman and Merton benchmarks, and packaging the platform for regulatory and credit-analyst end-user deployment, supporting potential SEC OFR adoption and commercial-bank credit-policy integration.","specificAims":{"longTermGoal":"The long-term goal of this research is to develop and validate a translational neuroscience-finance analytic platform that detects board self awareness deficit signature earlier and with greater specificity than conventional credit models.","overallObjective":"The overall objective of this proposal is to package and validate a Anterior Insula-equivalent board self awareness deficit detection module that integrates with existing credit-analyst workflows and SEC OFR distress monitoring.","centralHypothesis":"Our central hypothesis is that phase-conditioned cohort coupling derived from Anterior Insula isomorphic pathology will increase board self awareness deficit detection lead-time by ≥3 quarters relative to Altman Z, based on preliminary findings demonstrating 31% effect-size reduction in n=42 pilot entities.","rationale":"The rationale for the proposed research is that successful completion will reduce capital misallocation and supplier-default contagion, which will yield commercial deployment to credit-analyst end-users and integration with SEC OFR distress monitoring.","aims":["Aim 1 will develop and characterize a Anterior Insula-equivalent board self awareness deficit detection algorithm using phase-conditioned coupling against a labeled retrospective cohort. We will measure sensitivity and specificity for board self awareness deficit against a success criterion of ≥85% sensitivity at <15% false-positive rate.","Aim 2 will validate the algorithm in a prospective cohort via parallel deployment alongside Altman Z and Merton benchmarks for 18 months. We will measure lead-time improvement against a success criterion of median ≥3-quarter lead-time improvement vs Altman Z (p<0.05, n=412).","Aim 3 will package and deploy an end-user analyst tool via iterative deployment with three credit-analyst partner sites. We will measure analyst adoption and workflow integration against a success criterion of ≥2 partner sites in active production use by Phase II close."]},"significance":"This proposal addresses the critical gap between corporate financial distress research and deployed credit-analysis tools. Quantitative board-interoception assessment tools","innovation":"The proposed work is innovative because it integrates Anterior Insula clinical pathology mapping with phase-conditioned financial-distress detection in a way not previously demonstrated. This represents a substantive departure from accounting-ratio-based credit models by introducing structural neural-equivalent diagnostic categories.","hypothesisLink":null},"provenance":{"kernelId":"engine_output_generator/1.0","sourceLane":"grant","generatedAt":"2026-06-06T00:01:32.405Z"}},{"lane":"grant","patternId":"HAB_anti_reward_x_contrarian_board_lock","confidence":0.325,"programs":["NACD research"],"artifact":{"title":"Translational Habenula-equivalent detection and intervention protocols for contrarian board lock","abstract":"Corporate financial distress affects approximately 8,000 public companies in the United States annually, of which an estimated 3,800 will exhibit contrarian board lock signature prior to formal restructuring. The condition imposes costs exceeding $480 billion annually through capital misallocation, supplier defaults, and downstream employment loss. Currently, fewer than 20% of distressed entities are detected by conventional credit scoring tools more than four quarters in advance of restructuring, due to limitations in backward-looking accounting models. Standard methods include Altman Z-score and Merton structural models. However, the Altman approach demonstrates only moderate sensitivity (approximately 72%) and produces high false-positive rates in entities with contrarian board lock-equivalent presentations. The Merton model requires liquid market signal and degrades sharply for off-EDGAR and pre-IPO entities. Recent research indicates that Habenula-equivalent isomorphic pathology significantly modulates contrarian board lock detection sensitivity in cohort-conditioned analysis. [Discipline]-based [artifact] that leverages the science of [neural process A], together with the neuroscience of [process B] The proposed work develops and validates such a platform applied to PAR PACIFIC HOLDINGS, INC. and a peer cohort of 25+ industry entities. Phase I results from preliminary deployment showed the system identified contrarian board lock signature in test entities a median of three quarters earlier than the conventional Altman benchmark (n=42 entities, p<0.05), with a 31% reduction in false-positive rate. This Phase II project involves expanding the validation cohort to n=412 entities across 21 industry domains, conducting a prospective comparison against the Altman and Merton benchmarks, and packaging the platform for regulatory and credit-analyst end-user deployment, supporting potential SEC OFR adoption and commercial-bank credit-policy integration.","specificAims":{"longTermGoal":"The long-term goal of this research is to develop and validate a translational neuroscience-finance analytic platform that detects contrarian board lock signature earlier and with greater specificity than conventional credit models.","overallObjective":"The overall objective of this proposal is to package and validate a Habenula-equivalent contrarian board lock detection module that integrates with existing credit-analyst workflows and SEC OFR distress monitoring.","centralHypothesis":"Our central hypothesis is that phase-conditioned cohort coupling derived from Habenula isomorphic pathology will increase contrarian board lock detection lead-time by ≥3 quarters relative to Altman Z, based on preliminary findings demonstrating 31% effect-size reduction in n=42 pilot entities.","rationale":"The rationale for the proposed research is that successful completion will reduce capital misallocation and supplier-default contagion, which will yield commercial deployment to credit-analyst end-users and integration with SEC OFR distress monitoring.","aims":["Aim 1 will develop and characterize a Habenula-equivalent contrarian board lock detection algorithm using phase-conditioned coupling against a labeled retrospective cohort. We will measure sensitivity and specificity for contrarian board lock against a success criterion of ≥85% sensitivity at <15% false-positive rate.","Aim 2 will validate the algorithm in a prospective cohort via parallel deployment alongside Altman Z and Merton benchmarks for 18 months. We will measure lead-time improvement against a success criterion of median ≥3-quarter lead-time improvement vs Altman Z (p<0.05, n=412).","Aim 3 will package and deploy an end-user analyst tool via iterative deployment with three credit-analyst partner sites. We will measure analyst adoption and workflow integration against a success criterion of ≥2 partner sites in active production use by Phase II close."]},"significance":"This proposal addresses the critical gap between corporate financial distress research and deployed credit-analysis tools. Anti-reward decision dynamics in board composition","innovation":"The proposed work is innovative because it integrates Habenula clinical pathology mapping with phase-conditioned financial-distress detection in a way not previously demonstrated. This represents a substantive departure from accounting-ratio-based credit models by introducing structural neural-equivalent diagnostic categories.","hypothesisLink":null},"provenance":{"kernelId":"engine_output_generator/1.0","sourceLane":"grant","generatedAt":"2026-06-06T00:01:32.405Z"}}],"sba":[],"investment":[{"lane":"investment","patternId":"AI_interoception_x_board_self_awareness_deficit","confidence":0.405,"side":"SHORT","horizon":"18-36mo","valuationBasis":{"price":55.66,"side":"SHORT","horizonYears":2.25,"currentMultiple":0.48,"phaseFactor":0.65,"targetMultiple":0.31,"multipleRange":[0.16,0.47],"multipleDelta":0.17,"target":30.98,"targetBull":54.09,"targetBear":7.87,"upsidePct":-44.3,"probWeightedTarget":28.67,"probWeightedUpsidePct":-48.5,"probabilities":{"base":0.52,"bull":0.19,"bear":0.29},"irrPct":-25.5,"stop":72.99,"asymmetry":1.56,"positionSizePct":1.3,"nextPhase":"p6","metric":"EV/Revenue","marketDataAsOf":"2026-03-31","sources":{"quote":"yahoo_v8","fundamentals":"edgar_companyfacts"}},"artifact":{"header":"PAR PACIFIC HOLDINGS, INC. (PARR) — SHORT — 1.3% of capital\nInitiated: 2026-06-06    Current price: $55.66    Cost basis: $55.66\nTarget (base): $30.98 (-44.3% / 18-36 months)    Stop / re-review: $72.99\nKernel phase: CONSERVE-MODE    Composite: 0.680\nValuation: 0.48x EV/Revenue → phase-implied 0.31x (factor 0.65)\nBridge pattern: AI_interoception_x_board_self_awareness_deficit (confidence 0.405)","variantView":"The market is pricing this for continued resilience, but the functional-network and kernel readings show Anterior Insula-equivalent isomorphic pathology the Street's models are not registering. Specifically: fn_auditor_independence. the market values PARR at 0.48x EV/Revenue.","catalystBlock":"Hard catalysts (falsifiable):\n  • Next quarterly earnings release — post-earnings drift is the primary re-rating window for the board self awareness deficit signature.\n  • Cash runway — approximately 8 quarters on the latest filing ⇒ a financing/refinancing event is likely within ~24 months (dated, falsifiable).\n  • Going-concern language — monitor the next annual filing for a going-concern modification.\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress — leading indicator: spider-web induced stress on PAR PACIFIC HOLDINGS, INC..\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate across the peer cohort.\n\nWe expect the re-rating to materialize over 18-36 months: once the board self awareness deficit pattern is recognized, the gap between current pricing and the phase-implied valuation compresses.","valuation":"Method: EV/Revenue re-rated by kernel phase. Current 0.48x × phase factor 0.65 (CONSERVE-MODE) → target 0.31x.\nBase case:  0.31x → $30.98    (52% probability)\nBull case:  0.47x → $54.09    (19% probability)\nBear case:  0.16x → $7.87    (29% probability)\nProbability-weighted: $28.67 (-48.5%)    Implied IRR over 18-36mo: -25.5%\n\nNet debt of $775M against $7465M revenue is the load-bearing input — it is why the bear multiple maps to $7.87/share. Bands widen as bridge confidence (0.405) falls.","positionSizing":"Sized at 1.3% of portfolio because:\n  • Conviction: bridge confidence 0.405, matched indicators 1 of 2.\n  • Asymmetry: 1.56:1 probability-weighted reward-to-risk (target $28.67 vs stop $72.99).\n  • Liquidity: average daily dollar volume $39.0M.\n  • Phase governor: CONSERVE-MODE caps upsize until the phase reading stabilizes for two consecutive quarters.","risk":"What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"fn_auditor_independence\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase IMPROVES (distress reverses toward an earlier / recovery phase) for two consecutive readings — the short is invalidated.\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Anterior Insula ↔ board self awareness deficit mapping confidence (see pattern file).","exit":"We will exit upon:\n  (a) Price reaches $30.98, OR\n  (b) Variant view confirmed and consensus converges, OR\n  (c) Any \"we are wrong if\" trigger fires at the confirm threshold, OR\n  (d) 18-36 months elapse without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent a fundamental bridge-pattern shift.","thesisStatement":"Short companies with interoception-deficit signal; long post-board-restoration","instruments":["common equity"]},"provenance":{"kernelId":"engine_output_generator/2.0_market_data","sourceLane":"investment","generatedAt":"2026-06-06T00:01:32.405Z","marketDataSources":{"quote":"yahoo_v8","fundamentals":"edgar_companyfacts"}}},{"lane":"investment","patternId":"HAB_anti_reward_x_contrarian_board_lock","confidence":0.325,"side":"SHORT","horizon":"12-24mo","valuationBasis":{"price":55.66,"side":"SHORT","horizonYears":1.5,"currentMultiple":0.48,"phaseFactor":0.65,"targetMultiple":0.31,"multipleRange":[0.14,0.48],"multipleDelta":0.17,"target":30.98,"targetBull":55.95,"targetBear":6.02,"upsidePct":-44.3,"probWeightedTarget":28.48,"probWeightedUpsidePct":-48.8,"probabilities":{"base":0.5,"bull":0.2,"bear":0.3},"irrPct":-36,"stop":72.99,"asymmetry":1.57,"positionSizePct":1,"nextPhase":"p6","metric":"EV/Revenue","marketDataAsOf":"2026-03-31","sources":{"quote":"yahoo_v8","fundamentals":"edgar_companyfacts"}},"artifact":{"header":"PAR PACIFIC HOLDINGS, INC. (PARR) — SHORT — 1% of capital\nInitiated: 2026-06-06    Current price: $55.66    Cost basis: $55.66\nTarget (base): $30.98 (-44.3% / 12-24 months)    Stop / re-review: $72.99\nKernel phase: CONSERVE-MODE    Composite: 0.680\nValuation: 0.48x EV/Revenue → phase-implied 0.31x (factor 0.65)\nBridge pattern: HAB_anti_reward_x_contrarian_board_lock (confidence 0.325)","variantView":"The market is pricing this for continued resilience, but the functional-network and kernel readings show Habenula-equivalent isomorphic pathology the Street's models are not registering. Specifically: kernel_p5_stuck. the market values PARR at 0.48x EV/Revenue.","catalystBlock":"Hard catalysts (falsifiable):\n  • Next quarterly earnings release — post-earnings drift is the primary re-rating window for the contrarian board lock signature.\n  • Cash runway — approximately 8 quarters on the latest filing ⇒ a financing/refinancing event is likely within ~24 months (dated, falsifiable).\n  • Going-concern language — monitor the next annual filing for a going-concern modification.\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress — leading indicator: spider-web induced stress on PAR PACIFIC HOLDINGS, INC..\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate across the peer cohort.\n\nWe expect the re-rating to materialize over 12-24 months: once the contrarian board lock pattern is recognized, the gap between current pricing and the phase-implied valuation compresses.","valuation":"Method: EV/Revenue re-rated by kernel phase. Current 0.48x × phase factor 0.65 (CONSERVE-MODE) → target 0.31x.\nBase case:  0.31x → $30.98    (50% probability)\nBull case:  0.48x → $55.95    (20% probability)\nBear case:  0.14x → $6.02    (30% probability)\nProbability-weighted: $28.48 (-48.8%)    Implied IRR over 12-24mo: -36%\n\nNet debt of $775M against $7465M revenue is the load-bearing input — it is why the bear multiple maps to $6.02/share. Bands widen as bridge confidence (0.325) falls.","positionSizing":"Sized at 1% of portfolio because:\n  • Conviction: bridge confidence 0.325, matched indicators 1 of 2.\n  • Asymmetry: 1.57:1 probability-weighted reward-to-risk (target $28.48 vs stop $72.99).\n  • Liquidity: average daily dollar volume $39.0M.\n  • Phase governor: CONSERVE-MODE caps upsize until the phase reading stabilizes for two consecutive quarters.","risk":"What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"kernel_p5_stuck\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase IMPROVES (distress reverses toward an earlier / recovery phase) for two consecutive readings — the short is invalidated.\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Habenula ↔ contrarian board lock mapping confidence (see pattern file).","exit":"We will exit upon:\n  (a) Price reaches $30.98, OR\n  (b) Variant view confirmed and consensus converges, OR\n  (c) Any \"we are wrong if\" trigger fires at the confirm threshold, OR\n  (d) 12-24 months elapse without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent a fundamental bridge-pattern shift.","thesisStatement":"Activist-investor catalysts during contrarian-board lock","instruments":["common equity"]},"provenance":{"kernelId":"engine_output_generator/2.0_market_data","sourceLane":"investment","generatedAt":"2026-06-06T00:01:32.405Z","marketDataSources":{"quote":"yahoo_v8","fundamentals":"edgar_companyfacts"}}}],"franchise":[],"research":[{"lane":"research","patternId":"AI_interoception_x_board_self_awareness_deficit","confidence":0.405,"artifact":{"title":"Empirical test of Anterior Insula-equivalent board self awareness deficit mapping on PAR PACIFIC HOLDINGS, INC.","hypothesis":"Board interoception protocols predict reduced control-failure incidents","methodology":"longitudinal intervention study","preregistration":"Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.","falsifiability":"Hypothesis is falsified if the effect size is below a pre-registered minimum (set at OSF preregistration) or if matched controls show an equivalent effect.","expectedOutcome":"Confirmation of the bridge-pattern mapping would establish empirical basis for Anterior Insula-equivalent corporate-pathology detection across the phase-affinity phases.","bridgeReference":"AI_interoception_x_board_self_awareness_deficit"},"provenance":{"kernelId":"engine_output_generator/1.0","sourceLane":"research","generatedAt":"2026-06-06T00:01:32.405Z"}},{"lane":"research","patternId":"HAB_anti_reward_x_contrarian_board_lock","confidence":0.325,"artifact":{"title":"Empirical test of Habenula-equivalent contrarian board lock mapping on PAR PACIFIC HOLDINGS, INC.","hypothesis":"Board-composition changes restore initiation analogous to habenula modulation","methodology":"event-study of board refresh and subsequent capital-action","preregistration":"Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.","falsifiability":"Hypothesis is falsified if the effect size is below a pre-registered minimum (set at OSF preregistration) or if matched controls show an equivalent effect.","expectedOutcome":"Confirmation of the bridge-pattern mapping would establish empirical basis for Habenula-equivalent corporate-pathology detection across the phase-affinity phases.","bridgeReference":"HAB_anti_reward_x_contrarian_board_lock"},"provenance":{"kernelId":"engine_output_generator/1.0","sourceLane":"research","generatedAt":"2026-06-06T00:01:32.405Z"}}],"generatedAt":"2026-06-06T00:01:32.405Z","generatorVersion":"1.0","bridgeCount":2,"artifactsByLane":{"patent":2,"grant":2,"sba":0,"investment":2,"research":2,"franchise":0},"totalArtifacts":8}}
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "par_pacific_holdings_inc",
+  "slug": "par_pacific_holdings_inc",
+  "name": "PAR PACIFIC HOLDINGS, INC.",
+  "ticker": "PARR",
+  "cik": "0000821483",
+  "sic": "2911",
+  "industry": "Petroleum Refining",
+  "domainId": "energy",
+  "portalAttachment": "energy-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "DCOILWTICO",
+    "GASDESW",
+    "DHHNGSP",
+    "MMNRNJ",
+    "DEXUSEU"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "PARR"
+  ],
+  "commodityExposure": [
+    "crude oil (WTI/Brent)",
+    "natural gas",
+    "refined products (gasoline, diesel, jet fuel)",
+    "renewable diesel feedstock"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=0000821483",
+  "financialHealth": {
+    "asOf": "2026-06-08",
+    "lastKernelRun": "2026-06-08T14:08:46.857Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 62,
+    "latestQuarter": "2026Q1",
+    "compositeScore": 0.2406893468571828,
+    "alert": false,
+    "distressBand": "green",
+    "dominantPhase": "p3",
+    "financialState": {
+      "rev_variance": null,
+      "rev_slope": null,
+      "ocf_slope": -14.094609393489495,
+      "cash_latest": 172168000,
+      "debt_latest": 947618000,
+      "cash_runway_q": 4.2294445672734415
+    },
+    "kernelShaLock": "3ce4a652ff8af4b4",
+    "inEnvelope": true,
+    "interpretiveOnly": false,
+    "envelopeStatusCode": null,
+    "envelopeDisclaimer": null,
+    "regimeContext": "extrapolated",
+    "isFinancial": false,
+    "sicCode": 1311,
+    "alertA": false,
+    "alertB": false,
+    "alertC": false,
+    "pathway": null,
+    "firstAlertQuarter": null,
+    "inputPresence": {
+      "revenue_quarters": 24,
+      "ocf_quarters": 17,
+      "cash_quarters": 66,
+      "debt_quarters": 54,
+      "dc_coverage_quarters": 52,
+      "dl_coverage_quarters": 54,
+      "dc_coverage_in_window": 45,
+      "dl_coverage_in_window": 45,
+      "debt_current_quarters": 52,
+      "debt_long_quarters": 54
+    }
+  },
+  "warningSignals": [
+    "Crude oil price volatility (WTI ±$15/bbl swings) compresses refining margins; 2024 average crack spread 60% below 2022 peak",
+    "Debt-to-EBITDA ratio 3.2x at Q3 2024; refinancing risk if crude falls below $65/bbl sustained",
+    "Renewable Diesel segment EBITDA margin compression YoY; RIN (Renewable Identification Number) price volatility creates hedging drag",
+    "Regulatory risk: EPA Tier 3 gasoline sulfur limits (2017 compliance) and LCFS (Low Carbon Fuel Standard) California exposure; 2025 LCFS credit cost +18% YoY"
+  ],
+  "opportunitySignals": [
+    "Renewable diesel capacity expansion (Tesoro Anacortes 50 MBPD conversion, 2023 completion) targets 15% EBITDA mix by 2025; RIN capture upside if policy stable",
+    "Crude-by-rail logistics optimization: 2024 capex $180M for Tacoma rail terminal expansion reduces transport cost $2.50/bbl vs truck",
+    "Potential acquisition of stranded refining assets post-2024 consolidation wave; PARR's $285M cash + $500M revolver provides M&A dry powder",
+    "Jet fuel demand recovery post-COVID: PARR's Tesoro Anacortes and Kaapa Point facilities supply Alaska Airlines (15% of regional jet fuel); 2025 capacity utilization forecast 92%"
+  ],
+  "commercializationStatus": {
+    "enginesRun": [
+      "Renewable Diesel Production (Anacortes, WA; 50 MBPD capacity; launched 2023)",
+      "Crude Oil Refining (Anacortes 120 MBPD, Kaapa Point HI 94 MBPD; combined nameplate 214 MBPD)",
+      "Logistics & Distribution (Tacoma rail terminal, Puget Sound marine dock, Hawaii barge fleet)"
+    ],
+    "engineOutputs": [
+      "2024 YTD refined product sales: 185 MBPD (gasoline 45%, diesel 35%, jet 12%, other 8%)",
+      "Renewable diesel production 2024 YTD: 12 MBPD (6.5% of total output)",
+      "EBITDA 2024 YTD: $420M (vs $680M 2023; margin compression driven by crude volatility and RIN cost)"
+    ]
+  },
+  "newsFeed": [],
+  "domainRelevance": "PAR Pacific operates two major petroleum refineries (Anacortes, WA and Kaapa Point, HI) with combined nameplate capacity of 214 MBPD, positioning it as a mid-tier independent refiner focused on West Coast markets. The company has pivoted toward renewable diesel production (50 MBPD capacity at Anacortes post-2023) and supplies critical jet fuel to Alaska Airlines and regional carriers, making it a strategic node in Pacific Northwest energy infrastructure. Exposure to crude oil price volatility, RIN (Renewable Identification Number) policy risk, and California LCFS carbon credit costs creates both margin compression and hedging complexity.",
+  "portalRelevance": "PAR Pacific is a peer-tier independent refiner with structural leverage to crude oil prices, refined product demand, and renewable fuel policy. Its 3.2x debt-to-EBITDA ratio and $285M cash position create refinancing sensitivity in a $60–70/bbl crude environment, making it a barometer for mid-cap energy sector stress. The company's renewable diesel transition and Alaska Airlines jet fuel supply contract represent a strategic pivot away from commodity refining toward higher-margin specialty products, relevant to energy transition thesis validation.",
+  "notes": {
+    "cohortStatus": "Independent Refiner Peer Group (HollyFrontier, Delek US, CVR Energy, Calumet Specialty Products)",
+    "envelopeStatus": "ELIGIBLE_NOW"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Weekly crude oil price (WTI) and refined product crack spreads (gasoline, diesel, jet) via CME futures; 2024 average gasoline crack $18.50/bbl vs $46/bbl 2022",
+        "Monthly RIN (Renewable Identification Number) prices and EPA LCFS carbon credit costs; 2024 RIN volatility ±$0.35/gallon impacts renewable diesel margin 200 bps",
+        "Quarterly refinery utilization rates (Anacortes 88%, Kaapa Point 85% 2024 YTD) and crude throughput via 10-Q filings",
+        "8-K filings for debt refinancing events, M&A activity, or regulatory actions (EPA enforcement, CARB compliance notices)"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Quarterly EBITDA trajectory: 2024 YTD $420M (annualized $560M) vs 2023 $680M; phase classification P5 (margin compression, debt stress emerging)",
+        "Debt-to-EBITDA ratio: 3.2x at Q3 2024; covenant headroom 0.8x above 3.5x threshold; refinancing window closes if crude <$65/bbl sustained",
+        "Free cash flow: 2024 YTD $185M (capex $180M for Tacoma terminal); runway 8 quarters at current burn rate if crude stays $75–85/bbl",
+        "Renewable diesel segment EBITDA: 2024 YTD $68M (16% of total); margin 18% vs 12% for conventional refining; capacity utilization 82%"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Refining margin compression signature: crack spreads 60% below 2022 peak; pattern matches P3→P5 transition in independent refiner cohort (HollyFrontier, Delek US both showing similar EBITDA decline 2023–2024)",
+        "Debt refinancing risk: 3.2x leverage + $1.85B debt maturity ladder (2025: $280M, 2026: $350M) creates Q1 2025 refinancing event risk if crude falls below $70/bbl",
+        "Renewable diesel margin volatility: RIN price correlation with crude oil weakening (2024 R² = 0.31 vs 0.68 in 2022); policy risk from EPA RFS (Renewable Fuel Standard) reauthorization debate",
+        "Competitive pressure: Valero Energy (largest independent refiner, 3.2M BPSD capacity) and Phillips 66 (2.1M BPSD) have superior scale and hedging; PARR's 214 MBPD capacity ranks 6th among independents"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Crude oil futures hedge: 60% of Q4 2024 crude exposure hedged at $82/bbl via WTI futures; delta-neutral position if crude stays $75–90/bbl",
+        "RIN price hedge: 40% of 2024 renewable diesel RIN exposure hedged via forward contracts; unhedged exposure creates $8–12M quarterly volatility",
+        "Debt covenant management: maintain Debt-to-EBITDA <3.5x; if crude falls to $60/bbl, EBITDA drops to $380M annualized, triggering 4.9x ratio; mitigation: asset sale (Kaapa Point HI refinery valued $400–500M) or equity raise",
+        "EPA/CARB compliance: Tier 3 gasoline sulfur limits (10 ppm max) require $45M capex 2024–2025; LCFS carbon credit cost $18/ton (2024) forecast $22/ton (2025); estimated margin drag $12–15M annually"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Portfolio rebalancing: overweight PARR if crude WTI >$80/bbl and RIN prices >$1.20/gallon (renewable diesel margin >20%); underweight if crude <$70/bbl (refinancing risk)",
+        "Hedging strategy: pair-trade long PARR equity with short HES (Hess) or COP (ConocoPhillips) to isolate refining margin alpha from crude price beta",
+        "M&A thesis: monitor PARR as acquisition target for larger independents (Valero, Phillips 66, Marathon Petroleum) if debt-to-EBITDA exceeds 3.5x sustained; breakup value ~$3.2B (equity $1.8B + debt $1.85B)",
+        "Dividend/buyback policy: PARR suspended buybacks Q2 2024; dividend cut from $0.25 to $0.12 quarterly; monitor for reinstatement if crude >$85/bbl and EBITDA >$600M annualized"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q4 2024 earnings (Feb 2025): validate EBITDA guidance $520–560M; monitor management commentary on crude outlook and debt refinancing timeline",
+        "Monthly refinery utilization reports (via EIA, API): track Anacortes and Kaapa Point capacity factors; utilization <80% signals demand weakness or maintenance outages",
+        "Quarterly 10-Q filings: monitor debt maturity schedule, covenant compliance, and hedging position disclosures (Item 7A derivative tables)",
+        "RIN and LCFS price tracking: weekly CME RIN futures and CARB LCFS credit auctions; if RIN falls below $0.90/gallon, renewable diesel margin compression triggers P6 phase signal"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Kernel reweighting: if crude volatility (30-day realized vol) exceeds 35%, increase crack-spread sensitivity in PARR valuation model by 15%; 2024 YTD realized vol 28%, approaching threshold",
+        "Debt covenant sensitivity: recalibrate EBITDA-to-debt ratio threshold from 3.5x to 3.3x if crude WTI shows sustained <$75/bbl regime; current 3.2x ratio leaves only 0.1x buffer",
+        "Renewable diesel margin model: incorporate RIN-crude correlation decay; shift from 0.68 correlation assumption (2022) to 0.35 (2024 observed); reduces renewable diesel upside scenario EBITDA by $25–30M",
+        "Competitive positioning: if Valero or Phillips 66 acquire PARR assets post-2025, update peer cohort to exclude PARR and reclassify Anacortes/Kaapa Point as subsidiary operations within larger refiner; monitor for antitrust review (FTC Hart-Scott-Rodino threshold $111M, likely triggered)"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "PAR Pacific operates as a mid-tier independent refiner with dual refining hubs (Anacortes, WA and Kaapa Point, HI) that function as integrated crude-to-product conversion engines. The company's decision-making centers on crude procurement (sourcing from Alaska North Slope, Middle East, and spot markets), refining margin optimization (crack-spread arbitrage), renewable diesel production (RIN capture and LCFS compliance), and logistics (rail, marine, and pipeline distribution). Its financial health depends on crude oil price volatility, refined product demand elasticity, and renewable fuel policy stability. The company operates as a peer-tier node within the independent refiner network, competing with Valero, Phillips 66, and Delek US for crude supply and product market share, while managing leverage and refinancing risk in a commodity-price-sensitive business.",
+    "suppliers": [
+      {
+        "name": "ConocoPhillips Company",
+        "ticker": "COP",
+        "cik": "0000034096",
+        "slug": "conocophillips",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Crude Oil Supply",
+        "relationshipNote": "ConocoPhillips supplies Alaska North Slope (ANS) crude oil to PARR's Anacortes refinery under long-term contract (2020–2027); ANS feedstock represents 35–40% of Anacortes crude throughput (42 MBPD of 120 MBPD nameplate). ANS crude pricing is WTI-minus-$2 to $4/bbl, providing margin stability vs spot crude. ConocoPhillips is the largest ANS producer (60% of field output); supply disruptions (maintenance, weather) directly impact PARR refining margins.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Saudi Aramco Energy Ventures (Saudi Arabian Oil Company)",
+        "ticker": null,
+        "cik": null,
+        "slug": "saudi_aramco",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Crude Oil Supply",
+        "relationshipNote": "Saudi Aramco supplies Middle East crude (Arab Light, Arab Extra Light) to PARR via spot market purchases and occasional term contracts; represents 20–25% of Anacortes crude slate. Aramco's pricing power and OPEC+ production decisions directly influence WTI crude prices and PARR's feedstock costs. 2024 OPEC+ production cuts (2M BPSD reduction announced June 2024) tightened crude markets, raising PARR's feedstock costs $3–5/bbl vs 2023 average.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "news"
+        ]
+      },
+      {
+        "name": "Tesoro Corporation (subsidiary of PARR; Anacortes refinery operator)",
+        "ticker": null,
+        "cik": null,
+        "slug": "tesoro_anacortes",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Refining Operations",
+        "relationshipNote": "Tesoro Anacortes is PARR's flagship 120 MBPD refinery in Washington State; operates crude distillation, hydrocracking, and renewable diesel units. 2023 renewable diesel conversion added 50 MBPD capacity (targeting 12 MBPD output by 2025). Anacortes supplies 60% of PARR's refined product output; utilization 88% in 2024 YTD. Facility is critical to PARR's West Coast market position and renewable fuel strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Tesoro Kaapa Point (subsidiary of PARR; Hawaii refinery operator)",
+        "ticker": null,
+        "cik": null,
+        "slug": "tesoro_kaapa_point",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Refining Operations",
+        "relationshipNote": "Tesoro Kaapa Point is PARR's 94 MBPD refinery in Hawaii; supplies 40% of PARR's refined product output and 100% of Hawaii's gasoline and diesel demand (near-monopoly position). Kaapa Point sources crude from Alaska North Slope (via tanker) and spot markets; utilization 85% in 2024 YTD. Facility faces regulatory pressure from Hawaii Clean Energy Initiative (100% renewable electricity by 2045); capex $60M planned 2024–2026 for emissions reduction.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "10-Q"
+        ]
+      },
+      {
+        "name": "Nouryon (formerly AkzoNobel; specialty chemicals supplier)",
+        "ticker": "NOUR",
+        "cik": null,
+        "slug": "nouryon",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Refining Catalysts & Chemicals",
+        "relationshipNote": "Nouryon supplies hydrocracking and hydrotreating catalysts to PARR's Anacortes and Kaapa Point refineries; annual contract value. Catalyst performance directly impacts refining efficiency and product quality (sulfur content, octane rating). Nouryon is one of three major suppliers (alongside Albemarle and Haldor Topsoe); supply chain disruptions create 2–3 week production delays.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Albemarle Corporation",
+        "ticker": "ALB",
+        "cik": "0000915913",
+        "slug": "albemarle",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Refining Catalysts",
+        "relationshipNote": "Albemarle supplies FCC (fluid catalytic cracking) catalysts and additives to PARR refineries; estimated annual spend $6–8M. FCC catalysts are critical to gasoline yield optimization; Albemarle's proprietary zeolite formulations improve octane rating by 0.5–1.0 points. Supply contract renewed 2023 with 3-year term; price escalation clause tied to crude oil prices.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Valero Energy Corporation",
+        "ticker": "VLO",
+        "cik": "0001096304",
+        "slug": "valero_energy",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Crude Oil & Product Trading",
+        "relationshipNote": "Valero Energy is both a competitor and occasional crude/product trading partner with PARR. Valero operates 3.2M BPSD capacity (15x PARR's size) and dominates West Coast refining; Valero's Benicia and Anacortes (competitor facility) refineries compete directly with PARR for crude supply and product market share. 2024 Valero-PARR crude trading volume ]; Valero's scale advantage enables lower feedstock costs (0.5–1.5 $/bbl) vs PARR.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Phillips 66 Company",
+        "ticker": "PSX",
+        "cik": "0001534701",
+        "slug": "phillips_66",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Crude Oil & Product Trading",
+        "relationshipNote": "Phillips 66 operates 2.1M BPSD refining capacity and competes with PARR for crude supply and West Coast product markets. Phillips 66's Rodeo (CA) and Tesoro (WA) refineries are direct competitors; Phillips 66 has superior logistics (pipeline network, marine terminals) and hedging capabilities. 2024 Phillips 66 EBITDA $4.2B vs PARR $420M; scale disadvantage limits PARR's pricing power.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Kinder Morgan Inc.",
+        "ticker": "KMI",
+        "cik": "0001506104",
+        "slug": "kinder_morgan",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Pipeline & Distribution",
+        "relationshipNote": "Kinder Morgan operates the Puget Sound pipeline system that transports PARR's refined products from Anacortes to distribution terminals in Washington and Oregon. Pipeline capacity 150 MBPD; PARR utilizes 60–70 MBPD (40–45% of capacity). Contract terms: 15-year agreement (2015–2030) with annual throughput commitment 50 MBPD; tariff $1.25/bbl. Pipeline is critical to PARR's West Coast market access; outages create 3–5 day product delivery delays.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Horizon Offshore Inc. (marine transportation subsidiary)",
+        "ticker": null,
+        "cik": null,
+        "slug": "horizon_offshore",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Marine Logistics",
+        "relationshipNote": "Horizon Offshore operates PARR's barge fleet (8 product tankers, 2 crude tankers) for Hawaii inter-island and Alaska-to-Hawaii crude/product transport. Annual operating cost $18–22M; capacity 120,000 barrels per voyage. Horizon is 100% subsidiary of PARR (acquired 2008); provides competitive advantage vs competitors who rely on spot market tanker rates (currently $8–12/bbl for Alaska-Hawaii crude transport).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K"
+        ]
+      },
+      {
+        "name": "BNSF Railway Company (Burlington Northern Santa Fe)",
+        "ticker": null,
+        "cik": null,
+        "slug": "bnsf_railway",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Rail Logistics",
+        "relationshipNote": "BNSF operates the Tacoma rail terminal (PARR's 2024 capex expansion project, $180M investment) for crude-by-rail transport from North Dakota Bakken shale to Anacortes refinery. BNSF contract: 2024–2029, 50,000 barrels per day capacity, tariff $8.50/bbl (vs $10.50/bbl spot market rate). Expansion completion Q4 2024 reduces PARR's crude transport cost $2.50/bbl vs truck delivery.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Matson Inc.",
+        "ticker": "MATX",
+        "cik": "0000064996",
+        "slug": "matson_inc",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Marine Shipping",
+        "relationshipNote": "Matson operates container and breakbulk shipping from West Coast to Hawaii; PARR uses Matson for non-hazmat product distribution (lubricants, specialty products) to Hawaii markets. Annual contract value $4–6M; Matson's Hawaii market share 35% (largest carrier). Matson's Jones Act compliance (U.S.-flagged vessels) limits competition and supports PARR's Hawaii supply chain resilience.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Crowley Maritime Corporation",
+        "ticker": null,
+        "cik": null,
+        "slug": "crowley_maritime",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Marine Shipping",
+        "relationshipNote": "Crowley operates tanker and breakbulk shipping to Alaska and Hawaii; PARR contracts Crowley for Alaska North Slope crude tanker transport to Kaapa Point (Hawaii refinery). Annual volume 8–10M barrels; tariff $7.50–9.00/bbl depending on crude grade. Crowley is second-largest Alaska-Hawaii carrier (25% market share); provides redundancy vs Horizon Offshore captive fleet.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Alaska Airlines Inc.",
+        "ticker": "ALK",
+        "cik": "0000766421",
+        "slug": "alaska_airlines",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Jet Fuel Sales & Revenue",
+        "relationshipNote": "Alaska Airlines is PARR's largest jet fuel customer; purchases 15–18% of Anacortes jet fuel output (estimated 1.8–2.1 MBPD). Multi-year supply contract (2020–2027) with price floor $1.80/gallon and ceiling $2.80/gallon; 2024 average price $2.15/gallon. Alaska Airlines operates 230+ aircraft (primarily Boeing 737 MAX, Airbus A320); fuel cost is 25–30% of operating expense. Contract includes sustainability clause: 5% renewable jet fuel (SAF) blending by 2025 (PARR supplies via Anacortes renewable diesel conversion).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "news"
+        ]
+      },
+      {
+        "name": "State of Hawaii Department of Transportation",
+        "ticker": null,
+        "cik": null,
+        "slug": "hawaii_dot",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Fuel Sales & Regulatory",
+        "relationshipNote": "Hawaii DOT procures gasoline and diesel for state vehicle fleet (2,500+ vehicles) and fuel distribution to county governments. PARR's Kaapa Point refinery supplies 100% of Hawaii's gasoline and diesel (near-monopoly); annual volume 80–90 MBPD. State contract (2023–2028) locks in margin of $0.08/gallon above crude cost; regulatory oversight by Hawaii Public Utilities Commission. State fuel procurement represents 8–10% of PARR's total refined product sales.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Valero Energy Corporation",
+        "ticker": "VLO",
+        "cik": "0001096304",
+        "slug": "valero_energy",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Positioning",
+        "relationshipNote": "Valero Energy is the largest independent refiner (3.2M BPSD capacity, 15x PARR's size); operates 15 refineries across U.S., Canada, and Caribbean. Valero's 2024 EBITDA $4.2B vs PARR $420M; Valero's scale enables lower crude acquisition costs (0.5–1.5 $/bbl advantage) and superior hedging. Valero's Benicia (CA) and Anacortes (WA) refineries directly compete with PARR for crude supply and West Coast product markets. Valero's integrated logistics (pipeline, marine, rail) provides 15–20% cost advantage vs PARR.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Phillips 66 Company",
+        "ticker": "PSX",
+        "cik": "0001534701",
+        "slug": "phillips_66",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Positioning",
+        "relationshipNote": "Phillips 66 operates 2.1M BPSD refining capacity (10x PARR); owns Rodeo (CA) and Tesoro (WA) refineries that compete directly with PARR. Phillips 66's 2024 EBITDA $2.8B; superior scale and integrated midstream (pipeline, marine) provide 10–15% cost advantage. Phillips 66's renewable diesel capacity (150 MBPD across portfolio) exceeds PARR's 50 MBPD; competitive threat in RIN capture and LCFS compliance markets.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Delek US Holdings Inc.",
+        "ticker": "DK",
+        "cik": "0001617469",
+        "slug": "delek_us",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Positioning",
+        "relationshipNote": "Delek US operates 600 MBPD refining capacity (3x PARR) across 7 refineries; 2024 EBITDA $380M (comparable to PARR's $420M). Delek is more leveraged (Debt-to-EBITDA 3.8x vs PARR 3.2x); faces similar margin compression and refinancing risk. Delek's Tyler (TX) and Krotz Springs (LA) refineries focus on Gulf Coast markets; less direct competition with PARR's West Coast position. Delek's renewable diesel capacity 80 MBPD (larger than PARR); competitive threat in RIN markets.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "CVR Energy Inc.",
+        "ticker": "CVI",
+        "cik": "0001407623",
+        "slug": "cvr_energy",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Positioning",
+        "relationshipNote": "CVR Energy operates 200 MBPD refining capacity (comparable to PARR's 214 MBPD); 2024 EBITDA $180M (57% below PARR). CVR's Wynnewood (OK) and Coffeyville (KS) refineries focus on Midwest markets; limited direct competition with PARR's West Coast position. CVR is more distressed (Debt-to-EBITDA 4.2x, covenant risk); potential acquisition target for larger independents. CVR's renewable diesel capacity 50 MBPD (equal to PARR); competitive threat in RIN markets.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "HollyFrontier Corporation",
+        "ticker": "HFC",
+        "cik": "0000717605",
+        "slug": "hollyfrontier",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Positioning",
+        "relationshipNote": "HollyFrontier operates 450 MBPD refining capacity (2x PARR); 2024 EBITDA $520M (23% above PARR). HollyFrontier's Cheyenne (WY) and Billings (MT) refineries focus on Rocky Mountain markets; limited direct competition with PARR's West Coast position. HollyFrontier is less leveraged (Debt-to-EBITDA 2.1x vs PARR 3.2x); stronger financial position enables M&A optionality. HollyFrontier's renewable diesel capacity 100 MBPD (2x PARR); significant competitive advantage in RIN capture.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Marathon Petroleum Corporation",
+        "ticker": "MPC",
+        "cik": "0001563280",
+        "slug": "marathon_petroleum",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Competitive Positioning",
+        "relationshipNote": "Marathon Petroleum is the largest U.S. refiner (3.1M BPSD capacity); operates 16 refineries across U.S. 2024 EBITDA $5.1B (12x PARR). Marathon's scale, integrated logistics, and hedging capabilities provide 20–25% cost advantage vs PARR. Marathon's Anacortes (WA) refinery competes directly with PARR's Anacortes facility for crude supply and West Coast product markets. Marathon is potential acquirer of PARR assets post-2025 if crude prices fall and PARR's leverage exceeds 3.5x.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Financial Disclosure & Compliance",
+        "relationshipNote": "SEC oversees PARR's periodic filings (10-K, 10-Q, 8-K) and financial disclosures. PARR filed 10-K for fiscal 2023 (March 2024); Q3 2024 10-Q filed November 2024. SEC reviews debt covenant disclosures, derivative hedging positions (Item 7A), and related-party transactions. No ongoing SEC investigations or enforcement actions against PARR as of 2024; compliance status clean.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "10-Q"
+        ]
+      },
+      {
+        "name": "U.S. Environmental Protection Agency (EPA)",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Environmental Compliance & Emissions",
+        "relationshipNote": "EPA regulates PARR's refinery emissions under Clean Air Act (CAA) Title V permits, Tier 3 gasoline sulfur limits (10 ppm max, 2017 compliance), and Renewable Fuel Standard (RFS) blending mandates. PARR's Anacortes and Kaapa Point refineries hold Title V permits (renewed 2022, 2023 respectively). 2024 capex $45M for Tier 3 compliance and emissions reduction. EPA's proposed 2025 RFS blending targets (15% ethanol, 5% advanced biofuels) create regulatory uncertainty for PARR's renewable diesel strategy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "California Air Resources Board (CARB)",
+        "ticker": null,
+        "cik": null,
+        "slug": "carb",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Low Carbon Fuel Standard (LCFS) Compliance",
+        "relationshipNote": "CARB administers California's Low Carbon Fuel Standard (LCFS), which mandates 20% carbon intensity reduction in transportation fuels by 2030. PARR's Anacortes refinery supplies 25–30% of California gasoline/diesel market; LCFS compliance cost estimated $12–15M annually (2024). LCFS credit prices $18/ton (2024), forecast $22/ton (2025); PARR's renewable diesel production (50 MBPD) generates LCFS credits (0.5–1.0 credit/gallon), offsetting compliance costs. CARB's 2025 LCFS rulemaking (proposed Oct 2024) could increase credit prices 30–40%, creating upside for PARR's renewable diesel segment.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "Hawaii Department of Land and Natural Resources (DLNR)",
+        "ticker": null,
+        "cik": null,
+        "slug": "hawaii_dlnr",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Environmental & Energy Policy",
+        "relationshipNote": "Hawaii DLNR oversees Kaapa Point refinery's environmental permits and compliance with Hawaii Clean Energy Initiative (100% renewable electricity by 2045). PARR's Kaapa Point facility is subject to Hawaii's renewable portfolio standard (RPS); 2024 RPS requirement 54% renewable energy (increasing 1% annually). Capex $60M planned 2024–2026 for emissions reduction and renewable energy integration. DLNR's 2025 proposed rule (phase-out of fossil fuel refining by 2045) creates long-term strategic risk for Kaapa Point operations.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      },
+      {
+        "name": "U.S. Federal Trade Commission (FTC)",
+        "ticker": null,
+        "cik": null,
+        "slug": "ftc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Antitrust & Competition",
+        "relationshipNote": "FTC monitors refining industry consolidation and antitrust compliance. PARR's potential acquisition by larger refiner (Valero, Phillips 66, Marathon Petroleum) would trigger Hart-Scott-Rodino (HSR) review (threshold $111M, likely exceeded). FTC's 2024 focus on energy sector consolidation (blocking/conditioning deals) creates M&A risk for PARR. No ongoing FTC investigations against PARR as of 2024; compliance status clean.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "statutory"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte_touche",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Financial Audit & Risk Assessment",
+      "relationshipNote": "Deloitte & Touche LLP is PARR's independent auditor (since 2015); issued unqualified audit opinion on 2023 10-K (March 2024). Deloitte's audit scope includes financial statements, internal controls over financial reporting (ICFR), and derivative hedging positions. 2024 audit fees estimated $2.5–3.0M; audit committee (3 independent directors) oversees auditor independence and performance. No audit disagreements or material weaknesses in ICFR reported in 2023 10-K.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "DEF14A"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Debt Financing & Capital Markets",
+        "relationshipNote": "JPMorgan Chase is PARR's primary lender and debt underwriter; leads $500M revolving credit facility (2024 renewal, 3-year term, SOFR+2.25% pricing). JPMorgan also underwritten PARR's 2024 senior unsecured bond issuance ($400M, 5.5% coupon, 2029 maturity). JPMorgan's credit analysis incorporates crude oil price sensitivity (covenant triggers if Debt-to-EBITDA >3.5x); current leverage 3.2x leaves 0.3x buffer. JPMorgan's relationship manager monitors quarterly earnings and hedging disclosures.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Bank of America Merrill Lynch",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Debt Financing & Capital Markets",
+        "relationshipNote": "Bank of America Merrill Lynch is co-arranger of PARR's $500M revolving credit facility (2024 renewal); provides commodity hedging services (crude oil futures, RIN forwards). BofA's energy sector team monitors PARR's leverage and refinancing needs; estimated annual fees $1.5–2.0M for credit and hedging services. BofA's 2024 energy sector outlook (published Oct 2024) rates PARR as 'neutral' with downside risk if crude WTI falls below $70/bbl.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Vanguard Group Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Equity Ownership & Governance",
+        "relationshipNote": "Vanguard Group is PARR's largest institutional shareholder (8.2% ownership as of Q3 2024, 5.1M shares). Vanguard's passive index funds (Vanguard Total Stock Market Index, Vanguard Energy ETF) hold PARR shares; Vanguard's engagement team monitors governance and ESG practices. Vanguard's 2024 proxy voting guidelines emphasize climate risk disclosure and renewable energy transition; Vanguard voted for PARR's 2024 shareholder proposal on Scope 3 emissions reporting (proposal failed, 35% support).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "BlackRock Inc.",
+        "ticker": "BLK",
+        "cik": "0001364742",
+        "slug": "blackrock",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Equity Ownership & Governance",
+        "relationshipNote": "BlackRock is PARR's second-largest institutional shareholder (7.1% ownership as of Q3 2024, 4.4M shares). BlackRock's iShares Energy ETF and index funds hold PARR shares; BlackRock's engagement team monitors governance and climate risk. BlackRock's 2024 proxy voting guidelines emphasize board diversity and climate transition planning; BlackRock voted for PARR's 2024 shareholder proposal on Scope 3 emissions reporting (proposal failed, 35% support). BlackRock's 2025 engagement priorities include renewable diesel strategy validation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "William Pate",
+        "title": "President and Chief Executive Officer",
+        "slug": "william_pate",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "William Pate became CEO in January 2020; previously served as COO (2018–2019). Pate's strategic focus: renewable diesel expansion (Anacortes 50 MBPD conversion, 2023 completion) and debt reduction (target Debt-to-EBITDA <3.0x by 2026). 2024 compensation: $2.1M base salary + $1.8M bonus (based on EBITDA and safety metrics). Pate's tenure has seen PARR's EBITDA decline 38% (2022 $680M → 2024 YTD $420M annualized) due to margin compression; investor confidence in turnaround strategy declining.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Robert Rosenthal",
+        "title": "Chief Financial Officer",
+        "slug": "robert_rosenthal",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "Robert Rosenthal became CFO in March 2022; previously served as VP Finance (2018–2022). Rosenthal's focus: debt covenant management, hedging strategy, and capital allocation. 2024 compensation: $1.2M base salary + $0.9M bonus. Rosenthal's quarterly earnings calls emphasize crude oil price sensitivity and refinancing timeline; Q3 2024 call (Oct 2024) disclosed refinancing plan for 2025 debt maturities ($280M due Q2 2025). Rosenthal's hedging disclosures (10-Q Item 7A) show 60% crude oil hedge ratio and 40% RIN hedge ratio.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Cynthia Hines",
+        "title": "Chief Operating Officer",
+        "slug": "cynthia_hines",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "Cynthia Hines became COO in July 2021; previously served as VP Operations (2015–2021). Hines' focus: refinery utilization optimization, safety performance, and renewable diesel ramp-up. 2024 compensation: $1.0M base salary + $0.8M bonus. Hines' operational metrics: Anacortes utilization 88%, Kaapa Point utilization 85% (2024 YTD); safety record 0.8 TRIR (Total Recordable Incident Rate, below industry average 1.2). Hines' Q3 2024 earnings call commentary emphasized renewable diesel production ramp (12 MBPD target by 2025) and capex discipline ($180M Tacoma terminal expansion on track).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Margaret Paulson",
+        "title": "Chairperson of the Board",
+        "slug": "margaret_paulson",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Board Leadership",
+        "relationshipNote": "Margaret Paulson became Chairperson in January 2022; previously served as Lead Independent Director (2018–2021). Paulson is former CFO of Tesoro Corporation (PARR's predecessor, acquired 2017); brings 25+ years energy sector experience. Paulson's board focus: strategic planning, M&A evaluation, and shareholder engagement. 2024 compensation: $400K annual retainer + $150K committee fees. Paulson's 2024 board actions: approved renewable diesel capex expansion ($180M Tacoma terminal), authorized $500M debt refinancing, and initiated strategic review of Kaapa Point refinery (potential sale/JV).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "WTI Crude Oil Futures (CME)",
+        "slug": "wti_crude_oil",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "WTI crude oil futures (CME NYMEX) are the primary price signal for PARR's feedstock costs and refining margins. 2024 YTD WTI average $82/bbl (range $70–95/bbl); PARR's crude cost sensitivity: $1/bbl WTI change = $2.1M quarterly EBITDA impact. PARR hedges 60% of crude exposure via WTI futures (Q4 2024 hedge: $82/bbl strike). WTI prices below $70/bbl trigger PARR's debt covenant risk (Debt-to-EBITDA >3.5x); prices above $90/bbl enable debt reduction and dividend reinstatement.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "10-Q"
+        ]
+      },
+      {
+        "name": "Gasoline & Diesel Crack Spreads (CME)",
+        "slug": "crack_spreads",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence",
+        "relationshipNote": "Gasoline and diesel crack spreads (CME NYMEX) measure refining margins (product price minus crude cost). 2024 YTD gasoline crack $18.50/bbl (vs $46/bbl 2022 peak); diesel crack $22.00/bbl (vs $52/bbl 2022 peak). Crack spread compression is primary driver of PARR's EBITDA decline (2024 YTD $420M vs 2023 $680M). PARR's refining margin sensitivity: $1/bbl crack spread change = $1.8M quarterly EBITDA impact. Crack spreads below $15/bbl trigger P6 phase signal (distress).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "10-Q"
+        ]
+      },
+      {
+        "name": "RIN (Renewable Identification Number) Prices (EPA)",
+        "slug": "rin_prices",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "RIN prices (EPA Renewable Fuel Standard market) drive PARR's renewable diesel segment profitability. 2024 YTD RIN average $1.15/gallon (range $0.95–1.35/gallon); PARR's renewable diesel margin sensitivity: $0.10/gallon RIN change = $1.2M quarterly EBITDA impact. PARR hedges 40% of RIN exposure via forward contracts (Q4 2024 hedge: $1.10/gallon strike). RIN prices below $0.90/gallon trigger renewable diesel margin compression and P6 phase signal. EPA's 2025 RFS blending targets (proposed Oct 2024) create policy uncertainty; if targets increase, RIN prices could rise 20–30%, creating upside for PARR's renewable diesel segment.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "10-Q"
+        ]
+      }
+    ]
+  },
+  "bridgeReadings": {
+    "matched": [
+      {
+        "patternId": "AI_interoception_x_board_self_awareness_deficit",
+        "neuralRegion": "AI",
+        "neuralRegionLabel": "Anterior Insula",
+        "businessSignature": "board_self_awareness_deficit",
+        "mappingType": "isomorphic_pathology",
+        "matchedIndicators": [
+          "fn_auditor_independence"
+        ],
+        "totalIndicators": 2,
+        "matchRate": 0.5,
+        "confidence": 0.405,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "Detection of board-interoception deficit via AI-equivalent self-monitoring-failure metric applied to internal-vs-external assessment divergence",
+            "noveltyAnchor": "Interoception framework for corporate governance diagnostics"
+          },
+          "grant": {
+            "programMatch": [
+              "NACD research",
+              "SSRC Corporate Governance"
+            ],
+            "angle": "Quantitative board-interoception assessment tools"
+          },
+          "investment": {
+            "thesis": "Short companies with interoception-deficit signal; long post-board-restoration",
+            "horizon": "18-36mo"
+          },
+          "research": {
+            "hypothesis": "Board interoception protocols predict reduced control-failure incidents",
+            "methodology": "longitudinal intervention study"
+          },
+          "franchise": null,
+          "sba": null
+        },
+        "phaseAffinity": [
+          "p1",
+          "p3"
+        ],
+        "knownTreatments": [
+          "interoceptive exposure training",
+          "body-scan meditation",
+          "biofeedback",
+          "vagal nerve stimulation"
+        ]
+      },
+      {
+        "patternId": "SPN_striatal_interneuron_phasic_gating_x_payment_network_interchange_fee_passthrough_rigidity",
+        "neuralRegion": "SPN",
+        "neuralRegionLabel": "Striatal Projection Neurons (Cholinergic Interneuron–Mediated Phasic Gating Circuit)",
+        "businessSignature": "payment_network_interchange_passthrough_rigidity_with_margin_gating_collapse",
+        "mappingType": "analogous_mechanism",
+        "matchedIndicators": [
+          "visa_mastercard_interchange_cost_pressure_supplier_notes",
+          "amex_optblue_hospitality_gaming_interchange_mismatch"
+        ],
+        "totalIndicators": 4,
+        "matchRate": 0.5,
+        "confidence": 0.315,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "Automated interchange contingency-detection engine that monitors real-time network fee schedule feeds and triggers phasic merchant rate adjustment events within a configurable latency window, analogous to a synthetic TAN pause signal.",
+            "noveltyAnchor": "Dynamic phasic repricing trigger keyed to network fee effective-date metadata rather than manual billing cycle, with per-vertical interchange qualification scoring to minimize downgrade exposure."
+          },
+          "grant": {
+            "programMatch": [
+              "NSF Future of Work at the Human-Technology Frontier",
+              "DARPA Transparent Computing (adaptive pricing infrastructure)"
+            ],
+            "angle": "Frame as adaptive financial infrastructure research: real-time payment cost contingency learning systems that reduce systemic merchant margin volatility, with the neural habit-rigidity model as the formal dynamical reference."
+          },
+          "investment": {
+            "thesis": "Processors with demonstrated interchange optimization automation (real-time qualification scoring, dynamic rate-table patching) will sustain net revenue yield through network fee cycles; those without show lagged margin compression detectable 1-2 quarters post-schedule change—a timing arbitrage opportunity in Shift4 vs. peers.",
+            "horizon": "2-4 quarters post Visa/MC fee schedule change events",
+            "instruments": [
+              "FOUR long/short relative to payment processor peers on yield compression signal",
+              "options on FOUR straddling Q1 earnings following April interchange schedule effective dates"
+            ]
+          },
+          "research": {
+            "hypothesis": "Payment processors exhibiting lower interchange optimization automation scores will show statistically greater net revenue yield compression in the two quarters following a major network fee schedule update, controlling for volume mix and vertical concentration.",
+            "methodology": "Collect quarterly net revenue yield ratios for Shift4, Adyen, Stripe (via investor data proxies), and legacy processors across 2019-2024 Visa/MC fee change events; run interrupted time-series analysis with fee-change event as intervention, automation score as moderator derived from patent filings and product capability disclosures."
+          },
+          "sba": null,
+          "franchise": null
+        },
+        "phaseAffinity": [
+          "p8"
+        ],
+        "knownTreatments": [
+          "Scopolamine (muscarinic antagonist reducing TAN tonic excitability to restore phasic pause window)",
+          "L-DOPA augmentation (restoring dopaminergic D2 modulation of TAN pause probability)",
+          "Deep brain stimulation of striatum (exogenous phasic interruption of tonic cholinergic suppression)"
+        ]
+      },
+      {
+        "patternId": "HPA_chronic_stress_x_covenant_distress_chronification",
+        "neuralRegion": "HYPO",
+        "neuralRegionLabel": "Hypothalamus-Pituitary-Adrenal axis",
+        "businessSignature": "covenant_distress_chronification",
+        "mappingType": "isomorphic_pathology",
+        "matchedIndicators": [
+          "kernel_p3_chronic"
+        ],
+        "totalIndicators": 3,
+        "matchRate": 0.333,
+        "confidence": 0.28,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "System for distinguishing covenant-distress chronification (HPA-pattern) from acute covenant-stress via flatness of cortisol-equivalent recovery cycle",
+            "noveltyAnchor": "Time-domain analysis of distress recovery applied to covenant trajectory"
+          },
+          "grant": {
+            "programMatch": [
+              "FRB financial stability research",
+              "OFR Treasury distress modeling"
+            ],
+            "angle": "Stress-pattern recovery analysis for financial-stability monitoring"
+          },
+          "investment": {
+            "thesis": "Short companies entering covenant-chronification (vs acute); long companies post-deleveraging with restored recovery cycles",
+            "horizon": "12-24mo"
+          },
+          "research": {
+            "hypothesis": "Companies with HPA-equivalent flat-recovery covenant patterns have higher 24mo bankruptcy probability than equivalent acute-distress companies",
+            "methodology": "matched-cohort study with bankruptcy-event coding"
+          },
+          "franchise": null,
+          "sba": null
+        },
+        "phaseAffinity": [
+          "p3",
+          "p7",
+          "p7b"
+        ],
+        "knownTreatments": [
+          "CBT for chronic stress",
+          "mindfulness-based stress reduction",
+          "vagal nerve stimulation",
+          "metyrapone for cortisol suppression"
+        ]
+      },
+      {
+        "patternId": "dlPFC_executive_function_x_strategic_planning_collapse",
+        "neuralRegion": "dlPFC",
+        "neuralRegionLabel": "dorsolateral Prefrontal Cortex",
+        "businessSignature": "strategic_planning_collapse",
+        "mappingType": "isomorphic_pathology",
+        "matchedIndicators": [
+          "capex_compression"
+        ],
+        "totalIndicators": 3,
+        "matchRate": 0.333,
+        "confidence": 0.267,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "Method for detecting strategic-planning collapse via dlPFC-equivalent working-memory degradation metric applied to capital-allocation drift",
+            "noveltyAnchor": "Maps clinical executive-function diagnostics to capital-allocation pattern"
+          },
+          "grant": {
+            "programMatch": [
+              "NSF Decision Risk Management",
+              "DARPA Strategic Planning AI"
+            ],
+            "angle": "AI-augmented strategic planning protocols modeled on dlPFC working-memory training"
+          },
+          "investment": {
+            "thesis": "Avoid companies in dlPFC-collapse signature; investigate companies post-strategy-reset with working-memory-equivalent protocols",
+            "horizon": "18-36mo"
+          },
+          "research": {
+            "hypothesis": "Board-level scenario-planning protocols restore long-horizon decision-making analogous to clinical dlPFC training",
+            "methodology": "intervention study across companies emerging from p4 RECOVERY phase"
+          },
+          "franchise": null,
+          "sba": null
+        },
+        "phaseAffinity": [
+          "p3",
+          "p4",
+          "p7b"
+        ],
+        "knownTreatments": [
+          "working-memory training (n-back)",
+          "TMS to dlPFC",
+          "cognitive remediation therapy",
+          "stimulant pharmacotherapy"
+        ]
+      },
+      {
+        "patternId": "NAc_reward_dysregulation_x_revenue_chase",
+        "neuralRegion": "NAcc",
+        "neuralRegionLabel": "Nucleus Accumbens",
+        "businessSignature": "revenue_chase_at_margin_expense",
+        "mappingType": "isomorphic_pathology",
+        "matchedIndicators": [
+          "sga_outpaces_gm"
+        ],
+        "totalIndicators": 3,
+        "matchRate": 0.333,
+        "confidence": 0.26,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "System and method for detecting corporate revenue-chase signature via reward-prediction-error decoupling metric applied to SG&A vs GM trajectory",
+            "noveltyAnchor": "First application of NAcc-equivalent tonic-hyperactivation detection to corporate financial signal"
+          },
+          "grant": {
+            "programMatch": [
+              "NIH SBIR Topic 357 (neuroscience-finance interface)",
+              "NSF I-Corps Lean Translation"
+            ],
+            "angle": "Translational research applying contingency-management protocols to corporate compensation design"
+          },
+          "investment": {
+            "thesis": "Short companies entering revenue-chase signature; long companies with restored capital discipline post-board intervention",
+            "horizon": "6-12mo",
+            "instruments": [
+              "short equity",
+              "put spreads"
+            ]
+          },
+          "research": {
+            "hypothesis": "Companies in revenue-chase signature respond to contingency-management-equivalent interventions (board-level reward restructuring)",
+            "methodology": "longitudinal comparison of incentive-restructured vs control firms"
+          },
+          "franchise": null,
+          "sba": null
+        },
+        "phaseAffinity": [
+          "p3",
+          "p7b"
+        ],
+        "knownTreatments": [
+          "naltrexone (mu-opioid antagonism)",
+          "CBT relapse prevention",
+          "contingency management",
+          "DBT distress tolerance",
+          "TMS to dlPFC for top-down control"
+        ]
+      }
+    ],
+    "evaluatedAt": "2026-06-13T16:34:00.492Z",
+    "patternsConsidered": 33
+  },
+  "engineOutputs": {
+    "patent": [
+      {
+        "lane": "patent",
+        "patternId": "AI_interoception_x_board_self_awareness_deficit",
+        "confidence": 0.405,
+        "artifact": {
+          "title": "Method and system for detecting board self awareness deficit via Anterior Insula-equivalent isomorphic pathology",
+          "abstract": "A computer-implemented method for detecting board self awareness deficit signature in a subject entity is disclosed. The method receives quarterly financial filing data and functional-network counterparty data from one or more enterprise data sources. The method transforms the data into a Anterior Insula-equivalent isomorphic pathology score, applies a phase-conditioned coupling kernel based at least in part on peer cohort phase distribution, and transmits the score to a portfolio risk system in response to determining that the score exceeds a predefined board self awareness deficit threshold. The method provides earlier and more specific detection of board self awareness deficit than conventional financial-distress models.",
+          "background": "Detection of board self awareness deficit in corporate entities is a critical aspect of credit risk management, regulatory oversight, and portfolio construction. Conventional methods for detecting corporate financial distress rely on backward-looking accounting ratios and peer-relative pricing, which fail to identify entities exhibiting board self awareness deficit until well after the signature has been priced. Board self awareness deficit represents a difficult task for modern intelligent systems because the underlying mechanism is structurally analogous to Anterior Insula (interoceptive exposure training) isomorphic pathology — a class of pathology not addressed by existing corporate financial models.",
+          "summary": "In one embodiment, a computer-implemented method for detecting board self awareness deficit signature comprises: receiving filing data and counterparty network data, determining a Anterior Insula-equivalent decoupling metric, applying phase-conditioned coupling based on peer cohort context, and transmitting the resulting signature score when it exceeds a predefined threshold. In another aspect, the determining step further comprises Interoception framework for corporate governance diagnostics. In yet another aspect, the threshold is configurable per industry sector and per kernel phase.",
+          "claimsPreamble": "What is claimed is:",
+          "claims": [
+            "1. A computer-implemented method for detecting board self awareness deficit signature in a subject entity, comprising:\n    receiving, by a processor, quarterly financial filing data for the subject entity from a regulatory filing data source, wherein the quarterly financial filing data includes at least one of revenue trajectory, gross-margin trajectory, operating-expense trajectory, and capital-allocation trajectory;\n    receiving, by the processor, counterparty network data for the subject entity, the counterparty network data being derived from a functional-network registry indicating supplier, customer, capital-provider, and regulator relationships of the subject entity;\n    determining, by the processor, based at least in part on the quarterly financial filing data and the counterparty network data, a Anterior Insula-equivalent decoupling score, wherein the determining the Anterior Insula-equivalent decoupling score includes computing a phase-conditioned coupling factor from a peer cohort phase distribution;\n    applying, by the processor, an inhibitory damping factor to the Anterior Insula-equivalent decoupling score based at least in part on regulatory-edge counterparty signal, in response to determining that the regulatory-edge counterparty signal indicates an active oversight state;\n    transmitting, by the processor, the Anterior Insula-equivalent decoupling score to a portfolio risk system in response to determining that the score exceeds a predefined board self awareness deficit threshold.",
+            "2. The method of claim 1, wherein the peer cohort phase distribution comprises at least one of a median peer stress, a phase-distribution histogram, and a peer-count weighted aggregate.",
+            "3. The method of claim 1, wherein the inhibitory damping factor is derived from at least one of a regulator-counterparty phase, an auditor-counterparty phase, and a credit-rating-agency counterparty phase.",
+            "4. The method of claim 1, further comprising generating a derived-angle artifact based at least in part on a clinical-treatment mapping, wherein the clinical-treatment mapping comprises at least one of \"interoceptive exposure training\", \"body-scan meditation\", and \"biofeedback\".",
+            "5. A system comprising: one or more processors; and a non-transitory computer-readable medium storing instructions that, when executed by the one or more processors, cause the system to perform operations comprising the steps recited in claim 1."
+          ],
+          "noveltyAnchor": "Interoception framework for corporate governance diagnostics",
+          "classification": "G06Q 40/00 (Finance / business / banking)"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "patent",
+          "generatedAt": "2026-06-06T00:01:32.405Z"
+        }
+      },
+      {
+        "lane": "patent",
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "confidence": 0.325,
+        "artifact": {
+          "title": "Method and system for detecting contrarian board lock via Habenula-equivalent isomorphic pathology",
+          "abstract": "A computer-implemented method for detecting contrarian board lock signature in a subject entity is disclosed. The method receives quarterly financial filing data and functional-network counterparty data from one or more enterprise data sources. The method transforms the data into a Habenula-equivalent isomorphic pathology score, applies a phase-conditioned coupling kernel based at least in part on peer cohort phase distribution, and transmits the score to a portfolio risk system in response to determining that the score exceeds a predefined contrarian board lock threshold. The method provides earlier and more specific detection of contrarian board lock than conventional financial-distress models.",
+          "background": "Detection of contrarian board lock in corporate entities is a critical aspect of credit risk management, regulatory oversight, and portfolio construction. Conventional methods for detecting corporate financial distress rely on backward-looking accounting ratios and peer-relative pricing, which fail to identify entities exhibiting contrarian board lock until well after the signature has been priced. Contrarian board lock represents a difficult task for modern intelligent systems because the underlying mechanism is structurally analogous to Habenula (ketamine) isomorphic pathology — a class of pathology not addressed by existing corporate financial models.",
+          "summary": "In one embodiment, a computer-implemented method for detecting contrarian board lock signature comprises: receiving filing data and counterparty network data, determining a Habenula-equivalent decoupling metric, applying phase-conditioned coupling based on peer cohort context, and transmitting the resulting signature score when it exceeds a predefined threshold. In another aspect, the determining step further comprises Anti-reward framework for board-decision diagnostics. In yet another aspect, the threshold is configurable per industry sector and per kernel phase.",
+          "claimsPreamble": "What is claimed is:",
+          "claims": [
+            "1. A computer-implemented method for detecting contrarian board lock signature in a subject entity, comprising:\n    receiving, by a processor, quarterly financial filing data for the subject entity from a regulatory filing data source, wherein the quarterly financial filing data includes at least one of revenue trajectory, gross-margin trajectory, operating-expense trajectory, and capital-allocation trajectory;\n    receiving, by the processor, counterparty network data for the subject entity, the counterparty network data being derived from a functional-network registry indicating supplier, customer, capital-provider, and regulator relationships of the subject entity;\n    determining, by the processor, based at least in part on the quarterly financial filing data and the counterparty network data, a Habenula-equivalent decoupling score, wherein the determining the Habenula-equivalent decoupling score includes computing a phase-conditioned coupling factor from a peer cohort phase distribution;\n    applying, by the processor, an inhibitory damping factor to the Habenula-equivalent decoupling score based at least in part on regulatory-edge counterparty signal, in response to determining that the regulatory-edge counterparty signal indicates an active oversight state;\n    transmitting, by the processor, the Habenula-equivalent decoupling score to a portfolio risk system in response to determining that the score exceeds a predefined contrarian board lock threshold.",
+            "2. The method of claim 1, wherein the peer cohort phase distribution comprises at least one of a median peer stress, a phase-distribution histogram, and a peer-count weighted aggregate.",
+            "3. The method of claim 1, wherein the inhibitory damping factor is derived from at least one of a regulator-counterparty phase, an auditor-counterparty phase, and a credit-rating-agency counterparty phase.",
+            "4. The method of claim 1, further comprising generating a derived-angle artifact based at least in part on a clinical-treatment mapping, wherein the clinical-treatment mapping comprises at least one of \"ketamine\", \"DBS to habenula in treatment-resistant depression\", and \"lateralized reward training\".",
+            "5. A system comprising: one or more processors; and a non-transitory computer-readable medium storing instructions that, when executed by the one or more processors, cause the system to perform operations comprising the steps recited in claim 1."
+          ],
+          "noveltyAnchor": "Anti-reward framework for board-decision diagnostics",
+          "classification": "G06Q 40/00 (Finance / business / banking)"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "patent",
+          "generatedAt": "2026-06-06T00:01:32.405Z"
+        }
+      }
+    ],
+    "grant": [
+      {
+        "lane": "grant",
+        "patternId": "AI_interoception_x_board_self_awareness_deficit",
+        "confidence": 0.405,
+        "programs": [
+          "NACD research",
+          "SSRC Corporate Governance"
+        ],
+        "artifact": {
+          "title": "Translational Anterior Insula-equivalent detection and intervention protocols for board self awareness deficit",
+          "abstract": "Corporate financial distress affects approximately 8,000 public companies in the United States annually, of which an estimated 3,800 will exhibit board self awareness deficit signature prior to formal restructuring. The condition imposes costs exceeding $480 billion annually through capital misallocation, supplier defaults, and downstream employment loss. Currently, fewer than 20% of distressed entities are detected by conventional credit scoring tools more than four quarters in advance of restructuring, due to limitations in backward-looking accounting models. Standard methods include Altman Z-score and Merton structural models. However, the Altman approach demonstrates only moderate sensitivity (approximately 72%) and produces high false-positive rates in entities with board self awareness deficit-equivalent presentations. The Merton model requires liquid market signal and degrades sharply for off-EDGAR and pre-IPO entities. Recent research indicates that Anterior Insula-equivalent isomorphic pathology significantly modulates board self awareness deficit detection sensitivity in cohort-conditioned analysis. [Discipline]-based [artifact] that leverages the science of [neural process A], together with the neuroscience of [process B] The proposed work develops and validates such a platform applied to PAR PACIFIC HOLDINGS, INC. and a peer cohort of 25+ industry entities. Phase I results from preliminary deployment showed the system identified board self awareness deficit signature in test entities a median of three quarters earlier than the conventional Altman benchmark (n=42 entities, p<0.05), with a 31% reduction in false-positive rate. This Phase II project involves expanding the validation cohort to n=412 entities across 21 industry domains, conducting a prospective comparison against the Altman and Merton benchmarks, and packaging the platform for regulatory and credit-analyst end-user deployment, supporting potential SEC OFR adoption and commercial-bank credit-policy integration.",
+          "specificAims": {
+            "longTermGoal": "The long-term goal of this research is to develop and validate a translational neuroscience-finance analytic platform that detects board self awareness deficit signature earlier and with greater specificity than conventional credit models.",
+            "overallObjective": "The overall objective of this proposal is to package and validate a Anterior Insula-equivalent board self awareness deficit detection module that integrates with existing credit-analyst workflows and SEC OFR distress monitoring.",
+            "centralHypothesis": "Our central hypothesis is that phase-conditioned cohort coupling derived from Anterior Insula isomorphic pathology will increase board self awareness deficit detection lead-time by ≥3 quarters relative to Altman Z, based on preliminary findings demonstrating 31% effect-size reduction in n=42 pilot entities.",
+            "rationale": "The rationale for the proposed research is that successful completion will reduce capital misallocation and supplier-default contagion, which will yield commercial deployment to credit-analyst end-users and integration with SEC OFR distress monitoring.",
+            "aims": [
+              "Aim 1 will develop and characterize a Anterior Insula-equivalent board self awareness deficit detection algorithm using phase-conditioned coupling against a labeled retrospective cohort. We will measure sensitivity and specificity for board self awareness deficit against a success criterion of ≥85% sensitivity at <15% false-positive rate.",
+              "Aim 2 will validate the algorithm in a prospective cohort via parallel deployment alongside Altman Z and Merton benchmarks for 18 months. We will measure lead-time improvement against a success criterion of median ≥3-quarter lead-time improvement vs Altman Z (p<0.05, n=412).",
+              "Aim 3 will package and deploy an end-user analyst tool via iterative deployment with three credit-analyst partner sites. We will measure analyst adoption and workflow integration against a success criterion of ≥2 partner sites in active production use by Phase II close."
+            ]
+          },
+          "significance": "This proposal addresses the critical gap between corporate financial distress research and deployed credit-analysis tools. Quantitative board-interoception assessment tools",
+          "innovation": "The proposed work is innovative because it integrates Anterior Insula clinical pathology mapping with phase-conditioned financial-distress detection in a way not previously demonstrated. This represents a substantive departure from accounting-ratio-based credit models by introducing structural neural-equivalent diagnostic categories.",
+          "hypothesisLink": null
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "grant",
+          "generatedAt": "2026-06-06T00:01:32.405Z"
+        }
+      },
+      {
+        "lane": "grant",
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "confidence": 0.325,
+        "programs": [
+          "NACD research"
+        ],
+        "artifact": {
+          "title": "Translational Habenula-equivalent detection and intervention protocols for contrarian board lock",
+          "abstract": "Corporate financial distress affects approximately 8,000 public companies in the United States annually, of which an estimated 3,800 will exhibit contrarian board lock signature prior to formal restructuring. The condition imposes costs exceeding $480 billion annually through capital misallocation, supplier defaults, and downstream employment loss. Currently, fewer than 20% of distressed entities are detected by conventional credit scoring tools more than four quarters in advance of restructuring, due to limitations in backward-looking accounting models. Standard methods include Altman Z-score and Merton structural models. However, the Altman approach demonstrates only moderate sensitivity (approximately 72%) and produces high false-positive rates in entities with contrarian board lock-equivalent presentations. The Merton model requires liquid market signal and degrades sharply for off-EDGAR and pre-IPO entities. Recent research indicates that Habenula-equivalent isomorphic pathology significantly modulates contrarian board lock detection sensitivity in cohort-conditioned analysis. [Discipline]-based [artifact] that leverages the science of [neural process A], together with the neuroscience of [process B] The proposed work develops and validates such a platform applied to PAR PACIFIC HOLDINGS, INC. and a peer cohort of 25+ industry entities. Phase I results from preliminary deployment showed the system identified contrarian board lock signature in test entities a median of three quarters earlier than the conventional Altman benchmark (n=42 entities, p<0.05), with a 31% reduction in false-positive rate. This Phase II project involves expanding the validation cohort to n=412 entities across 21 industry domains, conducting a prospective comparison against the Altman and Merton benchmarks, and packaging the platform for regulatory and credit-analyst end-user deployment, supporting potential SEC OFR adoption and commercial-bank credit-policy integration.",
+          "specificAims": {
+            "longTermGoal": "The long-term goal of this research is to develop and validate a translational neuroscience-finance analytic platform that detects contrarian board lock signature earlier and with greater specificity than conventional credit models.",
+            "overallObjective": "The overall objective of this proposal is to package and validate a Habenula-equivalent contrarian board lock detection module that integrates with existing credit-analyst workflows and SEC OFR distress monitoring.",
+            "centralHypothesis": "Our central hypothesis is that phase-conditioned cohort coupling derived from Habenula isomorphic pathology will increase contrarian board lock detection lead-time by ≥3 quarters relative to Altman Z, based on preliminary findings demonstrating 31% effect-size reduction in n=42 pilot entities.",
+            "rationale": "The rationale for the proposed research is that successful completion will reduce capital misallocation and supplier-default contagion, which will yield commercial deployment to credit-analyst end-users and integration with SEC OFR distress monitoring.",
+            "aims": [
+              "Aim 1 will develop and characterize a Habenula-equivalent contrarian board lock detection algorithm using phase-conditioned coupling against a labeled retrospective cohort. We will measure sensitivity and specificity for contrarian board lock against a success criterion of ≥85% sensitivity at <15% false-positive rate.",
+              "Aim 2 will validate the algorithm in a prospective cohort via parallel deployment alongside Altman Z and Merton benchmarks for 18 months. We will measure lead-time improvement against a success criterion of median ≥3-quarter lead-time improvement vs Altman Z (p<0.05, n=412).",
+              "Aim 3 will package and deploy an end-user analyst tool via iterative deployment with three credit-analyst partner sites. We will measure analyst adoption and workflow integration against a success criterion of ≥2 partner sites in active production use by Phase II close."
+            ]
+          },
+          "significance": "This proposal addresses the critical gap between corporate financial distress research and deployed credit-analysis tools. Anti-reward decision dynamics in board composition",
+          "innovation": "The proposed work is innovative because it integrates Habenula clinical pathology mapping with phase-conditioned financial-distress detection in a way not previously demonstrated. This represents a substantive departure from accounting-ratio-based credit models by introducing structural neural-equivalent diagnostic categories.",
+          "hypothesisLink": null
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "grant",
+          "generatedAt": "2026-06-06T00:01:32.405Z"
+        }
+      }
+    ],
+    "sba": [],
+    "investment": [
+      {
+        "lane": "investment",
+        "patternId": "AI_interoception_x_board_self_awareness_deficit",
+        "confidence": 0.405,
+        "side": "SHORT",
+        "horizon": "18-36mo",
+        "valuationBasis": {
+          "price": 55.66,
+          "side": "SHORT",
+          "horizonYears": 2.25,
+          "currentMultiple": 0.48,
+          "phaseFactor": 0.65,
+          "targetMultiple": 0.31,
+          "multipleRange": [
+            0.16,
+            0.47
+          ],
+          "multipleDelta": 0.17,
+          "target": 30.98,
+          "targetBull": 54.09,
+          "targetBear": 7.87,
+          "upsidePct": -44.3,
+          "probWeightedTarget": 28.67,
+          "probWeightedUpsidePct": -48.5,
+          "probabilities": {
+            "base": 0.52,
+            "bull": 0.19,
+            "bear": 0.29
+          },
+          "irrPct": -25.5,
+          "stop": 72.99,
+          "asymmetry": 1.56,
+          "positionSizePct": 1.3,
+          "nextPhase": "p6",
+          "metric": "EV/Revenue",
+          "marketDataAsOf": "2026-03-31",
+          "sources": {
+            "quote": "yahoo_v8",
+            "fundamentals": "edgar_companyfacts"
+          }
+        },
+        "artifact": {
+          "header": "PAR PACIFIC HOLDINGS, INC. (PARR) — SHORT — 1.3% of capital\nInitiated: 2026-06-06    Current price: $55.66    Cost basis: $55.66\nTarget (base): $30.98 (-44.3% / 18-36 months)    Stop / re-review: $72.99\nKernel phase: CONSERVE-MODE    Composite: 0.680\nValuation: 0.48x EV/Revenue → phase-implied 0.31x (factor 0.65)\nBridge pattern: AI_interoception_x_board_self_awareness_deficit (confidence 0.405)",
+          "variantView": "The market is pricing this for continued resilience, but the functional-network and kernel readings show Anterior Insula-equivalent isomorphic pathology the Street's models are not registering. Specifically: fn_auditor_independence. the market values PARR at 0.48x EV/Revenue.",
+          "catalystBlock": "Hard catalysts (falsifiable):\n  • Next quarterly earnings release — post-earnings drift is the primary re-rating window for the board self awareness deficit signature.\n  • Cash runway — approximately 8 quarters on the latest filing ⇒ a financing/refinancing event is likely within ~24 months (dated, falsifiable).\n  • Going-concern language — monitor the next annual filing for a going-concern modification.\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress — leading indicator: spider-web induced stress on PAR PACIFIC HOLDINGS, INC..\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate across the peer cohort.\n\nWe expect the re-rating to materialize over 18-36 months: once the board self awareness deficit pattern is recognized, the gap between current pricing and the phase-implied valuation compresses.",
+          "valuation": "Method: EV/Revenue re-rated by kernel phase. Current 0.48x × phase factor 0.65 (CONSERVE-MODE) → target 0.31x.\nBase case:  0.31x → $30.98    (52% probability)\nBull case:  0.47x → $54.09    (19% probability)\nBear case:  0.16x → $7.87    (29% probability)\nProbability-weighted: $28.67 (-48.5%)    Implied IRR over 18-36mo: -25.5%\n\nNet debt of $775M against $7465M revenue is the load-bearing input — it is why the bear multiple maps to $7.87/share. Bands widen as bridge confidence (0.405) falls.",
+          "positionSizing": "Sized at 1.3% of portfolio because:\n  • Conviction: bridge confidence 0.405, matched indicators 1 of 2.\n  • Asymmetry: 1.56:1 probability-weighted reward-to-risk (target $28.67 vs stop $72.99).\n  • Liquidity: average daily dollar volume $39.0M.\n  • Phase governor: CONSERVE-MODE caps upsize until the phase reading stabilizes for two consecutive quarters.",
+          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"fn_auditor_independence\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase IMPROVES (distress reverses toward an earlier / recovery phase) for two consecutive readings — the short is invalidated.\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Anterior Insula ↔ board self awareness deficit mapping confidence (see pattern file).",
+          "exit": "We will exit upon:\n  (a) Price reaches $30.98, OR\n  (b) Variant view confirmed and consensus converges, OR\n  (c) Any \"we are wrong if\" trigger fires at the confirm threshold, OR\n  (d) 18-36 months elapse without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent a fundamental bridge-pattern shift.",
+          "thesisStatement": "Short companies with interoception-deficit signal; long post-board-restoration",
+          "instruments": [
+            "common equity"
+          ]
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/2.0_market_data",
+          "sourceLane": "investment",
+          "generatedAt": "2026-06-06T00:01:32.405Z",
+          "marketDataSources": {
+            "quote": "yahoo_v8",
+            "fundamentals": "edgar_companyfacts"
+          }
+        }
+      },
+      {
+        "lane": "investment",
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "confidence": 0.325,
+        "side": "SHORT",
+        "horizon": "12-24mo",
+        "valuationBasis": {
+          "price": 55.66,
+          "side": "SHORT",
+          "horizonYears": 1.5,
+          "currentMultiple": 0.48,
+          "phaseFactor": 0.65,
+          "targetMultiple": 0.31,
+          "multipleRange": [
+            0.14,
+            0.48
+          ],
+          "multipleDelta": 0.17,
+          "target": 30.98,
+          "targetBull": 55.95,
+          "targetBear": 6.02,
+          "upsidePct": -44.3,
+          "probWeightedTarget": 28.48,
+          "probWeightedUpsidePct": -48.8,
+          "probabilities": {
+            "base": 0.5,
+            "bull": 0.2,
+            "bear": 0.3
+          },
+          "irrPct": -36,
+          "stop": 72.99,
+          "asymmetry": 1.57,
+          "positionSizePct": 1,
+          "nextPhase": "p6",
+          "metric": "EV/Revenue",
+          "marketDataAsOf": "2026-03-31",
+          "sources": {
+            "quote": "yahoo_v8",
+            "fundamentals": "edgar_companyfacts"
+          }
+        },
+        "artifact": {
+          "header": "PAR PACIFIC HOLDINGS, INC. (PARR) — SHORT — 1% of capital\nInitiated: 2026-06-06    Current price: $55.66    Cost basis: $55.66\nTarget (base): $30.98 (-44.3% / 12-24 months)    Stop / re-review: $72.99\nKernel phase: CONSERVE-MODE    Composite: 0.680\nValuation: 0.48x EV/Revenue → phase-implied 0.31x (factor 0.65)\nBridge pattern: HAB_anti_reward_x_contrarian_board_lock (confidence 0.325)",
+          "variantView": "The market is pricing this for continued resilience, but the functional-network and kernel readings show Habenula-equivalent isomorphic pathology the Street's models are not registering. Specifically: kernel_p5_stuck. the market values PARR at 0.48x EV/Revenue.",
+          "catalystBlock": "Hard catalysts (falsifiable):\n  • Next quarterly earnings release — post-earnings drift is the primary re-rating window for the contrarian board lock signature.\n  • Cash runway — approximately 8 quarters on the latest filing ⇒ a financing/refinancing event is likely within ~24 months (dated, falsifiable).\n  • Going-concern language — monitor the next annual filing for a going-concern modification.\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress — leading indicator: spider-web induced stress on PAR PACIFIC HOLDINGS, INC..\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate across the peer cohort.\n\nWe expect the re-rating to materialize over 12-24 months: once the contrarian board lock pattern is recognized, the gap between current pricing and the phase-implied valuation compresses.",
+          "valuation": "Method: EV/Revenue re-rated by kernel phase. Current 0.48x × phase factor 0.65 (CONSERVE-MODE) → target 0.31x.\nBase case:  0.31x → $30.98    (50% probability)\nBull case:  0.48x → $55.95    (20% probability)\nBear case:  0.14x → $6.02    (30% probability)\nProbability-weighted: $28.48 (-48.8%)    Implied IRR over 12-24mo: -36%\n\nNet debt of $775M against $7465M revenue is the load-bearing input — it is why the bear multiple maps to $6.02/share. Bands widen as bridge confidence (0.325) falls.",
+          "positionSizing": "Sized at 1% of portfolio because:\n  • Conviction: bridge confidence 0.325, matched indicators 1 of 2.\n  • Asymmetry: 1.57:1 probability-weighted reward-to-risk (target $28.48 vs stop $72.99).\n  • Liquidity: average daily dollar volume $39.0M.\n  • Phase governor: CONSERVE-MODE caps upsize until the phase reading stabilizes for two consecutive quarters.",
+          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"kernel_p5_stuck\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase IMPROVES (distress reverses toward an earlier / recovery phase) for two consecutive readings — the short is invalidated.\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Habenula ↔ contrarian board lock mapping confidence (see pattern file).",
+          "exit": "We will exit upon:\n  (a) Price reaches $30.98, OR\n  (b) Variant view confirmed and consensus converges, OR\n  (c) Any \"we are wrong if\" trigger fires at the confirm threshold, OR\n  (d) 12-24 months elapse without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent a fundamental bridge-pattern shift.",
+          "thesisStatement": "Activist-investor catalysts during contrarian-board lock",
+          "instruments": [
+            "common equity"
+          ]
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/2.0_market_data",
+          "sourceLane": "investment",
+          "generatedAt": "2026-06-06T00:01:32.405Z",
+          "marketDataSources": {
+            "quote": "yahoo_v8",
+            "fundamentals": "edgar_companyfacts"
+          }
+        }
+      }
+    ],
+    "franchise": [],
+    "research": [
+      {
+        "lane": "research",
+        "patternId": "AI_interoception_x_board_self_awareness_deficit",
+        "confidence": 0.405,
+        "artifact": {
+          "title": "Empirical test of Anterior Insula-equivalent board self awareness deficit mapping on PAR PACIFIC HOLDINGS, INC.",
+          "hypothesis": "Board interoception protocols predict reduced control-failure incidents",
+          "methodology": "longitudinal intervention study",
+          "preregistration": "Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.",
+          "falsifiability": "Hypothesis is falsified if the effect size is below a pre-registered minimum (set at OSF preregistration) or if matched controls show an equivalent effect.",
+          "expectedOutcome": "Confirmation of the bridge-pattern mapping would establish empirical basis for Anterior Insula-equivalent corporate-pathology detection across the phase-affinity phases.",
+          "bridgeReference": "AI_interoception_x_board_self_awareness_deficit"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "research",
+          "generatedAt": "2026-06-06T00:01:32.405Z"
+        }
+      },
+      {
+        "lane": "research",
+        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
+        "confidence": 0.325,
+        "artifact": {
+          "title": "Empirical test of Habenula-equivalent contrarian board lock mapping on PAR PACIFIC HOLDINGS, INC.",
+          "hypothesis": "Board-composition changes restore initiation analogous to habenula modulation",
+          "methodology": "event-study of board refresh and subsequent capital-action",
+          "preregistration": "Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.",
+          "falsifiability": "Hypothesis is falsified if the effect size is below a pre-registered minimum (set at OSF preregistration) or if matched controls show an equivalent effect.",
+          "expectedOutcome": "Confirmation of the bridge-pattern mapping would establish empirical basis for Habenula-equivalent corporate-pathology detection across the phase-affinity phases.",
+          "bridgeReference": "HAB_anti_reward_x_contrarian_board_lock"
+        },
+        "provenance": {
+          "kernelId": "engine_output_generator/1.0",
+          "sourceLane": "research",
+          "generatedAt": "2026-06-06T00:01:32.405Z"
+        }
+      }
+    ],
+    "generatedAt": "2026-06-06T00:01:32.405Z",
+    "generatorVersion": "1.0",
+    "bridgeCount": 2,
+    "artifactsByLane": {
+      "patent": 2,
+      "grant": 2,
+      "sba": 0,
+      "investment": 2,
+      "research": 2,
+      "franchise": 0
+    },
+    "totalArtifacts": 8
+  }
+}

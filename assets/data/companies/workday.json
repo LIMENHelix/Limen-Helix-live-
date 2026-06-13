@@ -645,5 +645,110 @@
         ]
       }
     ]
+  },
+  "bridgeReadings": {
+    "matched": [
+      {
+        "patternId": "BG_tonic_inhibition_x_monopsony_supplier_throttle",
+        "neuralRegion": "BG",
+        "neuralRegionLabel": "Basal Ganglia (indirect pathway / globus pallidus internus)",
+        "businessSignature": "monopsony_supplier_throttle",
+        "mappingType": "isomorphic_pathology",
+        "matchedIndicators": [
+          "supplier_margin_compression_cohort"
+        ],
+        "totalIndicators": 4,
+        "matchRate": 0.25,
+        "confidence": 0.18,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "Method for detecting monopsony-induced supplier throttle via cross-entity gross-margin divergence kernels in SEC filing graphs",
+            "noveltyAnchor": "Mapping basal-ganglia indirect-pathway tonic-firing biomarkers onto supplier-graph margin telemetry as an early-warning index for supplier-cohort capex collapse"
+          },
+          "grant": {
+            "programMatch": [
+              "NSF SBIR Phase I — Industrial Organization Analytics",
+              "FTC Bureau of Economics research grants",
+              "Sloan Foundation Economic Institutions"
+            ],
+            "angle": "Empirical detection of buyer-power pathology in retail-CPG dyads using firm-level filings, with neural-systems analogy as theoretical scaffold for distinguishing efficient gating from pathological throttle"
+          },
+          "investment": {
+            "thesis": "Short basket of tonic-inhibited CPG suppliers with >15% Walmart revenue concentration and declining capex/sales; pair-long against retailer; unwind on antitrust catalyst or supplier consolidation event",
+            "horizon": "18-36 months",
+            "instruments": [
+              "Equity pairs (WMT long / KHC, CPB, CAG short basket)",
+              "CDS on highly-throttled suppliers",
+              "Long-dated put spreads on private-label-exposed CPG names"
+            ]
+          },
+          "research": {
+            "hypothesis": "CPG suppliers crossing a Walmart-revenue-concentration threshold of ~20% exhibit a measurable lag-2-year decline in R&D and capex intensity relative to category peers, isomorphic to bradykinesia onset following dopaminergic depletion past a striatal threshold",
+            "methodology": "Panel regression of supplier capex/R&D intensity on lagged buyer-concentration disclosures across 1995-2024 CPG cohort, with synthetic-control matching on category and pre-period growth; event-study around antitrust interventions as 'DBS analog' shocks"
+          },
+          "sba": null,
+          "franchise": null
+        },
+        "phaseAffinity": [
+          "p6",
+          "p7b"
+        ],
+        "knownTreatments": [
+          "Levodopa (restores dopaminergic disinhibition of striatum)",
+          "Deep brain stimulation of STN/GPi (high-frequency disruption of pathological tonic inhibitory firing)",
+          "MAO-B inhibitors (prolong dopamine availability to reduce indirect-pathway dominance)"
+        ]
+      },
+      {
+        "patternId": "SPN_striatal_interneuron_phasic_gating_x_payment_network_interchange_fee_passthrough_rigidity",
+        "neuralRegion": "SPN",
+        "neuralRegionLabel": "Striatal Projection Neurons (Cholinergic Interneuron–Mediated Phasic Gating Circuit)",
+        "businessSignature": "payment_network_interchange_passthrough_rigidity_with_margin_gating_collapse",
+        "mappingType": "analogous_mechanism",
+        "matchedIndicators": [
+          "amex_optblue_hospitality_gaming_interchange_mismatch"
+        ],
+        "totalIndicators": 4,
+        "matchRate": 0.25,
+        "confidence": 0.158,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "Automated interchange contingency-detection engine that monitors real-time network fee schedule feeds and triggers phasic merchant rate adjustment events within a configurable latency window, analogous to a synthetic TAN pause signal.",
+            "noveltyAnchor": "Dynamic phasic repricing trigger keyed to network fee effective-date metadata rather than manual billing cycle, with per-vertical interchange qualification scoring to minimize downgrade exposure."
+          },
+          "grant": {
+            "programMatch": [
+              "NSF Future of Work at the Human-Technology Frontier",
+              "DARPA Transparent Computing (adaptive pricing infrastructure)"
+            ],
+            "angle": "Frame as adaptive financial infrastructure research: real-time payment cost contingency learning systems that reduce systemic merchant margin volatility, with the neural habit-rigidity model as the formal dynamical reference."
+          },
+          "investment": {
+            "thesis": "Processors with demonstrated interchange optimization automation (real-time qualification scoring, dynamic rate-table patching) will sustain net revenue yield through network fee cycles; those without show lagged margin compression detectable 1-2 quarters post-schedule change—a timing arbitrage opportunity in Shift4 vs. peers.",
+            "horizon": "2-4 quarters post Visa/MC fee schedule change events",
+            "instruments": [
+              "FOUR long/short relative to payment processor peers on yield compression signal",
+              "options on FOUR straddling Q1 earnings following April interchange schedule effective dates"
+            ]
+          },
+          "research": {
+            "hypothesis": "Payment processors exhibiting lower interchange optimization automation scores will show statistically greater net revenue yield compression in the two quarters following a major network fee schedule update, controlling for volume mix and vertical concentration.",
+            "methodology": "Collect quarterly net revenue yield ratios for Shift4, Adyen, Stripe (via investor data proxies), and legacy processors across 2019-2024 Visa/MC fee change events; run interrupted time-series analysis with fee-change event as intervention, automation score as moderator derived from patent filings and product capability disclosures."
+          },
+          "sba": null,
+          "franchise": null
+        },
+        "phaseAffinity": [
+          "p8"
+        ],
+        "knownTreatments": [
+          "Scopolamine (muscarinic antagonist reducing TAN tonic excitability to restore phasic pause window)",
+          "L-DOPA augmentation (restoring dopaminergic D2 modulation of TAN pause probability)",
+          "Deep brain stimulation of striatum (exogenous phasic interruption of tonic cholinergic suppression)"
+        ]
+      }
+    ],
+    "evaluatedAt": "2026-06-13T16:34:01.188Z",
+    "patternsConsidered": 33
   }
 }

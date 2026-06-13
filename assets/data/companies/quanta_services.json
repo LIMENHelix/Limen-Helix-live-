@@ -1,1 +1,1205 @@
-{"schemaVersion":"2.0.1","type":"company","companyId":"quanta_services","slug":"quanta_services","name":"Quanta Services, Inc.","ticker":"PWR","cik":"1050915","sic":"1731","industry":"Electrical Work / Specialty Infrastructure Contracting","domainId":"infrastructure","portalAttachment":"infrastructure-portal.html","kernelStatus":"ELIGIBLE_NOW","fredSeries":["TTLCONS","HOUST","CPNRUTT","PCU327320327320","IPUBN221U100000000","PERMIT","TOTALSA","INDPRO","UNRATE","PAYEMS","DCOILWTICO","DHHNGSP"],"feedSources":[{"type":"sec_edgar","url":"https://data.sec.gov/api/xbrl/companyfacts/CIK0001050915.json"},{"type":"fred","seriesIds":["TTLCONS","HOUST","CPNRUTT","PCU327320327320","IPUBN221U100000000","PERMIT","TOTALSA","INDPRO","UNRATE","PAYEMS","DCOILWTICO","DHHNGSP"]}],"marketDataTickers":["PWR"],"commodityExposure":["copper","aluminum","steel","diesel","natural gas","lithium","rare earth elements","labor (skilled trades)"],"helixReportMode":"validated_kernel","helixReportUrl":"helix-report.html?cik=1050915","financialHealth":{"asOf":"2026-06-08","lastKernelRun":"2026-06-08T14:08:46.857Z","kernelId":"limen_backtest.py","validationStatus":"validated","envelopeStatus":"ELIGIBLE_NOW","historyQuarters":71,"latestQuarter":"2026Q1","compositeScore":0.1782128655358057,"alert":false,"distressBand":"green","dominantPhase":"p10","financialState":{"rev_variance":0.0036207182082580746,"rev_slope":0.025299187199541898,"ocf_slope":0.6199682920992224,"cash_latest":364761000,"debt_latest":689694000,"cash_runway_q":0.93112083401405},"kernelShaLock":"3ce4a652ff8af4b4","inEnvelope":true,"interpretiveOnly":false,"envelopeStatusCode":null,"envelopeDisclaimer":null,"regimeContext":"extrapolated","isFinancial":false,"sicCode":1731,"alertA":false,"alertB":false,"alertC":false,"pathway":null,"firstAlertQuarter":null,"inputPresence":{"revenue_quarters":31,"ocf_quarters":34,"cash_quarters":75,"debt_quarters":47,"dc_coverage_quarters":47,"dl_coverage_quarters":21,"dc_coverage_in_window":45,"dl_coverage_in_window":19,"debt_current_quarters":47,"debt_long_quarters":21}},"warningSignals":[],"opportunitySignals":[],"commercializationStatus":{"enginesRun":[],"engineOutputs":[]},"newsFeed":[],"domainRelevance":"Quanta Services is North America's largest specialty infrastructure contractor, commanding approximately $60B+ in backlog across electric power transmission/distribution, renewable energy integration, oil & gas pipeline, and telecommunications infrastructure. The company operates as the critical execution partner for utility capex cycles, grid modernization mandates, and energy transition buildout, making its backlog conversion velocity and project-mix composition (renewable vs. legacy energy) direct proxies for infrastructure investment health and utility spending discipline. Quanta's contract-lock visibility and scale create natural hedges against regional demand shocks, positioning the company as a leading indicator of utility capex acceleration and energy infrastructure demand.","portalRelevance":"PWR's backlog-to-revenue ratio, quarterly project-mix disclosure (% renewables, % transmission, % oil/gas), and gross margin trends serve as leading indicators of utility capex health, FERC transmission investment incentives, and energy infrastructure demand. The company's dual exposure to legacy energy and clean energy transition creates a natural hedge against energy-policy volatility, while its contract-lock structure and scale reduce earnings surprise risk relative to smaller peers. PWR's customer concentration (top 5 utilities typically 40–50% of revenue) and supply-chain dependencies on equipment manufacturers (Eaton, ABB, Valmont) create measurable leverage points for financial-intelligence modeling.","notes":{"cohortStatus":"","envelopeStatus":"ELIGIBLE_NOW"},"intelligenceCycle":[{"layer":"signal","name":"Signal Capture","items":["Quarterly backlog disclosure and project-mix breakdown (% renewables, % transmission, % oil/gas, % telecom) from 10-Q earnings releases; backlog-to-revenue ratio trending","Gross margin and operating leverage trends from 10-K Item 7 MD&A; contract-cost overrun or underrun patterns; SG&A leverage as revenue scales","8-K announcements of major contract wins (>$500M) or project deferrals; customer credit events or payment disputes; acquisition or divestiture activity","Commodity price indices (copper, aluminum, steel, diesel) and skilled-labor cost inflation signals from supplier EDI, BLS data, and industry surveys; supply-chain lead-time extensions"]},{"layer":"state","name":"State Estimation","items":["Rolling 4-quarter backlog conversion rate and project completion velocity; phase-in timing of large renewable/transmission contracts; customer capex guidance revisions","Free cash flow trajectory and working capital swings tied to project milestone billing cycles; days-sales-outstanding trends and customer payment discipline","Debt-to-EBITDA ratio and covenant headroom; refinancing risk windows tied to maturity schedule; credit facility utilization and pricing spreads","Competitive win-rate vs. MasTec (MTZ), Primoris (PRIM), and Aecon (ARE); market-share drift in transmission vs. distribution vs. renewable segments; customer concentration risk (top 5 utilities % of revenue)"]},{"layer":"diagnosis","name":"Diagnosis","items":["Distress signature: backlog decline >10% YoY + gross margin compression >150bps + customer concentration risk (single utility >15% revenue) + supply-chain delays extending project timelines","Growth inflection: accelerating renewable project awards (>40% of backlog) + transmission capex cycle acceleration (FERC incentive expansion) + margin expansion from scale and labor productivity gains","Sector contagion: utility credit stress (rising rates, regulatory disallowance) flowing to contractor payment terms and project deferrals; oil/gas capex collapse cascading to legacy energy segment","Execution risk: labor availability constraints in tight markets (Texas, California, Pacific Northwest) limiting project starts; supply-chain delays on long-lead equipment (transformers 12–16 weeks, towers 16–20 weeks) deferring project completion"]},{"layer":"regulate","name":"Regulation","items":["Investment thesis: long PWR if utility capex guidance accelerates >5% YoY and renewable backlog >40% of total; neutral if oil/gas mix >35% and energy transition stalls; short if backlog declines >8% YoY or gross margin contracts >200bps","Risk hedge: short duration exposure to long-term utility bonds if rate-sensitive capex defers; long copper/aluminum futures if project starts accelerate; labor-cost hedge via staffing-agency contracts in tight markets","Engagement: monitor FERC transmission investment incentives (ATSI, ROE adjustments) and state renewable procurement mandates; track utility earnings calls for capex guidance revisions; monitor supply-chain lead times at Eaton, ABB, Valmont"]},{"layer":"action","name":"Action","items":["Initiate long position on PWR if Q+1 backlog growth >8% YoY and renewable mix >35%; size 2–3% of portfolio; set entry on weakness if stock declines >10% on macro concerns","Set stop-loss at 15% below entry if next earnings misses backlog expectations by >5% or gross margin contracts >150bps; exit if top-5 customer concentration exceeds 55% of revenue","Establish monitoring dashboard: weekly backlog-to-revenue ratio, monthly commodity price correlation (copper, aluminum, diesel), quarterly customer concentration audit, quarterly FERC transmission incentive tracking"]},{"layer":"feedback","name":"Feedback","items":["Q+1 earnings validation: compare reported backlog and project mix to pre-announcement guidance; flag any customer deferrals, contract cancellations, or cost overruns >5% of contract value","Price action: track PWR vs. XLU (utilities) and XLE (energy) to isolate company-specific vs. sector-driven moves; monitor relative strength vs. MasTec (MTZ) and Primoris (PRIM)","Filing delta: review 10-Q Item 1A risk factors for new customer concentration, supply-chain, labor-cost, or regulatory disclosures; 8-K for contract wins/losses >$250M; proxy statement for executive compensation changes"]},{"layer":"adapt","name":"Adaptation","items":["Recalibrate backlog-conversion elasticity based on realized project completion rates; adjust for seasonal Q4 acceleration and Q1 slowdown; update labor-productivity assumptions based on wage inflation and turnover trends","Reweight commodity-price sensitivity: if copper correlation to gross margin >0.6, increase commodity-hedging signal weight; if diesel correlation >0.5, increase fuel-cost pass-through assumption","Update utility-capex prior: if FERC transmission incentives expand or state renewable mandates accelerate, raise long-term PWR growth assumption by 50–100bps; if oil/gas capex collapses, reduce legacy-energy segment growth by 200–300bps"]}],"functionalNetwork":{"model":"Quanta Services operates as a distributed execution network spanning power transmission, renewable energy, and legacy energy infrastructure. The company functions as a neural integrator between utility customers (demand signal and capex guidance), equipment suppliers (material constraints and lead times), labor pools (skilled trades availability and wage inflation), and regulatory frameworks (FERC transmission incentives, state renewable mandates, OSHA safety standards). Backlog visibility, project-mix composition (renewable vs. legacy), and gross margin realization serve as primary state variables; margin realization depends on labor productivity, commodity cost absorption, supply-chain execution, and customer payment discipline. The company's scale, geographic footprint, and contract-lock structure create natural hedges against regional demand shocks and reduce earnings volatility relative to smaller, project-by-project peers.","suppliers":[{"name":"Southwire Company, LLC","ticker":null,"cik":null,"slug":"southwire_company","neuralRole":"Sensory","brainNodeId":"S1","brainNodeRole":"Raw Materials — Electrical Cable & Conductors","relationshipNote":"Southwire is a primary supplier of copper and aluminum electrical cable, wire, and conductor products to Quanta's transmission and distribution projects. Southwire's domestic manufacturing footprint (Alabama, Georgia, North Carolina) provides supply-chain resilience vs. offshore competitors. Copper price volatility is passed through on fixed-price contracts with 60–90 day lag; Southwire's capacity utilization and lead times (8–12 weeks for custom cable) directly constrain Quanta's project start velocity. Estimated 3–5% of Quanta's annual material costs.","confidence":"high","sourceType":["10-K","industry-report"]},{"name":"Eaton Corporation","ticker":"ETN","cik":"0000012822","slug":"eaton_corporation","neuralRole":"Sensory","brainNodeId":"S1","brainNodeRole":"Raw Materials — Power Distribution Equipment","relationshipNote":"Eaton manufactures medium and high-voltage switchgear, circuit breakers, and power-distribution equipment used in Quanta's transmission and substation projects. Eaton's product lead times (12–16 weeks for custom switchgear) are a critical constraint on Quanta's project start dates; supply-chain delays at Eaton cascade directly to Quanta's project completion timelines. Eaton's quarterly backlog and order-rate trends are leading indicators of utility capex acceleration. Quanta's exposure to Eaton supply risk is disclosed in 10-K Item 1A; estimated 4–6% of annual material costs.","confidence":"high","sourceType":["10-K","industry-report"]},{"name":"ABB Ltd.","ticker":"ABB","cik":null,"slug":"abb_ltd","neuralRole":"Sensory","brainNodeId":"S1","brainNodeRole":"Raw Materials — Transmission Equipment & Automation","relationshipNote":"ABB supplies high-voltage transmission equipment, automation systems, and grid-modernization technology to Quanta's transmission and renewable integration projects. ABB's renewable-energy and grid-integration product lines are critical to Quanta's accelerating wind/solar backlog (estimated >40% of backlog by 2025). ABB's supply-chain resilience in Europe and Asia creates geographic diversification; however, tariff exposure on imported components (25–35% of ABB's U.S. sourcing) is a material risk factor. Lead times on custom transmission equipment: 16–24 weeks.","confidence":"high","sourceType":["10-K","industry-report"]},{"name":"Valmont Industries, Inc.","ticker":"VMI","cik":"0001108248","slug":"valmont_industries","neuralRole":"Sensory","brainNodeId":"S1","brainNodeRole":"Raw Materials — Utility Poles & Transmission Structures","relationshipNote":"Valmont supplies utility poles, transmission towers, and structural steel for Quanta's transmission and distribution projects. Valmont's capacity utilization and lead times (12–20 weeks for custom towers) are critical constraints on Quanta's project starts. Steel price volatility (2023–2024 range: $600–$900/ton) and Valmont's pricing power directly impact Quanta's fixed-price contract margins; Quanta's exposure to Valmont supply risk is material for large transmission projects (>$100M). Valmont's quarterly backlog and order trends signal transmission capex acceleration.","confidence":"high","sourceType":["10-K","industry-report"]},{"name":"Generac Holdings Inc.","ticker":"GNRC","cik":"0001404057","slug":"generac_holdings","neuralRole":"Sensory","brainNodeId":"S1","brainNodeRole":"Raw Materials — Power Generation & Energy Storage","relationshipNote":"Generac supplies backup power, microgrid, and energy-storage systems integrated into Quanta's renewable and grid-resilience projects. Generac's battery and inverter supply constraints have historically delayed Quanta project completions by 4–8 weeks. Quanta's renewable-energy backlog growth is partially dependent on Generac's capacity to supply grid-scale battery systems; supply-chain bottlenecks at Generac (2023–2024 lead times: 16–20 weeks) directly reduce Quanta's project velocity. Estimated 2–3% of Quanta's renewable-project material costs.","confidence":"medium","sourceType":["industry-report","inferred"]},{"name":"Hubbell Incorporated","ticker":"HUBB","cik":"0000049196","slug":"hubbell_incorporated","neuralRole":"Sensory","brainNodeId":"S1","brainNodeRole":"Raw Materials — Electrical Connectors & Utility Products","relationshipNote":"Hubbell manufactures electrical connectors, utility poles, and transmission-line hardware used in Quanta's distribution and transmission projects. Hubbell's lead times on custom connectors and hardware extend 8–12 weeks; supply-chain delays cascade to Quanta's project schedules. Hubbell's quarterly backlog and order trends are leading indicators of utility capex strength. Hubbell's supply-chain resilience (domestic manufacturing in multiple states) reduces Quanta's import risk. Estimated 2–3% of annual material costs.","confidence":"high","sourceType":["industry-report","inferred"]},{"name":"Wesco International, Inc.","ticker":"WCC","cik":"0000105570","slug":"wesco_international","neuralRole":"Sensory","brainNodeId":"S1","brainNodeRole":"Raw Materials — Electrical Supplies & Distribution","relationshipNote":"Wesco is a major distributor of electrical supplies, tools, and materials to Quanta and other contractors. Wesco's inventory turns, pricing power, and supply-chain efficiency directly impact Quanta's project cost structure. Wesco's quarterly same-store sales and gross margin trends are correlated with contractor demand; Quanta's purchasing volume with Wesco is estimated at 2–4% of Wesco's total revenue. Wesco's supply-chain resilience and pricing discipline are critical to Quanta's margin management.","confidence":"medium","sourceType":["industry-report","inferred"]},{"name":"Anixter International, Inc.","ticker":"AXE","cik":"0000052037","slug":"anixter_electronics","neuralRole":"Sensory","brainNodeId":"S1","brainNodeRole":"Raw Materials — Electrical Distribution & Components","relationshipNote":"Anixter supplies transformers, switchgear, and electrical distribution components for Quanta's utility projects. As a distributor, Anixter's inventory levels and lead times signal demand strength in the electrical contracting market. Anixter's supply-chain delays cascade to Quanta project schedules; Quanta's purchasing volume with Anixter is estimated at 3–5% of Anixter's total revenue. Anixter's quarterly order trends and backlog are leading indicators of utility capex acceleration.","confidence":"medium","sourceType":["industry-report","inferred"]},{"name":"Xylem Inc.","ticker":"XYL","cik":"0001524472","slug":"xylem_inc","neuralRole":"Sensory","brainNodeId":"S1","brainNodeRole":"Raw Materials — Water & Utility Infrastructure","relationshipNote":"Xylem supplies pumping, treatment, and water-management systems for utility infrastructure projects that overlap with Quanta's electrical and transmission work. Xylem's supply-chain health and lead times affect integrated utility projects where Quanta is the prime contractor. Cross-project dependencies between Xylem and Quanta create scheduling risk if either party experiences supply delays; estimated 1–2% of Quanta's integrated-project material costs.","confidence":"medium","sourceType":["industry-report","inferred"]},{"name":"Schneider Electric SE","ticker":"SBGS","cik":null,"slug":"schneider_electric","neuralRole":"Sensory","brainNodeId":"S1","brainNodeRole":"Raw Materials — Industrial Automation & Control Systems","relationshipNote":"Schneider Electric supplies industrial automation, control systems, and grid-management software for Quanta's transmission and renewable integration projects. Schneider's software and automation products are critical to grid-modernization and smart-grid initiatives. Lead times on custom automation systems: 10–14 weeks. Schneider's supply-chain resilience and pricing power directly impact Quanta's project margins on automation-heavy projects.","confidence":"medium","sourceType":["industry-report","inferred"]},{"name":"Schneider National, Inc.","ticker":"SNDR","cik":"0000089143","slug":"schneider_national","neuralRole":"Motor","brainNodeId":"M1","brainNodeRole":"Production & Delivery — Intermodal & Logistics","relationshipNote":"Schneider National provides intermodal, truckload, and logistics services for Quanta's equipment and material distribution. Schneider's capacity utilization and pricing trends reflect broader freight-market conditions that impact Quanta's project economics. Quanta's reliance on Schneider for cross-country transmission equipment moves creates exposure to fuel-price volatility and driver-shortage risk. Estimated 1–2% of project costs.","confidence":"medium","sourceType":["industry-report","inferred"]}],"logisticsPartners":[{"name":"J.B. Hunt Transport Services, Inc.","ticker":"JBHT","cik":"0000400023","slug":"jb_hunt_transport","neuralRole":"Motor","brainNodeId":"M1","brainNodeRole":"Production & Delivery — Heavy Equipment & Materials Transport","relationshipNote":"J.B. Hunt provides dedicated and spot freight for Quanta's equipment, materials, and crew transport across North America. Quanta's project-based logistics require flexible capacity; J.B. Hunt's utilization rates and pricing power directly impact Quanta's project delivery costs. Fuel surcharges and driver availability at J.B. Hunt cascade to Quanta's project margins, particularly for time-sensitive transmission work. Estimated 2–3% of Quanta's project costs.","confidence":"medium","sourceType":["industry-report","inferred"]},{"name":"XPO Logistics, Inc.","ticker":"XPO","cik":"0001527857","slug":"xpo_logistics","neuralRole":"Motor","brainNodeId":"M1","brainNodeRole":"Production & Delivery — Last-Mile & Specialized Transport","relationshipNote":"XPO provides specialized heavy-haul and last-mile delivery services for Quanta's transformer, switchgear, and transmission equipment. XPO's capacity constraints in peak seasons (spring/summer utility construction) can delay Quanta project starts by 2–4 weeks. XPO's pricing power and service reliability directly impact Quanta's project-delivery timelines and customer satisfaction metrics. Estimated 1–2% of project costs.","confidence":"medium","sourceType":["industry-report","inferred"]},{"name":"Universal Truckload Services, Inc.","ticker":null,"cik":null,"slug":"universal_truckload","neuralRole":"Motor","brainNodeId":"M1","brainNodeRole":"Production & Delivery — Regional Heavy Equipment Transport","relationshipNote":"Universal Truckload provides regional heavy-haul services for Quanta's transmission tower and equipment moves, particularly in the Southwest and Midwest. Universal's capacity and pricing are critical for Quanta's regional project execution. Quanta's exposure to Universal's service reliability is material for time-sensitive transmission projects with customer penalty clauses (typical penalties: $10K–$50K per day). Regional market share:.","confidence":"low","sourceType":["inferred"]}],"customers":[{"name":"American Electric Power Company, Inc.","ticker":"AEP","cik":"0000004904","slug":"american_electric_power","neuralRole":"DMN","brainNodeId":"NAcc","brainNodeRole":"Sales & Revenue — Anchor Utility Customer","relationshipNote":"AEP is one of Quanta's largest utility customers, accounting for an estimated 8–12% of annual revenue (2023–2024). Quanta executes transmission, distribution, and renewable integration projects for AEP across multiple regions (Ohio, Indiana, Virginia, Texas). AEP's capex guidance (2024–2028: $18–$20B annually) and transmission investment plans directly drive Quanta's backlog growth. Multi-year master service agreements with AEP provide revenue visibility and reduce customer concentration risk. AEP's credit rating (A-/A3) and payment discipline are critical to Quanta's cash flow.","confidence":"high","sourceType":["10-K","industry-report"]},{"name":"Duke Energy Corporation","ticker":"DUK","cik":"0000063951","slug":"duke_energy","neuralRole":"DMN","brainNodeId":"NAcc","brainNodeRole":"Sales & Revenue — Anchor Utility Customer","relationshipNote":"Duke Energy is another major Quanta customer, representing an estimated 6–10% of annual revenue (2023–2024). Quanta performs transmission, distribution, and grid-modernization work for Duke across the Carolinas, Florida, and Midwest. Duke's renewable energy transition (target: 50% carbon-free by 2030) and transmission capex acceleration (2024–2028: $15–$17B annually) are key drivers of Quanta's backlog growth. Duke's regulatory environment (FERC, state PUCs) and rate-base recovery directly impact its capex spending.","confidence":"high","sourceType":["10-K","industry-report"]},{"name":"NextEra Energy, Inc.","ticker":"NEE","cik":"0000753308","slug":"nextera_energy","neuralRole":"DMN","brainNodeId":"NAcc","brainNodeRole":"Sales & Revenue — Renewable Energy Customer","relationshipNote":"NextEra (via Florida Power & Light and NextEra Energy Resources) is a major customer for Quanta's renewable energy and transmission projects. Quanta's renewable backlog growth (estimated 40–45% of total backlog by 2025) is partially driven by NextEra's wind and solar expansion plans (target: 50GW of renewable capacity by 2026). NextEra's clean-energy capex guidance and project pipeline visibility provide forward-looking demand signals for Quanta's renewable-focused business units.","confidence":"high","sourceType":["10-K","industry-report"]},{"name":"Dominion Energy, Inc.","ticker":"D","cik":"0000715957","slug":"dominion_energy","neuralRole":"DMN","brainNodeId":"NAcc","brainNodeRole":"Sales & Revenue — Utility Customer","relationshipNote":"Dominion Energy is a significant Quanta customer for transmission and distribution projects in Virginia, the Carolinas, and the Midwest, estimated at 4–6% of annual revenue. Dominion's grid-modernization and renewable integration initiatives (2024–2028 capex: $12–$14B) drive Quanta project awards. Dominion's regulatory environment (FERC, state PUCs) and rate-base recovery mechanisms directly impact its capex spending and Quanta's project velocity.","confidence":"medium","sourceType":["10-K","industry-report"]},{"name":"Verizon Communications Inc.","slug":"verizon","ticker":"VZ","cik":"0000732712","brainNodeId":"STRI","relationshipNote":"Verizon is a key customer driving demand for Quanta's infrastructure services, particularly fiber deployment and network hardening work. As a major telecom operator executing capital-intensive digital transformation and fiber-to-premises buildout, Verizon's capex cycle directly signals infrastructure spending trends. The relationship reflects Quanta's exposure to telecom sector health and broadband expansion momentum.","_autoReciprocityFill":true,"_filledFrom":"suppliers","_filledAt":"2026-05-20","sourceType":["10-K","industry-report","reciprocity_inferred"],"confidence":"medium","brainNodeRole":"downstream_demand_anchor","neuralRole":"feedforward_demand_signal","_reciprocityResolvedAt":"2026-05-22T17:26:22.713Z","_resolvedFromPartnerEntry":{"partnerSlug":"verizon","partnerCategory":"suppliers","partnerFingerprint":"quanta|0001408440|quantaservicesinc"},"_proseRewrittenAt":"2026-05-23T14:33:52.526Z"}],"competitors":[{"name":"MasTec, Inc.","ticker":"MTZ","cik":"0000068505","slug":"mastec_inc","neuralRole":"Peer","brainNodeId":"TPJ","brainNodeRole":"Perspective-Taking / Theory of Mind — Direct Competitor","relationshipNote":"MasTec is Quanta's primary direct competitor in specialty infrastructure contracting, with comparable scale (~$20B+ annual revenue, 2023). MasTec's backlog, margin trends, and project mix are closely tracked as competitive benchmarks. MasTec's higher oil/gas exposure (estimated 35–40% of backlog vs. Quanta's 25–30%) creates differentiated risk profiles; MasTec's recent margin compression (2023–2024: 100–150bps) signals competitive pricing pressure in the market. MasTec's renewable backlog growth (estimated 30–35%) lags Quanta's transition.","confidence":"high","sourceType":["10-K","industry-report"]},{"name":"Primoris Services Corporation","ticker":"PRIM","cik":"0001104659","slug":"primoris_services","neuralRole":"Peer","brainNodeId":"TPJ","brainNodeRole":"Perspective-Taking / Theory of Mind — Specialty Contractor Competitor","relationshipNote":"Primoris is a mid-sized specialty contractor (~$4B revenue, 2023) competing with Quanta in power transmission, renewable energy, and industrial projects. Primoris' renewable backlog growth (estimated 35–40% of total) and margin trends provide competitive intelligence on market dynamics. Primoris' smaller scale and regional focus (primarily Southwest, West Coast) create differentiated competitive positioning vs. Quanta's national footprint. Primoris' gross margins (estimated 12–14%) lag Quanta's (estimated 14–16%).","confidence":"high","sourceType":["10-K","industry-report"]},{"name":"Aecon Group Inc.","ticker":"ARE","cik":null,"slug":"aecon_group","neuralRole":"Peer","brainNodeId":"TPJ","brainNodeRole":"Perspective-Taking / Theory of Mind — Canadian Infrastructure Competitor","relationshipNote":"Aecon is a Canadian infrastructure contractor competing with Quanta in power transmission and renewable energy projects, particularly in Canada and cross-border work. Aecon's backlog (estimated CAD $3–4B) and project mix provide competitive benchmarks for North American transmission work. Aecon's exposure to Canadian utility capex and renewable mandates (target: 80% clean electricity by 2030) creates differentiated geographic diversification vs. Quanta's U.S.-centric focus.","confidence":"medium","sourceType":["industry-report","inferred"]},{"name":"Tutor Perini Corporation","ticker":"TPC","cik":"0000320335","slug":"tutor_perini","neuralRole":"Peer","brainNodeId":"TPJ","brainNodeRole":"Perspective-Taking / Theory of Mind — General Contractor Competitor","relationshipNote":"Tutor Perini is a diversified construction contractor (~$5B revenue, 2023) competing with Quanta in civil infrastructure and energy projects. Tutor Perini's smaller scale and project-by-project model create higher earnings volatility vs. Quanta's backlog-locked structure. Tutor Perini's exposure to public-works and transportation projects (estimated 40–50% of revenue) provides differentiated competitive positioning vs. Quanta's utility-focused model.","confidence":"medium","sourceType":["industry-report","inferred"]},{"name":"Comfort Systems USA, Inc.","ticker":"FIX","cik":"0001085488","slug":"comfort_systems_usa","neuralRole":"Peer","brainNodeId":"TPJ","brainNodeRole":"Perspective-Taking / Theory of Mind — HVAC & Electrical Services Competitor","relationshipNote":"Comfort Systems USA (~$3.5B revenue, 2023) competes with Quanta in electrical and mechanical services for commercial and industrial customers. Comfort Systems' smaller scale and service-focused model create differentiated competitive positioning vs. Quanta's large-project focus. Comfort Systems' recurring revenue model (estimated 60–70% of revenue) and higher margins (estimated 16–18%) provide alternative competitive benchmarks for service-based contracting.","confidence":"low","sourceType":["industry-report","inferred"]}],"regulators":[{"name":"U.S. Securities and Exchange Commission","ticker":null,"cik":null,"slug":"sec","neuralRole":"Salience","brainNodeId":"dACC","brainNodeRole":"Compliance & Governance — Securities Regulation","relationshipNote":"The SEC regulates Quanta's public disclosures, insider trading, and corporate governance under Securities Exchange Act of 1934 and Sarbanes-Oxley Act of 2002. Quanta's 10-K (filed annually), 10-Q (filed quarterly), and 8-K (filed for material events) are primary sources of financial and operational data. SEC enforcement actions or restatements would materially impact Quanta's credibility and stock price; Quanta's compliance with disclosure controls and internal control certifications is critical to investor confidence.","confidence":"high","sourceType":["statutory"]},{"name":"Federal Energy Regulatory Commission","ticker":null,"cik":null,"slug":"ferc","neuralRole":"Salience","brainNodeId":"dACC","brainNodeRole":"Compliance & Strategic — Energy Infrastructure Regulation","relationshipNote":"FERC regulates transmission investment incentives, interconnection standards, and grid reliability requirements that drive utility capex spending. FERC's transmission incentive policies (ATSI, ROE adjustments per Order 679) directly impact utility capex budgets and Quanta's backlog growth. FERC's grid-modernization and renewable-integration standards (Order 2222 for distributed energy resources) create long-term demand for Quanta's transmission and distribution services. FERC Order 881 (2023) on transmission planning creates additional capex opportunities.","confidence":"high","sourceType":["statutory","industry-report"]},{"name":"Occupational Safety and Health Administration","ticker":null,"cik":null,"slug":"osha","neuralRole":"Salience","brainNodeId":"AI","brainNodeRole":"Crisis Detection — Workplace Safety","relationshipNote":"OSHA regulates workplace safety for Quanta's field operations under 29 CFR Part 1926 (construction standards) and 29 CFR Part 1910 (general industry standards). OSHA citations and safety violations can result in project delays, fines (up to $10K–$15K per violation), and reputational damage. Quanta's safety record and incident rates are disclosed in 10-K Item 1A risk factors; poor safety performance can impact customer relationships and insurance costs (estimated 2–3% of project costs).","confidence":"high","sourceType":["statutory","10-K"]},{"name":"Environmental Protection Agency","ticker":null,"cik":null,"slug":"epa","neuralRole":"Salience","brainNodeId":"AI","brainNodeRole":"Crisis Detection — Environmental Compliance","relationshipNote":"The EPA regulates environmental compliance for Quanta's projects under the Clean Water Act (wetland impacts), Clean Air Act (air quality), and RCRA (hazardous materials handling). EPA permitting delays can defer project starts by 4–8 weeks; environmental violations can result in fines ($25K–$50K+) and project cancellations. Quanta's environmental compliance and remediation costs are disclosed in 10-K Item 1A; climate-change regulations create long-term demand for grid-modernization and renewable-energy projects.","confidence":"high","sourceType":["statutory","10-K"]},{"name":"U.S. Department of Transportation","ticker":null,"cik":null,"slug":"dot","neuralRole":"Salience","brainNodeId":"dACC","brainNodeRole":"Compliance & Governance — Transportation & Infrastructure","relationshipNote":"DOT regulates transportation of hazardous materials (49 CFR Parts 172–180) and oversees infrastructure investment programs (IIJA 2021, $110B for broadband and utility infrastructure). DOT's infrastructure grant programs and broadband funding create demand for Quanta's telecom and utility projects. DOT compliance and transportation regulations impact Quanta's logistics costs and project scheduling; estimated 1–2% of project costs.","confidence":"medium","sourceType":["statutory","industry-report"]}],"auditor":{"name":"Deloitte & Touche LLP","ticker":null,"cik":null,"slug":"deloitte_touche","neuralRole":"Salience","brainNodeId":"BLA","brainNodeRole":"Risk Assessment + Compliance — External Auditor","relationshipNote":"Deloitte is Quanta's external auditor, responsible for annual financial statement audits and internal control assessments under PCAOB standards. Deloitte's audit opinions and any audit adjustments are disclosed in Quanta's 10-K. Deloitte's audit fees (estimated $3–5M annually) and any non-audit services are disclosed in the proxy statement (DEF14A); auditor changes or audit disputes would signal potential financial reporting issues.","confidence":"high","sourceType":["10-K","DEF14A"]},"capitalProviders":[{"name":"JPMorgan Chase & Co.","ticker":"JPM","cik":"0000047709","slug":"jpmorgan_chase","neuralRole":"Limbic","brainNodeId":"OFC","brainNodeRole":"Market Intelligence + Capital — Lead Lender","relationshipNote":"JPMorgan Chase is a lead arranger and lender on Quanta's revolving credit facility (estimated $2.5–3.0B) and term loans. JPMorgan's lending terms, covenant requirements (debt-to-EBITDA <3.5x, interest coverage >3.0x), and pricing (estimated 150–200bps over SOFR) reflect Quanta's credit quality. JPMorgan's willingness to refinance or expand Quanta's credit facility signals market confidence in Quanta's business model and growth prospects.","confidence":"high","sourceType":["10-K","8-K"]},{"name":"Bank of America Corporation","ticker":"BAC","cik":"0000070858","slug":"bank_of_america","neuralRole":"Limbic","brainNodeId":"OFC","brainNodeRole":"Market Intelligence + Capital — Lender & Capital Provider","relationshipNote":"Bank of America is a lender on Quanta's credit facility and provides treasury management and capital markets services. BofA's lending terms and pricing reflect Quanta's credit profile; BofA's involvement in Quanta's debt refinancings signals market appetite for Quanta's credit. BofA's equity research coverage and investment banking relationships provide market intelligence on Quanta's competitive positioning and M&A opportunities.","confidence":"high","sourceType":["10-K","industry-report"]},{"name":"Berkshire Hathaway Inc.","ticker":"BRK.B","cik":"0001067983","slug":"berkshire_hathaway","neuralRole":"DMN","brainNodeId":"mPFC","brainNodeRole":"Brand & Identity — Strategic Shareholder","relationshipNote":"Berkshire Hathaway is a significant shareholder of Quanta Services, holding approximately 5–7% of outstanding shares (as of 2024). Berkshire's long-term investment in Quanta signals confidence in the company's infrastructure exposure and energy transition positioning. Berkshire's ownership provides strategic stability and reduces takeover risk; Berkshire's investment thesis aligns with long-term utility capex and renewable energy growth. Berkshire's voting power and engagement influence Quanta's capital allocation.","confidence":"high","sourceType":["10-K","DEF14A","news"]},{"name":"Vanguard Group, Inc.","ticker":null,"cik":null,"slug":"vanguard_group","neuralRole":"Limbic","brainNodeId":"OFC","brainNodeRole":"Market Intelligence + Capital — Institutional Shareholder","relationshipNote":"Vanguard is one of Quanta's largest institutional shareholders, holding approximately 8–10% of outstanding shares (as of 2024). Vanguard's passive index holdings and active engagement on governance and ESG issues influence Quanta's capital allocation and sustainability reporting. Vanguard's voting power and shareholder activism can impact Quanta's board composition, executive compensation, and climate-risk disclosures.","confidence":"high","sourceType":["DEF14A","inferred"]}],"executiveTeam":[{"name":"Earl C. Austin, Jr.","ticker":null,"cik":null,"slug":"earl_austin_jr","neuralRole":"PFC","brainNodeId":"FPN","brainNodeRole":"Executive Leadership — Chief Executive Officer","relationshipNote":"Earl Austin is Quanta's President and Chief Executive Officer, responsible for overall strategy, operations, and financial performance. Austin's tenure (CEO since 2017) and track record in infrastructure contracting shape Quanta's strategic direction and capital allocation. Austin's compensation (estimated $15–20M annually including equity) and equity holdings align his interests with shareholder value creation; his strategic vision on renewable energy and grid modernization drives Quanta's backlog composition and margin trajectory.","confidence":"high","sourceType":["10-K","DEF14A"]},{"name":"Derrick A. Jensen","ticker":null,"cik":null,"slug":"derrick_jensen","neuralRole":"PFC","brainNodeId":"vmPFC","brainNodeRole":"Financial Management — Chief Financial Officer","relationshipNote":"Derrick Jensen is Quanta's Chief Financial Officer, responsible for financial planning, capital structure, and investor relations. Jensen's financial stewardship and debt management directly impact Quanta's credit rating and cost of capital (estimated 150–200bps over SOFR). Jensen's quarterly earnings guidance and financial commentary shape investor expectations; his capital allocation decisions (dividends, buybacks, M&A) reflect Quanta's financial health and growth prospects.","confidence":"high","sourceType":["10-K","DEF14A"]},{"name":"James C. Goetz","ticker":null,"cik":null,"slug":"james_goetz","neuralRole":"Motor","brainNodeId":"STRI","brainNodeRole":"Operations — Chief Operating Officer","relationshipNote":"James Goetz is Quanta's Chief Operating Officer, overseeing field operations, project execution, and operational efficiency. Goetz's operational leadership directly impacts project margins (target: 14–16% gross margin), safety performance (target: <2 TRIR), and customer satisfaction. Goetz's management of labor productivity, supply-chain execution, and project delivery timelines are critical to Quanta's competitive positioning vs. MasTec and Primoris.","confidence":"medium","sourceType":["10-K","DEF14A"]},{"name":"George L. Ball","ticker":null,"cik":null,"slug":"george_ball","neuralRole":"PFC","brainNodeId":"mPFC","brainNodeRole":"Governance & Identity — Board Chairperson","relationshipNote":"George Ball is Quanta's Board Chairperson, responsible for board governance, strategic oversight, and executive accountability. Ball's board leadership and committee assignments shape Quanta's governance practices and risk management. Ball's tenure and industry experience provide strategic guidance on infrastructure trends and competitive dynamics; his compensation (estimated $300K–$400K annually) reflects his governance role.","confidence":"medium","sourceType":["DEF14A"]}],"marketSignals":[{"name":"Utilities Select Sector SPDR Fund","ticker":"XLU","cik":null,"slug":"xlU_etf","neuralRole":"Limbic","brainNodeId":"NAcc","brainNodeRole":"Sales & Revenue — Utility Sector Benchmark","relationshipNote":"XLU tracks the S&P 500 Utilities sector (11 holdings including AEP, DUK, NEE, D), providing a benchmark for utility capex spending and investor sentiment. XLU's relative performance vs. PWR signals whether Quanta is outperforming or underperforming its customer base. Divergence between XLU and PWR (>500bps over 3 months) can indicate competitive share gains/losses or margin expansion/compression. XLU's dividend yield (estimated 3–4%) reflects utility capex confidence.","confidence":"high","sourceType":["inferred"]},{"name":"Energy Select Sector SPDR Fund","ticker":"XLE","cik":null,"slug":"xle_etf","neuralRole":"Limbic","brainNodeId":"OFC","brainNodeRole":"Market Intelligence — Energy Sector Benchmark","relationshipNote":"XLE tracks the S&P 500 Energy sector, providing a benchmark for oil/gas capex spending and commodity price exposure. XLE's relative performance vs. PWR signals Quanta's exposure to legacy energy vs. renewable energy transition. Divergence between XLE and PWR (>500bps over 3 months) indicates Quanta's successful pivot toward renewable energy and away from oil/gas dependency. XLE's correlation to crude oil prices (WTI) is estimated at 0.7–0.8.","confidence":"high","sourceType":["inferred"]}]},"brainNodeMapping":{"schemaVersion":"1.0.0","source":{"mode":"classifier_v2","template":"infrastructure","templateVersion":"1.0.0","classifierVersion":"2.0.0","generatedAt":"2026-05-24T21:32:28.149Z","overrideCount":11},"overrides":{"S1":{"external_add":[{"name":"Southwire Company, LLC","type":"supplier","weight":"high","source":"portal_extracted_functionalNetwork.suppliers"},{"name":"Eaton Corporation","type":"supplier","weight":"high","source":"portal_extracted_functionalNetwork.suppliers"},{"name":"ABB Ltd.","type":"supplier","weight":"high","source":"portal_extracted_functionalNetwork.suppliers"},{"name":"Valmont Industries, Inc.","type":"supplier","weight":"high","source":"portal_extracted_functionalNetwork.suppliers"},{"name":"Generac Holdings Inc.","type":"supplier","weight":"medium","source":"portal_extracted_functionalNetwork.suppliers"},{"name":"Hubbell Incorporated","type":"supplier","weight":"high","source":"portal_extracted_functionalNetwork.suppliers"},{"name":"Wesco International, Inc.","type":"supplier","weight":"medium","source":"portal_extracted_functionalNetwork.suppliers"},{"name":"Anixter International, Inc.","type":"supplier","weight":"medium","source":"portal_extracted_functionalNetwork.suppliers"},{"name":"Xylem Inc.","type":"supplier","weight":"medium","source":"portal_extracted_functionalNetwork.suppliers"},{"name":"Schneider Electric SE","type":"supplier","weight":"medium","source":"portal_extracted_functionalNetwork.suppliers"}]},"M1":{"external_add":[{"name":"Schneider National, Inc.","type":"supplier","weight":"medium","source":"portal_extracted_functionalNetwork.suppliers"},{"name":"J.B. Hunt Transport Services, Inc.","type":"counterparty","weight":"medium","source":"portal_extracted_functionalNetwork.logisticsPartners"},{"name":"XPO Logistics, Inc.","type":"counterparty","weight":"medium","source":"portal_extracted_functionalNetwork.logisticsPartners"},{"name":"Universal Truckload Services, Inc.","type":"counterparty","weight":"low","source":"portal_extracted_functionalNetwork.logisticsPartners"}]},"NAcc":{"external_add":[{"name":"American Electric Power Company, Inc.","type":"customer","weight":"high","source":"portal_extracted_functionalNetwork.customers"},{"name":"Duke Energy Corporation","type":"customer","weight":"high","source":"portal_extracted_functionalNetwork.customers"},{"name":"NextEra Energy, Inc.","type":"customer","weight":"high","source":"portal_extracted_functionalNetwork.customers"},{"name":"Dominion Energy, Inc.","type":"customer","weight":"medium","source":"portal_extracted_functionalNetwork.customers"},{"name":"Utilities Select Sector SPDR Fund","type":"market","weight":"high","source":"portal_extracted_functionalNetwork.marketSignals"}]},"STRI":{"external_add":[{"name":"Verizon Communications Inc.","type":"customer","weight":"medium","source":"portal_extracted_functionalNetwork.customers"}]},"TPJ":{"external_add":[{"name":"MasTec, Inc.","type":"peer","weight":"high","source":"portal_extracted_functionalNetwork.competitors"},{"name":"Primoris Services Corporation","type":"peer","weight":"high","source":"portal_extracted_functionalNetwork.competitors"},{"name":"Aecon Group Inc.","type":"peer","weight":"medium","source":"portal_extracted_functionalNetwork.competitors"},{"name":"Tutor Perini Corporation","type":"peer","weight":"medium","source":"portal_extracted_functionalNetwork.competitors"},{"name":"Comfort Systems USA, Inc.","type":"peer","weight":"low","source":"portal_extracted_functionalNetwork.competitors"}]},"dACC":{"external_add":[{"name":"U.S. Securities and Exchange Commission","type":"regulator","weight":"high","source":"portal_extracted_functionalNetwork.regulators"},{"name":"Federal Energy Regulatory Commission","type":"regulator","weight":"high","source":"portal_extracted_functionalNetwork.regulators"},{"name":"U.S. Department of Transportation","type":"regulator","weight":"medium","source":"portal_extracted_functionalNetwork.regulators"}]},"AI":{"external_add":[{"name":"Occupational Safety and Health Administration","type":"regulator","weight":"high","source":"portal_extracted_functionalNetwork.regulators"},{"name":"Environmental Protection Agency","type":"regulator","weight":"high","source":"portal_extracted_functionalNetwork.regulators"}]},"OFC":{"external_add":[{"name":"JPMorgan Chase & Co.","type":"investor","weight":"high","source":"portal_extracted_functionalNetwork.capitalProviders"},{"name":"Bank of America Corporation","type":"investor","weight":"high","source":"portal_extracted_functionalNetwork.capitalProviders"},{"name":"Vanguard Group, Inc.","type":"investor","weight":"high","source":"portal_extracted_functionalNetwork.capitalProviders"},{"name":"Energy Select Sector SPDR Fund","type":"market","weight":"high","source":"portal_extracted_functionalNetwork.marketSignals"}]},"mPFC":{"external_add":[{"name":"Berkshire Hathaway Inc.","type":"investor","weight":"high","source":"portal_extracted_functionalNetwork.capitalProviders"}]},"BLA":{"external_add":[{"name":"Deloitte & Touche LLP","type":"auditor","weight":"high","source":"portal_extracted_functionalNetwork.auditor"}]},"GP":{"external_add":[{"name":"Deloitte & Touche LLP","type":"auditor","weight":"high","source":"portal_extracted_functionalNetwork.auditor_inhibitory_gate"}]}}}}
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "quanta_services",
+  "slug": "quanta_services",
+  "name": "Quanta Services, Inc.",
+  "ticker": "PWR",
+  "cik": "1050915",
+  "sic": "1731",
+  "industry": "Electrical Work / Specialty Infrastructure Contracting",
+  "domainId": "infrastructure",
+  "portalAttachment": "infrastructure-portal.html",
+  "kernelStatus": "ELIGIBLE_NOW",
+  "fredSeries": [
+    "TTLCONS",
+    "HOUST",
+    "CPNRUTT",
+    "PCU327320327320",
+    "IPUBN221U100000000",
+    "PERMIT",
+    "TOTALSA",
+    "INDPRO",
+    "UNRATE",
+    "PAYEMS",
+    "DCOILWTICO",
+    "DHHNGSP"
+  ],
+  "feedSources": [
+    {
+      "type": "sec_edgar",
+      "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001050915.json"
+    },
+    {
+      "type": "fred",
+      "seriesIds": [
+        "TTLCONS",
+        "HOUST",
+        "CPNRUTT",
+        "PCU327320327320",
+        "IPUBN221U100000000",
+        "PERMIT",
+        "TOTALSA",
+        "INDPRO",
+        "UNRATE",
+        "PAYEMS",
+        "DCOILWTICO",
+        "DHHNGSP"
+      ]
+    }
+  ],
+  "marketDataTickers": [
+    "PWR"
+  ],
+  "commodityExposure": [
+    "copper",
+    "aluminum",
+    "steel",
+    "diesel",
+    "natural gas",
+    "lithium",
+    "rare earth elements",
+    "labor (skilled trades)"
+  ],
+  "helixReportMode": "validated_kernel",
+  "helixReportUrl": "helix-report.html?cik=1050915",
+  "financialHealth": {
+    "asOf": "2026-06-08",
+    "lastKernelRun": "2026-06-08T14:08:46.857Z",
+    "kernelId": "limen_backtest.py",
+    "validationStatus": "validated",
+    "envelopeStatus": "ELIGIBLE_NOW",
+    "historyQuarters": 71,
+    "latestQuarter": "2026Q1",
+    "compositeScore": 0.1782128655358057,
+    "alert": false,
+    "distressBand": "green",
+    "dominantPhase": "p10",
+    "financialState": {
+      "rev_variance": 0.0036207182082580746,
+      "rev_slope": 0.025299187199541898,
+      "ocf_slope": 0.6199682920992224,
+      "cash_latest": 364761000,
+      "debt_latest": 689694000,
+      "cash_runway_q": 0.93112083401405
+    },
+    "kernelShaLock": "3ce4a652ff8af4b4",
+    "inEnvelope": true,
+    "interpretiveOnly": false,
+    "envelopeStatusCode": null,
+    "envelopeDisclaimer": null,
+    "regimeContext": "extrapolated",
+    "isFinancial": false,
+    "sicCode": 1731,
+    "alertA": false,
+    "alertB": false,
+    "alertC": false,
+    "pathway": null,
+    "firstAlertQuarter": null,
+    "inputPresence": {
+      "revenue_quarters": 31,
+      "ocf_quarters": 34,
+      "cash_quarters": 75,
+      "debt_quarters": 47,
+      "dc_coverage_quarters": 47,
+      "dl_coverage_quarters": 21,
+      "dc_coverage_in_window": 45,
+      "dl_coverage_in_window": 19,
+      "debt_current_quarters": 47,
+      "debt_long_quarters": 21
+    }
+  },
+  "warningSignals": [],
+  "opportunitySignals": [],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Quanta Services is North America's largest specialty infrastructure contractor, commanding approximately $60B+ in backlog across electric power transmission/distribution, renewable energy integration, oil & gas pipeline, and telecommunications infrastructure. The company operates as the critical execution partner for utility capex cycles, grid modernization mandates, and energy transition buildout, making its backlog conversion velocity and project-mix composition (renewable vs. legacy energy) direct proxies for infrastructure investment health and utility spending discipline. Quanta's contract-lock visibility and scale create natural hedges against regional demand shocks, positioning the company as a leading indicator of utility capex acceleration and energy infrastructure demand.",
+  "portalRelevance": "PWR's backlog-to-revenue ratio, quarterly project-mix disclosure (% renewables, % transmission, % oil/gas), and gross margin trends serve as leading indicators of utility capex health, FERC transmission investment incentives, and energy infrastructure demand. The company's dual exposure to legacy energy and clean energy transition creates a natural hedge against energy-policy volatility, while its contract-lock structure and scale reduce earnings surprise risk relative to smaller peers. PWR's customer concentration (top 5 utilities typically 40–50% of revenue) and supply-chain dependencies on equipment manufacturers (Eaton, ABB, Valmont) create measurable leverage points for financial-intelligence modeling.",
+  "notes": {
+    "cohortStatus": "",
+    "envelopeStatus": "ELIGIBLE_NOW"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "Quarterly backlog disclosure and project-mix breakdown (% renewables, % transmission, % oil/gas, % telecom) from 10-Q earnings releases; backlog-to-revenue ratio trending",
+        "Gross margin and operating leverage trends from 10-K Item 7 MD&A; contract-cost overrun or underrun patterns; SG&A leverage as revenue scales",
+        "8-K announcements of major contract wins (>$500M) or project deferrals; customer credit events or payment disputes; acquisition or divestiture activity",
+        "Commodity price indices (copper, aluminum, steel, diesel) and skilled-labor cost inflation signals from supplier EDI, BLS data, and industry surveys; supply-chain lead-time extensions"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "Rolling 4-quarter backlog conversion rate and project completion velocity; phase-in timing of large renewable/transmission contracts; customer capex guidance revisions",
+        "Free cash flow trajectory and working capital swings tied to project milestone billing cycles; days-sales-outstanding trends and customer payment discipline",
+        "Debt-to-EBITDA ratio and covenant headroom; refinancing risk windows tied to maturity schedule; credit facility utilization and pricing spreads",
+        "Competitive win-rate vs. MasTec (MTZ), Primoris (PRIM), and Aecon (ARE); market-share drift in transmission vs. distribution vs. renewable segments; customer concentration risk (top 5 utilities % of revenue)"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "Distress signature: backlog decline >10% YoY + gross margin compression >150bps + customer concentration risk (single utility >15% revenue) + supply-chain delays extending project timelines",
+        "Growth inflection: accelerating renewable project awards (>40% of backlog) + transmission capex cycle acceleration (FERC incentive expansion) + margin expansion from scale and labor productivity gains",
+        "Sector contagion: utility credit stress (rising rates, regulatory disallowance) flowing to contractor payment terms and project deferrals; oil/gas capex collapse cascading to legacy energy segment",
+        "Execution risk: labor availability constraints in tight markets (Texas, California, Pacific Northwest) limiting project starts; supply-chain delays on long-lead equipment (transformers 12–16 weeks, towers 16–20 weeks) deferring project completion"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Investment thesis: long PWR if utility capex guidance accelerates >5% YoY and renewable backlog >40% of total; neutral if oil/gas mix >35% and energy transition stalls; short if backlog declines >8% YoY or gross margin contracts >200bps",
+        "Risk hedge: short duration exposure to long-term utility bonds if rate-sensitive capex defers; long copper/aluminum futures if project starts accelerate; labor-cost hedge via staffing-agency contracts in tight markets",
+        "Engagement: monitor FERC transmission investment incentives (ATSI, ROE adjustments) and state renewable procurement mandates; track utility earnings calls for capex guidance revisions; monitor supply-chain lead times at Eaton, ABB, Valmont"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "Initiate long position on PWR if Q+1 backlog growth >8% YoY and renewable mix >35%; size 2–3% of portfolio; set entry on weakness if stock declines >10% on macro concerns",
+        "Set stop-loss at 15% below entry if next earnings misses backlog expectations by >5% or gross margin contracts >150bps; exit if top-5 customer concentration exceeds 55% of revenue",
+        "Establish monitoring dashboard: weekly backlog-to-revenue ratio, monthly commodity price correlation (copper, aluminum, diesel), quarterly customer concentration audit, quarterly FERC transmission incentive tracking"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q+1 earnings validation: compare reported backlog and project mix to pre-announcement guidance; flag any customer deferrals, contract cancellations, or cost overruns >5% of contract value",
+        "Price action: track PWR vs. XLU (utilities) and XLE (energy) to isolate company-specific vs. sector-driven moves; monitor relative strength vs. MasTec (MTZ) and Primoris (PRIM)",
+        "Filing delta: review 10-Q Item 1A risk factors for new customer concentration, supply-chain, labor-cost, or regulatory disclosures; 8-K for contract wins/losses >$250M; proxy statement for executive compensation changes"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "Recalibrate backlog-conversion elasticity based on realized project completion rates; adjust for seasonal Q4 acceleration and Q1 slowdown; update labor-productivity assumptions based on wage inflation and turnover trends",
+        "Reweight commodity-price sensitivity: if copper correlation to gross margin >0.6, increase commodity-hedging signal weight; if diesel correlation >0.5, increase fuel-cost pass-through assumption",
+        "Update utility-capex prior: if FERC transmission incentives expand or state renewable mandates accelerate, raise long-term PWR growth assumption by 50–100bps; if oil/gas capex collapses, reduce legacy-energy segment growth by 200–300bps"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Quanta Services operates as a distributed execution network spanning power transmission, renewable energy, and legacy energy infrastructure. The company functions as a neural integrator between utility customers (demand signal and capex guidance), equipment suppliers (material constraints and lead times), labor pools (skilled trades availability and wage inflation), and regulatory frameworks (FERC transmission incentives, state renewable mandates, OSHA safety standards). Backlog visibility, project-mix composition (renewable vs. legacy), and gross margin realization serve as primary state variables; margin realization depends on labor productivity, commodity cost absorption, supply-chain execution, and customer payment discipline. The company's scale, geographic footprint, and contract-lock structure create natural hedges against regional demand shocks and reduce earnings volatility relative to smaller, project-by-project peers.",
+    "suppliers": [
+      {
+        "name": "Southwire Company, LLC",
+        "ticker": null,
+        "cik": null,
+        "slug": "southwire_company",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Electrical Cable & Conductors",
+        "relationshipNote": "Southwire is a primary supplier of copper and aluminum electrical cable, wire, and conductor products to Quanta's transmission and distribution projects. Southwire's domestic manufacturing footprint (Alabama, Georgia, North Carolina) provides supply-chain resilience vs. offshore competitors. Copper price volatility is passed through on fixed-price contracts with 60–90 day lag; Southwire's capacity utilization and lead times (8–12 weeks for custom cable) directly constrain Quanta's project start velocity. Estimated 3–5% of Quanta's annual material costs.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Eaton Corporation",
+        "ticker": "ETN",
+        "cik": "0000012822",
+        "slug": "eaton_corporation",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Power Distribution Equipment",
+        "relationshipNote": "Eaton manufactures medium and high-voltage switchgear, circuit breakers, and power-distribution equipment used in Quanta's transmission and substation projects. Eaton's product lead times (12–16 weeks for custom switchgear) are a critical constraint on Quanta's project start dates; supply-chain delays at Eaton cascade directly to Quanta's project completion timelines. Eaton's quarterly backlog and order-rate trends are leading indicators of utility capex acceleration. Quanta's exposure to Eaton supply risk is disclosed in 10-K Item 1A; estimated 4–6% of annual material costs.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "ABB Ltd.",
+        "ticker": "ABB",
+        "cik": null,
+        "slug": "abb_ltd",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Transmission Equipment & Automation",
+        "relationshipNote": "ABB supplies high-voltage transmission equipment, automation systems, and grid-modernization technology to Quanta's transmission and renewable integration projects. ABB's renewable-energy and grid-integration product lines are critical to Quanta's accelerating wind/solar backlog (estimated >40% of backlog by 2025). ABB's supply-chain resilience in Europe and Asia creates geographic diversification; however, tariff exposure on imported components (25–35% of ABB's U.S. sourcing) is a material risk factor. Lead times on custom transmission equipment: 16–24 weeks.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Valmont Industries, Inc.",
+        "ticker": "VMI",
+        "cik": "0001108248",
+        "slug": "valmont_industries",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Utility Poles & Transmission Structures",
+        "relationshipNote": "Valmont supplies utility poles, transmission towers, and structural steel for Quanta's transmission and distribution projects. Valmont's capacity utilization and lead times (12–20 weeks for custom towers) are critical constraints on Quanta's project starts. Steel price volatility (2023–2024 range: $600–$900/ton) and Valmont's pricing power directly impact Quanta's fixed-price contract margins; Quanta's exposure to Valmont supply risk is material for large transmission projects (>$100M). Valmont's quarterly backlog and order trends signal transmission capex acceleration.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Generac Holdings Inc.",
+        "ticker": "GNRC",
+        "cik": "0001404057",
+        "slug": "generac_holdings",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Power Generation & Energy Storage",
+        "relationshipNote": "Generac supplies backup power, microgrid, and energy-storage systems integrated into Quanta's renewable and grid-resilience projects. Generac's battery and inverter supply constraints have historically delayed Quanta project completions by 4–8 weeks. Quanta's renewable-energy backlog growth is partially dependent on Generac's capacity to supply grid-scale battery systems; supply-chain bottlenecks at Generac (2023–2024 lead times: 16–20 weeks) directly reduce Quanta's project velocity. Estimated 2–3% of Quanta's renewable-project material costs.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Hubbell Incorporated",
+        "ticker": "HUBB",
+        "cik": "0000049196",
+        "slug": "hubbell_incorporated",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Electrical Connectors & Utility Products",
+        "relationshipNote": "Hubbell manufactures electrical connectors, utility poles, and transmission-line hardware used in Quanta's distribution and transmission projects. Hubbell's lead times on custom connectors and hardware extend 8–12 weeks; supply-chain delays cascade to Quanta's project schedules. Hubbell's quarterly backlog and order trends are leading indicators of utility capex strength. Hubbell's supply-chain resilience (domestic manufacturing in multiple states) reduces Quanta's import risk. Estimated 2–3% of annual material costs.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Wesco International, Inc.",
+        "ticker": "WCC",
+        "cik": "0000105570",
+        "slug": "wesco_international",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Electrical Supplies & Distribution",
+        "relationshipNote": "Wesco is a major distributor of electrical supplies, tools, and materials to Quanta and other contractors. Wesco's inventory turns, pricing power, and supply-chain efficiency directly impact Quanta's project cost structure. Wesco's quarterly same-store sales and gross margin trends are correlated with contractor demand; Quanta's purchasing volume with Wesco is estimated at 2–4% of Wesco's total revenue. Wesco's supply-chain resilience and pricing discipline are critical to Quanta's margin management.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Anixter International, Inc.",
+        "ticker": "AXE",
+        "cik": "0000052037",
+        "slug": "anixter_electronics",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Electrical Distribution & Components",
+        "relationshipNote": "Anixter supplies transformers, switchgear, and electrical distribution components for Quanta's utility projects. As a distributor, Anixter's inventory levels and lead times signal demand strength in the electrical contracting market. Anixter's supply-chain delays cascade to Quanta project schedules; Quanta's purchasing volume with Anixter is estimated at 3–5% of Anixter's total revenue. Anixter's quarterly order trends and backlog are leading indicators of utility capex acceleration.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Xylem Inc.",
+        "ticker": "XYL",
+        "cik": "0001524472",
+        "slug": "xylem_inc",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Water & Utility Infrastructure",
+        "relationshipNote": "Xylem supplies pumping, treatment, and water-management systems for utility infrastructure projects that overlap with Quanta's electrical and transmission work. Xylem's supply-chain health and lead times affect integrated utility projects where Quanta is the prime contractor. Cross-project dependencies between Xylem and Quanta create scheduling risk if either party experiences supply delays; estimated 1–2% of Quanta's integrated-project material costs.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Schneider Electric SE",
+        "ticker": "SBGS",
+        "cik": null,
+        "slug": "schneider_electric",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials — Industrial Automation & Control Systems",
+        "relationshipNote": "Schneider Electric supplies industrial automation, control systems, and grid-management software for Quanta's transmission and renewable integration projects. Schneider's software and automation products are critical to grid-modernization and smart-grid initiatives. Lead times on custom automation systems: 10–14 weeks. Schneider's supply-chain resilience and pricing power directly impact Quanta's project margins on automation-heavy projects.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Schneider National, Inc.",
+        "ticker": "SNDR",
+        "cik": "0000089143",
+        "slug": "schneider_national",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Intermodal & Logistics",
+        "relationshipNote": "Schneider National provides intermodal, truckload, and logistics services for Quanta's equipment and material distribution. Schneider's capacity utilization and pricing trends reflect broader freight-market conditions that impact Quanta's project economics. Quanta's reliance on Schneider for cross-country transmission equipment moves creates exposure to fuel-price volatility and driver-shortage risk. Estimated 1–2% of project costs.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "J.B. Hunt Transport Services, Inc.",
+        "ticker": "JBHT",
+        "cik": "0000400023",
+        "slug": "jb_hunt_transport",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Heavy Equipment & Materials Transport",
+        "relationshipNote": "J.B. Hunt provides dedicated and spot freight for Quanta's equipment, materials, and crew transport across North America. Quanta's project-based logistics require flexible capacity; J.B. Hunt's utilization rates and pricing power directly impact Quanta's project delivery costs. Fuel surcharges and driver availability at J.B. Hunt cascade to Quanta's project margins, particularly for time-sensitive transmission work. Estimated 2–3% of Quanta's project costs.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "XPO Logistics, Inc.",
+        "ticker": "XPO",
+        "cik": "0001527857",
+        "slug": "xpo_logistics",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Last-Mile & Specialized Transport",
+        "relationshipNote": "XPO provides specialized heavy-haul and last-mile delivery services for Quanta's transformer, switchgear, and transmission equipment. XPO's capacity constraints in peak seasons (spring/summer utility construction) can delay Quanta project starts by 2–4 weeks. XPO's pricing power and service reliability directly impact Quanta's project-delivery timelines and customer satisfaction metrics. Estimated 1–2% of project costs.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Universal Truckload Services, Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "universal_truckload",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery — Regional Heavy Equipment Transport",
+        "relationshipNote": "Universal Truckload provides regional heavy-haul services for Quanta's transmission tower and equipment moves, particularly in the Southwest and Midwest. Universal's capacity and pricing are critical for Quanta's regional project execution. Quanta's exposure to Universal's service reliability is material for time-sensitive transmission projects with customer penalty clauses (typical penalties: $10K–$50K per day). Regional market share:.",
+        "confidence": "low",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "American Electric Power Company, Inc.",
+        "ticker": "AEP",
+        "cik": "0000004904",
+        "slug": "american_electric_power",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Anchor Utility Customer",
+        "relationshipNote": "AEP is one of Quanta's largest utility customers, accounting for an estimated 8–12% of annual revenue (2023–2024). Quanta executes transmission, distribution, and renewable integration projects for AEP across multiple regions (Ohio, Indiana, Virginia, Texas). AEP's capex guidance (2024–2028: $18–$20B annually) and transmission investment plans directly drive Quanta's backlog growth. Multi-year master service agreements with AEP provide revenue visibility and reduce customer concentration risk. AEP's credit rating (A-/A3) and payment discipline are critical to Quanta's cash flow.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Duke Energy Corporation",
+        "ticker": "DUK",
+        "cik": "0000063951",
+        "slug": "duke_energy",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Anchor Utility Customer",
+        "relationshipNote": "Duke Energy is another major Quanta customer, representing an estimated 6–10% of annual revenue (2023–2024). Quanta performs transmission, distribution, and grid-modernization work for Duke across the Carolinas, Florida, and Midwest. Duke's renewable energy transition (target: 50% carbon-free by 2030) and transmission capex acceleration (2024–2028: $15–$17B annually) are key drivers of Quanta's backlog growth. Duke's regulatory environment (FERC, state PUCs) and rate-base recovery directly impact its capex spending.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "NextEra Energy, Inc.",
+        "ticker": "NEE",
+        "cik": "0000753308",
+        "slug": "nextera_energy",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Renewable Energy Customer",
+        "relationshipNote": "NextEra (via Florida Power & Light and NextEra Energy Resources) is a major customer for Quanta's renewable energy and transmission projects. Quanta's renewable backlog growth (estimated 40–45% of total backlog by 2025) is partially driven by NextEra's wind and solar expansion plans (target: 50GW of renewable capacity by 2026). NextEra's clean-energy capex guidance and project pipeline visibility provide forward-looking demand signals for Quanta's renewable-focused business units.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Dominion Energy, Inc.",
+        "ticker": "D",
+        "cik": "0000715957",
+        "slug": "dominion_energy",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Utility Customer",
+        "relationshipNote": "Dominion Energy is a significant Quanta customer for transmission and distribution projects in Virginia, the Carolinas, and the Midwest, estimated at 4–6% of annual revenue. Dominion's grid-modernization and renewable integration initiatives (2024–2028 capex: $12–$14B) drive Quanta project awards. Dominion's regulatory environment (FERC, state PUCs) and rate-base recovery mechanisms directly impact its capex spending and Quanta's project velocity.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Verizon Communications Inc.",
+        "slug": "verizon",
+        "ticker": "VZ",
+        "cik": "0000732712",
+        "brainNodeId": "STRI",
+        "relationshipNote": "Verizon is a key customer driving demand for Quanta's infrastructure services, particularly fiber deployment and network hardening work. As a major telecom operator executing capital-intensive digital transformation and fiber-to-premises buildout, Verizon's capex cycle directly signals infrastructure spending trends. The relationship reflects Quanta's exposure to telecom sector health and broadband expansion momentum.",
+        "_autoReciprocityFill": true,
+        "_filledFrom": "suppliers",
+        "_filledAt": "2026-05-20",
+        "sourceType": [
+          "10-K",
+          "industry-report",
+          "reciprocity_inferred"
+        ],
+        "confidence": "medium",
+        "brainNodeRole": "downstream_demand_anchor",
+        "neuralRole": "feedforward_demand_signal",
+        "_reciprocityResolvedAt": "2026-05-22T17:26:22.713Z",
+        "_resolvedFromPartnerEntry": {
+          "partnerSlug": "verizon",
+          "partnerCategory": "suppliers",
+          "partnerFingerprint": "quanta|0001408440|quantaservicesinc"
+        },
+        "_proseRewrittenAt": "2026-05-23T14:33:52.526Z"
+      }
+    ],
+    "competitors": [
+      {
+        "name": "MasTec, Inc.",
+        "ticker": "MTZ",
+        "cik": "0000068505",
+        "slug": "mastec_inc",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind — Direct Competitor",
+        "relationshipNote": "MasTec is Quanta's primary direct competitor in specialty infrastructure contracting, with comparable scale (~$20B+ annual revenue, 2023). MasTec's backlog, margin trends, and project mix are closely tracked as competitive benchmarks. MasTec's higher oil/gas exposure (estimated 35–40% of backlog vs. Quanta's 25–30%) creates differentiated risk profiles; MasTec's recent margin compression (2023–2024: 100–150bps) signals competitive pricing pressure in the market. MasTec's renewable backlog growth (estimated 30–35%) lags Quanta's transition.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Primoris Services Corporation",
+        "ticker": "PRIM",
+        "cik": "0001104659",
+        "slug": "primoris_services",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind — Specialty Contractor Competitor",
+        "relationshipNote": "Primoris is a mid-sized specialty contractor (~$4B revenue, 2023) competing with Quanta in power transmission, renewable energy, and industrial projects. Primoris' renewable backlog growth (estimated 35–40% of total) and margin trends provide competitive intelligence on market dynamics. Primoris' smaller scale and regional focus (primarily Southwest, West Coast) create differentiated competitive positioning vs. Quanta's national footprint. Primoris' gross margins (estimated 12–14%) lag Quanta's (estimated 14–16%).",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Aecon Group Inc.",
+        "ticker": "ARE",
+        "cik": null,
+        "slug": "aecon_group",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind — Canadian Infrastructure Competitor",
+        "relationshipNote": "Aecon is a Canadian infrastructure contractor competing with Quanta in power transmission and renewable energy projects, particularly in Canada and cross-border work. Aecon's backlog (estimated CAD $3–4B) and project mix provide competitive benchmarks for North American transmission work. Aecon's exposure to Canadian utility capex and renewable mandates (target: 80% clean electricity by 2030) creates differentiated geographic diversification vs. Quanta's U.S.-centric focus.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Tutor Perini Corporation",
+        "ticker": "TPC",
+        "cik": "0000320335",
+        "slug": "tutor_perini",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind — General Contractor Competitor",
+        "relationshipNote": "Tutor Perini is a diversified construction contractor (~$5B revenue, 2023) competing with Quanta in civil infrastructure and energy projects. Tutor Perini's smaller scale and project-by-project model create higher earnings volatility vs. Quanta's backlog-locked structure. Tutor Perini's exposure to public-works and transportation projects (estimated 40–50% of revenue) provides differentiated competitive positioning vs. Quanta's utility-focused model.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      },
+      {
+        "name": "Comfort Systems USA, Inc.",
+        "ticker": "FIX",
+        "cik": "0001085488",
+        "slug": "comfort_systems_usa",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind — HVAC & Electrical Services Competitor",
+        "relationshipNote": "Comfort Systems USA (~$3.5B revenue, 2023) competes with Quanta in electrical and mechanical services for commercial and industrial customers. Comfort Systems' smaller scale and service-focused model create differentiated competitive positioning vs. Quanta's large-project focus. Comfort Systems' recurring revenue model (estimated 60–70% of revenue) and higher margins (estimated 16–18%) provide alternative competitive benchmarks for service-based contracting.",
+        "confidence": "low",
+        "sourceType": [
+          "industry-report",
+          "inferred"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "sec",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance — Securities Regulation",
+        "relationshipNote": "The SEC regulates Quanta's public disclosures, insider trading, and corporate governance under Securities Exchange Act of 1934 and Sarbanes-Oxley Act of 2002. Quanta's 10-K (filed annually), 10-Q (filed quarterly), and 8-K (filed for material events) are primary sources of financial and operational data. SEC enforcement actions or restatements would materially impact Quanta's credibility and stock price; Quanta's compliance with disclosure controls and internal control certifications is critical to investor confidence.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory"
+        ]
+      },
+      {
+        "name": "Federal Energy Regulatory Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ferc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Strategic — Energy Infrastructure Regulation",
+        "relationshipNote": "FERC regulates transmission investment incentives, interconnection standards, and grid reliability requirements that drive utility capex spending. FERC's transmission incentive policies (ATSI, ROE adjustments per Order 679) directly impact utility capex budgets and Quanta's backlog growth. FERC's grid-modernization and renewable-integration standards (Order 2222 for distributed energy resources) create long-term demand for Quanta's transmission and distribution services. FERC Order 881 (2023) on transmission planning creates additional capex opportunities.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Occupational Safety and Health Administration",
+        "ticker": null,
+        "cik": null,
+        "slug": "osha",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection — Workplace Safety",
+        "relationshipNote": "OSHA regulates workplace safety for Quanta's field operations under 29 CFR Part 1926 (construction standards) and 29 CFR Part 1910 (general industry standards). OSHA citations and safety violations can result in project delays, fines (up to $10K–$15K per violation), and reputational damage. Quanta's safety record and incident rates are disclosed in 10-K Item 1A risk factors; poor safety performance can impact customer relationships and insurance costs (estimated 2–3% of project costs).",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "10-K"
+        ]
+      },
+      {
+        "name": "Environmental Protection Agency",
+        "ticker": null,
+        "cik": null,
+        "slug": "epa",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection — Environmental Compliance",
+        "relationshipNote": "The EPA regulates environmental compliance for Quanta's projects under the Clean Water Act (wetland impacts), Clean Air Act (air quality), and RCRA (hazardous materials handling). EPA permitting delays can defer project starts by 4–8 weeks; environmental violations can result in fines ($25K–$50K+) and project cancellations. Quanta's environmental compliance and remediation costs are disclosed in 10-K Item 1A; climate-change regulations create long-term demand for grid-modernization and renewable-energy projects.",
+        "confidence": "high",
+        "sourceType": [
+          "statutory",
+          "10-K"
+        ]
+      },
+      {
+        "name": "U.S. Department of Transportation",
+        "ticker": null,
+        "cik": null,
+        "slug": "dot",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance — Transportation & Infrastructure",
+        "relationshipNote": "DOT regulates transportation of hazardous materials (49 CFR Parts 172–180) and oversees infrastructure investment programs (IIJA 2021, $110B for broadband and utility infrastructure). DOT's infrastructure grant programs and broadband funding create demand for Quanta's telecom and utility projects. DOT compliance and transportation regulations impact Quanta's logistics costs and project scheduling; estimated 1–2% of project costs.",
+        "confidence": "medium",
+        "sourceType": [
+          "statutory",
+          "industry-report"
+        ]
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte_touche",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment + Compliance — External Auditor",
+      "relationshipNote": "Deloitte is Quanta's external auditor, responsible for annual financial statement audits and internal control assessments under PCAOB standards. Deloitte's audit opinions and any audit adjustments are disclosed in Quanta's 10-K. Deloitte's audit fees (estimated $3–5M annually) and any non-audit services are disclosed in the proxy statement (DEF14A); auditor changes or audit disputes would signal potential financial reporting issues.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K",
+        "DEF14A"
+      ]
+    },
+    "capitalProviders": [
+      {
+        "name": "JPMorgan Chase & Co.",
+        "ticker": "JPM",
+        "cik": "0000047709",
+        "slug": "jpmorgan_chase",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital — Lead Lender",
+        "relationshipNote": "JPMorgan Chase is a lead arranger and lender on Quanta's revolving credit facility (estimated $2.5–3.0B) and term loans. JPMorgan's lending terms, covenant requirements (debt-to-EBITDA <3.5x, interest coverage >3.0x), and pricing (estimated 150–200bps over SOFR) reflect Quanta's credit quality. JPMorgan's willingness to refinance or expand Quanta's credit facility signals market confidence in Quanta's business model and growth prospects.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "8-K"
+        ]
+      },
+      {
+        "name": "Bank of America Corporation",
+        "ticker": "BAC",
+        "cik": "0000070858",
+        "slug": "bank_of_america",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital — Lender & Capital Provider",
+        "relationshipNote": "Bank of America is a lender on Quanta's credit facility and provides treasury management and capital markets services. BofA's lending terms and pricing reflect Quanta's credit profile; BofA's involvement in Quanta's debt refinancings signals market appetite for Quanta's credit. BofA's equity research coverage and investment banking relationships provide market intelligence on Quanta's competitive positioning and M&A opportunities.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Berkshire Hathaway Inc.",
+        "ticker": "BRK.B",
+        "cik": "0001067983",
+        "slug": "berkshire_hathaway",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity — Strategic Shareholder",
+        "relationshipNote": "Berkshire Hathaway is a significant shareholder of Quanta Services, holding approximately 5–7% of outstanding shares (as of 2024). Berkshire's long-term investment in Quanta signals confidence in the company's infrastructure exposure and energy transition positioning. Berkshire's ownership provides strategic stability and reduces takeover risk; Berkshire's investment thesis aligns with long-term utility capex and renewable energy growth. Berkshire's voting power and engagement influence Quanta's capital allocation.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A",
+          "news"
+        ]
+      },
+      {
+        "name": "Vanguard Group, Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard_group",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital — Institutional Shareholder",
+        "relationshipNote": "Vanguard is one of Quanta's largest institutional shareholders, holding approximately 8–10% of outstanding shares (as of 2024). Vanguard's passive index holdings and active engagement on governance and ESG issues influence Quanta's capital allocation and sustainability reporting. Vanguard's voting power and shareholder activism can impact Quanta's board composition, executive compensation, and climate-risk disclosures.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A",
+          "inferred"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Earl C. Austin, Jr.",
+        "ticker": null,
+        "cik": null,
+        "slug": "earl_austin_jr",
+        "neuralRole": "PFC",
+        "brainNodeId": "FPN",
+        "brainNodeRole": "Executive Leadership — Chief Executive Officer",
+        "relationshipNote": "Earl Austin is Quanta's President and Chief Executive Officer, responsible for overall strategy, operations, and financial performance. Austin's tenure (CEO since 2017) and track record in infrastructure contracting shape Quanta's strategic direction and capital allocation. Austin's compensation (estimated $15–20M annually including equity) and equity holdings align his interests with shareholder value creation; his strategic vision on renewable energy and grid modernization drives Quanta's backlog composition and margin trajectory.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Derrick A. Jensen",
+        "ticker": null,
+        "cik": null,
+        "slug": "derrick_jensen",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management — Chief Financial Officer",
+        "relationshipNote": "Derrick Jensen is Quanta's Chief Financial Officer, responsible for financial planning, capital structure, and investor relations. Jensen's financial stewardship and debt management directly impact Quanta's credit rating and cost of capital (estimated 150–200bps over SOFR). Jensen's quarterly earnings guidance and financial commentary shape investor expectations; his capital allocation decisions (dividends, buybacks, M&A) reflect Quanta's financial health and growth prospects.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "James C. Goetz",
+        "ticker": null,
+        "cik": null,
+        "slug": "james_goetz",
+        "neuralRole": "Motor",
+        "brainNodeId": "STRI",
+        "brainNodeRole": "Operations — Chief Operating Officer",
+        "relationshipNote": "James Goetz is Quanta's Chief Operating Officer, overseeing field operations, project execution, and operational efficiency. Goetz's operational leadership directly impacts project margins (target: 14–16% gross margin), safety performance (target: <2 TRIR), and customer satisfaction. Goetz's management of labor productivity, supply-chain execution, and project delivery timelines are critical to Quanta's competitive positioning vs. MasTec and Primoris.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "George L. Ball",
+        "ticker": null,
+        "cik": null,
+        "slug": "george_ball",
+        "neuralRole": "PFC",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Identity — Board Chairperson",
+        "relationshipNote": "George Ball is Quanta's Board Chairperson, responsible for board governance, strategic oversight, and executive accountability. Ball's board leadership and committee assignments shape Quanta's governance practices and risk management. Ball's tenure and industry experience provide strategic guidance on infrastructure trends and competitive dynamics; his compensation (estimated $300K–$400K annually) reflects his governance role.",
+        "confidence": "medium",
+        "sourceType": [
+          "DEF14A"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Utilities Select Sector SPDR Fund",
+        "ticker": "XLU",
+        "cik": null,
+        "slug": "xlU_etf",
+        "neuralRole": "Limbic",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue — Utility Sector Benchmark",
+        "relationshipNote": "XLU tracks the S&P 500 Utilities sector (11 holdings including AEP, DUK, NEE, D), providing a benchmark for utility capex spending and investor sentiment. XLU's relative performance vs. PWR signals whether Quanta is outperforming or underperforming its customer base. Divergence between XLU and PWR (>500bps over 3 months) can indicate competitive share gains/losses or margin expansion/compression. XLU's dividend yield (estimated 3–4%) reflects utility capex confidence.",
+        "confidence": "high",
+        "sourceType": [
+          "inferred"
+        ]
+      },
+      {
+        "name": "Energy Select Sector SPDR Fund",
+        "ticker": "XLE",
+        "cik": null,
+        "slug": "xle_etf",
+        "neuralRole": "Limbic",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence — Energy Sector Benchmark",
+        "relationshipNote": "XLE tracks the S&P 500 Energy sector, providing a benchmark for oil/gas capex spending and commodity price exposure. XLE's relative performance vs. PWR signals Quanta's exposure to legacy energy vs. renewable energy transition. Divergence between XLE and PWR (>500bps over 3 months) indicates Quanta's successful pivot toward renewable energy and away from oil/gas dependency. XLE's correlation to crude oil prices (WTI) is estimated at 0.7–0.8.",
+        "confidence": "high",
+        "sourceType": [
+          "inferred"
+        ]
+      }
+    ]
+  },
+  "brainNodeMapping": {
+    "schemaVersion": "1.0.0",
+    "source": {
+      "mode": "classifier_v2",
+      "template": "infrastructure",
+      "templateVersion": "1.0.0",
+      "classifierVersion": "2.0.0",
+      "generatedAt": "2026-05-24T21:32:28.149Z",
+      "overrideCount": 11
+    },
+    "overrides": {
+      "S1": {
+        "external_add": [
+          {
+            "name": "Southwire Company, LLC",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Eaton Corporation",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "ABB Ltd.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Valmont Industries, Inc.",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Generac Holdings Inc.",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Hubbell Incorporated",
+            "type": "supplier",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Wesco International, Inc.",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Anixter International, Inc.",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Xylem Inc.",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "Schneider Electric SE",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          }
+        ]
+      },
+      "M1": {
+        "external_add": [
+          {
+            "name": "Schneider National, Inc.",
+            "type": "supplier",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.suppliers"
+          },
+          {
+            "name": "J.B. Hunt Transport Services, Inc.",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "XPO Logistics, Inc.",
+            "type": "counterparty",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          },
+          {
+            "name": "Universal Truckload Services, Inc.",
+            "type": "counterparty",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.logisticsPartners"
+          }
+        ]
+      },
+      "NAcc": {
+        "external_add": [
+          {
+            "name": "American Electric Power Company, Inc.",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Duke Energy Corporation",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "NextEra Energy, Inc.",
+            "type": "customer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Dominion Energy, Inc.",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          },
+          {
+            "name": "Utilities Select Sector SPDR Fund",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "STRI": {
+        "external_add": [
+          {
+            "name": "Verizon Communications Inc.",
+            "type": "customer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.customers"
+          }
+        ]
+      },
+      "TPJ": {
+        "external_add": [
+          {
+            "name": "MasTec, Inc.",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Primoris Services Corporation",
+            "type": "peer",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Aecon Group Inc.",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Tutor Perini Corporation",
+            "type": "peer",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          },
+          {
+            "name": "Comfort Systems USA, Inc.",
+            "type": "peer",
+            "weight": "low",
+            "source": "portal_extracted_functionalNetwork.competitors"
+          }
+        ]
+      },
+      "dACC": {
+        "external_add": [
+          {
+            "name": "U.S. Securities and Exchange Commission",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Federal Energy Regulatory Commission",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "U.S. Department of Transportation",
+            "type": "regulator",
+            "weight": "medium",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "AI": {
+        "external_add": [
+          {
+            "name": "Occupational Safety and Health Administration",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          },
+          {
+            "name": "Environmental Protection Agency",
+            "type": "regulator",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.regulators"
+          }
+        ]
+      },
+      "OFC": {
+        "external_add": [
+          {
+            "name": "JPMorgan Chase & Co.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Bank of America Corporation",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Vanguard Group, Inc.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          },
+          {
+            "name": "Energy Select Sector SPDR Fund",
+            "type": "market",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.marketSignals"
+          }
+        ]
+      },
+      "mPFC": {
+        "external_add": [
+          {
+            "name": "Berkshire Hathaway Inc.",
+            "type": "investor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.capitalProviders"
+          }
+        ]
+      },
+      "BLA": {
+        "external_add": [
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor"
+          }
+        ]
+      },
+      "GP": {
+        "external_add": [
+          {
+            "name": "Deloitte & Touche LLP",
+            "type": "auditor",
+            "weight": "high",
+            "source": "portal_extracted_functionalNetwork.auditor_inhibitory_gate"
+          }
+        ]
+      }
+    }
+  },
+  "bridgeReadings": {
+    "matched": [
+      {
+        "patternId": "SPN_striatal_interneuron_phasic_gating_x_payment_network_interchange_fee_passthrough_rigidity",
+        "neuralRegion": "SPN",
+        "neuralRegionLabel": "Striatal Projection Neurons (Cholinergic Interneuron–Mediated Phasic Gating Circuit)",
+        "businessSignature": "payment_network_interchange_passthrough_rigidity_with_margin_gating_collapse",
+        "mappingType": "analogous_mechanism",
+        "matchedIndicators": [
+          "visa_mastercard_interchange_cost_pressure_supplier_notes",
+          "amex_optblue_hospitality_gaming_interchange_mismatch"
+        ],
+        "totalIndicators": 4,
+        "matchRate": 0.5,
+        "confidence": 0.315,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "Automated interchange contingency-detection engine that monitors real-time network fee schedule feeds and triggers phasic merchant rate adjustment events within a configurable latency window, analogous to a synthetic TAN pause signal.",
+            "noveltyAnchor": "Dynamic phasic repricing trigger keyed to network fee effective-date metadata rather than manual billing cycle, with per-vertical interchange qualification scoring to minimize downgrade exposure."
+          },
+          "grant": {
+            "programMatch": [
+              "NSF Future of Work at the Human-Technology Frontier",
+              "DARPA Transparent Computing (adaptive pricing infrastructure)"
+            ],
+            "angle": "Frame as adaptive financial infrastructure research: real-time payment cost contingency learning systems that reduce systemic merchant margin volatility, with the neural habit-rigidity model as the formal dynamical reference."
+          },
+          "investment": {
+            "thesis": "Processors with demonstrated interchange optimization automation (real-time qualification scoring, dynamic rate-table patching) will sustain net revenue yield through network fee cycles; those without show lagged margin compression detectable 1-2 quarters post-schedule change—a timing arbitrage opportunity in Shift4 vs. peers.",
+            "horizon": "2-4 quarters post Visa/MC fee schedule change events",
+            "instruments": [
+              "FOUR long/short relative to payment processor peers on yield compression signal",
+              "options on FOUR straddling Q1 earnings following April interchange schedule effective dates"
+            ]
+          },
+          "research": {
+            "hypothesis": "Payment processors exhibiting lower interchange optimization automation scores will show statistically greater net revenue yield compression in the two quarters following a major network fee schedule update, controlling for volume mix and vertical concentration.",
+            "methodology": "Collect quarterly net revenue yield ratios for Shift4, Adyen, Stripe (via investor data proxies), and legacy processors across 2019-2024 Visa/MC fee change events; run interrupted time-series analysis with fee-change event as intervention, automation score as moderator derived from patent filings and product capability disclosures."
+          },
+          "sba": null,
+          "franchise": null
+        },
+        "phaseAffinity": [
+          "p8"
+        ],
+        "knownTreatments": [
+          "Scopolamine (muscarinic antagonist reducing TAN tonic excitability to restore phasic pause window)",
+          "L-DOPA augmentation (restoring dopaminergic D2 modulation of TAN pause probability)",
+          "Deep brain stimulation of striatum (exogenous phasic interruption of tonic cholinergic suppression)"
+        ]
+      },
+      {
+        "patternId": "PPTN_dopaminergic_reward_timing_x_milestone_payment_desynchronization",
+        "neuralRegion": "PPTN",
+        "neuralRegionLabel": "Pedunculopontine Tegmental Nucleus",
+        "businessSignature": "milestone_payment_desynchronization_with_sustained_effort_collapse",
+        "mappingType": "analogous_mechanism",
+        "matchedIndicators": [
+          "sovereign_funding_timing_risk_in_supplier_notes",
+          "defense_medical_countermeasures_funding_dependency"
+        ],
+        "totalIndicators": 5,
+        "matchRate": 0.4,
+        "confidence": 0.252,
+        "derivedAngles": {
+          "patent": {
+            "claimDirection": "Automated milestone-payment timing analytics system that detects effort-reward temporal decoupling in government-funded biotech firms using SEC filing text, contract award databases, and internal burn-rate signals, generating early-warning scores before runway crisis",
+            "noveltyAnchor": "Application of reward-timing neuroscience constructs (inter-reward interval variance, temporal credit assignment failure) as the formal model underlying a financial early-warning algorithm for contract-dependent pharmaceutical companies"
+          },
+          "grant": {
+            "programMatch": [
+              "NIH SBIR PA-23-185: Small Business Innovation in Health Data Analytics",
+              "NSF SBIR Topic: AI for Financial Risk in Life Sciences",
+              "DoD SBIR: Contractor performance prediction and resilience assessment"
+            ],
+            "angle": "Frame as a neuroscience-derived behavioral finance tool for predicting government contractor persistence and completion risk, directly relevant to NIH/DoD program officer stewardship of small biotech grantees like 60 Degrees"
+          },
+          "investment": {
+            "thesis": "60 Degrees Pharmaceuticals is structurally exposed to PPTN-analog temporal decoupling risk: with NIH and DoD as near-exclusive revenue sources and no commercial product cash flow, any sovereign payment delay propagates directly into organizational motivational decoherence. Short thesis on warrant recovery (SXTPW) if next contract milestone slips; watch 90-day burn-vs-inflow divergence ratio as primary signal.",
+            "horizon": "6-18 months",
+            "instruments": [
+              "SXTPW warrants (asymmetric downside exposure)",
+              "Put options on peer basket (Ultragenyx, Agios) if sector-level DoD/NIH budget timing risk materializes",
+              "Long position contingent on confirmed on-time milestone payment + commercial partnership announcement"
+            ]
+          },
+          "research": {
+            "hypothesis": "Government-contract-dependent pharmaceutical firms exhibiting grant-tranche-to-milestone-completion lag >90 days across two consecutive funding cycles will show statistically significant increases in voluntary key-personnel attrition and downward guidance revision frequency within the following two quarters, consistent with reward-timing desynchronization theory derived from PPTN-VTA circuit pathology.",
+            "methodology": "Retrospective cohort analysis of SEC 10-K/10-Q filings and USASpending.gov contract award data for n=40 small-cap government-funded biopharma firms (2015-2024); compute milestone-payment lag distributions; correlate with personnel attrition proxy (risk-factor language NLP) and guidance revision counts; test against matched commercial-revenue firms as control group using difference-in-differences design."
+          },
+          "sba": null,
+          "franchise": null
+        },
+        "phaseAffinity": [
+          "p3",
+          "p7b"
+        ],
+        "knownTreatments": [
+          "Deep brain stimulation of PPTN (restores cholinergic entrainment of VTA burst timing)",
+          "Cholinesterase inhibitors — donepezil (amplifies residual PPTN cholinergic signal to VTA)",
+          "Interval training behavioral protocols (externally scaffolds reward-timing expectation to rebuild internal clock)"
+        ]
+      }
+    ],
+    "evaluatedAt": "2026-06-13T16:34:00.604Z",
+    "patternsConsidered": 33
+  }
+}
