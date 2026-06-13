@@ -17,6 +17,15 @@ module.exports = async (req, res) => {
   try {
     if (req.method === 'GET') {
       const state = await author.listProposals();
+      // Surface APPROVED patterns from the matching library (bridge-patterns.json) —
+      // approved proposals graduate OUT of the queue into that file, so the review
+      // page (which reads the queue) wouldn't show them otherwise.
+      try {
+        if (state && Array.isArray(state.proposals)) {
+          const have = new Set(state.proposals.map(p => p.pattern && p.pattern.id).filter(Boolean));
+          for (const lp of author.approvedLibraryAsProposals()) if (!have.has(lp.id)) state.proposals.push(lp);
+        }
+      } catch (e) { /* best-effort */ }
       // Optional ?status=REJECTED (etc.) to list a single bucket — used to find
       // rejected proposals to restore. Dedup latest-wins by pattern id first.
       const want = (req.query && req.query.status) ? String(req.query.status).toUpperCase() : null;
