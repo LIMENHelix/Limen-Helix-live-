@@ -1,24 +1,24 @@
 {
   "schemaVersion": "vitals/2.0",
-  "generatedAt": "2026-06-04T18:58:50.140Z",
+  "generatedAt": "2026-06-14T09:15:12.849Z",
   "overall": {
-    "score": 79,
+    "score": 77,
     "status": "DEGRADED",
-    "summary": "12 organs · 24 attention items · feeds 55 · l1Nodes 97 · domains 65 · portalCorpus 76 · deadLinks 76 · kernel 0 · connectome 100 · civilization 100 · masterBrain 95 · propagator 100 · patternBus 100 · bridge 80"
+    "summary": "12 organs · 20 attention items · feeds 55 · l1Nodes 97 · domains 98 · portalCorpus 76 · deadLinks 78 · kernel 27 · connectome 100 · civilization 100 · masterBrain 95 · propagator 0 · patternBus 100 · bridge 99"
   },
   "scores": {
     "feeds": 55,
     "l1Nodes": 97,
-    "domains": 65,
+    "domains": 98,
     "portalCorpus": 76,
-    "deadLinks": 76,
-    "kernel": 0,
+    "deadLinks": 78,
+    "kernel": 27,
     "connectome": 100,
     "civilization": 100,
     "masterBrain": 95,
-    "propagator": 100,
+    "propagator": 0,
     "patternBus": 100,
-    "bridge": 80
+    "bridge": 99
   },
   "organs": {
     "feeds": {
@@ -234,9 +234,9 @@
       "id": "domains",
       "role": "21 cortical circuits (domain brains)",
       "order": 30,
-      "score": 65,
-      "status": "IN_PAIN",
-      "summary": "21/21 domains · 20/21 structurally complete · packet-adapter ✗ OPEN LOOP",
+      "score": 98,
+      "status": "HEALTHY",
+      "summary": "21/21 domains · 20/21 structurally complete · packet-adapter ✓",
       "metrics": {
         "fileCount": 21,
         "presentDomains": [
@@ -276,11 +276,11 @@
             ]
           }
         ],
-        "adapterPresent": false,
+        "adapterPresent": true,
         "scoreParts": {
           "count": 100,
           "structural": 95,
-          "adapter": 0
+          "adapter": 100
         }
       },
       "attention": [
@@ -297,13 +297,6 @@
           "count": 1,
           "action": "inspect: domain-console-brain.js",
           "organ": "domains"
-        },
-        {
-          "issue": "domain-packet-adapter.js missing — loop between domains and Main Brain is OPEN",
-          "severity": "high",
-          "count": 1,
-          "action": "restore assets/js/limen/domain-packet-adapter.js (memory: this was canonical #1 pathology)",
-          "organ": "domains"
         }
       ]
     },
@@ -313,10 +306,10 @@
       "order": 40,
       "score": 76,
       "status": "DEGRADED",
-      "summary": "767 portals · DATA_NEEDED 0 · brain-tagged 100% · kernel 0/100 · prose 98/100 · curated 100% · eligible 36%",
+      "summary": "800 portals · DATA_NEEDED 0 · brain-tagged 100% · kernel 0/100 · prose 98/100 · curated 100% · eligible 39%",
       "metrics": {
         "corpus": {
-          "totalPortals": 767,
+          "totalPortals": 800,
           "curatedBoard": {
             "totalRows": 506,
             "withSlug": 506,
@@ -328,9 +321,9 @@
           "eligibleBoard": {
             "totalRows": 302,
             "withSlug": 290,
-            "resolving": 103,
-            "broken": 187,
-            "hpTrue": 103,
+            "resolving": 112,
+            "broken": 178,
+            "hpTrue": 114,
             "brokenList": [
               {
                 "name": "GROOVE BOTANICALS INC.",
@@ -466,8 +459,8 @@
           "portalsAffected": 0
         },
         "brainFidelity": {
-          "totalEntries": 30034,
-          "taggedEntries": 29935,
+          "totalEntries": 31338,
+          "taggedEntries": 31239,
           "fullyTaggedRate": 0.997,
           "underTagged": [
             {
@@ -479,7 +472,22 @@
           "rolesPresent": 9
         },
         "dupRisk": {
-          "byName": [],
+          "byName": [
+            {
+              "key": "charlesriverlaboratoriesinternational",
+              "slugs": [
+                "charles_river",
+                "charles_river_laboratories"
+              ]
+            },
+            {
+              "key": "roche",
+              "slugs": [
+                "roche",
+                "roche_genentech"
+              ]
+            }
+          ],
           "byBase": [],
           "byCik": [
             {
@@ -498,7 +506,7 @@
               ]
             }
           ],
-          "nameCount": 0,
+          "nameCount": 2,
           "baseCount": 0,
           "cikCount": 2
         },
@@ -559,12 +567,12 @@
         },
         "categoryBleed": {
           "pureMisslot": 0,
-          "coopetition": 501,
+          "coopetition": 531,
           "examples": []
         },
         "kernelIntegrity": {
-          "totalEligible": 683,
-          "nullCompositeCount": 683,
+          "totalEligible": 714,
+          "nullCompositeCount": 714,
           "nullCompositeRate": 1,
           "nanCompositeCount": 0,
           "nullCompositeSample": [
@@ -582,6 +590,10 @@
             },
             {
               "slug": "abb",
+              "kernelStatus": "ELIGIBLE_NOW"
+            },
+            {
+              "slug": "abbott_diagnostics",
               "kernelStatus": "ELIGIBLE_NOW"
             },
             {
@@ -623,18 +635,14 @@
             {
               "slug": "adyen",
               "kernelStatus": "ELIGIBLE_NOW"
-            },
-            {
-              "slug": "aecom",
-              "kernelStatus": "ELIGIBLE_NOW"
             }
           ],
           "nanSample": []
         },
         "prose": {
           "badEntries": 515,
-          "totalEntries": 30034,
-          "badEntryRate": 0.017,
+          "totalEntries": 31338,
+          "badEntryRate": 0.016,
           "byIssue": {
             "trailing-ellipsis": 498,
             "too-short": 6,
@@ -749,9 +757,9 @@
       "scores": {
         "placeholderBleed": 100,
         "brainFidelity": 100,
-        "dupRisk": 90,
+        "dupRisk": 80,
         "curatedWiring": 100,
-        "eligibleWiring": 36,
+        "eligibleWiring": 39,
         "thinPortals": 85,
         "domainRouting": 50,
         "categoryBleed": 100,
@@ -762,6 +770,13 @@
       },
       "attention": [
         {
+          "issue": "Name-fingerprint dup clusters",
+          "count": 2,
+          "severity": "high",
+          "action": "review scripts/_dedup-analysis.mjs output and choose canonicals",
+          "organ": "portalCorpus"
+        },
+        {
           "issue": "CIK collisions (real ciks shared)",
           "count": 2,
           "severity": "high",
@@ -770,7 +785,7 @@
         },
         {
           "issue": "Eligible CB rows with broken portal links",
-          "count": 187,
+          "count": 178,
           "severity": "med",
           "action": "run scripts/wire-eligible-slugs.mjs",
           "organ": "portalCorpus"
@@ -798,7 +813,7 @@
         },
         {
           "issue": "Null kernel composite on ELIGIBLE-marked portals",
-          "count": 683,
+          "count": 714,
           "severity": "high",
           "action": "investigate — kernel never scored these (CIK mismatch? API failure during generation?)",
           "organ": "portalCorpus"
@@ -816,9 +831,9 @@
       "id": "deadLinks",
       "role": "surface link integrity (no dead-portal navigation)",
       "order": 45,
-      "score": 76,
+      "score": 78,
       "status": "DEGRADED",
-      "summary": "2 unguarded surfaces · 2 total emitters · 188 CB rows point at missing portals (fallback page now handles)",
+      "summary": "2 unguarded surfaces · 2 total emitters · 177 CB rows point at missing portals (fallback page now handles)",
       "metrics": {
         "unguardedSurfaces": [
           {
@@ -834,7 +849,7 @@
         ],
         "guardedSurfaces": [],
         "totalEmitters": 2,
-        "cbDeadCount": 188,
+        "cbDeadCount": 177,
         "cbDeadSample": [
           {
             "slug": "paychex_inc",
@@ -899,7 +914,7 @@
         ],
         "scoreParts": {
           "surface": 90,
-          "realized": 62
+          "realized": 65
         }
       },
       "attention": [
@@ -913,7 +928,7 @@
         {
           "issue": "CB rows pointing to a portal slug with NO file on disk (dead clicks waiting)",
           "severity": "med",
-          "count": 188,
+          "count": 177,
           "action": "either build the missing portals (paused queue) or accept the absence — company-portal-ui.js now handles gracefully",
           "organ": "deadLinks"
         }
@@ -923,119 +938,35 @@
       "id": "kernel",
       "role": "kernel coverage (K1 financial · K2 polyvagal · K3 relational-only · reserved)",
       "order": 50,
-      "score": 0,
+      "score": 27,
       "status": "IN_PAIN",
-      "summary": "K1 0/767 (0%) · K2 0/767 (0%) · K3 0/767 (reserved) · any-kernel 0/767 (0%)",
+      "summary": "K1 651/800 (81%) · K2 0/800 (0%) · K3 0/800 (reserved) · any-kernel 651/800 (81%)",
       "metrics": {
-        "total": 767,
+        "total": 800,
         "coverage": {
-          "k1": 0,
+          "k1": 0.814,
           "k2": 0,
           "k3": 0,
-          "anyKernel": 0
+          "anyKernel": 0.814
         },
         "counts": {
-          "k1": 0,
+          "k1": 651,
           "k2": 0,
           "k3": 0,
-          "anyKernel": 0,
-          "blind": 767
+          "anyKernel": 651,
+          "blind": 149
         },
         "slotScores": {
-          "k1": 0,
+          "k1": 81,
           "k2": 0,
           "k3": 0
         },
         "blindPortals": [
           {
-            "slug": "10x_genomics",
-            "name": "10x Genomics, Inc.",
-            "sector": "Biological Products; Single-Cell & Spatial Biology Instruments & Consumables",
-            "domain": "science"
-          },
-          {
-            "slug": "2u",
-            "name": "2U, Inc.",
-            "sector": "Education Platform / Online Program Management",
-            "domain": "education"
-          },
-          {
-            "slug": "3m",
-            "name": "3M Company",
-            "sector": "Industrial conglomerate — Safety/Industrial + Transportation/Electronics + Health Care + Consumer (post-2024 Solventum spin)",
-            "domain": "industry"
-          },
-          {
-            "slug": "60_degrees_pharmaceuticals_inc",
-            "name": "60 DEGREES PHARMACEUTICALS, INC.",
-            "sector": "Pharmaceutical Preparations",
-            "domain": "medicine"
-          },
-          {
             "slug": "abb",
             "name": "ABB Ltd.",
             "sector": "Switchgear, Switchboard Apparatus, and Industrial Control Apparatus Manufacturing",
             "domain": "infrastructure"
-          },
-          {
-            "slug": "abbott_laboratories",
-            "name": "Abbott Laboratories",
-            "sector": "Diagnostics + Established Pharmaceuticals + Medical Devices + Nutrition",
-            "domain": "medicine"
-          },
-          {
-            "slug": "abbott_metabolic",
-            "name": "Abbott Laboratories (Metabolic / CGM Division)",
-            "sector": "Continuous Glucose Monitoring (CGM) & Metabolic Nutrition",
-            "domain": "medicine"
-          },
-          {
-            "slug": "abbvie",
-            "name": "AbbVie Inc.",
-            "sector": "Pharmaceutical Preparations",
-            "domain": "medicine"
-          },
-          {
-            "slug": "abundia_global_impact_group_inc",
-            "name": "ABUNDIA GLOBAL IMPACT GROUP, INC.",
-            "sector": "Crude Petroleum and Natural Gas Extraction",
-            "domain": "energy"
-          },
-          {
-            "slug": "acadia_pharmaceuticals",
-            "name": "Acadia Pharmaceuticals Inc.",
-            "sector": "Pharmaceutical Preparations — Neuropsychiatry",
-            "domain": "medicine"
-          },
-          {
-            "slug": "accenture",
-            "name": "Accenture plc",
-            "sector": "Management and public relations consulting; professional services — technology consulting, managed services, digital transformation",
-            "domain": "governance"
-          },
-          {
-            "slug": "adobe",
-            "name": "Adobe Inc.",
-            "sector": "Prepackaged Software / SaaS (Creative, Document, Experience Cloud)",
-            "domain": "technology"
-          },
-          {
-            "slug": "adp",
-            "name": "Automatic Data Processing, Inc.",
-            "sector": "Payroll Services",
-            "domain": "economy"
-          },
-          {
-            "slug": "adtalem_global_education",
-            "name": "Adtalem Global Education Inc.",
-            "sector": "For-profit higher education — nursing, graduate online, medical schools",
-            "domain": "education"
-          },
-          {
-            "slug": "advanced_drainage_systems",
-            "name": "Advanced Drainage Systems, Inc.",
-            "sector": "Plastics Pipe and Fittings Manufacturing; Water Management Infrastructure",
-            "domain": "environment"
           },
           {
             "slug": "adyen",
@@ -1044,34 +975,10 @@
             "domain": "finance"
           },
           {
-            "slug": "aecom",
-            "name": "AECOM",
-            "sector": "Engineering Services",
-            "domain": "infrastructure"
-          },
-          {
-            "slug": "aerovironment",
-            "name": "AeroVironment, Inc.",
-            "sector": "Unmanned Aircraft Systems & Tactical Missile Systems",
-            "domain": "defense"
-          },
-          {
-            "slug": "agco",
-            "name": "AGCO Corporation",
-            "sector": "Agricultural machinery — Fendt, Massey Ferguson, Valtra, Challenger, Precision Planting",
-            "domain": "agriculture"
-          },
-          {
             "slug": "agilent_technologies",
             "name": "Agilent Technologies Inc.",
             "sector": "Laboratory Analytical Instruments",
             "domain": "population"
-          },
-          {
-            "slug": "aig",
-            "name": "American International Group, Inc.",
-            "sector": "General Insurance (commercial + personal lines) + Life & Retirement (Corebridge Financial 22% stake post-IPO Sep 2022)",
-            "domain": "finance"
           },
           {
             "slug": "air_liquide",
@@ -1080,113 +987,221 @@
             "domain": "industry"
           },
           {
-            "slug": "air_products",
-            "name": "Air Products and Chemicals, Inc.",
-            "sector": "Industrial gases (oxygen, nitrogen, argon, hydrogen, helium) + clean hydrogen mega-projects",
+            "slug": "allegheny_technologies",
+            "name": "Allegheny Technologies Incorporated",
+            "sector": "Nonferrous Rolling and Drawing, Not Elsewhere Classified",
+            "domain": "defense"
+          },
+          {
+            "slug": "amazon_web_services",
+            "name": "Amazon Web Services, Inc.",
+            "sector": "Services-Prepackaged Software",
+            "domain": "education"
+          },
+          {
+            "slug": "anixter_international",
+            "name": "Anixter International Inc.",
+            "sector": "Computers and Computer Peripheral Equipment and Software Wholesalers",
             "domain": "industry"
           },
           {
-            "slug": "airbnb",
-            "name": "Airbnb, Inc.",
-            "sector": "Online marketplace for short-term and long-term home and experience stays; Icons program launched May 2024",
+            "slug": "anthropic",
+            "name": "Anthropic PBC",
+            "sector": "Services-Prepackaged Software",
             "domain": "culture"
           },
           {
-            "slug": "airbus",
-            "name": "Airbus SE",
-            "sector": "Aircraft Manufacturing",
+            "slug": "arcelormittal",
+            "name": "ArcelorMittal S.A.",
+            "sector": "Steel Works, Blast Furnaces & Rolling Mills",
+            "domain": "industry"
+          },
+          {
+            "slug": "arkema",
+            "name": "Arkema S.A.",
+            "sector": "Chemicals & Allied Products",
+            "domain": "industry"
+          },
+          {
+            "slug": "axiom_space",
+            "name": "Axiom Space Inc.",
+            "sector": "Aircraft, Guided Missiles, and Parts Manufacturing",
             "domain": "defense"
+          },
+          {
+            "slug": "basf",
+            "name": "BASF SE",
+            "sector": "Chemicals & Allied Products",
+            "domain": "environment"
+          },
+          {
+            "slug": "bechtel",
+            "name": "Bechtel Corporation",
+            "sector": "Heavy Construction Contractors",
+            "domain": "infrastructure"
+          },
+          {
+            "slug": "bloomberg",
+            "name": "Bloomberg L.P.",
+            "sector": "Services-Prepackaged Software",
+            "domain": "finance"
+          },
+          {
+            "slug": "bmw",
+            "name": "Bayerische Motoren Werke AG",
+            "sector": "Motor Vehicles and Passenger Car Bodies",
+            "domain": "technology"
+          },
+          {
+            "slug": "bnsf_railway",
+            "name": "BNSF Railway Company",
+            "sector": "Railroads",
+            "domain": "supplyChain"
+          },
+          {
+            "slug": "bosch",
+            "name": "Robert Bosch GmbH",
+            "sector": "Motor Vehicle Parts and Accessories",
+            "domain": "technology"
+          },
+          {
+            "slug": "bosch_rexroth",
+            "name": "Bosch Rexroth AG",
+            "sector": "Internal Combustion Engines; Hydraulic & Pneumatic Equipment",
+            "domain": "infrastructure"
+          },
+          {
+            "slug": "bp",
+            "name": "BP plc",
+            "sector": "Crude Petroleum and Natural Gas Extraction",
+            "domain": "energy"
+          },
+          {
+            "slug": "bridgestone_americas",
+            "name": "Bridgestone Americas, Inc.",
+            "sector": "Tire and Inner Tube Manufacturing",
+            "domain": "supplyChain"
+          },
+          {
+            "slug": "byd",
+            "name": "BYD Company Limited",
+            "sector": "Motor Vehicles and Passenger Car Bodies",
+            "domain": "industry"
+          },
+          {
+            "slug": "calm_com",
+            "name": "Calm.com, Inc.",
+            "sector": "Prepackaged Software — Wellness",
+            "domain": "medicine"
+          },
+          {
+            "slug": "cargill",
+            "name": "Cargill, Incorporated",
+            "sector": "Agricultural Commodity Trading & Food Ingredients (Private)",
+            "domain": "agriculture"
+          },
+          {
+            "slug": "casella_waste_systems",
+            "name": "Casella Waste Systems, Inc.",
+            "sector": "Refuse Systems",
+            "domain": "environment"
+          },
+          {
+            "slug": "catl",
+            "name": "Contemporary Amperex Technology Co., Ltd.",
+            "sector": "Storage Batteries",
+            "domain": "industry"
           }
         ],
         "worstSectors": [
           {
-            "sector": "pharmaceutical preparations",
-            "total": 50,
+            "sector": "deep sea foreign transportation of freight",
+            "total": 5,
             "k1": 0,
             "k2": 0,
             "k3": 0,
-            "blind": 50,
+            "blind": 5,
             "anyRate": 0
           },
           {
-            "sector": "services—prepackaged software",
-            "total": 33,
+            "sector": "chemicals & allied products",
+            "total": 3,
             "k1": 0,
             "k2": 0,
             "k3": 0,
-            "blind": 33,
+            "blind": 3,
             "anyRate": 0
           },
           {
-            "sector": "crude petroleum and natural gas extraction",
-            "total": 24,
+            "sector": "switchgear, switchboard apparatus, and industrial control apparatus manufacturing",
+            "total": 2,
             "k1": 0,
             "k2": 0,
             "k3": 0,
-            "blind": 24,
+            "blind": 2,
             "anyRate": 0
           },
           {
-            "sector": "services-prepackaged software",
-            "total": 24,
+            "sector": "tire and inner tube manufacturing",
+            "total": 2,
             "k1": 0,
             "k2": 0,
             "k3": 0,
-            "blind": 24,
+            "blind": 2,
             "anyRate": 0
           },
           {
-            "sector": "laboratory analytical instruments",
-            "total": 15,
+            "sector": "storage batteries",
+            "total": 2,
             "k1": 0,
             "k2": 0,
             "k3": 0,
-            "blind": 15,
+            "blind": 2,
             "anyRate": 0
           },
           {
-            "sector": "trucking (except local)",
-            "total": 8,
+            "sector": "nonferrous rolling and drawing, not elsewhere classified",
+            "total": 1,
             "k1": 0,
             "k2": 0,
             "k3": 0,
-            "blind": 8,
+            "blind": 1,
             "anyRate": 0
           },
           {
-            "sector": "biological products (except diagnostic substances)",
-            "total": 7,
+            "sector": "heavy construction contractors",
+            "total": 1,
             "k1": 0,
             "k2": 0,
             "k3": 0,
-            "blind": 7,
+            "blind": 1,
             "anyRate": 0
           },
           {
-            "sector": "motor vehicles and passenger car bodies",
-            "total": 7,
+            "sector": "internal combustion engines; hydraulic & pneumatic equipment",
+            "total": 1,
             "k1": 0,
             "k2": 0,
             "k3": 0,
-            "blind": 7,
+            "blind": 1,
             "anyRate": 0
           },
           {
-            "sector": "engineering services",
-            "total": 6,
+            "sector": "prepackaged software — wellness",
+            "total": 1,
             "k1": 0,
             "k2": 0,
             "k3": 0,
-            "blind": 6,
+            "blind": 1,
             "anyRate": 0
           },
           {
-            "sector": "petroleum refining",
-            "total": 6,
+            "sector": "agricultural commodity trading & food ingredients (private)",
+            "total": 1,
             "k1": 0,
             "k2": 0,
             "k3": 0,
-            "blind": 6,
+            "blind": 1,
             "anyRate": 0
           }
         ],
@@ -1213,22 +1228,15 @@
         {
           "issue": "K2 (universal kernel) coverage below 100%",
           "severity": "high",
-          "count": 767,
+          "count": 800,
           "action": "persist K2 readings via scripts/persist-k2-readings.mjs (requires relaxed K2 gates in api/helix_app/index.py deployed first)",
           "organ": "kernel"
         },
         {
           "issue": "Portals with NO kernel reading (K1/K2/K3 all empty) — K3 frontier",
           "severity": "med",
-          "count": 767,
+          "count": 149,
           "action": "these are where K3 needs to land. For now: ensure K2 fires post-relaxation. K3 design pending.",
-          "organ": "kernel"
-        },
-        {
-          "issue": "K1 (financial kernel) ZERO coverage — expected during migration if all readings are in legacy financialHealth slot",
-          "severity": "low",
-          "count": 767,
-          "action": "informational — K1 nulls are expected for off-EDGAR portals",
           "organ": "kernel"
         },
         {
@@ -1318,7 +1326,7 @@
           "masterBrain": true,
           "executor": true,
           "enginePersist": true,
-          "consumer": true,
+          "consumer": false,
           "inbox": false
         },
         "lanesPresent": [
@@ -1362,40 +1370,21 @@
       "id": "propagator",
       "role": "spider-web stress propagator",
       "order": 90,
-      "score": 100,
-      "status": "HEALTHY",
-      "summary": "496 nodes · 7111 edges · 386 damped · 10 pathC · 0 alert · snapshot 0.0h old",
+      "score": 0,
+      "status": "IN_PAIN",
+      "summary": "propagator file missing",
       "metrics": {
         "present": {
-          "propagator": true,
+          "propagator": false,
           "snapshot": true
-        },
-        "ageHours": 0.013155628051757812,
-        "nodeCount": 496,
-        "edgeCount": 7111,
-        "dampedCount": 386,
-        "pathCCount": 10,
-        "alertCount": 0,
-        "networkPushedCount": 338,
-        "scoreParts": {
-          "presence": 100,
-          "fresh": 100,
-          "size": 99
         }
       },
       "attention": [
         {
-          "issue": "path-C anomalies in propagator output (unbounded composites)",
-          "severity": "med",
-          "count": 10,
-          "action": "inspect — kernel path C indicates outlier financial state, may be data error",
-          "organ": "propagator"
-        },
-        {
-          "issue": "Propagator output has NO downstream consumers (per [[limen_full_system_audit_2026_05_25]])",
-          "severity": "med",
+          "issue": "limen-stress-propagator.js missing",
+          "severity": "high",
           "count": 1,
-          "action": "wire stress-network-state into civilization-super-brain.js / Master Brain",
+          "action": "restore from git history",
           "organ": "propagator"
         }
       ]
@@ -1433,147 +1422,133 @@
       "id": "bridge",
       "role": "brain↔business bridge layer (idea generation)",
       "order": 110,
-      "score": 80,
-      "status": "DEGRADED",
-      "summary": "31 patterns · 461/767 portals bridged (60%) · 626 bridges · 2504 engine artifacts on 461 portals · verbiage ✓",
+      "score": 99,
+      "status": "HEALTHY",
+      "summary": "33 patterns · 778/800 portals bridged (97%) · 1171 bridges · 2504 engine artifacts on 461 portals · verbiage ✓",
       "metrics": {
-        "patternCount": 31,
-        "coverage": 0.601,
-        "portalsWithBridges": 461,
-        "portalsBlindToBridge": 306,
-        "totalBridges": 626,
-        "totalDerivedAngles": 2504,
-        "averageBridgesPerPortal": 0.82,
+        "patternCount": 33,
+        "coverage": 0.973,
+        "portalsWithBridges": 778,
+        "portalsBlindToBridge": 22,
+        "totalBridges": 1171,
+        "totalDerivedAngles": 4684,
+        "averageBridgesPerPortal": 1.46,
         "byPattern": {
-          "OFC_value_x_capital_allocation_pathology": 107,
-          "HAB_anti_reward_x_contrarian_board_lock": 230,
+          "PPTN_dopaminergic_reward_timing_x_milestone_payment_desynchronization": 300,
+          "OFC_value_x_capital_allocation_pathology": 157,
           "CBLM_motor_learning_x_supply_chain_coordination": 11,
-          "AI_interoception_x_board_self_awareness_deficit": 62,
+          "HPA_chronic_stress_x_covenant_distress_chronification": 28,
+          "dlPFC_executive_function_x_strategic_planning_collapse": 38,
+          "NAc_reward_dysregulation_x_revenue_chase": 26,
+          "AI_interoception_x_board_self_awareness_deficit": 65,
+          "SPN_striatal_interneuron_phasic_gating_x_payment_network_interchange_fee_passthrough_rigidity": 182,
           "AMY_threat_overdetection_x_defensive_hedging_excess": 20,
-          "STN_inhibition_x_regulatory_hold_response": 51,
+          "STN_inhibition_x_regulatory_hold_response": 52,
+          "BG_tonic_inhibition_x_monopsony_supplier_throttle": 74,
           "LC_arousal_dysregulation_x_analyst_attention_concentration": 34,
-          "dlPFC_executive_function_x_strategic_planning_collapse": 25,
+          "HAB_anti_reward_x_contrarian_board_lock": 124,
           "DMN_self_reference_x_strategic_drift": 5,
           "dACC_conflict_monitoring_failure_x_audit_committee_dysfunction": 3,
-          "VMPFC_value_misalignment_x_executive_comp_pathology": 27,
+          "VMPFC_value_misalignment_x_executive_comp_pathology": 29,
           "HIPP_memory_consolidation_failure_x_institutional_knowledge_loss": 4,
-          "VTA_dopaminergic_projection_x_capital_attractor_instability": 19,
-          "HPA_chronic_stress_x_covenant_distress_chronification": 15,
-          "NAc_reward_dysregulation_x_revenue_chase": 13
+          "VTA_dopaminergic_projection_x_capital_attractor_instability": 19
         },
         "byMappingType": {
-          "isomorphic_pathology": 626
+          "analogous_mechanism": 482,
+          "isomorphic_pathology": 689
         },
-        "patternDominance": [
-          {
-            "patternId": "HAB_anti_reward_x_contrarian_board_lock",
-            "count": 230,
-            "shareOfMatches": 0.37
-          }
-        ],
+        "patternDominance": [],
         "blindToBridgeSample": [
           {
-            "slug": "60_degrees_pharmaceuticals_inc",
-            "name": "60 DEGREES PHARMACEUTICALS, INC."
+            "slug": "bnsf_railway",
+            "name": "BNSF Railway Company"
           },
           {
-            "slug": "abbott_metabolic",
-            "name": "Abbott Laboratories (Metabolic / CGM Division)"
+            "slug": "catl",
+            "name": "Contemporary Amperex Technology Co., Ltd."
           },
           {
-            "slug": "abundia_global_impact_group_inc",
-            "name": "ABUNDIA GLOBAL IMPACT GROUP, INC."
+            "slug": "datadog",
+            "name": "Datadog, Inc."
           },
           {
-            "slug": "acadia_pharmaceuticals",
-            "name": "Acadia Pharmaceuticals Inc."
+            "slug": "dkng",
+            "name": "DraftKings Inc."
           },
           {
-            "slug": "adyen",
-            "name": "Adyen N.V."
+            "slug": "dlr",
+            "name": "Digital Realty Trust, Inc."
           },
           {
-            "slug": "aecom",
-            "name": "AECOM"
+            "slug": "eqix",
+            "name": "Equinix, Inc."
           },
           {
-            "slug": "agilent_technologies",
-            "name": "Agilent Technologies Inc."
+            "slug": "experian",
+            "name": "Experian plc"
           },
           {
-            "slug": "air_liquide",
-            "name": "Air Liquide S.A."
+            "slug": "ftv",
+            "name": "Fortive Corporation"
           },
           {
-            "slug": "air_products",
-            "name": "Air Products and Chemicals, Inc."
+            "slug": "gtn",
+            "name": "Gray Television, Inc."
           },
           {
-            "slug": "akebia_therapeutics_inc",
-            "name": "Akebia Therapeutics, Inc."
+            "slug": "hapag_lloyd",
+            "name": "Hapag-Lloyd AG"
           },
           {
-            "slug": "alkermes",
-            "name": "Alkermes, Inc."
+            "slug": "hims",
+            "name": "Hims & Hers Health, Inc."
           },
           {
-            "slug": "allegheny_technologies",
-            "name": "Allegheny Technologies Incorporated"
+            "slug": "huawei",
+            "name": "Huawei Technologies Co., Ltd."
           },
           {
-            "slug": "alx_oncology_holdings_inc",
-            "name": "ALX ONCOLOGY HOLDINGS INC"
+            "slug": "hubb",
+            "name": "Hubbell Incorporated"
           },
           {
-            "slug": "amazon",
-            "name": "Amazon.com, Inc."
+            "slug": "imperial_oil_ltd",
+            "name": "Imperial Oil Limited"
           },
           {
-            "slug": "amazon_web_services",
-            "name": "Amazon Web Services, Inc."
+            "slug": "insight_timer",
+            "name": "Insight Timer"
           },
           {
-            "slug": "amc",
-            "name": "AMC ENTERTAINMENT HOLDINGS, INC."
+            "slug": "lg_energy_solution",
+            "name": "LG Energy Solution Ltd."
           },
           {
-            "slug": "ani_pharmaceuticals_inc",
-            "name": "ANI PHARMACEUTICALS INC"
+            "slug": "limen_helix",
+            "name": "LIMEN Helix Transformational Sciences LLC"
           },
           {
-            "slug": "anixter_international",
-            "name": "Anixter International Inc."
+            "slug": "precision_castparts",
+            "name": "Precision Castparts Corp."
           },
           {
-            "slug": "applied_materials",
-            "name": "Applied Materials, Inc."
+            "slug": "salesforce",
+            "name": "Salesforce, Inc."
           },
           {
-            "slug": "arcelormittal",
-            "name": "ArcelorMittal S.A."
+            "slug": "sounds_true",
+            "name": "Sounds True"
           },
           {
-            "slug": "archer_daniels_midland",
-            "name": "Archer-Daniels-Midland Company"
+            "slug": "tyndale_house",
+            "name": "Tyndale House"
           },
           {
-            "slug": "arkema",
-            "name": "Arkema S.A."
-          },
-          {
-            "slug": "asml",
-            "name": "ASML Holding N.V."
-          },
-          {
-            "slug": "astrazeneca",
-            "name": "AstraZeneca plc"
-          },
-          {
-            "slug": "atai_life_sciences",
-            "name": "ATAI Life Sciences Inc."
+            "slug": "wtrg",
+            "name": "Essential Utilities, Inc."
           }
         ],
-        "lastEvaluated": "2026-05-30T07:30:00.120Z",
+        "lastEvaluated": "2026-06-14T03:48:24.806Z",
         "engineOutputs": {
           "portalsWithOutputs": 461,
           "totalArtifacts": 2504,
@@ -1597,36 +1572,14 @@
           "schemaVersion": "verbiage/1.0"
         },
         "scoreParts": {
-          "coverage": 60,
+          "coverage": 97,
           "library": 100
         }
       },
-      "attention": [
-        {
-          "issue": "Bridge coverage below 70% — many portals have no neuro↔business mapping",
-          "severity": "med",
-          "count": 306,
-          "action": "either expand bridge-patterns.json to cover more business signatures, OR these portals genuinely lack pathology pattern (informational)",
-          "organ": "bridge"
-        },
-        {
-          "issue": "Pattern dominance: HAB_anti_reward_x_contrarian_board_lock matches 37% of all bridges (over-firing?)",
-          "severity": "low",
-          "count": 230,
-          "action": "tighten indicators in pattern HAB_anti_reward_x_contrarian_board_lock to be more specific",
-          "organ": "bridge"
-        }
-      ]
+      "attention": []
     }
   },
   "operatorAttention": [
-    {
-      "issue": "Portals with NO kernel reading (K1/K2/K3 all empty) — K3 frontier",
-      "severity": "med",
-      "count": 767,
-      "action": "these are where K3 needs to land. For now: ensure K2 fires post-relaxation. K3 design pending.",
-      "organ": "kernel"
-    },
     {
       "issue": "Truncated prose in fn entries (ellipsis / fragment / empty)",
       "count": 515,
@@ -1635,25 +1588,25 @@
       "organ": "portalCorpus"
     },
     {
-      "issue": "Bridge coverage below 70% — many portals have no neuro↔business mapping",
+      "issue": "Eligible CB rows with broken portal links",
+      "count": 178,
       "severity": "med",
-      "count": 306,
-      "action": "either expand bridge-patterns.json to cover more business signatures, OR these portals genuinely lack pathology pattern (informational)",
-      "organ": "bridge"
+      "action": "run scripts/wire-eligible-slugs.mjs",
+      "organ": "portalCorpus"
     },
     {
       "issue": "CB rows pointing to a portal slug with NO file on disk (dead clicks waiting)",
       "severity": "med",
-      "count": 188,
+      "count": 177,
       "action": "either build the missing portals (paused queue) or accept the absence — company-portal-ui.js now handles gracefully",
       "organ": "deadLinks"
     },
     {
-      "issue": "Eligible CB rows with broken portal links",
-      "count": 187,
+      "issue": "Portals with NO kernel reading (K1/K2/K3 all empty) — K3 frontier",
       "severity": "med",
-      "action": "run scripts/wire-eligible-slugs.mjs",
-      "organ": "portalCorpus"
+      "count": 149,
+      "action": "these are where K3 needs to land. For now: ensure K2 fires post-relaxation. K3 design pending.",
+      "organ": "kernel"
     },
     {
       "issue": "Feed source count low (<30)",
@@ -1661,13 +1614,6 @@
       "count": 22,
       "action": "expand feed-status.js source registry",
       "organ": "feeds"
-    },
-    {
-      "issue": "path-C anomalies in propagator output (unbounded composites)",
-      "severity": "med",
-      "count": 10,
-      "action": "inspect — kernel path C indicates outlier financial state, may be data error",
-      "organ": "propagator"
     },
     {
       "issue": "Domain mis-routing (pharma SIC on non-medicine domain)",
@@ -1698,27 +1644,6 @@
       "organ": "masterBrain"
     },
     {
-      "issue": "Propagator output has NO downstream consumers (per [[limen_full_system_audit_2026_05_25]])",
-      "severity": "med",
-      "count": 1,
-      "action": "wire stress-network-state into civilization-super-brain.js / Master Brain",
-      "organ": "propagator"
-    },
-    {
-      "issue": "K1 (financial kernel) ZERO coverage — expected during migration if all readings are in legacy financialHealth slot",
-      "severity": "low",
-      "count": 767,
-      "action": "informational — K1 nulls are expected for off-EDGAR portals",
-      "organ": "kernel"
-    },
-    {
-      "issue": "Pattern dominance: HAB_anti_reward_x_contrarian_board_lock matches 37% of all bridges (over-firing?)",
-      "severity": "low",
-      "count": 230,
-      "action": "tighten indicators in pattern HAB_anti_reward_x_contrarian_board_lock to be more specific",
-      "organ": "bridge"
-    },
-    {
       "issue": "Portals with brain-tagging below 90%",
       "count": 1,
       "severity": "low",
@@ -1728,13 +1653,13 @@
     {
       "issue": "K2 (universal kernel) coverage below 100%",
       "severity": "high",
-      "count": 767,
+      "count": 800,
       "action": "persist K2 readings via scripts/persist-k2-readings.mjs (requires relaxed K2 gates in api/helix_app/index.py deployed first)",
       "organ": "kernel"
     },
     {
       "issue": "Null kernel composite on ELIGIBLE-marked portals",
-      "count": 683,
+      "count": 714,
       "severity": "high",
       "action": "investigate — kernel never scored these (CIK mismatch? API failure during generation?)",
       "organ": "portalCorpus"
@@ -1752,6 +1677,13 @@
       "count": 2,
       "action": "add bindings for: agriculture, supplyChain",
       "organ": "l1Nodes"
+    },
+    {
+      "issue": "Name-fingerprint dup clusters",
+      "count": 2,
+      "severity": "high",
+      "action": "review scripts/_dedup-analysis.mjs output and choose canonicals",
+      "organ": "portalCorpus"
     },
     {
       "issue": "CIK collisions (real ciks shared)",
@@ -1775,13 +1707,6 @@
       "organ": "domains"
     },
     {
-      "issue": "domain-packet-adapter.js missing — loop between domains and Main Brain is OPEN",
-      "severity": "high",
-      "count": 1,
-      "action": "restore assets/js/limen/domain-packet-adapter.js (memory: this was canonical #1 pathology)",
-      "organ": "domains"
-    },
-    {
       "issue": "CIK collisions in companies-manifest",
       "severity": "high",
       "count": 1,
@@ -1789,11 +1714,11 @@
       "organ": "kernel"
     },
     {
-      "issue": "Portal regen backlog — entities the body needs but has no portal for",
-      "severity": "med",
-      "count": 188,
-      "action": "drain: build-fractal-portals.mjs (autonomous drain not yet wired)",
-      "organ": "portalRegen"
+      "issue": "limen-stress-propagator.js missing",
+      "severity": "high",
+      "count": 1,
+      "action": "restore from git history",
+      "organ": "propagator"
     }
   ],
   "lastHeals": [
@@ -2341,90 +2266,163 @@
           "reason": "operator-only (requires human judgment)"
         }
       ]
-    }
-  ],
-  "portalRegen": {
-    "total": 188,
-    "byTrigger": {
-      "cb_row_missing_portal": 188
     },
-    "topPriority": [
-      {
-        "slug": "paychex_inc",
-        "name": "Paychex",
-        "trigger": "cb_row_missing_portal"
-      },
-      {
-        "slug": "groove_botanicals_inc",
-        "name": "GROOVE BOTANICALS INC.",
-        "trigger": "cb_row_missing_portal"
-      },
-      {
-        "slug": "mnr",
-        "name": "MACH NATURAL RESOURCES LP",
-        "trigger": "cb_row_missing_portal"
-      },
-      {
-        "slug": "soc",
-        "name": "Sable Offshore Corp.",
-        "trigger": "cb_row_missing_portal"
-      },
-      {
-        "slug": "abeo",
-        "name": "ABEONA THERAPEUTICS INC.",
-        "trigger": "cb_row_missing_portal"
-      },
-      {
-        "slug": "aytu",
-        "name": "AYTU BIOPHARMA, INC",
-        "trigger": "cb_row_missing_portal"
-      },
-      {
-        "slug": "tcrt",
-        "name": "Alaunos Therapeutics, Inc.",
-        "trigger": "cb_row_missing_portal"
-      },
-      {
-        "slug": "aldx",
-        "name": "Aldeyra Therapeutics, Inc.",
-        "trigger": "cb_row_missing_portal"
-      },
-      {
-        "slug": "apvo",
-        "name": "Aptevo Therapeutics Inc.",
-        "trigger": "cb_row_missing_portal"
-      },
-      {
-        "slug": "arct",
-        "name": "Arcturus Therapeutics Holdings Inc.",
-        "trigger": "cb_row_missing_portal"
-      },
-      {
-        "slug": "avtx",
-        "name": "Avalo Therapeutics, Inc.",
-        "trigger": "cb_row_missing_portal"
-      },
-      {
-        "slug": "cort",
-        "name": "CORCEPT THERAPEUTICS INC",
-        "trigger": "cb_row_missing_portal"
-      },
-      {
-        "slug": "cvsi",
-        "name": "CV Sciences, Inc.",
-        "trigger": "cb_row_missing_portal"
-      },
-      {
-        "slug": "cytk",
-        "name": "CYTOKINETICS INC",
-        "trigger": "cb_row_missing_portal"
-      },
-      {
-        "slug": "celuw",
-        "name": "Celularity Inc",
-        "trigger": "cb_row_missing_portal"
-      }
-    ],
-    "generatedAt": "2026-06-05T18:35:43.877Z"
-  }
+    {
+      "startedAt": "2026-06-14T09:15:09.434Z",
+      "finishedAt": "2026-06-14T09:15:12.862Z",
+      "preScore": 77,
+      "postScore": 77,
+      "heals": [
+        {
+          "name": "wire-eligible-cb",
+          "issue": "Eligible CB rows with broken portal links",
+          "countBefore": 187,
+          "ranAt": "2026-06-14T09:15:09.437Z",
+          "success": true,
+          "summary": "completed",
+          "exitCode": 0
+        },
+        {
+          "name": "fix-fn-category-bleed",
+          "issue": "Category bleed (competitors in supplier/customer slots)",
+          "countBefore": 19,
+          "ranAt": "2026-06-14T09:15:09.785Z",
+          "success": true,
+          "summary": "completed",
+          "exitCode": 0
+        },
+        {
+          "name": "scrub-data-needed",
+          "issue": "DATA_NEEDED placeholders present",
+          "countBefore": 46,
+          "ranAt": "2026-06-14T09:15:10.216Z",
+          "success": true,
+          "summary": "touched 15 portals · scrubbed 46 fields",
+          "exitCode": 0
+        }
+      ],
+      "skipped": [
+        {
+          "issue": "Truncated prose in fn entries (ellipsis / fragment / empty)",
+          "severity": "med",
+          "count": 515,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "CB rows pointing to a portal slug with NO file on disk (dead clicks waiting)",
+          "severity": "med",
+          "count": 188,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Portals with NO kernel reading (K1/K2/K3 all empty) — K3 frontier",
+          "severity": "med",
+          "count": 149,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Feed source count low (<30)",
+          "severity": "med",
+          "count": 22,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Domain mis-routing (pharma SIC on non-medicine domain)",
+          "severity": "med",
+          "count": 5,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Thin portals (<20 fn entries)",
+          "severity": "med",
+          "count": 3,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Domain brain files lacking required markers (brainId / feedSources / kernels)",
+          "severity": "med",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Master Brain inbox never built — engine outputs not gated/prioritized yet",
+          "severity": "med",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Portals with brain-tagging below 90%",
+          "severity": "low",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "K2 (universal kernel) coverage below 100%",
+          "severity": "high",
+          "count": 800,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Null kernel composite on ELIGIBLE-marked portals",
+          "severity": "high",
+          "count": 714,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Canonical domains with NO feed source",
+          "severity": "high",
+          "count": 9,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Canonical domains with NO L1 node binding",
+          "severity": "high",
+          "count": 2,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Name-fingerprint dup clusters",
+          "severity": "high",
+          "count": 2,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "CIK collisions (real ciks shared)",
+          "severity": "high",
+          "count": 2,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Surfaces build company-portal links without an hp gate",
+          "severity": "high",
+          "count": 2,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Missing canonical domain brain files",
+          "severity": "high",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "CIK collisions in companies-manifest",
+          "severity": "high",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "limen-stress-propagator.js missing",
+          "severity": "high",
+          "count": 1,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Portal regen backlog — entities the body needs but has no portal for",
+          "severity": "med",
+          "count": 187,
+          "reason": "no registered heal"
+        }
+      ]
+    }
+  ]
 }

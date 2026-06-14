@@ -23,17 +23,17 @@
   "helixReportMode": "interpretive_only",
   "helixReportUrl": null,
   "financialHealth": {
-    "asOf": "DATA_NEEDED",
-    "lastKernelRun": "DATA_NEEDED",
+    "asOf": "",
+    "lastKernelRun": "",
     "kernelId": null,
     "validationStatus": "unavailable",
     "envelopeStatus": "PRIVATE",
     "historyQuarters": null,
-    "latestQuarter": "DATA_NEEDED",
+    "latestQuarter": "",
     "compositeScore": null,
     "alert": false,
-    "distressBand": "DATA_NEEDED",
-    "dominantPhase": "DATA_NEEDED",
+    "distressBand": "",
+    "dominantPhase": "",
     "financialState": {
       "cashLatest": null,
       "debtLatest": null,
@@ -207,21 +207,6 @@
         "relationshipNote": "Socure provides AI-powered identity-verification and fraud-detection services that compete with and complement Plaid's Cognito product. Plaid may integrate Socure's DocV and PhoneID+ APIs for enhanced KYC workflows in high-risk lending and neobank segments. Relationship depth and revenue share unknown; likely <5% of Plaid's identity-verification revenue.",
         "confidence": "low",
         "sourceType": [
-          "inferred"
-        ]
-      },
-      {
-        "name": "Mastercard Inc.",
-        "ticker": "MA",
-        "cik": "1141391",
-        "slug": "mastercard",
-        "neuralRole": "Motor",
-        "brainNodeId": "M1",
-        "brainNodeRole": "Payment Processing & Settlement",
-        "relationshipNote": "Plaid's payment-initiation APIs integrate with Mastercard's open-banking and embedded-payment infrastructure. Mastercard's 2021 acquisition of Finicity (a Plaid competitor in account aggregation) and subsequent integration with Plaid's ecosystem suggests partnership on payment-rail standardization. Revenue share and contract terms undisclosed; estimated <3% of Plaid's payment-initiation revenue.",
-        "confidence": "medium",
-        "sourceType": [
-          "news",
           "inferred"
         ]
       },
@@ -513,6 +498,22 @@
           "news",
           "inferred"
         ]
+      },
+      {
+        "name": "Mastercard Inc.",
+        "ticker": "MA",
+        "cik": "1141391",
+        "slug": "mastercard",
+        "neuralRole": "Peer",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Payment Processing & Settlement",
+        "relationshipNote": "Plaid's payment-initiation APIs integrate with Mastercard's open-banking and embedded-payment infrastructure. Mastercard's 2021 acquisition of Finicity (a Plaid competitor in account aggregation) and subsequent integration with Plaid's ecosystem suggests partnership on payment-rail standardization. Revenue share and contract terms undisclosed; estimated <3% of Plaid's payment-initiation revenue.",
+        "confidence": "medium",
+        "sourceType": [
+          "news",
+          "inferred"
+        ],
+        "_reslottedFrom": "suppliers"
       }
     ],
     "regulators": [
