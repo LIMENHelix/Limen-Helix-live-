@@ -3731,12 +3731,10 @@
               "patterns": [
                 "NIH",
                 "NCATS",
-                "DARPA",
-                "DoD",
                 "SBIR",
                 "STTR",
-                "Small Business Innovation",
-                "Defense Advanced"
+                "BARDA",
+                "Small Business Innovation"
               ]
             }
           },
@@ -3747,16 +3745,13 @@
               "type": "fn_text_match",
               "category": "suppliers",
               "patterns": [
-                "clinical trial",
-                "regulatory",
-                "IND",
-                "NDA",
-                "Phase 1",
-                "Phase 2",
-                "Phase 3",
-                "manufacturing",
-                "GMP",
-                "formulation"
+                "milestone payment",
+                "milestone-based",
+                "development milestone",
+                "regulatory milestone",
+                "milestone and royalty",
+                "upfront and milestone",
+                "milestone tranche"
               ]
             }
           },
@@ -3767,12 +3762,9 @@
               "type": "fn_text_match",
               "category": "auditor",
               "patterns": [
-                "going-concern",
                 "going concern",
-                "runway",
-                "R&D capitalization",
-                "warrant",
-                "equity accounting"
+                "going-concern",
+                "substantial doubt"
               ]
             }
           },
@@ -3787,7 +3779,11 @@
               ],
               "patterns": [
                 "Pharmaceutical",
-                "60 DEGREES"
+                "Biological",
+                "Biotechnology",
+                "Diagnostic",
+                "Medicinal",
+                "In Vitro"
               ]
             }
           },
@@ -3799,12 +3795,10 @@
               "category": "customers",
               "patterns": [
                 "medical countermeasures",
-                "trauma",
-                "military",
-                "Defense",
-                "funding",
-                "award",
-                "grants"
+                "BARDA",
+                "countermeasure",
+                "combat casualty",
+                "trauma care"
               ]
             }
           }
