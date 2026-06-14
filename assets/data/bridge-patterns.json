@@ -3882,19 +3882,6 @@
         "description": "Shift4 operates as an integrated payment technology layer whose margin is partly determined by the spread between the interchange and assessment fees it pays upstream (Visa, Mastercard, Amex) and the blended rate it charges merchants. When payment network rule changes—new interchange categories, surcharge rules, or network assessment adjustments—arrive as salient contingency shifts, a processor with rigid passthrough logic (hardcoded rate tables, inflexible billing engines, or contractual floors) cannot execute a phasic switching response; it continues passing through the old cost structure or absorbing the new cost silently. The business circuit remains 'tonically gated,' unable to disinhibit a fresh pricing action, so margin degrades monotonically until a manual repricing event occurs—mirroring the TAN-suppressed striatum that perseverates on the obsolete action even after the reward contingency has changed.",
         "indicators": [
           {
-            "id": "financial_health_phase_gate",
-            "description": "Portal's financial health kernel is in phase p8, consistent with yield-compression stress. Fire on the documented kernel phase to anchor pattern activation.",
-            "detector": {
-              "type": "kernel_phase",
-              "kernels": [
-                "k1"
-              ],
-              "phases": [
-                "p8"
-              ]
-            }
-          },
-          {
             "id": "visa_mastercard_interchange_cost_pressure_supplier_notes",
             "description": "Supplier notes for Visa and Mastercard explicitly reference interchange fee schedule changes, margin pressure, and cost passthrough dynamics that are the core signal of phasic gating failure.",
             "detector": {
@@ -3902,12 +3889,12 @@
               "category": "suppliers",
               "patterns": [
                 "interchange",
-                "margin",
                 "interchange fee",
-                "cost structure",
-                "passthrough",
-                "fee schedule",
-                "interchange-fee"
+                "interchange-fee",
+                "interchange passthrough",
+                "interchange rate",
+                "assessment fee",
+                "network fee schedule"
               ]
             }
           },
@@ -3919,12 +3906,9 @@
               "category": "customers",
               "patterns": [
                 "interchange",
-                "hospitality",
-                "gaming",
-                "Amex",
-                "compliance",
-                "regulatory",
-                "margin"
+                "interchange qualification",
+                "interchange downgrade",
+                "interchange tier"
               ]
             }
           },
@@ -3937,8 +3921,7 @@
                 "industry"
               ],
               "patterns": [
-                "Payment Processing",
-                "Prepackaged Software"
+                "Payment Processing"
               ]
             }
           },
@@ -3951,8 +3934,7 @@
               "patterns": [
                 "Payment Network",
                 "Interchange Rules",
-                "Interchange",
-                "Settlement"
+                "Interchange"
               ]
             }
           }
