@@ -32,7 +32,6 @@
     { label: 'LIMEN HELIX',        href: '/' },
     { label: '★ OPERATOR GUIDE',   href: '/operator-guide' },
     { label: '$ CAPITAL ENGINE',   href: '/capital-engine' },
-    { label: '⚖ APPLICATIONS',     href: '/applications' },
     { label: '✎ JOURNAL',          href: '/journal' },
     { label: '⬇ MY DOCUMENTS',     href: '/my-documents' },
     { label: '⬢ TREATMENT DISCOVERY', href: '/treatment-discovery' },
