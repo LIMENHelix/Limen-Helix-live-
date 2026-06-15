@@ -12,7 +12,7 @@
 (function (root) {
   'use strict';
 
-  var LANES = ['patent', 'grant', 'sba', 'franchise', 'investment', 'research'];
+  var LANES = ['investment', 'research'];
   var STATUSES = ['READY_TO_SIGN', 'SUBMITTED', 'UNDER_REVIEW', 'APPROVED', 'REJECTED', 'WITHDRAWN'];
 
   var _state = {

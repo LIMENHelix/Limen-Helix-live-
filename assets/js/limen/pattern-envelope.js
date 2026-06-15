@@ -42,7 +42,7 @@
   ];
 
   // The 6 engine lanes (per limen_engine_sequence_and_specs).
-  var ENGINE_LANES = ['patent', 'grant', 'sba', 'franchise', 'investment', 'research'];
+  var ENGINE_LANES = ['investment', 'research'];
 
   // FNV-1a 64-bit-ish (folded into hex string). Deterministic, no crypto deps.
   function hash(str) {

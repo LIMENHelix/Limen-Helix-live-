@@ -134,7 +134,7 @@ async function generateEverything() {
   var prog = document.getElementById('globalProgress');
   var patterns = window.__approvedPatterns || [];
   if (patterns.length === 0) { toast('No approved patterns yet', 'err'); return; }
-  var lanes = ['patent', 'grant', 'sba', 'research'];
+  var lanes = ['research', 'investment'];
   var total = patterns.length * lanes.length;
   var done = 0, succeeded = [], failed = [];
   btn.disabled = true;
@@ -196,7 +196,7 @@ function renderCard(p) {
   var lf = null; try { lf = JSON.parse(localStorage.getItem('limen_lanefit_' + id) || 'null'); } catch (e) {}
   var route = lf && lf.route && lf.route.length ? lf.route : null;
   var scores = (lf && lf.scores) || {};
-  var ALL_LANES = ['patent', 'grant', 'research', 'investment', 'sba'];
+  var ALL_LANES = ['research', 'investment'];
   function _laneLabel(L){ return L === 'sba' ? 'SBA loan' : L.charAt(0).toUpperCase() + L.slice(1); }
   function _laneBtn(L){
     var sc = scores[L] && scores[L].score; var badge = (sc != null ? ' ' + sc + '/10' : '');
@@ -269,7 +269,7 @@ async function downloadAll(btn) {
   var progressEl = card.querySelector('[data-progress]');
   card.querySelectorAll('button').forEach(function(b){ b.disabled = true; });
   var lfA = null; try { lfA = JSON.parse(localStorage.getItem('limen_lanefit_' + id) || 'null'); } catch (e) {}
-  var lanes = (lfA && lfA.route && lfA.route.length) ? lfA.route : ['patent', 'grant', 'research', 'investment', 'sba'];
+  var lanes = (lfA && lfA.route && lfA.route.length) ? lfA.route : ['research', 'investment'];
   var succeeded = [];
   var failed = [];
   for (var i = 0; i < lanes.length; i++) {

@@ -37,7 +37,7 @@
     onSectionDone: null,             // callback per section (multi-pass progress)
     // Lanes that exceed single-call cap — use multi-pass runner.
     // Stays in sync with LANE_SECTIONS in api/expand-artifact-claude.js.
-    multiPassLanes: ['patent', 'grant', 'sba', 'franchise']
+    multiPassLanes: []
   };
 
   function create(options) {
