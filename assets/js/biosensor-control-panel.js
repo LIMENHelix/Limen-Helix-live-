@@ -29,7 +29,7 @@
   var _sessionStart = Date.now();
   var _lastRender = 0;
   var _RENDER_MS = 200;          // ~5 Hz UI refresh
-  var _collapsed = true;  // Start collapsed — global top bar surfaces LIMEN BIOSENSOR · LIVE.
+  var _collapsed = false;  // Start expanded so the biosensor readout is visible (operator request 2026-06-15).
 
   // ── Mount ────────────────────────────────────────────────────────────────
   function mount() {
@@ -101,7 +101,7 @@
     // Don't float over the cockpit: hide the panel by default and toggle it from
     // the topbar's existing biosensor indicator (#ltb-bio). Falls back to simply
     // staying hidden if the topbar isn't present (panel still openable via API).
-    _root.style.display = 'none';
+    _root.style.display = 'block';
     (function dockToTopbar(tries) {
       var dot = document.getElementById('ltb-bio');
       if (!dot) { if (tries < 25) setTimeout(function () { dockToTopbar(tries + 1); }, 120); return; }

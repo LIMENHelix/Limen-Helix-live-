@@ -103,6 +103,7 @@
       '}',
       '.ltb-menu a:hover,.ltb-menu a:focus{background:rgba(201,169,78,0.1);color:#e8dcb5;outline:none}',
       '.ltb-actions{display:flex;align-items:center;gap:8px}',
+      '.ltb-actions .clr-analyst-btn{order:1}','.ltb-actions #lnav-btn{order:2}','.ltb-actions .clr-refresh-btn{order:3}',
       /* Reuse clarity button styles where present; provide minimal fallback */
       '.ltb-actions .clr-analyst-btn,.ltb-actions .clr-refresh-btn{',
         'font-family:inherit;font-size:0.4rem;letter-spacing:2px;text-transform:uppercase;',
@@ -186,18 +187,18 @@
     actions.id = 'ltb-actions';
     bar.appendChild(actions);
 
-    // Spacer
-    var sp = document.createElement('div');
-    sp.className = 'ltb-spacer';
-    bar.appendChild(sp);
-
-    // Biosensor LIVE indicator
+    // Biosensor LIVE indicator — kept right beside the actions (Analyst / Pages) per operator
     var bio = document.createElement('div');
     bio.className = 'ltb-bio';
     bio.id = 'ltb-bio';
     bio.innerHTML = '<span class="ltb-bio-dot" aria-hidden="true"></span>'
       + '<span>LIMEN BIOSENSOR &middot; LIVE</span>';
     bar.appendChild(bio);
+
+    // Spacer (pushes the clock to the far right)
+    var sp = document.createElement('div');
+    sp.className = 'ltb-spacer';
+    bar.appendChild(sp);
 
     // Clock + state
     var clock = document.createElement('div');
