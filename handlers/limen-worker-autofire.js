@@ -28,6 +28,7 @@
 
 var db = require('../lib/limen-db');
 var stageClassifier = require('../lib/limen-stage-classifier');
+var { loadPortal } = require('../lib/portal-loader');
 var fs = require('fs');
 var path = require('path');
 
@@ -64,26 +65,16 @@ function _internalHeaders() {
 }
 
 // ── Portal load (matches lib/company-phase-scorer pattern) ──
-var _PORTAL_PATHS = [
-  path.join(__dirname, '..', 'assets', 'data', 'companies'),
-  '/var/task/assets/data/companies',
-  path.join(process.cwd(), 'assets', 'data', 'companies')
-];
 var _PORTAL_CACHE = {};
 
-function _loadPortal(slug) {
+// Per-slug company portal via the shared loader (fetch-first /assets/data/
+// companies/<slug>.json, fs-fallback while includeFiles still bundles). Keeps the
+// per-invocation cache + null-on-miss so the loop's skip behavior is unchanged.
+async function _loadPortal(slug) {
   if (!slug) return null;
   if (_PORTAL_CACHE[slug]) return _PORTAL_CACHE[slug];
-  for (var i = 0; i < _PORTAL_PATHS.length; i++) {
-    try {
-      var fp = path.join(_PORTAL_PATHS[i], slug + '.json');
-      if (fs.existsSync(fp)) {
-        var p = JSON.parse(fs.readFileSync(fp, 'utf8'));
-        _PORTAL_CACHE[slug] = p;
-        return p;
-      }
-    } catch (_) { /* try next */ }
-  }
+  var r = await loadPortal(slug);
+  if (r && r.portal) { _PORTAL_CACHE[slug] = r.portal; return r.portal; }
   return null;
 }
 
@@ -220,7 +211,7 @@ async function _fireOne(entry) {
   if (!slug) {
     return { skipped: true, reason: 'no-portal-for-cik', cik: entry.cik };
   }
-  var portal = _loadPortal(slug);
+  var portal = await _loadPortal(slug);
   if (!portal) {
     return { skipped: true, reason: 'portal-load-failed', cik: entry.cik };
   }
@@ -379,7 +370,8 @@ module.exports = async function handler(req, res) {
       var sampleSlug = cands.length > 0 ? _slugForCik(cands[0].cik) : null;
       var t_slug = Date.now() - stepT;
       stepT = Date.now();
-      var samplePortal = sampleSlug ? _loadPortal(sampleSlug) : null;
+      var sampleRes = sampleSlug ? await loadPortal(sampleSlug) : { portal: null, source: 'miss' };
+      var samplePortal = sampleRes.portal;
       var t_portal = Date.now() - stepT;
       res.setHeader('content-type', 'application/json');
       res.statusCode = 200;
@@ -390,6 +382,7 @@ module.exports = async function handler(req, res) {
         sampleSlug: sampleSlug,
         samplePortalLoaded: !!samplePortal,
         samplePortalName: samplePortal && samplePortal.name,
+        sampleLoaderSource: sampleRes.source,
         timing: {
           budget_ms: t_budget,
           queue_read_ms: t_queue,
@@ -434,7 +427,7 @@ module.exports = async function handler(req, res) {
       // mid-stage equity if the entity has no operating history.
       var slugForStage = _slugForCik(c.cik);
       if (slugForStage) {
-        var portalForStage = _loadPortal(slugForStage);
+        var portalForStage = await _loadPortal(slugForStage);
         if (portalForStage) {
           var classification = stageClassifier.classifyStage(portalForStage);
           var routing = stageClassifier.routeLaneForStage(classification.stage, c.recommendedLane);

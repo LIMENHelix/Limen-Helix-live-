@@ -28,6 +28,7 @@
 
 var db = require('../lib/limen-db');
 var stageClassifier = require('../lib/limen-stage-classifier');
+var { loadPortal } = require('../lib/portal-loader');
 var fs = require('fs');
 var path = require('path');
 
@@ -57,11 +58,6 @@ function _internalHeaders() {
 }
 
 // ── Portal load (same pattern as autofire) ──
-var _PORTAL_PATHS = [
-  path.join(__dirname, '..', 'assets', 'data', 'companies'),
-  '/var/task/assets/data/companies',
-  path.join(process.cwd(), 'assets', 'data', 'companies')
-];
 var _MANIFEST_PATHS = [
   path.join(__dirname, '..', 'assets', 'data', 'companies-manifest.json'),
   '/var/task/assets/data/companies-manifest.json',
@@ -69,19 +65,13 @@ var _MANIFEST_PATHS = [
 ];
 var _PORTAL_CACHE = {};
 
-function _loadPortal(slug) {
+// Per-slug company portal via the shared loader (fetch-first, fs-fallback while
+// includeFiles still bundles). Keeps the per-invocation cache + null-on-miss.
+async function _loadPortal(slug) {
   if (!slug) return null;
   if (_PORTAL_CACHE[slug]) return _PORTAL_CACHE[slug];
-  for (var i = 0; i < _PORTAL_PATHS.length; i++) {
-    try {
-      var fp = path.join(_PORTAL_PATHS[i], slug + '.json');
-      if (fs.existsSync(fp)) {
-        var p = JSON.parse(fs.readFileSync(fp, 'utf8'));
-        _PORTAL_CACHE[slug] = p;
-        return p;
-      }
-    } catch (_) { /* try next */ }
-  }
+  var r = await loadPortal(slug);
+  if (r && r.portal) { _PORTAL_CACHE[slug] = r.portal; return r.portal; }
   return null;
 }
 
@@ -353,7 +343,7 @@ module.exports = async function handler(req, res) {
         if (recent) continue;
         var slug = _slugForCik(c.cik);
         if (!slug) continue;
-        var portal = _loadPortal(slug);
+        var portal = await _loadPortal(slug);
         if (!portal) continue;
 
         // ─ Stage-aware routing ─
@@ -440,7 +430,7 @@ module.exports = async function handler(req, res) {
       return res.end(JSON.stringify({ ok: true, completed: true, outputId: ppFinal && ppFinal.outputId }));
     }
 
-    var portal2 = _loadPortal(job.slug);
+    var portal2 = await _loadPortal(job.slug);
     if (!portal2) {
       // Portal evicted — abort this job
       inflight = [];
