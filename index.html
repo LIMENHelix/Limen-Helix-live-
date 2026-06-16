@@ -29,7 +29,7 @@
     align-items:center;justify-content:center;text-align:center;padding:24px}
   .stage::before{content:'';position:absolute;left:50%;top:48%;transform:translate(-50%,-50%);
     width:min(820px,94vw);height:min(620px,86vh);pointer-events:none;z-index:-1;
-    background:radial-gradient(ellipse at center,rgba(2,2,8,0.82) 0%,rgba(2,2,8,0.5) 42%,rgba(2,2,8,0) 72%)}
+    background:radial-gradient(ellipse at center,rgba(2,2,8,0.92) 0%,rgba(2,2,8,0.66) 40%,rgba(2,2,8,0.12) 66%,rgba(2,2,8,0) 78%)}
   .sigil{font-size:2.1rem;color:var(--gold);line-height:1;cursor:pointer;
     text-shadow:0 0 18px rgba(201,169,78,0.8),0 0 42px rgba(201,169,78,0.45);
     animation:spin 14s linear infinite, pulse 3.2s ease-in-out infinite;user-select:none}
@@ -39,16 +39,17 @@
     font-size:clamp(2.1rem,7vw,5.4rem);line-height:.98;cursor:pointer;user-select:none;
     background:linear-gradient(180deg,#cda14e 0%,#a8862f 52%,#4e3910 100%);
     -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-    filter:drop-shadow(0 0 16px rgba(201,169,78,0.42));
+    -webkit-text-stroke:0.6px rgba(0,0,0,0.5);
+    filter:drop-shadow(0 0 16px rgba(201,169,78,0.42)) drop-shadow(0 2px 4px rgba(0,0,0,0.9));
     animation:flicker 6s ease-in-out infinite}
   h1.word b{font-weight:700;letter-spacing:.22em}
-  @keyframes flicker{0%,100%{filter:drop-shadow(0 0 16px rgba(201,169,78,.45))}45%{filter:drop-shadow(0 0 30px rgba(224,182,89,.5))}}
+  @keyframes flicker{0%,100%{filter:drop-shadow(0 0 16px rgba(201,169,78,.45)) drop-shadow(0 2px 4px rgba(0,0,0,.9))}45%{filter:drop-shadow(0 0 30px rgba(224,182,89,.5)) drop-shadow(0 2px 4px rgba(0,0,0,.9))}}
   .soon{font-size:clamp(.62rem,2.4vw,.92rem);letter-spacing:.74em;text-indent:.74em;
     color:rgba(201,169,78,0.72);text-transform:uppercase;
-    text-shadow:0 0 12px rgba(201,169,78,.45);animation:breathe 4s ease-in-out infinite}
+    text-shadow:0 0 12px rgba(201,169,78,.45),0 1px 4px rgba(0,0,0,.92);animation:breathe 4s ease-in-out infinite}
   @keyframes breathe{0%,100%{opacity:.55}50%{opacity:1}}
   .teaser{max-width:560px;margin:26px auto 0;font-size:clamp(.86rem,2.1vw,1.02rem);
-    line-height:1.7;color:rgba(206,184,132,0.64);text-shadow:0 1px 12px rgba(0,0,0,0.7)}
+    line-height:1.7;color:rgba(216,198,152,0.82);text-shadow:0 1px 2px rgba(0,0,0,.95),0 0 14px rgba(0,0,0,0.85)}
   .teaser .em{color:var(--gold)}
   .teaser .cy{color:var(--cyan)}
 
@@ -95,7 +96,7 @@
   .phase:hover{transform:translateY(-1px)}
   .phase:hover .phase-title{text-shadow:0 0 18px currentColor}
   .phase-title{font-size:clamp(.5rem,1.9vw,.66rem);letter-spacing:.5em;text-indent:.5em;text-transform:uppercase;
-    color:rgba(201,169,78,0.9);transition:color 2.5s ease,text-shadow .3s ease;text-shadow:0 0 12px rgba(0,0,0,0.75)}
+    color:rgba(201,169,78,0.95);transition:color 2.5s ease,text-shadow .3s ease;text-shadow:0 1px 3px rgba(0,0,0,.95),0 0 14px rgba(0,0,0,0.7)}
   .phase-desc{margin-top:7px;font-size:clamp(.46rem,1.35vw,.56rem);letter-spacing:.16em;font-style:italic;
     color:rgba(239,233,216,0.5);text-shadow:0 1px 8px rgba(0,0,0,0.85)}
   .phase-link{margin-top:10px;font-size:.5rem;letter-spacing:.3em;text-transform:uppercase;
@@ -153,7 +154,7 @@ attribute vec2 p; void main(){ gl_Position = vec4(p,0.0,1.0); }
 </script>
 <script type="x-shader/x-fragment" id="frag">
 precision highp float;
-uniform vec2 u_res; uniform float u_time; uniform vec3 u_color;
+uniform vec2 u_res; uniform float u_time; uniform vec3 u_color; uniform float u_chaos; uniform float u_pulse;
 vec3 hsv(float h,float s,float v){
   vec3 K=vec3(1.,2./3.,1./3.);
   vec3 p=abs(fract(vec3(h)+K)*6.-3.);
@@ -163,10 +164,10 @@ mat2 rot(float a){ float c=cos(a),s=sin(a); return mat2(c,-s,s,c); }
 void main(){
   vec2 uv=(gl_FragCoord.xy-0.5*u_res)/min(u_res.x,u_res.y);
   float t=u_time*0.12;
-  uv*= 1.35 + 0.42*sin(u_time*0.13);
+  uv*= (1.35 + 0.42*sin(u_time*0.13)) * (1.0 - u_pulse*0.16);
   uv*=rot(t*0.25);
   // recursive kaleidoscopic folds
-  for(int i=0;i<4;i++){ uv=abs(uv)-0.42; uv*=rot(0.38+0.16*sin(t+float(i))); }
+  for(int i=0;i<4;i++){ uv=abs(uv)-(0.42-u_chaos*0.10); uv*=rot(0.38+0.16*sin(t+float(i)) + u_chaos*0.55*sin(t*1.9+float(i)*2.1)); }
   // animated Julia
   vec2 c=0.7885*vec2(cos(t*0.7),sin(t*0.93));
   vec2 z=uv*1.55;
@@ -183,6 +184,7 @@ void main(){
   col+=core*mix(base,vec3(1.0),0.65)*1.45;             // luminous core
   col+=base*pow(1.0-n,4.0)*0.95;                       // rim glow (phase color)
   col+=vec3(1.0)*pow(max(0.0,sin(34.0*length(z)+u_time*2.6)),22.0)*0.18; // micro sparkle
+  col*=1.0+u_pulse*0.55;                               // audio-reactive bloom
   float vig=1.0-0.55*length((gl_FragCoord.xy/u_res)-0.5);
   col*=clamp(vig,0.0,1.0);
   col=pow(col,vec3(0.86)); // gentle lift
@@ -207,7 +209,7 @@ void main(){
   gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
   var loc=gl.getAttribLocation(prog,'p'); gl.enableVertexAttribArray(loc);
   gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
-  var uRes=gl.getUniformLocation(prog,'u_res'), uTime=gl.getUniformLocation(prog,'u_time'), uColor=gl.getUniformLocation(prog,'u_color');
+  var uRes=gl.getUniformLocation(prog,'u_res'), uTime=gl.getUniformLocation(prog,'u_time'), uColor=gl.getUniformLocation(prog,'u_color'), uChaos=gl.getUniformLocation(prog,'u_chaos'), uPulse=gl.getUniformLocation(prog,'u_pulse');
   function size(){
     var dpr=Math.min(window.devicePixelRatio||1,1.5);
     cv.width=Math.floor(innerWidth*dpr); cv.height=Math.floor(innerHeight*dpr);
@@ -221,6 +223,8 @@ void main(){
     gl.uniform2f(uRes,cv.width,cv.height);
     gl.uniform1f(uTime,(Date.now()-t0)/1000);
     var c=window.__limenColor||[1.0,0.82,0.4]; gl.uniform3f(uColor, c[0],c[1],c[2]);
+    gl.uniform1f(uChaos, (window.__limenChaos!=null?window.__limenChaos:0.3));
+    gl.uniform1f(uPulse, (window.__limenPulse!=null?window.__limenPulse:0.0));
     gl.drawArrays(gl.TRIANGLES,0,3);
     requestAnimationFrame(loop);
   }
@@ -338,12 +342,14 @@ void main(){
     {p:'P10',l:'RESURRECTION',             d:'Reintegrated recursion / multilayer integration',          hex:'#10B981', c:[0.063,0.725,0.506]}
   ];
   var i=1, cur=PHASES[1].c.slice(), target=PHASES[1].c.slice();
+  var CHAOS=[0.08,0.50,0.28,1.00,0.25,0.42,0.12,0.80,0.92,0.40,0.72,0.22];  // per-phase fractal turbulence
+  var chCur=CHAOS[1], chTgt=CHAOS[1];
   var elT=document.getElementById('phaseTitle'), elD=document.getElementById('phaseDesc');
-  window.__limenColor=cur;
-  (function ease(){ for(var k=0;k<3;k++) cur[k]+=(target[k]-cur[k])*0.012; window.__limenColor=cur; requestAnimationFrame(ease); })();
+  window.__limenColor=cur; window.__limenChaos=chCur;
+  (function ease(){ for(var k=0;k<3;k++) cur[k]+=(target[k]-cur[k])*0.012; chCur+=(chTgt-chCur)*0.012; window.__limenColor=cur; window.__limenChaos=chCur; requestAnimationFrame(ease); })();
   function show(ph){ if(elT){ elT.textContent=ph.p+' · '+ph.l; elT.style.color=ph.hex; } if(elD) elD.textContent=ph.d; }
   show(PHASES[1]);
-  setInterval(function(){ i=(i+1)%PHASES.length; var ph=PHASES[i]; target=ph.c.slice(); show(ph); }, 14000);
+  setInterval(function(){ i=(i+1)%PHASES.length; var ph=PHASES[i]; target=ph.c.slice(); chTgt=CHAOS[i]; show(ph); }, 14000);
 })();
 
 /* ── 6. Generative ambient soundscape (original — ♪ toggle, no autoplay) ── */
@@ -352,7 +358,10 @@ void main(){
   var actx=null, master=null, voices=[], arp=null;
   function start(){
     var AC=window.AudioContext||window.webkitAudioContext; if(!AC) return;
-    actx=new AC(); master=actx.createGain(); master.gain.value=0; master.connect(actx.destination);
+    actx=new AC(); master=actx.createGain(); master.gain.value=0;
+    var an=actx.createAnalyser(); an.fftSize=256; master.connect(an); an.connect(actx.destination);
+    var adata=new Uint8Array(an.frequencyBinCount);
+    (function meter(){ if(!actx) return; an.getByteTimeDomainData(adata); var sum=0; for(var j=0;j<adata.length;j++){var v=(adata[j]-128)/128; sum+=v*v;} window.__limenPulse=Math.min(1,Math.sqrt(sum/adata.length)*3.5); requestAnimationFrame(meter); })();
     master.gain.linearRampToValueAtTime(0.16, actx.currentTime+4);
     [55,82.41,110,164.81].forEach(function(f,k){
       var o=actx.createOscillator(); o.type=k%2?'sine':'triangle'; o.frequency.value=f;
@@ -376,7 +385,8 @@ void main(){
   }
   function stop(){ if(!actx) return; clearInterval(arp); var a=actx,m=master;
     try{ m.gain.linearRampToValueAtTime(0,a.currentTime+1.2);}catch(e){}
-    setTimeout(function(){ try{a.close();}catch(e){} },1400); actx=null; voices=[]; }
+    setTimeout(function(){ try{a.close();}catch(e){} },1400); actx=null; voices=[];
+    (function dk(){ var p=(window.__limenPulse||0)*0.88; window.__limenPulse=p; if(p>0.01) requestAnimationFrame(dk); })(); }
   btn.addEventListener('click', function(){
     if(actx){ stop(); btn.classList.remove('on'); btn.innerHTML='&#9834;'; }
     else { start(); btn.classList.add('on'); btn.innerHTML='&#9835;'; }
