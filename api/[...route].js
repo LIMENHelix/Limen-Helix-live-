@@ -21,13 +21,14 @@ const { RegExpRouter } = require('hono/router/reg-exp-router');
 
 // Bumped each migration commit so a deploy is probeable: any unknown /api/* path
 // returns this in the miss JSON (curl /api/__probe__ | grep the tag).
-const BUILD = 'phase-4';
+const BUILD = 'phase-5';
 
 // name → handler module. Static requires so the tracer bundles them.
 const HANDLERS = {
   'api-keys-config': require('../handlers/api-keys-config'),
   'asset-quote': require('../handlers/asset-quote'),
   'biosensor-state': require('../handlers/biosensor-state'),
+  'capital-engine': require('../handlers/capital-engine'),
   'critique-artifact': require('../handlers/critique-artifact'),
   'cron-rebuild-engine-outputs': require('../handlers/cron-rebuild-engine-outputs'),
   'cron-repair-held': require('../handlers/cron-repair-held'),
