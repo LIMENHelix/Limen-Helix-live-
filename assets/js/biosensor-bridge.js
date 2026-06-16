@@ -341,21 +341,31 @@
 
   // ─── Lifecycle ──────────────────────────────────────────────────────────
 
-  // ─── Receive live state from the /biosensor tracker tab ──────────────────
+  // ─── Receive live state from the EXTERNAL biosensor tracker site ─────────
+  // The outside tracker app POSTs to /api/biosensor-state (Redis, TTL 30s); we
+  // poll it so the cockpit reflects the human. Cross-origin source, so no
+  // BroadcastChannel — the API + Redis is the bridge.
   function _initTrackerReceiver() {
-    if (_bc) return;
-    function ingest(m) {
-      if (!m || m.src !== 'tracker') return;
-      _trackerState = {
-        arousal: m.arousal, coherence: m.coherence, cognitiveLoad: m.cognitiveLoad,
-        valence: m.valence, heartRate: m.hr || 0, hrv: m.hrv || 0,
-        archetype: (m.phase && m.phase.id) || 'unknown', trackerPhase: m.phase || null
-      };
-      _trackerTs = Date.now();
+    if (_bc) return; _bc = true;
+    function poll() {
+      try {
+        fetch('/api/biosensor-state', { cache: 'no-store' })
+          .then(function (r) { return r.json(); })
+          .then(function (j) {
+            var m = j && j.ok && j.state;
+            if (m && (Date.now() - (m.ts || 0) < 30000)) {
+              _trackerState = {
+                arousal: m.arousal, coherence: m.coherence, cognitiveLoad: m.cognitiveLoad,
+                valence: m.valence, heartRate: m.hr || 0, hrv: m.hrv || 0,
+                archetype: (m.phase && m.phase.id) || 'unknown', trackerPhase: m.phase || null
+              };
+              _trackerTs = Date.now();
+            }
+          }).catch(function () {});
+      } catch (e) {}
     }
-    try { _bc = new BroadcastChannel('limen-bio'); _bc.onmessage = function (e) { ingest(e.data); }; } catch (e) { _bc = null; }
-    try { var raw = localStorage.getItem('limen_bio_state'); if (raw) ingest(JSON.parse(raw)); } catch (e) {}
-    window.addEventListener('storage', function (e) { if (e.key === 'limen_bio_state' && e.newValue) { try { ingest(JSON.parse(e.newValue)); } catch (x) {} } });
+    poll();
+    setInterval(poll, 2500);
   }
 
   function start() {
