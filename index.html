@@ -334,10 +334,10 @@ void main(){
   var i=1, cur=PHASES[1].c.slice(), target=PHASES[1].c.slice();
   var elT=document.getElementById('phaseTitle'), elD=document.getElementById('phaseDesc');
   window.__limenColor=cur;
-  (function ease(){ for(var k=0;k<3;k++) cur[k]+=(target[k]-cur[k])*0.03; window.__limenColor=cur; requestAnimationFrame(ease); })();
+  (function ease(){ for(var k=0;k<3;k++) cur[k]+=(target[k]-cur[k])*0.012; window.__limenColor=cur; requestAnimationFrame(ease); })();
   function show(ph){ if(elT){ elT.textContent=ph.p+' · '+ph.l; elT.style.color=ph.hex; } if(elD) elD.textContent=ph.d; }
   show(PHASES[1]);
-  setInterval(function(){ i=(i+1)%PHASES.length; var ph=PHASES[i]; target=ph.c.slice(); show(ph); }, 7000);
+  setInterval(function(){ i=(i+1)%PHASES.length; var ph=PHASES[i]; target=ph.c.slice(); show(ph); }, 14000);
 })();
 
 /* ── 6. Generative ambient soundscape (original — ♪ toggle, no autoplay) ── */

@@ -16,14 +16,13 @@ h1{font-size:20px;letter-spacing:3px;color:var(--gold);margin:0 0 4px;font-weigh
 .spine b{color:var(--ink)} .spine code{color:var(--gold)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
 .card{border:1px solid var(--line);border-left-width:3px;border-radius:7px;padding:13px 15px;background:rgba(255,255,255,0.012)}
-.card.up{border-left-color:var(--up)} .card.down{border-left-color:var(--down)}
-.card.scaf{border-left-color:var(--scaf)} .card.evt{border-left-color:var(--evt)} .card.null{border-left-color:var(--gold2)}
-.ph{font-size:14px;color:var(--gold);letter-spacing:1px} .nm{font-size:12px;color:var(--ink);margin-left:6px;opacity:.85}
+.ph{font-size:14px;letter-spacing:1px} .nm{font-size:12px;color:var(--ink);margin-left:6px;opacity:.85}
+.fn{font-size:11px;color:var(--ink);opacity:.62;font-style:italic;margin:4px 0 2px;line-height:1.45}
 .eq{font-size:15px;color:var(--ink);margin:8px 0 9px;letter-spacing:.5px}
 .row{font-size:11.5px;margin:5px 0;display:flex;gap:8px}
 .k{color:var(--gold5);min-width:64px;flex:none} .v{color:var(--ink);opacity:.9}
 .ex{color:var(--evt);opacity:.95}
-.legend{margin:22px 0 0;font-size:11px;color:var(--gold5);display:flex;gap:18px;flex-wrap:wrap}
+.legend{margin:22px 0 0;font-size:11px;color:var(--gold5);display:flex;gap:14px;flex-wrap:wrap;align-items:center}
 .dot{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;vertical-align:middle}
 .verdict{margin-top:26px;border:1px solid var(--gold2);border-radius:8px;padding:16px 18px;font-size:12px;color:var(--gold5)}
 .verdict b{color:var(--ink)} .yes{color:var(--up)} .no{color:var(--down)}
@@ -33,7 +32,7 @@ a{color:var(--gold5)}
 <body>
 <div class="wrap">
 <h1>LIMEN HELIX &mdash; THE PHASE MAP</h1>
-<div class="sub">P0&rarr;P10 recursion grammar &middot; operator algebra &harr; financial signature &middot; validated 2026-06</div>
+<div class="sub">P0&rarr;P10 recursion grammar &middot; canonical phase arc &harr; financial signature &middot; validated 2026-06</div>
 
 <div class="spine">
 <b>The spine.</b> Every phase is a statement about the recursion operator <code>R</code> &mdash; but the operative signal is
@@ -47,13 +46,7 @@ each of <b>six lines</b> (revenue &middot; gross-margin &middot; profitability &
 
 <div class="grid" id="grid"></div>
 
-<div class="legend">
-  <span><span class="dot" style="background:var(--gold2)"></span>holding (null)</span>
-  <span><span class="dot" style="background:var(--evt)"></span>event / branch / fork</span>
-  <span><span class="dot" style="background:var(--up)"></span>building &middot; coordinated &middot; renewing</span>
-  <span><span class="dot" style="background:var(--scaf)"></span>scaffolded (external capital)</span>
-  <span><span class="dot" style="background:var(--down)"></span>fracture / breakdown</span>
-</div>
+<div class="legend" id="legend"></div>
 
 <div class="verdict">
 <b>Honest scope.</b> The map <span class="yes">identifies</span> where a company is and has been across the grammar, idiosyncratically,
@@ -64,27 +57,33 @@ Validated on known arcs, a blind set, and a 30-company held-out walk (24/30; Wil
 </div>
 
 <script>
+// [num, canonical title, equation, hex (canonical palette), functional description, financial signature, opportunity, validated examples]
 const P = [
- ["P0","Source / Null","S₀ , ∄R","null","flat + NO rhythm + solvent (undifferentiated)","watch-list / pre-emergence","KMI · T · WMB"],
- ["P1","First Distinction","R(Σ) → R(L), Σ̇≈0","evt","structure BRANCHES: shares+equity discontinuity / 8-K Item 2.01","event-driven / special-situations","NKLA · SPCE (de-SPAC)"],
- ["P2","Rhythm / Bonding","xₙ = f(xₙ₋₁, xₙ₋₂)","up","stable AR(2) rhythm OR locked margin coupling","stable income / quality","TGT · KO"],
- ["P3","Fracture / Darkness","|R| > θ → decoherence","down","declining + incoherent; OR profitability collapse","distressed-debt / short / avoid","BBBY · INTC · ROKU (profit)"],
- ["P4","Scaffolding","R_int = ∫Rᵢ","scaf","TAKES external capital (CFF>0, OCF burn)","venture/growth OR rescue capital","RIVN · NFLX · BA (737-MAX)"],
- ["P5","Endurance","Δ = R_new − R_old","up","CAME OFF the scaffold (was funded → self-funds)","early-recovery value","TSLA · UBER"],
- ["P6","Order","x(t) → ω-lock","up","growing + self-funding + RETURNS capital","quality-growth compounding","MSFT · NVDA · JNJ"],
- ["P7","Shear / Fork","R → R₁ ∨ R₂","evt","SEPARATION: spinoff (10-12B) / disposition (8-K 2.01)","special-situations / spinoff / M&A","HON · GE · MMM"],
- ["P8","Conscience","R(R)","up","active DELEVERAGING (debt declining post-stress)","improving-credit / value","OXY · DAL · WBD"],
- ["P9","Threshold","R_syn = ∪Rᵢ","down","poised, max tension, bistable  — not yet detected","high-risk inflection","—"],
- ["P10","Resurrection","R → S₀  (↑ spiral)","up","renewed at a higher level  — not yet detected","re-rating / durable renewal","—"],
+ ["P0","Source / Null Symmetry","S₀ , ∄R","#F4F1E8","Pre-recursive non-differentiation","flat + NO rhythm + solvent (undifferentiated)","watch-list / pre-emergence","KMI · T · WMB"],
+ ["P1","Collapse / Light","R(Σ) → R(L), Σ̇≈0","#FFD166","Adaptive collapse / defensive contraction","structure BRANCHES: shares+equity discontinuity / 8-K Item 2.01","event-driven / special-situations","NKLA · SPCE (de-SPAC)"],
+ ["P2","Rhythm / Bonding","xₙ = f(xₙ₋₁, xₙ₋₂)","#2DD4BF","Dyadic co-regulation / phase-locked entrainment","stable AR(2) rhythm OR locked margin coupling","stable income / quality","TGT · KO"],
+ ["P3","Darkness / Fracture","|R| > θ → decoherence","#7C3AED","Recursive overload / pattern instability","declining + incoherent; OR profitability collapse","distressed-debt / short / avoid","BBBY · INTC · ROKU (profit)"],
+ ["P4","Peace / Stabilization","R_int = ∫Rᵢ","#8FBF9F","Scaffolded stabilization / nested integration","TAKES external capital (CFF>0, OCF burn)","venture/growth OR rescue capital","RIVN · NFLX · BA (737-MAX)"],
+ ["P5","Endurance","Δ = R_new − R_old","#F59E0B","Rhythmic self-regulation / recurrent predictive control","CAME OFF the scaffold (was funded → self-funds)","early-recovery value","TSLA · UBER"],
+ ["P6","Order","x(t) → ω-lock","#2563EB","Coordinated modularity / executive task-state switching","growing + self-funding + RETURNS capital","quality-growth compounding","MSFT · NVDA · JNJ"],
+ ["P7","Separation","R → R₁ ∨ R₂","#DC2626","Recursive shear / functional dissociation","SEPARATION: spinoff (10-12B) / disposition (8-K 2.01)","special-situations / spinoff / M&A","HON · GE · MMM"],
+ ["P7b","Divergence Fork","R₁ ∨ R₂ → ⊕","#F97316","Bifurcation point / recursive exhaustion vs re-engagement","post-separation divergence: re-engage vs exhaust","fork outcome / pairs","—"],
+ ["P8","Conscience / Reflection","R(R)","#6D5DFC","Reflective feedback / metacognitive self-monitoring","active DELEVERAGING (debt declining post-stress)","improving-credit / value","OXY · DAL · WBD"],
+ ["P9","Threshold","R_syn = ∪Rᵢ","#A855F7","Poised disequilibrium / pre-transformation saturation","poised, max tension, bistable — not yet detected","high-risk inflection","—"],
+ ["P10","Resurrection","R → S₀  (↑ spiral)","#10B981","Reintegrated recursion / multilayer integration","renewed at a higher level — not yet detected","re-rating / durable renewal","—"],
 ];
 document.getElementById('grid').innerHTML = P.map(p=>`
- <div class="card ${p[3]}">
-   <div><span class="ph">${p[0]}</span><span class="nm">${p[1]}</span></div>
+ <div class="card" style="border-left-color:${p[3]}">
+   <div><span class="ph" style="color:${p[3]}">${p[0]}</span><span class="nm">${p[1]}</span></div>
+   <div class="fn">${p[4]}</div>
    <div class="eq">${p[2]}</div>
-   <div class="row"><span class="k">signature</span><span class="v">${p[4]}</span></div>
-   <div class="row"><span class="k">opportunity</span><span class="v">${p[5]}</span></div>
-   <div class="row"><span class="k">validated</span><span class="v ex">${p[6]}</span></div>
+   <div class="row"><span class="k">signature</span><span class="v">${p[5]}</span></div>
+   <div class="row"><span class="k">opportunity</span><span class="v">${p[6]}</span></div>
+   <div class="row"><span class="k">validated</span><span class="v ex">${p[7]}</span></div>
  </div>`).join('');
+document.getElementById('legend').innerHTML =
+  '<span style="opacity:.7">Canonical phase palette &mdash;</span>' +
+  P.map(p=>`<span><span class="dot" style="background:${p[3]}"></span>${p[0]}</span>`).join('');
 </script>
 </body>
 </html>
