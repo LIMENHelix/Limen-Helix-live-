@@ -345,9 +345,21 @@
   // The outside tracker app POSTs to /api/biosensor-state (Redis, TTL 30s); we
   // poll it so the cockpit reflects the human. Cross-origin source, so no
   // BroadcastChannel — the API + Redis is the bridge.
+  // Adaptive, visibility-aware polling — cuts Upstash request volume hard:
+  //   • paused while the tab is hidden (just a 120s heartbeat; resumes on focus)
+  //   • 8s when the external tracker app is actively feeding fresh state
+  //   • 30s when no fresh state for 2 min (tracker app not running — the common case)
+  // Was a flat 2.5s with no hidden-tab guard (~34k Redis reads/day per open tab).
+  var _trkTimer = null, _trkLastFresh = 0;
   function _initTrackerReceiver() {
     if (_bc) return; _bc = true;
+    function schedule() {
+      if (_trkTimer) clearTimeout(_trkTimer);
+      var ms = document.hidden ? 120000 : ((Date.now() - _trkLastFresh > 120000) ? 30000 : 8000);
+      _trkTimer = setTimeout(poll, ms);
+    }
     function poll() {
+      if (document.hidden) { schedule(); return; }   // never hit Redis for a backgrounded tab
       try {
         fetch('/api/biosensor-state', { cache: 'no-store' })
           .then(function (r) { return r.json(); })
@@ -359,13 +371,16 @@
                 valence: m.valence, heartRate: m.hr || 0, hrv: m.hrv || 0,
                 archetype: (m.phase && m.phase.id) || 'unknown', trackerPhase: m.phase || null
               };
-              _trackerTs = Date.now();
+              _trackerTs = Date.now(); _trkLastFresh = Date.now();
             }
-          }).catch(function () {});
-      } catch (e) {}
+          })
+          .catch(function () {})
+          .then(function () { schedule(); });
+      } catch (e) { schedule(); }
     }
+    // poll once immediately when the operator returns to the tab (snappy resume)
+    try { document.addEventListener('visibilitychange', function () { if (!document.hidden) poll(); }); } catch (e) {}
     poll();
-    setInterval(poll, 2500);
   }
 
   function start() {

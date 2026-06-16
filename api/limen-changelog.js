@@ -56,6 +56,11 @@ module.exports = async function handler(req, res) {
     var total = entries.length;
     entries = entries.slice(offset, offset + limit);
 
+    // Edge-cache: an append-only display log tolerates ~30s staleness. Repeat
+    // reads of this ~80KB key now serve from Vercel's CDN without hitting the
+    // function or Redis (cuts both command count and bandwidth).
+    res.setHeader('Cache-Control', 'public, s-maxage=30, stale-while-revalidate=60');
+
     res.status(200).json({
       ok: true,
       domain: domain,

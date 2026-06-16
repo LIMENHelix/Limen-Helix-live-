@@ -52,7 +52,7 @@ module.exports = async function handler(req, res) {
 
     res.statusCode = 200;
     res.setHeader('content-type', 'application/json');
-    res.setHeader('cache-control', 'public, max-age=30');
+    res.setHeader('cache-control', 'public, max-age=30, s-maxage=60, stale-while-revalidate=120');
     return res.end(JSON.stringify({
       ok: true,
       generatedAt: Date.now(),
