@@ -187,13 +187,8 @@
     actions.id = 'ltb-actions';
     bar.appendChild(actions);
 
-    // Biosensor LIVE indicator — kept right beside the actions (Analyst / Pages) per operator
-    var bio = document.createElement('div');
-    bio.className = 'ltb-bio';
-    bio.id = 'ltb-bio';
-    bio.innerHTML = '<span class="ltb-bio-dot" aria-hidden="true"></span>'
-      + '<span>LIMEN BIOSENSOR &middot; LIVE</span>';
-    bar.appendChild(bio);
+    // (Biosensor LIVE indicator removed per operator — biosensor visuals live in the
+    //  external biosensor app; LIMEN only receives the data via the bridge.)
 
     // Spacer (pushes the clock to the far right)
     var sp = document.createElement('div');

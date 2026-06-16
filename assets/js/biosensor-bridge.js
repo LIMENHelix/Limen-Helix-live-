@@ -371,14 +371,9 @@
   function start() {
     if (_interval) return;
     _initTrackerReceiver();
-
-    // Try to auto-start biosensor with behavioral-only (no camera prompt)
-    if (!_engine && typeof window.startBiosensorEngine === 'function') {
-      initEngine({ camera: false, hud: false });
-    }
-
+    // Receive-only: no on-site sensing (the biosensor lives in the external app).
+    // We only poll /api/biosensor-state for the operator's live phase.
     _interval = setInterval(function () { if (!document.hidden) _poll(); }, POLL_MS);
-    // Initial poll
     _poll();
   }
 
@@ -413,5 +408,12 @@
     subscribe: subscribe,
     initEngine: initEngine
   };
+
+  // Auto-start receive-only: with the on-site panel removed, nothing else starts the
+  // bridge — so it starts itself and polls /api/biosensor-state to reflect the operator.
+  try {
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
+    else start();
+  } catch (e) {}
 
 })();
