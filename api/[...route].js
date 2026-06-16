@@ -21,7 +21,22 @@ const { RegExpRouter } = require('hono/router/reg-exp-router');
 
 // name → handler module. Static requires so the tracer bundles them.
 const HANDLERS = {
+  'api-keys-config': require('../handlers/api-keys-config'),
+  'asset-quote': require('../handlers/asset-quote'),
+  'defense-signals': require('../handlers/defense-signals'),
+  'domain-snapshot-debug': require('../handlers/domain-snapshot-debug'),
+  'feed-status': require('../handlers/feed-status'),
+  'kernel-experiment': require('../handlers/kernel-experiment'),
   'limen-health': require('../handlers/limen-health'),
+  'limen-ingest': require('../handlers/limen-ingest'),
+  'limen-phase-transitions': require('../handlers/limen-phase-transitions'),
+  'limen-self-pulse': require('../handlers/limen-self-pulse'),
+  'limen-stress-propagation': require('../handlers/limen-stress-propagation'),
+  'paper-orders': require('../handlers/paper-orders'),
+  'paper-positions': require('../handlers/paper-positions'),
+  'paper-trade': require('../handlers/paper-trade'),
+  'patent-snapshot': require('../handlers/patent-snapshot'),
+  'redis-diag': require('../handlers/redis-diag'),
 };
 
 const router = new RegExpRouter();
