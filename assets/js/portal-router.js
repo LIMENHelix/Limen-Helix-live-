@@ -31,8 +31,9 @@
       boot(domainRegistry, pathKey);
     })
     .catch(function (err) {
-      // Fallback: try master registry
-      fetch('assets/data/portal-registry.json')
+      // Fallback: try master registry (moved out of the assets/data/*.json
+      // includeFiles glob so it no longer bundles into the Node function)
+      fetch('assets/data/registry/portal-registry.json')
         .then(function (r) { return r.ok ? r.json() : null; })
         .then(function (masterReg) {
           if (masterReg) boot(masterReg, pathKey);
