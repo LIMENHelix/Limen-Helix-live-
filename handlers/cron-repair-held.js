@@ -20,8 +20,8 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { repairPattern } = require('../lib/pattern-author.js');
 const redisKv = require('../lib/redis-kv.js');
+const { loadPortal } = require('../lib/portal-loader');
 
-const DIR = path.join(__dirname, '..', 'assets', 'data', 'companies');
 const PROPOSALS_KEY = 'limen:pattern-proposals';
 const MAX_PER_TICK = 3;          // bound model calls + wall-clock per invocation (< 300s)
 const MAX_REPAIR_ATTEMPTS = 2;   // give up after N tries; leave to corpus-drift graduation
@@ -59,7 +59,7 @@ module.exports = async (req, res) => {
       if (attempted >= MAX_PER_TICK) break;
       const slug = p.sourcePortal;
       if (!slug) continue;
-      let portal; try { portal = JSON.parse(fs.readFileSync(path.join(DIR, slug + '.json'), 'utf8')); } catch (e) { continue; }
+      const portal = (await loadPortal(slug)).portal; if (!portal) continue;
       attempted++;
       let rep; try { rep = await repairPattern(p.pattern, portal); } catch (e) { rep = { ok: false, error: String(e && e.message || e) }; }
       if (rep && rep.ok && rep.fired) {

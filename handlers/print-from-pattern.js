@@ -19,8 +19,8 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { generate } = require('../lib/long-form-generator.js');
 const { renderToBuffer } = require('../lib/markdown-to-docx.js');
+const { loadPortal } = require('../lib/portal-loader');
 
-const PORTALS_DIR = path.join(__dirname, '..', 'assets', 'data', 'companies');
 const PATTERNS_PATH = path.join(__dirname, '..', 'assets', 'data', 'bridge-patterns.json');
 
 function _redisEnabled() { return !!(process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN); }
@@ -35,7 +35,6 @@ async function _redisCmd(cmd) {
   return j && j.result;
 }
 
-function _loadPortal(slug) { try { return JSON.parse(fs.readFileSync(path.join(PORTALS_DIR, slug + '.json'), 'utf8')); } catch (e) { return null; } }
 
 async function _findPattern(patternId) {
   // Check bridge-patterns.json file first (if synced)
@@ -111,7 +110,9 @@ module.exports = async (req, res) => {
     if (!slug || !lane || !patternId) return res.status(400).json({ error: 'slug + lane + patternId all required' });
     if (!['patent', 'grant', 'sba', 'research', 'investment'].includes(lane)) return res.status(400).json({ error: 'lane must be patent | grant | sba | research | investment' });
 
-    const portal = _loadPortal(slug);
+    const _pl = await loadPortal(slug);
+    const portal = _pl.portal;
+    res.setHeader('X-LIMEN-PORTAL-LOADER', _pl.source);
     if (!portal) return res.status(404).json({ error: 'portal not found: ' + slug });
 
     const found = await _findPattern(patternId);

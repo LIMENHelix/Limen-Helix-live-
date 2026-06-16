@@ -22,10 +22,8 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { generate } = require('../lib/long-form-generator.js');
 const { renderToBuffer } = require('../lib/markdown-to-docx.js');
+const { loadPortal } = require('../lib/portal-loader');
 
-const PORTALS_DIR = path.join(__dirname, '..', 'assets', 'data', 'companies');
-
-function _loadPortal(slug) { try { return JSON.parse(fs.readFileSync(path.join(PORTALS_DIR, slug + '.json'), 'utf8')); } catch (e) { return null; } }
 function _getArtifact(p, lane, index) { const list = p.engineOutputs && p.engineOutputs[lane]; return list && list[parseInt(index, 10)] || null; }
 function _getBridge(p, patternId) { return (p.bridgeReadings && p.bridgeReadings.matched || []).find(m => m.patternId === patternId); }
 
@@ -40,7 +38,9 @@ module.exports = async (req, res) => {
     if (!slug || !lane) return res.status(400).json({ error: 'slug + lane required' });
     if (!['patent', 'grant', 'sba', 'research'].includes(lane)) return res.status(400).json({ error: 'lane must be patent | grant | sba | research' });
 
-    const portal = _loadPortal(slug);
+    const _pl = await loadPortal(slug);
+    const portal = _pl.portal;
+    res.setHeader('X-LIMEN-PORTAL-LOADER', _pl.source);
     if (!portal) return res.status(404).json({ error: 'portal not found: ' + slug });
 
     let seed = _getArtifact(portal, lane, index);
