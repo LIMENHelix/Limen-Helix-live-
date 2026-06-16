@@ -68,7 +68,7 @@ const REJECTED_TYPES = new Set(['REJECTED', 'WITHDRAWN']);
 const SUBMITTED_TYPES = new Set(['SUBMITTED', 'UNDER_REVIEW']);
 
 const LOG_MAX = 5000;
-const LANES = ['patent', 'grant', 'sba', 'franchise', 'investment', 'research'];
+const LANES = ['investment', 'research']; // patent/grant/sba/franchise lanes retired
 
 // In-memory fallback
 const _mem = {

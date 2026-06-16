@@ -36,7 +36,7 @@ module.exports = async (req, res) => {
     const format = (q.format || 'docx').toLowerCase();
 
     if (!slug || !lane) return res.status(400).json({ error: 'slug + lane required' });
-    if (!['patent', 'grant', 'sba', 'research'].includes(lane)) return res.status(400).json({ error: 'lane must be patent | grant | sba | research' });
+    if (!['research'].includes(lane)) return res.status(400).json({ error: 'lane must be research (patent/grant/sba retired; investment prints via /api/print-from-pattern)' });
 
     const _pl = await loadPortal(slug);
     const portal = _pl.portal;

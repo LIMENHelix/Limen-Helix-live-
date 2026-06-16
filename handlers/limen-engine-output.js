@@ -54,7 +54,7 @@ function checkAuth(req) {
 }
 
 const ENGINE_OUTPUT_VERSION = 'eo-v1';
-const LANES = ['patent', 'grant', 'sba', 'franchise', 'investment', 'research'];
+const LANES = ['investment', 'research']; // patent/grant/sba/franchise lanes retired
 // Raised from 256 KB → 2 MB so multi-pass artifacts can persist.
 // Empirical sizes: grant ≈ 150 KB, sba ≈ 100 KB, patent ≈ 90 KB,
 // franchise ≈ 380 KB (8 passes × 14K tokens × ~5 bytes/token). 2 MB

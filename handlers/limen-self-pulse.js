@@ -12,7 +12,7 @@
  *
  *   Auth-gated when LIMEN_OPERATOR_TOKEN is set in env.
  *
- *   Lane must be one of: patent | grant | sba | franchise | investment | research
+ *   Lane must be one of: investment | research
  *   Salience defaults to HIGH (so autofire picks it up).
  *   from/to phases default to 'n/a' since this isn't from a transition.
  *
@@ -31,7 +31,7 @@ var AUTOQUEUE_MAX = 200;
 var OPERATOR_TOKEN = process.env.LIMEN_OPERATOR_TOKEN || '';
 var AUTH_ON = !!OPERATOR_TOKEN;
 
-var VALID_LANES = ['patent', 'grant', 'sba', 'franchise', 'investment', 'research'];
+var VALID_LANES = ['investment', 'research']; // patent/grant/sba/franchise lanes retired
 var VALID_SALIENCE = ['HIGH', 'MEDIUM', 'LOW'];
 
 function checkAuth(req) {
@@ -62,7 +62,7 @@ module.exports = async function handler(req, res) {
       endpoint: '/api/limen-self-pulse',
       description: 'Inject an autoqueue entry to trigger autofire without waiting for a phase transition.',
       method: 'POST',
-      body: { cik: '0000000999', lane: 'patent | grant | sba | franchise | investment | research', salience: 'HIGH', from: '(optional)', to: '(optional)', note: '(optional)' },
+      body: { cik: '0000000999', lane: 'investment | research', salience: 'HIGH', from: '(optional)', to: '(optional)', note: '(optional)' },
       validLanes: VALID_LANES,
       validSalience: VALID_SALIENCE,
       authMode: AUTH_ON ? 'enforced' : 'disabled'

@@ -108,7 +108,7 @@ module.exports = async (req, res) => {
     const part = q.part ? String(q.part) : null;        // null = full; '1'|'2' = half-render (avoids truncation)
 
     if (!slug || !lane || !patternId) return res.status(400).json({ error: 'slug + lane + patternId all required' });
-    if (!['patent', 'grant', 'sba', 'research', 'investment'].includes(lane)) return res.status(400).json({ error: 'lane must be patent | grant | sba | research | investment' });
+    if (!['research', 'investment'].includes(lane)) return res.status(400).json({ error: 'lane must be research | investment (patent/grant/sba/franchise retired)' });
 
     const _pl = await loadPortal(slug);
     const portal = _pl.portal;

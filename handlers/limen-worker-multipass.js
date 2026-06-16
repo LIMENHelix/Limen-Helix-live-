@@ -44,7 +44,7 @@ var CIK_DEDUPE_PREFIX = 'autofire_cik_lane_dedupe_';
 var CIK_DEDUPE_TTL = 86400;
 var AUDIT_TTL = 30 * 86400;
 
-var MULTIPASS_LANES = new Set(['patent', 'grant', 'sba', 'franchise']);
+var MULTIPASS_LANES = new Set([]); // patent/grant/sba/franchise lanes retired — multipass idle
 var COST_PER_PASS_USD = { patent: 0.15, grant: 0.15, sba: 0.15, franchise: 0.20 };
 var DAILY_BUDGET_DOLLARS = parseFloat(process.env.AUTOFIRE_DAILY_BUDGET || '30');
 
