@@ -21,7 +21,7 @@ const { RegExpRouter } = require('hono/router/reg-exp-router');
 
 // Bumped each migration commit so a deploy is probeable: any unknown /api/* path
 // returns this in the miss JSON (curl /api/__probe__ | grep the tag).
-const BUILD = 'phase-4a-cronpilot';
+const BUILD = 'phase-4';
 
 // name → handler module. Static requires so the tracer bundles them.
 const HANDLERS = {
@@ -29,6 +29,8 @@ const HANDLERS = {
   'asset-quote': require('../handlers/asset-quote'),
   'biosensor-state': require('../handlers/biosensor-state'),
   'critique-artifact': require('../handlers/critique-artifact'),
+  'cron-rebuild-engine-outputs': require('../handlers/cron-rebuild-engine-outputs'),
+  'cron-repair-held': require('../handlers/cron-repair-held'),
   'defense-signals': require('../handlers/defense-signals'),
   'enrich-portal-claude': require('../handlers/enrich-portal-claude'),
   'expand-artifact': require('../handlers/expand-artifact'),
@@ -51,6 +53,8 @@ const HANDLERS = {
   'limen-health': require('../handlers/limen-health'),
   'limen-ingest': require('../handlers/limen-ingest'),
   'limen-worker-ingest': require('../handlers/limen-worker-ingest'),
+  'limen-worker-snapshot': require('../handlers/limen-worker-snapshot'),
+  'limen-worker-stress-refresh': require('../handlers/limen-worker-stress-refresh'),
   'limen-intents': require('../handlers/limen-intents'),
   'limen-iteration': require('../handlers/limen-iteration'),
   'limen-operator-calibration': require('../handlers/limen-operator-calibration'),
@@ -76,6 +80,7 @@ const HANDLERS = {
   'print-document': require('../handlers/print-document'),
   'print-from-pattern': require('../handlers/print-from-pattern'),
   'redis-diag': require('../handlers/redis-diag'),
+  'trigger-pattern-author': require('../handlers/trigger-pattern-author'),
 };
 
 const router = new RegExpRouter();
