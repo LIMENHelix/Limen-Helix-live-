@@ -21,23 +21,34 @@ const { RegExpRouter } = require('hono/router/reg-exp-router');
 
 // Bumped each migration commit so a deploy is probeable: any unknown /api/* path
 // returns this in the miss JSON (curl /api/__probe__ | grep the tag).
-const BUILD = 'phase-2b';
+const BUILD = 'phase-3';
 
 // name → handler module. Static requires so the tracer bundles them.
 const HANDLERS = {
   'api-keys-config': require('../handlers/api-keys-config'),
   'asset-quote': require('../handlers/asset-quote'),
+  'biosensor-state': require('../handlers/biosensor-state'),
   'defense-signals': require('../handlers/defense-signals'),
   'domain-snapshot': require('../handlers/domain-snapshot'),
   'domain-snapshot-debug': require('../handlers/domain-snapshot-debug'),
   'feed-status': require('../handlers/feed-status'),
+  'fetch-doc': require('../handlers/fetch-doc'),
   'fetch-portal': require('../handlers/fetch-portal'),
   'kernel-experiment': require('../handlers/kernel-experiment'),
+  'lead': require('../handlers/lead'),
   'limen-artifact-render': require('../handlers/limen-artifact-render'),
   'limen-autofire-log': require('../handlers/limen-autofire-log'),
   'limen-autoqueue': require('../handlers/limen-autoqueue'),
+  'limen-changelog': require('../handlers/limen-changelog'),
+  'limen-drafts': require('../handlers/limen-drafts'),
+  'limen-engine-output': require('../handlers/limen-engine-output'),
+  'limen-execution': require('../handlers/limen-execution'),
   'limen-health': require('../handlers/limen-health'),
   'limen-ingest': require('../handlers/limen-ingest'),
+  'limen-intents': require('../handlers/limen-intents'),
+  'limen-iteration': require('../handlers/limen-iteration'),
+  'limen-operator-calibration': require('../handlers/limen-operator-calibration'),
+  'limen-outcome': require('../handlers/limen-outcome'),
   'limen-phase-transitions': require('../handlers/limen-phase-transitions'),
   'limen-self-pulse': require('../handlers/limen-self-pulse'),
   'limen-snapshot': require('../handlers/limen-snapshot'),
@@ -48,10 +59,13 @@ const HANDLERS = {
   'limen-worker-multipass': require('../handlers/limen-worker-multipass'),
   'limen-worker-sleep-cycle': require('../handlers/limen-worker-sleep-cycle'),
   'market-snapshot': require('../handlers/market-snapshot'),
+  'master-inbox': require('../handlers/master-inbox'),
+  'operator-action': require('../handlers/operator-action'),
   'paper-orders': require('../handlers/paper-orders'),
   'paper-positions': require('../handlers/paper-positions'),
   'paper-trade': require('../handlers/paper-trade'),
   'patent-snapshot': require('../handlers/patent-snapshot'),
+  'pattern-proposal': require('../handlers/pattern-proposal'),
   'redis-diag': require('../handlers/redis-diag'),
 };
 
