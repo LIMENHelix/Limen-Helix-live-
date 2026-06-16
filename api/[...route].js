@@ -21,7 +21,7 @@ const { RegExpRouter } = require('hono/router/reg-exp-router');
 
 // Bumped each migration commit so a deploy is probeable: any unknown /api/* path
 // returns this in the miss JSON (curl /api/__probe__ | grep the tag).
-const BUILD = 'phase-3b';
+const BUILD = 'phase-4a-cronpilot';
 
 // name → handler module. Static requires so the tracer bundles them.
 const HANDLERS = {
@@ -50,6 +50,7 @@ const HANDLERS = {
   'limen-execution': require('../handlers/limen-execution'),
   'limen-health': require('../handlers/limen-health'),
   'limen-ingest': require('../handlers/limen-ingest'),
+  'limen-worker-ingest': require('../handlers/limen-worker-ingest'),
   'limen-intents': require('../handlers/limen-intents'),
   'limen-iteration': require('../handlers/limen-iteration'),
   'limen-operator-calibration': require('../handlers/limen-operator-calibration'),
