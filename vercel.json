@@ -1,9 +1,7 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
-  "crons": [
-    { "path": "/api/capital-engine?action=tick&cap=3", "schedule": "0 */6 * * *" }
-  ],
+  "crons": [],
   "functions": {
     "api/**": {
       "excludeFiles": "{assets/**,*.html,_*.js,*.json,scripts/**}",
