@@ -424,13 +424,12 @@
     initEngine: initEngine
   };
 
-  // Auto-start DISABLED 2026-06-16 (operator: "don't need it while building the site").
-  // The bridge polled /api/biosensor-state on every page = constant Upstash reads we
-  // don't need during the build. window.LIMENBiosensorBridge.start() still works for
-  // manual use; re-enable the block below when the biosensor is wanted site-wide again.
-  // try {
-  //   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
-  //   else start();
-  // } catch (e) {}
+  // Auto-start receive-only (re-enabled 2026-06-16 per operator — low cost). Uses the
+  // adaptive, visibility-aware poll above (paused when hidden / 8s active / 30s idle),
+  // so it's on like before but lighter on Upstash than the old flat 2.5s.
+  try {
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
+    else start();
+  } catch (e) {}
 
 })();
