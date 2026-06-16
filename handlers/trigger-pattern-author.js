@@ -15,8 +15,8 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { proposePattern } = require('../lib/pattern-author.js');
 const orchestrator = require('../lib/ai-orchestrator.js');
+const { loadPortal, listSlugs } = require('../lib/portal-loader');
 
-const DIR = path.join(__dirname, '..', 'assets', 'data', 'companies');
 const PROPOSALS_PATH = path.join(__dirname, '..', 'assets', 'data', '_pattern-proposals.json');
 
 function _redisEnabled() {
@@ -49,14 +49,12 @@ async function _saveCursor(n) {
   }
 }
 
-function _loadPortalsList() {
-  let files = [];
-  try { files = fs.readdirSync(DIR).filter(f => f.endsWith('.json') && !f.startsWith('_')); } catch (e) {}
-  return files;
+async function _loadPortalsList() {
+  return (await listSlugs()).slugs;
 }
 
-function _readPortal(f) {
-  try { return JSON.parse(fs.readFileSync(path.join(DIR, f), 'utf8')); } catch (e) { return null; }
+async function _readPortal(slug) {
+  return (await loadPortal(slug)).portal;
 }
 
 // Portals whose ingestion the pipeline already flagged as unreliable. Authoring
@@ -128,7 +126,7 @@ module.exports = async (req, res) => {
     // patterns for entities K1/K2 can't reach (private, pre-revenue, off-EDGAR).
     // Functional-network richness is the real eligibility signal.
     const proposalCounts = await _proposalCountsByPortal();
-    const allFiles = _loadPortalsList();
+    const allFiles = await _loadPortalsList();
     const total = allFiles.length;
     // Start this scan where the last one stopped (rotating cursor), so the cron
     // sweeps the whole corpus over successive ticks rather than re-scanning the
@@ -144,7 +142,7 @@ module.exports = async (req, res) => {
       if (forceSlug && slug !== forceSlug) continue;
       // Per-target cap — skip portals already at the live-card limit.
       if (!forceSlug && (proposalCounts.get(slug) || 0) >= maxPerTarget) { skippedAlreadyProposed++; continue; }
-      const p = _readPortal(f);
+      const p = await _readPortal(f);
       if (!p) { skippedUnreadable++; continue; }
       // Data-quality gate — skip portals the ingestion pipeline flagged unreliable.
       if (!forceSlug && SUSPECT_STATUSES.has(p.kernelStatus)) { skippedSuspectData++; continue; }

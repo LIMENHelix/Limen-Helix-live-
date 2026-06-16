@@ -16,8 +16,8 @@ const path = require('node:path');
 const { matchPortal, loadPatterns, scorePattern, MATCH_THRESHOLD } = require('../lib/bridge-engine.js');
 const { generateForPortal } = require('../lib/engine-output-generator.js');
 const redisKv = require('../lib/redis-kv.js');
+const { loadPortal, listSlugs } = require('../lib/portal-loader');
 
-const DIR = path.join(__dirname, '..', 'assets', 'data', 'companies');
 const PROPOSALS_KEY = 'limen:pattern-proposals';
 
 /**
@@ -82,7 +82,7 @@ async function graduateHeldPatterns() {
     heldChecked++;
     const slug = p.sourcePortal;
     if (!slug) continue;
-    let portal; try { portal = JSON.parse(fs.readFileSync(path.join(DIR, slug + '.json'), 'utf8')); } catch (e) { continue; }
+    const portal = (await loadPortal(slug)).portal; if (!portal) continue;
     let m = null; try { m = scorePattern(p.pattern, portal); } catch (e) { m = null; }
     if (!m) continue;                          // still doesn't fire — stays held
     const updated = Object.assign({}, p, {
@@ -112,9 +112,8 @@ module.exports = async (req, res) => {
 
   const startedAt = Date.now();
   try {
-    let files;
-    try { files = fs.readdirSync(DIR).filter(f => f.endsWith('.json') && !f.startsWith('_')); }
-    catch (e) { return res.status(500).json({ error: 'cannot read portals dir: ' + e.message }); }
+    const slugs = (await listSlugs()).slugs;
+    if (!slugs.length) return res.status(500).json({ error: 'companies manifest empty/unreadable' });
 
     // Graduate held patterns that now fire back into the review queue, then
     // pull approved-but-unmerged patterns from Redis into the matcher.
@@ -125,10 +124,11 @@ module.exports = async (req, res) => {
 
     let processed = 0, withMatches = 0, withOutputs = 0, totalArtifacts = 0, redisWrote = 0;
     const eo = [];
-    for (const f of files) {
-      let p; try { p = JSON.parse(fs.readFileSync(path.join(DIR, f), 'utf8')); } catch (e) { continue; }
+    for (const _slug of slugs) {
+      const p = (await loadPortal(_slug)).portal;
+      if (!p) continue;
       processed++;
-      const slug = p.slug || f.replace(/\.json$/, '');
+      const slug = p.slug || _slug;
       let readings; try { readings = matchPortal(p); } catch (e) { continue; }
       if (!readings || !readings.matched || !readings.matched.length) continue;
       withMatches++;

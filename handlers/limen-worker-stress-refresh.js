@@ -30,6 +30,7 @@ var db = require('../lib/limen-db');
 var fs = require('fs');
 var path = require('path');
 var propagator = require('../lib/limen-stress-propagator.js');
+var { loadPortal, listSlugs } = require('../lib/portal-loader');
 
 var SLIM_KEY = 'stress_slim';
 var META_KEY = 'stress_meta';
@@ -55,21 +56,16 @@ function _firstExisting(paths) {
   return null;
 }
 
-function _loadPortals() {
-  var dir = _firstExisting(PORTAL_DIRS);
+async function _loadPortals() {
   var portals = {}, slugToCik = {};
-  if (!dir) return { portals: portals, slugToCik: slugToCik };
-  // Sort to match the propagator's determinism contract (W3).
-  var files = fs.readdirSync(dir).sort().filter(function (f) {
-    return f.endsWith('.json') && f.charAt(0) !== '_';
-  });
-  for (var i = 0; i < files.length; i++) {
-    try {
-      var p = JSON.parse(fs.readFileSync(path.join(dir, files[i]), 'utf8'));
-      var slug = p.slug || files[i].replace('.json', '');
-      portals[slug] = p;
-      if (p.cik) slugToCik[slug] = String(p.cik).replace(/^0+/, '') || '0';
-    } catch (_) { /* skip unreadable portal */ }
+  // Manifest slugs are pre-sorted, preserving the propagator's determinism contract (W3).
+  var slugs = (await listSlugs()).slugs;
+  for (var i = 0; i < slugs.length; i++) {
+    var p = (await loadPortal(slugs[i])).portal;
+    if (!p) continue;
+    var slug = p.slug || slugs[i];
+    portals[slug] = p;
+    if (p.cik) slugToCik[slug] = String(p.cik).replace(/^0+/, '') || '0';
   }
   return { portals: portals, slugToCik: slugToCik };
 }
@@ -85,7 +81,7 @@ module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   var t0 = Date.now();
   try {
-    var loaded = _loadPortals();
+    var loaded = await _loadPortals();
     var cb = _loadCB();
     var result = propagator.runPropagation(loaded.portals, cb);
     var snapshot = propagator.serializeResult(result);
