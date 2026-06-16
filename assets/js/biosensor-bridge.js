@@ -49,6 +49,9 @@
   var _pendingCount = 0;
   var _confidence = 0;              // 0-1 how confident in current regulation reading
   var _lastBioState = null;         // Last raw biosensor state
+  var _trackerState = null;         // State received from the /biosensor tracker tab (BroadcastChannel)
+  var _trackerTs = 0;
+  var _bc = null;
 
   // Rolling history for trend detection
   var _arousalHistory = [];
@@ -170,14 +173,14 @@
   // ─── Polling loop ───────────────────────────────────────────────────────
 
   function _poll() {
-    // Try to find/connect to biosensor engine
-    if (!_ensureEngine()) {
-      // No engine available yet — try again next cycle
+    var trackerFresh = _trackerState && (Date.now() - _trackerTs) < 3000;
+    // Need a local engine OR a fresh broadcast from the /biosensor tracker tab
+    if (!_ensureEngine() && !trackerFresh) {
       return;
     }
 
-    // Get current biosensor state
-    var bioState = _lastBioState;
+    // The tracker tab (rich: camera + BLE + inferred phase) wins over the local engine.
+    var bioState = trackerFresh ? _trackerState : _lastBioState;
     if (!bioState && _engine && typeof _engine.getState === 'function') {
       bioState = _engine.getState();
     }
@@ -338,8 +341,26 @@
 
   // ─── Lifecycle ──────────────────────────────────────────────────────────
 
+  // ─── Receive live state from the /biosensor tracker tab ──────────────────
+  function _initTrackerReceiver() {
+    if (_bc) return;
+    function ingest(m) {
+      if (!m || m.src !== 'tracker') return;
+      _trackerState = {
+        arousal: m.arousal, coherence: m.coherence, cognitiveLoad: m.cognitiveLoad,
+        valence: m.valence, heartRate: m.hr || 0, hrv: m.hrv || 0,
+        archetype: (m.phase && m.phase.id) || 'unknown', trackerPhase: m.phase || null
+      };
+      _trackerTs = Date.now();
+    }
+    try { _bc = new BroadcastChannel('limen-bio'); _bc.onmessage = function (e) { ingest(e.data); }; } catch (e) { _bc = null; }
+    try { var raw = localStorage.getItem('limen_bio_state'); if (raw) ingest(JSON.parse(raw)); } catch (e) {}
+    window.addEventListener('storage', function (e) { if (e.key === 'limen_bio_state' && e.newValue) { try { ingest(JSON.parse(e.newValue)); } catch (x) {} } });
+  }
+
   function start() {
     if (_interval) return;
+    _initTrackerReceiver();
 
     // Try to auto-start biosensor with behavioral-only (no camera prompt)
     if (!_engine && typeof window.startBiosensorEngine === 'function') {
