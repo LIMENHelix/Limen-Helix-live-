@@ -109,7 +109,7 @@
   <div class="sigil" id="sigil" title="">&#10070;</div>
   <h1 class="word" id="word">LIMEN <b>HELIX</b></h1>
   <div class="soon">Coming Soon</div>
-  <div class="phase" id="phaseTag">P1 · EMERGENCE</div>
+  <div class="phase" id="phaseTag">P1 · COLLAPSE / LIGHT</div>
   <p class="teaser">A <span class="em">cross-domain discovery engine</span> — mapping stress, failure, repair, and opportunity across every domain, then turning the signal into <span class="cy">leads, theses, and action</span>. Something unreal is almost here.</p>
 
   <form class="capture" id="capture" autocomplete="on">
@@ -311,17 +311,18 @@ void main(){
 /* ── 5. Phase-cycle color driver — the P0–P10 arc tints the fractal ── */
 (function(){
   var PHASES=[
-    {p:'P0', l:'OPERATING · STABLE', h:0.45},
-    {p:'P1', l:'EMERGENCE',          h:0.13},
-    {p:'P2', l:'RECOVERABLE STRESS', h:0.09},
-    {p:'P3', l:'ACTIVE STRESS',      h:0.03},
-    {p:'P4', l:'RECOVERY',           h:0.27},
-    {p:'P5', l:'CONSERVE',           h:0.57},
-    {p:'P6', l:'EXPANSION',          h:0.34},
-    {p:'P7', l:'BIFURCATION',        h:0.93},
-    {p:'P8', l:'WORKOUT',            h:0.80},
-    {p:'P9', l:'LIQUIDATION',        h:0.62},
-    {p:'P10',l:'RESURRECTION',       h:0.16}
+    {p:'P0', l:'SOURCE / NULL SYMMETRY',   h:0.45},
+    {p:'P1', l:'COLLAPSE / LIGHT',         h:0.13},
+    {p:'P2', l:'RHYTHM / BONDING',         h:0.97},
+    {p:'P3', l:'DARKNESS / FRACTURE',      h:0.03},
+    {p:'P4', l:'PEACE / NESTED INTEGRATION',h:0.27},
+    {p:'P5', l:'ENDURANCE',                h:0.55},
+    {p:'P6', l:'ORDER',                    h:0.34},
+    {p:'P7', l:'SEPARATION',               h:0.62},
+    {p:'P7b',l:'DIVERGENCE',               h:0.88},
+    {p:'P8', l:'CONSCIENCE',               h:0.78},
+    {p:'P9', l:'THRESHOLD',                h:0.70},
+    {p:'P10',l:'RESURRECTION',             h:0.16}
   ];
   var i=1, target=PHASES[1].h, tag=document.getElementById('phaseTag');
   window.__limenHue=PHASES[1].h;
