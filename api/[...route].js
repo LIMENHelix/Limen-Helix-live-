@@ -21,18 +21,23 @@ const { RegExpRouter } = require('hono/router/reg-exp-router');
 
 // Bumped each migration commit so a deploy is probeable: any unknown /api/* path
 // returns this in the miss JSON (curl /api/__probe__ | grep the tag).
-const BUILD = 'phase-3';
+const BUILD = 'phase-3b';
 
 // name → handler module. Static requires so the tracer bundles them.
 const HANDLERS = {
   'api-keys-config': require('../handlers/api-keys-config'),
   'asset-quote': require('../handlers/asset-quote'),
   'biosensor-state': require('../handlers/biosensor-state'),
+  'critique-artifact': require('../handlers/critique-artifact'),
   'defense-signals': require('../handlers/defense-signals'),
+  'enrich-portal-claude': require('../handlers/enrich-portal-claude'),
+  'expand-artifact': require('../handlers/expand-artifact'),
+  'expand-artifact-claude': require('../handlers/expand-artifact-claude'),
   'domain-snapshot': require('../handlers/domain-snapshot'),
   'domain-snapshot-debug': require('../handlers/domain-snapshot-debug'),
   'feed-status': require('../handlers/feed-status'),
   'fetch-doc': require('../handlers/fetch-doc'),
+  'finalize-artifact': require('../handlers/finalize-artifact'),
   'fetch-portal': require('../handlers/fetch-portal'),
   'kernel-experiment': require('../handlers/kernel-experiment'),
   'lead': require('../handlers/lead'),
@@ -50,6 +55,7 @@ const HANDLERS = {
   'limen-operator-calibration': require('../handlers/limen-operator-calibration'),
   'limen-outcome': require('../handlers/limen-outcome'),
   'limen-phase-transitions': require('../handlers/limen-phase-transitions'),
+  'limen-reciprocity-prose-rewrite': require('../handlers/limen-reciprocity-prose-rewrite'),
   'limen-self-pulse': require('../handlers/limen-self-pulse'),
   'limen-snapshot': require('../handlers/limen-snapshot'),
   'limen-stress-propagation': require('../handlers/limen-stress-propagation'),
@@ -66,6 +72,8 @@ const HANDLERS = {
   'paper-trade': require('../handlers/paper-trade'),
   'patent-snapshot': require('../handlers/patent-snapshot'),
   'pattern-proposal': require('../handlers/pattern-proposal'),
+  'print-document': require('../handlers/print-document'),
+  'print-from-pattern': require('../handlers/print-from-pattern'),
   'redis-diag': require('../handlers/redis-diag'),
 };
 
