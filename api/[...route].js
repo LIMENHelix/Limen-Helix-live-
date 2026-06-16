@@ -19,19 +19,35 @@
  */
 const { RegExpRouter } = require('hono/router/reg-exp-router');
 
+// Bumped each migration commit so a deploy is probeable: any unknown /api/* path
+// returns this in the miss JSON (curl /api/__probe__ | grep the tag).
+const BUILD = 'phase-2b';
+
 // name → handler module. Static requires so the tracer bundles them.
 const HANDLERS = {
   'api-keys-config': require('../handlers/api-keys-config'),
   'asset-quote': require('../handlers/asset-quote'),
   'defense-signals': require('../handlers/defense-signals'),
+  'domain-snapshot': require('../handlers/domain-snapshot'),
   'domain-snapshot-debug': require('../handlers/domain-snapshot-debug'),
   'feed-status': require('../handlers/feed-status'),
+  'fetch-portal': require('../handlers/fetch-portal'),
   'kernel-experiment': require('../handlers/kernel-experiment'),
+  'limen-artifact-render': require('../handlers/limen-artifact-render'),
+  'limen-autofire-log': require('../handlers/limen-autofire-log'),
+  'limen-autoqueue': require('../handlers/limen-autoqueue'),
   'limen-health': require('../handlers/limen-health'),
   'limen-ingest': require('../handlers/limen-ingest'),
   'limen-phase-transitions': require('../handlers/limen-phase-transitions'),
   'limen-self-pulse': require('../handlers/limen-self-pulse'),
+  'limen-snapshot': require('../handlers/limen-snapshot'),
   'limen-stress-propagation': require('../handlers/limen-stress-propagation'),
+  'limen-stress-slim': require('../handlers/limen-stress-slim'),
+  'limen-worker-autofire': require('../handlers/limen-worker-autofire'),
+  'limen-worker-autoqueue': require('../handlers/limen-worker-autoqueue'),
+  'limen-worker-multipass': require('../handlers/limen-worker-multipass'),
+  'limen-worker-sleep-cycle': require('../handlers/limen-worker-sleep-cycle'),
+  'market-snapshot': require('../handlers/market-snapshot'),
   'paper-orders': require('../handlers/paper-orders'),
   'paper-positions': require('../handlers/paper-positions'),
   'paper-trade': require('../handlers/paper-trade'),
@@ -60,7 +76,7 @@ module.exports = async function honoEntry(req, res) {
   if (!handler) {
     res.statusCode = 404;
     res.setHeader('Content-Type', 'application/json');
-    return res.end(JSON.stringify({ error: 'route not handled by Hono entry', path: pathname }));
+    return res.end(JSON.stringify({ error: 'route not handled by Hono entry', path: pathname, build: BUILD }));
   }
   return resolve(handler)(req, res);
 };
