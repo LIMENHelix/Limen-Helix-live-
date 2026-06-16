@@ -31,22 +31,9 @@
 var fs = require('fs');
 var path = require('path');
 
-// ── Portal load (bundled per vercel.json includeFiles) ──
-var _PORTAL_PATHS = [
-  path.join(__dirname, '..', 'assets', 'data', 'companies'),
-  '/var/task/assets/data/companies',
-  path.join(process.cwd(), 'assets', 'data', 'companies')
-];
-function _loadPortal(slug) {
-  if (!slug) return null;
-  for (var i = 0; i < _PORTAL_PATHS.length; i++) {
-    try {
-      var fp = path.join(_PORTAL_PATHS[i], slug + '.json');
-      if (fs.existsSync(fp)) return JSON.parse(fs.readFileSync(fp, 'utf8'));
-    } catch (_) { /* try next */ }
-  }
-  return null;
-}
+// ── Portal load — shared loader: fetch the statically-served copy, fs-fallback
+// while includeFiles still bundles companies/*.json (unbundle pilot). ──
+var { loadPortal } = require('../lib/portal-loader');
 
 function escapeHtml(s) {
   if (s === null || s === undefined) return '';
@@ -341,8 +328,9 @@ module.exports = async function handler(req, res) {
       return res.end('missing ?id=<outputId>');
     }
 
-    // Fetch the engine-output record
-    var base = process.env.VERCEL_URL ? 'https://' + process.env.VERCEL_URL : 'https://limenhelix.com';
+    // Fetch the engine-output record. Use the public domain (NOT VERCEL_URL —
+    // the *.vercel.app deployment host is auth-protected and 401s self-fetches).
+    var base = process.env.PUBLIC_BASE_URL || 'https://limenhelix.com';
     var rec = null;
     try {
       var r = await fetch(base + '/api/limen-engine-output?id=' + encodeURIComponent(outputId), { signal: AbortSignal.timeout(20000) });
@@ -354,7 +342,9 @@ module.exports = async function handler(req, res) {
       return res.end('artifact not found: ' + outputId);
     }
 
-    var portal = _loadPortal(rec.slug);
+    var loaded = await loadPortal(rec.slug);
+    var portal = loaded.portal;
+    res.setHeader('X-LIMEN-PORTAL-LOADER', loaded.source);
 
     if (format === 'md') {
       res.statusCode = 200;
