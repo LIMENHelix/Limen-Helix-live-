@@ -78,7 +78,6 @@ const HANDLERS = {
   'paper-trade': require('../handlers/paper-trade'),
   'patent-snapshot': require('../handlers/patent-snapshot'),
   'pattern-proposal': require('../handlers/pattern-proposal'),
-  'print-document': require('../handlers/print-document'),
   'print-from-pattern': require('../handlers/print-from-pattern'),
   'redis-diag': require('../handlers/redis-diag'),
   'trigger-pattern-author': require('../handlers/trigger-pattern-author'),
