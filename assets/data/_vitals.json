@@ -1,13 +1,13 @@
 {
   "schemaVersion": "vitals/2.0",
-  "generatedAt": "2026-06-16T09:57:50.181Z",
+  "generatedAt": "2026-06-17T09:47:53.932Z",
   "overall": {
-    "score": 77,
-    "status": "DEGRADED",
-    "summary": "12 organs · 20 attention items · feeds 55 · l1Nodes 97 · domains 98 · portalCorpus 76 · deadLinks 78 · kernel 27 · connectome 100 · civilization 100 · masterBrain 95 · propagator 0 · patternBus 100 · bridge 99"
+    "score": 72,
+    "status": "IN_PAIN",
+    "summary": "12 organs · 20 attention items · feeds 0 · l1Nodes 97 · domains 98 · portalCorpus 76 · deadLinks 78 · kernel 27 · connectome 100 · civilization 100 · masterBrain 89 · propagator 0 · patternBus 100 · bridge 99"
   },
   "scores": {
-    "feeds": 55,
+    "feeds": 0,
     "l1Nodes": 97,
     "domains": 98,
     "portalCorpus": 76,
@@ -15,7 +15,7 @@
     "kernel": 27,
     "connectome": 100,
     "civilization": 100,
-    "masterBrain": 95,
+    "masterBrain": 89,
     "propagator": 0,
     "patternBus": 100,
     "bridge": 99
@@ -25,109 +25,16 @@
       "id": "feeds",
       "role": "afferent / sensory cortex",
       "order": 10,
-      "score": 55,
+      "score": 0,
       "status": "IN_PAIN",
-      "summary": "22 sources across 11 domains (11/20 canonical) · 7 require auth · 7 env vars referenced",
-      "metrics": {
-        "sourceCount": 22,
-        "byDomain": {
-          "governance": [
-            "World Bank Governance",
-            "GDELT Governance"
-          ],
-          "infrastructure": [
-            "World Bank Infrastructure",
-            "OECD Infrastructure"
-          ],
-          "agriculture": [
-            "USDA NASS",
-            "FAO FAOSTAT"
-          ],
-          "industry": [
-            "FRED Industrial Production",
-            "BLS Manufacturing PPI"
-          ],
-          "education": [
-            "World Bank Education",
-            "OpenAlex Institutions"
-          ],
-          "communication": [
-            "NewsAPI Headlines",
-            "GDELT Media"
-          ],
-          "culture": [
-            "Event Registry",
-            "GDELT Tone"
-          ],
-          "defense": [
-            "ACLED Conflict",
-            "GDELT Conflict"
-          ],
-          "religion": [
-            "GDELT Religion",
-            "Event Registry Religion"
-          ],
-          "population": [
-            "World Bank Population",
-            "UN Population"
-          ],
-          "law": [
-            "Federal Register",
-            "Regulations.gov"
-          ]
-        },
-        "coveredDomains": [
-          "governance",
-          "infrastructure",
-          "agriculture",
-          "industry",
-          "education",
-          "communication",
-          "culture",
-          "defense",
-          "religion",
-          "population",
-          "law"
-        ],
-        "uncoveredDomains": [
-          "economy",
-          "energy",
-          "environment",
-          "finance",
-          "intelligence",
-          "medicine",
-          "science",
-          "supplyChain",
-          "technology"
-        ],
-        "envGated": 7,
-        "envVars": [
-          "USDA_API_KEY",
-          "FRED_API_KEY",
-          "NEWS_API_KEY",
-          "EVENT_REGISTRY_API_KEY",
-          "ACLED_API_KEY",
-          "ACLED_EMAIL",
-          "REGULATIONS_GOV_API_KEY"
-        ],
-        "scoreParts": {
-          "domainCoverage": 55,
-          "sourceDensity": 54
-        }
-      },
+      "summary": "feed-status.js missing — system has no sensory cortex",
+      "metrics": {},
       "attention": [
         {
-          "issue": "Feed source count low (<30)",
-          "severity": "med",
-          "count": 22,
-          "action": "expand feed-status.js source registry",
-          "organ": "feeds"
-        },
-        {
-          "issue": "Canonical domains with NO feed source",
+          "issue": "feed-status.js not found",
           "severity": "high",
-          "count": 9,
-          "action": "add at least one feed source per canonical domain: economy, energy, environment, finance, intelligence, medicine, science, supplyChain, technology",
+          "count": 1,
+          "action": "inspect api/feed-status.js",
           "organ": "feeds"
         }
       ]
@@ -1212,7 +1119,7 @@
           "phaseEngine": true,
           "manifest": true
         },
-        "manifestCount": 767,
+        "manifestCount": 800,
         "cikCollisions": [
           {
             "cik": "1800",
@@ -1318,14 +1225,14 @@
       "id": "masterBrain",
       "role": "PFC / executive cortex (6 engine gates)",
       "order": 80,
-      "score": 95,
-      "status": "HEALTHY",
-      "summary": "6/6 engine lanes · 8/9 markers · inbox ✗",
+      "score": 89,
+      "status": "DEGRADED",
+      "summary": "6/6 engine lanes · 7/9 markers · inbox ✗",
       "metrics": {
         "present": {
           "masterBrain": true,
-          "executor": true,
-          "enginePersist": true,
+          "executor": false,
+          "enginePersist": false,
           "consumer": false,
           "inbox": false
         },
@@ -1345,7 +1252,7 @@
           "readinessGate": true,
           "salienceGate": true,
           "engineFireLog": true,
-          "enginePersistEndpoint": true,
+          "enginePersistEndpoint": false,
           "readyToSignGate": true,
           "patternEnvelopeEmit": false
         },
@@ -1353,10 +1260,17 @@
         "inboxAgeHours": null,
         "scoreParts": {
           "lanes": 100,
-          "structural": 89
+          "structural": 78
         }
       },
       "attention": [
+        {
+          "issue": "api/limen-engine-output.js missing — engine outputs cannot persist",
+          "severity": "high",
+          "count": 1,
+          "action": "restore persistence endpoint",
+          "organ": "masterBrain"
+        },
         {
           "issue": "Master Brain inbox never built — engine outputs not gated/prioritized yet",
           "severity": "med",
@@ -1609,13 +1523,6 @@
       "organ": "kernel"
     },
     {
-      "issue": "Feed source count low (<30)",
-      "severity": "med",
-      "count": 22,
-      "action": "expand feed-status.js source registry",
-      "organ": "feeds"
-    },
-    {
       "issue": "Domain mis-routing (pharma SIC on non-medicine domain)",
       "count": 5,
       "severity": "med",
@@ -1665,13 +1572,6 @@
       "organ": "portalCorpus"
     },
     {
-      "issue": "Canonical domains with NO feed source",
-      "severity": "high",
-      "count": 9,
-      "action": "add at least one feed source per canonical domain: economy, energy, environment, finance, intelligence, medicine, science, supplyChain, technology",
-      "organ": "feeds"
-    },
-    {
       "issue": "Canonical domains with NO L1 node binding",
       "severity": "high",
       "count": 2,
@@ -1700,6 +1600,13 @@
       "organ": "deadLinks"
     },
     {
+      "issue": "feed-status.js not found",
+      "severity": "high",
+      "count": 1,
+      "action": "inspect api/feed-status.js",
+      "organ": "feeds"
+    },
+    {
       "issue": "Missing canonical domain brain files",
       "severity": "high",
       "count": 1,
@@ -1712,6 +1619,13 @@
       "count": 1,
       "action": "inspect — usually intentional segment, else dedup",
       "organ": "kernel"
+    },
+    {
+      "issue": "api/limen-engine-output.js missing — engine outputs cannot persist",
+      "severity": "high",
+      "count": 1,
+      "action": "restore persistence endpoint",
+      "organ": "masterBrain"
     },
     {
       "issue": "limen-stress-propagator.js missing",
@@ -2687,6 +2601,145 @@
           "severity": "high",
           "count": 1,
           "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "limen-stress-propagator.js missing",
+          "severity": "high",
+          "count": 1,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Portal regen backlog — entities the body needs but has no portal for",
+          "severity": "med",
+          "count": 176,
+          "reason": "no registered heal"
+        }
+      ]
+    },
+    {
+      "startedAt": "2026-06-17T09:47:51.969Z",
+      "finishedAt": "2026-06-17T09:47:53.942Z",
+      "preScore": 72,
+      "postScore": 72,
+      "heals": [
+        {
+          "name": "wire-eligible-cb",
+          "issue": "Eligible CB rows with broken portal links",
+          "countBefore": 178,
+          "ranAt": "2026-06-17T09:47:51.972Z",
+          "success": true,
+          "summary": "completed",
+          "exitCode": 0
+        }
+      ],
+      "skipped": [
+        {
+          "issue": "Truncated prose in fn entries (ellipsis / fragment / empty)",
+          "severity": "med",
+          "count": 515,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "CB rows pointing to a portal slug with NO file on disk (dead clicks waiting)",
+          "severity": "med",
+          "count": 177,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Portals with NO kernel reading (K1/K2/K3 all empty) — K3 frontier",
+          "severity": "med",
+          "count": 149,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Domain mis-routing (pharma SIC on non-medicine domain)",
+          "severity": "med",
+          "count": 5,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Thin portals (<20 fn entries)",
+          "severity": "med",
+          "count": 3,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Domain brain files lacking required markers (brainId / feedSources / kernels)",
+          "severity": "med",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Master Brain inbox never built — engine outputs not gated/prioritized yet",
+          "severity": "med",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Portals with brain-tagging below 90%",
+          "severity": "low",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "K2 (universal kernel) coverage below 100%",
+          "severity": "high",
+          "count": 800,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Null kernel composite on ELIGIBLE-marked portals",
+          "severity": "high",
+          "count": 714,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Canonical domains with NO L1 node binding",
+          "severity": "high",
+          "count": 2,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Name-fingerprint dup clusters",
+          "severity": "high",
+          "count": 2,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "CIK collisions (real ciks shared)",
+          "severity": "high",
+          "count": 2,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Surfaces build company-portal links without an hp gate",
+          "severity": "high",
+          "count": 2,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "feed-status.js not found",
+          "severity": "high",
+          "count": 1,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Missing canonical domain brain files",
+          "severity": "high",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "CIK collisions in companies-manifest",
+          "severity": "high",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "api/limen-engine-output.js missing — engine outputs cannot persist",
+          "severity": "high",
+          "count": 1,
+          "reason": "no registered heal"
         },
         {
           "issue": "limen-stress-propagator.js missing",
