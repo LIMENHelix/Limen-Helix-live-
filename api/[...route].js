@@ -68,7 +68,6 @@ const HANDLERS = {
   'limen-stress-slim': require('../handlers/limen-stress-slim'),
   'limen-worker-autofire': require('../handlers/limen-worker-autofire'),
   'limen-worker-autoqueue': require('../handlers/limen-worker-autoqueue'),
-  'limen-worker-multipass': require('../handlers/limen-worker-multipass'),
   'limen-worker-sleep-cycle': require('../handlers/limen-worker-sleep-cycle'),
   'market-snapshot': require('../handlers/market-snapshot'),
   'master-inbox': require('../handlers/master-inbox'),
