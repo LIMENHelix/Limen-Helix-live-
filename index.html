@@ -286,7 +286,7 @@ void main(){
   function show(){ overlay.classList.add('show'); setTimeout(function(){ pwInput.focus(); },50); }
   function hide(){ overlay.classList.remove('show'); errorBox.textContent=''; pwInput.value='';
     if(location.hash==='#admin') history.replaceState(null,'',location.pathname+location.search); }
-  var RETURN_ALLOWLIST=['/civilization','/operator-guide','/my-documents',
+  var RETURN_ALLOWLIST=['/civilization','/my-documents',
     '/pattern-proposals','/kernel-comparison','/domain-console','/treatment-discovery','/admin-leads'];
   function getReturnParam(){
     try{ var ret=new URLSearchParams(location.search).get('return');

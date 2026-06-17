@@ -305,16 +305,6 @@ window.LIMEN_SITE_INDEX = {
           "stem": "execution-framework"
         },
         {
-          "label": "Journal",
-          "url": "/journal",
-          "stem": "journal"
-        },
-        {
-          "label": "Operator Guide",
-          "url": "/operator-guide",
-          "stem": "operator-guide"
-        },
-        {
           "label": "Operator Onboarding",
           "url": "/operator-onboarding",
           "stem": "operator-onboarding"

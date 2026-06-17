@@ -30,9 +30,7 @@
   // ─── Routes (use clean URLs — vercel.json cleanUrls:true) ───────────────
   var ROUTES = [
     { label: 'LIMEN HELIX',        href: '/' },
-    { label: '★ OPERATOR GUIDE',   href: '/operator-guide' },
     { label: '$ CAPITAL ENGINE',   href: '/capital-engine' },
-    { label: '✎ JOURNAL',          href: '/journal' },
     { label: '⬇ MY DOCUMENTS',     href: '/my-documents' },
     { label: '⬢ TREATMENT DISCOVERY', href: '/treatment-discovery' },
     { label: 'PATTERN PROPOSALS',  href: '/pattern-proposals' },
