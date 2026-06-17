@@ -59,6 +59,7 @@
 
   EnergyBrain.prototype.init = function () {
     Base.prototype.init.call(this);
+    this._loadCommandBoardCompanies();   // C6-followup: wire real company entities (state.companies was starved)
 
     // Diagnosis → signal condition mapping
     // These map live conditions to which diagnoses become active
@@ -485,9 +486,37 @@
   // STEP 6 OVERRIDE: Surface opportunities with capital classification
   // ══════════════════════════════════════════════════════════════════════
 
+  // C6-followup: state.companies was starved — the server snapshot does not emit
+  // domainCompanyJoin yet, so the base populator finds nothing. Load this domain's
+  // real entities from command-board-data ONCE and use them as a fallback. Guarded:
+  // on any failure _cbEnergyCompanies stays [] and behavior is unchanged (no breakage).
+  EnergyBrain.prototype._loadCommandBoardCompanies = function () {
+    var self = this;
+    if (self._cbEnergyCompanies) return;            // one-shot
+    self._cbEnergyCompanies = [];
+    try {
+      fetch('/assets/data/command-board-data.json')
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (data) {
+          if (!data) return;
+          var arr = Array.isArray(data) ? data : (Object.keys(data).map(function (k) { return data[k]; }).find(Array.isArray) || []);
+          self._cbEnergyCompanies = arr
+            .filter(function (x) { return x && x.d === 'energy' && x.t; })
+            .map(function (x) { return { name: x.n, ticker: x.t, cik: x.c, phase: x.p, trajectory: x.tr }; });
+        })
+        .catch(function () {});
+    } catch (e) {}
+  };
+
   EnergyBrain.prototype.surfaceOpportunities = function () {
     // Call base to get companies + convergence
     Base.prototype.surfaceOpportunities.call(this);
+
+    // C6-followup: if the snapshot didn't supply companies, fall back to real
+    // command-board entities so opportunities are real, not scaffold.
+    if ((!this.state.companies || !this.state.companies.length) && this._cbEnergyCompanies && this._cbEnergyCompanies.length) {
+      this.state.companies = this._cbEnergyCompanies;
+    }
 
     var opps = [];
     var stress = this.state.stress;
