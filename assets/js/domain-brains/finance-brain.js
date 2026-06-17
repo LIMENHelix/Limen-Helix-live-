@@ -785,6 +785,12 @@
       'assets/js/finance-business-review.js',
       'assets/js/finance-execution-panels.js',
       'assets/js/finance-business-build.js',
+      // C6 pilot: shared taxonomy engines + finance data load BEFORE the 4 thin shims below
+      'assets/js/domain-taxonomy/shared-directive-ranker.js',
+      'assets/js/domain-taxonomy/shared-targeting-engine.js',
+      'assets/js/domain-taxonomy/shared-directive-translator.js',
+      'assets/js/domain-taxonomy/shared-promotion-bridge.js',
+      'assets/js/domain-taxonomy/finance-taxonomy-data.js',
       'assets/js/finance-directive-extractor.js',
       'assets/js/finance-directive-ranker.js',
       'assets/js/finance-directive-translator.js',
