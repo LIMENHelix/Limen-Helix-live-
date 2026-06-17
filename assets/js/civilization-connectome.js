@@ -1107,7 +1107,6 @@ function bindFullEvents() {
     if(mouseDownPos){var dx=e.clientX-mouseDownPos.x,dy=e.clientY-mouseDownPos.y;wasDrag=Math.sqrt(dx*dx+dy*dy)>=5;}
     isDragging=false; dragStart=null; mouseDownPos=null;
     if(!wasDrag&&_subMenu&&_subMenu.style.display==='block'){hideSubMenu();return;}
-    if(!wasDrag&&!transitioning&&hitSun(e.clientX,e.clientY)){ window.location.href='/master-brain.html'; return; }
     if(!wasDrag&&!transitioning){var hit=hitTest(e.clientX,e.clientY);if(hit>=0){hideTooltip();navigateToUniverse(hit);return;}}
     if(hoveredNode>=0&&NODES[hoveredNode].childUniverse&&PORTAL_ROUTES[NODES[hoveredNode].childUniverse]) canvas.style.cursor='pointer';
     else canvas.style.cursor='default';
@@ -1134,7 +1133,6 @@ function bindFullEvents() {
       var dx=e.changedTouches[0].clientX-touchStartPos.x,dy=e.changedTouches[0].clientY-touchStartPos.y;
       wasDrag=Math.sqrt(dx*dx+dy*dy)>=5;
       if(!wasDrag&&_subMenu&&_subMenu.style.display==='block'){hideSubMenu();}
-      else if(!wasDrag&&!transitioning&&hitSun(e.changedTouches[0].clientX,e.changedTouches[0].clientY)){ window.location.href='/master-brain.html'; }
       else if(!wasDrag&&!transitioning){var hit=hitTest(e.changedTouches[0].clientX,e.changedTouches[0].clientY);if(hit>=0) navigateToUniverse(hit);}
     }
     isDragging=false;dragStart=null;lastTouchDist=0;touchStartPos=null;

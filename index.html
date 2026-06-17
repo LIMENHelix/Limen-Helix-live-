@@ -286,8 +286,8 @@ void main(){
   function show(){ overlay.classList.add('show'); setTimeout(function(){ pwInput.focus(); },50); }
   function hide(){ overlay.classList.remove('show'); errorBox.textContent=''; pwInput.value='';
     if(location.hash==='#admin') history.replaceState(null,'',location.pathname+location.search); }
-  var RETURN_ALLOWLIST=['/civilization','/master-inbox','/operator-guide','/my-documents',
-    '/pattern-proposals','/kernel-comparison','/domain-console','/master-brain','/treatment-discovery','/admin-leads'];
+  var RETURN_ALLOWLIST=['/civilization','/operator-guide','/my-documents',
+    '/pattern-proposals','/kernel-comparison','/domain-console','/treatment-discovery','/admin-leads'];
   function getReturnParam(){
     try{ var ret=new URLSearchParams(location.search).get('return');
       if(!ret||ret.charAt(0)!=='/'||ret.indexOf('//')!==-1) return null;

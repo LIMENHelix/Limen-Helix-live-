@@ -37,7 +37,6 @@
     { label: '⬢ TREATMENT DISCOVERY', href: '/treatment-discovery' },
     { label: 'PATTERN PROPOSALS',  href: '/pattern-proposals' },
     { label: 'SYSTEM VITALS',      href: '/vitals' },
-    { label: 'MASTER BRAIN INBOX', href: '/master-inbox' },
     { label: 'CONSOLE',            href: '/civilization' },
     { label: 'OBSERVATORY',        href: '/civilization-opportunities' },
     { label: 'OPPORTUNITIES',      href: '/opportunities' },

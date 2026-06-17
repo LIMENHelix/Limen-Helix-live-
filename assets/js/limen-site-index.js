@@ -362,31 +362,6 @@ window.LIMEN_SITE_INDEX = {
       ]
     },
     {
-      "name": "Master Brain",
-      "items": [
-        {
-          "label": "Master Brain",
-          "url": "/master-brain",
-          "stem": "master-brain"
-        },
-        {
-          "label": "Master Brain Executor",
-          "url": "/master-brain-executor",
-          "stem": "master-brain-executor"
-        },
-        {
-          "label": "Master Brain Inbox",
-          "url": "/master-brain-inbox",
-          "stem": "master-brain-inbox"
-        },
-        {
-          "label": "Master Inbox",
-          "url": "/master-inbox",
-          "stem": "master-inbox"
-        }
-      ]
-    },
-    {
       "name": "Documents & Applications",
       "items": [
         {

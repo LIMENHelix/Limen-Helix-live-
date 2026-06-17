@@ -70,7 +70,6 @@ const HANDLERS = {
   'limen-worker-autoqueue': require('../handlers/limen-worker-autoqueue'),
   'limen-worker-sleep-cycle': require('../handlers/limen-worker-sleep-cycle'),
   'market-snapshot': require('../handlers/market-snapshot'),
-  'master-inbox': require('../handlers/master-inbox'),
   'operator-action': require('../handlers/operator-action'),
   'paper-orders': require('../handlers/paper-orders'),
   'paper-positions': require('../handlers/paper-positions'),

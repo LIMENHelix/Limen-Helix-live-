@@ -64,7 +64,6 @@ a:hover{color:#C9A94E;text-decoration:underline}
 
 <div class="nav">
   <a href="/">← INDEX</a>
-  <a href="/master-inbox.html">MASTER BRAIN INBOX</a>
   <a href="/pattern-proposals.html">PATTERN PROPOSALS</a>
   <a href="/kernel-comparison.html">COMMAND BOARD</a>
 </div>
@@ -108,7 +107,7 @@ a:hover{color:#C9A94E;text-decoration:underline}
 
   <div class="surface-name" style="margin:18px 0 8px;color:#C9A94E">Your first session, step by step</div>
   <div class="flow"><div class="flow-num">1</div><div class="flow-text"><b>System health</b> is produced by a local audit script (<code>scripts/audit-system-vitals.mjs</code>) that scores 12 organs — there is <b>no live Vitals page in this build</b> (<code>/vitals</code> returns 404). Treat it as a maintainer tool, not a daily surface. Your day-to-day start is the Master Brain Inbox (next step).</div></div>
-  <div class="flow"><div class="flow-num">2</div><div class="flow-text">Open <b><a href="/master-inbox.html">MASTER BRAIN INBOX</a></b>. This is your daily worklist — the system's ranked "what deserves attention first." Read the top few items.</div></div>
+  <div class="flow"><div class="flow-num">2</div><div class="flow-text">Open <b><a href="/pattern-proposals.html">PATTERN PROPOSALS</a></b>. This is your review worklist — the bridge patterns the system proposes for research / investment. Read the top few items.</div></div>
   <div class="flow"><div class="flow-num">3</div><div class="flow-text">Click into one item to open its <b>COMPANY PORTAL</b>. Read the bridge pattern (why the system thinks this brain↔business mapping applies) and the engine outputs (patent / grant / investment / research tabs).</div></div>
   <div class="flow"><div class="flow-num">4</div><div class="flow-text"><b>Check the state badge before you believe a claim.</b> A confident-looking paragraph with a PENDING/UNKNOWN badge is a lead, not a fact. A PROVEN badge means it's backed by evidence.</div></div>
   <div class="flow"><div class="flow-num">5</div><div class="flow-text">Decide: <b>PRINT</b> (download a filing-ready draft), <b>REFRESH</b> (ask for more depth on the next cycle), or <b>DECLINE</b> (stop surfacing it). See § 3 for exactly what each button does.</div></div>
@@ -162,13 +161,6 @@ a:hover{color:#C9A94E;text-decoration:underline}
   </div>
 
   <div class="surface">
-    <div class="surface-name">MASTER BRAIN INBOX <a href="/master-inbox.html">/master-inbox.html</a></div>
-    <div class="surface-what">"What should I read first?" Phase-gated lane firing queue. Cross-lane top priority + per-lane queues (patent / grant / investment / research). Each row carries PRINT / REFRESH / DECLINE buttons + a link to the source portal. Currently shows 1,861 ready-to-fire artifacts gated from 2,504 candidates.</div>
-    <div class="surface-when">When to look</div>
-    <div class="surface-detail">Daily. The inbox is the body's recommendation list. Highest fire-score items are what it thinks deserve your attention first.</div>
-  </div>
-
-  <div class="surface">
     <div class="surface-name">PATTERN PROPOSALS <a href="/pattern-proposals.html">/pattern-proposals.html</a></div>
     <div class="surface-what">"What new brain ↔ business mappings has Claude proposed?" When the pattern-author step is run, Claude proposes up to 3 new bridge patterns for portals the existing 15 can't reach (the K3 frontier). You approve (merges into library; instantly available across the corpus) or reject.</div>
     <div class="surface-when">When to look</div>
@@ -217,12 +209,6 @@ a:hover{color:#C9A94E;text-decoration:underline}
     <div class="surface-detail">Not-yet-migrated.</div>
   </div>
 
-  <div class="surface">
-    <div class="surface-name">MASTER BRAIN <a href="/master-brain.html">/master-brain.html</a></div>
-    <div class="surface-what">"Executive cockpit." Shows 20-domain posture grid, recent state transitions, hierarchy diagram (Master Brain → Civilization → Domains). Entry points to Inbox + Executor.</div>
-    <div class="surface-when">When to look</div>
-    <div class="surface-detail">Glance — see body-wide posture in one view. Then jump to Inbox to act.</div>
-  </div>
 
   <div class="surface">
     <div class="surface-name">$ CAPITAL ENGINE <a href="/capital-engine">/capital-engine</a></div>
@@ -245,7 +231,7 @@ a:hover{color:#C9A94E;text-decoration:underline}
   <div class="sect-title">Every button explained</div>
 
   <div class="surface-name" style="margin:14px 0 10px;color:#C9A94E">On artifact cards (inbox + portal page)</div>
-  <div class="button-doc"><div class="button-doc-name print">PRINT</div><div class="button-doc-text"><b>Downloads a 20-30 page DOCX</b> to your browser. Calls Claude Sonnet via <code>/api/print-document</code> to expand the seed artifact into a full filing-ready document calibrated for a <b>new business with no investor yet</b> (USPTO Pro Se / Micro Entity for patents, NIH SBIR Phase I for grants, SBA Microloan for loans, OSF preregistration for research). Browser asks where to save — point at your <code>LIMEN Helix Files</code> desktop folder. <b>Takes 30-90 seconds</b> because it's a real long-form Anthropic call.</div></div>
+  <div class="button-doc"><div class="button-doc-name print">PRINT</div><div class="button-doc-text"><b>Downloads a DOCX</b> to your browser. Calls Claude Sonnet via <code>/api/print-from-pattern</code> to expand the seed artifact into a full document for the <b>research</b> (OSF preregistration) or <b>investment</b> (thesis memo) lane. Browser asks where to save — point at your <code>LIMEN Helix Files</code> desktop folder. <b>Takes 30-90 seconds</b> because it's a real long-form Anthropic call.</div></div>
   <div class="button-doc"><div class="button-doc-name refresh">REFRESH</div><div class="button-doc-text"><b>Regenerate this specific artifact with greater detail.</b> Adds to the action queue; the next run of the refresh step calls Claude with portal context (suppliers, customers, kernel phase) + bridge mechanism to rewrite the seed. After it runs, the inbox/portal-page render the improved version. <i>(Run on demand — no automatic cron in this build.)</i></div></div>
   <div class="button-doc"><div class="button-doc-name decline">DECLINE</div><div class="button-doc-text"><b>"Don't surface this again."</b> Marks the action complete with <code>declined: true</code>. Future inbox sorts deprioritize declined items.</div></div>
 
@@ -263,12 +249,11 @@ a:hover{color:#C9A94E;text-decoration:underline}
 
   <div class="flow"><div class="flow-num">1</div><div class="flow-text"><b>SENSE</b> · <code>audit-system-vitals.mjs</code> — 12 organs report their score. Writes <code>_vitals.json</code>.</div></div>
   <div class="flow"><div class="flow-num">2</div><div class="flow-text"><b>BRIDGE</b> · <code>build-bridge-readings.mjs</code> — re-matches the 15 (or more) patterns across all 767 portals.</div></div>
-  <div class="flow"><div class="flow-num">3</div><div class="flow-text"><b>MINT</b> · <code>build-engine-outputs.mjs</code> — produces patent/grant/investment/research seed artifacts for every matched bridge.</div></div>
-  <div class="flow"><div class="flow-num">4</div><div class="flow-text"><b>GATE</b> · <code>build-master-inbox.mjs</code> — applies per-lane readiness/salience thresholds + phase-inhibit sets. Sorts by fire score. Writes <code>_master-inbox.json</code>.</div></div>
-  <div class="flow"><div class="flow-num">5</div><div class="flow-text"><b>RESPOND</b> · <code>process-operator-actions.mjs</code> — drains the queue of your PRINT / REFRESH / DECLINE clicks since last tick.</div></div>
-  <div class="flow"><div class="flow-num">6</div><div class="flow-text"><b>AUTHOR</b> · <code>author-bridge-patterns.mjs --max=3</code> — Claude Opus proposes up to 3 new patterns for the K3 frontier (portals with kernel signal but no existing pattern match).</div></div>
-  <div class="flow"><div class="flow-num">7</div><div class="flow-text"><b>REGEN QUEUE</b> · <code>autonomous-portal-regen.mjs</code> — finds CB rows pointing at missing portals + portals with kernel signal but thin functional network. Writes regen queue.</div></div>
-  <div class="flow"><div class="flow-num">8</div><div class="flow-text"><b>HEAL</b> · <code>heal-corpus.mjs</code> — applies safe heals (scrub placeholders, wire CB slugs, fix category bleed). Operator-only items stay in attention.</div></div>
+  <div class="flow"><div class="flow-num">3</div><div class="flow-text"><b>MINT</b> · <code>build-engine-outputs.mjs</code> — produces investment/research seed artifacts for every matched bridge.</div></div>
+  <div class="flow"><div class="flow-num">4</div><div class="flow-text"><b>RESPOND</b> · <code>process-operator-actions.mjs</code> — drains the queue of your PRINT / REFRESH / DECLINE clicks since last tick.</div></div>
+  <div class="flow"><div class="flow-num">5</div><div class="flow-text"><b>AUTHOR</b> · <code>author-bridge-patterns.mjs --max=3</code> — Claude Opus proposes up to 3 new patterns for the K3 frontier (portals with kernel signal but no existing pattern match).</div></div>
+  <div class="flow"><div class="flow-num">6</div><div class="flow-text"><b>REGEN QUEUE</b> · <code>autonomous-portal-regen.mjs</code> — finds CB rows pointing at missing portals + portals with kernel signal but thin functional network. Writes regen queue.</div></div>
+  <div class="flow"><div class="flow-num">7</div><div class="flow-text"><b>HEAL</b> · <code>heal-corpus.mjs</code> — applies safe heals (scrub placeholders, wire CB slugs, fix category bleed). Operator-only items stay in attention.</div></div>
   <div class="flow"><div class="flow-num">9</div><div class="flow-text"><b>REMEMBER</b> · commit the deltas to <code>main</code> (manual in this build — no auto-commit cron); Vercel auto-redeploys on push. The next run sees the new state.</div></div>
 </div>
 
