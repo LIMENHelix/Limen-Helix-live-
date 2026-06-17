@@ -55,7 +55,7 @@
     panel.innerHTML =
       '<div class="h"><span id="lnav-x">✕</span><div class="brand">LIMEN HELIX</div>' +
       '<h3>All Pages <span style="color:#9aa0ab;font-size:12px">(' + (IDX.total || 0) + ')</span></h3>' +
-      '<div class="row"><a href="/appendix">▤ Full Appendix</a><a href="/civilization">← Cockpit</a></div>' +
+      '<div class="row"><a href="/civilization">← Cockpit</a></div>' +
       '<input id="lnav-f" type="search" placeholder="Filter pages…"></div>' +
       '<div id="lnav-body">' + rows + '</div>';
 

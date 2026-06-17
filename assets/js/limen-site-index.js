@@ -450,16 +450,6 @@ window.LIMEN_SITE_INDEX = {
           "stem": "portal-template"
         }
       ]
-    },
-    {
-      "name": "Other",
-      "items": [
-        {
-          "label": "Appendix",
-          "url": "/appendix",
-          "stem": "appendix"
-        }
-      ]
     }
   ],
   "total": 70
