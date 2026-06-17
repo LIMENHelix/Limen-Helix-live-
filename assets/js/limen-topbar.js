@@ -39,8 +39,7 @@
     { label: 'OBSERVATORY',        href: '/civilization-opportunities' },
     { label: 'OPPORTUNITIES',      href: '/opportunities' },
     { label: 'COMMAND BOARD',      href: '/kernel-comparison' },
-    { label: 'CONNECTOME',         href: '/connectome' },
-    { label: 'MASTER BRAIN',       href: '/master-brain' }
+    { label: 'CONNECTOME',         href: '/connectome' }
   ];
 
   // ─── State display map (mirrors biosensor-bridge.js) ────────────────────
