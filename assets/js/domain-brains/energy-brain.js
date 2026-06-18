@@ -1376,7 +1376,7 @@
       citationHints: citationHints,           // real source/feed names only (no invention)
       bundleStatus: bundleStatus,             // G1: found | missing | unknown
       bundleResolution: bundleResolution,     // G1: alias-resolved-and-bundle-found, etc.
-      bundle: _bundle ? { portalCount: _bundle.portalCount || 0, maxDepth: _bundle.maxDepth || 0, domains: _bundle.domains || [], lane: 'patents', shallow: bundleShallow } : null,
+      bundle: _bundle ? { portalCount: _bundle.portalCount || 0, maxDepth: _bundle.maxDepth || 0, domains: _bundle.domains || [], lane: 'patents', shallow: bundleShallow, buildMethod: _bundle.buildMethod || null, humanVerification: _bundle.humanVerification || null } : null,   // G1d: surface external-source provenance
       missingEvidence: missingEv
     };
     var treatmentContext = {
@@ -1448,7 +1448,8 @@
     if (identity.aliasUsed) warnings.push('alias-resolved; verify source appropriateness');
     if (bundleStatus === 'missing') warnings.push('source bundle missing (no artifact-source bundle for this diagnosis)');
     if (bundleStatus === 'unknown') warnings.push('source bundle not yet checked');
-    if (bundleStatus === 'found' && bundleShallow) warnings.push('source-bundle-root-only (real bundle but portalCount<=1 / maxDepth 0)');
+    if (bundleStatus === 'found' && _bundle && _bundle.buildMethod === 'external-source-authored') warnings.push('external-source-authored; human-verification-required (' + (_bundle.humanVerification || 'required') + ')');
+    else if (bundleStatus === 'found' && bundleShallow) warnings.push('source-bundle-root-only (real bundle but portalCount<=1 / maxDepth 0)');
     var _emptyCand = [];
     if (!treatmentContext.methodCandidates.length) _emptyCand.push('method');
     if (!treatmentContext.mechanismCandidates.length) _emptyCand.push('mechanism');

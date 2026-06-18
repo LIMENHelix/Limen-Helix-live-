@@ -1,0 +1,49 @@
+{
+  "diagnosisId": "SYSTEMIC_ENERGY_STRESS",
+  "rawDiagnosisLabels": ["Systemic Energy Stress"],
+  "domains": ["energy"],
+  "portalCount": 0,
+  "maxDepth": 0,
+  "sourcePortals": [],
+  "buildMethod": "external-source-authored",
+  "humanVerification": "required",
+  "confidence": "medium",
+  "builtAt": "2026-06-17",
+  "provenanceNote": "Authored from verified public institutional sources (NOT portal traversal). evidenceAnchors point to real source products; no data values or evidence grades are fabricated. method/embodiment/figure candidates intentionally empty. Mappings are author-asserted and require human verification.",
+  "sources": [
+    { "org": "NERC", "product": "Long-Term & Seasonal Reliability Assessments (Planning Reserve Margin)", "url": "https://www.nerc.com/", "provides": "independent assessment of electricity supply-shortfall risk by region; planning reserve margins" },
+    { "org": "FERC", "product": "Summer/Winter Energy Market and Electric Reliability Assessment", "url": "https://www.ferc.gov/", "provides": "seasonal market & reliability assessment" },
+    { "org": "EIA", "product": "Electricity Data", "url": "https://www.eia.gov/electricity/", "provides": "generation, capacity, demand and reliability indicators" }
+  ],
+  "byLaneShared": {},
+  "byLane": {
+    "patents": {
+      "topSources": ["NERC", "FERC", "EIA"],
+      "treatments": [
+        { "label": "Monitor NERC Reliability Assessments for regional planning-reserve-margin erosion", "type": "DIAGNOSTIC", "sourceBacked": true, "source": "NERC" },
+        { "label": "Track FERC seasonal reliability assessments for grid-stress flags", "type": "DIAGNOSTIC", "sourceBacked": true, "source": "FERC" },
+        { "label": "Pull EIA electricity capacity/demand indicators for stressed regions", "type": "STRATEGY", "sourceBacked": true, "source": "EIA" }
+      ],
+      "implementationSteps": [
+        { "step": "Compute reserve margin = unused capacity at peak / expected peak demand (NERC method)", "source": "NERC" },
+        { "step": "Identify regions where demand growth + supply outages push margins below the reference target", "source": "NERC/FERC" }
+      ],
+      "evidenceAnchors": [
+        { "source": "NERC", "product": "Long-Term / Seasonal Reliability Assessment", "url": "https://www.nerc.com/", "provides": "planning reserve margins & shortfall risk", "verification": "author-cited-public-source" },
+        { "source": "FERC", "product": "Energy Market and Electric Reliability Assessment", "url": "https://www.ferc.gov/", "provides": "seasonal reliability assessment", "verification": "author-cited-public-source" },
+        { "source": "EIA", "product": "Electricity Data", "url": "https://www.eia.gov/electricity/", "provides": "capacity/demand indicators", "verification": "author-cited-public-source" }
+      ],
+      "mechanismCandidates": [
+        { "mechanism": "Sustained combined stress (high demand + structural strain + outages) erodes the planning reserve margin (unused capacity at peak / peak demand); as margin falls below the reference target, shortfall risk rises", "basis": "NERC reserve-margin methodology (verified)", "source": "NERC" },
+        { "mechanism": "Regional reserve erosion under extreme scenarios (demand increase + supply outages) can cascade into operating-reserve shortfalls", "basis": "NERC seasonal risk-scenario framing", "source": "NERC/FERC" }
+      ],
+      "methodCandidates": [],
+      "embodimentCandidates": [],
+      "figurePlaceholders": []
+    }
+  },
+  "warnings": [
+    "external-source-authored: evidenceAnchors point to real public sources but the diagnosis->source mappings are author-asserted and require human verification",
+    "method/embodiment/figure candidates empty: public reliability sources do not yield patentable invention candidates"
+  ]
+}

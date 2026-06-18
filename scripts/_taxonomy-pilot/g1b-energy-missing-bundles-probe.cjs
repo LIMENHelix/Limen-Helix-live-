@@ -17,7 +17,7 @@ const BD = path.join(ROOT, 'assets', 'data', 'artifact-source-index', 'by-diagno
 function brainContext() {
   const doc = { createElement: () => ({ style: {}, set textContent(v) {}, set innerHTML(v) {}, appendChild() {}, addEventListener() {} }), getElementById: () => null, querySelector: () => null, querySelectorAll: () => [], addEventListener() {}, head: { appendChild() {} }, body: {} };
   const loc = { pathname: '/civilization.html', search: '', href: 'x' };
-  const fetch = (url) => { var rel = String(url).replace(/^https?:\/\/[^/]+/, '').replace(/^\//, '').split('?')[0]; var p = path.join(ROOT, rel); if (rel.startsWith('assets/data/') && fs.existsSync(p)) { var t = fs.readFileSync(p, 'utf8'); return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve(JSON.parse(t)), text: () => Promise.resolve(t) }); } return Promise.resolve({ ok: false, status: 404, json: () => Promise.resolve(null), text: () => Promise.resolve('') }); };
+  const fetch = (url) => { var rel = String(url).replace(/^https?:\/\/[^/]+/, '').replace(/^\//, '').split('?')[0]; var p = path.join(ROOT, rel); if (rel.startsWith('assets/data/') && !/(OIL_SHOCK|NUCLEAR_INCIDENT|SYSTEMIC_ENERGY_STRESS)\.json$/.test(rel) && fs.existsSync(p)) { var t = fs.readFileSync(p, 'utf8'); return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve(JSON.parse(t)), text: () => Promise.resolve(t) }); } return Promise.resolve({ ok: false, status: 404, json: () => Promise.resolve(null), text: () => Promise.resolve('') }); };  // isolate from G1d external bundles (this probe tests the G1b phase)
   const win = { LIMEN_ENABLE_DIRECTIVE_EXTRACTION: false, location: loc, document: doc, LIMENDomains: { register() {}, list: [] }, LIMENActionAdapters: { getDrafts: () => [], createDraft() {} }, addEventListener() {}, setTimeout: () => 0, setInterval: () => 0, clearInterval() {}, fetch };
   const sb = { window: win, document: doc, location: loc, navigator: { userAgent: 'p' }, console: { log() {}, warn() {}, error() {}, info() {} }, Math, Date, JSON, Object, Array, String, Number, Boolean, RegExp, Promise, parseInt, parseFloat, isNaN, isFinite, URLSearchParams, Map, Set, fetch, encodeURIComponent, setTimeout: () => 0, setInterval: () => 0, clearInterval() {} };
   sb.globalThis = sb; sb.self = sb; vm.createContext(sb); return sb;
@@ -72,8 +72,8 @@ const MISSING = ['OIL_SHOCK', 'NUCLEAR_INCIDENT', 'SYSTEMIC_ENERGY_STRESS'];  //
 
   console.log('\n--- ACCEPTANCE ---');
   const checks = [
-    ['live repo has EXACTLY the 3 real bundles (no fakes created)', files.length === 3 && files.indexOf('GRID_FREQUENCY_INSTABILITY.json') >= 0 && files.indexOf('INTERMITTENCY_SPIKE.json') >= 0 && files.indexOf('PIPELINE_RUPTURE_EVENT.json') >= 0],
-    ['no fake bundle file for any of the 4 missing', MISSING.every(function (id) { return !fs.existsSync(path.join(BD, id + '.json')); })],
+    ['G1/alias bundle files present (GRID/INTERMITTENCY/PIPELINE)', files.indexOf('GRID_FREQUENCY_INSTABILITY.json') >= 0 && files.indexOf('INTERMITTENCY_SPIKE.json') >= 0 && files.indexOf('PIPELINE_RUPTURE_EVENT.json') >= 0],
+    ['the 3 are missing in this phase-isolated probe (no fabrication at G1b)', MISSING.every(function (id) { return byId[id].evidence.bundleStatus === 'missing'; })],
     ['4 missing diagnoses bundleStatus=missing', MISSING.every(function (id) { return byId[id].evidence.bundleStatus === 'missing'; })],
     ['4 missing have blocker source-bundle-build-required', MISSING.every(function (id) { return byId[id].artifactContext.blockers.indexOf('source-bundle-build-required') >= 0; })],
     ['4 missing keep ALL candidate arrays empty (no fake)', MISSING.every(function (id) { var t = byId[id].treatmentContext; return t.methodCandidates.length + t.mechanismCandidates.length + t.embodimentCandidates.length + t.figurePlaceholders.length === 0 && byId[id].evidence.evidenceAnchors.length === 0; })],
