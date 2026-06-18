@@ -53,4 +53,64 @@ function qualifiesAsRealDepth(classifyResult) {
   return !!classifyResult && classifyResult.cls === 'REAL' && classifyResult.tmplRatio < 0.4 && classifyResult.realTreatments > 0;
 }
 
-module.exports = { MADLIB_VERBS: MADLIB_VERBS, MADLIB_VERB: MADLIB_VERB, isTemplate: isTemplate, classifyPortalFile: classifyPortalFile, qualifiesAsRealDepth: qualifiesAsRealDepth };
+// ── K2 — Portal Reality Classifier v2 ─────────────────────────────────────────
+// Six-way classification with admissibility flags. Distinguishes REAL cortex from fake cortex —
+// including DANGEROUS: content wearing fake authority (evidence grades / DOI citations) on templated
+// treatments with no real provenance + no companies. The deep Energy substrate is dominated by this.
+// Rules: company names alone never make a portal real; generic treatments don't count; evidence/cite
+// fields without a verifiable source URL or sources[] are authority-masquerade, not provenance.
+function classifyPortalV2(json) {
+  function round(x) { return Math.round(x * 100) / 100; }
+  function rec(cls, reasons, adm) {
+    adm = adm || {};
+    return {
+      classification: cls, reasons: reasons,
+      admissibleAsEvidence: !!adm.evidence, admissibleAsContext: !!adm.context,
+      admissibleForTraversal: !!adm.traversal, admissibleForBundleBuild: !!adm.bundle,
+      needsHumanAuthoring: !!adm.needsAuthoring || cls === 'NEEDS_AUTHORING',
+      quarantineReason: (cls === 'SYNTHETIC' || cls === 'DANGEROUS') ? (cls.toLowerCase() + ': blocked from evidence/bundle/traversal')
+        : (cls === 'MIXED_CONTEXT_ONLY' ? 'context-only: companies relevance-unverified, treatments template' : null)
+    };
+  }
+  if (!json || typeof json !== 'object') return rec('EMPTY', ['not-an-object']);
+  var acts = json.activations || [];
+  var labels = [], comp = 0, evidenceGraded = 0, withCite = 0, hasMechanism = false;
+  acts.forEach(function (a) {
+    comp += (a.companies || []).length;
+    (a.treatments || []).forEach(function (t) {
+      var l = t && (t.label || t.title); if (l) labels.push(l);
+      if (t && t.evidence) evidenceGraded++;
+      if (t && (t.cite || (t.citation && t.citation.length))) withCite++;
+      if (t && (t.mechanism || t.method)) hasMechanism = true;
+    });
+  });
+  if (acts.length === 0 && labels.length === 0) return rec('EMPTY', ['no activations or treatments']);
+  var blob = JSON.stringify(json);
+  var hasUrl = /https?:\/\//.test(blob);
+  var hasSources = Array.isArray(json.sources) && json.sources.length > 0;
+  var realProvenance = hasUrl || hasSources;
+  var tmpl = labels.filter(isTemplate).length;
+  var tmplRatio = labels.length ? tmpl / labels.length : 1;
+  var realTreat = labels.length - tmpl;
+
+  // DANGEROUS — authority masquerade: evidence grades / citations but no verifiable provenance, no companies
+  if (!realProvenance && comp === 0 && (evidenceGraded > 0 || withCite > 0)) {
+    return rec('DANGEROUS', ['evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])', 'no real companies', 'template ratio ' + round(tmplRatio)], {});
+  }
+  // REAL — verifiable provenance + companies + non-template treatments
+  if (realProvenance && comp > 0 && tmplRatio < 0.4 && realTreat > 0) {
+    return rec('REAL', ['verifiable provenance + companies + non-template treatments' + (hasMechanism ? ' + mechanism' : '')], { evidence: true, context: true, traversal: true, bundle: true });
+  }
+  // MIXED_CONTEXT_ONLY — real companies, but template treatments / no provenance
+  if (comp > 0) {
+    return rec('MIXED_CONTEXT_ONLY', ['real companies (' + comp + ') but template treatments / no real provenance — context only'], { context: true });
+  }
+  // NEEDS_AUTHORING — thin structural node, no companies/provenance, no authority pretense
+  if (labels.length <= 3 && evidenceGraded === 0 && withCite === 0) {
+    return rec('NEEDS_AUTHORING', ['thin node (' + labels.length + ' treatments), no companies/provenance — authoring slot'], { needsAuthoring: true });
+  }
+  // SYNTHETIC — template treatments, no companies, no provenance
+  return rec('SYNTHETIC', ['template treatments (' + round(tmplRatio) + '), no companies, no provenance'], {});
+}
+
+module.exports = { MADLIB_VERBS: MADLIB_VERBS, MADLIB_VERB: MADLIB_VERB, isTemplate: isTemplate, classifyPortalFile: classifyPortalFile, qualifiesAsRealDepth: qualifiesAsRealDepth, classifyPortalV2: classifyPortalV2 };
