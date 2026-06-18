@@ -1243,6 +1243,26 @@
     return { have: have, total: keys.length, pct: keys.length ? Math.round(have / keys.length * 100) : 0 };
   }
 
+  // F3 — canonical diagnosis resolution. Mirrors the civ-layer DIAGNOSIS_ALIAS_MAP;
+  // prefers window.LIMENArtifactSourceIndex.aliases() when loaded (single source of
+  // truth), else falls back to this local 2-entry map. Non-aliased diagnoses are
+  // canonical to themselves. Never asserts a bundle exists.
+  var ENERGY_DIAGNOSIS_ALIASES = {
+    RENEWABLE_INTERMITTENCY: 'INTERMITTENCY_SPIKE',
+    GRID_COLLAPSE: 'GRID_FREQUENCY_INSTABILITY'
+  };
+  EnergyBrain.prototype._resolveCanonicalDiagnosis = function (dxId) {
+    if (!dxId) return { canonicalDiagnosisId: null, aliasUsed: false };
+    var alias = null;
+    try {
+      var idx = (typeof window !== 'undefined') ? window.LIMENArtifactSourceIndex : null;
+      if (idx && typeof idx.aliases === 'function') { var row = idx.aliases()[dxId]; if (row && row.target) alias = row.target; }
+    } catch (e) {}
+    if (!alias) alias = ENERGY_DIAGNOSIS_ALIASES[dxId] || null;
+    if (alias) return { canonicalDiagnosisId: alias, aliasUsed: true };
+    return { canonicalDiagnosisId: dxId, aliasUsed: false };   // canonical to self
+  };
+
   EnergyBrain.prototype._buildDomainDiagnosisPacket = function (dx) {
     var s = this.state || {};
     var em = s.energyModel || {};
@@ -1266,11 +1286,12 @@
     for (var fk in feeds) { if (feeds.hasOwnProperty(fk)) { var f = feeds[fk]; sourceFeeds.push({ name: fk, updated: (f && f.updated) || null, source: (f && f.source) || null }); } }
     if (s._primarySource && !sourceFeeds.length) sourceFeeds.push({ name: 'primary', updated: null, source: s._primarySource });
 
+    var _canon = this._resolveCanonicalDiagnosis(dxId);
     var identity = {
       domain: 'energy',
       diagnosisId: dxId,
-      canonicalDiagnosisId: null,            // F3 populates — explicit null now
-      aliasUsed: false,                       // F3
+      canonicalDiagnosisId: _canon.canonicalDiagnosisId,   // F3: civ alias map or canonical-to-self
+      aliasUsed: _canon.aliasUsed,                          // F3
       label: dx ? (dx.label || dx.id || null) : null,
       phase: s.phase || null,
       confidence: (dx && typeof dx.relevance === 'number') ? dx.relevance : (typeof s.confidence === 'number' ? s.confidence : null)
@@ -1299,13 +1320,14 @@
       sourceCompleteness: portal ? ((Array.isArray(portal.issues) && portal.issues.length) ? 'partial' : 'thin') : 'root-only'
     };
     var citationHints = sourceFeeds.map(function (sf) { return sf.source || sf.name; }).filter(Boolean);
+    var bundleStatus = 'missing';             // F3: honest — live repo ships NO artifact-source bundles (verified; G1 adds a real presence check)
     var missingEv = ['evidenceAnchors'];
     if (!citationHints.length) missingEv.push('citationHints');
     var evidence = {
       sourceFeeds: sourceFeeds,               // real — brain ingests these
       evidenceAnchors: [],                    // genuinely absent (no source bundle) — stays empty
       citationHints: citationHints,           // real source/feed names only (no invention)
-      bundleStatus: 'missing',                // live repo ships no artifact-source bundles (audit-proven)
+      bundleStatus: bundleStatus,
       missingEvidence: missingEv
     };
     var treatmentContext = {
@@ -1323,9 +1345,11 @@
       invalidIf: mc ? (mc.invalidIf || null) : null,
       nextStep: mc ? (mc.nextStep || null) : null
     };
-    var hasTreat = treatments.length > 0, hasBundle = false, hasCanonical = false, blockers = [];
-    if (!hasCanonical) blockers.push('no-canonical-diagnosis');
-    if (!hasBundle) blockers.push('no-source-bundle');
+    var hasTreat = treatments.length > 0;
+    var hasBundle = (bundleStatus === 'found');
+    var hasCanonical = !!identity.canonicalDiagnosisId;   // F3: now always resolves (alias or self)
+    var blockers = [];
+    if (hasCanonical && !hasBundle) blockers.push(identity.aliasUsed ? 'canonical-id-resolved-but-bundle-missing' : 'no-source-bundle');
     blockers.push(portalContext.portalStatus === 'root-only' ? 'portal-root-only' : 'portal-not-loaded');
     if (!hasTreat) blockers.push('no-treatments');
     if (!primaryOpp) blockers.push('no-active-opportunity');
@@ -1370,7 +1394,7 @@
     var warnings = [];
     if (portalContext.portalStatus === 'root-only') warnings.push('portalContext is root-only (no deep portal cortex)');
     if (portalContext.portalStatus === 'pending') warnings.push('root portal not yet cached on the brain (domain identity used)');
-    if (!identity.canonicalDiagnosisId) warnings.push('canonicalDiagnosisId missing (F3)');
+    if (identity.aliasUsed) warnings.push('alias-resolved; verify source appropriateness');
     if (evidence.bundleStatus === 'missing') warnings.push('source bundle missing (no artifact-source bundle for this diagnosis)');
     if (!treatmentContext.methodCandidates.length && !treatmentContext.mechanismCandidates.length && !treatmentContext.embodimentCandidates.length && !treatmentContext.figurePlaceholders.length) warnings.push('method/mechanism/embodiment/figure candidates missing (require source bundle — not invented)');
     if (!primaryOpp && (typeof s.stress !== 'number' || s.stress < EM_STRESS_FLOOR)) warnings.push('no active opportunity (offline/low-stress) — operator/lane fields stay empty');
