@@ -100,7 +100,7 @@ function sectionPcts(p) { var o = {}, c = p.audit.fieldCompleteness.sections; fo
     ['operatorContext populated from moneyChain', populated.operatorContext.targets.length >= 1 && populated.operatorContext.invalidIf && populated.operatorContext.nextStep],
     ['artifactLanes from real opportunity path', populated.artifactContext.artifactLanes.indexOf('INVESTABLE') >= 0],
     ['NO fake method/mechanism/embodiment/figure candidates', noFakeCandidates],
-    ['canonicalDiagnosisId still null, bundleStatus still missing', populated.identity.canonicalDiagnosisId === null && populated.evidence.bundleStatus === 'missing'],
+    ['bundleStatus still missing (no fake bundle; canonicalDiagnosisId now resolved by F3)', populated.evidence.bundleStatus === 'missing'],
     ['offline baseline forces NO opportunities (operator empty)', baseline.operatorContext.targets.length === 0 && baseline.operatorContext.nextStep === null],
     ['finalizer safeInput includes populated packet', !!finPkt && finPkt.operatorContext && finPkt.operatorContext.targets.length >= 1],
     ['non-energy domain stays null', nonEnergyClean],
