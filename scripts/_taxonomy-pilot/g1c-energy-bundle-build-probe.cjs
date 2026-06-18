@@ -1,9 +1,8 @@
 /**
- * g1b-energy-missing-bundles-probe.cjs — proves G1b: the 4 uncovered Energy diagnoses
- * stay honestly missing with blocker 'source-bundle-build-required'; the 2 real bundles
- * remain found+unchanged; NO fake bundle files were created; the build-required blocker
- * reaches the finalizer. Read-only.
- * Run: node scripts/_taxonomy-pilot/g1b-energy-missing-bundles-probe.cjs
+ * g1c-energy-bundle-build-probe.cjs — proves G1c:
+ *  Part A: PIPELINE_DISRUPTION -> PIPELINE_RUPTURE_EVENT (human-approved alias), real bundle found+enriched.
+ *  Part B: OIL_SHOCK/NUCLEAR_INCIDENT/SYSTEMIC_ENERGY_STRESS NOT built (no verified source) -> stay missing.
+ * Read-only. Run: node scripts/_taxonomy-pilot/g1c-energy-bundle-build-probe.cjs
  */
 'use strict';
 const fs = require('fs');
@@ -24,13 +23,12 @@ function brainContext() {
 }
 function civContext() { const sb = L.makeContext({ seed: 7 }); sb.fetch = () => Promise.resolve({ ok: false, status: 404, json: () => Promise.resolve(null), text: () => Promise.resolve('') }); sb.window.fetch = sb.fetch; sb.window.LIMENDomains = {}; sb.window.__cap = {}; return sb; }
 function loadWithCapture(ctx, file, names) { let src = A(file); const m = ';try{window.__cap=window.__cap||{};' + names.map(n => 'if(typeof ' + n + '!=="undefined")window.__cap[' + JSON.stringify(n) + ']=' + n + ';').join('') + '}catch(e){}'; const i = src.lastIndexOf('})()'); src = src.slice(0, i) + m + src.slice(i); vm.runInContext(src, ctx, { filename: file }); }
-
-const MISSING = ['OIL_SHOCK', 'NUCLEAR_INCIDENT', 'SYSTEMIC_ENERGY_STRESS'];  // PIPELINE_DISRUPTION now covered by G1c alias
+const MISSING = ['OIL_SHOCK', 'NUCLEAR_INCIDENT', 'SYSTEMIC_ENERGY_STRESS'];
 
 (async function () {
-  console.log('\n================ G1b — MISSING ENERGY BUNDLE COVERAGE ================\n');
-  const files = fs.existsSync(BD) ? fs.readdirSync(BD).filter(function (f) { return f.endsWith('.json'); }) : [];
-  console.log('live repo bundle files (' + files.length + '):', files.join(', '));
+  console.log('\n================ G1c — ALIAS APPROVAL + BUILD REPORT ================\n');
+  const files = fs.existsSync(BD) ? fs.readdirSync(BD).filter(f => f.endsWith('.json')) : [];
+  console.log('live bundle files (' + files.length + '):', files.join(', '));
 
   const bc = brainContext();
   vm.runInContext(A('assets/js/domain-brains/domain-brain-base.js'), bc, { filename: 'base' });
@@ -40,16 +38,23 @@ const MISSING = ['OIL_SHOCK', 'NUCLEAR_INCIDENT', 'SYSTEMIC_ENERGY_STRESS'];  //
   await brain._loadDiagnosisBundles();
   brain._updateEnergyModel();
   const packets = JSON.parse(JSON.stringify(brain.state.energyDomainDiagnosisPackets || []));
-  const byId = {}; packets.forEach(function (p) { byId[p.identity.diagnosisId] = p; });
+  const byId = {}; packets.forEach(p => byId[p.identity.diagnosisId] = p);
 
   console.log('\n--- BUNDLE PRESENCE TABLE (all six) ---');
   ['GRID_COLLAPSE', 'RENEWABLE_INTERMITTENCY', 'PIPELINE_DISRUPTION'].concat(MISSING).forEach(function (id) {
-    var p = byId[id]; var b = p.artifactContext.blockers.filter(function (x) { return x.indexOf('bundle') >= 0; }).join(',');
-    console.log('  ' + id.padEnd(24) + ' -> ' + String(p.identity.canonicalDiagnosisId).padEnd(26) + ' | ' + p.evidence.bundleStatus.padEnd(7) + ' | blockers: ' + b);
+    var p = byId[id], i = p.identity;
+    console.log('  ' + id.padEnd(24) + ' -> ' + String(i.canonicalDiagnosisId).padEnd(26) + ' | ' + p.evidence.bundleStatus.padEnd(7) + ' | alias=' + i.aliasUsed + ' review=' + (i.aliasReviewStatus || '-') + ' risk=' + (i.aliasRisk || '-'));
   });
 
-  // thread a MISSING diagnosis (OIL_SHOCK) to the finalizer (make it the sole active = primary)
-  brain.state.diagnoses.forEach(function (d) { d.active = (d.id === 'OIL_SHOCK'); });
+  const pd = byId['PIPELINE_DISRUPTION'], gc = byId['GRID_COLLAPSE'], ri = byId['RENEWABLE_INTERMITTENCY'];
+  console.log('\n--- PIPELINE_DISRUPTION packet (Part A) ---');
+  console.log('  canonical=' + pd.identity.canonicalDiagnosisId + ' aliasUsed=' + pd.identity.aliasUsed + ' reviewStatus=' + pd.identity.aliasReviewStatus + ' risk=' + pd.identity.aliasRisk);
+  console.log('  aliasNote=' + JSON.stringify(pd.identity.aliasNote));
+  console.log('  bundleStatus=' + pd.evidence.bundleStatus + ' evidenceAnchors=' + pd.evidence.evidenceAnchors.length + ' mech=' + pd.treatmentContext.mechanismCandidates.length);
+  console.log('  warnings=' + JSON.stringify(pd.audit.warnings));
+
+  // thread PIPELINE (Part A, found) to finalizer
+  brain.state.diagnoses.forEach(d => d.active = (d.id === 'PIPELINE_DISRUPTION'));
   brain._updateEnergyModel();
   const cc = civContext();
   loadWithCapture(cc, 'assets/js/domain-brain-adapter.js', ['_buildPayload']);
@@ -66,28 +71,25 @@ const MISSING = ['OIL_SHOCK', 'NUCLEAR_INCIDENT', 'SYSTEMIC_ENERGY_STRESS'];  //
   cc.window.LIMENDomains = { finance: { brainDiagnoses: [], brainTreatments: [], brainOpportunities: [] } };
   const nonEnergyClean = !cap._buildPacket('finance').deepBrain;
 
-  const gc = byId['GRID_COLLAPSE'], ri = byId['RENEWABLE_INTERMITTENCY'];
-  console.log('\n--- FINALIZER sees the missing diagnosis (OIL_SHOCK) ---');
-  console.log('  diagnosisId=' + (finPkt && finPkt.identity.diagnosisId) + ' bundleStatus=' + (finPkt && finPkt.evidence.bundleStatus) + ' blockers=' + JSON.stringify(finPkt && finPkt.artifactContext.blockers));
-
   console.log('\n--- ACCEPTANCE ---');
   const checks = [
-    ['live repo has EXACTLY the 3 real bundles (no fakes created)', files.length === 3 && files.indexOf('GRID_FREQUENCY_INSTABILITY.json') >= 0 && files.indexOf('INTERMITTENCY_SPIKE.json') >= 0 && files.indexOf('PIPELINE_RUPTURE_EVENT.json') >= 0],
-    ['no fake bundle file for any of the 4 missing', MISSING.every(function (id) { return !fs.existsSync(path.join(BD, id + '.json')); })],
-    ['4 missing diagnoses bundleStatus=missing', MISSING.every(function (id) { return byId[id].evidence.bundleStatus === 'missing'; })],
-    ['4 missing have blocker source-bundle-build-required', MISSING.every(function (id) { return byId[id].artifactContext.blockers.indexOf('source-bundle-build-required') >= 0; })],
-    ['4 missing keep ALL candidate arrays empty (no fake)', MISSING.every(function (id) { var t = byId[id].treatmentContext; return t.methodCandidates.length + t.mechanismCandidates.length + t.embodimentCandidates.length + t.figurePlaceholders.length === 0 && byId[id].evidence.evidenceAnchors.length === 0; })],
-    ['GRID_COLLAPSE remains found (G1 unchanged)', gc.evidence.bundleStatus === 'found' && gc.evidence.evidenceAnchors.length === 32],
-    ['RENEWABLE_INTERMITTENCY remains found (G1 unchanged)', ri.evidence.bundleStatus === 'found' && ri.evidence.evidenceAnchors.length === 32],
-    ['both found bundles retain source-bundle-root-only warning', gc.audit.warnings.some(function (w) { return w.indexOf('source-bundle-root-only') >= 0; }) && ri.audit.warnings.some(function (w) { return w.indexOf('source-bundle-root-only') >= 0; })],
-    ['coverage doc exists (proposal/build plan)', fs.existsSync(path.join(ROOT, 'docs', 'audits', 'energy-missing-bundle-coverage.md'))],
-    ['finalizer safeInput shows missing dx + build-required blocker', !!finPkt && finPkt.identity.diagnosisId === 'OIL_SHOCK' && finPkt.evidence.bundleStatus === 'missing' && finPkt.artifactContext.blockers.indexOf('source-bundle-build-required') >= 0],
+    ['PIPELINE_RUPTURE_EVENT.json shipped (real file)', fs.existsSync(path.join(BD, 'PIPELINE_RUPTURE_EVENT.json'))],
+    ['PIPELINE_DISRUPTION -> PIPELINE_RUPTURE_EVENT, aliasUsed true', pd.identity.canonicalDiagnosisId === 'PIPELINE_RUPTURE_EVENT' && pd.identity.aliasUsed === true],
+    ['PIPELINE aliasReviewStatus=human-approved, risk=medium, note present', pd.identity.aliasReviewStatus === 'human-approved' && pd.identity.aliasRisk === 'medium' && !!pd.identity.aliasNote],
+    ['PIPELINE bundleStatus=found + real enrichment', pd.evidence.bundleStatus === 'found' && pd.evidence.evidenceAnchors.length === 32],
+    ['PIPELINE retains alias-resolved + source-bundle-root-only warnings', pd.audit.warnings.some(w => w.indexOf('alias-resolved') >= 0) && pd.audit.warnings.some(w => w.indexOf('source-bundle-root-only') >= 0)],
+    ['GRID + RENEWABLE unchanged (found, corpus-aliased)', gc.evidence.bundleStatus === 'found' && gc.identity.aliasReviewStatus === 'corpus-aliased' && ri.evidence.bundleStatus === 'found'],
+    ['live repo has EXACTLY 3 real bundles (no fakes)', files.length === 3],
+    ['3 remaining NOT built: no fake JSON file', MISSING.every(id => !fs.existsSync(path.join(BD, id + '.json')))],
+    ['3 remaining stay missing + build-required + empty candidates', MISSING.every(function (id) { var p = byId[id], t = p.treatmentContext; return p.evidence.bundleStatus === 'missing' && p.artifactContext.blockers.indexOf('source-bundle-build-required') >= 0 && (t.methodCandidates.length + t.mechanismCandidates.length + t.embodimentCandidates.length + t.figurePlaceholders.length + p.evidence.evidenceAnchors.length === 0); })],
+    ['build report doc exists', fs.existsSync(path.join(ROOT, 'docs', 'audits', 'energy-g1c-bundle-build-report.md'))],
+    ['finalizer safeInput shows PIPELINE canonical + alias metadata + found', !!finPkt && finPkt.identity.canonicalDiagnosisId === 'PIPELINE_RUPTURE_EVENT' && finPkt.identity.aliasReviewStatus === 'human-approved' && finPkt.evidence.bundleStatus === 'found'],
     ['non-energy domain stays null', nonEnergyClean],
     ['six diagnoses still emit', (brain.state.diagnoses || []).length === 6 && packets.length === 6]
   ];
   let allPass = true;
   checks.forEach(function (c) { allPass = allPass && c[1]; console.log('  [' + (c[1] ? 'PASS' : 'FAIL') + '] ' + c[0]); });
-  console.log('\nG1b: ' + (allPass ? 'PASS ✓ — 4 missing stay honest + build-required; 2 found unchanged; no fakes' : 'FAIL ✗') + '\n');
-  console.log('================ END G1b PROBE ================\n');
+  console.log('\nG1c: ' + (allPass ? 'PASS ✓ — PIPELINE alias approved+imported; 3 stay honestly build-required' : 'FAIL ✗') + '\n');
+  console.log('================ END G1c PROBE ================\n');
   process.exit(allPass ? 0 : 1);
 })().catch(function (e) { console.error('PROBE ERROR:', e && e.stack || e); process.exit(1); });

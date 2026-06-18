@@ -74,7 +74,7 @@ function loadWithCapture(ctx, file, names) { let src = A(file); const m = ';try{
     ['RENEWABLE_INTERMITTENCY -> INTERMITTENCY_SPIKE, aliasUsed=true', ri.identity.canonicalDiagnosisId === 'INTERMITTENCY_SPIKE' && ri.identity.aliasUsed === true],
     ['GRID_COLLAPSE -> GRID_FREQUENCY_INSTABILITY, aliasUsed=true', gc.identity.canonicalDiagnosisId === 'GRID_FREQUENCY_INSTABILITY' && gc.identity.aliasUsed === true],
     ['OIL_SHOCK canonical-to-self, aliasUsed=false', os.identity.canonicalDiagnosisId === 'OIL_SHOCK' && os.identity.aliasUsed === false],
-    ['4 non-aliased all canonical-to-self', ['OIL_SHOCK', 'PIPELINE_DISRUPTION', 'NUCLEAR_INCIDENT', 'SYSTEMIC_ENERGY_STRESS'].every(function (id) { return byId[id].identity.canonicalDiagnosisId === id && byId[id].identity.aliasUsed === false; })],
+    ['3 non-aliased all canonical-to-self (PIPELINE now aliased by G1c)', ['OIL_SHOCK', 'NUCLEAR_INCIDENT', 'SYSTEMIC_ENERGY_STRESS'].every(function (id) { return byId[id].identity.canonicalDiagnosisId === id && byId[id].identity.aliasUsed === false; })],
     ['no fake bundle (status not "found" without an explicit G1 load)', packets.every(function (p) { return p.evidence.bundleStatus !== 'found'; })],
     ['aliased -> blocker canonical-id-resolved-but-bundle-missing', aliasedBlockerOk(gc) && aliasedBlockerOk(ri)],
     ['non-aliased -> blocker no-source-bundle', selfBlockerOk(os)],

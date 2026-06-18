@@ -1248,20 +1248,26 @@
   // prefers window.LIMENArtifactSourceIndex.aliases() when loaded (single source of
   // truth), else falls back to this local 2-entry map. Non-aliased diagnoses are
   // canonical to themselves. Never asserts a bundle exists.
+  // Each alias carries human-review metadata. G1c-A added PIPELINE_DISRUPTION as a
+  // human-approved (medium-risk) alias; the other two are corpus-native aliases.
   var ENERGY_DIAGNOSIS_ALIASES = {
-    RENEWABLE_INTERMITTENCY: 'INTERMITTENCY_SPIKE',
-    GRID_COLLAPSE: 'GRID_FREQUENCY_INSTABILITY'
+    RENEWABLE_INTERMITTENCY: { target: 'INTERMITTENCY_SPIKE', reviewStatus: 'corpus-aliased', risk: 'low', note: 'corpus emits INTERMITTENCY_SPIKE for renewable intermittency' },
+    GRID_COLLAPSE: { target: 'GRID_FREQUENCY_INSTABILITY', reviewStatus: 'corpus-aliased', risk: 'low', note: 'corpus emits GRID_FREQUENCY_INSTABILITY (infrastructure) for grid collapse' },
+    PIPELINE_DISRUPTION: { target: 'PIPELINE_RUPTURE_EVENT', reviewStatus: 'human-approved', risk: 'medium', note: 'pipeline disruption mapped to rupture-event bundle; verify that rupture-specific evidence is appropriate for broader disruption claims' }
   };
   EnergyBrain.prototype._resolveCanonicalDiagnosis = function (dxId) {
-    if (!dxId) return { canonicalDiagnosisId: null, aliasUsed: false };
-    var alias = null;
+    if (!dxId) return { canonicalDiagnosisId: null, aliasUsed: false, aliasReviewStatus: null, aliasRisk: null, aliasNote: null };
+    var target = null;
     try {
       var idx = (typeof window !== 'undefined') ? window.LIMENArtifactSourceIndex : null;
-      if (idx && typeof idx.aliases === 'function') { var row = idx.aliases()[dxId]; if (row && row.target) alias = row.target; }
+      if (idx && typeof idx.aliases === 'function') { var row = idx.aliases()[dxId]; if (row && row.target) target = row.target; }
     } catch (e) {}
-    if (!alias) alias = ENERGY_DIAGNOSIS_ALIASES[dxId] || null;
-    if (alias) return { canonicalDiagnosisId: alias, aliasUsed: true };
-    return { canonicalDiagnosisId: dxId, aliasUsed: false };   // canonical to self
+    var local = ENERGY_DIAGNOSIS_ALIASES[dxId] || null;
+    if (!target && local) target = local.target;
+    if (target) {
+      return { canonicalDiagnosisId: target, aliasUsed: true, aliasReviewStatus: (local && local.reviewStatus) || 'corpus-aliased', aliasRisk: (local && local.risk) || 'low', aliasNote: (local && local.note) || null };
+    }
+    return { canonicalDiagnosisId: dxId, aliasUsed: false, aliasReviewStatus: null, aliasRisk: null, aliasNote: null };   // canonical to self
   };
 
   // G1 — load REAL source bundles (one-shot, async). Only files that actually exist
@@ -1272,9 +1278,10 @@
     self._bundleCache = self._bundleCache || {};
     self._bundleStatusMap = self._bundleStatusMap || {};
     var ids = {};
+    var known = ['GRID_COLLAPSE', 'RENEWABLE_INTERMITTENCY', 'OIL_SHOCK', 'PIPELINE_DISRUPTION', 'NUCLEAR_INCIDENT', 'SYSTEMIC_ENERGY_STRESS'];
     var diags = (self.state && self.state.diagnoses) || [];
-    for (var i = 0; i < diags.length; i++) { var c = self._resolveCanonicalDiagnosis(diags[i].id).canonicalDiagnosisId; if (c) ids[c] = true; }
-    ['GRID_FREQUENCY_INSTABILITY', 'INTERMITTENCY_SPIKE', 'OIL_SHOCK', 'PIPELINE_DISRUPTION', 'NUCLEAR_INCIDENT', 'SYSTEMIC_ENERGY_STRESS'].forEach(function (c) { ids[c] = true; });
+    var allDxIds = diags.map(function (d) { return d.id; }).concat(known);
+    for (var i = 0; i < allDxIds.length; i++) { var c = self._resolveCanonicalDiagnosis(allDxIds[i]).canonicalDiagnosisId; if (c) ids[c] = true; }   // resolve diagnosis -> canonical before fetch (PIPELINE_DISRUPTION -> PIPELINE_RUPTURE_EVENT)
     self._bundleLoadPromise = Promise.all(Object.keys(ids).map(function (cid) {
       return fetch('/assets/data/artifact-source-index/by-diagnosis/' + encodeURIComponent(cid) + '.json')
         .then(function (r) { return (r && r.ok) ? r.json() : null; })
@@ -1313,6 +1320,9 @@
       diagnosisId: dxId,
       canonicalDiagnosisId: _canon.canonicalDiagnosisId,   // F3: civ alias map or canonical-to-self
       aliasUsed: _canon.aliasUsed,                          // F3
+      aliasReviewStatus: _canon.aliasReviewStatus,          // G1c: human-approved | corpus-aliased | null
+      aliasRisk: _canon.aliasRisk,                          // G1c
+      aliasNote: _canon.aliasNote,                          // G1c
       label: dx ? (dx.label || dx.id || null) : null,
       phase: s.phase || null,
       confidence: (dx && typeof dx.relevance === 'number') ? dx.relevance : (typeof s.confidence === 'number' ? s.confidence : null)

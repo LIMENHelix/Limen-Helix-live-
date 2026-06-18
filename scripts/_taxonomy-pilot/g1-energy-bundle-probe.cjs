@@ -72,13 +72,13 @@ function realCounts(canonId) { try { var b = JSON.parse(fs.readFileSync(path.joi
   cc.window.LIMENDomains = { finance: { brainDiagnoses: [], brainTreatments: [], brainOpportunities: [] } };
   const nonEnergyClean = !cap._buildPacket('finance').deepBrain;
 
-  const fourMissing = ['OIL_SHOCK', 'PIPELINE_DISRUPTION', 'NUCLEAR_INCIDENT', 'SYSTEMIC_ENERGY_STRESS'];
+  const fourMissing = ['OIL_SHOCK', 'NUCLEAR_INCIDENT', 'SYSTEMIC_ENERGY_STRESS'];  // PIPELINE_DISRUPTION now aliased+found (G1c)
   console.log('\n--- ACCEPTANCE ---');
   const checks = [
     ['live repo ships the 2 real bundles', fs.existsSync(path.join(BD, 'GRID_FREQUENCY_INSTABILITY.json')) && fs.existsSync(path.join(BD, 'INTERMITTENCY_SPIKE.json'))],
     ['GRID_COLLAPSE bundle found + alias-resolved-and-bundle-found', gc.evidence.bundleStatus === 'found' && gc.evidence.bundleResolution === 'alias-resolved-and-bundle-found'],
     ['RENEWABLE_INTERMITTENCY bundle found', ri.evidence.bundleStatus === 'found'],
-    ['4 self-canonical bundles MISSING (no fake)', fourMissing.every(function (id) { return byId[id].evidence.bundleStatus === 'missing'; })],
+    ['3 self-canonical bundles MISSING (no fake)', fourMissing.every(function (id) { return byId[id].evidence.bundleStatus === 'missing'; })],
     ['evidenceAnchors EQUAL real bundle (GRID)', gc.evidence.evidenceAnchors.length === realGC.evidenceAnchors && realGC.evidenceAnchors > 0],
     ['mechanism/embodiment/figure EQUAL real bundle (GRID)', gc.treatmentContext.mechanismCandidates.length === realGC.mechanismCandidates && gc.treatmentContext.figurePlaceholders.length === realGC.figurePlaceholders],
     ['empty bundle field stays empty (GRID method=0)', gc.treatmentContext.methodCandidates.length === 0 && realGC.methodCandidates === 0],
