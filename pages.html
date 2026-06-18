@@ -25,25 +25,41 @@ a{color:inherit;text-decoration:none}
 }
 .sm-search input:focus{border-color:rgba(201,169,78,0.45)}
 
-.sm-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-  gap:14px;padding:20px 24px 60px;align-items:start;
+.sm-wrap{padding:20px 24px 60px}
+.sm-section{margin-bottom:26px}
+.sm-section-name{
+  font-size:0.46rem;letter-spacing:2.5px;text-transform:uppercase;
+  color:rgba(201,169,78,0.7);font-weight:600;margin-bottom:12px;
+  border-bottom:1px solid rgba(201,169,78,0.08);padding-bottom:6px;
 }
-.sm-group{
-  background:#0b0e16;border:1px solid rgba(201,169,78,0.08);border-radius:4px;
-  padding:12px 14px;
-}
-.sm-group-name{
-  font-size:0.42rem;letter-spacing:2px;text-transform:uppercase;
-  color:rgba(201,169,78,0.7);font-weight:600;margin-bottom:8px;
-  border-bottom:1px solid rgba(201,169,78,0.06);padding-bottom:6px;
-}
+
+/* Core/links grid */
+.sm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px}
 .sm-item{
   display:block;font-size:0.5rem;letter-spacing:0.5px;color:#d0c8b8;
-  padding:5px 8px;border-radius:2px;border-left:2px solid transparent;transition:all 0.15s;
+  padding:7px 10px;border-radius:3px;border:1px solid rgba(201,169,78,0.08);
+  background:#0b0e16;transition:all 0.15s;
 }
-.sm-item:hover{background:rgba(201,169,78,0.06);color:#fff;border-left-color:rgba(201,169,78,0.5)}
-.sm-item .sm-url{display:block;font-size:0.36rem;color:rgba(200,195,184,0.35);letter-spacing:1px;margin-top:1px}
+.sm-item:hover{background:rgba(201,169,78,0.06);color:#fff;border-color:rgba(201,169,78,0.3)}
+.sm-item .sm-url{display:block;font-size:0.36rem;color:rgba(200,195,184,0.35);letter-spacing:1px;margin-top:2px}
+
+/* Domain rows */
+.sm-domain{
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  padding:9px 12px;margin-bottom:6px;border-radius:3px;
+  background:#0b0e16;border:1px solid rgba(201,169,78,0.08);
+}
+.sm-domain-name{
+  font-size:0.55rem;letter-spacing:1.5px;text-transform:uppercase;color:#e8e3d9;
+  min-width:150px;flex:0 0 auto;
+}
+.sm-tag{
+  font-size:0.38rem;letter-spacing:1.2px;text-transform:uppercase;
+  padding:3px 10px;border-radius:2px;border:1px solid rgba(201,169,78,0.18);
+  color:rgba(201,169,78,0.7);background:rgba(201,169,78,0.04);transition:all 0.15s;
+}
+.sm-tag:hover{color:#fff;border-color:rgba(201,169,78,0.45);background:rgba(201,169,78,0.12)}
+.sm-tag-console{color:#C9A94E;border-color:rgba(201,169,78,0.3)}
 .sm-empty{font-size:0.45rem;color:rgba(200,195,184,0.4);padding:24px}
 </style>
 </head>
@@ -55,52 +71,96 @@ a{color:inherit;text-decoration:none}
 <div class="sm-head">
   <div class="sm-crumb"><a href="/civilization">CIVILIZATION</a> &nbsp;&rsaquo;&nbsp; SITE MAP</div>
   <div class="sm-title">SITE MAP</div>
-  <div class="sm-sub" id="smCount">Every page in LIMEN HELIX</div>
-  <div class="sm-search"><input type="text" id="smSearch" placeholder="Filter pages..." autocomplete="off"></div>
+  <div class="sm-sub" id="smCount"></div>
+  <div class="sm-search"><input type="text" id="smSearch" placeholder="Filter..." autocomplete="off"></div>
 </div>
 
-<div class="sm-grid" id="smGrid"><div class="sm-empty">Loading site index&hellip;</div></div>
+<div class="sm-wrap" id="smWrap"></div>
 
-<script src="assets/js/limen-site-index.js"></script>
 <script>
 (function () {
   'use strict';
-  var grid = document.getElementById('smGrid');
-  var idx = window.LIMEN_SITE_INDEX;
-  if (!idx || !idx.groups) { grid.innerHTML = '<div class="sm-empty">Site index unavailable.</div>'; return; }
 
-  var groups = idx.groups;
-  var total = groups.reduce(function (n, g) { return n + (g.items ? g.items.length : 0); }, 0);
-  document.getElementById('smCount').textContent = total + ' pages · ' + groups.length + ' sections';
+  // ── Curated cockpit / tools (the surfaces actually used) ──
+  var CORE = [
+    { label: 'Civilization (Cockpit)', url: '/civilization' },
+    { label: 'Connectome',             url: '/connectome' },
+    { label: 'Command Board',          url: '/kernel-comparison' },
+    { label: 'Phase Map',              url: '/phase-map' },
+    { label: 'Observatory',            url: '/civilization-opportunities' },
+    { label: 'Opportunities',          url: '/opportunities' },
+    { label: 'Treatment Discovery',    url: '/treatment-discovery' },
+    { label: 'My Documents',           url: '/my-documents' },
+    { label: 'Pattern Proposals',      url: '/pattern-proposals' },
+    { label: 'System Vitals',          url: '/vitals' }
+  ];
 
-  function render(filter) {
-    var f = (filter || '').trim().toLowerCase();
-    var html = '';
-    for (var i = 0; i < groups.length; i++) {
-      var g = groups[i];
-      var items = (g.items || []).filter(function (it) {
-        if (!f) return true;
-        return (it.label || '').toLowerCase().indexOf(f) !== -1 ||
-               (it.url || '').toLowerCase().indexOf(f) !== -1;
-      });
-      if (!items.length) continue;
-      html += '<div class="sm-group"><div class="sm-group-name">' + esc(g.name) + '</div>';
-      for (var j = 0; j < items.length; j++) {
-        var it = items[j];
-        html += '<a class="sm-item" href="' + esc(it.url) + '">' + esc(it.label) +
-                '<span class="sm-url">' + esc(it.url) + '</span></a>';
-      }
-      html += '</div>';
-    }
-    grid.innerHTML = html || '<div class="sm-empty">No pages match &ldquo;' + esc(f) + '&rdquo;.</div>';
-  }
+  // ── The 20 domains. Console + Portal are universal routes (?domain=X). ──
+  // opps = a dedicated {domain}-opportunities.html exists (else use global /opportunities).
+  var DOMAINS = [
+    { d: 'agriculture',    opps: false },
+    { d: 'communication',  opps: true  },
+    { d: 'culture',        opps: true  },
+    { d: 'defense',        opps: false },
+    { d: 'economy',        opps: false },
+    { d: 'education',      opps: true  },
+    { d: 'energy',         opps: true  },
+    { d: 'environment',    opps: false },
+    { d: 'finance',        opps: true  },
+    { d: 'governance',     opps: false },
+    { d: 'industry',       opps: false },
+    { d: 'infrastructure', opps: false },
+    { d: 'intelligence',   opps: true  },
+    { d: 'law',            opps: false },
+    { d: 'medicine',       opps: true  },
+    { d: 'population',     opps: true  },
+    { d: 'religion',       opps: false },
+    { d: 'science',        opps: true  },
+    { d: 'technology',     opps: true  },
+    { d: 'trade',          opps: false }
+  ];
+
+  var wrap = document.getElementById('smWrap');
 
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
     });
   }
+  function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 
+  function matches(f, txt) { return !f || txt.toLowerCase().indexOf(f) !== -1; }
+
+  function render(filter) {
+    var f = (filter || '').trim().toLowerCase();
+    var html = '';
+
+    // Domains section
+    var domRows = '';
+    for (var i = 0; i < DOMAINS.length; i++) {
+      var x = DOMAINS[i];
+      if (!matches(f, x.d)) continue;
+      var tags = '<a class="sm-tag sm-tag-console" href="/domain-console?domain=' + x.d + '">Console</a>';
+      tags += '<a class="sm-tag" href="/portal?domain=' + x.d + '">Portal</a>';
+      if (x.opps) tags += '<a class="sm-tag" href="/' + x.d + '-opportunities">Opportunities</a>';
+      domRows += '<div class="sm-domain"><span class="sm-domain-name">' + cap(x.d) + '</span>' + tags + '</div>';
+    }
+    if (domRows) html += '<div class="sm-section"><div class="sm-section-name">The 20 Domains</div>' + domRows + '</div>';
+
+    // Core section
+    var coreCards = '';
+    for (var j = 0; j < CORE.length; j++) {
+      var c = CORE[j];
+      if (!matches(f, c.label + ' ' + c.url)) continue;
+      coreCards += '<a class="sm-item" href="' + esc(c.url) + '">' + esc(c.label) +
+                   '<span class="sm-url">' + esc(c.url) + '</span></a>';
+    }
+    if (coreCards) html += '<div class="sm-section"><div class="sm-section-name">Cockpit &amp; Tools</div><div class="sm-grid">' + coreCards + '</div></div>';
+
+    wrap.innerHTML = html || '<div class="sm-empty">Nothing matches &ldquo;' + esc(f) + '&rdquo;.</div>';
+  }
+
+  document.getElementById('smCount').textContent = DOMAINS.length + ' domains · ' + CORE.length + ' cockpit pages';
   document.getElementById('smSearch').addEventListener('input', function () { render(this.value); });
   render('');
 })();
