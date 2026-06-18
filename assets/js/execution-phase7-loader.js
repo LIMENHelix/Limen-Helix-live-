@@ -13,7 +13,7 @@
 
   function _isExecutionCapablePage(){
     var path=window.location.pathname.toLowerCase();
-    var execPages=['domain-console','execution-reports','execution-framework','policy-procedures','operator-sop','portal-pricing','venture-portfolio','crm-pipeline','disputes-exceptions','energy-workspace'];
+    var execPages=['domain-console','execution-reports','portal-pricing','venture-portfolio','crm-pipeline','disputes-exceptions','energy-workspace'];
     for(var i=0;i<execPages.length;i++){if(path.indexOf(execPages[i])!==-1)return true}
     var params=window.location.search||'';
     if(params.indexOf('mode=operator')!==-1)return true;

@@ -861,7 +861,6 @@
     h += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">';
     h += '<div class="eos-title" style="margin-bottom:0">MEDICINE \u00b7 OPERATOR SURFACE</div>';
     h += '<div style="display:flex;gap:6px;align-items:center">';
-    h += '<a href="/execution-framework" target="_blank" style="font-family:monospace;font-size:0.28rem;letter-spacing:1.5px;padding:3px 8px;border:1px solid rgba(201,169,78,0.15);border-radius:2px;color:rgba(201,169,78,0.5);text-decoration:none">LEGAL FRAMEWORK</a>';
     h += '<button id="med-back-to-console" style="font-family:monospace;font-size:0.32rem;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border:1px solid rgba(201,169,78,0.12);border-radius:2px;background:none;color:rgba(200,195,184,0.35);cursor:pointer">\u2190 CONSOLE</button>';
     h += '</div></div>';
 

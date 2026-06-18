@@ -19,8 +19,6 @@
     if(escalations.critical)h+='<span style="color:#e85454">Escalations: <b>'+escalations.critical+'</b></span>';
     if(pfSummary.distressed)h+='<span style="color:#e85454">Distressed: <b>'+pfSummary.distressed+'</b></span>';
     if(crmTotals.pipeline)h+='<span style="color:#C9A94E">Pipeline: <b>$'+(crmTotals.pipeline||0).toLocaleString()+'</b></span>';
-    h+='<a href="/operator-sop" target="_blank" style="color:rgba(201,169,78,0.3);text-decoration:none;font-size:0.22rem;border:1px solid rgba(201,169,78,0.08);padding:1px 4px;border-radius:1px">SOP</a>';
-    h+='<a href="/policy-procedures" target="_blank" style="color:rgba(201,169,78,0.3);text-decoration:none;font-size:0.22rem;border:1px solid rgba(201,169,78,0.08);padding:1px 4px;border-radius:1px">POLICY</a>';
     h+='</div>';
     // Top actions
     if(actions.length>0){h+='<div style="margin-top:4px">';for(var i=0;i<actions.length;i++)h+='<div style="font-size:0.26rem;color:#908878;padding:1px 0">\u25B8 '+esc(actions[i].label)+'</div>';h+='</div>'}

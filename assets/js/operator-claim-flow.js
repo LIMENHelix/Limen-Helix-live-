@@ -98,7 +98,6 @@
     h += 'Compensation is on successful outcomes only. No guaranteed payout. ';
     h += 'Investment losses are not charged to the operator. ';
     h += 'Grant and loan compliance violations may result in tier review. ';
-    h += '<a href="/execution-framework" target="_blank" style="color:rgba(201,169,78,0.5)">View full Execution Framework</a>';
     h += '</div></div>';
 
     // Acceptance

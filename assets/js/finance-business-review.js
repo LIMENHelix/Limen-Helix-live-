@@ -233,7 +233,6 @@
 
     var h = '';
     h += '<div class="eos-section-header" data-section="fbr-review" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:4px 0;margin-bottom:6px;user-select:none">';
-    h += '<div class="fbr-title" style="margin-bottom:0">NODE-TO-BUSINESS ASSIGNMENT REVIEW <a href="/execution-framework" target="_blank" style="font-size:0.22rem;color:rgba(201,169,78,0.4);text-decoration:none;margin-left:8px;border:1px solid rgba(201,169,78,0.1);padding:1px 5px;border-radius:2px" onclick="event.stopPropagation()">LEGAL</a></div>';
     h += '<span style="font-size:0.24rem;color:rgba(201,169,78,0.25)">' + (reviewCollapsed ? '\u25B6' : '\u25BC') + '</span>';
     h += '</div>';
     h += '<div data-section-body="fbr-review"' + (reviewCollapsed ? ' style="display:none"' : '') + '>';

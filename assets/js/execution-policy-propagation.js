@@ -8,12 +8,12 @@
   window.LIMENExecution=window.LIMENExecution||{};window.LIMENExecution.phase8=window.LIMENExecution.phase8||{};
 
   var DEPENDENCY_MAP={
-    claimAgreement:{modules:['claimLedger','approvalAuthority','approvalRouting'],pages:['domain-console','operator-sop','execution-framework'],description:'Claim agreement version affects all active and future claims'},
+    claimAgreement:{modules:['claimLedger','approvalAuthority','approvalRouting'],pages:['domain-console'],description:'Claim agreement version affects all active and future claims'},
     approval:{modules:['approvalAuthority','approvalRouting','approvalIntelligence','bottlenecks'],pages:['domain-console','execution-reports'],description:'Approval rules affect queue sorting, readiness scoring, and bottleneck detection'},
     payout:{modules:['payoutFinalizer','compensation','economicMemory','economyBoard','incentives','revenue'],pages:['domain-console','execution-reports','portal-pricing'],description:'Payout rules affect operator compensation, platform retained value, and revenue projections'},
     riskControl:{modules:['investmentControls','portfolioMonitor','capacityGovernance','thresholds'],pages:['domain-console','venture-portfolio'],description:'Risk controls affect investment gating, portfolio monitoring, and governance thresholds'},
     reporting:{modules:['reports','operatorBoard','operatorStats','boardSnapshot'],pages:['execution-reports'],description:'Reporting config affects all dashboard and report outputs'},
-    audit:{modules:['policyVersioning','lineage','integrity','coherence'],pages:['execution-reports','policy-procedures'],description:'Audit policy affects lineage tracking, integrity checks, and coherence scoring'}
+    audit:{modules:['policyVersioning','lineage','integrity','coherence'],pages:['execution-reports'],description:'Audit policy affects lineage tracking, integrity checks, and coherence scoring'}
   };
 
   function getPolicyDependencyMap(){return JSON.parse(JSON.stringify(DEPENDENCY_MAP))}

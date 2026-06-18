@@ -10,7 +10,7 @@
   function _safe(fn,fb){try{return fn()}catch(e){return fb}}
   function _isExecCapable(){
     var path=window.location.pathname.toLowerCase();
-    var pages=['domain-console','energy-workspace','operator-onboarding','payout-operations'];
+    var pages=['domain-console','energy-workspace','payout-operations'];
     for(var i=0;i<pages.length;i++){if(path.indexOf(pages[i])!==-1)return true}
     if((window.location.search||'').indexOf('mode=operator')!==-1)return true;
     return false;

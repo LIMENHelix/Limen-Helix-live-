@@ -25,8 +25,6 @@
     h += '<span style="color:#807868">Closed: <b style="color:#5ab5a0">' + stats.closed + '</b></span>';
     h += '<span style="color:#807868">Est. payout: <b style="color:#5ab5a0">$' + (stats.totalEstimatedPayout || 0).toLocaleString() + '</b></span>';
     if (portfolio.total > 0) h += '<span style="color:#807868">Portfolio: <b style="color:#C9A94E">' + portfolio.total + ' co.</b></span>';
-    h += '<a href="/policy-procedures" target="_blank" style="color:rgba(201,169,78,0.4);text-decoration:none;font-size:0.24rem;border:1px solid rgba(201,169,78,0.1);padding:1px 4px;border-radius:1px">POLICY</a>';
-    h += '<a href="/operator-sop" target="_blank" style="color:rgba(201,169,78,0.4);text-decoration:none;font-size:0.24rem;border:1px solid rgba(201,169,78,0.1);padding:1px 4px;border-radius:1px">SOP</a>';
     h += '</div>';
     return h;
   }
