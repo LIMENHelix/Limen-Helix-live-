@@ -87,7 +87,7 @@
       companies: [],
       convergence: null,
       crossDomainEmissions: [],
-      biosensor: null,        // Populated by readBiosensor() if adapter available
+      biosensor: null,        // always null — biosensor modulation removed 2026-06-18
       memory: {
         stressHistory: [],    // [{ stress, timestamp }] last 200
         phaseHistory: [],     // [{ phase, timestamp }] last 50
@@ -298,7 +298,6 @@
    * Step 3: Score stress
    * Compute local stress/confidence/activity/maturity.
    * Default: copies from domain-snapshot.
-   * If biosensor is available, applies soft additive modulation (max 30%).
    */
   DomainBrainBase.prototype.scoreStress = function () {
     if (this._rawDomain) {
