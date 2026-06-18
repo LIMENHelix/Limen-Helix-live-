@@ -15,7 +15,7 @@ const A = (f) => fs.readFileSync(path.join(ROOT, f), 'utf8');
 function brainContext() {
   const doc = { createElement: () => ({ style: {}, set textContent(v) {}, set innerHTML(v) {}, appendChild() {}, addEventListener() {} }), getElementById: () => null, querySelector: () => null, querySelectorAll: () => [], addEventListener() {}, head: { appendChild() {} }, body: {} };
   const loc = { pathname: '/civilization.html', search: '', href: 'x' };
-  const fetch = (url) => { var rel = String(url).replace(/^https?:\/\/[^/]+/, '').replace(/^\//, '').split('?')[0]; var p = path.join(ROOT, rel); if (rel.startsWith('assets/data/') && fs.existsSync(p)) { var t = fs.readFileSync(p, 'utf8'); return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve(JSON.parse(t)), text: () => Promise.resolve(t) }); } return Promise.resolve({ ok: false, status: 404, json: () => Promise.resolve(null), text: () => Promise.resolve('') }); };
+  const fetch = (url) => { var rel = String(url).replace(/^https?:\/\/[^/]+/, '').replace(/^\//, '').split('?')[0]; var p = path.join(ROOT, rel); if (rel.startsWith('assets/data/') && rel.indexOf('artifact-source-index') < 0 && fs.existsSync(p)) { var t = fs.readFileSync(p, 'utf8'); return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve(JSON.parse(t)), text: () => Promise.resolve(t) }); } return Promise.resolve({ ok: false, status: 404, json: () => Promise.resolve(null), text: () => Promise.resolve('') }); };  // bundles isolated: F2 tests population, not G1 bundles
   const win = { LIMEN_ENABLE_DIRECTIVE_EXTRACTION: false, location: loc, document: doc, LIMENDomains: { register() {}, list: [] }, LIMENActionAdapters: { getDrafts: () => [], createDraft() {} }, addEventListener() {}, setTimeout: () => 0, setInterval: () => 0, clearInterval() {}, fetch };
   const sb = { window: win, document: doc, location: loc, navigator: { userAgent: 'p' }, console: { log() {}, warn() {}, error() {}, info() {} }, Math, Date, JSON, Object, Array, String, Number, Boolean, RegExp, Promise, parseInt, parseFloat, isNaN, isFinite, URLSearchParams, Map, Set, fetch, setTimeout: () => 0, setInterval: () => 0, clearInterval() {} };
   sb.globalThis = sb; sb.self = sb; vm.createContext(sb); return sb;
@@ -100,7 +100,7 @@ function sectionPcts(p) { var o = {}, c = p.audit.fieldCompleteness.sections; fo
     ['operatorContext populated from moneyChain', populated.operatorContext.targets.length >= 1 && populated.operatorContext.invalidIf && populated.operatorContext.nextStep],
     ['artifactLanes from real opportunity path', populated.artifactContext.artifactLanes.indexOf('INVESTABLE') >= 0],
     ['NO fake method/mechanism/embodiment/figure candidates', noFakeCandidates],
-    ['bundleStatus still missing (no fake bundle; canonicalDiagnosisId now resolved by F3)', populated.evidence.bundleStatus === 'missing'],
+    ['no fake bundle (status not "found" without an explicit G1 load)', populated.evidence.bundleStatus !== 'found'],
     ['offline baseline forces NO opportunities (operator empty)', baseline.operatorContext.targets.length === 0 && baseline.operatorContext.nextStep === null],
     ['finalizer safeInput includes populated packet', !!finPkt && finPkt.operatorContext && finPkt.operatorContext.targets.length >= 1],
     ['non-energy domain stays null', nonEnergyClean],

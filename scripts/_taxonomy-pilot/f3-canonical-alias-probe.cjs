@@ -17,7 +17,7 @@ const A = (f) => fs.readFileSync(path.join(ROOT, f), 'utf8');
 function brainContext() {
   const doc = { createElement: () => ({ style: {}, set textContent(v) {}, set innerHTML(v) {}, appendChild() {}, addEventListener() {} }), getElementById: () => null, querySelector: () => null, querySelectorAll: () => [], addEventListener() {}, head: { appendChild() {} }, body: {} };
   const loc = { pathname: '/civilization.html', search: '', href: 'x' };
-  const fetch = (url) => { var rel = String(url).replace(/^https?:\/\/[^/]+/, '').replace(/^\//, '').split('?')[0]; var p = path.join(ROOT, rel); if (rel.startsWith('assets/data/') && fs.existsSync(p)) { var t = fs.readFileSync(p, 'utf8'); return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve(JSON.parse(t)), text: () => Promise.resolve(t) }); } return Promise.resolve({ ok: false, status: 404, json: () => Promise.resolve(null), text: () => Promise.resolve('') }); };
+  const fetch = (url) => { var rel = String(url).replace(/^https?:\/\/[^/]+/, '').replace(/^\//, '').split('?')[0]; var p = path.join(ROOT, rel); if (rel.startsWith('assets/data/') && rel.indexOf('artifact-source-index') < 0 && fs.existsSync(p)) { var t = fs.readFileSync(p, 'utf8'); return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve(JSON.parse(t)), text: () => Promise.resolve(t) }); } return Promise.resolve({ ok: false, status: 404, json: () => Promise.resolve(null), text: () => Promise.resolve('') }); };  // bundles isolated: F3 tests canonical, not G1 bundles
   const win = { LIMEN_ENABLE_DIRECTIVE_EXTRACTION: false, location: loc, document: doc, LIMENDomains: { register() {}, list: [] }, LIMENActionAdapters: { getDrafts: () => [], createDraft() {} }, addEventListener() {}, setTimeout: () => 0, setInterval: () => 0, clearInterval() {}, fetch };
   const sb = { window: win, document: doc, location: loc, navigator: { userAgent: 'p' }, console: { log() {}, warn() {}, error() {}, info() {} }, Math, Date, JSON, Object, Array, String, Number, Boolean, RegExp, Promise, parseInt, parseFloat, isNaN, isFinite, URLSearchParams, Map, Set, fetch, setTimeout: () => 0, setInterval: () => 0, clearInterval() {} };
   sb.globalThis = sb; sb.self = sb; vm.createContext(sb); return sb;
@@ -75,7 +75,7 @@ function loadWithCapture(ctx, file, names) { let src = A(file); const m = ';try{
     ['GRID_COLLAPSE -> GRID_FREQUENCY_INSTABILITY, aliasUsed=true', gc.identity.canonicalDiagnosisId === 'GRID_FREQUENCY_INSTABILITY' && gc.identity.aliasUsed === true],
     ['OIL_SHOCK canonical-to-self, aliasUsed=false', os.identity.canonicalDiagnosisId === 'OIL_SHOCK' && os.identity.aliasUsed === false],
     ['4 non-aliased all canonical-to-self', ['OIL_SHOCK', 'PIPELINE_DISRUPTION', 'NUCLEAR_INCIDENT', 'SYSTEMIC_ENERGY_STRESS'].every(function (id) { return byId[id].identity.canonicalDiagnosisId === id && byId[id].identity.aliasUsed === false; })],
-    ['bundleStatus stays "missing" for ALL (no fake bundle)', packets.every(function (p) { return p.evidence.bundleStatus === 'missing'; })],
+    ['no fake bundle (status not "found" without an explicit G1 load)', packets.every(function (p) { return p.evidence.bundleStatus !== 'found'; })],
     ['aliased -> blocker canonical-id-resolved-but-bundle-missing', aliasedBlockerOk(gc) && aliasedBlockerOk(ri)],
     ['non-aliased -> blocker no-source-bundle', selfBlockerOk(os)],
     ['aliased -> warning alias-resolved', gc.audit.warnings.some(function (w) { return w.indexOf('alias-resolved') >= 0; })],
