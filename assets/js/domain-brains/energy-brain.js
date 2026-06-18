@@ -1389,6 +1389,7 @@
     var hasCanonical = !!identity.canonicalDiagnosisId;   // F3: now always resolves (alias or self)
     var blockers = [];
     if (hasCanonical && !hasBundle) blockers.push(identity.aliasUsed ? 'canonical-id-resolved-but-bundle-missing' : 'no-source-bundle');
+    if (bundleStatus === 'missing') blockers.push('source-bundle-build-required');   // G1b: real check found no bundle → needs build/import (no auto-alias)
     blockers.push(portalContext.portalStatus === 'root-only' ? 'portal-root-only' : 'portal-not-loaded');
     if (!hasTreat) blockers.push('no-treatments');
     if (!primaryOpp) blockers.push('no-active-opportunity');
