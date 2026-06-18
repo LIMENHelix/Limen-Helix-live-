@@ -33,8 +33,10 @@ const OPERATOR_TOKEN = process.env.LIMEN_OPERATOR_TOKEN || '';
 const AUTH_ON = !!OPERATOR_TOKEN;
 
 const STATE_PATH = path.join(process.cwd(), 'assets/data/stress-network-state.json');
-const PORTAL_DIR = path.join(process.cwd(), 'assets/data/companies');
 const CB_PATH = path.join(process.cwd(), 'assets/data/command-board-data.json');
+// companies/*.json is NO LONGER bundled into the function (left includeFiles for the 48MB payload cut) —
+// load via portal-loader (manifest + fetch, fs-fallback) instead of readdir/readFileSync over the dir.
+const { loadPortal, listSlugs } = require('../lib/portal-loader');
 
 let _propagator = null;
 function getPropagator() {
@@ -62,22 +64,21 @@ function loadCachedSnapshot() {
   }
 }
 
-function liveCompute() {
+async function liveCompute() {
   const propagator = getPropagator();
   const portals = {};
-  if (fs.existsSync(PORTAL_DIR)) {
-    // Sort readdirSync output — OS-dependent enumeration order otherwise
-    // leaks into the propagator's hashable payload (W3 determinism).
-    const files = fs.readdirSync(PORTAL_DIR).sort().filter(f =>
-      f.endsWith('.json') && !f.startsWith('_'));
-    for (const f of files) {
+  try {
+    // manifest-driven slug universe (replaces readdir over the now-unbundled companies/ dir);
+    // sorted so OS/enumeration order can't leak into the propagator's hashable payload (W3 determinism).
+    const slugs = ((await listSlugs()).slugs || []).filter(s => s && !s.startsWith('_')).sort();
+    for (const slug of slugs) {
       try {
-        const p = JSON.parse(fs.readFileSync(path.join(PORTAL_DIR, f), 'utf8'));
-        const slug = p.slug || f.replace('.json', '');
-        portals[slug] = p;
+        const loaded = await loadPortal(slug);
+        const p = loaded && loaded.portal;
+        if (p) portals[p.slug || slug] = p;
       } catch (e) { /* skip */ }
     }
-  }
+  } catch (e) { /* portal-loader unavailable — leave portals empty (matches prior fail-soft) */ }
   let cb = [];
   if (fs.existsSync(CB_PATH)) {
     try {
@@ -131,7 +132,7 @@ module.exports = async function handler(req, res) {
         return res.end(JSON.stringify({ ok: false, error: 'unauthorized', reason: auth.reason }));
       }
       const t0 = Date.now();
-      snapshot = liveCompute();
+      snapshot = await liveCompute();
       snapshot.computeMs = Date.now() - t0;
       snapshot.source = 'live';
     } else {
@@ -139,7 +140,7 @@ module.exports = async function handler(req, res) {
       if (!snapshot) {
         // Cache miss — compute live without auth (read-only operation)
         const t0 = Date.now();
-        snapshot = liveCompute();
+        snapshot = await liveCompute();
         snapshot.computeMs = Date.now() - t0;
         snapshot.source = 'live-fallback';
       } else {
