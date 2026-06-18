@@ -101,5 +101,48 @@ function snapshot(state) {
   } else {
     console.log('\nemitted opportunities: 0 (none surfaced this run)');
   }
+  // ── PHASE B PROOF: recurrent loop (prior re-enters; error converges/spikes) ──
+  console.log('\n================ PHASE B — RECURRENT LOOP PROOF ================');
+  var em0 = brain.state.energyModel;
+  console.log('energyModel present after real cycles:', !!em0, '| keys:', em0 ? Object.keys(em0).join(',') : 'NONE');
+
+  // Controlled, deterministic test: reset to neutral, then drive stress.
+  brain.state.energyModel = brain._neutralEnergyModel();
+  if ((brain.state.diagnoses || [])[0]) brain.state.diagnoses[0].active = true; // give diagnosisCount>0
+  function step(stress, label) {
+    brain.state.stress = stress;
+    var em = brain._updateEnergyModel();
+    console.log('  ' + label + ' stress=' + stress +
+      ' | priorExpStress(before-read)=' + 'n/a' +
+      ' | stressError=' + em.predictionError.stressError.toFixed(4) +
+      ' | peTotal=' + em.predictionError.total.toFixed(4) +
+      ' | nextPrior.expStress=' + em.prior.expectedStress.toFixed(4) +
+      ' | reg=' + em.regulation.state +
+      ' | readyForHandoff=' + em.readyForHandoff);
+    return { se: em.predictionError.stressError, prior: em.prior.expectedStress, cycle: em.cycle };
+  }
+  console.log('\n-- stable input (0.70 x3): prediction error must DECREASE (prior is consumed) --');
+  var a = step(0.70, 'c1');
+  var b = step(0.70, 'c2');
+  var c = step(0.70, 'c3');
+  console.log('\n-- changed input (0.20): prediction error must INCREASE (surprise) --');
+  var d = step(0.20, 'c4');
+
+  var stableConverges = (b.se < a.se) && (c.se < b.se);
+  var changeSpikes = d.se > c.se;
+  var priorMoved = Math.abs(c.prior - 0.5) > 0.05;
+  var diagsIntact = (brain.state.diagnoses || []).length === 6;
+  var exposed = !!(brain.state && brain.state.energyModel);
+
+  console.log('\n--- ACCEPTANCE ---');
+  console.log('  [' + (stableConverges ? 'PASS' : 'FAIL') + '] stable input -> prediction error decreases (cycle N consumes cycle N-1 prior)');
+  console.log('  [' + (changeSpikes ? 'PASS' : 'FAIL') + '] changed input -> prediction error increases');
+  console.log('  [' + (priorMoved ? 'PASS' : 'FAIL') + '] prior updated from neutral 0.5 toward observed (now ' + c.prior.toFixed(3) + ')');
+  console.log('  [' + (diagsIntact ? 'PASS' : 'FAIL') + '] six diagnoses still emit');
+  console.log('  [' + (exposed ? 'PASS' : 'FAIL') + '] window.LIMENEnergyBrain.state.energyModel exposed');
+  console.log('  outcomeLog now populated:', (brain.state.memory && brain.state.memory.outcomeLog || []).length, 'entries');
+  var allPass = stableConverges && changeSpikes && priorMoved && diagsIntact && exposed;
+  console.log('\nPHASE B: ' + (allPass ? 'PASS ✓ — Energy LEARNS (error changes from the prior, not a growing log)' : 'FAIL ✗'));
   console.log('\n================ END PROBE ================\n');
+  process.exit(allPass ? 0 : 1);
 })().catch(function (e) { console.error('PROBE ERROR:', e && e.stack || e); process.exit(1); });

@@ -1072,7 +1072,148 @@
           });
         }
       }
+    }).then(function () {
+      // PHASE B — recurrent loop step. Runs AFTER the pipeline settles, reads the
+      // prior produced by the PREVIOUS cycle, computes prediction error, regulates,
+      // and updates the next prior. Energy-local + try/caught (never breaks a cycle).
+      try { self._updateEnergyModel(); } catch (e) {}
     });
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // PHASE B — ENERGY RECURRENT LOOP v1 (energy-local, additive, reversible)
+  // Converts re-running inference into a recurrent loop:
+  //   prior → observation → prediction error → bounded update → next prior.
+  // Proof surface: window.LIMENEnergyBrain.state.energyModel
+  // ════════════════════════════════════════════════════════════════════════════
+  var EM_VERSION = 1;
+  var EM_LEARNING_RATE = 0.25;          // bounded plasticity (fast inference)
+  var EM_SLOW_RATE = 0.08;              // slow consolidation (reserved for rebuild/cron)
+  var EM_STRESS_FLOOR = 0.30;           // below this → no handoff
+  var EM_FLOOD_CAP = 12;                // opportunity-flood threshold
+  var EM_STALE_MS = 1000 * 60 * 60 * 6; // 6h feed staleness
+
+  function _emClamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+  function _emJaccardDistance(a, b) {
+    a = a || []; b = b || [];
+    if (a.length === 0 && b.length === 0) return 0;
+    var union = {}, inter = 0, setB = {};
+    for (var i = 0; i < b.length; i++) { setB[b[i]] = true; union[b[i]] = true; }
+    var seen = {};
+    for (var j = 0; j < a.length; j++) { union[a[j]] = true; if (setB[a[j]] && !seen[a[j]]) { inter++; seen[a[j]] = true; } }
+    var u = Object.keys(union).length;
+    return u === 0 ? 0 : 1 - (inter / u);
+  }
+
+  EnergyBrain.prototype._neutralEnergyModel = function () {
+    return {
+      version: EM_VERSION, cycle: 0,
+      prior: { expectedStress: 0.5, expectedDiagnoses: [], expectedDiagnosisCount: 0, expectedOpportunityCount: 0, expectedSignal: 0.5, confidence: 0, samples: 0 },
+      observation: null, predictionError: null, predictedStress: null,
+      plasticity: { learningRate: EM_LEARNING_RATE, slowRate: EM_SLOW_RATE, consolidation: 'cycle-light/rebuild-heavy' },
+      regulation: null, readyForHandoff: false, _lowErrorStreak: 0
+    };
+  };
+
+  // B2 — normalized observation from current Energy state
+  EnergyBrain.prototype._buildObservation = function () {
+    var s = this.state || {};
+    var active = (s.diagnoses || []).filter(function (d) { return d.active; });
+    var feeds = s.feeds || {}, feedCount = 0, newest = 0;
+    for (var k in feeds) { if (feeds.hasOwnProperty(k)) { feedCount++; var u = feeds[k] && feeds[k].updated; if (u && u > newest) newest = u; } }
+    return {
+      stress: typeof s.stress === 'number' ? s.stress : 0,
+      phase: s.phase || null,
+      activeDiagnoses: active.map(function (d) { return d.id; }).sort(),
+      diagnosisCount: active.length,
+      opportunityCount: (s.opportunities || []).length,
+      companyCount: (s.companies || []).length,
+      signal: Math.min(1, feedCount / 8),
+      feedNewest: newest,
+      timestamp: Date.now()
+    };
+  };
+
+  // B3 — prediction error: prior.expected* vs observation
+  EnergyBrain.prototype._computePredictionError = function (prior, obs) {
+    var stressError = Math.abs(obs.stress - prior.expectedStress);
+    var signalError = Math.abs(obs.signal - prior.expectedSignal);
+    var diagnosisError = _emJaccardDistance(obs.activeDiagnoses, prior.expectedDiagnoses);
+    var oppDenom = Math.max(1, prior.expectedOpportunityCount, obs.opportunityCount);
+    var opportunityError = Math.abs(obs.opportunityCount - prior.expectedOpportunityCount) / oppDenom;
+    var portalError = 0; // honest 0 — no live portal traversal yet (Phase C)
+    var total = _emClamp(0.4 * stressError + 0.2 * signalError + 0.25 * diagnosisError + 0.15 * opportunityError, 0, 1);
+    var novelty = Math.max(stressError, diagnosisError);
+    return { total: total, stressError: stressError, signalError: signalError, diagnosisError: diagnosisError, opportunityError: opportunityError, portalError: portalError, novelty: novelty };
+  };
+
+  // B4 — bounded prior update toward observation (next cycle reads this)
+  EnergyBrain.prototype._updatePrior = function (prior, obs, lr) {
+    return {
+      expectedStress: _emClamp(prior.expectedStress + lr * (obs.stress - prior.expectedStress), 0, 1),
+      expectedDiagnoses: obs.activeDiagnoses.slice(),
+      expectedDiagnosisCount: prior.expectedDiagnosisCount + lr * (obs.diagnosisCount - prior.expectedDiagnosisCount),
+      expectedOpportunityCount: prior.expectedOpportunityCount + lr * (obs.opportunityCount - prior.expectedOpportunityCount),
+      expectedSignal: _emClamp(prior.expectedSignal + lr * (obs.signal - prior.expectedSignal), 0, 1),
+      confidence: _emClamp(Math.min(1, (prior.samples + 1) / 20), 0, 1),
+      samples: prior.samples + 1
+    };
+  };
+
+  // B5 — local regulation: inhibition / gain / homeostatic set-points
+  EnergyBrain.prototype._computeRegulation = function (em, obs, pe) {
+    var gain = _emClamp(pe.novelty, 0.05, 0.95);
+    var inhibition = _emClamp(1 - pe.novelty, 0, 0.9);
+    var outputScale = _emClamp(1 - inhibition * 0.5, 0.4, 1);
+    var starving = obs.stress >= EM_STRESS_FLOOR && obs.opportunityCount === 0;
+    var flooding = obs.opportunityCount > EM_FLOOD_CAP;
+    var streak = (pe.total < 0.05) ? (em._lowErrorStreak || 0) + 1 : 0;
+    em._lowErrorStreak = streak;
+    var looping = streak >= 3;
+    var stale = obs.feedNewest > 0 ? (Date.now() - obs.feedNewest) > EM_STALE_MS : false;
+    var overconfident = em.prior.confidence > 0.8 && pe.total > 0.4;
+    var label = flooding ? 'flooding' : starving ? 'starving' : stale ? 'stale' : looping ? 'looping' : overconfident ? 'overconfident' : pe.novelty > 0.4 ? 'surprised' : 'calm';
+    return { gain: gain, inhibition: inhibition, outputScale: outputScale, starving: starving, flooding: flooding, looping: looping, stale: stale, overconfident: overconfident, state: label };
+  };
+
+  // The recurrent step — END of each cycle. Reads the prior from the PREVIOUS cycle,
+  // so cycle N+1's interpretation (predictedStress, readyForHandoff) depends on cycle N.
+  EnergyBrain.prototype._updateEnergyModel = function () {
+    var em = this.state.energyModel || this._neutralEnergyModel();
+    var priorIn = em.prior;                                   // carried from last cycle
+    var obs = this._buildObservation();
+    var pe = this._computePredictionError(priorIn, obs);      // prior vs now
+
+    // reads prior BEFORE the final decision (Kalman-style blend, not raw obs):
+    var gainBlend = _emClamp(pe.novelty, 0.05, 0.95);
+    var predictedStress = priorIn.expectedStress * (1 - gainBlend) + obs.stress * gainBlend;
+    var reg = this._computeRegulation(em, obs, pe);
+
+    // a FINAL decision that depends on the prior, not just on raw obs:
+    var readyForHandoff = (em.cycle > 0) && (predictedStress >= EM_STRESS_FLOOR) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
+
+    var nextPrior = this._updatePrior(priorIn, obs, em.plasticity.learningRate); // → next cycle reads this
+
+    em.cycle += 1;
+    em.observation = obs;
+    em.predictionError = pe;
+    em.predictedStress = predictedStress;
+    em.regulation = reg;
+    em.readyForHandoff = readyForHandoff;
+    em.prior = nextPrior;
+    em.updated = obs.timestamp;
+    this.state.energyModel = em;
+
+    // #8 — populate outcomeLog meaningfully (was declared but NEVER written)
+    try {
+      var mem = this.state.memory;
+      if (mem && mem.outcomeLog) {
+        mem.outcomeLog.push({ cycle: em.cycle, predictionError: Math.round(pe.total * 1000) / 1000, stress: obs.stress, activeDx: obs.diagnosisCount, readyForHandoff: readyForHandoff, regulation: reg.state, timestamp: obs.timestamp });
+        if (mem.outcomeLog.length > 50) mem.outcomeLog.shift();
+      }
+    } catch (e) {}
+
+    return em;
   };
 
   /**
