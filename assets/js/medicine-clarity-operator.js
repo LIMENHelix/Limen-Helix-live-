@@ -814,11 +814,7 @@
       h += '<td><span class="eos-play-path ' + pathClass(o.path) + '">' + pathLabel(o.path) + '</span></td>';
       h += '<td class="eos-queue-why">' + whyCell + '</td>';
       h += '<td class="eos-queue-step">' + esc(step) + '</td></tr>';
-      h += '<tr><td colspan="5" style="padding:0;border-bottom:1px solid rgba(255,255,255,0.04)"><div class="eos-action-row">' + statusHTML;
-      if (o.path === 'GRANT-ELIGIBLE') h += '<button class="eos-invest-btn" style="color:#5ab5a0;border-color:rgba(90,181,160,0.25)" data-exec-key="' + esc(key) + '" data-exec-path="GRANT-ELIGIBLE">GRANT \u2192</button>';
-      if (o.path === 'PATENTABLE') h += '<button class="eos-invest-btn" style="color:#a87adb;border-color:rgba(168,122,219,0.25)" data-exec-key="' + esc(key) + '" data-exec-path="PATENTABLE">PATENT \u2192</button>';
-      if (o.paths && o.paths.indexOf('BUSINESS') !== -1) h += '<button class="eos-invest-btn" style="color:#C9A94E;border-color:rgba(201,169,78,0.25)" data-exec-key="' + esc(key) + '" data-exec-path="BUSINESS">BUILD \u2192</button>';
-      h += '</div></td></tr>';
+      // removed: GRANT/PATENT/BUILD workspace buttons — lanes dropped
     }
     h += '</tbody></table>';
     return h;
@@ -894,10 +890,7 @@
     for (var i = 0; i < btns.length; i++) { btns[i].addEventListener('click', function (e) { e.stopPropagation(); var key = this.getAttribute('data-key'); var status = this.getAttribute('data-status'); setStatus(key, status); var row = this.parentNode; var siblings = row.querySelectorAll('.eos-status-btn'); var SC = { 'NEW': 'active-new', 'WIP': 'active-wip', 'DONE': 'active-done', 'WATCH': 'active-watch' }; for (var j = 0; j < siblings.length; j++) siblings[j].className = 'eos-status-btn' + (siblings[j].getAttribute('data-status') === status ? ' ' + SC[status] : ''); }); }
 
     // Wire GRANT/PATENT/BUILD buttons
-    var execBtns = _operatorView.querySelectorAll('[data-exec-key]');
-    for (var eb = 0; eb < execBtns.length; eb++) { execBtns[eb].addEventListener('click', function (e) { e.stopPropagation(); var execKey = this.getAttribute('data-exec-key'); var execPath = this.getAttribute('data-exec-path'); try { var trackMap = { 'GRANT-ELIGIBLE': 'grant', 'PATENTABLE': 'patent', 'BUSINESS': 'business' }; sessionStorage.setItem('limen_exec_context', JSON.stringify({ key: execKey, path: execPath, track: trackMap[execPath] || 'grant', source: 'medicine', returnTo: '/domain-console?domain=medicine&mode=operator' })); } catch (ex) {} var trackName = ({ 'GRANT-ELIGIBLE': 'grant', 'PATENTABLE': 'patent', 'BUSINESS': 'business' })[execPath] || 'grant'; window.location.href = 'medicine-workspace.html?track=' + trackName + '&opp=' + encodeURIComponent(execKey) + '&returnTo=' + encodeURIComponent('/domain-console?domain=medicine&mode=operator'); }); }
-
-    // Mount operator workflow panel — domain-scoped
+    // removed: GRANT/PATENT/BUILD workspace wiring
     var medicine = window.LIMENMedicine && window.LIMENMedicine.economy;
     if (medicine && medicine.panel) { medicine.panel.inject(); }
 

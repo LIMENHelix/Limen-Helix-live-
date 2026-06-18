@@ -894,11 +894,7 @@
       h += '</tr>';
       h += '<tr><td colspan="5" style="padding:0;border-bottom:1px solid rgba(255,255,255,0.04)"><div class="eos-action-row">' + statusHTML;
       var pbId = (o.path === 'INVESTABLE') ? resolvePlaybookId(o) : null;
-      if (pbId) { h += '<button class="eos-invest-btn" data-pb-id="' + esc(pbId) + '" data-opp-title="' + esc(title) + '">INVEST \u2192</button>'; }
-      if (o.path === 'GRANT-ELIGIBLE') { h += '<button class="eos-invest-btn" style="color:#5ab5a0;border-color:rgba(90,181,160,0.25)" data-exec-key="' + esc(key) + '" data-exec-path="GRANT-ELIGIBLE">GRANT \u2192</button>'; }
-      if (o.path === 'PATENTABLE') { h += '<button class="eos-invest-btn" style="color:#a87adb;border-color:rgba(168,122,219,0.25)" data-exec-key="' + esc(key) + '" data-exec-path="PATENTABLE">PATENT \u2192</button>'; }
-      if (o.paths && o.paths.indexOf('BUSINESS') !== -1) { h += '<button class="eos-invest-btn" style="color:#C9A94E;border-color:rgba(201,169,78,0.25)" data-exec-key="' + esc(key) + '" data-exec-path="BUSINESS">BUILD \u2192</button>'; }
-      if (o.compensation) { h += '<span style="font-size:0.22rem;color:#5ab5a0;white-space:nowrap">' + (o.compensation.base || 0) + (o.compensation.unit || '%') + '\u2192' + (o.compensation.maxTier ? o.compensation.maxTier.comp : '?') + (o.compensation.unit || '%') + '</span>'; }
+      // removed: GRANT/PATENT/BUILD workspace buttons — lanes dropped
       var _tclLedger = window.LIMENTrade && window.LIMENTrade.economy && window.LIMENTrade.economy.claims;
       var _claimExisting = _tclLedger ? _tclLedger.getClaimByOppId(o.id || key) : null;
       if (_claimExisting && _claimExisting.status !== 'closed' && _claimExisting.status !== 'rejected') { h += '<span class="eos-status-btn" style="color:#5ab5a0;border-color:rgba(90,181,160,0.2);cursor:default">\u2713 CLAIMED</span>'; }
@@ -1061,20 +1057,7 @@
     }
 
     // Wire GRANT/PATENT/BUILD buttons
-    var execBtns = _operatorView.querySelectorAll('[data-exec-key]');
-    for (var eb = 0; eb < execBtns.length; eb++) {
-      execBtns[eb].addEventListener('click', function (e) {
-        e.stopPropagation();
-        var execKey = this.getAttribute('data-exec-key');
-        var execPath = this.getAttribute('data-exec-path');
-        try {
-          var trackMap = { 'GRANT-ELIGIBLE': 'grant', 'PATENTABLE': 'patent', 'BUSINESS': 'business' };
-          sessionStorage.setItem('limen_exec_context', JSON.stringify({ key: execKey, path: execPath, track: trackMap[execPath] || 'grant', source: 'supplyChain', returnTo: '/domain-console?domain=supplyChain&mode=operator' }));
-        } catch (ex) {}
-        var trackName = ({ 'GRANT-ELIGIBLE': 'grant', 'PATENTABLE': 'patent', 'BUSINESS': 'business' })[execPath] || 'grant';
-        window.location.href = 'trade-workspace.html?track=' + trackName + '&opp=' + encodeURIComponent(execKey) + '&returnTo=' + encodeURIComponent('/domain-console?domain=supplyChain&mode=operator');
-      });
-    }
+    // removed: GRANT/PATENT/BUILD workspace wiring
 
     // Wire CLAIM buttons
     var claimBtns = _operatorView.querySelectorAll('[data-claim-opp]');

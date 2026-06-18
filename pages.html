@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LIMEN HELIX &middot; SITE MAP</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#050810;color:#e8e3d9;font-family:"IBM Plex Mono",monospace;min-height:100%}
+a{color:inherit;text-decoration:none}
+
+.sm-head{
+  padding:18px 24px 10px;border-bottom:1px solid rgba(201,169,78,0.08);
+  position:sticky;top:0;background:rgba(5,8,16,0.96);z-index:10;backdrop-filter:blur(4px);
+}
+.sm-crumb{font-size:0.42rem;letter-spacing:3px;text-transform:uppercase;color:rgba(201,169,78,0.45)}
+.sm-crumb a:hover{color:rgba(201,169,78,0.9)}
+.sm-title{font-size:0.95rem;letter-spacing:2px;color:#C9A94E;margin-top:6px;text-shadow:0 0 10px rgba(201,169,78,0.25)}
+.sm-sub{font-size:0.45rem;letter-spacing:1.5px;color:rgba(200,195,184,0.4);margin-top:4px}
+.sm-search{margin-top:12px}
+.sm-search input{
+  width:min(420px,100%);font-family:inherit;font-size:0.5rem;letter-spacing:1px;
+  background:#0e1018;border:1px solid rgba(201,169,78,0.18);border-radius:3px;
+  color:#e8e3d9;padding:7px 12px;outline:none;
+}
+.sm-search input:focus{border-color:rgba(201,169,78,0.45)}
+
+.sm-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:14px;padding:20px 24px 60px;align-items:start;
+}
+.sm-group{
+  background:#0b0e16;border:1px solid rgba(201,169,78,0.08);border-radius:4px;
+  padding:12px 14px;
+}
+.sm-group-name{
+  font-size:0.42rem;letter-spacing:2px;text-transform:uppercase;
+  color:rgba(201,169,78,0.7);font-weight:600;margin-bottom:8px;
+  border-bottom:1px solid rgba(201,169,78,0.06);padding-bottom:6px;
+}
+.sm-item{
+  display:block;font-size:0.5rem;letter-spacing:0.5px;color:#d0c8b8;
+  padding:5px 8px;border-radius:2px;border-left:2px solid transparent;transition:all 0.15s;
+}
+.sm-item:hover{background:rgba(201,169,78,0.06);color:#fff;border-left-color:rgba(201,169,78,0.5)}
+.sm-item .sm-url{display:block;font-size:0.36rem;color:rgba(200,195,184,0.35);letter-spacing:1px;margin-top:1px}
+.sm-empty{font-size:0.45rem;color:rgba(200,195,184,0.4);padding:24px}
+</style>
+</head>
+<body>
+<script src="assets/js/auth-gate.js"></script>
+<div id="limen-topbar"></div>
+<script src="assets/js/limen-topbar.js"></script>
+
+<div class="sm-head">
+  <div class="sm-crumb"><a href="/civilization">CIVILIZATION</a> &nbsp;&rsaquo;&nbsp; SITE MAP</div>
+  <div class="sm-title">SITE MAP</div>
+  <div class="sm-sub" id="smCount">Every page in LIMEN HELIX</div>
+  <div class="sm-search"><input type="text" id="smSearch" placeholder="Filter pages..." autocomplete="off"></div>
+</div>
+
+<div class="sm-grid" id="smGrid"><div class="sm-empty">Loading site index&hellip;</div></div>
+
+<script src="assets/js/limen-site-index.js"></script>
+<script>
+(function () {
+  'use strict';
+  var grid = document.getElementById('smGrid');
+  var idx = window.LIMEN_SITE_INDEX;
+  if (!idx || !idx.groups) { grid.innerHTML = '<div class="sm-empty">Site index unavailable.</div>'; return; }
+
+  var groups = idx.groups;
+  var total = groups.reduce(function (n, g) { return n + (g.items ? g.items.length : 0); }, 0);
+  document.getElementById('smCount').textContent = total + ' pages · ' + groups.length + ' sections';
+
+  function render(filter) {
+    var f = (filter || '').trim().toLowerCase();
+    var html = '';
+    for (var i = 0; i < groups.length; i++) {
+      var g = groups[i];
+      var items = (g.items || []).filter(function (it) {
+        if (!f) return true;
+        return (it.label || '').toLowerCase().indexOf(f) !== -1 ||
+               (it.url || '').toLowerCase().indexOf(f) !== -1;
+      });
+      if (!items.length) continue;
+      html += '<div class="sm-group"><div class="sm-group-name">' + esc(g.name) + '</div>';
+      for (var j = 0; j < items.length; j++) {
+        var it = items[j];
+        html += '<a class="sm-item" href="' + esc(it.url) + '">' + esc(it.label) +
+                '<span class="sm-url">' + esc(it.url) + '</span></a>';
+      }
+      html += '</div>';
+    }
+    grid.innerHTML = html || '<div class="sm-empty">No pages match &ldquo;' + esc(f) + '&rdquo;.</div>';
+  }
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  document.getElementById('smSearch').addEventListener('input', function () { render(this.value); });
+  render('');
+})();
+</script>
+</body>
+</html>

@@ -145,7 +145,7 @@
       h += '<button class="tbr-btn tbr-btn-deny" data-node="' + esc(entry.nodeId) + '" data-type="' + esc(entry.businessType) + '" data-action="DENIED">DENY</button>';
       h += '<button class="tbr-btn tbr-btn-hold" data-node="' + esc(entry.nodeId) + '" data-type="' + esc(entry.businessType) + '" data-action="NEEDS_REVIEW">HOLD</button>';
       h += '<button class="tbr-btn tbr-btn-release" data-node="' + esc(entry.nodeId) + '" data-type="' + esc(entry.businessType) + '" data-action="PROPOSED">RELEASE</button>';
-      h += '<button class="tbr-btn" style="color:#C9A94E;border-color:rgba(201,169,78,0.3);background:rgba(201,169,78,0.04);margin-left:4px" data-business-node="' + esc(entry.nodeId) + '" data-business-type="' + esc(entry.businessType) + '" data-business-label="' + esc(entry.nodeLabel) + '" data-business-reason="' + esc(entry.reason) + '">BUSINESS \u2192</button>';
+      // removed: BUSINESS build button — workspace lane dropped
       h += '</div>';
     }
     h += '</div></div>';
@@ -267,25 +267,7 @@
       });
     }
 
-    var bizBtns = panel.querySelectorAll('[data-business-node]');
-    for (var bi = 0; bi < bizBtns.length; bi++) {
-      bizBtns[bi].addEventListener('click', function (e) {
-        e.stopPropagation();
-        var nodeId = this.getAttribute('data-business-node');
-        var bizType = this.getAttribute('data-business-type');
-        var nodeLabel = this.getAttribute('data-business-label');
-        var reason = this.getAttribute('data-business-reason');
-        var oppKey = (nodeId + '_' + bizType).replace(/[^a-zA-Z0-9]/g, '_').substring(0, 60);
-        try {
-          sessionStorage.setItem('limen_exec_context', JSON.stringify({
-            key: oppKey, track: 'business', nodeId: nodeId,
-            businessType: bizType, nodeLabel: nodeLabel, reason: reason,
-            source: 'technology', returnTo: '/domain-console?domain=technology&mode=operator'
-          }));
-        } catch (ex) {}
-        window.location.href = 'technology-workspace.html?track=business&opp=' + encodeURIComponent(oppKey) + '&returnTo=' + encodeURIComponent('/domain-console?domain=technology&mode=operator');
-      });
-    }
+    // removed: BUSINESS build-workspace wiring
 
     var reviewHeader = panel.querySelector('[data-section="tbr-review"]');
     if (reviewHeader) {

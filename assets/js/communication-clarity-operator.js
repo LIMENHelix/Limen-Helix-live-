@@ -1336,15 +1336,7 @@
       if (pbId) {
         h += '<button class="eos-invest-btn" data-pb-id="' + esc(pbId) + '" data-opp-title="' + esc(title) + '">INVEST \u2192</button>';
       }
-      if (o.path === 'GRANT-ELIGIBLE') {
-        h += '<button class="eos-invest-btn" style="color:#5ab5a0;border-color:rgba(90,181,160,0.25)" data-exec-key="' + esc(key) + '" data-exec-path="GRANT-ELIGIBLE">GRANT \u2192</button>';
-      }
-      if (o.path === 'PATENTABLE') {
-        h += '<button class="eos-invest-btn" style="color:#a87adb;border-color:rgba(168,122,219,0.25)" data-exec-key="' + esc(key) + '" data-exec-path="PATENTABLE">PATENT \u2192</button>';
-      }
-      if (o.paths && o.paths.indexOf('BUSINESS') !== -1) {
-        h += '<button class="eos-invest-btn" style="color:#C9A94E;border-color:rgba(201,169,78,0.25)" data-exec-key="' + esc(key) + '" data-exec-path="BUSINESS">BUILD \u2192</button>';
-      }
+      // removed: GRANT/PATENT/BUILD workspace buttons — lanes dropped
       if (o.compensation) {
         h += '<span style="font-size:0.22rem;color:#5ab5a0;white-space:nowrap">' + (o.compensation.base || 0) + (o.compensation.unit || '%') + '\u2192' + (o.compensation.maxTier ? o.compensation.maxTier.comp : '?') + (o.compensation.unit || '%') + '</span>';
       }
@@ -1585,28 +1577,7 @@
       });
     }
 
-    // Wire GRANT/PATENT buttons — open execution workspace inline
-    var execBtns = _operatorView.querySelectorAll('[data-exec-key]');
-    for (var eb = 0; eb < execBtns.length; eb++) {
-      execBtns[eb].addEventListener('click', function (e) {
-        e.stopPropagation();
-        var execKey = this.getAttribute('data-exec-key');
-        var execPath = this.getAttribute('data-exec-path');
-        // Store context and navigate to workspace page
-        try {
-          var trackMap = { 'GRANT-ELIGIBLE': 'grant', 'PATENTABLE': 'patent', 'BUSINESS': 'business' };
-          sessionStorage.setItem('limen_exec_context', JSON.stringify({
-            key: execKey,
-            path: execPath,
-            track: trackMap[execPath] || 'grant',
-            source: 'communication',
-            returnTo: '/domain-console?domain=communication&mode=operator'
-          }));
-        } catch (ex) {}
-        var trackName = trackMap[execPath] || 'grant';
-        window.location.href = 'communication-workspace.html?track=' + trackName + '&opp=' + encodeURIComponent(execKey) + '&returnTo=' + encodeURIComponent('/domain-console?domain=communication&mode=operator');
-      });
-    }
+    // removed: GRANT/PATENT/BUILD workspace wiring
 
     // Wire CLAIM buttons (global operator economy)
     var claimBtns = _operatorView.querySelectorAll('[data-claim-opp]');
