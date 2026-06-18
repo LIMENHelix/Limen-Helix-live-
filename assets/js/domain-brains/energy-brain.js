@@ -1259,8 +1259,12 @@
     var primaryOpp = opps[0] || null;
     var mc = primaryOpp && primaryOpp.moneyChain ? primaryOpp.moneyChain : null;
 
+    if (primaryOpp && Array.isArray(primaryOpp.steps)) implementationSteps = implementationSteps.concat(primaryOpp.steps);
+    if (primaryOpp && Array.isArray(primaryOpp.fastPath)) implementationSteps = implementationSteps.concat(primaryOpp.fastPath);
+
     var feeds = s.feeds || {}, sourceFeeds = [];
     for (var fk in feeds) { if (feeds.hasOwnProperty(fk)) { var f = feeds[fk]; sourceFeeds.push({ name: fk, updated: (f && f.updated) || null, source: (f && f.source) || null }); } }
+    if (s._primarySource && !sourceFeeds.length) sourceFeeds.push({ name: 'primary', updated: null, source: s._primarySource });
 
     var identity = {
       domain: 'energy',
@@ -1269,7 +1273,7 @@
       aliasUsed: false,                       // F3
       label: dx ? (dx.label || dx.id || null) : null,
       phase: s.phase || null,
-      confidence: dx && typeof dx.relevance === 'number' ? dx.relevance : null
+      confidence: (dx && typeof dx.relevance === 'number') ? dx.relevance : (typeof s.confidence === 'number' ? s.confidence : null)
     };
     var brainState = {
       energyModel: { version: em.version || null, cycle: (typeof em.cycle === 'number' ? em.cycle : null) },
@@ -1280,24 +1284,29 @@
       plasticity: em.plasticity || null,
       readyForHandoff: em.readyForHandoff === true
     };
-    var ancestry = [];
-    if (portal && portal.parentLabel) ancestry.push(portal.parentLabel);
-    if (portal && portal.title) ancestry.push(portal.title);
+    // F2: domain-identity portal fields are KNOWN facts (this IS the energy root),
+    // so they populate from constants even when the brain has not cached L0 content yet.
+    var rootId = (portal && portal.domainId) || 'energy';
+    var rootTitle = (portal && portal.title) || 'Energy';
+    var ancestry = (portal && portal.parentLabel) ? [portal.parentLabel, rootTitle] : [rootTitle];
     var portalContext = {
-      portalIds: (portal && portal.domainId) ? [portal.domainId] : [],
-      portalDomain: (portal && portal.domainId) || null,
-      portalTitle: (portal && portal.title) || null,
-      depth: portal ? 0 : null,               // brain holds only L0 root (honest)
+      portalIds: [rootId],
+      portalDomain: 'energy',
+      portalTitle: rootTitle,
+      depth: 0,                               // brain operates at the root level only
       ancestryPath: ancestry,
-      portalStatus: portal ? 'root-only' : 'none',  // never deeper at runtime yet (Phase C)
-      sourceCompleteness: portal ? ((Array.isArray(portal.issues) && portal.issues.length) ? 'partial' : 'thin') : 'none'
+      portalStatus: portal ? 'root-only' : 'pending',  // L0 cached vs not-yet; never deeper (Phase C)
+      sourceCompleteness: portal ? ((Array.isArray(portal.issues) && portal.issues.length) ? 'partial' : 'thin') : 'root-only'
     };
+    var citationHints = sourceFeeds.map(function (sf) { return sf.source || sf.name; }).filter(Boolean);
+    var missingEv = ['evidenceAnchors'];
+    if (!citationHints.length) missingEv.push('citationHints');
     var evidence = {
       sourceFeeds: sourceFeeds,               // real — brain ingests these
-      evidenceAnchors: [],                    // missing → F2/bundle
-      citationHints: [],                      // missing
+      evidenceAnchors: [],                    // genuinely absent (no source bundle) — stays empty
+      citationHints: citationHints,           // real source/feed names only (no invention)
       bundleStatus: 'missing',                // live repo ships no artifact-source bundles (audit-proven)
-      missingEvidence: ['evidenceAnchors', 'citationHints']
+      missingEvidence: missingEv
     };
     var treatmentContext = {
       treatments: treatments,                 // real if resolved
@@ -1317,13 +1326,26 @@
     var hasTreat = treatments.length > 0, hasBundle = false, hasCanonical = false, blockers = [];
     if (!hasCanonical) blockers.push('no-canonical-diagnosis');
     if (!hasBundle) blockers.push('no-source-bundle');
-    if (portalContext.portalStatus === 'root-only') blockers.push('portal-root-only');
+    blockers.push(portalContext.portalStatus === 'root-only' ? 'portal-root-only' : 'portal-not-loaded');
     if (!hasTreat) blockers.push('no-treatments');
+    if (!primaryOpp) blockers.push('no-active-opportunity');
+    // artifact lanes from REAL opportunity path/compensation (present only on the gated console)
+    var lanesIn = [];
+    if (primaryOpp && primaryOpp.path) lanesIn.push(primaryOpp.path);
+    if (primaryOpp && Array.isArray(primaryOpp.paths)) lanesIn = lanesIn.concat(primaryOpp.paths);
+    if (primaryOpp && primaryOpp.compensation && primaryOpp.compensation.type) lanesIn.push(primaryOpp.compensation.type);
+    var seenLane = {}, artifactLanes = [];
+    for (var li = 0; li < lanesIn.length; li++) { if (lanesIn[li] && !seenLane[lanesIn[li]]) { seenLane[lanesIn[li]] = true; artifactLanes.push(lanesIn[li]); } }
+    var readinessReasons = [];
+    if (hasTreat) readinessReasons.push('treatments present (' + treatments.length + ')');
+    if (primaryOpp) readinessReasons.push('opportunity present (path=' + (primaryOpp.path || '?') + ')');
+    if (sourceFeeds.length) readinessReasons.push('source feeds present (' + sourceFeeds.length + ')');
     var ready = hasTreat && hasBundle && hasCanonical;
     var artifactContext = {
-      artifactLanes: [],                      // energy uses path (INVESTABLE/GRANT/PATENT); lane map = F3
-      patentReady: ready, grantReady: ready, sbaReady: false, investmentReady: hasTreat, researchReady: hasTreat,
-      readinessReasons: ready ? ['treatments+bundle+canonical present'] : [],
+      artifactLanes: artifactLanes,
+      patentReady: ready, grantReady: ready, sbaReady: false,
+      investmentReady: !!(hasTreat && primaryOpp), researchReady: hasTreat,
+      readinessReasons: readinessReasons,
       blockers: blockers
     };
 
@@ -1347,10 +1369,12 @@
 
     var warnings = [];
     if (portalContext.portalStatus === 'root-only') warnings.push('portalContext is root-only (no deep portal cortex)');
-    if (portalContext.portalStatus === 'none') warnings.push('portalContext missing (no portal cached)');
+    if (portalContext.portalStatus === 'pending') warnings.push('root portal not yet cached on the brain (domain identity used)');
     if (!identity.canonicalDiagnosisId) warnings.push('canonicalDiagnosisId missing (F3)');
     if (evidence.bundleStatus === 'missing') warnings.push('source bundle missing (no artifact-source bundle for this diagnosis)');
-    if (artifactContext.artifactLanes.length && !hasTreat) warnings.push('artifact lane requested but treatments/evidence missing');
+    if (!treatmentContext.methodCandidates.length && !treatmentContext.mechanismCandidates.length && !treatmentContext.embodimentCandidates.length && !treatmentContext.figurePlaceholders.length) warnings.push('method/mechanism/embodiment/figure candidates missing (require source bundle — not invented)');
+    if (!primaryOpp && (typeof s.stress !== 'number' || s.stress < EM_STRESS_FLOOR)) warnings.push('no active opportunity (offline/low-stress) — operator/lane fields stay empty');
+    if (artifactContext.artifactLanes.length && !hasTreat) warnings.push('artifact lane present but treatments/evidence missing');
 
     var pct = totAll ? Math.round(totHave / totAll * 100) : 0;
     var proofTier = pct >= 70 ? 'full' : (pct >= 35 ? 'partial' : 'sparse');
