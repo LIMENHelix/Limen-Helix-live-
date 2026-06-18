@@ -1208,6 +1208,7 @@
       anti_overclaim:      antiOverclaim,
       provenance:          provenance,
       lane_hints:          laneHints,
+      deepBrain:           (hp && hp.deepBrain) || null,   // F0: recurrent brain model survives to the finalizer
       raw:                 raw
     };
 

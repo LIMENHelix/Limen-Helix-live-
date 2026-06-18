@@ -79,6 +79,7 @@
       brainEmissions:     _arr(bs.crossDomainEmissions),
       brainStatus:        _val(bs.status),
       brainUpdated:       _val(bs.updated),
+      brainEnergyModel:   _obj(bs.energyModel),   // F0: carry recurrent brain model (energy; null elsewhere)
 
       // === A. Identity & timing (additive) ===
       brainDomainId:              _val(bs.domainId),

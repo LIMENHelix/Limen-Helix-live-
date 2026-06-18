@@ -362,6 +362,20 @@
     var opportunities = _arr(slot && slot.brainOpportunities);
     var directives    = _arr(slot && slot.brainDirectives);
 
+    // F0 survival shim: carry the recurrent brain model (energy brings energyModel;
+    // null for other domains — harmless additive field). Compact + prompt-safe.
+    var _emO = function (v) { return (v && typeof v === 'object' && !Array.isArray(v)) ? v : null; };
+    var _bem = _emO(slot && slot.brainEnergyModel);
+    var deepBrain = _bem ? {
+      cycle:           _num(_bem.cycle),
+      predictionError: _emO(_bem.predictionError),
+      regulationState: (_bem.regulation && _bem.regulation.state) || null,
+      regulation:      _emO(_bem.regulation),
+      readyForHandoff: _bem.readyForHandoff === true,
+      predictedStress: _num(_bem.predictedStress),
+      prior:           _bem.prior ? { expectedStress: _num(_bem.prior.expectedStress), confidence: _num(_bem.prior.confidence), samples: _num(_bem.prior.samples) } : null
+    } : null;
+
     // Feed health. Configured count is the MAX of every honest declaration
     // available — the snapshot's full source list (live + dead), the brain's
     // own count, and the registry's declared feeds. Trusting brain alone (or
@@ -489,6 +503,7 @@
       treatments:      treatments,
       opportunities:   opportunities,
       directives:      directives,
+      deepBrain:       deepBrain,
       sourceType:     sourceType,
       brainAgeMs:     brainAge,
       snapshotAgeMs:  snapAge,

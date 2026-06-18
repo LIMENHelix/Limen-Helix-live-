@@ -207,7 +207,9 @@
       type:             opp.type || 'unknown',
       warn:             opp.warn || null,
       readyForGeneration: ready,
-      gateUsed:         { minEvidence: gate.minEvidence, minConfidence: gate.minConfidence }
+      gateUsed:         { minEvidence: gate.minEvidence, minConfidence: gate.minConfidence },
+      // F0: carry the recurrent brain model from the source domain's packet (energy).
+      deepBrain:        (function () { var ds = opp.domains || []; for (var di = 0; di < ds.length; di++) { var pk = packets && packets[ds[di]]; if (pk && pk.deepBrain) return pk.deepBrain; } return null; })()
     };
   }
 

@@ -183,7 +183,22 @@ function _extractSafeInput(p) {
       snapshotFresh:             ao.snapshotFresh === true,
       nodeResolved:              ao.nodeResolved === true
     },
-    warningCodes: _extractWarningCodes(p)
+    warningCodes: _extractWarningCodes(p),
+    // F0 survival shim: expose the source domain's recurrent brain model to the AI
+    // prompt (energy carries it; null for domains without one). Flows into the prompt
+    // automatically via _buildUserMessage's JSON.stringify(safeInput).
+    deepBrain: (function () {
+      var db = p.deepBrain || (p.raw && p.raw.handoffPacket && p.raw.handoffPacket.deepBrain) || null;
+      if (!db) return null;
+      var pe = (db.predictionError && typeof db.predictionError.total === 'number') ? Math.round(db.predictionError.total * 1000) / 1000 : null;
+      return {
+        cycle:           (typeof db.cycle === 'number') ? db.cycle : null,
+        predictionError: pe,
+        regulationState: db.regulationState || null,
+        readyForHandoff: db.readyForHandoff === true,
+        predictedStress: (typeof db.predictedStress === 'number') ? Math.round(db.predictedStress * 1000) / 1000 : null
+      };
+    })()
   };
 }
 
@@ -908,3 +923,7 @@ module.exports = async function handler(req, res) {
     }
   });
 };
+
+// F0 test hook (additive, no runtime effect): expose the pure safe-extractor so the
+// survival probe can prove the finalizer now reads the Energy recurrent brain model.
+module.exports._extractSafeInput = _extractSafeInput;
