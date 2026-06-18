@@ -1462,8 +1462,46 @@
     var pct = totAll ? Math.round(totHave / totAll * 100) : 0;
     var proofTier = pct >= 70 ? 'full' : (pct >= 35 ? 'partial' : 'sparse');
 
+    // G2 — prompt-facing trimming/prioritization. FULL data above is preserved; this is a
+    // bounded, diagnosis-relevant subset for the finalizer prompt. Never trims scalars/warnings.
+    var G2_CAPS = { evidenceAnchors: 8, treatments: 8, implementationSteps: 8, mechanismCandidates: 6, methodCandidates: 6, embodimentCandidates: 6, figurePlaceholders: 6, citationHints: 8, sourceFeeds: 8 };
+    function _g2cap(arr, n) { arr = Array.isArray(arr) ? arr : []; return { sel: arr.slice(0, n), omitted: Math.max(0, arr.length - n) }; }
+    var _g2ea = _g2cap(evidenceAnchors, G2_CAPS.evidenceAnchors);
+    var _g2tr = _g2cap(treatmentContext.treatments, G2_CAPS.treatments);
+    var _g2is = _g2cap(treatmentContext.implementationSteps, G2_CAPS.implementationSteps);
+    var _g2mc = _g2cap(treatmentContext.mechanismCandidates, G2_CAPS.mechanismCandidates);
+    var _g2md = _g2cap(treatmentContext.methodCandidates, G2_CAPS.methodCandidates);
+    var _g2em = _g2cap(treatmentContext.embodimentCandidates, G2_CAPS.embodimentCandidates);
+    var _g2fg = _g2cap(treatmentContext.figurePlaceholders, G2_CAPS.figurePlaceholders);
+    var _g2ch = _g2cap(citationHints, G2_CAPS.citationHints);
+    var _g2sf = _g2cap(sourceFeeds, G2_CAPS.sourceFeeds);
+    var promptView = {
+      compact: true,
+      caps: G2_CAPS,
+      selectedEvidenceAnchors: _g2ea.sel,
+      selectedTreatments: _g2tr.sel,
+      selectedImplementationSteps: _g2is.sel,
+      selectedMechanismCandidates: _g2mc.sel,
+      selectedMethodCandidates: _g2md.sel,
+      selectedEmbodimentCandidates: _g2em.sel,
+      selectedFigurePlaceholders: _g2fg.sel,
+      selectedCitationHints: _g2ch.sel,
+      selectedSourceFeeds: _g2sf.sel,
+      omittedCounts: { evidenceAnchors: _g2ea.omitted, treatments: _g2tr.omitted, implementationSteps: _g2is.omitted, mechanismCandidates: _g2mc.omitted, methodCandidates: _g2md.omitted, embodimentCandidates: _g2em.omitted, figurePlaceholders: _g2fg.omitted, citationHints: _g2ch.omitted, sourceFeeds: _g2sf.omitted },
+      priorityReasons: [
+        'diagnosis-specific bundle anchors preferred over generic energy evidence',
+        'official/primary sources retained (EIA/IEA/OPEC/IAEA/NRC/NERC/FERC where present)',
+        'mechanisms prioritized over figures under prompt-space limits',
+        'treatments with implementation relevance preferred over broad narrative',
+        'caps applied per field; full data preserved in the stored bundle + full DDP'
+      ],
+      retainedWarnings: warnings,                 // never trimmed (alias-resolved / external-source-authored / root-only / canonical / bundle)
+      retainedBlockers: artifactContext.blockers
+    };
+
     return {
       schemaVersion: DDP_SCHEMA_VERSION,
+      promptView: promptView,
       identity: identity,
       brainState: brainState,
       portalContext: portalContext,

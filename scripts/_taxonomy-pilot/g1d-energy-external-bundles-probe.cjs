@@ -96,7 +96,7 @@ function loadWithCapture(ctx, file, names) { let src = A(file); const m = ';try{
     ['treatments are source-backed (not L1/L2 mad-lib)', NEW.every(id => { var p = path.join(BD, id + '.json'); var l = JSON.parse(fs.readFileSync(p, 'utf8')).byLane.patents; return l.treatments.every(t => t.sourceBacked === true); })],
     ['marked external-source-authored + human-verification-required', NEW.every(id => byId[id].evidence.bundle.buildMethod === 'external-source-authored' && byId[id].evidence.bundle.humanVerification === 'required')],
     ['external-source warning surfaced (not misleading root-only)', os.audit.warnings.some(w => w.indexOf('external-source-authored') >= 0)],
-    ['finalizer safeInput shows OIL_SHOCK found + anchors', !!finPkt && finPkt.identity.diagnosisId === 'OIL_SHOCK' && finPkt.evidence.bundleStatus === 'found' && finPkt.evidence.evidenceAnchors.length >= 2],
+    ['finalizer safeInput shows OIL_SHOCK found + anchors', !!finPkt && finPkt.identity.diagnosisId === 'OIL_SHOCK' && finPkt.bundle.bundleStatus === 'found' && finPkt.promptView.selectedEvidenceAnchors.length >= 2],
     ['report doc exists', fs.existsSync(path.join(ROOT, 'docs', 'audits', 'energy-g1d-external-source-bundles.md'))],
     ['non-energy domain stays null', nonEnergyClean],
     ['six diagnoses still emit', (brain.state.diagnoses || []).length === 6 && packets.length === 6]

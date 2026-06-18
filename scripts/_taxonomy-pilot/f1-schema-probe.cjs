@@ -99,7 +99,7 @@ function validateSchema(pkt) {
     ['all 8 sections, every field explicit (none hidden)', schemaMissing.length === 0],
     ['one packet per diagnosis (6)', allPkts.length === (realState.diagnoses || []).length && allPkts.length === 6],
     ['finalizer safeInput.energyDomainDiagnosisPacket present', !!fin],
-    ['finalizer packet keeps full 8-section schema', finSchemaOk],
+    ['finalizer gets compact packet (G2: identity + promptView)', !!fin && fin.compact === true && !!fin.identity && !!fin.promptView],
     ['missing fields visible (not hidden)', pkt && pkt.audit.missingFields.length > 0],
     ['warnings emitted (root-only / no-canonical / no-bundle)', pkt && pkt.audit.warnings.length >= 3],
     ['six diagnoses still emit', (realState.diagnoses || []).length === 6],

@@ -68,7 +68,7 @@ const MISSING = ['OIL_SHOCK', 'NUCLEAR_INCIDENT', 'SYSTEMIC_ENERGY_STRESS'];  //
 
   const gc = byId['GRID_COLLAPSE'], ri = byId['RENEWABLE_INTERMITTENCY'];
   console.log('\n--- FINALIZER sees the missing diagnosis (OIL_SHOCK) ---');
-  console.log('  diagnosisId=' + (finPkt && finPkt.identity.diagnosisId) + ' bundleStatus=' + (finPkt && finPkt.evidence.bundleStatus) + ' blockers=' + JSON.stringify(finPkt && finPkt.artifactContext.blockers));
+  console.log('  diagnosisId=' + (finPkt && finPkt.identity.diagnosisId) + ' bundleStatus=' + (finPkt && finPkt.bundle.bundleStatus) + ' blockers=' + JSON.stringify(finPkt && finPkt.promptView.retainedBlockers));
 
   console.log('\n--- ACCEPTANCE ---');
   const checks = [
@@ -81,7 +81,7 @@ const MISSING = ['OIL_SHOCK', 'NUCLEAR_INCIDENT', 'SYSTEMIC_ENERGY_STRESS'];  //
     ['RENEWABLE_INTERMITTENCY remains found (G1 unchanged)', ri.evidence.bundleStatus === 'found' && ri.evidence.evidenceAnchors.length === 32],
     ['both found bundles retain source-bundle-root-only warning', gc.audit.warnings.some(function (w) { return w.indexOf('source-bundle-root-only') >= 0; }) && ri.audit.warnings.some(function (w) { return w.indexOf('source-bundle-root-only') >= 0; })],
     ['coverage doc exists (proposal/build plan)', fs.existsSync(path.join(ROOT, 'docs', 'audits', 'energy-missing-bundle-coverage.md'))],
-    ['finalizer safeInput shows missing dx + build-required blocker', !!finPkt && finPkt.identity.diagnosisId === 'OIL_SHOCK' && finPkt.evidence.bundleStatus === 'missing' && finPkt.artifactContext.blockers.indexOf('source-bundle-build-required') >= 0],
+    ['finalizer safeInput shows missing dx + build-required blocker', !!finPkt && finPkt.identity.diagnosisId === 'OIL_SHOCK' && finPkt.bundle.bundleStatus === 'missing' && finPkt.promptView.retainedBlockers.indexOf('source-bundle-build-required') >= 0],
     ['non-energy domain stays null', nonEnergyClean],
     ['six diagnoses still emit', (brain.state.diagnoses || []).length === 6 && packets.length === 6]
   ];

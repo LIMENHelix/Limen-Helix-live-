@@ -83,7 +83,7 @@ const MISSING = ['OIL_SHOCK', 'NUCLEAR_INCIDENT', 'SYSTEMIC_ENERGY_STRESS'];
     ['3 remaining missing in this phase-isolated probe (no fabrication at G1c)', MISSING.every(id => byId[id].evidence.bundleStatus === 'missing')],
     ['3 remaining stay missing + build-required + empty candidates', MISSING.every(function (id) { var p = byId[id], t = p.treatmentContext; return p.evidence.bundleStatus === 'missing' && p.artifactContext.blockers.indexOf('source-bundle-build-required') >= 0 && (t.methodCandidates.length + t.mechanismCandidates.length + t.embodimentCandidates.length + t.figurePlaceholders.length + p.evidence.evidenceAnchors.length === 0); })],
     ['build report doc exists', fs.existsSync(path.join(ROOT, 'docs', 'audits', 'energy-g1c-bundle-build-report.md'))],
-    ['finalizer safeInput shows PIPELINE canonical + alias metadata + found', !!finPkt && finPkt.identity.canonicalDiagnosisId === 'PIPELINE_RUPTURE_EVENT' && finPkt.identity.aliasReviewStatus === 'human-approved' && finPkt.evidence.bundleStatus === 'found'],
+    ['finalizer safeInput shows PIPELINE canonical + alias metadata + found', !!finPkt && finPkt.identity.canonicalDiagnosisId === 'PIPELINE_RUPTURE_EVENT' && finPkt.identity.aliasReviewStatus === 'human-approved' && finPkt.bundle.bundleStatus === 'found'],
     ['non-energy domain stays null', nonEnergyClean],
     ['six diagnoses still emit', (brain.state.diagnoses || []).length === 6 && packets.length === 6]
   ];

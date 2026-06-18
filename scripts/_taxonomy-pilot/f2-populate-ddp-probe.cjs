@@ -102,7 +102,7 @@ function sectionPcts(p) { var o = {}, c = p.audit.fieldCompleteness.sections; fo
     ['NO fake method/mechanism/embodiment/figure candidates', noFakeCandidates],
     ['no fake bundle (status not "found" without an explicit G1 load)', populated.evidence.bundleStatus !== 'found'],
     ['offline baseline forces NO opportunities (operator empty)', baseline.operatorContext.targets.length === 0 && baseline.operatorContext.nextStep === null],
-    ['finalizer safeInput includes populated packet', !!finPkt && finPkt.operatorContext && finPkt.operatorContext.targets.length >= 1],
+    ['finalizer safeInput includes compact packet (G2 promptView)', !!finPkt && finPkt.compact === true && !!finPkt.promptView],
     ['non-energy domain stays null', nonEnergyClean],
     ['six diagnoses still emit', brain.state.diagnoses.length === 6]
   ];

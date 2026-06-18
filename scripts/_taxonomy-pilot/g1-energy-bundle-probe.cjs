@@ -85,7 +85,7 @@ function realCounts(canonId) { try { var b = JSON.parse(fs.readFileSync(path.joi
     ['missing-bundle diagnoses keep ALL candidate arrays empty (no fake)', fourMissing.every(function (id) { var t = byId[id].treatmentContext; return t.methodCandidates.length + t.mechanismCandidates.length + t.embodimentCandidates.length + t.figurePlaceholders.length === 0; })],
     ['shallow bundle flagged (source-bundle-root-only warning)', gc.audit.warnings.some(function (w) { return w.indexOf('source-bundle-root-only') >= 0; })],
     ['found-bundle completeness > missing-bundle completeness', gc.audit.fieldCompleteness.overallPct > os.audit.fieldCompleteness.overallPct],
-    ['finalizer safeInput shows bundleStatus=found', !!finPkt && finPkt.evidence.bundleStatus === 'found' && finPkt.evidence.evidenceAnchors.length > 0],
+    ['finalizer safeInput shows bundleStatus=found', !!finPkt && finPkt.bundle.bundleStatus === 'found' && finPkt.promptView.selectedEvidenceAnchors.length > 0],
     ['bundle path exists when bundleStatus=found', fs.existsSync(path.join(BD, gc.identity.canonicalDiagnosisId + '.json'))],
     ['non-energy domain stays null', nonEnergyClean],
     ['six diagnoses still emit', (brain.state.diagnoses || []).length === 6 && packets.length === 6]

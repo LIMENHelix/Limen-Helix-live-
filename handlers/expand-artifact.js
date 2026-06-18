@@ -199,10 +199,40 @@ function _extractSafeInput(p) {
         predictedStress: (typeof db.predictedStress === 'number') ? Math.round(db.predictedStress * 1000) / 1000 : null
       };
     })(),
-    // F1: the structured Energy DomainDiagnosisPacket (schema-only; sparse but explicit).
+    // F1/G2: the Energy DomainDiagnosisPacket — COMPACT prompt-safe view (bounded arrays via
+    // promptView caps) + must-keep scalars/warnings. Full data stays in the stored bundle + DDP.
     energyDomainDiagnosisPacket: (function () {
       var db = p.deepBrain || (p.raw && p.raw.handoffPacket && p.raw.handoffPacket.deepBrain) || null;
-      return (db && db.domainDiagnosisPacket) || null;
+      var ddp = db && db.domainDiagnosisPacket;
+      if (!ddp) return null;
+      var id = ddp.identity || {}, ev = ddp.evidence || {}, bs = ddp.brainState || {};
+      return {
+        schemaVersion: ddp.schemaVersion || null,
+        compact: true,
+        identity: {
+          diagnosisId: id.diagnosisId || null,
+          canonicalDiagnosisId: id.canonicalDiagnosisId || null,
+          aliasUsed: id.aliasUsed === true,
+          aliasReviewStatus: id.aliasReviewStatus || null,
+          aliasRisk: id.aliasRisk || null,
+          aliasNote: id.aliasNote || null,
+          label: id.label || null,
+          phase: id.phase || null,
+          confidence: (typeof id.confidence === 'number') ? id.confidence : null
+        },
+        bundle: {
+          bundleStatus: ev.bundleStatus || null,
+          bundleResolution: ev.bundleResolution || null,
+          buildMethod: (ev.bundle && ev.bundle.buildMethod) || null,
+          humanVerificationRequired: (ev.bundle && ev.bundle.humanVerification) || null
+        },
+        brainState: {
+          predictionError: (bs.predictionError && typeof bs.predictionError.total === 'number') ? Math.round(bs.predictionError.total * 1000) / 1000 : null,
+          regulationState: bs.regulationState || null,
+          readyForHandoff: bs.readyForHandoff === true
+        },
+        promptView: ddp.promptView || null
+      };
     })()
   };
 }
