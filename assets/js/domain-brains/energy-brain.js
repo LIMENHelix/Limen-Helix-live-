@@ -60,6 +60,7 @@
   EnergyBrain.prototype.init = function () {
     Base.prototype.init.call(this);
     this._loadCommandBoardCompanies();   // C6-followup: wire real company entities (state.companies was starved)
+    this._loadDiagnosisBundles();        // G1: load real artifact-source bundles (only ones that exist)
 
     // Diagnosis → signal condition mapping
     // These map live conditions to which diagnoses become active
@@ -1263,6 +1264,26 @@
     return { canonicalDiagnosisId: dxId, aliasUsed: false };   // canonical to self
   };
 
+  // G1 — load REAL source bundles (one-shot, async). Only files that actually exist
+  // resolve to 'found'; 404s are 'missing'. Never fabricates a bundle.
+  EnergyBrain.prototype._loadDiagnosisBundles = function () {
+    var self = this;
+    if (self._bundleLoadPromise) return self._bundleLoadPromise;
+    self._bundleCache = self._bundleCache || {};
+    self._bundleStatusMap = self._bundleStatusMap || {};
+    var ids = {};
+    var diags = (self.state && self.state.diagnoses) || [];
+    for (var i = 0; i < diags.length; i++) { var c = self._resolveCanonicalDiagnosis(diags[i].id).canonicalDiagnosisId; if (c) ids[c] = true; }
+    ['GRID_FREQUENCY_INSTABILITY', 'INTERMITTENCY_SPIKE', 'OIL_SHOCK', 'PIPELINE_DISRUPTION', 'NUCLEAR_INCIDENT', 'SYSTEMIC_ENERGY_STRESS'].forEach(function (c) { ids[c] = true; });
+    self._bundleLoadPromise = Promise.all(Object.keys(ids).map(function (cid) {
+      return fetch('/assets/data/artifact-source-index/by-diagnosis/' + encodeURIComponent(cid) + '.json')
+        .then(function (r) { return (r && r.ok) ? r.json() : null; })
+        .then(function (data) { self._bundleStatusMap[cid] = data ? 'found' : 'missing'; if (data) self._bundleCache[cid] = data; })
+        .catch(function () { self._bundleStatusMap[cid] = 'missing'; });
+    })).then(function () { return self._bundleCache; });
+    return self._bundleLoadPromise;
+  };
+
   EnergyBrain.prototype._buildDomainDiagnosisPacket = function (dx) {
     var s = this.state || {};
     var em = s.energyModel || {};
@@ -1296,6 +1317,18 @@
       phase: s.phase || null,
       confidence: (dx && typeof dx.relevance === 'number') ? dx.relevance : (typeof s.confidence === 'number' ? s.confidence : null)
     };
+    // G1 — real source bundle for this canonical id (shipped only when it exists; NEVER fabricated).
+    var _bundle = (this._bundleCache && this._bundleCache[identity.canonicalDiagnosisId]) || null;
+    var _bundleKnown = !!(this._bundleStatusMap && Object.prototype.hasOwnProperty.call(this._bundleStatusMap, identity.canonicalDiagnosisId));
+    var _bl = (_bundle && _bundle.byLane && _bundle.byLane.patents) ? _bundle.byLane.patents : null;
+    var _bArr = function (k) { return (_bl && Array.isArray(_bl[k])) ? _bl[k] : []; };
+    var bundleStatus = _bundle ? 'found' : (_bundleKnown ? 'missing' : 'unknown');
+    var bundleShallow = !!(_bundle && ((_bundle.maxDepth || 0) === 0 || (_bundle.portalCount || 0) <= 1));
+    var bundleResolution = identity.aliasUsed
+      ? (_bundle ? 'alias-resolved-and-bundle-found' : 'alias-resolved-but-bundle-missing')
+      : (_bundle ? 'found' : (_bundleKnown ? 'missing' : 'unknown'));
+    if (!treatments.length && _bl) treatments = _bArr('treatments');             // backfill from REAL bundle only
+    if (!implementationSteps.length && _bl) implementationSteps = _bArr('implementationSteps');
     var brainState = {
       energyModel: { version: em.version || null, cycle: (typeof em.cycle === 'number' ? em.cycle : null) },
       predictionError: em.predictionError || null,
@@ -1317,26 +1350,32 @@
       depth: 0,                               // brain operates at the root level only
       ancestryPath: ancestry,
       portalStatus: portal ? 'root-only' : 'pending',  // L0 cached vs not-yet; never deeper (Phase C)
-      sourceCompleteness: portal ? ((Array.isArray(portal.issues) && portal.issues.length) ? 'partial' : 'thin') : 'root-only'
+      sourceCompleteness: portal ? ((Array.isArray(portal.issues) && portal.issues.length) ? 'partial' : 'thin') : 'root-only',
+      bundleSource: (_bundle && Array.isArray(_bundle.sourcePortals) && _bundle.sourcePortals.length)   // G1: bundle's own corpus source (distinct from energy root)
+        ? { portalIds: _bundle.sourcePortals.map(function (sp) { return sp.portalId; }), depth: _bundle.maxDepth || 0, ancestryPath: (_bundle.sourcePortals[0].ancestry || []), domains: _bundle.domains || [] }
+        : null
     };
     var citationHints = sourceFeeds.map(function (sf) { return sf.source || sf.name; }).filter(Boolean);
-    var bundleStatus = 'missing';             // F3: honest — live repo ships NO artifact-source bundles (verified; G1 adds a real presence check)
-    var missingEv = ['evidenceAnchors'];
+    var evidenceAnchors = _bArr('evidenceAnchors');   // G1: REAL bundle anchors only (empty if no bundle)
+    var missingEv = [];
+    if (!evidenceAnchors.length) missingEv.push('evidenceAnchors');
     if (!citationHints.length) missingEv.push('citationHints');
     var evidence = {
       sourceFeeds: sourceFeeds,               // real — brain ingests these
-      evidenceAnchors: [],                    // genuinely absent (no source bundle) — stays empty
+      evidenceAnchors: evidenceAnchors,       // real bundle anchors (empty when no bundle)
       citationHints: citationHints,           // real source/feed names only (no invention)
-      bundleStatus: bundleStatus,
+      bundleStatus: bundleStatus,             // G1: found | missing | unknown
+      bundleResolution: bundleResolution,     // G1: alias-resolved-and-bundle-found, etc.
+      bundle: _bundle ? { portalCount: _bundle.portalCount || 0, maxDepth: _bundle.maxDepth || 0, domains: _bundle.domains || [], lane: 'patents', shallow: bundleShallow } : null,
       missingEvidence: missingEv
     };
     var treatmentContext = {
-      treatments: treatments,                 // real if resolved
+      treatments: treatments,                 // real: brain-resolved, else real bundle treatments
       implementationSteps: implementationSteps,
-      methodCandidates: [],                   // missing (bundle) → F2
-      mechanismCandidates: [],                // missing (bundle)
-      embodimentCandidates: [],               // missing (bundle)
-      figurePlaceholders: []                  // missing (bundle)
+      methodCandidates: _bArr('methodCandidates'),         // G1: REAL bundle only (empty if bundle lacks)
+      mechanismCandidates: _bArr('mechanismCandidates'),
+      embodimentCandidates: _bArr('embodimentCandidates'),
+      figurePlaceholders: _bArr('figurePlaceholders')
     };
     var operatorContext = {
       targets: (primaryOpp && primaryOpp._resolvedTargets) ? primaryOpp._resolvedTargets : (mc && mc.target ? [mc.target] : []),
@@ -1361,6 +1400,7 @@
     var seenLane = {}, artifactLanes = [];
     for (var li = 0; li < lanesIn.length; li++) { if (lanesIn[li] && !seenLane[lanesIn[li]]) { seenLane[lanesIn[li]] = true; artifactLanes.push(lanesIn[li]); } }
     var readinessReasons = [];
+    if (hasBundle) readinessReasons.push('source bundle found (' + bundleResolution + (bundleShallow ? ', root-only' : '') + ', evidenceAnchors=' + evidenceAnchors.length + ')');
     if (hasTreat) readinessReasons.push('treatments present (' + treatments.length + ')');
     if (primaryOpp) readinessReasons.push('opportunity present (path=' + (primaryOpp.path || '?') + ')');
     if (sourceFeeds.length) readinessReasons.push('source feeds present (' + sourceFeeds.length + ')');
@@ -1395,8 +1435,15 @@
     if (portalContext.portalStatus === 'root-only') warnings.push('portalContext is root-only (no deep portal cortex)');
     if (portalContext.portalStatus === 'pending') warnings.push('root portal not yet cached on the brain (domain identity used)');
     if (identity.aliasUsed) warnings.push('alias-resolved; verify source appropriateness');
-    if (evidence.bundleStatus === 'missing') warnings.push('source bundle missing (no artifact-source bundle for this diagnosis)');
-    if (!treatmentContext.methodCandidates.length && !treatmentContext.mechanismCandidates.length && !treatmentContext.embodimentCandidates.length && !treatmentContext.figurePlaceholders.length) warnings.push('method/mechanism/embodiment/figure candidates missing (require source bundle — not invented)');
+    if (bundleStatus === 'missing') warnings.push('source bundle missing (no artifact-source bundle for this diagnosis)');
+    if (bundleStatus === 'unknown') warnings.push('source bundle not yet checked');
+    if (bundleStatus === 'found' && bundleShallow) warnings.push('source-bundle-root-only (real bundle but portalCount<=1 / maxDepth 0)');
+    var _emptyCand = [];
+    if (!treatmentContext.methodCandidates.length) _emptyCand.push('method');
+    if (!treatmentContext.mechanismCandidates.length) _emptyCand.push('mechanism');
+    if (!treatmentContext.embodimentCandidates.length) _emptyCand.push('embodiment');
+    if (!treatmentContext.figurePlaceholders.length) _emptyCand.push('figure');
+    if (_emptyCand.length) warnings.push((bundleStatus === 'found' ? 'bundle found but ' : 'no bundle — ') + 'candidate types still empty: ' + _emptyCand.join(',') + ' (not invented)');
     if (!primaryOpp && (typeof s.stress !== 'number' || s.stress < EM_STRESS_FLOOR)) warnings.push('no active opportunity (offline/low-stress) — operator/lane fields stay empty');
     if (artifactContext.artifactLanes.length && !hasTreat) warnings.push('artifact lane present but treatments/evidence missing');
 
