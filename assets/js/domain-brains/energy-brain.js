@@ -1205,6 +1205,10 @@
     em.updated = obs.timestamp;
     this.state.energyModel = em;
 
+    // H1-H6 — higher Energy brain layers (domain-level, computed once per cycle
+    // BEFORE the DDP build so the packet can embed their compact summaries).
+    try { this._computeEnergyHigherLayers(); } catch (e) {}
+
     // F1 — build the DomainDiagnosisPacket (schema) for the primary diagnosis,
     // and expose one per diagnosis. Schema-only: never invents data.
     try {
@@ -1289,6 +1293,181 @@
         .catch(function () { self._bundleStatusMap[cid] = 'missing'; });
     })).then(function () { return self._bundleCache; });
     return self._bundleLoadPromise;
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // PHASE H1-H6 — HIGHER ENERGY BRAIN LAYERS (energy-local, additive, domain-level).
+  // Computed once per cycle BEFORE the DDP build; each emits a COMPACT summary that the
+  // DDP embeds in promptView (forwarded to the finalizer by G2) + the full object in audit.
+  // Never fabricates evidence; intuition/simulation are explicitly labelled unverified/hypothetical.
+  // ════════════════════════════════════════════════════════════════════════════
+  EnergyBrain.prototype._energyBundleStates = function () {
+    var self = this; var diags = this.state.diagnoses || [];
+    return diags.map(function (d) {
+      var c = self._resolveCanonicalDiagnosis(d.id);
+      var bundle = (self._bundleCache && self._bundleCache[c.canonicalDiagnosisId]) || null;
+      var known = !!(self._bundleStatusMap && Object.prototype.hasOwnProperty.call(self._bundleStatusMap, c.canonicalDiagnosisId));
+      return { dxId: d.id, active: !!d.active, relevance: (typeof d.relevance === 'number' ? d.relevance : 0),
+        canonical: c.canonicalDiagnosisId, aliasUsed: c.aliasUsed, aliasRisk: c.aliasRisk, aliasReviewStatus: c.aliasReviewStatus,
+        bundleStatus: bundle ? 'found' : (known ? 'missing' : 'unknown'),
+        buildMethod: (bundle && bundle.buildMethod) || null, humanVerification: (bundle && bundle.humanVerification) || null,
+        shallow: !!(bundle && ((bundle.maxDepth || 0) === 0 || (bundle.portalCount || 0) <= 1)) };
+    });
+  };
+
+  // H1 — formal immune system
+  EnergyBrain.prototype._computeEnergyImmune = function () {
+    var s = this.state, em = s.energyModel || {}, reg = em.regulation || {}, bs = this._energyBundleStates();
+    var ant = [{ type: 'synthetic-portal-contamination', severity: 'medium', action: 'quarantine', note: 'L2 ~98% synthetic (C1)' }];
+    bs.forEach(function (b) {
+      if (b.bundleStatus === 'missing') ant.push({ type: 'source-bundle-missing', dx: b.dxId, severity: 'medium', action: 'block-from-prompt-evidence' });
+      if (b.buildMethod === 'external-source-authored') ant.push({ type: 'external-source-authored-needs-human-verification', dx: b.dxId, severity: 'low', action: 'allow-with-warning' });
+      if (b.aliasRisk === 'medium' || b.aliasRisk === 'high') ant.push({ type: 'alias-risk-bundle', dx: b.dxId, severity: b.aliasRisk, action: 'allow-with-warning' });
+      if (b.bundleStatus === 'found' && b.shallow) ant.push({ type: 'root-only-shallow-bundle', dx: b.dxId, severity: 'low', action: 'allow-with-warning' });
+    });
+    var pe = (em.predictionError && em.predictionError.total) || 0;
+    if (pe > 0.4) ant.push({ type: 'prediction-error-spike', severity: 'medium', action: 'lower-confidence', value: Math.round(pe * 1000) / 1000 });
+    if (reg.stale) ant.push({ type: 'stale-feeds', severity: 'low', action: 'flag' });
+    if (reg.flooding) ant.push({ type: 'opportunity-flood', severity: 'medium', action: 'inhibit' });
+    if (reg.starving) ant.push({ type: 'unsupported-artifact-readiness-risk', severity: 'low', action: 'flag' });
+    var sev = ant.some(function (a) { return a.severity === 'high'; }) ? 'high' : ant.some(function (a) { return a.severity === 'medium'; }) ? 'medium' : ant.length ? 'low' : 'none';
+    var im = {
+      version: 1, immuneState: sev === 'high' ? 'alert' : sev === 'medium' ? 'active' : sev === 'low' ? 'watch' : 'clear', severity: sev,
+      antigens: ant.slice(0, 12),
+      quarantines: ['L2-synthetic-portal-content', 'L1-L2-mad-lib-treatments'],
+      allowedWithWarning: ant.filter(function (a) { return a.action === 'allow-with-warning'; }).map(function (a) { return a.type + (a.dx ? (':' + a.dx) : ''); }),
+      blockedFromPrompt: ant.filter(function (a) { return a.action === 'block-from-prompt-evidence'; }).map(function (a) { return a.dx; }),
+      blockedFromTraversal: ['L2'],
+      immuneMemory: (((s.energyImmune && s.energyImmune.immuneMemory) || 0) + 1),
+      lastScanAt: em.updated || null
+    };
+    s.energyImmune = im; return im;
+  };
+
+  // H2 — awareness / metacognition
+  EnergyBrain.prototype._computeEnergyAwareness = function () {
+    var s = this.state, em = s.energyModel || {}, im = s.energyImmune || {}, bs = this._energyBundleStates();
+    var covered = bs.filter(function (b) { return b.bundleStatus === 'found'; });
+    var missing = bs.filter(function (b) { return b.bundleStatus === 'missing'; });
+    var hv = bs.filter(function (b) { return b.humanVerification === 'required'; });
+    var active = (s.diagnoses || []).filter(function (d) { return d.active; });
+    var prev = s.energyAwareness || {};
+    var pe = (em.predictionError && em.predictionError.total) || 0;
+    var aw = {
+      version: 1,
+      selfState: im.immuneState === 'alert' ? 'guarded' : (em.regulation && em.regulation.state) || 'unknown',
+      knowns: covered.map(function (b) { return b.dxId + ' (source-backed' + (b.buildMethod === 'external-source-authored' ? ', external' : '') + ')'; }),
+      unknowns: missing.map(function (b) { return b.dxId + ' (no source bundle)'; }),
+      uncertainties: ['portal cortex synthetic below L1 (not traversed)', 'predictionError=' + (Math.round(pe * 1000) / 1000)],
+      suppressions: (im.quarantines || []).concat(['L2-traversal']),
+      confidenceDrivers: ['source coverage ' + covered.length + '/' + bs.length, 'regulation ' + ((em.regulation && em.regulation.state) || '?')],
+      changedSinceLastCycle: { predictionErrorDelta: Math.round((pe - (typeof prev._pe === 'number' ? prev._pe : pe)) * 1000) / 1000, coverageNow: covered.length },
+      humanReviewRequired: hv.map(function (b) { return b.dxId; }),
+      selfNarrative: 'Energy: ' + covered.length + '/' + bs.length + ' source-backed, ' + active.length + ' active dx, immune=' + (im.immuneState || '?') + ', portal-below-L1 quarantined, ' + hv.length + ' need human verification.',
+      lastAwarenessAt: em.updated || null, _pe: pe
+    };
+    s.energyAwareness = aw; return aw;
+  };
+
+  // H3 — conscience / veto (overclaim + source-sufficiency + harm-prevention)
+  EnergyBrain.prototype._computeEnergyConscience = function () {
+    var s = this.state, em = s.energyModel || {}, bs = this._energyBundleStates();
+    var pe = (em.predictionError && em.predictionError.total) || 0;
+    var vetoes = [], cautions = [], allowed = [], blocked = ['patent-claim', 'grant-claim'];
+    vetoes.push({ claim: 'patent/grant', reason: 'no method/mechanism/embodiment/figure candidate fields in any energy bundle' });
+    bs.forEach(function (b) {
+      if (b.bundleStatus === 'missing') { blocked.push('strong-claim:' + b.dxId); vetoes.push({ claim: 'strong-claim:' + b.dxId, reason: 'no source bundle' }); }
+      else if (b.buildMethod === 'external-source-authored') { cautions.push({ claim: 'strong-claim:' + b.dxId, reason: 'external-source-authored; human-verification-required' }); allowed.push('source-routing:' + b.dxId); }
+      else if (b.aliasRisk === 'medium' || b.aliasRisk === 'high') { cautions.push({ claim: 'precise-technical-claim:' + b.dxId, reason: 'aliasRisk ' + b.aliasRisk + '; include alias warning' }); allowed.push('source-summary:' + b.dxId); }
+      else if (b.bundleStatus === 'found') { allowed.push('source-summary:' + b.dxId); }
+    });
+    if (pe > 0.4) cautions.push({ claim: 'high-confidence-claim', reason: 'predictionError spike ' + (Math.round(pe * 1000) / 1000) });
+    var hasFound = bs.some(function (b) { return b.bundleStatus === 'found'; });
+    var con = {
+      version: 1, conscienceState: vetoes.length ? 'restrictive' : 'permissive',
+      vetoes: vetoes.slice(0, 10), cautions: cautions.slice(0, 10),
+      allowedClaims: ['source-summary'].concat(hasFound ? ['investment-memo-with-warnings'] : []).concat(allowed.slice(0, 6)),
+      blockedClaims: blocked.slice(0, 10),
+      artifactReadinessDecision: { patentReady: false, grantReady: false, sbaReady: false, investmentReady: hasFound, researchReady: hasFound, note: 'patent/grant vetoed (no candidate fields); investment/research allowed-with-warning only for source-backed diagnoses' },
+      reasons: ['overclaim prevention', 'source sufficiency', 'human-verification preservation'],
+      lastCheckAt: em.updated || null
+    };
+    s.energyConscience = con; return con;
+  };
+
+  // H4 — intuition / weak-signal (NOT evidence; labelled unverified)
+  EnergyBrain.prototype._computeEnergyIntuition = function () {
+    var s = this.state, em = s.energyModel || {}, reg = em.regulation || {};
+    var log = (s.memory && s.memory.outcomeLog) || [];
+    var hunches = [];
+    if (log.length >= 2) {
+      var a = log[log.length - 2].predictionError, b = log[log.length - 1].predictionError;
+      if (typeof a === 'number' && typeof b === 'number' && b - a > 0.05) hunches.push({ hunch: 'regime shift forming (prediction error rising)', label: 'HUNCH', confidence: 'LOW', evidenceStatus: 'UNVERIFIED', why: 'predictionError rose ' + a + '->' + b, verifyIf: 'error keeps rising 2+ cycles', falsifyIf: 'error returns to baseline' });
+    }
+    if (reg.state === 'surprised') hunches.push({ hunch: 'novel stressor entering the system', label: 'HUNCH', confidence: 'LOW', evidenceStatus: 'UNVERIFIED', why: 'regulation=surprised (high novelty)', verifyIf: 'a specific diagnosis activates with source support', falsifyIf: 'novelty subsides next cycle' });
+    var missing = this._energyBundleStates().filter(function (x) { return x.bundleStatus === 'missing' && x.active; });
+    if (missing.length) hunches.push({ hunch: 'recurring uncovered diagnosis: ' + missing[0].dxId, label: 'HUNCH', confidence: 'LOW', evidenceStatus: 'UNVERIFIED', why: 'active diagnosis with no source bundle', verifyIf: 'a real source bundle is built', falsifyIf: 'diagnosis deactivates' });
+    var it = {
+      version: 1, hunches: hunches.slice(0, 3), weakSignals: hunches.map(function (h) { return h.why; }),
+      patternMatches: [], analogies: [], confidence: 'LOW', evidenceStatus: 'UNVERIFIED',
+      promotedToDiagnosis: [], rejectedHunches: [], lastIntuitionAt: em.updated || null
+    };
+    s.energyIntuition = it; return it;
+  };
+
+  // H5 — simulation / bounded counterfactual (hypothetical only)
+  EnergyBrain.prototype._computeEnergySimulation = function () {
+    var s = this.state, em = s.energyModel || {};
+    var base = typeof s.stress === 'number' ? s.stress : 0;
+    function cl(v) { return Math.max(0, Math.min(1, Math.round(v * 1000) / 1000)); }
+    var scenarios = [
+      { type: 'worsen', hypothetical: true, assumption: 'stressor intensifies', simulatedStress: cl(base + 0.2), risk: 'cascade toward systemic energy stress', intervention: 'monitor reserve margin / supply (NERC/EIA)', falsifier: 'stress flat or falling next cycle' },
+      { type: 'stabilize', hypothetical: true, assumption: 'stressor holds', simulatedStress: cl(base), risk: 'persistent elevated baseline', intervention: 'maintain monitoring cadence', falsifier: 'stress moves materially' },
+      { type: 'recover', hypothetical: true, assumption: 'stressor reverses', simulatedStress: cl(base - 0.2), risk: 'premature de-escalation', intervention: 'confirm with 2 independent sources before standing down', falsifier: 'stress re-rises' },
+      { type: 'supply-shock', hypothetical: true, assumption: 'oil/gas supply disruption', simulatedStress: cl(base + 0.3), risk: 'price spike + sectoral propagation (OIL_SHOCK)', intervention: 'track EIA STEO / IEA OMR / SPR', falsifier: 'inventories stable' },
+      { type: 'grid-stress', hypothetical: true, assumption: 'reserve-margin erosion', simulatedStress: cl(base + 0.25), risk: 'cascading blackout (GRID_COLLAPSE)', intervention: 'NERC reliability assessment', falsifier: 'margins above target' }
+    ];
+    var sim = {
+      version: 1, scenarios: scenarios, assumptions: scenarios.map(function (x) { return x.assumption; }),
+      simulatedStress: scenarios.map(function (x) { return x.simulatedStress; }),
+      simulatedDiagnoses: ['OIL_SHOCK', 'GRID_COLLAPSE', 'SYSTEMIC_ENERGY_STRESS'], simulatedOpportunities: [],
+      risks: scenarios.map(function (x) { return x.risk; }), interventions: scenarios.map(function (x) { return x.intervention; }),
+      falsifiers: scenarios.map(function (x) { return x.falsifier; }), lastSimulatedAt: em.updated || null
+    };
+    s.energySimulation = sim; return sim;
+  };
+
+  // H6 — executive self-report (compact status card)
+  EnergyBrain.prototype._computeEnergyExecutiveReport = function () {
+    var s = this.state, em = s.energyModel || {}, im = s.energyImmune || {}, aw = s.energyAwareness || {}, con = s.energyConscience || {}, it = s.energyIntuition || {}, sim = s.energySimulation || {}, bs = this._energyBundleStates();
+    var covered = bs.filter(function (b) { return b.bundleStatus === 'found'; }).length;
+    var hv = bs.filter(function (b) { return b.humanVerification === 'required'; }).length;
+    var active = (s.diagnoses || []).filter(function (d) { return d.active; }).sort(function (a, b) { return (b.relevance || 0) - (a.relevance || 0); });
+    var strongest = active[0] || (s.diagnoses || [])[0] || null;
+    var pe = (em.predictionError && em.predictionError.total) || 0;
+    var status = im.immuneState === 'alert' ? 'immune-alert' : hv > 0 ? 'human-review-required' : covered < bs.length ? 'source-limited' : (em.regulation && em.regulation.starving) ? 'starving' : (em.regulation && em.regulation.state === 'surprised') ? 'surprised' : 'healthy';
+    var rep = {
+      version: 1, brainStatus: status,
+      strongestDiagnosis: strongest ? strongest.id : null,
+      strongestOpportunity: (s.opportunities && s.opportunities[0] && s.opportunities[0].title) || null,
+      confidence: Math.round((1 - pe) * 100) / 100, predictionError: Math.round(pe * 1000) / 1000,
+      regulationState: (em.regulation && em.regulation.state) || null, immuneState: im.immuneState || null,
+      awarenessSummary: aw.selfNarrative || null, conscienceDecision: con.conscienceState || null,
+      intuitionSummary: (it.hunches || []).length + ' hunch(es)', simulationSummary: (sim.scenarios || []).length + ' scenario(s)',
+      artifactReadiness: con.artifactReadinessDecision || null, blockers: (con.blockedClaims || []).slice(0, 6),
+      nextBestAction: covered < bs.length ? 'build/verify source for uncovered diagnoses' : hv > 0 ? 'human-verify external-source bundles' : 'monitor strongest diagnosis sources',
+      lastReportAt: em.updated || null
+    };
+    s.energyExecutiveReport = rep; return rep;
+  };
+
+  EnergyBrain.prototype._computeEnergyHigherLayers = function () {
+    this._computeEnergyImmune();
+    this._computeEnergyAwareness();
+    this._computeEnergyConscience();
+    this._computeEnergyIntuition();
+    this._computeEnergySimulation();
+    this._computeEnergyExecutiveReport();
   };
 
   EnergyBrain.prototype._buildDomainDiagnosisPacket = function (dx) {
@@ -1495,8 +1674,17 @@
         'treatments with implementation relevance preferred over broad narrative',
         'caps applied per field; full data preserved in the stored bundle + full DDP'
       ],
-      retainedWarnings: warnings,                 // never trimmed (alias-resolved / external-source-authored / root-only / canonical / bundle)
-      retainedBlockers: artifactContext.blockers
+      retainedWarnings: warnings
+        .concat(s.energyImmune ? ['immune: ' + s.energyImmune.immuneState + ' (sev ' + s.energyImmune.severity + ', ' + (s.energyImmune.antigens || []).length + ' antigens; L2 traversal blocked)'] : [])
+        .concat(s.energyConscience && s.energyConscience.conscienceState === 'restrictive' ? ['conscience: ' + (s.energyConscience.blockedClaims || []).slice(0, 3).join(', ') + ' blocked'] : []),   // never trimmed (alias / external-source / root-only / canonical / bundle / immune / conscience)
+      retainedBlockers: artifactContext.blockers,
+      // H1-H6 — compact higher-layer summaries (forwarded to the finalizer via promptView)
+      immuneSummary: s.energyImmune ? { immuneState: s.energyImmune.immuneState, severity: s.energyImmune.severity, antigenCount: (s.energyImmune.antigens || []).length, quarantines: s.energyImmune.quarantines, blockedFromTraversal: s.energyImmune.blockedFromTraversal, allowedWithWarning: s.energyImmune.allowedWithWarning } : null,
+      awarenessSummary: s.energyAwareness ? { selfNarrative: s.energyAwareness.selfNarrative, knowns: (s.energyAwareness.knowns || []).length, unknowns: (s.energyAwareness.unknowns || []).length, humanReviewRequired: s.energyAwareness.humanReviewRequired } : null,
+      conscienceDecision: s.energyConscience ? { conscienceState: s.energyConscience.conscienceState, blockedClaims: s.energyConscience.blockedClaims, artifactReadinessDecision: s.energyConscience.artifactReadinessDecision } : null,
+      intuitionSummary: s.energyIntuition ? s.energyIntuition.hunches : null,
+      scenarioSummary: s.energySimulation ? (s.energySimulation.scenarios || []).map(function (x) { return { type: x.type, hypothetical: x.hypothetical, risk: x.risk }; }) : null,
+      executiveReport: s.energyExecutiveReport || null
     };
 
     return {
@@ -1515,7 +1703,14 @@
         fieldCompleteness: { sections: comp, overallPct: pct },
         missingFields: missingFields,
         warnings: warnings,
-        proofTier: proofTier
+        proofTier: proofTier,
+        // H1-H6 — full higher-layer objects (audit only; NOT forwarded to the finalizer prompt)
+        immune: s.energyImmune || null,
+        awareness: s.energyAwareness || null,
+        conscience: s.energyConscience || null,
+        intuition: s.energyIntuition || null,
+        simulation: s.energySimulation || null,
+        executiveReport: s.energyExecutiveReport || null
       }
     };
   };
