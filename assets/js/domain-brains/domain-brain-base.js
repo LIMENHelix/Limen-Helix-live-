@@ -148,7 +148,6 @@
     // Sequential pipeline — each step feeds the next
     return this.ingestFeeds()
       .then(function () { return self.normalizeSignals(); })
-      .then(function () { return self.readBiosensor(); })
       .then(function () { return self.scoreStress(); })
       .then(function () { return self.deriveDiagnoses(); })
       .then(function () { return self.recommendTreatments(); })
@@ -285,19 +284,13 @@
   };
 
   /**
-   * Step 2b: Read biosensor (optional short-arc input)
-   * Reads from domain-biosensor-adapter if available.
-   * Stores on state.biosensor. Returns null if unavailable.
-   * Biosensor NEVER replaces domain stress — only modulates.
+   * Step 2b: Read biosensor — REMOVED 2026-06-18.
+   * The operator's physiological state has no bearing on a sector domain's
+   * stress reading (it conflated "how the operator feels" with "how the sector
+   * is doing"). No-op stub kept for any override that calls super.
    */
   DomainBrainBase.prototype.readBiosensor = function () {
-    var adapter = window.LIMENDomainBiosensorAdapter;
-    if (!adapter) { this.state.biosensor = null; return Promise.resolve(); }
-
-    // Use portalKey as domain identifier (matches adapter interpretation keys)
-    var domainKey = this.portalKey || this.domainId;
-    var bio = adapter.getForDomain(domainKey);
-    this.state.biosensor = bio; // null if unavailable/stale/low-confidence
+    this.state.biosensor = null;
     return Promise.resolve();
   };
 
@@ -323,24 +316,8 @@
       this.state.phaseLabel = sd.phaseLabel || 'SOURCE';
     }
 
-    // Biosensor soft modulation — additive only, max 30% influence
-    // Arousal > 0.6 adds urgency context; coherence < 0.3 signals degraded state
-    var bio = this.state.biosensor;
-    if (bio && bio.confidence >= 0.3) {
-      var w = bio.weight; // 0-0.3, already gated by confidence
-      // Arousal modulation: high arousal slightly increases perceived stress
-      if (bio.arousal > 0.6) {
-        this.state.stress = Math.min(1, this.state.stress + (bio.arousal - 0.5) * w);
-      }
-      // Low coherence modulation: reduces effective confidence
-      if (bio.coherence < 0.3) {
-        this.state.confidence = Math.max(0, this.state.confidence - (0.3 - bio.coherence) * w);
-      }
-      // High cognitive load modulation: slightly increases activity marker
-      if (bio.cognitiveLoad > 0.5) {
-        this.state.activity = Math.min(1, this.state.activity + (bio.cognitiveLoad - 0.5) * w * 0.5);
-      }
-    }
+    // Biosensor modulation REMOVED 2026-06-18 — operator biometrics no longer
+    // modulate any domain's stress/confidence/activity (see readBiosensor).
 
     return Promise.resolve();
   };
