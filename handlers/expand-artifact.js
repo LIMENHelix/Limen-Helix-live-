@@ -198,6 +198,11 @@ function _extractSafeInput(p) {
         readyForHandoff: db.readyForHandoff === true,
         predictedStress: (typeof db.predictedStress === 'number') ? Math.round(db.predictedStress * 1000) / 1000 : null
       };
+    })(),
+    // F1: the structured Energy DomainDiagnosisPacket (schema-only; sparse but explicit).
+    energyDomainDiagnosisPacket: (function () {
+      var db = p.deepBrain || (p.raw && p.raw.handoffPacket && p.raw.handoffPacket.deepBrain) || null;
+      return (db && db.domainDiagnosisPacket) || null;
     })()
   };
 }

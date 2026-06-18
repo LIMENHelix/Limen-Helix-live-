@@ -1204,6 +1204,16 @@
     em.updated = obs.timestamp;
     this.state.energyModel = em;
 
+    // F1 — build the DomainDiagnosisPacket (schema) for the primary diagnosis,
+    // and expose one per diagnosis. Schema-only: never invents data.
+    try {
+      var _diags = this.state.diagnoses || [];
+      var _primary = _diags.filter(function (d) { return d.active; })[0] || _diags[0] || null;
+      var _self = this;
+      em.domainDiagnosisPacket = this._buildDomainDiagnosisPacket(_primary);
+      this.state.energyDomainDiagnosisPackets = _diags.map(function (d) { return _self._buildDomainDiagnosisPacket(d); });
+    } catch (e) {}
+
     // #8 — populate outcomeLog meaningfully (was declared but NEVER written)
     try {
       var mem = this.state.memory;
@@ -1214,6 +1224,155 @@
     } catch (e) {}
 
     return em;
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // F1 — ENERGY DomainDiagnosisPacket SCHEMA (schema-only; NEVER invents data).
+  // Builds the canonical 8-section contract from whatever Energy already has.
+  // Absent fields are EXPLICIT null / [] / 'missing' — never silently omitted.
+  // ════════════════════════════════════════════════════════════════════════════
+  var DDP_SCHEMA_VERSION = 'energy-ddp-1';
+  function _ddpPresent(v) {
+    if (v == null) return false;
+    if (Array.isArray(v)) return v.length > 0;
+    if (v === 'missing' || v === '' || v === 'none') return false;
+    return true;
+  }
+  function _ddpCompleteness(section, keys) {
+    var have = 0; for (var i = 0; i < keys.length; i++) { if (_ddpPresent(section[keys[i]])) have++; }
+    return { have: have, total: keys.length, pct: keys.length ? Math.round(have / keys.length * 100) : 0 };
+  }
+
+  EnergyBrain.prototype._buildDomainDiagnosisPacket = function (dx) {
+    var s = this.state || {};
+    var em = s.energyModel || {};
+    var portal = s._portalCache || null;
+    var dxId = dx ? (dx.id || null) : null;
+
+    var allTreat = Array.isArray(s.treatments) ? s.treatments : [];
+    var treatments = allTreat.filter(function (t) { return !dxId || t.diagnosisId === dxId; });
+    var implementationSteps = [];
+    for (var ti = 0; ti < treatments.length; ti++) { if (Array.isArray(treatments[ti].steps)) implementationSteps = implementationSteps.concat(treatments[ti].steps); }
+
+    var allOpp = Array.isArray(s.opportunities) ? s.opportunities : [];
+    var opps = allOpp.filter(function (o) { return !dxId || o.diagnosisId === dxId; });
+    var primaryOpp = opps[0] || null;
+    var mc = primaryOpp && primaryOpp.moneyChain ? primaryOpp.moneyChain : null;
+
+    var feeds = s.feeds || {}, sourceFeeds = [];
+    for (var fk in feeds) { if (feeds.hasOwnProperty(fk)) { var f = feeds[fk]; sourceFeeds.push({ name: fk, updated: (f && f.updated) || null, source: (f && f.source) || null }); } }
+
+    var identity = {
+      domain: 'energy',
+      diagnosisId: dxId,
+      canonicalDiagnosisId: null,            // F3 populates — explicit null now
+      aliasUsed: false,                       // F3
+      label: dx ? (dx.label || dx.id || null) : null,
+      phase: s.phase || null,
+      confidence: dx && typeof dx.relevance === 'number' ? dx.relevance : null
+    };
+    var brainState = {
+      energyModel: { version: em.version || null, cycle: (typeof em.cycle === 'number' ? em.cycle : null) },
+      predictionError: em.predictionError || null,
+      regulationState: (em.regulation && em.regulation.state) || null,
+      prior: em.prior || null,
+      observation: em.observation || null,
+      plasticity: em.plasticity || null,
+      readyForHandoff: em.readyForHandoff === true
+    };
+    var ancestry = [];
+    if (portal && portal.parentLabel) ancestry.push(portal.parentLabel);
+    if (portal && portal.title) ancestry.push(portal.title);
+    var portalContext = {
+      portalIds: (portal && portal.domainId) ? [portal.domainId] : [],
+      portalDomain: (portal && portal.domainId) || null,
+      portalTitle: (portal && portal.title) || null,
+      depth: portal ? 0 : null,               // brain holds only L0 root (honest)
+      ancestryPath: ancestry,
+      portalStatus: portal ? 'root-only' : 'none',  // never deeper at runtime yet (Phase C)
+      sourceCompleteness: portal ? ((Array.isArray(portal.issues) && portal.issues.length) ? 'partial' : 'thin') : 'none'
+    };
+    var evidence = {
+      sourceFeeds: sourceFeeds,               // real — brain ingests these
+      evidenceAnchors: [],                    // missing → F2/bundle
+      citationHints: [],                      // missing
+      bundleStatus: 'missing',                // live repo ships no artifact-source bundles (audit-proven)
+      missingEvidence: ['evidenceAnchors', 'citationHints']
+    };
+    var treatmentContext = {
+      treatments: treatments,                 // real if resolved
+      implementationSteps: implementationSteps,
+      methodCandidates: [],                   // missing (bundle) → F2
+      mechanismCandidates: [],                // missing (bundle)
+      embodimentCandidates: [],               // missing (bundle)
+      figurePlaceholders: []                  // missing (bundle)
+    };
+    var operatorContext = {
+      targets: (primaryOpp && primaryOpp._resolvedTargets) ? primaryOpp._resolvedTargets : (mc && mc.target ? [mc.target] : []),
+      monitoring: (treatments.length && treatments[0].monitoring) ? treatments[0].monitoring : null,
+      escalation: (treatments.length && treatments[0].escalation) ? treatments[0].escalation : null,
+      invalidIf: mc ? (mc.invalidIf || null) : null,
+      nextStep: mc ? (mc.nextStep || null) : null
+    };
+    var hasTreat = treatments.length > 0, hasBundle = false, hasCanonical = false, blockers = [];
+    if (!hasCanonical) blockers.push('no-canonical-diagnosis');
+    if (!hasBundle) blockers.push('no-source-bundle');
+    if (portalContext.portalStatus === 'root-only') blockers.push('portal-root-only');
+    if (!hasTreat) blockers.push('no-treatments');
+    var ready = hasTreat && hasBundle && hasCanonical;
+    var artifactContext = {
+      artifactLanes: [],                      // energy uses path (INVESTABLE/GRANT/PATENT); lane map = F3
+      patentReady: ready, grantReady: ready, sbaReady: false, investmentReady: hasTreat, researchReady: hasTreat,
+      readinessReasons: ready ? ['treatments+bundle+canonical present'] : [],
+      blockers: blockers
+    };
+
+    var comp = {
+      identity:         _ddpCompleteness(identity, ['domain', 'diagnosisId', 'canonicalDiagnosisId', 'label', 'phase', 'confidence']),
+      brainState:       _ddpCompleteness(brainState, ['energyModel', 'predictionError', 'regulationState', 'prior', 'observation', 'plasticity']),
+      portalContext:    _ddpCompleteness(portalContext, ['portalIds', 'portalDomain', 'portalTitle', 'depth', 'ancestryPath']),
+      evidence:         _ddpCompleteness(evidence, ['sourceFeeds', 'evidenceAnchors', 'citationHints']),
+      treatmentContext: _ddpCompleteness(treatmentContext, ['treatments', 'implementationSteps', 'methodCandidates', 'mechanismCandidates', 'embodimentCandidates', 'figurePlaceholders']),
+      operatorContext:  _ddpCompleteness(operatorContext, ['targets', 'monitoring', 'escalation', 'invalidIf', 'nextStep']),
+      artifactContext:  _ddpCompleteness(artifactContext, ['artifactLanes'])
+    };
+    var totHave = 0, totAll = 0;
+    for (var sk in comp) { if (comp.hasOwnProperty(sk)) { totHave += comp[sk].have; totAll += comp[sk].total; } }
+    var missingFields = [];
+    function _cm(name, obj, keys) { for (var i = 0; i < keys.length; i++) { if (!_ddpPresent(obj[keys[i]])) missingFields.push(name + '.' + keys[i]); } }
+    _cm('identity', identity, ['canonicalDiagnosisId', 'confidence']);
+    _cm('evidence', evidence, ['evidenceAnchors', 'citationHints']);
+    _cm('treatmentContext', treatmentContext, ['treatments', 'implementationSteps', 'methodCandidates', 'mechanismCandidates', 'embodimentCandidates', 'figurePlaceholders']);
+    _cm('operatorContext', operatorContext, ['targets', 'monitoring', 'escalation', 'invalidIf', 'nextStep']);
+
+    var warnings = [];
+    if (portalContext.portalStatus === 'root-only') warnings.push('portalContext is root-only (no deep portal cortex)');
+    if (portalContext.portalStatus === 'none') warnings.push('portalContext missing (no portal cached)');
+    if (!identity.canonicalDiagnosisId) warnings.push('canonicalDiagnosisId missing (F3)');
+    if (evidence.bundleStatus === 'missing') warnings.push('source bundle missing (no artifact-source bundle for this diagnosis)');
+    if (artifactContext.artifactLanes.length && !hasTreat) warnings.push('artifact lane requested but treatments/evidence missing');
+
+    var pct = totAll ? Math.round(totHave / totAll * 100) : 0;
+    var proofTier = pct >= 70 ? 'full' : (pct >= 35 ? 'partial' : 'sparse');
+
+    return {
+      schemaVersion: DDP_SCHEMA_VERSION,
+      identity: identity,
+      brainState: brainState,
+      portalContext: portalContext,
+      evidence: evidence,
+      treatmentContext: treatmentContext,
+      operatorContext: operatorContext,
+      artifactContext: artifactContext,
+      audit: {
+        generatedAt: (em.updated || null),
+        schemaVersion: DDP_SCHEMA_VERSION,
+        fieldCompleteness: { sections: comp, overallPct: pct },
+        missingFields: missingFields,
+        warnings: warnings,
+        proofTier: proofTier
+      }
+    };
   };
 
   /**

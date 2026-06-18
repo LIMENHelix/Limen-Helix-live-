@@ -373,7 +373,8 @@
       regulation:      _emO(_bem.regulation),
       readyForHandoff: _bem.readyForHandoff === true,
       predictedStress: _num(_bem.predictedStress),
-      prior:           _bem.prior ? { expectedStress: _num(_bem.prior.expectedStress), confidence: _num(_bem.prior.confidence), samples: _num(_bem.prior.samples) } : null
+      prior:           _bem.prior ? { expectedStress: _num(_bem.prior.expectedStress), confidence: _num(_bem.prior.confidence), samples: _num(_bem.prior.samples) } : null,
+      domainDiagnosisPacket: _emO(_bem.domainDiagnosisPacket)   // F1: structured DomainDiagnosisPacket schema
     } : null;
 
     // Feed health. Configured count is the MAX of every honest declaration
