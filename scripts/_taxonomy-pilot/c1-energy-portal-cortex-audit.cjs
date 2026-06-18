@@ -15,7 +15,10 @@ const DOM = path.join(ROOT, 'assets', 'data', 'domains');
 // Mad-lib treatments have the shape "{generic verb} {PortalTitle} {Group} {generic suffix}".
 // Detect by generic verb START + generic program-noun END (real L0 treatments are noun phrases,
 // e.g. "Diversified Generation Portfolio", which match neither).
-const GEN_VERB = /^(Develop|Establish|Implement|Build|Launch|Design|Deploy|Operationalize|Conduct|Create|Define|Assess|Optimize|Modernize|Strengthen|Enhance|Formalize|Institute|Standardize|Coordinate|Integrate)\b/;
+// J1 CORRECTION (2026-06-18): original list missed 6 verbs (Calibrate/Evaluate/Streamline/
+// Institutionalize/Configure/Monitor) — once added, 100% of L1 treatments classify as template.
+// L0's 32 noun-phrase treatments still start with NONE of these (verified), so L0 stays REAL.
+const GEN_VERB = /^(Develop|Establish|Implement|Build|Launch|Design|Deploy|Operationalize|Conduct|Create|Define|Assess|Optimize|Modernize|Strengthen|Enhance|Formalize|Institute|Standardize|Coordinate|Integrate|Calibrate|Evaluate|Streamline|Institutionalize|Configure|Monitor)\b/;
 // Mad-lib treatments ALL start with a generic management verb; real L0 treatments are
 // noun phrases ("Diversified Generation Portfolio") — verified 0/32 L0 reals start with a verb.
 function isTemplate(l) { return GEN_VERB.test(l); }

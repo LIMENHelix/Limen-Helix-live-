@@ -61,6 +61,7 @@
     Base.prototype.init.call(this);
     this._loadCommandBoardCompanies();   // C6-followup: wire real company entities (state.companies was starved)
     this._loadDiagnosisBundles();        // G1: load real artifact-source bundles (only ones that exist)
+    this._loadL1PortalDepth();           // J1: scan L1 portal branches (treatments are mad-lib -> NOT admitted; only real tickers surfaced, relevance-unverified)
 
     // Diagnosis → signal condition mapping
     // These map live conditions to which diagnoses become active
@@ -1296,6 +1297,49 @@
   };
 
   // ════════════════════════════════════════════════════════════════════════════
+  // PHASE J1 — REAL L1 PORTAL DEPTH (honest finding: L1 treatments are 100% mad-lib).
+  // The mad-lib treatment vocabulary uses a FIXED verb family. C1's original list missed
+  // 6 verbs (Calibrate/Evaluate/Streamline/Institutionalize/Configure/Monitor) — once added,
+  // 100% of L1 treatments classify as template. So L1 treatments are NOT admitted as evidence;
+  // only the real company tickers are surfaced (relevance-unverified, never into evidenceAnchors).
+  // ════════════════════════════════════════════════════════════════════════════
+  var MADLIB_VERB = /^(Develop|Establish|Implement|Build|Launch|Design|Deploy|Operationalize|Conduct|Create|Define|Assess|Optimize|Modernize|Strengthen|Enhance|Formalize|Institute|Standardize|Coordinate|Integrate|Calibrate|Evaluate|Streamline|Institutionalize|Configure|Monitor)\b/;
+  EnergyBrain.prototype._isMadLibTreatment = function (label) { return !label || MADLIB_VERB.test(String(label)); };
+
+  EnergyBrain.prototype._loadL1PortalDepth = function () {
+    var self = this;
+    if (self._l1LoadPromise) return self._l1LoadPromise;
+    var BRANCH = { GRID_COLLAPSE: ['grid', 'transmission', 'gridmod'], RENEWABLE_INTERMITTENCY: ['solar', 'hydro', 'storage', 'offgrid'], PIPELINE_DISRUPTION: ['pipeline'], OIL_SHOCK: ['fossil'], NUCLEAR_INCIDENT: ['nuclear'], SYSTEMIC_ENERGY_STRESS: ['grid', 'energytrans', 'power'] };
+    self._l1Branches = BRANCH;
+    var branches = {}; Object.keys(BRANCH).forEach(function (dx) { BRANCH[dx].forEach(function (b) { branches[b] = true; }); });
+    var byBranch = {};
+    self._l1LoadPromise = Promise.all(Object.keys(branches).map(function (b) {
+      return fetch('/assets/data/domains/energy_' + encodeURIComponent(b) + '.json')
+        .then(function (r) { return (r && r.ok) ? r.json() : null; })
+        .then(function (data) {
+          if (!data) { byBranch[b] = null; return; }
+          var acts = data.activations || [], tickers = {}, total = 0, mad = 0;
+          acts.forEach(function (a) {
+            (a.companies || []).forEach(function (c) { if (c && c.ticker_or_id) tickers[c.ticker_or_id] = c.name || c.ticker_or_id; });
+            (a.treatments || []).forEach(function (t) { var l = t && (t.label || t.title); if (l) { total++; if (self._isMadLibTreatment(l)) mad++; } });
+          });
+          byBranch[b] = { file: 'energy_' + b, companyTickers: Object.keys(tickers).map(function (k) { return { ticker: k, name: tickers[k] }; }), treatmentTotal: total, madLibCount: mad, realTreatmentCount: total - mad };
+        })
+        .catch(function () { byBranch[b] = null; });
+    })).then(function () {
+      var byDiagnosis = {};
+      Object.keys(BRANCH).forEach(function (dx) {
+        var tk = {}, total = 0, mad = 0, scanned = 0;
+        BRANCH[dx].forEach(function (b) { var r = byBranch[b]; if (r) { scanned++; r.companyTickers.forEach(function (c) { tk[c.ticker] = c.name; }); total += r.treatmentTotal; mad += r.madLibCount; } });
+        byDiagnosis[dx] = { branchesScanned: scanned, realCompanyTickers: Object.keys(tk).map(function (k) { return { ticker: k, name: tk[k], relevanceUnverified: true }; }), treatmentTotal: total, madLibTreatments: mad, realTreatments: total - mad, admitted: false, reason: 'L1 treatments are mad-lib templates (fixed-verb family) — not source-grade; only company tickers surfaced, relevance unverified' };
+      });
+      self.state._l1DepthCache = { byBranch: byBranch, byDiagnosis: byDiagnosis, scannedAt: (self.state.energyModel && self.state.energyModel.updated) || null };   // on state (like energyImmune) so the DDP builder + immune read it via this.state
+      return self.state._l1DepthCache;
+    });
+    return self._l1LoadPromise;
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
   // PHASE H1-H6 — HIGHER ENERGY BRAIN LAYERS (energy-local, additive, domain-level).
   // Computed once per cycle BEFORE the DDP build; each emits a COMPACT summary that the
   // DDP embeds in promptView (forwarded to the finalizer by G2) + the full object in audit.
@@ -1330,11 +1374,16 @@
     if (reg.stale) ant.push({ type: 'stale-feeds', severity: 'low', action: 'flag' });
     if (reg.flooding) ant.push({ type: 'opportunity-flood', severity: 'medium', action: 'inhibit' });
     if (reg.starving) ant.push({ type: 'unsupported-artifact-readiness-risk', severity: 'low', action: 'flag' });
+    // J1 — L1 portal treatments are mad-lib templates; the brain now KNOWS this (not just L2)
+    var _l1 = s._l1DepthCache;
+    if (_l1 && _l1.byDiagnosis && Object.keys(_l1.byDiagnosis).some(function (dx) { return _l1.byDiagnosis[dx].madLibTreatments > 0; })) {
+      ant.push({ type: 'l1-synthetic-treatments', severity: 'medium', action: 'quarantine', note: 'L1 portal treatments are mad-lib templates (fixed-verb family); quarantined from evidence — only real tickers surfaced relevance-unverified' });
+    }
     var sev = ant.some(function (a) { return a.severity === 'high'; }) ? 'high' : ant.some(function (a) { return a.severity === 'medium'; }) ? 'medium' : ant.length ? 'low' : 'none';
     var im = {
       version: 1, immuneState: sev === 'high' ? 'alert' : sev === 'medium' ? 'active' : sev === 'low' ? 'watch' : 'clear', severity: sev,
       antigens: ant.slice(0, 12),
-      quarantines: ['L2-synthetic-portal-content', 'L1-L2-mad-lib-treatments'],
+      quarantines: ['L2-synthetic-portal-content', 'L1-portal-treatments-madlib', 'L1-L2-mad-lib-treatments'],
       allowedWithWarning: ant.filter(function (a) { return a.action === 'allow-with-warning'; }).map(function (a) { return a.type + (a.dx ? (':' + a.dx) : ''); }),
       blockedFromPrompt: ant.filter(function (a) { return a.action === 'block-from-prompt-evidence'; }).map(function (a) { return a.dx; }),
       blockedFromTraversal: ['L2'],
@@ -1358,8 +1407,8 @@
       selfState: im.immuneState === 'alert' ? 'guarded' : (em.regulation && em.regulation.state) || 'unknown',
       knowns: covered.map(function (b) { return b.dxId + ' (source-backed' + (b.buildMethod === 'external-source-authored' ? ', external' : '') + ')'; }),
       unknowns: missing.map(function (b) { return b.dxId + ' (no source bundle)'; }),
-      uncertainties: ['portal cortex synthetic below L1 (not traversed)', 'predictionError=' + (Math.round(pe * 1000) / 1000)],
-      suppressions: (im.quarantines || []).concat(['L2-traversal']),
+      uncertainties: ['L1 portal treatments are mad-lib templates (NOT real depth); L2 synthetic + blocked', 'real company tickers exist in L1 but node-bindings are templated (relevance-unverified)', 'predictionError=' + (Math.round(pe * 1000) / 1000)],
+      suppressions: (im.quarantines || []).concat(['L2-traversal', 'L1-portal-treatments']),
       confidenceDrivers: ['source coverage ' + covered.length + '/' + bs.length, 'regulation ' + ((em.regulation && em.regulation.state) || '?')],
       changedSinceLastCycle: { predictionErrorDelta: Math.round((pe - (typeof prev._pe === 'number' ? prev._pe : pe)) * 1000) / 1000, coverageNow: covered.length },
       humanReviewRequired: hv.map(function (b) { return b.dxId; }),
@@ -1407,10 +1456,36 @@
     if (reg.state === 'surprised') hunches.push({ hunch: 'novel stressor entering the system', label: 'HUNCH', confidence: 'LOW', evidenceStatus: 'UNVERIFIED', why: 'regulation=surprised (high novelty)', verifyIf: 'a specific diagnosis activates with source support', falsifyIf: 'novelty subsides next cycle' });
     var missing = this._energyBundleStates().filter(function (x) { return x.bundleStatus === 'missing' && x.active; });
     if (missing.length) hunches.push({ hunch: 'recurring uncovered diagnosis: ' + missing[0].dxId, label: 'HUNCH', confidence: 'LOW', evidenceStatus: 'UNVERIFIED', why: 'active diagnosis with no source bundle', verifyIf: 'a real source bundle is built', falsifyIf: 'diagnosis deactivates' });
+
+    // J3 — patternMatches: recurring regulation state + phase oscillation from real memory
+    var patternMatches = [];
+    var recent = log.slice(-10), regCount = {};
+    recent.forEach(function (e) { if (e.regulation) regCount[e.regulation] = (regCount[e.regulation] || 0) + 1; });
+    Object.keys(regCount).forEach(function (k) { if (regCount[k] >= 3) patternMatches.push({ pattern: 'recurring regulation state: ' + k, occurrences: regCount[k], window: recent.length, label: 'PATTERN', evidenceStatus: 'UNVERIFIED' }); });
+    var ph = (s.memory && s.memory.phaseHistory) || [], ph5 = ph.slice(-4).map(function (x) { return x.phase; });
+    if (ph5.length >= 4 && ph5[3] === ph5[1] && ph5[2] === ph5[0] && ph5[0] !== ph5[1]) patternMatches.push({ pattern: 'phase oscillation ' + ph5.slice(-2).join('<->'), label: 'PATTERN', evidenceStatus: 'UNVERIFIED' });
+
+    // J3 — analogies: static structural-family map (analogy, NOT evidence)
+    var FAMILY = { 'supply-disruption': ['OIL_SHOCK', 'PIPELINE_DISRUPTION'], 'reliability': ['GRID_COLLAPSE', 'SYSTEMIC_ENERGY_STRESS'], 'intermittency': ['RENEWABLE_INTERMITTENCY'], 'safety-incident': ['NUCLEAR_INCIDENT'] };
+    var active = (s.diagnoses || []).filter(function (d) { return d.active; }).sort(function (a, b) { return (b.relevance || 0) - (a.relevance || 0); });
+    var primaryId = (active[0] || (s.diagnoses || [])[0] || {}).id;
+    var analogies = [];
+    Object.keys(FAMILY).forEach(function (fam) { if (FAMILY[fam].indexOf(primaryId) >= 0) { FAMILY[fam].forEach(function (sib) { if (sib !== primaryId) analogies.push({ analogy: primaryId + ' resembles ' + sib, family: fam, label: 'ANALOGY', evidenceStatus: 'UNVERIFIED', note: 'shared structural failure-family — a lens for monitoring, not a claim' }); }); } });
+
+    // J3 — promotion: a hunch recurring >=3 cycles -> monitoring TARGET only (never diagnosis/evidence); vanished hunches -> rejected (falsifier path)
+    var hm = this._hunchMemory = this._hunchMemory || {};
+    var curKeys = {}; hunches.forEach(function (h) { curKeys[h.hunch] = true; hm[h.hunch] = (hm[h.hunch] || 0) + 1; });
+    var promotedToMonitoring = [], rejectedHunches = [];
+    Object.keys(hm).forEach(function (k) {
+      if (!curKeys[k]) { rejectedHunches.push({ hunch: k, reason: 'signal subsided across cycles (falsifier path)' }); delete hm[k]; return; }
+      if (hm[k] >= 3) promotedToMonitoring.push({ target: k, basis: 'recurred ' + hm[k] + ' cycles', note: 'monitoring target ONLY — never evidence or diagnosis' });
+    });
+
     var it = {
       version: 1, hunches: hunches.slice(0, 3), weakSignals: hunches.map(function (h) { return h.why; }),
-      patternMatches: [], analogies: [], confidence: 'LOW', evidenceStatus: 'UNVERIFIED',
-      promotedToDiagnosis: [], rejectedHunches: [], lastIntuitionAt: em.updated || null
+      patternMatches: patternMatches.slice(0, 5), analogies: analogies.slice(0, 4), confidence: 'LOW', evidenceStatus: 'UNVERIFIED',
+      promotedToDiagnosis: [],   // NEVER auto-promoted — verification is a human/source step
+      promotedToMonitoring: promotedToMonitoring.slice(0, 4), rejectedHunches: rejectedHunches.slice(0, 4), lastIntuitionAt: em.updated || null
     };
     s.energyIntuition = it; return it;
   };
@@ -1542,7 +1617,9 @@
       sourceCompleteness: portal ? ((Array.isArray(portal.issues) && portal.issues.length) ? 'partial' : 'thin') : 'root-only',
       bundleSource: (_bundle && Array.isArray(_bundle.sourcePortals) && _bundle.sourcePortals.length)   // G1: bundle's own corpus source (distinct from energy root)
         ? { portalIds: _bundle.sourcePortals.map(function (sp) { return sp.portalId; }), depth: _bundle.maxDepth || 0, ancestryPath: (_bundle.sourcePortals[0].ancestry || []), domains: _bundle.domains || [] }
-        : null
+        : null,
+      // J1 — L1 scan result for this diagnosis: treatments are mad-lib (NOT admitted); only real tickers surface, relevance-unverified
+      l1Depth: (s._l1DepthCache && s._l1DepthCache.byDiagnosis && s._l1DepthCache.byDiagnosis[dxId]) || (s._l1DepthCache ? { branchesScanned: 0, realCompanyTickers: [], realTreatments: 0, madLibTreatments: 0, admitted: false, reason: 'no L1 branch mapped for this diagnosis' } : null)
     };
     var citationHints = sourceFeeds.map(function (sf) { return sf.source || sf.name; }).filter(Boolean);
     var evidenceAnchors = _bArr('evidenceAnchors');   // G1: REAL bundle anchors only (empty if no bundle)
@@ -1558,13 +1635,24 @@
       bundle: _bundle ? { portalCount: _bundle.portalCount || 0, maxDepth: _bundle.maxDepth || 0, domains: _bundle.domains || [], lane: 'patents', shallow: bundleShallow, buildMethod: _bundle.buildMethod || null, humanVerification: _bundle.humanVerification || null } : null,   // G1d: surface external-source provenance
       missingEvidence: missingEv
     };
+    // J2 — human-authoring intake: for external-source bundles missing invention candidates, emit
+    // structured empty slots (what each needs + which primary source) rather than fabricating them.
+    var _isExternal = !!(_bundle && _bundle.buildMethod === 'external-source-authored');
+    var _intakeSrcHint = { GRID_FREQUENCY_INSTABILITY: 'NERC reliability standards / IEEE 1547 / utility filings', INTERMITTENCY_SPIKE: 'NREL / IEA PVPS / ISO interconnection studies', PIPELINE_RUPTURE_EVENT: 'PHMSA incident reports / API 1160 / 49 CFR 192', OIL_SHOCK: 'EIA STEO / IEA OMR / OPEC MOMR / patent literature', NUCLEAR_INCIDENT: 'IAEA INES / NRC event reports / 10 CFR / patent literature', SYSTEMIC_ENERGY_STRESS: 'NERC reliability assessments / FERC orders / EIA' };
+    var authoringIntake = [];
+    if (_isExternal) {
+      ['methodCandidates', 'embodimentCandidates', 'figurePlaceholders'].forEach(function (field) {
+        if (_bArr(field).length === 0) authoringIntake.push({ field: field, status: 'needs-human-input', count: 0, need: field === 'methodCandidates' ? 'a concrete technical method drawn from a primary source' : field === 'embodimentCandidates' ? 'a specific implementation/embodiment from a real document' : 'a figure description grounded in a real source', sourceHint: _intakeSrcHint[identity.canonicalDiagnosisId] || 'primary institutional / patent source', note: 'NOT fabricated by the brain — author from the cited source, then wire in verbatim with attribution' });
+      });
+    }
     var treatmentContext = {
       treatments: treatments,                 // real: brain-resolved, else real bundle treatments
       implementationSteps: implementationSteps,
       methodCandidates: _bArr('methodCandidates'),         // G1: REAL bundle only (empty if bundle lacks)
       mechanismCandidates: _bArr('mechanismCandidates'),
       embodimentCandidates: _bArr('embodimentCandidates'),
-      figurePlaceholders: _bArr('figurePlaceholders')
+      figurePlaceholders: _bArr('figurePlaceholders'),
+      authoringIntake: authoringIntake        // J2: empty-slot requests for human authoring (external-source bundles)
     };
     var operatorContext = {
       targets: (primaryOpp && primaryOpp._resolvedTargets) ? primaryOpp._resolvedTargets : (mc && mc.target ? [mc.target] : []),
@@ -1684,7 +1772,10 @@
       conscienceDecision: s.energyConscience ? { conscienceState: s.energyConscience.conscienceState, blockedClaims: s.energyConscience.blockedClaims, artifactReadinessDecision: s.energyConscience.artifactReadinessDecision } : null,
       intuitionSummary: s.energyIntuition ? s.energyIntuition.hunches : null,
       scenarioSummary: s.energySimulation ? (s.energySimulation.scenarios || []).map(function (x) { return { type: x.type, hypothetical: x.hypothetical, risk: x.risk }; }) : null,
-      executiveReport: s.energyExecutiveReport || null
+      executiveReport: s.energyExecutiveReport || null,
+      // J1 — L1 depth verdict (real tickers only; treatments mad-lib, not admitted) ; J2 — authoring intake count
+      l1DepthSummary: portalContext.l1Depth ? { realCompanyTickers: (portalContext.l1Depth.realCompanyTickers || []).length, realTreatments: portalContext.l1Depth.realTreatments, madLibTreatments: portalContext.l1Depth.madLibTreatments, admitted: portalContext.l1Depth.admitted } : null,
+      authoringIntake: treatmentContext.authoringIntake.length ? treatmentContext.authoringIntake : null
     };
 
     return {

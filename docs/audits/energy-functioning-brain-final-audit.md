@@ -47,14 +47,42 @@ The full H-layer objects also live in `DDP.audit.{immune,awareness,conscience,in
 - **Warnings survive.** Human-verification (external-source) and alias-risk (PIPELINE) warnings reach the finalizer.
 - **Non-energy unchanged.** Other domains return `null` deepBrain — no Energy-specific fields leak.
 
-## What Energy still does NOT have (honest gaps)
+## Phase J update (2026-06-18) — L1 reality, authoring intake, deeper intuition
 
-- **Real depth below L1.** Portal cortex stays root-only/L0; L1 mixed, L2 synthetic. Deeper traversal remains
-  blocked — Energy is source-*grounded* but not source-*deep*.
-- **Method/embodiment/figure candidates** for the 3 external-source diagnoses (OIL_SHOCK / NUCLEAR_INCIDENT /
-  SYSTEMIC_ENERGY_STRESS) — intentionally empty; require human authoring from primary documents.
-- **Operator/directive modules** remain dormant (not ungated this phase, per constraints).
-- **Intuition pattern-matching / analogies / promotion** are stubs (`[]`) — the hunch path is live but shallow.
+**Critical finding (J1):** the C1 classifier had undercounted the mad-lib verb family — it missed
+6 verbs (Calibrate/Evaluate/Streamline/Institutionalize/Configure/Monitor). With those added,
+**100% of L1 portal treatments classify as template** (678/678; L1 avgTmplRatio = 1.00). So the
+earlier "L1 is mixed / admit real L1 as depth" plan was based on a false premise. **L1 treatments are
+NOT admitted as evidence.** Only the real company tickers (9–14 per diagnosis) are surfaced in
+`portalContext.l1Depth`, marked `relevanceUnverified` (their node-bindings are templated, e.g. First
+Solar→"battery storage"), and they never enter `evidenceAnchors`. The immune system now raises an
+`l1-synthetic-treatments` antigen and quarantines L1 treatments — the brain's self-model is accurate.
+
+**J2 — human-authoring intake:** external-source bundles emit `treatmentContext.authoringIntake` —
+structured empty slots (method/embodiment/figure) marked `needs-human-input` with a real source hint,
+**not fabricated**. Conscience still vetoes patent/grant. Intake reaches the finalizer.
+
+**J3 — intuition deepened:** `patternMatches` (recurring regulation / phase oscillation from real
+memory), `analogies` (structural failure-families, e.g. OIL_SHOCK~PIPELINE_DISRUPTION), and
+`promotedToMonitoring` (a hunch recurring ≥3 cycles becomes a monitoring target **only**).
+`promotedToDiagnosis` stays permanently `[]` — nothing is auto-promoted to evidence or diagnosis.
+
+Proof: `j-energy-real-depth-probe.cjs` 25/25 + the 5 critical gates; full regression all 14 probes pass.
+
+## Deliberate boundaries (NOT gaps — do not "fix" by removing)
+
+- **L2 stays blocked.** L2 is ~98% synthetic (C1); admitting it would inject garbage into evidence.
+  Blocking it is correct behavior.
+- **Operator/directive modules stay gated.** Operator decision (2026-06-18): keep dormant. They change
+  runtime behavior and warrant a separate, separately-proven phase when ungated.
+
+## What Energy still does NOT have (honest, residual)
+
+- **Real source *depth*.** The portal cortex contains no real treatment depth (L1 + L2 are synthetic).
+  Genuine depth must come from the **external institutional bundles via human authoring (J2 intake)**,
+  not the cortex. Energy is source-*grounded*, not source-*deep* — and now correctly knows it.
+- **Method/embodiment/figure candidates** for the 3 external-source diagnoses remain empty by design
+  until a human authors them from primary documents (the J2 intake is the channel).
 
 ## Remaining blockers before applying the template to Finance
 
