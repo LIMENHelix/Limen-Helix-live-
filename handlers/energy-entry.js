@@ -31,6 +31,30 @@ function readBody(req) {
 function clip(v, n) { return String(v == null ? '' : v).slice(0, n); }
 function num(v) { var n = parseFloat(v); return isFinite(n) ? n : null; }
 
+var MIN_PUBLIC = 3; // a utility only appears on the public Watch page after >= N readings
+
+// Running aggregate updated on each write so the public read is ONE Redis GET
+// (O(1) regardless of page traffic). Best-effort: never fails the submission.
+async function updateAgg(r) {
+  try {
+    var agg = await db.get('energy:agg:v1');
+    if (!agg || typeof agg !== 'object') agg = { utilities: {}, total: 0, updated: null };
+    if (!agg.utilities) agg.utilities = {};
+    var key = (r.utility || 'Unknown').trim().toLowerCase().slice(0, 80);
+    var u = agg.utilities[key] || { name: r.utility || 'Unknown', n: 0, sumRate: 0, sumShock: 0, nShock: 0, outages: 0, regions: {}, lastTs: null };
+    u.n += 1;
+    if (r.effectiveRate != null && isFinite(r.effectiveRate)) u.sumRate += r.effectiveRate;
+    if (r.billShock != null && isFinite(r.billShock)) { u.sumShock += r.billShock; u.nShock += 1; }
+    if (r.outageCount != null && isFinite(r.outageCount)) u.outages += r.outageCount;
+    if (r.zip3) u.regions[r.zip3] = 1;
+    u.lastTs = r.ts;
+    agg.utilities[key] = u;
+    agg.total += 1;
+    agg.updated = r.ts;
+    await db.set('energy:agg:v1', agg);
+  } catch (e) { /* best-effort */ }
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader('content-type', 'application/json');
   var method = (req.method || 'GET').toUpperCase();
@@ -77,6 +101,7 @@ module.exports = async function handler(req, res) {
       if (!check || check.id !== id) {
         res.statusCode = 500; return res.end(JSON.stringify({ ok: false, error: 'Write could not be confirmed.' }));
       }
+      await updateAgg(reading);
       res.statusCode = 200;
       return res.end(JSON.stringify({ ok: true, id: id }));
     } catch (e) {
@@ -88,6 +113,36 @@ module.exports = async function handler(req, res) {
   // ── GET: admin read (key-gated) ───────────────────────────────────────
   var u;
   try { u = new URL(req.url, 'http://x'); } catch (e) { u = { searchParams: new URLSearchParams('') }; }
+
+  // ── GET ?public=1: aggregate Watch data (NO key — aggregate only, no rows) ──
+  if (method === 'GET' && u.searchParams.get('public')) {
+    try {
+      var agg = await db.get('energy:agg:v1');
+      var out = [];
+      if (agg && agg.utilities) {
+        Object.keys(agg.utilities).forEach(function (k) {
+          var x = agg.utilities[k];
+          if (!x || x.n < MIN_PUBLIC) return; // k-anonymity: hide thin utilities
+          out.push({
+            utility: x.name,
+            readings: x.n,
+            avgRate: x.n ? Math.round((x.sumRate / x.n) * 10) / 10 : null,
+            avgBillShock: x.nShock ? Math.round(x.sumShock / x.nShock) : null,
+            outageReports: x.outages || 0,
+            regions: Object.keys(x.regions || {}).length,
+            lastTs: x.lastTs
+          });
+        });
+        out.sort(function (a, b) { return b.readings - a.readings; });
+      }
+      res.statusCode = 200;
+      return res.end(JSON.stringify({ ok: true, minReadings: MIN_PUBLIC, total: agg ? agg.total : 0, utilities: out }));
+    } catch (e) {
+      res.statusCode = 500;
+      return res.end(JSON.stringify({ ok: false, error: String(e && e.message || e) }));
+    }
+  }
+
   var key = u.searchParams.get('key') || '';
   var ADMIN_KEY = process.env.ENERGY_ADMIN_KEY || process.env.LEAD_ADMIN_KEY || '';
   if (!ADMIN_KEY) {
