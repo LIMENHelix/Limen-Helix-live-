@@ -29,7 +29,9 @@ a{color:var(--gold);text-decoration:none}
 .theme .meta b{color:var(--gold);font-weight:600}
 .theme .gov{color:var(--blue)} .theme .idea{color:var(--emerald)} .theme .risk{color:var(--red)}
 .tickers{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:13px}
-.tk{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:9px 11px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.tk{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:9px 11px;display:flex;justify-content:space-between;align-items:center;gap:8px;color:inherit;text-decoration:none;cursor:pointer;transition:all .15s}
+a.tk:hover{border-color:rgba(201,169,78,0.5);background:#161d2e}
+.tk .sym .ext{color:var(--dim);font-weight:400;font-size:10px;margin-left:3px}
 .tk .sym{font-weight:700;font-size:13px}
 .tk .nm{font-size:10px;color:var(--dim);display:block;font-weight:400;letter-spacing:.3px}
 .tk .px{text-align:right;font-size:13px;white-space:nowrap}
@@ -52,7 +54,7 @@ a{color:var(--gold);text-decoration:none}
     <h1>Energy stocks, grouped by what's actually moving them</h1>
     <p>The forces people are watching right now — AI data centers straining the grid, the nuclear comeback, oil &amp; geopolitics, LNG, water, and the utilities behind your bill — each with the companies exposed to it and the risk to weigh.</p>
     <div class="statline" id="statline">Loading live quotes…</div>
-    <div class="disc"><b>Educational only — not investment advice.</b> Quotes are delayed (~15&nbsp;min). These are themes to <i>research</i>, with their risks — not recommendations to buy or sell. Do your own research.</div>
+    <div class="disc"><b>Educational only — not investment advice.</b> Quotes are delayed (~15&nbsp;min). These are themes to <i>research</i>, with their risks — not recommendations to buy or sell. Do your own research. Tap any ticker to open it on Robinhood ↗ (we're not affiliated with or paid by Robinhood).</div>
   </div>
 
   <div id="themes"></div>
@@ -145,8 +147,9 @@ a{color:var(--gold);text-decoration:none}
   function tk(sym, name) {
     var q = QUOTES[sym];
     var px = q ? '$' + q.price.toFixed(2) : '<span class="flat">—</span>';
-    return '<div class="tk"><div><span class="sym">' + sym + '</span><span class="nm">' + name + '</span></div>' +
-      '<div class="px">' + px + fmtChg(q ? q.changePct : null) + '</div></div>';
+    return '<a class="tk" href="https://robinhood.com/stocks/' + encodeURIComponent(sym) + '" target="_blank" rel="noopener nofollow" title="Open ' + sym + ' on Robinhood">' +
+      '<div><span class="sym">' + sym + '<span class="ext">↗</span></span><span class="nm">' + name + '</span></div>' +
+      '<div class="px">' + px + fmtChg(q ? q.changePct : null) + '</div></a>';
   }
   function render() {
     var h = '';
