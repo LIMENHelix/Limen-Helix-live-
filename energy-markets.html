@@ -70,6 +70,11 @@ a.tk:hover{border-color:rgba(201,169,78,0.5);background:#161d2e}
 
   <div id="themes"></div>
 
+  <div class="theme" id="brainCard" style="display:none">
+    <h2>🧠 LIMEN research engine</h2>
+    <div id="brainBody"></div>
+  </div>
+
   <div class="theme" id="newsCard" style="display:none">
     <h2>📰 Energy news moving these themes</h2>
     <div id="newsList"></div>
@@ -192,6 +197,26 @@ a.tk:hover{border-color:rgba(201,169,78,0.5);background:#161d2e}
       render();
     } else { document.getElementById('statline').textContent = 'Live quotes unavailable right now — themes still apply.'; }
   }).catch(function () { document.getElementById('statline').textContent = 'Live quotes unavailable right now — themes still apply.'; });
+
+  // ── LIMEN research engine (publish-gated brain signals) ──
+  fetch('/api/brain-signals?domain=energy').then(function(r){return r.json();}).then(function(j){
+    if(!j||!j.ok) return;
+    var h='<div class="blurb">LIMEN is tracking <b>'+(j.tracked||0)+'</b> energy companies in its research engine.</div>';
+    if(j.publishable&&j.publishable.length){
+      h+='<div class="lines">';
+      j.publishable.forEach(function(s){
+        var c=s.band==='elevated'?'var(--red)':s.band==='moderate'?'var(--gold)':'var(--emerald)';
+        h+=line(c,'<b>'+nesc(s.ticker)+'</b> '+nesc(s.name)+' — structural-distress signal: <b>'+s.band+'</b>'+(s.alert?' ⚠':'')+' <span style="color:var(--dim);font-size:11px">(validated, as of '+nesc(s.asOf||'')+')</span>');
+      });
+      h+='</div><div class="disc" style="margin-top:10px">Experimental: LIMEN\'s validated structural-distress signal (large multi-pathway collapse only, narrow envelope). Not a rating, not advice.</div>';
+    } else {
+      h+='<div class="meta risk" style="margin-top:6px">'+nesc(j.note||'Per-company scores withheld until validated.')+'</div>';
+      h+='<div class="meta" style="margin-top:6px;color:var(--dim)">We don\'t publish a per-company risk score until it\'s individually validated — so nothing fake gets attached to a real company. The deeper engine is being calibrated.</div>';
+      h+='<div style="margin-top:8px"><a href="/energy_portal" style="font-size:13px">⚙ Explore the engine (operator) →</a></div>';
+    }
+    document.getElementById('brainBody').innerHTML=h;
+    document.getElementById('brainCard').style.display='block';
+  }).catch(function(){});
 
   // ── Energy news feed ──
   function nesc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}

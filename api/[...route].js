@@ -36,6 +36,7 @@ const HANDLERS = {
   'energy-entry': require('../handlers/energy-entry'),
   'energy-markets': require('../handlers/energy-markets'),
   'energy-news': require('../handlers/energy-news'),
+  'brain-signals': require('../handlers/brain-signals'),
   'enrich-portal-claude': require('../handlers/enrich-portal-claude'),
   'expand-artifact': require('../handlers/expand-artifact'),
   'expand-artifact-claude': require('../handlers/expand-artifact-claude'),
