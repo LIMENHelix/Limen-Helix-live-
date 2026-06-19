@@ -60,6 +60,7 @@
   EnergyBrain.prototype.init = function () {
     Base.prototype.init.call(this);
     this._loadCommandBoardCompanies();   // C6-followup: wire real company entities (state.companies was starved)
+    this._loadBrainSignals();            // 2026-06-19: distress now comes ONLY from the validated Thing pipeline (no fake phase data)
     this._loadDiagnosisBundles();        // G1: load real artifact-source bundles (only ones that exist)
     this._loadL1PortalDepth();           // J1: scan L1 portal branches (treatments are mad-lib -> NOT admitted; only real tickers surfaced, relevance-unverified)
 
@@ -510,6 +511,27 @@
     } catch (e) {}
   };
 
+  // 2026-06-19: distress signals come ONLY from the validated Thing pipeline
+  // (/api/brain-signals → publish gate → lib/thing-formulas). NEVER from the raw
+  // command-board `phase`/`ds` (those are degenerate/noise). One-shot load; on any
+  // failure _pubSignals stays {} → zero distressed-positioning opportunities (honest).
+  EnergyBrain.prototype._loadBrainSignals = function () {
+    var self = this;
+    if (self._pubSignals) return;                   // one-shot
+    self._pubSignals = {};
+    try {
+      fetch('/api/brain-signals?domain=energy')
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (j) {
+          if (!j || !j.publishable) return;
+          var m = {};
+          j.publishable.forEach(function (s) { if (s.ticker) m[s.ticker] = s; });
+          self._pubSignals = m;                     // {} today (gate abstains on degenerate data)
+        })
+        .catch(function () {});
+    } catch (e) {}
+  };
+
   EnergyBrain.prototype.surfaceOpportunities = function () {
     // Call base to get companies + convergence
     Base.prototype.surfaceOpportunities.call(this);
@@ -581,11 +603,15 @@
       });
     }
 
-    // Company-driven
-    var terminalCompanies = companies.filter(function (c) { return c.phase === 'p7a' || c.phase === 'p9'; });
+    // Company-driven — distress comes ONLY from the validated Thing pipeline
+    // (_pubSignals), NEVER from the raw command-board `phase` (that field is noise:
+    // NEE=p3 vs DUK=p0 for near-identical utilities). _pubSignals is {} until real
+    // per-company scoring is validated, so these stay silent rather than fabricate.
+    var pub = this._pubSignals || {};
+    var terminalCompanies = companies.filter(function (c) { var s = pub[c.ticker]; return s && s.band === 'elevated'; });
     if (terminalCompanies.length > 0) {
       add({
-        title: 'Energy terminal company distressed positioning',
+        title: 'Energy elevated-distress company positioning',
         rank: 0.95,
         path: 'INVESTABLE',
         urgency: 'IMMEDIATE',
@@ -595,11 +621,11 @@
       });
     }
 
-    // Stressed but non-terminal companies
-    var stressedCompanies = companies.filter(function (c) { return c.phase === 'p3' || c.phase === 'p5'; });
+    // Moderate-distress companies (validated signal only)
+    var stressedCompanies = companies.filter(function (c) { var s = pub[c.ticker]; return s && s.band === 'moderate'; });
     if (stressedCompanies.length >= 2 && stress >= 0.50) {
       add({
-        title: 'Energy stressed-but-operating company selection',
+        title: 'Energy moderate-distress company selection',
         rank: stress * 0.80,
         path: 'INVESTABLE',
         urgency: 'ACTIVE',
@@ -828,9 +854,9 @@
       // ── DO THIS (imperative, opportunity-specific) ──
       var doThis = '';
       if (src === 'company_terminal') {
-        doThis = 'Open distressed-asset positions in terminal-phase energy companies (' + (compList || 'see company list') + '). Set stop-loss at -15%. Target restructuring or acquisition premium.';
+        doThis = 'Review the energy companies LIMEN\'s validated distress screen flags as ELEVATED (' + (compList || 'see company list') + '). Verify each against current filings before any position; this is a screen, not a recommendation.';
       } else if (src === 'company_stressed') {
-        doThis = 'Screen stressed-but-operating energy companies (' + (compList || 'see company list') + ') for entry. These are not terminal — look for recovery catalysts, management action, or sector tailwind re-rating.';
+        doThis = 'Review the energy companies flagged MODERATE by the validated distress screen (' + (compList || 'see company list') + '). Look for recovery catalysts or further deterioration; verify independently.';
       } else if (src === 'convergence') {
         if (o.path === 'INVESTABLE') doThis = 'Multiple stress signals are converging. Position in diversified energy exposure (' + (exList || 'broad energy ETFs') + ') to capture systemic repricing across the sector.';
         else doThis = 'Convergence stress creates grant eligibility. Prepare a multi-vector resilience proposal that addresses the overlapping disruptions — agencies prioritize systemic solutions.';
@@ -861,8 +887,8 @@
       // ── WHY THIS PAYS (monetization path) ──
       var whyPays = '';
       if (o.path === 'INVESTABLE') {
-        if (src === 'company_terminal') whyPays = 'Terminal-phase companies are priced for worst case. Any restructuring, acquisition, or sector recovery creates 30-80% upside from distressed entry. Risk is bounded by stop-loss.';
-        else if (src === 'company_stressed') whyPays = 'Stressed-but-operating companies trade at a fear discount. Recovery to normal operations reprices equity 15-40% higher. Sector tailwind from infrastructure spending accelerates the timeline.';
+        if (src === 'company_terminal') whyPays = 'Companies the validated screen flags as elevated-distress are often mispriced — restructuring, acquisition, or recovery can re-rate them. Validated structural-distress signal only; not a price target, not advice.';
+        else if (src === 'company_stressed') whyPays = 'Moderate-distress names can trade at a fear discount that recovery re-rates. Validated screen signal only — verify independently; not advice.';
         else if (src === 'cross_domain') whyPays = 'Cross-sector transmission means energy costs flow into margins of downstream companies. Integrated majors and pipeline operators capture the spread. ' + (o.valueRange || '10-25% sector premium during sustained stress') + '.';
         else if (titleLc.indexOf('grid') !== -1 || titleLc.indexOf('hardening') !== -1) whyPays = 'Grid hardening is mandatory capex — utilities must spend regardless of macro conditions. EPC firms and hardware vendors see revenue acceleration. ' + (o.valueRange || '15-30% infrastructure premium') + '.';
         else if (titleLc.indexOf('bottleneck') !== -1) whyPays = 'Capacity constraints create pricing power. Operators with constrained assets earn premium margins until new capacity comes online (typically 2-5 years). ' + (o.valueRange || '20-40% margin expansion') + '.';
@@ -900,8 +926,8 @@
 
       // ── INVALID IF (disconfirming conditions) ──
       var invalidIf = '';
-      if (src === 'company_terminal') invalidIf = 'Companies exit terminal phase (restructuring succeeds or sector recovers before entry). Domain stress drops below 40%.';
-      else if (src === 'company_stressed') invalidIf = 'Companies enter terminal phase (downside, not recovery). Stress resolves too quickly for re-rating to materialize.';
+      if (src === 'company_terminal') invalidIf = 'The validated distress signal clears (band drops below elevated) or domain stress falls below 40%.';
+      else if (src === 'company_stressed') invalidIf = 'The distress band resolves to low, or deteriorates to elevated (downside, not recovery).';
       else if (src === 'cross_domain') invalidIf = 'Cross-domain transmission stops — energy stress contained without downstream propagation. Receiving domains absorb the shock without repricing.';
       else if (src === 'convergence') invalidIf = 'Convergence signals decouple — individual stresses resolve independently. No systemic amplification observed.';
       else if (src === 'near_diagnosis') invalidIf = 'Diagnosis fails to activate. Feed evidence contradicts the emerging signal. Stress falls below 45%.';
