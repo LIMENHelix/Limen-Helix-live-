@@ -1,27 +1,24 @@
 /**
- * api/brain-signals.js — domain-generic PUBLISH GATE for per-company brain signals.
+ * api/brain-signals.js — domain-generic Thing pipeline + PUBLISH GATE (no-bleed).
  *
  * GET /api/brain-signals?domain=energy
- *   → { ok, domain, tracked, degenerate, publishable:[{ticker,name,ds,band,alert,asOf}], note }
+ *   → { ok, domain, pipelineVersion, tracked, eligible, degenerate, publishable:[...], note }
  *
- * THE NO-BLEED CHOKEPOINT. command-board-data.json currently stores `ds` (distress)
- * as a PER-DOMAIN DEFAULT (verified 2026-06-19: 18/20 domains have a single uniform
- * ds; the other 2 have only 2 distinct values). That is NOT a per-company signal, so
- * publishing it would make false distress/phase claims about named public companies.
- *
- * This gate refuses to surface any signal that isn't genuinely per-company AND
- * validated AND in-envelope. With the current data it returns ZERO publishable
- * signals for EVERY domain — so no public page can leak a fake score, energy or the
- * next domain. When the real per-company kernel is run (spread appears), the gate
- * opens automatically. Every domain's public front MUST read signals through here.
- *
- * Aggregate counts ("tracking N companies") are safe/honest and always returned.
+ * Runs every company in the domain through the swappable formula layer
+ * (lib/thing-formulas.js): Thing 0 (eligibility) → Thing 1 (validated distress,
+ * abstains on degenerate/unvalidated) → Thing 2 (interpretive phase, never public).
+ * Only Thing-0-eligible + Thing-1-validated rows are ever `publishable`. With the
+ * current data that's 0 for every domain (ds is a per-domain default) — so no public
+ * page can leak a fake score. When the formula is swapped for real per-company
+ * scoring, the gate opens automatically. THIS is the single chokepoint every domain's
+ * public front reads through, and the formula is one file to swap (lib/thing-formulas.js).
  */
+var F = require('../lib/thing-formulas');
 var CB = null;
 try { CB = require('../assets/data/command-board-data.json'); } catch (e) {}
 
-function gate(domain) {
-  var out = { tracked: 0, degenerate: false, publishable: [], note: '' };
+function run(domain) {
+  var out = { tracked: 0, eligible: 0, degenerate: false, publishable: [], note: '' };
   if (!CB || !CB.companies) { out.note = 'engine data unavailable'; return out; }
 
   var comps = [];
@@ -29,27 +26,23 @@ function gate(domain) {
   out.tracked = comps.length;
   if (!comps.length) { out.note = 'no companies tracked in this domain yet'; return out; }
 
-  // Degeneracy: too few distinct ds values to be a real per-company score.
-  var ds = comps.map(function (c) { return c.ds; }).filter(function (x) { return typeof x === 'number'; });
-  var uniq = {}; ds.forEach(function (x) { uniq[x.toFixed(3)] = 1; });
-  var nUniq = Object.keys(uniq).length;
-  out.degenerate = ds.length > 2 && (nUniq <= 2 || (nUniq / ds.length) < 0.15);
+  var domainStats = { degenerate: F.isDegenerate(comps.map(function (c) { return c.ds; })) };
+  out.degenerate = domainStats.degenerate;
+
+  comps.forEach(function (c) {
+    var t0 = F.thing0Eligible(c);
+    if (!t0.eligible) return;
+    out.eligible++;
+    var t1 = F.thing1Distress(c, domainStats);   // null = abstain (no fake score)
+    if (!t1) return;
+    out.publishable.push({ ticker: c.t, name: c.n, ds: t1.ds, band: t1.band, alert: t1.alert, asOf: t1.asOf });
+  });
 
   if (out.degenerate) {
-    out.note = 'Per-company distress scores are currently a domain-level default (not individually computed), so they are withheld from public view until per-company scoring is validated.';
-    return out;
+    out.note = 'Per-company distress scores are currently a domain-level default (not individually computed), so they are withheld until per-company scoring is validated.';
+  } else if (!out.publishable.length) {
+    out.note = 'No companies pass the gate (need eligibility + validated status).';
   }
-
-  // Per-company gate: validated + in-envelope (>=8 quarters) + a real number.
-  comps.forEach(function (e) {
-    if (typeof e.ds !== 'number') return;
-    if (e.vs !== 'validated') return;
-    if (!(e.hist >= 8)) return;
-    if (!e.t) return;
-    var band = e.ds >= 0.66 ? 'elevated' : e.ds >= 0.40 ? 'moderate' : 'low';
-    out.publishable.push({ ticker: e.t, name: e.n, ds: Math.round(e.ds * 100) / 100, band: band, alert: !!e.a, asOf: e.q });
-  });
-  if (!out.publishable.length) out.note = 'No companies currently pass the publish gate (need validated status + ≥8 quarters of history).';
   return out;
 }
 
@@ -60,7 +53,11 @@ module.exports = async function handler(req, res) {
   var u;
   try { u = new URL(req.url, 'http://x'); } catch (e) { u = { searchParams: new URLSearchParams('') }; }
   var domain = (u.searchParams.get('domain') || 'energy').toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 40);
-  var r = gate(domain);
+  var r = run(domain);
   res.statusCode = 200;
-  return res.end(JSON.stringify({ ok: true, domain: domain, tracked: r.tracked, degenerate: r.degenerate, publishable: r.publishable, note: r.note }));
+  return res.end(JSON.stringify({
+    ok: true, domain: domain, pipelineVersion: F.FORMULA_VERSION,
+    tracked: r.tracked, eligible: r.eligible, degenerate: r.degenerate,
+    publishable: r.publishable, note: r.note
+  }));
 };
