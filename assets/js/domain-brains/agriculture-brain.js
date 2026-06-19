@@ -602,7 +602,7 @@
     }
 
     // Company terminal opportunities
-    var terminalCompanies = companies.filter(function (c) { return c.phase === 'p7a' || c.phase === 'p9'; });
+    var terminalCompanies = [] /* neutralized: distress only from validated gate (see energy-brain) */;
     if (terminalCompanies.length > 0) add(enrichOpportunity({ id: 'ag_terminal_t1', title: 'Agriculture terminal entity distressed positioning', rank: 0.95, path: 'INVESTABLE', urgency: 'IMMEDIATE', source: 'company_terminal', tier: 1, companies: terminalCompanies.map(function (c) { return c.ticker; }), stress: stress }, null));
 
     // Convergence

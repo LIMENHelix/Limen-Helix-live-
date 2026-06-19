@@ -243,7 +243,7 @@
       add({ title: dxLabel + ' — supply chain and component diversification', rank: stress * dx.relevance * 0.75, path: 'INVESTABLE', urgency: 'medium', source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress });
     }
 
-    var termCo = companies.filter(function (c) { return c.phase === 'p7a' || c.phase === 'p9'; });
+    var termCo = [] /* neutralized: distress only from validated gate (see energy-brain) */;
     if (termCo.length > 0) add({ title: 'Technology terminal entity distressed positioning', rank: 0.95, path: 'INVESTABLE', urgency: 'high', source: 'company_terminal', tier: 1, companies: termCo.map(function (c) { return c.ticker; }), stress: stress });
     if (this.state.convergence && this.state.convergence.primary_signal) add({ title: this.state.convergence.primary_signal.replace(/_/g, ' ').toLowerCase() + ' — technology convergence response', rank: 0.98, path: 'INVESTABLE', urgency: 'high', source: 'convergence', tier: 1, stress: stress });
 

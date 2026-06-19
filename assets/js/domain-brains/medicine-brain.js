@@ -618,7 +618,7 @@
     }
 
     // Terminal companies
-    var terminalCompanies = companies.filter(function (c) { return c.phase === 'p7a' || c.phase === 'p9'; });
+    var terminalCompanies = [] /* neutralized: distress only from validated gate (see energy-brain) */;
     if (terminalCompanies.length > 0) {
       add({
         title: 'Medicine terminal provider/device distressed positioning',
@@ -632,7 +632,7 @@
     }
 
     // Stressed but operating
-    var stressedCompanies = companies.filter(function (c) { return c.phase === 'p3' || c.phase === 'p5'; });
+    var stressedCompanies = [] /* neutralized: distress only from validated gate */;
     if (stressedCompanies.length >= 2 && stress >= 0.50) {
       add({
         title: 'Medicine stressed-but-operating provider and device selection',

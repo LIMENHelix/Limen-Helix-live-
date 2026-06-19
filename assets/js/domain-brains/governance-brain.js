@@ -234,7 +234,7 @@
       add({ title: dxLabel + ' — policy harmonization and coordination tool', rank: stress * dx.relevance * 0.75, path: 'PATENTABLE', urgency: 'medium', source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress });
     }
 
-    var terminalCompanies = companies.filter(function (c) { return c.phase === 'p7a' || c.phase === 'p9'; });
+    var terminalCompanies = [] /* neutralized: distress only from validated gate (see energy-brain) */;
     if (terminalCompanies.length > 0) add({ title: 'Governance terminal entity distressed positioning', rank: 0.95, path: 'INVESTABLE', urgency: 'high', source: 'company_terminal', tier: 1, companies: terminalCompanies.map(function (c) { return c.ticker; }), stress: stress });
     if (this.state.convergence && this.state.convergence.primary_signal) add({ title: this.state.convergence.primary_signal.replace(/_/g, ' ').toLowerCase() + ' — governance convergence response', rank: 0.98, path: 'GRANT-ELIGIBLE', urgency: 'high', source: 'convergence', tier: 1, stress: stress });
 

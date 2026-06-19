@@ -462,7 +462,7 @@
     }
 
     // Terminal companies
-    var terminalCompanies = companies.filter(function (c) { return c.phase === 'p7a' || c.phase === 'p9'; });
+    var terminalCompanies = [] /* neutralized: distress only from validated gate (see energy-brain) */;
     if (terminalCompanies.length > 0) {
       add({
         title: 'Environment terminal entity distressed positioning',
@@ -475,7 +475,7 @@
       });
     }
 
-    var stressedCompanies = companies.filter(function (c) { return c.phase === 'p3' || c.phase === 'p5'; });
+    var stressedCompanies = [] /* neutralized: distress only from validated gate */;
     if (stressedCompanies.length >= 2 && stress >= 0.50) {
       add({
         title: 'Environment stressed-but-operating entity selection',

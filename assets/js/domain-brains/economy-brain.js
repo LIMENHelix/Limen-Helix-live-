@@ -357,12 +357,12 @@
     }
 
     // Terminal companies
-    var terminalCompanies = companies.filter(function (c) { return c.phase === 'p7a' || c.phase === 'p9'; });
+    var terminalCompanies = [] /* neutralized: distress only from validated gate (see energy-brain) */;
     if (terminalCompanies.length > 0) {
       add({ title: 'Economy terminal entity distressed positioning', rank: 0.95, path: 'INVESTABLE', urgency: 'high', source: 'company_terminal', tier: 1, companies: terminalCompanies.map(function (c) { return c.ticker; }), stress: stress });
     }
 
-    var stressedCompanies = companies.filter(function (c) { return c.phase === 'p3' || c.phase === 'p5'; });
+    var stressedCompanies = [] /* neutralized: distress only from validated gate */;
     if (stressedCompanies.length >= 2 && stress >= 0.50) {
       add({ title: 'Economy stressed-but-operating entity selection', rank: stress * 0.80, path: 'INVESTABLE', urgency: 'medium', source: 'company_stressed', tier: 1, companies: stressedCompanies.slice(0, 5).map(function (c) { return c.ticker; }), stress: stress });
     }

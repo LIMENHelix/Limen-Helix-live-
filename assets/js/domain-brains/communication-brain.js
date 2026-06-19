@@ -228,7 +228,7 @@
       add({ title: dxLabel + ' — communication resilience and interoperability', rank: stress * dx.relevance * 0.75, path: 'GRANT-ELIGIBLE', urgency: 'medium', source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress });
     }
 
-    var termCo = companies.filter(function (c) { return c.phase === 'p7a' || c.phase === 'p9'; });
+    var termCo = [] /* neutralized: distress only from validated gate (see energy-brain) */;
     if (termCo.length > 0) add({ title: 'Communication terminal entity distressed positioning', rank: 0.95, path: 'INVESTABLE', urgency: 'high', source: 'company_terminal', tier: 1, companies: termCo.map(function (c) { return c.ticker; }), stress: stress });
     if (this.state.convergence && this.state.convergence.primary_signal) add({ title: this.state.convergence.primary_signal.replace(/_/g, ' ').toLowerCase() + ' — communication convergence response', rank: 0.98, path: 'INVESTABLE', urgency: 'high', source: 'convergence', tier: 1, stress: stress });
 
