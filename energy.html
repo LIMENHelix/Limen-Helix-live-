@@ -159,6 +159,23 @@ input:focus,select:focus{border-color:rgba(201,169,78,0.5)}
     <button class="btn btn-ghost" id="clearHist" style="margin-top:12px;font-size:12px;padding:7px 12px">Clear history</button>
   </div>
 
+  <!-- WEATHER-ADJUSTED USAGE -->
+  <div class="card">
+    <h2>Weather-Adjusted Usage</h2>
+    <div class="sub">Did you actually use more — or was it just hotter/colder? Compares two months against real local weather (free, no account). Pre-filled from your history.</div>
+    <div class="grid">
+      <div><label>ZIP code</label><input id="wZip" inputmode="numeric" maxlength="5" placeholder="64111"></div>
+      <div></div>
+      <div><label>Baseline month</label><input id="wM1" type="month"></div>
+      <div><label>Baseline kWh</label><input id="wK1" inputmode="decimal" placeholder="900"></div>
+      <div><label>Compare month</label><input id="wM2" type="month"></div>
+      <div><label>Compare kWh</label><input id="wK2" inputmode="decimal" placeholder="1200"></div>
+    </div>
+    <button class="btn btn-primary" id="checkWeather">Check weather impact →</button>
+    <div class="err" id="wErr"></div>
+    <div id="wResult" style="display:none;margin-top:18px"></div>
+  </div>
+
   <!-- COMPLAINT BUILDER -->
   <div class="card">
     <h2>Utility Complaint Builder</h2>
@@ -205,7 +222,6 @@ input:focus,select:focus{border-color:rgba(201,169,78,0.5)}
     <h2>More free tools</h2>
     <div class="sub">Rolling out next — the more readings the map gets, the sharper these become.</div>
     <div class="tools">
-      <div class="tool"><div class="soon">Soon</div><h3>Weather-Adjusted Usage</h3><p>Tells you how much of a usage jump is just heating/cooling vs a real change at home.</p></div>
       <div class="tool"><div class="soon">Soon</div><h3>Utility Watch Pages</h3><p>See bill-shock, outages, and rate alerts for your specific utility and area.</p></div>
       <div class="tool"><div class="soon">Soon</div><h3>Utility Rooms</h3><p>Compare notes with others on your utility — unlocked once your area has enough readings.</p></div>
     </div>
@@ -474,6 +490,113 @@ input:focus,select:focus{border-color:rgba(201,169,78,0.5)}
     $('sResult').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   });
 
+  // ── Weather-Adjusted Usage (client-side: Zippopotam.us + Open-Meteo, no key) ──
+  function pad2(x){ return x < 10 ? '0' + x : '' + x; }
+  function daysInMonth(ym){ var p = ym.split('-'); return new Date(+p[0], +p[1], 0).getDate(); }
+
+  function prefillWeather() {
+    var h = load();
+    if (!h.length) return;
+    var sorted = h.slice().sort(function (a, b) { return a.month < b.month ? -1 : 1; });
+    var last = sorted[sorted.length - 1];
+    if (last.zip) $('wZip').value = last.zip;
+    if (sorted.length >= 2) {
+      var prev = sorted[sorted.length - 2];
+      $('wM1').value = prev.month; $('wK1').value = Math.round(prev.kwh);
+      $('wM2').value = last.month; $('wK2').value = Math.round(last.kwh);
+    }
+  }
+
+  async function geocodeZip(zip) {
+    var r = await fetch('https://api.zippopotam.us/us/' + encodeURIComponent(zip));
+    if (!r.ok) throw new Error('zip');
+    var j = await r.json();
+    var p = j.places && j.places[0];
+    if (!p) throw new Error('zip');
+    return { lat: parseFloat(p.latitude), lon: parseFloat(p.longitude), place: p['place name'] + ', ' + p['state abbreviation'] };
+  }
+
+  async function degreeDays(lat, lon, ym) {
+    var start = ym + '-01';
+    var end = ym + '-' + pad2(daysInMonth(ym));
+    var cap = new Date(Date.now() - 5 * 864e5); // archive lags ~5 days
+    var capStr = cap.getFullYear() + '-' + pad2(cap.getMonth() + 1) + '-' + pad2(cap.getDate());
+    if (end > capStr) end = capStr;
+    if (end < start) throw new Error('toonew'); // whole month is too recent for the archive
+    var url = 'https://archive-api.open-meteo.com/v1/archive?latitude=' + lat + '&longitude=' + lon +
+      '&start_date=' + start + '&end_date=' + end + '&daily=temperature_2m_mean&temperature_unit=fahrenheit&timezone=auto';
+    var r = await fetch(url);
+    if (!r.ok) throw new Error('weather');
+    var j = await r.json();
+    var temps = (j.daily && j.daily.temperature_2m_mean) || [];
+    var dd = 0, days = 0;
+    temps.forEach(function (t) { if (t != null) { dd += Math.abs(t - 65); days++; } }); // |T-65| = heating+cooling demand
+    if (!days) throw new Error('nodata');
+    return { perDay: dd / days, days: days };
+  }
+
+  $('checkWeather').addEventListener('click', async function () {
+    $('wErr').textContent = '';
+    var zip = $('wZip').value.trim();
+    var m1 = $('wM1').value, m2 = $('wM2').value;
+    var k1 = n($('wK1').value), k2 = n($('wK2').value);
+    if (!/^\d{5}$/.test(zip)) return void ($('wErr').textContent = 'Enter a 5-digit US ZIP code.');
+    if (!m1 || !m2) return void ($('wErr').textContent = 'Pick both months.');
+    if (m1 === m2) return void ($('wErr').textContent = 'Pick two different months.');
+    if (k1 == null || k1 <= 0 || k2 == null || k2 <= 0) return void ($('wErr').textContent = 'Enter kWh for both months.');
+
+    var btn = $('checkWeather'); var label = btn.textContent; btn.textContent = 'Checking weather…'; btn.disabled = true;
+    try {
+      var geo = await geocodeZip(zip);
+      var d1 = await degreeDays(geo.lat, geo.lon, m1);
+      var d2 = await degreeDays(geo.lat, geo.lon, m2);
+
+      var upd1 = k1 / daysInMonth(m1), upd2 = k2 / daysInMonth(m2);
+      var uChg = ((upd2 - upd1) / upd1) * 100;          // usage change, per-day normalized
+      var dChg = d1.perDay > 0.5 ? ((d2.perDay - d1.perDay) / d1.perDay) * 100 : (d2.perDay > 0.5 ? 999 : 0);
+
+      renderWeather(geo, uChg, dChg, d1, d2, m1, m2);
+    } catch (e) {
+      var msg = e && e.message;
+      $('wErr').textContent = msg === 'zip' ? 'Couldn\'t find that ZIP — double-check it.' :
+        msg === 'toonew' ? 'That month is too recent — weather records lag ~5 days. Try once the month has finished.' :
+        'Couldn\'t fetch weather right now — please try again in a moment.';
+    } finally { btn.textContent = label; btn.disabled = false; }
+  });
+
+  function renderWeather(geo, uChg, dChg, d1, d2, m1, m2) {
+    var v; // {color, head, detail}
+    if (Math.abs(dChg) < 5) {
+      v = { c: 'var(--gold)', h: 'Weather barely changed — this isn\'t weather.', d: 'Heating/cooling demand moved only ' + pct(dChg) + ' between ' + m1 + ' and ' + m2 + ', so your ' + pct(uChg) + ' usage change is a real change at home (HVAC, a new appliance/EV, or an estimated meter read).' };
+    } else if ((uChg >= 0) === (dChg >= 0)) {
+      if (Math.abs(uChg) <= Math.abs(dChg) * 1.15) {
+        v = { c: 'var(--emerald)', h: 'Mostly weather.', d: 'Your usage moved ' + pct(uChg) + ' while heating/cooling demand moved ' + pct(dChg) + ' — in line with (or below) the weather. Little sign of a change at home.' };
+      } else {
+        var extra = Math.round(Math.abs(uChg) - Math.abs(dChg));
+        v = { c: 'var(--red)', h: 'More than weather explains.', d: 'Usage moved ' + pct(uChg) + ' but weather demand only ' + pct(dChg) + '. The extra ~' + extra + ' points to a real change at home — check HVAC runtime, a new appliance/EV/pool pump, or an estimated meter read.' };
+      }
+    } else if (dChg > 0 && uChg <= 0) {
+      v = { c: 'var(--emerald)', h: 'Better than the weather predicted.', d: 'Weather got harsher (' + pct(dChg) + ' demand) yet your usage went ' + pct(uChg) + ' — an efficiency gain or you cut back. Nice.' };
+    } else {
+      v = { c: 'var(--red)', h: 'Definitely not weather.', d: 'Weather got milder (' + pct(dChg) + ' demand) but your usage rose ' + pct(uChg) + '. Something changed at home — check appliances, HVAC, or the meter read.' };
+    }
+
+    var h = '';
+    h += '<div class="verdict" style="font-size:17px">' + v.h + '</div>';
+    h += '<div class="muted" style="margin-bottom:6px">' + geo.place + '</div>';
+    h += '<div class="split">';
+    h += tile('Your usage', pct(uChg), 'per-day, ' + m1 + ' → ' + m2);
+    h += tile('Weather demand', dChg === 999 ? 'much higher' : pct(dChg), 'heating+cooling degree-days');
+    h += '</div>';
+    h += '<div class="lines"><div class="li"><span class="dot" style="background:' + v.c + '"></span><span>' + v.d + '</span></div></div>';
+    if (d2.days < daysInMonth(m2) - 3) h += note('Note: the compare month had only ' + d2.days + ' days of weather data available (records lag a few days), so treat it as preliminary.');
+    h += note('Directional estimate. Degree-days use a 65°F base; billing periods rarely line up exactly with calendar months, and base household load means usage normally moves a bit less than weather demand.');
+    $('wResult').innerHTML = h;
+    $('wResult').style.display = 'block';
+    $('wResult').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  prefillWeather();
   renderHistory();
 })();
 </script>
