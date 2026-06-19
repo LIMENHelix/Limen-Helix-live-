@@ -1,0 +1,58 @@
+{
+  "domainId": "energy",
+  "title": "Data Center Cooling & Water",
+  "parentPortal": "energy_datacenter_portal.html",
+  "parentLabel": "Data Centers",
+  "phase": "P1",
+  "_authoring": "Authored 2026-06-19, factual content; no fabricated DOIs.",
+  "activations": [
+    {
+      "brainNodeId": "THAL",
+      "state": "active",
+      "domainLabel": "Direct-to-Chip Liquid Cooling",
+      "domainDescription": "Cold plates carry liquid coolant directly to processors, removing heat far more effectively than air at high densities.",
+      "domainFunction": "Enables high-density AI racks while improving cooling efficiency.",
+      "group": "core",
+      "phase": "P1",
+      "weight": 0.85,
+      "diagnosticTriggers": ["Rack density exceeding air-cooling limits"],
+      "companies": [
+        { "name": "Vertiv", "ticker_or_id": "VRT", "functional_reason": "Liquid cooling systems and coolant distribution units.", "binding_strength": 0.88 }
+      ],
+      "treatments": []
+    },
+    {
+      "brainNodeId": "HYPO",
+      "state": "active",
+      "domainLabel": "Evaporative Cooling & Water Use",
+      "domainDescription": "Evaporative cooling is energy-efficient but consumes large volumes of freshwater, creating friction in drought-prone regions.",
+      "domainFunction": "Trades electricity against water; the focus of local permitting and WUE concerns.",
+      "group": "core",
+      "phase": "P1",
+      "weight": 0.8,
+      "diagnosticTriggers": ["Cooling water stress", "Local water-permit pushback"],
+      "companies": [
+        { "name": "Johnson Controls", "ticker_or_id": "JCI", "functional_reason": "Chillers and water/thermal systems.", "binding_strength": 0.8 }
+      ],
+      "treatments": []
+    },
+    {
+      "brainNodeId": "ECN",
+      "state": "active",
+      "domainLabel": "Waste-Heat Reuse",
+      "domainDescription": "Capturing data-center waste heat for district heating or industrial use turns a cost into a resource (more common in Europe).",
+      "domainFunction": "Improves overall energy productivity and community acceptance.",
+      "group": "synthesis",
+      "phase": "P4",
+      "weight": 0.65,
+      "diagnosticTriggers": ["Stranded waste heat"],
+      "companies": [],
+      "treatments": []
+    }
+  ],
+  "edges": [
+    { "a": "THAL", "b": "HYPO", "w": 0.6 },
+    { "a": "HYPO", "b": "ECN", "w": 0.5 }
+  ],
+  "issues": []
+}

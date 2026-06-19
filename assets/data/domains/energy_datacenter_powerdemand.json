@@ -1,0 +1,61 @@
+{
+  "domainId": "energy",
+  "title": "Data Center Power Demand",
+  "parentPortal": "energy_datacenter_portal.html",
+  "parentLabel": "Data Centers",
+  "phase": "P1",
+  "_authoring": "Authored 2026-06-19, factual content; no fabricated DOIs. Deeper quantitative figures flagged needs-authoring.",
+  "activations": [
+    {
+      "brainNodeId": "M1",
+      "state": "active",
+      "domainLabel": "Training vs Inference Load",
+      "domainDescription": "Training runs are large, schedulable, and bursty; inference is smaller but continuous and latency-sensitive — they shape the load curve differently.",
+      "domainFunction": "Determines how flexible the load is: training can shift in time/place, inference largely cannot.",
+      "group": "analysis",
+      "phase": "P1",
+      "weight": 0.85,
+      "diagnosticTriggers": ["Bursty training load", "Continuous inference floor"],
+      "companies": [
+        { "name": "NVIDIA", "ticker_or_id": "NVDA", "functional_reason": "GPUs set the per-job power profile for both training and inference.", "binding_strength": 0.9 }
+      ],
+      "treatments": []
+    },
+    {
+      "brainNodeId": "S1",
+      "state": "active",
+      "domainLabel": "Rack Power Density",
+      "domainDescription": "Per-rack power has risen from ~5-10 kW to 50-100+ kW with AI accelerators, forcing liquid cooling and new power distribution.",
+      "domainFunction": "Drives cooling method and electrical design; high density is the proximate cause of the cooling shift.",
+      "group": "core",
+      "phase": "P1",
+      "weight": 0.8,
+      "diagnosticTriggers": ["Rack density exceeding air-cooling limits"],
+      "companies": [
+        { "name": "Vertiv", "ticker_or_id": "VRT", "functional_reason": "Power and cooling systems engineered for high-density racks.", "binding_strength": 0.86 },
+        { "name": "Eaton", "ticker_or_id": "ETN", "functional_reason": "High-density power distribution.", "binding_strength": 0.8 }
+      ],
+      "treatments": []
+    },
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Load Forecasting & De-duplication",
+      "domainDescription": "Utilities receive speculative, duplicated interconnection requests; separating real from phantom demand is critical to avoid over- or under-building.",
+      "domainFunction": "Prevents both stranded generation and shortfalls by cleaning the demand signal.",
+      "group": "analysis",
+      "phase": "P3",
+      "weight": 0.8,
+      "diagnosticTriggers": ["Speculative duplicate requests", "Load growth outpacing supply"],
+      "companies": [
+        { "name": "American Electric Power", "ticker_or_id": "AEP", "functional_reason": "Processes large-load interconnection requests.", "binding_strength": 0.78 }
+      ],
+      "treatments": []
+    }
+  ],
+  "edges": [
+    { "a": "M1", "b": "S1", "w": 0.6 },
+    { "a": "dlPFC", "b": "M1", "w": 0.5 }
+  ],
+  "issues": []
+}

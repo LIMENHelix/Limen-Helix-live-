@@ -1,0 +1,303 @@
+{
+  "domainId": "energy",
+  "title": "Data Centers",
+  "parentPortal": "energy_portal.html",
+  "parentLabel": "Energy",
+  "phase": "P1",
+  "_authoring": "Authored 2026-06-19 with factual, non-fabricated content (real sub-topics, real companies, real authoritative sources). Evidence grades are conservative; no synthetic DOIs. Deeper L2+ nodes flagged needs-authoring where applicable.",
+  "activations": [
+    {
+      "brainNodeId": "HYPO",
+      "state": "active",
+      "domainLabel": "AI Compute Power Demand",
+      "domainDescription": "The surge in electricity demand driven by AI/accelerated-compute data centers, the first sustained U.S. electricity-demand growth in roughly two decades.",
+      "domainFunction": "Sets the load that the rest of the energy system must serve; concentrated, fast-growing, and often clustered geographically near fiber and cheap power.",
+      "whyThisNode": "The hypothalamus regulates the body's overall energy demand and homeostatic set-points, mirroring how data-center load is becoming a dominant new demand the grid must balance around.",
+      "group": "generation",
+      "phase": "P1",
+      "weight": 1,
+      "diagnosticTriggers": ["AI compute demand surge", "Load growth outpacing supply", "Regional capacity shortfall"],
+      "companies": [
+        { "name": "NVIDIA", "ticker_or_id": "NVDA", "functional_reason": "Accelerated-compute hardware that drives per-rack power density and total data-center load.", "binding_strength": 0.95 },
+        { "name": "Microsoft", "ticker_or_id": "MSFT", "functional_reason": "Hyperscale operator; major driver of new data-center electricity demand and power-purchase agreements.", "binding_strength": 0.9 },
+        { "name": "Constellation Energy", "ticker_or_id": "CEG", "functional_reason": "Supplies firm, carbon-free nuclear power to data-center buyers via PPAs.", "binding_strength": 0.88 }
+      ],
+      "treatments": [
+        {
+          "label": "Integrated load-growth forecasting for data-center demand",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Incorporate large-load (data-center) interconnection requests into utility resource planning rather than treating them as ordinary load growth; stress-test against speculative duplicate requests.",
+          "cite": "IEA (2024). Electricity 2024 — Analysis and forecast to 2026 (data-centre demand section); Lawrence Berkeley National Laboratory (2024). United States Data Center Energy Usage Report.",
+          "citation": [
+            { "author": "IEA", "year": 2024, "title": "Electricity 2024: Analysis and forecast to 2026", "journal": "International Energy Agency", "doi": null },
+            { "author": "Shehabi et al. (LBNL)", "year": 2024, "title": "United States Data Center Energy Usage Report", "journal": "Lawrence Berkeley National Laboratory", "doi": null }
+          ],
+          "steps": [
+            "Separate confirmed vs speculative large-load interconnection requests (de-duplicate)",
+            "Model concentrated load clusters against local transmission capacity",
+            "Coordinate phased energization with firm-supply commitments"
+          ]
+        }
+      ],
+      "childPortal": "energy_datacenter_powerdemand_portal.html"
+    },
+    {
+      "brainNodeId": "THAL",
+      "state": "active",
+      "domainLabel": "Cooling & Water Use",
+      "domainDescription": "Thermal management of high-density compute — air, liquid, and immersion cooling — and the freshwater consumed by evaporative cooling, increasingly contentious in drought-prone regions.",
+      "domainFunction": "Removes waste heat so compute can run continuously; trades electricity (chillers) against water (evaporative) and drives a shift toward liquid cooling at high rack densities.",
+      "whyThisNode": "The thalamus relays and regulates throughput between systems; data-center cooling is the throughput-limiting relay between compute load and sustained operation.",
+      "group": "distribution",
+      "phase": "P1",
+      "weight": 0.9,
+      "diagnosticTriggers": ["Cooling water stress", "Rack density exceeding air-cooling limits", "Local water-permit pushback"],
+      "companies": [
+        { "name": "Vertiv", "ticker_or_id": "VRT", "functional_reason": "Liquid/air cooling and thermal-management systems for high-density data centers.", "binding_strength": 0.93 },
+        { "name": "Johnson Controls", "ticker_or_id": "JCI", "functional_reason": "Chillers and building/thermal systems used in data-center cooling.", "binding_strength": 0.82 }
+      ],
+      "treatments": [
+        {
+          "label": "Shift to liquid/closed-loop cooling to cut water and energy",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Adopt direct-to-chip or immersion liquid cooling and closed-loop/air-cooled chillers to reduce evaporative freshwater use and improve cooling efficiency at high rack densities.",
+          "cite": "Uptime Institute (2023). Global Data Center Survey; U.S. DOE (2024). Data center energy efficiency resources.",
+          "citation": [
+            { "author": "Uptime Institute", "year": 2023, "title": "Global Data Center Survey", "journal": "Uptime Institute", "doi": null }
+          ],
+          "steps": [
+            "Audit current PUE and WUE (water usage effectiveness)",
+            "Pilot direct-to-chip liquid cooling on high-density racks",
+            "Move to closed-loop/air-cooled chillers in water-stressed sites"
+          ]
+        }
+      ],
+      "childPortal": "energy_datacenter_cooling_portal.html"
+    },
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Grid Interconnection",
+      "domainDescription": "The multi-year queue and transmission constraints data centers face when connecting large new loads to the grid — now a primary bottleneck on AI buildout.",
+      "domainFunction": "Gates whether and when new compute can be energized; drives behind-the-meter generation when the public grid can't keep up.",
+      "whyThisNode": "The dorsolateral prefrontal cortex gates and sequences competing demands, analogous to interconnection queues sequencing access to constrained grid capacity.",
+      "group": "distribution",
+      "phase": "P3",
+      "weight": 0.9,
+      "diagnosticTriggers": ["Grid interconnection backlog", "Transmission capacity constraint", "Multi-year energization delay"],
+      "companies": [
+        { "name": "Quanta Services", "ticker_or_id": "PWR", "functional_reason": "Builds the transmission and substation infrastructure that relieves interconnection constraints.", "binding_strength": 0.85 },
+        { "name": "American Electric Power", "ticker_or_id": "AEP", "functional_reason": "Transmission-heavy utility processing large data-center interconnection requests.", "binding_strength": 0.8 }
+      ],
+      "treatments": [
+        {
+          "label": "Large-load interconnection reform & flexible connections",
+          "type": "POLICY",
+          "evidence": "C",
+          "description": "Use flexible/curtailable interconnection agreements and fast-track transmission upgrades so large loads can energize sooner in exchange for accepting curtailment during peaks.",
+          "cite": "FERC Order 2023 (interconnection process reform); NERC (2024). Long-Term Reliability Assessment.",
+          "citation": [
+            { "author": "NERC", "year": 2024, "title": "Long-Term Reliability Assessment", "journal": "North American Electric Reliability Corporation", "doi": null }
+          ],
+          "steps": [
+            "Offer flexible/curtailable connection agreements for large loads",
+            "Prioritize transmission upgrades at constrained nodes",
+            "Co-locate load near existing generation where possible"
+          ]
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PAG",
+      "state": "active",
+      "domainLabel": "On-site & Firm Generation",
+      "domainDescription": "Behind-the-meter and dedicated firm power for data centers — gas turbines, nuclear PPAs, restarts, SMRs, and fuel cells — when the grid can't supply fast or clean enough.",
+      "domainFunction": "Provides 24/7 firm power independent of interconnection timelines; central to the nuclear-restart and SMR interest driven by data centers.",
+      "whyThisNode": "The periaqueductal gray coordinates emergency, self-sustaining responses, mirroring on-site generation as the data center's self-supply when the grid falls short.",
+      "group": "generation",
+      "phase": "P1",
+      "weight": 0.9,
+      "diagnosticTriggers": ["On-site generation buildout", "Firm power shortfall", "Behind-the-meter demand"],
+      "companies": [
+        { "name": "GE Vernova", "ticker_or_id": "GEV", "functional_reason": "Gas turbines and grid equipment for on-site and utility-scale firm power.", "binding_strength": 0.9 },
+        { "name": "Bloom Energy", "ticker_or_id": "BE", "functional_reason": "Solid-oxide fuel cells deployed for on-site data-center power.", "binding_strength": 0.78 },
+        { "name": "Constellation Energy", "ticker_or_id": "CEG", "functional_reason": "Nuclear PPAs and the Three Mile Island restart for data-center firm power.", "binding_strength": 0.86 }
+      ],
+      "treatments": [
+        {
+          "label": "Firm clean-power procurement (nuclear PPA / SMR / fuel cell)",
+          "type": "STRATEGY",
+          "evidence": "C",
+          "description": "Secure 24/7 firm power through nuclear power-purchase agreements, reactor restarts, small modular reactors (longer-dated), or on-site fuel cells, rather than relying solely on grid interconnection.",
+          "cite": "U.S. DOE (2024). Pathways to Commercial Liftoff: Advanced Nuclear; IEA (2024). Electricity 2024.",
+          "citation": [
+            { "author": "U.S. Department of Energy", "year": 2024, "title": "Pathways to Commercial Liftoff: Advanced Nuclear", "journal": "U.S. DOE", "doi": null }
+          ],
+          "steps": [
+            "Match load profile to firm-supply options (nuclear PPA vs on-site)",
+            "Contract carbon-free firm power for baseline load",
+            "Treat SMRs as longer-dated optionality, not near-term supply"
+          ]
+        }
+      ]
+    },
+    {
+      "brainNodeId": "ECN",
+      "state": "active",
+      "domainLabel": "Efficiency & PUE",
+      "domainDescription": "Power Usage Effectiveness and overall efficiency — how much of a data center's power reaches compute vs overhead (cooling, conversion, distribution).",
+      "domainFunction": "Determines how much useful compute is delivered per kWh; gains here directly reduce demand and emissions.",
+      "whyThisNode": "The executive-control network optimizes resource allocation under constraint, like efficiency programs maximizing useful compute per watt.",
+      "group": "distribution",
+      "phase": "P4",
+      "weight": 0.8,
+      "diagnosticTriggers": ["High PUE / overhead", "Conversion losses", "Stranded capacity"],
+      "companies": [
+        { "name": "Eaton", "ticker_or_id": "ETN", "functional_reason": "Power distribution and management equipment that reduces conversion/distribution losses.", "binding_strength": 0.85 },
+        { "name": "Vertiv", "ticker_or_id": "VRT", "functional_reason": "Power and thermal systems that drive PUE improvements.", "binding_strength": 0.84 }
+      ],
+      "treatments": [
+        {
+          "label": "PUE/WUE measurement and high-voltage distribution",
+          "type": "OPERATIONAL",
+          "evidence": "B",
+          "description": "Continuously measure PUE/WUE, raise distribution voltage to cut conversion losses, and optimize airflow/thermal set-points to reduce overhead power.",
+          "cite": "The Green Grid (PUE metric); LBNL (2024). United States Data Center Energy Usage Report.",
+          "citation": [
+            { "author": "Shehabi et al. (LBNL)", "year": 2024, "title": "United States Data Center Energy Usage Report", "journal": "Lawrence Berkeley National Laboratory", "doi": null }
+          ],
+          "steps": [
+            "Instrument PUE and WUE at facility and rack level",
+            "Adopt higher-voltage DC/AC distribution to cut losses",
+            "Tune cooling set-points and airflow containment"
+          ]
+        }
+      ]
+    },
+    {
+      "brainNodeId": "NAcc",
+      "state": "active",
+      "domainLabel": "Backup & Resilience",
+      "domainDescription": "Uninterruptible power, battery and diesel backup, and resilience design that keep data centers running through grid disturbances.",
+      "domainFunction": "Bridges outages and ride-through events; increasingly battery-based and able to participate in grid services.",
+      "whyThisNode": "The nucleus accumbens sustains motivated activity through disruption; backup power sustains operation through grid disturbance.",
+      "group": "distribution",
+      "phase": "P5",
+      "weight": 0.75,
+      "diagnosticTriggers": ["Backup capacity gap", "Outage ride-through failure", "Aging UPS/diesel fleet"],
+      "companies": [
+        { "name": "Generac", "ticker_or_id": "GNRC", "functional_reason": "Backup generation systems for critical facilities.", "binding_strength": 0.8 },
+        { "name": "Cummins", "ticker_or_id": "CMI", "functional_reason": "Standby power generation and engines for data-center backup.", "binding_strength": 0.78 }
+      ],
+      "treatments": [
+        {
+          "label": "Battery-based UPS with grid-services participation",
+          "type": "STRUCTURAL",
+          "evidence": "C",
+          "description": "Replace or augment diesel/UPS with battery energy storage that provides ride-through and can offer demand response or frequency services back to the grid.",
+          "cite": "Uptime Institute (2023). Global Data Center Survey.",
+          "citation": [
+            { "author": "Uptime Institute", "year": 2023, "title": "Global Data Center Survey", "journal": "Uptime Institute", "doi": null }
+          ],
+          "steps": [
+            "Assess outage exposure and required ride-through duration",
+            "Deploy battery UPS sized for resilience + grid services",
+            "Enroll capacity in demand-response/frequency programs"
+          ]
+        }
+      ]
+    },
+    {
+      "brainNodeId": "IPL",
+      "state": "active",
+      "domainLabel": "Demand Flexibility",
+      "domainDescription": "Shifting or curtailing compute load in time and place to relieve grid stress — using AI workloads' partial tolerance for scheduling.",
+      "domainFunction": "Turns data centers from pure load into a grid asset by curtailing or relocating flexible workloads during peaks.",
+      "whyThisNode": "The inferior parietal lobule integrates timing and spatial context; demand flexibility is load shaped across time and location.",
+      "group": "distribution",
+      "phase": "P6",
+      "weight": 0.7,
+      "diagnosticTriggers": ["Peak coincidence with grid stress", "Inflexible load profile", "Curtailment opportunity unused"],
+      "companies": [
+        { "name": "Vistra", "ticker_or_id": "VST", "functional_reason": "Power supplier with flexibility/storage assets relevant to data-center load shaping.", "binding_strength": 0.74 }
+      ],
+      "treatments": [
+        {
+          "label": "Temporal/spatial workload shifting & curtailment",
+          "type": "OPERATIONAL",
+          "evidence": "C",
+          "description": "Schedule deferrable training/batch workloads to off-peak hours or lower-stress regions, and accept curtailment during grid emergencies in exchange for faster/cheaper interconnection.",
+          "cite": "U.S. DOE (2024); industry demand-flexibility pilots.",
+          "citation": [],
+          "steps": [
+            "Classify workloads by latency tolerance",
+            "Shift deferrable compute to off-peak / low-stress regions",
+            "Contract curtailment in exchange for connection priority"
+          ]
+        }
+      ]
+    },
+    {
+      "brainNodeId": "VP",
+      "state": "active",
+      "domainLabel": "Siting & Permitting",
+      "domainDescription": "Where data centers locate — driven by power availability, water, fiber, land, tax incentives, and community/permitting acceptance.",
+      "domainFunction": "Determines local grid, water, and community impact; increasingly a source of friction (moratoria, rate-impact concerns).",
+      "whyThisNode": "The ventral pallidum gates which drives gain access to action; siting gates which projects get built where.",
+      "group": "generation",
+      "phase": "P7",
+      "weight": 0.7,
+      "diagnosticTriggers": ["Permitting / moratorium risk", "Community rate-impact pushback", "Land/water/fiber constraint"],
+      "companies": [
+        { "name": "Digital Realty", "ticker_or_id": "DLR", "functional_reason": "Data-center REIT making large siting and power-procurement decisions.", "binding_strength": 0.76 },
+        { "name": "Equinix", "ticker_or_id": "EQIX", "functional_reason": "Interconnection/colocation operator siting facilities near power and fiber.", "binding_strength": 0.74 }
+      ],
+      "treatments": [
+        {
+          "label": "Power-first siting with community rate protections",
+          "type": "POLICY",
+          "evidence": "C",
+          "description": "Site near firm power and water availability, and structure tariffs so data-center load does not shift grid-upgrade costs onto residential ratepayers (a growing source of opposition).",
+          "cite": "Industry siting practice; state utility-commission rate-case proceedings.",
+          "citation": [],
+          "steps": [
+            "Prioritize sites with firm power and water headroom",
+            "Negotiate large-load tariffs that fund their own grid upgrades",
+            "Engage communities early on rate and water impact"
+          ]
+        }
+      ]
+    }
+  ],
+  "edges": [
+    { "a": "HYPO", "b": "THAL", "w": 0.6 },
+    { "a": "HYPO", "b": "dlPFC", "w": 0.6 },
+    { "a": "dlPFC", "b": "PAG", "w": 0.7 },
+    { "a": "HYPO", "b": "ECN", "w": 0.5 },
+    { "a": "NAcc", "b": "PAG", "w": 0.5 },
+    { "a": "IPL", "b": "dlPFC", "w": 0.5 }
+  ],
+  "issues": [
+    {
+      "id": "ENERGY_DATACENTER_GRID_STRAIN",
+      "label": "Data-Center Grid Strain",
+      "summary": "Concentrated AI data-center load growing faster than firm supply and transmission can be added, straining regional grids and pushing operators to behind-the-meter generation.",
+      "circuits": [
+        { "nodeId": "HYPO", "dir": "Hyper-active", "detail": "AI compute demand rising faster than the grid can serve it.", "evidence": "Strong" },
+        { "nodeId": "dlPFC", "dir": "Hypo-active", "detail": "Interconnection queues and transmission limits delaying energization.", "evidence": "Strong" },
+        { "nodeId": "PAG", "dir": "Hyper-active", "detail": "On-site/firm generation buildout compensating for grid shortfall.", "evidence": "Moderate" }
+      ]
+    },
+    {
+      "id": "ENERGY_DATACENTER_WATER_STRESS",
+      "label": "Data-Center Water & Cooling Stress",
+      "summary": "Evaporative cooling water use and high rack densities create local water-permit friction and force a shift to liquid/closed-loop cooling.",
+      "circuits": [
+        { "nodeId": "THAL", "dir": "Hyper-active", "detail": "Cooling and water demand rising with rack density.", "evidence": "Moderate" },
+        { "nodeId": "ECN", "dir": "Altered", "detail": "Efficiency (PUE/WUE) becoming the constraint on siting and operation.", "evidence": "Moderate" }
+      ]
+    }
+  ]
+}

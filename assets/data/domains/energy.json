@@ -6,6 +6,25 @@
   "phase": "P1",
   "activations": [
     {
+      "brainNodeId": "HYPO",
+      "state": "active",
+      "domainLabel": "Data Centers",
+      "domainDescription": "AI/accelerated-compute data centers — the fastest-growing new electricity demand on the grid, spanning power supply, cooling/water, interconnection, on-site generation, efficiency, and siting.",
+      "domainFunction": "A concentrated, fast-growing load the rest of the energy system must serve; reshapes generation, transmission, and water planning around clusters of compute.",
+      "whyThisNode": "The hypothalamus regulates the body's overall energy demand and set-points, mirroring how data-center load is becoming a dominant new demand the grid must balance around.",
+      "group": "generation",
+      "phase": "P1",
+      "weight": 1,
+      "diagnosticTriggers": ["AI compute demand surge", "Grid interconnection backlog", "Cooling water stress", "On-site generation buildout"],
+      "companies": [
+        { "name": "NVIDIA", "ticker_or_id": "NVDA", "functional_reason": "Accelerated-compute hardware driving data-center power density and total load.", "binding_strength": 0.95 },
+        { "name": "GE Vernova", "ticker_or_id": "GEV", "functional_reason": "Turbines and grid equipment serving data-center firm power.", "binding_strength": 0.88 },
+        { "name": "Vertiv", "ticker_or_id": "VRT", "functional_reason": "Power and thermal (cooling) systems for high-density data centers.", "binding_strength": 0.86 }
+      ],
+      "treatments": [],
+      "childPortal": "energy_datacenter_portal.html"
+    },
+    {
       "brainNodeId": "M1",
       "state": "active",
       "domainLabel": "Power Generation",
