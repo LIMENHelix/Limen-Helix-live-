@@ -201,18 +201,24 @@ a.tk:hover{border-color:rgba(201,169,78,0.5);background:#161d2e}
   // ── LIMEN research engine (publish-gated brain signals) ──
   fetch('/api/brain-signals?domain=energy').then(function(r){return r.json();}).then(function(j){
     if(!j||!j.ok) return;
-    var h='<div class="blurb">LIMEN is tracking <b>'+(j.tracked||0)+'</b> energy companies in its research engine.</div>';
-    if(j.publishable&&j.publishable.length){
-      h+='<div class="lines">';
-      j.publishable.forEach(function(s){
-        var c=s.band==='elevated'?'var(--red)':s.band==='moderate'?'var(--gold)':'var(--emerald)';
-        h+=line(c,'<b>'+nesc(s.ticker)+'</b> '+nesc(s.name)+' — structural-distress signal: <b>'+s.band+'</b>'+(s.alert?' ⚠':'')+' <span style="color:var(--dim);font-size:11px">(validated, as of '+nesc(s.asOf||'')+')</span>');
-      });
-      h+='</div><div class="disc" style="margin-top:10px">Experimental: LIMEN\'s validated structural-distress signal (large multi-pathway collapse only, narrow envelope). Not a rating, not advice.</div>';
+    var scanned = j.scanned || 0;
+    var flagged = (j.publishable || []).filter(function(s){ return s.band === 'elevated'; });
+    if (scanned > 0) {
+      h='<div class="blurb">LIMEN ran its <b>validated distress kernel</b> live on <b>'+scanned+'</b> energy companies.</div>';
+      if (flagged.length) {
+        h+='<div class="meta risk" style="margin-top:4px"><b>'+flagged.length+' flagged for review</b> by the early-warning screen:</div><div class="lines">';
+        flagged.forEach(function(s){
+          h+=line('var(--red)','<b>'+nesc(s.ticker)+'</b> '+nesc(s.name)+' ⚠ <span style="color:var(--dim);font-size:11px">(validated screen flag)</span>');
+        });
+        h+='</div>';
+      } else {
+        h+='<div class="meta" style="margin-top:6px;color:var(--emerald)">No companies flagged — all scanned names are clear on the screen.</div>';
+      }
+      h+='<div class="meta" style="margin-top:6px;color:var(--dim)">'+(scanned - flagged.length)+' scanned and not flagged.</div>';
+      h+='<div class="disc" style="margin-top:10px">Experimental early-warning screen (Altman-anchored, ~80% precision, large structural-collapse failure mode only). A flag means "worth a closer look," <b>not</b> a prediction of failure — and <b>not</b> advice. Verify independently.</div>';
     } else {
-      h+='<div class="meta risk" style="margin-top:6px">'+nesc(j.note||'Per-company scores withheld until validated.')+'</div>';
-      h+='<div class="meta" style="margin-top:6px;color:var(--dim)">We don\'t publish a per-company risk score until it\'s individually validated — so nothing fake gets attached to a real company. The deeper engine is being calibrated.</div>';
-      h+='<div style="margin-top:8px"><a href="/energy_portal" style="font-size:13px">⚙ Explore the engine (operator) →</a></div>';
+      h='<div class="blurb">LIMEN is tracking <b>'+(j.tracked||0)+'</b> energy companies.</div>';
+      h+='<div class="meta" style="margin-top:6px;color:var(--dim)">Per-company distress scoring for this set is still being computed — we don\'t publish a score until it\'s individually validated, so nothing fake gets attached to a real company.</div>';
     }
     document.getElementById('brainBody').innerHTML=h;
     document.getElementById('brainCard').style.display='block';

@@ -17,8 +17,18 @@ var F = require('../lib/thing-formulas');
 var CB = null;
 try { CB = require('../assets/data/command-board-data.json'); } catch (e) {}
 
+// Real per-company kernel scores (api/limen/score snapshots), keyed by domain → ticker.
+// Presence of a domain here = that domain has been rescored; absence = falls back to
+// honest abstain. Add more files here as other domains get scored.
+var REAL = {};
+try {
+  var _eng = require('../assets/data/energy-distress-scores.json');
+  REAL.energy = {};
+  (_eng.scores || []).forEach(function (s) { if (s.ticker) REAL.energy[s.ticker] = s; });
+} catch (e) {}
+
 function run(domain) {
-  var out = { tracked: 0, eligible: 0, degenerate: false, publishable: [], note: '' };
+  var out = { tracked: 0, scanned: 0, eligible: 0, flagged: 0, degenerate: false, publishable: [], note: '' };
   if (!CB || !CB.companies) { out.note = 'engine data unavailable'; return out; }
 
   var comps = [];
@@ -26,20 +36,30 @@ function run(domain) {
   out.tracked = comps.length;
   if (!comps.length) { out.note = 'no companies tracked in this domain yet'; return out; }
 
-  var domainStats = { degenerate: F.isDegenerate(comps.map(function (c) { return c.ds; })) };
-  out.degenerate = domainStats.degenerate;
+  var realMap = REAL[domain] || {};
+  var hasReal = false;
+  comps.forEach(function (c) { if (realMap[c.t]) { c.real = realMap[c.t]; if (!c.real.error) { hasReal = true; out.scanned++; } } });
 
+  var domainStats = { degenerate: F.isDegenerate(comps.map(function (c) { return c.ds; })) };
+  out.degenerate = domainStats.degenerate && !hasReal;   // real scores override the degenerate fallback
+
+  var pubSeen = {};
   comps.forEach(function (c) {
+    if (pubSeen[c.t]) return;                     // dedup tickers (command-board can have 2 CIK rows)
     var t0 = F.thing0Eligible(c);
     if (!t0.eligible) return;
     out.eligible++;
     var t1 = F.thing1Distress(c, domainStats);   // null = abstain (no fake score)
     if (!t1) return;
-    out.publishable.push({ ticker: c.t, name: c.n, ds: t1.ds, band: t1.band, alert: t1.alert, asOf: t1.asOf });
+    pubSeen[c.t] = 1;
+    if (t1.band === 'elevated') out.flagged++;
+    out.publishable.push({ ticker: c.t, name: c.n, score: t1.score, band: t1.band, alert: t1.alert, asOf: t1.asOf });
   });
 
-  if (out.degenerate) {
-    out.note = 'Per-company distress scores are currently a domain-level default (not individually computed), so they are withheld until per-company scoring is validated.';
+  if (hasReal) {
+    out.note = 'Scored live via the validated kernel (api/limen/score). ' + out.flagged + ' flagged for review; the rest scanned and not flagged. Early-warning screen — not a prediction, not advice.';
+  } else if (out.degenerate) {
+    out.note = 'Per-company distress scores are a domain-level default (not individually computed); withheld until this domain is rescored.';
   } else if (!out.publishable.length) {
     out.note = 'No companies pass the gate (need eligibility + validated status).';
   }
@@ -57,7 +77,7 @@ module.exports = async function handler(req, res) {
   res.statusCode = 200;
   return res.end(JSON.stringify({
     ok: true, domain: domain, pipelineVersion: F.FORMULA_VERSION,
-    tracked: r.tracked, eligible: r.eligible, degenerate: r.degenerate,
-    publishable: r.publishable, note: r.note
+    tracked: r.tracked, scanned: r.scanned, eligible: r.eligible, flagged: r.flagged,
+    degenerate: r.degenerate, publishable: r.publishable, note: r.note
   }));
 };
