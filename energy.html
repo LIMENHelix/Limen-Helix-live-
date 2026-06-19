@@ -182,13 +182,30 @@ input:focus,select:focus{border-color:rgba(201,169,78,0.5)}
     <div id="letterOut"></div>
   </div>
 
+  <!-- SOLAR QUOTE CHECKER -->
+  <div class="card">
+    <h2>Solar Quote Sanity Check</h2>
+    <div class="sub">Got a solar quote? See if the price is fair, when it pays off, and what to question — before you sign.</div>
+    <div class="grid">
+      <div><label>System size (kW)</label><input id="sKw" inputmode="decimal" placeholder="8.0"></div>
+      <div><label>Total quoted price ($)</label><input id="sPrice" inputmode="decimal" placeholder="26000"></div>
+      <div><label>Battery included?</label><select id="sBatt"><option value="no">No</option><option value="yes">Yes</option></select></div>
+      <div><label>Battery size (kWh, optional)</label><input id="sBattKwh" inputmode="decimal" placeholder="13.5"></div>
+      <div><label>Paying cash or loan?</label><select id="sPay"><option value="cash">Cash</option><option value="loan">Loan / financed</option></select></div>
+      <div><label>Loan APR (%) if financing</label><input id="sApr" inputmode="decimal" placeholder="6.99"></div>
+      <div class="full"><label>Your current monthly electric bill ($)</label><input id="sBill" inputmode="decimal" placeholder="160"></div>
+    </div>
+    <button class="btn btn-primary" id="checkSolar">Check my quote →</button>
+    <div class="err" id="sErr"></div>
+    <div id="sResult" style="display:none;margin-top:18px"></div>
+  </div>
+
   <!-- COMING NEXT -->
   <div class="card">
     <h2>More free tools</h2>
     <div class="sub">Rolling out next — the more readings the map gets, the sharper these become.</div>
     <div class="tools">
       <div class="tool"><div class="soon">Soon</div><h3>Weather-Adjusted Usage</h3><p>Tells you how much of a usage jump is just heating/cooling vs a real change at home.</p></div>
-      <div class="tool"><div class="soon">Soon</div><h3>Solar Quote Sanity Check</h3><p>Paste a solar quote — get price-per-watt, payback, and red flags before you sign.</p></div>
       <div class="tool"><div class="soon">Soon</div><h3>Utility Watch Pages</h3><p>See bill-shock, outages, and rate alerts for your specific utility and area.</p></div>
       <div class="tool"><div class="soon">Soon</div><h3>Utility Rooms</h3><p>Compare notes with others on your utility — unlocked once your area has enough readings.</p></div>
     </div>
@@ -399,6 +416,62 @@ input:focus,select:focus{border-color:rgba(201,169,78,0.5)}
   $('copyLetter').addEventListener('click', function () {
     var t = $('letterOut').textContent;
     if (navigator.clipboard) navigator.clipboard.writeText(t).then(function(){ $('copyLetter').textContent = 'Copied ✓'; setTimeout(function(){ $('copyLetter').textContent = 'Copy'; }, 1500); });
+  });
+
+  // ── Solar Quote Sanity Check (pure client-side) ──
+  $('checkSolar').addEventListener('click', function () {
+    $('sErr').textContent = '';
+    var kw = n($('sKw').value), price = n($('sPrice').value), bill = n($('sBill').value);
+    var batt = $('sBatt').value === 'yes', battKwh = n($('sBattKwh').value);
+    var pay = $('sPay').value, apr = n($('sApr').value);
+    if (kw == null || kw <= 0) { $('sErr').textContent = 'Enter the system size in kW.'; return; }
+    if (price == null || price <= 0) { $('sErr').textContent = 'Enter the total quoted price.'; return; }
+
+    var watts = kw * 1000;
+    var ppw = price / watts;                                   // $/W as quoted
+    var battCost = batt ? (battKwh ? battKwh * 1000 : 12000) : 0; // ~$1k/kWh installed, else flat ~$12k
+    var solarOnly = price - battCost;
+    var solarPpw = solarOnly > 0 ? solarOnly / watts : ppw;    // $/W stripped of battery
+    var netCash = price * 0.70;                                // after 30% federal ITC (if tax liability)
+    var annualSavings = bill ? bill * 12 : null;
+    var payback = annualSavings ? netCash / annualSavings : null;
+    var hiThresh = batt ? 5.0 : 4.0;
+
+    var h = '';
+    h += '<div class="split">';
+    h += tile('Price per watt', '$' + ppw.toFixed(2) + '/W', batt ? 'incl. battery' : 'all-in');
+    if (batt) h += tile('Solar-only $/W', '$' + solarPpw.toFixed(2) + '/W', 'battery (~' + money(battCost) + ') removed');
+    h += tile('Net after 30% credit', money(netCash), 'federal ITC — only if you owe federal tax');
+    if (payback != null) h += tile('Est. payback', payback.toFixed(0) + ' yrs', 'rough — assumes it offsets most of your bill');
+    h += '</div>';
+
+    var flags = [];
+    var benchPpw = batt ? solarPpw : ppw;
+    if (benchPpw > hiThresh) flags.push(['var(--red)', 'At $' + benchPpw.toFixed(2) + '/W' + (batt ? ' (solar-only)' : '') + ' this is <b>above</b> the typical $2.50–$3.50/W. Get 2–3 competing quotes before signing.']);
+    else if (ppw < 2.0) flags.push(['var(--gold)', 'At $' + ppw.toFixed(2) + '/W this is unusually <b>low</b> — verify the panel/inverter brand, the workmanship warranty, and that the equipment is new (not used / B-stock).']);
+    else flags.push(['var(--emerald)', '$' + benchPpw.toFixed(2) + '/W is within the normal range.']);
+
+    if (pay === 'loan' && apr != null && apr >= 6.99) flags.push(['var(--red)', 'APR ' + apr + '% is high. Low-APR solar loans often bake a <b>10–30% "dealer fee"</b> into the price — ask for the <b>cash price</b> and compare.']);
+    if (pay === 'loan' && apr == null) flags.push(['var(--gold)', 'You chose financing but gave no APR — get both the APR and the cash price; the gap is the hidden financing cost.']);
+    if (payback != null && payback > 12) flags.push(['var(--red)', '~' + payback.toFixed(0) + '-year payback is long — only worth it if your rates climb fast.']);
+    else if (payback != null && payback < 6) flags.push(['var(--emerald)', '~' + payback.toFixed(0) + '-year payback is strong.']);
+    if (!bill) flags.push(['var(--blue)', 'Add your monthly bill above to estimate payback.']);
+
+    h += '<div class="lines" style="margin-top:6px">';
+    flags.forEach(function (f) { h += line(f[0], f[1]); });
+    h += '</div>';
+
+    h += '<div class="note" style="margin-top:14px"><b>Ask the installer:</b><br>' +
+      '• Exact panel + inverter brand/model and their warranties (product AND workmanship)?<br>' +
+      '• Is this the cash price, or does it include a financing dealer fee? What is the cash price?<br>' +
+      '• What annual production (kWh) do you guarantee, and what if it underproduces?<br>' +
+      '• Who handles permitting, interconnection, and warranty service — you or a subcontractor?<br>' +
+      '• Expected output in year 25 (panel degradation)?</div>';
+    h += note('Rough estimate, not financial advice. Real payback depends on your system\'s actual production, your net-metering rules, and future rates — and the 30% credit only helps if you have federal tax liability.');
+
+    $('sResult').innerHTML = h;
+    $('sResult').style.display = 'block';
+    $('sResult').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   });
 
   renderHistory();
