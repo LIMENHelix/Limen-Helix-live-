@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Energy Stocks by Theme · AI Data Centers, Nuclear, Oil, Water · LIMEN Energy Watch</title>
+<meta name="description" content="Live energy stocks grouped by what's actually driving them — AI data-center power demand, the nuclear comeback, oil & gas, LNG, water, and your utility. Themes to research, with the risks. Not financial advice.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#070b12;--panel:#0e131d;--panel2:#121826;--line:rgba(201,169,78,0.14);--gold:#C9A94E;--ink:#e9e6dd;--dim:#9a9384;--emerald:#5ab5a0;--red:#e8736b;--blue:#6ea8e0}
+html,body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--gold);text-decoration:none}
+.wrap{max-width:860px;margin:0 auto;padding:0 18px}
+.top{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--line)}
+.brand{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--dim)}
+.brand b{color:var(--gold)}
+.top a.alt{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim)}
+.hero{padding:38px 0 12px}
+.kicker{font-size:11px;letter-spacing:3.5px;text-transform:uppercase;color:var(--gold);opacity:.85}
+.hero h1{font-size:clamp(24px,4.6vw,36px);margin:12px 0 8px;letter-spacing:-0.5px;line-height:1.15}
+.hero p{color:var(--dim);font-size:15px;max-width:620px}
+.statline{font-size:12px;color:var(--dim);margin:14px 0 4px}
+.disc{font-size:12px;color:var(--dim);background:rgba(232,115,107,0.06);border-left:2px solid var(--red);padding:9px 12px;border-radius:0 6px 6px 0;margin:6px 0 18px}
+
+.theme{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:16px}
+.theme h2{font-size:18px;letter-spacing:-0.2px;margin-bottom:8px}
+.theme .blurb{font-size:14px;color:#cfc9ba;margin-bottom:6px}
+.theme .meta{font-size:13px;margin:5px 0}
+.theme .meta b{color:var(--gold);font-weight:600}
+.theme .gov{color:var(--blue)} .theme .idea{color:var(--emerald)} .theme .risk{color:var(--red)}
+.tickers{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:13px}
+.tk{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:9px 11px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.tk .sym{font-weight:700;font-size:13px}
+.tk .nm{font-size:10px;color:var(--dim);display:block;font-weight:400;letter-spacing:.3px}
+.tk .px{text-align:right;font-size:13px;white-space:nowrap}
+.tk .chg{display:block;font-size:11px}
+.up{color:var(--emerald)} .down{color:var(--red)} .flat{color:var(--dim)}
+.cta{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:18px;text-align:center;margin:6px 0 18px}
+.btn{display:inline-block;font-size:14px;font-weight:600;border-radius:8px;padding:10px 16px;background:var(--gold);color:#1a1407;margin-top:8px}
+.foot{text-align:center;color:var(--dim);font-size:12px;padding:26px 0 50px}
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="brand"><b>LIMEN</b> ENERGY WATCH</div>
+  <a class="alt" href="/energy">← Bill X-Ray</a>
+</div>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="kicker">Live themes · Updated regularly</div>
+    <h1>Energy stocks, grouped by what's actually moving them</h1>
+    <p>The forces people are watching right now — AI data centers straining the grid, the nuclear comeback, oil &amp; geopolitics, LNG, water, and the utilities behind your bill — each with the companies exposed to it and the risk to weigh.</p>
+    <div class="statline" id="statline">Loading live quotes…</div>
+    <div class="disc"><b>Educational only — not investment advice.</b> Quotes are delayed (~15&nbsp;min). These are themes to <i>research</i>, with their risks — not recommendations to buy or sell. Do your own research.</div>
+  </div>
+
+  <div id="themes"></div>
+
+  <div class="cta">
+    <div style="font-size:15px">Worried about your own bill, not Wall Street?</div>
+    <a class="btn" href="/energy">Run a free Bill X-Ray →</a>
+  </div>
+
+  <div class="foot">Powered by <a href="/">LIMEN Helix</a> · Energy Watch · quotes via public market data, delayed ~15 min</div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var THEMES = [
+    {
+      title: 'AI &amp; data centers are eating the grid',
+      blurb: 'AI is driving the first real U.S. electricity-demand growth in two decades. Utilities and grid builders can\'t add capacity fast enough — the single biggest energy story right now.',
+      gov: 'DOE grid funding, FERC interconnection reform, states cutting power deals directly with hyperscalers.',
+      idea: 'Power producers selling into that demand, plus the "picks &amp; shovels" grid hardware.',
+      risk: 'Demand forecasts may be hyped; consumers footing the buildout can trigger rate backlash.',
+      tickers: [['NEE','NextEra'],['VST','Vistra'],['CEG','Constellation'],['GEV','GE Vernova'],['ETN','Eaton'],['PWR','Quanta']]
+    },
+    {
+      title: 'The nuclear comeback',
+      blurb: 'Data centers want 24/7 carbon-free power, so shuttered reactors are restarting (Three Mile Island) and small modular reactors (SMRs) are suddenly fundable.',
+      gov: 'DOE loans, NRC licensing, bipartisan support, and a Russian-uranium ban pushing domestic enrichment.',
+      idea: 'Reactor operators, uranium miners, enrichment, and reactor-tech names.',
+      risk: 'SMR names are largely pre-revenue and speculative; timelines slip and valuations are rich.',
+      tickers: [['CEG','Constellation'],['VST','Vistra'],['CCJ','Cameco'],['BWXT','BWX Tech'],['SMR','NuScale'],['OKLO','Oklo'],['LEU','Centrus']]
+    },
+    {
+      title: 'Water — the hidden data-center input',
+      blurb: 'Data centers burn enormous amounts of water for cooling, and drought regions are pushing back. Water is the quiet constraint on the AI buildout.',
+      gov: 'State water permitting fights, conservation mandates, infrastructure funding.',
+      idea: 'Regulated water utilities and water-efficiency / treatment technology.',
+      risk: 'Regulated utilities grow slowly and live and die by rate cases.',
+      tickers: [['AWK','American Water'],['WTRG','Essential Util.'],['XYL','Xylem']]
+    },
+    {
+      title: 'Oil &amp; gas — geopolitics and the floor under prices',
+      blurb: 'Still the cash machine. Prices swing on OPEC+, the Middle East, and Russia — and policy has turned pro-drilling.',
+      gov: 'Federal leasing, the Strategic Petroleum Reserve, tariffs and sanctions.',
+      idea: 'Integrated majors, Permian/shale producers, and oilfield services.',
+      risk: 'Commodity cyclicality and the long-run "peak demand" debate.',
+      tickers: [['XOM','Exxon'],['CVX','Chevron'],['COP','Conoco'],['OXY','Occidental'],['SLB','SLB']]
+    },
+    {
+      title: 'Natural gas &amp; LNG — the bridge and the export boom',
+      blurb: 'Gas is the swing fuel for new data-center load at home and the export product Europe and Asia want. LNG terminals are the choke point.',
+      gov: 'LNG export-permit whiplash (the pause-then-restart saga), pipeline approvals.',
+      idea: 'LNG exporters, low-cost gas producers, and the pipelines that move it.',
+      risk: 'Policy/permit reversals and sharp price volatility.',
+      tickers: [['LNG','Cheniere'],['EQT','EQT'],['KMI','Kinder Morgan'],['WMB','Williams']]
+    },
+    {
+      title: 'Renewables &amp; solar — cheap power, policy-whipsawed',
+      blurb: 'The cheapest new electricity — but the most exposed to tax-credit changes, tariffs, and interest rates (capital-heavy projects love rate cuts).',
+      gov: 'IRA tax credits (with repeal risk), panel tariffs, interconnection queues.',
+      idea: 'Utility-scale developers, residential solar, and clean-energy ETFs.',
+      risk: 'Highly policy- and rate-sensitive; residential solar has been hammered.',
+      tickers: [['NEE','NextEra'],['FSLR','First Solar'],['BEP','Brookfield Ren.'],['ENPH','Enphase'],['RUN','Sunrun']]
+    },
+    {
+      title: 'Your utility — the bill connection',
+      blurb: 'The regulated utilities raising rates to fund the grid buildout are the same ones on your bill. Steady, dividend-paying, rate-base growth.',
+      gov: 'State rate cases, allowed return on equity, grid-resilience mandates.',
+      idea: 'The big regulated names — slower, income-oriented exposure to the same demand wave.',
+      risk: 'Regulatory/rate-case risk and sensitivity to interest rates.',
+      tickers: [['DUK','Duke'],['SO','Southern Co'],['AEP','Amer. Electric'],['EXC','Exelon'],['D','Dominion']]
+    },
+    {
+      title: 'Whole-sector context (ETFs)',
+      blurb: 'If you\'d rather watch the theme than a single name, these baskets track the sectors above.',
+      gov: '',
+      idea: 'Broad exposure instead of single-stock risk.',
+      risk: 'You get the sector\'s ups AND downs; no stock-picking edge.',
+      tickers: [['XLE','Energy sector'],['XLU','Utilities'],['URA','Uranium'],['TAN','Solar']]
+    }
+  ];
+
+  var QUOTES = {};
+  function fmtChg(p) {
+    if (p == null) return '<span class="chg flat">—</span>';
+    var cls = p > 0.05 ? 'up' : p < -0.05 ? 'down' : 'flat';
+    var arrow = p > 0.05 ? '▲' : p < -0.05 ? '▼' : '·';
+    return '<span class="chg ' + cls + '">' + arrow + ' ' + (p >= 0 ? '+' : '') + p.toFixed(2) + '%</span>';
+  }
+  function tk(sym, name) {
+    var q = QUOTES[sym];
+    var px = q ? '$' + q.price.toFixed(2) : '<span class="flat">—</span>';
+    return '<div class="tk"><div><span class="sym">' + sym + '</span><span class="nm">' + name + '</span></div>' +
+      '<div class="px">' + px + fmtChg(q ? q.changePct : null) + '</div></div>';
+  }
+  function render() {
+    var h = '';
+    for (var i = 0; i < THEMES.length; i++) {
+      var t = THEMES[i];
+      h += '<div class="theme"><h2>' + t.title + '</h2><div class="blurb">' + t.blurb + '</div>';
+      if (t.gov) h += '<div class="meta gov"><b>Government / policy:</b> ' + t.gov + '</div>';
+      h += '<div class="meta idea"><b>The idea to research:</b> ' + t.idea + '</div>';
+      h += '<div class="meta risk"><b>The risk:</b> ' + t.risk + '</div>';
+      h += '<div class="tickers">' + t.tickers.map(function (x) { return tk(x[0], x[1]); }).join('') + '</div></div>';
+    }
+    document.getElementById('themes').innerHTML = h;
+  }
+
+  render(); // render immediately (prices fill in when quotes load)
+  fetch('/api/energy-markets').then(function (r) { return r.json(); }).then(function (j) {
+    if (j && j.ok && j.quotes) {
+      QUOTES = j.quotes;
+      var when = j.updated ? new Date(j.updated) : null;
+      document.getElementById('statline').textContent = 'Delayed quotes' + (when ? ' · as of ' + when.toLocaleString() : '') + (j.stale ? ' (last available)' : '');
+      render();
+    } else { document.getElementById('statline').textContent = 'Live quotes unavailable right now — themes still apply.'; }
+  }).catch(function () { document.getElementById('statline').textContent = 'Live quotes unavailable right now — themes still apply.'; });
+})();
+</script>
+</body>
+</html>
