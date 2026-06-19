@@ -32,6 +32,11 @@ a{color:var(--gold);text-decoration:none}
 .kicker{font-size:11px;letter-spacing:3.5px;text-transform:uppercase;color:var(--gold);opacity:0.85}
 .hero h1{font-size:clamp(26px,5vw,40px);line-height:1.15;margin:12px 0 10px;letter-spacing:-0.5px}
 .hero p{color:var(--dim);font-size:16px;max-width:540px;margin:0 auto}
+.hubnav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.hubnav a{font-size:13px;color:var(--gold);border:1px solid rgba(201,169,78,0.3);border-radius:20px;padding:7px 14px;text-decoration:none}
+.hubnav a:hover{background:rgba(201,169,78,0.08)}
+.nw{display:block;padding:9px 0;border-top:1px solid var(--line);text-decoration:none;color:inherit}
+.nw:first-child{border-top:none}.nw .t{font-size:14px;color:var(--ink);line-height:1.4}.nw:hover .t{color:#fff}.nw .s{font-size:11px;color:var(--dim);margin-top:2px}
 .promise{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:18px}
 .promise span{font-size:12px;color:var(--dim);background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:5px 12px}
 
@@ -122,10 +127,16 @@ input:focus,select:focus{border-color:rgba(201,169,78,0.5)}
       <span>📈 Track it monthly</span>
       <span>📄 Build a complaint packet</span>
     </div>
+    <div class="hubnav">
+      <a href="#xray">💡 Bill X-Ray</a>
+      <a href="/energy-markets">📈 Energy Markets</a>
+      <a href="/utility-watch">🏢 Utility Watch</a>
+      <a href="#news">📰 News</a>
+    </div>
   </div>
 
   <!-- BILL X-RAY -->
-  <div class="card">
+  <div class="card" id="xray">
     <h2>Energy Bill X-Ray</h2>
     <div class="sub">Your data stays in your browser. Nothing is shared unless you choose to.</div>
     <div class="grid">
@@ -223,6 +234,14 @@ input:focus,select:focus{border-color:rgba(201,169,78,0.5)}
     <div id="sResult" style="display:none;margin-top:18px"></div>
   </div>
 
+  <!-- NEWS -->
+  <div class="card" id="news" style="display:none">
+    <h2>📰 Energy news</h2>
+    <div class="sub">Headlines on bills, the grid, and energy markets — linked to their sources.</div>
+    <div id="newsList"></div>
+    <div style="margin-top:10px"><a href="/energy-markets" style="font-size:13px">More energy news + stocks by theme →</a></div>
+  </div>
+
   <!-- COMING NEXT -->
   <div class="card">
     <h2>More free tools</h2>
@@ -235,7 +254,7 @@ input:focus,select:focus{border-color:rgba(201,169,78,0.5)}
   </div>
 
   <div class="foot">
-    Powered by <a href="/">LIMEN Helix</a> · Energy Watch<div class="pp">
+    Powered by <a href="/">LIMEN Helix</a> · Energy Watch &nbsp;·&nbsp; <a href="/energy_portal" style="color:var(--gold)">⚙ The engine behind this →</a><div class="pp">
     Informational only — not legal, financial, or professional advice. Your readings are stored in your browser; shared readings are anonymized to region (3-digit ZIP).</div>
   </div>
 </div>
@@ -602,6 +621,20 @@ input:focus,select:focus{border-color:rgba(201,169,78,0.5)}
     $('wResult').style.display = 'block';
     $('wResult').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
+
+  // ── News slice (top headlines) ──
+  (function(){
+    function ago(d){var t=Date.parse(d);if(!t)return '';var s=(Date.now()-t)/1000;if(s<3600)return Math.max(1,Math.round(s/60))+'m ago';if(s<86400)return Math.round(s/3600)+'h ago';return Math.round(s/86400)+'d ago';}
+    fetch('/api/energy-news').then(function(r){return r.json();}).then(function(j){
+      if(!j||!j.items||!j.items.length) return;
+      var h='';
+      for(var i=0;i<j.items.length&&i<6;i++){var it=j.items[i];
+        h+='<a class="nw" href="'+encodeURI(it.link)+'" target="_blank" rel="noopener nofollow"><div class="t">'+esc(it.title)+'</div><div class="s">'+esc(it.source||'')+(it.pubDate?' · '+ago(it.pubDate):'')+'</div></a>';
+      }
+      document.getElementById('newsList').innerHTML=h;
+      document.getElementById('news').style.display='block';
+    }).catch(function(){});
+  })();
 
   prefillWeather();
   renderHistory();
