@@ -610,27 +610,8 @@
     h += '<span class="dcb-meta">' + activeDx.length + ' dx <b style="color:' + (hasFiring ? '#e85454' : '#5ab5a0') + '">' + (hasFiring ? 'FIRING' : 'CLEAR') + '</b></span>';
     h += '<span class="dcb-meta">' + treatments.length + ' treatments</span>';
     h += '<span class="dcb-meta">' + liveFeeds.length + '/' + feeds.length + ' feeds</span>';
-    // Confidence + BIO regulation label + HR strap connect button
-    var _bioLabel = '';
-    var _bridge = window.LIMENBiosensorBridge;
-    var _bioReg = _bridge && typeof _bridge.getRegulationState === 'function' ? _bridge.getRegulationState() : null;
-    var _bioState = _bridge && typeof _bridge.getBioState === 'function' ? _bridge.getBioState() : null;
-    var _bleActive = _bioState && _bioState.channels && _bioState.channels.ble;
-    var _hasHR = _bioState && _bioState.heartRate > 0;
-    if (_bioReg && _bioReg !== 'unknown') {
-      var _blColors = { calm: '#5ab5a0', focused: '#4a8fd4', pressured: '#C9A94E', overloaded: '#e85454', recovering: '#8b5cf6' };
-      _bioLabel = ' <span style="color:' + (_blColors[_bioReg] || '#555') + '">\u00b7 BIO: ' + _bioReg.toUpperCase() + '</span>';
-      if (_hasHR) _bioLabel += ' <span style="color:#807868">' + Math.round(_bioState.heartRate) + ' bpm</span>';
-    } else {
-      _bioLabel = ' <span style="color:#555">\u00b7 BIO: INACTIVE</span>';
-    }
-    // HR strap connect button (only if BLE not already active)
-    if (!_bleActive) {
-      _bioLabel += ' <button id="dcb-ble-connect" style="font-family:monospace;font-size:0.24rem;letter-spacing:1px;padding:1px 5px;border:1px solid rgba(168,122,219,0.2);border-radius:2px;background:rgba(168,122,219,0.04);color:rgba(168,122,219,0.6);cursor:pointer;margin-left:4px;vertical-align:middle">\u2661 HR STRAP</button>';
-    } else {
-      _bioLabel += ' <span style="font-size:0.24rem;color:#5ab5a0;margin-left:4px">\u2665 STRAP</span>';
-    }
-    h += '<span class="dcb-meta">conf <b>' + confPct + '%</b>' + _bioLabel + '</span>';
+    // removed: BIO regulation label + HR STRAP connect button (biosensor UI off-site)
+    h += '<span class="dcb-meta">conf <b>' + confPct + '%</b></span>';
     if (unmappedConditions.length > 0) h += '<span class="dcb-meta" style="color:#a855f7">' + unmappedConditions.length + ' GAPS</span>';
     h += '<span style="flex:1"></span>';
     h += '<span class="dcb-meta" style="font-size:0.26rem;color:#605850">' + DOMAIN_LABEL.toUpperCase() + ' INTELLIGENCE</span>';
@@ -1505,35 +1486,7 @@
 
     cv.innerHTML = h;
 
-    // Wire BLE HR strap connect button (requires user gesture)
-    var _bleBtn = document.getElementById('dcb-ble-connect');
-    if (_bleBtn) {
-      _bleBtn.addEventListener('click', function () {
-        var eng = window._limenBiosensor;
-        if (!eng || typeof eng.enableBLE !== 'function') {
-          this.textContent = 'NO ENGINE';
-          this.style.color = '#e85454';
-          return;
-        }
-        this.textContent = 'PAIRING...';
-        this.style.color = '#C9A94E';
-        this.disabled = true;
-        eng.enableBLE().then(function (result) {
-          if (result.success) {
-            _bleBtn.textContent = '\u2665 ' + (result.device || 'CONNECTED');
-            _bleBtn.style.color = '#5ab5a0';
-          } else {
-            _bleBtn.textContent = result.error ? result.error.substring(0, 20) : 'FAILED';
-            _bleBtn.style.color = '#e85454';
-            _bleBtn.disabled = false;
-          }
-        }).catch(function () {
-          _bleBtn.textContent = 'ERROR';
-          _bleBtn.style.color = '#e85454';
-          _bleBtn.disabled = false;
-        });
-      });
-    }
+    // removed: BLE HR strap connect wiring (biosensor UI off-site)
 
     // Default all panels to collapsed on first load; restore user toggle state
     var panels = cv.querySelectorAll('.dcb-panel[data-panel]');
