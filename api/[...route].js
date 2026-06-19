@@ -33,6 +33,7 @@ const HANDLERS = {
   'cron-rebuild-engine-outputs': require('../handlers/cron-rebuild-engine-outputs'),
   'cron-repair-held': require('../handlers/cron-repair-held'),
   'defense-signals': require('../handlers/defense-signals'),
+  'energy-entry': require('../handlers/energy-entry'),
   'enrich-portal-claude': require('../handlers/enrich-portal-claude'),
   'expand-artifact': require('../handlers/expand-artifact'),
   'expand-artifact-claude': require('../handlers/expand-artifact-claude'),

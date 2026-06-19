@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LIMEN Energy Watch · Free Energy Bill X-Ray</title>
+<meta name="description" content="Free tool: find out why your electric bill changed — usage, rate, fees, or unexplained pressure. Track monthly and build a utility complaint packet.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#070b12; --panel:#0e131d; --panel2:#121826; --line:rgba(201,169,78,0.14);
+  --gold:#C9A94E; --ink:#e9e6dd; --dim:#9a9384; --emerald:#5ab5a0; --red:#e8736b; --blue:#6ea8e0;
+}
+html,body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:var(--gold);text-decoration:none}
+.wrap{max-width:760px;margin:0 auto;padding:0 18px}
+
+/* header */
+.top{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--line)}
+.brand{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--dim)}
+.brand b{color:var(--gold)}
+.top a.alt{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim)}
+
+/* hero */
+.hero{text-align:center;padding:44px 0 26px}
+.kicker{font-size:11px;letter-spacing:3.5px;text-transform:uppercase;color:var(--gold);opacity:0.85}
+.hero h1{font-size:clamp(26px,5vw,40px);line-height:1.15;margin:12px 0 10px;letter-spacing:-0.5px}
+.hero p{color:var(--dim);font-size:16px;max-width:540px;margin:0 auto}
+.promise{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.promise span{font-size:12px;color:var(--dim);background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:5px 12px}
+
+/* card */
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px;margin:18px 0}
+.card h2{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.card .sub{color:var(--dim);font-size:13px;margin-bottom:16px}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:560px){.grid{grid-template-columns:1fr}}
+label{display:block;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--dim);margin-bottom:5px}
+input,select{width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:7px;color:var(--ink);
+  font:inherit;font-size:15px;padding:10px 12px;outline:none}
+input:focus,select:focus{border-color:rgba(201,169,78,0.5)}
+.full{grid-column:1/-1}
+.optional{display:none}
+.optional.show{display:grid;grid-template-columns:1fr 1fr;gap:12px;grid-column:1/-1}
+.opt-toggle{grid-column:1/-1;font-size:12px;color:var(--gold);cursor:pointer;user-select:none;margin-top:2px}
+.btn{font:inherit;font-size:15px;font-weight:600;letter-spacing:0.5px;cursor:pointer;border-radius:8px;padding:12px 18px;border:1px solid transparent;transition:all .15s}
+.btn-primary{background:var(--gold);color:#1a1407;width:100%;margin-top:16px}
+.btn-primary:hover{filter:brightness(1.08)}
+.btn-ghost{background:none;border:1px solid var(--line);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--gold)}
+.err{color:var(--red);font-size:13px;margin-top:10px;min-height:1px}
+
+/* result */
+#result{display:none}
+.verdict{font-size:19px;line-height:1.4;margin-bottom:6px}
+.verdict b{color:var(--gold)}
+.bigpct{font-size:40px;font-weight:700;letter-spacing:-1px}
+.up{color:var(--red)} .down{color:var(--emerald)} .flat{color:var(--dim)}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
+@media(max-width:560px){.split{grid-template-columns:1fr}}
+.tile{background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:13px 15px}
+.tile .l{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--dim)}
+.tile .v{font-size:22px;font-weight:700;margin-top:3px}
+.tile .n{font-size:12px;color:var(--dim);margin-top:3px}
+.scores{margin:16px 0}
+.score{margin-bottom:11px}
+.score .row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px}
+.bar{height:7px;background:var(--panel2);border-radius:5px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,var(--emerald),var(--gold),var(--red))}
+.lines{font-size:14px;color:var(--ink)}
+.lines .li{display:flex;gap:9px;padding:7px 0;border-top:1px solid var(--line)}
+.lines .li:first-child{border-top:none}
+.dot{flex:0 0 7px;height:7px;border-radius:50%;margin-top:7px}
+.note{font-size:12.5px;color:var(--dim);background:rgba(110,168,224,0.06);border-left:2px solid var(--blue);padding:9px 12px;border-radius:0 6px 6px 0;margin-top:14px}
+
+/* history */
+#history{display:none}
+.htable{width:100%;border-collapse:collapse;font-size:13px}
+.htable th{text-align:left;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--dim);padding:6px 8px;border-bottom:1px solid var(--line)}
+.htable td{padding:8px;border-bottom:1px solid rgba(201,169,78,0.06)}
+.muted{color:var(--dim)}
+
+/* tools / coming next */
+.tools{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:560px){.tools{grid-template-columns:1fr}}
+.tool{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:15px}
+.tool h3{font-size:14px;margin-bottom:4px}
+.tool p{font-size:12.5px;color:var(--dim)}
+.tool .soon{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--gold);opacity:0.7}
+
+/* complaint */
+#letterOut{display:none;white-space:pre-wrap;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;
+  background:#fff;color:#15110a;border-radius:8px;padding:16px;margin-top:12px;max-height:340px;overflow:auto}
+.chk{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--ink);margin:7px 0;cursor:pointer}
+.chk input{width:auto;margin-top:3px}
+
+.foot{text-align:center;color:var(--dim);font-size:12px;padding:30px 0 50px}
+.foot .pp{font-size:11px;margin-top:6px}
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="brand"><b>LIMEN</b> ENERGY WATCH</div>
+  <a class="alt" href="/">limenhelix.com</a>
+</div>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="kicker">Free · No account needed</div>
+    <h1>Why did your energy bill change?</h1>
+    <p>Enter your bill and we'll show you whether it's usage, your rate, fees, or unexplained pressure — in about 60 seconds.</p>
+    <div class="promise">
+      <span>🔍 Find out what's driving it</span>
+      <span>📈 Track it monthly</span>
+      <span>📄 Build a complaint packet</span>
+    </div>
+  </div>
+
+  <!-- BILL X-RAY -->
+  <div class="card">
+    <h2>Energy Bill X-Ray</h2>
+    <div class="sub">Your data stays in your browser. Nothing is shared unless you choose to.</div>
+    <div class="grid">
+      <div><label>Utility company</label><input id="utility" placeholder="e.g. Evergy, Duke, PG&E"></div>
+      <div><label>ZIP code</label><input id="zip" inputmode="numeric" maxlength="5" placeholder="64111"></div>
+      <div><label>Billing month</label><input id="month" type="month"></div>
+      <div><label>Bill amount ($)</label><input id="bill" inputmode="decimal" placeholder="184.20"></div>
+      <div class="full"><label>Electricity used (kWh)</label><input id="kwh" inputmode="decimal" placeholder="1120"></div>
+
+      <div class="opt-toggle" id="optToggle">+ Add optional details (outages, home size, gas)</div>
+      <div class="optional" id="optional">
+        <div><label>Outages / flickers this month</label><input id="outages" inputmode="numeric" placeholder="0"></div>
+        <div><label>Home size (sq ft)</label><input id="sqft" inputmode="numeric" placeholder="1500"></div>
+        <div><label>Gas bill ($)</label><input id="gas" inputmode="decimal" placeholder="optional"></div>
+        <div><label>All-electric home?</label><select id="allelec"><option value="">—</option><option value="yes">Yes</option><option value="no">No</option></select></div>
+      </div>
+    </div>
+    <button class="btn btn-primary" id="analyze">Check my bill →</button>
+    <div class="err" id="err"></div>
+  </div>
+
+  <!-- RESULT -->
+  <div class="card" id="result">
+    <h2>Your Bill X-Ray</h2>
+    <div id="resultBody"></div>
+    <label class="chk" style="margin-top:14px">
+      <input type="checkbox" id="contribute" checked>
+      <span>Help others under your utility: share this reading <b>anonymously</b> (region only — first 3 ZIP digits, no name, email, or address). Builds a free utility-pressure map.</span>
+    </label>
+  </div>
+
+  <!-- HISTORY -->
+  <div class="card" id="history">
+    <h2>Your History</h2>
+    <div class="sub">Saved in this browser. Come back each month to see the trend.</div>
+    <div style="overflow-x:auto"><table class="htable" id="htable"></table></div>
+    <button class="btn btn-ghost" id="clearHist" style="margin-top:12px;font-size:12px;padding:7px 12px">Clear history</button>
+  </div>
+
+  <!-- COMPLAINT BUILDER -->
+  <div class="card">
+    <h2>Utility Complaint Builder</h2>
+    <div class="sub">Pick what happened — we generate a clean letter you can send to your utility or state commission. (You send it; we don't.)</div>
+    <label class="chk"><input type="checkbox" class="cissue" value="My bill jumped sharply with no clear explanation"> My bill jumped sharply</label>
+    <label class="chk"><input type="checkbox" class="cissue" value="My power flickers or browns out repeatedly"> Power flickers / brownouts</label>
+    <label class="chk"><input type="checkbox" class="cissue" value="I had an outage that was not shown on the utility outage map"> Outage not shown on the map</label>
+    <label class="chk"><input type="checkbox" class="cissue" value="My utility has not responded to my prior contact"> No response from utility</label>
+    <label class="chk"><input type="checkbox" class="cissue" value="My meter reading appears wrong or estimated"> Meter reading seems wrong</label>
+    <label class="chk"><input type="checkbox" class="cissue" value="My solar interconnection is delayed"> Solar interconnection delayed</label>
+    <div class="grid" style="margin-top:12px">
+      <div><label>Your name (for the letter)</label><input id="cname" placeholder="optional"></div>
+      <div><label>Send to</label><select id="ctarget">
+        <option value="utility">My utility's customer service</option>
+        <option value="commission">My state utility commission</option>
+        <option value="advocate">City council / public advocate</option>
+      </select></div>
+    </div>
+    <button class="btn btn-ghost" id="genLetter" style="margin-top:14px">Generate complaint letter</button>
+    <button class="btn btn-ghost" id="copyLetter" style="margin-top:14px;display:none">Copy</button>
+    <div id="letterOut"></div>
+  </div>
+
+  <!-- COMING NEXT -->
+  <div class="card">
+    <h2>More free tools</h2>
+    <div class="sub">Rolling out next — the more readings the map gets, the sharper these become.</div>
+    <div class="tools">
+      <div class="tool"><div class="soon">Soon</div><h3>Weather-Adjusted Usage</h3><p>Tells you how much of a usage jump is just heating/cooling vs a real change at home.</p></div>
+      <div class="tool"><div class="soon">Soon</div><h3>Solar Quote Sanity Check</h3><p>Paste a solar quote — get price-per-watt, payback, and red flags before you sign.</p></div>
+      <div class="tool"><div class="soon">Soon</div><h3>Utility Watch Pages</h3><p>See bill-shock, outages, and rate alerts for your specific utility and area.</p></div>
+      <div class="tool"><div class="soon">Soon</div><h3>Utility Rooms</h3><p>Compare notes with others on your utility — unlocked once your area has enough readings.</p></div>
+    </div>
+  </div>
+
+  <div class="foot">
+    Powered by <a href="/">LIMEN Helix</a> · Energy Watch<div class="pp">
+    Informational only — not legal, financial, or professional advice. Your readings are stored in your browser; shared readings are anonymized to region (3-digit ZIP).</div>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var HKEY = 'limen_energy_history';
+  var US_AVG_RATE = 17.0; // ¢/kWh — U.S. residential average (approximate, 2024-25)
+
+  var $ = function (id) { return document.getElementById(id); };
+  function n(v) { var x = parseFloat(String(v).replace(/[^0-9.\-]/g, '')); return isFinite(x) ? x : null; }
+  function money(x) { return '$' + x.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+  function pct(x) { return (x >= 0 ? '+' : '') + Math.round(x) + '%'; }
+  function clamp(x, a, b) { return Math.max(a, Math.min(b, x)); }
+  function load() { try { return JSON.parse(localStorage.getItem(HKEY)) || []; } catch (e) { return []; } }
+  function save(h) { try { localStorage.setItem(HKEY, JSON.stringify(h)); } catch (e) {} }
+  function esc(s){return String(s==null?'':s).replace(/[&<>]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[c];});}
+
+  $('optToggle').addEventListener('click', function () {
+    var o = $('optional'); o.classList.toggle('show');
+    this.textContent = o.classList.contains('show') ? '– Hide optional details' : '+ Add optional details (outages, home size, gas)';
+  });
+
+  // default month = current
+  (function () { var d = new Date(); var m = (d.getMonth() + 1); $('month').value = d.getFullYear() + '-' + (m < 10 ? '0' + m : m); })();
+
+  $('analyze').addEventListener('click', analyze);
+  $('clearHist').addEventListener('click', function () { if (confirm('Clear your saved history on this device?')) { save([]); renderHistory(); } });
+
+  function analyze() {
+    $('err').textContent = '';
+    var utility = $('utility').value.trim();
+    var zip = $('zip').value.trim();
+    var month = $('month').value;
+    var bill = n($('bill').value);
+    var kwh = n($('kwh').value);
+
+    if (!utility) return fail('Enter your utility company.');
+    if (bill == null || bill <= 0) return fail('Enter your bill amount.');
+    if (kwh == null || kwh <= 0) return fail('Enter your electricity used (kWh).');
+
+    var entry = {
+      utility: utility, zip: zip, month: month || '', bill: bill, kwh: kwh,
+      outages: n($('outages').value), sqft: n($('sqft').value), gas: n($('gas').value),
+      allElectric: $('allelec').value, ts: new Date().toISOString()
+    };
+
+    var hist = load();
+    // baseline = prior entries for the same utility (fallback: all prior), last 3
+    var prior = hist.filter(function (e) { return e.utility.toLowerCase() === utility.toLowerCase(); });
+    if (!prior.length) prior = hist.slice();
+    prior = prior.slice(-3);
+
+    var effNow = (bill / kwh) * 100; // ¢/kWh
+    var out = computeResult(entry, prior, effNow);
+
+    // persist (replace same utility+month if re-submitted)
+    hist = hist.filter(function (e) { return !(e.utility.toLowerCase() === utility.toLowerCase() && e.month === entry.month); });
+    hist.push(entry); save(hist);
+
+    renderResult(out, entry, effNow);
+    renderHistory();
+    maybeContribute(entry, out, effNow);
+    $('result').style.display = 'block';
+    $('result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function computeResult(entry, prior, effNow) {
+    if (!prior.length) {
+      return { first: true, effNow: effNow, vsAvg: ((effNow - US_AVG_RATE) / US_AVG_RATE) * 100 };
+    }
+    var avg = function (k) { return prior.reduce(function (s, e) { return s + e[k]; }, 0) / prior.length; };
+    var billBase = avg('bill'), kwhBase = avg('kwh');
+    var effBase = (billBase / kwhBase) * 100;
+    var dBill = entry.bill - billBase;
+    // exact price×quantity decomposition: usage at old rate + rate at new usage = dBill
+    var usageComp = (entry.kwh - kwhBase) * (effBase / 100);
+    var rateComp = ((effNow - effBase) / 100) * entry.kwh;
+    var billPct = (dBill / billBase) * 100;
+    var usagePct = ((entry.kwh - kwhBase) / kwhBase) * 100;
+    var ratePct = ((effNow - effBase) / effBase) * 100;
+    return {
+      first: false, billBase: billBase, kwhBase: kwhBase, effBase: effBase, effNow: effNow,
+      dBill: dBill, usageComp: usageComp, rateComp: rateComp,
+      billPct: billPct, usagePct: usagePct, ratePct: ratePct,
+      billShock: clamp(Math.round(Math.abs(billPct) * 2.5), 0, 100),
+      ratePressure: clamp(Math.round(Math.abs(ratePct) * 4), 0, 100),
+      usagePressure: clamp(Math.round(Math.abs(usagePct) * 3), 0, 100)
+    };
+  }
+
+  function renderResult(o, entry, effNow) {
+    var h = '';
+    if (o.first) {
+      var cmp = o.vsAvg >= 0 ? 'higher than' : 'lower than';
+      h += '<div class="verdict">This is your <b>baseline</b>. Your effective rate is <b>' + effNow.toFixed(1) + '¢/kWh</b>.</div>';
+      h += '<div class="split">';
+      h += tile('Effective rate', effNow.toFixed(1) + '¢', 'what you actually pay per kWh');
+      h += tile('vs U.S. average', pct(o.vsAvg) + '', Math.abs(Math.round(o.vsAvg)) + '% ' + cmp + ' the ~17¢ national average');
+      h += '</div>';
+      h += note('Come back next month and enter your next bill — we\'ll break down exactly what changed (usage vs rate vs fees). One month can\'t show a trend yet.');
+      $('resultBody').innerHTML = h; return;
+    }
+
+    var dir = o.billPct > 1 ? 'up' : o.billPct < -1 ? 'down' : 'flat';
+    var word = o.billPct > 1 ? 'increased' : o.billPct < -1 ? 'decreased' : 'held steady';
+    h += '<div class="verdict">Your bill <b>' + word + '</b> <span class="bigpct ' + dir + '">' + pct(o.billPct) + '</span></div>';
+    h += '<div class="muted" style="margin-bottom:6px">' + money(o.billBase) + ' avg → ' + money(entry.bill) + ' this month</div>';
+
+    // driver split
+    var driver = Math.abs(o.rateComp) > Math.abs(o.usageComp) ? 'rate/fees' : 'usage';
+    h += '<div class="split">';
+    h += tile('From usage', (o.usageComp >= 0 ? '+' : '') + money(o.usageComp).replace('$', '$'), pct(o.usagePct) + ' kWh vs your baseline');
+    h += tile('From rate / fees', (o.rateComp >= 0 ? '+' : '') + money(o.rateComp), o.effBase.toFixed(1) + '¢ → ' + o.effNow.toFixed(1) + '¢ per kWh');
+    h += '</div>';
+
+    // scores
+    h += '<div class="scores">';
+    h += scoreBar('Bill Shock', o.billShock);
+    h += scoreBar('Rate Pressure', o.ratePressure);
+    h += scoreBar('Usage Pressure', o.usagePressure);
+    h += '</div>';
+
+    // plain-English lines
+    h += '<div class="lines">';
+    h += line(driver === 'rate/fees' ? 'var(--red)' : 'var(--gold)', 'Your bill shock is mostly <b>' + driver + '</b>-driven.');
+    h += line('var(--gold)', 'Effective rate: <b>' + o.effBase.toFixed(1) + '¢ → ' + o.effNow.toFixed(1) + '¢/kWh</b> (' + pct(o.ratePct) + ').');
+    if (o.usagePct > 8) h += line('var(--blue)', 'Usage rose ' + pct(o.usagePct) + '. Could be weather, or a change at home (HVAC, water heater, EV, pool pump) — or an estimated meter read.');
+    if (entry.outages && entry.outages > 0) h += line('var(--red)', 'You logged <b>' + entry.outages + '</b> outage/flicker(s) — that\'s enough to document. See the complaint builder below.');
+    h += '</div>';
+
+    h += note('Honest limits: this splits your change into usage vs rate/fees from your own history. It can\'t yet tell weather-driven usage from behavior, or separate hidden fees inside the rate — those need weather data + an itemized bill (coming soon).');
+    $('resultBody').innerHTML = h;
+  }
+
+  function tile(l, v, nte) { return '<div class="tile"><div class="l">' + l + '</div><div class="v">' + v + '</div><div class="n">' + nte + '</div></div>'; }
+  function scoreBar(l, v) { return '<div class="score"><div class="row"><span>' + l + '</span><span><b>' + v + '</b>/100</span></div><div class="bar"><i style="width:' + v + '%"></i></div></div>'; }
+  function line(c, t) { return '<div class="li"><span class="dot" style="background:' + c + '"></span><span>' + t + '</span></div>'; }
+  function note(t) { return '<div class="note">' + t + '</div>'; }
+  function fail(m) { $('err').textContent = m; }
+
+  function renderHistory() {
+    var h = load();
+    if (!h.length) { $('history').style.display = 'none'; return; }
+    h = h.slice().sort(function (a, b) { return (a.month < b.month ? 1 : -1); });
+    var t = '<tr><th>Month</th><th>Utility</th><th>Bill</th><th>kWh</th><th>¢/kWh</th></tr>';
+    for (var i = 0; i < h.length; i++) {
+      var e = h[i];
+      t += '<tr><td>' + esc(e.month || '—') + '</td><td>' + esc(e.utility) + '</td><td>' + money(e.bill) + '</td><td>' + Math.round(e.kwh) + '</td><td>' + ((e.bill / e.kwh) * 100).toFixed(1) + '</td></tr>';
+    }
+    $('htable').innerHTML = t;
+    $('history').style.display = 'block';
+  }
+
+  function maybeContribute(entry, o, effNow) {
+    if (!$('contribute').checked) return;
+    var payload = {
+      contribute: true, utility: entry.utility, zip: entry.zip, month: entry.month,
+      bill: entry.bill, kwh: entry.kwh,
+      billShock: o.first ? null : o.billShock, ratePressure: o.first ? null : o.ratePressure,
+      usagePressure: o.first ? null : o.usagePressure, outageCount: entry.outages,
+      allElectric: entry.allElectric === 'yes', homeSqft: entry.sqft
+    };
+    try {
+      fetch('/api/energy-entry', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(payload) })
+        .catch(function () {}); // fire-and-forget; never blocks the user
+    } catch (e) {}
+  }
+
+  // ── Complaint builder ──
+  $('genLetter').addEventListener('click', function () {
+    var issues = [].slice.call(document.querySelectorAll('.cissue:checked')).map(function (c) { return c.value; });
+    if (!issues.length) { alert('Pick at least one issue.'); return; }
+    var name = $('cname').value.trim() || '[Your name]';
+    var utility = $('utility').value.trim() || '[Your utility]';
+    var zip = $('zip').value.trim() || '[ZIP]';
+    var target = $('ctarget').value;
+    var hist = load();
+    var latest = hist.length ? hist[hist.length - 1] : null;
+
+    var to = target === 'commission' ? 'State Public Utility Commission' : target === 'advocate' ? 'Office of the Public Advocate / City Council' : (utility + ' — Customer Service');
+    var L = '';
+    L += to + '\n\nRe: Formal complaint regarding service from ' + utility + ' (service ZIP ' + zip + ')\nDate: ' + new Date().toLocaleDateString() + '\n\n';
+    L += 'To whom it may concern,\n\n';
+    L += 'I am a ' + utility + ' customer writing to formally document the following concerns:\n\n';
+    issues.forEach(function (s, i) { L += '  ' + (i + 1) + '. ' + s + '.\n'; });
+    if (latest) {
+      L += '\nMy most recent bill was ' + money(latest.bill) + ' for ' + Math.round(latest.kwh) + ' kWh (an effective rate of ' + ((latest.bill / latest.kwh) * 100).toFixed(1) + '¢/kWh).';
+      if (latest.outages) L += ' I recorded ' + latest.outages + ' outage or flicker event(s) during this period.';
+      L += '\n';
+    }
+    L += '\nI am requesting: (a) a written explanation of the charges and any rate or rider changes; (b) investigation of the reliability issues noted above; and (c) any credits or adjustments I may be eligible for.\n\n';
+    L += 'Please confirm receipt of this complaint and provide a case or reference number.\n\nSincerely,\n' + name + '\n' + (target === 'utility' ? '[Account number]\n' : '') + '[Address / contact]';
+
+    $('letterOut').textContent = L;
+    $('letterOut').style.display = 'block';
+    $('copyLetter').style.display = 'inline-block';
+    $('letterOut').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+  $('copyLetter').addEventListener('click', function () {
+    var t = $('letterOut').textContent;
+    if (navigator.clipboard) navigator.clipboard.writeText(t).then(function(){ $('copyLetter').textContent = 'Copied ✓'; setTimeout(function(){ $('copyLetter').textContent = 'Copy'; }, 1500); });
+  });
+
+  renderHistory();
+})();
+</script>
+</body>
+</html>
