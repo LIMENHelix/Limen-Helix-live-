@@ -4,10 +4,7 @@
   "crons": [
     { "path": "/api/limen-worker-ingest", "schedule": "*/15 * * * *" },
     { "path": "/api/limen-worker-snapshot", "schedule": "5,20,35,50 * * * *" },
-    { "path": "/api/limen-worker-stress-refresh", "schedule": "0 * * * *" },
-    { "path": "/api/trigger-pattern-author", "schedule": "0 */6 * * *" },
-    { "path": "/api/cron-rebuild-engine-outputs", "schedule": "30 */6 * * *" },
-    { "path": "/api/cron-repair-held", "schedule": "0 3 * * *" }
+    { "path": "/api/limen-worker-stress-refresh", "schedule": "0 * * * *" }
   ],
   "functions": {
     "api/**": {
