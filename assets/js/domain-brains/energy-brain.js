@@ -63,6 +63,7 @@
     this._loadBrainSignals();            // 2026-06-19: distress now comes ONLY from the validated Thing pipeline (no fake phase data)
     this._loadDiagnosisBundles();        // G1: load real artifact-source bundles (only ones that exist)
     this._loadL1PortalDepth();           // J1: scan L1 portal branches (treatments are mad-lib -> NOT admitted; only real tickers surfaced, relevance-unverified)
+    this._loadDatacenterDiagnoses();     // DC: load the data-center sub-portal (real-content, unbundled) as an additive brain LAYER — never merged into the validated 6-diagnosis spine
 
     // Diagnosis → signal condition mapping
     // These map live conditions to which diagnoses become active
@@ -72,7 +73,10 @@
       'PIPELINE_DISRUPTION':      ['STRAIT_DISRUPTION', 'PORT_DISRUPTION', 'TANKER_THREAT', 'chokepoint'],
       'RENEWABLE_INTERMITTENCY':  ['weather_extreme', 'generation_mix', 'storage_low'],
       'NUCLEAR_INCIDENT':         ['NUCLEAR_THREAT', 'MILITARY_ESCALATION'],
-      'SYSTEMIC_ENERGY_STRESS':   ['energy_high_stress', 'structural_stress', 'macro_shock']
+      'SYSTEMIC_ENERGY_STRESS':   ['energy_high_stress', 'structural_stress', 'macro_shock'],
+      // DC layer — activation conditions for the data-center diagnoses (real-content sub-portal)
+      'ENERGY_DATACENTER_GRID_STRAIN':  ['grid_stress', 'infrastructure_cross', 'energy_high_stress', 'structural_stress'],
+      'ENERGY_DATACENTER_WATER_STRESS': ['weather_extreme', 'structural_stress']
     };
 
     // Cross-domain emission rules — GATED: require at least 1 active diagnosis
@@ -1236,6 +1240,10 @@
     // BEFORE the DDP build so the packet can embed their compact summaries).
     try { this._computeEnergyHigherLayers(); } catch (e) {}
 
+    // DC — data-center diagnosis layer (additive; BEFORE the DDP build so the primary
+    // packet's promptView advertises it). Never touches the validated 6-diagnosis spine.
+    try { this._buildDatacenterLayer(); } catch (e) {}
+
     // F1 — build the DomainDiagnosisPacket (schema) for the primary diagnosis,
     // and expose one per diagnosis. Schema-only: never invents data.
     try {
@@ -1309,7 +1317,7 @@
     self._bundleCache = self._bundleCache || {};
     self._bundleStatusMap = self._bundleStatusMap || {};
     var ids = {};
-    var known = ['GRID_COLLAPSE', 'RENEWABLE_INTERMITTENCY', 'OIL_SHOCK', 'PIPELINE_DISRUPTION', 'NUCLEAR_INCIDENT', 'SYSTEMIC_ENERGY_STRESS'];
+    var known = ['GRID_COLLAPSE', 'RENEWABLE_INTERMITTENCY', 'OIL_SHOCK', 'PIPELINE_DISRUPTION', 'NUCLEAR_INCIDENT', 'SYSTEMIC_ENERGY_STRESS', 'ENERGY_DATACENTER_GRID_STRAIN', 'ENERGY_DATACENTER_WATER_STRESS'];
     var diags = (self.state && self.state.diagnoses) || [];
     var allDxIds = diags.map(function (d) { return d.id; }).concat(known);
     for (var i = 0; i < allDxIds.length; i++) { var c = self._resolveCanonicalDiagnosis(allDxIds[i]).canonicalDiagnosisId; if (c) ids[c] = true; }   // resolve diagnosis -> canonical before fetch (PIPELINE_DISRUPTION -> PIPELINE_RUPTURE_EVENT)
@@ -1335,7 +1343,7 @@
   EnergyBrain.prototype._loadL1PortalDepth = function () {
     var self = this;
     if (self._l1LoadPromise) return self._l1LoadPromise;
-    var BRANCH = { GRID_COLLAPSE: ['grid', 'transmission', 'gridmod'], RENEWABLE_INTERMITTENCY: ['solar', 'hydro', 'storage', 'offgrid'], PIPELINE_DISRUPTION: ['pipeline'], OIL_SHOCK: ['fossil'], NUCLEAR_INCIDENT: ['nuclear'], SYSTEMIC_ENERGY_STRESS: ['grid', 'energytrans', 'power'] };
+    var BRANCH = { GRID_COLLAPSE: ['grid', 'transmission', 'gridmod'], RENEWABLE_INTERMITTENCY: ['solar', 'hydro', 'storage', 'offgrid'], PIPELINE_DISRUPTION: ['pipeline'], OIL_SHOCK: ['fossil'], NUCLEAR_INCIDENT: ['nuclear'], SYSTEMIC_ENERGY_STRESS: ['grid', 'energytrans', 'power'] };   // J1 L1-mad-lib scanner — the 6 CANONICAL branches only (DC branch is carried on the DC layer itself, not scanned here)
     self._l1Branches = BRANCH;
     var branches = {}; Object.keys(BRANCH).forEach(function (dx) { BRANCH[dx].forEach(function (b) { branches[b] = true; }); });
     var byBranch = {};
@@ -1363,6 +1371,102 @@
       return self.state._l1DepthCache;
     });
     return self._l1LoadPromise;
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // DC — DATA-CENTER DIAGNOSIS LAYER (additive brain layer; mirrors the H1-H7 pattern).
+  // The data-center sub-portal (energy_datacenter.json) carries REAL, hand-authored,
+  // citation-backed diagnoses + treatments (NOT the mad-lib cortex) but has NO external
+  // source bundle yet. We surface them as a SEPARATE first-class layer — they are NEVER
+  // merged into the validated 6-diagnosis spine (state.diagnoses stays 6) and never enter
+  // evidenceAnchors. Each gets a DDP (canonical-to-self, bundleStatus 'missing' = honest),
+  // its real treatments, and a compact promptView summary the finalizer already forwards.
+  // ════════════════════════════════════════════════════════════════════════════
+  EnergyBrain.prototype._loadDatacenterDiagnoses = function () {
+    var self = this;
+    if (self._dcLoadPromise) return self._dcLoadPromise;
+    self._dcLoadPromise = fetch('/assets/data/domains/energy_datacenter.json')
+      .then(function (r) { return (r && r.ok) ? r.json() : null; })
+      .then(function (data) {
+        if (!data) { self._dcPortal = null; return null; }
+        self._dcPortal = { issues: data.issues || [], activations: data.activations || [], title: data.title || 'Data Centers' };
+        return self._dcPortal;
+      })
+      .catch(function () { self._dcPortal = null; return null; });
+    return self._dcLoadPromise;
+  };
+
+  // Build the data-center layer once per cycle (called from _updateEnergyModel BEFORE the
+  // main DDP build so the primary packet's promptView can advertise it). Pure read of the
+  // cached sub-portal; on any absence everything stays empty/neutral (offline-safe).
+  EnergyBrain.prototype._buildDatacenterLayer = function () {
+    var self = this;
+    var dc = self._dcPortal;
+    if (!dc || !dc.issues || !dc.issues.length) {
+      self.state.datacenterDiagnoses = [];
+      self.state.datacenterTreatments = [];
+      self.state.datacenterDomainDiagnosisPackets = [];
+      self.state.datacenterLayer = { loaded: false, count: 0, activeCount: 0, diagnoses: [], note: 'data-center sub-portal not loaded (offline or fetch failed)' };
+      return self.state.datacenterLayer;
+    }
+    var conditions = self._activeConditions || [];
+    // 1) diagnoses (activation via the same condition-match logic as the canonical spine)
+    var diagnoses = dc.issues.map(function (iss) {
+      var triggers = (self.diagnosisIndex && self.diagnosisIndex[iss.id]) || [];
+      var matchCount = 0;
+      for (var t = 0; t < triggers.length; t++) {
+        for (var c = 0; c < conditions.length; c++) {
+          if (conditions[c] === triggers[t] || String(conditions[c]).indexOf(triggers[t]) !== -1) matchCount++;
+        }
+      }
+      return {
+        id: iss.id, label: iss.label, summary: iss.summary || '',
+        active: matchCount > 0,
+        relevance: triggers.length ? Math.round((matchCount / triggers.length) * 100) / 100 : 0,
+        circuits: iss.circuits || [],
+        source: 'datacenter', tier: 'real-content-unbundled', branch: 'datacenter'
+      };
+    });
+    // 2) treatments — pull from the data-center node activations whose brainNodeId is in a
+    //    diagnosis circuit. These are hand-authored + citation-backed (real, not mad-lib).
+    var nodeToDx = {};
+    diagnoses.forEach(function (d) { (d.circuits || []).forEach(function (c) { if (c && c.nodeId) nodeToDx[c.nodeId] = d.id; }); });
+    var treatments = [];
+    (dc.activations || []).forEach(function (act) {
+      var dxId = nodeToDx[act.brainNodeId];
+      if (!dxId) return;
+      (act.treatments || []).forEach(function (t, ti) {
+        treatments.push({
+          id: 'dc_treat_' + act.brainNodeId + '_' + ti,
+          label: t.label, type: t.type, evidence: t.evidence, description: t.description || '',
+          cite: t.cite || null, citation: t.citation || [], steps: t.steps || [],
+          diagnosisId: dxId, nodeId: act.brainNodeId,
+          source: 'datacenter', madLib: self._isMadLibTreatment ? self._isMadLibTreatment(t.label) : false
+        });
+      });
+    });
+    var evidenceRank = { A: 10, Strong: 10, B: 7, Moderate: 7, C: 4, Emerging: 1 };
+    treatments.sort(function (a, b) { return (evidenceRank[b.evidence] || 0) - (evidenceRank[a.evidence] || 0); });
+    self.state.datacenterDiagnoses = diagnoses;
+    self.state.datacenterTreatments = treatments;
+    // 3) compact layer summary (read by every DDP's promptView; computed BEFORE the DC DDPs)
+    self.state.datacenterLayer = {
+      loaded: true,
+      portalTitle: dc.title,
+      count: diagnoses.length,
+      activeCount: diagnoses.filter(function (d) { return d.active; }).length,
+      diagnoses: diagnoses.map(function (d) {
+        var rc = self._resolveCanonicalDiagnosis ? self._resolveCanonicalDiagnosis(d.id) : { canonicalDiagnosisId: d.id };
+        var bs = (self._bundleStatusMap && self._bundleStatusMap[rc.canonicalDiagnosisId]) || 'missing';
+        return { id: d.id, label: d.label, active: d.active, branch: 'datacenter', canonicalDiagnosisId: rc.canonicalDiagnosisId, bundleStatus: bs, treatmentCount: treatments.filter(function (t) { return t.diagnosisId === d.id; }).length };
+      }),
+      note: 'real-content (hand-authored, citation-backed) sub-portal diagnoses; SEPARATE from the validated 6-diagnosis spine; no external source bundle yet (build-required); never admitted to evidenceAnchors'
+    };
+    // 4) per-diagnosis DDPs via the SAME schema builder (canonical-to-self; bundle 'missing')
+    self.state.datacenterDomainDiagnosisPackets = diagnoses.map(function (d) {
+      try { return self._buildDomainDiagnosisPacket(d); } catch (e) { return null; }
+    }).filter(Boolean);
+    return self.state.datacenterLayer;
   };
 
   // ════════════════════════════════════════════════════════════════════════════
@@ -1492,7 +1596,7 @@
     if (ph5.length >= 4 && ph5[3] === ph5[1] && ph5[2] === ph5[0] && ph5[0] !== ph5[1]) patternMatches.push({ pattern: 'phase oscillation ' + ph5.slice(-2).join('<->'), label: 'PATTERN', evidenceStatus: 'UNVERIFIED' });
 
     // J3 — analogies: static structural-family map (analogy, NOT evidence)
-    var FAMILY = { 'supply-disruption': ['OIL_SHOCK', 'PIPELINE_DISRUPTION'], 'reliability': ['GRID_COLLAPSE', 'SYSTEMIC_ENERGY_STRESS'], 'intermittency': ['RENEWABLE_INTERMITTENCY'], 'safety-incident': ['NUCLEAR_INCIDENT'] };
+    var FAMILY = { 'supply-disruption': ['OIL_SHOCK', 'PIPELINE_DISRUPTION'], 'reliability': ['GRID_COLLAPSE', 'SYSTEMIC_ENERGY_STRESS', 'ENERGY_DATACENTER_GRID_STRAIN'], 'intermittency': ['RENEWABLE_INTERMITTENCY'], 'safety-incident': ['NUCLEAR_INCIDENT'], 'datacenter-load': ['ENERGY_DATACENTER_GRID_STRAIN', 'ENERGY_DATACENTER_WATER_STRESS'] };
     var active = (s.diagnoses || []).filter(function (d) { return d.active; }).sort(function (a, b) { return (b.relevance || 0) - (a.relevance || 0); });
     var primaryId = (active[0] || (s.diagnoses || [])[0] || {}).id;
     var analogies = [];
@@ -1801,7 +1905,9 @@
       executiveReport: s.energyExecutiveReport || null,
       // J1 — L1 depth verdict (real tickers only; treatments mad-lib, not admitted) ; J2 — authoring intake count
       l1DepthSummary: portalContext.l1Depth ? { realCompanyTickers: (portalContext.l1Depth.realCompanyTickers || []).length, realTreatments: portalContext.l1Depth.realTreatments, madLibTreatments: portalContext.l1Depth.madLibTreatments, admitted: portalContext.l1Depth.admitted } : null,
-      authoringIntake: treatmentContext.authoringIntake.length ? treatmentContext.authoringIntake : null
+      authoringIntake: treatmentContext.authoringIntake.length ? treatmentContext.authoringIntake : null,
+      // DC — data-center diagnosis layer (real-content sub-portal, SEPARATE from the validated spine, no bundle yet)
+      datacenterSummary: s.datacenterLayer && s.datacenterLayer.loaded ? { count: s.datacenterLayer.count, activeCount: s.datacenterLayer.activeCount, diagnoses: s.datacenterLayer.diagnoses, note: s.datacenterLayer.note } : null
     };
 
     return {
