@@ -16,6 +16,7 @@
       "phase": "P1",
       "weight": 0.85,
       "diagnosticTriggers": ["Bursty training load", "Continuous inference floor"],
+      "functional_role": "executor",
       "companies": [
         { "name": "NVIDIA", "ticker_or_id": "NVDA", "functional_reason": "GPUs set the per-job power profile for both training and inference.", "binding_strength": 0.9 }
       ],
@@ -31,6 +32,7 @@
       "phase": "P1",
       "weight": 0.8,
       "diagnosticTriggers": ["Rack density exceeding air-cooling limits"],
+      "functional_role": "signal_detector",
       "companies": [
         { "name": "Vertiv", "ticker_or_id": "VRT", "functional_reason": "Power and cooling systems engineered for high-density racks.", "binding_strength": 0.86 },
         { "name": "Eaton", "ticker_or_id": "ETN", "functional_reason": "High-density power distribution.", "binding_strength": 0.8 }
@@ -47,6 +49,7 @@
       "phase": "P3",
       "weight": 0.8,
       "diagnosticTriggers": ["Speculative duplicate requests", "Load growth outpacing supply"],
+      "functional_role": "signal_detector",
       "companies": [
         { "name": "American Electric Power", "ticker_or_id": "AEP", "functional_reason": "Processes large-load interconnection requests.", "binding_strength": 0.78 }
       ],

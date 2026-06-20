@@ -16,6 +16,7 @@
       "phase": "P1",
       "weight": 0.85,
       "diagnosticTriggers": ["Rack density exceeding air-cooling limits"],
+      "functional_role": "router",
       "companies": [
         { "name": "Vertiv", "ticker_or_id": "VRT", "functional_reason": "Liquid cooling systems and coolant distribution units.", "binding_strength": 0.88 }
       ],
@@ -31,6 +32,7 @@
       "phase": "P1",
       "weight": 0.8,
       "diagnosticTriggers": ["Cooling water stress", "Local water-permit pushback"],
+      "functional_role": "allocator",
       "companies": [
         { "name": "Johnson Controls", "ticker_or_id": "JCI", "functional_reason": "Chillers and water/thermal systems.", "binding_strength": 0.8 }
       ],
@@ -46,6 +48,7 @@
       "phase": "P4",
       "weight": 0.65,
       "diagnosticTriggers": ["Stranded waste heat"],
+      "functional_role": "stabilizer",
       "companies": [],
       "treatments": []
     }
