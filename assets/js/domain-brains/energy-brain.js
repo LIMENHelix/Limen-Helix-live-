@@ -729,6 +729,51 @@
       }
     }
 
+    // ═══ DATA-CENTER DIAGNOSIS LAYER → opportunities (real-content, bundle-backed) ═══
+    // INVESTABLE / monitoring only — the DC bundles carry NO method/embodiment/figure
+    // candidates, so no patent/grant lane is offered (consistent with the H3 conscience
+    // veto). Companies are the real tickers mapped to each diagnosis's circuit nodes.
+    var dcDiags = this.state.datacenterDiagnoses || [];
+    var dcPortal = this._dcPortal;
+    if (dcDiags.length && dcPortal) {
+      var nodeCos = {};
+      (dcPortal.activations || []).forEach(function (a) { if (a.brainNodeId) nodeCos[a.brainNodeId] = (a.companies || []).map(function (c) { return c.ticker_or_id || c.name; }); });
+      for (var dci = 0; dci < dcDiags.length; dci++) {
+        var ddx = dcDiags[dci];
+        var dlab = (ddx.label || ddx.id || '').replace(/_/g, ' ');
+        var cosSet = {};
+        (ddx.circuits || []).forEach(function (c) { (nodeCos[c.nodeId] || []).forEach(function (tk) { cosSet[tk] = true; }); });
+        var coList = Object.keys(cosSet);
+        if (ddx.active) {
+          add({
+            title: dlab + ' — data-center infrastructure positioning',
+            rank: stress * (ddx.relevance || 0.5) * 0.9,
+            path: 'INVESTABLE',
+            urgency: stress > 0.70 ? 'IMMEDIATE' : 'ACTIVE',
+            source: 'datacenter_diagnosis', diagnosisId: ddx.id, tier: 1, stress: stress,
+            companies: coList, datacenter: true, bundleBacked: true
+          });
+          add({
+            title: dlab + ' — monitoring and response platform',
+            rank: stress * (ddx.relevance || 0.5) * 0.7,
+            path: 'INVESTABLE',
+            urgency: 'ACTIVE',
+            source: 'datacenter_diagnosis', diagnosisId: ddx.id, tier: 1, stress: stress,
+            companies: coList, datacenter: true, bundleBacked: true
+          });
+        } else if (stress >= 0.45) {
+          add({
+            title: dlab + ' — data-center demand monitoring (early-stage)',
+            rank: stress * (ddx.relevance || 0.1) * 0.5,
+            path: 'INVESTABLE',
+            urgency: 'WATCH',
+            source: 'datacenter_diagnosis', diagnosisId: ddx.id, tier: 2, stress: stress,
+            companies: coList, datacenter: true, bundleBacked: true
+          });
+        }
+      }
+    }
+
     opps.sort(function (a, b) { return (b.rank || 0) - (a.rank || 0); });
 
     // ═══ CANONICAL ENRICHMENT — merge playbook detail into each opportunity ═══
@@ -739,11 +784,13 @@
     var _PB_MAP = {
       'OIL_SHOCK': 'infra_demand', 'GRID_COLLAPSE': 'infra_demand',
       'PIPELINE_DISRUPTION': 'infra_demand', 'RENEWABLE_INTERMITTENCY': 'climate_energy',
-      'NUCLEAR_INCIDENT': 'infra_demand', 'SYSTEMIC_ENERGY_STRESS': 'infra_demand'
+      'NUCLEAR_INCIDENT': 'infra_demand', 'SYSTEMIC_ENERGY_STRESS': 'infra_demand',
+      'ENERGY_DATACENTER_GRID_STRAIN': 'infra_demand', 'ENERGY_DATACENTER_WATER_STRESS': 'climate_energy'
     };
     var _SRC_MAP = {
       'company_terminal': 'infra_demand', 'company_stressed': 'infra_demand',
-      'convergence': 'climate_energy', 'cross_domain': 'econ_supply', 'lagging': 'infra_demand'
+      'convergence': 'climate_energy', 'cross_domain': 'econ_supply', 'lagging': 'infra_demand',
+      'datacenter_diagnosis': 'infra_demand'
     };
 
     // Playbook detail registry (inline — matches energy-opportunities.html playbooks)

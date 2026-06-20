@@ -47,6 +47,14 @@ function brainContext() {
   brain._buildDatacenterLayer();
   const gridStrain = (brain.state.datacenterDiagnoses || []).find(d => d.id === 'ENERGY_DATACENTER_GRID_STRAIN');
 
+  // opportunity surfacing — with an active DC diagnosis + stress, surfaceOpportunities
+  // should emit a datacenter-sourced opportunity carrying the real DC tickers.
+  brain.state.stress = 0.75;
+  if (!brain.state.companies || !brain.state.companies.length) brain.state.companies = [];
+  brain.surfaceOpportunities();
+  const dcOpps = (brain.state.opportunities || []).filter(o => o.source === 'datacenter_diagnosis');
+  const dcOppWithCos = dcOpps.find(o => (o.companies || []).length > 0);
+
   const primaryDDP = st.energyModel && st.energyModel.domainDiagnosisPacket;
   const dcSummary = primaryDDP && primaryDDP.promptView && primaryDDP.promptView.datacenterSummary;
 
@@ -72,7 +80,10 @@ function brainContext() {
     ['DC DDPs now source-covered (external bundle found + evidenceAnchors populated)', dcPkts.every(p => p.evidence.bundleStatus === 'found' && (p.evidence.evidenceAnchors || []).length >= 1)],
     ['primary DDP promptView advertises datacenterSummary (count 2)', !!dcSummary && dcSummary.count === 2],
     ['activation works (grid_stress -> GRID_STRAIN active)', !!gridStrain && gridStrain.active === true],
-    ['DC treatments never enter evidenceAnchors of spine packets', (st.energyDomainDiagnosisPackets || []).every(p => (p.evidence.evidenceAnchors || []).every(a => !/datacenter/i.test(JSON.stringify(a))))]
+    ['DC treatments never enter evidenceAnchors of spine packets', (st.energyDomainDiagnosisPackets || []).every(p => (p.evidence.evidenceAnchors || []).every(a => !/datacenter/i.test(JSON.stringify(a))))],
+    ['active DC diagnosis surfaces as an opportunity', dcOpps.length >= 1 && dcOpps.every(o => o.path === 'INVESTABLE')],
+    ['DC opportunity carries real DC tickers + bundleBacked flag', !!dcOppWithCos && dcOppWithCos.bundleBacked === true && dcOppWithCos.datacenter === true],
+    ['DC opportunities NEVER offered as patent/grant (no invention candidates)', dcOpps.every(o => o.path !== 'PATENTABLE' && o.path !== 'GRANT-ELIGIBLE')]
   ];
   let allPass = true;
   checks.forEach(c => { allPass = allPass && c[1]; console.log('  [' + (c[1] ? 'PASS' : 'FAIL') + '] ' + c[0]); });
