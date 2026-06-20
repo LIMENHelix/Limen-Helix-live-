@@ -68,7 +68,8 @@ function brainContext() {
     ['DC diagnoses tier-tagged real-content-unbundled', dcDiags.every(d => d.tier === 'real-content-unbundled' && d.source === 'datacenter')],
     ['real (citation-backed, non-mad-lib) DC treatments pulled', realTreats.length >= 3],
     ['one DDP per DC diagnosis', dcPkts.length === 2],
-    ['DC DDPs canonical-to-self + bundle missing (honest)', dcPkts.every(p => p.identity.canonicalDiagnosisId === p.identity.diagnosisId && (p.evidence.bundleStatus === 'missing' || p.evidence.bundleStatus === 'unknown'))],
+    ['DC DDPs canonical-to-self', dcPkts.every(p => p.identity.canonicalDiagnosisId === p.identity.diagnosisId)],
+    ['DC DDPs now source-covered (external bundle found + evidenceAnchors populated)', dcPkts.every(p => p.evidence.bundleStatus === 'found' && (p.evidence.evidenceAnchors || []).length >= 1)],
     ['primary DDP promptView advertises datacenterSummary (count 2)', !!dcSummary && dcSummary.count === 2],
     ['activation works (grid_stress -> GRID_STRAIN active)', !!gridStrain && gridStrain.active === true],
     ['DC treatments never enter evidenceAnchors of spine packets', (st.energyDomainDiagnosisPackets || []).every(p => (p.evidence.evidenceAnchors || []).every(a => !/datacenter/i.test(JSON.stringify(a))))]
