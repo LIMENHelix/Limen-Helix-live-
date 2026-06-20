@@ -1,0 +1,66 @@
+{
+  "domainId": "energy",
+  "title": "High-Voltage Rack Power",
+  "parentPortal": "energy_datacenter_powerdemand_rackdensity_portal.html",
+  "parentLabel": "Rack Power Density",
+  "phase": "P1",
+  "_authoring": "Authored 2026-06-20 (L4), factual content; references OCP/industry practice, no fabricated DOIs. Conservative evidence; quantitative figures left sparse where not certain.",
+  "activations": [
+    {
+      "brainNodeId": "M1",
+      "state": "active",
+      "domainLabel": "OCP 48V Rack Bus",
+      "domainDescription": "Open Compute Project 48 V DC rack power bus distributes power down the rack at higher voltage, cutting current and busbar losses versus 12 V.",
+      "domainFunction": "Delivers rack power at 48 V so per-watt current and resistive loss drop, enabling higher-density racks.",
+      "whyThisNode": "M1 is the final motor-output stage; the 48 V bus is the final power-delivery stage into the rack.",
+      "group": "core",
+      "phase": "P1",
+      "weight": 0.8,
+      "diagnosticTriggers": ["Busbar resistive loss", "12V current limits"],
+      "functional_role": "executor",
+      "companies": [
+        { "name": "Vertiv", "ticker_or_id": "VRT", "functional_reason": "Rack power shelves and 48 V power delivery products.", "binding_strength": 0.82 }
+      ],
+      "treatments": []
+    },
+    {
+      "brainNodeId": "CC",
+      "state": "active",
+      "domainLabel": "HVDC Distribution (±400V DC)",
+      "domainDescription": "Higher-voltage DC distribution (e.g. ±400 V DC) to the rack is an emerging approach to reduce conversion stages and copper; still early in deployment.",
+      "domainFunction": "Routes power to racks as DC at high voltage, removing AC/DC conversion steps along the chain.",
+      "whyThisNode": "The corpus callosum is the high-bandwidth routing tract; HVDC is the high-voltage routing of power to the rack.",
+      "group": "distribution",
+      "phase": "P3",
+      "weight": 0.7,
+      "diagnosticTriggers": ["Excess conversion stages", "Copper cost at high current"],
+      "functional_role": "router",
+      "companies": [
+        { "name": "Eaton", "ticker_or_id": "ETN", "functional_reason": "DC power distribution and conversion equipment.", "binding_strength": 0.78 }
+      ],
+      "treatments": []
+    },
+    {
+      "brainNodeId": "ECN",
+      "state": "active",
+      "domainLabel": "Conversion-Stage Reduction",
+      "domainDescription": "Each AC/DC and DC/DC conversion loses a few percent; minimizing stages from utility feed to chip raises end-to-end efficiency.",
+      "domainFunction": "Allocates the power budget toward compute by removing avoidable conversion losses along the chain.",
+      "whyThisNode": "The executive-control network optimizes allocation under constraint; stage reduction optimizes the power budget toward useful compute.",
+      "group": "synthesis",
+      "phase": "P4",
+      "weight": 0.7,
+      "diagnosticTriggers": ["Cumulative conversion loss", "Low end-to-end efficiency"],
+      "functional_role": "allocator",
+      "companies": [
+        { "name": "Schneider Electric", "ticker_or_id": "SBGSY", "functional_reason": "End-to-end power-chain design and efficiency.", "binding_strength": 0.78 }
+      ],
+      "treatments": []
+    }
+  ],
+  "edges": [
+    { "a": "M1", "b": "CC", "w": 0.6 },
+    { "a": "CC", "b": "ECN", "w": 0.5 }
+  ],
+  "issues": []
+}

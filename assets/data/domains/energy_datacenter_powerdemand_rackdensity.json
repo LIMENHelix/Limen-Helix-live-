@@ -1,0 +1,98 @@
+{
+  "domainId": "energy",
+  "title": "Rack Power Density",
+  "parentPortal": "energy_datacenter_powerdemand_portal.html",
+  "parentLabel": "Data Center Power Demand",
+  "phase": "P1",
+  "_authoring": "Authored 2026-06-20 (L3), factual content; real sub-topics, real companies, no fabricated DOIs. Conservative evidence grades; deeper quantitative figures flagged needs-authoring.",
+  "activations": [
+    {
+      "brainNodeId": "S1",
+      "state": "active",
+      "domainLabel": "Density Roadmap (kW/rack)",
+      "domainDescription": "Per-rack power has climbed from ~5-10 kW in traditional IT to 50-130+ kW for AI/GPU racks (e.g. NVL-class GPU racks), with vendor roadmaps pointing higher.",
+      "domainFunction": "Sets the proximate design driver for power delivery and cooling; rising density is what forces liquid cooling and higher-voltage distribution.",
+      "whyThisNode": "S1 (primary somatosensory cortex) registers the raw physical input; rack density is the raw physical signal the rest of the power/cooling design responds to.",
+      "group": "core",
+      "phase": "P1",
+      "weight": 0.85,
+      "diagnosticTriggers": ["Rack density exceeding air-cooling limits", "Power delivery rated below rack draw"],
+      "functional_role": "signal_detector",
+      "companies": [
+        { "name": "NVIDIA", "ticker_or_id": "NVDA", "functional_reason": "Accelerator and rack-scale designs set the per-rack power-density trajectory.", "binding_strength": 0.9 }
+      ],
+      "treatments": []
+    },
+    {
+      "brainNodeId": "CC",
+      "state": "active",
+      "domainLabel": "Busway & PDU Distribution",
+      "domainDescription": "Overhead busway, remote power panels, and rack PDUs that carry power the last segment to high-density racks, replacing under-floor whips at scale.",
+      "domainFunction": "Routes power from the room distribution to each rack with the ampacity and flexibility high-density rows require.",
+      "whyThisNode": "The corpus callosum routes high-bandwidth traffic between regions; busway routes high-current power across the row to each rack.",
+      "group": "distribution",
+      "phase": "P1",
+      "weight": 0.8,
+      "diagnosticTriggers": ["Distribution ampacity shortfall", "Inflexible under-floor whips"],
+      "functional_role": "router",
+      "companies": [
+        { "name": "Eaton", "ticker_or_id": "ETN", "functional_reason": "Busway, RPPs, and rack power distribution for high-density rows.", "binding_strength": 0.84 },
+        { "name": "Schneider Electric", "ticker_or_id": "SBGSY", "functional_reason": "Power distribution and busway systems for data centers.", "binding_strength": 0.83 }
+      ],
+      "treatments": []
+    },
+    {
+      "brainNodeId": "M1",
+      "state": "active",
+      "domainLabel": "High-Voltage Rack Power",
+      "domainDescription": "Higher distribution voltages (e.g. 415 V AC three-phase, OCP 48 V DC rack bus, and emerging ±400 V DC) cut current and conversion losses at high density.",
+      "domainFunction": "Delivers usable power into the rack at lower current and fewer conversion stages, improving efficiency as density rises.",
+      "whyThisNode": "M1 (primary motor cortex) is the final output stage that drives action; high-voltage rack power is the final delivery stage that energizes the compute.",
+      "group": "core",
+      "phase": "P1",
+      "weight": 0.8,
+      "diagnosticTriggers": ["Conversion-stage losses", "Current limits at low voltage"],
+      "functional_role": "executor",
+      "companies": [
+        { "name": "Vertiv", "ticker_or_id": "VRT", "functional_reason": "High-density power delivery and rack power systems.", "binding_strength": 0.85 },
+        { "name": "Eaton", "ticker_or_id": "ETN", "functional_reason": "Power conversion and distribution equipment.", "binding_strength": 0.82 }
+      ],
+      "treatments": [],
+      "childPortal": "energy_datacenter_powerdemand_rackdensity_hvpower_portal.html"
+    },
+    {
+      "brainNodeId": "dlPFC",
+      "state": "active",
+      "domainLabel": "Power-to-Cooling Coupling",
+      "domainDescription": "Above ~30-50 kW/rack, air cooling is impractical, so density decisions gate the move to liquid cooling and the matching power design.",
+      "domainFunction": "Sequences when a deployment must switch cooling regimes and electrical design; gates whether a given site can host high-density racks at all.",
+      "whyThisNode": "The dlPFC sequences competing demands under constraint; density gates the joint power-and-cooling design decision.",
+      "group": "analysis",
+      "phase": "P3",
+      "weight": 0.75,
+      "diagnosticTriggers": ["Air-cooling limit reached", "Site cannot host target density"],
+      "functional_role": "gatekeeper",
+      "companies": [
+        { "name": "Vertiv", "ticker_or_id": "VRT", "functional_reason": "Coupled power and thermal systems for high-density deployments.", "binding_strength": 0.82 }
+      ],
+      "treatments": []
+    }
+  ],
+  "edges": [
+    { "a": "S1", "b": "CC", "w": 0.6 },
+    { "a": "CC", "b": "M1", "w": 0.6 },
+    { "a": "S1", "b": "dlPFC", "w": 0.5 }
+  ],
+  "issues": [
+    {
+      "id": "ENERGY_DC_RACKDENSITY_DELIVERY_GAP",
+      "label": "Power Delivery Below Rack Density",
+      "summary": "Rack power draw outpaces the installed distribution and cooling design, stranding capacity or forcing redesign.",
+      "circuits": [
+        { "nodeId": "S1", "dir": "Hyper-active", "detail": "Rack density rising faster than the facility was designed for.", "evidence": "Moderate" },
+        { "nodeId": "CC", "dir": "Hypo-active", "detail": "Distribution ampacity below what high-density racks draw.", "evidence": "Moderate" },
+        { "nodeId": "dlPFC", "dir": "Altered", "detail": "Cooling/power regime must switch to support the density.", "evidence": "Moderate" }
+      ]
+    }
+  ]
+}
