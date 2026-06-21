@@ -22,9 +22,9 @@ function decode(s) {
   return String(s || '')
     .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1')
     .replace(/<[^>]+>/g, '')
-    .replace(/&#8217;|&#8216;|&#39;|&apos;|&#x27;/g, "'")
-    .replace(/&#8220;|&#8221;|&quot;/g, '"')
-    .replace(/&#8211;|&#8212;/g, '–')
+    .replace(/&#x([0-9a-fA-F]+);?/g, (m, h) => { try { return String.fromCodePoint(parseInt(h, 16)); } catch (e) { return ' '; } })
+    .replace(/&#(\d+);?/g, (m, d) => { try { return String.fromCodePoint(+d); } catch (e) { return ' '; } })
+    .replace(/&apos;/g, "'").replace(/&quot;/g, '"')
     .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&nbsp;/g, ' ')
     .replace(/\s+/g, ' ').trim();
 }
@@ -50,8 +50,9 @@ module.exports = async function handler(req, res) {
   res.setHeader('content-type', 'application/json');
   res.setHeader('Cache-Control', 's-maxage=300');
 
+  let fresh = false; try { fresh = new URL(req.url, 'http://x').searchParams.get('refresh') === '1'; } catch (e) {}
   let doc = null; try { doc = await db.get('wave:news'); } catch (e) {}
-  if (doc && doc.t && (Date.now() - doc.t) < TTL_MS && Array.isArray(doc.items) && doc.items.length) {
+  if (!fresh && doc && doc.t && (Date.now() - doc.t) < TTL_MS && Array.isArray(doc.items) && doc.items.length) {
     res.statusCode = 200; return res.end(JSON.stringify({ ok: true, updated: doc.t, items: doc.items, cached: true }));
   }
 
