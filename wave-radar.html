@@ -3,12 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>LIMEN Wave Radar · see the wave before it breaks</title>
-<meta name="description" content="An artist superpower: see which sounds are EMERGING right now vs already peaking — emergence is acceleration, not size. Aim your next release at a wave on the way up.">
+<title>LIMEN Wave Radar · see the wave, hear the hits, make the beat</title>
+<meta name="description" content="Artist superpower: which sounds are emerging now, the tempos hits are using, 30-sec previews, and a Beat Lab that locks to the hottest BPM. Free.">
 <link rel="canonical" href="https://limenhelix.com/wave-radar">
 <meta property="og:type" content="website">
-<meta property="og:title" content="LIMEN Wave Radar — see the wave before it breaks">
-<meta property="og:description" content="Which sounds are emerging right now vs already peaking. Aim your next release at a wave on the way up.">
+<meta property="og:title" content="LIMEN Wave Radar — see the wave, hear the hits, make the beat">
 <meta property="og:url" content="https://limenhelix.com/wave-radar">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -16,40 +15,62 @@
   --emerge:#5ab5a0;--rise:#6ea8e0;--peak:#e8a24b;--cool:#e8736b}
 html,body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
 a{color:var(--gold);text-decoration:none}
-.wrap{max-width:820px;margin:0 auto;padding:0 18px}
+.wrap{max-width:860px;margin:0 auto;padding:0 18px}
 .top{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--line)}
 .brand{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--dim)}
 .brand b{color:var(--gold)}
 .top .r{display:flex;gap:14px;align-items:center}
 .top a.alt{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim)}
 .adminbtn{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,169,78,0.4);background:rgba(201,169,78,0.05);padding:6px 12px;border-radius:6px;cursor:pointer;font-family:inherit}
-.hero{text-align:center;padding:46px 0 22px}
+.hero{text-align:center;padding:44px 0 18px}
 .kicker{font-size:11px;letter-spacing:3.5px;text-transform:uppercase;color:var(--gold);opacity:.85}
-.hero h1{font-size:clamp(28px,5.5vw,44px);line-height:1.1;margin:12px 0 10px;letter-spacing:-0.5px}
-.hero p{color:var(--dim);font-size:16px;max-width:600px;margin:0 auto}
-.legend{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:18px 0 4px;font-size:12px;color:var(--dim)}
+.hero h1{font-size:clamp(27px,5.2vw,42px);line-height:1.1;margin:12px 0 10px;letter-spacing:-0.5px}
+.hero p{color:var(--dim);font-size:16px;max-width:610px;margin:0 auto}
+.tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.tabs a{font-size:13px;color:var(--gold);border:1px solid rgba(201,169,78,0.3);border-radius:20px;padding:7px 14px}
+.tabs a:hover{background:rgba(201,169,78,0.08)}
+.legend{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:16px 0 4px;font-size:12px;color:var(--dim)}
 .legend span{display:inline-flex;align-items:center;gap:6px}
 .dot{width:9px;height:9px;border-radius:50%}
 .banner{background:rgba(110,168,224,0.08);border:1px solid rgba(110,168,224,0.25);border-left:3px solid var(--rise);border-radius:8px;padding:12px 14px;margin:14px 0;font-size:13.5px;color:#cdd6e0}
-.sec{margin:26px 0 10px;display:flex;align-items:baseline;gap:10px}
-.sec h2{font-size:14px;letter-spacing:1.5px;text-transform:uppercase}
-.sec .cap{font-size:12px;color:var(--dim)}
+.sec{margin:30px 0 12px;display:flex;align-items:baseline;gap:10px;border-top:1px solid var(--line);padding-top:22px}
+.sec h2{font-size:15px;letter-spacing:1px}.sec .cap{font-size:12px;color:var(--dim)}
 .list{display:flex;flex-direction:column;gap:8px}
-.row{display:grid;grid-template-columns:34px 1fr auto;gap:12px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:11px 14px}
+.row{display:grid;grid-template-columns:30px 1fr auto;gap:12px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 13px}
 .row .rk{font-size:13px;color:var(--dim);text-align:center;font-variant-numeric:tabular-nums}
-.row .ti{font-size:15px;line-height:1.25}
-.row .ar{font-size:12.5px;color:var(--dim);margin-top:1px}
-.row .meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:5px}
+.row .ti{font-size:14.5px;line-height:1.25}.row .ar{font-size:12.5px;color:var(--dim);margin-top:1px}
+.row .meta{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:5px}
 .chip{font-size:10px;letter-spacing:.5px;text-transform:uppercase;padding:3px 8px;border-radius:20px;font-weight:600}
+.bpm{font-size:11px;color:var(--gold);border:1px solid rgba(201,169,78,0.3);border-radius:20px;padding:2px 8px;cursor:pointer}
+.bpm:hover{background:rgba(201,169,78,0.1)}
 .gtag{font-size:11px;color:var(--dim)}
-.vel{font-size:12px;font-variant-numeric:tabular-nums}
-.right{text-align:right;min-width:84px}
-.spark{height:7px;width:84px;background:var(--panel2);border-radius:5px;overflow:hidden;margin-top:6px}
-.spark i{display:block;height:100%;border-radius:5px}
+.play{background:none;border:1px solid var(--line);color:var(--ink);border-radius:50%;width:34px;height:34px;cursor:pointer;font-size:13px}
+.play:hover{border-color:var(--gold);color:var(--gold)}.play.on{background:var(--gold);color:#1a1407;border-color:var(--gold)}
+.pat{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.pcard{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:13px 15px}
+.pcard .g{font-size:13px;font-weight:600}.pcard .m{font-size:12px;color:var(--dim);margin:3px 0 9px}
+.pcard .m b{color:var(--gold)}
+.bands{display:flex;gap:3px;align-items:flex-end;height:42px}
+.bands .b{flex:1;background:var(--panel2);border-radius:3px 3px 0 0;position:relative;min-height:3px}
+.bands .b.hot{background:var(--emerge)}
+.bands .lab{font-size:8px;color:var(--dim);text-align:center;margin-top:3px;line-height:1.1}
 .muted{color:var(--dim);font-size:13px;padding:10px 0}
+/* beat lab */
+.lab{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
+.labbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.labbar button.tp{background:var(--gold);color:#1a1407;border:none;border-radius:8px;font:inherit;font-weight:700;padding:10px 20px;cursor:pointer}
+.labbar .bpmctl{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--dim)}
+.labbar input[type=range]{width:150px}
+.labbar .bpmval{font-size:18px;font-weight:700;color:var(--gold);font-variant-numeric:tabular-nums;min-width:62px}
+.seq{display:flex;flex-direction:column;gap:6px;overflow-x:auto}
+.seqrow{display:flex;align-items:center;gap:6px}
+.seqrow .nm{font-size:11px;width:54px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;flex:0 0 54px}
+.cell{width:26px;height:26px;flex:0 0 26px;border-radius:5px;background:var(--panel2);border:1px solid var(--line);cursor:pointer}
+.cell.on{background:var(--gold);border-color:var(--gold)}
+.cell.beat{border-color:rgba(201,169,78,0.4)}
+.cell.play{outline:2px solid var(--rise)}
 .foot{text-align:center;color:var(--dim);font-size:12px;padding:30px 0 50px;border-top:1px solid var(--line);margin-top:34px}
 .foot .pp{font-size:11px;margin-top:6px}
-.refresh{font-size:11px;color:var(--dim)}
 </style>
 </head>
 <body>
@@ -61,71 +82,154 @@ a{color:var(--gold);text-decoration:none}
 <div class="wrap">
   <div class="hero">
     <div class="kicker">Artist superpower · live</div>
-    <h1>See the wave before it breaks.</h1>
-    <p>Emergence is <b>acceleration, not size.</b> What's already big has peaked. The radar surfaces the sounds <i>climbing fastest right now</i> — so you aim your next release at a wave on the way up, not a crowded peak.</p>
+    <h1>See the wave. Hear the hits. Make the beat.</h1>
+    <p>Emergence is <b>acceleration, not size.</b> Below: the sounds climbing fastest right now, the <b>tempos</b> hits are actually using, 30-second previews you can hear, and a <b>Beat Lab</b> that locks to the hottest BPM so you can sketch on the wave.</p>
+    <div class="tabs">
+      <a href="#radar">🌊 Radar</a><a href="#xray">🎛 Hit X-Ray</a><a href="#lab">🥁 Beat Lab</a>
+    </div>
     <div class="legend">
       <span><i class="dot" style="background:var(--emerge)"></i>Emerging</span>
       <span><i class="dot" style="background:var(--rise)"></i>Rising</span>
-      <span><i class="dot" style="background:var(--peak)"></i>Peaking (crowded)</span>
+      <span><i class="dot" style="background:var(--peak)"></i>Peaking</span>
       <span><i class="dot" style="background:var(--cool)"></i>Cooling</span>
     </div>
   </div>
 
   <div id="banner"></div>
-  <div id="body"><div class="muted">Reading the charts…</div></div>
+
+  <div class="sec" id="radar"><h2>🌊 Wave Radar</h2><span class="cap">what's climbing fastest</span></div>
+  <div id="radarBody"><div class="muted">Reading the charts…</div></div>
+
+  <div class="sec" id="xray"><h2>🎛 Hit X-Ray</h2><span class="cap">the tempos hits are using — tap BPM to load it into the Beat Lab</span></div>
+  <div id="patterns"></div>
+  <div style="font-size:12px;color:var(--dim);margin:14px 0 8px;letter-spacing:.5px;text-transform:uppercase">Charting now · hear them</div>
+  <div id="topList" class="list"></div>
+
+  <div class="sec" id="lab"><h2>🥁 Beat Lab</h2><span class="cap">sketch on the wave — synth drums, locked to BPM</span></div>
+  <div class="lab">
+    <div class="labbar">
+      <button class="tp" id="lbPlay">▶ Play</button>
+      <div class="bpmctl">BPM <input type="range" id="lbBpm" min="70" max="180" value="140"><span class="bpmval" id="lbBpmVal">140</span></div>
+      <button class="adminbtn" id="lbClear" style="cursor:pointer">Clear</button>
+    </div>
+    <div class="seq" id="seq"></div>
+    <div style="font-size:11.5px;color:var(--dim);margin-top:10px">Tap the squares to build a pattern. Tap a track's BPM above to match the tempo that's winning. (Headphones recommended.)</div>
+  </div>
 
   <div class="foot">
-    Powered by <a href="/">LIMEN Helix</a> · Wave Radar &nbsp;·&nbsp; <span class="refresh" id="refresh"></span>
-    <div class="pp">Live chart signal (Deezer, v1). Emergence is computed from change over time, so the radar sharpens with every snapshot. Informational — not a guarantee of performance. Upgrades coming: Shazam discovery, geo velocity, Spotify &amp; YouTube momentum, and sound/scene clustering.</div>
+    Powered by <a href="/">LIMEN Helix</a> · Wave Radar &nbsp;·&nbsp; <span id="refresh"></span>
+    <div class="pp">Live chart + tempo signal (Deezer, keyless). Emergence sharpens as snapshots accrue. Key/energy &amp; sound-clustering coming next. Beat Lab is a synth sketchpad, not a DAW. Informational — not a guarantee of performance.</div>
   </div>
 </div>
 
 <script src="assets/js/limen-admin-login.js"></script>
 <script>
 (function(){
-  var PHASE={
-    emerging:{c:'var(--emerge)',bg:'rgba(90,181,160,0.16)',label:'Emerging'},
-    rising:{c:'var(--rise)',bg:'rgba(110,168,224,0.16)',label:'Rising'},
-    peaking:{c:'var(--peak)',bg:'rgba(232,162,75,0.16)',label:'Peaking'},
-    cooling:{c:'var(--cool)',bg:'rgba(232,115,107,0.16)',label:'Cooling'},
-    steady:{c:'var(--dim)',bg:'rgba(154,147,132,0.14)',label:'Steady'},
-    baseline:{c:'var(--dim)',bg:'rgba(154,147,132,0.14)',label:'Baseline'}
-  };
-  function esc(s){return String(s==null?'':s).replace(/[<>&]/g,function(c){return({'<':'&lt;','>':'&gt;','&':'&amp;'})[c];});}
-  function row(r,maxE){
-    var p=PHASE[r.phase]||PHASE.steady;
-    var vel=(r.velocity>0?'+':'')+r.velocity+'/day';
-    var w=maxE>0?Math.max(6,Math.round(r.emergence/maxE*100)):6;
-    var link=r.link?(' <a href="'+esc(r.link)+'" target="_blank" rel="noopener" style="font-size:11px">▶</a>'):'';
+  var PH={emerging:{c:'var(--emerge)',bg:'rgba(90,181,160,.16)',l:'Emerging'},rising:{c:'var(--rise)',bg:'rgba(110,168,224,.16)',l:'Rising'},
+    peaking:{c:'var(--peak)',bg:'rgba(232,162,75,.16)',l:'Peaking'},cooling:{c:'var(--cool)',bg:'rgba(232,115,107,.16)',l:'Cooling'},
+    steady:{c:'var(--dim)',bg:'rgba(154,147,132,.14)',l:'Steady'},baseline:{c:'var(--dim)',bg:'rgba(154,147,132,.14)',l:'New'}};
+  function esc(s){return String(s==null?'':s).replace(/[<>&"]/g,function(c){return({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'})[c];});}
+
+  // ---- audio preview (shared) ----
+  var audio=new Audio(); var curBtn=null;
+  function playPreview(url,btn){
+    if(curBtn===btn){ audio.pause(); curBtn.classList.remove('on'); curBtn.textContent='▶'; curBtn=null; return; }
+    if(curBtn){ curBtn.classList.remove('on'); curBtn.textContent='▶'; }
+    audio.src=url; audio.play().catch(function(){}); btn.classList.add('on'); btn.textContent='⏸'; curBtn=btn;
+    audio.onended=function(){ btn.classList.remove('on'); btn.textContent='▶'; curBtn=null; };
+  }
+
+  function trackRow(r,opts){
+    opts=opts||{};
+    var p=PH[r.phase]||PH.steady;
+    var bpm=r.bpm>0?('<span class="bpm" data-bpm="'+r.bpm+'">'+r.bpm+' BPM</span>'):'';
+    var phaseChip=opts.showPhase?('<span class="chip" style="color:'+p.c+';background:'+p.bg+'">'+p.l+'</span>'):'';
+    var vel=opts.showPhase&&r.points>=2?('<span class="gtag" style="color:'+(r.velocity>=0?'var(--emerge)':'var(--cool)')+'">'+(r.velocity>0?'+':'')+r.velocity+'/day</span>'):'';
+    var play=r.preview?('<button class="play" data-prev="'+esc(r.preview)+'">▶</button>'):'<span></span>';
     return '<div class="row"><div class="rk">#'+r.cur+'</div>'+
-      '<div><div class="ti">'+esc(r.title)+link+'</div><div class="ar">'+esc(r.artist)+'</div>'+
-      '<div class="meta"><span class="chip" style="color:'+p.c+';background:'+p.bg+'">'+p.label+'</span>'+
-      '<span class="gtag">'+esc(r.glabel||'')+'</span>'+
-      '<span class="vel" style="color:'+(r.velocity>=0?'var(--emerge)':'var(--cool)')+'">'+(r.points>=2?vel:'baseline')+'</span></div></div>'+
-      '<div class="right"><div class="spark"><i style="width:'+w+'%;background:'+p.c+'"></i></div></div></div>';
+      '<div><div class="ti">'+esc(r.title)+'</div><div class="ar">'+esc(r.artist)+'</div>'+
+      '<div class="meta">'+phaseChip+'<span class="gtag">'+esc(r.glabel||'')+'</span>'+bpm+vel+'</div></div>'+
+      '<div>'+play+'</div></div>';
   }
-  function section(title,cap,items,maxE){
-    if(!items||!items.length) return '';
-    var h='<div class="sec"><h2>'+title+'</h2><span class="cap">'+cap+'</span></div><div class="list">';
-    items.forEach(function(r){h+=row(r,maxE);}); return h+'</div>';
+  function bindRows(container){
+    container.querySelectorAll('.play').forEach(function(b){ b.onclick=function(){ playPreview(b.getAttribute('data-prev'),b); }; });
+    container.querySelectorAll('.bpm').forEach(function(b){ b.onclick=function(){ setBpm(parseInt(b.getAttribute('data-bpm'),10)); document.getElementById('lab').scrollIntoView({behavior:'smooth'}); }; });
   }
-  function fmtAgo(ts){ if(!ts) return ''; var m=Math.round((Date.now()-ts)/60000); if(m<60) return m+' min ago'; return Math.round(m/60)+' h ago'; }
+
+  function fmtAgo(ts){ if(!ts)return''; var m=Math.round((Date.now()-ts)/60000); return m<60?(m+' min ago'):(Math.round(m/60)+' h ago'); }
 
   fetch('/api/wave-radar').then(function(r){return r.json();}).then(function(j){
-    var body=document.getElementById('body'), banner=document.getElementById('banner');
-    document.getElementById('refresh').textContent = j.lastSnapshot ? ('updated '+fmtAgo(j.lastSnapshot)+' · tracking '+j.tracked) : '';
-    if(!j.ok){ body.innerHTML='<div class="muted">Radar is offline right now — try again shortly.</div>'; return; }
-    if(j.note){ banner.innerHTML='<div class="banner">🛰️ '+esc(j.note)+'</div>'; }
-    var maxE=0; (j.rising||[]).forEach(function(r){if(r.emergence>maxE)maxE=r.emergence;});
+    document.getElementById('refresh').textContent=j.lastSnapshot?('updated '+fmtAgo(j.lastSnapshot)+' · '+j.tracked+' tracks · '+(j.withBpm||0)+' with tempo'):'';
+    if(!j.ok){ document.getElementById('radarBody').innerHTML='<div class="muted">Radar offline — try again shortly.</div>'; return; }
+    if(j.note) document.getElementById('banner').innerHTML='<div class="banner">🛰️ '+esc(j.note)+'</div>';
+
+    // radar
+    var rb=document.getElementById('radarBody'),h='';
+    function sect(title,items,showPhase){ if(!items||!items.length)return''; var s='<div style="font-size:12px;color:var(--dim);margin:8px 0;letter-spacing:.5px;text-transform:uppercase">'+title+'</div><div class="list">'; items.forEach(function(r){s+=trackRow(r,{showPhase:showPhase});}); return s+'</div>'; }
+    h+=sect('Emerging &amp; rising',j.rising,true)+sect('Peaking — crowded',j.peaking,true)+sect('Cooling',j.cooling,true);
+    if(!h) h='<div class="muted">Baseline set — emerging waves light up once a second snapshot lands (a few hours). Meanwhile, the Hit X-Ray and Beat Lab below are live.</div>';
+    rb.innerHTML=h; bindRows(rb);
+
+    // patterns
+    var pc=document.getElementById('patterns'),ph='';
+    (j.patterns||[]).forEach(function(p){
+      var maxn=Math.max.apply(null,p.bands.map(function(b){return b.n;}).concat([1]));
+      var bars=p.bands.map(function(b){var hot=b.label===p.dominantBand;return '<div style="flex:1;text-align:center"><div class="b'+(hot?' hot':'')+'" style="height:'+Math.max(3,Math.round(b.n/maxn*42))+'px"></div><div class="lab">'+b.label+'</div></div>';}).join('');
+      ph+='<div class="pcard"><div class="g">'+esc(p.glabel)+'</div><div class="m">median <b>'+p.median+' BPM</b> · sweet spot <b>'+p.dominantBand+'</b> · '+p.n+' hits</div><div class="bands">'+bars+'</div></div>';
+    });
+    pc.innerHTML=ph?('<div class="pat">'+ph+'</div>'):'<div class="muted">Tempo patterns fill in as track BPMs load (refresh in a moment).</div>';
+
+    // charting now
+    var tl=document.getElementById('topList'),th='';
+    (j.currentTop||[]).forEach(function(r){ th+=trackRow(r,{showPhase:false}); });
+    tl.innerHTML=th||'<div class="muted">Loading…</div>'; bindRows(tl);
+    bindRows(pc);
+
+    // seed beat lab tempo from overall median
+    var all=(j.patterns||[]).filter(function(p){return p.genre==='all';})[0];
+    if(all&&all.median) setBpm(all.median);
+  }).catch(function(){ document.getElementById('radarBody').innerHTML='<div class="muted">Couldn’t reach the radar.</div>'; });
+
+  // ================= BEAT LAB (Web Audio synth drum machine) =================
+  var STEPS=16, INSTR=[{k:'kick',n:'Kick'},{k:'snare',n:'Snare'},{k:'hat',n:'Hat'},{k:'clap',n:'Clap'}];
+  var pattern={ kick:[1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0], snare:[0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0],
+    hat:[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0], clap:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0] };
+  var bpm=140, playing=false, ac=null, master=null, noiseBuf=null, cur=0, nextT=0, timer=null;
+  var seqEl=document.getElementById('seq');
+  function buildGrid(){
     var h='';
-    h+=section('🌊 Emerging &amp; Rising','climbing fastest — aim here', j.rising, maxE);
-    h+=section('🔥 Peaking','already crowded — likely too late', j.peaking, maxE);
-    h+=section('📉 Cooling','on the way down', j.cooling, maxE);
-    if(!h){ h='<div class="muted">The radar just set its baseline. Check back in a few hours — once a second snapshot lands, the emerging waves light up.</div>'; }
-    body.innerHTML=h;
-  }).catch(function(){
-    document.getElementById('body').innerHTML='<div class="muted">Couldn’t reach the radar — try again shortly.</div>';
-  });
+    INSTR.forEach(function(ins){
+      h+='<div class="seqrow"><div class="nm">'+ins.n+'</div>';
+      for(var s=0;s<STEPS;s++){ h+='<div class="cell'+(s%4===0?' beat':'')+(pattern[ins.k][s]?' on':'')+'" data-i="'+ins.k+'" data-s="'+s+'"></div>'; }
+      h+='</div>';
+    });
+    seqEl.innerHTML=h;
+    seqEl.querySelectorAll('.cell').forEach(function(c){ c.onclick=function(){ var i=c.getAttribute('data-i'),s=+c.getAttribute('data-s'); pattern[i][s]=pattern[i][s]?0:1; c.classList.toggle('on'); }; });
+  }
+  buildGrid();
+  function setBpm(v){ bpm=Math.max(70,Math.min(180,Math.round(v))); var sl=document.getElementById('lbBpm'),vl=document.getElementById('lbBpmVal'); if(sl)sl.value=bpm; if(vl)vl.textContent=bpm; }
+  window.setBpm=setBpm;
+  document.getElementById('lbBpm').oninput=function(){ setBpm(+this.value); };
+  document.getElementById('lbClear').onclick=function(){ INSTR.forEach(function(ins){pattern[ins.k]=new Array(STEPS).fill(0);}); buildGrid(); };
+
+  function noise(){ if(noiseBuf)return noiseBuf; noiseBuf=ac.createBuffer(1,ac.sampleRate*0.4,ac.sampleRate); var d=noiseBuf.getChannelData(0); for(var i=0;i<d.length;i++)d[i]=Math.random()*2-1; return noiseBuf; }
+  function env(node,t,a,d,peak){ var g=ac.createGain(); g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(peak,t+a); g.gain.exponentialRampToValueAtTime(0.001,t+a+d); node.connect(g); g.connect(master); return g; }
+  function kick(t){ var o=ac.createOscillator(); o.type='sine'; o.frequency.setValueAtTime(150,t); o.frequency.exponentialRampToValueAtTime(48,t+0.11); env(o,t,0.002,0.22,1).gain; o.start(t); o.stop(t+0.26); }
+  function snare(t){ var n=ac.createBufferSource(); n.buffer=noise(); var bp=ac.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=1750; n.connect(bp); env(bp,t,0.001,0.16,0.7); n.start(t); n.stop(t+0.2);
+    var o=ac.createOscillator(); o.type='triangle'; o.frequency.value=180; env(o,t,0.001,0.09,0.35); o.start(t); o.stop(t+0.12); }
+  function hat(t){ var n=ac.createBufferSource(); n.buffer=noise(); var hp=ac.createBiquadFilter(); hp.type='highpass'; hp.frequency.value=7000; n.connect(hp); env(hp,t,0.001,0.045,0.32); n.start(t); n.stop(t+0.06); }
+  function clap(t){ [0,0.012,0.024].forEach(function(o){ var n=ac.createBufferSource(); n.buffer=noise(); var bp=ac.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=1200; n.connect(bp); env(bp,t+o,0.001,0.09,0.5); n.start(t+o); n.stop(t+o+0.12); }); }
+  var VOICE={kick:kick,snare:snare,hat:hat,clap:clap};
+  function schedule(step,t){ INSTR.forEach(function(ins){ if(pattern[ins.k][step]) VOICE[ins.k](t); });
+    var cells=seqEl.querySelectorAll('.cell[data-s="'+step+'"]'); var delay=(t-ac.currentTime)*1000;
+    setTimeout(function(){ seqEl.querySelectorAll('.cell.play').forEach(function(c){c.classList.remove('play');}); cells.forEach(function(c){c.classList.add('play');}); }, Math.max(0,delay)); }
+  function loop(){ if(!playing)return; while(nextT<ac.currentTime+0.12){ schedule(cur,nextT); nextT+=60/bpm/4; cur=(cur+1)%STEPS; } timer=setTimeout(loop,25); }
+  document.getElementById('lbPlay').onclick=function(){
+    if(!ac){ ac=new (window.AudioContext||window.webkitAudioContext)(); master=ac.createGain(); master.gain.value=0.5; master.connect(ac.destination); }
+    if(ac.state==='suspended') ac.resume();
+    if(playing){ playing=false; clearTimeout(timer); this.textContent='▶ Play'; seqEl.querySelectorAll('.cell.play').forEach(function(c){c.classList.remove('play');}); }
+    else { playing=true; cur=0; nextT=ac.currentTime+0.06; this.textContent='⏸ Stop'; loop(); }
+  };
 })();
 </script>
 </body>
