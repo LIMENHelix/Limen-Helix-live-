@@ -20,8 +20,17 @@
     -webkit-font-smoothing:antialiased;cursor:default}
   /* full-screen layers */
   #gl,#fx{position:fixed;inset:0;width:100%;height:100%;display:block}
-  #gl{z-index:0}
-  #fx{z-index:1;pointer-events:none;mix-blend-mode:screen}
+  #gl{z-index:0;
+    background:
+      radial-gradient(130% 100% at 24% 20%, var(--c1,#FFD166), rgba(6,6,14,0) 56%),
+      radial-gradient(120% 100% at 80% 34%, var(--c2,#9D6BFF), rgba(6,6,14,0) 54%),
+      radial-gradient(165% 135% at 50% 104%, var(--c3,#2DD4BF), rgba(6,6,14,0) 60%),
+      #06060e;
+    background-size:220% 220%,220% 220%,220% 220%,100% 100%;
+    background-position:0% 0%,100% 0%,50% 100%,0 0;
+    animation:drift 32s ease-in-out infinite alternate;will-change:background-position}
+  @keyframes drift{to{background-position:45% 35%,55% 45%,50% 55%,0 0}}
+  #fx{z-index:1;pointer-events:none;mix-blend-mode:screen;opacity:.7}
   .veil{position:fixed;inset:0;z-index:2;pointer-events:none;
     background:radial-gradient(120% 90% at 50% 42%,rgba(3,3,10,0) 38%,rgba(3,3,10,0.55) 78%,rgba(3,3,10,0.92) 100%)}
 
@@ -198,43 +207,9 @@ void main(){
 </script>
 
 <script>
-/* ── 1. WebGL fractal background ─────────────────────────────────── */
-(function(){
-  var cv=document.getElementById('gl');
-  var gl=null; try{ gl=cv.getContext('webgl')||cv.getContext('experimental-webgl'); }catch(e){}
-  if(!gl){ cv.style.background='radial-gradient(60% 60% at 50% 45%,#1a1407,#03030a)'; return; }
-  function sh(type,src){ var s=gl.createShader(type); gl.shaderSource(s,src); gl.compileShader(s); return s; }
-  var prog=gl.createProgram();
-  gl.attachShader(prog,sh(gl.VERTEX_SHADER,document.getElementById('vert').textContent));
-  gl.attachShader(prog,sh(gl.FRAGMENT_SHADER,document.getElementById('frag').textContent));
-  gl.linkProgram(prog);
-  if(!gl.getProgramParameter(prog,gl.LINK_STATUS)){ cv.style.background='radial-gradient(60% 60% at 50% 45%,#1a1407,#03030a)'; return; }
-  gl.useProgram(prog);
-  var buf=gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,buf);
-  gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
-  var loc=gl.getAttribLocation(prog,'p'); gl.enableVertexAttribArray(loc);
-  gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
-  var uRes=gl.getUniformLocation(prog,'u_res'), uTime=gl.getUniformLocation(prog,'u_time'), uColor=gl.getUniformLocation(prog,'u_color'), uChaos=gl.getUniformLocation(prog,'u_chaos'), uPulse=gl.getUniformLocation(prog,'u_pulse');
-  function size(){
-    var dpr=Math.min(window.devicePixelRatio||1,1.5);
-    cv.width=Math.floor(innerWidth*dpr); cv.height=Math.floor(innerHeight*dpr);
-    gl.viewport(0,0,cv.width,cv.height);
-  }
-  size(); addEventListener('resize',size);
-  var t0=Date.now(), running=true;
-  document.addEventListener('visibilitychange',function(){ running=!document.hidden; if(running) loop(); });
-  function loop(){
-    if(!running) return;
-    gl.uniform2f(uRes,cv.width,cv.height);
-    gl.uniform1f(uTime,(Date.now()-t0)/1000);
-    var c=window.__limenColor||[1.0,0.82,0.4]; gl.uniform3f(uColor, c[0],c[1],c[2]);
-    gl.uniform1f(uChaos, (window.__limenChaos!=null?window.__limenChaos:0.3));
-    gl.uniform1f(uPulse, (window.__limenPulse!=null?window.__limenPulse:0.0));
-    gl.drawArrays(gl.TRIANGLES,0,3);
-    requestAnimationFrame(loop);
-  }
-  loop();
-})();
+/* ── 1. Background is a fast CSS color-field (see #gl in <style>), driven by the
+       phase-cycle color driver below. No WebGL — instant paint, always colorful,
+       never blocks the content. ───────────────────────────────────────────── */
 
 /* ── 2. Sparkle particle overlay ─────────────────────────────────── */
 (function(){
@@ -346,15 +321,18 @@ void main(){
     {p:'P9', l:'THRESHOLD',                d:'Poised disequilibrium / pre-transformation saturation',    hex:'#A855F7', c:[0.659,0.333,0.969]},
     {p:'P10',l:'RESURRECTION',             d:'Reintegrated recursion / multilayer integration',          hex:'#10B981', c:[0.063,0.725,0.506]}
   ];
-  var i=1, cur=PHASES[1].c.slice(), target=PHASES[1].c.slice();
-  var CHAOS=[0.08,0.34,0.22,0.46,0.20,0.34,0.12,0.44,0.46,0.32,0.42,0.18];  // per-phase fractal turbulence (capped — smooth color-shifting fractal, not glitchy)
-  var chCur=CHAOS[1], chTgt=CHAOS[1];
+  var i=1, root=document.documentElement;
   var elT=document.getElementById('phaseTitle'), elD=document.getElementById('phaseDesc');
-  window.__limenColor=cur; window.__limenChaos=chCur;
-  (function ease(){ for(var k=0;k<3;k++) cur[k]+=(target[k]-cur[k])*0.012; chCur+=(chTgt-chCur)*0.012; window.__limenColor=cur; window.__limenChaos=chCur; requestAnimationFrame(ease); })();
+  function hx(h){ h=h.replace('#',''); return [parseInt(h.substr(0,2),16),parseInt(h.substr(2,2),16),parseInt(h.substr(4,2),16)]; }
+  function css(a){ return 'rgb('+Math.round(a[0])+','+Math.round(a[1])+','+Math.round(a[2])+')'; }
+  var c1=hx(PHASES[1].hex), c2=hx(PHASES[5].hex), c3=hx(PHASES[9].hex);
+  var t1=c1.slice(), t2=c2.slice(), t3=c3.slice();
+  function targets(ix){ t1=hx(PHASES[ix].hex); t2=hx(PHASES[(ix+4)%PHASES.length].hex); t3=hx(PHASES[(ix+8)%PHASES.length].hex); }
+  (function ease(){ for(var k=0;k<3;k++){ c1[k]+=(t1[k]-c1[k])*0.02; c2[k]+=(t2[k]-c2[k])*0.02; c3[k]+=(t3[k]-c3[k])*0.02; }
+    root.style.setProperty('--c1',css(c1)); root.style.setProperty('--c2',css(c2)); root.style.setProperty('--c3',css(c3)); requestAnimationFrame(ease); })();
   function show(ph){ if(elT){ elT.textContent=ph.p+' · '+ph.l; elT.style.color=ph.hex; } if(elD){ elD.textContent=ph.d; elD.style.color=ph.hex; } }
-  show(PHASES[1]);
-  setInterval(function(){ i=(i+1)%PHASES.length; var ph=PHASES[i]; target=ph.c.slice(); chTgt=CHAOS[i]; show(ph); }, 14000);
+  targets(1); show(PHASES[1]);
+  setInterval(function(){ i=(i+1)%PHASES.length; targets(i); show(PHASES[i]); }, 14000);
 })();
 
 /* ── 6. Generative ambient soundscape (original — ♪ toggle, no autoplay) ── */
