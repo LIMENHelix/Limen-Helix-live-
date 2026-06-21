@@ -33,6 +33,35 @@ function readBody(req) {
 }
 
 function clip(v, n) { return String(v == null ? '' : v).slice(0, n); }
+function esc(v) { return String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+// Forward a captured lead to the LIMEN inbox via Resend. Fires ONLY if both
+// RESEND_API_KEY and LEAD_NOTIFY_EMAIL are set; otherwise inert. Fail-open —
+// a send failure must NEVER break the capture (the lead is already persisted).
+async function notifyLead(lead) {
+  var apiKey = process.env.RESEND_API_KEY;
+  var to = process.env.LEAD_NOTIFY_EMAIL;
+  if (!apiKey || !to) return { sent: false, reason: 'not-configured' };
+  var from = process.env.LEAD_FROM_EMAIL || 'LIMEN Helix Leads <onboarding@resend.dev>';
+  var fields = ['email', 'name', 'organization', 'interest', 'phone', 'message', 'accredited', 'sourcePage', 'ts'];
+  var rows = fields.map(function (k) {
+    return '<tr><td style="padding:3px 10px;color:#888;vertical-align:top">' + k + '</td><td style="padding:3px 10px">' + esc(lead[k]) + '</td></tr>';
+  }).join('');
+  try {
+    var r = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', authorization: 'Bearer ' + apiKey },
+      body: JSON.stringify({
+        from: from,
+        to: [to],
+        reply_to: lead.email,
+        subject: 'New LIMEN lead: ' + lead.email + (lead.interest ? ' · ' + lead.interest : '') + (lead.test ? ' [TEST]' : ''),
+        html: '<h2 style="font-family:sans-serif">New lead from limenhelix.com</h2><table style="font-family:monospace;font-size:13px;border-collapse:collapse">' + rows + '</table>'
+      })
+    });
+    return { sent: !!r.ok, http: r.status };
+  } catch (e) { return { sent: false, reason: String(e && e.message || e) }; }
+}
 
 module.exports = async function handler(req, res) {
   res.setHeader('content-type', 'application/json');
@@ -80,8 +109,11 @@ module.exports = async function handler(req, res) {
         res.statusCode = 500;
         return res.end(JSON.stringify({ ok: false, error: 'Write could not be confirmed.' }));
       }
+      // Forward to the LIMEN inbox (inert unless RESEND_API_KEY + LEAD_NOTIFY_EMAIL set; never blocks capture).
+      var notified = false;
+      try { notified = (await notifyLead(lead)).sent; } catch (e) {}
       res.statusCode = 200;
-      return res.end(JSON.stringify({ ok: true, id: id, backend: db.getBackend() }));
+      return res.end(JSON.stringify({ ok: true, id: id, backend: db.getBackend(), notified: notified }));
     } catch (e) {
       res.statusCode = 500;
       return res.end(JSON.stringify({ ok: false, error: String(e && e.message || e) }));
@@ -119,6 +151,16 @@ module.exports = async function handler(req, res) {
       for (var i = 0; i < ids.length; i++) {
         var l = await db.get('lead:' + ids[i]);
         if (l) leads.push(l);
+      }
+      // One-time backfill: ?notify=1 forwards every stored lead to LEAD_NOTIFY_EMAIL via Resend.
+      if (u.searchParams.get('notify')) {
+        var results = [];
+        for (var n = 0; n < leads.length; n++) {
+          var nr = await notifyLead(leads[n]);
+          results.push({ id: leads[n].id, email: leads[n].email, sent: nr.sent, reason: nr.reason || null });
+        }
+        res.statusCode = 200;
+        return res.end(JSON.stringify({ ok: true, action: 'notify', count: results.length, sent: results.filter(function (x) { return x.sent; }).length, results: results }, null, 2));
       }
       res.statusCode = 200;
       return res.end(JSON.stringify({ ok: true, count: leads.length, backend: db.getBackend(), leads: leads }, null, 2));
