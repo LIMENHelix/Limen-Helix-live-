@@ -54,7 +54,7 @@ a{color:var(--gold);text-decoration:none}
 .bands{display:flex;gap:3px;align-items:flex-end;height:42px}
 .bands .b{flex:1;background:var(--panel2);border-radius:3px 3px 0 0;min-height:3px}
 .bands .b.hot{background:var(--emerge)}
-.bands .lab{font-size:8px;color:var(--dim);text-align:center;margin-top:3px;line-height:1.1}
+.bands .blab{font-size:8px;color:var(--dim);text-align:center;margin-top:3px;line-height:1.1}
 .muted{color:var(--dim);font-size:13px;padding:10px 0}
 .lab{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
 .labbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}
@@ -192,7 +192,7 @@ a{color:var(--gold);text-decoration:none}
     keys.forEach(function(g){ var bk=byG[g]; var sorted=bk.bpms.slice().sort(function(a,b){return a-b;}); var med=sorted[Math.floor(sorted.length/2)];
       var dom=bk.bands[0]; bk.bands.forEach(function(b){if(b.n>dom.n)dom=b;});
       var maxn=Math.max.apply(null,bk.bands.map(function(b){return b.n;}).concat([1]));
-      var bars=bk.bands.map(function(b){var hot=b.l===dom.l;return '<div style="flex:1;text-align:center"><div class="b'+(hot?' hot':'')+'" style="height:'+Math.max(3,Math.round(b.n/maxn*42))+'px"></div><div class="lab">'+b.l+'</div></div>';}).join('');
+      var bars=bk.bands.map(function(b){var hot=b.l===dom.l;return '<div style="flex:1;text-align:center"><div class="b'+(hot?' hot':'')+'" style="height:'+Math.max(3,Math.round(b.n/maxn*42))+'px"></div><div class="blab">'+b.l+'</div></div>';}).join('');
       ph+='<div class="pcard"><div class="g">'+esc(GLABEL[g]||g)+'</div><div class="m">median <b>'+med+' BPM</b> · sweet spot <b>'+dom.l+'</b> · '+bk.n+' tracks</div><div class="bands">'+bars+'</div></div>';
     });
     el.innerHTML='<div class="pat">'+ph+'</div>';
