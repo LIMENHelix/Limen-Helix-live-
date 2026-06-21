@@ -39,7 +39,7 @@
     "window": "7–90 days",
     "realWorld": {
       "invest": "Money-center banks: JPMorgan (JPM), Bank of America (BAC). Treasuries: TLT, SHY, IEF. Distressed: Oaktree Capital, Apollo (APO).",
-      "apply": "FDIC loss-share agreements for resolution purchases, SBA bridge-loan programs.",
+      "research": "Research brief: model deposit-flight velocity and counterparty-exposure contagion pathways across FDIC-resolution events.",
       "build": "Deposit-flight monitoring, counterparty-exposure analytics, FDIC-resolution workflow platforms."
     },
     "examples": [
@@ -85,7 +85,7 @@
     "window": "30–180 days",
     "realWorld": {
       "invest": "BDCs: ARCC, HTGC, OCSL. Private credit: BX, APO, KKR, CG. Supply-chain finance: C2FO, Taulia (private).",
-      "apply": "SBA 7(a)/504 lender-match programs, Treasury TALF-style facilities when active.",
+      "research": "Research brief: quantify private-credit share gains during bank-lending contractions and identify BDC performance predictors.",
       "build": "Alternative-credit matching platforms, supply-chain-finance infrastructure, invoice-factoring tooling."
     },
     "examples": [
@@ -130,7 +130,7 @@
     "window": "7–180 days",
     "realWorld": {
       "invest": "Gold: GLD, IAU. Treasuries: TLT, GOVT. Defensive: XLU, XLP, VIX derivatives (SVXY/UVXY caution).",
-      "apply": "N/A",
+      "research": "Research brief: analyze drawdown recovery patterns and risk-parity rebalancing effectiveness across market crash scenarios.",
       "build": "Volatility-monitoring platforms, risk-parity rebalancing tools, hedging-analytics services."
     },
     "examples": [
@@ -176,7 +176,7 @@
     "window": "30 days–2 years",
     "realWorld": {
       "invest": "Hard assets: GLD, SLV, DBC. USD: UUP, short-local-FX via UDN. Remittance: Wise (WISE.L), Remitly (RELY).",
-      "apply": "N/A (private-sector).",
+      "research": "Research brief: map currency-collapse transmission pathways and benchmark hard-asset hedge performance across historical devaluation events.",
       "build": "Cross-border payment platforms, stablecoin on/off-ramps for dollarization, remittance infrastructure."
     },
     "examples": [
@@ -221,7 +221,7 @@
     "window": "14–180 days",
     "realWorld": {
       "invest": "TLT, GLD, UUP, XLU, tail-risk funds (UPRO-like inverse). Macro ETFs: QMN, GMOM.",
-      "apply": "N/A",
+      "research": "Research brief: evaluate cross-asset correlation breakdown patterns and tail-hedging strategy effectiveness during systemic stress.",
       "build": "Systemic-risk monitoring platforms, cross-asset correlation analytics, tail-hedging tooling."
     },
     "examples": [
@@ -266,7 +266,7 @@
     "window": "90 days–3 years",
     "realWorld": {
       "invest": "Regtech: Alteryx (AYX), Mitek (MITK), ACI Worldwide (ACIW). Compliance: LogicGate, OneTrust (private).",
-      "apply": "SEC Whistleblower Program (for disclosers), OIG grants for oversight tooling.",
+      "research": "Research brief: quantify regtech adoption velocity post-enforcement and benchmark fraud-detection ML performance across financial scandal types.",
       "build": "Fraud-detection ML platforms, forensic-accounting automation, post-scandal compliance overlays."
     },
     "examples": [
@@ -301,7 +301,7 @@
       "Count OFFLINE sources",
       "Identify gap",
       "Build pipeline",
-      "Apply to SBA/NSF or partner with exchange"
+      "Scope a research brief on financial-data coverage gaps or partner with an exchange"
     ],
     "branch_up": "Gap persists: build permanent infrastructure.",
     "branch_down": "Sources recover: monitor.",
@@ -310,7 +310,7 @@
     "window": "30 days–18 months",
     "realWorld": {
       "invest": "N/A",
-      "apply": "SBIR for financial-data infrastructure, NSF SBE programs.",
+      "research": "Research brief: map financial-data coverage gaps and the value of an integrated market-stress + credit-monitoring dataset.",
       "build": "Market-stress dashboards, credit-monitoring aggregation, institutional-flow intelligence."
     },
     "examples": [
