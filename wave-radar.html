@@ -69,6 +69,17 @@ a{color:var(--gold);text-decoration:none}
 .cell.on{background:var(--gold);border-color:var(--gold)}
 .cell.beat{border-color:rgba(201,169,78,0.4)}
 .cell.play{outline:2px solid var(--rise)}
+.moves{display:grid;grid-template-columns:repeat(auto-fit,minmax(244px,1fr));gap:10px;margin:6px 0 8px}
+.mcard{background:linear-gradient(180deg,rgba(90,181,160,.05),var(--panel));border:1px solid var(--line);border-left:3px solid var(--emerge);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column}
+.mcard h4{font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--emerge);margin-bottom:6px;font-weight:700}
+.mcard p{font-size:13px;color:var(--ink);line-height:1.46;flex:1}
+.mcard p b{color:var(--gold)}
+.mcard .act{margin-top:10px}
+.mcard .act button{background:rgba(201,169,78,.1);border:1px solid rgba(201,169,78,.45);color:var(--gold);border-radius:7px;font:inherit;font-size:12px;font-weight:600;padding:6px 11px;cursor:pointer}
+.mcard .act button:hover{background:rgba(201,169,78,.2)}
+.idea{font-size:13px;color:#cdd6e0;background:rgba(201,169,78,.06);border:1px dashed rgba(201,169,78,.35);border-radius:10px;padding:11px 14px;margin:2px 0 14px;line-height:1.5}
+.idea b{color:var(--gold)}
+.caveat{font-size:11px;color:var(--dim);margin-top:7px;font-style:italic}
 .feat{display:grid;grid-template-columns:repeat(auto-fill,minmax(252px,1fr));gap:10px;margin:8px 0 10px}
 .fcard{display:flex;gap:11px;align-items:center;background:linear-gradient(180deg,rgba(201,169,78,.06),var(--panel));border:1px solid rgba(201,169,78,.32);border-radius:12px;padding:11px 13px}
 .fcard img,.fcard .ph{width:48px;height:48px;border-radius:8px;object-fit:cover;flex:0 0 48px;background:var(--panel2)}
@@ -105,6 +116,8 @@ a{color:var(--gold);text-decoration:none}
   <div id="banner"></div>
 
   <div class="sec" id="lane" style="display:none"><h2>🎤 Your Lane</h2><span class="cap">rap · sounds like NF — featuring DMAD</span></div>
+  <div id="moves"></div>
+  <div id="idea"></div>
   <div id="featured"></div>
   <div id="neighborhood" class="nbhd"></div>
   <div id="laneList" class="list"></div>
@@ -197,6 +210,7 @@ a{color:var(--gold);text-decoration:none}
     });
     el.innerHTML='<div class="pat">'+ph+'</div>';
     if(byG.all&&byG.all.bpms.length&&!window.__seeded){ window.__seeded=true; var s=byG.all.bpms.slice().sort(function(a,b){return a-b;}); setBpm(s[Math.floor(s.length/2)]); }
+    renderMoves(); // his measured BPMs just changed → refresh the tempo-pocket advice
   }
 
   // ---- BPM detection from preview audio (keyless; CDN sends Access-Control-Allow-Origin:*) ----
@@ -242,6 +256,62 @@ a{color:var(--gold);text-decoration:none}
   }
   function fmtAgo(ts){ if(!ts)return''; var m=Math.round((Date.now()-ts)/60000); return m<60?(m+' min ago'):(Math.round(m/60)+' h ago'); }
   function fmtNum(n){ try{return new Intl.NumberFormat().format(n);}catch(e){return ''+n;} }
+
+  // ================= YOUR MOVE — turn the live data into what to DO =================
+  // Grounded only in what we actually measure: his tracks' BPMs vs the real charting
+  // hip-hop/rap tempo pocket, the top rising track in his lane, and his NF neighbors.
+  var LANE={you:null,geo:null,neighborhood:[],featured:[],patterns:[]};
+  function median(a){ if(!a.length)return 0; var s=a.slice().sort(function(x,y){return x-y;}); return s[Math.floor(s.length/2)]; }
+  function patternFor(g){
+    var bpms=[]; Object.keys(bpmMap).forEach(function(id){ var o=bpmMap[id]; if(o&&o.bpm&&(g==='all'||o.genre===g)) bpms.push(o.bpm); });
+    if(bpms.length<3) return null;
+    var counts=BANDS.map(function(){return 0;});
+    bpms.forEach(function(b){ for(var i=0;i<BANDS.length;i++){ if(b>=BANDS[i].min&&b<BANDS[i].max){counts[i]++;break;} } });
+    var di=0; counts.forEach(function(c,i){ if(c>counts[di])di=i; });
+    return {n:bpms.length,median:median(bpms),dominant:BANDS[di].l};
+  }
+  function lanePocket(){ // his lane's real tempo: measured hip-hop/rap chart, client first then server
+    var p=patternFor('hiphop'); if(p) return p;
+    var sp=(LANE.patterns||[]).filter(function(x){return x.genre==='hiphop';})[0]; if(sp&&sp.n>=3) return {n:sp.n,median:sp.median,dominant:sp.dominantBand};
+    var sa=(LANE.patterns||[]).filter(function(x){return x.genre==='all';})[0]; if(sa&&sa.n>=3) return {n:sa.n,median:sa.median,dominant:sa.dominantBand};
+    return null;
+  }
+  function renderMoves(){
+    var el=document.getElementById('moves'); if(!el||!LANE.featured.length) return;
+    document.getElementById('lane').style.display='flex';
+    var hisBpms=[]; LANE.featured.forEach(function(t){ var o=bpmMap[t.id]; if(o&&o.bpm) hisBpms.push(o.bpm); });
+    var hisMed=median(hisBpms), pocket=lanePocket(), cards=[];
+
+    // 1 · Tempo pocket — his measured BPM vs the lane's
+    var t1,a1=null;
+    if(pocket&&hisMed){ var diff=Math.abs(hisMed-pocket.median);
+      t1=diff<=6 ? 'Your tracks land around <b>'+hisMed+' BPM</b> — right in rap’s pocket (<b>'+pocket.median+' BPM</b>, the '+pocket.dominant+' band where '+pocket.n+' charting cuts sit). You’re playlist-native; keep new beats here.'
+        : 'Your cuts average <b>'+hisMed+' BPM</b>; rap’s pocket right now is <b>'+pocket.median+' BPM</b> (the '+pocket.dominant+' band, '+pocket.n+' charting tracks). For a more playlist-native record, sketch your next beat near <b>'+pocket.median+'</b>.';
+      a1={bpm:pocket.median,label:'Open Beat Lab at '+pocket.median+' BPM'};
+    } else if(pocket){ t1='Rap’s tempo pocket right now is <b>'+pocket.median+' BPM</b> (the '+pocket.dominant+' band, '+pocket.n+' charting tracks). Aim your next beat here to sit native in the playlists.'; a1={bpm:pocket.median,label:'Open Beat Lab at '+pocket.median+' BPM'}; }
+    else t1='Measuring the charting tempos in your lane… play a few tracks below to sharpen this.';
+    cards.push({h:'🎚 Tempo pocket',p:t1,a:a1,c:'Tempo’s one lever, not a formula.'});
+
+    // 2 · Ride this wave — top track moving in his lane
+    var top=LANE.you&&LANE.you.items&&LANE.you.items[0];
+    if(top){ var ph=top.points>=2?(top.phase==='emerging'?'breaking out':top.phase==='rising'?'climbing':'hot'):'hot in your lane';
+      cards.push({h:'🌊 Ride this wave',p:'<b>'+esc(top.title)+'</b> — '+esc(top.artist)+(top.mine?' (a sonic neighbor)':'')+' is '+ph+' in rap'+(top.glabel?' ('+esc(top.glabel)+')':'')+'. Pull it up, find the <b>one</b> thing making it work — hook placement, a cadence switch, the drop — and write your version this week.',a:null,c:'A study prompt, not a guarantee.'}); }
+
+    // 3 · Neighborhood — who to chase (like NF)
+    var nb=LANE.neighborhood||[];
+    if(nb.length){ var names=nb.slice(0,3).map(function(a){return esc(a.name);}).join(', ');
+      cards.push({h:'🤝 Your neighborhood',p:'Your closest sonic neighbors: <b>'+names+'</b>. Three moves — pitch a feature or remix one tier up, target the playlists their songs live on, and match their <b>release cadence</b> (consistency, not just sound).',a:null,c:'Sounds-like via Last.fm similarity.'}); }
+
+    el.innerHTML='<div class="moves">'+cards.map(function(c){
+      return '<div class="mcard"><h4>'+c.h+'</h4><p>'+c.p+'</p>'+(c.a?'<div class="act"><button data-bpm="'+c.a.bpm+'">'+c.a.label+'</button></div>':'')+(c.c?'<div class="caveat">'+c.c+'</div>':'')+'</div>';
+    }).join('')+'</div>';
+    el.querySelectorAll('.act button').forEach(function(b){ b.onclick=function(){ var v=+b.getAttribute('data-bpm'); if(v>0){ setBpm(v); document.getElementById('lab').scrollIntoView({behavior:'smooth'}); } }; });
+
+    // The idea — one concrete concept that combines the pocket + the rising sound
+    var ie=document.getElementById('idea');
+    if(pocket&&top){ ie.innerHTML='<div class="idea">💡 <b>This week’s idea:</b> cut a 60–90-second, hook-first record at <b>'+pocket.median+' BPM</b> in the pocket of “<b>'+esc(top.title)+'</b>,” and lead your next TikTok/Reel with the hook in the first 3 seconds. Tempo + a proven lane + a hook-first edit is the cheapest shot at a wave.</div>'; }
+    else ie.innerHTML='';
+  }
 
   // ---- Your Lane (rap / like NF) + Where it's rising (geo) — Last.fm leading signal ----
   function renderFeatured(featured){
@@ -293,8 +363,10 @@ a{color:var(--gold);text-decoration:none}
     rb.innerHTML=h; bindRows(rb);
 
     // Your Lane (rap · NF neighborhood, featuring DMAD) + Where it's rising (geo)
+    LANE.featured=j.featured||[]; LANE.neighborhood=j.neighborhood||[]; LANE.you=(j.lane&&j.lane.you)||null; LANE.geo=(j.lane&&j.lane.geo)||null; LANE.patterns=j.patterns||[];
     renderFeatured(j.featured);
     renderNeighborhood(j.neighborhood);
+    renderMoves();
     renderLane('laneList', j.lane&&j.lane.you);
     renderLane('geoList', j.lane&&j.lane.geo, 'geosec');
 
