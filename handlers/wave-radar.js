@@ -80,14 +80,21 @@ async function refreshNeighborhood(doc) {
 }
 
 // DMAD's tracks (Deezer, fetched live — preview URLs carry a short-lived exp= token).
+// /top misses some singles, so explicitly pull the operator-named tracks too and merge.
+const DMAD_PINNED = ['1583652152', '1583652022'];  // World Is Spinning, Nothing Less
+function dzTrack(t) {
+  return { id: 'dz:' + t.id, title: t.title || '', artist: (t.artist && t.artist.name) || 'DMAD',
+    preview: t.preview || '', link: t.link || '', cover: (t.album && (t.album.cover_small || t.album.cover)) || '', genre: 'rap', bpm: 0 };
+}
 async function fetchFeatured() {
-  const j = await fetchJSON('https://api.deezer.com/artist/' + DMAD_ARTIST + '/top?limit=8');
-  const list = (j && Array.isArray(j.data)) ? j.data : [];
-  return list.map(t => ({
-    id: 'dz:' + t.id, title: t.title || '', artist: (t.artist && t.artist.name) || 'DMAD',
-    preview: t.preview || '', link: t.link || '', cover: (t.album && (t.album.cover_small || t.album.cover)) || '',
-    genre: 'rap', bpm: 0
-  })).sort((a, b) => {
+  const [top, ...pinned] = await Promise.all([
+    fetchJSON('https://api.deezer.com/artist/' + DMAD_ARTIST + '/top?limit=8'),
+    ...DMAD_PINNED.map(id => fetchJSON('https://api.deezer.com/track/' + id))
+  ]);
+  const byId = {};
+  pinned.forEach(t => { if (t && t.id) byId['dz:' + t.id] = dzTrack(t); });
+  ((top && Array.isArray(top.data)) ? top.data : []).forEach(t => { const r = dzTrack(t); if (!byId[r.id]) byId[r.id] = r; });
+  return Object.values(byId).sort((a, b) => {
     const ai = DMAD_PREF[a.id.slice(3)] != null ? DMAD_PREF[a.id.slice(3)] : 9;
     const bi = DMAD_PREF[b.id.slice(3)] != null ? DMAD_PREF[b.id.slice(3)] : 9;
     return ai - bi;
