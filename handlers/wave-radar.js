@@ -72,10 +72,27 @@ async function fetchLfmTracks(src) {
 // loves), merged via Last.fm similarity, cached weekly. The seeds are his taste, the
 // neighbors are who to study / chase / pitch.
 const NF_SEEDS = ['NF', 'Mac Miller', 'Lecrae', 'Kid Cudi'];
+
+// Last.fm bios are wiki HTML with a trailing "Read more" link — strip to a clean,
+// short "their story" blurb (often opens with where they're from / how they came up).
+function cleanBio(s) {
+  s = String(s || '')
+    .replace(/<a\b[^>]*>[\s\S]*?<\/a>/gi, '')
+    .replace(/<[^>]+>/g, '')
+    .replace(/&#x([0-9a-fA-F]+);?/g, (m, h) => { try { return String.fromCodePoint(parseInt(h, 16)); } catch (e) { return ' '; } })
+    .replace(/&#(\d+);?/g, (m, d) => { try { return String.fromCodePoint(+d); } catch (e) { return ' '; } })
+    .replace(/&amp;/g, '&').replace(/&apos;/g, "'").replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+    .replace(/\s+/g, ' ').trim();
+  if (/^(User-contributed text|This article uses material)/i.test(s)) return '';
+  if (s.length > 320) s = s.slice(0, 320).replace(/\s+\S*$/, '') + '…';
+  return s;
+}
+
 async function refreshNeighborhood(doc) {
   if (!LFM_KEY) return doc;
   const nf = doc.nf;
-  if (nf && nf.t && (Date.now() - nf.t) < NF_REFRESH_MS && nf.artists && nf.artists.length) return doc;
+  // refresh weekly OR once to upgrade an older cache that predates the bio field
+  if (nf && nf.t && (Date.now() - nf.t) < NF_REFRESH_MS && nf.artists && nf.artists.length && nf.artists[0].bio !== undefined) return doc;
   const merged = {};
   for (const seed of NF_SEEDS) {
     const j = await fetchJSON(LFM_BASE + '?method=artist.getsimilar&artist=' + encodeURIComponent(seed) + '&autocorrect=1&api_key=' + LFM_KEY + '&format=json&limit=30');
@@ -83,7 +100,19 @@ async function refreshNeighborhood(doc) {
     list.forEach(a => { const n = (a.name || '').trim(); if (!n) return; const m = +a.match || 0; if (!(n in merged) || m > merged[n]) merged[n] = m; });
   }
   NF_SEEDS.forEach(s => { delete merged[s]; });  // don't recommend his own seeds back to him
-  const artists = Object.keys(merged).map(n => ({ name: n, match: merged[n] })).sort((a, b) => b.match - a.match).slice(0, 24);
+  const names = Object.keys(merged).sort((a, b) => merged[b] - merged[a]).slice(0, 16);
+  // each neighbor's story + stats (bounded, weekly — bios don't expire so we cache them)
+  const infos = await Promise.all(names.map(n => fetchJSON(LFM_BASE + '?method=artist.getinfo&artist=' + encodeURIComponent(n) + '&autocorrect=1&api_key=' + LFM_KEY + '&format=json')));
+  const artists = names.map((n, i) => {
+    const a = infos[i] && infos[i].artist;
+    return {
+      name: n, match: merged[n],
+      bio: a ? cleanBio((a.bio && a.bio.summary) || '') : '',
+      listeners: (a && a.stats && +a.stats.listeners) || 0,
+      tags: (a && a.tags && Array.isArray(a.tags.tag)) ? a.tags.tag.map(t => t.name).filter(Boolean).slice(0, 2) : [],
+      url: (a && a.url) || ''
+    };
+  });
   if (artists.length) doc.nf = { t: Date.now(), artists: artists, loves: NF_SEEDS };
   return doc;
 }

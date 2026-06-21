@@ -98,12 +98,16 @@ h1.wm{font-size:clamp(38px,9vw,74px);line-height:.92;letter-spacing:-1.5px;margi
   background:linear-gradient(92deg,#fff 10%,var(--gold) 90%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--gold)}
 /* neighborhood — playable + links */
 .loves{font-size:12.5px;color:var(--dim);margin:2px 0 10px;line-height:1.5}.loves b{color:var(--gold)}
-.nbgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(182px,1fr));gap:8px;margin:2px 0 14px}
-.nbc{display:flex;align-items:center;gap:9px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:7px 10px}
+.nbgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:9px;margin:2px 0 14px}
+.nbc{display:flex;flex-direction:column;gap:6px;background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:11px 13px}
+.nbc .hd{display:flex;align-items:center;gap:9px}
 .nbc .play{width:30px;height:30px;flex:0 0 30px;font-size:12px}
-.nbc .nm{font-size:13px;font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nbc .nm{font-size:14px;font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .nbc .mt{font-size:10px;color:var(--emerge);font-variant-numeric:tabular-nums}
 .nbc a.yt{font-size:13px;color:var(--dim)}.nbc a.yt:hover{color:var(--gold)}
+.nbc .nmeta{font-size:11px;color:var(--emerge)}.nbc .nmeta .ls{color:var(--dim)}
+.nbc .story{font-size:12px;color:#b9c2c0;line-height:1.46}
+.nbc .story.empty{color:var(--dim);opacity:.7;font-style:italic}
 /* music news feed */
 .news{display:grid;grid-template-columns:repeat(auto-fill,minmax(284px,1fr));gap:8px}
 .nitem{display:block;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:11px 13px}
@@ -387,8 +391,15 @@ h1.wm{font-size:clamp(38px,9vw,74px);line-height:.92;letter-spacing:-1.5px;margi
       h+='<div class="nbgrid">';
       nb.slice(0,14).forEach(function(a){
         var mt=a.match?('<span class="mt">'+Math.round(a.match*100)+'%</span>'):'';
-        h+='<div class="nbc"><button class="play nbp" data-artist="'+esc(a.name)+'">▶</button><span class="nm" title="'+esc(a.name)+'">'+esc(a.name)+'</span>'+mt+
-          '<a class="yt" href="https://www.youtube.com/results?search_query='+encodeURIComponent(a.name+' music')+'" target="_blank" rel="noopener" title="open on YouTube">↗</a></div>';
+        var meta=[]; if(a.tags&&a.tags.length) meta.push(esc(a.tags.join(' · ')));
+        if(a.listeners) meta.push('<span class="ls">'+fmtNum(a.listeners)+' listeners</span>');
+        var metaHtml=meta.length?'<div class="nmeta">'+meta.join('&nbsp; · &nbsp;')+'</div>':'';
+        var story=a.bio?('<div class="story">'+esc(a.bio)+'</div>')
+          :'<div class="story empty">No story on file yet — hear them ▶ and dig in.</div>';
+        h+='<div class="nbc"><div class="hd"><button class="play nbp" data-artist="'+esc(a.name)+'">▶</button>'+
+          '<span class="nm" title="'+esc(a.name)+'">'+esc(a.name)+'</span>'+mt+
+          '<a class="yt" href="https://www.youtube.com/results?search_query='+encodeURIComponent(a.name+' music')+'" target="_blank" rel="noopener" title="open on YouTube">↗</a></div>'+
+          metaHtml+story+'</div>';
       });
       h+='</div>';
     }
