@@ -60,10 +60,8 @@ html,body{background:#050810;color:#e8e3d9;font-family:"IBM Plex Mono",monospace
 }
 .type-invest{background:rgba(90,181,160,0.12);color:#5ab5a0}
 .type-build{background:rgba(74,143,212,0.12);color:#4a8fd4}
-.type-fund{background:rgba(201,169,78,0.12);color:#C9A94E}
-.type-patent{background:rgba(168,85,247,0.12);color:#a855f7}
+.type-research{background:rgba(201,169,78,0.12);color:#C9A94E}
 .type-advise{background:rgba(255,152,0,0.12);color:#FF9800}
-.type-procure{background:rgba(232,84,84,0.12);color:#e85454}
 
 .opp-card-explain{font-size:0.5rem;color:#d0c8b8;line-height:1.6;margin-bottom:8px}
 .opp-card-action{
@@ -395,22 +393,6 @@ function _activateOpportunities() {
           }
         }
       }
-    } else if (pb.id === 'patent_vacuum') {
-      // Special: check patent report
-      var reports = window.LIMENReports || {};
-      var patRpt = reports.patentOpportunity;
-      if (patRpt && patRpt.signals) {
-        for (var pi = 0; pi < patRpt.signals.length; pi++) {
-          var ps = patRpt.signals[pi];
-          if (ps.type === 'temporal_gap' && (ps.opportunityScore || 0) > 0.4) {
-            isActive = true;
-            confidence = Math.round((ps.opportunityScore || 0) * 100);
-            urgency = 'medium';
-            whyNow = 'Filing gap in ' + (ps.techNode || 'tech area') + ': ' + (ps.indication || '');
-            break;
-          }
-        }
-      }
     } else {
       // Generic: check if relevant domains are stressed (threshold 0.20 post-normalization)
       var anyStressed = false;
@@ -474,7 +456,6 @@ function _activateOpportunities() {
     domainCount: Object.keys(doms).length,
     crossDomainPatterns: cd.length,
     hasAnalystReport: !!(window.LIMENAnalystReport && window.LIMENAnalystReport.domains),
-    hasPatentReport: !!(window.LIMENReports && window.LIMENReports.patentOpportunity),
     activeTitles: active.map(function(a){ return a.pb.title })
   });
 
@@ -820,7 +801,7 @@ function openPlaybook(idx) {
   if (pb.realWorld) {
     html += '<div class="opp-pb-section"><div class="opp-pb-label">REAL-WORLD ACTIONS</div>';
     if (pb.realWorld.invest && pb.realWorld.invest !== 'N/A') html += '<div class="opp-pb-step"><strong style="color:#5ab5a0">INVEST:</strong> ' + pb.realWorld.invest + '</div>';
-    if (pb.realWorld.apply && pb.realWorld.apply !== 'N/A') html += '<div class="opp-pb-step"><strong style="color:#C9A94E">APPLY:</strong> ' + pb.realWorld.apply + '</div>';
+    if (pb.realWorld.research && pb.realWorld.research !== 'N/A') html += '<div class="opp-pb-step"><strong style="color:#C9A94E">RESEARCH:</strong> ' + pb.realWorld.research + '</div>';
     if (pb.realWorld.build && pb.realWorld.build !== 'N/A') html += '<div class="opp-pb-step"><strong style="color:#4a8fd4">BUILD:</strong> ' + pb.realWorld.build + '</div>';
     html += '</div>';
   }
@@ -1229,55 +1210,46 @@ var _EXECUTION_PATHS = {
   population_collapse: {
     invest: [{name:'Amedisys',ticker:'AMED',cik:'',support:'MAPPED'},{name:'HCA Healthcare',ticker:'HCA',cik:'860730',support:'MAPPED'},{name:'Coursera',ticker:'COUR',cik:'1783879',support:'CROSS-DOMAIN'}],
     build: {model:'Demographic forecasting and dependency ratio planning platform',pays:'Municipal planners, healthcare systems, pension funds',whyNow:'Population collapse diagnosis active — fertility below replacement and dependency ratios inverting'},
-    fund: ['HHS aging services grants','DOL workforce development grants','World Bank demographic transition programs'],
-    structure: ['SaaS LLC or B-Corp','Subscription + government contracts','Revenue: per-municipality licensing + federal grants']
+    structure: ['SaaS LLC or B-Corp','Subscription + government contracts','Revenue: per-municipality licensing']
   },
   mass_migration: {
     invest: [],
     build: {model:'Migration intake processing and integration case management platform',pays:'Government agencies, NGOs, resettlement organizations',whyNow:'Mass migration diagnosis active — reception and integration systems overwhelmed'},
-    fund: ['UNHCR resettlement grants','HHS refugee services grants','State Department migration programs via grants.gov'],
-    structure: ['Nonprofit or social enterprise','Government contract + grant funded','Revenue: per-case processing fees + grant funding']
+    structure: ['Nonprofit or social enterprise','Government contract model','Revenue: per-case processing fees']
   },
   aging_crisis: {
     invest: [{name:'Amedisys',ticker:'AMED',cik:'',support:'MAPPED'},{name:'Humana',ticker:'HUM',cik:'49071',support:'MAPPED'},{name:'CVS Health',ticker:'CVS',cik:'64803',support:'MAPPED'}],
     build: {model:'Eldercare coordination and chronic disease monitoring platform',pays:'Healthcare systems, senior care operators, insurance companies',whyNow:'Aging crisis diagnosis active — eldercare and chronic disease demand exceeding capacity'},
-    fund: ['NIH aging research grants','HHS long-term care innovation grants','CMS innovation center programs'],
     structure: ['SaaS LLC','Healthcare platform model','Revenue: per-patient coordination fees + enterprise SaaS']
   },
   urbanization_overload: {
     invest: [{name:'D.R. Horton',ticker:'DHI',cik:'45012',support:'MAPPED'},{name:'Lennar',ticker:'LEN',cik:'920760',support:'MAPPED'},{name:'Procore Technologies',ticker:'PCOR',cik:'',support:'CROSS-DOMAIN'}],
     build: {model:'Urban density monitoring and housing demand forecasting platform',pays:'City planners, housing authorities, developers',whyNow:'Urbanization overload diagnosis active — housing and infrastructure strained beyond capacity'},
-    fund: ['HUD urban development grants','World Bank urbanization programs','Smart city innovation grants'],
-    structure: ['SaaS LLC','Municipal subscription model','Revenue: per-city licensing + development grant funding']
+    structure: ['SaaS LLC','Municipal subscription model','Revenue: per-city licensing']
   },
   pandemic_shock: {
     invest: [{name:'Abbott Laboratories',ticker:'ABT',cik:'1800',support:'MAPPED'},{name:'Teladoc Health',ticker:'TDOC',cik:'1477449',support:'MAPPED'},{name:'HCA Healthcare',ticker:'HCA',cik:'860730',support:'MAPPED'}],
     build: {model:'Outbreak detection and demographic impact monitoring platform',pays:'Public health agencies, WHO, CDC, hospital systems',whyNow:'Pandemic demographic shock diagnosis active — mortality and fertility impact requiring real-time tracking'},
-    fund: ['CDC outbreak response grants','WHO pandemic preparedness funding','NIH epidemiological infrastructure grants'],
-    structure: ['C-Corp or nonprofit','Grant + contract funded','Revenue: government contracts + data licensing']
+    structure: ['C-Corp or nonprofit','Government contract model','Revenue: government contracts + data licensing']
   },
   workforce_rebalancing: {
     invest: [{name:'Coursera',ticker:'COUR',cik:'1783879',support:'MAPPED'},{name:'Recruit Holdings',ticker:'RCRT',cik:'',support:'MAPPED'}],
     build: {model:'Labor matching, credential recognition, and skills assessment platform',pays:'Government workforce agencies, employers, job seekers',whyNow:'Workforce imbalance conditions active — demographic shifts creating labor shortages and skill mismatches'},
-    fund: ['DOL workforce development grants','SBA workforce innovation programs','Foundation grants for labor mobility'],
     structure: ['SaaS LLC','Platform model','Revenue: per-placement fees + enterprise subscription']
   },
   population_governance: {
     invest: [],
     build: {model:'Demographic planning dashboard and service delivery optimization tool for government agencies',pays:'Census Bureau, HHS, state demographic offices',whyNow:'Population and governance cross-stress active — agencies need planning tools for demographic transitions'},
-    fund: ['Census Bureau data modernization contracts','HHS demographic planning grants','State government innovation programs'],
     structure: ['LLC registered in SAM.gov','Government contracting vehicle','Revenue: cost-plus or firm-fixed-price contracts']
   },
   population_culture: {
     invest: [],
     build: {model:'Community integration and demographic impact assessment platform',pays:'Municipal governments, community organizations, foundations',whyNow:'Population and culture cross-stress active — demographic composition shifts requiring adaptation support'},
-    fund: ['Foundation grants for community development','NEA community arts and integration grants','Municipal innovation programs'],
-    structure: ['Nonprofit or B-Corp','Grant + advisory funded','Revenue: consulting fees + foundation grants']
+    structure: ['Nonprofit or B-Corp','Advisory + research model','Revenue: consulting fees + research subscriptions']
   },
   population_data_gap: {
     invest: [],
     build: {model:'Real-time demographic monitoring integrating census, health, migration, and housing data',pays:'Government agencies, healthcare systems, urban planners',whyNow:'Population data sources degraded — blind spots in demographic coverage'},
-    fund: ['NSF data infrastructure grants','Census Bureau modernization programs','NIH population health data grants'],
     structure: ['LLC','API subscription model','Revenue: per-call pricing + enterprise plans']
   }
 };
@@ -1295,14 +1267,8 @@ var _TONIGHT_STEPS = {
   build: function(o) {
     return 'Outline 1-page problem statement from portal diagnosis for ' + o.pb.domains[0];
   },
-  patent: function(o) {
-    return 'Search patents.google.com for ' + o.pb.domains[0] + ' technology gaps';
-  },
-  procure: function(o) {
-    return 'Check SAM.gov for active solicitations matching ' + o.pb.domains[0] + ' signals';
-  },
-  fund: function(o) {
-    return 'Search grants.gov for open FOAs in ' + o.pb.domains[0] + ' category';
+  research: function(o) {
+    return 'Draft research brief outline using portal treatment data for ' + o.pb.domains[0];
   },
   advise: function(o) {
     return 'Draft 3-slide advisory pitch using portal treatment data for ' + o.pb.domains[0];
@@ -1552,20 +1518,10 @@ var _FAST_ENTRY = {
     {action: 'Search Crunchbase for competitors', detail: 'If <5, white space confirmed'},
     {action: 'File LLC in home state', detail: '$50\u2013$500 depending on state'}
   ],
-  patent: [
-    {action: 'Search patents.google.com', detail: 'Check CPC group for recent filings'},
-    {action: 'Draft 5 method claims from portal treatments', detail: 'Use treatment steps as claim language'},
-    {action: 'File provisional on uspto.gov', detail: '$320 small entity'}
-  ],
-  procure: [
-    {action: 'Register on SAM.gov', detail: 'Get UEI number if not registered'},
-    {action: 'Search active solicitations', detail: 'Filter by agency from law signal'},
-    {action: 'Draft capability statement', detail: '1-page matching solicitation scope'}
-  ],
-  fund: [
-    {action: 'Check grants.gov for open FOAs', detail: 'Filter by domain keyword'},
-    {action: 'Draft concept paper', detail: 'Use portal diagnosis + treatment gap'},
-    {action: 'Contact program officer', detail: 'Email listed on grant announcement'}
+  research: [
+    {action: 'Draft research brief outline', detail: 'Use portal diagnosis + treatment evidence'},
+    {action: 'Review academic literature', detail: 'Search Google Scholar for related studies'},
+    {action: 'Identify partner institutions', detail: 'Universities or think tanks with domain expertise'}
   ],
   advise: [
     {action: 'Draft advisory pitch deck', detail: 'Problem from portal, solution from treatments'},
@@ -1582,22 +1538,11 @@ var _MONEY_PATHS = {
   ],
   build: [
     {path: 'Self-fund', label: 'Bootstrap MVP'},
-    {path: 'SBA microloan', label: '$500\u2013$50K'},
-    {path: 'Grant', label: 'SBIR/STTR if tech-based'},
     {path: 'Partner capital', label: 'Co-founder or angel'}
   ],
-  patent: [
-    {path: 'Self-fund', label: '$320 provisional + $3K attorney'},
-    {path: 'IP fund', label: 'Patent-backed venture if portfolio'}
-  ],
-  procure: [
-    {path: 'Self-fund', label: 'Capability statement is free'},
-    {path: 'SBA 8(a)', label: 'If socially disadvantaged eligible'},
-    {path: 'Teaming', label: 'Sub to prime contractor'}
-  ],
-  fund: [
-    {path: 'Grant application', label: 'No cost to apply'},
-    {path: 'Cost share', label: 'Some grants require 20\u201350% match'}
+  research: [
+    {path: 'Self-fund', label: 'Time + tools investment'},
+    {path: 'Partner capital', label: 'Research partnership or commission'}
   ],
   advise: [
     {path: 'Self-fund', label: 'Time investment only'},
@@ -1744,17 +1689,6 @@ function _buildExecutionBlock(o) {
       ? 'Hypothesis: ' + paths.build.whyNow
       : 'Why now: ' + paths.build.whyNow;
     h += '<div style="font-size:0.32rem;color:#888">' + whyLabel + '</div>';
-    h += '</div>';
-  }
-
-  // C. FUND PATH
-  if (paths.fund && paths.fund.length > 0) {
-    h += '<div style="margin-bottom:6px">';
-    h += '<div style="font-size:0.32rem;letter-spacing:1.5px;color:rgba(201,169,78,0.4);margin-bottom:2px">FUND PATH</div>';
-    h += '<div style="font-size:0.28rem;color:#807868;margin-bottom:2px">POTENTIAL SOURCES \u2014 NOT VERIFIED</div>';
-    for (var f = 0; f < paths.fund.length; f++) {
-      h += '<div style="font-size:0.34rem;color:#888;padding:1px 0">\u2022 ' + paths.fund[f] + '</div>';
-    }
     h += '</div>';
   }
 

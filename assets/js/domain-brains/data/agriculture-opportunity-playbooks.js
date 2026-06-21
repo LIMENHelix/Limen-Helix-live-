@@ -13,7 +13,7 @@
   {
     "id": "cash_flow_crisis",
     "title": "Farm Cash Flow Crisis Response",
-    "type": "fund",
+    "type": "invest",
     "domains": [
       "agriculture",
       "finance"
@@ -30,16 +30,16 @@
       "Review farm-finance treatments",
       "Screen farm-lending (Farmer Mac, AGM)",
       "Position in farmland REITs (LAND, FPI)",
-      "Track USDA FSA emergency loans"
+      "Scope a research brief on farm-financial-stress patterns"
     ],
     "branch_up": "Multi-year squeeze: consolidation and farm-finance wave.",
     "branch_down": "Commodity recovery: shift to growth finance.",
-    "outcome": "Farm-lending and crop-insurance vendors capture USDA and lender demand.",
+    "outcome": "Farm-lending and crop-insurance vendors capture lender demand; research brief benchmarks farm-stress severity.",
     "failure": "Commodity prices recover.",
     "window": "90 days–3 years",
     "realWorld": {
       "invest": "Farmer Mac (AGM), Farmland Partners (FPI), Gladstone Land (LAND). Crop insurance: NAU Country (via QBE).",
-      "apply": "USDA FSA emergency loans, RMA crop insurance, USDA Rural Development.",
+      "research": "Research brief: measure farm cash-flow stress indicators and compare intervention efficacy (crop insurance vs working-capital facilities).",
       "build": "Farm-finance platforms, crop-insurance tech, working-capital tools for farmers."
     },
     "examples": [
@@ -52,7 +52,7 @@
     "fastPath": [
       "1. Confirm CASH_FLOW_CRISIS",
       "2. Screen AGM/FPI/LAND",
-      "3. Pursue USDA FSA emergency loan"
+      "3. Position or scope research brief on farm-stress indicators"
     ]
   },
   {
@@ -75,16 +75,16 @@
       "Review logistics treatments",
       "Screen Americold (COLD), Lineage (via Bay Grove).",
       "Position in agtech logistics",
-      "Track USDA supply-chain resilience programs"
+      "Scope research brief on supply-chain failure patterns and cold-chain efficacy"
     ],
     "branch_up": "Persistent disruption: processing and cold-chain investment wave.",
     "branch_down": "Normalization: shift to optimization.",
-    "outcome": "Cold-chain and processing-capacity platforms capture USDA and corporate demand.",
+    "outcome": "Cold-chain and processing-capacity platforms capture corporate demand; research brief benchmarks disruption recovery timelines.",
     "failure": "Quick normalization.",
     "window": "60 days–3 years",
     "realWorld": {
       "invest": "Americold (COLD), Lineage Logistics (private), Deere (DE), AGCO (AGCO).",
-      "apply": "USDA Supply Chain Resilience, Rural Development, Food Supply Chain Loan Guarantee.",
+      "research": "Research brief: map agricultural supply-chain failure modes and benchmark cold-chain investment vs disruption recovery time.",
       "build": "Cold-chain monitoring, processing-capacity analytics, farm-to-fork traceability."
     },
     "examples": [
@@ -97,7 +97,7 @@
     "fastPath": [
       "1. Confirm SUPPLY_CHAIN_BREAKDOWN",
       "2. Screen COLD and DE",
-      "3. Pursue USDA Food Supply Chain Loan Guarantee"
+      "3. Position or scope research brief on cold-chain efficacy"
     ]
   },
   {
@@ -120,16 +120,16 @@
       "Review water-efficiency treatments",
       "Screen Valmont (VMI), Lindsay (LNN), Corteva (CTVA)",
       "Position in water ETFs (PHO, FIW)",
-      "Track USDA NRCS EQIP"
+      "Scope research brief on precision-irrigation efficacy and drought-adaptive genetics"
     ],
     "branch_up": "Sustained drought: multi-year water-tech investment.",
     "branch_down": "Precipitation recovery: rotate to yield optimization.",
-    "outcome": "Precision-irrigation and drought-tolerant seed operators capture USDA and grower demand.",
+    "outcome": "Precision-irrigation and drought-tolerant seed operators capture grower demand; research brief benchmarks irrigation ROI vs drought severity.",
     "failure": "Rapid precipitation recovery.",
     "window": "90 days–5 years",
     "realWorld": {
       "invest": "Valmont (VMI), Lindsay (LNN), Corteva (CTVA), Toro (TTC). Water ETFs: PHO, FIW.",
-      "apply": "USDA NRCS EQIP, CSP, Bureau of Reclamation WaterSMART.",
+      "research": "Research brief: quantify precision-irrigation ROI across drought severity bands and evaluate drought-tolerant genetics adoption rates.",
       "build": "Precision-irrigation tooling, water-efficiency platforms, drought-analytics."
     },
     "examples": [
@@ -142,7 +142,7 @@
     "fastPath": [
       "1. Confirm DROUGHT",
       "2. Screen VMI/LNN/CTVA",
-      "3. Pursue USDA NRCS EQIP"
+      "3. Position or scope research brief on irrigation efficacy"
     ]
   },
   {
@@ -164,17 +164,17 @@
       "Drill into Agriculture portal MARKET_COLLAPSE",
       "Review consolidation treatments",
       "Screen ADM, Bunge (BG), strong ag operators",
-      "Position in USDA program payments",
-      "Monitor trade deals and export markets"
+      "Position defensively in strong-balance-sheet operators",
+      "Scope research brief on commodity collapse recovery patterns"
     ],
     "branch_up": "Deep collapse: M&A consolidation wave.",
     "branch_down": "Recovery: rotate to growth operators.",
-    "outcome": "Strong-balance-sheet operators acquire distressed assets. Consolidation accelerates.",
+    "outcome": "Strong-balance-sheet operators acquire distressed assets. Consolidation accelerates. Research brief benchmarks collapse-to-recovery timelines.",
     "failure": "Quick commodity recovery.",
     "window": "90 days–3 years",
     "realWorld": {
       "invest": "ADM (ADM), Bunge (BG), Tyson (TSN), Nutrien (NTR). ETFs: MOO, DBA.",
-      "apply": "USDA program payments (ARC, PLC), trade-adjustment assistance.",
+      "research": "Research brief: model commodity-price collapse dynamics and identify which operator balance-sheet characteristics predict M&A success.",
       "build": "Commodity-price analytics, export-market intelligence, farm-M&A platforms."
     },
     "examples": [
@@ -187,7 +187,7 @@
     "fastPath": [
       "1. Confirm MARKET_COLLAPSE",
       "2. Screen ADM/BG",
-      "3. Position in USDA ARC/PLC programs"
+      "3. Position defensively or scope research brief on recovery patterns"
     ]
   },
   {
@@ -210,16 +210,16 @@
       "Review retrofit treatments",
       "Screen Deere (DE), AGCO (AGCO), Tractor Supply (TSCO)",
       "Position in precision-ag retrofit platforms",
-      "Track right-to-repair legislation"
+      "Scope research brief on right-to-repair legislation impact and parts-availability constraints"
     ],
     "branch_up": "Sustained cost pressure: used-equipment and retrofit wave.",
     "branch_down": "New equipment affordable: rotate to new-equipment exposure.",
-    "outcome": "Used-equipment and retrofit platforms capture cost-sensitive grower demand.",
+    "outcome": "Used-equipment and retrofit platforms capture cost-sensitive grower demand; research brief tracks right-to-repair policy evolution.",
     "failure": "New-equipment affordability returns.",
     "window": "180 days–5 years",
     "realWorld": {
       "invest": "Deere (DE), AGCO (AGCO), Tractor Supply (TSCO). Retrofit: Raven (now part of CNH), Sentera.",
-      "apply": "USDA Farm Bill equipment programs.",
+      "research": "Research brief: quantify right-to-repair legislation impact on equipment costs and measure precision-ag retrofit adoption rates.",
       "build": "Used-equipment marketplaces, precision-ag retrofit tooling, right-to-repair platforms."
     },
     "examples": [
@@ -232,7 +232,7 @@
     "fastPath": [
       "1. Confirm EQUIPMENT_FAILURE",
       "2. Screen DE/AGCO",
-      "3. Build retrofit or used-equipment platform"
+      "3. Position or scope research brief on right-to-repair impact"
     ]
   },
   {
@@ -255,16 +255,16 @@
       "Review biologicals treatments",
       "Screen Corteva (CTVA), Zoetis (ZTS), FMC (FMC)",
       "Position in ag-biologicals",
-      "Track USDA APHIS response"
+      "Scope research brief on outbreak-surveillance efficacy and biologicals adoption"
     ],
     "branch_up": "Outbreak spreads: sustained biologicals and animal-health demand.",
     "branch_down": "Containment: shift to preventive investment.",
-    "outcome": "Ag-biologicals and animal-health operators capture outbreak-driven demand.",
+    "outcome": "Ag-biologicals and animal-health operators capture outbreak-driven demand; research brief benchmarks biological intervention speed vs chemical controls.",
     "failure": "Quick containment.",
     "window": "60 days–3 years",
     "realWorld": {
       "invest": "Corteva (CTVA), FMC (FMC), Zoetis (ZTS), Elanco (ELAN). Biologicals: Marrone Bio, Pivot Bio (private).",
-      "apply": "USDA APHIS, NIFA plant-disease and animal-health grants.",
+      "research": "Research brief: measure ag-biologicals adoption rates and compare IPM intervention speed and efficacy vs chemical controls.",
       "build": "Outbreak-surveillance, IPM platforms, livestock-health monitoring."
     },
     "examples": [
@@ -277,38 +277,38 @@
     "fastPath": [
       "1. Confirm PEST_OUTBREAK",
       "2. Screen CTVA/ZTS/FMC",
-      "3. Pursue USDA APHIS or NIFA grant"
+      "3. Position or scope research brief on biologicals efficacy"
     ]
   },
   {
     "id": "agriculture_data_gap",
-    "title": "Agriculture Data Gap → Build",
-    "type": "build",
+    "title": "Agriculture Data Gap → Research",
+    "type": "research",
     "domains": [
       "agriculture"
     ],
     "pattern": null,
-    "explain": "Agriculture monitoring has gaps. Build agricultural-intelligence platforms.",
-    "action": "Build real-time agriculture-intelligence platforms.",
+    "explain": "Agriculture monitoring has gaps. Scope a research brief on data coverage and commission agricultural-intelligence infrastructure.",
+    "action": "Commission a research brief mapping data-coverage gaps, then build real-time agriculture-intelligence platforms.",
     "valueRange": "$500K–$10M ag-data infrastructure",
     "saturation": "low",
     "trigger": "Agriculture sources showing DEGRADED or FALLBACK status.",
     "validation": "Check feed health.",
     "steps": [
       "Check Agriculture feed health",
-      "Count OFFLINE",
-      "Identify gap",
-      "Build pipeline",
-      "Apply to USDA NIFA or AgTech funds"
+      "Count OFFLINE sources",
+      "Identify which dimension is uncovered",
+      "Commission research brief on coverage gap and value of integrated ag-analytics dataset",
+      "Build data pipeline as investable analytics product"
     ],
-    "branch_up": "Gap persists: build.",
-    "branch_down": "Sources recover: monitor.",
-    "outcome": "Agricultural-intelligence platform.",
-    "failure": "Gro Intelligence/Climate absorb.",
+    "branch_up": "Gap persists: build permanent infrastructure.",
+    "branch_down": "Sources recover: monitor for recurrence.",
+    "outcome": "Agricultural-intelligence platform serving researchers, institutions, and agribusinesses.",
+    "failure": "Gro Intelligence/Climate absorb the market.",
     "window": "30 days–18 months",
     "realWorld": {
       "invest": "N/A",
-      "apply": "USDA NIFA, USDA AFRI, SBIR/STTR agriculture programs.",
+      "research": "Research brief: map agricultural-data coverage gaps and quantify the value of an integrated crop-monitoring + supply-chain-intelligence dataset.",
       "build": "Crop-monitoring, yield-forecasting, livestock-analytics, farm-data aggregation."
     },
     "examples": [
@@ -319,9 +319,9 @@
       "Agricultural supply-chain intelligence"
     ],
     "fastPath": [
-      "1. Check feed health",
-      "2. Identify gap",
-      "3. Pursue USDA NIFA or SBIR ag"
+      "1. Check feed health: count offline Agriculture sources",
+      "2. Identify which agricultural dimension is uncovered",
+      "3. Commission research brief on coverage gaps or build data pipeline"
     ]
   }
 ];

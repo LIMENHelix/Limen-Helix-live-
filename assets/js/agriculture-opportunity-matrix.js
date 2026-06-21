@@ -43,93 +43,10 @@
   // RULE TABLES — deterministic, loadable via getRulesDoc() for audit
   // ══════════════════════════════════════════════════════════════════════
 
-  // Loan products per business-type class. Keyword regex → product list.
-  // Each product carries { agency, product, term, typicalRange, rationale, persona }.
-  var LOAN_PRODUCT_RULES = [
-    {
-      match: /\b(farm(er|ing)?\b|row\s*crop|livestock|cattle|ranch|rancher|orchard|vineyard|poultry|swine|hog|dairy|grower|producer)\b/i,
-      products: [
-        { agency: 'USDA FSA', product: 'Farm Operating Loan (Direct)',     typicalRange: 'Up to $400K',  term: '1–7 yr', persona: 'farm operator', rationale: 'Annual production inputs, working capital for farms.' },
-        { agency: 'USDA FSA', product: 'Farm Operating Loan (Guaranteed)', typicalRange: 'Up to $2.25M', term: '1–7 yr', persona: 'farm operator', rationale: 'Lender-guaranteed operating loan for scaled farms.' },
-        { agency: 'USDA FSA', product: 'Farm Ownership Loan',              typicalRange: 'Up to $600K (Direct); $2.25M (Guaranteed)', term: 'Up to 40 yr', persona: 'farm operator', rationale: 'Real estate acquisition, farm expansion.' }
-      ]
-    },
-    {
-      match: /\b(processing|facility|elevator|cold\s*storage|warehouse|mill|manufactur(er|ing)|silo)\b/i,
-      products: [
-        { agency: 'SBA',      product: '504 Loan',                      typicalRange: 'Up to $5M (with CDC portion)', term: '10–25 yr', persona: 'facility operator', rationale: 'Real estate + major equipment for processing/storage.' },
-        { agency: 'USDA RD',  product: 'Business & Industry (B&I) Loan', typicalRange: 'Up to $25M',                   term: '7–30 yr',  persona: 'facility operator', rationale: 'Rural facility financing; includes cold chain, grain handling.' }
-      ]
-    },
-    {
-      match: /\b(equipment|dealer|machinery|precision(-?ag)?|irrigation|sprayer|combine|tractor|drone|remote\s*sensing)\b/i,
-      products: [
-        { agency: 'SBA', product: '7(a) Loan',  typicalRange: 'Up to $5M', term: 'Up to 25 yr',   persona: 'equipment operator', rationale: 'General-purpose working capital + equipment acquisition.' },
-        { agency: 'SBA', product: '504 Loan',   typicalRange: 'Up to $5M', term: '10–25 yr',      persona: 'equipment operator', rationale: 'Major equipment purchases; long amortization.' }
-      ]
-    },
-    {
-      match: /\b(consult|advisor|agronomist|planner|advisory|dealer|service|applicator|auditor|broker|agent|coordinator)\b/i,
-      products: [
-        { agency: 'SBA', product: '7(a) Loan (Working Capital)',  typicalRange: 'Up to $5M',   term: '7–10 yr', persona: 'service operator', rationale: 'Working capital for advisory/service startups.' },
-        { agency: 'SBA', product: 'Microloan',                    typicalRange: 'Up to $50K',  term: 'Up to 7 yr', persona: 'service operator', rationale: 'Sole-proprietor / small-team service businesses.' }
-      ]
-    },
-    {
-      match: /\b(value[-\s]?added|branded\s*product|specialty\s*food|agritourism)\b/i,
-      products: [
-        { agency: 'USDA RD', product: 'Value-Added Producer Grant (VAPG)', typicalRange: 'Up to $250K (working capital); up to $75K (planning)', term: 'Non-repayable grant', persona: 'value-added producer', rationale: 'Commercialization of value-added products from raw commodities.' },
-        { agency: 'SBA',     product: '7(a) Loan',                          typicalRange: 'Up to $5M',       term: 'Up to 25 yr', persona: 'value-added producer', rationale: 'Branded product launches, distribution scaling.' }
-      ]
-    },
-    {
-      match: /\b(rural|community\s*infrastructure|microenterprise|startup|small)\b/i,
-      products: [
-        { agency: 'USDA RD', product: 'Rural Microentrepreneur Assistance Program (RMAP)', typicalRange: 'Up to $50K',  term: 'Short/medium', persona: 'rural microbusiness', rationale: 'Small rural startup financing.' },
-        { agency: 'SBA',     product: 'Microloan',                                          typicalRange: 'Up to $50K',  term: 'Up to 7 yr',   persona: 'rural microbusiness', rationale: 'Small-dollar startup / working capital.' }
-      ]
-    },
-    {
-      match: /\b(seed|genetics|breeding|biotech|fertilizer|nutrient|crop\s*protection|herbicide|pesticide)\b/i,
-      products: [
-        { agency: 'SBA',     product: '7(a) Loan',                      typicalRange: 'Up to $5M',  term: 'Up to 25 yr', persona: 'input manufacturer', rationale: 'Working capital + inventory for input suppliers.' },
-        { agency: 'USDA RD', product: 'Business & Industry (B&I) Loan', typicalRange: 'Up to $25M', term: '7–30 yr',    persona: 'input manufacturer', rationale: 'Large rural input facility financing.' }
-      ]
-    }
-  ];
-
-  // Grants (program-funding, NOT research). Per activation envelope + node business class.
-  var GRANT_FAMILY_RULES = [
-    {
-      match: /\b(soil|land|conservation|fertilizer|nutrient|runoff|water|irrigation)\b/i,
-      grants: [
-        { agency: 'USDA NRCS', program: 'Environmental Quality Incentives Program (EQIP)', fit: 'Conservation practices, water/soil resource management.', typicalRange: 'Practice-based cost-share' },
-        { agency: 'USDA NRCS', program: 'Conservation Stewardship Program (CSP)',          fit: 'Working-lands conservation enhancements.',                typicalRange: 'Per-acre enhancement payment' },
-        { agency: 'USDA FSA',  program: 'Conservation Reserve Program (CRP)',              fit: 'Retirement of environmentally sensitive cropland.',       typicalRange: 'Annual rental payment + cost-share' }
-      ]
-    },
-    {
-      match: /\b(equipment|processing|facility|cold\s*storage|elevator|rural|community)\b/i,
-      grants: [
-        { agency: 'USDA RD',   program: 'Rural Energy for America Program (REAP)',         fit: 'Renewable energy / efficiency upgrades in rural facilities.', typicalRange: 'Up to $500K per project' },
-        { agency: 'USDA RD',   program: 'Community Facilities Grant',                      fit: 'Rural community infrastructure.',                              typicalRange: 'Varies by community size' }
-      ]
-    },
-    {
-      match: /\b(value[-\s]?added|branded|specialty\s*crop|horticulture|fruit|vegetable|nursery)\b/i,
-      grants: [
-        { agency: 'USDA AMS',  program: 'Specialty Crop Block Grant Program (SCBGP)',      fit: 'Specialty-crop marketing, research, nutrition.',          typicalRange: 'State-allocated' },
-        { agency: 'USDA RD',   program: 'Value-Added Producer Grant (VAPG)',               fit: 'Value-added product commercialization.',                   typicalRange: 'Up to $250K working capital' }
-      ]
-    },
-    {
-      match: /\b(commodity|market|risk|insurance|finance|credit|margin)\b/i,
-      grants: [
-        { agency: 'USDA RMA',  program: 'Risk Management Agency Partnerships',             fit: 'Producer outreach, crop insurance education.',             typicalRange: 'Cooperative agreements' },
-        { agency: 'USDA FSA',  program: 'Farm Service Agency Program Administration',      fit: 'Program enrollment + compliance support.',                 typicalRange: 'Service-contract' }
-      ]
-    }
-  ];
+  // LOAN_PRODUCT_RULES and GRANT_FAMILY_RULES removed 2026-06-21 — grant/patent/loan
+  // output lanes purged. Only investment + research lanes survive.
+  // USDA/SBA programs are kept as INPUT SIGNALS (measurement context) in the brain's
+  // signal normalizer, NOT as output opportunity lanes.
 
   // Research agencies (separated from grants).
   var RESEARCH_AGENCY_RULES = [
@@ -231,7 +148,7 @@
         },
         diagnosisId: '',
         examples: [],
-        path: 'GRANT-ELIGIBLE'
+        path: 'INVESTABLE'
       });
     } catch (e) { return null; }
   }
@@ -297,100 +214,8 @@
   // PER-LANE GENERATORS (read-only; deterministic from rule tables)
   // ══════════════════════════════════════════════════════════════════════
 
-  function _CLAIM_TYPE_HINT(t) {
-    var blob = ((t.type || '') + ' ' + (t.label || '') + ' ' + (t.description || '')).toLowerCase();
-    if (/\b(monitor|detect|measure|diagnos|protocol|algorithm|method|approach)\b/.test(blob)) return 'method';
-    if (/\b(apparatus|device|hardware|instrument|module)\b/.test(blob)) return 'apparatus';
-    if (/\b(system|network|grid|platform|infrastructure)\b/.test(blob)) return 'system';
-    if (/\b(composition|formulation|material|compound|agent|blend)\b/.test(blob)) return 'composition';
-    return 'method';
-  }
-
-  function _genPatents(deepList) {
-    var out = [];
-    for (var i = 0; i < deepList.length; i++) {
-      var t = deepList[i] || {};
-      var hasDepth = !!(t.cite && Array.isArray(t.steps) && t.steps.length > 0);
-      if (!hasDepth) continue;
-      out.push({
-        claimType:       _CLAIM_TYPE_HINT(t),
-        workingTitle:    t.label || '(untitled)',
-        cite:            t.cite,
-        stepCount:       t.steps.length,
-        evidenceGrade:   t.evidence || null,
-        anchorNodeId:    t.nodeId || null,
-        mechanismDescription: t.description || '',
-        humanReviewRequired: [
-          'External prior-art search',
-          'Inventor identification',
-          'Claim drafting to filing grade'
-        ]
-      });
-    }
-    return out;
-  }
-
-  function _genGrants(dir, envelopes, deepList) {
-    var out = [];
-    var seen = {};
-    // Concatenate label + dysregulation + deep-treatment labels as match surface
-    var surface = [
-      dir.label || '',
-      dir.function || '',
-      dir.dysregulation || '',
-      deepList.map(function (t) { return t.label || ''; }).join(' ')
-    ].join(' ');
-    for (var ri = 0; ri < GRANT_FAMILY_RULES.length; ri++) {
-      var rule = GRANT_FAMILY_RULES[ri];
-      if (!rule.match.test(surface)) continue;
-      for (var gi = 0; gi < rule.grants.length; gi++) {
-        var g = rule.grants[gi];
-        var key = g.agency + '::' + g.program;
-        if (seen[key]) continue;
-        seen[key] = true;
-        out.push({
-          agency: g.agency,
-          program: g.program,
-          fit: g.fit,
-          typicalRange: g.typicalRange,
-          fromEnvelopes: envelopes.slice(),
-          rfpStatus: 'HUMAN VERIFY — no live RFP/NOFO feed wired.',
-          eligibilityCheck: 'Required — read program-specific SOP and eligibility rules.'
-        });
-      }
-    }
-    return out;
-  }
-
-  function _genLoans(mappedBusinesses) {
-    var out = [];
-    var seen = {};
-    for (var mi = 0; mi < mappedBusinesses.length; mi++) {
-      var b = mappedBusinesses[mi];
-      if (!b || !b.type) continue;
-      for (var ri = 0; ri < LOAN_PRODUCT_RULES.length; ri++) {
-        var rule = LOAN_PRODUCT_RULES[ri];
-        if (!rule.match.test(b.type)) continue;
-        for (var pi = 0; pi < rule.products.length; pi++) {
-          var p = rule.products[pi];
-          var key = p.agency + '::' + p.product;
-          if (seen[key]) continue;
-          seen[key] = true;
-          out.push({
-            agency: p.agency,
-            product: p.product,
-            typicalRange: p.typicalRange,
-            term: p.term,
-            persona: p.persona,
-            rationale: p.rationale,
-            triggeredByBusinessType: b.type,
-            underwritingCheck: 'Required — DSCR ≥ 1.15, personal guarantee, collateral appraisal.'
-          });
-        }
-      }
-    }
-    return out;
-  }
+  // _genPatents, _genGrants, _genLoans removed 2026-06-21 — lanes purged.
+  // Only investment + research output lanes survive in opportunityLanes.
 
   function _genInvestments(kernelLinks) {
     var out = [];
@@ -494,15 +319,6 @@
         role: 'Domain Operator', gating: true
       });
     }
-    if (row.opportunityLanes.patents.length > 0) {
-      tasks.push({ task: 'File ' + row.opportunityLanes.patents.length + ' patent scaffold(s); run external prior-art search', role: 'Patent Attorney / IP Lead', gating: true });
-    }
-    if (row.opportunityLanes.grants.length > 0) {
-      tasks.push({ task: 'Verify eligibility and active RFP/NOFO for: ' + row.opportunityLanes.grants.slice(0, 3).map(function (g) { return g.program; }).join('; '), role: 'Grants Coordinator', gating: true });
-    }
-    if (row.opportunityLanes.loans.length > 0) {
-      tasks.push({ task: 'Engage SBA/USDA lender for: ' + row.opportunityLanes.loans.slice(0, 3).map(function (l) { return l.product; }).join('; '), role: 'Financial Officer / Founder', gating: true });
-    }
     if (row.opportunityLanes.investments.length > 0) {
       tasks.push({ task: 'Run diligence on kernel-flagged tickers: ' + row.opportunityLanes.investments.map(function (i) { return i.ticker; }).join(', '), role: 'Investment Analyst', gating: true });
     }
@@ -534,7 +350,7 @@
       derivedDiagnosis: null,
       mappedBusinesses: [],
       opportunityLanes: {
-        patents: [], grants: [], loans: [], investments: [],
+        investments: [],
         targetCompanies: [], research: [], operatorServices: []
       },
       deepEvidence: [],
@@ -548,7 +364,7 @@
         mappedBusinessCount: 0,
         targetCompanyCount: 0,
         kernelLinkCount: 0,
-        lanes: { patents: 0, grants: 0, loans: 0, investments: 0, targetCompanies: 0, research: 0, operatorServices: 0 }
+        lanes: { investments: 0, targetCompanies: 0, research: 0, operatorServices: 0 }
       },
       missing_proof: []
     };
@@ -674,17 +490,11 @@
     if (!resolved) row.missing_proof.push('targeting engine unavailable for node ' + nid);
     if (!kernel) row.missing_proof.push('kernel data (command-board-data.json) not loaded');
 
-    // Generate lanes
-    row.opportunityLanes.patents          = _genPatents(deepList);
-    row.opportunityLanes.grants           = _genGrants(dir, row.derivedDiagnosis.envelope ? [row.derivedDiagnosis.envelope] : [], deepList);
-    row.opportunityLanes.loans            = _genLoans(row.mappedBusinesses);
+    // Generate lanes — investment + research ONLY (patent/grant/loan purged 2026-06-21)
     row.opportunityLanes.investments      = _genInvestments(row.kernelLinks);
     row.opportunityLanes.research         = _genResearch(dir, deepList);
     row.opportunityLanes.operatorServices = _genOperatorServices(row.mappedBusinesses);
 
-    row.coverage.lanes.patents          = row.opportunityLanes.patents.length;
-    row.coverage.lanes.grants           = row.opportunityLanes.grants.length;
-    row.coverage.lanes.loans            = row.opportunityLanes.loans.length;
     row.coverage.lanes.investments      = row.opportunityLanes.investments.length;
     row.coverage.lanes.targetCompanies  = row.opportunityLanes.targetCompanies.length;
     row.coverage.lanes.research         = row.opportunityLanes.research.length;
@@ -824,8 +634,7 @@
     },
     getRulesDoc: function () {
       return {
-        LOAN_PRODUCT_RULES:    LOAN_PRODUCT_RULES,
-        GRANT_FAMILY_RULES:    GRANT_FAMILY_RULES,
+        // LOAN_PRODUCT_RULES and GRANT_FAMILY_RULES removed 2026-06-21 (lanes purged)
         RESEARCH_AGENCY_RULES: RESEARCH_AGENCY_RULES,
         SERVICE_ARCHETYPE_REGEX: SERVICE_ARCHETYPE_REGEX.source,
         kernelVerdictClassifier: '_kernelVerdict(c) → {label, reason}'

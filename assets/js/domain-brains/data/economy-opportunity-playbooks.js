@@ -39,7 +39,7 @@
     "window": "60–540 days",
     "realWorld": {
       "invest": "Defensive: XLP, XLU, XLV. Treasuries: TLT, GOVT. Distressed: Oaktree (public via BX), Apollo (APO).",
-      "apply": "N/A (private-sector positioning).",
+      "research": "Research brief: model recession-probability from leading indicators and map fiscal-stimulus-aligned sector performance across prior cycles.",
       "build": "Leading-indicator analytics, recession-probability tooling, fiscal-stimulus tracking."
     },
     "examples": [
@@ -84,7 +84,7 @@
     "window": "90–1080 days",
     "realWorld": {
       "invest": "TIPS: TIP, SCHP. Commodities: DBC, GSG. Real assets: VNQ, GLD. Pricing power: PG, KO, COST.",
-      "apply": "N/A",
+      "research": "Research brief: model inflation-regime transitions using CPI components and Fed reaction-function data to calibrate hard-asset positioning.",
       "build": "Inflation-monitoring platforms, commodity-price analytics, wage-growth tracking."
     },
     "examples": [
@@ -129,15 +129,15 @@
     "window": "30–360 days",
     "realWorld": {
       "invest": "Quality: MSFT, AAPL, BRK.B. BDCs: ARCC, HTGC. Private credit: BX, APO.",
-      "apply": "SBA 7(a) expansion during bank credit tightening.",
+      "research": "Research brief: quantify credit-contraction magnitude from SLOOS and H.8 data and map historical BDC/private-credit share-gain patterns during bank stress.",
       "build": "Credit-contraction monitoring platforms, regional-bank-stress analytics."
     },
     "examples": [
       "Large-cap quality equities",
       "Business Development Companies",
       "Private-credit managers",
-      "SBA expansion capture",
-      "Credit-contraction monitoring"
+      "Credit-contraction monitoring",
+      "Regional-bank stress analytics"
     ],
     "fastPath": [
       "1. Confirm BANKING_CRISIS feedback to economy",
@@ -175,7 +175,7 @@
     "window": "90 days–5 years",
     "realWorld": {
       "invest": "Reshoring: Caterpillar (CAT), Deere (DE), Eaton (ETN). ETFs: PAVE, XLI. REITs: Prologis (PLD), REXR.",
-      "apply": "CHIPS Act funding, BIL domestic-content programs, DPA Title III awards.",
+      "research": "Research brief: map domestic-content beneficiary sectors by CHIPS/BIL investment flows and quantify reshoring capex multipliers by industry.",
       "build": "Supply-chain-de-risking platforms, tariff-impact analytics, reshoring-finance tooling."
     },
     "examples": [
@@ -183,12 +183,12 @@
       "Industrial REITs",
       "Reshoring analytics",
       "Tariff-impact monitoring",
-      "CHIPS/BIL grant positioning"
+      "Domestic-content investment tracking"
     ],
     "fastPath": [
       "1. Confirm TRADE_WAR with tariff_escalation",
       "2. Position in PAVE/XLI",
-      "3. Pursue CHIPS or BIL domestic-content funding"
+      "3. Research domestic-content beneficiaries via CHIPS and BIL investment flows"
     ]
   },
   {
@@ -220,7 +220,7 @@
     "window": "90 days–2 years",
     "realWorld": {
       "invest": "Distressed: Apollo (APO), Blackstone (BX), Oaktree (via BX). Treasuries: TLT. Short IG: VCSH.",
-      "apply": "N/A",
+      "research": "Research brief: model default-cycle onset from HY spread widening and rollover-calendar density to identify optimal distressed-debt entry windows.",
       "build": "Default-monitoring platforms, rollover-calendar analytics, restructuring-workflow tooling."
     },
     "examples": [
@@ -265,7 +265,7 @@
     "window": "14–270 days",
     "realWorld": {
       "invest": "Defensive: XLP, XLU, XLV. Treasuries: TLT. Inverse: SH (caution).",
-      "apply": "N/A",
+      "research": "Research brief: measure consumer-spending wealth-effect coefficient across prior drawdown episodes to calibrate defensive-rotation timing.",
       "build": "Wealth-effect analytics, consumer-resilience monitoring, crash-recovery predictors."
     },
     "examples": [
@@ -300,7 +300,7 @@
       "Count OFFLINE sources",
       "Identify gap",
       "Build pipeline",
-      "Apply to NSF SBE or Treasury OFR"
+      "Scope research brief or investor pitch for macro-data infrastructure"
     ],
     "branch_up": "Gap persists: build infrastructure.",
     "branch_down": "Sources recover: monitor.",
@@ -309,7 +309,7 @@
     "window": "30 days–18 months",
     "realWorld": {
       "invest": "N/A",
-      "apply": "NSF SBE, Treasury OFR research partnerships, BEA/BLS data partnerships.",
+      "research": "Research brief: map macro-data coverage gaps and quantify the value of an integrated economic-intelligence dataset for institutional clients.",
       "build": "Real-time macro dashboards, nowcasting platforms, alternative-data aggregation."
     },
     "examples": [
@@ -322,7 +322,7 @@
     "fastPath": [
       "1. Check feed health",
       "2. Identify gap",
-      "3. Pursue NSF SBE or build"
+      "3. Scope research brief or build macro-data infrastructure pitch"
     ]
   }
 ];

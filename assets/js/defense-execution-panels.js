@@ -1,5 +1,5 @@
 /**
- * defense-execution-panels.js — GRANT and PATENT Execution Workspaces (Defense)
+ * defense-execution-panels.js — RESEARCH Execution Workspace (Defense)
  * Self-gates: ?domain=defense
  * Exposes: window.LIMENDefenseExecutionPanels
  */
@@ -20,35 +20,18 @@
   function getWorkspace(oppKey, track) { var all = loadAll(); return (all[oppKey] && all[oppKey][track]) || null; }
   function saveWorkspace(oppKey, track, workspace) { var all = loadAll(); if (!all[oppKey]) all[oppKey] = {}; all[oppKey][track] = workspace; saveAll(all); }
 
-  var GRANT_SECTIONS = [
-    { id: 'what', title: 'What This Grant Is', type: 'info', guidance: 'An defense grant is non-repayable funding from a federal agency, state, or private foundation. Major funders: US Dept of Defense, IES, NSF EHR, Gates Foundation, Walton, Carnegie, Lumina, Spencer.', prompt: 'No input needed.' },
-    { id: 'why', title: 'Why This Opportunity Qualifies', type: 'textarea', guidance: 'Explain why this Defense opportunity is a good fit for grant funding. Address: defenseal need, intervention strategy, evidence base, equity impact, alignment with funder priorities.', prompt: 'Write 3-5 sentences explaining need, strategy, and alignment.', prefillFrom: 'whyNow' },
-    { id: 'eligibility', title: 'Eligibility', type: 'checklist', guidance: 'Most defense grants have eligibility rules.', items: ['Organization is an LEA, IHE, or 501(c)(3)', 'Organization has a UEI number', 'Organization is registered on SAM.gov / Grants.gov', 'No debarment or exclusion status', 'Has IRB approval if research with human subjects', 'Has financial management compliant with Uniform Guidance', 'Has data privacy and FERPA compliance documentation'] },
-    { id: 'applicant', title: 'Applicant Profile', type: 'fields', fields: [{ id: 'org_name', label: 'Organization name', type: 'text' }, { id: 'org_type', label: 'Organization type', type: 'select', options: ['LEA (school district)', 'IHE (university/college)', 'Non-profit 501(c)(3)', 'SEA (state ed agency)', 'Research institute', 'Other'] }, { id: 'uei', label: 'UEI number', type: 'text' }, { id: 'pi_name', label: 'Project director / PI', type: 'text' }, { id: 'email', label: 'PI email', type: 'text' }] },
-    { id: 'problem', title: 'Need Statement', type: 'textarea', guidance: 'What defenseal problem does this address? Quantify with data: enrollment, achievement, dropout rates, workforce gaps.', prompt: 'Describe the defenseal problem with data.', prefillFrom: 'diagnosis' },
-    { id: 'intervention', title: 'Intervention / Approach', type: 'textarea', guidance: 'What will you do? Include theory of change, evidence base, and implementation plan.', prompt: 'Describe the intervention and theory of change.' },
-    { id: 'population', title: 'Target Population', type: 'textarea', guidance: 'Who will be served? Demographics, grade levels, settings.', prompt: 'Describe the students, teachers, or community served.' },
-    { id: 'outcomes', title: 'Expected Outcomes', type: 'textarea', guidance: 'What will change? Use SMART outcomes with measurement plans.', prompt: 'List measurable outcomes and how they will be assessed.' },
-    { id: 'budget', title: 'Budget', type: 'fields', fields: [{ id: 'total_amount', label: 'Total funding requested ($)', type: 'text' }, { id: 'personnel', label: 'Personnel', type: 'text' }, { id: 'supplies', label: 'Supplies/materials', type: 'text' }, { id: 'travel', label: 'Travel/PD', type: 'text' }, { id: 'evaluation', label: 'Evaluation', type: 'text' }, { id: 'indirect', label: 'Indirect / F&A rate', type: 'text', placeholder: 'e.g., 8% restricted or negotiated' }, { id: 'cost_share', label: 'Cost share (if required)', type: 'text' }] },
-    { id: 'timeline', title: 'Timeline', type: 'textarea', guidance: 'Project period and milestones.', prompt: 'Project period and key milestones per year.' },
-    { id: 'documents', title: 'Required Documents', type: 'checklist', items: ['Project narrative', 'Budget narrative', 'Evaluation plan / logic model', 'PI biosketches', 'Letters of support / partnership', 'Data management plan', 'Human subjects / IRB documentation', 'FERPA compliance plan', 'Capability statement / institutional commitment'] },
+  var RESEARCH_SECTIONS = [
+    { id: 'what', title: 'What This Research Is', type: 'info', guidance: 'A defense research brief documents a capability gap, technology landscape, or threat analysis. Outputs: advisory briefs, landscape reports, programme-office input papers. Customers: DoD CDAO, DARPA, IARPA, DIU, AFWERX, NATO STO, allied defence research agencies.', prompt: 'No input needed.' },
+    { id: 'why', title: 'Why This Opportunity Warrants Research', type: 'textarea', guidance: 'Explain why this defense opportunity is under-researched or has a capability gap. Address: the threat or capability need, the current state of knowledge, and why new research adds value.', prompt: 'Write 3-5 sentences explaining the gap and why research is valuable now.', prefillFrom: 'whyNow' },
+    { id: 'scope', title: 'Research Scope', type: 'fields', fields: [{ id: 'topic', label: 'Research topic / focus area', type: 'text' }, { id: 'geography', label: 'Geographic / theatre scope', type: 'text', placeholder: 'e.g., Indo-Pacific, NATO Eastern Flank, global' }, { id: 'time_horizon', label: 'Time horizon', type: 'select', options: ['Near-term (0-2 years)', 'Mid-term (2-5 years)', 'Long-term (5-10 years)', 'All horizons'] }, { id: 'classification', label: 'Classification level', type: 'select', options: ['Unclassified / FOUO', 'CUI', 'Secret', 'Top Secret', 'Undecided'] }] },
+    { id: 'problem', title: 'Problem Statement', type: 'textarea', guidance: 'What capability gap, threat, or knowledge deficiency does this research address? Cite relevant doctrine, programme gaps, or intelligence indicators.', prompt: 'Describe the defense capability gap or threat with specifics.', prefillFrom: 'diagnosis' },
+    { id: 'sources', title: 'Key Sources & Data', type: 'textarea', guidance: 'List primary and secondary sources: DoD programme documents, DARPA BAAs, academic literature, vendor assessments, intelligence reports (unclassified).', prompt: 'List key sources you will draw on for this research.' },
+    { id: 'methodology', title: 'Research Methodology', type: 'textarea', guidance: 'How will you conduct the research? Options: literature review, expert interviews, capability benchmarking, threat modelling, technology readiness assessment.', prompt: 'Describe the research approach and methods.' },
+    { id: 'deliverables', title: 'Deliverables', type: 'fields', fields: [{ id: 'output_type', label: 'Primary output', type: 'select', options: ['Research brief (5-20 pages)', 'Landscape report (20-50 pages)', 'Programme input paper', 'Technology assessment', 'Threat analysis', 'Investment thesis paper'] }, { id: 'audience', label: 'Target audience', type: 'text', placeholder: 'e.g., DoD CDAO, DARPA PM, allied MoD, think-tank' }, { id: 'timeline', label: 'Estimated delivery timeline', type: 'text', placeholder: 'e.g., 4-6 weeks' }] },
+    { id: 'customers', title: 'Research Customers', type: 'textarea', guidance: 'Who will receive and act on this research? Name specific programme offices, research agencies, think-tanks, or investment offices.', prompt: 'List 3-5 specific research customers by name.' },
+    { id: 'outcomes', title: 'Expected Outcomes', type: 'textarea', guidance: 'What decisions or actions should this research enable? How will you measure impact?', prompt: 'Describe the decisions or actions the research will inform.' },
+    { id: 'documents', title: 'Required Documents', type: 'checklist', items: ['Research outline / table of contents', 'Source list (at least 10 primary sources)', 'Key question set', 'Capability gap evidence', 'Threat indicator summary', 'Draft abstract (200 words)', 'Distribution / classification marking plan'] },
     { id: 'review', title: 'Final Review', type: 'review' },
-    { id: 'auditor', title: 'Auditor Decision', type: 'auditor' }
-  ];
-
-  var PATENT_SECTIONS = [
-    { id: 'what', title: 'What This Patent Is', type: 'info', guidance: 'For defense / edtech, patents typically protect software methods, instructional system designs, and assessment workflows. Provisional ~$320; non-provisional much more. Subject-matter eligibility (Alice/Mayo) is the main hurdle for ed software claims.', prompt: 'No input needed.' },
-    { id: 'why', title: 'Why This May Be Patentable', type: 'textarea', guidance: 'Patentable = (1) new, (2) useful, (3) non-obvious, AND patent-eligible subject matter. Explain how your invention meets all four.', prompt: 'Why is this invention new, useful, non-obvious, and patent-eligible?', prefillFrom: 'whyNow' },
-    { id: 'title', title: 'Invention Title', type: 'text', guidance: 'Example: "Adaptive Assessment System with Personalized Item Selection Based on Student Knowledge State"', prompt: 'Enter a descriptive title.', prefillFrom: 'title' },
-    { id: 'summary', title: 'Invention Summary', type: 'textarea', guidance: 'Describe in 2-4 sentences for a smart non-specialist.', prompt: 'Summarize the invention in plain English.' },
-    { id: 'problem_solved', title: 'Problem Being Solved', type: 'textarea', guidance: 'What defenseal or instructional problem does this address?', prompt: 'What problem exists today that this fixes?', prefillFrom: 'diagnosis' },
-    { id: 'novelty', title: 'Novelty', type: 'textarea', guidance: 'What makes this different from existing edtech?', prompt: 'What is new compared to existing edtech tools?' },
-    { id: 'prior_art', title: 'Prior Art', type: 'textarea', guidance: 'List existing patents, publications, and commercial products. Search Google Patents and edtech research literature.', prompt: 'List known prior art and how your invention differs.' },
-    { id: 'technical', title: 'Technical Description', type: 'textarea', guidance: 'Describe how the invention works in enough detail that a skilled person could build it.', prompt: 'Describe the technical implementation.' },
-    { id: 'claims', title: 'Claims Development', type: 'textarea', guidance: 'Claims define what you own. Start broad, then narrow. Software claims need careful framing for Alice eligibility.', prompt: 'Draft 2-3 initial patent claims.' },
-    { id: 'ownership', title: 'Inventorship / Ownership', type: 'fields', fields: [{ id: 'inventor1', label: 'Inventor 1 (full legal name)', type: 'text' }, { id: 'assignee', label: 'Assignee', type: 'text', placeholder: 'University TTO / Inventor / Company' }, { id: 'filing_type', label: 'Filing type', type: 'select', options: ['Provisional', 'Non-provisional', 'PCT International', 'Undecided'] }] },
-    { id: 'documents', title: 'Documents / Figures', type: 'checklist', items: ['Block diagram of system', 'Flowchart of method', 'Performance/learning data', 'Prior art comparison table', 'Inventor declaration', 'University TTO disclosure (if applicable)'] },
-    { id: 'review', title: 'Filing Readiness Review', type: 'review' },
     { id: 'auditor', title: 'Auditor Decision', type: 'auditor' }
   ];
 
@@ -59,7 +42,7 @@
       '.eep-header{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;cursor:pointer;user-select:none}',
       '.eep-header:hover{background:rgba(201,169,78,0.03)}',
       '.eep-track-label{font-size:0.32rem;letter-spacing:2px;text-transform:uppercase}',
-      '.eep-track-grant{color:#5ab5a0}','.eep-track-patent{color:#a87adb}',
+      '.eep-track-research{color:#5ab5a0}',
       '.eep-progress{font-size:0.26rem;color:#807868}','.eep-toggle{font-size:0.22rem;color:rgba(201,169,78,0.25)}',
       '.eep-body{display:none;padding:0 12px 12px}','.eep-body.open{display:block}',
       '.eep-section{margin-bottom:12px;border-bottom:1px solid rgba(201,169,78,0.04);padding-bottom:8px}',
@@ -96,7 +79,7 @@
     var checked = (ws.checks && ws.checks[sec.id]) || {};
     var sectionDone = ws.sectionDone && ws.sectionDone[sec.id];
     var h = '<div class="eep-section" data-section="' + sec.id + '">';
-    h += '<div class="eep-section-header"><span class="eep-section-title">' + (sectionDone ? '\u2713 ' : '') + esc(sec.title) + '</span>';
+    h += '<div class="eep-section-header"><span class="eep-section-title">' + (sectionDone ? '✓ ' : '') + esc(sec.title) + '</span>';
     if (sec.type !== 'info') h += '<label class="eep-section-check"><input type="checkbox" class="eep-done-check" data-sec="' + sec.id + '"' + (sectionDone ? ' checked' : '') + '> done</label>';
     h += '</div><div class="eep-guidance">' + esc(sec.guidance) + '</div>';
     if (sec.type === 'textarea') {
@@ -123,12 +106,12 @@
         h += '<label class="eep-check-item"><input type="checkbox" class="eep-check" data-sec="' + sec.id + '" data-item="' + ik + '"' + (checked[ik] ? ' checked' : '') + '> ' + esc(sec.items[ci]) + '</label>';
       }
     } else if (sec.type === 'review') {
-      var sections = track === 'grant' ? GRANT_SECTIONS : PATENT_SECTIONS; var ts = 0, ds = 0;
+      var sections = RESEARCH_SECTIONS; var ts = 0, ds = 0;
       for (var ri = 0; ri < sections.length; ri++) { if (sections[ri].type !== 'info' && sections[ri].type !== 'review' && sections[ri].type !== 'auditor') { ts++; if (ws.sectionDone && ws.sectionDone[sections[ri].id]) ds++; } }
       var pct = ts > 0 ? Math.round(ds / ts * 100) : 0;
       h += '<div style="font-size:0.38rem;color:#d0c8b8;margin-bottom:6px">Progress: <b>' + ds + '/' + ts + '</b> (' + pct + '%)</div>';
       h += '<div style="height:6px;background:rgba(255,255,255,0.05);border-radius:3px;overflow:hidden;margin-bottom:8px"><div style="height:100%;width:' + pct + '%;background:' + (pct >= 80 ? '#5ab5a0' : pct >= 50 ? '#C9A94E' : '#e85454') + ';border-radius:3px"></div></div>';
-      h += '<div style="margin-top:8px"><button class="eep-btn eep-btn-print" data-action="print">PRINT APPLICATION</button></div>';
+      h += '<div style="margin-top:8px"><button class="eep-btn eep-btn-print" data-action="print">PRINT BRIEF</button></div>';
     } else if (sec.type === 'auditor') {
       var as = ws.auditor || {}; h += '<div class="eep-auditor"><div class="eep-auditor-title">AUDITOR REVIEW</div>';
       var sl = as.status || 'DRAFT'; h += '<div style="margin-bottom:6px"><span class="eep-status eep-status-' + sl.toLowerCase() + '">' + sl + '</span></div>';
@@ -143,15 +126,15 @@
   function renderPanel(oppKey, track, opp) {
     injectStyles();
     var ws = getWorkspace(oppKey, track) || { fields: {}, checks: {}, sectionDone: {}, auditor: {}, created: Date.now() };
-    var sections = track === 'grant' ? GRANT_SECTIONS : PATENT_SECTIONS;
-    var trackColor = track === 'grant' ? 'eep-track-grant' : 'eep-track-patent';
-    var trackLabel = track === 'grant' ? 'GRANT APPLICATION' : 'PATENT FILING';
+    var sections = RESEARCH_SECTIONS;
+    var trackColor = 'eep-track-research';
+    var trackLabel = 'RESEARCH BRIEF';
     if (!ws._prefilled && opp) {
       ws._prefilled = true;
       for (var si = 0; si < sections.length; si++) { var sec = sections[si];
         if (sec.prefillFrom && !ws.fields[sec.id]) {
           if (sec.prefillFrom === 'title') ws.fields[sec.id] = opp.title || '';
-          if (sec.prefillFrom === 'whyNow') ws.fields[sec.id] = (opp.title || '') + '. This Defense condition creates demand because: ' + (opp.reason || opp.whyNow || 'active diagnosis pathway detected.');
+          if (sec.prefillFrom === 'whyNow') ws.fields[sec.id] = (opp.title || '') + '. This defense condition warrants research because: ' + (opp.reason || opp.whyNow || 'active diagnosis pathway detected.');
           if (sec.prefillFrom === 'diagnosis') ws.fields[sec.id] = 'Defense domain diagnosis: ' + (opp.diagnosisId || 'active').replace(/_/g, ' ') + '. ' + (opp.title || '');
         }
       }
@@ -163,8 +146,8 @@
     var statusLabel = ws.auditor && ws.auditor.status ? ws.auditor.status : 'DRAFT';
     var h = '<div class="eep-panel" data-opp="' + esc(oppKey) + '" data-track="' + track + '">';
     h += '<div class="eep-header" data-toggle="' + oppKey + '-' + track + '"><span class="eep-track-label ' + trackColor + '">' + trackLabel + '</span>';
-    h += '<span class="eep-progress">' + pct + '% \u00b7 ' + ds + '/' + ts + ' \u00b7 <span class="eep-status eep-status-' + statusLabel.toLowerCase() + '">' + statusLabel + '</span></span>';
-    h += '<span class="eep-toggle">\u25BC</span></div>';
+    h += '<span class="eep-progress">' + pct + '% · ' + ds + '/' + ts + ' · <span class="eep-status eep-status-' + statusLabel.toLowerCase() + '">' + statusLabel + '</span></span>';
+    h += '<span class="eep-toggle">▼</span></div>';
     h += '<div class="eep-body" data-body="' + oppKey + '-' + track + '">';
     for (var ri = 0; ri < sections.length; ri++) h += renderSection(sections[ri], ws, oppKey, track);
     h += '</div></div>'; return h;
@@ -174,7 +157,7 @@
     var panel = container.querySelector('[data-opp="' + oppKey + '"][data-track="' + track + '"]'); if (!panel) return;
     var header = panel.querySelector('[data-toggle="' + oppKey + '-' + track + '"]');
     var body = panel.querySelector('[data-body="' + oppKey + '-' + track + '"]');
-    if (header && body) { header.addEventListener('click', function () { body.classList.toggle('open'); var t = header.querySelector('.eep-toggle'); if (t) t.textContent = body.classList.contains('open') ? '\u25B2' : '\u25BC'; }); }
+    if (header && body) { header.addEventListener('click', function () { body.classList.toggle('open'); var t = header.querySelector('.eep-toggle'); if (t) t.textContent = body.classList.contains('open') ? '▲' : '▼'; }); }
     var ws = getWorkspace(oppKey, track) || { fields: {}, checks: {}, sectionDone: {}, auditor: {}, created: Date.now() };
     panel.querySelectorAll('.eep-textarea, .eep-input, .eep-select').forEach(function (el) {
       el.addEventListener('change', function () { var field = this.getAttribute('data-field'); var af = this.getAttribute('data-auditor');
@@ -192,15 +175,13 @@
   }
 
   function renderForOpportunity(oppKey, path, opp) {
-    if (path === 'GRANT-ELIGIBLE') return renderPanel(oppKey, 'grant', opp);
-    if (path === 'PATENTABLE') return renderPanel(oppKey, 'patent', opp);
+    if (path === 'RESEARCHABLE') return renderPanel(oppKey, 'research', opp);
     return '';
   }
   function wireForOpportunity(container, oppKey, path) {
-    if (path === 'GRANT-ELIGIBLE') wirePanel(container, oppKey, 'grant');
-    if (path === 'PATENTABLE') wirePanel(container, oppKey, 'patent');
+    if (path === 'RESEARCHABLE') wirePanel(container, oppKey, 'research');
   }
 
-  window.LIMENDefenseExecutionPanels = { renderForOpportunity: renderForOpportunity, wireForOpportunity: wireForOpportunity, GRANT_SECTIONS: GRANT_SECTIONS, PATENT_SECTIONS: PATENT_SECTIONS };
+  window.LIMENDefenseExecutionPanels = { renderForOpportunity: renderForOpportunity, wireForOpportunity: wireForOpportunity, RESEARCH_SECTIONS: RESEARCH_SECTIONS };
   console.log('[DefenseExecutionPanels] Loaded');
 })();

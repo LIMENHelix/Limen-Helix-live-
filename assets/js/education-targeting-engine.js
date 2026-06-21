@@ -150,7 +150,7 @@
     var nodeLabel = (dir.nodeLabel || '').toLowerCase();
     var treatLabel = (dir.treatmentLabel || directive.title || '').toLowerCase();
     var dxId = (directive.diagnosisId || '').toLowerCase();
-    var path = directive.path || 'GRANT-ELIGIBLE';
+    var path = directive.path || 'INVESTABLE';
 
     var relevantSegments = _resolveSegments(nodeId, nodeLabel, treatLabel, dxId);
 
@@ -206,8 +206,7 @@
     tier3 = tier3.slice(0, 5);
 
     var executionTargets = [];
-    if (path === 'GRANT-ELIGIBLE') executionTargets = ['US Dept of Education program officers', 'IES research grants', 'NSF EHR program directors', 'State education agencies', 'District grant offices'];
-    else if (path === 'PATENTABLE') executionTargets = ['Patent attorneys', 'EdTech licensors', 'University TTOs', 'Strategic acquirers in edtech'];
+    if (path === 'RESEARCHABLE') executionTargets = ['Research desks', 'Institutional research buyers', 'Independent / sell-side analysts'];
     else if (path === 'INVESTABLE') executionTargets = ['EdTech-focused funds', 'Higher-ed services investors', 'University endowments'];
 
     var formatted = _format(tier1, tier2, tier3, executionTargets);

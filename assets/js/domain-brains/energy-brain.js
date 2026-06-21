@@ -20,9 +20,9 @@
  *   energy → industry (production cost impact)
  *
  * Actions:
- *   When convergence fires → draft grant application
+ *   When convergence fires → draft investment research
  *   When company hits P7a → draft investor memo
- *   When diagnosis activates → draft patent opportunity
+ *   When diagnosis activates → draft research opportunity
  *
  * Exposes: window.LIMENEnergyBrain
  */
@@ -570,7 +570,7 @@
       add({
         title: dxLabel + ' — monitoring and response platform',
         rank: stress * dx.relevance,
-        path: 'PATENTABLE',
+        path: 'RESEARCHABLE',
         urgency: stress > 0.70 ? 'IMMEDIATE' : 'ACTIVE',
         source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress
       });
@@ -580,7 +580,7 @@
         add({
           title: dxLabel + ' — resilience infrastructure deployment',
           rank: stress * dx.relevance * 0.9,
-          path: 'GRANT-ELIGIBLE',
+          path: 'INVESTABLE',
           urgency: stress > 0.70 ? 'IMMEDIATE' : 'ACTIVE',
           source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress
         });
@@ -601,7 +601,7 @@
       add({
         title: dxLabel + ' — adaptive technology and automation',
         rank: stress * dx.relevance * 0.75,
-        path: 'PATENTABLE',
+        path: 'RESEARCHABLE',
         urgency: 'ACTIVE',
         source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress
       });
@@ -644,7 +644,7 @@
       add({
         title: this.state.convergence.primary_signal.replace(/_/g, ' ').toLowerCase() + ' — energy convergence response',
         rank: 0.98,
-        path: this.state.convergence.primary_signal === 'CONVERGENCE_TERMINAL' ? 'INVESTABLE' : 'GRANT-ELIGIBLE',
+        path: this.state.convergence.primary_signal === 'CONVERGENCE_TERMINAL' ? 'INVESTABLE' : 'RESEARCHABLE',
         urgency: 'IMMEDIATE',
         source: 'convergence', tier: 1,
         signal: this.state.convergence.primary_signal,
@@ -677,7 +677,7 @@
       add({
         title: 'Energy policy and regulatory response \u2014 permitting and compliance',
         rank: stress * 0.65,
-        path: 'GRANT-ELIGIBLE',
+        path: 'INVESTABLE',
         urgency: stress > 0.70 ? 'ACTIVE' : 'WATCH',
         source: 'lagging', tier: 3,
         diagnosisId: activeDx[0].id, stress: stress
@@ -686,7 +686,7 @@
       add({
         title: 'Energy substitution acceleration \u2014 alternative fuel and storage',
         rank: stress * 0.70,
-        path: 'PATENTABLE',
+        path: 'RESEARCHABLE',
         urgency: 'ACTIVE',
         source: 'lagging', tier: 3,
         diagnosisId: activeDx[0].id, stress: stress
@@ -721,7 +721,7 @@
         add({
           title: (nd.label || nd.id || '').replace(/_/g, ' ') + ' — early-stage monitoring position',
           rank: stress * (nd.relevance || 0.1) * 0.5,
-          path: 'PATENTABLE',
+          path: 'RESEARCHABLE',
           urgency: 'WATCH',
           source: 'near_diagnosis', tier: 2,
           diagnosisId: nd.id, stress: stress
@@ -731,7 +731,7 @@
 
     // ═══ DATA-CENTER DIAGNOSIS LAYER → opportunities (real-content, bundle-backed) ═══
     // INVESTABLE / monitoring only — the DC bundles carry NO method/embodiment/figure
-    // candidates, so no patent/grant lane is offered (consistent with the H3 conscience
+    // candidates, so only the investment lane is offered (consistent with the H3 conscience
     // veto). Companies are the real tickers mapped to each diagnosis's circuit nodes.
     var dcDiags = this.state.datacenterDiagnoses || [];
     var dcPortal = this._dcPortal;
@@ -797,28 +797,28 @@
     var _PB_DETAIL = {
       'infra_demand': {
         explain: 'Energy infrastructure stress is creating demand for grid resilience, generation capacity, and pipeline hardening. Companies and technologies that address structural energy gaps are positioned to capture premium pricing and procurement.',
-        action: 'Position in energy infrastructure companies. Search sam.gov for DOE/FERC procurement. Check patent gaps in grid resilience.',
-        valueRange: '10-30% sector premium / $250K-$5M contracts',
+        action: 'Position in energy infrastructure companies. Research the operators and technologies addressing grid resilience gaps.',
+        valueRange: '10-30% sector premium',
         trigger: 'Energy stress > 0.50 with active diagnosis firing against live feed data.',
         validation: 'Confirm crude price feed LIVE. Check infrastructure stress. Verify diagnosis is evidence-grounded, not catch-all.',
-        steps: ['Check Energy console — verify diagnosis is ACTIVE with evidence', 'Check PULSE panel — confirm feeds are FRESH', 'Review suggested targets — verify HELIX VALIDATED status', 'For INVEST: open investment console with target ticker', 'For GRANT: search sam.gov for DOE + relevant keywords', 'For PATENT: search patents.google.com for technology gaps'],
-        outcome: 'Energy infrastructure companies outperform during sustained stress. Grant awards within 90-180 days. Patent filings secure IP in underexplored areas.',
+        steps: ['Check Energy console — verify diagnosis is ACTIVE with evidence', 'Check PULSE panel — confirm feeds are FRESH', 'Review suggested targets — verify HELIX VALIDATED status', 'For INVEST: open investment console with target ticker', 'For RESEARCH: scope a brief on the exposed operators + technology gaps'],
+        outcome: 'Energy infrastructure companies outperform during sustained stress. Research briefs build an information edge on the operators capturing the gap.',
         failure: 'Stress resolves quickly. Crude returns to baseline. Diagnosis deactivates. Seasonal or transient pattern.',
         window: '1-90 days',
-        fastPath: ['1. Verify Energy stress > 50% with active diagnosis', '2. Check feed freshness in PULSE panel', '3. Execute: INVEST (position), GRANT (sam.gov), or PATENT (uspto.gov)'],
+        fastPath: ['1. Verify Energy stress > 50% with active diagnosis', '2. Check feed freshness in PULSE panel', '3. Execute: INVEST (position) or RESEARCH (brief on exposed operators)'],
         examples: ['NextEra Energy (NEE)', 'Duke Energy (DUK)', 'Quanta Services (PWR)', 'XLE Energy ETF', 'Enterprise Products (EPD)']
       },
       'climate_energy': {
         explain: 'Renewable energy transition is accelerating due to policy, pricing, or intermittency stress. Clean energy companies, storage technology, and nuclear alternatives are capturing capital flows.',
-        action: 'Position in clean energy ETFs and individual renewable companies. Check DOE grant programs for clean energy deployment.',
+        action: 'Position in clean energy ETFs and individual renewable companies. Research the clean energy deployment landscape and the operators leading it.',
         valueRange: '15-40% clean energy sector returns',
         trigger: 'Renewable intermittency or climate policy signals active. Energy stress with clean energy convergence.',
         validation: 'Confirm renewable generation data. Check policy signals from governance domain. Verify transition is structural.',
-        steps: ['Check Energy console for RENEWABLE_INTERMITTENCY or convergence signals', 'Verify clean energy policy signals from Governance domain', 'Review ICLN/TAN ETF performance for trend confirmation', 'For INVEST: position in FSLR, ENPH, CEG, or clean energy ETFs', 'For GRANT: search grants.gov for DOE clean energy programs', 'For PATENT: search battery/storage/grid technology gaps'],
+        steps: ['Check Energy console for RENEWABLE_INTERMITTENCY or convergence signals', 'Verify clean energy policy signals from Governance domain', 'Review ICLN/TAN ETF performance for trend confirmation', 'For INVEST: position in FSLR, ENPH, CEG, or clean energy ETFs', 'For RESEARCH: scope a brief on battery/storage/grid technology gaps + the operators closing them'],
         outcome: 'Clean energy sector captures transition capital. Storage and grid modernization see accelerated procurement.',
         failure: 'Policy reversal. Fossil fuel price collapse reduces transition urgency. Technology setbacks.',
         window: '7-180 days',
-        fastPath: ['1. Check if RENEWABLE_INTERMITTENCY or convergence is active', '2. Check ICLN/TAN on Yahoo Finance for confirmation', '3. Execute: buy FSLR/ENPH or apply for DOE grants'],
+        fastPath: ['1. Check if RENEWABLE_INTERMITTENCY or convergence is active', '2. Check ICLN/TAN on Yahoo Finance for confirmation', '3. Execute: buy FSLR/ENPH or produce a research brief on the transition operators'],
         examples: ['First Solar (FSLR)', 'Enphase Energy (ENPH)', 'Constellation Energy (CEG)', 'ICLN Clean Energy ETF', 'Cameco (CCJ)']
       },
       'econ_supply': {
@@ -827,11 +827,11 @@
         valueRange: '10-25% energy major returns during supply pressure',
         trigger: 'Cross-domain energy emission firing. Supply chain and economy receiving energy stress signals.',
         validation: 'Confirm energy stress is transmitting to other domains via emissions. Check economy/supply chain domain stress.',
-        steps: ['Check Energy console for active cross-domain emissions', 'Verify Economy and Supply Chain domains showing elevated stress', 'Confirm integrated majors have pricing power (check Helix reports)', 'For INVEST: position in XOM, CVX, COP', 'For GRANT: search for supply chain resilience programs', 'Monitor for downstream sector weakness (industrials, transport)'],
-        outcome: 'Integrated energy companies capture margin expansion. Supply chain resilience programs accelerate.',
+        steps: ['Check Energy console for active cross-domain emissions', 'Verify Economy and Supply Chain domains showing elevated stress', 'Confirm integrated majors have pricing power (check Helix reports)', 'For INVEST: position in XOM, CVX, COP', 'For RESEARCH: brief the supply-chain pass-through and the operators with pricing power', 'Monitor for downstream sector weakness (industrials, transport)'],
+        outcome: 'Integrated energy companies capture margin expansion. A research brief maps the supply-chain pass-through and the beneficiaries.',
         failure: 'Supply pressure resolves. Demand destruction offsets pricing power. Government intervention caps prices.',
         window: '1-60 days',
-        fastPath: ['1. Check Energy emissions to Economy/Supply Chain', '2. Check XOM/CVX on Yahoo Finance', '3. Buy integrated majors or apply for supply resilience grants'],
+        fastPath: ['1. Check Energy emissions to Economy/Supply Chain', '2. Check XOM/CVX on Yahoo Finance', '3. Buy integrated majors or produce a research brief on the pass-through beneficiaries'],
         examples: ['Exxon Mobil (XOM)', 'Chevron (CVX)', 'ConocoPhillips (COP)', 'Schlumberger (SLB)', 'HYG High Yield Bond ETF']
       }
     };
@@ -867,12 +867,12 @@
       o.whyNow = o.title;
 
       // ── COMPENSATION MODEL ──
+      // Lanes: investment + research ONLY (patent/grant/loan purged 2026-06-21; relaned GRANT->INVESTABLE, PATENT->RESEARCHABLE)
       var _COMP = {
-        'GRANT-ELIGIBLE': { type: 'grant', base: 10, unit: '%', tier: 1, nextTier: { tier: 2, comp: 15, requirement: '3 successful grant awards' }, maxTier: { tier: 3, comp: 25 } },
-        'INVESTABLE':     { type: 'invest', base: 5, unit: 'profit%', tier: 1, nextTier: { tier: 2, comp: 10, requirement: '3 profitable positions closed' }, maxTier: { tier: 3, comp: 15 } },
-        'PATENTABLE':     { type: 'patent', base: 10, unit: 'royalty%', tier: 1, nextTier: { tier: 2, comp: 15, requirement: '3 patents filed' }, maxTier: { tier: 3, comp: 25 } }
+        'INVESTABLE':   { type: 'invest',   base: 5, unit: 'profit%', tier: 1, nextTier: { tier: 2, comp: 10, requirement: '3 profitable positions closed' }, maxTier: { tier: 3, comp: 15 } },
+        'RESEARCHABLE': { type: 'research', base: 5, unit: 'credit%', tier: 1, nextTier: { tier: 2, comp: 10, requirement: '3 published research briefs' },     maxTier: { tier: 3, comp: 15 } }
       };
-      o.compensation = _COMP[o.path] || { type: 'grant', base: 10, unit: '%', tier: 1, nextTier: { tier: 2, comp: 15, requirement: '3 outcomes' }, maxTier: { tier: 3, comp: 25 } };
+      o.compensation = _COMP[o.path] || { type: 'research', base: 5, unit: 'credit%', tier: 1, nextTier: { tier: 2, comp: 10, requirement: '3 outcomes' }, maxTier: { tier: 3, comp: 15 } };
 
       // Business-type opportunities get business compensation
       var titleLow = (o.title || '').toLowerCase();
@@ -910,21 +910,17 @@
         doThis = 'Review the energy companies flagged MODERATE by the validated distress screen (' + (compList || 'see company list') + '). Look for recovery catalysts or further deterioration; verify independently.';
       } else if (src === 'convergence') {
         if (o.path === 'INVESTABLE') doThis = 'Multiple stress signals are converging. Position in diversified energy exposure (' + (exList || 'broad energy ETFs') + ') to capture systemic repricing across the sector.';
-        else doThis = 'Convergence stress creates grant eligibility. Prepare a multi-vector resilience proposal that addresses the overlapping disruptions — agencies prioritize systemic solutions.';
+        else doThis = 'Convergence stress warrants a research brief. Document the overlapping disruptions and the systemic mechanism connecting them — a cross-vector analysis that maps the affected operators and the repricing path.';
       } else if (src === 'cross_domain') {
         doThis = 'Energy stress is transmitting into adjacent sectors. Position in cross-sector beneficiaries — companies with pricing power or supply-chain resilience that profit from energy cost pass-through. Monitor ' + (exList || 'integrated majors, pipeline operators') + '.';
-      } else if (src === 'diagnosis' && o.path === 'PATENTABLE') {
-        if (titleLc.indexOf('monitoring') !== -1 || titleLc.indexOf('response') !== -1) doThis = 'File a provisional patent for a ' + dxLabel + ' monitoring/response system. Focus on real-time detection, automated alerting, and adaptive response protocols. Search USPTO/Google Patents for prior art gaps.';
-        else if (titleLc.indexOf('adaptive') !== -1 || titleLc.indexOf('automation') !== -1) doThis = 'File a provisional patent for adaptive automation technology that responds to ' + dxLabel + ' conditions. Target the gap between current manual response protocols and what AI/ML-driven systems could handle autonomously.';
-        else doThis = 'Identify the specific technology gap created by ' + dxLabel + '. Draft a provisional patent claim around the solution architecture. Search patents.google.com for white space.';
-      } else if (src === 'diagnosis' && o.path === 'GRANT-ELIGIBLE') {
-        doThis = 'Prepare a grant proposal for ' + dxLabel + ' resilience infrastructure. Target DOE, FERC, and state energy office programs. Frame around critical infrastructure protection and grid reliability mandates.';
+      } else if (src === 'diagnosis' && o.path === 'RESEARCHABLE') {
+        if (titleLc.indexOf('monitoring') !== -1 || titleLc.indexOf('response') !== -1) doThis = 'Produce a research brief on ' + dxLabel + ' monitoring/response systems. Map real-time detection methods, automated alerting, and adaptive response protocols, and which operators are deploying them.';
+        else if (titleLc.indexOf('adaptive') !== -1 || titleLc.indexOf('automation') !== -1) doThis = 'Research adaptive automation approaches to ' + dxLabel + ' conditions. Document the gap between current manual response protocols and AI/ML-driven systems, and identify the vendors and operators closing it.';
+        else doThis = 'Identify the specific technology gap created by ' + dxLabel + '. Draft a research brief on the solution architecture and the companies positioned to capture the white space.';
       } else if (src === 'diagnosis' && o.path === 'INVESTABLE') {
         doThis = 'Open hedging positions against ' + dxLabel + ' exposure. Use sector ETFs and individual names (' + (exList || 'energy sector leaders') + '). Size for the stress level — ' + stressPct + '% stress warrants meaningful allocation.';
-      } else if (src === 'lagging' && o.path === 'GRANT-ELIGIBLE') {
-        doThis = 'Map the permitting and regulatory bottlenecks created by energy stress. Prepare a compliance-focused grant application targeting DOE/FERC infrastructure modernization or state-level resilience programs.';
-      } else if (src === 'lagging' && o.path === 'PATENTABLE') {
-        doThis = 'File a provisional patent around alternative fuel or long-duration storage technology that addresses the substitution gap. Focus on the specific failure mode the current energy mix cannot cover.';
+      } else if (src === 'lagging' && o.path === 'RESEARCHABLE') {
+        doThis = 'Produce a research brief on alternative fuel or long-duration storage technology that addresses the substitution gap. Focus on the specific failure mode the current energy mix cannot cover and the operators/technologies positioned to fill it.';
       } else if (src === 'lagging' && titleLc.indexOf('grid') !== -1) {
         doThis = 'Position in grid hardening and transmission infrastructure companies. Target utilities, EPC contractors, and grid hardware vendors accelerating capex in response to stress. Monitor ' + (exList || 'Quanta Services (PWR), EATON, Hubbell') + '.';
       } else if (src === 'lagging' && titleLc.indexOf('bottleneck') !== -1) {
@@ -944,15 +940,11 @@
         else if (titleLc.indexOf('grid') !== -1 || titleLc.indexOf('hardening') !== -1) whyPays = 'Grid hardening is mandatory capex — utilities must spend regardless of macro conditions. EPC firms and hardware vendors see revenue acceleration. ' + (o.valueRange || '15-30% infrastructure premium') + '.';
         else if (titleLc.indexOf('bottleneck') !== -1) whyPays = 'Capacity constraints create pricing power. Operators with constrained assets earn premium margins until new capacity comes online (typically 2-5 years). ' + (o.valueRange || '20-40% margin expansion') + '.';
         else whyPays = 'Market repricing follows confirmed stress. Companies positioned to benefit see re-rating as the diagnosis persists. ' + (o.valueRange || '10-30% sector premium') + '.';
-      } else if (o.path === 'GRANT-ELIGIBLE') {
-        if (src === 'lagging') whyPays = 'Regulatory response creates dedicated funding pools. Permitting/compliance grants are less competitive than technology grants — higher win rate. ' + (o.valueRange || '$250K-$5M per award') + '.';
-        else if (src === 'convergence') whyPays = 'Convergence events trigger emergency and supplemental funding. Multi-vector proposals score higher because agencies want systemic solutions. ' + (o.valueRange || '$500K-$10M for systemic proposals') + '.';
-        else whyPays = 'Active diagnosis creates documented need. Grant proposals backed by live system evidence and measurable stress data win at higher rates. ' + (o.valueRange || '$250K-$5M contracts via DOE/FERC/state programs') + '.';
-      } else if (o.path === 'PATENTABLE') {
-        if (titleLc.indexOf('monitoring') !== -1) whyPays = 'Monitoring/response IP is licensable to every utility and grid operator in the affected region. Recurring royalty revenue from each licensee. Patent creates a moat around the detection methodology.';
-        else if (titleLc.indexOf('storage') !== -1 || titleLc.indexOf('substitution') !== -1) whyPays = 'Storage and alternative fuel patents address a structural gap that will persist for decades. Licensable to utilities, storage integrators, and EPC firms building the next generation of energy infrastructure.';
-        else if (titleLc.indexOf('adaptive') !== -1 || titleLc.indexOf('automation') !== -1) whyPays = 'Automation IP for energy stress response has no dominant incumbent. First-mover patent position creates licensing revenue from utilities, grid operators, and energy management platforms.';
-        else whyPays = 'Technology gaps exposed by ' + dxLabel + ' have no existing IP coverage. First patent filing creates defensible position. Licensable to utilities, contractors, and technology vendors. ' + (o.valueRange || '5-15% royalty on licensed implementations') + '.';
+      } else if (o.path === 'RESEARCHABLE') {
+        if (titleLc.indexOf('monitoring') !== -1) whyPays = 'A monitoring/response research brief is sellable to utilities, grid operators, and analysts tracking the affected region — and surfaces the investable operators building the detection methodology. ' + (o.valueRange || 'institutional research credit') + '.';
+        else if (titleLc.indexOf('storage') !== -1 || titleLc.indexOf('substitution') !== -1) whyPays = 'Storage and alternative-fuel research addresses a structural gap that will persist for decades. The brief maps the technologies and the utilities, storage integrators, and EPC firms positioned to capture it. ' + (o.valueRange || 'institutional research credit') + '.';
+        else if (titleLc.indexOf('adaptive') !== -1 || titleLc.indexOf('automation') !== -1) whyPays = 'Automation for energy stress response has no dominant incumbent. A research brief on the landscape identifies the first-movers and the operators worth positioning in. ' + (o.valueRange || 'institutional research credit') + '.';
+        else whyPays = 'Technology gaps exposed by ' + dxLabel + ' are under-analyzed. A research brief builds an information edge on the operators and vendors closing them. ' + (o.valueRange || 'institutional research credit') + '.';
       } else {
         whyPays = o.valueRange ? ('Value range: ' + o.valueRange) : 'Revenue generated through direct service delivery to entities affected by the diagnosed condition.';
       }
@@ -961,8 +953,7 @@
       var target = '';
       if (compList) target = 'Mapped companies: ' + compList + '.';
       if (exList && !compList) target = (target ? target + ' ' : '') + 'Target names: ' + exList + '.';
-      if (o.path === 'GRANT-ELIGIBLE') target += (target ? ' ' : '') + 'Agencies: DOE, FERC, state energy offices, ARPA-E. Search sam.gov and grants.gov.';
-      else if (o.path === 'PATENTABLE') target += (target ? ' ' : '') + 'Licensees: utilities, grid operators, EPC firms, storage integrators, energy management platforms.';
+      if (o.path === 'RESEARCHABLE') target += (target ? ' ' : '') + 'Research buyers/subjects: utilities, grid operators, EPC firms, storage integrators, energy management platforms, sector analysts.';
       else if (o.path === 'INVESTABLE' && !compList && !exList) target = 'Screen energy sector for companies with direct exposure to ' + dxLabel + '. Prioritize those with capex commitments, contracted revenue, or regulatory mandates.';
       if (!target) target = 'Identify counterparties directly affected by ' + (o.title || 'this condition') + '.';
 
@@ -972,8 +963,7 @@
       else if (o.urgency === 'ACTIVE') timing = 'Near-term — execute within 1-4 weeks while stress holds at ' + stressPct + '%.';
       else if (o.urgency === 'WATCH') timing = 'Watchlist — monitor for activation trigger. Prepare execution materials now, deploy when diagnosis confirms.';
       else timing = o.window || 'Execute within the current stress window.';
-      if (o.path === 'GRANT-ELIGIBLE' && timing.indexOf('grant') === -1) timing += ' Grant cycles: 60-180 days from submission to award.';
-      if (o.path === 'PATENTABLE' && timing.indexOf('patent') === -1) timing += ' Provisional patent filing: 2-4 weeks to prepare, 12-month priority window.';
+      if (o.path === 'RESEARCHABLE' && timing.indexOf('brief') === -1) timing += ' Research brief: 1-3 weeks to produce while the diagnosis is live.';
 
       // ── INVALID IF (disconfirming conditions) ──
       var invalidIf = '';
@@ -999,10 +989,8 @@
         if (compList) nextStep = 'Pull up ' + o.companies[0] + ' on the investment console. Verify Helix phase and set entry parameters.';
         else if (exList) nextStep = 'Check ' + o.examples[0] + ' current price and Helix validation status. Set alert for entry signal.';
         else nextStep = 'Run sector screen for companies with highest exposure to ' + dxLabel + '. Build a 5-name watchlist.';
-      } else if (o.path === 'GRANT-ELIGIBLE') {
-        nextStep = 'Search sam.gov for open solicitations matching "' + (dxLabel || 'energy resilience') + '". Draft a 1-page concept note with system evidence.';
-      } else if (o.path === 'PATENTABLE') {
-        nextStep = 'Search patents.google.com for prior art in "' + (dxLabel || 'energy stress response') + '" technology. Draft provisional patent claim outline.';
+      } else if (o.path === 'RESEARCHABLE') {
+        nextStep = 'Scope a research brief on "' + (dxLabel || 'energy stress response') + '" — frame the question from the live diagnosis, then pull primary sources (EIA/IEA/NERC/FERC) and map the exposed operators.';
       } else {
         nextStep = (o.fastPath && o.fastPath.length) ? o.fastPath[0] : 'Open opportunity detail and begin execution checklist.';
       }
@@ -1862,8 +1850,8 @@
     var ready = hasTreat && hasBundle && hasCanonical;
     var artifactContext = {
       artifactLanes: artifactLanes,
-      patentReady: ready, grantReady: ready, sbaReady: false,
-      investmentReady: !!(hasTreat && primaryOpp), researchReady: hasTreat,
+      patentReady: false, grantReady: false, sbaReady: false,   // patent/grant/loan lanes purged 2026-06-21 (also vetoed by H3 conscience)
+      investmentReady: !!(hasTreat && primaryOpp), researchReady: ready || hasTreat,
       readinessReasons: readinessReasons,
       blockers: blockers
     };
@@ -1983,49 +1971,6 @@
         executiveReport: s.energyExecutiveReport || null
       }
     };
-  };
-
-  /**
-   * Generate a real grant application for an energy opportunity.
-   * Uses deep portal content: citations, steps, monitoring protocols.
-   */
-  EnergyBrain.prototype.generateGrantApplication = function (opportunityIndex) {
-    var opp = this.state.opportunities[opportunityIndex || 0];
-    if (!opp) return null;
-
-    var pkg = window.LIMENPackageGenerator;
-    if (!pkg) return null;
-
-    // Enrich with resolved deep content
-    var oppData = {
-      domain: 'energy',
-      title: opp.title,
-      stress: opp.stress,
-      sourceType: opp.source,
-      confidence: this.state.confidence,
-      resolvedContent: this.state.resolvedContent || null
-    };
-
-    return pkg.generatePackage(oppData, 'grant');
-  };
-
-  /**
-   * Generate a patent provisional draft for an energy innovation.
-   */
-  EnergyBrain.prototype.generatePatentDraft = function (opportunityIndex) {
-    var opp = this.state.opportunities[opportunityIndex || 0];
-    if (!opp) return null;
-
-    var pkg = window.LIMENPackageGenerator;
-    if (!pkg) return null;
-
-    return pkg.generatePackage({
-      domain: 'energy',
-      title: opp.title,
-      stress: opp.stress,
-      sourceType: opp.source,
-      confidence: this.state.confidence
-    }, 'patent');
   };
 
   /**

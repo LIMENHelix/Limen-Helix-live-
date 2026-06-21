@@ -19,10 +19,10 @@
   var PLAYBOOKS = [
     {
       id:'population_collapse', title:'Population Collapse',
-      type:'fund', domains:['population','economy'],
+      type:'invest', domains:['population','economy'],
       pattern:'population_demographic',
       explain:'Fertility rates far below replacement. Labor force shrinking, dependency ratios inverting, economic contraction looming. Portal diagnosis POPULATION_COLLAPSE maps this through OXY (birth rates), SEPT (family structure), M1 (labor force), RAPHE (aging burden), VTA (youth cohort), RSC (rural depopulation).',
-      action:'Drill into the Population portal POPULATION_COLLAPSE diagnosis. Review treatment nodes for workforce stabilization, pro-natalist policy support, eldercare capacity, and immigration integration. Identify which node circuits are most stressed and match treatments to investable or grantable pathways.',
+      action:'Drill into the Population portal POPULATION_COLLAPSE diagnosis. Review treatment nodes for workforce stabilization, pro-natalist policy support, eldercare capacity, and immigration integration. Identify which node circuits are most stressed and match treatments to investable or research pathways.',
       valueRange:'Structural \u2014 5\u201315 year demographic transition',
       saturation:'low',
       trigger:'Population stress > 0.40 with aging_skew, fertility_decline, or dependency_ratio conditions active.',
@@ -33,29 +33,29 @@
       outcome:'Eldercare, workforce automation, and demographic planning systems see sustained multi-decade demand.',
       failure:'Pro-natalist policy reverses fertility decline faster than projected. Immigration fills labor gaps.',
       window:'1\u201315 years (structural)',
-      realWorld:{invest:'Eldercare operators, home health platforms, workforce automation companies.',apply:'HHS aging services grants, DOL workforce development grants via grants.gov.',build:'Demographic forecasting tools for municipal and healthcare planning.'},
+      realWorld:{invest:'Eldercare operators, home health platforms, workforce automation companies.',research:'Demographic forecasting tools for municipal and healthcare planning; academic programs in population dynamics and labor economics.'},
       examples:['Eldercare and home health infrastructure','Workforce retraining and automation','Pro-natalist policy support systems','Pension and retirement system modernization','Rural community revitalization programs'],
-      fastPath:['1. Confirm POPULATION_COLLAPSE active in console diagnosis chain','2. Drill into portal \u2192 review OXY and RAPHE node treatments','3. Match strongest-evidence treatments to investment, grant, or build pathways']
+      fastPath:['1. Confirm POPULATION_COLLAPSE active in console diagnosis chain','2. Drill into portal \u2192 review OXY and RAPHE node treatments','3. Match strongest-evidence treatments to investment or research pathways']
     },
     {
       id:'mass_migration', title:'Mass Migration Crisis',
-      type:'fund', domains:['population','law','governance'],
+      type:'research', domains:['population','law','governance'],
       pattern:'population_migration',
       explain:'Climate displacement, conflict, and economic desperation driving unprecedented population movements. Portal diagnosis MASS_MIGRATION maps through VEST (migration flows), CeA (refugee surge), dlPFC (urban planning), TPJ (intercultural empathy), OFC (income distribution).',
-      action:'Drill into the Population portal MASS_MIGRATION diagnosis. Review treatment nodes for reception capacity, integration services, housing, and policy stabilization. Match treatments to grant, procurement, or investment pathways.',
-      valueRange:'$500K\u2013$10M government/NGO contracts and grants',
+      action:'Drill into the Population portal MASS_MIGRATION diagnosis. Review treatment nodes for reception capacity, integration services, housing, and policy stabilization. Match treatments to investment or research pathways.',
+      valueRange:'$500K\u2013$10M government/NGO contracts and programs',
       saturation:'medium',
       trigger:'Population stress > 0.45 with migration_surge, displacement_event, or border_pressure conditions active.',
       validation:'Check UN displacement data. Confirm defense or law domain cross-signals. Drill into portal node VEST and CeA for treatment specifics and evidence levels.',
-      steps:['Go to limenhelix.com/domain-console?domain=population \u2192 check CLARITY','Expand DIAGNOSES \u2192 confirm MASS_MIGRATION is active','Check cross-domain emissions to law (migration_policy_pressure) and governance','Click through to portal \u2192 open MASS_MIGRATION diagnosis detail','Review implicated nodes: VEST (flows), CeA (refugees), dlPFC (urban planning)','Read treatments \u2192 identify reception, integration, and housing interventions','Match to grants.gov opportunities (UNHCR, HHS, State Department)'],
+      steps:['Go to limenhelix.com/domain-console?domain=population \u2192 check CLARITY','Expand DIAGNOSES \u2192 confirm MASS_MIGRATION is active','Check cross-domain emissions to law (migration_policy_pressure) and governance','Click through to portal \u2192 open MASS_MIGRATION diagnosis detail','Review implicated nodes: VEST (flows), CeA (refugees), dlPFC (urban planning)','Read treatments \u2192 identify reception, integration, and housing interventions','Match to investable integration platforms or research programs (UNHCR, IOM, academic migration centers)'],
       branch_up:'Displacement persists 3+ months: structural crisis. Scale integration services and housing.',
       branch_down:'Migration flow stabilizes: acute phase passes. Shift to long-term integration and credential recognition.',
       outcome:'Integration service providers, settlement infrastructure, and policy support systems see sustained demand.',
       failure:'Migration flow reverses. Political backlash redirects funding to enforcement over integration.',
       window:'7 days\u20132 years',
-      realWorld:{invest:'Language platforms, housing developers in receiving areas, workforce integration tech.',apply:'UNHCR, IOM, or HHS refugee resettlement grants via grants.gov.',build:'Migration intake processing, integration case management, or credential recognition platforms.'},
+      realWorld:{invest:'Language platforms, housing developers in receiving areas, workforce integration tech.',research:'Research brief: assess reception-capacity models and integration-program efficacy across host countries \u2014 which interventions measurably improve outcomes.',build:'Migration intake processing, integration case management, or credential recognition platforms.'},
       examples:['Settlement and reception infrastructure','Language and cultural integration platforms','Legal aid and documentation services','Housing for displaced populations','Workforce credential recognition systems'],
-      fastPath:['1. Confirm MASS_MIGRATION active in console diagnosis chain','2. Drill into portal \u2192 review VEST and CeA node treatments','3. Search grants.gov for refugee/migration service opportunities']
+      fastPath:['1. Confirm MASS_MIGRATION active in console diagnosis chain','2. Drill into portal \u2192 review VEST and CeA node treatments','3. Scope a research brief on refugee integration outcomes or invest in settlement-infrastructure companies']
     },
     {
       id:'aging_crisis', title:'Aging Crisis',
@@ -73,9 +73,9 @@
       outcome:'Eldercare, chronic disease management, and pension technology companies see sustained structural demand.',
       failure:'Medical advances extend healthy working years. Immigration fills care workforce gaps.',
       window:'1\u201310 years (structural)',
-      realWorld:{invest:'Eldercare operators, chronic disease management, home health. Examples: Amedisys, Humana, CVS Health.',apply:'NIH aging research grants, HHS long-term care innovation grants.',build:'Eldercare coordination platforms, chronic disease monitoring, pension planning tools.'},
+      realWorld:{invest:'Eldercare operators, chronic disease management, home health. Examples: Amedisys, Humana, CVS Health.',research:'Research brief: model eldercare demand curves and evaluate which chronic-disease management interventions reduce hospitalization rates.',build:'Eldercare coordination platforms, chronic disease monitoring, pension planning tools.'},
       examples:['Eldercare and long-term care operators','Chronic disease management platforms','Home health and telemedicine for seniors','Pension and retirement technology','Workforce retention and retraining for older workers'],
-      fastPath:['1. Confirm AGING_CRISIS active in console diagnosis chain','2. Drill into portal \u2192 review RAPHE and CARD node treatments','3. Match strongest-evidence treatments to eldercare or health infrastructure investments']
+      fastPath:['1. Confirm AGING_CRISIS active in console diagnosis chain','2. Drill into portal \u2192 review RAPHE and CARD node treatments','3. Match strongest-evidence treatments to eldercare investments or scope an aging-demand research brief']
     },
     {
       id:'urbanization_overload', title:'Urbanization Overload',
@@ -93,9 +93,9 @@
       outcome:'Housing developers, urban transit operators, and smart city platforms see sustained demand in high-growth metro areas.',
       failure:'Remote work permanently reduces urban density pressure. Government overbuilds. Demand shifts to rural.',
       window:'30 days\u20135 years',
-      realWorld:{invest:'Homebuilders, urban transit, proptech. Examples: D.R. Horton, Lennar, Procore.',apply:'HUD urban development or World Bank urbanization grants.',build:'Urban density monitoring, housing demand forecasting, or service delivery optimization platforms.'},
+      realWorld:{invest:'Homebuilders, urban transit, proptech. Examples: D.R. Horton, Lennar, Procore.',research:'Research brief: map urban density thresholds and evaluate which housing-supply interventions most effectively reduce affordability pressure.',build:'Urban density monitoring, housing demand forecasting, or service delivery optimization platforms.'},
       examples:['Homebuilders and affordable housing developers','Urban transit and infrastructure operators','Smart city and proptech platforms','Water and waste infrastructure for growing cities','Community service delivery optimization'],
-      fastPath:['1. Confirm URBANIZATION_OVERLOAD active in console diagnosis chain','2. Drill into portal \u2192 review dlPFC and AI node treatments','3. Invest in housing/urban infrastructure or apply for HUD urbanization grants']
+      fastPath:['1. Confirm URBANIZATION_OVERLOAD active in console diagnosis chain','2. Drill into portal \u2192 review dlPFC and AI node treatments','3. Invest in housing/urban infrastructure companies or scope a density-management research brief']
     },
     {
       id:'pandemic_shock', title:'Pandemic Demographic Shock',
@@ -113,13 +113,13 @@
       outcome:'Diagnostic, healthcare surge, and public health infrastructure see rapid demand during pandemic events.',
       failure:'Outbreak contained quickly. Government manages without private sector surge. Excess mortality minimal.',
       window:'7 days\u201318 months',
-      realWorld:{invest:'Diagnostic companies, healthcare operators, telemedicine. Examples: Abbott, HCA, Teladoc.',apply:'CDC or WHO outbreak response grants. NIH pandemic preparedness grants.',build:'Outbreak detection, contact tracing, or demographic impact monitoring platforms.'},
+      realWorld:{invest:'Diagnostic companies, healthcare operators, telemedicine. Examples: Abbott, HCA, Teladoc.',research:'Research brief: model pandemic demographic-shock severity curves and evaluate which preparedness investments reduce mortality and fertility disruption.',build:'Outbreak detection, contact tracing, or demographic impact monitoring platforms.'},
       examples:['Diagnostic and testing companies','Healthcare surge capacity operators','Telemedicine and remote care platforms','Public health surveillance systems','Demographic impact tracking and vital registration'],
-      fastPath:['1. Confirm PANDEMIC_DEMOGRAPHIC_SHOCK active with disease_spread signals','2. Drill into portal \u2192 review CARD and AI node treatments','3. Invest in diagnostic/healthcare companies or apply for outbreak response grants']
+      fastPath:['1. Confirm PANDEMIC_DEMOGRAPHIC_SHOCK active with disease_spread signals','2. Drill into portal \u2192 review CARD and AI node treatments','3. Invest in diagnostic/healthcare companies or scope a pandemic-preparedness research brief']
     },
     {
-      id:'population_data_gap', title:'Population Data Gap \u2192 Build',
-      type:'build', domains:['population'],
+      id:'population_data_gap', title:'Population Data Gap \u2192 Research',
+      type:'research', domains:['population'],
       pattern:null,
       explain:'Population monitoring has gaps in real-time coverage. Build data infrastructure to fill demographic blind spots.',
       action:'Build real-time demographic monitoring, health surveillance, or migration tracking platforms to fill data gaps in the LIMEN population pipeline.',
@@ -127,15 +127,15 @@
       saturation:'low',
       trigger:'Population sources showing DEGRADED or FALLBACK status. Multiple feeds offline.',
       validation:'Check feed health panel for offline population data sources. Verify gap is not temporary (API maintenance).',
-      steps:['Go to limenhelix.com/domain-console?domain=population \u2192 check feed health in SIGNAL INTAKE panel','Count OFFLINE sources \u2192 if 2+ sources dark, data gap confirmed','Check if alternative open data sources exist (data.gov, WHO, census APIs)','Identify which demographic dimension is uncovered (health, migration, housing, workforce)','Build a data pipeline to fill the gap','Apply to NSF or Census Bureau for data infrastructure grants'],
+      steps:['Go to limenhelix.com/domain-console?domain=population \u2192 check feed health in SIGNAL INTAKE panel','Count OFFLINE sources \u2192 if 2+ sources dark, data gap confirmed','Check if alternative open data sources exist (data.gov, WHO, census APIs)','Identify which demographic dimension is uncovered (health, migration, housing, workforce)','Scope a research brief quantifying the gap and benchmarking existing data-infrastructure approaches','Commission or build a monitoring pipeline to fill the coverage blind spot'],
       branch_up:'Data gap persists across multiple cycles: structural coverage gap. Build permanent infrastructure.',
       branch_down:'Sources recover: temporary API issue. Monitor for recurrence.',
       outcome:'Real-time demographic data platform serving government, healthcare, and planning sectors.',
       failure:'Existing sources recover. Government builds own platform. Market too small for private investment.',
       window:'30 days\u201318 months',
-      realWorld:{invest:'N/A',apply:'Apply to NSF, NIH, or Census Bureau for data infrastructure grants.',build:'Build real-time demographic monitoring integrating census, health, migration, and housing data.'},
+      realWorld:{invest:'N/A',research:'Research brief: map population-data coverage gaps and evaluate the value of an integrated demographic-analytics dataset for government, healthcare, and planning sectors.',build:'Build real-time demographic monitoring integrating census, health, migration, and housing data.'},
       examples:['Real-time demographic dashboards','Health surveillance and outbreak detection','Migration flow monitoring','Housing market and density tracking','Workforce participation analytics'],
-      fastPath:['1. Check feed health: are Population sources offline or degraded?','2. Identify which demographic dimension is uncovered','3. Build a data pipeline and apply to NSF or Census Bureau for funding']
+      fastPath:['1. Check feed health: are Population sources offline or degraded?','2. Identify which demographic dimension is uncovered','3. Scope a research brief on demographic data-coverage gaps and commission or build a monitoring pipeline']
     }
   ];
 

@@ -164,7 +164,7 @@
     var nodeLabel = (dir.nodeLabel || '').toLowerCase();
     var treatLabel = (dir.treatmentLabel || directive.title || '').toLowerCase();
     var dxId = (directive.diagnosisId || '').toLowerCase();
-    var path = directive.path || 'GRANT-ELIGIBLE';
+    var path = directive.path || 'INVESTABLE';
 
     var relevantSegments = _resolveSegments(nodeId, nodeLabel, treatLabel, dxId);
 
@@ -233,8 +233,7 @@
 
     // Execution targets based on path
     var executionTargets = [];
-    if (path === 'GRANT-ELIGIBLE') executionTargets = ['DOT program officers', 'MARAD port development', 'CBP modernization office', 'State port authorities'];
-    else if (path === 'PATENTABLE') executionTargets = ['Patent attorneys', 'Logistics technology licensors', 'Strategic acquirers in freight tech'];
+    if (path === 'RESEARCHABLE') executionTargets = ['Research desks', 'Institutional research buyers', 'Independent / sell-side analysts'];
     else if (path === 'INVESTABLE') executionTargets = ['Transportation-focused funds', 'Freight trading desks', 'Logistics PE allocators'];
 
     var formatted = _format(tier1, tier2, tier3, executionTargets);

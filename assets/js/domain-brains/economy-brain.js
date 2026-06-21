@@ -346,7 +346,7 @@
       add({ title: dxLabel + ' — countercyclical positioning and demand rotation', rank: stress * dx.relevance, path: 'INVESTABLE', urgency: stress > 0.70 ? 'high' : 'medium', source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress });
 
       if (stress >= 0.50) {
-        add({ title: dxLabel + ' — labor and productivity platform demand', rank: stress * dx.relevance * 0.9, path: 'PATENTABLE', urgency: stress > 0.70 ? 'high' : 'medium', source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress });
+        add({ title: dxLabel + ' — labor and productivity platform demand', rank: stress * dx.relevance * 0.9, path: 'RESEARCHABLE', urgency: stress > 0.70 ? 'high' : 'medium', source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress });
       }
 
       if (stress >= 0.55 && dx.relevance >= 0.2) {
@@ -368,7 +368,7 @@
     }
 
     if (this.state.convergence && this.state.convergence.primary_signal) {
-      add({ title: this.state.convergence.primary_signal.replace(/_/g, ' ').toLowerCase() + ' — economy convergence response', rank: 0.98, path: this.state.convergence.primary_signal === 'CONVERGENCE_TERMINAL' ? 'INVESTABLE' : 'GRANT-ELIGIBLE', urgency: 'high', source: 'convergence', tier: 1, signal: this.state.convergence.primary_signal, stress: stress });
+      add({ title: this.state.convergence.primary_signal.replace(/_/g, ' ').toLowerCase() + ' — economy convergence response', rank: 0.98, path: 'INVESTABLE', urgency: 'high', source: 'convergence', tier: 1, signal: this.state.convergence.primary_signal, stress: stress });
     }
 
     // ═══ TIER 2 — CROSS-DOMAIN ═══
@@ -386,9 +386,9 @@
       add({ title: 'Credit liquidity repositioning — alternative capital channels', rank: stress * 0.70, path: 'INVESTABLE', urgency: 'medium', source: 'lagging', tier: 3, diagnosisId: 'credit_reposition', stress: stress });
     }
     if (stress >= 0.60) {
-      add({ title: 'Consumer demand infrastructure — essential goods distribution', rank: stress * 0.75, path: 'GRANT-ELIGIBLE', urgency: stress > 0.70 ? 'high' : 'medium', source: 'lagging', tier: 3, diagnosisId: 'consumer_infra', stress: stress });
-      add({ title: 'Macro bottleneck positioning — structural economic gaps', rank: stress * 0.72, path: 'PATENTABLE', urgency: 'medium', source: 'lagging', tier: 3, diagnosisId: 'macro_bottleneck', stress: stress });
-      add({ title: 'Workforce redeployment — retraining and labor mobility platforms', rank: stress * 0.68, path: 'GRANT-ELIGIBLE', urgency: 'medium', source: 'lagging', tier: 3, diagnosisId: 'workforce_redeploy', stress: stress });
+      add({ title: 'Consumer demand infrastructure — essential goods distribution', rank: stress * 0.75, path: 'INVESTABLE', urgency: stress > 0.70 ? 'high' : 'medium', source: 'lagging', tier: 3, diagnosisId: 'consumer_infra', stress: stress });
+      add({ title: 'Macro bottleneck positioning — structural economic gaps', rank: stress * 0.72, path: 'RESEARCHABLE', urgency: 'medium', source: 'lagging', tier: 3, diagnosisId: 'macro_bottleneck', stress: stress });
+      add({ title: 'Workforce redeployment — retraining and labor mobility platforms', rank: stress * 0.68, path: 'INVESTABLE', urgency: 'medium', source: 'lagging', tier: 3, diagnosisId: 'workforce_redeploy', stress: stress });
     }
 
     // Near-diagnosis
@@ -396,7 +396,7 @@
     for (var ndi = 0; ndi < nearDx.length; ndi++) {
       var nd = nearDx[ndi];
       if (stress >= 0.45) {
-        add({ title: (nd.label || nd.id || '').replace(/_/g, ' ') + ' — early-stage monitoring position', rank: stress * (nd.relevance || 0.1) * 0.5, path: 'PATENTABLE', urgency: 'watching', source: 'near_diagnosis', tier: 2, diagnosisId: nd.id, stress: stress });
+        add({ title: (nd.label || nd.id || '').replace(/_/g, ' ') + ' — early-stage monitoring position', rank: stress * (nd.relevance || 0.1) * 0.5, path: 'RESEARCHABLE', urgency: 'watching', source: 'near_diagnosis', tier: 2, diagnosisId: nd.id, stress: stress });
       }
     }
 
@@ -427,10 +427,10 @@
       return null;
     }
     function _urgencyLabel(u) { if (u === 'high') return 'IMMEDIATE'; if (u === 'medium') return 'ACTIVE'; if (u === 'watching') return 'WATCH'; return (u || '').toUpperCase(); }
+    // Lanes: investment + research ONLY (patent/grant/loan purged 2026-06-21; relaned GRANT->INVESTABLE, PATENT->RESEARCHABLE)
     var _COMP = {
-      'GRANT-ELIGIBLE': { type: 'grant',  base: 10, unit: '%',        tier: 1, nextTier: { tier: 2, comp: 15, requirement: '3 successful grant awards' },     maxTier: { tier: 3, comp: 25 } },
-      'INVESTABLE':     { type: 'invest', base: 5,  unit: 'profit%',  tier: 1, nextTier: { tier: 2, comp: 10, requirement: '3 profitable positions closed' }, maxTier: { tier: 3, comp: 15 } },
-      'PATENTABLE':     { type: 'patent', base: 10, unit: 'royalty%', tier: 1, nextTier: { tier: 2, comp: 15, requirement: '3 patents filed' },                maxTier: { tier: 3, comp: 25 } }
+      'INVESTABLE':   { type: 'invest',   base: 5, unit: 'profit%', tier: 1, nextTier: { tier: 2, comp: 10, requirement: '3 profitable positions closed' }, maxTier: { tier: 3, comp: 15 } },
+      'RESEARCHABLE': { type: 'research', base: 5, unit: 'credit%', tier: 1, nextTier: { tier: 2, comp: 10, requirement: '3 published research briefs' },     maxTier: { tier: 3, comp: 15 } }
     };
     for (var oi = 0; oi < opps.length; oi++) {
       var o = opps[oi];
@@ -457,8 +457,7 @@
         var stressPct = Math.round((o.stress || 0) * 100);
         var target = '';
         if (o.path === 'INVESTABLE' && pb.realWorld && pb.realWorld.invest) target = pb.realWorld.invest;
-        else if (o.path === 'GRANT-ELIGIBLE' && pb.realWorld && pb.realWorld.apply) target = pb.realWorld.apply;
-        else if (o.path === 'PATENTABLE' && pb.realWorld && pb.realWorld.build) target = pb.realWorld.build;
+        else if (o.path === 'RESEARCHABLE' && pb.realWorld && (pb.realWorld.research || pb.realWorld.build)) target = pb.realWorld.research || pb.realWorld.build;
         else if (o.companies && o.companies.length) target = 'Mapped companies: ' + o.companies.join(', ') + '.';
         var timingParts = []; if (o.urgencyLabel) timingParts.push(o.urgencyLabel); if (pb.window) timingParts.push('Window: ' + pb.window);
         var timing = timingParts.join(' \u00b7 ');

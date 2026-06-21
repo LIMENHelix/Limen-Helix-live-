@@ -22,7 +22,7 @@
       type:'invest', domains:['science','research'],
       pattern:'science_replication',
       explain:'Systemic failure of published findings to replicate across psychology, biomedicine, and social science. Portal diagnosis REPLICATION_CRISIS maps through methodology weakness, statistical misuse, and incentive structures that reward novelty over rigor.',
-      action:'Position in reproducibility infrastructure and preregistration platforms. Review treatment nodes for statistical-methods tooling, registered-reports workflows, and computational reproducibility systems. Match to investable tooling or grantable research-integrity programs.',
+      action:'Position in reproducibility infrastructure and preregistration platforms. Review treatment nodes for statistical-methods tooling, registered-reports workflows, and computational reproducibility systems. Match to investable tooling or scope a research brief on integrity programs.',
       valueRange:'10\u201325% research-integrity tooling returns',
       saturation:'low',
       trigger:'Research stress > 0.45 with replication_failure, methodology_weakness, or research_stagnation conditions active.',
@@ -33,29 +33,29 @@
       outcome:'Preregistration platforms, computational reproducibility tooling, and statistical-methods software see sustained demand from funders and institutions.',
       failure:'Replication crisis framed as field-specific rather than systemic. Institutions absorb rigor reforms internally without new tooling.',
       window:'90 days\u20133 years',
-      realWorld:{invest:'Reproducibility infrastructure: OSF (Center for Open Science partners), Code Ocean, Gigantum-style platforms, computational-notebook vendors.',apply:'NSF Methodology, Measurement, and Statistics; NIH rigor-and-reproducibility supplements; DARPA SCORE-style programs.',build:'Build registered-reports submission infrastructure, reproducibility-audit services, or statistical-methods education tooling.'},
+      realWorld:{invest:'Reproducibility infrastructure: OSF (Center for Open Science partners), Code Ocean, Gigantum-style platforms, computational-notebook vendors.',research:'Research brief: assess the state of preregistration adoption, reproducibility-tooling uptake, and which NIH/NSF rigor mandates are driving demand for registered-reports infrastructure.',build:'Build registered-reports submission infrastructure, reproducibility-audit services, or statistical-methods education tooling.'},
       examples:['Preregistration and registered-reports platforms','Computational reproducibility (containerized environments, notebook archives)','Statistical-methods software and training','Reproducibility-audit services for journals and funders','Code and data deposition infrastructure'],
-      fastPath:['1. Confirm REPLICATION_CRISIS active in console diagnosis chain','2. Drill into portal \u2192 review statistical-rigor and preregistration treatments','3. Invest in reproducibility tooling or apply for NSF/NIH rigor-and-reproducibility grants']
+      fastPath:['1. Confirm REPLICATION_CRISIS active in console diagnosis chain','2. Drill into portal \u2192 review statistical-rigor and preregistration treatments','3. Invest in reproducibility tooling or scope a research brief on rigor-and-reproducibility infrastructure demand']
     },
     {
       id:'funding_collapse', title:'Research Funding Collapse Response',
-      type:'fund', domains:['science','research','economy'],
+      type:'invest', domains:['science','research','economy'],
       pattern:'science_funding',
       explain:'Federal research funding contracting, indirect-cost caps threatened, universities facing multi-year budget pressure. Portal diagnosis FUNDING_COLLAPSE maps through grant-decline signals, budget constraint, and talent-loss pressure on institutional research capacity.',
-      action:'Position for non-federal funding diversification and grant-optimization tooling. Review treatment nodes for alternative-funders mapping, philanthropic research programs, and institutional grant-matching infrastructure.',
-      valueRange:'$250K\u2013$5M grant advisory and tooling opportunity',
+      action:'Position in research-administration tooling and alternative-funding intelligence platforms. Review treatment nodes for funder-mapping, philanthropic research programs, and institutional funding-matching infrastructure.',
+      valueRange:'$250K\u2013$5M research-administration and funding-intelligence tooling',
       saturation:'medium',
       trigger:'Research stress > 0.45 with funding_cut, grant_decline, or budget_constraint conditions active.',
       validation:'Confirm NSF/NIH award-feed volume declining or flat year-over-year. Check for indirect-cost-cap news in federal appropriations. Cross-reference industry domain for R&D translation pressure.',
-      steps:['Go to limenhelix.com/domain-console?domain=science \u2192 check CLARITY','Expand DIAGNOSES \u2192 confirm FUNDING_COLLAPSE is active','Check cross-domain emissions to industry (r_and_d_translation_lag) and economy','Click through to portal \u2192 open FUNDING_COLLAPSE detail','Review treatment nodes for alternative-funders mapping and grant-optimization infrastructure','Identify philanthropic-research programs and grant-advisory firms'],
+      steps:['Go to limenhelix.com/domain-console?domain=science \u2192 check CLARITY','Expand DIAGNOSES \u2192 confirm FUNDING_COLLAPSE is active','Check cross-domain emissions to industry (r_and_d_translation_lag) and economy','Click through to portal \u2192 open FUNDING_COLLAPSE detail','Review treatment nodes for alternative-funders mapping and research-administration infrastructure','Identify research-administration platforms and alternative-funding intelligence firms'],
       branch_up:'Federal appropriations cut or indirect-cost cap imposed: non-federal funding demand spikes.',
       branch_down:'Bridge appropriations restore federal funding: shift to methodology investment rather than structural.',
-      outcome:'Grant-advisory services, alternative-funder-matching platforms, and research-foundation capacity see sustained demand from universities and labs.',
-      failure:'Congressional bridge restores funding quickly. Institutions absorb cuts via layoffs rather than new tooling. Philanthropic capacity insufficient.',
+      outcome:'Research-administration platforms, alternative-funder-matching tools, and institutional capacity services see sustained demand from universities and labs.',
+      failure:'Federal funding stabilizes quickly. Institutions absorb pressure via internal reallocation rather than new tooling. Alternative-funder capacity insufficient.',
       window:'30 days\u201318 months',
-      realWorld:{invest:'Grant-management software (Cayuse, Kuali, InfoReady analog), research-administration platforms, philanthropic-funding intelligence.',apply:'Sloan, Simons, Chan Zuckerberg Initiative, Howard Hughes Medical Institute, Wellcome Leap, Schmidt Futures, Arnold Ventures.',build:'Build alternative-funder-matching platform, indirect-cost-modeling tools for institutions, or research-foundation capacity-building services.'},
+      realWorld:{invest:'Research-administration platforms (Cayuse, Kuali, InfoReady analog), funder-intelligence services, philanthropic-funding analytics.',research:'Research brief: map alternative-funder landscape (Sloan, Simons, CZI, HHMI, Wellcome Leap, Schmidt Futures, Arnold Ventures) and quantify capacity to absorb federal funding decline by field.',build:'Build alternative-funder-matching platform, indirect-cost-modeling tools for institutions, or research-foundation capacity-building services.'},
       examples:['Grant-matching and funder-intelligence platforms','Research-administration and grants-management software','Philanthropic-research advisory services','Indirect-cost modeling and recovery tools','Research-infrastructure-sharing cooperatives'],
-      fastPath:['1. Confirm FUNDING_COLLAPSE active with grant_decline or funding_cut signals','2. Map affected institutions and identify philanthropic funders for the field','3. Position in grant-management tooling or apply to Sloan/Simons/HHMI for capacity-building programs']
+      fastPath:['1. Confirm FUNDING_COLLAPSE active with grant_decline or funding_cut signals','2. Map affected institutions and identify alternative-funder intelligence platforms','3. Position in research-administration tooling or scope a research brief on philanthropic capacity for the field']
     },
     {
       id:'data_fraud', title:'Research Data Integrity Response',
@@ -73,9 +73,9 @@
       outcome:'Image-forensics software, post-publication peer-review platforms, and integrity-training providers see demand from journals, funders, and institutions.',
       failure:'Individual cases treated as isolated rather than systemic. Journals absorb forensic screening internally without procuring external tools.',
       window:'30 days\u20132 years',
-      realWorld:{invest:'Image-forensics platforms (Proofig-style, ImageTwin), post-publication peer-review tooling, citation-audit services, plagiarism-detection expansion.',apply:'ORI research-integrity training grants, NSF Responsible Conduct of Research, NIH institutional integrity programs.',build:'Build image-forensics ML service for journals, citation-audit platform, or institutional research-integrity monitoring infrastructure.'},
+      realWorld:{invest:'Image-forensics platforms (Proofig-style, ImageTwin), post-publication peer-review tooling, citation-audit services, plagiarism-detection expansion.',research:'Research brief: map the retraction landscape by field and institution, quantify forensic-tooling adoption rates, and benchmark ORI/NIH integrity-training program effectiveness.',build:'Build image-forensics ML service for journals, citation-audit platform, or institutional research-integrity monitoring infrastructure.'},
       examples:['Image-forensics and manipulation detection platforms','Post-publication peer-review and annotation (PubPeer-style)','Citation-audit and reference-integrity services','Research-integrity training and compliance platforms','Data-forensics for clinical trial integrity'],
-      fastPath:['1. Confirm DATA_FRAUD active with retraction_surge or misconduct signals','2. Drill into portal \u2192 review forensic-analysis and ML fraud-detection treatments','3. Invest in image-forensics platforms or apply for ORI/NIH integrity-training grants']
+      fastPath:['1. Confirm DATA_FRAUD active with retraction_surge or misconduct signals','2. Drill into portal \u2192 review forensic-analysis and ML fraud-detection treatments','3. Invest in image-forensics platforms or scope a research brief on integrity-tooling adoption across journals and funders']
     },
     {
       id:'paradigm_conflict', title:'Paradigm Conflict Response',
@@ -93,17 +93,17 @@
       outcome:'Deep-tech ventures aligned with the emerging paradigm attract Series A/B within 12 months. Patent-filing acceleration creates licensing opportunities.',
       failure:'Claim fails independent replication. Single-lab phenomenon. Conference-season publication artifact.',
       window:'14 days\u20133 years',
-      realWorld:{invest:'Deep-tech funds (Lux Capital analog), early-stage ventures in emerging paradigm (AI foundation models, quantum, synthetic biology, room-temp superconductors depending on the signal).',apply:'DARPA high-risk/high-reward programs, NSF EAGER, IARPA, ARPA-H, ARPA-E, ARPA-C, Moonshot-style philanthropic funding.',build:'Build paradigm-mapping platform for funders, early-signal venture intelligence, or cross-domain breakthrough-detection tooling.'},
+      realWorld:{invest:'Deep-tech funds (Lux Capital analog), early-stage ventures in emerging paradigm (AI foundation models, quantum, synthetic biology, room-temp superconductors depending on the signal).',research:'Research brief: map the emerging paradigm — independent-replication status, patent-filing acceleration, and DARPA/ARPA-H/NSF EAGER program alignment — to identify the highest-conviction entry points.',build:'Build paradigm-mapping platform for funders, early-signal venture intelligence, or cross-domain breakthrough-detection tooling.'},
       examples:['Deep-tech venture funds and early-stage SAFEs','DARPA-style high-risk/high-reward program tooling','Paradigm-mapping and breakthrough-detection platforms','Cross-institutional replication networks','Patent-filing intelligence for emerging paradigms'],
-      fastPath:['1. Confirm PARADIGM_CONFLICT active with breakthrough_claim signals','2. Drill into portal \u2192 review high-risk/high-reward and paradigm-mapping treatments','3. Position in deep-tech funds or apply to DARPA/ARPA-H/NSF EAGER for aligned research programs']
+      fastPath:['1. Confirm PARADIGM_CONFLICT active with breakthrough_claim signals','2. Drill into portal \u2192 review high-risk/high-reward and paradigm-mapping treatments','3. Position in deep-tech funds or scope a research brief on DARPA/ARPA-H/NSF EAGER program alignment with the emerging paradigm']
     },
     {
       id:'brain_drain', title:'Scientific Brain Drain Response',
-      type:'fund', domains:['science','research','population'],
+      type:'invest', domains:['science','research','population'],
       pattern:'science_workforce',
       explain:'Researcher exodus from academic institutions, particularly early-career, driven by funding pressure, visa-policy turbulence, and industry-salary gaps. Portal diagnosis BRAIN_DRAIN maps through talent-loss signals, workforce-gap conditions, and institutional-decline pressure.',
-      action:'Position for research-workforce retention infrastructure, academic-to-industry bridge platforms, and institutional capacity-building. Review treatment nodes for researcher-credentialing, visa-support services, and salary-bridge programs.',
-      valueRange:'$500K\u2013$10M workforce-development grant and tooling opportunity',
+      action:'Position in research-workforce retention infrastructure, academic-to-industry bridge platforms, and institutional capacity-building. Review treatment nodes for researcher-credentialing, mobility-support services, and salary-bridge programs.',
+      valueRange:'$500K\u2013$10M workforce-development tooling and investment opportunity',
       saturation:'low',
       trigger:'Research stress > 0.45 with talent_loss, researcher_exodus, workforce_gap, or institutional_decline conditions active.',
       validation:'Confirm researcher-mobility data from AAU, NBER, or institutional reports. Check population domain for migration-related signals. Verify workforce pressure is structural, not single-institution.',
@@ -113,9 +113,9 @@
       outcome:'Workforce-retention platforms, academic-to-industry bridge services, and researcher-credentialing infrastructure see sustained demand from institutions and funders.',
       failure:'Mobility absorbed by private sector without crisis. Institutions adapt by consolidation. Public attention fades.',
       window:'90 days\u20135 years',
-      realWorld:{invest:'Workforce-credentialing platforms, postdoc-support services, academic-to-industry bridge programs, researcher-mobility analytics.',apply:'NSF Graduate Research Fellowship, NIH K-award expansion, NASA workforce programs, state-level higher-education workforce grants, Sloan/HHMI early-career support.',build:'Build researcher-credentialing and portability infrastructure, academic-to-industry bridge platform, or institutional workforce-analytics services.'},
+      realWorld:{invest:'Workforce-credentialing platforms, postdoc-support services, academic-to-industry bridge programs, researcher-mobility analytics.',research:'Research brief: quantify researcher exodus by field and career stage, map visa-policy and salary-gap drivers, and benchmark which credentialing and bridge programs measurably reduce attrition.',build:'Build researcher-credentialing and portability infrastructure, academic-to-industry bridge platform, or institutional workforce-analytics services.'},
       examples:['Postdoc and early-career researcher support platforms','Academic-to-industry bridge and credentialing services','Visa-support and international-researcher mobility','Researcher-salary benchmarking and advocacy','Workforce-analytics for institutions and funders'],
-      fastPath:['1. Confirm BRAIN_DRAIN active with talent_loss or researcher_exodus signals','2. Drill into portal \u2192 review credentialing and bridge-program treatments','3. Apply for NSF/NIH early-career programs or build researcher-credentialing infrastructure']
+      fastPath:['1. Confirm BRAIN_DRAIN active with talent_loss or researcher_exodus signals','2. Drill into portal \u2192 review credentialing and bridge-program treatments','3. Invest in researcher-credentialing platforms or scope a research brief on workforce-attrition drivers and retention program efficacy']
     },
     {
       id:'publication_bias', title:'Publication Bias & Open Science Response',
@@ -133,9 +133,9 @@
       outcome:'Preprint servers, open-access infrastructure, and meta-research platforms see sustained demand from funders and institutions.',
       failure:'Open-access policy stalls. Legacy prestige retains incumbent journals. Preprint servers absorb cost without commercial viability.',
       window:'180 days\u20135 years',
-      realWorld:{invest:'Open-access publishing infrastructure, preprint-server capacity, data-sharing platforms (Figshare, Zenodo analog), meta-research tooling.',apply:'NSF Public Access, NIH PubMed Central, Wellcome Open Research, Chan Zuckerberg open-science programs, Sloan open-science grants.',build:'Build negative-results publishing platform, registered-reports infrastructure, or institutional-repository integration services.'},
+      realWorld:{invest:'Open-access publishing infrastructure, preprint-server capacity, data-sharing platforms (Figshare, Zenodo analog), meta-research tooling.',research:'Research brief: quantify negative-result suppression rates by field, map open-access mandate policy signals (NIH, Wellcome, ERC), and identify which infrastructure gaps most limit preprint adoption.',build:'Build negative-results publishing platform, registered-reports infrastructure, or institutional-repository integration services.'},
       examples:['Preprint servers and open-access infrastructure','Negative-results and registered-reports publishing','Data-sharing repositories and archives','Meta-research and synthesis platforms','Institutional-repository integration'],
-      fastPath:['1. Confirm PUBLICATION_BIAS active with publication_skew signals','2. Drill into portal \u2192 review open-access and registered-reports treatments','3. Build open-science infrastructure or apply for NIH/Wellcome/Sloan open-science programs']
+      fastPath:['1. Confirm PUBLICATION_BIAS active with publication_skew signals','2. Drill into portal \u2192 review open-access and registered-reports treatments','3. Build open-science infrastructure or scope a research brief on NIH/Wellcome open-access mandate adoption rates']
     },
     {
       id:'research_data_gap', title:'Research Data Gap \u2192 Build',
@@ -147,15 +147,15 @@
       saturation:'low',
       trigger:'Research sources showing DEGRADED or FALLBACK status. Multiple feeds offline (NSF, NIH, PubMed, arXiv, Retraction Watch).',
       validation:'Check feed health panel for offline research data sources. Verify gap is not temporary API maintenance.',
-      steps:['Go to limenhelix.com/domain-console?domain=science \u2192 check feed health in SIGNAL INTAKE panel','Count OFFLINE sources \u2014 if 2+ dark, data gap confirmed','Check if alternative open sources exist (OpenAlex, Crossref, ORCID, Dimensions)','Identify which research dimension is uncovered (grants, publications, retractions, workforce)','Build a data pipeline to fill the gap','Apply to NSF or Sloan for research-data infrastructure grants'],
+      steps:['Go to limenhelix.com/domain-console?domain=science \u2192 check feed health in SIGNAL INTAKE panel','Count OFFLINE sources \u2014 if 2+ dark, data gap confirmed','Check if alternative open sources exist (OpenAlex, Crossref, ORCID, Dimensions)','Identify which research dimension is uncovered (grants, publications, retractions, workforce)','Build a data pipeline to fill the gap','Scope a research brief on coverage gaps and the investment case for real-time research intelligence infrastructure'],
       branch_up:'Data gap persists across multiple cycles: structural coverage gap. Build permanent infrastructure.',
       branch_down:'Sources recover: temporary API issue. Monitor for recurrence.',
       outcome:'Real-time research-intelligence platform serving funders, institutions, and science-policy analysts.',
       failure:'Existing sources recover. Incumbent platforms (Dimensions, Web of Science) expand. Market too small for independent service.',
       window:'30 days\u201318 months',
-      realWorld:{invest:'N/A',apply:'NSF research-infrastructure grants, Sloan science-policy programs, Chan Zuckerberg Initiative open-data grants.',build:'Build real-time research intelligence integrating grants, publications, preprints, retractions, and workforce data.'},
+      realWorld:{invest:'N/A',research:'Research brief: map coverage gaps in real-time research intelligence (grants, publications, preprints, retractions, workforce) and identify the investment case for open-data infrastructure (NSF, Sloan, CZI focus areas).',build:'Build real-time research intelligence integrating grants, publications, preprints, retractions, and workforce data.'},
       examples:['Real-time grant and publication dashboards','Retraction and integrity monitoring','Researcher-mobility and workforce analytics','Preprint and open-science tracking','Science-policy intelligence platforms'],
-      fastPath:['1. Check feed health: are Research sources offline or degraded?','2. Identify which research dimension is uncovered','3. Build a data pipeline and apply to NSF or Sloan for infrastructure funding']
+      fastPath:['1. Check feed health: are Research sources offline or degraded?','2. Identify which research dimension is uncovered','3. Build a data pipeline and scope a research brief on the investment case for real-time research intelligence infrastructure']
     }
   ];
 

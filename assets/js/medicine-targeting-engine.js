@@ -217,7 +217,7 @@
     var nodeLabel = (dir.nodeLabel || '').toLowerCase();
     var treatLabel = (dir.treatmentLabel || directive.title || '').toLowerCase();
     var dxId = (directive.diagnosisId || '').toLowerCase();
-    var path = directive.path || 'GRANT-ELIGIBLE';
+    var path = directive.path || 'INVESTABLE';
 
     // 1. Determine relevant segments
     var relevantSegments = _resolveSegments(nodeId, nodeLabel, treatLabel, dxId);
@@ -287,8 +287,7 @@
 
     // 5. Execution targets based on path
     var executionTargets = [];
-    if (path === 'GRANT-ELIGIBLE') executionTargets = ['NIH program offices', 'BARDA advanced research division', 'CMS Innovation Center', 'HRSA regional offices', 'State health departments'];
-    else if (path === 'PATENTABLE') executionTargets = ['Patent attorneys (life sciences)', 'Health IT licensing platforms', 'Strategic acquirers (medtech/pharma)'];
+    if (path === 'RESEARCHABLE') executionTargets = ['Research desks', 'Institutional research buyers', 'Independent / sell-side analysts'];
     else if (path === 'INVESTABLE') executionTargets = ['Healthcare-focused hedge funds', 'Biotech venture capital', 'Hospital REIT investors'];
 
     // 6. Format for display

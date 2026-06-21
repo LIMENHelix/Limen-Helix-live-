@@ -39,7 +39,7 @@
     "window": "90 days–3 years",
     "realWorld": {
       "invest": "Legal-tech: Tyler Technologies (TYL), RELX (RELX), Thomson Reuters (TRI). Pure-plays: Relativity, Everlaw (private).",
-      "apply": "DOJ BJA, State Justice Institute, Administrative Office of U.S. Courts modernization contracts.",
+      "research": "Research brief: assess court-capacity backlog and benchmark e-filing and case-management modernization impact across jurisdictions.",
       "build": "Court case-management platforms, e-filing infrastructure, judicial-analytics."
     },
     "examples": [
@@ -51,8 +51,8 @@
     ],
     "fastPath": [
       "1. Confirm JUDICIAL_CRISIS",
-      "2. Screen TYL/RELX",
-      "3. Pursue State Justice Institute or BJA contracts"
+      "2. Screen TYL/RELX/Thomson Reuters",
+      "3. Research court-capacity gaps and invest in e-filing or case-management infrastructure"
     ]
   },
   {
@@ -84,7 +84,7 @@
     "window": "90 days–3 years",
     "realWorld": {
       "invest": "Legal-analytics: Lex Machina (via RELX), Fastcase. Pure-plays: Casetext, Everlaw (private).",
-      "apply": "Ford Foundation, MacArthur, Open Society, Public Welfare Foundation civil-rights programs.",
+      "research": "Research brief: track constitutional-challenge patterns and the efficacy of legal-analytics tools in civil-rights impact litigation.",
       "build": "Impact-litigation support tooling, rights-monitoring platforms, legal-analytics for civil-rights cases."
     },
     "examples": [
@@ -97,7 +97,7 @@
     "fastPath": [
       "1. Confirm CONSTITUTIONAL_VIOLATION",
       "2. Support impact litigators with legal-analytics",
-      "3. Pursue Ford or Open Society funding"
+      "3. Research rights-monitoring efficacy and invest in legal-analytics platforms"
     ]
   },
   {
@@ -130,7 +130,7 @@
     "window": "90 days–3 years",
     "realWorld": {
       "invest": "Regulatory-tracking: FiscalNote (NOTE), Bloomberg Government. Pure-plays: Quorum, RegSkope.",
-      "apply": "Public Citizen, Revolving Door Project, Hewlett transparency programs.",
+      "research": "Research brief: measure regulatory-capture indicators and assess which monitoring approaches detect enforcement gaps earliest.",
       "build": "Regulatory-comment-tracking platforms, enforcement-analytics, revolving-door monitoring."
     },
     "examples": [
@@ -143,13 +143,13 @@
     "fastPath": [
       "1. Confirm REGULATORY_CAPTURE",
       "2. Screen FiscalNote or Quorum",
-      "3. Pursue Public Citizen or Hewlett funding"
+      "3. Research enforcement-gap indicators and invest in regulatory-tracking platforms"
     ]
   },
   {
     "id": "mass_incarceration",
     "title": "Mass Incarceration Response",
-    "type": "fund",
+    "type": "invest",
     "domains": [
       "law",
       "population"
@@ -157,7 +157,7 @@
     "pattern": "law_incarceration",
     "explain": "Prison-overcrowding, recidivism, and sentencing-reform pressure. Portal diagnosis MASS_INCARCERATION maps through overcrowding, recidivism, and sentencing-pressure signals.",
     "action": "Position in criminal-justice reform tooling, reentry platforms, and diversion services.",
-    "valueRange": "$250K–$10M criminal-justice reform grants",
+    "valueRange": "$250K–$10M criminal-justice reform investment and advisory",
     "saturation": "low",
     "trigger": "Law stress > 0.45 with overcrowding, recidivism, or sentencing_pressure conditions active.",
     "validation": "Confirm BJS statistics, Vera Institute, Prison Policy Initiative data.",
@@ -165,7 +165,7 @@
       "Drill into Law portal MASS_INCARCERATION",
       "Review reform treatments",
       "Screen reentry and diversion platforms",
-      "Apply to BJA Second Chance Act, SAMHSA, Arnold Ventures",
+      "Research recidivism-reduction evidence base (BJS, Vera Institute, Arnold Ventures)",
       "Position in criminal-justice reform organizations"
     ],
     "branch_up": "Reform wave: scale diversion and reentry infrastructure.",
@@ -174,8 +174,8 @@
     "failure": "Political rollback.",
     "window": "180 days–5 years",
     "realWorld": {
-      "invest": "Limited public exposure.",
-      "apply": "BJA Second Chance Act, SAMHSA criminal-justice grants, Arnold Ventures, Ford Foundation.",
+      "invest": "Limited public exposure. Impact investors in criminal-justice reform.",
+      "research": "Research brief: assess reentry and diversion program outcomes and the evidence base for reducing recidivism at scale.",
       "build": "Reentry case-management, diversion-program platforms, recidivism-monitoring."
     },
     "examples": [
@@ -187,8 +187,8 @@
     ],
     "fastPath": [
       "1. Confirm MASS_INCARCERATION",
-      "2. Screen reentry platforms",
-      "3. Apply to BJA Second Chance Act"
+      "2. Screen reentry and diversion platforms",
+      "3. Research recidivism-reduction evidence base and invest in reform tooling"
     ]
   },
   {
@@ -221,7 +221,7 @@
     "window": "90 days–3 years",
     "realWorld": {
       "invest": "Sanctions-screening: LexisNexis (RELX), Thomson Reuters (TRI), Refinitiv.",
-      "apply": "State Department, USAID international rule-of-law programs, Open Society international-law work.",
+      "research": "Research brief: map international-law breakdown indicators and assess which sanctions-screening and treaty-compliance tools close the enforcement gap.",
       "build": "Sanctions-screening automation, treaty-compliance tooling, international-dispute analytics."
     },
     "examples": [
@@ -234,7 +234,7 @@
     "fastPath": [
       "1. Confirm INTERNATIONAL_LAW_BREAKDOWN",
       "2. Screen sanctions-screening tooling",
-      "3. Pursue State Department rule-of-law funding"
+      "3. Research treaty-compliance coverage gaps and invest in sanctions-screening platforms"
     ]
   },
   {
@@ -255,8 +255,8 @@
       "Check Law feed health",
       "Count OFFLINE",
       "Identify gap",
-      "Build pipeline",
-      "Apply to State Justice Institute or foundations"
+      "Research the value of integrating missing legal-data sources",
+      "Build the pipeline as an investable legal-intelligence product"
     ],
     "branch_up": "Gap persists: build.",
     "branch_down": "Sources recover: monitor.",
@@ -265,7 +265,7 @@
     "window": "30 days–18 months",
     "realWorld": {
       "invest": "N/A",
-      "apply": "State Justice Institute, NSF Law and Social Sciences, Ford Foundation.",
+      "research": "Research brief: identify legal-data coverage gaps and assess the value of an integrated legal-intelligence dataset across courts, agencies, and enforcement channels.",
       "build": "Court-docket analytics, regulatory-tracking, enforcement monitoring."
     },
     "examples": [
@@ -278,7 +278,7 @@
     "fastPath": [
       "1. Check feed health",
       "2. Identify gap",
-      "3. Pursue SJI or NSF LSS"
+      "3. Research legal-data coverage and build a legal-intelligence pipeline"
     ]
   }
 ];

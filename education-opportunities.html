@@ -60,10 +60,8 @@ html,body{background:#050810;color:#e8e3d9;font-family:"IBM Plex Mono",monospace
 }
 .type-invest{background:rgba(90,181,160,0.12);color:#5ab5a0}
 .type-build{background:rgba(74,143,212,0.12);color:#4a8fd4}
-.type-fund{background:rgba(201,169,78,0.12);color:#C9A94E}
-.type-patent{background:rgba(168,85,247,0.12);color:#a855f7}
+.type-research{background:rgba(168,85,247,0.12);color:#a855f7}
 .type-advise{background:rgba(255,152,0,0.12);color:#FF9800}
-.type-procure{background:rgba(232,84,84,0.12);color:#e85454}
 
 .opp-card-explain{font-size:0.5rem;color:#d0c8b8;line-height:1.6;margin-bottom:8px}
 .opp-card-action{
@@ -390,22 +388,6 @@ function _activateOpportunities() {
             confidence = Math.round((ard.evidenceScore || 0) * 100);
             urgency = ard.stress > 0.65 ? 'high' : 'medium';
             whyNow = (ard.label || ard.domainId) + ': ' + ard.diagnosticCount + ' diagnoses, only ' + ard.treatmentCount + ' treatments';
-            break;
-          }
-        }
-      }
-    } else if (pb.id === 'patent_vacuum') {
-      // Special: check patent report
-      var reports = window.LIMENReports || {};
-      var patRpt = reports.patentOpportunity;
-      if (patRpt && patRpt.signals) {
-        for (var pi = 0; pi < patRpt.signals.length; pi++) {
-          var ps = patRpt.signals[pi];
-          if (ps.type === 'temporal_gap' && (ps.opportunityScore || 0) > 0.4) {
-            isActive = true;
-            confidence = Math.round((ps.opportunityScore || 0) * 100);
-            urgency = 'medium';
-            whyNow = 'Filing gap in ' + (ps.techNode || 'tech area') + ': ' + (ps.indication || '');
             break;
           }
         }
@@ -819,7 +801,7 @@ function openPlaybook(idx) {
   if (pb.realWorld) {
     html += '<div class="opp-pb-section"><div class="opp-pb-label">REAL-WORLD ACTIONS</div>';
     if (pb.realWorld.invest && pb.realWorld.invest !== 'N/A') html += '<div class="opp-pb-step"><strong style="color:#5ab5a0">INVEST:</strong> ' + pb.realWorld.invest + '</div>';
-    if (pb.realWorld.apply && pb.realWorld.apply !== 'N/A') html += '<div class="opp-pb-step"><strong style="color:#C9A94E">APPLY:</strong> ' + pb.realWorld.apply + '</div>';
+    if (pb.realWorld.research && pb.realWorld.research !== 'N/A') html += '<div class="opp-pb-step"><strong style="color:#a855f7">RESEARCH:</strong> ' + pb.realWorld.research + '</div>';
     if (pb.realWorld.build && pb.realWorld.build !== 'N/A') html += '<div class="opp-pb-step"><strong style="color:#4a8fd4">BUILD:</strong> ' + pb.realWorld.build + '</div>';
     html += '</div>';
   }
@@ -1228,37 +1210,37 @@ var _EXECUTION_PATHS = {
   funding_crisis: {
     invest: [{name:'Coursera',ticker:'COUR',cik:'1783879',support:'MAPPED'},{name:'Duolingo',ticker:'DUOL',cik:'',support:'MAPPED'},{name:'Instructure',ticker:'INST',cik:'',support:'MAPPED'}],
     build: {model:'Education funding analytics and resource optimization platform',pays:'School districts, state agencies, foundations',whyNow:'Funding crisis active'},
-    fund: ['DOE Title I and innovation grants','Gates Foundation education programs','State education innovation funds'],
-    structure: ['SaaS LLC or B-Corp','District subscription model','Revenue: per-district licensing + grants']
+    research: ['Research institutional capacity models and resource allocation frameworks','Study education funding dynamics and their impact on outcomes','Analyze infrastructure investment patterns across districts'],
+    structure: ['SaaS LLC or B-Corp','District subscription model','Revenue: per-district licensing']
   },
   teacher_shortage: {
     invest: [{name:'Coursera',ticker:'COUR',cik:'1783879',support:'MAPPED'}],
     build: {model:'Teacher recruitment, certification, and retention platform',pays:'School districts, state agencies',whyNow:'Teacher shortage active'},
-    fund: ['DOE teacher preparation grants','State workforce development','Foundation grants'],
+    research: ['Research teacher pipeline dynamics and retention drivers','Study alternative certification effectiveness','Analyze burnout patterns and intervention outcomes'],
     structure: ['SaaS LLC','Platform model','Revenue: per-placement fees + subscriptions']
   },
   achievement_gap: {
     invest: [],
-    build: {model:'Adaptive learning and diagnostic assessment for underserved students',pays:'School districts, Title I programs',whyNow:'Achievement gap active'},
-    fund: ['Title I grants','IDEA special education grants','Foundation equity programs'],
-    structure: ['B-Corp or nonprofit','Grant + district funded','Revenue: per-student licensing + grants']
+    build: {model:'Adaptive learning and diagnostic assessment for underserved students',pays:'School districts, equity-focused programs',whyNow:'Achievement gap active'},
+    research: ['Research equity intervention evidence and Title I program effectiveness','Study access gap data and digital divide dynamics','Analyze outcome disparities across demographic groups'],
+    structure: ['B-Corp','District funded','Revenue: per-student licensing']
   },
   accreditation_failure: {
     invest: [],
     build: {model:'Credential verification and quality assurance platform',pays:'Accreditation agencies, institutions, employers',whyNow:'Accreditation failure active'},
-    fund: ['DOE accreditation reform programs','Lumina Foundation credential programs'],
+    research: ['Research standards erosion patterns and accreditation reform models','Study quality assurance frameworks across institutional types','Analyze credential devaluation dynamics'],
     structure: ['LLC','SaaS subscription','Revenue: per-institution licensing']
   },
   technology_disruption: {
     invest: [{name:'Coursera',ticker:'COUR',cik:'1783879',support:'MAPPED'},{name:'Duolingo',ticker:'DUOL',cik:'',support:'MAPPED'},{name:'Instructure',ticker:'INST',cik:'',support:'MAPPED'}],
     build: {model:'AI-powered adaptive learning platform',pays:'Schools, districts, higher education',whyNow:'Technology disruption active'},
-    fund: ['NSF education technology grants','DOE innovation programs','EdTech accelerators'],
+    research: ['Research edtech adoption dynamics and pedagogical innovation models','Study digital divide evidence and connectivity intervention effectiveness','Analyze platform transition patterns across institution types'],
     structure: ['C-Corp','SaaS + venture','Revenue: per-seat licensing']
   },
   education_data_gap: {
     invest: [],
     build: {model:'Education outcome and institutional health monitoring',pays:'State agencies, districts, policymakers, LIMEN itself',whyNow:'Education data sources degraded'},
-    fund: ['NSF education research grants','IES data infrastructure','DOE statistics'],
+    research: ['Research education data infrastructure models and outcome measurement frameworks','Study equity monitoring gaps and data coverage across domains','Analyze institutional health indicators and early warning signals'],
     structure: ['LLC','API subscription','Revenue: per-feed pricing + enterprise']
   }
 };
@@ -1276,14 +1258,8 @@ var _TONIGHT_STEPS = {
   build: function(o) {
     return 'Outline 1-page problem statement from portal diagnosis for ' + o.pb.domains[0];
   },
-  patent: function(o) {
-    return 'Search patents.google.com for ' + o.pb.domains[0] + ' technology gaps';
-  },
-  procure: function(o) {
-    return 'Check SAM.gov for active solicitations matching ' + o.pb.domains[0] + ' signals';
-  },
-  fund: function(o) {
-    return 'Search grants.gov for open FOAs in ' + o.pb.domains[0] + ' category';
+  research: function(o) {
+    return 'Search OpenAlex or PubMed for ' + o.pb.domains[0] + ' evidence gaps \u2192 draft research brief outline';
   },
   advise: function(o) {
     return 'Draft 3-slide advisory pitch using portal treatment data for ' + o.pb.domains[0];
@@ -1533,20 +1509,10 @@ var _FAST_ENTRY = {
     {action: 'Search Crunchbase for competitors', detail: 'If <5, white space confirmed'},
     {action: 'File LLC in home state', detail: '$50\u2013$500 depending on state'}
   ],
-  patent: [
-    {action: 'Search patents.google.com', detail: 'Check CPC group for recent filings'},
-    {action: 'Draft 5 method claims from portal treatments', detail: 'Use treatment steps as claim language'},
-    {action: 'File provisional on uspto.gov', detail: '$320 small entity'}
-  ],
-  procure: [
-    {action: 'Register on SAM.gov', detail: 'Get UEI number if not registered'},
-    {action: 'Search active solicitations', detail: 'Filter by agency from law signal'},
-    {action: 'Draft capability statement', detail: '1-page matching solicitation scope'}
-  ],
-  fund: [
-    {action: 'Check grants.gov for open FOAs', detail: 'Filter by domain keyword'},
-    {action: 'Draft concept paper', detail: 'Use portal diagnosis + treatment gap'},
-    {action: 'Contact program officer', detail: 'Email listed on grant announcement'}
+  research: [
+    {action: 'Search OpenAlex for domain literature', detail: 'Filter by topic + year range'},
+    {action: 'Draft evidence brief outline', detail: 'Use portal treatment gaps as research questions'},
+    {action: 'Identify top 3 researchers in domain', detail: 'Cross-reference institutional affiliations'}
   ],
   advise: [
     {action: 'Draft advisory pitch deck', detail: 'Problem from portal, solution from treatments'},
@@ -1563,22 +1529,12 @@ var _MONEY_PATHS = {
   ],
   build: [
     {path: 'Self-fund', label: 'Bootstrap MVP'},
-    {path: 'SBA microloan', label: '$500\u2013$50K'},
-    {path: 'Grant', label: 'SBIR/STTR if tech-based'},
     {path: 'Partner capital', label: 'Co-founder or angel'}
   ],
-  patent: [
-    {path: 'Self-fund', label: '$320 provisional + $3K attorney'},
-    {path: 'IP fund', label: 'Patent-backed venture if portfolio'}
-  ],
-  procure: [
-    {path: 'Self-fund', label: 'Capability statement is free'},
-    {path: 'SBA 8(a)', label: 'If socially disadvantaged eligible'},
-    {path: 'Teaming', label: 'Sub to prime contractor'}
-  ],
-  fund: [
-    {path: 'Grant application', label: 'No cost to apply'},
-    {path: 'Cost share', label: 'Some grants require 20\u201350% match'}
+  research: [
+    {path: 'Self-fund', label: 'Time + access cost only'},
+    {path: 'Institutional', label: 'University or think-tank affiliation'},
+    {path: 'Partner capital', label: 'Co-author or domain expert'}
   ],
   advise: [
     {path: 'Self-fund', label: 'Time investment only'},
@@ -1728,13 +1684,13 @@ function _buildExecutionBlock(o) {
     h += '</div>';
   }
 
-  // C. FUND PATH
-  if (paths.fund && paths.fund.length > 0) {
+  // C. RESEARCH PATH
+  if (paths.research && paths.research.length > 0) {
     h += '<div style="margin-bottom:6px">';
-    h += '<div style="font-size:0.32rem;letter-spacing:1.5px;color:rgba(201,169,78,0.4);margin-bottom:2px">FUND PATH</div>';
-    h += '<div style="font-size:0.28rem;color:#807868;margin-bottom:2px">POTENTIAL SOURCES \u2014 NOT VERIFIED</div>';
-    for (var f = 0; f < paths.fund.length; f++) {
-      h += '<div style="font-size:0.34rem;color:#888;padding:1px 0">\u2022 ' + paths.fund[f] + '</div>';
+    h += '<div style="font-size:0.32rem;letter-spacing:1.5px;color:rgba(168,85,247,0.5);margin-bottom:2px">RESEARCH PATH</div>';
+    h += '<div style="font-size:0.28rem;color:#807868;margin-bottom:2px">EVIDENCE DIRECTIONS \u2014 NOT VERIFIED</div>';
+    for (var f = 0; f < paths.research.length; f++) {
+      h += '<div style="font-size:0.34rem;color:#888;padding:1px 0">\u2022 ' + paths.research[f] + '</div>';
     }
     h += '</div>';
   }

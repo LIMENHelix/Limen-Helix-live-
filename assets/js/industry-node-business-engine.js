@@ -601,7 +601,7 @@
         var consequence = '';
         if (!alreadyMapped) {
           if (expected.confidence >= 0.85) {
-            consequence = 'If approved: this business type becomes eligible for opportunity generation and operator queue inclusion for Science. It will appear as a valid target in grants, investments, and patent searches tied to ' + dir.label + '.';
+            consequence = 'If approved: this business type becomes eligible for opportunity generation and operator queue inclusion for Industry. It will appear as a valid target in investments and research briefs tied to ' + dir.label + '.';
           } else if (expected.confidence >= 0.75) {
             consequence = 'If approved: this business type becomes eligible for future portal path mapping and audit tracking within Science.';
           } else {

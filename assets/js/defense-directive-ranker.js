@@ -8,16 +8,16 @@
   var EVIDENCE_SCORE = { 'Strong': 1.0, 'A': 1.0, 'Moderate': 0.7, 'B': 0.7, 'Emerging': 0.4, 'C': 0.4, 'Limited': 0.2, 'D': 0.2 };
 
   var TYPE_ACTION_MAP = {
-    'STRUCTURAL':  { paths: ['INVESTABLE', 'GRANT-ELIGIBLE'], weight: 0.9 },
-    'DIAGNOSTIC':  { paths: ['PATENTABLE', 'GRANT-ELIGIBLE'], weight: 0.7 },
-    'STRATEGY':    { paths: ['INVESTABLE', 'GRANT-ELIGIBLE'], weight: 0.85 },
-    'strategy':    { paths: ['INVESTABLE', 'GRANT-ELIGIBLE'], weight: 0.85 },
-    'regulatory':  { paths: ['GRANT-ELIGIBLE'], weight: 0.8 },
-    'tools':       { paths: ['PATENTABLE', 'INVESTABLE'], weight: 0.85 },
-    'coaching':    { paths: ['GRANT-ELIGIBLE'], weight: 0.55 },
-    'COACHING':    { paths: ['GRANT-ELIGIBLE'], weight: 0.55 },
-    'culture':     { paths: ['GRANT-ELIGIBLE'], weight: 0.4 },
-    'structural':  { paths: ['INVESTABLE', 'GRANT-ELIGIBLE'], weight: 0.9 }
+    'STRUCTURAL':  { paths: ['INVESTABLE', 'RESEARCHABLE'], weight: 0.9 },
+    'DIAGNOSTIC':  { paths: ['RESEARCHABLE', 'INVESTABLE'], weight: 0.7 },
+    'STRATEGY':    { paths: ['INVESTABLE', 'RESEARCHABLE'], weight: 0.85 },
+    'strategy':    { paths: ['INVESTABLE', 'RESEARCHABLE'], weight: 0.85 },
+    'regulatory':  { paths: ['RESEARCHABLE'], weight: 0.8 },
+    'tools':       { paths: ['RESEARCHABLE', 'INVESTABLE'], weight: 0.85 },
+    'coaching':    { paths: ['RESEARCHABLE'], weight: 0.55 },
+    'COACHING':    { paths: ['RESEARCHABLE'], weight: 0.55 },
+    'culture':     { paths: ['RESEARCHABLE'], weight: 0.4 },
+    'structural':  { paths: ['INVESTABLE', 'RESEARCHABLE'], weight: 0.9 }
   };
 
   var ROLE_WEIGHT = {

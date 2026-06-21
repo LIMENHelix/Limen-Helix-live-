@@ -222,10 +222,10 @@
 
     for (var di = 0; di < activeDx.length; di++) {
       var dx = activeDx[di], dxLabel = (dx.label || dx.id || '').replace(/_/g, ' ');
-      add({ title: dxLabel + ' — content verification and trust infrastructure', rank: stress * dx.relevance, path: 'PATENTABLE', urgency: stress > 0.70 ? 'high' : 'medium', source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress });
+      add({ title: dxLabel + ' — content verification and trust infrastructure', rank: stress * dx.relevance, path: 'RESEARCHABLE', urgency: stress > 0.70 ? 'high' : 'medium', source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress });
       if (stress >= 0.50) add({ title: dxLabel + ' — platform integrity and moderation systems', rank: stress * dx.relevance * 0.9, path: 'INVESTABLE', urgency: stress > 0.70 ? 'high' : 'medium', source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress });
       if (stress >= 0.55 && dx.relevance >= 0.2) add({ title: dxLabel + ' — signal filtering and prioritization technology', rank: stress * 0.85, path: 'INVESTABLE', urgency: 'medium', source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress });
-      add({ title: dxLabel + ' — communication resilience and interoperability', rank: stress * dx.relevance * 0.75, path: 'GRANT-ELIGIBLE', urgency: 'medium', source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress });
+      add({ title: dxLabel + ' — communication resilience and interoperability', rank: stress * dx.relevance * 0.75, path: 'INVESTABLE', urgency: 'medium', source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress });
     }
 
     var termCo = [] /* neutralized: distress only from validated gate (see energy-brain) */;
@@ -237,16 +237,16 @@
 
     if (stress >= 0.50) {
       add({ title: 'Misinformation detection and counter-narrative infrastructure', rank: stress * 0.70, path: 'INVESTABLE', urgency: 'medium', source: 'lagging', tier: 3, diagnosisId: 'misinfo_detect', stress: stress });
-      add({ title: 'Media literacy and information resilience programs', rank: stress * 0.65, path: 'GRANT-ELIGIBLE', urgency: stress > 0.70 ? 'medium' : 'watching', source: 'lagging', tier: 3, diagnosisId: 'media_literacy', stress: stress });
+      add({ title: 'Media literacy and information resilience programs', rank: stress * 0.65, path: 'INVESTABLE', urgency: stress > 0.70 ? 'medium' : 'watching', source: 'lagging', tier: 3, diagnosisId: 'media_literacy', stress: stress });
     }
     if (stress >= 0.60) {
       add({ title: 'Secure communication and encrypted messaging infrastructure', rank: stress * 0.75, path: 'INVESTABLE', urgency: 'medium', source: 'lagging', tier: 3, diagnosisId: 'secure_comms', stress: stress });
-      add({ title: 'Content authentication and provenance tracking systems', rank: stress * 0.72, path: 'PATENTABLE', urgency: 'medium', source: 'lagging', tier: 3, diagnosisId: 'content_auth', stress: stress });
+      add({ title: 'Content authentication and provenance tracking systems', rank: stress * 0.72, path: 'RESEARCHABLE', urgency: 'medium', source: 'lagging', tier: 3, diagnosisId: 'content_auth', stress: stress });
       add({ title: 'Telecom resilience and network redundancy infrastructure', rank: stress * 0.68, path: 'INVESTABLE', urgency: 'medium', source: 'lagging', tier: 3, diagnosisId: 'telecom_resilience', stress: stress });
     }
 
     var nearDx = allDx.filter(function (d) { return !d.active && d.relevance > 0 && d.totalTriggers > 0; });
-    for (var ndi = 0; ndi < nearDx.length; ndi++) { if (stress >= 0.45) add({ title: (nearDx[ndi].label || '').replace(/_/g, ' ') + ' — early-stage monitoring', rank: stress * (nearDx[ndi].relevance || 0.1) * 0.5, path: 'PATENTABLE', urgency: 'watching', source: 'near_diagnosis', tier: 2, stress: stress, nearDiagnosisId: nearDx[ndi].id }); }
+    for (var ndi = 0; ndi < nearDx.length; ndi++) { if (stress >= 0.45) add({ title: (nearDx[ndi].label || '').replace(/_/g, ' ') + ' — early-stage monitoring', rank: stress * (nearDx[ndi].relevance || 0.1) * 0.5, path: 'RESEARCHABLE', urgency: 'watching', source: 'near_diagnosis', tier: 2, stress: stress, nearDiagnosisId: nearDx[ndi].id }); }
 
     opps.sort(function (a, b) { return (b.rank || 0) - (a.rank || 0); });
 
@@ -290,11 +290,10 @@
       return (u || '').toUpperCase();
     }
 
-    // Compensation model (mirrors infrastructure-brain's per-path model)
+    // Compensation model — INVESTABLE + RESEARCHABLE only
     var _COMP = {
-      'GRANT-ELIGIBLE': { type: 'grant',  base: 10, unit: '%',        tier: 1, nextTier: { tier: 2, comp: 15, requirement: '3 successful grant awards' },     maxTier: { tier: 3, comp: 25 } },
-      'INVESTABLE':     { type: 'invest', base: 5,  unit: 'profit%',  tier: 1, nextTier: { tier: 2, comp: 10, requirement: '3 profitable positions closed' }, maxTier: { tier: 3, comp: 15 } },
-      'PATENTABLE':     { type: 'patent', base: 10, unit: 'royalty%', tier: 1, nextTier: { tier: 2, comp: 15, requirement: '3 patents filed' },                maxTier: { tier: 3, comp: 25 } }
+      'INVESTABLE':   { type: 'invest',   base: 5,  unit: 'profit%', tier: 1, nextTier: { tier: 2, comp: 10, requirement: '3 profitable positions closed' }, maxTier: { tier: 3, comp: 15 } },
+      'RESEARCHABLE': { type: 'research', base: 5,  unit: 'cite/%',  tier: 1, nextTier: { tier: 2, comp: 10, requirement: '3 research outputs delivered' },  maxTier: { tier: 3, comp: 15 } }
     };
 
     for (var oi = 0; oi < opps.length; oi++) {
@@ -349,8 +348,7 @@
         var stressPct = Math.round((o.stress || 0) * 100);
         var target = '';
         if (o.path === 'INVESTABLE' && pb.realWorld && pb.realWorld.invest) target = pb.realWorld.invest;
-        else if (o.path === 'GRANT-ELIGIBLE' && pb.realWorld && pb.realWorld.apply) target = pb.realWorld.apply;
-        else if (o.path === 'PATENTABLE' && pb.realWorld && pb.realWorld.build) target = pb.realWorld.build;
+        else if (o.path === 'RESEARCHABLE' && pb.realWorld && (pb.realWorld.research || pb.realWorld.build)) target = pb.realWorld.research || pb.realWorld.build;
         else if (o.companies && o.companies.length) target = 'Mapped companies: ' + o.companies.join(', ') + '.';
 
         var timingParts = [];

@@ -169,7 +169,7 @@
     var nodeLabel = (dir.nodeLabel || '').toLowerCase();
     var treatLabel = (dir.treatmentLabel || directive.title || '').toLowerCase();
     var dxId = (directive.diagnosisId || '').toLowerCase();
-    var path = directive.path || 'GRANT-ELIGIBLE';
+    var path = directive.path || 'INVESTABLE';
 
     var relevantSegments = _resolveSegments(nodeId, nodeLabel, treatLabel, dxId);
 
@@ -225,8 +225,7 @@
     tier3 = tier3.slice(0, 6);
 
     var executionTargets = [];
-    if (path === 'GRANT-ELIGIBLE') executionTargets = ['NED program officers', 'USAID Democracy, Rights, and Governance bureau', 'Open Society Foundations', 'Hewlett Foundation', 'Carnegie Endowment', 'Knight Foundation Civic Engagement', 'Ford Foundation'];
-    else if (path === 'PATENTABLE') executionTargets = ['Civic-tech IP attorneys', 'Election technology vendors', 'Government workflow consolidators (Tyler, Granicus)'];
+    if (path === 'RESEARCHABLE') executionTargets = ['Research desks', 'Institutional research buyers', 'Independent / sell-side analysts'];
     else if (path === 'INVESTABLE') executionTargets = ['Govtech-focused VCs (Govtech Fund, Founders Fund civic, Andreessen Horowitz American Dynamism)', 'Strategic acquirers (Tyler, Constellation Software public sector, Roper)'];
 
     var formatted = _format(tier1, tier2, tier3, executionTargets);

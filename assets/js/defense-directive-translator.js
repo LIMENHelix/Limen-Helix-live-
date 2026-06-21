@@ -5,20 +5,20 @@
 (function () {
   'use strict';
 
-  var PATH_LABELS = { 'INVESTABLE': 'INVEST', 'GRANT-ELIGIBLE': 'GRANT', 'PATENTABLE': 'PATENT' };
+  var PATH_LABELS = { 'INVESTABLE': 'INVEST', 'RESEARCHABLE': 'RESEARCH' };
 
   function _buildTitle(d) {
     var label = d.treatmentLabel || '';
     var nodeLabel = d.nodeLabel || '';
-    var type = (d.suggestedPaths && d.suggestedPaths[0]) || 'GRANT-ELIGIBLE';
+    var type = (d.suggestedPaths && d.suggestedPaths[0]) || 'RESEARCHABLE';
     label = label.replace(/^(Build |Create |Deploy |Establish |Implement |Operationalize )/i, '');
     if (type === 'INVESTABLE') return 'Position in ' + nodeLabel.toLowerCase() + ' \u2014 ' + label;
-    if (type === 'PATENTABLE') return 'File IP protection for ' + label.toLowerCase();
+    if (type === 'RESEARCHABLE') return 'Research ' + label.toLowerCase() + ' \u2014 ' + nodeLabel;
     return nodeLabel + ' \u2014 ' + label;
   }
 
   function _buildMonetizationPath(d) {
-    var type = (d.suggestedPaths && d.suggestedPaths[0]) || 'GRANT-ELIGIBLE';
+    var type = (d.suggestedPaths && d.suggestedPaths[0]) || 'RESEARCHABLE';
     var companies = d.companies || [];
     var tickers = companies.filter(function (c) { return c.ticker; }).map(function (c) { return c.ticker; });
     var tickerStr = tickers.length > 0 ? tickers.join(', ') : '';
@@ -26,12 +26,12 @@
       if (tickerStr) return 'Firms in this pathway (' + tickerStr + ') benefit from the defense condition. Position during stress window for repricing.';
       return 'Firms serving ' + (d.nodeLabel || 'this function').toLowerCase() + ' capture demand created by the active diagnosis.';
     }
-    if (type === 'PATENTABLE') return 'Defense gap in ' + (d.nodeLabel || 'this area').toLowerCase() + ' has no dominant IP holder. First filing creates defensible edtech position.';
-    return 'Active diagnosis creates documented defense need. Grant proposals backed by live system evidence win at higher rates.';
+    if (type === 'RESEARCHABLE') return 'Defense gap in ' + (d.nodeLabel || 'this area').toLowerCase() + ' is under-researched. First published analysis creates advisory positioning with DoD programme offices.';
+    return 'Firms serving ' + (d.nodeLabel || 'this function').toLowerCase() + ' capture demand created by the active diagnosis.';
   }
 
   function _buildNextAction(d) {
-    var type = (d.suggestedPaths && d.suggestedPaths[0]) || 'GRANT-ELIGIBLE';
+    var type = (d.suggestedPaths && d.suggestedPaths[0]) || 'RESEARCHABLE';
     var companies = d.companies || [];
     var steps = d.treatmentSteps || [];
     if (steps.length > 0) {
@@ -39,8 +39,8 @@
       if (firstStep.length > 10) return firstStep;
     }
     if (type === 'INVESTABLE' && companies.length > 0) return 'Check ' + companies[0].ticker + ' (' + companies[0].name + ') current defense exposure.';
-    if (type === 'PATENTABLE') return 'Search patents.google.com for prior art in "' + (d.nodeLabel || 'edtech').toLowerCase() + '" defense.';
-    return 'Search grants.gov, ED.gov, IES grants for solicitations matching "' + (d.nodeLabel || 'defense').toLowerCase() + '".';
+    if (type === 'RESEARCHABLE') return 'Search DoD CDAO, DARPA, IARPA, DIU, and allied research programme databases for active solicitations matching "' + (d.nodeLabel || 'defense').toLowerCase() + '".';
+    return 'Survey defense prime and vendor landscape for ' + (d.nodeLabel || 'this function').toLowerCase() + ' capabilities and investment positioning.';
   }
 
   function _buildTiming(d) {
@@ -75,14 +75,13 @@
 
     for (var i = 0; i < Math.min(ranked.length, limit); i++) {
       var d = ranked[i];
-      var primaryPath = (d.suggestedPaths && d.suggestedPaths[0]) || 'GRANT-ELIGIBLE';
+      var primaryPath = (d.suggestedPaths && d.suggestedPaths[0]) || 'RESEARCHABLE';
       var urgency = d.stress >= 0.70 ? 'IMMEDIATE' : d.stress >= 0.50 ? 'ACTIVE' : 'WATCH';
 
       var companies = d.companies || [];
       var targetStr = '';
       if (companies.length > 0) targetStr = 'Mapped firms: ' + companies.map(function (c) { return c.ticker + ' (' + c.name + ')'; }).join(', ') + '.';
-      if (primaryPath === 'GRANT-ELIGIBLE') targetStr += (targetStr ? ' ' : '') + 'Agencies: US Dept of Defense, IES, NSF EHR, Gates Foundation, Walton, Carnegie. Search grants.gov, ies.ed.gov.';
-      if (primaryPath === 'PATENTABLE') targetStr += (targetStr ? ' ' : '') + 'Licensees: edtech vendors, LMS providers, assessment companies, K-12 districts, university IT.';
+      if (primaryPath === 'RESEARCHABLE') targetStr += (targetStr ? ' ' : '') + 'Research outlets: DoD CDAO, DARPA, IARPA, DIU, AFWERX, NavalX, NATO STO, allied research programmes.';
       if (!targetStr) targetStr = 'Identify counterparties affected by ' + (d.nodeLabel || 'this condition') + '.';
 
       opportunities.push({
@@ -98,7 +97,7 @@
         domain: 'defense',
         explain: d.treatmentDescription || d.treatmentLabel,
         action: _buildNextAction(d),
-        valueRange: primaryPath === 'INVESTABLE' ? '10-25% sector premium' : primaryPath === 'PATENTABLE' ? '5-15% royalty' : '$250K-$5M defense grants',
+        valueRange: primaryPath === 'INVESTABLE' ? '10-25% sector premium' : '$500K-$5M defense research contracts',
         window: d.stress >= 0.70 ? '1-30 days' : d.stress >= 0.50 ? '30-90 days' : '60-180 days',
         outcome: _buildMonetizationPath(d),
         failure: _buildInvalidation(d),
@@ -114,7 +113,7 @@
           evidence: _buildEvidence(d),
           nextStep: _buildNextAction(d)
         },
-        compensation: primaryPath === 'INVESTABLE' ? { type: 'invest', base: 5, unit: 'profit%', tier: 1 } : primaryPath === 'PATENTABLE' ? { type: 'patent', base: 10, unit: 'royalty%', tier: 1 } : { type: 'grant', base: 10, unit: '%', tier: 1 },
+        compensation: primaryPath === 'INVESTABLE' ? { type: 'invest', base: 5, unit: 'profit%', tier: 1 } : { type: 'research', base: 8, unit: 'cite%', tier: 1 },
         paths: [primaryPath],
         _directive: {
           portalDomainId: d.portalDomainId, portalTitle: d.portalTitle,
@@ -155,15 +154,10 @@
       { model: 'trading', desc: 'Position in defense primes (LMT, RTX, NOC, GD), European defense (BA., HO, RHM), drone / autonomous systems, and uranium / nuclear. Target 20-40% sector premium during sustained tension.' },
       { model: 'intelligence', desc: 'Build a global threat-monitoring and defense procurement intelligence dashboard. Sell to defense ministries, primes, and sovereign procurement offices worldwide.' }
     ],
-    'GRANT-ELIGIBLE': [
-      { model: 'grant award', desc: 'Write a defense research or capability proposal. Submit to DARPA, IARPA, AFRL, ONR, ARO, ARL, NATO STO, EU EDF, AUKUS Pillar 2, UK DASA. $500K-$50M per award.' },
-      { model: 'consulting', desc: 'Win the contract. Deliver the funded work. Bill against cost-plus or fixed-price terms. Defense contracts typically 1-5 year base + options.' },
-      { model: 'cost recovery', desc: 'Deploy the capability at a defense ministry or NATO command. Bill through Foreign Military Sales (FMS), Direct Commercial Sales (DCS), or sustainment contracts.' }
-    ],
-    'PATENTABLE': [
-      { model: 'licensing', desc: 'File a defense patent (be aware of secrecy orders under 35 USC 181). License to defense primes (LMT, RTX, NOC, GD, BAE, Thales, Leonardo, Saab, MBDA, Rafael).' },
-      { model: 'SaaS / dual-use', desc: 'Turn the technique into a dual-use platform. Sell to both defense and adjacent commercial markets (logistics, security, autonomy).' },
-      { model: 'acquisition', desc: 'Build the IP portfolio. Position for acquisition by a defense prime or defense-tech investor (Anduril, Shield AI, Palantir).' }
+    'RESEARCHABLE': [
+      { model: 'research brief', desc: 'Produce a defense technology or threat landscape research brief. Submit to DARPA, IARPA, AFRL, ONR, ARO, ARL, NATO STO, EU EDF, AUKUS Pillar 2, UK DASA, or allied defence research agencies as advisory input.' },
+      { model: 'advisory', desc: 'Deliver the research. Bill against research retainer or fixed deliverable. Defense research engagements typically 6–18 months with follow-on options.' },
+      { model: 'intelligence product', desc: 'Convert the research into an intelligence product. Distribute to defence ministries, primes, and sovereign procurement offices through Direct Commercial Sales or advisory contracts.' }
     ]
   };
 
@@ -185,7 +179,7 @@
     if (!opp) return null;
     var dir = opp._directive || {};
     var mc = opp.moneyChain || {};
-    var path = opp.path || 'GRANT-ELIGIBLE';
+    var path = opp.path || 'RESEARCHABLE';
     var type = dir.treatmentLabel ? _inferType(dir.treatmentLabel) : 'DIAGNOSTIC';
     var stress = opp.stress || 0;
     var stressPct = Math.round(stress * 100);
@@ -219,7 +213,7 @@
     }
 
     var shaped_target = companies.length > 0 ? companies.slice(0, 5).join(', ') + '.' : _generateTargetClasses(path, nodeLabel, dxLabel);
-    var revenueOptions = REVENUE_MODELS[path] || REVENUE_MODELS['GRANT-ELIGIBLE'];
+    var revenueOptions = REVENUE_MODELS[path] || REVENUE_MODELS['RESEARCHABLE'];
     var shaped_revenue = revenueOptions[0].desc;
 
     opp.title = shaped_title;
@@ -287,28 +281,28 @@
         'Monitor weekly for diagnosis deactivation signal'
       ];
     }
-    if (path === 'PATENTABLE') {
+    if (path === 'RESEARCHABLE') {
       return [
-        'Search patents.google.com for prior art in ' + nodeLabel + ' edtech',
-        'Draft provisional patent claim around ' + (nodeLabel || 'learning method') + ' approach',
-        'Identify 5 potential licensees in LMS / assessment / district SaaS space',
-        'File provisional application (12-month priority window)',
-        'Begin licensing outreach to top 3 targets'
+        'Survey DARPA, IARPA, DIU, and AFWERX programme databases for active topics matching "' + (dxLabel || nodeLabel) + '"',
+        'Conduct literature review: existing research, capability gaps, and vendor landscape in ' + (nodeLabel || 'this domain'),
+        'Draft a 1-page research concept note referencing live defense stress indicators',
+        'Identify 3–5 target research customers (DoD programme offices, allied defence agencies, or think-tanks)',
+        'Submit research brief and pursue advisory retainer or research contract'
       ];
     }
     return [
-      'Search grants.gov, ies.ed.gov, NSF EHR for solicitations matching "' + (dxLabel || nodeLabel) + '"',
-      'Draft 1-page concept note with live system evidence at ' + Math.round(Math.random() * 20 + 60) + '% stress',
-      'Prepare budget narrative: personnel, defense, indirect costs',
-      'Assemble supporting documents: capability statement, letters of support',
-      'Submit application within current grant cycle window'
+      'Survey defense prime and vendor landscape for ' + (dxLabel || nodeLabel) + ' capabilities',
+      'Identify investment entry points (equities, ETFs, or direct advisory engagements)',
+      'Map sector exposure and position sizing based on current stress confidence',
+      'Set monitoring triggers and stop conditions for the thesis',
+      'Execute position and track against diagnosis deactivation signal'
     ];
   }
 
   function _generateTargetClasses(path, nodeLabel, dxLabel) {
-    if (path === 'INVESTABLE') return 'EdTech vendors, LMS providers, assessment companies, online program managers, higher-ed services with direct ' + (nodeLabel || 'sector') + ' exposure.';
-    if (path === 'PATENTABLE') return 'LMS providers (Canvas, Schoology, PowerSchool), assessment companies (NWEA, Curriculum Associates), district SaaS, instructional content publishers.';
-    return 'US Department of Defense, IES (Institute of Defense Sciences), NSF EHR, NIH, Gates Foundation, Walton Family Foundation, Carnegie Corporation. Search grants.gov, ies.ed.gov.';
+    if (path === 'INVESTABLE') return 'Defense primes (LMT, RTX, NOC, GD), allied defense vendors, and cyber / ISR pure-plays with direct ' + (nodeLabel || 'sector') + ' exposure.';
+    if (path === 'RESEARCHABLE') return 'DoD CDAO, DARPA, IARPA, DIU, AFWERX, NavalX, NATO STO, EU EDF, AUKUS Pillar 2, UK DASA, and allied defence research programmes.';
+    return 'Defense sector counterparties and research customers relevant to ' + (nodeLabel || 'this function') + '.';
   }
 
   function _inferType(label) {

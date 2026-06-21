@@ -169,7 +169,7 @@
     var nodeLabel = (dir.nodeLabel || '').toLowerCase();
     var treatLabel = (dir.treatmentLabel || directive.title || '').toLowerCase();
     var dxId = (directive.diagnosisId || '').toLowerCase();
-    var path = directive.path || 'GRANT-ELIGIBLE';
+    var path = directive.path || 'INVESTABLE';
 
     var relevantSegments = _resolveSegments(nodeId, nodeLabel, treatLabel, dxId);
 
@@ -225,8 +225,7 @@
     tier3 = tier3.slice(0, 6);
 
     var executionTargets = [];
-    if (path === 'GRANT-ELIGIBLE') executionTargets = ['DARPA program managers', 'IARPA program offices', 'AFRL / ONR / ARO / ARL', 'NATO STO', 'EU EDF / EDA', 'AUKUS Pillar 2', 'UK DASA', 'SBIR/STTR program directors'];
-    else if (path === 'PATENTABLE') executionTargets = ['Defense IP attorneys (35 USC 181 secrecy aware)', 'Defense prime tech transfer offices', 'Allied defense ministries', 'Strategic acquirers in defense-tech (Anduril, Palantir, Shield AI)'];
+    if (path === 'RESEARCHABLE') executionTargets = ['Research desks', 'Institutional research buyers', 'Independent / sell-side analysts'];
     else if (path === 'INVESTABLE') executionTargets = ['Defense-focused VCs (8VC, Founders Fund, a16z American Dynamism, Lux Capital)', 'In-Q-Tel', 'Sovereign wealth funds with defense mandates', 'Family offices with defense exposure'];
 
     var formatted = _format(tier1, tier2, tier3, executionTargets);

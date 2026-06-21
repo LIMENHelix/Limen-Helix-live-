@@ -401,7 +401,7 @@
       add({
         title: dxLabel + ' — logistics optimization and routing platform',
         rank: stress * dx.relevance,
-        path: 'PATENTABLE',
+        path: 'RESEARCHABLE',
         urgency: stress > 0.70 ? 'high' : 'medium',
         source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress
       });
@@ -411,7 +411,7 @@
         add({
           title: dxLabel + ' — supply chain visibility and tracking infrastructure',
           rank: stress * dx.relevance * 0.9,
-          path: 'GRANT-ELIGIBLE',
+          path: 'INVESTABLE',
           urgency: stress > 0.70 ? 'high' : 'medium',
           source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress
         });
@@ -432,7 +432,7 @@
       add({
         title: dxLabel + ' — freight alternative and modal shift technology',
         rank: stress * dx.relevance * 0.75,
-        path: 'PATENTABLE',
+        path: 'RESEARCHABLE',
         urgency: 'medium',
         source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress
       });
@@ -471,7 +471,7 @@
       add({
         title: this.state.convergence.primary_signal.replace(/_/g, ' ').toLowerCase() + ' — trade convergence response',
         rank: 0.98,
-        path: this.state.convergence.primary_signal === 'CONVERGENCE_TERMINAL' ? 'INVESTABLE' : 'GRANT-ELIGIBLE',
+        path: 'INVESTABLE',
         urgency: 'high',
         source: 'convergence', tier: 1,
         signal: this.state.convergence.primary_signal,
@@ -511,7 +511,7 @@
         add({
           title: 'Food supply chain stress — cold chain and distribution resilience',
           rank: stress * 0.75,
-          path: 'GRANT-ELIGIBLE',
+          path: 'INVESTABLE',
           urgency: 'medium',
           source: 'cross_domain', tier: 2,
           diagnosisId: 'agri_supply', stress: stress
@@ -524,7 +524,7 @@
       add({
         title: 'Supply chain policy and regulatory response — customs modernization',
         rank: stress * 0.65,
-        path: 'GRANT-ELIGIBLE',
+        path: 'RESEARCHABLE',
         urgency: stress > 0.70 ? 'medium' : 'watching',
         source: 'lagging', tier: 3,
         diagnosisId: 'regulatory_response', stress: stress
@@ -577,7 +577,7 @@
         add({
           title: (nd.label || nd.id || '').replace(/_/g, ' ') + ' — early-stage monitoring position',
           rank: stress * (nd.relevance || 0.1) * 0.5,
-          path: 'PATENTABLE',
+          path: 'RESEARCHABLE',
           urgency: 'watching',
           source: 'near_diagnosis', tier: 2,
           diagnosisId: nd.id, stress: stress
@@ -613,10 +613,10 @@
       return null;
     }
     function _urgencyLabel(u) { if (u === 'high') return 'IMMEDIATE'; if (u === 'medium') return 'ACTIVE'; if (u === 'watching') return 'WATCH'; return (u || '').toUpperCase(); }
+    // Lanes: investment + research ONLY (patent/grant/loan purged 2026-06-21; relaned GRANT->INVESTABLE, PATENT->RESEARCHABLE)
     var _COMP = {
-      'GRANT-ELIGIBLE': { type: 'grant',  base: 10, unit: '%',        tier: 1, nextTier: { tier: 2, comp: 15, requirement: '3 successful grant awards' },     maxTier: { tier: 3, comp: 25 } },
-      'INVESTABLE':     { type: 'invest', base: 5,  unit: 'profit%',  tier: 1, nextTier: { tier: 2, comp: 10, requirement: '3 profitable positions closed' }, maxTier: { tier: 3, comp: 15 } },
-      'PATENTABLE':     { type: 'patent', base: 10, unit: 'royalty%', tier: 1, nextTier: { tier: 2, comp: 15, requirement: '3 patents filed' },                maxTier: { tier: 3, comp: 25 } }
+      'INVESTABLE':     { type: 'invest',   base: 5, unit: 'profit%', tier: 1, nextTier: { tier: 2, comp: 10, requirement: '3 profitable positions closed' }, maxTier: { tier: 3, comp: 15 } },
+      'RESEARCHABLE':   { type: 'research', base: 5, unit: 'credit%', tier: 1, nextTier: { tier: 2, comp: 10, requirement: '3 published research briefs' },    maxTier: { tier: 3, comp: 15 } }
     };
     for (var oi = 0; oi < opps.length; oi++) {
       var o = opps[oi];
@@ -643,8 +643,7 @@
         var stressPct = Math.round((o.stress || 0) * 100);
         var target = '';
         if (o.path === 'INVESTABLE' && pb.realWorld && pb.realWorld.invest) target = pb.realWorld.invest;
-        else if (o.path === 'GRANT-ELIGIBLE' && pb.realWorld && pb.realWorld.apply) target = pb.realWorld.apply;
-        else if (o.path === 'PATENTABLE' && pb.realWorld && pb.realWorld.build) target = pb.realWorld.build;
+        else if (o.path === 'RESEARCHABLE' && pb.realWorld && (pb.realWorld.research || pb.realWorld.build)) target = pb.realWorld.research || pb.realWorld.build;
         else if (o.companies && o.companies.length) target = 'Mapped companies: ' + o.companies.join(', ') + '.';
         var timingParts = []; if (o.urgencyLabel) timingParts.push(o.urgencyLabel); if (pb.window) timingParts.push('Window: ' + pb.window);
         var timing = timingParts.join(' \u00b7 ');

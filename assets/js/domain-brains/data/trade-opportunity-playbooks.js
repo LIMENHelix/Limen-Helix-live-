@@ -39,8 +39,7 @@
     "window": "30–540 days",
     "realWorld": {
       "invest": "Manhattan Associates (MANH), Descartes (DSGX), C.H. Robinson (CHRW). Freight: IYT, XTN.",
-      "apply": "DoT Port Infrastructure, CHIPS Act supply-chain grants, DPA Title III.",
-      "build": "Multi-tier supply-chain visibility, nearshoring-finance platforms, inventory-optimization tooling."
+      "research": "Multi-tier supply-chain visibility research, nearshoring-finance platform analysis, inventory-optimization tooling evaluation."
     },
     "examples": [
       "Supply-chain visibility platforms",
@@ -52,7 +51,7 @@
     "fastPath": [
       "1. Confirm SUPPLY_CHAIN_COLLAPSE",
       "2. Screen MANH/DSGX",
-      "3. Pursue CHIPS or DPA Title III"
+      "3. Research CHIPS Act and DPA Title III supply-chain incentive landscape"
     ]
   },
   {
@@ -84,8 +83,7 @@
     "window": "7–180 days",
     "realWorld": {
       "invest": "Tankers: Frontline (FRO), DHT Holdings (DHT), Teekay Tankers (TNK). Container: ZIM, Maersk. Drybulk: BDRY.",
-      "apply": "MARAD emergency contracts, DoT port resilience grants.",
-      "build": "Chokepoint-monitoring, route-optimization under disruption, maritime-resilience analytics."
+      "research": "Chokepoint-monitoring, route-optimization under disruption, maritime-resilience analytics."
     },
     "examples": [
       "Tanker and container operators",
@@ -97,7 +95,7 @@
     "fastPath": [
       "1. Confirm PORT_BLOCKADE",
       "2. Position in tanker operators (FRO/DHT)",
-      "3. Pursue MARAD emergency contracts"
+      "3. Research MARAD emergency contract landscape"
     ]
   },
   {
@@ -130,8 +128,7 @@
     "window": "90 days–3 years",
     "realWorld": {
       "invest": "Descartes (DSGX), E2open (ETWO), Thomson Reuters (TRI), Kuehne + Nagel.",
-      "apply": "CHIPS Act, IRA domestic-content programs, USTR trade-adjustment assistance.",
-      "build": "Rules-of-origin analytics, tariff-classification automation, customs-compliance AI."
+      "research": "Rules-of-origin analytics, tariff-classification automation, customs-compliance AI."
     },
     "examples": [
       "Trade-compliance platforms",
@@ -143,7 +140,7 @@
     "fastPath": [
       "1. Confirm TRADE_WAR",
       "2. Screen DSGX/ETWO",
-      "3. Pursue CHIPS or trade-adjustment assistance"
+      "3. Research CHIPS Act and trade-adjustment landscape"
     ]
   },
   {
@@ -175,8 +172,7 @@
     "window": "30–360 days",
     "realWorld": {
       "invest": "Shipping: ZIM Integrated (ZIM), Maersk (MAERSK-B.CO), Costamare (CMRE). Drybulk: BDRY.",
-      "apply": "N/A",
-      "build": "Freight-rate arbitrage platforms, shipping-capacity analytics, container-tracking tooling."
+      "research": "Freight-rate arbitrage platforms, shipping-capacity analytics, container-tracking tooling."
     },
     "examples": [
       "Container and drybulk shipping equities",
@@ -220,8 +216,7 @@
     "window": "60 days–3 years",
     "realWorld": {
       "invest": "Descartes (DSGX), Avalara (AVLR), Flex (FLEX), E2open (ETWO).",
-      "apply": "CBP Automated Commercial Environment (ACE) modernization, DHS S&T BAAs.",
-      "build": "Customs-brokerage automation, border-intelligence tooling, trade-documentation AI."
+      "research": "Customs-brokerage automation, border-intelligence tooling, trade-documentation AI."
     },
     "examples": [
       "Customs-brokerage automation",
@@ -233,13 +228,13 @@
     "fastPath": [
       "1. Confirm CUSTOMS_DISRUPTION",
       "2. Screen DSGX/AVLR",
-      "3. Pursue CBP ACE or DHS S&T BAA"
+      "3. Research CBP ACE modernization and DHS S&T landscape"
     ]
   },
   {
     "id": "trade_data_gap",
-    "title": "Trade Data Gap → Build",
-    "type": "build",
+    "title": "Trade Data Gap → Research",
+    "type": "research",
     "domains": [
       "trade"
     ],
@@ -264,8 +259,7 @@
     "window": "30 days–18 months",
     "realWorld": {
       "invest": "N/A",
-      "apply": "DoT research, CBP data partnerships, Bureau of Economic Analysis.",
-      "build": "Container-flow analytics, supplier-intelligence, tariff-impact dashboards."
+      "research": "DoT research, CBP data partnerships, Bureau of Economic Analysis — container-flow analytics, supplier-intelligence, tariff-impact dashboards."
     },
     "examples": [
       "Container-flow analytics",

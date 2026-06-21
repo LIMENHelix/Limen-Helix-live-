@@ -212,7 +212,7 @@
     var nodeLabel = (dir.nodeLabel || '').toLowerCase();
     var treatLabel = (dir.treatmentLabel || directive.title || '').toLowerCase();
     var dxId = (directive.diagnosisId || '').toLowerCase();
-    var path = directive.path || 'GRANT-ELIGIBLE';
+    var path = directive.path || 'INVESTABLE';
 
     // 1. Determine relevant segments
     var relevantSegments = _resolveSegments(nodeId, nodeLabel, treatLabel, dxId);
@@ -282,8 +282,7 @@
 
     // 5. Execution targets based on path
     var executionTargets = [];
-    if (path === 'GRANT-ELIGIBLE') executionTargets = ['Commerce Dept EDA program offices', 'Treasury economic development fund', 'State economic development agencies'];
-    else if (path === 'PATENTABLE') executionTargets = ['Patent attorneys', 'Economic analytics licensing platforms', 'Strategic acquirers'];
+    if (path === 'RESEARCHABLE') executionTargets = ['Research desks', 'Institutional research buyers', 'Independent / sell-side analysts'];
     else if (path === 'INVESTABLE') executionTargets = ['Macro hedge funds', 'Sovereign wealth funds', 'Institutional allocators'];
 
     // 6. Format for display

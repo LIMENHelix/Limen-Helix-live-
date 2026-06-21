@@ -88,9 +88,8 @@
       '.eos-play-rank{font-size:0.6rem;color:rgba(201,169,78,0.25);font-weight:bold;float:right;margin-left:8px}',
       '.eos-play-name{font-size:0.46rem;color:#f0ece2;margin-bottom:4px;line-height:1.4}',
       '.eos-play-path{display:inline-block;font-size:0.28rem;letter-spacing:1.5px;padding:1px 6px;border-radius:2px;margin-bottom:6px}',
-      '.eos-path-grant{color:#5ab5a0;border:1px solid rgba(90,181,160,0.25);background:rgba(90,181,160,0.06)}',
+      '.eos-path-research{color:#5ab5a0;border:1px solid rgba(90,181,160,0.25);background:rgba(90,181,160,0.06)}',
       '.eos-path-invest{color:#C9A94E;border:1px solid rgba(201,169,78,0.25);background:rgba(201,169,78,0.06)}',
-      '.eos-path-patent{color:#a87adb;border:1px solid rgba(168,122,219,0.25);background:rgba(168,122,219,0.06)}',
       '.eos-play-why{font-size:0.38rem;color:#c9c1b0;line-height:1.5;margin-bottom:4px}',
       '.eos-play-outcome{font-size:0.34rem;color:rgba(201,169,78,0.75);margin-top:4px}',
 
@@ -282,8 +281,8 @@
     }
   };
 
-  var PATH_LABELS = { 'PATENTABLE': 'PATENT', 'GRANT-ELIGIBLE': 'GRANT', 'INVESTABLE': 'INVEST' };
-  var PATH_CLASS = { 'PATENTABLE': 'eos-path-patent', 'GRANT-ELIGIBLE': 'eos-path-grant', 'INVESTABLE': 'eos-path-invest' };
+  var PATH_LABELS = { 'RESEARCHABLE': 'RESEARCH', 'INVESTABLE': 'INVEST' };
+  var PATH_CLASS = { 'RESEARCHABLE': 'eos-path-research', 'INVESTABLE': 'eos-path-invest' };
 
   function pathLabel(p) { return PATH_LABELS[p] || p; }
   function pathClass(p) { return PATH_CLASS[p] || ''; }
@@ -1069,9 +1068,8 @@
     var activeDx = (state.diagnoses || []).filter(function (d) { return d.active; });
     var opps = state.opportunities || [];
     var pulse = state.pulse || null;
-    var grantCount = opps.filter(function (o) { return o.path === 'GRANT-ELIGIBLE'; }).length;
+    var researchCount = opps.filter(function (o) { return o.path === 'RESEARCHABLE'; }).length;
     var investCount = opps.filter(function (o) { return o.path === 'INVESTABLE'; }).length;
-    var patentCount = opps.filter(function (o) { return o.path === 'PATENTABLE'; }).length;
 
     // Pull live defense feed signals — Western feeds and adversary perspective feeds
     var feeds = state.feeds || [];
@@ -1179,9 +1177,8 @@
 
     // Path counts
     var parts = [];
-    if (grantCount > 0) parts.push(grantCount + ' grant path' + (grantCount > 1 ? 's' : ''));
+    if (researchCount > 0) parts.push(researchCount + ' research brief' + (researchCount > 1 ? 's' : ''));
     if (investCount > 0) parts.push(investCount + ' investment position' + (investCount > 1 ? 's' : ''));
-    if (patentCount > 0) parts.push(patentCount + ' patent opportunit' + (patentCount > 1 ? 'ies' : 'y'));
     if (parts.length > 0) text += ' Currently showing <b>' + parts.join(', ') + '</b> ready for action.';
 
     // What changed (from pulse)
@@ -1293,8 +1290,8 @@
         var pbId = o.playbookId || resolvePlaybookId(o);
         if (pbId) h += renderTargets(pbId);
       }
-      // Execution panels for GRANT and PATENT plays
-      if ((o.path === 'GRANT-ELIGIBLE' || o.path === 'PATENTABLE') && window.LIMENDefenseExecutionPanels) {
+      // Execution panel for RESEARCH plays
+      if (o.path === 'RESEARCHABLE' && window.LIMENDefenseExecutionPanels) {
         h += window.LIMENDefenseExecutionPanels.renderForOpportunity(oppKey(o), o.path, o);
       }
       h += '</div>';
@@ -1325,7 +1322,7 @@
         opps.push({
           id: claim.opportunityId,
           title: claim.title,
-          path: claim.path || 'GRANT-ELIGIBLE',
+          path: claim.path || 'INVESTABLE',
           urgency: 'WATCH',
           rank: 0.1, // Low rank — it's no longer live-supported
           source: 'claimed_preserved',

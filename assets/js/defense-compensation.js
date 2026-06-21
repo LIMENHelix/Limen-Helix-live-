@@ -22,13 +22,11 @@
     },
 
     byType: {
-      grant: { label: 'Defense Grant Execution', operatorBasePct: 0.10, operatorSuccessPct: 0.15 },
-      patent: { label: 'EdTech Patent Execution', operatorBasePct: 0.08, operatorSuccessPct: 0.12 },
-      loan: { label: 'Defense Loan Execution', operatorBasePct: 0.10, operatorSuccessPct: 0.15 },
-      investment: { label: 'EdTech Investment Execution', operatorBasePct: 0.05, operatorSuccessPct: 0.10 },
-      invest: { label: 'EdTech Investment Execution', operatorBasePct: 0.05, operatorSuccessPct: 0.10 },
-      portal: { label: 'EdTech / SaaS Sale', operatorBasePct: 0.15, operatorSuccessPct: 0.20 },
-      curriculum: { label: 'Curriculum / Program License', operatorBasePct: 0.12, operatorSuccessPct: 0.18 }
+      investment: { label: 'Defense Investment Execution', operatorBasePct: 0.05, operatorSuccessPct: 0.10 },
+      invest: { label: 'Defense Investment Execution', operatorBasePct: 0.05, operatorSuccessPct: 0.10 },
+      research: { label: 'Defense Research Brief Execution', operatorBasePct: 0.05, operatorSuccessPct: 0.10 },
+      portal: { label: 'Defense / SaaS Sale', operatorBasePct: 0.15, operatorSuccessPct: 0.20 },
+      license: { label: 'Defense IP License / Tech Transfer', operatorBasePct: 0.12, operatorSuccessPct: 0.18 }
     },
 
     getForType: function (type) {

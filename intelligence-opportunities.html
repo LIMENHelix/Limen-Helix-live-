@@ -60,10 +60,8 @@ html,body{background:#050810;color:#e8e3d9;font-family:"IBM Plex Mono",monospace
 }
 .type-invest{background:rgba(90,181,160,0.12);color:#5ab5a0}
 .type-build{background:rgba(74,143,212,0.12);color:#4a8fd4}
-.type-fund{background:rgba(201,169,78,0.12);color:#C9A94E}
-.type-patent{background:rgba(168,85,247,0.12);color:#a855f7}
+.type-research{background:rgba(168,85,247,0.12);color:#a855f7}
 .type-advise{background:rgba(255,152,0,0.12);color:#FF9800}
-.type-procure{background:rgba(232,84,84,0.12);color:#e85454}
 
 .opp-card-explain{font-size:0.5rem;color:#d0c8b8;line-height:1.6;margin-bottom:8px}
 .opp-card-action{
@@ -393,22 +391,6 @@ function _activateOpportunities() {
           }
         }
       }
-    } else if (pb.id === 'patent_vacuum') {
-      // Special: check patent report
-      var reports = window.LIMENReports || {};
-      var patRpt = reports.patentOpportunity;
-      if (patRpt && patRpt.signals) {
-        for (var pi = 0; pi < patRpt.signals.length; pi++) {
-          var ps = patRpt.signals[pi];
-          if (ps.type === 'temporal_gap' && (ps.opportunityScore || 0) > 0.4) {
-            isActive = true;
-            confidence = Math.round((ps.opportunityScore || 0) * 100);
-            urgency = 'medium';
-            whyNow = 'Filing gap in ' + (ps.techNode || 'tech area') + ': ' + (ps.indication || '');
-            break;
-          }
-        }
-      }
     } else {
       // Generic: check if relevant domains are stressed (threshold 0.20 post-normalization)
       var anyStressed = false;
@@ -472,7 +454,6 @@ function _activateOpportunities() {
     domainCount: Object.keys(doms).length,
     crossDomainPatterns: cd.length,
     hasAnalystReport: !!(window.LIMENAnalystReport && window.LIMENAnalystReport.domains),
-    hasPatentReport: !!(window.LIMENReports && window.LIMENReports.patentOpportunity),
     activeTitles: active.map(function(a){ return a.pb.title })
   });
 
@@ -818,7 +799,7 @@ function openPlaybook(idx) {
   if (pb.realWorld) {
     html += '<div class="opp-pb-section"><div class="opp-pb-label">REAL-WORLD ACTIONS</div>';
     if (pb.realWorld.invest && pb.realWorld.invest !== 'N/A') html += '<div class="opp-pb-step"><strong style="color:#5ab5a0">INVEST:</strong> ' + pb.realWorld.invest + '</div>';
-    if (pb.realWorld.apply && pb.realWorld.apply !== 'N/A') html += '<div class="opp-pb-step"><strong style="color:#C9A94E">APPLY:</strong> ' + pb.realWorld.apply + '</div>';
+    if (pb.realWorld.research && pb.realWorld.research !== 'N/A') html += '<div class="opp-pb-step"><strong style="color:#a855f7">RESEARCH:</strong> ' + pb.realWorld.research + '</div>';
     if (pb.realWorld.build && pb.realWorld.build !== 'N/A') html += '<div class="opp-pb-step"><strong style="color:#4a8fd4">BUILD:</strong> ' + pb.realWorld.build + '</div>';
     html += '</div>';
   }
@@ -1227,37 +1208,31 @@ var _EXECUTION_PATHS = {
   intelligence_failure: {
     invest: [{name:'Palantir Technologies',ticker:'PLTR',cik:'1321655',support:'MAPPED'},{name:'Booz Allen Hamilton',ticker:'BAH',cik:'1443646',support:'MAPPED'},{name:'Leidos',ticker:'LDOS',cik:'1336920',support:'MAPPED'},{name:'CrowdStrike',ticker:'CRWD',cik:'1535527',support:'MAPPED'}],
     build: {model:'Intelligence fusion and anomaly detection platform',pays:'Intelligence agencies, defense contractors, enterprise security',whyNow:'Intelligence failure diagnosis active — collection gaps and analytical blind spots confirmed'},
-    fund: ['IARPA research grants','DARPA intelligence programs','In-Q-Tel venture funding','sam.gov IC modernization contracts'],
     structure: ['C-Corp with security clearance capability','Government contract + venture hybrid','Revenue: government contracts + enterprise SaaS']
   },
   surveillance_scandal: {
     invest: [{name:'Cloudflare',ticker:'NET',cik:'',support:'MAPPED'},{name:'Palo Alto Networks',ticker:'PANW',cik:'',support:'MAPPED'},{name:'Zscaler',ticker:'ZS',cik:'',support:'MAPPED'}],
     build: {model:'Privacy audit and surveillance transparency platform',pays:'Civil liberties organizations, government oversight bodies, tech companies',whyNow:'Surveillance scandal active — public trust demanding transparency and privacy protection'},
-    fund: ['EFF and ACLU technology grants','Ford Foundation privacy programs','Knight Foundation press freedom grants'],
-    structure: ['Nonprofit or B-Corp','Grant + donation funded','Revenue: foundation grants + institutional subscriptions']
+    structure: ['Nonprofit or B-Corp','Research + advisory funded','Revenue: institutional subscriptions + advisory fees']
   },
   cyber_espionage: {
     invest: [{name:'CrowdStrike',ticker:'CRWD',cik:'1535527',support:'MAPPED'},{name:'Palo Alto Networks',ticker:'PANW',cik:'',support:'MAPPED'},{name:'SentinelOne',ticker:'S',cik:'',support:'MAPPED'},{name:'Booz Allen Hamilton',ticker:'BAH',cik:'1443646',support:'MAPPED'},{name:'Leidos',ticker:'LDOS',cik:'1336920',support:'MAPPED'}],
     build: {model:'Zero-trust architecture and threat detection platform',pays:'Government agencies, defense contractors, critical infrastructure operators',whyNow:'Cyber espionage diagnosis active — adversarial penetration of strategic systems confirmed'},
-    fund: ['CISA cybersecurity grants','DOD cyber contracts via sam.gov','DHS critical infrastructure protection'],
     structure: ['C-Corp with FedRAMP certification','Government contract model','Revenue: government contracts + enterprise licensing']
   },
   foreign_interference: {
     invest: [{name:'Cloudflare',ticker:'NET',cik:'',support:'MAPPED'},{name:'Palo Alto Networks',ticker:'PANW',cik:'',support:'MAPPED'},{name:'CrowdStrike',ticker:'CRWD',cik:'1535527',support:'MAPPED'}],
     build: {model:'Disinformation detection and influence-attribution platform',pays:'Election commissions, social media platforms, intelligence agencies',whyNow:'Foreign interference active — narrative manipulation and information contamination detected'},
-    fund: ['State Department counter-influence grants','CISA election security programs','Foundation grants for information integrity'],
-    structure: ['C-Corp or nonprofit','Government contract + foundation funded','Revenue: contracts + platform licensing']
+    structure: ['C-Corp or nonprofit','Government contract + research funded','Revenue: contracts + platform licensing']
   },
   whistleblower_crisis: {
     invest: [],
     build: {model:'Secure reporting channel and insider threat detection platform',pays:'Intelligence agencies, government contractors, large enterprises',whyNow:'Whistleblower crisis active — institutional exposure requiring secure channels and detection'},
-    fund: ['IC Inspector General programs','Foundation grants for accountability','DOD insider threat programs'],
     structure: ['C-Corp with clearance capability','Government contract model','Revenue: per-agency licensing + implementation fees']
   },
   intelligence_data_gap: {
     invest: [],
     build: {model:'OSINT aggregation and threat intelligence fusion platform',pays:'Intelligence agencies, defense contractors, enterprise security teams, LIMEN itself',whyNow:'Intelligence data sources degraded — observability gaps in strategic monitoring'},
-    fund: ['IARPA data infrastructure grants','DARPA programs','NSF national security data grants'],
     structure: ['LLC or C-Corp','API subscription model','Revenue: per-feed pricing + enterprise plans']
   }
 };
@@ -1275,14 +1250,8 @@ var _TONIGHT_STEPS = {
   build: function(o) {
     return 'Outline 1-page problem statement from portal diagnosis for ' + o.pb.domains[0];
   },
-  patent: function(o) {
-    return 'Search patents.google.com for ' + o.pb.domains[0] + ' technology gaps';
-  },
-  procure: function(o) {
-    return 'Check SAM.gov for active solicitations matching ' + o.pb.domains[0] + ' signals';
-  },
-  fund: function(o) {
-    return 'Search grants.gov for open FOAs in ' + o.pb.domains[0] + ' category';
+  research: function(o) {
+    return 'Search published literature and IARPA/ODNI program docs for ' + o.pb.domains[0] + ' intelligence gaps';
   },
   advise: function(o) {
     return 'Draft 3-slide advisory pitch using portal treatment data for ' + o.pb.domains[0];
@@ -1532,20 +1501,10 @@ var _FAST_ENTRY = {
     {action: 'Search Crunchbase for competitors', detail: 'If <5, white space confirmed'},
     {action: 'File LLC in home state', detail: '$50\u2013$500 depending on state'}
   ],
-  patent: [
-    {action: 'Search patents.google.com', detail: 'Check CPC group for recent filings'},
-    {action: 'Draft 5 method claims from portal treatments', detail: 'Use treatment steps as claim language'},
-    {action: 'File provisional on uspto.gov', detail: '$320 small entity'}
-  ],
-  procure: [
-    {action: 'Register on SAM.gov', detail: 'Get UEI number if not registered'},
-    {action: 'Search active solicitations', detail: 'Filter by agency from law signal'},
-    {action: 'Draft capability statement', detail: '1-page matching solicitation scope'}
-  ],
-  fund: [
-    {action: 'Check grants.gov for open FOAs', detail: 'Filter by domain keyword'},
-    {action: 'Draft concept paper', detail: 'Use portal diagnosis + treatment gap'},
-    {action: 'Contact program officer', detail: 'Email listed on grant announcement'}
+  research: [
+    {action: 'Search published literature on signal gap', detail: 'Use portal diagnosis as search seed'},
+    {action: 'Review IARPA/ODNI/NIST program documentation', detail: 'Find published frameworks and RFIs'},
+    {action: 'Map existing research coverage vs gap', detail: 'Note uncharted areas for positioning'}
   ],
   advise: [
     {action: 'Draft advisory pitch deck', detail: 'Problem from portal, solution from treatments'},
@@ -1562,22 +1521,11 @@ var _MONEY_PATHS = {
   ],
   build: [
     {path: 'Self-fund', label: 'Bootstrap MVP'},
-    {path: 'SBA microloan', label: '$500\u2013$50K'},
-    {path: 'Grant', label: 'SBIR/STTR if tech-based'},
     {path: 'Partner capital', label: 'Co-founder or angel'}
   ],
-  patent: [
-    {path: 'Self-fund', label: '$320 provisional + $3K attorney'},
-    {path: 'IP fund', label: 'Patent-backed venture if portfolio'}
-  ],
-  procure: [
-    {path: 'Self-fund', label: 'Capability statement is free'},
-    {path: 'SBA 8(a)', label: 'If socially disadvantaged eligible'},
-    {path: 'Teaming', label: 'Sub to prime contractor'}
-  ],
-  fund: [
-    {path: 'Grant application', label: 'No cost to apply'},
-    {path: 'Cost share', label: 'Some grants require 20\u201350% match'}
+  research: [
+    {path: 'Self-fund', label: 'Time and access investment only'},
+    {path: 'Partner capital', label: 'Academic or think-tank co-author'}
   ],
   advise: [
     {path: 'Self-fund', label: 'Time investment only'},
@@ -1727,13 +1675,13 @@ function _buildExecutionBlock(o) {
     h += '</div>';
   }
 
-  // C. FUND PATH
-  if (paths.fund && paths.fund.length > 0) {
+  // C. RESEARCH PATH
+  if (paths.research && paths.research.length > 0) {
     h += '<div style="margin-bottom:6px">';
-    h += '<div style="font-size:0.32rem;letter-spacing:1.5px;color:rgba(201,169,78,0.4);margin-bottom:2px">FUND PATH</div>';
+    h += '<div style="font-size:0.32rem;letter-spacing:1.5px;color:rgba(201,169,78,0.4);margin-bottom:2px">RESEARCH PATH</div>';
     h += '<div style="font-size:0.28rem;color:#807868;margin-bottom:2px">POTENTIAL SOURCES \u2014 NOT VERIFIED</div>';
-    for (var f = 0; f < paths.fund.length; f++) {
-      h += '<div style="font-size:0.34rem;color:#888;padding:1px 0">\u2022 ' + paths.fund[f] + '</div>';
+    for (var f = 0; f < paths.research.length; f++) {
+      h += '<div style="font-size:0.34rem;color:#888;padding:1px 0">\u2022 ' + paths.research[f] + '</div>';
     }
     h += '</div>';
   }

@@ -504,11 +504,11 @@
       valueRange: '$50K–$5M depending on scale and mechanism',
       trigger: 'Input cost spike >15% or commodity price decline >10%',
       validation: ['Verify margin compression via farm financial statements', 'Confirm crop insurance program eligibility', 'Check USDA Economic Research Service data'],
-      steps: ['Map affected farms by county and commodity', 'Assess margin compression severity', 'Identify eligible USDA programs', 'Draft grant or loan application', 'Engage county extension agent', 'Submit and track'],
+      steps: ['Map affected farms by county and commodity', 'Assess margin compression severity', 'Position in farm-lending and crop-insurance platforms', 'Engage county extension agent', 'Track recovery metrics'],
       outcome: 'Operator secures financial protection or acquisition position before market normalizes',
       failure: 'Markets recover rapidly or input costs normalize before execution',
       window: 45,
-      fastPath: ['Identify highest-stress county', 'Match to USDA program', 'Submit application'],
+      fastPath: ['Identify highest-stress county', 'Screen AGM/FPI/LAND', 'Position or scope research brief'],
       examples: ['DE', 'CTVA', 'NTR', 'ADM', 'BG']
     },
     'agri_supply': {
@@ -517,38 +517,37 @@
       valueRange: '$100K–$10M depending on infrastructure scope',
       trigger: 'Logistics failure affecting >3 counties or equipment downtime >72 hours',
       validation: ['Verify disruption via USDA market news', 'Confirm equipment availability constraints', 'Check regional distribution capacity'],
-      steps: ['Map disruption geography and commodity impact', 'Identify infrastructure gaps', 'Source equipment or logistics partners', 'Draft infrastructure grant application', 'Deploy monitoring system', 'Track recovery metrics'],
+      steps: ['Map disruption geography and commodity impact', 'Identify infrastructure gaps', 'Source equipment or logistics partners', 'Deploy monitoring system', 'Track recovery metrics'],
       outcome: 'Operator captures infrastructure demand or positions maintenance platform in underserved market',
       failure: 'Disruption resolves before infrastructure deployment or alternative routes established',
       window: 30,
-      fastPath: ['Identify bottleneck', 'Source alternative', 'Deploy'],
+      fastPath: ['Identify bottleneck', 'Source alternative', 'Deploy or scope research brief'],
       examples: ['DE', 'AGCO', 'CNH', 'LNN', 'GNRC']
     },
     'climate_resilience': {
       explain: 'Climate stress drives demand for drought-tolerant genetics, irrigation technology, pest biocontrols, and precision agriculture platforms.',
-      action: 'Deploy climate-adaptive technologies in affected growing regions. Patent novel approaches. Secure research grants.',
+      action: 'Deploy climate-adaptive technologies in affected growing regions. Scope research into novel approaches.',
       valueRange: '$25K–$2M depending on technology and coverage',
       trigger: 'Drought monitor D2+ or pest detection in >5 counties',
       validation: ['Check NOAA drought monitor', 'Verify pest/disease reports via APHIS', 'Confirm yield impact estimates'],
-      steps: ['Map affected regions and crops', 'Identify technology fit (irrigation, genetics, biocontrol)', 'Assess patentability of approach', 'Draft USDA NIFA or SARE grant', 'Deploy pilot in affected region', 'Monitor yield recovery'],
-      outcome: 'Operator secures grant funding or patent position in climate-adaptive agriculture',
+      steps: ['Map affected regions and crops', 'Identify technology fit (irrigation, genetics, biocontrol)', 'Scope research brief on climate-adaptive approaches', 'Deploy pilot in affected region', 'Monitor yield recovery'],
+      outcome: 'Operator positions in climate-adaptive agriculture companies or commissions research on intervention efficacy',
       failure: 'Weather normalizes or pest contained before technology deployment',
       window: 60,
-      fastPath: ['Target worst-affected county', 'Match technology', 'Apply for grant'],
+      fastPath: ['Target worst-affected county', 'Match technology', 'Position in VMI/LNN/CTVA or scope research brief'],
       examples: ['CTVA', 'FMC', 'SMG', 'ANDE', 'LNN']
     }
   };
 
   var COMPENSATION_MAP = {
-    'GRANT-ELIGIBLE': { type: 'grant', base: 0.10, unit: 'grant value', tier: 1, nextTier: 0.15, maxTier: 0.25 },
-    'INVESTABLE': { type: 'invest', base: 0.05, unit: 'profit', tier: 1, nextTier: 0.10, maxTier: 0.15 },
-    'PATENTABLE': { type: 'patent', base: 0.10, unit: 'royalty', tier: 1, nextTier: 0.15, maxTier: 0.25 }
+    'INVESTABLE':   { type: 'invest',   base: 0.05, unit: 'profit',   tier: 1, nextTier: 0.10, maxTier: 0.15 },
+    'RESEARCHABLE': { type: 'research', base: 0.05, unit: 'credit',   tier: 1, nextTier: 0.10, maxTier: 0.15 }
   };
 
   function enrichOpportunity(opp, dx) {
     var playbookId = dx ? (PLAYBOOK_MAP[dx.id] || 'agri_finance') : 'agri_finance';
     var pb = PLAYBOOKS[playbookId] || {};
-    var comp = COMPENSATION_MAP[opp.path] || COMPENSATION_MAP['GRANT-ELIGIBLE'];
+    var comp = COMPENSATION_MAP[opp.path] || COMPENSATION_MAP['INVESTABLE'];
     opp.domain = 'agriculture';
     opp.playbookId = playbookId;
     opp.confidence = Math.round(Math.min(1, Math.max(0, (opp.rank || 0))) * 100);
@@ -592,13 +591,13 @@
       var dx = activeDx[di];
       var dxLabel = (dx.label || dx.id || '').replace(/_/g, ' ');
 
-      add(enrichOpportunity({ id: dx.id + '_PATENTABLE_t1', title: dxLabel + ' — precision agriculture and monitoring platform', rank: stress * dx.relevance, path: 'PATENTABLE', urgency: stress > 0.70 ? 'IMMEDIATE' : 'ACTIVE', source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress }, dx));
+      add(enrichOpportunity({ id: dx.id + '_RESEARCHABLE_t1', title: dxLabel + ' — precision agriculture and monitoring platform', rank: stress * dx.relevance, path: 'RESEARCHABLE', urgency: stress > 0.70 ? 'IMMEDIATE' : 'ACTIVE', source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress }, dx));
 
-      if (stress >= 0.50) add(enrichOpportunity({ id: dx.id + '_GRANT_t1', title: dxLabel + ' — food supply chain resilience infrastructure', rank: stress * dx.relevance * 0.9, path: 'GRANT-ELIGIBLE', urgency: stress > 0.70 ? 'IMMEDIATE' : 'ACTIVE', source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress }, dx));
+      if (stress >= 0.50) add(enrichOpportunity({ id: dx.id + '_INVESTABLE_t1b', title: dxLabel + ' — food supply chain resilience infrastructure', rank: stress * dx.relevance * 0.9, path: 'INVESTABLE', urgency: stress > 0.70 ? 'IMMEDIATE' : 'ACTIVE', source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress }, dx));
 
       if (stress >= 0.55 && dx.relevance >= 0.2) add(enrichOpportunity({ id: dx.id + '_INVESTABLE_t1', title: dxLabel + ' — input cost hedging and margin protection', rank: stress * 0.85, path: 'INVESTABLE', urgency: 'ACTIVE', source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress }, dx));
 
-      add(enrichOpportunity({ id: dx.id + '_PATENT2_t1', title: dxLabel + ' — agtech adaptation and yield optimization', rank: stress * dx.relevance * 0.75, path: 'PATENTABLE', urgency: 'ACTIVE', source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress }, dx));
+      add(enrichOpportunity({ id: dx.id + '_RESEARCHABLE2_t1', title: dxLabel + ' — agtech adaptation and yield optimization', rank: stress * dx.relevance * 0.75, path: 'RESEARCHABLE', urgency: 'ACTIVE', source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress }, dx));
     }
 
     // Company terminal opportunities
@@ -606,7 +605,7 @@
     if (terminalCompanies.length > 0) add(enrichOpportunity({ id: 'ag_terminal_t1', title: 'Agriculture terminal entity distressed positioning', rank: 0.95, path: 'INVESTABLE', urgency: 'IMMEDIATE', source: 'company_terminal', tier: 1, companies: terminalCompanies.map(function (c) { return c.ticker; }), stress: stress }, null));
 
     // Convergence
-    if (this.state.convergence && this.state.convergence.primary_signal) add(enrichOpportunity({ id: 'ag_convergence_t1', title: this.state.convergence.primary_signal.replace(/_/g, ' ').toLowerCase() + ' — agriculture convergence response', rank: 0.98, path: 'GRANT-ELIGIBLE', urgency: 'IMMEDIATE', source: 'convergence', tier: 1, signal: this.state.convergence.primary_signal, stress: stress }, null));
+    if (this.state.convergence && this.state.convergence.primary_signal) add(enrichOpportunity({ id: 'ag_convergence_t1', title: this.state.convergence.primary_signal.replace(/_/g, ' ').toLowerCase() + ' — agriculture convergence response', rank: 0.98, path: 'INVESTABLE', urgency: 'IMMEDIATE', source: 'convergence', tier: 1, signal: this.state.convergence.primary_signal, stress: stress }, null));
 
     // TIER 2 — CROSS-DOMAIN
     var emissions = this.state.crossDomainEmissions || [];
@@ -617,18 +616,18 @@
 
     // TIER 3 — LAGGING
     if (stress >= 0.50 && activeDx.length > 0) {
-      add(enrichOpportunity({ id: 'ag_policy_t3', title: 'Agricultural policy and subsidy response', rank: stress * 0.65, path: 'GRANT-ELIGIBLE', urgency: 'ACTIVE', source: 'lagging', tier: 3, stress: stress }, activeDx[0]));
+      add(enrichOpportunity({ id: 'ag_policy_t3', title: 'Agricultural policy and subsidy response', rank: stress * 0.65, path: 'RESEARCHABLE', urgency: 'ACTIVE', source: 'lagging', tier: 3, stress: stress }, activeDx[0]));
       add(enrichOpportunity({ id: 'ag_insurance_t3', title: 'Crop insurance and risk transfer positioning', rank: stress * 0.70, path: 'INVESTABLE', urgency: 'ACTIVE', source: 'lagging', tier: 3, stress: stress }, activeDx[0]));
     }
     if (stress >= 0.60 && activeDx.length > 0) {
-      add(enrichOpportunity({ id: 'ag_harden_t3', title: 'Food distribution infrastructure hardening', rank: stress * 0.75, path: 'GRANT-ELIGIBLE', urgency: 'ACTIVE', source: 'lagging', tier: 3, stress: stress }, activeDx[0]));
+      add(enrichOpportunity({ id: 'ag_harden_t3', title: 'Food distribution infrastructure hardening', rank: stress * 0.75, path: 'INVESTABLE', urgency: 'ACTIVE', source: 'lagging', tier: 3, stress: stress }, activeDx[0]));
       add(enrichOpportunity({ id: 'ag_diversify_t3', title: 'Supplier diversification — alternative input sourcing', rank: stress * 0.68, path: 'INVESTABLE', urgency: 'ACTIVE', source: 'lagging', tier: 3, stress: stress }, activeDx[0]));
     }
 
     // WATCHLIST — near-active diagnoses
     var nearDx = allDx.filter(function (d) { return !d.active && d.relevance > 0 && d.totalTriggers > 0; });
     for (var ndi = 0; ndi < nearDx.length; ndi++) {
-      if (stress >= 0.45) add(enrichOpportunity({ id: nearDx[ndi].id + '_watch', title: (nearDx[ndi].label || '').replace(/_/g, ' ') + ' — early-stage monitoring', rank: stress * (nearDx[ndi].relevance || 0.1) * 0.5, path: 'PATENTABLE', urgency: 'WATCH', source: 'near_diagnosis', tier: 2, stress: stress }, nearDx[ndi]));
+      if (stress >= 0.45) add(enrichOpportunity({ id: nearDx[ndi].id + '_watch', title: (nearDx[ndi].label || '').replace(/_/g, ' ') + ' — early-stage monitoring', rank: stress * (nearDx[ndi].relevance || 0.1) * 0.5, path: 'RESEARCHABLE', urgency: 'WATCH', source: 'near_diagnosis', tier: 2, stress: stress }, nearDx[ndi]));
     }
 
     opps.sort(function (a, b) { return (b.rank || 0) - (a.rank || 0); });
@@ -654,10 +653,10 @@
       return null;
     }
     function _urgencyLabel(u) { if (u === 'high') return 'IMMEDIATE'; if (u === 'medium') return 'ACTIVE'; if (u === 'watching') return 'WATCH'; return (u || '').toUpperCase(); }
+    // Lanes: investment + research ONLY (patent/grant/loan purged 2026-06-21; relaned GRANT->INVESTABLE, PATENT->RESEARCHABLE)
     var _COMP = {
-      'GRANT-ELIGIBLE': { type: 'grant',  base: 10, unit: '%',        tier: 1, nextTier: { tier: 2, comp: 15, requirement: '3 successful grant awards' },     maxTier: { tier: 3, comp: 25 } },
-      'INVESTABLE':     { type: 'invest', base: 5,  unit: 'profit%',  tier: 1, nextTier: { tier: 2, comp: 10, requirement: '3 profitable positions closed' }, maxTier: { tier: 3, comp: 15 } },
-      'PATENTABLE':     { type: 'patent', base: 10, unit: 'royalty%', tier: 1, nextTier: { tier: 2, comp: 15, requirement: '3 patents filed' },                maxTier: { tier: 3, comp: 25 } }
+      'INVESTABLE':     { type: 'invest',   base: 5,  unit: 'profit%',  tier: 1, nextTier: { tier: 2, comp: 10, requirement: '3 profitable positions closed' }, maxTier: { tier: 3, comp: 15 } },
+      'RESEARCHABLE':   { type: 'research', base: 5,  unit: 'credit%',  tier: 1, nextTier: { tier: 2, comp: 10, requirement: '3 published research briefs' },   maxTier: { tier: 3, comp: 15 } }
     };
     for (var oi = 0; oi < opps.length; oi++) {
       var o = opps[oi];
@@ -684,8 +683,7 @@
         var stressPct = Math.round((o.stress || 0) * 100);
         var target = '';
         if (o.path === 'INVESTABLE' && pb.realWorld && pb.realWorld.invest) target = pb.realWorld.invest;
-        else if (o.path === 'GRANT-ELIGIBLE' && pb.realWorld && pb.realWorld.apply) target = pb.realWorld.apply;
-        else if (o.path === 'PATENTABLE' && pb.realWorld && pb.realWorld.build) target = pb.realWorld.build;
+        else if (o.path === 'RESEARCHABLE' && pb.realWorld && (pb.realWorld.research || pb.realWorld.build)) target = pb.realWorld.research || pb.realWorld.build;
         else if (o.companies && o.companies.length) target = 'Mapped companies: ' + o.companies.join(', ') + '.';
         var timingParts = []; if (o.urgencyLabel) timingParts.push(o.urgencyLabel); if (pb.window) timingParts.push('Window: ' + pb.window);
         var timing = timingParts.join(' \u00b7 ');

@@ -39,7 +39,7 @@
     "window": "90 days–3 years",
     "realWorld": {
       "invest": "Limited public-market exposure.",
-      "apply": "Democracy Fund, Ford Foundation, Rockefeller Brothers, Hewlett, Knight Foundation democracy grants.",
+      "research": "Research brief: map democracy-monitoring organizations (Democracy Fund, Ford Foundation, Rockefeller Brothers, Hewlett, Knight Foundation) and evaluate institutional-resilience indicators.",
       "build": "Rule-of-law monitoring platforms, institutional-resilience analytics, democracy-indicator tooling."
     },
     "examples": [
@@ -52,7 +52,7 @@
     "fastPath": [
       "1. Confirm CONSTITUTIONAL_CRISIS active",
       "2. Position advisory to institutions",
-      "3. Apply to Democracy Fund or Ford Foundation"
+      "3. Scope a research brief on democracy-monitoring infrastructure and funding landscape"
     ]
   },
   {
@@ -84,7 +84,7 @@
     "window": "30 days–3 years",
     "realWorld": {
       "invest": "Political-risk: Eurasia Group (private), Control Risks (private). Public: Palantir (PLTR), FactSet (FDS).",
-      "apply": "State Department democracy and governance grants, USAID democracy programs.",
+      "research": "Research brief: assess regime-fragmentation indicators and benchmark political-risk analytics against country-risk intelligence datasets (State Department, USAID, ICG, Eurasia Group).",
       "build": "Political-risk analytics, sovereign-credit monitoring, country-risk intelligence."
     },
     "examples": [
@@ -96,8 +96,8 @@
     ],
     "fastPath": [
       "1. Confirm REGIME_INSTABILITY",
-      "2. Screen political-risk offerings",
-      "3. Pursue State/USAID democracy grants"
+      "2. Screen political-risk offerings (PLTR, FDS)",
+      "3. Scope a research brief on regime-fragmentation indicators and political-risk analytics"
     ]
   },
   {
@@ -129,7 +129,7 @@
     "window": "90 days–2 years",
     "realWorld": {
       "invest": "Gov-tech: Tyler Technologies (TYL), Veritone (VERI). Primes: Leidos (LDOS), CACI (CACI), Booz Allen (BAH).",
-      "apply": "GSA 18F, USDS partnerships, TMF grants, agency modernization contracts.",
+      "research": "Research brief: evaluate policy-implementation failure modes and benchmark gov-tech modernization programs (GSA 18F, USDS, TMF) for evidence of accountability improvement.",
       "build": "Performance-management platforms, policy-implementation analytics, accountability-monitoring."
     },
     "examples": [
@@ -141,8 +141,8 @@
     ],
     "fastPath": [
       "1. Confirm POLICY_FAILURE",
-      "2. Screen gov-tech primes (TYL)",
-      "3. Pursue TMF or GSA 18F partnership"
+      "2. Screen gov-tech primes (TYL, LDOS, BAH)",
+      "3. Scope a research brief on policy-implementation failure and modernization evidence"
     ]
   },
   {
@@ -174,7 +174,7 @@
     "window": "90 days–3 years",
     "realWorld": {
       "invest": "Compliance: LexisNexis (RELX), Thomson Reuters (TRI), Refinitiv. Pure-plays: Dow Jones Risk (private).",
-      "apply": "State Department Bureau of International Narcotics and Law Enforcement (INL), USAID integrity programs.",
+      "research": "Research brief: map anti-corruption enforcement patterns (DOJ, SEC, OIG) and benchmark FCPA-compliance and beneficial-ownership tracking solutions.",
       "build": "Beneficial-ownership tracking, FCPA-compliance automation, integrity-monitoring platforms."
     },
     "examples": [
@@ -186,8 +186,8 @@
     ],
     "fastPath": [
       "1. Confirm CORRUPTION_SCANDAL",
-      "2. Screen FCPA-compliance platforms",
-      "3. Pursue INL or USAID integrity programs"
+      "2. Screen FCPA-compliance platforms (RELX, TRI)",
+      "3. Scope a research brief on anti-corruption enforcement and integrity-monitoring evidence"
     ]
   },
   {
@@ -219,7 +219,7 @@
     "window": "30 days–2 years",
     "realWorld": {
       "invest": "Limited public exposure.",
-      "apply": "State Department Public Diplomacy, USAID programs, multilateral (UN, OAS) funding streams.",
+      "research": "Research brief: analyze diplomatic-breakdown indicators and map multilateral-advisory demand (State Department Public Diplomacy, USAID, UN, OAS funding landscape).",
       "build": "Alliance-coordination platforms, diplomacy-analytics tooling, strategic-communication infrastructure."
     },
     "examples": [
@@ -232,7 +232,7 @@
     "fastPath": [
       "1. Confirm DIPLOMATIC_BREAKDOWN",
       "2. Position advisory to State/multilateral",
-      "3. Pursue State Public Diplomacy funding"
+      "3. Scope a research brief on diplomatic-breakdown indicators and multilateral-advisory market"
     ]
   },
   {
@@ -265,7 +265,7 @@
     "window": "90 days–3 years",
     "realWorld": {
       "invest": "Limited public exposure.",
-      "apply": "MacArthur Foundation (Defense Accountability), Hewlett, ACLU-adjacent funders.",
+      "research": "Research brief: assess civil-military tension indicators and map defense-accountability funding landscape (MacArthur Foundation, Hewlett, ACLU-adjacent funders).",
       "build": "Civil-military oversight tooling, defense-accountability analytics, rule-of-law monitoring."
     },
     "examples": [
@@ -277,8 +277,8 @@
     ],
     "fastPath": [
       "1. Confirm MILITARY_OVERREACH",
-      "2. Position advisory to oversight",
-      "3. Pursue MacArthur or Hewlett funding"
+      "2. Position advisory to oversight bodies",
+      "3. Scope a research brief on civil-military tension and accountability infrastructure"
     ]
   },
   {
@@ -300,7 +300,7 @@
       "Count OFFLINE sources",
       "Identify gap",
       "Build pipeline",
-      "Apply to foundation democracy grants"
+      "Scope research brief on governance-data infrastructure landscape"
     ],
     "branch_up": "Gap persists: build infrastructure.",
     "branch_down": "Sources recover: monitor.",
@@ -309,7 +309,7 @@
     "window": "30 days–18 months",
     "realWorld": {
       "invest": "N/A",
-      "apply": "Democracy Fund, Knight Foundation, Hewlett, Ford, open-data grants.",
+      "research": "Research brief: map governance-data coverage gaps and evaluate legislative-tracking, regulatory-monitoring, and transparency platforms (Democracy Fund, Knight Foundation, Hewlett, Ford open-data landscape).",
       "build": "Legislative-tracking, regulatory-monitoring, governance-transparency platforms."
     },
     "examples": [
@@ -321,8 +321,8 @@
     ],
     "fastPath": [
       "1. Check feed health",
-      "2. Identify gap",
-      "3. Pursue Democracy Fund or Knight"
+      "2. Identify governance-data gap",
+      "3. Scope a research brief on governance-transparency infrastructure"
     ]
   }
 ];

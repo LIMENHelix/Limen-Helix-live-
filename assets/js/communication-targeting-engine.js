@@ -154,7 +154,7 @@
     var nodeLabel = (dir.nodeLabel || '').toLowerCase();
     var treatLabel = (dir.treatmentLabel || directive.title || '').toLowerCase();
     var dxId = (directive.diagnosisId || '').toLowerCase();
-    var path = directive.path || 'GRANT-ELIGIBLE';
+    var path = directive.path || 'INVESTABLE';
 
     var relevantSegments = _resolveSegments(nodeId, nodeLabel, treatLabel, dxId);
 
@@ -210,8 +210,7 @@
     tier3 = tier3.slice(0, 5);
 
     var executionTargets = [];
-    if (path === 'GRANT-ELIGIBLE') executionTargets = ['Knight Foundation Local News program', 'NSF Convergence Accelerator (Information Integrity)', 'NTIA broadband and digital equity grants', 'DARPA SemaFor (semantic forensics)', 'CPB content and journalism grants'];
-    else if (path === 'PATENTABLE') executionTargets = ['Patent attorneys (telecom, signal processing, ML)', 'Platform licensors', 'Standards bodies (IETF, W3C, ITU)', 'Strategic acquirers in trust and safety / ad-tech'];
+    if (path === 'RESEARCHABLE') executionTargets = ['Research desks', 'Institutional research buyers', 'Independent / sell-side analysts'];
     else if (path === 'INVESTABLE') executionTargets = ['Media-focused VCs (Lerer Hippeau, Lightspeed)', 'Telecom infrastructure funds', 'Ad-tech / trust-and-safety strategic investors'];
 
     var formatted = _format(tier1, tier2, tier3, executionTargets);

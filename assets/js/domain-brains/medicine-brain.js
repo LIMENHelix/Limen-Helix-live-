@@ -513,7 +513,7 @@
         add({
           title: 'Care access infrastructure — expand provider reach and reduce geographic gaps',
           rank: stress * dx.relevance,
-          path: 'GRANT-ELIGIBLE',
+          path: 'INVESTABLE',
           urgency: stress > 0.70 ? 'high' : 'medium',
           source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress
         });
@@ -528,7 +528,7 @@
           add({
             title: 'Telehealth and remote care platform expansion',
             rank: stress * dx.relevance * 0.85,
-            path: 'PATENTABLE',
+            path: 'RESEARCHABLE',
             urgency: 'medium',
             source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress
           });
@@ -547,7 +547,7 @@
         add({
           title: 'Prevention system strengthening — population-level chronic disease intervention',
           rank: stress * dx.relevance * 0.9,
-          path: 'GRANT-ELIGIBLE',
+          path: 'INVESTABLE',
           urgency: 'medium',
           source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress
         });
@@ -555,7 +555,7 @@
           add({
             title: 'Remote patient monitoring and adherence support platforms',
             rank: stress * dx.relevance * 0.8,
-            path: 'PATENTABLE',
+            path: 'RESEARCHABLE',
             urgency: 'medium',
             source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress
           });
@@ -567,7 +567,7 @@
         add({
           title: 'Clinical coordination platforms — care pathway interoperability',
           rank: stress * dx.relevance,
-          path: 'PATENTABLE',
+          path: 'RESEARCHABLE',
           urgency: stress > 0.70 ? 'high' : 'medium',
           source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress
         });
@@ -582,7 +582,7 @@
           add({
             title: 'Health information exchange and multi-provider coordination infrastructure',
             rank: stress * dx.relevance * 0.85,
-            path: 'GRANT-ELIGIBLE',
+            path: 'INVESTABLE',
             urgency: 'medium',
             source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress
           });
@@ -601,7 +601,7 @@
         add({
           title: 'Evidence translation acceleration — trial-to-practice pipeline',
           rank: stress * dx.relevance * 0.9,
-          path: 'PATENTABLE',
+          path: 'RESEARCHABLE',
           urgency: 'medium',
           source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress
         });
@@ -609,7 +609,7 @@
           add({
             title: 'Diagnostic uncertainty reduction — AI-assisted clinical decision support',
             rank: stress * dx.relevance * 0.85,
-            path: 'PATENTABLE',
+            path: 'RESEARCHABLE',
             urgency: 'medium',
             source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress
           });
@@ -650,7 +650,7 @@
       add({
         title: this.state.convergence.primary_signal.replace(/_/g, ' ').toLowerCase() + ' — medicine convergence response',
         rank: 0.98,
-        path: this.state.convergence.primary_signal === 'CONVERGENCE_TERMINAL' ? 'INVESTABLE' : 'GRANT-ELIGIBLE',
+        path: this.state.convergence.primary_signal === 'CONVERGENCE_TERMINAL' ? 'INVESTABLE' : 'INVESTABLE',
         urgency: 'high',
         source: 'convergence', tier: 1,
         signal: this.state.convergence.primary_signal,
@@ -679,7 +679,7 @@
         add({
           title: 'Diagnostic technology demand — clinical interoperability and monitoring systems',
           rank: stress * 0.7,
-          path: 'PATENTABLE',
+          path: 'RESEARCHABLE',
           urgency: 'medium',
           source: 'cross_domain', tier: 2,
           diagnosisId: 'tech_diagnostic', stress: stress
@@ -703,7 +703,7 @@
       add({
         title: 'Healthcare policy and regulatory response — access modernization',
         rank: stress * 0.65,
-        path: 'GRANT-ELIGIBLE',
+        path: 'INVESTABLE',
         urgency: stress > 0.70 ? 'medium' : 'watching',
         source: 'lagging', tier: 3,
         diagnosisId: 'regulatory_response', stress: stress
@@ -723,7 +723,7 @@
       add({
         title: 'Clinical workforce capacity expansion and training infrastructure',
         rank: stress * 0.75,
-        path: 'GRANT-ELIGIBLE',
+        path: 'INVESTABLE',
         urgency: stress > 0.70 ? 'high' : 'medium',
         source: 'lagging', tier: 3,
         diagnosisId: 'workforce_capacity', stress: stress
@@ -732,7 +732,7 @@
       add({
         title: 'Drug safety surveillance and adverse event monitoring platform',
         rank: stress * 0.72,
-        path: 'PATENTABLE',
+        path: 'RESEARCHABLE',
         urgency: 'medium',
         source: 'lagging', tier: 3,
         diagnosisId: 'safety_monitoring', stress: stress
@@ -756,7 +756,7 @@
         add({
           title: (nd.label || nd.id || '').replace(/_/g, ' ') + ' — early-stage monitoring position',
           rank: stress * (nd.relevance || 0.1) * 0.5,
-          path: 'PATENTABLE',
+          path: 'RESEARCHABLE',
           urgency: 'watching',
           source: 'near_diagnosis', tier: 2,
           diagnosisId: nd.id, stress: stress
@@ -792,9 +792,8 @@
     }
     function _urgencyLabel(u) { if (u === 'high') return 'IMMEDIATE'; if (u === 'medium') return 'ACTIVE'; if (u === 'watching') return 'WATCH'; return (u || '').toUpperCase(); }
     var _COMP = {
-      'GRANT-ELIGIBLE': { type: 'grant',  base: 10, unit: '%',        tier: 1, nextTier: { tier: 2, comp: 15, requirement: '3 successful grant awards' },     maxTier: { tier: 3, comp: 25 } },
-      'INVESTABLE':     { type: 'invest', base: 5,  unit: 'profit%',  tier: 1, nextTier: { tier: 2, comp: 10, requirement: '3 profitable positions closed' }, maxTier: { tier: 3, comp: 15 } },
-      'PATENTABLE':     { type: 'patent', base: 10, unit: 'royalty%', tier: 1, nextTier: { tier: 2, comp: 15, requirement: '3 patents filed' },                maxTier: { tier: 3, comp: 25 } }
+      'INVESTABLE':    { type: 'invest',   base: 5,  unit: 'profit%',   tier: 1, nextTier: { tier: 2, comp: 10, requirement: '3 profitable positions closed' }, maxTier: { tier: 3, comp: 15 } },
+      'RESEARCHABLE':  { type: 'research', base: 8,  unit: 'rev-share%', tier: 1, nextTier: { tier: 2, comp: 12, requirement: '3 research outputs published' },  maxTier: { tier: 3, comp: 20 } }
     };
     for (var oi = 0; oi < opps.length; oi++) {
       var o = opps[oi];
@@ -821,8 +820,7 @@
         var stressPct = Math.round((o.stress || 0) * 100);
         var target = '';
         if (o.path === 'INVESTABLE' && pb.realWorld && pb.realWorld.invest) target = pb.realWorld.invest;
-        else if (o.path === 'GRANT-ELIGIBLE' && pb.realWorld && pb.realWorld.apply) target = pb.realWorld.apply;
-        else if (o.path === 'PATENTABLE' && pb.realWorld && pb.realWorld.build) target = pb.realWorld.build;
+        else if (o.path === 'RESEARCHABLE' && pb.realWorld && (pb.realWorld.research || pb.realWorld.build)) target = pb.realWorld.research || pb.realWorld.build;
         else if (o.companies && o.companies.length) target = 'Mapped companies: ' + o.companies.join(', ') + '.';
         var timingParts = []; if (o.urgencyLabel) timingParts.push(o.urgencyLabel); if (pb.window) timingParts.push('Window: ' + pb.window);
         var timing = timingParts.join(' \u00b7 ');

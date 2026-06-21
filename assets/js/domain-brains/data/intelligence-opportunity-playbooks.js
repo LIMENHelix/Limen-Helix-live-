@@ -26,7 +26,7 @@
     outcome:'Intelligence-tech, observability, and data fusion companies see sustained demand as agencies modernize.',
     failure:'Threat environment normalizes. Budget cuts reduce intelligence spending. Gap was temporary.',
     window:'30 days\u20133 years',
-    realWorld:{invest:'Intelligence analytics: Palantir (PLTR), Booz Allen Hamilton (BAH), Leidos (LDOS), CrowdStrike (CRWD).',apply:'Search sam.gov for IC modernization, analytics, or threat detection contracts.',build:'Build anomaly detection, intelligence fusion, or early warning platforms.'},
+    realWorld:{invest:'Intelligence analytics: Palantir (PLTR), Booz Allen Hamilton (BAH), Leidos (LDOS), CrowdStrike (CRWD).',research:'Research anomaly detection, intelligence fusion, or early warning platforms. Review IARPA and ODNI published research programs.',build:'Build anomaly detection, intelligence fusion, or early warning platforms.'},
     examples:['Intelligence fusion platforms (Palantir, Booz Allen)','Threat detection and anomaly analysis (CrowdStrike, Recorded Future)','Data analytics and pattern recognition','Early warning and predictive systems','Human intelligence network support'],
     fastPath:['1. Confirm INTELLIGENCE_FAILURE active in console diagnosis chain','2. Drill into portal \u2192 review CLAUST and dACC node treatments','3. Invest in intelligence-tech (PLTR, BAH, CRWD) or search sam.gov for IC contracts']
   },
@@ -46,9 +46,9 @@
     outcome:'Privacy-tech, encryption, and oversight platforms see demand growth during scandal aftermath.',
     failure:'Public attention shifts. Reform blocked by security arguments. Status quo restored.',
     window:'7 days\u20132 years',
-    realWorld:{invest:'Privacy and encryption: Cloudflare (NET), Palo Alto (PANW), Zscaler (ZS).',apply:'Foundation grants for privacy advocacy and oversight reform.',build:'Build privacy audit, surveillance transparency, or oversight compliance platforms.'},
+    realWorld:{invest:'Privacy and encryption: Cloudflare (NET), Palo Alto (PANW), Zscaler (ZS).',research:'Research privacy audit methodologies, surveillance oversight frameworks, and accountability mechanisms. Review EFF and ACLU published literature.',build:'Build privacy audit, surveillance transparency, or oversight compliance platforms.'},
     examples:['Privacy and encryption infrastructure','Surveillance oversight and audit tools','Transparency and accountability platforms','Civil liberties advocacy technology','Secure communication systems'],
-    fastPath:['1. Confirm MASS_SURVEILLANCE_SCANDAL active in console','2. Drill into portal \u2192 review DAN and rACC node treatments','3. Invest in privacy-tech (NET, PANW) or support oversight reform']
+    fastPath:['1. Confirm MASS_SURVEILLANCE_SCANDAL active in console','2. Drill into portal \u2192 review DAN and rACC node treatments','3. Invest in privacy-tech (NET, PANW) or research oversight reform frameworks']
   },
   {
     id:'cyber_espionage', title:'Cyber Espionage Response',
@@ -66,9 +66,9 @@
     outcome:'Cybersecurity, zero-trust, and threat intelligence companies see rapid demand during espionage events.',
     failure:'Breach proves limited in scope. No sustained spending increase. One-time incident.',
     window:'7 days\u201318 months',
-    realWorld:{invest:'CrowdStrike (CRWD), Palo Alto (PANW), SentinelOne (S), Booz Allen (BAH), Leidos (LDOS).',apply:'CISA or DOD cybersecurity contracts via sam.gov.',build:'Build threat detection, zero-trust architecture, or counterespionage platforms.'},
+    realWorld:{invest:'CrowdStrike (CRWD), Palo Alto (PANW), SentinelOne (S), Booz Allen (BAH), Leidos (LDOS).',research:'Research threat detection, zero-trust architecture, and counterespionage methodologies. Review CISA KEV and NIST cybersecurity frameworks.',build:'Build threat detection, zero-trust architecture, or counterespionage platforms.'},
     examples:['Threat intelligence and detection (CrowdStrike, Recorded Future)','Zero-trust architecture (Zscaler, Okta)','Secure communications (Signal protocol implementations)','Counterintelligence platforms','Network forensics and incident response'],
-    fastPath:['1. Confirm CYBER_ESPIONAGE active with adversarial_penetration signals','2. Drill into portal \u2192 review IPS and DAN node treatments','3. Invest in cybersecurity (CRWD, PANW, S) or apply for CISA contracts']
+    fastPath:['1. Confirm CYBER_ESPIONAGE active with adversarial_penetration signals','2. Drill into portal \u2192 review IPS and DAN node treatments','3. Invest in cybersecurity (CRWD, PANW, S) or research CISA and NIST published cybersecurity frameworks']
   },
   {
     id:'foreign_interference', title:'Foreign Interference Response',
@@ -86,9 +86,9 @@
     outcome:'Disinformation detection, content authentication, and attribution platforms see demand growth.',
     failure:'Interference campaign limited in impact. Public resilience higher than expected. Political will fades.',
     window:'30 days\u20132 years',
-    realWorld:{invest:'Information integrity: Cloudflare (NET), Palo Alto (PANW), CrowdStrike (CRWD).',apply:'State Department or DHS counter-influence grants. CISA election security programs.',build:'Build disinformation detection, content authentication, or influence-attribution platforms.'},
+    realWorld:{invest:'Information integrity: Cloudflare (NET), Palo Alto (PANW), CrowdStrike (CRWD).',research:'Research disinformation detection, content authentication, and influence-attribution methodologies. Review State Department and CISA published election security frameworks.',build:'Build disinformation detection, content authentication, or influence-attribution platforms.'},
     examples:['Disinformation detection and content moderation','Election integrity and authentication systems','Attribution and influence-tracking platforms','Social media monitoring and bot detection','Counter-narrative and media literacy tools'],
-    fastPath:['1. Confirm FOREIGN_INTERFERENCE active with narrative_manipulation signals','2. Drill into portal \u2192 review EMP and PRECUNEUS node treatments','3. Invest in information-integrity platforms or apply for CISA/State Department programs']
+    fastPath:['1. Confirm FOREIGN_INTERFERENCE active with narrative_manipulation signals','2. Drill into portal \u2192 review EMP and PRECUNEUS node treatments','3. Invest in information-integrity platforms or research CISA/State Department published counter-influence frameworks']
   },
   {
     id:'whistleblower_crisis', title:'Whistleblower Crisis Response',
@@ -106,13 +106,13 @@
     outcome:'Insider threat detection, secure communications, and institutional oversight systems see demand.',
     failure:'Crisis contained without structural reform. Public attention shifts. Status quo restored.',
     window:'7 days\u20132 years',
-    realWorld:{invest:'Insider threat detection and secure comms platforms.',apply:'Foundation grants for intelligence oversight and accountability reform.',build:'Build insider threat detection, secure whistleblower channels, or institutional audit platforms.'},
+    realWorld:{invest:'Insider threat detection and secure comms platforms.',research:'Research insider threat detection methodologies, secure whistleblower channel design, and institutional audit frameworks.',build:'Build insider threat detection, secure whistleblower channels, or institutional audit platforms.'},
     examples:['Insider threat detection platforms','Secure whistleblower and reporting channels','Institutional audit and accountability tools','Classified information management','Security clearance and trust verification'],
-    fastPath:['1. Confirm WHISTLEBLOWER_CRISIS active with leaked_signals','2. Drill into portal \u2192 review trust-boundary and oversight treatments','3. Invest in insider-threat detection or advise on institutional reform']
+    fastPath:['1. Confirm WHISTLEBLOWER_CRISIS active with leaked_signals','2. Drill into portal \u2192 review trust-boundary and oversight treatments','3. Invest in insider-threat detection or research institutional reform frameworks']
   },
   {
-    id:'intelligence_data_gap', title:'Intelligence Data Gap \u2192 Build',
-    type:'build', domains:['intelligence'],
+    id:'intelligence_data_gap', title:'Intelligence Data Gap \u2192 Research',
+    type:'research', domains:['intelligence'],
     pattern:null,
     explain:'Intelligence monitoring has gaps in real-time coverage. Build observability infrastructure to fill strategic blind spots.',
     action:'Build real-time threat monitoring, OSINT aggregation, or intelligence fusion platforms to fill data gaps in the LIMEN intelligence pipeline.',
@@ -126,9 +126,9 @@
     outcome:'Real-time intelligence data platform serving government, defense, and enterprise security sectors.',
     failure:'Existing sources recover. Government builds own platform. Market too classified for private entry.',
     window:'30 days\u201318 months',
-    realWorld:{invest:'N/A',apply:'IARPA, NSF, or DARPA grants for intelligence data infrastructure.',build:'Build OSINT aggregation, threat intelligence fusion, or anomaly detection platforms.'},
+    realWorld:{invest:'N/A',research:'Research OSINT aggregation methods, threat intelligence fusion architectures, and anomaly detection approaches. Review IARPA and DARPA published program documentation.',build:'Build OSINT aggregation, threat intelligence fusion, or anomaly detection platforms.'},
     examples:['OSINT aggregation and analysis platforms','Threat intelligence feed normalization','Geopolitical risk monitoring','Cyber threat indicator tracking','Strategic early warning dashboards'],
-    fastPath:['1. Check feed health: are Intelligence sources offline or degraded?','2. Identify which intelligence dimension is uncovered','3. Build a data pipeline and apply to IARPA or DARPA for funding']
+    fastPath:['1. Check feed health: are Intelligence sources offline or degraded?','2. Identify which intelligence dimension is uncovered','3. Research OSINT aggregation approaches and review IARPA/DARPA published program documentation for alignment']
   }
   ];
 

@@ -40,8 +40,7 @@
     "window": "30 days–3 years",
     "realWorld": {
       "invest": "Prime contractors: Lockheed Martin (LMT), RTX Corp (RTX), Northrop Grumman (NOC), General Dynamics (GD). Munitions: BAE Systems, Rheinmetall. ISR: L3Harris (LHX), Palantir (PLTR).",
-      "apply": "DoD OT agreements via DIU, Army xTechSearch, AFWERX; congressional supplemental-appropriations prime eligibility.",
-      "build": "Munitions production-capacity platforms, ISR data-fusion tooling, alliance-interoperability software."
+      "research": "Research defense-industrial readiness: munitions production-capacity analysis, ISR data-fusion tooling evaluation, alliance-interoperability technology assessment. Track DoD OT activity via DIU, Army xTechSearch, and AFWERX as procurement-context signals."
     },
     "examples": [
       "Prime-contractor equity exposure",
@@ -86,8 +85,7 @@
     "window": "7 days–2 years",
     "realWorld": {
       "invest": "Defense-cyber: Palo Alto Networks (PANW), CrowdStrike (CRWD), SentinelOne (S), Palantir (PLTR). Prime cyber: Booz Allen (BAH), Leidos (LDOS), CACI (CACI).",
-      "apply": "DoD CMMC ecosystem contracts, DIU cyber OTAs, DARPA cyber programs, DHS CISA grants.",
-      "build": "Zero-trust platforms for defense supply chain, CMMC audit automation, adversary-attribution tooling."
+      "research": "Research defense-cyber threat landscape: zero-trust platform capability analysis, CMMC compliance tooling evaluation, adversary-attribution methodology. Monitor DoD CMMC ecosystem and CISA advisory activity as procurement-context signals."
     },
     "examples": [
       "Defense-grade endpoint detection and response",
@@ -126,14 +124,13 @@
       "Monitor non-proliferation funding pools"
     ],
     "branch_up": "Sustained posture elevation: multi-decade modernization acceleration.",
-    "branch_down": "Diplomatic de-escalation: shift to monitoring and non-proliferation grants.",
+    "branch_down": "Diplomatic de-escalation: shift to monitoring and non-proliferation research.",
     "outcome": "Strategic-systems modernization primes and non-proliferation monitoring operators capture multi-decade contract backlogs.",
     "failure": "Posture normalizes quickly. Funding absorbed by conventional forces instead.",
     "window": "90 days–10 years",
     "realWorld": {
       "invest": "Strategic modernization: Northrop Grumman (NOC, Sentinel, B-21), General Dynamics (GD, Columbia-class), Lockheed Martin (LMT), BWX Technologies (BWXT).",
-      "apply": "NNSA contracts, DTRA counter-WMD programs, State Department non-proliferation grants.",
-      "build": "Non-proliferation monitoring platforms, nuclear-materials tracking, early-warning sensor networks."
+      "research": "Research nuclear deterrence and non-proliferation technology: monitoring platform capability analysis, nuclear-materials tracking systems evaluation, early-warning sensor network assessment. Track NNSA and DTRA program activity as procurement-context signals."
     },
     "examples": [
       "Strategic-systems modernization primes",
@@ -168,17 +165,16 @@
       "Review all-source fusion and anomaly-detection treatments",
       "Identify AI/ML ISR primes and pure-plays",
       "Position in DoD CDAO contract ecosystem",
-      "Monitor OTA and SBIR pipelines for emerging tooling"
+      "Research OTA and DoD innovation pipeline for emerging tooling (DIU, DARPA, IARPA)"
     ],
     "branch_up": "Systemic warning-failure: major analytics-procurement wave.",
-    "branch_down": "Single-incident containment: shift to SBIR/OTA-scale investment.",
+    "branch_down": "Single-incident containment: shift to smaller-scale analytics investment and research.",
     "outcome": "AI-ISR analytics vendors capture CDAO and combatant-command contracts. OSINT and data-fusion platforms see sustained demand.",
     "failure": "Incident reframed as process failure rather than capability gap. No new tooling procurement.",
     "window": "30 days–3 years",
     "realWorld": {
       "invest": "Palantir (PLTR), L3Harris (LHX), Booz Allen (BAH), Leidos (LDOS), Rhombus Power. ISR pure-plays: Maxar, Planet Labs (PL), BlackSky (BKSY).",
-      "apply": "DoD CDAO contracts, DIU OTAs, IARPA programs, DARPA I2O, SBIR/STTR across services.",
-      "build": "All-source fusion platforms, AI-enabled anomaly detection, OSINT aggregation and exploitation."
+      "research": "Research intelligence analytics and ISR technology: all-source fusion platform assessment, AI-enabled anomaly detection evaluation, OSINT aggregation methodology. Monitor DoD CDAO and IARPA program activity as procurement-context signals."
     },
     "examples": [
       "AI-enabled ISR analytics",
@@ -223,8 +219,7 @@
     "window": "60 days–5 years",
     "realWorld": {
       "invest": "Munitions: Northrop Grumman (NOC, Lake City), BAE Systems, General Dynamics Ordnance. Sustainment: KBR (KBR), Huntington Ingalls (HII). Critical minerals: MP Materials (MP), USA Rare Earth.",
-      "apply": "DPA Title III, OSD Manufacturing Capability Expansion, DoD IBAS grants, DOE critical-minerals programs.",
-      "build": "Munitions-production automation, critical-minerals sourcing platforms, defense sustainment analytics."
+      "research": "Research defense industrial base and supply chain: munitions-production automation technology, critical-minerals sourcing analysis, defense sustainment analytics platforms. Track DPA Title III and DoD IBAS activity as procurement-context signals."
     },
     "examples": [
       "Munitions production-capacity expansion",
@@ -236,13 +231,13 @@
     "fastPath": [
       "1. Confirm LOGISTICS_COLLAPSE active with stockpile_depletion signals",
       "2. Screen munitions producers and sustainment primes",
-      "3. Pursue DPA Title III or DoD IBAS grant opportunity"
+      "3. Research DPA Title III and DoD IBAS as procurement-context signals; position in munitions producers ahead of awards"
     ]
   },
   {
     "id": "civil_unrest_defense",
     "title": "Civil Unrest / Homeland Response",
-    "type": "advise",
+    "type": "invest",
     "domains": [
       "defense",
       "governance",
@@ -251,7 +246,7 @@
     "pattern": "defense_homeland",
     "explain": "Domestic unrest or homeland-security emergency requiring DSCA, National Guard mobilization, or FEMA support. Portal diagnosis CIVIL_UNREST maps through homeland-threat, DSCA-activation, and interagency-coordination gap.",
     "action": "Position in homeland-security tooling, public-safety analytics, and emergency-management platforms. Review treatment nodes for interagency coordination and consequence management.",
-    "valueRange": "$500K–$50M homeland-security contracts and grants",
+    "valueRange": "$500K–$50M homeland-security contracts",
     "saturation": "medium",
     "trigger": "Defense stress > 0.45 with homeland_threat, dsca_activation, or interagency_coordination_gap conditions active.",
     "validation": "Confirm DHS/FEMA activation. Cross-reference governance domain for executive-action signals. Verify state-level mobilization.",
@@ -260,17 +255,16 @@
       "Review interagency-coordination and consequence-management treatments",
       "Identify DHS/FEMA/National Guard contract vehicles",
       "Position in homeland-security analytics and emergency-management",
-      "Track DHS BAAs and FEMA grant programs"
+      "Research DHS BAA and FEMA preparedness programme priorities as investment-context signals"
     ],
     "branch_up": "Sustained unrest: multi-state mobilization and long-duration homeland contracts.",
     "branch_down": "Event contained within 30 days: shift to preventive analytics investment.",
-    "outcome": "Homeland-security vendors capture DHS, FEMA, and state Emergency-Management contracts. Public-safety analytics see demand from municipalities.",
+    "outcome": "Homeland-security vendors capture DHS, FEMA, and state Emergency-Management contracts. Public-safety analytics see demand from municipalities. Position in Leidos, CACI, SAIC, Booz Allen, and Motorola Solutions ahead of awards.",
     "failure": "Event resolves without federal activation. State resources absorb response without new procurement.",
     "window": "14 days–18 months",
     "realWorld": {
       "invest": "Homeland prime: Leidos (LDOS), CACI (CACI), SAIC (SAIC), Booz Allen (BAH). Analytics: Palantir (PLTR), Motorola Solutions (MSI).",
-      "apply": "DHS S&T BAAs, FEMA preparedness grants, UASI grants, state Homeland-Security funding.",
-      "build": "Emergency-management platforms, interagency-coordination tooling, public-safety analytics."
+      "research": "Research homeland-security technology: emergency-management platform evaluation, interagency-coordination tooling analysis, public-safety analytics methodology. DHS S&T BAA and FEMA preparedness program activity are procurement-context signals."
     },
     "examples": [
       "Emergency-management coordination platforms",
@@ -281,21 +275,21 @@
     ],
     "fastPath": [
       "1. Confirm CIVIL_UNREST active with dsca_activation signals",
-      "2. Screen DHS/FEMA prime contractors",
-      "3. Pursue DHS S&T BAA or FEMA preparedness grant"
+      "2. Screen DHS/FEMA prime contractors and homeland-security analytics vendors",
+      "3. Research DHS S&T programme priorities and FEMA preparedness contract vehicles for investment positioning"
     ]
   },
   {
     "id": "defense_data_gap",
-    "title": "Defense Data Gap → Build",
-    "type": "build",
+    "title": "Defense Data Gap → Research",
+    "type": "research",
     "domains": [
       "defense"
     ],
     "pattern": null,
-    "explain": "Defense monitoring has gaps in posture, procurement, or industrial-base coverage. Build data infrastructure to fill blind spots.",
-    "action": "Build real-time defense-intelligence platforms, procurement-forecast tooling, or industrial-base monitoring.",
-    "valueRange": "$500K–$10M defense-data infrastructure",
+    "explain": "Defense monitoring has gaps in posture, procurement, or industrial-base coverage. Research the landscape and produce intelligence to fill blind spots.",
+    "action": "Research real-time defense-intelligence platforms, procurement-forecast tooling, or industrial-base monitoring — assess capability gaps and publish findings.",
+    "valueRange": "$500K–$10M defense-research and intelligence contracts",
     "saturation": "low",
     "trigger": "Defense sources showing DEGRADED or FALLBACK status. Multiple feeds offline.",
     "validation": "Check feed health. Verify gap is structural, not maintenance.",
@@ -303,30 +297,29 @@
       "Check feed health in Defense SIGNAL INTAKE",
       "Count OFFLINE sources",
       "Identify uncovered dimension (posture, procurement, industrial-base)",
-      "Build data pipeline",
-      "Apply to DIU or DoD CDAO"
+      "Research incumbent platforms and capability gaps (Govini, BAH, Palantir)",
+      "Publish research brief and pitch to DoD CDAO, DIU, or DARPA as advisory input"
     ],
-    "branch_up": "Gap persists: build permanent defense-intelligence infrastructure.",
-    "branch_down": "Sources recover: monitor for recurrence.",
-    "outcome": "Defense-intelligence platform serving DoD, combatant commands, and defense-industry analysts.",
-    "failure": "Incumbent platforms (Govini, BAH, Palantir) absorb gap. Market too small for independent service.",
+    "branch_up": "Gap persists: convert research into sustained intelligence advisory.",
+    "branch_down": "Sources recover: archive research. Redeploy on next gap.",
+    "outcome": "Defense-intelligence research serving DoD, combatant commands, and defense-industry analysts.",
+    "failure": "Incumbent platforms absorb gap. Research remains unpublished. No engagement.",
     "window": "30 days–18 months",
     "realWorld": {
       "invest": "N/A",
-      "apply": "DIU commercial solutions, DoD CDAO, SBIR/STTR, DARPA programs.",
-      "build": "Defense procurement analytics, industrial-base monitoring, posture-intelligence platforms."
+      "research": "Defense procurement analytics research, industrial-base monitoring assessment, posture-intelligence gap analysis — deliverable to DoD CDAO, DIU, DARPA, or allied defense research programmes."
     },
     "examples": [
-      "Procurement-forecast analytics",
-      "Industrial-base monitoring",
-      "Posture and deployment-intelligence",
-      "Contract-vehicle intelligence",
-      "Defense supply-chain mapping"
+      "Procurement-forecast analytics research",
+      "Industrial-base monitoring assessment",
+      "Posture and deployment-intelligence gap analysis",
+      "Contract-vehicle landscape mapping",
+      "Defense supply-chain resilience research"
     ],
     "fastPath": [
-      "1. Check Defense feed health",
-      "2. Identify uncovered dimension",
-      "3. Pursue DIU commercial solutions or SBIR"
+      "1. Check Defense feed health and identify the uncovered dimension",
+      "2. Survey incumbent platforms (Govini, BAH, Palantir) for coverage gaps",
+      "3. Draft research brief and pitch to DoD CDAO or DIU as advisory input"
     ]
   }
 ];

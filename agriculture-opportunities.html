@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>LIMEN HELIX &middot; CULTURE OPPORTUNITIES</title>
+<title>LIMEN HELIX &middot; AGRICULTURE OPPORTUNITIES</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{background:#050810;color:#e8e3d9;font-family:"IBM Plex Mono",monospace;height:100%;overflow-x:hidden}
@@ -60,8 +60,8 @@ html,body{background:#050810;color:#e8e3d9;font-family:"IBM Plex Mono",monospace
 }
 .type-invest{background:rgba(90,181,160,0.12);color:#5ab5a0}
 .type-build{background:rgba(74,143,212,0.12);color:#4a8fd4}
-.type-research{background:rgba(201,169,78,0.12);color:#C9A94E}
 .type-advise{background:rgba(255,152,0,0.12);color:#FF9800}
+.type-research{background:rgba(74,143,212,0.12);color:#4a8fd4}
 
 .opp-card-explain{font-size:0.5rem;color:#d0c8b8;line-height:1.6;margin-bottom:8px}
 .opp-card-action{
@@ -133,7 +133,7 @@ html,body{background:#050810;color:#e8e3d9;font-family:"IBM Plex Mono",monospace
 <script src="assets/js/limen-topbar.js"></script>
 <script src="assets/js/domain-identity.js"></script>
 <script>
-var _DOMAIN_FILTER = 'culture';
+var _DOMAIN_FILTER = 'agriculture';
 var _DOMAIN_LABELS = {};
 var _DOMAIN_SK = null; // Resolved via LIMENDomainIdentity
 </script>
@@ -167,7 +167,7 @@ var _DOMAIN_SK = null; // Resolved via LIMENDomainIdentity
 <script src="assets/js/domain-signal-engine.js"></script>
 <script src="assets/js/cross-domain-detector.js"></script>
 <script src="assets/js/limen-bootstrap.js"></script>
-<script src="assets/js/domain-brains/culture-refresh-controller.js"></script>
+<script src="assets/js/domain-brains/agriculture-refresh-controller.js"></script>
 <script src="assets/js/executive/limen-executive-control.js"></script>
 <script src="assets/js/executive/limen-simulation-engine.js"></script>
 <script src="assets/js/executive/limen-executive-ui.js"></script>
@@ -176,7 +176,7 @@ var _DOMAIN_SK = null; // Resolved via LIMENDomainIdentity
 <script src="assets/js/connectome-kernel-adapter.js"></script>
 <script src="assets/js/kernel-output-interpreter.js"></script>
 <script src="assets/js/node-translation.js"></script>
-<script src="assets/js/domain-brains/data/culture-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/data/agriculture-opportunity-playbooks.js"></script>
 
 <script>
 (function(){
@@ -219,11 +219,11 @@ function _lookupCIK(ticker) {
 }
 
 // ═══ PLAYBOOK DEFINITIONS ═══
-// Canonical dataset lives in assets/js/domain-brains/data/culture-opportunity-playbooks.js
-// (loaded above as window.LIMENCultureOpportunityPlaybooks). Shared with the
-// culture-brain so /opportunities.html projects the same rich fields.
+// Canonical dataset lives in assets/js/domain-brains/data/agriculture-opportunity-playbooks.js
+// (loaded above as window.LIMENAgricultureOpportunityPlaybooks). Shared with the
+// agriculture-brain so /opportunities.html projects the same rich fields.
 
-var PLAYBOOKS = (window.LIMENCultureOpportunityPlaybooks || []);
+var PLAYBOOKS = (window.LIMENAgricultureOpportunityPlaybooks || []);
 
 // ═══ DATA QUALITY ═══
 
@@ -256,8 +256,13 @@ var _oppPortfolio = null;    // LIMENPortfolioContext.analyzePortfolio result
 
 // ASSET_MAP mirror (invest-type playbook → tickers) for exposure lookup
 var _OPP_INVEST_TICKERS = {
-  cultural_erasure:[], heritage_destruction:[], censorship_response:['SPOT'],
-  identity_crisis:[], creative_stagnation:['SPOT','ETSY'], culture_data_gap:[]
+  infra_demand:['XLE','IYT','NEE','EPD','FLNC'], fin_law:['PANW','HACK'],
+  health_research:['XBI','IBB','VEEV'], tech_research:['ARKK','QTEC','NVDA','IONQ'],
+  climate_energy:['ICLN','TAN','FSLR','FLNC'], econ_supply:['HYG','JNK','SH'],
+  gov_econ:['ITA','ICLN','PAVE','XLF'], industry_econ:['XLI','SH','HON','ROK'],
+  defense_intel:['ITA','HACK','PLTR','CRWD'], agri_pop:['MOO','DBA','DE'],
+  supply_agri:['COLD','MOO'], intel_gov:['PLTR','BAH'],
+  fin_econ:['TLT','GLD','SPY','SDS'], comm_culture:['NET'], edu_research:['COUR','DUOL']
 };
 
 function _fetchOppExposure() {
@@ -453,6 +458,7 @@ function _activateOpportunities() {
     domainCount: Object.keys(doms).length,
     crossDomainPatterns: cd.length,
     hasAnalystReport: !!(window.LIMENAnalystReport && window.LIMENAnalystReport.domains),
+    hasPatentReport: !!(window.LIMENReports && window.LIMENReports.patentOpportunity),
     activeTitles: active.map(function(a){ return a.pb.title })
   });
 
@@ -556,8 +562,8 @@ function _buildWhySurfaced(opp) {
 function render() {
   console.log('[Opportunities] render() called');
 
-  // Trade nav — matches civilization layout exactly
-  var DOMAIN_LABEL = 'Culture';
+  // Agriculture nav — matches civilization layout exactly
+  var DOMAIN_LABEL = 'Agriculture';
   if (_DOMAIN_FILTER) {
     DOMAIN_LABEL = _DOMAIN_LABELS[_DOMAIN_FILTER] || _DOMAIN_FILTER.charAt(0).toUpperCase() + _DOMAIN_FILTER.slice(1);
     document.title = 'LIMEN HELIX \u00b7 ' + DOMAIN_LABEL.toUpperCase() + ' OPPORTUNITIES';
@@ -583,22 +589,22 @@ function render() {
 
   var connectomeCount = opps.filter(function(o){ return o.connectome && o.connectome.source === 'CONNECTOME' && o.status === 'active'; }).length;
 
-  // Intelligence summary from shared Culture state
-  var F = window.LIMENCultureFresh || {};
+  // Intelligence summary from shared Agriculture state
+  var F = window.LIMENAgricultureFresh || {};
   var ePct = Math.round((F.stress || topS) * 100);
   var eSev = ePct >= 75 ? 'CRITICAL' : ePct >= 55 ? 'ELEVATED' : ePct >= 35 ? 'MODERATE' : 'CONTAINED';
   var eSevC = eSev === 'CRITICAL' ? '#e85454' : eSev === 'ELEVATED' ? '#C9A94E' : eSev === 'MODERATE' ? '#4a8fd4' : '#5ab5a0';
 
   var summaryText = '';
   if (activeCount > 0) {
-    summaryText = activeCount + ' live opportunit' + (activeCount > 1 ? 'ies' : 'y') + ' generated from Trade intelligence at ' + ePct + '% sector stress. ';
+    summaryText = activeCount + ' live opportunit' + (activeCount > 1 ? 'ies' : 'y') + ' generated from Agriculture intelligence at ' + ePct + '% sector stress. ';
     if (highCount > 0) summaryText += highCount + ' flagged urgent \u2014 positioning windows may be narrowing. ';
     if (connectomeCount > 0) summaryText += connectomeCount + ' reinforced by connectome cross-validation.';
   } else if (watchCount > 0) {
-    summaryText = 'Pipeline quiet. ' + watchCount + ' opportunities in monitoring state. Culture stress at ' + ePct + '% (' + eSev + ') \u2014 ';
+    summaryText = 'Pipeline quiet. ' + watchCount + ' opportunities in monitoring state. Agriculture stress at ' + ePct + '% (' + eSev + ') \u2014 ';
     summaryText += ePct < 30 ? 'insufficient pressure to activate positioning logic.' : 'pressure present but trigger conditions not yet met. Monitor for escalation.';
   } else {
-    summaryText = 'No opportunities in pipeline. Culture stress: ' + ePct + '%. Signal confidence: ' + Math.round((F.confidence || 0) * 100) + '%. Feed coverage may be insufficient to generate actionable positions.';
+    summaryText = 'No opportunities in pipeline. Agriculture stress: ' + ePct + '%. Signal confidence: ' + Math.round((F.confidence || 0) * 100) + '%. Feed coverage may be insufficient to generate actionable positions.';
   }
 
   cmd.innerHTML =
@@ -798,7 +804,7 @@ function openPlaybook(idx) {
   if (pb.realWorld) {
     html += '<div class="opp-pb-section"><div class="opp-pb-label">REAL-WORLD ACTIONS</div>';
     if (pb.realWorld.invest && pb.realWorld.invest !== 'N/A') html += '<div class="opp-pb-step"><strong style="color:#5ab5a0">INVEST:</strong> ' + pb.realWorld.invest + '</div>';
-    if (pb.realWorld.research && pb.realWorld.research !== 'N/A') html += '<div class="opp-pb-step"><strong style="color:#C9A94E">RESEARCH:</strong> ' + pb.realWorld.research + '</div>';
+    if (pb.realWorld.research && pb.realWorld.research !== 'N/A') html += '<div class="opp-pb-step"><strong style="color:#4a8fd4">RESEARCH:</strong> ' + pb.realWorld.research + '</div>';
     if (pb.realWorld.build && pb.realWorld.build !== 'N/A') html += '<div class="opp-pb-step"><strong style="color:#4a8fd4">BUILD:</strong> ' + pb.realWorld.build + '</div>';
     html += '</div>';
   }
@@ -1072,10 +1078,10 @@ function _doRender() {
 setTimeout(function() { _doRender(); }, 3000);
 
 // Subscribe to shared refresh controller (single source of truth — no independent fetch)
-document.addEventListener('limen:culture-refresh', function() {
+document.addEventListener('limen:agriculture-refresh', function() {
   render();
   var tsEl = document.getElementById('oppLastUpdated');
-  var F = window.LIMENCultureFresh || {};
+  var F = window.LIMENAgricultureFresh || {};
   if (tsEl) tsEl.textContent = (F.status === 'LIVE' ? '\u25CF ' : '\u25CB ') + F.status + ' \u00b7 ' + new Date().toLocaleTimeString() + ' \u00b7 cycle ' + (F.cycle || 0) + ' \u00b7 stress ' + Math.round((F.stress || 0) * 100) + '%';
 });
 
@@ -1204,35 +1210,114 @@ function _computeActionSignal(o) {
 
 // Execution path data per playbook — invest, build, fund, structure
 var _EXECUTION_PATHS = {
-  cultural_erasure: {
+  infra_demand: {
+    invest: [{name:'NextEra Energy',ticker:'NEE',cik:'753308',support:'MAPPED'},{name:'Enterprise Products',ticker:'EPD',cik:'',support:'MAPPED'},{name:'XPO Logistics',ticker:'XPO',cik:'1166003',support:'MAPPED'},{name:'Fluence Energy',ticker:'FLNC',cik:'',support:'UNVERIFIED'},{name:'Itron',ticker:'ITRI',cik:'',support:'UNVERIFIED'}],
+    build: {model:'Logistics-energy optimization platform',pays:'Energy utilities + freight companies',whyNow:'Cross-domain stress creates demand for bridge solutions'},
+    fund: ['DOE Grid Modernization grants','SBA 7(a) loans for energy tech','Private infrastructure funds'],
+    structure: ['LLC for platform operations','Strategic partnerships with grid operators','Revenue: SaaS licensing + consulting']
+  },
+  fin_law: {
+    invest: [{name:'Palo Alto Networks',ticker:'PANW',cik:'',support:'MAPPED'},{name:'CrowdStrike',ticker:'CRWD',cik:'1535527',support:'MAPPED'},{name:'LegalZoom',ticker:'LZ',cik:'1286139',support:'MAPPED'},{name:'LogicGate',ticker:'N/A',cik:'',support:'UNVERIFIED'},{name:'Drata',ticker:'N/A',cik:'',support:'UNVERIFIED'}],
+    build: {model:'Regulatory change tracker for financial companies',pays:'Banks, fintechs, compliance departments',whyNow:'New regulations driving compliance tool demand'},
+    fund: ['SBIR/STTR for regulatory technology','Fintech accelerators (Y Combinator, Techstars)','Angel investors in regtech'],
+    structure: ['SaaS LLC','Subscription model','Revenue: monthly SaaS + implementation fees']
+  },
+  health_research: {
+    invest: [{name:'Biotech ETF',ticker:'XBI',cik:'ETF',support:'MAPPED'},{name:'iShares Biotech',ticker:'IBB',cik:'ETF',support:'MAPPED'},{name:'Veeva Systems',ticker:'VEEV',cik:'',support:'MAPPED'},{name:'Exact Sciences',ticker:'EXAS',cik:'1124140',support:'UNVERIFIED'}],
+    build: {model:'Clinical data aggregation for convergence areas',pays:'Biotech companies, clinical research orgs',whyNow:'Health + research stress convergence creates clinical gaps'},
+    fund: ['NIH R01/R21 grants (grants.gov)','NSF SBIR Phase I ($275K)','BARDA for pandemic preparedness'],
+    structure: ['C-Corp for venture funding','IP protection via provisional patents','Revenue: data licensing + platform fees']
+  },
+  tech_research: {
+    invest: [{name:'ARK Innovation',ticker:'ARKK',cik:'ETF',support:'MAPPED'},{name:'NVIDIA',ticker:'NVDA',cik:'1045810',support:'MAPPED'},{name:'IonQ',ticker:'IONQ',cik:'',support:'MAPPED'},{name:'Rigetti Computing',ticker:'RGTI',cik:'',support:'UNVERIFIED'}],
+    build: {model:'Tech transfer platform connecting labs to commercial partners',pays:'Universities, research labs, corporate R&D',whyNow:'Technology + research stress signals untranslated innovation'},
+    fund: ['NSF I-Corps ($50K)','ARPA-E for energy tech','DOD SBIR for dual-use technology'],
+    structure: ['LLC or C-Corp depending on IP strategy','Licensing model','Revenue: transaction fees on tech transfer deals']
+  },
+  climate_energy: {
+    invest: [{name:'First Solar',ticker:'FSLR',cik:'',support:'MAPPED'},{name:'Clean Energy ETF',ticker:'ICLN',cik:'ETF',support:'MAPPED'},{name:'Invesco Solar',ticker:'TAN',cik:'ETF',support:'MAPPED'},{name:'Fluence Energy',ticker:'FLNC',cik:'',support:'MAPPED'}],
+    build: {model:'Climate risk analytics for energy companies',pays:'Utilities, insurers, infrastructure funds',whyNow:'Environment + energy stress demands risk quantification'},
+    fund: ['DOE Loan Programs Office','EPA Climate Pollution Reduction grants','Green bonds / ESG investors'],
+    structure: ['B-Corp or LLC','Advisory + SaaS hybrid','Revenue: analytics subscriptions + consulting']
+  },
+  econ_supply: {
+    invest: [{name:'High Yield Bond ETF',ticker:'HYG',cik:'ETF',support:'MAPPED'},{name:'Junk Bond ETF',ticker:'JNK',cik:'ETF',support:'MAPPED'},{name:'ProShares Short S&P',ticker:'SH',cik:'ETF',support:'MAPPED'}],
+    build: {model:'Supply chain financing platform (invoice factoring)',pays:'Manufacturers, distributors, logistics companies',whyNow:'Economic + supply chain stress creates liquidity gaps'},
+    fund: ['SBA 504 loans','USDA Business & Industry loans','Trade finance funds'],
+    structure: ['LLC with lending license','Working capital model','Revenue: factoring fees + interest spread']
+  },
+  gov_econ: {
+    invest: [{name:'iShares Defense',ticker:'ITA',cik:'ETF',support:'MAPPED'},{name:'Clean Energy ETF',ticker:'ICLN',cik:'ETF',support:'MAPPED'},{name:'Infrastructure ETF',ticker:'PAVE',cik:'ETF',support:'MAPPED'},{name:'Financial Select',ticker:'XLF',cik:'ETF',support:'MAPPED'}],
+    build: {model:'Policy impact tracker mapping government actions to sectors',pays:'Hedge funds, policy analysts, lobbyists',whyNow:'Governance + economy stress signals policy-driven market moves'},
+    fund: ['Government innovation grants','Think tank partnerships','Political risk advisory retainers'],
+    structure: ['LLC','Subscription SaaS + advisory','Revenue: institutional subscriptions']
+  },
+  defense_intel: {
+    invest: [{name:'iShares Defense',ticker:'ITA',cik:'ETF',support:'MAPPED'},{name:'Palantir',ticker:'PLTR',cik:'1321655',support:'MAPPED'},{name:'CrowdStrike',ticker:'CRWD',cik:'1535527',support:'MAPPED'},{name:'Booz Allen Hamilton',ticker:'BAH',cik:'1443646',support:'MAPPED'}],
+    build: {model:'OSINT analytics platform for defense contractors',pays:'Defense primes, intelligence agencies, NATO allies',whyNow:'Defense + intelligence stress signals emerging threat landscape'},
+    fund: ['DOD SBIR/STTR','In-Q-Tel (CIA venture arm)','DARPA programs'],
+    structure: ['C-Corp with security clearance capability','Government contracting vehicle (GSA schedule)','Revenue: government contracts + commercial licensing']
+  },
+  agri_pop: {
+    invest: [{name:'VanEck Agribusiness',ticker:'MOO',cik:'ETF',support:'MAPPED'},{name:'Invesco Agriculture',ticker:'DBA',cik:'ETF',support:'MAPPED'},{name:'Deere & Company',ticker:'DE',cik:'315189',support:'MAPPED'}],
+    build: {model:'Precision agriculture platform for smallholder farmers',pays:'Agricultural cooperatives, development banks, governments',whyNow:'Agriculture + population stress demands food security solutions'},
+    research: ['Research brief: food security + precision ag efficacy','Scope: agriculture + population intersection','Commission or publish via academic channel'],
+    structure: ['Social enterprise LLC or B-Corp','Impact investment model','Revenue: SaaS per-acre licensing + development grants']
+  },
+  treatment_gap: {
     invest: [],
-    build: {model:'Digital heritage archive and cultural mapping platform',pays:'Cultural institutions, museums, government cultural agencies',whyNow:'Cultural erasure active — identity and heritage under threat'},
-    structure: ['LLC or B-Corp','Earned-revenue funded','Revenue: institutional licensing + subscriptions']
+    build: {model:'SaaS addressing the specific diagnostic gap identified',pays:'Customers experiencing the diagnosed problem',whyNow:'Strong evidence of problem with few existing solutions'},
+    fund: ['NSF SBIR Phase I ($275K)','Y Combinator','Domain-specific accelerators'],
+    structure: ['C-Corp for venture track','IP-first strategy','Revenue: SaaS subscription']
   },
-  heritage_destruction: {
+  // patent_vacuum removed — patent lane purged 2026-06-21
+  gov_procure: {
     invest: [],
-    build: {model:'3D heritage documentation and cultural site monitoring platform',pays:'UNESCO, national heritage agencies, museums',whyNow:'Heritage destruction active — emergency preservation and documentation needed'},
-    structure: ['LLC','Contract funded','Revenue: documentation + monitoring fees']
+    build: {model:'Compliance monitoring tool for the specific regulation',pays:'Government agency via contract','whyNow':'Regulatory pressure creates procurement demand'},
+    fund: ['Self-funded (capability statement + past performance)','SBA 8(a) if eligible','Teaming agreements with primes'],
+    structure: ['LLC registered in SAM.gov','Government contracting vehicle','Revenue: cost-plus or firm-fixed-price contracts']
   },
-  censorship_response: {
-    invest: [{name:'Spotify',ticker:'SPOT',cik:'',support:'CROSS-DOMAIN'}],
-    build: {model:'Censorship monitoring and alternative distribution platform',pays:'Creative communities, press freedom organizations, independent artists',whyNow:'Censorship active — expression suppression requiring alternative channels'},
-    structure: ['LLC','Community funded','Revenue: platform + subscription fees']
-  },
-  identity_crisis: {
+  data_infra: {
     invest: [],
-    build: {model:'Intercultural dialogue and community cohesion platform',pays:'Municipal governments, community organizations, foundations',whyNow:'Identity crisis active — social fracture requiring bridge-building infrastructure'},
-    structure: ['LLC or B-Corp','Earned-revenue funded','Revenue: consulting + subscriptions']
+    build: {model:'Government data API normalization service',pays:'Data consumers, analytics platforms, LIMEN itself',whyNow:'Multiple feed sources degraded — infrastructure gap confirmed'},
+    fund: ['SBIR for data infrastructure','Open data initiative grants','Angel/seed for data tooling'],
+    structure: ['LLC','API subscription model','Revenue: per-call pricing + enterprise plans']
   },
-  creative_stagnation: {
-    invest: [{name:'Spotify',ticker:'SPOT',cik:'',support:'MAPPED'},{name:'Etsy',ticker:'ETSY',cik:'1370637',support:'MAPPED'}],
-    build: {model:'Creative ecosystem support and audience engagement platform',pays:'Artists, cultural institutions, creative businesses',whyNow:'Creative stagnation active — participation decay and audience collapse requiring revitalization'},
-    structure: ['LLC or B-Corp','Platform model','Revenue: creator fees + institutional subscriptions']
+  industry_econ: {
+    invest: [{name:'Industrial Select',ticker:'XLI',cik:'ETF',support:'MAPPED'},{name:'Honeywell',ticker:'HON',cik:'773840',support:'MAPPED'},{name:'Rockwell Automation',ticker:'ROK',cik:'1024478',support:'MAPPED'},{name:'ProShares Short S&P',ticker:'SH',cik:'ETF',support:'MAPPED'}],
+    build: {model:'Industrial resilience monitoring platform',pays:'Manufacturers, industrial conglomerates',whyNow:'Industry + economy stress demands operational intelligence'},
+    fund: ['NIST MEP grants','EDA grants for manufacturing','Industry 4.0 venture funds'],
+    structure: ['LLC','SaaS + consulting hybrid','Revenue: platform licensing + implementation']
   },
-  culture_data_gap: {
-    invest: [],
-    build: {model:'Cultural analytics and social cohesion monitoring platform',pays:'Researchers, cultural institutions, policymakers, LIMEN itself',whyNow:'Culture data sources degraded — monitoring blind spots'},
-    structure: ['LLC','API subscription model','Revenue: per-feed pricing + enterprise plans']
+  supply_agri: {
+    invest: [{name:'Americold Realty',ticker:'COLD',cik:'',support:'MAPPED'},{name:'VanEck Agribusiness',ticker:'MOO',cik:'ETF',support:'MAPPED'}],
+    build: {model:'Cold chain integrity tracking platform',pays:'Food distributors, grocery chains, ag exporters',whyNow:'Supply chain + agriculture stress reveals logistics gaps'},
+    research: ['Research brief: cold-chain failure modes and recovery','Scope: agriculture + supply-chain intersection','Commission or publish via trade journal'],
+    structure: ['LLC','IoT SaaS model','Revenue: per-shipment tracking fees']
+  },
+  intel_gov: {
+    invest: [{name:'Palantir',ticker:'PLTR',cik:'1321655',support:'MAPPED'},{name:'Booz Allen Hamilton',ticker:'BAH',cik:'1443646',support:'MAPPED'}],
+    build: {model:'Policy intelligence advisory platform',pays:'Government agencies, think tanks, defense contractors',whyNow:'Intelligence + governance stress signals structural disconnect'},
+    fund: ['In-Q-Tel','DOD innovation programs','Government consulting retainers'],
+    structure: ['LLC with clearance capability','Advisory + platform hybrid','Revenue: retainers + platform licensing']
+  },
+  fin_econ: {
+    invest: [{name:'iShares 20+ Year Treasury',ticker:'TLT',cik:'ETF',support:'MAPPED'},{name:'SPDR Gold',ticker:'GLD',cik:'ETF',support:'MAPPED'},{name:'S&P 500 ETF',ticker:'SPY',cik:'ETF',support:'MAPPED'},{name:'ProShares UltraShort',ticker:'SDS',cik:'ETF',support:'MAPPED'}],
+    build: {model:'Financial stress hedging advisory',pays:'Family offices, RIAs, hedge funds',whyNow:'Finance + economy stress creates hedging demand'},
+    fund: ['Self-funded advisory','RIA registration (SEC/state)','Strategic partnerships with custodians'],
+    structure: ['RIA LLC','Fee-only advisory model','Revenue: AUM fees + consulting']
+  },
+  comm_culture: {
+    invest: [{name:'Cloudflare',ticker:'NET',cik:'',support:'MAPPED'}],
+    build: {model:'Cultural analytics platform',pays:'Media companies, brands, political campaigns',whyNow:'Communication + culture stress signals narrative shifts'},
+    fund: ['NEA/NEH grants for cultural technology','Media accelerators','Angel investors in media tech'],
+    structure: ['LLC','SaaS + API model','Revenue: data subscriptions']
+  },
+  edu_research: {
+    invest: [{name:'Coursera',ticker:'COUR',cik:'1783879',support:'MAPPED'},{name:'Duolingo',ticker:'DUOL',cik:'',support:'MAPPED'}],
+    build: {model:'AI-assisted curriculum adaptation platform',pays:'Universities, school districts, corporate training',whyNow:'Education + research stress demands adaptive learning'},
+    fund: ['Department of Education IES grants','NSF IUSE grants','EdTech venture funds'],
+    structure: ['C-Corp or LLC','SaaS subscription','Revenue: per-seat licensing']
   }
 };
 
@@ -1250,7 +1335,7 @@ var _TONIGHT_STEPS = {
     return 'Outline 1-page problem statement from portal diagnosis for ' + o.pb.domains[0];
   },
   research: function(o) {
-    return 'Draft a research brief on ' + o.pb.domains[0] + ' from portal diagnosis evidence';
+    return 'Draft research brief outline using portal treatment data for ' + o.pb.domains[0];
   },
   advise: function(o) {
     return 'Draft 3-slide advisory pitch using portal treatment data for ' + o.pb.domains[0];
@@ -1501,9 +1586,9 @@ var _FAST_ENTRY = {
     {action: 'File LLC in home state', detail: '$50\u2013$500 depending on state'}
   ],
   research: [
-    {action: 'Scope the research question', detail: 'Frame from the portal diagnosis + evidence gap'},
-    {action: 'Pull primary sources', detail: 'EDGAR, institutional data, peer-reviewed where relevant'},
-    {action: 'Draft the brief', detail: '5-section institutional-grade research brief'}
+    {action: 'Draft research brief outline', detail: 'Use portal treatment evidence'},
+    {action: 'Identify 3 data sources to validate', detail: 'Map to portal signal channels'},
+    {action: 'Commission or write the brief', detail: 'Scope: 2-4 weeks, deliverable PDF'}
   ],
   advise: [
     {action: 'Draft advisory pitch deck', detail: 'Problem from portal, solution from treatments'},
@@ -1518,14 +1603,13 @@ var _MONEY_PATHS = {
     {path: 'Self-fund', label: 'Brokerage account'},
     {path: 'Margin', label: 'If high conviction only'}
   ],
-  research: [
-    {path: 'Self-fund', label: 'Time + data costs only'},
-    {path: 'Commissioned', label: 'Paid brief for an institutional buyer'},
-    {path: 'Partner capital', label: 'Rev-share with a domain expert'}
-  ],
   build: [
     {path: 'Self-fund', label: 'Bootstrap MVP'},
     {path: 'Partner capital', label: 'Co-founder or angel'}
+  ],
+  research: [
+    {path: 'Self-fund', label: 'Time investment'},
+    {path: 'Partner capital', label: 'Research sponsor or co-author'}
   ],
   advise: [
     {path: 'Self-fund', label: 'Time investment only'},
@@ -1675,13 +1759,13 @@ function _buildExecutionBlock(o) {
     h += '</div>';
   }
 
-  // C. FUND PATH
-  if (paths.fund && paths.fund.length > 0) {
+  // C. RESEARCH PATH
+  if (paths.research && paths.research.length > 0) {
     h += '<div style="margin-bottom:6px">';
-    h += '<div style="font-size:0.32rem;letter-spacing:1.5px;color:rgba(201,169,78,0.4);margin-bottom:2px">FUND PATH</div>';
-    h += '<div style="font-size:0.28rem;color:#807868;margin-bottom:2px">POTENTIAL SOURCES \u2014 NOT VERIFIED</div>';
-    for (var f = 0; f < paths.fund.length; f++) {
-      h += '<div style="font-size:0.34rem;color:#888;padding:1px 0">\u2022 ' + paths.fund[f] + '</div>';
+    h += '<div style="font-size:0.32rem;letter-spacing:1.5px;color:rgba(201,169,78,0.4);margin-bottom:2px">RESEARCH PATH</div>';
+    h += '<div style="font-size:0.28rem;color:#807868;margin-bottom:2px">RESEARCH BRIEFS \u2014 SCOPE + COMMISSION</div>';
+    for (var f = 0; f < paths.research.length; f++) {
+      h += '<div style="font-size:0.34rem;color:#888;padding:1px 0">\u2022 ' + paths.research[f] + '</div>';
     }
     h += '</div>';
   }

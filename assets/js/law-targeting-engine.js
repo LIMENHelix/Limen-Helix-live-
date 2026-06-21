@@ -168,7 +168,7 @@
     var nodeLabel = (dir.nodeLabel || '').toLowerCase();
     var treatLabel = (dir.treatmentLabel || directive.title || '').toLowerCase();
     var dxId = (directive.diagnosisId || '').toLowerCase();
-    var path = directive.path || 'GRANT-ELIGIBLE';
+    var path = directive.path || 'INVESTABLE';
 
     var relevantSegments = _resolveSegments(nodeId, nodeLabel, treatLabel, dxId);
 
@@ -233,8 +233,7 @@
     tier3 = tier3.slice(0, 5);
 
     var executionTargets = [];
-    if (path === 'GRANT-ELIGIBLE') executionTargets = ['DOJ program officers', 'NIJ research grants', 'BJA criminal-justice grants', 'SJI court-improvement grants', 'State court systems'];
-    else if (path === 'PATENTABLE') executionTargets = ['Patent attorneys', 'Legaltech and regtech licensors', 'Strategic acquirers in legaltech'];
+    if (path === 'RESEARCHABLE') executionTargets = ['Research desks', 'Institutional research buyers', 'Independent / sell-side analysts'];
     else if (path === 'INVESTABLE') executionTargets = ['Legaltech-focused funds', 'Regtech investors', 'Compliance-software allocators'];
 
     var formatted = _format(tier1, tier2, tier3, executionTargets);

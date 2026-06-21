@@ -59,11 +59,9 @@ html,body{background:#050810;color:#e8e3d9;font-family:"IBM Plex Mono",monospace
   padding:2px 8px;border-radius:2px;white-space:nowrap;flex-shrink:0;
 }
 .type-invest{background:rgba(90,181,160,0.12);color:#5ab5a0}
+.type-research{background:rgba(74,143,212,0.12);color:#4a8fd4}
 .type-build{background:rgba(74,143,212,0.12);color:#4a8fd4}
-.type-fund{background:rgba(201,169,78,0.12);color:#C9A94E}
-.type-patent{background:rgba(168,85,247,0.12);color:#a855f7}
 .type-advise{background:rgba(255,152,0,0.12);color:#FF9800}
-.type-procure{background:rgba(232,84,84,0.12);color:#e85454}
 
 .opp-card-explain{font-size:0.5rem;color:#d0c8b8;line-height:1.6;margin-bottom:8px}
 .opp-card-action{
@@ -404,22 +402,6 @@ function _activateOpportunities() {
           }
         }
       }
-    } else if (pb.id === 'patent_vacuum') {
-      // Special: check patent report
-      var reports = window.LIMENReports || {};
-      var patRpt = reports.patentOpportunity;
-      if (patRpt && patRpt.signals) {
-        for (var pi = 0; pi < patRpt.signals.length; pi++) {
-          var ps = patRpt.signals[pi];
-          if (ps.type === 'temporal_gap' && (ps.opportunityScore || 0) > 0.4) {
-            isActive = true;
-            confidence = Math.round((ps.opportunityScore || 0) * 100);
-            urgency = 'medium';
-            whyNow = 'Filing gap in ' + (ps.techNode || 'tech area') + ': ' + (ps.indication || '');
-            break;
-          }
-        }
-      }
     } else {
       // Generic: check if relevant domains are stressed (threshold 0.20 post-normalization)
       var anyStressed = false;
@@ -483,7 +465,6 @@ function _activateOpportunities() {
     domainCount: Object.keys(doms).length,
     crossDomainPatterns: cd.length,
     hasAnalystReport: !!(window.LIMENAnalystReport && window.LIMENAnalystReport.domains),
-    hasPatentReport: !!(window.LIMENReports && window.LIMENReports.patentOpportunity),
     activeTitles: active.map(function(a){ return a.pb.title })
   });
 
@@ -829,7 +810,7 @@ function openPlaybook(idx) {
   if (pb.realWorld) {
     html += '<div class="opp-pb-section"><div class="opp-pb-label">REAL-WORLD ACTIONS</div>';
     if (pb.realWorld.invest && pb.realWorld.invest !== 'N/A') html += '<div class="opp-pb-step"><strong style="color:#5ab5a0">INVEST:</strong> ' + pb.realWorld.invest + '</div>';
-    if (pb.realWorld.apply && pb.realWorld.apply !== 'N/A') html += '<div class="opp-pb-step"><strong style="color:#C9A94E">APPLY:</strong> ' + pb.realWorld.apply + '</div>';
+    if (pb.realWorld.research && pb.realWorld.research !== 'N/A') html += '<div class="opp-pb-step"><strong style="color:#4a8fd4">RESEARCH:</strong> ' + pb.realWorld.research + '</div>';
     if (pb.realWorld.build && pb.realWorld.build !== 'N/A') html += '<div class="opp-pb-step"><strong style="color:#4a8fd4">BUILD:</strong> ' + pb.realWorld.build + '</div>';
     html += '</div>';
   }
@@ -1295,18 +1276,6 @@ var _EXECUTION_PATHS = {
     fund: ['NSF SBIR Phase I ($275K)','Y Combinator','Domain-specific accelerators'],
     structure: ['C-Corp for venture track','IP-first strategy','Revenue: SaaS subscription']
   },
-  patent_vacuum: {
-    invest: [],
-    build: {model:'IP portfolio in underexplored CPC group',pays:'Licensing to companies entering the space',whyNow:'Innovation happening but nobody filing — first-mover IP advantage'},
-    fund: ['USPTO provisional filing ($320 small entity)','Patent attorney via UpCounsel (~$3K)','IP-backed venture funding'],
-    structure: ['LLC holding IP','Licensing model','Revenue: royalties + defensive licensing']
-  },
-  gov_procure: {
-    invest: [],
-    build: {model:'Compliance monitoring tool for the specific regulation',pays:'Government agency via contract','whyNow':'Regulatory pressure creates procurement demand'},
-    fund: ['Self-funded (capability statement + past performance)','SBA 8(a) if eligible','Teaming agreements with primes'],
-    structure: ['LLC registered in SAM.gov','Government contracting vehicle','Revenue: cost-plus or firm-fixed-price contracts']
-  },
   data_infra: {
     invest: [],
     build: {model:'Government data API normalization service',pays:'Data consumers, analytics platforms, LIMEN itself',whyNow:'Multiple feed sources degraded — infrastructure gap confirmed'},
@@ -1361,17 +1330,11 @@ var _TONIGHT_STEPS = {
     if (ticker && ticker !== 'N/A') return 'Run company portal phase check on ' + ticker + ' \u2192 set watchlist';
     return 'Open brokerage \u2192 search domain tickers \u2192 set watchlist';
   },
+  research: function(o) {
+    return 'Draft research brief outline from portal diagnosis for ' + o.pb.domains[0];
+  },
   build: function(o) {
     return 'Outline 1-page problem statement from portal diagnosis for ' + o.pb.domains[0];
-  },
-  patent: function(o) {
-    return 'Search patents.google.com for ' + o.pb.domains[0] + ' technology gaps';
-  },
-  procure: function(o) {
-    return 'Check SAM.gov for active solicitations matching ' + o.pb.domains[0] + ' signals';
-  },
-  fund: function(o) {
-    return 'Search grants.gov for open FOAs in ' + o.pb.domains[0] + ' category';
   },
   advise: function(o) {
     return 'Draft 3-slide advisory pitch using portal treatment data for ' + o.pb.domains[0];
@@ -1616,25 +1579,15 @@ var _FAST_ENTRY = {
     {action: 'Set limit orders at support', detail: 'Check 50-day MA on Yahoo Finance'},
     {action: 'Open watchlist position', detail: 'Track for 48h before full entry'}
   ],
+  research: [
+    {action: 'Draft research brief outline', detail: 'Use portal diagnosis as source'},
+    {action: 'Search OpenAlex / PubMed for evidence', detail: 'Quantify signal with literature'},
+    {action: 'Identify 3 key publications', detail: 'Anchor the brief with peer-reviewed data'}
+  ],
   build: [
     {action: 'Draft 1-page problem statement', detail: 'Use portal diagnosis as source'},
     {action: 'Search Crunchbase for competitors', detail: 'If <5, white space confirmed'},
     {action: 'File LLC in home state', detail: '$50\u2013$500 depending on state'}
-  ],
-  patent: [
-    {action: 'Search patents.google.com', detail: 'Check CPC group for recent filings'},
-    {action: 'Draft 5 method claims from portal treatments', detail: 'Use treatment steps as claim language'},
-    {action: 'File provisional on uspto.gov', detail: '$320 small entity'}
-  ],
-  procure: [
-    {action: 'Register on SAM.gov', detail: 'Get UEI number if not registered'},
-    {action: 'Search active solicitations', detail: 'Filter by agency from law signal'},
-    {action: 'Draft capability statement', detail: '1-page matching solicitation scope'}
-  ],
-  fund: [
-    {action: 'Check grants.gov for open FOAs', detail: 'Filter by domain keyword'},
-    {action: 'Draft concept paper', detail: 'Use portal diagnosis + treatment gap'},
-    {action: 'Contact program officer', detail: 'Email listed on grant announcement'}
   ],
   advise: [
     {action: 'Draft advisory pitch deck', detail: 'Problem from portal, solution from treatments'},
@@ -1649,24 +1602,13 @@ var _MONEY_PATHS = {
     {path: 'Self-fund', label: 'Brokerage account'},
     {path: 'Margin', label: 'If high conviction only'}
   ],
+  research: [
+    {path: 'Self-fund', label: 'Time + subscription tools'},
+    {path: 'Partner capital', label: 'Revenue-share with domain expert'}
+  ],
   build: [
     {path: 'Self-fund', label: 'Bootstrap MVP'},
-    {path: 'SBA microloan', label: '$500\u2013$50K'},
-    {path: 'Grant', label: 'SBIR/STTR if tech-based'},
     {path: 'Partner capital', label: 'Co-founder or angel'}
-  ],
-  patent: [
-    {path: 'Self-fund', label: '$320 provisional + $3K attorney'},
-    {path: 'IP fund', label: 'Patent-backed venture if portfolio'}
-  ],
-  procure: [
-    {path: 'Self-fund', label: 'Capability statement is free'},
-    {path: 'SBA 8(a)', label: 'If socially disadvantaged eligible'},
-    {path: 'Teaming', label: 'Sub to prime contractor'}
-  ],
-  fund: [
-    {path: 'Grant application', label: 'No cost to apply'},
-    {path: 'Cost share', label: 'Some grants require 20\u201350% match'}
   ],
   advise: [
     {path: 'Self-fund', label: 'Time investment only'},

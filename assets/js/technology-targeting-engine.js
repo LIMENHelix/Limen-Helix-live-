@@ -154,7 +154,7 @@
     var nodeLabel = (dir.nodeLabel || '').toLowerCase();
     var treatLabel = (dir.treatmentLabel || directive.title || '').toLowerCase();
     var dxId = (directive.diagnosisId || '').toLowerCase();
-    var path = directive.path || 'GRANT-ELIGIBLE';
+    var path = directive.path || 'INVESTABLE';
 
     var relevantSegments = _resolveSegments(nodeId, nodeLabel, treatLabel, dxId);
 
@@ -210,9 +210,8 @@
     tier3 = tier3.slice(0, 5);
 
     var executionTargets = [];
-    if (path === 'GRANT-ELIGIBLE') executionTargets = ['NSF CISE program officers', 'DARPA I2O program managers', 'IARPA program offices', 'NIST grant offices', 'SBIR/STTR program directors'];
-    else if (path === 'PATENTABLE') executionTargets = ['Patent attorneys (software / hardware)', 'Enterprise licensors', 'University TTOs', 'Strategic acquirers in cybersecurity and AI'];
-    else if (path === 'INVESTABLE') executionTargets = ['Tech-focused VCs', 'CISO advisory boards', 'Corporate ventures (NVentures, M12, GV)'];
+    if (path === 'INVESTABLE') executionTargets = ['Tech-focused VCs', 'CISO advisory boards', 'Corporate ventures (NVentures, M12, GV)'];
+    else if (path === 'RESEARCHABLE') executionTargets = ['NIST publications portal', 'arXiv CS section', 'IEEE Xplore and ACM Digital Library', 'Domain-specific research databases'];
 
     var formatted = _format(tier1, tier2, tier3, executionTargets);
     return { tier1: tier1, tier2: tier2, tier3: tier3, executionTargets: executionTargets, formatted: formatted, segments: relevantSegments };

@@ -39,7 +39,7 @@
     "window": "60 days–5 years",
     "realWorld": {
       "invest": "Caterpillar (CAT), Deere (DE), Eaton (ETN), Parker Hannifin (PH). ETFs: PAVE, XLI.",
-      "apply": "DPA Title III, CHIPS Act, BIL domestic-content grants, EDA Tech Hubs.",
+      "research": "Research brief: map multi-tier supply-chain failure modes, quantify reshoring cost curves, and benchmark domestic-content policy efficacy (DPA Title III, CHIPS Act, BIL).",
       "build": "Multi-tier supply-chain visibility, supplier-diversification platforms, reshoring-finance tooling."
     },
     "examples": [
@@ -52,7 +52,7 @@
     "fastPath": [
       "1. Confirm SUPPLY_CHAIN_COLLAPSE",
       "2. Position in PAVE/XLI",
-      "3. Pursue DPA Title III or CHIPS"
+      "3. Commission supply-chain resilience research brief"
     ]
   },
   {
@@ -84,7 +84,7 @@
     "window": "60 days–3 years",
     "realWorld": {
       "invest": "Rockwell Automation (ROK), Siemens (SIE.DE), ABB (ABB), Emerson (EMR), Symbotic (SYM). ETFs: ROBO, IRBO.",
-      "apply": "DOE Advanced Manufacturing Office, NIST Manufacturing USA, EDA Manufacturing.",
+      "research": "Research brief: analyze automation-failure root causes across industrial sectors; benchmark predictive-maintenance ROI vs reactive maintenance (DOE AMO / NIST Manufacturing USA datasets).",
       "build": "Predictive-maintenance platforms, industrial-AI tooling, human-robot collaboration."
     },
     "examples": [
@@ -97,7 +97,7 @@
     "fastPath": [
       "1. Confirm AUTOMATION_FAILURE",
       "2. Screen ROK/SIE/ABB",
-      "3. Pursue DOE AMO or NIST Manufacturing USA"
+      "3. Commission predictive-maintenance research brief"
     ]
   },
   {
@@ -130,7 +130,7 @@
     "window": "30 days–3 years",
     "realWorld": {
       "invest": "Clean Harbors (CLH), US Ecology, Perma-Pipe (PPIH). Compliance: Sphera, Enablon (private).",
-      "apply": "EPA Superfund, DOE remediation, state hazardous-waste programs.",
+      "research": "Research brief: benchmark industrial-discharge remediation costs, EPA enforcement patterns, and the efficacy of compliance-automation in reducing incident rates.",
       "build": "Industrial-emissions monitoring, compliance-automation, incident-response platforms."
     },
     "examples": [
@@ -143,7 +143,7 @@
     "fastPath": [
       "1. Confirm TOXIC_SPILL",
       "2. Position in CLH",
-      "3. Pursue EPA Superfund"
+      "3. Commission industrial-remediation research brief"
     ]
   },
   {
@@ -175,7 +175,7 @@
     "window": "60 days–2 years",
     "realWorld": {
       "invest": "QA-tech: ETQ (private), Sparta Systems (private), MasterControl (private). Public: Honeywell (HON), Rockwell (ROK).",
-      "apply": "NIST Manufacturing Extension Partnership, DOE AMO quality programs.",
+      "research": "Research brief: analyze recall-wave patterns across CPSC/FDA/NHTSA datasets; benchmark QA-automation ROI and traceability efficacy by industry segment (NIST MEP / DOE AMO data).",
       "build": "Product-traceability platforms, QA-automation tooling, recall-management infrastructure."
     },
     "examples": [
@@ -188,13 +188,13 @@
     "fastPath": [
       "1. Confirm QUALITY_CRISIS",
       "2. Screen QA-tech primes",
-      "3. Pursue NIST MEP"
+      "3. Commission quality-failure research brief"
     ]
   },
   {
     "id": "workforce_shortage_industry",
     "title": "Industrial Workforce Shortage",
-    "type": "fund",
+    "type": "invest",
     "domains": [
       "industry",
       "education",
@@ -202,26 +202,26 @@
     ],
     "pattern": "industry_workforce",
     "explain": "Skilled-trades shortage, apprenticeship-collapse, or workforce-demographic decline. Portal diagnosis WORKFORCE_SHORTAGE maps through skilled-trades, apprenticeship-collapse, and demographic-decline signals.",
-    "action": "Position in workforce-development, apprenticeship-tech, and skilled-trades training platforms.",
-    "valueRange": "$500K–$20M workforce-development grants",
+    "action": "Position in workforce-development, apprenticeship-tech, and skilled-trades training platforms. Commission research on skills-gap magnitude and training ROI.",
+    "valueRange": "Workforce-tech companies + research into skills-gap and training efficacy",
     "saturation": "low",
     "trigger": "Industry stress > 0.45 with skilled_trades_gap, apprenticeship_collapse, or workforce_demographic_decline conditions active.",
     "validation": "Confirm BLS JOLTS, manufacturing-skills-gap reports, DOL apprenticeship data.",
     "steps": [
       "Drill into Industry portal WORKFORCE_SHORTAGE",
       "Review workforce treatments",
-      "Screen Guild Education, RethinkEd, Pathstream",
-      "Apply to DOL apprenticeship grants",
-      "Track CHIPS/BIL workforce allocations"
+      "Screen Guild Education, RethinkEd, Pathstream, Stride (LRN), Adecco",
+      "Position in workforce-tech platforms",
+      "Commission research brief on skills-gap magnitude and training program efficacy"
     ],
     "branch_up": "Shortage deepens: workforce-development investment wave.",
     "branch_down": "Automation offsets: shift to training for automation.",
-    "outcome": "Workforce-development and apprenticeship platforms capture DOL and employer demand.",
-    "failure": "Automation resolves.",
+    "outcome": "Workforce-development and apprenticeship platforms capture employer demand; research informs program design.",
+    "failure": "Automation resolves workforce gap.",
     "window": "180 days–5 years",
     "realWorld": {
       "invest": "Workforce-tech: Guild Education (private), Penn Foster (private). Public: Stride (LRN), Adecco.",
-      "apply": "DOL apprenticeship grants, CHIPS Act workforce, BIL workforce, NSF Advanced Technological Education.",
+      "research": "Research brief: quantify manufacturing skills-gap by sector and region; benchmark apprenticeship-program ROI vs automation cost.",
       "build": "Skilled-trades training platforms, apprenticeship-management tooling, workforce-analytics."
     },
     "examples": [
@@ -233,8 +233,8 @@
     ],
     "fastPath": [
       "1. Confirm WORKFORCE_SHORTAGE",
-      "2. Screen workforce-tech platforms",
-      "3. Pursue DOL apprenticeship or CHIPS workforce"
+      "2. Screen workforce-tech platforms (LRN, Adecco, Guild Education)",
+      "3. Commission skills-gap research brief for target sector"
     ]
   },
   {
@@ -265,7 +265,7 @@
     "window": "30 days–18 months",
     "realWorld": {
       "invest": "N/A",
-      "apply": "NIST Manufacturing USA, DOE AMO, EDA Tech Hubs.",
+      "research": "Research brief: map industrial-data coverage gaps and quantify the value of an integrated manufacturing-intelligence dataset (NIST Manufacturing USA / DOE AMO reference data).",
       "build": "Manufacturing-data aggregation, supply-chain intelligence, industrial-AI platforms."
     },
     "examples": [
@@ -278,7 +278,7 @@
     "fastPath": [
       "1. Check feed health",
       "2. Identify gap",
-      "3. Pursue NIST MUSA or DOE AMO"
+      "3. Commission manufacturing-data coverage research brief"
     ]
   }
 ];

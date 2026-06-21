@@ -30,17 +30,17 @@
       "Drill into Religion portal SECTARIAN_CONFLICT",
       "Review interfaith treatments",
       "Screen peacebuilding organizations",
-      "Apply to USIP, State IRF, Templeton",
+      "Research USIP, State IRF, Templeton methodologies and evidence base",
       "Position advisory to affected communities"
     ],
     "branch_up": "Conflict escalation: sustained peacebuilding demand.",
     "branch_down": "Reconciliation: shift to preventive advisory.",
-    "outcome": "Peacebuilding and interfaith organizations capture State Department, USIP, and foundation funding.",
+    "outcome": "Peacebuilding and interfaith organizations capture State Department, USIP, and foundation support.",
     "failure": "Quick reconciliation.",
     "window": "90 days–3 years",
     "realWorld": {
       "invest": "Limited public exposure.",
-      "apply": "US Institute of Peace (USIP), State Department International Religious Freedom (IRF), Templeton Foundation, Carnegie.",
+      "research": "Conflict-resolution research via USIP, State Department International Religious Freedom (IRF), Templeton Foundation, Carnegie — study evidence base and best practices.",
       "build": "Conflict-resolution platforms, interfaith-dialogue tooling, religious-tension monitoring."
     },
     "examples": [
@@ -75,7 +75,7 @@
       "Drill into Religion portal INSTITUTIONAL_ABUSE",
       "Review survivor-support treatments",
       "Support accountability organizations (SNAP, BishopAccountability.org)",
-      "Apply to foundations",
+      "Research Kellogg, Hewlett, Ford, Arnold Ventures victim-support evidence base",
       "Track AG investigations"
     ],
     "branch_up": "Systemic disclosure wave: sustained accountability infrastructure.",
@@ -85,7 +85,7 @@
     "window": "180 days–5 years",
     "realWorld": {
       "invest": "Limited public exposure.",
-      "apply": "Kellogg Foundation, Hewlett, Ford, Arnold Ventures victim-support programs.",
+      "research": "Review Kellogg Foundation, Hewlett, Ford, Arnold Ventures victim-support research and model programs — study evidence base for accountability infrastructure.",
       "build": "Survivor-support platforms, institutional-accountability tooling, disclosure-tracking."
     },
     "examples": [
@@ -113,7 +113,7 @@
     "pattern": "religion_radicalization",
     "explain": "Extremist recruitment, radicalization pipeline, or violent-extremism risk. Portal diagnosis RADICALIZATION maps through extremist-recruitment, pipeline, and violent-extremism-risk signals.",
     "action": "Position in countering-violent-extremism (CVE) platforms, deradicalization services, and online-safety tooling.",
-    "valueRange": "$500K–$10M CVE contracts and grants",
+    "valueRange": "$500K–$10M CVE investment and research",
     "saturation": "low",
     "trigger": "Religion stress > 0.50 with extremist_recruitment, radicalization_pipeline, or violent_extremism_risk conditions active.",
     "validation": "Confirm DHS, FBI, NCTC reporting, GIFCT data.",
@@ -121,17 +121,17 @@
       "Drill into Religion portal RADICALIZATION",
       "Review CVE treatments",
       "Screen CVE vendors (Moonshot, Jigsaw)",
-      "Apply to DHS CP3, State CT",
+      "Research DHS CP3, State CT, Templeton evidence base and investment thesis",
       "Track GIFCT cooperation"
     ],
-    "branch_up": "Pipeline expansion: sustained CVE procurement.",
-    "branch_down": "Containment: shift to preventive online-safety.",
-    "outcome": "CVE and deradicalization platforms capture DHS, State, and foundation demand.",
+    "branch_up": "Pipeline expansion: sustained CVE investment and research demand.",
+    "branch_down": "Containment: shift to preventive online-safety research.",
+    "outcome": "CVE and deradicalization platforms attract investment; research builds evidence base for intervention.",
     "failure": "Containment.",
     "window": "90 days–3 years",
     "realWorld": {
-      "invest": "Limited public exposure.",
-      "apply": "DHS Center for Prevention Programs and Partnerships (CP3), State CT Bureau, Templeton.",
+      "invest": "CVE and online-safety platforms (Moonshot CVE, Jigsaw/Alphabet ventures).",
+      "research": "Study DHS Center for Prevention Programs (CP3), State CT Bureau, Templeton CVE evidence base — map intervention models and efficacy data.",
       "build": "CVE platforms, deradicalization services, online-safety tooling for religious-extremism contexts."
     },
     "examples": [
@@ -150,7 +150,7 @@
   {
     "id": "secularization_crisis",
     "title": "Secularization Crisis Response",
-    "type": "fund",
+    "type": "invest",
     "domains": [
       "religion",
       "population",
@@ -158,26 +158,26 @@
     ],
     "pattern": "religion_secularization",
     "explain": "Rapid secularization, institutional decline, or religious-identity loss. Portal diagnosis SECULARIZATION_CRISIS maps through secularization, institutional-decline, and identity-loss signals.",
-    "action": "Position in community-services, spiritual-but-not-religious platforms, and religious-revitalization infrastructure.",
-    "valueRange": "$100K–$5M religious-institution innovation",
+    "action": "Invest in community-services, spiritual-but-not-religious platforms, and religious-revitalization infrastructure. Research demographic trends and institutional models.",
+    "valueRange": "$100K–$5M religious-institution innovation investment",
     "saturation": "low",
     "trigger": "Religion stress > 0.45 with secularization, institutional_decline, or religious_identity_loss conditions active.",
     "validation": "Confirm Pew Research, PRRI, General Social Survey data.",
     "steps": [
       "Drill into Religion portal SECULARIZATION_CRISIS",
       "Review revitalization treatments",
-      "Apply to Lilly Endowment, Templeton",
-      "Position advisory to religious institutions",
-      "Monitor demographic trends"
+      "Research Lilly Endowment, Templeton investment thesis and denominational models",
+      "Position in community-service platforms and religious-institution management tools",
+      "Monitor demographic trends via Pew, PRRI, General Social Survey"
     ],
-    "branch_up": "Accelerating decline: institutional-reinvention investment.",
-    "branch_down": "Stabilization: shift to community-service infrastructure.",
-    "outcome": "Religious-institution innovation and community-service platforms capture Lilly, Templeton, denominational funding.",
+    "branch_up": "Accelerating decline: institutional-reinvention investment accelerates.",
+    "branch_down": "Stabilization: shift to community-service infrastructure investment.",
+    "outcome": "Religious-institution innovation and community-service platforms attract investment; research guides positioning.",
     "failure": "Decline continues without reform.",
     "window": "180 days–5 years",
     "realWorld": {
-      "invest": "Limited public exposure.",
-      "apply": "Lilly Endowment, Templeton Foundation, denominational capacity-building.",
+      "invest": "Community-service platforms, faith-formation technology, congregation-analytics services — backed by Lilly Endowment, Templeton Foundation.",
+      "research": "Study Pew Research, PRRI, General Social Survey on secularization trends; review Lilly Endowment and Templeton denominational capacity-building models.",
       "build": "Community-service platforms, religious-institution management tooling, spiritual-but-not-religious programs."
     },
     "examples": [
@@ -203,7 +203,7 @@
     ],
     "pattern": "religion_schism",
     "explain": "Intra-denominational split, theological rupture, or doctrinal crisis. Portal diagnosis THEOLOGICAL_SCHISM maps through denomination-split, doctrinal-rupture, and theological-crisis signals.",
-    "action": "Position in denominational-mediation, theological-scholarship, and congregation-transition advisory.",
+    "action": "Position in denominational-mediation, theological-scholarship, and congregation-transition advisory. Research schism patterns and reconciliation evidence.",
     "valueRange": "Advisory and denominational-capacity-building",
     "saturation": "low",
     "trigger": "Religion stress > 0.40 with denomination_split, doctrinal_rupture, or theological_crisis conditions active.",
@@ -212,17 +212,17 @@
       "Drill into Religion portal THEOLOGICAL_SCHISM",
       "Review mediation treatments",
       "Position advisory to denominations",
-      "Apply to Lilly, Templeton, Henry Luce",
+      "Research Lilly, Templeton, Henry Luce scholarship programs and evidence base",
       "Monitor denominational polling"
     ],
     "branch_up": "Schism formalizes: transition-advisory demand.",
     "branch_down": "Reconciliation: shift to preventive dialogue.",
-    "outcome": "Denominational-mediation and transition advisors capture denominational funding.",
+    "outcome": "Denominational-mediation and transition advisors capture denominational support; research informs best practices.",
     "failure": "Status-quo continuation.",
     "window": "90 days–3 years",
     "realWorld": {
       "invest": "Limited public exposure.",
-      "apply": "Lilly Endowment, Templeton, Henry Luce Foundation religion programs.",
+      "research": "Review Lilly Endowment, Templeton, Henry Luce Foundation religion scholarship — study denominational schism patterns and mediation evidence base.",
       "build": "Denominational-mediation platforms, theological-scholarship infrastructure, congregation-transition advisory."
     },
     "examples": [
@@ -240,33 +240,33 @@
   },
   {
     "id": "religion_data_gap",
-    "title": "Religion Data Gap → Build",
-    "type": "build",
+    "title": "Religion Data Gap → Research",
+    "type": "research",
     "domains": [
       "religion"
     ],
     "pattern": null,
-    "explain": "Religion monitoring has gaps. Build religion-and-society intelligence platforms.",
-    "action": "Build real-time religion-intelligence platforms.",
+    "explain": "Religion monitoring has gaps. Research and build religion-and-society intelligence platforms.",
+    "action": "Research existing religion-intelligence platforms and data gaps; build targeted infrastructure.",
     "valueRange": "$250K–$5M religion-data infrastructure",
     "saturation": "low",
     "trigger": "Religion sources showing DEGRADED or FALLBACK status.",
     "validation": "Check feed health.",
     "steps": [
       "Check Religion feed health",
-      "Count OFFLINE",
-      "Identify gap",
-      "Build pipeline",
-      "Apply to Templeton or Lilly"
+      "Count OFFLINE sources",
+      "Identify which dimension is uncovered",
+      "Research Templeton, Lilly, Henry Luce existing data infrastructure and gaps",
+      "Build targeted pipeline addressing confirmed gap"
     ],
-    "branch_up": "Gap persists: build.",
-    "branch_down": "Sources recover: monitor.",
-    "outcome": "Religion-and-society intelligence platform.",
-    "failure": "Pew/PRRI absorb.",
+    "branch_up": "Gap persists: build permanent infrastructure.",
+    "branch_down": "Sources recover: monitor for recurrence.",
+    "outcome": "Religion-and-society intelligence platform serving researchers and institutions.",
+    "failure": "Pew/PRRI absorb the gap.",
     "window": "30 days–18 months",
     "realWorld": {
       "invest": "N/A",
-      "apply": "Templeton Foundation, Lilly Endowment, Henry Luce Foundation.",
+      "research": "Survey Templeton Foundation, Lilly Endowment, Henry Luce Foundation existing religion-data infrastructure — identify gaps and build on published methodology.",
       "build": "Religion-and-society analytics, congregation-demographic monitoring, interfaith-sentiment tracking."
     },
     "examples": [

@@ -40,8 +40,7 @@
     "window": "90 days–10 years",
     "realWorld": {
       "invest": "Clean energy: First Solar (FSLR), NextEra (NEE), Enphase (ENPH), ICLN/TAN ETFs. Resilience: Jupiter Intelligence, Climate X, Orennia.",
-      "apply": "DOE Grid Deployment Office, EPA Climate Pollution Reduction, NOAA climate-adaptation grants, USDA Rural Energy.",
-      "build": "Climate-risk analytics platforms, resilience-planning tools, adaptation-finance infrastructure."
+      "research": "Map clean-energy and resilience competitive landscape, climate-risk analytics market formation, and adaptation-finance infrastructure opportunity. Identify leading ETF and pure-play positions."
     },
     "examples": [
       "Solar, wind, and grid-storage infrastructure",
@@ -52,14 +51,14 @@
     ],
     "fastPath": [
       "1. Confirm CLIMATE_TIPPING_POINT active",
-      "2. Position in ICLN/TAN or resilience pure-plays",
-      "3. Apply to DOE GDO or EPA climate-adaptation grants"
+      "2. Position in ICLN/TAN or resilience pure-plays (First Solar, NextEra, Enphase)",
+      "3. Research climate-risk analytics and adaptation-finance platform competitive landscape"
     ]
   },
   {
     "id": "mass_extinction",
     "title": "Biodiversity Collapse Response",
-    "type": "fund",
+    "type": "invest",
     "domains": [
       "environment",
       "agriculture"
@@ -75,8 +74,8 @@
       "Drill into Environment portal MASS_EXTINCTION diagnosis",
       "Review habitat-connectivity and species-recovery treatments",
       "Identify restoration operators and biodiversity-finance platforms",
-      "Apply to USFWS/NOAA/USDA restoration grants",
-      "Build biodiversity-credit and ecosystem-service infrastructure"
+      "Position in biodiversity-credit and ecosystem-service investment vehicles",
+      "Research emerging biodiversity-monitoring and restoration tooling"
     ],
     "branch_up": "Species loss accelerates: biodiversity-credit markets formalize.",
     "branch_down": "Restoration policy stabilizes: shift to long-term monitoring investment.",
@@ -85,8 +84,7 @@
     "window": "180 days–10 years",
     "realWorld": {
       "invest": "Restoration finance: EcoCommons, Restore. Biodiversity-credit: CreditNature, BioCarbon Registry. Monitoring: Dendra Systems, eDNA platforms.",
-      "apply": "USFWS ESA Section 6, NOAA coastal resilience, USDA NRCS, BIL ecosystem restoration, Wyss Campaign for Nature.",
-      "build": "Biodiversity-credit platforms, restoration-monitoring tooling, ecosystem-service quantification."
+      "research": "Map biodiversity-credit market formation, restoration operator competitive landscape, and ecosystem-service quantification standards. Identify investable positions at each stage."
     },
     "examples": [
       "Restoration operators and land management",
@@ -97,14 +95,14 @@
     ],
     "fastPath": [
       "1. Confirm MASS_EXTINCTION active",
-      "2. Apply to USFWS ESA Section 6 or NOAA coastal grants",
-      "3. Build biodiversity-credit or restoration-monitoring tooling"
+      "2. Screen restoration finance and biodiversity-credit platforms for investment",
+      "3. Research biodiversity-monitoring tooling and ecosystem-service market formation"
     ]
   },
   {
     "id": "ocean_acidification",
     "title": "Ocean Acidification & Marine Response",
-    "type": "fund",
+    "type": "invest",
     "domains": [
       "environment"
     ],
@@ -119,8 +117,8 @@
       "Drill into Environment portal OCEAN_ACIDIFICATION diagnosis",
       "Review reef-restoration and aquaculture-resilience treatments",
       "Identify blue-economy and marine-monitoring operators",
-      "Apply to NOAA Sea Grant, National Sea Grant College Program",
-      "Position in aquaculture and marine-tech ETFs"
+      "Position in aquaculture and marine-tech investments",
+      "Research reef-restoration and ocean-chemistry monitoring platforms"
     ],
     "branch_up": "Reef systems collapse: urgent reef-restoration and alternative-aquaculture investment.",
     "branch_down": "Regional stabilization: shift to long-term monitoring investment.",
@@ -129,8 +127,7 @@
     "window": "180 days–5 years",
     "realWorld": {
       "invest": "Aquaculture: AquaBounty, Cooke Aquaculture. Marine-tech: Saildrone, Sofar Ocean. Reef: Coral Vita.",
-      "apply": "NOAA Sea Grant, Sea Grant College Program, NFWF coastal resilience, Ocean Conservancy, Moore Foundation.",
-      "build": "Ocean-monitoring sensor networks, aquaculture-resilience tooling, reef-restoration infrastructure."
+      "research": "Map blue-economy market opportunity, aquaculture-resilience competitive landscape, and ocean-monitoring platform formation. Identify investable marine-tech positions."
     },
     "examples": [
       "Marine-monitoring sensor networks",
@@ -141,8 +138,8 @@
     ],
     "fastPath": [
       "1. Confirm OCEAN_ACIDIFICATION active",
-      "2. Apply to NOAA Sea Grant",
-      "3. Build marine-monitoring or reef-restoration infrastructure"
+      "2. Screen aquaculture and marine-tech operators for investment (AquaBounty, Saildrone)",
+      "3. Research ocean-monitoring and reef-restoration platforms for investable positions"
     ]
   },
   {
@@ -174,8 +171,7 @@
     "window": "180 days–10 years",
     "realWorld": {
       "invest": "Carbon markets: Pachama, Sylvera, Verra registry partners. Reforestation: Propagate, Terraformation. Due diligence: Osapiens, Satelligence.",
-      "apply": "USDA Climate Smart Commodities, NRCS EQIP, FAO climate-smart agriculture, Bezos Earth Fund, Norwegian International Climate Forest Initiative.",
-      "build": "Carbon-MRV platforms, supply-chain deforestation due-diligence, land-use monitoring via remote sensing."
+      "research": "Map voluntary-carbon market credibility landscape, EUDR compliance tooling competitive set, and land-use monitoring platform formation. Identify investable carbon-market positions."
     },
     "examples": [
       "Voluntary-carbon market operators",
@@ -186,8 +182,8 @@
     ],
     "fastPath": [
       "1. Confirm DEFORESTATION active",
-      "2. Screen carbon-MRV and due-diligence platforms",
-      "3. Apply to USDA Climate Smart Commodities or NRCS EQIP"
+      "2. Screen carbon-MRV and due-diligence platforms for investment (Pachama, Sylvera)",
+      "3. Research EUDR compliance tooling and land-use monitoring platform competitive landscape"
     ]
   },
   {
@@ -220,8 +216,7 @@
     "window": "60 days–5 years",
     "realWorld": {
       "invest": "Remediation: Clean Harbors (CLH), US Ecology. PFAS: 374Water, Aquagga. Compliance: Sphera, Enablon.",
-      "apply": "EPA Superfund, BIL PFAS remediation, DoD Environmental Restoration, state hazardous-waste programs.",
-      "build": "PFAS-destruction tooling, contamination-monitoring sensor networks, industrial-compliance platforms."
+      "research": "Map PFAS-destruction and remediation operator competitive landscape, EPA Superfund contract pipeline, and industrial-compliance platform market formation."
     },
     "examples": [
       "Environmental-remediation operators",
@@ -232,14 +227,14 @@
     ],
     "fastPath": [
       "1. Confirm TOXIC_CONTAMINATION active",
-      "2. Screen remediation primes (CLH)",
-      "3. Apply to EPA Superfund or BIL PFAS remediation"
+      "2. Screen remediation primes for investment (CLH, US Ecology)",
+      "3. Research PFAS-destruction and contamination-monitoring platform competitive landscape"
     ]
   },
   {
     "id": "environment_data_gap",
-    "title": "Environment Data Gap → Build",
-    "type": "build",
+    "title": "Environment Data Gap → Research",
+    "type": "research",
     "domains": [
       "environment"
     ],
@@ -254,8 +249,8 @@
       "Check Environment feed health",
       "Count OFFLINE sources",
       "Identify uncovered dimension",
-      "Build data pipeline",
-      "Apply to NSF, NOAA, or EPA"
+      "Research existing environmental-data platforms in the gap area",
+      "Document gap size and investable platform candidates"
     ],
     "branch_up": "Gap persists: build permanent infrastructure.",
     "branch_down": "Sources recover: monitor.",
@@ -264,8 +259,7 @@
     "window": "30 days–18 months",
     "realWorld": {
       "invest": "N/A",
-      "apply": "NSF, NOAA, EPA ORD research grants, Gordon and Betty Moore Foundation.",
-      "build": "Real-time environmental-data aggregation, compliance monitoring, climate-risk analytics."
+      "research": "Map the environmental-data gap: identify incumbents (Planet, Maxar, Satelligence), coverage gaps by dimension (air/water/land), and investment theses for platforms filling the gap."
     },
     "examples": [
       "Real-time air/water quality dashboards",
@@ -277,7 +271,7 @@
     "fastPath": [
       "1. Check feed health",
       "2. Identify uncovered dimension",
-      "3. Apply to NSF/NOAA or build platform"
+      "3. Research existing platforms and investable candidates filling the gap"
     ]
   }
 ];

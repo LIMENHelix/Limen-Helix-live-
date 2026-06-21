@@ -60,10 +60,8 @@ html,body{background:#050810;color:#e8e3d9;font-family:"IBM Plex Mono",monospace
 }
 .type-invest{background:rgba(90,181,160,0.12);color:#5ab5a0}
 .type-build{background:rgba(74,143,212,0.12);color:#4a8fd4}
-.type-fund{background:rgba(201,169,78,0.12);color:#C9A94E}
-.type-patent{background:rgba(168,85,247,0.12);color:#a855f7}
+.type-research{background:rgba(201,169,78,0.12);color:#C9A94E}
 .type-advise{background:rgba(255,152,0,0.12);color:#FF9800}
-.type-procure{background:rgba(232,84,84,0.12);color:#e85454}
 
 .opp-card-explain{font-size:0.5rem;color:#d0c8b8;line-height:1.6;margin-bottom:8px}
 .opp-card-action{
@@ -394,20 +392,30 @@ function _activateOpportunities() {
           }
         }
       }
-    } else if (pb.id === 'patent_vacuum') {
-      // Special: check patent report
+    } else if (pb.id === 'innovation_gap') {
+      // Research signal: look for research/innovation gap in health tech
       var reports = window.LIMENReports || {};
-      var patRpt = reports.patentOpportunity;
-      if (patRpt && patRpt.signals) {
-        for (var pi = 0; pi < patRpt.signals.length; pi++) {
-          var ps = patRpt.signals[pi];
+      var resRpt = reports.researchOpportunity || reports.patentOpportunity;
+      if (resRpt && resRpt.signals) {
+        for (var pi = 0; pi < resRpt.signals.length; pi++) {
+          var ps = resRpt.signals[pi];
           if (ps.type === 'temporal_gap' && (ps.opportunityScore || 0) > 0.4) {
             isActive = true;
             confidence = Math.round((ps.opportunityScore || 0) * 100);
             urgency = 'medium';
-            whyNow = 'Filing gap in ' + (ps.techNode || 'tech area') + ': ' + (ps.indication || '');
+            whyNow = 'Innovation gap in ' + (ps.techNode || 'tech area') + ': ' + (ps.indication || '');
             break;
           }
+        }
+      }
+      // Fallback: activate if health domain is stressed
+      if (!isActive) {
+        var hDom = doms['health'] || doms['medicine'];
+        if (hDom && hDom.stress > 0.30) {
+          isActive = true;
+          confidence = Math.round(hDom.stress * 60);
+          urgency = 'low';
+          whyNow = 'Health domain at ' + (hDom.stress * 100).toFixed(0) + '% — research opportunity emerging';
         }
       }
     } else {
@@ -819,7 +827,7 @@ function openPlaybook(idx) {
   if (pb.realWorld) {
     html += '<div class="opp-pb-section"><div class="opp-pb-label">REAL-WORLD ACTIONS</div>';
     if (pb.realWorld.invest && pb.realWorld.invest !== 'N/A') html += '<div class="opp-pb-step"><strong style="color:#5ab5a0">INVEST:</strong> ' + pb.realWorld.invest + '</div>';
-    if (pb.realWorld.apply && pb.realWorld.apply !== 'N/A') html += '<div class="opp-pb-step"><strong style="color:#C9A94E">APPLY:</strong> ' + pb.realWorld.apply + '</div>';
+    if (pb.realWorld.research && pb.realWorld.research !== 'N/A') html += '<div class="opp-pb-step"><strong style="color:#C9A94E">RESEARCH:</strong> ' + pb.realWorld.research + '</div>';
     if (pb.realWorld.build && pb.realWorld.build !== 'N/A') html += '<div class="opp-pb-step"><strong style="color:#4a8fd4">BUILD:</strong> ' + pb.realWorld.build + '</div>';
     html += '</div>';
   }
@@ -1228,62 +1236,61 @@ var _EXECUTION_PATHS = {
   care_access_infra: {
     invest: [{name:'Healthcare ETF',ticker:'XLV',cik:'ETF',support:'MAPPED'},{name:'HCA Healthcare',ticker:'HCA',cik:'860730',support:'MAPPED'},{name:'Teladoc Health',ticker:'TDOC',cik:'1477449',support:'MAPPED'},{name:'Amwell',ticker:'AMWL',cik:'',support:'MAPPED'},{name:'Universal Health',ticker:'UHS',cik:'352915',support:'MAPPED'}],
     build: {model:'Real-time provider capacity and care access gap monitoring platform',pays:'Health systems, insurers, state health departments',whyNow:'Provider shortages and care deserts create demand for access intelligence'},
-    fund: ['HRSA care access improvement grants','CMS Innovation Center awards','Health IT venture funds'],
+    fund: ['Research provider shortage data at bhw.hrsa.gov','Review CMS Innovation Center award patterns as research signal','Health IT research reports and market analyses'],
     structure: ['SaaS LLC','Platform model','Revenue: per-provider licensing + health system enterprise plans']
   },
   chronic_disease_mgmt: {
     invest: [{name:'Dexcom',ticker:'DXCM',cik:'1093557',support:'MAPPED'},{name:'Abbott Labs',ticker:'ABT',cik:'1800',support:'MAPPED'},{name:'Intuitive Surgical',ticker:'ISRG',cik:'1035267',support:'MAPPED'},{name:'Medical Devices ETF',ticker:'IHI',cik:'ETF',support:'MAPPED'}],
     build: {model:'Chronic disease risk stratification and remote monitoring platform',pays:'Health systems, managed care organizations, employers',whyNow:'Rising metabolic burden creates sustained demand for chronic care management'},
-    fund: ['NIH SBIR for chronic disease technology','CMS chronic care management pilots','Digital health venture funds'],
-    structure: ['C-Corp for venture funding','IP protection via provisional patents','Revenue: per-patient monitoring fees + enterprise SaaS']
+    fund: ['Research chronic disease burden via CDC chronic disease data','Review CMS chronic care management pilot outcomes as research signal','Digital health market research reports'],
+    structure: ['C-Corp for venture funding','IP via trade secrets or licensing','Revenue: per-patient monitoring fees + enterprise SaaS']
   },
   clinical_coordination: {
     invest: [{name:'Veeva Systems',ticker:'VEEV',cik:'',support:'MAPPED'},{name:'Hims & Hers',ticker:'HIMS',cik:'',support:'MAPPED'}],
     build: {model:'FHIR-native care coordination platform',pays:'Health systems, ACOs, physician groups',whyNow:'Care pathway fragmentation demands interoperability solutions'},
-    fund: ['ONC health IT grants (healthit.gov)','AHRQ care coordination research grants','Health IT accelerators'],
+    fund: ['Review ONC interoperability mandate research at healthit.gov','AHRQ care coordination evidence reviews','Health IT market research via KLAS and Black Book'],
     structure: ['SaaS LLC','Interoperability platform model','Revenue: per-connection fees + health system subscriptions']
   },
   therapeutic_reliability: {
     invest: [{name:'Guardant Health',ticker:'GH',cik:'',support:'MAPPED'},{name:'Exact Sciences',ticker:'EXAS',cik:'1124140',support:'MAPPED'},{name:'Illumina',ticker:'ILMN',cik:'1110803',support:'MAPPED'}],
     build: {model:'Clinical decision support platform using latest evidence synthesis',pays:'Health systems, physician groups, clinical labs',whyNow:'Treatment inconsistency drives demand for diagnostic AI and CDS'},
-    fund: ['NIH SBIR at sbir.nih.gov','AHRQ evidence synthesis grants','Diagnostic AI venture funds'],
+    fund: ['Review AHRQ evidence synthesis reports at ahrq.gov','Research diagnostic AI evidence on PubMed and ClinicalTrials.gov','Diagnostic AI venture fund landscape research'],
     structure: ['C-Corp for venture track','FDA regulatory pathway (510k or De Novo)','Revenue: per-test decision support fees + enterprise licensing']
   },
   drug_safety_surveillance: {
     invest: [],
     build: {model:'Adverse event pattern detection and pharmacovigilance platform',pays:'Pharmaceutical companies, CROs, FDA contractors',whyNow:'Elevated adverse event volume and recall frequency demand better surveillance'},
-    fund: ['FDA BAA contracts at sam.gov','SBIR for drug safety technology','Pharma industry partnerships'],
+    fund: ['Research openFDA adverse event data trends','Review FDA regulatory activity at federalregister.gov for pharmacovigilance context','Pharma industry research reports on drug safety'],
     structure: ['SaaS LLC','Pharmacovigilance platform model','Revenue: per-drug monitoring fees + enterprise SaaS']
   },
   workforce_health: {
     invest: [{name:'AMN Healthcare',ticker:'AMN',cik:'1142750',support:'MAPPED'},{name:'Cross Country Healthcare',ticker:'CCRN',cik:'1060349',support:'MAPPED'}],
     build: {model:'Clinical workforce optimization and training platform',pays:'Health systems, nursing schools, staffing agencies',whyNow:'Healthcare workforce shortages compound care delivery capacity'},
-    fund: ['HRSA workforce development grants (bhw.hrsa.gov)','DOL healthcare apprenticeship programs','Health workforce venture funds'],
+    fund: ['Research HRSA shortage designations at bhw.hrsa.gov','Review BLS healthcare workforce projections for research baseline','Health workforce market research reports'],
     structure: ['LLC','Workforce SaaS + marketplace model','Revenue: per-placement fees + training subscriptions']
   },
   prevention_population: {
     invest: [{name:'UnitedHealth',ticker:'UNH',cik:'731766',support:'MAPPED'},{name:'CVS Health',ticker:'CVS',cik:'64803',support:'MAPPED'},{name:'Humana',ticker:'HUM',cik:'49071',support:'MAPPED'}],
     build: {model:'Social determinants of health data platform',pays:'Managed care organizations, public health departments, ACOs',whyNow:'Population health burden and chronic disease prevalence demand prevention infrastructure'},
-    fund: ['CDC population health grants (cdc.gov/funding)','NIH prevention research grants','Social impact investment funds'],
+    fund: ['Research CDC chronic disease burden data at cdc.gov/chronicdisease','Review NIH prevention evidence literature on PubMed','Social determinants research via RWJF and KFF reports'],
     structure: ['B-Corp or LLC','Data platform model','Revenue: data licensing + population health analytics subscriptions']
   },
   health_governance: {
     invest: [],
     build: {model:'Healthcare regulatory compliance monitoring platform',pays:'Health systems, insurers, pharmaceutical companies',whyNow:'Healthcare policy pressure creates compliance tool demand'},
-    fund: ['Self-funded (capability statement + past performance)','SBA 8(a) if eligible','Teaming agreements with health IT primes'],
-    structure: ['LLC registered in SAM.gov','Government contracting vehicle','Revenue: cost-plus or firm-fixed-price contracts']
+    fund: ['Research Federal Register HHS/CMS activity at federalregister.gov','Review OIG and CMS enforcement trends as research signal','Healthcare policy research via KFF and Commonwealth Fund'],
+    structure: ['LLC','Platform model','Revenue: SaaS subscriptions from compliance-driven buyers']
   },
   treatment_gap: {
     invest: [],
     build: {model:'SaaS or clinical service addressing the specific diagnostic gap identified',pays:'Patients and providers experiencing the diagnosed clinical problem',whyNow:'Strong clinical evidence of problem with few existing solutions'},
-    fund: ['NIH SBIR Phase I ($275K) at sbir.nih.gov','Y Combinator','Digital health accelerators'],
-    structure: ['C-Corp for venture track','IP-first strategy','Revenue: SaaS subscription or per-patient fees']
+    fund: ['Research the evidence gap via PubMed and ClinicalTrials.gov','Review Y Combinator and digital health accelerator portfolios as market signal','Map treatment landscape on Crunchbase before positioning'],
+    structure: ['C-Corp for venture track','Revenue: SaaS subscription or per-patient fees']
   },
-  patent_vacuum: {
+  innovation_gap: {
     invest: [],
-    build: {model:'IP portfolio in underexplored medical CPC group',pays:'Licensing to medtech companies entering the space',whyNow:'Medical innovation happening but nobody filing \u2014 first-mover IP advantage'},
-    fund: ['USPTO provisional filing ($320 small entity)','Patent attorney (~$3K)','IP-backed medtech venture funding'],
-    structure: ['LLC holding IP','Licensing model','Revenue: royalties + defensive licensing']
+    build: {model:'Research synthesis for emerging medical technology area',pays:'Investors and health system strategists needing competitive intelligence',whyNow:'Medical innovation active but commercial landscape still thin \u2014 research-first advantage'},
+    structure: ['LLC','Research-to-invest model','Revenue: research reports + advisory + eventual investment upside']
   }
 };
 
@@ -1300,14 +1307,8 @@ var _TONIGHT_STEPS = {
   build: function(o) {
     return 'Outline 1-page problem statement from portal diagnosis for ' + o.pb.domains[0];
   },
-  patent: function(o) {
-    return 'Search patents.google.com for ' + o.pb.domains[0] + ' technology gaps';
-  },
-  procure: function(o) {
-    return 'Check SAM.gov for active solicitations matching ' + o.pb.domains[0] + ' signals';
-  },
-  fund: function(o) {
-    return 'Search grants.gov for open FOAs in ' + o.pb.domains[0] + ' category';
+  research: function(o) {
+    return 'Search PubMed and ClinicalTrials.gov for evidence in ' + o.pb.domains[0] + ' \u2192 map the gap';
   },
   advise: function(o) {
     return 'Draft 3-slide advisory pitch using portal treatment data for ' + o.pb.domains[0];
@@ -1557,20 +1558,10 @@ var _FAST_ENTRY = {
     {action: 'Search Crunchbase for competitors', detail: 'If <5, white space confirmed'},
     {action: 'File LLC in home state', detail: '$50\u2013$500 depending on state'}
   ],
-  patent: [
-    {action: 'Search patents.google.com', detail: 'Check CPC group for recent filings'},
-    {action: 'Draft 5 method claims from portal treatments', detail: 'Use treatment steps as claim language'},
-    {action: 'File provisional on uspto.gov', detail: '$320 small entity'}
-  ],
-  procure: [
-    {action: 'Register on SAM.gov', detail: 'Get UEI number if not registered'},
-    {action: 'Search active solicitations', detail: 'Filter by agency from law signal'},
-    {action: 'Draft capability statement', detail: '1-page matching solicitation scope'}
-  ],
-  fund: [
-    {action: 'Check grants.gov for open FOAs', detail: 'Filter by domain keyword'},
-    {action: 'Draft concept paper', detail: 'Use portal diagnosis + treatment gap'},
-    {action: 'Contact program officer', detail: 'Email listed on grant announcement'}
+  research: [
+    {action: 'Search PubMed for evidence base', detail: 'pubmed.ncbi.nlm.nih.gov \u2014 filter by date'},
+    {action: 'Check ClinicalTrials.gov for active trials', detail: 'Map trial count vs treatment gap'},
+    {action: 'Count Crunchbase competitors', detail: 'If <5 funded, gap is real'}
   ],
   advise: [
     {action: 'Draft advisory pitch deck', detail: 'Problem from portal, solution from treatments'},
@@ -1587,22 +1578,12 @@ var _MONEY_PATHS = {
   ],
   build: [
     {path: 'Self-fund', label: 'Bootstrap MVP'},
-    {path: 'SBA microloan', label: '$500\u2013$50K'},
-    {path: 'Grant', label: 'SBIR/STTR if tech-based'},
-    {path: 'Partner capital', label: 'Co-founder or angel'}
+    {path: 'Partner capital', label: 'Co-founder or angel'},
+    {path: 'Revenue', label: 'Customer-funded if B2B'}
   ],
-  patent: [
-    {path: 'Self-fund', label: '$320 provisional + $3K attorney'},
-    {path: 'IP fund', label: 'Patent-backed venture if portfolio'}
-  ],
-  procure: [
-    {path: 'Self-fund', label: 'Capability statement is free'},
-    {path: 'SBA 8(a)', label: 'If socially disadvantaged eligible'},
-    {path: 'Teaming', label: 'Sub to prime contractor'}
-  ],
-  fund: [
-    {path: 'Grant application', label: 'No cost to apply'},
-    {path: 'Cost share', label: 'Some grants require 20\u201350% match'}
+  research: [
+    {path: 'Self-fund', label: 'Time investment only'},
+    {path: 'Partner capital', label: 'Research-to-invest thesis with LP'}
   ],
   advise: [
     {path: 'Self-fund', label: 'Time investment only'},

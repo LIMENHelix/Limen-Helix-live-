@@ -413,16 +413,16 @@
     // ═══ TIER 1 — DIRECT ═══
     for (var di = 0; di < activeDx.length; di++) {
       var dx = activeDx[di], dxLabel = (dx.label || dx.id || '').replace(/_/g, ' ');
-      add({ title: dxLabel + ' — institutional governance and accountability systems', rank: stress * dx.relevance, path: 'GRANT-ELIGIBLE', urgency: stress > 0.70 ? 'high' : 'medium', source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress });
-      if (stress >= 0.50) add({ title: dxLabel + ' — trust restoration and transparency infrastructure', rank: stress * dx.relevance * 0.9, path: 'GRANT-ELIGIBLE', urgency: 'medium', source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress });
+      add({ title: dxLabel + ' — institutional governance and accountability systems', rank: stress * dx.relevance, path: 'INVESTABLE', urgency: stress > 0.70 ? 'high' : 'medium', source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress });
+      if (stress >= 0.50) add({ title: dxLabel + ' — trust restoration and transparency infrastructure', rank: stress * dx.relevance * 0.9, path: 'INVESTABLE', urgency: 'medium', source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress });
       if (stress >= 0.55 && dx.relevance >= 0.2) add({ title: dxLabel + ' — community engagement and participation rebuild', rank: stress * 0.85, path: 'INVESTABLE', urgency: 'medium', source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress });
-      add({ title: dxLabel + ' — interfaith stabilization and mediation platform', rank: stress * dx.relevance * 0.75, path: 'GRANT-ELIGIBLE', urgency: 'medium', source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress });
+      add({ title: dxLabel + ' — interfaith stabilization and mediation platform', rank: stress * dx.relevance * 0.75, path: 'INVESTABLE', urgency: 'medium', source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress });
     }
 
     var termCo = [] /* neutralized: distress only from validated gate (see energy-brain) */;
     if (termCo.length > 0) add({ title: 'Religion terminal entity distressed positioning', rank: 0.95, path: 'INVESTABLE', urgency: 'high', source: 'company_terminal', tier: 1, companies: termCo.map(function (c) { return c.ticker; }), stress: stress });
 
-    if (this.state.convergence && this.state.convergence.primary_signal) add({ title: this.state.convergence.primary_signal.replace(/_/g, ' ').toLowerCase() + ' — religion convergence response', rank: 0.98, path: 'GRANT-ELIGIBLE', urgency: 'high', source: 'convergence', tier: 1, stress: stress });
+    if (this.state.convergence && this.state.convergence.primary_signal) add({ title: this.state.convergence.primary_signal.replace(/_/g, ' ').toLowerCase() + ' — religion convergence response', rank: 0.98, path: 'INVESTABLE', urgency: 'high', source: 'convergence', tier: 1, stress: stress });
 
     // ═══ TIER 2 — CROSS-DOMAIN ═══
     var emissions = this.state.crossDomainEmissions || [];
@@ -433,18 +433,18 @@
 
     // ═══ TIER 3 — LAGGING ═══
     if (stress >= 0.50) {
-      add({ title: 'Faith-based community service infrastructure', rank: stress * 0.70, path: 'GRANT-ELIGIBLE', urgency: 'medium', source: 'lagging', tier: 3, diagnosisId: 'service_infra', stress: stress });
-      add({ title: 'Reputational repair and institutional accountability systems', rank: stress * 0.65, path: 'GRANT-ELIGIBLE', urgency: stress > 0.70 ? 'medium' : 'watching', source: 'lagging', tier: 3, diagnosisId: 'accountability', stress: stress });
+      add({ title: 'Faith-based community service infrastructure', rank: stress * 0.70, path: 'INVESTABLE', urgency: 'medium', source: 'lagging', tier: 3, diagnosisId: 'service_infra', stress: stress });
+      add({ title: 'Reputational repair and institutional accountability systems', rank: stress * 0.65, path: 'INVESTABLE', urgency: stress > 0.70 ? 'medium' : 'watching', source: 'lagging', tier: 3, diagnosisId: 'accountability', stress: stress });
     }
     if (stress >= 0.60) {
       add({ title: 'Youth engagement and next-generation formation platforms', rank: stress * 0.75, path: 'INVESTABLE', urgency: 'medium', source: 'lagging', tier: 3, diagnosisId: 'youth_engage', stress: stress });
-      add({ title: 'De-radicalization and counter-extremism programs', rank: stress * 0.72, path: 'GRANT-ELIGIBLE', urgency: 'medium', source: 'lagging', tier: 3, diagnosisId: 'deradicalize', stress: stress });
-      add({ title: 'Interfaith dialogue and peacebuilding infrastructure', rank: stress * 0.68, path: 'GRANT-ELIGIBLE', urgency: 'medium', source: 'lagging', tier: 3, diagnosisId: 'interfaith', stress: stress });
+      add({ title: 'De-radicalization and counter-extremism programs', rank: stress * 0.72, path: 'RESEARCHABLE', urgency: 'medium', source: 'lagging', tier: 3, diagnosisId: 'deradicalize', stress: stress });
+      add({ title: 'Interfaith dialogue and peacebuilding infrastructure', rank: stress * 0.68, path: 'INVESTABLE', urgency: 'medium', source: 'lagging', tier: 3, diagnosisId: 'interfaith', stress: stress });
     }
 
     var nearDx = allDx.filter(function (d) { return !d.active && d.relevance > 0 && d.totalTriggers > 0; });
     for (var ndi = 0; ndi < nearDx.length; ndi++) {
-      if (stress >= 0.45) add({ title: (nearDx[ndi].label || '').replace(/_/g, ' ') + ' — early-stage monitoring', rank: stress * (nearDx[ndi].relevance || 0.1) * 0.5, path: 'PATENTABLE', urgency: 'watching', source: 'near_diagnosis', tier: 2, stress: stress, nearDiagnosisId: nearDx[ndi].id });
+      if (stress >= 0.45) add({ title: (nearDx[ndi].label || '').replace(/_/g, ' ') + ' — early-stage monitoring', rank: stress * (nearDx[ndi].relevance || 0.1) * 0.5, path: 'RESEARCHABLE', urgency: 'watching', source: 'near_diagnosis', tier: 2, stress: stress, nearDiagnosisId: nearDx[ndi].id });
     }
 
     opps.sort(function (a, b) { return (b.rank || 0) - (a.rank || 0); });
@@ -474,9 +474,8 @@
     }
     function _urgencyLabel(u) { if (u === 'high') return 'IMMEDIATE'; if (u === 'medium') return 'ACTIVE'; if (u === 'watching') return 'WATCH'; return (u || '').toUpperCase(); }
     var _COMP = {
-      'GRANT-ELIGIBLE': { type: 'grant',  base: 10, unit: '%',        tier: 1, nextTier: { tier: 2, comp: 15, requirement: '3 successful grant awards' },     maxTier: { tier: 3, comp: 25 } },
-      'INVESTABLE':     { type: 'invest', base: 5,  unit: 'profit%',  tier: 1, nextTier: { tier: 2, comp: 10, requirement: '3 profitable positions closed' }, maxTier: { tier: 3, comp: 15 } },
-      'PATENTABLE':     { type: 'patent', base: 10, unit: 'royalty%', tier: 1, nextTier: { tier: 2, comp: 15, requirement: '3 patents filed' },                maxTier: { tier: 3, comp: 25 } }
+      'INVESTABLE':   { type: 'invest',   base: 5,  unit: 'profit%',  tier: 1, nextTier: { tier: 2, comp: 10, requirement: '3 profitable positions closed' }, maxTier: { tier: 3, comp: 15 } },
+      'RESEARCHABLE': { type: 'research', base: 10, unit: 'cite/credit%', tier: 1, nextTier: { tier: 2, comp: 15, requirement: '3 published research outputs' }, maxTier: { tier: 3, comp: 25 } }
     };
     for (var oi = 0; oi < opps.length; oi++) {
       var o = opps[oi];
@@ -503,8 +502,7 @@
         var stressPct = Math.round((o.stress || 0) * 100);
         var target = '';
         if (o.path === 'INVESTABLE' && pb.realWorld && pb.realWorld.invest) target = pb.realWorld.invest;
-        else if (o.path === 'GRANT-ELIGIBLE' && pb.realWorld && pb.realWorld.apply) target = pb.realWorld.apply;
-        else if (o.path === 'PATENTABLE' && pb.realWorld && pb.realWorld.build) target = pb.realWorld.build;
+        else if (o.path === 'RESEARCHABLE' && pb.realWorld && (pb.realWorld.research || pb.realWorld.build)) target = pb.realWorld.research || pb.realWorld.build;
         else if (o.companies && o.companies.length) target = 'Mapped companies: ' + o.companies.join(', ') + '.';
         var timingParts = []; if (o.urgencyLabel) timingParts.push(o.urgencyLabel); if (pb.window) timingParts.push('Window: ' + pb.window);
         var timing = timingParts.join(' \u00b7 ');

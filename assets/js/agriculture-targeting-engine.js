@@ -211,7 +211,7 @@
     var nodeLabel = (dir.nodeLabel || '').toLowerCase();
     var treatLabel = (dir.treatmentLabel || directive.title || '').toLowerCase();
     var dxId = (directive.diagnosisId || '').toLowerCase();
-    var path = directive.path || 'GRANT-ELIGIBLE';
+    var path = directive.path || 'INVESTABLE';
 
     // 1. Determine relevant segments from node mapping + keyword matching
     var relevantSegments = _resolveSegments(nodeId, nodeLabel, treatLabel, dxId);
@@ -287,8 +287,7 @@
 
     // 5. Add execution targets based on path
     var executionTargets = [];
-    if (path === 'GRANT-ELIGIBLE') executionTargets = ['USDA program officers', 'NRCS conservation divisions', 'State agriculture departments'];
-    else if (path === 'PATENTABLE') executionTargets = ['Patent attorneys', 'Technology licensing offices', 'Strategic acquirers'];
+    if (path === 'RESEARCHABLE') executionTargets = ['Research desks', 'Institutional research buyers', 'Independent / sell-side analysts'];
     else if (path === 'INVESTABLE') executionTargets = ['Agriculture-focused funds', 'Commodity trading desks', 'Institutional allocators'];
 
     // 6. Format for display

@@ -113,8 +113,7 @@
     return m[p] || p;
   }
   function pathColor(path) {
-    if (path === 'PATENTABLE') return 'color:#a855f7;border:1px solid rgba(168,85,247,0.2)';
-    if (path === 'GRANT-ELIGIBLE') return 'color:#5ab5a0;border:1px solid rgba(90,181,160,0.2)';
+    if (path === 'RESEARCHABLE') return 'color:#a855f7;border:1px solid rgba(168,85,247,0.2)';
     if (path === 'INVESTABLE') return 'color:#C9A94E;border:1px solid rgba(201,169,78,0.2)';
     return 'color:#9a9080;border:1px solid rgba(200,195,184,0.08)';
   }

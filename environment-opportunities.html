@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>LIMEN HELIX &middot; CULTURE OPPORTUNITIES</title>
+<title>LIMEN HELIX &middot; ENVIRONMENT OPPORTUNITIES</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{background:#050810;color:#e8e3d9;font-family:"IBM Plex Mono",monospace;height:100%;overflow-x:hidden}
@@ -133,7 +133,7 @@ html,body{background:#050810;color:#e8e3d9;font-family:"IBM Plex Mono",monospace
 <script src="assets/js/limen-topbar.js"></script>
 <script src="assets/js/domain-identity.js"></script>
 <script>
-var _DOMAIN_FILTER = 'culture';
+var _DOMAIN_FILTER = 'environment';
 var _DOMAIN_LABELS = {};
 var _DOMAIN_SK = null; // Resolved via LIMENDomainIdentity
 </script>
@@ -167,7 +167,7 @@ var _DOMAIN_SK = null; // Resolved via LIMENDomainIdentity
 <script src="assets/js/domain-signal-engine.js"></script>
 <script src="assets/js/cross-domain-detector.js"></script>
 <script src="assets/js/limen-bootstrap.js"></script>
-<script src="assets/js/domain-brains/culture-refresh-controller.js"></script>
+<script src="assets/js/domain-brains/environment-refresh-controller.js"></script>
 <script src="assets/js/executive/limen-executive-control.js"></script>
 <script src="assets/js/executive/limen-simulation-engine.js"></script>
 <script src="assets/js/executive/limen-executive-ui.js"></script>
@@ -176,15 +176,14 @@ var _DOMAIN_SK = null; // Resolved via LIMENDomainIdentity
 <script src="assets/js/connectome-kernel-adapter.js"></script>
 <script src="assets/js/kernel-output-interpreter.js"></script>
 <script src="assets/js/node-translation.js"></script>
-<script src="assets/js/domain-brains/data/culture-opportunity-playbooks.js"></script>
+<script src="assets/js/domain-brains/data/environment-opportunity-playbooks.js"></script>
 
 <script>
 (function(){
 'use strict';
 
 // ═══ DYNAMIC CIK LOOKUP ═══
-// Loads company-index.json once, builds ticker→{cik,slug,name} map
-var _cikMap = {};    // TICKER → { cik, slug, name }
+var _cikMap = {};
 var _cikReady = false;
 
 (function _loadCompanyIndex() {
@@ -212,18 +211,14 @@ var _cikReady = false;
   xhr.send();
 })();
 
-// Lookup: returns { cik, slug, name } or null
 function _lookupCIK(ticker) {
   if (!ticker || ticker === 'N/A') return null;
   return _cikMap[ticker.toUpperCase()] || null;
 }
 
 // ═══ PLAYBOOK DEFINITIONS ═══
-// Canonical dataset lives in assets/js/domain-brains/data/culture-opportunity-playbooks.js
-// (loaded above as window.LIMENCultureOpportunityPlaybooks). Shared with the
-// culture-brain so /opportunities.html projects the same rich fields.
-
-var PLAYBOOKS = (window.LIMENCultureOpportunityPlaybooks || []);
+// Canonical dataset lives in assets/js/domain-brains/data/environment-opportunity-playbooks.js
+var PLAYBOOKS = (window.LIMENEnvironmentOpportunityPlaybooks || []);
 
 // ═══ DATA QUALITY ═══
 
@@ -249,16 +244,29 @@ function _getDataQuality(domainKeys, doms) {
 // ═══ OPPORTUNITY ACTIVATION ═══
 
 var _selected = {};
-var _oppPaperPositions = {}; // symbol → position
-var _oppPaperOrders = {};    // symbol → most recent order
+var _oppPaperPositions = {};
+var _oppPaperOrders = {};
 var _oppExposureFetched = false;
-var _oppPortfolio = null;    // LIMENPortfolioContext.analyzePortfolio result
+var _oppPortfolio = null;
 
-// ASSET_MAP mirror (invest-type playbook → tickers) for exposure lookup
+// ASSET_MAP — invest-type playbook → tickers for exposure lookup
 var _OPP_INVEST_TICKERS = {
-  cultural_erasure:[], heritage_destruction:[], censorship_response:['SPOT'],
-  identity_crisis:[], creative_stagnation:['SPOT','ETSY'], culture_data_gap:[]
+  climate_tipping_point: [{ticker:'FSLR',name:'First Solar'},{ticker:'NEE',name:'NextEra Energy'},{ticker:'ENPH',name:'Enphase Energy'}],
+  mass_extinction: [],
+  ocean_acidification: [],
+  deforestation: [],
+  toxic_contamination: [{ticker:'CLH',name:'Clean Harbors'}],
+  environment_data_gap: []
 };
+
+// Flatten to ticker array for badge lookup
+var _OPP_INVEST_TICKER_KEYS = {};
+(function() {
+  for (var pbId in _OPP_INVEST_TICKERS) {
+    var arr = _OPP_INVEST_TICKERS[pbId];
+    _OPP_INVEST_TICKER_KEYS[pbId] = arr.map(function(c){return c.ticker;});
+  }
+})();
 
 function _fetchOppExposure() {
   fetch('/api/paper-positions')
@@ -285,14 +293,14 @@ function _fetchOppExposure() {
       if (window.LIMENPortfolioContext) {
         _oppPortfolio = window.LIMENPortfolioContext.analyzePortfolio(_oppPaperPositions, _oppPaperOrders);
       }
-      if (_hasRendered) render(); // re-render with badges
+      if (_hasRendered) render();
     })
     .catch(function() { _oppExposureFetched = true; });
 }
 
 function _getOppExposureBadge(pbId) {
   if (!_oppExposureFetched) return '';
-  var tickers = _OPP_INVEST_TICKERS[pbId];
+  var tickers = _OPP_INVEST_TICKER_KEYS[pbId];
   if (!tickers) return '';
   var badges = [];
   for (var i = 0; i < tickers.length; i++) {
@@ -321,7 +329,6 @@ function _activateOpportunities() {
     if (cd[ci].pattern) cdPatterns[cd[ci].pattern] = cd[ci];
   }
 
-  // Domain filter: if ?domain= is set, only include playbooks touching that domain
   var domainFilter = _DOMAIN_FILTER;
   var domainSK = domainFilter ? (window.LIMENDomainIdentity ? window.LIMENDomainIdentity.snapshotKey(domainFilter) : domainFilter) : null;
 
@@ -330,7 +337,6 @@ function _activateOpportunities() {
   for (var i = 0; i < PLAYBOOKS.length; i++) {
     var pb = PLAYBOOKS[i];
 
-    // Apply domain filter
     if (domainFilter && pb.domains) {
       var domainMatch = false;
       for (var dfi = 0; dfi < pb.domains.length; dfi++) {
@@ -346,27 +352,24 @@ function _activateOpportunities() {
     var whyNow = '';
 
     if (pb.pattern && cdPatterns[pb.pattern]) {
-      // Cross-domain pattern is firing
       var pat = cdPatterns[pb.pattern];
       isActive = true;
       confidence = Math.round((pat.confidence || 0.5) * 100);
       urgency = (pat.severity || 0) > 0.65 ? 'high' : (pat.severity || 0) > 0.4 ? 'medium' : 'low';
       var stresses = (pat.stresses || []).map(function(s){return s.toFixed(2)});
       whyNow = (pat.domains || []).join(' + ') + ' stress: ' + stresses.join(', ');
-      // Add source detail
       for (var di = 0; di < (pat.domains || []).length; di++) {
         var dd = doms[pat.domains[di]];
         if (dd && dd.sources) {
           for (var si = 0; si < dd.sources.length; si++) {
             if (dd.sources[si].live && dd.sources[si].label) {
-              whyNow += ' \u00b7 ' + dd.sources[si].label;
+              whyNow += ' · ' + dd.sources[si].label;
               break;
             }
           }
         }
       }
-    } else if (pb.id === 'data_infra') {
-      // Special: count degraded domains
+    } else if (pb.id === 'environment_data_gap') {
       var degraded = 0;
       for (var dk in doms) { if (doms[dk].status === 'PARTIAL' || doms[dk].status === 'FALLBACK') degraded++; }
       if (degraded >= 3) {
@@ -375,23 +378,7 @@ function _activateOpportunities() {
         urgency = degraded >= 5 ? 'high' : 'medium';
         whyNow = degraded + ' domains degraded or in fallback';
       }
-    } else if (pb.id === 'treatment_gap') {
-      // Special: scan for evidence gaps
-      var ar = window.LIMENAnalystReport;
-      if (ar && ar.domains) {
-        for (var ari = 0; ari < ar.domains.length; ari++) {
-          var ard = ar.domains[ari];
-          if ((ard.evidenceScore || 0) >= 0.5 && (ard.treatmentCount || 0) <= 3 && (ard.diagnosticCount || 0) >= 2 && (ard.stress || 0) > 0.35) {
-            isActive = true;
-            confidence = Math.round((ard.evidenceScore || 0) * 100);
-            urgency = ard.stress > 0.65 ? 'high' : 'medium';
-            whyNow = (ard.label || ard.domainId) + ': ' + ard.diagnosticCount + ' diagnoses, only ' + ard.treatmentCount + ' treatments';
-            break;
-          }
-        }
-      }
     } else {
-      // Generic: check if relevant domains are stressed (threshold 0.20 post-normalization)
       var anyStressed = false;
       var topStress = 0;
       var topSrc = '';
@@ -424,7 +411,6 @@ function _activateOpportunities() {
     var quality = _getDataQuality(dominated[0] === 'any' ? Object.keys(doms) : dominated, doms);
 
     if (isActive) {
-      // Downgrade confidence if data quality is poor
       if (quality.live === 0 && quality.total > 0) confidence = Math.min(confidence, 20);
       active.push({
         pb: pb,
@@ -439,24 +425,19 @@ function _activateOpportunities() {
         pb: pb,
         confidence: 0,
         urgency: 'watching',
-        whyNow: 'Monitoring \u2014 triggers not yet met',
+        whyNow: 'Monitoring — triggers not yet met',
         status: 'watching',
         quality: quality
       });
     }
   }
 
-  // Debug: log activation results
   console.log('[Opportunities] Activation results:', {
     totalPlaybooks: PLAYBOOKS.length,
-    activeCount: active.length,
-    domainCount: Object.keys(doms).length,
-    crossDomainPatterns: cd.length,
-    hasAnalystReport: !!(window.LIMENAnalystReport && window.LIMENAnalystReport.domains),
-    activeTitles: active.map(function(a){ return a.pb.title })
+    activeCount: active.filter(function(a){return a.status==='active'}).length,
+    domainCount: Object.keys(doms).length
   });
 
-  // Sort: active first (high > medium > low), then watching
   var uOrder = {high:0,medium:1,low:2,watching:3};
   active.sort(function(a,b) {
     var ua = uOrder[a.urgency] !== undefined ? uOrder[a.urgency] : 9;
@@ -476,15 +457,12 @@ function _renderConnectomeBar(opp) {
   var sourceColor = c.source === 'CONNECTOME' ? '#5ab5a0' : '#666';
 
   var html = '<div style="margin-top:6px;padding:6px 10px;background:rgba(201,169,78,0.03);border:1px solid rgba(201,169,78,0.06);border-radius:2px;font-size:0.38rem">';
-
-  // Row 1: source tag + node count + cross-domain
   html += '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;color:#888;margin-bottom:3px">';
   html += '<span style="color:' + sourceColor + ';letter-spacing:1px">' + c.source + '</span>';
   html += '<span>' + c.totalActivated + ' node' + (c.totalActivated > 1 ? 's' : '') + '</span>';
   if (c.crossDomainNodes > 0) html += '<span style="color:#C9A94E">' + c.crossDomainNodes + ' cross-domain</span>';
   html += '</div>';
 
-  // Row 2: top nodes with their primary role (much more informative than bare IDs)
   if (c.nodes && c.nodes.length > 0) {
     html += '<div style="display:flex;gap:6px;flex-wrap:wrap">';
     for (var ni = 0; ni < Math.min(c.nodes.length, 3); ni++) {
@@ -499,7 +477,6 @@ function _renderConnectomeBar(opp) {
     html += '</div>';
   }
 
-  // Row 3: feed context — which domains are stressed and how much
   if (c.feedContext) {
     var fcKeys = Object.keys(c.feedContext);
     if (fcKeys.length > 0) {
@@ -518,13 +495,11 @@ function _renderConnectomeBar(opp) {
   return html;
 }
 
-// Build "why this surfaced" explanation from connectome + feed data
 function _buildWhySurfaced(opp) {
   if (!opp.connectome || opp.connectome.nodeCount === 0) return '';
   var c = opp.connectome;
   var parts = [];
 
-  // Which domains triggered
   if (c.feedContext) {
     var stressedDoms = [];
     for (var dk in c.feedContext) {
@@ -533,7 +508,6 @@ function _buildWhySurfaced(opp) {
     if (stressedDoms.length > 0) parts.push('Stressed domains: ' + stressedDoms.join(', '));
   }
 
-  // Top responsible nodes
   if (c.nodes && c.nodes.length > 0) {
     var topNodeDesc = c.nodes.slice(0, 2).map(function(n) {
       return n.id + (n.roles && n.roles[0] ? ' (' + n.roles[0] + ')' : '');
@@ -541,14 +515,13 @@ function _buildWhySurfaced(opp) {
     parts.push('Key nodes: ' + topNodeDesc.join(', '));
   }
 
-  // Business relevance
   if (c.businessMappings && c.businessMappings.length > 0) {
     var sectors = c.businessMappings.slice(0, 2).map(function(bm) { return bm.role; });
     parts.push('Sector relevance: ' + sectors.join(', '));
   }
 
   if (parts.length === 0) return '';
-  return '<div style="margin-top:4px;font-size:0.36rem;color:#666;line-height:1.5">' + parts.join(' \u00b7 ') + '</div>';
+  return '<div style="margin-top:4px;font-size:0.36rem;color:#666;line-height:1.5">' + parts.join(' · ') + '</div>';
 }
 
 // ═══ RENDER ═══
@@ -556,49 +529,39 @@ function _buildWhySurfaced(opp) {
 function render() {
   console.log('[Opportunities] render() called');
 
-  // Trade nav — matches civilization layout exactly
-  var DOMAIN_LABEL = 'Culture';
-  if (_DOMAIN_FILTER) {
-    DOMAIN_LABEL = _DOMAIN_LABELS[_DOMAIN_FILTER] || _DOMAIN_FILTER.charAt(0).toUpperCase() + _DOMAIN_FILTER.slice(1);
-    document.title = 'LIMEN HELIX \u00b7 ' + DOMAIN_LABEL.toUpperCase() + ' OPPORTUNITIES';
-  }
+  var DOMAIN_LABEL = 'Environment';
+  document.title = 'LIMEN HELIX · ENVIRONMENT OPPORTUNITIES';
 
   var opps = _activateOpportunities();
-  // Connectome resolver enrichment
   if (window.LIMENConnectomeResolver && window.LIMENConnectomeResolver.isReady()) {
     opps = window.LIMENConnectomeResolver.resolve(opps);
   }
-  console.log('[Opportunities] opps count:', opps.length, 'grid element:', !!document.getElementById('oppGrid'));
 
-  // Command strip
   var cmd = document.getElementById('oppCommand');
   var activeCount = opps.filter(function(o){return o.status==='active'}).length;
   var highCount = opps.filter(function(o){return o.urgency==='high'}).length;
-  var immCount = opps.filter(function(o){return o.urgency==='high'||o.urgency==='medium'}).length;
   var watchCount = opps.filter(function(o){return o.status==='watching'}).length;
-  var topDom = '';
   var doms = window.LIMENDomains || {};
   var topS = 0;
-  for (var dk in doms) { if (doms[dk].stress > topS) { topS = doms[dk].stress; topDom = dk; } }
 
   var connectomeCount = opps.filter(function(o){ return o.connectome && o.connectome.source === 'CONNECTOME' && o.status === 'active'; }).length;
 
-  // Intelligence summary from shared Culture state
-  var F = window.LIMENCultureFresh || {};
-  var ePct = Math.round((F.stress || topS) * 100);
+  var F = window.LIMENEnvironmentFresh || {};
+  var envDom = doms['environment'] || {};
+  var ePct = Math.round((F.stress || envDom.stress || topS) * 100);
   var eSev = ePct >= 75 ? 'CRITICAL' : ePct >= 55 ? 'ELEVATED' : ePct >= 35 ? 'MODERATE' : 'CONTAINED';
   var eSevC = eSev === 'CRITICAL' ? '#e85454' : eSev === 'ELEVATED' ? '#C9A94E' : eSev === 'MODERATE' ? '#4a8fd4' : '#5ab5a0';
 
   var summaryText = '';
   if (activeCount > 0) {
-    summaryText = activeCount + ' live opportunit' + (activeCount > 1 ? 'ies' : 'y') + ' generated from Trade intelligence at ' + ePct + '% sector stress. ';
-    if (highCount > 0) summaryText += highCount + ' flagged urgent \u2014 positioning windows may be narrowing. ';
+    summaryText = activeCount + ' live opportunit' + (activeCount > 1 ? 'ies' : 'y') + ' generated from Environment intelligence at ' + ePct + '% domain stress. ';
+    if (highCount > 0) summaryText += highCount + ' flagged urgent — positioning windows may be narrowing. ';
     if (connectomeCount > 0) summaryText += connectomeCount + ' reinforced by connectome cross-validation.';
   } else if (watchCount > 0) {
-    summaryText = 'Pipeline quiet. ' + watchCount + ' opportunities in monitoring state. Culture stress at ' + ePct + '% (' + eSev + ') \u2014 ';
+    summaryText = 'Pipeline quiet. ' + watchCount + ' opportunities in monitoring state. Environment stress at ' + ePct + '% (' + eSev + ') — ';
     summaryText += ePct < 30 ? 'insufficient pressure to activate positioning logic.' : 'pressure present but trigger conditions not yet met. Monitor for escalation.';
   } else {
-    summaryText = 'No opportunities in pipeline. Culture stress: ' + ePct + '%. Signal confidence: ' + Math.round((F.confidence || 0) * 100) + '%. Feed coverage may be insufficient to generate actionable positions.';
+    summaryText = 'No opportunities in pipeline. Environment stress: ' + ePct + '%. Feed coverage may be insufficient to generate actionable positions.';
   }
 
   cmd.innerHTML =
@@ -609,7 +572,6 @@ function render() {
     '<span class="opp-stat" style="color:' + eSevC + '">' + eSev + ': <span class="opp-stat-val">' + ePct + '%</span></span>' +
     '<span class="opp-summary">' + summaryText + '</span>';
 
-  // Cards
   var grid = document.getElementById('oppGrid');
   grid.innerHTML = '';
   for (var i = 0; i < opps.length; i++) {
@@ -625,38 +587,36 @@ function render() {
     card.setAttribute('data-idx', i);
 
     var urgColor = o.urgency === 'high' ? '#e85454' : o.urgency === 'medium' ? '#C9A94E' : o.urgency === 'watching' ? '#555' : '#5ab5a0';
-    var satClass = 'sat-' + pb.saturation;
+    var satClass = 'sat-' + (pb.saturation || 'low');
     var statusLabel = isWatching ? 'WATCHING' : o.urgency.toUpperCase();
 
-    // Source indicator for connectome vs domain-only
     var sourceIndicator = '';
     if (o.connectome && o.connectome.source === 'CONNECTOME') {
       sourceIndicator = '<span style="font-size:0.34rem;padding:1px 5px;background:rgba(90,181,160,0.08);border:1px solid rgba(90,181,160,0.12);border-radius:2px;color:#5ab5a0;margin-left:6px">CONNECTOME</span>';
     }
 
     card.innerHTML =
-      '<div class="opp-card-check' + (_selected[pb.id] ? ' checked' : '') + '" onclick="toggleSelect(event,\'' + pb.id + '\')">' + (_selected[pb.id] ? '\u2713' : '') + '</div>' +
+      '<div class="opp-card-check' + (_selected[pb.id] ? ' checked' : '') + '" onclick="toggleSelect(event,\'' + pb.id + '\')">' + (_selected[pb.id] ? '✓' : '') + '</div>' +
       '<div class="opp-card-header">' +
         '<div class="opp-card-title">' + pb.title + sourceIndicator + '</div>' +
         '<span class="opp-card-type ' + typeClass + '">' + pb.type.toUpperCase() + '</span>' +
       '</div>' +
       '<div class="opp-card-explain">' + pb.explain + '</div>' +
       (isWatching ? '' : '<div class="opp-card-action">' + pb.action + '</div>') +
-      '<div class="opp-card-why">' + (isWatching ? 'STATUS: Monitoring \u2014 ' + DOMAIN_LABEL + ' stress at ' + ePct + '% (' + eSev + '). Trigger threshold not reached. Will activate if sector pressure escalates or cross-domain convergence fires.' : 'WHY NOW: ' + o.whyNow) + '</div>' +
+      '<div class="opp-card-why">' + (isWatching ? 'STATUS: Monitoring — ' + DOMAIN_LABEL + ' stress at ' + ePct + '% (' + eSev + '). Trigger threshold not reached. Will activate if domain pressure escalates or cross-domain convergence fires.' : 'WHY NOW: ' + o.whyNow) + '</div>' +
       (isWatching ? '' : '<div class="opp-card-value">POTENTIAL: ' + pb.valueRange + '</div>') +
       (!isWatching && o.confidence ? '<div style="font-size:0.36rem;color:#908878;margin-top:2px">INVALIDATES IF: ' + DOMAIN_LABEL + ' stress drops below 20% or triggering domain conditions resolve. Confidence: ' + o.confidence + '%.</div>' : '') +
       '<div class="opp-card-meta">' +
         '<span style="color:' + (o.quality ? o.quality.color : '#666') + '">' + (o.quality ? o.quality.label : '') + '</span>' +
-        '<span class="' + satClass + '">SATURATION: ' + pb.saturation.toUpperCase() + '</span>' +
+        '<span class="' + satClass + '">SATURATION: ' + (pb.saturation || 'low').toUpperCase() + '</span>' +
         (isWatching ? '' : '<span>CONF: ' + o.confidence + '%</span>') +
         '<span style="color:' + urgColor + '">' + statusLabel + '</span>' +
-        '<span>' + pb.domains.join(' \u00d7 ').toUpperCase() + '</span>' +
+        '<span>' + pb.domains.join(' × ').toUpperCase() + '</span>' +
         '<span>' + pb.window + '</span>' +
       '</div>' +
       _renderConnectomeBar(o) +
       (isWatching ? '' : _buildWhySurfaced(o));
 
-    // Add invest button, exposure badges, and concentration context for invest-type active opportunities
     if (!isWatching && pb.type === 'invest') {
       var expBadgeHtml = _getOppExposureBadge(pb.id);
       if (expBadgeHtml) {
@@ -664,7 +624,6 @@ function render() {
         expDiv.innerHTML = expBadgeHtml;
         card.appendChild(expDiv.firstChild);
       }
-      // Portfolio concentration badge
       if (_oppPortfolio && _oppPortfolio.totalPositions > 0 && window.LIMENPortfolioContext) {
         var qb = window.LIMENPortfolioContext.quickBadge(pb.id, _oppPortfolio);
         if (qb.text) {
@@ -676,33 +635,29 @@ function render() {
       }
       var investBtn = document.createElement('button');
       investBtn.style.cssText = 'display:block;width:100%;margin-top:8px;padding:6px;font-family:inherit;font-size:0.4rem;letter-spacing:1.5px;text-transform:uppercase;background:rgba(90,181,160,0.1);border:1px solid rgba(90,181,160,0.25);color:#5ab5a0;border-radius:2px;cursor:pointer;transition:all 0.2s';
-      investBtn.textContent = 'OPEN INVESTMENT CONSOLE \u2192';
+      investBtn.textContent = 'OPEN INVESTMENT CONSOLE →';
       investBtn.addEventListener('click', (function(oppObj){ return function(e) {
         e.stopPropagation();
         try { sessionStorage.setItem('limen_invest_opp', JSON.stringify(oppObj)); } catch(ex) {}
-        window.location.href = 'investment-console.html?opp=' + encodeURIComponent(oppObj.pb.id) + '&source=' + _DOMAIN_FILTER + '&returnTo=' + encodeURIComponent('/' + _DOMAIN_FILTER + '-opportunities');
+        window.location.href = 'investment-console.html?opp=' + encodeURIComponent(oppObj.pb.id) + '&source=' + _DOMAIN_FILTER + '&returnTo=' + encodeURIComponent('/environment-opportunities');
       }})(o));
       card.appendChild(investBtn);
     }
 
-    // ── STAR RATING + LEGITIMACY METRICS (always visible) ──
     var metricsDiv = document.createElement('div');
     metricsDiv.innerHTML = _buildStarRating(o, i) + _buildLegitimacyMetrics(o);
     card.appendChild(metricsDiv);
 
-    // ── PIPELINE VERDICT (always visible) ──
     var pipeDiv = document.createElement('div');
     pipeDiv.innerHTML = _buildPipelineVerdict(o);
     card.appendChild(pipeDiv);
 
-    // ── ACTION STACK (always visible — internal-first) ──
     if (o.status === 'active') {
       var stackDiv = document.createElement('div');
       stackDiv.innerHTML = _buildActionStack(o);
       card.appendChild(stackDiv);
     }
 
-    // ── EXECUTION BLOCK (internal mode only) ──
     if (_isInternalMode()) {
       var execDiv = document.createElement('div');
       execDiv.innerHTML = _buildExecutionBlock(o);
@@ -721,7 +676,6 @@ function render() {
   _updateActionBar();
   window._oppData = opps;
   _injectStarRatings();
-  // Top 3 section removed — stars in main card list are sufficient
   var _tsEl = document.getElementById('oppLastUpdated');
   if (_tsEl) _tsEl.textContent = 'Updated: ' + new Date().toLocaleString();
 }
@@ -750,20 +704,19 @@ function openPlaybook(idx) {
   var panel = document.getElementById('oppPlaybook');
   panel.className = 'opp-playbook open';
 
-  var html = '';
-  html += '<div class="opp-pb-header"><span class="opp-pb-title">Step-by-Step Plan</span><button class="opp-pb-close" onclick="closePlaybook()">\u2715</button></div>';
+  var oppCtx = '&from=opp&oppTitle=' + encodeURIComponent(pb.title) + '&oppType=' + encodeURIComponent(pb.type);
 
-  // Opportunity header with source indicator
+  var html = '';
+  html += '<div class="opp-pb-header"><span class="opp-pb-title">Step-by-Step Plan</span><button class="opp-pb-close" onclick="closePlaybook()">✕</button></div>';
+
   var pbSourceTag = (o.connectome && o.connectome.source === 'CONNECTOME')
     ? ' <span style="font-size:0.36rem;color:#5ab5a0;border:1px solid rgba(90,181,160,0.15);padding:1px 5px;border-radius:2px;margin-left:6px">CONNECTOME</span>'
     : (o.connectome ? ' <span style="font-size:0.36rem;color:#666;border:1px solid rgba(150,150,150,0.1);padding:1px 5px;border-radius:2px;margin-left:6px">DOMAIN</span>' : '');
   html += '<div class="opp-pb-section"><div class="opp-pb-label">OPPORTUNITY</div><div class="opp-pb-text" style="color:#e8e3d9;font-size:0.55rem">' + pb.title + pbSourceTag + '</div></div>';
 
-  // Type + domains with portal links (carry opportunity context)
-  var oppCtx = '&from=opp&oppTitle=' + encodeURIComponent(pb.title) + '&oppType=' + encodeURIComponent(pb.type);
   var domainLinks = pb.domains.map(function(d) {
     return '<a href="portal.html?domain=' + encodeURIComponent(d) + oppCtx + '" style="color:#C9A94E;text-decoration:none" title="Open ' + d + ' portal">' + d.toUpperCase() + '</a>';
-  }).join(' \u00d7 ');
+  }).join(' × ');
   html += '<div class="opp-pb-section"><div class="opp-pb-label">TYPE</div><div class="opp-pb-text"><span class="opp-card-type type-' + pb.type + '" style="display:inline;margin-right:8px">' + pb.type.toUpperCase() + '</span>' + domainLinks + '</div></div>';
   html += '<div class="opp-pb-section"><div class="opp-pb-label">TRIGGER</div><div class="opp-pb-text">' + pb.trigger + '</div></div>';
   html += '<div class="opp-pb-section"><div class="opp-pb-label">WHY NOW</div><div class="opp-pb-text" style="color:#5ab5a0">' + o.whyNow + '</div></div>';
@@ -782,9 +735,8 @@ function openPlaybook(idx) {
   html += '<div class="opp-pb-section"><div class="opp-pb-label">FAILURE CONDITION</div><div class="opp-pb-text" style="color:rgba(232,84,84,0.7)">' + pb.failure + '</div></div>';
   html += '<div class="opp-pb-section"><div class="opp-pb-label">TIME WINDOW</div><div class="opp-pb-text">' + pb.window + '</div></div>';
   html += '<div class="opp-pb-section"><div class="opp-pb-label">CONFIDENCE</div><div class="opp-pb-text">' + o.confidence + '%</div></div>';
-  html += '<div class="opp-pb-section"><div class="opp-pb-label">MARKET SATURATION</div><div class="opp-pb-text">' + pb.saturation.toUpperCase() + '</div></div>';
+  html += '<div class="opp-pb-section"><div class="opp-pb-label">MARKET SATURATION</div><div class="opp-pb-text">' + (pb.saturation || 'low').toUpperCase() + '</div></div>';
 
-  // FAST PATH — 3-step immediate execution
   if (pb.fastPath && pb.fastPath.length > 0) {
     html += '<div class="opp-pb-section" style="background:rgba(90,181,160,0.04);border-left:3px solid rgba(90,181,160,0.3)">';
     html += '<div class="opp-pb-label" style="color:#5ab5a0">FAST PATH</div>';
@@ -794,33 +746,27 @@ function openPlaybook(idx) {
     html += '</div>';
   }
 
-  // REAL-WORLD ACTIONS
   if (pb.realWorld) {
     html += '<div class="opp-pb-section"><div class="opp-pb-label">REAL-WORLD ACTIONS</div>';
     if (pb.realWorld.invest && pb.realWorld.invest !== 'N/A') html += '<div class="opp-pb-step"><strong style="color:#5ab5a0">INVEST:</strong> ' + pb.realWorld.invest + '</div>';
     if (pb.realWorld.research && pb.realWorld.research !== 'N/A') html += '<div class="opp-pb-step"><strong style="color:#C9A94E">RESEARCH:</strong> ' + pb.realWorld.research + '</div>';
-    if (pb.realWorld.build && pb.realWorld.build !== 'N/A') html += '<div class="opp-pb-step"><strong style="color:#4a8fd4">BUILD:</strong> ' + pb.realWorld.build + '</div>';
     html += '</div>';
   }
 
-  // EXAMPLES
   if (pb.examples && pb.examples.length > 0) {
     html += '<div class="opp-pb-section"><div class="opp-pb-label">EXAMPLES</div>';
     for (var ei = 0; ei < pb.examples.length; ei++) {
-      html += '<div class="opp-pb-text" style="padding:2px 0;font-size:0.45rem">\u2022 ' + pb.examples[ei] + '</div>';
+      html += '<div class="opp-pb-text" style="padding:2px 0;font-size:0.45rem">• ' + pb.examples[ei] + '</div>';
     }
     html += '</div>';
   }
 
-  // WHY THIS SURFACED
   if (o.connectome && o.connectome.feedContext) {
     var fc = o.connectome.feedContext;
     var fcKeys = Object.keys(fc);
     if (fcKeys.length > 0) {
       html += '<div class="opp-pb-section" style="border-left:3px solid rgba(201,169,78,0.2)">';
       html += '<div class="opp-pb-label">WHY THIS SURFACED</div>';
-
-      // Feed domains that triggered
       html += '<div style="margin-bottom:6px">';
       for (var fci = 0; fci < fcKeys.length; fci++) {
         var fdk = fcKeys[fci];
@@ -833,21 +779,6 @@ function openPlaybook(idx) {
       }
       html += '</div>';
 
-      // Connectome domains mapped
-      if (window.LIMENConnectomeResolver) {
-        var connectomeDoms = [];
-        for (var cdi = 0; cdi < fcKeys.length; cdi++) {
-          var mapped = window.LIMENConnectomeResolver.getConnectomeDomains(fcKeys[cdi]);
-          for (var mi = 0; mi < mapped.length; mi++) {
-            if (connectomeDoms.indexOf(mapped[mi]) === -1) connectomeDoms.push(mapped[mi]);
-          }
-        }
-        if (connectomeDoms.length > 0) {
-          html += '<div style="font-size:0.38rem;color:#666;margin-bottom:4px">Connectome domains: ' + connectomeDoms.join(', ') + '</div>';
-        }
-      }
-
-      // Node-level explanation
       var c = o.connectome;
       if (c.nodes && c.nodes.length > 0) {
         html += '<div style="font-size:0.38rem;color:#666;margin-bottom:3px">Top nodes driving this opportunity:</div>';
@@ -860,110 +791,13 @@ function openPlaybook(idx) {
           html += '</div>';
         }
       }
-
-      // Sector relevance from business mappings
-      if (c.businessMappings && c.businessMappings.length > 0) {
-        var sectors = c.businessMappings.slice(0, 3).map(function(bm) { return bm.role; });
-        html += '<div style="font-size:0.38rem;color:#666;margin-top:4px">Sector relevance: <span style="color:#bbb">' + sectors.join(', ') + '</span></div>';
-      }
-
       html += '</div>';
     }
   }
 
-  // CONNECTOME GROUNDING (full detail)
-  if (o.connectome && o.connectome.nodeCount > 0) {
-    var c = o.connectome;
-
-    html += '<div class="opp-pb-section" style="background:rgba(201,169,78,0.03);border-left:3px solid rgba(201,169,78,0.15)">';
-    html += '<div class="opp-pb-label" style="color:#C9A94E">CONNECTOME GROUNDING</div>';
-    html += '<div style="font-size:0.42rem;display:flex;gap:10px;flex-wrap:wrap;margin-bottom:6px">';
-    html += '<span style="color:' + (c.source === 'CONNECTOME' ? '#5ab5a0' : '#888') + '">' + c.source + '</span>';
-    html += '<span style="color:#C9A94E">' + c.totalActivated + ' nodes</span>';
-    if (c.crossDomainNodes > 0) html += '<span style="color:#C9A94E">' + c.crossDomainNodes + ' cross-domain</span>';
-    html += '</div>';
-
-    // Activated nodes — with portal drill-down links
-    if (c.nodes && c.nodes.length > 0) {
-      for (var cni = 0; cni < Math.min(c.nodes.length, 6); cni++) {
-        var cn = c.nodes[cni];
-        var nodeColor = cn.crossDomain ? '#C9A94E' : '#888';
-        html += '<div style="font-size:0.42rem;padding:3px 0;border-bottom:1px solid rgba(201,169,78,0.04);display:flex;justify-content:space-between;align-items:center">';
-        html += '<div>';
-        html += '<span style="color:' + nodeColor + ';font-weight:bold">' + cn.id + '</span>';
-        if (cn.crossDomain) html += ' <span style="font-size:0.32rem;color:#C9A94E;border:1px solid rgba(201,169,78,0.15);padding:0 3px;border-radius:1px">CROSS</span>';
-        html += ' <span style="color:#888">' + cn.roles.slice(0, 2).join(', ') + '</span>';
-        html += '</div>';
-        // Domain links — navigate to portal for each feed domain
-        html += '<div style="display:flex;gap:4px">';
-        for (var fdi = 0; fdi < cn.feedDomains.length; fdi++) {
-          var fdLink = cn.feedDomains[fdi];
-          html += '<a href="portal.html?domain=' + encodeURIComponent(fdLink) + oppCtx + '" style="font-size:0.32rem;color:#555;text-decoration:none;padding:1px 4px;border:1px solid rgba(201,169,78,0.08);border-radius:1px" title="Open ' + fdLink + ' portal">' + fdLink + '</a>';
-        }
-        html += '</div>';
-        html += '</div>';
-      }
-      if (c.nodes.length > 6) html += '<div style="font-size:0.36rem;color:#555;margin-top:2px">+ ' + (c.nodes.length - 6) + ' more nodes</div>';
-    }
-
-    // Business mappings
-    if (c.businessMappings && c.businessMappings.length > 0) {
-      html += '<div style="margin-top:8px"><div style="font-size:0.38rem;color:#666;letter-spacing:1px;margin-bottom:3px">BUSINESS MAPPINGS</div>';
-      for (var bmi = 0; bmi < c.businessMappings.length; bmi++) {
-        var bm = c.businessMappings[bmi];
-        html += '<div style="font-size:0.42rem;padding:1px 0;color:#bbb">';
-        html += '<span style="color:' + (bm.strength > 0.5 ? '#C9A94E' : '#888') + '">' + bm.nodeId + '</span>';
-        html += ' \u2192 ' + bm.role;
-        html += ' <a href="portal.html?domain=' + encodeURIComponent(bm.domain) + oppCtx + '" style="color:#555;text-decoration:none;font-size:0.36rem" title="Open ' + bm.domain + ' portal">' + bm.domain + '</a>';
-        html += '</div>';
-      }
-      html += '</div>';
-    }
-
-    // Stressor summary
-    if (c.stressorSummary) {
-      html += '<div style="margin-top:6px;font-size:0.4rem;color:#888;font-style:italic">' + c.stressorSummary + '</div>';
-    }
-
-    html += '</div>';
-  }
-
-  // Kernel annotation container (filled async)
   html += '<div id="oppPbKernelAnnotation"></div>';
 
   panel.innerHTML = html;
-
-  // Trigger kernel experiment for this opportunity (async)
-  if (o.connectome && o.connectome.nodeCount > 0 && window.LIMENConnectomeResolver) {
-    var doms = window.LIMENDomains || {};
-    var feedSnapshot = {};
-    for (var fsk in doms) feedSnapshot[fsk] = { stress: doms[fsk].stress || 0, status: doms[fsk].status || 'UNKNOWN' };
-    var lastResolve = window.LIMENConnectomeResolver.getLastResolve();
-    var nodeActs = lastResolve ? lastResolve.nodeActivations : [];
-    window.LIMENConnectomeResolver.runKernelForOpportunity(
-      feedSnapshot, nodeActs, pb.domains || [],
-      function(annotation) {
-        var container = document.getElementById('oppPbKernelAnnotation');
-        if (!container) return;
-        if (!annotation || !annotation.available) {
-          container.innerHTML = '<div class="opp-pb-section" style="opacity:0.5"><div class="opp-pb-label">KERNEL (EXPERIMENTAL — ANNOTATION ONLY)</div><div class="opp-pb-text" style="font-size:0.4rem;color:#555">' + (annotation ? annotation.reason : 'Unavailable') + '</div></div>';
-          return;
-        }
-        var kd = annotation.display;
-        var kh = '<div class="opp-pb-section" style="background:rgba(201,169,78,0.02);border-left:3px solid rgba(201,169,78,0.1)">';
-        kh += '<div class="opp-pb-label" style="color:rgba(201,169,78,0.5)">KERNEL (EXPERIMENTAL — ANNOTATION ONLY)</div>';
-        kh += '<div style="font-size:0.42rem;display:flex;gap:12px;flex-wrap:wrap">';
-        kh += '<span style="color:' + kd.trajectoryColor + '">' + kd.trajectoryLabel + '</span>';
-        kh += '<span style="color:' + kd.phaseColor + '">' + kd.phaseLabel + '</span>';
-        kh += '<span style="color:' + kd.alertColor + '">' + kd.alertLabel + '</span>';
-        kh += '<span style="color:#888">Composite: ' + annotation.composite + ' (' + kd.compositeLabel + ')</span>';
-        kh += '</div>';
-        kh += '<div style="font-size:0.34rem;color:#555;margin-top:4px;font-style:italic">' + annotation.disclaimer + '</div>';
-        kh += '</div>';
-        container.innerHTML = kh;
-      }
-    );
-  }
 }
 
 function closePlaybook() {
@@ -984,8 +818,8 @@ function generateActionReport() {
   html += '.action{padding:8px 12px;margin:8px 0;background:#f0faf5;border-left:3px solid #0a6;font-size:11px}.value{color:#8a6d1b;font-weight:bold}';
   html += '.step{padding:2px 0 2px 16px;border-left:2px solid #ddd;margin:3px 0;font-size:11px}.meta{font-size:10px;color:#888;margin-top:4px}';
   html += '@media print{body{padding:20px}}</style></head><body>';
-  html += '<h1>LIMEN HELIX ACTION REPORT</h1>';
-  html += '<div class="meta">Generated: ' + new Date().toISOString().replace('T',' ').slice(0,19) + ' UTC \u00b7 ' + selectedOpps.length + ' opportunities</div>';
+  html += '<h1>LIMEN HELIX ACTION REPORT — ENVIRONMENT</h1>';
+  html += '<div class="meta">Generated: ' + new Date().toISOString().replace('T',' ').slice(0,19) + ' UTC · ' + selectedOpps.length + ' opportunities</div>';
 
   for (var i = 0; i < selectedOpps.length; i++) {
     var o = selectedOpps[i];
@@ -995,7 +829,7 @@ function generateActionReport() {
     html += '<div class="action">' + pb.action + '</div>';
     html += '<p>WHY NOW: ' + o.whyNow + '</p>';
     html += '<p class="value">POTENTIAL: ' + pb.valueRange + '</p>';
-    html += '<p>SATURATION: ' + pb.saturation.toUpperCase() + ' \u00b7 CONFIDENCE: ' + o.confidence + '% \u00b7 URGENCY: ' + o.urgency.toUpperCase() + '</p>';
+    html += '<p>SATURATION: ' + (pb.saturation||'low').toUpperCase() + ' · CONFIDENCE: ' + o.confidence + '% · URGENCY: ' + o.urgency.toUpperCase() + '</p>';
     for (var si = 0; si < pb.steps.length; si++) {
       html += '<div class="step">' + (si+1) + '. ' + pb.steps[si] + '</div>';
     }
@@ -1008,40 +842,31 @@ function generateActionReport() {
 
 // ═══ INIT ═══
 
-// Bootstrap doesn't start modules on non-canonical pages.
-// Manually start the feed engines we need.
 function _startFeedEngines() {
-  // Start feed state lifecycle
   if (window.LIMENFeedState && typeof window.LIMENFeedState.start === 'function') {
     window.LIMENFeedState.start();
   }
-  // Start domain signal engine (polls /api/domain-snapshot)
-  // This also starts UI rendering — we suppress the panel below.
   if (window.LIMENDomainEngine && typeof window.LIMENDomainEngine.start === 'function') {
     window.LIMENDomainEngine.start();
     console.log('[Opportunities] Domain engine started');
   } else {
     console.warn('[Opportunities] LIMENDomainEngine not found');
   }
-  // Start cross-domain detector
   if (window.LIMENCrossDomainDetector && typeof window.LIMENCrossDomainDetector.start === 'function') {
     window.LIMENCrossDomainDetector.start();
   }
-  // Domain panel UI is now suppressed at the engine level (_isConsolePage guard)
 }
 
-console.log('[Opportunities] Init: LIMENDomainEngine=', typeof window.LIMENDomainEngine, 'LIMENFeedState=', typeof window.LIMENFeedState, 'LIMENCrossDomainDetector=', typeof window.LIMENCrossDomainDetector);
+console.log('[Opportunities] Init');
 _startFeedEngines();
 _fetchOppExposure();
-// Load connectome node directory for resolver
 if (window.LIMENConnectomeResolver) {
   window.LIMENConnectomeResolver.loadDirectory(function() {
     console.log('[Opportunities] Connectome directory loaded');
-    if (_hasRendered) render(); // re-render with connectome data
+    if (_hasRendered) render();
   });
 }
 
-// Wait for feed data before rendering — event-driven with fallback
 var _hasRendered = false;
 var _domainRenderQueued = false;
 
@@ -1049,7 +874,6 @@ function _doRender() {
   if (_hasRendered) return;
   _hasRendered = true;
   render();
-  // Throttled re-render on domain updates (max once per 5s)
   var _updateTimer = null;
   window.addEventListener('limen:domain-update', function() {
     if (_updateTimer) return;
@@ -1057,32 +881,26 @@ function _doRender() {
   });
 }
 
-// Try immediately, then listen for data
 (function _checkDomains() {
   var doms = window.LIMENDomains;
   if (doms && Object.keys(doms).length > 0) { _doRender(); return; }
-  // Listen for first domain update
   if (!_domainRenderQueued) {
     _domainRenderQueued = true;
     window.addEventListener('limen:domain-update', function() { _doRender(); }, { once: true });
   }
 })();
 
-// Force render after 3s no matter what — ensures page is never blank
 setTimeout(function() { _doRender(); }, 3000);
 
-// Subscribe to shared refresh controller (single source of truth — no independent fetch)
-document.addEventListener('limen:culture-refresh', function() {
+document.addEventListener('limen:environment-refresh', function() {
   render();
   var tsEl = document.getElementById('oppLastUpdated');
-  var F = window.LIMENCultureFresh || {};
-  if (tsEl) tsEl.textContent = (F.status === 'LIVE' ? '\u25CF ' : '\u25CB ') + F.status + ' \u00b7 ' + new Date().toLocaleTimeString() + ' \u00b7 cycle ' + (F.cycle || 0) + ' \u00b7 stress ' + Math.round((F.stress || 0) * 100) + '%';
+  var F = window.LIMENEnvironmentFresh || {};
+  if (tsEl) tsEl.textContent = (F.status === 'LIVE' ? '● ' : '○ ') + (F.status || 'UNKNOWN') + ' · ' + new Date().toLocaleTimeString() + ' · cycle ' + (F.cycle || 0) + ' · stress ' + Math.round((F.stress || 0) * 100) + '%';
 });
 
-// Expose for onclick handlers
 // ═══════════════════════════════════════════════════════════════════════════
 // INTERNAL EXECUTION MODE + LEGITIMACY METRICS + PIPELINE VERDICTS
-// Additive layer — does not modify existing playbooks, scoring, or rendering
 // ═══════════════════════════════════════════════════════════════════════════
 
 function _isInternalMode() {
@@ -1090,14 +908,11 @@ function _isInternalMode() {
   try { return localStorage.getItem('limen_internal') === 'true'; } catch (e) { return false; }
 }
 
-// ── LEGITIMACY METRICS (always visible on every card) ──────────────────────
-
 function _computeLegitimacy(o) {
   var pb = o.pb;
   var doms = window.LIMENDomains || {};
   var quality = o.quality || { live: 0, total: 0 };
 
-  // Signal Integrity
   var sigInt = 'INFERRED';
   if (quality.live > 0 && quality.total > 0) {
     var ratio = quality.live / quality.total;
@@ -1106,13 +921,11 @@ function _computeLegitimacy(o) {
   }
   if (quality.total === 0) sigInt = 'SIMULATED';
 
-  // Entity Support — check if playbook has CIK-backed companies in examples or tickers
-  var tickers = _OPP_INVEST_TICKERS[pb.id] || [];
+  var tickers = _OPP_INVEST_TICKER_KEYS[pb.id] || [];
   var entSupport = 'NONE';
   if (tickers.length > 0 && pb.examples && pb.examples.length > 0) entSupport = 'MAPPED';
   else if (pb.examples && pb.examples.length > 0) entSupport = 'PARTIAL';
 
-  // Market Timing — use market stress triage if available
   var mkt = window.LIMENMarketStressTriage;
   var timing = 'EARLY';
   if (mkt) {
@@ -1121,11 +934,8 @@ function _computeLegitimacy(o) {
     if (mode === 'opportunity' || (combined < 0.30 && o.status === 'active')) timing = 'ALIGNED';
     else if (combined > 0.60 || mode === 'defensive') timing = 'CONFLICTED';
     else timing = 'EARLY';
-  } else {
-    timing = o.status === 'active' ? 'EARLY' : 'EARLY';
   }
 
-  // Invalidation Risk — based on data quality + confidence spread
   var invalidation = 'UNKNOWN';
   if (o.status === 'watching') {
     invalidation = 'UNKNOWN';
@@ -1159,8 +969,6 @@ function _buildLegitimacyMetrics(o) {
   return h;
 }
 
-// ── PIPELINE VERDICT (always visible) ──────────────────────────────────────
-
 function _buildPipelineVerdict(o) {
   var m = _computeLegitimacy(o);
   var verdict, color;
@@ -1178,13 +986,10 @@ function _buildPipelineVerdict(o) {
   return '<div style="margin-top:4px;font-size:0.34rem;letter-spacing:2px;color:' + color + '">' + verdict + '</div>';
 }
 
-// ── INTERNAL ACTION SIGNAL (internal mode only) ───────────────────────────
-
 function _computeActionSignal(o) {
   if (o.status === 'watching') return { signal: 'HOLD', color: '#555' };
   var m = _computeLegitimacy(o);
 
-  // Language control: NEVER imply certainty when data is weak
   if (m.invalidationRisk === 'HIGH' || m.marketTiming === 'CONFLICTED') {
     return { signal: 'HOLD', color: '#888' };
   }
@@ -1200,208 +1005,67 @@ function _computeActionSignal(o) {
   return { signal: 'EXPLORE', color: '#C9A94E' };
 }
 
-// ── EXECUTION BLOCK (internal mode only) ──────────────────────────────────
-
-// Execution path data per playbook — invest, build, fund, structure
+// Execution paths (invest + research only — no fund/grant arrays)
 var _EXECUTION_PATHS = {
-  cultural_erasure: {
+  climate_tipping_point: {
+    invest: [
+      {name:'First Solar',ticker:'FSLR',cik:'1274494',support:'MAPPED'},
+      {name:'NextEra Energy',ticker:'NEE',cik:'753308',support:'MAPPED'},
+      {name:'Enphase Energy',ticker:'ENPH',cik:'1463101',support:'MAPPED'}
+    ],
+    research: {model:'Climate-risk analytics and adaptation-finance research brief',pays:'Institutional investors, utilities, municipal climate programs',whyNow:'Climate tipping point active — clean-energy and resilience demand accelerating'}
+  },
+  mass_extinction: {
+    invest: [
+      {name:'Dendra Systems',ticker:'N/A',cik:'',support:'PARTIAL'},
+      {name:'CreditNature',ticker:'N/A',cik:'',support:'PARTIAL'}
+    ],
+    research: {model:'Biodiversity-credit market and restoration operator research brief',pays:'Environmental asset managers, conservation foundations',whyNow:'Biodiversity collapse active — credit markets forming, investable positions emerging'}
+  },
+  ocean_acidification: {
+    invest: [
+      {name:'Saildrone',ticker:'N/A',cik:'',support:'PARTIAL'},
+      {name:'Coral Vita',ticker:'N/A',cik:'',support:'PARTIAL'}
+    ],
+    research: {model:'Blue-economy and marine-tech investment landscape research brief',pays:'Aquaculture investors, ocean-focused funds',whyNow:'Ocean acidification active — marine-tech and aquaculture investment accelerating'}
+  },
+  deforestation: {
+    invest: [
+      {name:'Pachama',ticker:'N/A',cik:'',support:'PARTIAL'},
+      {name:'Sylvera',ticker:'N/A',cik:'',support:'PARTIAL'}
+    ],
+    research: {model:'Voluntary-carbon market and EUDR compliance tooling research brief',pays:'Carbon-market investors, compliance-driven corporations',whyNow:'Deforestation active — carbon-credit and supply-chain due-diligence demand rising'}
+  },
+  toxic_contamination: {
+    invest: [
+      {name:'Clean Harbors',ticker:'CLH',cik:'822818',support:'MAPPED'},
+      {name:'374Water',ticker:'SCWO',cik:'',support:'PARTIAL'}
+    ],
+    research: {model:'PFAS remediation and environmental-compliance platform research brief',pays:'Institutional investors, ESG-driven asset managers',whyNow:'Toxic contamination active — PFAS regulation tightening, remediation demand rising'}
+  },
+  environment_data_gap: {
     invest: [],
-    build: {model:'Digital heritage archive and cultural mapping platform',pays:'Cultural institutions, museums, government cultural agencies',whyNow:'Cultural erasure active — identity and heritage under threat'},
-    structure: ['LLC or B-Corp','Earned-revenue funded','Revenue: institutional licensing + subscriptions']
-  },
-  heritage_destruction: {
-    invest: [],
-    build: {model:'3D heritage documentation and cultural site monitoring platform',pays:'UNESCO, national heritage agencies, museums',whyNow:'Heritage destruction active — emergency preservation and documentation needed'},
-    structure: ['LLC','Contract funded','Revenue: documentation + monitoring fees']
-  },
-  censorship_response: {
-    invest: [{name:'Spotify',ticker:'SPOT',cik:'',support:'CROSS-DOMAIN'}],
-    build: {model:'Censorship monitoring and alternative distribution platform',pays:'Creative communities, press freedom organizations, independent artists',whyNow:'Censorship active — expression suppression requiring alternative channels'},
-    structure: ['LLC','Community funded','Revenue: platform + subscription fees']
-  },
-  identity_crisis: {
-    invest: [],
-    build: {model:'Intercultural dialogue and community cohesion platform',pays:'Municipal governments, community organizations, foundations',whyNow:'Identity crisis active — social fracture requiring bridge-building infrastructure'},
-    structure: ['LLC or B-Corp','Earned-revenue funded','Revenue: consulting + subscriptions']
-  },
-  creative_stagnation: {
-    invest: [{name:'Spotify',ticker:'SPOT',cik:'',support:'MAPPED'},{name:'Etsy',ticker:'ETSY',cik:'1370637',support:'MAPPED'}],
-    build: {model:'Creative ecosystem support and audience engagement platform',pays:'Artists, cultural institutions, creative businesses',whyNow:'Creative stagnation active — participation decay and audience collapse requiring revitalization'},
-    structure: ['LLC or B-Corp','Platform model','Revenue: creator fees + institutional subscriptions']
-  },
-  culture_data_gap: {
-    invest: [],
-    build: {model:'Cultural analytics and social cohesion monitoring platform',pays:'Researchers, cultural institutions, policymakers, LIMEN itself',whyNow:'Culture data sources degraded — monitoring blind spots'},
-    structure: ['LLC','API subscription model','Revenue: per-feed pricing + enterprise plans']
+    research: {model:'Environmental-data gap mapping and platform investment thesis',pays:'Environmental intelligence platforms, LIMEN data coverage',whyNow:'Environment feed sources degraded — structural monitoring gaps confirmed'}
   }
 };
 
-// ── TOP ACTIONS NOW (top 3 shortlist) ──────────────────────────────────
-
-// "Next Step Tonight" suggestions per playbook type
 var _TONIGHT_STEPS = {
   invest: function(o) {
     var paths = _EXECUTION_PATHS[o.pb.id];
-    var ticker = (paths && paths.invest && paths.invest[0]) ? paths.invest[0].ticker : null;
-    if (ticker && ticker !== 'N/A') return 'Run company portal phase check on ' + ticker + ' \u2192 set watchlist';
-    return 'Open brokerage \u2192 search domain tickers \u2192 set watchlist';
-  },
-  build: function(o) {
-    return 'Outline 1-page problem statement from portal diagnosis for ' + o.pb.domains[0];
+    var ticker = (paths && paths.invest && paths.invest[0] && paths.invest[0].ticker !== 'N/A') ? paths.invest[0].ticker : null;
+    if (ticker) return 'Run company portal phase check on ' + ticker + ' → set watchlist';
+    return 'Open brokerage → search domain tickers → set watchlist';
   },
   research: function(o) {
     return 'Draft a research brief on ' + o.pb.domains[0] + ' from portal diagnosis evidence';
+  },
+  build: function(o) {
+    return 'Outline 1-page problem statement from portal diagnosis for ' + o.pb.domains[0];
   },
   advise: function(o) {
     return 'Draft 3-slide advisory pitch using portal treatment data for ' + o.pb.domains[0];
   }
 };
-
-function _renderTopActionsNow(opps) {
-  var container = document.getElementById('topActionsNow');
-  if (!container) return;
-
-  // Rank active opportunities
-  var active = opps.filter(function(o) { return o.status === 'active'; });
-  if (active.length === 0) { container.style.display = 'none'; return; }
-
-  // Score for ranking (same as star rating + outcome weight)
-  active.forEach(function(o) {
-    var score = o.confidence;
-    if (o.urgency === 'high') score += 20;
-    else if (o.urgency === 'medium') score += 10;
-    if (o.quality && o.quality.live > 0) score += 10;
-    var factor = _oppOutcomeFactor(o.pb ? o.pb.domains : []);
-    score = Math.round(score * factor);
-    o._rankScore = score;
-  });
-  active.sort(function(a, b) { return b._rankScore - a._rankScore; });
-  var top3 = active.slice(0, 3);
-
-  var doms = window.LIMENDomains || {};
-  var h = '';
-  h += '<div style="padding:12px 16px;margin:0 16px 12px;border:1px solid rgba(201,169,78,0.12);background:rgba(201,169,78,0.02);border-radius:4px">';
-  h += '<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px">';
-  h += '<span style="font-size:0.5rem;letter-spacing:3px;color:#C9A94E">TOP ACTIONS NOW</span>';
-  h += '<span style="font-size:0.3rem;letter-spacing:1px;color:#807868">INTERNAL \u00b7 RECURSIVE ENGINE</span>';
-  h += '</div>';
-
-  for (var i = 0; i < top3.length; i++) {
-    var o = top3[i];
-    var pb = o.pb;
-    var paths = _EXECUTION_PATHS[pb.id];
-    var m = _computeLegitimacy(o);
-    var type = pb.type || 'build';
-    var stars = 5 - i;
-    var starStr = '';
-    for (var s = 0; s < stars; s++) starStr += '\u2605';
-    for (var e = stars; e < 5; e++) starStr += '\u2606';
-
-    // Find card index for jump link
-    var cardIdx = opps.indexOf(o);
-
-    // WHY NOW — one line
-    var whyLine = '';
-    for (var di = 0; di < pb.domains.length; di++) {
-      var dd = doms[pb.domains[di]];
-      if (dd && dd.stress > 0.2) {
-        if (whyLine) whyLine += ' + ';
-        whyLine += pb.domains[di].toUpperCase() + ' ' + (dd.stress * 100).toFixed(0) + '%';
-      }
-    }
-    if (!whyLine) whyLine = o.whyNow.split('\u00b7')[0].trim();
-
-    // 3 target entities
-    var entities = [];
-    if (paths && paths.invest) {
-      for (var ei = 0; ei < Math.min(paths.invest.length, 3); ei++) {
-        var co = paths.invest[ei];
-        var _dyn2 = (co.ticker && co.ticker !== 'N/A') ? _lookupCIK(co.ticker) : null;
-        var _cik2 = _dyn2 ? _dyn2.cik : (co.cik || '');
-        var _slug2 = _dyn2 ? _dyn2.slug : '';
-        var entStr = (co.ticker !== 'N/A' ? '<span style="color:#C9A94E">' + co.ticker + '</span> ' : '') + co.name;
-        if (_cik2 && _cik2 !== 'ETF') {
-          entStr += ' <a href="company-portal.html?company=' + (_slug2 || '') + '" style="font-size:0.28rem;color:rgba(90,181,160,0.4);text-decoration:none">CIK:' + _cik2 + '</a>';
-        } else if (_cik2 === 'ETF' || co.cik === 'ETF') {
-          entStr += ' <span style="font-size:0.28rem;color:#706860">ETF</span>';
-        }
-        entities.push(entStr);
-      }
-    } else if (pb.examples) {
-      entities = pb.examples.slice(0, 3);
-    }
-
-    // One fast entry
-    var fastPaths = _FAST_ENTRY[type] || _FAST_ENTRY.build;
-    var fastOne = fastPaths[0];
-
-    // One money path
-    var moneyPaths = _MONEY_PATHS[type] || _MONEY_PATHS.build;
-    var moneyOne = moneyPaths[0];
-
-    // Tonight step
-    var tonightFn = _TONIGHT_STEPS[type] || _TONIGHT_STEPS.build;
-    var tonight = tonightFn(o);
-
-    // Legitimacy colors
-    var lColors = {
-      LIVE:'#5ab5a0', PARTIAL:'#C9A94E', INFERRED:'#888', SIMULATED:'#e85454',
-      NONE:'#e85454', MAPPED:'#5ab5a0',
-      ALIGNED:'#5ab5a0', EARLY:'#C9A94E', CONFLICTED:'#e85454',
-      LOW:'#5ab5a0', MED:'#C9A94E', HIGH:'#e85454', UNKNOWN:'#555'
-    };
-
-    h += '<div style="padding:10px 12px;margin-bottom:8px;border-left:3px solid rgba(201,169,78,0.2);background:rgba(0,0,0,0.12);border-radius:2px">';
-
-    // Header row
-    h += '<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:4px">';
-    h += '<span style="color:#C9A94E;font-size:0.5rem;letter-spacing:2px">' + starStr + '</span>';
-    h += '<span style="font-size:0.48rem;color:#e8e3d9;letter-spacing:0.5px">' + pb.title + '</span>';
-    h += '<span style="font-size:0.34rem;letter-spacing:1.5px;color:#a09888;text-transform:uppercase">' + type + '</span>';
-    h += '<a href="#" onclick="event.preventDefault();document.querySelector(\'[data-idx=\\x22' + cardIdx + '\\x22]\').scrollIntoView({behavior:\\x27smooth\\x27});return false" style="font-size:0.32rem;color:rgba(201,169,78,0.4);text-decoration:none;margin-left:auto">\u2193 FULL CARD</a>';
-    h += '</div>';
-
-    // WHY NOW
-    h += '<div style="font-size:0.38rem;color:rgba(201,169,78,0.6);margin-bottom:6px">' + whyLine + '</div>';
-
-    // Body grid
-    h += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 16px;font-size:0.36rem">';
-
-    // Left: entities + entry + money
-    h += '<div>';
-    h += '<div style="color:#9a9080;font-size:0.3rem;letter-spacing:1px;margin-bottom:2px">TARGETS</div>';
-    for (var ti = 0; ti < entities.length; ti++) {
-      h += '<div style="color:rgba(220,215,200,0.65)">' + entities[ti] + '</div>';
-    }
-    h += '<div style="color:#9a9080;font-size:0.3rem;letter-spacing:1px;margin-top:4px;margin-bottom:2px">48H ENTRY</div>';
-    h += '<div style="color:#d8d0c0">' + fastOne.action + '</div>';
-    h += '<div style="color:#9a9080;font-size:0.3rem;letter-spacing:1px;margin-top:4px;margin-bottom:2px">MONEY</div>';
-    h += '<div style="color:#d0c8b8">' + moneyOne.path + ' <span style="color:#908878">' + moneyOne.label + '</span></div>';
-    h += '</div>';
-
-    // Right: legitimacy + tonight
-    h += '<div>';
-    h += '<div style="color:#9a9080;font-size:0.3rem;letter-spacing:1px;margin-bottom:2px">LEGITIMACY</div>';
-    h += '<div style="color:' + (lColors[m.signalIntegrity]||'#888') + '">SIG: ' + m.signalIntegrity + '</div>';
-    h += '<div style="color:' + (lColors[m.entitySupport]||'#888') + '">ENT: ' + m.entitySupport + '</div>';
-    h += '<div style="color:' + (lColors[m.marketTiming]||'#888') + '">MKT: ' + m.marketTiming + '</div>';
-    h += '<div style="color:' + (lColors[m.invalidationRisk]||'#888') + '">INV: ' + m.invalidationRisk + '</div>';
-    h += '<div style="color:#9a9080;font-size:0.3rem;letter-spacing:1px;margin-top:6px;margin-bottom:2px">TONIGHT</div>';
-    h += '<div style="color:#C9A94E;font-size:0.38rem">' + tonight + '</div>';
-    h += '</div>';
-
-    h += '</div>'; // grid
-    h += '</div>'; // card
-  }
-
-  h += '</div>';
-  container.innerHTML = h;
-  container.style.display = 'block';
-}
-
-// ── OUTCOME-ADJUSTED RANKING ─────────────────────────────────────────
-// Reads pathway weights from localStorage (written by console-clarity outcome loop).
-// Applies same hub-specificity + direct/transfer logic as console-clarity.
 
 var _OPP_PATHWAY_MAP = {
   energy: ['THAL','dlPFC','BLA'], health: ['NTS','AI','HIPP'],
@@ -1424,7 +1088,7 @@ function _oppOutcomeFactor(domains) {
   try { weights = JSON.parse(localStorage.getItem('limen_pathway_weights') || '{}'); } catch(e) { return 1.0; }
   var domain = domains && domains[0] ? domains[0] : '';
   var nodes = _OPP_PATHWAY_MAP[domain];
-  if (!nodes) return 1.0; // unmapped = no adjustment
+  if (!nodes) return 1.0;
   var nodeFactors = [];
   for (var i = 0; i < nodes.length; i++) {
     var w = weights[nodes[i]];
@@ -1448,20 +1112,16 @@ function _oppOutcomeFactor(domains) {
   return Math.max(0.8, Math.min(1.2, blended));
 }
 
-// ── STAR RATING (top 5 active opportunities) ──────────────────────────
-
 function _buildStarRating(o, cardIndex) {
   if (o.status !== 'active') return '';
-  // Score: confidence + urgency + data quality
   var score = o.confidence;
   if (o.urgency === 'high') score += 20;
   else if (o.urgency === 'medium') score += 10;
   if (o.quality && o.quality.live > 0) score += 10;
-  // Apply outcome-adjusted factor from pathway weights
   var factor = _oppOutcomeFactor(o.pb ? o.pb.domains : []);
   score = Math.round(score * factor);
   o._rankScore = score;
-  return ''; // actual stars rendered in _injectStarRatings after all cards scored
+  return '';
 }
 
 function _injectStarRatings() {
@@ -1474,10 +1134,10 @@ function _injectStarRatings() {
     var idx = opps.indexOf(top5[i]);
     var card = document.querySelector('[data-idx="' + idx + '"]');
     if (!card) continue;
-    var stars = 5 - i; // 5 stars for #1, 4 for #2, etc.
+    var stars = 5 - i;
     var starStr = '';
-    for (var s = 0; s < stars; s++) starStr += '\u2605';
-    for (var e = stars; e < 5; e++) starStr += '\u2606';
+    for (var s = 0; s < stars; s++) starStr += '★';
+    for (var e = stars; e < 5; e++) starStr += '☆';
     var badge = document.createElement('div');
     badge.style.cssText = 'position:absolute;top:6px;right:6px;font-size:0.5rem;color:#C9A94E;letter-spacing:2px';
     badge.textContent = starStr;
@@ -1486,24 +1146,21 @@ function _injectStarRatings() {
   }
 }
 
-// ── ACTION STACK (always visible for active opportunities) ────────────
-
-// Fast entry paths per playbook type
 var _FAST_ENTRY = {
   invest: [
-    {action: 'Buy equity via brokerage', detail: 'Use mapped tickers below'},
+    {action: 'Buy equity via brokerage', detail: 'Use mapped tickers above'},
     {action: 'Set limit orders at support', detail: 'Check 50-day MA on Yahoo Finance'},
     {action: 'Open watchlist position', detail: 'Track for 48h before full entry'}
-  ],
-  build: [
-    {action: 'Draft 1-page problem statement', detail: 'Use portal diagnosis as source'},
-    {action: 'Search Crunchbase for competitors', detail: 'If <5, white space confirmed'},
-    {action: 'File LLC in home state', detail: '$50\u2013$500 depending on state'}
   ],
   research: [
     {action: 'Scope the research question', detail: 'Frame from the portal diagnosis + evidence gap'},
     {action: 'Pull primary sources', detail: 'EDGAR, institutional data, peer-reviewed where relevant'},
     {action: 'Draft the brief', detail: '5-section institutional-grade research brief'}
+  ],
+  build: [
+    {action: 'Draft 1-page problem statement', detail: 'Use portal diagnosis as source'},
+    {action: 'Search Crunchbase for competitors', detail: 'If <5, white space confirmed'},
+    {action: 'File LLC in home state', detail: '$50–$500 depending on state'}
   ],
   advise: [
     {action: 'Draft advisory pitch deck', detail: 'Problem from portal, solution from treatments'},
@@ -1512,7 +1169,6 @@ var _FAST_ENTRY = {
   ]
 };
 
-// Money paths per playbook type
 var _MONEY_PATHS = {
   invest: [
     {path: 'Self-fund', label: 'Brokerage account'},
@@ -1537,14 +1193,13 @@ var _MONEY_PATHS = {
 function _buildActionStack(o) {
   var pb = o.pb;
   var paths = _EXECUTION_PATHS[pb.id];
-  var type = pb.type || 'build';
+  var type = pb.type || 'invest';
   var doms = window.LIMENDomains || {};
   var m = _computeLegitimacy(o);
 
   var h = '<div style="margin-top:8px;padding:8px 10px;border-top:1px solid rgba(201,169,78,0.1);background:rgba(0,0,0,0.1)">';
   h += '<div style="font-size:0.36rem;letter-spacing:2px;color:rgba(201,169,78,0.5);margin-bottom:6px">ACTION STACK</div>';
 
-  // A. TARGET ENTITIES
   if (paths && paths.invest && paths.invest.length > 0) {
     h += '<div style="margin-bottom:6px">';
     h += '<div style="font-size:0.3rem;letter-spacing:1.5px;color:#9a9080;margin-bottom:3px">TARGET ENTITIES</div>';
@@ -1559,8 +1214,6 @@ function _buildActionStack(o) {
       h += co.name;
       if (_cik && _cik !== 'ETF') {
         h += ' <a href="company-portal.html?company=' + (_slug || '') + '" style="font-size:0.26rem;color:rgba(90,181,160,0.5);text-decoration:none" title="Open company portal">CIK:' + _cik + '</a>';
-      } else if (_cik === 'ETF' || co.cik === 'ETF') {
-        h += ' <span style="font-size:0.26rem;color:#807868">ETF</span>';
       }
       h += ' <span style="font-size:0.26rem;color:' + supColor + '">' + co.support + '</span>';
       h += '</div>';
@@ -1575,8 +1228,7 @@ function _buildActionStack(o) {
     h += '</div>';
   }
 
-  // B. FAST ENTRY PATH
-  var fastPaths = _FAST_ENTRY[type] || _FAST_ENTRY.build;
+  var fastPaths = _FAST_ENTRY[type] || _FAST_ENTRY.invest;
   h += '<div style="margin-bottom:6px">';
   h += '<div style="font-size:0.3rem;letter-spacing:1.5px;color:#9a9080;margin-bottom:3px">48H ENTRY</div>';
   for (var fi = 0; fi < fastPaths.length; fi++) {
@@ -1587,8 +1239,7 @@ function _buildActionStack(o) {
   }
   h += '</div>';
 
-  // C. MONEY PATH
-  var moneyPaths = _MONEY_PATHS[type] || _MONEY_PATHS.build;
+  var moneyPaths = _MONEY_PATHS[type] || _MONEY_PATHS.invest;
   h += '<div style="margin-bottom:6px">';
   h += '<div style="font-size:0.3rem;letter-spacing:1.5px;color:#9a9080;margin-bottom:3px">MONEY PATH</div>';
   for (var mi = 0; mi < moneyPaths.length; mi++) {
@@ -1596,14 +1247,12 @@ function _buildActionStack(o) {
     h += moneyPaths[mi].path + ' <span style="font-size:0.3rem;color:#908878">' + moneyPaths[mi].label + '</span>';
     h += '</div>';
   }
-  h += '<div style="font-size:0.26rem;color:#706860;letter-spacing:1px;margin-top:2px">INTERNAL \u00b7 UNVERIFIED</div>';
+  h += '<div style="font-size:0.26rem;color:#706860;letter-spacing:1px;margin-top:2px">INTERNAL · UNVERIFIED</div>';
   h += '</div>';
 
-  // D. WHY NOW (SYSTEM SIGNAL)
   h += '<div>';
   h += '<div style="font-size:0.3rem;letter-spacing:1.5px;color:#9a9080;margin-bottom:3px">WHY NOW</div>';
   var whyParts = [];
-  // Domain stress
   for (var di = 0; di < pb.domains.length; di++) {
     var dd = doms[pb.domains[di]];
     if (dd && dd.stress > 0.2) {
@@ -1613,12 +1262,7 @@ function _buildActionStack(o) {
   if (whyParts.length > 0) {
     h += '<div style="font-size:0.36rem;color:#d8d0c0">Stress: ' + whyParts.join(' + ') + '</div>';
   }
-  // Timing
-  h += '<div style="font-size:0.36rem;color:rgba(220,215,200,0.5)">Timing: ' + m.marketTiming + ' \u00b7 Signal: ' + m.signalIntegrity + '</div>';
-  // Cross-domain
-  if (o.whyNow && o.whyNow.indexOf('+') !== -1) {
-    h += '<div style="font-size:0.36rem;color:rgba(201,169,78,0.5)">Cross-domain: ' + o.whyNow.split('\u00b7')[0].trim() + '</div>';
-  }
+  h += '<div style="font-size:0.36rem;color:rgba(220,215,200,0.5)">Timing: ' + m.marketTiming + ' · Signal: ' + m.signalIntegrity + '</div>';
   h += '</div>';
 
   h += '</div>';
@@ -1633,10 +1277,9 @@ function _buildExecutionBlock(o) {
 
   var h = '<div style="margin-top:8px;padding:8px 10px;border:1px solid rgba(201,169,78,0.08);background:rgba(0,0,0,0.15);border-radius:3px">';
 
-  // Internal action signal
   h += '<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:6px">';
   h += '<span style="font-size:0.42rem;letter-spacing:2px;color:' + action.color + ';font-weight:bold">' + action.signal + '</span>';
-  h += '<span style="font-size:0.28rem;letter-spacing:1px;color:#807868">INTERNAL \u00b7 RECURSIVE ENGINE</span>';
+  h += '<span style="font-size:0.28rem;letter-spacing:1px;color:#807868">INTERNAL · RECURSIVE ENGINE</span>';
   h += '</div>';
 
   if (!paths) {
@@ -1645,7 +1288,6 @@ function _buildExecutionBlock(o) {
     return h;
   }
 
-  // A. INVEST PATH
   if (paths.invest && paths.invest.length > 0) {
     h += '<div style="margin-bottom:6px">';
     h += '<div style="font-size:0.32rem;letter-spacing:1.5px;color:rgba(201,169,78,0.4);margin-bottom:2px">INVEST PATH</div>';
@@ -1661,39 +1303,15 @@ function _buildExecutionBlock(o) {
     h += '</div>';
   }
 
-  // B. BUILD PATH
-  if (paths.build) {
+  if (paths.research) {
     h += '<div style="margin-bottom:6px">';
-    h += '<div style="font-size:0.32rem;letter-spacing:1.5px;color:rgba(201,169,78,0.4);margin-bottom:2px">BUILD PATH</div>';
-    h += '<div style="font-size:0.36rem;color:#bbb">' + paths.build.model + '</div>';
-    h += '<div style="font-size:0.32rem;color:#888">Pays: ' + paths.build.pays + '</div>';
-    // Language control: downgrade "why now" if data is weak
+    h += '<div style="font-size:0.32rem;letter-spacing:1.5px;color:rgba(201,169,78,0.4);margin-bottom:2px">RESEARCH PATH</div>';
+    h += '<div style="font-size:0.36rem;color:#bbb">' + paths.research.model + '</div>';
+    h += '<div style="font-size:0.32rem;color:#888">Pays: ' + paths.research.pays + '</div>';
     var whyLabel = (m.signalIntegrity === 'SIMULATED' || m.invalidationRisk === 'HIGH')
-      ? 'Hypothesis: ' + paths.build.whyNow
-      : 'Why now: ' + paths.build.whyNow;
+      ? 'Hypothesis: ' + paths.research.whyNow
+      : 'Why now: ' + paths.research.whyNow;
     h += '<div style="font-size:0.32rem;color:#888">' + whyLabel + '</div>';
-    h += '</div>';
-  }
-
-  // C. FUND PATH
-  if (paths.fund && paths.fund.length > 0) {
-    h += '<div style="margin-bottom:6px">';
-    h += '<div style="font-size:0.32rem;letter-spacing:1.5px;color:rgba(201,169,78,0.4);margin-bottom:2px">FUND PATH</div>';
-    h += '<div style="font-size:0.28rem;color:#807868;margin-bottom:2px">POTENTIAL SOURCES \u2014 NOT VERIFIED</div>';
-    for (var f = 0; f < paths.fund.length; f++) {
-      h += '<div style="font-size:0.34rem;color:#888;padding:1px 0">\u2022 ' + paths.fund[f] + '</div>';
-    }
-    h += '</div>';
-  }
-
-  // D. STRUCTURE PATH
-  if (paths.structure && paths.structure.length > 0) {
-    h += '<div style="margin-bottom:4px">';
-    h += '<div style="font-size:0.32rem;letter-spacing:1.5px;color:rgba(201,169,78,0.4);margin-bottom:2px">STRUCTURE PATH</div>';
-    h += '<div style="font-size:0.28rem;color:#807868;margin-bottom:2px">OPTIONS \u2014 USER RESPONSIBILITY</div>';
-    for (var s = 0; s < paths.structure.length; s++) {
-      h += '<div style="font-size:0.34rem;color:#888;padding:1px 0">\u2022 ' + paths.structure[s] + '</div>';
-    }
     h += '</div>';
   }
 

@@ -96,16 +96,15 @@
     { "id": "fba_private_label",  "tier": 4, "name": "Amazon FBA private label",                          "category": "ecommerce",  "connector": "amazon_paapi","phase": "p0", "status": "pre-revenue","capital": "$1k-10k",  "recursive": false, "signoffRequired": true,  "signoffReason": "Inventory purchase + merchant payouts." },
     { "id": "tiktok_shop",        "tier": 4, "name": "TikTok Shop with creator-partnership budget",       "category": "ecommerce",  "connector": "tiktok",      "phase": "p0", "status": "pre-revenue","capital": "$1k-10k",  "recursive": false, "signoffRequired": true,  "signoffReason": "Ad spend + payouts." },
 
-    { "id": "microsaas_acquire",  "tier": 5, "name": "Acquire a profitable micro-SaaS",                   "category": "acquisition","connector": "stripe",      "phase": "p0", "status": "pre-revenue","capital": "$10k+",    "recursive": true,  "signoffRequired": true,  "signoffReason": "Asset purchase agreement + capital outlay." },
-    { "id": "sba_cashflow_buy",   "tier": 5, "name": "SBA-financed cash-flow business (laundromat/carwash/self-storage)", "category": "acquisition", "connector": "manual", "phase": "p0", "status": "pre-revenue", "capital": "$10k+", "recursive": false, "signoffRequired": true, "signoffReason": "Debt instrument + personal guarantee — wet signature, lights up the SBA lane." }
+    { "id": "microsaas_acquire",  "tier": 5, "name": "Acquire a profitable micro-SaaS",                   "category": "acquisition","connector": "stripe",      "phase": "p0", "status": "pre-revenue","capital": "$10k+",    "recursive": true,  "signoffRequired": true,  "signoffReason": "Asset purchase agreement + capital outlay." }
   ],
 
   "capitalRouting": {
     "policy": "Finance is net-outflow: surplus above an operating reserve is routed to the domain with the highest funding-need score (low runway + high phase-progress potential). Routing is PROPOSED autonomously and EXECUTED only after sign-off.",
     "reserveFloor": "operator-set",
     "proposedRoutes": [
-      { "to": "research",   "reason": "SBIR resubmission runway", "status": "proposed", "signoffRequired": true },
-      { "to": "technology", "reason": "patent conversion fees",   "status": "proposed", "signoffRequired": true }
+      { "to": "research",   "reason": "longest funding-need runway (low cash, high phase-progress)", "status": "proposed", "signoffRequired": true },
+      { "to": "technology", "reason": "growth-capital participation (highest phase-progress)",       "status": "proposed", "signoffRequired": true }
     ]
   },
 

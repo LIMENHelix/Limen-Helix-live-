@@ -166,7 +166,7 @@
     var nodeLabel = (dir.nodeLabel || '').toLowerCase();
     var treatLabel = (dir.treatmentLabel || directive.title || '').toLowerCase();
     var dxId = (directive.diagnosisId || '').toLowerCase();
-    var path = directive.path || 'GRANT-ELIGIBLE';
+    var path = directive.path || 'INVESTABLE';
 
     var relevantSegments = _resolveSegments(nodeId, nodeLabel, treatLabel, dxId);
 
@@ -229,8 +229,7 @@
     tier3 = tier3.slice(0, 5);
 
     var executionTargets = [];
-    if (path === 'GRANT-ELIGIBLE') executionTargets = ['NSF program directors', 'NIH ICs (NIGMS / NCI / NIMH / etc.)', 'DARPA / ARPA-H program managers', 'DOE Office of Science', 'University tech transfer offices'];
-    else if (path === 'PATENTABLE') executionTargets = ['Patent attorneys', 'University tech transfer offices', 'Scientific instrument licensors', 'Strategic acquirers in research informatics'];
+    if (path === 'RESEARCHABLE') executionTargets = ['Research desks', 'Institutional research buyers', 'Independent / sell-side analysts'];
     else if (path === 'INVESTABLE') executionTargets = ['Life sciences VCs', 'Research informatics PE', 'University endowment fund managers'];
 
     var formatted = _format(tier1, tier2, tier3, executionTargets);

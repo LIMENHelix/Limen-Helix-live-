@@ -33,9 +33,9 @@
       outcome:'Content verification, fact-checking, and platform integrity companies see demand growth.',
       failure:'Disinformation campaign limited in reach. Existing platforms self-correct. Public resilience holds.',
       window:'7 days\u20132 years',
-      realWorld:{invest:'Content integrity: Cloudflare (NET), CrowdStrike (CRWD). Platform moderation tools.',apply:'Foundation grants for media literacy and fact-checking infrastructure.',build:'Build disinformation detection, content verification, or media literacy platforms.'},
+      realWorld:{invest:'Content integrity: Cloudflare (NET), CrowdStrike (CRWD). Platform moderation tools.',research:'Academic literature on disinformation detection, media literacy, and platform integrity. GDELT, First Draft, and MIT Media Lab research corpora.',build:'Build disinformation detection, content verification, or media literacy platforms.'},
       examples:['Fact-checking and verification platforms','Content provenance and authentication','Bot detection and coordinated inauthentic behavior analysis','Media literacy programs and tools','Counter-narrative infrastructure'],
-      fastPath:['1. Confirm DISINFORMATION_CRISIS active in console','2. Drill into portal \u2192 review NAcc and TPJ node treatments','3. Invest in content-integrity tech or apply for media literacy grants']
+      fastPath:['1. Confirm DISINFORMATION_CRISIS active in console','2. Drill into portal \u2192 review NAcc and TPJ node treatments','3. Invest in content-integrity tech (NET, CRWD) or review media literacy and verification literature']
     },
     {
       id:'telecom_failure', title:'Telecommunications Failure Response',
@@ -53,9 +53,9 @@
       outcome:'Telecom resilience, network infrastructure, and emergency communication companies see demand.',
       failure:'Outage was localized and temporary. No sustained infrastructure investment follows.',
       window:'7 days\u201318 months',
-      realWorld:{invest:'Telecom infrastructure: American Tower (AMT), Crown Castle (CCI), Lumen Technologies (LUMN).',apply:'FCC emergency communication grants. NTIA broadband infrastructure programs.',build:'Build network monitoring, outage detection, or emergency communication platforms.'},
+      realWorld:{invest:'Telecom infrastructure: American Tower (AMT), Crown Castle (CCI), Lumen Technologies (LUMN).',research:'FCC telecom reliability reports, NTIA broadband infrastructure studies, IEEE network resilience research.',build:'Build network monitoring, outage detection, or emergency communication platforms.'},
       examples:['Cell tower and network infrastructure operators','Satellite communication providers','Emergency and mesh networking systems','Network monitoring and outage detection','Broadband resilience and redundancy'],
-      fastPath:['1. Confirm TELECOM_FAILURE active with network_disruption signals','2. Drill into portal \u2192 review CC and THAL node treatments','3. Invest in telecom infrastructure (AMT, CCI) or apply for FCC/NTIA grants']
+      fastPath:['1. Confirm TELECOM_FAILURE active with network_disruption signals','2. Drill into portal \u2192 review CC and THAL node treatments','3. Invest in telecom infrastructure (AMT, CCI) or research FCC/NTIA broadband resilience programs']
     },
     {
       id:'censorship_overreach', title:'Censorship Overreach Response',
@@ -73,9 +73,9 @@
       outcome:'Privacy-tech, encrypted communication, and press freedom infrastructure see demand.',
       failure:'Political dynamics restore speech protections without external intervention.',
       window:'30 days\u20132 years',
-      realWorld:{invest:'Encrypted communications: Signal Foundation. VPN and privacy: NordVPN parent, Cloudflare (NET).',apply:'Press freedom foundation grants (RSF, CPJ, Knight Foundation).',build:'Build censorship detection, circumvention, or transparency monitoring tools.'},
+      realWorld:{invest:'Encrypted communications: Signal Foundation. VPN and privacy: NordVPN parent, Cloudflare (NET).',research:'CPJ and RSF press freedom indices, Freedom House internet freedom reports, academic censorship measurement literature.',build:'Build censorship detection, circumvention, or transparency monitoring tools.'},
       examples:['Encrypted communication platforms','VPN and circumvention tools','Press freedom monitoring and advocacy','Platform transparency and accountability','Digital rights and speech protection'],
-      fastPath:['1. Confirm CENSORSHIP_OVERREACH active with speech_restriction signals','2. Drill into portal \u2192 review speech and transparency treatments','3. Support press freedom organizations or invest in privacy infrastructure']
+      fastPath:['1. Confirm CENSORSHIP_OVERREACH active with speech_restriction signals','2. Drill into portal \u2192 review speech and transparency treatments','3. Support press freedom organizations, invest in privacy infrastructure, or research digital rights literature']
     },
     {
       id:'media_monopoly', title:'Media Monopoly Response',
@@ -93,9 +93,9 @@
       outcome:'Independent media platforms and interoperability systems see growth during concentration periods.',
       failure:'Monopoly power entrenched. Regulatory capture prevents intervention. Audience adapts.',
       window:'6 months\u20135 years',
-      realWorld:{invest:'Independent media platforms and tools. Content creator economy (Substack, etc.).',apply:'Foundation grants for media diversity and independent journalism.',build:'Build interoperability, content portability, or editorial independence infrastructure.'},
+      realWorld:{invest:'Independent media platforms and tools. Content creator economy (Substack, etc.).',research:'FTC media concentration studies, Pew Research media ownership reports, academic media pluralism literature.',build:'Build interoperability, content portability, or editorial independence infrastructure.'},
       examples:['Independent media and journalism platforms','Content creator and newsletter tools','Interoperability and data portability','Media diversity and pluralism advocacy','Local and community journalism support'],
-      fastPath:['1. Confirm MEDIA_MONOPOLY active with market_concentration signals','2. Drill into portal \u2192 review competition and interoperability treatments','3. Invest in independent media platforms or support media diversity initiatives']
+      fastPath:['1. Confirm MEDIA_MONOPOLY active with market_concentration signals','2. Drill into portal \u2192 review competition and interoperability treatments','3. Invest in independent media platforms or research media pluralism and antitrust literature']
     },
     {
       id:'cyber_propaganda', title:'Cyber Propaganda Response',
@@ -113,29 +113,29 @@
       outcome:'Bot detection, deepfake analysis, and platform integrity companies see demand growth.',
       failure:'Campaign limited in impact. Platforms self-correct. Attribution resolves quickly.',
       window:'7 days\u20132 years',
-      realWorld:{invest:'Information integrity: Cloudflare (NET), CrowdStrike (CRWD), Palo Alto (PANW).',apply:'CISA or State Department counter-influence grants.',build:'Build bot detection, deepfake identification, or influence-attribution platforms.'},
+      realWorld:{invest:'Information integrity: Cloudflare (NET), CrowdStrike (CRWD), Palo Alto (PANW).',research:'Stanford Internet Observatory, EU DisinfoLab, Oxford Internet Institute influence-operations research.',build:'Build bot detection, deepfake identification, or influence-attribution platforms.'},
       examples:['Bot and fake account detection platforms','Deepfake identification and content authentication','Influence operation attribution tools','Platform integrity and trust systems','Social media monitoring and analysis'],
-      fastPath:['1. Confirm CYBER_PROPAGANDA active with bot_amplification signals','2. Drill into portal \u2192 review detection and attribution treatments','3. Invest in information-integrity platforms or apply for counter-influence grants']
+      fastPath:['1. Confirm CYBER_PROPAGANDA active with bot_amplification signals','2. Drill into portal \u2192 review detection and attribution treatments','3. Invest in information-integrity platforms (NET, CRWD, PANW) or research influence-operations attribution literature']
     },
     {
-      id:'communication_data_gap', title:'Communication Data Gap \u2192 Build',
-      type:'build', domains:['communication'],
+      id:'communication_data_gap', title:'Communication Data Gap \u2192 Research',
+      type:'research', domains:['communication'],
       pattern:null,
-      explain:'Communication monitoring has gaps in real-time coverage. Build media monitoring infrastructure to fill information ecosystem blind spots.',
-      action:'Build real-time media monitoring, social signal aggregation, or disinformation tracking platforms to fill data gaps.',
-      valueRange:'$500K\u2013$10M media data infrastructure opportunity',
+      explain:'Communication monitoring has gaps in real-time coverage. Research existing media monitoring infrastructure and identify approaches to fill information ecosystem blind spots.',
+      action:'Research real-time media monitoring, social signal aggregation, and disinformation tracking literature to understand data gap scope and proven approaches.',
+      valueRange:'Research outputs: architecture reference + vendor landscape + data-source map',
       saturation:'low',
       trigger:'Communication sources showing DEGRADED or FALLBACK status. Multiple feeds offline.',
       validation:'Check feed health panel for offline communication data sources. Verify gap is not temporary.',
-      steps:['Go to limenhelix.com/domain-console?domain=communication \u2192 check feed health','Count OFFLINE sources \u2192 if 2+ dark, data gap confirmed','Check if alternative media data sources exist (GDELT, media APIs, social feeds)','Identify which communication dimension is uncovered','Build a data pipeline to fill the gap','Apply to Knight Foundation or NSF for media data infrastructure grants'],
-      branch_up:'Data gap persists: structural media coverage gap. Build permanent infrastructure.',
+      steps:['Go to limenhelix.com/domain-console?domain=communication \u2192 check feed health','Count OFFLINE sources \u2192 if 2+ dark, data gap confirmed','Review GDELT, Media Cloud, and academic media measurement literature for existing approaches','Identify which communication dimension is uncovered','Research available APIs: GDELT, media data providers, social monitoring services','Map the data gap and document recommended data pipeline architecture'],
+      branch_up:'Data gap persists: structural media coverage gap. Research permanent infrastructure solutions.',
       branch_down:'Sources recover: temporary API issue. Monitor for recurrence.',
-      outcome:'Real-time media monitoring platform serving newsrooms, researchers, and government agencies.',
-      failure:'Existing sources recover. Market too small. Government builds own platform.',
+      outcome:'Research brief on media monitoring architecture serving newsrooms, researchers, and government agencies.',
+      failure:'Existing sources recover. Adequate coverage restored without structural gap.',
       window:'30 days\u201318 months',
-      realWorld:{invest:'N/A',apply:'Knight Foundation, NSF, or DARPA grants for media data infrastructure.',build:'Build media monitoring, social signal aggregation, or information ecosystem tracking.'},
+      realWorld:{invest:'N/A',research:'GDELT project, Media Cloud (MIT/Harvard), academic media measurement literature, NewsGuard, Meltwater, and Brandwatch coverage landscape for data architecture reference.'},
       examples:['Real-time media monitoring dashboards','Social media signal aggregation','Disinformation tracking and mapping','Platform health and integrity monitoring','News ecosystem diversity analytics'],
-      fastPath:['1. Check feed health: are Communication sources offline?','2. Identify which media dimension is uncovered','3. Build a data pipeline and apply to Knight Foundation for funding']
+      fastPath:['1. Check feed health: are Communication sources offline?','2. Identify which media dimension is uncovered','3. Research GDELT and Media Cloud documentation \u2192 map available data sources']
     }
   ];
 
