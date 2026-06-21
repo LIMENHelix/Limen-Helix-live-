@@ -223,68 +223,7 @@ module.exports = async function handler(req, res) {
     return res.status(200).json({ ok: true, subscribed: true });
   }
 
-  // ── PACKAGE-PATENT: filed patent draft → marketplace listing + targets ──
-  if (action === 'package-patent') {
-    if (req.method !== 'POST') return res.status(405).json({ ok: false, error: 'package-patent requires POST' });
-    const pp = require('../lib/patent-packager');
-    const b = req.body || {};
-    return res.status(200).json(await pp.packageListing({ id: b.id, title: b.title, patentText: b.patentText, domain: b.domain }));
-  }
-
-  // ── PATENT-LISTINGS: packaged listings + status (operator view) ────
-  if (action === 'patent-listings') {
-    const pp = require('../lib/patent-packager');
-    return res.status(200).json({ ok: true, listings: await pp.listings(100) });
-  }
-
-  // ── APPLICATION AUDITOR (master-brain): multi-AI audit / rewrite / approve / submit ──
-  if (action === 'audit-application') {
-    if (req.method !== 'POST') return res.status(405).json({ ok: false, error: 'audit-application requires POST' });
-    const aud = require('../lib/application-auditor');
-    const b = req.body || {};
-    return res.status(200).json(await aud.audit({ id: b.id, title: b.title, funder: b.funder, text: b.text }));
-  }
-  if (action === 'rewrite-application') {
-    if (req.method !== 'POST') return res.status(405).json({ ok: false, error: 'rewrite-application requires POST' });
-    const aud = require('../lib/application-auditor');
-    const b = req.body || {};
-    return res.status(200).json(await aud.rewrite({ funder: b.funder, program: b.program, fixes: b.fixes, text: b.text }));
-  }
-  if (action === 'applications') {
-    const aud = require('../lib/application-auditor');
-    return res.status(200).json({ ok: true, applications: await aud.list(50) });
-  }
-  if (action === 'application-approve') {
-    if (req.method !== 'POST') return res.status(405).json({ ok: false, error: 'approve requires POST' });
-    const aud = require('../lib/application-auditor');
-    const b = req.body || {};
-    return res.status(200).json(await aud.setStatus(b.id, 'approved', { approvedBy: b.signer || 'operator' }));
-  }
-  if (action === 'application-submit') {
-    if (req.method !== 'POST') return res.status(405).json({ ok: false, error: 'submit requires POST' });
-    const aud = require('../lib/application-auditor');
-    const b = req.body || {};
-    const r = await aud.setStatus(b.id, 'submitted', { channel: b.channel || 'manual' });
-    // Honest: federal grants must be filed by a registered AOR on Research.gov/Grants.gov (no API).
-    r.notice = 'Marked submitted. Federal grants must be filed by your registered AOR on Research.gov — system cannot auto-file. Patent/marketplace outreach can be auto-sent via Gmail.';
-    return res.status(200).json(r);
-  }
-
-  // ── ADVERSARIAL-REVIEW: hostile reviewer tears a doc apart vs the lessons rubric ──
-  if (action === 'adversarial-review') {
-    if (req.method !== 'POST') return res.status(405).json({ ok: false, error: 'adversarial-review requires POST' });
-    const aud = require('../lib/application-auditor');
-    const b = req.body || {};
-    let text = b.text, funder = b.funder, lane = b.lane;
-    if (!text && b.id) {
-      const all = await aud.list(200);
-      const it = all.find(function (x) { return x.id === b.id; });
-      if (it) { text = it.sourceText; funder = funder || it.funder; }
-    }
-    return res.status(200).json(await aud.adversarialReview({ text: text, funder: funder, lane: lane }));
-  }
-
-  // ── SCORE-LANES: the loose gate. Scores a card per lane (the operator's manual rubric, automated) ──
+  // ── SCORE-LANES: the loose gate. Scores a card for the TWO live lanes (investment + research only) ──
   if (action === 'score-lanes') {
     if (req.method !== 'POST') return res.status(405).json({ ok: false, error: 'score-lanes requires POST' });
     const aud = require('../lib/application-auditor');
@@ -293,5 +232,5 @@ module.exports = async function handler(req, res) {
     return res.status(200).json(await aud.scoreLanes(card));
   }
 
-  return res.status(400).json({ ok: false, error: 'unknown action: ' + action, valid: ['streams', 'status', 'route', 'orchestrate', 'ledger', 'queue', 'produce', 'publish', 'checkout', 'stripe-webhook', 'tick', 'articles', 'subscribe', 'package-patent', 'patent-listings', 'audit-application', 'rewrite-application', 'applications', 'application-approve', 'application-submit', 'adversarial-review', 'score-lanes'] });
+  return res.status(400).json({ ok: false, error: 'unknown action: ' + action, valid: ['streams', 'status', 'route', 'orchestrate', 'ledger', 'queue', 'produce', 'publish', 'checkout', 'stripe-webhook', 'tick', 'articles', 'subscribe', 'score-lanes'] });
 };

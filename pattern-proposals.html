@@ -202,7 +202,7 @@ function render(d) {
 
 function renderLaneFit(s){
   if(!s||!s.lanes) return '<div style="padding:8px;color:#e85454">no score returned'+(s&&s.raw?': '+esc(s.raw).slice(0,200):'')+'</div>';
-  var lanes=['patent','grant','research','investment'];
+  var lanes=['research','investment'];
   var h='<div style="margin-top:12px;border:1px solid rgba(201,169,78,0.25);padding:10px;background:rgba(201,169,78,0.03)">';
   h+='<div style="font-size:0.34rem;letter-spacing:2px;text-transform:uppercase;color:#c9a94e;margin-bottom:8px">Lane-Fit Matrix · '+(s.verdict==='keep'?'<span style="color:#5ab5a0">KEEP</span>':'<span style="color:#e85454">REJECT</span>')+' · type '+esc(s.type||'?')+'</div>';
   lanes.forEach(function(k){
@@ -284,14 +284,12 @@ function renderRow(p) {
 
   // Derived angles per lane
   detail += '<h4>Derived angles</h4>';
-  ['patent','grant','investment','research','sba','franchise'].forEach(function(lane){
+  ['investment','research'].forEach(function(lane){
     var a = da[lane];
     var empty = !a || (typeof a === 'object' && Object.keys(a).length === 0);
     if (empty) return;
     var txt = '';
-    if (lane === 'patent') txt = (a.claimDirection || '') + (a.noveltyAnchor ? ' · novelty: ' + a.noveltyAnchor : '');
-    else if (lane === 'grant') txt = (a.angle || '') + (a.programMatch && a.programMatch.length ? ' · programs: ' + a.programMatch.join('; ') : '');
-    else if (lane === 'investment') txt = (a.thesis || '') + (a.horizon ? ' · horizon: ' + a.horizon : '');
+    if (lane === 'investment') txt = (a.thesis || '') + (a.horizon ? ' · horizon: ' + a.horizon : '');
     else if (lane === 'research') txt = (a.hypothesis || '') + (a.methodology ? ' · method: ' + a.methodology : '');
     else txt = JSON.stringify(a);
     detail += '<div class="angle-row"><div class="angle-lane">' + lane + '</div>' + esc(txt) + '</div>';
