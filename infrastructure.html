@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LIMEN Infrastructure Watch · stress on the systems we rely on</title>
+<meta name="description" content="Track the strain on the systems we depend on — power, water, transport, broadband, and the projects and funding meant to fix them. Free, no account.">
+<link rel="canonical" href="https://limenhelix.com/infrastructure">
+<meta property="og:type" content="website">
+<meta property="og:title" content="LIMEN Infrastructure Watch">
+<meta property="og:description" content="Stress on the systems we rely on — power, water, transport, broadband — read early. Free.">
+<meta property="og:url" content="https://limenhelix.com/infrastructure">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#080a0f;--panel:#0c0f16;--bone:#e8e3d9;--gold:#c9a94e;--dim:rgba(214,209,198,0.78);--line:rgba(201,169,78,0.14)}
+body{background:var(--bg);color:var(--bone);font-family:'IBM Plex Mono',ui-monospace,monospace;line-height:1.6;
+  background-image:linear-gradient(rgba(201,169,78,0.015) 1px,transparent 1px),linear-gradient(90deg,rgba(201,169,78,0.015) 1px,transparent 1px);background-size:28px 28px;}
+a{color:inherit}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+header{border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(8,10,15,.96);backdrop-filter:blur(6px);z-index:50}
+.hbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 0}
+.brand{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(201,169,78,.6)}
+.brand a{text-decoration:none}
+.adminbtn{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,169,78,0.4);background:rgba(201,169,78,0.05);padding:6px 14px;border-radius:2px;cursor:pointer;font-family:inherit}
+.adminbtn:hover{background:rgba(201,169,78,0.12)}
+.hero{padding:56px 0 36px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:rgba(201,169,78,.6);margin-bottom:14px}
+h1{font-size:42px;font-weight:400;line-height:1.05;margin-bottom:16px}
+.lede{font-size:16px;color:var(--dim);max-width:640px}
+.sec{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(224,200,130,.92);margin:36px 0 14px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.card{border:1px solid var(--line);border-radius:4px;padding:16px;background:var(--panel)}
+.card h3{font-size:14px;font-weight:500;color:var(--bone);margin-bottom:6px}
+.card p{font-size:12px;color:var(--dim)}
+.capwrap{margin:40px 0;border:1px solid var(--line);border-radius:6px;background:var(--panel);padding:26px}
+.capwrap h2{font-size:20px;font-weight:400;margin-bottom:8px}
+.capwrap p{font-size:13px;color:var(--dim);margin-bottom:16px}
+.capture{display:flex;gap:10px;flex-wrap:wrap}
+.capture input[type=email]{flex:1;min-width:240px;background:#06080d;border:1px solid var(--line);color:var(--bone);font-family:inherit;font-size:14px;padding:11px 14px;border-radius:3px;outline:none}
+.capture input[type=email]:focus{border-color:rgba(201,169,78,.6)}
+.capture button{background:rgba(201,169,78,.1);border:1px solid rgba(201,169,78,.5);color:var(--gold);font-family:inherit;letter-spacing:2px;text-transform:uppercase;font-size:12px;padding:11px 22px;border-radius:3px;cursor:pointer}
+.capture button:hover{background:rgba(201,169,78,.18)}
+.consent{display:flex;gap:8px;align-items:flex-start;margin-top:12px;font-size:11px;color:var(--dim)}
+.capstat{margin-top:12px;font-size:12px;min-height:16px;color:var(--gold)}
+footer{border-top:1px solid var(--line);margin-top:30px;padding:18px 0;font-size:10px;letter-spacing:1px;color:rgba(200,195,184,.3);text-align:center}
+</style>
+</head>
+<body>
+<header><div class="wrap hbar">
+  <div class="brand"><a href="/civilization">LIMEN HELIX</a> &nbsp;·&nbsp; INFRASTRUCTURE WATCH</div>
+  <button class="adminbtn" onclick="LimenAdminLogin.open()">Admin</button>
+</div></header>
+
+<div class="wrap">
+  <section class="hero">
+    <div class="eyebrow">Infrastructure Domain · public</div>
+    <h1>Stress on the systems we rely on.</h1>
+    <p class="lede">Power, water, transport, and broadband fail the same way — quietly, then all at once. LIMEN Infrastructure Watch tracks the strain on the systems we depend on, and the projects and capital meant to fix them, so the pressure is visible before the outage.</p>
+  </section>
+
+  <div class="sec">What we track</div>
+  <div class="cards">
+    <div class="card"><h3>Grid &amp; power</h3><p>Load growth, reliability strain, and the interconnection bottlenecks slowing new capacity.</p></div>
+    <div class="card"><h3>Water &amp; transport</h3><p>Aging systems, deferred maintenance, and the bridges/pipes/roads under the most pressure.</p></div>
+    <div class="card"><h3>Broadband &amp; digital</h3><p>Connectivity gaps and the build-out reshaping where work and services can happen.</p></div>
+    <div class="card"><h3>Projects &amp; capital</h3><p>Where infrastructure investment is flowing — and where the funding-need is highest.</p></div>
+  </div>
+
+  <div class="capwrap">
+    <h2>Get infrastructure signals early.</h2>
+    <p>Join the list for LIMEN Infrastructure Watch — strain and capital shifts across the systems we rely on, before they make news. Free, no account, unsubscribe anytime.</p>
+    <form class="capture" id="capture" autocomplete="on">
+      <input type="email" id="cap-email" name="email" placeholder="your email" required maxlength="200">
+      <button type="submit">Notify me</button>
+    </form>
+    <label class="consent"><input type="checkbox" id="cap-consent" checked> I agree to be contacted about LIMEN Infrastructure Watch.</label>
+    <div class="capstat" id="capstat"></div>
+  </div>
+</div>
+
+<footer class="wrap">LIMEN HELIX TRANSFORMATIONAL SCIENCES LLC · INFRASTRUCTURE WATCH · reference tool, not professional advice</footer>
+
+<script src="assets/js/limen-admin-login.js"></script>
+<script>
+(function(){
+  var f=document.getElementById('capture'), em=document.getElementById('cap-email'),
+      cs=document.getElementById('cap-consent'), st=document.getElementById('capstat');
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var email=(em.value||'').trim();
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ st.style.color='#d4574b'; st.textContent='Enter a valid email.'; return; }
+    if(!cs.checked){ st.style.color='#d4574b'; st.textContent='Please agree to be contacted.'; return; }
+    st.style.color='var(--gold)'; st.textContent='Saving…';
+    fetch('/api/lead',{method:'POST',headers:{'content-type':'application/json'},
+      body:JSON.stringify({ email:email, consent:true, interest:'infrastructure-watch', sourcePage:'/infrastructure' })})
+      .then(function(r){return r.json();}).then(function(j){
+        if(j&&j.ok){ st.style.color='#5ab590'; st.textContent='You’re on the list. Thank you.'; f.reset(); cs.checked=true; }
+        else { st.style.color='#d4574b'; st.textContent=(j&&j.error)||'Something went wrong — try again.'; }
+      }).catch(function(){ st.style.color='#d4574b'; st.textContent='Network error — try again.'; });
+  });
+})();
+</script>
+</body>
+</html>

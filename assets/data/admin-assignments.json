@@ -1,0 +1,30 @@
+{
+  "_meta": {
+    "purpose": "Per-person admin assignments for LIMEN domain access. Passcodes are NOT here — they live in Vercel env vars (one per person, named in envVar). This file only maps a person to their display name + the domains/properties they manage. Edit to add people or change assignments; set the matching env var in Vercel.",
+    "updated": "2026-06-21",
+    "howToAddPasscode": "In the Vercel project env, set the envVar below to that person's passcode. Master/operator passcode = env ADMIN_MASTER (grants all domains)."
+  },
+  "people": [
+    {
+      "key": "drew",
+      "name": "Drew Hubbel",
+      "envVar": "ADMIN_PASS_DREW",
+      "domains": ["culture", "finance"]
+    },
+    {
+      "key": "jurkoic",
+      "name": "Jurkoic",
+      "envVar": "ADMIN_PASS_JURKOIC",
+      "domains": ["infrastructure", "finance"]
+    },
+    {
+      "key": "minerva",
+      "name": "Minerva (258mimosa)",
+      "envVar": "ADMIN_PASS_MINERVA",
+      "domains": ["culture"],
+      "properties": [
+        { "id": "mimas", "name": "Mima's Coffee & Custard", "domain": "culture", "url": "https://mimas-coffee-custard.vercel.app" }
+      ]
+    }
+  ]
+}
