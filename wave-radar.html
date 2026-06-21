@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LIMEN Wave Radar · see the wave before it breaks</title>
+<meta name="description" content="An artist superpower: see which sounds are EMERGING right now vs already peaking — emergence is acceleration, not size. Aim your next release at a wave on the way up.">
+<link rel="canonical" href="https://limenhelix.com/wave-radar">
+<meta property="og:type" content="website">
+<meta property="og:title" content="LIMEN Wave Radar — see the wave before it breaks">
+<meta property="og:description" content="Which sounds are emerging right now vs already peaking. Aim your next release at a wave on the way up.">
+<meta property="og:url" content="https://limenhelix.com/wave-radar">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#070b12;--panel:#0e131d;--panel2:#121826;--line:rgba(201,169,78,0.14);--gold:#C9A94E;--ink:#e9e6dd;--dim:#9a9384;
+  --emerge:#5ab5a0;--rise:#6ea8e0;--peak:#e8a24b;--cool:#e8736b}
+html,body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:var(--gold);text-decoration:none}
+.wrap{max-width:820px;margin:0 auto;padding:0 18px}
+.top{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--line)}
+.brand{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--dim)}
+.brand b{color:var(--gold)}
+.top .r{display:flex;gap:14px;align-items:center}
+.top a.alt{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim)}
+.adminbtn{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,169,78,0.4);background:rgba(201,169,78,0.05);padding:6px 12px;border-radius:6px;cursor:pointer;font-family:inherit}
+.hero{text-align:center;padding:46px 0 22px}
+.kicker{font-size:11px;letter-spacing:3.5px;text-transform:uppercase;color:var(--gold);opacity:.85}
+.hero h1{font-size:clamp(28px,5.5vw,44px);line-height:1.1;margin:12px 0 10px;letter-spacing:-0.5px}
+.hero p{color:var(--dim);font-size:16px;max-width:600px;margin:0 auto}
+.legend{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:18px 0 4px;font-size:12px;color:var(--dim)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.dot{width:9px;height:9px;border-radius:50%}
+.banner{background:rgba(110,168,224,0.08);border:1px solid rgba(110,168,224,0.25);border-left:3px solid var(--rise);border-radius:8px;padding:12px 14px;margin:14px 0;font-size:13.5px;color:#cdd6e0}
+.sec{margin:26px 0 10px;display:flex;align-items:baseline;gap:10px}
+.sec h2{font-size:14px;letter-spacing:1.5px;text-transform:uppercase}
+.sec .cap{font-size:12px;color:var(--dim)}
+.list{display:flex;flex-direction:column;gap:8px}
+.row{display:grid;grid-template-columns:34px 1fr auto;gap:12px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:11px 14px}
+.row .rk{font-size:13px;color:var(--dim);text-align:center;font-variant-numeric:tabular-nums}
+.row .ti{font-size:15px;line-height:1.25}
+.row .ar{font-size:12.5px;color:var(--dim);margin-top:1px}
+.row .meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:5px}
+.chip{font-size:10px;letter-spacing:.5px;text-transform:uppercase;padding:3px 8px;border-radius:20px;font-weight:600}
+.gtag{font-size:11px;color:var(--dim)}
+.vel{font-size:12px;font-variant-numeric:tabular-nums}
+.right{text-align:right;min-width:84px}
+.spark{height:7px;width:84px;background:var(--panel2);border-radius:5px;overflow:hidden;margin-top:6px}
+.spark i{display:block;height:100%;border-radius:5px}
+.muted{color:var(--dim);font-size:13px;padding:10px 0}
+.foot{text-align:center;color:var(--dim);font-size:12px;padding:30px 0 50px;border-top:1px solid var(--line);margin-top:34px}
+.foot .pp{font-size:11px;margin-top:6px}
+.refresh{font-size:11px;color:var(--dim)}
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="brand"><b>LIMEN</b> WAVE RADAR</div>
+  <div class="r"><a class="alt" href="/culture">← Music</a><button class="adminbtn" onclick="LimenAdminLogin.open()">Admin</button></div>
+</div>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="kicker">Artist superpower · live</div>
+    <h1>See the wave before it breaks.</h1>
+    <p>Emergence is <b>acceleration, not size.</b> What's already big has peaked. The radar surfaces the sounds <i>climbing fastest right now</i> — so you aim your next release at a wave on the way up, not a crowded peak.</p>
+    <div class="legend">
+      <span><i class="dot" style="background:var(--emerge)"></i>Emerging</span>
+      <span><i class="dot" style="background:var(--rise)"></i>Rising</span>
+      <span><i class="dot" style="background:var(--peak)"></i>Peaking (crowded)</span>
+      <span><i class="dot" style="background:var(--cool)"></i>Cooling</span>
+    </div>
+  </div>
+
+  <div id="banner"></div>
+  <div id="body"><div class="muted">Reading the charts…</div></div>
+
+  <div class="foot">
+    Powered by <a href="/">LIMEN Helix</a> · Wave Radar &nbsp;·&nbsp; <span class="refresh" id="refresh"></span>
+    <div class="pp">Live chart signal (Deezer, v1). Emergence is computed from change over time, so the radar sharpens with every snapshot. Informational — not a guarantee of performance. Upgrades coming: Shazam discovery, geo velocity, Spotify &amp; YouTube momentum, and sound/scene clustering.</div>
+  </div>
+</div>
+
+<script src="assets/js/limen-admin-login.js"></script>
+<script>
+(function(){
+  var PHASE={
+    emerging:{c:'var(--emerge)',bg:'rgba(90,181,160,0.16)',label:'Emerging'},
+    rising:{c:'var(--rise)',bg:'rgba(110,168,224,0.16)',label:'Rising'},
+    peaking:{c:'var(--peak)',bg:'rgba(232,162,75,0.16)',label:'Peaking'},
+    cooling:{c:'var(--cool)',bg:'rgba(232,115,107,0.16)',label:'Cooling'},
+    steady:{c:'var(--dim)',bg:'rgba(154,147,132,0.14)',label:'Steady'},
+    baseline:{c:'var(--dim)',bg:'rgba(154,147,132,0.14)',label:'Baseline'}
+  };
+  function esc(s){return String(s==null?'':s).replace(/[<>&]/g,function(c){return({'<':'&lt;','>':'&gt;','&':'&amp;'})[c];});}
+  function row(r,maxE){
+    var p=PHASE[r.phase]||PHASE.steady;
+    var vel=(r.velocity>0?'+':'')+r.velocity+'/day';
+    var w=maxE>0?Math.max(6,Math.round(r.emergence/maxE*100)):6;
+    var link=r.link?(' <a href="'+esc(r.link)+'" target="_blank" rel="noopener" style="font-size:11px">▶</a>'):'';
+    return '<div class="row"><div class="rk">#'+r.cur+'</div>'+
+      '<div><div class="ti">'+esc(r.title)+link+'</div><div class="ar">'+esc(r.artist)+'</div>'+
+      '<div class="meta"><span class="chip" style="color:'+p.c+';background:'+p.bg+'">'+p.label+'</span>'+
+      '<span class="gtag">'+esc(r.glabel||'')+'</span>'+
+      '<span class="vel" style="color:'+(r.velocity>=0?'var(--emerge)':'var(--cool)')+'">'+(r.points>=2?vel:'baseline')+'</span></div></div>'+
+      '<div class="right"><div class="spark"><i style="width:'+w+'%;background:'+p.c+'"></i></div></div></div>';
+  }
+  function section(title,cap,items,maxE){
+    if(!items||!items.length) return '';
+    var h='<div class="sec"><h2>'+title+'</h2><span class="cap">'+cap+'</span></div><div class="list">';
+    items.forEach(function(r){h+=row(r,maxE);}); return h+'</div>';
+  }
+  function fmtAgo(ts){ if(!ts) return ''; var m=Math.round((Date.now()-ts)/60000); if(m<60) return m+' min ago'; return Math.round(m/60)+' h ago'; }
+
+  fetch('/api/wave-radar').then(function(r){return r.json();}).then(function(j){
+    var body=document.getElementById('body'), banner=document.getElementById('banner');
+    document.getElementById('refresh').textContent = j.lastSnapshot ? ('updated '+fmtAgo(j.lastSnapshot)+' · tracking '+j.tracked) : '';
+    if(!j.ok){ body.innerHTML='<div class="muted">Radar is offline right now — try again shortly.</div>'; return; }
+    if(j.note){ banner.innerHTML='<div class="banner">🛰️ '+esc(j.note)+'</div>'; }
+    var maxE=0; (j.rising||[]).forEach(function(r){if(r.emergence>maxE)maxE=r.emergence;});
+    var h='';
+    h+=section('🌊 Emerging &amp; Rising','climbing fastest — aim here', j.rising, maxE);
+    h+=section('🔥 Peaking','already crowded — likely too late', j.peaking, maxE);
+    h+=section('📉 Cooling','on the way down', j.cooling, maxE);
+    if(!h){ h='<div class="muted">The radar just set its baseline. Check back in a few hours — once a second snapshot lands, the emerging waves light up.</div>'; }
+    body.innerHTML=h;
+  }).catch(function(){
+    document.getElementById('body').innerHTML='<div class="muted">Couldn’t reach the radar — try again shortly.</div>';
+  });
+})();
+</script>
+</body>
+</html>
