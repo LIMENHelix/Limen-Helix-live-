@@ -41,8 +41,9 @@ a{color:var(--gold);text-decoration:none}
 .row .ti{font-size:14.5px;line-height:1.25}.row .ar{font-size:12.5px;color:var(--dim);margin-top:1px}
 .row .meta{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:5px}
 .chip{font-size:10px;letter-spacing:.5px;text-transform:uppercase;padding:3px 8px;border-radius:20px;font-weight:600}
-.bpm{font-size:11px;color:var(--gold);border:1px solid rgba(201,169,78,0.3);border-radius:20px;padding:2px 8px;cursor:pointer}
-.bpm:hover{background:rgba(201,169,78,0.1)}
+.bpm{font-size:11px;color:var(--dim);border:1px solid var(--line);border-radius:20px;padding:2px 8px;cursor:default}
+.bpm.has{color:var(--gold);border-color:rgba(201,169,78,0.4);cursor:pointer}
+.bpm.has:hover{background:rgba(201,169,78,0.1)}
 .gtag{font-size:11px;color:var(--dim)}
 .play{background:none;border:1px solid var(--line);color:var(--ink);border-radius:50%;width:34px;height:34px;cursor:pointer;font-size:13px}
 .play:hover{border-color:var(--gold);color:var(--gold)}.play.on{background:var(--gold);color:#1a1407;border-color:var(--gold)}
@@ -51,11 +52,10 @@ a{color:var(--gold);text-decoration:none}
 .pcard .g{font-size:13px;font-weight:600}.pcard .m{font-size:12px;color:var(--dim);margin:3px 0 9px}
 .pcard .m b{color:var(--gold)}
 .bands{display:flex;gap:3px;align-items:flex-end;height:42px}
-.bands .b{flex:1;background:var(--panel2);border-radius:3px 3px 0 0;position:relative;min-height:3px}
+.bands .b{flex:1;background:var(--panel2);border-radius:3px 3px 0 0;min-height:3px}
 .bands .b.hot{background:var(--emerge)}
 .bands .lab{font-size:8px;color:var(--dim);text-align:center;margin-top:3px;line-height:1.1}
 .muted{color:var(--dim);font-size:13px;padding:10px 0}
-/* beat lab */
 .lab{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
 .labbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}
 .labbar button.tp{background:var(--gold);color:#1a1407;border:none;border-radius:8px;font:inherit;font-weight:700;padding:10px 20px;cursor:pointer}
@@ -83,10 +83,8 @@ a{color:var(--gold);text-decoration:none}
   <div class="hero">
     <div class="kicker">Artist superpower · live</div>
     <h1>See the wave. Hear the hits. Make the beat.</h1>
-    <p>Emergence is <b>acceleration, not size.</b> Below: the sounds climbing fastest right now, the <b>tempos</b> hits are actually using, 30-second previews you can hear, and a <b>Beat Lab</b> that locks to the hottest BPM so you can sketch on the wave.</p>
-    <div class="tabs">
-      <a href="#radar">🌊 Radar</a><a href="#xray">🎛 Hit X-Ray</a><a href="#lab">🥁 Beat Lab</a>
-    </div>
+    <p>Emergence is <b>acceleration, not size.</b> Below: the sounds climbing fastest right now, the <b>tempos</b> hits are actually using (measured from the audio), 30-second previews you can hear, and a <b>Beat Lab</b> that locks to the hottest BPM so you can sketch on the wave.</p>
+    <div class="tabs"><a href="#radar">🌊 Radar</a><a href="#xray">🎛 Hit X-Ray</a><a href="#lab">🥁 Beat Lab</a></div>
     <div class="legend">
       <span><i class="dot" style="background:var(--emerge)"></i>Emerging</span>
       <span><i class="dot" style="background:var(--rise)"></i>Rising</span>
@@ -100,9 +98,9 @@ a{color:var(--gold);text-decoration:none}
   <div class="sec" id="radar"><h2>🌊 Wave Radar</h2><span class="cap">what's climbing fastest</span></div>
   <div id="radarBody"><div class="muted">Reading the charts…</div></div>
 
-  <div class="sec" id="xray"><h2>🎛 Hit X-Ray</h2><span class="cap">the tempos hits are using — tap BPM to load it into the Beat Lab</span></div>
+  <div class="sec" id="xray"><h2>🎛 Hit X-Ray</h2><span class="cap">tempos measured from the audio — tap a BPM to load it into the Beat Lab</span></div>
   <div id="patterns"></div>
-  <div style="font-size:12px;color:var(--dim);margin:14px 0 8px;letter-spacing:.5px;text-transform:uppercase">Charting now · hear them</div>
+  <div style="font-size:12px;color:var(--dim);margin:14px 0 8px;letter-spacing:.5px;text-transform:uppercase">Charting now · hear them <span id="analyzing" style="text-transform:none;letter-spacing:0"></span></div>
   <div id="topList" class="list"></div>
 
   <div class="sec" id="lab"><h2>🥁 Beat Lab</h2><span class="cap">sketch on the wave — synth drums, locked to BPM</span></div>
@@ -118,7 +116,7 @@ a{color:var(--gold);text-decoration:none}
 
   <div class="foot">
     Powered by <a href="/">LIMEN Helix</a> · Wave Radar &nbsp;·&nbsp; <span id="refresh"></span>
-    <div class="pp">Live chart + tempo signal (Deezer, keyless). Emergence sharpens as snapshots accrue. Key/energy &amp; sound-clustering coming next. Beat Lab is a synth sketchpad, not a DAW. Informational — not a guarantee of performance.</div>
+    <div class="pp">Live charts (Deezer, keyless). Tempo is measured in your browser from the 30-sec preview and cached so it sharpens for everyone. Emergence warms up as snapshots accrue. Key/energy &amp; sound-clustering next. Beat Lab is a synth sketchpad, not a DAW.</div>
   </div>
 </div>
 
@@ -128,69 +126,125 @@ a{color:var(--gold);text-decoration:none}
   var PH={emerging:{c:'var(--emerge)',bg:'rgba(90,181,160,.16)',l:'Emerging'},rising:{c:'var(--rise)',bg:'rgba(110,168,224,.16)',l:'Rising'},
     peaking:{c:'var(--peak)',bg:'rgba(232,162,75,.16)',l:'Peaking'},cooling:{c:'var(--cool)',bg:'rgba(232,115,107,.16)',l:'Cooling'},
     steady:{c:'var(--dim)',bg:'rgba(154,147,132,.14)',l:'Steady'},baseline:{c:'var(--dim)',bg:'rgba(154,147,132,.14)',l:'New'}};
+  var BANDS=[{l:'<90',min:0,max:90},{l:'90–110',min:90,max:110},{l:'110–130',min:110,max:130},{l:'130–150',min:130,max:150},{l:'150–170',min:150,max:170},{l:'170+',min:170,max:9999}];
+  var GLABEL={all:'Overall',hiphop:'Hip-Hop / Rap',pop:'Pop',dance:'Dance / Electronic',rnb:'R&B',rock:'Rock'};
+  var bpmMap={}; // id -> {genre,bpm}
   function esc(s){return String(s==null?'':s).replace(/[<>&"]/g,function(c){return({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'})[c];});}
 
-  // ---- audio preview (shared) ----
-  var audio=new Audio(); var curBtn=null;
+  // preview player
+  var audio=new Audio(), curBtn=null;
   function playPreview(url,btn){
-    if(curBtn===btn){ audio.pause(); curBtn.classList.remove('on'); curBtn.textContent='▶'; curBtn=null; return; }
+    if(curBtn===btn){ audio.pause(); btn.classList.remove('on'); btn.textContent='▶'; curBtn=null; return; }
     if(curBtn){ curBtn.classList.remove('on'); curBtn.textContent='▶'; }
     audio.src=url; audio.play().catch(function(){}); btn.classList.add('on'); btn.textContent='⏸'; curBtn=btn;
     audio.onended=function(){ btn.classList.remove('on'); btn.textContent='▶'; curBtn=null; };
   }
 
-  function trackRow(r,opts){
-    opts=opts||{};
+  function trackRow(r,showPhase){
     var p=PH[r.phase]||PH.steady;
-    var bpm=r.bpm>0?('<span class="bpm" data-bpm="'+r.bpm+'">'+r.bpm+' BPM</span>'):'';
-    var phaseChip=opts.showPhase?('<span class="chip" style="color:'+p.c+';background:'+p.bg+'">'+p.l+'</span>'):'';
-    var vel=opts.showPhase&&r.points>=2?('<span class="gtag" style="color:'+(r.velocity>=0?'var(--emerge)':'var(--cool)')+'">'+(r.velocity>0?'+':'')+r.velocity+'/day</span>'):'';
+    var has=r.bpm>0;
+    var bpm='<span class="bpm'+(has?' has':'')+'" data-id="'+esc(r.id)+'" data-bpm="'+(r.bpm||0)+'">'+(has?(r.bpm+' BPM'):'···')+'</span>';
+    var phaseChip=showPhase?('<span class="chip" style="color:'+p.c+';background:'+p.bg+'">'+p.l+'</span>'):'';
+    var vel=showPhase&&r.points>=2?('<span class="gtag" style="color:'+(r.velocity>=0?'var(--emerge)':'var(--cool)')+'">'+(r.velocity>0?'+':'')+r.velocity+'/day</span>'):'';
     var play=r.preview?('<button class="play" data-prev="'+esc(r.preview)+'">▶</button>'):'<span></span>';
-    return '<div class="row"><div class="rk">#'+r.cur+'</div>'+
-      '<div><div class="ti">'+esc(r.title)+'</div><div class="ar">'+esc(r.artist)+'</div>'+
-      '<div class="meta">'+phaseChip+'<span class="gtag">'+esc(r.glabel||'')+'</span>'+bpm+vel+'</div></div>'+
-      '<div>'+play+'</div></div>';
+    return '<div class="row"><div class="rk">#'+r.cur+'</div><div><div class="ti">'+esc(r.title)+'</div><div class="ar">'+esc(r.artist)+'</div><div class="meta">'+phaseChip+'<span class="gtag">'+esc(r.glabel||'')+'</span>'+bpm+vel+'</div></div><div>'+play+'</div></div>';
   }
-  function bindRows(container){
-    container.querySelectorAll('.play').forEach(function(b){ b.onclick=function(){ playPreview(b.getAttribute('data-prev'),b); }; });
-    container.querySelectorAll('.bpm').forEach(function(b){ b.onclick=function(){ setBpm(parseInt(b.getAttribute('data-bpm'),10)); document.getElementById('lab').scrollIntoView({behavior:'smooth'}); }; });
+  function bindRows(c){
+    c.querySelectorAll('.play').forEach(function(b){ b.onclick=function(){ playPreview(b.getAttribute('data-prev'),b); }; });
+    c.querySelectorAll('.bpm.has').forEach(function(b){ b.onclick=function(){ var v=+b.getAttribute('data-bpm'); if(v>0){ setBpm(v); document.getElementById('lab').scrollIntoView({behavior:'smooth'}); } }; });
+  }
+  function setChip(id,bpm){
+    document.querySelectorAll('.bpm[data-id="'+id+'"]').forEach(function(el){
+      el.setAttribute('data-bpm',bpm); el.textContent=bpm+' BPM'; el.classList.add('has');
+      el.onclick=function(){ setBpm(bpm); document.getElementById('lab').scrollIntoView({behavior:'smooth'}); };
+    });
   }
 
+  function renderPatterns(){
+    var byG={};
+    Object.keys(bpmMap).forEach(function(id){ var o=bpmMap[id]; if(!o.bpm)return;
+      var gs=(o.genre&&o.genre!=='all')?['all',o.genre]:['all'];
+      gs.forEach(function(g){ var bk=byG[g]||(byG[g]={n:0,bpms:[],bands:BANDS.map(function(b){return{l:b.l,n:0};})});
+        bk.n++; bk.bpms.push(o.bpm); var bi=-1; for(var k=0;k<BANDS.length;k++){if(o.bpm>=BANDS[k].min&&o.bpm<BANDS[k].max){bi=k;break;}} if(bi>=0)bk.bands[bi].n++; });
+    });
+    var keys=Object.keys(byG).filter(function(g){return byG[g].n>=3;}).sort(function(a,b){return a==='all'?-1:b==='all'?1:byG[b].n-byG[a].n;});
+    var el=document.getElementById('patterns');
+    if(!keys.length){ el.innerHTML='<div class="muted">Measuring tempos from the audio…</div>'; return; }
+    var ph='';
+    keys.forEach(function(g){ var bk=byG[g]; var sorted=bk.bpms.slice().sort(function(a,b){return a-b;}); var med=sorted[Math.floor(sorted.length/2)];
+      var dom=bk.bands[0]; bk.bands.forEach(function(b){if(b.n>dom.n)dom=b;});
+      var maxn=Math.max.apply(null,bk.bands.map(function(b){return b.n;}).concat([1]));
+      var bars=bk.bands.map(function(b){var hot=b.l===dom.l;return '<div style="flex:1;text-align:center"><div class="b'+(hot?' hot':'')+'" style="height:'+Math.max(3,Math.round(b.n/maxn*42))+'px"></div><div class="lab">'+b.l+'</div></div>';}).join('');
+      ph+='<div class="pcard"><div class="g">'+esc(GLABEL[g]||g)+'</div><div class="m">median <b>'+med+' BPM</b> · sweet spot <b>'+dom.l+'</b> · '+bk.n+' tracks</div><div class="bands">'+bars+'</div></div>';
+    });
+    el.innerHTML='<div class="pat">'+ph+'</div>';
+    if(byG.all&&byG.all.bpms.length&&!window.__seeded){ window.__seeded=true; var s=byG.all.bpms.slice().sort(function(a,b){return a-b;}); setBpm(s[Math.floor(s.length/2)]); }
+  }
+
+  // ---- BPM detection from preview audio (keyless; CDN sends Access-Control-Allow-Origin:*) ----
+  var decCtx=null;
+  function getDec(){ if(!decCtx){ try{ decCtx=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } return decCtx; }
+  function detectBPM(url){
+    var d=getDec(); if(!d) return Promise.resolve(0);
+    return fetch(url).then(function(r){return r.arrayBuffer();}).then(function(buf){ return d.decodeAudioData(buf); }).then(function(ab){
+      var OAC=window.OfflineAudioContext||window.webkitOfflineAudioContext;
+      var oac=new OAC(1,ab.length,ab.sampleRate);
+      var src=oac.createBufferSource(); src.buffer=ab;
+      var lp=oac.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=150;
+      src.connect(lp); lp.connect(oac.destination); src.start(0);
+      return oac.startRendering();
+    }).then(function(rb){
+      var dch=rb.getChannelData(0), sr=rb.sampleRate, i, max=0;
+      for(i=0;i<dch.length;i++){ var a=dch[i]<0?-dch[i]:dch[i]; if(a>max)max=a; }
+      var thr=max*0.6, peaks=[], guard=0;
+      for(i=0;i<dch.length;i++){ if(dch[i]>thr && i>guard){ peaks.push(i); guard=i+Math.floor(sr*0.20); } }
+      var counts={};
+      for(var p=0;p<peaks.length;p++){ for(var q=p+1;q<Math.min(peaks.length,p+12);q++){ var bpm=60/((peaks[q]-peaks[p])/sr); while(bpm<70)bpm*=2; while(bpm>180)bpm/=2; bpm=Math.round(bpm); if(bpm>=70&&bpm<=180)counts[bpm]=(counts[bpm]||0)+1; } }
+      var best=0,bc=0; for(var b in counts){ if(counts[b]>bc){bc=counts[b];best=+b;} }
+      return best;
+    }).catch(function(){ return 0; });
+  }
+  function runDetection(tracks){
+    tracks.forEach(function(t){ if(t.bpm>0) bpmMap[t.id]={genre:t.genre,bpm:t.bpm}; });
+    renderPatterns();
+    var queue=tracks.filter(function(t){ return t.preview && (!t.bpm||t.bpm<=0); }).slice(0,22);
+    var note=document.getElementById('analyzing'); var total=queue.length, done=0, detected=[];
+    if(total) note.textContent='· measuring '+total+' tempos…';
+    function finish(){ note.textContent=''; if(detected.length) fetch('/api/wave-radar',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({bpms:detected})}).catch(function(){}); }
+    function next(){
+      if(!queue.length){ finish(); return; }
+      var t=queue.shift();
+      detectBPM(t.preview).then(function(bpm){
+        done++; if(total) note.textContent='· measuring tempos ('+done+'/'+total+')';
+        if(bpm>0){ bpmMap[t.id]={genre:t.genre,bpm:bpm}; setChip(t.id,bpm); detected.push({id:t.id,bpm:bpm}); renderPatterns(); }
+        setTimeout(next,40);
+      });
+    }
+    next();
+  }
   function fmtAgo(ts){ if(!ts)return''; var m=Math.round((Date.now()-ts)/60000); return m<60?(m+' min ago'):(Math.round(m/60)+' h ago'); }
 
   fetch('/api/wave-radar').then(function(r){return r.json();}).then(function(j){
-    document.getElementById('refresh').textContent=j.lastSnapshot?('updated '+fmtAgo(j.lastSnapshot)+' · '+j.tracked+' tracks · '+(j.withBpm||0)+' with tempo'):'';
+    document.getElementById('refresh').textContent=j.lastSnapshot?('updated '+fmtAgo(j.lastSnapshot)+' · '+j.tracked+' tracks'):'';
     if(!j.ok){ document.getElementById('radarBody').innerHTML='<div class="muted">Radar offline — try again shortly.</div>'; return; }
     if(j.note) document.getElementById('banner').innerHTML='<div class="banner">🛰️ '+esc(j.note)+'</div>';
 
-    // radar
     var rb=document.getElementById('radarBody'),h='';
-    function sect(title,items,showPhase){ if(!items||!items.length)return''; var s='<div style="font-size:12px;color:var(--dim);margin:8px 0;letter-spacing:.5px;text-transform:uppercase">'+title+'</div><div class="list">'; items.forEach(function(r){s+=trackRow(r,{showPhase:showPhase});}); return s+'</div>'; }
+    function sect(title,items,sp){ if(!items||!items.length)return''; var s='<div style="font-size:12px;color:var(--dim);margin:8px 0;letter-spacing:.5px;text-transform:uppercase">'+title+'</div><div class="list">'; items.forEach(function(r){s+=trackRow(r,sp);}); return s+'</div>'; }
     h+=sect('Emerging &amp; rising',j.rising,true)+sect('Peaking — crowded',j.peaking,true)+sect('Cooling',j.cooling,true);
-    if(!h) h='<div class="muted">Baseline set — emerging waves light up once a second snapshot lands (a few hours). Meanwhile, the Hit X-Ray and Beat Lab below are live.</div>';
+    if(!h) h='<div class="muted">Baseline set — emerging waves light up once a second snapshot lands (a few hours). Meanwhile the Hit X-Ray and Beat Lab below are live.</div>';
     rb.innerHTML=h; bindRows(rb);
 
-    // patterns
-    var pc=document.getElementById('patterns'),ph='';
-    (j.patterns||[]).forEach(function(p){
-      var maxn=Math.max.apply(null,p.bands.map(function(b){return b.n;}).concat([1]));
-      var bars=p.bands.map(function(b){var hot=b.label===p.dominantBand;return '<div style="flex:1;text-align:center"><div class="b'+(hot?' hot':'')+'" style="height:'+Math.max(3,Math.round(b.n/maxn*42))+'px"></div><div class="lab">'+b.label+'</div></div>';}).join('');
-      ph+='<div class="pcard"><div class="g">'+esc(p.glabel)+'</div><div class="m">median <b>'+p.median+' BPM</b> · sweet spot <b>'+p.dominantBand+'</b> · '+p.n+' hits</div><div class="bands">'+bars+'</div></div>';
-    });
-    pc.innerHTML=ph?('<div class="pat">'+ph+'</div>'):'<div class="muted">Tempo patterns fill in as track BPMs load (refresh in a moment).</div>';
-
-    // charting now
     var tl=document.getElementById('topList'),th='';
-    (j.currentTop||[]).forEach(function(r){ th+=trackRow(r,{showPhase:false}); });
+    (j.currentTop||[]).forEach(function(r){ th+=trackRow(r,false); });
     tl.innerHTML=th||'<div class="muted">Loading…</div>'; bindRows(tl);
-    bindRows(pc);
 
-    // seed beat lab tempo from overall median
-    var all=(j.patterns||[]).filter(function(p){return p.genre==='all';})[0];
-    if(all&&all.median) setBpm(all.median);
+    var all={};
+    [].concat(j.currentTop||[],j.rising||[],j.peaking||[],j.cooling||[]).forEach(function(r){ if(!all[r.id]) all[r.id]={id:r.id,genre:r.genre,preview:r.preview,bpm:r.bpm||0}; });
+    runDetection(Object.keys(all).map(function(k){return all[k];}));
   }).catch(function(){ document.getElementById('radarBody').innerHTML='<div class="muted">Couldn’t reach the radar.</div>'; });
 
-  // ================= BEAT LAB (Web Audio synth drum machine) =================
+  // ================= BEAT LAB =================
   var STEPS=16, INSTR=[{k:'kick',n:'Kick'},{k:'snare',n:'Snare'},{k:'hat',n:'Hat'},{k:'clap',n:'Clap'}];
   var pattern={ kick:[1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0], snare:[0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0],
     hat:[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0], clap:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0] };
@@ -198,11 +252,8 @@ a{color:var(--gold);text-decoration:none}
   var seqEl=document.getElementById('seq');
   function buildGrid(){
     var h='';
-    INSTR.forEach(function(ins){
-      h+='<div class="seqrow"><div class="nm">'+ins.n+'</div>';
-      for(var s=0;s<STEPS;s++){ h+='<div class="cell'+(s%4===0?' beat':'')+(pattern[ins.k][s]?' on':'')+'" data-i="'+ins.k+'" data-s="'+s+'"></div>'; }
-      h+='</div>';
-    });
+    INSTR.forEach(function(ins){ h+='<div class="seqrow"><div class="nm">'+ins.n+'</div>';
+      for(var s=0;s<STEPS;s++){ h+='<div class="cell'+(s%4===0?' beat':'')+(pattern[ins.k][s]?' on':'')+'" data-i="'+ins.k+'" data-s="'+s+'"></div>'; } h+='</div>'; });
     seqEl.innerHTML=h;
     seqEl.querySelectorAll('.cell').forEach(function(c){ c.onclick=function(){ var i=c.getAttribute('data-i'),s=+c.getAttribute('data-s'); pattern[i][s]=pattern[i][s]?0:1; c.classList.toggle('on'); }; });
   }
@@ -211,10 +262,9 @@ a{color:var(--gold);text-decoration:none}
   window.setBpm=setBpm;
   document.getElementById('lbBpm').oninput=function(){ setBpm(+this.value); };
   document.getElementById('lbClear').onclick=function(){ INSTR.forEach(function(ins){pattern[ins.k]=new Array(STEPS).fill(0);}); buildGrid(); };
-
   function noise(){ if(noiseBuf)return noiseBuf; noiseBuf=ac.createBuffer(1,ac.sampleRate*0.4,ac.sampleRate); var d=noiseBuf.getChannelData(0); for(var i=0;i<d.length;i++)d[i]=Math.random()*2-1; return noiseBuf; }
   function env(node,t,a,d,peak){ var g=ac.createGain(); g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(peak,t+a); g.gain.exponentialRampToValueAtTime(0.001,t+a+d); node.connect(g); g.connect(master); return g; }
-  function kick(t){ var o=ac.createOscillator(); o.type='sine'; o.frequency.setValueAtTime(150,t); o.frequency.exponentialRampToValueAtTime(48,t+0.11); env(o,t,0.002,0.22,1).gain; o.start(t); o.stop(t+0.26); }
+  function kick(t){ var o=ac.createOscillator(); o.type='sine'; o.frequency.setValueAtTime(150,t); o.frequency.exponentialRampToValueAtTime(48,t+0.11); env(o,t,0.002,0.22,1); o.start(t); o.stop(t+0.26); }
   function snare(t){ var n=ac.createBufferSource(); n.buffer=noise(); var bp=ac.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=1750; n.connect(bp); env(bp,t,0.001,0.16,0.7); n.start(t); n.stop(t+0.2);
     var o=ac.createOscillator(); o.type='triangle'; o.frequency.value=180; env(o,t,0.001,0.09,0.35); o.start(t); o.stop(t+0.12); }
   function hat(t){ var n=ac.createBufferSource(); n.buffer=noise(); var hp=ac.createBiquadFilter(); hp.type='highpass'; hp.frequency.value=7000; n.connect(hp); env(hp,t,0.001,0.045,0.32); n.start(t); n.stop(t+0.06); }

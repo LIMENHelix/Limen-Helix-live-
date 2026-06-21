@@ -72,17 +72,14 @@ async function takeSnapshot(doc) {
   return { lastsnap: ts, tracks: tracks };
 }
 
-// Fill BPM/preview for up to ENRICH_PER_CALL displayed tracks that haven't been looked up yet.
-async function enrich(doc, ids) {
-  const todo = ids.filter(id => doc.tracks[id] && !doc.tracks[id].meta.bpmTried).slice(0, ENRICH_PER_CALL);
-  if (!todo.length) return false;
-  const results = await Promise.all(todo.map(id => fetchJSON('https://api.deezer.com/track/' + id)));
-  for (let i = 0; i < todo.length; i++) {
-    const m = doc.tracks[todo[i]].meta, j = results[i];
-    m.bpmTried = true;
-    if (j) { if (j.bpm && j.bpm > 0) m.bpm = Math.round(j.bpm); if (!m.preview && j.preview) m.preview = j.preview; }
-  }
-  return true;
+function readBody(req) {
+  return new Promise(resolve => {
+    if (req.body && typeof req.body === 'object') return resolve(req.body);
+    let d = '';
+    req.on('data', c => d += c);
+    req.on('end', () => { try { resolve(JSON.parse(d)); } catch (e) { resolve({}); } });
+    req.on('error', () => resolve({}));
+  });
 }
 
 function analyze(hist) {
@@ -131,6 +128,21 @@ module.exports = async function handler(req, res) {
   let doc = null; try { doc = await db.get('wave:db'); } catch (e) {}
   if (!doc || typeof doc !== 'object') doc = { lastsnap: 0, tracks: {} };
 
+  // POST: cache client-detected BPMs (from preview-audio analysis) so tempo patterns
+  // accrue over time and every visitor benefits.
+  if ((req.method || 'GET').toUpperCase() === 'POST') {
+    const body = await readBody(req);
+    const list = (body && Array.isArray(body.bpms)) ? body.bpms : [];
+    let updated = 0;
+    for (const it of list) {
+      const id = String((it && it.id) || ''); const bpm = Math.round(Number(it && it.bpm) || 0);
+      if (id && bpm >= 60 && bpm <= 200 && doc.tracks[id]) { doc.tracks[id].meta.bpm = bpm; doc.tracks[id].meta.bpmTried = true; updated++; }
+    }
+    if (updated) { try { await db.set('wave:db', doc); } catch (e) {} }
+    res.statusCode = 200; res.setHeader('Cache-Control', 'no-store');
+    return res.end(JSON.stringify({ ok: true, updated: updated }));
+  }
+
   let snapshotTaken = false;
   try {
     if (force || (Date.now() - Number(doc.lastsnap || 0)) > SNAP_THROTTLE_MS) {
@@ -145,12 +157,7 @@ module.exports = async function handler(req, res) {
       .map(id => Object.assign({ id: id }, tracks[id].meta || {}, analyze(tracks[id].hist)));
 
     // enrich the tracks we'll actually SHOW (cost-bounded), then persist + recompute
-    const displayIds = rows.slice().sort((a, b) => a.cur - b.cur).slice(0, 40).map(r => r.id);
-    let changed = snapshotTaken;
-    if (await enrich(doc, displayIds)) changed = true;
-    if (changed) { try { await db.set('wave:db', doc); } catch (e) {} }
-    if (changed) rows = Object.keys(tracks).filter(id => tracks[id].hist && tracks[id].hist.length)
-      .map(id => Object.assign({ id: id }, tracks[id].meta || {}, analyze(tracks[id].hist)));
+    if (snapshotTaken) { try { await db.set('wave:db', doc); } catch (e) {} }
 
     const slim = r => ({ id: r.id, title: r.title, artist: r.artist, glabel: r.glabel, genre: r.genre, cur: r.cur, bpm: r.bpm || 0, preview: r.preview || '', link: r.link || '', phase: r.phase, velocity: r.velocity, emergence: r.emergence, points: r.points });
     const warming = !rows.length || rows.every(r => r.points < 2);
