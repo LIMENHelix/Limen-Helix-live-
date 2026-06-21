@@ -201,7 +201,12 @@ module.exports = async function handler(req, res) {
   res.setHeader('content-type', 'application/json');
   res.setHeader('Cache-Control', 's-maxage=180');
   let u; try { u = new URL(req.url, 'http://x'); } catch (e) { u = { searchParams: new URLSearchParams('') }; }
-  const force = u.searchParams.get('force') === '1';
+  // The warm-up cron (vercel.json) hits this on a cadence so velocity accrues without
+  // depending on page traffic. Vercel cron requests carry user-agent vercel-cron/1.0 →
+  // treat them as a forced snapshot (bypass the 3h throttle). Public views never force.
+  const ua = String((req.headers && (req.headers['user-agent'] || req.headers['User-Agent'])) || '');
+  const isCron = /vercel-cron/i.test(ua);
+  const force = u.searchParams.get('force') === '1' || isCron;
 
   let doc = null; try { doc = await db.get('wave:db'); } catch (e) {}
   if (!doc || typeof doc !== 'object') doc = { lastsnap: 0, tracks: {} };
