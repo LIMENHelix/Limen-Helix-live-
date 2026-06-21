@@ -39,6 +39,28 @@ function esc(v) { return String(v == null ? '' : v).replace(/&/g, '&amp;').repla
 // RESEND_API_KEY and LEAD_NOTIFY_EMAIL are set; otherwise inert. Fail-open —
 // a send failure must NEVER break the capture (the lead is already persisted).
 async function notifyLead(lead) {
+  // EASIEST path: Web3Forms — one free access key from web3forms.com (paste your inbox
+  // email → get a key). NO domain/DNS verification. The key routes to that inbox.
+  var w3 = process.env.WEB3FORMS_ACCESS_KEY;
+  if (w3) {
+    try {
+      var wr = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: w3,
+          subject: 'New LIMEN lead: ' + lead.email + (lead.interest ? ' · ' + lead.interest : '') + (lead.test ? ' [TEST]' : ''),
+          from_name: 'LIMEN Helix (limenhelix.com)',
+          email: lead.email, name: lead.name || '(none)', organization: lead.organization || '',
+          interest: lead.interest || '', phone: lead.phone || '', message: lead.message || '',
+          source_page: lead.sourcePage || '', accredited: lead.accredited ? 'yes' : 'no', captured_at: lead.ts
+        })
+      });
+      var wj = await wr.json().catch(function () { return {}; });
+      return { sent: !!(wr.ok && wj && wj.success), via: 'web3forms', http: wr.status };
+    } catch (e) { return { sent: false, via: 'web3forms', reason: String(e && e.message || e) }; }
+  }
+  // Fallback: Resend (needs RESEND_API_KEY + LEAD_NOTIFY_EMAIL + a verified sender + DNS).
   var apiKey = process.env.RESEND_API_KEY;
   var to = process.env.LEAD_NOTIFY_EMAIL;
   if (!apiKey || !to) return { sent: false, reason: 'not-configured' };
