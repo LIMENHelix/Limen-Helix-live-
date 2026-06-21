@@ -449,7 +449,7 @@
       add({
         title: dxLabel + ' — monitoring and early-warning platform',
         rank: stress * dx.relevance,
-        path: 'PATENTABLE',
+        path: 'RESEARCHABLE',
         urgency: stress > 0.70 ? 'IMMEDIATE' : 'ACTIVE',
         source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress
       });
@@ -459,7 +459,7 @@
         add({
           title: dxLabel + ' — resilience infrastructure deployment',
           rank: stress * dx.relevance * 0.9,
-          path: 'GRANT-ELIGIBLE',
+          path: 'INVESTABLE',
           urgency: stress > 0.70 ? 'IMMEDIATE' : 'ACTIVE',
           source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress
         });
@@ -480,7 +480,7 @@
       add({
         title: dxLabel + ' — adaptive technology and automation',
         rank: stress * dx.relevance * 0.75,
-        path: 'PATENTABLE',
+        path: 'RESEARCHABLE',
         urgency: 'ACTIVE',
         source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress
       });
@@ -519,7 +519,7 @@
       add({
         title: this.state.convergence.primary_signal.replace(/_/g, ' ').toLowerCase() + ' — infrastructure convergence response',
         rank: 0.98,
-        path: this.state.convergence.primary_signal === 'CONVERGENCE_TERMINAL' ? 'INVESTABLE' : 'GRANT-ELIGIBLE',
+        path: 'INVESTABLE',
         urgency: 'IMMEDIATE',
         source: 'convergence', tier: 1,
         signal: this.state.convergence.primary_signal,
@@ -552,7 +552,7 @@
       add({
         title: 'Infrastructure policy and regulatory response \u2014 permitting and compliance',
         rank: stress * 0.65,
-        path: 'GRANT-ELIGIBLE',
+        path: 'INVESTABLE',
         urgency: stress > 0.70 ? 'ACTIVE' : 'WATCH',
         source: 'lagging', tier: 3,
         diagnosisId: activeDx[0].id, stress: stress
@@ -561,7 +561,7 @@
       add({
         title: 'Infrastructure modernization acceleration \u2014 smart grid and broadband',
         rank: stress * 0.70,
-        path: 'PATENTABLE',
+        path: 'RESEARCHABLE',
         urgency: 'ACTIVE',
         source: 'lagging', tier: 3,
         diagnosisId: activeDx[0].id, stress: stress
@@ -596,7 +596,7 @@
         add({
           title: (nd.label || nd.id || '').replace(/_/g, ' ') + ' — early-stage monitoring position',
           rank: stress * (nd.relevance || 0.1) * 0.5,
-          path: 'PATENTABLE',
+          path: 'RESEARCHABLE',
           urgency: 'WATCH',
           source: 'near_diagnosis', tier: 2,
           diagnosisId: nd.id, stress: stress
@@ -702,11 +702,10 @@
 
       // ── COMPENSATION MODEL ──
       var _COMP = {
-        'GRANT-ELIGIBLE': { type: 'grant', base: 10, unit: '%', tier: 1, nextTier: { tier: 2, comp: 15, requirement: '3 successful grant awards' }, maxTier: { tier: 3, comp: 25 } },
-        'INVESTABLE':     { type: 'invest', base: 5, unit: 'profit%', tier: 1, nextTier: { tier: 2, comp: 10, requirement: '3 profitable positions closed' }, maxTier: { tier: 3, comp: 15 } },
-        'PATENTABLE':     { type: 'patent', base: 10, unit: 'royalty%', tier: 1, nextTier: { tier: 2, comp: 15, requirement: '3 patents filed' }, maxTier: { tier: 3, comp: 25 } }
+        'INVESTABLE':   { type: 'invest',   base: 5, unit: 'profit%', tier: 1, nextTier: { tier: 2, comp: 10, requirement: '3 profitable positions closed' }, maxTier: { tier: 3, comp: 15 } },
+        'RESEARCHABLE': { type: 'research', base: 8, unit: 'cite%',   tier: 1, nextTier: { tier: 2, comp: 12, requirement: '3 research deliverables' },        maxTier: { tier: 3, comp: 20 } }
       };
-      o.compensation = _COMP[o.path] || { type: 'grant', base: 10, unit: '%', tier: 1, nextTier: { tier: 2, comp: 15, requirement: '3 outcomes' }, maxTier: { tier: 3, comp: 25 } };
+      o.compensation = _COMP[o.path] || { type: 'invest', base: 5, unit: 'profit%', tier: 1, nextTier: { tier: 2, comp: 10, requirement: '3 outcomes' }, maxTier: { tier: 3, comp: 15 } };
 
       // Business-type opportunities get business compensation
       var titleLow = (o.title || '').toLowerCase();
@@ -743,22 +742,19 @@
       } else if (src === 'company_stressed') {
         doThis = 'Screen stressed-but-operating infrastructure companies (' + (compList || 'see company list') + ') for entry. These are not terminal — look for recovery catalysts, government contract wins, or sector tailwind re-rating from infrastructure spending.';
       } else if (src === 'convergence') {
-        if (o.path === 'INVESTABLE') doThis = 'Multiple stress signals are converging on infrastructure. Position in diversified infrastructure exposure (' + (exList || 'broad infrastructure ETFs') + ') to capture systemic repricing across the sector.';
-        else doThis = 'Convergence stress creates grant eligibility. Prepare a multi-vector infrastructure resilience proposal that addresses the overlapping disruptions — agencies prioritize systemic solutions for critical infrastructure.';
+        doThis = 'Multiple stress signals are converging on infrastructure. Position in diversified infrastructure exposure (' + (exList || 'broad infrastructure ETFs') + ') to capture systemic repricing across the sector.';
       } else if (src === 'cross_domain') {
         doThis = 'Infrastructure stress is transmitting into adjacent sectors. Position in cross-sector beneficiaries — companies with pricing power or supply-chain resilience that profit from infrastructure cost pass-through. Monitor ' + (exList || 'engineering firms, materials suppliers') + '.';
-      } else if (src === 'diagnosis' && o.path === 'PATENTABLE') {
-        if (titleLc.indexOf('monitoring') !== -1 || titleLc.indexOf('warning') !== -1) doThis = 'File a provisional patent for a ' + dxLabel + ' monitoring/early-warning system. Focus on real-time structural health monitoring, predictive failure detection, and automated alerting protocols. Search USPTO/Google Patents for prior art gaps.';
-        else if (titleLc.indexOf('adaptive') !== -1 || titleLc.indexOf('automation') !== -1) doThis = 'File a provisional patent for adaptive automation technology that responds to ' + dxLabel + ' conditions. Target the gap between current manual inspection protocols and what IoT/AI-driven systems could handle autonomously.';
-        else doThis = 'Identify the specific technology gap created by ' + dxLabel + '. Draft a provisional patent claim around the solution architecture. Search patents.google.com for white space in infrastructure monitoring and resilience.';
-      } else if (src === 'diagnosis' && o.path === 'GRANT-ELIGIBLE') {
-        doThis = 'Prepare a grant proposal for ' + dxLabel + ' resilience infrastructure. Target DOT, DOE, EPA, and state infrastructure programs. Frame around critical infrastructure protection, public safety, and resilience mandates under IIJA.';
+      } else if (src === 'diagnosis' && o.path === 'RESEARCHABLE') {
+        if (titleLc.indexOf('monitoring') !== -1 || titleLc.indexOf('warning') !== -1) doThis = 'Commission a research brief on ' + dxLabel + ' monitoring and early-warning systems. Review existing implementations and identify the capability gap. Deliverable: a 2-page research note with benchmark systems and recommended next step.';
+        else if (titleLc.indexOf('adaptive') !== -1 || titleLc.indexOf('automation') !== -1) doThis = 'Research adaptive automation approaches to ' + dxLabel + '. Survey peer-reviewed implementations, map vendor landscape, and identify the most deployable solution architecture.';
+        else doThis = 'Research the technology landscape for ' + dxLabel + ' solutions. Review academic literature, industry reports, and vendor implementations to identify the best-practice response.';
       } else if (src === 'diagnosis' && o.path === 'INVESTABLE') {
         doThis = 'Open positions in infrastructure companies exposed to ' + dxLabel + '. Use sector ETFs and individual names (' + (exList || 'infrastructure sector leaders') + '). Size for the stress level — ' + stressPct + '% stress warrants meaningful allocation.';
-      } else if (src === 'lagging' && o.path === 'GRANT-ELIGIBLE') {
-        doThis = 'Map the permitting and regulatory bottlenecks created by infrastructure stress. Prepare a compliance-focused grant application targeting DOT/DOE infrastructure modernization or state-level resilience programs.';
-      } else if (src === 'lagging' && o.path === 'PATENTABLE') {
-        doThis = 'File a provisional patent around smart infrastructure or predictive maintenance technology that addresses the modernization gap. Focus on the specific failure mode current infrastructure monitoring cannot detect.';
+      } else if (src === 'lagging' && o.path === 'INVESTABLE') {
+        doThis = 'Position in infrastructure companies benefiting from the regulatory response to ' + dxLabel + '. These firms capture DOT/DOE procurement and compliance-driven capex. Screen ' + (exList || 'AECOM (ACM), Quanta Services (PWR), Jacobs Engineering (J)') + '.';
+      } else if (src === 'lagging' && o.path === 'RESEARCHABLE') {
+        doThis = 'Research smart infrastructure and predictive maintenance approaches that address the modernization gap exposed by ' + dxLabel + '. Identify the specific failure mode current systems cannot detect and survey available solutions.';
       } else if (src === 'lagging' && titleLc.indexOf('rehabilitation') !== -1) {
         doThis = 'Position in asset rehabilitation and replacement companies. Target EPC contractors, materials suppliers, and equipment vendors accelerating capex in response to infrastructure stress. Monitor ' + (exList || 'Quanta Services (PWR), AECOM (ACM), Vulcan Materials (VMC)') + '.';
       } else if (src === 'lagging' && titleLc.indexOf('bottleneck') !== -1) {
@@ -778,15 +774,11 @@
         else if (titleLc.indexOf('rehabilitation') !== -1 || titleLc.indexOf('replacement') !== -1) whyPays = 'Asset rehabilitation is mandatory capex — utilities and municipalities must spend regardless of macro conditions. EPC firms and materials vendors see revenue acceleration. ' + (o.valueRange || '15-30% infrastructure premium') + '.';
         else if (titleLc.indexOf('bottleneck') !== -1) whyPays = 'Capacity constraints create pricing power. Contractors with constrained capacity earn premium margins until new workforce and equipment come online (typically 2-5 years). ' + (o.valueRange || '20-40% margin expansion') + '.';
         else whyPays = 'Market repricing follows confirmed infrastructure stress. Companies positioned to benefit see re-rating as the diagnosis persists. ' + (o.valueRange || '10-30% sector premium') + '.';
-      } else if (o.path === 'GRANT-ELIGIBLE') {
-        if (src === 'lagging') whyPays = 'Regulatory response creates dedicated funding pools. Infrastructure compliance grants are less competitive than technology grants — higher win rate. ' + (o.valueRange || '$500K-$50M per award') + '.';
-        else if (src === 'convergence') whyPays = 'Convergence events trigger emergency and supplemental infrastructure funding. Multi-vector proposals score higher because agencies want systemic solutions for critical infrastructure. ' + (o.valueRange || '$1M-$50M for systemic infrastructure proposals') + '.';
-        else whyPays = 'Active diagnosis creates documented infrastructure need. Grant proposals backed by live system evidence and measurable stress data win at higher rates. ' + (o.valueRange || '$500K-$50M contracts via DOT/DOE/EPA/state programs') + '.';
-      } else if (o.path === 'PATENTABLE') {
-        if (titleLc.indexOf('monitoring') !== -1 || titleLc.indexOf('warning') !== -1) whyPays = 'Infrastructure monitoring/early-warning IP is licensable to every utility, municipality, and DOT in the affected region. Recurring royalty revenue from each licensee. Patent creates a moat around the detection methodology.';
-        else if (titleLc.indexOf('modernization') !== -1 || titleLc.indexOf('smart') !== -1) whyPays = 'Smart infrastructure patents address a structural gap that will persist for decades. Licensable to utilities, municipalities, and technology integrators building the next generation of infrastructure systems.';
-        else if (titleLc.indexOf('adaptive') !== -1 || titleLc.indexOf('automation') !== -1) whyPays = 'Automation IP for infrastructure stress response has no dominant incumbent. First-mover patent position creates licensing revenue from utilities, municipalities, and infrastructure management platforms.';
-        else whyPays = 'Technology gaps exposed by ' + dxLabel + ' have no existing IP coverage. First patent filing creates defensible position. Licensable to utilities, contractors, and technology vendors. ' + (o.valueRange || '5-15% royalty on licensed implementations') + '.';
+      } else if (o.path === 'RESEARCHABLE') {
+        if (titleLc.indexOf('monitoring') !== -1 || titleLc.indexOf('warning') !== -1) whyPays = 'Research into infrastructure monitoring/early-warning systems informs investment screening, vendor selection, and policy positioning. The research deliverable becomes a reusable asset across multiple opportunities.';
+        else if (titleLc.indexOf('modernization') !== -1 || titleLc.indexOf('smart') !== -1) whyPays = 'Research into smart infrastructure and modernization approaches identifies investable companies and technology vendors before consensus. Early mapping creates a durable advantage. ' + (o.valueRange || 'Research value: 10-30% improved investment targeting') + '.';
+        else if (titleLc.indexOf('adaptive') !== -1 || titleLc.indexOf('automation') !== -1) whyPays = 'Research into adaptive automation for infrastructure stress response identifies vendors with first-mover advantage. Position in early-stage technology vendors before mainstream adoption creates outsized returns.';
+        else whyPays = 'Research into the technology response to ' + dxLabel + ' identifies investable vendors and best-practice deployments. Research leads investment — the early map positions for sector re-rating. ' + (o.valueRange || '10-25% positioning advantage') + '.';
       } else {
         whyPays = o.valueRange ? ('Value range: ' + o.valueRange) : 'Revenue generated through direct service delivery to entities affected by the diagnosed infrastructure condition.';
       }
@@ -795,8 +787,7 @@
       var target = '';
       if (compList) target = 'Mapped companies: ' + compList + '.';
       if (exList && !compList) target = (target ? target + ' ' : '') + 'Target names: ' + exList + '.';
-      if (o.path === 'GRANT-ELIGIBLE') target += (target ? ' ' : '') + 'Agencies: DOT, DOE, EPA, FEMA, state DOTs, municipal infrastructure programs. Search sam.gov and grants.gov.';
-      else if (o.path === 'PATENTABLE') target += (target ? ' ' : '') + 'Licensees: utilities, municipalities, DOTs, EPC firms, infrastructure technology integrators, asset management platforms.';
+      if (o.path === 'RESEARCHABLE') target += (target ? ' ' : '') + 'Research sources: ASCE, DOT, DOE, academic infrastructure journals, vendor white papers, IIJA implementation reports.';
       else if (o.path === 'INVESTABLE' && !compList && !exList) target = 'Screen infrastructure sector for companies with direct exposure to ' + dxLabel + '. Prioritize those with government contracts, maintenance backlogs, or regulatory mandates.';
       if (!target) target = 'Identify counterparties directly affected by ' + (o.title || 'this condition') + '.';
 
@@ -806,8 +797,7 @@
       else if (o.urgency === 'ACTIVE') timing = 'Near-term — execute within 1-4 weeks while stress holds at ' + stressPct + '%.';
       else if (o.urgency === 'WATCH') timing = 'Watchlist — monitor for activation trigger. Prepare execution materials now, deploy when diagnosis confirms.';
       else timing = o.window || 'Execute within the current stress window.';
-      if (o.path === 'GRANT-ELIGIBLE' && timing.indexOf('grant') === -1) timing += ' Grant cycles: 60-180 days from submission to award.';
-      if (o.path === 'PATENTABLE' && timing.indexOf('patent') === -1) timing += ' Provisional patent filing: 2-4 weeks to prepare, 12-month priority window.';
+      if (o.path === 'RESEARCHABLE' && timing.indexOf('research') === -1) timing += ' Research sprint: 1-2 weeks for initial landscape review; 30-60 days for full investment-grade brief.';
 
       // ── INVALID IF (disconfirming conditions) ──
       var invalidIf = '';
@@ -833,10 +823,8 @@
         if (compList) nextStep = 'Pull up ' + o.companies[0] + ' on the investment console. Verify Helix phase and set entry parameters.';
         else if (exList) nextStep = 'Check ' + o.examples[0] + ' current price and Helix validation status. Set alert for entry signal.';
         else nextStep = 'Run sector screen for infrastructure companies with highest exposure to ' + dxLabel + '. Build a 5-name watchlist.';
-      } else if (o.path === 'GRANT-ELIGIBLE') {
-        nextStep = 'Search sam.gov for open solicitations matching "' + (dxLabel || 'infrastructure resilience') + '". Draft a 1-page concept note with system evidence.';
-      } else if (o.path === 'PATENTABLE') {
-        nextStep = 'Search patents.google.com for prior art in "' + (dxLabel || 'infrastructure monitoring') + '" technology. Draft provisional patent claim outline.';
+      } else if (o.path === 'RESEARCHABLE') {
+        nextStep = 'Search Google Scholar and ASCE for "' + (dxLabel || 'infrastructure monitoring') + '" — identify the 3 best-practice implementations. Draft a 1-page research brief with investment implications.';
       } else {
         nextStep = (o.fastPath && o.fastPath.length) ? o.fastPath[0] : 'Open opportunity detail and begin execution checklist.';
       }
@@ -986,49 +974,6 @@
         }
       }
     });
-  };
-
-  /**
-   * Generate a real grant application for an infrastructure opportunity.
-   * Uses deep portal content: citations, steps, monitoring protocols.
-   */
-  InfrastructureBrain.prototype.generateGrantApplication = function (opportunityIndex) {
-    var opp = this.state.opportunities[opportunityIndex || 0];
-    if (!opp) return null;
-
-    var pkg = window.LIMENPackageGenerator;
-    if (!pkg) return null;
-
-    // Enrich with resolved deep content
-    var oppData = {
-      domain: 'infrastructure',
-      title: opp.title,
-      stress: opp.stress,
-      sourceType: opp.source,
-      confidence: this.state.confidence,
-      resolvedContent: this.state.resolvedContent || null
-    };
-
-    return pkg.generatePackage(oppData, 'grant');
-  };
-
-  /**
-   * Generate a patent provisional draft for an infrastructure innovation.
-   */
-  InfrastructureBrain.prototype.generatePatentDraft = function (opportunityIndex) {
-    var opp = this.state.opportunities[opportunityIndex || 0];
-    if (!opp) return null;
-
-    var pkg = window.LIMENPackageGenerator;
-    if (!pkg) return null;
-
-    return pkg.generatePackage({
-      domain: 'infrastructure',
-      title: opp.title,
-      stress: opp.stress,
-      sourceType: opp.source,
-      confidence: this.state.confidence
-    }, 'patent');
   };
 
   /**

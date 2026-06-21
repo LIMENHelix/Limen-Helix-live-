@@ -26,30 +26,20 @@
     },
 
     byType: {
-      grant: {
-        label: 'Grant Execution',
-        operatorBasePct: 0.10,
-        operatorSuccessPct: 0.15
-      },
-      patent: {
-        label: 'Patent Execution',
-        operatorBasePct: 0.08,
-        operatorSuccessPct: 0.12
-      },
-      loan: {
-        label: 'Loan Execution',
-        operatorBasePct: 0.10,
-        operatorSuccessPct: 0.15
+      invest: {
+        label: 'Investment Execution',
+        operatorBasePct: 0.05,
+        operatorSuccessPct: 0.10
       },
       investment: {
         label: 'Investment Execution',
         operatorBasePct: 0.05,
         operatorSuccessPct: 0.10
       },
-      invest: {
-        label: 'Investment Execution',
-        operatorBasePct: 0.05,
-        operatorSuccessPct: 0.10
+      research: {
+        label: 'Research Execution',
+        operatorBasePct: 0.08,
+        operatorSuccessPct: 0.12
       },
       portal: {
         label: 'Portal / SaaS Sale',
