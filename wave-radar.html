@@ -89,6 +89,28 @@ a{color:var(--gold);text-decoration:none}
 .nbhd .nb b{color:var(--ink)}
 .mine{color:var(--gold)}
 .row.mine-row{border-color:rgba(201,169,78,.4)}
+/* hero wordmark + radar activating animation */
+.radarwrap{position:relative;width:210px;height:210px;margin:0 auto 10px}
+#radarFx{display:block;width:210px;height:210px}
+.activating{position:absolute;left:0;right:0;bottom:-2px;text-align:center;font-size:10px;letter-spacing:3px;color:var(--emerge);text-transform:uppercase;transition:opacity .6s;opacity:.9}
+.wm-limen{font-size:12px;letter-spacing:7px;color:var(--gold);text-transform:uppercase;display:block;opacity:.92}
+h1.wm{font-size:clamp(38px,9vw,74px);line-height:.92;letter-spacing:-1.5px;margin:5px 0 10px;font-weight:800;
+  background:linear-gradient(92deg,#fff 10%,var(--gold) 90%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--gold)}
+/* neighborhood — playable + links */
+.loves{font-size:12.5px;color:var(--dim);margin:2px 0 10px;line-height:1.5}.loves b{color:var(--gold)}
+.nbgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(182px,1fr));gap:8px;margin:2px 0 14px}
+.nbc{display:flex;align-items:center;gap:9px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:7px 10px}
+.nbc .play{width:30px;height:30px;flex:0 0 30px;font-size:12px}
+.nbc .nm{font-size:13px;font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nbc .mt{font-size:10px;color:var(--emerge);font-variant-numeric:tabular-nums}
+.nbc a.yt{font-size:13px;color:var(--dim)}.nbc a.yt:hover{color:var(--gold)}
+/* music news feed */
+.news{display:grid;grid-template-columns:repeat(auto-fill,minmax(284px,1fr));gap:8px}
+.nitem{display:block;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:11px 13px}
+.nitem:hover{border-color:rgba(201,169,78,.4)}
+.nitem .nt{font-size:13.5px;color:var(--ink);line-height:1.34}
+.nitem .ns{font-size:11px;color:var(--gold);margin-top:6px}.nitem .ns .ago{color:var(--dim)}
+.soon{opacity:.72}.soon .g::after{content:" · soon";color:var(--dim);font-weight:400;font-size:11px}
 .foot{text-align:center;color:var(--dim);font-size:12px;padding:30px 0 50px;border-top:1px solid var(--line);margin-top:34px}
 .foot .pp{font-size:11px;margin-top:6px}
 </style>
@@ -101,10 +123,15 @@ a{color:var(--gold);text-decoration:none}
 
 <div class="wrap">
   <div class="hero">
-    <div class="kicker">Artist superpower · live</div>
-    <h1>See the wave. Hear the hits. Make the beat.</h1>
-    <p>Emergence is <b>acceleration, not size.</b> Below: the sounds climbing fastest right now, the <b>tempos</b> hits are actually using (measured from the audio), 30-second previews you can hear, and a <b>Beat Lab</b> that locks to the hottest BPM so you can sketch on the wave.</p>
-    <div class="tabs"><a href="#lane">🎤 Your Lane</a><a href="#radar">🌊 Radar</a><a href="#geosec">🌍 Where it's rising</a><a href="#xray">🎛 Hit X-Ray</a><a href="#lab">🥁 Beat Lab</a></div>
+    <div class="radarwrap">
+      <canvas id="radarFx" width="210" height="210"></canvas>
+      <div class="activating" id="activating">activating…</div>
+    </div>
+    <span class="wm-limen">LIMEN</span>
+    <h1 class="wm">WAVE RADAR</h1>
+    <div class="kicker">Artist superpower · live · free</div>
+    <p>Emergence is <b>acceleration, not size.</b> See the sounds climbing fastest, what to <b>do</b> with it in your lane, live music news, the <b>tempos</b> hits are using, 30-sec previews, and a <b>Beat Lab</b> that locks to the hottest BPM.</p>
+    <div class="tabs"><a href="#lane">🎤 Your Lane</a><a href="#feed">📰 Music Now</a><a href="#radar">🌊 Radar</a><a href="#geosec">🌍 Where it's rising</a><a href="#xray">🎛 Hit X-Ray</a><a href="#lab">🥁 Beat Lab</a></div>
     <div class="legend">
       <span><i class="dot" style="background:var(--emerge)"></i>Emerging</span>
       <span><i class="dot" style="background:var(--rise)"></i>Rising</span>
@@ -121,6 +148,9 @@ a{color:var(--gold);text-decoration:none}
   <div id="featured"></div>
   <div id="neighborhood" class="nbhd"></div>
   <div id="laneList" class="list"></div>
+
+  <div class="sec" id="feed"><h2>📰 Music Now</h2><span class="cap">live headlines — hip-hop &amp; music, auto-updating <span id="newsAgo" style="color:var(--dim)"></span></span></div>
+  <div id="newsBody"><div class="muted">Pulling the latest…</div></div>
 
   <div class="sec" id="radar"><h2>🌊 Wave Radar</h2><span class="cap">what's climbing fastest</span></div>
   <div id="radarBody"><div class="muted">Reading the charts…</div></div>
@@ -144,10 +174,20 @@ a{color:var(--gold);text-decoration:none}
     <div style="font-size:11.5px;color:var(--dim);margin-top:10px">Tap the squares to build a pattern. Tap a track's BPM above to match the tempo that's winning. (Headphones recommended.)</div>
   </div>
 
+  <div class="sec" id="more"><h2>🧪 More tools</h2><span class="cap">building next — tell us which first</span></div>
+  <div class="pat">
+    <div class="pcard soon"><div class="g">Reading the Music</div><div class="m">key, mood &amp; chord feel of what's working — not just BPM</div></div>
+    <div class="pcard soon"><div class="g">Eras &amp; Trends</div><div class="m">is the 80s sound coming back? what decade is rising right now</div></div>
+    <div class="pcard soon"><div class="g">How We Got Here</div><div class="m">the short history behind the sound you're chasing</div></div>
+    <div class="pcard soon"><div class="g">Closest Uncrowded Wave</div><div class="m">the open lane nearest YOUR sound — where to aim</div></div>
+    <div class="pcard soon"><div class="g">Your Growth Plan</div><div class="m">a saved weekly checklist of moves, tracked over time</div></div>
+    <div class="pcard soon"><div class="g">The Network</div><div class="m">collaborators, producers &amp; playlists in your lane</div></div>
+  </div>
+
   <div class="foot">
     Powered by <a href="/">LIMEN Helix</a> · Wave Radar &nbsp;·&nbsp; <span id="refresh"></span>
     <div class="pp">Live charts (Deezer, keyless) + Last.fm geo/lane leading signal. "Sounds like NF" neighborhood via Last.fm artist similarity. Tempo is measured in your browser from the 30-sec preview and cached so it sharpens for everyone. Emergence warms up as snapshots accrue. Beat Lab is a synth sketchpad, not a DAW.</div>
-    <div class="pp">Tempo, key &amp; mood data by <a href="https://getsongbpm.com" target="_blank" rel="noopener">GetSongBPM</a>.</div>
+    <div class="pp">Tempo, key &amp; mood data by <a href="https://getsongbpm.com" target="_blank" rel="noopener">GetSongBPM</a>. Music Now headlines via public RSS (XXL, AllHipHop, Billboard, Rolling Stone, Stereogum, Consequence) — links open the source.</div>
   </div>
 </div>
 
@@ -328,13 +368,76 @@ a{color:var(--gold);text-decoration:none}
     h+='</div>';
     var el=document.getElementById('featured'); el.innerHTML=h; bindRows(el);
   }
-  function renderNeighborhood(nb){
-    if(!nb||!nb.length) return;
-    document.getElementById('lane').style.display='flex';
-    var h='<span class="nb" style="border-color:rgba(201,169,78,.4);color:var(--gold)">your sonic neighborhood →</span>';
-    nb.slice(0,12).forEach(function(a){ h+='<span class="nb"><b>'+esc(a.name)+'</b></span>'; });
-    document.getElementById('neighborhood').innerHTML=h;
+  var artistCache={};
+  function playArtist(name,btn){
+    if(artistCache[name]){ playPreview(artistCache[name],btn); return; }
+    if(artistCache[name]===null){ return; }
+    var t0=btn.textContent; btn.textContent='…';
+    fetch('/api/wave-radar?artist='+encodeURIComponent(name)).then(function(r){return r.json();}).then(function(j){
+      if(j.ok&&j.track&&j.track.preview){ artistCache[name]=j.track.preview; btn.textContent='▶'; playPreview(j.track.preview,btn); }
+      else { artistCache[name]=null; btn.textContent='—'; }
+    }).catch(function(){ btn.textContent=t0||'▶'; });
   }
+  function renderNeighborhood(nb,loves){
+    if((!nb||!nb.length)&&(!loves||!loves.length)) return;
+    document.getElementById('lane').style.display='flex';
+    var h='';
+    if(loves&&loves.length){ h+='<div class="loves">Built from artists you rate — <b>'+loves.map(esc).join('</b>, <b>')+'</b>. Your sonic neighborhood (hear them ▶, then study · pitch a feature · target their playlists):</div>'; }
+    if(nb&&nb.length){
+      h+='<div class="nbgrid">';
+      nb.slice(0,14).forEach(function(a){
+        var mt=a.match?('<span class="mt">'+Math.round(a.match*100)+'%</span>'):'';
+        h+='<div class="nbc"><button class="play nbp" data-artist="'+esc(a.name)+'">▶</button><span class="nm" title="'+esc(a.name)+'">'+esc(a.name)+'</span>'+mt+
+          '<a class="yt" href="https://www.youtube.com/results?search_query='+encodeURIComponent(a.name+' music')+'" target="_blank" rel="noopener" title="open on YouTube">↗</a></div>';
+      });
+      h+='</div>';
+    }
+    var el=document.getElementById('neighborhood'); el.innerHTML=h;
+    el.querySelectorAll('.nbp').forEach(function(b){ b.onclick=function(){ playArtist(b.getAttribute('data-artist'),b); }; });
+  }
+
+  // ---- Music Now (free RSS, auto-updating) ----
+  function timeAgo(ts){ if(!ts)return''; var m=Math.round((Date.now()-ts)/60000); if(m<1)return'just now'; if(m<60)return m+'m ago'; var hh=Math.round(m/60); if(hh<24)return hh+'h ago'; return Math.round(hh/24)+'d ago'; }
+  function loadNews(){
+    fetch('/api/music-feed').then(function(r){return r.json();}).then(function(j){
+      var el=document.getElementById('newsBody');
+      if(!j.ok||!j.items||!j.items.length){ el.innerHTML='<div class="muted">Feed is quiet — check back shortly.</div>'; return; }
+      var h='<div class="news">';
+      j.items.slice(0,18).forEach(function(it){
+        h+='<a class="nitem" href="'+esc(it.link)+'" target="_blank" rel="noopener"><div class="nt">'+esc(it.title)+'</div><div class="ns">'+esc(it.src)+' <span class="ago">· '+timeAgo(it.ts)+'</span></div></a>';
+      });
+      el.innerHTML=h+'</div>';
+      var na=document.getElementById('newsAgo'); if(na&&j.updated) na.textContent='· refreshed '+timeAgo(j.updated);
+    }).catch(function(){ document.getElementById('newsBody').innerHTML='<div class="muted">Couldn’t load the feed.</div>'; });
+  }
+  loadNews(); setInterval(loadNews, 5*60*1000);
+
+  // ---- Radar "activating" animation (lightweight canvas; ~4s spin-up then settles) ----
+  (function(){
+    var c=document.getElementById('radarFx'); if(!c) return; var x=c.getContext('2d');
+    var W=210,H=210,cx=W/2,cy=H/2,RAD=W/2-7, dpr=Math.min(window.devicePixelRatio||1,2);
+    c.width=W*dpr; c.height=H*dpr; c.style.width=W+'px'; c.style.height=H+'px'; x.scale(dpr,dpr);
+    var blips=[]; for(var i=0;i<7;i++){ blips.push({a:(i*0.91)%(Math.PI*2), r:26+((i*37)%(RAD-30))}); }
+    var start=null, ang=-Math.PI/2;
+    function frame(ts){
+      if(start===null)start=ts; var el=(ts-start)/1000;
+      var speed=el<4?(3.4-el*0.62):0.95; ang+=speed*0.045;
+      x.clearRect(0,0,W,H);
+      x.strokeStyle='rgba(90,181,160,.16)'; x.lineWidth=1;
+      for(var rr=RAD;rr>10;rr-=RAD/4){ x.beginPath(); x.arc(cx,cy,rr,0,Math.PI*2); x.stroke(); }
+      x.beginPath(); x.moveTo(cx-RAD,cy); x.lineTo(cx+RAD,cy); x.moveTo(cx,cy-RAD); x.lineTo(cx,cy+RAD); x.stroke();
+      var g=x.createRadialGradient(cx,cy,0,cx,cy,RAD); g.addColorStop(0,'rgba(90,181,160,.34)'); g.addColorStop(1,'rgba(90,181,160,0)');
+      x.save(); x.translate(cx,cy); x.rotate(ang);
+      x.beginPath(); x.moveTo(0,0); x.arc(0,0,RAD,-0.42,0); x.closePath(); x.fillStyle=g; x.fill();
+      x.beginPath(); x.moveTo(0,0); x.lineTo(RAD,0); x.strokeStyle='rgba(90,181,160,.85)'; x.lineWidth=1.5; x.stroke();
+      x.restore();
+      blips.forEach(function(b){ var rel=((ang-b.a)%(Math.PI*2)+Math.PI*2)%(Math.PI*2); var glow=rel<0.55?(1-rel/0.55):0.05;
+        var bx=cx+Math.cos(b.a)*b.r, by=cy+Math.sin(b.a)*b.r; x.beginPath(); x.arc(bx,by,2.5,0,Math.PI*2); x.fillStyle='rgba(201,169,78,'+(0.12+glow*0.85)+')'; x.fill(); });
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+    setTimeout(function(){ var a=document.getElementById('activating'); if(a){ a.style.opacity='0'; setTimeout(function(){ a.innerHTML='● LIVE'; a.style.opacity='.9'; },600); } },4000);
+  })();
   function laneRow(r){
     var p=PH[r.phase]||PH.steady;
     var phaseChip=(r.points>=2)?('<span class="chip" style="color:'+p.c+';background:'+p.bg+'">'+p.l+'</span>'):'';
@@ -365,7 +468,7 @@ a{color:var(--gold);text-decoration:none}
     // Your Lane (rap · NF neighborhood, featuring DMAD) + Where it's rising (geo)
     LANE.featured=j.featured||[]; LANE.neighborhood=j.neighborhood||[]; LANE.you=(j.lane&&j.lane.you)||null; LANE.geo=(j.lane&&j.lane.geo)||null; LANE.patterns=j.patterns||[];
     renderFeatured(j.featured);
-    renderNeighborhood(j.neighborhood);
+    renderNeighborhood(j.neighborhood, j.loves);
     renderMoves();
     renderLane('laneList', j.lane&&j.lane.you);
     renderLane('geoList', j.lane&&j.lane.geo, 'geosec');

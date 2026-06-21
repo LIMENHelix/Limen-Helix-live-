@@ -68,15 +68,36 @@ async function fetchLfmTracks(src) {
   })).filter(r => r.name && r.artist);
 }
 
-// "Sounds like NF" — Last.fm artist neighborhood, cached weekly in the wave doc.
+// DMAD's sonic neighborhood — seeded from who he actually rates (NF + the artists he
+// loves), merged via Last.fm similarity, cached weekly. The seeds are his taste, the
+// neighbors are who to study / chase / pitch.
+const NF_SEEDS = ['NF', 'Mac Miller', 'Lecrae', 'Kid Cudi'];
 async function refreshNeighborhood(doc) {
   if (!LFM_KEY) return doc;
   const nf = doc.nf;
   if (nf && nf.t && (Date.now() - nf.t) < NF_REFRESH_MS && nf.artists && nf.artists.length) return doc;
-  const j = await fetchJSON(LFM_BASE + '?method=artist.getsimilar&artist=NF&autocorrect=1&api_key=' + LFM_KEY + '&format=json&limit=50');
-  const list = (j && j.similarartists && Array.isArray(j.similarartists.artist)) ? j.similarartists.artist : [];
-  if (list.length) doc.nf = { t: Date.now(), artists: list.map(a => ({ name: a.name || '', match: +a.match || 0 })).filter(a => a.name) };
+  const merged = {};
+  for (const seed of NF_SEEDS) {
+    const j = await fetchJSON(LFM_BASE + '?method=artist.getsimilar&artist=' + encodeURIComponent(seed) + '&autocorrect=1&api_key=' + LFM_KEY + '&format=json&limit=30');
+    const list = (j && j.similarartists && Array.isArray(j.similarartists.artist)) ? j.similarartists.artist : [];
+    list.forEach(a => { const n = (a.name || '').trim(); if (!n) return; const m = +a.match || 0; if (!(n in merged) || m > merged[n]) merged[n] = m; });
+  }
+  NF_SEEDS.forEach(s => { delete merged[s]; });  // don't recommend his own seeds back to him
+  const artists = Object.keys(merged).map(n => ({ name: n, match: merged[n] })).sort((a, b) => b.match - a.match).slice(0, 24);
+  if (artists.length) doc.nf = { t: Date.now(), artists: artists, loves: NF_SEEDS };
   return doc;
+}
+
+// Lazy lookup: a fresh, hearable Deezer track for one artist (neighbor ▶ on demand —
+// avoids per-view fan-out and the preview-URL expiry of caching them).
+async function lookupArtist(name) {
+  const j = await fetchJSON('https://api.deezer.com/search?q=' + encodeURIComponent('artist:"' + name + '"') + '&limit=1');
+  const d = (j && Array.isArray(j.data)) ? j.data : [];
+  if (!d.length) return null;
+  const t = d[0];
+  return { title: t.title || '', preview: t.preview || '', link: t.link || '',
+    cover: (t.album && (t.album.cover_small || t.album.cover)) || '',
+    artist: (t.artist && t.artist.name) || name, artistLink: (t.artist && t.artist.link) || '' };
 }
 
 // DMAD's tracks (Deezer, fetched live — preview URLs carry a short-lived exp= token).
@@ -226,6 +247,14 @@ module.exports = async function handler(req, res) {
     return res.end(JSON.stringify({ ok: true, updated: updated }));
   }
 
+  // Neighbor ▶: fresh hearable track for one artist (called on click, not per view).
+  const artistQ = u.searchParams.get('artist');
+  if (artistQ) {
+    let track = null; try { track = await lookupArtist(artistQ.slice(0, 80)); } catch (e) {}
+    res.statusCode = 200; res.setHeader('Cache-Control', 's-maxage=86400');
+    return res.end(JSON.stringify({ ok: !!track, track: track }));
+  }
+
   let snapshotTaken = false;
   try {
     if (force || (Date.now() - Number(doc.lastsnap || 0)) > SNAP_THROTTLE_MS) {
@@ -274,7 +303,8 @@ module.exports = async function handler(req, res) {
       lastSnapshot: doc.lastsnap || null, snapshotTaken: snapshotTaken,
       patterns: patterns, currentTop: currentTop, rising: rising, peaking: peaking, cooling: cooling,
       lfmOn: !!LFM_KEY, featured: featured,
-      neighborhood: ((doc.nf && doc.nf.artists) || []).slice(0, 14),
+      neighborhood: ((doc.nf && doc.nf.artists) || []).slice(0, 16),
+      loves: (doc.nf && doc.nf.loves) || NF_SEEDS,
       lane: { you: laneFor('you'), geo: laneFor('geo') },
       note: warming ? 'Radar is warming up — it set a baseline. Velocity/emergence appear once a second snapshot lands (a few hours). Tempo patterns below are live now.' : null
     }));
