@@ -22,6 +22,20 @@ const SOURCES = [
   { genre: 165, key: 'rnb',    label: 'R&B' },
   { genre: 152, key: 'rock',   label: 'Rock' }
 ];
+// Last.fm = the LEADING signal (geo velocity + your-lane). Key is operator-provided (Sensitive
+// Vercel env); tolerate the common names so a rename doesn't silently disable it.
+const LFM_KEY = process.env.LASTFM_API_KEY || process.env.LASTFM_KEY || process.env.LAST_FM_API_KEY || process.env.LASTFM || '';
+const LFM_BASE = 'https://ws.audioscrobbler.com/2.0/';
+const LFM_SOURCES = [
+  { key: 'rap',     label: 'Rap',     method: 'tag.gettoptracks',   q: 'tag=rap',                 lane: 'you' },
+  { key: 'hiphop2', label: 'Hip-Hop', method: 'tag.gettoptracks',   q: 'tag=hip-hop',             lane: 'you' },
+  { key: 'us',      label: 'US',      method: 'geo.gettoptracks',   q: 'country=United%20States', lane: 'geo' },
+  { key: 'global',  label: 'Global',  method: 'chart.gettoptracks', q: '',                        lane: 'geo' }
+];
+const NF_REFRESH_MS = 7 * 24 * 60 * 60 * 1000;   // refresh the "sounds like NF" neighborhood weekly
+const DMAD_ARTIST = '13573429';                  // DMAD on Deezer (fresh previews fetched per view)
+const DMAD_PREF = { '1583652152': 0, '1583652022': 1 };  // World Is Spinning, Nothing Less first
+
 const SNAP_THROTTLE_MS = 3 * 60 * 60 * 1000;
 const HIST_CAP = 48;
 const PRUNE_MS = 16 * 24 * 60 * 60 * 1000;
@@ -38,6 +52,47 @@ async function fetchJSON(url) {
   catch (e) { return null; }
 }
 async function fetchChart(genre) { const j = await fetchJSON('https://api.deezer.com/chart/' + genre + '/tracks?limit=50'); return (j && Array.isArray(j.data)) ? j.data : []; }
+
+function slug(s) { return String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 64); }
+
+// One Last.fm chart → normalized rows (rank = list order). No previews/BPM (Deezer owns audio).
+async function fetchLfmTracks(src) {
+  if (!LFM_KEY) return [];
+  const url = LFM_BASE + '?method=' + src.method + (src.q ? '&' + src.q : '') + '&api_key=' + LFM_KEY + '&format=json&limit=50';
+  const j = await fetchJSON(url);
+  const list = (j && j.tracks && Array.isArray(j.tracks.track)) ? j.tracks.track : [];
+  return list.map(t => ({
+    name: t.name || '', artist: (t.artist && t.artist.name) || '', url: t.url || '',
+    listeners: Number(t.listeners || 0) || 0,
+    image: (t.image && t.image.length ? (t.image[t.image.length - 1]['#text'] || '') : '')
+  })).filter(r => r.name && r.artist);
+}
+
+// "Sounds like NF" — Last.fm artist neighborhood, cached weekly in the wave doc.
+async function refreshNeighborhood(doc) {
+  if (!LFM_KEY) return doc;
+  const nf = doc.nf;
+  if (nf && nf.t && (Date.now() - nf.t) < NF_REFRESH_MS && nf.artists && nf.artists.length) return doc;
+  const j = await fetchJSON(LFM_BASE + '?method=artist.getsimilar&artist=NF&autocorrect=1&api_key=' + LFM_KEY + '&format=json&limit=50');
+  const list = (j && j.similarartists && Array.isArray(j.similarartists.artist)) ? j.similarartists.artist : [];
+  if (list.length) doc.nf = { t: Date.now(), artists: list.map(a => ({ name: a.name || '', match: +a.match || 0 })).filter(a => a.name) };
+  return doc;
+}
+
+// DMAD's tracks (Deezer, fetched live — preview URLs carry a short-lived exp= token).
+async function fetchFeatured() {
+  const j = await fetchJSON('https://api.deezer.com/artist/' + DMAD_ARTIST + '/top?limit=8');
+  const list = (j && Array.isArray(j.data)) ? j.data : [];
+  return list.map(t => ({
+    id: 'dz:' + t.id, title: t.title || '', artist: (t.artist && t.artist.name) || 'DMAD',
+    preview: t.preview || '', link: t.link || '', cover: (t.album && (t.album.cover_small || t.album.cover)) || '',
+    genre: 'rap', bpm: 0
+  })).sort((a, b) => {
+    const ai = DMAD_PREF[a.id.slice(3)] != null ? DMAD_PREF[a.id.slice(3)] : 9;
+    const bi = DMAD_PREF[b.id.slice(3)] != null ? DMAD_PREF[b.id.slice(3)] : 9;
+    return ai - bi;
+  });
+}
 
 async function takeSnapshot(doc) {
   const ts = Date.now();
@@ -56,13 +111,29 @@ async function takeSnapshot(doc) {
       }
     }
   }
+  // Last.fm sources (rap / hip-hop / US / global) flow through the SAME engine. Distinct id
+  // space (lfm:<src>:<slug>) so a song can chart in several lanes without colliding with Deezer.
+  if (LFM_KEY) {
+    for (const s of LFM_SOURCES) {
+      const rows = await fetchLfmTracks(s);
+      for (let i = 0; i < rows.length; i++) {
+        const r = rows[i], id = 'lfm:' + s.key + ':' + slug(r.artist + '-' + r.name), pos = i + 1;
+        if (!best[id] || pos < best[id].pos) {
+          best[id] = { pos: pos, g: s.key, glabel: s.label, title: r.name, artist: r.artist,
+            cover: r.image || '', link: r.url || '', preview: '', bpm: 0, src: 'lfm', lane: s.lane, listeners: r.listeners || 0 };
+        }
+      }
+    }
+  }
+
   if (!Object.keys(best).length) return doc;
   const tracks = doc.tracks || {};
   for (const id in best) {
     const b = best[id], rec = tracks[id] || { meta: {}, hist: [] }, prev = rec.meta || {};
     rec.meta = {
       title: b.title, artist: b.artist, cover: b.cover, link: b.link, genre: b.g, glabel: b.glabel,
-      preview: b.preview || prev.preview || '', bpm: prev.bpm || b.bpm || 0, bpmTried: prev.bpmTried || b.bpm > 0
+      preview: b.preview || prev.preview || '', bpm: prev.bpm || b.bpm || 0, bpmTried: prev.bpmTried || b.bpm > 0,
+      src: b.src || 'deezer', lane: b.lane || '', listeners: b.listeners || prev.listeners || 0
     };
     rec.hist.push({ t: ts, p: b.pos, g: b.g });
     if (rec.hist.length > HIST_CAP) rec.hist = rec.hist.slice(rec.hist.length - HIST_CAP);
@@ -148,8 +219,12 @@ module.exports = async function handler(req, res) {
     if (force || (Date.now() - Number(doc.lastsnap || 0)) > SNAP_THROTTLE_MS) {
       const next = await takeSnapshot(doc);
       if (next.lastsnap) { doc = next; snapshotTaken = true; }
+      try { doc = await refreshNeighborhood(doc); } catch (e) {}
     }
   } catch (e) {}
+
+  // DMAD's catalog, fetched live (previews expire); cheap external call, no Redis cost.
+  let featured = []; try { featured = await fetchFeatured(); } catch (e) {}
 
   try {
     const tracks = doc.tracks || {};
@@ -160,18 +235,35 @@ module.exports = async function handler(req, res) {
     if (snapshotTaken) { try { await db.set('wave:db', doc); } catch (e) {} }
 
     const slim = r => ({ id: r.id, title: r.title, artist: r.artist, glabel: r.glabel, genre: r.genre, cur: r.cur, bpm: r.bpm || 0, preview: r.preview || '', link: r.link || '', phase: r.phase, velocity: r.velocity, emergence: r.emergence, points: r.points });
-    const warming = !rows.length || rows.every(r => r.points < 2);
-    const rising = rows.filter(r => r.phase === 'emerging' || r.phase === 'rising').sort((a, b) => b.emergence - a.emergence).slice(0, 20).map(slim);
-    const peaking = rows.filter(r => r.phase === 'peaking').sort((a, b) => a.cur - b.cur).slice(0, 12).map(slim);
-    const cooling = rows.filter(r => r.phase === 'cooling').sort((a, b) => a.velocity - b.velocity).slice(0, 10).map(slim);
-    const currentTop = rows.slice().sort((a, b) => a.cur - b.cur).slice(0, 24).map(slim);
+
+    // Main radar = Deezer chart-rank waves. Last.fm = a separate leading lens (geo + your lane).
+    const dz = rows.filter(r => r.src !== 'lfm');
+    const lfm = rows.filter(r => r.src === 'lfm');
+    const nbset = new Set(((doc.nf && doc.nf.artists) || []).map(a => String(a.name || '').toLowerCase()));
+    const slimL = r => ({ id: r.id, title: r.title, artist: r.artist, glabel: r.glabel, cur: r.cur, listeners: r.listeners || 0, link: r.link || '', phase: r.phase, velocity: r.velocity, emergence: r.emergence, points: r.points, mine: nbset.has(String(r.artist || '').toLowerCase()) });
+    const laneFor = (which) => {
+      const pool = lfm.filter(r => r.lane === which);
+      const rising = pool.filter(r => r.phase === 'emerging' || r.phase === 'rising').sort((a, b) => b.emergence - a.emergence).slice(0, 14);
+      // While warming (no velocity yet) fall back to current top of the lane so it's never empty.
+      const items = rising.length ? rising : pool.slice().sort((a, b) => a.cur - b.cur).slice(0, 14);
+      return { items: items.map(slimL), rising: rising.length > 0 };
+    };
+
+    const warming = !dz.length || dz.every(r => r.points < 2);
+    const rising = dz.filter(r => r.phase === 'emerging' || r.phase === 'rising').sort((a, b) => b.emergence - a.emergence).slice(0, 20).map(slim);
+    const peaking = dz.filter(r => r.phase === 'peaking').sort((a, b) => a.cur - b.cur).slice(0, 12).map(slim);
+    const cooling = dz.filter(r => r.phase === 'cooling').sort((a, b) => a.velocity - b.velocity).slice(0, 10).map(slim);
+    const currentTop = dz.slice().sort((a, b) => a.cur - b.cur).slice(0, 24).map(slim);
     const patterns = tempoPatterns(rows);
 
     res.statusCode = 200;
     return res.end(JSON.stringify({
-      ok: true, warming: warming, tracked: rows.length, withBpm: rows.filter(r => r.bpm > 0).length,
+      ok: true, warming: warming, tracked: dz.length, withBpm: dz.filter(r => r.bpm > 0).length,
       lastSnapshot: doc.lastsnap || null, snapshotTaken: snapshotTaken,
       patterns: patterns, currentTop: currentTop, rising: rising, peaking: peaking, cooling: cooling,
+      lfmOn: !!LFM_KEY, featured: featured,
+      neighborhood: ((doc.nf && doc.nf.artists) || []).slice(0, 14),
+      lane: { you: laneFor('you'), geo: laneFor('geo') },
       note: warming ? 'Radar is warming up — it set a baseline. Velocity/emergence appear once a second snapshot lands (a few hours). Tempo patterns below are live now.' : null
     }));
   } catch (e) {

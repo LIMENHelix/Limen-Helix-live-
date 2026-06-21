@@ -69,6 +69,15 @@ a{color:var(--gold);text-decoration:none}
 .cell.on{background:var(--gold);border-color:var(--gold)}
 .cell.beat{border-color:rgba(201,169,78,0.4)}
 .cell.play{outline:2px solid var(--rise)}
+.feat{display:grid;grid-template-columns:repeat(auto-fill,minmax(252px,1fr));gap:10px;margin:8px 0 10px}
+.fcard{display:flex;gap:11px;align-items:center;background:linear-gradient(180deg,rgba(201,169,78,.06),var(--panel));border:1px solid rgba(201,169,78,.32);border-radius:12px;padding:11px 13px}
+.fcard img,.fcard .ph{width:48px;height:48px;border-radius:8px;object-fit:cover;flex:0 0 48px;background:var(--panel2)}
+.fcard .ti{font-size:14px;font-weight:600;line-height:1.2}.fcard .ar{font-size:12px;color:var(--gold)}
+.nbhd{display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 14px}
+.nbhd .nb{font-size:11px;color:var(--dim);border:1px solid var(--line);border-radius:20px;padding:3px 9px}
+.nbhd .nb b{color:var(--ink)}
+.mine{color:var(--gold)}
+.row.mine-row{border-color:rgba(201,169,78,.4)}
 .foot{text-align:center;color:var(--dim);font-size:12px;padding:30px 0 50px;border-top:1px solid var(--line);margin-top:34px}
 .foot .pp{font-size:11px;margin-top:6px}
 </style>
@@ -84,7 +93,7 @@ a{color:var(--gold);text-decoration:none}
     <div class="kicker">Artist superpower · live</div>
     <h1>See the wave. Hear the hits. Make the beat.</h1>
     <p>Emergence is <b>acceleration, not size.</b> Below: the sounds climbing fastest right now, the <b>tempos</b> hits are actually using (measured from the audio), 30-second previews you can hear, and a <b>Beat Lab</b> that locks to the hottest BPM so you can sketch on the wave.</p>
-    <div class="tabs"><a href="#radar">🌊 Radar</a><a href="#xray">🎛 Hit X-Ray</a><a href="#lab">🥁 Beat Lab</a></div>
+    <div class="tabs"><a href="#lane">🎤 Your Lane</a><a href="#radar">🌊 Radar</a><a href="#geosec">🌍 Where it's rising</a><a href="#xray">🎛 Hit X-Ray</a><a href="#lab">🥁 Beat Lab</a></div>
     <div class="legend">
       <span><i class="dot" style="background:var(--emerge)"></i>Emerging</span>
       <span><i class="dot" style="background:var(--rise)"></i>Rising</span>
@@ -95,8 +104,16 @@ a{color:var(--gold);text-decoration:none}
 
   <div id="banner"></div>
 
+  <div class="sec" id="lane" style="display:none"><h2>🎤 Your Lane</h2><span class="cap">rap · sounds like NF — featuring DMAD</span></div>
+  <div id="featured"></div>
+  <div id="neighborhood" class="nbhd"></div>
+  <div id="laneList" class="list"></div>
+
   <div class="sec" id="radar"><h2>🌊 Wave Radar</h2><span class="cap">what's climbing fastest</span></div>
   <div id="radarBody"><div class="muted">Reading the charts…</div></div>
+
+  <div class="sec" id="geosec" style="display:none"><h2>🌍 Where it's rising</h2><span class="cap">Last.fm geo + global — the leading signal</span></div>
+  <div id="geoList" class="list"></div>
 
   <div class="sec" id="xray"><h2>🎛 Hit X-Ray</h2><span class="cap">tempos measured from the audio — tap a BPM to load it into the Beat Lab</span></div>
   <div id="patterns"></div>
@@ -116,7 +133,7 @@ a{color:var(--gold);text-decoration:none}
 
   <div class="foot">
     Powered by <a href="/">LIMEN Helix</a> · Wave Radar &nbsp;·&nbsp; <span id="refresh"></span>
-    <div class="pp">Live charts (Deezer, keyless). Tempo is measured in your browser from the 30-sec preview and cached so it sharpens for everyone. Emergence warms up as snapshots accrue. Beat Lab is a synth sketchpad, not a DAW.</div>
+    <div class="pp">Live charts (Deezer, keyless) + Last.fm geo/lane leading signal. "Sounds like NF" neighborhood via Last.fm artist similarity. Tempo is measured in your browser from the 30-sec preview and cached so it sharpens for everyone. Emergence warms up as snapshots accrue. Beat Lab is a synth sketchpad, not a DAW.</div>
     <div class="pp">Tempo, key &amp; mood data by <a href="https://getsongbpm.com" target="_blank" rel="noopener">GetSongBPM</a>.</div>
   </div>
 </div>
@@ -224,6 +241,45 @@ a{color:var(--gold);text-decoration:none}
     next();
   }
   function fmtAgo(ts){ if(!ts)return''; var m=Math.round((Date.now()-ts)/60000); return m<60?(m+' min ago'):(Math.round(m/60)+' h ago'); }
+  function fmtNum(n){ try{return new Intl.NumberFormat().format(n);}catch(e){return ''+n;} }
+
+  // ---- Your Lane (rap / like NF) + Where it's rising (geo) — Last.fm leading signal ----
+  function renderFeatured(featured){
+    if(!featured||!featured.length) return;
+    document.getElementById('lane').style.display='flex';
+    var h='<div class="feat">';
+    featured.forEach(function(t){
+      h+='<div class="fcard">'+(t.cover?'<img src="'+esc(t.cover)+'" alt="">':'<div class="ph"></div>')+
+        '<div style="flex:1;min-width:0"><div class="ti">'+esc(t.title)+'</div><div class="ar">'+esc(t.artist)+'</div>'+
+        '<div class="meta"><span class="bpm" data-id="'+esc(t.id)+'" data-bpm="0">···</span>'+
+        (t.link?'<a class="gtag" href="'+esc(t.link)+'" target="_blank" rel="noopener">open ↗</a>':'')+'</div></div>'+
+        (t.preview?'<button class="play" data-prev="'+esc(t.preview)+'">▶</button>':'<span></span>')+'</div>';
+    });
+    h+='</div>';
+    var el=document.getElementById('featured'); el.innerHTML=h; bindRows(el);
+  }
+  function renderNeighborhood(nb){
+    if(!nb||!nb.length) return;
+    document.getElementById('lane').style.display='flex';
+    var h='<span class="nb" style="border-color:rgba(201,169,78,.4);color:var(--gold)">your sonic neighborhood →</span>';
+    nb.slice(0,12).forEach(function(a){ h+='<span class="nb"><b>'+esc(a.name)+'</b></span>'; });
+    document.getElementById('neighborhood').innerHTML=h;
+  }
+  function laneRow(r){
+    var p=PH[r.phase]||PH.steady;
+    var phaseChip=(r.points>=2)?('<span class="chip" style="color:'+p.c+';background:'+p.bg+'">'+p.l+'</span>'):'';
+    var star=r.mine?'<span class="mine" title="in your NF neighborhood">★</span> ':'';
+    var listeners=r.listeners?('<span class="gtag">'+fmtNum(r.listeners)+' listeners</span>'):'';
+    var link=r.link?'<a class="gtag" href="'+esc(r.link)+'" target="_blank" rel="noopener">↗</a>':'';
+    return '<div class="row'+(r.mine?' mine-row':'')+'"><div class="rk">#'+r.cur+'</div><div><div class="ti">'+star+esc(r.title)+'</div><div class="ar">'+esc(r.artist)+'</div><div class="meta">'+phaseChip+'<span class="gtag">'+esc(r.glabel||'')+'</span>'+listeners+link+'</div></div><div></div></div>';
+  }
+  function renderLane(elId,lane,secId){
+    var el=document.getElementById(elId); if(!el) return;
+    if(!lane||!lane.items||!lane.items.length){ el.innerHTML=''; return; }
+    if(secId) document.getElementById(secId).style.display='flex';
+    document.getElementById('lane').style.display='flex';
+    var h=''; lane.items.forEach(function(r){ h+=laneRow(r); }); el.innerHTML=h;
+  }
 
   fetch('/api/wave-radar').then(function(r){return r.json();}).then(function(j){
     document.getElementById('refresh').textContent=j.lastSnapshot?('updated '+fmtAgo(j.lastSnapshot)+' · '+j.tracked+' tracks'):'';
@@ -236,12 +292,19 @@ a{color:var(--gold);text-decoration:none}
     if(!h) h='<div class="muted">Baseline set — emerging waves light up once a second snapshot lands (a few hours). Meanwhile the Hit X-Ray and Beat Lab below are live.</div>';
     rb.innerHTML=h; bindRows(rb);
 
+    // Your Lane (rap · NF neighborhood, featuring DMAD) + Where it's rising (geo)
+    renderFeatured(j.featured);
+    renderNeighborhood(j.neighborhood);
+    renderLane('laneList', j.lane&&j.lane.you);
+    renderLane('geoList', j.lane&&j.lane.geo, 'geosec');
+
     var tl=document.getElementById('topList'),th='';
     (j.currentTop||[]).forEach(function(r){ th+=trackRow(r,false); });
     tl.innerHTML=th||'<div class="muted">Loading…</div>'; bindRows(tl);
 
     var all={};
     [].concat(j.currentTop||[],j.rising||[],j.peaking||[],j.cooling||[]).forEach(function(r){ if(!all[r.id]) all[r.id]={id:r.id,genre:r.genre,preview:r.preview,bpm:r.bpm||0}; });
+    (j.featured||[]).forEach(function(r){ if(r.preview&&!all[r.id]) all[r.id]={id:r.id,genre:'rap',preview:r.preview,bpm:0}; });
     runDetection(Object.keys(all).map(function(k){return all[k];}));
   }).catch(function(){ document.getElementById('radarBody').innerHTML='<div class="muted">Couldn’t reach the radar.</div>'; });
 
