@@ -31,6 +31,7 @@ const HANDLERS = {
   'music-coach': require('../handlers/music-coach'),
   'release-engine': require('../handlers/release-engine'),
   'hook-studio': require('../handlers/hook-studio'),
+  'site-request': require('../handlers/site-request'),
   'api-keys-config': require('../handlers/api-keys-config'),
   'asset-quote': require('../handlers/asset-quote'),
   'biosensor-state': require('../handlers/biosensor-state'),

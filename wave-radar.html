@@ -130,6 +130,8 @@ h1.wm{font-size:clamp(38px,9vw,74px);line-height:.92;letter-spacing:-1.5px;margi
 .coach .msg.err{color:var(--cool);border-color:rgba(232,115,107,.3)}
 .coach .ask{display:flex;gap:8px}
 .coach .ask input{flex:1;background:var(--panel2);border:1px solid var(--line);border-radius:8px;color:var(--ink);font:inherit;font-size:14px;padding:10px 12px;outline:none}
+.coach .reqbox{margin-top:13px;padding-top:12px;border-top:1px solid var(--line)}
+.coach .reqlabel{font-size:12px;color:var(--dim);margin-bottom:8px}
 /* Hook Studio — write hooks on demand */
 .studio{background:linear-gradient(180deg,rgba(110,168,224,.05),var(--panel));border:1px solid rgba(110,168,224,.26);border-radius:14px;padding:15px 16px;margin:0 0 16px}
 .studio .shd{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px}
@@ -238,6 +240,11 @@ h1.wm{font-size:clamp(38px,9vw,74px);line-height:.92;letter-spacing:-1.5px;margi
       <div class="log" id="coachLog"></div>
       <div class="ask"><input id="coachMsg" placeholder="Ask LIMEN anything…"><button class="go" id="coachSend">Send</button></div>
       <div class="hint" id="coachLeft"></div>
+      <div class="reqbox">
+        <div class="reqlabel">🛠 Want LIMEN to change something here? Tell me — I'll pass it straight to the Creator.</div>
+        <div class="ask"><input id="reqMsg" placeholder="e.g. add a lyrics notepad, change the colors, build a new tool…"><button class="go" id="reqSend">Send request</button></div>
+        <div class="hint" id="reqOut"></div>
+      </div>
     </div>
   </div>
 
@@ -613,6 +620,17 @@ h1.wm{font-size:clamp(38px,9vw,74px);line-height:.92;letter-spacing:-1.5px;margi
       else send(a,''); }; });
     document.getElementById('coachSend').onclick=function(){ var v=document.getElementById('coachMsg'); var m=v.value.trim(); if(!m)return; v.value=''; send('ask',m); };
     document.getElementById('coachMsg').addEventListener('keydown',function(e){ if(e.key==='Enter')document.getElementById('coachSend').click(); });
+    // site change requests → emailed to the Creator
+    var reqBtn=document.getElementById('reqSend');
+    reqBtn.onclick=function(){ var v=document.getElementById('reqMsg'), m=v.value.trim(), out=document.getElementById('reqOut'), p=gp('coach_pass');
+      if(!m)return; if(!p){ out.textContent='Sign in first.'; return; } reqBtn.disabled=true; out.textContent='sending…';
+      fetch('/api/site-request',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({passcode:p,message:m,sourcePage:location.pathname})})
+        .then(function(r){return r.json();}).then(function(j){ reqBtn.disabled=false;
+          if(j&&j.ok){ v.value=''; out.textContent=j.emailed?'Sent to the Creator ✓':'Logged for the Creator ✓'; }
+          else { out.textContent=(j&&j.error)||'Couldn’t send — try again.'; }
+        }).catch(function(){ reqBtn.disabled=false; out.textContent='Network hiccup — try again.'; });
+    };
+    document.getElementById('reqMsg').addEventListener('keydown',function(e){ if(e.key==='Enter')reqBtn.click(); });
     if(gp('coach_pass')) showPanel(gp('coach_who'));
   })();
 
