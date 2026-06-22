@@ -108,6 +108,28 @@ h1.wm{font-size:clamp(38px,9vw,74px);line-height:.92;letter-spacing:-1.5px;margi
 .nbc .nmeta{font-size:11px;color:var(--emerge)}.nbc .nmeta .ls{color:var(--dim)}
 .nbc .story{font-size:12px;color:#b9c2c0;line-height:1.46}
 .nbc .story.empty{color:var(--dim);opacity:.7;font-style:italic}
+/* Talk to LIMEN — the coach */
+.coach{background:linear-gradient(180deg,rgba(201,169,78,.06),var(--panel));border:1px solid rgba(201,169,78,.3);border-radius:14px;padding:15px 16px 13px;margin:16px 0}
+.coach .chd{display:flex;align-items:center;gap:10px;margin-bottom:11px}
+.coach .chd .dotlive{width:8px;height:8px;border-radius:50%;background:var(--emerge);box-shadow:0 0 9px var(--emerge);flex:0 0 8px}
+.coach .chd h3{font-size:15px;letter-spacing:.3px}
+.coach .chd .sub{font-size:11px;color:var(--dim);margin-left:auto;text-align:right}
+.coach .signin{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.coach .signin input{flex:1;min-width:150px;background:var(--panel2);border:1px solid var(--line);border-radius:8px;color:var(--ink);font:inherit;font-size:14px;padding:9px 12px;outline:none}
+.coach button.go{background:var(--gold);color:#1a1407;border:none;border-radius:8px;font:inherit;font-weight:700;font-size:13px;padding:9px 16px;cursor:pointer}
+.coach .hint{font-size:11.5px;color:var(--dim);margin-top:8px;line-height:1.5}
+.coach .qa{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:11px}
+.coach .qa button{background:rgba(201,169,78,.1);border:1px solid rgba(201,169,78,.42);color:var(--gold);font:inherit;font-weight:600;font-size:13px;padding:8px 13px;border-radius:8px;cursor:pointer}
+.coach .qa button:hover{background:rgba(201,169,78,.2)}
+.coach .log{display:flex;flex-direction:column;gap:9px;max-height:440px;overflow-y:auto;margin-bottom:10px}
+.coach .msg{font-size:13.5px;line-height:1.5;border-radius:10px;padding:10px 13px;white-space:pre-wrap;word-wrap:break-word}
+.coach .msg.you{background:var(--panel2);border:1px solid var(--line);align-self:flex-end;max-width:85%}
+.coach .msg.limen{background:rgba(90,181,160,.07);border:1px solid rgba(90,181,160,.22);align-self:flex-start;max-width:94%}
+.coach .msg.limen b{color:var(--gold)}
+.coach .msg.typing{color:var(--dim);font-style:italic}
+.coach .msg.err{color:var(--cool);border-color:rgba(232,115,107,.3)}
+.coach .ask{display:flex;gap:8px}
+.coach .ask input{flex:1;background:var(--panel2);border:1px solid var(--line);border-radius:8px;color:var(--ink);font:inherit;font-size:14px;padding:10px 12px;outline:none}
 /* eras radar — coming back */
 .openlane{background:linear-gradient(180deg,rgba(90,181,160,.08),var(--panel));border:1px solid rgba(90,181,160,.35);border-left:3px solid var(--emerge);border-radius:11px;padding:13px 15px;margin:6px 0 12px}
 .openlane h4{font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--emerge);margin-bottom:5px;font-weight:700}
@@ -147,7 +169,7 @@ h1.wm{font-size:clamp(38px,9vw,74px);line-height:.92;letter-spacing:-1.5px;margi
     <h1 class="wm">WAVE RADAR</h1>
     <div class="kicker">Artist superpower · live · free</div>
     <p>Emergence is <b>acceleration, not size.</b> See the sounds climbing fastest, what to <b>do</b> with it in your lane, live music news, the <b>tempos</b> hits are using, 30-sec previews, and a <b>Beat Lab</b> that locks to the hottest BPM.</p>
-    <div class="tabs"><a href="#lane">🎤 Your Lane</a><a href="#feed">📰 Music Now</a><a href="#radar">🌊 Radar</a><a href="#comingback">🔁 Coming Back</a><a href="#xray">🎛 Hit X-Ray</a><a href="#lab">🥁 Beat Lab</a></div>
+    <div class="tabs"><a href="#coach">🤖 Talk to LIMEN</a><a href="#lane">🎤 Your Lane</a><a href="#feed">📰 Music Now</a><a href="#comingback">🔁 Coming Back</a><a href="#xray">🎛 Hit X-Ray</a><a href="#lab">🥁 Beat Lab</a></div>
     <div class="legend">
       <span><i class="dot" style="background:var(--emerge)"></i>Emerging</span>
       <span><i class="dot" style="background:var(--rise)"></i>Rising</span>
@@ -157,6 +179,27 @@ h1.wm{font-size:clamp(38px,9vw,74px);line-height:.92;letter-spacing:-1.5px;margi
   </div>
 
   <div id="banner"></div>
+
+  <div class="coach" id="coach">
+    <div class="chd"><span class="dotlive"></span><h3>Talk to LIMEN</h3><span class="sub" id="coachWho">your growth coach</span></div>
+    <div id="coachGate">
+      <div class="signin">
+        <input id="coachPass" type="password" placeholder="your passcode" autocomplete="off">
+        <button class="go" id="coachIn">Sign in</button>
+      </div>
+      <div class="hint" id="coachGateMsg">Built by your father. Sign in with your passcode and I'll give you <b>moves, not lectures</b> — a plan for the week, a hook on demand, a playlist pitch you can send today.</div>
+    </div>
+    <div id="coachPanel" style="display:none">
+      <div class="qa">
+        <button data-act="plan">📅 Plan my week</button>
+        <button data-act="hook">✍️ Write a hook</button>
+        <button data-act="pitch">📤 Pitch a playlist</button>
+      </div>
+      <div class="log" id="coachLog"></div>
+      <div class="ask"><input id="coachMsg" placeholder="Ask LIMEN anything…"><button class="go" id="coachSend">Send</button></div>
+      <div class="hint" id="coachLeft"></div>
+    </div>
+  </div>
 
   <div class="sec" id="lane" style="display:none"><h2>🎤 Your Lane</h2><span class="cap">rap · sounds like NF — featuring DMAD</span></div>
   <div id="moves"></div>
@@ -459,6 +502,57 @@ h1.wm{font-size:clamp(38px,9vw,74px);line-height:.92;letter-spacing:-1.5px;margi
     if(note) note.textContent=j.erasWarming?'· baseline set — the trend sharpens as snapshots accrue':('· from '+(j.erasSample||0)+' charting tracks · % = share of new hits');
   }
 
+  // ---- Talk to LIMEN — the coach (gated to his login, grounded in his live data) ----
+  var coachCtx={};
+  function setCoachCtx(j){
+    coachCtx={
+      pocketBpm:(lanePocket()||{}).median||0,
+      openLane:(j&&j.openLane&&j.openLane.label)||'',
+      neighbors:(LANE.neighborhood||[]).slice(0,6).map(function(a){return a.name;}),
+      rising:((LANE.you&&LANE.you.items)||[]).slice(0,4).map(function(r){return r.artist+' - '+r.title;})
+    };
+  }
+  (function(){
+    function gp(k){ try{return sessionStorage.getItem(k)||'';}catch(e){return'';} }
+    function sp(k,v){ try{sessionStorage.setItem(k,v);}catch(e){} }
+    function fmt(t){ return esc(t).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>'); }
+    var logEl=document.getElementById('coachLog'), busy=false;
+    function add(role,text){ var d=document.createElement('div'); d.className='msg '+role; if(role==='limen')d.innerHTML=fmt(text); else d.textContent=text; logEl.appendChild(d); logEl.scrollTop=logEl.scrollHeight; return d; }
+    function showPanel(who){ document.getElementById('coachGate').style.display='none'; document.getElementById('coachPanel').style.display='block'; if(who)document.getElementById('coachWho').textContent=who; }
+    function labBpm(){ var v=document.getElementById('lbBpmVal'); return v?parseInt(v.textContent,10)||0:0; }
+    function send(action,message){
+      if(busy)return; var p=gp('coach_pass'); if(!p)return; busy=true;
+      var label=action==='plan'?'Plan my week':action==='hook'?('Write me a hook'+(message?(' about '+message):'')):action==='pitch'?('Draft a playlist pitch'+(message?(' for '+message):'')):message;
+      add('you',label);
+      var t=add('limen','LIMEN is thinking…'); t.className='msg limen typing';
+      var ctx=Object.assign({},coachCtx,{labBpm:labBpm()});
+      fetch('/api/music-coach',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({passcode:p,action:action,message:message||'',context:ctx})})
+        .then(function(r){return r.json().then(function(j){return{s:r.status,j:j};});})
+        .then(function(o){ busy=false;
+          if(o.j&&o.j.ok){ t.className='msg limen'; t.innerHTML=fmt(o.j.reply); if(o.j.left!=null)document.getElementById('coachLeft').textContent=o.j.left+' messages left today'; }
+          else { t.className='msg limen err'; t.textContent=(o.j&&o.j.error)||'Something went wrong.'; if(o.s===403){ document.getElementById('coachGate').style.display='block'; document.getElementById('coachPanel').style.display='none'; } }
+          logEl.scrollTop=logEl.scrollHeight;
+        }).catch(function(){ busy=false; t.className='msg limen err'; t.textContent='Network hiccup — try again.'; });
+    }
+    document.getElementById('coachIn').onclick=function(){
+      var p=document.getElementById('coachPass').value.trim(); if(!p)return;
+      var m=document.getElementById('coachGateMsg'); m.textContent='checking…';
+      fetch('/api/admin-auth',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({passcode:p})})
+        .then(function(r){return r.json();}).then(function(j){
+          if(j&&j.ok){ sp('coach_pass',p); sp('coach_who',(j.person&&j.person.name)||''); showPanel((j.person&&j.person.name)||''); add('limen',"You're in. Tell me what you're working on — or hit a button up top and I'll get you moving."); }
+          else { m.textContent='That passcode didn’t work. Try again.'; }
+        }).catch(function(){ m.textContent='Error — try again.'; });
+    };
+    document.getElementById('coachPass').addEventListener('keydown',function(e){ if(e.key==='Enter')document.getElementById('coachIn').click(); });
+    document.querySelectorAll('#coachPanel .qa button').forEach(function(b){ b.onclick=function(){ var a=b.getAttribute('data-act');
+      if(a==='hook'){ var th=prompt('Hook about… (optional — leave blank and I’ll fit your lane)'); send('hook',(th||'').trim()); }
+      else if(a==='pitch'){ var tg=prompt('Pitch target — a playlist or curator (optional)'); send('pitch',(tg||'').trim()); }
+      else send(a,''); }; });
+    document.getElementById('coachSend').onclick=function(){ var v=document.getElementById('coachMsg'); var m=v.value.trim(); if(!m)return; v.value=''; send('ask',m); };
+    document.getElementById('coachMsg').addEventListener('keydown',function(e){ if(e.key==='Enter')document.getElementById('coachSend').click(); });
+    if(gp('coach_pass')) showPanel(gp('coach_who'));
+  })();
+
   // ---- Radar "activating" animation (lightweight canvas; ~4s spin-up then settles) ----
   (function(){
     var c=document.getElementById('radarFx'); if(!c) return; var x=c.getContext('2d');
@@ -520,6 +614,7 @@ h1.wm{font-size:clamp(38px,9vw,74px);line-height:.92;letter-spacing:-1.5px;margi
     renderLane('laneList', j.lane&&j.lane.you);
     renderLane('geoList', j.lane&&j.lane.geo, 'geosec');
     renderEras(j);
+    setCoachCtx(j);
 
     var tl=document.getElementById('topList'),th='';
     (j.currentTop||[]).forEach(function(r){ th+=trackRow(r,false); });
