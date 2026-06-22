@@ -47,6 +47,36 @@ a{color:var(--steel);text-decoration:none}
 .scard{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
 .scard .t{font-size:14px;font-weight:600;color:var(--steel)}.scard .d{font-size:12.5px;color:var(--dim);margin-top:4px}
 .muted{color:var(--dim);font-size:13px;padding:14px 0}
+/* phase tracker */
+.phases{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
+.ph{flex:1;min-width:130px;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:10px 11px}
+.ph.peak{border-color:rgba(127,208,168,0.5);background:linear-gradient(180deg,rgba(127,208,168,0.06),var(--panel))}
+.ph .pn{font-size:9.5px;color:var(--dim);letter-spacing:1px}
+.ph .pnm{font-size:13px;font-weight:600;margin:2px 0}
+.ph .plimen{font-size:9.5px;color:var(--steel);letter-spacing:.5px}
+.ph .psvc{font-size:11px;color:var(--dim);margin-top:5px;line-height:1.35}
+.pdem{font-size:9px;letter-spacing:.5px;text-transform:uppercase;margin-top:7px;display:inline-block;padding:1px 7px;border-radius:10px}
+.pdem.PEAK{background:rgba(127,208,168,0.18);color:var(--amt)}.pdem.med{background:rgba(106,169,224,0.14);color:var(--steel)}.pdem.low,.pdem.none{background:rgba(146,161,179,0.12);color:var(--dim)}
+.phasenote{font-size:12.5px;color:var(--dim);margin-top:12px;line-height:1.55}.phasenote b{color:var(--amt)}
+.proj .phbadge{font-size:10px;letter-spacing:.5px;text-transform:uppercase;color:var(--amt);border:1px solid rgba(127,208,168,0.3);border-radius:20px;padding:2px 8px}
+/* bid reference */
+.bidtool{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:14px 16px}
+.bidrow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+.bidrow select,.bidrow input{background:var(--panel2);border:1px solid var(--line);border-radius:8px;color:var(--ink);font:inherit;font-size:14px;padding:9px 11px}
+.bidrow input{width:90px}
+.bidout{font-size:15px;color:var(--dim)}.bidout b{color:var(--amt);font-size:20px}
+.bidtable{display:grid;grid-template-columns:1fr auto;gap:0 14px;margin-top:14px;font-size:13px}
+.bidtable .bi{color:#c2cdd9;padding:6px 0;border-top:1px solid var(--line)}
+.bidtable .bv{color:var(--amt);text-align:right;padding:6px 0;border-top:1px solid var(--line);font-variant-numeric:tabular-nums;white-space:nowrap}
+.bidtable .bn{font-size:11px;color:var(--dim)}
+/* build my site */
+.reqbox{background:var(--panel2);border:1px dashed rgba(106,169,224,0.35);border-radius:12px;padding:15px 16px}
+.reqbox .rl{font-size:13px;color:#c2cdd9;margin-bottom:10px;line-height:1.5}.reqbox .rl b{color:var(--steel)}
+.reqbox .rr{display:flex;gap:8px;flex-wrap:wrap}
+.reqbox input,.reqbox textarea{background:var(--panel);border:1px solid var(--line);border-radius:8px;color:var(--ink);font:inherit;font-size:14px;padding:9px 11px}
+.reqbox input.pw{width:130px}.reqbox textarea{flex:1;min-width:220px;resize:vertical;min-height:40px}
+.reqbox button{background:var(--steel);color:#06101c;border:none;border-radius:8px;font:inherit;font-weight:700;padding:9px 16px;cursor:pointer}
+.reqbox .hint{font-size:11px;color:var(--dim);margin-top:8px}
 .foot{text-align:center;color:var(--dim);font-size:12px;padding:30px 0 50px;border-top:1px solid var(--line);margin-top:34px}
 .foot .pp{font-size:11px;margin-top:6px;line-height:1.6}
 .cta{display:inline-block;margin-top:6px;background:var(--steel);color:#06101c;font-weight:700;border-radius:8px;padding:9px 18px;font-size:14px}
@@ -70,8 +100,19 @@ a{color:var(--steel);text-decoration:none}
   <div class="tabs" id="tabs"></div>
   <div id="list" class="list"><div class="muted">Reading the award data…</div></div>
 
+  <div class="sec"><h2>📈 Project phase tracker</h2><span class="cap">where survey &amp; drafting work lives in a project's life — same phase grammar, civil edition</span></div>
+  <div class="phases" id="phases"></div>
+  <div class="phasenote" id="phaseNote"></div>
+
   <div class="sec"><h2>🎯 Primes to target</h2><span class="cap">firms doing the most civil work in your states — your best BD targets</span></div>
   <div id="primes" class="primes"></div>
+
+  <div class="sec"><h2>💲 Bid reference</h2><span class="cap">ballpark costs for common structures &amp; surveys — verify locally</span></div>
+  <div class="bidtool">
+    <div class="bidrow"><select id="bidItem"></select><input id="bidQty" type="number" min="1" value="200"><span id="bidUnit"></span></div>
+    <div class="bidout" id="bidOut"></div>
+    <div class="bidtable" id="bidTable"></div>
+  </div>
 
   <div class="sec"><h2>📐 Services</h2><span class="cap">edit me</span></div>
   <div class="svc">
@@ -81,6 +122,17 @@ a{color:var(--steel);text-decoration:none}
     <div class="scard"><div class="t">Environmental &amp; Compliance</div><div class="d">CEQA support, drainage, wetlands, permitting</div></div>
   </div>
   <div style="margin-top:14px"><a class="cta" href="mailto:?subject=Survey%20%26%20Drafting%20inquiry">Get in touch →</a></div>
+
+  <div class="sec"><h2>🛠 Your site, built by LIMEN</h2><span class="cap">request anything — we render it</span></div>
+  <div class="reqbox">
+    <div class="rl">This page is built &amp; hosted by <b>LIMEN Helix</b>. Want your logo, a different layout, a portfolio gallery, your real services, a contact form, a custom domain — anything? Describe it and we build it.</div>
+    <div class="rr">
+      <input class="pw" id="reqPass" type="password" placeholder="your passcode">
+      <textarea id="reqMsg" placeholder="e.g. add my logo + navy theme, a project portfolio gallery, wire the contact button to my email, add my license numbers…"></textarea>
+      <button id="reqSend">Send request</button>
+    </div>
+    <div class="hint" id="reqOut">Your passcode keeps requests private to you.</div>
+  </div>
 
   <div class="foot">
     Powered by <a href="/">LIMEN Helix</a> · Project Radar
@@ -117,7 +169,7 @@ a{color:var(--steel);text-decoration:none}
     el.innerHTML=rows.map(function(r){
       return '<div class="proj"><div class="row1"><div class="prime">'+esc(r.prime)+'</div><div class="amt">'+money(r.amount)+'</div></div>'+
         '<div class="desc">'+esc(r.project||'(no description)')+'</div>'+
-        '<div class="meta"><span class="badge">'+esc(r._st||'')+'</span><span>'+esc(r.agency||'')+'</span>'+(r.started?'<span>· started '+esc(fdate(r.started))+'</span>':'')+
+        '<div class="meta"><span class="badge">'+esc(r._st||'')+'</span><span class="phbadge">'+esc(phaseFor(r).tag)+'</span><span>'+esc(r.agency||'')+'</span>'+(r.started?'<span>· '+esc(fdate(r.started))+'</span>':'')+
         (r.link?'<a class="ext" href="'+esc(r.link)+'" target="_blank" rel="noopener">award ↗</a>':'')+'</div></div>';
     }).join('');
   }
@@ -126,6 +178,71 @@ a{color:var(--steel);text-decoration:none}
     if(!tp.length){ el.innerHTML='<div class="muted">—</div>'; return; }
     el.innerHTML=tp.map(function(p){ return '<div class="pcard"><span class="nm">'+esc(p.prime)+'</span><span class="tt">'+money(p.total)+'</span></div>'; }).join('');
   }
+
+  // ── Project phase tracker (the civil-project lifecycle, LIMEN phase grammar) ──
+  var PHASES=[
+    {n:'01',name:'Planning & Need',limen:'Source → Emergence',svc:'feasibility · recon',demand:'low'},
+    {n:'02',name:'Funding',limen:'Emergence',svc:'IIJA · bonds · grants',demand:'none'},
+    {n:'03',name:'Design & Survey',limen:'Rhythm · Order',svc:'boundary · topo · control · ALTA · plan sets',demand:'PEAK'},
+    {n:'04',name:'Permitting & Environmental',limen:'Darkness · Peace',svc:'wetland delineation · CEQA · drainage',demand:'med'},
+    {n:'05',name:'Bid & Procurement',limen:'Order · Separation',svc:'quantity exhibits',demand:'low'},
+    {n:'06',name:'Construction',limen:'Separation · Divergence',svc:'construction staking · as-builts',demand:'PEAK'},
+    {n:'07',name:'Closeout',limen:'Threshold · Resurrection',svc:'final as-builts · record drawings',demand:'med'}
+  ];
+  function phaseFor(r){
+    if(!r.started) return {tag:'P06 · construction'};
+    var yr=(Date.now()-Date.parse(r.started+'T00:00:00Z'))/(365*86400000);
+    if(yr<1.5) return {tag:'P06 · staking now'};
+    if(yr<4) return {tag:'P06–07 · as-builts'};
+    return {tag:'P07 · closeout'};
+  }
+  function renderPhases(){
+    document.getElementById('phases').innerHTML=PHASES.map(function(p){
+      return '<div class="ph'+(p.demand==='PEAK'?' peak':'')+'"><div class="pn">PHASE '+p.n+'</div><div class="pnm">'+esc(p.name)+'</div><div class="plimen">'+esc(p.limen)+'</div><div class="psvc">'+esc(p.svc)+'</div><span class="pdem '+p.demand+'">'+(p.demand==='PEAK'?'peak demand':p.demand+' demand')+'</span></div>';
+    }).join('');
+    document.getElementById('phaseNote').innerHTML='Your work peaks at <b>Design &amp; Survey</b> (boundary/topo/plan sets) and <b>Construction</b> (staking/as-builts). The radar above currently sees <b>awarded contracts = the Construction phase</b> — to catch jobs earlier at the <b>Design phase</b> (where the richest survey + drafting work is), we’re wiring live RFP &amp; design-stage feeds next.';
+  }
+
+  // ── Bid reference + estimator (ballpark national ranges; verify locally) ──
+  var BID=[
+    {item:'Wood deck',unit:'per sq ft',low:30,high:60,note:'pressure-treated → composite'},
+    {item:'Retaining wall',unit:'per face sq ft',low:35,high:75,note:'segmental block; engineered if >4 ft'},
+    {item:'Landscaping (full yard)',unit:'per sq ft',low:8,high:25,note:'soft → hardscape mix'},
+    {item:'Concrete patio / slab',unit:'per sq ft',low:8,high:18,note:''},
+    {item:'Wood / vinyl fence',unit:'per linear ft',low:25,high:55,note:''},
+    {item:'Site grading',unit:'per sq ft',low:1,high:4,note:'cut/fill dependent'},
+    {item:'Detached structure / shed',unit:'per sq ft',low:60,high:150,note:'utility → finished'},
+    {item:'Boundary survey',unit:'flat (typical lot)',low:500,high:2500,note:'size/terrain'},
+    {item:'Topographic survey',unit:'per acre',low:500,high:1500,note:''},
+    {item:'ALTA / NSPS survey',unit:'flat (commercial)',low:2000,high:8000,note:''}
+  ];
+  function dollars(n){ return '$'+Math.round(n).toLocaleString(); }
+  function initBid(){
+    var sel=document.getElementById('bidItem');
+    sel.innerHTML=BID.map(function(b,i){return '<option value="'+i+'">'+esc(b.item)+'</option>';}).join('');
+    function calc(){ var b=BID[+sel.value], q=parseFloat(document.getElementById('bidQty').value)||0;
+      document.getElementById('bidUnit').textContent=b.unit+(b.note?(' · '+b.note):'');
+      var flat=/flat/.test(b.unit);
+      document.getElementById('bidOut').innerHTML=flat?('Typical: <b>'+dollars(b.low)+' – '+dollars(b.high)+'</b>'):('Estimate ('+q+'): <b>'+dollars(b.low*q)+' – '+dollars(b.high*q)+'</b>');
+    }
+    sel.onchange=calc; document.getElementById('bidQty').oninput=calc; calc();
+    document.getElementById('bidTable').innerHTML=BID.map(function(b){return '<div class="bi">'+esc(b.item)+(b.note?' <span class="bn">'+esc(b.note)+'</span>':'')+'</div><div class="bv">$'+b.low+'–$'+b.high+' <span class="bn">'+esc(b.unit)+'</span></div>';}).join('');
+  }
+
+  // ── "Build my site" request → emails LIMEN (gated by her passcode) ──
+  document.getElementById('reqSend').onclick=function(){
+    var p=document.getElementById('reqPass').value.trim(), m=document.getElementById('reqMsg').value.trim(), out=document.getElementById('reqOut'), btn=this;
+    if(!m){ out.textContent='Describe what you want built.'; return; }
+    if(!p){ out.textContent='Enter your passcode.'; return; }
+    btn.disabled=true; out.textContent='sending…';
+    fetch('/api/site-request',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({passcode:p,message:'[Project Radar] '+m,sourcePage:location.pathname})})
+      .then(function(r){return r.json();}).then(function(j){ btn.disabled=false;
+        if(j&&j.ok){ document.getElementById('reqMsg').value=''; out.textContent=j.emailed?'Sent to LIMEN ✓ — we’ll build it.':'Logged ✓ — we’ll build it.'; }
+        else out.textContent=(j&&j.error)||'Couldn’t send — check your passcode.';
+      }).catch(function(){ btn.disabled=false; out.textContent='Network hiccup — try again.'; });
+  };
+
+  renderPhases(); initBid();
 
   fetch('/api/civil-radar').then(function(r){return r.json();}).then(function(j){
     if(!j.ok){ document.getElementById('list').innerHTML='<div class="muted">Radar offline — try again shortly.</div>'; return; }
