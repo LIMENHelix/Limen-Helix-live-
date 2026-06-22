@@ -64,7 +64,29 @@ async function notify(reqObj) {
 module.exports = async function handler(req, res) {
   res.setHeader('content-type', 'application/json');
   res.setHeader('Cache-Control', 'no-store');
-  if ((req.method || 'GET').toUpperCase() !== 'POST') { res.statusCode = 405; return res.end(JSON.stringify({ ok: false, error: 'POST only' })); }
+  const method = (req.method || 'GET').toUpperCase();
+
+  // ── GET / DELETE: admin read of the request log (key-gated by LEAD_ADMIN_KEY) ──
+  if (method === 'GET' || method === 'DELETE') {
+    let u; try { u = new URL(req.url, 'http://x'); } catch (e) { u = { searchParams: new URLSearchParams('') }; }
+    const key = u.searchParams.get('key') || '';
+    const ADMIN_KEY = process.env.LEAD_ADMIN_KEY || '';
+    if (!ADMIN_KEY) { res.statusCode = 503; return res.end(JSON.stringify({ ok: false, error: 'Admin read not configured (LEAD_ADMIN_KEY unset).' })); }
+    if (key !== ADMIN_KEY) { res.statusCode = 403; return res.end(JSON.stringify({ ok: false, error: 'Valid admin key required (?key=).' })); }
+    if (method === 'DELETE') {
+      const id = u.searchParams.get('id') || '';
+      if (id) { try { await db.del('sitereq:' + id); } catch (e) {} }
+      res.statusCode = 200; return res.end(JSON.stringify({ ok: true, deleted: id }));
+    }
+    try {
+      const ids = (await db.lrange('sitereq_index', 0, -1)) || [];
+      const out = [];
+      for (let i = 0; i < ids.length; i++) { const r = await db.get('sitereq:' + ids[i]); if (r) out.push(r); }
+      res.statusCode = 200; return res.end(JSON.stringify({ ok: true, count: out.length, requests: out }));
+    } catch (e) { res.statusCode = 500; return res.end(JSON.stringify({ ok: false, error: String(e && e.message || e) })); }
+  }
+
+  if (method !== 'POST') { res.statusCode = 405; return res.end(JSON.stringify({ ok: false, error: 'POST only' })); }
 
   const body = await readBody(req);
   const person = authorize(body && body.passcode);

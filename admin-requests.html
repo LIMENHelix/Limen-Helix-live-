@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LIMEN HELIX · Site Requests (admin)</title>
+<!-- Client-side gate: bounces to / if not authorized. Same posture as admin-leads. -->
+<script src="/assets/js/auth-gate.js"></script>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#05060a;color:rgba(220,215,200,0.9);font-family:'IBM Plex Mono',monospace;padding:24px;font-size:13px}
+  h1{font-size:0.8rem;letter-spacing:4px;color:#C9A94E;text-transform:uppercase;margin-bottom:4px}
+  .sub{font-size:0.62rem;letter-spacing:2px;color:rgba(200,195,184,0.4);margin-bottom:18px}
+  .bar{margin-bottom:14px;font-size:0.7rem;color:rgba(200,195,184,0.6)}
+  .bar a{color:rgba(201,169,78,0.7)}
+  .req{border:1px solid rgba(201,169,78,0.12);border-left:2px solid rgba(201,169,78,0.5);border-radius:6px;padding:12px 14px;margin-bottom:10px;max-width:820px}
+  .req .meta{font-size:0.6rem;letter-spacing:1px;color:rgba(201,169,78,0.6);text-transform:uppercase;margin-bottom:7px;display:flex;justify-content:space-between;gap:12px;align-items:center}
+  .req .who{color:#C9A94E;font-weight:600}
+  .req .msg{font-size:0.84rem;line-height:1.55;white-space:pre-wrap;color:rgba(225,220,205,0.95)}
+  .del{cursor:pointer;color:#e85454;border:1px solid rgba(232,84,84,0.4);padding:2px 8px;font-size:0.58rem;background:none;font-family:inherit}
+  .del:hover{background:rgba(232,84,84,0.1)}
+  .empty,.loading{padding:40px;text-align:center;color:rgba(200,195,184,0.4);letter-spacing:2px}
+  .empty a,.loading a{color:rgba(201,169,78,0.7)}
+  .note{margin-top:16px;font-size:0.6rem;color:rgba(200,195,184,0.35);line-height:1.6;max-width:680px}
+</style>
+</head>
+<body>
+  <h1>Site Change Requests</h1>
+  <div class="sub">admin-only · key-gated read of /api/site-request · from Drew &amp; assigned operators</div>
+  <div class="bar"><a href="/admin">← admin</a> · <a href="/admin-leads">leads</a> · <span id="count">loading…</span> · <a href="#" id="reload">reload</a></div>
+  <div id="mount"><div class="loading">loading…</div></div>
+  <div class="note">Minimal protection only (client gate + a query key — the same LEAD_ADMIN_KEY as the leads view). Not real auth. Requests are also emailed to you when submitted; this is the durable log.</div>
+
+<script>
+  // Reuses the same admin key as the leads view, kept only in this tab's sessionStorage.
+  var KEY_STORE = 'limen_lead_admin_key';
+  function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function getKey(forcePrompt){
+    var k=''; try{ k=sessionStorage.getItem(KEY_STORE)||''; }catch(e){}
+    if(!k||forcePrompt){ k=(window.prompt('Paste the admin key (LEAD_ADMIN_KEY, set in Vercel).\nStored only in this browser tab.')||'').trim(); try{ if(k)sessionStorage.setItem(KEY_STORE,k); }catch(e){} }
+    return k;
+  }
+  function clearKey(){ try{ sessionStorage.removeItem(KEY_STORE); }catch(e){} }
+  function showMsg(html){ document.getElementById('mount').innerHTML=html; }
+  function wireEnter(){ var a=document.getElementById('enterkey'); if(a)a.addEventListener('click',function(e){ e.preventDefault(); load(true); }); }
+  function fmt(ts){ try{ return new Date(ts).toLocaleString(); }catch(e){ return ts; } }
+
+  function render(reqs){
+    var mount=document.getElementById('mount');
+    document.getElementById('count').textContent = reqs.length + ' request(s)';
+    if(!reqs.length){ mount.innerHTML='<div class="empty">no requests yet</div>'; return; }
+    mount.innerHTML = reqs.map(function(r){
+      return '<div class="req"><div class="meta"><span><span class="who">'+esc(r.who||'someone')+'</span> · '+esc(fmt(r.ts))+(r.sourcePage?' · '+esc(r.sourcePage):'')+'</span>'+
+        '<button class="del" data-id="'+esc(r.id)+'">delete</button></div>'+
+        '<div class="msg">'+esc(r.message||'')+'</div></div>';
+    }).join('');
+    Array.prototype.forEach.call(mount.querySelectorAll('.del'), function(b){
+      b.addEventListener('click', function(){
+        if(!confirm('Delete this request?')) return;
+        var k=getKey(false); if(!k){ load(true); return; }
+        fetch('/api/site-request?key='+encodeURIComponent(k)+'&id='+encodeURIComponent(b.dataset.id),{method:'DELETE'})
+          .then(function(r){return r.json();}).then(function(){ load(false); });
+      });
+    });
+  }
+
+  function load(forcePrompt){
+    var k=getKey(forcePrompt);
+    if(!k){ showMsg('<div class="empty">an admin key is required · <a href="#" id="enterkey">enter key</a></div>'); wireEnter(); return; }
+    showMsg('<div class="loading">loading…</div>');
+    fetch('/api/site-request?key='+encodeURIComponent(k))
+      .then(function(r){ return r.json().then(function(j){ return { status:r.status, j:j }; }); })
+      .then(function(res){
+        if(res.j && res.j.ok){ render(res.j.requests||[]); return; }
+        if(res.status===403||res.status===503){ clearKey(); }
+        showMsg('<div class="empty">'+esc((res.j&&res.j.error)||('error '+res.status))+' · <a href="#" id="enterkey">re-enter key</a></div>');
+        wireEnter();
+      })
+      .catch(function(){ showMsg('<div class="empty">network error · <a href="#" id="enterkey">retry</a></div>'); wireEnter(); });
+  }
+
+  document.getElementById('reload').addEventListener('click', function(e){ e.preventDefault(); load(false); });
+  load(false);
+</script>
+</body>
+</html>

@@ -56,8 +56,11 @@ h1{font-size:30px;font-weight:400;margin-bottom:4px}
     // Properties (e.g. Mima's)
     if(p.properties&&p.properties.length){ h+='<div class="sec">Properties</div><div class="grid">';
       p.properties.forEach(function(pr){ h+=card(pr.url||'#', pr.name, (pr.domain||'')+' · storefront'); }); h+='</div>'; }
-    // Leads (operator + finance people)
-    if(p.master||(p.domains||[]).indexOf('finance')>-1){ h+='<div class="sec">Tools</div><div class="grid">'+card('/admin-leads','Leads','Front-page sign-ups')+'</div>'; }
+    // Tools — leads + Drew's site requests (operator, or culture/finance people)
+    var tools='';
+    if(p.master||(p.domains||[]).indexOf('finance')>-1){ tools+=card('/admin-leads','Leads','Front-page sign-ups'); }
+    if(p.master||(p.domains||[]).indexOf('culture')>-1){ tools+=card('/admin-requests','Site Requests','Change requests from the music page'); }
+    if(tools){ h+='<div class="sec">Tools</div><div class="grid">'+tools+'</div>'; }
     h+='<button class="logout" onclick="sessionStorage.removeItem(\'limen_admin\');sessionStorage.removeItem(\'limen_access\');location.reload()">Log out</button>';
     root.innerHTML=h;
   }
