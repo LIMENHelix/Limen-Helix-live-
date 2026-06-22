@@ -303,7 +303,7 @@ void main(){
 /* ── 4. Operator login (preserved: passphrase → /civilization) ───── */
 (function(){
   'use strict';
-  var ADMIN_PASSPHRASE='209913', AUTH_KEY='limen_access', AUTH_VALUE='granted', DEFAULT_LANDING='/admin';
+  var AUTH_KEY='limen_access', AUTH_VALUE='granted', DEFAULT_LANDING='/admin';
   var overlay=document.getElementById('admin-overlay'), form=document.getElementById('admin-form'),
       pwInput=document.getElementById('admin-pw'), errorBox=document.getElementById('admin-error'),
       closeBtn=document.getElementById('admin-close'),
@@ -320,7 +320,8 @@ void main(){
       if(RETURN_ALLOWLIST.indexOf(pathOnly)!==-1) return ret;
     }catch(e){} return null;
   }
-  function grantAndRedirect(){ try{ sessionStorage.setItem(AUTH_KEY,AUTH_VALUE); }catch(e){}
+  function grantAndRedirect(person){
+    try{ sessionStorage.setItem(AUTH_KEY,AUTH_VALUE); if(person) sessionStorage.setItem('limen_admin',JSON.stringify(person)); }catch(e){}
     window.location.replace(getReturnParam()||DEFAULT_LANDING); }
   function checkHash(){ if(location.hash==='#admin') show(); }
   checkHash(); addEventListener('hashchange',checkHash);
@@ -334,8 +335,14 @@ void main(){
   form.addEventListener('submit',function(e){ e.preventDefault();
     var entered=(pwInput.value||'').trim();
     if(!entered){ errorBox.textContent='Enter code'; return; }
-    if(entered===ADMIN_PASSPHRASE){ errorBox.textContent=''; grantAndRedirect(); }
-    else { errorBox.textContent='Incorrect'; pwInput.value=''; pwInput.focus(); }
+    errorBox.textContent='checking…';
+    fetch('/api/admin-auth',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({passcode:entered})})
+      .then(function(r){return r.json();})
+      .then(function(j){
+        if(j&&j.ok){ errorBox.textContent=''; grantAndRedirect(j.person); }
+        else { errorBox.textContent='Incorrect'; pwInput.value=''; pwInput.focus(); }
+      })
+      .catch(function(){ errorBox.textContent='Error — try again'; });
   });
   closeBtn.addEventListener('click',hide);
   overlay.addEventListener('click',function(e){ if(e.target===overlay) hide(); });

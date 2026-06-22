@@ -45,8 +45,8 @@ module.exports = async function handler(req, res) {
   const pass = String((body && body.passcode) || '').trim();
   if (!pass) { res.statusCode = 400; return res.end(JSON.stringify({ ok: false, error: 'Passcode required.' })); }
 
-  // Master / operator passcode → all domains.
-  const master = process.env.ADMIN_MASTER || '';
+  // Master / operator passcode → all domains. (Accept either env name.)
+  const master = process.env.ADMIN_MASTER || process.env.ADMIN_MASTER_KEY || '';
   if (master && pass === master) {
     res.statusCode = 200;
     return res.end(JSON.stringify({ ok: true, person: { key: 'operator', name: 'Operator', domains: ALL_DOMAINS, properties: [], master: true } }));

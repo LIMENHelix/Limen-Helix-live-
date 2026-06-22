@@ -33,7 +33,8 @@ function readBody(req) {
 function people() { try { return (JSON.parse(fs.readFileSync(MAP, 'utf8')).people) || []; } catch (e) { return []; } }
 function authorize(passcode) {
   if (!passcode) return null;
-  if (process.env.ADMIN_MASTER && passcode === process.env.ADMIN_MASTER) return { key: 'master', name: 'Operator' };
+  const mk = process.env.ADMIN_MASTER || process.env.ADMIN_MASTER_KEY || '';
+  if (mk && passcode === mk) return { key: 'master', name: 'Operator' };
   for (const p of people()) {
     const v = process.env[p.envVar || ('ADMIN_PASS_' + String(p.key || '').toUpperCase())];
     if (v && passcode === v) return p;
