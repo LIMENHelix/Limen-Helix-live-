@@ -130,6 +130,24 @@ h1.wm{font-size:clamp(38px,9vw,74px);line-height:.92;letter-spacing:-1.5px;margi
 .coach .msg.err{color:var(--cool);border-color:rgba(232,115,107,.3)}
 .coach .ask{display:flex;gap:8px}
 .coach .ask input{flex:1;background:var(--panel2);border:1px solid var(--line);border-radius:8px;color:var(--ink);font:inherit;font-size:14px;padding:10px 12px;outline:none}
+/* Hook Studio — write hooks on demand */
+.studio{background:linear-gradient(180deg,rgba(110,168,224,.05),var(--panel));border:1px solid rgba(110,168,224,.26);border-radius:14px;padding:15px 16px;margin:0 0 16px}
+.studio .shd{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px}
+.studio .shd .st{font-size:15px;font-weight:600}
+.studio .libtoggle{font-size:12px;color:var(--rise);cursor:pointer}
+.studio .controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:11px}
+.studio .controls input,.studio .controls select{background:var(--panel2);border:1px solid var(--line);border-radius:8px;color:var(--ink);font:inherit;font-size:13.5px;padding:8px 10px;outline:none}
+.studio .controls input.bpm{width:74px}
+.studio .controls input.theme{flex:1;min-width:150px}
+.studio button.gen{background:var(--rise);color:#06101c;border:none;border-radius:8px;font:inherit;font-weight:700;font-size:13px;padding:8px 16px;cursor:pointer}
+.studio button.gen:disabled{opacity:.6;cursor:default}
+.hooks{display:flex;flex-direction:column;gap:9px}
+.hook{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:12px 14px}
+.hook .lines{font-size:15px;line-height:1.55;white-space:pre-wrap;color:var(--ink)}
+.hook .cad{font-size:11.5px;color:var(--dim);margin-top:7px}.hook .cad b{color:var(--rise)}
+.hook .hact{display:flex;gap:8px;margin-top:9px;flex-wrap:wrap}
+.hook .hact button{background:rgba(201,169,78,.1);border:1px solid rgba(201,169,78,.4);color:var(--gold);font:inherit;font-size:11.5px;font-weight:600;padding:5px 10px;border-radius:7px;cursor:pointer}
+.hook .hact button:hover{background:rgba(201,169,78,.2)}
 /* Release Engine — weekly plan + streak */
 .rel{background:linear-gradient(180deg,rgba(90,181,160,.05),var(--panel));border:1px solid rgba(90,181,160,.26);border-radius:14px;padding:15px 16px;margin:0 0 16px}
 .rel .rhd{display:flex;justify-content:space-between;align-items:center;gap:10px}
@@ -191,7 +209,7 @@ h1.wm{font-size:clamp(38px,9vw,74px);line-height:.92;letter-spacing:-1.5px;margi
     <h1 class="wm">WAVE RADAR</h1>
     <div class="kicker">Artist superpower · live · free</div>
     <p>Emergence is <b>acceleration, not size.</b> See the sounds climbing fastest, what to <b>do</b> with it in your lane, live music news, the <b>tempos</b> hits are using, 30-sec previews, and a <b>Beat Lab</b> that locks to the hottest BPM.</p>
-    <div class="tabs"><a href="#coach">🤖 Talk to LIMEN</a><a href="#lane">🎤 Your Lane</a><a href="#feed">📰 Music Now</a><a href="#comingback">🔁 Coming Back</a><a href="#xray">🎛 Hit X-Ray</a><a href="#lab">🥁 Beat Lab</a></div>
+    <div class="tabs"><a href="#coach">🤖 Talk to LIMEN</a><a href="#studio">🎙 Hook Studio</a><a href="#lane">🎤 Your Lane</a><a href="#feed">📰 Music Now</a><a href="#comingback">🔁 Coming Back</a><a href="#xray">🎛 Hit X-Ray</a><a href="#lab">🥁 Beat Lab</a></div>
     <div class="legend">
       <span><i class="dot" style="background:var(--emerge)"></i>Emerging</span>
       <span><i class="dot" style="background:var(--rise)"></i>Rising</span>
@@ -233,6 +251,17 @@ h1.wm{font-size:clamp(38px,9vw,74px);line-height:.92;letter-spacing:-1.5px;margi
       <button id="relRelease">🎵 Log a release</button>
     </div>
     <div class="rhist" id="relHist"></div>
+  </div>
+
+  <div class="studio" id="studio" style="display:none">
+    <div class="shd"><span class="st">🎙 Hook Studio</span><span class="libtoggle" id="libToggle">★ Saved (0)</span></div>
+    <div class="controls">
+      <input class="bpm" id="hkBpm" type="number" min="60" max="200" placeholder="BPM">
+      <select id="hkVibe"><option value="melodic">melodic</option><option value="introspective">introspective</option><option value="triumphant">triumphant</option><option value="heartbreak">heartbreak</option><option value="aggressive">aggressive</option><option value="hopeful">hopeful</option></select>
+      <input class="theme" id="hkTheme" placeholder="What's it about? (optional)">
+      <button class="gen" id="hkGen">Write hooks</button>
+    </div>
+    <div id="hooksOut"></div>
   </div>
 
   <div class="sec" id="lane" style="display:none"><h2>🎤 Your Lane</h2><span class="cap">rap · sounds like NF — featuring DMAD</span></div>
@@ -573,7 +602,7 @@ h1.wm{font-size:clamp(38px,9vw,74px);line-height:.92;letter-spacing:-1.5px;margi
       var m=document.getElementById('coachGateMsg'); m.textContent='checking…';
       fetch('/api/admin-auth',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({passcode:p})})
         .then(function(r){return r.json();}).then(function(j){
-          if(j&&j.ok){ sp('coach_pass',p); sp('coach_who',(j.person&&j.person.name)||''); showPanel((j.person&&j.person.name)||''); add('limen',"You're in. Tell me what you're working on — or hit a button up top and I'll get you moving."); loadRelease(); }
+          if(j&&j.ok){ sp('coach_pass',p); sp('coach_who',(j.person&&j.person.name)||''); showPanel((j.person&&j.person.name)||''); add('limen',"You're in. Tell me what you're working on — or hit a button up top and I'll get you moving."); loadRelease(); showStudio(); }
           else { m.textContent='That passcode didn’t work. Try again.'; }
         }).catch(function(){ m.textContent='Error — try again.'; });
     };
@@ -624,6 +653,54 @@ h1.wm{font-size:clamp(38px,9vw,74px);line-height:.92;letter-spacing:-1.5px;margi
       }).catch(function(){ btn.textContent=label; });
   };
   loadRelease();
+
+  // ---- Hook Studio — write hooks on demand + saved library ----
+  function showStudio(){
+    var st=document.getElementById('studio'); if(!relPass()){ st.style.display='none'; return; } st.style.display='block';
+    var b=document.getElementById('hkBpm'); if(b&&!b.value){ var lab=parseInt((document.getElementById('lbBpmVal')||{}).textContent,10); b.value=lab||(coachCtx.pocketBpm||140); }
+  }
+  function studioCall(payload){ var p=relPass(); if(!p)return Promise.resolve(null);
+    return fetch('/api/hook-studio',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(Object.assign({passcode:p},payload))}).then(function(r){return r.json();}).catch(function(){return null;}); }
+  function libCount(n){ document.getElementById('libToggle').textContent='★ Saved ('+(n||0)+')'; }
+  var lastHooks=[];
+  function hookActions(out,bpm){
+    out.querySelectorAll('.hact button[data-bpm]').forEach(function(b){ b.onclick=function(){ var v=+b.getAttribute('data-bpm'); if(v>0){ setBpm(v); document.getElementById('lab').scrollIntoView({behavior:'smooth'}); } }; });
+    out.querySelectorAll('.hact .save').forEach(function(b){ b.onclick=function(){ var hk=lastHooks[+b.getAttribute('data-i')]; if(!hk)return; b.textContent='saving…';
+      studioCall({op:'save',hook:{lines:hk.lines,cadence:hk.cadence,scheme:hk.scheme,bpm:bpm,theme:document.getElementById('hkTheme').value.trim()}}).then(function(j){ if(j&&j.ok){ b.textContent='✓ saved'; libCount(j.count); } else b.textContent='★ save'; }); }; });
+    out.querySelectorAll('.hact .unsave').forEach(function(b){ b.onclick=function(){ studioCall({op:'unsave',id:b.getAttribute('data-id')}).then(function(j){ if(j&&j.ok){ libCount((j.saved||[]).length); renderLib(j.saved||[]); } }); }; });
+  }
+  function renderHooks(hooks,bpm){
+    lastHooks=hooks; var out=document.getElementById('hooksOut'), h='<div class="hooks">';
+    hooks.forEach(function(hk,i){ h+='<div class="hook"><div class="lines">'+esc(hk.lines||'')+'</div><div class="cad">'+(hk.cadence?('<b>flow:</b> '+esc(hk.cadence)):'')+(hk.scheme?('&nbsp; · &nbsp;<b>scheme:</b> '+esc(hk.scheme)):'')+'</div>'+
+      '<div class="hact"><button data-bpm="'+bpm+'">🎹 to Beat Lab</button><button class="save" data-i="'+i+'">★ save</button></div></div>'; });
+    out.innerHTML=h+'</div>'; hookActions(out,bpm);
+  }
+  function renderLib(saved){
+    var out=document.getElementById('hooksOut');
+    if(!saved.length){ out.innerHTML='<div class="muted">No saved hooks yet — write some and hit ★.</div>'; return; }
+    var h='<div class="hooks">';
+    saved.slice().reverse().forEach(function(hk){ h+='<div class="hook"><div class="lines">'+esc(hk.lines||'')+'</div><div class="cad">'+(hk.bpm?('<b>'+hk.bpm+' BPM</b>'):'')+(hk.cadence?('&nbsp; · &nbsp;'+esc(hk.cadence)):'')+'</div>'+
+      '<div class="hact"><button data-bpm="'+(hk.bpm||0)+'">🎹 to Beat Lab</button><button class="unsave" data-id="'+esc(hk.id)+'">remove</button></div></div>'; });
+    out.innerHTML=h+'</div>'; hookActions(out,0);
+  }
+  function genHooks(){
+    var p=relPass(); if(!p)return;
+    var bpm=parseInt(document.getElementById('hkBpm').value,10)||(coachCtx.pocketBpm||140);
+    var vibe=document.getElementById('hkVibe').value, theme=document.getElementById('hkTheme').value.trim();
+    var out=document.getElementById('hooksOut'), btn=document.getElementById('hkGen');
+    btn.textContent='writing…'; btn.disabled=true; out.innerHTML='<div class="muted">LIMEN is writing 3 hooks at '+bpm+' BPM…</div>';
+    studioCall({op:'generate',bpm:bpm,vibe:vibe,theme:theme}).then(function(j){ btn.textContent='Write hooks'; btn.disabled=false;
+      if(j&&j.ok&&j.hooks&&j.hooks.length) renderHooks(j.hooks,bpm);
+      else if(j&&j.ok&&j.raw) out.innerHTML='<div class="hook"><div class="lines">'+esc(j.raw)+'</div></div>';
+      else out.innerHTML='<div class="muted">'+((j&&j.error)||'Couldn’t write that one — try again.')+'</div>';
+    });
+  }
+  document.getElementById('hkGen').onclick=genHooks;
+  document.getElementById('hkTheme').addEventListener('keydown',function(e){ if(e.key==='Enter')genHooks(); });
+  var libOpen=false;
+  document.getElementById('libToggle').onclick=function(){ if(!relPass())return; libOpen=!libOpen; if(!libOpen){ document.getElementById('hooksOut').innerHTML=''; return; }
+    studioCall({op:'library'}).then(function(j){ if(j&&j.ok){ libCount((j.saved||[]).length); renderLib(j.saved||[]); } }); };
+  showStudio();
 
   // ---- Radar "activating" animation (lightweight canvas; ~4s spin-up then settles) ----
   (function(){
