@@ -161,11 +161,16 @@
         signals.push('ELEVATED: maintenance backlog signal detected — value ' + f.value.toFixed(1));
       }
 
-      // Cyber event targeting infrastructure
-      if ((fn.indexOf('cyber') !== -1 || fn.indexOf('scada') !== -1 || fn.indexOf('attack') !== -1) && f.value !== undefined && f.value > 0) {
+      // Cyber / SCADA threat to infrastructure — match the REAL feed identities
+      // (CISA KEV, CVE, ransomware, NVD, advisories), not just the literal word "cyber".
+      // A live exploited-vuln feed IS the signal; a count in the label scales severity.
+      var fcid = (fn + ' ' + (f.label || '')).toLowerCase();
+      if (/(cyber|scada|cve|kev|ransomware|vulnerab|exploit|cisa|advisor|nvd)/.test(fcid) && f.live !== false) {
         this._activeConditions.push('CYBER_ATTACK');
         this._activeConditions.push('INFRASTRUCTURE_ATTACK');
-        signals.push('CRITICAL: cyber event targeting infrastructure detected');
+        var _cm = String(f.label != null ? f.label : f.value).match(/(\d+)/);
+        if (_cm && parseInt(_cm[1], 10) >= 35) this._activeConditions.push('SCADA_BREACH'); // real spike, not the ~20/mo baseline
+        signals.push('CRITICAL: cyber threat to infrastructure — ' + (f.label || f.name || 'CISA/KEV'));
       }
 
       // Transmission congestion / interconnection queue
@@ -310,6 +315,24 @@
   // ══════════════════════════════════════════════════════════════════════
   // STEP 4 OVERRIDE: Derive diagnoses — condition-matched from portal
   // ══════════════════════════════════════════════════════════════════════
+
+  // Brain cognition lifts stress when a critical condition the raw composite under-weighted
+  // is active — so a recognized cyber/grid attack actually registers (and clears the 0.60
+  // cross-domain emission gate, letting infrastructure join the mesh + emit its edges).
+  var _baseScoreStress = (window.LIMENDomainBrainBase && window.LIMENDomainBrainBase.prototype.scoreStress);
+  InfrastructureBrain.prototype.scoreStress = function () {
+    if (_baseScoreStress) _baseScoreStress.call(this);
+    else this.state.stress = (this._rawDomain && this._rawDomain.stress) || 0;
+    var ac = this._activeConditions || [];
+    var floor = 0;
+    if (ac.indexOf('SCADA_BREACH') !== -1) floor = Math.max(floor, 0.80);           // real exploited-vuln spike
+    else if (ac.indexOf('CYBER_ATTACK') !== -1 || ac.indexOf('INFRASTRUCTURE_ATTACK') !== -1) floor = Math.max(floor, 0.62); // standing cyber presence = elevated, not maxed
+    if (ac.indexOf('grid_stress') !== -1) floor = Math.max(floor, 0.65);
+    if (floor > 0) {
+      this.state.stress = Math.max(this.state.stress || 0, floor);
+      this.state._stressFloorReason = (ac.indexOf('CYBER_ATTACK') !== -1) ? 'cyber-physical threat' : 'grid stress';
+    }
+  };
 
   InfrastructureBrain.prototype.deriveDiagnoses = function () {
     var self = this;
