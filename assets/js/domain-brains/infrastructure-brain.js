@@ -108,6 +108,29 @@
         signalType: 'service_disruption',
         condition: function (s) { return s.stress >= 0.55 && s.diagnoses && s.diagnoses.some(function (d) { return d.active; }); },
         magnitudeFormula: function (s) { return Math.min(1, s.stress * 0.40); }
+      },
+      // ── New edges (infrastructure → finance / environment / technology) ──
+      {
+        // Infra distress drives capital/funding exposure (muni bonds, project finance).
+        targetDomain: 'finance',
+        signalType: 'capital_funding_pressure',
+        condition: function (s) { return s.stress >= 0.55 && s.diagnoses && s.diagnoses.some(function (d) { return d.active; }); },
+        magnitudeFormula: function (s) { return Math.min(1, s.stress * 0.45); }
+      },
+      {
+        // Built-environment coupling — the infrastructure↔environment bridge (water/treatment/
+        // climate-resilient systems). This is the rail Liz's environmental-engineering page rides.
+        targetDomain: 'environment',
+        signalType: 'built_environment_coupling',
+        condition: function (s) { return s.stress >= 0.55 && s.diagnoses && s.diagnoses.some(function (d) { return d.active; }); },
+        magnitudeFormula: function (s) { return Math.min(1, s.stress * 0.45); }
+      },
+      {
+        // Cyber → technology, scoped to a cyber-physical diagnosis only (the vuln-surface owner).
+        targetDomain: 'technology',
+        signalType: 'cyber_physical_exposure',
+        condition: function (s) { return s.stress >= 0.55 && s.diagnoses && s.diagnoses.some(function (d) { return d.active && /CYBER/i.test(d.id || d.name || ''); }); },
+        magnitudeFormula: function (s) { return Math.min(1, s.stress * 0.50); }
       }
     ];
   };
