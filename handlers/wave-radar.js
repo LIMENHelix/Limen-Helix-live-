@@ -36,6 +36,27 @@ const NF_REFRESH_MS = 7 * 24 * 60 * 60 * 1000;   // refresh the "sounds like NF"
 const DMAD_ARTIST = '13573429';                  // DMAD on Deezer (fresh previews fetched per view)
 const DMAD_PREF = { '1583652152': 0, '1583652022': 1 };  // World Is Spinning, Nothing Less first
 
+// Eras Radar — "what's coming back". We read the Last.fm tags of what's charting now,
+// bucket them into eras/sounds, and track each bucket's SHARE of new hits over time.
+// A comeback = an old sound whose share among rising music is accelerating (emergence,
+// same engine — just pointed at sounds instead of tracks). `adj` = adjacent to DMAD's
+// rap lane → candidates for "closest uncrowded wave".
+const ERA_BUCKETS = [
+  { key: '80s',    label: '80s · Synthwave', adj: false, tags: ['80s', 'synthwave', 'synth-pop', 'synthpop', 'new wave'] },
+  { key: '90s',    label: '90s', adj: true,  tags: ['90s', 'g-funk', 'new jack swing'] },
+  { key: '2000s',  label: '2000s', adj: true, tags: ['2000s', '00s', 'crunk', 'snap'] },
+  { key: 'disco',  label: 'Disco · Funk', adj: false, tags: ['disco', 'funk', 'nu-disco', 'nu disco'] },
+  { key: 'boombap',label: 'Boom-bap', adj: true, tags: ['boom bap', 'boom-bap', 'old school hip hop', 'old-school'] },
+  { key: 'drill',  label: 'Drill', adj: true, tags: ['drill', 'uk drill'] },
+  { key: 'phonk',  label: 'Phonk', adj: true, tags: ['phonk'] },
+  { key: 'trap',   label: 'Trap', adj: true, tags: ['trap'] },
+  { key: 'emo',    label: 'Emo-rap', adj: true, tags: ['emo rap', 'emo-rap', 'emo', 'pop punk', 'pop-punk'] },
+  { key: 'afro',   label: 'Afrobeats · Amapiano', adj: false, tags: ['afrobeats', 'afrobeat', 'amapiano'] },
+  { key: 'rnb',    label: 'R&B · Neo-soul', adj: true, tags: ['contemporary r&b', 'neo-soul', 'neo soul', 'alternative r&b'] },
+  { key: 'house',  label: 'House · Dance', adj: false, tags: ['house', 'edm', 'tech house', 'deep house'] }
+];
+const ERA_SAMPLE = 24;   // how many charting tracks to tag-sample per snapshot (bounded cost)
+
 const SNAP_THROTTLE_MS = 3 * 60 * 60 * 1000;
 const HIST_CAP = 48;
 const PRUNE_MS = 16 * 24 * 60 * 60 * 1000;
@@ -54,6 +75,30 @@ async function fetchJSON(url) {
 async function fetchChart(genre) { const j = await fetchJSON('https://api.deezer.com/chart/' + genre + '/tracks?limit=50'); return (j && Array.isArray(j.data)) ? j.data : []; }
 
 function slug(s) { return String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 64); }
+
+// Last.fm tags for one track → lowercased list (for the Eras Radar bucketing).
+async function fetchTrackTags(artist, title) {
+  if (!LFM_KEY || !artist || !title) return [];
+  const j = await fetchJSON(LFM_BASE + '?method=track.gettoptags&artist=' + encodeURIComponent(artist) + '&track=' + encodeURIComponent(title) + '&autocorrect=1&api_key=' + LFM_KEY + '&format=json');
+  const list = (j && j.toptags && Array.isArray(j.toptags.tag)) ? j.toptags.tag : [];
+  return list.map(t => String(t.name || '').toLowerCase().trim()).filter(Boolean).slice(0, 12);
+}
+
+// A bucket's share-of-charting series → velocity + phase (emergence on SHARE, not rank).
+function analyzeShare(hist) {
+  const pts = (hist || []).filter(h => h.n > 0).map(h => ({ t: h.t, s: h.c / h.n }));
+  const n = pts.length, cur = pts[n - 1];
+  const share = cur ? cur.s : 0;
+  if (n < 2) return { share: share, phase: 'baseline', velocity: 0, points: n };
+  const vel = (a, b) => { const dt = Math.max((b.t - a.t) / DAY, 0.04); return (b.s - a.s) / dt; };
+  const vRecent = vel(pts[n - 2], pts[n - 1]);
+  let phase;
+  if (vRecent > 0.03) phase = 'emerging';
+  else if (vRecent > 0.008) phase = 'rising';
+  else if (vRecent < -0.02) phase = 'cooling';
+  else phase = 'steady';
+  return { share: share, phase: phase, velocity: +vRecent.toFixed(3), points: n };
+}
 
 // One Last.fm chart → normalized rows (rank = list order). No previews/BPM (Deezer owns audio).
 async function fetchLfmTracks(src) {
@@ -197,7 +242,32 @@ async function takeSnapshot(doc) {
     tracks[id] = rec;
   }
   for (const id in tracks) { const h = tracks[id].hist; if (!h || !h.length || (ts - h[h.length - 1].t) > PRUNE_MS) delete tracks[id]; }
-  return { lastsnap: ts, tracks: tracks };
+
+  // Eras Radar: tag-sample the top charting tracks, bucket into eras/sounds, append this
+  // snapshot's counts so each bucket's share-of-charting accrues a time-series.
+  let eras = doc.eras || { b: {} };
+  if (LFM_KEY) {
+    const sample = Object.keys(best).map(id => best[id]).sort((a, b) => a.pos - b.pos).slice(0, ERA_SAMPLE);
+    const tagLists = await Promise.all(sample.map(s => fetchTrackTags(s.artist, s.title)));
+    const counts = {}; ERA_BUCKETS.forEach(b => { counts[b.key] = 0; });
+    let nTagged = 0;
+    tagLists.forEach(tags => {
+      if (!tags.length) return; nTagged++;
+      ERA_BUCKETS.forEach(b => { if (b.tags.some(bt => tags.some(t => t === bt || t.indexOf(bt) >= 0))) counts[b.key]++; });
+    });
+    if (nTagged >= 4) {
+      const b = eras.b || {};
+      ERA_BUCKETS.forEach(bk => {
+        const arr = b[bk.key] || [];
+        arr.push({ t: ts, c: counts[bk.key], n: nTagged });
+        if (arr.length > HIST_CAP) arr.splice(0, arr.length - HIST_CAP);
+        b[bk.key] = arr;
+      });
+      eras = { lastsnap: ts, n: nTagged, b: b };
+    }
+  }
+
+  return Object.assign({}, doc, { lastsnap: ts, tracks: tracks, eras: eras });
 }
 
 function readBody(req) {
@@ -326,6 +396,20 @@ module.exports = async function handler(req, res) {
     const currentTop = dz.slice().sort((a, b) => a.cur - b.cur).slice(0, 24).map(slim);
     const patterns = tempoPatterns(rows);
 
+    // Eras Radar — share + trend per era/sound bucket; plus the "closest uncrowded wave"
+    // (rap-adjacent bucket that's emerging/rising but not yet crowded).
+    const erasDoc = doc.eras || { b: {} };
+    let eras = ERA_BUCKETS.map(bk => {
+      const a = analyzeShare(erasDoc.b && erasDoc.b[bk.key]);
+      return { key: bk.key, label: bk.label, adj: bk.adj, share: Math.round(a.share * 100), phase: a.phase, velocity: a.velocity, points: a.points };
+    }).filter(e => e.points > 0).sort((x, y) => y.share - x.share);
+    const erasWarming = !eras.length || eras.every(e => e.points < 2);
+    let openLane = null;
+    const adjPool = eras.filter(e => e.adj);
+    const climbing = adjPool.filter(e => e.phase === 'emerging' || e.phase === 'rising').sort((a, b) => b.velocity - a.velocity);
+    if (climbing.length) openLane = Object.assign({}, climbing[0], { warming: false });
+    else if (adjPool.length) openLane = Object.assign({}, adjPool.slice().sort((a, b) => a.share - b.share)[0], { warming: true });
+
     res.statusCode = 200;
     return res.end(JSON.stringify({
       ok: true, warming: warming, tracked: dz.length, withBpm: dz.filter(r => r.bpm > 0).length,
@@ -335,6 +419,7 @@ module.exports = async function handler(req, res) {
       neighborhood: ((doc.nf && doc.nf.artists) || []).slice(0, 16),
       loves: (doc.nf && doc.nf.loves) || NF_SEEDS,
       lane: { you: laneFor('you'), geo: laneFor('geo') },
+      eras: eras, erasWarming: erasWarming, erasSample: erasDoc.n || 0, openLane: openLane,
       note: warming ? 'Radar is warming up — it set a baseline. Velocity/emergence appear once a second snapshot lands (a few hours). Tempo patterns below are live now.' : null
     }));
   } catch (e) {
