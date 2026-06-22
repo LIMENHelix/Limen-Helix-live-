@@ -242,14 +242,55 @@
 
   // ─── State ───────────────────────────────────────────────────────────────
 
-  var _prevAbove = {};
+  var _prevAbove = {};          // curated pairs (index-keyed)
+  var _sessionTriggered = {};   // curated pairs (index-keyed)
+  var _meshAbove = {};          // mesh pairs + clusters (string-keyed)
+  var _meshTrig = {};           // mesh pairs + clusters (string-keyed)
   var _activePatterns = [];
-  var _sessionTriggered = {};
   var _idCounter = 0;
   var _panelEl = null;
 
   for (var p = 0; p < PATTERNS.length; p++) {
     _prevAbove[p] = false;
+  }
+
+  // ─── Mesh config: full-web sensing beyond the curated pairs ───────────────
+  var DOMAIN_LIST = ['economy', 'energy', 'environment', 'health', 'technology', 'research', 'supplyChain', 'governance', 'infrastructure', 'agriculture', 'industry', 'education', 'communication', 'culture', 'defense', 'religion', 'population', 'law', 'finance', 'intelligence'];
+  var MESH_THRESHOLD = 0.6;   // any non-curated pair both above this co-stresses (the web)
+  var CLUSTER_MIN = 3;        // a shared-driver cluster needs >= N co-affected domains
+  var CYBER_RE = /\b(cve|kev|ransomware|vulnerab|exploit|cyber)\b/i;
+
+  function _pairKey(a, b) { return a < b ? a + '|' + b : b + '|' + a; }
+  var _curatedPairKey = {};
+  for (var _ci = 0; _ci < PATTERNS.length; _ci++) { _curatedPairKey[_pairKey(PATTERNS[_ci].domains[0], PATTERNS[_ci].domains[1])] = true; }
+
+  // Truth-preferred stress reader (module-scope twin of detect()'s inner reader).
+  function _stressOf(domainId, slot, packets) {
+    var pk = packets[domainId];
+    if (pk && pk.truth && typeof pk.truth.stressScore === 'number') return pk.truth.stressScore;
+    if (pk && typeof pk.stressScore === 'number') return pk.stressScore;
+    if (slot && typeof slot.brainStress === 'number') return slot.brainStress;
+    if (slot && typeof slot.stress === 'number') return slot.stress;
+    return 0;
+  }
+  // A live cyber feed in this domain's sources/feeds, or a cyber keyword in its signals.
+  function _cyberHit(slot) {
+    var srcs = slot.sources || slot.brainFeeds || slot._channels || [];
+    if (Array.isArray(srcs)) {
+      for (var i = 0; i < srcs.length; i++) {
+        var s = srcs[i]; if (!s) continue;
+        var idt = ((s.name || '') + ' ' + (s.label || '')).trim();
+        if (s.live !== false && CYBER_RE.test(idt)) return { label: (s.label || s.name || '').slice(0, 60) };
+      }
+    }
+    var sigs = slot.signals || [];
+    if (Array.isArray(sigs)) {
+      for (var j = 0; j < sigs.length; j++) {
+        var t = (typeof sigs[j] === 'string') ? sigs[j] : (sigs[j] && (sigs[j].signal || sigs[j].label) || '');
+        if (CYBER_RE.test(t)) return { label: String(t).slice(0, 60) };
+      }
+    }
+    return null;
   }
 
   // ─── Detection logic ──────────────────────────────────────────────────
@@ -347,12 +388,17 @@
       _prevAbove[i] = isAbove;
     }
 
-    // Sort by severity descending, keep top 3
+    // ── 2) DYNAMIC MESH + 3) SHARED-DRIVER CLUSTER — full-web sensing ──
+    _detectMesh(domains, packets, audit, newActive);
+    _detectCyberCluster(domains, packets, audit, newActive);
+
+    // Sort by severity descending
     newActive.sort(function (a, b) { return b.severity - a.severity; });
-    _activePatterns = newActive.slice(0, 3);
+    _activePatterns = newActive.slice(0, 8);
 
     window.LIMENCrossDomain = {
       active: _activePatterns,
+      all: newActive.slice(),
       patterns: PATTERNS,
       timestamp: Date.now()
     };
@@ -378,6 +424,95 @@
       }
     }
     return drivers;
+  }
+
+  // ─── Mesh + shared-driver cluster (additive; same emit contract) ──────────
+
+  // 2-tick stability + once-per-session emit, string-keyed (mesh/cluster).
+  function _considerKeyed(key, isAbove, buildSignal, legacyDesc, newActive) {
+    if (isAbove && _meshAbove[key]) {
+      var sig = buildSignal();
+      newActive.push(sig);
+      if (!_meshTrig[key]) {
+        _meshTrig[key] = true;
+        _dispatch('limen:cross-domain-signal', sig);
+        _dispatch('limen:opportunity-detected', {
+          type: 'systemic', domains: sig.domains.slice(), label: sig.pattern,
+          description: legacyDesc, confidence: sig.confidence, signal: sig, timestamp: Date.now()
+        });
+      }
+    } else if (!isAbove) {
+      _meshTrig[key] = false;
+    }
+    _meshAbove[key] = isAbove;
+  }
+
+  // Any non-curated domain pair both above MESH_THRESHOLD = a sensed web strand.
+  function _detectMesh(domains, packets, audit, newActive) {
+    function status(id) { return (audit[id] && audit[id].status) || 'FALLBACK'; }
+    for (var a = 0; a < DOMAIN_LIST.length; a++) {
+      for (var b = a + 1; b < DOMAIN_LIST.length; b++) {
+        var idA = DOMAIN_LIST[a], idB = DOMAIN_LIST[b];
+        if (_curatedPairKey[_pairKey(idA, idB)]) continue;
+        var dA = domains[idA], dB = domains[idB];
+        var sA = _stressOf(idA, dA, packets), sB = _stressOf(idB, dB, packets);
+        var isAbove = sA >= MESH_THRESHOLD && sB >= MESH_THRESHOLD;
+        var confA = (dA && dA.confidence) || 0, confB = (dB && dB.confidence) || 0, avgConf = (confA + confB) / 2;
+        var sev = _clamp(Math.round(((sA + sB) / 2) * avgConf * 100) / 100, 0, 1);
+        _considerKeyed('mesh:' + _pairKey(idA, idB), isAbove,
+          _mkMeshSignal(idA, idB, dA, dB, sA, sB, sev, avgConf, status(idA), status(idB)),
+          idA + ' and ' + idB + ' co-stressing (mesh)', newActive);
+      }
+    }
+  }
+  function _mkMeshSignal(idA, idB, dA, dB, sA, sB, sev, avgConf, statA, statB) {
+    return function () {
+      return {
+        id: 'mesh_' + idA + '_' + idB + '_' + (++_idCounter), patternId: 'mesh:' + _pairKey(idA, idB),
+        domains: [idA, idB], pattern: idA + '–' + idB + ' co-stress', mesh: true,
+        severity: sev, confidence: _clamp(Math.round(avgConf * 100) / 100, 0, 1),
+        drivers: _buildLiveDrivers({ drivers: [] }, dA, dB),
+        options: [{ label: 'trace ' + idA + '–' + idB + ' exposure', type: 'analysis' }, { label: 'hold', type: 'monitoring' }],
+        stressA: sA, stressB: sB, sourceStatusA: statA, sourceStatusB: statB, updated: Date.now()
+      };
+    };
+  }
+
+  // One live feed (cyber/CISA KEV) elevated across many domains = the convergence.
+  function _detectCyberCluster(domains, packets, audit, newActive) {
+    var members = [], labels = {};
+    for (var k = 0; k < DOMAIN_LIST.length; k++) {
+      var id = DOMAIN_LIST[k], slot = domains[id]; if (!slot) continue;
+      var hit = _cyberHit(slot);
+      if (hit) { members.push(id); if (hit.label) labels[hit.label] = true; }
+    }
+    var isAbove = members.length >= CLUSTER_MIN;
+    _considerKeyed('cluster:cyber', isAbove,
+      _mkCyberSignal(members.slice(), Object.keys(labels), domains, packets, audit),
+      members.length + ' domains co-stressing on a live cyber threat (CISA KEV)', newActive);
+  }
+  function _mkCyberSignal(members, labels, domains, packets, audit) {
+    return function () {
+      function status(id) { return (audit[id] && audit[id].status) || 'LIVE'; }
+      var sorted = members.slice().sort(function (x, y) { return _stressOf(y, domains[y], packets) - _stressOf(x, domains[x], packets); });
+      var avg = 0; for (var m = 0; m < sorted.length; m++) avg += _stressOf(sorted[m], domains[sorted[m]], packets);
+      avg = sorted.length ? avg / sorted.length : 0;
+      var sev = _clamp(Math.round((avg * 0.6 + Math.min(1, sorted.length / 8) * 0.4) * 100) / 100, 0, 1);
+      var drv = labels.slice(0, 3); if (!drv.length) drv = ['actively exploited CVEs (CISA KEV)', 'critical-infrastructure cyber threat'];
+      return {
+        id: 'cluster_cyber_' + (++_idCounter), patternId: 'cluster:cyber', cluster: true,
+        domains: sorted.slice(), members: sorted.slice(),
+        pattern: 'critical-infrastructure cyber convergence', severity: sev, confidence: 0.7, drivers: drv,
+        options: [
+          { label: 'find companies exposed across ' + sorted.length + ' domains', type: 'discovery' },
+          { label: 'trace cyber-infrastructure transmission', type: 'analysis' },
+          { label: 'hold', type: 'monitoring' }
+        ],
+        stressA: _stressOf(sorted[0], domains[sorted[0]], packets),
+        stressB: sorted[1] ? _stressOf(sorted[1], domains[sorted[1]], packets) : 0,
+        sourceStatusA: status(sorted[0]), sourceStatusB: sorted[1] ? status(sorted[1]) : 'LIVE', updated: Date.now()
+      };
+    };
   }
 
   // ─── Systemic Signals panel ──────────────────────────────────────────────
