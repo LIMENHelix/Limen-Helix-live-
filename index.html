@@ -320,8 +320,8 @@ void main(){
       if(RETURN_ALLOWLIST.indexOf(pathOnly)!==-1) return ret;
     }catch(e){} return null;
   }
-  function grantAndRedirect(person){
-    try{ sessionStorage.setItem(AUTH_KEY,AUTH_VALUE); if(person) sessionStorage.setItem('limen_admin',JSON.stringify(person)); }catch(e){}
+  function grantAndRedirect(person,pass){
+    try{ sessionStorage.setItem(AUTH_KEY,AUTH_VALUE); if(person) sessionStorage.setItem('limen_admin',JSON.stringify(person)); if(pass) sessionStorage.setItem('limen_pass',pass); }catch(e){}
     window.location.replace(getReturnParam()||DEFAULT_LANDING); }
   function checkHash(){ if(location.hash==='#admin') show(); }
   checkHash(); addEventListener('hashchange',checkHash);
@@ -339,7 +339,7 @@ void main(){
     fetch('/api/admin-auth',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({passcode:entered})})
       .then(function(r){return r.json();})
       .then(function(j){
-        if(j&&j.ok){ errorBox.textContent=''; grantAndRedirect(j.person); }
+        if(j&&j.ok){ errorBox.textContent=''; grantAndRedirect(j.person,entered); }
         else { errorBox.textContent='Incorrect'; pwInput.value=''; pwInput.focus(); }
       })
       .catch(function(){ errorBox.textContent='Error — try again'; });

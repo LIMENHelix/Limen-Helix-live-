@@ -41,6 +41,29 @@ function _readContract() {
   catch (e) { return null; }
 }
 
+// ── ADMIN GATE (finance only) ──────────────────────────────────────────────
+// The Capital Engine is not public. Allow the master passcode or any assigned
+// person with the finance domain (Drew, Liz Jurkoic). Passcode comes via ?key=
+// or the x-limen-pass header; validated against the same server env secrets.
+const ADMIN_MAP = path.join(__dirname, '..', 'assets', 'data', 'admin-assignments.json');
+function _financePeople() { try { return (JSON.parse(fs.readFileSync(ADMIN_MAP, 'utf8')).people || []).filter(function (p) { return (p.domains || []).indexOf('finance') > -1; }); } catch (e) { return []; } }
+function _authorizeFinance(passcode) {
+  if (!passcode) return false;
+  const mk = process.env.ADMIN_MASTER || process.env.ADMIN_MASTER_KEY || '';
+  if (mk && passcode === mk) return true;
+  const people = _financePeople();
+  for (let i = 0; i < people.length; i++) {
+    const p = people[i], v = process.env[p.envVar || ('ADMIN_PASS_' + String(p.key || '').toUpperCase())];
+    if (v && passcode === v) return true;
+  }
+  return false;
+}
+function _reqKey(req) {
+  try { if (req.query && req.query.key) return String(req.query.key); } catch (e) {}
+  try { const h = req.headers && (req.headers['x-limen-pass'] || req.headers['X-Limen-Pass']); if (h) return String(h); } catch (e) {}
+  try { return new URL(req.url, 'http://x').searchParams.get('key') || ''; } catch (e) { return ''; }
+}
+
 // connector readiness: which env keys are actually present (booleans only, never the value)
 function _connectorReadiness(contract) {
   const out = [];
@@ -82,8 +105,12 @@ function _aiStatus() {
 }
 
 module.exports = async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Cache-Control', 'no-store');
+
+  // Admin-only (finance): master, Drew, or Liz Jurkoic. No public access.
+  if (!_authorizeFinance(_reqKey(req))) {
+    return res.status(403).json({ ok: false, error: 'Capital Engine is admin-only. Sign in with a finance passcode.' });
+  }
 
   const action = (req.query && req.query.action) || 'streams';
   const contract = _readContract();
