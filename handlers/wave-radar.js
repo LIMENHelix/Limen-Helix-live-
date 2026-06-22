@@ -405,10 +405,11 @@ module.exports = async function handler(req, res) {
     }).filter(e => e.points > 0).sort((x, y) => y.share - x.share);
     const erasWarming = !eras.length || eras.every(e => e.points < 2);
     let openLane = null;
-    const adjPool = eras.filter(e => e.adj);
-    const climbing = adjPool.filter(e => e.phase === 'emerging' || e.phase === 'rising').sort((a, b) => b.velocity - a.velocity);
+    const adjPresent = eras.filter(e => e.adj && e.share > 0);  // present in his lane, not absent
+    const climbing = adjPresent.filter(e => e.phase === 'emerging' || e.phase === 'rising').sort((a, b) => b.velocity - a.velocity);
     if (climbing.length) openLane = Object.assign({}, climbing[0], { warming: false });
-    else if (adjPool.length) openLane = Object.assign({}, adjPool.slice().sort((a, b) => a.share - b.share)[0], { warming: true });
+    // warming fallback: smallest *present* adjacent share = most room while it's there
+    else if (adjPresent.length) openLane = Object.assign({}, adjPresent.slice().sort((a, b) => a.share - b.share)[0], { warming: true });
 
     res.statusCode = 200;
     return res.end(JSON.stringify({
