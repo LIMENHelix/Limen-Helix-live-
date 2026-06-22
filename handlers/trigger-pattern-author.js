@@ -89,7 +89,9 @@ async function _proposalCountsByPortal() {
   return counts;
 }
 
+const adminGate = require('../lib/admin-gate');
 module.exports = async (req, res) => {
+  if ((req.method || 'GET').toUpperCase() !== 'OPTIONS' && !adminGate.isMaster(adminGate.reqKey(req))) return adminGate.deny(res);
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');

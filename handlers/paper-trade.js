@@ -14,7 +14,9 @@
 
 var ALPACA_PAPER_URL = 'https://paper-api.alpaca.markets';
 
+const adminGate = require('../lib/admin-gate');
 module.exports = async function handler(req, res) {
+  if ((req.method || 'GET').toUpperCase() !== 'OPTIONS' && !adminGate.hasDomain(adminGate.reqKey(req), 'finance')) return adminGate.deny(res);
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');

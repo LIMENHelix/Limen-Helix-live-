@@ -97,7 +97,9 @@ function _bridgeFromPattern(pattern) {
   };
 }
 
+const adminGate = require('../lib/admin-gate');
 module.exports = async (req, res) => {
+  if ((req.method || 'GET').toUpperCase() !== 'OPTIONS' && !adminGate.isMaster(adminGate.reqKey(req))) return adminGate.deny(res);
   try {
     const q = req.query || {};
     const slug = q.slug;

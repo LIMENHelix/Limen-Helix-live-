@@ -10,7 +10,9 @@
  */
 const queue = require('../lib/operator-action-queue.js');
 
+const adminGate = require('../lib/admin-gate');
 module.exports = async (req, res) => {
+  if ((req.method || 'GET').toUpperCase() !== 'OPTIONS' && !adminGate.isMaster(adminGate.reqKey(req))) return adminGate.deny(res);
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
