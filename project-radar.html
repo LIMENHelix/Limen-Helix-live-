@@ -105,8 +105,18 @@ a{color:var(--steel);text-decoration:none}
   <div class="tabs" id="rfpTabs" style="display:none"></div>
   <div id="rfps" class="list"><div class="muted">Checking open solicitations…</div></div>
 
+  <div class="sec" id="lettings"><h2>🏛 State DOT lettings</h2><span class="cap">state road/highway bids — no clean API, so here are the portals (a Bid Express login covers most)</span></div>
+  <div class="primes">
+    <a class="pcard" href="https://dot.ca.gov/programs/construction" target="_blank" rel="noopener"><span class="nm">CalTrans — bidding &amp; contracts</span><span class="tt">CA ↗</span></a>
+    <a class="pcard" href="https://caleprocure.ca.gov" target="_blank" rel="noopener"><span class="nm">Cal eProcure (CA state)</span><span class="tt">CA ↗</span></a>
+    <a class="pcard" href="https://www.tn.gov/tdot/construction.html" target="_blank" rel="noopener"><span class="nm">TDOT — construction letting</span><span class="tt">TN ↗</span></a>
+    <a class="pcard" href="https://www.ksdot.gov/bureaus/burConsMain/" target="_blank" rel="noopener"><span class="nm">KDOT — construction &amp; lettings</span><span class="tt">KS ↗</span></a>
+    <a class="pcard" href="https://www.bidexpress.com" target="_blank" rel="noopener"><span class="nm">Bid Express (most DOT bids)</span><span class="tt">all ↗</span></a>
+  </div>
+
   <div class="sec" id="radar"><h2>🛰 Project Radar</h2><span class="cap">awarded $1M+ civil projects · the primes already working your states</span></div>
   <div class="tabs" id="tabs"></div>
+  <div style="margin:-4px 0 12px;font-size:12px;color:var(--dim)">sort: <a href="#" id="sortAmt"><b>biggest</b></a> &nbsp;·&nbsp; <a href="#" id="sortRec">newest</a></div>
   <div id="list" class="list"><div class="muted">Reading the award data…</div></div>
 
   <div class="sec"><h2>📈 Project phase tracker</h2><span class="cap">where survey &amp; drafting work lives in a project's life — same phase grammar, civil edition</span></div>
@@ -170,9 +180,13 @@ a{color:var(--steel);text-decoration:none}
       return '<button data-k="'+k+'" class="'+(k===cur?'on':'')+'">'+lbl+' ('+n+')</button>'; }).join('');
     el.querySelectorAll('button').forEach(function(b){ b.onclick=function(){ cur=b.getAttribute('data-k'); renderTabs(); renderList(); }; });
   }
-  function allRows(){ var out=[]; ['CA','TN','KS'].forEach(function(k){ (DATA.states[k]||[]).forEach(function(r){ out.push(Object.assign({_st:k},r)); }); }); out.sort(function(a,b){return b.amount-a.amount;}); return out; }
+  var sortMode='amount';
+  function applySort(rows){ rows=rows.slice(); if(sortMode==='recent') rows.sort(function(a,b){return Date.parse(b.started||'1900-01-01')-Date.parse(a.started||'1900-01-01');}); else rows.sort(function(a,b){return b.amount-a.amount;}); return rows; }
+  function allRows(){ var out=[]; ['CA','TN','KS'].forEach(function(k){ (DATA.states[k]||[]).forEach(function(r){ out.push(Object.assign({_st:k},r)); }); }); return applySort(out); }
+  function setSortUI(){ var a=document.getElementById('sortAmt'),r=document.getElementById('sortRec'); if(a)a.innerHTML=sortMode==='amount'?'<b>biggest</b>':'biggest'; if(r)r.innerHTML=sortMode==='recent'?'<b>newest</b>':'newest'; }
   function renderList(){
-    var rows = cur==='ALL' ? allRows() : (DATA.states[cur]||[]).map(function(r){return Object.assign({_st:cur},r);});
+    if(!DATA){ return; }
+    var rows = cur==='ALL' ? allRows() : applySort((DATA.states[cur]||[]).map(function(r){return Object.assign({_st:cur},r);}));
     var el=document.getElementById('list');
     if(!rows.length){ el.innerHTML='<div class="muted">No projects on radar for this view yet.</div>'; return; }
     el.innerHTML=rows.map(function(r){
@@ -294,6 +308,10 @@ a{color:var(--steel);text-decoration:none}
   fetch('/api/civil-rfps').then(function(r){return r.json();}).then(function(j){
     RFP=j; if(j.configured && rallRows().length) renderRfpTabs(); renderRfps();
   }).catch(function(){ document.getElementById('rfps').innerHTML='<div class="muted">Couldn’t reach the bid feed.</div>'; });
+
+  (function(){ var a=document.getElementById('sortAmt'),r=document.getElementById('sortRec');
+    if(a)a.onclick=function(e){e.preventDefault();sortMode='amount';setSortUI();renderList();};
+    if(r)r.onclick=function(e){e.preventDefault();sortMode='recent';setSortUI();renderList();}; })();
 
   fetch('/api/civil-radar').then(function(r){return r.json();}).then(function(j){
     if(!j.ok){ document.getElementById('list').innerHTML='<div class="muted">Radar offline — try again shortly.</div>'; return; }
