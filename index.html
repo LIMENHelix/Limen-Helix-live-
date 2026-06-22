@@ -121,6 +121,7 @@
 </style>
 </head>
 <body>
+<a href="#admin" id="admin-open" style="position:fixed;top:14px;right:16px;z-index:60;font-size:0.58rem;letter-spacing:2px;text-transform:uppercase;color:rgba(201,169,78,0.62);border:1px solid rgba(201,169,78,0.32);padding:6px 13px;border-radius:3px;background:rgba(0,0,0,0.35);backdrop-filter:blur(2px)">Admin</a>
 <canvas id="gl"></canvas>
 <canvas id="frac"></canvas>
 <canvas id="fx"></canvas>
@@ -302,7 +303,7 @@ void main(){
 /* ── 4. Operator login (preserved: passphrase → /civilization) ───── */
 (function(){
   'use strict';
-  var ADMIN_PASSPHRASE='209913', AUTH_KEY='limen_access', AUTH_VALUE='granted', DEFAULT_LANDING='/civilization';
+  var ADMIN_PASSPHRASE='209913', AUTH_KEY='limen_access', AUTH_VALUE='granted', DEFAULT_LANDING='/admin';
   var overlay=document.getElementById('admin-overlay'), form=document.getElementById('admin-form'),
       pwInput=document.getElementById('admin-pw'), errorBox=document.getElementById('admin-error'),
       closeBtn=document.getElementById('admin-close'),

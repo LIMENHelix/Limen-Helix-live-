@@ -3,22 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>LIMEN HELIX · Admin</title>
+<title>LIMEN HELIX · Mission Control</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#080a0f;color:#e8e3d9;font-family:'IBM Plex Mono',monospace;font-size:15px;line-height:1.55;
   background-image:linear-gradient(rgba(201,169,78,0.015) 1px,transparent 1px),linear-gradient(90deg,rgba(201,169,78,0.015) 1px,transparent 1px);background-size:28px 28px;}
 a{color:inherit;text-decoration:none}
-.wrap{max-width:760px;margin:0 auto;padding:40px 20px 80px}
+.wrap{max-width:880px;margin:0 auto;padding:40px 20px 80px}
 .brand{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(201,169,78,0.55);margin-bottom:6px}
 h1{font-size:30px;font-weight:400;margin-bottom:4px}
 .who{font-size:11px;letter-spacing:2px;color:rgba(214,209,198,0.7);text-transform:uppercase;margin-bottom:28px}
-.sec{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(224,200,130,0.92);margin:24px 0 10px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
-.card{display:block;border:1px solid rgba(201,169,78,0.18);border-radius:4px;padding:14px 16px;background:#0c0f16;transition:border-color .15s}
+.sec{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(224,200,130,0.92);margin:26px 0 10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.card{display:block;border:1px solid rgba(201,169,78,0.18);border-radius:4px;padding:13px 15px;background:#0c0f16;transition:border-color .15s}
 .card:hover{border-color:rgba(201,169,78,0.5)}
 .card .t{font-size:14px;color:#e8e3d9;margin-bottom:3px;text-transform:capitalize}
 .card .d{font-size:10px;letter-spacing:1px;color:rgba(214,209,198,0.55)}
+.dgrid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+.dgrid .card{padding:10px 12px}
 .logout{margin-top:36px;display:inline-block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(212,87,75,0.8);border:1px solid rgba(212,87,75,0.3);padding:7px 16px;border-radius:2px;cursor:pointer;background:none}
 .gate{padding:60px 0;text-align:center;color:rgba(214,209,198,0.6)}
 .gate button{margin-top:18px;background:transparent;border:1px solid rgba(201,169,78,0.45);color:#c9a94e;font-family:inherit;letter-spacing:2px;padding:9px 22px;border-radius:2px;cursor:pointer;text-transform:uppercase}
@@ -26,7 +28,7 @@ h1{font-size:30px;font-weight:400;margin-bottom:4px}
 </head>
 <body>
 <div class="wrap">
-  <div class="brand"><a href="/civilization">LIMEN HELIX</a> · ADMIN</div>
+  <div class="brand"><a href="/">LIMEN HELIX</a> · MISSION CONTROL</div>
   <div id="root"><div class="gate">Loading…</div></div>
 </div>
 <script src="assets/js/limen-admin-login.js"></script>
@@ -34,35 +36,66 @@ h1{font-size:30px;font-weight:400;margin-bottom:4px}
 (function(){
   'use strict';
   var root=document.getElementById('root');
-  var DOMAIN_DESC={energy:'Energy Watch + console',culture:'Culture domain + console',infrastructure:'Infrastructure domain + console',finance:'Finance · Capital Engine + console'};
-  function person(){ try{ return JSON.parse(sessionStorage.getItem('limen_admin')||'null'); }catch(e){ return null; } }
-  function card(href,title,desc){ return '<a class="card" href="'+href+'"><div class="t">'+title+'</div><div class="d">'+desc+'</div></a>'; }
+  var ALL_DOMAINS=['agriculture','communication','culture','defense','economy','education','energy','environment','finance','governance','industry','infrastructure','intelligence','law','medicine','population','religion','science','technology','trade'];
+  var DOMAIN_DESC={energy:'Energy Watch + console',culture:'Culture / Music',infrastructure:'Infrastructure',finance:'Capital Engine'};
+
+  // Per-person login stores a `limen_admin` object. The front-page passphrase only sets
+  // limen_access=granted (no person) — treat that as the master operator (you).
+  function person(){
+    var p=null; try{ p=JSON.parse(sessionStorage.getItem('limen_admin')||'null'); }catch(e){}
+    if(p) return p;
+    var granted=false; try{ granted=sessionStorage.getItem('limen_access')==='granted'; }catch(e){}
+    if(granted) return { master:true, name:'Operator', domains:ALL_DOMAINS.slice() };
+    return null;
+  }
+  function card(href,title,desc){ return '<a class="card" href="'+href+'"><div class="t">'+title+'</div><div class="d">'+(desc||'')+'</div></a>'; }
+  function sec(title,cards,cls){ cards=cards.filter(Boolean); if(!cards.length) return ''; return '<div class="sec">'+title+'</div><div class="grid'+(cls?' '+cls:'')+'">'+cards.join('')+'</div>'; }
+
   function render(){
     var p=person();
     if(!p){ root.innerHTML='<div class="gate">You are not signed in.<br><button onclick="LimenAdminLogin.open()">Admin login</button></div>'; return; }
-    var h='<h1>'+(p.name||'Operator')+'</h1><div class="who">'+(p.master?'Master access · all domains':'Assigned operator')+'</div>';
-    // Domains
-    h+='<div class="sec">Your domains</div><div class="grid">';
-    (p.domains||[]).forEach(function(d){
-      // each domain: console (canonical) + capital-engine for finance, public front where one exists
-      if(d==='finance'){ h+=card('/finance-capital-engine','finance','Capital Engine'); h+=card('/domain-console?domain=finance','finance','Console'); }
-      else { h+=card('/domain-console?domain='+d, d, (DOMAIN_DESC[d]||'Console')); }
-    });
-    h+='</div>';
-    // Public fronts the person can manage
-    var fronts=(p.domains||[]).filter(function(d){return ['energy','culture','infrastructure'].indexOf(d)>-1;});
-    if(fronts.length){ h+='<div class="sec">Public fronts</div><div class="grid">';
-      fronts.forEach(function(d){ h+=card('/'+d, d, 'Public front page'); }); h+='</div>'; }
-    // Properties (e.g. Mima's)
-    if(p.properties&&p.properties.length){ h+='<div class="sec">Properties</div><div class="grid">';
-      p.properties.forEach(function(pr){ h+=card(pr.url||'#', pr.name, (pr.domain||'')+' · storefront'); }); h+='</div>'; }
-    // Tools — leads + Drew's site requests (operator, or culture/finance people)
-    var tools='';
-    if(p.master||(p.domains||[]).indexOf('finance')>-1){ tools+=card('/admin-leads','Leads','Front-page sign-ups'); }
-    if(p.master||(p.domains||[]).indexOf('culture')>-1){ tools+=card('/admin-requests','Site Requests <span id="reqBadge"></span>','Change requests from the music page'); }
-    if(tools){ h+='<div class="sec">Tools</div><div class="grid">'+tools+'</div>'; }
+    var h='<h1>'+(p.name||'Operator')+'</h1><div class="who">'+(p.master?'Master access · everything':'Assigned operator')+'</div>';
+
+    if(p.master){
+      h+=sec('Public fronts',[
+        card('/energy','⚡ Energy','Bill X-Ray + markets'),
+        card('/culture','🎵 Music / Culture','The music front'),
+        card('/wave-radar','🌊 Wave Radar','Drew’s artist toolkit'),
+        card('/infrastructure','🏗 Infrastructure','Watch + console'),
+        card('/finance-capital-engine','💰 Finance','Capital Engine')
+      ]);
+      h+=sec('System',[
+        card('/civilization','🧭 Civilization','The cockpit'),
+        card('/pages','🗺 Site Map','Every page'),
+        card('/phase-map','◴ Phase Map','P0–P10'),
+        card('/kernel-comparison','⚙ Kernel','Validation'),
+        card('/treatment-discovery','🧬 Treatment Discovery',''),
+        card('/pattern-proposals','🧩 Pattern Proposals',''),
+        card('/vitals','❤ Vitals','System health')
+      ]);
+      h+=sec('All domains · '+ALL_DOMAINS.length, ALL_DOMAINS.map(function(d){ return card('/domain-console?domain='+d, d, DOMAIN_DESC[d]||'Console'); }), 'dgrid');
+      h+=sec('Admin tools',[
+        card('/admin-leads','Leads','Front-page sign-ups'),
+        card('/admin-requests','Site Requests <span id="reqBadge"></span>','Change requests')
+      ]);
+    } else {
+      h+=sec('Your domains', (p.domains||[]).map(function(d){
+        if(d==='finance') return card('/finance-capital-engine','finance','Capital Engine');
+        return card('/domain-console?domain='+d, d, DOMAIN_DESC[d]||'Console');
+      }));
+      h+=sec('Public fronts', (p.domains||[]).filter(function(d){return ['energy','culture','infrastructure'].indexOf(d)>-1;}).map(function(d){
+        return d==='culture' ? card('/wave-radar','🌊 Wave Radar','Your music tools') : card('/'+d, d, 'Public front');
+      }));
+      if(p.properties&&p.properties.length){ h+=sec('Properties', p.properties.map(function(pr){ return card(pr.url||'#', pr.name, (pr.domain||'')+' · storefront'); })); }
+      var tools=[];
+      if((p.domains||[]).indexOf('finance')>-1) tools.push(card('/admin-leads','Leads','Front-page sign-ups'));
+      if((p.domains||[]).indexOf('culture')>-1) tools.push(card('/admin-requests','Site Requests <span id="reqBadge"></span>','Change requests'));
+      h+=sec('Tools', tools);
+    }
+
     h+='<button class="logout" onclick="sessionStorage.removeItem(\'limen_admin\');sessionStorage.removeItem(\'limen_access\');location.reload()">Log out</button>';
     root.innerHTML=h;
+
     // unread badge on the Site Requests card (only if the admin key is already in this tab)
     var badge=document.getElementById('reqBadge');
     if(badge){ var k=''; try{ k=sessionStorage.getItem('limen_lead_admin_key')||''; }catch(e){}
