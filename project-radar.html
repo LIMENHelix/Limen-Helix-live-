@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Project Radar — civil work forming across CA · TN · KS | Jurkoic Drafting &amp; Surveying</title>
+<!-- ADMIN-ONLY: Liz's competitive lead intelligence (master / infrastructure domain). Not public. -->
+<script src="/assets/js/gate-infrastructure.js"></script>
+<title>Project Radar (admin) — civil bids &amp; leads · CA · TN · KS</title>
 <meta name="description" content="Where the civil infrastructure work is forming — federal road, bridge, water, dam and levee projects across California, Tennessee and Kansas, and the primes hiring survey & drafting subs.">
 <link rel="canonical" href="https://limenhelix.com/project-radar">
 <style>
@@ -95,6 +97,9 @@ a{color:var(--steel);text-decoration:none}
     <p>The federal road, bridge, water, dam and levee projects moving across <b>California, Tennessee &amp; Kansas</b> right now — and the prime contractors hiring <b>survey &amp; drafting</b> subs. Updated from public award data.</p>
     <div class="stats" id="stats"></div>
   </div>
+
+  <div class="sec" id="leadsSec"><h2>📥 Inbound leads</h2><span class="cap">people who asked for a surveyor via your public Project Planner</span></div>
+  <div id="leads" class="list"><div class="muted">Checking inbound leads…</div></div>
 
   <div class="sec" id="bids"><h2>📋 Open bids</h2><span class="cap">live federal solicitations you can bid now · CA·TN·KS · civil &amp; survey</span></div>
   <div class="tabs" id="rfpTabs" style="display:none"></div>
@@ -247,6 +252,21 @@ a{color:var(--steel);text-decoration:none}
   };
 
   renderPhases(); initBid();
+
+  // ── Inbound leads from the public Project Planner (gate auto-attaches her key) ──
+  fetch('/api/infra-entry').then(function(r){return r.json();}).then(function(j){
+    var el=document.getElementById('leads');
+    if(!j||!j.ok){ el.innerHTML='<div class="muted">No inbound leads yet — they arrive when people use your public <a href="/project-planner">Project Planner</a>.</div>'; return; }
+    var leads=(j.leads||[]);
+    if(!leads.length){ el.innerHTML='<div class="muted">No inbound leads yet — share your <a href="/project-planner">Project Planner</a> link; survey requests land here.</div>'; return; }
+    el.innerHTML=leads.map(function(r){
+      var c=r.contact||{}; var contact=[c.email,c.phone].filter(Boolean).join(' · ');
+      var est=(r.estLow||r.estHigh)?('$'+Math.round(r.estLow).toLocaleString()+'–$'+Math.round(r.estHigh).toLocaleString()):'';
+      return '<div class="proj" style="border-left-color:var(--amt)"><div class="row1"><div class="prime">'+esc(c.name||'(no name)')+' · '+esc(r.projectType||'')+'</div><div class="amt" style="font-size:13px">'+esc(r.state||'')+'</div></div>'+
+        '<div class="desc">'+esc(contact||'(no contact left)')+(r.scope?' · '+esc(r.scope):'')+(est?' · est '+est:'')+'</div>'+
+        '<div class="meta">'+(r.needs||[]).slice(0,3).map(function(n){return '<span class="badge">'+esc(n)+'</span>';}).join('')+'<span>· '+esc((r.ts||'').slice(0,10))+'</span></div></div>';
+    }).join('');
+  }).catch(function(){ document.getElementById('leads').innerHTML='<div class="muted">Couldn’t load leads.</div>'; });
 
   // ── Open bids (SAM.gov RFPs) — the forward, biddable-now half of the radar ──
   var RFP=null, rcur='ALL';
