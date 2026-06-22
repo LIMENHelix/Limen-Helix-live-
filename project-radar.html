@@ -96,7 +96,11 @@ a{color:var(--steel);text-decoration:none}
     <div class="stats" id="stats"></div>
   </div>
 
-  <div class="sec" id="radar"><h2>🛰 Project Radar</h2><span class="cap">$1M+ civil-infrastructure projects · sorted by size</span></div>
+  <div class="sec" id="bids"><h2>📋 Open bids</h2><span class="cap">live federal solicitations you can bid now · CA·TN·KS · civil &amp; survey</span></div>
+  <div class="tabs" id="rfpTabs" style="display:none"></div>
+  <div id="rfps" class="list"><div class="muted">Checking open solicitations…</div></div>
+
+  <div class="sec" id="radar"><h2>🛰 Project Radar</h2><span class="cap">awarded $1M+ civil projects · the primes already working your states</span></div>
   <div class="tabs" id="tabs"></div>
   <div id="list" class="list"><div class="muted">Reading the award data…</div></div>
 
@@ -243,6 +247,33 @@ a{color:var(--steel);text-decoration:none}
   };
 
   renderPhases(); initBid();
+
+  // ── Open bids (SAM.gov RFPs) — the forward, biddable-now half of the radar ──
+  var RFP=null, rcur='ALL';
+  function rallRows(){ var o=[]; ['CA','TN','KS'].forEach(function(k){ (RFP.states[k]||[]).forEach(function(r){ o.push(r); }); }); o.sort(function(a,b){return (Date.parse(a.deadline||'2999')-Date.parse(b.deadline||'2999'));}); return o; }
+  function dueLabel(dl){ if(!dl) return {t:'rolling',c:'var(--dim)'}; var dleft=Math.ceil((Date.parse(dl)-Date.now())/86400000); if(dleft<0) return {t:'closed',c:'var(--dim)'}; return {t:'due in '+dleft+'d',c:dleft<=7?'var(--warn)':(dleft<=21?'var(--steel)':'var(--dim)')}; }
+  function renderRfpTabs(){
+    var el=document.getElementById('rfpTabs'); el.style.display='flex'; var keys=['ALL','CA','TN','KS'];
+    el.innerHTML=keys.map(function(k){ var n=k==='ALL'?rallRows().length:((RFP.states[k]||[]).length); return '<button data-k="'+k+'" class="'+(k===rcur?'on':'')+'">'+(k==='ALL'?'All':k)+' ('+n+')</button>'; }).join('');
+    el.querySelectorAll('button').forEach(function(b){ b.onclick=function(){ rcur=b.getAttribute('data-k'); renderRfpTabs(); renderRfps(); }; });
+  }
+  function renderRfps(){
+    var el=document.getElementById('rfps');
+    if(!RFP){ return; }
+    if(!RFP.configured){ el.innerHTML='<div class="muted">Open-bid feed turns on once a free SAM.gov key is added — then live solicitations show here with response deadlines and small-business set-asides. (The radar below shows awarded contracts in the meantime.)</div>'; return; }
+    var rows = rcur==='ALL' ? rallRows() : (RFP.states[rcur]||[]);
+    if(!rows.length){ el.innerHTML='<div class="muted">No open civil/survey solicitations in this view right now — check back; new ones post daily.</div>'; return; }
+    el.innerHTML=rows.map(function(r){
+      var due=dueLabel(r.deadline);
+      return '<div class="proj" style="border-left-color:var(--steel)"><div class="row1"><div class="prime">'+esc(r.title)+'</div><div class="amt" style="font-size:13px;color:'+due.c+'">'+due.t+'</div></div>'+
+        '<div class="meta"><span class="badge">'+esc(r.state)+'</span>'+(r.setAside?'<span class="phbadge" style="color:var(--steel);border-color:rgba(106,169,224,0.35)">'+esc(r.setAside)+'</span>':'')+
+        '<span>'+esc(r.agency||'')+'</span>'+(r.naics?'<span>· NAICS '+esc(r.naics)+'</span>':'')+(r.sol?'<span>· '+esc(r.sol)+'</span>':'')+
+        (r.link?'<a class="ext" href="'+esc(r.link)+'" target="_blank" rel="noopener">SAM.gov ↗</a>':'')+'</div></div>';
+    }).join('');
+  }
+  fetch('/api/civil-rfps').then(function(r){return r.json();}).then(function(j){
+    RFP=j; if(j.configured && rallRows().length) renderRfpTabs(); renderRfps();
+  }).catch(function(){ document.getElementById('rfps').innerHTML='<div class="muted">Couldn’t reach the bid feed.</div>'; });
 
   fetch('/api/civil-radar').then(function(r){return r.json();}).then(function(j){
     if(!j.ok){ document.getElementById('list').innerHTML='<div class="muted">Radar offline — try again shortly.</div>'; return; }

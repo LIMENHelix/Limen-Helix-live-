@@ -29,6 +29,7 @@ const HANDLERS = {
   'wave-radar': require('../handlers/wave-radar'),
   'music-feed': require('../handlers/music-feed'),
   'civil-radar': require('../handlers/civil-radar'),
+  'civil-rfps': require('../handlers/civil-rfps'),
   'music-coach': require('../handlers/music-coach'),
   'release-engine': require('../handlers/release-engine'),
   'hook-studio': require('../handlers/hook-studio'),
