@@ -59,10 +59,17 @@ h1{font-size:30px;font-weight:400;margin-bottom:4px}
     // Tools — leads + Drew's site requests (operator, or culture/finance people)
     var tools='';
     if(p.master||(p.domains||[]).indexOf('finance')>-1){ tools+=card('/admin-leads','Leads','Front-page sign-ups'); }
-    if(p.master||(p.domains||[]).indexOf('culture')>-1){ tools+=card('/admin-requests','Site Requests','Change requests from the music page'); }
+    if(p.master||(p.domains||[]).indexOf('culture')>-1){ tools+=card('/admin-requests','Site Requests <span id="reqBadge"></span>','Change requests from the music page'); }
     if(tools){ h+='<div class="sec">Tools</div><div class="grid">'+tools+'</div>'; }
     h+='<button class="logout" onclick="sessionStorage.removeItem(\'limen_admin\');sessionStorage.removeItem(\'limen_access\');location.reload()">Log out</button>';
     root.innerHTML=h;
+    // unread badge on the Site Requests card (only if the admin key is already in this tab)
+    var badge=document.getElementById('reqBadge');
+    if(badge){ var k=''; try{ k=sessionStorage.getItem('limen_lead_admin_key')||''; }catch(e){}
+      if(k){ fetch('/api/site-request?key='+encodeURIComponent(k)).then(function(r){return r.json();}).then(function(j){
+        if(j&&j.ok&&j.unread>0){ badge.textContent=j.unread; badge.style.cssText='background:#5ab5a0;color:#04130f;font-weight:700;border-radius:10px;padding:0 7px;font-size:0.7em;margin-left:5px'; }
+      }).catch(function(){}); }
+    }
   }
   render();
 })();

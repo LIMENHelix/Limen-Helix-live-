@@ -78,11 +78,19 @@ module.exports = async function handler(req, res) {
       if (id) { try { await db.del('sitereq:' + id); } catch (e) {} }
       res.statusCode = 200; return res.end(JSON.stringify({ ok: true, deleted: id }));
     }
+    // mark all current requests as seen (resets the unread badge)
+    if (u.searchParams.get('seen') === '1') {
+      try { await db.set('sitereq_lastseen', Date.now()); } catch (e) {}
+      res.statusCode = 200; return res.end(JSON.stringify({ ok: true, marked: true, unread: 0 }));
+    }
     try {
       const ids = (await db.lrange('sitereq_index', 0, -1)) || [];
       const out = [];
       for (let i = 0; i < ids.length; i++) { const r = await db.get('sitereq:' + ids[i]); if (r) out.push(r); }
-      res.statusCode = 200; return res.end(JSON.stringify({ ok: true, count: out.length, requests: out }));
+      let lastSeen = 0; try { lastSeen = Number(await db.get('sitereq_lastseen')) || 0; } catch (e) {}
+      out.forEach(r => { r.isNew = Date.parse(r.ts || 0) > lastSeen; });
+      const unread = out.filter(r => r.isNew).length;
+      res.statusCode = 200; return res.end(JSON.stringify({ ok: true, count: out.length, unread: unread, requests: out }));
     } catch (e) { res.statusCode = 500; return res.end(JSON.stringify({ ok: false, error: String(e && e.message || e) })); }
   }
 

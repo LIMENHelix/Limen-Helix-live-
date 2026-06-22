@@ -14,6 +14,9 @@
   .bar{margin-bottom:14px;font-size:0.7rem;color:rgba(200,195,184,0.6)}
   .bar a{color:rgba(201,169,78,0.7)}
   .req{border:1px solid rgba(201,169,78,0.12);border-left:2px solid rgba(201,169,78,0.5);border-radius:6px;padding:12px 14px;margin-bottom:10px;max-width:820px}
+  .req.new{border-left-color:#5ab5a0;background:rgba(90,181,160,0.05)}
+  .newtag{font-size:0.5rem;letter-spacing:1px;padding:1px 6px;border:1px solid rgba(90,181,160,0.6);color:#5ab5a0;text-transform:uppercase;border-radius:3px;margin-left:6px}
+  .badge{display:inline-block;background:#5ab5a0;color:#04130f;font-weight:700;border-radius:10px;padding:0 7px;font-size:0.62rem;margin-left:4px}
   .req .meta{font-size:0.6rem;letter-spacing:1px;color:rgba(201,169,78,0.6);text-transform:uppercase;margin-bottom:7px;display:flex;justify-content:space-between;gap:12px;align-items:center}
   .req .who{color:#C9A94E;font-weight:600}
   .req .msg{font-size:0.84rem;line-height:1.55;white-space:pre-wrap;color:rgba(225,220,205,0.95)}
@@ -45,15 +48,18 @@
   function wireEnter(){ var a=document.getElementById('enterkey'); if(a)a.addEventListener('click',function(e){ e.preventDefault(); load(true); }); }
   function fmt(ts){ try{ return new Date(ts).toLocaleString(); }catch(e){ return ts; } }
 
-  function render(reqs){
+  function render(reqs, unread){
     var mount=document.getElementById('mount');
-    document.getElementById('count').textContent = reqs.length + ' request(s)';
+    var c=document.getElementById('count');
+    c.innerHTML = reqs.length + ' request(s)' + (unread>0 ? ' <span class="badge">'+unread+' new</span>' : '');
     if(!reqs.length){ mount.innerHTML='<div class="empty">no requests yet</div>'; return; }
     mount.innerHTML = reqs.map(function(r){
-      return '<div class="req"><div class="meta"><span><span class="who">'+esc(r.who||'someone')+'</span> · '+esc(fmt(r.ts))+(r.sourcePage?' · '+esc(r.sourcePage):'')+'</span>'+
+      return '<div class="req'+(r.isNew?' new':'')+'"><div class="meta"><span><span class="who">'+esc(r.who||'someone')+'</span> · '+esc(fmt(r.ts))+(r.sourcePage?' · '+esc(r.sourcePage):'')+(r.isNew?'<span class="newtag">new</span>':'')+'</span>'+
         '<button class="del" data-id="'+esc(r.id)+'">delete</button></div>'+
         '<div class="msg">'+esc(r.message||'')+'</div></div>';
     }).join('');
+    // mark everything seen so the badge clears on next visit (the highlight stays for THIS view)
+    if(unread>0){ var k=getKey(false); if(k){ fetch('/api/site-request?key='+encodeURIComponent(k)+'&seen=1').catch(function(){}); } }
     Array.prototype.forEach.call(mount.querySelectorAll('.del'), function(b){
       b.addEventListener('click', function(){
         if(!confirm('Delete this request?')) return;
@@ -71,7 +77,7 @@
     fetch('/api/site-request?key='+encodeURIComponent(k))
       .then(function(r){ return r.json().then(function(j){ return { status:r.status, j:j }; }); })
       .then(function(res){
-        if(res.j && res.j.ok){ render(res.j.requests||[]); return; }
+        if(res.j && res.j.ok){ render(res.j.requests||[], res.j.unread||0); return; }
         if(res.status===403||res.status===503){ clearKey(); }
         showMsg('<div class="empty">'+esc((res.j&&res.j.error)||('error '+res.status))+' · <a href="#" id="enterkey">re-enter key</a></div>');
         wireEnter();
