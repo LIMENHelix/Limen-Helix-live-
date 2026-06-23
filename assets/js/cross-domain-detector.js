@@ -408,6 +408,80 @@
         { label: 'investigate culture-religion feedback', type: 'analysis' },
         { label: 'hold', type: 'monitoring' }
       ]
+    },
+    // ─── Finance pairs (parity port; mirrors energy/infrastructure/culture structure) ──
+    // Financial identity only: capital markets, credit & lending, banking, liquidity
+    // & solvency, investment & funding, M&A, payments & fintech, corporate distress,
+    // systemic financial risk. Real tickers (JPM, BAC, GS, MS, BLK, V, MA, SCHW, C,
+    // WFC, KKR, BX). ADDITIVE — does not touch any validated scoring path.
+    {
+      // Mirrors 'energy_supply' (capital access stress) + 'infrastructure_economy'
+      // (capital unavailable, deferred-maintenance cost shadow) translated to banking.
+      id: 'finance_infrastructure',
+      domains: ['finance', 'infrastructure'],
+      threshold: 0.45,
+      pattern: 'infrastructure-capital transmission',
+      drivers: ['capital unavailable', 'municipal bond spread widening (JPM/BAC/WFC credit exposure)', 'deferred-maintenance funding gap', 'bond covenant breach', 'local-government credit rating downgrade'],
+      options: [
+        { label: 'trace infrastructure-capital exposure', type: 'analysis' },
+        { label: 'investigate liquidity stress coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Direct parity to 'energy_supply' → logistics disruption; extends 'finance_economy'.
+      id: 'finance_supplyChain',
+      domains: ['finance', 'supplyChain'],
+      threshold: 0.45,
+      pattern: 'credit-logistics transmission',
+      drivers: ['liquidity crunch (TED spread / LIBOR-OIS widening)', 'commercial paper stress', 'trade-finance disruption (letter-of-credit delays)', 'working-capital loans unavailable', 'fintech payment processing stress (V/MA/SCHW)', 'LBO refinancing risk (KKR/BX)'],
+      options: [
+        { label: 'trace credit-supply chain exposure', type: 'analysis' },
+        { label: 'monitor liquidity & trade-finance conditions', type: 'monitoring' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Triple-domain: mirrors 'infrastructure_core' (capital ↔ governance/finance)
+      // + parallels 'culture_education' (pipeline) and 'culture_economy' (venue/income).
+      id: 'culture_finance_infrastructure',
+      domains: ['culture', 'finance', 'infrastructure'],
+      threshold: 0.48,
+      pattern: 'creator-capital venue coupling',
+      drivers: ['creator-capital funding gap', 'IP securitization stress (franchise/copyright collateral)', 'cultural-institution bond pricing pressure (theaters/halls/museums)', 'venue-operator franchise economics strain', 'venue permitting/maintenance/resilience deficit', 'artist-development fund liquidity contraction'],
+      options: [
+        { label: 'trace creator-capital-venue exposure', type: 'analysis' },
+        { label: 'investigate scene-expansion capital access', type: 'discovery' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'defense_intelligence' (escalation) + extends 'intelligence_governance'
+      // (policy info gap) to supervisory/regulatory gaps — financial-stability intelligence.
+      id: 'finance_defense',
+      domains: ['finance', 'defense'],
+      threshold: 0.42,
+      pattern: 'systemic financial-stability intelligence coupling',
+      drivers: ['credit-default cascade risk (JPM/BAC/GS/MS stress)', 'counterparty concentration spike', 'bank-run / deposit-flight signals', 'Fed stress-test elevation', 'regulatory-capture / enforcement-action delay signals', 'information asymmetry in supervision'],
+      options: [
+        { label: 'assess systemic financial-instability posture', type: 'analysis' },
+        { label: 'trace counterparty-risk transmission', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Parity to 'culture_technology' (distribution-platform strain, codec failure,
+      // hardware shortage) applied to fintech infrastructure; mirrors cyber-cluster logic.
+      id: 'finance_technology',
+      domains: ['finance', 'technology'],
+      threshold: 0.45,
+      pattern: 'fintech-technology coupling',
+      drivers: ['payment processing outage (V/MA downtime, ACH delays)', 'crypto exchange/wallet hack & settlement failure', 'algorithmic-trading system failure', 'cloud-banking infrastructure outage (AWS/Azure payment dependencies)', 'core-banking platform reliability stress'],
+      options: [
+        { label: 'map fintech-technology exposure', type: 'analysis' },
+        { label: 'investigate payment-system disruption', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
     }
   ];
 

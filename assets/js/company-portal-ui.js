@@ -203,6 +203,93 @@
       rightHtml += '</div>';
     }
 
+    // ── FINANCE-SPECIFIC PORTAL SECTIONS ─────────────────────────────────
+    // Capital-markets / credit / liquidity / solvency parity with the energy
+    // domain's company-metadata sections, mirroring the infrastructure block
+    // above. This is STRICTLY ADDITIVE render-layer content keyed on
+    // co.domainId === 'finance'; it never touches the validated P3 distress
+    // kernel (Thing1) scoring path consumed by /api/limen/score or
+    // /api/helix/helix-report/score — those run server-side off the kernel,
+    // not off these optional company-JSON display fields.
+    //
+    // Energy's oil/gas/grid/datacenter mix is translated to the financial
+    // equivalents: facility-type credit portfolio (energy: generation mix),
+    // leverage/solvency status (energy: maintenance/asset-age), capital
+    // structure & covenant compliance (energy: NERC/FERC compliance), and
+    // liquidity position / stress-test coverage (energy: capital funding).
+    // Each reads OPTIONAL company-JSON fields and degrades gracefully
+    // (cp-empty) when not yet populated — identical structure to the
+    // generic sections below, only the CONTENT is financial.
+    if (co.domainId === 'finance') {
+      // Credit Portfolio — facility types / amounts / maturities (energy: generation mix)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Credit Portfolio</div>';
+      var _cpf = co.creditPortfolio;
+      if (_cpf && (Array.isArray(_cpf) ? _cpf.length : Object.keys(_cpf).length)) {
+        var _cpfEntries = Array.isArray(_cpf)
+          ? _cpf.map(function (e) { return [e.facility || e.type || e.label || '', e.amount != null ? e.amount : (e.share != null ? e.share : (e.value != null ? e.value : e.detail))]; })
+          : Object.keys(_cpf).map(function (kk) { return [kk, _cpf[kk]]; });
+        for (var cpf = 0; cpf < _cpfEntries.length; cpf++) {
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_cpfEntries[cpf][0]) + '</span><span class="cp-value">' + esc(String(_cpfEntries[cpf][1])) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No credit-facility distribution recorded (term loans / revolvers / bonds / securitizations — amounts & maturities)</div>';
+      }
+      rightHtml += '</div>';
+
+      // Solvency Status — leverage ratio / equity cushion / default-risk metrics (energy: maintenance/asset-age)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Solvency Status</div>';
+      var _sst = co.leverageStatus;
+      if (_sst && Object.keys(_sst).length > 0) {
+        var _sstKeys = Object.keys(_sst);
+        for (var ssk = 0; ssk < _sstKeys.length; ssk++) {
+          var _sstv = _sst[_sstKeys[ssk]];
+          var _sstStr = (_sstv && typeof _sstv === 'object' && !Array.isArray(_sstv))
+            ? Object.keys(_sstv).map(function (sk) { return sk + ': ' + _sstv[sk]; }).join('  ·  ')
+            : String(_sstv);
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_sstKeys[ssk]) + '</span><span class="cp-value">' + esc(_sstStr) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No solvency data (leverage ratio, equity cushion, default-risk / PD metrics)</div>';
+      }
+      rightHtml += '</div>';
+
+      // Capital Structure — debt/equity mix / subordination / covenant compliance (energy: NERC/FERC compliance)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Capital Structure</div>';
+      var _cst = co.capitalStructure;
+      if (_cst && (Array.isArray(_cst) ? _cst.length : Object.keys(_cst).length)) {
+        var _cstEntries = Array.isArray(_cst)
+          ? _cst.map(function (e) { return [e.tranche || e.tier || e.label || '', (e.share != null ? e.share : (e.amount != null ? e.amount : e.detail)) + (e.covenant ? ' (' + e.covenant + ')' : '')]; })
+          : Object.keys(_cst).map(function (kk) { return [kk, _cst[kk]]; });
+        for (var cst = 0; cst < _cstEntries.length; cst++) {
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_cstEntries[cst][0]) + '</span><span class="cp-value">' + esc(String(_cstEntries[cst][1])) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No capital-structure record (debt/equity mix, subordination / seniority tranches, covenant compliance)</div>';
+      }
+      rightHtml += '</div>';
+
+      // Liquidity Position — cash / undrawn facilities / repo haircuts / stress-test coverage (energy: capital funding)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Liquidity Position</div>';
+      var _lqp = co.liquidityPosition;
+      if (_lqp && Object.keys(_lqp).length > 0) {
+        var _lqpKeys = Object.keys(_lqp);
+        for (var lqk = 0; lqk < _lqpKeys.length; lqk++) {
+          var _lqpv = _lqp[_lqpKeys[lqk]];
+          var _lqpStr = (_lqpv && typeof _lqpv === 'object' && !Array.isArray(_lqpv))
+            ? Object.keys(_lqpv).map(function (sk) { return sk + ': ' + _lqpv[sk]; }).join('  ·  ')
+            : String(_lqpv);
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_lqpKeys[lqk]) + '</span><span class="cp-value">' + esc(_lqpStr) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No liquidity profile (cash & equivalents, undrawn facilities, repo haircuts, stress-test coverage ratio)</div>';
+      }
+      rightHtml += '</div>';
+    }
+
     // Warning signals (placeholder for future)
     rightHtml += '<div class="cp-section">';
     rightHtml += '<div class="cp-section-title">Warning Signals</div>';

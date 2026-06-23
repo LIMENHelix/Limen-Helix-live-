@@ -73,6 +73,26 @@
     sceneCollapseFloor:    0.65  // participationDelta < -0.60 always reads as scene_collapse
   };
 
+  // Structural-signal overrides for finance: certain financial-constraint conditions are
+  // NOT noisy market/volatility signals and must bypass saturation dampening (mirrors
+  // infrastructure's grid_stress and culture's scene_collapse structural conditions).
+  // Liquidity crunch, insolvency, margin-call cascade, and counterparty exposure are
+  // load-bearing solvency/systemic-risk signals — dampening them away would erase the
+  // financial constraint (and the finance domain carries the validated P3 distress kernel,
+  // so a real solvency floor must never be averaged down by common-market-move dampening).
+  // Raw stress is forced to the floor when a structural threshold is crossed, before the
+  // finance saturation factor (0.60, volatility-dampened) is applied.
+  //   - liquidity crunch (funding ratio collapse / repo seizure)        → liquidity_crunch (structural)
+  //   - insolvency crash (negative equity / capital ratio breach)       → insolvency_crash (structural)
+  //   - margin-call cascade (forced-liquidation spiral)                 → margin_call_cascade (structural)
+  //   - counterparty exposure (concentrated default / contagion)        → counterparty_exposure (structural)
+  var _FINANCE_STRUCTURAL = {
+    liquidityCrunchFloor:      0.70, // funding/liquidity ratio breach always reads as liquidity_crunch
+    insolvencyCrashFloor:      0.75, // negative equity / capital breach always reads as insolvency_crash
+    marginCallCascadeFloor:    0.68, // forced-liquidation spiral always reads as margin_call_cascade
+    counterpartyExposureFloor: 0.65  // concentrated counterparty default always reads as counterparty_exposure
+  };
+
   // Rolling baseline state (accumulates across feed cycles within session)
   var _baselineState = {}; // domainKey → { samples: [], mean: number }
   var _BASELINE_WINDOW = 12; // ~6 minutes at 30s poll (enough for session deviation)
@@ -163,11 +183,87 @@
     return { floor: floor, reason: reason };
   }
 
+  // Detect finance structural constraints from a feed object.
+  // Returns a forced stress floor (0 if none) — financial-constraint conditions bypass
+  // market/volatility dampening. Mirrors _infraStructuralFloor / _cultureStructuralFloor:
+  // liquidity-crunch / insolvency-crash / margin-call-cascade / counterparty-exposure are
+  // load-bearing solvency/systemic-risk signals, not common-market-move noise to be dampened.
+  // ADDITIVE ONLY — this is a client-side advisory floor for the domain panel/snapshot; it
+  // does NOT touch the validated P3 distress kernel (/api/limen/score path).
+  function _financeStructuralFloor(feed) {
+    if (!feed) return { floor: 0, reason: '' };
+    var floor = 0;
+    var reason = '';
+    var signals = feed.signals || [];
+    function _has(token) {
+      for (var i = 0; i < signals.length; i++) {
+        if (typeof signals[i] === 'string' && signals[i].toLowerCase().indexOf(token) !== -1) return true;
+      }
+      return false;
+    }
+    // Liquidity crunch: funding/liquidity ratio breach ALWAYS triggers liquidity_crunch.
+    // (liquidityRatio < 1.0 = obligations exceed liquid assets; or an explicit repo/funding-seizure signal)
+    var liquidityRatio = (feed.liquidityRatio !== undefined) ? feed.liquidityRatio
+                       : (feed.fundingRatio !== undefined) ? feed.fundingRatio
+                       : null;
+    if ((liquidityRatio !== null && liquidityRatio < 1.0 && (_has('liquidity') || _has('funding') || _has('repo'))) ||
+        _has('liquidity crunch') || _has('funding freeze')) {
+      if (_FINANCE_STRUCTURAL.liquidityCrunchFloor > floor) {
+        floor = _FINANCE_STRUCTURAL.liquidityCrunchFloor;
+        reason = 'structural: liquidity_crunch' + (liquidityRatio !== null ? ' (liquidity ratio ' + liquidityRatio.toFixed(2) + ' < 1.0)' : '');
+      }
+    }
+    // Insolvency crash: negative equity / regulatory capital breach ALWAYS triggers insolvency_crash.
+    // (capitalRatio below the regulatory minimum, here taken as < 0.08 / 8% Tier-1; or negative equity flag)
+    var capitalRatio = (feed.capitalRatio !== undefined) ? feed.capitalRatio
+                     : (feed.tier1Ratio !== undefined) ? feed.tier1Ratio
+                     : null;
+    if ((capitalRatio !== null && capitalRatio < 0.08 && (_has('capital') || _has('solven') || _has('equity'))) ||
+        _has('insolven') || _has('negative equity')) {
+      if (_FINANCE_STRUCTURAL.insolvencyCrashFloor > floor) {
+        floor = _FINANCE_STRUCTURAL.insolvencyCrashFloor;
+        reason = 'structural: insolvency_crash' + (capitalRatio !== null ? ' (capital ratio ' + (capitalRatio * 100).toFixed(1) + '% < 8%)' : '');
+      } else if (floor > 0) {
+        reason += ' + insolvency_crash';
+      }
+    }
+    // Margin-call cascade: forced-liquidation spiral ALWAYS triggers margin_call_cascade.
+    // (marginCallRate spike > 5% of positions, or an explicit forced-liquidation/deleveraging signal)
+    var marginCallRate = (feed.marginCallRate !== undefined) ? feed.marginCallRate
+                       : (feed.forcedLiquidationRate !== undefined) ? feed.forcedLiquidationRate
+                       : null;
+    if ((marginCallRate !== null && marginCallRate > 0.05 && (_has('margin') || _has('liquidation'))) ||
+        _has('margin call') || _has('forced liquidation') || _has('deleverag')) {
+      if (_FINANCE_STRUCTURAL.marginCallCascadeFloor > floor) {
+        floor = _FINANCE_STRUCTURAL.marginCallCascadeFloor;
+        reason = 'structural: margin_call_cascade' + (marginCallRate !== null ? ' (margin-call rate ' + (marginCallRate * 100).toFixed(0) + '% > 5%)' : '');
+      } else if (floor > 0) {
+        reason += ' + margin_call_cascade';
+      }
+    }
+    // Counterparty exposure: concentrated default / contagion ALWAYS triggers counterparty_exposure.
+    // (counterpartyExposure concentration > 25% to a single stressed counterparty, or an explicit contagion signal)
+    var counterpartyExposure = (feed.counterpartyExposure !== undefined) ? feed.counterpartyExposure
+                             : (feed.contagionExposure !== undefined) ? feed.contagionExposure
+                             : null;
+    if ((counterpartyExposure !== null && counterpartyExposure > 0.25 && (_has('counterparty') || _has('contagion') || _has('default'))) ||
+        _has('counterparty') || _has('contagion')) {
+      if (_FINANCE_STRUCTURAL.counterpartyExposureFloor > floor) {
+        floor = _FINANCE_STRUCTURAL.counterpartyExposureFloor;
+        reason = 'structural: counterparty_exposure' + (counterpartyExposure !== null ? ' (exposure ' + (counterpartyExposure * 100).toFixed(0) + '% > 25%)' : '');
+      } else if (floor > 0) {
+        reason += ' + counterparty_exposure';
+      }
+    }
+    return { floor: floor, reason: reason };
+  }
+
   function _normalizeStress(domainKey, rawStress, feed) {
     // Phase 0: domain structural-signal floor (engineering/attention-economy constraints
     // bypass commodity/market/volume dampening — mirrors energy-brain grid_stress conditions)
     var structural = (domainKey === 'infrastructure') ? _infraStructuralFloor(feed)
                    : (domainKey === 'culture') ? _cultureStructuralFloor(feed)
+                   : (domainKey === 'finance') ? _financeStructuralFloor(feed)
                    : { floor: 0, reason: '' };
     if (structural.floor > rawStress) {
       rawStress = structural.floor;

@@ -48,10 +48,29 @@ var FEED_TO_CONNECTOME = {
   religion:       ['religion'],
   // Renamed / semantic mappings
   health:         ['medicine', 'metabolic'],
-  research:       ['science'],
+  // ADDITIVE (cognition port, finance gap 2 — fintech/AI-research → finance circuit):
+  //   research/science stress (fintech, algo accounting, AI risk management) now
+  //   activates the dedicated finance circuit in addition to the science circuit,
+  //   so finance can see research-origin stress and propagate a correction.
+  research:       ['science', 'finance'],
   law:            ['legal'],
-  supplyChain:    ['trade'],
-  finance:        ['economy'],
+  // ADDITIVE (cognition port, finance gap 2 — trade finance → finance circuit):
+  //   trade stress (payment systems, credit for shipments, collateral for goods)
+  //   now also activates the dedicated finance circuit. Trade without trade finance
+  //   = supply-chain freeze (2008, 2020 COVID); finance must see the trade signal.
+  supplyChain:    ['trade', 'finance'],
+  // ADDITIVE (cognition port, finance gap 1 — dedicated finance circuit):
+  //   finance feed signal previously relayed through 'economy' ONLY, which made
+  //   finance stress at the signal origin undershoot — it never propagated through
+  //   the dedicated finance circuit. The 'finance' connectome domain exists in
+  //   brain-node-domains.json (123 node-participations) but the resolver ignored it.
+  //   We keep the 'economy' relay (validated path, never removed) and ADD 'finance'
+  //   so the full finance circuit can activate. The sub-domain IDs in the gap spec
+  //   (stock/bond/banking/forex/insurance) are intentionally NOT mapped: they are
+  //   not real connectome domains in the node directory and would be dead routes
+  //   that activate zero nodes. The single 'finance' connectome domain is the
+  //   dedicated multi-circuit relay.
+  finance:        ['economy', 'finance'],
   communication:  ['technology'],
   culture:        ['culture', 'religion', 'education'],
   defense:        ['governance'],

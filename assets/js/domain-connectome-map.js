@@ -88,7 +88,18 @@
     // Culture cross-links — creative output propagates to allied systems
     { source: 'culture',        target: 'economy' },     // cultural goods / creative-industries GDP
     { source: 'culture',        target: 'finance' },      // arts/creator funding markets
-    { source: 'culture',        target: 'population' }     // audience demographics / demand for entertainment & heritage
+    { source: 'culture',        target: 'population' },    // audience demographics / demand for entertainment & heritage
+    // Finance cross-links — capital/credit contagion paths into finance
+    { source: 'energy',         target: 'finance' },      // commodity financing / energy credit facilities / energy futures markets
+    // ── ADDITIVE: explicit liquidity (flow/routing) vs solvency (balance-sheet) circuitry ──
+    // Liquidity ≠ solvency (Lehman collapsed on both). Bind them to SEPARATE, non-overlapping
+    // contagion paths so they are no longer conflated in a single "banking" channel:
+    //   Liquidity circuit (CC→THAL→dACC): payment rails / funding-market flow.
+    { source: 'communication',  target: 'finance' },      // payment & messaging rails (V, MA) — funding flow / routing
+    { source: 'supplyChain',    target: 'finance' },      // trade finance / settlement rails — short-term liquidity roll
+    //   Solvency circuit (dlPFC→vmPFC→STRI): capital adequacy / credit losses on the balance sheet.
+    { source: 'economy',        target: 'finance' },      // credit-cycle losses (BAC, WFC) erode capital base — solvency
+    { source: 'law',            target: 'finance' }       // capital-adequacy regulation / credit-claim enforcement — solvency
   ];
 
   // ─── Color mapping ──────────────────────────────────────────────────────

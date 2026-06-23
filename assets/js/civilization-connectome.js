@@ -83,6 +83,38 @@ var STRESS_COLORS = {
 };
 var TAU = Math.PI * 2;
 
+// ═══ FINANCE: EXPLICIT LIQUIDITY vs SOLVENCY CIRCUITRY ═══
+// Liquidity ≠ solvency. Lehman 2008 collapsed on BOTH, but they are distinct
+// failure modes and require non-overlapping pathways:
+//   • Liquidity  = a FLOW / ROUTING problem — payment rails, funding markets,
+//                  the ability to roll short-term obligations. Even a solvent
+//                  bank fails if liquidity dries up. Neural anchor: CC (payment
+//                  connective / inter-bank wiring) → THAL (banking relay /
+//                  central-bank window) → dACC (regulation-conflict detection,
+//                  i.e. when funding markets and obligations collide).
+//   • Solvency   = a BALANCE-SHEET problem — capital adequacy, asset quality,
+//                  credit losses eroding equity. Neural anchor: dlPFC (capital
+//                  adequacy planning) → vmPFC (credit-risk assessment) → STRI
+//                  (credit allocation / loan-book extension).
+// These are kept as SEPARATE, ADDITIVE bindings on the finance node so the two
+// channels are no longer conflated in a single "banking" group.
+var FINANCE_CIRCUITS = {
+  liquidity: {
+    label: 'Liquidity circuit (flow / routing)',
+    pathway: ['CC', 'THAL', 'dACC'],
+    role: 'payment-connective → banking-relay → regulation-conflict',
+    // Real financial anchors: payment/clearing rails + custody/clearing banks.
+    anchors: ['JPM', 'BAC', 'C', 'WFC', 'V', 'MA', 'SCHW']
+  },
+  solvency: {
+    label: 'Solvency circuit (balance-sheet)',
+    pathway: ['dlPFC', 'vmPFC', 'STRI'],
+    role: 'capital-adequacy-planning → credit-risk-assessment → credit-allocation',
+    // Real financial anchors: capital-markets / asset-management / credit-deploying balance sheets.
+    anchors: ['GS', 'MS', 'BLK', 'KKR', 'BX', 'JPM', 'BAC']
+  }
+};
+
 // === DOMAIN → SUB-PORTAL REGISTRY ===
 var DOMAIN_PORTALS = {
   medicine:[
@@ -471,6 +503,34 @@ function seedStressCivilization(n, idx) {
   sv.ops = Math.min(transformsCount / 3, 1);
   if (n.id === 'population' || n.id === 'education' || n.id === 'medicine') {
     sv.people = Math.min(sv.people + 0.3, 1);
+  }
+  // ── ADDITIVE: finance gets explicit, non-overlapping liquidity vs solvency circuits ──
+  // For the finance node only, re-derive liquidity and solvency from SEPARATE pathways
+  // so the two are no longer conflated under a single "banking" group.
+  //   Liquidity (flow/routing): outbound SUPPLIES edges = the system's payment/funding
+  //     fan-out that finance must keep flowing (CC→THAL→dACC). A high SUPPLIES degree =
+  //     more rails finance is on the hook to keep liquid.
+  //   Solvency (balance-sheet): inbound DEPENDS_ON edges = obligations resting on finance's
+  //     capital base (dlPFC→vmPFC→STRI). A high DEPENDS_ON degree = more claims on equity.
+  if (n.id === 'finance') {
+    var liqOut = 0, solvIn = 0;
+    for (var fe = 0; fe < EDGES.length; fe++) {
+      var ef = EDGES[fe];
+      if (ef.ai !== idx && ef.bi !== idx) continue;
+      var financeIsSource = (ef.ai === idx);
+      if (ef.type === 'SUPPLIES' && financeIsSource) liqOut++;        // routing fan-out
+      if (ef.type === 'DEPENDS_ON' && !financeIsSource) solvIn++;      // balance-sheet claims
+      if (ef.type === 'CONTROLS') liqOut += 0.5;                       // regulated rails add liquidity strain
+      if (ef.type === 'TRANSFORMS') solvIn += 0.5;                     // re-intermediation strains capital
+    }
+    // Non-overlapping: liquidity from the routing pathway, solvency from the balance-sheet pathway.
+    sv.liquidity = Math.min(liqOut / 3, 1);
+    sv.solvency = Math.min(solvIn / 3, 1);
+    // Expose the explicit circuit binding on the node for downstream advisory layers.
+    n.finance_circuits = {
+      liquidity: { stress: sv.liquidity, pathway: FINANCE_CIRCUITS.liquidity.pathway, anchors: FINANCE_CIRCUITS.liquidity.anchors },
+      solvency:  { stress: sv.solvency,  pathway: FINANCE_CIRCUITS.solvency.pathway,  anchors: FINANCE_CIRCUITS.solvency.anchors }
+    };
   }
   n.stress_vector = sv;
   n.total_stress = computeTotalStress(sv);

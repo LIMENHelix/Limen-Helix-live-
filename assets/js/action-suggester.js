@@ -74,6 +74,12 @@
       { label: 'Explore creator-sustainability and fanbase-lifecycle modeling', type: 'discovery', minStress: 0.4 },
       { label: 'Investigate backlash-resilience and cultural-recovery patterns', type: 'analysis', minStress: 0.5 },
       { label: 'Analyze scene-consolidation and cultural-movement momentum', type: 'analysis', minStress: 0.6 }
+    ],
+    finance: [
+      { label: 'Monitor credit-spread dynamics and bank funding/liquidity stress signals', type: 'monitoring', minStress: 0.3 },
+      { label: 'Explore deleveraging and capital-structure repositioning opportunities', type: 'discovery', minStress: 0.4 },
+      { label: 'Analyze solvency-ratio deterioration and covenant-breach exposure', type: 'analysis', minStress: 0.5 },
+      { label: 'Investigate liquidity-crunch mitigation and systemic-contagion containment', type: 'regulation', minStress: 0.7 }
     ]
   };
 
@@ -149,6 +155,13 @@
       minStress: [0.5, 0.5],
       label: 'Analyze creator-economy capital and cultural-movement momentum opportunity',
       body: 'Co-elevated cultural and economic stress suggests creator-economy funding-gap and fanbase-lifecycle exposure.',
+      type: 'analysis'
+    },
+    {
+      domains: ['finance', 'economy'],
+      minStress: [0.5, 0.5],
+      label: 'Analyze financial-economic coupling and credit-transmission vulnerabilities',
+      body: 'Co-elevated finance and economic stress suggests credit-tightening, solvency-contagion and liquidity-transmission exposure across lenders and capital markets.',
       type: 'analysis'
     }
   ];

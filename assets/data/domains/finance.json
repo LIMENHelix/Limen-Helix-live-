@@ -55,6 +55,24 @@
           "ticker_or_id": "STRIPE",
           "functional_reason": "Routes and distributes commercial banking resources, connecting supply nodes to demand endpoints across the system",
           "binding_strength": 0.88
+        },
+        {
+          "name": "Bank of America",
+          "ticker_or_id": "BAC",
+          "functional_reason": "Mega-cap deposit-taking and lending institution routing capital between savers and borrowers at systemic scale; core relay node for credit intermediation and deposit-base stability",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Citigroup",
+          "ticker_or_id": "C",
+          "functional_reason": "Multinational banking hub routing capital and credit across 180+ countries; provides cross-border relay visibility into international capital flows and trade finance",
+          "binding_strength": 0.92
+        },
+        {
+          "name": "Wells Fargo",
+          "ticker_or_id": "WFC",
+          "functional_reason": "Legacy commercial banking and consumer-lending node routing deposits to borrowers across the largest U.S. branch and servicing footprint",
+          "binding_strength": 0.91
         }
       ],
       "neuralRole": "Motor",
@@ -147,6 +165,18 @@
           "ticker_or_id": "PYPL",
           "functional_reason": "Executes core central banking operations, delivering primary output and managing day-to-day functional processes",
           "binding_strength": 0.75
+        },
+        {
+          "name": "Bank of America",
+          "ticker_or_id": "BAC",
+          "functional_reason": "Primary-dealer and reserve-holding institution transmitting central-bank monetary policy into the real economy via deposit rates and lending; key node for liquidity-facility and lender-of-last-resort relay",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "Citigroup",
+          "ticker_or_id": "C",
+          "functional_reason": "Global systemically important bank channeling central-bank liquidity across currency corridors; transmits reserve and rate policy into cross-border funding markets",
+          "binding_strength": 0.88
         }
       ],
       "neuralRole": "Limbic",
@@ -329,6 +359,12 @@
           "ticker_or_id": "SQ",
           "functional_reason": "Detects and monitors bond markets signals, identifying early disruption patterns and emerging conditions",
           "binding_strength": 0.78
+        },
+        {
+          "name": "Citigroup",
+          "ticker_or_id": "C",
+          "functional_reason": "Major fixed-income dealer and emerging-market sovereign-debt intermediary; prices credit risk across cross-border bond corridors and signals sovereign and corporate credit stress",
+          "binding_strength": 0.86
         }
       ],
       "neuralRole": "PFC",
@@ -509,6 +545,18 @@
           "ticker_or_id": "BLK",
           "functional_reason": "Allocates and regulates venture capital resources, setting priorities and distributing capacity across competing needs",
           "binding_strength": 0.78
+        },
+        {
+          "name": "KKR",
+          "ticker_or_id": "KKR",
+          "functional_reason": "Alternative asset manager with large growth-equity and venture mandates funding uncertain high-return ventures; risk-appetite shifts here signal early-stage funding-cycle expansion or retreat",
+          "binding_strength": 0.8
+        },
+        {
+          "name": "Blackstone",
+          "ticker_or_id": "BX",
+          "functional_reason": "Deploys growth and venture capital across its alternative-asset platform; motivational capital drive into uncertain ventures tracks the risk-on/risk-off venture funding cycle",
+          "binding_strength": 0.79
         }
       ],
       "neuralRole": "Limbic",
@@ -599,6 +647,18 @@
           "ticker_or_id": "PYPL",
           "functional_reason": "Executes core private equity operations, delivering primary output and managing day-to-day functional processes",
           "binding_strength": 0.69
+        },
+        {
+          "name": "Blackstone",
+          "ticker_or_id": "BX",
+          "functional_reason": "Largest alternative asset manager driving leveraged buyouts, infrastructure, and secondary markets; value-based control acquisition and restructuring at scale surfaces LBO-leverage and portfolio-distress signals",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "KKR",
+          "ticker_or_id": "KKR",
+          "functional_reason": "Mega-cap LBO and infrastructure investor restructuring established companies; refinancing-cliff and portfolio-company distress here are leading indicators of alternative-asset leverage stress",
+          "binding_strength": 0.93
         }
       ],
       "neuralRole": "PFC",
@@ -779,6 +839,12 @@
           "ticker_or_id": "GS",
           "functional_reason": "Executes core forex markets operations, delivering primary output and managing day-to-day functional processes",
           "binding_strength": 0.87
+        },
+        {
+          "name": "Citigroup",
+          "ticker_or_id": "C",
+          "functional_reason": "Top-tier FX liquidity hub operating across 180+ currency corridors; provides visibility into international capital flows, currency-corridor stress, and cross-border funding conditions",
+          "binding_strength": 0.9
         }
       ],
       "childPortal": "finance_forex_portal.html",
@@ -870,6 +936,18 @@
           "ticker_or_id": "JPM",
           "functional_reason": "Executes core credit systems operations, delivering primary output and managing day-to-day functional processes",
           "binding_strength": 0.72
+        },
+        {
+          "name": "Bank of America",
+          "ticker_or_id": "BAC",
+          "functional_reason": "Mega-cap consumer and commercial lender allocating credit across cards, auto, and small-business books; behavioral repayment history at this scale anchors system-wide credit-quality signals",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "Wells Fargo",
+          "ticker_or_id": "WFC",
+          "functional_reason": "Major loan originator and largest mortgage servicer; credit-quality degradation and servicing performance here surface early consumer-credit and residential-default stress",
+          "binding_strength": 0.89
         }
       ],
       "childPortal": "finance_accounting_portal.html",
@@ -961,6 +1039,12 @@
           "ticker_or_id": "GS",
           "functional_reason": "Executes core mortgage markets operations, delivering primary output and managing day-to-day functional processes",
           "binding_strength": 0.75
+        },
+        {
+          "name": "Wells Fargo",
+          "ticker_or_id": "WFC",
+          "functional_reason": "Largest U.S. mortgage servicer and major loan originator; encodes property-ownership and servicing memory across millions of active mortgages, anchoring residential-credit and housing-default surveillance",
+          "binding_strength": 0.93
         }
       ],
       "childPortal": "finance_centralbank_portal.html",
@@ -1653,6 +1737,259 @@
         {
           "domain": "governance",
           "role": "judintegr caseassgn — Signal Acquisition"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "SMA",
+      "state": "active",
+      "domainLabel": "Mergers & Acquisitions",
+      "domainDescription": "The market for corporate control where companies are bought, sold, merged, and divested, reallocating capital and consolidating or concentrating ownership across the economy.",
+      "domainFunction": "Plans and sequences complex multi-step capital-reallocation transactions, restructuring corporate control through acquisition financing, deal execution, and post-merger integration that concentrate or redistribute economic power.",
+      "whyThisNode": "The supplementary motor area plans, sequences, and prepares complex multi-step motor programs before execution, directly paralleling how M&A assembles and sequences the multi-stage transaction programs (valuation, financing, approval, integration) required to execute a change of corporate control.",
+      "group": "markets",
+      "phase": "P7",
+      "weight": 0.9,
+      "diagnosticTriggers": [
+        "MARKET_CRASH",
+        "CREDIT_FREEZE",
+        "SYSTEMIC_CONTAGION",
+        "FRAUD_SCANDAL"
+      ],
+      "treatments": [
+        {
+          "label": "Acquisition financing stress testing",
+          "type": "STRUCTURAL",
+          "description": "Evaluates the debt and bridge-financing structures underpinning announced deals against rate and liquidity shocks, preventing financing-cliff failures that strand acquirers and destabilize credit markets.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Antitrust and concentration review",
+          "type": "IMMEDIATE",
+          "description": "Screens transactions for control concentration and systemic-importance creation, preventing the formation of too-big-to-fail entities and preserving competitive market structure.",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "finance_manda_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Goldman Sachs",
+          "ticker_or_id": "GS",
+          "functional_reason": "Lead M&A advisor sequencing deal structuring, financing, and execution; transaction pipeline and fee trends here signal corporate-control activity and financing-market health",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Morgan Stanley",
+          "ticker_or_id": "MS",
+          "functional_reason": "Top-tier M&A and capital-markets advisor executing change-of-control transactions; deal flow surfaces capital-reallocation pressure and equity-financing conditions",
+          "binding_strength": 0.92
+        },
+        {
+          "name": "JPMorgan Chase",
+          "ticker_or_id": "JPM",
+          "functional_reason": "Lead acquisition-financier and advisor whose bridge-loan and underwriting exposure makes it a primary node for financing-cliff and deal-collapse risk",
+          "binding_strength": 0.9
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Mergers & Acquisitions",
+      "brainNodeLabelCanonical": "Finance",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Strategic Planning"
+        },
+        {
+          "domain": "economy",
+          "role": "Capital Markets"
+        },
+        {
+          "domain": "governance",
+          "role": "Regulatory Oversight"
+        },
+        {
+          "domain": "industry",
+          "role": "Workforce Management"
+        },
+        {
+          "domain": "legal",
+          "role": "Settlement / Negotiation"
+        },
+        {
+          "domain": "neurology",
+          "role": "Supplementary Motor Area"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "AMY",
+      "state": "active",
+      "domainLabel": "Corporate Distress & Default",
+      "domainDescription": "The credit-distress pathway spanning corporate bankruptcy, restructuring, covenant breach, creditor coordination, asset liquidation, and workout of failing enterprises.",
+      "domainFunction": "Detects deteriorating corporate solvency and generates the defensive response to default — triggering restructuring, creditor coordination, and orderly or disorderly liquidation while containing contagion to lenders and counterparties.",
+      "whyThisNode": "The amygdala detects threat and orchestrates the system's defensive response, directly paralleling how the corporate-distress pathway detects solvency threat and mobilizes the protective machinery of restructuring, workout, and resolution to contain losses before they cascade.",
+      "group": "regulation",
+      "phase": "P7",
+      "weight": 0.95,
+      "diagnosticTriggers": [
+        "CREDIT_FREEZE",
+        "SYSTEMIC_CONTAGION",
+        "BANKING_CRISIS",
+        "MARKET_CRASH"
+      ],
+      "treatments": [
+        {
+          "label": "Orderly restructuring and resolution frameworks",
+          "type": "STRUCTURAL",
+          "description": "Provides predictable bankruptcy and out-of-court workout processes with debtor-in-possession financing and automatic stays, enabling value preservation and preventing disorderly fire-sale contagion.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Covenant and early-warning monitoring",
+          "type": "IMMEDIATE",
+          "description": "Tracks covenant headroom, liquidity runway, and maturity walls across leveraged borrowers to flag distress before default, allowing pre-emptive creditor coordination.",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "finance_distress_portal.html",
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "KKR",
+          "ticker_or_id": "KKR",
+          "functional_reason": "Major holder of leveraged and distressed credit whose portfolio-company covenant and refinancing stress is an early signal of corporate-default conditions",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "Blackstone",
+          "ticker_or_id": "BX",
+          "functional_reason": "Large distressed-debt and special-situations investor; workout and restructuring activity here surfaces emerging credit-default and creditor-coordination stress",
+          "binding_strength": 0.87
+        },
+        {
+          "name": "Apollo Global Management",
+          "ticker_or_id": "APO",
+          "functional_reason": "Credit-focused alternative manager specializing in distressed and special-situations lending; positioning is a leading indicator of corporate-distress and default cycles",
+          "binding_strength": 0.86
+        }
+      ],
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Corporate Distress & Default",
+      "brainNodeLabelCanonical": "Finance",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Threat Detection Hub"
+        },
+        {
+          "domain": "business",
+          "role": "Risk Management"
+        },
+        {
+          "domain": "economy",
+          "role": "Capital Markets"
+        },
+        {
+          "domain": "governance",
+          "role": "Emergency Powers"
+        },
+        {
+          "domain": "legal",
+          "role": "Settlement / Negotiation"
+        },
+        {
+          "domain": "neurology",
+          "role": "Amygdala"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "INS",
+      "state": "active",
+      "domainLabel": "Systemic Financial Risk",
+      "domainDescription": "The macroprudential surveillance layer tracking counterparty interconnection, liquidity stress, leverage, and contagion-cascade probability across the entire financial system.",
+      "domainFunction": "Continuously senses the internal state of the whole financial system — mapping interbank, repo, and derivatives interconnections, monitoring funding-liquidity and collateral stress, and estimating contagion-cascade probability for macroprudential response.",
+      "whyThisNode": "The insula performs interoception, integrating signals about the body's internal state to sense systemic imbalance, directly paralleling how systemic-risk monitoring senses the financial system's internal condition by integrating interconnection, liquidity, and leverage signals into a whole-system stress reading.",
+      "group": "regulation",
+      "phase": "P7",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "SYSTEMIC_CONTAGION",
+        "BANKING_CRISIS",
+        "MARKET_CRASH",
+        "CREDIT_FREEZE",
+        "CURRENCY_COLLAPSE"
+      ],
+      "treatments": [
+        {
+          "label": "Interconnection mapping and network monitoring",
+          "type": "STRUCTURAL",
+          "description": "Maps counterparty exposures across interbank lending, repo, and OTC derivative networks to identify concentration and single-points-of-failure before contagion can propagate.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Liquidity stress indices and macroprudential triggers",
+          "type": "IMMEDIATE",
+          "description": "Tracks funding-liquidity, collateral-haircut, and cross-asset correlation indices to trigger countercyclical capital and liquidity buffers when system-wide stress thresholds are breached.",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "finance_systemicrisk_portal.html",
+      "phase_archetype": "P1",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "BlackRock",
+          "ticker_or_id": "BLK",
+          "functional_reason": "Largest asset manager and risk-analytics provider (Aladdin) whose cross-market positioning and exposure mapping make it a systemic interconnection and stress-sensing node",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "JPMorgan Chase",
+          "ticker_or_id": "JPM",
+          "functional_reason": "Most systemically important U.S. bank sitting at the center of interbank, repo, and derivatives networks; its funding and counterparty conditions are a primary systemic-stress signal",
+          "binding_strength": 0.93
+        },
+        {
+          "name": "Citigroup",
+          "ticker_or_id": "C",
+          "functional_reason": "Global systemically important bank spanning cross-border funding and FX networks; transmits and reveals international contagion-cascade pressure",
+          "binding_strength": 0.9
+        }
+      ],
+      "neuralRole": "Salience",
+      "brainNodeRoleCanonical": "Systemic Financial Risk",
+      "brainNodeLabelCanonical": "Finance",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Interoceptive Awareness"
+        },
+        {
+          "domain": "business",
+          "role": "Risk Management"
+        },
+        {
+          "domain": "economy",
+          "role": "Banking System"
+        },
+        {
+          "domain": "governance",
+          "role": "Regulatory Oversight"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Grid Reliability"
+        },
+        {
+          "domain": "neurology",
+          "role": "Insula"
         }
       ]
     }

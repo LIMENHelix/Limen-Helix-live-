@@ -94,6 +94,52 @@
     { re: /mainstream (adoption|breakthrough|crossover)|cultural (adoption|crossover|breakthrough)|mass(-| )?market reach|breaking through|prime-?time|sync (placement|deal)|festival headlin/i, weight: 0.14, tag: 'mainstream_adoption' }
   ];
 
+  // ─── Finance-native semantics ─────────────────────────────────────────────
+  // Energy parity (same shape as INFRA / CULTURE above): finance has its OWN
+  // failure/recovery vocabulary. Where energy reads crude_above_90 / grid_stress,
+  // infrastructure reads grid_reliability / deferred_maintenance, and culture
+  // reads the attention economy, FINANCE reads capital markets & credit:
+  // liquidity & solvency, credit & lending, banking, funding & investment, M&A,
+  // payments/fintech, corporate distress & default, and systemic financial risk.
+  // No grid/fuel/cultural content is used here; every primitive is a
+  // financial-semantic equivalent (liquidity crunch, credit-spread widening,
+  // solvency pressure, margin call, capital flight, deleveraging cascade,
+  // default risk, covenant breach, counterparty exposure, repo/haircut stress).
+  //
+  // IMPORTANT: this is the CLIENT-SIDE ADVISORY balance meter only. It does NOT
+  // touch the validated P3 distress kernel (Thing1) — scoreStress / deriveDiagnoses,
+  // /api/limen/score, /api/helix/helix-report/score are entirely separate server
+  // paths and are not referenced here. This adds a finance-native pathway readout
+  // alongside energy/infra/culture, identical mechanism, financial content.
+  //
+  // Each entry maps a keyword pattern (matched against the domain's signal
+  // strings) to a weighted push on the destabilizing or stabilizing score —
+  // identical mechanism to energy's condition→weight mapping, financial content.
+  var FINANCE_DESTABILIZING = [
+    // Liquidity crunch — funding markets seizing, dash for cash, runs.
+    { re: /liquidity (crunch|crisis|squeeze|stress|dry(-| )?up)|funding (squeeze|stress|freeze)|cash (crunch|squeeze)|dash for cash|(bank|deposit) run|fire ?sale/i, weight: 0.18, tag: 'liquidity_crunch' },
+    // Credit-spread widening — risk repricing, spread blowout, downgrades.
+    { re: /credit spread(s)? (widen|blow|gap)|spread(s)? (widen|blow)|risk premium (surge|spike)|cds (spike|widen|blow)|(rating|credit) downgrade|junk (spread|bond) (surge|spike)/i, weight: 0.16, tag: 'credit_spread_widening' },
+    // Solvency pressure — capital depletion, insolvency, negative equity.
+    { re: /solvency (pressure|risk|concern)|insolven(t|cy)|under(-| )?capitaliz|capital (depletion|shortfall|hole)|negative equity|impair(ment|ed) charge|write(-| )?down/i, weight: 0.17, tag: 'solvency_pressure' },
+    // Margin call / forced liquidation — leverage unwind, collateral calls.
+    { re: /margin call|collateral call|forced (liquidation|selling|sale)|leverage unwind|margin (pressure|squeeze)|delever(age|aging) (forced|cascade)?|liquidat(e|ion) position/i, weight: 0.15, tag: 'margin_call' },
+    // Default risk / covenant breach — distress, bankruptcy, missed payment.
+    { re: /default (risk|wave|event)|covenant (breach|violation|waiver)|missed (payment|coupon)|bankrupt(cy)?|chapter 11|debt (restructur|distress)|payment default|technical default/i, weight: 0.16, tag: 'default_risk' },
+    // Counterparty / contagion exposure — interbank stress, repo/haircut stress.
+    { re: /counterparty (risk|exposure|fail)|contagion|interbank (stress|freeze)|repo (stress|freeze|spike)|haircut(s)? (rise|widen|increase)|systemic (risk|stress)|spillover/i, weight: 0.15, tag: 'counterparty_exposure' },
+    // Capital flight — outflows, redemptions, deposit/asset withdrawal surge.
+    { re: /capital flight|(fund|deposit|investor) (outflow|redemption|withdrawal)|outflow(s)? surge|flight to (safety|quality)|asset (flight|exodus)|run on (the )?(fund|bank)/i, weight: 0.13, tag: 'capital_flight' }
+  ];
+  var FINANCE_STABILIZING = [
+    // Liquidity restoration — backstops, facilities, funding access reopening.
+    { re: /liquidity (restor|inject|support|provision|backstop)|funding (secured|access restored|reopen)|(fed|central bank) (facility|backstop|support)|emergency facility|discount window|recapitaliz/i, weight: 0.16, tag: 'liquidity_restoration' },
+    // Credit normalization — spreads tightening, upgrades, risk appetite return.
+    { re: /credit spread(s)? (tighten|narrow|compress)|spread(s)? (tighten|narrow)|(rating|credit) upgrade|risk appetite (return|recover)|credit (normaliz|easing|reopen)|issuance (window|reopen)/i, weight: 0.15, tag: 'credit_normalization' },
+    // Capital strengthening — raises, buffers rebuilt, deleveraging orderly.
+    { re: /capital (raise|injection|infusion|buffer rebuilt|strengthen)|recapitaliz(ed|ation)|equity (raise|infusion)|balance(-| )?sheet (repair|strengthen)|orderly delever|debt (refinanc|repaid|reduced)/i, weight: 0.15, tag: 'capital_strengthening' }
+  ];
+
   // Scan a domain's signal strings against a civil pattern table and return the
   // summed weighted contribution (clamped). Mirrors how energy accumulates its
   // condition-driven pressure, but over civil-native keywords.
@@ -200,6 +246,22 @@
         _cultureDestabTags = _cd.tags;
       }
 
+      // ── Finance-native destabilizing pathways (energy parity) ──
+      // For the finance domain ONLY, add financial-semantic pressure from named
+      // failure pathways found in the live signal strings (liquidity crunch,
+      // credit-spread widening, solvency pressure, margin call / forced
+      // liquidation, default risk / covenant breach, counterparty/contagion
+      // exposure, capital flight). This is the capital-markets analogue of
+      // energy's crude_above_*/grid_stress, infrastructure's grid_reliability/
+      // deferred_maintenance, and culture's backlash/audience-collapse weighting.
+      // ADVISORY ONLY — wholly separate from the validated P3 distress kernel.
+      var _financeDestabTags = null;
+      if (k === 'finance') {
+        var _fd = _infraSignalScore(signals, FINANCE_DESTABILIZING);
+        destab += _fd.score;
+        _financeDestabTags = _fd.tags;
+      }
+
       destab = _clamp(destab, 0, 1);
 
       // ─── Stabilizing score ─────────────────────────────────────
@@ -264,6 +326,21 @@
         _cultureStabTags = _cs.tags;
       }
 
+      // ── Finance-native stabilizing pathways (energy parity) ──
+      // Financial recovery vocabulary: liquidity restoration (backstops/
+      // facilities), credit normalization (spreads tightening / upgrades), and
+      // capital strengthening (raises / orderly deleveraging). Mirrors energy's
+      // falling-trend / declining-volatility stabilizers, infrastructure's
+      // funding-renewal / repair-completion, and culture's fanbase-momentum /
+      // mainstream-adoption, with financial semantics from the live signals.
+      // ADVISORY ONLY — wholly separate from the validated P3 distress kernel.
+      var _financeStabTags = null;
+      if (k === 'finance') {
+        var _fs = _infraSignalScore(signals, FINANCE_STABILIZING);
+        stab += _fs.score;
+        _financeStabTags = _fs.tags;
+      }
+
       stab = _clamp(stab, 0, 1);
 
       // ─── Net balance ───────────────────────────────────────────
@@ -295,6 +372,13 @@
       if (k === 'culture') {
         _balance[k].destabilizingFactors = _cultureDestabTags || [];
         _balance[k].stabilizingFactors = _cultureStabTags || [];
+      }
+
+      // Surface the finance-native pathways that drove the finance score
+      // (energy parity: name the conditions, don't hide them behind a scalar).
+      if (k === 'finance') {
+        _balance[k].destabilizingFactors = _financeDestabTags || [];
+        _balance[k].stabilizingFactors = _financeStabTags || [];
       }
 
       // Detect state shift

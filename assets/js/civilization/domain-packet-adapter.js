@@ -386,6 +386,27 @@
     // shared deepBrain envelope. Energy/infrastructure win when both are present
     // (a slot is single-domain, so they never collide in practice).
     var _bcm = _emO(slot && slot.brainCultureModel);
+    // Finance parity: finance brains emit a recurrent CAPITAL-LIFECYCLE model
+    // (brainFinanceModel) that follows the SAME envelope signature as energy's
+    // energyModel, infrastructure's infrastructureModel, and culture's
+    // cultureModel, so Civilization + the Main Brain consume it identically.
+    // The finance model tracks the capital-allocation lifecycle (credit-cycle
+    // expansion/contraction cadence, solvency & liquidity stress, funding-source
+    // health — wholesale/deposit/equity, and systemic liquidity-crisis risk —
+    // funding runs / default cascades) rather than neurological cycles,
+    // civil-asset lifecycles, or attention economies. Real signal validation
+    // anchors on the large-cap financials JPM, BAC, GS, MS, BLK, V, MA, SCHW,
+    // C, WFC. We map its financial field names onto the shared deepBrain
+    // envelope. Energy/infrastructure/culture win when both are present
+    // (a slot is single-domain, so they never collide in practice).
+    //
+    // GUARD: this branch is STRICTLY ADDITIVE and lives entirely at the
+    // packet/observer layer. It reads only the recurrent capital-lifecycle
+    // model the finance brain emits AFTER its validated P3 distress cycle has
+    // run; it never touches, reorders, or re-derives the validated
+    // scoreStress / deriveDiagnoses spine or any locked scoring path consumed
+    // by /api/limen/score or /api/helix/helix-report/score.
+    var _bfm = _emO(slot && slot.brainFinanceModel);
     var deepBrain = _bem ? {
       cycle:           _num(_bem.cycle),
       predictionError: _emO(_bem.predictionError),
@@ -477,6 +498,68 @@
       creativeCapacityTrend: _num(_bcm.creativeCapacityTrend),
       attentionErosionAccum: _num(_bcm.attentionErosionAccum),
       domainDiagnosisPacket: _emO(_bcm.domainCulturePacket) || _emO(_bcm.domainDiagnosisPacket)
+    } : _bfm ? {
+      // Capital-allocation / credit lifecycle mapped onto the shared recurrent
+      // envelope. creditCycle → cycle, fundingSourceQuality → regulation,
+      // liquidityCrisis / systemicSolvencyRisk → predictedStress,
+      // priorCapitalHealth → prior, domainFinancePacket → domainDiagnosisPacket.
+      cycle:           _num(_bfm.creditCycle != null ? _bfm.creditCycle : _bfm.cycle),
+      predictionError: _emO(_bfm.predictionError),
+      // fundingSourceQuality is the finance regulation signal: the health of
+      // the funding base (deposits / wholesale / equity access) and the
+      // tightness of credit supply (analogous to energy's regulationState,
+      // infrastructure's capital-funding regulation, and culture's expression
+      // state). High quality = stable, diversified, low-cost funding.
+      regulationState: (_bfm.fundingSourceQuality && _bfm.fundingSourceQuality.state)
+                       || _str(_bfm.fundingSourceQuality)
+                       || (_bfm.fundingState && _bfm.fundingState.state)
+                       || _str(_bfm.fundingState)
+                       || (_bfm.regulation && _bfm.regulation.state)
+                       || null,
+      regulation:      _emO(_bfm.fundingSourceQuality) || _emO(_bfm.fundingState) || _emO(_bfm.regulation),
+      readyForHandoff: _bfm.readyForHandoff === true,
+      // liquidityCrisis is the finance predicted-stress signal (likelihood of a
+      // funding run / liquidity-crisis / default cascade), carried through
+      // unchanged in [0..1]. systemicSolvencyRisk is the broader solvency
+      // analogue; either may stand in for predictedStress, liquidityCrisis wins
+      // as the more acute near-term signal.
+      predictedStress: _num(
+        _bfm.liquidityCrisis != null ? _bfm.liquidityCrisis
+        : (_bfm.systemicSolvencyRisk != null ? _bfm.systemicSolvencyRisk
+        : _bfm.predictedStress)
+      ),
+      // priorCapitalHealth carries the prior on balance-sheet capital adequacy
+      // (the capital-health trend), mirroring energy's prior, infrastructure's
+      // priorAssetHealth, and culture's creativeCapacity. When reported as a
+      // health value ([0..1] high = healthy / well-capitalized), invert into a
+      // stress expectation; an explicit expectedStress wins.
+      prior:           (_bfm.priorCapitalHealth || _bfm.prior)
+                       ? (function (p) {
+                           return {
+                             // expectedStress mirrors energy: here the prior
+                             // expected solvency / liquidity distress level.
+                             expectedStress: _num(
+                               p.expectedStress != null ? p.expectedStress
+                               : (p.expectedDistress != null ? p.expectedDistress
+                               : (typeof p.capitalAdequacy === 'number' ? (1 - _clamp01(p.capitalAdequacy))
+                               : (typeof p.health === 'number' ? (1 - _clamp01(p.health))
+                               : (typeof p === 'number' ? (1 - _clamp01(p)) : null))))
+                             ),
+                             confidence:     _num(p.confidence),
+                             samples:        _num(p.samples)
+                           };
+                         })(_bfm.priorCapitalHealth || _bfm.prior)
+                       : null,
+      // Capital / credit-liquidity telemetry preserved alongside the shared
+      // envelope so downstream artifact expansion can feed finance-investment
+      // and systemic-risk decisions (credit-cycle phase, solvency headroom,
+      // funding-mix concentration). systemicSolvencyRisk is carried explicitly
+      // even when liquidityCrisis drove predictedStress, so the broader
+      // solvency view is not lost.
+      systemicSolvencyRisk:   _num(_bfm.systemicSolvencyRisk),
+      creditCycleTrend:       _num(_bfm.creditCycleTrend),
+      liquidityHeadroomTrend: _num(_bfm.liquidityHeadroomTrend),
+      domainDiagnosisPacket: _emO(_bfm.domainFinancePacket) || _emO(_bfm.domainDiagnosisPacket)
     } : null;
 
     // Feed health. Configured count is the MAX of every honest declaration

@@ -25,6 +25,8 @@
   var INFRA_STACK_COOLDOWN = 180000; // 3 min between infra-stack narrations
   var CULTURE_STACK_THRESHOLD = 2; // a cultural-concern stack seen N times signals concentration
   var CULTURE_STACK_COOLDOWN = 180000; // 3 min between culture-stack narrations
+  var FINANCE_STACK_THRESHOLD = 2; // a financial-vulnerability stack seen N times signals concentration
+  var FINANCE_STACK_COOLDOWN = 180000; // 3 min between finance-stack narrations
 
   // ─── Infrastructure vulnerability-stack semantics ─────────────────────────
   // CIVIL domain-semantic concentration. Generic (domain, action) frequency only
@@ -101,6 +103,48 @@
       body: 'Operator attention concentrates on the expression-suppression + scene-decline stack — censorship/gatekeeping collapsing the space a movement lives in.' }
   ];
 
+  // ─── Finance vulnerability-stack semantics ────────────────────────────────
+  // FINANCIAL domain-semantic concentration. As with infrastructure and culture,
+  // generic (domain, action) frequency only says WHERE the operator is looking; for
+  // the finance domain we also detect WHAT financial-vulnerability STACK the attention
+  // concentrates on. Each stack is a co-occurring pair of financial signal families
+  // (liquidity & funding/credit spreads & lending/solvency & leverage/margin & collateral/
+  // capital flows/default & covenant/counterparty & systemic exposure).
+  // Mirrors the finance-brain cross-domain conditions:
+  //   LIQUIDITY_CRUNCH + DEFAULT_RISK        → liquidity-driven default spiral
+  //   MARGIN_CALL + CAPITAL_FLIGHT           → forced-deleveraging capital exodus
+  // Signal tokens are matched against recorded action/type/pattern text — never
+  // invented; absence of tokens simply yields no stack (silent, no false signal).
+  // STRICTLY ADDITIVE: independent of the validated P3 distress kernel (Thing1) —
+  // this advisory layer never participates in /api/limen/score scoring.
+  var FINANCE_SIGNAL_TOKENS = {
+    LIQUIDITY_CRUNCH:        /(liquidity|funding[_\s-]?gap|cash[_\s-]?crunch|runnable|deposit[_\s-]?flight|bank[_\s-]?run|frozen[_\s-]?market|illiquid|repo[_\s-]?freeze|funding[_\s-]?stress)/i,
+    CREDIT_SPREAD:           /(credit[_\s-]?spread|spread[_\s-]?widen|cds|yield[_\s-]?spread|high[_\s-]?yield|junk[_\s-]?bond|distressed[_\s-]?debt|downgrade|rating[_\s-]?cut|credit[_\s-]?tighten)/i,
+    SOLVENCY_PRESSURE:       /(solvency|insolvent|negative[_\s-]?equity|impairment|writedown|write[_\s-]?off|capital[_\s-]?shortfall|tier[_\s-]?1|undercapitalized|book[_\s-]?value[_\s-]?erosion)/i,
+    MARGIN_CALL:             /(margin[_\s-]?call|collateral[_\s-]?call|haircut|forced[_\s-]?sale|liquidation|maintenance[_\s-]?margin|variation[_\s-]?margin|deleveraging|fire[_\s-]?sale)/i,
+    CAPITAL_FLIGHT:          /(capital[_\s-]?flight|outflow|redemption|withdrawal|fund[_\s-]?run|deposit[_\s-]?outflow|risk[_\s-]?off|flight[_\s-]?to[_\s-]?quality|asset[_\s-]?reallocation)/i,
+    DEFAULT_RISK:            /(default|bankruptcy|chapter[_\s-]?11|restructuring|missed[_\s-]?payment|delinquen|nonaccrual|non[_\s-]?performing|charge[_\s-]?off|distress)/i,
+    COVENANT_BREACH:         /(covenant|breach|technical[_\s-]?default|leverage[_\s-]?ratio|coverage[_\s-]?ratio|waiver|forbearance|amendment|debt[_\s-]?service)/i,
+    COUNTERPARTY_EXPOSURE:   /(counterparty|systemic|contagion|interconnected|exposure|derivative|clearing|too[_\s-]?big[_\s-]?to[_\s-]?fail|cascade|domino)/i
+  };
+
+  // Financial-vulnerability STACKS — ordered token pairs with a financial interpretation.
+  // Each describes an operator-concentration meaning specific to a financial vulnerability
+  // stack (capital markets, credit & lending, banking, liquidity & solvency, M&A, fintech,
+  // corporate distress, systemic risk) — NOT energy oil/gas/grid/datacenter content.
+  var FINANCE_VULN_STACKS = [
+    { id: 'LIQUIDITY_DEFAULT',       signals: ['LIQUIDITY_CRUNCH', 'DEFAULT_RISK'],
+      body: 'Operator attention concentrates on the liquidity-crunch + default-risk stack — a funding freeze tipping borrowers into a liquidity-driven default spiral.' },
+    { id: 'MARGIN_CAPITAL_FLIGHT',   signals: ['MARGIN_CALL', 'CAPITAL_FLIGHT'],
+      body: 'Operator attention concentrates on the margin-call + capital-flight stack — forced deleveraging and collateral calls driving a risk-off capital exodus.' },
+    { id: 'CREDIT_SOLVENCY',         signals: ['CREDIT_SPREAD', 'SOLVENCY_PRESSURE'],
+      body: 'Operator attention concentrates on the credit-spread + solvency-pressure stack — widening spreads and impairments eroding capital adequacy.' },
+    { id: 'LEVERAGE_DELEVERAGING',   signals: ['COVENANT_BREACH', 'MARGIN_CALL'],
+      body: 'Operator attention concentrates on the covenant-breach + margin-call stack — leverage limits breached, triggering forced deleveraging and fire sales.' },
+    { id: 'REPO_HAIRCUT',            signals: ['COUNTERPARTY_EXPOSURE', 'LIQUIDITY_CRUNCH'],
+      body: 'Operator attention concentrates on the counterparty-exposure + liquidity-crunch stack — repo haircuts and funding stress propagating systemic contagion.' }
+  ];
+
   // ─── State ───────────────────────────────────────────────────────────────
 
   var _entries = [];
@@ -110,6 +154,8 @@
   var _lastInfraStackId = null;
   var _lastCultureStackTime = 0;
   var _lastCultureStackId = null;
+  var _lastFinanceStackTime = 0;
+  var _lastFinanceStackId = null;
   var _interval = null;
 
   // Detect which civil signal families a user-action references, by scanning its
@@ -132,6 +178,18 @@
     var hits = [];
     for (var sig in CULTURE_SIGNAL_TOKENS) {
       if (CULTURE_SIGNAL_TOKENS[sig].test(text)) hits.push(sig);
+    }
+    return hits;
+  }
+
+  // Detect which financial signal families a user-action references, by scanning its
+  // free-text fields (action / type / cross-domain pattern). Returns a list of
+  // canonical finance signal ids. Never fabricates — empty if nothing matches.
+  function _detectFinanceSignals(text) {
+    if (!text) return [];
+    var hits = [];
+    for (var sig in FINANCE_SIGNAL_TOKENS) {
+      if (FINANCE_SIGNAL_TOKENS[sig].test(text)) hits.push(sig);
     }
     return hits;
   }
@@ -172,6 +230,10 @@
       // CULTURE: which cultural signal families this action touches (may be []).
       cultureSignals: _detectCultureSignals(
         [detail.action, detail.type, matchedPattern, detail.signal, detail.diagnosis].join(' ')
+      ),
+      // FINANCE: which financial signal families this action touches (may be []).
+      financeSignals: _detectFinanceSignals(
+        [detail.action, detail.type, matchedPattern, detail.signal, detail.diagnosis].join(' ')
       )
     };
 
@@ -184,6 +246,7 @@
     _checkConcentration();
     _checkInfraStackConcentration();
     _checkCultureStackConcentration();
+    _checkFinanceStackConcentration();
   }
 
   // ─── Concentration detection ──────────────────────────────────────────────
@@ -389,6 +452,73 @@
     });
   }
 
+  // ─── Finance vulnerability-stack concentration ────────────────────────────
+  // Domain-semantic concentration for FINANCE: beyond "which domain" (above),
+  // surface WHICH financial-vulnerability STACK the operator keeps returning to.
+  // Tallies co-occurring financial signal families across recent entries and fires
+  // when a known stack (liquidity-default, margin-capital-flight, credit-solvency,
+  // leverage-deleveraging, repo-haircut) crosses the threshold. Schema-faithful to
+  // _checkInfraStackConcentration (same phase-change shape). STRICTLY ADDITIVE and
+  // independent of the validated P3 distress kernel — advisory only.
+
+  function _checkFinanceStackConcentration() {
+    var now = Date.now();
+    if (now - _lastFinanceStackTime < FINANCE_STACK_COOLDOWN) return;
+    if (_entries.length < FINANCE_STACK_THRESHOLD) return;
+
+    // Count per-signal-family hits across recent entries (last 10).
+    var recent = _entries.slice(-10);
+    var sigCounts = {};
+    for (var i = 0; i < recent.length; i++) {
+      var sigs = recent[i].financeSignals || [];
+      for (var s = 0; s < sigs.length; s++) {
+        sigCounts[sigs[s]] = (sigCounts[sigs[s]] || 0) + 1;
+      }
+    }
+
+    // A stack fires only when BOTH of its signal families are present and at least
+    // one of them has been focused on repeatedly (>= threshold). Score = sum of the
+    // pair's counts; pick the strongest stack.
+    var best = null;
+    for (var k = 0; k < FINANCE_VULN_STACKS.length; k++) {
+      var stack = FINANCE_VULN_STACKS[k];
+      var a = sigCounts[stack.signals[0]] || 0;
+      var b = sigCounts[stack.signals[1]] || 0;
+      if (a === 0 || b === 0) continue;
+      if (Math.max(a, b) < FINANCE_STACK_THRESHOLD) continue;
+      var score = a + b;
+      if (!best || score > best.score) best = { stack: stack, a: a, b: b, score: score };
+    }
+
+    if (!best) return;
+    if (best.stack.id === _lastFinanceStackId) return; // don't re-narrate the same stack
+
+    _lastFinanceStackTime = now;
+    _lastFinanceStackId = best.stack.id;
+
+    var drivers = [
+      best.a + ' recent actions touching ' + best.stack.signals[0],
+      best.b + ' recent actions touching ' + best.stack.signals[1]
+    ];
+
+    var options = [
+      { label: 'deepen ' + best.stack.id.toLowerCase().replace(/_/g, ' ') + ' analysis', type: 'analysis' },
+      { label: 'broaden scope', type: 'monitoring' },
+      { label: 'hold', type: 'monitoring' }
+    ];
+
+    _dispatch('limen:phase-change', {
+      from: 'observing',
+      to: 'concentrated',
+      type: 'decision-memory',
+      domain: 'finance',
+      stackId: best.stack.id,
+      topDrivers: drivers,
+      options: options,
+      body: best.stack.body
+    });
+  }
+
   // ─── Publish ──────────────────────────────────────────────────────────────
 
   function _publish() {
@@ -398,6 +528,7 @@
       recentDomains: _recentDomains(5),
       infraSignalConcentration: _infraSignalConcentration(),
       cultureSignalConcentration: _cultureSignalConcentration(),
+      financeSignalConcentration: _financeSignalConcentration(),
       updated: Date.now()
     };
 
@@ -429,6 +560,23 @@
     var recent = _entries.slice(-10);
     for (var i = 0; i < recent.length; i++) {
       var sigs = recent[i].cultureSignals || [];
+      for (var s = 0; s < sigs.length; s++) {
+        counts[sigs[s]] = (counts[sigs[s]] || 0) + 1;
+      }
+    }
+    var out = [];
+    for (var sig in counts) { out.push({ signal: sig, count: counts[sig] }); }
+    out.sort(function (x, y) { return y.count - x.count; });
+    return out;
+  }
+
+  // FINANCE: roll up which financial signal families recent attention concentrates
+  // on (descending by count). Empty when no financial signals were detected.
+  function _financeSignalConcentration() {
+    var counts = {};
+    var recent = _entries.slice(-10);
+    for (var i = 0; i < recent.length; i++) {
+      var sigs = recent[i].financeSignals || [];
       for (var s = 0; s < sigs.length; s++) {
         counts[sigs[s]] = (counts[sigs[s]] || 0) + 1;
       }

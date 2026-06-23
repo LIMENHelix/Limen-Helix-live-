@@ -8,10 +8,46 @@
  *   3. The target brain incorporates it as an external stress modifier
  *   4. Civilization layer sees the full propagation map
  *
+ * Routing is domain-AGNOSTIC: any brain that publishes
+ * state.crossDomainEmissions participates. The examples below document the
+ * FINANCE wiring so the credit/liquidity/solvency channel is not silent in
+ * the cross-domain nervous system. (No finance-specific routing code is
+ * required — finance plugs in exactly like energy/infrastructure/culture.)
+ *
+ * Cross-domain examples — OTHER → FINANCE (finance as a target):
+ *   energy         → finance  (commodity_dislocation / fuel_cost_transmission
+ *                              → fuel & input costs erode coverage ratios →
+ *                              credit stress at fuel-heavy borrowers)
+ *   infrastructure → finance  (FUNDING_COLLAPSE / maintenance_deficit
+ *                              → maintenance backlog & deferred capex →
+ *                              project-finance funding squeeze, downgrade risk)
+ *   governance     → finance  (regulatory tightening / policy_shock
+ *                              → capital-access squeeze, higher compliance &
+ *                              funding cost, primary-market access narrows)
+ *   supplyChain    → finance  (logistics_constraint → working-capital strain,
+ *                              receivables stretch → liquidity_constraint)
+ *
+ * Cross-domain examples — FINANCE → OTHER (finance as a source). Finance
+ * emits three native signals when ≥1 validated/active diagnosis is present:
+ *   finance → energy        (credit_spread       → widening spreads raise the
+ *                            cost of capital for capex-heavy energy issuers)
+ *   finance → infrastructure(solvency_stress     → bank/lender solvency stress
+ *                            → project funding withdrawn, refinancing risk)
+ *   finance → economy       (liquidity_constraint→ funding-market liquidity
+ *                            squeeze → broad credit contraction)
+ *   finance → industry      (credit_spread       → higher financing cost →
+ *                            production/expansion drag)
+ *   Real finance issuers behind these signals: JPM, BAC, C, WFC, GS, MS,
+ *   SCHW, BLK, KKR, BX, V, MA. (credit_spread = market-priced default risk;
+ *   solvency_stress = capital/coverage erosion; liquidity_constraint =
+ *   funding-access squeeze.) These are SIGNAL examples only — the validated
+ *   Thing1 P3 distress kernel remains the sole scoring authority; the bus
+ *   merely transports already-scored emissions.
+ *
  * Also detects:
  *   - Propagation chains (A→B→C)
  *   - Co-activation (multiple domains emitting simultaneously)
- *   - Causal loops (A→B→A)
+ *   - Causal loops (A→B→A, e.g. energy→finance→energy via cost-of-capital)
  *   - Regime-level cascade (>3 domains in emission chain)
  *
  * Exposes: window.LIMENInterBrainBus

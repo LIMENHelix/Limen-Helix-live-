@@ -49,7 +49,16 @@
   var LANES = [
     'patents', 'copyrights', 'business-grants', 'research-grants',
     'nsf-project-pitch',
-    'sba-loans', 'franchise', 'investments', 'research-papers'
+    'sba-loans', 'franchise', 'investments', 'research-papers',
+    // ─── Finance-native lanes (additive) ──────────────────────────────────
+    // Finance is the canonical source domain for capital-market opportunity.
+    // These three lanes give finance-native signal (credit/lending, systemic
+    // solvency cascades, funding/liquidity constraints) a home so it is not
+    // forced through the generic 'investments' thesis lane. Mirror structure
+    // of the existing lanes; only the CONTENT is financial. They never touch
+    // the validated P3 distress kernel (Thing1) — they consume already-audited
+    // civilization packets exactly like every other lane.
+    'credit-facilities', 'systemic-risk', 'capital-access'
   ];
 
   // ─── Lane gates — minimum quality requirements per artifact type ────────
@@ -84,7 +93,26 @@
     'sba-loans':       { minEvidence: 0.45, minConfidence: 0.50, singleDomainOnly: true,  anyDomain: ['economy','finance','industry','agriculture','supplyChain','infrastructure'] },
     'franchise':       { minEvidence: 0.45, minConfidence: 0.50, singleDomainOnly: true,  anyDomain: ['supplyChain','industry','culture','agriculture'] },
     'investments':     { minEvidence: 0.55, minConfidence: 0.60, singleDomainOnly: true,  anyDomain: ['finance','economy','technology','energy','infrastructure'] },
-    'research-papers': { minEvidence: 0.40, minConfidence: 0.45, singleDomainOnly: false, anyDomain: ['research','medicine','health','science','education','population','environment'] }
+    'research-papers': { minEvidence: 0.40, minConfidence: 0.45, singleDomainOnly: false, anyDomain: ['research','medicine','health','science','education','population','environment'] },
+    // ─── Finance-native lane gates (additive) ─────────────────────────────
+    // credit-facilities — one borrower / one syndication / one credit line.
+    //   singleDomainOnly: a credit facility is a single bounded counterparty
+    //   relationship (like sba-loans / a patent), so cross-node multi-domain
+    //   aggregations are routed away. Finance-primary, with the lending-
+    //   adjacent real-economy domains that originate credit demand.
+    'credit-facilities':  { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: true,  anyDomain: ['finance','economy','industry','infrastructure','supplyChain'] },
+    // systemic-risk — solvency cascades / contagion / liquidity-spiral signal.
+    //   Inherently cross-domain (contagion crosses sector boundaries), so
+    //   singleDomainOnly is false. Higher evidence/confidence bar: a systemic-
+    //   risk packet asserts cross-sector transmission, which demands stronger
+    //   support than a single-name thesis. Passing this gate signals only
+    //   "sufficient packet detail to attempt a systemic-risk note" — NOT a
+    //   prediction of any crisis, and NOT the validated P3 distress kernel.
+    'systemic-risk':      { minEvidence: 0.60, minConfidence: 0.60, singleDomainOnly: false, anyDomain: ['finance','economy','infrastructure','supplyChain','technology'] },
+    // capital-access — funding constraints / liquidity gaps / capital-raise
+    //   shaped opportunity. Multi-domain-friendly (a capital-access thesis can
+    //   span a sector cohort), so singleDomainOnly is false.
+    'capital-access':     { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['finance','economy','industry','infrastructure','energy','technology'] }
   };
 
   var _last = { lanes: {}, timestamp: 0, totalPackets: 0 };
@@ -157,6 +185,9 @@
       case 'franchise':       return 'Domains ' + doms + ' indicate replication-shaped opportunity (FTC Franchise Rule applies).';
       case 'investments':     return 'Domains ' + doms + ' indicate investable thesis with measurable upside / regulatory tail.';
       case 'research-papers': return 'Domains ' + doms + ' have evidence and pattern density supporting publishable analysis.';
+      case 'credit-facilities': return 'Domains ' + doms + ' indicate credit / lending-shaped opportunity (credit line, syndication, debt facility) for a single bounded counterparty.';
+      case 'systemic-risk':     return 'Domains ' + doms + ' show cross-sector solvency / liquidity transmission signal sufficient to attempt a systemic-risk note (not a crisis prediction, not the validated distress kernel).';
+      case 'capital-access':    return 'Domains ' + doms + ' indicate funding-constraint / liquidity-gap opportunity (capital access, funding runway, liquidity provision).';
     }
     return '';
   }

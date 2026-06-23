@@ -79,7 +79,7 @@
     industry:      ['patents', 'sba-loans'],
     agriculture:   ['business-grants', 'sba-loans', 'patents'],
     economy:       ['sba-loans', 'investments'],
-    finance:       ['investments'],
+    finance:       ['investments', 'copyrights', 'patents', 'business-grants', 'sba-loans', 'research-grants'],
     education:     ['research-grants', 'business-grants'],
     science:       ['research-grants', 'research-papers'],
     governance:    ['copyrights'],

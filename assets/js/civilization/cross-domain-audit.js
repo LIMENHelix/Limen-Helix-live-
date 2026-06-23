@@ -50,6 +50,30 @@
     { id: 'infrastructure_core', domains: ['infrastructure', 'law', 'governance', 'finance'] },
     { id: 'rule_of_law',    domains: ['law', 'governance', 'defense'] },
     { id: 'economic_core',  domains: ['economy', 'finance', 'industry'] },
+    // Finance's own institutional envelope: capital markets, credit & lending,
+    // banking and liquidity/solvency are co-borne by the broader economy
+    // (activity, demand, output), the legal/regulatory enforcement regime
+    // (law — capital adequacy, securities compliance, enforcement actions),
+    // and monetary/fiscal policy & systemic oversight (governance — central-
+    // bank policy, prudential supervision, deposit-insurance backstop).
+    // Corroboration here = systemic financial-regulatory stress (e.g. a
+    // solvency squeeze coinciding with capital constraints + compliance
+    // pressure + policy/oversight stress). Mirror of infrastructure_core /
+    // culture_core (a sector wedded to its regulatory envelope).
+    { id: 'financial_core', domains: ['finance', 'economy', 'law', 'governance'] },
+    // Systemic credit-contagion cluster: when distress propagates through the
+    // credit channel it does not stay in banks — credit default events (the
+    // dealer/lender complex: GS, MS, C), inventory-financing collapse, trade-
+    // finance breakdown, and working-capital seizure cascade into industry,
+    // the real economy, and the supply chain, with the legal/policy regime
+    // (law/governance) determining whether the cascade is backstopped or
+    // amplified. Monitors: (1) credit-to-industry financing-spread widening,
+    // (2) inventory-finance covenant violations, (3) cross-border payment-
+    // system stress, (4) counterparty-risk concentration. Mirror/extension of
+    // energy_chain (energy→infrastructure→supplyChain corroboration) on the
+    // capital channel; widens economic_core to its law/governance/supply-chain
+    // transmission surface.
+    { id: 'finance_systemic', domains: ['finance', 'industry', 'economy', 'supplyChain', 'law', 'governance'] },
     { id: 'human_systems',  domains: ['health', 'population', 'medicine'] },
     { id: 'knowledge_arc',  domains: ['research', 'education', 'technology'] },
     // Culture's audience-attention economy: cultural output (music scenes,
@@ -304,7 +328,19 @@
       // creator capital, not the cultural signal itself.
       ['culture', 'research'],            // artist/scene vitality ↔ creative-research & archive infrastructure
       ['culture', 'education'],           // live taste-making/trend signal ↔ literacy & canon-formation stress
-      ['culture', 'finance']              // creator-revenue & venue economics ↔ capital-access quality stress
+      ['culture', 'finance'],             // creator-revenue & venue economics ↔ capital-access quality stress
+      // Finance vs its economic / legal / policy envelope (mirror of
+      // infrastructure↔its institutional envelope): when finance evidence
+      // (bank balance sheets, credit spreads, liquidity & solvency telemetry
+      // for JPM/BAC/GS/MS/C/WFC/SCHW, payment rails V/MA, asset managers
+      // BLK/KKR/BX) is strong but economy, law, or governance are proxy-heavy,
+      // the bottleneck is the surrounding institutional capability — economic
+      // demand measurement, regulatory enforcement capacity, and monetary/
+      // prudential oversight — not the financial signal itself. Finance drives
+      // the comparison as a source domain rather than only being a target.
+      ['finance', 'economy'],             // capital flows / credit conditions ↔ economic-activity & demand signal
+      ['finance', 'law'],                 // lending & solvency stress ↔ regulatory / securities enforcement quality
+      ['finance', 'governance']           // credit conditions & systemic risk ↔ monetary/fiscal policy & oversight
     ];
     var out = [];
     for (var i = 0; i < rivals.length; i++) {

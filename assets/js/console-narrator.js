@@ -163,6 +163,18 @@
       culture_fanbase_fracture:  'Fanbase cohesion fracturing. Audience attention splintering across tribes.',
       culture_backlash_spiral:   'Backlash spiral forming. Discourse turning adversarial around the movement.',
       culture_generic:           'Cultural domain under stress. Scenes, creators, and audiences pressured.',
+      // Finance-specific distress voice — capital-markets/credit/liquidity-grounded,
+      // mirrors energy's per-diagnosis narration and the infrastructure/culture ports above,
+      // but for financial systems: solvency, credit spreads, margin/collateral, leverage,
+      // funding liquidity, counterparty/systemic risk. Maps to the finance domain's distress
+      // flavors alongside (never replacing) the validated P3 distress kernel.
+      finance_solvency_crisis:       'Solvency under pressure. Capital adequacy and balance-sheet cushion eroding.',
+      finance_credit_spread_widening:'Credit spreads widening. Risk premia repricing as default expectations climb.',
+      finance_margin_call_pressure:  'Margin pressure building. Collateral calls and haircuts tightening across positions.',
+      finance_deleveraging_cascade:  'Deleveraging cascade forming. Forced asset sales feeding back into prices.',
+      finance_liquidity_crunch:      'Funding liquidity tightening. Short-term financing and market depth thinning.',
+      finance_counterparty_risk:     'Counterparty risk rising. Bilateral exposure and settlement chains under strain.',
+      finance_generic:               'Financial domain under stress. Capital, credit, and liquidity pressured.',
       global_shift:        'Global state shifted to {state}.',
       event_start:         '{event} detected.',
       event_end:           '{event} resolved.',
@@ -191,6 +203,13 @@
       culture_fanbase_fracture:  'Fanbase fracturing. Re-anchor the core audience.',
       culture_backlash_spiral:   'Backlash spiral. Manage discourse before it compounds.',
       culture_generic:           'Cultural domain elevated. Investigate scenes and creators.',
+      finance_solvency_crisis:       'Solvency stress. Shore up capital and balance-sheet cushion.',
+      finance_credit_spread_widening:'Spreads widening. Reprice credit risk and hedge exposure.',
+      finance_margin_call_pressure:  'Margin pressure. Manage collateral and reduce leverage.',
+      finance_deleveraging_cascade:  'Deleveraging cascade. Contain forced selling and protect liquidity.',
+      finance_liquidity_crunch:      'Liquidity crunch. Secure funding lines and preserve cash.',
+      finance_counterparty_risk:     'Counterparty risk. Review exposures and settlement chains.',
+      finance_generic:               'Financial domain elevated. Investigate capital and credit.',
       global_shift:        'State change: {state}.',
       event_start:         'Event: {event}. Tracking.',
       event_end:           'Event cleared: {event}.',
@@ -301,7 +320,7 @@
       economy: 'Economy', energy: 'Energy', environment: 'Environment',
       health: 'Health', technology: 'Technology', research: 'Research',
       supplyChain: 'Supply chain', infrastructure: 'Infrastructure',
-      culture: 'Culture'
+      culture: 'Culture', finance: 'Finance'
     };
 
     // Infrastructure parity: mirror energy's per-diagnosis voice. Energy distinguishes
@@ -324,6 +343,19 @@
       var ckey = _classifyCultureDistress(detail.signals);
       if (ckey) {
         _narrate(ckey, {}, PRIORITY_MEDIUM);
+        return;
+      }
+    }
+
+    // Finance parity: mirror energy's per-diagnosis voice the same way infrastructure and
+    // culture do. This is the CLIENT-SIDE narration flavor only — it never touches the
+    // validated P3 distress kernel (Thing1) or any scoring path. Classify the financial
+    // distress flavor from signal content (solvency / spreads / margin / deleveraging /
+    // liquidity / counterparty) and narrate a finance-specific line instead of the generic.
+    if (detail.domain === 'finance') {
+      var fkey = _classifyFinanceDistress(detail.signals);
+      if (fkey) {
+        _narrate(fkey, {}, PRIORITY_MEDIUM);
         return;
       }
     }
@@ -386,6 +418,38 @@
     if (/creator|artist|burnout|cadence|output|retention|exodus|attrition|stagnation/.test(blob)) return 'culture_creator_burnout';
     if (/scene|saturation|saturat|crowd|oversupply|genre[\s_-]?fatigue|discovery|attention/.test(blob)) return 'culture_scene_saturation';
     return 'culture_generic';
+  }
+
+  // Map raw finance signal content → a financial distress voice key.
+  // Financial vocabulary covers the finance domain identity: capital markets, credit &
+  // lending, banking, liquidity & solvency, investment & funding, M&A, payments & fintech,
+  // corporate distress & default, and systemic financial risk. This is the narration flavor
+  // ONLY — it sits alongside, and never alters, the validated P3 distress kernel (Thing1) or
+  // any scoring path consumed by /api/limen/score. Translates energy oil/gas/grid content to
+  // financial equivalents. Returns a TEMPLATES key, or null.
+  function _classifyFinanceDistress(signals) {
+    var blob = '';
+    if (Array.isArray(signals)) {
+      for (var i = 0; i < signals.length; i++) {
+        var s = signals[i];
+        if (typeof s === 'string') blob += ' ' + s;
+        else if (s && typeof s === 'object') {
+          blob += ' ' + (s.type || '') + ' ' + (s.id || '') + ' ' + (s.label || '') + ' ' + (s.name || '');
+        }
+      }
+    }
+    blob = blob.toLowerCase();
+
+    // Order by specificity: solvency/default and credit spreads are sharpest, then margin/
+    // collateral, deleveraging, counterparty, funding liquidity; fall back to a generic
+    // finance line. Mirrors the energy/infra/culture classifier structure exactly.
+    if (/solvency|insolvent|default|bankrupt|covenant|capital[\s_-]?adequacy|write[\s_-]?down|impairment/.test(blob)) return 'finance_solvency_crisis';
+    if (/credit[\s_-]?spread|spread[\s_-]?widen|cds\b|yield|risk[\s_-]?premi|downgrade|rating/.test(blob)) return 'finance_credit_spread_widening';
+    if (/margin[\s_-]?call|margin|collateral|haircut|repo|rehypothec/.test(blob)) return 'finance_margin_call_pressure';
+    if (/delever|deleverag|forced[\s_-]?sale|fire[\s_-]?sale|unwind|liquidation[\s_-]?cascade|contagion/.test(blob)) return 'finance_deleveraging_cascade';
+    if (/counterparty|settlement|bilateral|clearing|systemic|interbank/.test(blob)) return 'finance_counterparty_risk';
+    if (/liquidity|funding|cash[\s_-]?crunch|market[\s_-]?depth|illiquid|run\b|withdrawal/.test(blob)) return 'finance_liquidity_crunch';
+    return 'finance_generic';
   }
 
   function _onGlobalStateUpdate(e) {

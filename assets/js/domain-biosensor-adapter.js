@@ -101,7 +101,22 @@
       label: 'Decision cadence and risk perception',
       arousal: 'Trading urgency — high arousal during market volatility may amplify impulsive positioning',
       coherence: 'Analytical consistency — low coherence during drawdowns suggests emotional rather than systematic decisions',
-      cognitiveLoad: 'Portfolio complexity burden — high load with many open positions suggests attention fragmentation'
+      cognitiveLoad: 'Portfolio complexity burden — high load with many open positions suggests attention fragmentation',
+      // Capital-deployment readiness map: regulation state → capital-deployment / risk-appetite
+      // intake posture. Consumed by finance-clarity-operator outcome tracking (deployment velocity,
+      // underwriting throughput, liquidity & solvency triage, deal/M&A pipeline momentum). Financial
+      // identity only: capital markets, credit & lending, banking, liquidity & solvency, investment &
+      // funding, M&A, payments & fintech, corporate distress & default, systemic financial risk.
+      // Reference financial-identity names: JPM, BAC, GS, MS, BLK, V, MA, SCHW, C, WFC, KKR, BX.
+      // STRICTLY ADDITIVE — does not touch the validated P3 distress kernel (Thing1) scoring spine.
+      readiness: {
+        calm: 'Steady operator state — safe to deploy aggressively: open new capital-deployment programs, expand underwriting and credit-lending intake, initiate speculative M&A diligence, increase risk appetite and position sizing (GS/MS underwriting, KKR/BX deal origination, BLK allocation, JPM/BAC lending growth).',
+        focused: 'Productive engagement — sustain in-flight deals and underwriting pipelines; admit only well-scoped new intake (proven counterparties, single-name credit lines, completed-diligence M&A); hold open-ended speculative origination (SCHW/V/MA flow steady, WFC/C lending disciplined).',
+        pressured: 'Elevated load — defer discretionary deployment and new speculative positions; pause new M&A diligence and fresh credit-lending intake; keep liquidity monitoring and existing-portfolio risk management active; tighten risk appetite.',
+        overloaded: 'Saturated — pause all new capital deployment and deal intake; focus solely on solvency triage: covenant/default-risk exposures, liquidity coverage shortfalls, counterparty-default and systemic-financial-risk containment, margin-call and funding-runway protection.',
+        recovering: 'Stabilizing — resume selective redeployment first into proven low-risk credit and liquid positions, then reopen underwriting, lending and M&A intake gradually as liquidity coverage, capital ratios and deployment velocity normalize.',
+        unknown: 'Regulation state unavailable — default to snapshot-driven prioritization (validated distress/solvency screen and deal-pipeline momentum ranking).'
+      }
     },
     supplyChain: {
       label: 'Logistics coordination stress',
