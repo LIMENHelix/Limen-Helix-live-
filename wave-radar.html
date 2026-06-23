@@ -357,11 +357,17 @@ h1.wm{font-size:clamp(38px,9vw,74px);line-height:.92;letter-spacing:-1.5px;margi
     var bpm='<span class="bpm'+(has?' has':'')+'" data-id="'+esc(r.id)+'" data-bpm="'+(r.bpm||0)+'">'+(has?(r.bpm+' BPM'):'···')+'</span>';
     var phaseChip=showPhase?('<span class="chip" style="color:'+p.c+';background:'+p.bg+'">'+p.l+'</span>'):'';
     var vel=showPhase&&r.points>=2?('<span class="gtag" style="color:'+(r.velocity>=0?'var(--emerge)':'var(--cool)')+'">'+(r.velocity>0?'+':'')+r.velocity+'/day</span>'):'';
-    var play=r.preview?('<button class="play" data-prev="'+esc(r.preview)+'">▶</button>'):'<span></span>';
+    // Every track gets a working ▶: direct Deezer preview if we have one, else fall back
+    // to the artist's top track (lazy Deezer) → YouTube. No more dead play buttons.
+    var play=r.preview?('<button class="play" data-prev="'+esc(r.preview)+'">▶</button>')
+      :('<button class="play" data-artist="'+esc(r.artist)+'" title="hear it">▶</button>');
     return '<div class="row"><div class="rk">#'+r.cur+'</div><div><div class="ti">'+esc(r.title)+'</div><div class="ar">'+esc(r.artist)+'</div><div class="meta">'+phaseChip+'<span class="gtag">'+esc(r.glabel||'')+'</span>'+bpm+vel+'</div></div><div>'+play+'</div></div>';
   }
   function bindRows(c){
-    c.querySelectorAll('.play').forEach(function(b){ b.onclick=function(){ playPreview(b.getAttribute('data-prev'),b); }; });
+    c.querySelectorAll('.play').forEach(function(b){
+      if(b.getAttribute('data-prev')) b.onclick=function(){ playPreview(b.getAttribute('data-prev'),b); };
+      else if(b.getAttribute('data-artist')) b.onclick=function(){ playArtist(b.getAttribute('data-artist'),b); };
+    });
     c.querySelectorAll('.bpm.has').forEach(function(b){ b.onclick=function(){ var v=+b.getAttribute('data-bpm'); if(v>0){ setBpm(v); document.getElementById('lab').scrollIntoView({behavior:'smooth'}); } }; });
   }
   function setChip(id,bpm){
@@ -503,7 +509,7 @@ h1.wm{font-size:clamp(38px,9vw,74px);line-height:.92;letter-spacing:-1.5px;margi
         '<div style="flex:1;min-width:0"><div class="ti">'+esc(t.title)+'</div><div class="ar">'+esc(t.artist)+'</div>'+
         '<div class="meta"><span class="bpm" data-id="'+esc(t.id)+'" data-bpm="0">···</span>'+
         (t.link?'<a class="gtag" href="'+esc(t.link)+'" target="_blank" rel="noopener">open ↗</a>':'')+'</div></div>'+
-        (t.preview?'<button class="play" data-prev="'+esc(t.preview)+'">▶</button>':'<span></span>')+'</div>';
+        (t.preview?'<button class="play" data-prev="'+esc(t.preview)+'">▶</button>':'<button class="play" data-artist="'+esc(t.artist)+'" title="hear it">▶</button>')+'</div>';
     });
     h+='</div>';
     var el=document.getElementById('featured'); el.innerHTML=h; bindRows(el);
