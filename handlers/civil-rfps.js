@@ -20,7 +20,9 @@ const STATES = (process.env.CIVIL_RADAR_STATES || 'CA,TN,KS').split(',');
 const BASE = 'https://api.sam.gov/opportunities/v2/search';
 const TTL_MS = 6 * 60 * 60 * 1000;
 const LOOKBACK_DAYS = 90;
-const NAICS_OK = /^(237|5413)/;          // civil construction + engineering/surveying services
+// civil construction (237*) + drafting/surveying services (541340/541360/541370) —
+// deliberately NOT 541330 (engineering, dominated by defense/aerospace) or 541380 (labs).
+const NAICS_OK = /^(237|54134|54136|54137)/;
 const PTYPE = 'o,k,p,r';                  // solicitation, combined, presol, sources-sought
 
 function mmddyyyy(d) { const m = d.getMonth() + 1, day = d.getDate(); return (m < 10 ? '0' + m : m) + '/' + (day < 10 ? '0' + day : day) + '/' + d.getFullYear(); }
@@ -47,7 +49,7 @@ async function fetchState(st) {
       setAside: o.typeOfSetAsideDescription || o.typeOfSetAside || '',
       link: o.uiLink || '',
       state: st
-    })).filter(o => o.title && NAICS_OK.test(String(o.naics)) && (!o.deadline || Date.parse(o.deadline) >= now));
+    })).filter(o => o.title && NAICS_OK.test(String(o.naics)) && (!o.deadline || (Date.parse(o.deadline) >= now && Date.parse(o.deadline) <= now + 400 * 86400000)));
   } catch (e) { return []; }
 }
 
