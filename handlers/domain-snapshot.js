@@ -330,7 +330,13 @@ module.exports = async function handler(req, res) {
         "WBRuleOfLaw",
         "WBInternetUsers",
         "WBLogisticsLPI",
-        "WBManufacturing"
+        "WBManufacturing",
+        "SpotifyCharts",
+        "BillboardCharts",
+        "GeniusCommentary",
+        "SongkickTours",
+        "SoundcloudEmerging",
+        "MusicSceneDiscourse"
       ];
     var nonGdeltResults = await Promise.allSettled([
       fetchFRED(),                // 0: economy A
@@ -598,7 +604,13 @@ module.exports = async function handler(req, res) {
       fetchWBRuleOfLaw(),              // 262: governance — WB Rule of Law (RL.EST)
       fetchWBInternetUsers(),          // 263: communication — WB Internet Users % (IT.NET.USER.ZS)
       fetchWBLogisticsLPI(),           // 264: supplyChain — WB Logistics Performance Index (LP.LPI.OVRL.XQ)
-      fetchWBManufacturing()           // 265: industry — WB Manufacturing %GDP (NV.MNF.TOTL.ZS)
+      fetchWBManufacturing(),          // 265: industry — WB Manufacturing %GDP (NV.MNF.TOTL.ZS)
+      fetchSpotifyCharts(),            // 266: culture K — streaming/virality pulse (Spotify charts signal, activity)
+      fetchBillboardCharts(),          // 267: culture L — Billboard Hot 100 chart movement signal (activity)
+      fetchGeniusCommentary(),         // 268: culture M — Genius lyrics/commentary taste-making signal (activity)
+      fetchSongkickTours(),            // 269: culture N — Songkick live performance / touring signal (activity)
+      fetchSoundcloudEmerging(),       // 270: culture O — SoundCloud emerging-artist signal (activity)
+      fetchMusicSceneDiscourse()       // 271: culture P — music scene / genre discourse + movements (stress)
     ]);
 
     // Fetch GDELT sources in parallel with fast timeout (2s)
@@ -979,7 +991,13 @@ module.exports = async function handler(req, res) {
         src('Art Newspaper', byKey('ArtNewspaper')),
         src('Variety Entertainment', byKey('Variety')),
         src('Hypebeast Trends', byKey('Hypebeast')),
-        src('Pitchfork Music', byKey('Pitchfork'))
+        src('Pitchfork Music', byKey('Pitchfork')),
+        src('Spotify Streaming Charts', byKey('SpotifyCharts')),
+        src('Billboard Charts', byKey('BillboardCharts')),
+        src('Genius Commentary', byKey('GeniusCommentary')),
+        src('Songkick Tours', byKey('SongkickTours')),
+        src('SoundCloud Emerging', byKey('SoundcloudEmerging')),
+        src('Music Scene Discourse', byKey('MusicSceneDiscourse'))
       ]),
       defense:        buildDomain('defense',        [
         // 15 feeds, diversified across 6 collection methodologies to avoid
@@ -5200,6 +5218,33 @@ async function fetchHypebeast() {
 }
 async function fetchPitchfork() {
   return _fetchRSS('Pitchfork OR "album review" OR "music criticism" OR "indie music" OR "new music" OR "music culture"', 'Pitchfork Music', 'culture', 'activity');
+}
+
+// ─── CULTURE — MUSIC / STREAMING / SCENE DEEP FEEDS ─────────────────────
+// The pulse of music culture: streaming + virality, chart movement, taste-
+// making commentary, live performance, emerging artists, and genre/scene
+// discourse. These mirror Energy's price/supply/sector signal cluster
+// (fetchEIA / fetchOPECBasket / sector RSS), translated to the attention
+// economy. No keyed music API is held, so — exactly as the Energy weekly /
+// OPEC / sector feeds do — these route through the _fetchRSS Google News
+// proxy as keyword-volume signals (same pattern Pitchfork / Hypebeast use).
+async function fetchSpotifyCharts() {
+  return _fetchRSS('Spotify chart OR "Spotify Top 50" OR "viral song" OR "streaming numbers" OR "song goes viral" OR "TikTok song" OR "streaming surge" OR "most streamed"', 'Spotify Streaming Charts', 'culture', 'activity');
+}
+async function fetchBillboardCharts() {
+  return _fetchRSS('Billboard Hot 100 OR "Billboard 200" OR "number one single" OR "chart debut" OR "tops the chart" OR "chart-topping" OR "Billboard chart"', 'Billboard Charts', 'culture', 'activity');
+}
+async function fetchGeniusCommentary() {
+  return _fetchRSS('Genius lyrics OR "song meaning" OR "lyric breakdown" OR "annotated lyrics" OR "music commentary" OR "fan reaction" OR "track breakdown"', 'Genius Commentary', 'culture', 'activity');
+}
+async function fetchSongkickTours() {
+  return _fetchRSS('tour dates OR "concert tour" OR "world tour announced" OR "tickets on sale" OR "tour cancelled" OR "live music venue" OR "festival lineup" OR "sold out tour"', 'Songkick Tours', 'culture', 'activity');
+}
+async function fetchSoundcloudEmerging() {
+  return _fetchRSS('SoundCloud OR "emerging artist" OR "breakout artist" OR "underground music" OR "indie breakout" OR "rising artist" OR "next big artist" OR "buzz artist"', 'SoundCloud Emerging', 'culture', 'activity');
+}
+async function fetchMusicSceneDiscourse() {
+  return _fetchRSS('"music industry" OR "genre revival" OR "music movement" OR "scene discourse" OR "artist royalties" OR "streaming payouts" OR "label dispute" OR "music backlash"', 'Music Scene Discourse', 'culture', 'stress');
 }
 
 // ─── POPULATION DOMAIN DEEP FEEDS ──────────────────────────────────────

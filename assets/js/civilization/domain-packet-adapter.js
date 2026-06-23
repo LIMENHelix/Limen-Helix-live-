@@ -375,6 +375,17 @@
     // names onto the shared deepBrain envelope. Energy wins when both are present
     // (a slot is single-domain, so they never collide in practice).
     var _bim = _emO(slot && slot.brainInfrastructureModel);
+    // Culture parity: culture brains emit a recurrent CULTURAL-VITALITY model
+    // (brainCultureModel) that follows the SAME envelope signature as energy's
+    // energyModel and infrastructure's infrastructureModel, so Civilization +
+    // the Main Brain consume it identically. The culture model tracks the
+    // attention economy lifecycle (creative-work production cadence, narrative
+    // freedom vs censorship pressure, artist-ecosystem health, cultural-collapse
+    // risk — audience disengagement / heritage loss) rather than neurological
+    // cycles or civil-asset lifecycles. We map its cultural field names onto the
+    // shared deepBrain envelope. Energy/infrastructure win when both are present
+    // (a slot is single-domain, so they never collide in practice).
+    var _bcm = _emO(slot && slot.brainCultureModel);
     var deepBrain = _bem ? {
       cycle:           _num(_bem.cycle),
       predictionError: _emO(_bem.predictionError),
@@ -418,6 +429,54 @@
       depreciationProjection: _num(_bim.depreciationProjection),
       maintenanceDeficitAccum: _num(_bim.maintenanceDeficitAccum),
       domainDiagnosisPacket: _emO(_bim.domainAssetPacket) || _emO(_bim.domainDiagnosisPacket)
+    } : _bcm ? {
+      // Cultural-vitality lifecycle mapped onto the shared recurrent envelope.
+      // attentionCycle → cycle, expressionState → regulation,
+      // failureProbability → predictedStress, creativeCapacity → prior,
+      // domainCulturePacket → domainDiagnosisPacket (analogous to domainDiagnosisPacket).
+      cycle:           _num(_bcm.attentionCycle != null ? _bcm.attentionCycle : _bcm.cycle),
+      predictionError: _emO(_bcm.predictionError),
+      // expressionState is the cultural regulation signal: narrative freedom
+      // vs censorship pressure (analogous to energy's regulationState and
+      // infrastructure's capital-funding regulation).
+      regulationState: (_bcm.expressionState && _bcm.expressionState.state)
+                       || _str(_bcm.expressionState)
+                       || (_bcm.regulation && _bcm.regulation.state)
+                       || null,
+      regulation:      _emO(_bcm.expressionState) || _emO(_bcm.regulation),
+      readyForHandoff: _bcm.readyForHandoff === true,
+      // failureProbability is the culture predicted-stress signal (cultural
+      // collapse risk — audience disengagement, heritage loss), carried
+      // through unchanged in [0..1].
+      predictedStress: _num(_bcm.failureProbability != null ? _bcm.failureProbability : _bcm.predictedStress),
+      // creativeCapacity carries the prior on artist-ecosystem health (the
+      // creative-capacity trend), mirroring energy's prior / infrastructure's
+      // priorAssetHealth.
+      prior:           (_bcm.creativeCapacity || _bcm.prior)
+                       ? (function (p) {
+                           return {
+                             // expectedStress mirrors energy: here the prior
+                             // expected cultural-vitality distress level. When
+                             // creativeCapacity is reported as a health value
+                             // ([0..1] high = healthy), invert into a stress
+                             // expectation; an explicit expectedStress wins.
+                             expectedStress: _num(
+                               p.expectedStress != null ? p.expectedStress
+                               : (p.expectedDecline != null ? p.expectedDecline
+                               : (typeof p.capacity === 'number' ? (1 - _clamp01(p.capacity))
+                               : (typeof p === 'number' ? (1 - _clamp01(p)) : null)))
+                             ),
+                             confidence:     _num(p.confidence),
+                             samples:        _num(p.samples)
+                           };
+                         })(_bcm.creativeCapacity || _bcm.prior)
+                       : null,
+      // Cultural-vitality telemetry preserved alongside the shared envelope so
+      // downstream artifact expansion can feed culture-investment decisions
+      // (creative-capacity trend, audience-attention erosion).
+      creativeCapacityTrend: _num(_bcm.creativeCapacityTrend),
+      attentionErosionAccum: _num(_bcm.attentionErosionAccum),
+      domainDiagnosisPacket: _emO(_bcm.domainCulturePacket) || _emO(_bcm.domainDiagnosisPacket)
     } : null;
 
     // Feed health. Configured count is the MAX of every honest declaration

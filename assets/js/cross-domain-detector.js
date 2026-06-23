@@ -314,6 +314,100 @@
         { label: 'trace financial regulatory impact', type: 'analysis' },
         { label: 'hold', type: 'monitoring' }
       ]
+    },
+    // ─── Culture pairs (parity port; mirrors energy/infrastructure structure) ──
+    {
+      id: 'culture_research',
+      domains: ['culture', 'research'],
+      threshold: 0.35,
+      pattern: 'creative innovation acceleration',
+      drivers: ['production-tool breakthrough', 'sonic innovation spike', 'critical-discourse surge', 'taste-making acceleration', 'scene-maturation lag'],
+      options: [
+        { label: 'explore emerging genres & creators', type: 'discovery' },
+        { label: 'trace research-to-creation pipeline', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      id: 'culture_technology',
+      domains: ['culture', 'technology'],
+      threshold: 0.45,
+      pattern: 'creative-technology dependency',
+      drivers: ['distribution-platform strain', 'streaming codec failure', 'production hardware shortage', 'venue-tech capacity loss', 'new-tool adoption surge'],
+      options: [
+        { label: 'map creative-technology exposure', type: 'analysis' },
+        { label: 'investigate virality acceleration', type: 'discovery' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      id: 'culture_finance',
+      domains: ['culture', 'finance'],
+      threshold: 0.50,
+      pattern: 'creative-economy capital coupling',
+      drivers: ['arts funding contraction', 'patronage collapse', 'crowdfunding platform stress', 'creative-institution failure', 'capital flow disruption'],
+      options: [
+        { label: 'investigate creative-finance feedback', type: 'analysis' },
+        { label: 'trace scene-expansion capital', type: 'discovery' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      id: 'culture_population',
+      domains: ['culture', 'population'],
+      threshold: 0.45,
+      pattern: 'cultural-participation shift',
+      drivers: ['fanbase composition shift', 'generational taste change', 'participation decay', 'heritage loss', 'audience youth bulge'],
+      options: [
+        { label: 'analyze audience & fanbase indicators', type: 'analysis' },
+        { label: 'investigate participation surge', type: 'discovery' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      id: 'culture_governance',
+      domains: ['culture', 'governance'],
+      threshold: 0.50,
+      pattern: 'culture-governance stress',
+      drivers: ['arts funding cuts', 'censorship pressure', 'creative-freedom policy shift', 'permit/venue denial', 'institutional legitimacy erosion'],
+      options: [
+        { label: 'trace culture-governance linkage', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      id: 'culture_education',
+      domains: ['culture', 'education'],
+      threshold: 0.45,
+      pattern: 'creative-literacy pipeline stress',
+      drivers: ['artist-training gap', 'music-education deficit', 'taste-formation decline', 'media literacy erosion', 'norm-transmission failure'],
+      options: [
+        { label: 'trace culture-education pipeline', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      id: 'culture_economy',
+      domains: ['culture', 'economy'],
+      threshold: 0.50,
+      pattern: 'creative-economy transmission',
+      drivers: ['venue employment collapse', 'artist revenue decline', 'streaming-royalty pressure', 'sponsorship erosion', 'label/venue closure spike'],
+      options: [
+        { label: 'trace culture-economy linkage', type: 'analysis' },
+        { label: 'investigate creator income growth', type: 'discovery' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      id: 'culture_religion',
+      domains: ['culture', 'religion'],
+      threshold: 0.40,
+      pattern: 'cultural-moral identity tension',
+      drivers: ['value conflict', 'ritual confusion', 'identity fracture', 'sacred-music participation decay', 'moral coherence strain'],
+      options: [
+        { label: 'investigate culture-religion feedback', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
     }
   ];
 

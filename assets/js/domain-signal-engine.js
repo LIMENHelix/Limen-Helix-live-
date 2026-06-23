@@ -57,6 +57,22 @@
     transmissionCongestFloor:  0.60  // queue depth > 2000 MW always reads as congestion
   };
 
+  // Structural-signal overrides for culture: certain attention-economy constraints are
+  // NOT noisy headline/volume signals and must bypass saturation dampening (mirrors
+  // infrastructure's grid_stress structural conditions, which mirror energy-brain's
+  // grid_stress). Cultural saturation, creator-exodus, and scene-collapse are load-bearing
+  // emergence/collapse signals — dampening them away would erase the cultural constraint.
+  // Raw stress is forced to the floor when a structural threshold is crossed, before
+  // saturation dampening is applied.
+  //   - viral-moment saturation (trending count > 10000) → cultural_saturation (structural)
+  //   - creator-exodus (account-deletion rate spike > 5%)  → creator_exodus (structural)
+  //   - scene collapse (participation drop > 60%)          → scene_collapse (structural)
+  var _CULTURE_STRUCTURAL = {
+    viralSaturationFloor:  0.65, // viralMomentCount > 10000 always reads as cultural_saturation
+    creatorExodusFloor:    0.60, // creatorExodusRate > 0.05 always reads as creator_exodus
+    sceneCollapseFloor:    0.65  // participationDelta < -0.60 always reads as scene_collapse
+  };
+
   // Rolling baseline state (accumulates across feed cycles within session)
   var _baselineState = {}; // domainKey → { samples: [], mean: number }
   var _BASELINE_WINDOW = 12; // ~6 minutes at 30s poll (enough for session deviation)
@@ -95,10 +111,64 @@
     return { floor: floor, reason: reason };
   }
 
+  // Detect culture structural constraints from a feed object.
+  // Returns a forced stress floor (0 if none) — attention-economy constraints bypass dampening.
+  // Mirrors _infraStructuralFloor: cultural saturation / creator-exodus / scene-collapse are
+  // load-bearing emergence/collapse signals, not volume-driven noise to be dampened away.
+  function _cultureStructuralFloor(feed) {
+    if (!feed) return { floor: 0, reason: '' };
+    var floor = 0;
+    var reason = '';
+    var signals = feed.signals || [];
+    function _has(token) {
+      for (var i = 0; i < signals.length; i++) {
+        if (typeof signals[i] === 'string' && signals[i].toLowerCase().indexOf(token) !== -1) return true;
+      }
+      return false;
+    }
+    // Viral-moment saturation: trending count > 10000 ALWAYS triggers cultural_saturation
+    var viralCount = (feed.viralMomentCount !== undefined) ? feed.viralMomentCount
+                   : (feed.trendingCount !== undefined) ? feed.trendingCount
+                   : null;
+    if (viralCount !== null && viralCount > 10000 && (_has('viral') || _has('trend'))) {
+      if (_CULTURE_STRUCTURAL.viralSaturationFloor > floor) {
+        floor = _CULTURE_STRUCTURAL.viralSaturationFloor;
+        reason = 'structural: cultural_saturation (trending ' + Math.round(viralCount) + ' > 10000)';
+      }
+    }
+    // Creator-exodus: account-deletion rate spike > 5% ALWAYS triggers creator_exodus
+    var exodusRate = (feed.creatorExodusRate !== undefined) ? feed.creatorExodusRate
+                   : (feed.accountDeletionRate !== undefined) ? feed.accountDeletionRate
+                   : null;
+    if (exodusRate !== null && exodusRate > 0.05 && _has('creator')) {
+      if (_CULTURE_STRUCTURAL.creatorExodusFloor > floor) {
+        floor = _CULTURE_STRUCTURAL.creatorExodusFloor;
+        reason = 'structural: creator_exodus (exodus rate ' + (exodusRate * 100).toFixed(0) + '% > 5%)';
+      } else if (floor > 0) {
+        reason += ' + creator_exodus (' + (exodusRate * 100).toFixed(0) + '%)';
+      }
+    }
+    // Scene collapse: participation drop > 60% ALWAYS triggers scene_collapse
+    var participationDelta = (feed.participationDelta !== undefined) ? feed.participationDelta
+                           : (feed.sceneParticipationDelta !== undefined) ? feed.sceneParticipationDelta
+                           : null;
+    if (participationDelta !== null && participationDelta < -0.60 && _has('scene')) {
+      if (_CULTURE_STRUCTURAL.sceneCollapseFloor > floor) {
+        floor = _CULTURE_STRUCTURAL.sceneCollapseFloor;
+        reason = 'structural: scene_collapse (participation ' + (participationDelta * 100).toFixed(0) + '% < -60%)';
+      } else if (floor > 0) {
+        reason += ' + scene_collapse (' + (participationDelta * 100).toFixed(0) + '%)';
+      }
+    }
+    return { floor: floor, reason: reason };
+  }
+
   function _normalizeStress(domainKey, rawStress, feed) {
-    // Phase 0: infrastructure structural-signal floor (engineering constraints
-    // bypass commodity/market dampening — mirrors energy-brain grid_stress conditions)
-    var structural = (domainKey === 'infrastructure') ? _infraStructuralFloor(feed) : { floor: 0, reason: '' };
+    // Phase 0: domain structural-signal floor (engineering/attention-economy constraints
+    // bypass commodity/market/volume dampening — mirrors energy-brain grid_stress conditions)
+    var structural = (domainKey === 'infrastructure') ? _infraStructuralFloor(feed)
+                   : (domainKey === 'culture') ? _cultureStructuralFloor(feed)
+                   : { floor: 0, reason: '' };
     if (structural.floor > rawStress) {
       rawStress = structural.floor;
     }

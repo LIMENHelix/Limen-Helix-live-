@@ -84,7 +84,11 @@
     { source: 'agriculture',    target: 'population' },
     { source: 'intelligence',   target: 'defense' },
     { source: 'environment',    target: 'energy' },
-    { source: 'technology',     target: 'finance' }
+    { source: 'technology',     target: 'finance' },
+    // Culture cross-links — creative output propagates to allied systems
+    { source: 'culture',        target: 'economy' },     // cultural goods / creative-industries GDP
+    { source: 'culture',        target: 'finance' },      // arts/creator funding markets
+    { source: 'culture',        target: 'population' }     // audience demographics / demand for entertainment & heritage
   ];
 
   // ─── Color mapping ──────────────────────────────────────────────────────

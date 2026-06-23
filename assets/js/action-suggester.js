@@ -68,6 +68,12 @@
       { label: 'Identify affected industries', type: 'analysis', minStress: 0.4 },
       { label: 'Map disruption clusters', type: 'analysis', minStress: 0.5 },
       { label: 'Detect innovation gaps', type: 'discovery', minStress: 0.7 }
+    ],
+    culture: [
+      { label: 'Monitor viral-moment saturation and audience attention patterns', type: 'monitoring', minStress: 0.3 },
+      { label: 'Explore creator-sustainability and fanbase-lifecycle modeling', type: 'discovery', minStress: 0.4 },
+      { label: 'Investigate backlash-resilience and cultural-recovery patterns', type: 'analysis', minStress: 0.5 },
+      { label: 'Analyze scene-consolidation and cultural-movement momentum', type: 'analysis', minStress: 0.6 }
     ]
   };
 
@@ -130,6 +136,20 @@
       label: 'Investigate cyber-physical infrastructure hardening convergence',
       body: 'Infrastructure stress intersecting with technology disruption signals SCADA/ICS and grid-reliability exposure.',
       type: 'discovery'
+    },
+    {
+      domains: ['culture', 'technology'],
+      minStress: [0.4, 0.4],
+      label: 'Investigate attention-market and taste-making platform convergence',
+      body: 'Cultural stress intersecting with technology disruption signals streaming/virality distribution and creator-platform exposure.',
+      type: 'discovery'
+    },
+    {
+      domains: ['culture', 'economy'],
+      minStress: [0.5, 0.5],
+      label: 'Analyze creator-economy capital and cultural-movement momentum opportunity',
+      body: 'Co-elevated cultural and economic stress suggests creator-economy funding-gap and fanbase-lifecycle exposure.',
+      type: 'analysis'
     }
   ];
 

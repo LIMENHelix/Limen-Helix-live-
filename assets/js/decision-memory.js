@@ -23,6 +23,8 @@
   var CHECK_MS = 10000;
   var INFRA_STACK_THRESHOLD = 2; // a vulnerability stack seen N times signals concentration
   var INFRA_STACK_COOLDOWN = 180000; // 3 min between infra-stack narrations
+  var CULTURE_STACK_THRESHOLD = 2; // a cultural-concern stack seen N times signals concentration
+  var CULTURE_STACK_COOLDOWN = 180000; // 3 min between culture-stack narrations
 
   // ─── Infrastructure vulnerability-stack semantics ─────────────────────────
   // CIVIL domain-semantic concentration. Generic (domain, action) frequency only
@@ -61,6 +63,44 @@
       body: 'Operator attention concentrates on the transport-disruption + deferred-maintenance stack — roads/bridges/transit assets past condition thresholds.' }
   ];
 
+  // ─── Culture vulnerability-stack semantics ────────────────────────────────
+  // CULTURAL domain-semantic concentration. As with infrastructure, generic
+  // (domain, action) frequency only says WHERE the operator is looking; for the
+  // culture domain we also detect WHAT cultural-concern STACK the attention
+  // concentrates on. Each stack is a co-occurring pair of cultural signal families
+  // (audience attention/virality/creators-and-artists/scenes-and-movements/
+  // backlash-and-cancellation/saturation-and-fatigue/heritage-and-expression).
+  // Mirrors the culture-brain cross-domain conditions:
+  //   BACKLASH_ACCUMULATION + AUDIENCE_LOSS    → backlash-driven audience exodus
+  //   CREATOR_BURNOUT + SCENE_DECLINE          → creator burnout hollowing a scene
+  // Signal tokens are matched against recorded action/type/pattern text — never
+  // invented; absence of tokens simply yields no stack (silent, no false signal).
+  var CULTURE_SIGNAL_TOKENS = {
+    AUDIENCE_LOSS:           /(fanbase|audience|listener|viewer|follower|reach|engagement[_\s-]?drop|unfollow|churn|attention[_\s-]?loss)/i,
+    VIRALITY_SHIFT:          /(virality|viral|breakout|trend|trending|momentum|emergence|tastemaker|algorithm|for[_\s-]?you)/i,
+    CREATOR_BURNOUT:         /(creator|artist|musician|burnout|exhaustion|hiatus|output[_\s-]?decline|prolific|grind|content[_\s-]?treadmill)/i,
+    SCENE_DECLINE:           /(scene|local[_\s-]?scene|genre|movement|subculture|venue[_\s-]?closure|underground|circuit|community[_\s-]?fade)/i,
+    BACKLASH_ACCUMULATION:   /(backlash|cancel|cancellation|harassment|pile[_\s-]?on|controversy|outrage|discourse[_\s-]?storm|ratio)/i,
+    SATURATION_FATIGUE:      /(saturation|oversaturation|fatigue|overexposure|formulaic|derivative|burnout[_\s-]?of[_\s-]?genre|trend[_\s-]?fatigue)/i,
+    HERITAGE_EXPRESSION:     /(heritage|catalog|legacy|preservation|censorship|suppression|expression|de[_\s-]?platform|gatekeep|silencing)/i
+  };
+
+  // Cultural-concern STACKS — ordered token pairs with a cultural interpretation.
+  // Each describes an operator-concentration meaning specific to a cultural
+  // vulnerability stack (NOT energy oil/gas/nuclear/grid/datacenter content).
+  var CULTURE_VULN_STACKS = [
+    { id: 'BACKLASH_EXODUS',       signals: ['BACKLASH_ACCUMULATION', 'AUDIENCE_LOSS'],
+      body: 'Operator attention concentrates on the backlash + audience-loss stack — controversy and discourse storms driving a fanbase exodus.' },
+    { id: 'SCENE_HOLLOWING',       signals: ['CREATOR_BURNOUT', 'SCENE_DECLINE'],
+      body: 'Operator attention concentrates on the creator-burnout + scene-decline stack — artists exhausting as the local scene/genre circuit thins out.' },
+    { id: 'HERITAGE_CANCELLATION', signals: ['BACKLASH_ACCUMULATION', 'HERITAGE_EXPRESSION'],
+      body: 'Operator attention concentrates on the cancellation + heritage-loss stack — backlash threatening catalog, legacy, and freedom of cultural expression.' },
+    { id: 'FANBASE_FATIGUE',       signals: ['SATURATION_FATIGUE', 'AUDIENCE_LOSS'],
+      body: 'Operator attention concentrates on the saturation + audience-loss stack — oversaturation and trend fatigue eroding a once-loyal fanbase.' },
+    { id: 'EXPRESSION_COLLAPSE',   signals: ['HERITAGE_EXPRESSION', 'SCENE_DECLINE'],
+      body: 'Operator attention concentrates on the expression-suppression + scene-decline stack — censorship/gatekeeping collapsing the space a movement lives in.' }
+  ];
+
   // ─── State ───────────────────────────────────────────────────────────────
 
   var _entries = [];
@@ -68,6 +108,8 @@
   var _lastConcentrationDomain = null;
   var _lastInfraStackTime = 0;
   var _lastInfraStackId = null;
+  var _lastCultureStackTime = 0;
+  var _lastCultureStackId = null;
   var _interval = null;
 
   // Detect which civil signal families a user-action references, by scanning its
@@ -78,6 +120,18 @@
     var hits = [];
     for (var sig in INFRA_SIGNAL_TOKENS) {
       if (INFRA_SIGNAL_TOKENS[sig].test(text)) hits.push(sig);
+    }
+    return hits;
+  }
+
+  // Detect which cultural signal families a user-action references, by scanning its
+  // free-text fields (action / type / cross-domain pattern). Returns a list of
+  // canonical culture signal ids. Never fabricates — empty if nothing matches.
+  function _detectCultureSignals(text) {
+    if (!text) return [];
+    var hits = [];
+    for (var sig in CULTURE_SIGNAL_TOKENS) {
+      if (CULTURE_SIGNAL_TOKENS[sig].test(text)) hits.push(sig);
     }
     return hits;
   }
@@ -114,6 +168,10 @@
       // CIVIL: which infrastructure signal families this action touches (may be []).
       infraSignals: _detectInfraSignals(
         [detail.action, detail.type, matchedPattern, detail.signal, detail.diagnosis].join(' ')
+      ),
+      // CULTURE: which cultural signal families this action touches (may be []).
+      cultureSignals: _detectCultureSignals(
+        [detail.action, detail.type, matchedPattern, detail.signal, detail.diagnosis].join(' ')
       )
     };
 
@@ -125,6 +183,7 @@
     _publish();
     _checkConcentration();
     _checkInfraStackConcentration();
+    _checkCultureStackConcentration();
   }
 
   // ─── Concentration detection ──────────────────────────────────────────────
@@ -264,6 +323,72 @@
     });
   }
 
+  // ─── Culture vulnerability-stack concentration ────────────────────────────
+  // Domain-semantic concentration for CULTURE: beyond "which domain" (above),
+  // surface WHICH cultural-concern STACK the operator keeps returning to. Tallies
+  // co-occurring cultural signal families across recent entries and fires when a
+  // known stack (backlash exodus, scene hollowing, heritage cancellation, fanbase
+  // fatigue, expression collapse) crosses the threshold. Schema-faithful to
+  // _checkInfraStackConcentration (same phase-change shape).
+
+  function _checkCultureStackConcentration() {
+    var now = Date.now();
+    if (now - _lastCultureStackTime < CULTURE_STACK_COOLDOWN) return;
+    if (_entries.length < CULTURE_STACK_THRESHOLD) return;
+
+    // Count per-signal-family hits across recent entries (last 10).
+    var recent = _entries.slice(-10);
+    var sigCounts = {};
+    for (var i = 0; i < recent.length; i++) {
+      var sigs = recent[i].cultureSignals || [];
+      for (var s = 0; s < sigs.length; s++) {
+        sigCounts[sigs[s]] = (sigCounts[sigs[s]] || 0) + 1;
+      }
+    }
+
+    // A stack fires only when BOTH of its signal families are present and at least
+    // one of them has been focused on repeatedly (>= threshold). Score = sum of the
+    // pair's counts; pick the strongest stack.
+    var best = null;
+    for (var k = 0; k < CULTURE_VULN_STACKS.length; k++) {
+      var stack = CULTURE_VULN_STACKS[k];
+      var a = sigCounts[stack.signals[0]] || 0;
+      var b = sigCounts[stack.signals[1]] || 0;
+      if (a === 0 || b === 0) continue;
+      if (Math.max(a, b) < CULTURE_STACK_THRESHOLD) continue;
+      var score = a + b;
+      if (!best || score > best.score) best = { stack: stack, a: a, b: b, score: score };
+    }
+
+    if (!best) return;
+    if (best.stack.id === _lastCultureStackId) return; // don't re-narrate the same stack
+
+    _lastCultureStackTime = now;
+    _lastCultureStackId = best.stack.id;
+
+    var drivers = [
+      best.a + ' recent actions touching ' + best.stack.signals[0],
+      best.b + ' recent actions touching ' + best.stack.signals[1]
+    ];
+
+    var options = [
+      { label: 'deepen ' + best.stack.id.toLowerCase().replace(/_/g, ' ') + ' analysis', type: 'analysis' },
+      { label: 'broaden scope', type: 'monitoring' },
+      { label: 'hold', type: 'monitoring' }
+    ];
+
+    _dispatch('limen:phase-change', {
+      from: 'observing',
+      to: 'concentrated',
+      type: 'decision-memory',
+      domain: 'culture',
+      stackId: best.stack.id,
+      topDrivers: drivers,
+      options: options,
+      body: best.stack.body
+    });
+  }
+
   // ─── Publish ──────────────────────────────────────────────────────────────
 
   function _publish() {
@@ -272,6 +397,7 @@
       count: _entries.length,
       recentDomains: _recentDomains(5),
       infraSignalConcentration: _infraSignalConcentration(),
+      cultureSignalConcentration: _cultureSignalConcentration(),
       updated: Date.now()
     };
 
@@ -286,6 +412,23 @@
     var recent = _entries.slice(-10);
     for (var i = 0; i < recent.length; i++) {
       var sigs = recent[i].infraSignals || [];
+      for (var s = 0; s < sigs.length; s++) {
+        counts[sigs[s]] = (counts[sigs[s]] || 0) + 1;
+      }
+    }
+    var out = [];
+    for (var sig in counts) { out.push({ signal: sig, count: counts[sig] }); }
+    out.sort(function (x, y) { return y.count - x.count; });
+    return out;
+  }
+
+  // CULTURE: roll up which cultural signal families recent attention concentrates
+  // on (descending by count). Empty when no cultural signals were detected.
+  function _cultureSignalConcentration() {
+    var counts = {};
+    var recent = _entries.slice(-10);
+    for (var i = 0; i < recent.length; i++) {
+      var sigs = recent[i].cultureSignals || [];
       for (var s = 0; s < sigs.length; s++) {
         counts[sigs[s]] = (counts[sigs[s]] || 0) + 1;
       }

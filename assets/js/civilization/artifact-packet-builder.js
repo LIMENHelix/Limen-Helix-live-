@@ -158,7 +158,25 @@
     'NOAA NWS Alerts':              'https://www.weather.gov/alerts',
     'CISA KEV':                     'https://www.cisa.gov/known-exploited-vulnerabilities-catalog',
     'USDA Drought Monitor':         'https://droughtmonitor.unl.edu/',
-    'World Bank Food':              'https://data.worldbank.org/topic/agriculture-and-rural-development'
+    'World Bank Food':              'https://data.worldbank.org/topic/agriculture-and-rural-development',
+    // Culture primary-source authorities: the attention-economy signal layer
+    // (streaming charts, discography/credits databases, critical taste-making,
+    // venue/festival/box-office health, cultural-participation statistics).
+    // Verified canonical landing pages / opaque platform tokens only — never
+    // AI-constructed deep links.
+    'Spotify Global Charts':         'https://charts.spotify.com/',
+    'Billboard Hot 100':             'https://www.billboard.com/charts/hot-100/',
+    'Pitchfork':                     'https://pitchfork.com/reviews/albums/',
+    'AllMusic Reviews':              'https://www.allmusic.com/newreleases',
+    'Discogs Database':              'https://www.discogs.com/',
+    'IMDb':                          'https://www.imdb.com/',
+    'YouTube Charts':                'https://charts.youtube.com/',
+    'Variety':                       'https://variety.com/',
+    'Rolling Stone':                 'https://www.rollingstone.com/music/',
+    'Pollstar Box Office':           'https://www.pollstar.com/Chart',
+    'Bandsintown':                   'https://www.bandsintown.com/',
+    'NEA Arts Participation Survey':  'https://www.arts.gov/impact/research/arts-data-profile-series',
+    'UNESCO Culture':                'https://www.unesco.org/en/culture'
   };
 
   // ─── Domain-specific primary source priority ───────────────────────────
@@ -176,7 +194,16 @@
     // maintenance, capital funding). CISA KEV carries the cyber-physical
     // (ICS/SCADA) critical-infrastructure signal and is already known to
     // CITATION_HINTS + FEED_TOKENS.
-    infrastructure: ['ASCE Infrastructure Report Card', 'USACE Levee Safety', 'FHWA Bridge Inventory', 'USDOT Systems Condition', 'CISA KEV', 'EPA Water Infrastructure', 'ITC Rail Condition']
+    infrastructure: ['ASCE Infrastructure Report Card', 'USACE Levee Safety', 'FHWA Bridge Inventory', 'USDOT Systems Condition', 'CISA KEV', 'EPA Water Infrastructure', 'ITC Rail Condition'],
+    // Culture primary sources: attention-economy / creative-output authorities
+    // that anchor the cultural signal layer — streaming + sales charts (what is
+    // trending), critical taste-making (emergence quality), discography/credits
+    // (artist structure), and arts-participation statistics (audience health).
+    // Ranked highest-signal structural first: real-time chart movement leads,
+    // critical review and participation survey ground it. Mirrors the energy /
+    // infrastructure ordering so culture artifacts no longer demote through the
+    // PRIMARY_BY_FALLBACK path.
+    culture: ['Spotify Global Charts', 'Billboard Hot 100', 'Pitchfork', 'AllMusic Reviews', 'NEA Arts Participation Survey']
   };
 
   // ─── Feed token map for evidence-source verification ───────────────────
@@ -192,7 +219,24 @@
     'NOAA NWS Alerts':              ['NOAA', 'NWS', 'weather alerts'],
     'CISA KEV':                     ['CISA', 'KEV', 'CVEs'],
     'USDA Drought Monitor':         ['USDA Drought', 'drought monitor'],
-    'World Bank Food':              ['World Bank Food', 'WB Food']
+    'World Bank Food':              ['World Bank Food', 'WB Food'],
+    // Culture feed tokens: literal substrings the brain's evidence prose must
+    // contain for _isEvidenceSourceVerified to anchor culture artifacts. Each
+    // entry mirrors a CITATION_HINTS / PRIMARY_PRIORITY_MAP culture feed so the
+    // attention-economy signal layer verifies instead of always failing.
+    'Spotify Global Charts':        ['Spotify Global Charts', 'Spotify', 'chart', 'streaming'],
+    'Billboard Hot 100':            ['Billboard Hot 100', 'Billboard', 'Hot 100', 'chart position'],
+    'Pitchfork':                    ['Pitchfork', 'critical score', 'review'],
+    'AllMusic Reviews':             ['AllMusic', 'AllMusic Reviews', 'discography', 'credits'],
+    'Discogs Database':             ['Discogs', 'release', 'pressing'],
+    'IMDb':                         ['IMDb', 'box office', 'cast'],
+    'YouTube Charts':               ['YouTube Charts', 'YouTube', 'views', 'trending'],
+    'Variety':                      ['Variety', 'box office', 'industry'],
+    'Rolling Stone':                ['Rolling Stone', 'review', 'feature'],
+    'Pollstar Box Office':          ['Pollstar', 'box office', 'tour gross', 'tickets sold'],
+    'Bandsintown':                  ['Bandsintown', 'tour', 'venue', 'tickets'],
+    'NEA Arts Participation Survey': ['NEA', 'arts participation', 'attendance'],
+    'UNESCO Culture':               ['UNESCO', 'cultural heritage']
   };
 
   // ─── Module-level flag: SCHEMA_VERSION_BUMPED warning ─────────────────

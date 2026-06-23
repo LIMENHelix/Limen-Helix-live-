@@ -180,7 +180,20 @@
       label: 'Identity engagement and creative state',
       arousal: 'Cultural activation — moderate arousal reflects engaged participation in cultural discourse',
       coherence: 'Symbolic consistency — high coherence reflects stable identity and cultural grounding',
-      cognitiveLoad: 'Interpretive depth — high load during complex cultural analysis reflects meaning-making effort'
+      cognitiveLoad: 'Interpretive depth — high load during complex cultural analysis reflects meaning-making effort',
+      // Cultural production-readiness map: regulation state → cultural-production pace/intake posture.
+      // Consumed by culture-clarity-operator outcome tracking (new-artist discovery, creator-partnership
+      // momentum, fanbase engagement, streaming/virality velocity). Cultural identity only:
+      // music scenes, artists & creators, genres, streaming & virality, fanbases & audience attention,
+      // cultural movements & discourse, festivals/venues, taste-making & trend emergence, the attention economy.
+      readiness: {
+        calm: 'Steady operator state — safe to greenlight new cultural movements: festival programming, art-funding initiatives, emerging-artist platforms and aggressive new-creator discovery; open speculative genre/scene scouting.',
+        focused: 'Productive engagement — sustain current music-scene momentum and creator partnerships; admit only proven-artist new projects and well-scoped scene investments; hold open-ended discovery.',
+        pressured: 'Elevated load — defer speculative cultural initiatives and new music-scene investment intake; focus on existing fanbase engagement and streaming/virality velocity; keep proven-creator momentum active.',
+        overloaded: 'Saturated — pause all new cultural-discovery programs; respond only to top-tier viral moments; triage critical-creator burnout and mental-health, audience-trust and reputational risk.',
+        recovering: 'Stabilizing — resume emerging-artist scouting first, then reopen cultural-movement and festival intake gradually as creator-sustainability and audience-health metrics normalize.',
+        unknown: 'Regulation state unavailable — default to snapshot-driven prioritization (fanbase-engagement signals and proven-creator momentum ranking).'
+      }
     },
     defense: {
       label: 'Threat vigilance and operational readiness',

@@ -152,6 +152,17 @@
       infra_transport_disruption:'Transport network strained. Roads, bridges, and transit capacity degrading.',
       infra_funding_collapse:    'Capital funding gap widening. Infrastructure investment falling behind need.',
       infra_generic:             'Infrastructure under stress. Public works and capital systems pressured.',
+      // Culture-specific distress voice — scene/creator/attention-grounded,
+      // mirrors energy's per-diagnosis narration (energy-brain diagnosisIndex) and the
+      // infrastructure port above, but for cultural systems: virality, creator ecosystems,
+      // scene health, fanbase cohesion, discourse/backlash. Maps to culture-brain diagnosisIndex
+      // (CULTURAL_ERASURE / HERITAGE_DESTRUCTION / CENSORSHIP / IDENTITY_CRISIS / CREATIVE_STAGNATION).
+      culture_viral_collapse:    'Viral momentum collapsing. Trending signals decaying faster than the audience can sustain.',
+      culture_creator_burnout:   'Creator ecosystem under strain. Output cadence and artist retention deteriorating.',
+      culture_scene_saturation:  'Scene saturating. Discovery crowding out and breakout potential thinning.',
+      culture_fanbase_fracture:  'Fanbase cohesion fracturing. Audience attention splintering across tribes.',
+      culture_backlash_spiral:   'Backlash spiral forming. Discourse turning adversarial around the movement.',
+      culture_generic:           'Cultural domain under stress. Scenes, creators, and audiences pressured.',
       global_shift:        'Global state shifted to {state}.',
       event_start:         '{event} detected.',
       event_end:           '{event} resolved.',
@@ -174,6 +185,12 @@
       infra_transport_disruption:'Transport disruption. Assess roads, bridges, transit.',
       infra_funding_collapse:    'Funding gap critical. Secure infrastructure capital.',
       infra_generic:             'Infrastructure elevated. Investigate public works.',
+      culture_viral_collapse:    'Viral momentum collapsing. Reassess release timing and audience pull.',
+      culture_creator_burnout:   'Creator strain critical. Protect output cadence and artist retention.',
+      culture_scene_saturation:  'Scene saturated. Find differentiation or a fresh lane.',
+      culture_fanbase_fracture:  'Fanbase fracturing. Re-anchor the core audience.',
+      culture_backlash_spiral:   'Backlash spiral. Manage discourse before it compounds.',
+      culture_generic:           'Cultural domain elevated. Investigate scenes and creators.',
       global_shift:        'State change: {state}.',
       event_start:         'Event: {event}. Tracking.',
       event_end:           'Event cleared: {event}.',
@@ -283,7 +300,8 @@
     var NAMES = {
       economy: 'Economy', energy: 'Energy', environment: 'Environment',
       health: 'Health', technology: 'Technology', research: 'Research',
-      supplyChain: 'Supply chain', infrastructure: 'Infrastructure'
+      supplyChain: 'Supply chain', infrastructure: 'Infrastructure',
+      culture: 'Culture'
     };
 
     // Infrastructure parity: mirror energy's per-diagnosis voice. Energy distinguishes
@@ -294,6 +312,18 @@
       var key = _classifyInfraDistress(detail.signals);
       if (key) {
         _narrate(key, {}, PRIORITY_MEDIUM);
+        return;
+      }
+    }
+
+    // Culture parity: mirror energy's per-diagnosis voice the same way infrastructure does.
+    // Culture distinguishes viral collapse / creator burnout / scene saturation / fanbase
+    // fracture / backlash via culture-brain diagnosisIndex; classify the cultural distress
+    // flavor from signal content and narrate a culture-specific line instead of the generic.
+    if (detail.domain === 'culture') {
+      var ckey = _classifyCultureDistress(detail.signals);
+      if (ckey) {
+        _narrate(ckey, {}, PRIORITY_MEDIUM);
         return;
       }
     }
@@ -327,6 +357,35 @@
     if (/grid|transmission|distribution|substation|transformer|reserve[\s_-]?margin|utility|reliability/.test(blob)) return 'infra_grid_degradation';
     if (/maintenance|deferred|deterioration|inspection|asset[\s_-]?condition|aging|backlog/.test(blob)) return 'infra_maintenance_deficit';
     return 'infra_generic';
+  }
+
+  // Map raw culture signal content → a cultural distress voice key.
+  // Cultural vocabulary mirrors culture-brain diagnosisIndex (CULTURAL_ERASURE /
+  // HERITAGE_DESTRUCTION / CENSORSHIP / IDENTITY_CRISIS / CREATIVE_STAGNATION) expressed
+  // in the music/creator/attention-economy identity: virality, creator ecosystems, scene
+  // health, fanbase cohesion, discourse/backlash. Translates energy oil/gas/grid content to
+  // cultural equivalents. Returns a TEMPLATES key, or null.
+  function _classifyCultureDistress(signals) {
+    var blob = '';
+    if (Array.isArray(signals)) {
+      for (var i = 0; i < signals.length; i++) {
+        var s = signals[i];
+        if (typeof s === 'string') blob += ' ' + s;
+        else if (s && typeof s === 'object') {
+          blob += ' ' + (s.type || '') + ' ' + (s.id || '') + ' ' + (s.label || '') + ' ' + (s.name || '');
+        }
+      }
+    }
+    blob = blob.toLowerCase();
+
+    // Order by specificity: backlash and viral collapse are sharpest, then fanbase fracture,
+    // creator burnout, scene saturation; fall back to a generic culture line.
+    if (/backlash|cancel|cancellation|outrage|controversy|discourse|pile[\s_-]?on/.test(blob)) return 'culture_backlash_spiral';
+    if (/viral|trending|trend|breakout|momentum|hype|algorithm|reach[\s_-]?collapse/.test(blob)) return 'culture_viral_collapse';
+    if (/fanbase|fandom|audience[\s_-]?(fracture|split)|tribal|tribe|fragmentation|defection|churn/.test(blob)) return 'culture_fanbase_fracture';
+    if (/creator|artist|burnout|cadence|output|retention|exodus|attrition|stagnation/.test(blob)) return 'culture_creator_burnout';
+    if (/scene|saturation|saturat|crowd|oversupply|genre[\s_-]?fatigue|discovery|attention/.test(blob)) return 'culture_scene_saturation';
+    return 'culture_generic';
   }
 
   function _onGlobalStateUpdate(e) {

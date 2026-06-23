@@ -52,7 +52,22 @@
     { id: 'economic_core',  domains: ['economy', 'finance', 'industry'] },
     { id: 'human_systems',  domains: ['health', 'population', 'medicine'] },
     { id: 'knowledge_arc',  domains: ['research', 'education', 'technology'] },
-    { id: 'culture_arc',    domains: ['culture', 'religion', 'communication'] },
+    // Culture's audience-attention economy: cultural output (music scenes,
+    // artists, genres, festivals/venues) is co-borne by its narrative carrier
+    // (communication — virality, discourse, trend propagation), its taste-
+    // forming substrate (education — literacy, canon, critical training), and
+    // its audience mass (population — fandom size, attention supply). When all
+    // co-elevate, it signals a broad cultural coherence crisis or transition
+    // (a movement cresting, a scene fracturing) rather than isolated artist
+    // distress. Mirror of energy_chain / knowledge_arc.
+    { id: 'culture_arc',    domains: ['culture', 'communication', 'education', 'population'] },
+    // Culture's own institutional envelope: creative expression feeds back
+    // into faith/meaning systems (religion), narrative infrastructure
+    // (communication), and policy & funding/heritage protection (governance).
+    // Corroboration here = systemic cultural-institutional stress (e.g. a
+    // scene collapse coinciding with censorship pressure + arts-funding cuts +
+    // heritage loss). Mirror of infrastructure_core.
+    { id: 'culture_core',   domains: ['culture', 'religion', 'communication', 'governance'] },
     { id: 'environment_arc',domains: ['environment', 'agriculture', 'energy'] }
   ];
 
@@ -280,7 +295,16 @@
       // not physical signal.
       ['infrastructure', 'governance'],   // grid/SCADA reliability ↔ policy & permitting stress
       ['infrastructure', 'law'],          // public-works compliance ↔ regulatory enforcement
-      ['infrastructure', 'finance']       // capital access for maintenance ↔ funding-quality stress
+      ['infrastructure', 'finance'],      // capital access for maintenance ↔ funding-quality stress
+      // Culture vs its support infrastructure (mirror of infrastructure↔its
+      // institutional envelope): when cultural-output evidence (streaming /
+      // virality / venue / festival / fanbase telemetry) is strong but
+      // research, education, or finance are proxy-heavy, the bottleneck is
+      // support capability — the development pipeline, taste literacy, and
+      // creator capital, not the cultural signal itself.
+      ['culture', 'research'],            // artist/scene vitality ↔ creative-research & archive infrastructure
+      ['culture', 'education'],           // live taste-making/trend signal ↔ literacy & canon-formation stress
+      ['culture', 'finance']              // creator-revenue & venue economics ↔ capital-access quality stress
     ];
     var out = [];
     for (var i = 0; i < rivals.length; i++) {

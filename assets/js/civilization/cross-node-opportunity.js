@@ -87,7 +87,7 @@
     defense:       ['patents'],
     intelligence:  ['copyrights', 'research-papers'],
     communication: ['copyrights'],
-    culture:       ['copyrights', 'franchise'],
+    culture:       ['copyrights', 'franchise', 'patents', 'research-papers', 'business-grants', 'research-grants'],
     religion:      ['copyrights'],
     population:    ['research-papers'],
     environment:   ['research-grants', 'patents'],

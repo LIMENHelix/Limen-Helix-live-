@@ -59,6 +59,41 @@
     { re: /repair(s)? complet|backlog (reduc|cleared)|project(s)? delivered|restored to service|rehabilitation complet/i, weight: 0.15, tag: 'repair_completion' }
   ];
 
+  // ─── Culture-native semantics ─────────────────────────────────────────────
+  // Energy parity (same shape as INFRA above): culture has its OWN failure/
+  // recovery vocabulary. Where energy reads crude_above_90 / grid_stress and
+  // infrastructure reads grid_reliability / deferred_maintenance, CULTURE reads
+  // the attention economy — fanbases & audience attention, artists/creators &
+  // burnout, scenes & genres, streaming & virality, taste-making & trend
+  // emergence, cultural movements & discourse. No grid/fuel content is used
+  // here; every primitive is a cultural-semantic equivalent.
+  //
+  // Each entry maps a keyword pattern (matched against the domain's signal
+  // strings) to a weighted push on the destabilizing or stabilizing score —
+  // identical mechanism to energy's condition→weight mapping, cultural content.
+  var CULTURE_DESTABILIZING = [
+    // Backlash accumulation / cancellation risk — social-media fury, harassment.
+    { re: /backlash|cancel(l?ed|lation|\s?culture)?|social media (fury|storm|pile-?on)|creator harassment|public shaming|controversy|outrage cycle/i, weight: 0.18, tag: 'backlash_accumulation' },
+    // Audience attention collapse — fanbase exodus, engagement/listener drop-off.
+    { re: /audience (exodus|collapse|decline|flight)|fan(base)? (exodus|decline|loss)|engagement (collapse|drop)|listener(ship)? (decline|drop)|unfollow(s)? surge|stream(s|ing)? (decline|drop)/i, weight: 0.16, tag: 'audience_attention_collapse' },
+    // Scene saturation / trend collapse — oversupply, fatigue, dying trend.
+    { re: /saturation|oversaturat|trend (collapse|fatigue|dying|exhaust)|scene (decline|fragment|collapse)|genre fatigue|content glut|algorithm fatigue/i, weight: 0.15, tag: 'scene_saturation' },
+    // Creator burnout — overwork, exodus from platform, mental-health strain.
+    { re: /creator (burnout|exodus|fatigue)|artist (burnout|exhaust|hiatus)|burnout|overwork|platform exodus|quit(ting)? (youtube|tiktok|twitch|the platform)/i, weight: 0.14, tag: 'creator_burnout' },
+    // Cultural movement fragmentation — discourse splintering, infighting.
+    { re: /fragment(ation|ing)?|infighting|movement (splinter|fractur|collaps)|tribal(ism|ize)|discourse (collaps|breakdown)|community (split|schism|fracture)/i, weight: 0.13, tag: 'movement_fragmentation' },
+    // Gatekeeper / distribution chokepoint — deplatforming, demonetization.
+    { re: /deplatform|demonetiz|shadow ?ban|delist|distribution (block|cut)|label (drop|shelv)|playlist removal|gatekeep(ing|er)/i, weight: 0.12, tag: 'distribution_chokepoint' }
+  ];
+  var CULTURE_STABILIZING = [
+    // Fanbase momentum / breakout — viral moment, breakout artist, scene growth.
+    { re: /fan(base)? (growth|momentum|surge|expansion)|breakout (artist|moment|hit|act)|viral (moment|hit|breakout)|going viral|chart (debut|climb|surge)|sold ?out (tour|show)/i, weight: 0.16, tag: 'fanbase_momentum' },
+    // Taste-making emergence / scene momentum — new wave, tastemaker, movement.
+    { re: /taste-?mak(er|ing)( emergence)?|scene (momentum|emergence|rising)|new wave|cultural movement (rising|gaining)|emerging (genre|sound|scene)|critical acclaim|buzz building/i, weight: 0.15, tag: 'tastemaker_emergence' },
+    // Mainstream adoption / cultural crossover — breaking through, mass reach.
+    { re: /mainstream (adoption|breakthrough|crossover)|cultural (adoption|crossover|breakthrough)|mass(-| )?market reach|breaking through|prime-?time|sync (placement|deal)|festival headlin/i, weight: 0.14, tag: 'mainstream_adoption' }
+  ];
+
   // Scan a domain's signal strings against a civil pattern table and return the
   // summed weighted contribution (clamped). Mirrors how energy accumulates its
   // condition-driven pressure, but over civil-native keywords.
@@ -151,6 +186,20 @@
         _infraDestabTags = _id.tags;
       }
 
+      // ── Culture-native destabilizing pathways (energy parity) ──
+      // For the culture domain ONLY, add cultural-semantic pressure from named
+      // failure pathways found in the live signal strings (backlash accumulation,
+      // audience-attention collapse, scene saturation / trend collapse, creator
+      // burnout, cultural-movement fragmentation, distribution chokepoints). This
+      // is the attention-economy analogue of energy's crude_above_*/grid_stress
+      // and infrastructure's grid_reliability/deferred_maintenance weighting.
+      var _cultureDestabTags = null;
+      if (k === 'culture') {
+        var _cd = _infraSignalScore(signals, CULTURE_DESTABILIZING);
+        destab += _cd.score;
+        _cultureDestabTags = _cd.tags;
+      }
+
       destab = _clamp(destab, 0, 1);
 
       // ─── Stabilizing score ─────────────────────────────────────
@@ -202,6 +251,19 @@
         _infraStabTags = _is.tags;
       }
 
+      // ── Culture-native stabilizing pathways (energy parity) ──
+      // Cultural recovery vocabulary: fanbase momentum / breakout, taste-making
+      // emergence & scene momentum, mainstream adoption / cultural crossover.
+      // Mirrors energy's falling-trend / declining-volatility stabilizers and
+      // infrastructure's funding-renewal / repair-completion, with cultural
+      // semantics drawn from the live signal strings.
+      var _cultureStabTags = null;
+      if (k === 'culture') {
+        var _cs = _infraSignalScore(signals, CULTURE_STABILIZING);
+        stab += _cs.score;
+        _cultureStabTags = _cs.tags;
+      }
+
       stab = _clamp(stab, 0, 1);
 
       // ─── Net balance ───────────────────────────────────────────
@@ -226,6 +288,13 @@
       if (k === 'infrastructure') {
         _balance[k].destabilizingFactors = _infraDestabTags || [];
         _balance[k].stabilizingFactors = _infraStabTags || [];
+      }
+
+      // Surface the culture-native pathways that drove the culture score
+      // (energy parity: name the conditions, don't hide them behind a scalar).
+      if (k === 'culture') {
+        _balance[k].destabilizingFactors = _cultureDestabTags || [];
+        _balance[k].stabilizingFactors = _cultureStabTags || [];
       }
 
       // Detect state shift

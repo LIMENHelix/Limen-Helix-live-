@@ -53,7 +53,7 @@ var FEED_TO_CONNECTOME = {
   supplyChain:    ['trade'],
   finance:        ['economy'],
   communication:  ['technology'],
-  culture:        ['religion', 'education'],
+  culture:        ['culture', 'religion', 'education'],
   defense:        ['governance'],
   intelligence:   ['governance', 'science'],
   agriculture:    ['environment', 'trade']

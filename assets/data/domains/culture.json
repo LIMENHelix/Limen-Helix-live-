@@ -128,22 +128,28 @@
       "functional_role": "signal_detector",
       "companies": [
         {
-          "name": "Sotheby's",
-          "ticker_or_id": "SOTHEBYS",
-          "functional_reason": "Detects and monitors music signals, identifying early disruption patterns and emerging conditions",
+          "name": "Universal Music Group",
+          "ticker_or_id": "UMG.AS",
+          "functional_reason": "Major label rights-holder detecting and monitoring music signals, identifying emerging artists, viral breakouts, and catalog disruption across the recorded-music ecosystem",
           "binding_strength": 0.95
         },
         {
-          "name": "Christie's International",
-          "ticker_or_id": "CHRISTIES",
-          "functional_reason": "Detects and monitors music signals, identifying early disruption patterns and emerging conditions",
-          "binding_strength": 0.95
+          "name": "Warner Music Group",
+          "ticker_or_id": "WMG",
+          "functional_reason": "Major label and publishing infrastructure detecting genre shifts, taste-making signals, and emerging-artist momentum across global music markets",
+          "binding_strength": 0.92
         },
         {
           "name": "Spotify Technology",
           "ticker_or_id": "SPOT",
-          "functional_reason": "Detects and monitors music signals, identifying early disruption patterns and emerging conditions",
-          "binding_strength": 0.85
+          "functional_reason": "Streaming platform sensing real-time listening data, playlist virality, and emergent taste patterns that surface new music before mainstream discovery",
+          "binding_strength": 0.91
+        },
+        {
+          "name": "SiriusXM Holdings",
+          "ticker_or_id": "SIRI",
+          "functional_reason": "Radio and rights distribution sensing broadcast reach, audience attention, and catalog monetization signals across the music-listening landscape",
+          "binding_strength": 0.84
         }
       ],
       "neuralRole": "Sensory",
@@ -310,20 +316,20 @@
         {
           "name": "Live Nation Entertainment",
           "ticker_or_id": "LYV",
-          "functional_reason": "Executes core theater & performance operations, delivering primary output and managing day-to-day functional processes",
-          "binding_strength": 0.92
-        },
-        {
-          "name": "Electronic Arts",
-          "ticker_or_id": "EA",
-          "functional_reason": "Executes core theater & performance operations, delivering primary output and managing day-to-day functional processes",
+          "functional_reason": "Executes live music and performance operations end-to-end — booking, venues, touring, and ticketing — delivering the primary in-person cultural output of the performance ecosystem",
           "binding_strength": 0.95
         },
         {
           "name": "Endeavor Group",
           "ticker_or_id": "EDR",
-          "functional_reason": "Executes core theater & performance operations, delivering primary output and managing day-to-day functional processes",
+          "functional_reason": "Executes talent representation, event production, and live-performance operations, managing the day-to-day delivery of staged cultural events",
           "binding_strength": 0.94
+        },
+        {
+          "name": "Bandcamp (Songtradr)",
+          "ticker_or_id": "BANDCAMP",
+          "functional_reason": "Executes indie-artist distribution and direct-to-fan sales, delivering grassroots music output and sustaining independent performers outside major-label channels",
+          "binding_strength": 0.86
         }
       ],
       "neuralRole": "Motor",
@@ -668,22 +674,28 @@
       "functional_role": "signal_detector",
       "companies": [
         {
-          "name": "Spotify Technology",
-          "ticker_or_id": "SPOT",
-          "functional_reason": "Detects and monitors film & cinema signals, identifying early disruption patterns and emerging conditions",
+          "name": "Netflix",
+          "ticker_or_id": "NFLX",
+          "functional_reason": "Streaming distribution sensing audience attention, completion data, and emergent narrative trends that signal which cultural content is breaking through",
           "binding_strength": 0.93
         },
         {
-          "name": "Christie's International",
-          "ticker_or_id": "CHRISTIES",
-          "functional_reason": "Detects and monitors film & cinema signals, identifying early disruption patterns and emerging conditions",
+          "name": "YouTube (Alphabet)",
+          "ticker_or_id": "GOOGL",
+          "functional_reason": "Creator-economy platform sensing grassroots virality, algorithmic taste-making, and emerging creators before mainstream cultural recognition",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "TikTok (ByteDance)",
+          "ticker_or_id": "BYTEDANCE",
+          "functional_reason": "Viral short-form feed detecting the earliest signals of cultural trend emergence, sound virality, and creator breakout across the attention economy",
           "binding_strength": 0.88
         },
         {
-          "name": "Sotheby's",
-          "ticker_or_id": "SOTHEBYS",
-          "functional_reason": "Detects and monitors film & cinema signals, identifying early disruption patterns and emerging conditions",
-          "binding_strength": 0.85
+          "name": "Patreon",
+          "ticker_or_id": "PATREON",
+          "functional_reason": "Creator-funding platform sensing direct fanbase support, creator sustainability, and grassroots patronage signals at the indie edge of culture",
+          "binding_strength": 0.82
         }
       ],
       "neuralRole": "Other",
@@ -1387,21 +1399,27 @@
       "functional_role": "amplifier",
       "companies": [
         {
-          "name": "Warner Bros. Discovery",
-          "ticker_or_id": "WBD",
-          "functional_reason": "Amplifies and scales creative innovation capacity, driving growth and expanding reach of creative innovation operations",
+          "name": "Netflix",
+          "ticker_or_id": "NFLX",
+          "functional_reason": "Cultural content distribution platform amplifying creative work to global audiences, scaling viral reach and turning emergent culture into mainstream attention",
           "binding_strength": 0.93
         },
         {
           "name": "Spotify Technology",
           "ticker_or_id": "SPOT",
-          "functional_reason": "Amplifies and scales creative innovation capacity, driving growth and expanding reach of creative innovation operations",
+          "functional_reason": "Streaming and algorithmic recommendation engine amplifying new music and creators, converting niche taste into scaled audience attention and virality",
           "binding_strength": 0.93
         },
         {
           "name": "Live Nation Entertainment",
           "ticker_or_id": "LYV",
-          "functional_reason": "Amplifies and scales creative innovation capacity, driving growth and expanding reach of creative innovation operations",
+          "functional_reason": "Live performance and touring infrastructure amplifying artist reach, scaling fanbase engagement from streaming into in-person cultural events",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "Warner Bros. Discovery",
+          "ticker_or_id": "WBD",
+          "functional_reason": "Content studio and distribution network amplifying creative innovation across film, music, and franchise IP into broad cultural reach",
           "binding_strength": 0.87
         }
       ],
