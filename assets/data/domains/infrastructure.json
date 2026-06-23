@@ -377,7 +377,10 @@
       "weight": 1,
       "diagnosticTriggers": [
         "Grid frequency instability",
-        "Cascading blackout"
+        "Cascading blackout",
+        "Right-of-way vegetation encroachment on lines",
+        "Substation siting / interconnection backlog",
+        "Thermal plant cooling water scarcity"
       ],
       "treatments": [
         {
@@ -452,6 +455,18 @@
         {
           "domain": "medicine",
           "role": "Neurology"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Right-of-Way Management"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Substation Siting & Permitting"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Cooling Water Dependency"
         }
       ]
     },
@@ -467,7 +482,8 @@
       "weight": 1,
       "diagnosticTriggers": [
         "Water contamination event",
-        "Distribution system failure"
+        "Distribution system failure",
+        "Thermal generation cooling demand under low streamflow"
       ],
       "treatments": [
         {
@@ -542,6 +558,10 @@
         {
           "domain": "population",
           "role": "Gender Demographics"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Cooling Water Dependency (Thermal Generation Cooling Demand)"
         }
       ]
     },
@@ -1642,6 +1662,988 @@
         {
           "domain": "finance",
           "role": "highyield recovery — Signal Acquisition"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "VTA",
+      "state": "active",
+      "domainLabel": "Distributed Resilience",
+      "domainDescription": "Decentralized generation and local resource-capture systems on public infrastructure, including rooftop solar on water treatment plants and fire stations, microgrids for critical facilities, rainwater harvesting at pump stations, and waste-to-energy facilities.",
+      "domainFunction": "Provides localized, opportunistically harvested resources and backup capacity that reduce dependence on centralized supply, hardening critical facilities against grid and supply disruptions.",
+      "whyThisNode": "The VTA (ventral tegmental area) is the brain's reward-prediction center that signals novel, high-value opportunities and drives motivational pursuit, mirroring how distributed resilience harvests opportunistic local resources to capture the high-potential, growing reward pathway of resilient infrastructure.",
+      "group": "resilience",
+      "phase": "P4",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Distributed generation intermittency",
+        "Microgrid islanding failure",
+        "Local capture shortfall"
+      ],
+      "treatments": [
+        {
+          "label": "Microgrid and Storage Pairing for Critical Facilities",
+          "type": "STRUCTURAL",
+          "description": "Co-locate on-site generation and storage at water treatment plants, transit depots, and emergency facilities so critical loads can island and ride through centralized grid outages.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Local Resource Harvesting Integration",
+          "type": "DIAGNOSTIC",
+          "description": "Deploy monitoring of rainwater capture, on-site solar, and waste-to-energy output coupled with demand forecasting to maximize opportunistic local resource use at public facilities.",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "infrastructure_resilience_portal.html",
+      "phase_archetype": "P2",
+      "functional_role": "amplifier",
+      "companies": [
+        {
+          "name": "Quanta Services",
+          "ticker_or_id": "PWR",
+          "functional_reason": "Amplifies and scales distributed resilience capacity, driving growth and expanding reach of distributed resilience operations",
+          "binding_strength": 0.87
+        },
+        {
+          "name": "Brookfield Infrastructure",
+          "ticker_or_id": "BIP",
+          "functional_reason": "Amplifies and scales distributed resilience capacity, driving growth and expanding reach of distributed resilience operations",
+          "binding_strength": 0.89
+        },
+        {
+          "name": "AECOM",
+          "ticker_or_id": "ACM",
+          "functional_reason": "Amplifies and scales distributed resilience capacity, driving growth and expanding reach of distributed resilience operations",
+          "binding_strength": 0.93
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Distributed Resilience",
+      "brainNodeLabelCanonical": "Infrastructure",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Dopamine Source Nucleus"
+        },
+        {
+          "domain": "business",
+          "role": "Innovation Engine"
+        },
+        {
+          "domain": "economy",
+          "role": "Entrepreneurship"
+        },
+        {
+          "domain": "environment",
+          "role": "Renewable Resources"
+        },
+        {
+          "domain": "energy",
+          "role": "Solar and Wind"
+        },
+        {
+          "domain": "metabolic",
+          "role": "Dopaminergic Metabolic Signaling"
+        },
+        {
+          "domain": "population",
+          "role": "Youth Demographics"
+        },
+        {
+          "domain": "neurology",
+          "role": "Ventral Tegmental Area"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PAG",
+      "state": "active",
+      "domainLabel": "Critical Emergency Access",
+      "domainDescription": "High-priority, always-available emergency and critical-path systems including emergency vehicle preemption on roads, reserved utility and emergency access corridors on bridges, backup power for water and wastewater pumps, mutual aid agreements, and redundant critical facilities.",
+      "domainFunction": "Delivers contingency capacity and hardened access for life-safety operations, guaranteeing emergency responders and critical utilities can function independent of normal-load conditions or single-point failures.",
+      "whyThisNode": "The PAG (periaqueductal gray) orchestrates the brain's most powerful defensive and survival responses with extreme intensity and tight containment, paralleling critical emergency-access infrastructure that holds reserved, hardened capacity under rigorous protocols for life-safety response.",
+      "group": "utilities",
+      "phase": "P4",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Emergency access corridor blockage",
+        "Critical facility redundancy loss",
+        "Backup power failure"
+      ],
+      "treatments": [
+        {
+          "label": "Critical Facility Redundancy Hardening",
+          "type": "STRUCTURAL",
+          "description": "Provide dual water intakes, backup pumps and generators, and reserved emergency access corridors so critical-path infrastructure survives the loss of any single asset.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Emergency Response Readiness Assessment",
+          "type": "DIAGNOSTIC",
+          "description": "Conduct fault-tree and scenario analysis of emergency preemption, mutual-aid agreements, and access corridors to quantify response-failure probabilities and target the highest-impact hardening.",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "infrastructure_portfacil_portal.html",
+      "phase_archetype": "P7",
+      "functional_role": "gatekeeper",
+      "companies": [
+        {
+          "name": "Quanta Services",
+          "ticker_or_id": "PWR",
+          "functional_reason": "Detects and monitors critical emergency access signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.74
+        },
+        {
+          "name": "AECOM",
+          "ticker_or_id": "ACM",
+          "functional_reason": "Executes core critical emergency access operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.75
+        },
+        {
+          "name": "Granite Construction",
+          "ticker_or_id": "GVA",
+          "functional_reason": "Executes core critical emergency access operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.79
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Critical Emergency Access",
+      "brainNodeLabelCanonical": "Infrastructure",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Pain-Defense Gate"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Endogenous Analgesic System"
+        },
+        {
+          "domain": "neurology",
+          "role": "Periaqueductal Gray"
+        },
+        {
+          "domain": "energy",
+          "role": "Nuclear Power"
+        },
+        {
+          "domain": "defense",
+          "role": "Critical Infrastructure Defense"
+        },
+        {
+          "domain": "medicine",
+          "role": "Emergency Medicine"
+        },
+        {
+          "domain": "governance",
+          "role": "Emergency Powers"
+        },
+        {
+          "domain": "provider",
+          "role": "Crisis Response Protocol"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HIPP",
+      "state": "active",
+      "domainLabel": "Surge Capacity Systems",
+      "domainDescription": "Short-term buffering and rapid-response systems including dynamic lane control and surge-capacity intersections, distributed emergency water storage tanks, quick-deploy modular bridge sections, surge-capacity wastewater holding tanks, and emergency generator banks.",
+      "domainFunction": "Buffers sudden mismatches between demand spikes and steady-state capacity by holding surge reserves and discharging them rapidly while baseline systems respond, absorbing peaks before gridlock or overflow.",
+      "whyThisNode": "The hippocampus is the brain's primary memory encoding and retrieval system, holding context for later recall, directly paralleling how surge-capacity systems hold buffering reserves for later rapid discharge when the network must absorb a transient spike.",
+      "group": "civil",
+      "phase": "P4",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Surge buffer exhaustion",
+        "Holding tank overflow risk",
+        "Rapid-deploy asset depletion"
+      ],
+      "treatments": [
+        {
+          "label": "Distributed Surge Storage Deployment",
+          "type": "STRUCTURAL",
+          "description": "Install distributed emergency water tanks, wastewater holding capacity, and modular bridge inventory positioned across the network to absorb localized surges before steady-state systems catch up.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Surge Capacity State Diagnostics",
+          "type": "DIAGNOSTIC",
+          "description": "Model network surge thresholds and remaining buffer headroom under peak-load scenarios to forecast when dynamic lane control or holding tanks will saturate and schedule replenishment.",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "infrastructure_maintenance_portal.html",
+      "phase_archetype": "P5",
+      "functional_role": "buffer",
+      "companies": [
+        {
+          "name": "WSP Global",
+          "ticker_or_id": "WSP.TO",
+          "functional_reason": "Detects and monitors surge capacity systems signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.76
+        },
+        {
+          "name": "Jacobs Solutions",
+          "ticker_or_id": "J",
+          "functional_reason": "Executes core surge capacity systems operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.73
+        },
+        {
+          "name": "Quanta Services",
+          "ticker_or_id": "PWR",
+          "functional_reason": "Routes and distributes surge capacity systems resources, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.67
+        }
+      ],
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Surge Capacity Systems",
+      "brainNodeLabelCanonical": "Infrastructure",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Contextual Relapse Memory"
+        },
+        {
+          "domain": "business",
+          "role": "Institutional Knowledge"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Memory Reconsolidation"
+        },
+        {
+          "domain": "economy",
+          "role": "Real Estate"
+        },
+        {
+          "domain": "energy",
+          "role": "Battery Storage"
+        },
+        {
+          "domain": "industry",
+          "role": "Warehousing"
+        },
+        {
+          "domain": "neurology",
+          "role": "Hippocampus"
+        },
+        {
+          "domain": "legal",
+          "role": "Precedent / Legal Memory"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "OFC",
+      "state": "active",
+      "domainLabel": "Infrastructure Finance",
+      "domainDescription": "Capital-market and financing mechanisms that allocate funds across infrastructure needs, including public-private partnerships, toll-road revenue bonds, infrastructure banks, TIFIA financing, development impact fees, tax-increment financing, and scarcity-priced water and sewer rate structures.",
+      "domainFunction": "Facilitates price discovery, risk transfer, and efficient capital allocation across infrastructure projects through bonds, PPP structures, and rate designs that direct funding toward highest-need and highest-impact repairs.",
+      "whyThisNode": "The orbitofrontal cortex evaluates the relative value of options and updates reward expectations based on changing conditions, directly paralleling how infrastructure finance continuously prices and allocates capital across competing projects based on shifting need, condition, and return signals.",
+      "group": "civil",
+      "phase": "P4",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Financing gap widening",
+        "Revenue bond default risk",
+        "Capital misallocation signal"
+      ],
+      "treatments": [
+        {
+          "label": "Benefit-Cost Capital Prioritization",
+          "type": "STRUCTURAL",
+          "description": "Allocate infrastructure capital through transparent benefit-cost and asset-condition scoring so PPP, bond, and grant funding flows to the highest-need and highest-impact repairs.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Project Financial Risk Modeling",
+          "type": "DIAGNOSTIC",
+          "description": "Apply scenario and stress testing to revenue-bond coverage, PPP availability payments, and rate-base exposure to quantify financing risk before commitment.",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "arbitrator",
+      "companies": [
+        {
+          "name": "Brookfield Infrastructure",
+          "ticker_or_id": "BIP",
+          "functional_reason": "Executes core infrastructure finance operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.75
+        },
+        {
+          "name": "AECOM",
+          "ticker_or_id": "ACM",
+          "functional_reason": "Amplifies and scales infrastructure finance capacity, driving growth and expanding reach of infrastructure finance operations",
+          "binding_strength": 0.73
+        },
+        {
+          "name": "WSP Global",
+          "ticker_or_id": "WSP.TO",
+          "functional_reason": "Executes core infrastructure finance operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.68
+        }
+      ],
+      "childPortal": "infrastructure_infrafunding_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Infrastructure Finance",
+      "brainNodeLabelCanonical": "Infrastructure",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Compulsive Drive Center"
+        },
+        {
+          "domain": "business",
+          "role": "Market Intelligence"
+        },
+        {
+          "domain": "economy",
+          "role": "Capital Markets"
+        },
+        {
+          "domain": "governance",
+          "role": "Judicial Review"
+        },
+        {
+          "domain": "energy",
+          "role": "Energy Trading"
+        },
+        {
+          "domain": "legal",
+          "role": "Settlement / Negotiation"
+        },
+        {
+          "domain": "finance",
+          "role": "Project Finance"
+        },
+        {
+          "domain": "neurology",
+          "role": "Orbitofrontal Cortex"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "vmPFC",
+      "state": "active",
+      "domainLabel": "Infrastructure Governance",
+      "domainDescription": "Standards, codes, and capital-prioritization frameworks that shape infrastructure development, including asset-management standards (NAMS, ISO 55000), design codes (MUTCD, ADA), permitting and compliance workflows, condition-based maintenance standards, environmental impact protocols, and stakeholder engagement.",
+      "domainFunction": "Sets the regulatory and normative landscape that guides maintenance budgeting, design requirements, climate-risk updates, and capital prioritization across the infrastructure system.",
+      "whyThisNode": "The vmPFC (ventromedial prefrontal cortex) integrates value with long-term consequence assessment to guide value-based decisions, directly paralleling how infrastructure governance weighs competing societal values and long-term consequences to set system-level standards and funding priorities.",
+      "group": "civil",
+      "phase": "P4",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Regulatory uncertainty",
+        "Deferred-maintenance budget distortion",
+        "Outdated design code exposure"
+      ],
+      "treatments": [
+        {
+          "label": "Condition-Based Capital Prioritization Framework",
+          "type": "STRUCTURAL",
+          "description": "Adopt asset-management standards that allocate maintenance budgets by measured condition and risk rather than political cycles, and update design codes to current climate and seismic risk.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Regulatory and Code Impact Analysis",
+          "type": "DIAGNOSTIC",
+          "description": "Model the system-wide effects of proposed standards, permitting changes, and code updates on safety outcomes, lifecycle costs, and maintenance backlogs before implementation.",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P7",
+      "functional_role": "arbitrator",
+      "companies": [
+        {
+          "name": "Jacobs Solutions",
+          "ticker_or_id": "J",
+          "functional_reason": "Executes core infrastructure governance operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.77
+        },
+        {
+          "name": "WSP Global",
+          "ticker_or_id": "WSP.TO",
+          "functional_reason": "Detects and monitors infrastructure governance signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.78
+        },
+        {
+          "name": "AECOM",
+          "ticker_or_id": "ACM",
+          "functional_reason": "Executes core infrastructure governance operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.75
+        }
+      ],
+      "childPortal": "infrastructure_pipeline_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Infrastructure Governance",
+      "brainNodeLabelCanonical": "Infrastructure",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Extinction and Safety Signaling"
+        },
+        {
+          "domain": "business",
+          "role": "Financial Management"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Emotional Valuation"
+        },
+        {
+          "domain": "economy",
+          "role": "Fiscal Policy"
+        },
+        {
+          "domain": "energy",
+          "role": "Energy Policy"
+        },
+        {
+          "domain": "environment",
+          "role": "Conservation Policy"
+        },
+        {
+          "domain": "governance",
+          "role": "Policy Formation"
+        },
+        {
+          "domain": "neurology",
+          "role": "Ventromedial Prefrontal Cortex"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "S1",
+      "state": "active",
+      "domainLabel": "Material Sourcing and Extraction",
+      "domainDescription": "Upstream supply of raw construction inputs including quarries and aggregate extraction, recycled aggregate programs (reclaimed asphalt and concrete), water intake infrastructure (wells and surface intakes), timber and wood-product sourcing, and earth-moving and material-production supply chains.",
+      "domainFunction": "Provides the raw material inputs to the entire infrastructure system through extraction, recycling, and intake operations that supply aggregate, water, and timber as the system's primary resource interface.",
+      "whyThisNode": "S1 (primary somatosensory cortex) receives and processes raw sensory input from the physical environment, directly paralleling how material sourcing and extraction physically interface with the earth to acquire raw inputs as the infrastructure system's primary input stage.",
+      "group": "civil",
+      "phase": "P4",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Aggregate supply shortfall",
+        "Environmental compliance breach",
+        "Water intake disruption"
+      ],
+      "treatments": [
+        {
+          "label": "Recycled Aggregate and Local Sourcing Programs",
+          "type": "STRUCTURAL",
+          "description": "Expand reclaimed-asphalt and recycled-concrete programs and diversify quarry and intake sources to reduce exposure to material shortages and long-haul supply disruption.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Material Supply Depletion Modeling",
+          "type": "DIAGNOSTIC",
+          "description": "Forecast remaining recoverable aggregate reserves, water intake yields, and timber availability to optimize sourcing sequencing and plan for supply transitions.",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P0",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Vulcan Materials",
+          "ticker_or_id": "VMC",
+          "functional_reason": "Detects and monitors material sourcing and extraction signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.91
+        },
+        {
+          "name": "Martin Marietta Materials",
+          "ticker_or_id": "MLM",
+          "functional_reason": "Detects and monitors material sourcing and extraction signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "Nucor Corporation",
+          "ticker_or_id": "NUE",
+          "functional_reason": "Detects and monitors material sourcing and extraction signals, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.95
+        }
+      ],
+      "childPortal": "infrastructure_construction_portal.html",
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "Material Sourcing and Extraction",
+      "brainNodeLabelCanonical": "Infrastructure",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "economy",
+          "role": "Labor Markets"
+        },
+        {
+          "domain": "environment",
+          "role": "Geological Systems"
+        },
+        {
+          "domain": "industry",
+          "role": "Raw Materials"
+        },
+        {
+          "domain": "neurology",
+          "role": "Primary Somatosensory Cortex"
+        },
+        {
+          "domain": "energy",
+          "role": "Mining and Extraction"
+        },
+        {
+          "domain": "technology",
+          "role": "IoT & Sensors"
+        },
+        {
+          "domain": "trade",
+          "role": "Last-Mile Delivery"
+        },
+        {
+          "domain": "science",
+          "role": "Earth Sciences"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CAUD",
+      "state": "active",
+      "domainLabel": "Multimodal Flex",
+      "domainDescription": "Multimodal Flex systems within Infrastructure",
+      "group": "transport",
+      "phase": "P4",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "infrastructure_transit_portal.html",
+      "companies": [
+        {
+          "name": "Brookfield Infrastructure",
+          "ticker_or_id": "BIP",
+          "functional_reason": "Multimodal transit fleets require goal-directed routing and modality switching under stress matching caudate function",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "Quanta Services",
+          "ticker_or_id": "PWR",
+          "functional_reason": "Dual-mode and convertible corridor designs demand flexible goal-directed optimization paralleling caudate decision circuits",
+          "binding_strength": 0.8
+        },
+        {
+          "name": "Jacobs Solutions",
+          "ticker_or_id": "J",
+          "functional_reason": "Parallel water-treatment and transport technology redundancy requires systematic process-reward optimization matching caudate goal-directed behavior",
+          "binding_strength": 0.8
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Multimodal Flex",
+      "brainNodeLabelCanonical": "Infrastructure",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "governance",
+          "role": "Civil Service"
+        },
+        {
+          "domain": "energy",
+          "role": "Hydrogen"
+        },
+        {
+          "domain": "communication",
+          "role": "Caption Accuracy Risk & Resilience"
+        },
+        {
+          "domain": "culture",
+          "role": "Historic Preservation Quality & Performance"
+        },
+        {
+          "domain": "defense",
+          "role": "Coastal Defense Infrastructure & Capacity"
+        },
+        {
+          "domain": "economy",
+          "role": "Food Prices Quality & Performance"
+        },
+        {
+          "domain": "neurology",
+          "role": "Caudate Nucleus"
+        },
+        {
+          "domain": "environment",
+          "role": "AQ Forecasting Assessment & Diagnostics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "BNST",
+      "state": "active",
+      "domainLabel": "Reserves",
+      "domainDescription": "Reserves systems within Infrastructure",
+      "group": "utilities",
+      "phase": "P4",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "infrastructure_waste_infra_portal.html",
+      "companies": [
+        {
+          "name": "Granite Construction",
+          "ticker_or_id": "GVA",
+          "functional_reason": "Aggregate and material stockpiles for urgent repair manage sustained supply-shock uncertainty matching BNST sustained vigilance",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "Nucor Corporation",
+          "ticker_or_id": "NUE",
+          "functional_reason": "Bridge component and steel inventory reserves require continuous contextual threat assessment of supply instability paralleling BNST function",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "WSP Global",
+          "ticker_or_id": "WSP.TO",
+          "functional_reason": "Water reservoir and capacity-margin management buffers sustained supply uncertainty matching BNST contextual threat processing",
+          "binding_strength": 0.8
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Reserves",
+      "brainNodeLabelCanonical": "Infrastructure",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "addiction",
+          "role": "Anticipatory Anxiety Generator"
+        },
+        {
+          "domain": "medicine",
+          "role": "Metabolic & Endocrine"
+        },
+        {
+          "domain": "energy",
+          "role": "Storage"
+        },
+        {
+          "domain": "pediatric",
+          "role": "Anticipatory Anxiety & Sustained Fear"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Default Mode / Self-Referential Processing Core Operations"
+        },
+        {
+          "domain": "neurology",
+          "role": "Bed Nucleus of the Stria Terminalis"
+        },
+        {
+          "domain": "defense",
+          "role": "Strategic Reserves"
+        },
+        {
+          "domain": "economy",
+          "role": "Operational Integration Innovation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "EMP",
+      "state": "active",
+      "domainLabel": "Environmental Mitigation",
+      "domainDescription": "Environmental Mitigation systems within Infrastructure",
+      "group": "utilities",
+      "phase": "P4",
+      "weight": 0.8,
+      "diagnosticTriggers": [],
+      "treatments": [],
+      "childPortal": "infrastructure_dams_portal.html",
+      "neuralRole": "Other",
+      "brainNodeRoleCanonical": "Environmental Mitigation",
+      "brainNodeLabelCanonical": "Infrastructure",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "business",
+          "role": "Client Relations"
+        },
+        {
+          "domain": "legal",
+          "role": "Victim / Witness Services"
+        },
+        {
+          "domain": "energy",
+          "role": "Carbon Cap"
+        },
+        {
+          "domain": "environment",
+          "role": "Pollution Control"
+        },
+        {
+          "domain": "provider",
+          "role": "Empathic Capacity"
+        },
+        {
+          "domain": "communication",
+          "role": "Language Resources — State Assessment"
+        },
+        {
+          "domain": "contemplative",
+          "role": "Default Mode / Self-Referential Processing Infrastructure & Capacity"
+        },
+        {
+          "domain": "culture",
+          "role": "Pilot Design Innovation"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "IPS",
+      "state": "active",
+      "domainLabel": "Cyber-Physical Resilience",
+      "domainDescription": "Security of the operational-technology layer that runs physical infrastructure — SCADA, ICS/PLC controllers, traffic-signal systems, water-treatment automation, and grid control systems — against cyber-physical compromise.",
+      "domainFunction": "Hardens the digital control surface of roads, water, transit, and the electric grid so that a network intrusion cannot translate into physical harm; integrates ICS threat intelligence (CISA KEV) with field-device hardening and segmentation.",
+      "whyThisNode": "The intraparietal sulcus integrates sensory streams to guide and protect goal-directed physical action, mirroring how cyber-physical defense fuses threat signals to safeguard the physical operations infrastructure carries out.",
+      "group": "security",
+      "phase": "P4",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "SCADA compromise",
+        "Traffic signal takeover",
+        "Water treatment alarm failure",
+        "ICS controller intrusion"
+      ],
+      "treatments": [
+        {
+          "label": "NIST Cybersecurity Framework Adoption",
+          "type": "STRUCTURAL",
+          "description": "Apply the NIST CSF (Identify-Protect-Detect-Respond-Recover) across operational-technology assets, mapping CISA Known Exploited Vulnerabilities to field controllers and prioritizing remediation of internet-exposed SCADA endpoints.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "ICS Hardening and Network Segmentation",
+          "type": "STRUCTURAL",
+          "description": "Isolate control-system networks from IT and the public internet with demilitarized zones, unidirectional gateways, and least-privilege access so a breach cannot cascade from business systems into physical actuators.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Continuous OT Threat Monitoring",
+          "type": "DIAGNOSTIC",
+          "description": "Deploy passive intrusion detection tuned to industrial protocols (Modbus, DNP3) to flag anomalous commands to traffic signals, pumps, and substations before they produce physical effects.",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "infrastructure_digital_cybersecinfra.json",
+      "phase_archetype": "P3",
+      "functional_role": "sensor",
+      "companies": [
+        {
+          "name": "Fortinet",
+          "ticker_or_id": "FTNT",
+          "functional_reason": "Detects and gates cyber-physical threats to infrastructure control systems, sensing anomalous activity before it reaches physical actuators",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "Palo Alto Networks",
+          "ticker_or_id": "PANW",
+          "functional_reason": "Segments and protects operational-technology networks for utilities and transit, sensing intrusions across the control surface",
+          "binding_strength": 0.87
+        },
+        {
+          "name": "Schneider Electric",
+          "ticker_or_id": "SBGSY",
+          "functional_reason": "Supplies and hardens the SCADA/ICS controllers that run physical infrastructure, sensing and securing the cyber-physical boundary",
+          "binding_strength": 0.86
+        }
+      ],
+      "neuralRole": "Attention",
+      "brainNodeRoleCanonical": "Cyber-Physical Resilience",
+      "brainNodeLabelCanonical": "Infrastructure",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "energy",
+          "role": "Grid Modernization"
+        },
+        {
+          "domain": "defense",
+          "role": "Cyber Operations"
+        },
+        {
+          "domain": "governance",
+          "role": "Critical Infrastructure Protection"
+        },
+        {
+          "domain": "neurology",
+          "role": "Intraparietal Sulcus"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "EC",
+      "state": "active",
+      "domainLabel": "Deferred Maintenance Lifecycle",
+      "domainDescription": "Whole-life asset management of the infrastructure stock — pavements, bridges, water mains, and transit assets — tracking condition history, remaining service life, and the accumulating deferred-maintenance backlog.",
+      "domainFunction": "Holds the long-term condition memory of physical assets and converts it into lifecycle decisions, sequencing repair, rehabilitation, and replacement to minimize whole-life cost and arrest deferred-maintenance decay spirals.",
+      "whyThisNode": "The entorhinal cortex is the gateway that consolidates experience into durable memory guiding future action, mirroring how asset-management systems retain the condition history of infrastructure to time interventions across its lifecycle.",
+      "group": "maintenance",
+      "phase": "P4",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Pavement IRI >3.5",
+        "Bridge NBI deck rating <4",
+        "Water main age >50yr",
+        "Deferred maintenance backlog growth"
+      ],
+      "treatments": [
+        {
+          "label": "ISO 55000 Whole-Life Costing",
+          "type": "STRUCTURAL",
+          "description": "Adopt the ISO 55000 asset-management standard to evaluate every asset on total-cost-of-ownership, funding timely preservation rather than run-to-failure so the maintenance backlog stops compounding.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Predictive Maintenance Analytics",
+          "type": "DIAGNOSTIC",
+          "description": "Apply sensor-driven condition monitoring and deterioration modeling to forecast pavement, bridge-deck, and water-main failures before they occur, sequencing capital spend by remaining service life.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Condition-Based Inspection Cadence",
+          "type": "DIAGNOSTIC",
+          "description": "Replace fixed-interval inspection with risk- and condition-based scheduling so the worst assets are assessed most often and inspection budgets follow actual deterioration.",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "infrastructure_maintenance_lccmaint.json",
+      "phase_archetype": "P3",
+      "functional_role": "memory",
+      "companies": [
+        {
+          "name": "Bentley Systems",
+          "ticker_or_id": "BSY",
+          "functional_reason": "Maintains digital-twin condition memory of infrastructure assets, consolidating history into lifecycle and whole-life-cost decisions",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "AECOM",
+          "ticker_or_id": "ACM",
+          "functional_reason": "Performs condition assessment and asset-management planning, retaining the service-life record that drives deferred-maintenance decisions",
+          "binding_strength": 0.86
+        },
+        {
+          "name": "Trimble",
+          "ticker_or_id": "TRMB",
+          "functional_reason": "Captures and stores field condition data for pavements and structures, building the durable asset memory predictive maintenance depends on",
+          "binding_strength": 0.84
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Deferred Maintenance Lifecycle",
+      "brainNodeLabelCanonical": "Infrastructure",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "energy",
+          "role": "Energy Efficiency"
+        },
+        {
+          "domain": "finance",
+          "role": "Capital Allocation"
+        },
+        {
+          "domain": "industry",
+          "role": "Asset Reliability"
+        },
+        {
+          "domain": "neurology",
+          "role": "Entorhinal Cortex"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "AG",
+      "state": "active",
+      "domainLabel": "Cascade Failure Detection",
+      "domainDescription": "Cross-asset, inter-modal dependency monitoring that detects how a failure in one infrastructure system propagates into others — road closures into transit demand, water-main breaks into ground instability threatening bridges.",
+      "domainFunction": "Integrates signals across transport, water, grid, and structural systems to detect and forecast cascading failures, correlating real-time stress so a single-system event is caught before it propagates network-wide.",
+      "whyThisNode": "The angular gyrus is a multimodal convergence hub that binds inputs from separate sensory streams into a unified representation, mirroring how cascade detection fuses signals across distinct infrastructure modes to see system-level risk.",
+      "group": "resilience",
+      "phase": "P4",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Road closure into transit reroute demand surge",
+        "Water main break into soil instability into bridge pier risk",
+        "Grid outage into water-pump and signal loss",
+        "Inter-modal dependency stress correlation"
+      ],
+      "treatments": [
+        {
+          "label": "Real-Time Intermodal Stress Correlation",
+          "type": "DIAGNOSTIC",
+          "description": "Fuse live feeds from transport, water, grid, and structural sensors into a dependency model that flags when stress in one system is loading another, enabling intervention before a cascade completes.",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Interdependency Mapping and Redundancy",
+          "type": "STRUCTURAL",
+          "description": "Map the cross-asset dependency graph to locate single points of failure whose loss cascades, then add redundancy and isolation so a fault in one mode cannot bring down the others.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Cascade Scenario Stress Testing",
+          "type": "DIAGNOSTIC",
+          "description": "Run coupled what-if simulations across infrastructure modes to quantify propagation paths and rank mitigation investments by the cascade risk they retire.",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "infrastructure_resilience_interdepan.json",
+      "phase_archetype": "P3",
+      "functional_role": "integrator",
+      "companies": [
+        {
+          "name": "Hexagon AB",
+          "ticker_or_id": "HXGBY",
+          "functional_reason": "Integrates cross-asset sensor and geospatial data into a unified operational picture, binding inter-modal signals for cascade detection",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "Bentley Systems",
+          "ticker_or_id": "BSY",
+          "functional_reason": "Models interdependent infrastructure networks in digital twins, correlating cross-system stress to surface cascading-failure risk",
+          "binding_strength": 0.87
+        },
+        {
+          "name": "Esri (privately held)",
+          "ticker_or_id": "ESRI",
+          "functional_reason": "Fuses multimodal infrastructure layers geospatially, integrating dependency signals across transport, water, and grid",
+          "binding_strength": 0.82
+        }
+      ],
+      "neuralRole": "DMN",
+      "brainNodeRoleCanonical": "Cascade Failure Detection",
+      "brainNodeLabelCanonical": "Infrastructure",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "energy",
+          "role": "Grid Resilience"
+        },
+        {
+          "domain": "defense",
+          "role": "Critical Infrastructure Protection"
+        },
+        {
+          "domain": "economy",
+          "role": "Systemic Risk"
+        },
+        {
+          "domain": "neurology",
+          "role": "Angular Gyrus"
         }
       ]
     }

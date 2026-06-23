@@ -40,7 +40,14 @@
   // safe: changing here only affects which corroborations get computed, never
   // raw domain truth. Conservatively scoped to avoid spurious clusters.
   var AFFINITY_GROUPS = [
-    { id: 'energy_chain',   domains: ['energy', 'infrastructure', 'supplyChain'] },
+    { id: 'energy_chain',        domains: ['energy', 'infrastructure', 'supplyChain'] },
+    // Infrastructure's own institutional envelope: grid/water/roads/bridges
+    // reliability feeds back into regulatory compliance (law), policy &
+    // permitting (governance), and capital access for deferred maintenance
+    // (finance). Corroboration here = systemic infrastructure-institutional
+    // stress (e.g. a transmission/SCADA reliability failure coinciding with
+    // a compliance + capital-funding squeeze).
+    { id: 'infrastructure_core', domains: ['infrastructure', 'law', 'governance', 'finance'] },
     { id: 'rule_of_law',    domains: ['law', 'governance', 'defense'] },
     { id: 'economic_core',  domains: ['economy', 'finance', 'industry'] },
     { id: 'human_systems',  domains: ['health', 'population', 'medicine'] },
@@ -264,7 +271,16 @@
       ['research', 'communication'],
       ['economy', 'governance'],
       ['defense', 'law'],
-      ['energy', 'environment']
+      ['energy', 'environment'],
+      // Infrastructure vs its institutional envelope (mirror of
+      // energy↔environment): when infrastructure evidence (grid / SCADA /
+      // bridge / water telemetry) is strong but governance, law, or finance
+      // are proxy-heavy, the bottleneck is institutional capability — the
+      // decision-making gap for infrastructure capital & deferred maintenance,
+      // not physical signal.
+      ['infrastructure', 'governance'],   // grid/SCADA reliability ↔ policy & permitting stress
+      ['infrastructure', 'law'],          // public-works compliance ↔ regulatory enforcement
+      ['infrastructure', 'finance']       // capital access for maintenance ↔ funding-quality stress
     ];
     var out = [];
     for (var i = 0; i < rivals.length; i++) {

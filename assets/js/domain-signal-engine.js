@@ -42,7 +42,19 @@
     health:        { factor: 0.40, ceiling: 0.75, reason: 'volume-dampened: cumulative event count' },
     communication: { factor: 0.45, ceiling: 0.75, reason: 'volume-dampened: headline count' },
     governance:    { factor: 0.55, ceiling: 0.80, reason: 'tone-dampened: negative tone bias' },
-    finance:       { factor: 0.60, ceiling: 0.85, reason: 'volatility-dampened: common market moves' }
+    finance:       { factor: 0.60, ceiling: 0.85, reason: 'volatility-dampened: common market moves' },
+    infrastructure:{ factor: 0.50, ceiling: 0.80, reason: 'cyber-dampened: embedded system CVE churn does not indicate compromise; construction-index-dampened: baseline volatility' }
+  };
+
+  // Structural-signal overrides for infrastructure: certain engineering constraints are
+  // NOT noisy commodity/market signals and must bypass dampening (mirrors energy-brain's
+  // grid_stress structural conditions). Raw stress is forced to the floor when a structural
+  // threshold is crossed, before saturation dampening is applied.
+  //   - grid reserve margin below 10%  → grid_stress (structural, not noisy commodity)
+  //   - transmission queue depth >2000 MW → transmission_congestion (engineering constraint)
+  var _INFRA_STRUCTURAL = {
+    gridStressFloor:           0.65, // reserve margin < 10% always reads as grid_stress
+    transmissionCongestFloor:  0.60  // queue depth > 2000 MW always reads as congestion
   };
 
   // Rolling baseline state (accumulates across feed cycles within session)
@@ -52,15 +64,60 @@
   // Persistence tracker: how many consecutive cycles above elevated threshold
   var _persistenceCount = {}; // domainKey → number
 
-  function _normalizeStress(domainKey, rawStress) {
+  // Detect infrastructure structural constraints from a feed object.
+  // Returns a forced stress floor (0 if none) — engineering constraints bypass dampening.
+  function _infraStructuralFloor(feed) {
+    if (!feed) return { floor: 0, reason: '' };
+    var floor = 0;
+    var reason = '';
+    // Grid reserve margin below 10% ALWAYS triggers grid_stress
+    var reserveMargin = (feed.reserveMargin !== undefined) ? feed.reserveMargin
+                      : (feed.gridReserveMargin !== undefined) ? feed.gridReserveMargin
+                      : null;
+    if (reserveMargin !== null && reserveMargin < 0.10) {
+      if (_INFRA_STRUCTURAL.gridStressFloor > floor) {
+        floor = _INFRA_STRUCTURAL.gridStressFloor;
+        reason = 'structural: grid_stress (reserve margin ' + (reserveMargin * 100).toFixed(0) + '% < 10%)';
+      }
+    }
+    // Transmission queue depth > 2000 MW ALWAYS triggers transmission_congestion
+    var queueDepth = (feed.transmissionQueueMW !== undefined) ? feed.transmissionQueueMW
+                   : (feed.queueDepthMW !== undefined) ? feed.queueDepthMW
+                   : null;
+    if (queueDepth !== null && queueDepth > 2000) {
+      if (_INFRA_STRUCTURAL.transmissionCongestFloor > floor) {
+        floor = _INFRA_STRUCTURAL.transmissionCongestFloor;
+        reason = 'structural: transmission_congestion (queue ' + Math.round(queueDepth) + ' MW > 2000)';
+      } else if (floor > 0) {
+        reason += ' + transmission_congestion (' + Math.round(queueDepth) + ' MW)';
+      }
+    }
+    return { floor: floor, reason: reason };
+  }
+
+  function _normalizeStress(domainKey, rawStress, feed) {
+    // Phase 0: infrastructure structural-signal floor (engineering constraints
+    // bypass commodity/market dampening — mirrors energy-brain grid_stress conditions)
+    var structural = (domainKey === 'infrastructure') ? _infraStructuralFloor(feed) : { floor: 0, reason: '' };
+    if (structural.floor > rawStress) {
+      rawStress = structural.floor;
+    }
+
     // Phase 1: domain-specific saturation dampening
     var dampen = _DOMAIN_DAMPEN[domainKey];
     var stress = rawStress;
-    var reason = 'passthrough';
+    var reason = structural.floor > 0 ? structural.reason : 'passthrough';
 
     if (dampen) {
-      stress = rawStress * dampen.factor;
-      reason = dampen.reason;
+      // Structural floor (if any) bypasses the saturation factor — it is not a
+      // volume/CVE-churn signal, so dampening it would erase the engineering constraint.
+      if (structural.floor > 0) {
+        stress = Math.max(rawStress, structural.floor);
+        reason = structural.reason + ' (dampening bypassed)';
+      } else {
+        stress = rawStress * dampen.factor;
+        reason = dampen.reason;
+      }
     }
 
     // Phase 2: deviation from session baseline (when enough samples exist)
@@ -174,7 +231,7 @@
       if (!feed) continue;
 
       var rawStress = feed.stress || 0;
-      var norm = _normalizeStress(k, rawStress);
+      var norm = _normalizeStress(k, rawStress, feed);
       var stress = norm.stress;
       var trend = _computeTrend(k, stress);
       var signals = feed.signals || [];
@@ -197,7 +254,7 @@
           // FALLBACK but we have cached real data — use it as STALE
           stress = cached.stress;
           rawStress = cached.rawStress;
-          norm = _normalizeStress(k, rawStress);
+          norm = _normalizeStress(k, rawStress, feed);
           stress = norm.stress;
           signals = cached.signals;
           sources = cached.sources;

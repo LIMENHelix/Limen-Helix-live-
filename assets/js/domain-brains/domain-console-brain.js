@@ -393,16 +393,16 @@
   // Cross-domain coupling weights — which domains transmit pressure to which
   var CROSS_DOMAIN_COUPLING = {
     energy: {finance:'commodity dislocation / capital stress',trade:'fuel export / import disruption',supplyChain:'logistics / fuel cost transmission',industry:'production cost coupling',defense:'geopolitical conflict / oil risk',agriculture:'biofuel / fertilizer cost linkage',infrastructure:'grid / pipeline dependency',manufacturing:'industrial energy demand',transportation:'fuel demand / supply shock',economy:'macro energy price sensitivity',environment:'regulatory / carbon policy'},
-    finance: {energy:'commodity price volatility',trade:'trade flow disruption',economy:'macro fiscal stress',technology:'fintech / liquidity coupling'},
+    finance: {energy:'commodity price volatility',trade:'trade flow disruption',economy:'macro fiscal stress',technology:'fintech / liquidity coupling',infrastructure:'municipal bond / project finance exposure'},
     agriculture: {energy:'fuel / fertilizer input cost',environment:'climate / water stress',trade:'export market disruption',supplyChain:'logistics / cold chain'},
-    technology: {energy:'data center / grid demand',finance:'capital / funding stress',communications:'infrastructure dependency',defense:'cyber / supply chain'},
-    defense: {energy:'fuel supply / strategic reserve',finance:'defense spending / sanctions',trade:'embargo / conflict zones',manufacturing:'defense industrial base'},
+    technology: {energy:'data center / grid demand',finance:'capital / funding stress',communications:'infrastructure dependency',defense:'cyber / supply chain',infrastructure:'cyber-physical (SCADA / ICS) exposure'},
+    defense: {energy:'fuel supply / strategic reserve',finance:'defense spending / sanctions',trade:'embargo / conflict zones',manufacturing:'defense industrial base',infrastructure:'critical-infrastructure protection'},
     trade: {energy:'fuel logistics cost',finance:'currency / tariff stress',supplyChain:'global flow disruption',manufacturing:'input cost transmission'},
     medicine: {supplyChain:'pharma logistics',finance:'healthcare funding',research:'clinical pipeline','science':'research coupling'},
     health: {medicine:'treatment access',environment:'pollution / climate health',agriculture:'food security / nutrition'},
-    environment: {energy:'emissions / extraction',agriculture:'land / water use',industry:'pollution / waste',manufacturing:'industrial emissions'},
+    environment: {energy:'emissions / extraction',agriculture:'land / water use',industry:'pollution / waste',manufacturing:'industrial emissions',infrastructure:'built-environment / water-treatment coupling'},
     education: {finance:'funding / endowment stress',technology:'edtech dependency',economy:'workforce pipeline'},
-    infrastructure: {energy:'grid / utility dependency',finance:'infrastructure funding',manufacturing:'materials supply',transportation:'transit network'},
+    infrastructure: {energy:'grid stress / transmission congestion feedback',economy:'construction cost drag / public-works inflation',supplyChain:'logistics constraint / transport network capacity',population:'service disruption cascade',finance:'capital funding exposure (municipal bonds / project finance)',environment:'built-environment / water-treatment coupling',technology:'cyber-physical (SCADA / ICS) exposure',defense:'critical-infrastructure protection',intelligence:'infrastructure threat intelligence (CISA KEV / ICS)',manufacturing:'materials supply',transportation:'transit network'},
     manufacturing: {energy:'energy input cost',supplyChain:'materials logistics',trade:'export / tariff impact',finance:'capital access'},
     transportation: {energy:'fuel cost',infrastructure:'road / rail / port',trade:'freight / logistics flow',manufacturing:'vehicle / parts supply'},
     construction: {manufacturing:'materials supply',finance:'lending / rates',infrastructure:'project pipeline',energy:'energy cost'},
@@ -413,7 +413,9 @@
     governance: {finance:'fiscal policy',defense:'national security',trade:'trade policy',legal:'regulatory framework'},
     space: {defense:'military space',technology:'launch / satellite tech',finance:'space investment',communications:'satellite dependency'},
     arts: {economy:'cultural economy',education:'arts education',technology:'digital media'},
-    economy: {finance:'macro fiscal',trade:'trade balance',energy:'energy cost',manufacturing:'output / employment'}
+    economy: {finance:'macro fiscal',trade:'trade balance',energy:'energy cost',manufacturing:'output / employment',infrastructure:'construction drag / public-works cost inflation'},
+    population: {infrastructure:'service disruption / utility access',health:'public health capacity',economy:'employment / cost of living',environment:'climate displacement / habitability'},
+    intelligence: {infrastructure:'infrastructure threat intelligence (CISA KEV / ICS)',defense:'national security coupling',technology:'cyber / exploited-CVE surface',finance:'sanctions / economic intelligence'}
   };
 
   function getCrossDomainPressure() {

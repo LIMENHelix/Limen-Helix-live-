@@ -118,6 +118,83 @@
       ]
     },
     {
+      id: 'infrastructure_environment',
+      domains: ['infrastructure', 'environment'],
+      threshold: 0.45,
+      pattern: 'infrastructure-environment coupling',
+      drivers: ['water main failure', 'treatment plant capacity', 'flood mitigation deficit', 'climate adaptation barrier', 'stormwater overflow'],
+      options: [
+        { label: 'map infrastructure-environment exposure', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      id: 'infrastructure_governance',
+      domains: ['infrastructure', 'governance'],
+      threshold: 0.50,
+      pattern: 'infrastructure-governance stress',
+      drivers: ['permitting delay', 'regulatory constraint', 'funding gap', 'deferred maintenance mandate', 'zoning conflict'],
+      options: [
+        { label: 'trace infrastructure-governance linkage', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      id: 'infrastructure_law',
+      domains: ['infrastructure', 'law'],
+      threshold: 0.45,
+      pattern: 'infrastructure-legal coupling',
+      drivers: ['liability exposure', 'compliance violation', 'contract dispute', 'enforcement action', 'bond covenant breach'],
+      options: [
+        { label: 'trace infrastructure-law linkage', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      id: 'infrastructure_economy',
+      domains: ['infrastructure', 'economy'],
+      threshold: 0.50,
+      pattern: 'infrastructure-economic transmission',
+      drivers: ['construction employment decline', 'material cost pressure', 'capital unavailable', 'deferred maintenance cost shadow', 'project cancellation'],
+      options: [
+        { label: 'trace infrastructure-economy linkage', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      id: 'infrastructure_agriculture',
+      domains: ['infrastructure', 'agriculture'],
+      threshold: 0.45,
+      pattern: 'infrastructure-agriculture coupling',
+      drivers: ['irrigation capacity decline', 'drainage system failure', 'rural road deterioration', 'storage capacity shortage', 'transport access loss'],
+      options: [
+        { label: 'map infrastructure-agriculture exposure', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      id: 'infrastructure_research',
+      domains: ['infrastructure', 'research'],
+      threshold: 0.40,
+      pattern: 'infrastructure innovation cluster',
+      drivers: ['research funding pressure', 'aging-asset data scarcity', 'resilience solution gap', 'sensor-tech adoption lag', 'infrastructure modeling lag'],
+      options: [
+        { label: 'trace infrastructure-research pipeline', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      id: 'infrastructure_education',
+      domains: ['infrastructure', 'education'],
+      threshold: 0.45,
+      pattern: 'infrastructure workforce pipeline stress',
+      drivers: ['engineer shortage', 'technician training gap', 'skill mismatch', 'curriculum lag', 'apprenticeship enrollment decline'],
+      options: [
+        { label: 'trace infrastructure-education pipeline', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
       id: 'agriculture_population',
       domains: ['agriculture', 'population'],
       threshold: 0.45,

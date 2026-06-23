@@ -20,6 +20,66 @@
   var DOMAIN_KEYS = ['economy', 'energy', 'environment', 'health', 'technology', 'research', 'supplyChain', 'governance', 'infrastructure', 'agriculture', 'industry', 'education', 'communication', 'culture', 'defense', 'religion', 'population', 'law', 'finance', 'intelligence'];
   var HISTORY_MAX = 12;
 
+  // ─── Infrastructure-native semantics ──────────────────────────────────────
+  // Energy parity: energy-brain.js maps live signal conditions to named
+  // domain-native pathways (crude_above_90 / grid_stress / chokepoint …) with
+  // weighted contributions, rather than treating stress as a single opaque
+  // scalar. Civil infrastructure has its OWN failure/recovery vocabulary —
+  // roads/bridges, water & sewer mains, the electric GRID (transmission &
+  // distribution reliability), transit/transport, dams & levees, cyber-physical
+  // (SCADA / ICS / CISA KEV), construction & public works, deferred maintenance,
+  // and capital funding. Crude-price / oil / gas / nuclear / renewable content
+  // is NOT used here; those energy primitives are translated to civil ones.
+  //
+  // Each entry maps a keyword pattern (matched against the domain's signal
+  // strings) to a weighted push on the destabilizing or stabilizing score.
+  // This is the same shape as energy's condition→weight mapping, civil content.
+  var INFRA_DESTABILIZING = [
+    // Cyber-physical threat persistence — SCADA/ICS intrusions that dwell.
+    { re: /scada|ics intrusion|cyber-?physical|cisa kev|known exploited|ransomware|control system/i, weight: 0.18, tag: 'cyber_physical_threat' },
+    // Transmission / distribution grid reliability — the civil GRID, not fuel.
+    { re: /transmission (line )?(fail|outage|congest)|distribution outage|grid reliability|frequency deviation|substation/i, weight: 0.16, tag: 'grid_reliability' },
+    // Deferred maintenance acceleration / backlog spike.
+    { re: /deferred maintenance|maintenance backlog|repair backlog|state of good repair/i, weight: 0.15, tag: 'deferred_maintenance' },
+    // Structural assets in distress — bridges, dams, levees, tunnels.
+    { re: /bridge (deficien|closure|fail)|structurally deficient|dam (fail|breach|deficien)|levee (fail|breach)|tunnel (fail|closure)/i, weight: 0.17, tag: 'structural_asset_failure' },
+    // Water / sewer mains — breaks, boil-water, treatment failures.
+    { re: /water main (break|fail)|sewer (overflow|fail)|boil(-| )water|treatment plant (fail|outage)|lead (service )?line/i, weight: 0.15, tag: 'water_system_failure' },
+    // Transit / transport reliability — service collapse, derailment, bridge ban.
+    { re: /transit (cut|collapse|breakdown)|derailment|service suspension|weight restriction|load posting/i, weight: 0.13, tag: 'transport_reliability' },
+    // Supply-side hardware lead times — transformer / equipment shortage.
+    { re: /transformer (shortage|lead time)|equipment (shortage|backorder)|long lead time|procurement delay/i, weight: 0.12, tag: 'equipment_lead_time' }
+  ];
+  var INFRA_STABILIZING = [
+    // Capital funding renewal — appropriations, bonds, IIJA/grant inflow.
+    { re: /funding (renew|secured|appropriat)|capital (program|plan) (approv|fund)|bond (issu|approv)|infrastructure (bill|act|grant)|reauthoriz/i, weight: 0.16, tag: 'funding_renewal' },
+    // Capacity modernization — upgrades, hardening, resilience build-out.
+    { re: /moderniz|capacity (expansion|upgrade)|hardening|resilience (upgrade|invest)|grid (upgrade|hardening)|seismic retrofit/i, weight: 0.14, tag: 'capacity_modernization' },
+    // Repair completion rate — backlog being burned down, projects delivered.
+    { re: /repair(s)? complet|backlog (reduc|cleared)|project(s)? delivered|restored to service|rehabilitation complet/i, weight: 0.15, tag: 'repair_completion' }
+  ];
+
+  // Scan a domain's signal strings against a civil pattern table and return the
+  // summed weighted contribution (clamped). Mirrors how energy accumulates its
+  // condition-driven pressure, but over civil-native keywords.
+  function _infraSignalScore(signals, table) {
+    if (!signals || !signals.length) return { score: 0, tags: [] };
+    var total = 0;
+    var tags = [];
+    for (var t = 0; t < table.length; t++) {
+      var ent = table[t];
+      for (var i = 0; i < signals.length; i++) {
+        var s = String(signals[i] || '');
+        if (ent.re.test(s)) {
+          total += ent.weight;
+          tags.push(ent.tag);
+          break; // count each pattern at most once
+        }
+      }
+    }
+    return { score: _clamp(total, 0, 0.6), tags: tags };
+  }
+
   // ─── State ───────────────────────────────────────────────────────────────
 
   var _balance = {};
@@ -50,6 +110,7 @@
       var stress = d.stress || 0;
       var trend = d.trend || 0;
       var confidence = d.confidence || 0;
+      var signals = d.signals || [];
 
       // Track stress history for volatility + trajectory
       _stressHistory[k].push(stress);
@@ -74,6 +135,20 @@
       // Low confidence means less trust in data, slight destab
       if (confidence < 0.3 && stress > 0.3) {
         destab += 0.05;
+      }
+
+      // ── Infrastructure-native destabilizing pathways (energy parity) ──
+      // For the infrastructure domain ONLY, add civil-specific pressure from
+      // named failure pathways found in the live signal strings (grid reliability,
+      // cyber-physical/SCADA threat persistence, deferred-maintenance acceleration,
+      // structural-asset failure, water-system failure, transport reliability,
+      // equipment lead time). This is the civil analogue of energy's
+      // crude_above_*/grid_stress/chokepoint condition weighting.
+      var _infraDestabTags = null;
+      if (k === 'infrastructure') {
+        var _id = _infraSignalScore(signals, INFRA_DESTABILIZING);
+        destab += _id.score;
+        _infraDestabTags = _id.tags;
       }
 
       destab = _clamp(destab, 0, 1);
@@ -115,6 +190,18 @@
         stab += 0.08;
       }
 
+      // ── Infrastructure-native stabilizing pathways (energy parity) ──
+      // Civil recovery vocabulary: capital funding renewal, capacity
+      // modernization, and repair completion rate. Mirrors energy's
+      // falling-trend / declining-volatility stabilizers but with civil
+      // semantics drawn from the live signal strings.
+      var _infraStabTags = null;
+      if (k === 'infrastructure') {
+        var _is = _infraSignalScore(signals, INFRA_STABILIZING);
+        stab += _is.score;
+        _infraStabTags = _is.tags;
+      }
+
       stab = _clamp(stab, 0, 1);
 
       // ─── Net balance ───────────────────────────────────────────
@@ -133,6 +220,13 @@
         net: net,
         state: state
       };
+
+      // Surface the civil-native pathways that drove the infrastructure score
+      // (energy parity: name the conditions, don't hide them behind a scalar).
+      if (k === 'infrastructure') {
+        _balance[k].destabilizingFactors = _infraDestabTags || [];
+        _balance[k].stabilizingFactors = _infraStabTags || [];
+      }
 
       // Detect state shift
       if (_prevState[k] !== state) {

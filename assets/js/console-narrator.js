@@ -143,6 +143,15 @@
       escalation_rise:     'Escalation rising. Multiple domains accelerating.',
       escalation_drop:     'Escalation easing. Immediate signals clearing.',
       domain_distress:     '{domain} domain pressure increasing.',
+      // Infrastructure-specific distress voice — operational/engineering-grounded,
+      // mirrors energy's per-diagnosis narration (energy-brain diagnosisIndex) but for
+      // civil infrastructure: grid reliability, deferred maintenance, transport, funding, cyber-physical.
+      infra_grid_degradation:    'Grid infrastructure under stress. Transmission and distribution reliability degrading.',
+      infra_maintenance_deficit: 'Deferred maintenance accumulating. Asset condition deteriorating across the network.',
+      infra_cyber_physical:      'Cyber-physical exposure rising. SCADA and control-system integrity at risk.',
+      infra_transport_disruption:'Transport network strained. Roads, bridges, and transit capacity degrading.',
+      infra_funding_collapse:    'Capital funding gap widening. Infrastructure investment falling behind need.',
+      infra_generic:             'Infrastructure under stress. Public works and capital systems pressured.',
       global_shift:        'Global state shifted to {state}.',
       event_start:         '{event} detected.',
       event_end:           '{event} resolved.',
@@ -159,6 +168,12 @@
       escalation_rise:     'Escalation. Multiple domains active. Review immediately.',
       escalation_drop:     'Escalation cleared. Resume monitoring.',
       domain_distress:     '{domain} elevated. Investigate.',
+      infra_grid_degradation:    'Grid reliability degrading. Inspect transmission and distribution.',
+      infra_maintenance_deficit: 'Maintenance backlog critical. Prioritize asset repair.',
+      infra_cyber_physical:      'Cyber-physical threat. Harden SCADA and control systems.',
+      infra_transport_disruption:'Transport disruption. Assess roads, bridges, transit.',
+      infra_funding_collapse:    'Funding gap critical. Secure infrastructure capital.',
+      infra_generic:             'Infrastructure elevated. Investigate public works.',
       global_shift:        'State change: {state}.',
       event_start:         'Event: {event}. Tracking.',
       event_end:           'Event cleared: {event}.',
@@ -268,9 +283,50 @@
     var NAMES = {
       economy: 'Economy', energy: 'Energy', environment: 'Environment',
       health: 'Health', technology: 'Technology', research: 'Research',
-      supplyChain: 'Supply chain'
+      supplyChain: 'Supply chain', infrastructure: 'Infrastructure'
     };
+
+    // Infrastructure parity: mirror energy's per-diagnosis voice. Energy distinguishes
+    // OIL_SHOCK / GRID_COLLAPSE etc via its diagnosisIndex; here we classify the civil
+    // distress flavor from the emitted signal content and narrate an infrastructure-
+    // specific line instead of the generic '{domain} domain pressure increasing'.
+    if (detail.domain === 'infrastructure') {
+      var key = _classifyInfraDistress(detail.signals);
+      if (key) {
+        _narrate(key, {}, PRIORITY_MEDIUM);
+        return;
+      }
+    }
+
     _narrate('domain_distress', { domain: NAMES[detail.domain] || detail.domain }, PRIORITY_MEDIUM);
+  }
+
+  // Map raw infrastructure signal content → a civil distress voice key.
+  // Civil vocabulary mirrors infrastructure-brain diagnosisIndex (GRID_DEGRADATION /
+  // MAINTENANCE_DEFICIT / CYBER_PHYSICAL_ATTACK / TRANSPORTATION_DISRUPTION /
+  // INFRA_FUNDING_COLLAPSE). Translates energy oil/gas/nuclear content to civil
+  // grid/transport/water/funding equivalents. Returns a TEMPLATES key, or null.
+  function _classifyInfraDistress(signals) {
+    var blob = '';
+    if (Array.isArray(signals)) {
+      for (var i = 0; i < signals.length; i++) {
+        var s = signals[i];
+        if (typeof s === 'string') blob += ' ' + s;
+        else if (s && typeof s === 'object') {
+          blob += ' ' + (s.type || '') + ' ' + (s.id || '') + ' ' + (s.label || '') + ' ' + (s.name || '');
+        }
+      }
+    }
+    blob = blob.toLowerCase();
+
+    // Order by specificity: cyber-physical and funding are sharpest, then transport,
+    // grid, maintenance; fall back to a generic infrastructure line.
+    if (/cyber|scada|sabotage|control[\s_-]?system|ics\b/.test(blob)) return 'infra_cyber_physical';
+    if (/fund|fiscal|budget|bond|capex|capital|grant/.test(blob))      return 'infra_funding_collapse';
+    if (/bridge|road|transit|transport|port|congestion|last[\s_-]?mile|modal/.test(blob)) return 'infra_transport_disruption';
+    if (/grid|transmission|distribution|substation|transformer|reserve[\s_-]?margin|utility|reliability/.test(blob)) return 'infra_grid_degradation';
+    if (/maintenance|deferred|deterioration|inspection|asset[\s_-]?condition|aging|backlog/.test(blob)) return 'infra_maintenance_deficit';
+    return 'infra_generic';
   }
 
   function _onGlobalStateUpdate(e) {

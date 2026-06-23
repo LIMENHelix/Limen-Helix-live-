@@ -162,8 +162,21 @@
   };
 
   // ─── Domain-specific primary source priority ───────────────────────────
+  // Each domain maps to an ordered list of authoritative source `name` values
+  // (matched against snapshot.domains[domain].sources[].name in _selectPrimary).
+  // Highest-priority structural source first. A missing domain entry causes
+  // _selectPrimary to fall back to the first live structural source and emit a
+  // PRIMARY_BY_FALLBACK warning — which demotes every artifact for that domain.
   var PRIMARY_PRIORITY_MAP = {
-    energy: ['EIA Petroleum', 'FRED Crude Oil', 'Massive Crude Oil', 'OPEC Reference Basket']
+    energy: ['EIA Petroleum', 'FRED Crude Oil', 'Massive Crude Oil', 'OPEC Reference Basket'],
+    // Infrastructure primary sources: condition/assessment authorities for the
+    // civil built environment (roads, bridges, water/sewer mains, grid
+    // transmission/distribution reliability, transit/transport, dams/levees,
+    // cyber-physical SCADA/ICS, construction & public works, deferred
+    // maintenance, capital funding). CISA KEV carries the cyber-physical
+    // (ICS/SCADA) critical-infrastructure signal and is already known to
+    // CITATION_HINTS + FEED_TOKENS.
+    infrastructure: ['ASCE Infrastructure Report Card', 'USACE Levee Safety', 'FHWA Bridge Inventory', 'USDOT Systems Condition', 'CISA KEV', 'EPA Water Infrastructure', 'ITC Rail Condition']
   };
 
   // ─── Feed token map for evidence-source verification ───────────────────

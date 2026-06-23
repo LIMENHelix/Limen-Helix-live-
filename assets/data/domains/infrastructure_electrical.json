@@ -4372,6 +4372,366 @@
           "role": "TIPS — Assessment & Monitoring — Risk Profiling"
         }
       ]
+    },
+    {
+      "brainNodeId": "vmPFC",
+      "state": "active",
+      "domainLabel": "Right-of-Way Management",
+      "domainDescription": "Vegetation management and corridor routing of transmission and distribution lines, poles, and conduit through road, urban, and bridge rights-of-way, integrating civil corridor control with grid reliability.",
+      "group": "routing",
+      "phase": "P4",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "Tree encroachment >6ft from line",
+        "Vegetation management cycle overdue",
+        "Conduit routing conflict with road or bridge reconstruction"
+      ],
+      "phase_archetype": "P4",
+      "functional_role": "router",
+      "companies": [
+        {
+          "name": "Federal Highway Administration",
+          "ticker_or_id": "FHWA_GOV",
+          "functional_reason": "Coordinates utility right-of-way and conduit routing within roadway corridors, aligning grid line placement with road and bridge programs",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "North American Electric Reliability Corporation",
+          "ticker_or_id": "NERC_GOV",
+          "functional_reason": "Sets vegetation management reliability standards (FAC-003) governing clearance of lines from encroachment",
+          "binding_strength": 0.92
+        }
+      ],
+      "treatments": [
+        {
+          "label": "Establish Integrated Vegetation Management Program",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Establish an integrated vegetation management program for transmission and distribution rights-of-way per NERC FAC-003 clearance standards, coordinated with municipal road tree-trimming cycles.",
+          "cite": "NERC (2023). FAC-003 Transmission Vegetation Management. NERC; ASCE (2021). Report Card for Americas Infrastructure. ASCE",
+          "target": "OVERDUE_RIGHT_OF_WAY_VEGETATION -> CLEARANCE_RESTORATION -> RELIABILITY_ASSURANCE",
+          "citation": [
+            {
+              "author": "NERC",
+              "year": 2023,
+              "title": "FAC-003 Transmission Vegetation Management",
+              "journal": "NERC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "ASCE",
+              "year": 2021,
+              "title": "Report Card for Americas Infrastructure",
+              "journal": "ASCE",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Map right-of-way corridors and overlay minimum vegetation clearance distances per FAC-003",
+            "Award multi-year vegetation management contracts with cycle-based trimming schedules",
+            "Coordinate clearance work with infrastructure_road municipal tree-trimming programs to share corridor access",
+            "Deploy drone and LiDAR monitoring to detect encroachment >6ft from line between cycles",
+            "Track grow-in and fall-in outage rates against clearance compliance"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline - encroachment incidents per 100 corridor-miles using LiDAR survey. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking - encroachment measured monthly. Target: 20% reduction. PHASE 3 (Months 4-6): Midpoint review - compare against NERC FAC-003 compliance benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation - vegetation-caused outages trending toward 40% reduction. Escalate if <10% reduction floor. ANNUAL REVIEW: Comprehensive audit using FAC-003 standards. Report to Transmission Reliability Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power systems reliability engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Deploy Drone Corridor Monitoring",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Deploy a drone and aerial LiDAR corridor monitoring program to detect vegetation encroachment and conduit-routing conflicts before they impair reliability or block road and bridge reconstruction.",
+          "cite": "EPRI (2022). Unmanned Aerial Systems for Transmission Inspection. EPRI; FHWA (2020). Utility Accommodation Policy. FHWA",
+          "target": "UNMONITORED_CORRIDOR_ENCROACHMENT -> CONTINUOUS_SURVEILLANCE -> EARLY_INTERVENTION",
+          "citation": [
+            {
+              "author": "EPRI",
+              "year": 2022,
+              "title": "Unmanned Aerial Systems for Transmission Inspection",
+              "journal": "EPRI",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "FHWA",
+              "year": 2020,
+              "title": "Utility Accommodation Policy",
+              "journal": "FHWA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Establish drone inspection routes covering high-risk vegetation corridors",
+            "Integrate LiDAR-derived clearance measurements with the GIS corridor model",
+            "Flag conduit routing conflicts where lines cross planned road or bridge reconstruction",
+            "Generate prioritized work orders for trimming crews and corridor coordination",
+            "Feed encroachment data to infrastructure_road for joint corridor scheduling"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline - corridor-miles surveyed per month. Deliverable: coverage baseline. PHASE 2 (Months 2-3): Early tracking - survey cadence quarterly. Target: 80% high-risk corridor coverage. PHASE 3 (Months 4-6): Midpoint review - compare against EPRI inspection benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation - detection-to-remediation lag trending toward <30 days. Escalate if >60 days. ANNUAL REVIEW: Comprehensive audit of inspection program. Report to Asset Management Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power systems reliability engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ],
+      "crossDomainAffinities": [
+        {
+          "domain": "infrastructure",
+          "role": "Road Maintenance Assessment & Diagnostics"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Bridges and Tunnels Core Operations"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Urban Planning Standards & Governance"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "DLPFC",
+      "state": "active",
+      "domainLabel": "Substation Siting & Permitting",
+      "domainDescription": "Planning, environmental review, and permitting of substations and interconnection points, coordinating grid expansion with urban zoning, land use, and NEPA-class environmental assessment.",
+      "group": "planning",
+      "phase": "P4",
+      "weight": 0.85,
+      "diagnosticTriggers": [
+        "Interconnection queue backlog >2yr",
+        "Siting environmental review pending",
+        "Substation zoning variance unresolved"
+      ],
+      "phase_archetype": "P4",
+      "functional_role": "planner",
+      "companies": [
+        {
+          "name": "Federal Energy Regulatory Commission",
+          "ticker_or_id": "FERC_GOV",
+          "functional_reason": "Governs interconnection queue reform and transmission siting backstop authority, setting the planning frame for substation expansion",
+          "binding_strength": 0.93
+        },
+        {
+          "name": "U.S. Army Corps of Engineers",
+          "ticker_or_id": "USACE_GOV",
+          "functional_reason": "Administers environmental review and permitting for substation siting affecting wetlands, floodplains, and protected land",
+          "binding_strength": 0.88
+        }
+      ],
+      "treatments": [
+        {
+          "label": "Streamline Substation Environmental Review",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Streamline substation siting environmental assessment using categorical exclusions and programmatic NEPA review to reduce permitting time without weakening protections.",
+          "cite": "FERC (2021). Building for the Future Through Electric Regional Transmission Planning. FERC; CEQ (2020). NEPA Implementing Regulations. Council on Environmental Quality",
+          "target": "STALLED_SUBSTATION_PERMITTING -> STREAMLINED_REVIEW -> TIMELY_INTERCONNECTION",
+          "citation": [
+            {
+              "author": "FERC",
+              "year": 2021,
+              "title": "Building for the Future Through Electric Regional Transmission Planning",
+              "journal": "FERC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "CEQ",
+              "year": 2020,
+              "title": "NEPA Implementing Regulations",
+              "journal": "Council on Environmental Quality",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Inventory pending substation siting actions and classify NEPA review level",
+            "Apply categorical exclusions and programmatic assessments where eligible",
+            "Coordinate siting with infrastructure_urban zoning and land-use review early",
+            "Establish a joint permitting timeline with environmental and zoning agencies",
+            "Track interconnection queue throughput against the streamlined process"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline - median permitting time per substation using case tracking. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking - permitting time measured quarterly. Target: 25% reduction. PHASE 3 (Months 4-6): Midpoint review - compare against FERC interconnection benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation - queue backlog trending toward <12 months. Escalate if backlog >24 months. ANNUAL REVIEW: Comprehensive audit using NEPA compliance standards. Report to Transmission Planning Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power systems reliability engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Reform Interconnection Queue Process",
+          "type": "STRUCTURAL",
+          "evidence": "B",
+          "description": "Reform the interconnection queue with cluster studies and readiness deposits to clear backlog and align substation siting with grid expansion plans.",
+          "cite": "FERC (2023). Order 2023 Interconnection Reform. FERC; ASCE (2021). Report Card for Americas Infrastructure. ASCE",
+          "target": "INTERCONNECTION_QUEUE_BACKLOG -> CLUSTER_STUDY_REFORM -> CLEARED_THROUGHPUT",
+          "citation": [
+            {
+              "author": "FERC",
+              "year": 2023,
+              "title": "Order 2023 Interconnection Reform",
+              "journal": "FERC",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "ASCE",
+              "year": 2021,
+              "title": "Report Card for Americas Infrastructure",
+              "journal": "ASCE",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Transition from serial to cluster interconnection studies",
+            "Require readiness deposits and site control to filter speculative requests",
+            "Sequence substation siting against the regional transmission plan",
+            "Coordinate zoning variances with infrastructure_urban planning bodies",
+            "Publish queue throughput metrics to track backlog reduction"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline - active queue requests and median age. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking - withdrawals and completions measured quarterly. Target: 15% backlog reduction. PHASE 3 (Months 4-6): Midpoint review - compare against FERC Order 2023 benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation - average queue age trending toward <18 months. Escalate if age increasing. ANNUAL REVIEW: Comprehensive audit of queue process. Report to Interconnection Manager.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power systems reliability engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ],
+      "crossDomainAffinities": [
+        {
+          "domain": "infrastructure",
+          "role": "Urban Planning Standards & Governance"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Construction Standards & Governance"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Resilience Coordination & Integration"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "HYPO",
+      "state": "active",
+      "domainLabel": "Cooling Water Dependency",
+      "domainDescription": "Resource-constraint coupling between thermal generation and water infrastructure: cooling-water availability, streamflow-driven capacity derating, and drought stress shared with the water supply system.",
+      "group": "resource constraint",
+      "phase": "P4",
+      "weight": 0.8,
+      "diagnosticTriggers": [
+        "Thermal plant capacity derated due to low streamflow",
+        "Cooling water availability <historical median",
+        "Drought stage triggers thermal generation cooling restriction"
+      ],
+      "phase_archetype": "P4",
+      "functional_role": "regulator",
+      "companies": [
+        {
+          "name": "U.S. Army Corps of Engineers",
+          "ticker_or_id": "USACE_GOV",
+          "functional_reason": "Manages reservoir releases and streamflow that govern cooling-water availability for thermal generation",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "Environmental Protection Agency",
+          "ticker_or_id": "EPA_GOV",
+          "functional_reason": "Regulates thermal discharge and cooling-water intake (Clean Water Act 316(b)) constraining plant operation under low-flow conditions",
+          "binding_strength": 0.85
+        }
+      ],
+      "treatments": [
+        {
+          "label": "Diversify Thermal Plant Cooling Technology",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Diversify thermal-plant cooling toward dry and hybrid cooling to reduce streamflow dependence and avoid capacity derating during drought.",
+          "cite": "EPRI (2021). Water Use for Electricity Generation. EPRI; USGS (2020). Estimated Use of Water in the United States. USGS",
+          "target": "STREAMFLOW_DEPENDENT_DERATING -> COOLING_DIVERSIFICATION -> DROUGHT_RESILIENCE",
+          "citation": [
+            {
+              "author": "EPRI",
+              "year": 2021,
+              "title": "Water Use for Electricity Generation",
+              "journal": "EPRI",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "USGS",
+              "year": 2020,
+              "title": "Estimated Use of Water in the United States",
+              "journal": "USGS",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Assess each thermal plant cooling type and streamflow sensitivity",
+            "Evaluate dry-cooling and hybrid retrofits against derating risk",
+            "Couple generation dispatch to streamflow forecasts from infrastructure_water",
+            "Negotiate cooling-water withdrawal limits under low-flow drought stages",
+            "Feed thermal cooling demand to infrastructure_water as a drought-stress input"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline - derated MW-hours attributable to low cooling water. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking - derating measured monthly against streamflow. Target: 15% reduction in derated hours. PHASE 3 (Months 4-6): Midpoint review - compare against EPRI water-energy benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation - drought-driven derating trending toward 30% reduction. Escalate if derating worsening. ANNUAL REVIEW: Comprehensive water-energy nexus audit. Report to Generation Resource Planner.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power systems reliability engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        },
+        {
+          "label": "Integrate Streamflow Forecasting into Dispatch",
+          "type": "STRUCTURAL",
+          "evidence": "C",
+          "description": "Integrate water-supply streamflow and drought-stage data into generation planning so cooling-water scarcity is anticipated rather than reacted to.",
+          "cite": "USGS (2020). Estimated Use of Water in the United States. USGS; NOAA (2022). Drought Monitor Methodology. NOAA",
+          "target": "REACTIVE_COOLING_SCARCITY -> FORECAST_INTEGRATION -> ANTICIPATORY_PLANNING",
+          "citation": [
+            {
+              "author": "USGS",
+              "year": 2020,
+              "title": "Estimated Use of Water in the United States",
+              "journal": "USGS",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "NOAA",
+              "year": 2022,
+              "title": "Drought Monitor Methodology",
+              "journal": "NOAA",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Ingest streamflow and reservoir levels from infrastructure_water monitoring",
+            "Map drought stages to thermal cooling availability thresholds",
+            "Pre-position reserve capacity ahead of forecast low-flow periods",
+            "Coordinate cooling-water priority with municipal water supply needs",
+            "Publish a thermal generation cooling-demand signal as a cross-domain sensitivity"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline - lead time between low-flow onset and derating response. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking - forecast lead time measured monthly. Target: 14-day advance warning. PHASE 3 (Months 4-6): Midpoint review - compare against NOAA drought-monitor benchmark. Target: 50% of goal. PHASE 4 (Months 7-12): Maturation - unplanned cooling-related derates trending toward zero. Escalate if surprise derates persist. ANNUAL REVIEW: Comprehensive audit of forecast integration. Report to System Operations Director.",
+          "escalation": "If target outcome shows no measurable improvement after 180 days, or if implementation barriers prevent protocol adherence for >30 consecutive days, escalate to a power systems reliability engineer for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 30 days."
+        }
+      ],
+      "crossDomainAffinities": [
+        {
+          "domain": "infrastructure",
+          "role": "Water Treatment Assessment & Diagnostics"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Resilience Risk & Resilience"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Dams and Levees Core Operations"
+        }
+      ]
     }
   ],
   "edges": [

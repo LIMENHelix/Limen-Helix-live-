@@ -33,6 +33,12 @@
       { label: 'Analyze supply chain disruptions', type: 'analysis', minStress: 0.5 },
       { label: 'Investigate grid resilience strategies', type: 'regulation', minStress: 0.7 }
     ],
+    infrastructure: [
+      { label: 'Monitor electric grid transmission/distribution reliability', type: 'monitoring', minStress: 0.3 },
+      { label: 'Explore resilient infrastructure funding & capital reallocation', type: 'discovery', minStress: 0.4 },
+      { label: 'Analyze construction materials & contractor availability', type: 'analysis', minStress: 0.5 },
+      { label: 'Investigate SCADA/ICS breach vectors and deferred-maintenance failure points', type: 'regulation', minStress: 0.7 }
+    ],
     environment: [
       { label: 'Monitor ecological indicators', type: 'monitoring', minStress: 0.3 },
       { label: 'Explore environmental design innovation', type: 'discovery', minStress: 0.4 },
@@ -110,6 +116,20 @@
       label: 'Analyze energy-economic coupling vulnerabilities',
       body: 'Co-elevated stress in economy and energy domains suggests structural exposure.',
       type: 'analysis'
+    },
+    {
+      domains: ['infrastructure', 'economy'],
+      minStress: [0.5, 0.5],
+      label: 'Analyze infrastructure capital reallocation opportunity',
+      body: 'Co-elevated infrastructure and economic stress suggests deferred-maintenance and funding-gap exposure.',
+      type: 'analysis'
+    },
+    {
+      domains: ['infrastructure', 'technology'],
+      minStress: [0.4, 0.4],
+      label: 'Investigate cyber-physical infrastructure hardening convergence',
+      body: 'Infrastructure stress intersecting with technology disruption signals SCADA/ICS and grid-reliability exposure.',
+      type: 'discovery'
     }
   ];
 

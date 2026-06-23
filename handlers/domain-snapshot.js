@@ -875,17 +875,41 @@ module.exports = async function handler(req, res) {
         src('CISA KEV', byKey('CISAKEV_2'))   // 10: election/governance cyber integrity (reused)
       ], { clusterBoost: clusterBoosts.governance }),
       infrastructure: buildDomain('infrastructure', [
-        src('World Bank Infrastructure', byKey('WorldBankInfra')),
-        src('NOAA NWS Alerts', byKey('NOAANWSAlerts')),
-        src('USGS Earthquakes', byKey('USGSEarthquakes')),
-        src('CISA KEV', byKey('CISAKEV_2')),
-        src('Fed Reg FERC', byKey('FedRegFERC')),
-        src('Fed Reg DHS', byKey('FedRegDHS')),
-        src('Fed Reg DOT', byKey('FedRegDOT')),
-        src('Fed Reg HUD', byKey('FedRegHUD')),
-        src('CISA Advisories', byKey('CISAAdvisories')),
-        src('Fed Reg Army Corps', byKey('FedRegArmyCorps'))
-      ]),
+        // CIVIL infrastructure parity with energy: domain-specific structural
+        // stress drivers FIRST (asset condition / operational metrics / funding),
+        // then cross-domain pressure + workforce + regulatory context. Mirrors
+        // energy's 15-feed structure (operational + reliability + regulatory +
+        // workforce + cross-domain) translated to roads / bridges / water-sewer
+        // mains / the electric GRID / transit / dams-levees / cyber-physical /
+        // construction & public works / deferred maintenance / capital funding.
+        // ── ASSET CONDITION & OPERATIONAL METRICS (domain-specific stress) ──
+        src('FRED Construction Spending', byKey('FREDConstructionSpending')),  // 1: public-works / construction output + materials proxy (cement/steel-driven), ASSET_BUILD stress
+        src('FRED Transportation Index', byKey('FREDTransportationIndex')),    // 2: freight / transit reliability operational metric (parallels EIA Electricity ops)
+        src('PHMSA Incidents', byKey('PHMSAIncidents')),                       // 3: pipeline / water-sewer main leaks + rail derailments = real-time ASSET_FAILURE (parallels FERC/NERC grid outages)
+        src('FRED Federal Investment', byKey('FREDFederalInvestment')),        // 4: federal capital funding / BIL-IIJA disbursement proxy (FUNDING stress)
+        // ── OPERATIONAL / TRANSPORT RELIABILITY CONTEXT ──
+        src('World Bank Logistics Index', byKey('WBLogisticsLPI')),  // 5: transport / materials-movement reliability (transit + supply-chain cascade)
+        src('World Bank Infrastructure', byKey('WorldBankInfra')),   // 6: structural infrastructure index (context)
+        // ── CROSS-DOMAIN PRESSURE / CASCADE (asset-stress cluster, reused) ──
+        // clusterBoost (below) is the in-file analog of energy's cross-domain
+        // pressure / asset-condition internal feed: ingest cluster severity is
+        // routed to the infrastructure domain to detect multi-modal breakdown
+        // (grid outage → transit signaling, water main failure → public-health).
+        src('NOAA NWS Alerts', byKey('NOAANWSAlerts')),  // 7: weather → road / transit / grid stress (reused)
+        src('USGS Earthquakes', byKey('USGSEarthquakes')),  // 8: seismic → bridge / dam / pipeline stress (reused)
+        src('CISA KEV', byKey('CISAKEV_2')),  // 9: cyber-physical → SCADA / ICS grid + water threat (reused)
+        src('CISA Advisories', byKey('CISAAdvisories')),  // 10: ICS / control-system advisories (reused)
+        // ── WORKFORCE / LABOR AVAILABILITY (construction + maintenance) ──
+        src('UAW Strike Tracker', byKey('UAWStrikeTracker')),  // 11: construction / trades work stoppages + labor walkouts (reused from industry)
+        src('Fed Reg OSHA', byKey('FedRegOSHA')),  // 12: construction / maintenance worker safety regulatory (reused)
+        src('Fed Reg DOL', byKey('FedRegDOL')),    // 13: labor / apprenticeship / workforce regulatory (reused)
+        // ── REGULATORY ENTRY-POINTS (funding + mode authorities) ──
+        src('Fed Reg FERC', byKey('FedRegFERC')),  // 14: grid transmission/distribution regulatory
+        src('Fed Reg DHS', byKey('FedRegDHS')),    // 15: critical-infrastructure security regulatory
+        src('Fed Reg DOT', byKey('FedRegDOT')),    // 16: roads / transit / rail / air mode regulatory
+        src('Fed Reg HUD', byKey('FedRegHUD')),    // 17: housing / urban capital programs regulatory
+        src('Fed Reg Army Corps', byKey('FedRegArmyCorps'))  // 18: dams / levees / civil-works regulatory + USACE funding
+      ], { clusterBoost: clusterBoosts.infrastructure }),
       agriculture:    buildDomain('agriculture',    [
         src('USDA NASS', byKey('USDA')),
         src('RSS Agriculture', byKey('RSSAgriculture')),

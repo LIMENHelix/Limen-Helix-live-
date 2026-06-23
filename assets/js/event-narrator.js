@@ -41,6 +41,16 @@
         { label: 'analyze grid resilience', type: 'analysis' }
       ]
     },
+    infrastructure: {
+      observation: 'Infrastructure domain stress above threshold.',
+      drivers: ['bridge inspection failures', 'water/sewer main breaks', 'deferred maintenance backlog'],
+      options: [
+        { label: 'investigate structural asset conditions', type: 'analysis' },
+        { label: 'explore resilient infrastructure design', type: 'discovery' },
+        { label: 'monitor grid and transit reliability', type: 'monitoring' },
+        { label: 'analyze capital funding gaps', type: 'analysis' }
+      ]
+    },
     environment: {
       observation: 'Environment domain stress above threshold.',
       drivers: ['temperature anomalies', 'forest loss signals', 'ecological indicators'],
@@ -536,7 +546,7 @@
   var DISPLAY_NAMES = {
     economy: 'Economy', energy: 'Energy', environment: 'Environment',
     health: 'Health', technology: 'Technology', research: 'Research',
-    supplyChain: 'Supply chain'
+    supplyChain: 'Supply chain', infrastructure: 'Infrastructure'
   };
 
   function _onBalanceShift(e) {

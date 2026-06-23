@@ -119,7 +119,20 @@
       label: 'Maintenance and response readiness',
       arousal: 'Emergency response activation — high arousal during infrastructure failures reflects crisis-mode operations',
       coherence: 'Prioritization quality — low coherence during multi-asset stress suggests fragmented maintenance decisions',
-      cognitiveLoad: 'Asset management complexity — high load with deferred maintenance backlog reflects capacity constraints'
+      cognitiveLoad: 'Asset management complexity — high load with deferred maintenance backlog reflects capacity constraints',
+      // Civil execution-readiness map: regulation state → infrastructure intake/triage posture.
+      // Consumed by infrastructure-clarity-operator outcome tracking (permit approvals,
+      // construction velocity, maintenance completion rate). Civil identity only:
+      // roads/bridges, water & sewer mains, the electric grid (transmission/distribution
+      // reliability), transit, dams & levees, cyber-physical SCADA/ICS, public works.
+      readiness: {
+        calm: 'Steady operator state — safe to accept new long-cycle work: environmental permits, NEPA/feasibility studies, grid-interconnection reviews, bridge/dam inspection planning, multi-year capital programming.',
+        focused: 'Productive engagement — sustain in-flight capital projects and scheduled maintenance; admit only well-scoped new intake (single-asset rehab, routine SCADA patch windows).',
+        pressured: 'Elevated load — defer discretionary maintenance inspections and non-urgent permit reviews; hold new long-cycle intake; keep construction velocity and reliability monitoring active.',
+        overloaded: 'Saturated — pause all new capital project intake; focus solely on critical-asset triage: structurally deficient bridges, dam/levee integrity, water-main breaks, CISA KEV / ICS exposures on operational SCADA.',
+        recovering: 'Stabilizing — resume deferred maintenance inspections first, then reopen permit and capital intake gradually as construction velocity and maintenance completion rate normalize.',
+        unknown: 'Regulation state unavailable — default to snapshot-driven prioritization (deferred-maintenance backlog and asset-criticality ranking).'
+      }
     },
     agriculture: {
       label: 'Seasonal and supply chain pressure',
@@ -238,6 +251,17 @@
       cognitiveLoad: 'Processing burden'
     };
 
+    // Resolve regulation state → domain execution-readiness guidance, when the domain
+    // defines a readiness map (e.g. infrastructure: calm/focused/pressured/overloaded/
+    // recovering → intake/triage posture). Domains without a readiness map resolve to null
+    // (unchanged behavior — they continue using snapshot-driven prioritization).
+    var readinessMap = interp.readiness || null;
+    var readinessGuidance = null;
+    if (readinessMap) {
+      var regKey = raw.regulation;
+      readinessGuidance = (regKey && readinessMap[regKey]) || readinessMap.unknown || null;
+    }
+
     return {
       // Normalized metrics (0-1)
       arousal: raw.arousal,
@@ -255,6 +279,10 @@
 
       // Domain-specific interpretation
       interpretation: interp,
+
+      // Execution-readiness guidance resolved from current regulation state
+      // (null for domains without a readiness map — energy and others unchanged).
+      readiness: readinessGuidance,
 
       // Metadata
       timestamp: raw.timestamp,

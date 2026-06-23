@@ -91,7 +91,7 @@
     religion:      ['copyrights'],
     population:    ['research-papers'],
     environment:   ['research-grants', 'patents'],
-    infrastructure:['business-grants', 'sba-loans'],
+    infrastructure:['patents', 'research-grants', 'research-papers', 'business-grants', 'sba-loans'],
     supplyChain:   ['business-grants', 'sba-loans', 'franchise']
   };
 

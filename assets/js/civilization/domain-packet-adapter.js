@@ -366,6 +366,15 @@
     // null for other domains — harmless additive field). Compact + prompt-safe.
     var _emO = function (v) { return (v && typeof v === 'object' && !Array.isArray(v)) ? v : null; };
     var _bem = _emO(slot && slot.brainEnergyModel);
+    // Infrastructure parity: infrastructure brains emit a recurrent CIVIL-asset
+    // lifecycle model (brainInfrastructureModel) that follows the SAME envelope
+    // signature as energy's energyModel, so Civilization + the Main Brain consume
+    // it identically. The civil model tracks the asset lifecycle (condition
+    // trajectory, deferred-maintenance accumulation, capital-funding regulation,
+    // failure prediction) rather than neurological cycles. We map its civil field
+    // names onto the shared deepBrain envelope. Energy wins when both are present
+    // (a slot is single-domain, so they never collide in practice).
+    var _bim = _emO(slot && slot.brainInfrastructureModel);
     var deepBrain = _bem ? {
       cycle:           _num(_bem.cycle),
       predictionError: _emO(_bem.predictionError),
@@ -375,6 +384,40 @@
       predictedStress: _num(_bem.predictedStress),
       prior:           _bem.prior ? { expectedStress: _num(_bem.prior.expectedStress), confidence: _num(_bem.prior.confidence), samples: _num(_bem.prior.samples) } : null,
       domainDiagnosisPacket: _emO(_bem.domainDiagnosisPacket)   // F1: structured DomainDiagnosisPacket schema
+    } : _bim ? {
+      // Civil-asset lifecycle mapped onto the shared recurrent envelope.
+      // assetConditionCycle → cycle, capitalAllocationRegulation → regulation,
+      // failureProbability → predictedStress, priorAssetHealth → prior,
+      // domainAssetPacket → domainDiagnosisPacket (analogous to domainDiagnosisPacket).
+      cycle:           _num(_bim.assetConditionCycle != null ? _bim.assetConditionCycle : _bim.cycle),
+      predictionError: _emO(_bim.predictionError),
+      regulationState: (_bim.capitalAllocationRegulation && _bim.capitalAllocationRegulation.state)
+                       || (_bim.capFundingState && _bim.capFundingState.state)
+                       || _str(_bim.capFundingState)
+                       || (_bim.regulation && _bim.regulation.state)
+                       || null,
+      regulation:      _emO(_bim.capitalAllocationRegulation) || _emO(_bim.regulation),
+      readyForHandoff: _bim.readyForHandoff === true,
+      // failureProbability is the civil predicted-stress signal (failure
+      // likelihood of the asset base), carried through unchanged in [0..1].
+      predictedStress: _num(_bim.failureProbability != null ? _bim.failureProbability : _bim.predictedStress),
+      prior:           (_bim.priorAssetHealth || _bim.prior)
+                       ? (function (p) {
+                           return {
+                             // expectedStress mirrors energy: here the prior
+                             // expected asset-failure / distress level.
+                             expectedStress: _num(p.expectedStress != null ? p.expectedStress : p.expectedFailure),
+                             confidence:     _num(p.confidence),
+                             samples:        _num(p.samples)
+                           };
+                         })(_bim.priorAssetHealth || _bim.prior)
+                       : null,
+      // Civil asset-lifecycle telemetry preserved alongside the shared envelope
+      // so downstream artifact expansion can feed infrastructure-investment
+      // decisions (deferred-maintenance accumulation, depreciation projection).
+      depreciationProjection: _num(_bim.depreciationProjection),
+      maintenanceDeficitAccum: _num(_bim.maintenanceDeficitAccum),
+      domainDiagnosisPacket: _emO(_bim.domainAssetPacket) || _emO(_bim.domainDiagnosisPacket)
     } : null;
 
     // Feed health. Configured count is the MAX of every honest declaration

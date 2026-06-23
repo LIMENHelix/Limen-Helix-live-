@@ -71,14 +71,29 @@
   InfrastructureBrain.prototype.init = function () {
     Base.prototype.init.call(this);
 
+    // ── One-shot loaders (mirror energy-brain init): real entities, validated distress
+    //    signals, real source bundles, L1 mad-lib scan, and the grid sub-portal layer. ──
+    try { this._infraLoadCommandBoardCompanies(); } catch (e) {}  // C6-followup: real entities (state.companies starved)
+    try { this._infraLoadBrainSignals(); } catch (e) {}           // distress ONLY from the validated Thing pipeline
+    try { this._infraLoadDiagnosisBundles(); } catch (e) {}       // G1: load real artifact-source bundles (only ones that exist)
+    try { this._infraLoadL1PortalDepth(); } catch (e) {}          // J1: scan L1 branches (treatments mad-lib -> NOT admitted; real tickers only)
+    try { this._infraLoadGridDiagnoses(); } catch (e) {}          // GRID: load grid sub-portal (real-content, unbundled) as an additive LAYER
+
     // Diagnosis → signal condition mapping
     // These map live conditions to which diagnoses become active
+    // Condition tokens are INFRASTRUCTURE-NATIVE feed signals (construction indices,
+    // grid reserve margins, maintenance backlogs, federal spending) PLUS a small set of
+    // external-domain event tokens (CYBER_ATTACK from tech/intelligence, SUPPLY_DISRUPTION).
+    // The infra-native tokens (reserve_margin_low, capex_budget_decline, etc.) are emitted
+    // by normalizeSignals from real feeds — grounding diagnosis activation in fed reality,
+    // not borrowed energy-domain signals.
     this.diagnosisIndex = {
-      'GRID_DEGRADATION':         ['grid_stress', 'utility_failure', 'INFRASTRUCTURE_ATTACK', 'aging_infrastructure', 'structural_stress', 'transmission_congestion', 'substation_bottleneck', 'transformer_backlog'],
+      'GRID_DEGRADATION':         ['grid_stress', 'utility_failure', 'INFRASTRUCTURE_ATTACK', 'aging_infrastructure', 'structural_stress', 'transmission_congestion', 'substation_bottleneck', 'transformer_backlog', 'reserve_margin_low', 'utility_capex_decline', 'substation_age_high', 'transformer_backlog_growing'],
       'SUPPLY_CHAIN_BOTTLENECK':  ['materials_shortage', 'logistics_disruption', 'SUPPLY_DISRUPTION', 'construction_delay', 'transformer_backlog', 'interconnection_delay'],
       'CAPACITY_OVERLOAD':        ['capacity_constraint', 'demand_surge', 'congestion', 'logistics_stress', 'datacenter_demand', 'peak_curtailment', 'transmission_congestion', 'cooling_infrastructure_strain', 'self_generation_strain'],
-      'INFRA_FUNDING_COLLAPSE':   ['funding_gap', 'FISCAL_CRISIS', 'budget_cut', 'bond_market_stress'],
-      'MAINTENANCE_DEFICIT':      ['maintenance_critical', 'asset_deterioration', 'inspection_failure', 'deferred_maintenance', 'substation_bottleneck'],
+      'TRANSPORTATION_DISRUPTION':['road_network_failure', 'bridge_closure', 'transit_capacity_loss', 'port_disruption', 'modal_shift_stress', 'last_mile_failure', 'congestion', 'logistics_stress'],
+      'INFRA_FUNDING_COLLAPSE':   ['funding_gap', 'FISCAL_CRISIS', 'budget_cut', 'bond_market_stress', 'capex_budget_decline', 'municipal_bond_yield_spike', 'federal_grant_unfunded'],
+      'MAINTENANCE_DEFICIT':      ['maintenance_critical', 'asset_deterioration', 'inspection_failure', 'deferred_maintenance', 'substation_bottleneck', 'maintenance_backlog_cost_high', 'inspection_failure_rate', 'asset_condition_index_low'],
       'CYBER_PHYSICAL_ATTACK':    ['CYBER_ATTACK', 'INFRASTRUCTURE_ATTACK', 'SCADA_BREACH', 'physical_sabotage']
     };
 
@@ -131,6 +146,45 @@
         signalType: 'cyber_physical_exposure',
         condition: function (s) { return s.stress >= 0.55 && s.diagnoses && s.diagnoses.some(function (d) { return d.active && /CYBER/i.test(d.id || d.name || ''); }); },
         magnitudeFormula: function (s) { return Math.min(1, s.stress * 0.50); }
+      },
+      {
+        // Critical-infrastructure protection — cyber-physical attack on civil systems is a
+        // defense concern (CISA KEV mappings, ICS/SCADA vuln, critical-facility attack surface).
+        targetDomain: 'defense',
+        signalType: 'critical_infrastructure_protection',
+        condition: function (s) { return s.stress >= 0.60 && s.diagnoses && s.diagnoses.some(function (d) { return d.active && /CYBER/i.test(d.id || d.name || ''); }); },
+        magnitudeFormula: function (s) { return Math.min(1, s.stress * 0.50); }
+      },
+      {
+        // CISA/ICS threat-intel coupling — exploited-CVE / SCADA-breach signal feeds intelligence.
+        targetDomain: 'intelligence',
+        signalType: 'infrastructure_threat_intelligence',
+        condition: function (s) { return s.stress >= 0.60 && s.diagnoses && s.diagnoses.some(function (d) { return d.active && /CYBER/i.test(d.id || d.name || ''); }); },
+        magnitudeFormula: function (s) { return Math.min(1, s.stress * 0.55); }
+      },
+      {
+        // Infrastructure → supplyChain transport edge — road/bridge/transit/port disruption
+        // limits the physical movement of goods (distinct from the logistics_constraint edge).
+        targetDomain: 'supplyChain',
+        signalType: 'transport_network_capacity',
+        condition: function (s) { return s.stress >= 0.55 && s.diagnoses && s.diagnoses.some(function (d) { return d.active && /TRANSPORT/i.test(d.id || d.name || ''); }); },
+        magnitudeFormula: function (s) { return Math.min(1, s.stress * 0.50); }
+      },
+      {
+        // Infrastructure is critical to food production — irrigation, drainage, rural roads,
+        // grain storage. Physical-system degradation (NOT cost) constrains farm access/output.
+        targetDomain: 'agriculture',
+        signalType: 'irrigation_drainage_capacity',
+        condition: function (s) { return s.stress >= 0.55 && s.diagnoses && s.diagnoses.some(function (d) { return d.active && /(SUPPLY_CHAIN_BOTTLENECK|MAINTENANCE_DEFICIT)/i.test(d.id || d.name || ''); }); },
+        magnitudeFormula: function (s) { return Math.min(1, s.stress * 0.40); }
+      },
+      {
+        // Infrastructure science (materials, structural resilience, sensor networks, climate-
+        // adaptive design) surfaces applied-research investment opportunity. High bar.
+        targetDomain: 'research',
+        signalType: 'infrastructure_resilience_research_gap',
+        condition: function (s) { return s.stress >= 0.60 && s.diagnoses && s.diagnoses.some(function (d) { return d.active && /(MAINTENANCE_DEFICIT|CYBER_PHYSICAL_ATTACK)/i.test(d.id || d.name || ''); }); },
+        magnitudeFormula: function (s) { return Math.min(1, s.stress * 0.45); }
       }
     ];
   };
@@ -168,20 +222,55 @@
       // Grid capacity — reserve margin below 10%
       if ((fn.indexOf('grid') !== -1 || fn.indexOf('reserve') !== -1 || fn.indexOf('capacity') !== -1) && f.value !== undefined && f.value < 10 && f.value >= 0) {
         this._activeConditions.push('grid_stress');
+        this._activeConditions.push('reserve_margin_low');
         signals.push('CRITICAL: grid reserve margin below 10% — at ' + fmtNumber(f.value, 1) + '%');
+      }
+
+      // Utility / grid capex declining — aging-asset reinvestment shortfall
+      if ((fn.indexOf('utility') !== -1 || fn.indexOf('capex') !== -1) && f.value !== undefined && f.value < -2) {
+        this._activeConditions.push('utility_capex_decline');
+        this._activeConditions.push('capex_budget_decline');
+        signals.push('ELEVATED: utility/grid capex declining — ' + f.value.toFixed(1) + '%');
       }
 
       // Federal spending drop — 3% quarterly decline is a real funding signal
       if ((fn.indexOf('federal') !== -1 || fn.indexOf('spending') !== -1 || fn.indexOf('fiscal') !== -1) && f.value !== undefined && f.value < -3) {
         this._activeConditions.push('funding_gap');
+        this._activeConditions.push('capex_budget_decline');
         signals.push('ELEVATED: federal infrastructure spending declining — ' + f.value.toFixed(1) + '% drop');
+      }
+
+      // Municipal bond yield spike — capital-markets funding stress for civil projects
+      if ((fn.indexOf('bond') !== -1 || fn.indexOf('municipal') !== -1 || fn.indexOf('yield') !== -1) && f.value !== undefined && f.value > 3) {
+        this._activeConditions.push('municipal_bond_yield_spike');
+        this._activeConditions.push('bond_market_stress');
+        signals.push('ELEVATED: municipal bond yield spike — funding cost stress at ' + f.value.toFixed(1));
       }
 
       // Maintenance backlog
       if ((fn.indexOf('maintenance') !== -1 || fn.indexOf('backlog') !== -1 || fn.indexOf('deferred') !== -1) && f.value !== undefined && f.value > 0) {
         this._activeConditions.push('maintenance_critical');
         this._activeConditions.push('deferred_maintenance');
+        this._activeConditions.push('maintenance_backlog_cost_high');
         signals.push('ELEVATED: maintenance backlog signal detected — value ' + f.value.toFixed(1));
+      }
+
+      // Inspection failure rate / asset condition index
+      if ((fn.indexOf('inspection') !== -1 || fn.indexOf('condition index') !== -1 || fn.indexOf('asset condition') !== -1) && f.value !== undefined && f.value > 0) {
+        this._activeConditions.push('inspection_failure');
+        this._activeConditions.push('inspection_failure_rate');
+        this._activeConditions.push('asset_condition_index_low');
+        signals.push('ELEVATED: inspection failure / asset deterioration signal — value ' + f.value.toFixed(1));
+      }
+
+      // Roads / bridges / transit / ports — transportation-system disruption
+      if ((fn.indexOf('road') !== -1 || fn.indexOf('bridge') !== -1 || fn.indexOf('transit') !== -1 || fn.indexOf('port') !== -1 || fn.indexOf('highway') !== -1) && f.value !== undefined && (f.value > 3 || f.value < -3)) {
+        this._activeConditions.push('congestion');
+        if (fn.indexOf('bridge') !== -1) this._activeConditions.push('bridge_closure');
+        if (fn.indexOf('road') !== -1 || fn.indexOf('highway') !== -1) this._activeConditions.push('road_network_failure');
+        if (fn.indexOf('transit') !== -1) this._activeConditions.push('transit_capacity_loss');
+        if (fn.indexOf('port') !== -1) this._activeConditions.push('port_disruption');
+        signals.push('ELEVATED: transportation-system stress (' + (f.name || 'transport') + ') — value ' + f.value.toFixed(1));
       }
 
       // Cyber / SCADA threat to infrastructure — match the REAL feed identities
@@ -470,6 +559,12 @@
   InfrastructureBrain.prototype.surfaceOpportunities = function () {
     // Call base to get companies + convergence
     Base.prototype.surfaceOpportunities.call(this);
+
+    // C6-followup: if the snapshot didn't supply companies, fall back to real
+    // command-board entities so opportunities are real, not scaffold.
+    if ((!this.state.companies || !this.state.companies.length) && this._cbInfraCompanies && this._cbInfraCompanies.length) {
+      this.state.companies = this._cbInfraCompanies;
+    }
 
     var opps = [];
     var stress = this.state.stress;
@@ -1081,22 +1176,58 @@
       var mem = this.state.memory || (this.state.memory = {}); var log = mem.outcomeLog || (mem.outcomeLog = []);
       log.push({ cycle: em.cycle, predictionError: Math.round(pe.total * 1000) / 1000, stress: obs.stress, activeDx: obs.diagnosisCount, regulation: reg.state, timestamp: obs.timestamp }); if (log.length > 40) log.shift();
       try { this._computeInfraHigherLayers(); } catch (e) {}
+
+      // GRID — grid sub-portal layer (additive; BEFORE the DDP build so the primary packet's
+      // promptView advertises it). Never touches the validated 6-diagnosis spine.
+      try { this._infraBuildGridLayer(); } catch (e) {}
+
+      // DDP — build the DomainDiagnosisPacket (8-section contract) for the primary diagnosis,
+      // and one per diagnosis. Schema-only: never invents data. Consumed by the Civilization cockpit.
+      try {
+        var _diags = this.state.diagnoses || [];
+        var _primary = _diags.filter(function (d) { return d.active; })[0] || _diags[0] || null;
+        var _self = this;
+        em.domainDiagnosisPacket = this._buildDomainDiagnosisPacket(_primary);
+        this.state.infrastructureDomainDiagnosisPackets = _diags.map(function (d) { return _self._buildDomainDiagnosisPacket(d); });
+      } catch (e) {}
     };
 
     P._computeInfraHigherLayers = function () {
       this._computeInfraImmune(); this._computeInfraAwareness(); this._computeInfraConscience(); this._computeInfraIntuition();
+      try { this._infraComputeSimulation(); } catch (e) {}
+      try { this._infraComputeExecutiveReport(); } catch (e) {}
       // Generic cognition surface the console can render for ANY domain.
       this.state.cognition = { domain: 'infrastructure', model: { cycle: (this.state.infraModel || {}).cycle || 0, predictionError: (this.state.infraModel || {}).predictionError || null, predictedStress: (this.state.infraModel || {}).predictedStress, regulation: (this.state.infraModel || {}).regulation || null }, awareness: this.state.infraAwareness || null, conscience: this.state.infraConscience || null, immune: this.state.infraImmune || null, intuition: this.state.infraIntuition || null };
     };
     P._computeInfraImmune = function () {
       var s = this.state, em = s.infraModel || {}, reg = em.regulation || {}, ant = [];
+      var bs = (typeof this._infraBundleStates === 'function') ? this._infraBundleStates() : [];
+      bs.forEach(function (b) {
+        if (b.bundleStatus === 'missing') ant.push({ type: 'source-bundle-missing', dx: b.dxId, severity: 'medium', action: 'block-from-prompt-evidence' });
+        if (b.buildMethod === 'external-source-authored') ant.push({ type: 'external-source-authored-needs-human-verification', dx: b.dxId, severity: 'low', action: 'allow-with-warning' });
+        if (b.aliasRisk === 'medium' || b.aliasRisk === 'high') ant.push({ type: 'alias-risk-bundle', dx: b.dxId, severity: b.aliasRisk, action: 'allow-with-warning' });
+        if (b.bundleStatus === 'found' && b.shallow) ant.push({ type: 'root-only-shallow-bundle', dx: b.dxId, severity: 'low', action: 'allow-with-warning' });
+      });
       var pe = (em.predictionError && em.predictionError.total) || 0;
       if (pe > 0.4) ant.push({ type: 'prediction-error-spike', severity: 'medium', action: 'lower-confidence', value: Math.round(pe * 1000) / 1000 });
       if (reg.stale) ant.push({ type: 'stale-feeds', severity: 'low', action: 'flag' });
       if (reg.flooding) ant.push({ type: 'opportunity-flood', severity: 'medium', action: 'inhibit' });
       if (reg.starving) ant.push({ type: 'stress-without-opportunity', severity: 'low', action: 'flag' });
+      // L1 portal treatments are mad-lib templates; quarantine from evidence.
+      var _l1 = s._l1DepthCache;
+      if (_l1 && _l1.byDiagnosis && Object.keys(_l1.byDiagnosis).some(function (dx) { return _l1.byDiagnosis[dx].madLibTreatments > 0; })) {
+        ant.push({ type: 'l1-synthetic-treatments', severity: 'medium', action: 'quarantine', note: 'L1 portal treatments are mad-lib templates (fixed-verb family); quarantined from evidence — only real tickers surfaced relevance-unverified' });
+      }
       var sev = ant.some(function (a) { return a.severity === 'high'; }) ? 'high' : ant.some(function (a) { return a.severity === 'medium'; }) ? 'medium' : ant.length ? 'low' : 'none';
-      s.infraImmune = { version: 1, immuneState: sev === 'high' ? 'alert' : sev === 'medium' ? 'active' : sev === 'low' ? 'watch' : 'clear', severity: sev, antigens: ant.slice(0, 10), lastScanAt: em.updated || null };
+      s.infraImmune = {
+        version: 1, immuneState: sev === 'high' ? 'alert' : sev === 'medium' ? 'active' : sev === 'low' ? 'watch' : 'clear', severity: sev,
+        antigens: ant.slice(0, 12),
+        quarantines: ['L1-portal-treatments-madlib'],
+        allowedWithWarning: ant.filter(function (a) { return a.action === 'allow-with-warning'; }).map(function (a) { return a.type + (a.dx ? (':' + a.dx) : ''); }),
+        blockedFromPrompt: ant.filter(function (a) { return a.action === 'block-from-prompt-evidence'; }).map(function (a) { return a.dx; }),
+        blockedFromTraversal: ['L2'],
+        lastScanAt: em.updated || null
+      };
       return s.infraImmune;
     };
     P._computeInfraAwareness = function () {
@@ -1147,6 +1278,585 @@
       sourceType: opp.source,
       confidence: this.state.confidence
     }, 'investor');
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // CIVIL COGNITION PARITY — fallback loaders, source-bundle machinery, L1 mad-lib
+  // scan, grid sub-portal layer, bounded simulation + executive report, and the
+  // 8-section DomainDiagnosisPacket the Civilization cockpit consumes.
+  // Mirrors energy-brain STRUCTURE exactly; only the CONTENT is civil (roads, bridges,
+  // water/sewer, the electric grid, transit, dams/levees, cyber-physical SCADA/CISA,
+  // construction, deferred maintenance, capital funding). Never fabricates evidence.
+  // ════════════════════════════════════════════════════════════════════════════
+
+  // ── DDP schema helpers (mirror energy _ddpPresent / _ddpCompleteness) ──
+  var INFRA_DDP_SCHEMA_VERSION = 'infrastructure-ddp-1';
+  function _infraDdpPresent(v) {
+    if (v == null) return false;
+    if (Array.isArray(v)) return v.length > 0;
+    if (v === 'missing' || v === '' || v === 'none') return false;
+    return true;
+  }
+  function _infraDdpCompleteness(section, keys) {
+    var have = 0; for (var i = 0; i < keys.length; i++) { if (_infraDdpPresent(section[keys[i]])) have++; }
+    return { have: have, total: keys.length, pct: keys.length ? Math.round(have / keys.length * 100) : 0 };
+  }
+  var INFRA_EM_STRESS_FLOOR = 0.30;
+
+  // ── C6 fallback: real entities from command-board-data (state.companies starved) ──
+  InfrastructureBrain.prototype._infraLoadCommandBoardCompanies = function () {
+    var self = this;
+    if (self._cbInfraCompanies) return;            // one-shot
+    self._cbInfraCompanies = [];
+    try {
+      fetch('/assets/data/command-board-data.json')
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (data) {
+          if (!data) return;
+          var arr = Array.isArray(data) ? data : (Object.keys(data).map(function (k) { return data[k]; }).find(Array.isArray) || []);
+          self._cbInfraCompanies = arr
+            .filter(function (x) { return x && x.d === 'infrastructure' && x.t; })
+            .map(function (x) { return { name: x.n, ticker: x.t, cik: x.c, phase: x.p, trajectory: x.tr }; });
+        })
+        .catch(function () {});
+    } catch (e) {}
+  };
+
+  // ── Distress signals come ONLY from the validated Thing pipeline (/api/brain-signals).
+  //    NEVER from raw command-board phase/ds. One-shot; on failure _pubSignals stays {}. ──
+  InfrastructureBrain.prototype._infraLoadBrainSignals = function () {
+    var self = this;
+    if (self._pubSignals) return;                  // one-shot
+    self._pubSignals = {};
+    try {
+      fetch('/api/brain-signals?domain=infrastructure')
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (j) {
+          if (!j || !j.publishable) return;
+          var m = {};
+          j.publishable.forEach(function (s) { if (s.ticker) m[s.ticker] = s; });
+          self._pubSignals = m;                    // {} today (gate abstains on degenerate data)
+        })
+        .catch(function () {});
+    } catch (e) {}
+  };
+
+  // ── F3 — canonical diagnosis resolution. Prefers window.LIMENDomainIdentity.INFRA_PORTAL_TO_BRAIN
+  //    (single source of truth), else falls back to INFRA_DIAGNOSIS_ALIASES. Non-aliased
+  //    diagnoses are canonical to themselves. Never asserts a bundle exists. ──
+  var INFRA_DIAGNOSIS_ALIASES = {
+    GRID_DEGRADATION:        { target: 'GRID_RELIABILITY_FAILURE', reviewStatus: 'corpus-aliased', risk: 'low', note: 'corpus emits GRID_RELIABILITY_FAILURE (FERC/NERC reliability) for grid degradation' },
+    CAPACITY_OVERLOAD:       { target: 'CAPACITY_CONSTRAINT', reviewStatus: 'corpus-aliased', risk: 'low', note: 'corpus emits CAPACITY_CONSTRAINT for capacity overload' },
+    MAINTENANCE_DEFICIT:     { target: 'DEFERRED_MAINTENANCE', reviewStatus: 'corpus-aliased', risk: 'low', note: 'corpus emits DEFERRED_MAINTENANCE for maintenance deficit' },
+    CYBER_PHYSICAL_ATTACK:   { target: 'CYBER_GRID_ATTACK', reviewStatus: 'human-approved', risk: 'medium', note: 'mapped to cyber-grid-attack bundle; verify CISA/ICS evidence is appropriate for broader civil infrastructure' }
+  };
+  InfrastructureBrain.prototype._infraResolveCanonicalDiagnosis = function (dxId) {
+    if (!dxId) return { canonicalDiagnosisId: null, aliasUsed: false, aliasReviewStatus: null, aliasRisk: null, aliasNote: null };
+    var target = null;
+    try {
+      var idy = (typeof window !== 'undefined') ? window.LIMENDomainIdentity : null;
+      var map = idy && idy.INFRA_PORTAL_TO_BRAIN;
+      if (map && map[dxId]) {
+        var row = map[dxId];
+        // map may yield a string target or a {target,...} object
+        if (typeof row === 'string') target = row;
+        else if (row && row.target) target = row.target;
+      }
+    } catch (e) {}
+    var local = INFRA_DIAGNOSIS_ALIASES[dxId] || null;
+    if (!target && local) target = local.target;
+    if (target) {
+      return { canonicalDiagnosisId: target, aliasUsed: true, aliasReviewStatus: (local && local.reviewStatus) || 'corpus-aliased', aliasRisk: (local && local.risk) || 'low', aliasNote: (local && local.note) || null };
+    }
+    return { canonicalDiagnosisId: dxId, aliasUsed: false, aliasReviewStatus: null, aliasRisk: null, aliasNote: null };   // canonical to self
+  };
+
+  // ── G1 — load REAL source bundles (one-shot, async). Resolves aliases to canonical IDs
+  //    BEFORE fetching. Only files that exist resolve to 'found'; 404s -> 'missing'.
+  //    Never fabricates a bundle. ──
+  InfrastructureBrain.prototype._infraLoadDiagnosisBundles = function () {
+    var self = this;
+    if (self._infraBundleLoadPromise) return self._infraBundleLoadPromise;
+    self._bundleCache = self._bundleCache || {};
+    self._bundleStatusMap = self._bundleStatusMap || {};
+    var ids = {};
+    var known = ['GRID_DEGRADATION', 'SUPPLY_CHAIN_BOTTLENECK', 'CAPACITY_OVERLOAD', 'TRANSPORTATION_DISRUPTION', 'INFRA_FUNDING_COLLAPSE', 'MAINTENANCE_DEFICIT', 'CYBER_PHYSICAL_ATTACK'];
+    var diags = (self.state && self.state.diagnoses) || [];
+    var allDxIds = diags.map(function (d) { return d.id; }).concat(known);
+    for (var i = 0; i < allDxIds.length; i++) { var c = self._infraResolveCanonicalDiagnosis(allDxIds[i]).canonicalDiagnosisId; if (c) ids[c] = true; }
+    self._infraBundleLoadPromise = Promise.all(Object.keys(ids).map(function (cid) {
+      return fetch('/assets/data/artifact-source-index/by-diagnosis/' + encodeURIComponent(cid) + '.json')
+        .then(function (r) { return (r && r.ok) ? r.json() : null; })
+        .then(function (data) { self._bundleStatusMap[cid] = data ? 'found' : 'missing'; if (data) self._bundleCache[cid] = data; })
+        .catch(function () { self._bundleStatusMap[cid] = 'missing'; });
+    })).then(function () { return self._bundleCache; });
+    return self._infraBundleLoadPromise;
+  };
+
+  // ── _infraBundleStates — per-diagnosis canonical resolution + bundle status + provenance ──
+  InfrastructureBrain.prototype._infraBundleStates = function () {
+    var self = this; var diags = (this.state && this.state.diagnoses) || [];
+    return diags.map(function (d) {
+      var c = self._infraResolveCanonicalDiagnosis(d.id);
+      var bundle = (self._bundleCache && self._bundleCache[c.canonicalDiagnosisId]) || null;
+      var known = !!(self._bundleStatusMap && Object.prototype.hasOwnProperty.call(self._bundleStatusMap, c.canonicalDiagnosisId));
+      return {
+        dxId: d.id, active: !!d.active, relevance: (typeof d.relevance === 'number' ? d.relevance : 0),
+        canonical: c.canonicalDiagnosisId, aliasUsed: c.aliasUsed, aliasRisk: c.aliasRisk, aliasReviewStatus: c.aliasReviewStatus,
+        bundleStatus: bundle ? 'found' : (known ? 'missing' : 'unknown'),
+        buildMethod: (bundle && bundle.buildMethod) || null, humanVerification: (bundle && bundle.humanVerification) || null,
+        shallow: !!(bundle && ((bundle.maxDepth || 0) === 0 || (bundle.portalCount || 0) <= 1))
+      };
+    });
+  };
+
+  // ── J1 — L1 portal mad-lib scan. L1 treatments are 100% fixed-verb templates; quarantined
+  //    from evidence. Only real company tickers surface (relevance-unverified). ──
+  var INFRA_MADLIB_VERB = /^(Develop|Establish|Implement|Build|Launch|Design|Deploy|Operationalize|Conduct|Create|Define|Assess|Optimize|Modernize|Strengthen|Enhance|Formalize|Institute|Standardize|Coordinate|Integrate|Calibrate|Evaluate|Streamline|Institutionalize|Configure|Monitor)\b/;
+  InfrastructureBrain.prototype._infraIsMadLibTreatment = function (label) { return !label || INFRA_MADLIB_VERB.test(String(label)); };
+
+  InfrastructureBrain.prototype._infraLoadL1PortalDepth = function () {
+    var self = this;
+    if (self._infraL1LoadPromise) return self._infraL1LoadPromise;
+    var BRANCH = {
+      GRID_DEGRADATION: ['grid', 'transmission', 'substation', 'transformer'],
+      SUPPLY_CHAIN_BOTTLENECK: ['materials', 'construction', 'procurement'],
+      CAPACITY_OVERLOAD: ['datacenter', 'cooling', 'peak'],
+      TRANSPORTATION_DISRUPTION: ['transit', 'roads', 'ports'],
+      INFRA_FUNDING_COLLAPSE: ['federal', 'funding', 'bonds', 'fiscal'],
+      MAINTENANCE_DEFICIT: ['maintenance', 'backlog', 'deferred'],
+      CYBER_PHYSICAL_ATTACK: ['cyber', 'scada', 'ics', 'vulnerab']
+    };
+    self._infraL1Branches = BRANCH;
+    var branches = {}; Object.keys(BRANCH).forEach(function (dx) { BRANCH[dx].forEach(function (b) { branches[b] = true; }); });
+    var byBranch = {};
+    self._infraL1LoadPromise = Promise.all(Object.keys(branches).map(function (b) {
+      return fetch('/assets/data/domains/infrastructure_' + encodeURIComponent(b) + '.json')
+        .then(function (r) { return (r && r.ok) ? r.json() : null; })
+        .then(function (data) {
+          if (!data) { byBranch[b] = null; return; }
+          var acts = data.activations || [], tickers = {}, total = 0, mad = 0;
+          acts.forEach(function (a) {
+            (a.companies || []).forEach(function (c) { if (c && c.ticker_or_id) tickers[c.ticker_or_id] = c.name || c.ticker_or_id; });
+            (a.treatments || []).forEach(function (t) { var l = t && (t.label || t.title); if (l) { total++; if (self._infraIsMadLibTreatment(l)) mad++; } });
+          });
+          byBranch[b] = { file: 'infrastructure_' + b, companyTickers: Object.keys(tickers).map(function (k) { return { ticker: k, name: tickers[k] }; }), treatmentTotal: total, madLibCount: mad, realTreatmentCount: total - mad };
+        })
+        .catch(function () { byBranch[b] = null; });
+    })).then(function () {
+      var byDiagnosis = {};
+      Object.keys(BRANCH).forEach(function (dx) {
+        var tk = {}, total = 0, mad = 0, scanned = 0;
+        BRANCH[dx].forEach(function (b) { var r = byBranch[b]; if (r) { scanned++; r.companyTickers.forEach(function (c) { tk[c.ticker] = c.name; }); total += r.treatmentTotal; mad += r.madLibCount; } });
+        byDiagnosis[dx] = { branchesScanned: scanned, realCompanyTickers: Object.keys(tk).map(function (k) { return { ticker: k, name: tk[k], relevanceUnverified: true }; }), treatmentTotal: total, madLibTreatments: mad, realTreatments: total - mad, admitted: false, reason: 'L1 treatments are mad-lib templates (fixed-verb family) — not source-grade; only company tickers surfaced, relevance unverified' };
+      });
+      self.state._l1DepthCache = { byBranch: byBranch, byDiagnosis: byDiagnosis, scannedAt: (self.state.infraModel && self.state.infraModel.updated) || null };
+      return self.state._l1DepthCache;
+    });
+    return self._infraL1LoadPromise;
+  };
+
+  // ── GRID sub-portal layer (counterpart to energy's data-center layer). Real-content,
+  //    hand-authored, citation-backed civil grid diagnoses + treatments. NO external bundle
+  //    yet (honest bundleStatus='missing'). NEVER merged into the validated 6-diagnosis spine. ──
+  InfrastructureBrain.prototype._infraLoadGridDiagnoses = function () {
+    var self = this;
+    if (self._infraGridLoadPromise) return self._infraGridLoadPromise;
+    self._infraGridLoadPromise = fetch('/assets/data/domains/infrastructure_grid.json')
+      .then(function (r) { return (r && r.ok) ? r.json() : null; })
+      .then(function (data) {
+        if (!data) { self._gridPortal = null; return null; }
+        self._gridPortal = { issues: data.issues || [], activations: data.activations || [], title: data.title || 'Electric Grid' };
+        return self._gridPortal;
+      })
+      .catch(function () { self._gridPortal = null; return null; });
+    return self._infraGridLoadPromise;
+  };
+
+  InfrastructureBrain.prototype._infraBuildGridLayer = function () {
+    var self = this;
+    var gp = self._gridPortal;
+    if (!gp || !gp.issues || !gp.issues.length) {
+      self.state.gridDiagnoses = [];
+      self.state.gridTreatments = [];
+      self.state.gridDomainDiagnosisPackets = [];
+      self.state.gridLayer = { loaded: false, count: 0, activeCount: 0, diagnoses: [], note: 'grid sub-portal not loaded (offline or fetch failed)' };
+      return self.state.gridLayer;
+    }
+    var conditions = self._activeConditions || [];
+    // 1) diagnoses — same condition-match logic as the canonical spine
+    var diagnoses = gp.issues.map(function (iss) {
+      var triggers = (self.diagnosisIndex && self.diagnosisIndex[iss.id]) || [];
+      var matchCount = 0;
+      for (var t = 0; t < triggers.length; t++) {
+        for (var c = 0; c < conditions.length; c++) {
+          if (conditions[c] === triggers[t] || String(conditions[c]).indexOf(triggers[t]) !== -1) matchCount++;
+        }
+      }
+      return {
+        id: iss.id, label: iss.label, summary: iss.summary || '',
+        active: matchCount > 0,
+        relevance: triggers.length ? Math.round((matchCount / triggers.length) * 100) / 100 : 0,
+        circuits: iss.circuits || [],
+        source: 'grid', tier: 'real-content-unbundled', branch: 'grid'
+      };
+    });
+    // 2) treatments — pull from grid node activations whose brainNodeId is in a diagnosis circuit
+    var nodeToDx = {};
+    diagnoses.forEach(function (d) { (d.circuits || []).forEach(function (c) { if (c && c.nodeId) nodeToDx[c.nodeId] = d.id; }); });
+    var treatments = [];
+    (gp.activations || []).forEach(function (act) {
+      var dxId = nodeToDx[act.brainNodeId];
+      if (!dxId) return;
+      (act.treatments || []).forEach(function (t, ti) {
+        treatments.push({
+          id: 'grid_treat_' + act.brainNodeId + '_' + ti,
+          label: t.label, type: t.type, evidence: t.evidence, description: t.description || '',
+          cite: t.cite || null, citation: t.citation || [], steps: t.steps || [],
+          diagnosisId: dxId, nodeId: act.brainNodeId,
+          source: 'grid', madLib: self._infraIsMadLibTreatment ? self._infraIsMadLibTreatment(t.label) : false
+        });
+      });
+    });
+    var evidenceRank = { A: 10, Strong: 10, B: 7, Moderate: 7, C: 4, Emerging: 1 };
+    treatments.sort(function (a, b) { return (evidenceRank[b.evidence] || 0) - (evidenceRank[a.evidence] || 0); });
+    self.state.gridDiagnoses = diagnoses;
+    self.state.gridTreatments = treatments;
+    // 3) compact layer summary (read by every DDP's promptView)
+    self.state.gridLayer = {
+      loaded: true,
+      portalTitle: gp.title,
+      count: diagnoses.length,
+      activeCount: diagnoses.filter(function (d) { return d.active; }).length,
+      diagnoses: diagnoses.map(function (d) {
+        var rc = self._infraResolveCanonicalDiagnosis ? self._infraResolveCanonicalDiagnosis(d.id) : { canonicalDiagnosisId: d.id };
+        var bsStat = (self._bundleStatusMap && self._bundleStatusMap[rc.canonicalDiagnosisId]) || 'missing';
+        return { id: d.id, label: d.label, active: d.active, branch: 'grid', canonicalDiagnosisId: rc.canonicalDiagnosisId, bundleStatus: bsStat, treatmentCount: treatments.filter(function (t) { return t.diagnosisId === d.id; }).length };
+      }),
+      note: 'real-content (hand-authored, citation-backed) sub-portal diagnoses for grid/transmission infrastructure; SEPARATE from the validated 6-diagnosis spine; no external artifact-source bundle yet; never admitted to evidenceAnchors'
+    };
+    // 4) per-diagnosis DDPs via the SAME schema builder (canonical-to-self; bundle 'missing')
+    self.state.gridDomainDiagnosisPackets = diagnoses.map(function (d) {
+      try { return self._buildDomainDiagnosisPacket(d); } catch (e) { return null; }
+    }).filter(Boolean);
+    return self.state.gridLayer;
+  };
+
+  // ── H5 — bounded counterfactual simulation (hypothetical only; UNVERIFIED) ──
+  InfrastructureBrain.prototype._infraComputeSimulation = function () {
+    var s = this.state, em = s.infraModel || {};
+    var base = typeof s.stress === 'number' ? s.stress : 0;
+    function cl(v) { return Math.max(0, Math.min(1, Math.round(v * 1000) / 1000)); }
+    var scenarios = [
+      { type: 'grid_stress', hypothetical: true, assumption: 'reserve margin erodes below 12%', simulatedStress: cl(base + 0.25), risk: 'cascading outages (GRID_DEGRADATION)', intervention: 'NERC reliability monitoring / reserve-margin restoration', falsifier: 'reserve margins hold above 15%' },
+      { type: 'supply_disruption', hypothetical: true, assumption: 'transformer backlog exceeds 12 months', simulatedStress: cl(base + 0.2), risk: 'construction delay (SUPPLY_CHAIN_BOTTLENECK)', intervention: 'supplier-capacity survey / emergency procurement', falsifier: 'transformer backlog clears' },
+      { type: 'funding_collapse', hypothetical: true, assumption: 'federal infrastructure spending down >3% QoQ', simulatedStress: cl(base + 0.3), risk: 'deferred-maintenance acceleration (INFRA_FUNDING_COLLAPSE)', intervention: 'state/municipal bond-market monitor', falsifier: 'federal spending reverses' },
+      { type: 'cyber_attack', hypothetical: true, assumption: 'CISA KEV / CVE count exceeds 35/mo', simulatedStress: cl(base + 0.2), risk: 'SCADA breach (CYBER_PHYSICAL_ATTACK)', intervention: 'CISA KEV scan + ICS patch-status review', falsifier: 'CVE count normalizes to baseline' },
+      { type: 'weather_extreme', hypothetical: true, assumption: 'active NWS alerts exceed 150', simulatedStress: cl(base + 0.15), risk: 'utility failure / grid degradation', intervention: 'emergency-response prep / mutual-aid staging', falsifier: 'alerts clear' }
+    ];
+    var sim = {
+      version: 1, scenarios: scenarios, assumptions: scenarios.map(function (x) { return x.assumption; }),
+      simulatedStress: scenarios.map(function (x) { return x.simulatedStress; }),
+      simulatedDiagnoses: ['GRID_DEGRADATION', 'INFRA_FUNDING_COLLAPSE', 'CYBER_PHYSICAL_ATTACK'], simulatedOpportunities: [],
+      risks: scenarios.map(function (x) { return x.risk; }), interventions: scenarios.map(function (x) { return x.intervention; }),
+      falsifiers: scenarios.map(function (x) { return x.falsifier; }), lastSimulatedAt: em.updated || null
+    };
+    s.infraSimulation = sim; return sim;
+  };
+
+  // ── H6 — executive self-report (compact status card) ──
+  InfrastructureBrain.prototype._infraComputeExecutiveReport = function () {
+    var s = this.state, em = s.infraModel || {}, im = s.infraImmune || {}, aw = s.infraAwareness || {}, con = s.infraConscience || {}, it = s.infraIntuition || {}, sim = s.infraSimulation || {};
+    var bs = (typeof this._infraBundleStates === 'function') ? this._infraBundleStates() : [];
+    var covered = bs.filter(function (b) { return b.bundleStatus === 'found'; }).length;
+    var hv = bs.filter(function (b) { return b.humanVerification === 'required'; }).length;
+    var active = (s.diagnoses || []).filter(function (d) { return d.active; }).sort(function (a, b) { return (b.relevance || 0) - (a.relevance || 0); });
+    var strongest = active[0] || (s.diagnoses || [])[0] || null;
+    var pe = (em.predictionError && em.predictionError.total) || 0;
+    var status = im.immuneState === 'alert' ? 'immune-alert' : hv > 0 ? 'human-review-required' : (bs.length && covered < bs.length) ? 'source-limited' : (em.regulation && em.regulation.starving) ? 'starving' : (em.regulation && em.regulation.state === 'surprised') ? 'surprised' : 'healthy';
+    var rep = {
+      version: 1, brainStatus: status,
+      strongestDiagnosis: strongest ? strongest.id : null,
+      strongestOpportunity: (s.opportunities && s.opportunities[0] && s.opportunities[0].title) || null,
+      confidence: Math.round((1 - pe) * 100) / 100, predictionError: Math.round(pe * 1000) / 1000,
+      regulationState: (em.regulation && em.regulation.state) || null, immuneState: im.immuneState || null,
+      awarenessSummary: aw.selfNarrative || null, conscienceDecision: con.conscienceState || null,
+      intuitionSummary: (it.hunches || []).length + ' hunch(es)', simulationSummary: (sim.scenarios || []).length + ' scenario(s)',
+      artifactReadiness: con.artifactReadinessDecision || null, blockers: (con.blockedClaims || []).slice(0, 6),
+      nextBestAction: (bs.length && covered < bs.length) ? 'build/verify source for uncovered diagnoses (ensure CISA/DOT/EPA/FERC/NERC civil sources are current)' : hv > 0 ? 'human-verify external-source bundles' : 'monitor strongest diagnosis sources (grid reserve margin, federal spending, maintenance backlog)',
+      lastReportAt: em.updated || null
+    };
+    s.infraExecutiveReport = rep; return rep;
+  };
+
+  // ── DDP — the 8-section DomainDiagnosisPacket the Civilization cockpit consumes.
+  //    Mirrors energy's _buildDomainDiagnosisPacket exactly; only the CONTENT is civil. ──
+  InfrastructureBrain.prototype._buildDomainDiagnosisPacket = function (dx) {
+    var s = this.state || {};
+    var em = s.infraModel || {};
+    var portal = s._portalCache || null;
+    var dxId = dx ? (dx.id || null) : null;
+
+    var allTreat = Array.isArray(s.treatments) ? s.treatments : [];
+    var treatments = allTreat.filter(function (t) { return !dxId || t.diagnosisId === dxId; });
+    var implementationSteps = [];
+    for (var ti = 0; ti < treatments.length; ti++) { if (Array.isArray(treatments[ti].steps)) implementationSteps = implementationSteps.concat(treatments[ti].steps); }
+
+    var allOpp = Array.isArray(s.opportunities) ? s.opportunities : [];
+    var opps = allOpp.filter(function (o) { return !dxId || o.diagnosisId === dxId; });
+    var primaryOpp = opps[0] || null;
+    var mc = primaryOpp && primaryOpp.moneyChain ? primaryOpp.moneyChain : null;
+
+    if (primaryOpp && Array.isArray(primaryOpp.steps)) implementationSteps = implementationSteps.concat(primaryOpp.steps);
+    if (primaryOpp && Array.isArray(primaryOpp.fastPath)) implementationSteps = implementationSteps.concat(primaryOpp.fastPath);
+
+    var feeds = s.feeds || {}, sourceFeeds = [];
+    for (var fk in feeds) { if (feeds.hasOwnProperty(fk)) { var f = feeds[fk]; if (f && typeof f === 'object') sourceFeeds.push({ name: f.name || fk, updated: (f && f.updated) || null, source: (f && f.source) || null }); } }
+    if (s._primarySource && !sourceFeeds.length) sourceFeeds.push({ name: 'primary', updated: null, source: s._primarySource });
+
+    var _canon = this._infraResolveCanonicalDiagnosis(dxId);
+    var identity = {
+      domain: 'infrastructure',
+      diagnosisId: dxId,
+      canonicalDiagnosisId: _canon.canonicalDiagnosisId,   // alias map or canonical-to-self
+      aliasUsed: _canon.aliasUsed,
+      aliasReviewStatus: _canon.aliasReviewStatus,          // human-approved | corpus-aliased | null
+      aliasRisk: _canon.aliasRisk,
+      aliasNote: _canon.aliasNote,
+      label: dx ? (dx.label || dx.id || null) : null,
+      phase: s.phase || null,
+      confidence: (dx && typeof dx.relevance === 'number') ? dx.relevance : (typeof s.confidence === 'number' ? s.confidence : null)
+    };
+    // G1 — real source bundle for this canonical id (shipped only when it exists; NEVER fabricated).
+    var _bundle = (this._bundleCache && this._bundleCache[identity.canonicalDiagnosisId]) || null;
+    var _bundleKnown = !!(this._bundleStatusMap && Object.prototype.hasOwnProperty.call(this._bundleStatusMap, identity.canonicalDiagnosisId));
+    var _bl = (_bundle && _bundle.byLane && _bundle.byLane.patents) ? _bundle.byLane.patents : null;
+    var _bArr = function (k) { return (_bl && Array.isArray(_bl[k])) ? _bl[k] : []; };
+    var bundleStatus = _bundle ? 'found' : (_bundleKnown ? 'missing' : 'unknown');
+    var bundleShallow = !!(_bundle && ((_bundle.maxDepth || 0) === 0 || (_bundle.portalCount || 0) <= 1));
+    var bundleResolution = identity.aliasUsed
+      ? (_bundle ? 'alias-resolved-and-bundle-found' : 'alias-resolved-but-bundle-missing')
+      : (_bundle ? 'found' : (_bundleKnown ? 'missing' : 'unknown'));
+    if (!treatments.length && _bl) treatments = _bArr('treatments');             // backfill from REAL bundle only
+    if (!implementationSteps.length && _bl) implementationSteps = _bArr('implementationSteps');
+    var brainState = {
+      infraModel: { version: em.version || null, cycle: (typeof em.cycle === 'number' ? em.cycle : null) },
+      predictionError: em.predictionError || null,
+      regulationState: (em.regulation && em.regulation.state) || null,
+      prior: em.prior || null,
+      observation: em.observation || null,
+      plasticity: em.plasticity || null,
+      readyForHandoff: em.readyForHandoff === true
+    };
+    // Domain-identity portal fields are KNOWN facts (this IS the infrastructure root).
+    var rootId = (portal && portal.domainId) || 'infrastructure';
+    var rootTitle = (portal && portal.title) || 'Infrastructure';
+    var ancestry = (portal && portal.parentLabel) ? [portal.parentLabel, rootTitle] : [rootTitle];
+    var portalContext = {
+      portalIds: [rootId],
+      portalDomain: 'infrastructure',
+      portalTitle: rootTitle,
+      depth: 0,                               // brain operates at the root level only
+      ancestryPath: ancestry,
+      portalStatus: portal ? 'root-only' : 'pending',
+      sourceCompleteness: portal ? ((Array.isArray(portal.issues) && portal.issues.length) ? 'partial' : 'thin') : 'root-only',
+      bundleSource: (_bundle && Array.isArray(_bundle.sourcePortals) && _bundle.sourcePortals.length)
+        ? { portalIds: _bundle.sourcePortals.map(function (sp) { return sp.portalId; }), depth: _bundle.maxDepth || 0, ancestryPath: (_bundle.sourcePortals[0].ancestry || []), domains: _bundle.domains || [] }
+        : null,
+      l1Depth: (s._l1DepthCache && s._l1DepthCache.byDiagnosis && s._l1DepthCache.byDiagnosis[dxId]) || (s._l1DepthCache ? { branchesScanned: 0, realCompanyTickers: [], realTreatments: 0, madLibTreatments: 0, admitted: false, reason: 'no L1 branch mapped for this diagnosis' } : null)
+    };
+    var citationHints = sourceFeeds.map(function (sf) { return sf.source || sf.name; }).filter(Boolean);
+    var evidenceAnchors = _bArr('evidenceAnchors');   // REAL bundle anchors only (empty if no bundle)
+    var missingEv = [];
+    if (!evidenceAnchors.length) missingEv.push('evidenceAnchors');
+    if (!citationHints.length) missingEv.push('citationHints');
+    var evidence = {
+      sourceFeeds: sourceFeeds,
+      evidenceAnchors: evidenceAnchors,
+      citationHints: citationHints,
+      bundleStatus: bundleStatus,
+      bundleResolution: bundleResolution,
+      bundle: _bundle ? { portalCount: _bundle.portalCount || 0, maxDepth: _bundle.maxDepth || 0, domains: _bundle.domains || [], lane: 'patents', shallow: bundleShallow, buildMethod: _bundle.buildMethod || null, humanVerification: _bundle.humanVerification || null } : null,
+      missingEvidence: missingEv
+    };
+    // J2 — human-authoring intake: for external-source bundles missing invention candidates, emit
+    // structured empty slots (what each needs + which CIVIL primary source) rather than fabricating.
+    var _isExternal = !!(_bundle && _bundle.buildMethod === 'external-source-authored');
+    var _intakeSrcHint = {
+      GRID_RELIABILITY_FAILURE: 'NERC reliability standards / FERC orders / IEEE 1547 / utility filings',
+      SUPPLY_CHAIN_BOTTLENECK: 'DOT freight data / Census construction spending / supplier lead-time reports',
+      CAPACITY_CONSTRAINT: 'FERC interconnection queues / ISO/RTO capacity reports / EIA load data',
+      TRANSPORTATION_DISRUPTION: 'DOT/FHWA bridge inventory (NBI) / FTA transit data / BTS freight indices',
+      INFRA_FUNDING_COLLAPSE: 'IIJA implementation reports / sam.gov / grants.gov / municipal bond filings (MSRB)',
+      DEFERRED_MAINTENANCE: 'ASCE Infrastructure Report Card / state DOT maintenance backlogs / inspection reports',
+      CYBER_GRID_ATTACK: 'CISA KEV catalog / ICS-CERT advisories / NVD CVE records / NERC CIP standards'
+    };
+    var authoringIntake = [];
+    if (_isExternal) {
+      ['methodCandidates', 'embodimentCandidates', 'figurePlaceholders'].forEach(function (field) {
+        if (_bArr(field).length === 0) authoringIntake.push({ field: field, status: 'needs-human-input', count: 0, need: field === 'methodCandidates' ? 'a concrete civil-engineering method drawn from a primary source' : field === 'embodimentCandidates' ? 'a specific implementation/embodiment from a real document' : 'a figure description grounded in a real source', sourceHint: _intakeSrcHint[identity.canonicalDiagnosisId] || 'primary institutional / civil-engineering source', note: 'NOT fabricated by the brain — author from the cited source, then wire in verbatim with attribution' });
+      });
+    }
+    var treatmentContext = {
+      treatments: treatments,
+      implementationSteps: implementationSteps,
+      methodCandidates: _bArr('methodCandidates'),
+      mechanismCandidates: _bArr('mechanismCandidates'),
+      embodimentCandidates: _bArr('embodimentCandidates'),
+      figurePlaceholders: _bArr('figurePlaceholders'),
+      authoringIntake: authoringIntake
+    };
+    var operatorContext = {
+      targets: (primaryOpp && primaryOpp._resolvedTargets) ? primaryOpp._resolvedTargets : (mc && mc.target ? [mc.target] : []),
+      monitoring: (treatments.length && treatments[0].monitoring) ? treatments[0].monitoring : null,
+      escalation: (treatments.length && treatments[0].escalation) ? treatments[0].escalation : null,
+      invalidIf: mc ? (mc.invalidIf || null) : null,
+      nextStep: mc ? (mc.nextStep || null) : null
+    };
+    var hasTreat = treatments.length > 0;
+    var hasBundle = (bundleStatus === 'found');
+    var hasCanonical = !!identity.canonicalDiagnosisId;
+    var blockers = [];
+    if (hasCanonical && !hasBundle) blockers.push(identity.aliasUsed ? 'canonical-id-resolved-but-bundle-missing' : 'no-source-bundle');
+    if (bundleStatus === 'missing') blockers.push('source-bundle-build-required');
+    blockers.push(portalContext.portalStatus === 'root-only' ? 'portal-root-only' : 'portal-not-loaded');
+    if (!hasTreat) blockers.push('no-treatments');
+    if (!primaryOpp) blockers.push('no-active-opportunity');
+    var lanesIn = [];
+    if (primaryOpp && primaryOpp.path) lanesIn.push(primaryOpp.path);
+    if (primaryOpp && Array.isArray(primaryOpp.paths)) lanesIn = lanesIn.concat(primaryOpp.paths);
+    if (primaryOpp && primaryOpp.compensation && primaryOpp.compensation.type) lanesIn.push(primaryOpp.compensation.type);
+    var seenLane = {}, artifactLanes = [];
+    for (var li = 0; li < lanesIn.length; li++) { if (lanesIn[li] && !seenLane[lanesIn[li]]) { seenLane[lanesIn[li]] = true; artifactLanes.push(lanesIn[li]); } }
+    var readinessReasons = [];
+    if (hasBundle) readinessReasons.push('source bundle found (' + bundleResolution + (bundleShallow ? ', root-only' : '') + ', evidenceAnchors=' + evidenceAnchors.length + ')');
+    if (hasTreat) readinessReasons.push('treatments present (' + treatments.length + ')');
+    if (primaryOpp) readinessReasons.push('opportunity present (path=' + (primaryOpp.path || '?') + ')');
+    if (sourceFeeds.length) readinessReasons.push('source feeds present (' + sourceFeeds.length + ')');
+    var ready = hasTreat && hasBundle && hasCanonical;
+    // Lanes are INVESTABLE (infrastructure companies) / RESEARCHABLE (civil engineering briefs).
+    // patent/grant are VETOED by conscience — no method/embodiment fields in civil diagnoses.
+    var artifactContext = {
+      artifactLanes: artifactLanes,
+      patentReady: false, grantReady: false, sbaReady: false,   // patent/grant/loan vetoed by H3 conscience
+      investmentReady: !!(hasTreat && primaryOpp), researchReady: ready || hasTreat,
+      readinessReasons: readinessReasons,
+      blockers: blockers
+    };
+
+    var comp = {
+      identity:         _infraDdpCompleteness(identity, ['domain', 'diagnosisId', 'canonicalDiagnosisId', 'label', 'phase', 'confidence']),
+      brainState:       _infraDdpCompleteness(brainState, ['infraModel', 'predictionError', 'regulationState', 'prior', 'observation', 'plasticity']),
+      portalContext:    _infraDdpCompleteness(portalContext, ['portalIds', 'portalDomain', 'portalTitle', 'depth', 'ancestryPath']),
+      evidence:         _infraDdpCompleteness(evidence, ['sourceFeeds', 'evidenceAnchors', 'citationHints']),
+      treatmentContext: _infraDdpCompleteness(treatmentContext, ['treatments', 'implementationSteps', 'methodCandidates', 'mechanismCandidates', 'embodimentCandidates', 'figurePlaceholders']),
+      operatorContext:  _infraDdpCompleteness(operatorContext, ['targets', 'monitoring', 'escalation', 'invalidIf', 'nextStep']),
+      artifactContext:  _infraDdpCompleteness(artifactContext, ['artifactLanes'])
+    };
+    var totHave = 0, totAll = 0;
+    for (var sk in comp) { if (comp.hasOwnProperty(sk)) { totHave += comp[sk].have; totAll += comp[sk].total; } }
+    var missingFields = [];
+    function _cm(name, obj, keys) { for (var i = 0; i < keys.length; i++) { if (!_infraDdpPresent(obj[keys[i]])) missingFields.push(name + '.' + keys[i]); } }
+    _cm('identity', identity, ['canonicalDiagnosisId', 'confidence']);
+    _cm('evidence', evidence, ['evidenceAnchors', 'citationHints']);
+    _cm('treatmentContext', treatmentContext, ['treatments', 'implementationSteps', 'methodCandidates', 'mechanismCandidates', 'embodimentCandidates', 'figurePlaceholders']);
+    _cm('operatorContext', operatorContext, ['targets', 'monitoring', 'escalation', 'invalidIf', 'nextStep']);
+
+    var warnings = [];
+    if (portalContext.portalStatus === 'root-only') warnings.push('portalContext is root-only (no deep portal cortex)');
+    if (portalContext.portalStatus === 'pending') warnings.push('root portal not yet cached on the brain (domain identity used)');
+    if (identity.aliasUsed) warnings.push('alias-resolved; verify source appropriateness');
+    if (bundleStatus === 'missing') warnings.push('source bundle missing (no artifact-source bundle for this diagnosis)');
+    if (bundleStatus === 'unknown') warnings.push('source bundle not yet checked');
+    if (bundleStatus === 'found' && _bundle && _bundle.buildMethod === 'external-source-authored') warnings.push('external-source-authored; human-verification-required (' + (_bundle.humanVerification || 'required') + ')');
+    else if (bundleStatus === 'found' && bundleShallow) warnings.push('source-bundle-root-only (real bundle but portalCount<=1 / maxDepth 0)');
+    var _emptyCand = [];
+    if (!treatmentContext.methodCandidates.length) _emptyCand.push('method');
+    if (!treatmentContext.mechanismCandidates.length) _emptyCand.push('mechanism');
+    if (!treatmentContext.embodimentCandidates.length) _emptyCand.push('embodiment');
+    if (!treatmentContext.figurePlaceholders.length) _emptyCand.push('figure');
+    if (_emptyCand.length) warnings.push((bundleStatus === 'found' ? 'bundle found but ' : 'no bundle — ') + 'candidate types still empty: ' + _emptyCand.join(',') + ' (not invented)');
+    if (!primaryOpp && (typeof s.stress !== 'number' || s.stress < INFRA_EM_STRESS_FLOOR)) warnings.push('no active opportunity (offline/low-stress) — operator/lane fields stay empty');
+    if (artifactContext.artifactLanes.length && !hasTreat) warnings.push('artifact lane present but treatments/evidence missing');
+
+    var pct = totAll ? Math.round(totHave / totAll * 100) : 0;
+    var proofTier = pct >= 70 ? 'full' : (pct >= 35 ? 'partial' : 'sparse');
+
+    // G2 — prompt-facing trimming/prioritization. FULL data above is preserved; this is a
+    // bounded, diagnosis-relevant subset for the finalizer prompt. Never trims scalars/warnings.
+    var G2_CAPS = { evidenceAnchors: 8, treatments: 8, implementationSteps: 8, mechanismCandidates: 6, methodCandidates: 6, embodimentCandidates: 6, figurePlaceholders: 6, citationHints: 8, sourceFeeds: 8 };
+    function _g2cap(arr, n) { arr = Array.isArray(arr) ? arr : []; return { sel: arr.slice(0, n), omitted: Math.max(0, arr.length - n) }; }
+    var _g2ea = _g2cap(evidenceAnchors, G2_CAPS.evidenceAnchors);
+    var _g2tr = _g2cap(treatmentContext.treatments, G2_CAPS.treatments);
+    var _g2is = _g2cap(treatmentContext.implementationSteps, G2_CAPS.implementationSteps);
+    var _g2mc = _g2cap(treatmentContext.mechanismCandidates, G2_CAPS.mechanismCandidates);
+    var _g2md = _g2cap(treatmentContext.methodCandidates, G2_CAPS.methodCandidates);
+    var _g2em = _g2cap(treatmentContext.embodimentCandidates, G2_CAPS.embodimentCandidates);
+    var _g2fg = _g2cap(treatmentContext.figurePlaceholders, G2_CAPS.figurePlaceholders);
+    var _g2ch = _g2cap(citationHints, G2_CAPS.citationHints);
+    var _g2sf = _g2cap(sourceFeeds, G2_CAPS.sourceFeeds);
+    var promptView = {
+      compact: true,
+      caps: G2_CAPS,
+      selectedEvidenceAnchors: _g2ea.sel,
+      selectedTreatments: _g2tr.sel,
+      selectedImplementationSteps: _g2is.sel,
+      selectedMechanismCandidates: _g2mc.sel,
+      selectedMethodCandidates: _g2md.sel,
+      selectedEmbodimentCandidates: _g2em.sel,
+      selectedFigurePlaceholders: _g2fg.sel,
+      selectedCitationHints: _g2ch.sel,
+      selectedSourceFeeds: _g2sf.sel,
+      omittedCounts: { evidenceAnchors: _g2ea.omitted, treatments: _g2tr.omitted, implementationSteps: _g2is.omitted, mechanismCandidates: _g2mc.omitted, methodCandidates: _g2md.omitted, embodimentCandidates: _g2em.omitted, figurePlaceholders: _g2fg.omitted, citationHints: _g2ch.omitted, sourceFeeds: _g2sf.omitted },
+      priorityReasons: [
+        'diagnosis-specific bundle anchors preferred over generic infrastructure evidence',
+        'official/primary sources retained (DOT/EPA/FERC/NERC/CISA/ASCE where present)',
+        'mechanisms prioritized over figures under prompt-space limits',
+        'treatments with implementation relevance preferred over broad narrative',
+        'caps applied per field; full data preserved in the stored bundle + full DDP'
+      ],
+      retainedWarnings: warnings
+        .concat(s.infraImmune ? ['immune: ' + s.infraImmune.immuneState + ' (sev ' + s.infraImmune.severity + ', ' + (s.infraImmune.antigens || []).length + ' antigens; L2 traversal blocked)'] : [])
+        .concat(s.infraConscience && s.infraConscience.conscienceState === 'restrictive' ? ['conscience: ' + (s.infraConscience.blockedClaims || []).slice(0, 3).join(', ') + ' blocked'] : []),
+      retainedBlockers: artifactContext.blockers,
+      // higher-layer compact summaries (forwarded to the finalizer via promptView)
+      immuneSummary: s.infraImmune ? { immuneState: s.infraImmune.immuneState, severity: s.infraImmune.severity, antigenCount: (s.infraImmune.antigens || []).length, quarantines: s.infraImmune.quarantines, blockedFromTraversal: s.infraImmune.blockedFromTraversal, allowedWithWarning: s.infraImmune.allowedWithWarning } : null,
+      awarenessSummary: s.infraAwareness ? { selfNarrative: s.infraAwareness.selfNarrative, knowns: (s.infraAwareness.knowns || []).length, uncertainties: (s.infraAwareness.uncertainties || []).length } : null,
+      conscienceDecision: s.infraConscience ? { conscienceState: s.infraConscience.conscienceState, blockedClaims: s.infraConscience.blockedClaims, artifactReadinessDecision: s.infraConscience.artifactReadinessDecision } : null,
+      intuitionSummary: s.infraIntuition ? s.infraIntuition.hunches : null,
+      scenarioSummary: s.infraSimulation ? (s.infraSimulation.scenarios || []).map(function (x) { return { type: x.type, hypothetical: x.hypothetical, risk: x.risk }; }) : null,
+      executiveReport: s.infraExecutiveReport || null,
+      l1DepthSummary: portalContext.l1Depth ? { realCompanyTickers: (portalContext.l1Depth.realCompanyTickers || []).length, realTreatments: portalContext.l1Depth.realTreatments, madLibTreatments: portalContext.l1Depth.madLibTreatments, admitted: portalContext.l1Depth.admitted } : null,
+      authoringIntake: treatmentContext.authoringIntake.length ? treatmentContext.authoringIntake : null,
+      // GRID — grid sub-portal layer (real-content, SEPARATE from the validated spine, no bundle yet)
+      infrastructureSummary: s.gridLayer && s.gridLayer.loaded ? { count: s.gridLayer.count, activeCount: s.gridLayer.activeCount, diagnoses: s.gridLayer.diagnoses, note: s.gridLayer.note } : null
+    };
+
+    return {
+      schemaVersion: INFRA_DDP_SCHEMA_VERSION,
+      promptView: promptView,
+      identity: identity,
+      brainState: brainState,
+      portalContext: portalContext,
+      evidence: evidence,
+      treatmentContext: treatmentContext,
+      operatorContext: operatorContext,
+      artifactContext: artifactContext,
+      audit: {
+        generatedAt: (em.updated || null),
+        schemaVersion: INFRA_DDP_SCHEMA_VERSION,
+        fieldCompleteness: { sections: comp, overallPct: pct },
+        missingFields: missingFields,
+        warnings: warnings,
+        proofTier: proofTier,
+        immune: s.infraImmune || null,
+        awareness: s.infraAwareness || null,
+        conscience: s.infraConscience || null,
+        intuition: s.infraIntuition || null,
+        simulation: s.infraSimulation || null,
+        executiveReport: s.infraExecutiveReport || null
+      }
+    };
   };
 
   // ══════════════════════════════════════════════════════════════════════

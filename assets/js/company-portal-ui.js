@@ -122,6 +122,87 @@
     rightHtml += '<div class="cp-narrative">' + esc(co.portalRelevance) + '</div>';
     rightHtml += '</div>';
 
+    // ── INFRASTRUCTURE-SPECIFIC PORTAL SECTIONS ──────────────────────────
+    // Civil-infrastructure parity with the energy domain's company-metadata
+    // sections. Mirrors the energy brain's diagnosis families (GRID_DEGRADATION,
+    // MAINTENANCE_DEFICIT, INFRA_FUNDING_COLLAPSE, CYBER_PHYSICAL_ATTACK,
+    // TRANSPORTATION_DISRUPTION — see infrastructure-brain.js diagnosisIndex)
+    // as four company-portal sections. Each reads OPTIONAL company-JSON fields
+    // and degrades gracefully (cp-empty) when not yet populated — identical
+    // structure to the generic sections below, only the CONTENT is civil.
+    // Energy's oil/gas/nuclear/renewable mix is translated to the civil
+    // equivalents: asset-type portfolio, deferred-maintenance status,
+    // NERC/FERC/OSHA/EPA compliance, and federal-grant/rate-base funding.
+    if (co.domainId === 'infrastructure') {
+      // Asset Portfolio — breakdown by civil asset type (energy: generation mix)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Asset Portfolio</div>';
+      var _ap = co.assetPortfolio;
+      if (_ap && (Array.isArray(_ap) ? _ap.length : Object.keys(_ap).length)) {
+        var _apEntries = Array.isArray(_ap)
+          ? _ap.map(function (e) { return [e.type || e.label || '', e.share != null ? e.share : (e.value != null ? e.value : e.detail)]; })
+          : Object.keys(_ap).map(function (kk) { return [kk, _ap[kk]]; });
+        for (var ap = 0; ap < _apEntries.length; ap++) {
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_apEntries[ap][0]) + '</span><span class="cp-value">' + esc(String(_apEntries[ap][1])) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No asset-type distribution recorded (transmission / distribution / roads / water-sewer / transit)</div>';
+      }
+      rightHtml += '</div>';
+
+      // Maintenance Status — deferred-maintenance / asset-age tiers (energy: storage/reserve)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Maintenance Status</div>';
+      var _ms = co.maintenanceStatus;
+      if (_ms && Object.keys(_ms).length > 0) {
+        var _msKeys = Object.keys(_ms);
+        for (var msk = 0; msk < _msKeys.length; msk++) {
+          var _msv = _ms[_msKeys[msk]];
+          var _msStr = (_msv && typeof _msv === 'object' && !Array.isArray(_msv))
+            ? Object.keys(_msv).map(function (sk) { return sk + ': ' + _msv[sk]; }).join('  ·  ')
+            : String(_msv);
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_msKeys[msk]) + '</span><span class="cp-value">' + esc(_msStr) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No maintenance data (asset-age tiers, overdue-maintenance backlog $)</div>';
+      }
+      rightHtml += '</div>';
+
+      // Regulatory Compliance — NERC/FERC/OSHA/EPA violation counts & trend
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Regulatory Compliance</div>';
+      var _rc = co.regulatoryCompliance;
+      if (_rc && (Array.isArray(_rc) ? _rc.length : Object.keys(_rc).length)) {
+        var _rcEntries = Array.isArray(_rc)
+          ? _rc.map(function (e) { return [e.agency || e.label || '', (e.violations != null ? e.violations : (e.count != null ? e.count : e.detail)) + (e.trend ? ' (' + e.trend + ')' : '')]; })
+          : Object.keys(_rc).map(function (kk) { return [kk, _rc[kk]]; });
+        for (var rc = 0; rc < _rcEntries.length; rc++) {
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_rcEntries[rc][0]) + '</span><span class="cp-value">' + esc(String(_rcEntries[rc][1])) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No compliance record (NERC / FERC / OSHA / EPA violation count & trend)</div>';
+      }
+      rightHtml += '</div>';
+
+      // Capital Funding — federal grant $, state match, rate-base dependency
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Capital Funding</div>';
+      var _cf = co.capitalFunding;
+      if (_cf && Object.keys(_cf).length > 0) {
+        var _cfKeys = Object.keys(_cf);
+        for (var cfk = 0; cfk < _cfKeys.length; cfk++) {
+          var _cfv = _cf[_cfKeys[cfk]];
+          var _cfStr = (_cfv && typeof _cfv === 'object' && !Array.isArray(_cfv))
+            ? Object.keys(_cfv).map(function (sk) { return sk + ': ' + _cfv[sk]; }).join('  ·  ')
+            : String(_cfv);
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_cfKeys[cfk]) + '</span><span class="cp-value">' + esc(_cfStr) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No funding profile (federal grant $ committed, state matching funds, rate-base dependency)</div>';
+      }
+      rightHtml += '</div>';
+    }
+
     // Warning signals (placeholder for future)
     rightHtml += '<div class="cp-section">';
     rightHtml += '<div class="cp-section-title">Warning Signals</div>';

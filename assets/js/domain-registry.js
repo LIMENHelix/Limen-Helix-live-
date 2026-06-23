@@ -102,8 +102,34 @@
       analystEnabled: true,
       connectomeNodes: [73, 31],  // ENS + Hypothalamus
       feeds: [
-        { name: 'World Bank Infrastructure', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.worldbank.org/v2/country/all/indicator/IS.RRS.TOTL.KM?format=json' },
-        { name: 'OECD Infrastructure', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'stats.oecd.org/restsdmx/sdmx.ashx/GetData/ITF_GOODS_TRANSPORT' },
+        // ── Institutional context (price/cost + macro footprint) ──
+        // Civil equivalent of energy's EIA/FRED price anchors: instead of oil/gas
+        // spot prices, infrastructure's "price" is the cost of building and
+        // maintaining the built environment (construction + transport capital).
+        { name: 'World Bank Infrastructure', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.worldbank.org/v2/country/all/indicator/IS.RRS.TOTL.KM?format=json', feedClass: 'institutional' },
+        { name: 'OECD Infrastructure', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'stats.oecd.org/restsdmx/sdmx.ashx/GetData/ITF_GOODS_TRANSPORT', feedClass: 'institutional' },
+        { name: 'FRED Construction Spending', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=TTLCONS', feedClass: 'price_cost' },     // total construction spending — civil "price" anchor (mirrors EIA Petroleum LIVE)
+        { name: 'FRED Transportation Spending', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=A192RC1Q027SBEA', feedClass: 'price_cost' }, // public transportation/infra investment — civil "crude" anchor (mirrors FRED Crude Oil LIVE)
+        // ── Operational metrics (transport / congestion throughput) ──
+        { name: 'INRIX Congestion Index', apiKey: 'INRIX_API_KEY', status: FEED_STATUS.PENDING, endpoint: 'api.inrix.com/v1/congestion', feedClass: 'operational' },     // roadway congestion — LIVE once operator key provided; falls back to heuristic
+        { name: 'FHWA Traffic Volume', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.fhwa.dot.gov/policyinformation/travel_monitoring/tvt.cfm', feedClass: 'operational' }, // traffic volume trends — throughput on the road network
+        { name: 'APTA Transit Statistics', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.apta.com/research-technical-resources/transit-statistics/ridership-report/', feedClass: 'operational' }, // transit ridership — public works throughput
+        // ── Electric GRID operational feeds (transmission / distribution reliability) ──
+        // Mirror energy's directional market signals, but capture the civil electric
+        // GRID specifically (NERC/FERC/ISO-RTO), so grid-stress propagates through
+        // civilization as an infrastructure signal, not a generic one.
+        { name: 'NERC Reliability Metrics', apiKey: 'NERC_API_KEY', status: FEED_STATUS.PENDING, endpoint: 'api.nerc.net/reliability/metrics', feedClass: 'grid_operational' }, // grid reliability — LIVE once operator SCADA bridge / key provided
+        { name: 'FERC Transmission Adequacy', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.ferc.gov/rss/news.xml', feedClass: 'grid_operational' },          // transmission adequacy — public FERC endpoint
+        { name: 'ISO/RTO Supply Adequacy', apiKey: 'ISO_RTO_API_KEY', status: FEED_STATUS.PENDING, endpoint: 'internal:iso-rto-state-aggregator', feedClass: 'grid_operational' }, // MISO/PJM/ISO supply adequacy — PENDING until operator API keys added
+        // ── Reliability / hazard alerts (weather + seismic + cyber-physical) ──
+        { name: 'NOAA NWS Alerts', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.weather.gov/alerts/active', feedClass: 'reliability' },        // weather hazards to roads/grid/water (reused civil hazard channel)
+        { name: 'USGS Earthquake Alerts', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_day.geojson', feedClass: 'reliability' }, // seismic risk to bridges/dams/levees
+        { name: 'CISA Infrastructure Alerts', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.cisa.gov/cybersecurity-advisories/all.xml', feedClass: 'reliability' }, // cyber-physical / SCADA / ICS / KEV advisories
+        { name: 'PHMSA Incident Database', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.phmsa.dot.gov/data-and-statistics/pipeline/pipeline-incident-flagged-files', feedClass: 'reliability' }, // pipeline/hazmat incidents — physical infra failure signal
+        // ── Regulatory / governance context ──
+        { name: 'Federal Register FERC/DOT/HUD', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.federalregister.gov/api/v1/documents.json?conditions[agencies][]=federal-energy-regulatory-commission&conditions[agencies][]=transportation-department&conditions[agencies][]=housing-and-urban-development-department', feedClass: 'regulatory' }, // rulemakings governing civil infrastructure
+        { name: 'USACE Water Resources', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'water.usace.army.mil/a2w/CWMS_CRREL.cwms_data_api', feedClass: 'regulatory' }, // dams / levees / waterways — federal water resource status
+        // ── Internal cross-domain arcs (civilization propagation, unchanged) ──
         { name: 'Cross-Domain Pressure Feed', apiKey: null, status: FEED_STATUS.LIVE, endpoint: 'internal:cross-domain-emissions', arc: 'shortArc' },
         { name: 'Asset Condition Feed', apiKey: null, status: FEED_STATUS.LIVE, endpoint: 'internal:activity-stress-ratio', arc: 'longArc' }
       ],
