@@ -3,319 +3,160 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>LIMEN Infrastructure Watch · Why did your water/internet bill jump?</title>
-<meta name="description" content="Free tool: see whether your water, sewer, internet, trash, or gas bill rose with inflation — or far past it — and build a rate complaint. No account, results in seconds.">
+<title>Plan Your Project — free estimate + permit &amp; survey check | LIMEN Infrastructure</title>
+<meta name="description" content="Planning a deck, retaining wall, addition, grading or development? Get a free ballpark cost, find out what permits and surveys you'll need, and connect with a licensed surveyor — CA, TN, KS.">
 <link rel="canonical" href="https://limenhelix.com/infrastructure">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Utility Rate X-Ray — is your bill rising faster than inflation?">
-<meta property="og:description" content="Water, sewer, internet, trash, gas — see real rate hikes vs inflation and build a complaint. Free.">
-<meta property="og:url" content="https://limenhelix.com/infrastructure">
-<meta name="twitter:card" content="summary">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#070b12; --panel:#0e131d; --panel2:#121826; --line:rgba(201,169,78,0.14);
-  --gold:#C9A94E; --ink:#e9e6dd; --dim:#9a9384; --emerald:#5ab5a0; --red:#e8736b; --blue:#6ea8e0;
-}
-html,body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
-a{color:var(--gold);text-decoration:none}
-.wrap{max-width:760px;margin:0 auto;padding:0 18px}
-.top{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--line)}
-.brand{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--dim)}
-.brand b{color:var(--gold)}
-.top .r{display:flex;align-items:center;gap:14px}
-.top a.alt{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim)}
-.adminbtn{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,169,78,0.4);background:rgba(201,169,78,0.05);padding:6px 12px;border-radius:6px;cursor:pointer;font-family:inherit}
-.adminbtn:hover{background:rgba(201,169,78,0.12)}
-.hero{text-align:center;padding:44px 0 26px}
-.kicker{font-size:11px;letter-spacing:3.5px;text-transform:uppercase;color:var(--gold);opacity:0.85}
-.hero h1{font-size:clamp(26px,5vw,40px);line-height:1.15;margin:12px 0 10px;letter-spacing:-0.5px}
+:root{--bg:#0a0e13;--panel:#10161f;--panel2:#141c27;--line:rgba(106,169,224,0.16);--steel:#6aa9e0;--ink:#e7edf3;--dim:#92a1b3;--amt:#7fd0a8;--warn:#e0a437}
+html,body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;
+  background-image:linear-gradient(rgba(106,169,224,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(106,169,224,0.025) 1px,transparent 1px);background-size:30px 30px}
+a{color:var(--steel);text-decoration:none}
+.wrap{max-width:720px;margin:0 auto;padding:0 18px}
+.top{padding:14px 18px;border-bottom:1px solid var(--line);font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--dim)}
+.top b{color:var(--steel)}
+.hero{padding:40px 0 8px;text-align:center}
+.hero h1{font-size:clamp(26px,5vw,40px);line-height:1.1;letter-spacing:-0.5px;margin-bottom:10px}
 .hero p{color:var(--dim);font-size:16px;max-width:560px;margin:0 auto}
-.promise{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:18px}
-.promise span{font-size:12px;color:var(--dim);background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:5px 12px}
-.hubnav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:18px}
-.hubnav a{font-size:13px;color:var(--gold);border:1px solid rgba(201,169,78,0.3);border-radius:20px;padding:7px 14px}
-.hubnav a:hover{background:rgba(201,169,78,0.08)}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px;margin:18px 0}
-.card h2{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
-.card .sub{color:var(--dim);font-size:13px;margin-bottom:16px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-@media(max-width:560px){.grid{grid-template-columns:1fr}}
-label{display:block;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--dim);margin-bottom:5px}
-input,select{width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:7px;color:var(--ink);font:inherit;font-size:15px;padding:10px 12px;outline:none}
-input:focus,select:focus{border-color:rgba(201,169,78,0.5)}
-.full{grid-column:1/-1}
-.btn{font:inherit;font-size:15px;font-weight:600;letter-spacing:0.5px;cursor:pointer;border-radius:8px;padding:12px 18px;border:1px solid transparent;transition:all .15s}
-.btn-primary{background:var(--gold);color:#1a1407;width:100%;margin-top:16px}
-.btn-primary:hover{filter:brightness(1.08)}
-.btn-ghost{background:none;border:1px solid var(--line);color:var(--ink)}
-.btn-ghost:hover{border-color:var(--gold)}
-.err{color:var(--red);font-size:13px;margin-top:10px;min-height:1px}
-#result,#history{display:none}
-.verdict{font-size:19px;line-height:1.4;margin-bottom:6px}
-.verdict b{color:var(--gold)}
-.split{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
-@media(max-width:560px){.split{grid-template-columns:1fr}}
-.tile{background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:13px 15px}
-.tile .l{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--dim)}
-.tile .v{font-size:22px;font-weight:700;margin-top:3px}
-.tile .n{font-size:12px;color:var(--dim);margin-top:3px}
-.up{color:var(--red)}.down{color:var(--emerald)}.flat{color:var(--dim)}
-.barrow{margin:12px 0}
-.barrow .rl{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px}
-.bar{height:9px;background:var(--panel2);border-radius:6px;overflow:hidden}
-.bar i{display:block;height:100%;border-radius:6px}
-.note{font-size:12.5px;color:var(--dim);background:rgba(110,168,224,0.06);border-left:2px solid var(--blue);padding:9px 12px;border-radius:0 6px 6px 0;margin-top:14px}
-.htable{width:100%;border-collapse:collapse;font-size:13px}
-.htable th{text-align:left;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--dim);padding:6px 8px;border-bottom:1px solid var(--line)}
-.htable td{padding:8px;border-bottom:1px solid rgba(201,169,78,0.06)}
-.chk{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--ink);margin:7px 0;cursor:pointer}
-.chk input{width:auto;margin-top:3px}
-#letterOut{display:none;white-space:pre-wrap;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;background:#fff;color:#15110a;border-radius:8px;padding:16px;margin-top:12px;max-height:340px;overflow:auto}
-.tools{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-@media(max-width:560px){.tools{grid-template-columns:1fr}}
-.tool{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:15px;display:block}
-.tool h3{font-size:14px;margin-bottom:4px}
-.tool p{font-size:12.5px;color:var(--dim)}
-.tool .soon{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--gold);opacity:0.7}
-.capstat{margin-top:12px;font-size:13px;min-height:16px}
-.foot{text-align:center;color:var(--dim);font-size:12px;padding:30px 0 50px}
-.foot .pp{font-size:11px;margin-top:6px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;margin-top:24px}
+.fld{margin-bottom:13px}
+.fld label{display:block;font-size:12px;color:var(--dim);letter-spacing:.5px;text-transform:uppercase;margin-bottom:5px}
+.fld select,.fld input{width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:9px;color:var(--ink);font:inherit;font-size:15px;padding:11px 12px;outline:none}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.go{width:100%;background:var(--steel);color:#06101c;border:none;border-radius:10px;font:inherit;font-weight:700;font-size:16px;padding:13px;cursor:pointer;margin-top:6px}
+.contact{border-top:1px solid var(--line);margin-top:16px;padding-top:16px;display:none}
+.contact.show{display:block}
+.chk{display:flex;align-items:flex-start;gap:9px;font-size:13.5px;color:#c2cdd9;margin-bottom:12px;cursor:pointer}
+.chk input{margin-top:3px}
+.result{display:none;margin-top:22px}
+.result.show{display:block}
+.est{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:16px 18px;text-align:center}
+.est .l{font-size:12px;color:var(--dim);letter-spacing:.5px;text-transform:uppercase}
+.est .v{font-size:30px;font-weight:700;color:var(--amt);margin:4px 0;font-variant-numeric:tabular-nums}
+.est .n{font-size:12px;color:var(--dim)}
+.needs{margin-top:16px}
+.needs h3{font-size:13px;letter-spacing:.5px;text-transform:uppercase;color:var(--steel);margin-bottom:9px}
+.needs ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+.needs li{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--steel);border-radius:8px;padding:9px 12px;font-size:13.5px}
+.connect{background:linear-gradient(180deg,rgba(127,208,168,0.07),var(--panel));border:1px solid rgba(127,208,168,0.3);border-radius:12px;padding:16px 18px;margin-top:16px}
+.connect h3{font-size:15px;margin-bottom:6px}.connect p{font-size:13.5px;color:var(--dim)}
+.muted{color:var(--dim);font-size:13px}
+.foot{text-align:center;color:var(--dim);font-size:12px;padding:30px 0 50px;border-top:1px solid var(--line);margin-top:40px}
+.foot .pp{font-size:11px;margin-top:6px;line-height:1.6}
+.aggline{text-align:center;font-size:12px;color:var(--dim);margin-top:14px}
 </style>
 </head>
 <body>
-<div class="top">
-  <div class="brand"><b>LIMEN</b> INFRASTRUCTURE WATCH</div>
-  <div class="r"><a class="alt" href="/">limenhelix.com</a><button class="adminbtn" onclick="LimenAdminLogin.open()">Admin</button></div>
-</div>
-
+<a href="#" id="adminLink" style="position:fixed;top:11px;right:14px;z-index:60;font-size:0.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--steel);border:1px solid var(--line);padding:6px 12px;border-radius:4px;background:rgba(0,0,0,0.35)">Admin</a>
+<div class="top">LIMEN <b>Infrastructure</b> · Project Planner</div>
 <div class="wrap">
   <div class="hero">
-    <div class="kicker">Free · No account needed</div>
-    <h1>Did your bill rise — or did your rate?</h1>
-    <p>Water, sewer, internet, trash, gas. Enter what you pay now versus a year ago and we'll show you whether it tracked inflation or jumped well past it — then help you do something about it.</p>
-    <div class="promise">
-      <span>🔍 Inflation vs real rate hike</span>
-      <span>📈 Track every utility</span>
-      <span>📄 Build a rate complaint</span>
-    </div>
-    <div class="hubnav">
-      <a href="#xray">🚰 Rate X-Ray</a>
-      <a href="#complaint">📄 Complaint builder</a>
-      <a href="/energy">⚡ Electric? Energy Watch</a>
-      <a href="#tools">🔭 The engine</a>
-    </div>
+    <h1>Plan your project.</h1>
+    <p>Get a <b>free ballpark cost</b>, find out which <b>permits &amp; surveys</b> you'll need, and connect with a licensed surveyor. Decks, walls, additions, grading, developments — homeowner to city.</p>
   </div>
 
-  <!-- RATE X-RAY -->
-  <div class="card" id="xray">
-    <h2>Utility Rate X-Ray</h2>
-    <div class="sub">For the bills Energy Watch doesn't cover. Your data stays in your browser.</div>
-    <div class="grid">
-      <div><label>Service</label><select id="svc">
-        <option value="water">Water / sewer</option>
-        <option value="internet">Internet / broadband</option>
-        <option value="trash">Trash / waste</option>
-        <option value="gas">Natural gas</option>
-        <option value="other">Other utility</option>
-      </select></div>
-      <div><label>Provider (optional)</label><input id="prov" placeholder="e.g. city water, Comcast"></div>
-      <div><label>Bill now ($/mo)</label><input id="now" inputmode="decimal" placeholder="92.00"></div>
-      <div><label>Bill about a year ago ($/mo)</label><input id="then" inputmode="decimal" placeholder="78.00"></div>
-      <div class="full"><label>Months between the two bills</label><input id="months" inputmode="numeric" placeholder="12"></div>
-    </div>
-    <button class="btn btn-primary" id="analyze">Check my rate →</button>
-    <div class="err" id="err"></div>
-  </div>
-
-  <!-- RESULT -->
-  <div class="card" id="result">
-    <h2>Your Rate X-Ray</h2>
-    <div id="resultBody"></div>
-  </div>
-
-  <!-- HISTORY -->
-  <div class="card" id="history">
-    <h2>Your History</h2>
-    <div class="sub">Saved in this browser. Add each utility and revisit to track the trend.</div>
-    <div style="overflow-x:auto"><table class="htable" id="htable"></table></div>
-    <button class="btn btn-ghost" id="clearHist" style="margin-top:12px;font-size:12px;padding:7px 12px">Clear history</button>
-  </div>
-
-  <!-- COMPLAINT BUILDER -->
-  <div class="card" id="complaint">
-    <h2>Rate Complaint Builder</h2>
-    <div class="sub">Pick what happened — we generate a clean letter you can send to your provider or regulator. (You send it; we don't.)</div>
-    <label class="chk"><input type="checkbox" class="cissue" value="My rate increased sharply with no clear explanation or notice"> Sharp increase, no explanation</label>
-    <label class="chk"><input type="checkbox" class="cissue" value="New fees or surcharges appeared on my bill that were not there before"> New fees / surcharges appeared</label>
-    <label class="chk"><input type="checkbox" class="cissue" value="My service quality has declined (outages, low pressure, slow speeds)"> Service quality declined</label>
-    <label class="chk"><input type="checkbox" class="cissue" value="I believe my meter reading or usage charge is incorrect or estimated"> Reading / usage looks wrong</label>
-    <label class="chk"><input type="checkbox" class="cissue" value="I received no advance notice of a rate change as required"> No advance notice of the change</label>
-    <div class="grid" style="margin-top:12px">
-      <div><label>Your name (for the letter)</label><input id="cname" placeholder="optional"></div>
-      <div><label>Send to</label><select id="ctarget">
-        <option value="provider">My provider's customer service</option>
-        <option value="puc">My state utility / public service commission</option>
-        <option value="city">City council / municipal utility board</option>
-        <option value="fcc">FCC (internet/broadband)</option>
-      </select></div>
-    </div>
-    <button class="btn btn-ghost" id="genLetter" style="margin-top:14px">Generate complaint letter</button>
-    <button class="btn btn-ghost" id="copyLetter" style="margin-top:14px;display:none">Copy</button>
-    <div id="letterOut"></div>
-  </div>
-
-  <!-- MORE TOOLS -->
-  <div class="card" id="tools">
-    <h2>Infrastructure, tracked</h2>
-    <div class="sub">LIMEN reads the strain on the systems we rely on — and where capital is flowing to fix them. To research and to invest, never to chase grants.</div>
-    <div class="tools">
-      <a class="tool" href="/infrastructure_portal"><h3>The engine behind this →</h3><p>How LIMEN reads infrastructure as a living system — load, decay, repair, and the capital chasing it.</p></a>
-      <a class="tool" href="/energy"><h3>Electric bill? Energy Watch →</h3><p>The companion tool for your electricity bill — usage vs rate vs fees, plus a utility complaint builder.</p></a>
-      <div class="tool"><div class="soon">Soon</div><h3>Infrastructure themes</h3><p>Grid, water, transport, broadband — grouped by what's moving them. Research &amp; investment angles, not advice.</p></div>
-      <div class="tool"><div class="soon">Soon</div><h3>Rate-pressure map</h3><p>Average utility rate hikes by region — built from real anonymized readings.</p></div>
-    </div>
-  </div>
-
-  <!-- JOIN -->
   <div class="card">
-    <h2>Get infrastructure signals early</h2>
-    <div class="sub">Strain and capital shifts across the systems we rely on, before they make news. Free, no account, unsubscribe anytime.</div>
-    <div class="grid">
-      <div class="full"><label>Email</label><input type="email" id="cap-email" placeholder="you@example.com" maxlength="200"></div>
+    <div class="fld"><label>What are you building?</label><select id="ptype"></select></div>
+    <div class="two">
+      <div class="fld"><label>Who are you?</label><select id="owner"><option>Homeowner</option><option>Contractor</option><option>Developer</option><option>City</option><option>County</option><option>Other</option></select></div>
+      <div class="fld"><label>State</label><select id="state"><option value="CA">California</option><option value="TN">Tennessee</option><option value="KS">Kansas</option><option value="">Other</option></select></div>
     </div>
-    <label style="display:flex;gap:8px;align-items:flex-start;margin-top:10px;font-size:12.5px;color:var(--dim);text-transform:none;letter-spacing:0"><input type="checkbox" id="cap-consent" checked style="width:auto;margin-top:3px"> I agree to be contacted about LIMEN Infrastructure Watch.</label>
-    <button class="btn btn-primary" id="cap-btn">Notify me →</button>
-    <div class="capstat" id="capstat"></div>
+    <div class="two">
+      <div class="fld"><label>City / ZIP</label><input id="city" placeholder="optional"></div>
+      <div class="fld"><label id="scopeLbl">Size</label><input id="scope" type="number" min="0" placeholder="e.g. 200"></div>
+    </div>
+    <label class="chk"><input type="checkbox" id="wantSurvey"> I'd like a licensed surveyor to reach out about this project.</label>
+    <div class="contact" id="contactFields">
+      <div class="fld"><label>Name</label><input id="cname" placeholder="your name"></div>
+      <div class="two">
+        <div class="fld"><label>Email</label><input id="cemail" type="email" placeholder="you@email.com"></div>
+        <div class="fld"><label>Phone</label><input id="cphone" placeholder="optional"></div>
+      </div>
+    </div>
+    <button class="go" id="goBtn">Get my free estimate →</button>
+    <div class="aggline" id="aggLine"></div>
+  </div>
+
+  <div class="result" id="result">
+    <div class="est"><div class="l">Ballpark cost</div><div class="v" id="estV">—</div><div class="n" id="estN"></div></div>
+    <div class="needs"><h3>What you'll likely need</h3><ul id="needsList"></ul></div>
+    <div class="connect" id="connectBox"></div>
   </div>
 
   <div class="foot">
-    Powered by <a href="/">LIMEN Helix</a> · Infrastructure Watch &nbsp;·&nbsp; <a href="/infrastructure_portal">⚙ The engine behind this →</a>
-    <div class="pp">Informational only — not legal, financial, or professional advice. Inflation baseline uses a ~3.2%/yr general CPI reference; actual utility inflation varies. Your readings are stored in your browser.</div>
+    Powered by <a href="/">LIMEN Helix</a> · Infrastructure
+    <div class="pp">Estimates are ballpark national ranges — verify locally. Permit &amp; survey guidance is general; your jurisdiction governs. We share your info only if you ask to be connected with a surveyor.</div>
   </div>
 </div>
 
-<script src="assets/js/limen-admin-login.js"></script>
 <script>
 (function(){
-  'use strict';
-  var HKEY='limen_infra_history';
-  var CPI_ANNUAL=3.2; // % general inflation reference
-  var $=function(id){return document.getElementById(id);};
-  function n(v){var x=parseFloat(String(v).replace(/[^0-9.\-]/g,''));return isFinite(x)?x:null;}
-  function money(x){return '$'+x.toLocaleString(undefined,{maximumFractionDigits:2,minimumFractionDigits:2});}
-  function pct(x){return (x>=0?'+':'')+x.toFixed(1)+'%';}
-  var SVC={water:'Water / sewer',internet:'Internet / broadband',trash:'Trash / waste',gas:'Natural gas',other:'Utility'};
-
-  function compute(){
-    $('err').textContent='';
-    var now=n($('now').value), then=n($('then').value), months=n($('months').value)||12;
-    if(now===null||now<=0){$('err').textContent='Enter your current bill.';return;}
-    if(then===null||then<=0){$('err').textContent='Enter your bill from about a year ago.';return;}
-    if(months<=0){months=12;}
-    var svc=$('svc').value, prov=($('prov').value||'').trim();
-    var totalChange=(now-then)/then*100;
-    var years=months/12;
-    var annualized=(Math.pow(now/then,1/years)-1)*100;
-    var expectedNow=then*Math.pow(1+CPI_ANNUAL/100,years);   // if it had only tracked inflation
-    var aboveInflation=annualized-CPI_ANNUAL;
-    var excessDollars=now-expectedNow;                       // $ above an inflation-only path
-
-    var dir=totalChange>1?'up':(totalChange<-1?'down':'flat');
-    var verdictColor, verdictWord;
-    if(aboveInflation<=0.5){verdictColor='var(--emerald)';verdictWord='in line with inflation';}
-    else if(aboveInflation<=5){verdictColor='var(--gold)';verdictWord='somewhat above inflation';}
-    else{verdictColor='var(--red)';verdictWord='well above inflation';}
-
-    var h='';
-    h+='<div class="verdict">Your '+(prov?('<b>'+prov+'</b> '):'')+SVC[svc].toLowerCase()+' bill went from <b>'+money(then)+'</b> to <b>'+money(now)+'</b> — about <b style="color:'+verdictColor+'">'+pct(annualized)+'/yr</b>, '+verdictWord+'.</div>';
-    h+='<div class="split">';
-    h+='<div class="tile"><div class="l">Then → Now</div><div class="v">'+money(then)+' → '+money(now)+'</div><div class="n">over '+Math.round(months)+' mo</div></div>';
-    h+='<div class="tile"><div class="l">Total change</div><div class="v '+dir+'">'+pct(totalChange)+'</div><div class="n">since last year</div></div>';
-    h+='<div class="tile"><div class="l">Annualized</div><div class="v" style="color:'+verdictColor+'">'+pct(annualized)+'</div><div class="n">vs inflation '+pct(CPI_ANNUAL)+'</div></div>';
-    h+='<div class="tile"><div class="l">Above inflation</div><div class="v" style="color:'+verdictColor+'">'+pct(aboveInflation)+'</div><div class="n">'+(excessDollars>0?money(excessDollars)+'/mo extra':'at or below')+'</div></div>';
-    h+='</div>';
-
-    // bar: your annualized vs inflation
-    var scale=Math.max(annualized,CPI_ANNUAL,8);
-    h+='<div class="barrow"><div class="rl"><span>Your rate</span><span>'+pct(annualized)+'/yr</span></div><div class="bar"><i style="width:'+Math.max(2,annualized/scale*100).toFixed(0)+'%;background:'+verdictColor+'"></i></div></div>';
-    h+='<div class="barrow"><div class="rl"><span>Inflation</span><span>'+pct(CPI_ANNUAL)+'/yr</span></div><div class="bar"><i style="width:'+Math.max(2,CPI_ANNUAL/scale*100).toFixed(0)+'%;background:var(--blue)"></i></div></div>';
-
-    if(aboveInflation>5){
-      h+='<div class="note">This is rising <b>'+pct(aboveInflation)+'/yr faster than inflation</b> — roughly <b>'+money(Math.max(0,excessDollars))+'/mo</b> above an inflation-only path. That\'s often a rate case or new surcharge, not your usage. Use the <a href="#complaint">complaint builder</a> below, and check whether a rate increase was filed with your regulator.</div>';
-    } else if(aboveInflation>0.5){
-      h+='<div class="note">A bit above inflation — common, but worth watching. Track it monthly; if it keeps climbing, the complaint builder is ready below.</div>';
-    } else {
-      h+='<div class="note">Your rate is tracking inflation or below — no red flag here. Keep a record so you\'d catch a future jump early.</div>';
-    }
-
-    $('resultBody').innerHTML=h;
-    $('result').style.display='block';
-    $('result').scrollIntoView({behavior:'smooth',block:'start'});
-    saveHistory({d:new Date().toISOString().slice(0,10),svc:SVC[svc],now:now,then:then,annualized:annualized});
-  }
-
-  function loadHist(){try{return JSON.parse(localStorage.getItem(HKEY)||'[]');}catch(e){return [];}}
-  function saveHistory(rec){var h=loadHist();h.unshift(rec);h=h.slice(0,24);try{localStorage.setItem(HKEY,JSON.stringify(h));}catch(e){}renderHist();}
-  function renderHist(){
-    var h=loadHist(); if(!h.length){$('history').style.display='none';return;}
-    var rows='<tr><th>Date</th><th>Service</th><th>Now</th><th>Annualized</th></tr>';
-    h.forEach(function(r){rows+='<tr><td>'+r.d+'</td><td>'+r.svc+'</td><td>'+money(r.now)+'</td><td>'+pct(r.annualized)+'</td></tr>';});
-    $('htable').innerHTML=rows; $('history').style.display='block';
-  }
-  $('clearHist').addEventListener('click',function(){try{localStorage.removeItem(HKEY);}catch(e){}renderHist();});
-
-  // complaint builder
-  var TARGETS={
-    provider:'Customer Service / Billing Department',
-    puc:'State Public Utility / Public Service Commission, Consumer Affairs Division',
-    city:'City Council / Municipal Utility Board',
-    fcc:'Federal Communications Commission, Consumer Complaint Center'
+  // Admin login → straight to the gated radar (master / infrastructure = operator + Liz).
+  var al=document.getElementById('adminLink');
+  if(al) al.onclick=function(e){ e.preventDefault();
+    var pw=(window.prompt('Admin passcode:')||'').trim(); if(!pw)return;
+    fetch('/api/admin-auth',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({passcode:pw})})
+      .then(function(r){return r.json();}).then(function(j){
+        if(j&&j.ok){ try{ sessionStorage.setItem('limen_admin',JSON.stringify(j.person)); sessionStorage.setItem('limen_access','granted'); sessionStorage.setItem('limen_pass',pw); }catch(e){} window.location.href='/project-radar'; }
+        else alert('Incorrect passcode.');
+      }).catch(function(){ alert('Error — try again.'); });
   };
-  function genLetter(){
-    var issues=[].slice.call(document.querySelectorAll('.cissue:checked')).map(function(c){return c.value;});
-    if(!issues.length){alert('Pick at least one issue first.');return;}
-    var name=($('cname').value||'').trim()||'[Your name]';
-    var svc=SVC[$('svc').value], prov=($('prov').value||'').trim()||'my utility provider';
-    var to=TARGETS[$('ctarget').value];
-    var today=new Date().toISOString().slice(0,10);
-    var body=
-'To: '+to+'\nDate: '+today+'\nRe: Formal complaint regarding '+svc.toLowerCase()+' service from '+prov+'\n\n'+
-'To whom it may concern,\n\n'+
-'I am writing to formally raise concerns about my '+svc.toLowerCase()+' service'+($('prov').value?(' provided by '+$('prov').value):'')+'. Specifically:\n\n'+
-issues.map(function(s,i){return '  '+(i+1)+'. '+s+'.';}).join('\n')+'\n\n'+
-'I am requesting a written explanation of any rate changes, fees, or surcharges applied to my account, the date and authority under which they were approved, and an itemized breakdown of my current charges. If a rate increase was filed, please provide the docket or case number.\n\n'+
-'Please treat this as a formal complaint and respond in writing within a reasonable period. I am keeping a record of my bills and am prepared to escalate to the appropriate regulator if this is not resolved.\n\n'+
-'Sincerely,\n'+name;
-    var out=$('letterOut'); out.textContent=body; out.style.display='block'; $('copyLetter').style.display='inline-block';
-    out.scrollIntoView({behavior:'smooth',block:'nearest'});
-  }
-  $('genLetter').addEventListener('click',genLetter);
-  $('copyLetter').addEventListener('click',function(){
-    var t=$('letterOut').textContent;
-    if(navigator.clipboard){navigator.clipboard.writeText(t).then(function(){$('copyLetter').textContent='Copied ✓';setTimeout(function(){$('copyLetter').textContent='Copy';},1500);});}
-  });
+})();
+(function(){
+  // project type → { bid item (per-unit low/high + unit), needs[], survey:bool, bigCivil:bool }
+  var TYPES={
+    'Deck':{low:30,high:60,unit:'sq ft',svc:true,needs:['Building permit (most jurisdictions)','Property-line / setback check']},
+    'Retaining wall':{low:35,high:75,unit:'face sq ft',svc:true,needs:['Permit + engineered plans if over 4 ft','Topographic survey','Drainage review']},
+    'Patio / concrete':{low:8,high:18,unit:'sq ft',svc:false,needs:['Permit varies by size','Drainage check']},
+    'Fence':{low:25,high:55,unit:'linear ft',svc:true,needs:['Permit varies','Boundary / property-line survey (avoid disputes)']},
+    'Landscaping':{low:8,high:25,unit:'sq ft',svc:false,needs:['Usually no permit','Drainage check if regrading']},
+    'Grading / earthwork':{low:1,high:4,unit:'sq ft',svc:true,needs:['Grading permit','Topographic survey','Erosion / drainage plan']},
+    'Addition / remodel':{low:120,high:300,unit:'sq ft',svc:true,needs:['Building permit','Boundary survey','Site / plot plan']},
+    'New home / structure':{low:120,high:350,unit:'sq ft',svc:true,needs:['Boundary & topographic survey','Building permit','Site & grading plans']},
+    'Subdivision / development':{big:true,svc:true,needs:['Boundary & ALTA survey','Topographic survey','Grading plans','Environmental / CEQA review']},
+    'Road / site work':{big:true,svc:true,needs:['Engineering plans','Construction survey & staking','Permits']},
+    'Water / sewer':{big:true,svc:true,needs:['Engineering plans','Utility survey','Permits']},
+    'Other':{big:true,svc:true,needs:['Tell us a bit more and we’ll advise']}
+  };
+  var sel=document.getElementById('ptype');
+  sel.innerHTML=Object.keys(TYPES).map(function(k){return '<option>'+k+'</option>';}).join('');
+  function dollars(n){ return '$'+Math.round(n).toLocaleString(); }
+  function curType(){ return TYPES[sel.value]; }
+  function syncScope(){ var t=curType(); document.getElementById('scopeLbl').textContent = t.big?'Approx. budget / scope':('Size ('+t.unit+')'); }
+  sel.onchange=syncScope; syncScope();
+  document.getElementById('wantSurvey').onchange=function(){ document.getElementById('contactFields').classList.toggle('show', this.checked); };
 
-  // lead capture
-  (function(){
-    var em=$('cap-email'),cs=$('cap-consent'),btn=$('cap-btn'),st=$('capstat');
-    btn.addEventListener('click',function(){
-      var email=(em.value||'').trim();
-      if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){st.style.color='var(--red)';st.textContent='Enter a valid email.';return;}
-      if(!cs.checked){st.style.color='var(--red)';st.textContent='Please agree to be contacted.';return;}
-      st.style.color='var(--gold)';st.textContent='Saving…';btn.disabled=true;
-      fetch('/api/lead',{method:'POST',headers:{'content-type':'application/json'},
-        body:JSON.stringify({email:email,consent:true,interest:'infrastructure-watch',sourcePage:'/infrastructure'})})
-        .then(function(r){return r.json();}).then(function(j){
-          if(j&&j.ok){st.style.color='var(--emerald)';st.textContent='You’re on the list — thank you.';em.value='';}
-          else{st.style.color='var(--red)';st.textContent=(j&&j.error)||'Could not save — try again.';}
-        }).catch(function(){st.style.color='var(--red)';st.textContent='Network error — try again.';})
-        .finally(function(){btn.disabled=false;});
-    });
-  })();
+  // community aggregate line
+  fetch('/api/infra-entry?public=1').then(function(r){return r.json();}).then(function(j){
+    var a=j.aggregate||{}; if(a.total){ document.getElementById('aggLine').textContent=a.total+' projects planned here so far'+(a.leads?(' · '+a.leads+' connected with a surveyor'):''); }
+  }).catch(function(){});
 
-  $('analyze').addEventListener('click',compute);
-  renderHist();
+  document.getElementById('goBtn').onclick=function(){
+    var t=curType(), tname=sel.value;
+    var scope=parseFloat(document.getElementById('scope').value)||0;
+    var state=document.getElementById('state').value;
+    var consent=document.getElementById('wantSurvey').checked;
+    // estimate
+    var estV=document.getElementById('estV'), estN=document.getElementById('estN');
+    var lo=0,hi=0;
+    if(t.big || !scope){ estV.textContent='Project-scale'; estN.textContent=t.big?'request a quote — varies by scope':'enter a size for a ballpark'; }
+    else { lo=t.low*scope; hi=t.high*scope; estV.textContent=dollars(lo)+' – '+dollars(hi); estN.textContent='ballpark · '+t.low+'–'+t.high+'/'+t.unit+' × '+scope+' — verify locally'; }
+    // needs
+    document.getElementById('needsList').innerHTML=(t.needs||[]).map(function(n){return '<li>'+n+'</li>';}).join('');
+    // connect
+    var cb=document.getElementById('connectBox');
+    if(t.svc){ cb.style.display='block'; cb.innerHTML=consent
+      ? '<h3>✓ A licensed surveyor will reach out.</h3><p>We’ll connect you with a surveyor licensed in '+(state||'your state')+' for this project.</p>'
+      : '<h3>This project likely needs a survey.</h3><p>Check the box above and add your info — we’ll connect you with a licensed surveyor (CA · TN · KS).</p>'; }
+    else cb.style.display='none';
+    document.getElementById('result').classList.add('show');
+    document.getElementById('result').scrollIntoView({behavior:'smooth'});
+    // capture (anonymous project, or a lead if consent + contact)
+    var payload={ projectType:tname, ownerType:document.getElementById('owner').value, state:state, city:document.getElementById('city').value,
+      scope:scope?(''+scope+' '+(t.unit||'')):'', needs:t.needs||[], estLow:lo, estHigh:hi,
+      consent:consent, name:document.getElementById('cname').value, email:document.getElementById('cemail').value, phone:document.getElementById('cphone').value };
+    fetch('/api/infra-entry',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload)}).catch(function(){});
+  };
 })();
 </script>
 <script src="/assets/js/limen-nav.js"></script>

@@ -16,8 +16,7 @@
     { h: '🔌 Utility Watch', u: '/utility-watch' },
     { h: '🎵 Wave Radar (music)', u: '/wave-radar' },
     { h: '🎭 Culture', u: '/culture' },
-    { h: '🏗 Infrastructure Watch', u: '/infrastructure' },
-    { h: '📐 Plan Your Project', u: '/project-planner' },
+    { h: '🏗 Plan Your Project (Infrastructure)', u: '/infrastructure' },
     { h: '◴ Phase Map', u: '/phase-map' },
     { h: '🗺 Site Map (all pages)', u: '/pages' }
   ];
