@@ -14,7 +14,8 @@
  */
 const db = require('../lib/limen-db');
 
-const SAM_KEY = process.env.SAM_API_KEY || process.env.SAM_GOV_API_KEY || process.env.SAMGOV_API_KEY || '';
+const SAM_CANDIDATES = ['SAM_API_KEY', 'SAM_GOV_API_KEY', 'SAMGOV_API_KEY', 'SAM_API', 'SAM_KEY', 'SAM_GOV', 'SAMGOV', 'SAMGOV_KEY', 'SAM_GOV_KEY'];
+const SAM_KEY = (function () { for (var i = 0; i < SAM_CANDIDATES.length; i++) { if (process.env[SAM_CANDIDATES[i]]) return process.env[SAM_CANDIDATES[i]]; } return ''; })();
 const STATES = (process.env.CIVIL_RADAR_STATES || 'CA,TN,KS').split(',');
 const BASE = 'https://api.sam.gov/opportunities/v2/search';
 const TTL_MS = 6 * 60 * 60 * 1000;
@@ -53,6 +54,15 @@ async function fetchState(st) {
 module.exports = async function handler(req, res) {
   res.setHeader('content-type', 'application/json');
   res.setHeader('Cache-Control', 's-maxage=900');
+
+  // diag: which candidate env names are present (booleans only — never the value)
+  try {
+    if (new URL(req.url, 'http://x').searchParams.get('diag') === '1') {
+      var present = SAM_CANDIDATES.filter(function (n) { return !!process.env[n]; });
+      res.statusCode = 200;
+      return res.end(JSON.stringify({ ok: true, keyResolved: !!SAM_KEY, envNamesSet: present, allSamLike: Object.keys(process.env).filter(function (k) { return /SAM/i.test(k); }) }));
+    }
+  } catch (e) {}
 
   if (!SAM_KEY) {
     res.statusCode = 200;
