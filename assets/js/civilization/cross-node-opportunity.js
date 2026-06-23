@@ -78,7 +78,30 @@
     energy:        ['patents', 'sba-loans', 'business-grants'],
     industry:      ['patents', 'sba-loans'],
     agriculture:   ['business-grants', 'sba-loans', 'patents'],
-    economy:       ['sba-loans', 'investments'],
+    // ─── Economy = MACRO AGGREGATE (additive macro lanes) ──────────────────
+    // Economy is the macro aggregate (GDP/growth, inflation CPI/PCE, employment
+    // PAYEMS/UNRATE, fiscal & monetary policy FEDFUNDS/DGS10, sentiment UMCSENT,
+    // the recession/expansion business cycle) — DISTINCT from finance (capital
+    // markets / credit / banks). Firm-level lending/position lanes ('sba-loans',
+    // 'investments') are singleDomainOnly and therefore DROP macro-aggregate,
+    // multi-domain opportunities (forecasting, policy scenario analysis, real-
+    // time data infrastructure, cross-sector regime calls). Those need a home.
+    //
+    // The gap's intended macro lanes — economic-research, policy-white-papers,
+    // fred-syndication, forecasting-models — are macro/advisory in spirit. They
+    // map to EXISTING, already-gated, economy-accepting lanes in handoff-contract
+    // so the routing is LIVE (not a dead token the contract silently drops):
+    //   • economic-research / forecasting-models / policy scenario  → 'systemic-risk'
+    //       (singleDomainOnly:false, anyDomain includes 'economy') — carries the
+    //       multi-domain macro-regime / cross-sector / business-cycle signal that
+    //       the single-domain lanes route away.
+    //   • policy-white-papers / fred-syndication / capital conditions → 'capital-access'
+    //       (singleDomainOnly:false, anyDomain includes 'economy') — macro funding/
+    //       liquidity-condition opportunity that spans a sector cohort.
+    // Existing firm-level lanes are kept (never removed). credit-facilities is
+    // deliberately NOT added here — that is finance-native credit/lending; economy
+    // stays the macro aggregate, distinct from finance.
+    economy:       ['sba-loans', 'investments', 'systemic-risk', 'capital-access'],
     finance:       ['investments', 'copyrights', 'patents', 'business-grants', 'sba-loans', 'research-grants'],
     education:     ['research-grants', 'business-grants'],
     science:       ['research-grants', 'research-papers'],

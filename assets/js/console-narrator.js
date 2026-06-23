@@ -175,6 +175,24 @@
       finance_liquidity_crunch:      'Funding liquidity tightening. Short-term financing and market depth thinning.',
       finance_counterparty_risk:     'Counterparty risk rising. Bilateral exposure and settlement chains under strain.',
       finance_generic:               'Financial domain under stress. Capital, credit, and liquidity pressured.',
+      // Economy-specific distress voice — MACRO-AGGREGATE/business-cycle-grounded,
+      // mirrors energy's per-diagnosis narration (energy-brain diagnosisIndex) and the
+      // infrastructure/culture/finance ports above, but for the macroeconomy: GDP & growth,
+      // inflation (CPI/PCE), employment & labor markets, consumer & business sentiment,
+      // monetary & fiscal policy, the recession/expansion cycle. Maps to economy-node-business-
+      // engine fields (M1→Industrial-Production, THAL→GDP, STRI→Consumer-Spending,
+      // CBLM→Monetary-Policy, OFC→Price-Formation). Bound to MACRO INDICATORS (FRED series
+      // GDPC1/CPIAUCSL/PCEPI/UNRATE/PAYEMS/FEDFUNDS/DGS10/UMCSENT/INDPRO + broad-market proxies
+      // SPY/DIA/TLT/GLD), NOT single-company tickers — and DISTINCT from finance (capital markets).
+      economy_recession:             'GDP growth stalling. Demand weakness and inventory correction accelerating.',
+      economy_inflation:             'Price level surging. CPI and PCE running hot as expectations risk unanchoring.',
+      economy_stagflation:           'Stagflation signature forming. Prices climbing while output and growth stall.',
+      economy_credit_crunch:         'Credit conditions tightening. Spreads widening and lending standards constricting.',
+      economy_policy_error:          'Policy miscalibration risk rising. Rate path and fiscal stance straining confidence.',
+      economy_employment_deterioration:'Labor market softening. Jobless claims rising and payroll momentum fading.',
+      economy_demand_weakness:       'Aggregate demand weakening. Consumer confidence and business investment pulling back.',
+      economy_supply_disruption:     'Supply-side pressure building. Producer prices and input shortages straining output.',
+      economy_generic:               'Macroeconomy under stress. Growth, prices, and employment pressured.',
       global_shift:        'Global state shifted to {state}.',
       event_start:         '{event} detected.',
       event_end:           '{event} resolved.',
@@ -210,6 +228,15 @@
       finance_liquidity_crunch:      'Liquidity crunch. Secure funding lines and preserve cash.',
       finance_counterparty_risk:     'Counterparty risk. Review exposures and settlement chains.',
       finance_generic:               'Financial domain elevated. Investigate capital and credit.',
+      economy_recession:             'Growth stalling. Demand collapse. Cut capex and preserve cash.',
+      economy_inflation:             'Inflation surging. Hedge price risk and reprice contracts.',
+      economy_stagflation:           'Stagflation. Prices up, output down. Protect margins and liquidity.',
+      economy_credit_crunch:         'Credit crunch. Lock funding lines before they close.',
+      economy_policy_error:          'Policy risk. Reposition for rate and fiscal shifts.',
+      economy_employment_deterioration:'Labor weakening. Plan for slower demand and hiring freezes.',
+      economy_demand_weakness:       'Demand weak. Defer expansion and conserve capital.',
+      economy_supply_disruption:     'Supply shock. Secure inputs and rebuild inventory buffers.',
+      economy_generic:               'Macroeconomy elevated. Investigate growth and prices.',
       global_shift:        'State change: {state}.',
       event_start:         'Event: {event}. Tracking.',
       event_end:           'Event cleared: {event}.',
@@ -360,6 +387,20 @@
       }
     }
 
+    // Economy parity: mirror energy's per-diagnosis voice the same way infrastructure,
+    // culture, and finance do. Economy is the MACRO AGGREGATE — classify the macroeconomic
+    // distress flavor from signal content (recession / inflation / stagflation / credit crunch /
+    // policy error / employment deterioration / demand weakness / supply disruption) and narrate
+    // an economy-specific line instead of the generic. This is CLIENT-SIDE narration flavor only,
+    // bound to MACRO INDICATORS (FRED series + broad-market proxies), kept DISTINCT from finance.
+    if (detail.domain === 'economy') {
+      var ekey = _classifyEconomyDistress(detail.signals);
+      if (ekey) {
+        _narrate(ekey, {}, PRIORITY_MEDIUM);
+        return;
+      }
+    }
+
     _narrate('domain_distress', { domain: NAMES[detail.domain] || detail.domain }, PRIORITY_MEDIUM);
   }
 
@@ -450,6 +491,43 @@
     if (/counterparty|settlement|bilateral|clearing|systemic|interbank/.test(blob)) return 'finance_counterparty_risk';
     if (/liquidity|funding|cash[\s_-]?crunch|market[\s_-]?depth|illiquid|run\b|withdrawal/.test(blob)) return 'finance_liquidity_crunch';
     return 'finance_generic';
+  }
+
+  // Map raw macro signal content → a macroeconomic distress voice key.
+  // Macro vocabulary covers the ECONOMY domain identity: GDP & growth, inflation (CPI/PCE),
+  // employment & labor markets, consumer & business sentiment, fiscal & monetary policy
+  // (central banks, interest rates), the recession/expansion business cycle, trade, productivity,
+  // money supply. Bound to REAL MACRO INDICATORS — FRED series ids (GDP, GDPC1, CPIAUCSL, PCEPI,
+  // UNRATE, PAYEMS, FEDFUNDS, DGS10, UMCSENT, INDPRO) and broad-market proxies (SPY, DIA, TLT,
+  // GLD) — NOT single-company tickers. This is the narration flavor ONLY and is kept DISTINCT
+  // from finance (capital markets / credit / banks). Returns a TEMPLATES key, or null.
+  function _classifyEconomyDistress(signals) {
+    var blob = '';
+    if (Array.isArray(signals)) {
+      for (var i = 0; i < signals.length; i++) {
+        var s = signals[i];
+        if (typeof s === 'string') blob += ' ' + s;
+        else if (s && typeof s === 'object') {
+          blob += ' ' + (s.type || '') + ' ' + (s.id || '') + ' ' + (s.label || '') + ' ' + (s.name || '');
+        }
+      }
+    }
+    blob = blob.toLowerCase();
+
+    // Order by specificity: stagflation (the joint price+output signature) first so it isn't
+    // masked by a lone inflation or recession token; then credit crunch, inflation, recession,
+    // employment, supply, policy, demand; fall back to a generic macro line. Mirrors the
+    // energy/infra/culture/finance classifier structure exactly. Matches FRED-series shorthand
+    // (cpiaucsl/pcepi/unrate/payems/fedfunds/dgs10/umcsent/indpro/gdpc1) alongside plain words.
+    if (/stagflation|(stagnant|stalling|contracting).*(inflation|price)|(inflation|price).*(stagnant|stalling|contracting)/.test(blob)) return 'economy_stagflation';
+    if (/credit[\s_-]?crunch|lending[\s_-]?(standard|tighten)|refinanc|spread[\s_-]?widen|tight(er|ening)?[\s_-]?credit|dgs10/.test(blob)) return 'economy_credit_crunch';
+    if (/inflation|cpi|cpiaucsl|pce(pi)?|wage[\s_-]?price|price[\s_-]?(surge|level)|expectations[\s_-]?unanchor|deflation/.test(blob)) return 'economy_inflation';
+    if (/recession|gdp|gdpc1|contraction|downturn|negative[\s_-]?growth|inventory[\s_-]?correction|indpro|industrial[\s_-]?production/.test(blob)) return 'economy_recession';
+    if (/unemploy|unrate|jobless|payems|payroll|labor[\s_-]?(force|market)|layoff|hiring[\s_-]?freeze|wage[\s_-]?stagnation/.test(blob)) return 'economy_employment_deterioration';
+    if (/supply[\s_-]?(chain|disruption|shock)|producer[\s_-]?price|ppi\b|input[\s_-]?shortage|bottleneck/.test(blob)) return 'economy_supply_disruption';
+    if (/policy|fedfunds|fed[\s_-]?funds|rate[\s_-]?(hike|cut|miscalibrat|path)|central[\s_-]?bank|fiscal[\s_-]?cliff|monetary/.test(blob)) return 'economy_policy_error';
+    if (/demand[\s_-]?weak|consumer[\s_-]?(confidence|sentiment)|umcsent|capex[\s_-]?(pause|pullback)|investment[\s_-]?pullback|business[\s_-]?sentiment/.test(blob)) return 'economy_demand_weakness';
+    return 'economy_generic';
   }
 
   function _onGlobalStateUpdate(e) {

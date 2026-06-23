@@ -482,6 +482,93 @@
         { label: 'investigate payment-system disruption', type: 'analysis' },
         { label: 'hold', type: 'monitoring' }
       ]
+    },
+    // ─── Economy pairs (parity port; mirrors energy/infrastructure/culture/finance structure) ──
+    // MACRO AGGREGATE identity ONLY — distinct from finance (capital markets/credit/banks).
+    // Binds to broad macro indicators: GDP & growth, inflation (CPI/PCE), employment &
+    // labor markets, consumer & business sentiment, fiscal & monetary policy (central
+    // banks, rates), the recession/expansion business cycle, productivity, money supply.
+    // Real FRED series ids (GDP, GDPC1, CPIAUCSL, PCEPI, UNRATE, PAYEMS, FEDFUNDS, DGS10,
+    // UMCSENT, INDPRO) + broad-market proxies (SPY, DIA, TLT, GLD) — never single-company
+    // tickers, never fabricated. ADDITIVE — does not touch any validated scoring path.
+    {
+      // Mirrors 'infrastructure_research' (innovation-cluster structure) translated to
+      // macro-econometric research/data-infrastructure pipelines.
+      id: 'economy_research',
+      domains: ['economy', 'research'],
+      threshold: 0.45,
+      pattern: 'macro-research infrastructure stress',
+      drivers: ['research funding contraction', 'economic forecast model lag', 'statistical infrastructure underinvestment'],
+      options: [
+        { label: 'trace economy-research pipeline', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Parity to 'culture_technology' / 'finance_technology' (platform-dependency,
+      // payment-processing stress) applied to the macro labor/demand transmission layer.
+      id: 'economy_technology',
+      domains: ['economy', 'technology'],
+      threshold: 0.50,
+      pattern: 'macro-technology transmission',
+      drivers: ['automation-driven employment displacement (PAYEMS/UNRATE shift)', 'fintech payment-processing capacity stress', 'high-frequency-trading systemic transmission', 'digital-infrastructure downtime affecting demand measurement'],
+      options: [
+        { label: 'map economy-technology exposure', type: 'analysis' },
+        { label: 'investigate automation labor-market impact', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'supplyChain_agriculture' / 'agriculture_population' translated to the
+      // macro CPI / real-wage / aggregate-demand channel.
+      id: 'economy_agriculture',
+      domains: ['economy', 'agriculture'],
+      threshold: 0.45,
+      pattern: 'food-inflation macro feedback',
+      drivers: ['food-price inflation feedback (CPIAUCSL/PCEPI)', 'crop yield volatility demand destruction', 'farm-income collapse aggregate-demand loss'],
+      options: [
+        { label: 'trace food-inflation macro feedback', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'infrastructure_education' / 'culture_education' (workforce-pipeline stress)
+      // translated to the macro labor-market / disposable-income channel.
+      id: 'economy_education',
+      domains: ['economy', 'education'],
+      threshold: 0.50,
+      pattern: 'workforce-pipeline macro stress',
+      drivers: ['student-debt delinquency surge', 'tuition-inflation erosion of disposable income (CPIAUCSL)', 'workforce-skill mismatch labor-market friction (UNRATE/PAYEMS)'],
+      options: [
+        { label: 'trace economy-education pipeline', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Parity to 'infrastructure_environment' (climate adaptation/coupling) translated to
+      // the macro capital-allocation / inflation / GDP channel.
+      id: 'economy_environment',
+      domains: ['economy', 'environment'],
+      threshold: 0.50,
+      pattern: 'climate-macro transmission',
+      drivers: ['climate-adaptation capex diversion (INDPRO/GDPC1 drag)', 'natural-disaster economic loss', 'carbon-tax incidence on cost-of-living (CPIAUCSL)'],
+      options: [
+        { label: 'trace climate-macro transmission', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'communication_culture' (narrative fragmentation) translated to the macro
+      // consumer-confidence / sentiment-driven demand channel (UMCSENT).
+      id: 'economy_communication',
+      domains: ['economy', 'communication'],
+      threshold: 0.50,
+      pattern: 'sentiment-confidence macro stress',
+      drivers: ['consumer-confidence collapse from misinformation (UMCSENT)', 'policy-credibility erosion reducing fiscal-multiplier', 'retail-spending hesitation from narrative fragmentation'],
+      options: [
+        { label: 'trace sentiment-confidence macro linkage', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
     }
   ];
 

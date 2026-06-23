@@ -2236,6 +2236,54 @@
       ]
     }
   ],
+  "_marketContext": {
+    "_comment": "ADDITIVE metadata (does not alter activations/edges). Separates broad-market MACRO ANCHORS from individual PLAYER NODES so analysts never conflate company-level alpha (a single bank's strategy/earnings) with macro-level beta (aggregate investor expectation of economic growth). A JPM stock move is NOT a macro signal; an SPY move IS. Finance stays DISTINCT from the 'economy' domain: economy owns the MACRO AGGREGATE (GDP/CPI/employment/policy via FRED series); finance owns CAPITAL MARKETS / CREDIT / BANKS. These broad-market proxies anchor capital-market activations to macroeconomic conditions WITHOUT importing economy's FRED macro indicators.",
+    "schemaVersion": "market-context.v1.0",
+    "separationPrinciple": "macro_beta_vs_company_alpha",
+    "macroAnchors": [
+      {
+        "symbol": "SPY",
+        "name": "SPDR S&P 500 ETF Trust",
+        "instrumentType": "broad_market_proxy",
+        "signalClass": "macro_beta",
+        "reflects": "Aggregate investor expectation of broad U.S. corporate-earnings growth and equity-market health; a genuine macro/risk-sentiment signal, not the performance of any single firm",
+        "anchorsActivations": ["NAcc", "VTA"],
+        "binding_strength": 0.9
+      },
+      {
+        "symbol": "DIA",
+        "name": "SPDR Dow Jones Industrial Average ETF Trust",
+        "instrumentType": "broad_market_proxy",
+        "signalClass": "macro_beta",
+        "reflects": "Blue-chip industrial equity breadth; corroborating broad-market read on aggregate large-cap conditions distinct from any individual constituent",
+        "anchorsActivations": ["NAcc"],
+        "binding_strength": 0.8
+      },
+      {
+        "symbol": "TLT",
+        "name": "iShares 20+ Year Treasury Bond ETF",
+        "instrumentType": "broad_market_proxy",
+        "signalClass": "macro_beta",
+        "reflects": "Long-rate regime and duration risk; aggregate market judgment on the long end of the curve and growth/inflation expectations, not a single issuer's credit",
+        "anchorsActivations": ["vmPFC"],
+        "binding_strength": 0.85
+      },
+      {
+        "symbol": "GLD",
+        "name": "SPDR Gold Shares",
+        "instrumentType": "broad_market_proxy",
+        "signalClass": "macro_beta",
+        "reflects": "Risk-off / safe-haven sentiment and real-rate / currency-debasement fears; a system-wide sentiment anchor independent of any financial intermediary's profitability",
+        "anchorsActivations": ["FEF", "CeA"],
+        "binding_strength": 0.8
+      }
+    ],
+    "playerNodes": {
+      "_comment": "Individual financial intermediaries already bound in 'activations'. Their share prices reflect COMPANY STRATEGY and firm-specific profitability (alpha) and must NOT be read as macro signals. Listed here only to make the macro/company distinction explicit; their bindings live in 'activations' and are unchanged.",
+      "signalClass": "company_alpha",
+      "tickers": ["JPM", "BAC", "C", "WFC", "GS", "MS", "BLK", "KKR", "BX", "SCHW", "MA", "V", "PYPL", "SQ", "MSCI"]
+    }
+  },
   "edges": [
     {
       "source": "THAL",

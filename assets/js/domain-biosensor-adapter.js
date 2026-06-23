@@ -128,7 +128,26 @@
       label: 'Macroeconomic assessment pressure',
       arousal: 'Policy response urgency — high arousal during macro shocks suggests reactive rather than deliberate assessment',
       coherence: 'Forecast consistency — low coherence during contradictory signals suggests unreliable economic outlook',
-      cognitiveLoad: 'Indicator complexity — high load with multiple concurrent stress signals suggests analytical saturation'
+      cognitiveLoad: 'Indicator complexity — high load with multiple concurrent stress signals suggests analytical saturation',
+      // Macro intake/triage readiness map: regulation state → macro monitoring/research intake cadence.
+      // Consumed by economy-clarity-operator outcome tracking (forecasting horizon, research-program
+      // throughput, indicator-monitoring focus, recession/inflation tail-risk triage). MACRO AGGREGATE
+      // identity only — distinct from finance (capital markets/credit/banks): GDP & growth, inflation
+      // (CPI/PCE), employment & labor markets, consumer & business sentiment, fiscal & monetary policy
+      // (central banks, interest rates), the recession/expansion business cycle, trade balance,
+      // productivity, money supply. Reference macro identifiers are FRED series ids and broad-market
+      // proxies, never single-company tickers: GDP, GDPC1, CPIAUCSL, PCEPI, UNRATE, PAYEMS, FEDFUNDS,
+      // DGS10, UMCSENT, INDPRO; SPY, DIA, TLT, GLD. Operator arousal/coherence during macro shocks gate
+      // research-intake cadence (high arousal = reactive crisis-mode triage; low arousal = deliberate
+      // analysis-mode). STRICTLY ADDITIVE — does not touch any validated scoring spine.
+      readiness: {
+        calm: 'Steady operator state — safe to expand forecasting horizon: initiate long-run structural analysis (GDPC1 potential-output and productivity/INDPRO trends, demographic labor-supply paths), open new research initiatives across business-cycle, inflation (CPIAUCSL/PCEPI) and policy (FEDFUNDS/DGS10) regimes.',
+        focused: 'Productive engagement — sustain economic monitoring and in-flight analysis (UNRATE/PAYEMS labor tracking, UMCSENT sentiment, broad-market regime via SPY/DIA/TLT); admit only incremental, well-scoped research additions and hold open-ended new programs.',
+        pressured: 'Elevated load — defer non-urgent analysis and long-run structural research; focus on real-time indicator monitoring and short-run forecasting of the active regime (inflation prints, labor releases, rate path, near-term growth nowcast).',
+        overloaded: 'Saturated — pause all non-critical research; respond only to immediate economic shocks and triage recession/inflation tail risks (yield-curve/DGS10 inversion, FEDFUNDS policy stress, UNRATE deterioration, flight-to-safety in TLT/GLD).',
+        recovering: 'Stabilizing — resume longer-run structural analysis first (productivity, potential output, trade balance), then reopen research programs gradually as indicator volatility settles and the regime outlook normalizes.',
+        unknown: 'Regulation state unavailable — default to snapshot-driven prioritization (active-regime indicator stress and business-cycle-phase ranking).'
+      }
     },
     infrastructure: {
       label: 'Maintenance and response readiness',

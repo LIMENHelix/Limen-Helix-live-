@@ -44,10 +44,59 @@
  *   Thing1 P3 distress kernel remains the sole scoring authority; the bus
  *   merely transports already-scored emissions.
  *
+ * Cross-domain examples — OTHER → ECONOMY (economy as a target). Economy is
+ * the MACRO AGGREGATE (GDP/inflation/employment/sentiment/policy/business
+ * cycle) and is DISTINCT from finance (capital markets / credit / banks). It
+ * is bound to BROAD MACRO INDICATORS — real FRED series and broad-market
+ * proxies, never single-company tickers. Economy was previously a SOURCE only
+ * (it emits to finance/supplyChain/energy/governance); these are its missing
+ * RETURN paths so the macro feedback loop is not silent in the bus:
+ *   finance     → economy  (liquidity_constraint → funding-market liquidity
+ *                           squeeze raises the cost of capital → capex &
+ *                           working-capital pullback → slower GDP growth,
+ *                           softer employment. Macro reads: GDPC1 (real GDP),
+ *                           FEDFUNDS / DGS10 (policy & term rates), PAYEMS /
+ *                           UNRATE (labor), broad-market proxies SPY / DIA /
+ *                           TLT. Finance also natively emits credit_transmission
+ *                           to economy — same return channel.)
+ *   supplyChain → economy  (logistics_constraint → supply disruption raises
+ *                           input costs and compresses throughput → demand
+ *                           shock + cost-push inflation. Macro reads: CPIAUCSL
+ *                           / PCEPI (price level), INDPRO (industrial
+ *                           production), UMCSENT (consumer sentiment).)
+ *   energy      → economy  (commodity_shock → fuel_cost_transmission /
+ *                           commodity_dislocation → fuel & power cost spike →
+ *                           headline inflation pass-through, real-income drag
+ *                           on consumption. Macro reads: CPIAUCSL / PCEPI,
+ *                           GLD as a broad inflation/commodity proxy.)
+ *   These modify economy's PRIOR growth expectation and stress calculation
+ *   AFTER the validated P3 kernel runs — they are external stress modifiers
+ *   ingested via the base receiveExternalSignal handler, NOT a second scorer.
+ *
+ * Cross-domain examples — ECONOMY → OTHER (economy as a source). Economy emits
+ * native macro signals when ≥1 active diagnosis is present (economy-brain.js):
+ *   economy → finance      (credit_conditions_shift   → macro deterioration
+ *                           tightens credit conditions / repricing)
+ *   economy → supplyChain  (demand_throughput_pressure → softer final demand
+ *                           cascades to order books & throughput)
+ *   economy → energy       (demand_consumption_shift   → cycle turn shifts
+ *                           power/fuel consumption)
+ *   economy → governance   (policy_response_pressure   → fiscal/monetary
+ *                           response pressure: FEDFUNDS path, fiscal stance)
+ *   Macro anchors behind economy emissions (REAL FRED series + broad-market
+ *   proxies, never fabricated tickers): GDP, GDPC1, CPIAUCSL, PCEPI, UNRATE,
+ *   PAYEMS, FEDFUNDS, DGS10, UMCSENT, INDPRO; SPY, DIA, TLT, GLD. The
+ *   recession/expansion business cycle is the macro regime these traverse —
+ *   e.g. finance liquidity crisis → higher cost of capital → slower GDP →
+ *   weaker employment → dampened consumer spending → amplified cycle (the
+ *   return loop economy must close). SIGNAL examples only — Thing1 P3 remains
+ *   the sole scoring authority; the bus merely transports scored emissions.
+ *
  * Also detects:
  *   - Propagation chains (A→B→C)
  *   - Co-activation (multiple domains emitting simultaneously)
- *   - Causal loops (A→B→A, e.g. energy→finance→energy via cost-of-capital)
+ *   - Causal loops (A→B→A, e.g. energy→finance→energy via cost-of-capital;
+ *     finance→economy→finance via cost-of-capital→GDP→credit conditions)
  *   - Regime-level cascade (>3 domains in emission chain)
  *
  * Exposes: window.LIMENInterBrainBus

@@ -290,6 +290,99 @@
       rightHtml += '</div>';
     }
 
+    // ── ECONOMY-SPECIFIC PORTAL SECTIONS ─────────────────────────────────
+    // Macroeconomic parity with the energy domain's company-metadata sections,
+    // mirroring the infrastructure and finance blocks above. STRICTLY ADDITIVE
+    // render-layer content keyed on co.domainId === 'economy'; it never touches
+    // the validated P3 distress kernel scoring path.
+    //
+    // Economy is the MACRO AGGREGATE and stays DISTINCT from finance (capital
+    // markets / credit / banks). Where finance surfaces a company's own credit
+    // facilities, economy surfaces how a company is COUPLED to the macro
+    // regime — derived from its economy-node mapping (economy-node-business-
+    // engine.js maps e.g. a bank to CBLM=Monetary-Policy / credit transmission,
+    // a digital retailer to CAUD=Digital-Economy) and that node's dysregulation
+    // thresholds. Content is macro only: GDP & growth (GDP/GDPC1), inflation
+    // (CPIAUCSL/PCEPI), employment & labor (UNRATE/PAYEMS), sentiment
+    // (UMCSENT/INDPRO), fiscal & monetary policy (FEDFUNDS/DGS10), the business
+    // cycle, trade balance, and productivity — NEVER oil/gas/grid/datacenter.
+    //
+    // Energy's oil/gas/grid/datacenter mix is translated to the macro
+    // equivalents: macro-factor exposure (energy: generation mix), business-
+    // cycle position (energy: maintenance/asset-age), fiscal/monetary policy
+    // exposure (energy: NERC/FERC compliance), and demand/supply position
+    // (energy: capital funding). Each reads OPTIONAL company-JSON fields and
+    // degrades gracefully (cp-empty) when not yet populated.
+    if (co.domainId === 'economy') {
+      // Macro Exposure — sensitivities to the macro regime (energy: generation mix)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Macro Exposure</div>';
+      var _mex = co.macroExposure;
+      if (_mex && (Array.isArray(_mex) ? _mex.length : Object.keys(_mex).length)) {
+        var _mexEntries = Array.isArray(_mex)
+          ? _mex.map(function (e) { return [e.factor || e.label || '', e.sensitivity != null ? e.sensitivity : (e.beta != null ? e.beta : (e.value != null ? e.value : e.detail))]; })
+          : Object.keys(_mex).map(function (kk) { return [kk, _mex[kk]]; });
+        for (var mex = 0; mex < _mexEntries.length; mex++) {
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_mexEntries[mex][0]) + '</span><span class="cp-value">' + esc(String(_mexEntries[mex][1])) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No macro-factor sensitivities recorded (GDP-growth sensitivity, employment elasticity, inflation beta vs CPI/PCE, credit-cycle correlation, fiscal-multiplier weight)</div>';
+      }
+      rightHtml += '</div>';
+
+      // Business Cycle — position in the expansion/recession cycle (energy: maintenance/asset-age)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Business Cycle</div>';
+      var _bcm = co.businessCycleMetrics;
+      if (_bcm && Object.keys(_bcm).length > 0) {
+        var _bcmKeys = Object.keys(_bcm);
+        for (var bck = 0; bck < _bcmKeys.length; bck++) {
+          var _bcmv = _bcm[_bcmKeys[bck]];
+          var _bcmStr = (_bcmv && typeof _bcmv === 'object' && !Array.isArray(_bcmv))
+            ? Object.keys(_bcmv).map(function (sk) { return sk + ': ' + _bcmv[sk]; }).join('  ·  ')
+            : String(_bcmv);
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_bcmKeys[bck]) + '</span><span class="cp-value">' + esc(_bcmStr) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No business-cycle data (recession-probability vs base, cycle-relative position, leading-indicator composite, default-risk proxy)</div>';
+      }
+      rightHtml += '</div>';
+
+      // Policy Exposure — fiscal & monetary policy coupling (energy: NERC/FERC compliance)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Policy Exposure</div>';
+      var _pex = co.policyExposure;
+      if (_pex && (Array.isArray(_pex) ? _pex.length : Object.keys(_pex).length)) {
+        var _pexEntries = Array.isArray(_pex)
+          ? _pex.map(function (e) { return [e.lever || e.policy || e.label || '', (e.exposure != null ? e.exposure : (e.value != null ? e.value : e.detail)) + (e.trend ? ' (' + e.trend + ')' : '')]; })
+          : Object.keys(_pex).map(function (kk) { return [kk, _pex[kk]]; });
+        for (var pex = 0; pex < _pexEntries.length; pex++) {
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_pexEntries[pex][0]) + '</span><span class="cp-value">' + esc(String(_pexEntries[pex][1])) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No policy-exposure record (fiscal-stimulus beneficiary vs drag, monetary-transmission lag vs FEDFUNDS/DGS10, regulatory-uncertainty ranking)</div>';
+      }
+      rightHtml += '</div>';
+
+      // Demand / Supply Position — macro shock resilience (energy: capital funding)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Demand / Supply Position</div>';
+      var _dsp = co.demandSupplyProfile;
+      if (_dsp && Object.keys(_dsp).length > 0) {
+        var _dspKeys = Object.keys(_dsp);
+        for (var dsk = 0; dsk < _dspKeys.length; dsk++) {
+          var _dspv = _dsp[_dspKeys[dsk]];
+          var _dspStr = (_dspv && typeof _dspv === 'object' && !Array.isArray(_dspv))
+            ? Object.keys(_dspv).map(function (sk) { return sk + ': ' + _dspv[sk]; }).join('  ·  ')
+            : String(_dspv);
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_dspKeys[dsk]) + '</span><span class="cp-value">' + esc(_dspStr) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No demand/supply profile (demand-shock resilience, supply-chain redundancy, input-cost exposure, margin-compression risk)</div>';
+      }
+      rightHtml += '</div>';
+    }
+
     // Warning signals (placeholder for future)
     rightHtml += '<div class="cp-section">';
     rightHtml += '<div class="cp-section-title">Warning Signals</div>';

@@ -27,6 +27,8 @@
   var CULTURE_STACK_COOLDOWN = 180000; // 3 min between culture-stack narrations
   var FINANCE_STACK_THRESHOLD = 2; // a financial-vulnerability stack seen N times signals concentration
   var FINANCE_STACK_COOLDOWN = 180000; // 3 min between finance-stack narrations
+  var ECONOMY_STACK_THRESHOLD = 2; // a macroeconomic-vulnerability stack seen N times signals concentration
+  var ECONOMY_STACK_COOLDOWN = 180000; // 3 min between economy-stack narrations
 
   // ─── Infrastructure vulnerability-stack semantics ─────────────────────────
   // CIVIL domain-semantic concentration. Generic (domain, action) frequency only
@@ -145,6 +147,54 @@
       body: 'Operator attention concentrates on the counterparty-exposure + liquidity-crunch stack — repo haircuts and funding stress propagating systemic contagion.' }
   ];
 
+  // ─── Economy vulnerability-stack semantics ────────────────────────────────
+  // MACROECONOMIC domain-semantic concentration. As with infrastructure, culture and
+  // finance, generic (domain, action) frequency only says WHERE the operator is
+  // looking; for the economy domain we also detect WHAT macroeconomic-vulnerability
+  // STACK the attention concentrates on. Each stack is a co-occurring pair of macro
+  // signal families (GDP & growth/inflation CPI-PCE/employment & labor/demand & supply
+  // shocks/credit cycle/monetary & fiscal policy/wages & productivity/capacity & output).
+  // The economy is the MACRO AGGREGATE — distinct from finance (capital markets, credit,
+  // banks). It binds to MACRO INDICATORS (real FRED series ids + broad-market proxies),
+  // never single-company tickers. Mirrors the economy-node-business-engine neuro pairs:
+  //   CBLM monetary-policy dysregulation + OFC price-formation dysregulation
+  //                                          → policy/inflation regime stack
+  //   DEMAND_SHOCK + UNEMPLOYMENT_SHOCK      → demand-destruction recessionary spiral
+  // Signal tokens are matched against recorded action/type/pattern text — never
+  // invented; absence of tokens simply yields no stack (silent, no false signal).
+  // STRICTLY ADDITIVE: advisory only; never participates in /api/limen/score scoring
+  // and never conflated with the finance capital-markets layer above.
+  var ECONOMY_SIGNAL_TOKENS = {
+    UNEMPLOYMENT_SHOCK:      /(unemployment|jobless|layoff|payroll|nonfarm|UNRATE|PAYMS|PAYEMS|initial[_\s-]?claims|labor[_\s-]?market|job[_\s-]?losses|hiring[_\s-]?freeze|labor[_\s-]?slack)/i,
+    DEMAND_SHOCK:           /(demand[_\s-]?shock|consumer[_\s-]?spending|consumption|retail[_\s-]?sales|PCE|demand[_\s-]?collapse|aggregate[_\s-]?demand|spending[_\s-]?pullback|household[_\s-]?demand)/i,
+    SUPPLY_SHOCK:           /(supply[_\s-]?shock|supply[_\s-]?constraint|production[_\s-]?cut|INDPRO|industrial[_\s-]?production|capacity[_\s-]?utilization|input[_\s-]?cost|commodity[_\s-]?shock|shortage[_\s-]?driven)/i,
+    CREDIT_CRUNCH:          /(credit[_\s-]?crunch|credit[_\s-]?tightening|lending[_\s-]?standards|loan[_\s-]?contraction|bank[_\s-]?lending|credit[_\s-]?availability|money[_\s-]?supply|M2|disintermediation)/i,
+    INFLATION_SURGE:        /(inflation|CPI|CPIAUCSL|PCEPI|price[_\s-]?level|price[_\s-]?surge|cost[_\s-]?of[_\s-]?living|overheating|inflation[_\s-]?expectations|sticky[_\s-]?inflation|price[_\s-]?pressure)/i,
+    POLICY_ERROR:           /(policy[_\s-]?error|rate[_\s-]?miscalibration|fed[_\s-]?funds|FEDFUNDS|FOMC|tightening[_\s-]?cycle|easing[_\s-]?cycle|hawkish|dovish|monetary[_\s-]?misstep|fiscal[_\s-]?misstep|DGS10|yield[_\s-]?curve[_\s-]?inversion)/i,
+    WAGE_STAGNATION:        /(wage[_\s-]?stagnation|real[_\s-]?wage|wage[_\s-]?growth|earnings[_\s-]?growth|purchasing[_\s-]?power|stagnant[_\s-]?wages|compensation[_\s-]?gap|wage[_\s-]?price[_\s-]?spiral|productivity[_\s-]?gap)/i,
+    CAPACITY_COLLAPSE:      /(capacity[_\s-]?collapse|output[_\s-]?gap|recession|contraction|GDP|GDPC1|negative[_\s-]?growth|business[_\s-]?cycle|downturn|slack[_\s-]?economy|potential[_\s-]?output|stall[_\s-]?speed)/i
+  };
+
+  // Macroeconomic-vulnerability STACKS — ordered token pairs with a macro interpretation.
+  // Each describes an operator-concentration meaning specific to a macroeconomic regime
+  // (GDP & growth, inflation, employment, sentiment, fiscal & monetary policy, the
+  // recession/expansion business cycle, trade, productivity, money supply) — the MACRO
+  // AGGREGATE, NOT finance capital-markets and NOT energy oil/gas/grid/datacenter content.
+  var ECONOMY_VULN_STACKS = [
+    { id: 'STAGFLATION',            signals: ['INFLATION_SURGE', 'DEMAND_SHOCK'],
+      body: 'Operator attention concentrates on the inflation-surge + demand-shock stack — a stagflationary regime where rising prices coincide with weakening aggregate demand.' },
+    { id: 'CREDIT_CYCLE',           signals: ['CREDIT_CRUNCH', 'CAPACITY_COLLAPSE'],
+      body: 'Operator attention concentrates on the credit-crunch + capacity-collapse stack — tightening lending and a closing output gap turning the credit cycle down into contraction.' },
+    { id: 'POLICY_TRAP',            signals: ['POLICY_ERROR', 'INFLATION_SURGE'],
+      body: 'Operator attention concentrates on the policy-error + inflation-surge stack — a monetary/fiscal policy trap where rate miscalibration lets inflation overshoot.' },
+    { id: 'DEMAND_DESTRUCTION',     signals: ['DEMAND_SHOCK', 'UNEMPLOYMENT_SHOCK'],
+      body: 'Operator attention concentrates on the demand-shock + unemployment-shock stack — collapsing consumption and rising joblessness driving a recessionary demand-destruction spiral.' },
+    { id: 'REAL_WAGE_COLLAPSE',     signals: ['INFLATION_SURGE', 'WAGE_STAGNATION'],
+      body: 'Operator attention concentrates on the inflation-surge + wage-stagnation stack — rising prices outpacing stagnant wages, eroding real purchasing power.' },
+    { id: 'SUPPLY_SHOCK_SPILLOVER', signals: ['SUPPLY_SHOCK', 'CREDIT_CRUNCH'],
+      body: 'Operator attention concentrates on the supply-shock + credit-crunch stack — a supply-side disruption spilling over into tighter credit and constrained financing.' }
+  ];
+
   // ─── State ───────────────────────────────────────────────────────────────
 
   var _entries = [];
@@ -156,6 +206,8 @@
   var _lastCultureStackId = null;
   var _lastFinanceStackTime = 0;
   var _lastFinanceStackId = null;
+  var _lastEconomyStackTime = 0;
+  var _lastEconomyStackId = null;
   var _interval = null;
 
   // Detect which civil signal families a user-action references, by scanning its
@@ -190,6 +242,18 @@
     var hits = [];
     for (var sig in FINANCE_SIGNAL_TOKENS) {
       if (FINANCE_SIGNAL_TOKENS[sig].test(text)) hits.push(sig);
+    }
+    return hits;
+  }
+
+  // Detect which macroeconomic signal families a user-action references, by scanning its
+  // free-text fields (action / type / cross-domain pattern). Returns a list of
+  // canonical economy signal ids. Never fabricates — empty if nothing matches.
+  function _detectEconomySignals(text) {
+    if (!text) return [];
+    var hits = [];
+    for (var sig in ECONOMY_SIGNAL_TOKENS) {
+      if (ECONOMY_SIGNAL_TOKENS[sig].test(text)) hits.push(sig);
     }
     return hits;
   }
@@ -234,6 +298,10 @@
       // FINANCE: which financial signal families this action touches (may be []).
       financeSignals: _detectFinanceSignals(
         [detail.action, detail.type, matchedPattern, detail.signal, detail.diagnosis].join(' ')
+      ),
+      // ECONOMY: which macroeconomic signal families this action touches (may be []).
+      economySignals: _detectEconomySignals(
+        [detail.action, detail.type, matchedPattern, detail.signal, detail.diagnosis].join(' ')
       )
     };
 
@@ -247,6 +315,7 @@
     _checkInfraStackConcentration();
     _checkCultureStackConcentration();
     _checkFinanceStackConcentration();
+    _checkEconomyStackConcentration();
   }
 
   // ─── Concentration detection ──────────────────────────────────────────────
@@ -519,6 +588,73 @@
     });
   }
 
+  // ─── Economy vulnerability-stack concentration ────────────────────────────
+  // Domain-semantic concentration for ECONOMY: beyond "which domain" (above),
+  // surface WHICH macroeconomic-vulnerability STACK the operator keeps returning to.
+  // Tallies co-occurring macro signal families across recent entries and fires when a
+  // known stack (stagflation, credit-cycle, policy-trap, demand-destruction,
+  // real-wage-collapse, supply-shock-spillover) crosses the threshold. Schema-faithful
+  // to _checkFinanceStackConcentration (same phase-change shape). STRICTLY ADDITIVE,
+  // advisory only, and kept DISTINCT from the finance capital-markets layer above.
+
+  function _checkEconomyStackConcentration() {
+    var now = Date.now();
+    if (now - _lastEconomyStackTime < ECONOMY_STACK_COOLDOWN) return;
+    if (_entries.length < ECONOMY_STACK_THRESHOLD) return;
+
+    // Count per-signal-family hits across recent entries (last 10).
+    var recent = _entries.slice(-10);
+    var sigCounts = {};
+    for (var i = 0; i < recent.length; i++) {
+      var sigs = recent[i].economySignals || [];
+      for (var s = 0; s < sigs.length; s++) {
+        sigCounts[sigs[s]] = (sigCounts[sigs[s]] || 0) + 1;
+      }
+    }
+
+    // A stack fires only when BOTH of its signal families are present and at least
+    // one of them has been focused on repeatedly (>= threshold). Score = sum of the
+    // pair's counts; pick the strongest stack.
+    var best = null;
+    for (var k = 0; k < ECONOMY_VULN_STACKS.length; k++) {
+      var stack = ECONOMY_VULN_STACKS[k];
+      var a = sigCounts[stack.signals[0]] || 0;
+      var b = sigCounts[stack.signals[1]] || 0;
+      if (a === 0 || b === 0) continue;
+      if (Math.max(a, b) < ECONOMY_STACK_THRESHOLD) continue;
+      var score = a + b;
+      if (!best || score > best.score) best = { stack: stack, a: a, b: b, score: score };
+    }
+
+    if (!best) return;
+    if (best.stack.id === _lastEconomyStackId) return; // don't re-narrate the same stack
+
+    _lastEconomyStackTime = now;
+    _lastEconomyStackId = best.stack.id;
+
+    var drivers = [
+      best.a + ' recent actions touching ' + best.stack.signals[0],
+      best.b + ' recent actions touching ' + best.stack.signals[1]
+    ];
+
+    var options = [
+      { label: 'deepen ' + best.stack.id.toLowerCase().replace(/_/g, ' ') + ' analysis', type: 'analysis' },
+      { label: 'broaden scope', type: 'monitoring' },
+      { label: 'hold', type: 'monitoring' }
+    ];
+
+    _dispatch('limen:phase-change', {
+      from: 'observing',
+      to: 'concentrated',
+      type: 'decision-memory',
+      domain: 'economy',
+      stackId: best.stack.id,
+      topDrivers: drivers,
+      options: options,
+      body: best.stack.body
+    });
+  }
+
   // ─── Publish ──────────────────────────────────────────────────────────────
 
   function _publish() {
@@ -529,6 +665,7 @@
       infraSignalConcentration: _infraSignalConcentration(),
       cultureSignalConcentration: _cultureSignalConcentration(),
       financeSignalConcentration: _financeSignalConcentration(),
+      economySignalConcentration: _economySignalConcentration(),
       updated: Date.now()
     };
 
@@ -577,6 +714,23 @@
     var recent = _entries.slice(-10);
     for (var i = 0; i < recent.length; i++) {
       var sigs = recent[i].financeSignals || [];
+      for (var s = 0; s < sigs.length; s++) {
+        counts[sigs[s]] = (counts[sigs[s]] || 0) + 1;
+      }
+    }
+    var out = [];
+    for (var sig in counts) { out.push({ signal: sig, count: counts[sig] }); }
+    out.sort(function (x, y) { return y.count - x.count; });
+    return out;
+  }
+
+  // ECONOMY: roll up which macroeconomic signal families recent attention concentrates
+  // on (descending by count). Empty when no macroeconomic signals were detected.
+  function _economySignalConcentration() {
+    var counts = {};
+    var recent = _entries.slice(-10);
+    for (var i = 0; i < recent.length; i++) {
+      var sigs = recent[i].economySignals || [];
       for (var s = 0; s < sigs.length; s++) {
         counts[sigs[s]] = (counts[sigs[s]] || 0) + 1;
       }

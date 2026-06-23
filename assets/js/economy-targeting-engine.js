@@ -151,6 +151,32 @@
         { name: "Moody's", ticker: 'MCO' },
         { name: 'S&P Global Ratings', ticker: 'SPGI' }
       ]
+    },
+    economic_data_infrastructure: {
+      label: 'Economic-data infrastructure — statistical agencies & macro-data publishers/consumers',
+      // The macro aggregate's "true" signals originate at the government statistical
+      // agencies that publish the canonical series. Targeting here surfaces WHO
+      // PUBLISHES and WHO CONSUMES/REDISTRIBUTES that data — not just who analyzes it.
+      // Keywords include the real FRED series ids the economy domain binds to, so a
+      // directive referencing GDP/CPI/UNRATE/etc. routes to the data publishers.
+      keywords: [
+        'fred', 'bls', 'census', 'bea', 'statistical agency', 'economic data', 'data infrastructure',
+        'data publisher', 'series', 'release', 'print', 'revision', 'benchmark', 'data feed', 'index methodology',
+        // real FRED series ids the economy domain binds to (macro aggregate, NOT firm-level)
+        'gdp', 'gdpc1', 'cpiaucsl', 'pcepi', 'unrate', 'payems', 'fedfunds', 'dgs10', 'umcsent', 'indpro'
+      ],
+      tier3: [
+        // Government statistical-agency PUBLISHERS — non-investable (ticker: null), correctly
+        { name: 'Federal Reserve (FRED / Board research)', ticker: null },
+        { name: 'Bureau of Labor Statistics (BLS)', ticker: null },
+        { name: 'Census Bureau', ticker: null },
+        { name: 'Bureau of Economic Analysis (BEA)', ticker: null },
+        // Institutional CONSUMERS / redistributors of the canonical data (investable proxies, real tickers)
+        { name: 'S&P Global', ticker: 'SPGI' },
+        { name: "Moody's Analytics", ticker: 'MCO' },
+        { name: 'McKinsey Global Institute', ticker: null },
+        { name: 'Brookings Institution', ticker: null }
+      ]
     }
   };
 
@@ -164,13 +190,13 @@
     'OFC':   ['monetary_instruments', 'debt_markets'],                // Capital & Debt Markets
     'S1':    ['consumer_goods', 'labor_analytics'],                   // Consumer Demand & Employment
     'vmPFC': ['fiscal_advisory', 'macro_advisory'],                   // Fiscal & Macro Policy
-    'CBLM':  ['macro_advisory', 'central_banking'],                   // Economic Modeling & Forecasting
+    'CBLM':  ['macro_advisory', 'central_banking', 'economic_data_infrastructure'],  // Economic Modeling & Forecasting
     'M1':    ['industrial_production', 'technology_sector'],          // Innovation & Industrial Growth
     'THAL':  ['consumer_goods', 'real_estate'],                       // Domestic Market Distribution
     'VTA':   ['technology_sector', 'labor_analytics'],                // Digital Economy & Labor Tech
     'PAG':   ['real_estate', 'energy_economics'],                     // Real Assets & Energy
-    'NTS':   ['macro_advisory', 'fiscal_advisory'],                   // Policy Research & Analysis
-    'HIPP':  ['technology_sector', 'monetary_instruments'],           // Economic Data & Analytics
+    'NTS':   ['macro_advisory', 'fiscal_advisory', 'economic_data_infrastructure'],  // Policy Research & Analysis
+    'HIPP':  ['economic_data_infrastructure', 'technology_sector', 'monetary_instruments'],  // Economic Data & Analytics
     'CC':    ['consumer_goods', 'trade_policy'],                      // Commerce & Trade Flows
     'dlPFC': ['fiscal_advisory', 'central_banking'],                  // Regulatory & Monetary Oversight
     'dACC':  ['debt_markets', 'macro_advisory'],                      // Risk Assessment & Rating
@@ -194,7 +220,11 @@
     industrial_production: ['ZG', 'RDFN', 'CBRE', 'ADP', 'RHI', 'MAN'],
     technology_sector:     ['CAT', 'XOM', 'CVX', 'PLD', 'CBRE', 'WMT'],
     energy_economics:      ['WMT', 'AMZN', 'ADP', 'RHI', 'ZG', 'RDFN'],
-    debt_markets:          ['WMT', 'AMZN', 'CAT', 'GE', 'ZG', 'NVDA']
+    debt_markets:          ['WMT', 'AMZN', 'CAT', 'GE', 'ZG', 'NVDA'],
+    // Data-infrastructure surfaces statistical-agency publishers + canonical-data
+    // consumers (SPGI/MCO). Single-company operators (retail/industrial/energy/housing)
+    // are NOT macro-data publishers and must never appear here.
+    economic_data_infrastructure: ['WMT', 'AMZN', 'CAT', 'GE', 'XOM', 'CVX', 'ZG', 'RDFN', 'NEE', 'DUK', 'NVDA']
   };
 
   // ══════════════════════════════════════════════════════════════════════

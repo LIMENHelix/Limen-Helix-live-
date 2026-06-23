@@ -407,6 +407,27 @@
     // scoreStress / deriveDiagnoses spine or any locked scoring path consumed
     // by /api/limen/score or /api/helix/helix-report/score.
     var _bfm = _emO(slot && slot.brainFinanceModel);
+    // Economy parity: economy brains emit a recurrent MACROECONOMIC model
+    // (brainEconomyModel) that follows the SAME envelope signature as energy's
+    // energyModel, infrastructure's infrastructureModel, culture's cultureModel,
+    // and finance's financeModel, so Civilization + the Main Brain consume it
+    // identically. The economy model tracks the MACRO business cycle (the
+    // expansion/recession growth cadence, fiscal & monetary policy regulation —
+    // central-bank rate-setting / government spending, aggregate-demand health,
+    // and recession risk — output gaps / employment shocks) rather than
+    // neurological cycles, civil-asset lifecycles, attention economies, or
+    // single-firm capital lifecycles. Economy is the MACRO AGGREGATE and stays
+    // DISTINCT from finance (finance = credit, capital markets, banks, solvency
+    // of individual institutions; economy = GDP, inflation, employment, money
+    // supply, the whole-economy business cycle). Real signal validation anchors
+    // on REAL FRED macro series — GDPC1 (Real GDP), CPIAUCSL / PCEPI (inflation),
+    // UNRATE / PAYEMS (employment), M2 (money supply), FEDFUNDS (policy rate),
+    // DGS10 (10y Treasury), UMCSENT (consumer sentiment), INDPRO (industrial
+    // production) — and broad-market proxies SPY, DIA, TLT, GLD, never single
+    // company tickers. We map its macroeconomic field names onto the shared
+    // deepBrain envelope. Energy/infrastructure/culture/finance win when both
+    // are present (a slot is single-domain, so they never collide in practice).
+    var _bzm = _emO(slot && slot.brainEconomyModel);
     var deepBrain = _bem ? {
       cycle:           _num(_bem.cycle),
       predictionError: _emO(_bem.predictionError),
@@ -560,6 +581,76 @@
       creditCycleTrend:       _num(_bfm.creditCycleTrend),
       liquidityHeadroomTrend: _num(_bfm.liquidityHeadroomTrend),
       domainDiagnosisPacket: _emO(_bfm.domainFinancePacket) || _emO(_bfm.domainDiagnosisPacket)
+    } : _bzm ? {
+      // Macroeconomic business-cycle lifecycle mapped onto the shared recurrent
+      // envelope. macroGrowthCycle → cycle, fiscalMonetaryRegulation → regulation,
+      // recessionRisk / recessionaryStress → predictedStress,
+      // priorGrowthTrend → prior, domainEconomyPacket → domainDiagnosisPacket.
+      cycle:           _num(_bzm.macroGrowthCycle != null ? _bzm.macroGrowthCycle : _bzm.cycle),
+      predictionError: _emO(_bzm.predictionError),
+      // fiscalMonetaryRegulation is the economy regulation signal: the stance of
+      // fiscal & monetary policy — central-bank rate-setting (FEDFUNDS), money
+      // supply (M2), government fiscal posture — and how it is steering aggregate
+      // demand (analogous to energy's regulationState, infrastructure's
+      // capital-funding regulation, culture's expression state, and finance's
+      // funding-source quality). Accommodative / neutral / restrictive regime.
+      regulationState: (_bzm.fiscalMonetaryRegulation && _bzm.fiscalMonetaryRegulation.state)
+                       || _str(_bzm.fiscalMonetaryRegulation)
+                       || (_bzm.policyRegime && _bzm.policyRegime.state)
+                       || _str(_bzm.policyRegime)
+                       || (_bzm.regulation && _bzm.regulation.state)
+                       || null,
+      regulation:      _emO(_bzm.fiscalMonetaryRegulation) || _emO(_bzm.policyRegime) || _emO(_bzm.regulation),
+      readyForHandoff: _bzm.readyForHandoff === true,
+      // recessionRisk is the economy predicted-stress signal (likelihood of a
+      // recessionary contraction — negative output gap, rising unemployment,
+      // demand collapse), carried through unchanged in [0..1]. recessionaryStress
+      // is the broader contraction-severity analogue; either may stand in for
+      // predictedStress, recessionRisk wins as the more acute near-term signal.
+      // An expansionary reading is the low-stress end of the same axis.
+      predictedStress: _num(
+        _bzm.recessionRisk != null ? _bzm.recessionRisk
+        : (_bzm.recessionaryStress != null ? _bzm.recessionaryStress
+        : (_bzm.expansionaryStress != null ? _bzm.expansionaryStress
+        : _bzm.predictedStress))
+      ),
+      // priorGrowthTrend carries the prior on aggregate-growth health (the GDP
+      // growth trajectory), mirroring energy's prior, infrastructure's
+      // priorAssetHealth, culture's creativeCapacity, and finance's
+      // priorCapitalHealth. When reported as a growth/health value ([0..1] high =
+      // strong expansion / healthy), invert into a stress (recession) expectation;
+      // an explicit expectedStress wins.
+      prior:           (_bzm.priorGrowthTrend || _bzm.prior)
+                       ? (function (p) {
+                           return {
+                             // expectedStress mirrors energy: here the prior
+                             // expected recessionary / contraction distress level.
+                             expectedStress: _num(
+                               p.expectedStress != null ? p.expectedStress
+                               : (p.expectedRecession != null ? p.expectedRecession
+                               : (typeof p.growthHealth === 'number' ? (1 - _clamp01(p.growthHealth))
+                               : (typeof p.growth === 'number' ? (1 - _clamp01(p.growth))
+                               : (typeof p === 'number' ? (1 - _clamp01(p)) : null))))
+                             ),
+                             confidence:     _num(p.confidence),
+                             samples:        _num(p.samples)
+                           };
+                         })(_bzm.priorGrowthTrend || _bzm.prior)
+                       : null,
+      // Macroeconomic telemetry preserved alongside the shared envelope so
+      // downstream artifact expansion can feed macro-investment and policy
+      // decisions (real GDP growth, inflation, labor market, money & rates,
+      // external balance, demand composition). Sourced from REAL FRED series:
+      // GDPC1, CPIAUCSL/PCEPI, UNRATE/PAYEMS, M2, FEDFUNDS, DGS10. These are
+      // MACRO AGGREGATES — distinct from finance's credit/liquidity signals.
+      gdpGrowthTrend:         _num(_bzm.gdpGrowthTrend),
+      inflationTrend:         _num(_bzm.inflationTrend),
+      employmentTrend:        _num(_bzm.employmentTrend),
+      moneySupplyTrend:       _num(_bzm.moneySupplyTrend),
+      tradeBalanceTrend:      _num(_bzm.tradeBalanceTrend),
+      consumptionTrend:       _num(_bzm.consumptionTrend),
+      investmentTrend:        _num(_bzm.investmentTrend),
+      domainDiagnosisPacket: _emO(_bzm.domainEconomyPacket) || _emO(_bzm.domainDiagnosisPacket)
     } : null;
 
     // Feed health. Configured count is the MAX of every honest declaration

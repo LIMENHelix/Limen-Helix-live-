@@ -84,8 +84,30 @@
       analystEnabled: true,
       connectomeNodes: [6, 12],  // OFC + DLPFC
       feeds: [
-        { name: 'FRED Unemployment', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations' },
-        { name: 'BLS Employment', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.bls.gov/publicAPI/v2/timeseries/data/' }
+        // ── Macro indicators (real FRED series — the economy's "price/cost" anchors) ──
+        // Macroeconomic equivalent of energy's EIA/FRED commodity anchors: instead of
+        // oil/gas spot prices, the economy's signal is the MACRO AGGREGATE — output,
+        // prices, labor, policy, and the business cycle. Every series_id is a REAL
+        // FRED identifier (never fabricated), distinct from finance's company tickers.
+        { name: 'FRED GDP', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=GDP', feedClass: 'output' },            // nominal GDP (quarterly) — macro "price" anchor (mirrors EIA Petroleum LIVE)
+        { name: 'FRED Real GDP', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=GDPC1', feedClass: 'output' },      // real GDP, chained 2012 $ (quarterly) — growth anchor (mirrors FRED Crude Oil LIVE)
+        { name: 'FRED CPI', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=CPIAUCSL', feedClass: 'inflation' },     // CPI all items (monthly) — headline inflation
+        { name: 'FRED PCE Price Index', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=PCEPI', feedClass: 'inflation' }, // PCE price index (monthly) — Fed's preferred inflation gauge
+        { name: 'FRED Unemployment', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=UNRATE', feedClass: 'labor' },   // unemployment rate (monthly)
+        { name: 'FRED Nonfarm Payrolls', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=PAYEMS', feedClass: 'labor' }, // total nonfarm payroll employment (monthly)
+        { name: 'FRED Fed Funds Rate', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=FEDFUNDS', feedClass: 'policy' }, // effective federal funds rate (monthly/daily) — monetary policy
+        { name: 'FRED 10Y Treasury', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=DGS10', feedClass: 'policy' },     // 10-year Treasury constant maturity (daily) — yield-curve / policy
+        { name: 'FRED Consumer Sentiment', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=UMCSENT', feedClass: 'sentiment' }, // U. Michigan consumer sentiment (monthly)
+        { name: 'FRED Industrial Production', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=INDPRO', feedClass: 'output' }, // industrial production index (monthly) — business-cycle proxy
+        // ── Broad-market proxies (macro aggregate, NOT single-company tickers) ──
+        // Index-tracking ETFs stand in for whole-market regime (risk-on/off), keeping
+        // the economy domain a MACRO observer distinct from finance's per-name quotes.
+        { name: 'Polygon.io SPY', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/SPY/prev', feedClass: 'market_proxy' },  // S&P 500 — broad equity regime
+        { name: 'Polygon.io DIA', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/DIA/prev', feedClass: 'market_proxy' },  // Dow 30 — large-cap industrial regime
+        { name: 'Polygon.io TLT', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/TLT/prev', feedClass: 'market_proxy' },  // 20+yr Treasuries — long-bond / rate regime
+        { name: 'Polygon.io GLD', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/GLD/prev', feedClass: 'market_proxy' },  // gold — safe-haven / inflation hedge
+        // ── Labor cross-check (kept from prior economy registry) ──
+        { name: 'BLS Employment', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.bls.gov/publicAPI/v2/timeseries/data/', feedClass: 'labor' }
       ],
       diagnostics: [],
       treatments: [],

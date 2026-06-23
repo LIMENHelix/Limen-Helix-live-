@@ -78,6 +78,82 @@ var FEED_TO_CONNECTOME = {
   agriculture:    ['environment', 'trade']
 };
 
+// ═══════════════════════════════════════════════════
+// 1b. MACRO INDICATOR SERIES BINDING (ADDITIVE — economy gap 1)
+// ═══════════════════════════════════════════════════
+// The resolver maps feed domains → connectome domains → node activations, but
+// previously held NO explicit binding of REAL macro statistics to the specific
+// connectome nodes that sense them. Economy is the MACRO AGGREGATE and stays
+// DISTINCT from finance (capital markets / credit / banks). This registry binds
+// REAL FRED series IDs + broad-market index proxies (never single-company
+// tickers, never fabricated) to the economy connectome nodes they sense, so the
+// kernel/reporting/diagnosis layers can drill from abstract 'economy stress'
+// into the ACTUAL economic statistic that triggered it
+// (e.g. labor-markets node activated → UNRATE spiked → unemployment-shock origin).
+//
+// Each entry: { series, node, role (macro identity label), nodeRole (the real
+// role the node plays in brain-node-domains.json), label, threshold, dir,
+// kind ('fred' | 'market'), policyPath }.
+//   - threshold = the macro level above/below which the node is considered stressed.
+//   - dir = 'high' (stress when value ABOVE threshold) | 'low' (stress when BELOW).
+//   - policyPath = 'fiscal' | 'monetary' | 'market' | 'real' (see gap 2 split).
+// This is annotation/registry metadata ONLY — the resolver does NOT score it.
+var MACRO_INDICATOR_BINDING = {
+  // ── Growth / output (real economy) ──
+  GDPC1:    { series: 'GDPC1',    node: 'LGN',   role: 'GDP Output',            nodeRole: 'Agricultural Finance Assessment & Diagnostics', label: 'Real GDP',               threshold: -2.5,    dir: 'low',  kind: 'fred',   policyPath: 'real' },
+  GDP:      { series: 'GDP',      node: 'LGN',   role: 'GDP Output',            nodeRole: 'Agricultural Finance Assessment & Diagnostics', label: 'Nominal GDP',            threshold: 0,       dir: 'low',  kind: 'fred',   policyPath: 'real' },
+  INDPRO:   { series: 'INDPRO',   node: 'STN',   role: 'Industrial Production', nodeRole: 'Efficiency Modeling Systems',                  label: 'Industrial Production',  threshold: -2,      dir: 'low',  kind: 'fred',   policyPath: 'real' },
+  // ── Inflation (price stability) ──
+  CPIAUCSL: { series: 'CPIAUCSL', node: 'HPA',   role: 'Inflation & Deflation', nodeRole: 'Agricultural Trade — Optimization & Innovation', label: 'CPI',                  threshold: 3.2,     dir: 'high', kind: 'fred',   policyPath: 'monetary' },
+  PCEPI:    { series: 'PCEPI',    node: 'HPA',   role: 'Inflation & Deflation', nodeRole: 'Agricultural Trade — Optimization & Innovation', label: 'PCE Deflator',         threshold: 2.5,     dir: 'high', kind: 'fred',   policyPath: 'monetary' },
+  // ── Employment / labor markets ──
+  UNRATE:   { series: 'UNRATE',   node: 'RSC',   role: 'Labor Markets',         nodeRole: 'Crop Economics Technology & Innovation',       label: 'Unemployment Rate',      threshold: 5.5,     dir: 'high', kind: 'fred',   policyPath: 'real' },
+  PAYEMS:   { series: 'PAYEMS',   node: 'RSC',   role: 'Labor Markets',         nodeRole: 'Crop Economics Technology & Innovation',       label: 'Nonfarm Payrolls',       threshold: -200000, dir: 'low',  kind: 'fred',   policyPath: 'real' },
+  // ── Sentiment (consumer / business) ──
+  UMCSENT:  { series: 'UMCSENT',  node: 'mPFC',  role: 'Consumer Spending',     nodeRole: 'Benchmarking',                                 label: 'Consumer Sentiment',     threshold: 60,      dir: 'low',  kind: 'fred',   policyPath: 'real' },
+  // ── Monetary policy (Fed / central bank / rates) ──
+  FEDFUNDS: { series: 'FEDFUNDS', node: 'STS',   role: 'Monetary Policy',       nodeRole: 'Baseline Calibration Operations',              label: 'Fed Funds Rate',         threshold: 5.5,     dir: 'high', kind: 'fred',   policyPath: 'monetary' },
+  DGS10:    { series: 'DGS10',    node: 'STS',   role: 'Monetary Policy',       nodeRole: 'Baseline Calibration Operations',              label: '10Y Treasury Yield',     threshold: 4.5,     dir: 'high', kind: 'fred',   policyPath: 'monetary' },
+  // ── Broad-market proxies (index ETFs — NOT single companies) ──
+  SPY:      { series: 'SPY',      node: 'ASTRO', role: 'Capital Markets',       nodeRole: 'econ livestock — Signal Acquisition',          label: 'Broad Market (S&P 500)', threshold: -15,     dir: 'low',  kind: 'market', policyPath: 'market' },
+  DIA:      { series: 'DIA',      node: 'NTS',   role: 'Capital Markets',       nodeRole: 'Protocol Development Evaluation',               label: 'Equity Risk (Dow 30)',   threshold: -12,     dir: 'low',  kind: 'market', policyPath: 'market' },
+  TLT:      { series: 'TLT',      node: 'BDNF',  role: 'Debt Markets',          nodeRole: 'Agricultural Finance Infrastructure & Capacity', label: 'Long Yields (20Y+ Tsy)', threshold: 4.5,    dir: 'high', kind: 'market', policyPath: 'market' },
+  GLD:      { series: 'GLD',      node: 'PUT',   role: 'Safe-Haven Hedge',      nodeRole: 'Land Tenure — Optimization & Innovation',      label: 'Gold Hedge',             threshold: 2000,    dir: 'high', kind: 'market', policyPath: 'market' }
+};
+
+// ── FISCAL vs MONETARY POLICY TRANSMISSION (ADDITIVE — economy gap 2) ──
+// The existing FEED_TO_CONNECTOME['finance'] = ['economy','finance'] mapping does
+// NOT distinguish FISCAL (Treasury / OMB / Congress: spending, taxes, debt
+// issuance) from MONETARY (Fed / central bank: rates, balance sheet, EFFR)
+// policy paths. They transmit through DIFFERENT pathways and should light up
+// DIFFERENT nodes: a government-spending shock activates governance + economy
+// (fiscal multiplier → employment → consumption), whereas a rate hike activates
+// economy + finance (credit channel). We do NOT alter the validated 'finance'
+// relay (which stays ['economy','finance']); we ADD a parallel policy-path
+// registry that upstream code (domain-signal-engine separating Treasury MTS /
+// Cash Balance / Debt Outstanding sources from Fed Monetary Press / Fed Reg /
+// NY Fed EFFR sources) can use to route a policy shock to the correct nodes.
+// Resolving by policy path is OPT-IN (resolvePolicyPath) — the default resolve()
+// pipeline is unchanged.
+var MACRO_POLICY_PATH = {
+  // Fiscal = Treasury / OMB / Congress. Adds 'governance' so budget, tax, and
+  // spending authority can route through the governance circuit independently of
+  // the monetary credit channel. Economy = the macro aggregate it ultimately hits.
+  fiscal:   { connectomeDomains: ['economy', 'governance', 'finance'], indicators: ['GDP', 'GDPC1', 'UNRATE', 'PAYEMS', 'INDPRO'], sources: ['Treasury MTS', 'Treasury Cash Balance', 'Treasury Debt Outstanding', 'OMB'] },
+  // Monetary = Fed / central bank. Keeps the validated economy + finance credit
+  // channel (rate hikes → credit conditions → capital markets).
+  monetary: { connectomeDomains: ['economy', 'finance'],               indicators: ['FEDFUNDS', 'DGS10', 'CPIAUCSL', 'PCEPI'],     sources: ['Fed Monetary Press', 'Fed Reg', 'NY Fed EFFR'] }
+};
+
+// Reverse lookup: connectome node → macro indicators it senses (for diagnosis drill-down).
+var NODE_TO_MACRO_INDICATOR = {};
+for (var _mk in MACRO_INDICATOR_BINDING) {
+  if (!Object.prototype.hasOwnProperty.call(MACRO_INDICATOR_BINDING, _mk)) continue;
+  var _mb = MACRO_INDICATOR_BINDING[_mk];
+  if (!NODE_TO_MACRO_INDICATOR[_mb.node]) NODE_TO_MACRO_INDICATOR[_mb.node] = [];
+  NODE_TO_MACRO_INDICATOR[_mb.node].push(_mb);
+}
+
 // Reverse: connectome domain → feed domains (for display)
 var CONNECTOME_TO_FEED = {};
 for (var fk in FEED_TO_CONNECTOME) {
@@ -397,13 +473,31 @@ function enrichOpportunity(opp, nodeActivations, feedSnapshot) {
     // Connectome enrichment (annotation only — no scores)
     connectome: {
       nodes: topNodes.map(function(n) {
+        // ADDITIVE (economy gap 1): attach the REAL macro indicators this node
+        // senses (FRED series / market proxy) so 'this node lit up' becomes
+        // traceable to which ACTUAL economic statistic triggered it.
+        var macroInd = (NODE_TO_MACRO_INDICATOR[n.nodeId] || []).map(function(m) {
+          return { series: m.series, label: m.label, role: m.role, threshold: m.threshold, dir: m.dir, kind: m.kind, policyPath: m.policyPath };
+        });
+        // ADDITIVE (economy gap 3): distinguish contagion source. A node sourced
+        // ONLY from the economy macro-aggregate (transitively, with no direct feed
+        // stress in the opportunity's own domains) is flagged as upstream-economy
+        // contagion vs. direct feed stress, so enrichment surfaces WHY it lit up.
+        var srcDomains = n.domains.map(function(d) { return d.feedDomain; });
+        var hasDirect = false;
+        for (var _si = 0; _si < srcDomains.length; _si++) {
+          if (oppDomains.indexOf(srcDomains[_si]) !== -1 && srcDomains[_si] !== 'economy') { hasDirect = true; break; }
+        }
+        var econOnly = srcDomains.indexOf('economy') !== -1 && !hasDirect;
         return {
           id: n.nodeId,
           strength: Math.round(n.activationStrength * 100) / 100,
           crossDomain: n.crossDomainNode,
           roles: n.domains.slice(0, 3).map(function(d) { return d.role; }),
-          feedDomains: n.domains.map(function(d) { return d.feedDomain; }).filter(function(v, i, a) { return a.indexOf(v) === i; }),
-          diagnosisBindings: Array.isArray(n.diagnosisBindings) ? n.diagnosisBindings.slice() : []
+          feedDomains: srcDomains.filter(function(v, i, a) { return a.indexOf(v) === i; }),
+          diagnosisBindings: Array.isArray(n.diagnosisBindings) ? n.diagnosisBindings.slice() : [],
+          macroIndicators: macroInd,
+          activationOrigin: econOnly ? 'ECONOMY_CONTAGION' : (hasDirect ? 'DIRECT_FEED' : 'TRANSITIVE')
         };
       }),
       nodeCount: topNodes.length,
@@ -504,6 +598,43 @@ function resolve(opportunities) {
 }
 
 var _lastResolve = null;
+
+// ═══════════════════════════════════════════════════
+// 6b. POLICY-PATH RESOLUTION (ADDITIVE — economy gap 2, OPT-IN)
+// ═══════════════════════════════════════════════════
+// Activates connectome nodes for a FISCAL or MONETARY policy shock, routing
+// through the distinct connectome-domain set in MACRO_POLICY_PATH so fiscal and
+// monetary transmission light up different circuits. This is a separate opt-in
+// entry point; the default resolve() pipeline (above) is unchanged. No scoring —
+// activation is the pass-through stress annotation, same as activateNodes().
+
+/**
+ * Resolve node activations for a single policy path ('fiscal' | 'monetary').
+ * @param {String} path - 'fiscal' or 'monetary'
+ * @param {Number} stress - raw stress value [0..1] for this policy shock
+ * @returns {Object} { path, connectomeDomains, indicators, nodes }
+ */
+function resolvePolicyPath(path, stress) {
+  var cfg = MACRO_POLICY_PATH[path];
+  if (!cfg) return { path: path, connectomeDomains: [], indicators: [], nodes: [] };
+  var s = (typeof stress === 'number') ? stress : 0;
+  // Reuse the existing activation engine by synthesizing one stressed feed
+  // domain per connectome domain in the policy path's domain set.
+  var synth = cfg.connectomeDomains.map(function(cd) { return { id: cd, stress: s, status: 'POLICY' }; });
+  // Map the synthetic feed ids straight through (they already ARE connectome
+  // domain ids; activateNodes resolves via FEED_TO_CONNECTOME, so direct-match
+  // entries — economy/finance/governance — route 1:1).
+  var nodes = activateNodes(synth);
+  // Annotate each node with the macro indicators on this policy path.
+  var indSet = cfg.indicators.map(function(id) { return MACRO_INDICATOR_BINDING[id]; }).filter(Boolean);
+  return {
+    path: path,
+    connectomeDomains: cfg.connectomeDomains.slice(),
+    indicators: indSet,
+    sources: (cfg.sources || []).slice(),
+    nodes: nodes
+  };
+}
 
 // ═══════════════════════════════════════════════════
 // 7. KERNEL ADAPTER RELAY (DISABLED)
@@ -649,6 +780,15 @@ window.LIMENConnectomeResolver = {
   FEED_TO_CONNECTOME: FEED_TO_CONNECTOME,
   CONNECTOME_TO_FEED: CONNECTOME_TO_FEED,
   STRESS_ACTIVATION_THRESHOLD: STRESS_ACTIVATION_THRESHOLD,
+
+  // Macro indicator bindings (economy gap 1) — REAL FRED series + market proxies
+  MACRO_INDICATOR_BINDING: MACRO_INDICATOR_BINDING,
+  NODE_TO_MACRO_INDICATOR: NODE_TO_MACRO_INDICATOR,
+  getMacroIndicatorsForNode: function(nodeId) { return NODE_TO_MACRO_INDICATOR[nodeId] || []; },
+
+  // Fiscal vs monetary policy transmission (economy gap 2) — opt-in
+  MACRO_POLICY_PATH: MACRO_POLICY_PATH,
+  resolvePolicyPath: resolvePolicyPath,
 
   // Last resolve state
   getLastResolve: function() { return _lastResolve; },

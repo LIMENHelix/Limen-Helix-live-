@@ -50,6 +50,23 @@
     { id: 'infrastructure_core', domains: ['infrastructure', 'law', 'governance', 'finance'] },
     { id: 'rule_of_law',    domains: ['law', 'governance', 'defense'] },
     { id: 'economic_core',  domains: ['economy', 'finance', 'industry'] },
+    // Macro real-economy transmission cluster: the balance-of-payments /
+    // employment chain. Trade imbalances (deficit/surplus, tariffs, current
+    // account) destroy or build manufacturing employment, which shifts
+    // aggregate demand, which is what fiscal & monetary policy must respond
+    // to. Bound by the macro identity that a trade deficit is offset by
+    // capital inflows; when those inflows dry, output and employment fall.
+    // Corroboration = economy + the trade/supply-chain channel + industrial
+    // output co-elevated, signalling a real-economy (demand/employment)
+    // contraction rather than a capital-channel (credit) freeze. Macro
+    // anchors are FRED series (real GDP GDPC1, employment PAYEMS, INDPRO,
+    // trade-balance via the BoP identity) and broad-market proxies (SPY/DIA/
+    // TLT), NOT single-company tickers. Distinct from finance_systemic, which
+    // is the capital channel. Mirror of energy_chain on the demand side.
+    // NOTE: the trade/supply-chain domain is keyed 'supplyChain' in the
+    // civilization adapter (the 'trade'→'supplyChain' alias is taxonomy-only),
+    // so the group references 'supplyChain' to resolve against real packets.
+    { id: 'economy_trade_labor', domains: ['economy', 'supplyChain', 'industry'] },
     // Finance's own institutional envelope: capital markets, credit & lending,
     // banking and liquidity/solvency are co-borne by the broader economy
     // (activity, demand, output), the legal/regulatory enforcement regime

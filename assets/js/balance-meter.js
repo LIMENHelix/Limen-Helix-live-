@@ -140,6 +140,57 @@
     { re: /capital (raise|injection|infusion|buffer rebuilt|strengthen)|recapitaliz(ed|ation)|equity (raise|infusion)|balance(-| )?sheet (repair|strengthen)|orderly delever|debt (refinanc|repaid|reduced)/i, weight: 0.15, tag: 'capital_strengthening' }
   ];
 
+  // ─── Economy-native semantics (MACRO AGGREGATE) ───────────────────────────
+  // Energy parity (same shape as INFRA / CULTURE / FINANCE above): the economy
+  // domain has its OWN failure/recovery vocabulary. CRITICAL: economy is the
+  // MACRO AGGREGATE — it binds to whole-economy indicators, NOT to single
+  // companies and NOT to capital-markets/credit/banking (that is FINANCE's lane,
+  // which stays DISTINCT). Where finance reads liquidity crunch / credit spreads,
+  // ECONOMY reads the business cycle: GDP & growth, inflation (CPI / PCE),
+  // employment & labor markets, consumer & business sentiment, fiscal & monetary
+  // policy (interest rates / central banks), productivity, money supply, the
+  // trade balance, and the recession/expansion cycle.
+  //
+  // Anchors are REAL FRED series ids (UNRATE, PAYEMS, GDP, GDPC1, CPIAUCSL,
+  // PCEPI, FEDFUNDS, DGS10, UMCSENT, INDPRO) and broad-market proxies (SPY, DIA,
+  // TLT, GLD) — NEVER single-company tickers, NEVER energy/oil/grid content.
+  //
+  // Each entry maps a keyword pattern (matched against the domain's signal
+  // strings) to a weighted push on the destabilizing or stabilizing score —
+  // identical mechanism to energy's condition→weight mapping, macro content.
+  var ECONOMY_DESTABILIZING = [
+    // Unemployment above trend — UNRATE / PAYEMS deterioration, jobless claims.
+    { re: /unemploy(ment)? (rise|surge|above|spike|elevat)|jobless (claim|rate) (rise|surge|spike)|payroll(s)? (decline|drop|contract)|labor market (weaken|deterior|loosen)|\bunrate\b|\bpayems\b|job (loss(es)?|cuts|shedding)/i, weight: 0.18, tag: 'unemployment_above_trend' },
+    // Demand shock — consumer/retail demand collapse, PCE / consumption falling.
+    { re: /demand (shock|collapse|destruction|contract|slump)|consumer (spending|demand) (decline|drop|weaken)|retail sales (decline|drop|fall)|consumption (contract|fall)|\bpce\b (decline|fall)|aggregate demand (weak|fall)/i, weight: 0.15, tag: 'demand_shock' },
+    // Supply shock — input/supply-side disruption, INDPRO falling, shortages.
+    { re: /supply shock|supply-?side (shock|disrupt|constraint)|industrial production (decline|drop|contract)|\bindpro\b (decline|fall)|capacity (constraint|bottleneck)|input (shortage|cost surge)|stagflation/i, weight: 0.15, tag: 'supply_shock' },
+    // Credit tightening (macro) — lending standards tighten, monetary tightening.
+    { re: /credit (tighten|conditions tighten)|lending standards tighten|monetary tighten|rate (hike(s)?|increase)|\bfedfunds\b (rise|hike)|restrictive (policy|stance)|tightening cycle|financial conditions tighten/i, weight: 0.14, tag: 'credit_tightening' },
+    // Yield-curve inversion — DGS10 / 2s10s inversion, recession signal.
+    { re: /yield curve (invert|inversion)|inverted (yield )?curve|2s10s invert|curve inver|\bdgs10\b (invert|below)|recession (signal|warning|risk|fear)|hard landing/i, weight: 0.16, tag: 'yield_curve_inversion' },
+    // Real-wage stagnation — inflation outpacing wages, CPI / PCEPI surge.
+    { re: /real wage(s)? (stagnat|decline|fall|erod)|wage(s)? (stagnat|lag)|inflation (surge|spike|accelerat|sticky|persist)|\bcpiaucsl\b (surge|rise)|\bpcepi\b (surge|rise)|cost of living (crisis|surge)|purchasing power (erod|decline)/i, weight: 0.13, tag: 'real_wage_stagnation' },
+    // Capacity-utilization collapse / recession — GDP contraction, output gap.
+    { re: /capacity utilization (collapse|drop|decline|fall)|output gap (widen|negative)|gdp (contract|decline|shrink|negative)|\bgdpc1\b (contract|decline)|recession(ary)?|two (consecutive )?quarters? (of )?contraction|economic (downturn|contraction)/i, weight: 0.14, tag: 'capacity_utilization_collapse' },
+    // Policy error — central-bank misstep, fiscal drag, policy-induced shock.
+    { re: /policy (error|mistake|misstep)|central bank (error|behind the curve|misstep)|fiscal (drag|cliff|austerity shock)|over(-| )?tighten|premature (easing|tightening)|debt ceiling (crisis|standoff)|policy (uncertainty|shock)/i, weight: 0.12, tag: 'policy_error' }
+  ];
+  var ECONOMY_STABILIZING = [
+    // Labor-market recovery — UNRATE falling, PAYEMS gains, hiring strength.
+    { re: /labor market (recover|strengthen|tighten healthy|improv)|unemploy(ment)? (decline|fall|drop|improv)|payroll(s)? (gain|growth|surge|beat)|\bpayems\b (gain|rise)|hiring (strength|surge|recover)|jobs? (added|growth|recover)|full employment/i, weight: 0.16, tag: 'labor_market_recovery' },
+    // Demand rebound — consumer/retail demand recovery, PCE / spending rising.
+    { re: /demand (rebound|recover|resilien|surge)|consumer (spending|demand) (rise|grow|strong|rebound)|retail sales (rise|grow|beat|rebound)|consumption (rise|grow|strong)|\bpce\b (rise|grow)|spending (resilien|strong)/i, weight: 0.15, tag: 'demand_rebound' },
+    // Credit normalization (macro) — lending eases, rate cuts, soft landing.
+    { re: /credit (normaliz|ease|easing)|lending standards (ease|loosen)|monetary (easing|accommodat)|rate (cut(s)?|reduction)|\bfedfunds\b (cut|lower)|soft landing|financial conditions (ease|loosen)|easing cycle/i, weight: 0.14, tag: 'credit_normalization' },
+    // Fiscal stimulus — fiscal support, infrastructure/spending boost, transfers.
+    { re: /fiscal (stimulus|support|expansion|boost)|government (spending|stimulus|support)|stimulus (package|payment)|fiscal (impulse|injection)|transfer payment(s)? (boost|increase)|tax (cut|relief) (boost|stimul)/i, weight: 0.14, tag: 'fiscal_stimulus' },
+    // Productivity acceleration — INDPRO / output-per-hour rising, efficiency.
+    { re: /productivity (acceler|surge|gain|growth|boom)|output per hour (rise|grow)|industrial production (rise|grow|expand|beat)|\bindpro\b (rise|grow)|efficiency (gain|surge)|total factor productivity (rise|grow)/i, weight: 0.15, tag: 'productivity_acceleration' },
+    // Investment recovery — capex revival, business confidence, sentiment up.
+    { re: /investment (recover|revival|surge|rebound)|capex (recover|surge|grow|rise)|business (confidence|sentiment) (rise|improv|recover)|consumer (confidence|sentiment) (rise|improv)|\bumcsent\b (rise|improv)|expansion(ary)?|economic (recovery|upturn|rebound)/i, weight: 0.14, tag: 'investment_recovery' }
+  ];
+
   // Scan a domain's signal strings against a civil pattern table and return the
   // summed weighted contribution (clamped). Mirrors how energy accumulates its
   // condition-driven pressure, but over civil-native keywords.
@@ -262,6 +313,25 @@
         _financeDestabTags = _fd.tags;
       }
 
+      // ── Economy-native destabilizing pathways (energy parity, MACRO) ──
+      // For the economy domain ONLY, add macroeconomic pressure from named
+      // failure pathways found in the live signal strings (unemployment above
+      // trend, demand shock, supply shock, credit tightening, yield-curve
+      // inversion, real-wage stagnation, capacity-utilization collapse /
+      // recession, policy error). This is the whole-economy business-cycle
+      // analogue of energy's crude_above_*/grid_stress, infrastructure's
+      // grid_reliability/deferred_maintenance, culture's backlash/audience
+      // collapse, and finance's liquidity/credit weighting — but anchored to
+      // MACRO indicators (UNRATE/PAYEMS/GDP/CPI/PCE/FEDFUNDS/DGS10/INDPRO),
+      // kept DISTINCT from finance's capital-markets lane. ADVISORY ONLY —
+      // wholly separate from the validated P3 distress kernel.
+      var _economyDestabTags = null;
+      if (k === 'economy') {
+        var _ed = _infraSignalScore(signals, ECONOMY_DESTABILIZING);
+        destab += _ed.score;
+        _economyDestabTags = _ed.tags;
+      }
+
       destab = _clamp(destab, 0, 1);
 
       // ─── Stabilizing score ─────────────────────────────────────
@@ -341,6 +411,24 @@
         _financeStabTags = _fs.tags;
       }
 
+      // ── Economy-native stabilizing pathways (energy parity, MACRO) ──
+      // Macroeconomic recovery vocabulary: labor-market recovery (UNRATE/PAYEMS
+      // improving), demand rebound (PCE / consumption rising), credit
+      // normalization (rate cuts / soft landing), fiscal stimulus, productivity
+      // acceleration (INDPRO / output-per-hour), and investment recovery
+      // (capex / sentiment, UMCSENT). Mirrors energy's falling-trend /
+      // declining-volatility stabilizers, infrastructure's funding-renewal /
+      // repair-completion, culture's fanbase-momentum / mainstream-adoption, and
+      // finance's liquidity-restoration / capital-strengthening — but anchored to
+      // MACRO indicators and kept DISTINCT from finance's capital-markets lane.
+      // ADVISORY ONLY — wholly separate from the validated P3 distress kernel.
+      var _economyStabTags = null;
+      if (k === 'economy') {
+        var _es = _infraSignalScore(signals, ECONOMY_STABILIZING);
+        stab += _es.score;
+        _economyStabTags = _es.tags;
+      }
+
       stab = _clamp(stab, 0, 1);
 
       // ─── Net balance ───────────────────────────────────────────
@@ -379,6 +467,13 @@
       if (k === 'finance') {
         _balance[k].destabilizingFactors = _financeDestabTags || [];
         _balance[k].stabilizingFactors = _financeStabTags || [];
+      }
+
+      // Surface the economy-native MACRO pathways that drove the economy score
+      // (energy parity: name the conditions, don't hide them behind a scalar).
+      if (k === 'economy') {
+        _balance[k].destabilizingFactors = _economyDestabTags || [];
+        _balance[k].stabilizingFactors = _economyStabTags || [];
       }
 
       // Detect state shift

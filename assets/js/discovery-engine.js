@@ -23,10 +23,25 @@
   // Relevance is dynamically computed from current domain stress.
 
   var SEEDS = [
-    // Economy
+    // Economy (mirrors Energy/Infrastructure/Culture/Finance, translated to MACRO-AGGREGATE concepts —
+    //   the macro business cycle, NOT capital markets (finance owns banks/credit/counterparties):
+    //   storage→fiscal/monetary buffer & multiplier resilience, distributed-grid→supply-chain working-capital contagion,
+    //   transition→recession/expansion business-cycle resilience, attack-surface→macro-data-pipeline & yield-curve early-warning;
+    //   universe: GDP/GDPC1, inflation CPIAUCSL/PCEPI, labor UNRATE/PAYEMS/NROU, policy FEDFUNDS/DGS10/DGS2, sentiment UMCSENT,
+    //   output INDPRO, real-wage COMPRNOUT, fiscal GEXPND — real FRED series + broad-market proxies SPY/DIA/TLT/GLD, NO single-company tickers)
     { label: 'Investigate counter-cyclical innovation patterns', domain: 'economy', type: 'economic-opportunity', baseRelevance: 0.40 },
     { label: 'Explore alternative economic indicator models', domain: 'economy', type: 'economic-opportunity', baseRelevance: 0.35 },
     { label: 'Analyze emerging market resilience strategies', domain: 'economy', type: 'economic-opportunity', baseRelevance: 0.30 },
+    // Macro-data-pipeline resilience: data lags ARE macro stress (FRED availability, BLS processing-lag acceleration, CPI revisions)
+    { label: 'Investigate real-time macro-data infrastructure resilience (FRED availability, BLS processing-lag acceleration)', domain: 'economy', type: 'system-risk', baseRelevance: 0.50 },
+    { label: 'Analyze FRED data-quality & CPIAUCSL/PCEPI revisions as a leading recession indicator', domain: 'economy', type: 'scientific-discovery', baseRelevance: 0.45 },
+    // Macro-semantic discovery mirroring energy/infra/culture/finance structure (real FRED series + broad-market proxies only)
+    { label: 'Investigate FRED UNRATE vs natural-rate-of-unemployment (NROU) divergence for full-employment overshoot risk', domain: 'economy', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Explore counter-cyclical fiscal-multiplier (FRED GEXPND x consumption elasticity) for recession-resilience design', domain: 'economy', type: 'economic-opportunity', baseRelevance: 0.40 },
+    { label: 'Analyze FRED DGS10-DGS2 yield-curve inversion as a monetary-policy-trap early-warning signal', domain: 'economy', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Investigate working-capital cycles & credit-crunch contagion across the supply chain (INDPRO vs PAYEMS lead-lag)', domain: 'economy', type: 'system-risk', baseRelevance: 0.40 },
+    { label: 'Explore demand-destruction decomposition (FRED GDPC1 consumption vs investment vs net-export collapse)', domain: 'economy', type: 'scientific-discovery', baseRelevance: 0.40 },
+    { label: 'Analyze real-wage growth (COMPRNOUT deflated by PCEPI) & UMCSENT as a macro-income-pressure indicator', domain: 'economy', type: 'economic-opportunity', baseRelevance: 0.35 },
 
     // Energy
     { label: 'Explore next-generation energy storage research', domain: 'energy', type: 'technological-innovation', baseRelevance: 0.45 },

@@ -4,6 +4,45 @@
   "parentPortal": "civilization.html",
   "parentLabel": "Civilization",
   "phase": "P5",
+  "macroProxyTickers": {
+    "_note": "Dashboard/signals-level MACRO_AGGREGATE proxies for the economy domain. These represent broad-market macro BETA (whole-market health, rate expectations, inflation/risk-off sentiment) and are deliberately distinct from single-company ALPHA tickers used in the finance domain. Economy = the macro aggregate; finance = capital markets / credit / banks.",
+    "dataBindingType": "MACRO_AGGREGATE",
+    "distinctFrom": "finance domain single-company tickers (MA, V, BAC, etc.) — those conflate company alpha with macro beta; these proxies isolate macro beta",
+    "proxies": [
+      {
+        "ticker": "SPY",
+        "name": "SPDR S&P 500 ETF Trust",
+        "tracks": "S&P 500 index — broad equity market health",
+        "macroSignal": "Aggregate equity-market risk appetite and forward earnings expectations",
+        "boundNode": "OFC",
+        "boundNodeLabel": "Capital Markets"
+      },
+      {
+        "ticker": "DIA",
+        "name": "SPDR Dow Jones Industrial Average ETF",
+        "tracks": "Dow Jones Industrial Average — large-cap blue-chip industrials",
+        "macroSignal": "Blue-chip industrial sentiment and old-economy cyclical health",
+        "boundNode": "STRI",
+        "boundNodeLabel": "Industrial Production"
+      },
+      {
+        "ticker": "TLT",
+        "name": "iShares 20+ Year Treasury Bond ETF",
+        "tracks": "20+ year U.S. Treasury bonds — long-rate terminal",
+        "macroSignal": "Long-rate expectations and duration / safe-haven demand",
+        "boundNode": "THAL",
+        "boundNodeLabel": "Monetary Policy"
+      },
+      {
+        "ticker": "GLD",
+        "name": "SPDR Gold Shares",
+        "tracks": "Gold spot price — commodity / monetary hedge",
+        "macroSignal": "Inflation expectations plus risk-off / safe-haven demand",
+        "boundNode": "HYPO",
+        "boundNodeLabel": "Inflation and Deflation"
+      }
+    ]
+  },
   "activations": [
     {
       "brainNodeId": "M1",
@@ -36,6 +75,13 @@
       "childPortal": "economy_gdp_portal.html",
       "phase_archetype": "P6",
       "functional_role": "executor",
+      "fredSeriesId": ["GDP", "GDPC1", "INDPRO"],
+      "fredSeriesDetail": {
+        "GDP": "Gross Domestic Product (nominal, billions, quarterly)",
+        "GDPC1": "Real Gross Domestic Product (chained 2017 dollars, quarterly)",
+        "INDPRO": "Industrial Production Index (monthly, real output proxy)"
+      },
+      "dataBindingType": "MACRO_INDICATOR",
       "companies": [
         {
           "name": "Peterson Institute",
@@ -126,6 +172,12 @@
       "childPortal": "economy_labor_portal.html",
       "phase_archetype": "P0",
       "functional_role": "signal_detector",
+      "fredSeriesId": ["UNRATE", "PAYEMS"],
+      "fredSeriesDetail": {
+        "UNRATE": "Civilian Unemployment Rate (monthly, seasonally adjusted)",
+        "PAYEMS": "All Employees, Total Nonfarm Payroll (monthly, thousands)"
+      },
+      "dataBindingType": "MACRO_INDICATOR",
       "companies": [
         {
           "name": "Bureau of Labor Statistics",
@@ -306,6 +358,12 @@
       "childPortal": "economy_monetary_portal.html",
       "phase_archetype": "P3",
       "functional_role": "router",
+      "fredSeriesId": ["FEDFUNDS", "DGS10"],
+      "fredSeriesDetail": {
+        "FEDFUNDS": "Federal Funds Effective Rate (monthly, percent)",
+        "DGS10": "10-Year Treasury Constant Maturity Yield (daily, percent)"
+      },
+      "dataBindingType": "MACRO_INDICATOR",
       "companies": [
         {
           "name": "S&P Global",
@@ -486,6 +544,12 @@
       "childPortal": "economy_consumer_portal.html",
       "phase_archetype": "P2",
       "functional_role": "amplifier",
+      "fredSeriesId": ["UMCSENT", "PCEC"],
+      "fredSeriesDetail": {
+        "UMCSENT": "University of Michigan Consumer Sentiment Index (monthly, consumer confidence)",
+        "PCEC": "Personal Consumption Expenditures (monthly, nominal household consumption)"
+      },
+      "dataBindingType": "MACRO_INDICATOR",
       "companies": [
         {
           "name": "Bloomberg LP",
@@ -576,6 +640,12 @@
       "childPortal": "economy_industrial_portal.html",
       "phase_archetype": "P2",
       "functional_role": "amplifier",
+      "fredSeriesId": ["INDPRO", "TCU"],
+      "fredSeriesDetail": {
+        "INDPRO": "Industrial Production Index (monthly, real manufacturing/mining/utilities output)",
+        "TCU": "Capacity Utilization: Total Industry (monthly, percent of capacity in use)"
+      },
+      "dataBindingType": "MACRO_INDICATOR",
       "companies": [
         {
           "name": "OECD",
@@ -755,6 +825,12 @@
       ],
       "phase_archetype": "P4",
       "functional_role": "allocator",
+      "fredSeriesId": ["CPIAUCSL", "PCEPI"],
+      "fredSeriesDetail": {
+        "CPIAUCSL": "Consumer Price Index for All Urban Consumers, All Items (monthly, headline inflation)",
+        "PCEPI": "Personal Consumption Expenditures Price Index (monthly, the Fed's preferred inflation gauge)"
+      },
+      "dataBindingType": "MACRO_INDICATOR",
       "companies": [
         {
           "name": "World Bank Group",
@@ -1628,16 +1704,32 @@
     {
       "brainNodeId": "SNS",
       "state": "active",
-      "domainLabel": "Energy Econ",
-      "domainDescription": "Energy Econ systems within Economy",
-      "group": "production",
+      "domainLabel": "Energy Costs (Cost-Push Inflation Input)",
+      "domainDescription": "Energy prices (oil, gasoline, natural gas, electricity) treated strictly as a MACRO INPUT to the economy — a cost-push inflation driver and household real-income shock — NOT as energy infrastructure. Energy generation, distribution, grid, and data-center nodes belong to the energy domain; this node only ingests energy PRICES as an exogenous macro signal.",
+      "domainFunction": "Feeds exogenous energy-price shocks into the macro aggregate as cost-push inflation pressure and a drag on real consumer spending; conditions the Inflation and Consumer Spending nodes without importing any energy supply-side machinery into the economy domain.",
+      "whyThisNode": "The SNS (sympathetic nervous system) is an external arousal input that shifts the organism's whole-body cost/energy budget without being part of any single organ, paralleling how energy prices act as an economy-wide exogenous cost shock rather than a sector the economy owns.",
+      "group": "monetary",
       "phase": "P5",
       "weight": 0.8,
-      "diagnosticTriggers": [],
+      "diagnosticTriggers": [
+        "Oil price spike (cost-push inflation pressure)",
+        "Gasoline price surge eroding real consumer spending",
+        "Energy-driven CPI acceleration"
+      ],
       "treatments": [],
+      "phase_archetype": "P4",
+      "functional_role": "signal_detector",
+      "fredSeriesId": ["CPIENGSL", "DCOILWTICO", "GASREGW"],
+      "fredSeriesDetail": {
+        "CPIENGSL": "Consumer Price Index: Energy (monthly, energy component of CPI — the cost-push channel)",
+        "DCOILWTICO": "Crude Oil Prices: West Texas Intermediate (daily, exogenous input price)",
+        "GASREGW": "US Regular Conventional Gas Price (weekly, household real-income shock)"
+      },
+      "dataBindingType": "MACRO_INPUT",
+      "domainBoundaryNote": "ECONOMY references energy PRICES as a cost-push inflation input ONLY. Energy supply-side infrastructure (generation/grid/data centers/trading) is OWNED BY the energy domain — see energy.json. Do not reintroduce energy infrastructure nodes here.",
       "childPortal": "economy_energy_econ_portal.html",
       "neuralRole": "Limbic",
-      "brainNodeRoleCanonical": "Energy Econ",
+      "brainNodeRoleCanonical": "Energy Costs (Cost-Push Inflation Input)",
       "brainNodeLabelCanonical": "Economy",
       "linkedDirectiveCount": 0,
       "crossDomainAffinities": [
@@ -1722,6 +1814,104 @@
         {
           "domain": "provider",
           "role": "Crisis Response Protocol"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PAG",
+      "state": "active",
+      "domainLabel": "Business Cycle",
+      "domainDescription": "The recession/expansion business-cycle regime of the macroeconomy as dated by the NBER Business Cycle Dating Committee and tracked by FRED recession-probability and leading-indicator series",
+      "domainFunction": "Establishes the prevailing macro regime (expansion vs. contraction) that conditions every other economic node, so that identical stress reads as 'rising into recession' versus 'elevated but expansion ongoing'; serves as the temporal frame for diagnosis",
+      "whyThisNode": "PAG periaqueductal gray sets the global defensive/regulatory state of the organism, gating whether other circuits read inputs as threat or safety, exactly paralleling how the business-cycle regime gates whether macro stress signals a contraction or a healthy expansion",
+      "group": "monetary",
+      "phase": "P5",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Yield curve inversion (T10Y3M spread negative)",
+        "Recession probability rising (RECPROUSM156N > 0.5)",
+        "Leading economic index declining (USSLIND falling)",
+        "NBER recession declared (USREC = 1)"
+      ],
+      "treatments": [
+        {
+          "label": "Counter-Cyclical Stabilization",
+          "type": "STRUCTURAL",
+          "description": "Deploy automatic stabilizers and discretionary fiscal/monetary easing when recession-probability and yield-curve signals indicate the cycle is turning, smoothing the contraction phase",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Leading-Indicator Surveillance",
+          "type": "STRUCTURAL",
+          "description": "Continuously track the FRED leading index, T10Y3M spread, and smoothed recession-probability model to date regime transitions early and pre-position policy before the expansion-to-recession turn",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "economy_business_cycle_portal.html",
+      "phase_archetype": "P7",
+      "functional_role": "gatekeeper",
+      "companies": [
+        {
+          "name": "National Bureau of Economic Research",
+          "ticker_or_id": "NBER",
+          "functional_reason": "Officially dates U.S. business-cycle peaks and troughs (the recession/expansion regime), the authoritative arbiter of the macro phase",
+          "binding_strength": 0.97
+        },
+        {
+          "name": "Federal Reserve Bank of St. Louis (FRED)",
+          "ticker_or_id": "FRED_STLOUIS",
+          "functional_reason": "Publishes the recession-probability (RECPROUSM156N), binary recession (USREC), and yield-spread (T10Y3M) series that detect and monitor regime transitions",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "The Conference Board",
+          "ticker_or_id": "CONFERENCE_BOARD",
+          "functional_reason": "Produces the Leading Economic Index that anticipates business-cycle turning points ahead of official dating",
+          "binding_strength": 0.88
+        }
+      ],
+      "neuralRole": "Modulatory",
+      "brainNodeRoleCanonical": "Business Cycle Regime",
+      "brainNodeLabelCanonical": "Economy",
+      "linkedDirectiveCount": 0,
+      "macroRegimeBinding": {
+        "regimeStates": [
+          "EXPANSION_PHASE",
+          "RECESSION_PHASE"
+        ],
+        "phaseMapping": {
+          "expansion": "P5",
+          "recessionRisk": "P0_RECESSION_RISK",
+          "earlyRecession": "P3_EARLY_RECESSION"
+        },
+        "fredSeries": {
+          "USREC": "NBER-anchored binary recession indicator (1 = recession month)",
+          "RECPROUSM156N": "Smoothed U.S. recession probabilities",
+          "T10Y3M": "10-Year minus 3-Month Treasury spread (inversion = negative)",
+          "DGS10": "10-Year Treasury constant maturity yield",
+          "DGS3MO": "3-Month Treasury constant maturity yield",
+          "USSLIND": "Leading Index for the United States",
+          "GDPC1": "Real Gross Domestic Product"
+        },
+        "inversionRule": "If (DGS10 - DGS3MO) < 0 OR RECPROUSM156N > 0.5, set node phase to P0_RECESSION_RISK; if USREC = 1, set node phase to P3_EARLY_RECESSION; else EXPANSION_PHASE (P5)",
+        "source": "NBER Business Cycle Dating Committee; FRED (Federal Reserve Bank of St. Louis)"
+      },
+      "crossDomainAffinities": [
+        {
+          "domain": "finance",
+          "role": "Credit Cycle"
+        },
+        {
+          "domain": "industry",
+          "role": "Capacity Utilization"
+        },
+        {
+          "domain": "population",
+          "role": "Employment Cycle"
+        },
+        {
+          "domain": "neurology",
+          "role": "Periaqueductal Gray (global regulatory state)"
         }
       ]
     }
@@ -2425,6 +2615,34 @@
   "_enrichment": {
     "neuralRoleMigratedAt": "2026-05-13T13:15:14.762Z",
     "schemaVersion": "subdomain-portal.v2.0",
-    "networkMapVersion": "1.0"
+    "networkMapVersion": "1.0",
+    "_macroRegime": {
+      "addedAt": "2026-06-23",
+      "rationale": "Binds the recession/expansion business cycle as an explicit connectome signal so 'economy stress + recession phase' is distinct from 'economy stress + expansion phase' (NODE_PHASES previously assigned economy a single static phase). The business cycle is a fundamental macro state, not an annotation.",
+      "regimeNode": "PAG",
+      "regimeStates": [
+        "EXPANSION_PHASE",
+        "RECESSION_PHASE"
+      ],
+      "phaseMapping": {
+        "expansion": "P5",
+        "recessionRisk": "P0_RECESSION_RISK",
+        "earlyRecession": "P3_EARLY_RECESSION"
+      },
+      "fredSeries": {
+        "USREC": "NBER-anchored binary recession indicator (1 = recession month)",
+        "RECPROUSM156N": "Smoothed U.S. recession probabilities",
+        "T10Y3M": "10-Year minus 3-Month Treasury spread (inversion = negative)",
+        "DGS10": "10-Year Treasury constant maturity yield",
+        "DGS3MO": "3-Month Treasury constant maturity yield",
+        "USSLIND": "Leading Index for the United States",
+        "GDPC1": "Real Gross Domestic Product",
+        "GDP": "Gross Domestic Product (nominal)",
+        "UNRATE": "Civilian Unemployment Rate"
+      },
+      "inversionRule": "If (DGS10 - DGS3MO) < 0 OR RECPROUSM156N > 0.5, tag economy node phase P0_RECESSION_RISK; if USREC = 1, tag P3_EARLY_RECESSION; else EXPANSION_PHASE (P5). Update on quarterly tick.",
+      "distinctFrom": "finance domain (capital markets / credit / banks) — this binding tracks the MACRO aggregate business cycle, not market microstructure",
+      "source": "NBER Business Cycle Dating Committee; FRED (Federal Reserve Bank of St. Louis)"
+    }
   }
 }

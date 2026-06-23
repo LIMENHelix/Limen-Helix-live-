@@ -93,6 +93,36 @@
     counterpartyExposureFloor: 0.65  // concentrated counterparty default always reads as counterparty_exposure
   };
 
+  // Structural-signal overrides for economy: certain MACRO-AGGREGATE constraints are
+  // NOT noisy market/volume signals and must bypass saturation dampening (mirrors
+  // infrastructure's grid_stress, culture's scene_collapse, and finance's liquidity_crunch
+  // structural conditions — all of which mirror energy-brain's grid_stress reserve-margin
+  // floor, a load-bearing engineering constraint that is never dampened as commodity noise).
+  // The economy domain is the MACRO AGGREGATE (GDP & growth, inflation, employment & labor,
+  // sentiment, fiscal/monetary policy, the recession/expansion business cycle) and stays
+  // DISTINCT from finance (capital markets / credit / banks). These floors are measured against
+  // FRED macro-aggregate identities — UNRATE, PAYEMS / jobless-claims, the DGS10-DGS2 yield-curve
+  // spread, the IG-HY credit spread, real-wage growth, and GDPC1 consecutive-quarter contraction —
+  // never single-company tickers, and NEVER oil/gas/grid/datacenter metrics.
+  // A macro structural breach is a STRUCTURAL_CONSTRAINT (like grid reserve margin), not noise to
+  // be averaged down: unemployment above NAIRU forces stress above saturation-dampening thresholds,
+  // exactly as a grid reserve margin below 10% reads as grid_stress rather than commodity churn.
+  // Raw stress is forced to the floor when a macro threshold is crossed, before any dampening.
+  //   - unemployment above NAIRU / jobless-claims threshold → full_employment_breach (structural)
+  //   - yield-curve inversion (10Y-2Y spread < 0)           → policy_trap (structural)
+  //   - credit-spread (IG-HY gap) > historical +150bp        → credit_crunch (structural)
+  //   - real-wage growth < 0% YoY                            → demand_weakness (structural)
+  //   - GDP growth < 0 for 2 consecutive quarters            → recession_declaration (structural)
+  // ADDITIVE ONLY — client-side advisory floor for the domain panel/snapshot; it does NOT touch
+  // the validated P3 distress kernel (/api/limen/score path), which lives in the finance domain.
+  var _ECONOMY_STRUCTURAL = {
+    fullEmploymentBreachFloor: 0.65, // UNRATE above NAIRU / claims spike always reads as full_employment_breach
+    policyTrapFloor:           0.60, // yield-curve inversion (DGS10-DGS2 < 0) always reads as policy_trap
+    creditCrunchFloor:         0.70, // IG-HY credit spread > +150bp always reads as credit_crunch
+    demandWeaknessFloor:       0.55, // real-wage growth < 0% YoY always reads as demand_weakness
+    recessionDeclarationFloor: 0.75  // GDPC1 < 0 for 2 consecutive quarters always reads as recession_declaration
+  };
+
   // Rolling baseline state (accumulates across feed cycles within session)
   var _baselineState = {}; // domainKey → { samples: [], mean: number }
   var _BASELINE_WINDOW = 12; // ~6 minutes at 30s poll (enough for session deviation)
@@ -258,12 +288,116 @@
     return { floor: floor, reason: reason };
   }
 
+  // Detect economy MACRO-AGGREGATE structural constraints from a feed object.
+  // Returns a forced stress floor (0 if none) — macro-identity breaches bypass market/volume
+  // dampening. Mirrors _infraStructuralFloor / _cultureStructuralFloor / _financeStructuralFloor:
+  // full-employment-breach / policy-trap / credit-crunch / demand-weakness / recession-declaration
+  // are load-bearing business-cycle/macro-regime signals, not common-market-move noise to dampen.
+  // Binds ONLY to FRED macro series (UNRATE, PAYEMS, DGS10, DGS2, IG-HY spread, real-wage YoY,
+  // GDPC1) and broad-market proxies — NEVER single-company tickers and NEVER oil/grid/datacenter.
+  // Stays DISTINCT from finance: this is the macro aggregate identity, not capital-market plumbing.
+  // ADDITIVE ONLY — client-side advisory floor; does NOT touch the validated P3 distress kernel.
+  function _economyStructuralFloor(feed) {
+    if (!feed) return { floor: 0, reason: '' };
+    var floor = 0;
+    var reason = '';
+    var signals = feed.signals || [];
+    function _has(token) {
+      for (var i = 0; i < signals.length; i++) {
+        if (typeof signals[i] === 'string' && signals[i].toLowerCase().indexOf(token) !== -1) return true;
+      }
+      return false;
+    }
+    // (1) Full-employment breach: UNRATE above NAIRU (taken as ~4.4%) or a jobless-claims spike
+    //     ALWAYS triggers full_employment_breach (structural — like grid reserve margin < 10%).
+    var unemployment = (feed.unemploymentRate !== undefined) ? feed.unemploymentRate
+                     : (feed.UNRATE !== undefined) ? feed.UNRATE
+                     : null;
+    // accept either fraction (0.044) or percent (4.4) form, normalize to fraction
+    var unrateFrac = (unemployment !== null && unemployment > 1) ? unemployment / 100 : unemployment;
+    var nairu = (feed.nairu !== undefined) ? ((feed.nairu > 1) ? feed.nairu / 100 : feed.nairu) : 0.044;
+    var joblessClaims = (feed.joblessClaims !== undefined) ? feed.joblessClaims
+                      : (feed.initialClaims !== undefined) ? feed.initialClaims
+                      : null;
+    if ((unrateFrac !== null && unrateFrac > nairu && (_has('unemploy') || _has('employ') || _has('labor') || _has('jobless'))) ||
+        (joblessClaims !== null && joblessClaims > 300000) ||
+        _has('above nairu') || _has('full-employment breach') || _has('employment contraction')) {
+      if (_ECONOMY_STRUCTURAL.fullEmploymentBreachFloor > floor) {
+        floor = _ECONOMY_STRUCTURAL.fullEmploymentBreachFloor;
+        reason = 'structural: full_employment_breach' + (unrateFrac !== null ? ' (UNRATE ' + (unrateFrac * 100).toFixed(1) + '% > NAIRU ' + (nairu * 100).toFixed(1) + '%)' : '');
+      }
+    }
+    // (5) Recession declaration: GDPC1 (real GDP) growth < 0 for 2 consecutive quarters
+    //     ALWAYS triggers recession_declaration (highest macro floor — the business-cycle break).
+    var gdpQ1 = (feed.gdpGrowthQ1 !== undefined) ? feed.gdpGrowthQ1
+              : (feed.realGdpGrowth !== undefined) ? feed.realGdpGrowth
+              : null;
+    var gdpQ2 = (feed.gdpGrowthQ2 !== undefined) ? feed.gdpGrowthQ2 : null;
+    if ((gdpQ1 !== null && gdpQ2 !== null && gdpQ1 < 0 && gdpQ2 < 0) ||
+        feed.recessionConfirmed === true || _has('recession') || _has('two consecutive quarters')) {
+      if (_ECONOMY_STRUCTURAL.recessionDeclarationFloor > floor) {
+        floor = _ECONOMY_STRUCTURAL.recessionDeclarationFloor;
+        reason = 'structural: recession_declaration (real GDP < 0 for 2 consecutive quarters)';
+      } else if (floor > 0) {
+        reason += ' + recession_declaration';
+      }
+    }
+    // (3) Credit crunch: IG-HY credit spread > historical +150bp (0.0150) ALWAYS triggers credit_crunch.
+    var creditSpread = (feed.creditSpread !== undefined) ? feed.creditSpread
+                     : (feed.igHySpread !== undefined) ? feed.igHySpread
+                     : null;
+    // accept basis-point form (e.g. 175) or fraction form (0.0175); threshold = +150bp
+    var spreadBp = (creditSpread !== null) ? (creditSpread > 1 ? creditSpread : creditSpread * 10000) : null;
+    if ((spreadBp !== null && spreadBp > 150 && (_has('credit') || _has('spread'))) ||
+        _has('credit crunch') || _has('credit-crunch')) {
+      if (_ECONOMY_STRUCTURAL.creditCrunchFloor > floor) {
+        floor = _ECONOMY_STRUCTURAL.creditCrunchFloor;
+        reason = 'structural: credit_crunch' + (spreadBp !== null ? ' (IG-HY spread ' + Math.round(spreadBp) + 'bp > +150bp)' : '');
+      } else if (floor > 0) {
+        reason += ' + credit_crunch';
+      }
+    }
+    // (2) Policy trap: yield-curve inversion (DGS10 - DGS2 spread < 0) ALWAYS triggers policy_trap.
+    var curveSpread = (feed.yieldCurveSpread !== undefined) ? feed.yieldCurveSpread
+                    : (feed.t10y2y !== undefined) ? feed.t10y2y
+                    : null;
+    if (curveSpread === null && feed.dgs10 !== undefined && feed.dgs2 !== undefined) {
+      curveSpread = feed.dgs10 - feed.dgs2;
+    }
+    if ((curveSpread !== null && curveSpread < 0) ||
+        _has('inversion') || _has('inverted') || _has('policy trap') || _has('policy-trap')) {
+      if (_ECONOMY_STRUCTURAL.policyTrapFloor > floor) {
+        floor = _ECONOMY_STRUCTURAL.policyTrapFloor;
+        reason = 'structural: policy_trap' + (curveSpread !== null ? ' (10Y-2Y ' + curveSpread.toFixed(2) + ' < 0, inverted)' : '');
+      } else if (floor > 0) {
+        reason += ' + policy_trap';
+      }
+    }
+    // (4) Demand weakness: real-wage growth < 0% YoY ALWAYS triggers demand_weakness.
+    var realWageGrowth = (feed.realWageGrowth !== undefined) ? feed.realWageGrowth
+                       : (feed.realWageGrowthYoY !== undefined) ? feed.realWageGrowthYoY
+                       : null;
+    // accept fraction (-0.012) or percent (-1.2) form
+    var wageFrac = (realWageGrowth !== null && (realWageGrowth > 1 || realWageGrowth < -1)) ? realWageGrowth / 100 : realWageGrowth;
+    if ((wageFrac !== null && wageFrac < 0 && (_has('wage') || _has('demand') || _has('real wage'))) ||
+        _has('demand weakness') || _has('demand-weakness') || _has('negative real wage')) {
+      if (_ECONOMY_STRUCTURAL.demandWeaknessFloor > floor) {
+        floor = _ECONOMY_STRUCTURAL.demandWeaknessFloor;
+        reason = 'structural: demand_weakness' + (wageFrac !== null ? ' (real-wage growth ' + (wageFrac * 100).toFixed(1) + '% < 0% YoY)' : '');
+      } else if (floor > 0) {
+        reason += ' + demand_weakness';
+      }
+    }
+    return { floor: floor, reason: reason };
+  }
+
   function _normalizeStress(domainKey, rawStress, feed) {
     // Phase 0: domain structural-signal floor (engineering/attention-economy constraints
     // bypass commodity/market/volume dampening — mirrors energy-brain grid_stress conditions)
     var structural = (domainKey === 'infrastructure') ? _infraStructuralFloor(feed)
                    : (domainKey === 'culture') ? _cultureStructuralFloor(feed)
                    : (domainKey === 'finance') ? _financeStructuralFloor(feed)
+                   : (domainKey === 'economy') ? _economyStructuralFloor(feed)
                    : { floor: 0, reason: '' };
     if (structural.floor > rawStress) {
       rawStress = structural.floor;

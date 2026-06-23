@@ -191,7 +191,21 @@
     "Moody's Credit Conditions Index":     'https://www.moodys.com/',
     'S&P 500 Volatility Index':            'https://www.spglobal.com/marketintelligence/',
     'S&P Credit Conditions':               'https://www.spglobal.com/marketintelligence/',
-    'Fitch Credit Ratings':                'https://www.fitchratings.com/'
+    'Fitch Credit Ratings':                'https://www.fitchratings.com/',
+    // Economy primary-source authorities: the MACRO AGGREGATE signal layer
+    // (output/growth, inflation, employment & labor markets, consumer & business
+    // sentiment, money supply, the business cycle). Distinct from finance — this
+    // is the macroeconomy, NOT capital markets / credit / banks. Verified
+    // canonical FRED series landing pages — REAL series ids, never fabricated.
+    // Mirrors the energy / infrastructure / culture / finance structure.
+    'FRED Real GDP Growth':           'https://fred.stlouisfed.org/series/GDPC1',
+    'FRED Unemployment Rate':         'https://fred.stlouisfed.org/series/UNRATE',
+    'FRED Nonfarm Payrolls':          'https://fred.stlouisfed.org/series/PAYEMS',
+    'FRED CPI Inflation':             'https://fred.stlouisfed.org/series/CPIAUCSL',
+    'FRED PCE Inflation':             'https://fred.stlouisfed.org/series/PCEPI',
+    'FRED Consumer Sentiment':        'https://fred.stlouisfed.org/series/UMCSENT',
+    'FRED Money Supply':              'https://fred.stlouisfed.org/series/M2SL',
+    'FRED Industrial Production':     'https://fred.stlouisfed.org/series/INDPRO'
   };
 
   // ─── Domain-specific primary source priority ───────────────────────────
@@ -229,7 +243,17 @@
     // rating-agency conditions ground it. Mirrors the energy / infrastructure /
     // culture ordering so finance artifacts no longer demote through the
     // PRIMARY_BY_FALLBACK path.
-    finance: ['Federal Reserve Primary Credit Rate', 'FRED High Yield Spreads', 'Bloomberg Credit Conditions', 'CFTC Commitment of Traders', 'CME FedWatch Rate Futures', "Moody's Credit Conditions Index", 'S&P 500 Volatility Index']
+    finance: ['Federal Reserve Primary Credit Rate', 'FRED High Yield Spreads', 'Bloomberg Credit Conditions', 'CFTC Commitment of Traders', 'CME FedWatch Rate Futures', "Moody's Credit Conditions Index", 'S&P 500 Volatility Index'],
+    // Economy primary sources: macroeconomic-aggregate authorities that anchor
+    // the economy signal layer — output/growth (Real GDP), inflation (CPI/PCE),
+    // employment & labor markets (unemployment, payrolls), consumer sentiment,
+    // money supply, and industrial production. Ranked highest-signal structural
+    // first: Real GDP growth and the unemployment rate lead (the business-cycle
+    // spine), inflation and sentiment ground it. Distinct from finance (capital
+    // markets / credit). Mirrors the energy / infrastructure / culture / finance
+    // ordering so economy artifacts no longer demote through the
+    // PRIMARY_BY_FALLBACK path.
+    economy: ['FRED Real GDP Growth', 'FRED Unemployment Rate', 'FRED Nonfarm Payrolls', 'FRED CPI Inflation', 'FRED PCE Inflation', 'FRED Consumer Sentiment', 'FRED Industrial Production', 'FRED Money Supply']
   };
 
   // ─── Feed token map for evidence-source verification ───────────────────
@@ -275,7 +299,22 @@
     "Moody's Credit Conditions Index":     ["Moody's", 'Moody', 'credit conditions', 'downgrade'],
     'S&P 500 Volatility Index':            ['VIX', 'volatility index', 'market stress'],
     'S&P Credit Conditions':               ['S&P', 'credit conditions', 'rating'],
-    'Fitch Credit Ratings':                ['Fitch', 'credit rating', 'default risk']
+    'Fitch Credit Ratings':                ['Fitch', 'credit rating', 'default risk'],
+    // Economy feed tokens: literal substrings the brain's evidence prose must
+    // contain for _isEvidenceSourceVerified to anchor economy artifacts. Each
+    // entry mirrors a CITATION_HINTS / PRIMARY_PRIORITY_MAP economy feed so the
+    // macroeconomic-aggregate signal layer verifies instead of always failing.
+    // Anchors are the real FRED series ids + macro vocabulary (GDP, inflation,
+    // unemployment, sentiment) — kept DISTINCT from finance (no credit/bank
+    // tokens), so the macro evidence is source-verified exactly like finance.
+    'FRED Real GDP Growth':       ['FRED', 'Real GDP', 'GDP', 'growth', 'GDPC1'],
+    'FRED Unemployment Rate':     ['FRED', 'unemployment', 'jobless', 'UNRATE'],
+    'FRED Nonfarm Payrolls':      ['FRED', 'payrolls', 'nonfarm', 'employment', 'PAYEMS'],
+    'FRED CPI Inflation':         ['FRED', 'CPI', 'inflation', 'consumer price', 'CPIAUCSL'],
+    'FRED PCE Inflation':         ['FRED', 'PCE', 'inflation', 'PCEPI'],
+    'FRED Consumer Sentiment':    ['FRED', 'consumer sentiment', 'sentiment', 'UMCSENT'],
+    'FRED Money Supply':          ['FRED', 'money supply', 'M2', 'M2SL'],
+    'FRED Industrial Production': ['FRED', 'industrial production', 'output', 'INDPRO']
   };
 
   // ─── Module-level flag: SCHEMA_VERSION_BUMPED warning ─────────────────

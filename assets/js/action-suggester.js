@@ -22,10 +22,11 @@
 
   var DOMAIN_ACTIONS = {
     economy: [
-      { label: 'Monitor market volatility indicators', type: 'monitoring', minStress: 0.3 },
-      { label: 'Analyze economic resilience patterns', type: 'analysis', minStress: 0.4 },
-      { label: 'Investigate structural risk clusters', type: 'analysis', minStress: 0.6 },
-      { label: 'Explore counter-cyclical innovation', type: 'discovery', minStress: 0.7 }
+      { label: 'Monitor unemployment trend (UNRATE) and jobless-claims (ICSA) for demand-shock signals', type: 'monitoring', minStress: 0.3 },
+      { label: 'Analyze labor-force participation (CIVPART) and wage growth (COMPRNFB) for real-income pressure', type: 'analysis', minStress: 0.4 },
+      { label: 'Investigate yield-curve (DGS10 - DGS2) inversion and credit-spread widening for policy-trap exposure', type: 'analysis', minStress: 0.5 },
+      { label: 'Analyze GDP-growth (GDPC1) trajectory and demand-component weakness (consumption vs investment)', type: 'analysis', minStress: 0.6 },
+      { label: 'Investigate recession-probability indicators and inflation-unanchoring risk (PCE expectations)', type: 'regulation', minStress: 0.7 }
     ],
     energy: [
       { label: 'Monitor energy price signals', type: 'monitoring', minStress: 0.3 },
@@ -132,8 +133,8 @@
     {
       domains: ['infrastructure', 'economy'],
       minStress: [0.5, 0.5],
-      label: 'Analyze infrastructure capital reallocation opportunity',
-      body: 'Co-elevated infrastructure and economic stress suggests deferred-maintenance and funding-gap exposure.',
+      label: 'Analyze infrastructure capex as counter-cyclical stimulus',
+      body: 'Co-elevated infrastructure and economic stress suggests deferred-maintenance and funding-gap exposure; infrastructure capex (fixed investment, GPDI) can act as counter-cyclical fiscal stimulus against weakening GDP-growth (GDPC1) and rising unemployment (UNRATE).',
       type: 'analysis'
     },
     {
@@ -153,15 +154,15 @@
     {
       domains: ['culture', 'economy'],
       minStress: [0.5, 0.5],
-      label: 'Analyze creator-economy capital and cultural-movement momentum opportunity',
-      body: 'Co-elevated cultural and economic stress suggests creator-economy funding-gap and fanbase-lifecycle exposure.',
+      label: 'Investigate creator-economy as counter-cyclical employment',
+      body: 'Co-elevated cultural and economic stress suggests creator-economy funding-gap and fanbase-lifecycle exposure; creator/gig employment can absorb labor-market slack as payrolls (PAYEMS) soften and labor-force participation (CIVPART) weakens.',
       type: 'analysis'
     },
     {
       domains: ['finance', 'economy'],
       minStress: [0.5, 0.5],
-      label: 'Analyze financial-economic coupling and credit-transmission vulnerabilities',
-      body: 'Co-elevated finance and economic stress suggests credit-tightening, solvency-contagion and liquidity-transmission exposure across lenders and capital markets.',
+      label: 'Analyze credit-cycle transmission to solvency and margin pressure',
+      body: 'Co-elevated finance and economic stress suggests credit-tightening, solvency-contagion and liquidity-transmission exposure across lenders and capital markets; trace policy-rate (FEDFUNDS) and credit-spread transmission into corporate solvency and margin pressure as demand (GDPC1) and consumer sentiment (UMCSENT) weaken.',
       type: 'analysis'
     }
   ];
