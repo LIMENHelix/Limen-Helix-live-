@@ -31,6 +31,7 @@ const HANDLERS = {
   'civil-radar': require('../handlers/civil-radar'),
   'civil-rfps': require('../handlers/civil-rfps'),
   'infra-entry': require('../handlers/infra-entry'),
+  'infrastructure-news': require('../handlers/infrastructure-news'),
   'music-coach': require('../handlers/music-coach'),
   'release-engine': require('../handlers/release-engine'),
   'hook-studio': require('../handlers/hook-studio'),
