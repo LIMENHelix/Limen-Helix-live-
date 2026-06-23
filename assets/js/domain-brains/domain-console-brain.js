@@ -508,6 +508,11 @@
     var memory = state.memory || {};
     var stressHistory = memory.stressHistory || [];
     var activeDx = diagnoses.filter(function (d) { return d.active; });
+    // state.treatments transiently holds the RAW portal harvest (hundreds) before the
+    // regulation engine narrows it — that's why the count used to flash ~400 then settle.
+    // Count/show only treatments that map to an ACTIVE diagnosis: the stable, actionable set.
+    var _activeDxIds = {}; for (var _ax = 0; _ax < activeDx.length; _ax++) _activeDxIds[activeDx[_ax].id] = true;
+    treatments = treatments.filter(function (t) { return t && t.diagnosisId && _activeDxIds[t.diagnosisId]; });
     var resolvedContent = state.resolvedContent || {};
     var byDx = resolvedContent.byDiagnosis || {};
 
