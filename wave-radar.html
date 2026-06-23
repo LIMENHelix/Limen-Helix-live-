@@ -333,13 +333,22 @@ h1.wm{font-size:clamp(38px,9vw,74px);line-height:.92;letter-spacing:-1.5px;margi
   var bpmMap={}; // id -> {genre,bpm}
   function esc(s){return String(s==null?'':s).replace(/[<>&"]/g,function(c){return({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'})[c];});}
 
-  // preview player
-  var audio=new Audio(), curBtn=null;
+  // preview player — with an autoplay "unlock" so lazy-loaded previews (fetched async,
+  // which breaks the user-gesture chain) still produce sound under strict autoplay policy.
+  var audio=new Audio(), curBtn=null, _unlocked=false;
+  audio.preload='auto';
+  var _SILENT='data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=';
+  function unlockAudio(){ if(_unlocked)return; _unlocked=true; try{ audio.src=_SILENT; var p=audio.play(); if(p&&p.then)p.then(function(){audio.pause();audio.currentTime=0;}).catch(function(){}); }catch(e){} }
+  document.addEventListener('pointerdown',unlockAudio); document.addEventListener('keydown',unlockAudio); document.addEventListener('touchstart',unlockAudio);
   function playPreview(url,btn){
+    if(!url){ return; }
     if(curBtn===btn){ audio.pause(); btn.classList.remove('on'); btn.textContent='▶'; curBtn=null; return; }
     if(curBtn){ curBtn.classList.remove('on'); curBtn.textContent='▶'; }
-    audio.src=url; audio.play().catch(function(){}); btn.classList.add('on'); btn.textContent='⏸'; curBtn=btn;
+    audio.src=url; btn.classList.add('on'); btn.textContent='⏸'; curBtn=btn;
+    var pr=audio.play();
+    if(pr&&pr.catch) pr.catch(function(err){ console.warn('[wave] preview blocked —',(err&&err.name)||err); if(curBtn===btn){ btn.classList.remove('on'); btn.textContent='▶'; curBtn=null; } });
     audio.onended=function(){ btn.classList.remove('on'); btn.textContent='▶'; curBtn=null; };
+    audio.onerror=function(){ if(curBtn===btn){ btn.classList.remove('on'); btn.textContent='▶'; curBtn=null; } };
   }
 
   function trackRow(r,showPhase){
