@@ -50,6 +50,7 @@ const HANDLERS = {
   'energy-news': require('../handlers/energy-news'),
   'culture-markets': require('../handlers/culture-markets'),
   'culture-news': require('../handlers/culture-news'),
+  'finance-markets': require('../handlers/finance-markets'),
   'brain-signals': require('../handlers/brain-signals'),
   'enrich-portal-claude': require('../handlers/enrich-portal-claude'),
   'expand-artifact': require('../handlers/expand-artifact'),
