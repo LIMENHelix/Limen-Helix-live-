@@ -1019,8 +1019,116 @@
           });
         }
       }
+      // Higher cognition: predictive self-model + metacognition (runs AFTER diagnoses settle)
+      try { self._updateInfraModel(); } catch (e) {}
     });
   };
+
+  // ==========================================================================
+  // HIGHER COGNITION — predictive self-model + metacognition (civil identity).
+  // Generic predictive-coding substrate (prior → observe → prediction error →
+  // regulation → update prior) + awareness / conscience / immune / intuition.
+  // The substrate is domain-agnostic (operates on the brain's own state) and is a
+  // candidate to lift into DomainBrainBase once 2-3 domains share it. Energy keeps
+  // its own richer, energy-specific version.
+  // ==========================================================================
+  (function () {
+    var P = InfrastructureBrain.prototype;
+    var LR = 0.18, STRESS_FLOOR = 0.55, FLOOD_CAP = 12, STALE_MS = 36 * 3600 * 1000;
+    function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
+    function jac(a, b) { a = a || []; b = b || []; if (!a.length && !b.length) return 0; var sa = {}, inter = 0; a.forEach(function (x) { sa[x] = 1; }); b.forEach(function (x) { if (sa[x]) inter++; }); var uni = a.length + b.length - inter; return uni ? 1 - inter / uni : 0; }
+
+    // Civil diagnosis families — an analogy lens for monitoring, NOT evidence.
+    var FAMILY = {
+      'cyber-physical': ['CYBER_PHYSICAL', 'SCADA_BREACH', 'CYBER_GRID', 'cyber_physical_exposure'],
+      'reliability': ['GRID_STRESS', 'GRID_COLLAPSE', 'POWER_RELIABILITY'],
+      'structural': ['BRIDGE_DEFICIENCY', 'STRUCTURAL_FAILURE', 'DAM_LEVEE_RISK'],
+      'water': ['WATER_MAIN_STRESS', 'WATER_TREATMENT_RISK'],
+      'capital': ['CAPITAL_FUNDING_PRESSURE', 'DEFERRED_MAINTENANCE'],
+      'transport': ['TRANSPORT_CONGESTION', 'TRANSIT_DEFICIT']
+    };
+
+    P._infraNeutralModel = function () {
+      return { version: 1, cycle: 0, prior: { expectedStress: 0.5, expectedDiagnoses: [], expectedDiagnosisCount: 0, expectedOpportunityCount: 0, expectedSignal: 0.5, confidence: 0, samples: 0 }, observation: null, predictionError: null, predictedStress: null, regulation: null, _lowErrorStreak: 0, updated: 0 };
+    };
+    P._infraObservation = function () {
+      var s = this.state || {}; var active = (s.diagnoses || []).filter(function (d) { return d.active; });
+      var feeds = s.feeds || {}, fc = 0, newest = 0; for (var k in feeds) { if (feeds.hasOwnProperty(k)) { fc++; var u = feeds[k] && feeds[k].updated; if (u && u > newest) newest = u; } }
+      return { stress: typeof s.stress === 'number' ? s.stress : 0, phase: s.phase || null, activeDiagnoses: active.map(function (d) { return d.id; }).sort(), diagnosisCount: active.length, opportunityCount: (s.opportunities || []).length, signal: Math.min(1, fc / 8), feedNewest: newest, timestamp: Date.now() };
+    };
+    P._infraPredictionError = function (prior, obs) {
+      var se = Math.abs(obs.stress - prior.expectedStress), sg = Math.abs(obs.signal - prior.expectedSignal), de = jac(obs.activeDiagnoses, prior.expectedDiagnoses);
+      var od = Math.max(1, prior.expectedOpportunityCount, obs.opportunityCount), oe = Math.abs(obs.opportunityCount - prior.expectedOpportunityCount) / od;
+      var total = clamp(0.4 * se + 0.2 * sg + 0.25 * de + 0.15 * oe, 0, 1);
+      return { total: total, stressError: se, signalError: sg, diagnosisError: de, opportunityError: oe, novelty: Math.max(se, de) };
+    };
+    P._infraUpdatePrior = function (prior, obs, lr) {
+      return { expectedStress: clamp(prior.expectedStress + lr * (obs.stress - prior.expectedStress), 0, 1), expectedDiagnoses: obs.activeDiagnoses.slice(), expectedDiagnosisCount: prior.expectedDiagnosisCount + lr * (obs.diagnosisCount - prior.expectedDiagnosisCount), expectedOpportunityCount: prior.expectedOpportunityCount + lr * (obs.opportunityCount - prior.expectedOpportunityCount), expectedSignal: clamp(prior.expectedSignal + lr * (obs.signal - prior.expectedSignal), 0, 1), confidence: clamp(Math.min(1, (prior.samples + 1) / 20), 0, 1), samples: prior.samples + 1 };
+    };
+    P._infraRegulation = function (em, obs, pe) {
+      var gain = clamp(pe.novelty, 0.05, 0.95), inhib = clamp(1 - pe.novelty, 0, 0.9);
+      var starving = obs.stress >= STRESS_FLOOR && obs.opportunityCount === 0, flooding = obs.opportunityCount > FLOOD_CAP;
+      var streak = (pe.total < 0.05) ? (em._lowErrorStreak || 0) + 1 : 0; em._lowErrorStreak = streak; var looping = streak >= 3;
+      var stale = obs.feedNewest > 0 ? (Date.now() - obs.feedNewest) > STALE_MS : false;
+      var overconf = em.prior.confidence > 0.8 && pe.total > 0.4;
+      var label = flooding ? 'flooding' : starving ? 'starving' : stale ? 'stale' : looping ? 'looping' : overconf ? 'overconfident' : pe.novelty > 0.4 ? 'surprised' : 'calm';
+      return { gain: gain, inhibition: inhib, starving: starving, flooding: flooding, looping: looping, stale: stale, overconfident: overconf, state: label };
+    };
+    P._updateInfraModel = function () {
+      var em = this.state.infraModel || this._infraNeutralModel(); var priorIn = em.prior; var obs = this._infraObservation(); var pe = this._infraPredictionError(priorIn, obs);
+      var gb = clamp(pe.novelty, 0.05, 0.95); var predicted = priorIn.expectedStress * (1 - gb) + obs.stress * gb; var reg = this._infraRegulation(em, obs, pe);
+      em.cycle += 1; em.observation = obs; em.predictionError = pe; em.predictedStress = predicted; em.regulation = reg; em.prior = this._infraUpdatePrior(priorIn, obs, LR); em.updated = obs.timestamp; this.state.infraModel = em;
+      var mem = this.state.memory || (this.state.memory = {}); var log = mem.outcomeLog || (mem.outcomeLog = []);
+      log.push({ cycle: em.cycle, predictionError: Math.round(pe.total * 1000) / 1000, stress: obs.stress, activeDx: obs.diagnosisCount, regulation: reg.state, timestamp: obs.timestamp }); if (log.length > 40) log.shift();
+      try { this._computeInfraHigherLayers(); } catch (e) {}
+    };
+
+    P._computeInfraHigherLayers = function () {
+      this._computeInfraImmune(); this._computeInfraAwareness(); this._computeInfraConscience(); this._computeInfraIntuition();
+      // Generic cognition surface the console can render for ANY domain.
+      this.state.cognition = { domain: 'infrastructure', model: { cycle: (this.state.infraModel || {}).cycle || 0, predictionError: (this.state.infraModel || {}).predictionError || null, predictedStress: (this.state.infraModel || {}).predictedStress, regulation: (this.state.infraModel || {}).regulation || null }, awareness: this.state.infraAwareness || null, conscience: this.state.infraConscience || null, immune: this.state.infraImmune || null, intuition: this.state.infraIntuition || null };
+    };
+    P._computeInfraImmune = function () {
+      var s = this.state, em = s.infraModel || {}, reg = em.regulation || {}, ant = [];
+      var pe = (em.predictionError && em.predictionError.total) || 0;
+      if (pe > 0.4) ant.push({ type: 'prediction-error-spike', severity: 'medium', action: 'lower-confidence', value: Math.round(pe * 1000) / 1000 });
+      if (reg.stale) ant.push({ type: 'stale-feeds', severity: 'low', action: 'flag' });
+      if (reg.flooding) ant.push({ type: 'opportunity-flood', severity: 'medium', action: 'inhibit' });
+      if (reg.starving) ant.push({ type: 'stress-without-opportunity', severity: 'low', action: 'flag' });
+      var sev = ant.some(function (a) { return a.severity === 'high'; }) ? 'high' : ant.some(function (a) { return a.severity === 'medium'; }) ? 'medium' : ant.length ? 'low' : 'none';
+      s.infraImmune = { version: 1, immuneState: sev === 'high' ? 'alert' : sev === 'medium' ? 'active' : sev === 'low' ? 'watch' : 'clear', severity: sev, antigens: ant.slice(0, 10), lastScanAt: em.updated || null };
+      return s.infraImmune;
+    };
+    P._computeInfraAwareness = function () {
+      var s = this.state, em = s.infraModel || {}, im = s.infraImmune || {}, active = (s.diagnoses || []).filter(function (d) { return d.active; });
+      var pe = (em.predictionError && em.predictionError.total) || 0, dxNames = active.map(function (d) { return d.label || d.id; });
+      s.infraAwareness = {
+        version: 1, selfState: im.immuneState === 'alert' ? 'guarded' : (em.regulation && em.regulation.state) || 'unknown',
+        knowns: dxNames.slice(0, 6),
+        uncertainties: ['interpretive tracker — diagnoses are signal-driven readings, not validated', 'predictionError=' + (Math.round(pe * 1000) / 1000)],
+        confidenceDrivers: ['regulation ' + ((em.regulation && em.regulation.state) || '?'), active.length + ' active dx'],
+        selfNarrative: 'Infrastructure: ' + active.length + ' active diagnosis pathway' + (active.length !== 1 ? 's' : '') + ' (' + (dxNames.slice(0, 3).join(', ') || 'none') + '), regulation=' + ((em.regulation && em.regulation.state) || '?') + ', immune=' + (im.immuneState || '?') + ', prediction-error ' + (Math.round(pe * 100) / 100) + '.',
+        lastAwarenessAt: em.updated || null
+      };
+      return s.infraAwareness;
+    };
+    P._computeInfraConscience = function () {
+      var s = this.state, em = s.infraModel || {}, pe = (em.predictionError && em.predictionError.total) || 0, cautions = [];
+      if (pe > 0.4) cautions.push({ claim: 'high-confidence-claim', reason: 'predictionError spike ' + (Math.round(pe * 1000) / 1000) });
+      s.infraConscience = { version: 1, conscienceState: 'restrictive', vetoes: [{ claim: 'patent/grant', reason: 'no method/embodiment fields in civil diagnoses' }], cautions: cautions.slice(0, 8), allowedClaims: ['source-summary', 'infrastructure-brief-with-warnings'], blockedClaims: ['patent-claim', 'grant-claim'], artifactReadinessDecision: { patentReady: false, grantReady: false, investmentReady: true, researchReady: true, note: 'patent/grant vetoed; investment/research allowed-with-warning' }, reasons: ['overclaim prevention', 'interpretive-not-validated'], lastCheckAt: em.updated || null };
+      return s.infraConscience;
+    };
+    P._computeInfraIntuition = function () {
+      var s = this.state, em = s.infraModel || {}, reg = em.regulation || {}, log = (s.memory && s.memory.outcomeLog) || [], hunches = [];
+      if (log.length >= 2) { var a = log[log.length - 2].predictionError, b = log[log.length - 1].predictionError; if (typeof a === 'number' && typeof b === 'number' && b - a > 0.05) hunches.push({ hunch: 'regime shift forming (prediction error rising)', confidence: 'LOW', evidenceStatus: 'UNVERIFIED', why: 'predictionError rose ' + a + ' → ' + b }); }
+      if (reg.state === 'surprised') hunches.push({ hunch: 'novel stressor entering the system', confidence: 'LOW', evidenceStatus: 'UNVERIFIED', why: 'regulation = surprised' });
+      var active = (s.diagnoses || []).filter(function (d) { return d.active; }).sort(function (a, b) { return (b.relevance || 0) - (a.relevance || 0); });
+      var primaryId = (active[0] || {}).id, analogies = [];
+      Object.keys(FAMILY).forEach(function (fam) { if (FAMILY[fam].indexOf(primaryId) >= 0) { FAMILY[fam].forEach(function (sib) { if (sib !== primaryId) analogies.push({ analogy: primaryId + ' resembles ' + sib, family: fam, evidenceStatus: 'UNVERIFIED' }); }); } });
+      s.infraIntuition = { version: 1, hunches: hunches.slice(0, 6), analogies: analogies.slice(0, 6), lastAt: em.updated || null };
+      return s.infraIntuition;
+    };
+  })();
 
   /**
    * Generate an investor memo for infrastructure terminal company positioning.

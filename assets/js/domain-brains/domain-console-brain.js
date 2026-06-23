@@ -1183,6 +1183,35 @@
     }
 
     // Enter Portal
+    // \u2500\u2500 SELF-MODEL / METACOGNITION \u2014 rendered when the brain computes a cognition surface
+    //    (predictive self-model + awareness/conscience/immune/intuition). Domain-agnostic.
+    var cog = state.cognition || null;
+    if (cog) {
+      var cm = cog.model || {}, cpe = (cm.predictionError && cm.predictionError.total) || 0;
+      var creg = (cm.regulation && cm.regulation.state) || '?';
+      var caw = cog.awareness || {}, cim = cog.immune || {}, ccon = cog.conscience || {}, cint = cog.intuition || {};
+      var regColor = (creg === 'surprised' || creg === 'overconfident') ? '#e0a437' : (creg === 'stale' || creg === 'flooding' || creg === 'starving') ? '#e85454' : '#5ab5a0';
+      var tag = function (label, val, color) { return '<span style="background:rgba(120,140,220,0.09);border:1px solid rgba(120,140,220,0.22);border-radius:8px;padding:1px 7px;color:#aeb6d8">' + label + ' <b style="color:' + (color || '#cdd3ec') + '">' + val + '</b></span>'; };
+      h += '<div class="dcb-panel" data-panel="cognition" style="border-color:rgba(120,140,220,0.2)">';
+      h += '<div class="dcb-panel-title"><span>SELF-MODEL \u00B7 METACOGNITION</span><span class="dcb-meta">cycle ' + (cm.cycle || 0) + '</span></div>';
+      if (caw.selfNarrative) h += '<div style="font-size:0.34rem;color:#d8d2c5;line-height:1.6;font-family:Georgia,serif;margin-bottom:8px">' + esc(caw.selfNarrative) + '</div>';
+      h += '<div style="display:flex;gap:6px;flex-wrap:wrap;font-size:0.30rem;margin-bottom:8px">';
+      h += tag('regulation', esc(creg), regColor);
+      h += tag('prediction-error', (Math.round(cpe * 100) / 100), cpe > 0.4 ? '#e0a437' : '#5ab5a0');
+      h += tag('immune', esc(cim.immuneState || '?'), cim.immuneState === 'alert' ? '#e85454' : cim.immuneState === 'active' ? '#e0a437' : '#5ab5a0');
+      if (typeof cm.predictedStress === 'number') h += tag('predicted-stress', Math.round(cm.predictedStress * 100) + '%');
+      h += '</div>';
+      var ard = ccon.artifactReadinessDecision || {};
+      h += '<div style="font-size:0.29rem;color:#9a9080;line-height:1.5;margin-bottom:6px"><b style="color:#b0a898">Conscience:</b> patent/grant <b style="color:#e85454">blocked</b>, investment/research <b style="color:' + (ard.investmentReady ? '#5ab5a0' : '#9a9080') + '">' + (ard.investmentReady ? 'allowed-with-warning' : 'gated') + '</b>' + ((ccon.cautions && ccon.cautions.length) ? (' \u00B7 ' + ccon.cautions.length + ' caution(s)') : '') + '</div>';
+      var hunches = cint.hunches || [];
+      if (hunches.length) {
+        h += '<div style="font-size:0.29rem;color:#9a9080;margin-bottom:3px"><b style="color:#b0a898">Intuition</b> <span style="color:#6a6458">(UNVERIFIED hunches \u2014 a lens, not a claim):</span></div>';
+        for (var hci = 0; hci < Math.min(3, hunches.length); hci++) h += '<div style="font-size:0.28rem;color:#807868;line-height:1.45;margin-bottom:2px">\u00B7 ' + esc(hunches[hci].hunch) + ' <span style="color:#5a5448">(' + esc(hunches[hci].why || '') + ')</span></div>';
+      }
+      if ((cint.analogies || []).length) h += '<div style="font-size:0.27rem;color:#6a6458;margin-top:4px">analogies: ' + esc(cint.analogies.slice(0, 2).map(function (a) { return a.analogy; }).join('; ')) + '</div>';
+      h += '</div>';
+    }
+
     h += '<div class="dcb-panel" style="text-align:center;border:none;background:none">';
     h += '<a class="dcb-enter-portal" href="/portal?domain=' + DOMAIN + '">ENTER ' + DOMAIN_LABEL.toUpperCase() + ' PORTAL \u203A</a>';
     h += '</div>';
