@@ -54,5 +54,7 @@
     btn.onclick = function (e) { e.stopPropagation(); panel.classList.toggle('open'); };
     document.addEventListener('click', function (e) { if (!panel.contains(e.target) && e.target !== btn) panel.classList.remove('open'); });
   }
-  if (document.body) render(); else document.addEventListener('DOMContentLoaded', render);
+  // Admin-only nav: public visitors (homeowners, fans) never see the internal menu.
+  function boot() { if (isAdmin()) render(); }
+  if (document.body) boot(); else document.addEventListener('DOMContentLoaded', boot);
 })();
