@@ -126,6 +126,9 @@ a{color:var(--steel);text-decoration:none}
   <div class="sec"><h2>🎯 Primes to target</h2><span class="cap">firms doing the most civil work in your states — your best BD targets</span></div>
   <div id="primes" class="primes"></div>
 
+  <div class="sec"><h2>📰 Industry Pulse</h2><span class="cap">current events shaping civil &amp; environmental-engineering opportunities</span></div>
+  <div id="pulse" class="list"><div class="muted">Reading the wire…</div></div>
+
   <div class="sec"><h2>💲 Bid reference</h2><span class="cap">ballpark costs for common structures &amp; surveys — verify locally</span></div>
   <div class="bidtool">
     <div class="bidrow"><select id="bidItem"></select><input id="bidQty" type="number" min="1" value="200"><span id="bidUnit"></span></div>
@@ -195,6 +198,7 @@ a{color:var(--steel);text-decoration:none}
         '<div class="meta"><span class="badge">'+esc(r._st||'')+'</span><span class="phbadge">'+esc(phaseFor(r).tag)+'</span><span>'+esc(r.agency||'')+'</span>'+(r.started?'<span>· '+esc(fdate(r.started))+'</span>':'')+
         (r.link?'<a class="ext" href="'+esc(r.link)+'" target="_blank" rel="noopener">award ↗</a>':'')+'</div></div>';
     }).join('');
+    if(window.__collapse)window.__collapse(el,8);
   }
   function renderPrimes(j){
     var tp=(j.summary&&j.summary.topPrimes)||[]; var el=document.getElementById('primes');
@@ -267,6 +271,16 @@ a{color:var(--steel);text-decoration:none}
 
   renderPhases(); initBid();
 
+  // ── Industry Pulse — infrastructure/env-engineering news (how current events move the work) ──
+  fetch('/api/infrastructure-news').then(function(r){return r.json();}).then(function(j){
+    var el=document.getElementById('pulse');
+    if(!j||!j.items||!j.items.length){ el.innerHTML='<div class="muted">Wire is quiet — check back shortly.</div>'; return; }
+    el.innerHTML=j.items.map(function(it){
+      return '<a class="proj" style="display:block;border-left-color:var(--steel)" href="'+esc(it.link)+'" target="_blank" rel="noopener"><div class="prime" style="font-size:13.5px">'+esc(it.title)+'</div><div class="meta"><span class="badge">'+esc(it.source||'news')+'</span></div></a>';
+    }).join('');
+    if(window.__collapse)window.__collapse(el,5);
+  }).catch(function(){ document.getElementById('pulse').innerHTML='<div class="muted">Couldn’t load the wire.</div>'; });
+
   // ── Inbound leads from the public Project Planner (gate auto-attaches her key) ──
   fetch('/api/infra-entry').then(function(r){return r.json();}).then(function(j){
     var el=document.getElementById('leads');
@@ -280,6 +294,7 @@ a{color:var(--steel);text-decoration:none}
         '<div class="desc">'+esc(contact||'(no contact left)')+(r.scope?' · '+esc(r.scope):'')+(est?' · est '+est:'')+'</div>'+
         '<div class="meta">'+(r.needs||[]).slice(0,3).map(function(n){return '<span class="badge">'+esc(n)+'</span>';}).join('')+'<span>· '+esc((r.ts||'').slice(0,10))+'</span></div></div>';
     }).join('');
+    if(window.__collapse)window.__collapse(el,6);
   }).catch(function(){ document.getElementById('leads').innerHTML='<div class="muted">Couldn’t load leads.</div>'; });
 
   // ── Open bids (SAM.gov RFPs) — the forward, biddable-now half of the radar ──
@@ -304,6 +319,7 @@ a{color:var(--steel);text-decoration:none}
         '<span>'+esc(r.agency||'')+'</span>'+(r.naics?'<span>· NAICS '+esc(r.naics)+'</span>':'')+(r.sol?'<span>· '+esc(r.sol)+'</span>':'')+
         (r.link?'<a class="ext" href="'+esc(r.link)+'" target="_blank" rel="noopener">SAM.gov ↗</a>':'')+'</div></div>';
     }).join('');
+    if(window.__collapse)window.__collapse(el,6);
   }
   fetch('/api/civil-rfps').then(function(r){return r.json();}).then(function(j){
     RFP=j; if(j.configured && rallRows().length) renderRfpTabs(); renderRfps();
@@ -320,5 +336,6 @@ a{color:var(--steel);text-decoration:none}
 })();
 </script>
 <script src="/assets/js/limen-nav.js"></script>
+<script src="/assets/js/limen-collapse.js"></script>
 </body>
 </html>

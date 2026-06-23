@@ -229,7 +229,7 @@ h1.wm{font-size:clamp(38px,9vw,74px);line-height:.92;letter-spacing:-1.5px;margi
         <input id="coachPass" type="password" placeholder="your passcode" autocomplete="off">
         <button class="go" id="coachIn">Sign in</button>
       </div>
-      <div class="hint" id="coachGateMsg">Built by your father. Sign in with your passcode and I'll give you <b>moves, not lectures</b> — a plan for the week, a hook on demand, a playlist pitch you can send today.</div>
+      <div class="hint" id="coachGateMsg">Your private strategist. Sign in with your passcode and I'll give you <b>moves, not lectures</b> — a plan for the week, a hook on demand, a playlist pitch you can send today.</div>
     </div>
     <div id="coachPanel" style="display:none">
       <div class="qa">
@@ -502,12 +502,12 @@ h1.wm{font-size:clamp(38px,9vw,74px);line-height:.92;letter-spacing:-1.5px;margi
   var artistCache={};
   function playArtist(name,btn){
     if(artistCache[name]){ playPreview(artistCache[name],btn); return; }
-    if(artistCache[name]===null){ return; }
+    if(artistCache[name]===null){ window.open('https://www.youtube.com/results?search_query='+encodeURIComponent(name+' music'),'_blank','noopener'); return; }
     var t0=btn.textContent; btn.textContent='…';
     fetch('/api/wave-radar?artist='+encodeURIComponent(name)).then(function(r){return r.json();}).then(function(j){
       if(j.ok&&j.track&&j.track.preview){ artistCache[name]=j.track.preview; btn.textContent='▶'; playPreview(j.track.preview,btn); }
-      else { artistCache[name]=null; btn.textContent='—'; }
-    }).catch(function(){ btn.textContent=t0||'▶'; });
+      else { artistCache[name]=null; btn.textContent='▶'; window.open('https://www.youtube.com/results?search_query='+encodeURIComponent(name+' music'),'_blank','noopener'); }
+    }).catch(function(){ btn.textContent='▶'; window.open('https://www.youtube.com/results?search_query='+encodeURIComponent(name+' music'),'_blank','noopener'); });
   }
   function renderNeighborhood(nb,loves){
     if((!nb||!nb.length)&&(!loves||!loves.length)) return;
@@ -532,6 +532,7 @@ h1.wm{font-size:clamp(38px,9vw,74px);line-height:.92;letter-spacing:-1.5px;margi
     }
     var el=document.getElementById('neighborhood'); el.innerHTML=h;
     el.querySelectorAll('.nbp').forEach(function(b){ b.onclick=function(){ playArtist(b.getAttribute('data-artist'),b); }; });
+    var ng=el.querySelector('.nbgrid'); if(ng&&window.__collapse)window.__collapse(ng,6);
   }
 
   // ---- Music Now (free RSS, auto-updating) ----
@@ -545,6 +546,7 @@ h1.wm{font-size:clamp(38px,9vw,74px);line-height:.92;letter-spacing:-1.5px;margi
         h+='<a class="nitem" href="'+esc(it.link)+'" target="_blank" rel="noopener"><div class="nt">'+esc(it.title)+'</div><div class="ns">'+esc(it.src)+' <span class="ago">· '+timeAgo(it.ts)+'</span></div></a>';
       });
       el.innerHTML=h+'</div>';
+      var nw=el.querySelector('.news'); if(nw&&window.__collapse)window.__collapse(nw,6);
       var na=document.getElementById('newsAgo'); if(na&&j.updated) na.textContent='· refreshed '+timeAgo(j.updated);
     }).catch(function(){ document.getElementById('newsBody').innerHTML='<div class="muted">Couldn’t load the feed.</div>'; });
   }
@@ -568,6 +570,7 @@ h1.wm{font-size:clamp(38px,9vw,74px);line-height:.92;letter-spacing:-1.5px;margi
         '<div class="etrend" style="color:'+t.c+'">'+t.a+' '+(e.points>=2?t.l:'baseline')+'</div></div>';
     });
     body.innerHTML=h+'</div>';
+    var eg=body.querySelector('.eras'); if(eg&&window.__collapse)window.__collapse(eg,8);
     var note=document.getElementById('erasNote');
     if(note) note.textContent=j.erasWarming?'· baseline set — the trend sharpens as snapshots accrue':('· from '+(j.erasSample||0)+' charting tracks · % = share of new hits');
   }
@@ -751,8 +754,11 @@ h1.wm{font-size:clamp(38px,9vw,74px);line-height:.92;letter-spacing:-1.5px;margi
     var phaseChip=(r.points>=2)?('<span class="chip" style="color:'+p.c+';background:'+p.bg+'">'+p.l+'</span>'):'';
     var star=r.mine?'<span class="mine" title="in your NF neighborhood">★</span> ':'';
     var listeners=r.listeners?('<span class="gtag">'+fmtNum(r.listeners)+' listeners</span>'):'';
-    var link=r.link?'<a class="gtag" href="'+esc(r.link)+'" target="_blank" rel="noopener">↗</a>':'';
-    return '<div class="row'+(r.mine?' mine-row':'')+'"><div class="rk">#'+r.cur+'</div><div><div class="ti">'+star+esc(r.title)+'</div><div class="ar">'+esc(r.artist)+'</div><div class="meta">'+phaseChip+'<span class="gtag">'+esc(r.glabel||'')+'</span>'+listeners+link+'</div></div><div></div></div>';
+    var yt='https://www.youtube.com/results?search_query='+encodeURIComponent((r.artist||'')+' '+(r.title||''));
+    var link='<a class="gtag" href="'+esc(r.link||yt)+'" target="_blank" rel="noopener" title="open">↗</a>';
+    // Last.fm lane tracks have no preview — make ▶ play the artist's top track (or open YouTube).
+    var play=r.preview?('<button class="play" data-prev="'+esc(r.preview)+'">▶</button>'):('<button class="play nbp" data-artist="'+esc(r.artist)+'" title="hear them">▶</button>');
+    return '<div class="row'+(r.mine?' mine-row':'')+'"><div class="rk">#'+r.cur+'</div><div><div class="ti">'+star+esc(r.title)+'</div><div class="ar">'+esc(r.artist)+'</div><div class="meta">'+phaseChip+'<span class="gtag">'+esc(r.glabel||'')+'</span>'+listeners+link+'</div></div><div>'+play+'</div></div>';
   }
   function renderLane(elId,lane,secId){
     var el=document.getElementById(elId); if(!el) return;
@@ -760,6 +766,8 @@ h1.wm{font-size:clamp(38px,9vw,74px);line-height:.92;letter-spacing:-1.5px;margi
     if(secId) document.getElementById(secId).style.display='flex';
     document.getElementById('lane').style.display='flex';
     var h=''; lane.items.forEach(function(r){ h+=laneRow(r); }); el.innerHTML=h;
+    el.querySelectorAll('.play').forEach(function(b){ if(b.getAttribute('data-prev')) b.onclick=function(){ playPreview(b.getAttribute('data-prev'),b); }; else b.onclick=function(){ playArtist(b.getAttribute('data-artist'),b); }; });
+    if(window.__collapse) window.__collapse(el, 6);
   }
 
   fetch('/api/wave-radar').then(function(r){return r.json();}).then(function(j){
@@ -832,5 +840,6 @@ h1.wm{font-size:clamp(38px,9vw,74px);line-height:.92;letter-spacing:-1.5px;margi
 })();
 </script>
 <script src="/assets/js/limen-nav.js"></script>
+<script src="/assets/js/limen-collapse.js"></script>
 </body>
 </html>
