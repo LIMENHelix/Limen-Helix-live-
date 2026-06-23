@@ -74,6 +74,11 @@ h1{font-size:30px;font-weight:400;margin-bottom:4px}
         card('/vitals','❤ Vitals','System health')
       ]);
       h+=sec('All domains · '+ALL_DOMAINS.length, ALL_DOMAINS.map(function(d){ return card('/domain-console?domain='+d, d, DOMAIN_DESC[d]||'Console'); }), 'dgrid');
+      h+=sec('Per-person fronts',[
+        card('/wave-radar','🌊 Wave Radar','Drew · music'),
+        card('/project-planner','🌐 Project Planner','Liz · public lead page'),
+        card('/project-radar','📐 Project Radar','Liz · bids/leads (admin)')
+      ]);
       h+=sec('Admin tools',[
         card('/admin-leads','Leads','Front-page sign-ups'),
         card('/admin-requests','Site Requests <span id="reqBadge"></span>','Change requests')
@@ -84,10 +89,13 @@ h1{font-size:30px;font-weight:400;margin-bottom:4px}
         return card('/domain-console?domain='+d, d, DOMAIN_DESC[d]||'Console');
       }));
       h+=sec('Public fronts', (p.domains||[]).filter(function(d){return ['energy','culture','infrastructure'].indexOf(d)>-1;}).map(function(d){
-        return d==='culture' ? card('/wave-radar','🌊 Wave Radar','Your music tools') : card('/'+d, d, 'Public front');
+        if(d==='culture') return card('/wave-radar','🌊 Wave Radar','Your music tools');
+        if(d==='infrastructure') return card('/project-planner','🌐 Project Planner','Your public lead page');
+        return card('/'+d, d, 'Public front');
       }));
       if(p.properties&&p.properties.length){ h+=sec('Properties', p.properties.map(function(pr){ return card(pr.url||'#', pr.name, (pr.domain||'')+' · storefront'); })); }
       var tools=[];
+      if((p.domains||[]).indexOf('infrastructure')>-1) tools.push(card('/project-radar','📐 Project Radar','Your bids · leads · primes (admin)'));
       if((p.domains||[]).indexOf('finance')>-1) tools.push(card('/admin-leads','Leads','Front-page sign-ups'));
       if((p.domains||[]).indexOf('culture')>-1) tools.push(card('/admin-requests','Site Requests <span id="reqBadge"></span>','Change requests'));
       h+=sec('Tools', tools);
