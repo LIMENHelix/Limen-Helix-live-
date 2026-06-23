@@ -333,22 +333,26 @@ h1.wm{font-size:clamp(38px,9vw,74px);line-height:.92;letter-spacing:-1.5px;margi
   var bpmMap={}; // id -> {genre,bpm}
   function esc(s){return String(s==null?'':s).replace(/[<>&"]/g,function(c){return({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'})[c];});}
 
-  // preview player — with an autoplay "unlock" so lazy-loaded previews (fetched async,
-  // which breaks the user-gesture chain) still produce sound under strict autoplay policy.
-  var audio=new Audio(), curBtn=null, _unlocked=false;
+  // preview player
+  var audio=new Audio();
   audio.preload='auto';
-  var _SILENT='data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=';
-  function unlockAudio(){ if(_unlocked)return; _unlocked=true; try{ audio.src=_SILENT; var p=audio.play(); if(p&&p.then)p.then(function(){audio.pause();audio.currentTime=0;}).catch(function(){}); }catch(e){} }
-  document.addEventListener('pointerdown',unlockAudio); document.addEventListener('keydown',unlockAudio); document.addEventListener('touchstart',unlockAudio);
+  var curBtn=null;
+  function setBtn(b,on){ if(!b)return; if(on){ b.classList.add('on'); b.textContent='⏸'; } else { b.classList.remove('on'); b.textContent='▶'; } }
+  audio.addEventListener('ended', function(){ setBtn(curBtn,false); curBtn=null; });
   function playPreview(url,btn){
-    if(!url){ return; }
-    if(curBtn===btn){ audio.pause(); btn.classList.remove('on'); btn.textContent='▶'; curBtn=null; return; }
-    if(curBtn){ curBtn.classList.remove('on'); curBtn.textContent='▶'; }
-    audio.src=url; btn.classList.add('on'); btn.textContent='⏸'; curBtn=btn;
+    if(!url) return;
+    // toggle off if this same track is already playing
+    if(curBtn===btn && !audio.paused){ audio.pause(); setBtn(btn,false); curBtn=null; return; }
+    if(curBtn && curBtn!==btn) setBtn(curBtn,false);
+    curBtn=btn; setBtn(btn,true);
+    audio.src=url;
     var pr=audio.play();
-    if(pr&&pr.catch) pr.catch(function(err){ console.warn('[wave] preview blocked —',(err&&err.name)||err); if(curBtn===btn){ btn.classList.remove('on'); btn.textContent='▶'; curBtn=null; } });
-    audio.onended=function(){ btn.classList.remove('on'); btn.textContent='▶'; curBtn=null; };
-    audio.onerror=function(){ if(curBtn===btn){ btn.classList.remove('on'); btn.textContent='▶'; curBtn=null; } };
+    if(pr&&pr.catch) pr.catch(function(err){
+      var n=(err&&err.name)||'';
+      if(n==='AbortError') return;        // a newer load superseded this one — NOT a real failure (was the glitch)
+      console.warn('[wave] play failed:', n||err);
+      if(curBtn===btn){ setBtn(btn,false); curBtn=null; }
+    });
   }
 
   function trackRow(r,showPhase){
