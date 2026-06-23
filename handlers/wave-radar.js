@@ -174,6 +174,22 @@ async function lookupArtist(name) {
     artist: (t.artist && t.artist.name) || name, artistLink: (t.artist && t.artist.link) || '' };
 }
 
+// Lazy lookup of a FRESH preview for a specific song (cached snapshot URLs expire / 403).
+// Falls back to the artist's top track if the exact title isn't found.
+async function lookupTrack(artist, title) {
+  let d = [];
+  if (title) {
+    const q = 'artist:"' + artist + '" track:"' + title + '"';
+    const j = await fetchJSON('https://api.deezer.com/search?q=' + encodeURIComponent(q) + '&limit=1');
+    d = (j && Array.isArray(j.data)) ? j.data : [];
+  }
+  if (!d.length) return lookupArtist(artist);
+  const t = d[0];
+  return { title: t.title || title, preview: t.preview || '', link: t.link || '',
+    cover: (t.album && (t.album.cover_small || t.album.cover)) || '',
+    artist: (t.artist && t.artist.name) || artist };
+}
+
 // DMAD's tracks (Deezer, fetched live — preview URLs carry a short-lived exp= token).
 // /top misses some singles, so explicitly pull the operator-named tracks too and merge.
 const DMAD_PINNED = ['1583652152', '1583652022'];  // World Is Spinning, Nothing Less
@@ -353,6 +369,16 @@ module.exports = async function handler(req, res) {
     res.statusCode = 200; res.setHeader('Cache-Control', 's-maxage=86400');
     return res.end(JSON.stringify({ ok: !!track, track: track }));
   }
+  // Fresh per-song preview (cached radar URLs expire → 403). Query: ?track=artist|title
+  const trackQ = u.searchParams.get('track');
+  if (trackQ) {
+    const bar = trackQ.indexOf('|');
+    const ta = (bar >= 0 ? trackQ.slice(0, bar) : trackQ).slice(0, 80);
+    const tt = (bar >= 0 ? trackQ.slice(bar + 1) : '').slice(0, 80);
+    let track = null; try { track = await lookupTrack(ta, tt); } catch (e) {}
+    res.statusCode = 200; res.setHeader('Cache-Control', 's-maxage=3600');
+    return res.end(JSON.stringify({ ok: !!(track && track.preview), track: track }));
+  }
 
   let snapshotTaken = false;
   try {
@@ -383,9 +409,19 @@ module.exports = async function handler(req, res) {
     const slimL = r => ({ id: r.id, title: r.title, artist: r.artist, glabel: r.glabel, cur: r.cur, listeners: r.listeners || 0, link: r.link || '', phase: r.phase, velocity: r.velocity, emergence: r.emergence, points: r.points, mine: nbset.has(String(r.artist || '').toLowerCase()) });
     const laneFor = (which) => {
       const pool = lfm.filter(r => r.lane === which);
-      const rising = pool.filter(r => r.phase === 'emerging' || r.phase === 'rising').sort((a, b) => b.emergence - a.emergence).slice(0, 14);
+      const rising = pool.filter(r => r.phase === 'emerging' || r.phase === 'rising').sort((a, b) => b.emergence - a.emergence);
       // While warming (no velocity yet) fall back to current top of the lane so it's never empty.
-      const items = rising.length ? rising : pool.slice().sort((a, b) => a.cur - b.cur).slice(0, 14);
+      const base = rising.length ? rising : pool.slice().sort((a, b) => a.cur - b.cur);
+      // Dedup the same song (US + global both surface it) and cap each artist to 2 so one hot
+      // artist (e.g. all-Olivia-Rodrigo) can't fill the lane — keep "where it's rising" diverse.
+      const seen = new Set(), perArtist = {}, items = [];
+      for (const r of base) {
+        const a = String(r.artist || '').toLowerCase().trim();
+        const k = a + '|' + String(r.title || '').toLowerCase().trim();
+        if (seen.has(k) || (perArtist[a] || 0) >= 2) continue;
+        seen.add(k); perArtist[a] = (perArtist[a] || 0) + 1; items.push(r);
+        if (items.length >= 14) break;
+      }
       return { items: items.map(slimL), rising: rising.length > 0 };
     };
 

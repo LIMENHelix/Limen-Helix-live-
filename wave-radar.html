@@ -333,26 +333,39 @@ h1.wm{font-size:clamp(38px,9vw,74px);line-height:.92;letter-spacing:-1.5px;margi
   var bpmMap={}; // id -> {genre,bpm}
   function esc(s){return String(s==null?'':s).replace(/[<>&"]/g,function(c){return({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'})[c];});}
 
-  // preview player
-  var audio=new Audio();
-  audio.preload='auto';
-  var curBtn=null;
+  // preview player. Cached Deezer URLs expire (403), so on any failure we fetch a FRESH
+  // per-song preview, and if that fails too we open the track on YouTube — always sound.
+  var audio=new Audio(); audio.preload='auto';
+  var curBtn=null, _fail=null;
   function setBtn(b,on){ if(!b)return; if(on){ b.classList.add('on'); b.textContent='⏸'; } else { b.classList.remove('on'); b.textContent='▶'; } }
-  audio.addEventListener('ended', function(){ setBtn(curBtn,false); curBtn=null; });
-  function playPreview(url,btn){
-    if(!url) return;
-    // toggle off if this same track is already playing
-    if(curBtn===btn && !audio.paused){ audio.pause(); setBtn(btn,false); curBtn=null; return; }
+  function clearCur(){ setBtn(curBtn,false); curBtn=null; }
+  audio.addEventListener('ended', function(){ clearCur(); _fail=null; });
+  audio.addEventListener('error', function(){ var f=_fail; _fail=null; clearCur(); if(f)f(); });  // 403 / expired preview
+  function playPreview(url,btn,onFail){
+    if(!url){ if(onFail)onFail(); return; }
+    if(curBtn===btn && !audio.paused){ audio.pause(); clearCur(); _fail=null; return; }  // toggle off
     if(curBtn && curBtn!==btn) setBtn(curBtn,false);
-    curBtn=btn; setBtn(btn,true);
+    curBtn=btn; _fail=onFail||null; setBtn(btn,true);
     audio.src=url;
     var pr=audio.play();
     if(pr&&pr.catch) pr.catch(function(err){
       var n=(err&&err.name)||'';
-      if(n==='AbortError') return;        // a newer load superseded this one — NOT a real failure (was the glitch)
-      console.warn('[wave] play failed:', n||err);
-      if(curBtn===btn){ setBtn(btn,false); curBtn=null; }
+      if(n==='AbortError') return;        // superseded by a newer load — not a real failure
+      var f=_fail; _fail=null; clearCur(); if(f)f();
     });
+  }
+  // Play a specific song: try the cached URL, then a fresh server lookup, then YouTube.
+  function playTrack(btn, cachedUrl, artist, title){
+    function yt(){ window.open('https://www.youtube.com/results?search_query='+encodeURIComponent((artist||'')+' '+(title||'')),'_blank','noopener'); }
+    function fresh(){
+      btn.textContent='…';
+      fetch('/api/wave-radar?track='+encodeURIComponent((artist||'')+'|'+(title||''))).then(function(r){return r.json();}).then(function(j){
+        btn.textContent='▶';
+        if(j&&j.ok&&j.track&&j.track.preview) playPreview(j.track.preview, btn, yt);
+        else yt();
+      }).catch(function(){ btn.textContent='▶'; yt(); });
+    }
+    if(cachedUrl) playPreview(cachedUrl, btn, fresh); else fresh();
   }
 
   function trackRow(r,showPhase){
@@ -361,17 +374,12 @@ h1.wm{font-size:clamp(38px,9vw,74px);line-height:.92;letter-spacing:-1.5px;margi
     var bpm='<span class="bpm'+(has?' has':'')+'" data-id="'+esc(r.id)+'" data-bpm="'+(r.bpm||0)+'">'+(has?(r.bpm+' BPM'):'···')+'</span>';
     var phaseChip=showPhase?('<span class="chip" style="color:'+p.c+';background:'+p.bg+'">'+p.l+'</span>'):'';
     var vel=showPhase&&r.points>=2?('<span class="gtag" style="color:'+(r.velocity>=0?'var(--emerge)':'var(--cool)')+'">'+(r.velocity>0?'+':'')+r.velocity+'/day</span>'):'';
-    // Every track gets a working ▶: direct Deezer preview if we have one, else fall back
-    // to the artist's top track (lazy Deezer) → YouTube. No more dead play buttons.
-    var play=r.preview?('<button class="play" data-prev="'+esc(r.preview)+'">▶</button>')
-      :('<button class="play" data-artist="'+esc(r.artist)+'" title="hear it">▶</button>');
+    // Every track gets a ▶ that plays the SONG: cached preview → fresh lookup → YouTube.
+    var play='<button class="play" data-prev="'+esc(r.preview||'')+'" data-artist="'+esc(r.artist||'')+'" data-title="'+esc(r.title||'')+'" title="hear it">▶</button>';
     return '<div class="row"><div class="rk">#'+r.cur+'</div><div><div class="ti">'+esc(r.title)+'</div><div class="ar">'+esc(r.artist)+'</div><div class="meta">'+phaseChip+'<span class="gtag">'+esc(r.glabel||'')+'</span>'+bpm+vel+'</div></div><div>'+play+'</div></div>';
   }
   function bindRows(c){
-    c.querySelectorAll('.play').forEach(function(b){
-      if(b.getAttribute('data-prev')) b.onclick=function(){ playPreview(b.getAttribute('data-prev'),b); };
-      else if(b.getAttribute('data-artist')) b.onclick=function(){ playArtist(b.getAttribute('data-artist'),b); };
-    });
+    c.querySelectorAll('.play').forEach(function(b){ b.onclick=function(){ playTrack(b, b.getAttribute('data-prev'), b.getAttribute('data-artist'), b.getAttribute('data-title')); }; });
     c.querySelectorAll('.bpm.has').forEach(function(b){ b.onclick=function(){ var v=+b.getAttribute('data-bpm'); if(v>0){ setBpm(v); document.getElementById('lab').scrollIntoView({behavior:'smooth'}); } }; });
   }
   function setChip(id,bpm){
@@ -513,7 +521,7 @@ h1.wm{font-size:clamp(38px,9vw,74px);line-height:.92;letter-spacing:-1.5px;margi
         '<div style="flex:1;min-width:0"><div class="ti">'+esc(t.title)+'</div><div class="ar">'+esc(t.artist)+'</div>'+
         '<div class="meta"><span class="bpm" data-id="'+esc(t.id)+'" data-bpm="0">···</span>'+
         (t.link?'<a class="gtag" href="'+esc(t.link)+'" target="_blank" rel="noopener">open ↗</a>':'')+'</div></div>'+
-        (t.preview?'<button class="play" data-prev="'+esc(t.preview)+'">▶</button>':'<button class="play" data-artist="'+esc(t.artist)+'" title="hear it">▶</button>')+'</div>';
+        '<button class="play" data-prev="'+esc(t.preview||'')+'" data-artist="'+esc(t.artist||'')+'" data-title="'+esc(t.title||'')+'" title="hear it">▶</button></div>';
     });
     h+='</div>';
     var el=document.getElementById('featured'); el.innerHTML=h; bindRows(el);
@@ -775,8 +783,8 @@ h1.wm{font-size:clamp(38px,9vw,74px);line-height:.92;letter-spacing:-1.5px;margi
     var listeners=r.listeners?('<span class="gtag">'+fmtNum(r.listeners)+' listeners</span>'):'';
     var yt='https://www.youtube.com/results?search_query='+encodeURIComponent((r.artist||'')+' '+(r.title||''));
     var link='<a class="gtag" href="'+esc(r.link||yt)+'" target="_blank" rel="noopener" title="open">↗</a>';
-    // Last.fm lane tracks have no preview — make ▶ play the artist's top track (or open YouTube).
-    var play=r.preview?('<button class="play" data-prev="'+esc(r.preview)+'">▶</button>'):('<button class="play nbp" data-artist="'+esc(r.artist)+'" title="hear them">▶</button>');
+    // ▶ plays the SONG: cached preview → fresh lookup → YouTube (lane tracks usually have no cached preview).
+    var play='<button class="play" data-prev="'+esc(r.preview||'')+'" data-artist="'+esc(r.artist||'')+'" data-title="'+esc(r.title||'')+'" title="hear it">▶</button>';
     return '<div class="row'+(r.mine?' mine-row':'')+'"><div class="rk">#'+r.cur+'</div><div><div class="ti">'+star+esc(r.title)+'</div><div class="ar">'+esc(r.artist)+'</div><div class="meta">'+phaseChip+'<span class="gtag">'+esc(r.glabel||'')+'</span>'+listeners+link+'</div></div><div>'+play+'</div></div>';
   }
   function renderLane(elId,lane,secId){
@@ -785,7 +793,7 @@ h1.wm{font-size:clamp(38px,9vw,74px);line-height:.92;letter-spacing:-1.5px;margi
     if(secId) document.getElementById(secId).style.display='flex';
     document.getElementById('lane').style.display='flex';
     var h=''; lane.items.forEach(function(r){ h+=laneRow(r); }); el.innerHTML=h;
-    el.querySelectorAll('.play').forEach(function(b){ if(b.getAttribute('data-prev')) b.onclick=function(){ playPreview(b.getAttribute('data-prev'),b); }; else b.onclick=function(){ playArtist(b.getAttribute('data-artist'),b); }; });
+    el.querySelectorAll('.play').forEach(function(b){ b.onclick=function(){ playTrack(b, b.getAttribute('data-prev'), b.getAttribute('data-artist'), b.getAttribute('data-title')); }; });
     if(window.__collapse) window.__collapse(el, 6);
   }
 
