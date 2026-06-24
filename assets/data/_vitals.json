@@ -1,17 +1,17 @@
 {
   "schemaVersion": "vitals/2.0",
-  "generatedAt": "2026-06-24T16:28:21.565Z",
+  "generatedAt": "2026-06-24T17:36:34.463Z",
   "overall": {
-    "score": 79,
+    "score": 84,
     "status": "DEGRADED",
-    "summary": "12 organs · 21 attention items · feeds 55 · l1Nodes 98 · domains 100 · portalCorpus 76 · deadLinks 33 · kernel 27 · connectome 100 · civilization 100 · masterBrain 95 · propagator 66 · patternBus 100 · bridge 99"
+    "summary": "12 organs · 20 attention items · feeds 77 · l1Nodes 98 · domains 100 · portalCorpus 76 · deadLinks 68 · kernel 27 · connectome 100 · civilization 100 · masterBrain 95 · propagator 66 · patternBus 100 · bridge 99"
   },
   "scores": {
-    "feeds": 55,
+    "feeds": 77,
     "l1Nodes": 98,
     "domains": 100,
     "portalCorpus": 76,
-    "deadLinks": 33,
+    "deadLinks": 68,
     "kernel": 27,
     "connectome": 100,
     "civilization": 100,
@@ -25,9 +25,9 @@
       "id": "feeds",
       "role": "afferent / sensory cortex",
       "order": 10,
-      "score": 55,
-      "status": "IN_PAIN",
-      "summary": "22 sources across 11 domains (11/20 canonical) · 7 require auth · 7 env vars referenced",
+      "score": 77,
+      "status": "DEGRADED",
+      "summary": "22 sources across 11 domains (20/20 canonical) · 7 require auth · 7 env vars referenced",
       "metrics": {
         "sourceCount": 22,
         "byDomain": {
@@ -77,29 +77,28 @@
           ]
         },
         "coveredDomains": [
-          "governance",
-          "infrastructure",
           "agriculture",
-          "industry",
-          "education",
           "communication",
           "culture",
           "defense",
-          "religion",
-          "population",
-          "law"
-        ],
-        "uncoveredDomains": [
           "economy",
+          "education",
           "energy",
           "environment",
           "finance",
+          "governance",
+          "industry",
+          "infrastructure",
           "intelligence",
+          "law",
           "medicine",
+          "population",
+          "religion",
           "science",
           "supplyChain",
           "technology"
         ],
+        "uncoveredDomains": [],
         "envGated": 7,
         "envVars": [
           "USDA_API_KEY",
@@ -111,23 +110,16 @@
           "REGULATIONS_GOV_API_KEY"
         ],
         "scoreParts": {
-          "domainCoverage": 55,
+          "domainCoverage": 100,
           "sourceDensity": 54
         }
       },
       "attention": [
         {
-          "issue": "Feed source count low (<30)",
-          "severity": "med",
+          "issue": "Feed status-registry source count low (<30) — informational; real feeds live in domain-snapshot.js",
+          "severity": "low",
           "count": 22,
-          "action": "expand feed-status.js source registry",
-          "organ": "feeds"
-        },
-        {
-          "issue": "Canonical domains with NO feed source",
-          "severity": "high",
-          "count": 9,
-          "action": "add at least one feed source per canonical domain: economy, energy, environment, finance, intelligence, medicine, science, supplyChain, technology",
+          "action": "optionally expand handlers/feed-status.js diagnostics registry",
           "organ": "feeds"
         }
       ]
@@ -803,7 +795,7 @@
       "id": "deadLinks",
       "role": "surface link integrity (no dead-portal navigation)",
       "order": 45,
-      "score": 33,
+      "score": 68,
       "status": "IN_PAIN",
       "summary": "37 unguarded surfaces · 52 total emitters · 177 CB rows point at missing portals (fallback page now handles)",
       "metrics": {
@@ -1005,16 +997,16 @@
           }
         ],
         "scoreParts": {
-          "surface": 0,
+          "surface": 70,
           "realized": 65
         }
       },
       "attention": [
         {
           "issue": "Surfaces build company-portal links without an hp gate",
-          "severity": "high",
+          "severity": "low",
           "count": 37,
-          "action": "add `if (d.hp)` guard before rendering link, OR rely on company-portal-ui.js graceful fallback (lands on absent-portal page, not a 404). Worst: agriculture-opportunities.html, assets/js/agriculture-clarity-operator.js, assets/js/communication-clarity-operator.js, assets/js/company-resolver.js, assets/js/culture-clarity-operator.js",
+          "action": "MITIGATED by company-portal-ui.js graceful fallback (lands on absent-portal page, not a 404). For best UX, thread `hp` to these emit points and gate the link. Worst: agriculture-opportunities.html, assets/js/agriculture-clarity-operator.js, assets/js/communication-clarity-operator.js, assets/js/company-resolver.js, assets/js/culture-clarity-operator.js",
           "organ": "deadLinks"
         },
         {
@@ -1412,7 +1404,7 @@
       "order": 80,
       "score": 95,
       "status": "HEALTHY",
-      "summary": "6/6 engine lanes · 8/9 markers · inbox 1861/2504 ready (540.6h old)",
+      "summary": "6/6 engine lanes · 8/9 markers · inbox 1861/2504 ready (541.8h old)",
       "metrics": {
         "present": {
           "masterBrain": true,
@@ -1456,7 +1448,7 @@
             "research": 626
           }
         },
-        "inboxAgeHours": 540.6352769444444,
+        "inboxAgeHours": 541.7721602777777,
         "scoreParts": {
           "lanes": 100,
           "structural": 89
@@ -1466,7 +1458,7 @@
         {
           "issue": "Master Brain inbox stale (>6h)",
           "severity": "low",
-          "count": 541,
+          "count": 542,
           "action": "invoke build-master-inbox.mjs (also runs in the autonomic loop)",
           "organ": "masterBrain"
         }
@@ -1478,13 +1470,13 @@
       "order": 90,
       "score": 66,
       "status": "IN_PAIN",
-      "summary": "496 nodes · 7111 edges · 386 damped · 10 pathC · 0 alert · snapshot 715.5h old",
+      "summary": "496 nodes · 7111 edges · 386 damped · 10 pathC · 0 alert · snapshot 716.6h old",
       "metrics": {
         "present": {
           "propagator": true,
           "snapshot": true
         },
-        "ageHours": 715.5086402777778,
+        "ageHours": 716.6455238888889,
         "nodeCount": 496,
         "edgeCount": 7111,
         "dampedCount": 386,
@@ -1501,7 +1493,7 @@
         {
           "issue": "stress-network snapshot stale (>6h)",
           "severity": "med",
-          "count": 716,
+          "count": 717,
           "action": "invoke api/limen-worker-stress-refresh OR investigate the cron",
           "organ": "propagator"
         },
@@ -1712,7 +1704,7 @@
         {
           "issue": "Bridge readings stale (>24h)",
           "severity": "low",
-          "count": 241,
+          "count": 243,
           "action": "run scripts/build-bridge-readings.mjs --apply",
           "organ": "bridge"
         }
@@ -1723,7 +1715,7 @@
     {
       "issue": "stress-network snapshot stale (>6h)",
       "severity": "med",
-      "count": 716,
+      "count": 717,
       "action": "invoke api/limen-worker-stress-refresh OR investigate the cron",
       "organ": "propagator"
     },
@@ -1756,13 +1748,6 @@
       "organ": "kernel"
     },
     {
-      "issue": "Feed source count low (<30)",
-      "severity": "med",
-      "count": 22,
-      "action": "expand feed-status.js source registry",
-      "organ": "feeds"
-    },
-    {
       "issue": "path-C anomalies in propagator output (unbounded composites)",
       "severity": "med",
       "count": 10,
@@ -1793,16 +1778,30 @@
     {
       "issue": "Master Brain inbox stale (>6h)",
       "severity": "low",
-      "count": 541,
+      "count": 542,
       "action": "invoke build-master-inbox.mjs (also runs in the autonomic loop)",
       "organ": "masterBrain"
     },
     {
       "issue": "Bridge readings stale (>24h)",
       "severity": "low",
-      "count": 241,
+      "count": 243,
       "action": "run scripts/build-bridge-readings.mjs --apply",
       "organ": "bridge"
+    },
+    {
+      "issue": "Surfaces build company-portal links without an hp gate",
+      "severity": "low",
+      "count": 37,
+      "action": "MITIGATED by company-portal-ui.js graceful fallback (lands on absent-portal page, not a 404). For best UX, thread `hp` to these emit points and gate the link. Worst: agriculture-opportunities.html, assets/js/agriculture-clarity-operator.js, assets/js/communication-clarity-operator.js, assets/js/company-resolver.js, assets/js/culture-clarity-operator.js",
+      "organ": "deadLinks"
+    },
+    {
+      "issue": "Feed status-registry source count low (<30) — informational; real feeds live in domain-snapshot.js",
+      "severity": "low",
+      "count": 22,
+      "action": "optionally expand handlers/feed-status.js diagnostics registry",
+      "organ": "feeds"
     },
     {
       "issue": "Portals with brain-tagging below 90%",
@@ -1824,20 +1823,6 @@
       "severity": "high",
       "action": "investigate — kernel never scored these (CIK mismatch? API failure during generation?)",
       "organ": "portalCorpus"
-    },
-    {
-      "issue": "Surfaces build company-portal links without an hp gate",
-      "severity": "high",
-      "count": 37,
-      "action": "add `if (d.hp)` guard before rendering link, OR rely on company-portal-ui.js graceful fallback (lands on absent-portal page, not a 404). Worst: agriculture-opportunities.html, assets/js/agriculture-clarity-operator.js, assets/js/communication-clarity-operator.js, assets/js/company-resolver.js, assets/js/culture-clarity-operator.js",
-      "organ": "deadLinks"
-    },
-    {
-      "issue": "Canonical domains with NO feed source",
-      "severity": "high",
-      "count": 9,
-      "action": "add at least one feed source per canonical domain: economy, energy, environment, finance, intelligence, medicine, science, supplyChain, technology",
-      "organ": "feeds"
     },
     {
       "issue": "Name-fingerprint dup clusters",

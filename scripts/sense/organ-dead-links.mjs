@@ -89,15 +89,24 @@ export function sense() {
     } catch (e) {}
   }
 
+  // Is the canonical mitigation in place? company-portal-ui.js degrades gracefully
+  // (cp-empty) when a portal is absent, so an unguarded link lands on a helpful page,
+  // NOT a 404. When that fallback exists, an ungated surface is a hygiene RISK (ideally
+  // the link wouldn't render at all), not a user-facing break — so it should not zero
+  // the score. We still surface the count so the surfaces stay visible for a future
+  // proper-gating pass; the realized dead-click count (cbDeadCount) carries the real harm.
+  let fallbackPresent = false;
+  try { fallbackPresent = /cp-empty/.test(fs.readFileSync(path.join(ROOT, 'assets', 'js', 'company-portal-ui.js'), 'utf8')); } catch (e) {}
+
   const attention = [];
-  if (unguardedSurfaces.length > 0) attention.push({ issue: 'Surfaces build company-portal links without an hp gate', severity: 'high', count: unguardedSurfaces.length, action: 'add `if (d.hp)` guard before rendering link, OR rely on company-portal-ui.js graceful fallback (lands on absent-portal page, not a 404). Worst: ' + unguardedSurfaces.slice(0, 5).map(s => s.file).join(', '), organ: id });
+  if (unguardedSurfaces.length > 0) attention.push({ issue: 'Surfaces build company-portal links without an hp gate', severity: fallbackPresent ? 'low' : 'high', count: unguardedSurfaces.length, action: (fallbackPresent ? 'MITIGATED by company-portal-ui.js graceful fallback (lands on absent-portal page, not a 404). For best UX, thread `hp` to these emit points and gate the link. ' : 'add `if (d.hp)` guard before rendering link. ') + 'Worst: ' + unguardedSurfaces.slice(0, 5).map(s => s.file).join(', '), organ: id });
   if (cbDeadCount > 0) attention.push({ issue: 'CB rows pointing to a portal slug with NO file on disk (dead clicks waiting)', severity: 'med', count: cbDeadCount, action: 'either build the missing portals (paused queue) or accept the absence — company-portal-ui.js now handles gracefully', organ: id });
 
-  // Scoring: unguarded surfaces = main risk. cbDeadCount = realized risk.
-  // Both drag the score down; the company-portal-ui.js fallback (committed
-  // simultaneously) is what catches the realized risk so the user sees a
-  // helpful page instead of a bare error.
-  const surfaceScore = unguardedSurfaces.length === 0 ? 100 : Math.max(0, 100 - unguardedSurfaces.length * 5);
+  const surfaceScore = unguardedSurfaces.length === 0
+    ? 100
+    : fallbackPresent
+      ? Math.max(70, 100 - unguardedSurfaces.length)          // mitigated: 1pt/surface, floor 70
+      : Math.max(0, 100 - unguardedSurfaces.length * 5);      // unmitigated: hard penalty
   const realizedScore = cbDeadCount === 0 ? 100 : Math.max(0, 100 - Math.round(cbDeadCount / 5));
   const score = Math.round((surfaceScore + realizedScore) / 2);
   const status = score >= 90 ? 'HEALTHY' : score >= 75 ? 'DEGRADED' : 'IN_PAIN';
