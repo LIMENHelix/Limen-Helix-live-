@@ -34,6 +34,13 @@
       { label: 'Analyze supply chain disruptions', type: 'analysis', minStress: 0.5 },
       { label: 'Investigate grid resilience strategies', type: 'regulation', minStress: 0.7 }
     ],
+    industry: [
+      { label: 'Monitor production-output and capacity-utilization signals (ISM PMI sub-indices, INDPRO, TCU capacity index, equipment-downtime) across CAT, DE, GE, HON, MMM, EMR factory throughput', type: 'monitoring', minStress: 0.3 },
+      { label: 'Explore reshoring economics and predictive-maintenance/automation-displacement mitigation (ROK, ETN, ITW, PH, DOV robotics and industrial-automation adoption curves)', type: 'discovery', minStress: 0.4 },
+      { label: 'Analyze automation-ROI versus equipment-investment payback and supply-chain resilience for capital-goods producers (CAT, DE, EMR, ROK, GEV order-backlog vs capex)', type: 'analysis', minStress: 0.5 },
+      { label: 'Investigate workforce-transition exposure and machinery-order softening as automation adoption reshapes industrial labor (HON, MMM, ITW, ETN, PH labor-intensity shift)', type: 'analysis', minStress: 0.6 },
+      { label: 'Regulate production-halt triage and equipment-failure cascade containment across heavy-industry and machinery supply chains (GE, GEV, DOV, ROK critical-line failure points)', type: 'regulation', minStress: 0.7 }
+    ],
     infrastructure: [
       { label: 'Monitor electric grid transmission/distribution reliability', type: 'monitoring', minStress: 0.3 },
       { label: 'Explore resilient infrastructure funding & capital reallocation', type: 'discovery', minStress: 0.4 },
@@ -171,6 +178,20 @@
       minStress: [0.5, 0.5],
       label: 'Investigate creator-economy as counter-cyclical employment',
       body: 'Co-elevated cultural and economic stress suggests creator-economy funding-gap and fanbase-lifecycle exposure; creator/gig employment can absorb labor-market slack as payrolls (PAYEMS) soften and labor-force participation (CIVPART) weakens.',
+      type: 'analysis'
+    },
+    {
+      domains: ['industry', 'technology'],
+      minStress: [0.4, 0.4],
+      label: 'Investigate factory-automation and robotics adoption convergence',
+      body: 'Industrial production stress intersecting with technology disruption signals automation/robotics displacement and predictive-maintenance retooling exposure across capital-goods producers (CAT, DE, ROK, ETN, EMR).',
+      type: 'discovery'
+    },
+    {
+      domains: ['industry', 'economy'],
+      minStress: [0.5, 0.5],
+      label: 'Analyze capacity-utilization slack as a leading demand-shock signal',
+      body: 'Co-elevated industrial and economic stress suggests capacity-utilization (TCU) and production-output (INDPRO) contraction leading the cycle; machinery-order softening (CAT, DE, EMR backlogs) tends to front-run weakening GDP-growth (GDPC1) and rising unemployment (UNRATE).',
       type: 'analysis'
     },
     {

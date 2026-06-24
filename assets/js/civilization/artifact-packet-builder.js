@@ -149,7 +149,30 @@
     //     (info, not warn) rather than UNKNOWN_LANE_FOR_PATH_MAP.
     'credit-facilities': 'INVESTABLE',
     'capital-access':    'INVESTABLE',
-    'systemic-risk':     null
+    'systemic-risk':     null,
+    // ─── Industry-native fan-out lanes (additive) ──────────────────────────
+    // The industry domain (manufacturing & industrial production — factory
+    // output, capacity utilization, automation & robotics, heavy industry &
+    // capital goods, machinery & equipment, industrial maintenance) emits to
+    // production/capacity/automation-shaped lanes beyond the generic
+    // grant/loan/investment set. Without entries here those lanes hit the
+    // "key absent" branch and emit UNKNOWN_LANE_FOR_PATH_MAP (warn), demoting
+    // every industry artifact routed through them. These are LANE keys (not
+    // domain keys), mirroring how sba-loans / investments map to INVESTABLE.
+    // Kept DISTINCT from trade (logistics/commerce lanes) and economy (macro
+    // aggregate) — these are factory-floor productive-capital lanes.
+    //   - industrial-capacity: capacity-utilization / line-expansion shaped =
+    //     capital deployment into productive capacity → INVESTABLE path.
+    //   - automation-upgrade:  factory automation / robotics retrofit =
+    //     capital deployment into productivity → INVESTABLE path.
+    //   - factory-output:      production-throughput / output-trend signal; no
+    //     Observatory fan-in path defined yet (white-space cross-domain
+    //     opportunity, like franchise / systemic-risk) → null. The packet is
+    //     built from the HandoffPacket alone and emits NO_ENRICHMENT_PATH
+    //     (info, not warn) rather than UNKNOWN_LANE_FOR_PATH_MAP.
+    'industrial-capacity': 'INVESTABLE',
+    'automation-upgrade':  'INVESTABLE',
+    'factory-output':      null
   };
 
   // ─── Lane forbidden-fields policy ──────────────────────────────────────
@@ -173,7 +196,15 @@
     // investments policy.
     'credit-facilities': [],
     'capital-access':    [],
-    'systemic-risk':     []
+    'systemic-risk':     [],
+    // Industry-native fan-out lanes (see LANE_TO_PATH). No fields forbidden —
+    // these are productive-capital / capacity lanes where valueRange,
+    // compensation, and counterparty detail are load-bearing (unlike the
+    // patent/grant lanes that strip dollar figures). Mirrors sba-loans /
+    // investments policy.
+    'industrial-capacity': [],
+    'automation-upgrade':  [],
+    'factory-output':      []
   };
 
   // ─── Citation hints — verified URLs / opaque agency tokens ONLY ────────
@@ -310,7 +341,36 @@
     'KBR Investor Relations':         'https://investors.kbr.com/',
     'Verint Investor Relations':      'https://investors.verint.com/',
     'NICE Investor Relations':        'https://ir.nice.com/',
-    'Verisk Investor Relations':      'https://investor.verisk.com/'
+    'Verisk Investor Relations':      'https://investor.verisk.com/',
+    // Industry primary-source authorities: the MANUFACTURING & INDUSTRIAL
+    // PRODUCTION signal layer (factory output & capacity utilization,
+    // automation & robotics, heavy industry & capital goods, machinery &
+    // equipment, industrial maintenance). Anchored on real industrial / capital-
+    // goods investor-relations pages (CAT, DE, GE, HON, MMM, EMR, ITW, ETN, PH,
+    // ROK, DOV, GEV) plus the structural production authorities (FRED Industrial
+    // Production INDPRO, ISM Manufacturing PMI). DISTINCT from economy (FRED
+    // INDPRO is shared as a macro series, but industry's content is factory /
+    // production output, NOT macro demand aggregates), from trade
+    // (logistics/commerce), and from technology (automation is a COUPLING, not
+    // industry's identity — no chip/cloud sources). Industry couples to energy
+    // via input costs but keeps its OWN content = production / capacity /
+    // machinery. Verified canonical landing pages only — never AI-constructed
+    // deep links. Mirrors the energy / infrastructure / culture / finance /
+    // economy / technology / defense / intelligence structure.
+    'Caterpillar Investor Relations': 'https://investors.caterpillar.com/',
+    'Deere Investor Relations':       'https://www.deere.com/en/our-company/investor-relations/',
+    'GE Investor Relations':          'https://www.gevernova.com/investor-relations',
+    'Honeywell Investor Relations':   'https://investor.honeywell.com/',
+    '3M Investor Relations':          'https://investors.3m.com/',
+    'Emerson Investor Relations':     'https://www.emerson.com/en-us/investors',
+    'ITW Investor Relations':         'https://investor.itw.com/',
+    'Eaton Investor Relations':       'https://www.eaton.com/us/en-us/company/investor-relations.html',
+    'Parker Hannifin Investor Relations': 'https://investors.parker.com/',
+    'Rockwell Automation Investor Relations': 'https://ir.rockwellautomation.com/',
+    'Dover Investor Relations':       'https://investors.dovercorporation.com/',
+    'GE Vernova Investor Relations':  'https://www.gevernova.com/investor-relations',
+    'FRED Industrial Production Index': 'https://fred.stlouisfed.org/series/INDPRO',
+    'ISM Manufacturing PMI':          'https://www.ismworld.org/supply-management-news-and-reports/reports/ism-report-on-business/'
   };
 
   // ─── Domain-specific primary source priority ───────────────────────────
@@ -401,7 +461,25 @@
     // Mirrors the energy / infrastructure / culture / finance / economy /
     // technology / defense ordering so intelligence artifacts no longer demote
     // through the PRIMARY_BY_FALLBACK path.
-    intelligence: ['ODNI Threat Assessment', 'IC All-Source Analysis', 'CIA World Factbook', 'NSA Signals Intelligence', 'NGA Geospatial Analysis', 'DIA Military Intelligence', 'Palantir Investor Relations', 'Booz Allen Intelligence (Intel)', 'Leidos Intelligence (Intel)', 'CACI Investor Relations', 'SAIC Investor Relations', 'Verint Investor Relations']
+    intelligence: ['ODNI Threat Assessment', 'IC All-Source Analysis', 'CIA World Factbook', 'NSA Signals Intelligence', 'NGA Geospatial Analysis', 'DIA Military Intelligence', 'Palantir Investor Relations', 'Booz Allen Intelligence (Intel)', 'Leidos Intelligence (Intel)', 'CACI Investor Relations', 'SAIC Investor Relations', 'Verint Investor Relations'],
+    // Industry primary sources: manufacturing & industrial-production
+    // authorities that anchor the industry signal layer — capital-goods /
+    // industrial investor reporting (CAT earthmoving & mining, DE farm &
+    // construction equipment, GE/GEV power & industrial, HON automation, MMM
+    // diversified manufacturing, EMR process automation, ITW, ETN electrical,
+    // PH motion & control, ROK factory automation, DOV = the production &
+    // capital-goods spine), plus the structural production authorities (FRED
+    // Industrial Production index = factory/mining/utility output, ISM
+    // Manufacturing PMI = factory expansion/contraction). Ranked highest-signal
+    // structural first: the broad industrial bellwethers (CAT, DE, HON) and
+    // automation leaders (EMR, ROK) lead (the capacity & production spine), the
+    // INDPRO output index and ISM PMI ground it. DISTINCT from economy (this is
+    // factory/production output, not macro demand aggregates), from trade
+    // (logistics/commerce), and from technology (automation is a coupling — no
+    // chip/cloud sources). Mirrors the energy / infrastructure / culture /
+    // finance / economy / technology / defense / intelligence ordering so
+    // industry artifacts no longer demote through the PRIMARY_BY_FALLBACK path.
+    industry: ['Caterpillar Investor Relations', 'Deere Investor Relations', 'Honeywell Investor Relations', 'Emerson Investor Relations', 'Rockwell Automation Investor Relations', 'GE Investor Relations', '3M Investor Relations', 'ITW Investor Relations', 'Eaton Investor Relations', 'Parker Hannifin Investor Relations', 'Dover Investor Relations', 'GE Vernova Investor Relations', 'FRED Industrial Production Index', 'ISM Manufacturing PMI']
   };
 
   // ─── Feed token map for evidence-source verification ───────────────────
@@ -532,7 +610,34 @@
     'KBR Investor Relations':          ['KBR', 'intelligence logistics', 'mission operations', 'sustainment'],
     'Verint Investor Relations':       ['VRNT', 'Verint', 'SIGINT', 'surveillance', 'intercept', 'lawful interception'],
     'NICE Investor Relations':         ['NICE', 'intelligence operations', 'analytics platform', 'investigation'],
-    'Verisk Investor Relations':       ['VRSK', 'Verisk', 'OSINT', 'risk analytics', 'open-source intelligence']
+    'Verisk Investor Relations':       ['VRSK', 'Verisk', 'OSINT', 'risk analytics', 'open-source intelligence'],
+    // Industry feed tokens: literal substrings the brain's evidence prose must
+    // contain for _isEvidenceSourceVerified to anchor industry artifacts. Each
+    // entry mirrors a CITATION_HINTS / PRIMARY_PRIORITY_MAP industry feed so the
+    // manufacturing & industrial-production signal layer verifies instead of
+    // always failing. Anchors are real industrial / capital-goods tickers plus
+    // production / capacity / automation / machinery / maintenance vocabulary
+    // (excavator, combine, turbine, factory automation, capacity utilization,
+    // production rate, backlog, robotics) — kept DISTINCT from economy (no bare
+    // macro-demand tokens; INDPRO is scoped to factory/mining output here), from
+    // trade (no logistics/shipping tokens), and from technology (no chip/cloud
+    // tokens; automation is a coupling), and from energy (no oil/gas/grid
+    // tokens). Matches the brain prose against real industrial-company earnings
+    // vocabulary, not government output lines alone.
+    'Caterpillar Investor Relations':         ['CAT', 'Caterpillar', 'excavator', 'loader', 'mining', 'construction equipment', 'backlog'],
+    'Deere Investor Relations':               ['DE', 'John Deere', 'Deere', 'combine', 'farm equipment', 'precision agriculture', 'machinery'],
+    'GE Investor Relations':                  ['GE', 'General Electric', 'turbine', 'grid equipment', 'industrial controls', 'aerospace engine'],
+    'Honeywell Investor Relations':           ['HON', 'Honeywell', 'automation', 'controls', 'process solutions', 'aerospace'],
+    '3M Investor Relations':                  ['MMM', '3M', 'manufacturing', 'adhesives', 'abrasives', 'industrial materials'],
+    'Emerson Investor Relations':             ['EMR', 'Emerson', 'process automation', 'measurement', 'control valve', 'industrial software'],
+    'ITW Investor Relations':                 ['ITW', 'Illinois Tool Works', 'fastening', 'welding', 'industrial', 'components'],
+    'Eaton Investor Relations':               ['ETN', 'Eaton', 'electrical', 'power management', 'hydraulics', 'industrial controls'],
+    'Parker Hannifin Investor Relations':     ['PH', 'Parker', 'Parker Hannifin', 'motion', 'control', 'hydraulics', 'pneumatics'],
+    'Rockwell Automation Investor Relations': ['ROK', 'Rockwell', 'factory automation', 'PLC', 'industrial controls', 'robotics', 'control system'],
+    'Dover Investor Relations':               ['DOV', 'Dover', 'industrial equipment', 'pumps', 'manufacturing', 'machinery'],
+    'GE Vernova Investor Relations':          ['GEV', 'GE Vernova', 'Vernova', 'turbine', 'industrial power equipment', 'grid'],
+    'FRED Industrial Production Index':       ['FRED', 'Industrial Production', 'INDPRO', 'factory output', 'capacity utilization', 'manufacturing output'],
+    'ISM Manufacturing PMI':                  ['ISM', 'Manufacturing PMI', 'PMI', 'factory expansion', 'new orders', 'production index']
   };
 
   // ─── Module-level flag: SCHEMA_VERSION_BUMPED warning ─────────────────

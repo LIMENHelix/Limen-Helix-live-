@@ -275,6 +275,61 @@ for (var _trk in TRADE_COMPANY_BINDING) {
   NODE_TO_TRADE_COMPANY[_trb.node].push(_trb);
 }
 
+// ── INDUSTRIAL-SECTOR (MANUFACTURING & CAPITAL GOODS) COMPANY ticker bindings (industry gap — ADDITIVE, OPT-IN) ──
+// Parallel to TECH_COMPANY_BINDING, INTELLIGENCE_COMPANY_BINDING and
+// TRADE_COMPANY_BINDING (and to MACRO_INDICATOR_BINDING). NOT merged into the default
+// resolve() pipeline and NOT included in NODE_TO_MACRO_INDICATOR — consumed ONLY when
+// a context explicitly triggers an industrial-company-level drill
+// (getIndustrialCompaniesForNode / INDUSTRIAL_COMPANY_BINDING export). Each ticker
+// traces MANUFACTURING & INDUSTRIAL-PRODUCTION CAPACITY to a REAL industry connectome
+// node (nodes are the actual industry-domain participations in brain-node-domains.json:
+// SMA=heavy equipment, LC/GBA=systems integration, BNST=assembly automation,
+// GABA_GLU/VP=robot programming, M1=assembly lines, BLA=assembly-line R&D,
+// FPN=precision machining, PCC=flow optimization). Ticker stress (dir 'low' for all —
+// stress on decline) estimates FACTORY OUTPUT / CAPACITY-UTILIZATION DEGRADATION:
+// a CAT decline = construction/mining-equipment orders collapse → manufacturing volume
+// falls → factory utilization drops; a GE/GEV decline = power-generation & industrial-
+// controls demand softens; a ROK/EMR/HON decline = factory-automation capex pulls back.
+// This is INDUSTRIAL identity = manufacturing, factory output, automation & robotics,
+// heavy industry, machinery & equipment, industrial maintenance — DISTINCT from trade
+// (logistics/commerce), economy (macro aggregate) and technology (automation is a
+// COUPLING, not the identity). ENERGY is PURELY a downstream COUPLING, never the
+// identity: when industrial output falls, the affected factory's base-load power,
+// compressed air and process-heating demand fall with it — but industry nodes carry
+// ZERO energy-domain content (no oil/gas production, no grid ops). REAL industrial /
+// capital-goods tickers only.
+//   CAT → construction/mining heavy equipment   DE → ag & construction machinery
+//   GE → aero/power systems integration          GEV → power-generation equipment
+//   HON → industrial automation & controls       MMM → diversified industrial/materials R&D
+//   EMR → process automation & controls          ITW → diversified industrial machinery
+//   ETN → electrical/power-management systems     PH → motion & flow control
+//   ROK → factory automation & robotics          DOV → precision industrial machining
+var INDUSTRIAL_COMPANY_BINDING = {
+  CAT: { series: 'CAT', node: 'SMA',      role: 'Heavy-Equipment Manufacturing Capacity',    nodeRole: 'Heavy Equipment',                              label: 'Caterpillar',          threshold: -20, dir: 'low', kind: 'ticker', industry: 'heavy-equipment' },
+  DE:  { series: 'DE',  node: 'SMA',      role: 'Ag & Construction Machinery Capacity',      nodeRole: 'Heavy Equipment',                              label: 'Deere & Company',      threshold: -18, dir: 'low', kind: 'ticker', industry: 'heavy-equipment' },
+  GE:  { series: 'GE',  node: 'LC',       role: 'Power-Generation & Industrial Systems Integration', nodeRole: 'Systems Integration Quality & Performance', label: 'GE Aerospace',     threshold: -19, dir: 'low', kind: 'ticker', industry: 'systems-integration' },
+  GEV: { series: 'GEV', node: 'GBA',      role: 'Power-Generation Equipment Capacity',       nodeRole: 'Systems Integration Core Operations',          label: 'GE Vernova',           threshold: -24, dir: 'low', kind: 'ticker', industry: 'power-equipment' },
+  HON: { series: 'HON', node: 'BNST',     role: 'Industrial Automation & Controls Capacity', nodeRole: 'Assembly Automation Technology & Innovation',   label: 'Honeywell',            threshold: -16, dir: 'low', kind: 'ticker', industry: 'industrial-automation' },
+  MMM: { series: 'MMM', node: 'BLA',      role: 'Diversified Industrial / Materials R&D Capacity', nodeRole: 'Assembly Lines Research & Development',    label: '3M',                   threshold: -17, dir: 'low', kind: 'ticker', industry: 'diversified-industrial' },
+  EMR: { series: 'EMR', node: 'GABA_GLU', role: 'Process Automation & Controls Capacity',    nodeRole: 'Robot Programming Infrastructure & Capacity',   label: 'Emerson Electric',     threshold: -18, dir: 'low', kind: 'ticker', industry: 'process-automation' },
+  ITW: { series: 'ITW', node: 'M1',       role: 'Diversified Industrial Machinery Capacity',  nodeRole: 'Assembly Lines',                              label: 'Illinois Tool Works',  threshold: -19, dir: 'low', kind: 'ticker', industry: 'industrial-machinery' },
+  ETN: { series: 'ETN', node: 'PCC',      role: 'Electrical / Power-Management Systems Capacity', nodeRole: 'Flow Optimization Technology & Innovation', label: 'Eaton',              threshold: -21, dir: 'low', kind: 'ticker', industry: 'power-management' },
+  PH:  { series: 'PH',  node: 'FPN',      role: 'Motion & Flow Control Manufacturing Capacity', nodeRole: 'Precision Machining',                       label: 'Parker Hannifin',      threshold: -20, dir: 'low', kind: 'ticker', industry: 'motion-control' },
+  ROK: { series: 'ROK', node: 'VP',       role: 'Factory Automation & Robotics Capacity',    nodeRole: 'Robot Programming Core Operations',            label: 'Rockwell Automation',  threshold: -23, dir: 'low', kind: 'ticker', industry: 'factory-automation' },
+  DOV: { series: 'DOV', node: 'BDNF',     role: 'Precision Industrial Machining Capacity',   nodeRole: 'Assembly Robots Risk & Resilience',            label: 'Dover',                threshold: -18, dir: 'low', kind: 'ticker', industry: 'precision-machining' }
+};
+
+// Reverse lookup: connectome node → industrial-sector company tickers it sources from
+// (opt-in industrial-company drill, parallel to NODE_TO_TECH_COMPANY /
+// NODE_TO_INTEL_COMPANY / NODE_TO_TRADE_COMPANY).
+var NODE_TO_INDUSTRIAL_COMPANY = {};
+for (var _idk in INDUSTRIAL_COMPANY_BINDING) {
+  if (!Object.prototype.hasOwnProperty.call(INDUSTRIAL_COMPANY_BINDING, _idk)) continue;
+  var _idb = INDUSTRIAL_COMPANY_BINDING[_idk];
+  if (!NODE_TO_INDUSTRIAL_COMPANY[_idb.node]) NODE_TO_INDUSTRIAL_COMPANY[_idb.node] = [];
+  NODE_TO_INDUSTRIAL_COMPANY[_idb.node].push(_idb);
+}
+
 // ── FISCAL vs MONETARY POLICY TRANSMISSION (ADDITIVE — economy gap 2) ──
 // The existing FEED_TO_CONNECTOME['finance'] = ['economy','finance'] mapping does
 // NOT distinguish FISCAL (Treasury / OMB / Congress: spending, taxes, debt
@@ -1350,6 +1405,15 @@ window.LIMENConnectomeResolver = {
   TRADE_COMPANY_BINDING: TRADE_COMPANY_BINDING,
   NODE_TO_TRADE_COMPANY: NODE_TO_TRADE_COMPANY,
   getTradeCompaniesForNode: function(nodeId) { return NODE_TO_TRADE_COMPANY[nodeId] || []; },
+
+  // Industrial-sector (manufacturing & capital goods) company ticker bindings (industry
+  // gap) — OPT-IN, parallel to the tech/intel/trade registries; consumed only for an
+  // explicit industrial-company drill. Energy is a downstream COUPLING (factory base-
+  // load / process-heat falls with industrial output), never the sector identity.
+  // REAL industrial / capital-goods tickers (CAT/DE/GE/GEV/HON/MMM/EMR/ITW/ETN/PH/ROK/DOV).
+  INDUSTRIAL_COMPANY_BINDING: INDUSTRIAL_COMPANY_BINDING,
+  NODE_TO_INDUSTRIAL_COMPANY: NODE_TO_INDUSTRIAL_COMPANY,
+  getIndustrialCompaniesForNode: function(nodeId) { return NODE_TO_INDUSTRIAL_COMPANY[nodeId] || []; },
 
   // Trade-sector indicator bindings (trade gap) — OPT-IN, parallel to the macro
   // registry; trade-balance / commodity-flow / shipping-index / tariff-customs /

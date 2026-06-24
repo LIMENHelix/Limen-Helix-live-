@@ -355,7 +355,32 @@
       label: 'Production coordination and maintenance pressure',
       arousal: 'Operational urgency — high arousal during equipment failures reflects immediate intervention pressure',
       coherence: 'Process quality — low coherence during multi-line disruptions suggests fragmented coordination',
-      cognitiveLoad: 'Production complexity — high load with simultaneous maintenance demands reflects capacity stress'
+      cognitiveLoad: 'Production complexity — high load with simultaneous maintenance demands reflects capacity stress',
+      // Production-intake / maintenance-scheduling readiness map: regulation state → industrial
+      // capex, production-line and equipment-maintenance intake/triage posture. Mirrors finance's
+      // capital-deployment readiness (operator arousal/coherence → deployment velocity), but ties
+      // production-intake and maintenance-scheduling to the same biosensor signals. Consumed by
+      // industry-clarity-operator outcome tracking (capex-deployment velocity, capacity-utilization
+      // trend, equipment-downtime / MTBF, automation-rollout momentum, supplier-partnership cadence).
+      // Grounded in PMI (ISM Manufacturing), capacity utilization (TCU/Fed G.17) and equipment-downtime
+      // / OEE signals. INDUSTRY identity only — manufacturing & industrial production, factory output &
+      // capacity utilization, automation & robotics, heavy industry & capital goods, industrial supply
+      // chains, machinery & equipment, industrial maintenance. Distinct from trade (logistics/commerce
+      // is a coupling via sourced inputs, not the identity), economy (macro aggregate / INDPRO as a
+      // series, not the operator's own content) and technology (automation/robotics couples in but
+      // industry never adopts AI/ML/compute as its own content). Reference industrial-identity names:
+      // CAT, DE, GE, HON, MMM, EMR, ITW, ETN, PH, ROK, DOV, GEV. Operator arousal/coherence during
+      // equipment failures gate production & maintenance intake (high arousal = failure-triage mode;
+      // low arousal = deliberate capex/automation-expansion mode). STRICTLY ADDITIVE — does not touch
+      // any validated scoring spine.
+      readiness: {
+        calm: 'Steady operator state — safe to greenlight new capex: expand facility and production-line build-outs (CAT/DE heavy-equipment capacity, GE/GEV power & industrial systems, HON/EMR process plants), invest in automation and robotics (ROK/ETN/EMR controls, ITW/DOV machinery), and open new supplier/distribution partnerships; admit speculative new-line and greenfield programs.',
+        focused: 'Productive engagement — sustain current production runs and throughput (MMM/ITW/DOV diversified lines, PH/ETN motion & power systems); admit only well-scoped equipment upgrades and proven-vendor capacity additions; hold open-ended new-line build-outs and speculative automation programs.',
+        pressured: 'Elevated load — defer discretionary capex and new automation intake; focus on production-line triage: protect highest-output lines, sequence scheduled maintenance windows, and keep capacity-utilization and on-time-output monitoring active on live lines (HON/EMR/ROK plant uptime priority).',
+        overloaded: 'Saturated — pause all new project and capex intake; triage equipment-failure and line-down events: critical machine breakdowns and unplanned downtime (CAT/DE/PH/ETN equipment), supply shortfalls of key components and materials, and safety-critical maintenance backlog on operational lines.',
+        recovering: 'Stabilizing — resume deferred maintenance and reliability work first (restore MTBF, clear backlog, recalibrate automation — ROK/EMR controls), then reopen capex and production-line expansion gradually as capacity utilization, equipment uptime and PMI/order-book momentum normalize.',
+        unknown: 'Regulation state unavailable — default to snapshot-driven prioritization (capacity-utilization and equipment-downtime signals with production-line criticality ranking).'
+      }
     }
   };
 

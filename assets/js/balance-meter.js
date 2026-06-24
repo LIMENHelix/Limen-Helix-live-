@@ -426,6 +426,78 @@
     { re: /freight (rate|cost) (stabiliz|normaliz|eas|soften|decline|drop)|shipping (cost|rate) (eas|soften|decline|normaliz)|container (rate|price) (eas|soften|decline|normaliz)|spot rate (soften|decline|normaliz)|ocean freight (eas|soften|decline)|rate(s)? (normaliz|stabiliz)/i, weight: 0.14, tag: 'freight_rate_stabilization' }
   ];
 
+  // ─── Industry-native semantics (MANUFACTURING & INDUSTRIAL PRODUCTION) ─────
+  // Energy parity (same shape as INFRA / CULTURE / FINANCE / ECONOMY /
+  // TECHNOLOGY / DEFENSE / INTELLIGENCE / TRADE above): the industry domain has
+  // its OWN failure/recovery vocabulary. Where energy reads crude_above_90 /
+  // grid_stress / chokepoint, infrastructure reads grid_reliability /
+  // deferred_maintenance, culture reads the attention economy, finance reads
+  // liquidity/credit, economy reads the business cycle, technology reads the
+  // compute stack, defense reads kinetic military power, intelligence reads the
+  // collection cycle, and trade reads exports/tariffs/shipping/ports, INDUSTRY
+  // reads manufacturing & industrial production: factory output & capacity
+  // utilization, automation & robotics, heavy industry & capital goods,
+  // industrial supply chains, machinery & equipment, and industrial maintenance.
+  // Destabilizing = capacity-utilization collapse, production halt, automation
+  // failure, input-cost squeeze, factory shutdown, industrial recession,
+  // supply-chain bottleneck (sourcing/parts to the LINE), and equipment-failure
+  // cascade. Stabilizing = capacity modernization, automation investment,
+  // output recovery, order-book strength, reshoring/capacity build-out, and
+  // industrial maintenance / uptime restoration.
+  //
+  // STRUCTURAL ANCHORS (energy parity — energy uses crude-price thresholds and
+  // grid-reserve-margin floors): industry uses the MANUFACTURING PMI threshold
+  // (PMI < 50 = contraction floor, analogous to grid reserve margin < 10%) and
+  // the CAPACITY-UTILIZATION-vs-POTENTIAL output gap floor (a widening negative
+  // output gap = structural slack). Anchors are REAL FRED-style industrial
+  // series (ISM/Manufacturing PMI, TCU capacity utilization, INDPRO industrial
+  // production, NEWORDER durable-goods orders) and REAL industrial tickers
+  // (CAT, DE, GE, HON, MMM, EMR, ITW, ETN, PH, ROK, DOV, GEV) — NEVER oil/gas/
+  // grid content as the domain's OWN identity.
+  //
+  // Industry COUPLES to trade via parts/inputs and to economy via INDPRO, but
+  // its IDENTITY stays factory output / capacity utilization / automation /
+  // machinery, kept DISTINCT from trade (logistics/commerce/ports), economy
+  // (the MACRO aggregate / business cycle), and technology (automation/robotics
+  // software is a COUPLING, not the identity). ADVISORY ONLY — wholly separate
+  // from the validated P3 distress kernel.
+  //
+  // Each entry maps a keyword pattern (matched against the domain's signal
+  // strings) to a weighted push on the destabilizing or stabilizing score —
+  // identical mechanism to energy's condition→weight mapping, industry content.
+  var INDUSTRY_DESTABILIZING = [
+    // Capacity-utilization collapse — TCU dropping, output gap widening, PMI<50.
+    { re: /capacity utilization (collapse|drop|decline|fall|plunge|slump)|\btcu\b (drop|decline|fall)|utilization rate (drop|decline|fall|low)|output gap (widen|negative)|manufacturing pmi (below|under) 50|\bpmi\b (contract|below 50|sub-?50)|ism (manufacturing )?(contract|below 50)|industrial slack (widen|rise)/i, weight: 0.18, tag: 'capacity_utilization_collapse' },
+    // Production halt — line stoppage, plant idling, output suspension, INDPRO drop.
+    { re: /production (halt|stoppage|suspend|freeze|stall)|(assembly |production )?line (stop|down|idle|halt)|plant (idl|shutter|stop|offline)|output (suspend|halt|frozen)|industrial production (decline|drop|contract|fall)|\bindpro\b (decline|drop|fall)|manufacturing output (decline|drop|contract)/i, weight: 0.16, tag: 'production_halt' },
+    // Automation failure — robotics/PLC/control-system breakdown, line automation fault.
+    { re: /automation (fail|breakdown|fault|outage)|robot(ic)?(s)? (fail|fault|down|breakdown)|(plc|control system|cnc|scada) (fail|fault|down) (line|plant|factory)|industrial control (fail|breakdown)|automated line (fault|fail|down)|robotics (downtime|failure)/i, weight: 0.15, tag: 'automation_failure' },
+    // Input-cost squeeze — raw-material/steel/component cost surge compressing margins.
+    { re: /input (cost|price) (squeeze|surge|spike|soar)|raw material(s)? (cost|price) (surge|spike|soar)|(steel|aluminum|copper|resin|component) (cost|price) (surge|spike|soar)|margin (squeeze|compress|erod) (input|material|cost)|cost(-| )?push (squeeze|pressure)|material cost (squeeze|inflation)/i, weight: 0.14, tag: 'input_cost_squeeze' },
+    // Factory shutdown — plant closure, facility shuttering, mass layoff at site.
+    { re: /factory (shutdown|closure|close|shutter)|plant (closure|shutdown|shutter|close permanent)|facility (closure|shutter|shutdown)|manufacturing (plant|site) (close|shutter)|(mass )?layoff(s)? (plant|factory|manufacturing)|footprint (rationaliz|reduc) (plant|factory)/i, weight: 0.16, tag: 'factory_shutdown' },
+    // Industrial recession — durable-goods orders falling, ISM contraction streak.
+    { re: /industrial recession|manufacturing recession|durable(-| )?goods? order(s)? (decline|drop|fall|contract)|\bneworder\b (decline|drop|fall)|new orders (contract|decline|drop)|ism (contraction|below 50) (streak|sustained|months)|factory orders (decline|drop|fall)|order book (shrink|decline|thin)/i, weight: 0.15, tag: 'industrial_recession' },
+    // Supply-chain bottleneck (to the LINE) — parts/component shortage halting build.
+    { re: /(part|component|input|sub(-| )?assembly) (shortage|stockout|gap) (line|build|assembly|production)|supply(-| )?chain bottleneck (production|plant|line)|just(-| )?in(-| )?time (break|disrupt|fail)|sourcing (disrupt|gap) (line|production|build)|missing part(s)? (halt|stop) (line|build)|inventory (stockout|gap) (line|production)/i, weight: 0.13, tag: 'supply_chain_bottleneck' },
+    // Equipment-failure cascade — machinery breakdown propagating, unplanned downtime.
+    { re: /equipment (failure|breakdown) cascade|(machine|machinery|equipment) (failure|breakdown) (cascade|propagat|chain)|unplanned (downtime|outage) (cascade|spike|surge)|(motor|drive|turbine|press|conveyor) (failure|breakdown) (cascade|chain)|critical (asset|equipment) (failure|down) (cascade|propagat)|mttr (surge|spike|deteriorat)/i, weight: 0.14, tag: 'equipment_failure_cascade' }
+  ];
+  var INDUSTRY_STABILIZING = [
+    // Capacity modernization — plant upgrade, line retool, Industry-4.0 / smart-factory.
+    { re: /capacity moderniz|plant (moderniz|upgrade|retool|refit)|line (retool|upgrade|moderniz)|industry 4\.?0|smart(-| )?factory|digital (factory|manufacturing) (deploy|invest)|(brownfield|greenfield) (moderniz|upgrade)|(ge|cat|honeywell|emr|rok|hon) (moderniz|upgrade) (plant|line|capacity)/i, weight: 0.16, tag: 'capacity_modernization' },
+    // Automation investment — robotics/cobot deployment, automation capex, throughput.
+    { re: /automation (invest|capex|deploy|rollout|expansion)|robot(ic)?(s)? (deploy|invest|install|adopt)|cobot (deploy|adopt)|(industrial )?automation (build|ramp|spend)|(rok|emr|hon|abb|etn) (automation|robotics) (order|deploy|win)|throughput (gain|surge) (automation|robotics)|machine vision (deploy|adopt)/i, weight: 0.15, tag: 'automation_investment' },
+    // Output recovery — production rebound, capacity-utilization rising, INDPRO/PMI>50.
+    { re: /output (recover|rebound|rise|grow|ramp)|production (recover|rebound|rise|ramp|restart)|capacity utilization (rise|recover|climb|improv)|\btcu\b (rise|recover|climb)|industrial production (rise|grow|expand|rebound|beat)|\bindpro\b (rise|grow)|manufacturing pmi (above 50|expand|54|55)|\bpmi\b (above 50|expansion|expand)/i, weight: 0.16, tag: 'output_recovery' },
+    // Order-book strength — durable-goods orders rising, backlog building, bookings.
+    { re: /order(-| )?book (strength|grow|build|expand|robust)|durable(-| )?goods? order(s)? (rise|grow|surge|beat)|\bneworder\b (rise|grow)|new orders (rise|grow|surge|expand)|backlog (build|grow|robust|record)|bookings (rise|grow|surge|strong)|book(-| )?to(-| )?bill (above 1|rise|strong)/i, weight: 0.14, tag: 'order_book_strength' },
+    // Reshoring / capacity build-out — new plant, onshoring, domestic capacity add.
+    { re: /reshor(e|ing)|onshor(e|ing)|nearshor(e|ing) (plant|production|manufactur)|new (plant|factory|line) (open|online|operational|groundbreak)|domestic (capacity|manufactur|production) (add|expand|build)|capacity (build(-| )?out|expansion|add) (plant|factory|line)|(cat|de|ge|hon|mmm|emr|itw|etn|ph|rok|dov|gev) (new plant|capacity (add|expand)|build(-| )?out)/i, weight: 0.15, tag: 'reshoring_capacity_buildout' },
+    // Industrial maintenance / uptime restoration — predictive maint, OEE/uptime gains.
+    { re: /(predictive|preventive|condition(-| )?based) maintenance (deploy|adopt|gain)|uptime (restor|gain|improv|surge)|\boee\b (gain|improv|rise)|reliability (program|gain|improv) (plant|line|asset)|unplanned downtime (drop|decline|reduc)|mttr (drop|decline|improv)|maintenance (backlog (clear|reduc)|complet)/i, weight: 0.14, tag: 'industrial_maintenance_uptime' }
+  ];
+
   // Scan a domain's signal strings against a civil pattern table and return the
   // summed weighted contribution (clamped). Mirrors how energy accumulates its
   // condition-driven pressure, but over civil-native keywords.
@@ -650,6 +722,30 @@
         _tradeDestabTags = _trd.tags;
       }
 
+      // ── Industry-native destabilizing pathways (energy parity) ──
+      // For the industry domain ONLY, add manufacturing & industrial-production
+      // pressure from named failure pathways found in the live signal strings
+      // (capacity-utilization collapse, production halt, automation failure,
+      // input-cost squeeze, factory shutdown, industrial recession, supply-chain
+      // bottleneck to the line, equipment-failure cascade). This is the
+      // factory-output analogue of energy's crude_above_*/grid_stress,
+      // infrastructure's grid_reliability/deferred_maintenance, culture's
+      // backlash/audience collapse, finance's liquidity/credit, economy's
+      // business-cycle, technology's compute-stack, defense's readiness,
+      // intelligence's collection, and trade's tariff/port weighting — anchored
+      // to manufacturing-PMI and capacity-utilization output-gap floors, IDENTITY
+      // stays factory output / capacity utilization / automation / machinery
+      // (couples to trade via inputs and economy via INDPRO, distinct from
+      // trade's logistics/commerce, economy's MACRO aggregate, and technology's
+      // automation software). ADVISORY ONLY — wholly separate from the validated
+      // P3 distress kernel.
+      var _industryDestabTags = null;
+      if (k === 'industry') {
+        var _ind = _infraSignalScore(signals, INDUSTRY_DESTABILIZING);
+        destab += _ind.score;
+        _industryDestabTags = _ind.tags;
+      }
+
       destab = _clamp(destab, 0, 1);
 
       // ─── Stabilizing score ─────────────────────────────────────
@@ -834,6 +930,30 @@
         _tradeStabTags = _trs.tags;
       }
 
+      // ── Industry-native stabilizing pathways (energy parity) ──
+      // Industry recovery vocabulary: capacity modernization (plant upgrade /
+      // Industry-4.0 / smart-factory), automation investment (robotics/cobot
+      // deployment / automation capex), output recovery (production rebound /
+      // capacity-utilization rising / PMI>50), order-book strength (durable-goods
+      // orders rising / backlog building), reshoring / capacity build-out (new
+      // plant / onshoring / domestic capacity add), and industrial maintenance /
+      // uptime restoration (predictive maintenance / OEE / uptime gains). Mirrors
+      // energy's falling-trend / declining-volatility stabilizers,
+      // infrastructure's funding-renewal / repair-completion, culture's
+      // fanbase-momentum / mainstream-adoption, finance's liquidity-restoration /
+      // capital-strengthening, economy's labor-recovery / productivity,
+      // technology's fab-capacity / breakthrough, defense's force-modernization /
+      // alliance-strengthening, intelligence's improved-observability /
+      // collection-expansion, and trade's tariff-normalization / port-reopening,
+      // with industry semantics from the live signals. ADVISORY ONLY — wholly
+      // separate from the validated P3 distress kernel.
+      var _industryStabTags = null;
+      if (k === 'industry') {
+        var _ins = _infraSignalScore(signals, INDUSTRY_STABILIZING);
+        stab += _ins.score;
+        _industryStabTags = _ins.tags;
+      }
+
       stab = _clamp(stab, 0, 1);
 
       // ─── Net balance ───────────────────────────────────────────
@@ -908,6 +1028,13 @@
       if (k === 'supplyChain') {
         _balance[k].destabilizingFactors = _tradeDestabTags || [];
         _balance[k].stabilizingFactors = _tradeStabTags || [];
+      }
+
+      // Surface the industry-native pathways that drove the industry score
+      // (energy parity: name the conditions, don't hide them behind a scalar).
+      if (k === 'industry') {
+        _balance[k].destabilizingFactors = _industryDestabTags || [];
+        _balance[k].stabilizingFactors = _industryStabTags || [];
       }
 
       // Detect state shift

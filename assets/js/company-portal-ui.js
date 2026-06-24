@@ -572,6 +572,104 @@
       rightHtml += '</div>';
     }
 
+    // ── INDUSTRY-SPECIFIC PORTAL SECTIONS ────────────────────────────────
+    // Manufacturing & industrial-production parity with the energy domain's
+    // company-metadata sections, mirroring the infrastructure, finance,
+    // economy, technology, and intelligence blocks above. STRICTLY ADDITIVE
+    // render-layer content keyed on co.domainId === 'industry'; it never
+    // touches the validated P3 distress kernel scoring path consumed by
+    // /api/limen/score or /api/helix/helix-report/score — those run
+    // server-side off the kernel, not off these optional company-JSON
+    // display fields.
+    //
+    // Industry is FACTORY OUTPUT & capacity utilization, automation &
+    // robotics, heavy industry & capital goods, machinery & equipment, and
+    // industrial maintenance / modernization. It stays DISTINCT from trade
+    // (logistics / commerce flow), economy (the macro aggregate), and
+    // technology (automation/robotics is a COUPLING into the factory, not the
+    // domain's identity). The domain's OWN content is production lines,
+    // utilized vs nameplate capacity, equipment age / modernization backlog,
+    // and the industrial workforce — NEVER oil/gas/grid. Real industrial /
+    // capital-goods tickers: CAT, DE, GE, HON, MMM, EMR, ITW, ETN, PH, ROK,
+    // DOV, GEV.
+    //
+    // Energy's oil/gas/grid/datacenter mix is translated to the industrial
+    // equivalents: production-line portfolio (energy: generation mix),
+    // capacity-utilization / bottleneck status (energy: maintenance/asset-age),
+    // automation posture & modernization backlog (energy: NERC/FERC
+    // compliance), and labor position / workforce profile (energy: capital
+    // funding). Each reads OPTIONAL company-JSON fields and degrades
+    // gracefully (cp-empty) when not yet populated.
+    if (co.domainId === 'industry') {
+      // Production Portfolio — breakdown by facility type / line / geography (energy: generation mix)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Production Portfolio</div>';
+      var _pp = co.productionPortfolio;
+      if (_pp && (Array.isArray(_pp) ? _pp.length : Object.keys(_pp).length)) {
+        var _ppEntries = Array.isArray(_pp)
+          ? _pp.map(function (e) { return [e.facility || e.line || e.type || e.label || '', e.share != null ? e.share : (e.output != null ? e.output : (e.value != null ? e.value : e.detail))]; })
+          : Object.keys(_pp).map(function (kk) { return [kk, _pp[kk]]; });
+        for (var pp = 0; pp < _ppEntries.length; pp++) {
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_ppEntries[pp][0]) + '</span><span class="cp-value">' + esc(String(_ppEntries[pp][1])) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No production distribution recorded (facility-type / line / product mix, output share, geographic plant split)</div>';
+      }
+      rightHtml += '</div>';
+
+      // Capacity Utilization — current vs potential, bottleneck mapping (energy: maintenance/asset-age)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Capacity Utilization</div>';
+      var _cm = co.capacityMetrics;
+      if (_cm && Object.keys(_cm).length > 0) {
+        var _cmKeys = Object.keys(_cm);
+        for (var cmk = 0; cmk < _cmKeys.length; cmk++) {
+          var _cmv = _cm[_cmKeys[cmk]];
+          var _cmStr = (_cmv && typeof _cmv === 'object' && !Array.isArray(_cmv))
+            ? Object.keys(_cmv).map(function (sk) { return sk + ': ' + _cmv[sk]; }).join('  ·  ')
+            : String(_cmv);
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_cmKeys[cmk]) + '</span><span class="cp-value">' + esc(_cmStr) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No capacity data (current vs nameplate utilization %, bottleneck stage, backlog / order coverage, downtime hours)</div>';
+      }
+      rightHtml += '</div>';
+
+      // Automation Posture — equipment age, modernization backlog (energy: NERC/FERC compliance)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Automation Posture</div>';
+      var _as = co.automationStatus;
+      if (_as && (Array.isArray(_as) ? _as.length : Object.keys(_as).length)) {
+        var _asEntries = Array.isArray(_as)
+          ? _as.map(function (e) { return [e.metric || e.line || e.label || '', (e.value != null ? e.value : (e.age != null ? e.age : e.detail)) + (e.trend ? ' (' + e.trend + ')' : '')]; })
+          : Object.keys(_as).map(function (kk) { return [kk, _as[kk]]; });
+        for (var as = 0; as < _asEntries.length; as++) {
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_asEntries[as][0]) + '</span><span class="cp-value">' + esc(String(_asEntries[as][1])) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No automation record (robotics / automation coverage %, average equipment age yrs, modernization-backlog $, retooling cadence & trend)</div>';
+      }
+      rightHtml += '</div>';
+
+      // Labor Position — FTE, skill distribution, turnover, wages (energy: capital funding)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Labor Position</div>';
+      var _lp = co.laborProfile;
+      if (_lp && Object.keys(_lp).length > 0) {
+        var _lpKeys = Object.keys(_lp);
+        for (var lpk = 0; lpk < _lpKeys.length; lpk++) {
+          var _lpv = _lp[_lpKeys[lpk]];
+          var _lpStr = (_lpv && typeof _lpv === 'object' && !Array.isArray(_lpv))
+            ? Object.keys(_lpv).map(function (sk) { return sk + ': ' + _lpv[sk]; }).join('  ·  ')
+            : String(_lpv);
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_lpKeys[lpk]) + '</span><span class="cp-value">' + esc(_lpStr) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No labor profile (production-FTE count, skill distribution, turnover rate, wage position vs sector, union / overtime exposure)</div>';
+      }
+      rightHtml += '</div>';
+    }
+
     // Warning signals (placeholder for future)
     rightHtml += '<div class="cp-section">';
     rightHtml += '<div class="cp-section-title">Warning Signals</div>';

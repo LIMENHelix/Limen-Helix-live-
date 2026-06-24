@@ -53,6 +53,42 @@
     { id: 'infrastructure_core', domains: ['infrastructure', 'law', 'governance', 'finance'] },
     { id: 'rule_of_law',    domains: ['law', 'governance', 'defense'] },
     { id: 'economic_core',  domains: ['economy', 'finance', 'industry'] },
+    // Industry's own institutional/production envelope (mirror of
+    // infrastructure_core / financial_core / technology_core / defense_core,
+    // but built around the PRODUCTION BASE rather than a regulatory regime).
+    // Manufacturing & industrial production, factory output & capacity
+    // utilization, automation & robotics, heavy industry & capital goods, and
+    // industrial maintenance — the CAT/DE/GE/HON/MMM/EMR/ITW/ETN/PH/ROK/DOV/GEV
+    // capital-goods, machinery & equipment complex — is co-borne by the
+    // automation substrate that runs the floor (technology — robotics, IoT
+    // sensors, AI production scheduling, machine vision), the working/growth
+    // capital that funds plants & production lines (finance — capex, working
+    // capital), the power/water/road plant factories run on (infrastructure),
+    // and the raw-materials/components feedstock (supplyChain). UNLIKE
+    // energy_chain — where energy is a SUPPLY commodity flowing OUT to other
+    // domains — industry is the PRODUCTION base that converts those inputs into
+    // capital goods, so it sits at the convergence of capital, automation,
+    // utilities & materials rather than as a downstream consumer. Corroboration
+    // here = a production-capability stress (e.g. a capacity-utilization
+    // collapse coinciding with a capex/working-capital squeeze + an automation/
+    // sensor shortfall + a feedstock constraint). Defense's wartime munitions/
+    // vehicle mobilization is a COUPLING (see defense_core), not industry's own
+    // identity; trade (logistics/commerce) and economy (macro aggregate) stay
+    // DISTINCT.
+    { id: 'industry_core', domains: ['industry', 'technology', 'finance', 'infrastructure', 'supplyChain'] },
+    // Industry↔technology automation coupling (mirror of
+    // intelligence_collection_infrastructure on the production side):
+    // technology couples into the factory via automation — robotic arms,
+    // AI-driven production scheduling, IoT floor sensors, computer-vision
+    // quality control — running on the physical plant (infrastructure). When
+    // industry AND technology co-elevate, it signals a production-CAPABILITY
+    // transformation rather than isolated demand stress: a foundry ramping a
+    // next-generation process node, a plant retooling for a robotic line, a
+    // capital-goods OEM (ROK/EMR/ETN automation portfolios) absorbing a control-
+    // systems shift. Automation is a COUPLING here — technology keeps its own
+    // identity (chips/AI/software) and industry keeps its (factory output &
+    // capacity), the two binding only through the production floor.
+    { id: 'industry_technology_automation', domains: ['industry', 'technology', 'infrastructure'] },
     // Macro real-economy transmission cluster: the balance-of-payments /
     // employment chain. Trade imbalances (deficit/surplus, tariffs, current
     // account) destroy or build manufacturing employment, which shifts
@@ -78,6 +114,21 @@
     // any unmapped variant ('logistics'/'shipping'/'supply chain') now raises an
     // ATLAS_MAPPING_GAP warning instead of failing silently.
     { id: 'economy_trade_labor', domains: ['economy', 'supplyChain', 'industry'] },
+    // Domestic production–employment–demand feedback loop (the production-side
+    // mirror of economy_trade_labor's trade-imbalance channel). Where
+    // economy_trade_labor binds the cross-border channel (imports destroy/build
+    // manufacturing jobs), this binds the DOMESTIC channel: factory output &
+    // capacity utilization (industry — CAT, DE, GE, HON, MMM, EMR, ITW, ETN, PH,
+    // ROK, DOV, GEV capital-goods & machinery output) drive plant employment,
+    // which drives local aggregate demand. A plant idling or a line shutdown
+    // cascades into local payrolls and regional consumption independently of any
+    // import shock. Corroboration here = industrial output + macro activity +
+    // population/employment co-contracting, signalling a domestic capacity-led
+    // (not trade-led) demand contraction. Macro anchor INDPRO (industrial
+    // production) + PAYEMS-manufacturing; distinct from economy_trade_labor
+    // (which is the import-balance channel) and from defense's wartime-
+    // mobilization production surge.
+    { id: 'economy_industry_labor', domains: ['economy', 'industry', 'population'] },
     // Finance's own institutional envelope: capital markets, credit & lending,
     // banking and liquidity/solvency are co-borne by the broader economy
     // (activity, demand, output), the legal/regulatory enforcement regime

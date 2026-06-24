@@ -35,6 +35,8 @@
   var INTELLIGENCE_STACK_COOLDOWN = 180000; // 3 min between intelligence-stack narrations
   var TRADE_STACK_THRESHOLD = 2; // a trade/supply-chain-vulnerability stack seen N times signals concentration
   var TRADE_STACK_COOLDOWN = 180000; // 3 min between trade-stack narrations
+  var INDUSTRY_STACK_THRESHOLD = 2; // an industrial-production-vulnerability stack seen N times signals concentration
+  var INDUSTRY_STACK_COOLDOWN = 180000; // 3 min between industry-stack narrations
 
   // ─── Infrastructure vulnerability-stack semantics ─────────────────────────
   // CIVIL domain-semantic concentration. Generic (domain, action) frequency only
@@ -368,6 +370,67 @@
       body: 'Operator attention concentrates on the chokepoint-closure + shipping-crisis stack — a strategic waterway or corridor closure forcing reroutes and a shipping crisis across trade lanes.' }
   ];
 
+  // ─── Industry / industrial-production vulnerability-stack semantics ────────
+  // INDUSTRY domain-semantic concentration. As with infrastructure, culture, finance,
+  // economy, technology, intelligence and trade, generic (domain, action) frequency
+  // only says WHERE the operator is looking; for the industry domain we also detect
+  // WHAT industrial-production-vulnerability STACK the attention concentrates on. Each
+  // stack is a co-occurring pair of industrial signal families (capacity utilization &
+  // factory output collapse/automation & robotics line failure/input & raw-material
+  // cost spikes/labor shortage & skilled-trade gaps/wage pressure & labor-cost
+  // transmission/margin compression on heavy industry & capital goods/industrial
+  // supply-chain & component-input constraint/machinery & equipment degradation &
+  // maintenance backlog). The industry identity is MANUFACTURING & INDUSTRIAL
+  // PRODUCTION, FACTORY OUTPUT & CAPACITY UTILIZATION, AUTOMATION & ROBOTICS, HEAVY
+  // INDUSTRY & CAPITAL GOODS, INDUSTRIAL SUPPLY CHAINS, MACHINERY & EQUIPMENT, and
+  // INDUSTRIAL MAINTENANCE — bound to real industrial equities (CAT, DE, GE, HON, MMM,
+  // EMR, ITW, ETN, PH, ROK, DOV, GEV). Industry is kept DISTINCT from trade
+  // (logistics/commerce/cross-border flow), from economy (the macro aggregate), and
+  // from technology (automation/robotics is a COUPLING, not the industry identity);
+  // its OWN content is never energy oil/gas/grid. Mirrors the energy anchor where
+  // crude_above_90 + grid_stress pair into a feedback loop — industry pairs
+  // capacity-utilization collapse + automation-failure as the analogous feedback loop,
+  // with tickers CAT/DE/GE showing early signals.
+  // Mirrors the industry-brain cross-domain conditions:
+  //   CAPACITY_COLLAPSE + AUTOMATION_FAILURE   → capacity-margin squeeze feedback loop
+  //   LABOR_SHORTAGE + WAGE_PRESSURE           → labor-supply crisis
+  //   INPUT_COST_SPIKE + MARGIN_COMPRESSION    → input-cost transmission to margins
+  //   SUPPLY_CHAIN_CONSTRAINT + EQUIPMENT_DEGRADATION → production halt
+  // Signal tokens are matched against recorded action/type/pattern text — never
+  // invented; absence of tokens simply yields no stack (silent, no false signal).
+  // STRICTLY ADDITIVE: advisory only; never participates in /api/limen/score scoring.
+  var INDUSTRY_SIGNAL_TOKENS = {
+    AUTOMATION_FAILURE:      /(automation[_\s-]?failure|robotics|robot[_\s-]?line|line[_\s-]?down|plc|cobot|production[_\s-]?line[_\s-]?halt|automation[_\s-]?fault|controls[_\s-]?failure|cnc[_\s-]?fault|assembly[_\s-]?line[_\s-]?stop|machine[_\s-]?downtime|process[_\s-]?automation[_\s-]?break)/i,
+    CAPACITY_COLLAPSE:       /(capacity[_\s-]?utilization|capacity[_\s-]?collapse|factory[_\s-]?output|industrial[_\s-]?production|plant[_\s-]?utilization|output[_\s-]?decline|production[_\s-]?cut|underutilization|idle[_\s-]?capacity|throughput[_\s-]?drop|TCU|MCUMFN|utilization[_\s-]?rate)/i,
+    INPUT_COST_SPIKE:        /(input[_\s-]?cost|raw[_\s-]?material|material[_\s-]?cost|steel[_\s-]?price|copper[_\s-]?price|aluminum[_\s-]?price|feedstock|commodity[_\s-]?input|cost[_\s-]?spike|PPI|producer[_\s-]?price|resin[_\s-]?cost|component[_\s-]?cost[_\s-]?surge)/i,
+    LABOR_SHORTAGE:          /(labor[_\s-]?shortage|skilled[_\s-]?trade|workforce[_\s-]?gap|machinist[_\s-]?shortage|welder[_\s-]?shortage|technician[_\s-]?gap|hiring[_\s-]?gap|labor[_\s-]?gap|staffing[_\s-]?shortfall|apprenticeship[_\s-]?gap|tradespeople[_\s-]?shortage|talent[_\s-]?shortage)/i,
+    WAGE_PRESSURE:           /(wage[_\s-]?pressure|wage[_\s-]?inflation|labor[_\s-]?cost[_\s-]?rise|overtime[_\s-]?cost|union[_\s-]?wage|wage[_\s-]?demand|compensation[_\s-]?pressure|shop[_\s-]?floor[_\s-]?wage|hourly[_\s-]?rate[_\s-]?rise|labor[_\s-]?cost[_\s-]?transmission|wage[_\s-]?escalation)/i,
+    MARGIN_COMPRESSION:      /(margin[_\s-]?compression|margin[_\s-]?squeeze|operating[_\s-]?margin|gross[_\s-]?margin[_\s-]?erosion|pricing[_\s-]?power[_\s-]?loss|cost[_\s-]?pass[_\s-]?through|unabsorbed[_\s-]?overhead|contribution[_\s-]?margin[_\s-]?drop|profitability[_\s-]?erosion|margin[_\s-]?erosion)/i,
+    SUPPLY_CHAIN_CONSTRAINT: /(supply[_\s-]?chain[_\s-]?constraint|component[_\s-]?shortage|parts[_\s-]?shortage|supplier[_\s-]?failure|sole[_\s-]?source|input[_\s-]?shortage|bottleneck|just[_\s-]?in[_\s-]?time[_\s-]?break|inventory[_\s-]?shortfall|sub[_\s-]?supplier[_\s-]?gap|bill[_\s-]?of[_\s-]?materials[_\s-]?gap)/i,
+    EQUIPMENT_DEGRADATION:   /(equipment[_\s-]?degradation|machinery[_\s-]?wear|asset[_\s-]?deterioration|maintenance[_\s-]?backlog|breakdown|unplanned[_\s-]?downtime|tooling[_\s-]?wear|reliability[_\s-]?decline|mean[_\s-]?time[_\s-]?between[_\s-]?failure|MTBF|aging[_\s-]?machinery|deferred[_\s-]?overhaul|spare[_\s-]?parts[_\s-]?gap)/i
+  };
+
+  // Industrial-production-vulnerability STACKS — ordered token pairs with an industrial
+  // interpretation. Each describes an operator-concentration meaning specific to an
+  // industrial vulnerability stack (capacity & output, automation & robotics, input &
+  // raw-material costs, labor & skilled trades, wage & margin transmission, industrial
+  // supply chains, machinery & maintenance) — NOT energy oil/gas/grid content, NOT trade
+  // logistics/cross-border-flow content, NOT economy macro-aggregate content, and NOT
+  // technology automation as identity (automation is a coupling here). Industry is the
+  // PRODUCTION of physical goods on the factory floor.
+  var INDUSTRY_VULN_STACKS = [
+    { id: 'CAPACITY_MARGIN_SQUEEZE', signals: ['CAPACITY_COLLAPSE', 'AUTOMATION_FAILURE'],
+      body: 'Operator attention concentrates on the capacity-collapse + automation-failure stack — a capacity-margin squeeze feedback loop where falling factory utilization compounds with robotics/line failures (CAT/DE/GE showing early signals).' },
+    { id: 'LABOR_SUPPLY_CRISIS',     signals: ['LABOR_SHORTAGE', 'WAGE_PRESSURE'],
+      body: 'Operator attention concentrates on the labor-shortage + wage-pressure stack — a labor-supply crisis where skilled-trade gaps on the shop floor collide with escalating wage and labor-cost pressure.' },
+    { id: 'INPUT_COST_TRANSMISSION', signals: ['INPUT_COST_SPIKE', 'MARGIN_COMPRESSION'],
+      body: 'Operator attention concentrates on the input-cost-spike + margin-compression stack — raw-material and component cost surges transmitting into eroding operating margins as pricing power lags.' },
+    { id: 'SUPPLY_PRODUCTION_HALT',  signals: ['SUPPLY_CHAIN_CONSTRAINT', 'EQUIPMENT_DEGRADATION'],
+      body: 'Operator attention concentrates on the supply-chain-constraint + equipment-degradation stack — component shortages and machinery breakdown/maintenance backlog combining into a production halt.' },
+    { id: 'AUTOMATION_LABOR_GAP',    signals: ['AUTOMATION_FAILURE', 'LABOR_SHORTAGE'],
+      body: 'Operator attention concentrates on the automation-failure + labor-shortage stack — robotics/line faults exposing a thin skilled-trade workforce with too few technicians to recover throughput.' }
+  ];
+
   // ─── State ───────────────────────────────────────────────────────────────
 
   var _entries = [];
@@ -387,6 +450,8 @@
   var _lastIntelligenceStackId = null;
   var _lastTradeStackTime = 0;
   var _lastTradeStackId = null;
+  var _lastIndustryStackTime = 0;
+  var _lastIndustryStackId = null;
   var _interval = null;
 
   // Detect which civil signal families a user-action references, by scanning its
@@ -473,6 +538,18 @@
     return hits;
   }
 
+  // Detect which industrial-production signal families a user-action references, by
+  // scanning its free-text fields (action / type / cross-domain pattern). Returns a list
+  // of canonical industry signal ids. Never fabricates — empty if nothing matches.
+  function _detectIndustrySignals(text) {
+    if (!text) return [];
+    var hits = [];
+    for (var sig in INDUSTRY_SIGNAL_TOKENS) {
+      if (INDUSTRY_SIGNAL_TOKENS[sig].test(text)) hits.push(sig);
+    }
+    return hits;
+  }
+
   // ─── Record decision ─────────────────────────────────────────────────────
 
   function _onUserAction(e) {
@@ -529,6 +606,10 @@
       // TRADE: which trade/supply-chain signal families this action touches (may be []).
       tradeSignals: _detectTradeSignals(
         [detail.action, detail.type, matchedPattern, detail.signal, detail.diagnosis].join(' ')
+      ),
+      // INDUSTRY: which industrial-production signal families this action touches (may be []).
+      industrySignals: _detectIndustrySignals(
+        [detail.action, detail.type, matchedPattern, detail.signal, detail.diagnosis].join(' ')
       )
     };
 
@@ -546,6 +627,7 @@
     _checkTechnologyStackConcentration();
     _checkIntelligenceStackConcentration();
     _checkTradeStackConcentration();
+    _checkIndustryStackConcentration();
   }
 
   // ─── Concentration detection ──────────────────────────────────────────────
@@ -1091,6 +1173,76 @@
     });
   }
 
+  // ─── Industry / industrial-production vulnerability-stack concentration ────
+  // Domain-semantic concentration for INDUSTRY: beyond "which domain" (above), surface
+  // WHICH industrial-production-vulnerability STACK the operator keeps returning to.
+  // Tallies co-occurring industrial signal families across recent entries and fires when
+  // a known stack (capacity-margin-squeeze, labor-supply-crisis, input-cost-transmission,
+  // supply-production-halt, automation-labor-gap) crosses the threshold. Schema-faithful
+  // to _checkTradeStackConcentration (same phase-change shape). STRICTLY ADDITIVE,
+  // advisory only, kept DISTINCT from trade (logistics/commerce), economy (macro
+  // aggregate) and technology (automation is a coupling). Mirrors the energy anchor
+  // (crude_above_90 + grid_stress) with the capacity-collapse + automation-failure
+  // feedback loop — CAT/DE/GE showing early signals.
+
+  function _checkIndustryStackConcentration() {
+    var now = Date.now();
+    if (now - _lastIndustryStackTime < INDUSTRY_STACK_COOLDOWN) return;
+    if (_entries.length < INDUSTRY_STACK_THRESHOLD) return;
+
+    // Count per-signal-family hits across recent entries (last 10).
+    var recent = _entries.slice(-10);
+    var sigCounts = {};
+    for (var i = 0; i < recent.length; i++) {
+      var sigs = recent[i].industrySignals || [];
+      for (var s = 0; s < sigs.length; s++) {
+        sigCounts[sigs[s]] = (sigCounts[sigs[s]] || 0) + 1;
+      }
+    }
+
+    // A stack fires only when BOTH of its signal families are present and at least
+    // one of them has been focused on repeatedly (>= threshold). Score = sum of the
+    // pair's counts; pick the strongest stack.
+    var best = null;
+    for (var k = 0; k < INDUSTRY_VULN_STACKS.length; k++) {
+      var stack = INDUSTRY_VULN_STACKS[k];
+      var a = sigCounts[stack.signals[0]] || 0;
+      var b = sigCounts[stack.signals[1]] || 0;
+      if (a === 0 || b === 0) continue;
+      if (Math.max(a, b) < INDUSTRY_STACK_THRESHOLD) continue;
+      var score = a + b;
+      if (!best || score > best.score) best = { stack: stack, a: a, b: b, score: score };
+    }
+
+    if (!best) return;
+    if (best.stack.id === _lastIndustryStackId) return; // don't re-narrate the same stack
+
+    _lastIndustryStackTime = now;
+    _lastIndustryStackId = best.stack.id;
+
+    var drivers = [
+      best.a + ' recent actions touching ' + best.stack.signals[0],
+      best.b + ' recent actions touching ' + best.stack.signals[1]
+    ];
+
+    var options = [
+      { label: 'deepen ' + best.stack.id.toLowerCase().replace(/_/g, ' ') + ' analysis', type: 'analysis' },
+      { label: 'broaden scope', type: 'monitoring' },
+      { label: 'hold', type: 'monitoring' }
+    ];
+
+    _dispatch('limen:phase-change', {
+      from: 'observing',
+      to: 'concentrated',
+      type: 'decision-memory',
+      domain: 'industry',
+      stackId: best.stack.id,
+      topDrivers: drivers,
+      options: options,
+      body: best.stack.body
+    });
+  }
+
   // ─── Publish ──────────────────────────────────────────────────────────────
 
   function _publish() {
@@ -1105,6 +1257,7 @@
       technologySignalConcentration: _technologySignalConcentration(),
       intelligenceSignalConcentration: _intelligenceSignalConcentration(),
       tradeSignalConcentration: _tradeSignalConcentration(),
+      industrySignalConcentration: _industrySignalConcentration(),
       updated: Date.now()
     };
 
@@ -1221,6 +1374,23 @@
     var recent = _entries.slice(-10);
     for (var i = 0; i < recent.length; i++) {
       var sigs = recent[i].tradeSignals || [];
+      for (var s = 0; s < sigs.length; s++) {
+        counts[sigs[s]] = (counts[sigs[s]] || 0) + 1;
+      }
+    }
+    var out = [];
+    for (var sig in counts) { out.push({ signal: sig, count: counts[sig] }); }
+    out.sort(function (x, y) { return y.count - x.count; });
+    return out;
+  }
+
+  // INDUSTRY: roll up which industrial-production signal families recent attention
+  // concentrates on (descending by count). Empty when no industrial signals were detected.
+  function _industrySignalConcentration() {
+    var counts = {};
+    var recent = _entries.slice(-10);
+    for (var i = 0; i < recent.length; i++) {
+      var sigs = recent[i].industrySignals || [];
       for (var s = 0; s < sigs.length; s++) {
         counts[sigs[s]] = (counts[sigs[s]] || 0) + 1;
       }

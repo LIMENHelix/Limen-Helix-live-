@@ -454,6 +454,35 @@
     // win when both are present (a slot is single-domain, so they never collide
     // in practice).
     var _bsm = _emO(slot && slot.brainSupplyChainModel);
+    // Industry parity: industry brains emit a recurrent INDUSTRIAL-PRODUCTION
+    // model (brainIndustryModel) that follows the SAME envelope signature as
+    // energy's energyModel, infrastructure's infrastructureModel, culture's
+    // cultureModel, finance's financeModel, economy's economyModel, and trade's
+    // supplyChainModel, so Civilization + the Main Brain consume it identically.
+    // The industry model tracks the FACTORY-OUTPUT lifecycle (capacity-utilization
+    // trajectory and production-volume cadence — productionCycle; capacity-
+    // expansion / investment-vs-depreciation tightness and automation-adoption
+    // cadence as the regulation signal — capacityUtilizationRegulation; idle-
+    // capacity + supply-chain-resilience shortfall stress and production-shutdown
+    // / plant-failure risk — predictedStress via productionContractionRisk; the
+    // prior on capacity-utilization / industrial-output health — priorCapacityHealth)
+    // rather than neurological cycles, civil-asset lifecycles, attention economies,
+    // single-firm capital lifecycles, macroeconomic business cycles, or goods-in-
+    // motion logistics. Industry is the FACTORY-OUTPUT / capital-goods PRODUCTION
+    // layer and stays DISTINCT from trade (logistics / goods-in-motion — shipment
+    // throughput, freight cost), economy (macro aggregate — GDP / inflation /
+    // employment), and technology (automation / robotics is a COUPLING into
+    // industry, not industry's own substrate). Industry's cross-domain couplings
+    // (energy powering plants, trade moving finished goods, technology supplying
+    // automation, finance funding capex) all presume capacity & utilization
+    // visibility that only a recurrent model provides. Real signal validation
+    // anchors on REAL heavy-industry / capital-goods / machinery tickers — CAT,
+    // DE, GE, HON, MMM, EMR, ITW, ETN, PH, ROK, DOV, GEV — never energy oil/gas/
+    // grid tickers, which are another domain's content. We map its production
+    // field names onto the shared deepBrain envelope. Energy/infrastructure/
+    // culture/finance/economy/supplyChain win when both are present (a slot is
+    // single-domain, so they never collide in practice).
+    var _bum = _emO(slot && slot.brainIndustryModel);
     var deepBrain = _bem ? {
       cycle:           _num(_bem.cycle),
       predictionError: _emO(_bem.predictionError),
@@ -747,6 +776,80 @@
       modalShiftTrend:         _num(_bsm.modalShiftTrend),
       inventoryThroughputGap:  _num(_bsm.inventoryThroughputGap),
       domainDiagnosisPacket: _emO(_bsm.domainSupplyChainPacket) || _emO(_bsm.domainDiagnosisPacket)
+    } : _bum ? {
+      // Industrial-production lifecycle mapped onto the shared recurrent envelope.
+      // productionCycle → cycle, capacityUtilizationRegulation → regulation,
+      // productionContractionRisk → predictedStress, priorCapacityHealth → prior,
+      // domainIndustryPacket → domainDiagnosisPacket.
+      cycle:           _num(_bum.productionCycle != null ? _bum.productionCycle : _bum.cycle),
+      predictionError: _emO(_bum.predictionError),
+      // capacityUtilizationRegulation is the industry regulation signal: how
+      // capacity expansion (capex / new lines) vs depreciation (idling, plant
+      // retirement) and automation-adoption cadence are steering factory output
+      // (analogous to energy's regulationState, infrastructure's capital-funding
+      // regulation, culture's expression state, finance's funding-source quality,
+      // economy's fiscal-monetary regulation, and trade's freight-cost regulation).
+      // Underbuilt / balanced / overbuilt utilization regime.
+      regulationState: (_bum.capacityUtilizationRegulation && _bum.capacityUtilizationRegulation.state)
+                       || _str(_bum.capacityUtilizationRegulation)
+                       || (_bum.utilizationState && _bum.utilizationState.state)
+                       || _str(_bum.utilizationState)
+                       || (_bum.regulation && _bum.regulation.state)
+                       || null,
+      regulation:      _emO(_bum.capacityUtilizationRegulation) || _emO(_bum.utilizationState) || _emO(_bum.regulation),
+      readyForHandoff: _bum.readyForHandoff === true,
+      // productionContractionRisk is the industry predicted-stress signal
+      // (likelihood of a production contraction — idle capacity, demand collapse
+      // for capital goods, supply-chain-resilience shortfall forcing line stoppage,
+      // plant failure), carried through unchanged in [0..1]. industrialStress is
+      // the broader output-degradation analogue; either may stand in for
+      // predictedStress, productionContractionRisk wins as the more acute near-term
+      // signal.
+      predictedStress: _num(
+        _bum.productionContractionRisk != null ? _bum.productionContractionRisk
+        : (_bum.industrialStress != null ? _bum.industrialStress
+        : _bum.predictedStress)
+      ),
+      // priorCapacityHealth carries the prior on capacity-utilization / industrial-
+      // output health (the production-capacity trend), mirroring energy's prior,
+      // infrastructure's priorAssetHealth, culture's creativeCapacity, finance's
+      // priorCapitalHealth, economy's priorGrowthTrend, and trade's
+      // priorThroughputHealth. When reported as a health value ([0..1] high =
+      // strong, well-utilized capacity), invert into a stress (contraction)
+      // expectation; an explicit expectedStress wins.
+      prior:           (_bum.priorCapacityHealth || _bum.prior)
+                       ? (function (p) {
+                           return {
+                             // expectedStress mirrors energy: here the prior
+                             // expected production-contraction / idle-capacity distress level.
+                             expectedStress: _num(
+                               p.expectedStress != null ? p.expectedStress
+                               : (p.expectedContraction != null ? p.expectedContraction
+                               : (typeof p.capacityHealth === 'number' ? (1 - _clamp01(p.capacityHealth))
+                               : (typeof p.utilization === 'number' ? (1 - _clamp01(p.utilization))
+                               : (typeof p === 'number' ? (1 - _clamp01(p)) : null))))
+                             ),
+                             confidence:     _num(p.confidence),
+                             samples:        _num(p.samples)
+                           };
+                         })(_bum.priorCapacityHealth || _bum.prior)
+                       : null,
+      // Industrial-production telemetry preserved alongside the shared envelope so
+      // downstream artifact expansion can feed industry / capital-goods decisions
+      // (capacity-utilization trend, investment-vs-depreciation balance, automation/
+      // robotics-adoption cadence, supply-chain-resilience headroom, maintenance/
+      // downtime accumulation, order-backlog vs output). Sourced from REAL heavy-
+      // industry / capital-goods / machinery tickers: CAT, DE, GE, HON, MMM, EMR,
+      // ITW, ETN, PH, ROK, DOV, GEV. These are FACTORY-OUTPUT / capital-goods
+      // PRODUCTION signals — distinct from trade's goods-in-motion logistics,
+      // economy's macro aggregates, and technology's automation substrate.
+      capacityUtilizationTrend:  _num(_bum.capacityUtilizationTrend),
+      investmentDepreciationGap: _num(_bum.investmentDepreciationGap),
+      automationAdoptionTrend:   _num(_bum.automationAdoptionTrend),
+      supplyChainResilience:     _num(_bum.supplyChainResilience),
+      maintenanceDowntimeAccum:  _num(_bum.maintenanceDowntimeAccum),
+      orderBacklogTrend:         _num(_bum.orderBacklogTrend),
+      domainDiagnosisPacket: _emO(_bum.domainIndustryPacket) || _emO(_bum.domainDiagnosisPacket)
     } : null;
 
     // Feed health. Configured count is the MAX of every honest declaration

@@ -287,7 +287,13 @@ var DOMAIN_PORTALS = {
     {name:'Honeywell (HON)',url:'/company-portal?company=honeywell'},
     {name:'Emerson (EMR)',url:'/company-portal?company=emerson_electric'},
     {name:'Rockwell (ROK)',url:'/company-portal?company=rockwell_automation'},
-    {name:'Illinois Tool Works (ITW)',url:'/company-portal?company=illinois_tool_works'}
+    {name:'Illinois Tool Works (ITW)',url:'/company-portal?company=illinois_tool_works'},
+    {name:'General Electric (GE)',url:'/company-portal?company=general_electric'},
+    {name:'3M (MMM)',url:'/company-portal?company=3m'},
+    {name:'Eaton (ETN)',url:'/company-portal?company=eaton'},
+    {name:'Parker Hannifin (PH)',url:'/company-portal?company=parker_hannifin'},
+    {name:'Dover (DOV)',url:'/company-portal?company=dover'},
+    {name:'Deere (DE)',url:'/company-portal?company=deere'}
   ],
   communication:[
     {name:'Comcast (CMCSA)',url:'/company-portal?company=comcast'},

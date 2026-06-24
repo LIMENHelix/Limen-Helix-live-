@@ -1146,6 +1146,225 @@
         { label: 'investigate industrial-output cycle coupling', type: 'analysis' },
         { label: 'hold', type: 'monitoring' }
       ]
+    },
+    // ─── Industry pairs (parity port; mirrors energy/infra/culture/finance/economy/tech/defense/intelligence/trade structure) ──
+    // INDUSTRY identity ONLY — manufacturing & industrial production, factory output &
+    // capacity utilization, automation & robotics, heavy industry & capital goods,
+    // industrial supply chains, machinery & equipment, industrial maintenance. Real
+    // industrial-manufacturing tickers (CAT, DE, GE, HON, MMM, EMR, ITW, ETN, PH, ROK,
+    // DOV, GEV) — never fabricated. Each PAIRED domain couples to industry via a
+    // POWER/THERMAL, AUTOMATION-TECH, FACILITY, EMISSIONS, POLICY, LEGAL/IP, R&D,
+    // WORKFORCE, MATERIAL-INPUT, CAPITAL, LABOR, REPUTATION, or HERITAGE regime;
+    // industry's OWN content stays factory output / capacity / automation / equipment /
+    // maintenance. DISTINCT from trade (logistics/commerce), economy (macro aggregate),
+    // and technology (automation is a coupling, not the identity). Energy oil/gas/grid is
+    // NEVER industry's own content — energy is a power/thermal coupling. ADDITIVE — does
+    // not touch any validated scoring path. ('industry_economy', 'industry_supplyChain',
+    // 'defense_industry', 'intelligence_industry' already cover those couplings.)
+    {
+      // Direct parity to 'energy_supply' (logistics disruption / fuel supply stress) +
+      // 'infrastructure_energy' (dependency coupling) translated to factory power/thermal.
+      // Energy is the COUPLING (grid/power consequence); industry identity stays
+      // factory load / kiln-furnace-compressor uptime / capacity utilization.
+      id: 'industry_energy',
+      domains: ['industry', 'energy'],
+      threshold: 0.45,
+      pattern: 'manufacturing-grid coupling',
+      drivers: ['factory peak-demand pricing pressure (energy-intensive load: steel/chemicals/cement)', 'power-outage duration/frequency elevation degrading plant uptime', 'process-cooling water scarcity (kiln/furnace thermal-capacity strain)', 'compressed-air / process-heating bottleneck (CAT/EMR/ETN equipment downtime)', 'backup-generator fuel supply strain under grid-stability stress (HON/GEV power systems)'],
+      options: [
+        { label: 'map factory power-demand exposure', type: 'analysis' },
+        { label: 'investigate thermal / cooling-capacity strain', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Direct parity to 'infrastructure_technology' / 'culture_technology' / 'defense_technology'
+      // (cyber-physical attack surface) anchored in factory automation / ICS. Technology is the
+      // COUPLING (embedded chips/AI/automation systems); industry identity stays factory uptime /
+      // capacity / equipment lifecycle — NOT chips/AI/cloud (that's technology's native content).
+      id: 'industry_technology',
+      domains: ['industry', 'technology'],
+      threshold: 0.45,
+      pattern: 'factory-automation control-system coupling',
+      drivers: ['automation-system outage (PLC/SCADA/ICS failure, ROK/EMR control downtime)', 'robotics-deployment bottleneck degrading cycle-time variance', 'firmware obsolescence in legacy equipment (GE/ITW embedded controllers)', 'zero-day SCADA exposure (actively exploited, CISA KEV) on manufacturing-control protocols', 'industrial-controller chipset lead time (TSM/AVGO supply-chain tech-dependency)', 'AI-predictive-maintenance adoption lag (CAT digital-equipment uptake)'],
+      options: [
+        { label: 'map ICS/SCADA attack-surface exposure', type: 'analysis' },
+        { label: 'trace automation-downtime cycle-time chain', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'culture_core' / 'finance_core' / 'technology_core' / 'defense_core'
+      // (institutional envelope) translated to the manufacturing-facility envelope:
+      // utility reliability, building envelope, permitting, deferred-maintenance shadow.
+      // Infrastructure is the COUPLING (physical facility); industry identity stays
+      // production capacity / equipment replacement / plant uptime.
+      id: 'industry_infrastructure',
+      domains: ['industry', 'infrastructure'],
+      threshold: 0.45,
+      pattern: 'manufacturing-facility infrastructure coupling',
+      drivers: ['facility utility-system failure (HVAC/power/water/waste downtime)', 'building-envelope deterioration / equipment-installation space constraint', 'facility-permitting delay (zoning / environmental) stalling expansion', 'deferred-maintenance capital shadow (equipment-replacement backlog cost, CAT/DE/HON facility ops)', 'environmental-compliance citation spike with capital unavailable for facility upkeep (EMR/ITW)'],
+      options: [
+        { label: 'map facility-downtime exposure', type: 'analysis' },
+        { label: 'trace deferred-maintenance capital chain', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'environment_energy' / 'economy_environment' (climate/compliance-regime stress)
+      // translated to manufacturing emissions / pollution load. Environment is the COUPLING
+      // (emissions/waste/water regime); industry identity stays production output / compliance
+      // capital — NOT climate/ecosystem (that's environment's native content).
+      id: 'industry_environment',
+      domains: ['industry', 'environment'],
+      threshold: 0.45,
+      pattern: 'manufacturing-emissions pollution-load coupling',
+      drivers: ['emissions-compliance cost spike (Clean Air Act / GHGRP industrial inventory)', 'waste-disposal capacity strain (hazardous-waste economics)', 'process-water-use restriction under drought (facility water-stress index)', 'soil/groundwater contamination liability with environmental-violation frequency', 'climate-adaptation capex for flood/heat-resilience on facility location (CAT/GE/MMM/ETN emissions-intensive ops)'],
+      options: [
+        { label: 'trace emissions-compliance capital exposure', type: 'analysis' },
+        { label: 'investigate waste / water-stress coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'law_governance' / 'infrastructure_governance' (policy-regime stress) applied to
+      // industrial regulation & capital allocation: tariffs, standards, antitrust, industrial
+      // policy. Governance is the COUPLING (policy regime); industry identity stays input-cost
+      // structure / capacity / compliance capital.
+      id: 'industry_governance',
+      domains: ['industry', 'governance'],
+      threshold: 0.50,
+      pattern: 'manufacturing-regulation capital-allocation coupling',
+      drivers: ['tariff / trade-policy impact on input costs (US ITC rate change)', 'regulatory-standard tightening velocity (emissions/labor/safety, EPA/OSHA/CPSC)', 'antitrust action on industrial consolidation', 'industrial-policy subsidy availability (CHIPS Act / manufacturing-competitiveness grants, DOC/DOE)', 'permitting delay for facility expansion (CAT/DE/GE/HON/MMM/EMR/ITW/ETN/PH/ROK/DOV exposure)'],
+      options: [
+        { label: 'trace manufacturing-regulation linkage', type: 'analysis' },
+        { label: 'investigate tariff / industrial-policy impact', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'law_governance' / 'finance_law' (enforcement & IP-licensing regime) applied to
+      // manufacturing legal / IP. Law is the COUPLING (regulatory/IP regime); industry identity
+      // stays product-liability reserve / IP-protection spend / compliance audit.
+      id: 'industry_law',
+      domains: ['industry', 'law'],
+      threshold: 0.45,
+      pattern: 'manufacturing-legal IP-licensing coupling',
+      drivers: ['product-liability lawsuit surge / recall frequency (NHTSA/CPSC databases)', 'IP-patent dispute / licensing-cost spike (USPTO litigation caseload)', 'labor-law compliance violation (OSHA/DOL enforcement)', 'trade-secret theft (insider threat / foreign acquisition)', 'antitrust investigation / supply-contract dispute escalation (CAT/DE/GE/HON/MMM/EMR/ITW/ETN/PH/ROK IP-intensive exposure)'],
+      options: [
+        { label: 'trace product-liability / IP exposure', type: 'analysis' },
+        { label: 'investigate trade-secret / antitrust coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'education_research' / 'technology_research' / 'culture_research' (innovation
+      // cluster) applied to manufacturing process-improvement. Research is the COUPLING
+      // (innovation substrate); industry identity stays process-innovation pipeline /
+      // equipment modernization.
+      id: 'industry_research',
+      domains: ['industry', 'research'],
+      threshold: 0.40,
+      pattern: 'manufacturing-innovation process-improvement coupling',
+      drivers: ['industrial R&D spending volatility (% of revenue)', 'process-patent publication lag (USPTO manufacturing-patent rate)', 'industrial-research partnership stress (universities / national labs, DOE/NIST)', 'process-innovation adoption lag (lean / six-sigma / additive manufacturing)', 'measurement/test-equipment modernization backlog (CAT/DE/GE/HON/MMM/EMR/ITW/ETN/PH/ROK R&D-intensive)'],
+      options: [
+        { label: 'trace process-innovation pipeline exposure', type: 'analysis' },
+        { label: 'investigate R&D-partnership health', type: 'discovery' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'infrastructure_education' / 'culture_education' (workforce-pipeline stress)
+      // applied to manufacturing skill pipeline. Education is the COUPLING (workforce pipeline);
+      // industry identity stays apprenticeship funding / technician-talent acquisition.
+      id: 'industry_education',
+      domains: ['industry', 'education'],
+      threshold: 0.45,
+      pattern: 'manufacturing-workforce skill-pipeline coupling',
+      drivers: ['vocational-training enrollment decline (NAM/NECA/IEC apprenticeship intake)', 'technician-wage pressure (BLS OES wage-premium elevation)', 'engineer-shortage severity / job-opening duration (unfilled positions)', 'training-equipment obsolescence (outdated CNC/PLC simulators)', 'curriculum-lag in advanced manufacturing (CAT/DE/GE/HON/MMM/EMR/ITW/ETN/PH/ROK talent competition)'],
+      options: [
+        { label: 'trace manufacturing-workforce pipeline exposure', type: 'analysis' },
+        { label: 'investigate apprenticeship / technician shortage', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'supplyChain_agriculture' / 'defense_agriculture' (supply-chain input stress)
+      // applied to MATERIAL input (distinct from the economy macro layer). Agriculture is the
+      // COUPLING (material-input supply); industry identity stays input-cost hedging /
+      // substitution R&D.
+      id: 'industry_agriculture',
+      domains: ['industry', 'agriculture'],
+      threshold: 0.45,
+      pattern: 'manufacturing-input material-supply coupling',
+      drivers: ['commodity-input price spike (steel/aluminum/timber/chemicals, USDA/NYMEX index)', 'agricultural-supply-derived input scarcity (grain-based inputs / bio-plastic feedstock / fertilizer-based process chemicals)', 'seasonal input-demand volatility', 'input-inventory days-of-supply decline (corporate guidance)', 'input-substitution material-cost lag (CAT/DE agricultural-equipment, GE/HON/MMM/EMR/ITW/ETN/PH/ROK material exposure)'],
+      options: [
+        { label: 'trace material-input cost exposure', type: 'analysis' },
+        { label: 'investigate input-substitution lag', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'finance_economy' / 'finance_infrastructure' (credit / capital-structure stress)
+      // applied to manufacturing working-capital & equipment financing. Finance is the COUPLING
+      // (credit channel); industry identity stays working-capital efficiency / equipment-financing
+      // cost / covenant compliance.
+      id: 'industry_finance',
+      domains: ['industry', 'finance'],
+      threshold: 0.45,
+      pattern: 'manufacturing-credit capital-structure coupling',
+      drivers: ['working-capital stress (inventory-financing gap / payables stretch, working-capital-days trend)', 'capital-equipment financing tightening (syndicated-loan / LBO spread widening)', 'covenant-breach risk (debt-service-coverage pressure, credit-rating headroom)', 'M&A / refinancing-risk elevation (maturity concentration)', 'supplier-financing stress (payables extension, CAT/DE/GE/HON/MMM/EMR/ITW/ETN/PH/ROK/DOV capital-intensive exposure)'],
+      options: [
+        { label: 'trace working-capital / equipment-financing exposure', type: 'analysis' },
+        { label: 'investigate covenant / refinancing-risk coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'culture_population' / 'agriculture_population' / 'health_population'
+      // (employment / labor-force pressure) applied to manufacturing employment. Population is
+      // the COUPLING (labor force); industry identity stays workforce-retention strategy /
+      // wage-competitiveness vs automation.
+      id: 'industry_population',
+      domains: ['industry', 'population'],
+      threshold: 0.50,
+      pattern: 'manufacturing-employment labor-force coupling',
+      drivers: ['manufacturing-employment trend (job losses/gains, BLS PAYEMS by industry)', 'workforce-composition shift (age/skill)', 'unemployment-rate spike in manufacturing regions (BLS LAUS)', 'manufacturing-wage premium erosion (BLS OES)', 'migration-out-of-manufacturing-region / labor-force-participation decline (CAT/DE/GE/HON/MMM/EMR/ITW/ETN/PH/ROK/DOV regional dependency)'],
+      options: [
+        { label: 'trace manufacturing-employment exposure', type: 'analysis' },
+        { label: 'investigate regional labor-force coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'communication_culture' (narrative fragmentation) applied to manufacturing
+      // reputation / brand risk. Communication is the COUPLING (narrative/media channel);
+      // industry identity stays brand reputation / supply-chain transparency.
+      id: 'industry_communication',
+      domains: ['industry', 'communication'],
+      threshold: 0.45,
+      pattern: 'manufacturing-reputation brand-risk coupling',
+      drivers: ['product-quality-issue public disclosure (recalls / outages, news-volume tracking)', 'supply-chain-disruption negative-vendor news', 'environmental-incident news (pollution / accident)', 'labor-dispute narrative amplification (strike / wage pressure, social-media discourse)', 'cyber-incident / IP-theft disclosure (CAT/DE/GE/HON/MMM/EMR/ITW/ETN/PH/ROK/DOV reputation-sensitive)'],
+      options: [
+        { label: 'trace brand-reputation exposure', type: 'analysis' },
+        { label: 'investigate recall / labor-dispute narrative coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'culture_economy' / 'culture_governance' (second-order cultural expression)
+      // applied to manufacturing cultural identity. Culture is the COUPLING (heritage / artisanal
+      // / maker identity); industry identity stays heritage-site / artisanal-brand / regional
+      // marketing. [LOWER PRIORITY — speculative / second-order.]
+      id: 'industry_culture',
+      domains: ['industry', 'culture'],
+      threshold: 0.40,
+      pattern: 'manufacturing cultural-identity coupling',
+      drivers: ['manufacturing-heritage-site preservation pressure (local preservation societies)', 'artisanal-manufacturing market growth (maker-movement premium)', 'regional-identity attachment to industrial legacy', 'craft / precision-manufacturing brand premium (ROK automation, ITW specialty, EMR industrial-precision)'],
+      options: [
+        { label: 'investigate manufacturing cultural-identity feedback', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
     }
   ];
 

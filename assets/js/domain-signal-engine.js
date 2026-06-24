@@ -260,6 +260,47 @@
     customsBlockadeFloor:      0.65  // customs-delay surge / border holds / CBP enforcement always reads as customs_blockade
   };
 
+  // Structural-signal overrides for industry: certain PRODUCTION / CAPACITY / AUTOMATION /
+  // INPUT-COST / LABOR / SUPPLY constraints are NOT noisy machinery-order / industrial-index-churn
+  // signals and must bypass saturation dampening (mirrors infrastructure's grid_stress, culture's
+  // scene_collapse, finance's liquidity_crunch, economy's recession_declaration, technology's
+  // chip_shortage, defense's force_readiness, intelligence's collection_gap, and trade's
+  // tariff_shock structural conditions — all of which mirror energy-brain's grid_stress
+  // reserve-margin floor, a load-bearing engineering constraint that is never dampened as
+  // commodity noise).
+  // The industry domain is MANUFACTURING & INDUSTRIAL PRODUCTION, factory output & capacity
+  // utilization, automation & robotics, heavy industry & capital goods, industrial supply chains,
+  // machinery & equipment, and industrial maintenance (tickers: CAT, DE, GE, HON, MMM, EMR, ITW,
+  // ETN, PH, ROK, DOV, GEV). It stays DISTINCT from trade (logistics/commerce/shipping/ports),
+  // economy (the macro aggregate — GDP/inflation/employment), and technology (automation/robotics
+  // is a COUPLING, not the identity). Industry couples to trade via input sourcing, to economy via
+  // output contribution, and to technology via factory automation — but its identity stays
+  // physical production / capacity ceilings / equipment uptime — NEVER oil/gas/grid as the domain's
+  // OWN content (a factory consumes energy, but the industrial signal is output/capacity/uptime,
+  // not the commodity).
+  // These floors are LOAD-BEARING production constraints — exactly as a grid reserve margin below
+  // 10% reads as grid_stress (a real engineering ceiling never averaged down by volume dampening),
+  // a capacity utilization above 85% is a real production ceiling that must never be averaged down
+  // by machinery-order volume dampening. Real production ceilings, equipment downtime, input-cost
+  // spikes, labor shortages, and supply bottlenecks are not commodity churn.
+  // Binds to FRED INDPRO (industrial production) / capacity-utilization (TCU), ISM Manufacturing
+  // PMI, and CAT/DE/GE machinery-order metrics.
+  // Raw stress is forced to the floor when a structural threshold is crossed, before dampening.
+  //   - capacity-utilization ceiling (utilization > 85%)                       → capacity_constraint (structural)
+  //   - automation/equipment failure (equipment downtime > 5%)                 → automation_failure (structural)
+  //   - input-cost spike (producer-price inflation > 10% YoY)                  → input_cost_spike (structural)
+  //   - labor shortage (unemployment below NAIRU or mfg wage growth > 3%)      → labor_shortage (structural)
+  //   - supply bottleneck (component lead-time > 90 days)                      → supply_bottleneck (structural)
+  // ADDITIVE ONLY — client-side advisory floor for the domain panel/snapshot; it does NOT touch
+  // the validated P3 distress kernel (/api/limen/score path), which lives in the finance domain.
+  var _INDUSTRY_STRUCTURAL = {
+    capacityUtilizationFloor:  0.65, // capacity utilization > 85% always reads as capacity_constraint
+    automationFailureFloor:    0.60, // equipment downtime > 5% always reads as automation_failure
+    inputCostFloor:            0.68, // producer-price inflation > 10% YoY always reads as input_cost_spike
+    laborShortageFloor:        0.65, // unemployment below NAIRU / mfg wage growth > 3% always reads as labor_shortage
+    supplyBottleneckFloor:     0.70  // component lead-time > 90 days always reads as supply_bottleneck
+  };
+
   // Rolling baseline state (accumulates across feed cycles within session)
   var _baselineState = {}; // domainKey → { samples: [], mean: number }
   var _BASELINE_WINDOW = 12; // ~6 minutes at 30s poll (enough for session deviation)
@@ -933,6 +974,127 @@
     return { floor: floor, reason: reason };
   }
 
+  // Detect industry PRODUCTION / CAPACITY / AUTOMATION / INPUT-COST / LABOR / SUPPLY structural
+  // constraints from a feed object. Returns a forced stress floor (0 if none) — production-ceiling /
+  // equipment / input-cost / labor / bottleneck breaches bypass the machinery-order / industrial-
+  // index volume saturation that the generic industry feed is prone to. Mirrors
+  // _infraStructuralFloor / _cultureStructuralFloor / _financeStructuralFloor / _economyStructuralFloor /
+  // _technologyStructuralFloor / _defenseStructuralFloor / _intelligenceStructuralFloor /
+  // _tradeStructuralFloor: capacity-constraint / automation-failure / input-cost-spike /
+  // labor-shortage / supply-bottleneck are load-bearing physical-production constraints, not
+  // commodity-signal noise to be averaged down.
+  // Binds to FRED INDPRO / capacity-utilization (TCU) / producer-price (PPI), ISM Manufacturing PMI,
+  // and CAT/DE/GE/HON/MMM/EMR/ITW/ETN/PH/ROK/DOV/GEV machinery-order metrics — DISTINCT from trade
+  // (logistics/commerce), economy (macro aggregate), and technology (automation is a coupling, not
+  // the identity); NEVER oil/gas/grid as the domain's OWN content (a factory consumes energy, but the
+  // industrial signal is output/capacity/uptime, not the commodity). The capacity-utilization > 85%
+  // ceiling mirrors energy's grid reserve-margin < 10% floor — a real production ceiling never
+  // averaged down by volume dampening.
+  // ADDITIVE ONLY — client-side advisory floor; does NOT touch the validated P3 distress kernel.
+  function _industryStructuralFloor(feed) {
+    if (!feed) return { floor: 0, reason: '' };
+    var floor = 0;
+    var reason = '';
+    var signals = feed.signals || [];
+    function _has(token) {
+      for (var i = 0; i < signals.length; i++) {
+        if (typeof signals[i] === 'string' && signals[i].toLowerCase().indexOf(token) !== -1) return true;
+      }
+      return false;
+    }
+    // (5) Supply bottleneck: component lead-time > 90 days ALWAYS triggers supply_bottleneck
+    //     (highest industry floor — a sourcing constraint that halts the production line;
+    //     CAT/DE/GE/EMR/PH/ETN exposure). leadTimeDays above 90, or an explicit
+    //     bottleneck/lead-time signal, trips it.
+    var leadTimeDays = (feed.componentLeadTimeDays !== undefined) ? feed.componentLeadTimeDays
+                     : (feed.supplierLeadTimeDays !== undefined) ? feed.supplierLeadTimeDays
+                     : null;
+    if ((leadTimeDays !== null && leadTimeDays > 90 && (_has('lead time') || _has('lead-time') || _has('component') || _has('bottleneck') || _has('backlog') || _has('supplier'))) ||
+        _has('supply bottleneck') || _has('supply-bottleneck') || _has('component shortage') || _has('parts shortage') || _has('production halt')) {
+      if (_INDUSTRY_STRUCTURAL.supplyBottleneckFloor > floor) {
+        floor = _INDUSTRY_STRUCTURAL.supplyBottleneckFloor;
+        reason = 'structural: supply_bottleneck' + (leadTimeDays !== null ? ' (component lead-time ' + Math.round(leadTimeDays) + ' days > 90)' : '');
+      }
+    }
+    // (3) Input-cost spike: producer-price inflation > 10% YoY ALWAYS triggers input_cost_spike
+    //     (a raw-material/PPI cost shock that compresses industrial margins; ITW/DOV/MMM/HON
+    //     exposure). ppiInflationYoY accepts fraction (0.12) or percent (12) form; an explicit
+    //     input-cost/PPI signal also trips it.
+    var ppiInflation = (feed.ppiInflationYoY !== undefined) ? feed.ppiInflationYoY
+                     : (feed.producerPriceInflation !== undefined) ? feed.producerPriceInflation
+                     : null;
+    var ppiFrac = (ppiInflation !== null && ppiInflation > 1) ? ppiInflation / 100 : ppiInflation;
+    if ((ppiFrac !== null && ppiFrac > 0.10 && (_has('input cost') || _has('input-cost') || _has('ppi') || _has('producer price') || _has('material') || _has('inflation') || _has('commodit'))) ||
+        _has('input cost spike') || _has('input-cost-spike') || _has('producer price inflation') || _has('material cost surge')) {
+      if (_INDUSTRY_STRUCTURAL.inputCostFloor > floor) {
+        floor = _INDUSTRY_STRUCTURAL.inputCostFloor;
+        reason = 'structural: input_cost_spike' + (ppiFrac !== null ? ' (producer-price inflation ' + (ppiFrac * 100).toFixed(1) + '% YoY > 10%)' : '');
+      } else if (floor > 0) {
+        reason += ' + input_cost_spike';
+      }
+    }
+    // (1) Capacity-utilization ceiling: capacity utilization > 85% ALWAYS triggers capacity_constraint
+    //     (the load-bearing production ceiling — mirrors energy's grid reserve margin < 10%; a real
+    //     production limit never averaged down by machinery-order volume dampening; CAT/DE/GE/EMR/ROK
+    //     exposure, FRED TCU / capacity-utilization). capacityUtilization accepts fraction (0.88) or
+    //     percent (88) form; an explicit capacity-constraint/at-capacity signal also trips it.
+    var capacityUtil = (feed.capacityUtilization !== undefined) ? feed.capacityUtilization
+                     : (feed.utilizationRate !== undefined) ? feed.utilizationRate
+                     : null;
+    var capFrac = (capacityUtil !== null && capacityUtil > 1) ? capacityUtil / 100 : capacityUtil;
+    if ((capFrac !== null && capFrac > 0.85 && (_has('capacity') || _has('utiliz') || _has('output') || _has('production') || _has('at capacity'))) ||
+        _has('capacity constraint') || _has('capacity-constraint') || _has('at capacity') || _has('maxed out') || _has('full capacity')) {
+      if (_INDUSTRY_STRUCTURAL.capacityUtilizationFloor > floor) {
+        floor = _INDUSTRY_STRUCTURAL.capacityUtilizationFloor;
+        reason = 'structural: capacity_constraint' + (capFrac !== null ? ' (capacity utilization ' + (capFrac * 100).toFixed(0) + '% > 85%)' : '');
+      } else if (floor > 0) {
+        reason += ' + capacity_constraint';
+      }
+    }
+    // (4) Labor shortage: unemployment below NAIRU OR manufacturing wage growth > 3% ALWAYS triggers
+    //     labor_shortage (a workforce constraint on production; ITW/PH/EMR/DOV exposure). Either a
+    //     sub-NAIRU unemployment reading or a manufacturing-wage-growth spike, or an explicit
+    //     labor-shortage/worker-shortage signal, trips it.
+    var mfgUnemp = (feed.manufacturingUnemploymentRate !== undefined) ? feed.manufacturingUnemploymentRate
+                 : (feed.unemploymentRate !== undefined) ? feed.unemploymentRate
+                 : null;
+    var mfgUnempFrac = (mfgUnemp !== null && mfgUnemp > 1) ? mfgUnemp / 100 : mfgUnemp;
+    var nairuInd = (feed.nairu !== undefined) ? ((feed.nairu > 1) ? feed.nairu / 100 : feed.nairu) : 0.044;
+    var mfgWageGrowth = (feed.manufacturingWageGrowth !== undefined) ? feed.manufacturingWageGrowth
+                      : (feed.mfgWageGrowthYoY !== undefined) ? feed.mfgWageGrowthYoY
+                      : null;
+    var wageGrowthFrac = (mfgWageGrowth !== null && (mfgWageGrowth > 1 || mfgWageGrowth < -1)) ? mfgWageGrowth / 100 : mfgWageGrowth;
+    if ((mfgUnempFrac !== null && mfgUnempFrac < nairuInd && (_has('labor') || _has('worker') || _has('hiring') || _has('shortage') || _has('unemploy'))) ||
+        (wageGrowthFrac !== null && wageGrowthFrac > 0.03 && (_has('wage') || _has('labor') || _has('worker'))) ||
+        _has('labor shortage') || _has('labor-shortage') || _has('worker shortage') || _has('skills shortage')) {
+      if (_INDUSTRY_STRUCTURAL.laborShortageFloor > floor) {
+        floor = _INDUSTRY_STRUCTURAL.laborShortageFloor;
+        reason = 'structural: labor_shortage' + (mfgUnempFrac !== null && mfgUnempFrac < nairuInd ? ' (unemployment ' + (mfgUnempFrac * 100).toFixed(1) + '% < NAIRU ' + (nairuInd * 100).toFixed(1) + '%)' : (wageGrowthFrac !== null ? ' (mfg wage growth ' + (wageGrowthFrac * 100).toFixed(1) + '% > 3%)' : ''));
+      } else if (floor > 0) {
+        reason += ' + labor_shortage';
+      }
+    }
+    // (2) Automation/equipment failure: equipment downtime > 5% ALWAYS triggers automation_failure
+    //     (a robotics/equipment-uptime constraint on the factory floor — automation/robotics is a
+    //     technology COUPLING, not the identity; ROK/EMR/HON/ETN exposure). equipmentDowntime
+    //     accepts fraction (0.06) or percent (6) form; an explicit downtime/automation-failure
+    //     signal also trips it.
+    var equipmentDowntime = (feed.equipmentDowntime !== undefined) ? feed.equipmentDowntime
+                          : (feed.machineDowntimeRate !== undefined) ? feed.machineDowntimeRate
+                          : null;
+    var downtimeFrac = (equipmentDowntime !== null && equipmentDowntime > 1) ? equipmentDowntime / 100 : equipmentDowntime;
+    if ((downtimeFrac !== null && downtimeFrac > 0.05 && (_has('downtime') || _has('equipment') || _has('automation') || _has('robot') || _has('machine') || _has('breakdown') || _has('maintenance'))) ||
+        _has('automation failure') || _has('automation-failure') || _has('equipment failure') || _has('machine downtime') || _has('line down')) {
+      if (_INDUSTRY_STRUCTURAL.automationFailureFloor > floor) {
+        floor = _INDUSTRY_STRUCTURAL.automationFailureFloor;
+        reason = 'structural: automation_failure' + (downtimeFrac !== null ? ' (equipment downtime ' + (downtimeFrac * 100).toFixed(1) + '% > 5%)' : '');
+      } else if (floor > 0) {
+        reason += ' + automation_failure';
+      }
+    }
+    return { floor: floor, reason: reason };
+  }
+
   function _normalizeStress(domainKey, rawStress, feed) {
     // Phase 0: domain structural-signal floor (engineering/attention-economy constraints
     // bypass commodity/market/volume dampening — mirrors energy-brain grid_stress conditions)
@@ -944,6 +1106,7 @@
                    : (domainKey === 'defense') ? _defenseStructuralFloor(feed)
                    : (domainKey === 'intelligence') ? _intelligenceStructuralFloor(feed)
                    : (domainKey === 'supplyChain') ? _tradeStructuralFloor(feed)
+                   : (domainKey === 'industry') ? _industryStructuralFloor(feed)
                    : { floor: 0, reason: '' };
     if (structural.floor > rawStress) {
       rawStress = structural.floor;

@@ -267,6 +267,28 @@
       trade_customs_disruption:    'Customs clearance degrading. Inspection backlogs and compliance friction stalling border movement.',
       trade_sanctions_impact:      'Sanctions regime tightening. Embargo exposure and de-risking severing trade corridors.',
       trade_generic:               'Trade domain under stress. Flows, freight, and supply chains pressured.',
+      // Industry-specific distress voice — manufacturing/industrial-production-grounded,
+      // mirrors energy's per-diagnosis narration (energy-brain diagnosisIndex: OIL_SHOCK /
+      // GRID_COLLAPSE) and the infrastructure/culture/finance/economy/technology/defense/
+      // intelligence/trade ports above, but for the INDUSTRY domain identity: manufacturing &
+      // industrial production, factory output & capacity utilization, automation & robotics,
+      // heavy industry & capital goods, industrial supply chains, machinery & equipment,
+      // industrial maintenance. Industry uses PRODUCTION-SYSTEM FAILURES as the analogous
+      // diagnosis classes (manufacturing capacity collapse / automation failure / labor-market
+      // deterioration / supply-chain production halt / industrial recession / input-cost shock /
+      // equipment-failure cascade), tied to MANUFACTURING INDICES (PMI, ISM, capacity utilization
+      // TCU, equipment downtime). Real industrial tickers: CAT, DE, GE, HON, MMM, EMR, ITW, ETN,
+      // PH, ROK, DOV, GEV. Industry COUPLES to technology via automation/robotics but keeps its
+      // own production/factory/equipment identity — kept DISTINCT from trade (logistics/commerce),
+      // economy (macro aggregate), and technology (automation is a coupling, not the identity).
+      industry_manufacturing_capacity_collapse:'Manufacturing capacity collapsing. Plant utilization and factory output falling below sustainable thresholds.',
+      industry_automation_failure_escalation:  'Automation systems failing. Robotics and control-line faults cascading across the production floor.',
+      industry_labor_market_deterioration:     'Industrial labor base eroding. Skilled-trade shortages and workforce attrition stalling production lines.',
+      industry_supply_chain_production_halt:   'Production halting on input starvation. Component and material shortfalls stopping the assembly line.',
+      industry_industrial_recession:           'Industrial recession deepening. New orders, PMI, and capital-goods demand contracting across heavy industry.',
+      industry_input_cost_shock:               'Input cost shock propagating. Raw-material and energy prices compressing manufacturing margins.',
+      industry_equipment_failure_cascade:      'Equipment failure cascade forming. Machinery breakdowns and maintenance backlog driving unplanned downtime.',
+      industry_generic:                        'Industrial domain under stress. Manufacturing, capacity, and equipment pressured.',
       global_shift:        'Global state shifted to {state}.',
       event_start:         '{event} detected.',
       event_end:           '{event} resolved.',
@@ -342,6 +364,14 @@
       trade_customs_disruption:    'Customs disruption. Pre-clear shipments and tighten documentation compliance.',
       trade_sanctions_impact:      'Sanctions impact. Screen counterparties and exit embargoed corridors now.',
       trade_generic:               'Trade domain elevated. Investigate flows and supply chains.',
+      industry_manufacturing_capacity_collapse:'Capacity collapsing. Idle plants and consolidate output to the most efficient lines.',
+      industry_automation_failure_escalation:  'Automation failing. Fail over to manual lines and isolate faulting robotics cells.',
+      industry_labor_market_deterioration:     'Labor base eroding. Cross-train, automate critical stations, and protect skilled trades.',
+      industry_supply_chain_production_halt:   'Line halting on inputs. Qualify second-source materials and rebuild buffer stock now.',
+      industry_industrial_recession:           'Industrial recession. Orders contracting. Cut capex and protect cash and capacity.',
+      industry_input_cost_shock:               'Input cost shock. Hedge raw materials and reprice contracts to defend margin.',
+      industry_equipment_failure_cascade:      'Equipment failing. Trigger predictive maintenance and pre-stage critical spares.',
+      industry_generic:                        'Industrial domain elevated. Investigate manufacturing and capacity.',
       global_shift:        'State change: {state}.',
       event_start:         'Event: {event}. Tracking.',
       event_end:           'Event cleared: {event}.',
@@ -453,7 +483,7 @@
       health: 'Health', technology: 'Technology', research: 'Research',
       supplyChain: 'Supply chain', infrastructure: 'Infrastructure',
       culture: 'Culture', finance: 'Finance', defense: 'Defense',
-      intelligence: 'Intelligence'
+      intelligence: 'Intelligence', industry: 'Industry'
     };
 
     // Infrastructure parity: mirror energy's per-diagnosis voice. Energy distinguishes
@@ -564,6 +594,22 @@
       var tradekey = _classifyTradeDistress(detail.signals);
       if (tradekey) {
         _narrate(tradekey, {}, PRIORITY_MEDIUM);
+        return;
+      }
+    }
+
+    // Industry parity: mirror energy's per-diagnosis voice the same way infrastructure, culture,
+    // finance, economy, technology, defense, intelligence, and trade do. Industry is the
+    // MANUFACTURING/PRODUCTION/EQUIPMENT identity — classify the industrial distress flavor from
+    // signal content (manufacturing capacity collapse / automation failure / labor-market
+    // deterioration / supply-chain production halt / industrial recession / input-cost shock /
+    // equipment-failure cascade) and narrate an industry-specific line instead of the generic.
+    // Kept DISTINCT from trade (logistics/commerce), economy (macro aggregate), and technology
+    // (automation is a coupling). CLIENT-SIDE narration flavor only — never touches any scoring path.
+    if (detail.domain === 'industry') {
+      var indkey = _classifyIndustryDistress(detail.signals);
+      if (indkey) {
+        _narrate(indkey, {}, PRIORITY_MEDIUM);
         return;
       }
     }
@@ -846,6 +892,47 @@
     if (/freight|shipping|ocean[\s_-]?(rate|carrier)|container[\s_-]?(rate|rate)|drayage|trucking|logistics|fdx|ups\b|expd|chrw|xpo|gxo|odfl|dsdvy|capacity[\s_-]?crunch/.test(blob)) return 'trade_shipping_crisis';
     if (/supply[\s_-]?(chain|collapse|break|disruption)|sourcing|lead[\s_-]?time|stockout|inventory[\s_-]?(shortfall|gap)|supplier[\s_-]?(loss|failure)|reshoring|nearshoring|bullwhip|container\b/.test(blob)) return 'trade_supply_collapse';
     return 'trade_generic';
+  }
+
+  // Map raw industry signal content → an industrial distress voice key.
+  // Industry vocabulary covers the INDUSTRY domain identity: manufacturing & industrial
+  // production, factory output & capacity utilization, automation & robotics, heavy industry &
+  // capital goods, industrial supply chains, machinery & equipment, industrial maintenance.
+  // Uses PRODUCTION-SYSTEM FAILURES as the analogous diagnosis classes (mirroring energy's
+  // OIL_SHOCK/GRID_COLLAPSE per-diagnosis split) tied to MANUFACTURING INDICES (PMI, ISM,
+  // capacity utilization / TCU, equipment downtime). Recognizes real industrial tickers (CAT,
+  // DE, GE, HON, MMM, EMR, ITW, ETN, PH, ROK, DOV, GEV). Industry COUPLES to technology via
+  // automation/robotics but keeps its own production/factory/equipment identity and stays
+  // DISTINCT from trade (logistics/commerce), economy (macro aggregate), and technology
+  // (automation = coupling). Mirrors the energy/infra/culture/finance/economy/technology/
+  // defense/intelligence/trade classifier structure exactly. Returns a TEMPLATES key, or null.
+  // CLIENT-SIDE narration flavor only — never touches any scoring path.
+  function _classifyIndustryDistress(signals) {
+    var blob = '';
+    if (Array.isArray(signals)) {
+      for (var i = 0; i < signals.length; i++) {
+        var s = signals[i];
+        if (typeof s === 'string') blob += ' ' + s;
+        else if (s && typeof s === 'object') {
+          blob += ' ' + (s.type || '') + ' ' + (s.id || '') + ' ' + (s.label || '') + ' ' + (s.name || '');
+        }
+      }
+    }
+    blob = blob.toLowerCase();
+
+    // Order by specificity: automation-failure and equipment-failure cascade are sharpest
+    // (production-floor faults), then production-halt (input starvation), capacity collapse,
+    // input-cost shock, labor-market deterioration, industrial recession; fall back to a generic
+    // industry line. Matches real industrial tickers (cat/de/ge/hon/mmm/emr/itw/etn/ph/rok/dov/
+    // gev) alongside plain words, with word boundaries on short tokens to avoid substring collisions.
+    if (/automation|robot|robotics|plc\b|control[\s_-]?line|control[\s_-]?system|actuator|cobot|programmable[\s_-]?logic|assembly[\s_-]?robot|rok\b|etn\b|emr\b|hon\b/.test(blob)) return 'industry_automation_failure_escalation';
+    if (/equipment[\s_-]?(failure|fault|breakdown)|machinery[\s_-]?(failure|breakdown)|downtime|unplanned[\s_-]?stop|mtbf|maintenance[\s_-]?(backlog|deficit)|breakdown[\s_-]?cascade|spares[\s_-]?shortage|dov\b/.test(blob)) return 'industry_equipment_failure_cascade';
+    if (/production[\s_-]?halt|line[\s_-]?(stop|down|halt)|input[\s_-]?(starv|shortfall)|material[\s_-]?shortage|component[\s_-]?shortage|stockout|assembly[\s_-]?(stop|halt)|parts[\s_-]?shortage/.test(blob)) return 'industry_supply_chain_production_halt';
+    if (/capacity[\s_-]?(collapse|utilization|util)|tcu\b|plant[\s_-]?(idle|closure|shutdown)|factory[\s_-]?(output|closure)|underutiliz|capacity[\s_-]?cut|output[\s_-]?(drop|collapse)|cat\b|de\b|ge\b|gev\b/.test(blob)) return 'industry_manufacturing_capacity_collapse';
+    if (/input[\s_-]?cost|raw[\s_-]?material|material[\s_-]?cost|commodity[\s_-]?(price|cost)|margin[\s_-]?(compress|squeeze)|cost[\s_-]?shock|steel[\s_-]?price|energy[\s_-]?cost|ppi\b/.test(blob)) return 'industry_input_cost_shock';
+    if (/labor[\s_-]?(shortage|deterioration)|skilled[\s_-]?(trade|labor)|workforce[\s_-]?(attrition|shortage)|hiring[\s_-]?(gap|freeze)|strike|walkout|union[\s_-]?action|worker[\s_-]?shortage|trade[\s_-]?skills/.test(blob)) return 'industry_labor_market_deterioration';
+    if (/industrial[\s_-]?recession|pmi\b|ism\b|new[\s_-]?orders|capital[\s_-]?goods|heavy[\s_-]?industry|order[\s_-]?backlog[\s_-]?(decline|drop)|manufacturing[\s_-]?(contraction|slowdown)|durable[\s_-]?goods|itw\b|mmm\b|ph\b/.test(blob)) return 'industry_industrial_recession';
+    return 'industry_generic';
   }
 
   function _onGlobalStateUpdate(e) {

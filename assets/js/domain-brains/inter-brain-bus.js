@@ -217,6 +217,46 @@
  *   return loop economy must close). SIGNAL examples only — Thing1 P3 remains
  *   the sole scoring authority; the bus merely transports scored emissions.
  *
+ * Cross-domain examples — INDUSTRY → OTHER (industry as a source). Industry is
+ * the MANUFACTURING / INDUSTRIAL-PRODUCTION domain (factory output & capacity
+ * utilization, automation & robotics, heavy industry & capital goods, industrial
+ * supply chains, machinery & equipment, industrial maintenance & uptime). It is
+ * DISTINCT from trade (logistics / commerce), from economy (the macro aggregate),
+ * and from technology (automation is a COUPLING that feeds the factory floor, NOT
+ * industry's identity — and industry NEVER takes energy oil/gas/grid as its own
+ * content). The bus previously treated industry as a TARGET only (finance →
+ * industry, line 38; energy → industry via production_cost_impact in
+ * energy-brain.js emissionRules); these are its missing OUTBOUND paths so the
+ * production / capacity-utilization channel is not silent in the bus. Industry
+ * emits native signals when ≥1 active diagnosis is present (per brain cycle):
+ *   industry → economy      (production_constraint  → factory output gap &
+ *                           capacity-utilization drop feed the industrial-
+ *                           production component of the macro aggregate →
+ *                           INDPRO/manufacturing-PMI softening, output-gap
+ *                           widening)
+ *   industry → finance      (working_capital_strain → inventory build, lengthening
+ *                           cash-conversion cycle and capex financing on heavy
+ *                           capital goods → liquidity pressure / cost-of-capital
+ *                           on industrial issuers)
+ *   industry → supplyChain  (production_surge_demand → a ramp in factory
+ *                           throughput pulls components, raw inputs and machinery
+ *                           parts → upstream supply pull / order-book tightening)
+ *   industry → defense      (wartime_mobilization   → surge-production conversion
+ *                           of industrial / capital-goods capacity to defense
+ *                           output → defense industrial-base throughput, the
+ *                           outbound mirror of defense's readiness coupling,
+ *                           WITHOUT industry taking on kinetic readiness as its
+ *                           identity)
+ *   Real industrial issuers behind these signals (manufacturing / capital goods /
+ *   machinery / automation & robotics / industrial heavy industry — NOT energy
+ *   oil/gas/grid, NOT trade logistics carriers, NOT macro proxies): CAT, DE, GE,
+ *   HON, MMM, EMR, ITW, ETN, PH, ROK, DOV, GEV. (production_constraint =
+ *   capacity-utilization / output-gap pressure; working_capital_strain =
+ *   inventory & cash-conversion-cycle strain; production_surge_demand = throughput
+ *   ramp pulling inputs; wartime_mobilization = surge-production conversion.)
+ *   SIGNAL examples only — the validated Thing1 P3 distress kernel remains the
+ *   sole scoring authority; the bus merely transports already-scored emissions.
+ *
  * Also detects:
  *   - Propagation chains (A→B→C)
  *   - Co-activation (multiple domains emitting simultaneously)

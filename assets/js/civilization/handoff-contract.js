@@ -114,7 +114,52 @@
     // network across multiple counterparties/sectors, so cross-node multi-domain
     // aggregations are appropriate. Real trade/logistics operators anchor this
     // lane: FDX, UPS, EXPD, CHRW, ZIM, MATX, XPO, GXO, AMKBY, DSDVY, ODFL.
-    'supply-chain-mapping'
+    'supply-chain-mapping',
+    // ─── Industry-native PRIMARY lanes (additive) ─────────────────────────
+    // Industry IDENTITY = manufacturing & industrial production, factory output
+    // & capacity utilization, automation & robotics, heavy industry & capital
+    // goods, industrial supply chains, machinery & equipment, and industrial
+    // maintenance. Real industrial operators anchor these lanes: CAT, DE, GE,
+    // HON, MMM, EMR, ITW, ETN, PH, ROK, DOV, GEV. Industry is DISTINCT from
+    // trade (logistics/commerce/shipping), economy (macro aggregate), and
+    // technology (automation/robotics is a COUPLING, not industry's own content).
+    //
+    // BEFORE this block, industry appeared ONLY as a SECONDARY co-eligible
+    // participant in other domains' lanes (anyDomain lists of patents,
+    // business-grants, sba-loans, franchise, nsf-project-pitch, credit-facilities,
+    // systemic-risk, capital-access, defense-procurement, firmware-licensing,
+    // semiconductor-IP, supply-chain-mapping). It never owned a PRIMARY source
+    // lane the way defense owns 'defense-procurement' (line 76), intelligence owns
+    // 'intelligence-operations' (line 96), and trade owns 'supply-chain-mapping'
+    // (line 117). This block brings industry to PRIMARY-lane parity — industry is
+    // the negotiator, not a support domain:
+    //   'industrial-capacity-investment'  — capacity-utilization / factory-output
+    //       expansion / capital-goods build-out shaped opportunity routed to the
+    //       industry negotiator (analogous to 'defense-procurement' for kinetic,
+    //       'intelligence-operations' for collection). Single-domain: a capacity
+    //       investment is one bounded plant/line/capital-goods program.
+    //   'manufacturing-modernization'     — automation / robotics / reshoring /
+    //       industrial-maintenance modernization of a single bounded production
+    //       base (analogous to a weapons-system modernization buy). Single-domain.
+    //   'factory-output-financing'        — working-capital / equipment-financing /
+    //       supplier-finance shaped opportunity for a single bounded manufacturer
+    //       (analogous to 'collection-platform-acquisition' / a credit facility).
+    //       Single-domain.
+    //   'supply-chain-sourcing-industrial' — INDUSTRIAL sourcing / supplier-graph /
+    //       input-procurement opportunity from the PRODUCTION-NODE side (the
+    //       factory sourcing its raw materials, castings, machinery, components) —
+    //       DISTINCT from trade's 'supply-chain-mapping' which is the logistics/
+    //       freight/customs NETWORK side. Inherently multi-domain (a sourcing graph
+    //       spans suppliers across sectors), so NOT single-domain.
+    // Like the defense/intelligence blocks, these gates are LIVE (reachable): an
+    // industry opportunity whose lane hints are empty falls through to the full
+    // LANES list in recompute(), so it is tested against these industry-primary
+    // gates. The paired follow-up (NOT done here — single-file edit) is promoting
+    // 'industrial-capacity-investment' into DOMAIN_LANE_HINTS.industry in
+    // cross-node-opportunity.js so the emitter prefers the industry-primary lane,
+    // exactly as defense promoted 'defense-procurement' into its hint list.
+    'industrial-capacity-investment', 'manufacturing-modernization',
+    'factory-output-financing', 'supply-chain-sourcing-industrial'
     // ─── DESIGN NOTE — future trade-native lanes (NOT added now) ──────────
     // Per the wiring-gap analysis: trade currently participates as a SECONDARY
     // participant (via supplyChain in business-grants/sba-loans/franchise/credit-
@@ -270,7 +315,54 @@
     //   logistics decision, NOT an award, NOT any prediction. Real trade/logistics
     //   operators: FDX, UPS, EXPD, CHRW, ZIM, MATX, XPO, GXO, AMKBY, DSDVY, ODFL.
     //   Distinct from economy (macro aggregate) and industry (production).
-    'supply-chain-mapping':            { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['supplyChain','technology','infrastructure','industry','energy','research'] }
+    'supply-chain-mapping':            { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['supplyChain','technology','infrastructure','industry','energy','research'] },
+    // ─── Industry-native PRIMARY lane gates (additive) ────────────────────
+    // industrial-capacity-investment — one bounded plant / production line /
+    //   capital-goods capacity program routed to the industry negotiator
+    //   (analogous to defense-procurement / intelligence-operations as a PRIMARY
+    //   single-domain lane). singleDomainOnly: a capacity investment is a single
+    //   bounded production asset, so cross-node multi-domain aggregations are
+    //   routed away. Industry-primary, with the capacity-adjacent real-economy
+    //   domains that originate industrial demand (infrastructure = plant siting/
+    //   utilities, energy = process power, technology = automation coupling,
+    //   supplyChain = input feed, economy = capex cycle). Passing this gate signals
+    //   only "sufficient packet detail to attempt an industrial-capacity note" —
+    //   NOT a capex decision, NOT financing, NOT any prediction. Real industrial
+    //   operators: CAT, DE, GE, HON, MMM, EMR, ITW, ETN, PH, ROK, DOV, GEV.
+    //   Distinct from trade (logistics), economy (macro), technology (automation
+    //   is a coupling, not industry's own content).
+    'industrial-capacity-investment':  { minEvidence: 0.55, minConfidence: 0.60, singleDomainOnly: true,  anyDomain: ['industry','infrastructure','energy','technology','supplyChain','economy'] },
+    // manufacturing-modernization — one bounded production base's automation /
+    //   robotics / reshoring / industrial-maintenance modernization (analogous to
+    //   a weapons-system modernization buy). singleDomainOnly: a modernization
+    //   program targets a single bounded manufacturer. Industry-primary, with the
+    //   modernization-adjacent domains (technology = robotics/automation coupling,
+    //   infrastructure = facility/utility upgrade, supplyChain = retooled input
+    //   flow, energy = electrification of process heat).
+    'manufacturing-modernization':     { minEvidence: 0.55, minConfidence: 0.60, singleDomainOnly: true,  anyDomain: ['industry','technology','infrastructure','supplyChain','energy'] },
+    // factory-output-financing — one bounded manufacturer's working-capital /
+    //   equipment-financing / supplier-finance facility (analogous to sba-loans /
+    //   credit-facilities / collection-platform-acquisition as a single bounded
+    //   counterparty file). singleDomainOnly: one borrower-equivalent production
+    //   entity. Industry-primary, with the financing-origination domains
+    //   (finance = the lender, economy = the capex/credit cycle, supplyChain =
+    //   the receivables/inventory base, infrastructure = financed plant assets).
+    'factory-output-financing':        { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: true,  anyDomain: ['industry','finance','economy','supplyChain','infrastructure'] },
+    // supply-chain-sourcing-industrial — industrial INPUT sourcing / supplier-graph
+    //   / raw-material & component procurement from the PRODUCTION-NODE side
+    //   (the factory sourcing castings, machinery, components, raw materials).
+    //   DISTINCT from trade's 'supply-chain-mapping' (the logistics/freight/customs
+    //   NETWORK side): this is the industrial buyer's sourcing graph, not the
+    //   carrier's route map. singleDomainOnly false: an industrial sourcing graph
+    //   spans suppliers across multiple sectors/counterparties, so multi-domain
+    //   cross-node aggregations are appropriate. Industry-primary, with the
+    //   sourcing-adjacent domains (supplyChain = the upstream supplier network,
+    //   infrastructure = sourcing logistics, technology = supplier-visibility
+    //   platforms, energy = energy-input sourcing, agriculture = bio-feedstock
+    //   inputs). Passing this gate signals only "sufficient packet detail to
+    //   attempt an industrial-sourcing note" — NOT a sourcing decision, NOT a
+    //   contract, NOT any prediction.
+    'supply-chain-sourcing-industrial':{ minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['industry','supplyChain','infrastructure','technology','energy','agriculture'] }
   };
 
   var _last = { lanes: {}, timestamp: 0, totalPackets: 0 };
@@ -354,6 +446,10 @@
       case 'collection-platform-acquisition': return 'Domains ' + doms + ' indicate a single bounded SIGINT/HUMINT/GEOINT/OSINT collection-platform upgrade / sensor acquisition routed to the intelligence negotiator (analogous to a weapons-system buy for kinetic) — not an acquisition decision, not eligibility.';
       case 'analysis-fusion-capability': return 'Domains ' + doms + ' indicate all-source fusion / analysis-platform capability opportunity (intelligence + technology + research) sufficient to attempt an analysis-fusion-capability note — an inherently multi-domain analytic artifact, not a bounded acquisition.';
       case 'supply-chain-mapping': return 'Domains ' + doms + ' indicate logistics-network / freight-route / supplier-graph mapping opportunity routed to the trade (supplyChain) negotiator — a multi-domain artifact spanning shipping, customs, ports and supplier relationships; not a logistics decision, not an award, not any prediction.';
+      case 'industrial-capacity-investment': return 'Domains ' + doms + ' indicate capacity-utilization / factory-output / capital-goods build-out opportunity for a single bounded production asset (plant, line, capital-goods program) routed to the industry negotiator — not a capex decision, not financing, not any prediction.';
+      case 'manufacturing-modernization': return 'Domains ' + doms + ' indicate automation / robotics / reshoring / industrial-maintenance modernization of a single bounded production base routed to the industry negotiator (automation is the technology coupling, not industry\'s own content) — not a modernization decision, not an award.';
+      case 'factory-output-financing': return 'Domains ' + doms + ' indicate working-capital / equipment-financing / supplier-finance opportunity for a single bounded manufacturer routed to the industry negotiator — a single counterparty file (analogous to an SBA borrower or credit facility); not a lending decision, not any prediction.';
+      case 'supply-chain-sourcing-industrial': return 'Domains ' + doms + ' indicate industrial INPUT sourcing / supplier-graph / raw-material & component procurement from the production-node side routed to the industry negotiator — distinct from trade\'s logistics-network mapping; a multi-domain sourcing artifact, not a sourcing decision, not a contract, not any prediction.';
     }
     return '';
   }

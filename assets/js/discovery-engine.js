@@ -144,7 +144,26 @@
     { label: 'Analyze insider-threat and trust-boundary security infrastructure across cleared-workforce and compartmented-access systems (PLTR/CACI continuous-evaluation, KBR/SAIC SCIF hardening)', domain: 'intelligence', type: 'system-risk', baseRelevance: 0.45 },
     { label: 'Investigate counterintelligence and foreign-interference attribution platforms for influence-operation and espionage detection (VRNT/NICE analytics, VRSK risk-intelligence)', domain: 'intelligence', type: 'technological-innovation', baseRelevance: 0.40 },
     { label: 'Explore oversight-reform and transparency-accountability mechanisms for collection-authority and surveillance-program governance (FISA/EO-12333 compliance tooling, BAH/LDOS audit infrastructure)', domain: 'intelligence', type: 'economic-opportunity', baseRelevance: 0.35 },
-    { label: 'Analyze public-trust restoration and surveillance-ethics institutional reform as a counterintelligence-resilience signal (declassification cadence, oversight-board posture, SAIC/CACI governance modernization)', domain: 'intelligence', type: 'system-risk', baseRelevance: 0.40 }
+    { label: 'Analyze public-trust restoration and surveillance-ethics institutional reform as a counterintelligence-resilience signal (declassification cadence, oversight-board posture, SAIC/CACI governance modernization)', domain: 'intelligence', type: 'system-risk', baseRelevance: 0.40 },
+
+    // Industry (mirrors Energy/Infrastructure structure, translated to manufacturing & industrial-production concepts —
+    //   Energy seeds focus on storage & grid architectures; industry seeds focus on PRODUCTION-THROUGHPUT resilience and
+    //   AUTOMATION-DISPLACEMENT: storage→capacity-utilization buffering, distributed-grid→industrial-base capacity topology,
+    //   transition→automation/reshoring economics & industrial-recession resilience, attack-surface→predictive-maintenance &
+    //   throughput early-warning. Relevance = industry stress x trend boost.
+    //   identity = manufacturing & industrial production, factory output & capacity utilization, automation & robotics,
+    //   heavy industry & capital goods, industrial supply chains, machinery & equipment, industrial maintenance;
+    //   bind to ISM PMI, FRED capacity-utilization (TCU), PAYEMS manufacturing employment (MANEMP), wage growth (CES3000000008);
+    //   universe: CAT/DE/GE/HON/MMM/EMR/ITW/ETN/PH/ROK/DOV/GEV — couples to technology via automation (a coupling, not the identity),
+    //   kept DISTINCT from trade (logistics/commerce), economy (macro aggregate) and technology (chips/AI/cloud))
+    { label: 'Investigate capacity-utilization forecasting platforms for factory-output throughput resilience (FRED TCU capacity-utilization vs ISM PMI lead-lag, CAT/DE/EMR order-backlog signals)', domain: 'industry', type: 'economic-opportunity', baseRelevance: 0.45 },
+    { label: 'Explore automation & robotics ROI modeling and payback-cycle analysis for capital-equipment adoption (ROK/EMR/HON factory-automation, ETN/PH motion & control)', domain: 'industry', type: 'technological-innovation', baseRelevance: 0.40 },
+    { label: 'Analyze reshoring & nearshoring economics and domestic-capacity buildout for industrial-base resilience (MMM/ITW/DOV plant footprint, CAT/DE heavy-equipment demand)', domain: 'industry', type: 'economic-opportunity', baseRelevance: 0.40 },
+    { label: 'Investigate predictive-maintenance adoption (IoT sensors, AI diagnostics) for unplanned-downtime mitigation across heavy industry (GE/HON/EMR industrial IoT, ROK/ETN condition monitoring)', domain: 'industry', type: 'technological-innovation', baseRelevance: 0.45 },
+    { label: 'Explore industrial workforce reskilling and automation-displacement mitigation as a throughput-continuity signal (MANEMP manufacturing employment vs CES3000000008 wage growth, skills-gap modeling)', domain: 'industry', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Analyze machinery & capital-goods merger / consolidation trends and pricing-power concentration (CAT/DE equipment, EMR/HON/MMM diversified-industrial portfolio reshaping)', domain: 'industry', type: 'economic-opportunity', baseRelevance: 0.40 },
+    { label: 'Investigate industrial-recession resilience and order-book contraction early-warning across capital-goods cycles (ISM PMI contraction, CAT/DE/DOV/ITW backlog & inventory destocking)', domain: 'industry', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Explore production-throughput resilience and automation-displacement mitigation under capacity-utilization stress (FRED TCU drawdown, GEV/ROK/PH automation buildout vs MANEMP labor-displacement)', domain: 'industry', type: 'system-risk', baseRelevance: 0.45 }
   ];
 
   // ─── State ───────────────────────────────────────────────────────────────
