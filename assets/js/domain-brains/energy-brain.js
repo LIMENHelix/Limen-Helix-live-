@@ -1750,6 +1750,22 @@
     this._computeEnergyIntuition();
     this._computeEnergySimulation();
     this._computeEnergyExecutiveReport();
+    // Assemble the generic cognition surface the console SELF-MODEL panel renders. Energy
+    // computes all six higher layers but historically never exposed state.cognition, so its
+    // own immune/awareness/conscience/intuition were computed-but-invisible (every PORTED
+    // domain renders this; the reference domain didn't). Additive — reads the already-computed
+    // energy* layers, never touches the validated scoring spine.
+    var em = this.state.energyModel || {};
+    this.state.cognition = {
+      domain: 'energy',
+      model: { cycle: em.cycle, predictionError: em.predictionError, predictedStress: em.predictedStress, regulation: em.regulation },
+      awareness: this.state.energyAwareness || null,
+      conscience: this.state.energyConscience || null,
+      immune: this.state.energyImmune || null,
+      intuition: this.state.energyIntuition || null,
+      simulation: this.state.energySimulation || null,
+      executiveReport: this.state.energyExecutiveReport || null
+    };
   };
 
   EnergyBrain.prototype._buildDomainDiagnosisPacket = function (dx) {
