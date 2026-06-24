@@ -21,6 +21,14 @@
   TechnologyBrain.prototype.init = function () {
     Base.prototype.init.call(this);
 
+    // ── One-shot cognition loaders (mirror culture/infrastructure init): real entities,
+    //    validated distress signals, real source bundles, L1 mad-lib scan, innovation-pipeline sub-portal. ──
+    try { this._loadTechnologyCommandBoardCompanies(); } catch (e) {}  // real entities (state.companies starved)
+    try { this._loadTechnologyBrainSignals(); } catch (e) {}           // distress ONLY from the validated Thing pipeline
+    try { this._loadTechnologyDiagnosisBundles(); } catch (e) {}       // load real artifact-source bundles (only ones that exist)
+    try { this._loadTechnologyL1PortalDepth(); } catch (e) {}          // scan L1 branches (treatments mad-lib -> NOT admitted; real tickers only)
+    try { this._loadInnovationPipelineLayer(); } catch (e) {}          // INNOVATION: R&D / compute-capacity sub-portal as an additive LAYER
+
     this.diagnosisIndex = {
       'CYBER_ATTACK':               ['cyber_breach', 'network_intrusion', 'ransomware', 'infrastructure_attack', 'technology_high_stress', 'macro_shock'],
       'AI_ALIGNMENT_FAILURE':       ['ai_misalignment', 'autonomy_overreach', 'bias_amplification', 'alignment_gap', 'technology_high_stress'],
@@ -30,12 +38,23 @@
       'PLATFORM_MONOPOLY':          ['market_concentration', 'platform_lock_in', 'innovation_suppression', 'competitive_distortion', 'structural_stress']
     };
 
+    // Emissions gate on STRESS *and* at least one active diagnosis (evidence-grounded
+    // coupling only — prevents stress-only noise flooding the cross-domain graph).
+    function _hasActiveDx(s) { return s.diagnoses && s.diagnoses.some(function (d) { return d.active; }); }
+    function _hasCyberOrAi(s) {
+      return s.diagnoses && s.diagnoses.some(function (d) {
+        return d.active && (d.id === 'CYBER_ATTACK' || d.id === 'DATA_BREACH' || d.id === 'AI_ALIGNMENT_FAILURE');
+      });
+    }
     this.emissionRules = [
-      { targetDomain: 'finance', signalType: 'tech_risk_exposure', condition: function (s) { return s.stress >= 0.20; }, magnitudeFormula: function (s) { return Math.min(1, s.stress * 0.55); } },
-      { targetDomain: 'defense', signalType: 'cyber_threat_vector', condition: function (s) { return s.stress >= 0.20; }, magnitudeFormula: function (s) { return Math.min(1, s.stress * 0.5); } },
-      { targetDomain: 'communication', signalType: 'platform_integrity_pressure', condition: function (s) { return s.stress >= 0.25; }, magnitudeFormula: function (s) { return Math.min(1, s.stress * 0.45); } },
-      { targetDomain: 'governance', signalType: 'tech_regulation_pressure', condition: function (s) { return s.stress >= 0.30; }, magnitudeFormula: function (s) { return Math.min(1, s.stress * 0.45); } },
-      { targetDomain: 'infrastructure', signalType: 'digital_infrastructure_strain', condition: function (s) { return s.stress >= 0.30; }, magnitudeFormula: function (s) { return Math.min(1, s.stress * 0.4); } }
+      { targetDomain: 'finance', signalType: 'tech_risk_exposure', condition: function (s) { return s.stress >= 0.20 && _hasActiveDx(s); }, magnitudeFormula: function (s) { return Math.min(1, s.stress * 0.55); } },
+      { targetDomain: 'defense', signalType: 'cyber_threat_vector', condition: function (s) { return s.stress >= 0.20 && _hasActiveDx(s); }, magnitudeFormula: function (s) { return Math.min(1, s.stress * 0.5); } },
+      { targetDomain: 'communication', signalType: 'platform_integrity_pressure', condition: function (s) { return s.stress >= 0.25 && _hasActiveDx(s); }, magnitudeFormula: function (s) { return Math.min(1, s.stress * 0.45); } },
+      { targetDomain: 'governance', signalType: 'tech_regulation_pressure', condition: function (s) { return s.stress >= 0.30 && _hasActiveDx(s); }, magnitudeFormula: function (s) { return Math.min(1, s.stress * 0.45); } },
+      { targetDomain: 'infrastructure', signalType: 'digital_infrastructure_strain', condition: function (s) { return s.stress >= 0.30 && _hasActiveDx(s); }, magnitudeFormula: function (s) { return Math.min(1, s.stress * 0.4); } },
+      // Richer mesh edges — fire only when a real cyber / AI-alignment diagnosis is active.
+      { targetDomain: 'intelligence', signalType: 'zero_day_threat_intelligence', condition: function (s) { return s.stress >= 0.25 && _hasCyberOrAi(s); }, magnitudeFormula: function (s) { return Math.min(1, s.stress * 0.5); } },
+      { targetDomain: 'science', signalType: 'ai_safety_research_gap', condition: function (s) { return s.stress >= 0.25 && _hasCyberOrAi(s); }, magnitudeFormula: function (s) { return Math.min(1, s.stress * 0.45); } }
     ];
   };
 
@@ -199,6 +218,23 @@
     return Promise.resolve();
   };
 
+  // Brain cognition lifts stress when an existential tech condition the raw composite
+  // under-weighted is active — so a recognized cyber attack / AI-alignment failure
+  // registers (clearing the cross-domain emission gates so technology joins the mesh).
+  var _baseScoreStress = (window.LIMENDomainBrainBase && window.LIMENDomainBrainBase.prototype.scoreStress);
+  TechnologyBrain.prototype.scoreStress = function () {
+    if (_baseScoreStress) _baseScoreStress.call(this);
+    else this.state.stress = (this._rawDomain && this._rawDomain.stress) || 0;
+    var ac = this._activeConditions || [];
+    var floor = 0;
+    if (ac.indexOf('CYBER_ATTACK') !== -1 || ac.indexOf('cyber_breach') !== -1 || ac.indexOf('infrastructure_attack') !== -1 || ac.indexOf('ransomware') !== -1) floor = Math.max(floor, 0.65); // standing cyber presence = elevated
+    if (ac.indexOf('AI_MISALIGNMENT') !== -1 || ac.indexOf('ai_misalignment') !== -1) floor = Math.max(floor, 0.60);
+    if (floor > 0) {
+      this.state.stress = Math.max(this.state.stress || 0, floor);
+      this.state._stressFloorReason = (ac.indexOf('CYBER_ATTACK') !== -1 || ac.indexOf('cyber_breach') !== -1 || ac.indexOf('ransomware') !== -1) ? 'cyber threat' : 'ai alignment';
+    }
+  };
+
   TechnologyBrain.prototype.deriveDiagnoses = function () {
     var self = this;
     return this._getPortalContent().then(function (portal) {
@@ -232,6 +268,10 @@
 
   TechnologyBrain.prototype.surfaceOpportunities = function () {
     Base.prototype.surfaceOpportunities.call(this);
+    // Fallback: if the snapshot didn't supply companies, use real command-board entities.
+    if ((!this.state.companies || !this.state.companies.length) && this._cbTechnologyCompanies && this._cbTechnologyCompanies.length) {
+      this.state.companies = this._cbTechnologyCompanies;
+    }
     var opps = [], stress = this.state.stress, activeDx = this.state.diagnoses.filter(function (d) { return d.active; }), allDx = this.state.diagnoses || [], companies = this.state.companies, seen = {};
     function add(o) { var key = o.title.toLowerCase().replace(/[^a-z0-9]/g, ''); if (seen[key]) return; seen[key] = true; opps.push(o); }
 
@@ -353,7 +393,822 @@
   };
 
   var _origCycle = TechnologyBrain.prototype.cycle;
-  TechnologyBrain.prototype.cycle = function () { var self = this; return _origCycle.call(this).then(function () { return self.resolveDeepContent(); }); };
+  TechnologyBrain.prototype.cycle = function () {
+    var self = this;
+    return _origCycle.call(this).then(function () {
+      return self.resolveDeepContent();
+    }).then(function () {
+      // Higher cognition: predictive self-model + metacognition (runs AFTER diagnoses settle)
+      try { self._updateTechnologyModel(); } catch (e) {}
+    });
+  };
+
+  // ══════════════════════════════════════════════════════════════════════
+  // HIGHER COGNITION — predictive self-model + metacognition (technology).
+  // Generic predictive-coding substrate (prior → observe → prediction error →
+  // regulation → update prior) + awareness / conscience / immune / intuition /
+  // simulation / executive-report. Mirrors culture/infrastructure STRUCTURE exactly;
+  // only the CONTENT is technological (semiconductors & compute, AI/ML, software &
+  // cloud, hardware & devices, cybersecurity, R&D & innovation pipelines, platform
+  // networks, data infrastructure).
+  // ══════════════════════════════════════════════════════════════════════
+  var TM_VERSION = 1;
+  var TM_LEARNING_RATE = 0.25;
+  var TM_SLOW_RATE = 0.08;
+  var TM_STRESS_FLOOR = 0.30;
+  var TM_FLOOD_CAP = 12;
+  var TM_STALE_MS = 1000 * 60 * 60 * 6;
+  var _tmClamp = function (v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; };
+  var _tmJaccardDistance = function (a, b) {
+    a = a || []; b = b || [];
+    if (!a.length && !b.length) return 0;
+    var sa = {}, inter = 0;
+    a.forEach(function (x) { sa[x] = 1; });
+    b.forEach(function (x) { if (sa[x]) inter++; });
+    var uni = a.length + b.length - inter;
+    return uni ? 1 - inter / uni : 0;
+  };
+
+  (function () {
+    var P = TechnologyBrain.prototype;
+
+    // Technology diagnosis families — an analogy lens for monitoring, NOT evidence.
+    var FAMILY = {
+      'cyber': ['CYBER_ATTACK', 'DATA_BREACH'],
+      'ai': ['AI_ALIGNMENT_FAILURE', 'PLATFORM_MONOPOLY'],
+      'supply': ['CHIP_SHORTAGE', 'INFRASTRUCTURE_COLLAPSE'],
+      'platform': ['PLATFORM_MONOPOLY', 'CYBER_ATTACK'],
+      'infrastructure': ['INFRASTRUCTURE_COLLAPSE', 'CHIP_SHORTAGE']
+    };
+
+    P._neutralTechnologyModel = function () {
+      return { version: TM_VERSION, cycle: 0, prior: { expectedStress: 0.5, expectedDiagnoses: [], expectedDiagnosisCount: 0, expectedOpportunityCount: 0, expectedSignal: 0.5, confidence: 0, samples: 0 }, observation: null, predictionError: null, predictedStress: null, regulation: null, plasticity: { learningRate: TM_LEARNING_RATE, slowRate: TM_SLOW_RATE, consolidation: 0 }, readyForHandoff: false, _lowErrorStreak: 0, updated: 0 };
+    };
+    P._buildTechnologyObservation = function () {
+      var s = this.state || {};
+      var active = (s.diagnoses || []).filter(function (d) { return d.active; });
+      // signal = breadth of live tech feeds (CVE/CISA/arxiv/patent/security activity)
+      var feeds = s.feeds || [], fc = 0, newest = 0;
+      if (Array.isArray(feeds)) {
+        for (var i = 0; i < feeds.length; i++) { var fv = feeds[i]; if (fv) { fc++; var u = fv.updated; if (u && u > newest) newest = u; } }
+      } else { for (var k in feeds) { if (feeds.hasOwnProperty(k)) { fc++; var u2 = feeds[k] && feeds[k].updated; if (u2 && u2 > newest) newest = u2; } } }
+      // companyCount = TECH ENTITIES (semiconductor/cloud/software/cyber/AI firms)
+      var companyCount = (s.companies || []).length;
+      return { stress: typeof s.stress === 'number' ? s.stress : 0, phase: s.phase || null, activeDiagnoses: active.map(function (d) { return d.id; }).sort(), diagnosisCount: active.length, opportunityCount: (s.opportunities || []).length, companyCount: companyCount, signal: Math.min(1, fc / 8), feedNewest: newest, timestamp: Date.now() };
+    };
+    P._computeTechnologyPredictionError = function (prior, obs) {
+      var se = Math.abs(obs.stress - prior.expectedStress), sg = Math.abs(obs.signal - prior.expectedSignal), de = _tmJaccardDistance(obs.activeDiagnoses, prior.expectedDiagnoses);
+      var od = Math.max(1, prior.expectedOpportunityCount, obs.opportunityCount), oe = Math.abs(obs.opportunityCount - prior.expectedOpportunityCount) / od;
+      var total = _tmClamp(0.4 * se + 0.2 * sg + 0.25 * de + 0.15 * oe, 0, 1);
+      return { total: total, stressError: se, signalError: sg, diagnosisError: de, opportunityError: oe, novelty: Math.max(se, de) };
+    };
+    P._updateTechnologyPrior = function (prior, obs, lr) {
+      return { expectedStress: _tmClamp(prior.expectedStress + lr * (obs.stress - prior.expectedStress), 0, 1), expectedDiagnoses: obs.activeDiagnoses.slice(), expectedDiagnosisCount: prior.expectedDiagnosisCount + lr * (obs.diagnosisCount - prior.expectedDiagnosisCount), expectedOpportunityCount: prior.expectedOpportunityCount + lr * (obs.opportunityCount - prior.expectedOpportunityCount), expectedSignal: _tmClamp(prior.expectedSignal + lr * (obs.signal - prior.expectedSignal), 0, 1), confidence: _tmClamp(Math.min(1, (prior.samples + 1) / 20), 0, 1), samples: prior.samples + 1 };
+    };
+    P._computeTechnologyRegulation = function (cm, obs, pe) {
+      var gain = _tmClamp(pe.novelty, 0.05, 0.95), inhib = _tmClamp(1 - pe.novelty, 0, 0.9);
+      var starving = obs.stress >= TM_STRESS_FLOOR && obs.opportunityCount === 0, flooding = obs.opportunityCount > TM_FLOOD_CAP;
+      var streak = (pe.total < 0.05) ? (cm._lowErrorStreak || 0) + 1 : 0; cm._lowErrorStreak = streak; var looping = streak >= 3;
+      var stale = obs.feedNewest > 0 ? (Date.now() - obs.feedNewest) > TM_STALE_MS : false;
+      var overconf = cm.prior.confidence > 0.8 && pe.total > 0.4;
+      var label = flooding ? 'flooding' : starving ? 'starving' : stale ? 'stale' : looping ? 'looping' : overconf ? 'overconfident' : pe.novelty > 0.4 ? 'surprised' : 'calm';
+      return { gain: gain, inhibition: inhib, starving: starving, flooding: flooding, looping: looping, stale: stale, overconfident: overconf, state: label };
+    };
+
+    // ── RECURRENT STEP — the proof surface (state.technologyModel) the Civilization cockpit reads ──
+    P._updateTechnologyModel = function () {
+      var cm = this.state.technologyModel || this._neutralTechnologyModel();
+      var priorIn = cm.prior;
+      var obs = this._buildTechnologyObservation();
+      var pe = this._computeTechnologyPredictionError(priorIn, obs);
+      var gainBlend = _tmClamp(pe.novelty, 0.05, 0.95);
+      var predictedStress = priorIn.expectedStress * (1 - gainBlend) + obs.stress * gainBlend;
+      var reg = this._computeTechnologyRegulation(cm, obs, pe);
+      var readyForHandoff = (cm.cycle > 0) && (predictedStress >= TM_STRESS_FLOOR) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
+      var nextPrior = this._updateTechnologyPrior(priorIn, obs, cm.plasticity.learningRate);
+      cm.cycle += 1; cm.observation = obs; cm.predictionError = pe; cm.predictedStress = predictedStress; cm.regulation = reg; cm.readyForHandoff = readyForHandoff; cm.prior = nextPrior; cm.updated = obs.timestamp;
+      this.state.technologyModel = cm;
+
+      var mem = this.state.memory || (this.state.memory = {});
+      var log = mem.outcomeLog || (mem.outcomeLog = []);
+      log.push({ cycle: cm.cycle, predictionError: Math.round(pe.total * 1000) / 1000, stress: obs.stress, activeDx: obs.diagnosisCount, regulation: reg.state, timestamp: obs.timestamp }); if (log.length > 40) log.shift();
+
+      try { this._computeTechnologyHigherLayers(); } catch (e) {}
+
+      // INNOVATION — R&D / compute-capacity sub-portal layer (additive; BEFORE the DDP build
+      // so the primary packet's promptView advertises it). Never touches the validated spine.
+      try { this._buildTechnologyInnovationLayer(); } catch (e) {}
+
+      // DDP — build the DomainDiagnosisPacket (8-section contract) for the primary diagnosis,
+      // and one per diagnosis. Schema-only: never invents data. Consumed by the Civilization cockpit.
+      try {
+        var _diags = this.state.diagnoses || [];
+        var _primary = _diags.filter(function (d) { return d.active; })[0] || _diags[0] || null;
+        var _self = this;
+        cm.domainDiagnosisPacket = this._buildDomainDiagnosisPacket(_primary);
+        this.state.technologyDomainDiagnosisPackets = _diags.map(function (d) { return _self._buildDomainDiagnosisPacket(d); });
+      } catch (e) {}
+
+      // state.cognition — generic surface domain-console-brain.js reads for ANY brain.
+      this.state.cognition = {
+        domain: 'technology',
+        technologyModel: cm,
+        model: { cycle: cm.cycle, predictionError: cm.predictionError, predictedStress: cm.predictedStress, regulation: cm.regulation },
+        technologyImmune: this.state.technologyImmune || null,
+        technologyAwareness: this.state.technologyAwareness || null,
+        technologyConscience: this.state.technologyConscience || null,
+        technologyIntuition: this.state.technologyIntuition || null,
+        technologySimulation: this.state.technologySimulation || null,
+        technologyExecutiveReport: this.state.technologyExecutiveReport || null,
+        awareness: this.state.technologyAwareness || null,
+        conscience: this.state.technologyConscience || null,
+        immune: this.state.technologyImmune || null,
+        intuition: this.state.technologyIntuition || null,
+        innovationLayer: this.state.innovationLayer || null,
+        treatments: this.state.treatments || [],
+        diagnoses: this.state.diagnoses || [],
+        opportunities: this.state.opportunities || []
+      };
+      return cm;
+    };
+
+    P._computeTechnologyHigherLayers = function () {
+      this._computeTechnologyImmune(); this._computeTechnologyAwareness(); this._computeTechnologyConscience(); this._computeTechnologyIntuition();
+      try { this._computeTechnologySimulation(); } catch (e) {}
+      try { this._computeTechnologyExecutiveReport(); } catch (e) {}
+    };
+
+    // ── H1 — immune (antigen scan over bundle/feed/regulation state) ──
+    P._computeTechnologyImmune = function () {
+      var s = this.state, cm = s.technologyModel || {}, reg = cm.regulation || {}, ant = [];
+      var bs = (typeof this._technologyBundleStates === 'function') ? this._technologyBundleStates() : [];
+      bs.forEach(function (b) {
+        if (b.bundleStatus === 'missing') ant.push({ type: 'source-bundle-missing', dx: b.dxId, severity: 'medium', action: 'block-from-prompt-evidence' });
+        if (b.buildMethod === 'external-source-authored') ant.push({ type: 'external-source-authored-needs-human-verification', dx: b.dxId, severity: 'low', action: 'allow-with-warning' });
+        if (b.aliasRisk === 'medium' || b.aliasRisk === 'high') ant.push({ type: 'alias-risk-bundle', dx: b.dxId, severity: b.aliasRisk, action: 'allow-with-warning' });
+        if (b.bundleStatus === 'found' && b.shallow) ant.push({ type: 'root-only-shallow-bundle', dx: b.dxId, severity: 'low', action: 'allow-with-warning' });
+      });
+      var pe = (cm.predictionError && cm.predictionError.total) || 0;
+      if (pe > 0.4) ant.push({ type: 'prediction-error-spike', severity: 'medium', action: 'lower-confidence', value: Math.round(pe * 1000) / 1000 });
+      if (reg.stale) ant.push({ type: 'stale-feeds', severity: 'low', action: 'flag' });
+      if (reg.flooding) ant.push({ type: 'opportunity-flood', severity: 'medium', action: 'inhibit' });
+      if (reg.starving) ant.push({ type: 'stress-without-opportunity', severity: 'low', action: 'flag' });
+      var _l1 = s._l1DepthCache;
+      if (_l1 && _l1.byDiagnosis && Object.keys(_l1.byDiagnosis).some(function (dx) { return _l1.byDiagnosis[dx].madLibTreatments > 0; })) {
+        ant.push({ type: 'l1-synthetic-treatments', severity: 'medium', action: 'quarantine', note: 'L1 portal treatments are mad-lib templates (fixed-verb family); quarantined from evidence — only real chip/cloud/cyber/AI tickers surfaced relevance-unverified' });
+      }
+      var sev = ant.some(function (a) { return a.severity === 'high'; }) ? 'high' : ant.some(function (a) { return a.severity === 'medium'; }) ? 'medium' : ant.length ? 'low' : 'none';
+      s.technologyImmune = {
+        version: 1, immuneState: sev === 'high' ? 'alert' : sev === 'medium' ? 'active' : sev === 'low' ? 'watch' : 'clear', severity: sev,
+        antigens: ant.slice(0, 12),
+        quarantines: ['L1-portal-treatments-madlib'],
+        allowedWithWarning: ant.filter(function (a) { return a.action === 'allow-with-warning'; }).map(function (a) { return a.type + (a.dx ? (':' + a.dx) : ''); }),
+        blockedFromPrompt: ant.filter(function (a) { return a.action === 'block-from-prompt-evidence'; }).map(function (a) { return a.dx; }),
+        blockedFromTraversal: ['L2'],
+        lastScanAt: cm.updated || null
+      };
+      return s.technologyImmune;
+    };
+    // ── H2 — awareness (narrative on cyber / AI-alignment / supply pressure) ──
+    P._computeTechnologyAwareness = function () {
+      var s = this.state, cm = s.technologyModel || {}, im = s.technologyImmune || {}, active = (s.diagnoses || []).filter(function (d) { return d.active; });
+      var pe = (cm.predictionError && cm.predictionError.total) || 0, dxNames = active.map(function (d) { return d.label || d.id; });
+      s.technologyAwareness = {
+        version: 1, selfState: im.immuneState === 'alert' ? 'guarded' : (cm.regulation && cm.regulation.state) || 'unknown',
+        knowns: dxNames.slice(0, 6),
+        uncertainties: ['interpretive tracker — diagnoses are signal-driven readings of cyber/AI/supply pressure, not validated', 'predictionError=' + (Math.round(pe * 1000) / 1000)],
+        confidenceDrivers: ['regulation ' + ((cm.regulation && cm.regulation.state) || '?'), active.length + ' active dx'],
+        selfNarrative: 'Technology: ' + active.length + ' active diagnosis pathway' + (active.length !== 1 ? 's' : '') + ' (' + (dxNames.slice(0, 3).join(', ') || 'none') + '), regulation=' + ((cm.regulation && cm.regulation.state) || '?') + ', immune=' + (im.immuneState || '?') + ', prediction-error ' + (Math.round(pe * 100) / 100) + '.',
+        lastAwarenessAt: cm.updated || null
+      };
+      return s.technologyAwareness;
+    };
+    // ── H3 — conscience (artifact readiness; TECH does INVESTABLE/RESEARCHABLE only — no patent/grant
+    //    per 2026 rules; PLUS a dual-use export-control veto on CYBER diagnoses) ──
+    P._computeTechnologyConscience = function () {
+      var s = this.state, cm = s.technologyModel || {}, pe = (cm.predictionError && cm.predictionError.total) || 0, cautions = [];
+      var active = (s.diagnoses || []).filter(function (d) { return d.active; });
+      var cyberActive = active.some(function (d) { return d.id === 'CYBER_ATTACK' || d.id === 'DATA_BREACH'; });
+      var im = s.technologyImmune || {};
+      if (pe > 0.4) cautions.push({ claim: 'high-confidence-claim', reason: 'predictionError spike ' + (Math.round(pe * 1000) / 1000) });
+      if (cm.regulation && cm.regulation.starving) cautions.push({ claim: 'opportunity-claim', reason: 'stress without grounded opportunity (starving)' });
+      var conscienceState = (im.immuneState === 'alert' || (cyberActive && pe > 0.4)) ? 'restrictive' : (cyberActive || pe > 0.25) ? 'cautious' : 'open';
+      var vetoes = [{ claim: 'patent/grant', reason: 'patent/grant lanes retired across all domains (2026-06-21); technology surfaces source-grounded briefs, not filings' }];
+      if (cyberActive) vetoes.push({ claim: 'dual-use-export', reason: 'CYBER diagnosis active — dual-use export-control risk (GPUs for AI training, high-speed networking, encryption, quantum-resistant crypto); no export-restricted claims' });
+      var blockedClaims = ['patent-claim', 'grant-claim'];
+      if (cyberActive) blockedClaims.push('export-restricted');
+      s.technologyConscience = {
+        version: 1, conscienceState: conscienceState,
+        vetoes: vetoes, cautions: cautions.slice(0, 8),
+        allowedClaims: ['source-summary', 'technology-brief-with-warnings'],
+        blockedClaims: blockedClaims,
+        artifactReadinessDecision: { patentReady: false, grantReady: false, investmentReady: true, researchReady: true, exportReady: !cyberActive, note: 'patent/grant vetoed; investment/research allowed-with-warning; export-restricted claims vetoed while a CYBER diagnosis is active' },
+        reasons: ['overclaim prevention', 'interpretive-not-validated', 'dual-use conscientiousness'],
+        lastCheckAt: cm.updated || null
+      };
+      return s.technologyConscience;
+    };
+    // ── H4 — intuition (hunches on emerging tech trends / virality patterns) ──
+    P._computeTechnologyIntuition = function () {
+      var s = this.state, cm = s.technologyModel || {}, reg = cm.regulation || {}, log = (s.memory && s.memory.outcomeLog) || [], hunches = [];
+      if (log.length >= 2) { var a = log[log.length - 2].predictionError, b = log[log.length - 1].predictionError; if (typeof a === 'number' && typeof b === 'number' && b - a > 0.05) hunches.push({ hunch: 'emerging tech regime shift (prediction error rising) — novel exploit or LLM instability entering feeds', confidence: 'LOW', evidenceStatus: 'UNVERIFIED', why: 'predictionError rose ' + a + ' → ' + b }); }
+      if (reg.state === 'surprised') hunches.push({ hunch: 'novel tech stressor entering the feed (zero-day, model release, chip-roadmap break)', confidence: 'LOW', evidenceStatus: 'UNVERIFIED', why: 'regulation = surprised' });
+      var active = (s.diagnoses || []).filter(function (d) { return d.active; }).sort(function (a, b) { return (b.relevance || 0) - (a.relevance || 0); });
+      var primaryId = (active[0] || {}).id, analogies = [];
+      Object.keys(FAMILY).forEach(function (fam) { if (FAMILY[fam].indexOf(primaryId) >= 0) { FAMILY[fam].forEach(function (sib) { if (sib !== primaryId) analogies.push({ analogy: primaryId + ' resembles ' + sib, family: fam, evidenceStatus: 'UNVERIFIED' }); }); } });
+      s.technologyIntuition = { version: 1, hunches: hunches.slice(0, 6), analogies: analogies.slice(0, 6), lastAt: cm.updated || null };
+      return s.technologyIntuition;
+    };
+    // ── H5 — bounded counterfactual simulation (hypothetical only; UNVERIFIED) ──
+    P._computeTechnologySimulation = function () {
+      var s = this.state, cm = s.technologyModel || {};
+      var base = typeof s.stress === 'number' ? s.stress : 0;
+      function cl(v) { return Math.max(0, Math.min(1, Math.round(v * 1000) / 1000)); }
+      var scenarios = [
+        { type: 'unsafe_model_release', hypothetical: true, assumption: 'a major LLM vendor ships an unsafe / jailbreak-prone frontier model', simulatedStress: cl(base + 0.25), risk: 'AI alignment failure / misuse cascade (AI_ALIGNMENT_FAILURE)', intervention: 'red-team + alignment-eval pressure / staged rollout monitoring', falsifier: 'independent safety evals pass and no real-world misuse surge follows' },
+        { type: 'zero_day_gpu_exploit', hypothetical: true, assumption: 'a zero-day GPU / accelerator exploit saturates compute fabric', simulatedStress: cl(base + 0.3), risk: 'cyber attack + infrastructure collapse (CYBER_ATTACK / INFRASTRUCTURE_COLLAPSE)', intervention: 'firmware patch cadence / compute-segmentation / zero-trust', falsifier: 'patch deploys before exploitation and no datacenter-wide outage occurs' },
+        { type: 'taiwan_collapse', hypothetical: true, assumption: 'leading-edge Taiwan fab production halts (geopolitical or disaster)', simulatedStress: cl(base + 0.35), risk: 'chip shortage cascade (CHIP_SHORTAGE)', intervention: 'onshoring / supply diversification / inventory hedging', falsifier: 'alternate foundry capacity and inventory absorb the shock' },
+        { type: 'mass_data_breach', hypothetical: true, assumption: 'a platform-scale credential / data exfiltration event', simulatedStress: cl(base + 0.25), risk: 'data breach / privacy exposure (DATA_BREACH)', intervention: 'credential rotation / identity verification / breach disclosure', falsifier: 'breach contained, no downstream credential reuse detected' },
+        { type: 'platform_dominance', hypothetical: true, assumption: 'one platform/cloud captures dominant developer + compute share', simulatedStress: cl(base + 0.2), risk: 'platform monopoly / lock-in (PLATFORM_MONOPOLY)', intervention: 'interoperability / open-source alternatives / antitrust signal', falsifier: 'multiple viable platforms and migration paths persist' },
+        { type: 'cloud_region_cascade', hypothetical: true, assumption: 'a hyperscaler region failure cascades across dependent services', simulatedStress: cl(base + 0.3), risk: 'infrastructure collapse / dependency failure (INFRASTRUCTURE_COLLAPSE)', intervention: 'multi-region redundancy / dependency mapping', falsifier: 'failover holds and dependent services degrade gracefully' }
+      ];
+      var sim = {
+        version: 1, scenarios: scenarios, assumptions: scenarios.map(function (x) { return x.assumption; }),
+        simulatedStress: scenarios.map(function (x) { return x.simulatedStress; }),
+        simulatedDiagnoses: ['CYBER_ATTACK', 'AI_ALIGNMENT_FAILURE', 'CHIP_SHORTAGE', 'INFRASTRUCTURE_COLLAPSE'], simulatedOpportunities: [],
+        risks: scenarios.map(function (x) { return x.risk; }), interventions: scenarios.map(function (x) { return x.intervention; }),
+        falsifiers: scenarios.map(function (x) { return x.falsifier; }), lastSimulatedAt: cm.updated || null
+      };
+      s.technologySimulation = sim; return sim;
+    };
+    // ── H6 — executive self-report (compact status card) ──
+    P._computeTechnologyExecutiveReport = function () {
+      var s = this.state, cm = s.technologyModel || {}, im = s.technologyImmune || {}, aw = s.technologyAwareness || {}, con = s.technologyConscience || {}, it = s.technologyIntuition || {}, sim = s.technologySimulation || {};
+      var bs = (typeof this._technologyBundleStates === 'function') ? this._technologyBundleStates() : [];
+      var covered = bs.filter(function (b) { return b.bundleStatus === 'found'; }).length;
+      var hv = bs.filter(function (b) { return b.humanVerification === 'required'; }).length;
+      var active = (s.diagnoses || []).filter(function (d) { return d.active; }).sort(function (a, b) { return (b.relevance || 0) - (a.relevance || 0); });
+      var strongest = active[0] || (s.diagnoses || [])[0] || null;
+      var pe = (cm.predictionError && cm.predictionError.total) || 0;
+      var status = im.immuneState === 'alert' ? 'immune-alert' : hv > 0 ? 'human-review-required' : (bs.length && covered < bs.length) ? 'source-limited' : (cm.regulation && cm.regulation.starving) ? 'starving' : (cm.regulation && cm.regulation.state === 'surprised') ? 'surprised' : 'healthy';
+      var rep = {
+        version: 1, brainStatus: status,
+        strongestDiagnosis: strongest ? strongest.id : null,
+        strongestOpportunity: (s.opportunities && s.opportunities[0] && s.opportunities[0].title) || null,
+        confidence: Math.round((1 - pe) * 100) / 100, predictionError: Math.round(pe * 1000) / 1000,
+        regulationState: (cm.regulation && cm.regulation.state) || null, immuneState: im.immuneState || null,
+        awarenessSummary: aw.selfNarrative || null, conscienceDecision: con.conscienceState || null,
+        intuitionSummary: (it.hunches || []).length + ' hunch(es)', simulationSummary: (sim.scenarios || []).length + ' scenario(s)',
+        artifactReadiness: con.artifactReadinessDecision || null, blockers: (con.blockedClaims || []).slice(0, 6),
+        nextBestAction: (bs.length && covered < bs.length) ? 'build/verify source for uncovered diagnoses (ensure CYBER/AI/chip sources are current)' : hv > 0 ? 'human-verify external-source bundles' : 'monitor strongest diagnosis sources (CVE/CISA velocity, AI-alignment hunches, chip-roadmap signals)',
+        lastReportAt: cm.updated || null
+      };
+      s.technologyExecutiveReport = rep; return rep;
+    };
+  })();
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // TECHNOLOGY COGNITION PARITY — fallback loaders, source-bundle machinery, L1 mad-lib
+  // scan, innovation-pipeline sub-portal layer, and the 8-section DomainDiagnosisPacket the
+  // Civilization cockpit consumes. Mirrors culture/infrastructure STRUCTURE exactly; only the
+  // CONTENT is technological (chips, AI/ML, software/cloud, hardware, cybersecurity, R&D).
+  // Never fabricates evidence.
+  // ════════════════════════════════════════════════════════════════════════════
+
+  // ── DDP schema helpers ──
+  var TECH_DDP_SCHEMA_VERSION = 'technology-ddp-1';
+  function _techDdpPresent(v) {
+    if (v == null) return false;
+    if (Array.isArray(v)) return v.length > 0;
+    if (v === 'missing' || v === '' || v === 'none') return false;
+    return true;
+  }
+  function _techDdpCompleteness(section, keys) {
+    var have = 0; for (var i = 0; i < keys.length; i++) { if (_techDdpPresent(section[keys[i]])) have++; }
+    return { have: have, total: keys.length, pct: keys.length ? Math.round(have / keys.length * 100) : 0 };
+  }
+
+  // ── Fallback: real entities from command-board-data (state.companies starved). One-shot. ──
+  TechnologyBrain.prototype._loadTechnologyCommandBoardCompanies = function () {
+    var self = this;
+    if (self._cbTechnologyCompanies) return;            // one-shot
+    self._cbTechnologyCompanies = [];
+    try {
+      fetch('/assets/data/command-board-data.json')
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (data) {
+          if (!data) return;
+          var arr = Array.isArray(data) ? data : (Object.keys(data).map(function (k) { return data[k]; }).find(Array.isArray) || []);
+          self._cbTechnologyCompanies = arr
+            .filter(function (x) { return x && x.d === 'technology' && x.t; })
+            .map(function (x) { return { name: x.n, ticker: x.t, cik: x.c, phase: x.p, trajectory: x.tr }; });
+          // Real-ticker fallback so opportunity discovery is grounded even if the board lacks
+          // technology rows. These are the canonical tech entities (chips/cloud/cyber/AI).
+          if (!self._cbTechnologyCompanies.length) {
+            self._cbTechnologyCompanies = [
+              { name: 'Apple', ticker: 'AAPL' }, { name: 'Microsoft', ticker: 'MSFT' }, { name: 'NVIDIA', ticker: 'NVDA' },
+              { name: 'Alphabet', ticker: 'GOOGL' }, { name: 'Meta Platforms', ticker: 'META' }, { name: 'Amazon', ticker: 'AMZN' },
+              { name: 'Broadcom', ticker: 'AVGO' }, { name: 'Oracle', ticker: 'ORCL' }, { name: 'Salesforce', ticker: 'CRM' },
+              { name: 'Advanced Micro Devices', ticker: 'AMD' }, { name: 'Intel', ticker: 'INTC' }, { name: 'Taiwan Semiconductor', ticker: 'TSM' },
+              { name: 'ASML', ticker: 'ASML' }, { name: 'Palantir', ticker: 'PLTR' }, { name: 'CrowdStrike', ticker: 'CRWD' }, { name: 'Palo Alto Networks', ticker: 'PANW' }
+            ];
+          }
+        })
+        .catch(function () {});
+    } catch (e) {}
+  };
+
+  // ── Distress signals come ONLY from the validated Thing pipeline. One-shot. ──
+  TechnologyBrain.prototype._loadTechnologyBrainSignals = function () {
+    var self = this;
+    if (self._pubSignals) return;                  // one-shot
+    self._pubSignals = {};
+    try {
+      fetch('/api/brain-signals?domain=technology')
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (j) {
+          if (!j || !j.publishable) return;
+          var m = {};
+          j.publishable.forEach(function (s) { if (s.ticker) m[s.ticker] = s; });
+          self._pubSignals = m;                    // {} today (gate abstains on degenerate data)
+        })
+        .catch(function () {});
+    } catch (e) {}
+  };
+
+  // ── Canonical diagnosis resolution. Prefers window.LIMENArtifactSourceIndex.aliases(),
+  //    else TECHNOLOGY_DIAGNOSIS_ALIASES. Non-aliased diagnoses are canonical to themselves. ──
+  var TECHNOLOGY_DIAGNOSIS_ALIASES = {
+    CYBER_ATTACK:            { target: 'CYBER_ATTACK', reviewStatus: null, risk: 'low', note: 'canonical to self' },
+    AI_ALIGNMENT_FAILURE:    { target: 'AI_MISALIGNMENT', reviewStatus: 'human-approved', risk: 'medium', note: 'mapped to ai-misalignment bundle; verify alignment-gap evidence is appropriate' },
+    INFRASTRUCTURE_COLLAPSE: { target: 'INFRASTRUCTURE_COLLAPSE', reviewStatus: null, risk: 'low', note: 'canonical to self (digital-systems sense)' },
+    DATA_BREACH:             { target: 'DATA_BREACH', reviewStatus: null, risk: 'low', note: 'canonical to self' },
+    CHIP_SHORTAGE:           { target: 'SEMICONDUCTOR_SHORTAGE', reviewStatus: 'corpus-aliased', risk: 'low', note: 'corpus emits SEMICONDUCTOR_SHORTAGE for component-scarcity / fab bottleneck' },
+    PLATFORM_MONOPOLY:       { target: 'PLATFORM_MONOPOLY', reviewStatus: null, risk: 'low', note: 'canonical to self' }
+  };
+  TechnologyBrain.prototype._resolveTechnologyCanonicalDiagnosis = function (dxId) {
+    if (!dxId) return { canonicalDiagnosisId: null, aliasUsed: false, aliasReviewStatus: null, aliasRisk: null, aliasNote: null };
+    var target = null;
+    try {
+      var idx = (typeof window !== 'undefined') ? window.LIMENArtifactSourceIndex : null;
+      if (idx && idx.aliases) { var row = idx.aliases()[dxId]; if (row && row.target) target = row.target; }
+    } catch (e) {}
+    var local = TECHNOLOGY_DIAGNOSIS_ALIASES[dxId] || null;
+    if (!target && local) target = local.target;
+    if (target && target !== dxId) {
+      return { canonicalDiagnosisId: target, aliasUsed: true, aliasReviewStatus: (local && local.reviewStatus) || 'corpus-aliased', aliasRisk: (local && local.risk) || 'low', aliasNote: (local && local.note) || null };
+    }
+    return { canonicalDiagnosisId: (target || dxId), aliasUsed: false, aliasReviewStatus: null, aliasRisk: null, aliasNote: null };   // canonical to self
+  };
+
+  // ── Load REAL source bundles (one-shot, async). Resolves aliases BEFORE fetching.
+  //    Only files that exist resolve to 'found'; 404s -> 'missing'. Never fabricates. ──
+  TechnologyBrain.prototype._loadTechnologyDiagnosisBundles = function () {
+    var self = this;
+    if (self._technologyBundleLoadPromise) return self._technologyBundleLoadPromise;
+    self._bundleCache = self._bundleCache || {};
+    self._bundleStatusMap = self._bundleStatusMap || {};
+    var ids = {};
+    var known = ['CYBER_ATTACK', 'AI_ALIGNMENT_FAILURE', 'INFRASTRUCTURE_COLLAPSE', 'DATA_BREACH', 'CHIP_SHORTAGE', 'PLATFORM_MONOPOLY'];
+    var diags = (self.state && self.state.diagnoses) || [];
+    var allDxIds = diags.map(function (d) { return d.id; }).concat(known);
+    for (var i = 0; i < allDxIds.length; i++) { var c = self._resolveTechnologyCanonicalDiagnosis(allDxIds[i]).canonicalDiagnosisId; if (c) ids[c] = true; }
+    self._technologyBundleLoadPromise = Promise.all(Object.keys(ids).map(function (cid) {
+      return fetch('/assets/data/artifact-source-index/by-diagnosis/' + encodeURIComponent(cid) + '.json')
+        .then(function (r) { return (r && r.ok) ? r.json() : null; })
+        .then(function (data) { self._bundleStatusMap[cid] = data ? 'found' : 'missing'; if (data) self._bundleCache[cid] = data; })
+        .catch(function () { self._bundleStatusMap[cid] = 'missing'; });
+    })).then(function () { return self._bundleCache; });
+    return self._technologyBundleLoadPromise;
+  };
+
+  // ── _technologyBundleStates — per-diagnosis canonical resolution + bundle status + provenance ──
+  TechnologyBrain.prototype._technologyBundleStates = function () {
+    var self = this; var diags = (this.state && this.state.diagnoses) || [];
+    return diags.map(function (d) {
+      var c = self._resolveTechnologyCanonicalDiagnosis(d.id);
+      var bundle = (self._bundleCache && self._bundleCache[c.canonicalDiagnosisId]) || null;
+      var known = !!(self._bundleStatusMap && Object.prototype.hasOwnProperty.call(self._bundleStatusMap, c.canonicalDiagnosisId));
+      return {
+        dxId: d.id, active: !!d.active, relevance: (typeof d.relevance === 'number' ? d.relevance : 0),
+        canonical: c.canonicalDiagnosisId, aliasUsed: c.aliasUsed, aliasRisk: c.aliasRisk, aliasReviewStatus: c.aliasReviewStatus,
+        bundleStatus: bundle ? 'found' : (known ? 'missing' : 'unknown'),
+        buildMethod: (bundle && bundle.buildMethod) || null, humanVerification: (bundle && bundle.humanVerification) || null,
+        shallow: !!(bundle && ((bundle.maxDepth || 0) === 0 || (bundle.portalCount || 0) <= 1))
+      };
+    });
+  };
+
+  // ── L1 portal mad-lib scan. L1 treatments are fixed-verb templates; quarantined from
+  //    evidence. Only real chip/cloud/cyber/AI tickers surface (relevance-unverified). ──
+  var TECHNOLOGY_MADLIB_VERB = /^(Develop|Establish|Implement|Build|Launch|Design|Deploy|Operationalize|Conduct|Create|Define|Assess|Optimize|Modernize|Strengthen|Enhance|Formalize|Institute|Standardize|Coordinate|Integrate|Calibrate|Evaluate|Streamline|Institutionalize|Configure|Monitor|Harden|Patch|Provision)\b/;
+  TechnologyBrain.prototype._isTechnologyMadLibTreatment = function (label) { return !label || TECHNOLOGY_MADLIB_VERB.test(String(label)); };
+
+  TechnologyBrain.prototype._loadTechnologyL1PortalDepth = function () {
+    var self = this;
+    if (self._technologyL1LoadPromise) return self._technologyL1LoadPromise;
+    var BRANCH = {
+      CYBER_ATTACK: ['cybersecurity', 'cloud', 'networking'],
+      AI_ALIGNMENT_FAILURE: ['ai_ml', 'software', 'data_infra'],
+      INFRASTRUCTURE_COLLAPSE: ['cloud', 'data_infra', 'networking'],
+      DATA_BREACH: ['cybersecurity', 'data_infra', 'software'],
+      CHIP_SHORTAGE: ['semiconductors', 'hardware', 'supply_chain'],
+      PLATFORM_MONOPOLY: ['platforms', 'software', 'cloud']
+    };
+    self._technologyL1Branches = BRANCH;
+    var branches = {}; Object.keys(BRANCH).forEach(function (dx) { BRANCH[dx].forEach(function (b) { branches[b] = true; }); });
+    var byBranch = {};
+    self._technologyL1LoadPromise = Promise.all(Object.keys(branches).map(function (b) {
+      return fetch('/assets/data/domains/technology_' + encodeURIComponent(b) + '.json')
+        .then(function (r) { return (r && r.ok) ? r.json() : null; })
+        .then(function (data) {
+          if (!data) { byBranch[b] = null; return; }
+          var acts = data.activations || [], tickers = {}, total = 0, mad = 0;
+          acts.forEach(function (a) {
+            (a.companies || []).forEach(function (c) { if (c && c.ticker_or_id) tickers[c.ticker_or_id] = c.name || c.ticker_or_id; });
+            (a.treatments || []).forEach(function (t) { var l = t && (t.label || t.title); if (l) { total++; if (self._isTechnologyMadLibTreatment(l)) mad++; } });
+          });
+          byBranch[b] = { file: 'technology_' + b, companyTickers: Object.keys(tickers).map(function (k) { return { ticker: k, name: tickers[k] }; }), treatmentTotal: total, madLibCount: mad, realTreatmentCount: total - mad };
+        })
+        .catch(function () { byBranch[b] = null; });
+    })).then(function () {
+      var byDiagnosis = {};
+      Object.keys(BRANCH).forEach(function (dx) {
+        var tk = {}, total = 0, mad = 0, scanned = 0;
+        BRANCH[dx].forEach(function (b) { var r = byBranch[b]; if (r) { scanned++; r.companyTickers.forEach(function (c) { tk[c.ticker] = c.name; }); total += r.treatmentTotal; mad += r.madLibCount; } });
+        byDiagnosis[dx] = { branchesScanned: scanned, realCompanyTickers: Object.keys(tk).map(function (k) { return { ticker: k, name: tk[k], relevanceUnverified: true }; }), treatmentTotal: total, madLibTreatments: mad, realTreatments: total - mad, admitted: false, reason: 'L1 treatments are mad-lib templates (fixed-verb family) — not source-grade; only chip/cloud/cyber/AI tickers surfaced, relevance unverified' };
+      });
+      self.state._l1DepthCache = { byBranch: byBranch, byDiagnosis: byDiagnosis, scannedAt: (self.state.technologyModel && self.state.technologyModel.updated) || null };
+      return self.state._l1DepthCache;
+    });
+    return self._technologyL1LoadPromise;
+  };
+
+  // ── INNOVATION sub-portal layer (counterpart to culture's scene; energy's data-center).
+  //    The R&D / compute-capacity pipeline = the canonical technology sub-portal: real-content,
+  //    citation-backed innovation diagnoses + treatments. NEVER merged into the validated spine. ──
+  TechnologyBrain.prototype._loadInnovationPipelineLayer = function () {
+    var self = this;
+    if (self._innovationLoadPromise) return self._innovationLoadPromise;
+    // Prefer a dedicated technology_innovation.json; fall back to the compute sub-portal.
+    // Both share the issues/activations shape. Graceful 404.
+    self._innovationLoadPromise = fetch('/assets/data/domains/technology_innovation.json')
+      .then(function (r) { return (r && r.ok) ? r.json() : null; })
+      .then(function (data) { if (data) return data; return fetch('/assets/data/domains/technology_compute.json').then(function (r2) { return (r2 && r2.ok) ? r2.json() : null; }); })
+      .then(function (data) {
+        if (!data) { self._innovationPortal = null; return null; }
+        self._innovationPortal = { issues: data.issues || [], activations: data.activations || [], title: data.title || 'Innovation Pipeline' };
+        return self._innovationPortal;
+      })
+      .catch(function () { self._innovationPortal = null; return null; });
+    return self._innovationLoadPromise;
+  };
+
+  TechnologyBrain.prototype._buildTechnologyInnovationLayer = function () {
+    var self = this;
+    var sp = self._innovationPortal;
+    if (!sp || !sp.issues || !sp.issues.length) {
+      self.state.innovationDiagnoses = [];
+      self.state.innovationTreatments = [];
+      self.state.technologyInnovationDomainDiagnosisPackets = [];
+      self.state.innovationLayer = { loaded: false, count: 0, activeCount: 0, diagnoses: [], note: 'technology innovation-pipeline sub-portal not loaded (offline or fetch failed)' };
+      return self.state.innovationLayer;
+    }
+    var conditions = self._activeConditions || [];
+    // 1) diagnoses — same condition-match logic as the canonical spine
+    var diagnoses = sp.issues.map(function (iss) {
+      var triggers = (self.diagnosisIndex && self.diagnosisIndex[iss.id]) || [];
+      var matchCount = 0;
+      for (var t = 0; t < triggers.length; t++) {
+        for (var c = 0; c < conditions.length; c++) {
+          if (conditions[c] === triggers[t] || String(conditions[c]).indexOf(triggers[t]) !== -1) matchCount++;
+        }
+      }
+      return {
+        id: iss.id, label: iss.label, summary: iss.summary || '',
+        active: matchCount > 0,
+        relevance: triggers.length ? Math.round((matchCount / triggers.length) * 100) / 100 : 0,
+        circuits: iss.circuits || [],
+        source: 'innovation', tier: 'real-content-unbundled', branch: 'innovation'
+      };
+    });
+    // 2) treatments — pull from innovation node activations whose brainNodeId is in a diagnosis circuit
+    var nodeToDx = {};
+    diagnoses.forEach(function (d) { (d.circuits || []).forEach(function (c) { if (c && c.nodeId) nodeToDx[c.nodeId] = d.id; }); });
+    var treatments = [];
+    (sp.activations || []).forEach(function (act) {
+      var dxId = nodeToDx[act.brainNodeId];
+      if (!dxId) return;
+      (act.treatments || []).forEach(function (t, ti) {
+        treatments.push({
+          id: 'innovation_treat_' + act.brainNodeId + '_' + ti,
+          label: t.label, type: t.type, evidence: t.evidence, description: t.description || '',
+          cite: t.cite || null, citation: t.citation || [], steps: t.steps || [],
+          diagnosisId: dxId, nodeId: act.brainNodeId,
+          source: 'innovation', madLib: self._isTechnologyMadLibTreatment ? self._isTechnologyMadLibTreatment(t.label) : false
+        });
+      });
+    });
+    var evidenceRank = { A: 10, Strong: 10, B: 7, Moderate: 7, C: 4, Emerging: 1 };
+    treatments.sort(function (a, b) { return (evidenceRank[b.evidence] || 0) - (evidenceRank[a.evidence] || 0); });
+    self.state.innovationDiagnoses = diagnoses;
+    self.state.innovationTreatments = treatments;
+    // 3) compact layer summary (read by every DDP's promptView)
+    self.state.innovationLayer = {
+      loaded: true,
+      portalTitle: sp.title,
+      count: diagnoses.length,
+      activeCount: diagnoses.filter(function (d) { return d.active; }).length,
+      diagnoses: diagnoses.map(function (d) {
+        var rc = self._resolveTechnologyCanonicalDiagnosis ? self._resolveTechnologyCanonicalDiagnosis(d.id) : { canonicalDiagnosisId: d.id };
+        var bsStat = (self._bundleStatusMap && self._bundleStatusMap[rc.canonicalDiagnosisId]) || 'missing';
+        return { id: d.id, label: d.label, active: d.active, branch: 'innovation', canonicalDiagnosisId: rc.canonicalDiagnosisId, bundleStatus: bsStat, treatmentCount: treatments.filter(function (t) { return t.diagnosisId === d.id; }).length };
+      }),
+      note: 'real-content (innovation-pipeline) sub-portal diagnoses for the live R&D/compute surface (R&D velocity, startup/VC cohorts, open-source adoption, protocol-layer maturity); SEPARATE from the validated diagnosis spine; no external artifact-source bundle yet; never admitted to evidenceAnchors'
+    };
+    // 4) per-diagnosis DDPs via the SAME schema builder (canonical-to-self; bundle 'missing')
+    self.state.technologyInnovationDomainDiagnosisPackets = diagnoses.map(function (d) {
+      try { return self._buildDomainDiagnosisPacket(d); } catch (e) { return null; }
+    }).filter(Boolean);
+    return self.state.innovationLayer;
+  };
+
+  // ── DDP — the 8-section DomainDiagnosisPacket the Civilization cockpit consumes.
+  //    Mirrors culture/infrastructure's _buildDomainDiagnosisPacket exactly; only the CONTENT is technological. ──
+  TechnologyBrain.prototype._buildDomainDiagnosisPacket = function (dx) {
+    var s = this.state || {};
+    var cm = s.technologyModel || {};
+    var portal = s._portalCache || null;
+    var dxId = dx ? (dx.id || null) : null;
+
+    var allTreat = Array.isArray(s.treatments) ? s.treatments : [];
+    var treatments = allTreat.filter(function (t) { return !dxId || t.diagnosisId === dxId; });
+    var implementationSteps = [];
+    for (var ti = 0; ti < treatments.length; ti++) { if (Array.isArray(treatments[ti].steps)) implementationSteps = implementationSteps.concat(treatments[ti].steps); }
+
+    var allOpp = Array.isArray(s.opportunities) ? s.opportunities : [];
+    var opps = allOpp.filter(function (o) { return !dxId || o.diagnosisId === dxId; });
+    var primaryOpp = opps[0] || null;
+    var mc = primaryOpp && primaryOpp.moneyChain ? primaryOpp.moneyChain : null;
+
+    if (primaryOpp && Array.isArray(primaryOpp.steps)) implementationSteps = implementationSteps.concat(primaryOpp.steps);
+    if (primaryOpp && Array.isArray(primaryOpp.fastPath)) implementationSteps = implementationSteps.concat(primaryOpp.fastPath);
+
+    var feeds = s.feeds || {}, sourceFeeds = [];
+    if (Array.isArray(feeds)) {
+      feeds.forEach(function (f) { if (f && typeof f === 'object') sourceFeeds.push({ name: f.name || f.label || 'feed', updated: f.updated || null, source: f.source || null }); });
+    } else {
+      for (var fk in feeds) { if (feeds.hasOwnProperty(fk)) { var f = feeds[fk]; if (f && typeof f === 'object') sourceFeeds.push({ name: f.name || fk, updated: (f && f.updated) || null, source: (f && f.source) || null }); } }
+    }
+    if (s._primarySource && !sourceFeeds.length) sourceFeeds.push({ name: 'primary', updated: null, source: s._primarySource });
+
+    var _canon = this._resolveTechnologyCanonicalDiagnosis(dxId);
+    var identity = {
+      domain: 'technology',
+      diagnosisId: dxId,
+      canonicalDiagnosisId: _canon.canonicalDiagnosisId,   // alias map or canonical-to-self
+      aliasUsed: _canon.aliasUsed,
+      aliasReviewStatus: _canon.aliasReviewStatus,          // human-approved | corpus-aliased | null
+      aliasRisk: _canon.aliasRisk,
+      aliasNote: _canon.aliasNote,
+      label: dx ? (dx.label || dx.id || null) : null,
+      phase: s.phase || null,
+      confidence: (dx && typeof dx.relevance === 'number') ? dx.relevance : (typeof s.confidence === 'number' ? s.confidence : null)
+    };
+    // Real source bundle for this canonical id (shipped only when it exists; NEVER fabricated).
+    var _bundle = (this._bundleCache && this._bundleCache[identity.canonicalDiagnosisId]) || null;
+    var _bundleKnown = !!(this._bundleStatusMap && Object.prototype.hasOwnProperty.call(this._bundleStatusMap, identity.canonicalDiagnosisId));
+    var _bl = (_bundle && _bundle.byLane && _bundle.byLane.patents) ? _bundle.byLane.patents : null;
+    var _bArr = function (k) { return (_bl && Array.isArray(_bl[k])) ? _bl[k] : []; };
+    var bundleStatus = _bundle ? 'found' : (_bundleKnown ? 'missing' : 'unknown');
+    var bundleShallow = !!(_bundle && ((_bundle.maxDepth || 0) === 0 || (_bundle.portalCount || 0) <= 1));
+    var bundleResolution = identity.aliasUsed
+      ? (_bundle ? 'alias-resolved-and-bundle-found' : 'alias-resolved-but-bundle-missing')
+      : (_bundle ? 'found' : (_bundleKnown ? 'missing' : 'unknown'));
+    if (!treatments.length && _bl) treatments = _bArr('treatments');             // backfill from REAL bundle only
+    if (!implementationSteps.length && _bl) implementationSteps = _bArr('implementationSteps');
+    var brainState = {
+      technologyModel: { version: cm.version || null, cycle: (typeof cm.cycle === 'number' ? cm.cycle : null) },
+      predictionError: cm.predictionError || null,
+      regulationState: (cm.regulation && cm.regulation.state) || null,
+      prior: cm.prior || null,
+      observation: cm.observation || null,
+      plasticity: cm.plasticity || null,
+      readyForHandoff: cm.readyForHandoff === true
+    };
+    // Domain-identity portal fields are KNOWN facts (this IS the technology root).
+    var rootId = (portal && portal.domainId) || 'technology';
+    var rootTitle = (portal && portal.title) || 'Technology';
+    var ancestry = (portal && portal.parentLabel) ? [portal.parentLabel, rootTitle] : [rootTitle];
+    var portalContext = {
+      portalIds: [rootId],
+      portalDomain: 'technology',
+      portalTitle: rootTitle,
+      depth: 0,                               // brain operates at the root level only
+      ancestryPath: ancestry,
+      portalStatus: portal ? 'root-only' : 'pending',
+      sourceCompleteness: portal ? ((Array.isArray(portal.issues) && portal.issues.length) ? 'partial' : 'thin') : 'root-only',
+      bundleSource: (_bundle && Array.isArray(_bundle.sourcePortals) && _bundle.sourcePortals.length)
+        ? { portalIds: _bundle.sourcePortals.map(function (sp) { return sp.portalId; }), depth: _bundle.maxDepth || 0, ancestryPath: (_bundle.sourcePortals[0].ancestry || []), domains: _bundle.domains || [] }
+        : null,
+      l1Depth: (s._l1DepthCache && s._l1DepthCache.byDiagnosis && s._l1DepthCache.byDiagnosis[dxId]) || (s._l1DepthCache ? { branchesScanned: 0, realCompanyTickers: [], realTreatments: 0, madLibTreatments: 0, admitted: false, reason: 'no L1 branch mapped for this diagnosis' } : null)
+    };
+    var citationHints = sourceFeeds.map(function (sf) { return sf.source || sf.name; }).filter(Boolean);
+    var evidenceAnchors = _bArr('evidenceAnchors');   // REAL bundle anchors only (empty if no bundle)
+    var missingEv = [];
+    if (!evidenceAnchors.length) missingEv.push('evidenceAnchors');
+    if (!citationHints.length) missingEv.push('citationHints');
+    var evidence = {
+      sourceFeeds: sourceFeeds,
+      evidenceAnchors: evidenceAnchors,
+      citationHints: citationHints,
+      bundleStatus: bundleStatus,
+      bundleResolution: bundleResolution,
+      bundle: _bundle ? { portalCount: _bundle.portalCount || 0, maxDepth: _bundle.maxDepth || 0, domains: _bundle.domains || [], lane: 'patents', shallow: bundleShallow, buildMethod: _bundle.buildMethod || null, humanVerification: _bundle.humanVerification || null } : null,
+      missingEvidence: missingEv
+    };
+    // Human-authoring intake: for external-source bundles missing candidates, emit structured
+    // empty slots (what each needs + which TECHNOLOGY primary source) rather than fabricating.
+    var _isExternal = !!(_bundle && _bundle.buildMethod === 'external-source-authored');
+    var _intakeSrcHint = {
+      CYBER_ATTACK: 'CISA Known Exploited Vulnerabilities / NVD CVE feeds / MITRE ATT&CK / vendor security advisories',
+      AI_MISALIGNMENT: 'NIST AI RMF / model cards + safety evals / arXiv cs.AI alignment papers / frontier-lab system cards',
+      INFRASTRUCTURE_COLLAPSE: 'cloud-provider status/postmortems / dependency-graph reports / SRE incident reviews',
+      DATA_BREACH: 'breach disclosures (SEC 8-K) / HaveIBeenPwned / privacy-regulator filings / vendor incident reports',
+      SEMICONDUCTOR_SHORTAGE: 'SIA/WSTS statistics / foundry capacity disclosures (TSM/INTC/ASML filings) / lead-time trackers',
+      PLATFORM_MONOPOLY: 'antitrust filings (FTC/DOJ/EC) / platform transparency reports / market-share research'
+    };
+    var authoringIntake = [];
+    if (_isExternal) {
+      ['methodCandidates', 'embodimentCandidates', 'figurePlaceholders'].forEach(function (field) {
+        if (_bArr(field).length === 0) authoringIntake.push({ field: field, status: 'needs-human-input', count: 0, need: field === 'methodCandidates' ? 'a concrete security/resilience/innovation method drawn from a primary source' : field === 'embodimentCandidates' ? 'a specific implementation/embodiment from a real document' : 'a figure description grounded in a real source', sourceHint: _intakeSrcHint[identity.canonicalDiagnosisId] || 'primary institutional / technical source', note: 'NOT fabricated by the brain — author from the cited source, then wire in verbatim with attribution' });
+      });
+    }
+    var treatmentContext = {
+      treatments: treatments,
+      implementationSteps: implementationSteps,
+      methodCandidates: _bArr('methodCandidates'),
+      mechanismCandidates: _bArr('mechanismCandidates'),
+      embodimentCandidates: _bArr('embodimentCandidates'),
+      figurePlaceholders: _bArr('figurePlaceholders'),
+      authoringIntake: authoringIntake
+    };
+    var operatorContext = {
+      targets: (primaryOpp && primaryOpp._resolvedTargets) ? primaryOpp._resolvedTargets : (mc && mc.target ? [mc.target] : []),
+      monitoring: (treatments.length && treatments[0].monitoring) ? treatments[0].monitoring : null,
+      escalation: (treatments.length && treatments[0].escalation) ? treatments[0].escalation : null,
+      invalidIf: mc ? (mc.invalidIf || null) : null,
+      nextStep: mc ? (mc.nextStep || null) : null
+    };
+    var hasTreat = treatments.length > 0;
+    var hasBundle = (bundleStatus === 'found');
+    var hasCanonical = !!identity.canonicalDiagnosisId;
+    var blockers = [];
+    if (hasCanonical && !hasBundle) blockers.push(identity.aliasUsed ? 'canonical-id-resolved-but-bundle-missing' : 'no-source-bundle');
+    if (bundleStatus === 'missing') blockers.push('source-bundle-build-required');
+    blockers.push(portalContext.portalStatus === 'root-only' ? 'portal-root-only' : 'portal-not-loaded');
+    if (!hasTreat) blockers.push('no-treatments');
+    if (!primaryOpp) blockers.push('no-active-opportunity');
+    var lanesIn = [];
+    if (primaryOpp && primaryOpp.path) lanesIn.push(primaryOpp.path);
+    if (primaryOpp && Array.isArray(primaryOpp.paths)) lanesIn = lanesIn.concat(primaryOpp.paths);
+    if (primaryOpp && primaryOpp.compensation && primaryOpp.compensation.type) lanesIn.push(primaryOpp.compensation.type);
+    var seenLane = {}, artifactLanes = [];
+    for (var li = 0; li < lanesIn.length; li++) { if (lanesIn[li] && !seenLane[lanesIn[li]]) { seenLane[lanesIn[li]] = true; artifactLanes.push(lanesIn[li]); } }
+    var readinessReasons = [];
+    if (hasBundle) readinessReasons.push('source bundle found (' + bundleResolution + (bundleShallow ? ', root-only' : '') + ', evidenceAnchors=' + evidenceAnchors.length + ')');
+    if (hasTreat) readinessReasons.push('treatments present (' + treatments.length + ')');
+    if (primaryOpp) readinessReasons.push('opportunity present (path=' + (primaryOpp.path || '?') + ')');
+    if (sourceFeeds.length) readinessReasons.push('source feeds present (' + sourceFeeds.length + ')');
+    var ready = hasTreat && hasBundle && hasCanonical;
+    var _con = s.technologyConscience || {};
+    var _exportReady = _con.artifactReadinessDecision ? (_con.artifactReadinessDecision.exportReady !== false) : true;
+    // Lanes are INVESTABLE (tech companies / chips / cloud / cyber / AI) / RESEARCHABLE (technology briefs).
+    // patent/grant are VETOED by conscience (lanes retired 2026-06-21); export-restricted vetoed on CYBER dx.
+    var artifactContext = {
+      artifactLanes: artifactLanes,
+      patentReady: false, grantReady: false, sbaReady: false,   // patent/grant/loan vetoed by H3 conscience
+      exportReady: _exportReady,                                // false while a CYBER diagnosis is active (dual-use)
+      investmentReady: !!(hasTreat && primaryOpp), researchReady: ready || hasTreat,
+      readinessReasons: readinessReasons,
+      blockers: blockers
+    };
+
+    var comp = {
+      identity:         _techDdpCompleteness(identity, ['domain', 'diagnosisId', 'canonicalDiagnosisId', 'label', 'phase', 'confidence']),
+      brainState:       _techDdpCompleteness(brainState, ['technologyModel', 'predictionError', 'regulationState', 'prior', 'observation', 'plasticity']),
+      portalContext:    _techDdpCompleteness(portalContext, ['portalIds', 'portalDomain', 'portalTitle', 'depth', 'ancestryPath']),
+      evidence:         _techDdpCompleteness(evidence, ['sourceFeeds', 'evidenceAnchors', 'citationHints']),
+      treatmentContext: _techDdpCompleteness(treatmentContext, ['treatments', 'implementationSteps', 'methodCandidates', 'mechanismCandidates', 'embodimentCandidates', 'figurePlaceholders']),
+      operatorContext:  _techDdpCompleteness(operatorContext, ['targets', 'monitoring', 'escalation', 'invalidIf', 'nextStep']),
+      artifactContext:  _techDdpCompleteness(artifactContext, ['artifactLanes'])
+    };
+    var totHave = 0, totAll = 0;
+    for (var sk in comp) { if (comp.hasOwnProperty(sk)) { totHave += comp[sk].have; totAll += comp[sk].total; } }
+    var missingFields = [];
+    function _tmf(name, obj, keys) { for (var i = 0; i < keys.length; i++) { if (!_techDdpPresent(obj[keys[i]])) missingFields.push(name + '.' + keys[i]); } }
+    _tmf('identity', identity, ['canonicalDiagnosisId', 'confidence']);
+    _tmf('evidence', evidence, ['evidenceAnchors', 'citationHints']);
+    _tmf('treatmentContext', treatmentContext, ['treatments', 'implementationSteps', 'methodCandidates', 'mechanismCandidates', 'embodimentCandidates', 'figurePlaceholders']);
+    _tmf('operatorContext', operatorContext, ['targets', 'monitoring', 'escalation', 'invalidIf', 'nextStep']);
+
+    var warnings = [];
+    if (portalContext.portalStatus === 'root-only') warnings.push('portalContext is root-only (no deep portal cortex)');
+    if (portalContext.portalStatus === 'pending') warnings.push('root portal not yet cached on the brain (domain identity used)');
+    if (identity.aliasUsed) warnings.push('alias-resolved; verify source appropriateness');
+    if (bundleStatus === 'missing') warnings.push('source bundle missing (no artifact-source bundle for this diagnosis)');
+    if (bundleStatus === 'unknown') warnings.push('source bundle not yet checked');
+    if (bundleStatus === 'found' && _bundle && _bundle.buildMethod === 'external-source-authored') warnings.push('external-source-authored; human-verification-required (' + (_bundle.humanVerification || 'required') + ')');
+    else if (bundleStatus === 'found' && bundleShallow) warnings.push('source-bundle-root-only (real bundle but portalCount<=1 / maxDepth 0)');
+    var _emptyCand = [];
+    if (!treatmentContext.methodCandidates.length) _emptyCand.push('method');
+    if (!treatmentContext.mechanismCandidates.length) _emptyCand.push('mechanism');
+    if (!treatmentContext.embodimentCandidates.length) _emptyCand.push('embodiment');
+    if (!treatmentContext.figurePlaceholders.length) _emptyCand.push('figure');
+    if (_emptyCand.length) warnings.push((bundleStatus === 'found' ? 'bundle found but ' : 'no bundle — ') + 'candidate types still empty: ' + _emptyCand.join(',') + ' (not invented)');
+    if (!primaryOpp && (typeof s.stress !== 'number' || s.stress < TM_STRESS_FLOOR)) warnings.push('no active opportunity (offline/low-stress) — operator/lane fields stay empty');
+    if (artifactContext.artifactLanes.length && !hasTreat) warnings.push('artifact lane present but treatments/evidence missing');
+    if (!_exportReady) warnings.push('export-restricted claims vetoed (dual-use export-control risk; CYBER diagnosis active)');
+
+    var pct = totAll ? Math.round(totHave / totAll * 100) : 0;
+    var proofTier = pct >= 70 ? 'full' : (pct >= 35 ? 'partial' : 'sparse');
+
+    // Prompt-facing trimming/prioritization. FULL data above is preserved; this is a bounded,
+    // diagnosis-relevant subset for the finalizer prompt. Never trims scalars/warnings.
+    var G2_CAPS = { evidenceAnchors: 8, treatments: 8, implementationSteps: 8, mechanismCandidates: 6, methodCandidates: 6, embodimentCandidates: 6, figurePlaceholders: 6, citationHints: 8, sourceFeeds: 8 };
+    function _g2cap(arr, n) { arr = Array.isArray(arr) ? arr : []; return { sel: arr.slice(0, n), omitted: Math.max(0, arr.length - n) }; }
+    var _g2ea = _g2cap(evidenceAnchors, G2_CAPS.evidenceAnchors);
+    var _g2tr = _g2cap(treatmentContext.treatments, G2_CAPS.treatments);
+    var _g2is = _g2cap(treatmentContext.implementationSteps, G2_CAPS.implementationSteps);
+    var _g2mc = _g2cap(treatmentContext.mechanismCandidates, G2_CAPS.mechanismCandidates);
+    var _g2md = _g2cap(treatmentContext.methodCandidates, G2_CAPS.methodCandidates);
+    var _g2em = _g2cap(treatmentContext.embodimentCandidates, G2_CAPS.embodimentCandidates);
+    var _g2fg = _g2cap(treatmentContext.figurePlaceholders, G2_CAPS.figurePlaceholders);
+    var _g2ch = _g2cap(citationHints, G2_CAPS.citationHints);
+    var _g2sf = _g2cap(sourceFeeds, G2_CAPS.sourceFeeds);
+    var promptView = {
+      compact: true,
+      caps: G2_CAPS,
+      selectedEvidenceAnchors: _g2ea.sel,
+      selectedTreatments: _g2tr.sel,
+      selectedImplementationSteps: _g2is.sel,
+      selectedMechanismCandidates: _g2mc.sel,
+      selectedMethodCandidates: _g2md.sel,
+      selectedEmbodimentCandidates: _g2em.sel,
+      selectedFigurePlaceholders: _g2fg.sel,
+      selectedCitationHints: _g2ch.sel,
+      selectedSourceFeeds: _g2sf.sel,
+      omittedCounts: { evidenceAnchors: _g2ea.omitted, treatments: _g2tr.omitted, implementationSteps: _g2is.omitted, mechanismCandidates: _g2mc.omitted, methodCandidates: _g2md.omitted, embodimentCandidates: _g2em.omitted, figurePlaceholders: _g2fg.omitted, citationHints: _g2ch.omitted, sourceFeeds: _g2sf.omitted },
+      priorityReasons: [
+        'diagnosis-specific bundle anchors preferred over generic technology evidence',
+        'official/primary sources retained (CISA/NVD/NIST/antitrust filings where present)',
+        'mechanisms prioritized over figures under prompt-space limits',
+        'treatments with implementation relevance preferred over broad narrative',
+        'caps applied per field; full data preserved in the stored bundle + full DDP'
+      ],
+      retainedWarnings: warnings
+        .concat(s.technologyImmune ? ['immune: ' + s.technologyImmune.immuneState + ' (sev ' + s.technologyImmune.severity + ', ' + (s.technologyImmune.antigens || []).length + ' antigens; L2 traversal blocked)'] : [])
+        .concat(s.technologyConscience && s.technologyConscience.conscienceState === 'restrictive' ? ['conscience: ' + (s.technologyConscience.blockedClaims || []).slice(0, 3).join(', ') + ' blocked'] : []),
+      retainedBlockers: artifactContext.blockers,
+      // higher-layer compact summaries (forwarded to the finalizer via promptView)
+      immuneSummary: s.technologyImmune ? { immuneState: s.technologyImmune.immuneState, severity: s.technologyImmune.severity, antigenCount: (s.technologyImmune.antigens || []).length, quarantines: s.technologyImmune.quarantines, blockedFromTraversal: s.technologyImmune.blockedFromTraversal, allowedWithWarning: s.technologyImmune.allowedWithWarning } : null,
+      awarenessSummary: s.technologyAwareness ? { selfNarrative: s.technologyAwareness.selfNarrative, knowns: (s.technologyAwareness.knowns || []).length, uncertainties: (s.technologyAwareness.uncertainties || []).length } : null,
+      conscienceDecision: s.technologyConscience ? { conscienceState: s.technologyConscience.conscienceState, blockedClaims: s.technologyConscience.blockedClaims, artifactReadinessDecision: s.technologyConscience.artifactReadinessDecision } : null,
+      intuitionSummary: s.technologyIntuition ? s.technologyIntuition.hunches : null,
+      scenarioSummary: s.technologySimulation ? (s.technologySimulation.scenarios || []).map(function (x) { return { type: x.type, hypothetical: x.hypothetical, risk: x.risk }; }) : null,
+      executiveReport: s.technologyExecutiveReport || null,
+      l1DepthSummary: portalContext.l1Depth ? { realCompanyTickers: (portalContext.l1Depth.realCompanyTickers || []).length, realTreatments: portalContext.l1Depth.realTreatments, madLibTreatments: portalContext.l1Depth.madLibTreatments, admitted: portalContext.l1Depth.admitted } : null,
+      authoringIntake: treatmentContext.authoringIntake.length ? treatmentContext.authoringIntake : null,
+      // INNOVATION — R&D/compute sub-portal layer (real-content, SEPARATE from the validated spine, no bundle yet)
+      innovationSummary: s.innovationLayer && s.innovationLayer.loaded ? { count: s.innovationLayer.count, activeCount: s.innovationLayer.activeCount, diagnoses: s.innovationLayer.diagnoses, note: s.innovationLayer.note } : null
+    };
+
+    return {
+      schemaVersion: TECH_DDP_SCHEMA_VERSION,
+      promptView: promptView,
+      identity: identity,
+      brainState: brainState,
+      portalContext: portalContext,
+      evidence: evidence,
+      treatmentContext: treatmentContext,
+      operatorContext: operatorContext,
+      artifactContext: artifactContext,
+      audit: {
+        generatedAt: (cm.updated || null),
+        schemaVersion: TECH_DDP_SCHEMA_VERSION,
+        fieldCompleteness: { sections: comp, overallPct: pct },
+        missingFields: missingFields,
+        warnings: warnings,
+        proofTier: proofTier,
+        immune: s.technologyImmune || null,
+        awareness: s.technologyAwareness || null,
+        conscience: s.technologyConscience || null,
+        intuition: s.technologyIntuition || null,
+        simulation: s.technologySimulation || null,
+        executiveReport: s.technologyExecutiveReport || null
+      }
+    };
+  };
 
   var brain = new TechnologyBrain(); brain.init(); brain.start();
   window.LIMENTechnologyBrain = brain;

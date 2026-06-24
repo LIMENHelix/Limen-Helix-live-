@@ -29,6 +29,8 @@
   var FINANCE_STACK_COOLDOWN = 180000; // 3 min between finance-stack narrations
   var ECONOMY_STACK_THRESHOLD = 2; // a macroeconomic-vulnerability stack seen N times signals concentration
   var ECONOMY_STACK_COOLDOWN = 180000; // 3 min between economy-stack narrations
+  var TECHNOLOGY_STACK_THRESHOLD = 2; // a technology-vulnerability stack seen N times signals concentration
+  var TECHNOLOGY_STACK_COOLDOWN = 180000; // 3 min between technology-stack narrations
 
   // ─── Infrastructure vulnerability-stack semantics ─────────────────────────
   // CIVIL domain-semantic concentration. Generic (domain, action) frequency only
@@ -195,6 +197,58 @@
       body: 'Operator attention concentrates on the supply-shock + credit-crunch stack — a supply-side disruption spilling over into tighter credit and constrained financing.' }
   ];
 
+  // ─── Technology vulnerability-stack semantics ─────────────────────────────
+  // TECHNOLOGY domain-semantic concentration. As with infrastructure, culture,
+  // finance and economy, generic (domain, action) frequency only says WHERE the
+  // operator is looking; for the technology domain we also detect WHAT
+  // technology-vulnerability STACK the attention concentrates on. Each stack is a
+  // co-occurring pair of technology signal families (compute & GPU/TPU capacity/
+  // semiconductor fab cycle & wafer starts & node migration/AI training & inference
+  // capex/platform & API stability & vendor consolidation/cybersecurity 0-day &
+  // supply-chain attack/hardware obsolescence & EOL/breakthrough emergence —
+  // foundational models & quantum milestones/upstream supply allocation —
+  // TSMC/ASML/rare-earth). The technology identity is CHIPS, SOFTWARE, AI, CLOUD,
+  // HARDWARE, CYBERSECURITY and R&D pipelines — bound to real tech equities
+  // (AAPL, MSFT, NVDA, GOOGL, META, AMZN, AVGO, ORCL, CRM, AMD, INTC, TSM, ASML,
+  // PLTR, CRWD, PANW). Technology COUPLES to energy via compute/datacenter power
+  // demand, but its OWN content is never energy oil/gas/grid; it is also kept
+  // DISTINCT from finance (fintech is a coupling, not the identity).
+  // Mirrors the technology-brain cross-domain conditions:
+  //   COMPUTE_SHORTAGE + CHIP_CYCLE          → compute-crunch on foundational scaling
+  //   AI_CAPEX + PLATFORM_SHIFT              → AI-cost lock-in
+  //   CYBERSECURITY_FAILURE + SUPPLY_CONSTRAINT → supply-chain cyber exposure
+  // Signal tokens are matched against recorded action/type/pattern text — never
+  // invented; absence of tokens simply yields no stack (silent, no false signal).
+  // STRICTLY ADDITIVE: advisory only; never participates in /api/limen/score scoring.
+  var TECHNOLOGY_SIGNAL_TOKENS = {
+    COMPUTE_SHORTAGE:          /(compute[_\s-]?shortage|gpu|tpu|accelerator|h100|h200|b200|datacenter[_\s-]?capacity|cluster|allocation[_\s-]?cap|compute[_\s-]?constrain|capacity[_\s-]?queue|interconnect[_\s-]?bottleneck)/i,
+    CHIP_CYCLE:                /(fab|foundry|wafer[_\s-]?start|node[_\s-]?migration|process[_\s-]?node|3nm|2nm|tape[_\s-]?out|lead[_\s-]?time|chip[_\s-]?cycle|semiconductor[_\s-]?cycle|inventory[_\s-]?correction|yield[_\s-]?ramp)/i,
+    AI_CAPEX:                  /(ai[_\s-]?capex|training[_\s-]?cost|inference[_\s-]?cost|per[_\s-]?token|cost[_\s-]?per[_\s-]?token|model[_\s-]?spend|flops|training[_\s-]?run|compute[_\s-]?budget|capex[_\s-]?spike|hyperscaler[_\s-]?spend)/i,
+    PLATFORM_SHIFT:            /(api[_\s-]?deprecat|platform[_\s-]?shift|vendor[_\s-]?consolidation|vendor[_\s-]?lock|migration[_\s-]?forced|sunset|breaking[_\s-]?change|sdk[_\s-]?break|ecosystem[_\s-]?shift|stack[_\s-]?migration|pricing[_\s-]?change)/i,
+    CYBERSECURITY_FAILURE:     /(0[_\s-]?day|zero[_\s-]?day|cve|breach|ransomware|supply[_\s-]?chain[_\s-]?attack|exploit|vulnerability|patch[_\s-]?lag|security[_\s-]?incident|data[_\s-]?breach|intrusion|backdoor)/i,
+    OBSOLESCENCE_ACCELERATION: /(obsolescence|end[_\s-]?of[_\s-]?life|eol|hardware[_\s-]?refresh|deprecat|legacy[_\s-]?stack|tech[_\s-]?debt|sunset[_\s-]?roadmap|refresh[_\s-]?cycle|aging[_\s-]?hardware|forced[_\s-]?upgrade)/i,
+    BREAKTHROUGH_EMERGENCE:    /(foundational[_\s-]?model|frontier[_\s-]?model|breakthrough|quantum[_\s-]?milestone|quantum[_\s-]?supremacy|capability[_\s-]?jump|emergent[_\s-]?capability|paradigm[_\s-]?shift|state[_\s-]?of[_\s-]?the[_\s-]?art|architecture[_\s-]?leap|model[_\s-]?release)/i,
+    SUPPLY_CONSTRAINT:         /(tsmc|asml|euv|rare[_\s-]?earth|substrate[_\s-]?shortage|hbm|cowos|advanced[_\s-]?packaging|allocation[_\s-]?priority|supply[_\s-]?lead[_\s-]?time|export[_\s-]?control|foundry[_\s-]?allocation|component[_\s-]?shortage)/i
+  };
+
+  // Technology-vulnerability STACKS — ordered token pairs with a technology interpretation.
+  // Each describes an operator-concentration meaning specific to a technology vulnerability
+  // stack (semiconductors & compute, AI/ML, software & cloud, hardware & devices,
+  // cybersecurity, R&D & innovation pipelines, platform networks, data infrastructure) —
+  // NOT energy oil/gas/grid content and NOT finance capital-markets content.
+  var TECHNOLOGY_VULN_STACKS = [
+    { id: 'COMPUTE_SCALING_CRUNCH', signals: ['COMPUTE_SHORTAGE', 'CHIP_CYCLE'],
+      body: 'Operator attention concentrates on the compute-shortage + chip-cycle stack — a compute crunch on foundational scaling as GPU/TPU capacity collides with fab lead-times and node migration.' },
+    { id: 'AI_COST_LOCK_IN',        signals: ['AI_CAPEX', 'PLATFORM_SHIFT'],
+      body: 'Operator attention concentrates on the AI-capex + platform-shift stack — training/inference cost inflation compounding with API deprecation and vendor consolidation into AI cost lock-in.' },
+    { id: 'SUPPLY_CHAIN_CYBER_EXPOSURE', signals: ['CYBERSECURITY_FAILURE', 'SUPPLY_CONSTRAINT'],
+      body: 'Operator attention concentrates on the cybersecurity-failure + supply-constraint stack — supply-chain attacks and 0-days landing on top of TSMC/ASML/rare-earth allocation pressure.' },
+    { id: 'OBSOLESCENCE_PLATFORM_DEBT', signals: ['OBSOLESCENCE_ACCELERATION', 'PLATFORM_SHIFT'],
+      body: 'Operator attention concentrates on the obsolescence + platform-shift stack — accelerating hardware EOL forcing migrations as vendors deprecate APIs and consolidate stacks.' },
+    { id: 'BREAKTHROUGH_COMPUTE_RACE', signals: ['BREAKTHROUGH_EMERGENCE', 'COMPUTE_SHORTAGE'],
+      body: 'Operator attention concentrates on the breakthrough-emergence + compute-shortage stack — frontier model and quantum milestones intensifying scarcity in accelerator capacity.' }
+  ];
+
   // ─── State ───────────────────────────────────────────────────────────────
 
   var _entries = [];
@@ -208,6 +262,8 @@
   var _lastFinanceStackId = null;
   var _lastEconomyStackTime = 0;
   var _lastEconomyStackId = null;
+  var _lastTechnologyStackTime = 0;
+  var _lastTechnologyStackId = null;
   var _interval = null;
 
   // Detect which civil signal families a user-action references, by scanning its
@@ -258,6 +314,18 @@
     return hits;
   }
 
+  // Detect which technology signal families a user-action references, by scanning its
+  // free-text fields (action / type / cross-domain pattern). Returns a list of
+  // canonical technology signal ids. Never fabricates — empty if nothing matches.
+  function _detectTechnologySignals(text) {
+    if (!text) return [];
+    var hits = [];
+    for (var sig in TECHNOLOGY_SIGNAL_TOKENS) {
+      if (TECHNOLOGY_SIGNAL_TOKENS[sig].test(text)) hits.push(sig);
+    }
+    return hits;
+  }
+
   // ─── Record decision ─────────────────────────────────────────────────────
 
   function _onUserAction(e) {
@@ -302,6 +370,10 @@
       // ECONOMY: which macroeconomic signal families this action touches (may be []).
       economySignals: _detectEconomySignals(
         [detail.action, detail.type, matchedPattern, detail.signal, detail.diagnosis].join(' ')
+      ),
+      // TECHNOLOGY: which technology signal families this action touches (may be []).
+      technologySignals: _detectTechnologySignals(
+        [detail.action, detail.type, matchedPattern, detail.signal, detail.diagnosis].join(' ')
       )
     };
 
@@ -316,6 +388,7 @@
     _checkCultureStackConcentration();
     _checkFinanceStackConcentration();
     _checkEconomyStackConcentration();
+    _checkTechnologyStackConcentration();
   }
 
   // ─── Concentration detection ──────────────────────────────────────────────
@@ -655,6 +728,74 @@
     });
   }
 
+  // ─── Technology vulnerability-stack concentration ─────────────────────────
+  // Domain-semantic concentration for TECHNOLOGY: beyond "which domain" (above),
+  // surface WHICH technology-vulnerability STACK the operator keeps returning to.
+  // Tallies co-occurring technology signal families across recent entries and fires
+  // when a known stack (compute-scaling-crunch, AI-cost-lock-in, supply-chain-cyber-
+  // exposure, obsolescence-platform-debt, breakthrough-compute-race) crosses the
+  // threshold. Schema-faithful to _checkEconomyStackConcentration (same phase-change
+  // shape). STRICTLY ADDITIVE, advisory only, and kept DISTINCT from the finance
+  // capital-markets layer above (fintech is a coupling, not the identity).
+
+  function _checkTechnologyStackConcentration() {
+    var now = Date.now();
+    if (now - _lastTechnologyStackTime < TECHNOLOGY_STACK_COOLDOWN) return;
+    if (_entries.length < TECHNOLOGY_STACK_THRESHOLD) return;
+
+    // Count per-signal-family hits across recent entries (last 10).
+    var recent = _entries.slice(-10);
+    var sigCounts = {};
+    for (var i = 0; i < recent.length; i++) {
+      var sigs = recent[i].technologySignals || [];
+      for (var s = 0; s < sigs.length; s++) {
+        sigCounts[sigs[s]] = (sigCounts[sigs[s]] || 0) + 1;
+      }
+    }
+
+    // A stack fires only when BOTH of its signal families are present and at least
+    // one of them has been focused on repeatedly (>= threshold). Score = sum of the
+    // pair's counts; pick the strongest stack.
+    var best = null;
+    for (var k = 0; k < TECHNOLOGY_VULN_STACKS.length; k++) {
+      var stack = TECHNOLOGY_VULN_STACKS[k];
+      var a = sigCounts[stack.signals[0]] || 0;
+      var b = sigCounts[stack.signals[1]] || 0;
+      if (a === 0 || b === 0) continue;
+      if (Math.max(a, b) < TECHNOLOGY_STACK_THRESHOLD) continue;
+      var score = a + b;
+      if (!best || score > best.score) best = { stack: stack, a: a, b: b, score: score };
+    }
+
+    if (!best) return;
+    if (best.stack.id === _lastTechnologyStackId) return; // don't re-narrate the same stack
+
+    _lastTechnologyStackTime = now;
+    _lastTechnologyStackId = best.stack.id;
+
+    var drivers = [
+      best.a + ' recent actions touching ' + best.stack.signals[0],
+      best.b + ' recent actions touching ' + best.stack.signals[1]
+    ];
+
+    var options = [
+      { label: 'deepen ' + best.stack.id.toLowerCase().replace(/_/g, ' ') + ' analysis', type: 'analysis' },
+      { label: 'broaden scope', type: 'monitoring' },
+      { label: 'hold', type: 'monitoring' }
+    ];
+
+    _dispatch('limen:phase-change', {
+      from: 'observing',
+      to: 'concentrated',
+      type: 'decision-memory',
+      domain: 'technology',
+      stackId: best.stack.id,
+      topDrivers: drivers,
+      options: options,
+      body: best.stack.body
+    });
+  }
+
   // ─── Publish ──────────────────────────────────────────────────────────────
 
   function _publish() {
@@ -666,6 +807,7 @@
       cultureSignalConcentration: _cultureSignalConcentration(),
       financeSignalConcentration: _financeSignalConcentration(),
       economySignalConcentration: _economySignalConcentration(),
+      technologySignalConcentration: _technologySignalConcentration(),
       updated: Date.now()
     };
 
@@ -731,6 +873,23 @@
     var recent = _entries.slice(-10);
     for (var i = 0; i < recent.length; i++) {
       var sigs = recent[i].economySignals || [];
+      for (var s = 0; s < sigs.length; s++) {
+        counts[sigs[s]] = (counts[sigs[s]] || 0) + 1;
+      }
+    }
+    var out = [];
+    for (var sig in counts) { out.push({ signal: sig, count: counts[sig] }); }
+    out.sort(function (x, y) { return y.count - x.count; });
+    return out;
+  }
+
+  // TECHNOLOGY: roll up which technology signal families recent attention concentrates
+  // on (descending by count). Empty when no technology signals were detected.
+  function _technologySignalConcentration() {
+    var counts = {};
+    var recent = _entries.slice(-10);
+    for (var i = 0; i < recent.length; i++) {
+      var sigs = recent[i].technologySignals || [];
       for (var s = 0; s < sigs.length; s++) {
         counts[sigs[s]] = (counts[sigs[s]] || 0) + 1;
       }

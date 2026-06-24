@@ -81,7 +81,7 @@
   var LANE_GATES = {
     'patents':         { minEvidence: 0.55, minConfidence: 0.60, singleDomainOnly: true,  anyDomain: ['technology','energy','infrastructure','industry','medicine','defense','agriculture'] },
     'copyrights':      { minEvidence: 0.45, minConfidence: 0.50, singleDomainOnly: false, anyDomain: ['culture','communication','religion','governance','law','intelligence'] },
-    'business-grants': { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['agriculture','industry','infrastructure','supplyChain','education','energy'] },
+    'business-grants': { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['agriculture','industry','infrastructure','supplyChain','education','energy','technology'] },
     'research-grants': { minEvidence: 0.55, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['research','education','medicine','health','science','environment'] },
     // nsf-project-pitch — NSF SBIR/STTR Project Pitch lane. Stricter than the
     // generic research-grants gate: NSF demands BOTH technical innovation AND
@@ -90,7 +90,7 @@
     // draft." It does NOT signal NSF eligibility, submission readiness, fit
     // with NSF priorities, reviewer alignment, or any prediction of award.
     'nsf-project-pitch': { minEvidence: 0.55, minConfidence: 0.60, singleDomainOnly: false, anyDomain: ['research','technology','medicine','health','science','energy','infrastructure','environment','industry'] },
-    'sba-loans':       { minEvidence: 0.45, minConfidence: 0.50, singleDomainOnly: true,  anyDomain: ['economy','finance','industry','agriculture','supplyChain','infrastructure'] },
+    'sba-loans':       { minEvidence: 0.45, minConfidence: 0.50, singleDomainOnly: true,  anyDomain: ['economy','finance','industry','agriculture','supplyChain','infrastructure','technology'] },
     'franchise':       { minEvidence: 0.45, minConfidence: 0.50, singleDomainOnly: true,  anyDomain: ['supplyChain','industry','culture','agriculture'] },
     'investments':     { minEvidence: 0.55, minConfidence: 0.60, singleDomainOnly: true,  anyDomain: ['finance','economy','technology','energy','infrastructure'] },
     'research-papers': { minEvidence: 0.40, minConfidence: 0.45, singleDomainOnly: false, anyDomain: ['research','medicine','health','science','education','population','environment'] },
@@ -100,7 +100,7 @@
     //   relationship (like sba-loans / a patent), so cross-node multi-domain
     //   aggregations are routed away. Finance-primary, with the lending-
     //   adjacent real-economy domains that originate credit demand.
-    'credit-facilities':  { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: true,  anyDomain: ['finance','economy','industry','infrastructure','supplyChain'] },
+    'credit-facilities':  { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: true,  anyDomain: ['finance','economy','industry','infrastructure','supplyChain','technology'] },
     // systemic-risk — solvency cascades / contagion / liquidity-spiral signal.
     //   Inherently cross-domain (contagion crosses sector boundaries), so
     //   singleDomainOnly is false. Higher evidence/confidence bar: a systemic-

@@ -193,6 +193,25 @@
       economy_demand_weakness:       'Aggregate demand weakening. Consumer confidence and business investment pulling back.',
       economy_supply_disruption:     'Supply-side pressure building. Producer prices and input shortages straining output.',
       economy_generic:               'Macroeconomy under stress. Growth, prices, and employment pressured.',
+      // Technology-specific distress voice — semiconductors/compute/AI/software/cyber-grounded,
+      // mirrors energy's per-diagnosis narration (energy-brain diagnosisIndex) and the
+      // infrastructure/culture/finance/economy ports above, but for the TECHNOLOGY domain identity:
+      // semiconductors & compute (fabs, GPUs/TPUs, wafer supply), AI/ML (training, inference,
+      // alignment), software & cloud, hardware & devices, cybersecurity, R&D & innovation pipelines,
+      // platform networks, data infrastructure. Maps to technology-brain diagnosisIndex (CYBER_ATTACK /
+      // AI_ALIGNMENT_FAILURE / INFRASTRUCTURE_COLLAPSE / DATA_BREACH / CHIP_SHORTAGE / PLATFORM_MONOPOLY).
+      // Couples to energy via compute demand but keeps tech identity (chips/AI/software/cyber), and is
+      // DISTINCT from finance (fintech is a coupling, not the identity). Real tickers: NVDA, AVGO, AMD,
+      // INTC, TSM, ASML, MSFT, GOOGL, META, AMZN, ORCL, CRM, AAPL, PLTR, CRWD, PANW.
+      tech_chip_shortage:            'Semiconductor supply tightening. Wafer allocation and foundry capacity falling behind demand.',
+      tech_compute_bottleneck:       'Compute capacity constraints rising. GPU/TPU allocation pressure accelerating across training and inference.',
+      tech_ai_alignment_failure:     'AI alignment risk rising. Model behavior, autonomy, and bias drift exceeding control margins.',
+      tech_cyber_breach:             'Cyber exposure rising. Intrusion, ransomware, and data-exfiltration pressure climbing.',
+      tech_platform_monopoly:        'Platform concentration deepening. Lock-in and innovation suppression distorting competition.',
+      tech_supply_disruption:        'Hardware supply chain strained. Component scarcity and manufacturing bottlenecks propagating.',
+      tech_obsolescence_acceleration:'Obsolescence accelerating. Legacy stacks and aging hardware repricing faster than refresh cycles.',
+      tech_breakthrough_emergence:   'Breakthrough signal forming. A capability step-change is reshaping the technology frontier.',
+      tech_generic:                  'Technology domain under stress. Compute, software, and platforms pressured.',
       global_shift:        'Global state shifted to {state}.',
       event_start:         '{event} detected.',
       event_end:           '{event} resolved.',
@@ -237,6 +256,15 @@
       economy_demand_weakness:       'Demand weak. Defer expansion and conserve capital.',
       economy_supply_disruption:     'Supply shock. Secure inputs and rebuild inventory buffers.',
       economy_generic:               'Macroeconomy elevated. Investigate growth and prices.',
+      tech_chip_shortage:            'Chip shortage. Secure wafer allocation and qualify second-source foundries.',
+      tech_compute_bottleneck:       'Compute shortage. Secure cloud quota and optimize inference efficiency.',
+      tech_ai_alignment_failure:     'AI alignment failure. Halt autonomy escalation and tighten model guardrails.',
+      tech_cyber_breach:             'Cyber breach. Contain intrusion, rotate credentials, and harden the perimeter.',
+      tech_platform_monopoly:        'Platform lock-in. Diversify dependencies and reduce single-vendor exposure.',
+      tech_supply_disruption:        'Hardware supply shock. Pre-buy components and rebuild inventory buffers.',
+      tech_obsolescence_acceleration:'Stack obsolescing. Accelerate migration and retire legacy hardware.',
+      tech_breakthrough_emergence:   'Breakthrough emerging. Reprioritize R&D and move on the capability lead.',
+      tech_generic:                  'Technology domain elevated. Investigate compute and platforms.',
       global_shift:        'State change: {state}.',
       event_start:         'Event: {event}. Tracking.',
       event_end:           'Event cleared: {event}.',
@@ -401,6 +429,21 @@
       }
     }
 
+    // Technology parity: mirror energy's per-diagnosis voice the same way infrastructure,
+    // culture, finance, and economy do. Technology distinguishes chip shortage / compute
+    // bottleneck / AI alignment failure / cyber breach / platform monopoly / supply disruption /
+    // obsolescence / breakthrough via technology-brain diagnosisIndex (CYBER_ATTACK /
+    // AI_ALIGNMENT_FAILURE / INFRASTRUCTURE_COLLAPSE / DATA_BREACH / CHIP_SHORTAGE /
+    // PLATFORM_MONOPOLY). Classify the tech distress flavor from signal content and narrate a
+    // technology-specific line instead of the generic. CLIENT-SIDE narration flavor only.
+    if (detail.domain === 'technology') {
+      var tkey = _classifyTechnologyDistress(detail.signals);
+      if (tkey) {
+        _narrate(tkey, {}, PRIORITY_MEDIUM);
+        return;
+      }
+    }
+
     _narrate('domain_distress', { domain: NAMES[detail.domain] || detail.domain }, PRIORITY_MEDIUM);
   }
 
@@ -528,6 +571,44 @@
     if (/policy|fedfunds|fed[\s_-]?funds|rate[\s_-]?(hike|cut|miscalibrat|path)|central[\s_-]?bank|fiscal[\s_-]?cliff|monetary/.test(blob)) return 'economy_policy_error';
     if (/demand[\s_-]?weak|consumer[\s_-]?(confidence|sentiment)|umcsent|capex[\s_-]?(pause|pullback)|investment[\s_-]?pullback|business[\s_-]?sentiment/.test(blob)) return 'economy_demand_weakness';
     return 'economy_generic';
+  }
+
+  // Map raw technology signal content → a technology distress voice key.
+  // Tech vocabulary covers the TECHNOLOGY domain identity: semiconductors & compute (fabs, GPUs/
+  // TPUs, wafer/foundry supply), AI/ML (training, inference, alignment, autonomy), software & cloud,
+  // hardware & devices, cybersecurity, R&D & innovation pipelines, platform networks, data
+  // infrastructure. Maps to technology-brain diagnosisIndex (CYBER_ATTACK / AI_ALIGNMENT_FAILURE /
+  // INFRASTRUCTURE_COLLAPSE / DATA_BREACH / CHIP_SHORTAGE / PLATFORM_MONOPOLY) plus emergence/
+  // obsolescence flavors. Recognizes real tech tickers (NVDA, AVGO, AMD, INTC, TSM, ASML, MSFT,
+  // GOOGL, META, AMZN, ORCL, CRM, AAPL, PLTR, CRWD, PANW). Technology COUPLES to energy via compute
+  // demand but keeps its own identity (chips/AI/software/cyber) and stays DISTINCT from finance.
+  // This is the narration flavor ONLY — it never touches any scoring path. Returns a TEMPLATES key.
+  function _classifyTechnologyDistress(signals) {
+    var blob = '';
+    if (Array.isArray(signals)) {
+      for (var i = 0; i < signals.length; i++) {
+        var s = signals[i];
+        if (typeof s === 'string') blob += ' ' + s;
+        else if (s && typeof s === 'object') {
+          blob += ' ' + (s.type || '') + ' ' + (s.id || '') + ' ' + (s.label || '') + ' ' + (s.name || '');
+        }
+      }
+    }
+    blob = blob.toLowerCase();
+
+    // Order by specificity: AI alignment and cyber/data breach are sharpest, then chip shortage,
+    // compute bottleneck, platform monopoly, supply disruption, breakthrough emergence,
+    // obsolescence; fall back to a generic technology line. Mirrors the energy/infra/culture/
+    // finance/economy classifier structure exactly. Matches real tech tickers alongside plain words.
+    if (/ai[\s_-]?(alignment|safety|misalign)|alignment[\s_-]?(failure|gap|risk)|autonomy[\s_-]?(overreach|escalat)|bias[\s_-]?amplif|model[\s_-]?(drift|behavior)|rogue[\s_-]?(model|agent)/.test(blob)) return 'tech_ai_alignment_failure';
+    if (/cyber|breach|ransomware|intrusion|exfiltrat|credential[\s_-]?compromise|data[\s_-]?(breach|leak)|privacy[\s_-]?exposure|crwd|panw|zero[\s_-]?day|malware|phishing/.test(blob)) return 'tech_cyber_breach';
+    if (/chip|semiconductor|wafer|foundry|fab\b|node[\s_-]?(shrink|process)|tsm|asml|nvda|avgo|amd|intc|lithography/.test(blob)) return 'tech_chip_shortage';
+    if (/compute|gpu|tpu|accelerator|training[\s_-]?(run|cluster)|inference|cloud[\s_-]?(quota|capacity)|datacenter[\s_-]?(constraint|capacity)|fly\b/.test(blob)) return 'tech_compute_bottleneck';
+    if (/platform|monopoly|lock[\s_-]?in|antitrust|market[\s_-]?concentration|app[\s_-]?store|gatekeeper|googl|meta\b|amzn|aapl|msft/.test(blob)) return 'tech_platform_monopoly';
+    if (/supply[\s_-]?(chain|disruption|shock|constraint)|component[\s_-]?(scarcity|shortage)|manufacturing[\s_-]?bottleneck|hardware[\s_-]?supply|logistics|export[\s_-]?control/.test(blob)) return 'tech_supply_disruption';
+    if (/breakthrough|emergence|step[\s_-]?change|frontier[\s_-]?(model|capab)|state[\s_-]?of[\s_-]?the[\s_-]?art|capability[\s_-]?(leap|jump)|innovation[\s_-]?surge|paradigm[\s_-]?shift/.test(blob)) return 'tech_breakthrough_emergence';
+    if (/obsolesc|legacy[\s_-]?(stack|system|hardware)|deprecat|end[\s_-]?of[\s_-]?life|aging[\s_-]?(hardware|infra)|technical[\s_-]?debt|refresh[\s_-]?cycle|stagnant[\s_-]?stack/.test(blob)) return 'tech_obsolescence_acceleration';
+    return 'tech_generic';
   }
 
   function _onGlobalStateUpdate(e) {

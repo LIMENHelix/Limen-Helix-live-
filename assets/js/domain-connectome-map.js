@@ -99,7 +99,18 @@
     { source: 'supplyChain',    target: 'finance' },      // trade finance / settlement rails — short-term liquidity roll
     //   Solvency circuit (dlPFC→vmPFC→STRI): capital adequacy / credit losses on the balance sheet.
     { source: 'economy',        target: 'finance' },      // credit-cycle losses (BAC, WFC) erode capital base — solvency
-    { source: 'law',            target: 'finance' }       // capital-adequacy regulation / credit-claim enforcement — solvency
+    { source: 'law',            target: 'finance' },      // capital-adequacy regulation / credit-claim enforcement — solvency
+    // ── ADDITIVE: TECHNOLOGY stress-contagion edges (weighted/typed) ──
+    // Distinct from the passive structural edges above (education→technology,
+    // technology→communication, research→technology, technology→finance). These
+    // carry weight+type so a TECHNOLOGY stress wave (semiconductor scarcity,
+    // innovation/security debt — NVDA/AVGO/TSM/ASML compute, CRWD/PANW cyber)
+    // propagates as CONTAGION when technology stress > 0.55, independent of the
+    // generic 'industry/production' channel. Identity stays chips/AI/software/cyber;
+    // energy is reached only as a DEMAND signal via infrastructure power/cooling.
+    { source: 'technology',     target: 'infrastructure', weight: 0.8, type: 'DEPENDS_ON' }, // compute (data infra) needs power/cooling capacity nodes (CARD/BDNF/SNS)
+    { source: 'technology',     target: 'energy',         weight: 0.7, type: 'SUPPLIES' },   // tech stress → defensive/less-efficient compute → AI-training/data-center load → energy DEMAND spike (route via infrastructure, not grid policy)
+    { source: 'technology',     target: 'supplyChain',    weight: 0.8, type: 'DEPENDS_ON' }  // semiconductor/component scarcity (tech) blocks goods production (supply chain) — one-directional, not vice versa
   ];
 
   // ─── Color mapping ──────────────────────────────────────────────────────

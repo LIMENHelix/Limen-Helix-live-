@@ -43,7 +43,8 @@
     communication: { factor: 0.45, ceiling: 0.75, reason: 'volume-dampened: headline count' },
     governance:    { factor: 0.55, ceiling: 0.80, reason: 'tone-dampened: negative tone bias' },
     finance:       { factor: 0.60, ceiling: 0.85, reason: 'volatility-dampened: common market moves' },
-    infrastructure:{ factor: 0.50, ceiling: 0.80, reason: 'cyber-dampened: embedded system CVE churn does not indicate compromise; construction-index-dampened: baseline volatility' }
+    infrastructure:{ factor: 0.50, ceiling: 0.80, reason: 'cyber-dampened: embedded system CVE churn does not indicate compromise; construction-index-dampened: baseline volatility' },
+    technology:    { factor: 0.55, ceiling: 0.82, reason: 'adoption-velocity-dampened: patent/arxiv/GitHub churn inflates commodity signal noise' }
   };
 
   // Structural-signal overrides for infrastructure: certain engineering constraints are
@@ -121,6 +122,37 @@
     creditCrunchFloor:         0.70, // IG-HY credit spread > +150bp always reads as credit_crunch
     demandWeaknessFloor:       0.55, // real-wage growth < 0% YoY always reads as demand_weakness
     recessionDeclarationFloor: 0.75  // GDPC1 < 0 for 2 consecutive quarters always reads as recession_declaration
+  };
+
+  // Structural-signal overrides for technology: certain COMPUTE/SUPPLY-CHAIN/SECURITY
+  // constraints are NOT noisy patent/arxiv/GitHub/CVE-churn signals and must bypass
+  // saturation dampening (mirrors infrastructure's grid_stress, culture's scene_collapse,
+  // finance's liquidity_crunch, and economy's recession_declaration structural conditions —
+  // all of which mirror energy-brain's grid_stress reserve-margin floor, a load-bearing
+  // engineering constraint that is never dampened as commodity noise).
+  // The technology domain is SEMICONDUCTORS & COMPUTE, AI/ML, software & cloud, hardware &
+  // devices, cybersecurity, R&D & innovation pipelines, platform networks, and data
+  // infrastructure (tickers: AAPL, MSFT, NVDA, GOOGL, META, AMZN, AVGO, ORCL, CRM, AMD,
+  // INTC, TSM, ASML, PLTR, CRWD, PANW). It stays DISTINCT from finance (fintech is a
+  // coupling, not the identity) and from energy (technology couples to energy via compute
+  // demand, but its identity is chips/software/AI/cyber — NOT oil/gas/grid/datacenter).
+  // These floors are LOAD-BEARING capacity/supply/security/concentration constraints — a real
+  // compute-capacity ceiling or a chip-fab shortage must never be averaged down by the
+  // adoption-velocity (patent/arxiv/GitHub churn) dampening factor (0.55).
+  // Raw stress is forced to the floor when a structural threshold is crossed, before dampening.
+  //   - compute-capacity exhaustion (GPU utilization > 95%)            → compute_capacity (structural)
+  //   - chip-fab shortage (TSMC/Samsung wafer starts drop > 30% YoY)   → chip_shortage (structural)
+  //   - AI-training cost blowout (cost-per-token > 10x baseline)        → ai_cost (structural)
+  //   - cyber-breach surge (0-day exploit rate > 3 per week)            → cyber_breach (structural)
+  //   - platform monopoly (top-3 vendor lock-in > 80%)                  → platform_monopoly (structural)
+  // ADDITIVE ONLY — client-side advisory floor for the domain panel/snapshot; it does NOT
+  // touch the validated P3 distress kernel (/api/limen/score path), which lives in finance.
+  var _TECHNOLOGY_STRUCTURAL = {
+    computeCapacityFloor:   0.65, // GPU utilization > 95% always reads as compute_capacity
+    chipShortageFloor:      0.68, // TSMC/Samsung wafer-start drop > 30% YoY always reads as chip_shortage
+    aiCostFloor:            0.70, // training cost-per-token > 10x baseline always reads as ai_cost
+    cyberBreachFloor:       0.65, // 0-day exploit rate > 3 per week always reads as cyber_breach
+    platformMonopolyFloor:  0.60  // top-3 vendor lock-in > 80% always reads as platform_monopoly
   };
 
   // Rolling baseline state (accumulates across feed cycles within session)
@@ -391,6 +423,108 @@
     return { floor: floor, reason: reason };
   }
 
+  // Detect technology COMPUTE/SUPPLY-CHAIN/SECURITY structural constraints from a feed object.
+  // Returns a forced stress floor (0 if none) — capacity/supply/security/concentration breaches
+  // bypass adoption-velocity (patent/arxiv/GitHub/CVE-churn) dampening. Mirrors
+  // _infraStructuralFloor / _cultureStructuralFloor / _financeStructuralFloor / _economyStructuralFloor:
+  // compute-capacity / chip-shortage / ai-cost / cyber-breach / platform-monopoly are load-bearing
+  // compute-economy constraints, not commodity-signal noise to be averaged down.
+  // Binds to compute/fab/AI-cost/exploit/vendor-concentration metrics and tech tickers
+  // (AAPL, MSFT, NVDA, GOOGL, META, AMZN, AVGO, ORCL, CRM, AMD, INTC, TSM, ASML, PLTR, CRWD, PANW) —
+  // NEVER oil/gas/grid/datacenter as the domain's OWN content (technology couples to energy via
+  // compute demand, but its identity stays chips/software/AI/cyber), and DISTINCT from finance.
+  // ADDITIVE ONLY — client-side advisory floor; does NOT touch the validated P3 distress kernel.
+  function _technologyStructuralFloor(feed) {
+    if (!feed) return { floor: 0, reason: '' };
+    var floor = 0;
+    var reason = '';
+    var signals = feed.signals || [];
+    function _has(token) {
+      for (var i = 0; i < signals.length; i++) {
+        if (typeof signals[i] === 'string' && signals[i].toLowerCase().indexOf(token) !== -1) return true;
+      }
+      return false;
+    }
+    // (3) AI-training cost blowout: cost-per-token > 10x baseline ALWAYS triggers ai_cost
+    //     (highest tech floor — a compute-economics break in the AI/ML training pipeline).
+    //     aiTrainingCostMultiple is taken as a multiple of baseline (e.g. 12 = 12x).
+    var aiCostMultiple = (feed.aiTrainingCostMultiple !== undefined) ? feed.aiTrainingCostMultiple
+                       : (feed.trainingCostPerTokenMultiple !== undefined) ? feed.trainingCostPerTokenMultiple
+                       : null;
+    if ((aiCostMultiple !== null && aiCostMultiple > 10 && (_has('train') || _has('token') || _has('compute') || _has('ai'))) ||
+        _has('training cost blowout') || _has('ai-cost') || _has('cost-per-token')) {
+      if (_TECHNOLOGY_STRUCTURAL.aiCostFloor > floor) {
+        floor = _TECHNOLOGY_STRUCTURAL.aiCostFloor;
+        reason = 'structural: ai_cost' + (aiCostMultiple !== null ? ' (training cost/token ' + aiCostMultiple.toFixed(1) + 'x > 10x baseline)' : '');
+      }
+    }
+    // (2) Chip-fab shortage: TSMC/Samsung wafer-start drop > 30% YoY ALWAYS triggers chip_shortage
+    //     (semiconductor supply-chain constraint — TSM/ASML/AVGO/AMD/INTC/NVDA exposure).
+    //     waferStartDropYoY accepts fraction (-0.35) or percent (-35) form.
+    var waferDrop = (feed.waferStartDropYoY !== undefined) ? feed.waferStartDropYoY
+                  : (feed.foundryUtilizationDrop !== undefined) ? feed.foundryUtilizationDrop
+                  : null;
+    var waferFrac = (waferDrop !== null && (waferDrop > 1 || waferDrop < -1)) ? waferDrop / 100 : waferDrop;
+    // treat as magnitude: a drop > 30% means waferFrac < -0.30 (or a positive 0.30+ "drop" reading)
+    var waferMag = (waferFrac !== null) ? Math.abs(waferFrac) : null;
+    if ((waferMag !== null && waferMag > 0.30 && (_has('chip') || _has('wafer') || _has('fab') || _has('foundry') || _has('semiconductor'))) ||
+        _has('chip shortage') || _has('chip-shortage') || _has('wafer shortage')) {
+      if (_TECHNOLOGY_STRUCTURAL.chipShortageFloor > floor) {
+        floor = _TECHNOLOGY_STRUCTURAL.chipShortageFloor;
+        reason = 'structural: chip_shortage' + (waferMag !== null ? ' (wafer starts ' + (waferMag * 100).toFixed(0) + '% drop YoY > 30%)' : '');
+      } else if (floor > 0) {
+        reason += ' + chip_shortage';
+      }
+    }
+    // (1) Compute-capacity exhaustion: GPU utilization > 95% ALWAYS triggers compute_capacity
+    //     (data-infrastructure / cloud capacity ceiling — NVDA/MSFT/AMZN/GOOGL/AMD exposure).
+    //     gpuUtilization accepts fraction (0.97) or percent (97) form.
+    var gpuUtil = (feed.gpuUtilization !== undefined) ? feed.gpuUtilization
+                : (feed.computeUtilization !== undefined) ? feed.computeUtilization
+                : null;
+    var gpuFrac = (gpuUtil !== null && gpuUtil > 1) ? gpuUtil / 100 : gpuUtil;
+    if ((gpuFrac !== null && gpuFrac > 0.95 && (_has('gpu') || _has('compute') || _has('utiliz') || _has('capacity'))) ||
+        _has('compute capacity') || _has('compute-capacity') || _has('gpu exhaustion')) {
+      if (_TECHNOLOGY_STRUCTURAL.computeCapacityFloor > floor) {
+        floor = _TECHNOLOGY_STRUCTURAL.computeCapacityFloor;
+        reason = 'structural: compute_capacity' + (gpuFrac !== null ? ' (GPU utilization ' + (gpuFrac * 100).toFixed(0) + '% > 95%)' : '');
+      } else if (floor > 0) {
+        reason += ' + compute_capacity';
+      }
+    }
+    // (4) Cyber-breach surge: 0-day exploit rate > 3 per week ALWAYS triggers cyber_breach
+    //     (LOAD-BEARING active-exploitation signal, NOT routine CVE churn — CRWD/PANW exposure).
+    var zeroDayRate = (feed.zeroDayExploitRate !== undefined) ? feed.zeroDayExploitRate
+                    : (feed.activeExploitRate !== undefined) ? feed.activeExploitRate
+                    : null;
+    if ((zeroDayRate !== null && zeroDayRate > 3 && (_has('0-day') || _has('zero-day') || _has('exploit') || _has('breach') || _has('cyber'))) ||
+        _has('cyber breach') || _has('zero-day exploitation') || _has('active exploitation')) {
+      if (_TECHNOLOGY_STRUCTURAL.cyberBreachFloor > floor) {
+        floor = _TECHNOLOGY_STRUCTURAL.cyberBreachFloor;
+        reason = 'structural: cyber_breach' + (zeroDayRate !== null ? ' (0-day exploit rate ' + zeroDayRate.toFixed(0) + '/week > 3)' : '');
+      } else if (floor > 0) {
+        reason += ' + cyber_breach';
+      }
+    }
+    // (5) Platform monopoly: top-3 vendor lock-in > 80% ALWAYS triggers platform_monopoly
+    //     (platform-network concentration constraint — AAPL/MSFT/GOOGL/AMZN/META/ORCL exposure).
+    //     topVendorLockIn accepts fraction (0.85) or percent (85) form.
+    var vendorLockIn = (feed.topVendorLockIn !== undefined) ? feed.topVendorLockIn
+                     : (feed.platformConcentration !== undefined) ? feed.platformConcentration
+                     : null;
+    var lockInFrac = (vendorLockIn !== null && vendorLockIn > 1) ? vendorLockIn / 100 : vendorLockIn;
+    if ((lockInFrac !== null && lockInFrac > 0.80 && (_has('vendor') || _has('lock-in') || _has('monopol') || _has('platform') || _has('concentrat'))) ||
+        _has('platform monopoly') || _has('vendor lock-in') || _has('platform-monopoly')) {
+      if (_TECHNOLOGY_STRUCTURAL.platformMonopolyFloor > floor) {
+        floor = _TECHNOLOGY_STRUCTURAL.platformMonopolyFloor;
+        reason = 'structural: platform_monopoly' + (lockInFrac !== null ? ' (top-3 vendor lock-in ' + (lockInFrac * 100).toFixed(0) + '% > 80%)' : '');
+      } else if (floor > 0) {
+        reason += ' + platform_monopoly';
+      }
+    }
+    return { floor: floor, reason: reason };
+  }
+
   function _normalizeStress(domainKey, rawStress, feed) {
     // Phase 0: domain structural-signal floor (engineering/attention-economy constraints
     // bypass commodity/market/volume dampening — mirrors energy-brain grid_stress conditions)
@@ -398,6 +532,7 @@
                    : (domainKey === 'culture') ? _cultureStructuralFloor(feed)
                    : (domainKey === 'finance') ? _financeStructuralFloor(feed)
                    : (domainKey === 'economy') ? _economyStructuralFloor(feed)
+                   : (domainKey === 'technology') ? _technologyStructuralFloor(feed)
                    : { floor: 0, reason: '' };
     if (structural.floor > rawStress) {
       rawStress = structural.floor;

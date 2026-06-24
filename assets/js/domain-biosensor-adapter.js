@@ -199,10 +199,29 @@
       cognitiveLoad: 'Curriculum complexity — high load reflects deep processing or overextension'
     },
     technology: {
-      label: 'Threat awareness and system monitoring intensity',
-      arousal: 'Cyber vigilance — high arousal during active threats reflects heightened monitoring state',
-      coherence: 'Incident response quality — low coherence during cascading failures suggests overwhelmed triage',
-      cognitiveLoad: 'System complexity — high load with multiple active vulnerabilities reflects monitoring overload'
+      label: 'AI/ML development intensity and execution pressure',
+      arousal: 'Model-training urgency — high arousal during training-run failures or benchmarking deadlines reflects development acceleration',
+      coherence: 'Code-quality consistency — low coherence during rapid feature shipping suggests technical-debt accumulation',
+      cognitiveLoad: 'Architecture complexity — high load during multi-model ensemble training reflects engineering overextension',
+      // R&D throughput-readiness map: regulation state → AI/ML & compute development intake posture.
+      // Consumed by technology-clarity-operator outcome tracking (chip-design velocity, foundational-model
+      // training schedule, inference-optimization iteration, cybersecurity-patch cadence, software/cloud
+      // release momentum). Technology identity only — distinct from finance (fintech is a coupling, not
+      // the identity) and from energy (compute demand is a coupling, not the identity): semiconductors &
+      // compute, AI/ML, software & cloud, hardware & devices, cybersecurity, R&D & innovation pipelines,
+      // platform networks, data infrastructure. Reference technology-identity names: AAPL, MSFT, NVDA,
+      // GOOGL, META, AMZN, AVGO, ORCL, CRM, AMD, INTC, TSM, ASML, PLTR, CRWD, PANW. Operator AI/ML team
+      // arousal/coherence during training runs gate R&D throughput (high arousal = acceleration/crisis
+      // mode; low arousal = deliberate research mode). STRICTLY ADDITIVE — does not touch any validated
+      // scoring spine.
+      readiness: {
+        calm: 'Steady operator state — safe to initiate long-run research: foundation-model tuning and architecture exploration (NVDA/AMD compute, GOOGL/META/MSFT model programs), chip-design exploration (TSM/ASML/AVGO/INTC process and silicon roadmaps), and cybersecurity hardening (CRWD/PANW posture); open speculative platform and data-infrastructure initiatives.',
+        focused: 'Productive engagement — sustain in-flight training pipelines and software/cloud release momentum (MSFT/AMZN/ORCL/CRM); admit only scoped inference optimization and well-defined model fine-tuning; hold open-ended new model research and speculative chip variants.',
+        pressured: 'Elevated load — defer speculative model variants and new architecture exploration; focus on inference cost optimization and security audit (CRWD/PANW patch cadence); keep in-flight training and release pipelines disciplined.',
+        overloaded: 'Saturated — pause new model research and chip-design exploration; triage compute bottleneck (GPU/accelerator capacity, NVDA/AMD allocation, TSM/ASML supply) and supply-chain risk; contain active security incidents and critical inference-cost overruns.',
+        recovering: 'Stabilizing — resume optimization first (inference cost, pipeline efficiency, patch backlog), then reopen foundation-model research and chip-design exploration gradually as compute capacity, build-quality and security posture normalize.',
+        unknown: 'Regulation state unavailable — default to snapshot-driven prioritization (active compute-bottleneck and security-exposure ranking).'
+      }
     },
     communication: {
       label: 'Information processing and signal clarity',

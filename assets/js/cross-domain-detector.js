@@ -472,14 +472,19 @@
     {
       // Parity to 'culture_technology' (distribution-platform strain, codec failure,
       // hardware shortage) applied to fintech infrastructure; mirrors cyber-cluster logic.
+      // EXPANDED (technology-parity port): adds the deeper finance-tech surface —
+      // core-banking patch cycles, trade-execution latency, stress-test compute,
+      // settlement custody, FIX-protocol compliance. Technology identity stays
+      // chips/software/cloud (the coupling); finance identity stays capital/payments.
       id: 'finance_technology',
       domains: ['finance', 'technology'],
       threshold: 0.45,
       pattern: 'fintech-technology coupling',
-      drivers: ['payment processing outage (V/MA downtime, ACH delays)', 'crypto exchange/wallet hack & settlement failure', 'algorithmic-trading system failure', 'cloud-banking infrastructure outage (AWS/Azure payment dependencies)', 'core-banking platform reliability stress'],
+      drivers: ['payment processing outage (V/MA downtime, ACH delays)', 'crypto exchange/wallet hack & settlement failure', 'algorithmic-trading system failure', 'cloud-banking infrastructure outage (AWS/Azure payment dependencies)', 'core-banking platform reliability stress', 'core-banking software patch cycle lag (ORCL/CRM platform versioning)', 'algorithmic-trading latency degradation (datacenter/fiber-path constraint)', 'stress-test compute capacity constraint (NVDA/AMD GPU availability for credit-default modeling)', 'blockchain-settlement custody lag', 'FIX-protocol upgrade compliance gap (trade-execution standard divergence)'],
       options: [
         { label: 'map fintech-technology exposure', type: 'analysis' },
         { label: 'investigate payment-system disruption', type: 'analysis' },
+        { label: 'investigate trade-execution latency coupling', type: 'analysis' },
         { label: 'hold', type: 'monitoring' }
       ]
     },
@@ -567,6 +572,90 @@
       drivers: ['consumer-confidence collapse from misinformation (UMCSENT)', 'policy-credibility erosion reducing fiscal-multiplier', 'retail-spending hesitation from narrative fragmentation'],
       options: [
         { label: 'trace sentiment-confidence macro linkage', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    // ─── Technology pairs (parity port; mirrors energy/infra/culture/finance/economy structure) ──
+    // TECHNOLOGY identity ONLY — semiconductors & compute, AI/ML, software & cloud,
+    // hardware & devices, cybersecurity, R&D & innovation pipelines, platform networks,
+    // data infrastructure. Real tech tickers (AAPL, MSFT, NVDA, GOOGL, META, AMZN, AVGO,
+    // ORCL, CRM, AMD, INTC, TSM, ASML, PLTR, CRWD, PANW) — never fabricated. Technology
+    // COUPLES to energy via compute demand (datacenter draw) but the domain's OWN content
+    // stays chips/software/AI/cyber — NOT grid/oil/gas. DISTINCT from finance (fintech is a
+    // coupling, not the identity). ADDITIVE — does not touch any validated scoring path.
+    {
+      // Mirrors 'infrastructure_energy' (dependency coupling) + 'culture_technology'
+      // (hardware/platform strain) → cyber-physical attack surface in the actual tech
+      // layers (embedded systems, legacy platforms, firmware). Roots the CISA-KEV cyber
+      // cluster in real tech vendors rather than as a reactive signal only.
+      id: 'infrastructure_technology',
+      domains: ['infrastructure', 'technology'],
+      threshold: 0.45,
+      pattern: 'cyber-physical attack surface coupling',
+      drivers: ['protocol-vulnerability surge (SCADA/ICS exposure)', 'zero-day disclosure (actively exploited, CISA KEV)', 'ICS-firmware obsolescence / legacy embedded-systems lag', 'supply-chain tech-dependency failure (AVGO/INTC/TSM chipset lead time)', 'SCADA-server compute demand outstripping refresh cycle'],
+      options: [
+        { label: 'map cyber-physical exposure across tech layers', type: 'analysis' },
+        { label: 'trace ICS-firmware obsolescence chain', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Parity to 'infrastructure_energy' / 'environment_energy' translated to the
+      // compute-demand / datacenter coupling. Technology identity = GPUs/chips/cloud
+      // capacity (NVDA/AMD/ORCL/MSFT); energy is the COUPLING (grid draw), not the content.
+      id: 'energy_technology',
+      domains: ['energy', 'technology'],
+      threshold: 0.45,
+      pattern: 'compute-demand grid coupling',
+      drivers: ['GPU training capacity surge (NVDA/AMD data-center demand)', 'data-center power density spike (MSFT Azure / AMZN AWS / ORCL cloud buildout)', 'cooling-water scarcity for compute clusters', 'renewable-grid stability under AI/ML training load', 'semiconductor fab energy intensity (TSM/INTC node ramp)'],
+      options: [
+        { label: 'map compute-demand grid exposure', type: 'analysis' },
+        { label: 'investigate datacenter buildout coupling', type: 'discovery' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'defense_intelligence' (escalation) + 'finance_defense' (systemic
+      // coupling) → cyber-attack surface as a systematic technology edge (vulnerability
+      // disclosure, exploit propagation, APT tooling). Real cyber-tech tickers.
+      id: 'defense_technology',
+      domains: ['defense', 'technology'],
+      threshold: 0.42,
+      pattern: 'vulnerability-propagation attack surface',
+      drivers: ['CVE publication surge (disclosure velocity)', 'exploit-kit weaponization lag (defender patching velocity, CRWD EDR coverage)', 'zero-day premium spike (dark-web markets)', 'ransomware affiliate network growth (PANW detection telemetry)', 'APT tooling adoption / supply-chain attack vectors (PLTR threat graph)'],
+      options: [
+        { label: 'assess cyber-attack-surface posture', type: 'analysis' },
+        { label: 'trace vulnerability-propagation chain', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Parity to 'supplyChain_agriculture' / 'finance_supplyChain' (logistics
+      // transmission) translated to the automation / logistics-software layer.
+      // Technology identity = robotics/ML/IoT software (AMZN/INTC/NVDA edge), not fuel.
+      id: 'supplyChain_technology',
+      domains: ['supplyChain', 'technology'],
+      threshold: 0.45,
+      pattern: 'logistics-automation technology coupling',
+      drivers: ['robotic-process-automation deployment delay', 'GPS/tracking-system outage (IoT fleet visibility loss)', 'warehouse-automation bottleneck (robotics/ML integration pace)', 'last-mile-delivery software crash', 'customs-clearance digitization lag'],
+      options: [
+        { label: 'map logistics-automation exposure', type: 'analysis' },
+        { label: 'investigate warehouse-robotics bottleneck', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'law_governance' / 'infrastructure_governance' (regulatory stress)
+      // translated to the regulatory-technology / e-governance platform layer. Technology
+      // identity = compliance/identity/permitting software (ORCL/CRM/PLTR govtech), not policy.
+      id: 'governance_technology',
+      domains: ['governance', 'technology'],
+      threshold: 0.45,
+      pattern: 'regtech-governance coupling',
+      drivers: ['compliance-software version lag (audit-automation underinvestment)', 'permitting-system outage (e-governance platform downtime)', 'digital-ID standard divergence (identity-verification infrastructure)', 'audit-trail infrastructure underinvestment', 'regulatory-tech adoption lag stalling infrastructure permitting'],
+      options: [
+        { label: 'trace regtech-governance linkage', type: 'analysis' },
+        { label: 'investigate permitting-platform modernization', type: 'analysis' },
         { label: 'hold', type: 'monitoring' }
       ]
     }

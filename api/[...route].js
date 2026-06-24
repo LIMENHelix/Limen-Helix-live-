@@ -52,6 +52,7 @@ const HANDLERS = {
   'culture-news': require('../handlers/culture-news'),
   'finance-markets': require('../handlers/finance-markets'),
   'economy-markets': require('../handlers/economy-markets'),
+  'technology-markets': require('../handlers/technology-markets'),
   'brain-signals': require('../handlers/brain-signals'),
   'enrich-portal-claude': require('../handlers/enrich-portal-claude'),
   'expand-artifact': require('../handlers/expand-artifact'),

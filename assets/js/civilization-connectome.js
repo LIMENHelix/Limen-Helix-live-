@@ -75,11 +75,21 @@ var EDGE_NEURAL_MAP = {
 };
 
 // 3-LAYER NODE SCHEMA — STRESS CONSTANTS
-var STRESS_CHANNELS = ['legal','liquidity','funding','solvency','demand','ops','people'];
+// ADDITIVE (cognition port, technology gap): 'innovation_debt' is a technology-
+// specific stress channel for R&D backlog, technical debt, tool/framework
+// fragmentation, and unresolved security CVEs. It is appended (never reorders or
+// removes the validated 7), so all length-driven loops (computeTotalStress,
+// drawStressRing) widen automatically. Energy anchor: innovation debt → deferred
+// infrastructure refactoring → poorly-optimized code paths / redundant compute /
+// undersized cache → MORE power per operation; CVE backlog → defensive compute
+// overhead (IDS, scanning) → energy overhead. It is a technology channel, NOT an
+// energy-domain channel — it stays inert (0) for every non-technology node.
+var STRESS_CHANNELS = ['legal','liquidity','funding','solvency','demand','ops','people','innovation_debt'];
 var STRESS_COLORS = {
   legal:{r:148,g:163,b:184}, liquidity:{r:56,g:189,b:248}, funding:{r:234,g:179,b:8},
   solvency:{r:139,g:92,b:246}, demand:{r:34,g:197,b:94}, ops:{r:249,g:115,b:22},
-  people:{r:236,g:72,b:153}
+  people:{r:236,g:72,b:153},
+  innovation_debt:{r:6,g:182,b:212} // cyan — R&D / technical-debt / compute-efficiency channel
 };
 var TAU = Math.PI * 2;
 
@@ -112,6 +122,100 @@ var FINANCE_CIRCUITS = {
     role: 'capital-adequacy-planning → credit-risk-assessment → credit-allocation',
     // Real financial anchors: capital-markets / asset-management / credit-deploying balance sheets.
     anchors: ['GS', 'MS', 'BLK', 'KKR', 'BX', 'JPM', 'BAC']
+  }
+};
+
+// ═══ TECHNOLOGY: EXPLICIT INNOVATION-DEBT CIRCUITRY ═══ (ADDITIVE — technology gap)
+// Mirrors FINANCE_CIRCUITS. Innovation debt is the technology-specific stress that
+// accrues when R&D backlog, technical debt, tool/framework fragmentation, and
+// unresolved security CVEs are deferred. It is bound to FOUR technology nodes, each
+// sensing a distinct facet of the debt. Technology identity = semiconductors &
+// compute, AI/ML, software & cloud, hardware & devices, cybersecurity, R&D
+// pipelines — NOT energy. Energy is a COMPUTE-DEMAND coupling: deferred refactoring
+// → poorly-optimized code paths / redundant compute loops / undersized cache →
+// rising per-CPU power; CVE backlog → defensive compute overhead. Distinct from
+// finance: fintech is a coupling, not the identity. Real tickers only.
+var TECHNOLOGY_CIRCUITS = {
+  software_engineering: {
+    label: 'Software-engineering debt (code-path / refactor)',
+    node: 'dlPFC',
+    role: 'planning/architecture → technical-debt & refactor backlog → compute-efficiency drag',
+    // Real software & cloud anchors carrying large codebases / refactor surface.
+    anchors: ['MSFT', 'GOOGL', 'CRM', 'ORCL', 'META']
+  },
+  rd_pipeline: {
+    label: 'R&D-pipeline debt (research backlog)',
+    node: 'vlPFC',
+    role: 'R&D / innovation-pipeline → deferred research → next-gen product risk',
+    // Real R&D-intensive platform & innovation anchors.
+    anchors: ['AAPL', 'GOOGL', 'AMZN', 'META', 'AMD']
+  },
+  hardware_supply: {
+    label: 'Hardware / semiconductor supply debt (process & supply-chain)',
+    node: 'M1',
+    role: 'hardware & device fabrication → process-node / fab supply-chain risk → output throttle',
+    // Real semiconductor & fab supply anchors (chips, lithography, foundry).
+    anchors: ['NVDA', 'AVGO', 'INTC', 'TSM', 'ASML']
+  },
+  model_training: {
+    label: 'AI / model-training debt (training & data-infra risk)',
+    node: 'AI',
+    role: 'AI/ML model training → data-infra & training-cost backlog → model-staleness risk',
+    // Real AI/ML, data-infra, and cybersecurity-AI anchors.
+    anchors: ['NVDA', 'MSFT', 'PLTR', 'CRWD', 'PANW']
+  }
+};
+
+// ═══ TECHNOLOGY: SUB-CIRCUIT SEGREGATION + ENERGY SIGNATURE ═══ (ADDITIVE — technology gap)
+// Companion to TECHNOLOGY_CIRCUITS above (which models innovation/refactor DEBT).
+// This block segregates technology STRESS into three sub-circuits whose key
+// difference is their ENERGY SIGNATURE — the compute/energy-demand scaling model
+// the sub-circuit emits so grid / energy-demand modeling picks the right curve.
+// Without this, AI RISK, CYBERSECURITY RISK and CHIP SUPPLY RISK all activate the
+// generic 'technology' node set with no differentiation of energy/compute signatures.
+// Mirrors FINANCE_CIRCUITS shape (label / pathway / role) + adds energySignature.
+//   • AI training   = compute/memory demand, LINEAR in GPU-days (model size x
+//                     training epochs x inference volume). dlPFC -> AI -> mPFC.
+//   • Cybersecurity = defensive compute — CONSTANT always-on baseline (intrusion
+//                     detection, forensics) + BURST on breach. vlPFC -> rPFC -> dACC.
+//   • Chip supply   = foundry capacity — power = fab power-per-wafer x utilization
+//                     (TSMC 3nm vs 28nm old-node differ sharply). M1 -> THAL -> BDNF.
+// Technology identity stays = chips / AI / software / cyber. Energy is ONLY the
+// compute-demand coupling, never the domain's own content. Real tickers only.
+var TECH_SUBCIRCUITS = {
+  ai: {
+    label: 'AI training circuit (compute/memory demand)',
+    pathway: ['dlPFC', 'AI', 'mPFC'],
+    role: 'training-resource-allocation → model-inference-load → budget-efficiency',
+    energySignature: 'variable (scales with model size, training epochs, inference volume)',
+    // Distinct energy profile: proportional to GPU-days — LINEAR scaling.
+    scalingModel: 'linear',                       // demand proportional to GPU-days
+    // Trigger sources that route 'technology' stress into the AI sub-circuit.
+    triggers: ['ai_training_cost_spike', 'gpu_shortage', 'inference_demand_surge', 'model_scale_jump'],
+    // Real AI/compute anchors (accelerators, hyperscale training, model platforms).
+    anchors: ['NVDA', 'AMD', 'MSFT', 'GOOGL', 'META', 'AMZN', 'PLTR']
+  },
+  security: {
+    label: 'Cybersecurity circuit (defensive compute)',
+    pathway: ['vlPFC', 'rPFC', 'dACC'],
+    role: 'vulnerability-scanning → breach-response → incident-cost',
+    energySignature: 'constant baseline + burst on breach (intrusion detection, forensics always-on)',
+    // Distinct energy profile: constant baseline + event-driven spike.
+    scalingModel: 'baseline_plus_burst',          // demand = baseline + breach burst
+    triggers: ['ransomware_outbreak', 'breach_disclosure', 'zero_day_exploit', 'ddos_surge'],
+    // Real cybersecurity anchors.
+    anchors: ['CRWD', 'PANW', 'MSFT', 'CSCO', 'FTNT', 'ZS']
+  },
+  supply: {
+    label: 'Chip supply circuit (foundry capacity)',
+    pathway: ['M1', 'THAL', 'BDNF'],
+    role: 'node-advance-planning → fab-allocation → inventory-management',
+    energySignature: 'depends on fab node (TSMC 3nm vs 28nm old-node has different power per wafer)',
+    // Distinct energy profile: indirect — product of fab power-per-wafer x utilization.
+    scalingModel: 'fab_power_per_wafer_x_utilization',
+    triggers: ['chip_shortage', 'fab_capacity_constraint', 'foundry_node_transition', 'export_control_shock'],
+    // Real chip-supply anchors (foundry, lithography, IDM, fabless).
+    anchors: ['TSM', 'ASML', 'INTC', 'NVDA', 'AVGO', 'AMD']
   }
 };
 
@@ -387,11 +491,23 @@ function getDominantPhase(vec) {
 }
 
 function computeTotalStress(sv) {
-  var sum = 0;
+  // ADDITIVE (technology gap): the average is taken over the canonical 7 base
+  // channels so that appending the technology-specific 'innovation_debt' channel
+  // does NOT silently dilute every existing node's total_stress (a node with
+  // innovation_debt:0 keeps its exact prior total). innovation_debt is then ADDED
+  // on top (capped at 1.0) only where it is actually present (technology nodes),
+  // so it raises tech stress without altering any other domain's validated total.
+  var sum = 0, base = 0;
   for (var i = 0; i < STRESS_CHANNELS.length; i++) {
-    sum += (sv[STRESS_CHANNELS[i]] || 0);
+    var ch = STRESS_CHANNELS[i];
+    if (ch === 'innovation_debt') continue;
+    sum += (sv[ch] || 0);
+    base++;
   }
-  return sum / STRESS_CHANNELS.length;
+  var avg = base ? (sum / base) : 0;
+  var innov = sv.innovation_debt || 0;
+  if (innov > 0) avg = Math.min(1, avg + innov / STRESS_CHANNELS.length);
+  return avg;
 }
 
 function hexToRgb(hex) {
@@ -460,7 +576,7 @@ function drawStressRing(x, y, radius, node, alpha) {
   if (!node || node.total_stress < 0.05) return;
   var sv = node.stress_vector;
   if (!sv) return;
-  var segAngle = TAU / 7;
+  var segAngle = TAU / STRESS_CHANNELS.length; // dynamic — widens when channels are added (e.g. innovation_debt)
   var ringWidth = 2;
   for (var i = 0; i < STRESS_CHANNELS.length; i++) {
     var ch = STRESS_CHANNELS[i];
@@ -477,7 +593,7 @@ function drawStressRing(x, y, radius, node, alpha) {
 }
 
 function seedStressCivilization(n, idx) {
-  var sv = {legal:0, liquidity:0, funding:0, solvency:0, demand:0, ops:0, people:0};
+  var sv = {legal:0, liquidity:0, funding:0, solvency:0, demand:0, ops:0, people:0, innovation_debt:0};
   sv.demand = Math.min((n.degree || 0) / 4, 1);
   sv.funding = Math.min(1 - (n.dataWeight || 0), 1);
   sv.people = Math.min((n.degree || 0) / 6, 1);
@@ -530,6 +646,79 @@ function seedStressCivilization(n, idx) {
     n.finance_circuits = {
       liquidity: { stress: sv.liquidity, pathway: FINANCE_CIRCUITS.liquidity.pathway, anchors: FINANCE_CIRCUITS.liquidity.anchors },
       solvency:  { stress: sv.solvency,  pathway: FINANCE_CIRCUITS.solvency.pathway,  anchors: FINANCE_CIRCUITS.solvency.anchors }
+    };
+  }
+  // ── ADDITIVE: technology gets an explicit innovation_debt channel (R&D backlog,
+  //    technical debt, tool/framework churn, unresolved CVEs). For the technology
+  //    node only, derive innovation_debt = (supply-chain risk + tool/framework churn
+  //    + unresolved security CVEs) / 3, each estimated from edge topology (no fabricated
+  //    numbers): the same structural signals already present in the connectome.
+  //      • supply-chain risk  ← inbound DEPENDS_ON edges (upstream chip/fab/cloud reliance)
+  //      • tool/framework churn ← outbound TRANSFORMS edges (re-platforming / refactor surface)
+  //      • unresolved CVEs    ← CONTROLS edges (regulated / security-governed surface = attack surface)
+  //    Bind innovation_debt to the four technology cognition nodes (dlPFC software
+  //    engineering, vlPFC R&D, M1 hardware supply, AI model training) and expose the
+  //    circuit on the node for downstream advisory layers. Energy coupling is a
+  //    consequence (compute-efficiency / defensive-compute overhead), NOT the channel
+  //    itself — innovation_debt stays inert (0) for every non-technology node.
+  if (n.id === 'technology') {
+    var supplyRisk = 0, toolChurn = 0, cveSurface = 0;
+    for (var te = 0; te < EDGES.length; te++) {
+      var et = EDGES[te];
+      if (et.ai !== idx && et.bi !== idx) continue;
+      var techIsSource = (et.ai === idx);
+      if (et.type === 'DEPENDS_ON' && !techIsSource) supplyRisk++;   // upstream chip/fab/cloud reliance
+      if (et.type === 'DEPENDS_ON' && techIsSource)  supplyRisk += 0.5; // own dependencies (data infra)
+      if (et.type === 'TRANSFORMS') toolChurn++;                     // re-platforming / refactor surface
+      if (et.type === 'CONTROLS')   cveSurface++;                    // security/regulated surface = attack surface
+      if (et.type === 'SUPPLIES' && techIsSource) cveSurface += 0.5; // downstream exposure widens CVE blast radius
+    }
+    var srN = Math.min(supplyRisk / 3, 1);
+    var tcN = Math.min(toolChurn / 3, 1);
+    var cveN = Math.min(cveSurface / 3, 1);
+    sv.innovation_debt = Math.min((srN + tcN + cveN) / 3, 1);
+    // Expose the explicit circuit binding (four tech nodes + real tickers) for advisory layers.
+    n.technology_circuits = {
+      innovation_debt:      { stress: sv.innovation_debt },
+      software_engineering: { node: TECHNOLOGY_CIRCUITS.software_engineering.node, signal: tcN,  anchors: TECHNOLOGY_CIRCUITS.software_engineering.anchors },
+      rd_pipeline:          { node: TECHNOLOGY_CIRCUITS.rd_pipeline.node,          signal: srN,  anchors: TECHNOLOGY_CIRCUITS.rd_pipeline.anchors },
+      hardware_supply:      { node: TECHNOLOGY_CIRCUITS.hardware_supply.node,      signal: srN,  anchors: TECHNOLOGY_CIRCUITS.hardware_supply.anchors },
+      model_training:       { node: TECHNOLOGY_CIRCUITS.model_training.node,       signal: cveN, anchors: TECHNOLOGY_CIRCUITS.model_training.anchors }
+    };
+    // ── ADDITIVE: segregated sub-circuits with DISTINCT energy signatures ──
+    // Maps the three structural signals above onto the AI / cybersecurity / chip-supply
+    // sub-circuits (TECH_SUBCIRCUITS) so each stress channel carries its own energy-demand
+    // scaling model. This is what lets grid/energy-demand modeling differentiate AI RISK
+    // (linear in GPU-days) vs CYBERSECURITY RISK (baseline + breach burst) vs CHIP SUPPLY
+    // RISK (fab power-per-wafer x utilization) instead of one generic 'technology' load.
+    //   • AI sub-circuit      ← tool/framework + R&D churn (model-build / refactor compute)
+    //   • Security sub-circuit ← CVE / attack-surface signal (defensive compute)
+    //   • Supply sub-circuit   ← upstream supply-chain risk (foundry / fab capacity)
+    n.technology_circuits.sub_circuits = {
+      ai: {
+        label: TECH_SUBCIRCUITS.ai.label,
+        stress: Math.min((tcN + srN) / 2, 1),
+        pathway: TECH_SUBCIRCUITS.ai.pathway,
+        energySignature: TECH_SUBCIRCUITS.ai.energySignature,
+        scalingModel: TECH_SUBCIRCUITS.ai.scalingModel,
+        anchors: TECH_SUBCIRCUITS.ai.anchors
+      },
+      security: {
+        label: TECH_SUBCIRCUITS.security.label,
+        stress: cveN,
+        pathway: TECH_SUBCIRCUITS.security.pathway,
+        energySignature: TECH_SUBCIRCUITS.security.energySignature,
+        scalingModel: TECH_SUBCIRCUITS.security.scalingModel,
+        anchors: TECH_SUBCIRCUITS.security.anchors
+      },
+      supply: {
+        label: TECH_SUBCIRCUITS.supply.label,
+        stress: srN,
+        pathway: TECH_SUBCIRCUITS.supply.pathway,
+        energySignature: TECH_SUBCIRCUITS.supply.energySignature,
+        scalingModel: TECH_SUBCIRCUITS.supply.scalingModel,
+        anchors: TECH_SUBCIRCUITS.supply.anchors
+      }
     };
   }
   n.stress_vector = sv;

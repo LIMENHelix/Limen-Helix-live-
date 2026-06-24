@@ -53,10 +53,11 @@
       { label: 'Analyze treatment outcome patterns', type: 'analysis', minStress: 0.6 }
     ],
     technology: [
-      { label: 'Monitor technology disruption signals', type: 'monitoring', minStress: 0.3 },
-      { label: 'Explore emerging technology domains', type: 'discovery', minStress: 0.4 },
-      { label: 'Analyze adoption trajectory shifts', type: 'analysis', minStress: 0.5 },
-      { label: 'Investigate infrastructure vulnerabilities', type: 'regulation', minStress: 0.7 }
+      { label: 'Monitor chip-cycle indicators (TSMC/Samsung wafer starts, fab utilization, lead-time contraction) across TSM, ASML, AVGO, AMD, INTC, NVDA', type: 'monitoring', minStress: 0.3 },
+      { label: 'Monitor breakthrough emergence in foundational models and chip architecture (NVDA, GOOGL, MSFT, META transformative-model release cadence)', type: 'discovery', minStress: 0.4 },
+      { label: 'Investigate AI-capex efficiency and inference-cost optimization across foundational-model ecosystem (MSFT, AMZN, GOOGL, META, ORCL training-per-token inflation)', type: 'analysis', minStress: 0.5 },
+      { label: 'Analyze platform-consolidation risk and API deprecation contagion across major vendors (AAPL, MSFT, GOOGL, CRM, ORCL, PLTR)', type: 'analysis', minStress: 0.6 },
+      { label: 'Explore cybersecurity resilience and supply-chain attack surface hardening (CRWD, PANW zero-day exploit rate, dependency contagion)', type: 'regulation', minStress: 0.7 }
     ],
     research: [
       { label: 'Monitor publication integrity signals', type: 'monitoring', minStress: 0.3 },

@@ -71,7 +71,7 @@
   // Lane heuristics — domains have natural artifact-lane affinities.
   // This is a HINT only; handoff-contract refines based on evidence.
   var DOMAIN_LANE_HINTS = {
-    technology:    ['patents', 'research-papers'],
+    technology:    ['patents', 'nsf-project-pitch', 'research-grants', 'business-grants', 'investments', 'research-papers'],
     research:      ['research-papers', 'research-grants'],
     medicine:      ['research-papers', 'patents', 'research-grants'],
     health:        ['research-papers', 'research-grants'],
@@ -118,11 +118,45 @@
     supplyChain:   ['business-grants', 'sba-loans', 'franchise']
   };
 
+  // ─── Technology co-domain coupling lanes (additive) ─────────────────────
+  // Mirrors energy's pattern of routing artifacts to the correct domain
+  // negotiator. Technology's IDENTITY stays chips/software/AI/cyber; these
+  // lanes only fire when technology is CO-ELEVATED with a partner domain at
+  // the same node, routing tech-native artifacts (firmware, semiconductor IP,
+  // cyber-intelligence) to the partner that negotiates them:
+  //   • technology ↔ defense  → cyber-intelligence coupling (zero-day, firmware)
+  //   • technology ↔ energy   → efficiency-hardware coupling (compute/grid HW)
+  //   • technology ↔ finance  → fintech-infrastructure coupling
+  // Defense/finance/research coupling lanes carry semiconductor-IP licensing
+  // and supply-chain mapping. Additive only — never removes the generic
+  // technology R&D lanes above.
+  var TECH_COUPLING_LANES = {
+    defense: ['zero-day-acquisition', 'firmware-licensing', 'semiconductor-IP'],
+    energy:  ['energy-efficiency-hardware', 'firmware-licensing', 'supply-chain-mapping'],
+    finance: ['fintech-infrastructure', 'semiconductor-IP', 'investments'],
+    research:['semiconductor-IP', 'supply-chain-mapping']
+  };
+
   function _laneHints(domains) {
     var bag = {};
     for (var i = 0; i < domains.length; i++) {
       var lanes = DOMAIN_LANE_HINTS[domains[i]] || [];
       for (var j = 0; j < lanes.length; j++) bag[lanes[j]] = (bag[lanes[j]] || 0) + 1;
+    }
+    // Conditional technology coupling: only when technology is co-elevated
+    // with a partner domain in this same opportunity's domain set.
+    if (domains.indexOf('technology') >= 0) {
+      for (var ci = 0; ci < domains.length; ci++) {
+        var partner = domains[ci];
+        if (partner === 'technology') continue;
+        var couple = TECH_COUPLING_LANES[partner];
+        if (!couple) continue;
+        for (var cj = 0; cj < couple.length; cj++) {
+          // Weight coupling lanes so they out-rank generic R&D lanes when the
+          // coupling is actually present (real co-domain elevation).
+          bag[couple[cj]] = (bag[couple[cj]] || 0) + 2;
+        }
+      }
     }
     return Object.keys(bag).sort(function (a, b) { return bag[b] - bag[a]; });
   }

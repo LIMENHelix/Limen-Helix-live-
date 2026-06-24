@@ -26,6 +26,9 @@
  *                                  // between business and neurology flows
  *                                  // through shared node membership, not
  *                                  // through hardcoded affinity groups.
+ *     warnings:            [...]  // atlas-completeness warnings, e.g.
+ *                                  // TECHNOLOGY_ATLAS_GAP: technology elevated
+ *                                  // but absent from the brain node map.
  *   }
  *
  * Read-only. Provides:
@@ -109,6 +112,22 @@
     // scene collapse coinciding with censorship pressure + arts-funding cuts +
     // heritage loss). Mirror of infrastructure_core.
     { id: 'culture_core',   domains: ['culture', 'religion', 'communication', 'governance'] },
+    // Technology's own institutional envelope (mirror of infrastructure_core /
+    // financial_core / culture_core): semiconductors & compute, AI/ML, software
+    // & cloud, hardware, cybersecurity, and the R&D/innovation pipeline are
+    // co-borne by their regulatory regime (law — IP/patent, antitrust, data
+    // privacy, securities for the platform giants AAPL/MSFT/NVDA/GOOGL/META/
+    // AMZN/AVGO/ORCL/CRM/AMD/INTC/TSM/ASML/PLTR/CRWD/PANW), their policy & funding
+    // regime (governance — AI regulation, tech standards, chip subsidies, trade/
+    // export restrictions), and the knowledge substrate that produces fundamental
+    // IP and STEM talent (research — R&D funding, university pipelines, basic
+    // science). Corroboration here = systemic tech-institutional stress (e.g. an
+    // IP-litigation/patent-dispute spike coinciding with antitrust pressure +
+    // an R&D-funding squeeze + a STEM-workforce shortage). Technology's capital
+    // intensity (foundry buildout, chip design, software talent) couples to
+    // policy, law, and research the way energy couples to infrastructure & supply
+    // chain. Mirror of infrastructure_core / financial_core / culture_core.
+    { id: 'technology_core', domains: ['technology', 'law', 'governance', 'research'] },
     { id: 'environment_arc',domains: ['environment', 'agriculture', 'energy'] }
   ];
 
@@ -357,7 +376,19 @@
       // the comparison as a source domain rather than only being a target.
       ['finance', 'economy'],             // capital flows / credit conditions ↔ economic-activity & demand signal
       ['finance', 'law'],                 // lending & solvency stress ↔ regulatory / securities enforcement quality
-      ['finance', 'governance']           // credit conditions & systemic risk ↔ monetary/fiscal policy & oversight
+      ['finance', 'governance'],          // credit conditions & systemic risk ↔ monetary/fiscal policy & oversight
+      // Technology vs its physical / capability envelope (mirror of
+      // infrastructure↔its institutional envelope and finance↔its economic
+      // envelope): when technology evidence (chip-inventory & foundry telemetry,
+      // cyber-threat / CVE disclosure feeds, software release calendars, GitHub
+      // commit velocity, patent filings for AAPL/MSFT/NVDA/GOOGL/META/AMZN/AVGO/
+      // ORCL/CRM/AMD/INTC/TSM/ASML/PLTR/CRWD/PANW) is rich but infrastructure,
+      // defense, or energy are proxy-heavy, the bottleneck is the physical/policy
+      // signal — grid telemetry, attack-capability data, deferred build-out — not
+      // the tech signal. Technology drives the comparison as a source domain.
+      ['technology', 'infrastructure'],   // chip/software/cyber telemetry ↔ physical grid/SCADA/build-out signal
+      ['technology', 'defense'],          // CVE/cyber-threat & release feeds ↔ kinetic attack-capability signal
+      ['technology', 'energy']            // compute/foundry & semiconductor signal ↔ grid/power telemetry quality
     ];
     var out = [];
     for (var i = 0; i < rivals.length; i++) {
@@ -511,6 +542,32 @@
     return out;
   }
 
+  // ─── Atlas-gap warnings (brain-taxonomy completeness) ───────────────────
+  // Technology's cross-domain influence (semiconductors → energy/defense/
+  // finance/infrastructure) is invisible if brain nodes don't bind it. The
+  // brain taxonomy (brain-node-domains.json) does not yet carry technology
+  // sub-domains (semiconductors, cybersecurity, AI/ML), so the neurology-
+  // grounded _nodeSharedAffinities mechanism is silent for technology even
+  // when it is elevated. Rather than fail silently, emit a visible WARNING so
+  // the upstream brain-mapping gap is forced into view. Mirror-extensible to
+  // any future domain absent from the atlas while elevated.
+  function _atlasGapWarnings(packets, nodeShared) {
+    var out = [];
+    var s = _stress(packets['technology']);
+    if (s != null && s >= ELEVATED_THRESHOLD) {
+      var techBound = nodeShared.filter(function (n) { return n.source === 'technology'; }).length;
+      if (techBound === 0) {
+        out.push({
+          warning: 'TECHNOLOGY_ATLAS_GAP',
+          domain:  'technology',
+          stress:  s,
+          message: 'Technology elevated but not connected via brain node map — brain taxonomy may be incomplete.'
+        });
+      }
+    }
+    return out;
+  }
+
   function recompute() {
     var packets = _allPackets();
     var corroborations = _corroborations(packets);
@@ -519,6 +576,7 @@
     var convergence   = _convergence(packets, corroborations);
     var comparisons   = _comparisons(packets);
     var nodeShared    = _nodeSharedAffinities(packets);
+    var warnings      = _atlasGapWarnings(packets, nodeShared);
     _last = {
       timestamp:           Date.now(),
       domainCount:         Object.keys(packets).length,
@@ -531,6 +589,7 @@
       convergence:         convergence,
       comparisons:         comparisons,
       nodeSharedAffinities: nodeShared,
+      warnings:            warnings,
       taxonomyLoaded:      !!_NODE_TO_DOMAINS
     };
     if (typeof window !== 'undefined') window.LIMENCrossDomainAuditState = _last;

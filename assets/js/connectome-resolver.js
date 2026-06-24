@@ -39,7 +39,17 @@ var FEED_TO_CONNECTOME = {
   economy:        ['economy'],
   energy:         ['energy'],
   environment:    ['environment'],
-  technology:     ['technology'],
+  // ADDITIVE (cognition port, technology gap — R&D / science research coupling):
+  //   technology feed signal previously relayed through the 'technology' connectome
+  //   domain ONLY. Innovation is research-coupled: R&D pipelines, AI/ML model work,
+  //   and semiconductor process advances all originate in the science circuit
+  //   (basic research → applied engineering). We KEEP the validated 'technology'
+  //   relay (never removed) and ADD 'science' so research-origin innovation stress
+  //   (R&D backlog, model-training risk, process-node breakthroughs) can propagate
+  //   through the science circuit and back into the technology nodes. Keeps tech
+  //   identity = chips/software/AI/cyber; science is the research coupling, not the
+  //   identity. 'science' is a real connectome domain in brain-node-domains.json.
+  technology:     ['technology', 'science'],
   education:      ['education'],
   governance:     ['governance'],
   industry:       ['industry'],
@@ -118,8 +128,54 @@ var MACRO_INDICATOR_BINDING = {
   SPY:      { series: 'SPY',      node: 'ASTRO', role: 'Capital Markets',       nodeRole: 'econ livestock — Signal Acquisition',          label: 'Broad Market (S&P 500)', threshold: -15,     dir: 'low',  kind: 'market', policyPath: 'market' },
   DIA:      { series: 'DIA',      node: 'NTS',   role: 'Capital Markets',       nodeRole: 'Protocol Development Evaluation',               label: 'Equity Risk (Dow 30)',   threshold: -12,     dir: 'low',  kind: 'market', policyPath: 'market' },
   TLT:      { series: 'TLT',      node: 'BDNF',  role: 'Debt Markets',          nodeRole: 'Agricultural Finance Infrastructure & Capacity', label: 'Long Yields (20Y+ Tsy)', threshold: 4.5,    dir: 'high', kind: 'market', policyPath: 'market' },
-  GLD:      { series: 'GLD',      node: 'PUT',   role: 'Safe-Haven Hedge',      nodeRole: 'Land Tenure — Optimization & Innovation',      label: 'Gold Hedge',             threshold: 2000,    dir: 'high', kind: 'market', policyPath: 'market' }
+  GLD:      { series: 'GLD',      node: 'PUT',   role: 'Safe-Haven Hedge',      nodeRole: 'Land Tenure — Optimization & Innovation',      label: 'Gold Hedge',             threshold: 2000,    dir: 'high', kind: 'market', policyPath: 'market' },
+
+  // ── TECHNOLOGY SECTOR macro indicators (technology gap 1 — ADDITIVE) ──
+  // Sector ETF proxies measuring TECH IDENTITY (chips, cloud, AI infrastructure,
+  // innovation pipeline), NOT energy feedstock. When these deteriorate the stress
+  // routes through the TECH connectome nodes (dlPFC software, M1 hardware,
+  // AI deployment, vlPFC innovation/training). Energy coupling is a downstream
+  // CONSEQUENCE (compute cost/capacity stress → data-center power visibility),
+  // so these stay routed to the hardware/compute nodes — never to the energy
+  // domain's own content. Annotation/registry metadata ONLY — the resolver does
+  // NOT score these.
+  XLK:  { series: 'XLK',  node: 'dlPFC', role: 'Enterprise Software Health',     nodeRole: 'Software Engineering',                     label: 'Tech Sector (XLK SPDR)',      threshold: -10, dir: 'low', kind: 'market', policyPath: 'market' },
+  IXN:  { series: 'IXN',  node: 'M1',    role: 'Hardware Supply Health',         nodeRole: 'Hardware Design',                          label: 'Global Tech (IXN iShares)',   threshold: -12, dir: 'low', kind: 'market', policyPath: 'market' },
+  FTAG: { series: 'FTAG', node: 'AI',    role: 'AI Training Infrastructure',     nodeRole: 'Deployment Optimization Core Operations',  label: 'AI Infrastructure (FTAG)',    threshold: -15, dir: 'low', kind: 'market', policyPath: 'market' },
+  VGT:  { series: 'VGT',  node: 'vlPFC', role: 'Innovation Pipeline Capacity',   nodeRole: 'AI Training Infrastructure & Capacity',    label: 'Innovation Pipeline (VGT)',   threshold: -8,  dir: 'low', kind: 'market', policyPath: 'market' }
 };
+
+// ── TECHNOLOGY COMPANY ticker bindings (technology gap 2 — ADDITIVE, OPT-IN) ──
+// Parallel to MACRO_INDICATOR_BINDING. NOT merged into the default resolve()
+// pipeline and NOT included in NODE_TO_MACRO_INDICATOR — consumed ONLY when a
+// context explicitly triggers a tech-company-level drill (getTechCompaniesForNode
+// / TECH_COMPANY_BINDING export). Each ticker traces COMPUTE SOURCING to a node:
+// ticker stress (dir 'low' for all — stress on decline) estimates COMPUTE
+// EFFICIENCY DEGRADATION (NVDA decline = GPU scarcity → inference deferred to
+// higher-power older chips; ASML/TSM decline = leading-edge fab capacity
+// constrained → less power-efficient designs). Energy is the consequence, never
+// the identity. REAL tickers only.
+var TECH_COMPANY_BINDING = {
+  NVDA:  { series: 'NVDA',  node: 'M1',    role: 'Compute/GPU Silicon Supply',        nodeRole: 'Hardware Design',                          label: 'NVIDIA',             threshold: -20, dir: 'low', kind: 'ticker', industry: 'semiconductor' },
+  MSFT:  { series: 'MSFT',  node: 'dlPFC', role: 'Enterprise Software Distribution',  nodeRole: 'Software Engineering',                     label: 'Microsoft',          threshold: -15, dir: 'low', kind: 'ticker', industry: 'software' },
+  GOOGL: { series: 'GOOGL', node: 'AI',    role: 'Foundation Model Training Scale',   nodeRole: 'Deployment Optimization Core Operations',  label: 'Alphabet',           threshold: -18, dir: 'low', kind: 'ticker', industry: 'ai' },
+  META:  { series: 'META',  node: 'AI',    role: 'Compute Infrastructure Edge',       nodeRole: 'Deployment Optimization Core Operations',  label: 'Meta Platforms',     threshold: -22, dir: 'low', kind: 'ticker', industry: 'ai' },
+  AMZN:  { series: 'AMZN',  node: 'M1',    role: 'Cloud Infrastructure Backbone',     nodeRole: 'Hardware Design',                          label: 'Amazon',             threshold: -17, dir: 'low', kind: 'ticker', industry: 'cloud' },
+  CRWD:  { series: 'CRWD',  node: 'rPFC',  role: 'Cybersecurity Defense Activation',  nodeRole: 'optimization diag — Intervention Planning', label: 'CrowdStrike',       threshold: -25, dir: 'low', kind: 'ticker', industry: 'security' },
+  PANW:  { series: 'PANW',  node: 'vlPFC', role: 'Network Security Innovation',       nodeRole: 'AI Training Infrastructure & Capacity',    label: 'Palo Alto Networks', threshold: -23, dir: 'low', kind: 'ticker', industry: 'security' },
+  TSM:   { series: 'TSM',   node: 'M1',    role: 'Advanced Chip Foundry Capacity',    nodeRole: 'Hardware Design',                          label: 'TSMC',               threshold: -16, dir: 'low', kind: 'ticker', industry: 'semiconductor' },
+  ASML:  { series: 'ASML',  node: 'vlPFC', role: 'EDA/Fab Tooling Scarcity',          nodeRole: 'AI Training Infrastructure & Capacity',    label: 'ASML',               threshold: -19, dir: 'low', kind: 'ticker', industry: 'semiconductor' }
+};
+
+// Reverse lookup: connectome node → tech company tickers it sources from
+// (opt-in tech-company drill, parallel to NODE_TO_MACRO_INDICATOR).
+var NODE_TO_TECH_COMPANY = {};
+for (var _tk in TECH_COMPANY_BINDING) {
+  if (!Object.prototype.hasOwnProperty.call(TECH_COMPANY_BINDING, _tk)) continue;
+  var _tb = TECH_COMPANY_BINDING[_tk];
+  if (!NODE_TO_TECH_COMPANY[_tb.node]) NODE_TO_TECH_COMPANY[_tb.node] = [];
+  NODE_TO_TECH_COMPANY[_tb.node].push(_tb);
+}
 
 // ── FISCAL vs MONETARY POLICY TRANSMISSION (ADDITIVE — economy gap 2) ──
 // The existing FEED_TO_CONNECTOME['finance'] = ['economy','finance'] mapping does
@@ -637,6 +693,122 @@ function resolvePolicyPath(path, stress) {
 }
 
 // ═══════════════════════════════════════════════════
+// 6c. TECHNOLOGY SUB-CIRCUIT RESOLUTION (ADDITIVE — technology gap, OPT-IN)
+// ═══════════════════════════════════════════════════
+// Technology domain stress, by default, activates the generic 'technology' node
+// set with NO differentiation of AI vs cybersecurity vs chip-supply — and those
+// three have very different ENERGY/compute signatures. This routes a technology
+// stress trigger to the correct sub-circuit (mirrors resolvePolicyPath: a separate
+// opt-in entry point; the default resolve() pipeline is unchanged; no scoring).
+// Each sub-circuit carries its energy-demand SCALING MODEL so grid/energy-demand
+// modeling can pick the right curve when this technology stress emits a demand
+// signal. Mirrors the connectome-side TECH_SUBCIRCUITS (kept in sync here so the
+// resolver is self-contained — it does not import the connectome module).
+//   • AI training   = LINEAR in GPU-days. Pathway dlPFC → AI → mPFC.
+//   • Cybersecurity = constant baseline + breach BURST. Pathway vlPFC → rPFC → dACC.
+//   • Chip supply   = fab power-per-wafer × utilization. Pathway M1 → THAL → BDNF.
+// Real tech tickers only (chips / AI / cyber) — energy is the compute-demand
+// coupling, never the domain's own identity.
+var TECH_SUBCIRCUIT_ROUTING = {
+  ai: {
+    label: 'AI training circuit (compute/memory demand)',
+    pathway: ['dlPFC', 'AI', 'mPFC'],
+    role: 'training-resource-allocation → model-inference-load → budget-efficiency',
+    energySignature: 'variable (scales with model size, training epochs, inference volume)',
+    scalingModel: 'linear',                        // grid demand ∝ GPU-days
+    // Connectome domains the sub-circuit lights up (technology is the home domain;
+    // energy is the compute-demand coupling target, NOT tech identity).
+    connectomeDomains: ['technology', 'energy'],
+    triggers: ['ai_training_cost_spike', 'gpu_shortage', 'inference_demand_surge', 'model_scale_jump'],
+    anchors: ['NVDA', 'AMD', 'MSFT', 'GOOGL', 'META', 'AMZN', 'PLTR']
+  },
+  security: {
+    label: 'Cybersecurity circuit (defensive compute)',
+    pathway: ['vlPFC', 'rPFC', 'dACC'],
+    role: 'vulnerability-scanning → breach-response → incident-cost',
+    energySignature: 'constant baseline + burst on breach (intrusion detection, forensics always-on)',
+    scalingModel: 'baseline_plus_burst',           // grid demand = baseline + breach burst
+    connectomeDomains: ['technology', 'energy'],
+    triggers: ['ransomware_outbreak', 'breach_disclosure', 'zero_day_exploit', 'ddos_surge'],
+    anchors: ['CRWD', 'PANW', 'MSFT', 'CSCO', 'FTNT', 'ZS']
+  },
+  supply: {
+    label: 'Chip supply circuit (foundry capacity)',
+    pathway: ['M1', 'THAL', 'BDNF'],
+    role: 'node-advance-planning → fab-allocation → inventory-management',
+    energySignature: 'depends on fab node (TSMC 3nm vs 28nm old-node has different power per wafer)',
+    scalingModel: 'fab_power_per_wafer_x_utilization',
+    connectomeDomains: ['technology', 'energy'],
+    triggers: ['chip_shortage', 'fab_capacity_constraint', 'foundry_node_transition', 'export_control_shock'],
+    anchors: ['TSM', 'ASML', 'INTC', 'NVDA', 'AVGO', 'AMD']
+  }
+};
+
+// Reverse lookup: trigger source string → sub-circuit key (built once).
+var TECH_TRIGGER_TO_SUBCIRCUIT = {};
+for (var _tk in TECH_SUBCIRCUIT_ROUTING) {
+  if (!Object.prototype.hasOwnProperty.call(TECH_SUBCIRCUIT_ROUTING, _tk)) continue;
+  var _trg = TECH_SUBCIRCUIT_ROUTING[_tk].triggers || [];
+  for (var _ti = 0; _ti < _trg.length; _ti++) TECH_TRIGGER_TO_SUBCIRCUIT[_trg[_ti]] = _tk;
+}
+
+/**
+ * Route a technology stress trigger to its sub-circuit (AI / cybersecurity / chip
+ * supply) and emit the energy-demand scaling model so grid/energy modeling can pick
+ * the right curve. OPT-IN; default resolve() is unchanged. No scoring.
+ * @param {String} stressTrigger - trigger source, e.g. 'ai_training_cost_spike',
+ *        'ransomware_outbreak', 'chip_shortage'; OR a sub-circuit key 'ai'|'security'|'supply'.
+ * @param {String} [domain] - originating domain (expected 'technology'); other
+ *        domains return an inactive result (this gap is technology-specific).
+ * @param {Object} [context] - optional { stress:Number } raw stress [0..1] for activation.
+ * @returns {Object} { subCircuit, matched, label, pathway, role, energySignature,
+ *          scalingModel, connectomeDomains, anchors, nodes }
+ */
+function resolveTechSubCircuit(stressTrigger, domain, context) {
+  var dom = domain || 'technology';
+  var inactive = {
+    subCircuit: null, matched: false, trigger: stressTrigger || null, domain: dom,
+    label: '', pathway: [], role: '', energySignature: '', scalingModel: '',
+    connectomeDomains: [], anchors: [], nodes: []
+  };
+  // This gap is technology-specific; never hijack another domain's stress.
+  if (dom !== 'technology') return inactive;
+
+  // Resolve which sub-circuit: accept a direct key or a named trigger source.
+  var key = null;
+  if (stressTrigger && TECH_SUBCIRCUIT_ROUTING[stressTrigger]) {
+    key = stressTrigger;
+  } else if (stressTrigger && TECH_TRIGGER_TO_SUBCIRCUIT[stressTrigger]) {
+    key = TECH_TRIGGER_TO_SUBCIRCUIT[stressTrigger];
+  }
+  if (!key) return inactive;
+
+  var cfg = TECH_SUBCIRCUIT_ROUTING[key];
+  var s = (context && typeof context.stress === 'number') ? context.stress : 0;
+  // Reuse the existing activation engine by synthesizing one stressed feed domain
+  // per connectome domain on the sub-circuit (technology = home, energy = the
+  // compute-demand coupling target so the emitted energy signal lights the grid).
+  var synth = cfg.connectomeDomains.map(function(cd) { return { id: cd, stress: s, status: 'TECH_SUBCIRCUIT' }; });
+  var nodes = activateNodes(synth);
+
+  return {
+    subCircuit: key,
+    matched: true,
+    trigger: stressTrigger,
+    domain: dom,
+    label: cfg.label,
+    pathway: cfg.pathway.slice(),
+    role: cfg.role,
+    // Energy demand signal: the scaling model downstream grid/energy modeling must use.
+    energySignature: cfg.energySignature,
+    scalingModel: cfg.scalingModel,
+    connectomeDomains: cfg.connectomeDomains.slice(),
+    anchors: cfg.anchors.slice(),
+    nodes: nodes
+  };
+}
+
+// ═══════════════════════════════════════════════════
 // 7. KERNEL ADAPTER RELAY (DISABLED)
 // ═══════════════════════════════════════════════════
 // Formerly routed opportunity stress through:
@@ -786,9 +958,23 @@ window.LIMENConnectomeResolver = {
   NODE_TO_MACRO_INDICATOR: NODE_TO_MACRO_INDICATOR,
   getMacroIndicatorsForNode: function(nodeId) { return NODE_TO_MACRO_INDICATOR[nodeId] || []; },
 
+  // Technology company ticker bindings (technology gap 2) — OPT-IN, parallel to
+  // the macro registry; consumed only for explicit tech-company-level drill.
+  TECH_COMPANY_BINDING: TECH_COMPANY_BINDING,
+  NODE_TO_TECH_COMPANY: NODE_TO_TECH_COMPANY,
+  getTechCompaniesForNode: function(nodeId) { return NODE_TO_TECH_COMPANY[nodeId] || []; },
+
   // Fiscal vs monetary policy transmission (economy gap 2) — opt-in
   MACRO_POLICY_PATH: MACRO_POLICY_PATH,
   resolvePolicyPath: resolvePolicyPath,
+
+  // Technology sub-circuit segregation (technology gap) — opt-in. Routes a tech
+  // stress trigger to AI / cybersecurity / chip-supply, each with its own energy
+  // signature + scaling model so grid/energy-demand modeling picks the right curve.
+  TECH_SUBCIRCUIT_ROUTING: TECH_SUBCIRCUIT_ROUTING,
+  TECH_TRIGGER_TO_SUBCIRCUIT: TECH_TRIGGER_TO_SUBCIRCUIT,
+  resolveTechSubCircuit: resolveTechSubCircuit,
+  getTechSubCircuitForTrigger: function(trigger) { return TECH_TRIGGER_TO_SUBCIRCUIT[trigger] || null; },
 
   // Last resolve state
   getLastResolve: function() { return _lastResolve; },

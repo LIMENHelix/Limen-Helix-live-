@@ -82,7 +82,23 @@
     { label: 'Investigate precision medicine advances', domain: 'health', type: 'scientific-discovery', baseRelevance: 0.40 },
     { label: 'Explore digital health monitoring innovations', domain: 'health', type: 'technological-innovation', baseRelevance: 0.35 },
 
-    // Technology
+    // Technology (mirrors Energy/Infrastructure/Culture/Finance/Economy, translated to technology-native concepts:
+    //   storage→AI/ML hardware iteration & custom-chip competition, distributed-grid→cloud-infrastructure fault tolerance,
+    //   transition→advanced-node migration & chiplet yields, attack-surface→cybersecurity incident response & zero-day discovery lag;
+    //   identity = semiconductors & compute, AI/ML, software & cloud, hardware & devices, cybersecurity, R&D pipelines, platform networks, data infrastructure;
+    //   universe: AAPL/MSFT/NVDA/GOOGL/META/AMZN/AVGO/ORCL/CRM/AMD/INTC/TSM/ASML/PLTR/CRWD/PANW — couples to energy via compute demand, kept distinct from finance (fintech is a coupling))
+    { label: 'Investigate semiconductor supply-chain bottlenecks (TSM/ASML foundry utilization, chiplet yields, advanced-node migration)', domain: 'technology', type: 'system-risk', baseRelevance: 0.50 },
+    { label: 'Explore AI/ML hardware iteration cycles and custom-chip competition (NVDA/AMD/GOOGL TPU)', domain: 'technology', type: 'technological-innovation', baseRelevance: 0.45 },
+    { label: 'Analyze cybersecurity incident response capability and zero-day discovery lag (CRWD/PANW/PLTR)', domain: 'technology', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Investigate cloud-infrastructure fault tolerance and multi-region failover resilience', domain: 'technology', type: 'system-risk', baseRelevance: 0.40 },
+    // AI-capex mitigation: efficient-inference & token-per-FLOP optimization as a leading indicator on training-cost inflation (NVDA/AMD/GOOGL/MSFT compute spend)
+    { label: 'Explore efficient-inference architectures and token-per-FLOP optimization for AI-capex mitigation (NVDA/AMD GPU allocation, training-cost inflation)', domain: 'technology', type: 'technological-innovation', baseRelevance: 0.40 },
+    // Platform-consolidation & open-source adoption as risk-mitigation for vendor lock-in / API-deprecation exposure (MSFT/ORCL/CRM/AMZN/GOOGL platform networks)
+    { label: 'Analyze platform-consolidation and open-source-adoption as risk-mitigation for vendor lock-in and API-deprecation (MSFT/ORCL/CRM/AMZN platform networks)', domain: 'technology', type: 'economic-opportunity', baseRelevance: 0.40 },
+    // Supply-chain cyber-resilience: hardening the chip-fab dependency graph against state-level attacks (TSM/ASML/Samsung), distinct from incident-response capability above
+    { label: 'Investigate supply-chain cyber-resilience and fab-dependency hardening against state-level attacks (TSM/ASML/Samsung, CISA KEV exposure)', domain: 'technology', type: 'system-risk', baseRelevance: 0.45 },
+    // Quantum-computing milestone tracking & obsolescence-acceleration on classical-chip roadmaps (breakthrough-rate signal, transformative-model & post-quantum-crypto timing)
+    { label: 'Explore quantum-computing milestone tracking and obsolescence-acceleration for classical-chip and post-quantum-crypto roadmaps', domain: 'technology', type: 'scientific-discovery', baseRelevance: 0.40 },
     { label: 'Investigate neuromorphic computing architectures', domain: 'technology', type: 'technological-innovation', baseRelevance: 0.40 },
     { label: 'Explore human-computer interface research', domain: 'technology', type: 'scientific-discovery', baseRelevance: 0.35 },
     { label: 'Analyze cybersecurity threat evolution patterns', domain: 'technology', type: 'system-risk', baseRelevance: 0.30 },

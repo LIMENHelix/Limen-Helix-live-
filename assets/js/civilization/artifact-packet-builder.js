@@ -205,7 +205,22 @@
     'FRED PCE Inflation':             'https://fred.stlouisfed.org/series/PCEPI',
     'FRED Consumer Sentiment':        'https://fred.stlouisfed.org/series/UMCSENT',
     'FRED Money Supply':              'https://fred.stlouisfed.org/series/M2SL',
-    'FRED Industrial Production':     'https://fred.stlouisfed.org/series/INDPRO'
+    'FRED Industrial Production':     'https://fred.stlouisfed.org/series/INDPRO',
+    // Technology primary-source authorities: the COMPUTE & INNOVATION signal
+    // layer (semiconductors & compute, AI/ML, software & cloud, hardware &
+    // devices, cybersecurity, R&D pipelines). Anchored on real chip/compute
+    // investor-relations + standards/research authorities. DISTINCT from
+    // finance (fintech is a coupling, not the identity) and from energy
+    // (technology couples to energy via compute demand, but its OWN content =
+    // chips/software/AI/cyber). Verified canonical landing pages only — never
+    // AI-constructed deep links. Mirrors the energy / infrastructure / culture
+    // / finance / economy structure.
+    'NVIDIA Investor Relations':      'https://investor.nvidia.com/',
+    'TSMC Investor':                  'https://investor.tsmc.com/english',
+    'AMD Financial':                  'https://ir.amd.com/',
+    'Synopsys EDA Trends':            'https://www.synopsys.com/company/newsroom.html',
+    'IEEE Xplore':                    'https://ieeexplore.ieee.org/',
+    'ArXiv CS':                       'https://arxiv.org/list/cs/recent'
   };
 
   // ─── Domain-specific primary source priority ───────────────────────────
@@ -253,7 +268,21 @@
     // markets / credit). Mirrors the energy / infrastructure / culture / finance
     // ordering so economy artifacts no longer demote through the
     // PRIMARY_BY_FALLBACK path.
-    economy: ['FRED Real GDP Growth', 'FRED Unemployment Rate', 'FRED Nonfarm Payrolls', 'FRED CPI Inflation', 'FRED PCE Inflation', 'FRED Consumer Sentiment', 'FRED Industrial Production', 'FRED Money Supply']
+    economy: ['FRED Real GDP Growth', 'FRED Unemployment Rate', 'FRED Nonfarm Payrolls', 'FRED CPI Inflation', 'FRED PCE Inflation', 'FRED Consumer Sentiment', 'FRED Industrial Production', 'FRED Money Supply'],
+    // Technology primary sources: compute & innovation authorities that anchor
+    // the technology signal layer — semiconductor / compute investor reporting
+    // (NVIDIA, TSMC, AMD foundry & GPU economics = the silicon spine), EDA /
+    // design-tool trends (Synopsys), peer-reviewed engineering research (IEEE
+    // Xplore), the AI/ML preprint frontier (ArXiv CS), and the actively-
+    // exploited vulnerability catalog (CISA KEV = the cybersecurity signal,
+    // already in CITATION_HINTS + FEED_TOKENS). Ranked highest-signal
+    // structural first: chip/compute fundamentals lead (the demand & capacity
+    // spine for AI/cloud), research & cyber ground it. DISTINCT from finance
+    // (no credit/bank sources) and from energy (no oil/gas/grid sources).
+    // Mirrors the energy / infrastructure / culture / finance / economy
+    // ordering so technology artifacts no longer demote through the
+    // PRIMARY_BY_FALLBACK path.
+    technology: ['NVIDIA Investor Relations', 'TSMC Investor', 'AMD Financial', 'Synopsys EDA Trends', 'IEEE Xplore', 'ArXiv CS', 'CISA KEV']
   };
 
   // ─── Feed token map for evidence-source verification ───────────────────
@@ -314,7 +343,25 @@
     'FRED PCE Inflation':         ['FRED', 'PCE', 'inflation', 'PCEPI'],
     'FRED Consumer Sentiment':    ['FRED', 'consumer sentiment', 'sentiment', 'UMCSENT'],
     'FRED Money Supply':          ['FRED', 'money supply', 'M2', 'M2SL'],
-    'FRED Industrial Production': ['FRED', 'industrial production', 'output', 'INDPRO']
+    'FRED Industrial Production': ['FRED', 'industrial production', 'output', 'INDPRO'],
+    // Technology feed tokens: literal substrings the brain's evidence prose must
+    // contain for _isEvidenceSourceVerified to anchor technology artifacts. Each
+    // entry mirrors a CITATION_HINTS / PRIMARY_PRIORITY_MAP technology feed so
+    // the compute & innovation signal layer verifies instead of always failing.
+    // Anchors are real semiconductor/compute vocabulary (GPU, foundry, EDA),
+    // the AI/ML frontier, cloud platforms, and cybersecurity — kept DISTINCT
+    // from finance (no credit/bank tokens) and from energy (no oil/gas/grid
+    // tokens), so the technology evidence is source-verified exactly like the
+    // proven ports. CISA KEV already carries the cyber token set above.
+    'NVIDIA Investor Relations':  ['NVIDIA', 'NVDA', 'GPU', 'CUDA', 'accelerator', 'data center compute'],
+    'TSMC Investor':              ['TSMC', 'TSM', 'foundry', 'fab', '3nm', '5nm', 'wafer'],
+    'AMD Financial':              ['AMD', 'Ryzen', 'EPYC', 'Instinct', 'x86'],
+    'Synopsys EDA Trends':        ['Synopsys', 'EDA', 'design tool', 'chip design', 'verification'],
+    'IEEE Xplore':                ['IEEE', 'IEEE Xplore', 'engineering research', 'conference paper'],
+    'ArXiv CS':                   ['ArXiv', 'arXiv', 'preprint', 'AI', 'LLM', 'neural', 'transformer'],
+    'AI/ML':                      ['AI', 'LLM', 'neural', 'transformer', 'inference', 'training run'],
+    'Cybersecurity':             ['CVE', 'zero-day', 'CISA', 'exploit', 'breach'],
+    'Cloud Platforms':           ['AWS', 'Azure', 'GCP', 'cloud', 'hyperscaler', 'SaaS']
   };
 
   // ─── Module-level flag: SCHEMA_VERSION_BUMPED warning ─────────────────

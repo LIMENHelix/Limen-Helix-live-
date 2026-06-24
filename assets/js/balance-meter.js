@@ -191,6 +191,62 @@
     { re: /investment (recover|revival|surge|rebound)|capex (recover|surge|grow|rise)|business (confidence|sentiment) (rise|improv|recover)|consumer (confidence|sentiment) (rise|improv)|\bumcsent\b (rise|improv)|expansion(ary)?|economic (recovery|upturn|rebound)/i, weight: 0.14, tag: 'investment_recovery' }
   ];
 
+  // ─── Technology-native semantics ──────────────────────────────────────────
+  // Energy parity (same shape as INFRA / CULTURE / FINANCE / ECONOMY above):
+  // the technology domain has its OWN failure/recovery vocabulary. Where energy
+  // reads crude_above_90 / grid_stress / chokepoint, infrastructure reads
+  // grid_reliability / deferred_maintenance, culture reads the attention economy,
+  // finance reads liquidity/credit, and economy reads the business cycle,
+  // TECHNOLOGY reads the compute-and-innovation stack: semiconductors & compute
+  // (fab capacity, chip-cycle lead times, silicon node transitions), AI/ML
+  // (GPU/TPU scarcity, training capex, inference bottlenecks), software & cloud
+  // (cloud quota stress, API deprecation, platform shifts), hardware & devices
+  // (end-of-life cycles, obsolescence), cybersecurity (0-day spikes, supply-chain
+  // attacks, firmware compromise), and the R&D / breakthrough pipeline
+  // (foundational-model releases, transformative chip architectures, quantum
+  // milestones).
+  //
+  // Anchors are REAL technology tickers (AAPL, MSFT, NVDA, GOOGL, META, AMZN,
+  // AVGO, ORCL, CRM, AMD, INTC, TSM, ASML, PLTR, CRWD, PANW) — NEVER oil/gas/grid
+  // content. Technology COUPLES to energy via datacenter compute/power demand,
+  // but its IDENTITY stays chips/software/AI/cyber, and it stays DISTINCT from
+  // finance (fintech is a coupling, not the identity). ADVISORY ONLY — wholly
+  // separate from the validated P3 distress kernel.
+  //
+  // Each entry maps a keyword pattern (matched against the domain's signal
+  // strings) to a weighted push on the destabilizing or stabilizing score —
+  // identical mechanism to energy's condition→weight mapping, technology content.
+  var TECHNOLOGY_DESTABILIZING = [
+    // Compute shortage — GPU/TPU scarcity, cloud quota stress, inference bottleneck.
+    { re: /gpu (shortage|scarcity|allocation|constrain)|tpu (shortage|scarcity)|compute (shortage|scarcity|crunch|constrain)|cloud (quota|capacity) (stress|constrain|limit)|(ai )?inference (bottleneck|constrain)|accelerator shortage|\bnvda\b (allocation|shortage)/i, weight: 0.18, tag: 'compute_shortage' },
+    // Chip-cycle disruption — fab queue depth above baseline, manufacturing lead-time.
+    { re: /fab (queue|capacity) (constrain|deep|stress)|chip (cycle|shortage|glut)|wafer (shortage|constrain)|manufacturing lead(-| )?time (rise|stretch|extend)|foundry (constrain|backlog)|node (transition|migration) (delay|stress)|\btsm\b (constrain|delay)/i, weight: 0.16, tag: 'chip_cycle' },
+    // AI capex spiral — ballooning training costs, datacenter power/water constraints.
+    { re: /(ai|training) capex (spiral|balloon|surge|overrun)|training cost(s)? (balloon|surge|spiral)|datacenter (power|water) (constrain|budget|shortage)|model training (cost|budget) (surge|overrun)|hyperscale capex (surge|strain)|power budget (constrain|cap)/i, weight: 0.15, tag: 'ai_capex_spiral' },
+    // Platform shift — API deprecation, vendor lock-in release, proprietary-to-open.
+    { re: /api (deprecat|sunset|breaking change)|platform (shift|migration|deprecat)|vendor lock(-| )?in|proprietary(-| )?to(-| )?open|sdk (deprecat|breaking)|breaking (api|change) (adopt|forced)|ecosystem (fragment|migration)/i, weight: 0.13, tag: 'platform_shift' },
+    // Obsolescence — hardware EOL acceleration, silicon node transitions, supply risk.
+    { re: /(hardware|device|silicon) (end[-\s]?of[-\s]?life|eol|obsolesc)|end[-\s]?of[-\s]?life (cycle|accelerat)|legacy (hardware|node) (sunset|deprecat)|node (transition|shrink) risk|\basml\b (supply|risk)|equipment (obsolesc|sunset)/i, weight: 0.12, tag: 'obsolescence' },
+    // Cyber breach — 0-day volumetric spike, supply-chain attack, firmware compromise.
+    { re: /0[-\s]?day|zero[-\s]?day (spike|surge|exploit)|supply[-\s]?chain attack|firmware (compromise|implant)|(software|dependency) supply[-\s]?chain (attack|compromise)|exploit (rate|wave) (surge|spike)|breach (volumetric|wave|surge)|\bcrwd\b|\bpanw\b (incident|alert)/i, weight: 0.15, tag: 'cyber_breach' },
+    // Supply constraint — TSMC/ASML/Samsung/Intel lead-time stress, equipment backlog.
+    { re: /(tsmc|asml|samsung|intel) (lead[-\s]?time|constrain|backlog|delay)|lithography (constrain|shortage)|euv (constrain|backlog)|substrate (shortage|constrain)|advanced packaging (constrain|shortage)|supply (constrain|risk) (chip|semiconductor)/i, weight: 0.13, tag: 'supply_constraint' }
+  ];
+  var TECHNOLOGY_STABILIZING = [
+    // Fab capacity recovery — foundry build-out, wafer supply normalizing.
+    { re: /fab (capacity|build[-\s]?out) (recover|expand|online|ramp)|foundry (capacity|expansion) (online|ramp|complet)|wafer (supply|capacity) (recover|normaliz|ample)|chip (supply|capacity) (recover|normaliz|ease)|new fab (online|operational)|capacity (ramp|expansion) (chip|semiconductor)/i, weight: 0.16, tag: 'fab_capacity_recovery' },
+    // Efficient-inference breakthrough — cheaper compute, distillation, open weights.
+    { re: /efficient(-| )?inference (breakthrough|gain)|inference cost(s)? (drop|fall|decline)|model (distillation|compression|quantiz) (gain|breakthrough)|compute (efficien|cost) (gain|improv)|cheaper (compute|inference|training)|throughput (breakthrough|surge)/i, weight: 0.15, tag: 'efficient_inference' },
+    // Open-source AI adoption — open weights/models, ecosystem standardization.
+    { re: /open(-| )?source (ai|model|llm) (adopt|surge|momentum)|open weights? (release|adopt)|open(-| )?model (ecosystem|adopt)|community (model|framework) (adopt|momentum)|standardiz(ed|ation) (api|framework|model)|interoperab(le|ility) (gain|standard)/i, weight: 0.14, tag: 'open_source_adoption' },
+    // Supply-chain diversification — TSMC/Samsung/Intel parity, reshoring, second-source.
+    { re: /supply(-| )?chain (diversif|resilien|reshore)|(tsmc|samsung|intel|gf) (parity|second(-| )?source|capacity online)|reshor(e|ing)|second(-| )?source(d|ing)|geographic (diversif|spread) (fab|chip)|domestic (fab|chip) (capacity|production)|chips act (capacity|fund)/i, weight: 0.15, tag: 'supply_chain_diversification' },
+    // Cybersecurity framework maturation — patched, hardened, zero-trust adoption.
+    { re: /(patch|remediat) (deploy|complet|rollout)|zero(-| )?trust (adopt|deploy|maturat)|security (framework|posture) (matur|harden|strengthen)|vuln(erabilit(y|ies))? (patched|remediated|closed)|threat (contain|mitigat|patched)|\bcrwd\b (deploy|coverage)|defense(-| )?in(-| )?depth (deploy|maturat)/i, weight: 0.14, tag: 'cyber_framework_maturation' },
+    // Breakthrough — foundational model, transformative chip architecture, quantum milestone.
+    { re: /foundational (model|ai) (release|launch|breakthrough)|transformative (chip|architecture|silicon)|new (chip|gpu|accelerator) architecture (launch|breakthrough)|quantum (milestone|breakthrough|advantage)|next(-| )?gen (silicon|node|process) (launch|ramp)|breakthrough (model|chip|architecture)/i, weight: 0.13, tag: 'breakthrough' }
+  ];
+
   // Scan a domain's signal strings against a civil pattern table and return the
   // summed weighted contribution (clamped). Mirrors how energy accumulates its
   // condition-driven pressure, but over civil-native keywords.
@@ -332,6 +388,26 @@
         _economyDestabTags = _ed.tags;
       }
 
+      // ── Technology-native destabilizing pathways (energy parity) ──
+      // For the technology domain ONLY, add compute-and-innovation pressure from
+      // named failure pathways found in the live signal strings (compute shortage
+      // / GPU-TPU scarcity, chip-cycle disruption / fab queue depth, AI capex
+      // spiral / datacenter power constraints, platform shift / API deprecation,
+      // obsolescence / hardware EOL, cyber breach / 0-day spikes, supply
+      // constraint / TSMC-ASML lead times). This is the semiconductor-and-compute
+      // analogue of energy's crude_above_*/grid_stress, infrastructure's
+      // grid_reliability/deferred_maintenance, culture's backlash/audience
+      // collapse, finance's liquidity/credit, and economy's business-cycle
+      // weighting — IDENTITY stays chips/software/AI/cyber (couples to energy via
+      // compute demand, distinct from finance/fintech). ADVISORY ONLY — wholly
+      // separate from the validated P3 distress kernel.
+      var _technologyDestabTags = null;
+      if (k === 'technology') {
+        var _td = _infraSignalScore(signals, TECHNOLOGY_DESTABILIZING);
+        destab += _td.score;
+        _technologyDestabTags = _td.tags;
+      }
+
       destab = _clamp(destab, 0, 1);
 
       // ─── Stabilizing score ─────────────────────────────────────
@@ -429,6 +505,26 @@
         _economyStabTags = _es.tags;
       }
 
+      // ── Technology-native stabilizing pathways (energy parity) ──
+      // Technology recovery vocabulary: fab-capacity recovery (foundry build-out /
+      // wafer supply normalizing), efficient-inference breakthrough (cheaper
+      // compute / distillation), open-source AI adoption (open weights /
+      // standardization), supply-chain diversification (TSMC/Samsung/Intel parity
+      // / reshoring), cybersecurity framework maturation (patch / zero-trust), and
+      // breakthrough (foundational model / transformative chip architecture /
+      // quantum milestone). Mirrors energy's falling-trend / declining-volatility
+      // stabilizers, infrastructure's funding-renewal / repair-completion,
+      // culture's fanbase-momentum / mainstream-adoption, finance's
+      // liquidity-restoration / capital-strengthening, and economy's
+      // labor-recovery / productivity, with technology semantics from the live
+      // signals. ADVISORY ONLY — wholly separate from the validated P3 distress kernel.
+      var _technologyStabTags = null;
+      if (k === 'technology') {
+        var _ts = _infraSignalScore(signals, TECHNOLOGY_STABILIZING);
+        stab += _ts.score;
+        _technologyStabTags = _ts.tags;
+      }
+
       stab = _clamp(stab, 0, 1);
 
       // ─── Net balance ───────────────────────────────────────────
@@ -474,6 +570,13 @@
       if (k === 'economy') {
         _balance[k].destabilizingFactors = _economyDestabTags || [];
         _balance[k].stabilizingFactors = _economyStabTags || [];
+      }
+
+      // Surface the technology-native pathways that drove the technology score
+      // (energy parity: name the conditions, don't hide them behind a scalar).
+      if (k === 'technology') {
+        _balance[k].destabilizingFactors = _technologyDestabTags || [];
+        _balance[k].stabilizingFactors = _technologyStabTags || [];
       }
 
       // Detect state shift

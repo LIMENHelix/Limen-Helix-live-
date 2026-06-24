@@ -83,7 +83,7 @@
         },
         {
           "domain": "energy",
-          "role": "Grid Management"
+          "role": "Compute Workload Drives Grid Load Demand (directional)"
         },
         {
           "domain": "governance",
@@ -128,22 +128,22 @@
       "functional_role": "executor",
       "companies": [
         {
-          "name": "Adobe",
-          "ticker_or_id": "ADBE",
-          "functional_reason": "Executes core hardware design operations, delivering primary output and managing day-to-day functional processes",
-          "binding_strength": 0.89
-        },
-        {
-          "name": "Amazon Web Services",
-          "ticker_or_id": "AMZN",
-          "functional_reason": "Executes core hardware design operations, delivering primary output and managing day-to-day functional processes",
-          "binding_strength": 0.93
-        },
-        {
-          "name": "Salesforce",
-          "ticker_or_id": "CRM",
-          "functional_reason": "Executes core hardware design operations, delivering primary output and managing day-to-day functional processes",
+          "name": "ASML",
+          "ticker_or_id": "ASML",
+          "functional_reason": "Executes core hardware design operations through lithography and chip-fabrication equipment, delivering primary output and managing day-to-day functional processes",
           "binding_strength": 0.92
+        },
+        {
+          "name": "AMD",
+          "ticker_or_id": "AMD",
+          "functional_reason": "Executes core hardware design operations through CPU/GPU processor engineering, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "Apple",
+          "ticker_or_id": "AAPL",
+          "functional_reason": "Executes core hardware design operations through devices and custom silicon, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.93
         }
       ],
       "neuralRole": "Motor",
@@ -165,7 +165,7 @@
         },
         {
           "domain": "energy",
-          "role": "Power Generation"
+          "role": "Hardware Fabrication Draws Peak Power Demand (directional)"
         },
         {
           "domain": "industry",
@@ -494,16 +494,16 @@
           "binding_strength": 0.87
         },
         {
-          "name": "Anthropic",
-          "ticker_or_id": "ANTHROPIC",
+          "name": "Oracle",
+          "ticker_or_id": "ORCL",
           "functional_reason": "Models and simulates cloud computing scenarios, generating forecasts and testing strategic alternatives",
-          "binding_strength": 0.95
+          "binding_strength": 0.89
         },
         {
-          "name": "OpenAI",
-          "ticker_or_id": "OPENAI",
-          "functional_reason": "Models and simulates cloud computing scenarios, generating forecasts and testing strategic alternatives",
-          "binding_strength": 0.92
+          "name": "Meta Platforms",
+          "ticker_or_id": "META",
+          "functional_reason": "Models and simulates cloud computing scenarios across platform-network workloads, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.86
         }
       ],
       "neuralRole": "Other",
@@ -603,7 +603,7 @@
       "crossDomainAffinities": [
         {
           "domain": "energy",
-          "role": "Transmission Lines"
+          "role": "Network Infrastructure Drives Distributed Power Demand (directional)"
         },
         {
           "domain": "infrastructure",
@@ -705,7 +705,7 @@
         },
         {
           "domain": "energy",
-          "role": "Grid Distribution"
+          "role": "Data Center Load Drives Grid Distribution Demand (directional)"
         },
         {
           "domain": "governance",
@@ -757,22 +757,22 @@
       "functional_role": "amplifier",
       "companies": [
         {
-          "name": "Alphabet (Google)",
-          "ticker_or_id": "GOOGL",
-          "functional_reason": "Detects and monitors semiconductors signals, identifying early disruption patterns and emerging conditions",
-          "binding_strength": 0.71
+          "name": "AMD",
+          "ticker_or_id": "AMD",
+          "functional_reason": "Amplifies and scales semiconductors capacity through CPU/GPU and processor design, driving growth and expanding reach of semiconductors operations",
+          "binding_strength": 0.9
         },
         {
-          "name": "CrowdStrike",
-          "ticker_or_id": "CRWD",
-          "functional_reason": "Detects and monitors semiconductors signals, identifying early disruption patterns and emerging conditions",
-          "binding_strength": 0.79
+          "name": "Broadcom",
+          "ticker_or_id": "AVGO",
+          "functional_reason": "Amplifies and scales semiconductors capacity through chip infrastructure and RF design, driving growth and expanding reach of semiconductors operations",
+          "binding_strength": 0.88
         },
         {
-          "name": "Cloudflare",
-          "ticker_or_id": "NET",
-          "functional_reason": "Routes and distributes semiconductors resources, connecting supply nodes to demand endpoints across the system",
-          "binding_strength": 0.79
+          "name": "Taiwan Semiconductor",
+          "ticker_or_id": "TSM",
+          "functional_reason": "Routes and distributes semiconductors resources through chip-fabrication capacity, connecting supply nodes to demand endpoints across the system",
+          "binding_strength": 0.91
         }
       ],
       "childPortal": "technology_semiconductors_portal.html",
@@ -795,7 +795,7 @@
         },
         {
           "domain": "energy",
-          "role": "Fossil Fuels"
+          "role": "High-Performance Compute Drives Peak Power Demand (directional)"
         },
         {
           "domain": "governance",
@@ -859,10 +859,10 @@
           "binding_strength": 0.95
         },
         {
-          "name": "OpenAI",
-          "ticker_or_id": "OPENAI",
+          "name": "Oracle",
+          "ticker_or_id": "ORCL",
           "functional_reason": "Models and simulates databases scenarios, generating forecasts and testing strategic alternatives",
-          "binding_strength": 0.67
+          "binding_strength": 0.84
         }
       ],
       "childPortal": "technology_arvr_portal.html",
@@ -949,10 +949,10 @@
           "binding_strength": 0.85
         },
         {
-          "name": "Anthropic",
-          "ticker_or_id": "ANTHROPIC",
-          "functional_reason": "Detects and monitors user interface design signals, identifying early disruption patterns and emerging conditions",
-          "binding_strength": 0.85
+          "name": "Meta Platforms",
+          "ticker_or_id": "META",
+          "functional_reason": "Detects and monitors user interface design signals across platform networks, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.88
         }
       ],
       "childPortal": "technology_chipindustry_portal.html",
@@ -1143,7 +1143,7 @@
       "crossDomainAffinities": [
         {
           "domain": "energy",
-          "role": "Pipeline Networks"
+          "role": "Distributed Ledger Compute Drives Energy Load Demand (directional)"
         },
         {
           "domain": "infrastructure",
@@ -1213,16 +1213,16 @@
           "binding_strength": 0.95
         },
         {
-          "name": "Anthropic",
-          "ticker_or_id": "ANTHROPIC",
+          "name": "Intel",
+          "ticker_or_id": "INTC",
           "functional_reason": "Models and simulates quantum computing scenarios, generating forecasts and testing strategic alternatives",
-          "binding_strength": 0.9
+          "binding_strength": 0.81
         },
         {
-          "name": "OpenAI",
-          "ticker_or_id": "OPENAI",
-          "functional_reason": "Models and simulates quantum computing scenarios, generating forecasts and testing strategic alternatives",
-          "binding_strength": 0.88
+          "name": "ASML",
+          "ticker_or_id": "ASML",
+          "functional_reason": "Models and simulates next-generation chip-fabrication and lithography scenarios underpinning quantum hardware, generating forecasts and testing strategic alternatives",
+          "binding_strength": 0.83
         }
       ],
       "childPortal": "technology_legacy_portal.html",
@@ -1331,7 +1331,7 @@
         },
         {
           "domain": "energy",
-          "role": "Refining"
+          "role": "Robotics Automation Drives Facility Power Demand (directional)"
         },
         {
           "domain": "industry",
@@ -1387,10 +1387,10 @@
       "functional_role": "signal_detector",
       "companies": [
         {
-          "name": "Anthropic",
-          "ticker_or_id": "ANTHROPIC",
-          "functional_reason": "Detects and monitors iot & sensors signals, identifying early disruption patterns and emerging conditions",
-          "binding_strength": 0.91
+          "name": "Broadcom",
+          "ticker_or_id": "AVGO",
+          "functional_reason": "Detects and monitors iot & sensors signals through semiconductor RF and connectivity infrastructure, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.9
         },
         {
           "name": "CrowdStrike",
@@ -1417,7 +1417,7 @@
         },
         {
           "domain": "energy",
-          "role": "Mining and Extraction"
+          "role": "Sensor Network Compute Drives Edge Power Demand (directional)"
         },
         {
           "domain": "environment",
@@ -1477,10 +1477,10 @@
       "functional_role": "signal_detector",
       "companies": [
         {
-          "name": "Anthropic",
-          "ticker_or_id": "ANTHROPIC",
+          "name": "Palantir",
+          "ticker_or_id": "PLTR",
           "functional_reason": "Detects and monitors devops signals, identifying early disruption patterns and emerging conditions",
-          "binding_strength": 0.95
+          "binding_strength": 0.88
         },
         {
           "name": "Palo Alto Networks",
@@ -1579,10 +1579,10 @@
           "binding_strength": 0.94
         },
         {
-          "name": "Anthropic",
-          "ticker_or_id": "ANTHROPIC",
-          "functional_reason": "Detects and monitors open source signals, identifying early disruption patterns and emerging conditions",
-          "binding_strength": 0.95
+          "name": "AMD",
+          "ticker_or_id": "AMD",
+          "functional_reason": "Detects and monitors open source signals through its CPU/GPU semiconductor-design and open-compute ecosystem, identifying early disruption patterns and emerging conditions",
+          "binding_strength": 0.86
         }
       ],
       "childPortal": "technology_techstartup_portal.html",
@@ -1722,6 +1722,344 @@
         {
           "domain": "education",
           "role": "Admissions Risk & Resilience"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "vMPFC",
+      "state": "active",
+      "domainLabel": "Platform Networks",
+      "domainDescription": "User-scale social and advertising platforms whose value compounds through network effects, engagement loops, and two-sided marketplace dynamics",
+      "domainFunction": "Aggregates billions of users into engagement graphs, monetizes attention through targeted ad-tech auctions, and governs creator/consumer interactions across feed, messaging, and short-video ecosystems",
+      "whyThisNode": "vMPFC integrates social value, reward valuation, and self-relevant signal weighting, mirroring how platform networks continuously score content against each user's predicted engagement to maximize attention and ad yield",
+      "group": "computing",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Daily active user (DAU) decline",
+        "Ad-load saturation eroding engagement",
+        "Network-effect reversal as users migrate to rival platforms"
+      ],
+      "treatments": [
+        {
+          "label": "Engagement-Quality Rebalancing",
+          "type": "STRUCTURAL",
+          "description": "Re-weighting ranking algorithms toward retention and creator health over short-term watch-time to defend long-run network value",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Ad-Tech Auction Tuning",
+          "type": "REGULATORY",
+          "description": "Adjusting auction density, targeting precision, and measurement signals to sustain advertiser ROI amid privacy and signal-loss pressure",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P6",
+      "functional_role": "integrator",
+      "companies": [
+        {
+          "name": "Meta Platforms",
+          "ticker_or_id": "META",
+          "functional_reason": "Operates the largest social and ad-network graph (Facebook, Instagram, WhatsApp), integrating user-scale engagement into platform-economic value",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Alphabet (Google)",
+          "ticker_or_id": "GOOGL",
+          "functional_reason": "Runs YouTube and the dominant programmatic ad-tech stack, integrating attention and advertiser demand across a planetary platform network",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "Pinterest",
+          "ticker_or_id": "PINS",
+          "functional_reason": "Operates a discovery-driven visual platform monetizing intent-rich engagement through native advertising network effects",
+          "binding_strength": 0.74
+        }
+      ],
+      "childPortal": "technology_platform_networks_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Platform Networks",
+      "brainNodeLabelCanonical": "Technology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "communication",
+          "role": "Mass Media Networks"
+        },
+        {
+          "domain": "culture",
+          "role": "Cultural Distribution & Virality"
+        },
+        {
+          "domain": "economy",
+          "role": "Attention Marketplace"
+        },
+        {
+          "domain": "business",
+          "role": "Two-Sided Market Strategy"
+        },
+        {
+          "domain": "governance",
+          "role": "Content Governance & Moderation"
+        },
+        {
+          "domain": "population",
+          "role": "Social Network Topology"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "dPFC",
+      "state": "active",
+      "domainLabel": "Semiconductor Architecture",
+      "domainDescription": "Logical design of compute silicon: CPU/GPU microarchitecture, instruction-set architectures, chiplet composition, and process-node roadmap trade-offs",
+      "domainFunction": "Defines how transistors are organized into cores, caches, interconnects, and accelerators, balancing performance, power, area, and yield across ISA choices and advanced packaging",
+      "whyThisNode": "dorsal PFC governs hierarchical planning and abstract architectural reasoning over many constraints at once, mirroring how chip architects compose ISA, microarchitecture, and chiplet topology under competing power/performance/area budgets",
+      "group": "hardware",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Generational IPC (instructions-per-cycle) gains stalling",
+        "Process-node roadmap slip versus competitor cadence",
+        "Power/thermal wall blocking frequency scaling"
+      ],
+      "treatments": [
+        {
+          "label": "Chiplet Disaggregation",
+          "type": "STRUCTURAL",
+          "description": "Decomposing monolithic dies into modular chiplets on advanced packaging to improve yield, mix process nodes, and scale core counts economically",
+          "evidence": "Strong"
+        },
+        {
+          "label": "ISA & Accelerator Co-Design",
+          "type": "STRUCTURAL",
+          "description": "Co-designing instruction sets with domain-specific accelerators (matrix/AI units) to extend performance beyond raw transistor scaling",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "NVIDIA",
+          "ticker_or_id": "NVDA",
+          "functional_reason": "Defines GPU/accelerator microarchitecture and CUDA-class compute design, setting the frontier of AI-compute silicon architecture",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Advanced Micro Devices",
+          "ticker_or_id": "AMD",
+          "functional_reason": "Pioneers chiplet-based CPU/GPU architecture and ISA-extension design, executing the modular silicon roadmap",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "Broadcom",
+          "ticker_or_id": "AVGO",
+          "functional_reason": "Architects custom compute and networking silicon (XPUs, SerDes, interconnect IP), executing application-specific architecture design at scale",
+          "binding_strength": 0.85
+        }
+      ],
+      "childPortal": "technology_semiconductor_architecture_portal.html",
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Semiconductor Architecture",
+      "brainNodeLabelCanonical": "Technology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "industry",
+          "role": "Precision Manufacturing"
+        },
+        {
+          "domain": "education",
+          "role": "Engineering R&D Pipeline"
+        },
+        {
+          "domain": "business",
+          "role": "Product Roadmap Strategy"
+        },
+        {
+          "domain": "economy",
+          "role": "Industrial Production"
+        },
+        {
+          "domain": "defense",
+          "role": "Trusted Compute Supply"
+        },
+        {
+          "domain": "governance",
+          "role": "Export-Control Policy"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "ACC",
+      "state": "active",
+      "domainLabel": "Data Intelligence Systems",
+      "domainDescription": "Operational decision-support platforms that fuse heterogeneous data into real-time analytics for mission, enterprise, and government decision-making",
+      "domainFunction": "Integrates, models, and surfaces disparate data sources into shared ontologies and analytic workflows that drive operational and strategic decisions under uncertainty",
+      "whyThisNode": "anterior cingulate cortex performs conflict monitoring and evidence integration to guide action selection, mirroring how data-intelligence platforms reconcile conflicting signals into a coherent decision surface",
+      "group": "computing",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Decision latency from siloed or conflicting data",
+        "Model drift degrading analytic reliability",
+        "Low adoption of analytics by operational decision-makers"
+      ],
+      "treatments": [
+        {
+          "label": "Unified Ontology & Data Integration",
+          "type": "STRUCTURAL",
+          "description": "Building a shared semantic layer that links siloed sources into a governed, queryable operational model for consistent decisions",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Closed-Loop Analytics Deployment",
+          "type": "DIAGNOSTIC",
+          "description": "Embedding analytics directly into operational workflows with feedback monitoring to detect drift and sustain decision quality",
+          "evidence": "Moderate"
+        }
+      ],
+      "phase_archetype": "P3",
+      "functional_role": "integrator",
+      "companies": [
+        {
+          "name": "Palantir Technologies",
+          "ticker_or_id": "PLTR",
+          "functional_reason": "Builds operational data-intelligence platforms (Foundry, Gotham, AIP) that integrate enterprise and government data into decision workflows",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Snowflake",
+          "ticker_or_id": "SNOW",
+          "functional_reason": "Provides the cloud data platform that unifies and serves analytic data at scale, the substrate for operational intelligence",
+          "binding_strength": 0.82
+        },
+        {
+          "name": "Oracle",
+          "ticker_or_id": "ORCL",
+          "functional_reason": "Delivers enterprise data platforms and analytics integrating transactional and operational data for decision support",
+          "binding_strength": 0.78
+        }
+      ],
+      "childPortal": "technology_data_intelligence_portal.html",
+      "neuralRole": "ACC",
+      "brainNodeRoleCanonical": "Data Intelligence Systems",
+      "brainNodeLabelCanonical": "Technology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "defense",
+          "role": "Intelligence Fusion & C2"
+        },
+        {
+          "domain": "governance",
+          "role": "Operational Decision Support"
+        },
+        {
+          "domain": "business",
+          "role": "Business Intelligence"
+        },
+        {
+          "domain": "economy",
+          "role": "Economic Data Modeling"
+        },
+        {
+          "domain": "industry",
+          "role": "Supply-Chain Analytics"
+        },
+        {
+          "domain": "finance",
+          "role": "Risk & Fraud Analytics"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "S2",
+      "state": "active",
+      "domainLabel": "Semiconductor Equipment & Manufacturing",
+      "domainDescription": "The lithography, etch, deposition, and metrology machines and processes that constitute the physical frontier of chip production",
+      "domainFunction": "Builds and operates the capital equipment (EUV scanners, etchers, inspection/metrology tools) that turns silicon wafers into patterned circuits at nanometer precision and economic yield",
+      "whyThisNode": "secondary somatosensory cortex integrates fine-grained tactile and proprioceptive feedback for precision manipulation, mirroring how fab equipment and metrology close the loop on nanometer-scale process control and defect feedback",
+      "group": "hardware",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Tool throughput or uptime shortfall constraining fab output",
+        "Metrology gaps allowing yield-killing defects to escape",
+        "EUV/High-NA capacity bottleneck limiting leading-edge supply"
+      ],
+      "treatments": [
+        {
+          "label": "High-NA EUV Capacity Investment",
+          "type": "STRUCTURAL",
+          "description": "Scaling next-generation lithography and advanced packaging equipment capacity to sustain the leading-edge production frontier",
+          "evidence": "Strong"
+        },
+        {
+          "label": "In-Line Metrology & Process Control",
+          "type": "DIAGNOSTIC",
+          "description": "Deploying electron-beam and optical inspection plus statistical process control to catch nanoscale defects and stabilize yield",
+          "evidence": "Strong"
+        }
+      ],
+      "phase_archetype": "P2",
+      "functional_role": "amplifier",
+      "companies": [
+        {
+          "name": "ASML Holding",
+          "ticker_or_id": "ASML",
+          "functional_reason": "Sole supplier of EUV and High-NA lithography systems, the indispensable equipment defining the leading-edge production frontier",
+          "binding_strength": 0.97
+        },
+        {
+          "name": "Applied Materials",
+          "ticker_or_id": "AMAT",
+          "functional_reason": "Leading maker of deposition, etch, and process-control equipment that builds the structures on each wafer",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "KLA Corporation",
+          "ticker_or_id": "KLAC",
+          "functional_reason": "Dominant in process-control, inspection, and metrology equipment that amplifies yield by detecting defects across fabrication",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "Lam Research",
+          "ticker_or_id": "LRCX",
+          "functional_reason": "Specialist in etch and deposition equipment critical to advanced 3D device and memory fabrication",
+          "binding_strength": 0.86
+        }
+      ],
+      "childPortal": "technology_semiconductor_equipment_portal.html",
+      "neuralRole": "Somatosensory",
+      "brainNodeRoleCanonical": "Semiconductor Equipment & Manufacturing",
+      "brainNodeLabelCanonical": "Technology",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "industry",
+          "role": "Capital Equipment Manufacturing"
+        },
+        {
+          "domain": "energy",
+          "role": "Fab Power Stability (Cross-Domain Need)"
+        },
+        {
+          "domain": "environment",
+          "role": "Materials Science & Process Chemistry"
+        },
+        {
+          "domain": "economy",
+          "role": "Industrial Production"
+        },
+        {
+          "domain": "defense",
+          "role": "Secure Manufacturing Supply Chain"
+        },
+        {
+          "domain": "governance",
+          "role": "Export-Control Policy"
         }
       ]
     }

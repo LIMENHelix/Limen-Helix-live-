@@ -383,6 +383,99 @@
       rightHtml += '</div>';
     }
 
+    // ── TECHNOLOGY-SPECIFIC PORTAL SECTIONS ──────────────────────────────
+    // Compute / semiconductor / cyber / AI-capex parity with the energy
+    // domain's company-metadata sections, mirroring the infrastructure,
+    // finance, and economy blocks above. STRICTLY ADDITIVE render-layer
+    // content keyed on co.domainId === 'technology'; it never touches the
+    // validated P3 distress kernel scoring path.
+    //
+    // Technology is CHIPS / SOFTWARE / AI / CYBER and stays DISTINCT from
+    // finance (fintech is a coupling, not the identity) and from energy
+    // (compute couples to energy via power demand, but the domain's OWN
+    // content is silicon/software/AI/security, NEVER oil/gas/grid). Sections
+    // are anchored to technology-brain.js diagnosis families: Compute
+    // Portfolio + Chip Roadmap (CHIP_SHORTAGE), Cybersecurity Posture
+    // (CYBER_ATTACK / DATA_BREACH), AI Capex Efficiency (AI_ALIGNMENT_FAILURE
+    // / INFRASTRUCTURE_COLLAPSE). Real tickers: NVDA, AMD, INTC, TSM, ASML,
+    // AVGO, MSFT, GOOGL, META, AMZN, ORCL, CRM, PLTR, CRWD, PANW, AAPL.
+    //
+    // Energy's oil/gas/grid/datacenter mix is translated to the compute
+    // equivalents: accelerator/cloud portfolio (energy: generation mix),
+    // fab-node roadmap (energy: maintenance/asset-age), cybersecurity posture
+    // (energy: NERC/FERC compliance), and AI-capex efficiency (energy: capital
+    // funding). Each reads OPTIONAL company-JSON fields and degrades
+    // gracefully (cp-empty) when not yet populated.
+    if (co.domainId === 'technology') {
+      // Compute Portfolio — breakdown by accelerator type / cloud / on-prem (energy: generation mix)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Compute Portfolio</div>';
+      var _cmp = co.computePortfolio;
+      if (_cmp && (Array.isArray(_cmp) ? _cmp.length : Object.keys(_cmp).length)) {
+        var _cmpEntries = Array.isArray(_cmp)
+          ? _cmp.map(function (e) { return [e.type || e.accelerator || e.provider || e.label || '', e.share != null ? e.share : (e.capacity != null ? e.capacity : (e.value != null ? e.value : e.detail))]; })
+          : Object.keys(_cmp).map(function (kk) { return [kk, _cmp[kk]]; });
+        for (var cmp = 0; cmp < _cmpEntries.length; cmp++) {
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_cmpEntries[cmp][0]) + '</span><span class="cp-value">' + esc(String(_cmpEntries[cmp][1])) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No compute distribution recorded (GPU / TPU / custom-ASIC mix, cloud-provider split, on-premise capacity)</div>';
+      }
+      rightHtml += '</div>';
+
+      // Chip Roadmap — fab node / transition timeline / wafer allocation (energy: maintenance/asset-age)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Chip Roadmap</div>';
+      var _chr = co.chipRoadmap;
+      if (_chr && Object.keys(_chr).length > 0) {
+        var _chrKeys = Object.keys(_chr);
+        for (var chk = 0; chk < _chrKeys.length; chk++) {
+          var _chrv = _chr[_chrKeys[chk]];
+          var _chrStr = (_chrv && typeof _chrv === 'object' && !Array.isArray(_chrv))
+            ? Object.keys(_chrv).map(function (sk) { return sk + ': ' + _chrv[sk]; }).join('  ·  ')
+            : String(_chrv);
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_chrKeys[chk]) + '</span><span class="cp-value">' + esc(_chrStr) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No roadmap data (current fab node nm, next-node transition timeline, wafer allocation by design / foundry dependency)</div>';
+      }
+      rightHtml += '</div>';
+
+      // Cybersecurity Posture — attack surface / disclosure SLA / patch velocity (energy: NERC/FERC compliance)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Cybersecurity Posture</div>';
+      var _cyb = co.cybersecurityPosture;
+      if (_cyb && (Array.isArray(_cyb) ? _cyb.length : Object.keys(_cyb).length)) {
+        var _cybEntries = Array.isArray(_cyb)
+          ? _cyb.map(function (e) { return [e.metric || e.control || e.label || '', (e.value != null ? e.value : (e.count != null ? e.count : e.detail)) + (e.trend ? ' (' + e.trend + ')' : '')]; })
+          : Object.keys(_cyb).map(function (kk) { return [kk, _cyb[kk]]; });
+        for (var cyb = 0; cyb < _cybEntries.length; cyb++) {
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_cybEntries[cyb][0]) + '</span><span class="cp-value">' + esc(String(_cybEntries[cyb][1])) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No security posture recorded (supply-chain attack surface, vulnerability-disclosure SLA, patch velocity, open CVE count & trend)</div>';
+      }
+      rightHtml += '</div>';
+
+      // AI Capex Efficiency — training cost / inference-per-FLOP / power-per-op (energy: capital funding)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">AI Capex Efficiency</div>';
+      var _aice = co.aiCapexEfficiency;
+      if (_aice && Object.keys(_aice).length > 0) {
+        var _aiceKeys = Object.keys(_aice);
+        for (var aik = 0; aik < _aiceKeys.length; aik++) {
+          var _aicev = _aice[_aiceKeys[aik]];
+          var _aiceStr = (_aicev && typeof _aicev === 'object' && !Array.isArray(_aicev))
+            ? Object.keys(_aicev).map(function (sk) { return sk + ': ' + _aicev[sk]; }).join('  ·  ')
+            : String(_aicev);
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_aiceKeys[aik]) + '</span><span class="cp-value">' + esc(_aiceStr) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No AI-capex profile (training-cost-per-token trajectory, inference-per-FLOP improvement, power-per-operation, capex-to-utilized-compute ratio)</div>';
+      }
+      rightHtml += '</div>';
+    }
+
     // Warning signals (placeholder for future)
     rightHtml += '<div class="cp-section">';
     rightHtml += '<div class="cp-section-title">Warning Signals</div>';
