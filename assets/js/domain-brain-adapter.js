@@ -82,6 +82,36 @@
   function _val(v)    { return v != null ? v : null; }
   function _obj(v)    { return (v && typeof v === 'object' && !Array.isArray(v)) ? v : null; }
 
+  // ─── Cognition mirror (for the System Vitals page) ───────────────────
+  // Every brain assembles state.cognition (immune/awareness/conscience/intuition + the
+  // recurrent model). The Vitals page can't load 20 live brains (each auto-loads its own
+  // operator stack), so the adapter mirrors a COMPACT cognition projection per domain into
+  // localStorage on each brain update. Vitals reads 'limen:brain-cognition' — populated
+  // whenever the operator visits the cockpit/consoles where the brains actually run.
+  function _compactCognition(cog) {
+    if (!cog || typeof cog !== 'object') return null;
+    var m = cog.model || {}, im = cog.immune || {}, aw = cog.awareness || {}, co = cog.conscience || {}, it = cog.intuition || {};
+    return {
+      domain: cog.domain || null,
+      model: { cycle: _num(m.cycle), predictionError: _num(m.predictionError), predictedStress: _num(m.predictedStress), regulation: _val(m.regulation) },
+      immune: { immuneState: _val(im.immuneState), severity: _num(im.severity), antigenCount: _arr(im.antigens).length, quarantines: _val(im.quarantines), blockedFromTraversal: _val(im.blockedFromTraversal) },
+      awareness: { selfNarrative: _val(aw.selfNarrative), humanReviewRequired: !!aw.humanReviewRequired },
+      conscience: { conscienceState: _val(co.conscienceState), artifactReadinessDecision: _val(co.artifactReadinessDecision), blockedClaims: _arr(co.blockedClaims).slice(0, 4) },
+      intuition: { hunches: _arr(it.hunches).slice(0, 3) }
+    };
+  }
+  function _mirrorCognition(domainId, cog) {
+    var c = _compactCognition(cog);
+    if (!c) return;
+    try {
+      if (typeof localStorage === 'undefined') return;
+      var raw = localStorage.getItem('limen:brain-cognition');
+      var map = raw ? JSON.parse(raw) : {};
+      map[domainId] = { c: c, ts: Date.now() };
+      localStorage.setItem('limen:brain-cognition', JSON.stringify(map));
+    } catch (e) { /* quota/parse/private-mode — non-fatal, diagnostic only */ }
+  }
+
   function _buildPayload(bs) {
     var opps = _arr(bs.opportunities);
     var dirs = _arr(bs.directives);
@@ -97,6 +127,7 @@
       brainEmissions:     _arr(bs.crossDomainEmissions),
       brainStatus:        _val(bs.status),
       brainUpdated:       _val(bs.updated),
+      brainCognition:     _obj(bs.cognition),     // self-model surface (immune/awareness/conscience/intuition + model) — every domain
       brainEnergyModel:   _obj(bs.energyModel),   // F0: carry recurrent brain model (energy; null elsewhere)
       brainSupplyChainModel: _obj(bs.supplyChainModel), // F0.trade: carry recurrent logistics-lifecycle model (trade/supplyChain)
       brainEnvironmentModel: _obj(bs.environmentModel), // F0.environment: carry recurrent climate/emissions/ecosystem lifecycle model (environment; null elsewhere)
@@ -205,6 +236,7 @@
       // If LIMENDomains doesn't exist yet, still cache so we can apply later
       var payload = _buildPayload(bs);
       _payloadCache[domainId] = { payload: payload, capturedAt: Date.now() };
+      _mirrorCognition(domainId, bs.cognition);   // mirror self-model to localStorage for the Vitals page
 
       if (!target || typeof target !== 'object') return;
       if (!target[domainId]) target[domainId] = {};

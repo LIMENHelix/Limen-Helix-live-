@@ -101,6 +101,10 @@ a:hover{color:#C9A94E}
 
 <div id="organ-detail-container"></div>
 
+<div class="sect">DOMAIN BRAINS · SELF-MODEL &amp; IMMUNITY · <span style="color:rgba(200,195,184,0.3)">the 20 organs' own metacognition, live from the cockpit</span></div>
+<div id="cognition-note" style="font-size:0.34rem;color:rgba(200,195,184,0.35);margin-bottom:10px">Reading brain self-models…</div>
+<div id="cognition-grid" class="organ-grid"></div>
+
 <div class="sect">OPERATOR ATTENTION · ACROSS ALL ORGANS</div>
 <div id="attn-list" class="attn-list"></div>
 
@@ -299,6 +303,50 @@ function renderOrganDetail(o) {
   h += '</div>';   // /organ-detail-grid
   return h;
 }
+
+// ─── DOMAIN BRAINS · self-model & immunity ───────────────────────────
+// Reads localStorage 'limen:brain-cognition' — a compact per-domain self-model the
+// domain-brain-adapter mirrors every cycle while the brains run on the cockpit/consoles.
+// Independent of _vitals.json so it renders even if the build snapshot is missing.
+var COG_DOMAINS = ['energy','infrastructure','culture','finance','economy','technology','defense','intelligence','trade','industry','environment','governance','agriculture','communication','medicine','education','population','science','law','religion'];
+var IMMUNE_COLOR = { clear:'#5ab5a0', watch:'#C9A94E', active:'#e8954e', alert:'#e85454' };
+function _esc(s){ return String(s==null?'':s).replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];}); }
+function renderBrainCognition() {
+  var grid = document.getElementById('cognition-grid');
+  var note = document.getElementById('cognition-note');
+  if (!grid || !note) return;
+  var map = {};
+  try { map = JSON.parse(localStorage.getItem('limen:brain-cognition') || '{}'); } catch (e) { map = {}; }
+  var keys = Object.keys(map);
+  if (!keys.length) {
+    note.innerHTML = 'No live brain cognition cached yet — visit <a href="/civilization.html">Civilization</a> (the cockpit) once. The 20 brains cycle there and mirror their self-models here (immune severity, conscience vetoes, intuition hunches).';
+    grid.innerHTML = '';
+    return;
+  }
+  var newest = 0; keys.forEach(function(k){ if (map[k] && map[k].ts > newest) newest = map[k].ts; });
+  note.innerHTML = keys.length + ' / 20 brains reporting · freshest ' + new Date(newest).toLocaleString() + ' · immune / awareness / conscience / intuition computed live every cycle';
+  var html = '';
+  COG_DOMAINS.forEach(function(dom){
+    var entry = map[dom]; if (!entry || !entry.c) return;
+    var c = entry.c, im = c.immune||{}, m = c.model||{}, aw = c.awareness||{}, co = c.conscience||{}, it = c.intuition||{};
+    var ist = String(im.immuneState || 'clear').toLowerCase();
+    var col = IMMUNE_COLOR[ist] || 'rgba(200,195,184,0.4)';
+    var sev = (im.severity!=null) ? ' ' + (Math.round(im.severity*100)/100) : '';
+    html += '<div class="organ" style="cursor:default">' +
+      '<div class="organ-head"><div class="organ-id">' + dom + '</div>' +
+        '<div style="font-size:0.4rem;letter-spacing:1.5px;color:' + col + ';border:1px solid ' + col + '55;border-radius:2px;padding:1px 7px;text-transform:uppercase">' + ist + sev + '</div></div>' +
+      '<div class="organ-role">immune · ' + (im.antigenCount||0) + ' antigen' + (im.antigenCount===1?'':'s') + (im.blockedFromTraversal?' · L2 traversal blocked':'') + '</div>' +
+      (aw.selfNarrative ? '<div class="organ-summary" style="margin-bottom:6px">' + _esc(aw.selfNarrative) + (aw.humanReviewRequired?' <span style="color:#C9A94E">· human-review</span>':'') + '</div>' : '') +
+      '<div style="font-size:0.32rem;color:rgba(200,195,184,0.45);line-height:1.7">' +
+        'regulation <b style="color:#e8e3d9;font-weight:normal">' + _esc(m.regulation||'—') + '</b> · pred.stress <b style="color:#e8e3d9;font-weight:normal">' + (m.predictedStress!=null?m.predictedStress:'—') + '</b> · pred.err <b style="color:#e8e3d9;font-weight:normal">' + (m.predictionError!=null?m.predictionError:'—') + '</b>' +
+        (co.conscienceState ? '<br>conscience <b style="color:#e8e3d9;font-weight:normal">' + _esc(co.conscienceState) + '</b>' + (co.artifactReadinessDecision?' · '+_esc(co.artifactReadinessDecision):'') + ((co.blockedClaims&&co.blockedClaims.length)?' · '+co.blockedClaims.length+' blocked':'') : '') +
+        ((it.hunches&&it.hunches.length) ? '<br>intuition · ' + it.hunches.length + ' hunch' + (it.hunches.length===1?'':'es') : '') +
+      '</div>' +
+    '</div>';
+  });
+  grid.innerHTML = html || '<div style="color:rgba(200,195,184,0.35);font-size:0.36rem;padding:8px">brains reported but no cognition payload — re-visit the cockpit</div>';
+}
+renderBrainCognition();
 </script>
 </body>
 </html>
