@@ -40,6 +40,7 @@ const HANDLERS = {
   'api-keys-config': require('../handlers/api-keys-config'),
   'asset-quote': require('../handlers/asset-quote'),
   'biosensor-state': require('../handlers/biosensor-state'),
+  'brain-cognition': require('../handlers/brain-cognition'),
   'capital-engine': require('../handlers/capital-engine'),
   'critique-artifact': require('../handlers/critique-artifact'),
   'cron-rebuild-engine-outputs': require('../handlers/cron-rebuild-engine-outputs'),

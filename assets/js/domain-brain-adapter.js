@@ -100,16 +100,33 @@
       intuition: { hunches: _arr(it.hunches).slice(0, 3) }
     };
   }
+  var _cogPostThrottle = {};   // domainId → last server-POST ts (throttle to limit Redis writes)
   function _mirrorCognition(domainId, cog) {
     var c = _compactCognition(cog);
     if (!c) return;
+    // (1) localStorage — instant, same-device, offline
     try {
-      if (typeof localStorage === 'undefined') return;
-      var raw = localStorage.getItem('limen:brain-cognition');
-      var map = raw ? JSON.parse(raw) : {};
-      map[domainId] = { c: c, ts: Date.now() };
-      localStorage.setItem('limen:brain-cognition', JSON.stringify(map));
-    } catch (e) { /* quota/parse/private-mode — non-fatal, diagnostic only */ }
+      if (typeof localStorage !== 'undefined') {
+        var raw = localStorage.getItem('limen:brain-cognition');
+        var map = raw ? JSON.parse(raw) : {};
+        map[domainId] = { c: c, ts: Date.now() };
+        localStorage.setItem('limen:brain-cognition', JSON.stringify(map));
+      }
+    } catch (e) { /* quota/parse/private-mode — non-fatal */ }
+    // (2) server feed (Redis) — cross-device, survives without the cockpit open.
+    //     Throttled 60s/domain so per-cycle cycling doesn't hammer Redis.
+    try {
+      if (typeof fetch !== 'function') return;
+      var now = Date.now();
+      if (_cogPostThrottle[domainId] && (now - _cogPostThrottle[domainId]) < 60000) return;
+      _cogPostThrottle[domainId] = now;
+      fetch('/api/brain-cognition', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', 'x-brain-token': 'limen-brain-209913' },
+        body: JSON.stringify({ domain: domainId, cognition: c }),
+        keepalive: true
+      }).catch(function () { /* offline / endpoint absent — non-fatal */ });
+    } catch (e) { /* non-fatal */ }
   }
 
   function _buildPayload(bs) {

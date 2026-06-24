@@ -312,19 +312,33 @@ var COG_DOMAINS = ['energy','infrastructure','culture','finance','economy','tech
 var IMMUNE_COLOR = { clear:'#5ab5a0', watch:'#C9A94E', active:'#e8954e', alert:'#e85454' };
 function _esc(s){ return String(s==null?'':s).replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];}); }
 function renderBrainCognition() {
+  // server feed first (Redis, cross-device — survives without the cockpit open),
+  // fall back to localStorage (same-device mirror) if the feed is empty/unreachable.
+  fetch('/api/brain-cognition?cb=' + Date.now())
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) {
+      if (d && d.cognition && d.count > 0) _renderCognitionMap(d.cognition, 'server feed');
+      else _renderCognitionLocal();
+    })
+    .catch(_renderCognitionLocal);
+}
+function _renderCognitionLocal() {
+  var map = {};
+  try { map = JSON.parse(localStorage.getItem('limen:brain-cognition') || '{}'); } catch (e) { map = {}; }
+  _renderCognitionMap(map, 'this device');
+}
+function _renderCognitionMap(map, source) {
   var grid = document.getElementById('cognition-grid');
   var note = document.getElementById('cognition-note');
   if (!grid || !note) return;
-  var map = {};
-  try { map = JSON.parse(localStorage.getItem('limen:brain-cognition') || '{}'); } catch (e) { map = {}; }
-  var keys = Object.keys(map);
+  var keys = Object.keys(map || {});
   if (!keys.length) {
-    note.innerHTML = 'No live brain cognition cached yet — visit <a href="/civilization.html">Civilization</a> (the cockpit) once. The 20 brains cycle there and mirror their self-models here (immune severity, conscience vetoes, intuition hunches).';
+    note.innerHTML = 'No live brain cognition yet — visit <a href="/civilization.html">Civilization</a> (the cockpit) once. The 20 brains cycle there and report their self-models here (immune severity, conscience vetoes, intuition hunches).';
     grid.innerHTML = '';
     return;
   }
   var newest = 0; keys.forEach(function(k){ if (map[k] && map[k].ts > newest) newest = map[k].ts; });
-  note.innerHTML = keys.length + ' / 20 brains reporting · freshest ' + new Date(newest).toLocaleString() + ' · immune / awareness / conscience / intuition computed live every cycle';
+  note.innerHTML = keys.length + ' / 20 brains reporting · ' + source + ' · freshest ' + new Date(newest).toLocaleString() + ' · immune / awareness / conscience / intuition computed live every cycle';
   var html = '';
   COG_DOMAINS.forEach(function(dom){
     var entry = map[dom]; if (!entry || !entry.c) return;
