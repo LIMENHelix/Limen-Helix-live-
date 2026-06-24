@@ -300,10 +300,33 @@
       cognitiveLoad: 'Legal complexity — high load with competing regulations reflects compliance overload'
     },
     intelligence: {
-      label: 'Analytical intensity and threat detection state',
-      arousal: 'Threat awareness — high arousal reflects heightened surveillance and detection mode',
-      coherence: 'Analytical quality — low coherence during information overload suggests degraded threat assessment',
-      cognitiveLoad: 'Signal processing depth — high load with weak signals reflects intensive pattern detection effort'
+      label: 'Collection & analysis execution state',
+      arousal: 'Alert level during active threats — high arousal during active threats or warning conditions reflects heightened surveillance/detection posture and time-critical tasking pressure',
+      coherence: 'Analytical consistency under pressure — low coherence during information overload or contested reporting suggests degraded all-source assessment and fragmented analytic judgment',
+      cognitiveLoad: 'Fusion complexity burden — high load while fusing multi-INT (SIGINT/HUMINT/GEOINT/OSINT) streams with weak/ambiguous signals reflects intensive correlation and pattern-detection effort',
+      // Collection & analysis execution-readiness map: regulation state → intelligence collection,
+      // analysis & counterintelligence intake/triage posture. Consumed by (future)
+      // intelligence-clarity-operator outcome tracking (collection-program throughput, all-source
+      // fusion cadence, liaison/source recruitment velocity, threat-warning timeliness,
+      // insider-threat / counterintelligence containment). Intelligence identity only — collection &
+      // analysis, distinct from defense (kinetic/industrial/readiness is a coupling, not the identity)
+      // and from technology (cyber tooling is a coupling, not the identity): intelligence collection
+      // (SIGINT/HUMINT/GEOINT/OSINT), all-source analysis & assessment, espionage &
+      // counterintelligence, surveillance & reconnaissance, threat warning, covert action, information
+      // & influence operations, security clearance & insider risk. Intelligence couples to defense via
+      // threat warning and to technology via cyber/analytic tooling but never adopts their content as
+      // its own. Reference intelligence-sector names: PLTR, BAH, LDOS, CACI, SAIC, KBR, VRNT, NICE,
+      // VRSK. Operator arousal/coherence during active threats gate collection & analysis intake
+      // (high arousal = crisis tactical-triage mode; low arousal = deliberate long-horizon collection
+      // mode). STRICTLY ADDITIVE — does not touch any validated scoring spine.
+      readiness: {
+        calm: 'Steady operator state — safe to expand collection programs: open new long-term collection and all-source analysis initiatives, initiate liaison/source recruitment, stand up persistent surveillance & reconnaissance lines, and invest in fusion-platform and analytic tooling (PLTR fusion/analytics, BAH/SAIC/CACI all-source mission support, LDOS sensor & SIGINT processing, VRNT/NICE/VRSK analytics & monitoring).',
+        focused: 'Productive engagement — sustain active collection and in-flight all-source analysis; admit only proven sources and well-scoped new tasking (validated HUMINT assets, established SIGINT/GEOINT targets, single-question OSINT pulls); hold open-ended speculative collection and unvetted recruitment (BAH/SAIC/CACI mission ops steady, PLTR fusion disciplined).',
+        pressured: 'Elevated load — defer speculative collection and long-horizon analysis; focus on tactical triage of the active threat: prioritize indications-&-warning, time-sensitive collection on the live target, and short-fuse all-source products; pause non-urgent recruitment and program expansion (LDOS/VRNT processing focused on the active stream).',
+        overloaded: 'Saturated — pause all new collection and analysis intake; triage insider-threat and counterintelligence containment: active espionage/leak exposure, compromised-source and clearance/insider-risk incidents, contested/denied-area collection failures, and critical threat-warning gaps (NICE/VRNT/VRSK monitoring on containment only).',
+        recovering: 'Stabilizing — resume liaison & source-building first (re-establish trusted networks and proven feeds), then reopen long-term collection programs and speculative analysis gradually as fusion cadence, source reliability and threat-warning timeliness normalize.',
+        unknown: 'Regulation state unavailable — default to snapshot-driven prioritization (active threat-warning signals and collection-gap / counterintelligence-criticality ranking).'
+      }
     },
     industry: {
       label: 'Production coordination and maintenance pressure',

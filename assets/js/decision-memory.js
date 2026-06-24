@@ -31,6 +31,8 @@
   var ECONOMY_STACK_COOLDOWN = 180000; // 3 min between economy-stack narrations
   var TECHNOLOGY_STACK_THRESHOLD = 2; // a technology-vulnerability stack seen N times signals concentration
   var TECHNOLOGY_STACK_COOLDOWN = 180000; // 3 min between technology-stack narrations
+  var INTELLIGENCE_STACK_THRESHOLD = 2; // an intelligence-vulnerability stack seen N times signals concentration
+  var INTELLIGENCE_STACK_COOLDOWN = 180000; // 3 min between intelligence-stack narrations
 
   // ─── Infrastructure vulnerability-stack semantics ─────────────────────────
   // CIVIL domain-semantic concentration. Generic (domain, action) frequency only
@@ -249,6 +251,65 @@
       body: 'Operator attention concentrates on the breakthrough-emergence + compute-shortage stack — frontier model and quantum milestones intensifying scarcity in accelerator capacity.' }
   ];
 
+  // ─── Intelligence vulnerability-stack semantics ───────────────────────────
+  // INTELLIGENCE domain-semantic concentration. As with infrastructure, culture,
+  // finance, economy and technology, generic (domain, action) frequency only says
+  // WHERE the operator is looking; for the intelligence domain we also detect WHAT
+  // intelligence-vulnerability STACK the attention concentrates on. Each stack is a
+  // co-occurring pair of intelligence signal families (collection coverage —
+  // SIGINT/HUMINT/GEOINT/OSINT/MASINT/IMINT/the collection gap & blind spot/
+  // all-source analysis fusion, assessment bias & analytic distortion/oversight,
+  // compartmentalization & accountability failure/trust boundary, clearance &
+  // need-to-know breach/counterintelligence — espionage, foreign agents, insider
+  // threat/adversarial penetration — network intrusion, compromise, exfiltration/
+  // deception — disinformation, denial, information contamination, fabrication).
+  // The intelligence identity is COLLECTION, ALL-SOURCE ANALYSIS & ASSESSMENT,
+  // ESPIONAGE & COUNTERINTELLIGENCE, SURVEILLANCE & RECONNAISSANCE, THREAT WARNING,
+  // COVERT ACTION, INFORMATION & INFLUENCE OPERATIONS, and SECURITY CLEARANCE &
+  // INSIDER RISK — bound to real intelligence-sector equities (PLTR, BAH, LDOS,
+  // CACI, SAIC, KBR, VRNT, NICE, VRSK). Intelligence is kept DISTINCT from defense
+  // (defense = kinetic/industrial/readiness; intelligence = collection/analysis/
+  // espionage) and from technology (cyber tooling is a coupling, not the identity).
+  // Mirrors the intelligence-brain cross-domain conditions:
+  //   COLLECTION_GAP + ANALYTICAL_DISTORTION       → observability fusion deficit
+  //   ADVERSARIAL_PENETRATION + COUNTERINTELLIGENCE_FAILURE → active espionage exposure
+  //   OVERSIGHT_FAILURE + TRUST_BOUNDARY_BREACH     → accountability/compartmentation gap
+  //   DECEPTION_EXPOSURE + ADVERSARIAL_PENETRATION  → contaminated-feed compromise
+  //   COUNTERINTELLIGENCE_FAILURE + TRUST_BOUNDARY_BREACH → insider-threat exposure
+  // Signal tokens are matched against recorded action/type/pattern text — never
+  // invented; absence of tokens simply yields no stack (silent, no false signal).
+  // STRICTLY ADDITIVE: advisory only; never participates in /api/limen/score scoring.
+  var INTELLIGENCE_SIGNAL_TOKENS = {
+    COLLECTION_GAP:            /(collection[_\s-]?gap|coverage[_\s-]?gap|blind[_\s-]?spot|sigint|humint|geoint|osint|masint|imint|elint|comint|sensor[_\s-]?gap|tasking[_\s-]?gap|denied[_\s-]?area|hard[_\s-]?target|gap[_\s-]?in[_\s-]?collection)/i,
+    ANALYTICAL_DISTORTION:     /(analytic[_\s-]?bias|analytical[_\s-]?distortion|assessment[_\s-]?bias|mirror[_\s-]?imaging|groupthink|cognitive[_\s-]?bias|confirmation[_\s-]?bias|politici[sz]ation|estimate[_\s-]?error|all[_\s-]?source[_\s-]?fusion|fusion[_\s-]?failure|key[_\s-]?judgment|warning[_\s-]?failure)/i,
+    OVERSIGHT_FAILURE:         /(oversight[_\s-]?failure|accountability|compartmentalization|compartmentation|need[_\s-]?to[_\s-]?know|over[_\s-]?classification|audit[_\s-]?failure|fisa|congressional[_\s-]?oversight|inspector[_\s-]?general|authoriz|abuse[_\s-]?of[_\s-]?authority|unauthorized[_\s-]?surveillance)/i,
+    TRUST_BOUNDARY_BREACH:     /(trust[_\s-]?boundary|clearance|security[_\s-]?clearance|sci|tssci|polygraph|access[_\s-]?control|need[_\s-]?to[_\s-]?know[_\s-]?breach|classification[_\s-]?breach|spillage|cross[_\s-]?domain|enclave[_\s-]?breach|privilege[_\s-]?escalation)/i,
+    COUNTERINTELLIGENCE_FAILURE: /(counterintelligence|counter[_\s-]?intel|ci[_\s-]?failure|espionage|spy|foreign[_\s-]?agent|mole|double[_\s-]?agent|insider[_\s-]?threat|insider[_\s-]?risk|recruitment|defector|tradecraft[_\s-]?compromise|asset[_\s-]?compromise)/i,
+    ADVERSARIAL_PENETRATION:   /(penetration|network[_\s-]?intrusion|intrusion|exfiltration|exfil|compromise|breach|implant|backdoor|lateral[_\s-]?movement|apt|nation[_\s-]?state[_\s-]?actor|supply[_\s-]?chain[_\s-]?compromise|watering[_\s-]?hole)/i,
+    DECEPTION_EXPOSURE:        /(deception|disinformation|misinformation|denial[_\s-]?and[_\s-]?deception|maskirovka|fabrication|forgery|information[_\s-]?contamination|poisoned[_\s-]?feed|false[_\s-]?flag|influence[_\s-]?operation|active[_\s-]?measures|provenance[_\s-]?failure)/i,
+    SURVEILLANCE_RECON:        /(surveillance|reconnaissance|recon|isr|overhead|satellite[_\s-]?imagery|signals[_\s-]?intercept|tracking|pattern[_\s-]?of[_\s-]?life|persistent[_\s-]?surveillance|target[_\s-]?package|watch[_\s-]?list|threat[_\s-]?warning|indications[_\s-]?and[_\s-]?warning)/i
+  };
+
+  // Intelligence-vulnerability STACKS — ordered token pairs with an intelligence
+  // interpretation. Each describes an operator-concentration meaning specific to an
+  // intelligence vulnerability stack (collection & ISR, all-source analysis,
+  // espionage & counterintelligence, oversight & clearance, deception & influence
+  // operations) — NOT energy oil/gas/grid content, NOT finance capital-markets
+  // content, NOT defense kinetic/readiness content, and NOT technology cyber-tooling
+  // as identity (cyber is a coupling here, not the domain identity).
+  var INTELLIGENCE_VULN_STACKS = [
+    { id: 'OBSERVABILITY_FUSION_DEFICIT', signals: ['COLLECTION_GAP', 'ANALYTICAL_DISTORTION'],
+      body: 'Operator attention concentrates on the collection-gap + analytical-distortion stack — an observability fusion deficit where blind spots in SIGINT/HUMINT/GEOINT collection compound with biased all-source assessment.' },
+    { id: 'ACTIVE_ESPIONAGE_EXPOSURE', signals: ['ADVERSARIAL_PENETRATION', 'COUNTERINTELLIGENCE_FAILURE'],
+      body: 'Operator attention concentrates on the adversarial-penetration + counterintelligence-failure stack — active espionage exposure as network intrusion and exfiltration combine with foreign-agent and insider-threat compromise.' },
+    { id: 'ACCOUNTABILITY_COMPARTMENT_GAP', signals: ['OVERSIGHT_FAILURE', 'TRUST_BOUNDARY_BREACH'],
+      body: 'Operator attention concentrates on the oversight-failure + trust-boundary-breach stack — an accountability and compartmentation gap where weak oversight collides with clearance and need-to-know breaches.' },
+    { id: 'CONTAMINATED_FEED_COMPROMISE', signals: ['DECEPTION_EXPOSURE', 'ADVERSARIAL_PENETRATION'],
+      body: 'Operator attention concentrates on the deception-exposure + adversarial-penetration stack — contaminated-feed compromise as disinformation and fabrication ride on top of penetrated, exfiltrated channels.' },
+    { id: 'INSIDER_THREAT_EXPOSURE', signals: ['COUNTERINTELLIGENCE_FAILURE', 'TRUST_BOUNDARY_BREACH'],
+      body: 'Operator attention concentrates on the counterintelligence-failure + trust-boundary-breach stack — insider-threat exposure as recruited or compromised insiders exploit clearance and access-control weaknesses.' }
+  ];
+
   // ─── State ───────────────────────────────────────────────────────────────
 
   var _entries = [];
@@ -264,6 +325,8 @@
   var _lastEconomyStackId = null;
   var _lastTechnologyStackTime = 0;
   var _lastTechnologyStackId = null;
+  var _lastIntelligenceStackTime = 0;
+  var _lastIntelligenceStackId = null;
   var _interval = null;
 
   // Detect which civil signal families a user-action references, by scanning its
@@ -326,6 +389,18 @@
     return hits;
   }
 
+  // Detect which intelligence signal families a user-action references, by scanning its
+  // free-text fields (action / type / cross-domain pattern). Returns a list of
+  // canonical intelligence signal ids. Never fabricates — empty if nothing matches.
+  function _detectIntelligenceSignals(text) {
+    if (!text) return [];
+    var hits = [];
+    for (var sig in INTELLIGENCE_SIGNAL_TOKENS) {
+      if (INTELLIGENCE_SIGNAL_TOKENS[sig].test(text)) hits.push(sig);
+    }
+    return hits;
+  }
+
   // ─── Record decision ─────────────────────────────────────────────────────
 
   function _onUserAction(e) {
@@ -374,6 +449,10 @@
       // TECHNOLOGY: which technology signal families this action touches (may be []).
       technologySignals: _detectTechnologySignals(
         [detail.action, detail.type, matchedPattern, detail.signal, detail.diagnosis].join(' ')
+      ),
+      // INTELLIGENCE: which intelligence signal families this action touches (may be []).
+      intelligenceSignals: _detectIntelligenceSignals(
+        [detail.action, detail.type, matchedPattern, detail.signal, detail.diagnosis].join(' ')
       )
     };
 
@@ -389,6 +468,7 @@
     _checkFinanceStackConcentration();
     _checkEconomyStackConcentration();
     _checkTechnologyStackConcentration();
+    _checkIntelligenceStackConcentration();
   }
 
   // ─── Concentration detection ──────────────────────────────────────────────
@@ -796,6 +876,75 @@
     });
   }
 
+  // ─── Intelligence vulnerability-stack concentration ───────────────────────
+  // Domain-semantic concentration for INTELLIGENCE: beyond "which domain" (above),
+  // surface WHICH intelligence-vulnerability STACK the operator keeps returning to.
+  // Tallies co-occurring intelligence signal families across recent entries and fires
+  // when a known stack (observability-fusion-deficit, active-espionage-exposure,
+  // accountability-compartment-gap, contaminated-feed-compromise, insider-threat-
+  // exposure) crosses the threshold. Schema-faithful to
+  // _checkTechnologyStackConcentration (same phase-change shape). STRICTLY ADDITIVE,
+  // advisory only, kept DISTINCT from defense (kinetic/readiness) and technology
+  // (cyber tooling is a coupling, not the identity).
+
+  function _checkIntelligenceStackConcentration() {
+    var now = Date.now();
+    if (now - _lastIntelligenceStackTime < INTELLIGENCE_STACK_COOLDOWN) return;
+    if (_entries.length < INTELLIGENCE_STACK_THRESHOLD) return;
+
+    // Count per-signal-family hits across recent entries (last 10).
+    var recent = _entries.slice(-10);
+    var sigCounts = {};
+    for (var i = 0; i < recent.length; i++) {
+      var sigs = recent[i].intelligenceSignals || [];
+      for (var s = 0; s < sigs.length; s++) {
+        sigCounts[sigs[s]] = (sigCounts[sigs[s]] || 0) + 1;
+      }
+    }
+
+    // A stack fires only when BOTH of its signal families are present and at least
+    // one of them has been focused on repeatedly (>= threshold). Score = sum of the
+    // pair's counts; pick the strongest stack.
+    var best = null;
+    for (var k = 0; k < INTELLIGENCE_VULN_STACKS.length; k++) {
+      var stack = INTELLIGENCE_VULN_STACKS[k];
+      var a = sigCounts[stack.signals[0]] || 0;
+      var b = sigCounts[stack.signals[1]] || 0;
+      if (a === 0 || b === 0) continue;
+      if (Math.max(a, b) < INTELLIGENCE_STACK_THRESHOLD) continue;
+      var score = a + b;
+      if (!best || score > best.score) best = { stack: stack, a: a, b: b, score: score };
+    }
+
+    if (!best) return;
+    if (best.stack.id === _lastIntelligenceStackId) return; // don't re-narrate the same stack
+
+    _lastIntelligenceStackTime = now;
+    _lastIntelligenceStackId = best.stack.id;
+
+    var drivers = [
+      best.a + ' recent actions touching ' + best.stack.signals[0],
+      best.b + ' recent actions touching ' + best.stack.signals[1]
+    ];
+
+    var options = [
+      { label: 'deepen ' + best.stack.id.toLowerCase().replace(/_/g, ' ') + ' analysis', type: 'analysis' },
+      { label: 'broaden scope', type: 'monitoring' },
+      { label: 'hold', type: 'monitoring' }
+    ];
+
+    _dispatch('limen:phase-change', {
+      from: 'observing',
+      to: 'concentrated',
+      type: 'decision-memory',
+      domain: 'intelligence',
+      stackId: best.stack.id,
+      topDrivers: drivers,
+      options: options,
+      body: best.stack.body
+    });
+  }
+
   // ─── Publish ──────────────────────────────────────────────────────────────
 
   function _publish() {
@@ -808,6 +957,7 @@
       financeSignalConcentration: _financeSignalConcentration(),
       economySignalConcentration: _economySignalConcentration(),
       technologySignalConcentration: _technologySignalConcentration(),
+      intelligenceSignalConcentration: _intelligenceSignalConcentration(),
       updated: Date.now()
     };
 
@@ -890,6 +1040,23 @@
     var recent = _entries.slice(-10);
     for (var i = 0; i < recent.length; i++) {
       var sigs = recent[i].technologySignals || [];
+      for (var s = 0; s < sigs.length; s++) {
+        counts[sigs[s]] = (counts[sigs[s]] || 0) + 1;
+      }
+    }
+    var out = [];
+    for (var sig in counts) { out.push({ signal: sig, count: counts[sig] }); }
+    out.sort(function (x, y) { return y.count - x.count; });
+    return out;
+  }
+
+  // INTELLIGENCE: roll up which intelligence signal families recent attention concentrates
+  // on (descending by count). Empty when no intelligence signals were detected.
+  function _intelligenceSignalConcentration() {
+    var counts = {};
+    var recent = _entries.slice(-10);
+    for (var i = 0; i < recent.length; i++) {
+      var sigs = recent[i].intelligenceSignals || [];
       for (var s = 0; s < sigs.length; s++) {
         counts[sigs[s]] = (counts[sigs[s]] || 0) + 1;
       }

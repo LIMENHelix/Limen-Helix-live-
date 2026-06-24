@@ -304,6 +304,67 @@
     { re: /alliance (strengthen|cohesion|reinforc|expand|deepen)|coalition (cohesion|strengthen|expand|reinforc)|burden(-| )?sharing (gain|increase|commitment)|basing (expand|access (gain|secured)|new agreement)|nato (cohesion|strengthen|expand|enlarg)|(allied|partner) (commitment|interoperab) (strengthen|deepen|gain)|defense (pact|agreement) (sign|secured)/i, weight: 0.13, tag: 'alliance_strengthening' }
   ];
 
+  // ─── Intelligence-native semantics ────────────────────────────────────────
+  // Energy parity (same shape as INFRA / CULTURE / FINANCE / ECONOMY /
+  // TECHNOLOGY / DEFENSE above): the intelligence domain has its OWN failure/
+  // recovery vocabulary. Where energy reads crude_above_90 / grid_stress /
+  // chokepoint, infrastructure reads grid_reliability / deferred_maintenance,
+  // culture reads the attention economy, finance reads liquidity/credit,
+  // economy reads the business cycle, technology reads the compute stack, and
+  // defense reads kinetic military power, INTELLIGENCE reads the collection-and-
+  // assessment cycle: signals/human/geospatial/open-source collection (SIGINT /
+  // HUMINT / GEOINT / OSINT), all-source analysis & assessment, espionage &
+  // counterintelligence, surveillance & reconnaissance, threat warning, covert
+  // action & influence operations, and security clearance & insider risk.
+  // Destabilizing = signal blindness / collection gaps / low observability,
+  // weak anomaly detection, analytic distortion / bias, oversight failure,
+  // trust-boundary breach, privacy violation, and bulk-collection excess.
+  // Stabilizing = improved observability, collection expansion, analytical
+  // debiasing, oversight strengthening, trust-boundary repair, and
+  // counterintelligence containment.
+  //
+  // Anchors are REAL intelligence-sector tickers (PLTR, BAH, LDOS, CACI, SAIC,
+  // KBR, VRNT, NICE, VRSK) — NEVER oil/gas/grid content. Intelligence COUPLES to
+  // technology via cyber tooling and to defense via warning support, but its
+  // IDENTITY stays collection / analysis / espionage, kept DISTINCT from defense
+  // (kinetic / industrial / readiness) and from technology (cyber tooling is a
+  // coupling, not the identity). ADVISORY ONLY — wholly separate from the
+  // validated P3 distress kernel.
+  //
+  // Each entry maps a keyword pattern (matched against the domain's signal
+  // strings) to a weighted push on the destabilizing or stabilizing score —
+  // identical mechanism to energy's condition→weight mapping, intelligence content.
+  var INTELLIGENCE_DESTABILIZING = [
+    // Signal blindness / collection gap — coverage holes, going dark, blind spots.
+    { re: /signal blindness|collection gap|coverage (gap|hole|loss)|going dark|(intelligence|collection) blind ?spot|loss of (collection|coverage|access)|denied (area|access) collection|(sigint|humint|geoint|osint) gap/i, weight: 0.18, tag: 'collection_gap' },
+    // Low observability — sensor/source degradation, reduced visibility, dark target.
+    { re: /low observability|reduced (visibility|observability)|sensor (degrad|loss|gap)|source (dry ?up|loss|degrad)|(target|adversary) goes? dark|observability (decline|drop|gap)|reconnaissance (gap|shortfall)/i, weight: 0.16, tag: 'low_observability' },
+    // Weak anomaly detection — missed indicators, warning failure, surprise.
+    { re: /weak anomaly detection|missed (indicator|warning|signal)|warning (fail|gap|shortfall)|(strategic|tactical) surprise|indicator(s)? (missed|overlooked)|anomaly (detection )?(fail|gap|miss)|failure to warn/i, weight: 0.16, tag: 'weak_anomaly_detection' },
+    // Analytic distortion — bias, politicization, groupthink, mirror-imaging.
+    { re: /analytic(al)? distortion|analytic(al)? bias|politici[sz](ed|ation) (intelligence|analysis)|groupthink|mirror(-| )?imaging|confirmation bias|cherry(-| )?pick(ing|ed) (intelligence|evidence)|cognitive bias (analysis|assessment)/i, weight: 0.15, tag: 'analytic_distortion' },
+    // Oversight failure — accountability breakdown, unauthorized program, no review.
+    { re: /oversight (fail|breakdown|gap|lapse)|accountability (breakdown|gap|fail)|unauthoriz(ed|ation) (program|collection|surveillance)|(congressional|judicial|fisa) oversight (fail|bypass|gap)|no (review|warrant)|unchecked (collection|surveillance)/i, weight: 0.14, tag: 'oversight_failure' },
+    // Trust-boundary breach — insider threat, leak, espionage penetration, compromise.
+    { re: /trust(-| )?boundary breach|insider (threat|risk) (event|breach)|(classified )?leak|espionage (penetration|breach)|mole|exfiltrat(e|ion) (classified|intelligence)|clearance (compromise|abuse)|(double agent|penetration) (detected|suspected)/i, weight: 0.16, tag: 'trust_boundary_breach' },
+    // Privacy violation / bulk-collection excess — overreach, mass surveillance, abuse.
+    { re: /privacy violation|civil(-| )?liberties (violation|abuse)|bulk collection (excess|abuse|overreach)|mass surveillance (overreach|abuse)|warrantless (collection|surveillance)|(metadata|data) (overcollection|overreach)|surveillance (overreach|abuse)/i, weight: 0.13, tag: 'privacy_violation' }
+  ];
+  var INTELLIGENCE_STABILIZING = [
+    // Improved observability — restored coverage, new sensors, visibility gains.
+    { re: /improved observability|restored (collection|coverage|visibility)|new (sensor|source|access) (online|gain|deploy)|observability (gain|improv|recover)|coverage (restored|expand|regain)|(sigint|geoint) (coverage|access) (restored|gain)|visibility (gain|recover)/i, weight: 0.16, tag: 'improved_observability' },
+    // Collection expansion — new sources/platforms, access development, capacity ramp.
+    { re: /collection (expansion|ramp|growth|capacity (gain|expand))|new (collection )?(platform|source) (online|recruit|develop)|access (development|gain|expand)|(humint|sigint|geoint|osint) (expansion|capacity (gain|build))|source (recruit|development) (gain|success)/i, weight: 0.15, tag: 'collection_expansion' },
+    // Analytical debiasing — red-team, alternative analysis, structured techniques.
+    { re: /analytic(al)? debias(ing)?|red(-| )?team(ing)? (analysis|review)|alternative (analysis|competitive|hypothes)|structured analytic technique|devil'?s advocacy|(bias|distortion) (mitigat|correct|reduc)|tradecraft (improv|strengthen)/i, weight: 0.15, tag: 'analytical_debiasing' },
+    // Oversight strengthening — accountability restored, review reinstated, transparency.
+    { re: /oversight (strengthen|reinforc|restor|reinstat)|accountability (restor|strengthen|reinforc)|(congressional|judicial|fisa) (review|oversight) (restor|strengthen|reinstat)|transparency (gain|increase|reform)|warrant (process )?(restor|reform)|(safeguard|control) (restor|strengthen)/i, weight: 0.14, tag: 'oversight_strengthening' },
+    // Trust-boundary repair — insider-risk mitigation, vetting hardened, breach contained.
+    { re: /trust(-| )?boundary (repair|restor|harden)|insider(-| )?risk (mitigat|program (strengthen|deploy)|contain)|(clearance|vetting) (harden|reform|strengthen)|(leak|breach) (contain|remediat|plug)|continuous (vetting|evaluation) (deploy|strengthen)|access (control) (harden|strengthen)/i, weight: 0.15, tag: 'trust_boundary_repair' },
+    // Counterintelligence containment — penetration neutralized, mole caught, CI win.
+    { re: /counter(-| )?intelligence (containment|win|success|operation)|(penetration|mole|spy) (neutraliz|caught|contain|expell)|(espionage|exfiltration) (contain|disrupt|thwart)|ci (operation|win|success)|(double agent|network) (rolled ?up|neutraliz)|hostile (service|collection) (disrupt|contain)/i, weight: 0.13, tag: 'counterintelligence_containment' }
+  ];
+
   // Scan a domain's signal strings against a civil pattern table and return the
   // summed weighted contribution (clamped). Mirrors how energy accumulates its
   // condition-driven pressure, but over civil-native keywords.
@@ -485,6 +546,27 @@
         _defenseDestabTags = _dd.tags;
       }
 
+      // ── Intelligence-native destabilizing pathways (energy parity) ──
+      // For the intelligence domain ONLY, add collection-and-assessment pressure
+      // from named failure pathways found in the live signal strings (collection
+      // gap / signal blindness, low observability, weak anomaly detection,
+      // analytic distortion / bias, oversight failure, trust-boundary breach /
+      // insider threat, privacy violation / bulk-collection excess). This is the
+      // intelligence-cycle analogue of energy's crude_above_*/grid_stress,
+      // infrastructure's grid_reliability/deferred_maintenance, culture's
+      // backlash/audience collapse, finance's liquidity/credit, economy's
+      // business-cycle, technology's compute-stack, and defense's readiness
+      // weighting — IDENTITY stays collection/analysis/espionage (couples to
+      // technology via cyber tooling and defense via warning, distinct from
+      // defense kinetic/industrial and technology cyber identity). ADVISORY ONLY
+      // — wholly separate from the validated P3 distress kernel.
+      var _intelligenceDestabTags = null;
+      if (k === 'intelligence') {
+        var _itd = _infraSignalScore(signals, INTELLIGENCE_DESTABILIZING);
+        destab += _itd.score;
+        _intelligenceDestabTags = _itd.tags;
+      }
+
       destab = _clamp(destab, 0, 1);
 
       // ─── Stabilizing score ─────────────────────────────────────
@@ -623,6 +705,29 @@
         _defenseStabTags = _ds.tags;
       }
 
+      // ── Intelligence-native stabilizing pathways (energy parity) ──
+      // Intelligence recovery vocabulary: improved observability (restored
+      // coverage / new sensors), collection expansion (new sources/platforms /
+      // access development), analytical debiasing (red-team / alternative
+      // analysis / structured techniques), oversight strengthening
+      // (accountability / review restored), trust-boundary repair (insider-risk
+      // mitigation / vetting hardened / breach contained), and
+      // counterintelligence containment (penetration neutralized / CI win).
+      // Mirrors energy's falling-trend / declining-volatility stabilizers,
+      // infrastructure's funding-renewal / repair-completion, culture's
+      // fanbase-momentum / mainstream-adoption, finance's liquidity-restoration /
+      // capital-strengthening, economy's labor-recovery / productivity,
+      // technology's fab-capacity / breakthrough, and defense's force-
+      // modernization / alliance-strengthening, with intelligence semantics from
+      // the live signals. ADVISORY ONLY — wholly separate from the validated P3
+      // distress kernel.
+      var _intelligenceStabTags = null;
+      if (k === 'intelligence') {
+        var _its = _infraSignalScore(signals, INTELLIGENCE_STABILIZING);
+        stab += _its.score;
+        _intelligenceStabTags = _its.tags;
+      }
+
       stab = _clamp(stab, 0, 1);
 
       // ─── Net balance ───────────────────────────────────────────
@@ -682,6 +787,13 @@
       if (k === 'defense') {
         _balance[k].destabilizingFactors = _defenseDestabTags || [];
         _balance[k].stabilizingFactors = _defenseStabTags || [];
+      }
+
+      // Surface the intelligence-native pathways that drove the intelligence score
+      // (energy parity: name the conditions, don't hide them behind a scalar).
+      if (k === 'intelligence') {
+        _balance[k].destabilizingFactors = _intelligenceDestabTags || [];
+        _balance[k].stabilizingFactors = _intelligenceStabTags || [];
       }
 
       // Detect state shift

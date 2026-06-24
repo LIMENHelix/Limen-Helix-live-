@@ -84,7 +84,22 @@ var FEED_TO_CONNECTOME = {
   communication:  ['technology'],
   culture:        ['culture', 'religion', 'education'],
   defense:        ['governance'],
-  intelligence:   ['governance', 'science'],
+  // ADDITIVE (cognition port, intelligence gap 1 — dedicated intelligence circuit):
+  //   the intelligence feed signal previously relayed through ['governance','science']
+  //   ONLY, which BYPASSED the 123 dedicated intelligence node-participations that
+  //   exist in brain-node-domains.json (SIGINT/HUMINT/GEOINT/OSINT collection,
+  //   all-source analysis & assessment, counterintelligence, threat warning, covert
+  //   action, intelligence oversight). Routing through governance/science alone meant
+  //   intelligence stress at the signal origin never lit its OWN circuit. We KEEP the
+  //   validated 'governance' (policy/oversight authority) and 'science' (analytic
+  //   tradecraft / collection R&D) relays — never removed — and ADD the dedicated
+  //   'intelligence' connectome domain so the SIGINT/HUMINT/GEOINT/OSINT nodes
+  //   activate. Intelligence identity = source management, collection methods,
+  //   analytic tradecraft, threat warning, covert action, counterintelligence — kept
+  //   DISTINCT from defense (kinetic/industrial/readiness) and from technology (cyber
+  //   tooling is a coupling, not the identity). 'intelligence' is a real connectome
+  //   domain in brain-node-domains.json (123 node-participations).
+  intelligence:   ['intelligence', 'governance', 'science'],
   agriculture:    ['environment', 'trade']
 };
 
@@ -177,6 +192,45 @@ for (var _tk in TECH_COMPANY_BINDING) {
   NODE_TO_TECH_COMPANY[_tb.node].push(_tb);
 }
 
+// ── INTELLIGENCE-SECTOR COMPANY ticker bindings (intelligence gap 2 — ADDITIVE, OPT-IN) ──
+// Parallel to TECH_COMPANY_BINDING (and to MACRO_INDICATOR_BINDING). NOT merged into
+// the default resolve() pipeline and NOT included in NODE_TO_MACRO_INDICATOR —
+// consumed ONLY when a context explicitly triggers an intelligence-company-level
+// drill (getIntelCompaniesForNode / INTELLIGENCE_COMPANY_BINDING export). Each ticker
+// traces TRADECRAFT CAPACITY to a real intelligence connectome node: ticker stress
+// (dir 'low' for all — stress on decline) estimates a DEGRADATION OF INTELLIGENCE
+// CAPABILITY (PLTR decline = fusion/all-source platform capacity constrained;
+// SAIC decline = source-management / collection-strategy capacity; A1/SIGINT-class
+// vendors decline = signal-processing throughput). Energy is PURELY downstream
+// (data-center infrastructure for compute), NEVER the sector identity — intelligence
+// nodes carry zero energy-domain content. REAL intelligence-sector tickers only.
+//   PLTR → all-source fusion/analysis   BAH → counterintelligence services
+//   LDOS → threat assessment/SIGINT     CACI → analytical tooling
+//   SAIC → collection strategy/sourcing KBR → mission infrastructure/capacity
+//   VRNT → signals/cyber intelligence   NICE → signal processing/analytics
+//   VRSK → scenario/threat analytics
+var INTELLIGENCE_COMPANY_BINDING = {
+  PLTR: { series: 'PLTR', node: 'LC',   role: 'All-Source Fusion Platform Capacity',     nodeRole: 'Allsource Core Operations',                  label: 'Palantir',                threshold: -22, dir: 'low', kind: 'ticker', industry: 'allsource-analysis' },
+  BAH:  { series: 'BAH',  node: 'BLA',  role: 'Counterintelligence Services Capacity',   nodeRole: 'Counterintelligence',                        label: 'Booz Allen Hamilton',     threshold: -16, dir: 'low', kind: 'ticker', industry: 'counterintelligence' },
+  LDOS: { series: 'LDOS', node: 'dACC', role: 'Threat Assessment / SIGINT Systems',      nodeRole: 'Threat Assessment',                          label: 'Leidos',                  threshold: -17, dir: 'low', kind: 'ticker', industry: 'threat-assessment' },
+  CACI: { series: 'CACI', node: 'CC',   role: 'Analytical Tooling / Tradecraft Tech',    nodeRole: 'Analytical Tools Technology & Innovation',   label: 'CACI International',       threshold: -18, dir: 'low', kind: 'ticker', industry: 'analytical-tools' },
+  SAIC: { series: 'SAIC', node: 'BBB',  role: 'Collection Strategy / Source Management',  nodeRole: 'Collection Strategy — Implementation & Strategy — Workforce Alignment', label: 'SAIC', threshold: -19, dir: 'low', kind: 'ticker', industry: 'collection-strategy' },
+  KBR:  { series: 'KBR',  node: 'M1',   role: 'Mission Infrastructure & Capacity',        nodeRole: 'Current Intelligence Infrastructure & Capacity', label: 'KBR',                 threshold: -20, dir: 'low', kind: 'ticker', industry: 'infrastructure' },
+  VRNT: { series: 'VRNT', node: 'A1',   role: 'Signals / Cyber Intelligence Capacity',    nodeRole: 'SIGINT / Signals Intelligence',              label: 'Verint Systems',          threshold: -24, dir: 'low', kind: 'ticker', industry: 'sigint' },
+  NICE: { series: 'NICE', node: 'OXY',  role: 'Signal Processing / Detection Analytics',  nodeRole: 'Allsource — Signal Detection',               label: 'NICE Ltd',                threshold: -21, dir: 'low', kind: 'ticker', industry: 'signal-processing' },
+  VRSK: { series: 'VRSK', node: 'HPA',  role: 'Scenario / Threat Analytics Capacity',     nodeRole: 'Scenario Analysis Infrastructure & Capacity', label: 'Verisk Analytics',       threshold: -15, dir: 'low', kind: 'ticker', industry: 'scenario-analysis' }
+};
+
+// Reverse lookup: connectome node → intelligence-sector company tickers it sources
+// from (opt-in intel-company drill, parallel to NODE_TO_TECH_COMPANY).
+var NODE_TO_INTEL_COMPANY = {};
+for (var _ik in INTELLIGENCE_COMPANY_BINDING) {
+  if (!Object.prototype.hasOwnProperty.call(INTELLIGENCE_COMPANY_BINDING, _ik)) continue;
+  var _ib = INTELLIGENCE_COMPANY_BINDING[_ik];
+  if (!NODE_TO_INTEL_COMPANY[_ib.node]) NODE_TO_INTEL_COMPANY[_ib.node] = [];
+  NODE_TO_INTEL_COMPANY[_ib.node].push(_ib);
+}
+
 // ── FISCAL vs MONETARY POLICY TRANSMISSION (ADDITIVE — economy gap 2) ──
 // The existing FEED_TO_CONNECTOME['finance'] = ['economy','finance'] mapping does
 // NOT distinguish FISCAL (Treasury / OMB / Congress: spending, taxes, debt
@@ -198,8 +252,51 @@ var MACRO_POLICY_PATH = {
   fiscal:   { connectomeDomains: ['economy', 'governance', 'finance'], indicators: ['GDP', 'GDPC1', 'UNRATE', 'PAYEMS', 'INDPRO'], sources: ['Treasury MTS', 'Treasury Cash Balance', 'Treasury Debt Outstanding', 'OMB'] },
   // Monetary = Fed / central bank. Keeps the validated economy + finance credit
   // channel (rate hikes → credit conditions → capital markets).
-  monetary: { connectomeDomains: ['economy', 'finance'],               indicators: ['FEDFUNDS', 'DGS10', 'CPIAUCSL', 'PCEPI'],     sources: ['Fed Monetary Press', 'Fed Reg', 'NY Fed EFFR'] }
+  monetary: { connectomeDomains: ['economy', 'finance'],               indicators: ['FEDFUNDS', 'DGS10', 'CPIAUCSL', 'PCEPI'],     sources: ['Fed Monetary Press', 'Fed Reg', 'NY Fed EFFR'] },
+  // Intelligence (intelligence gap 3 — ADDITIVE) = threat-level / collection-capacity
+  // / collection-performance shocks. These are PURE intelligence-tradecraft signals
+  // (threat warning, SIGINT throughput, HUMINT backlog) with ZERO energy content;
+  // a surveillance-op surge may COUPLE to data-center compute load downstream, but
+  // the signal ORIGIN is intelligence tradecraft, so it routes through the dedicated
+  // 'intelligence' circuit. 'governance' is added for the oversight/authority path
+  // (intelligence oversight, covert-action finding authority) — NOT energy. Indicator
+  // keys reference INTELLIGENCE_INDICATOR_BINDING below.
+  intelligence: { connectomeDomains: ['intelligence', 'governance'], indicators: ['ThreatLevel_CRITICAL', 'SIGINTCapacity_DEGRADED', 'HUMINTBacklog_HIGH'], sources: ['ODNI Threat Assessment', 'SIGINT Collection Tasking', 'HUMINT Source Reporting'] }
 };
+
+// ── INTELLIGENCE-SECTOR INDICATOR bindings (intelligence gap 3 — ADDITIVE) ──
+// Parallel structure to MACRO_INDICATOR_BINDING (economy gap 1), but for PURE
+// intelligence-tradecraft signals rather than economic statistics. Binds named
+// intelligence performance/threat indicators to the dedicated intelligence
+// connectome node that senses them, so the kernel/reporting/diagnosis layers can
+// drill from abstract 'intelligence stress' into the ACTUAL tradecraft signal that
+// triggered it (e.g. threat-assessment node lit → ThreatLevel hit CRITICAL → threat
+// warning origin). Threat-level / collection-performance stress carries ZERO energy
+// content — surveillance-op surge may couple to data-center compute load downstream,
+// but the signal ORIGIN is intelligence tradecraft, routed through intelligence nodes
+// (NOT energy nodes). These are not FRED series and are not single-company tickers —
+// they are tradecraft indicators routed to threshold nodes. Annotation/registry
+// metadata ONLY — the resolver does NOT score these.
+//   threshold = the level above/below which the node is considered stressed.
+//   dir = 'high' (stress when ABOVE threshold) | 'low' (stress when BELOW).
+var INTELLIGENCE_INDICATOR_BINDING = {
+  ThreatLevel_CRITICAL:    { series: 'ThreatLevel',    node: 'rACC', role: 'Threat Assessment',          nodeRole: 'Intelligence Oversight',                      label: 'National Threat Level',          threshold: 7,  dir: 'high', kind: 'intel', policyPath: 'intelligence' },
+  ThreatWarning_SURGE:     { series: 'ThreatWarning',  node: 'dACC', role: 'Threat Warning',             nodeRole: 'Threat Assessment',                           label: 'Indications & Warning Surge',    threshold: 6,  dir: 'high', kind: 'intel', policyPath: 'intelligence' },
+  SIGINTCapacity_DEGRADED: { series: 'SIGINTCapacity', node: 'A1',   role: 'SIGINT Collection Capacity', nodeRole: 'SIGINT / Signals Intelligence',               label: 'SIGINT Collection Capacity',     threshold: 40, dir: 'low',  kind: 'intel', policyPath: 'intelligence' },
+  HUMINTBacklog_HIGH:      { series: 'HUMINTBacklog',  node: 'EMP',  role: 'HUMINT Source Throughput',   nodeRole: 'HUMINT / Human Intelligence',                 label: 'HUMINT Reporting Backlog',       threshold: 8,  dir: 'high', kind: 'intel', policyPath: 'intelligence' },
+  CollectionGap_OPEN:      { series: 'CollectionGap',  node: 'BBB',  role: 'Collection Strategy Gap',    nodeRole: 'Collection Strategy — Implementation & Strategy — Workforce Alignment', label: 'Open Collection Requirements', threshold: 5, dir: 'high', kind: 'intel', policyPath: 'intelligence' },
+  CIThreat_ELEVATED:       { series: 'CIThreat',       node: 'BLA',  role: 'Counterintelligence Threat', nodeRole: 'Counterintelligence',                         label: 'Counterintelligence Threat',    threshold: 6,  dir: 'high', kind: 'intel', policyPath: 'intelligence' }
+};
+
+// Reverse lookup: connectome node → intelligence indicators it senses
+// (parallel to NODE_TO_MACRO_INDICATOR; for diagnosis drill-down).
+var NODE_TO_INTEL_INDICATOR = {};
+for (var _iik in INTELLIGENCE_INDICATOR_BINDING) {
+  if (!Object.prototype.hasOwnProperty.call(INTELLIGENCE_INDICATOR_BINDING, _iik)) continue;
+  var _iib = INTELLIGENCE_INDICATOR_BINDING[_iik];
+  if (!NODE_TO_INTEL_INDICATOR[_iib.node]) NODE_TO_INTEL_INDICATOR[_iib.node] = [];
+  NODE_TO_INTEL_INDICATOR[_iib.node].push(_iib);
+}
 
 // Reverse lookup: connectome node → macro indicators it senses (for diagnosis drill-down).
 var NODE_TO_MACRO_INDICATOR = {};
@@ -681,8 +778,13 @@ function resolvePolicyPath(path, stress) {
   // domain ids; activateNodes resolves via FEED_TO_CONNECTOME, so direct-match
   // entries — economy/finance/governance — route 1:1).
   var nodes = activateNodes(synth);
-  // Annotate each node with the macro indicators on this policy path.
-  var indSet = cfg.indicators.map(function(id) { return MACRO_INDICATOR_BINDING[id]; }).filter(Boolean);
+  // Annotate each node with the indicators on this policy path. Fiscal/monetary
+  // reference MACRO_INDICATOR_BINDING; the intelligence path (intelligence gap 3)
+  // references INTELLIGENCE_INDICATOR_BINDING — check both so each policy path
+  // resolves its own registry. (Additive: pre-existing fiscal/monetary unchanged.)
+  var indSet = cfg.indicators.map(function(id) {
+    return MACRO_INDICATOR_BINDING[id] || INTELLIGENCE_INDICATOR_BINDING[id];
+  }).filter(Boolean);
   return {
     path: path,
     connectomeDomains: cfg.connectomeDomains.slice(),
@@ -963,6 +1065,20 @@ window.LIMENConnectomeResolver = {
   TECH_COMPANY_BINDING: TECH_COMPANY_BINDING,
   NODE_TO_TECH_COMPANY: NODE_TO_TECH_COMPANY,
   getTechCompaniesForNode: function(nodeId) { return NODE_TO_TECH_COMPANY[nodeId] || []; },
+
+  // Intelligence-sector company ticker bindings (intelligence gap 2) — OPT-IN,
+  // parallel to the tech registry; consumed only for explicit intel-company drill.
+  // REAL intelligence-sector tickers (PLTR/BAH/LDOS/CACI/SAIC/KBR/VRNT/NICE/VRSK).
+  INTELLIGENCE_COMPANY_BINDING: INTELLIGENCE_COMPANY_BINDING,
+  NODE_TO_INTEL_COMPANY: NODE_TO_INTEL_COMPANY,
+  getIntelCompaniesForNode: function(nodeId) { return NODE_TO_INTEL_COMPANY[nodeId] || []; },
+
+  // Intelligence-sector indicator bindings (intelligence gap 3) — OPT-IN, parallel
+  // to the macro registry; threat-level / collection-capacity / collection-perf
+  // tradecraft signals (zero energy content) routed to dedicated intelligence nodes.
+  INTELLIGENCE_INDICATOR_BINDING: INTELLIGENCE_INDICATOR_BINDING,
+  NODE_TO_INTEL_INDICATOR: NODE_TO_INTEL_INDICATOR,
+  getIntelIndicatorsForNode: function(nodeId) { return NODE_TO_INTEL_INDICATOR[nodeId] || []; },
 
   // Fiscal vs monetary policy transmission (economy gap 2) — opt-in
   MACRO_POLICY_PATH: MACRO_POLICY_PATH,

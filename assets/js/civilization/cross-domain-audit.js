@@ -183,6 +183,82 @@
     // constraint coinciding with basing/lift strain + a materiel supply-chain
     // shortfall degrading operational readiness).
     { id: 'defense_energy_logistics', domains: ['defense', 'energy', 'infrastructure', 'supplyChain'] },
+    // ─── Intelligence-native affinity groups ──────────────────────────────
+    // Intelligence is a SOURCE domain here (not only a secondary ISR/warning
+    // member in defense_core / defense_deterrence). Its identity is collection
+    // (SIGINT/HUMINT/GEOINT/OSINT), all-source analysis & assessment, espionage
+    // & counterintelligence, surveillance/reconnaissance, threat warning, covert
+    // action, information/influence ops, and the security-clearance/insider-risk
+    // regime. Kept DISTINCT from defense (kinetic/industrial/readiness) and from
+    // technology (cyber tooling is a coupling, not the identity). Real-sector
+    // anchors are intelligence-services & analytics primes (PLTR, BAH, LDOS,
+    // CACI, SAIC, KBR, VRNT, NICE, VRSK), NOT energy oil/gas/grid.
+    //
+    // (1) intelligence_core — the intelligence-institutional envelope (mirror of
+    // defense_core / finance_core / technology_core / infrastructure_core /
+    // culture_core): intelligence collection, all-source analysis, and counter-
+    // intelligence are co-borne by policy tasking & priorities (governance), the
+    // FOIA/classification & legal-authority regime (law — FISA, executive orders,
+    // IRTPA, declassification), and the knowledge substrate of intelligence-studies
+    // scholarship & declassified research (research — academic tradecraft, archival
+    // analysis). Corroboration here = systemic intelligence-institutional stress
+    // (e.g. a collection-authorization squeeze coinciding with a classification/
+    // FOIA fight + an analytic-tradecraft/research gap + a policy-tasking shift).
+    { id: 'intelligence_core', domains: ['intelligence', 'governance', 'law', 'research'] },
+    // (2) intelligence_collection_infrastructure — the collection-platform layer
+    // (mirror of energy_chain on the intelligence side): SIGINT-intercept hardware,
+    // cyber-collection platforms, and ISR systems are co-borne by their build/
+    // tooling base (technology — signals-intercept hardware, cyber-collection
+    // platforms), the physical plant that hosts them (infrastructure — ISR
+    // platforms, satellite ground stations, antenna/relay sites), and the
+    // collection-platform supply chain for sensors, optics & comms parts
+    // (supplyChain). Corroboration here = a collection-capacity stress (e.g. an
+    // ISR-platform shortfall coinciding with a ground-station/relay outage + a
+    // sensor/optics supply-chain constraint). Cyber tooling is a coupling, not
+    // intelligence's own identity.
+    { id: 'intelligence_collection_infrastructure', domains: ['intelligence', 'technology', 'infrastructure', 'supplyChain'] },
+    // (3) intelligence_analysis_fusion — the all-source analysis & assessment
+    // layer: analytic production and fusion are co-borne by the methodology &
+    // tradecraft substrate (research — analysis methodologies, structured analytic
+    // techniques), the all-source fusion-platform stack (technology — fusion &
+    // link-analysis platforms in the PLTR/VRNT/NICE/VRSK mold), and the
+    // procurement & operations funding for collection/fusion systems (finance —
+    // collection-system procurement & sustainment funding). Corroboration here =
+    // an analysis/fusion stress (e.g. an analytic-tradecraft/research gap
+    // coinciding with a fusion-platform shortfall + a procurement/operations
+    // funding squeeze).
+    { id: 'intelligence_analysis_fusion', domains: ['intelligence', 'research', 'technology', 'finance'] },
+    // (4) intelligence_oversight_core — the oversight/authorization envelope
+    // (HIGH priority, mirror of defense_core / finance_core): intelligence
+    // collection, all-source analysis, and counterintelligence are co-borne by
+    // Congressional / Inspector-General / transparency oversight & policy tasking
+    // (governance — intelligence priorities, foreign-policy constraints) and the
+    // legal-regulatory regime plus the security-clearance/insider-risk apparatus
+    // (law — FISA, executive orders, IRTPA, clearance vetting & adjudication).
+    // Corroboration here = systemic intelligence-institutional stress: a
+    // collection-authorization-capability gap when oversight tightens AND legal-
+    // framework constraints escalate AND clearance-investigation backlogs spike AND
+    // foreign-policy directives shift (the FISA-reauthorization / Congressional-
+    // access / transparency-vs-security-clearance tension). Drivers: collection
+    // capability vs. legal-authority constraint, oversight-effectiveness vs.
+    // transparency-demand, clearance-investigation backlog vs. threat escalation.
+    { id: 'intelligence_oversight_core', domains: ['intelligence', 'governance', 'law'] },
+    // (5) intelligence_defense_deterrence — the intelligence→deterrence coupling
+    // (HIGH priority, mirror of defense_deterrence but with intelligence-collection
+    // -gap as the SOURCE stress rather than threat-escalation): defense kinetic
+    // readiness and procurement are co-borne by threat-assessment intelligence
+    // (intelligence — ISR readiness, all-source collection cadence, analyst
+    // availability, allied-intelligence-sharing latency), the defense establishment
+    // itself (defense), the industrial-base capacity that builds munitions,
+    // platforms & sustainment (industry), supply-chain access for critical
+    // components (supplyChain), and procurement/doctrine policy (governance).
+    // Corroboration here = intelligence threat-posture stress co-elevated with
+    // defense-readiness + industrial-capacity stress, exposing deterrence-
+    // credibility coupling under a collection-gap-and-production-capacity squeeze.
+    // Distinct from defense_deterrence: intelligence is the load-bearing source
+    // (threat-assessment lag, deterrence-posture visibility gap), not just the
+    // warning picture.
+    { id: 'intelligence_defense_deterrence', domains: ['intelligence', 'defense', 'industry', 'supplyChain', 'governance'] },
     { id: 'environment_arc',domains: ['environment', 'agriculture', 'energy'] }
   ];
 

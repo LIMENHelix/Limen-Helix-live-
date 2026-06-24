@@ -188,6 +188,42 @@
     allianceStressFloor:       0.65  // basing-rights loss / treaty-violation breach always reads as alliance_stress
   };
 
+  // Structural-signal overrides for intelligence: certain OBSERVABILITY / ANALYTIC-INTEGRITY /
+  // OVERSIGHT / COUNTERINTELLIGENCE constraints are NOT noisy GDELT-tone / headline-churn signals
+  // and must bypass saturation dampening (mirrors infrastructure's grid_stress, culture's
+  // scene_collapse, finance's liquidity_crunch, economy's recession_declaration, technology's
+  // chip_shortage, and defense's force_readiness structural conditions — all of which mirror
+  // energy-brain's grid_stress reserve-margin floor, a load-bearing engineering constraint that is
+  // never dampened as commodity noise).
+  // The intelligence domain is INTELLIGENCE COLLECTION (SIGINT / HUMINT / GEOINT / OSINT),
+  // all-source analysis & assessment, espionage & counterintelligence, surveillance &
+  // reconnaissance, threat warning, covert action, information & influence operations, and
+  // security-clearance & insider-risk (tickers: PLTR, BAH, LDOS, CACI, SAIC, KBR, VRNT, NICE,
+  // VRSK). It stays DISTINCT from defense (defense = kinetic / industrial / readiness;
+  // intelligence = collection / analysis / espionage) and from technology (cyber tooling is a
+  // coupling, NOT the identity). Intelligence couples to defense via threat warning and to
+  // technology via cyber/SIGINT tooling, but its identity stays observability / assessment /
+  // tradecraft — NEVER oil/gas/grid as the domain's OWN content.
+  // These floors are LOAD-BEARING observability/trust constraints — a persistent collection gap,
+  // a systematic analytical distortion, a confirmed legal/constitutional oversight failure, or an
+  // active counterintelligence loss must never be averaged down by the GDELT tone/headline-churn
+  // saturation that the generic intelligence feed is prone to. Just as kinetic/readiness
+  // constraints bypass tone/volume dampening for defense, intelligence observability/trust
+  // constraints must bypass headline-churn dampening here.
+  // Raw stress is forced to the floor when a structural threshold is crossed, before dampening.
+  //   - collection gap (persistent observability deficit / blind spot)        → collection_gap (structural)
+  //   - analytical distortion (systematic analytic failure / politicization)  → analytical_distortion (structural)
+  //   - oversight failure (legal/constitutional violation confirmed)          → oversight_failure (structural)
+  //   - counterintelligence failure (active CI loss / penetration confirmed)  → counterintelligence_failure (structural)
+  // ADDITIVE ONLY — client-side advisory floor for the domain panel/snapshot; it does NOT
+  // touch the validated P3 distress kernel (/api/limen/score path), which lives in finance.
+  var _INTELLIGENCE_STRUCTURAL = {
+    collectionGapFloor:               0.65, // persistent observability deficit / blind spot always reads as collection_gap
+    analyticalDistortionFloor:        0.70, // systematic analytical failure / politicization always reads as analytical_distortion
+    oversightFailureFloor:            0.65, // confirmed legal/constitutional violation always reads as oversight_failure
+    counterintelligenceFailureFloor:  0.60  // active counterintelligence loss / penetration always reads as counterintelligence_failure
+  };
+
   // Rolling baseline state (accumulates across feed cycles within session)
   var _baselineState = {}; // domainKey → { samples: [], mean: number }
   var _BASELINE_WINDOW = 12; // ~6 minutes at 30s poll (enough for session deviation)
@@ -656,6 +692,103 @@
     return { floor: floor, reason: reason };
   }
 
+  // Detect intelligence OBSERVABILITY / ANALYTIC-INTEGRITY / OVERSIGHT / COUNTERINTELLIGENCE
+  // structural constraints from a feed object. Returns a forced stress floor (0 if none) —
+  // observability / trust breaches bypass the GDELT tone/headline-churn saturation that the
+  // generic intelligence feed is prone to. Mirrors _infraStructuralFloor /
+  // _cultureStructuralFloor / _financeStructuralFloor / _economyStructuralFloor /
+  // _technologyStructuralFloor / _defenseStructuralFloor: collection-gap / analytical-distortion /
+  // oversight-failure / counterintelligence-failure are load-bearing intelligence-posture
+  // constraints, not headline noise to dampen.
+  // Binds to collection-gap / analytic-confidence / oversight-compliance / CI-readiness metrics
+  // and intelligence tickers (PLTR, BAH, LDOS, CACI, SAIC, KBR, VRNT, NICE, VRSK) — DISTINCT
+  // from defense (kinetic/industrial/readiness) and from technology (cyber tooling is a coupling);
+  // NEVER oil/gas/grid as the domain's OWN content (intelligence couples to defense via threat
+  // warning and to technology via cyber/SIGINT tooling, but its identity stays observability /
+  // assessment / tradecraft).
+  // ADDITIVE ONLY — client-side advisory floor; does NOT touch the validated P3 distress kernel.
+  function _intelligenceStructuralFloor(feed) {
+    if (!feed) return { floor: 0, reason: '' };
+    var floor = 0;
+    var reason = '';
+    var signals = feed.signals || [];
+    function _has(token) {
+      for (var i = 0; i < signals.length; i++) {
+        if (typeof signals[i] === 'string' && signals[i].toLowerCase().indexOf(token) !== -1) return true;
+      }
+      return false;
+    }
+    // (2) Analytical distortion: systematic analytic failure / politicization ALWAYS triggers
+    //     analytical_distortion (highest intelligence floor — an all-source assessment-integrity
+    //     break; PLTR/BAH/CACI/SAIC all-source-analysis exposure). analyticalConfidence is a
+    //     fraction of analytic reliability; a drop below 0.50 is a structural distortion.
+    var analyticalConfidence = (feed.analyticalConfidence !== undefined) ? feed.analyticalConfidence
+                             : (feed.analyticConfidence !== undefined) ? feed.analyticConfidence
+                             : null;
+    var analyticFrac = (analyticalConfidence !== null && analyticalConfidence > 1) ? analyticalConfidence / 100 : analyticalConfidence;
+    if ((analyticFrac !== null && analyticFrac < 0.50 && (_has('analy') || _has('assess') || _has('confidence') || _has('politiciz') || _has('distort'))) ||
+        _has('analytical distortion') || _has('analytic distortion') || _has('analytic failure') || _has('politicization') || _has('assessment failure')) {
+      if (_INTELLIGENCE_STRUCTURAL.analyticalDistortionFloor > floor) {
+        floor = _INTELLIGENCE_STRUCTURAL.analyticalDistortionFloor;
+        reason = 'structural: analytical_distortion' + (analyticFrac !== null ? ' (analytic confidence ' + (analyticFrac * 100).toFixed(0) + '% < 50%)' : '');
+      }
+    }
+    // (1) Collection gap: persistent observability deficit / blind spot ALWAYS triggers
+    //     collection_gap (the SIGINT/HUMINT/GEOINT/OSINT coverage constraint — PLTR/VRNT/NICE
+    //     collection-tooling exposure). collectionGap is a fraction of the priority requirement
+    //     left uncovered; a gap above 0.40 is a structural observability deficit.
+    var collectionGap = (feed.collectionGap !== undefined) ? feed.collectionGap
+                      : (feed.observabilityGap !== undefined) ? feed.observabilityGap
+                      : null;
+    var gapFrac = (collectionGap !== null && collectionGap > 1) ? collectionGap / 100 : collectionGap;
+    if ((gapFrac !== null && gapFrac > 0.40 && (_has('collection') || _has('coverage') || _has('blind spot') || _has('blind-spot') || _has('sigint') || _has('humint') || _has('geoint') || _has('osint') || _has('observ'))) ||
+        _has('collection gap') || _has('collection-gap') || _has('observability deficit') || _has('intelligence gap')) {
+      if (_INTELLIGENCE_STRUCTURAL.collectionGapFloor > floor) {
+        floor = _INTELLIGENCE_STRUCTURAL.collectionGapFloor;
+        reason = 'structural: collection_gap' + (gapFrac !== null ? ' (collection gap ' + (gapFrac * 100).toFixed(0) + '% > 40%)' : '');
+      } else if (floor > 0) {
+        reason += ' + collection_gap';
+      }
+    }
+    // (3) Oversight failure: confirmed legal/constitutional violation ALWAYS triggers
+    //     oversight_failure (the rule-of-law / FISA / civil-liberties constraint — a confirmed
+    //     compliance breach, not a routine audit finding). oversightCompliance is a fraction of
+    //     legal/oversight compliance; a drop below 0.50 (or an explicit confirmed-violation
+    //     signal) is a structural oversight failure.
+    var oversightCompliance = (feed.oversightCompliance !== undefined) ? feed.oversightCompliance
+                            : (feed.legalCompliance !== undefined) ? feed.legalCompliance
+                            : null;
+    var oversightFrac = (oversightCompliance !== null && oversightCompliance > 1) ? oversightCompliance / 100 : oversightCompliance;
+    if ((oversightFrac !== null && oversightFrac < 0.50 && (_has('oversight') || _has('compliance') || _has('fisa') || _has('constitution') || _has('legal') || _has('civil libert') || _has('violation'))) ||
+        _has('oversight failure') || _has('oversight-failure') || _has('constitutional violation') || _has('fisa violation') || _has('unlawful surveillance')) {
+      if (_INTELLIGENCE_STRUCTURAL.oversightFailureFloor > floor) {
+        floor = _INTELLIGENCE_STRUCTURAL.oversightFailureFloor;
+        reason = 'structural: oversight_failure' + (oversightFrac !== null ? ' (oversight compliance ' + (oversightFrac * 100).toFixed(0) + '% < 50%)' : '');
+      } else if (floor > 0) {
+        reason += ' + oversight_failure';
+      }
+    }
+    // (4) Counterintelligence failure: active CI loss / penetration confirmed ALWAYS triggers
+    //     counterintelligence_failure (the espionage/insider-risk constraint — a confirmed
+    //     penetration or clearance-trust breach; LDOS/KBR/SAIC insider-risk exposure).
+    //     counterintelligenceReadiness is a fraction of CI/insider-risk posture; a drop below
+    //     0.55 (or an explicit penetration/mole signal) is a structural CI failure.
+    var ciReadiness = (feed.counterintelligenceReadiness !== undefined) ? feed.counterintelligenceReadiness
+                    : (feed.ciReadiness !== undefined) ? feed.ciReadiness
+                    : null;
+    var ciFrac = (ciReadiness !== null && ciReadiness > 1) ? ciReadiness / 100 : ciReadiness;
+    if ((ciFrac !== null && ciFrac < 0.55 && (_has('counterintel') || _has('counter-intel') || _has('penetrat') || _has('insider') || _has('mole') || _has('espionage') || _has('clearance'))) ||
+        _has('counterintelligence failure') || _has('counterintelligence-failure') || _has('counterintelligence loss') || _has('penetration confirmed') || _has('insider threat')) {
+      if (_INTELLIGENCE_STRUCTURAL.counterintelligenceFailureFloor > floor) {
+        floor = _INTELLIGENCE_STRUCTURAL.counterintelligenceFailureFloor;
+        reason = 'structural: counterintelligence_failure' + (ciFrac !== null ? ' (CI readiness ' + (ciFrac * 100).toFixed(0) + '% < 55%)' : '');
+      } else if (floor > 0) {
+        reason += ' + counterintelligence_failure';
+      }
+    }
+    return { floor: floor, reason: reason };
+  }
+
   function _normalizeStress(domainKey, rawStress, feed) {
     // Phase 0: domain structural-signal floor (engineering/attention-economy constraints
     // bypass commodity/market/volume dampening — mirrors energy-brain grid_stress conditions)
@@ -665,6 +798,7 @@
                    : (domainKey === 'economy') ? _economyStructuralFloor(feed)
                    : (domainKey === 'technology') ? _technologyStructuralFloor(feed)
                    : (domainKey === 'defense') ? _defenseStructuralFloor(feed)
+                   : (domainKey === 'intelligence') ? _intelligenceStructuralFloor(feed)
                    : { floor: 0, reason: '' };
     if (structural.floor > rawStress) {
       rawStress = structural.floor;

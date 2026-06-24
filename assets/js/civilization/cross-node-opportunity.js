@@ -150,6 +150,43 @@
     // adds them conditionally), keeping cyber as a technology coupling — NOT
     // defense's own kinetic content, and distinct from intelligence collection.
     defense:       ['defense-procurement', 'patents'],
+    // ─── Intelligence = COLLECTION / ALL-SOURCE ANALYSIS / ESPIONAGE
+    //     (lane hints reflect collection & assessment identity, not kinetic
+    //     readiness and not cyber tooling) ──────────────────────────────────
+    // Intelligence's identity is collection (SIGINT/HUMINT/GEOINT/OSINT),
+    // all-source analysis & assessment, espionage & counterintelligence,
+    // surveillance & reconnaissance, threat warning, covert action, information/
+    // influence operations, and security-clearance/insider-risk work. Real
+    // intelligence-sector names: PLTR (all-source analytics), BAH, LDOS, CACI,
+    // SAIC, KBR (mission-IT / analysis services), VRNT, NICE (collection/
+    // surveillance analytics), VRSK (risk intelligence). Intelligence is DISTINCT
+    // from defense (kinetic/industrial readiness) and from technology (cyber
+    // tooling is a COUPLING, not the identity).
+    //
+    // Energy anchors the multi-lane pattern (energy = ['patents','sba-loans',
+    // 'business-grants'] — a multi-faceted IP + financing + grants space).
+    // Intelligence's OWN opportunity space is similarly multi-faceted —
+    // all-source assessment (systemic-risk shaped), collection capability,
+    // counterintelligence/insider-risk, financial-intelligence (finint),
+    // biointelligence (research) — but, exactly like the economy and defense
+    // blocks above warn, only tokens that route to a REAL, intelligence-accepting
+    // LANE_GATES entry in handoff-contract.js may live here unconditionally;
+    // anything else is silently dropped (the dead-token anti-pattern).
+    //
+    // Against the current handoff-contract LANE_GATES, the intelligence-native
+    // gate is 'copyrights' (anyDomain includes 'intelligence' — assessments,
+    // analytic products, finished-intelligence reports are copyrightable work
+    // product). 'research-papers' is kept (pre-existing; biointelligence/OSINT
+    // research output) even though the contract currently routes it via the
+    // research-side domains — it stays as an honest affinity hint, the contract
+    // decides. The gap's other requested unconditional tokens
+    // ('systemic-risk','research-grants','insider-risk-assessment',
+    // 'fintech-infrastructure','intelligence-sharing') are NOT added here:
+    // 'systemic-risk'/'research-grants' exist but do not list 'intelligence' in
+    // anyDomain (would be dropped), and the remaining three do not exist as gates
+    // at all. The collection↔technology and finint↔finance opportunities are
+    // therefore carried CONDITIONALLY (coupling, below) where the co-elevated
+    // partner that negotiates them is actually present — not as dead tokens.
     intelligence:  ['copyrights', 'research-papers'],
     communication: ['copyrights'],
     culture:       ['copyrights', 'franchise', 'patents', 'research-papers', 'business-grants', 'research-grants'],
@@ -172,11 +209,38 @@
   // Defense/finance/research coupling lanes carry semiconductor-IP licensing
   // and supply-chain mapping. Additive only — never removes the generic
   // technology R&D lanes above.
+  //   • technology ↔ intelligence → cyber-intelligence coupling (zero-day):
+  //       when technology is co-elevated with intelligence on a cyber-threat
+  //       surface, the offensive/defensive cyber-capability acquisition shaped
+  //       opportunity routes to the intelligence negotiator. 'zero-day-
+  //       acquisition' is the ONLY requested cyber-coupling token that exists in
+  //       LANE_GATES AND lists 'intelligence' in anyDomain — so it is the only
+  //       one added (the gap's 'cyber-intelligence-sharing' and 'APT-threat-
+  //       briefing' are NOT real gates and would be silently dropped). Cyber
+  //       stays a technology coupling here, NOT intelligence's own collection/
+  //       analysis identity.
   var TECH_COUPLING_LANES = {
     defense: ['zero-day-acquisition', 'firmware-licensing', 'semiconductor-IP'],
     energy:  ['energy-efficiency-hardware', 'firmware-licensing', 'supply-chain-mapping'],
     finance: ['fintech-infrastructure', 'semiconductor-IP', 'investments'],
-    research:['semiconductor-IP', 'supply-chain-mapping']
+    research:['semiconductor-IP', 'supply-chain-mapping'],
+    intelligence: ['zero-day-acquisition']
+  };
+
+  // ─── Finance co-domain coupling lanes (additive, finint) ────────────────
+  // Mirrors the technology-coupling pattern but keyed on FINANCE being co-
+  // elevated. Fires only when finance is present in an opportunity's domain set
+  // alongside a partner that originates a finance-shaped opportunity, routing
+  // the artifact to the finance negotiator. The intelligence↔finance case is
+  // financial-intelligence (finint): illicit-finance tracking, sanctions/AML
+  // exposure, capital-access stress surfaced by intelligence collection. Only
+  // tokens that route to a REAL, finance-accepting LANE_GATES entry may live
+  // here — 'capital-access' (singleDomainOnly:false, anyDomain includes
+  // 'finance') is the live finint-adjacent lane. The gap's 'fintech-
+  // infrastructure' and 'illicit-finance-tracking' are NOT real gates and would
+  // be dropped, so they are deliberately omitted (dead-token discipline).
+  var FINANCE_COUPLING_LANES = {
+    intelligence: ['capital-access']
   };
 
   function _laneHints(domains) {
@@ -197,6 +261,20 @@
           // Weight coupling lanes so they out-rank generic R&D lanes when the
           // coupling is actually present (real co-domain elevation).
           bag[couple[cj]] = (bag[couple[cj]] || 0) + 2;
+        }
+      }
+    }
+    // Conditional finance coupling (finint): only when finance is co-elevated
+    // with a partner domain in this same opportunity's domain set. Mirrors the
+    // technology-coupling weighting so finint lanes out-rank generic hints.
+    if (domains.indexOf('finance') >= 0) {
+      for (var fi = 0; fi < domains.length; fi++) {
+        var fpartner = domains[fi];
+        if (fpartner === 'finance') continue;
+        var fcouple = FINANCE_COUPLING_LANES[fpartner];
+        if (!fcouple) continue;
+        for (var fj = 0; fj < fcouple.length; fj++) {
+          bag[fcouple[fj]] = (bag[fcouple[fj]] || 0) + 2;
         }
       }
     }

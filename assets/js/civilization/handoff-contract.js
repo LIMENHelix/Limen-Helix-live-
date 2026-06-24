@@ -73,7 +73,27 @@
     // Defense IDENTITY stays kinetic/industrial/readiness (LMT, RTX, NOC, GD,
     // BA, LHX, HII, LDOS, BAH, KTOS, AVAV); cyber is the technology coupling,
     // NOT defense's own content, and stays distinct from intelligence collection.
-    'defense-procurement', 'zero-day-acquisition', 'firmware-licensing', 'semiconductor-IP'
+    'defense-procurement', 'zero-day-acquisition', 'firmware-licensing', 'semiconductor-IP',
+    // ─── Intelligence-native lanes (additive) ─────────────────────────────
+    // Intelligence is the canonical source/negotiator domain for collection,
+    // all-source analysis, espionage/counterintelligence, and warning. These
+    // lanes give intelligence-native signal a home so it is not forced through
+    // defense's kinetic procurement lanes or technology's cyber-tooling lanes.
+    //   'intelligence-operations'      — covert operations, collection tasking,
+    //       analysis-fusion opportunity routed to the intelligence negotiator
+    //       (analogous to 'defense-procurement' for kinetic). Single-domain.
+    //   'collection-platform-acquisition' — SIGINT/HUMINT/GEOINT/OSINT platform
+    //       upgrades routed to intelligence (analogous to 'defense-procurement'
+    //       for weapons systems). Single-domain.
+    //   'analysis-fusion-capability'   — all-source fusion / Palantir-style
+    //       analysis-platform capability. Inherently multi-domain (intelligence
+    //       + technology + research), so NOT single-domain.
+    // Intelligence IDENTITY is collection / analysis / espionage / warning —
+    // distinct from defense (kinetic/industrial/readiness) and from technology
+    // (cyber tooling is a coupling, NOT intelligence's own content). Real intel-
+    // sector operators anchor these lanes: PLTR, BAH, LDOS, CACI, SAIC, KBR,
+    // VRNT, NICE, VRSK.
+    'intelligence-operations', 'collection-platform-acquisition', 'analysis-fusion-capability'
   ];
 
   // ─── Lane gates — minimum quality requirements per artifact type ────────
@@ -165,7 +185,38 @@
     //   co-elevated negotiator. singleDomainOnly false (coupling). Shared gate
     //   with the technology/finance/research coupling that already emits this
     //   lane name — additive: defense joins the allowed domains, never replaces.
-    'semiconductor-IP':      { minEvidence: 0.55, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['defense','technology','finance','research','industry','infrastructure'] }
+    'semiconductor-IP':      { minEvidence: 0.55, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['defense','technology','finance','research','industry','infrastructure'] },
+    // ─── Intelligence-native lane gates (additive) ────────────────────────
+    // intelligence-operations — one bounded covert operation / collection
+    //   tasking / analysis-fusion engagement routed to the intelligence
+    //   negotiator (analogous to defense-procurement for kinetic). Single-
+    //   domain: an operation artifact represents a single bounded engagement,
+    //   so cross-node multi-domain aggregations are routed away. Intelligence-
+    //   primary, with the collection-adjacent real-economy domains that
+    //   originate intelligence demand (defense = mission tasking, technology =
+    //   collection sensors/processing, infrastructure = basing/ground stations).
+    //   Passing this gate signals only "sufficient packet detail to attempt an
+    //   intelligence-operations note" — NOT tasking authority, NOT clearance,
+    //   NOT any prediction. Real intel-sector operators: PLTR, BAH, LDOS, CACI,
+    //   SAIC, KBR, VRNT, NICE, VRSK. Distinct from defense (kinetic) and from
+    //   technology (cyber is a coupling, not intelligence's collection identity).
+    'intelligence-operations':         { minEvidence: 0.55, minConfidence: 0.60, singleDomainOnly: true,  anyDomain: ['intelligence','defense','technology','infrastructure'] },
+    // collection-platform-acquisition — one bounded SIGINT/HUMINT/GEOINT/OSINT
+    //   platform upgrade / sensor buy / collection-capability acquisition routed
+    //   to the intelligence negotiator (analogous to defense-procurement for
+    //   weapons systems). Single-domain: a platform acquisition is a single
+    //   bounded buy. Intelligence-primary, with the platform-adjacent domains
+    //   that supply collection hardware (defense = ISR platforms, technology =
+    //   sensors/payloads, infrastructure = ground stations / downlink).
+    'collection-platform-acquisition': { minEvidence: 0.55, minConfidence: 0.60, singleDomainOnly: true,  anyDomain: ['intelligence','defense','technology','infrastructure'] },
+    // analysis-fusion-capability — all-source fusion / Palantir-style analysis-
+    //   platform capability. Inherently MULTI-domain (fusion combines collection,
+    //   compute, and research), so singleDomainOnly is false. Slightly lower bar
+    //   than the operations/platform lanes because a fusion-capability note is an
+    //   analytic artifact, not a bounded acquisition. Intelligence + technology +
+    //   research are the native fusion partners. Passing this gate signals only
+    //   "sufficient packet detail to attempt an analysis-fusion-capability note."
+    'analysis-fusion-capability':      { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['intelligence','technology','research','defense','infrastructure'] }
   };
 
   var _last = { lanes: {}, timestamp: 0, totalPackets: 0 };
@@ -245,6 +296,9 @@
       case 'zero-day-acquisition': return 'Domains ' + doms + ' show defense↔technology co-elevation routing a cyber-intelligence / offensive-capability acquisition artifact to the defense negotiator (coupling lane; cyber is the technology coupling, not defense\'s kinetic identity).';
       case 'firmware-licensing':  return 'Domains ' + doms + ' show technology co-elevation routing a firmware / embedded-control licensing artifact for platform or weapons-system electronics to the co-elevated negotiator (defense or energy coupling lane).';
       case 'semiconductor-IP':    return 'Domains ' + doms + ' show technology co-elevation routing a semiconductor-IP / chip-supply licensing artifact (defense semiconductor supply chain) to the co-elevated negotiator (coupling lane).';
+      case 'intelligence-operations': return 'Domains ' + doms + ' indicate collection / analysis-fusion / covert-operations-shaped opportunity for a single bounded engagement (collection tasking, all-source analysis, counterintelligence) routed to the intelligence negotiator — not tasking authority, not clearance, not award.';
+      case 'collection-platform-acquisition': return 'Domains ' + doms + ' indicate a single bounded SIGINT/HUMINT/GEOINT/OSINT collection-platform upgrade / sensor acquisition routed to the intelligence negotiator (analogous to a weapons-system buy for kinetic) — not an acquisition decision, not eligibility.';
+      case 'analysis-fusion-capability': return 'Domains ' + doms + ' indicate all-source fusion / analysis-platform capability opportunity (intelligence + technology + research) sufficient to attempt an analysis-fusion-capability note — an inherently multi-domain analytic artifact, not a bounded acquisition.';
     }
     return '';
   }

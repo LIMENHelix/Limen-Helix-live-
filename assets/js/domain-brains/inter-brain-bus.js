@@ -132,6 +132,72 @@
  *   distress kernel remains the sole scoring authority; the bus merely transports
  *   already-scored emissions.
  *
+ * Cross-domain examples — OTHER → INTELLIGENCE (intelligence as a target).
+ * Intelligence is the COLLECTION / ANALYSIS / ESPIONAGE domain (SIGINT/HUMINT/
+ * GEOINT/OSINT collection, all-source analysis & assessment, espionage &
+ * counterintelligence, surveillance & reconnaissance, threat warning, covert
+ * action, information & influence operations, security clearance & insider
+ * risk). It is DISTINCT from defense (defense = kinetic / industrial / readiness)
+ * and from technology (cyber tooling is a COUPLING that feeds collection, NOT
+ * intelligence's identity). These are the inbound paths other brains already
+ * emit toward intelligence (see each source brain's emissionRules), so the
+ * collection/threat-warning channel is not silent in the bus:
+ *   defense        → intelligence (threat_assessment_pressure → kinetic posture
+ *                             & deterrence signaling raise collection tasking and
+ *                             all-source analysis demand → collection_tasking
+ *                             surge, ISR re-prioritization)
+ *   technology     → intelligence (zero_day_threat_intelligence /
+ *                             cyber_collection_capability → cyber-collection
+ *                             feasibility & SIGINT-platform performance inform
+ *                             collection-system effectiveness — the cyber→
+ *                             collection coupling, not a defense breach)
+ *   infrastructure → intelligence (infrastructure_threat_intelligence /
+ *                             ISR_platform_availability → ICS/SCADA exploited-CVE
+ *                             feeds + collection-platform (satellite/drone)
+ *                             readiness → collection-system availability for
+ *                             persistent surveillance & reconnaissance)
+ *   communication  → intelligence (information_contamination_signal → OSINT
+ *                             source-pollution / influence-op noise degrades
+ *                             open-source collection confidence)
+ *   These modify intelligence's PRIOR collection-confidence / threat-warning
+ *   expectation and stress calculation AFTER the validated P3 kernel runs —
+ *   external stress modifiers ingested via the base receiveExternalSignal
+ *   handler, NOT a second scorer.
+ *
+ * Cross-domain examples — INTELLIGENCE → OTHER (intelligence as a source).
+ * Intelligence emits native signals when ≥1 active diagnosis is present
+ * (intelligence-brain.js emissionRules):
+ *   intelligence → defense       (threat_visibility_pressure → threat-assessment
+ *                             & collection-tasking findings raise kinetic posture
+ *                             / deterrence signaling and procurement urgency)
+ *   intelligence → governance    (coordination_blind_spot → collection-gap /
+ *                             policy-recommendation & collection-constraint
+ *                             findings shape national-security policy & oversight
+ *                             response)
+ *   intelligence → technology    (observability_trust_pressure → cyber-collection
+ *                             feasibility & SIGINT-platform load inform
+ *                             cyber-defense / sensor / autonomy R&D priorities)
+ *   intelligence → communication (information_contamination_risk → influence-op
+ *                             & disinformation warning tightens information
+ *                             integrity posture)
+ *   intelligence → finance       (strategic_risk_visibility → declassified threat
+ *                             findings & strategic-risk assessment reprice
+ *                             geopolitical / sanctions / counterparty exposure)
+ *   And the research coupling (the academic-security-studies return side —
+ *   intelligence shapes scholarship WITHOUT taking on defense procurement as its
+ *   identity):
+ *   intelligence → research      (declassified_threat_findings / analysis_method
+ *                             -ology → declassified findings & tradecraft shape
+ *                             academic security-studies & methodology research)
+ *   Real IC-sector issuers behind these signals (collection / all-source analysis
+ *   / mission-systems operators — NOT energy oil/gas/grid, NOT defense kinetic
+ *   primes): PLTR, BAH, LDOS, CACI, SAIC, KBR, VRNT, NICE, VRSK.
+ *   (collection_gap = SIGINT/HUMINT/GEOINT/OSINT coverage shortfall;
+ *   warning_failure = threat-warning latency / surprise risk;
+ *   insider_risk = clearance / counterintelligence exposure.) SIGNAL examples
+ *   only — the validated Thing1 P3 distress kernel remains the sole scoring
+ *   authority; the bus merely transports already-scored emissions.
+ *
  * Cross-domain examples — ECONOMY → OTHER (economy as a source). Economy emits
  * native macro signals when ≥1 active diagnosis is present (economy-brain.js):
  *   economy → finance      (credit_conditions_shift   → macro deterioration
@@ -155,7 +221,9 @@
  *   - Propagation chains (A→B→C)
  *   - Co-activation (multiple domains emitting simultaneously)
  *   - Causal loops (A→B→A, e.g. energy→finance→energy via cost-of-capital;
- *     finance→economy→finance via cost-of-capital→GDP→credit conditions)
+ *     finance→economy→finance via cost-of-capital→GDP→credit conditions;
+ *     intelligence→defense→intelligence via threat_visibility_pressure→kinetic
+ *     posture→threat_assessment_pressure→collection tasking)
  *   - Regime-level cascade (>3 domains in emission chain)
  *
  * Exposes: window.LIMENInterBrainBus

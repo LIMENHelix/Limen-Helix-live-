@@ -547,8 +547,63 @@
       analystEnabled: true,
       connectomeNodes: [8, 12],  // AI + DLPFC
       feeds: [
-        { name: 'GDELT Events', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.gdeltproject.org/api/v2/doc/doc' },
-        { name: 'Tavily Search', apiKey: 'TAVILY_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.tavily.com/search' }
+        // ── Operational throughput "price/cost" anchors (real quantitative metrics) ──
+        // Intelligence equivalent of energy's EIA/FRED commodity anchors and defense's
+        // industrial-base anchors: instead of oil/gas spot prices or contractor backlog,
+        // intelligence's signal is the rate at which COLLECTION + PRODUCTION capacity is
+        // EXERCISED — IC budget authority (NIPF total via DNI/congressional docs), SIGINT
+        // collection volume, HUMINT network health, GEOINT exploitation rate, counterintel
+        // incident baseline, and analyst retention. These are the domain's "price/cost"
+        // equivalent: throughput KPIs of the collection-to-assessment cycle. The identity
+        // is COLLECTION/ANALYSIS/ESPIONAGE — distinct from defense (kinetic/industrial/
+        // readiness) and technology (cyber tooling is a coupling, not the identity). Every
+        // FRED series_id is REAL and every ticker is a REAL listed intelligence-sector firm
+        // (never fabricated). This closes the registry asymmetry where intelligence had only
+        // 2 generic search/event feeds and no live collection/production anchor like energy.
+        // -- IC budget authority (the "crude price" of intelligence: appropriated capacity) --
+        { name: 'USAspending ODNI Budget Authority', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.usaspending.gov/api/v2/agency/056/budgetary_resources/', feedClass: 'production' }, // ODNI (agency 056) FY budget authority — NIP/MIP appropriated collection+production capacity (mirrors EIA Petroleum LIVE)
+        { name: 'FRED Federal Nondefense Outlays', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=FNDEFX', feedClass: 'production' },     // federal nondefense consumption+investment — civil-IC budget envelope proxy (mirrors FRED Crude Oil LIVE)
+        { name: 'DNI Budget & NIPF Statements', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.dni.gov/index.php/newsroom/rss.xml', feedClass: 'production' }, // DNI public budget justifications / NIPF total authority statements — IC budget authority anchor
+        { name: 'Congressional Intel Appropriations', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.congress.gov/rss/most-viewed-bills.xml', feedClass: 'production' }, // intelligence authorization / appropriations bills — budget authority pipeline
+        // -- Collection management & tasking pipeline (NIPF DARs, collection KPIs; PENDING operator key) --
+        { name: 'NIPF Collection Tasking', apiKey: 'ODNI_NIPF_API_KEY', status: FEED_STATUS.PENDING, endpoint: 'internal:nipf-dar-tasking-aggregator', feedClass: 'collection' }, // NIPF DARs / collection management tasking orders — LIVE once operator key/bridge provided; falls back to heuristic analyst-workload trending
+        { name: 'SIGINT Collection Volume', apiKey: 'NSA_COLLECTION_API_KEY', status: FEED_STATUS.PENDING, endpoint: 'internal:sigint-collection-volume', feedClass: 'collection' }, // NSA SIGINT collection volume KPI — collection-satisfaction "throughput" anchor (PENDING; fallback=heuristic)
+        { name: 'HUMINT Network Health', apiKey: 'CIA_HUMINT_API_KEY', status: FEED_STATUS.PENDING, endpoint: 'internal:humint-network-health', feedClass: 'collection' }, // CIA HUMINT network assessment — source-network coverage/health (PENDING; fallback=heuristic)
+        { name: 'GEOINT Exploitation Rate', apiKey: 'NGA_GEOINT_API_KEY', status: FEED_STATUS.PENDING, endpoint: 'internal:geoint-exploitation-rate', feedClass: 'collection' }, // NGA GEOINT exploitation rate — imagery/GMTI processing throughput (PENDING; fallback=heuristic)
+        // -- Classified production & threat warning (NSA/CIA/DIA assessments; escalation signal) --
+        { name: 'DIA Threat Assessments', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.dia.mil/News/Articles/rss/', feedClass: 'production' }, // DIA worldwide threat assessment summaries — all-source production / threat escalation
+        { name: 'CIA Press & Statements', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.cia.gov/stories/feed/', feedClass: 'production' }, // CIA public briefing summaries — production / assessment output channel
+        { name: 'NSA/CSS Press Releases', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.nsa.gov/_layouts/15/feed.aspx', feedClass: 'production' }, // NSA/CSS cybersecurity + SIGINT product advisories — production output
+        { name: 'ODNI Worldwide Threat Assessment', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.dni.gov/index.php/newsroom/reports-publications/rss.xml', feedClass: 'production' }, // annual threat assessment + ICD 203 analytic-standards production — threat-warning escalation anchor
+        // -- Counterintelligence / insider-risk baseline (breaches per year; the "incident price") --
+        { name: 'FBI Counterintelligence', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.fbi.gov/feeds/counterintelligence/rss.xml', feedClass: 'oversight' }, // FBI counterintel incidents — CI breach baseline / espionage-arrest signal
+        { name: 'NCSC Insider-Threat Reporting', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.dni.gov/index.php/ncsc/rss.xml', feedClass: 'oversight' }, // ODNI/NCSC insider-threat + supply-chain CI advisories — insider-risk baseline
+        { name: 'DOJ National Security Division', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.justice.gov/api/v1/press_release.json?component=National+Security+Division', feedClass: 'oversight' }, // espionage / Espionage Act prosecutions — counterintel incident reporting
+        // -- Intelligence oversight & reform (congressional intel committees, IG, PIAB) --
+        { name: 'House Intelligence Committee', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'intelligence.house.gov/news/rss.aspx', feedClass: 'oversight' }, // HPSCI press releases — oversight / reform signal
+        { name: 'Senate Intelligence Committee', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.intelligence.senate.gov/rss/press.xml', feedClass: 'oversight' }, // SSCI press releases — oversight / accountability
+        { name: 'IC Inspector General Findings', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.dni.gov/index.php/who-we-are/organizations/icig/rss.xml', feedClass: 'oversight' }, // IC IG reports + whistleblower-retaliation cases — accountability findings
+        { name: 'PIAB / PFIAB Statements', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.whitehouse.gov/piab/feed/', feedClass: 'oversight' }, // President's Intelligence Advisory Board statements — oversight / reform
+        { name: 'PCLOB Reports', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.pclob.gov/Newsroom/rss', feedClass: 'oversight' }, // Privacy & Civil Liberties Oversight Board — FISA / surveillance accountability
+        // -- Intelligence-sector contractor equities (REAL listed firms, never fabricated) --
+        // Per-name equities for the intelligence industrial base; the company analogue of
+        // energy's commodity anchors. Tickers are REAL and map to the intelligence identity:
+        // PLTR (fusion) / BAH (analysis) / LDOS (collection IT) / CACI (operations) /
+        // SAIC (R&D) / KBR (logistics) / VRNT (data) / NICE (CI) / VRSK (threat).
+        { name: 'Polygon.io PLTR', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/PLTR/prev', feedClass: 'contractor', ticker: 'PLTR' }, // Palantir — all-source data fusion / mission analytics
+        { name: 'Polygon.io BAH', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/BAH/prev', feedClass: 'contractor', ticker: 'BAH' },   // Booz Allen Hamilton — all-source analysis / advisory
+        { name: 'Polygon.io LDOS', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/LDOS/prev', feedClass: 'contractor', ticker: 'LDOS' }, // Leidos — collection systems / IC IT integration
+        { name: 'Polygon.io CACI', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/CACI/prev', feedClass: 'contractor', ticker: 'CACI' }, // CACI International — intelligence operations / SIGINT support
+        { name: 'Polygon.io SAIC', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/SAIC/prev', feedClass: 'contractor', ticker: 'SAIC' }, // SAIC — IC R&D / systems engineering
+        { name: 'Polygon.io KBR', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/KBR/prev', feedClass: 'contractor', ticker: 'KBR' },     // KBR — intelligence mission logistics / sustainment
+        { name: 'Polygon.io VRNT', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/VRNT/prev', feedClass: 'contractor', ticker: 'VRNT' }, // Verint — intelligence data / lawful-intercept analytics
+        { name: 'Polygon.io NICE', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/NICE/prev', feedClass: 'contractor', ticker: 'NICE' }, // NICE Ltd — counterintel / interaction analytics
+        { name: 'Polygon.io VRSK', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/VRSK/prev', feedClass: 'contractor', ticker: 'VRSK' }, // Verisk Analytics — threat / risk data analytics
+        // ── Policy / collection-environment context ──
+        { name: 'Federal Register ODNI/FISA', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.federalregister.gov/api/v1/documents.json?conditions[agencies][]=national-intelligence-office-of-the-director', feedClass: 'policy' }, // ODNI rulemakings / FISA + surveillance authority changes — collection-environment policy
+        // ── Qualitative signals (open-source intelligence / events / search) ──
+        { name: 'GDELT Events', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.gdeltproject.org/api/v2/doc/doc', feedClass: 'collection' },        // OSINT event stream — open-source collection channel
+        { name: 'Tavily Search', apiKey: 'TAVILY_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.tavily.com/search', feedClass: 'collection' }              // OSINT live search — open-source collection channel
       ],
       diagnostics: [],
       treatments: [],

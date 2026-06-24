@@ -762,6 +762,240 @@
         { label: 'investigate ration supply-shock coupling', type: 'analysis' },
         { label: 'hold', type: 'monitoring' }
       ]
+    },
+    // ─── Intelligence pairs (parity port; mirrors energy/infra/culture/finance/economy/tech/defense structure) ──
+    // INTELLIGENCE identity ONLY — collection (SIGINT/HUMINT/GEOINT/OSINT), all-source
+    // analysis & assessment, espionage & counterintelligence, surveillance & reconnaissance,
+    // threat warning, covert action, information & influence operations, security clearance
+    // & insider risk. Real intel-sector tickers (PLTR, BAH, LDOS, CACI, SAIC, KBR, VRNT,
+    // NICE, VRSK) — never fabricated. Each PAIRED domain is a COLLECTION TARGET / coupling
+    // (the thing intelligence is collecting on), NEVER intelligence's own content; the
+    // domain's OWN identity stays collection/analysis/espionage. DISTINCT from defense
+    // (defense = kinetic/industrial/readiness; intelligence = collection/analysis/espionage)
+    // and from technology (cyber tooling is a coupling, not the identity). Mirrors
+    // 'energy_supply' (logistics disruption) applied to intelligence transmission lanes.
+    // ADDITIVE — does not touch any validated scoring path. ('defense_intelligence' and
+    // 'intelligence_governance' already cover defense↔intel and intel↔governance.)
+    {
+      // Mirrors 'energy_supply' (logistics disruption / fuel supply stress) applied to
+      // illicit-finance transmission: finint feed velocity vs. banking-compliance pressure.
+      id: 'intelligence_finance',
+      domains: ['intelligence', 'finance'],
+      threshold: 0.45,
+      pattern: 'finint-surveillance banking-compliance coupling',
+      drivers: ['illicit-finance detection lag (TBLM shell-company networks, beneficial-ownership tracing)', 'sanctions-evasion indicator signals (cryptoasset / cross-border transactions)', 'AML/CFT investigation backlog (BAH compliance-intel staffing)', 'counterparty-intelligence concentration (high-net-worth / politically-exposed-persons watch)', 'transaction-trace velocity under surveillance pressure (PLTR all-source finint, VRSK transaction-risk analytics)'],
+      options: [
+        { label: 'trace finint-banking-compliance exposure', type: 'analysis' },
+        { label: 'investigate sanctions-evasion detection lag', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'defense_technology' (vulnerability-propagation attack surface) anchored in
+      // cyber-INTEL collection: CVE attribution, APT-tooling, post-quantum obsolescence.
+      // Cyber tooling is the COUPLING; intel identity stays collection/attribution/espionage.
+      id: 'intelligence_technology',
+      domains: ['intelligence', 'technology'],
+      threshold: 0.42,
+      pattern: 'cyber-intel vulnerability-attribution coupling',
+      drivers: ['CVE publication surge (disclosure velocity)', 'APT-tooling adoption / supply-chain attack vectors (PLTR threat graph)', 'firmware-obsolescence in legacy platforms', 'zero-day premium spike (dark-web markets, CRWD cyber-threat intel)', 'crypto-algorithm-migration pressure (post-quantum readiness)', 'ransomware-affiliate-network growth (PANW threat telemetry)', 'encryption-key-recovery advances (BAH/LDOS cyber-intel services)'],
+      options: [
+        { label: 'assess cyber-intel attribution posture', type: 'analysis' },
+        { label: 'trace vulnerability-attribution chain', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'health_research' (innovation cluster) inverted to bioINTEL collection:
+      // biointel collection velocity vs. health-system diagnostic readiness. Biointel is an
+      // intelligence collecting discipline (surveillance of biotech/health flows), not health.
+      id: 'intelligence_health',
+      domains: ['intelligence', 'health'],
+      threshold: 0.42,
+      pattern: 'biointel-surveillance biosecurity-threat coupling',
+      drivers: ['emerging-pathogen detection lag (sequence-database turnaround, epidemiological-alert velocity)', 'gain-of-function research disclosure (dual-use publication monitoring)', 'lab-safety incident underreporting', 'pandemic-surveillance intelligence gaps (early-warning indicator velocity, LDOS biosecurity analysis)', 'biosecurity-threat assessment updates (BAH health-intelligence services)', 'biodefense R&D pipeline visibility (SAIC biodefense intelligence)', 'agribusiness-biotech-intelligence collection (crop-threat monitoring)'],
+      options: [
+        { label: 'trace biointel-biosecurity exposure', type: 'analysis' },
+        { label: 'investigate pandemic-surveillance gap', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'energy_supply' / 'defense_supplyChain' (logistics transmission) applied to
+      // collection-targeting of supply-chain dependencies. Distinct from defense_supplyChain
+      // (kinetic readiness) and defense_intelligence (threat escalation).
+      id: 'intelligence_supplyChain',
+      domains: ['intelligence', 'supplyChain'],
+      threshold: 0.45,
+      pattern: 'collection-targeting logistics-surveillance coupling',
+      drivers: ['sanctions-evasion logistics intelligence (transhipment detection, front-company routing)', 'dual-use-component procurement tracking (semiconductor / electronics intelligence)', 'rare-earth supply-chain intelligence (mining → refining → fab tracing, LDOS geospatial)', 'critical-commodity tracing (strategic-material supply visibility, PLTR supply-chain visibility)', 'customs-intelligence integration (border-interception effectiveness)', 'export-control-evasion detection (illicit procurement networks, SAIC sanctions-evasion intelligence)'],
+      options: [
+        { label: 'trace collection-targeting logistics exposure', type: 'analysis' },
+        { label: 'investigate dual-use procurement tracking', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'communication_culture' (narrative divergence / misinformation pressure) but
+      // anchored in OSINT collection rather than cultural impact: OSINT feed velocity vs.
+      // communication-platform transparency.
+      id: 'intelligence_communication',
+      domains: ['intelligence', 'communication'],
+      threshold: 0.42,
+      pattern: 'OSINT-collection influence-operation-attribution coupling',
+      drivers: ['OSINT feed velocity (media-analysis cadence, discourse-monitoring updates, PLTR OSINT platforms)', 'foreign-influence-operation detection (troll-network attribution, state-sponsored-narrative campaigns)', 'misinformation-propagation tracking (false-narrative spread velocity, coordinated-inauthentic-behavior detection)', 'narrative-influence attribution (state / non-state actor identification, VRNT SIGINT on communications)', 'social-media-threat-signal velocity (trending-narrative anomaly detection, NICE social-media surveillance)'],
+      options: [
+        { label: 'analyze OSINT influence-operation exposure', type: 'analysis' },
+        { label: 'trace narrative-attribution chain', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'energy_supply' / 'infrastructure_energy' translated to collection on energy
+      // infrastructure (SIGINT/GEOINT). Distinct from defense_energy (fuel-supply readiness)
+      // and energy_technology (compute-grid coupling). Energy is the COLLECTION TARGET, not
+      // intelligence's own content.
+      id: 'intelligence_energy',
+      domains: ['intelligence', 'energy'],
+      threshold: 0.44,
+      pattern: 'collection-targeting energy-infrastructure-surveillance coupling',
+      drivers: ['SIGINT on grid control systems (SCADA intelligence)', 'GEOINT on energy-production facilities (refinery / pipeline monitoring, LDOS geospatial)', 'sanctions-evasion detection on energy supply (oil-trading-network intelligence, dual-use-fuel-shipment tracking)', 'critical-energy-infrastructure-threat assessment (power-grid attack-surface intelligence, PLTR critical-infrastructure mapping)', 'strategic-petroleum-reserve surveillance (reserve drawdown visibility)', 'renewable-transition intelligence (cleantech supply-chain tracking, SAIC energy-security intelligence)'],
+      options: [
+        { label: 'trace energy-infrastructure collection exposure', type: 'analysis' },
+        { label: 'investigate SIGINT/GEOINT surveillance coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'education_research' (knowledge-pipeline stress) but anchored in intelligence
+      // collection of research: collection-targeting cadence vs. research-pipeline transparency.
+      id: 'intelligence_research',
+      domains: ['intelligence', 'research'],
+      threshold: 0.40,
+      pattern: 'collection-targeting academic-security coupling',
+      drivers: ['dual-use-publication monitoring (disclosure lag, research-sensitivity detection)', 'foreign-researcher-acquisition intelligence (talent-targeting networks, IP-theft risk assessment, PLTR researcher networks)', 'IP-targeting detection (hostile-takeover of university research programs)', 'research-facility-threat assessment (lab-security intelligence, LDOS research-security intelligence)', 'academic-freedom-security-balance tensions (export-control vs. openness friction, BAH academic counterintelligence)', 'quantum-computing-breakthrough tracking (transformative-tech early-warning)'],
+      options: [
+        { label: 'trace collection-targeting research exposure', type: 'analysis' },
+        { label: 'investigate academic-security coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'defense_industry' (attrition-driven production stress) but anchored in
+      // intelligence collection of industry threats: collection-targeting cadence vs.
+      // industrial-security pressure.
+      id: 'intelligence_industry',
+      domains: ['intelligence', 'industry'],
+      threshold: 0.46,
+      pattern: 'collection-targeting counterintelligence coupling',
+      drivers: ['industrial-facility GEOINT monitoring (manufacturing-capacity visibility, LDOS industrial geospatial)', 'industrial-control-system SIGINT (SCADA security intelligence)', 'foreign-acquisition intelligence (hostile-takeover detection)', 'insider-threat signals (employee-vetting intelligence, clearance-investigation backlog, BAH insider-threat detection)', 'sanctions-evasion detection in procurement (dual-use-component trafficking)', 'critical-capacity counterintelligence (semiconductor-fab / pharmaceutical-line espionage, CACI counterintelligence services, PLTR critical-capacity mapping)'],
+      options: [
+        { label: 'trace industrial collection-targeting exposure', type: 'analysis' },
+        { label: 'investigate insider-threat counterintelligence coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'agriculture_population' (food-supply pressure) but anchored in intelligence
+      // collection: collection-targeting cadence vs. agricultural-capacity pressure.
+      id: 'intelligence_agriculture',
+      domains: ['intelligence', 'agriculture'],
+      threshold: 0.44,
+      pattern: 'collection-targeting food-security-surveillance coupling',
+      drivers: ['crop-production GEOINT monitoring (yield-forecasting intelligence, drought-impact visibility, LDOS agricultural geospatial)', 'food-security intelligence (supply-chain vulnerability assessment, SAIC food-security intelligence)', 'sanctions-evasion detection on agricultural supplies (fertilizer / seed / grain smuggling)', 'foreign-acquisition intelligence (farmland / asset-ownership tracking)', 'agribusiness espionage detection (biotech IP-theft, genetic-resource misappropriation)', 'strategic-commodity-supply tracking (grain, fertilizer, seeds, PLTR commodity-supply visibility)'],
+      options: [
+        { label: 'trace agricultural collection-targeting exposure', type: 'analysis' },
+        { label: 'investigate food-security surveillance coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'infrastructure_technology' (cyber-physical attack surface) but anchored in
+      // intelligence collection of threats: collection-targeting cadence vs.
+      // infrastructure-resilience pressure.
+      id: 'intelligence_infrastructure',
+      domains: ['intelligence', 'infrastructure'],
+      threshold: 0.45,
+      pattern: 'collection-targeting critical-infrastructure-protection coupling',
+      drivers: ['critical-infrastructure SIGINT monitoring (control-system surveillance)', 'GEOINT facility tracking (grid / water / transport operations, LDOS infrastructure geospatial)', 'attack-surface-threat assessment (vulnerability intelligence, PLTR critical-infrastructure mapping)', 'insider-threat signals (facility-employee clearance intelligence)', 'counterintelligence on infrastructure espionage (foreign-intelligence targeting, CACI counterintelligence)', 'cyber-attack-readiness intelligence (APT TTPs targeting infrastructure, BAH infrastructure-threat assessment)'],
+      options: [
+        { label: 'map infrastructure collection-targeting exposure', type: 'analysis' },
+        { label: 'trace critical-infrastructure-protection coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'religion_population' (demographic-moral tension) but anchored in intelligence
+      // collection: collection-targeting cadence vs. population-dynamics pressure.
+      id: 'intelligence_population',
+      domains: ['intelligence', 'population'],
+      threshold: 0.43,
+      pattern: 'collection-targeting surveillance-deployment coupling',
+      drivers: ['population-surveillance-system deployment (facial-recognition, movement-tracking, NICE surveillance analytics)', 'migration-intelligence collection (border-crossing pattern analysis, PLTR population-flow mapping)', 'unrest early-warning signals (social-upheaval detection velocity)', 'demographic-shift intelligence (population-composition-change assessment, VRSK demographic risk modeling)', 'identity-tracking capability (facial-match accuracy, biometric-database expansion)', 'insider-threat signals in mass movements (infiltration readiness, VRNT SIGINT on population movement)'],
+      options: [
+        { label: 'trace population collection-targeting exposure', type: 'analysis' },
+        { label: 'investigate surveillance-deployment coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'law_governance' (regulatory stress) but anchored in intelligence collection
+      // of legal-system threats: collection-targeting cadence vs. legal-system pressure.
+      id: 'intelligence_law',
+      domains: ['intelligence', 'law'],
+      threshold: 0.43,
+      pattern: 'collection-targeting legal-enforcement-intelligence coupling',
+      drivers: ['sanctions-enforcement intelligence (violation-detection velocity, evasion-routing tracking, SAIC sanctions intelligence)', 'export-control-violations detection (strategic-technology-transfer interdiction)', 'law-enforcement-corruption counterintelligence (insider-threat detection in agencies, BAH law-enforcement intelligence)', 'legal-system-threat assessment (judge / prosecutor targeting intelligence)', 'arms-control-compliance monitoring (treaty-violation indicators)', 'compliance-intelligence sharing (inter-agency information flow, PLTR compliance-violation detection)'],
+      options: [
+        { label: 'trace legal-enforcement collection exposure', type: 'analysis' },
+        { label: 'investigate sanctions-enforcement intelligence coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'environment_energy' (climate-resource pressure) but anchored in intelligence
+      // collection of environmental threats: collection-targeting cadence vs.
+      // environmental-system pressure.
+      id: 'intelligence_environment',
+      domains: ['intelligence', 'environment'],
+      threshold: 0.42,
+      pattern: 'collection-targeting environmental-threat-assessment coupling',
+      drivers: ['climate-change intelligence (threat-assessment velocity, PLTR environmental-threat mapping)', 'natural-disaster early-warning (prediction-accuracy improvement, LDOS geospatial environmental monitoring)', 'environmental-policy intelligence (sanctions / trade impacts on environmental compliance)', 'foreign-environmental-warfare capability assessment', 'ecosystem-threat indicators (deforestation, pollution intelligence)', 'environmental-justice-threat assessment (VRSK environmental risk intelligence)'],
+      options: [
+        { label: 'trace environmental-threat collection exposure', type: 'analysis' },
+        { label: 'investigate climate-intelligence coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'communication_culture' (media-cultural fragmentation) but anchored in OSINT
+      // collection of cultural threats: OSINT collection cadence vs. cultural-institution
+      // pressure.
+      id: 'intelligence_culture',
+      domains: ['intelligence', 'culture'],
+      threshold: 0.40,
+      pattern: 'OSINT-collection cultural-threat-surveillance coupling',
+      drivers: ['cultural-movement OSINT velocity (emerging-scene early-warning, artist-network tracking, PLTR OSINT on cultural movements)', 'foreign-cultural-influence-operation detection (state-sponsored cultural-narrative campaigns, NICE cultural-influence-operation detection)', 'cultural-institution-threat assessment (insider-risk in heritage organizations)', 'identity-movement intelligence (radicalization-pathway analysis, BAH cultural-threat assessment)', 'cultural-identity-as-espionage targeting'],
+      options: [
+        { label: 'analyze cultural-threat OSINT exposure', type: 'analysis' },
+        { label: 'trace cultural-institution insider-threat coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'education_research' (knowledge-pipeline stress) but anchored in intelligence
+      // collection of education threats: collection-targeting cadence vs. education-system
+      // pressure.
+      id: 'intelligence_education',
+      domains: ['intelligence', 'education'],
+      threshold: 0.40,
+      pattern: 'collection-targeting academic-security education coupling',
+      drivers: ['foreign-student-security vetting (enrollment-background-investigation velocity, LDOS student-vetting intelligence)', 'academic-counterintelligence (IP-theft detection in schools, BAH academic-security intelligence)', 'insider-threat signals (trusted-insider targeting of student / faculty, PLTR insider-threat detection in institutions)', 'curriculum-targeting intelligence (critical-skill-area assessment)', 'educational-AI-model espionage (foundation-model theft intelligence)'],
+      options: [
+        { label: 'trace education collection-targeting exposure', type: 'analysis' },
+        { label: 'investigate academic-security coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
     }
   ];
 

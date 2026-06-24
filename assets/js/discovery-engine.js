@@ -128,7 +128,23 @@
     { label: 'Investigate military readiness degradation and sustainment-backlog modeling across fleets and basing (HII/GD depot throughput, LDOS/BAH sustainment)', domain: 'defense', type: 'system-risk', baseRelevance: 0.40 },
     { label: 'Explore next-generation weapons-system and autonomous/attritable-platform programs as a force-structure shift (AVAV/KTOS uncrewed systems, hypersonics LMT/RTX)', domain: 'defense', type: 'technological-innovation', baseRelevance: 0.40 },
     { label: 'Analyze electronic & kinetic warfare capability gaps and counter-UAS/directed-energy readiness (RTX/NOC/LHX EW suites, KTOS targets)', domain: 'defense', type: 'technological-innovation', baseRelevance: 0.35 },
-    { label: 'Investigate alliance-burden-sharing and forward-basing posture shifts as a procurement-demand signal (allied FMS pipeline, LMT/RTX/GD export programs)', domain: 'defense', type: 'economic-opportunity', baseRelevance: 0.35 }
+    { label: 'Investigate alliance-burden-sharing and forward-basing posture shifts as a procurement-demand signal (allied FMS pipeline, LMT/RTX/GD export programs)', domain: 'defense', type: 'economic-opportunity', baseRelevance: 0.35 },
+
+    // Intelligence (mirrors Energy/Infrastructure/Defense structure, translated to collection/analysis/espionage concepts —
+    //   collection-gap mitigation (mirror of capacity/resilience), analytical-debiasing research (mirror of scientific discovery),
+    //   insider-threat/trust-boundary hardening (mirror of attack-surface mapping), attribution/counterintelligence (mirror of
+    //   threat-warning), oversight-reform & trust-restoration (mirror of institutional resilience). Relevance = intelligence stress x trend boost.
+    //   identity = intelligence collection (SIGINT/HUMINT/GEOINT/OSINT), all-source analysis & assessment, espionage &
+    //   counterintelligence, surveillance & reconnaissance, threat warning, covert action, information & influence operations,
+    //   security clearance & insider risk;
+    //   universe: PLTR/BAH/LDOS/CACI/SAIC/KBR/VRNT/NICE/VRSK — couples to defense via shared contractors but kept DISTINCT
+    //   (defense = kinetic/industrial/readiness; intelligence = collection/analysis/espionage) and from technology (cyber tooling is a coupling, not the identity))
+    { label: 'Investigate collection-gap structural mitigation across SIGINT/HUMINT/GEOINT expansion and all-source fusion (PLTR Gotham deployment, BAH/LDOS collection platforms)', domain: 'intelligence', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Explore trusted-AI and debiasing-algorithm research for analytical-distortion reduction in all-source assessment (CACI/SAIC analytic tradecraft, model-assurance pipelines)', domain: 'intelligence', type: 'scientific-discovery', baseRelevance: 0.40 },
+    { label: 'Analyze insider-threat and trust-boundary security infrastructure across cleared-workforce and compartmented-access systems (PLTR/CACI continuous-evaluation, KBR/SAIC SCIF hardening)', domain: 'intelligence', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Investigate counterintelligence and foreign-interference attribution platforms for influence-operation and espionage detection (VRNT/NICE analytics, VRSK risk-intelligence)', domain: 'intelligence', type: 'technological-innovation', baseRelevance: 0.40 },
+    { label: 'Explore oversight-reform and transparency-accountability mechanisms for collection-authority and surveillance-program governance (FISA/EO-12333 compliance tooling, BAH/LDOS audit infrastructure)', domain: 'intelligence', type: 'economic-opportunity', baseRelevance: 0.35 },
+    { label: 'Analyze public-trust restoration and surveillance-ethics institutional reform as a counterintelligence-resilience signal (declassification cadence, oversight-board posture, SAIC/CACI governance modernization)', domain: 'intelligence', type: 'system-risk', baseRelevance: 0.40 }
   ];
 
   // ─── State ───────────────────────────────────────────────────────────────

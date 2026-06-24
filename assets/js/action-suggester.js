@@ -89,6 +89,13 @@
       { label: 'Analyze munitions-stockpile depletion and strategic-deterrence credibility exposure (LDOS, KTOS, AVAV, BAH replenishment throughput)', type: 'analysis', minStress: 0.5 },
       { label: 'Investigate alliance-stress and basing-rights vulnerability across forward-deployed theaters', type: 'analysis', minStress: 0.6 },
       { label: 'Regulate conflict-escalation pathways and deterrence-failure containment', type: 'regulation', minStress: 0.7 }
+    ],
+    intelligence: [
+      { label: 'Monitor SIGINT/HUMINT/OSINT collection volume and source quality metrics', type: 'monitoring', minStress: 0.3 },
+      { label: 'Explore counterintelligence capabilities and insider-threat detection systems (PLTR, BAH, LDOS, CACI, SAIC procurement roadmaps)', type: 'discovery', minStress: 0.4 },
+      { label: 'Investigate trust-boundary breaches and surveillance-oversight gaps (CISA KEV, Fed Register, OFAC designations) across collection programs', type: 'analysis', minStress: 0.5 },
+      { label: 'Analyze all-source assessment fusion and analytical-bias exposure (VRNT, NICE, VRSK, KBR signal-to-noise degradation)', type: 'analysis', minStress: 0.6 },
+      { label: 'Regulate collection expansion and analytical debiasing to restore public trust and oversight compliance', type: 'regulation', minStress: 0.7 }
     ]
   };
 

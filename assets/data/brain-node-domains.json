@@ -103,7 +103,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Geospatial Tools Infrastructure & Capacity"
+      "role": "Geospatial Tools Infrastructure & Capacity",
+      "circuit": "geoint",
+      "circuitLabel": "Geospatial Intelligence"
     },
     {
       "domain": "law",
@@ -245,7 +247,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Allsource — Action Coordination — Secondary"
+      "role": "Allsource — Action Coordination — Secondary",
+      "circuit": "humint",
+      "circuitLabel": "Human Intelligence"
     },
     {
       "domain": "law",
@@ -407,7 +411,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Analytical Methods Policy & Governance"
+      "role": "Analytical Methods Policy & Governance",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -579,7 +585,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "National Security Council"
+      "role": "National Security Council",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -696,7 +704,11 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Counterintelligence"
+      "role": "Counterintelligence",
+      "circuit": "humint",
+      "circuitLabel": "Human Intelligence",
+      "circuitRole": "source-validation→access→dissemination",
+      "circuitPrimary": true
     },
     {
       "domain": "law",
@@ -828,7 +840,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Anchoring Bias Technology & Innovation"
+      "role": "Anchoring Bias Technology & Innovation",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -995,7 +1009,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Geospatial Tools Assessment & Diagnostics"
+      "role": "Geospatial Tools Assessment & Diagnostics",
+      "circuit": "geoint",
+      "circuitLabel": "Geospatial Intelligence"
     },
     {
       "domain": "law",
@@ -1157,7 +1173,11 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Threat Assessment"
+      "role": "Threat Assessment",
+      "circuit": "sigint",
+      "circuitLabel": "Signals Intelligence",
+      "circuitRole": "signal-acquisition→decryption→analysis",
+      "circuitPrimary": true
     },
     {
       "domain": "law",
@@ -1289,7 +1309,11 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Allsource Technology & Innovation"
+      "role": "Allsource Technology & Innovation",
+      "circuit": "osint",
+      "circuitLabel": "Open-Source Intelligence",
+      "circuitRole": "public-data-collection→synthesis",
+      "circuitPrimary": true
     },
     {
       "domain": "law",
@@ -1436,7 +1460,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Oversight"
+      "role": "Oversight",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -1578,7 +1604,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Link Analysis Tools Assessment & Diagnostics"
+      "role": "Link Analysis Tools Assessment & Diagnostics",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -1725,7 +1753,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Scenario Analysis Infrastructure & Capacity"
+      "role": "Scenario Analysis Infrastructure & Capacity",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -1857,7 +1887,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Cognitive Bias in Analysis Quality & Performance"
+      "role": "Cognitive Bias in Analysis Quality & Performance",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -1964,7 +1996,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Analysis of Competing Hypotheses Core Operations"
+      "role": "Analysis of Competing Hypotheses Core Operations",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -2096,7 +2130,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Allsource Core Operations"
+      "role": "Allsource Core Operations",
+      "circuit": "humint",
+      "circuitLabel": "Human Intelligence"
     },
     {
       "domain": "law",
@@ -2228,7 +2264,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Timeline Tools Risk & Resilience"
+      "role": "Timeline Tools Risk & Resilience",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -2405,7 +2443,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Allsource — Regulation Strategy — Tertiary"
+      "role": "Allsource — Regulation Strategy — Tertiary",
+      "circuit": "humint",
+      "circuitLabel": "Human Intelligence"
     },
     {
       "domain": "law",
@@ -2512,7 +2552,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Link Analysis Tools Risk & Resilience"
+      "role": "Link Analysis Tools Risk & Resilience",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -2684,7 +2726,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Timeline Tools Human Capital & Development"
+      "role": "Timeline Tools Human Capital & Development",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -2781,7 +2825,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Cognitive Bias in Analysis Human Capital & Development"
+      "role": "Cognitive Bias in Analysis Human Capital & Development",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -2938,7 +2984,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Allsource — Adaptation & Learning"
+      "role": "Allsource — Adaptation & Learning",
+      "circuit": "humint",
+      "circuitLabel": "Human Intelligence"
     },
     {
       "domain": "law",
@@ -3095,7 +3143,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Link Analysis Tools Core Operations"
+      "role": "Link Analysis Tools Core Operations",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -3232,7 +3282,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Analytical Methods Human Capital & Development"
+      "role": "Analytical Methods Human Capital & Development",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -3344,7 +3396,11 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Covert Operations"
+      "role": "Covert Operations",
+      "circuit": "humint",
+      "circuitLabel": "Human Intelligence",
+      "circuitRole": "source-validation→access→dissemination",
+      "circuitPrimary": true
     },
     {
       "domain": "law",
@@ -3486,7 +3542,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Analysis of Competing Hypotheses Human Capital & Development"
+      "role": "Analysis of Competing Hypotheses Human Capital & Development",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -3638,7 +3696,11 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "HUMINT / Human Intelligence"
+      "role": "HUMINT / Human Intelligence",
+      "circuit": "humint",
+      "circuitLabel": "Human Intelligence",
+      "circuitRole": "source-validation→access→dissemination",
+      "circuitPrimary": true
     },
     {
       "domain": "law",
@@ -3800,7 +3862,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Analytical Methods Infrastructure & Capacity"
+      "role": "Analytical Methods Infrastructure & Capacity",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -3957,7 +4021,11 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Scenario Analysis Risk & Resilience"
+      "role": "Scenario Analysis Risk & Resilience",
+      "circuit": "sigint",
+      "circuitLabel": "Signals Intelligence",
+      "circuitRole": "signal-acquisition→decryption→analysis",
+      "circuitPrimary": true
     },
     {
       "domain": "law",
@@ -4084,7 +4152,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Allsource — Signal Detection"
+      "role": "Allsource — Signal Detection",
+      "circuit": "humint",
+      "circuitLabel": "Human Intelligence"
     },
     {
       "domain": "law",
@@ -4221,7 +4291,11 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Cyber Intelligence"
+      "role": "Cyber Intelligence",
+      "circuit": "sigint",
+      "circuitLabel": "Signals Intelligence",
+      "circuitRole": "signal-acquisition→decryption→analysis",
+      "circuitPrimary": true
     },
     {
       "domain": "law",
@@ -4348,7 +4422,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Current Intelligence Infrastructure & Capacity"
+      "role": "Current Intelligence Infrastructure & Capacity",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -4490,7 +4566,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Allsource Infrastructure & Capacity"
+      "role": "Allsource Infrastructure & Capacity",
+      "circuit": "humint",
+      "circuitLabel": "Human Intelligence"
     },
     {
       "domain": "law",
@@ -4622,7 +4700,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Analytic Dissent Technology & Innovation"
+      "role": "Analytic Dissent Technology & Innovation",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -4739,7 +4819,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "cogbias anchor — Signal Acquisition"
+      "role": "cogbias anchor — Signal Acquisition",
+      "circuit": "sigint",
+      "circuitLabel": "Signals Intelligence"
     },
     {
       "domain": "law",
@@ -4881,7 +4963,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Masint"
+      "role": "Masint",
+      "circuit": "sigint",
+      "circuitLabel": "Signals Intelligence"
     },
     {
       "domain": "law",
@@ -5018,7 +5102,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Analysis of Competing Hypotheses Risk & Resilience"
+      "role": "Analysis of Competing Hypotheses Risk & Resilience",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -5160,7 +5246,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Link Analysis Tools Quality & Performance"
+      "role": "Link Analysis Tools Quality & Performance",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -5312,7 +5400,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Timeline Tools Technology & Innovation"
+      "role": "Timeline Tools Technology & Innovation",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -5439,7 +5529,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Predictive Analysis"
+      "role": "Predictive Analysis",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -5571,7 +5663,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Mirror Imaging Human Capital & Development"
+      "role": "Mirror Imaging Human Capital & Development",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -5708,7 +5802,11 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Data Analytics"
+      "role": "Data Analytics",
+      "circuit": "osint",
+      "circuitLabel": "Open-Source Intelligence",
+      "circuitRole": "public-data-collection→synthesis",
+      "circuitPrimary": true
     },
     {
       "domain": "law",
@@ -5795,7 +5893,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Analysis of Competing Hypotheses Quality & Performance"
+      "role": "Analysis of Competing Hypotheses Quality & Performance",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -5932,7 +6032,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Analytical Methods Technology & Innovation"
+      "role": "Analytical Methods Technology & Innovation",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -6074,7 +6176,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Spaceintel"
+      "role": "Spaceintel",
+      "circuit": "geoint",
+      "circuitLabel": "Geospatial Intelligence"
     },
     {
       "domain": "law",
@@ -6196,7 +6300,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Geospatial Tools Policy & Governance"
+      "role": "Geospatial Tools Policy & Governance",
+      "circuit": "geoint",
+      "circuitLabel": "Geospatial Intelligence"
     },
     {
       "domain": "law",
@@ -6353,7 +6459,11 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Open Source Intelligence"
+      "role": "Open Source Intelligence",
+      "circuit": "osint",
+      "circuitLabel": "Open-Source Intelligence",
+      "circuitRole": "public-data-collection→synthesis",
+      "circuitPrimary": true
     },
     {
       "domain": "law",
@@ -6475,7 +6585,11 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Cryptography"
+      "role": "Cryptography",
+      "circuit": "sigint",
+      "circuitLabel": "Signals Intelligence",
+      "circuitRole": "signal-acquisition→decryption→analysis",
+      "circuitPrimary": true
     },
     {
       "domain": "law",
@@ -6612,7 +6726,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "National Intelligence Estimates — State Assessment"
+      "role": "National Intelligence Estimates — State Assessment",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -6714,7 +6830,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Scenario Analysis — Assessment & Monitoring — Risk Profiling"
+      "role": "Scenario Analysis — Assessment & Monitoring — Risk Profiling",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -6816,7 +6934,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Confirmation Bias — State Assessment"
+      "role": "Confirmation Bias — State Assessment",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -6948,7 +7068,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Analytic Dissent Quality & Performance"
+      "role": "Analytic Dissent Quality & Performance",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -7085,7 +7207,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Analytical Tools Technology & Innovation"
+      "role": "Analytical Tools Technology & Innovation",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -7212,7 +7336,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Mirror Imaging Quality & Performance"
+      "role": "Mirror Imaging Quality & Performance",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -7339,7 +7465,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Allsource Risk & Resilience"
+      "role": "Allsource Risk & Resilience",
+      "circuit": "humint",
+      "circuitLabel": "Human Intelligence"
     },
     {
       "domain": "law",
@@ -7451,7 +7579,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Allsource Assessment & Diagnostics"
+      "role": "Allsource Assessment & Diagnostics",
+      "circuit": "humint",
+      "circuitLabel": "Human Intelligence"
     },
     {
       "domain": "law",
@@ -7588,7 +7718,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Analytical Tools Quality & Performance"
+      "role": "Analytical Tools Quality & Performance",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -7720,7 +7852,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Groupthink Human Capital & Development"
+      "role": "Groupthink Human Capital & Development",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -7822,7 +7956,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Current Intelligence Policy & Governance"
+      "role": "Current Intelligence Policy & Governance",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -7949,7 +8085,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Allsource Quality & Performance"
+      "role": "Allsource Quality & Performance",
+      "circuit": "humint",
+      "circuitLabel": "Human Intelligence"
     },
     {
       "domain": "law",
@@ -8066,7 +8204,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Linchpin Analysis — State Assessment"
+      "role": "Linchpin Analysis — State Assessment",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -8213,7 +8353,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Linchpin Analysis Assessment & Diagnostics"
+      "role": "Linchpin Analysis Assessment & Diagnostics",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -8345,7 +8487,11 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Surveillance Systems"
+      "role": "Surveillance Systems",
+      "circuit": "geoint",
+      "circuitLabel": "Geospatial Intelligence",
+      "circuitRole": "imagery-interpretation→targeting",
+      "circuitPrimary": true
     },
     {
       "domain": "law",
@@ -8492,7 +8638,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Analytical Methods Core Operations"
+      "role": "Analytical Methods Core Operations",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -8614,7 +8762,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Timeline Tools — Assessment & Monitoring — Sensitivity Analysis"
+      "role": "Timeline Tools — Assessment & Monitoring — Sensitivity Analysis",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -8746,7 +8896,11 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Information Warfare"
+      "role": "Information Warfare",
+      "circuit": "osint",
+      "circuitLabel": "Open-Source Intelligence",
+      "circuitRole": "public-data-collection→synthesis",
+      "circuitPrimary": true
     },
     {
       "domain": "law",
@@ -8878,7 +9032,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Linchpin Analysis Core Operations"
+      "role": "Linchpin Analysis Core Operations",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -9010,7 +9166,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "anltool timeline — Signal Acquisition"
+      "role": "anltool timeline — Signal Acquisition",
+      "circuit": "sigint",
+      "circuitLabel": "Signals Intelligence"
     },
     {
       "domain": "law",
@@ -9162,7 +9320,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Current Intelligence Technology & Innovation"
+      "role": "Current Intelligence Technology & Innovation",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -9309,7 +9469,11 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "GEOINT / Imagery Intelligence"
+      "role": "GEOINT / Imagery Intelligence",
+      "circuit": "geoint",
+      "circuitLabel": "Geospatial Intelligence",
+      "circuitRole": "imagery-interpretation→targeting",
+      "circuitPrimary": true
     },
     {
       "domain": "law",
@@ -9431,7 +9595,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Cognitive Bias in Analysis Technology & Innovation"
+      "role": "Cognitive Bias in Analysis Technology & Innovation",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -9533,7 +9699,11 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "analmethod scenario — Signal Acquisition"
+      "role": "analmethod scenario — Signal Acquisition",
+      "circuit": "geoint",
+      "circuitLabel": "Geospatial Intelligence",
+      "circuitRole": "imagery-interpretation→targeting",
+      "circuitPrimary": true
     },
     {
       "domain": "law",
@@ -9680,7 +9850,11 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Intelligence Oversight"
+      "role": "Intelligence Oversight",
+      "circuit": "humint",
+      "circuitLabel": "Human Intelligence",
+      "circuitRole": "source-validation→access→dissemination",
+      "circuitPrimary": true
     },
     {
       "domain": "law",
@@ -9802,7 +9976,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Chronological Analysis — Assessment & Monitoring — Sensitivity Analysis"
+      "role": "Chronological Analysis — Assessment & Monitoring — Sensitivity Analysis",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -9914,7 +10090,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Anchoring Bias Human Capital & Development"
+      "role": "Anchoring Bias Human Capital & Development",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -10031,7 +10209,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Current Intelligence Assessment & Diagnostics"
+      "role": "Current Intelligence Assessment & Diagnostics",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -10148,7 +10328,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Linchpin Analysis Technology & Innovation"
+      "role": "Linchpin Analysis Technology & Innovation",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -10290,7 +10472,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Analytical Tools Core Operations"
+      "role": "Analytical Tools Core Operations",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -10412,7 +10596,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Analysis of Competing Hypotheses Assessment & Diagnostics"
+      "role": "Analysis of Competing Hypotheses Assessment & Diagnostics",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -10534,7 +10720,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Analytical Tools Policy & Governance"
+      "role": "Analytical Tools Policy & Governance",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -10661,7 +10849,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Linchpin Analysis Policy & Governance"
+      "role": "Linchpin Analysis Policy & Governance",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -10778,7 +10968,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Allsource — Diagnostic Analysis"
+      "role": "Allsource — Diagnostic Analysis",
+      "circuit": "humint",
+      "circuitLabel": "Human Intelligence"
     },
     {
       "domain": "law",
@@ -10915,7 +11107,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Protocol Development Evaluation"
+      "role": "Protocol Development Evaluation",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -11052,7 +11246,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Scenario Analysis Assessment & Diagnostics"
+      "role": "Scenario Analysis Assessment & Diagnostics",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -11179,7 +11375,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Linchpin Analysis Human Capital & Development"
+      "role": "Linchpin Analysis Human Capital & Development",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -11296,7 +11494,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Current Intelligence Core Operations"
+      "role": "Current Intelligence Core Operations",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -11418,7 +11618,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Intelligence Fusion"
+      "role": "Intelligence Fusion",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -11545,7 +11747,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Intelshare"
+      "role": "Intelshare",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -11652,7 +11856,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Allsource Monitoring & Evaluation"
+      "role": "Allsource Monitoring & Evaluation",
+      "circuit": "humint",
+      "circuitLabel": "Human Intelligence"
     },
     {
       "domain": "law",
@@ -11774,7 +11980,11 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "SIGINT / Signals Intelligence"
+      "role": "SIGINT / Signals Intelligence",
+      "circuit": "sigint",
+      "circuitLabel": "Signals Intelligence",
+      "circuitRole": "signal-acquisition→decryption→analysis",
+      "circuitPrimary": true
     },
     {
       "domain": "law",
@@ -11901,7 +12111,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Anchoring Bias Infrastructure & Capacity"
+      "role": "Anchoring Bias Infrastructure & Capacity",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -12038,7 +12250,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Estimative Intelligence Human Capital & Development"
+      "role": "Estimative Intelligence Human Capital & Development",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -12180,7 +12394,11 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "anltool geospat — Signal Acquisition"
+      "role": "anltool geospat — Signal Acquisition",
+      "circuit": "geoint",
+      "circuitLabel": "Geospatial Intelligence",
+      "circuitRole": "imagery-interpretation→targeting",
+      "circuitPrimary": true
     },
     {
       "domain": "law",
@@ -12302,7 +12520,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "graphic signal — Signal Ingestion"
+      "role": "graphic signal — Signal Ingestion",
+      "circuit": "sigint",
+      "circuitLabel": "Signals Intelligence"
     },
     {
       "domain": "law",
@@ -12409,7 +12629,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "anltool palantir — Signal Acquisition"
+      "role": "anltool palantir — Signal Acquisition",
+      "circuit": "sigint",
+      "circuitLabel": "Signals Intelligence"
     },
     {
       "domain": "law",
@@ -12546,7 +12768,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Linchpin Analysis Quality & Performance"
+      "role": "Linchpin Analysis Quality & Performance",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -12688,7 +12912,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Allsource — State Assessment"
+      "role": "Allsource — State Assessment",
+      "circuit": "humint",
+      "circuitLabel": "Human Intelligence"
     },
     {
       "domain": "law",
@@ -12830,7 +13056,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Timeline Tools Core Operations"
+      "role": "Timeline Tools Core Operations",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -12972,7 +13200,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Analysis of Competing Hypotheses — State Assessment"
+      "role": "Analysis of Competing Hypotheses — State Assessment",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -13109,7 +13339,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Allsource Strategic Planning & Alignment"
+      "role": "Allsource Strategic Planning & Alignment",
+      "circuit": "humint",
+      "circuitLabel": "Human Intelligence"
     },
     {
       "domain": "law",
@@ -13241,7 +13473,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Allsource — Regulation Strategy"
+      "role": "Allsource — Regulation Strategy",
+      "circuit": "humint",
+      "circuitLabel": "Human Intelligence"
     },
     {
       "domain": "law",
@@ -13383,7 +13617,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Anchoring Bias Risk & Resilience"
+      "role": "Anchoring Bias Risk & Resilience",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -13520,7 +13756,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Analytical Methods Quality & Performance"
+      "role": "Analytical Methods Quality & Performance",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -13647,7 +13885,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Allsource — Action Coordination"
+      "role": "Allsource — Action Coordination",
+      "circuit": "humint",
+      "circuitLabel": "Human Intelligence"
     },
     {
       "domain": "law",
@@ -13769,7 +14009,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Geospatial Tools Human Capital & Development"
+      "role": "Geospatial Tools Human Capital & Development",
+      "circuit": "geoint",
+      "circuitLabel": "Geospatial Intelligence"
     },
     {
       "domain": "law",
@@ -13901,7 +14143,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Geospatial Tools Quality & Performance"
+      "role": "Geospatial Tools Quality & Performance",
+      "circuit": "geoint",
+      "circuitLabel": "Geospatial Intelligence"
     },
     {
       "domain": "law",
@@ -14028,7 +14272,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Timeline Tools Infrastructure & Capacity"
+      "role": "Timeline Tools Infrastructure & Capacity",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -14135,7 +14381,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "sample signal — Signal Ingestion"
+      "role": "sample signal — Signal Ingestion",
+      "circuit": "sigint",
+      "circuitLabel": "Signals Intelligence"
     },
     {
       "domain": "law",
@@ -14237,7 +14485,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Link Analysis Tools — Assessment & Monitoring — Sensitivity Analysis"
+      "role": "Link Analysis Tools — Assessment & Monitoring — Sensitivity Analysis",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -14339,7 +14589,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Uncertainty Communication — State Assessment"
+      "role": "Uncertainty Communication — State Assessment",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -14441,7 +14693,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Link Analysis Tools — Assessment & Monitoring — Risk Profiling"
+      "role": "Link Analysis Tools — Assessment & Monitoring — Risk Profiling",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -14543,7 +14797,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Graphic Intelligence — Implementation & Strategy — Protocol Development"
+      "role": "Graphic Intelligence — Implementation & Strategy — Protocol Development",
+      "circuit": "geoint",
+      "circuitLabel": "Geospatial Intelligence"
     },
     {
       "domain": "law",
@@ -14645,7 +14901,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "palantir signal — Signal Filtering"
+      "role": "palantir signal — Signal Filtering",
+      "circuit": "sigint",
+      "circuitLabel": "Signals Intelligence"
     },
     {
       "domain": "law",
@@ -14747,7 +15005,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Allsource — Feedback & Validation"
+      "role": "Allsource — Feedback & Validation",
+      "circuit": "humint",
+      "circuitLabel": "Human Intelligence"
     },
     {
       "domain": "law",
@@ -14849,7 +15109,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Timeline Tools — State Assessment"
+      "role": "Timeline Tools — State Assessment",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -14951,7 +15213,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Groupthink — Implementation & Strategy — Technology Deployment"
+      "role": "Groupthink — Implementation & Strategy — Technology Deployment",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -15053,7 +15317,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Link Analysis Tools Human Capital & Development"
+      "role": "Link Analysis Tools Human Capital & Development",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -15155,7 +15421,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "analmethod ach — Signal Acquisition"
+      "role": "analmethod ach — Signal Acquisition",
+      "circuit": "sigint",
+      "circuitLabel": "Signals Intelligence"
     },
     {
       "domain": "law",
@@ -15267,7 +15535,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Link Analysis Tools Policy & Governance"
+      "role": "Link Analysis Tools Policy & Governance",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -15394,7 +15664,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Collection Strategy — Implementation & Strategy — Workforce Alignment"
+      "role": "Collection Strategy — Implementation & Strategy — Workforce Alignment",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -15496,7 +15768,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Linchpin Analysis — Assessment & Monitoring — Sensitivity Analysis"
+      "role": "Linchpin Analysis — Assessment & Monitoring — Sensitivity Analysis",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -15598,7 +15872,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "healthint disease — Signal Acquisition"
+      "role": "healthint disease — Signal Acquisition",
+      "circuit": "sigint",
+      "circuitLabel": "Signals Intelligence"
     },
     {
       "domain": "law",
@@ -15700,7 +15976,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "Linchpin Analysis — Assessment & Monitoring — Risk Profiling"
+      "role": "Linchpin Analysis — Assessment & Monitoring — Risk Profiling",
+      "circuit": "allsource",
+      "circuitLabel": "All-Source Analysis"
     },
     {
       "domain": "law",
@@ -15802,7 +16080,9 @@
     {
       "domain": "intelligence",
       "label": "Intelligence & Data",
-      "role": "adversary signal — Signal Filtering"
+      "role": "adversary signal — Signal Filtering",
+      "circuit": "sigint",
+      "circuitLabel": "Signals Intelligence"
     },
     {
       "domain": "law",

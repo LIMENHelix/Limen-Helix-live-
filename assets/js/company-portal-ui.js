@@ -476,6 +476,102 @@
       rightHtml += '</div>';
     }
 
+    // ── INTELLIGENCE-SPECIFIC PORTAL SECTIONS ────────────────────────────
+    // Collection / analysis / oversight / counterintelligence parity with the
+    // energy domain's company-metadata sections, mirroring the infrastructure,
+    // finance, economy, and technology blocks above. STRICTLY ADDITIVE
+    // render-layer content keyed on co.domainId === 'intelligence'; it never
+    // touches the validated P3 distress kernel scoring path consumed by
+    // /api/limen/score or /api/helix/helix-report/score.
+    //
+    // Intelligence is COLLECTION (SIGINT / HUMINT / GEOINT / OSINT / CYBERINT),
+    // all-source ANALYSIS & assessment, ESPIONAGE & counterintelligence,
+    // surveillance & reconnaissance, threat warning, covert action, and
+    // information / influence operations. It stays DISTINCT from defense
+    // (defense = kinetic / industrial / readiness) and from technology (cyber
+    // tooling is a COUPLING into collection, not the domain's identity). The
+    // domain's OWN content is collection disciplines, analytic tradecraft,
+    // oversight / clearance, and insider-risk — NEVER oil/gas/grid. Real
+    // intelligence-sector tickers: PLTR, BAH, LDOS, CACI, SAIC, KBR, VRNT,
+    // NICE, VRSK.
+    //
+    // Energy's oil/gas/grid/datacenter mix is translated to the intelligence
+    // equivalents: collection-discipline portfolio (energy: generation mix),
+    // analytical-maturity / tradecraft modernization (energy: maintenance/
+    // asset-age), trust & oversight compliance (energy: NERC/FERC compliance),
+    // and counterintelligence posture (energy: capital funding). Each reads
+    // OPTIONAL company-JSON fields and degrades gracefully (cp-empty) when not
+    // yet populated.
+    if (co.domainId === 'intelligence') {
+      // Collection Capability — breakdown by collection discipline / asset type (energy: generation mix)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Collection Capability</div>';
+      var _coll = co.collectionPortfolio;
+      if (_coll && (Array.isArray(_coll) ? _coll.length : Object.keys(_coll).length)) {
+        var _collEntries = Array.isArray(_coll)
+          ? _coll.map(function (e) { return [e.discipline || e.type || e.label || '', e.share != null ? e.share : (e.assets != null ? e.assets : (e.value != null ? e.value : e.detail))]; })
+          : Object.keys(_coll).map(function (kk) { return [kk, _coll[kk]]; });
+        for (var coll = 0; coll < _collEntries.length; coll++) {
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_collEntries[coll][0]) + '</span><span class="cp-value">' + esc(String(_collEntries[coll][1])) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No collection-discipline distribution recorded (SIGINT / HUMINT / GEOINT / OSINT / CYBERINT mix, asset types — satellites, sensor networks, human networks)</div>';
+      }
+      rightHtml += '</div>';
+
+      // Analytical Maturity — fusion / debiasing / tradecraft modernization (energy: maintenance/asset-age)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Analytical Maturity</div>';
+      var _am = co.analyticalMaturity;
+      if (_am && Object.keys(_am).length > 0) {
+        var _amKeys = Object.keys(_am);
+        for (var amk = 0; amk < _amKeys.length; amk++) {
+          var _amv = _am[_amKeys[amk]];
+          var _amStr = (_amv && typeof _amv === 'object' && !Array.isArray(_amv))
+            ? Object.keys(_amv).map(function (sk) { return sk + ': ' + _amv[sk]; }).join('  ·  ')
+            : String(_amv);
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_amKeys[amk]) + '</span><span class="cp-value">' + esc(_amStr) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No analytic-maturity data (all-source fusion capability, structured-debiasing investment, tradecraft-modernization tier, analyst-to-collector ratio)</div>';
+      }
+      rightHtml += '</div>';
+
+      // Trust & Oversight — legal compliance / FOIA / inspector-general findings (energy: NERC/FERC compliance)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Trust &amp; Oversight</div>';
+      var _to = co.trustCompliance;
+      if (_to && (Array.isArray(_to) ? _to.length : Object.keys(_to).length)) {
+        var _toEntries = Array.isArray(_to)
+          ? _to.map(function (e) { return [e.authority || e.body || e.label || '', (e.findings != null ? e.findings : (e.value != null ? e.value : (e.count != null ? e.count : e.detail))) + (e.trend ? ' (' + e.trend + ')' : '')]; })
+          : Object.keys(_to).map(function (kk) { return [kk, _to[kk]]; });
+        for (var to = 0; to < _toEntries.length; to++) {
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_toEntries[to][0]) + '</span><span class="cp-value">' + esc(String(_toEntries[to][1])) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No oversight record (FISA / EO-12333 legal compliance, FOIA responsiveness, inspector-general findings & trend, congressional-oversight standing)</div>';
+      }
+      rightHtml += '</div>';
+
+      // Counterintelligence Posture — insider-threat / supply-chain / compartmentalization (energy: capital funding)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Counterintelligence Posture</div>';
+      var _cip = co.counterintelligencePosture;
+      if (_cip && Object.keys(_cip).length > 0) {
+        var _cipKeys = Object.keys(_cip);
+        for (var cipk = 0; cipk < _cipKeys.length; cipk++) {
+          var _cipv = _cip[_cipKeys[cipk]];
+          var _cipStr = (_cipv && typeof _cipv === 'object' && !Array.isArray(_cipv))
+            ? Object.keys(_cipv).map(function (sk) { return sk + ': ' + _cipv[sk]; }).join('  ·  ')
+            : String(_cipv);
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_cipKeys[cipk]) + '</span><span class="cp-value">' + esc(_cipStr) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No counterintelligence profile (insider-threat controls, supply-chain security, compartmentalization discipline, clearance-backlog & continuous-vetting coverage)</div>';
+      }
+      rightHtml += '</div>';
+    }
+
     // Warning signals (placeholder for future)
     rightHtml += '<div class="cp-section">';
     rightHtml += '<div class="cp-section-title">Warning Signals</div>';

@@ -229,6 +229,26 @@
       defense_alliance_fracture:     'Alliance cohesion weakening. Basing access and coalition burden-sharing under strain.',
       defense_kinetic_warfare:       'Kinetic engagement intensifying. Weapons-system attrition and platform loss rates climbing.',
       defense_generic:               'Defense domain under stress. Readiness, procurement, and deterrence pressured.',
+      // Intelligence-specific distress voice — collection/analysis/espionage-grounded,
+      // mirrors energy's per-diagnosis narration (energy-brain diagnosisIndex) and the
+      // infrastructure/culture/finance/economy/technology/defense ports above, but for the
+      // INTELLIGENCE domain identity: intelligence collection (SIGINT/HUMINT/GEOINT/OSINT),
+      // all-source analysis & assessment, espionage & counterintelligence, surveillance &
+      // reconnaissance, threat warning, covert action, information & influence operations,
+      // security clearance & insider risk. Intelligence COUPLES to defense via threat warning
+      // and to technology via cyber tooling, but keeps its own collection/analysis/espionage
+      // identity — kept DISTINCT from defense (kinetic/industrial/readiness) and technology
+      // (cyber tooling is a coupling, not the identity). Anchored to the five portal diagnosis
+      // families: collection_gap, analytical_distortion, oversight_failure, surveillance_excess,
+      // counterintelligence_failure, adversarial_penetration. Real tickers: PLTR, BAH, LDOS,
+      // CACI, SAIC, KBR, VRNT, NICE, VRSK. CLIENT-SIDE narration flavor only — never touches scoring.
+      intel_collection_gap:            'Collection coverage degrading. SIGINT, HUMINT, and GEOINT gaps widening against priority targets.',
+      intel_analytical_distortion:     'Analytical integrity under strain. Assessment bias, politicization, and confidence drift rising across all-source product.',
+      intel_oversight_failure:         'Oversight controls weakening. Authorization, audit, and accountability gaps exposing the collection enterprise.',
+      intel_surveillance_excess:       'Surveillance footprint overreaching. Domestic and bulk-collection exposure exceeding warrant and minimization limits.',
+      intel_counterintelligence_failure:'Counterintelligence breach forming. Insider risk, mole exposure, and clearance compromise threatening sources and methods.',
+      intel_adversarial_penetration:   'Adversary penetration rising. Foreign interference, cyber espionage, and network intrusion compromising the collection perimeter.',
+      intel_generic:                   'Intelligence domain under stress. Collection, analysis, and counterintelligence pressured.',
       global_shift:        'Global state shifted to {state}.',
       event_start:         '{event} detected.',
       event_end:           '{event} resolved.',
@@ -289,6 +309,13 @@
       defense_alliance_fracture:     'Alliance fracturing. Shore up basing access and coalition commitments.',
       defense_kinetic_warfare:       'Kinetic conflict active. Sustain platforms and manage attrition and resupply.',
       defense_generic:               'Defense domain elevated. Investigate readiness and procurement.',
+      intel_collection_gap:            'Collection gap. Retask SIGINT/HUMINT/GEOINT and close coverage against priority targets; review PLTR/BAH tasking posture.',
+      intel_analytical_distortion:     'Analytic distortion. Re-run alternative analysis, strip bias, and recalibrate confidence before dissemination.',
+      intel_oversight_failure:         'Oversight failure. Restore authorization, audit trail, and accountability across the collection enterprise.',
+      intel_surveillance_excess:       'Surveillance overreach. Enforce minimization and warrant limits; pull back bulk collection now.',
+      intel_counterintelligence_failure:'Counterintelligence breach. Lock down sources and methods, freeze clearances, and hunt the insider.',
+      intel_adversarial_penetration:   'Adversary penetration. Contain foreign intrusion and harden countermeasures; check LDOS/CACI/SAIC perimeter posture.',
+      intel_generic:                   'Intelligence domain elevated. Investigate collection and counterintelligence.',
       global_shift:        'State change: {state}.',
       event_start:         'Event: {event}. Tracking.',
       event_end:           'Event cleared: {event}.',
@@ -399,7 +426,8 @@
       economy: 'Economy', energy: 'Energy', environment: 'Environment',
       health: 'Health', technology: 'Technology', research: 'Research',
       supplyChain: 'Supply chain', infrastructure: 'Infrastructure',
-      culture: 'Culture', finance: 'Finance', defense: 'Defense'
+      culture: 'Culture', finance: 'Finance', defense: 'Defense',
+      intelligence: 'Intelligence'
     };
 
     // Infrastructure parity: mirror energy's per-diagnosis voice. Energy distinguishes
@@ -479,6 +507,21 @@
       var dkey = _classifyDefenseDistress(detail.signals);
       if (dkey) {
         _narrate(dkey, {}, PRIORITY_MEDIUM);
+        return;
+      }
+    }
+
+    // Intelligence parity: mirror energy's per-diagnosis voice the same way infrastructure,
+    // culture, finance, economy, technology, and defense do. Intelligence is the COLLECTION/
+    // ANALYSIS/ESPIONAGE identity — classify the intelligence distress flavor from signal
+    // content (collection gap / analytical distortion / oversight failure / surveillance excess /
+    // counterintelligence failure / adversarial penetration) and narrate an intelligence-specific
+    // line instead of the generic. Kept DISTINCT from defense (kinetic/industrial/readiness) and
+    // technology (cyber tooling is a coupling, not the identity). CLIENT-SIDE narration flavor only.
+    if (detail.domain === 'intelligence') {
+      var ikey = _classifyIntelligenceDistress(detail.signals);
+      if (ikey) {
+        _narrate(ikey, {}, PRIORITY_MEDIUM);
         return;
       }
     }
@@ -684,6 +727,46 @@
     if (/industrial[\s_-]?base|supplier[\s_-]?(consolidat|capacity)|shipyard|foundry[\s_-]?(closure|strain)|sub[\s_-]?tier|capacity[\s_-]?strain|throughput[\s_-]?limit|lmt|rtx|noc|gd\b|lhx|hii|ldos|bah|ktos|avav/.test(blob)) return 'defense_industrial_strain';
     if (/alliance|nato|coalition|basing|access[\s_-]?(denial|loss)|burden[\s_-]?sharing|treaty|allied[\s_-]?(withdrawal|fracture)|partner[\s_-]?nation/.test(blob)) return 'defense_alliance_fracture';
     return 'defense_generic';
+  }
+
+  // Map raw intelligence signal content → an intelligence distress voice key.
+  // Intelligence vocabulary covers the INTELLIGENCE domain identity: intelligence collection
+  // (SIGINT/HUMINT/GEOINT/OSINT/MASINT), all-source analysis & assessment, espionage &
+  // counterintelligence, surveillance & reconnaissance (ISR), threat warning & indications,
+  // covert action, information & influence operations, security clearance & insider risk.
+  // Anchored to the five portal diagnosis families (collection_gap / analytical_distortion /
+  // oversight_failure / surveillance_excess + trust_boundary_breach / network_intrusion +
+  // counterintelligence). Recognizes real intel-sector tickers (PLTR, BAH, LDOS, CACI, SAIC,
+  // KBR, VRNT, NICE, VRSK). Intelligence COUPLES to defense via threat warning and to technology
+  // via cyber tooling, but keeps its own collection/analysis/espionage identity and stays DISTINCT
+  // from defense (kinetic/industrial/readiness) and technology (cyber tooling = coupling). Mirrors
+  // the energy/infra/culture/finance/economy/technology/defense classifier structure exactly.
+  // Returns a TEMPLATES key, or null. CLIENT-SIDE narration flavor only — never touches scoring.
+  function _classifyIntelligenceDistress(signals) {
+    var blob = '';
+    if (Array.isArray(signals)) {
+      for (var i = 0; i < signals.length; i++) {
+        var s = signals[i];
+        if (typeof s === 'string') blob += ' ' + s;
+        else if (s && typeof s === 'object') {
+          blob += ' ' + (s.type || '') + ' ' + (s.id || '') + ' ' + (s.label || '') + ' ' + (s.name || '');
+        }
+      }
+    }
+    blob = blob.toLowerCase();
+
+    // Order by specificity: counterintelligence breach and adversarial penetration are sharpest
+    // (sources/methods + foreign penetration), then surveillance overreach, oversight failure,
+    // analytical distortion, collection gap; fall back to a generic intelligence line. Matches
+    // real intel-sector tickers (pltr/bah/ldos/caci/saic/kbr/vrnt/nice/vrsk) alongside plain words,
+    // with word boundaries on short tokens to avoid substring collisions.
+    if (/counterintelligence|counter[\s_-]?intel|mole|insider[\s_-]?(threat|risk)|sources[\s_-]?and[\s_-]?methods|clearance[\s_-]?(compromise|breach)|defector|double[\s_-]?agent|leak[\s_-]?investigation|whistleblower[\s_-]?exposure/.test(blob)) return 'intel_counterintelligence_failure';
+    if (/foreign[\s_-]?(interference|influence)|cyber[\s_-]?espionage|network[\s_-]?intrusion|adversary[\s_-]?penetration|hostile[\s_-]?service|exfiltrat|implant|supply[\s_-]?chain[\s_-]?compromise|nation[\s_-]?state[\s_-]?actor|trust[\s_-]?boundary/.test(blob)) return 'intel_adversarial_penetration';
+    if (/surveillance[\s_-]?(excess|overreach|scandal)|bulk[\s_-]?collection|mass[\s_-]?surveillance|domestic[\s_-]?(spying|collection)|warrantless|minimization|fisa|privacy[\s_-]?(violation|overreach)|fourth[\s_-]?amendment/.test(blob)) return 'intel_surveillance_excess';
+    if (/oversight[\s_-]?(failure|gap)|authorization[\s_-]?gap|accountability|audit[\s_-]?(gap|failure)|congressional[\s_-]?oversight|inspector[\s_-]?general|unauthorized[\s_-]?(access|collection)|legal[\s_-]?authority/.test(blob)) return 'intel_oversight_failure';
+    if (/analyt|assessment[\s_-]?(bias|distortion)|politiciz|confidence[\s_-]?(drift|inflation)|cognitive[\s_-]?bias|groupthink|intelligence[\s_-]?(failure|surprise)|warning[\s_-]?failure|estimate[\s_-]?error|pltr|vrnt|nice|vrsk/.test(blob)) return 'intel_analytical_distortion';
+    if (/collection[\s_-]?(gap|shortfall)|sigint|humint|geoint|osint|masint|isr\b|coverage[\s_-]?gap|source[\s_-]?(loss|recruitment)|reconnaissance|tasking|denied[\s_-]?area|bah|ldos|caci|saic|kbr/.test(blob)) return 'intel_collection_gap';
+    return 'intel_generic';
   }
 
   function _onGlobalStateUpdate(e) {

@@ -243,7 +243,41 @@
     'Leidos IR':                      'https://investor.leidos.com/',
     'Booz Allen Hamilton IR':         'https://investors.boozallen.com/',
     'Kratos Defense IR':              'https://ir.kratosdefense.com/',
-    'AeroVironment IR':               'https://investor.avav.com/'
+    'AeroVironment IR':               'https://investor.avav.com/',
+    // Intelligence primary-source authorities: the COLLECTION & ANALYSIS signal
+    // layer (SIGINT / HUMINT / GEOINT / OSINT collection, all-source fusion &
+    // assessment, threat warning, espionage & counterintelligence, surveillance
+    // & reconnaissance). Anchored on the official IC component landing pages
+    // (ODNI / CIA / NSA / NGA / DIA / intelligence.gov) + the real
+    // collection/analysis OPERATOR investor-relations pages (Palantir
+    // data-fusion, Booz Allen — the largest single IC contractor, Leidos, CACI,
+    // SAIC, KBR, Verint SIGINT/surveillance, NICE intelligence-operations,
+    // Verisk OSINT risk-analytics). DISTINCT from defense (defense = kinetic /
+    // industrial / readiness; intelligence = collection / analysis / espionage)
+    // and from technology (cyber tooling is a coupling to technology, NOT
+    // intelligence's identity — no chip / cloud sources). Intelligence couples
+    // to energy via strategic warning but keeps its OWN content = collection /
+    // assessment / counterintelligence. Verified canonical landing pages only —
+    // never AI-constructed deep links. Note the intelligence-operator keys are
+    // intentionally suffixed " (Intel)" so they never collide with the
+    // identically-named defense-side keys (Booz Allen / Leidos appear in both
+    // lanes). Mirrors the energy / infrastructure / culture / finance / economy
+    // / technology / defense structure.
+    'ODNI Threat Assessment':         'https://www.dni.gov/index.php/newsroom/reports-publications',
+    'CIA World Factbook':             'https://www.cia.gov/the-world-factbook/',
+    'NSA Signals Intelligence':       'https://www.nsa.gov/Signals-Intelligence/',
+    'NGA Geospatial Analysis':        'https://www.nga.mil/',
+    'DIA Military Intelligence':      'https://www.dia.mil/',
+    'IC All-Source Analysis':         'https://www.intelligence.gov/',
+    'Palantir Investor Relations':    'https://investors.palantir.com/',
+    'Booz Allen Intelligence (Intel)':'https://investors.boozallen.com/',
+    'Leidos Intelligence (Intel)':    'https://investor.leidos.com/',
+    'CACI Investor Relations':        'https://investor.caci.com/',
+    'SAIC Investor Relations':        'https://investors.saic.com/',
+    'KBR Investor Relations':         'https://investors.kbr.com/',
+    'Verint Investor Relations':      'https://investors.verint.com/',
+    'NICE Investor Relations':        'https://ir.nice.com/',
+    'Verisk Investor Relations':      'https://investor.verisk.com/'
   };
 
   // ─── Domain-specific primary source priority ───────────────────────────
@@ -318,7 +352,23 @@
     // (no chip / cloud sources — cyber is a coupling). Mirrors the energy /
     // infrastructure / culture / finance / economy / technology ordering so
     // defense artifacts no longer demote through the PRIMARY_BY_FALLBACK path.
-    defense: ['Lockheed Martin Investor Relations', 'Raytheon Technologies IR', 'General Dynamics IR', 'Northrop Grumman IR', 'Boeing Defense IR', 'DoD Budget Justification', 'L3Harris IR', 'Huntington Ingalls IR', 'Leidos IR', 'Booz Allen Hamilton IR', 'Kratos Defense IR', 'AeroVironment IR']
+    defense: ['Lockheed Martin Investor Relations', 'Raytheon Technologies IR', 'General Dynamics IR', 'Northrop Grumman IR', 'Boeing Defense IR', 'DoD Budget Justification', 'L3Harris IR', 'Huntington Ingalls IR', 'Leidos IR', 'Booz Allen Hamilton IR', 'Kratos Defense IR', 'AeroVironment IR'],
+    // Intelligence primary sources: collection & analysis authorities that
+    // anchor the intelligence signal layer — the all-source assessment &
+    // threat-warning authorities (ODNI threat assessment, CIA / NGA / DIA
+    // analysis, IC all-source fusion = the assessment spine), the collection
+    // authorities (NSA signals intelligence), and the real collection/analysis
+    // OPERATORS (Palantir data-integration fusion, Booz Allen — largest single
+    // IC contractor, Leidos, CACI, SAIC, Verint SIGINT/surveillance). Ranked
+    // highest-signal structural first: the ODNI / IC assessment & fusion
+    // authorities lead (the warning & all-source spine), collection authorities
+    // and the operator fundamentals ground it. DISTINCT from defense (no
+    // procurement / weapons-system sources — collection/analysis, not kinetic)
+    // and from technology (no chip / cloud sources — cyber is a coupling).
+    // Mirrors the energy / infrastructure / culture / finance / economy /
+    // technology / defense ordering so intelligence artifacts no longer demote
+    // through the PRIMARY_BY_FALLBACK path.
+    intelligence: ['ODNI Threat Assessment', 'IC All-Source Analysis', 'CIA World Factbook', 'NSA Signals Intelligence', 'NGA Geospatial Analysis', 'DIA Military Intelligence', 'Palantir Investor Relations', 'Booz Allen Intelligence (Intel)', 'Leidos Intelligence (Intel)', 'CACI Investor Relations', 'SAIC Investor Relations', 'Verint Investor Relations']
   };
 
   // ─── Feed token map for evidence-source verification ───────────────────
@@ -421,7 +471,35 @@
     'Leidos IR':                          ['LDOS', 'Leidos', 'readiness', 'logistics', 'integration', 'sustainment'],
     'Booz Allen Hamilton IR':             ['BAH', 'Booz Allen', 'modernization', 'mission', 'analytics'],
     'Kratos Defense IR':                  ['KTOS', 'Kratos', 'drone', 'target', 'unmanned', 'hypersonic'],
-    'AeroVironment IR':                   ['AVAV', 'AeroVironment', 'UAS', 'Switchblade', 'loitering munition', 'tactical']
+    'AeroVironment IR':                   ['AVAV', 'AeroVironment', 'UAS', 'Switchblade', 'loitering munition', 'tactical'],
+    // Intelligence feed tokens: literal substrings the brain's evidence prose
+    // must contain for _isEvidenceSourceVerified to anchor intelligence
+    // artifacts. Each entry mirrors a CITATION_HINTS / PRIMARY_PRIORITY_MAP
+    // intelligence feed so the collection & analysis signal layer verifies
+    // instead of always failing. Anchors are the real IC collection-method
+    // vocabulary (SIGINT, HUMINT, GEOINT, OSINT), all-source assessment outputs
+    // (threat assessment, intelligence estimate, declassified assessment,
+    // national intelligence), and the real IC OPERATOR tickers / collection
+    // platforms (PLTR fusion, BAH operations, LDOS, CACI, SAIC, VRNT
+    // surveillance, NICE, VRSK) — kept DISTINCT from defense (no
+    // weapons-system / readiness / procurement tokens) and from technology
+    // (no chip / cloud tokens; cyber briefings are a coupling, not
+    // intelligence's identity), and from energy (no oil / gas / grid tokens).
+    'ODNI Threat Assessment':          ['ODNI', 'threat assessment', 'national intelligence', 'intelligence community', 'national security'],
+    'CIA World Factbook':              ['CIA', 'World Factbook', 'declassified assessment', 'covert', 'HUMINT'],
+    'NSA Signals Intelligence':        ['NSA', 'SIGINT', 'signals intelligence', 'collection', 'interception'],
+    'NGA Geospatial Analysis':         ['NGA', 'GEOINT', 'geospatial', 'imagery', 'reconnaissance'],
+    'DIA Military Intelligence':       ['DIA', 'military intelligence', 'intelligence estimate', 'order of battle'],
+    'IC All-Source Analysis':          ['all-source', 'all source', 'fusion', 'intelligence assessment', 'OSINT'],
+    'Palantir Investor Relations':     ['PLTR', 'Palantir', 'data integration', 'fusion platform', 'Gotham', 'Foundry'],
+    'Booz Allen Intelligence (Intel)': ['BAH', 'Booz Allen', 'intelligence operations', 'mission analytics', 'all-source'],
+    'Leidos Intelligence (Intel)':     ['LDOS', 'Leidos', 'intelligence systems', 'ISR', 'collection support'],
+    'CACI Investor Relations':         ['CACI', 'mission technology', 'intelligence support', 'SIGINT', 'expeditionary'],
+    'SAIC Investor Relations':         ['SAIC', 'Science Applications', 'intelligence contractor', 'mission integration'],
+    'KBR Investor Relations':          ['KBR', 'intelligence logistics', 'mission operations', 'sustainment'],
+    'Verint Investor Relations':       ['VRNT', 'Verint', 'SIGINT', 'surveillance', 'intercept', 'lawful interception'],
+    'NICE Investor Relations':         ['NICE', 'intelligence operations', 'analytics platform', 'investigation'],
+    'Verisk Investor Relations':       ['VRSK', 'Verisk', 'OSINT', 'risk analytics', 'open-source intelligence']
   };
 
   // ─── Module-level flag: SCHEMA_VERSION_BUMPED warning ─────────────────
