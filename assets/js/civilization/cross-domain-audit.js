@@ -190,6 +190,73 @@
     // transmission surface.
     { id: 'finance_systemic', domains: ['finance', 'industry', 'economy', 'supplyChain', 'law', 'governance'] },
     { id: 'human_systems',  domains: ['health', 'population', 'medicine'] },
+    // ─── Medicine/health-native affinity groups ───────────────────────────
+    // Medicine is a SOURCE domain here (not only the short-form patient-burden
+    // member of human_systems). DUAL NAMING (see assets/js/domain-identity.js):
+    // portal/URL key 'medicine', runtime/snapshot key 'health' — the
+    // civilization adapter packets the brain under the runtime key 'health', so
+    // EVERY group below references 'health' to resolve against real packets
+    // (human_systems above keeps both 'health' AND 'medicine' for the
+    // canonical-vs-runtime co-membership). Medicine's identity is healthcare &
+    // care delivery, pharmaceuticals & biotech, hospitals & care providers,
+    // medical devices & diagnostics, public health & disease control, clinical
+    // research & trials, health systems & insurance, and drug development. Real-
+    // sector anchors are the healthcare complex — managed care / payers (UNH,
+    // CVS, CI), pharma & biotech (JNJ, PFE, MRK, ABBV, LLY, AMGN, GILD),
+    // diagnostics & life-science tools (TMO, ABT), med-tech & devices (MDT, ISRG,
+    // ABT), and hospital/care-provider systems (HCA) — plus public-health
+    // references (CMS National Health Expenditure, CDC/NVSS surveillance, FDA
+    // approval timelines, Leapfrog hospital grades, medical-loss ratios). Kept
+    // DISTINCT from research/science (basic medical science is a COUPLING, not
+    // medicine's own delivery/regulatory content), population (demographics &
+    // disease burden are a COUPLING), and economy (healthcare-cost macro
+    // inflation is a COUPLING). NEVER energy oil/gas/grid as medicine's content.
+    //
+    // (1) healthcare_core — medicine's institutional-envelope group (mirror of
+    // infrastructure_core / financial_core / technology_core / defense_core /
+    // culture_core, but built around the HEALTHCARE-DELIVERY base). Healthcare
+    // delivery + patient burden is co-borne by the medical-science substrate
+    // (research — basic science, drug-target discovery, trial methodology), the
+    // healthcare regulatory regime (law — FDA/CMS rulemaking, healthcare-fraud
+    // enforcement, malpractice liability, HIPAA), the healthcare-policy regime
+    // (governance — coverage mandates, reimbursement regimes, public-health
+    // direction), and payer/provider capital (finance — insurer solvency UNH/CI,
+    // hospital-network bond access HCA). When these co-elevate the signal is a
+    // SYSTEMIC healthcare-institutional stress (the whole delivery envelope under
+    // pressure) rather than an isolated cost/access episode. human_systems above
+    // stays the short-form POPULATION-HEALTH chain (disease burden, public
+    // health); healthcare_core is the INSTITUTIONAL-ENVELOPE focus (regulatory,
+    // policy, financing regimes). Medicine is the SOURCE; research/population are
+    // COUPLINGS, not the delivery identity.
+    { id: 'healthcare_core',  domains: ['health', 'population', 'research', 'law', 'governance', 'finance'] },
+    // (2) health_core — the healthcare institutional-integrity stress cluster
+    // (HIGH priority, the tightest mirror of infrastructure_core / financial_core
+    // on the care-financing side): health-insurance solvency, hospital-network
+    // capital access, FDA/CMS regulatory burden, and healthcare-fraud enforcement
+    // co-bear healthcare institutional integrity. Health-system stress (health)
+    // binds to capital access (finance — insurance leverage UNH/CVS/CI, hospital
+    // bonds HCA), regulatory/policy burden (governance — FDA approval timelines,
+    // CMS NHE cost trends), and legal/compliance risk (law — malpractice, fraud
+    // enforcement, consent decrees). Corroboration = health + finance +
+    // governance + law co-elevated on healthcare-system burden, signalling a
+    // regulatory/capital/compliance squeeze that cascades into care-access — a
+    // systemic stress distinct from an isolated cost/access episode. Indices: CMS
+    // hospital-quality metrics (Leapfrog grades), healthcare-cost inflation (CMS
+    // NHE), insurer medical-loss ratios, FDA approval timelines.
+    { id: 'health_core',  domains: ['health', 'finance', 'governance', 'law'] },
+    // (3) health_population — the disease-epidemiology transmission channel
+    // (mirror of agriculture_population / culture_population on the disease-burden
+    // side): disease prevalence & mortality (health) are co-borne by demographic
+    // composition (population — aging bulge, birth-cohort aging, population-health
+    // status such as obesity/smoking/substance-use trends, social-determinant
+    // drivers). Corroboration = health + population co-elevated on disease-
+    // prevalence/mortality stress signals a systemic health-burden cycle (aging +
+    // disease embedding, pandemic-transmission dynamics) rather than isolated
+    // clinical episodes. Metrics: CDC/NVSS disease surveillance (EpiTrax),
+    // mortality excess, age-adjusted disease rates, demographic-cohort
+    // composition. Population is a COUPLING here (the demographic driver); health
+    // is the SOURCE. Distinct from healthcare_core (the institutional envelope).
+    { id: 'health_population',  domains: ['health', 'population'] },
     { id: 'knowledge_arc',  domains: ['research', 'education', 'technology'] },
     // Culture's audience-attention economy: cultural output (music scenes,
     // artists, genres, festivals/venues) is co-borne by its narrative carrier

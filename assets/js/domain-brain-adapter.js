@@ -88,6 +88,7 @@
       brainSupplyChainModel: _obj(bs.supplyChainModel), // F0.trade: carry recurrent logistics-lifecycle model (trade/supplyChain)
       brainEnvironmentModel: _obj(bs.environmentModel), // F0.environment: carry recurrent climate/emissions/ecosystem lifecycle model (environment; null elsewhere)
       brainGovernanceModel: _obj(bs.governanceModel), // F0.governance: carry recurrent institutional-lifecycle model (policy regime, regulatory constraint, oversight effectiveness; governance only, null elsewhere)
+      brainHealthModel: _obj(bs.healthModel), // F0.medicine: carry recurrent disease-burden/clinical-pipeline lifecycle model (medicine uses 'health' snapshot key; null elsewhere)
 
       // === A. Identity & timing (additive) ===
       brainDomainId:              _val(bs.domainId),

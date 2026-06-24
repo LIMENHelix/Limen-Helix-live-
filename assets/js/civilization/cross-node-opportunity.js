@@ -73,8 +73,38 @@
   var DOMAIN_LANE_HINTS = {
     technology:    ['patents', 'nsf-project-pitch', 'research-grants', 'business-grants', 'investments', 'research-papers'],
     research:      ['research-papers', 'research-grants'],
-    medicine:      ['research-papers', 'patents', 'research-grants'],
-    health:        ['research-papers', 'research-grants'],
+    // ─── Medicine / Health = CLINICAL + LIFE-SCIENCES READINESS (lane hints
+    //     reflect clinical-research / pharmaceutical-IP / biotech-financing
+    //     identity — NEVER energy oil/gas/grid content) ─────────────────────
+    // Medicine's identity is healthcare & care delivery (UNH, HCA, CVS), the
+    // pharmaceutical & biotech pipeline (JNJ, PFE, MRK, ABBV, LLY, AMGN, GILD),
+    // medical devices & diagnostics (TMO, ABT, MDT, ISRG), public health &
+    // disease control, clinical research & trials, and drug development —
+    // DISTINCT from science (basic research is a coupling), population (disease
+    // burden / demographics is a coupling), and economy (macro). 'medicine' is
+    // the URL/portal key; 'health' is the runtime/snapshot key (domain-identity
+    // dual-naming) — BOTH are mapped so whichever key a packet uses routes.
+    //
+    // Energy anchors the multi-lane pattern (energy = ['patents','sba-loans',
+    // 'business-grants'] — a multi-faceted IP + financing + grants space).
+    // Medicine's OWN opportunity space is similarly multi-faceted: clinical
+    // research output (research-papers), pharmaceutical/diagnostic IP (patents),
+    // clinical-trial / disease-control grants (research-grants), and translational
+    // innovation pitches (nsf-project-pitch). Exactly as the energy/defense/
+    // governance blocks warn, only tokens that route to a REAL, medicine- OR
+    // health-accepting LANE_GATES entry in handoff-contract.js may live here, or
+    // recompute() silently drops them (the dead-token anti-pattern). Against the
+    // current contract those are: 'patents' (anyDomain includes 'medicine'),
+    // 'research-grants' / 'nsf-project-pitch' / 'research-papers' (anyDomain
+    // includes BOTH 'medicine' and 'health'). The gap's requested 'business-
+    // grants' and 'investments' are NOT added here — their gates do NOT list
+    // medicine/health in anyDomain (would be silently dropped). The biotech-
+    // startup-grant and medtech-VC opportunities those represent are carried
+    // CONDITIONALLY (HEALTH_COUPLING_LANES, below) through the medicine-accepting
+    // multi-domain gates when the financing partner (finance/economy) is actually
+    // co-elevated — not as dead tokens.
+    medicine:      ['research-papers', 'patents', 'research-grants', 'nsf-project-pitch'],
+    health:        ['research-papers', 'research-grants', 'nsf-project-pitch'],
     energy:        ['patents', 'sba-loans', 'business-grants'],
     industry:      ['patents', 'sba-loans'],
     agriculture:   ['business-grants', 'sba-loans', 'patents'],
@@ -295,6 +325,55 @@
     technology:  ['copyrights']  // tech-regulation-modernization (intent)
   };
 
+  // ─── Medicine/Health co-domain coupling lanes (additive, life-sciences) ──
+  // Mirrors the technology-/finance-/governance-coupling pattern but keyed on
+  // MEDICINE (or its runtime alias 'health') being co-elevated. Fires only when
+  // medicine/health is present in an opportunity's domain set alongside a
+  // partner domain that originates a healthcare-shaped opportunity, routing the
+  // artifact to the medicine negotiator. Medicine's identity stays clinical /
+  // pharmaceutical / medtech (UNH, JNJ, PFE, MRK, ABBV, LLY, TMO, ABT, MDT,
+  // ISRG, HCA, CVS, AMGN, GILD) — NEVER energy oil/gas/grid content.
+  //
+  // The healthcare couplings the gap names —
+  //   • medicine ↔ finance   : pharma-funding / medtech-VC / biotech startup
+  //       capital (the venture financing the JNJ/PFE/LLY pipeline + ISRG/MDT
+  //       device companies raise)
+  //   • medicine ↔ technology : medtech-IP (digital-health, diagnostic-device,
+  //       AI-imaging invention disclosure shaping capex)
+  //   • medicine ↔ defense    : biodefense (medical-countermeasure / pandemic-
+  //       preparedness / BARDA-style procurement readiness)
+  //   • medicine ↔ science    : translational basic-research → clinical pipeline
+  //   • medicine ↔ population  : disease-burden / epidemiology-driven demand
+  // — describe the SHAPE of each opportunity. But exactly as the economy,
+  // defense, intelligence, and governance blocks above warn, only tokens that
+  // route to a REAL, medicine- OR health-accepting LANE_GATES entry in
+  // handoff-contract.js may be emitted, or recompute() silently drops them (the
+  // dead-token anti-pattern; see handoff-contract.js `if (!LANE_GATES[lane])`).
+  // Against the current contract, the medicine/health-accepting multi-domain
+  // gates (singleDomainOnly:false, so usable for a coupling) are 'nsf-project-
+  // pitch' (anyDomain includes BOTH medicine and health) and 'research-papers'
+  // (likewise). So each healthcare coupling routes through those LIVE gates —
+  // 'nsf-project-pitch' carries the translational/commercializable innovation
+  // shape (pharma-funding, medtech-IP, biodefense countermeasure development),
+  // 'research-papers' carries the clinical/epidemiological evidence shape
+  // (disease-burden, translational science). The named lanes above
+  // (pharma-funding, medtech-IP, biodefense-procurement) are documented here as
+  // the INTENT — they are NOT emitted as bare tokens (no matching medicine-
+  // accepting gate yet; adding gates would require editing handoff-contract.js,
+  // out of scope for this additive port). When a medicine-accepting gate for
+  // those lanes is later added to LANE_GATES, swap the value for the named
+  // token — the emitter below already routes medicine couplings to the medicine
+  // negotiator. Additive only — never removes the generic medicine/health lanes
+  // above.
+  var HEALTH_COUPLING_LANES = {
+    finance:     ['nsf-project-pitch'], // pharma-funding / medtech-VC (intent)
+    economy:     ['nsf-project-pitch'], // biotech-startup capital (intent)
+    technology:  ['nsf-project-pitch'], // medtech-IP / digital-health (intent)
+    defense:     ['nsf-project-pitch'], // biodefense countermeasure (intent)
+    science:     ['research-papers'],   // translational basic→clinical
+    population:  ['research-papers']    // disease-burden / epidemiology
+  };
+
   function _laneHints(domains) {
     var bag = {};
     for (var i = 0; i < domains.length; i++) {
@@ -344,6 +423,26 @@
         if (!gcouple) continue;
         for (var gj = 0; gj < gcouple.length; gj++) {
           bag[gcouple[gj]] = (bag[gcouple[gj]] || 0) + 2;
+        }
+      }
+    }
+    // Conditional medicine/health coupling (life-sciences): only when medicine
+    // (or its runtime alias 'health') is co-elevated with a partner domain
+    // (finance/economy/technology/defense/science/population) in this same
+    // opportunity's domain set. Mirrors the technology-/finance-/governance-
+    // coupling weighting so the healthcare lane out-ranks generic hints, routing
+    // the pharma-funding / medtech-IP / biodefense / translational artifact to
+    // the medicine negotiator (via its live 'nsf-project-pitch' / 'research-
+    // papers' gates). Accepts either dual-naming key (medicine portal-key OR
+    // health runtime-key).
+    if (domains.indexOf('medicine') >= 0 || domains.indexOf('health') >= 0) {
+      for (var hi = 0; hi < domains.length; hi++) {
+        var hpartner = domains[hi];
+        if (hpartner === 'medicine' || hpartner === 'health') continue;
+        var hcouple = HEALTH_COUPLING_LANES[hpartner];
+        if (!hcouple) continue;
+        for (var hj = 0; hj < hcouple.length; hj++) {
+          bag[hcouple[hj]] = (bag[hcouple[hj]] || 0) + 2;
         }
       }
     }

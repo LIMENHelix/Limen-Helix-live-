@@ -99,10 +99,30 @@
     { label: 'Investigate biodiversity monitoring systems', domain: 'environment', type: 'scientific-discovery', baseRelevance: 0.35 },
     { label: 'Analyze ecosystem tipping point research', domain: 'environment', type: 'system-risk', baseRelevance: 0.45 },
 
-    // Health
-    { label: 'Review novel therapeutic modality research', domain: 'health', type: 'scientific-discovery', baseRelevance: 0.45 },
-    { label: 'Investigate precision medicine advances', domain: 'health', type: 'scientific-discovery', baseRelevance: 0.40 },
-    { label: 'Explore digital health monitoring innovations', domain: 'health', type: 'technological-innovation', baseRelevance: 0.35 },
+    // Health / Medicine (mirrors Energy/Agriculture/Technology/Environment structure, translated to healthcare &
+    //   medicine-native concepts — Energy seeds focus on storage/grid/renewable ARCHITECTURES; medicine seeds focus on
+    //   DRUG-PIPELINE, HOSPITAL-CAPACITY, PHARMA-PRICING, DISEASE-OUTBREAK and REIMBURSEMENT economics:
+    //   storage→drug-inventory & supply buffering / shortage early-warning, distributed-grid→hospital-capacity & ICU-surge
+    //   topology, transition→clinical-pipeline migration & care-model shift resilience, attack-surface→outbreak / shortage /
+    //   pricing-shock early-warning. Runtime key = 'health' (medicine↔health dual-naming; medicine is the URL/portal key,
+    //   health is the snapshot/runtime key — see domain-identity.js). Relevance = health stress x trend boost.
+    //   identity = healthcare & medicine, pharmaceuticals & biotech, hospitals & care providers, medical devices &
+    //   diagnostics, public health & disease control, clinical research & trials, health systems & insurance, drug development;
+    //   universe: UNH/CVS/HCA (payers, pharmacy & hospital systems), JNJ/PFE/MRK/ABBV/LLY/AMGN/GILD (pharma & biotech
+    //   pipelines), TMO/ABT/MDT/ISRG (devices, diagnostics & biomanufacturing tools) — real healthcare-sector tickers only;
+    //   couples to science via basic research (a coupling, not the identity), to population via disease-burden /
+    //   demographics (a coupling), and to economy via health-spending (a coupling); keeps medicine identity = care delivery /
+    //   drugs / devices / public health, NEVER energy oil/gas/grid content)
+    { label: 'Investigate drug-pipeline delay and clinical-trial-failure early-warning across late-stage development (Phase-III readout risk, FDA CRL & approval-lag signals, JNJ/PFE/MRK/ABBV pipeline attrition vs patent-cliff exposure)', domain: 'health', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Explore hospital-capacity and ICU-surge modeling for care-delivery resilience under seasonal and outbreak load (bed-occupancy & staffing-ratio stress, HCA/UNH/CVS provider-network throughput, elective-procedure deferral economics)', domain: 'health', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Analyze pharmaceutical-pricing and CMS drug-price-negotiation exposure for revenue-resilience design (IRA Medicare negotiation list, pricing-pressure modeling, LLY/ABBV/MRK net-price vs list-price compression)', domain: 'health', type: 'economic-opportunity', baseRelevance: 0.40 },
+    { label: 'Investigate disease-outbreak surveillance and vaccine / biomanufacturing supply-chain resilience (CDC/WHO outbreak signals, cold-chain & fill-finish bottlenecks, PFE/MRK/AMGN vaccine capacity, TMO bioprocessing tooling)', domain: 'health', type: 'system-risk', baseRelevance: 0.50 },
+    { label: 'Explore reimbursement-cut and payer-contract-negotiation early-warning for provider-margin compression (CMS fee-schedule revisions, prior-authorization friction, UNH/CVS payer leverage vs HCA hospital-margin exposure)', domain: 'health', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Analyze precision-medicine and targeted-therapy adoption for clinical-outcome and pipeline-value improvement (biomarker-stratified trials, companion-diagnostic codevelopment, GILD/AMGN/ABBV oncology & immunology programs)', domain: 'health', type: 'scientific-discovery', baseRelevance: 0.40 },
+    { label: 'Investigate medical-device and diagnostics innovation cycles for procedure-mix and care-model shifts (robotic surgery & minimally-invasive adoption, ISRG/MDT/ABT device pipelines, point-of-care & at-home diagnostics buildout)', domain: 'health', type: 'technological-innovation', baseRelevance: 0.40 },
+    { label: 'Explore drug-shortage and generic-supply fragility modeling for medication-access resilience (FDA shortage list, sterile-injectable & API single-source dependency, TMO/PFE manufacturing redundancy vs concentration risk)', domain: 'health', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Analyze health-system consolidation and integrated-care economics for cost-of-care and access trade-offs (payer-provider vertical integration, UNH/CVS care-delivery expansion, value-based-care vs fee-for-service margin dynamics)', domain: 'health', type: 'economic-opportunity', baseRelevance: 0.40 },
+    { label: 'Investigate digital-health and remote-monitoring innovations for chronic-disease management and care-access expansion (wearable & RPM adoption, telehealth reimbursement durability, ABT/MDT connected-device platforms)', domain: 'health', type: 'technological-innovation', baseRelevance: 0.35 },
 
     // Technology (mirrors Energy/Infrastructure/Culture/Finance/Economy, translated to technology-native concepts:
     //   storage→AI/ML hardware iteration & custom-chip competition, distributed-grid→cloud-infrastructure fault tolerance,

@@ -270,7 +270,34 @@
       label: 'Clinical attention and system regulation capacity',
       arousal: 'Clinical urgency — high arousal during active diagnoses reflects care delivery pressure',
       coherence: 'Coordination quality — low coherence during multi-provider scenarios suggests care fragmentation risk',
-      cognitiveLoad: 'Clinical complexity — high load with chronic disease burden reflects sustained care management demand'
+      cognitiveLoad: 'Clinical complexity — high load with chronic disease burden reflects sustained care management demand',
+      // Healthcare execution-readiness map: regulation state → clinical-program, pharma R&D and
+      // care-system intake/triage posture. Runtime key is 'health' (medicine<->health dual-naming via
+      // domain-identity.js — medicine is the URL/portal key, health the snapshot/runtime key consumed by
+      // the domain brain). Mirrors energy's biosensor intake map (energy gates capex/dispatch by operator
+      // regulation state — calm: greenlight capex programs / overloaded: triage grid/supply crises; health
+      // gates clinical-program & pharma-R&D intake — calm: greenlight new trials and capacity / overloaded:
+      // crisis triage on pandemic/drug-shortage only). Advisory-layer only and independent of the kernel
+      // scoring spine. Consumed by (future) medicine-clarity-operator outcome tracking (clinical-trial
+      // velocity, drug-approval throughput, hospital-capacity utilization, precision-medicine R&D momentum,
+      // reimbursement/outbreak-triage cadence, drug-shortage/pandemic response). MEDICINE identity only —
+      // healthcare & medicine, pharmaceuticals & biotech, hospitals & care providers, medical devices &
+      // diagnostics, public health & disease control, clinical research & trials, health systems &
+      // insurance, drug development. Reference healthcare-identity names: UNH, JNJ, PFE, MRK, ABBV, LLY,
+      // TMO, ABT, MDT, ISRG, HCA, CVS, AMGN, GILD. Distinct from science (basic biomedical research is a
+      // coupling, not the identity), population (demographics/disease burden is a coupling) and economy
+      // (health spending is a coupling); never adopts energy oil/gas/grid content. Operator arousal/
+      // coherence during active diagnoses or outbreaks gate clinical & R&D intake (high arousal = crisis
+      // outbreak/shortage-triage mode; low arousal = deliberate trial-expansion / R&D mode). STRICTLY
+      // ADDITIVE — does not touch any validated scoring spine.
+      readiness: {
+        calm: 'Steady operator state — safe to expand clinical and pharma investment: greenlight new clinical trials and study enrollment (PFE/MRK/LLY/ABBV/AMGN/GILD pipelines), expand hospital capacity and new care lines (HCA/UNH service-line build-out, CVS/UNH care-delivery growth), invest in precision-medicine and diagnostics R&D (TMO/ABT/MDT/ISRG device & assay roadmaps); open speculative new therapeutic-area and platform scouting (JNJ/LLY discovery programs).',
+        focused: 'Productive engagement — sustain in-flight drug approvals and active trials (PFE/MRK/LLY/ABBV regulatory submissions, AMGN/GILD ongoing studies); admit only well-scoped new intake (single-indication trials, proven device iterations, scoped capacity additions — HCA/UNH defined service lines); hold open-ended new programs and speculative therapeutic-area expansion (TMO/ABT/MDT product lines steady, ISRG platform disciplined).',
+        pressured: 'Elevated load — defer discretionary research and new trial intake; focus on reimbursement and outbreak triage: protect in-flight approvals and statutory/FDA deadlines, prioritize payer/reimbursement disputes and coverage decisions (UNH/CVS), and keep capacity-utilization and disease-surveillance monitoring active on live caseloads (HCA throughput, MRK/PFE supply continuity); pause non-urgent precision-medicine programs.',
+        overloaded: 'Saturated — pause all new clinical programs and pharma R&D intake; respond only to pandemic/epidemic, drug-shortage and acute care-system crises: outbreak and disease-control response (PFE/MRK/JNJ vaccine & antiviral surge, public-health containment), critical drug and device shortages (AMGN/GILD/ABBV supply continuity, MDT/ABT device availability), and hospital-capacity overload (HCA/UNH surge triage, ICU/staffing crisis).',
+        recovering: 'Stabilizing — resume trial expansion and supply stabilization first (re-establish enrollment, restore drug/device inventory, reopen elective capacity — HCA/ISRG procedure backlog), then reopen pharma R&D and precision-medicine programs gradually as hospital utilization, drug-supply, trial-enrollment and reimbursement metrics normalize (PFE/MRK/LLY/ABBV pipelines, TMO/ABT/MDT R&D).',
+        unknown: 'Regulation state unavailable — default to snapshot-driven prioritization (active care-delivery / outbreak-stress signals and clinical-criticality / drug-shortage ranking).'
+      }
     },
     education: {
       label: 'Learning engagement and cognitive capacity',

@@ -173,6 +173,36 @@
     'industrial-capacity': 'INVESTABLE',
     'automation-upgrade':  'INVESTABLE',
     'factory-output':      null,
+    // ─── Medicine / health-native fan-out lanes (additive) ─────────────────
+    // The medicine domain (runtime/snapshot key `health`; URL/portal key
+    // `medicine` — see domain-identity.js) covers healthcare delivery,
+    // pharmaceuticals & biotech, hospitals & care providers, medical devices &
+    // diagnostics, public health & disease control, clinical research & trials,
+    // health systems & insurance, and drug development. It emits to
+    // trial / R&D-financing / provider-consolidation-shaped lanes beyond the
+    // generic grant/loan/investment set. Without entries here those lanes hit
+    // the "key absent" branch and emit UNKNOWN_LANE_FOR_PATH_MAP (warn),
+    // demoting every medicine artifact routed through them — exactly the trade /
+    // industry / environment gap fixed above. These are LANE keys (not domain
+    // keys), mirroring how sba-loans / investments map to INVESTABLE. Kept
+    // DISTINCT from science (basic / pre-clinical research is a coupling, not the
+    // care-delivery identity), from population (demographics / disease burden is
+    // a coupling), and from economy (healthcare spend as a macro aggregate is a
+    // coupling). Medicine binds to real healthcare authorities (FDA, NIH/NHLBI,
+    // CDC, AAFP, ClinicalTrials.gov) and real healthcare operators (UNH, JNJ,
+    // PFE, MRK, ABBV, LLY, TMO, ABT, MDT, ISRG, HCA, CVS, AMGN, GILD).
+    //   - clinical-trial-capacity: a bounded trial-infrastructure / site-network
+    //     / CRO build-out = capital deployment into trial capacity → INVESTABLE
+    //     path (like sba-loans).
+    //   - drug-development-financing: pharma / biotech R&D capex (pipeline
+    //     financing, platform build-out) = capital deployment into drug
+    //     development → INVESTABLE path (capital deployment).
+    //   - healthcare-provider-consolidation: a hospital-system / provider-group /
+    //     managed-care acquisition = capital deployment into care-delivery
+    //     consolidation → INVESTABLE path (acquisition capital).
+    'clinical-trial-capacity':           'INVESTABLE',
+    'drug-development-financing':         'INVESTABLE',
+    'healthcare-provider-consolidation': 'INVESTABLE',
     // ─── Environment-native fan-out lanes (additive) ───────────────────────
     // The environment domain (climate & emissions, air/water/soil pollution &
     // quality, ecosystems & biodiversity, natural resources & conservation,
@@ -311,6 +341,14 @@
     'industrial-capacity': [],
     'automation-upgrade':  [],
     'factory-output':      [],
+    // Medicine / health-native fan-out lanes (see LANE_TO_PATH). No fields
+    // forbidden — these are clinical-trial / R&D-financing / provider-
+    // consolidation capital lanes where valueRange, compensation, and
+    // counterparty detail are load-bearing (unlike the patent/grant lanes that
+    // strip dollar figures). Mirrors sba-loans / investments policy.
+    'clinical-trial-capacity':           [],
+    'drug-development-financing':         [],
+    'healthcare-provider-consolidation': [],
     // Environment-native fan-out lanes (see LANE_TO_PATH). No fields forbidden —
     // these are climate/pollution/remediation/carbon capital lanes where
     // valueRange, compensation, and counterparty detail are load-bearing (unlike
@@ -608,7 +646,48 @@
     'News Corp Investor Relations':          'https://investors.newscorp.com/',
     'New York Times Investor Relations':     'https://investors.nytco.com/',
     'Meta Investor Relations':               'https://investor.atmeta.com/',
-    'Alphabet Investor Relations':           'https://abc.xyz/investor/'
+    'Alphabet Investor Relations':           'https://abc.xyz/investor/',
+    // Medicine / health primary-source authorities: the HEALTHCARE-DELIVERY &
+    // DRUG-DEVELOPMENT signal layer (drug & device regulation, clinical
+    // research, disease surveillance & epidemiology, clinical practice
+    // guidance, plus the real healthcare / pharma / biotech / medical-device /
+    // diagnostics / health-insurance OPERATOR investor-relations pages).
+    // Anchored on the federal health authorities (FDA drug/device review, NIH /
+    // NHLBI cardiovascular clinical research, CDC epidemiology & disease
+    // surveillance, ClinicalTrials.gov trial registry), the family-medicine
+    // clinical body (AAFP), and real healthcare tickers (UNH managed care, JNJ
+    // pharma/devices, PFE / MRK / ABBV / LLY pharma, TMO life-science tools,
+    // ABT / MDT medical devices, ISRG surgical robotics, HCA hospital systems,
+    // CVS health services & insurance, AMGN / GILD biotech). DISTINCT from
+    // science (basic / pre-clinical research is a coupling, not the
+    // care-delivery identity), from population (demographics / disease burden is
+    // a coupling), and from environment (environmental-health exposure is a
+    // coupling). The runtime/snapshot key is `health`; the URL/portal key is
+    // `medicine` (see domain-identity.js). Verified canonical landing pages /
+    // opaque agency tokens only — never AI-constructed deep links. Mirrors the
+    // energy / infrastructure / culture / finance / economy / technology /
+    // defense / intelligence / industry / environment / agriculture /
+    // communication structure.
+    'FDA Drug Evaluation':                   'https://www.fda.gov/drugs',
+    'FDA Medical Device Clearance':          'https://www.fda.gov/medical-devices',
+    'NIH NHLBI Clinical Research':           'https://www.nhlbi.nih.gov/science',
+    'CDC Disease Surveillance':              'https://www.cdc.gov/surveillance/',
+    'ClinicalTrials.gov Registry':           'https://clinicaltrials.gov/',
+    'AAFP Clinical Guidance':                'https://www.aafp.org/family-physician/patient-care/clinical-recommendations.html',
+    'UnitedHealth Group Investor Relations': 'https://www.unitedhealthgroup.com/investors.html',
+    'Johnson & Johnson Investor Relations':  'https://www.investor.jnj.com/',
+    'Pfizer Investor Relations':             'https://investors.pfizer.com/',
+    'Merck Investor Relations':              'https://www.merck.com/investor-relations/',
+    'AbbVie Investor Relations':             'https://investors.abbvie.com/',
+    'Eli Lilly Investor Relations':          'https://investor.lilly.com/',
+    'Thermo Fisher Investor Relations':      'https://ir.thermofisher.com/',
+    'Abbott Investor Relations':             'https://www.abbottinvestor.com/',
+    'Medtronic Investor Relations':          'https://investorrelations.medtronic.com/',
+    'Intuitive Surgical Investor Relations': 'https://isrg.intuitive.com/',
+    'HCA Healthcare Investor Relations':     'https://investor.hcahealthcare.com/',
+    'CVS Health Investor Relations':         'https://investors.cvshealth.com/',
+    'Amgen Investor Relations':              'https://investors.amgen.com/',
+    'Gilead Sciences Investor Relations':    'https://investors.gilead.com/'
   };
 
   // ─── Domain-specific primary source priority ───────────────────────────
@@ -771,7 +850,31 @@
     // finance / economy / technology / defense / intelligence / industry /
     // environment / agriculture ordering so communication artifacts no longer
     // demote through the PRIMARY_BY_FALLBACK path.
-    communication: ['Federal Communications Commission', 'Verizon Investor Relations', 'AT&T Investor Relations', 'T-Mobile Investor Relations', 'Comcast Investor Relations', 'Charter Communications Investor Relations', 'American Tower Investor Relations', 'Crown Castle Investor Relations', 'Cisco Investor Relations', 'Arista Networks Investor Relations', 'Press Freedom Index RSF', 'CPJ Press Freedom Violations', 'News Corp Investor Relations', 'New York Times Investor Relations', 'Meta Investor Relations', 'Alphabet Investor Relations']
+    communication: ['Federal Communications Commission', 'Verizon Investor Relations', 'AT&T Investor Relations', 'T-Mobile Investor Relations', 'Comcast Investor Relations', 'Charter Communications Investor Relations', 'American Tower Investor Relations', 'Crown Castle Investor Relations', 'Cisco Investor Relations', 'Arista Networks Investor Relations', 'Press Freedom Index RSF', 'CPJ Press Freedom Violations', 'News Corp Investor Relations', 'New York Times Investor Relations', 'Meta Investor Relations', 'Alphabet Investor Relations'],
+    // Medicine / health primary sources: healthcare-delivery & drug-development
+    // authorities that anchor the medicine signal layer — the federal drug &
+    // device regulator (FDA drug evaluation / device clearance = the
+    // approval-pipeline spine), clinical research & disease surveillance (NIH
+    // NHLBI cardiovascular trials, CDC epidemiology, ClinicalTrials.gov
+    // registry), clinical practice guidance (AAFP), and the real healthcare /
+    // pharma / biotech / device / insurance OPERATORS (UNH managed care, JNJ
+    // pharma/devices, PFE / MRK / ABBV / LLY pharma, TMO life-science tools, ABT
+    // / MDT devices, ISRG surgical robotics, HCA hospital systems, CVS health
+    // services, AMGN / GILD biotech). Ranked highest-signal structural first:
+    // the FDA approval pipeline and the large managed-care / pharma operators
+    // lead (the care-delivery & drug-development spine), CDC surveillance and the
+    // clinical bodies ground it. DISTINCT from science (basic research is a
+    // coupling), from population (demographics / disease burden is a coupling),
+    // and from environment (environmental-health exposure is a coupling). Keyed
+    // under BOTH the runtime/snapshot key `health` (what hp.sourceDomains emits —
+    // the brain sets domainId:'health') AND the URL/portal alias `medicine`
+    // (see domain-identity.js), so the lookup matches regardless of which key a
+    // caller carries. Mirrors the energy / infrastructure / culture / finance /
+    // economy / technology / defense / intelligence / industry / environment /
+    // agriculture / communication ordering so medicine artifacts no longer demote
+    // through the PRIMARY_BY_FALLBACK path.
+    health: ['FDA Drug Evaluation', 'FDA Medical Device Clearance', 'UnitedHealth Group Investor Relations', 'Johnson & Johnson Investor Relations', 'Pfizer Investor Relations', 'Merck Investor Relations', 'AbbVie Investor Relations', 'Eli Lilly Investor Relations', 'NIH NHLBI Clinical Research', 'CDC Disease Surveillance', 'ClinicalTrials.gov Registry', 'Thermo Fisher Investor Relations', 'Abbott Investor Relations', 'Medtronic Investor Relations', 'HCA Healthcare Investor Relations', 'CVS Health Investor Relations', 'AAFP Clinical Guidance'],
+    medicine: ['FDA Drug Evaluation', 'FDA Medical Device Clearance', 'UnitedHealth Group Investor Relations', 'Johnson & Johnson Investor Relations', 'Pfizer Investor Relations', 'Merck Investor Relations', 'AbbVie Investor Relations', 'Eli Lilly Investor Relations', 'NIH NHLBI Clinical Research', 'CDC Disease Surveillance', 'ClinicalTrials.gov Registry', 'Thermo Fisher Investor Relations', 'Abbott Investor Relations', 'Medtronic Investor Relations', 'HCA Healthcare Investor Relations', 'CVS Health Investor Relations', 'AAFP Clinical Guidance']
   };
 
   // ─── Feed token map for evidence-source verification ───────────────────
@@ -1026,7 +1129,41 @@
     'News Corp Investor Relations':          ['NWSA', 'News Corp', 'news', 'publishing', 'journalism', 'media'],
     'New York Times Investor Relations':     ['NYT', 'New York Times', 'news', 'journalism', 'subscription', 'digital news'],
     'Meta Investor Relations':               ['META', 'Meta', 'Facebook', 'Instagram', 'social media', 'distribution platform', 'feed'],
-    'Alphabet Investor Relations':           ['GOOGL', 'GOOG', 'Alphabet', 'Google', 'YouTube', 'search', 'distribution platform']
+    'Alphabet Investor Relations':           ['GOOGL', 'GOOG', 'Alphabet', 'Google', 'YouTube', 'search', 'distribution platform'],
+    // Medicine / health feed tokens: literal substrings the brain's evidence
+    // prose must contain for _isEvidenceSourceVerified to anchor medicine
+    // artifacts. Each entry mirrors a CITATION_HINTS / PRIMARY_PRIORITY_MAP
+    // medicine feed so the healthcare-delivery & drug-development signal layer
+    // verifies instead of always failing. Anchors are the real federal-health
+    // authority vocabulary (FDA, approval, NDA, 510(k), PMA, NIH, NHLBI, CDC,
+    // surveillance, clinical trial, ClinicalTrials.gov, AAFP) and real
+    // healthcare tickers (UNH, JNJ, PFE, MRK, ABBV, LLY, TMO, ABT, MDT, ISRG,
+    // HCA, CVS, AMGN, GILD) with their managed-care / pharma / device / biotech /
+    // hospital vocabulary — kept DISTINCT from science (no basic-research tokens
+    // — a coupling), from population (no demographics tokens — a coupling), and
+    // from environment (no environmental-exposure tokens — a coupling). Matches
+    // the brain prose against real healthcare sources, not generic health words
+    // alone.
+    'FDA Drug Evaluation':                   ['FDA', 'CDER', 'drug approval', 'NDA', 'new drug application', 'label'],
+    'FDA Medical Device Clearance':          ['FDA', '510(k)', 'PMA', 'device clearance', 'medical device', 'premarket'],
+    'NIH NHLBI Clinical Research':           ['NIH', 'NHLBI', 'clinical research', 'cardiovascular', 'clinical study'],
+    'CDC Disease Surveillance':              ['CDC', 'surveillance', 'epidemiology', 'incidence', 'outbreak', 'disease'],
+    'ClinicalTrials.gov Registry':           ['ClinicalTrials.gov', 'clinical trial', 'NCT', 'trial registry', 'enrollment'],
+    'AAFP Clinical Guidance':                ['AAFP', 'family medicine', 'clinical guideline', 'practice recommendation'],
+    'UnitedHealth Group Investor Relations': ['UNH', 'UnitedHealth', 'Optum', 'managed care', 'health insurance', 'medical loss ratio'],
+    'Johnson & Johnson Investor Relations':  ['JNJ', 'Johnson & Johnson', 'pharmaceutical', 'medical device', 'MedTech'],
+    'Pfizer Investor Relations':             ['PFE', 'Pfizer', 'pharmaceutical', 'vaccine', 'drug pipeline'],
+    'Merck Investor Relations':              ['MRK', 'Merck', 'pharmaceutical', 'oncology', 'Keytruda', 'drug pipeline'],
+    'AbbVie Investor Relations':             ['ABBV', 'AbbVie', 'pharmaceutical', 'immunology', 'drug pipeline'],
+    'Eli Lilly Investor Relations':          ['LLY', 'Eli Lilly', 'Lilly', 'pharmaceutical', 'diabetes', 'drug pipeline'],
+    'Thermo Fisher Investor Relations':      ['TMO', 'Thermo Fisher', 'life sciences', 'diagnostics', 'lab equipment'],
+    'Abbott Investor Relations':             ['ABT', 'Abbott', 'medical device', 'diagnostics', 'continuous glucose'],
+    'Medtronic Investor Relations':          ['MDT', 'Medtronic', 'medical device', 'cardiac', 'surgical'],
+    'Intuitive Surgical Investor Relations': ['ISRG', 'Intuitive Surgical', 'da Vinci', 'surgical robotics', 'robotic surgery'],
+    'HCA Healthcare Investor Relations':     ['HCA', 'HCA Healthcare', 'hospital', 'care delivery', 'health system', 'admissions'],
+    'CVS Health Investor Relations':         ['CVS', 'CVS Health', 'Aetna', 'pharmacy', 'health services', 'managed care'],
+    'Amgen Investor Relations':              ['AMGN', 'Amgen', 'biotech', 'biologics', 'drug pipeline'],
+    'Gilead Sciences Investor Relations':    ['GILD', 'Gilead', 'biotech', 'antiviral', 'HIV', 'drug pipeline']
   };
 
   // ─── Module-level flag: SCHEMA_VERSION_BUMPED warning ─────────────────

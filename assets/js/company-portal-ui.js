@@ -870,6 +870,106 @@
       rightHtml += '</div>';
     }
 
+    // ── MEDICINE / HEALTH-SPECIFIC PORTAL SECTIONS ───────────────────────
+    // Healthcare & medicine parity with the energy domain's company-metadata
+    // sections, mirroring the infrastructure, finance, economy, technology,
+    // intelligence, industry, environment, and agriculture blocks above.
+    // STRICTLY ADDITIVE render-layer content keyed on the medicine domain id
+    // (co.domainId === 'medicine' || 'health', the dual URL/runtime key per
+    // domain-identity.js — medicine is the portalKey, health is the
+    // snapshotKey); it never touches the validated P3 distress kernel scoring
+    // path consumed by /api/limen/score or /api/helix/helix-report/score —
+    // those run server-side off the kernel, not off these optional company-
+    // JSON display fields.
+    //
+    // Medicine is HEALTHCARE & CARE DELIVERY, PHARMACEUTICALS & BIOTECH, DRUG
+    // DEVELOPMENT & CLINICAL TRIALS, HOSPITALS & CARE PROVIDERS, MEDICAL
+    // DEVICES & DIAGNOSTICS, HEALTH SYSTEMS & INSURANCE, and PUBLIC HEALTH &
+    // DISEASE CONTROL. It stays DISTINCT from science (basic / bench research
+    // is a coupling, not the identity), from population (demographics &
+    // disease burden is a coupling), and from economy (health-spend macro is a
+    // coupling). Energy is NEVER the domain's OWN content. Real healthcare-
+    // sector tickers: UNH, JNJ, PFE, MRK, ABBV, LLY, TMO, ABT, MDT, ISRG, HCA,
+    // CVS, AMGN, GILD.
+    //
+    // Energy's generation mix → healthcare-portfolio (facility / segment type).
+    // Energy's maintenance/asset-age → clinical & operational status (bed
+    // utilization, surgical throughput, diagnostic turnaround, staffing,
+    // deferred-maintenance). Energy's NERC/FERC compliance → regulatory
+    // compliance (FDA / CMS / state licensure / accreditation / HIPAA).
+    // Energy's capital funding → reimbursement & financial position (payer mix,
+    // denials, margin, drug-pricing exposure). Each reads OPTIONAL company-JSON
+    // fields and degrades gracefully (cp-empty) when not yet populated.
+    if (co.domainId === 'medicine' || co.domainId === 'health') {
+      // Healthcare Portfolio — breakdown by facility / segment type (energy: generation mix)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Healthcare Portfolio</div>';
+      var _hcp = co.healthcarePortfolio || co.facilityPortfolio || co.segmentPortfolio;
+      if (_hcp && (Array.isArray(_hcp) ? _hcp.length : Object.keys(_hcp).length)) {
+        var _hcpEntries = Array.isArray(_hcp)
+          ? _hcp.map(function (e) { return [e.facility || e.segment || e.type || e.label || '', e.share != null ? e.share : (e.beds != null ? e.beds : (e.value != null ? e.value : e.detail))]; })
+          : Object.keys(_hcp).map(function (kk) { return [kk, _hcp[kk]]; });
+        for (var hcp = 0; hcp < _hcpEntries.length; hcp++) {
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_hcpEntries[hcp][0]) + '</span><span class="cp-value">' + esc(String(_hcpEntries[hcp][1])) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No facility / segment distribution recorded (hospitals / clinics, pharmaceutical manufacturing, diagnostic labs, biotech R&amp;D, medical-device lines, insurance / managed-care — revenue or capacity share %)</div>';
+      }
+      rightHtml += '</div>';
+
+      // Clinical / Operational Status — utilization, throughput, staffing, deferred-maintenance (energy: maintenance/asset-age)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Clinical / Operational Status</div>';
+      var _cos = co.clinicalStatus || co.operationalStatus;
+      if (_cos && Object.keys(_cos).length > 0) {
+        var _cosKeys = Object.keys(_cos);
+        for (var cosk = 0; cosk < _cosKeys.length; cosk++) {
+          var _cosv = _cos[_cosKeys[cosk]];
+          var _cosStr = (_cosv && typeof _cosv === 'object' && !Array.isArray(_cosv))
+            ? Object.keys(_cosv).map(function (sk) { return sk + ': ' + _cosv[sk]; }).join('  ·  ')
+            : String(_cosv);
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_cosKeys[cosk]) + '</span><span class="cp-value">' + esc(_cosStr) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No clinical / operational data (bed-occupancy & utilization %, surgical-suite throughput, diagnostic turnaround time, physician / nurse staffing & vacancy rate, deferred-maintenance backlog $)</div>';
+      }
+      rightHtml += '</div>';
+
+      // Regulatory Compliance — FDA / CMS / licensure / accreditation / HIPAA (energy: NERC/FERC compliance)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Regulatory Compliance</div>';
+      var _mrc = co.regulatoryCompliance || co.healthCompliance;
+      if (_mrc && (Array.isArray(_mrc) ? _mrc.length : Object.keys(_mrc).length)) {
+        var _mrcEntries = Array.isArray(_mrc)
+          ? _mrc.map(function (e) { return [e.agency || e.program || e.accreditation || e.label || '', (e.status != null ? e.status : (e.violations != null ? e.violations : (e.value != null ? e.value : e.detail))) + (e.trend ? ' (' + e.trend + ')' : '')]; })
+          : Object.keys(_mrc).map(function (kk) { return [kk, _mrc[kk]]; });
+        for (var mrc = 0; mrc < _mrcEntries.length; mrc++) {
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_mrcEntries[mrc][0]) + '</span><span class="cp-value">' + esc(String(_mrcEntries[mrc][1])) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No compliance record (FDA clearances / warning letters / recalls, CMS quality / Star ratings & penalties, state licensure standing, Joint Commission accreditation, HIPAA security posture & breach trend)</div>';
+      }
+      rightHtml += '</div>';
+
+      // Reimbursement & Financial Position — payer mix, denials, margin, drug-pricing exposure (energy: capital funding)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Reimbursement &amp; Financial Position</div>';
+      var _rfp = co.reimbursementProfile || co.payerProfile || co.financialPosition;
+      if (_rfp && Object.keys(_rfp).length > 0) {
+        var _rfpKeys = Object.keys(_rfp);
+        for (var rfpk = 0; rfpk < _rfpKeys.length; rfpk++) {
+          var _rfpv = _rfp[_rfpKeys[rfpk]];
+          var _rfpStr = (_rfpv && typeof _rfpv === 'object' && !Array.isArray(_rfpv))
+            ? Object.keys(_rfpv).map(function (sk) { return sk + ': ' + _rfpv[sk]; }).join('  ·  ')
+            : String(_rfpv);
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_rfpKeys[rfpk]) + '</span><span class="cp-value">' + esc(_rfpStr) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No reimbursement / financial profile (Medicare / Medicaid mix %, commercial-payer contract coverage, claims-denial rate, operating margin, drug-pricing & IRA-negotiation exposure, patent-cliff / LOE revenue at risk)</div>';
+      }
+      rightHtml += '</div>';
+    }
+
     // Warning signals (placeholder for future)
     rightHtml += '<div class="cp-section">';
     rightHtml += '<div class="cp-section-title">Warning Signals</div>';

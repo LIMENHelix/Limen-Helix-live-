@@ -245,6 +245,66 @@
     // lane, exactly as defense promoted 'defense-procurement' into its hint list.
     'crop-input-financing', 'yield-assurance',
     'commodity-hedging-facility', 'farm-consolidation',
+    // ─── Medicine-native PRIMARY lanes (additive) ─────────────────────────
+    // Medicine RUNTIME KEY in this file is 'health' (URL/portal key is 'medicine';
+    // see domain-identity.js dual-naming: medicine → snapshotKey 'health'). Medicine
+    // IDENTITY = healthcare & medicine, pharmaceuticals & biotech, hospitals & care
+    // providers, medical devices & diagnostics, public health & disease control,
+    // clinical research & trials, health systems & insurance, and drug development.
+    // Real healthcare operators anchor these lanes: UNH (managed care/insurance),
+    // HCA, CVS (providers / health systems), JNJ, PFE, MRK, ABBV, LLY, AMGN, GILD
+    // (pharma/biotech), TMO, ABT, MDT, ISRG (devices/diagnostics/tools). Medicine is
+    // DISTINCT from science (basic research is a COUPLING, not medicine's clinical/
+    // care identity), population (demographics/disease-burden is a COUPLING, not
+    // medicine's content), and economy (macro aggregate).
+    //
+    // BEFORE this block, medicine appeared ONLY as a SECONDARY co-eligible participant
+    // in other domains' lanes (anyDomain lists of patents (line 337), research-grants
+    // (line 343), nsf-project-pitch (line 354), research-papers (line 358)). It NEVER
+    // owned a PRIMARY source lane the way defense owns 'defense-procurement' (line 76),
+    // intelligence owns 'intelligence-operations' (line 96), industry owns 'industrial-
+    // capacity-investment' (line 161), governance owns 'regulatory-compliance-
+    // modernization' (line 197), agriculture owns 'crop-input-financing' (line 246),
+    // and communication owns 'broadcast-infrastructure-modernization' (line 301). This
+    // block brings medicine to PRIMARY-lane parity — medicine is the negotiator, not a
+    // support domain:
+    //   'clinical-trial-capacity' — one bounded clinical-trial program expansion /
+    //       site activation / trial-capacity build-out routed to the medicine
+    //       negotiator (analogous to 'defense-procurement' for kinetic, 'industrial-
+    //       capacity-investment' for capacity). Single-domain: one bounded trial /
+    //       program. Medicine-primary, with the trial-adjacent domains (finance =
+    //       trial financing, technology = electronic-health-record / clinical-data
+    //       management, research = protocol & academic partnership, governance = FDA
+    //       regulatory pathway). Anchored by trial-running operators (PFE, MRK, LLY,
+    //       AMGN, GILD pharma; TMO, ABT clinical tools/diagnostics; HCA, UNH care &
+    //       trial-site networks). Passing this gate signals only "sufficient packet
+    //       detail to attempt a clinical-trial-capacity note" — NOT trial eligibility,
+    //       NOT IRB/FDA approval, NOT any prediction of outcome.
+    //   'drug-development-financing' — one bounded company's R&D-stage drug / biotech-
+    //       platform financing (analogous to 'factory-output-financing' for a
+    //       manufacturer / an SBA borrower file). Single-domain: one borrower-
+    //       equivalent pharma/biotech entity. Medicine-primary, with the financing-
+    //       origination domains (finance = the lender, economy = the pharma R&D/capex
+    //       cycle, technology = AI-drug-discovery platform, research = the discovery
+    //       pipeline). Anchored by pipeline-stage operators (LLY, ABBV, GILD, AMGN,
+    //       PFE, MRK pharma/biotech; TMO, ABT, MDT, ISRG device/diagnostics R&D).
+    //   'healthcare-provider-consolidation' — hospital acquisition / health-system
+    //       roll-up / provider-network integration shaped opportunity. Inherently
+    //       MULTI-domain (it spans clinical operations, finance acquisition capital,
+    //       and the payor/governance regulation), so NOT single-domain. Medicine-
+    //       primary, with the consolidation-adjacent domains (finance = acquisition
+    //       capital, governance = antitrust / certificate-of-need / payor regulation,
+    //       law = the merger/regulatory legal regime). Anchored by provider / health-
+    //       system / managed-care operators (HCA, CVS, UNH; with provider networks).
+    // Like the defense/intelligence/industry/governance/agriculture/communication
+    // blocks, these gates are LIVE (reachable): a medicine opportunity whose lane hints
+    // are empty falls through to the full LANES list in recompute(), so it is tested
+    // against these medicine-primary gates. The paired follow-up (NOT done here —
+    // single-file edit) is promoting 'clinical-trial-capacity' into DOMAIN_LANE_HINTS
+    // for medicine/health in cross-node-opportunity.js so the emitter prefers the
+    // medicine-primary lane, exactly as defense promoted 'defense-procurement'.
+    'clinical-trial-capacity', 'drug-development-financing',
+    'healthcare-provider-consolidation',
     // ─── Communication-native PRIMARY lanes (additive) ────────────────────
     // Communication IDENTITY = telecommunications & networks, connectivity &
     // broadband, internet infrastructure (towers / fiber / spectrum), media &
@@ -608,6 +668,53 @@
     //   decision, NOT any prediction. Anchored by integrators/processors ADM, BG,
     //   TSN, CAG, INGR and the farm-equipment scale partners DE, AGCO.
     'farm-consolidation':         { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['agriculture','finance','economy','technology'] },
+    // ─── Medicine-native PRIMARY lane gates (additive) ────────────────────
+    // Medicine RUNTIME KEY is 'health' (URL/portal key 'medicine'; domain-identity.js
+    // dual-naming). Both 'medicine' and 'health' are listed in anyDomain so the gate
+    // matches whichever key the upstream packet/opportunity carries — exactly as
+    // research-grants (line 343), nsf-project-pitch (line 354), and research-papers
+    // (line 358) list BOTH medicine and health. Medicine is DISTINCT from science
+    // (basic research is a coupling), population (disease-burden is a coupling), and
+    // economy (macro aggregate).
+    //
+    // clinical-trial-capacity — one bounded clinical-trial program expansion / site
+    //   activation / trial-capacity build-out routed to the medicine negotiator
+    //   (analogous to defense-procurement / industrial-capacity-investment as a PRIMARY
+    //   single-domain lane). singleDomainOnly: one bounded trial / program, so cross-
+    //   node multi-domain aggregations are routed away. Medicine-primary, with the
+    //   trial-adjacent domains that originate trial demand (research = protocol &
+    //   academic partnership, technology = EHR / clinical-data management, finance =
+    //   trial financing, governance = FDA regulatory pathway). Passing this gate
+    //   signals only "sufficient packet detail to attempt a clinical-trial-capacity
+    //   note" — NOT trial eligibility, NOT IRB/FDA approval, NOT any prediction. Real
+    //   trial-running operators: PFE, MRK, LLY, AMGN, GILD (pharma); TMO, ABT (clinical
+    //   tools/diagnostics); HCA, UNH (care & trial-site networks).
+    'clinical-trial-capacity':         { minEvidence: 0.55, minConfidence: 0.60, singleDomainOnly: true,  anyDomain: ['medicine','health','research','technology','finance','governance'] },
+    // drug-development-financing — one bounded company's R&D-stage drug / biotech-
+    //   platform financing (analogous to factory-output-financing / sba-loans / crop-
+    //   input-financing as a single bounded counterparty file). singleDomainOnly: one
+    //   borrower-equivalent pharma/biotech entity. Medicine-primary, with the financing-
+    //   origination domains (finance = the lender, economy = the pharma R&D/capex cycle,
+    //   technology = AI-drug-discovery platform, research = the discovery pipeline,
+    //   governance = the regulatory-approval pathway that gates financeability).
+    //   Passing this gate signals only "sufficient packet detail to attempt a drug-
+    //   development-financing note" — NOT a lending decision, NOT approval, NOT any
+    //   prediction. Real pipeline-stage operators: LLY, ABBV, GILD, AMGN, PFE, MRK
+    //   (pharma/biotech); TMO, ABT, MDT, ISRG (device/diagnostics R&D).
+    'drug-development-financing':       { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: true,  anyDomain: ['medicine','health','finance','technology','research','governance'] },
+    // healthcare-provider-consolidation — hospital acquisition / health-system roll-up /
+    //   provider-network integration shaped opportunity. Inherently MULTI-domain (it
+    //   spans clinical operations, finance acquisition capital, and the payor/governance
+    //   regulation), so singleDomainOnly is false. Slightly lower bar than the single-
+    //   bounded lanes because a consolidation note is a multi-counterparty structural
+    //   artifact, not a single bounded file. Medicine-primary, with the consolidation-
+    //   adjacent domains (finance = the acquisition capital, governance = antitrust /
+    //   certificate-of-need / payor regulation, law = the merger/regulatory legal
+    //   regime). Passing this gate signals only "sufficient packet detail to attempt a
+    //   healthcare-provider-consolidation note" — NOT an acquisition decision, NOT an
+    //   antitrust ruling, NOT any prediction. Real provider / health-system / managed-
+    //   care operators: HCA, CVS, UNH (with provider networks).
+    'healthcare-provider-consolidation': { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['medicine','health','finance','governance','law'] },
     // ─── Communication-native PRIMARY lane gates (additive) ───────────────
     // broadcast-infrastructure-modernization — one bounded telecom / spectrum /
     //   fiber / tower capex program (5G build-out, FTTH, spectrum refarm, tower

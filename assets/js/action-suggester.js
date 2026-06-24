@@ -62,10 +62,12 @@
       { label: 'Regulate emissions-crisis containment and remediation acceleration as carbon-market and discharge-limit pressure compounds (DAR, AY, ECL spill-response and treatment-capacity surge)', type: 'regulation', minStress: 0.7 }
     ],
     health: [
-      { label: 'Review emerging research papers', type: 'discovery', minStress: 0.3 },
-      { label: 'Investigate therapy technologies', type: 'discovery', minStress: 0.4 },
-      { label: 'Scan clinical trial registries', type: 'monitoring', minStress: 0.5 },
-      { label: 'Analyze treatment outcome patterns', type: 'analysis', minStress: 0.6 }
+      { label: 'Monitor disease-outbreak and pandemic-surge signals (CDC NNDSS case counts, WHO outbreak bulletins, wastewater-surveillance positivity, hospital-admission rate) against care-provider and managed-care throughput (UNH, CVS, HCA, CI, ELV)', type: 'monitoring', minStress: 0.3 },
+      { label: 'Explore therapeutic-pipeline emergence and platform-modality breakthroughs (mRNA, GLP-1, cell/gene therapy, antibody-drug-conjugate cadence) across pharma and biotech developers (LLY, NVO, PFE, MRK, ABBV, AMGN, GILD, REGN, VRTX)', type: 'discovery', minStress: 0.4 },
+      { label: 'Analyze clinical-trial failure and drug-pipeline-impact exposure (ClinicalTrials.gov phase-transition rate, Phase III readout misses, late-stage attrition) across pharmaceutical and medical-device developers (PFE, MRK, BMY, JNJ, MDT, ISRG, ABT, TMO)', type: 'analysis', minStress: 0.5 },
+      { label: 'Investigate hospital-capacity crisis and elective-surgery backlog with staffing-shortage and ICU-occupancy triage across acute-care and device operators (HCA, THC, UHS, CVS, MDT, ISRG, BSX procedure-volume recovery)', type: 'analysis', minStress: 0.6 },
+      { label: 'Investigate reimbursement-cut and CMS payment-model disruption exposure (Medicare/Medicaid rate revisions, IRA drug-price negotiation, value-based-care shift) across insurers and pharma (UNH, ELV, CI, HUM, CNC, LLY, ABBV, MRK margin transmission)', type: 'analysis', minStress: 0.6 },
+      { label: 'Regulate FDA-setback and pharmaceutical-recall containment with supply-continuity, drug-shortage triage and patient-safety response across pharma, biotech and device makers (PFE, MRK, ABBV, LLY, AMGN, GILD, JNJ, MDT, ABT, ISRG, TMO critical-supply and recall failure points)', type: 'regulation', minStress: 0.7 }
     ],
     technology: [
       { label: 'Monitor chip-cycle indicators (TSMC/Samsung wafer starts, fab utilization, lead-time contraction) across TSM, ASML, AVGO, AMD, INTC, NVDA', type: 'monitoring', minStress: 0.3 },

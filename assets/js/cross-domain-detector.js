@@ -51,7 +51,7 @@
       domains: ['health', 'research'],
       threshold: 0.40,
       pattern: 'medical innovation cluster',
-      drivers: ['adverse event reporting surge', 'publication rate acceleration', 'clinical activity spike'],
+      drivers: ['adverse event reporting surge', 'publication rate acceleration', 'clinical activity spike', 'biotech-breakthrough pipeline delay / gene-therapy / CAR-T development latency (ABBV/GILD/TMO advanced-therapy manufacturing)', 'drug-discovery success-rate decline / clinical-validation cycle elongation (Phase-II-to-Phase-III transition delay, FDA breakthrough-designation backlog)', 'real-world-evidence generation lag / post-market surveillance data scarcity (EHR-derived outcomes tracking, pharmacovigilance data quality)', 'orphan-disease research-funding scarcity / rare-indication development disincentive (NIH NCATS rare-disease grants, development-cost recovery challenges)'],
       options: [
         { label: 'explore emerging treatments', type: 'discovery' },
         { label: 'trace research-clinical pipeline', type: 'analysis' },
@@ -2057,6 +2057,154 @@
       options: [
         { label: 'trace media-literacy pipeline exposure', type: 'analysis' },
         { label: 'investigate journalism-training / fact-check-skills gap', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    // ─── Medicine pairs (parity port; mirrors energy/infra/culture/finance/economy/tech/defense/intelligence/communication structure) ──
+    // MEDICINE identity ONLY — healthcare & medicine, pharmaceuticals & biotech, hospitals
+    // & care providers, medical devices & diagnostics, public health & disease control,
+    // clinical research & trials, health systems & insurance, drug development. RUNTIME KEY
+    // = 'health' (medicine↔health dual-naming via domain-identity.js; PATTERNS use the
+    // snapshot/runtime key, so medicine pairs are keyed 'health'). Real healthcare tickers
+    // (UNH, JNJ, PFE, MRK, ABBV, LLY, TMO, ABT, MDT, ISRG, HCA, CVS, AMGN, GILD) — never
+    // fabricated, never energy oil/gas/grid content. Each PAIRED domain is a COUPLING; the
+    // domain's OWN content stays healthcare/pharma/medtech/hospitals/public-health. DISTINCT
+    // from science (basic research is the 'health_research' coupling), population (disease-
+    // burden demographics is a coupling), and economy (macro is a coupling). ADDITIVE — does
+    // not touch any validated scoring path. ('health_research'/'economy_health' already exist.)
+    {
+      // Mirrors 'finance_infrastructure' (capital unavailable, municipal-bond spread) +
+      // 'finance_supplyChain' (liquidity crunch, trade-finance) translated to healthcare:
+      // pharma/medtech capex, hospital bond markets, health-insurance leverage cycles.
+      id: 'medicine_finance',
+      domains: ['health', 'finance'],
+      threshold: 0.50,
+      pattern: 'healthcare-capital transmission',
+      drivers: ['pharmaceutical R&D funding pressure / drug-development capex squeeze (JNJ/PFE/MRK/LLY clinical-trial funding)', 'hospital capital constraint / deferred-maintenance backlog (HCA balance-sheet stress)', 'health insurance industry solvency / medical-loss-ratio pressure (UNH/CI/HUM earnings impact)', 'medtech venture funding contraction / startup financing gap (ISRG/VEEV/NRAD private equity exposure)', 'pharmaceutical patent-cliff cash-flow collapse → R&D reinvestment shortfall'],
+      options: [
+        { label: 'trace healthcare-capital exposure', type: 'analysis' },
+        { label: 'investigate pharma/medtech capex squeeze', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'infrastructure_technology' (cyber-physical attack surface, firmware
+      // obsolescence) + 'energy_technology' (compute-demand coupling) translated to
+      // healthcare: genomics computing, medtech AI, hospital IT resilience, device hardening.
+      id: 'medicine_technology',
+      domains: ['health', 'technology'],
+      threshold: 0.45,
+      pattern: 'healthcare-technology coupling',
+      drivers: ['genomics-sequencing compute capacity stress / gene-therapy manufacturing IT lag (TMO sequencing platforms)', 'pharma-AI drug-discovery acceleration / ML-training compute demand (LLY, PFE AI-drug programs)', 'electronic-health-record system outage / hospital IT infrastructure failure (Epic/Cerner cloud platform stress)', 'medical-imaging AI deployment lag / diagnostic-AI model-versioning (ISRG robotic-surgery platform updates)', 'medtech firmware-obsolescence / legacy clinical-device security gap (FDA recalled-device tracking, CVE disclosure velocity on hospital equipment)', 'telemedicine platform availability / telehealth video-conferencing infrastructure (AWS/Azure health-cloud availability)'],
+      options: [
+        { label: 'map healthcare-technology exposure', type: 'analysis' },
+        { label: 'investigate clinical-IT resilience coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'industry_economy' (production-capability stress, capacity-utilization
+      // bottleneck) translated to healthcare: pharma/biologics/medtech manufacturing
+      // throughput, GMP capacity utilization, outsourced (CMO/CDMO) manufacturing dependency.
+      id: 'medicine_industry',
+      domains: ['health', 'industry'],
+      threshold: 0.50,
+      pattern: 'pharmaceutical-manufacturing production stress',
+      drivers: ['pharmaceutical manufacturing capacity utilization / drug-production throughput (GMP facility stress, JNJ/PFE/MRK production lines)', 'biologics manufacturing ramp / cell-therapy GMP capacity (monoclonal-antibody manufacturing, ABBV biologics production)', 'generic-drug manufacturing margin compression / volume shift to India/China (pharmaceutical supply-chain concentration)', 'medtech assembly bottleneck / surgical-implant production constraint (ISRG/MDT manufacturing utilization, hip/knee-implant backlogs)', 'contract-manufacturing organization (CMO) capacity / third-party pharmaceutical manufacturing stress (CDMOs, outsourced manufacturing partners)', 'medical-device sourcing / supply-chain component availability (MDT/ABT/ISRG raw-material / subcomponent lead times)'],
+      options: [
+        { label: 'trace pharma-manufacturing capacity exposure', type: 'analysis' },
+        { label: 'investigate GMP / CMO capacity bottleneck', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'infrastructure_core' (permitting/funding/deferred-maintenance) +
+      // 'infrastructure_energy' (grid strain, utility-capacity) translated to healthcare:
+      // hospital utility-dependency, clinical-facility resilience, cold-chain, biotech labs.
+      id: 'medicine_infrastructure',
+      domains: ['health', 'infrastructure'],
+      threshold: 0.50,
+      pattern: 'hospital-infrastructure resilience stress',
+      drivers: ['hospital water-main failure / clinical-facility utility outage (emergency-department operational resilience, HCA hospital infrastructure)', 'vaccine-storage cold-chain failure / pharmaceutical-warehouse climate-control loss (CDC vaccine inventory, drug-storage capacity)', 'hospital power-grid dependency / backup-generator capacity strain (surgical-suite uptime, ICU ventilator power)', 'hospital IT data-center facility / Epic-EHR infrastructure site-downtime (clinical-records access, lab-order routing)', 'biotech laboratory facility resilience / R&D facility HVAC/utilities (biohazard containment, cleanroom pressure, equipment environmental controls)', 'telehealth facility infrastructure / remote-care delivery center buildout (video-conferencing bandwidth, clinic space)'],
+      options: [
+        { label: 'map hospital-infrastructure exposure', type: 'analysis' },
+        { label: 'trace cold-chain / facility resilience chain', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'law_governance' (compliance burden, enforcement pressure) +
+      // 'infrastructure_law' (liability exposure, enforcement action) translated to
+      // healthcare: FDA approval coupling, healthcare-compliance, clinical-trial liability.
+      id: 'medicine_law',
+      domains: ['health', 'law'],
+      threshold: 0.45,
+      pattern: 'healthcare-regulatory coupling',
+      drivers: ['FDA regulatory-approval bottleneck / drug-review-timeline elongation (NDA/ANDA backlog, Hatch-Waxman delays)', 'healthcare-compliance investigation surge / CMS/HHS enforcement-action velocity (Anti-Kickback Statute, Stark Law enforcement)', 'clinical-trial liability exposure / adverse-event litigation cascade (drug-injury class actions, medtech-failure recalls)', 'pharmaceutical-patent litigation / intellectual-property dispute (drug-exclusivity challenges, generic-challenge settlements)', 'healthcare-fraud-investigation backlog / OIG audit-trail integrity (healthcare-claims audit, billing-compliance scrutiny)', 'medical-malpractice settlement reserve / healthcare-liability insurance rate shock (med-mal claim inflation, hospital-liability pressure)'],
+      options: [
+        { label: 'trace healthcare-regulatory linkage', type: 'analysis' },
+        { label: 'investigate FDA-approval / liability coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'energy_supply' (logistics disruption, freight-cost) + 'supplyChain_agriculture'
+      // (cold-chain, distribution bottleneck) + 'defense_supplyChain' (embargo, dual-use,
+      // rare-earth) translated to healthcare: pharma supply-chain concentration, cold-chain
+      // networks, medtech distribution, API sourcing dependency.
+      id: 'medicine_supplyChain',
+      domains: ['health', 'supplyChain'],
+      threshold: 0.50,
+      pattern: 'pharmaceutical-logistics transmission',
+      drivers: ['pharmaceutical supply-chain disruption / drug-shipment delay (India/China API sourcing, port congestion for pharma exports)', 'medtech logistics bottleneck / surgical-implant distribution constraint (single-use device supply, sterile-packaging availability)', 'cold-chain distribution stress / vaccine/biologics transport failure (ultra-cold supply chain, dry-ice supply, 2-8C/cold-room capacity)', 'generic-drug export embargo / strategic-material dependency (API sourcing from China/India, active-pharmaceutical-ingredient scarcity)', 'medical-device tariff impact / pharmaceutical-import cost elevation (supply-chain tariff exposure, cross-border logistics cost)', 'orphan-drug / rare-disease pharmaceutical sourcing scarcity (limited-manufacturer products, specialized-facility access)'],
+      options: [
+        { label: 'trace pharmaceutical-supply chain exposure', type: 'analysis' },
+        { label: 'monitor cold-chain & API-sourcing conditions', type: 'monitoring' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'agriculture_population' (yield/distribution-demographic pressure) +
+      // 'culture_population' (composition/generational shift, participation decay) translated
+      // to healthcare: disease-prevalence demographics, aging burden, pandemic mortality.
+      id: 'medicine_population',
+      domains: ['health', 'population'],
+      threshold: 0.50,
+      pattern: 'disease-burden population pressure',
+      drivers: ['disease-prevalence surge / chronic-disease epidemic (obesity, diabetes, opioid-addiction trend acceleration)', 'aging-population disease burden / elderly care-system strain (Medicare utilization, skilled-nursing facility capacity)', 'pandemic-related mortality surge / infectious-disease outbreak propagation (COVID, influenza, RSV seasonal waves)', 'workforce health decline / occupational-disease emergence (healthcare-worker burnout, environmental-disease cluster)', 'life-expectancy contraction / mortality excess above baseline (CDC/NVSS excess-death reporting, actuarial stress)', 'health-equity disparity widening / social-determinant-driven disease segregation (geographic health inequity, access-to-care gaps)'],
+      options: [
+        { label: 'analyze disease-burden & population-health indicators', type: 'analysis' },
+        { label: 'investigate aging / pandemic mortality coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'defense_energy' (strategic-reserve drawdown) + 'defense_supplyChain'
+      // (embargo, dual-use) + 'defense_agriculture' (force-provisioning shock) translated to
+      // healthcare: biodefense readiness, medical-supply mobilization, pandemic-response.
+      id: 'medicine_defense',
+      domains: ['health', 'defense'],
+      threshold: 0.48,
+      pattern: 'biodefense medical-readiness stress',
+      drivers: ['biodefense research-program capacity / pathogen-surveillance readiness (CDC/BARDA biodefense funding, select agent oversight)', 'military medical-capability degradation / combat-casualty care readiness (field-hospital throughput, combat-medic training)', 'pandemic-response stockpile adequacy / medical-supply mobilization lag (Strategic National Stockpile vaccine/PPE reserves, wartime pharmaceutical production)', 'biological-threat assessment / biosecurity intelligence posture (laboratory-safety incident reporting, gain-of-function research oversight)', 'medical-countermeasure development / MCM acquisition-authority modernization (BARDA contract velocity, FDA emergency-authorization pathway)', 'allied force-provisioning medical capacity / NATO medical-readiness interoperability (forward-hospital logistics, casualty-evacuation capability)'],
+      options: [
+        { label: 'assess biodefense medical-readiness posture', type: 'analysis' },
+        { label: 'trace medical-supply mobilization chain', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'infrastructure_education' / 'culture_education' / 'economy_education'
+      // (workforce-pipeline stress, skill mismatch, student-debt) translated to healthcare:
+      // medical-workforce pipeline, nursing shortage, physician-training bottleneck.
+      id: 'medicine_education',
+      domains: ['health', 'education'],
+      threshold: 0.45,
+      pattern: 'medical-workforce pipeline stress',
+      drivers: ['medical-school enrollment / physician-training pipeline lag (AAMC match statistics, GME residency positions)', 'nursing-school capacity constraint / nurse-graduate shortage (Board of Nursing exam pass rates, RN training bottleneck)', 'healthcare-professional burnout / medical-education curriculum stress (physician-training environment, residency work-hour restrictions)', 'medical-education cost inflation / student-debt burden for healthcare professionals (medical-school tuition, loan-repayment pressure)', 'specialty-shortage transmission / mismatch between training capacity and practice demand (psychiatry/primary-care/rural-medicine fellows)', 'continuing-education compliance / healthcare-professional licensing-maintenance stress (CME credit requirements, professional-development funding)'],
+      options: [
+        { label: 'trace medical-workforce pipeline exposure', type: 'analysis' },
+        { label: 'investigate nursing/physician shortage coupling', type: 'analysis' },
         { label: 'hold', type: 'monitoring' }
       ]
     }

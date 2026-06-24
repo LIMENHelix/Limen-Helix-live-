@@ -554,6 +554,45 @@
     // supplyChain/industry/environment win when both are present (a slot is
     // single-domain, so they never collide in practice).
     var _bgm = _emO(slot && slot.brainGovernanceModel);
+    // Medicine / health parity: medicine brains (runtime key 'health' — see
+    // domain-identity.js: medicine ↔ health dual-naming, medicine is the URL/
+    // portal key, health is the snapshot/runtime key) emit a recurrent
+    // HEALTHCARE-LIFECYCLE model (brainMedicineModel, or brainHealthModel under
+    // the runtime key) that follows the SAME envelope signature as energy's
+    // energyModel, infrastructure's infrastructureModel, culture's cultureModel,
+    // finance's financeModel, economy's economyModel, trade's supplyChainModel,
+    // industry's industryModel, environment's environmentModel, and governance's
+    // governanceModel, so Civilization + the Main Brain consume it identically.
+    // The medicine model tracks the HEALTHCARE-DELIVERY & THERAPEUTIC lifecycle
+    // (drug-development phase cadence — preclinical → Phase I/II/III → approval —
+    // and clinical-trial enrollment / success trajectory as drugDevelopmentCycle;
+    // payer / reimbursement & clinical-access constraint tightening — formulary
+    // coverage, prior-authorization, FDA approval gating, CMS reimbursement rules
+    // — as the regulation signal, clinicalAccessRegulation; payer-solvency &
+    // healthcare-system-consolidation distress, provider-capacity shortfall, and
+    // health-system / payer-collapse risk — predictedStress via payerSolvencyRisk
+    // / healthSystemCollapseRisk; the prior on healthcare-delivery & provider-
+    // capability health — priorHealthSystemHealth) rather than neurological cycles,
+    // civil-asset lifecycles, attention economies, single-firm capital lifecycles,
+    // macroeconomic business cycles, goods-in-motion logistics, factory-output
+    // production, climate / ecosystem health, or institutional / policy regimes.
+    // Medicine is the HEALTHCARE / PHARMA / BIOTECH / MEDICAL-DEVICES / HOSPITALS /
+    // PAYERS / PUBLIC-HEALTH / CLINICAL-RESEARCH layer and stays DISTINCT from
+    // science (basic / bench research is a COUPLING into drug discovery, not
+    // medicine's delivery substrate), from population (demographics / disease-
+    // burden is a COUPLING, not medicine's own lifecycle), and from economy (macro
+    // aggregate — GDP / inflation / employment). Medicine's cross-domain couplings
+    // (science feeding drug discovery, population driving disease burden & demand,
+    // finance funding biotech, economy steering healthcare spend, governance
+    // setting FDA / CMS rules) all presume drug-development & payer-capacity
+    // visibility that only a recurrent model provides. Real signal validation
+    // anchors on REAL healthcare tickers — UNH, JNJ, PFE, MRK, ABBV, LLY, TMO,
+    // ABT, MDT, ISRG, HCA, CVS, AMGN, GILD — never energy oil/gas/grid tickers,
+    // which are another domain's content. We map its healthcare field names onto
+    // the shared deepBrain envelope. Energy/infrastructure/culture/finance/economy/
+    // supplyChain/industry/environment/governance win when both are present (a slot
+    // is single-domain, so they never collide in practice).
+    var _bhm = _emO(slot && (slot.brainMedicineModel || slot.brainHealthModel));
     var deepBrain = _bem ? {
       cycle:           _num(_bem.cycle),
       predictionError: _emO(_bem.predictionError),
@@ -1080,6 +1119,99 @@
       ruleOfLawTrend:              _num(_bgm.ruleOfLawTrend),
       politicalStabilityTrend:     _num(_bgm.politicalStabilityTrend),
       domainDiagnosisPacket: _emO(_bgm.domainGovernancePacket) || _emO(_bgm.domainDiagnosisPacket)
+    } : _bhm ? {
+      // Healthcare-lifecycle mapped onto the shared recurrent envelope.
+      // drugDevelopmentCycle → cycle, clinicalAccessRegulation → regulation,
+      // payerSolvencyRisk / healthSystemCollapseRisk → predictedStress,
+      // priorHealthSystemHealth → prior, domainMedicinePacket → domainDiagnosisPacket.
+      // Field aliases accept the brain's emitted names (brainDrugDevelopmentCycle,
+      // brainTrialProgressionStress, brainPayerSolvencyRisk, brainProviderCapacityHealth)
+      // stripped of the brain* prefix, so either naming flows identically.
+      cycle:           _num(
+                         _bhm.drugDevelopmentCycle != null ? _bhm.drugDevelopmentCycle
+                         : (_bhm.trialProgressionCycle != null ? _bhm.trialProgressionCycle
+                         : _bhm.cycle)
+                       ),
+      predictionError: _emO(_bhm.predictionError),
+      // clinicalAccessRegulation is the medicine regulation signal: the tightening
+      // (or loosening) of clinical-access / reimbursement constraint — FDA approval
+      // gating, CMS / payer reimbursement rules, formulary coverage, prior-
+      // authorization friction — and how it is steering therapeutic access and
+      // provider economics (analogous to energy's regulationState, infrastructure's
+      // capital-funding regulation, culture's expression state, finance's funding-
+      // source quality, economy's fiscal-monetary regulation, trade's freight-cost
+      // regulation, industry's capacity-utilization regulation, environment's
+      // climate-regulation state, and governance's regulatory-constraint state).
+      // Permissive / balanced / restrictive access regime.
+      regulationState: (_bhm.clinicalAccessRegulation && _bhm.clinicalAccessRegulation.state)
+                       || _str(_bhm.clinicalAccessRegulation)
+                       || (_bhm.reimbursementState && _bhm.reimbursementState.state)
+                       || _str(_bhm.reimbursementState)
+                       || (_bhm.regulation && _bhm.regulation.state)
+                       || null,
+      regulation:      _emO(_bhm.clinicalAccessRegulation) || _emO(_bhm.reimbursementState) || _emO(_bhm.regulation),
+      readyForHandoff: _bhm.readyForHandoff === true,
+      // payerSolvencyRisk is the medicine predicted-stress signal (likelihood of a
+      // healthcare-system / payer-solvency distress — payer-consolidation strain,
+      // reimbursement-margin collapse, provider-capacity shortfall forcing service
+      // cuts, drug-development pipeline failure), carried through unchanged in
+      // [0..1]. healthSystemCollapseRisk and trialProgressionStress are broader
+      // delivery-stress analogues; any may stand in for predictedStress,
+      // payerSolvencyRisk wins as the more acute near-term signal.
+      predictedStress: _num(
+        _bhm.payerSolvencyRisk != null ? _bhm.payerSolvencyRisk
+        : (_bhm.healthSystemCollapseRisk != null ? _bhm.healthSystemCollapseRisk
+        : (_bhm.trialProgressionStress != null ? _bhm.trialProgressionStress
+        : (_bhm.healthcareStress != null ? _bhm.healthcareStress
+        : _bhm.predictedStress)))
+      ),
+      // priorHealthSystemHealth carries the prior on healthcare-delivery / provider-
+      // capability health (the health-system-capacity trajectory), mirroring energy's
+      // prior, infrastructure's priorAssetHealth, culture's creativeCapacity,
+      // finance's priorCapitalHealth, economy's priorGrowthTrend, trade's
+      // priorThroughputHealth, industry's priorCapacityHealth, environment's
+      // priorEnvironmentalHealth, and governance's priorInstitutionalHealth. When
+      // reported as a health value ([0..1] high = solvent payers, ample provider
+      // capacity, productive drug pipeline), invert into a stress (delivery-failure)
+      // expectation; an explicit expectedStress wins. providerCapacityHealth is
+      // accepted as the brain's emitted prior-health alias.
+      prior:           (_bhm.priorHealthSystemHealth || _bhm.providerCapacityHealth || _bhm.prior)
+                       ? (function (p) {
+                           return {
+                             // expectedStress mirrors energy: here the prior
+                             // expected health-system-failure / payer-distress level.
+                             expectedStress: _num(
+                               p.expectedStress != null ? p.expectedStress
+                               : (p.expectedDistress != null ? p.expectedDistress
+                               : (typeof p.healthSystemHealth === 'number' ? (1 - _clamp01(p.healthSystemHealth))
+                               : (typeof p.providerCapacityHealth === 'number' ? (1 - _clamp01(p.providerCapacityHealth))
+                               : (typeof p.capacity === 'number' ? (1 - _clamp01(p.capacity))
+                               : (typeof p === 'number' ? (1 - _clamp01(p)) : null)))))
+                             ),
+                             confidence:     _num(p.confidence),
+                             samples:        _num(p.samples)
+                           };
+                         })(_bhm.priorHealthSystemHealth || _bhm.providerCapacityHealth || _bhm.prior)
+                       : null,
+      // Healthcare telemetry preserved alongside the shared envelope so downstream
+      // artifact expansion can feed medicine / healthcare-investment decisions
+      // (drug-development pipeline phase & trial-success trajectory, clinical-trial
+      // enrollment momentum, payer-consolidation & reimbursement-margin pressure,
+      // provider / hospital capacity utilization, healthcare-delivery capex,
+      // medical-device & diagnostics adoption, public-health / disease-control
+      // posture). Sourced from REAL healthcare tickers: UNH, JNJ, PFE, MRK, ABBV,
+      // LLY, TMO, ABT, MDT, ISRG, HCA, CVS, AMGN, GILD. These are HEALTHCARE /
+      // PHARMA / BIOTECH / MEDICAL-DEVICE / HOSPITAL / PAYER signals — distinct from
+      // science's bench research (a coupling), population's disease burden (a
+      // coupling), and economy's macro aggregates.
+      drugPipelineTrend:        _num(_bhm.drugPipelineTrend),
+      trialSuccessTrend:        _num(_bhm.trialSuccessTrend != null ? _bhm.trialSuccessTrend : _bhm.trialProgressionTrend),
+      payerConsolidationTrend:  _num(_bhm.payerConsolidationTrend),
+      providerCapacityTrend:    _num(_bhm.providerCapacityTrend),
+      reimbursementMarginTrend: _num(_bhm.reimbursementMarginTrend),
+      deviceAdoptionTrend:      _num(_bhm.deviceAdoptionTrend),
+      diseaseBurdenTrend:       _num(_bhm.diseaseBurdenTrend),
+      domainDiagnosisPacket: _emO(_bhm.domainMedicinePacket) || _emO(_bhm.domainHealthPacket) || _emO(_bhm.domainDiagnosisPacket)
     } : null;
 
     // Feed health. Configured count is the MAX of every honest declaration

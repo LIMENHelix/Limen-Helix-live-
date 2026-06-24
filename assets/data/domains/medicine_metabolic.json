@@ -1258,7 +1258,20 @@
       "domainDescription": "Type 2 Diabetes Mellitus — Implementation — Resource Mobilization within Type 2 Diabetes Mellitus — Implementation",
       "whyThisNode": null,
       "treatments": [],
-      "companies": [],
+      "companies": [
+        {
+          "name": "Eli Lilly",
+          "ticker_or_id": "LLY",
+          "functional_reason": "Executes core diabetes & obesity treatment operations via GLP-1 agonists (Mounjaro, Zepbound) and insulin, delivering the primary metabolic-therapy output and managing day-to-day diabetes care at scale",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "AbbVie",
+          "ticker_or_id": "ABBV",
+          "functional_reason": "Amplifies and scales endocrine-linked metabolic care capacity, supporting hormone-mediated and endocrinology-adjacent treatment pathways",
+          "binding_strength": 0.7
+        }
+      ],
       "_origin": "migrated_from_L4_L6",
       "_sourceBranch": "medicine_metabolic"
     },
@@ -1458,6 +1471,12 @@
           "ticker_or_id": "NIH_GOV",
           "functional_reason": "Stores and retrieves oncology knowledge, maintaining institutional memory and diagnostic baselines",
           "binding_strength": 0.68
+        },
+        {
+          "name": "Amgen",
+          "ticker_or_id": "AMGN",
+          "functional_reason": "Manages bone and calcium metabolism risk (osteoporosis, mineral-density regulation), profiling and treating a core metabolic-syndrome comorbidity pathway",
+          "binding_strength": 0.75
         }
       ],
       "_origin": "migrated_from_L4_L6",

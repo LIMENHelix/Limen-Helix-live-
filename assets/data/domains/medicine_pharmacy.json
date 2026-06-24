@@ -5457,6 +5457,101 @@
           "role": "Control Remediation — Implementation & Strategy — Technology Deployment"
         }
       ]
+    },
+    {
+      "brainNodeId": "PHARMA_MFG",
+      "state": "active",
+      "domainLabel": "Pharmacy & Pharmacology Drug Product Manufacturing & R&D",
+      "domainDescription": "Pharmaceutical product generation — discovery, clinical development, formulation, and large-scale manufacturing of drug substances and biologics; the production source distinct from dispensing and logistics distribution. Pharma manufacturing produces the drug product (generation); pharmacy dispensing and PBM/EHR logistics deliver it (distribution).",
+      "group": "production",
+      "phase": "P8",
+      "weight": 1,
+      "diagnosticTriggers": [],
+      "phase_archetype": "P3",
+      "functional_role": "producer",
+      "companies": [
+        {
+          "name": "Pfizer",
+          "ticker_or_id": "PFE",
+          "functional_reason": "Generates the drug product itself — discovers, develops, and manufactures pharmaceutical and biologic products at scale; production execution source, not dispensing or supply-chain IT",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Johnson & Johnson",
+          "ticker_or_id": "JNJ",
+          "functional_reason": "Manufactures branded pharmaceutical and biologic drug products through Janssen pharmaceutical operations; primary production node generating drug substance, distinct from distribution",
+          "binding_strength": 0.93
+        },
+        {
+          "name": "AbbVie",
+          "ticker_or_id": "ABBV",
+          "functional_reason": "Produces immunology and oncology drug products and biologics at manufacturing scale; drug product generation source feeding the dispensing chain",
+          "binding_strength": 0.92
+        },
+        {
+          "name": "Eli Lilly",
+          "ticker_or_id": "LLY",
+          "functional_reason": "Discovers, develops, and manufactures metabolic, oncology, and neuroscience drug products and biologics; production execution node, not logistics",
+          "binding_strength": 0.94
+        },
+        {
+          "name": "Amgen",
+          "ticker_or_id": "AMGN",
+          "functional_reason": "Manufactures biologic drug products through large-scale biomanufacturing; generation source of the drug substance distinct from pharmacy distribution",
+          "binding_strength": 0.91
+        },
+        {
+          "name": "Gilead Sciences",
+          "ticker_or_id": "GILD",
+          "functional_reason": "Develops and manufactures antiviral and oncology drug products; drug product generation node feeding downstream dispensing and logistics",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "Merck & Co",
+          "ticker_or_id": "MRK",
+          "functional_reason": "Discovers, develops, and manufactures pharmaceutical, vaccine, and biologic drug products at scale; primary production execution source, not supply-chain IT or dispensing",
+          "binding_strength": 0.93
+        }
+      ],
+      "treatments": [
+        {
+          "label": "Establish Pharmaceutical Manufacturing Quality & Supply Continuity Program",
+          "type": "STRATEGY",
+          "evidence": "A",
+          "description": "Operationalize a pharmaceutical quality system for drug product manufacturing aligned with ICH Q10 and FDA Quality Metrics, separating production (drug substance generation) from distribution (dispensing/logistics) to harden supply continuity and prevent shortage propagation.",
+          "cite": "ICH (2008). Q10 Pharmaceutical Quality System. International Council for Harmonisation; Woodcock, J. & Wosinska, M. (2013). Economic and Technological Drivers of Generic Sterile Injectable Drug Shortages. Clinical Pharmacology & Therapeutics, 93(2), 170-176. doi:10.1038/clpt.2012.220",
+          "target": "FRAGMENTED_DRUG_PRODUCT_MANUFACTURING -> PROCESS_STANDARDIZATION -> SUPPLY_CONTINUITY",
+          "citation": [
+            {
+              "author": "ICH",
+              "year": 2008,
+              "title": "Q10 Pharmaceutical Quality System",
+              "journal": "International Council for Harmonisation",
+              "volume": null,
+              "pages": null,
+              "doi": null
+            },
+            {
+              "author": "Woodcock, J. & Wosinska, M.",
+              "year": 2013,
+              "title": "Economic and Technological Drivers of Generic Sterile Injectable Drug Shortages",
+              "journal": "Clinical Pharmacology & Therapeutics",
+              "volume": "93(2)",
+              "pages": "170-176",
+              "doi": "10.1038/clpt.2012.220"
+            }
+          ],
+          "steps": [
+            "Map drug product manufacturing nodes (production) separately from dispensing and PBM/EHR logistics nodes (distribution)",
+            "Implement ICH Q10 pharmaceutical quality system across drug substance and biologic production lines",
+            "Establish FDA Quality Metrics monitoring for batch release, deviation, and out-of-specification rates",
+            "Build redundancy and second-source qualification for critical drug products to prevent shortage propagation",
+            "Measure supply continuity, batch right-first-time, and shortage incidence outcomes"
+          ],
+          "monitoring": "PHASE 1 (Weeks 1-4): Baseline — drug product batch right-first-time rate and active shortage count using FDA Drug Shortage database. Deliverable: baseline report. PHASE 2 (Months 2-3): Early tracking — batch right-first-time measured monthly. Target: 95% right-first-time. PHASE 3 (Months 4-6): Midpoint review — compare against FDA Quality Metrics benchmark. Target: 50% reduction in deviations. PHASE 4 (Months 7-12): Maturation — supply continuity trending toward zero critical-product shortages. Escalate if any single-source critical product remains unqualified. ANNUAL REVIEW: Comprehensive quality system audit using ICH Q10 framework. Report to Manufacturing Quality Director.",
+          "escalation": "If a critical drug product enters shortage, or if batch right-first-time falls below the 90% floor for >14 consecutive days, escalate to a pharmaceutical manufacturing quality director for root cause analysis and second-source activation. If a drug product quality defect threatens patient safety, initiate recall review within 24 hours."
+        }
+      ]
     }
   ],
   "edges": [

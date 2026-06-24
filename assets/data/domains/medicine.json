@@ -324,6 +324,24 @@
           "ticker_or_id": "ILMN",
           "functional_reason": "Detects and monitors pharmacy & pharmacology signals, identifying early disruption patterns and emerging conditions",
           "binding_strength": 0.77
+        },
+        {
+          "name": "Merck & Co",
+          "ticker_or_id": "MRK",
+          "functional_reason": "Allocates and regulates pharmaceutical resources, formulating and distributing branded drug therapeutics across competing clinical needs",
+          "binding_strength": 0.93
+        },
+        {
+          "name": "AbbVie",
+          "ticker_or_id": "ABBV",
+          "functional_reason": "Allocates and regulates pharmaceutical resources, formulating and distributing immunology and specialty drug capacity across competing clinical needs",
+          "binding_strength": 0.92
+        },
+        {
+          "name": "CVS Health",
+          "ticker_or_id": "CVS",
+          "functional_reason": "Routes and distributes pharmacy resources across retail dispensing, pharmacy benefit management, and insurance, connecting drug supply to patient demand endpoints",
+          "binding_strength": 0.9
         }
       ],
       "neuralRole": "Limbic",
@@ -504,6 +522,18 @@
           "ticker_or_id": "TMO",
           "functional_reason": "Detects and monitors oncology signals, identifying early disruption patterns and emerging conditions",
           "binding_strength": 0.95
+        },
+        {
+          "name": "Merck & Co",
+          "ticker_or_id": "MRK",
+          "functional_reason": "Detects and monitors oncology signals through immuno-oncology checkpoint-inhibitor pipelines, identifying treatment-response and resistance patterns",
+          "binding_strength": 0.94
+        },
+        {
+          "name": "Gilead Sciences",
+          "ticker_or_id": "GILD",
+          "functional_reason": "Detects and monitors oncology signals via cell-therapy and antibody-drug-conjugate programs, surfacing emerging malignancy and relapse patterns",
+          "binding_strength": 0.88
         }
       ],
       "neuralRole": "Salience",
@@ -684,6 +714,12 @@
           "ticker_or_id": "UNH",
           "functional_reason": "Routes and distributes neurology resources, connecting supply nodes to demand endpoints across the system",
           "binding_strength": 0.88
+        },
+        {
+          "name": "CVS Health",
+          "ticker_or_id": "CVS",
+          "functional_reason": "Routes and distributes neurology resources through integrated insurance and pharmacy-benefit channels, connecting specialty drug and care supply to patient demand endpoints",
+          "binding_strength": 0.85
         }
       ],
       "neuralRole": "Motor",
@@ -863,6 +899,12 @@
           "ticker_or_id": "ABT",
           "functional_reason": "Executes core public health operations, delivering primary output and managing day-to-day functional processes",
           "binding_strength": 0.87
+        },
+        {
+          "name": "Gilead Sciences",
+          "ticker_or_id": "GILD",
+          "functional_reason": "Executes core public health operations through antiviral therapeutic delivery (HIV, hepatitis), managing population-scale infectious disease treatment programs",
+          "binding_strength": 0.85
         }
       ],
       "childPortal": "medicine_anesthesia_portal.html",
@@ -1043,6 +1085,18 @@
           "ticker_or_id": "ILMN",
           "functional_reason": "Detects and monitors immunology signals, identifying early disruption patterns and emerging conditions",
           "binding_strength": 0.79
+        },
+        {
+          "name": "AbbVie",
+          "ticker_or_id": "ABBV",
+          "functional_reason": "Allocates and regulates immunology resources through immunosuppressant and biologic anti-inflammatory franchises, distributing capacity across autoimmune disease needs",
+          "binding_strength": 0.93
+        },
+        {
+          "name": "Amgen",
+          "ticker_or_id": "AMGN",
+          "functional_reason": "Allocates and regulates immunology resources via biologic and biosimilar pipelines, setting priorities across inflammatory and immune-mediated disease",
+          "binding_strength": 0.89
         }
       ],
       "childPortal": "medicine_infectious_portal.html",
@@ -1892,6 +1946,26 @@
       "diagnosticTriggers": [],
       "treatments": [],
       "childPortal": "medicine_metabolic_portal.html",
+      "companies": [
+        {
+          "name": "Eli Lilly",
+          "ticker_or_id": "LLY",
+          "functional_reason": "Executes core metabolic and endocrine therapeutics, delivering incretin and GLP-1 diabetes/obesity drug output as the dominant operational engine of this subdomain",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Amgen",
+          "ticker_or_id": "AMGN",
+          "functional_reason": "Amplifies and scales metabolic and endocrine biologic capacity, expanding reach of cardiometabolic and bone-density therapeutic programs",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "Novo Nordisk",
+          "ticker_or_id": "NVO",
+          "functional_reason": "Detects and monitors metabolic and endocrine signals through diabetes and obesity therapeutic pipelines, surfacing emerging disease-burden patterns",
+          "binding_strength": 0.9
+        }
+      ],
       "neuralRole": "Limbic",
       "brainNodeRoleCanonical": "Metabolic & Endocrine",
       "brainNodeLabelCanonical": "Medicine",

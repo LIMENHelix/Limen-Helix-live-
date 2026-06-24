@@ -575,7 +575,28 @@ var MACRO_POLICY_PATH = {
   gov_executive_authority:    { connectomeDomains: ['governance', 'economy'],           indicators: ['CBOBudgetImpact', 'OMBComplianceRate', 'GSAITModernization'], sources: ['OMB Appropriations', 'Treasury Fiscal Service', 'CBO Budget & Economic Outlook'] },
   gov_legislative_rulemaking: { connectomeDomains: ['governance'],                      indicators: ['FederalRegisterVolume', 'OECDRegQuality', 'CFPBEnforcement'],  sources: ['Federal Register', 'OECD Regulatory Policy Outlook', 'CFPB Enforcement Actions'] },
   gov_electoral_institutions: { connectomeDomains: ['governance'],                      indicators: ['VDemElectoralIndex'],                                          sources: ['V-Dem Institute Dataset', 'EAC Election Administration', 'OPM Federal Workforce'] },
-  gov_institutional_integrity:{ connectomeDomains: ['governance', 'finance'],           indicators: ['WGIRuleOfLaw', 'GAOAuditBacklog', 'OPMVacancyRate'],            sources: ['World Bank WGI', 'GAO Performance & Accountability Report', 'OPM FedScope'] }
+  gov_institutional_integrity:{ connectomeDomains: ['governance', 'finance'],           indicators: ['WGIRuleOfLaw', 'GAOAuditBacklog', 'OPMVacancyRate'],            sources: ['World Bank WGI', 'GAO Performance & Accountability Report', 'OPM FedScope'] },
+  // Healthcare (medicine gap 4 — ADDITIVE, OPT-IN) = CMS / HHS / FDA / Medicaid regulatory
+  // shocks. The existing FEED_TO_CONNECTOME['health'] = ['medicine','metabolic'] mapping
+  // routes ALL medicine stress through the same path regardless of policy origin; these
+  // sub-paths let a healthcare-regulation shock route to the CORRECT medicine nodes +
+  // governance (for authority/enforcement). These are PURE healthcare-regulation mechanics
+  // (Medicare payment rules, FDA enforcement actions, Medicaid expansion/contraction,
+  // health-IT certification mandates) — NOT energy. Healthcare policy shocks originate in
+  // healthcare-regulation authority (CMS, FDA, HHS, ONC) and impact healthcare operations
+  // (reimbursement, drug approval, insurance coverage); energy is never part of the signal
+  // chain. 'economy' is added on Medicaid (coverage → consumption/employment), 'finance' on
+  // payment rules (reimbursement → hospital margin), 'technology' on health-IT certification
+  // (EHR/interoperability mandates). Indicator keys reference HEALTHCARE_INDICATOR_BINDING.
+  // Resolved via resolveHealthcarePolicyPath.
+  //   cms_payment_rule_change        = Medicare payment-rule change → reimbursement / hospital margin
+  //   fda_enforcement_action         = FDA enforcement / recall / approval-authority shock
+  //   medicaid_expansion             = Medicaid coverage expansion/contraction → insurance / consumption
+  //   health_it_certification_mandate = ONC health-IT certification / interoperability mandate
+  cms_payment_rule_change:         { connectomeDomains: ['medicine', 'governance', 'finance'], indicators: ['HospitalOccupancy', 'HospitalBedAvail', 'SurgicalCapacityUtil'], sources: ['CMS.gov Payment Rule (OPPS/PFS)', 'OMB Regulatory Review', 'CMS Hospital Quality Reporting'] },
+  fda_enforcement_action:          { connectomeDomains: ['medicine', 'governance'],            indicators: ['FDAAdverseEvents', 'FDAPharmacyRecall', 'FDAApprovalRate'],     sources: ['FDA.gov Enforcement Report', 'openFDA Adverse Events', 'FDA Drug Approvals'] },
+  medicaid_expansion:              { connectomeDomains: ['medicine', 'governance', 'economy'], indicators: ['InsuranceMLR', 'ClaimsApprovalRate'],                          sources: ['State Medicaid Agency', 'CMS Medicaid & CHIP', 'HHS Coverage Data'] },
+  health_it_certification_mandate: { connectomeDomains: ['medicine', 'technology', 'governance'], indicators: ['DiagnosticVolume', 'DiagnosticTAT'],                        sources: ['ONC.gov Health-IT Certification', 'CMS Interoperability Rule', 'HHS HITECH'] }
 };
 
 // ── INTELLIGENCE-SECTOR INDICATOR bindings (intelligence gap 3 — ADDITIVE) ──
@@ -1009,6 +1030,128 @@ for (var _cmik in COMMUNICATION_INDICATOR_BINDING) {
   var _cmib = COMMUNICATION_INDICATOR_BINDING[_cmik];
   if (!NODE_TO_COMMUNICATION_INDICATOR[_cmib.node]) NODE_TO_COMMUNICATION_INDICATOR[_cmib.node] = [];
   NODE_TO_COMMUNICATION_INDICATOR[_cmib.node].push(_cmib);
+}
+
+// ── HEALTHCARE-SECTOR (MEDICINE / HEALTH) COMPANY bindings (medicine gap 1 — ADDITIVE, OPT-IN) ──
+// Parallel structure to TECH_COMPANY_BINDING, INTELLIGENCE_COMPANY_BINDING, TRADE_COMPANY_
+// BINDING, INDUSTRIAL_COMPANY_BINDING, ENVIRONMENT_SECTOR_COMPANY_BINDING, GOVERNANCE_
+// COMPANY_BINDING, AGRICULTURE_COMPANY_BINDING and COMMUNICATION_COMPANY_BINDING — but for
+// PURE healthcare identity. Medicine was the only major domain WITHOUT company-level ticker
+// bindings despite 123 medicine connectome nodes and 11 opportunity playbooks that reference
+// healthcare tickers. Runtime key for this domain is 'health' (URL/portal key = 'medicine';
+// see domain-identity.js medicine↔health dual-naming). Real healthcare companies routed to
+// the medicine node that senses their clinical/operational stress:
+//   Pharma     JNJ/PFE/MRK/ABBV/LLY/AMGN/GILD → HYPO/STRI (Pharmacy / drug-development pipeline)
+//   Devices    ABT/MDT/SYK/ISRG               → CARD/M1   (Cardiology / Surgery / Surgical Robotics)
+//   Diagnostics GH/EXAS/DXCM                  → LGN/V1/PULV (Diagnostics / Patient Monitoring)
+//   Hospitals  HCA/UHS/THC                    → mPFC/THAL  (Primary Care / Hospital Operations)
+//   Insurance  UNH/HUM/CNC/CVS                → STRI/VP    (Claims / Underwriting circuits)
+//   Telehealth TDOC/AMWL/HIMS/VEEV           → PCC        (Telehealth / virtual-care delivery)
+// Energy is ZERO healthcare identity: facility power SLA / OR-HVAC sterility is a second-order
+// facility-operations coupling that applies to ALL facility-based enterprises, NOT a medicine
+// signal; these tickers are healthcare-identity companies (not energy producers/distributors),
+// the stress origin is ALWAYS medicine (drug-approval delay, surgical-capacity shortage,
+// insurance underwriting risk) — energy is never the initiating signal. Energy-coupling
+// stocks (EXC, NextEra, utilities) are excluded. Annotation/registry metadata ONLY — the
+// resolver does NOT score these.
+var HEALTHCARE_COMPANY_BINDING = {
+  // ── Pharmaceuticals / biotech (drug-development pipeline & pharmacy supply) ──
+  JNJ:  { series: 'JNJ',  node: 'HYPO', role: 'Pharmaceutical Pipeline / Drug Supply',   nodeRole: 'Pharmacy',                  label: 'Johnson & Johnson',     threshold: -14, dir: 'low', kind: 'ticker', industry: 'pharmaceuticals' },
+  PFE:  { series: 'PFE',  node: 'HYPO', role: 'Pharmaceutical Pipeline / Drug Supply',   nodeRole: 'Pharmacy',                  label: 'Pfizer',                threshold: -16, dir: 'low', kind: 'ticker', industry: 'pharmaceuticals' },
+  MRK:  { series: 'MRK',  node: 'HYPO', role: 'Pharmaceutical Pipeline / Drug Supply',   nodeRole: 'Pharmacy',                  label: 'Merck & Co.',           threshold: -15, dir: 'low', kind: 'ticker', industry: 'pharmaceuticals' },
+  ABBV: { series: 'ABBV', node: 'STRI', role: 'Biopharma Pipeline / Revenue Risk',       nodeRole: 'Pharmacy',                  label: 'AbbVie',                threshold: -16, dir: 'low', kind: 'ticker', industry: 'pharmaceuticals' },
+  LLY:  { series: 'LLY',  node: 'STRI', role: 'Biopharma Pipeline / Revenue Risk',       nodeRole: 'Pharmacy',                  label: 'Eli Lilly',             threshold: -15, dir: 'low', kind: 'ticker', industry: 'pharmaceuticals' },
+  AMGN: { series: 'AMGN', node: 'HYPO', role: 'Biotech Pipeline / Drug Supply',          nodeRole: 'Pharmacy',                  label: 'Amgen',                 threshold: -17, dir: 'low', kind: 'ticker', industry: 'biotech' },
+  GILD: { series: 'GILD', node: 'HYPO', role: 'Biotech Pipeline / Drug Supply',          nodeRole: 'Pharmacy',                  label: 'Gilead Sciences',       threshold: -17, dir: 'low', kind: 'ticker', industry: 'biotech' },
+  // ── Medical devices (cardiology / surgery / surgical robotics) ──
+  ABT:  { series: 'ABT',  node: 'CARD', role: 'Medical-Device Market / Cardiology',      nodeRole: 'Cardiology',                label: 'Abbott Laboratories',   threshold: -15, dir: 'low', kind: 'ticker', industry: 'medical-devices' },
+  MDT:  { series: 'MDT',  node: 'CARD', role: 'Medical-Device Market / Cardiology',      nodeRole: 'Cardiology',                label: 'Medtronic',             threshold: -16, dir: 'low', kind: 'ticker', industry: 'medical-devices' },
+  SYK:  { series: 'SYK',  node: 'M1',   role: 'Surgical-Device Market / Orthopedics',    nodeRole: 'Surgery',                   label: 'Stryker',               threshold: -17, dir: 'low', kind: 'ticker', industry: 'medical-devices' },
+  ISRG: { series: 'ISRG', node: 'M1',   role: 'Surgical-Robotics Capacity',              nodeRole: 'Surgical Robotics',         label: 'Intuitive Surgical',    threshold: -19, dir: 'low', kind: 'ticker', industry: 'surgical-robotics' },
+  // ── Diagnostics (molecular dx / monitoring) ──
+  GH:   { series: 'GH',   node: 'LGN',  role: 'Diagnostics Throughput / Liquid Biopsy',  nodeRole: 'Diagnostics',               label: 'Guardant Health',       threshold: -20, dir: 'low', kind: 'ticker', industry: 'diagnostics' },
+  EXAS: { series: 'EXAS', node: 'V1',   role: 'Diagnostics Throughput / Screening',      nodeRole: 'Diagnostics',               label: 'Exact Sciences',        threshold: -20, dir: 'low', kind: 'ticker', industry: 'diagnostics' },
+  DXCM: { series: 'DXCM', node: 'PULV', role: 'Patient Monitoring / Glucose Sensing',    nodeRole: 'Patient Monitoring',        label: 'DexCom',                threshold: -19, dir: 'low', kind: 'ticker', industry: 'patient-monitoring' },
+  // ── Hospitals / care providers (capacity utilization) ──
+  HCA:  { series: 'HCA',  node: 'mPFC', role: 'Hospital Capacity / Care Delivery',       nodeRole: 'Primary Care',              label: 'HCA Healthcare',        threshold: -15, dir: 'low', kind: 'ticker', industry: 'hospitals' },
+  UHS:  { series: 'UHS',  node: 'THAL', role: 'Hospital Operations / Bed Capacity',      nodeRole: 'Hospital Operations',       label: 'Universal Health Services', threshold: -17, dir: 'low', kind: 'ticker', industry: 'hospitals' },
+  THC:  { series: 'THC',  node: 'THAL', role: 'Hospital Operations / Bed Capacity',      nodeRole: 'Hospital Operations',       label: 'Tenet Healthcare',      threshold: -18, dir: 'low', kind: 'ticker', industry: 'hospitals' },
+  // ── Insurance / health systems (claims & underwriting) ──
+  UNH:  { series: 'UNH',  node: 'STRI', role: 'Insurance Claims / Underwriting Risk',    nodeRole: 'Health Insurance',          label: 'UnitedHealth Group',    threshold: -14, dir: 'low', kind: 'ticker', industry: 'health-insurance' },
+  HUM:  { series: 'HUM',  node: 'STRI', role: 'Insurance Claims / Underwriting Risk',    nodeRole: 'Health Insurance',          label: 'Humana',                threshold: -16, dir: 'low', kind: 'ticker', industry: 'health-insurance' },
+  CNC:  { series: 'CNC',  node: 'VP',   role: 'Managed-Care Claims / Medicaid Risk',     nodeRole: 'Health Insurance',          label: 'Centene',               threshold: -18, dir: 'low', kind: 'ticker', industry: 'health-insurance' },
+  CVS:  { series: 'CVS',  node: 'VP',   role: 'Pharmacy-Benefit / Insurance Claims',     nodeRole: 'Health Insurance',          label: 'CVS Health',            threshold: -15, dir: 'low', kind: 'ticker', industry: 'health-insurance' },
+  // ── Telehealth / virtual care & health-IT ──
+  TDOC: { series: 'TDOC', node: 'PCC',  role: 'Telehealth Visit Volume / Virtual Care',  nodeRole: 'Telehealth',                label: 'Teladoc Health',        threshold: -22, dir: 'low', kind: 'ticker', industry: 'telehealth' },
+  AMWL: { series: 'AMWL', node: 'PCC',  role: 'Telehealth Visit Volume / Virtual Care',  nodeRole: 'Telehealth',                label: 'Amwell',                threshold: -25, dir: 'low', kind: 'ticker', industry: 'telehealth' },
+  HIMS: { series: 'HIMS', node: 'PCC',  role: 'Direct-to-Consumer Telehealth',           nodeRole: 'Telehealth',                label: 'Hims & Hers Health',    threshold: -23, dir: 'low', kind: 'ticker', industry: 'telehealth' },
+  VEEV: { series: 'VEEV', node: 'PCC',  role: 'Health-IT / Clinical Cloud Platform',     nodeRole: 'Health Information Technology', label: 'Veeva Systems',     threshold: -19, dir: 'low', kind: 'ticker', industry: 'health-it' }
+};
+
+// Reverse lookup: connectome node → healthcare-sector company tickers it sources from
+// (opt-in healthcare-company drill, parallel to NODE_TO_TECH_COMPANY / NODE_TO_INTEL_COMPANY /
+// NODE_TO_TRADE_COMPANY / NODE_TO_INDUSTRIAL_COMPANY / NODE_TO_ENVIRONMENT_COMPANY /
+// NODE_TO_GOVERNANCE_COMPANY / NODE_TO_AGRICULTURE_COMPANY / NODE_TO_COMMUNICATION_COMPANY).
+// Enables drill-down from high medicine stress to the SPECIFIC pharma / device / diagnostics /
+// hospital / insurer / telehealth companies sensing the stress origin (e.g. which pharma
+// companies are stressed during a drug-safety shortage). Pure medicine signal-tracing.
+var NODE_TO_HEALTHCARE_COMPANY = {};
+for (var _hck in HEALTHCARE_COMPANY_BINDING) {
+  if (!Object.prototype.hasOwnProperty.call(HEALTHCARE_COMPANY_BINDING, _hck)) continue;
+  var _hcb = HEALTHCARE_COMPANY_BINDING[_hck];
+  if (!NODE_TO_HEALTHCARE_COMPANY[_hcb.node]) NODE_TO_HEALTHCARE_COMPANY[_hcb.node] = [];
+  NODE_TO_HEALTHCARE_COMPANY[_hcb.node].push(_hcb);
+}
+
+// ── HEALTHCARE-SECTOR INDICATOR bindings (medicine gap 2 — ADDITIVE, OPT-IN) ──
+// Parallel structure to MACRO_INDICATOR_BINDING, INTELLIGENCE_INDICATOR_BINDING, TRADE_
+// INDICATOR_BINDING, ENVIRONMENT_INDICATOR_BINDING, GOVERNANCE_INDICATOR_BINDING, AGRICULTURE_
+// INDICATOR_BINDING and COMMUNICATION_INDICATOR_BINDING — but for PURE healthcare-operations
+// signals: FDA adverse-event volume (openFDA), pharmaceutical-approval rate, hospital
+// occupancy / bed availability (CMS), insurance medical-loss ratio / claims-approval (NAIC),
+// diagnostic test volume & turnaround, clinical-trial enrollment velocity, surgical-capacity
+// utilization. Binds each REAL healthcare metric to the medicine connectome node that senses
+// it, so kernel/reporting/diagnosis layers can drill from abstract 'medicine stress' into the
+// ACTUAL clinical signal that triggered it (e.g. HYPO Pharmacy node lit → FDA adverse events
+// spiked → drug-safety shock origin; mPFC Primary-Care node lit → hospital occupancy
+// collapsed → capacity shock). These strictly measure MEDICINE identity: clinical operations,
+// treatment capacity, drug-safety, claims processing, diagnostic throughput. Energy is ZERO
+// content — facility power SLA/uptime is a facility-operations coupling, not a medicine signal.
+// Annotation/registry metadata ONLY — the resolver does NOT score these.
+//   threshold = the level above/below which the node is considered stressed.
+//   dir = 'high' (stress when ABOVE threshold) | 'low' (stress when BELOW).
+//   kind = 'fda' (openFDA adverse events / approvals) | 'cms' (hospital occupancy / quality)
+//          | 'naic' (insurance MLR / claims) | 'pharma-pipeline' (trial / approval velocity)
+//          | 'dx' (diagnostic throughput) | 'surg' (surgical-capacity utilization).
+var HEALTHCARE_INDICATOR_BINDING = {
+  // ── FDA adverse-event / drug-safety (openFDA; drug-safety shock on spike) ──
+  FDAAdverseEvents: { series: 'FDAAdverseEvents', node: 'CeA',  role: 'Adverse-Event Volume',        nodeRole: 'Emergency Medicine', label: 'FDA Adverse-Event Reports (openFDA)', threshold: 8,  dir: 'high', kind: 'fda', policyPath: 'fda_enforcement_action' },
+  FDAPharmacyRecall:{ series: 'FDAPharmacyRecall', node: 'HYPO', role: 'Drug Recall / Shortage',      nodeRole: 'Pharmacy',          label: 'FDA Drug Recall / Shortage Count',    threshold: 6,  dir: 'high', kind: 'fda', policyPath: 'fda_enforcement_action' },
+  // ── Pharmaceutical approval rate (pipeline slowdown on decline) ──
+  FDAApprovalRate:  { series: 'FDAApprovalRate',  node: 'HYPO', role: 'Drug-Approval Rate',          nodeRole: 'Pharmacy',          label: 'FDA New-Drug Approval Rate',          threshold: -4, dir: 'low',  kind: 'pharma-pipeline', policyPath: 'fda_enforcement_action' },
+  ClinicalTrialEnroll: { series: 'ClinicalTrialEnroll', node: 'STRI', role: 'Trial Enrollment Velocity', nodeRole: 'Clinical Research', label: 'Clinical-Trial Enrollment Velocity', threshold: -5, dir: 'low', kind: 'pharma-pipeline', policyPath: 'fda_enforcement_action' },
+  // ── Hospital occupancy / bed availability (CMS; capacity shock on extreme occupancy) ──
+  HospitalOccupancy: { series: 'HospitalOccupancy', node: 'mPFC', role: 'Hospital Occupancy %',        nodeRole: 'Primary Care',      label: 'CMS Hospital Occupancy Rate (%)',     threshold: 90, dir: 'high', kind: 'cms', policyPath: 'cms_payment_rule_change' },
+  HospitalBedAvail:  { series: 'HospitalBedAvail',  node: 'THAL', role: 'Available Bed Capacity',      nodeRole: 'Hospital Operations', label: 'CMS Available Bed Capacity',        threshold: -6, dir: 'low',  kind: 'cms', policyPath: 'cms_payment_rule_change' },
+  // ── Insurance medical-loss ratio / claims (NAIC; underwriting stress on MLR spike) ──
+  InsuranceMLR:      { series: 'InsuranceMLR',      node: 'STRI', role: 'Medical-Loss Ratio',          nodeRole: 'Health Insurance',  label: 'NAIC Medical-Loss Ratio (%)',         threshold: 88, dir: 'high', kind: 'naic', policyPath: 'medicaid_expansion' },
+  ClaimsApprovalRate:{ series: 'ClaimsApprovalRate', node: 'VP',  role: 'Claims-Approval Rate',        nodeRole: 'Health Insurance',  label: 'NAIC Insurance Claims-Approval Rate', threshold: -5, dir: 'low', kind: 'naic', policyPath: 'medicaid_expansion' },
+  // ── Diagnostic throughput / turnaround (lab-capacity shock on decline / delay) ──
+  DiagnosticVolume:  { series: 'DiagnosticVolume',  node: 'LGN',  role: 'Diagnostic Test Volume',      nodeRole: 'Diagnostics',       label: 'Diagnostic Test Volume Index',        threshold: -5, dir: 'low',  kind: 'dx', policyPath: 'health_it_certification_mandate' },
+  DiagnosticTAT:     { series: 'DiagnosticTAT',     node: 'V1',   role: 'Diagnostic Turnaround Time',  nodeRole: 'Diagnostics',       label: 'Diagnostic Turnaround Time (hrs)',    threshold: 7,  dir: 'high', kind: 'dx', policyPath: 'health_it_certification_mandate' },
+  // ── Surgical capacity utilization (OR scheduling; capacity shortage on saturation) ──
+  SurgicalCapacityUtil: { series: 'SurgicalCapacityUtil', node: 'M1', role: 'Surgical-Capacity Utilization', nodeRole: 'Surgery', label: 'OR / Surgical Capacity Utilization (%)', threshold: 88, dir: 'high', kind: 'surg', policyPath: 'cms_payment_rule_change' }
+};
+
+// Reverse lookup: connectome node → healthcare indicators it senses
+// (parallel to NODE_TO_MACRO_INDICATOR / NODE_TO_TRADE_INDICATOR / NODE_TO_COMMUNICATION_
+// INDICATOR; for diagnosis drill-down — distinguishes medicine stress from facility coupling).
+var NODE_TO_HEALTHCARE_INDICATOR = {};
+for (var _hcik in HEALTHCARE_INDICATOR_BINDING) {
+  if (!Object.prototype.hasOwnProperty.call(HEALTHCARE_INDICATOR_BINDING, _hcik)) continue;
+  var _hcib = HEALTHCARE_INDICATOR_BINDING[_hcik];
+  if (!NODE_TO_HEALTHCARE_INDICATOR[_hcib.node]) NODE_TO_HEALTHCARE_INDICATOR[_hcib.node] = [];
+  NODE_TO_HEALTHCARE_INDICATOR[_hcib.node].push(_hcib);
 }
 
 // Reverse lookup: connectome node → macro indicators it senses (for diagnosis drill-down).
@@ -2111,6 +2254,35 @@ function resolveGovernancePolicyPath(policy, stress) {
   return resolvePolicyPath(key, stress);
 }
 
+// Healthcare policy-path resolution (medicine gap 4) — opt-in. Routes a healthcare-
+// regulation shock (CMS payment rule / FDA enforcement / Medicaid expansion / health-IT
+// certification mandate) to the correct medicine nodes via MACRO_POLICY_PATH entries.
+// Signal origin = healthcare-regulation authority (CMS, FDA, HHS, ONC), never energy.
+// Parallel to resolveGovernancePolicyPath / resolveTradePolicyPath / resolveEnvironmentPolicyPath.
+var HEALTHCARE_POLICY_TRIGGER_TO_SUBCIRCUIT = {
+  payment:          'cms_payment_rule_change',
+  cms:              'cms_payment_rule_change',
+  reimbursement:    'cms_payment_rule_change',
+  medicare:         'cms_payment_rule_change',
+  fda:              'fda_enforcement_action',
+  enforcement:      'fda_enforcement_action',
+  recall:           'fda_enforcement_action',
+  approval:         'fda_enforcement_action',
+  medicaid:         'medicaid_expansion',
+  coverage:         'medicaid_expansion',
+  expansion:        'medicaid_expansion',
+  health_it:        'health_it_certification_mandate',
+  interoperability: 'health_it_certification_mandate',
+  certification:    'health_it_certification_mandate',
+  onc:              'health_it_certification_mandate'
+};
+function resolveHealthcarePolicyPath(policy, stress) {
+  if (!policy) return resolvePolicyPath(policy, stress);
+  var key = MACRO_POLICY_PATH[policy] ? policy
+          : (HEALTHCARE_POLICY_TRIGGER_TO_SUBCIRCUIT[policy] || policy);
+  return resolvePolicyPath(key, stress);
+}
+
 // ═══════════════════════════════════════════════════
 // 7. KERNEL ADAPTER RELAY (DISABLED)
 // ═══════════════════════════════════════════════════
@@ -2387,6 +2559,29 @@ window.LIMENConnectomeResolver = {
   NODE_TO_COMMUNICATION_INDICATOR: NODE_TO_COMMUNICATION_INDICATOR,
   getCommIndicatorsForNode: function(nodeId) { return NODE_TO_COMMUNICATION_INDICATOR[nodeId] || []; },
 
+  // Healthcare-sector (medicine / health) company ticker bindings (medicine gap 1) — OPT-IN,
+  // parallel to the tech/intel/trade/industrial/environment/governance/agriculture/
+  // communication company registries; REAL healthcare tickers (JNJ/PFE/MRK/ABBV/LLY/AMGN/GILD
+  // pharma, ABT/MDT/SYK/ISRG devices, GH/EXAS/DXCM diagnostics, HCA/UHS/THC hospitals,
+  // UNH/HUM/CNC/CVS insurance, TDOC/AMWL/HIMS/VEEV telehealth/health-IT) routed to medicine
+  // nodes (HYPO/STRI/CARD/M1/LGN/V1/PULV/mPFC/THAL/VP/PCC). Runtime domain key = 'health'.
+  // Energy is ZERO healthcare identity: facility power SLA / OR-HVAC is a second-order
+  // facility-operations coupling, not a medicine signal; energy-coupling utilities excluded.
+  HEALTHCARE_COMPANY_BINDING: HEALTHCARE_COMPANY_BINDING,
+  NODE_TO_HEALTHCARE_COMPANY: NODE_TO_HEALTHCARE_COMPANY,
+  getHealthcareCompaniesForNode: function(nodeId) { return NODE_TO_HEALTHCARE_COMPANY[nodeId] || []; },
+
+  // Healthcare-sector indicator bindings (medicine gap 2) — OPT-IN, parallel to the macro
+  // registry; REAL healthcare-operations signals (FDA adverse events / recalls / approval
+  // rate, CMS hospital occupancy / bed availability, NAIC medical-loss ratio / claims-approval,
+  // diagnostic volume / turnaround, clinical-trial enrollment, surgical-capacity utilization)
+  // routed to medicine nodes. These measure MEDICINE identity (clinical operations, treatment
+  // capacity, drug-safety, claims, diagnostic throughput), never energy — facility power
+  // SLA/uptime is a facility-operations coupling, not a medicine signal.
+  HEALTHCARE_INDICATOR_BINDING: HEALTHCARE_INDICATOR_BINDING,
+  NODE_TO_HEALTHCARE_INDICATOR: NODE_TO_HEALTHCARE_INDICATOR,
+  getHealthcareIndicatorsForNode: function(nodeId) { return NODE_TO_HEALTHCARE_INDICATOR[nodeId] || []; },
+
   // Agriculture circuit segregation (agriculture gap 3) — opt-in. Routes an agriculture
   // stress trigger to crop-production / livestock-production / commodity-trading /
   // farm-finance / input-supply, each a SEPARATE 'p2' node pathway with its real ticker
@@ -2444,6 +2639,14 @@ window.LIMENConnectomeResolver = {
   // institutional-integrity) to the correct governance nodes via MACRO_POLICY_PATH 'gov_*'
   // entries. Signal origin = policymaking authority & enforcement, never energy.
   resolveGovernancePolicyPath: resolveGovernancePolicyPath,
+
+  // Healthcare policy-path resolution (medicine gap 4) — opt-in. Routes a healthcare-
+  // regulation policy shock (CMS payment rule / FDA enforcement / Medicaid expansion /
+  // health-IT certification mandate) to the correct medicine nodes via MACRO_POLICY_PATH
+  // entries. Signal origin = healthcare-regulation authority (CMS, FDA, HHS, ONC), never energy.
+  HEALTHCARE_POLICY_TRIGGER_TO_SUBCIRCUIT: HEALTHCARE_POLICY_TRIGGER_TO_SUBCIRCUIT,
+  resolveHealthcarePolicyPath: resolveHealthcarePolicyPath,
+  getHealthcarePolicySubCircuitForTrigger: function(trigger) { return HEALTHCARE_POLICY_TRIGGER_TO_SUBCIRCUIT[trigger] || null; },
 
   // Last resolve state
   getLastResolve: function() { return _lastResolve; },

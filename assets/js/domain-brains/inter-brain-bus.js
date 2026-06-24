@@ -497,6 +497,99 @@
  *   remains the sole scoring authority; the bus merely transports already-scored
  *   emissions.
  *
+ * Cross-domain examples — MEDICINE -> OTHER and OTHER -> MEDICINE (medicine as
+ * both source and target). Medicine is the HEALTHCARE / CLINICAL domain
+ * (healthcare & medicine, pharmaceuticals & biotech, hospitals & care providers,
+ * medical devices & diagnostics, public health & disease control, clinical
+ * research & trials, health systems & insurance, drug development). DUAL-KEY
+ * NOTE: medicine is the URL / portal key but the bus routes on the RUNTIME
+ * snapshot key 'health' (see domain-identity.js — medicine <-> health), so the
+ * emissions below carry sourceDomain/targetDomain 'health' at the bus layer even
+ * though the domain identity is "medicine". Medicine is DISTINCT from science
+ * (basic / pre-clinical research is a COUPLING — clinical translation feeds from
+ * it but medicine owns the bedside / care-delivery / regulated-product side, NOT
+ * the bench), from population (demographics / disease burden is a COUPLING that
+ * drives care demand, NOT medicine's own content), and from economy (healthcare
+ * spending is a macro COUPLING, not the clinic). The bus previously had NO
+ * medicine/health wiring at all — it was absent as both source and target,
+ * leaving the clinical / payer / public-health channel entirely silent in the
+ * cross-domain nervous system. These are medicine's native OUTBOUND paths,
+ * mirroring the energy / defense / intelligence SOURCE examples (the rules live
+ * in medicine/health-brain.js emissionRules); medicine emits these native signals
+ * when >=1 active diagnosis is present (per brain cycle):
+ *   medicine -> population   (clinical_outcomes_pressure / epidemic_signal ->
+ *                           disease burden, morbidity / mortality risk and
+ *                           outbreak escalation shape public-health priority and
+ *                           care demand across a population — the care-delivery
+ *                           input to collective health, the inbound mirror of
+ *                           population's demographic_aging_pressure return below,
+ *                           WITHOUT medicine taking on demographics as its identity)
+ *   medicine -> finance      (payer_solvency_stress / cost-containment_mandate ->
+ *                           medical-cost trend, utilization surge and reimbursement
+ *                           pressure squeeze healthcare-payer capital and liquidity
+ *                           -> funding-cost pressure on payer / provider issuers,
+ *                           the clinical-cost side, DISTINCT from finance's own
+ *                           capital-markets content)
+ *   medicine -> governance   (regulatory_compliance_surge / coverage_mandate ->
+ *                           drug-safety, approval and coverage questions raise
+ *                           FDA / CMS rulemaking, coverage-mandate and compliance
+ *                           pressure — the health-regulation input to governance,
+ *                           DISTINCT from governance's own public-administration
+ *                           content)
+ *   medicine -> law          (liability_risk_escalation / malpractice_trending ->
+ *                           adverse-event, product-liability and malpractice trends
+ *                           raise litigation-docket and tort-exposure pressure — the
+ *                           clinical-liability input to law, DISTINCT from law's own
+ *                           judicial-process content)
+ * These are medicine's INBOUND RETURN paths (other brains already emit toward
+ * medicine — see each source brain's emissionRules / the SOURCE examples above),
+ * so the healthcare-system capacity / reimbursement / care-quality channel is not
+ * silent in the bus:
+ *   population   -> medicine (demographic_aging_pressure / disease_burden -> an aging
+ *                           cohort and rising chronic-disease burden raise
+ *                           healthcare-system capacity stress, utilization and
+ *                           care-demand load -> capacity_stress at providers; the
+ *                           inbound mirror of medicine's clinical_outcomes_pressure
+ *                           outbound — demographics remain a COUPLING)
+ *   finance      -> medicine (funding_constraint / capex_squeeze -> tighter capital
+ *                           access and a cost-of-capital rise defer clinical-facility
+ *                           maintenance, equipment refresh and hospital capex ->
+ *                           facility_maintenance_lag / capex_deferral at care
+ *                           providers, the inbound mirror of medicine's payer_solvency
+ *                           _stress outbound)
+ *   governance   -> medicine (regulatory_tightening / coverage_cuts -> reimbursement-
+ *                           rate cuts, coverage rule changes and tighter health
+ *                           regulation pressure provider reimbursement and margins ->
+ *                           reimbursement_pressure, the inbound mirror of medicine's
+ *                           regulatory_compliance_surge outbound)
+ *   technology   -> medicine (diagnostic_platform_availability / EHR_capability ->
+ *                           diagnostic-platform readiness, EHR / decision-support
+ *                           capability and health-IT availability enable clinical-
+ *                           data quality and decision support -> clinical_data_quality
+ *                           / decision_support_enablement; the health-IT coupling
+ *                           that feeds care quality, WITHOUT medicine taking on
+ *                           chips / software as its identity)
+ *   These modify medicine's PRIOR care-capacity / outcomes / reimbursement
+ *   expectation and stress calculation AFTER the validated P3 kernel runs —
+ *   external stress modifiers ingested via the base receiveExternalSignal handler,
+ *   NOT a second scorer.
+ *   Real healthcare issuers behind these signals (health systems & insurance /
+ *   pharmaceuticals & biotech / medical devices & diagnostics / hospitals & care
+ *   providers / pharmacy & care delivery — NOT energy oil/gas/grid, NOT science
+ *   bench-research labs, NOT macro proxies): UNH, CVS (health systems & insurance /
+ *   pharmacy & care delivery); HCA (hospitals & care providers); JNJ, PFE, MRK,
+ *   ABBV, LLY, AMGN, GILD (pharmaceuticals & biotech / drug development); TMO, ABT,
+ *   MDT, ISRG (medical devices & diagnostics). Real health-authority indicators
+ *   (REAL, never fabricated): CDC mortality / surveillance data, CMS payment rates,
+ *   FDA approval timelines, NIH R01 funding, AAFP clinical guidance. (clinical_
+ *   outcomes_pressure = morbidity / mortality / outcome-quality burden; payer_
+ *   solvency_stress = medical-cost-trend / utilization payer pressure; regulatory_
+ *   compliance_surge = FDA / CMS rulemaking & coverage-mandate burden; liability_
+ *   risk_escalation = adverse-event / malpractice / product-liability exposure;
+ *   capacity_stress = demographic-driven care-demand / utilization load.) SIGNAL
+ *   examples only — the validated Thing1 P3 distress kernel remains the sole scoring
+ *   authority; the bus merely transports already-scored emissions.
+ *
  * Also detects:
  *   - Propagation chains (A→B→C)
  *   - Co-activation (multiple domains emitting simultaneously)
