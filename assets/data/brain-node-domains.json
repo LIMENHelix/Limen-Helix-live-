@@ -351,7 +351,48 @@
     {
       "domain": "religion",
       "label": "Religion & Symbolic Systems",
-      "role": "Religious Law"
+      "role": "Religious Law",
+      "functional_role": "arbitrator",
+      "companies": [
+          {
+            "name": "Pew Research Center (Religion)",
+            "ticker_or_id": "PEW",
+            "functional_reason": "Detects and monitors religious law signals, identifying early disruption patterns and emerging conditions",
+            "binding_strength": 0.78
+          },
+          {
+            "name": "Interfaith Youth Core (IFYC)",
+            "ticker_or_id": "IFYC_NPO",
+            "functional_reason": "Amplifies and scales religious law capacity, driving growth and expanding reach of religious law operations",
+            "binding_strength": 0.78
+          },
+          {
+            "name": "Templeton Foundation",
+            "ticker_or_id": "TEMPLETON",
+            "functional_reason": "Allocates and regulates religious law resources, setting priorities and distributing capacity across competing needs",
+            "binding_strength": 0.74
+          }
+        ],
+      "indicators": [
+          {
+            "id": "USCIRF",
+            "source": "U.S. Commission on International Religious Freedom (USCIRF)",
+            "role": "Religious Law → Religious-freedom restrictions, persecution, and Countries of Particular Concern",
+            "data_type": "indicator"
+          },
+          {
+            "id": "PEW_RESTRICTIONS",
+            "source": "Pew Research Center — Global Restrictions on Religion",
+            "role": "Religious Law → Government Restrictions Index (GRI) and Social Hostilities Index (SHI)",
+            "data_type": "indicator"
+          },
+          {
+            "id": "PRRI_CENSUS",
+            "source": "PRRI — American Values Atlas / Census of American Religion",
+            "role": "Religious Law → Religious-tradition distribution and affiliation by geography and cohort",
+            "data_type": "indicator"
+          }
+        ]
     },
     {
       "domain": "science",
@@ -535,7 +576,48 @@
     {
       "domain": "religion",
       "label": "Religion & Symbolic Systems",
-      "role": "Religious Authority"
+      "role": "Religious Authority",
+      "functional_role": "executor",
+      "companies": [
+          {
+            "name": "Catholic Relief Services",
+            "ticker_or_id": "CRS_NPO",
+            "functional_reason": "Executes core religious authority operations, delivering primary output and managing day-to-day functional processes",
+            "binding_strength": 0.95
+          },
+          {
+            "name": "World Vision International",
+            "ticker_or_id": "WORLD_VISION",
+            "functional_reason": "Executes core religious authority operations, delivering primary output and managing day-to-day functional processes",
+            "binding_strength": 0.86
+          },
+          {
+            "name": "Salvation Army",
+            "ticker_or_id": "SALVATION_ARMY",
+            "functional_reason": "Executes core religious authority operations, delivering primary output and managing day-to-day functional processes",
+            "binding_strength": 0.95
+          }
+        ],
+      "indicators": [
+          {
+            "id": "ARDA",
+            "source": "Association of Religion Data Archives (ARDA)",
+            "role": "Religious Authority → Denomination census, congregational counts, and clergy-pipeline membership data",
+            "data_type": "indicator"
+          },
+          {
+            "id": "PEW_RLS",
+            "source": "Pew Research Center — Religious Landscape Study",
+            "role": "Religious Authority → Congregational affiliation, switching, and disaffiliation (\"nones\") trends",
+            "data_type": "indicator"
+          },
+          {
+            "id": "USCIRF",
+            "source": "U.S. Commission on International Religious Freedom (USCIRF)",
+            "role": "Religious Authority → Religious-freedom restrictions, persecution, and Countries of Particular Concern",
+            "data_type": "indicator"
+          }
+        ]
     },
     {
       "domain": "science",
@@ -1415,7 +1497,48 @@
     {
       "domain": "religion",
       "label": "Religion & Symbolic Systems",
-      "role": "Theological Doctrine"
+      "role": "Theological Doctrine",
+      "functional_role": "simulator",
+      "companies": [
+          {
+            "name": "World Council of Churches",
+            "ticker_or_id": "WCC",
+            "functional_reason": "Routes and distributes theological doctrine resources, connecting supply nodes to demand endpoints across the system",
+            "binding_strength": 0.67
+          },
+          {
+            "name": "World Vision International",
+            "ticker_or_id": "WORLD_VISION",
+            "functional_reason": "Executes core theological doctrine operations, delivering primary output and managing day-to-day functional processes",
+            "binding_strength": 0.66
+          },
+          {
+            "name": "Vatican (Holy See)",
+            "ticker_or_id": "VATICAN",
+            "functional_reason": "Models and simulates theological doctrine scenarios, generating forecasts and testing strategic alternatives",
+            "binding_strength": 0.95
+          }
+        ],
+      "indicators": [
+          {
+            "id": "PEW_RLS",
+            "source": "Pew Research Center — Religious Landscape Study",
+            "role": "Theological Doctrine → Congregational affiliation, switching, and disaffiliation (\"nones\") trends",
+            "data_type": "indicator"
+          },
+          {
+            "id": "ARDA",
+            "source": "Association of Religion Data Archives (ARDA)",
+            "role": "Theological Doctrine → Denomination census, congregational counts, and clergy-pipeline membership data",
+            "data_type": "indicator"
+          },
+          {
+            "id": "WVS",
+            "source": "World Values Survey — Religious Values module",
+            "role": "Theological Doctrine → Cross-national belief, practice, and secularization indicators",
+            "data_type": "indicator"
+          }
+        ]
     },
     {
       "domain": "science",
@@ -2403,7 +2526,48 @@
     {
       "domain": "religion",
       "label": "Religion & Symbolic Systems",
-      "role": "Moral Reasoning"
+      "role": "Moral Reasoning",
+      "functional_role": "arbitrator",
+      "companies": [
+          {
+            "name": "Pew Research Center (Religion)",
+            "ticker_or_id": "PEW",
+            "functional_reason": "Detects and monitors moral reasoning signals, identifying early disruption patterns and emerging conditions",
+            "binding_strength": 0.69
+          },
+          {
+            "name": "World Council of Churches",
+            "ticker_or_id": "WCC",
+            "functional_reason": "Routes and distributes moral reasoning resources, connecting supply nodes to demand endpoints across the system",
+            "binding_strength": 0.69
+          },
+          {
+            "name": "Organisation of Islamic Cooperation",
+            "ticker_or_id": "OIC",
+            "functional_reason": "Routes and distributes moral reasoning resources, connecting supply nodes to demand endpoints across the system",
+            "binding_strength": 0.7
+          }
+        ],
+      "indicators": [
+          {
+            "id": "PRRI_CENSUS",
+            "source": "PRRI — American Values Atlas / Census of American Religion",
+            "role": "Moral Reasoning → Religious-tradition distribution and affiliation by geography and cohort",
+            "data_type": "indicator"
+          },
+          {
+            "id": "WVS",
+            "source": "World Values Survey — Religious Values module",
+            "role": "Moral Reasoning → Cross-national belief, practice, and secularization indicators",
+            "data_type": "indicator"
+          },
+          {
+            "id": "PEW_RLS",
+            "source": "Pew Research Center — Religious Landscape Study",
+            "role": "Moral Reasoning → Congregational affiliation, switching, and disaffiliation (\"nones\") trends",
+            "data_type": "indicator"
+          }
+        ]
     },
     {
       "domain": "science",
@@ -2681,7 +2845,48 @@
     {
       "domain": "religion",
       "label": "Religion & Symbolic Systems",
-      "role": "Symbolic Mythology"
+      "role": "Symbolic Mythology",
+      "functional_role": "buffer",
+      "companies": [
+          {
+            "name": "International Association for Religious Freedom",
+            "ticker_or_id": "IARF",
+            "functional_reason": "Stabilizes symbolic mythology oscillations, maintaining homeostatic balance and damping system volatility",
+            "binding_strength": 0.71
+          },
+          {
+            "name": "Templeton Foundation",
+            "ticker_or_id": "TEMPLETON",
+            "functional_reason": "Allocates and regulates symbolic mythology resources, setting priorities and distributing capacity across competing needs",
+            "binding_strength": 0.69
+          },
+          {
+            "name": "Pew Research Center (Religion)",
+            "ticker_or_id": "PEW",
+            "functional_reason": "Stores and retrieves symbolic mythology knowledge, maintaining institutional memory and diagnostic baselines",
+            "binding_strength": 0.89
+          }
+        ],
+      "indicators": [
+          {
+            "id": "WVS",
+            "source": "World Values Survey — Religious Values module",
+            "role": "Symbolic Mythology → Cross-national belief, practice, and secularization indicators",
+            "data_type": "indicator"
+          },
+          {
+            "id": "PEW_RLS",
+            "source": "Pew Research Center — Religious Landscape Study",
+            "role": "Symbolic Mythology → Congregational affiliation, switching, and disaffiliation (\"nones\") trends",
+            "data_type": "indicator"
+          },
+          {
+            "id": "ARDA",
+            "source": "Association of Religion Data Archives (ARDA)",
+            "role": "Symbolic Mythology → Denomination census, congregational counts, and clergy-pipeline membership data",
+            "data_type": "indicator"
+          }
+        ]
     },
     {
       "domain": "science",
@@ -3088,7 +3293,48 @@
     {
       "domain": "religion",
       "label": "Religion & Symbolic Systems",
-      "role": "Mystical Experience"
+      "role": "Mystical Experience",
+      "functional_role": "stabilizer",
+      "companies": [
+          {
+            "name": "International Association for Religious Freedom",
+            "ticker_or_id": "IARF",
+            "functional_reason": "Stabilizes mystical experience oscillations, maintaining homeostatic balance and damping system volatility",
+            "binding_strength": 0.87
+          },
+          {
+            "name": "World Council of Churches",
+            "ticker_or_id": "WCC",
+            "functional_reason": "Stabilizes mystical experience oscillations, maintaining homeostatic balance and damping system volatility",
+            "binding_strength": 0.88
+          },
+          {
+            "name": "Vatican (Holy See)",
+            "ticker_or_id": "VATICAN",
+            "functional_reason": "Stabilizes mystical experience oscillations, maintaining homeostatic balance and damping system volatility",
+            "binding_strength": 0.89
+          }
+        ],
+      "indicators": [
+          {
+            "id": "GALLUP_REL",
+            "source": "Gallup — Religion & Worship",
+            "role": "Mystical Experience → Worship-attendance, religious-importance, and confidence-in-religion time series",
+            "data_type": "indicator"
+          },
+          {
+            "id": "WVS",
+            "source": "World Values Survey — Religious Values module",
+            "role": "Mystical Experience → Cross-national belief, practice, and secularization indicators",
+            "data_type": "indicator"
+          },
+          {
+            "id": "PEW_RLS",
+            "source": "Pew Research Center — Religious Landscape Study",
+            "role": "Mystical Experience → Congregational affiliation, switching, and disaffiliation (\"nones\") trends",
+            "data_type": "indicator"
+          }
+        ]
     },
     {
       "domain": "communication",
@@ -3812,7 +4058,48 @@
     {
       "domain": "religion",
       "label": "Religion & Symbolic Systems",
-      "role": "Ritual Practice"
+      "role": "Ritual Practice",
+      "functional_role": "stabilizer",
+      "companies": [
+          {
+            "name": "International Association for Religious Freedom",
+            "ticker_or_id": "IARF",
+            "functional_reason": "Stabilizes ritual practice oscillations, maintaining homeostatic balance and damping system volatility",
+            "binding_strength": 0.87
+          },
+          {
+            "name": "Organisation of Islamic Cooperation",
+            "ticker_or_id": "OIC",
+            "functional_reason": "Stabilizes ritual practice oscillations, maintaining homeostatic balance and damping system volatility",
+            "binding_strength": 0.9
+          },
+          {
+            "name": "Association of Theological Schools",
+            "ticker_or_id": "ATS",
+            "functional_reason": "Stabilizes ritual practice oscillations, maintaining homeostatic balance and damping system volatility",
+            "binding_strength": 0.95
+          }
+        ],
+      "indicators": [
+          {
+            "id": "PEW_RLS",
+            "source": "Pew Research Center — Religious Landscape Study",
+            "role": "Ritual Practice → Congregational affiliation, switching, and disaffiliation (\"nones\") trends",
+            "data_type": "indicator"
+          },
+          {
+            "id": "ARDA",
+            "source": "Association of Religion Data Archives (ARDA)",
+            "role": "Ritual Practice → Denomination census, congregational counts, and clergy-pipeline membership data",
+            "data_type": "indicator"
+          },
+          {
+            "id": "GALLUP_REL",
+            "source": "Gallup — Religion & Worship",
+            "role": "Ritual Practice → Worship-attendance, religious-importance, and confidence-in-religion time series",
+            "data_type": "indicator"
+          }
+        ]
     },
     {
       "domain": "technology",
@@ -4645,7 +4932,48 @@
     {
       "domain": "religion",
       "label": "Religion & Symbolic Systems",
-      "role": "Meditation & Contemplation"
+      "role": "Meditation & Contemplation",
+      "functional_role": "simulator",
+      "companies": [
+          {
+            "name": "Templeton Foundation",
+            "ticker_or_id": "TEMPLETON",
+            "functional_reason": "Allocates and regulates meditation & contemplation resources, setting priorities and distributing capacity across competing needs",
+            "binding_strength": 0.72
+          },
+          {
+            "name": "Organisation of Islamic Cooperation",
+            "ticker_or_id": "OIC",
+            "functional_reason": "Routes and distributes meditation & contemplation resources, connecting supply nodes to demand endpoints across the system",
+            "binding_strength": 0.65
+          },
+          {
+            "name": "Association of Theological Schools",
+            "ticker_or_id": "ATS",
+            "functional_reason": "Stores and retrieves meditation & contemplation knowledge, maintaining institutional memory and diagnostic baselines",
+            "binding_strength": 0.78
+          }
+        ],
+      "indicators": [
+          {
+            "id": "GALLUP_REL",
+            "source": "Gallup — Religion & Worship",
+            "role": "Meditation & Contemplation → Worship-attendance, religious-importance, and confidence-in-religion time series",
+            "data_type": "indicator"
+          },
+          {
+            "id": "PEW_RLS",
+            "source": "Pew Research Center — Religious Landscape Study",
+            "role": "Meditation & Contemplation → Congregational affiliation, switching, and disaffiliation (\"nones\") trends",
+            "data_type": "indicator"
+          },
+          {
+            "id": "WVS",
+            "source": "World Values Survey — Religious Values module",
+            "role": "Meditation & Contemplation → Cross-national belief, practice, and secularization indicators",
+            "data_type": "indicator"
+          }
+        ]
     },
     {
       "domain": "addiction",
@@ -5350,7 +5678,48 @@
     {
       "domain": "religion",
       "label": "Religion & Symbolic Systems",
-      "role": "Interfaith Dialogue"
+      "role": "Interfaith Dialogue",
+      "functional_role": "signal_detector",
+      "companies": [
+          {
+            "name": "Salvation Army",
+            "ticker_or_id": "SALVATION_ARMY",
+            "functional_reason": "Executes core interfaith dialogue operations, delivering primary output and managing day-to-day functional processes",
+            "binding_strength": 0.67
+          },
+          {
+            "name": "International Association for Religious Freedom",
+            "ticker_or_id": "IARF",
+            "functional_reason": "Stabilizes interfaith dialogue oscillations, maintaining homeostatic balance and damping system volatility",
+            "binding_strength": 0.76
+          },
+          {
+            "name": "Vatican (Holy See)",
+            "ticker_or_id": "VATICAN",
+            "functional_reason": "Stabilizes interfaith dialogue oscillations, maintaining homeostatic balance and damping system volatility",
+            "binding_strength": 0.78
+          }
+        ],
+      "indicators": [
+          {
+            "id": "PEW_RLS",
+            "source": "Pew Research Center — Religious Landscape Study",
+            "role": "Interfaith Dialogue → Congregational affiliation, switching, and disaffiliation (\"nones\") trends",
+            "data_type": "indicator"
+          },
+          {
+            "id": "PRRI_CENSUS",
+            "source": "PRRI — American Values Atlas / Census of American Religion",
+            "role": "Interfaith Dialogue → Religious-tradition distribution and affiliation by geography and cohort",
+            "data_type": "indicator"
+          },
+          {
+            "id": "WVS",
+            "source": "World Values Survey — Religious Values module",
+            "role": "Interfaith Dialogue → Cross-national belief, practice, and secularization indicators",
+            "data_type": "indicator"
+          }
+        ]
     },
     {
       "domain": "science",
@@ -5474,7 +5843,48 @@
     {
       "domain": "religion",
       "label": "Religion & Symbolic Systems",
-      "role": "Prophecy & Revelation"
+      "role": "Prophecy & Revelation",
+      "functional_role": "simulator",
+      "companies": [
+          {
+            "name": "Templeton Foundation",
+            "ticker_or_id": "TEMPLETON",
+            "functional_reason": "Allocates and regulates prophecy & revelation resources, setting priorities and distributing capacity across competing needs",
+            "binding_strength": 0.73
+          },
+          {
+            "name": "Interfaith Youth Core (IFYC)",
+            "ticker_or_id": "IFYC_NPO",
+            "functional_reason": "Amplifies and scales prophecy & revelation capacity, driving growth and expanding reach of prophecy & revelation operations",
+            "binding_strength": 0.7
+          },
+          {
+            "name": "World Vision International",
+            "ticker_or_id": "WORLD_VISION",
+            "functional_reason": "Executes core prophecy & revelation operations, delivering primary output and managing day-to-day functional processes",
+            "binding_strength": 0.74
+          }
+        ],
+      "indicators": [
+          {
+            "id": "PEW_RLS",
+            "source": "Pew Research Center — Religious Landscape Study",
+            "role": "Prophecy & Revelation → Congregational affiliation, switching, and disaffiliation (\"nones\") trends",
+            "data_type": "indicator"
+          },
+          {
+            "id": "WVS",
+            "source": "World Values Survey — Religious Values module",
+            "role": "Prophecy & Revelation → Cross-national belief, practice, and secularization indicators",
+            "data_type": "indicator"
+          },
+          {
+            "id": "GALLUP_REL",
+            "source": "Gallup — Religion & Worship",
+            "role": "Prophecy & Revelation → Worship-attendance, religious-importance, and confidence-in-religion time series",
+            "data_type": "indicator"
+          }
+        ]
     },
     {
       "domain": "science",
@@ -6126,7 +6536,48 @@
     {
       "domain": "religion",
       "label": "Religion & Symbolic Systems",
-      "role": "Religious Education"
+      "role": "Religious Education",
+      "functional_role": "simulator",
+      "companies": [
+          {
+            "name": "World Council of Churches",
+            "ticker_or_id": "WCC",
+            "functional_reason": "Routes and distributes religious education resources, connecting supply nodes to demand endpoints across the system",
+            "binding_strength": 0.77
+          },
+          {
+            "name": "Vatican (Holy See)",
+            "ticker_or_id": "VATICAN",
+            "functional_reason": "Models and simulates religious education scenarios, generating forecasts and testing strategic alternatives",
+            "binding_strength": 0.94
+          },
+          {
+            "name": "Catholic Relief Services",
+            "ticker_or_id": "CRS_NPO",
+            "functional_reason": "Executes core religious education operations, delivering primary output and managing day-to-day functional processes",
+            "binding_strength": 0.76
+          }
+        ],
+      "indicators": [
+          {
+            "id": "ARDA",
+            "source": "Association of Religion Data Archives (ARDA)",
+            "role": "Religious Education → Denomination census, congregational counts, and clergy-pipeline membership data",
+            "data_type": "indicator"
+          },
+          {
+            "id": "PEW_RLS",
+            "source": "Pew Research Center — Religious Landscape Study",
+            "role": "Religious Education → Congregational affiliation, switching, and disaffiliation (\"nones\") trends",
+            "data_type": "indicator"
+          },
+          {
+            "id": "PRRI_CENSUS",
+            "source": "PRRI — American Values Atlas / Census of American Religion",
+            "role": "Religious Education → Religious-tradition distribution and affiliation by geography and cohort",
+            "data_type": "indicator"
+          }
+        ]
     },
     {
       "domain": "science",
@@ -6409,7 +6860,48 @@
     {
       "domain": "religion",
       "label": "Religion & Symbolic Systems",
-      "role": "Scripture & Canon"
+      "role": "Scripture & Canon",
+      "functional_role": "buffer",
+      "companies": [
+          {
+            "name": "Templeton Foundation",
+            "ticker_or_id": "TEMPLETON",
+            "functional_reason": "Allocates and regulates scripture & canon resources, setting priorities and distributing capacity across competing needs",
+            "binding_strength": 0.65
+          },
+          {
+            "name": "International Association for Religious Freedom",
+            "ticker_or_id": "IARF",
+            "functional_reason": "Stabilizes scripture & canon oscillations, maintaining homeostatic balance and damping system volatility",
+            "binding_strength": 0.67
+          },
+          {
+            "name": "Interfaith Youth Core (IFYC)",
+            "ticker_or_id": "IFYC_NPO",
+            "functional_reason": "Amplifies and scales scripture & canon capacity, driving growth and expanding reach of scripture & canon operations",
+            "binding_strength": 0.75
+          }
+        ],
+      "indicators": [
+          {
+            "id": "ARDA",
+            "source": "Association of Religion Data Archives (ARDA)",
+            "role": "Scripture & Canon → Denomination census, congregational counts, and clergy-pipeline membership data",
+            "data_type": "indicator"
+          },
+          {
+            "id": "PEW_RLS",
+            "source": "Pew Research Center — Religious Landscape Study",
+            "role": "Scripture & Canon → Congregational affiliation, switching, and disaffiliation (\"nones\") trends",
+            "data_type": "indicator"
+          },
+          {
+            "id": "WVS",
+            "source": "World Values Survey — Religious Values module",
+            "role": "Scripture & Canon → Cross-national belief, practice, and secularization indicators",
+            "data_type": "indicator"
+          }
+        ]
     },
     {
       "domain": "science",
@@ -6530,7 +7022,48 @@
     {
       "domain": "religion",
       "label": "Religion & Symbolic Systems",
-      "role": "Sacred Architecture"
+      "role": "Sacred Architecture",
+      "functional_role": "executor",
+      "companies": [
+          {
+            "name": "Catholic Relief Services",
+            "ticker_or_id": "CRS_NPO",
+            "functional_reason": "Executes core sacred architecture operations, delivering primary output and managing day-to-day functional processes",
+            "binding_strength": 0.85
+          },
+          {
+            "name": "Salvation Army",
+            "ticker_or_id": "SALVATION_ARMY",
+            "functional_reason": "Executes core sacred architecture operations, delivering primary output and managing day-to-day functional processes",
+            "binding_strength": 0.85
+          },
+          {
+            "name": "World Vision International",
+            "ticker_or_id": "WORLD_VISION",
+            "functional_reason": "Executes core sacred architecture operations, delivering primary output and managing day-to-day functional processes",
+            "binding_strength": 0.95
+          }
+        ],
+      "indicators": [
+          {
+            "id": "ARDA",
+            "source": "Association of Religion Data Archives (ARDA)",
+            "role": "Sacred Architecture → Denomination census, congregational counts, and clergy-pipeline membership data",
+            "data_type": "indicator"
+          },
+          {
+            "id": "PEW_RLS",
+            "source": "Pew Research Center — Religious Landscape Study",
+            "role": "Sacred Architecture → Congregational affiliation, switching, and disaffiliation (\"nones\") trends",
+            "data_type": "indicator"
+          },
+          {
+            "id": "PRRI_CENSUS",
+            "source": "PRRI — American Values Atlas / Census of American Religion",
+            "role": "Sacred Architecture → Religious-tradition distribution and affiliation by geography and cohort",
+            "data_type": "indicator"
+          }
+        ]
     },
     {
       "domain": "science",
@@ -8298,7 +8831,48 @@
     {
       "domain": "religion",
       "label": "Religion & Symbolic Systems",
-      "role": "Monastic Traditions"
+      "role": "Monastic Traditions",
+      "functional_role": "stabilizer",
+      "companies": [
+          {
+            "name": "International Association for Religious Freedom",
+            "ticker_or_id": "IARF",
+            "functional_reason": "Stabilizes monastic traditions oscillations, maintaining homeostatic balance and damping system volatility",
+            "binding_strength": 0.89
+          },
+          {
+            "name": "Organisation of Islamic Cooperation",
+            "ticker_or_id": "OIC",
+            "functional_reason": "Stabilizes monastic traditions oscillations, maintaining homeostatic balance and damping system volatility",
+            "binding_strength": 0.87
+          },
+          {
+            "name": "Vatican (Holy See)",
+            "ticker_or_id": "VATICAN",
+            "functional_reason": "Stabilizes monastic traditions oscillations, maintaining homeostatic balance and damping system volatility",
+            "binding_strength": 0.91
+          }
+        ],
+      "indicators": [
+          {
+            "id": "ARDA",
+            "source": "Association of Religion Data Archives (ARDA)",
+            "role": "Monastic Traditions → Denomination census, congregational counts, and clergy-pipeline membership data",
+            "data_type": "indicator"
+          },
+          {
+            "id": "PEW_RLS",
+            "source": "Pew Research Center — Religious Landscape Study",
+            "role": "Monastic Traditions → Congregational affiliation, switching, and disaffiliation (\"nones\") trends",
+            "data_type": "indicator"
+          },
+          {
+            "id": "GALLUP_REL",
+            "source": "Gallup — Religion & Worship",
+            "role": "Monastic Traditions → Worship-attendance, religious-importance, and confidence-in-religion time series",
+            "data_type": "indicator"
+          }
+        ]
     },
     {
       "domain": "trade",
@@ -11052,7 +11626,48 @@
     {
       "domain": "religion",
       "label": "Religion & Symbolic Systems",
-      "role": "Pilgrimage"
+      "role": "Pilgrimage",
+      "functional_role": "stabilizer",
+      "companies": [
+          {
+            "name": "Vatican (Holy See)",
+            "ticker_or_id": "VATICAN",
+            "functional_reason": "Stabilizes pilgrimage oscillations, maintaining homeostatic balance and damping system volatility",
+            "binding_strength": 0.95
+          },
+          {
+            "name": "International Association for Religious Freedom",
+            "ticker_or_id": "IARF",
+            "functional_reason": "Stabilizes pilgrimage oscillations, maintaining homeostatic balance and damping system volatility",
+            "binding_strength": 0.93
+          },
+          {
+            "name": "Association of Theological Schools",
+            "ticker_or_id": "ATS",
+            "functional_reason": "Stabilizes pilgrimage oscillations, maintaining homeostatic balance and damping system volatility",
+            "binding_strength": 0.87
+          }
+        ],
+      "indicators": [
+          {
+            "id": "PEW_RLS",
+            "source": "Pew Research Center — Religious Landscape Study",
+            "role": "Pilgrimage → Congregational affiliation, switching, and disaffiliation (\"nones\") trends",
+            "data_type": "indicator"
+          },
+          {
+            "id": "GALLUP_REL",
+            "source": "Gallup — Religion & Worship",
+            "role": "Pilgrimage → Worship-attendance, religious-importance, and confidence-in-religion time series",
+            "data_type": "indicator"
+          },
+          {
+            "id": "WVS",
+            "source": "World Values Survey — Religious Values module",
+            "role": "Pilgrimage → Cross-national belief, practice, and secularization indicators",
+            "data_type": "indicator"
+          }
+        ]
     },
     {
       "domain": "addiction",
@@ -11930,7 +12545,48 @@
     {
       "domain": "religion",
       "label": "Religion & Symbolic Systems",
-      "role": "Sacred Music"
+      "role": "Sacred Music",
+      "functional_role": "signal_detector",
+      "companies": [
+          {
+            "name": "Salvation Army",
+            "ticker_or_id": "SALVATION_ARMY",
+            "functional_reason": "Executes core sacred music operations, delivering primary output and managing day-to-day functional processes",
+            "binding_strength": 0.75
+          },
+          {
+            "name": "International Association for Religious Freedom",
+            "ticker_or_id": "IARF",
+            "functional_reason": "Stabilizes sacred music oscillations, maintaining homeostatic balance and damping system volatility",
+            "binding_strength": 0.7
+          },
+          {
+            "name": "World Vision International",
+            "ticker_or_id": "WORLD_VISION",
+            "functional_reason": "Executes core sacred music operations, delivering primary output and managing day-to-day functional processes",
+            "binding_strength": 0.68
+          }
+        ],
+      "indicators": [
+          {
+            "id": "ARDA",
+            "source": "Association of Religion Data Archives (ARDA)",
+            "role": "Sacred Music → Denomination census, congregational counts, and clergy-pipeline membership data",
+            "data_type": "indicator"
+          },
+          {
+            "id": "GALLUP_REL",
+            "source": "Gallup — Religion & Worship",
+            "role": "Sacred Music → Worship-attendance, religious-importance, and confidence-in-religion time series",
+            "data_type": "indicator"
+          },
+          {
+            "id": "PEW_RLS",
+            "source": "Pew Research Center — Religious Landscape Study",
+            "role": "Sacred Music → Congregational affiliation, switching, and disaffiliation (\"nones\") trends",
+            "data_type": "indicator"
+          }
+        ]
     },
     {
       "domain": "addiction",

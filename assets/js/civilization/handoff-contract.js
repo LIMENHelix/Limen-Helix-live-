@@ -609,8 +609,34 @@
     // business-grants — law added (additive): regulatory-compliance / court-
     //   modernization grants (legal-services & access-to-justice public funding)
     //   originate from the law (judicial/legal-system) domain.
-    'business-grants': { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['agriculture','industry','infrastructure','supplyChain','education','energy','technology','governance','law'] },
-    'research-grants': { minEvidence: 0.55, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['research','education','medicine','health','science','environment'] },
+    // business-grants — religion added (additive, PUBLIC-INTEREST AFFINITY, not a
+    //   technical-source lane): faith institutions ORIGINATE public-interest grant
+    //   opportunity via energy-transition policy research, green-energy public
+    //   education, and sacred-lands / intergenerational-stewardship conservation
+    //   advocacy. This is religion's AFFINITY route (climate-justice / energy-ethics
+    //   / land-stewardship narratives) — religion couples to energy/governance via
+    //   MEANING & POLICY, never as a fuel/grid/commodity source. Religion is therefore
+    //   added ONLY to public-interest lanes (business-grants, nsf-project-pitch,
+    //   research-grants, copyrights) and NEVER to patents/investments/industrial/
+    //   defense lanes (those require technical/industrial identity religion lacks).
+    //   Religion binds to INDICATORS & INSTITUTIONS (Pew Religious Landscape Study,
+    //   ARDA, Gallup, PRRI, World Values Survey, USCIRF), never company tickers, and
+    //   stays DISTINCT from culture (secular content/scenes), population (affiliation
+    //   demographics is a coupling), and governance (religious-freedom policy is a
+    //   coupling). NEVER energy oil/gas/grid content.
+    'business-grants': { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['agriculture','industry','infrastructure','supplyChain','education','energy','technology','governance','law','religion'] },
+    // research-grants — religion added (additive, PUBLIC-INTEREST AFFINITY): religious
+    //   scholarship on energy ethics, environmental theology, religion-and-climate
+    //   research, and faith-community public-education programs originate research-grant
+    //   opportunity from the religion domain. This is religion's AFFINITY route via
+    //   meaning & policy, NOT a technical-source claim. Religion binds to INDICATORS &
+    //   INSTITUTIONS (Pew Religious Landscape Study, ARDA Association of Religion Data
+    //   Archives, Gallup, PRRI, World Values Survey, USCIRF religious-freedom), never
+    //   company tickers, never energy oil/gas/grid content; DISTINCT from culture
+    //   (secular content), population (affiliation demographics is a coupling), and
+    //   governance (religious-freedom policy is a coupling). Added ONLY to public-
+    //   interest lanes; NEVER patents/investments/industrial/defense.
+    'research-grants': { minEvidence: 0.55, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['research','education','medicine','health','science','environment','religion'] },
     // nsf-project-pitch — NSF SBIR/STTR Project Pitch lane. Stricter than the
     // generic research-grants gate: NSF demands BOTH technical innovation AND
     // commercial potential, so minConfidence is bumped. Passing this gate only
@@ -623,7 +649,18 @@
     //   finance coupling). Does NOT signal NSF eligibility — only packet detail.
     // nsf-project-pitch — law added (additive): legal-tech / judicial-efficiency /
     //   access-to-justice research pitches originate from the law domain.
-    'nsf-project-pitch': { minEvidence: 0.55, minConfidence: 0.60, singleDomainOnly: false, anyDomain: ['research','technology','medicine','health','science','energy','infrastructure','environment','industry','governance','law'] },
+    // nsf-project-pitch — religion added (additive, PUBLIC-INTEREST AFFINITY): faith-
+    //   led climate-justice / energy-ethics / religion-and-society research pitches
+    //   (e.g. religious-environmental-movement studies, intergenerational-stewardship
+    //   doctrine, faith-community energy-transition behavior) originate from the
+    //   religion domain. This is religion's AFFINITY route via meaning & policy, NOT
+    //   a technical-source claim — religion never supplies NSF technical-innovation
+    //   identity (that stays with research/technology/science/energy), only the
+    //   social-research / ethics / public-engagement angle. Does NOT signal NSF
+    //   eligibility — only packet detail. Religion binds to INDICATORS (Pew, ARDA,
+    //   PRRI, World Values Survey, USCIRF), never tickers, never energy oil/gas/grid
+    //   content; DISTINCT from culture, population, and governance (see business-grants).
+    'nsf-project-pitch': { minEvidence: 0.55, minConfidence: 0.60, singleDomainOnly: false, anyDomain: ['research','technology','medicine','health','science','energy','infrastructure','environment','industry','governance','law','religion'] },
     'sba-loans':       { minEvidence: 0.45, minConfidence: 0.50, singleDomainOnly: true,  anyDomain: ['economy','finance','industry','agriculture','supplyChain','infrastructure','technology'] },
     'franchise':       { minEvidence: 0.45, minConfidence: 0.50, singleDomainOnly: true,  anyDomain: ['supplyChain','industry','culture','agriculture'] },
     'investments':     { minEvidence: 0.55, minConfidence: 0.60, singleDomainOnly: true,  anyDomain: ['finance','economy','technology','energy','infrastructure'] },

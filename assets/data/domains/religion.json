@@ -1444,200 +1444,581 @@
     {
       "brainNodeId": "SNS",
       "state": "active",
-      "domainLabel": "Religionlaw",
-      "domainDescription": "Religionlaw systems within Religion & Symbolic Systems",
-      "group": "theology",
-      "phase": "P9",
+      "domainLabel": "Religious Law & Freedom",
+      "domainDescription": "Religious legal systems (canon law, Sharia, Halakha, Vinaya) and the legal status of religious belief and practice — religious courts, conscience objection, religious exemptions, blasphemy and apostasy law, hate-speech protections, and church-state separation",
+      "domainFunction": "Defines the boundary between religious authority and civil authority and the protected space in which belief and worship may be exercised; governs how faith communities adjudicate internal disputes and how states recognize or restrict religious freedom",
+      "whyThisNode": "Sympathetic nervous system as the body's boundary-defense and threat-response axis — SNS sets the protective perimeter and mobilizes against incursion, mirroring how religious-freedom law defines and defends the protected boundary of conscience and worship against coercion",
+      "group": "institutional",
+      "phase": "P7",
       "weight": 0.8,
-      "diagnosticTriggers": [],
-      "treatments": [],
+      "feedClass": "religious_freedom",
+      "seriesId": "USCIRF_FREEDOM_1to5",
+      "dataSources": ["USCIRF", "PEW", "ARDA"],
+      "diagnosticTriggers": [
+        "RELIGIOUS_FREEDOM_VIOLATION",
+        "BLASPHEMY_APOSTASY_LAW",
+        "CHURCH_STATE_BOUNDARY_BREACH"
+      ],
+      "diagnosticThresholds": {
+        "RELIGIOUS_FREEDOM_VIOLATION": "USCIRF country designation moves to CPC/SWL OR Pew Government Restrictions Index rises 1+ level",
+        "BLASPHEMY_APOSTASY_LAW": "Pew share of countries with blasphemy/apostasy laws rises year-over-year",
+        "CHURCH_STATE_BOUNDARY_BREACH": "ARDA religion-and-state establishment score increases (toward established religion or active restriction)"
+      },
+      "treatments": [
+        {
+          "label": "Religious-freedom condition audit",
+          "type": "DIAGNOSTIC",
+          "description": "Score jurisdiction against USCIRF designations and Pew Government Restrictions / Social Hostilities indices to locate where conscience and worship are constrained",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Conscience-protection framework",
+          "type": "STRUCTURAL",
+          "description": "Establish proportionate religious-exemption and accommodation statutes balanced against equal-protection and anti-discrimination law",
+          "evidence": "Moderate"
+        }
+      ],
       "childPortal": "religion_religionlaw_portal.html",
+      "phase_archetype": "P7",
+      "functional_role": "boundary",
+      "companies": [
+        {
+          "name": "U.S. Commission on International Religious Freedom",
+          "ticker_or_id": "USCIRF",
+          "functional_reason": "Monitors and reports religious-freedom conditions worldwide, designating Countries of Particular Concern — the primary boundary-defense monitor for conscience and worship",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "Pew Research Center — Religion & Public Life (Restrictions Project)",
+          "ticker_or_id": "PEW",
+          "functional_reason": "Measures government restrictions and social hostilities involving religion across nearly all countries, supplying the quantitative freedom-condition baseline",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "Association of Religion Data Archives (Religion & State)",
+          "ticker_or_id": "ARDA",
+          "functional_reason": "Curates religion-and-state legal data (establishment, regulation, discrimination), the data custodian for church-state boundary status",
+          "binding_strength": 0.8
+        }
+      ],
       "neuralRole": "Limbic",
-      "brainNodeRoleCanonical": "Religionlaw",
+      "brainNodeRoleCanonical": "Religious Law & Freedom",
       "brainNodeLabelCanonical": "Religion & Symbolic Systems",
       "linkedDirectiveCount": 0,
       "crossDomainAffinities": [
         {
-          "domain": "economy",
-          "role": "Energy Econ"
+          "domain": "governance",
+          "role": "Religious Freedom & Pluralism Policy"
         },
         {
-          "domain": "metabolic",
-          "role": "Sympathetic Metabolic Activation"
+          "domain": "law",
+          "role": "Religious Exemption & Conscience Statutes"
         },
         {
-          "domain": "communication",
-          "role": "Baseline Calibration Governance"
-        },
-        {
-          "domain": "culture",
-          "role": "commercial office — Signal Acquisition"
-        },
-        {
-          "domain": "defense",
-          "role": "Humanitarian Airlift Assessment & Diagnostics"
+          "domain": "population",
+          "role": "Religious Affiliation & Minority Status"
         },
         {
           "domain": "education",
-          "role": "Trend Analysis Infrastructure & Capacity"
-        },
-        {
-          "domain": "energy",
-          "role": "Recycling Processing Policy & Governance"
-        },
-        {
-          "domain": "environment",
-          "role": "Stratospheric Ozone Assessment & Diagnostics"
+          "role": "Religious Education Rights"
         }
       ]
     },
     {
       "brainNodeId": "VV",
       "state": "active",
-      "domainLabel": "Relmedia",
-      "domainDescription": "Relmedia systems within Religion & Symbolic Systems",
-      "group": "theology",
-      "phase": "P9",
+      "domainLabel": "Religious Media & Communication",
+      "domainDescription": "Faith-community communication channels — religious broadcasting and televangelism, faith-based journalism and publishing, sacred-music recording, devotional apps, and online faith communities",
+      "domainFunction": "Carries belief, teaching, and devotional practice across distance and generations; a second-order coupling that transmits religious identity rather than constituting it",
+      "whyThisNode": "Ventral vagal complex as the social-engagement and signaling pathway — VV mediates safe communicative connection, mirroring how religious media extends the faith community's voice and presence to dispersed adherents",
+      "group": "institutional",
+      "phase": "P6",
       "weight": 0.8,
-      "diagnosticTriggers": [],
-      "treatments": [],
+      "feedClass": "faith_communication",
+      "seriesId": "PEW_RELIGIOUS_MEDIA_USE",
+      "dataSources": ["PEW", "GALLUP"],
+      "diagnosticTriggers": [
+        "FAITH_MEDIA_REACH_DECLINE",
+        "DISINFORMATION_IN_RELIGIOUS_CHANNELS",
+        "DIGITAL_FAITH_FRAGMENTATION"
+      ],
+      "diagnosticThresholds": {
+        "FAITH_MEDIA_REACH_DECLINE": "Pew share consuming religious content via media falls year-over-year",
+        "DISINFORMATION_IN_RELIGIOUS_CHANNELS": "Rise in flagged religious-political disinformation across broadcast/online faith channels",
+        "DIGITAL_FAITH_FRAGMENTATION": "Online faith engagement disperses across siloed platforms with declining shared-source overlap"
+      },
+      "treatments": [
+        {
+          "label": "Faith-media reach audit",
+          "type": "DIAGNOSTIC",
+          "description": "Track broadcast, publishing, and digital engagement with religious content using Pew media-use and Gallup confidence measures to locate channel decline",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Trustworthy religious-communication standards",
+          "type": "STRUCTURAL",
+          "description": "Adopt sourcing, correction, and pastoral-care standards across faith media to resist disinformation while preserving devotional reach",
+          "evidence": "Moderate"
+        }
+      ],
       "childPortal": "religion_relmedia_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "transmitter",
+      "companies": [
+        {
+          "name": "Pew Research Center — Religion & Public Life",
+          "ticker_or_id": "PEW",
+          "functional_reason": "Surveys how Americans and others consume religious content across media, the measurement baseline for faith-communication reach",
+          "binding_strength": 0.8
+        },
+        {
+          "name": "Tyndale House Publishers",
+          "ticker_or_id": "TYNDALE",
+          "functional_reason": "Christian publishing channel — a second-order faith-community communication coupling, not the religious identity itself",
+          "binding_strength": 0.6
+        },
+        {
+          "name": "Gallup",
+          "ticker_or_id": "GALLUP",
+          "functional_reason": "Tracks public confidence in religious institutions and media, an observer of faith-communication trust",
+          "binding_strength": 0.62
+        }
+      ],
       "neuralRole": "Other",
-      "brainNodeRoleCanonical": "Relmedia",
+      "brainNodeRoleCanonical": "Religious Media & Communication",
       "brainNodeLabelCanonical": "Religion & Symbolic Systems",
       "linkedDirectiveCount": 0,
       "crossDomainAffinities": [
         {
-          "domain": "contemplative",
-          "role": "Vagal Tone / Parasympathetic"
-        },
-        {
-          "domain": "metabolic",
-          "role": "Vagal Metabolic Afferents"
-        },
-        {
-          "domain": "psychedelic",
-          "role": "Ventral Vagal Restoration"
-        },
-        {
           "domain": "communication",
-          "role": "Caption Accuracy Infrastructure & Capacity"
+          "role": "Sacred-Text Translation & Multi-Language Ministry"
         },
         {
           "domain": "culture",
-          "role": "Ecological Design — State Assessment"
-        },
-        {
-          "domain": "defense",
-          "role": "Coastal Defense Core Operations"
-        },
-        {
-          "domain": "economy",
-          "role": "Food Prices Human Capital & Development"
+          "role": "Religious Broadcasting & Devotional Content"
         },
         {
           "domain": "education",
-          "role": "Portfolio Review Core Operations"
+          "role": "Religious Literacy & Catechesis"
+        },
+        {
+          "domain": "population",
+          "role": "Generational Faith Engagement"
         }
       ]
     },
     {
       "brainNodeId": "SC",
       "state": "active",
-      "domainLabel": "Relorg",
-      "domainDescription": "Relorg systems within Religion & Symbolic Systems",
-      "group": "theology",
-      "phase": "P9",
+      "domainLabel": "Religious Organization Structure",
+      "domainDescription": "The institutional architecture of faith — denominations and congregations, clergy supply and seminary enrollment, faith-based schools, megachurch networks, new religious movements, and patterns of schism and merger",
+      "domainFunction": "Provides the durable organizational scaffolding through which belief is governed, transmitted, staffed, and reproduced across generations; its growth, decline, and fragmentation track institutional vitality",
+      "whyThisNode": "Superior colliculus as orienting and structural-coordination hub — SC organizes attention and aligns the system's parts toward salient targets, mirroring how denominational structure coordinates congregations, clergy, and formation toward shared ends",
+      "group": "institutional",
+      "phase": "P6",
       "weight": 0.8,
-      "diagnosticTriggers": [],
-      "treatments": [],
+      "feedClass": "institutional_structure",
+      "seriesId": "ARDA_CONGREGATIONS_CENSUS",
+      "dataSources": ["ARDA", "PEW", "GALLUP"],
+      "diagnosticTriggers": [
+        "CLERGY_SUPPLY_SHORTAGE",
+        "CONGREGATION_CLOSURE_WAVE",
+        "DENOMINATIONAL_SCHISM"
+      ],
+      "diagnosticThresholds": {
+        "CLERGY_SUPPLY_SHORTAGE": "Seminary enrollment / ordination rate declines while clergy retirements rise",
+        "CONGREGATION_CLOSURE_WAVE": "ARDA congregational census shows net closures exceeding new starts year-over-year",
+        "DENOMINATIONAL_SCHISM": "Formal denominational split or disaffiliation wave recorded in denominational yearbooks"
+      },
+      "treatments": [
+        {
+          "label": "Institutional-vitality census",
+          "type": "DIAGNOSTIC",
+          "description": "Track congregation counts, clergy supply, and seminary enrollment via ARDA religious-congregations data and denominational yearbooks to locate structural decline",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Clergy-pipeline and congregation-renewal program",
+          "type": "STRUCTURAL",
+          "description": "Strengthen formation pathways, bivocational models, and congregation revitalization to stabilize institutional supply",
+          "evidence": "Moderate"
+        }
+      ],
       "childPortal": "religion_relorg_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "scaffold",
+      "companies": [
+        {
+          "name": "Association of Religion Data Archives (US Religion Census)",
+          "ticker_or_id": "ARDA",
+          "functional_reason": "Custodian of the US Religion Census — congregation counts and adherence by tradition and county, the structural data backbone",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "Association of Theological Schools",
+          "ticker_or_id": "ATS",
+          "functional_reason": "Accredits seminaries and tracks theological enrollment, the clergy-supply pipeline observer",
+          "binding_strength": 0.78
+        },
+        {
+          "name": "Pew Research Center — Religious Landscape Study",
+          "ticker_or_id": "PEW",
+          "functional_reason": "Maps denominational composition and switching, the affiliation-structure baseline",
+          "binding_strength": 0.82
+        }
+      ],
       "neuralRole": "Sensory",
-      "brainNodeRoleCanonical": "Relorg",
+      "brainNodeRoleCanonical": "Religious Organization Structure",
       "brainNodeLabelCanonical": "Religion & Symbolic Systems",
       "linkedDirectiveCount": 0,
       "crossDomainAffinities": [
         {
-          "domain": "communication",
-          "role": "Universal Design — Regulation Strategy"
-        },
-        {
-          "domain": "contemplative",
-          "role": "Self-Model Integration Coordination & Integration"
-        },
-        {
-          "domain": "culture",
-          "role": "LEED Certification Core Operations"
-        },
-        {
-          "domain": "defense",
-          "role": "Airlift Planning Policy & Governance"
-        },
-        {
-          "domain": "economy",
-          "role": "Agricultural Trade Technology & Innovation"
+          "domain": "population",
+          "role": "Religious Affiliation Demographics"
         },
         {
           "domain": "education",
-          "role": "College Admissions Infrastructure & Capacity"
+          "role": "Seminaries & Faith-Based Schools"
         },
         {
-          "domain": "energy",
-          "role": "Recycling Economics Core Operations"
+          "domain": "economy",
+          "role": "Faith-Based Nonprofit Employment"
         },
         {
-          "domain": "environment",
-          "role": "Air Quality Modeling Policy & Governance"
+          "domain": "infrastructure",
+          "role": "Houses of Worship Building Stock"
         }
       ]
     },
     {
       "brainNodeId": "IC",
       "state": "active",
-      "domainLabel": "Relpolitics",
-      "domainDescription": "Relpolitics systems within Religion & Symbolic Systems",
-      "group": "theology",
-      "phase": "P9",
+      "domainLabel": "Religion & Politics",
+      "domainDescription": "The interface of faith and public power — religious voting blocs, faith-based advocacy and lobbying, religious nationalism, theocratic governance, and clerical involvement in electoral politics",
+      "domainFunction": "Translates religious commitment into political mobilization and contestation; couples belief to governance and can stabilize civic life or fuel sectarian and nationalist conflict",
+      "whyThisNode": "Insular cortex as the salience and value-integration hub that converts felt conviction into motivated action — IC binds interoceptive value to behavioral drive, mirroring how religious conviction is mobilized into political agency",
+      "group": "institutional",
+      "phase": "P7",
       "weight": 0.8,
-      "diagnosticTriggers": [],
-      "treatments": [],
+      "feedClass": "religion_politics",
+      "seriesId": "PRRI_RELIGIOUS_VOTING",
+      "dataSources": ["PRRI", "PEW", "WVS"],
+      "diagnosticTriggers": [
+        "RELIGIOUS_NATIONALISM_SURGE",
+        "FAITH_ADVOCACY_POLARIZATION",
+        "CLERICAL_POLITICAL_CAPTURE"
+      ],
+      "diagnosticThresholds": {
+        "RELIGIOUS_NATIONALISM_SURGE": "PRRI Christian-nationalism (or comparable religious-nationalism) adherent share rises year-over-year",
+        "FAITH_ADVOCACY_POLARIZATION": "Pew partisan gap in religious-group voting widens across cycles",
+        "CLERICAL_POLITICAL_CAPTURE": "WVS / V-Dem indicators show rising clerical control over electoral or policy processes"
+      },
+      "treatments": [
+        {
+          "label": "Religion-politics alignment audit",
+          "type": "DIAGNOSTIC",
+          "description": "Track religious voting patterns, faith-advocacy spending, and religious-nationalism measures via PRRI and Pew to locate polarization and capture risk",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Pluralist civic-engagement framework",
+          "type": "STRUCTURAL",
+          "description": "Support cross-tradition civic coalitions and norms that channel religious conviction into pluralist participation rather than exclusionary nationalism",
+          "evidence": "Moderate"
+        }
+      ],
       "childPortal": "religion_relpolitics_portal.html",
+      "phase_archetype": "P7",
+      "functional_role": "mobilizer",
+      "companies": [
+        {
+          "name": "Public Religion Research Institute",
+          "ticker_or_id": "PRRI",
+          "functional_reason": "Researches religion in American public life including religious nationalism and voting, the primary religion-politics measurement source",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "Pew Research Center — Religion & Public Life",
+          "ticker_or_id": "PEW",
+          "functional_reason": "Tracks the religious composition of the electorate and faith-group political attitudes, the voting-baseline custodian",
+          "binding_strength": 0.83
+        },
+        {
+          "name": "World Values Survey",
+          "ticker_or_id": "WVS",
+          "functional_reason": "Cross-national values data linking religiosity to political attitudes and governance, the comparative religion-politics anchor",
+          "binding_strength": 0.7
+        }
+      ],
       "neuralRole": "Other",
-      "brainNodeRoleCanonical": "Relpolitics",
+      "brainNodeRoleCanonical": "Religion & Politics",
       "brainNodeLabelCanonical": "Religion & Symbolic Systems",
       "linkedDirectiveCount": 0,
       "crossDomainAffinities": [
         {
-          "domain": "communication",
-          "role": "multilng resource — Signal Acquisition"
+          "domain": "governance",
+          "role": "Faith-Based Advocacy & Electoral Coalitions"
         },
         {
-          "domain": "contemplative",
-          "role": "Self-Model Integration Performance & Optimization"
+          "domain": "population",
+          "role": "Religious Voting Demographics"
         },
         {
-          "domain": "culture",
-          "role": "Hospitality Design Risk & Resilience"
+          "domain": "law",
+          "role": "Establishment & Free-Exercise Jurisprudence"
         },
         {
           "domain": "defense",
-          "role": "Depot Maintenance Policy & Governance"
+          "role": "Religious Conflict & Nationalism Risk"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "nACC",
+      "state": "active",
+      "domainLabel": "Secularization & Disaffiliation",
+      "domainDescription": "The negative movement of religious identity — the rise of the unaffiliated ('nones'), atheist and humanist organizing, faith deconstruction and deconversion, and declining confidence in religious institutions",
+      "domainFunction": "Tracks exit from and disengagement with organized religion as a measurable social trend; the counter-current to affiliation that reshapes the religious landscape",
+      "whyThisNode": "Nucleus accumbens as the reward-and-motivation hub whose disengagement signals loss of salience — when religious participation stops being reinforcing, motivation withdraws, mirroring disaffiliation as the draining of religious reward value",
+      "group": "social",
+      "phase": "P2",
+      "weight": 0.85,
+      "feedClass": "disaffiliation",
+      "seriesId": "PEW_UNAFFILIATED_PCT",
+      "dataSources": ["PEW", "GALLUP", "PRRI"],
+      "diagnosticTriggers": [
+        "SECULARIZATION_CRISIS",
+        "GENERATIONAL_FAITH_CLIFF",
+        "INSTITUTIONAL_CONFIDENCE_COLLAPSE"
+      ],
+      "diagnosticThresholds": {
+        "SECULARIZATION_CRISIS": "Pew unaffiliated share > 35% OR Gallup weekly-service attendance < 30%",
+        "GENERATIONAL_FAITH_CLIFF": "Unaffiliated share among adults 18-35 > 50%",
+        "INSTITUTIONAL_CONFIDENCE_COLLAPSE": "Gallup confidence in church/organized religion falls below 30%"
+      },
+      "treatments": [
+        {
+          "label": "Disaffiliation-trend decomposition",
+          "type": "DIAGNOSTIC",
+          "description": "Decompose the rise of the unaffiliated into cohort, switching, and confidence components using Pew Landscape, Gallup attendance, and PRRI leaving-religion data",
+          "evidence": "Strong"
         },
         {
-          "domain": "economy",
-          "role": "Agri Econ Infrastructure & Capacity"
+          "label": "Belonging and meaning re-engagement",
+          "type": "STRUCTURAL",
+          "description": "Address drivers of exit (institutional trust, relevance, community) rather than attendance metrics alone, informed by why-people-leave research",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "religion_secularization_portal.html",
+      "phase_archetype": "P2",
+      "functional_role": "attenuator",
+      "companies": [
+        {
+          "name": "Pew Research Center — Religious Landscape Study",
+          "ticker_or_id": "PEW",
+          "functional_reason": "Tracks the unaffiliated ('nones') and religious switching over time, the authoritative disaffiliation-trend measure",
+          "binding_strength": 0.92
+        },
+        {
+          "name": "Gallup",
+          "ticker_or_id": "GALLUP",
+          "functional_reason": "Measures long-run attendance and confidence in organized religion, the institutional-disengagement observer",
+          "binding_strength": 0.82
+        },
+        {
+          "name": "Public Religion Research Institute",
+          "ticker_or_id": "PRRI",
+          "functional_reason": "Surveys why people leave religion and disaffiliation by cohort, the deconversion-research source",
+          "binding_strength": 0.8
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Secularization & Disaffiliation",
+      "brainNodeLabelCanonical": "Religion & Symbolic Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "population",
+          "role": "Unaffiliated Demographic Trend"
+        },
+        {
+          "domain": "culture",
+          "role": "Secular & Humanist Movements"
         },
         {
           "domain": "education",
-          "role": "Yield Management Human Capital & Development"
+          "role": "Comparative & Secular Worldview Formation"
         },
         {
-          "domain": "energy",
-          "role": "Flow Cell Design Human Capital & Development"
+          "domain": "governance",
+          "role": "Secular Public-Sphere Norms"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "AMY",
+      "state": "active",
+      "domainLabel": "Sectarian Conflict & Fundamentalism",
+      "domainDescription": "Intra-faith schism, fundamentalist-versus-progressive tension, religious radicalization, and the weaponization of religious identity — the threat-and-defense pole of religious life",
+      "domainFunction": "Detects and amplifies perceived existential threat to a religious identity, hardening boundaries and driving polarization, schism, and at the extreme radicalization and violence",
+      "whyThisNode": "Amygdala as the brain's threat-detection and fear-amplification center — AMY triggers defensive aggression against perceived danger, mirroring how identity-threat narratives drive sectarian hardening and fundamentalist mobilization",
+      "group": "social",
+      "phase": "P1",
+      "weight": 0.9,
+      "feedClass": "sectarian_risk",
+      "seriesId": "USCIRF_VIOLATIONS",
+      "dataSources": ["USCIRF", "PEW", "PRRI"],
+      "diagnosticTriggers": [
+        "SECTARIAN_CONFLICT",
+        "RADICALIZATION",
+        "FUNDAMENTALIST_SURGE"
+      ],
+      "diagnosticThresholds": {
+        "SECTARIAN_CONFLICT": "USCIRF documents new religious-freedom violations OR Pew Social Hostilities Index rises 1+ level",
+        "RADICALIZATION": "Indicators of religiously-motivated extremist recruitment or violence spike",
+        "FUNDAMENTALIST_SURGE": "Fundamentalist movement adherence grows > 10% within a tradition OR PRRI inter-religious favorability polarizes"
+      },
+      "treatments": [
+        {
+          "label": "Sectarian-tension risk scan",
+          "type": "DIAGNOSTIC",
+          "description": "Combine USCIRF violation reports, Pew Social Hostilities, and PRRI inter-religious favorability to map polarization and radicalization risk",
+          "evidence": "Strong"
         },
         {
-          "domain": "environment",
-          "role": "AQI Systems Policy & Governance"
+          "label": "Inter-communal de-escalation framework",
+          "type": "STRUCTURAL",
+          "description": "Support perspective-taking, shared-rite, and conflict-mediation programs that restore inter-group trust and counter threat narratives",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "religion_sectarian_portal.html",
+      "phase_archetype": "P1",
+      "functional_role": "detector",
+      "companies": [
+        {
+          "name": "U.S. Commission on International Religious Freedom",
+          "ticker_or_id": "USCIRF",
+          "functional_reason": "Documents religious-freedom violations and persecution worldwide, the primary sectarian-conflict and threat monitor",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "Pew Research Center — Social Hostilities Project",
+          "ticker_or_id": "PEW",
+          "functional_reason": "Measures social hostilities involving religion across countries, the inter-communal tension baseline",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "Public Religion Research Institute",
+          "ticker_or_id": "PRRI",
+          "functional_reason": "Tracks inter-religious favorability and religious-nationalism polarization, the in-society radicalization-risk source",
+          "binding_strength": 0.78
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Sectarian Conflict & Fundamentalism",
+      "brainNodeLabelCanonical": "Religion & Symbolic Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "defense",
+          "role": "Religious Conflict Zones & Persecution"
+        },
+        {
+          "domain": "governance",
+          "role": "Religious Freedom Violations & Hostilities"
+        },
+        {
+          "domain": "population",
+          "role": "Religious Minority Vulnerability"
+        },
+        {
+          "domain": "culture",
+          "role": "Identity Polarization & Extremism"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "ACC",
+      "state": "active",
+      "domainLabel": "Faith-Based Social Action",
+      "domainDescription": "Religiously-motivated charity, justice movements, disaster response, and interfaith service — the institutional welfare and social-justice work of faith communities",
+      "domainFunction": "Channels religious commitment into prosocial action — giving, volunteering, humanitarian relief, and advocacy — coupling belief to economic and social outcomes beyond the congregation",
+      "whyThisNode": "Anterior cingulate cortex integrating value with social concern and conflict-monitoring — ACC weighs cost against care and motivates effortful prosocial action, mirroring faith-based service as conviction translated into sacrificial action for others",
+      "group": "social",
+      "phase": "P4",
+      "weight": 0.8,
+      "feedClass": "faith_social_action",
+      "seriesId": "IRS_RELIGIOUS_GIVING",
+      "dataSources": ["PEW", "GALLUP", "WVS"],
+      "diagnosticTriggers": [
+        "CHARITY_GIVING_DECLINE",
+        "FAITH_NGO_CLOSURE",
+        "VOLUNTEER_PARTICIPATION_DROP"
+      ],
+      "diagnosticThresholds": {
+        "CHARITY_GIVING_DECLINE": "Religiously-motivated giving share falls year-over-year",
+        "FAITH_NGO_CLOSURE": "Net closures of faith-based service organizations exceed new registrations",
+        "VOLUNTEER_PARTICIPATION_DROP": "Faith-context volunteer participation falls in Gallup/Pew civic-engagement series"
+      },
+      "treatments": [
+        {
+          "label": "Faith-based service capacity audit",
+          "type": "DIAGNOSTIC",
+          "description": "Track religiously-motivated giving, volunteering, and faith-NGO activity using Pew/Gallup civic-engagement and WVS prosociality measures",
+          "evidence": "Moderate"
+        },
+        {
+          "label": "Service-network sustainability program",
+          "type": "STRUCTURAL",
+          "description": "Strengthen funding diversification, volunteer pipelines, and interfaith coordination to sustain faith-based welfare and justice work",
+          "evidence": "Moderate"
+        }
+      ],
+      "childPortal": "religion_socialaction_portal.html",
+      "phase_archetype": "P4",
+      "functional_role": "integrator",
+      "companies": [
+        {
+          "name": "Catholic Relief Services",
+          "ticker_or_id": "CRS",
+          "functional_reason": "Major faith-based humanitarian and development organization, a primary delivery anchor for religiously-motivated relief",
+          "binding_strength": 0.8
+        },
+        {
+          "name": "The Salvation Army",
+          "ticker_or_id": "SALVATION_ARMY",
+          "functional_reason": "Faith-based social-services delivery at scale, anchoring congregational welfare and disaster response",
+          "binding_strength": 0.78
+        },
+        {
+          "name": "Pew Research Center — Religion & Public Life",
+          "ticker_or_id": "PEW",
+          "functional_reason": "Measures religiously-motivated giving and volunteering, the faith-prosociality measurement source",
+          "binding_strength": 0.75
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Faith-Based Social Action",
+      "brainNodeLabelCanonical": "Religion & Symbolic Systems",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "economy",
+          "role": "Religious Charity & Volunteer Labor"
+        },
+        {
+          "domain": "governance",
+          "role": "Faith-Based Service Partnerships"
+        },
+        {
+          "domain": "medicine",
+          "role": "Faith-Based Health & Relief Services"
+        },
+        {
+          "domain": "defense",
+          "role": "Humanitarian & Disaster Response"
         }
       ]
     }
@@ -2241,6 +2622,139 @@
       ]
     }
   ],
+  "religiousDataBindings": {
+    "_note": "Energy-parity data tank. Energy.json binds subsystems to real DATA CUSTODIANS (EIA, FRED) and per-name sector equities (DUK, NEE, FSLR...). Religious identity = BELIEF, INSTITUTIONS, PRACTICE, AFFILIATION, FREEDOM, and DISAFFILIATION — it has NO tradable equities, so it binds to real religion-data custodians (with API/series identifiers) and to real faith INSTITUTIONS classified by governance role, NOT financial tickers. The per-node activations[].companies arrays are RETAINED for engine compatibility; these bindings ADD the primary measurement and authority layer. Couplings to population (affiliation demographics), governance (religious-freedom policy), and culture (secular content/scenes) are flagged as cross-domain couplings, NOT part of religion identity. Never fabricate tickers or data; no energy oil/gas/grid content applies.",
+    "dataCustodians": [
+      {
+        "name": "Pew Research Center — Religion & Public Life",
+        "id": "PEW",
+        "role": "primary_religion_research",
+        "covers": ["belief_systems", "affiliation", "disaffiliation", "religious_freedom_restrictions", "religion_politics"],
+        "boundNodes": ["DMN", "RAPHE", "WERN", "TPJ", "nACC", "AMY", "SNS", "VV", "IC", "ACC"],
+        "endpoint": "pewresearch.org/religion (Religious Landscape Study; Global Restrictions on Religion)",
+        "series_ids": ["unaffiliated_pct", "weekly_attendance_pct", "religious_vs_spiritual_pct", "government_restrictions_index", "social_hostilities_index"],
+        "series_notes": "unaffiliated_pct = share of 'nones'; weekly_attendance_pct = self-reported weekly service attendance; government_restrictions_index (GRI) and social_hostilities_index (SHI) score state and societal limits on religion",
+        "access": "free, public reports & datasets (no key)",
+        "binding_strength": 0.95,
+        "identity_layer": "religious_belief_and_affiliation"
+      },
+      {
+        "name": "Association of Religion Data Archives",
+        "id": "ARDA",
+        "role": "primary_religion_data_custodian",
+        "covers": ["congregations", "adherence", "denominations", "religion_and_state"],
+        "boundNodes": ["DMN", "OFC", "dlPFC", "SC", "SNS"],
+        "endpoint": "thearda.com (US Religion Census; Religion & State data)",
+        "series_ids": ["us_religion_census_adherence", "congregations_count", "religion_state_establishment", "religion_state_regulation"],
+        "series_notes": "US Religion Census adherence and congregation counts by tradition and county; Religion-and-State establishment/regulation/discrimination scores",
+        "access": "free, downloadable datasets (no key)",
+        "binding_strength": 0.9,
+        "identity_layer": "religious_institutions_and_practice"
+      },
+      {
+        "name": "Gallup",
+        "id": "GALLUP",
+        "role": "practice_trend_observer",
+        "covers": ["service_attendance", "institutional_confidence", "importance_of_religion"],
+        "boundNodes": ["CBLM", "VV", "nACC", "ACC"],
+        "endpoint": "news.gallup.com/topic/religion.aspx",
+        "series_ids": ["weekly_service_pct", "confidence_in_church", "religion_important_pct"],
+        "series_notes": "Long-run polling on attendance, confidence in organized religion, and salience of religion in daily life",
+        "access": "free, published topline reports (no key)",
+        "binding_strength": 0.8,
+        "identity_layer": "religious_practice_adherence"
+      },
+      {
+        "name": "Public Religion Research Institute",
+        "id": "PRRI",
+        "role": "belief_and_pluralism_researcher",
+        "covers": ["interfaith_attitudes", "leaving_religion", "religious_nationalism", "religious_voting"],
+        "boundNodes": ["TPJ", "vmPFC", "nACC", "AMY", "IC"],
+        "endpoint": "prri.org/research",
+        "series_ids": ["interfaith_favorable_view_pct", "leave_religion_rate", "christian_nationalism_share", "religious_voting_gap"],
+        "series_notes": "Inter-religious favorability, disaffiliation by cohort, religious-nationalism adherence, and faith-group voting patterns",
+        "access": "free, public reports (no key)",
+        "binding_strength": 0.82,
+        "identity_layer": "religious_pluralism_and_politics"
+      },
+      {
+        "name": "World Values Survey",
+        "id": "WVS",
+        "role": "cross_national_values_custodian",
+        "covers": ["religiosity", "values", "belief_intensity", "secularization_cross_national"],
+        "boundNodes": ["DMN", "vmPFC", "nACC", "IC", "ACC"],
+        "endpoint": "worldvaluessurvey.org/wvs.jsp",
+        "series_ids": ["importance_of_religion", "belief_in_god", "religious_attendance", "secular_rational_values_index"],
+        "series_notes": "Cross-national waves measuring religiosity, belief intensity, and the traditional-vs-secular values dimension (Inglehart-Welzel)",
+        "access": "free, registered data download (no commercial key)",
+        "binding_strength": 0.78,
+        "identity_layer": "religious_worldviews_cross_national"
+      },
+      {
+        "name": "U.S. Commission on International Religious Freedom",
+        "id": "USCIRF",
+        "role": "religious_freedom_monitor",
+        "covers": ["religious_freedom", "persecution", "blasphemy_apostasy_law"],
+        "boundNodes": ["SNS", "AMY", "OFC", "TPJ"],
+        "endpoint": "uscirf.gov (Annual Report; country designations)",
+        "series_ids": ["country_designation_cpc_swl", "religious_freedom_index_1to5", "violations_count"],
+        "series_notes": "Country of Particular Concern (CPC) and Special Watch List (SWL) designations; per-country religious-freedom conditions and violation tracking",
+        "access": "free, public annual reports (no key)",
+        "binding_strength": 0.85,
+        "identity_layer": "religious_freedom_and_pluralism"
+      }
+    ],
+    "institutions": {
+      "_note": "Real faith institutions and research bodies, classified by governance/authority role rather than financial tradability. These are the doctrinal/administrative/custodial authorities behind religious identity. governance_role replaces energy's binding_strength price-discovery model.",
+      "authorities": [
+        { "name": "Vatican (Holy See)", "id": "VATICAN", "governance_role": "doctrinal_authority", "tradition": "Catholic Christianity", "boundNodes": ["DMN", "dlPFC", "OFC"] },
+        { "name": "Organisation of Islamic Cooperation", "id": "OIC", "governance_role": "ecumenical_body", "tradition": "Islam (multilateral)", "boundNodes": ["dlPFC", "TPJ"] },
+        { "name": "World Council of Churches", "id": "WCC", "governance_role": "ecumenical_body", "tradition": "Ecumenical Christianity", "boundNodes": ["TPJ", "DMN"] },
+        { "name": "International Association for Religious Freedom", "id": "IARF", "governance_role": "advocacy_body", "tradition": "Interfaith / pluralism", "boundNodes": ["TPJ", "SNS"] },
+        { "name": "Interfaith Youth Core (Interfaith America)", "id": "IFYC", "governance_role": "interfaith_liaison", "tradition": "Interfaith", "boundNodes": ["TPJ"] },
+        { "name": "Association of Theological Schools", "id": "ATS", "governance_role": "research_institution", "tradition": "Theological education", "boundNodes": ["AG", "SC"] },
+        { "name": "John Templeton Foundation", "id": "TEMPLETON", "governance_role": "research_institution", "tradition": "Religion & science scholarship", "boundNodes": ["DMN", "RAPHE"] }
+      ],
+      "data_curators": [
+        { "name": "Pew Research Center", "id": "PEW", "governance_role": "data_curator", "boundNodes": ["DMN", "nACC", "AMY", "IC"] },
+        { "name": "Association of Religion Data Archives", "id": "ARDA", "governance_role": "data_curator", "boundNodes": ["SC", "SNS", "dlPFC"] },
+        { "name": "Gallup", "id": "GALLUP", "governance_role": "data_curator", "boundNodes": ["CBLM", "nACC"] },
+        { "name": "Public Religion Research Institute", "id": "PRRI", "governance_role": "data_curator", "boundNodes": ["TPJ", "IC"] },
+        { "name": "World Values Survey", "id": "WVS", "governance_role": "data_curator", "boundNodes": ["DMN", "IC"] }
+      ],
+      "service_delivery": [
+        { "name": "Catholic Relief Services", "id": "CRS", "governance_role": "service_delivery", "boundNodes": ["ACC"] },
+        { "name": "The Salvation Army", "id": "SALVATION_ARMY", "governance_role": "service_delivery", "boundNodes": ["ACC"] }
+      ],
+      "communication_channels": [
+        { "name": "Tyndale House Publishers", "id": "TYNDALE", "governance_role": "communication_channel", "coupling": "second_order", "boundNodes": ["VV"] }
+      ]
+    },
+    "nodeFeedBindings": [
+      { "brainNodeId": "DMN", "domainLabel": "Theological Doctrine", "feedClass": "belief_systems", "seriesId": "WVS.belief_in_god", "dataSources": ["PEW", "ARDA", "WVS"], "metric": "belief_system_adherence" },
+      { "brainNodeId": "CBLM", "domainLabel": "Ritual Practice", "feedClass": "practice_adherence", "seriesId": "GALLUP.weekly_service_pct", "dataSources": ["GALLUP", "PEW"], "metric": "weekly_attendance_pct" },
+      { "brainNodeId": "vmPFC", "domainLabel": "Moral Reasoning", "feedClass": "moral_values", "seriesId": "WVS.secular_rational_values_index", "dataSources": ["WVS", "PRRI"], "metric": "moral_values_orientation" },
+      { "brainNodeId": "RAPHE", "domainLabel": "Mystical Experience", "feedClass": "spiritual_experience", "seriesId": "PEW.religious_vs_spiritual_pct", "dataSources": ["PEW", "PRRI"], "metric": "spiritual_not_religious_pct" },
+      { "brainNodeId": "WERN", "domainLabel": "Scripture & Canon", "feedClass": "belief_systems", "seriesId": "ARDA.us_religion_census_adherence", "dataSources": ["ARDA", "PEW"], "metric": "scriptural_tradition_adherence" },
+      { "brainNodeId": "OFC", "domainLabel": "Religious Law", "feedClass": "religious_law", "seriesId": "ARDA.religion_state_regulation", "dataSources": ["ARDA", "USCIRF"], "metric": "religious_legal_regulation" },
+      { "brainNodeId": "TPJ", "domainLabel": "Interfaith Dialogue", "feedClass": "pluralism_index", "seriesId": "PRRI.interfaith_favorable_view_pct", "dataSources": ["PRRI", "PEW", "USCIRF"], "metric": "interfaith_favorability_pct" },
+      { "brainNodeId": "AG", "domainLabel": "Religious Education", "feedClass": "formation", "seriesId": "ATS.theological_enrollment", "dataSources": ["ARDA", "PEW"], "metric": "religious_education_participation" },
+      { "brainNodeId": "dlPFC", "domainLabel": "Religious Authority", "feedClass": "institutional_governance", "seriesId": "ARDA.us_religion_census_adherence", "dataSources": ["ARDA", "PEW"], "metric": "denominational_authority_structure" },
+      { "brainNodeId": "SNS", "domainLabel": "Religious Law & Freedom", "feedClass": "religious_freedom", "seriesId": "USCIRF.religious_freedom_index_1to5", "dataSources": ["USCIRF", "PEW", "ARDA"], "metric": "religious_freedom_index" },
+      { "brainNodeId": "VV", "domainLabel": "Religious Media & Communication", "feedClass": "faith_communication", "seriesId": "PEW.religious_media_use", "dataSources": ["PEW", "GALLUP"], "metric": "faith_media_reach" },
+      { "brainNodeId": "SC", "domainLabel": "Religious Organization Structure", "feedClass": "institutional_structure", "seriesId": "ARDA.congregations_count", "dataSources": ["ARDA", "PEW", "GALLUP"], "metric": "congregation_and_clergy_supply" },
+      { "brainNodeId": "IC", "domainLabel": "Religion & Politics", "feedClass": "religion_politics", "seriesId": "PRRI.religious_voting_gap", "dataSources": ["PRRI", "PEW", "WVS"], "metric": "religious_political_alignment" },
+      { "brainNodeId": "nACC", "domainLabel": "Secularization & Disaffiliation", "feedClass": "disaffiliation", "seriesId": "PEW.unaffiliated_pct", "dataSources": ["PEW", "GALLUP", "PRRI"], "metric": "unaffiliated_pct" },
+      { "brainNodeId": "AMY", "domainLabel": "Sectarian Conflict & Fundamentalism", "feedClass": "sectarian_risk", "seriesId": "USCIRF.violations_count", "dataSources": ["USCIRF", "PEW", "PRRI"], "metric": "social_hostilities_index" },
+      { "brainNodeId": "ACC", "domainLabel": "Faith-Based Social Action", "feedClass": "faith_social_action", "seriesId": "PEW.religiously_motivated_giving", "dataSources": ["PEW", "GALLUP", "WVS"], "metric": "faith_based_giving_volunteering" }
+    ],
+    "crossDomainCouplings": {
+      "_note": "Religion COUPLES to these domains but they are NOT religion identity. Population owns affiliation demographics; governance owns religious-freedom policy; culture owns secular content/scenes/movements.",
+      "population": "Religious affiliation demographics (the demographic baseline of who affiliates)",
+      "governance": "Religious-freedom policy & church-state law (the policy frame)",
+      "culture": "Secular content, scenes, and humanist movements (the non-faith cultural field)"
+    }
+  },
   "_enrichment": {
     "neuralRoleMigratedAt": "2026-05-13T13:15:14.754Z",
     "schemaVersion": "subdomain-portal.v2.0",

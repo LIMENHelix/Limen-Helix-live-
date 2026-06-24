@@ -454,6 +454,42 @@
     // entries added here on purpose: the research lanes already resolve above, so
     // science artifacts route without UNKNOWN_LANE_FOR_PATH_MAP. (research-grants /
     // nsf-project-pitch / research-papers are defined at the top of this map.)
+    // ─── Religion / faith-native fan-out lanes (additive, documentation) ───────
+    // The religion domain (religious institutions & faith communities, belief
+    // systems & worldviews, religious practice & affiliation, congregations &
+    // houses of worship, spiritual & religious movements, religious freedom &
+    // pluralism, secularization & disaffiliation, interfaith dynamics) does NOT
+    // — at this stage — introduce any new lane KEYS, and it does NOT emit to the
+    // generic grant/loan/investment or research/patent lanes the way ticker-based
+    // domains do. Religion is almost entirely INDICATOR / INSTITUTION-based (Pew
+    // Religious Landscape Study, ARDA Association of Religion Data Archives, PRRI,
+    // Gallup religious-affiliation tracking, World Values Survey, USCIRF religious-
+    // freedom monitoring), NOT financial-market based: there are no energy-sector
+    // (or any-sector) "religious operators" to deploy capital into, so religion
+    // couples to other domains via POLICY & MEANING, not capital markets. As a
+    // result religion is religion-free in this map BY DESIGN — the only lane a
+    // religion-shaped artifact resolves through today is copyrights (→ PATENTABLE,
+    // for a protectable expressive/liturgical work), which is already defined at
+    // the top of this map; religion adds no copyrights-equivalent capital lanes.
+    // The packet for any cross-domain religion signal is built from the
+    // HandoffPacket alone and (with no religion-native lane key) routes through
+    // the already-defined null lanes (research-papers, etc.), emitting
+    // NO_ENRICHMENT_PATH (info) rather than UNKNOWN_LANE_FOR_PATH_MAP. When
+    // cross-node-opportunity.js begins emitting faith-organization-native lane
+    // names (e.g. 'sacred-lands-advocacy', 'energy-ethics-curriculum' — where a
+    // faith community's land-stewardship or moral-formation work becomes a bounded
+    // deployable program), ADD those keys here with their Observatory path
+    // (capital-deployment-shaped → INVESTABLE, advocacy/expressive-output-shaped →
+    // PATENTABLE, white-space cross-domain → null), mirroring the industry /
+    // environment / governance / education documentation blocks. Kept DISTINCT
+    // from culture (culture = secular content / scenes / movements; religion =
+    // faith / belief / worship), from population (affiliation demographics is a
+    // COUPLING — religion is the BELIEF dimension of demographics, not the count),
+    // and from governance (religious-freedom POLICY is a coupling — governance owns
+    // rulemaking; religion owns the faith / institution / practice identity). No
+    // entries added here on purpose: religion does not emit to copyrights-
+    // equivalent capital lanes yet, so religion artifacts route without
+    // UNKNOWN_LANE_FOR_PATH_MAP through the lanes already defined above.
   };
 
   // ─── Lane forbidden-fields policy ──────────────────────────────────────
@@ -1005,6 +1041,33 @@
     'CoStar Group Investor Relations':       'https://www.costargroup.com/investors',
     'Verisk Legal Risk (Law)':               'https://investor.verisk.com/',
     'Vertex Compliance Investor Relations':  'https://investors.vertexinc.com/'
+    // Religion / faith primary-source authorities — DOCUMENTATION ONLY, no
+    // entries added on purpose. Religion's signal substrate is BELIEF-SYSTEM &
+    // DEMOGRAPHIC data (religious institutions & faith communities, belief systems
+    // & worldviews, religious practice & affiliation, congregations & houses of
+    // worship, spiritual movements, religious freedom & pluralism, secularization
+    // & disaffiliation, interfaith dynamics) — NOT commodity pricing, grid
+    // operators, or company tickers. The real religion-authority anchors are
+    // research databases, survey platforms, and freedom-monitoring indices, NOT
+    // single-endpoint landing pages the way the energy sources (EIA / OPEC / IEA /
+    // FRED crude) are: Pew Religious Landscape Study (pew-research.org/religion),
+    // ARDA Association of Religion Data Archives (arda.asn.org), PRRI Public
+    // Religion Research Institute (prri.org), USCIRF US Commission on International
+    // Religious Freedom (uscirf.gov), Gallup religious-affiliation tracking, World
+    // Values Survey (worldvaluessurvey.org), and Interfaith Power and Light
+    // (interfaith-pli.org — the real faith-climate-action network). These are
+    // survey / database / index platforms, not the verified single-endpoint deep
+    // links CITATION_HINTS is disciplined to carry — adding them would pollute the
+    // verified-source discipline with survey-platform roots, so religion
+    // appropriately contributes NO entries here. Religion does NOT use company
+    // tickers or fabricated landing pages: faith institutions + research databases
+    // + freedom/advocacy indices are the authority, and where any entity is named
+    // it is a real institution (Pew, ARDA, PRRI, USCIRF, World Values Survey),
+    // never an invented operator. Kept DISTINCT from culture (culture = secular
+    // content / narratives / scenes; religion = faith / belief / worship), from
+    // population (affiliation demographics is a COUPLING — religion is the BELIEF
+    // dimension of demographics, not the raw count), and from governance
+    // (religious-freedom POLICY is a coupling — governance owns rulemaking).
   };
 
   // ─── Domain-specific primary source priority ───────────────────────────

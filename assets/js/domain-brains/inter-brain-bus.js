@@ -832,13 +832,128 @@
  *   constraint.) SIGNAL examples only — the validated Thing1 P3 distress kernel remains
  *   the sole scoring authority; the bus merely transports already-scored emissions.
  *
+ * Cross-domain examples — RELIGION → OTHER and OTHER → RELIGION (religion as both
+ * source and target). Religion is the FAITH / BELIEF-SYSTEM / RELIGIOUS-INSTITUTION
+ * domain (religious institutions & faith communities, belief systems & worldviews,
+ * religious practice & affiliation, congregations & houses of worship, spiritual
+ * movements, religious freedom & pluralism, secularization & disaffiliation,
+ * interfaith dynamics). It is DISTINCT from culture (culture = SECULAR content /
+ * scenes / movements / creative expression; religion = FAITH / belief / worship /
+ * congregational life — religion COUPLES to culture via meaning-making but never
+ * takes secular content as its identity), from population (religious AFFILIATION
+ * demographics is a COUPLING — aging cohorts and disaffiliation trends drive
+ * participation but population owns the demographic content, not the faith), and
+ * from governance (religious-FREEDOM policy & church-state rulemaking is a COUPLING
+ * — governance owns the policy instrument, religion owns the belief community). And
+ * religion NEVER takes energy oil/gas/grid as its own content — the energy link is a
+ * NARRATIVE / MEANING / POLICY coupling (faith-based climate ethics, divestment
+ * witness, sacred-lands defense), NOT commodity / grid / power-generation wiring. The
+ * bus previously had NO religion wiring at all — it was absent as both source and
+ * target, leaving the faith / belief-community / religious-institution channel
+ * entirely silent in the cross-domain nervous system. These are religion's native
+ * OUTBOUND paths, mirroring the medicine / science / law SOURCE examples (the rules
+ * live in religion-brain.js emissionRules); religion emits these native signals when
+ * >=1 active diagnosis is present (per brain cycle):
+ *   religion → culture       (faith_narrative_authority → faith-tradition meaning-
+ *                           making, moral-imagination and ritual / scriptural
+ *                           narrative feed the symbolic vocabulary that creative
+ *                           expression draws on → the meaning-making input to
+ *                           culture, the faith-side mirror of culture's secular
+ *                           content movement, WITHOUT religion taking on secular
+ *                           scenes / content as its identity)
+ *   religion → governance    (religious_coalition_advocacy → faith-organization and
+ *                           congregational-network advocacy (climate justice,
+ *                           religious-freedom defense, indigenous-rights coalitions)
+ *                           applies grassroots pressure on policy and rulemaking →
+ *                           the faith-advocacy input to governance, DISTINCT from
+ *                           governance's own public-administration content — the
+ *                           coalition mobilizes, governance adjudicates the policy)
+ *   religion → population    (congregational_belonging → congregations, houses of
+ *                           worship and spiritual-community formation generate social
+ *                           cohesion, belonging and mutual-aid networks → the social-
+ *                           cohesion input to collective wellbeing, DISTINCT from
+ *                           population's own demographic content — belonging is the
+ *                           faith-community contribution, not an affiliation count)
+ * These are religion's INBOUND RETURN paths (other brains already emit toward
+ * religion — see each source brain's emissionRules / the SOURCE examples above), so
+ * the faith-participation / institutional-membership / meaning-substrate channel is
+ * not silent in the bus:
+ *   culture      → religion (cultural_expression / narrative_platform_reach →
+ *                           secular cultural narratives, scenes and creative
+ *                           movements reshape faith practice, religious aesthetics
+ *                           and the meaning environment congregations operate in →
+ *                           cultural_expression at faith communities; the inbound
+ *                           mirror of religion's faith_narrative_authority outbound —
+ *                           secular content remains a COUPLING owned by culture)
+ *   governance   → religion (policy_shift / regulatory_pressure_escalation →
+ *                           religious-freedom rulemaking, church-state policy shifts
+ *                           and mandates (reproductive-rights, marriage-equality,
+ *                           environmental-protection) force religious-identity
+ *                           adaptation and institutional-witness recalibration →
+ *                           policy_shift at faith institutions; the inbound mirror of
+ *                           religion's religious_coalition_advocacy outbound —
+ *                           religious-freedom policy remains a COUPLING owned by
+ *                           governance)
+ *   population   → religion (demographic_aging_pressure / affiliation_decline →
+ *                           cohort aging, generational disaffiliation and migration
+ *                           shift faith participation, membership rolls and
+ *                           congregational viability → demographic_change at religious
+ *                           institutions; the inbound mirror of religion's
+ *                           congregational_belonging outbound — affiliation
+ *                           demographics remain a COUPLING owned by population)
+ * The ENERGY ↔ RELIGION coupling (NARRATIVE / MEANING / POLICY, never commodity /
+ * grid wiring) closes both ways:
+ *   energy       → religion (energy_ethics_urgency / sustainable_stewardship_demand →
+ *                           climate-urgency narrative, fossil-fuel-industry ethics
+ *                           pressure and sacred-lands vulnerability from extraction
+ *                           shake faith institutional witness and surface
+ *                           intergenerational-stewardship doctrine → faith-ethics
+ *                           pressure at religious institutions; the inbound mirror of
+ *                           religion's divestment / sacred-lands outbound, WITHOUT
+ *                           religion taking on oil/gas as its identity)
+ *   religion     → energy   (faith_institution_divestment_pressure / sacred_lands_
+ *                           defense → faith-institution divestment campaigns,
+ *                           indigenous-led resistance to pipeline expansion and
+ *                           interfaith climate-justice coalitions pressure energy
+ *                           policy and the cost-of-capital / social-license of capex-
+ *                           heavy energy issuers → the faith-witness / divestment-
+ *                           pressure input to energy, the outbound mirror of energy's
+ *                           energy_ethics_urgency path — a meaning / policy signal,
+ *                           NOT a grid one)
+ *   These modify religion's PRIOR faith-participation / institutional-vitality /
+ *   meaning-substrate expectation and stress calculation AFTER the validated Thing
+ *   kernel runs — external stress modifiers ingested via the base
+ *   receiveExternalSignal handler, NOT a second scorer.
+ *   Religion binds almost entirely to INSTITUTIONS & INDICATORS, not single companies
+ *   — the faith / belief-system indices behind these signals (REAL, never
+ *   fabricated): Pew Religious Landscape Study (affiliation / faith-climate co-
+ *   variation), ARDA (Association of Religion Data Archives — denomination-by-
+ *   denomination affiliation trends), Gallup (religiosity / worship attendance),
+ *   PRRI (religious identity + policy alignment, faith & environment), World Values
+ *   Survey (faith & environmental concern cross-nationally), USCIRF (US Commission on
+ *   International Religious Freedom — religious-freedom indicator), Interfaith Power
+ *   and Light (national faith climate network). NO oil/gas/grid tickers or company
+ *   names — religion is INSTITUTION / INDICATOR / BELIEF-SYSTEM based, never ticker
+ *   based; where any entity is referenced it is a real faith network or research
+ *   body, never a fabricated issuer. (faith_narrative_authority = meaning-making /
+ *   moral-imagination input to culture; religious_coalition_advocacy = faith-org /
+ *   congregational grassroots policy pressure; congregational_belonging = social-
+ *   cohesion / community-formation contribution; faith_institution_divestment_pressure
+ *   = fossil-fuel divestment / climate-justice witness; sacred_lands_defense =
+ *   indigenous-led sacred-lands / anti-extraction advocacy.) SIGNAL examples only —
+ *   the validated Thing1 P3 distress kernel remains the sole scoring authority; the
+ *   bus merely transports already-scored emissions.
+ *
  * Also detects:
  *   - Propagation chains (A→B→C)
  *   - Co-activation (multiple domains emitting simultaneously)
  *   - Causal loops (A→B→A, e.g. energy→finance→energy via cost-of-capital;
  *     finance→economy→finance via cost-of-capital→GDP→credit conditions;
  *     intelligence→defense→intelligence via threat_visibility_pressure→kinetic
- *     posture→threat_assessment_pressure→collection tasking)
+ *     posture→threat_assessment_pressure→collection tasking;
+ *     religion→energy→religion via faith_institution_divestment_pressure→energy_
+ *     ethics_urgency→faith institutional witness — the faith-witness / divestment
+ *     meaning loop, NOT a grid one)
  *   - Regime-level cascade (>3 domains in emission chain)
  *
  * Exposes: window.LIMENInterBrainBus

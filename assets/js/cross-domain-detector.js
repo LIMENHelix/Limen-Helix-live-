@@ -272,13 +272,17 @@
       ]
     },
     {
+      // Religion is the IDENTITY (affiliation, congregations, belief-system vitality); population
+      // is the COUPLING — affiliation demographics & generational transition. Indicator-based
+      // (Pew Religious Landscape Study, ARDA, Gallup, PRRI affiliation & "nones" trend data).
       id: 'religion_population',
       domains: ['religion', 'population'],
       threshold: 0.40,
       pattern: 'demographic-moral tension',
-      drivers: ['value system pressure', 'demographic transition', 'institutional trust erosion'],
+      drivers: ['religious-affiliation decline & "nones" rise (Pew Religious Landscape Study, PRRI affiliation-trend series, generational disaffiliation)', 'congregation membership & attendance contraction (Gallup church-attendance series, ARDA congregation-census decline)', 'generational belief-transmission gap (Pew youth-vs-elder affiliation divergence, faith-retention drop across cohorts)', 'demographic transition vs faith-community composition (immigration-driven religious-pluralism shift, aging-congregation succession risk)', 'institutional trust erosion (declining confidence in religious institutions, Gallup institution-trust series)'],
       options: [
-        { label: 'investigate social cohesion', type: 'analysis' },
+        { label: 'investigate social cohesion & affiliation trend', type: 'analysis' },
+        { label: 'trace congregation demographic resilience', type: 'analysis' },
         { label: 'hold', type: 'monitoring' }
       ]
     },
@@ -399,13 +403,17 @@
       ]
     },
     {
+      // Religion is the COUPLING here (faith/belief/worship); culture identity stays secular
+      // content/scenes/movements. Religion-side signals are indicator-based (Pew religion-and-
+      // public-life, PRRI cultural-values data, ARDA tradition participation).
       id: 'culture_religion',
       domains: ['culture', 'religion'],
       threshold: 0.40,
       pattern: 'cultural-moral identity tension',
-      drivers: ['value conflict', 'ritual confusion', 'identity fracture', 'sacred-music participation decay', 'moral coherence strain'],
+      drivers: ['secular-vs-sacred value conflict (Pew religion-and-public-life tension data, PRRI cultural-values polarization)', 'ritual & tradition participation decay (ARDA observance-rate decline, waning religious-holiday cultural salience)', 'religious-vs-cultural identity fracture (faith-identity erosion amid secularizing culture, hybrid-identity strain)', 'sacred-music & liturgical-arts participation decay (declining choral / sacred-music engagement, worship-arts attrition)', 'moral-coherence strain (interfaith / secular value-framework contestation, shared-norm erosion)'],
       options: [
         { label: 'investigate culture-religion feedback', type: 'analysis' },
+        { label: 'trace sacred-vs-secular participation shift', type: 'analysis' },
         { label: 'hold', type: 'monitoring' }
       ]
     },
@@ -2741,6 +2749,176 @@
       options: [
         { label: 'trace media-law institutional exposure', type: 'analysis' },
         { label: 'investigate press-freedom / platform / antitrust co-elevation', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    // ─── Religion pairs (parity port; mirrors energy/culture/population/law structure) ──
+    // RELIGION / FAITH identity ONLY — religious institutions & faith communities, belief
+    // systems & worldviews, religious practice & affiliation, congregations & houses of
+    // worship, spiritual movements, religious freedom & pluralism, secularization &
+    // disaffiliation, interfaith dynamics. Religion binds almost ENTIRELY to INDICATORS /
+    // INSTITUTIONS (Pew Religious Landscape Study, ARDA Association of Religion Data Archives,
+    // Gallup, PRRI, World Values Survey, USCIRF religious-freedom, ATS theological-school data,
+    // NCES religious-sector enrollment) — NOT single-company tickers; never fabricate tickers.
+    // Each PAIRED domain is the COUPLING; religion's OWN content stays faith/belief/worship/
+    // congregation/affiliation. DISTINCT from culture (culture = secular content/scenes), from
+    // population (affiliation demographics is the coupling), and from governance (religious-
+    // freedom policy is the coupling). NEVER energy oil/gas/grid content. ADDITIVE — does not
+    // touch any validated scoring path.
+    {
+      // Religion is the IDENTITY (faith-community autonomy & legitimacy); law is the regulatory
+      // envelope (courts, enforcement, statute) constraining congregation autonomy.
+      id: 'religion_law',
+      domains: ['religion', 'law'],
+      threshold: 0.38,
+      pattern: 'religious-liberty-litigation coupling',
+      drivers: ['religious-liberty litigation volume (establishment-clause / free-exercise case load, USCIRF & US Courts docket)', 'faith-based-org tax-exempt-status challenges (IRS 501(c)(3) church-status disputes, parsonage-exemption litigation)', 'religious-discrimination enforcement (EEOC faith-bias charges, DOJ Civil Rights Division Title VII / RLUIPA filings)', 'faith-org legal-compliance burden (Pew Global Restrictions on Religion legal-barrier index, land-use / zoning conflicts under RLUIPA)', 'religious-accommodation dispute load (workplace / institutional accommodation litigation, conscience-clause cases)'],
+      options: [
+        { label: 'trace religious-freedom legal exposure', type: 'analysis' },
+        { label: 'investigate faith-org legal-burden coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Religion is the IDENTITY (congregation viability & faith-institutional legitimacy);
+      // governance is the COUPLING — religious-freedom policy & faith-based-services funding.
+      id: 'religion_governance',
+      domains: ['religion', 'governance'],
+      threshold: 0.42,
+      pattern: 'religious-freedom-policy coupling',
+      drivers: ['religious-freedom index deterioration (Pew Global Restrictions on Religion — Government Restrictions Index & Social Hostilities Index rise)', 'faith-based-services funding volatility (Faith-Based & Neighborhood Partnerships grant flow, federal social-service contracting)', 'religious-school enrollment & funding pressure (voucher-policy shifts, parochial-school public-funding disputes)', 'government-hostility signals (USCIRF Annual Report Tier-1/Tier-2 monitoring, Countries of Particular Concern designations)', 'secularization policy pressure (Gallup / PRRI affiliation decline, declining religious-institution policy trust)', 'interfaith-coalition fragmentation (faith-advocacy network cohesion, civic religious-pluralism strain)'],
+      options: [
+        { label: 'investigate religious-freedom policy exposure', type: 'analysis' },
+        { label: 'trace faith-community institutional resilience', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Religion is the IDENTITY (faith-org institutional resilience & social-service capacity);
+      // finance is the COUPLING — capital access, endowments, giving patterns, nonprofit funding.
+      // No tickers — faith-org finance is indicator/institution-based (Pew congregation finances,
+      // Giving USA / Lake Institute on Faith & Giving, ECFA accountability data).
+      id: 'religion_finance',
+      domains: ['religion', 'finance'],
+      threshold: 0.40,
+      pattern: 'faith-institutional-capital coupling',
+      drivers: ['faith-org endowment & asset-allocation stress (Pew congregation financial-health data, denominational endowment drawdown)', 'donor-base fragility (Giving USA religious-giving share decline, generational tithing erosion, Lake Institute on Faith & Giving signals)', 'faith-based-social-service capacity (food banks / housing / family services funding, faith-charity operating-reserve strain)', 'religious-nonprofit solvency & credit access (ECFA-accredited-org liquidity, congregation mortgage / capital-campaign debt)', 'capital-campaign delays (seminary / religious-school construction funding, deferred sanctuary capital projects)'],
+      options: [
+        { label: 'analyze faith-org financial resilience', type: 'analysis' },
+        { label: 'investigate donor-base sustainability', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Religion is the IDENTITY (belief-system / faith-community understanding); research is the
+      // COUPLING — empirical religiosity measurement & knowledge production. Pure indicator base
+      // (ARDA data infrastructure, Pew / Gallup / PRRI survey programs, NEH / NSF religion grants).
+      id: 'religion_research',
+      domains: ['religion', 'research'],
+      threshold: 0.35,
+      pattern: 'faith-knowledge-production stress',
+      drivers: ['religious-studies funding collapse (NEH / NSF religion-research grant contraction, humanities-funding pressure)', 'ARDA database maintenance & continuity (Association of Religion Data Archives infrastructure, longitudinal data-series gaps)', 'theological-scholarship impact & methodology erosion (divinity-school research output, peer-review capacity)', 'empirical-religiosity-research capacity (Pew Religious Landscape Study / Gallup / PRRI survey-program sustainability)', 'secularization-dynamics understanding gap (World Values Survey religion-module coverage, disaffiliation-measurement lag)'],
+      options: [
+        { label: 'investigate religiosity-research infrastructure', type: 'analysis' },
+        { label: 'trace theological-scholarship funding', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Religion is the IDENTITY (faith-community engagement & spiritual-care capacity); health is
+      // the COUPLING — disease burden & care delivery straining congregation capacity.
+      id: 'religion_health',
+      domains: ['religion', 'health'],
+      threshold: 0.38,
+      pattern: 'spiritual-care-capacity stress',
+      drivers: ['pandemic faith-community closure & disengagement (Pew post-pandemic attendance decline, in-person-worship recovery lag)', 'mental-health crisis vs chaplaincy / spiritual-care capacity (clergy-counseling load, spiritual-care workforce gap)', 'addiction-recovery faith-based-program funding & access (faith-rooted recovery-ministry capacity, referral demand)', 'end-of-life spiritual-care infrastructure (hospital / hospice chaplaincy staffing, palliative spiritual-support access)', 'health-equity faith-community response capacity (congregation health-ministry reach in underserved areas, Pew religion-and-health data)'],
+      options: [
+        { label: 'investigate faith-community mental-health response', type: 'analysis' },
+        { label: 'trace chaplaincy capacity', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Religion is the IDENTITY (faith-community engagement & belief-transmission); technology is
+      // the COUPLING — digital platforms & infrastructure congregations depend on for worship.
+      id: 'religion_technology',
+      domains: ['religion', 'technology'],
+      threshold: 0.36,
+      pattern: 'faith-digital-engagement coupling',
+      drivers: ['digital-worship platform reliability (livestream / streaming-service dependency for hybrid congregations)', 'online-congregation engagement sustainability (post-pandemic digital-attendance retention, virtual-fellowship drop-off)', 'faith-app adoption & deprecation (devotional / scripture / giving-app continuity, congregation-management software risk)', 'digital-identity & access systems for religious communities (member-database access, online-giving onboarding friction)', 'cybersecurity & data-privacy for faith-community databases (congregation PII exposure, donor-record breach risk)'],
+      options: [
+        { label: 'investigate online-congregation resilience', type: 'analysis' },
+        { label: 'trace digital-worship capacity', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Religion is the IDENTITY (belief-system coherence & faith narrative); communication is the
+      // COUPLING — media platforms & discourse infrastructure carrying faith narrative.
+      id: 'religion_communication',
+      domains: ['religion', 'communication'],
+      threshold: 0.37,
+      pattern: 'faith-narrative-integrity coupling',
+      drivers: ['anti-religious misinformation & narrative fragmentation (Pew religion-in-media coverage, faith-disinformation spread)', 'faith-leader platform access & authority erosion (clergy public-discourse reach, de-platforming / deamplification risk)', 'interfaith-dialogue media representation (interfaith-coverage balance, religious-pluralism narrative carriage)', 'religious-literacy & canon-transmission gap (media religious-illiteracy, seminary / religious-school narrative-coherence strain)', 'faith-community social-media engagement fragmentation (congregation digital-discourse splintering, algorithmic reach decline)'],
+      options: [
+        { label: 'investigate faith-narrative resilience', type: 'analysis' },
+        { label: 'trace interfaith-dialogue media coverage', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Religion is the IDENTITY (faith-based social-service capacity); supplyChain is the COUPLING
+      // — logistics & material flows faith-charity services depend on.
+      id: 'religion_supplyChain',
+      domains: ['religion', 'supplyChain'],
+      threshold: 0.36,
+      pattern: 'faith-social-service logistics stress',
+      drivers: ['faith-based-charity logistics constraints (food-bank supply disruption, congregation pantry inventory gaps)', 'mission-supply chains (faith-org humanitarian / relief material flows, cross-border mission logistics)', 'religious-nonprofit supply-chain access (humanitarian aid for displaced congregations, refugee-resettlement supply coordination)', 'disaster-relief supply-chain coordination (faith-org rapid-response capacity, volunteer-logistics surge)'],
+      options: [
+        { label: 'investigate faith-charity logistics resilience', type: 'analysis' },
+        { label: 'trace disaster-relief supply-chain coordination', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Religion is the IDENTITY (faith-community physical presence & sacred space); infrastructure
+      // is the COUPLING — physical plant, utilities & buildings congregations depend on.
+      id: 'religion_infrastructure',
+      domains: ['religion', 'infrastructure'],
+      threshold: 0.35,
+      pattern: 'sacred-space-resilience coupling',
+      drivers: ['religious-building & worship-space maintenance backlog (aging sanctuaries, deferred capital-repair, heritage-site deterioration)', 'disaster-resilience for sacred sites (flood / fire / seismic exposure of houses of worship, congregation continuity risk)', 'utility access & costs for congregation operations (worship-facility energy / water operating burden)', 'religious-cemetery & burial-infrastructure maintenance (faith-managed burial-ground upkeep, perpetual-care funding strain)'],
+      options: [
+        { label: 'investigate worship-space capital resilience', type: 'analysis' },
+        { label: 'trace heritage-site preservation capacity', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Religion is the IDENTITY (faith-institutional moral authority & legitimacy); defense is the
+      // COUPLING — military readiness, chaplaincy & moral legitimacy.
+      id: 'religion_defense',
+      domains: ['religion', 'defense'],
+      threshold: 0.34,
+      pattern: 'faith-military-legitimacy coupling',
+      drivers: ['military-chaplaincy capacity & faith-community integration (DoD chaplain-corps staffing, denominational endorser supply)', 'religious-freedom protections for military personnel (servicemember accommodation enforcement, free-exercise compliance in ranks)', 'faith-community positions on military doctrine & alliances (moral-authority erosion on use-of-force questions)', 'faith-based peace-movement influence on deterrence-posture legitimacy (religious civil-society pressure on defense policy)'],
+      options: [
+        { label: 'investigate military-chaplaincy faith-community resilience', type: 'analysis' },
+        { label: 'trace religious-freedom compliance in defense', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Religion is the IDENTITY (faith-community trust & belief-system legitimacy); intelligence is
+      // the COUPLING — collection, surveillance & insider-trust touching faith communities.
+      id: 'religion_intelligence',
+      domains: ['religion', 'intelligence'],
+      threshold: 0.33,
+      pattern: 'faith-surveillance-legitimacy coupling',
+      drivers: ['religious-community surveillance & FISA targeting (faith-minority monitoring exposure, mosque / congregation surveillance disputes)', 'faith-based intelligence-community cooperation (community-liaison trust, source-network sensitivity)', 'religious-leader / organization material-support regulations & enforcement (charity terror-finance screening, faith-org compliance burden)', 'faith-community trust erosion & COINTELPRO legacy (perceived unjust surveillance degrading faith-institutional authority)'],
+      options: [
+        { label: 'investigate faith-community intelligence-authority trust', type: 'analysis' },
+        { label: 'trace religious-freedom FISA compliance', type: 'analysis' },
         { label: 'hold', type: 'monitoring' }
       ]
     }

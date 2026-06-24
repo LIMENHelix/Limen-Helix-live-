@@ -973,6 +973,79 @@
     { re: /compliance (adopt|strengthen|maturity|readiness|improv|uplift)|(control|compliance) (framework|program) (strengthen|adopt|implement|mature)|regulatory (readiness|compliance) (gain|improv|strengthen)|(audit|control) (finding) (remediat|close|resolv)|(vertex|verx|relx|thomson reuters|tri|lexisnexis) (compliance|legal) (deploy|adopt|tool)|legal(-| )?tech (compliance) (adopt|deploy)/i, weight: 0.13, tag: 'compliance_adoption' }
   ];
 
+  // ─── Religion-native semantics (FAITH, BELIEF & WORSHIP) ───────────────────
+  // Energy parity (same shape as INFRA / CULTURE / FINANCE / ECONOMY /
+  // TECHNOLOGY / DEFENSE / INTELLIGENCE / TRADE / INDUSTRY / AGRICULTURE /
+  // GOVERNANCE / COMMUNICATION / POPULATION / RESEARCH / LAW above): the religion
+  // domain has its OWN failure/recovery vocabulary. Where energy reads
+  // crude_above_90 / grid_stress / chokepoint, infrastructure reads
+  // grid_reliability / deferred_maintenance, culture reads the attention economy,
+  // finance reads liquidity/credit, economy reads the business cycle, technology
+  // reads the compute stack, defense reads kinetic military power, intelligence
+  // reads the collection cycle, trade reads exports/tariffs/ports, industry reads
+  // factory output, agriculture reads crops/food, governance reads institutions,
+  // communication reads channels, population reads demographics, research reads
+  // knowledge production, and law reads courts/enforcement, RELIGION reads FAITH,
+  // BELIEF & WORSHIP: religious institutions & faith communities, belief systems
+  // & worldviews, religious practice & affiliation, congregations & houses of
+  // worship, spiritual movements, religious freedom & pluralism, secularization &
+  // disaffiliation, and interfaith dynamics. Destabilizing = disaffiliation surge
+  // (the "nones" / unaffiliated rising), religious persecution, sectarian
+  // conflict / interfaith tension, secularization / attendance decline,
+  // congregational decline / closure, clergy shortage, and erosion of religious
+  // freedom. Stabilizing = religious revival / faith resurgence, interfaith
+  // dialogue, faith-community resilience, pluralism infrastructure / religious-
+  // freedom protection, congregational growth / new-church formation, and
+  // affiliation / practice recovery.
+  //
+  // Religion is almost entirely INDICATOR / INSTITUTION based, NOT company
+  // tickers — anchors are REAL religious-data AUTHORITIES & SURVEYS: Pew Research
+  // Religious Landscape Study, ARDA (Association of Religion Data Archives),
+  // Gallup religion polling, PRRI (Public Religion Research Institute), the World
+  // Values Survey, and USCIRF (US Commission on International Religious Freedom).
+  // NO fabricated tickers, NEVER oil/gas/grid content as the domain's OWN
+  // identity. Religion COUPLES to culture (secular content/scenes/movements is a
+  // coupling), population (affiliation demographics is a coupling), and governance
+  // (religious-freedom policy is a coupling), but its IDENTITY stays faith /
+  // belief / worship / congregations / pluralism — kept DISTINCT from culture
+  // (secular cultural production), population (raw demographics), and governance
+  // (state policy/administration). ADVISORY ONLY — wholly separate from the
+  // validated P3 distress kernel.
+  //
+  // Each entry maps a keyword pattern (matched against the domain's signal
+  // strings) to a weighted push on the destabilizing or stabilizing score —
+  // identical mechanism to energy's condition→weight mapping, religion content.
+  var RELIGION_DESTABILIZING = [
+    // Disaffiliation surge — the "nones" / unaffiliated rising, religious switching out.
+    { re: /disaffiliat(e|ion)|(religious|faith) (disaffiliat|switching|dropout|exit)|(rise|surge|growth) of (the )?(nones|unaffiliated|religiously unaffiliated)|(nones|unaffiliated) (rise|surge|growth|grow)|(leaving|leave) (religion|church|faith)|religious (none|switching) (surge|rise)|(pew|prri|gallup).{0,30}(unaffiliated|nones) (rise|grow|surge)/i, weight: 0.18, tag: 'disaffiliation_surge' },
+    // Religious persecution — faith-based oppression, worship restriction, USCIRF concern.
+    { re: /religious (persecution|oppression|repression)|persecut(e|ion) (of )?(religious|faith|believer|christian|muslim|jew|hindu|buddhist)|(worship|practice) (ban|restrict|suppress|crackdown)|(uscirf|cpc|country of particular concern)|faith(-| )?based (persecution|repression)|(blasphemy|apostasy) (law|charge|crackdown)/i, weight: 0.17, tag: 'religious_persecution' },
+    // Sectarian conflict — interfaith violence, religious strife, denominational schism.
+    { re: /sectarian (conflict|violence|strife|tension|clash)|(religious|interfaith|inter(-| )?religious) (violence|conflict|clash|war)|(denominational|religious) (schism|split|rupture)|(faith|religious) (riot|attack|hate(-| )?crime)|communal (religious )?violence|holy (war|site) (clash|conflict)/i, weight: 0.16, tag: 'sectarian_conflict' },
+    // Secularization — attendance decline, declining religiosity, worship-participation drop.
+    { re: /seculariz(e|ation)|secular(-| )?ization|(religiosity|religious (observance|practice)) (decline|drop|fall|erod)|(worship|service|mass|attendance) (decline|drop|fall|plunge)|declining (religiosity|faith|belief)|(church|temple|mosque|synagogue) attendance (decline|drop|fall)|(pew|gallup|prri).{0,30}(attendance|religiosity) (decline|drop)/i, weight: 0.16, tag: 'secularization' },
+    // Congregational decline — church closure, membership loss, house-of-worship shutdown.
+    { re: /congregation(al)? (decline|loss|shrink|collapse)|(church|congregation|parish|temple|mosque|synagogue) (closure|closing|shutter|shutdown|disband)|(membership|congregation) (loss|decline|drop|shrink)|(house of worship|church) (close|merge|consolidat) (decline)?|dwindling (congregation|membership|flock)/i, weight: 0.14, tag: 'congregational_decline' },
+    // Clergy shortage — vocation decline, priest/pastor shortfall, seminary-enrollment drop.
+    { re: /clergy (shortage|shortfall|decline|crisis)|(priest|pastor|rabbi|imam|minister) (shortage|shortfall|decline)|(vocation|ordination) (decline|drop|shortfall)|seminary (enrollment|admission) (decline|drop|fall)|(religious|faith) (leadership|vocation) (gap|shortage)|aging clergy (crisis)?/i, weight: 0.13, tag: 'clergy_shortage' },
+    // Religious-freedom erosion — pluralism rollback, faith-liberty restriction, USCIRF downgrade.
+    { re: /religious (freedom|liberty) (erosion|erod|decline|restrict|rollback|violation)|(freedom of religion|religious liberty) (decline|threat|undermin|restrict)|(uscirf|usccr).{0,30}(decline|deteriorat|concern|downgrade)|pluralism (rollback|erod|decline)|(faith|worship) (right) (restrict|deni|curtail)|state (religion|imposition) (impose|enforce)/i, weight: 0.15, tag: 'religious_freedom_erosion' }
+  ];
+  var RELIGION_STABILIZING = [
+    // Religious revival — faith resurgence, spiritual awakening, renewal movement.
+    { re: /religious (revival|resurgence|renewal|awakening)|(faith|spiritual) (revival|resurgence|awakening|renewal)|(great|new) awakening|(religion|faith|belief) (resurgence|rebound|comeback|revival)|(revival|renewal) movement|(re(-| )?churched|re(-| )?affiliat)|(pew|prri|gallup).{0,30}(religiosity|faith) (rise|rebound|recover)/i, weight: 0.16, tag: 'religious_revival' },
+    // Interfaith dialogue — ecumenical cooperation, inter-religious bridge-building.
+    { re: /interfaith (dialogue|cooperation|coalition|council|harmony|bridge)|inter(-| )?religious (dialogue|cooperation|harmony|understanding)|ecumenical (dialogue|cooperation|movement|council)|(cross(-| )?faith|multi(-| )?faith) (collaboration|alliance|initiative)|religious (reconciliation|peacebuild)|interfaith (peace|accord)/i, weight: 0.16, tag: 'interfaith_dialogue' },
+    // Faith-community resilience — congregational mutual aid, faith-based service strength.
+    { re: /faith(-| )?community (resilience|strength|cohesion|mobiliz)|(congregation|faith(-| )?based) (mutual aid|service|outreach|resilience|charity)|(religious|faith) (community) (strengthen|cohesion|solidarity)|(church|faith)(-| )?based (relief|charity|aid) (mobiliz|expand|surge)|congregational (solidarity|support) (network)?/i, weight: 0.15, tag: 'faith_community_resilience' },
+    // Pluralism infrastructure — religious-freedom protection, accommodation, USCIRF upgrade.
+    { re: /(religious (freedom|liberty)) (protect|strengthen|safeguard|expand|restor|reinforc)|pluralism (infrastructure|protect|strengthen|expand)|(religious|faith) (accommodation|exemption) (protect|expand|grant)|(freedom of religion) (strengthen|reaffirm|protect)|(uscirf|usccr).{0,30}(improv|upgrade|progress)|(conscience|worship) (right) (protect|expand)/i, weight: 0.15, tag: 'pluralism_infrastructure' },
+    // Congregational growth — new-church formation, membership gain, worship-attendance rise.
+    { re: /congregation(al)? (growth|gain|expand|grow|flourish)|(church|congregation|parish|temple|mosque|synagogue) (plant|planting|found|new|open)|(membership|congregation) (growth|gain|rise|surge)|(worship|service|attendance) (rise|growth|gain|surge|rebound)|new (church|congregation|faith community) (form|plant|launch)/i, weight: 0.14, tag: 'congregational_growth' },
+    // Affiliation recovery — religious-practice rebound, retention gain, belief stabilization.
+    { re: /(religious )?affiliation (recover|rebound|stabiliz|rise|gain)|(religious (practice|observance|retention)) (recover|rebound|stabiliz|rise|gain)|(faith|belief) (retention|stabiliz|recover|rebound)|(younger|youth) (religious )?(retention|return|reaffiliat)|(pew|prri|gallup|world values survey).{0,30}(affiliation|practice) (rise|recover|stabiliz)/i, weight: 0.14, tag: 'affiliation_recovery' }
+  ];
+
   // Scan a domain's signal strings against a civil pattern table and return the
   // summed weighted contribution (clamped). Mirrors how energy accumulates its
   // condition-driven pressure, but over civil-native keywords.
@@ -1386,6 +1459,33 @@
         _lawDestabTags = _ld.tags;
       }
 
+      // ── Religion / faith-native destabilizing pathways (energy parity) ──
+      // For the religion domain ONLY, add faith-system pressure from named failure
+      // pathways found in the live signal strings (disaffiliation surge / "nones"
+      // rising, religious persecution, sectarian conflict / interfaith tension,
+      // secularization / attendance decline, congregational decline / closure,
+      // clergy shortage, religious-freedom erosion). This is the FAITH / BELIEF /
+      // WORSHIP analogue of energy's crude_above_*/grid_stress, infrastructure's
+      // grid_reliability/deferred_maintenance, culture's backlash/audience collapse,
+      // finance's liquidity/credit, economy's business-cycle, technology's
+      // compute-stack, defense's readiness, intelligence's collection, trade's
+      // tariff/port, industry's factory-output, agriculture's crops, governance's
+      // institutions, communication's channels, population's demographics,
+      // research's knowledge-production, and law's judicial weighting — anchored to
+      // real religious-data authorities/surveys (Pew Religious Landscape Study,
+      // ARDA, Gallup, PRRI, World Values Survey, USCIRF religious-freedom), NOT
+      // company tickers (religion is indicator/institution based). IDENTITY stays
+      // faith / belief / worship / congregations / pluralism (couples to culture
+      // via secular content, population via affiliation demographics, and
+      // governance via religious-freedom policy — distinct from each). ADVISORY
+      // ONLY — wholly separate from the validated P3 distress kernel.
+      var _religionDestabTags = null;
+      if (k === 'religion') {
+        var _reld = _infraSignalScore(signals, RELIGION_DESTABILIZING);
+        destab += _reld.score;
+        _religionDestabTags = _reld.tags;
+      }
+
       destab = _clamp(destab, 0, 1);
 
       // ─── Stabilizing score ─────────────────────────────────────
@@ -1766,6 +1866,36 @@
         _lawStabTags = _ls.tags;
       }
 
+      // ── Religion / faith-native stabilizing pathways (energy parity) ──
+      // Religion recovery vocabulary: religious revival / faith resurgence
+      // (awakening / renewal movement), interfaith dialogue (ecumenical /
+      // inter-religious bridge-building), faith-community resilience (congregational
+      // mutual aid / faith-based service), pluralism infrastructure (religious-
+      // freedom protection / accommodation), congregational growth (new-church
+      // formation / membership gain / attendance rise), and affiliation recovery
+      // (practice rebound / retention gain / belief stabilization). Mirrors energy's
+      // falling-trend / declining-volatility stabilizers, infrastructure's
+      // funding-renewal / repair-completion, culture's fanbase-momentum /
+      // mainstream-adoption, finance's liquidity-restoration / capital-strengthening,
+      // economy's labor-recovery / productivity, technology's fab-capacity /
+      // breakthrough, defense's force-modernization / alliance-strengthening,
+      // intelligence's improved-observability / collection-expansion, trade's
+      // tariff-normalization / port-reopening, industry's capacity-modernization /
+      // output-recovery, governance's institutional-strengthening / policy-passage,
+      // communication's network-resilience / connectivity-restoration, population's
+      // demographic-recovery / labor-force-growth, research's reproducibility-
+      // adoption / grant-recovery, and law's docket-recovery / rule-of-law-
+      // strengthening, with religion semantics from the live signals — anchored to
+      // real religious-data authorities/surveys (Pew Religious Landscape Study, ARDA,
+      // Gallup, PRRI, World Values Survey, USCIRF). ADVISORY ONLY — wholly separate
+      // from the validated P3 distress kernel.
+      var _religionStabTags = null;
+      if (k === 'religion') {
+        var _rels = _infraSignalScore(signals, RELIGION_STABILIZING);
+        stab += _rels.score;
+        _religionStabTags = _rels.tags;
+      }
+
       stab = _clamp(stab, 0, 1);
 
       // ─── Net balance ───────────────────────────────────────────
@@ -1891,6 +2021,13 @@
       if (k === 'law') {
         _balance[k].destabilizingFactors = _lawDestabTags || [];
         _balance[k].stabilizingFactors = _lawStabTags || [];
+      }
+
+      // Surface the religion/faith-native pathways that drove the religion score
+      // (energy parity: name the conditions, don't hide them behind a scalar).
+      if (k === 'religion') {
+        _balance[k].destabilizingFactors = _religionDestabTags || [];
+        _balance[k].stabilizingFactors = _religionStabTags || [];
       }
 
       // Detect state shift

@@ -481,7 +481,41 @@
       label: 'Contemplative state and community engagement',
       arousal: 'Community activation — high arousal during institutional stress reflects engaged concern',
       coherence: 'Spiritual consistency — high coherence reflects grounded contemplative state',
-      cognitiveLoad: 'Theological complexity — high load during doctrinal conflict reflects deep interpretive effort'
+      cognitiveLoad: 'Theological complexity — high load during doctrinal conflict reflects deep interpretive effort',
+      // Religion intake/triage readiness map: regulation state → religious-research,
+      // congregation/affiliation-monitoring and religious-freedom intake/triage cadence. Mirrors
+      // economy's indicator-based biosensor intake map (economy gates macro research-intake by operator
+      // regulation state; religion gates religious-landscape research, congregation/affiliation-monitoring
+      // and religious-freedom intake) and population's demographic-research routing — advisory-layer only
+      // and independent of the kernel scoring spine. Consumed by (future) religion-clarity-operator outcome
+      // tracking (religious-landscape research throughput, affiliation/disaffiliation-monitoring focus,
+      // congregation-vitality cadence, religious-freedom/pluralism tail-risk triage, interfaith-dynamics
+      // momentum). RELIGION identity only — religious institutions & faith communities, belief systems &
+      // worldviews, religious practice & affiliation, congregations & houses of worship, spiritual
+      // movements, religious freedom & pluralism, secularization & disaffiliation, interfaith dynamics.
+      // Religion binds almost entirely to INDICATORS, SURVEYS & INSTITUTIONS, not single companies or
+      // tickers: Pew Research Center (Religious Landscape Study — affiliation/practice/belief), ARDA
+      // (Association of Religion Data Archives — congregations & membership census), Gallup (worship
+      // attendance & religiosity trends), PRRI (Public Religion Research Institute — American religious/
+      // values surveys), World Values Survey (cross-national belief & secularization), USCIRF (US Commission
+      // on International Religious Freedom — religious-freedom & persecution monitoring); the General Social
+      // Survey (GSS religious-affiliation series) as a longitudinal anchor. NO tickers are used — religion is
+      // indicator/institution-based, never company-based. Distinct from culture (secular content/scenes/
+      // movements — religion is FAITH/belief/worship, not cultural production), population (affiliation
+      // demographics is a coupling, not religion's content) and governance (religious-freedom POLICY is a
+      // coupling, not religion's content). Never adopts energy oil/gas/grid content. Operator arousal/
+      // coherence during religious-institutional shocks or religious-freedom crises gate religious-research
+      // intake (high arousal = reactive crisis-mode triage on persecution/schism/legitimacy; low arousal =
+      // deliberate religious-landscape / interfaith-analysis mode). STRICTLY ADDITIVE — does not touch any
+      // validated scoring spine.
+      readiness: {
+        calm: 'Steady operator state — safe to expand religious-landscape research horizon: initiate long-run structural analysis (Pew Religious Landscape Study generational affiliation trajectories, World Values Survey cross-national secularization paths, ARDA congregation/membership census trends, GSS longitudinal affiliation series), open new research initiatives across belief systems & worldviews, religious practice & affiliation, secularization & disaffiliation, interfaith dynamics and religious pluralism; stand up new congregation-vitality and spiritual-movement emergence studies (Gallup worship-attendance, PRRI values-survey cohorts).',
+        focused: 'Productive engagement — sustain religious-landscape monitoring and in-flight analysis (Pew affiliation/practice releases, Gallup religiosity tracking, PRRI American-values waves, ARDA congregation updates, USCIRF country-condition reviews); admit only incremental, well-scoped research additions (single-tradition or single-region studies, defined affiliation-trend analyses, scoped congregation-vitality models) and hold open-ended new programs and speculative landscape rebuilds.',
+        pressured: 'Elevated load — defer non-urgent analysis and long-run structural projections; focus on real-time religious-landscape monitoring and short-run assessment of the active situation: near-term affiliation/disaffiliation shifts, current practice-and-attendance prints (Gallup/Pew), active interfaith-tension flashpoints, and immediate religious-freedom developments (USCIRF live country alerts) on live matters.',
+        overloaded: 'Saturated — pause all non-critical religious research; respond only to immediate religious-institutional and religious-freedom shocks and triage tail risks: acute religious-persecution and freedom-violation surges (USCIRF Countries of Particular Concern escalations), major institutional schism / legitimacy crises and clergy-or-abuse scandals (congregation-collapse and trust deterioration), rapid disaffiliation / secularization dislocations (Pew/GSS "nones" surge), and acute interfaith-conflict or sectarian-violence events.',
+        recovering: 'Stabilizing — resume longer-run structural analysis first (generational affiliation projections, secularization and pluralism trajectories, congregation-vitality outlooks), then reopen research programs gradually as affiliation/disaffiliation rates, worship-attendance (Gallup), religious-freedom conditions (USCIRF) and interfaith-tension indicators settle and the religious-landscape outlook normalizes.',
+        unknown: 'Regulation state unavailable — default to snapshot-driven prioritization (active religious-institutional / religious-freedom stress signals and faith-community criticality ranking — affiliation/disaffiliation, congregation vitality, pluralism and interfaith-dynamics).'
+      }
     },
     population: {
       label: 'Demographic assessment and migration pressure',

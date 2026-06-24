@@ -1607,6 +1607,130 @@ for (var _popck in POPULATION_COMPANY_BINDING) {
   NODE_TO_POPULATION_COMPANY[_popcb.node].push(_popcb);
 }
 
+// ── RELIGION-SECTOR INDICATOR bindings (religion gap 1 & 3 — ADDITIVE, OPT-IN) ──
+// Parallel to AGRICULTURE/TRADE/INTELLIGENCE/GOVERNANCE/COMMUNICATION/HEALTHCARE/EDUCATION/
+// SCIENCE/POPULATION_INDICATOR_BINDING. NOT merged into the default resolve() pipeline and NOT
+// included in NODE_TO_MACRO_INDICATOR — consumed ONLY when a context explicitly triggers a
+// religion-indicator drill (getReligionIndicatorsForNode / RELIGION_INDICATOR_BINDING export).
+// FEED_TO_CONNECTOME['religion'] = ['religion'] already routes the religion feed → religion
+// connectome domain, but without these bindings the dedicated religion nodes (DMN/Theological
+// Doctrine, vmPFC/Moral Reasoning, RAPHE/Mystical Experience, CBLM/Ritual Practice, WERN/
+// Scripture & Canon, OFC/Religious Law, PIN/Monastic Traditions) stay SILENT under faith-domain
+// stress (declining clergy, secularization, interfaith tension, religious-freedom restriction).
+// These bind REAL, NEVER-FABRICATED religion data sources to the dedicated religion nodes so the
+// reporting/diagnosis layers can drill from abstract 'religion stress' into the ACTUAL faith
+// signal that triggered it (e.g. ritual node lit → weekly-worship attendance decline →
+// participation-erosion origin; religious-law node lit → government-restrictions rise →
+// minority-faith persecution risk). These strictly measure RELIGION identity: religious
+// institutions & faith communities, belief systems & worldviews, religious practice &
+// affiliation, congregations & houses of worship, spiritual movements, religious freedom &
+// pluralism, secularization & disaffiliation, interfaith dynamics. KEPT DISTINCT from culture
+// (secular content/scenes/movements is a coupling, not faith content), from population
+// (affiliation DEMOGRAPHICS is a coupling — measured here as the belief-landscape STOCK, not a
+// census stock), and from governance (religious-freedom POLICY is a coupling — measured here as
+// the persecution/restriction OUTCOME, not the policy instrument). NEVER energy production or
+// grid metrics — faith-community buildings (churches/mosques/temples) carry facility power, but
+// that is a second-order infrastructure-operations coupling, never a religion-domain signal
+// origin; religion nodes carry ZERO energy-domain content. Annotation/registry metadata ONLY —
+// the resolver does NOT score these.
+//   threshold = level above/below which the node is considered stressed.
+//   dir = 'high' (stress when ABOVE threshold) | 'low' (stress when BELOW).
+//   kind = 'pew' (Pew Research / Religious Landscape Study / Global Restrictions) |
+//          'arda' (Association of Religion Data Archives) | 'gallup' (Gallup attendance /
+//          confidence) | 'wvs' (World Values Survey) | 'uscirf' (USCIRF Int'l Religious
+//          Freedom) | 'vdem' (V-Dem religious autonomy) | 'gss' (General Social Survey) |
+//          'aris' (American Religious Identification Survey).
+var RELIGION_INDICATOR_BINDING = {
+  // ── Theology / doctrine coherence (DMN — Theological Doctrine) ──
+  DoctrineCoherence: { series: 'DoctrineCoherence', node: 'DMN',   role: 'Doctrinal Coherence / Schism Pressure',   nodeRole: 'Theological Doctrine',  label: 'Theological-Conflict & Schism Index (Pew)',          threshold: -1,   dir: 'low',  kind: 'pew'    },
+  BeliefInGod:       { series: 'BeliefInGod',       node: 'DMN',   role: 'Belief in God / Higher Power',            nodeRole: 'Theological Doctrine',  label: 'Belief in God (World Values Survey, Pew)',          threshold: 60,   dir: 'low',  kind: 'wvs'    },
+  // ── Moral reasoning / institutional trust (vmPFC — Moral Reasoning) ──
+  InstitutionalTrust:{ series: 'InstitutionalTrust',node: 'vmPFC', role: 'Confidence in Religious Institutions',    nodeRole: 'Moral Reasoning',       label: 'Confidence in Religion as Institution (Gallup)',     threshold: 40,   dir: 'low',  kind: 'gallup' },
+  MoralGuidanceRole: { series: 'MoralGuidanceRole', node: 'vmPFC', role: 'Religion as Source of Moral Guidance',    nodeRole: 'Moral Reasoning',       label: 'Religion Provides Moral Guidance (Pew, Gallup)',     threshold: 50,   dir: 'low',  kind: 'pew'    },
+  // ── Mystical experience / contemplative practice / secularization (RAPHE — Mystical Experience) ──
+  SpiritualMeaning:  { series: 'SpiritualMeaning',  node: 'RAPHE', role: 'Spiritual Meaning / Contemplative Depth', nodeRole: 'Mystical Experience',   label: 'Spiritual Meaning & Prayer Frequency (WVS, ARDA)',   threshold: 55,   dir: 'low',  kind: 'arda'   },
+  Disaffiliation:    { series: 'Disaffiliation',    node: 'RAPHE', role: 'Secularization / Religious "Nones"',      nodeRole: 'Mystical Experience',   label: 'Religiously Unaffiliated "Nones" Share (Pew, ARIS)', threshold: 28,   dir: 'high', kind: 'pew'    },
+  // ── Ritual practice / attendance (CBLM — Ritual Practice) ──
+  WorshipAttendance: { series: 'WorshipAttendance', node: 'CBLM',  role: 'Weekly Worship Attendance Rate',          nodeRole: 'Ritual Practice',       label: 'Weekly Worship Attendance (Gallup, ARDA)',          threshold: 30,   dir: 'low',  kind: 'gallup' },
+  CongregationVitality:{ series: 'CongregationVitality', node: 'CBLM', role: 'Congregational Vitality / Closures',  nodeRole: 'Ritual Practice',       label: 'Congregational Adherence & Closure Trend (ARDA)',    threshold: -1,   dir: 'low',  kind: 'arda'   },
+  // ── Scripture / text-literacy & transmission (WERN — Scripture & Canon) ──
+  ScriptureLiteracy: { series: 'ScriptureLiteracy', node: 'WERN',  role: 'Scriptural Literacy & Transmission',      nodeRole: 'Scripture & Canon',     label: 'Religious-Knowledge / Bible-Knowledge Survey (Pew)', threshold: 50,   dir: 'low',  kind: 'pew'    },
+  // ── Religious law / freedom / persecution (OFC — Religious Law) ──
+  GovtRestrictions:  { series: 'GovtRestrictions',  node: 'OFC',   role: 'Government Restrictions on Religion',     nodeRole: 'Religious Law',         label: 'Govt Restrictions on Religion Index (Pew GRI)',      threshold: 4,    dir: 'high', kind: 'pew'    },
+  SocialHostilities: { series: 'SocialHostilities', node: 'OFC',   role: 'Social Hostilities Involving Religion',   nodeRole: 'Religious Law',         label: 'Social Hostilities Index (Pew SHI)',                 threshold: 4,    dir: 'high', kind: 'pew'    },
+  PersecutionRisk:   { series: 'PersecutionRisk',   node: 'OFC',   role: 'Minority-Faith Persecution Risk',         nodeRole: 'Religious Law',         label: 'Religious-Freedom Persecution Risk (USCIRF)',        threshold: 3,    dir: 'high', kind: 'uscirf' },
+  ReligiousAutonomy: { series: 'ReligiousAutonomy', node: 'OFC',   role: 'Religious Autonomy from State Constraint',nodeRole: 'Religious Law',         label: 'Religious Autonomy & Civil-Society Space (V-Dem)',   threshold: 0.5,  dir: 'low',  kind: 'vdem'   },
+  // ── Monasticism / vocational pipeline (PIN — Monastic Traditions) ──
+  ClergyPipeline:    { series: 'ClergyPipeline',    node: 'PIN',   role: 'Clergy / Vocational Pipeline',            nodeRole: 'Monastic Traditions',   label: 'Clergy & Monastic-Order Census Trend (ARDA)',        threshold: -1,   dir: 'low',  kind: 'arda'   },
+  // ── Interfaith dynamics (TPJ — Interfaith Dialogue) ──
+  InterfaithTension: { series: 'InterfaithTension', node: 'TPJ',   role: 'Interfaith Tension vs Cooperation',       nodeRole: 'Interfaith Dialogue',   label: 'Inter-Religious Tension Index (Pew SHI, ARDA)',      threshold: 3,    dir: 'high', kind: 'pew'    },
+  // ── Religious education attainment (AG — Religious Education) ──
+  ReligiousEducation:{ series: 'ReligiousEducation',node: 'AG',    role: 'Religious-Education Participation',        nodeRole: 'Religious Education',   label: 'Religious-Education & Formation Enrollment (ARDA)',   threshold: -2,   dir: 'low',  kind: 'arda'   },
+  // ── Overall religiosity time-series (mPFC reused as religion node — Mahayana Infra; bound to broad religiosity) ──
+  Religiosity:       { series: 'Religiosity',       node: 'DMN',   role: 'Overall Religiosity Index',               nodeRole: 'Theological Doctrine',  label: 'Religiosity Time-Series (GSS, World Values Survey)',  threshold: -1,   dir: 'low',  kind: 'gss'    }
+};
+
+// Reverse lookup: connectome node → religion indicators it senses
+// (parallel to NODE_TO_POPULATION_INDICATOR; for diagnosis drill-down).
+var NODE_TO_RELIGION_INDICATOR = {};
+for (var _relik in RELIGION_INDICATOR_BINDING) {
+  if (!Object.prototype.hasOwnProperty.call(RELIGION_INDICATOR_BINDING, _relik)) continue;
+  var _relib = RELIGION_INDICATOR_BINDING[_relik];
+  if (!NODE_TO_RELIGION_INDICATOR[_relib.node]) NODE_TO_RELIGION_INDICATOR[_relib.node] = [];
+  NODE_TO_RELIGION_INDICATOR[_relib.node].push(_relib);
+}
+
+// ── RELIGION-SECTOR (FAITH-INSTITUTION) entity bindings (religion gap 1 — ADDITIVE, OPT-IN) ──
+// Parallel to TECH_COMPANY_BINDING and the other sector company registries. NOT merged into the
+// default resolve() pipeline and NOT included in NODE_TO_MACRO_INDICATOR — consumed ONLY when a
+// context explicitly triggers a religion-institution drill (getReligionCompaniesForNode /
+// RELIGION_COMPANY_BINDING export). Religion binds ALMOST ENTIRELY to INDICATORS, NOT company
+// tickers (faith is a public-survey / institutional domain, not a public-equity sector). Where a
+// faith-community SURFACE needs a concrete anchor we use ONLY REAL faith organizations mapped to
+// the actual religion connectome node that senses their exposure — NEVER a fabricated ticker.
+// 'kind' is 'institution' (not 'ticker'); these have NO equity series — they are named
+// institutional anchors with a registry role, and 'metric' names the real qualitative signal:
+//   PEW   → Pew Research Center (religion surveys / polling)
+//   WCC   → World Council of Churches (ecumenical coordination)
+//   IARF  → International Association for Religious Freedom (pluralism / freedom data)
+//   OIC   → Organisation of Islamic Cooperation (Muslim-world coordination)
+//   TEMPLETON → John Templeton Foundation (religion-scholarship funding)
+//   IFYC  → Interfaith Youth Core (interfaith-dialogue networks)
+//   VATICAN → Vatican / Holy See (Catholic institutional anchor)
+//   SALVARMY → Salvation Army (faith-based social services)
+//   CRS   → Catholic Relief Services (faith-based humanitarian)
+//   WVI   → World Vision (faith-based development)
+// Identity = RELIGION: religious institutions & faith communities, belief systems & worldviews,
+// religious practice & affiliation, congregations & houses of worship, spiritual movements,
+// religious freedom & pluralism, interfaith dynamics. DISTINCT from culture (secular content/
+// scenes is a coupling), population (affiliation demographics is a coupling) and governance
+// (religious-freedom policy is a coupling). NO energy coupling: faith-community buildings have
+// facility power, but that is a second-order infrastructure-operations coupling, never a
+// religion-domain signal origin; religion nodes carry ZERO energy-domain content (no oil/gas, no
+// grid ops) and never originate a religion-to-energy edge. REAL faith institutions ONLY.
+var RELIGION_COMPANY_BINDING = {
+  PEW:       { series: 'PEW',       node: 'DMN',   role: 'Religion Survey / Polling Anchor',         nodeRole: 'Theological Doctrine', label: 'Pew Research Center',                          metric: 'religious-landscape-survey', kind: 'institution', industry: 'religion-research' },
+  WCC:       { series: 'WCC',       node: 'TPJ',   role: 'Ecumenical Coordination Anchor',           nodeRole: 'Interfaith Dialogue',  label: 'World Council of Churches',                    metric: 'ecumenical-coordination',    kind: 'institution', industry: 'ecumenical-body' },
+  IARF:      { series: 'IARF',      node: 'OFC',   role: 'Religious-Freedom & Pluralism Anchor',     nodeRole: 'Religious Law',        label: 'Int\'l Assoc. for Religious Freedom',          metric: 'pluralism-freedom-data',     kind: 'institution', industry: 'religious-freedom' },
+  OIC:       { series: 'OIC',       node: 'dlPFC', role: 'Muslim-World Coordination Anchor',         nodeRole: 'Religious Authority',  label: 'Organisation of Islamic Cooperation',          metric: 'muslim-world-coordination',  kind: 'institution', industry: 'religious-bloc' },
+  TEMPLETON: { series: 'TEMPLETON', node: 'RAPHE', role: 'Religion-Scholarship Funding Anchor',      nodeRole: 'Mystical Experience',  label: 'John Templeton Foundation',                    metric: 'religion-scholarship-funding', kind: 'institution', industry: 'religion-philanthropy' },
+  IFYC:      { series: 'IFYC',      node: 'TPJ',   role: 'Interfaith-Dialogue Network Anchor',       nodeRole: 'Interfaith Dialogue',  label: 'Interfaith Youth Core',                        metric: 'interfaith-dialogue-network', kind: 'institution', industry: 'interfaith-network' },
+  VATICAN:   { series: 'VATICAN',   node: 'OFC',   role: 'Catholic Institutional / Canon-Law Anchor',nodeRole: 'Religious Law',        label: 'Vatican (Holy See)',                           metric: 'catholic-institutional-anchor', kind: 'institution', industry: 'religious-institution' },
+  SALVARMY:  { series: 'SALVARMY',  node: 'CBLM',  role: 'Faith-Based Social-Services Anchor',       nodeRole: 'Ritual Practice',      label: 'Salvation Army',                               metric: 'faith-based-social-services', kind: 'institution', industry: 'faith-based-services' },
+  CRS:       { series: 'CRS',       node: 'vmPFC', role: 'Faith-Based Humanitarian Anchor',          nodeRole: 'Moral Reasoning',      label: 'Catholic Relief Services',                     metric: 'faith-based-humanitarian',   kind: 'institution', industry: 'faith-based-humanitarian' },
+  WVI:       { series: 'WVI',       node: 'AG',    role: 'Faith-Based Development Anchor',            nodeRole: 'Religious Education',   label: 'World Vision',                                 metric: 'faith-based-development',     kind: 'institution', industry: 'faith-based-development' }
+};
+
+// Reverse lookup: connectome node → religion-sector faith institutions it sources from
+// (opt-in religion-institution drill, parallel to NODE_TO_POPULATION_COMPANY).
+var NODE_TO_RELIGION_COMPANY = {};
+for (var _relck in RELIGION_COMPANY_BINDING) {
+  if (!Object.prototype.hasOwnProperty.call(RELIGION_COMPANY_BINDING, _relck)) continue;
+  var _relcb = RELIGION_COMPANY_BINDING[_relck];
+  if (!NODE_TO_RELIGION_COMPANY[_relcb.node]) NODE_TO_RELIGION_COMPANY[_relcb.node] = [];
+  NODE_TO_RELIGION_COMPANY[_relcb.node].push(_relcb);
+}
+
 // Reverse lookup: connectome node → macro indicators it senses (for diagnosis drill-down).
 var NODE_TO_MACRO_INDICATOR = {};
 for (var _mk in MACRO_INDICATOR_BINDING) {
@@ -3557,6 +3681,40 @@ window.LIMENConnectomeResolver = {
   POPULATION_COMPANY_BINDING: POPULATION_COMPANY_BINDING,
   NODE_TO_POPULATION_COMPANY: NODE_TO_POPULATION_COMPANY,
   getPopulationCompaniesForNode: function(nodeId) { return NODE_TO_POPULATION_COMPANY[nodeId] || []; },
+
+  // Religion-sector indicator bindings (religion gap 1 & 3) — OPT-IN, parallel to the macro
+  // registry; REAL faith signals (Pew Religious Landscape Study affiliation / "nones" / schism
+  // & theological-conflict / government-restrictions & social-hostilities indices / Bible- &
+  // religious-knowledge surveys, ARDA congregational-adherence & clergy/monastic-order census,
+  // Gallup worship-attendance & confidence-in-religion, World Values Survey belief-in-God &
+  // spiritual-meaning, USCIRF persecution risk, V-Dem religious autonomy, GSS/ARIS religiosity
+  // time-series) routed to dedicated 'religion' nodes (DMN/Theological Doctrine, vmPFC/Moral
+  // Reasoning, RAPHE/Mystical Experience, CBLM/Ritual Practice, WERN/Scripture & Canon, OFC/
+  // Religious Law, PIN/Monastic Traditions, TPJ/Interfaith Dialogue, AG/Religious Education).
+  // These measure RELIGION identity (faith institutions & communities, belief systems, religious
+  // practice & affiliation, congregations, spiritual movements, religious freedom & pluralism,
+  // secularization & disaffiliation, interfaith dynamics), NEVER energy — faith-community
+  // facility power is a second-order infrastructure coupling, not a religion signal. Religion is
+  // DISTINCT from culture (secular content/scenes is a coupling), population (affiliation
+  // demographics is a coupling) and governance (religious-freedom policy is a coupling). REAL,
+  // never-fabricated sources only.
+  RELIGION_INDICATOR_BINDING: RELIGION_INDICATOR_BINDING,
+  NODE_TO_RELIGION_INDICATOR: NODE_TO_RELIGION_INDICATOR,
+  getReligionIndicatorsForNode: function(nodeId) { return NODE_TO_RELIGION_INDICATOR[nodeId] || []; },
+
+  // Religion-sector (faith-institution) entity bindings (religion gap 1) — OPT-IN, parallel to
+  // the other sector company registries; religion binds ALMOST ENTIRELY to INDICATORS, not
+  // tickers, but where a faith-community surface needs an anchor we use ONLY REAL faith
+  // organizations (Pew Research / World Council of Churches / Int'l Assoc. for Religious Freedom /
+  // Organisation of Islamic Cooperation / Templeton Foundation / Interfaith Youth Core / Vatican /
+  // Salvation Army / Catholic Relief Services / World Vision), kind='institution' (NO equity
+  // series — never a fabricated ticker), routed to dedicated religion nodes (DMN/TPJ/OFC/dlPFC/
+  // RAPHE/CBLM/vmPFC/AG). No energy coupling — faith-community buildings carry facility power as a
+  // second-order infrastructure coupling, never a religion signal origin; religion nodes carry
+  // zero energy content. DISTINCT from culture, population and governance couplings.
+  RELIGION_COMPANY_BINDING: RELIGION_COMPANY_BINDING,
+  NODE_TO_RELIGION_COMPANY: NODE_TO_RELIGION_COMPANY,
+  getReligionCompaniesForNode: function(nodeId) { return NODE_TO_RELIGION_COMPANY[nodeId] || []; },
 
   // Population policy-path resolution (population gap 2) — opt-in. Routes a demographic-policy
   // shock (immigration-reform / fertility-incentive / aging-care mandate) to the correct

@@ -713,8 +713,50 @@
       analystEnabled: true,
       connectomeNodes: [1, 9],  // mPFC + ACC
       feeds: [
-        { name: 'GDELT Religion', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.gdeltproject.org/api/v2/doc/doc' },
-        { name: 'Event Registry Religion', apiKey: 'EVENT_REGISTRY_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'eventregistry.org/api/v1/article/getArticles' }
+        // ── Religious-identity "price/cost" discovery anchors (the religion "crude price" baseline) ──
+        // Religion equivalent of energy's EIA/FRED commodity anchors: instead of oil/gas spot
+        // prices, religion's quantitative spine is the BELIEF–AFFILIATION–PRACTICE COMPLEX —
+        // religious affiliation share (the "crude" primary input), belief & worldview prevalence
+        // (the "refining" interpretive output), and worship-attendance / congregational structure
+        // (the "throughput" flow). These need institutional-quality discovery, plus a longitudinal
+        // trend forecast (Gallup/Pew time series = the directional WASDE-cadence signal) and a
+        // structural-constraint anchor (religious-freedom indices = the NERC/FERC analogue). Every
+        // endpoint is a REAL public/institutional research source (Pew, ARDA, Gallup, PRRI, World
+        // Values Survey, USCIRF, US Religion Census, World Religion Database). Religion binds to
+        // INDICATORS & INSTITUTIONS, never to single-company tickers — none are fabricated and none
+        // exist here. This closes the asymmetry where religion had only GDELT event-coding + Event
+        // Registry article clustering and no live identity/belief/practice or institutional anchor
+        // like energy. Affiliation DEMOGRAPHICS (population), religious-freedom POLICY (governance),
+        // and secular CULTURE/scenes (culture) remain COUPLINGS, not religion's own content.
+        // -- Affiliation & belief identity: the "crude oil + refining" of religion (Pew = the EIA-role anchor) --
+        { name: 'Pew Religious Landscape Study', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.pewresearch.org/religion/religious-landscape-study/', feedClass: 'affiliation', metric: 'affiliation_share' }, // Pew RLS — US affiliation %, belief & practice by tradition (the affiliation "crude" discovery; mirrors EIA Petroleum LIVE role)
+        { name: 'Pew Religion & Public Life', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.pewresearch.org/religion/feed/', feedClass: 'belief', metric: 'belief_prevalence' }, // Pew global religion research / surveys — belief & worldview prevalence (the interpretive "refining" output)
+        { name: 'Pew Global Religious Futures', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.pewresearch.org/religion/category/datasets/', feedClass: 'projection', metric: 'tradition_projection' }, // Pew religion projections by tradition/region — affiliation supply/demand-balance forecast (mirrors USDA WASDE directional cadence)
+        // -- ARDA: the institutional baseline census (the religion "industrial-base" analogue) --
+        { name: 'ARDA US Religion Census', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.thearda.com/us-religion/census/congregational-membership', feedClass: 'institutional', metric: 'congregations' }, // Association of Religion Data Archives — congregations & adherents by denomination/county (institutional structural baseline)
+        { name: 'ARDA National Profiles', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.thearda.com/world-religion/national-profiles', feedClass: 'institutional', metric: 'global_adherents' }, // ARDA cross-national religion statistics — global adherence by tradition (international structural context)
+        { name: 'US Religion Census (ASARB)', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.usreligioncensus.org/', feedClass: 'institutional', metric: 'membership' }, // decennial US Religion Census — congregations, members, adherents by denomination & geography (faith-community census; FALLBACK between decennial waves)
+        // -- Longitudinal practice & importance trend (Gallup = the FRED-series trend anchor) --
+        { name: 'Gallup Religion Trends', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'news.gallup.com/topic/religion.aspx', feedClass: 'practice', metric: 'service_attendance' }, // Gallup historical 'religion important' / weekly-attendance / membership series — practice & importance trend anchor (mirrors FRED Crude Oil LIVE trend role)
+        { name: 'Gallup Religiosity Index', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'news.gallup.com/poll/religiosity-index.aspx', feedClass: 'practice', metric: 'religiosity' }, // Gallup global religiosity / 'is religion important' index — cross-national practice-intensity signal
+        // -- Contemporary belief, pluralism & disaffiliation (PRRI = the high-frequency interpretive survey) --
+        { name: 'PRRI American Values Atlas', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'ava.prri.org/', feedClass: 'belief', metric: 'pluralism' }, // Public Religion Research Institute AVA — affiliation, belief, pluralism & disaffiliation ("nones") by state (contemporary belief discovery)
+        { name: 'PRRI Research', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.prri.org/feed/', feedClass: 'belief', metric: 'belief_change' }, // PRRI surveys — religious change, interfaith attitudes, religious-nationalism risk (interpretive trend)
+        // -- Global worldview structure (World Values Survey + World Religion Database) --
+        { name: 'World Values Survey', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.worldvaluessurvey.org/WVSContents.jsp', feedClass: 'worldview', metric: 'worldview' }, // WVS Wave 7 — religious values & worldviews across ~89 countries (global worldview-structure anchor)
+        { name: 'World Religion Database', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.worldreligiondatabase.org/', feedClass: 'global_adherence', metric: 'global_adherents' }, // WRD — adherents by religion/country/year (global affiliation time series; institutional reference)
+        // ── Structural-constraint / institutional-quality anchors (religious freedom = the NERC/FERC analogue) ──
+        // Analogue of energy's NERC reliability + governance's WGI: the structural FREEDOM to
+        // believe, affiliate & worship gates how the affiliation/practice rates above can express.
+        // Religious-freedom POLICY belongs to governance; here we read it only as religion's own
+        // structural-constraint indicator (the 1-5 constraint scale), not as a policy product.
+        { name: 'USCIRF Annual Report Rankings', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.uscirf.gov/annual-reports', feedClass: 'religious_freedom', metric: 'freedom_ranking' }, // US Commission on International Religious Freedom — CPC/SWL country rankings (structural-constraint anchor on belief/worship)
+        { name: 'Pew Religious Restrictions Index', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.pewresearch.org/religion/category/publications/restrictions-on-religion/', feedClass: 'religious_freedom', metric: 'restrictions_index' }, // Pew Government Restrictions (GRI) & Social Hostilities (SHI) indices — measured constraint on religion by country
+        { name: 'State Dept Religious Freedom Reports', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.state.gov/religiousfreedomreport/', feedClass: 'religious_freedom', metric: 'freedom_constraint' }, // annual International Religious Freedom Report — structural constraint / persecution context by country
+        // ── Qualitative signals (faith-community / sector research context) ──
+        { name: 'Hartford Institute Faith Communities Today', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'faithcommunitiestoday.org/', feedClass: 'sector_research' }, // Faith Communities Today — congregational vitality, attendance, staffing & finances (faith-community structural research)
+        { name: 'GDELT Religion', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.gdeltproject.org/api/v2/doc/doc', feedClass: 'sector_news' }, // GDELT event-coding — religion-related event flow (news/event context, retained)
+        { name: 'Event Registry Religion', apiKey: 'EVENT_REGISTRY_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'eventregistry.org/api/v1/article/getArticles', feedClass: 'sector_news' } // Event Registry — religion article clustering (news/event context, retained)
       ],
       diagnostics: [],
       treatments: [],

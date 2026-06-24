@@ -45,7 +45,8 @@
     finance:       { factor: 0.60, ceiling: 0.85, reason: 'volatility-dampened: common market moves' },
     infrastructure:{ factor: 0.50, ceiling: 0.80, reason: 'cyber-dampened: embedded system CVE churn does not indicate compromise; construction-index-dampened: baseline volatility' },
     technology:    { factor: 0.55, ceiling: 0.82, reason: 'adoption-velocity-dampened: patent/arxiv/GitHub churn inflates commodity signal noise' },
-    population:    { factor: 0.50, ceiling: 0.80, reason: 'demographic-signal-dampened: Census/ACS/BLS reporting lag and seasonal volatility in birth/fertility/migration counts does not indicate structural demographic shift; real demographic constraints (below-replacement fertility, aging-dependency spike, prime-age employment collapse) bypass dampening' }
+    population:    { factor: 0.50, ceiling: 0.80, reason: 'demographic-signal-dampened: Census/ACS/BLS reporting lag and seasonal volatility in birth/fertility/migration counts does not indicate structural demographic shift; real demographic constraints (below-replacement fertility, aging-dependency spike, prime-age employment collapse) bypass dampening' },
+    religion:      { factor: 0.55, ceiling: 0.80, reason: 'tone-dampened: faith/affiliation/interfaith narrative feeds carry survey-revision lag and negative-tone bias; real religion constraints (persecution surge, sectarian-violence escalation, institutional-legitimacy collapse, disaffiliation acceleration) bypass dampening' }
   };
 
   // Structural-signal overrides for infrastructure: certain engineering constraints are
@@ -426,6 +427,49 @@
     laborShortageFloor:       0.65, // prime-age LFPR < 75% / prime-age employment < 80% / U-to-LF gap > 4% always reads as labor_shortage
     urbanizationStrainFloor:  0.60, // slum growth > 5%/yr / housing-unaffordability index > 40% / megacity stress always reads as urbanization_strain
     depopulationFloor:        0.65  // regional population loss > 2% YoY / sustained rural out-migration always reads as depopulation
+  };
+
+  // Structural-signal overrides for religion: certain PERSECUTION / SECTARIAN-CONFLICT /
+  // INSTITUTIONAL-LEGITIMACY / DISAFFILIATION constraints are NOT noisy faith-feed / survey-revision
+  // / negative-tone-churn signals and must bypass saturation dampening (mirrors infrastructure's
+  // grid_stress, culture's scene_collapse, finance's liquidity_crunch, economy's recession_declaration,
+  // technology's chip_shortage, defense's force_readiness, intelligence's collection_gap, trade's
+  // tariff_shock, industry's capacity_constraint, agriculture's crop_failure, environment's
+  // emissions_spike, and population's demographic_collapse structural conditions — all of which mirror
+  // energy-brain's grid_stress reserve-margin floor, a load-bearing engineering constraint that is never
+  // dampened as commodity noise).
+  // The religion domain is RELIGIOUS INSTITUTIONS & FAITH COMMUNITIES, belief systems & worldviews,
+  // religious practice & affiliation, congregations & houses of worship, spiritual movements, religious
+  // freedom & pluralism, secularization & disaffiliation, and interfaith dynamics. It binds almost
+  // entirely to INDICATORS / INSTITUTIONS, NOT single-company tickers — Pew Research Religious Landscape
+  // Study, ARDA (Association of Religion Data Archives) affiliation data, Gallup religious-trust / moral-
+  // guidance polling, PRRI (Public Religion Research Institute), the World Values Survey, and USCIRF /
+  // Pew Government-Restrictions / Social-Hostilities religious-freedom indices. It stays DISTINCT from
+  // culture (culture = secular content/scenes/movements; religion = faith/belief/worship), from population
+  // (affiliation demographics is a COUPLING — population owns the demographic counts, religion owns the
+  // belief/practice/institution), and from governance (religious-freedom POLICY is a COUPLING — religion
+  // owns the freedom condition on the ground, governance owns the law). NEVER oil/gas/grid as the domain's
+  // OWN content — religion has NO energy coupling; its signal origin is pure faith-domain (affiliation
+  // trends, institutional trust, freedom restrictions).
+  // These floors are LOAD-BEARING faith-system constraints — exactly as a grid reserve margin below 10%
+  // reads as grid_stress (a real engineering ceiling never averaged down by volume dampening), a
+  // persecution surge (Pew/USCIRF government-restrictions or social-hostilities spike), a sectarian-
+  // violence escalation (communal-violence count / GDELT religious-conflict tone), an institutional-
+  // legitimacy collapse (Gallup/Pew trust-in-religion floor), or a disaffiliation acceleration (ARDA
+  // congregation-decline / Pew "nones" rate above threshold) is a real faith-system constraint that must
+  // never be averaged down by faith-narrative tone/survey-revision noise.
+  // Raw stress is forced to the floor when a structural threshold is crossed, before dampening.
+  //   - persecution surge (Pew/USCIRF restrictions index spike / freedom-violation surge)        → persecution_surge (structural)
+  //   - sectarian-violence escalation (communal-violence count / religious-conflict tone)         → sectarian_violence_escalation (structural)
+  //   - institutional-legitimacy collapse (trust-in-religion polling floor < threshold)           → institutional_legitimacy_collapse (structural)
+  //   - disaffiliation acceleration (congregation/"nones" decline rate > threshold)               → disaffiliation_acceleration (structural)
+  // ADDITIVE ONLY — client-side advisory floor for the domain panel/snapshot; it does NOT touch the
+  // validated P3 distress kernel (/api/limen/score path), which lives in the finance domain.
+  var _RELIGION_STRUCTURAL = {
+    persecutionSurgeFloor:               0.70, // Pew/USCIRF government-restrictions or social-hostilities index spike always reads as persecution_surge
+    sectarianViolenceEscalationFloor:    0.72, // communal/sectarian-violence count surge / religious-conflict tone always reads as sectarian_violence_escalation
+    institutionalLegitimacyCollapseFloor:0.65, // Gallup/Pew trust-in-religion polling floor (confidence < threshold) always reads as institutional_legitimacy_collapse
+    disaffiliationAccelerationFloor:     0.65  // ARDA congregation-decline / Pew "nones" affiliation-change rate > threshold always reads as disaffiliation_acceleration
   };
 
   // Rolling baseline state (accumulates across feed cycles within session)
@@ -1608,6 +1652,108 @@
     return { floor: floor, reason: reason };
   }
 
+  // Detect religion PERSECUTION/SECTARIAN-CONFLICT/INSTITUTIONAL-LEGITIMACY/DISAFFILIATION structural
+  // constraints from a feed object. Returns a forced stress floor (0 if none) — real faith-system
+  // constraints bypass the faith-feed / survey-revision / negative-tone dampening (0.55). Mirrors
+  // _populationStructuralFloor / _economyStructuralFloor (indicator-based): persecution-surge /
+  // sectarian-violence-escalation / institutional-legitimacy-collapse / disaffiliation-acceleration are
+  // load-bearing faith-system constraints, not faith-narrative tone noise to be averaged down. Binds to
+  // Pew Research Religious Landscape Study, ARDA (Association of Religion Data Archives) affiliation data,
+  // Gallup religious-trust / moral-guidance polling, PRRI, the World Values Survey, and USCIRF / Pew
+  // Government-Restrictions / Social-Hostilities religious-freedom indices — INDICATORS / INSTITUTIONS,
+  // NOT single-company tickers. NEVER oil/gas/grid as the domain's OWN content (religion has NO energy
+  // coupling). DISTINCT from culture (secular content/scenes is a separate domain), population
+  // (affiliation demographics is a coupling), and governance (religious-freedom policy is a coupling).
+  // ADDITIVE ONLY — client-side advisory floor; does NOT touch the validated P3 distress kernel.
+  function _religionStructuralFloor(feed) {
+    if (!feed) return { floor: 0, reason: '' };
+    var floor = 0;
+    var reason = '';
+    var signals = feed.signals || [];
+    function _has(token) {
+      for (var i = 0; i < signals.length; i++) {
+        if (typeof signals[i] === 'string' && signals[i].toLowerCase().indexOf(token) !== -1) return true;
+      }
+      return false;
+    }
+    // (2) Sectarian-violence escalation: communal/sectarian-violence count surge / religious-conflict
+    //     tone ALWAYS triggers sectarian_violence_escalation (highest religion floor — communal-violence
+    //     count / GDELT religious-conflict tone; an acute physical-conflict break).
+    var sectarianViolence = (feed.sectarianViolenceCount !== undefined) ? feed.sectarianViolenceCount
+                          : (feed.communalViolenceCount !== undefined) ? feed.communalViolenceCount
+                          : null;
+    var religiousConflictTone = (feed.religiousConflictTone !== undefined) ? feed.religiousConflictTone
+                              : (feed.conflictTone !== undefined) ? feed.conflictTone
+                              : null;
+    if ((sectarianViolence !== null && sectarianViolence > 50 && (_has('sectarian') || _has('communal') || _has('violence') || _has('conflict') || _has('attack'))) ||
+        (religiousConflictTone !== null && religiousConflictTone < -5 && (_has('sectarian') || _has('religious') || _has('communal') || _has('conflict'))) ||
+        _has('sectarian violence') || _has('sectarian-violence') || _has('communal violence') || _has('religious conflict') || _has('religious-conflict') || _has('religious war') || _has('attack on worshippers') || _has('attack on a house of worship')) {
+      if (_RELIGION_STRUCTURAL.sectarianViolenceEscalationFloor > floor) {
+        floor = _RELIGION_STRUCTURAL.sectarianViolenceEscalationFloor;
+        reason = 'structural: sectarian_violence_escalation' + (sectarianViolence !== null ? ' (communal-violence count ' + Math.round(sectarianViolence) + ' > 50)' : '');
+      }
+    }
+    // (1) Persecution surge: Pew/USCIRF government-restrictions or social-hostilities index spike /
+    //     freedom-violation surge ALWAYS triggers persecution_surge (a religious-freedom constraint —
+    //     Pew Government Restrictions Index (GRI) / Social Hostilities Index (SHI), USCIRF designations).
+    var restrictionsIndex = (feed.governmentRestrictionsIndex !== undefined) ? feed.governmentRestrictionsIndex
+                          : (feed.socialHostilitiesIndex !== undefined) ? feed.socialHostilitiesIndex
+                          : (feed.religiousRestrictionsIndex !== undefined) ? feed.religiousRestrictionsIndex
+                          : null;
+    var restrictionsSpike = (feed.restrictionsIndexYoY !== undefined) ? feed.restrictionsIndexYoY : null;
+    var restrSpikeFrac = (restrictionsSpike !== null && (restrictionsSpike > 1 || restrictionsSpike < -1)) ? restrictionsSpike / 100 : restrictionsSpike;
+    if ((restrictionsIndex !== null && restrictionsIndex > 6.0 && (_has('restriction') || _has('persecution') || _has('hostility') || _has('freedom') || _has('crackdown'))) ||
+        (restrSpikeFrac !== null && restrSpikeFrac > 0.30 && (_has('restriction') || _has('persecution') || _has('hostility') || _has('freedom'))) ||
+        _has('persecution surge') || _has('persecution') || _has('religious persecution') || _has('crackdown on religion') || _has('worship banned') || _has('faith crackdown') || _has('uscirf') || _has('country of particular concern')) {
+      if (_RELIGION_STRUCTURAL.persecutionSurgeFloor > floor) {
+        floor = _RELIGION_STRUCTURAL.persecutionSurgeFloor;
+        reason = 'structural: persecution_surge' + (restrictionsIndex !== null ? ' (restrictions index ' + restrictionsIndex.toFixed(1) + ' > 6.0, high on the Pew GRI/SHI 0-10 scale)' : '');
+      } else if (floor > 0) {
+        reason += ' + persecution_surge';
+      }
+    }
+    // (3) Institutional-legitimacy collapse: Gallup/Pew trust-in-religion polling floor < threshold
+    //     ALWAYS triggers institutional_legitimacy_collapse (a trust constraint — Gallup confidence-in-
+    //     organized-religion / Pew trust-in-religious-leaders; an institutional-credibility break).
+    var trustInReligion = (feed.trustInReligion !== undefined) ? feed.trustInReligion
+                        : (feed.confidenceInReligion !== undefined) ? feed.confidenceInReligion
+                        : (feed.religiousTrust !== undefined) ? feed.religiousTrust
+                        : null;
+    var trustFrac = (trustInReligion !== null && trustInReligion > 1) ? trustInReligion / 100 : trustInReligion;
+    if ((trustFrac !== null && trustFrac < 0.30 && (_has('trust') || _has('confidence') || _has('legitimacy') || _has('credibility') || _has('institution'))) ||
+        _has('institutional legitimacy collapse') || _has('legitimacy collapse') || _has('trust collapse') || _has('crisis of faith in the church') || _has('clergy abuse scandal') || _has('loss of confidence in religion')) {
+      if (_RELIGION_STRUCTURAL.institutionalLegitimacyCollapseFloor > floor) {
+        floor = _RELIGION_STRUCTURAL.institutionalLegitimacyCollapseFloor;
+        reason = 'structural: institutional_legitimacy_collapse' + (trustFrac !== null ? ' (trust-in-religion ' + (trustFrac * 100).toFixed(0) + '% < 30%, Gallup/Pew floor)' : '');
+      } else if (floor > 0) {
+        reason += ' + institutional_legitimacy_collapse';
+      }
+    }
+    // (4) Disaffiliation acceleration: ARDA congregation-decline / Pew "nones" affiliation-change rate >
+    //     threshold ALWAYS triggers disaffiliation_acceleration (a secularization constraint — ARDA
+    //     affiliation-decline / Pew "nones" growth / congregation-closure rate; a structural detachment).
+    var disaffiliationRate = (feed.disaffiliationRate !== undefined) ? feed.disaffiliationRate
+                           : (feed.affiliationDeclineRate !== undefined) ? feed.affiliationDeclineRate
+                           : (feed.congregationDeclineRate !== undefined) ? feed.congregationDeclineRate
+                           : null;
+    var disaffFrac = (disaffiliationRate !== null && (disaffiliationRate > 1 || disaffiliationRate < -1)) ? disaffiliationRate / 100 : disaffiliationRate;
+    var nonesShare = (feed.nonesShare !== undefined) ? feed.nonesShare
+                   : (feed.unaffiliatedShare !== undefined) ? feed.unaffiliatedShare
+                   : null;
+    var nonesFrac = (nonesShare !== null && nonesShare > 1) ? nonesShare / 100 : nonesShare;
+    if ((disaffFrac !== null && disaffFrac > 0.03 && (_has('disaffiliation') || _has('affiliation') || _has('secular') || _has('nones') || _has('congregation') || _has('decline'))) ||
+        (nonesFrac !== null && nonesFrac > 0.35 && (_has('nones') || _has('unaffiliated') || _has('secular') || _has('no religion'))) ||
+        _has('disaffiliation acceleration') || _has('disaffiliation') || _has('secularization') || _has('rise of the nones') || _has('congregation decline') || _has('church closures') || _has('affiliation collapse') || _has('religious decline')) {
+      if (_RELIGION_STRUCTURAL.disaffiliationAccelerationFloor > floor) {
+        floor = _RELIGION_STRUCTURAL.disaffiliationAccelerationFloor;
+        reason = 'structural: disaffiliation_acceleration' + (disaffFrac !== null ? ' (affiliation-change rate ' + (disaffFrac * 100).toFixed(1) + '%/yr > 3%, ARDA/Pew)' : (nonesFrac !== null ? ' ("nones" share ' + (nonesFrac * 100).toFixed(0) + '% > 35%, Pew)' : ''));
+      } else if (floor > 0) {
+        reason += ' + disaffiliation_acceleration';
+      }
+    }
+    return { floor: floor, reason: reason };
+  }
+
   function _normalizeStress(domainKey, rawStress, feed) {
     // Phase 0: domain structural-signal floor (engineering/attention-economy constraints
     // bypass commodity/market/volume dampening — mirrors energy-brain grid_stress conditions)
@@ -1623,6 +1769,7 @@
                    : (domainKey === 'agriculture') ? _agricultureStructuralFloor(feed)
                    : (domainKey === 'environment') ? _environmentStructuralFloor(feed)
                    : (domainKey === 'population') ? _populationStructuralFloor(feed)
+                   : (domainKey === 'religion') ? _religionStructuralFloor(feed)
                    : { floor: 0, reason: '' };
     if (structural.floor > rawStress) {
       rawStress = structural.floor;
@@ -2015,10 +2162,16 @@
       { threshold: 0.85, text: 'strategic security alerts active' }
     ],
     religion: [
-      { threshold: 0.3, text: 'institutional sentiment tracking' },
-      { threshold: 0.5, text: 'moral framework tension' },
-      { threshold: 0.7, text: 'interfaith stress indicators' },
-      { threshold: 0.85, text: 'symbolic systems destabilization' }
+      // Religion binds to real INDICATORS / INSTITUTIONS (Pew Religious Landscape Study, ARDA
+      // affiliation data, Gallup religious-trust polling, PRRI, World Values Survey, USCIRF / Pew
+      // Government-Restrictions + Social-Hostilities religious-freedom indices) — NOT company tickers
+      // and NEVER energy content. Fallback strings remain for when live indicators are not loaded, but
+      // are tied to the REAL data patterns the structural floors detect (persecution_surge /
+      // disaffiliation_acceleration / institutional_legitimacy_collapse / sectarian_violence_escalation).
+      { threshold: 0.3, text: 'religious-affiliation and institutional-trust tracking (Pew/ARDA/Gallup)' },
+      { threshold: 0.5, text: 'secularization trend rising: Pew "nones" growth / ARDA affiliation decline' },
+      { threshold: 0.7, text: 'interfaith stress + religious-freedom pressure (Pew interfaith engagement / USCIRF restrictions)' },
+      { threshold: 0.85, text: 'faith-system destabilization: persecution surge or institutional-legitimacy collapse (USCIRF/Pew GRI-SHI, Gallup trust floor)' }
     ],
     population: [
       { threshold: 0.3, text: 'demographic monitoring active' },

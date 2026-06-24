@@ -406,6 +406,81 @@
     { label: 'Analyze religious-institution adaptation and digital-worship transition for engagement resilience (online-congregation adoption, hybrid-worship models, faith-community engagement vs physical-attendance decline)', domain: 'religion', type: 'technological-innovation', baseRelevance: 0.35 }
   ];
 
+  // ─── Religion connectome bindings (energy-parity port) ───────────────────
+  // Closes the discovery→resolver loop for religion. The connectome-resolver
+  // exposes MACRO_INDICATOR_BINDING / *_COMPANY_BINDING that map a REAL data
+  // source to a connectome node so a stressed node can drill to live data.
+  // Religion is almost entirely INDICATOR / INSTITUTION based (NOT company
+  // tickers), so we mirror the *_INDICATOR_BINDING shape here and expose it
+  // for the resolver / UI to consume. Each entry maps a real religion data
+  // source (Pew Religious Landscape, ARDA, Gallup, PRRI, World Values Survey,
+  // USCIRF / Pew Global Restrictions on Religion) to a real religion connectome
+  // node (from brain-node-domains.json) so a discovery proposal can ACTIVATE
+  // the source at the node level:
+  //   'congregation-decline' → ARDA congregational census (IPS Sacred Architecture)
+  //   'religious-freedom'    → USCIRF / Pew Global Restrictions (IC Relpolitics)
+  //   'secularization'       → Pew affiliation series (DMN Theological Doctrine)
+  // Same shape as MACRO_INDICATOR_BINDING: { series, node, role, nodeRole,
+  // label, threshold, dir, kind }. kind:'indicator' (survey/index series) or
+  // kind:'institution' (institutional census) — NEVER 'ticker' (no fabricated
+  // companies). Couples to population via affiliation demographics and to
+  // governance via religious-freedom policy, but identity stays = faith /
+  // belief / worship / congregations. NEVER energy oil/gas/grid content.
+  var RELIGION_INDICATOR_BINDING = {
+    // Affiliation & secularization — Pew Research Religious Landscape Study
+    PEW_AFFILIATION: { series: 'PEW_RLS_AFFILIATION', node: 'DMN', role: 'Affiliation & Belief Landscape', nodeRole: 'Theological Doctrine', label: 'Pew Religious Landscape — Affiliation', threshold: -3, dir: 'low', kind: 'indicator', provider: 'Pew Research Center', topic: 'secularization' },
+    PEW_NONES: { series: 'PEW_RLS_UNAFFILIATED', node: 'vlPFC', role: 'Unaffiliated ("Nones") Growth', nodeRole: 'buddhism theravada — Signal Acquisition', label: 'Pew — Religiously Unaffiliated Share', threshold: 28, dir: 'high', kind: 'indicator', provider: 'Pew Research Center', topic: 'secularization' },
+    // Congregational census & membership — ARDA + Gallup
+    ARDA_CONGREGATIONS: { series: 'ARDA_US_RELIGION_CENSUS', node: 'IPS', role: 'Congregational Census & Adherence', nodeRole: 'Sacred Architecture', label: 'ARDA — U.S. Religion Census (congregations & adherents)', threshold: -2, dir: 'low', kind: 'institution', provider: 'Association of Religion Data Archives (ARDA)', topic: 'congregation-decline' },
+    GALLUP_MEMBERSHIP: { series: 'GALLUP_CHURCH_MEMBERSHIP', node: 'SC', role: 'Institutional Membership Trend', nodeRole: 'Relorg', label: 'Gallup — Church/Synagogue/Mosque Membership', threshold: 50, dir: 'low', kind: 'indicator', provider: 'Gallup', topic: 'congregation-decline' },
+    ARDA_EDUCATION: { series: 'ARDA_RELIGIOUS_EDUCATION', node: 'AG', role: 'Faith-Formation & Religious Education', nodeRole: 'Religious Education', label: 'ARDA — Religious Education & Congregational Programs', threshold: -2, dir: 'low', kind: 'institution', provider: 'Association of Religion Data Archives (ARDA)', topic: 'congregation-decline' },
+    // Religious freedom & persecution — USCIRF + Pew Global Restrictions
+    USCIRF_FREEDOM: { series: 'USCIRF_CPC_SWL', node: 'IC', role: 'Religious-Freedom & Persecution Watch', nodeRole: 'Relpolitics', label: 'USCIRF — Countries of Particular Concern / Special Watch List', threshold: 1, dir: 'high', kind: 'indicator', provider: 'U.S. Commission on International Religious Freedom (USCIRF)', topic: 'religious-freedom' },
+    PEW_GOV_RESTRICTIONS: { series: 'PEW_GRI', node: 'SNS', role: 'Government Restrictions on Religion', nodeRole: 'Religionlaw', label: 'Pew — Government Restrictions Index (GRI)', threshold: 4.5, dir: 'high', kind: 'indicator', provider: 'Pew Research Center', topic: 'religious-freedom' },
+    PEW_SOCIAL_HOSTILITY: { series: 'PEW_SHI', node: 'SNS', role: 'Social Hostilities Involving Religion', nodeRole: 'Religionlaw', label: 'Pew — Social Hostilities Index (SHI)', threshold: 3.5, dir: 'high', kind: 'indicator', provider: 'Pew Research Center', topic: 'religious-freedom' },
+    // Interfaith & pluralism / values — PRRI + World Values Survey
+    PRRI_PLURALISM: { series: 'PRRI_AMERICAN_VALUES', node: 'TPJ', role: 'Interfaith Trust & Pluralism', nodeRole: 'Interfaith Dialogue', label: 'PRRI — American Values Atlas (religious diversity & tolerance)', threshold: -2, dir: 'low', kind: 'indicator', provider: 'Public Religion Research Institute (PRRI)', topic: 'interfaith' },
+    WVS_RELIGIOSITY: { series: 'WVS_RELIGIOSITY', node: 'PCC', role: 'Cross-National Religiosity & Belief', nodeRole: 'Meditation & Contemplation', label: 'World Values Survey — Importance of Religion', threshold: -3, dir: 'low', kind: 'indicator', provider: 'World Values Survey Association', topic: 'secularization' }
+  };
+
+  // topic → binding-keys index, so a discovery proposal (which carries a
+  // resolver-topic) can drill straight to the real sources that quantify it.
+  var RELIGION_TOPIC_TO_BINDINGS = (function () {
+    var idx = {};
+    for (var k in RELIGION_INDICATOR_BINDING) {
+      if (!Object.prototype.hasOwnProperty.call(RELIGION_INDICATOR_BINDING, k)) continue;
+      var t = RELIGION_INDICATOR_BINDING[k].topic;
+      if (!idx[t]) idx[t] = [];
+      idx[t].push(k);
+    }
+    return idx;
+  })();
+
+  // Resolve a religion discovery to its live data sources. Returns the bound
+  // indicator entries (real Pew/ARDA/Gallup/PRRI/WVS/USCIRF sources + their
+  // connectome nodes) so the UI can render trend charts and the resolver can
+  // activate the nodes. ADDITIVE: pure read, no mutation of other domains.
+  function resolveReligionBindings(topic) {
+    var keys = topic ? (RELIGION_TOPIC_TO_BINDINGS[topic] || []) : Object.keys(RELIGION_INDICATOR_BINDING);
+    var out = [];
+    for (var i = 0; i < keys.length; i++) {
+      var b = RELIGION_INDICATOR_BINDING[keys[i]];
+      if (b) out.push({ key: keys[i], series: b.series, node: b.node, role: b.role, nodeRole: b.nodeRole, label: b.label, provider: b.provider, kind: b.kind, threshold: b.threshold, dir: b.dir, topic: b.topic });
+    }
+    return out;
+  }
+
+  // Infer the resolver-topic for a religion seed from its label, so the
+  // discovery→resolver loop is automatic (no per-seed manual wiring).
+  function _religionTopicForLabel(label) {
+    var s = (label || '').toLowerCase();
+    if (s.indexOf('congregation') >= 0 || s.indexOf('membership') >= 0 || s.indexOf('attendance') >= 0 || s.indexOf('social-service') >= 0 || s.indexOf('digital-worship') >= 0 || s.indexOf('engagement') >= 0) return 'congregation-decline';
+    if (s.indexOf('persecution') >= 0 || s.indexOf('freedom') >= 0 || s.indexOf('restriction') >= 0 || s.indexOf('hostilit') >= 0) return 'religious-freedom';
+    if (s.indexOf('interfaith') >= 0 || s.indexOf('pluralism') >= 0 || s.indexOf('polarization') >= 0 || s.indexOf('tolerance') >= 0) return 'interfaith';
+    if (s.indexOf('secular') >= 0 || s.indexOf('affiliation') >= 0 || s.indexOf('spiritual') >= 0 || s.indexOf('belief') >= 0 || s.indexOf('nones') >= 0 || s.indexOf('disaffiliation') >= 0) return 'secularization';
+    return 'secularization';
+  }
+
   // ─── State ───────────────────────────────────────────────────────────────
 
   var _discoveries = [];
@@ -481,14 +556,23 @@
       // Only include if above threshold
       if (relevance > 0.50) {
         _idCounter++;
-        scored.push({
+        var entry = {
           id: 'disc_' + _idCounter,
           label: seed.label,
           domain: seed.domain,
           type: seed.type,
           relevance: relevance,
           generatedAt: Date.now()
-        });
+        };
+        // Religion closed loop (energy-parity port): attach the resolver-topic
+        // and the LIVE data-source bindings (Pew/ARDA/Gallup/PRRI/WVS/USCIRF +
+        // their connectome nodes) so the proposal can drill to real sources.
+        if (seed.domain === 'religion') {
+          var rTopic = _religionTopicForLabel(seed.label);
+          entry.resolverTopic = rTopic;
+          entry.bindings = resolveReligionBindings(rTopic);
+        }
+        scored.push(entry);
       }
     }
 
@@ -551,11 +635,17 @@
 
   window.LIMENDiscoveries = [];
 
+  // Expose religion bindings so the connectome-resolver / UI can consume the
+  // discovery→resolver closed loop without reaching into discovery internals.
+  window.LIMENReligionBindings = RELIGION_INDICATOR_BINDING;
+
   window.LIMENDiscoveryEngine = {
     start: start,
     stop: stop,
     compute: compute,
-    getDiscoveries: getDiscoveries
+    getDiscoveries: getDiscoveries,
+    religionBindings: RELIGION_INDICATOR_BINDING,
+    resolveReligionBindings: resolveReligionBindings
   };
 
 })();

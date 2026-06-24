@@ -53,6 +53,8 @@
   var RESEARCH_STACK_COOLDOWN = 180000; // 3 min between science/research-stack narrations
   var LAW_STACK_THRESHOLD = 2; // a legal/judicial-vulnerability stack seen N times signals concentration
   var LAW_STACK_COOLDOWN = 180000; // 3 min between law-stack narrations
+  var RELIGION_STACK_THRESHOLD = 2; // a religion/faith-vulnerability stack seen N times signals concentration
+  var RELIGION_STACK_COOLDOWN = 180000; // 3 min between religion-stack narrations
 
   // ─── Infrastructure vulnerability-stack semantics ─────────────────────────
   // CIVIL domain-semantic concentration. Generic (domain, action) frequency only
@@ -939,6 +941,62 @@
       body: 'Operator attention concentrates on the enforcement-gap + court-backlog stack — an enforcement-capacity collapse where non-prosecution and declined charges meet docket backlog and clearance-rate decline, hollowing the legal system ability to adjudicate (US Courts caseload / DOJ charging-statistics exposure).' }
   ];
 
+  // ─── Religion vulnerability-stack semantics ───────────────────────────────
+  // RELIGION / FAITH domain-semantic concentration. As with the other domains,
+  // generic (domain, action) frequency only says WHERE the operator is looking; for
+  // the religion domain we also detect WHAT faith-vulnerability STACK the attention
+  // concentrates on. Each stack is a co-occurring pair of religion signal families
+  // (institutional vitality & affiliation/sectarian tension & intra-faith conflict/
+  // religious persecution & freedom restriction/pluralism & interfaith tolerance/
+  // youth retention & disaffiliation/clergy & leadership capacity). The religion
+  // identity is RELIGIOUS INSTITUTIONS & FAITH COMMUNITIES, BELIEF SYSTEMS &
+  // WORLDVIEWS, RELIGIOUS PRACTICE & AFFILIATION, CONGREGATIONS & HOUSES OF WORSHIP,
+  // SPIRITUAL MOVEMENTS, RELIGIOUS FREEDOM & PLURALISM, SECULARIZATION &
+  // DISAFFILIATION, and INTERFAITH DYNAMICS — bound to REAL religion indicators &
+  // authorities (Pew Research Religious Landscape Study, ARDA Association of Religion
+  // Data Archives, Gallup, PRRI Public Religion Research Institute, World Values
+  // Survey, USCIRF US Commission on International Religious Freedom). Religion is
+  // almost entirely INDICATOR/INSTITUTION-based, NOT company tickers — never
+  // fabricate tickers. Kept DISTINCT from culture (culture = secular content/scenes/
+  // movements; religion = faith/belief/worship), from population (affiliation
+  // demographics is a coupling, not the identity), and from governance (religious-
+  // freedom policy is a coupling). Its OWN content is the faith enterprise itself and
+  // is NEVER energy oil/gas/grid content.
+  // Mirrors the religion-brain cross-domain conditions:
+  //   SECTARIAN_ESCALATION + PERSECUTION_SURGE   → sectarian-conflict-escalation
+  //   INSTITUTIONAL_DECLINE + YOUTH_DISAFFILIATION → institutional-collapse
+  //   SECTARIAN_ESCALATION + PLURALISM_EROSION    → pluralism-erosion
+  // Signal tokens are matched against recorded action/type/pattern text — never
+  // invented; absence of tokens simply yields no stack (silent, no false signal).
+  // STRICTLY ADDITIVE: advisory only; never participates in /api/limen/score scoring.
+  var RELIGION_SIGNAL_TOKENS = {
+    INSTITUTIONAL_DECLINE:   /(congregation[_\s-]?decline|church[_\s-]?closure|declining[_\s-]?attendance|membership[_\s-]?loss|religious[_\s-]?affiliation[_\s-]?decline|nones[_\s-]?rise|unaffiliated[_\s-]?growth|secularization|attendance[_\s-]?drop|parish[_\s-]?consolidation|house[_\s-]?of[_\s-]?worship[_\s-]?closure|denominational[_\s-]?decline|pew[_\s-]?religious[_\s-]?landscape|practice[_\s-]?decline)/i,
+    SECTARIAN_ESCALATION:    /(sectarian[_\s-]?violence|sectarian[_\s-]?tension|sectarian[_\s-]?conflict|inter[_\s-]?religious[_\s-]?conflict|intra[_\s-]?faith[_\s-]?conflict|schism|denominational[_\s-]?split|religious[_\s-]?militancy|communal[_\s-]?violence|religious[_\s-]?riot|faith[_\s-]?based[_\s-]?clash|doctrinal[_\s-]?rupture|religious[_\s-]?extremism)/i,
+    PERSECUTION_SURGE:       /(religious[_\s-]?persecution|persecution[_\s-]?surge|religious[_\s-]?freedom[_\s-]?restriction|worship[_\s-]?ban|blasphemy[_\s-]?law|apostasy[_\s-]?law|faith[_\s-]?based[_\s-]?repression|religious[_\s-]?minority[_\s-]?targeting|uscirf|countries[_\s-]?of[_\s-]?particular[_\s-]?concern|cpc[_\s-]?designation|forced[_\s-]?conversion|house[_\s-]?of[_\s-]?worship[_\s-]?attack|religious[_\s-]?discrimination)/i,
+    PLURALISM_EROSION:       /(religious[_\s-]?pluralism[_\s-]?erosion|interfaith[_\s-]?breakdown|tolerance[_\s-]?decline|establishment[_\s-]?of[_\s-]?religion|religious[_\s-]?nationalism|theocrat|exclusivism[_\s-]?rise|interfaith[_\s-]?distrust|religious[_\s-]?homogenization|loss[_\s-]?of[_\s-]?religious[_\s-]?diversity|coexistence[_\s-]?breakdown|sectarian[_\s-]?gatekeeping)/i,
+    YOUTH_DISAFFILIATION:    /(youth[_\s-]?disaffiliation|young[_\s-]?adult[_\s-]?nones|generational[_\s-]?religious[_\s-]?decline|youth[_\s-]?exodus|next[_\s-]?generation[_\s-]?loss|millennial[_\s-]?disaffiliation|gen[_\s-]?z[_\s-]?unaffiliated|youth[_\s-]?secularization|religious[_\s-]?transmission[_\s-]?failure|switching[_\s-]?out[_\s-]?of[_\s-]?faith|raised[_\s-]?religious[_\s-]?now[_\s-]?none|youth[_\s-]?attendance[_\s-]?drop)/i,
+    LEADERSHIP_CRISIS:       /(clergy[_\s-]?shortage|vocations[_\s-]?decline|seminary[_\s-]?enrollment[_\s-]?drop|pastor[_\s-]?burnout|clergy[_\s-]?abuse[_\s-]?scandal|leadership[_\s-]?scandal|religious[_\s-]?leadership[_\s-]?vacuum|priest[_\s-]?shortage|aging[_\s-]?clergy|succession[_\s-]?crisis|loss[_\s-]?of[_\s-]?trust[_\s-]?in[_\s-]?clergy|ministerial[_\s-]?shortfall)/i
+  };
+
+  // Religion/faith-vulnerability STACKS — ordered token pairs with a faith-system
+  // interpretation. Each describes an operator-concentration meaning specific to a
+  // religion vulnerability stack (religious institutions & faith communities, belief
+  // systems & worldviews, religious practice & affiliation, congregations & houses of
+  // worship, spiritual movements, religious freedom & pluralism, secularization &
+  // disaffiliation, interfaith dynamics) — bound to REAL religion indicators (Pew
+  // Religious Landscape Study, ARDA, Gallup, PRRI, World Values Survey, USCIRF), NEVER
+  // fabricated tickers and NEVER energy oil/gas/grid content. Kept DISTINCT from
+  // culture (secular content/scenes), population (affiliation demographics is a
+  // coupling), and governance (religious-freedom policy is a coupling).
+  var RELIGION_VULN_STACKS = [
+    { id: 'SECTARIAN_CONFLICT_ESCALATION', signals: ['SECTARIAN_ESCALATION', 'PERSECUTION_SURGE'],
+      body: 'Operator attention concentrates on the sectarian-escalation + persecution-surge stack — a sectarian-conflict escalation where intra-faith and inter-religious tension compounds with rising religious persecution, worship-site attacks, and freedom restriction targeting religious minorities (USCIRF Countries-of-Particular-Concern designations / Pew religious-restrictions indices / ARDA conflict data).' },
+    { id: 'INSTITUTIONAL_COLLAPSE',        signals: ['INSTITUTIONAL_DECLINE', 'YOUTH_DISAFFILIATION'],
+      body: 'Operator attention concentrates on the institutional-decline + youth-disaffiliation stack — an institutional-collapse posture where declining congregations, closures, and the rise of the unaffiliated "nones" compound with generational transmission failure as young adults leave the faith they were raised in (Pew Religious Landscape Study / PRRI / Gallup affiliation & attendance trends).' },
+    { id: 'PLURALISM_EROSION',             signals: ['SECTARIAN_ESCALATION', 'PLURALISM_EROSION'],
+      body: 'Operator attention concentrates on the sectarian-escalation + pluralism-erosion stack — a pluralism-erosion posture where intra-faith conflict and religious militancy collide with interfaith breakdown, rising religious nationalism, and declining tolerance for religious diversity (World Values Survey tolerance measures / Pew religious-diversity indices / USCIRF exposure).' }
+  ];
+
   // ─── State ───────────────────────────────────────────────────────────────
 
   var _entries = [];
@@ -976,6 +1034,8 @@
   var _lastResearchStackId = null;
   var _lastLawStackTime = 0;
   var _lastLawStackId = null;
+  var _lastReligionStackTime = 0;
+  var _lastReligionStackId = null;
   var _interval = null;
 
   // Detect which civil signal families a user-action references, by scanning its
@@ -1106,6 +1166,18 @@
     var hits = [];
     for (var sig in LAW_SIGNAL_TOKENS) {
       if (LAW_SIGNAL_TOKENS[sig].test(text)) hits.push(sig);
+    }
+    return hits;
+  }
+
+  // Detect which religion/faith signal families a user-action references, by scanning its
+  // free-text fields (action / type / cross-domain pattern). Returns a list of
+  // canonical religion signal ids. Never fabricates — empty if nothing matches.
+  function _detectReligionSignals(text) {
+    if (!text) return [];
+    var hits = [];
+    for (var sig in RELIGION_SIGNAL_TOKENS) {
+      if (RELIGION_SIGNAL_TOKENS[sig].test(text)) hits.push(sig);
     }
     return hits;
   }
@@ -1262,6 +1334,10 @@
       // LAW: which legal/judicial signal families this action touches (may be []).
       lawSignals: _detectLawSignals(
         [detail.action, detail.type, matchedPattern, detail.signal, detail.diagnosis].join(' ')
+      ),
+      // RELIGION: which religion/faith signal families this action touches (may be []).
+      religionSignals: _detectReligionSignals(
+        [detail.action, detail.type, matchedPattern, detail.signal, detail.diagnosis].join(' ')
       )
     };
 
@@ -1288,6 +1364,7 @@
     _checkPopulationStackConcentration();
     _checkResearchStackConcentration();
     _checkLawStackConcentration();
+    _checkReligionStackConcentration();
   }
 
   // ─── Concentration detection ──────────────────────────────────────────────
@@ -2437,6 +2514,72 @@
     });
   }
 
+  // ─── Religion vulnerability-stack concentration ───────────────────────────
+  // Domain-semantic concentration for RELIGION: beyond "which domain" (above),
+  // surface WHICH religion/faith vulnerability STACK the operator keeps returning to.
+  // Tallies co-occurring religion signal families across recent entries and fires when
+  // a known stack (sectarian-conflict escalation, institutional collapse, pluralism
+  // erosion) crosses the threshold. Bound to REAL religion indicators (Pew / ARDA /
+  // Gallup / PRRI / World Values Survey / USCIRF). Schema-faithful to
+  // _checkPopulationStackConcentration (same phase-change shape).
+  function _checkReligionStackConcentration() {
+    var now = Date.now();
+    if (now - _lastReligionStackTime < RELIGION_STACK_COOLDOWN) return;
+    if (_entries.length < RELIGION_STACK_THRESHOLD) return;
+
+    // Count per-signal-family hits across recent entries (last 10).
+    var recent = _entries.slice(-10);
+    var sigCounts = {};
+    for (var i = 0; i < recent.length; i++) {
+      var sigs = recent[i].religionSignals || [];
+      for (var s = 0; s < sigs.length; s++) {
+        sigCounts[sigs[s]] = (sigCounts[sigs[s]] || 0) + 1;
+      }
+    }
+
+    // A stack fires only when BOTH of its signal families are present and at least
+    // one of them has been focused on repeatedly (>= threshold). Score = sum of the
+    // pair's counts; pick the strongest stack.
+    var best = null;
+    for (var k = 0; k < RELIGION_VULN_STACKS.length; k++) {
+      var stack = RELIGION_VULN_STACKS[k];
+      var a = sigCounts[stack.signals[0]] || 0;
+      var b = sigCounts[stack.signals[1]] || 0;
+      if (a === 0 || b === 0) continue;
+      if (Math.max(a, b) < RELIGION_STACK_THRESHOLD) continue;
+      var score = a + b;
+      if (!best || score > best.score) best = { stack: stack, a: a, b: b, score: score };
+    }
+
+    if (!best) return;
+    if (best.stack.id === _lastReligionStackId) return; // don't re-narrate the same stack
+
+    _lastReligionStackTime = now;
+    _lastReligionStackId = best.stack.id;
+
+    var drivers = [
+      best.a + ' recent actions touching ' + best.stack.signals[0],
+      best.b + ' recent actions touching ' + best.stack.signals[1]
+    ];
+
+    var options = [
+      { label: 'deepen ' + best.stack.id.toLowerCase().replace(/_/g, ' ') + ' analysis', type: 'analysis' },
+      { label: 'broaden scope', type: 'monitoring' },
+      { label: 'hold', type: 'monitoring' }
+    ];
+
+    _dispatch('limen:phase-change', {
+      from: 'observing',
+      to: 'concentrated',
+      type: 'decision-memory',
+      domain: 'religion',
+      stackId: best.stack.id,
+      topDrivers: drivers,
+      options: options,
+      body: best.stack.body
+    });
+  }
+
   // ─── Publish ──────────────────────────────────────────────────────────────
 
   function _publish() {
@@ -2460,6 +2603,7 @@
       populationSignalConcentration: _populationSignalConcentration(),
       researchSignalConcentration: _researchSignalConcentration(),
       lawSignalConcentration: _lawSignalConcentration(),
+      religionSignalConcentration: _religionSignalConcentration(),
       updated: Date.now()
     };
 
@@ -2727,6 +2871,23 @@
     var recent = _entries.slice(-10);
     for (var i = 0; i < recent.length; i++) {
       var sigs = recent[i].lawSignals || [];
+      for (var s = 0; s < sigs.length; s++) {
+        counts[sigs[s]] = (counts[sigs[s]] || 0) + 1;
+      }
+    }
+    var out = [];
+    for (var sig in counts) { out.push({ signal: sig, count: counts[sig] }); }
+    out.sort(function (x, y) { return y.count - x.count; });
+    return out;
+  }
+
+  // RELIGION: roll up which religion/faith signal families recent attention
+  // concentrates on (descending by count). Empty when no religion signals were detected.
+  function _religionSignalConcentration() {
+    var counts = {};
+    var recent = _entries.slice(-10);
+    for (var i = 0; i < recent.length; i++) {
+      var sigs = recent[i].religionSignals || [];
       for (var s = 0; s < sigs.length; s++) {
         counts[sigs[s]] = (counts[sigs[s]] || 0) + 1;
       }

@@ -450,6 +450,33 @@ var DOMAIN_PORTALS = {
     {name:'Eli Lilly (LLY)',url:'/company-portal?company=eli_lilly'}
   ],
   religion:[
+    // ── ADDITIVE (religion gap → energy parity): PRIMARY identity = faith-institution &
+    //    religious-landscape DATA, not media. Religion is indicator/institution-based, NOT
+    //    company tickers — anchored to REAL sources (Pew, ARDA, Gallup, PRRI, USCIRF, WVS).
+    //    DISTINCT from culture (secular scenes/content), population (affiliation demographics
+    //    is a coupling), governance (religious-freedom policy is a coupling). ZERO energy
+    //    content — never conflate with oil/gas/grid/commodities.
+    // (1) Religious-Freedom Portal — USCIRF reports + Pew global restrictions index.
+    {name:'USCIRF Religious Freedom Reports',url:'/authority-portal?authority=uscirf_annual_report'},
+    {name:'Pew Global Restrictions on Religion',url:'/authority-portal?authority=pew_global_restrictions'},
+    // (2) Faith-Community Resilience Portal — ARDA congregational trends, Gallup attendance,
+    //     seminary/clergy-pipeline enrollment.
+    {name:'ARDA Congregational Trends',url:'/authority-portal?authority=arda_congregational_trends'},
+    {name:'Gallup Religious Attendance',url:'/authority-portal?authority=gallup_religious_attendance'},
+    {name:'ATS Seminary Enrollment (Clergy Pipeline)',url:'/authority-portal?authority=ats_seminary_enrollment'},
+    // (3) Interfaith Pluralism Portal — Interfaith America (IFYC) networks, dialogue
+    //     engagement, cross-community trust.
+    {name:'Interfaith America Pluralism Network',url:'/authority-portal?authority=interfaith_america_pluralism'},
+    {name:'World Values Survey Religiosity',url:'/authority-portal?authority=wvs_religiosity'},
+    // (4) Religious-Scholarship & Theology Portal — Templeton Foundation grants, theological
+    //     research, World Council of Churches doctrinal resources.
+    {name:'John Templeton Foundation Research',url:'/authority-portal?authority=templeton_foundation'},
+    {name:'World Council of Churches Resources',url:'/authority-portal?authority=wcc_doctrinal_resources'},
+    // (5) Institutional-Trust & Secularization Portal — Pew affiliation trends, 'nones'
+    //     growth, PRRI generational belief transmission.
+    {name:'Pew Religious Landscape Study',url:'/authority-portal?authority=pew_religious_landscape'},
+    {name:'PRRI American Values / "Nones" Trends',url:'/authority-portal?authority=prri_disaffiliation_trends'},
+    // ── SECONDARY: contemplative circuit + faith-media companies (real tickers only).
     {name:'Contemplative Circuit Map',url:'/contemplative'},
     {name:'Salem Comm (SALM)',url:'/company-portal?company=salem_communications'},
     {name:'Gannett (GCI)',url:'/company-portal?company=gannett'},

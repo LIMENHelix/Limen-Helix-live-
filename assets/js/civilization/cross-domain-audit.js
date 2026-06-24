@@ -480,6 +480,126 @@
     // scene collapse coinciding with censorship pressure + arts-funding cuts +
     // heritage loss). Mirror of infrastructure_core.
     { id: 'culture_core',   domains: ['culture', 'religion', 'communication', 'governance'] },
+    // ─── Religion-native affinity groups ──────────────────────────────────
+    // Religion is a SOURCE domain here, not only the faith/meaning MEMBER it
+    // plays inside culture_core (where culture is the source and religion
+    // surfaces as the meaning/heritage envelope). Religion's OWN identity is
+    // religious institutions & faith communities, belief systems & worldviews,
+    // religious practice & affiliation, congregations & houses of worship,
+    // spiritual movements, religious freedom & pluralism, secularization &
+    // disaffiliation, and interfaith dynamics. Religion is almost ENTIRELY
+    // INDICATOR / INSTITUTION-based, NOT company tickers — anchors are the
+    // religion-data & religious-freedom complex (Pew Research Religious
+    // Landscape Study, ARDA Association of Religion Data Archives, Gallup
+    // religiosity & worship-attendance series, PRRI faith-and-public-life
+    // surveys, World Values Survey belief data, USCIRF / Pew religious-freedom
+    // & restriction indices, congregation financial-health & attendance
+    // surveys). Kept DISTINCT from culture (culture = secular content / scenes /
+    // movements; religion = faith / belief / worship / congregations),
+    // population (affiliation DEMOGRAPHICS & generational transmission are a
+    // COUPLING, not religion's own institutional content), and governance
+    // (religious-freedom POLICY is a COUPLING, not religion's own identity).
+    // NEVER energy oil/gas/grid as religion's content, and religion does NOT
+    // co-elevate DIRECTLY with energy (no shared stress transmission) — it
+    // couples as the MEANING / NARRATIVE node in the energy-transition and
+    // sacred-lands chains below.
+    //
+    // (1) energy_ethics_transition_policy — the energy-transition meaning/ethics
+    // coupling (religion as the NARRATIVE / MEANING node, NOT energy's content).
+    // Energy-transition pressure (energy — the STRESSOR, decarbonization &
+    // transition demand) co-elevates with governance rulemaking (governance —
+    // climate/energy policy, emissions targets), cultural narrative (culture —
+    // the meaning carried about transition & intergenerational responsibility),
+    // and religious meaning-making (religion — faith-institution climate
+    // advocacy, divestment campaigns, intergenerational-stewardship doctrine,
+    // creation-care theology). When these co-elevate the signal is an
+    // ENERGY-ETHICS / TRANSITION-LEGITIMACY stress (a faith-and-policy advocacy
+    // wave around the energy transition) rather than an isolated energy-price
+    // move. Religion is the MEANING node here; energy is the STRESSOR, NOT
+    // religion's content. Real signal chain: climate-stress → energy-transition
+    // demand → policy advocacy (governance) → cultural & religious meaning-
+    // making. Sources: PRRI (faith and climate — ~45% of US Protestants report
+    // faith influencing climate views), Pew Research (faith orgs anchoring
+    // divestment campaigns), ARDA religious-demographics. NEVER oil/gas/grid as
+    // religion's own content.
+    { id: 'energy_ethics_transition_policy', domains: ['energy', 'governance', 'culture', 'religion'] },
+    // (2) sacred_lands_climate_justice — the climate / ecosystem-stress ↔
+    // indigenous-stewardship & faith-based environmental-advocacy coupling
+    // (religion as the STEWARDSHIP / MEANING node). Climate & ecosystem stress
+    // (environment — climate damage, ecosystem loss) and the agricultural land/
+    // water stress it drives (agriculture — land-use, water, food-security
+    // pressure) co-elevate with cultural heritage & indigenous land-rights
+    // narrative (culture), faith-stewardship & sacred-lands advocacy (religion —
+    // indigenous spiritual land claims, faith-based environmental coalitions,
+    // creation-care & stewardship doctrine), and the policy/legal advocacy &
+    // environmental-protection regime (governance — land-rights policy, sacred-
+    // site protection mandates). When these co-elevate the signal is a
+    // SACRED-LANDS / CLIMATE-JUSTICE stress (indigenous land rights + faith
+    // stewardship advocacy + climate/ecosystem loss + policy advocacy moving
+    // together) rather than an isolated environmental episode. Real signal chain:
+    // climate-stress (environment) → ecosystem-loss & land/water pressure
+    // (agriculture) → spiritual-meaning erosion & stewardship advocacy
+    // (religion) → policy advocacy (governance). Sources: PRRI faith-and-climate,
+    // Pew faith-org land-rights coalitions, ARDA. Religion is the STEWARDSHIP /
+    // MEANING node; environment is the STRESSOR. NEVER energy content.
+    { id: 'sacred_lands_climate_justice', domains: ['environment', 'agriculture', 'culture', 'religion', 'governance'] },
+    // (3) religion_core — religion's OWN institutional-envelope cluster (mirror
+    // of infrastructure_core / financial_core / culture_core / technology_core /
+    // defense_core / governance_core / environment_core, but built around the
+    // FAITH-INSTITUTIONAL base — faith communities, congregational resilience,
+    // religious-institution viability, belief-system legitimacy — rather than a
+    // sector wedded to a regulatory regime). Faith-institutional legitimacy
+    // (religion — congregational trust, denomination coherence, theological
+    // authority, religious-institution viability) is co-borne by the religious-
+    // freedom / education-mandate policy regime (governance — religious-freedom
+    // policy, education mandates affecting faith schools, public accommodation of
+    // belief), the faith-org legal / religious-liberty enforcement regime (law —
+    // faith-org legal compliance, religious-liberty litigation & enforcement,
+    // exemption & accommodation jurisprudence), the knowledge substrate that
+    // produces religiosity studies & theological scholarship (research —
+    // religiosity research, theology & religious-studies scholarship, religion-
+    // data infrastructure continuity), and the faith-org capital & donor channel
+    // (finance — faith-org capital access, endowment & donor resilience,
+    // congregation financial health). When these co-elevate on stress the signal
+    // is a SYSTEMIC faith-INSTITUTIONAL-LEGITIMACY crisis — faith-institutional
+    // trust + policy coherence + legal-enforcement equity + knowledge-substrate
+    // all co-elevating in an institutional-legitimacy feedback loop — rather than
+    // an isolated congregational decline. Religion is the SOURCE; governance/law/
+    // research/finance co-bear the envelope. Indices: Pew Religious Landscape
+    // Study (affiliation decline, congregational trust), ARDA data-infrastructure
+    // continuity, USCIRF / Pew religious-freedom & restriction indices,
+    // congregation financial-health & giving surveys, Gallup confidence-in-
+    // organized-religion series. Kept DISTINCT from culture (secular content),
+    // population (affiliation demographics is a coupling). NEVER energy content.
+    { id: 'religion_core',  domains: ['religion', 'governance', 'law', 'research', 'finance'] },
+    // (4) religion_arc — religion's faith-transmission-system cluster (the
+    // meaning-transmission mirror of culture_arc / knowledge_arc / energy_chain,
+    // built around the BELIEF-TRANSMISSION infrastructure rather than the
+    // audience-attention economy of culture_arc). Where culture_arc binds
+    // cultural output to its narrative carrier / taste substrate / audience mass,
+    // religion_arc binds the FAITH side of meaning-transmission: congregational
+    // viability & faith-institution health (religion — congregation attendance,
+    // worship coherence, faith-community cohesion) is co-borne by its ritual &
+    // worship transmission via communication channels (communication — ritual &
+    // worship carriage, faith-broadcast & faith-media dissemination, online
+    // worship channels), its seminary / faith-education pipeline for belief-
+    // transmission (education — seminary & faith-education enrollment, religious-
+    // school infrastructure, clergy-formation pipeline), and its demographic
+    // affiliation & generational cohesion (population — affiliation & generational
+    // belief-transmission, religious-demographic cohort transmission). When these
+    // co-elevate the signal is a FAITH-TRANSMISSION-SYSTEM stress — congregational
+    // viability + ritual-coherence carriage + seminary-pipeline collapse +
+    // generational affiliation/transmission failure moving together (parallel to
+    // cultural-participation shifts in culture_arc) — rather than an isolated
+    // attendance dip. Drivers: congregation attendance decline, worship-coherence
+    // fragmentation, seminary-enrollment collapse, generational belief-
+    // transmission failure. Sources: Pew Religious Landscape Study (generational
+    // disaffiliation, attendance trends), ARDA congregation & seminary data,
+    // Gallup worship-attendance series, Association of Theological Schools
+    // enrollment data. Communication is the RITUAL CARRIAGE coupling, education
+    // the FAITH-EDUCATION pipeline, population the AFFILIATION cohort; religion is
+    // the SOURCE. Mirrors culture_arc on the faith / meaning-transmission side.
+    { id: 'religion_arc',   domains: ['religion', 'communication', 'education', 'population'] },
     // Technology's own institutional envelope (mirror of infrastructure_core /
     // financial_core / culture_core): semiconductors & compute, AI/ML, software
     // & cloud, hardware, cybersecurity, and the R&D/innovation pipeline are
@@ -1408,7 +1528,31 @@
       ['law', 'finance'],                 // securities/fraud enforcement & case-backlog signal ↔ capital-market & solvency signal quality
       ['law', 'research'],                // IP/patent-prosecution & legal-scholarship signal ↔ R&D-output & prior-art evidence-base quality
       ['law', 'technology'],              // IP-litigation/antitrust & export-enforcement signal ↔ chip/AI/platform & CVE telemetry quality
-      ['law', 'intelligence']             // FISA/classification-authority & legal-oversight signal ↔ collection-authorization & ISR-picture quality
+      ['law', 'intelligence'],            // FISA/classification-authority & legal-oversight signal ↔ collection-authorization & ISR-picture quality
+      // Religion vs its institutional / capability partners (mirror of law↔its
+      // partners, governance↔its institutional partners, communication↔its
+      // capability partners): when religion evidence (Pew Religious Landscape
+      // affiliation & worship-attendance series, ARDA religious-demographics &
+      // congregation data, Gallup religiosity & confidence-in-religion series,
+      // PRRI faith-and-public-life surveys, USCIRF / Pew religious-freedom &
+      // restriction indices, congregation financial-health & giving surveys) is
+      // strong but the partner domain is proxy-heavy, the bottleneck is the
+      // partner's signal — the religious-freedom/education-mandate policy read,
+      // the religious-liberty legal-enforcement record, the religiosity/theology
+      // research-base, the faith-org capital/donor signal, the affiliation-
+      // demographic cohort read, or the ritual-carriage media signal — NOT the
+      // faith-institutional signal itself. Religion drives the comparison as a
+      // SOURCE domain across its partners. Kept DISTINCT from culture (secular
+      // content / scenes), population (affiliation demographics is a coupling),
+      // and governance (religious-freedom policy is a coupling). Religion is
+      // INDICATOR-based (Pew/ARDA/Gallup/PRRI/USCIRF), NOT tickers; NEVER energy
+      // oil/gas/grid content.
+      ['religion', 'governance'],         // faith-institutional legitimacy signal ↔ religious-freedom/education-mandate policy & oversight quality
+      ['religion', 'law'],                // congregation legal-compliance & religious-liberty signal ↔ religious-liberty enforcement-record quality
+      ['religion', 'research'],           // religiosity & congregation-data signal ↔ religiosity-studies & theology research-base quality
+      ['religion', 'finance'],            // congregation financial-health & donor-resilience signal ↔ faith-org capital-access signal quality
+      ['religion', 'population'],         // affiliation & worship-attendance signal ↔ affiliation-demographic & generational-transmission cohort read quality
+      ['religion', 'communication']       // ritual-carriage & faith-media dissemination signal ↔ faith-broadcast/online-worship channel-carriage signal quality
     ];
     var out = [];
     for (var i = 0; i < rivals.length; i++) {

@@ -457,6 +457,32 @@
       science_grant_shortfall:      'Grant pipeline tightening. NIH and NSF success rates collapsing as proposal rejection rates climb.',
       science_lab_capacity_strain:  'Lab capacity overloading. Instrument backlog and core-facility demand outpacing scientific throughput.',
       science_generic:              'Science domain under stress. Research, discovery, and funding pressured.',
+      // Religion-specific distress voice — faith-institutions/belief-systems/worship-practice/religious-
+      // freedom-grounded, mirrors energy's per-diagnosis narration (energy-brain diagnosisIndex: OIL_SHOCK /
+      // GRID_COLLAPSE) and the infrastructure/culture/finance/economy/technology/defense/intelligence/trade/
+      // industry/environment/governance/education/population/science ports above, but for the RELIGION domain
+      // identity (runtime key 'religion'): religious institutions & faith communities, belief systems &
+      // worldviews, religious practice & affiliation, congregations & houses of worship, spiritual movements,
+      // religious freedom & pluralism, secularization & disaffiliation, interfaith dynamics. Religion distress
+      // lexicon: sectarian conflict (religious violence, inter-sect strife), persecution surge (religious-
+      // freedom violations, faith-based oppression), institutional abuse (clergy/church abuse scandal,
+      // cover-up), secularization crisis (rise of the 'nones', disaffiliation drift, attendance collapse),
+      // schism (denominational split, doctrinal fracture), clergy shortage (ordination decline, congregation
+      // closure), interfaith breakdown (pluralism erosion, intolerance). Religion is almost entirely
+      // INDICATOR/INSTITUTION-based, NOT company tickers — bound to REAL FAITH-DATA AUTHORITIES (Pew Religious
+      // Landscape Study, ARDA Association of Religion Data Archives, Gallup, PRRI, World Values Survey, USCIRF
+      // religious-freedom reporting). Religion COUPLES to population (affiliation demographics) and governance
+      // (religious-freedom policy) but keeps its own faith/belief/worship/congregation identity — and stays
+      // DISTINCT from culture (secular content/scenes/movements = NOT faith). CLIENT-SIDE narration flavor
+      // only — never touches any scoring path.
+      religion_sectarian_conflict:    'Sectarian conflict escalating. Inter-sect violence and communal strife fracturing faith communities across contested regions.',
+      religion_persecution_surge:     'Religious persecution surging. USCIRF-tracked freedom violations and faith-based oppression intensifying against targeted communities.',
+      religion_institutional_abuse:   'Institutional abuse crisis deepening. Clergy-abuse scandals and cover-up exposure eroding trust in religious institutions.',
+      religion_secularization_crisis: 'Secularization accelerating. Pew/PRRI affiliation data show the unaffiliated "nones" rising as attendance and belief decline.',
+      religion_schism:                'Schism forming. Doctrinal fracture and denominational splits dividing congregations and breaking communion.',
+      religion_clergy_shortage:       'Clergy supply contracting. Ordination and vocation decline thinning leadership as congregations consolidate and close.',
+      religion_interfaith_breakdown:  'Interfaith relations deteriorating. ARDA-tracked religious-hostility and intolerance rising as pluralism and tolerance erode.',
+      religion_generic:               'Religion domain under stress. Faith institutions, belief, and worship pressured.',
       global_shift:        'Global state shifted to {state}.',
       event_start:         '{event} detected.',
       event_end:           '{event} resolved.',
@@ -600,6 +626,14 @@
       science_grant_shortfall:      'Grant shortfall. Lock NIH/NSF submissions to highest-yield calls and secure bridge funding now.',
       science_lab_capacity_strain:  'Lab capacity strain. Expand core-facility throughput and pre-stage critical instruments (A/MTD/WAT/ILMN/BRKR).',
       science_generic:              'Science domain elevated. Investigate research and funding.',
+      religion_sectarian_conflict:    'Sectarian conflict. De-escalate inter-sect violence and protect at-risk faith communities now.',
+      religion_persecution_surge:     'Persecution surge. Document USCIRF freedom violations and shield targeted congregations.',
+      religion_institutional_abuse:   'Abuse crisis. Open independent investigation, enforce safeguarding, and restore institutional trust.',
+      religion_secularization_crisis: 'Secularization deepening. Track Pew/PRRI disaffiliation and rebuild engagement before membership erodes further.',
+      religion_schism:                'Schism active. Mediate the doctrinal split and stabilize divided congregations before communion fractures.',
+      religion_clergy_shortage:       'Clergy shortage. Expand vocation pipelines and consolidate parishes before congregation closures cascade.',
+      religion_interfaith_breakdown:  'Interfaith breakdown. Rebuild dialogue, counter intolerance, and restore pluralism per ARDA hostility signals.',
+      religion_generic:               'Religion domain elevated. Investigate faith institutions and belief.',
       global_shift:        'State change: {state}.',
       event_start:         'Event: {event}. Tracking.',
       event_end:           'Event cleared: {event}.',
@@ -712,7 +746,8 @@
       supplyChain: 'Supply chain', infrastructure: 'Infrastructure',
       culture: 'Culture', finance: 'Finance', defense: 'Defense',
       intelligence: 'Intelligence', industry: 'Industry', governance: 'Governance',
-      education: 'Education', population: 'Population', law: 'Law'
+      education: 'Education', population: 'Population', law: 'Law',
+      religion: 'Religion'
     };
 
     // Infrastructure parity: mirror energy's per-diagnosis voice. Energy distinguishes
@@ -943,6 +978,27 @@
       var scikey = _classifyScienceDistress(detail.signals);
       if (scikey) {
         _narrate(scikey, {}, PRIORITY_MEDIUM);
+        return;
+      }
+    }
+
+    // Religion parity: mirror energy's per-diagnosis voice the same way the domains above do, for the
+    // RELIGION domain identity (religious institutions & faith communities, belief systems & worldviews,
+    // religious practice & affiliation, congregations & houses of worship, spiritual movements, religious
+    // freedom & pluralism, secularization & disaffiliation, interfaith dynamics). Religion uses the
+    // RUNTIME KEY 'religion' (no dual-naming). Classify the faith-distress flavor from signal content
+    // (sectarian conflict / persecution surge / institutional abuse / secularization crisis / schism /
+    // disaffiliation drift / clergy shortage / interfaith breakdown) and narrate a religion-specific line
+    // instead of the generic '{domain} domain pressure increasing'. Religion is almost entirely
+    // INDICATOR / INSTITUTION-based, NOT company tickers — bound to REAL FAITH-DATA AUTHORITIES (Pew
+    // Religious Landscape Study, ARDA Association of Religion Data Archives, Gallup, PRRI, World Values
+    // Survey, USCIRF religious-freedom reporting). Kept DISTINCT from culture (secular content/scenes/
+    // movements = NOT faith), population (affiliation demographics = coupling), and governance (religious-
+    // freedom policy = coupling). CLIENT-SIDE narration flavor only — never touches any scoring path.
+    if (detail.domain === 'religion') {
+      var relkey = _classifyReligionDistress(detail.signals);
+      if (relkey) {
+        _narrate(relkey, {}, PRIORITY_MEDIUM);
         return;
       }
     }
@@ -1522,6 +1578,46 @@
     if (/lab[\s_-]?(capacity|backlog|overload)|core[\s_-]?facility|instrument[\s_-]?(backlog|shortage|downtime)|equipment[\s_-]?(shortage|backlog)|sequencing[\s_-]?backlog|throughput[\s_-]?(strain|limit)|tmo\b|dhr\b|mtd\b|wat\b|ilmn\b|brkr\b|rvty\b|bio\b/.test(blob)) return 'science_lab_capacity_strain';
     if (/discovery[\s_-]?(stagnation|slowdown|decline)|citation[\s_-]?(decay|decline|trajectory)|productivity[\s_-]?(slowdown|decline)|idea[\s_-]?(exhaustion|depletion)|innovation[\s_-]?(slowdown|stagnation)|breakthrough[\s_-]?(decay|drought)|openalex|arxiv|stagnat/.test(blob)) return 'science_discovery_stagnation';
     return 'science_generic';
+  }
+
+  // Map raw religion signal content → a faith-domain distress voice key. Mirrors the energy/infra/culture/
+  // finance/economy/technology/defense/intelligence/trade/industry/environment/governance/education/
+  // population/science classifier structure exactly, but for the RELIGION domain identity (religious
+  // institutions & faith communities, belief systems & worldviews, religious practice & affiliation,
+  // congregations & houses of worship, spiritual movements, religious freedom & pluralism, secularization
+  // & disaffiliation, interfaith dynamics). Religion is INDICATOR/INSTITUTION-based, NOT company tickers —
+  // matches REAL FAITH-DATA AUTHORITY shorthand (pew / arda / gallup / prri / world values survey / wvs /
+  // uscirf) alongside plain words. Religion distress lexicon: sectarian conflict (religious violence,
+  // inter-sect strife), persecution surge (religious-freedom violations, faith-based oppression),
+  // institutional abuse (clergy/church abuse scandal, cover-up), secularization crisis (rise of the
+  // 'nones', disaffiliation drift, attendance collapse), schism (denominational split, doctrinal
+  // fracture), clergy shortage (ordination decline, congregation closure), interfaith breakdown (pluralism
+  // erosion, blasphemy/apostasy escalation). Order by specificity: persecution and abuse are sharpest, then
+  // sectarian conflict and schism, then secularization, clergy shortage, interfaith breakdown; fall back
+  // to a generic religion line. Kept DISTINCT from culture (secular scenes = NOT faith), population
+  // (affiliation demographics = coupling), and governance (religious-freedom POLICY = coupling). Returns a
+  // TEMPLATES key, or null. CLIENT-SIDE narration flavor only — never touches any scoring path.
+  function _classifyReligionDistress(signals) {
+    var blob = '';
+    if (Array.isArray(signals)) {
+      for (var i = 0; i < signals.length; i++) {
+        var s = signals[i];
+        if (typeof s === 'string') blob += ' ' + s;
+        else if (s && typeof s === 'object') {
+          blob += ' ' + (s.type || '') + ' ' + (s.id || '') + ' ' + (s.label || '') + ' ' + (s.name || '');
+        }
+      }
+    }
+    blob = blob.toLowerCase();
+
+    if (/persecut|religious[\s_-]?(freedom|liberty)[\s_-]?(violation|crackdown|restriction)|faith[\s_-]?based[\s_-]?(oppression|repression)|uscirf|countr(y|ies)[\s_-]?of[\s_-]?particular[\s_-]?concern|\bcpc\b|blasphemy[\s_-]?(law|charge)|apostasy[\s_-]?(law|charge)|worshipper[\s_-]?(attack|killed)|temple[\s_-]?(attack|burn)|mosque[\s_-]?(attack|burn)|church[\s_-]?(attack|burn)|forced[\s_-]?conversion/.test(blob)) return 'religion_persecution_surge';
+    if (/abuse[\s_-]?(scandal|crisis|cover[\s_-]?up)|clergy[\s_-]?(abuse|misconduct)|church[\s_-]?(abuse|scandal)|sexual[\s_-]?abuse[\s_-]?(scandal|coverup)|institutional[\s_-]?(abuse|cover[\s_-]?up)|safeguarding[\s_-]?failure|diocese[\s_-]?(scandal|lawsuit)|financial[\s_-]?(misconduct|fraud)[\s_-]?(church|ministry)/.test(blob)) return 'religion_institutional_abuse';
+    if (/sectarian|inter[\s_-]?sect|religious[\s_-]?(violence|conflict|war|riot)|communal[\s_-]?(violence|clash)|sect[\s_-]?(clash|strife)|holy[\s_-]?war|jihad|crusade|denominational[\s_-]?violence|faith[\s_-]?based[\s_-]?(violence|conflict)/.test(blob)) return 'religion_sectarian_conflict';
+    if (/schism|denominational[\s_-]?(split|fracture|division)|doctrinal[\s_-]?(dispute|fracture|rift)|breakaway[\s_-]?(church|congregation|denomination)|split[\s_-]?from[\s_-]?(the[\s_-]?)?communion|heresy[\s_-]?(dispute|trial)|excommunicat|disaffiliat[\s_-]?(from[\s_-]?the[\s_-]?)?denomination/.test(blob)) return 'religion_schism';
+    if (/secular|disaffiliat|the[\s_-]?nones|religiously[\s_-]?unaffiliated|rise[\s_-]?of[\s_-]?the[\s_-]?nones|attendance[\s_-]?(collapse|decline|drop)|decline[\s_-]?in[\s_-]?(religious[\s_-]?)?(belief|affiliation|attendance)|loss[\s_-]?of[\s_-]?faith|membership[\s_-]?(collapse|decline)|pew[\s_-]?(landscape|religious)|prri\b|world[\s_-]?values[\s_-]?survey|\bwvs\b/.test(blob)) return 'religion_secularization_crisis';
+    if (/clergy[\s_-]?(shortage|decline)|ordination[\s_-]?(decline|drop)|priest[\s_-]?shortage|vocation[\s_-]?(crisis|decline)|seminary[\s_-]?(closure|decline)|congregation[\s_-]?(closure|consolidat)|church[\s_-]?closure|parish[\s_-]?(closure|consolidat)/.test(blob)) return 'religion_clergy_shortage';
+    if (/interfaith[\s_-]?(breakdown|tension|collapse)|pluralism[\s_-]?(erosion|breakdown)|religious[\s_-]?(intolerance|discrimination)|tolerance[\s_-]?(erosion|decline)|inter[\s_-]?religious[\s_-]?(tension|distrust)|hostilit(y|ies)[\s_-]?index|arda\b/.test(blob)) return 'religion_interfaith_breakdown';
+    return 'religion_generic';
   }
 
   function _onGlobalStateUpdate(e) {
