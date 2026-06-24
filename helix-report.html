@@ -128,7 +128,9 @@ html,body{background:var(--bg);color:var(--text);font-family:'IBM Plex Mono',mon
 </style>
 </head>
 <body>
-<script src="assets/js/auth-gate.js"></script>
+<!-- auth-gate removed 2026-06-24: the Helix Report is the public-facing disclosure product (like
+     its sibling company-portal.html, which is ungated) and is linked from the PUBLIC kernel-comparison
+     command board. The gate was bouncing every click to the front page. Public by design. -->
 <script>
 (function(){
   if(localStorage.getItem('limen_gate')==='1') return;

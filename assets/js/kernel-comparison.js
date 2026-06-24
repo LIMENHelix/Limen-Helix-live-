@@ -176,18 +176,11 @@ function _isValidatedAlert(d) {
   return d && d.a === true && d.kid === 'limen_backtest.py' && d.vs === 'validated';
 }
 
-// Game plan — six LIMEN engines per limen_engine_sequence_and_specs:
-// Research / Patent / Grant / SBA / Franchise / Investment. Color shifts
-// with alert state — alert rows surface "rescue" framing; no-alert rows
-// surface "expansion" framing. SBA is gated to private filers in real
-// pricing; for public ELIGIBLE_NOW rows it represents M&A / restructuring
-// finance, kept under "S" for now until the engine taxonomy splits.
+// LIMEN lanes — INVESTMENT + RESEARCH ONLY. Patent/Grant/SBA/Franchise/Loan are PERMANENTLY
+// RETIRED across the whole system (standing lane-purge decision) — never re-introduce them.
+// Color shifts with alert state — alert rows surface "rescue" framing; no-alert "expansion".
 var ENGINE_DEFS = [
   { id: 'R', name: 'Research',   tip: 'Evidence packet — kernel verdict + sector context, board-ready PDF' },
-  { id: 'P', name: 'Patent',     tip: 'IP audit — file unfiled provisionals before §363 sale or BK creditor claim' },
-  { id: 'G', name: 'Grant',      tip: 'Match to federal/state programs aligned with the company domain' },
-  { id: 'S', name: 'SBA / M&A',  tip: 'Bridge financing or restructuring buyer identification' },
-  { id: 'F', name: 'Franchise',  tip: 'Identify replicable IP/process licensable to peers for non-dilutive cash' },
   { id: 'I', name: 'Investment', tip: 'Paper-trade thesis (Alpaca paper-before-live) + acquirer outreach' }
 ];
 function _planBadges(d) {
