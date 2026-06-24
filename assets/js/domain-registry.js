@@ -357,6 +357,43 @@
       analystEnabled: true,
       connectomeNodes: [17, 18],  // BLA + CeA
       feeds: [
+        // ── Industrial-base "price/cost" anchors (real quantitative metrics) ──
+        // Defense equivalent of energy's EIA/FRED commodity anchors: instead of
+        // oil/gas spot prices, defense's signal is the DEFENSE INDUSTRIAL BASE —
+        // prime-contractor financial health (order backlog / capex / margins) plus
+        // federal procurement authority and obligations. Every FRED series_id is a
+        // REAL identifier and every ticker is a REAL listed defense prime (never
+        // fabricated). This closes the registry asymmetry where defense had only
+        // qualitative news/analysis and no live price/cost anchor like energy.
+        // -- Federal procurement & budget authority (the "crude price" of defense) --
+        { name: 'FRED National Defense Outlays', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=FDEFX', feedClass: 'price_cost' },          // federal national defense consumption + investment — defense "crude" anchor (mirrors EIA Petroleum LIVE)
+        { name: 'FRED Defense Gross Investment', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=A997RC1Q027SBEA', feedClass: 'price_cost' }, // national defense gross investment (procurement/RDT&E capital) — capex anchor (mirrors FRED Crude Oil LIVE)
+        { name: 'FRED Defense Consumption Expenditures', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=DGDEFX', feedClass: 'price_cost' }, // real national defense consumption expenditures — readiness spend trend
+        { name: 'FRED Defense Share of GDP', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=A824RE1Q156NBEA', feedClass: 'price_cost' }, // national defense as % of GDP — strategic burden anchor
+        // -- Procurement pipeline (contracts, obligations, budget authority) --
+        { name: 'SAM.gov Contract Opportunities', apiKey: 'SAM_GOV_API_KEY', status: FEED_STATUS.PENDING, endpoint: 'api.sam.gov/opportunities/v2/search?ptype=o&deptname=DEPT+OF+DEFENSE', feedClass: 'procurement' }, // active DoD solicitations — procurement pipeline; LIVE once operator key provided, falls back to heuristic
+        { name: 'USAspending DoD Awards', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.usaspending.gov/api/v2/search/spending_by_award/', feedClass: 'procurement' },        // obligated DoD contract awards — backlog / obligation throughput
+        { name: 'USAspending DoD Budget Authority', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.usaspending.gov/api/v2/agency/097/budgetary_resources/', feedClass: 'procurement' }, // DoD (agency 097) FY budget authority — appropriated procurement capacity
+        // -- Prime-contractor financial health (REAL listed defense primes, never fabricated) --
+        // Per-name equities for the defense industrial base; the company analogue of
+        // energy's commodity anchors. Tickers are REAL: LMT/RTX/NOC/GD/BA/LHX/HII/LDOS/BAH/KTOS/AVAV.
+        { name: 'Polygon.io LMT', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/LMT/prev', feedClass: 'contractor', ticker: 'LMT' },   // Lockheed Martin — prime (air dominance / missiles)
+        { name: 'Polygon.io RTX', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/RTX/prev', feedClass: 'contractor', ticker: 'RTX' },   // RTX (Raytheon) — prime (missiles / sensors)
+        { name: 'Polygon.io NOC', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/NOC/prev', feedClass: 'contractor', ticker: 'NOC' },   // Northrop Grumman — prime (strategic / space / B-21)
+        { name: 'Polygon.io GD', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/GD/prev', feedClass: 'contractor', ticker: 'GD' },      // General Dynamics — prime (combat systems / submarines)
+        { name: 'Polygon.io BA', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/BA/prev', feedClass: 'contractor', ticker: 'BA' },      // Boeing — prime (defense/space/security segment)
+        { name: 'Polygon.io LHX', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/LHX/prev', feedClass: 'contractor', ticker: 'LHX' },   // L3Harris — prime (C4ISR / electronic warfare)
+        { name: 'Polygon.io HII', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/HII/prev', feedClass: 'contractor', ticker: 'HII' },   // Huntington Ingalls — prime (naval shipbuilding / carriers)
+        { name: 'Polygon.io LDOS', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/LDOS/prev', feedClass: 'contractor', ticker: 'LDOS' }, // Leidos — prime (defense IT / systems integration)
+        { name: 'Polygon.io BAH', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/BAH/prev', feedClass: 'contractor', ticker: 'BAH' },   // Booz Allen Hamilton — prime (defense advisory / analytics)
+        { name: 'Polygon.io KTOS', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/KTOS/prev', feedClass: 'contractor', ticker: 'KTOS' }, // Kratos — emerging prime (unmanned / hypersonics / drones)
+        { name: 'Polygon.io AVAV', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/AVAV/prev', feedClass: 'contractor', ticker: 'AVAV' }, // AeroVironment — emerging prime (loitering munitions / UAS)
+        { name: 'Polygon.io ITA', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/ITA/prev', feedClass: 'sector_proxy', ticker: 'ITA' },  // iShares Aerospace & Defense ETF — industrial-base regime proxy
+        // -- Strategic reserves / industrial-base supply-chain status (CSIS + federal stock) --
+        { name: 'CSIS Defense Industrial Base', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'csis.org/programs/defense-industrial-initiatives-group/rss', feedClass: 'industrial_base' }, // DIB analysis — production rates / supply-chain KPIs / munitions stockpile reports
+        { name: 'USGS Defense-Critical Minerals', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.usgs.gov/centers/national-minerals-information-center/rss.xml', feedClass: 'industrial_base' }, // strategic & critical materials (rare earths, titanium) — DIB supply anchor
+        { name: 'GAO Defense Reports', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.gao.gov/rss/topic/national-defense.xml', feedClass: 'industrial_base' }, // GAO program/readiness oversight — production-rate & sustainment findings
+        // ── Qualitative signals (news / analysis / conflict & geopolitical context) ──
         { name: 'RSS Defense Signals', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'multi-source-defense-rss' },
         { name: 'RSS Defense Conflict', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'multi-source-conflict-rss' },
         { name: 'Defense News', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'defensenews.com/arc/outboundfeeds/rss' },

@@ -128,6 +128,61 @@
     // policy, law, and research the way energy couples to infrastructure & supply
     // chain. Mirror of infrastructure_core / financial_core / culture_core.
     { id: 'technology_core', domains: ['technology', 'law', 'governance', 'research'] },
+    // Defense's own institutional envelope (mirror of infrastructure_core /
+    // financial_core / culture_core / technology_core): kinetic force readiness
+    // — military spending & procurement, the defense industrial base, weapons
+    // systems, basing & alliances, electronic/kinetic warfare, strategic
+    // deterrence for LMT/RTX/NOC/GD/BA/LHX/HII/LDOS/BAH/KTOS/AVAV — is co-borne
+    // by the industrial production base that builds munitions, vehicles &
+    // sustainment (industry), the trade/supply-chain access for dual-use parts,
+    // rare-earths & components (supplyChain), the policy/doctrine/alliance
+    // regime (governance), the regulatory & acquisition authority (law —
+    // DFARS/ITAR, contracting & oversight), and the ISR/threat-posture coupling
+    // (intelligence — collection that sets the deterrence picture). Distinct
+    // from intelligence (defense = kinetic/industrial/readiness; intelligence =
+    // collection/analysis/espionage) and from technology (cyber is a coupling,
+    // not the core). Corroboration here = systemic defense-institutional stress
+    // (e.g. an industrial-attrition surge coinciding with a supply-chain
+    // embargo + alliance fragmentation + a legal/acquisition bottleneck).
+    { id: 'defense_core',   domains: ['defense', 'industry', 'supplyChain', 'governance', 'law', 'intelligence'] },
+    // Defense-industrial procurement & modernization cluster (mirror of
+    // energy_chain on the defense-industrial side): the defense-industrial base
+    // — prime contractors & weapons-system OEMs (LMT, RTX, NOC, GD, BA, LHX,
+    // HII, LDOS, BAH, KTOS, AVAV) — is co-borne by its innovation substrate
+    // (technology — sensors, autonomy, munitions, hypersonics, C4ISR), its
+    // supplier/manufacturing base (industry — castings, propulsion, shipyards),
+    // its procurement & acquisition-policy regime (governance — budget
+    // authorizations, program-of-record decisions, foreign-military sales), and
+    // the depot/basing/logistics plant it runs on (infrastructure).
+    // Corroboration here = systemic procurement/modernization/readiness stress
+    // (e.g. a weapons-program schedule slip coinciding with a supplier shortage
+    // + a budget/policy squeeze + depot/basing strain). Narrows defense_core to
+    // its industrial-readiness surface; cyber stays a technology coupling, not
+    // defense's own identity.
+    { id: 'defense_industrial_core', domains: ['defense', 'technology', 'industry', 'governance', 'infrastructure'] },
+    // Strategic-deterrence cluster: deterrence posture, alliance & basing
+    // commitments, and conflict escalation are co-borne by the defense
+    // establishment, its policy/treaty/force-posture regime (governance — war
+    // powers, alliance commitments), the legal/regulatory regime governing
+    // use-of-force, arms control & export licensing (law — ITAR/arms control),
+    // and the strategic-warning & threat-assessment posture (intelligence).
+    // Corroboration here = a geopolitical/deterrence stress state (e.g. an
+    // escalation/conflict signal coinciding with policy mobilization +
+    // arms-control/legal friction + elevated threat warning). Defense =
+    // kinetic/industrial/readiness here; intelligence supplies the warning
+    // picture, it is not the kinetic actor.
+    { id: 'defense_deterrence', domains: ['defense', 'governance', 'law', 'intelligence'] },
+    // Defense fuel/logistics resilience (mirror of energy_chain, defense-focused
+    // — defense COUPLES to energy via fuel & strategic reserve, but the identity
+    // stays defense/readiness, NOT oil/gas/grid as defense's own content).
+    // Military fuel supply, strategic petroleum/materiel reserves, and
+    // sustainment logistics are co-borne by the energy supply they draw on
+    // (energy), the physical lift/basing/depot plant (infrastructure), and the
+    // materiel pipeline (supplyChain). Corroboration here = a sustainment/
+    // readiness logistics stress (e.g. a fuel-supply or strategic-reserve
+    // constraint coinciding with basing/lift strain + a materiel supply-chain
+    // shortfall degrading operational readiness).
+    { id: 'defense_energy_logistics', domains: ['defense', 'energy', 'infrastructure', 'supplyChain'] },
     { id: 'environment_arc',domains: ['environment', 'agriculture', 'energy'] }
   ];
 
@@ -388,7 +443,20 @@
       // the tech signal. Technology drives the comparison as a source domain.
       ['technology', 'infrastructure'],   // chip/software/cyber telemetry ↔ physical grid/SCADA/build-out signal
       ['technology', 'defense'],          // CVE/cyber-threat & release feeds ↔ kinetic attack-capability signal
-      ['technology', 'energy']            // compute/foundry & semiconductor signal ↔ grid/power telemetry quality
+      ['technology', 'energy'],           // compute/foundry & semiconductor signal ↔ grid/power telemetry quality
+      // Defense vs its institutional / capability partners (mirror of
+      // technology↔its physical envelope and finance↔its economic envelope):
+      // when defense evidence (procurement announcements, readiness reports,
+      // weapons-test signals, defense-budget cycle, contractor backlog for
+      // LMT/RTX/NOC/GD/BA/LHX/HII/LDOS/BAH/KTOS/AVAV) is strong but the partner
+      // domain is proxy-heavy, the bottleneck is the partner's signal quality —
+      // the intelligence/collection picture, the cyber/physical signal, or the
+      // macro demand cycle — not the defense signal itself. Defense drives the
+      // comparison as a source domain across all institutional partners.
+      ['defense', 'intelligence'],        // procurement/readiness signal ↔ ISR/collection & threat-posture quality
+      ['defense', 'technology'],          // kinetic/industrial readiness signal ↔ cyber/CVE & compute-coupling quality
+      ['defense', 'infrastructure'],      // weapons-system & basing signal ↔ cyber-physical grid/SCADA telemetry quality
+      ['defense', 'economy']              // military-spending & procurement cycle ↔ macro demand & budget-capacity signal
     ];
     var out = [];
     for (var i = 0; i < rivals.length; i++) {

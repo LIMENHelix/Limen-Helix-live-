@@ -234,6 +234,12 @@
           "ticker_or_id": "PLTR",
           "functional_reason": "Detects and monitors naval operations signals, identifying early disruption patterns and emerging conditions",
           "binding_strength": 0.7
+        },
+        {
+          "name": "Huntington Ingalls Industries",
+          "ticker_or_id": "HII",
+          "functional_reason": "Naval Industrial Base executor — sole-source builder of Virginia-class submarines and Ford-class carriers, non-negotiable for sea-based strategic deterrence; the strategic-reserve platform for the undersea leg of the triad",
+          "binding_strength": 0.88
         }
       ],
       "neuralRole": "Limbic",
@@ -244,6 +250,10 @@
         {
           "domain": "energy",
           "role": "Hydroelectric Power"
+        },
+        {
+          "domain": "energy",
+          "role": "Refining"
         },
         {
           "domain": "environment",
@@ -336,6 +346,10 @@
           "role": "Offgrid"
         },
         {
+          "domain": "technology",
+          "role": "Artificial Intelligence"
+        },
+        {
           "domain": "infrastructure",
           "role": "Air Transport"
         },
@@ -404,8 +418,8 @@
           "binding_strength": 0.95
         },
         {
-          "name": "BAE Systems",
-          "ticker_or_id": "BA.L",
+          "name": "Boeing",
+          "ticker_or_id": "BA",
           "functional_reason": "Executes core cyber warfare operations, delivering primary output and managing day-to-day functional processes",
           "binding_strength": 0.94
         },
@@ -428,6 +442,10 @@
         {
           "domain": "economy",
           "role": "Technology Sector"
+        },
+        {
+          "domain": "technology",
+          "role": "Cybersecurity"
         },
         {
           "domain": "education",
@@ -522,6 +540,10 @@
         {
           "domain": "energy",
           "role": "Nuclear Power"
+        },
+        {
+          "domain": "technology",
+          "role": "Machine Learning"
         },
         {
           "domain": "neurology",
@@ -888,6 +910,10 @@
           "role": "Fossil Fuels"
         },
         {
+          "domain": "technology",
+          "role": "Semiconductors"
+        },
+        {
           "domain": "governance",
           "role": "Treasury and Fiscal Operations"
         },
@@ -1213,8 +1239,8 @@
           "binding_strength": 0.69
         },
         {
-          "name": "BAE Systems",
-          "ticker_or_id": "BA.L",
+          "name": "Boeing",
+          "ticker_or_id": "BA",
           "functional_reason": "Executes core veteran affairs operations, delivering primary output and managing day-to-day functional processes",
           "binding_strength": 0.75
         },
@@ -1704,6 +1730,322 @@
           "role": "Agribusiness Human Capital & Development"
         }
       ]
+    },
+    {
+      "brainNodeId": "EMG",
+      "state": "active",
+      "domainLabel": "Electronic Warfare & EMP",
+      "domainDescription": "Offensive and defensive electromagnetic-spectrum operations including jamming, spoofing, directed-energy weapons, and electromagnetic-pulse (EMP) effects that disrupt adversary sensors, communications, and electronics while hardening friendly systems",
+      "domainFunction": "Disrupts sensory and signaling pathways across the electromagnetic substrate — the kinetic-plus-cyber sensory-disruption capability that blinds, deafens, and degrades adversary nervous systems while protecting one's own",
+      "whyThisNode": "Motor/sensory fiber disruption (EMG-analogous) is the brain's signature of nerve-conduction interference — electronic warfare is civilization's sensory-disruption capability, severing adversary signaling across the electromagnetic spectrum and a dual offensive/defensive marker of military readiness",
+      "group": "cyber",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Spectrum dominance loss",
+        "Critical-infrastructure EMP/kinetic vulnerability"
+      ],
+      "treatments": [
+        {
+          "label": "EMP Hardening of Critical Infrastructure",
+          "type": "STRUCTURAL",
+          "description": "Shielding, surge protection, and grid-segmentation programs hardening transmission, transformers, and command electronics against EMP and high-power-microwave attack",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Cognitive Electronic Warfare Systems",
+          "type": "DIAGNOSTIC",
+          "description": "Adaptive AI-driven jammers and sensors that detect, classify, and counter adversary emissions in real time across contested spectrum",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "defense_ew_portal.html",
+      "phase_archetype": "P3",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "L3Harris Technologies",
+          "ticker_or_id": "LHX",
+          "functional_reason": "Detects and disrupts electromagnetic-spectrum signals, fielding jamming, SIGINT, and electronic-attack payloads across air, sea, and ground platforms",
+          "binding_strength": 0.92
+        },
+        {
+          "name": "RTX Corporation",
+          "ticker_or_id": "RTX",
+          "functional_reason": "Executes core electronic warfare operations including next-generation jammers, directed-energy weapons, and EMP-hardened sensors",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "Northrop Grumman",
+          "ticker_or_id": "NOC",
+          "functional_reason": "Detects and counters adversary emissions through airborne electronic-attack and electromagnetic-battle-management systems",
+          "binding_strength": 0.88
+        }
+      ],
+      "neuralRole": "Attention",
+      "brainNodeRoleCanonical": "Electronic Warfare & EMP",
+      "brainNodeLabelCanonical": "Defense",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "technology",
+          "role": "Cybersecurity"
+        },
+        {
+          "domain": "technology",
+          "role": "Artificial Intelligence"
+        },
+        {
+          "domain": "energy",
+          "role": "Grid Management"
+        },
+        {
+          "domain": "energy",
+          "role": "Transmission Lines"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Digital Infrastructure"
+        },
+        {
+          "domain": "communication",
+          "role": "Satellite Systems"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "OFC",
+      "state": "active",
+      "domainLabel": "Geopolitical Deterrence & Alliances",
+      "domainDescription": "Strategic deterrence signaling, alliance management, forward basing, and interoperability (NATO and partner integration) that establish the credibility and cost calculus shaping adversary behavior short of war",
+      "domainFunction": "Computes the social-contextual value of alliance credibility and signaling costs, weighing the reputational and reciprocal stakes of commitments to deter aggression",
+      "whyThisNode": "Orbitofrontal/ventromedial valuation integrates social context into credibility judgments — geopolitical deterrence is civilization's threat-assessment valuation engine, pricing alliance commitments, basing posture, and signaling to shape adversary expectations",
+      "group": "strategy",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Alliance credibility erosion",
+        "Deterrence-signaling miscalculation"
+      ],
+      "treatments": [
+        {
+          "label": "Forward-Basing & Interoperability Investment",
+          "type": "STRUCTURAL",
+          "description": "Sustained forward deployment, prepositioned stocks, and combined-exercise programs reinforcing alliance interoperability and visible commitment",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Integrated Deterrence Signaling",
+          "type": "DIAGNOSTIC",
+          "description": "Coordinated diplomatic, economic, and military signaling — including strategic-reserve and energy-export posture — calibrating deterrence messaging to adversary perception",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "defense_deterrence_portal.html",
+      "phase_archetype": "P7",
+      "functional_role": "arbitrator",
+      "companies": [
+        {
+          "name": "Lockheed Martin",
+          "ticker_or_id": "LMT",
+          "functional_reason": "Primary deterrence-signaling platform supplier — strategic strike, missile defense, and allied FMS programs anchoring extended-deterrence credibility",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "RTX Corporation",
+          "ticker_or_id": "RTX",
+          "functional_reason": "Supplies the missile-defense and precision-strike systems that underwrite deterrence and alliance assurance commitments",
+          "binding_strength": 0.87
+        },
+        {
+          "name": "Northrop Grumman",
+          "ticker_or_id": "NOC",
+          "functional_reason": "Strategic deterrence platforms (long-range strike, C4ISR, nuclear-modernization) signaling credible commitment to allies and adversaries",
+          "binding_strength": 0.86
+        }
+      ],
+      "neuralRole": "PFC",
+      "brainNodeRoleCanonical": "Geopolitical Deterrence & Alliances",
+      "brainNodeLabelCanonical": "Defense",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "governance",
+          "role": "Executive Authority"
+        },
+        {
+          "domain": "energy",
+          "role": "Energy Policy"
+        },
+        {
+          "domain": "technology",
+          "role": "Artificial Intelligence"
+        },
+        {
+          "domain": "energy",
+          "role": "Fossil Fuels"
+        },
+        {
+          "domain": "trade",
+          "role": "Container Shipping"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "BNST",
+      "state": "active",
+      "domainLabel": "Strategic Reserves",
+      "domainDescription": "National strategic stockpiles spanning conventional munitions and ammunition depots, military fuel reserves, and rare-earth and critical-material stores that buffer the industrial base against shock and sustain protracted operations",
+      "domainFunction": "Maintains the buffered energy and material capacity of the system — the readiness reserve whose depletion signals industrial-base vulnerability and degraded sustainment, analogous to depleting glycogen and fuel stores",
+      "whyThisNode": "The bed nucleus mediates sustained-state buffering against prolonged stressors — strategic reserves are civilization's energy-buffer capacity, the depots and stockpiles whose drawdown marks the limit of sustained military endurance",
+      "group": "logistics",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Munitions stockpile depletion",
+        "Rare-earth and fuel-reserve shortfall"
+      ],
+      "treatments": [
+        {
+          "label": "Industrial-Base Stockpile Replenishment",
+          "type": "STRUCTURAL",
+          "description": "Multiyear procurement and depot-expansion programs rebuilding conventional munitions, fuel, and critical-material reserves to wartime-sustainment levels",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Strategic Material Diversification",
+          "type": "DIAGNOSTIC",
+          "description": "Diversified sourcing and domestic stockpiling of rare earths and semiconductor inputs reducing single-point dependency in the defense supply chain",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "defense_reserves_portal.html",
+      "phase_archetype": "P10",
+      "functional_role": "stabilizer",
+      "companies": [
+        {
+          "name": "General Dynamics",
+          "ticker_or_id": "GD",
+          "functional_reason": "Operates ammunition plants and depots producing and stockpiling conventional munitions for the strategic reserve",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "Northrop Grumman",
+          "ticker_or_id": "NOC",
+          "functional_reason": "Supplies solid-rocket motors and munitions feeding strategic stockpile replenishment",
+          "binding_strength": 0.83
+        },
+        {
+          "name": "Leidos Holdings",
+          "ticker_or_id": "LDOS",
+          "functional_reason": "Manages logistics, depot sustainment, and inventory systems maintaining strategic-reserve readiness baselines",
+          "binding_strength": 0.78
+        }
+      ],
+      "neuralRole": "Limbic",
+      "brainNodeRoleCanonical": "Strategic Reserves",
+      "brainNodeLabelCanonical": "Defense",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "energy",
+          "role": "Fossil Fuels"
+        },
+        {
+          "domain": "energy",
+          "role": "Refining"
+        },
+        {
+          "domain": "technology",
+          "role": "Semiconductors"
+        },
+        {
+          "domain": "economy",
+          "role": "Supply Chain"
+        },
+        {
+          "domain": "industry",
+          "role": "Industrial Chemistry"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "CAUD",
+      "state": "active",
+      "domainLabel": "Unmanned Systems",
+      "domainDescription": "Uncrewed aerial, ground, and maritime systems (UAS/UGV/USV) and loitering munitions that extend ISR and strike reach as force-multipliers across contested domains",
+      "domainFunction": "Extends sensorimotor reach beyond the body — the projected effector-and-sensor network that multiplies force without committing crewed platforms, scaling persistent surveillance and autonomous strike",
+      "whyThisNode": "Extended sensorimotor projection (caudate-mediated action selection feeding the motor periphery) — unmanned systems are civilization's extended sensorimotor cortex, projecting ISR and strike through autonomous effectors",
+      "group": "military",
+      "phase": "P3",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Counter-UAS vulnerability",
+        "Autonomy and datalink resilience gaps"
+      ],
+      "treatments": [
+        {
+          "label": "Attritable Mass Production",
+          "type": "STRUCTURAL",
+          "description": "Low-cost, high-volume manufacture of attritable drones and loitering munitions enabling affordable mass in contested environments",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Resilient Autonomy & Power",
+          "type": "DIAGNOSTIC",
+          "description": "Hardened datalinks, edge autonomy, and distributed battery/charging infrastructure sustaining unmanned operations under jamming and power constraints",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "defense_unmanned_portal.html",
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "AeroVironment",
+          "ticker_or_id": "AVAV",
+          "functional_reason": "Executes core unmanned-systems operations — small UAS and loitering munitions delivering ISR and strike as force-multipliers",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "Kratos Defense",
+          "ticker_or_id": "KTOS",
+          "functional_reason": "Produces attritable unmanned aerial systems and drone wingmen for autonomous strike and ISR",
+          "binding_strength": 0.86
+        },
+        {
+          "name": "Lockheed Martin",
+          "ticker_or_id": "LMT",
+          "functional_reason": "Integrates unmanned platforms and autonomy into multi-domain ISR and strike architectures",
+          "binding_strength": 0.8
+        }
+      ],
+      "neuralRole": "Motor",
+      "brainNodeRoleCanonical": "Unmanned Systems",
+      "brainNodeLabelCanonical": "Defense",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "technology",
+          "role": "Artificial Intelligence"
+        },
+        {
+          "domain": "technology",
+          "role": "Robotics"
+        },
+        {
+          "domain": "energy",
+          "role": "Battery Storage"
+        },
+        {
+          "domain": "energy",
+          "role": "Storage"
+        },
+        {
+          "domain": "infrastructure",
+          "role": "Air Transport"
+        }
+      ]
     }
   ],
   "issues": [
@@ -2055,6 +2397,78 @@
       "source": "DAN",
       "target": "CeA",
       "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "FPN",
+      "target": "EMG",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "EMG",
+      "target": "FEF",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "EMG",
+      "target": "DAN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "ECN",
+      "target": "OFC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "OFC",
+      "target": "PAG",
+      "type": "CONTROLS",
+      "weight": 0.7
+    },
+    {
+      "source": "OFC",
+      "target": "vmPFC",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "CBLM",
+      "target": "BNST",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "BNST",
+      "target": "STRI",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "BNST",
+      "target": "M1",
+      "type": "DEPENDS_ON",
+      "weight": 0.6
+    },
+    {
+      "source": "FEF",
+      "target": "CAUD",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "CAUD",
+      "target": "DAN",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "CAUD",
+      "target": "STRI",
+      "type": "DEPENDS_ON",
       "weight": 0.6
     },
     {

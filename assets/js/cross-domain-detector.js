@@ -658,6 +658,110 @@
         { label: 'investigate permitting-platform modernization', type: 'analysis' },
         { label: 'hold', type: 'monitoring' }
       ]
+    },
+    // ─── Defense pairs (parity port; mirrors energy/infra/culture/finance/economy/tech structure) ──
+    // DEFENSE identity ONLY — military spending & procurement, the defense industrial base,
+    // geopolitical conflict & deterrence, weapons systems, military readiness, alliances &
+    // basing, electronic/kinetic warfare, strategic deterrence. Real defense tickers
+    // (LMT, RTX, NOC, GD, BA, LHX, HII, LDOS, BAH, KTOS, AVAV) — never fabricated. Defense
+    // COUPLES to energy via military fuel / strategic-reserve drawdown, to supplyChain via
+    // embargo/sanctions denial, to industry via munitions-production capacity, to
+    // infrastructure via base/ICS hardening, to governance via doctrine/alliances, and to
+    // agriculture via force-provisioning food security — but the domain's OWN content stays
+    // kinetic/procurement/readiness, NOT oil/grid (energy is a fuel coupling). DISTINCT from
+    // intelligence (defense = kinetic/industrial/readiness; intelligence = collection/
+    // analysis/espionage) and from technology (cyber is a coupling, not the identity).
+    // ADDITIVE — does not touch any validated scoring path.
+    {
+      // Mirrors 'energy_supply' (logistics disruption / fuel supply stress) translated to
+      // military fuel cycles, SPR coordination, NATO fuel agreements. Energy is the COUPLING
+      // (strategic-fuel consequence); defense identity stays readiness/sustained-operations.
+      id: 'defense_energy',
+      domains: ['defense', 'energy'],
+      threshold: 0.42,
+      pattern: 'sustained-operations fuel exposure',
+      drivers: ['military fuel supply stress (sustained-operations burn rate)', 'strategic petroleum reserve drawdown coordination', 'NATO fuel-agreement logistics strain', 'forward-base refueling chokepoint', 'JP-8 / aviation-fuel procurement cost elevation (LMT/RTX/NOC platform readiness)'],
+      options: [
+        { label: 'trace military-fuel exposure', type: 'analysis' },
+        { label: 'investigate strategic-reserve drawdown coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'supplyChain_agriculture' / 'finance_supplyChain' (logistics transmission)
+      // translated to defense procurement: embargo/sanctions, dual-use components, rare-earth
+      // dependencies, allied supply locks. Trade coupling = strategic-denial consequence.
+      id: 'defense_supplyChain',
+      domains: ['defense', 'supplyChain'],
+      threshold: 0.45,
+      pattern: 'strategic-denial procurement transmission',
+      drivers: ['embargo / sanctions munitions-component scarcity', 'rare-earth dependency lock (magnet/guidance supply)', 'Taiwan chip embargo → missile-guidance shortfall (RTX/LMT/KTOS)', 'allied supply-lock / export-control denial', 'CONUS munitions-production component bottleneck (GD/NOC industrial base)'],
+      options: [
+        { label: 'trace strategic-denial procurement exposure', type: 'analysis' },
+        { label: 'investigate dual-use component scarcity', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'industry_economy' (contraction) inverted to attrition-driven demand SURGE:
+      // munitions / replacement-vehicle / sustainment production stress. Industrial coupling
+      // = production-capacity consequence; defense identity stays kinetic/procurement.
+      id: 'defense_industry',
+      domains: ['defense', 'industry'],
+      threshold: 0.48,
+      pattern: 'industrial-base munitions production stress',
+      drivers: ['attrition-driven munitions burn rate (Ukraine 155mm replenishment, GD/NOC capacity)', 'tank / combat-vehicle replacement backlog (GD ground systems)', 'missile replenishment line constraint (RTX/LMT/KTOS)', 'carrier air-group / shipbuilding throughput (HII/BA sustainment)', 'sustainment & depot maintenance surge (LHX/LDOS readiness)'],
+      options: [
+        { label: 'trace munitions-production capacity exposure', type: 'analysis' },
+        { label: 'investigate attrition-driven demand surge', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'infrastructure_technology' (cyber-physical attack surface) anchored to
+      // military-specific risk: base power grids, CONUS logistics depots, strategic-comms
+      // facilities, SCADA/ICS hardening, COOP/continuity-of-operations. Infrastructure
+      // coupling = attack-surface consequence; defense identity stays readiness.
+      id: 'defense_infrastructure',
+      domains: ['defense', 'infrastructure'],
+      threshold: 0.45,
+      pattern: 'military attack-surface infrastructure stress',
+      drivers: ['base power-grid / ICS vulnerability (SCADA hardening lag)', 'CONUS logistics-depot resilience decay', 'strategic-comms facility infrastructure obsolescence (LHX/LDOS systems)', 'embedded-systems / supply-chain firmware lag in weapons platforms', 'COOP / continuity-of-operations basing resilience deficit'],
+      options: [
+        { label: 'map military attack-surface exposure', type: 'analysis' },
+        { label: 'trace base-infrastructure resilience chain', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'law_governance' (regulatory/governance stress) made explicit for defense:
+      // strategic doctrine, policy, alliances, deterrence posture. Governance coupling =
+      // policy/alliance consequence; defense identity stays kinetic/readiness/warfare.
+      id: 'defense_governance',
+      domains: ['defense', 'governance'],
+      threshold: 0.40,
+      pattern: 'deterrence-posture policy stress',
+      drivers: ['NATO expansion / alliance realignment', 'deterrence-doctrine revision', 'treaty withdrawal / arms-control breakdown', 'defense-authorization / procurement-policy shift (NDAA budget posture)', 'basing-rights / force-posture agreement strain'],
+      options: [
+        { label: 'trace deterrence-policy linkage', type: 'analysis' },
+        { label: 'assess strategic-decision posture', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'agriculture_population' (food-supply pressure) translated to military
+      // nutrition / force-provisioning / overseas-base food security. Agriculture coupling =
+      // supply-consequence; defense identity stays kinetic/readiness.
+      id: 'defense_agriculture',
+      domains: ['defense', 'agriculture'],
+      threshold: 0.44,
+      pattern: 'force-provisioning food-security shock',
+      drivers: ['Ukraine grain disruption → NATO force-provisioning strain', 'global food inflation → deployed-force ration cost surge', 'overseas-base provisioning supply shock', 'military nutrition supply-chain bottleneck', 'deployed-force ration sustainability risk'],
+      options: [
+        { label: 'trace force-provisioning food-security exposure', type: 'analysis' },
+        { label: 'investigate ration supply-shock coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
     }
   ];
 

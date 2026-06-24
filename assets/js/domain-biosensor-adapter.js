@@ -252,7 +252,28 @@
       label: 'Threat vigilance and operational readiness',
       arousal: 'Combat readiness — high arousal during active threats reflects heightened operational posture',
       coherence: 'Command quality — low coherence during multi-front engagement suggests fragmented coordination',
-      cognitiveLoad: 'Situational awareness — high load with multiple threat vectors reflects cognitive bandwidth stress'
+      cognitiveLoad: 'Situational awareness — high load with multiple threat vectors reflects cognitive bandwidth stress',
+      // Force-readiness / threat-posture intake map: regulation state → defense procurement & readiness
+      // intake/triage posture. Consumed by (future) defense-clarity-operator outcome tracking
+      // (weapons-program milestone velocity, force-readiness metrics, munitions-stockpile replenishment,
+      // alliance/basing throughput, deterrence-posture strength). Defense identity only — kinetic,
+      // industrial & readiness, distinct from intelligence (collection/analysis/espionage is a coupling,
+      // not the identity) and from technology (cyber/electronic warfare is a coupling, not the identity):
+      // military spending & procurement, the defense industrial base, geopolitical conflict & deterrence,
+      // weapons systems, military readiness, alliances & basing, electronic/kinetic warfare, strategic
+      // deterrence. Defense couples to energy via fuel logistics and strategic petroleum reserves but
+      // never adopts energy grid/oil/gas as its own content. Reference defense-identity names: LMT, RTX,
+      // NOC, GD, BA, LHX, HII, LDOS, BAH, KTOS, AVAV. Operator arousal/coherence during active threats
+      // gate procurement & readiness intake (high arousal = crisis force-readiness mode; low arousal =
+      // deliberate modernization mode). STRICTLY ADDITIVE — does not touch any validated scoring spine.
+      readiness: {
+        calm: 'Steady operator state — safe to greenlight new defense modernization: long-lead weapons systems (LMT/RTX/GD/BA/NOC), strategic deterrence posture strengthening, alliance expansion, advanced procurement.',
+        focused: 'Productive engagement — sustain in-flight weapons programs and modernization (LMT/RTX/GD/LHX/HII production lines); admit only proven procurement and well-scoped alliance work; hold open-ended new long-cycle weapons intake.',
+        pressured: 'Elevated load — defer speculative modernization and new long-cycle weapons intake; focus on force readiness and critical operational deployment (sustainment, munitions logistics, basing support — LDOS/BAH services, KTOS/AVAV attritable systems).',
+        overloaded: 'Saturated — pause new weapons procurement; triage critical force-readiness and munitions-stockpile replenishment, alliance stress containment (active-theater sustainment, interceptor/missile inventory, deterrence posture under strain).',
+        recovering: 'Stabilizing — resume maintenance and readiness assessment first, then reopen procurement gradually as force-readiness metrics normalize.',
+        unknown: 'Regulation state unavailable — default to snapshot-driven prioritization (force-readiness backlog and threat-vector criticality ranking).'
+      }
     },
     environment: {
       label: 'Ecological monitoring and response urgency',

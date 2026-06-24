@@ -220,7 +220,30 @@
     'AMD Financial':                  'https://ir.amd.com/',
     'Synopsys EDA Trends':            'https://www.synopsys.com/company/newsroom.html',
     'IEEE Xplore':                    'https://ieeexplore.ieee.org/',
-    'ArXiv CS':                       'https://arxiv.org/list/cs/recent'
+    'ArXiv CS':                       'https://arxiv.org/list/cs/recent',
+    // Defense primary-source authorities: the DEFENSE-INDUSTRIAL & READINESS
+    // signal layer (military spending & procurement, the defense industrial
+    // base, weapons-systems programs, military readiness, deterrence posture).
+    // Anchored on real defense-prime investor-relations pages + the DoD budget
+    // authority. DISTINCT from intelligence (defense = kinetic / industrial /
+    // readiness; intelligence = collection / analysis / espionage) and from
+    // technology (cyber is a coupling, not defense's core identity). Defense
+    // couples to energy via fuel / strategic-reserve but keeps its OWN content
+    // = procurement / readiness / deterrence. Verified canonical landing pages
+    // only — never AI-constructed deep links. Mirrors the energy /
+    // infrastructure / culture / finance / economy / technology structure.
+    'DoD Budget Justification':       'https://comptroller.defense.gov/Budget-Materials/',
+    'Lockheed Martin Investor Relations': 'https://www.lockheedmartin.com/en-us/investor-relations.html',
+    'Raytheon Technologies IR':       'https://investor.rtx.com/',
+    'General Dynamics IR':            'https://investor.gd-ms.com/',
+    'Northrop Grumman IR':            'https://investor.northropgrumman.com/',
+    'Boeing Defense IR':              'https://investor.boeing.com/',
+    'L3Harris IR':                    'https://investor.l3harris.com/',
+    'Huntington Ingalls IR':          'https://investor.huntingtoningalls.com/',
+    'Leidos IR':                      'https://investor.leidos.com/',
+    'Booz Allen Hamilton IR':         'https://investors.boozallen.com/',
+    'Kratos Defense IR':              'https://ir.kratosdefense.com/',
+    'AeroVironment IR':               'https://investor.avav.com/'
   };
 
   // ─── Domain-specific primary source priority ───────────────────────────
@@ -282,7 +305,20 @@
     // Mirrors the energy / infrastructure / culture / finance / economy
     // ordering so technology artifacts no longer demote through the
     // PRIMARY_BY_FALLBACK path.
-    technology: ['NVIDIA Investor Relations', 'TSMC Investor', 'AMD Financial', 'Synopsys EDA Trends', 'IEEE Xplore', 'ArXiv CS', 'CISA KEV']
+    technology: ['NVIDIA Investor Relations', 'TSMC Investor', 'AMD Financial', 'Synopsys EDA Trends', 'IEEE Xplore', 'ArXiv CS', 'CISA KEV'],
+    // Defense primary sources: defense-industrial & readiness authorities that
+    // anchor the defense signal layer — defense-prime investor reporting (LMT,
+    // RTX, GD, NOC, BA = the procurement & production spine), the DoD budget
+    // justification (military spending authority), and the second-tier primes /
+    // integrators (LHX electronic warfare, HII shipbuilding, LDOS, BAH, KTOS,
+    // AVAV). Ranked highest-signal structural first: the prime contractors'
+    // procurement / production / program fundamentals lead (the readiness &
+    // deterrence spine), the budget authority grounds it. DISTINCT from
+    // intelligence (no collection / espionage sources) and from technology
+    // (no chip / cloud sources — cyber is a coupling). Mirrors the energy /
+    // infrastructure / culture / finance / economy / technology ordering so
+    // defense artifacts no longer demote through the PRIMARY_BY_FALLBACK path.
+    defense: ['Lockheed Martin Investor Relations', 'Raytheon Technologies IR', 'General Dynamics IR', 'Northrop Grumman IR', 'Boeing Defense IR', 'DoD Budget Justification', 'L3Harris IR', 'Huntington Ingalls IR', 'Leidos IR', 'Booz Allen Hamilton IR', 'Kratos Defense IR', 'AeroVironment IR']
   };
 
   // ─── Feed token map for evidence-source verification ───────────────────
@@ -361,7 +397,31 @@
     'ArXiv CS':                   ['ArXiv', 'arXiv', 'preprint', 'AI', 'LLM', 'neural', 'transformer'],
     'AI/ML':                      ['AI', 'LLM', 'neural', 'transformer', 'inference', 'training run'],
     'Cybersecurity':             ['CVE', 'zero-day', 'CISA', 'exploit', 'breach'],
-    'Cloud Platforms':           ['AWS', 'Azure', 'GCP', 'cloud', 'hyperscaler', 'SaaS']
+    'Cloud Platforms':           ['AWS', 'Azure', 'GCP', 'cloud', 'hyperscaler', 'SaaS'],
+    // Defense feed tokens: literal substrings the brain's evidence prose must
+    // contain for _isEvidenceSourceVerified to anchor defense artifacts. Each
+    // entry mirrors a CITATION_HINTS / PRIMARY_PRIORITY_MAP defense feed so the
+    // defense-industrial & readiness signal layer verifies instead of always
+    // failing. Anchors are real defense-prime tickers + program / procurement /
+    // readiness / deterrence vocabulary (contract wins, production rates,
+    // weapons systems, modernization, deterrence posture) — kept DISTINCT from
+    // intelligence (no collection / espionage tokens) and from technology
+    // (no chip / cloud tokens; cyber is a coupling, carried by CISA KEV above),
+    // and from energy (no oil / gas / grid tokens). Matches the brain prose
+    // against real defense-company earnings vocabulary, not government budget
+    // lines alone.
+    'DoD Budget Justification':           ['DoD', 'Department of Defense', 'defense budget', 'procurement', 'O&M', 'topline'],
+    'Lockheed Martin Investor Relations': ['LMT', 'Lockheed', 'F-35', 'missile', 'space', 'hypersonic', 'defense contract'],
+    'Raytheon Technologies IR':           ['RTX', 'Raytheon', 'Collins', 'defense', 'Pratt', 'Whitney', 'missile'],
+    'General Dynamics IR':                ['GD', 'General Dynamics', 'combat', 'platform', 'shipbuilding', 'submarine'],
+    'Northrop Grumman IR':                ['NOC', 'Northrop', 'B-21', 'ICBM', 'Sentinel', 'satellite', 'sensor'],
+    'Boeing Defense IR':                  ['BA', 'Boeing', 'P-8', 'CH-47', 'missile defense', 'space launch'],
+    'L3Harris IR':                        ['LHX', 'L3Harris', 'electronic warfare', 'communications', 'ISR'],
+    'Huntington Ingalls IR':              ['HII', 'Huntington Ingalls', 'shipbuilding', 'carrier', 'submarine', 'Newport News'],
+    'Leidos IR':                          ['LDOS', 'Leidos', 'readiness', 'logistics', 'integration', 'sustainment'],
+    'Booz Allen Hamilton IR':             ['BAH', 'Booz Allen', 'modernization', 'mission', 'analytics'],
+    'Kratos Defense IR':                  ['KTOS', 'Kratos', 'drone', 'target', 'unmanned', 'hypersonic'],
+    'AeroVironment IR':                   ['AVAV', 'AeroVironment', 'UAS', 'Switchblade', 'loitering munition', 'tactical']
   };
 
   // ─── Module-level flag: SCHEMA_VERSION_BUMPED warning ─────────────────

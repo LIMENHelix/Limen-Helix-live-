@@ -107,7 +107,49 @@
     science:       ['research-grants', 'research-papers'],
     governance:    ['copyrights'],
     law:           ['copyrights'],
-    defense:       ['patents'],
+    // ─── Defense = MILITARY-INDUSTRIAL READINESS (lane hints reflect kinetic/
+    //     industrial identity, not IP) ───────────────────────────────────────
+    // Defense's identity is military spending & procurement, the defense
+    // industrial base (LMT, RTX, NOC, GD, BA, LHX, HII, LDOS, BAH, KTOS, AVAV),
+    // geopolitical conflict & strategic deterrence, weapons-system modernization,
+    // military readiness, alliances & basing, and electronic/kinetic warfare —
+    // NOT patent filings. Defense is DISTINCT from intelligence (collection/
+    // analysis/espionage) and from technology (cyber is a coupling, not native).
+    // It couples to energy via fuel security / strategic petroleum reserve, but
+    // its OWN content stays kinetic/industrial readiness — never oil/gas/grid.
+    //
+    // Energy anchors the multi-lane pattern: energy = ['patents','sba-loans',
+    // 'business-grants'] reflects a multi-faceted opportunity space (IP
+    // licensing, small-business suppliers, infrastructure grants). Defense's
+    // opportunity space is similarly multi-faceted — procurement contracts,
+    // strategic partnerships, weapons-system modernization, deterrence/readiness
+    // posture — but the lanes that would carry those distinctions
+    // ('defense-procurement', 'strategic-deterrence', 'weapons-modernization')
+    // do NOT yet exist in handoff-contract.js. Adding them here as bare tokens
+    // would be silently dropped by the contract gate (no matching lane), exactly
+    // the dead-token anti-pattern the economy block above warns against.
+    //
+    // LIVE: the defense-native procurement lane now EXISTS in handoff-contract.js
+    // ('defense-procurement', singleDomainOnly:true, anyDomain includes 'defense'
+    // alongside the industrial-base/readiness-adjacent domains industry/
+    // infrastructure/energy/technology). The interim dead-token risk is therefore
+    // resolved — both hints below route to real, defense-accepting LANE_GATES
+    // entries (no silent drop). This brings defense to lane parity with energy
+    // (energy = ['patents','sba-loans','business-grants'], a multi-faceted IP +
+    // financing + grants space) via defense's OWN multi-faceted space:
+    //   • 'defense-procurement' FIRST — defense identity is kinetic/industrial
+    //     readiness: programs of record, weapons-system buys, sustainment/
+    //     readiness contracts (real primes: LMT, RTX, NOC, GD, BA, LHX, HII,
+    //     LDOS, BAH, KTOS, AVAV). This is the procurement/readiness/deterrence
+    //     posture lane the interim comment promised to promote.
+    //   • 'patents' demoted to the IP edge case — defense industrial-base process
+    //     / weapons-system invention disclosure (sensors, EW, logistics tech IP).
+    // The technology-coupling lanes (zero-day-acquisition, firmware-licensing,
+    // semiconductor-IP) are NOT listed here on purpose: they fire only when
+    // technology is CO-ELEVATED with defense at a node (TECH_COUPLING_LANES.defense
+    // adds them conditionally), keeping cyber as a technology coupling — NOT
+    // defense's own kinetic content, and distinct from intelligence collection.
+    defense:       ['defense-procurement', 'patents'],
     intelligence:  ['copyrights', 'research-papers'],
     communication: ['copyrights'],
     culture:       ['copyrights', 'franchise', 'patents', 'research-papers', 'business-grants', 'research-grants'],

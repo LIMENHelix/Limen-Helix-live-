@@ -212,6 +212,23 @@
       tech_obsolescence_acceleration:'Obsolescence accelerating. Legacy stacks and aging hardware repricing faster than refresh cycles.',
       tech_breakthrough_emergence:   'Breakthrough signal forming. A capability step-change is reshaping the technology frontier.',
       tech_generic:                  'Technology domain under stress. Compute, software, and platforms pressured.',
+      // Defense-specific distress voice — military/procurement/readiness/deterrence-grounded,
+      // mirrors energy's per-diagnosis narration (energy-brain diagnosisIndex) and the
+      // infrastructure/culture/finance/economy/technology ports above, but for the DEFENSE domain
+      // identity: military spending & procurement, the defense industrial base, geopolitical conflict
+      // & deterrence, weapons systems, military readiness & sustainment, alliances & basing,
+      // electronic/kinetic warfare, strategic deterrence. Defense COUPLES to energy via fuel /
+      // strategic-reserve and to technology via cyber, but keeps its own kinetic/industrial/readiness
+      // identity — and is kept DISTINCT from intelligence (collection/analysis/espionage) and from
+      // technology (cyber is a coupling, not the identity). Real tickers: LMT, RTX, NOC, GD, BA, LHX,
+      // HII, LDOS, BAH, KTOS, AVAV. CLIENT-SIDE narration flavor only — never touches any scoring path.
+      defense_readiness_drop:        'Force readiness declining. Munitions depletion and sustainment gaps widening; review procurement and modernization status.',
+      defense_conflict_escalation:   'Conflict escalation detected. Deterrence posture under pressure as geopolitical tension intensifies.',
+      defense_industrial_strain:     'Defense industrial base showing capacity strain. Supplier consolidation and throughput limits rising.',
+      defense_procurement_breakdown: 'Procurement program under strain. Cost overruns and acquisition delays threatening capability delivery.',
+      defense_alliance_fracture:     'Alliance cohesion weakening. Basing access and coalition burden-sharing under strain.',
+      defense_kinetic_warfare:       'Kinetic engagement intensifying. Weapons-system attrition and platform loss rates climbing.',
+      defense_generic:               'Defense domain under stress. Readiness, procurement, and deterrence pressured.',
       global_shift:        'Global state shifted to {state}.',
       event_start:         '{event} detected.',
       event_end:           '{event} resolved.',
@@ -265,6 +282,13 @@
       tech_obsolescence_acceleration:'Stack obsolescing. Accelerate migration and retire legacy hardware.',
       tech_breakthrough_emergence:   'Breakthrough emerging. Reprioritize R&D and move on the capability lead.',
       tech_generic:                  'Technology domain elevated. Investigate compute and platforms.',
+      defense_readiness_drop:        'Readiness degrading. Replenish munitions and accelerate sustainment and modernization.',
+      defense_conflict_escalation:   'Conflict escalating. Reinforce deterrence posture and review force positioning.',
+      defense_industrial_strain:     'Industrial base strained. Expand supplier capacity and secure critical components.',
+      defense_procurement_breakdown: 'Procurement breaking down. Recover program cost and schedule before capability slips.',
+      defense_alliance_fracture:     'Alliance fracturing. Shore up basing access and coalition commitments.',
+      defense_kinetic_warfare:       'Kinetic conflict active. Sustain platforms and manage attrition and resupply.',
+      defense_generic:               'Defense domain elevated. Investigate readiness and procurement.',
       global_shift:        'State change: {state}.',
       event_start:         'Event: {event}. Tracking.',
       event_end:           'Event cleared: {event}.',
@@ -375,7 +399,7 @@
       economy: 'Economy', energy: 'Energy', environment: 'Environment',
       health: 'Health', technology: 'Technology', research: 'Research',
       supplyChain: 'Supply chain', infrastructure: 'Infrastructure',
-      culture: 'Culture', finance: 'Finance'
+      culture: 'Culture', finance: 'Finance', defense: 'Defense'
     };
 
     // Infrastructure parity: mirror energy's per-diagnosis voice. Energy distinguishes
@@ -440,6 +464,21 @@
       var tkey = _classifyTechnologyDistress(detail.signals);
       if (tkey) {
         _narrate(tkey, {}, PRIORITY_MEDIUM);
+        return;
+      }
+    }
+
+    // Defense parity: mirror energy's per-diagnosis voice the same way infrastructure, culture,
+    // finance, economy, and technology do. Defense is the KINETIC/INDUSTRIAL/READINESS identity —
+    // classify the defense distress flavor from signal content (force readiness / conflict
+    // escalation / industrial-base strain / procurement breakdown / alliance fracture / kinetic
+    // warfare) and narrate a defense-specific line instead of the generic. Kept DISTINCT from
+    // intelligence (collection/analysis/espionage) and technology (cyber is a coupling). This is
+    // CLIENT-SIDE narration flavor only — it never touches any scoring path.
+    if (detail.domain === 'defense') {
+      var dkey = _classifyDefenseDistress(detail.signals);
+      if (dkey) {
+        _narrate(dkey, {}, PRIORITY_MEDIUM);
         return;
       }
     }
@@ -609,6 +648,42 @@
     if (/breakthrough|emergence|step[\s_-]?change|frontier[\s_-]?(model|capab)|state[\s_-]?of[\s_-]?the[\s_-]?art|capability[\s_-]?(leap|jump)|innovation[\s_-]?surge|paradigm[\s_-]?shift/.test(blob)) return 'tech_breakthrough_emergence';
     if (/obsolesc|legacy[\s_-]?(stack|system|hardware)|deprecat|end[\s_-]?of[\s_-]?life|aging[\s_-]?(hardware|infra)|technical[\s_-]?debt|refresh[\s_-]?cycle|stagnant[\s_-]?stack/.test(blob)) return 'tech_obsolescence_acceleration';
     return 'tech_generic';
+  }
+
+  // Map raw defense signal content → a defense distress voice key.
+  // Defense vocabulary covers the DEFENSE domain identity: military spending & procurement,
+  // the defense industrial base, geopolitical conflict & deterrence, weapons systems, military
+  // readiness & sustainment, alliances & basing, electronic/kinetic warfare, strategic deterrence.
+  // Recognizes real defense primes/suppliers as tickers (LMT, RTX, NOC, GD, BA, LHX, HII, LDOS,
+  // BAH, KTOS, AVAV). Defense COUPLES to energy via fuel/strategic-reserve and to technology via
+  // cyber, but keeps its own kinetic/industrial/readiness identity and stays DISTINCT from
+  // intelligence (collection/analysis/espionage) and technology (cyber = coupling). Mirrors the
+  // energy/infra/culture/finance/economy/technology classifier structure exactly. Returns a
+  // TEMPLATES key, or null. CLIENT-SIDE narration flavor only — never touches any scoring path.
+  function _classifyDefenseDistress(signals) {
+    var blob = '';
+    if (Array.isArray(signals)) {
+      for (var i = 0; i < signals.length; i++) {
+        var s = signals[i];
+        if (typeof s === 'string') blob += ' ' + s;
+        else if (s && typeof s === 'object') {
+          blob += ' ' + (s.type || '') + ' ' + (s.id || '') + ' ' + (s.label || '') + ' ' + (s.name || '');
+        }
+      }
+    }
+    blob = blob.toLowerCase();
+
+    // Order by specificity: active kinetic warfare and conflict escalation are sharpest, then
+    // readiness, procurement, industrial-base strain, alliance fracture; fall back to a generic
+    // defense line. Matches real defense tickers (lmt/rtx/noc/gd/lhx/hii/ldos/bah/ktos/avav) and
+    // 'ba' as a word-boundary token to avoid colliding with substrings.
+    if (/kinetic|missile[\s_-]?(strike|barrage)|airstrike|attrition|platform[\s_-]?loss|combat[\s_-]?loss|weapons[\s_-]?expenditure|live[\s_-]?fire|engagement[\s_-]?rate/.test(blob)) return 'defense_kinetic_warfare';
+    if (/conflict[\s_-]?(escalat|outbreak)|escalation|deterrence|war[\s_-]?(risk|footing)|geopolitical|invasion|mobiliz|theater[\s_-]?tension|flashpoint|nuclear[\s_-]?posture/.test(blob)) return 'defense_conflict_escalation';
+    if (/readiness|munition|sustainment|stockpile[\s_-]?(depletion|draw)|maintenance[\s_-]?backlog|operational[\s_-]?tempo|optempo|fleet[\s_-]?availability|spares[\s_-]?shortage|modernization[\s_-]?gap/.test(blob)) return 'defense_readiness_drop';
+    if (/procurement|acquisition|cost[\s_-]?overrun|program[\s_-]?(cancel|delay|breach)|nunn[\s_-]?mccurdy|schedule[\s_-]?slip|contract[\s_-]?award|budget[\s_-]?cut|sequester/.test(blob)) return 'defense_procurement_breakdown';
+    if (/industrial[\s_-]?base|supplier[\s_-]?(consolidat|capacity)|shipyard|foundry[\s_-]?(closure|strain)|sub[\s_-]?tier|capacity[\s_-]?strain|throughput[\s_-]?limit|lmt|rtx|noc|gd\b|lhx|hii|ldos|bah|ktos|avav/.test(blob)) return 'defense_industrial_strain';
+    if (/alliance|nato|coalition|basing|access[\s_-]?(denial|loss)|burden[\s_-]?sharing|treaty|allied[\s_-]?(withdrawal|fracture)|partner[\s_-]?nation/.test(blob)) return 'defense_alliance_fracture';
+    return 'defense_generic';
   }
 
   function _onGlobalStateUpdate(e) {

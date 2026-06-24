@@ -155,6 +155,39 @@
     platformMonopolyFloor:  0.60  // top-3 vendor lock-in > 80% always reads as platform_monopoly
   };
 
+  // Structural-signal overrides for defense: certain FORCE-READINESS / PROCUREMENT /
+  // INDUSTRIAL-BASE / ALLIANCE constraints are NOT noisy GDELT-tone / headline-volume signals
+  // and must bypass saturation dampening (mirrors infrastructure's grid_stress, culture's
+  // scene_collapse, finance's liquidity_crunch, economy's recession_declaration, and
+  // technology's chip_shortage structural conditions — all of which mirror energy-brain's
+  // grid_stress reserve-margin floor, a load-bearing engineering constraint that is never
+  // dampened as commodity noise).
+  // The defense domain is MILITARY SPENDING & PROCUREMENT, the DEFENSE INDUSTRIAL BASE,
+  // geopolitical conflict & deterrence, weapons systems, military readiness, alliances &
+  // basing, and electronic/kinetic/strategic warfare (tickers: LMT, RTX, NOC, GD, BA, LHX,
+  // HII, LDOS, BAH, KTOS, AVAV). It stays DISTINCT from intelligence (defense = kinetic /
+  // industrial / readiness; intelligence = collection / analysis / espionage) and from
+  // technology (cyber is a coupling, not the identity). Defense couples to energy via
+  // operational fuel / the Strategic Petroleum Reserve, but its identity stays
+  // force-readiness / procurement / industrial-base — NEVER oil/gas/grid as its OWN content.
+  // These floors are LOAD-BEARING readiness/supply/concentration/treaty constraints — a real
+  // force-readiness breach, a munitions-stockpile depletion, a key defense-supplier failure,
+  // or a basing-rights/treaty rupture must never be averaged down by the GDELT tone/volume
+  // saturation that the generic defense feed is prone to.
+  // Raw stress is forced to the floor when a structural threshold is crossed, before dampening.
+  //   - force-readiness breach (active-threat / conflict escalation)         → force_readiness (structural)
+  //   - procurement delay (critical munitions-stockpile / weapons lead-time) → procurement_delay (structural)
+  //   - industrial-base strain (defense consolidation / key-supplier failure)→ industrial_base_strain (structural)
+  //   - alliance stress (basing-rights loss / treaty-violation breach)       → alliance_stress (structural)
+  // ADDITIVE ONLY — client-side advisory floor for the domain panel/snapshot; it does NOT
+  // touch the validated P3 distress kernel (/api/limen/score path), which lives in finance.
+  var _DEFENSE_STRUCTURAL = {
+    forceReadinessFloor:       0.65, // active-threat / conflict-escalation readiness breach always reads as force_readiness
+    procurementDelayFloor:     0.60, // critical munitions-stockpile / weapons-system lead-time breach always reads as procurement_delay
+    industrialBaseStrainFloor: 0.70, // defense-industrial consolidation / key-supplier failure always reads as industrial_base_strain
+    allianceStressFloor:       0.65  // basing-rights loss / treaty-violation breach always reads as alliance_stress
+  };
+
   // Rolling baseline state (accumulates across feed cycles within session)
   var _baselineState = {}; // domainKey → { samples: [], mean: number }
   var _BASELINE_WINDOW = 12; // ~6 minutes at 30s poll (enough for session deviation)
@@ -525,6 +558,104 @@
     return { floor: floor, reason: reason };
   }
 
+  // Detect defense FORCE-READINESS / PROCUREMENT / INDUSTRIAL-BASE / ALLIANCE structural
+  // constraints from a feed object. Returns a forced stress floor (0 if none) — readiness /
+  // supply / concentration / treaty breaches bypass the GDELT tone/headline-volume saturation
+  // that the generic defense feed is prone to. Mirrors _infraStructuralFloor /
+  // _cultureStructuralFloor / _financeStructuralFloor / _economyStructuralFloor /
+  // _technologyStructuralFloor: force-readiness / procurement-delay / industrial-base-strain /
+  // alliance-stress are load-bearing defense-posture constraints, not headline noise to dampen.
+  // Binds to readiness / munitions-stockpile / weapons-lead-time / supplier-concentration /
+  // basing-treaty metrics and defense tickers (LMT, RTX, NOC, GD, BA, LHX, HII, LDOS, BAH,
+  // KTOS, AVAV) — DISTINCT from intelligence (collection/espionage) and from technology (cyber
+  // is a coupling); NEVER oil/gas/grid as the domain's OWN content (defense couples to energy
+  // via operational fuel / the Strategic Petroleum Reserve, but its identity stays kinetic /
+  // industrial / readiness).
+  // ADDITIVE ONLY — client-side advisory floor; does NOT touch the validated P3 distress kernel.
+  function _defenseStructuralFloor(feed) {
+    if (!feed) return { floor: 0, reason: '' };
+    var floor = 0;
+    var reason = '';
+    var signals = feed.signals || [];
+    function _has(token) {
+      for (var i = 0; i < signals.length; i++) {
+        if (typeof signals[i] === 'string' && signals[i].toLowerCase().indexOf(token) !== -1) return true;
+      }
+      return false;
+    }
+    // (3) Industrial-base strain: defense-industrial consolidation / key-supplier failure
+    //     ALWAYS triggers industrial_base_strain (highest defense floor — a primes/supplier
+    //     concentration break in the defense industrial base; LMT/RTX/NOC/GD/BA/HII exposure).
+    //     supplierConcentration accepts fraction (0.85) or percent (85) form; a sole-source
+    //     dependency or an explicit key-supplier-failure signal also trips it.
+    var supplierConcentration = (feed.supplierConcentration !== undefined) ? feed.supplierConcentration
+                              : (feed.industrialBaseConcentration !== undefined) ? feed.industrialBaseConcentration
+                              : null;
+    var concFrac = (supplierConcentration !== null && supplierConcentration > 1) ? supplierConcentration / 100 : supplierConcentration;
+    if ((concFrac !== null && concFrac > 0.80 && (_has('supplier') || _has('industrial base') || _has('consolidat') || _has('sole-source') || _has('sole source'))) ||
+        _has('industrial base strain') || _has('industrial-base') || _has('key-supplier failure') || _has('supplier failure') || _has('defense consolidation')) {
+      if (_DEFENSE_STRUCTURAL.industrialBaseStrainFloor > floor) {
+        floor = _DEFENSE_STRUCTURAL.industrialBaseStrainFloor;
+        reason = 'structural: industrial_base_strain' + (concFrac !== null ? ' (supplier concentration ' + (concFrac * 100).toFixed(0) + '% > 80%)' : '');
+      }
+    }
+    // (1) Force-readiness breach: active-threat / conflict-escalation readiness drop ALWAYS
+    //     triggers force_readiness (the operational-readiness constraint — readiness rate is a
+    //     fraction of force ready-for-deployment; a drop below 0.60 is a structural breach).
+    var readinessRate = (feed.forceReadinessRate !== undefined) ? feed.forceReadinessRate
+                      : (feed.readinessRate !== undefined) ? feed.readinessRate
+                      : null;
+    var readinessFrac = (readinessRate !== null && readinessRate > 1) ? readinessRate / 100 : readinessRate;
+    if ((readinessFrac !== null && readinessFrac < 0.60 && (_has('readiness') || _has('readY') || _has('deploy') || _has('threat') || _has('escalat'))) ||
+        _has('force readiness') || _has('force-readiness') || _has('readiness breach') || _has('active threat') || _has('conflict escalation') || _has('conflict-escalation')) {
+      if (_DEFENSE_STRUCTURAL.forceReadinessFloor > floor) {
+        floor = _DEFENSE_STRUCTURAL.forceReadinessFloor;
+        reason = 'structural: force_readiness' + (readinessFrac !== null ? ' (readiness ' + (readinessFrac * 100).toFixed(0) + '% < 60%)' : '');
+      } else if (floor > 0) {
+        reason += ' + force_readiness';
+      }
+    }
+    // (4) Alliance stress: basing-rights loss / treaty-violation breach ALWAYS triggers
+    //     alliance_stress (the deterrence-network constraint — loss of forward basing or a
+    //     treaty rupture; an explicit signal or a basing-access drop below 0.70 trips it).
+    var basingAccess = (feed.basingAccessRate !== undefined) ? feed.basingAccessRate
+                     : (feed.allianceCohesion !== undefined) ? feed.allianceCohesion
+                     : null;
+    var basingFrac = (basingAccess !== null && basingAccess > 1) ? basingAccess / 100 : basingAccess;
+    if ((basingFrac !== null && basingFrac < 0.70 && (_has('basing') || _has('alliance') || _has('treaty') || _has('access'))) ||
+        _has('alliance stress') || _has('alliance-stress') || _has('basing rights') || _has('basing-rights') || _has('treaty violation') || _has('treaty-violation')) {
+      if (_DEFENSE_STRUCTURAL.allianceStressFloor > floor) {
+        floor = _DEFENSE_STRUCTURAL.allianceStressFloor;
+        reason = 'structural: alliance_stress' + (basingFrac !== null ? ' (basing/alliance access ' + (basingFrac * 100).toFixed(0) + '% < 70%)' : '');
+      } else if (floor > 0) {
+        reason += ' + alliance_stress';
+      }
+    }
+    // (2) Procurement delay: critical munitions-stockpile depletion / weapons-system lead-time
+    //     breach ALWAYS triggers procurement_delay (lowest defense floor — a supply-pipeline
+    //     constraint). munitionsStockpileMonths below 3 months of supply, or a weapons lead-time
+    //     blowout, or an explicit signal trips it.
+    var stockpileMonths = (feed.munitionsStockpileMonths !== undefined) ? feed.munitionsStockpileMonths
+                        : (feed.stockpileMonths !== undefined) ? feed.stockpileMonths
+                        : null;
+    var leadTimeMonths = (feed.weaponsLeadTimeMonths !== undefined) ? feed.weaponsLeadTimeMonths
+                       : (feed.procurementLeadTimeMonths !== undefined) ? feed.procurementLeadTimeMonths
+                       : null;
+    if ((stockpileMonths !== null && stockpileMonths < 3 && (_has('munition') || _has('stockpile') || _has('procure') || _has('weapon'))) ||
+        (leadTimeMonths !== null && leadTimeMonths > 36 && (_has('lead-time') || _has('lead time') || _has('procure') || _has('weapon'))) ||
+        _has('procurement delay') || _has('procurement-delay') || _has('munitions depletion') || _has('stockpile depletion') || _has('weapons-system lead-time')) {
+      if (_DEFENSE_STRUCTURAL.procurementDelayFloor > floor) {
+        floor = _DEFENSE_STRUCTURAL.procurementDelayFloor;
+        reason = 'structural: procurement_delay' +
+          (stockpileMonths !== null && stockpileMonths < 3 ? ' (munitions stockpile ' + stockpileMonths.toFixed(1) + ' mo < 3 mo)'
+           : (leadTimeMonths !== null && leadTimeMonths > 36 ? ' (weapons lead-time ' + Math.round(leadTimeMonths) + ' mo > 36 mo)' : ''));
+      } else if (floor > 0) {
+        reason += ' + procurement_delay';
+      }
+    }
+    return { floor: floor, reason: reason };
+  }
+
   function _normalizeStress(domainKey, rawStress, feed) {
     // Phase 0: domain structural-signal floor (engineering/attention-economy constraints
     // bypass commodity/market/volume dampening — mirrors energy-brain grid_stress conditions)
@@ -533,6 +664,7 @@
                    : (domainKey === 'finance') ? _financeStructuralFloor(feed)
                    : (domainKey === 'economy') ? _economyStructuralFloor(feed)
                    : (domainKey === 'technology') ? _technologyStructuralFloor(feed)
+                   : (domainKey === 'defense') ? _defenseStructuralFloor(feed)
                    : { floor: 0, reason: '' };
     if (structural.floor > rawStress) {
       rawStress = structural.floor;

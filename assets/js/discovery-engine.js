@@ -111,7 +111,24 @@
     // Supply Chain
     { label: 'Investigate supply chain resilience modeling', domain: 'supplyChain', type: 'system-risk', baseRelevance: 0.40 },
     { label: 'Explore autonomous logistics innovations', domain: 'supplyChain', type: 'technological-innovation', baseRelevance: 0.35 },
-    { label: 'Analyze critical resource dependency mapping', domain: 'supplyChain', type: 'system-risk', baseRelevance: 0.45 }
+    { label: 'Analyze critical resource dependency mapping', domain: 'supplyChain', type: 'system-risk', baseRelevance: 0.45 },
+
+    // Defense (mirrors Energy/Infrastructure structure, translated to kinetic/industrial/readiness concepts —
+    //   threat-posture assessment (mirror of risk analysis), industrial-base capacity modeling (mirror of
+    //   infrastructure resilience), procurement-cycle acceleration (mirror of capital-structure deleveraging),
+    //   supply-chain hardening (mirror of logistics optimization). Relevance = defense stress x trend boost.
+    //   identity = military spending & procurement, defense industrial base, geopolitical conflict & deterrence,
+    //   weapons systems, military readiness, alliances & basing, electronic/kinetic warfare, strategic deterrence;
+    //   universe: LMT/RTX/NOC/GD/BA/LHX/HII/LDOS/BAH/KTOS/AVAV — couples to energy via fuel/strategic-reserve,
+    //   kept DISTINCT from intelligence (collection/analysis/espionage) and from technology (cyber is a coupling))
+    { label: 'Analyze geopolitical threat-posture and deterrence-credibility assessment for conflict early-warning (LMT/RTX/NOC missile & deterrence systems)', domain: 'defense', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Investigate defense industrial-base capacity modeling and munitions-surge production resilience (GD/HII shipyards, LMT/RTX magazine depth)', domain: 'defense', type: 'economic-opportunity', baseRelevance: 0.40 },
+    { label: 'Explore procurement-cycle acceleration and program-of-record cost-overrun mitigation (BA/LHX/GD major-platform acquisition reform)', domain: 'defense', type: 'economic-opportunity', baseRelevance: 0.40 },
+    { label: 'Analyze defense supply-chain hardening and critical-component (rare-earth, microelectronics, solid-rocket-motor) dependency mapping (RTX/NOC/LHX, KTOS)', domain: 'defense', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Investigate military readiness degradation and sustainment-backlog modeling across fleets and basing (HII/GD depot throughput, LDOS/BAH sustainment)', domain: 'defense', type: 'system-risk', baseRelevance: 0.40 },
+    { label: 'Explore next-generation weapons-system and autonomous/attritable-platform programs as a force-structure shift (AVAV/KTOS uncrewed systems, hypersonics LMT/RTX)', domain: 'defense', type: 'technological-innovation', baseRelevance: 0.40 },
+    { label: 'Analyze electronic & kinetic warfare capability gaps and counter-UAS/directed-energy readiness (RTX/NOC/LHX EW suites, KTOS targets)', domain: 'defense', type: 'technological-innovation', baseRelevance: 0.35 },
+    { label: 'Investigate alliance-burden-sharing and forward-basing posture shifts as a procurement-demand signal (allied FMS pipeline, LMT/RTX/GD export programs)', domain: 'defense', type: 'economic-opportunity', baseRelevance: 0.35 }
   ];
 
   // ─── State ───────────────────────────────────────────────────────────────

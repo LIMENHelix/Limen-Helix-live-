@@ -82,6 +82,13 @@
       { label: 'Explore deleveraging and capital-structure repositioning opportunities', type: 'discovery', minStress: 0.4 },
       { label: 'Analyze solvency-ratio deterioration and covenant-breach exposure', type: 'analysis', minStress: 0.5 },
       { label: 'Investigate liquidity-crunch mitigation and systemic-contagion containment', type: 'regulation', minStress: 0.7 }
+    ],
+    defense: [
+      { label: 'Monitor force-readiness and troop-movement indicators across allied basing', type: 'monitoring', minStress: 0.3 },
+      { label: 'Explore weapons-modernization timelines and defense-industrial base capacity (LMT, RTX, GD, BA, NOC, LHX, HII procurement roadmaps)', type: 'discovery', minStress: 0.4 },
+      { label: 'Analyze munitions-stockpile depletion and strategic-deterrence credibility exposure (LDOS, KTOS, AVAV, BAH replenishment throughput)', type: 'analysis', minStress: 0.5 },
+      { label: 'Investigate alliance-stress and basing-rights vulnerability across forward-deployed theaters', type: 'analysis', minStress: 0.6 },
+      { label: 'Regulate conflict-escalation pathways and deterrence-failure containment', type: 'regulation', minStress: 0.7 }
     ]
   };
 

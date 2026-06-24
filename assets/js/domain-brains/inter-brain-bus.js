@@ -73,6 +73,65 @@
  *   AFTER the validated P3 kernel runs — they are external stress modifiers
  *   ingested via the base receiveExternalSignal handler, NOT a second scorer.
  *
+ * Cross-domain examples — OTHER → DEFENSE (defense as a target). Defense is the
+ * KINETIC / INDUSTRIAL / READINESS domain (military spending & procurement, the
+ * defense industrial base, geopolitical conflict & deterrence, weapons systems,
+ * military readiness, alliances & basing, electronic/kinetic warfare, strategic
+ * deterrence). It is DISTINCT from intelligence (collection / analysis /
+ * espionage) and from technology (cyber is a COUPLING, not defense's identity).
+ * Defense was previously documented as a SOURCE only (it emits to governance/
+ * economy/technology/intelligence — see defense-brain.js emissionRules); these
+ * are its missing RETURN paths so the readiness/deterrence channel is not silent
+ * in the bus:
+ *   infrastructure → defense (SCADA_vulnerability / grid_resilience_pressure →
+ *                             base & depot power/water reliability erodes →
+ *                             military operation reliability risk, degraded CBRN
+ *                             defense posture, continuity-of-operations gap)
+ *   technology     → defense (zero_day_disclosure / cyber_threat_vector →
+ *                             weapons-system & C2 exploitation risk → a kinetic
+ *                             vulnerability in fielded platforms, not a data
+ *                             breach — the cyber→kinetic coupling)
+ *   energy         → defense (fuel_security_strain / strategic_reserve_pressure
+ *                             / commodity_dislocation → JP-8 & bunker fuel cost
+ *                             and supply strain → military logistics constraint,
+ *                             sortie-rate & sustainment readiness gap)
+ *   These modify defense's PRIOR readiness/threat-posture expectation and stress
+ *   calculation AFTER the validated P3 kernel runs — external stress modifiers
+ *   ingested via the base receiveExternalSignal handler, NOT a second scorer.
+ *
+ * Cross-domain examples — DEFENSE → OTHER (defense as a source). Defense emits
+ * native signals when ≥1 active diagnosis is present (defense-brain.js):
+ *   defense → governance   (security_policy_pressure    → threat escalation
+ *                           forces security/posture policy response)
+ *   defense → economy      (defense_spending_drag       → procurement surge /
+ *                           crowd-out shifts the macro spending mix)
+ *   defense → technology   (defense_tech_demand         → R&D pull on sensors,
+ *                           autonomy, hypersonics, electronic warfare)
+ *   defense → intelligence (threat_assessment_pressure  → kinetic posture
+ *                           raises collection & analysis tasking demand)
+ *   And the missing OUTBOUND coupling paths to energy/infrastructure (the return
+ *   side of the energy→defense / infrastructure→defense inbound mirrors above —
+ *   defense couples to energy via fuel logistics & strategic-reserve management
+ *   and to infrastructure via grid resilience for military operations, WITHOUT
+ *   taking on oil/gas/grid as its own identity):
+ *   defense → energy        (strategic_reserve_mobilization / fuel_security_posture
+ *                           → wartime / high-readiness fuel mobilization and
+ *                           strategic-petroleum-reserve drawdown reshape fuel
+ *                           demand & security posture for capex-heavy energy
+ *                           issuers — the outbound mirror of energy's native
+ *                           fuel_cost_transmission path)
+ *   defense → infrastructure(energy_infrastructure_hardening_mandate → readiness
+ *                           drives grid-resilience, communications-infrastructure
+ *                           and base-infrastructure hardening requirements for
+ *                           military continuity-of-operations)
+ *   Real defense issuers behind these signals (defense industrial base
+ *   procurement & readiness signaling): LMT, RTX, NOC, GD, BA, LHX, HII, LDOS,
+ *   BAH, KTOS, AVAV. (readiness_gap = sustainment/sortie-rate shortfall;
+ *   force_projection = deployable-capacity pressure; deterrence_failure =
+ *   strategic-stability erosion.) SIGNAL examples only — the validated Thing1 P3
+ *   distress kernel remains the sole scoring authority; the bus merely transports
+ *   already-scored emissions.
+ *
  * Cross-domain examples — ECONOMY → OTHER (economy as a source). Economy emits
  * native macro signals when ≥1 active diagnosis is present (economy-brain.js):
  *   economy → finance      (credit_conditions_shift   → macro deterioration

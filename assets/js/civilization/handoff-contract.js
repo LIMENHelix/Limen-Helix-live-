@@ -58,7 +58,22 @@
     // of the existing lanes; only the CONTENT is financial. They never touch
     // the validated P3 distress kernel (Thing1) — they consume already-audited
     // civilization packets exactly like every other lane.
-    'credit-facilities', 'systemic-risk', 'capital-access'
+    'credit-facilities', 'systemic-risk', 'capital-access',
+    // ─── Defense-native + defense-technology coupling lanes (additive) ────
+    // Defense is the canonical source/negotiator domain for military-industrial
+    // opportunity. 'defense-procurement' is the defense-ONLY lane (programs of
+    // record, weapons-system buys, sustainment/readiness contracts). The three
+    // coupling lanes (zero-day-acquisition, firmware-licensing, semiconductor-IP)
+    // are EXACTLY the lane names cross-node-opportunity.js emits when technology
+    // is CO-ELEVATED with defense at a node (TECH_COUPLING_LANES.defense). Until
+    // now those hints were dropped at the handoff gate because no LANE_GATES
+    // entry existed — defining them here lets defense-technology coupling route
+    // cyber-intelligence / firmware / semiconductor-supply artifacts to the
+    // defense negotiator, mirroring energy's energy-efficiency-hardware coupling.
+    // Defense IDENTITY stays kinetic/industrial/readiness (LMT, RTX, NOC, GD,
+    // BA, LHX, HII, LDOS, BAH, KTOS, AVAV); cyber is the technology coupling,
+    // NOT defense's own content, and stays distinct from intelligence collection.
+    'defense-procurement', 'zero-day-acquisition', 'firmware-licensing', 'semiconductor-IP'
   ];
 
   // ─── Lane gates — minimum quality requirements per artifact type ────────
@@ -112,7 +127,45 @@
     // capital-access — funding constraints / liquidity gaps / capital-raise
     //   shaped opportunity. Multi-domain-friendly (a capital-access thesis can
     //   span a sector cohort), so singleDomainOnly is false.
-    'capital-access':     { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['finance','economy','industry','infrastructure','energy','technology'] }
+    'capital-access':     { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['finance','economy','industry','infrastructure','energy','technology'] },
+    // ─── Defense-native + defense-technology coupling lane gates (additive) ──
+    // defense-procurement — one program of record / one weapons-system buy /
+    //   one sustainment-readiness contract for a single bounded prime or
+    //   borrower-equivalent. singleDomainOnly: a procurement artifact represents
+    //   a single bounded acquisition (like sba-loans / a patent), so cross-node
+    //   multi-domain aggregations are routed away. Defense-primary, with the
+    //   industrial-base / readiness-adjacent real-economy domains that originate
+    //   defense demand (industry = defense industrial base, infrastructure =
+    //   basing/logistics, energy = fuel/strategic-reserve coupling, technology =
+    //   weapons-system electronics). Passing this gate signals only "sufficient
+    //   packet detail to attempt a procurement note" — NOT contract award, NOT
+    //   eligibility, NOT any prediction. Real defense primes: LMT, RTX, NOC, GD,
+    //   BA, LHX, HII, LDOS, BAH, KTOS, AVAV. Distinct from intelligence
+    //   (collection/analysis) and from technology (cyber is a coupling, below).
+    'defense-procurement':   { minEvidence: 0.55, minConfidence: 0.60, singleDomainOnly: true,  anyDomain: ['defense','industry','infrastructure','energy','technology'] },
+    // zero-day-acquisition — defense↔technology coupling. Fires when technology
+    //   is co-elevated with defense at a node (TECH_COUPLING_LANES.defense).
+    //   Cyber-intelligence / offensive-capability acquisition shaped opportunity
+    //   routed to the defense negotiator. Higher evidence/confidence bar: an
+    //   acquisition assertion of an offensive cyber capability demands stronger
+    //   support. singleDomainOnly false — coupling is inherently multi-domain
+    //   (defense + technology present together). Cyber here is the technology
+    //   coupling content, NOT defense's own kinetic identity.
+    'zero-day-acquisition':  { minEvidence: 0.60, minConfidence: 0.60, singleDomainOnly: false, anyDomain: ['defense','technology','intelligence','infrastructure'] },
+    // firmware-licensing — defense↔technology (and energy↔technology) coupling.
+    //   Firmware / embedded-control licensing for weapons-system or platform
+    //   electronics routed to the negotiating domain. singleDomainOnly false
+    //   (coupling). Mirrors energy's firmware-licensing coupling lane exactly;
+    //   the gate is shared because the artifact shape is identical regardless of
+    //   whether defense or energy is the co-elevated partner.
+    'firmware-licensing':    { minEvidence: 0.55, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['defense','technology','energy','industry','infrastructure'] },
+    // semiconductor-IP — defense↔technology (and finance/research↔technology)
+    //   coupling. Semiconductor-IP / chip-supply licensing shaped opportunity
+    //   (the "semiconductor-supply-chain" concern in the gap spec) routed to the
+    //   co-elevated negotiator. singleDomainOnly false (coupling). Shared gate
+    //   with the technology/finance/research coupling that already emits this
+    //   lane name — additive: defense joins the allowed domains, never replaces.
+    'semiconductor-IP':      { minEvidence: 0.55, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['defense','technology','finance','research','industry','infrastructure'] }
   };
 
   var _last = { lanes: {}, timestamp: 0, totalPackets: 0 };
@@ -188,6 +241,10 @@
       case 'credit-facilities': return 'Domains ' + doms + ' indicate credit / lending-shaped opportunity (credit line, syndication, debt facility) for a single bounded counterparty.';
       case 'systemic-risk':     return 'Domains ' + doms + ' show cross-sector solvency / liquidity transmission signal sufficient to attempt a systemic-risk note (not a crisis prediction, not the validated distress kernel).';
       case 'capital-access':    return 'Domains ' + doms + ' indicate funding-constraint / liquidity-gap opportunity (capital access, funding runway, liquidity provision).';
+      case 'defense-procurement': return 'Domains ' + doms + ' indicate procurement / sustainment-shaped opportunity for a single bounded acquisition (program of record, weapons-system buy, readiness contract) routed to the defense negotiator — not award, not eligibility.';
+      case 'zero-day-acquisition': return 'Domains ' + doms + ' show defense↔technology co-elevation routing a cyber-intelligence / offensive-capability acquisition artifact to the defense negotiator (coupling lane; cyber is the technology coupling, not defense\'s kinetic identity).';
+      case 'firmware-licensing':  return 'Domains ' + doms + ' show technology co-elevation routing a firmware / embedded-control licensing artifact for platform or weapons-system electronics to the co-elevated negotiator (defense or energy coupling lane).';
+      case 'semiconductor-IP':    return 'Domains ' + doms + ' show technology co-elevation routing a semiconductor-IP / chip-supply licensing artifact (defense semiconductor supply chain) to the co-elevated negotiator (coupling lane).';
     }
     return '';
   }

@@ -247,6 +247,63 @@
     { re: /foundational (model|ai) (release|launch|breakthrough)|transformative (chip|architecture|silicon)|new (chip|gpu|accelerator) architecture (launch|breakthrough)|quantum (milestone|breakthrough|advantage)|next(-| )?gen (silicon|node|process) (launch|ramp)|breakthrough (model|chip|architecture)/i, weight: 0.13, tag: 'breakthrough' }
   ];
 
+  // ─── Defense-native semantics ─────────────────────────────────────────────
+  // Energy parity (same shape as INFRA / CULTURE / FINANCE / ECONOMY /
+  // TECHNOLOGY above): the defense domain has its OWN failure/recovery
+  // vocabulary. Where energy reads crude_above_90 / grid_stress / chokepoint,
+  // infrastructure reads grid_reliability / deferred_maintenance, culture reads
+  // the attention economy, finance reads liquidity/credit, economy reads the
+  // business cycle, and technology reads the compute stack, DEFENSE reads
+  // military power & national security: military spending & procurement, the
+  // defense industrial base, geopolitical conflict & deterrence, weapons
+  // systems, military readiness, alliances & basing, and electronic/kinetic
+  // warfare. Destabilizing = force-readiness erosion, procurement delays &
+  // munitions stockpile depletion, conflict escalation, deterrence failure,
+  // industrial-base strain, alliance stress, defense-industrial consolidation.
+  // Stabilizing = force-modernization completions, procurement acceleration,
+  // weapons-system upgrades, strategic-deterrence credibility, and
+  // alliance-strengthening signals.
+  //
+  // Anchors are REAL defense tickers (LMT, RTX, NOC, GD, BA, LHX, HII, LDOS,
+  // BAH, KTOS, AVAV) — NEVER oil/gas/grid content. Defense COUPLES to energy via
+  // fuel logistics / strategic reserves, but its IDENTITY stays kinetic /
+  // industrial / readiness, kept DISTINCT from intelligence (collection /
+  // analysis / espionage) and from technology (cyber is a coupling, not the
+  // identity). ADVISORY ONLY — wholly separate from the validated P3 distress
+  // kernel.
+  //
+  // Each entry maps a keyword pattern (matched against the domain's signal
+  // strings) to a weighted push on the destabilizing or stabilizing score —
+  // identical mechanism to energy's condition→weight mapping, defense content.
+  var DEFENSE_DESTABILIZING = [
+    // Conflict escalation — geopolitical flashpoint, kinetic escalation, mobilization.
+    { re: /conflict (escalat|intensif|spread)|escalat(ion|ing) (risk|spiral)|(armed|military) conflict|hostilities (erupt|escalat)|kinetic (action|escalat|strike)|mobiliz(e|ation) (forces|troops)|war (outbreak|footing|imminent)|flashpoint/i, weight: 0.18, tag: 'conflict_escalation' },
+    // Deterrence failure — credibility erosion, red-line crossed, posture breakdown.
+    { re: /deterrence (fail|erod|gap|breakdown|credibility (loss|erod))|red(-| )?line (cross|breach)|posture (breakdown|gap)|strategic (stability|deterrence) (erod|fail)|nuclear (threat|posture) (escalat|degrad)|miscalculation risk/i, weight: 0.17, tag: 'deterrence_failure' },
+    // Readiness erosion — force readiness decline, maintenance/sortie shortfall, manning gap.
+    { re: /(force|combat|operational|fleet) readiness (decline|erod|shortfall|gap|drop)|readiness (decline|erod|crisis)|sortie (rate|generation) (shortfall|decline)|mission(-| )?capable rate (drop|decline)|manning (gap|shortfall)|recruit(ing|ment) (shortfall|crisis)|maintenance (backlog|shortfall) (fleet|depot)/i, weight: 0.16, tag: 'readiness_erosion' },
+    // Procurement delay — program slip, cost overrun, schedule breach, milestone slip.
+    { re: /procurement (delay|slip|stall)|program (delay|slip|breach|overrun|cancel)|(cost|schedule) (overrun|breach|slip)|milestone (slip|miss|delay)|acquisition (delay|stall|nunn(-| )?mcurdy)|(lmt|rtx|noc|gd|ba|lhx|hii) (program )?(delay|slip|overrun)|fielding delay/i, weight: 0.15, tag: 'procurement_delay' },
+    // Munitions / stockpile depletion — magazine depth, inventory drawdown, expenditure outpacing.
+    { re: /munition(s)? (shortage|depletion|drawdown|stockout)|(magazine|stockpile|inventory) (depth|depletion|drawdown|low)|(missile|interceptor|round|shell) (shortage|stockout|depletion)|expenditure (outpac|exceed) production|war(-| )?reserve (deplet|drawdown)|ammunition shortage/i, weight: 0.16, tag: 'munitions_depletion' },
+    // Industrial-base strain — supplier fragility, capacity bottleneck, sub-tier failure.
+    { re: /(defense |industrial )?(industrial base|supplier base|supply chain) (strain|fragil|bottleneck|gap|erod)|sub(-| )?tier (supplier )?(failure|fragil|loss)|(production|manufacturing) (capacity|line) (bottleneck|constrain|gap)|sole(-| )?source (risk|loss)|workforce (gap|shortfall) (defense|shipyard)|(hii|shipyard) (capacity|backlog) (strain|constrain)/i, weight: 0.14, tag: 'industrial_base_strain' },
+    // Alliance stress — coalition fracture, burden-sharing dispute, basing access loss.
+    { re: /alliance (stress|strain|fractur|fray|rift)|coalition (fractur|fray|collaps|strain)|burden(-| )?sharing (dispute|gap|shortfall)|basing (access|rights) (loss|denial|restrict)|nato (rift|strain|fractur)|allied (cohesion|commitment) (erod|doubt)|partner (defect|withdraw)/i, weight: 0.13, tag: 'alliance_stress' }
+  ];
+  var DEFENSE_STABILIZING = [
+    // Force modernization — program completion, capability fielding, recapitalization.
+    { re: /(force )?moderniz(e|ation) (complet|deliver|field|milestone)|recapitaliz(e|ation) (complet|fund|fleet)|(capability|system) (fielding|deliver|ioc|full(-| )?rate production)|(initial|full) operational capability|next(-| )?gen (platform|system) (field|deliver)|(lmt|rtx|noc|gd|ba|lhx) (deliver|field|milestone (achiev|pass))/i, weight: 0.17, tag: 'force_modernization' },
+    // Procurement acceleration — contract award, production ramp, multi-year buy, funding boost.
+    { re: /procurement (acceler|boost|surge|ramp)|production (ramp(-| )?up|surge|accelerat|line (open|restart))|multi(-| )?year (procurement|buy|contract)|(contract|award) (boost|surge|increase)|(budget|appropriation) (boost|increase|plus(-| )?up) (defense|procurement)|(ktos|avav|ldos) (award|ramp|surge)/i, weight: 0.15, tag: 'procurement_acceleration' },
+    // Weapons-system upgrade — block upgrade, capability insertion, lethality improvement.
+    { re: /(weapons?(-| )?system|platform) (upgrade|enhancement)|block (upgrade|insertion)|capability (insertion|upgrade|spiral)|(lethality|survivability|range) (upgrade|improv|enhance)|modernization (upgrade|retrofit)|(rtx|lmt|noc) (upgrade|enhancement (deliver|complet))/i, weight: 0.14, tag: 'weapons_system_upgrade' },
+    // Strategic-deterrence credibility — posture strengthened, triad recapitalized, signaling.
+    { re: /deterrence (credibility|posture) (strengthen|restor|reinforc|improv)|strategic (deterrence|stability) (strengthen|restor|reinforc)|(triad|nuclear) (recapitaliz|moderniz) (complet|fund|on track)|extended deterrence (reaffirm|strengthen)|posture (strengthen|reinforc|enhanced)|credible (deterrent|force)/i, weight: 0.15, tag: 'strategic_deterrence_credibility' },
+    // Alliance strengthening — coalition cohesion, burden-sharing gains, basing expansion.
+    { re: /alliance (strengthen|cohesion|reinforc|expand|deepen)|coalition (cohesion|strengthen|expand|reinforc)|burden(-| )?sharing (gain|increase|commitment)|basing (expand|access (gain|secured)|new agreement)|nato (cohesion|strengthen|expand|enlarg)|(allied|partner) (commitment|interoperab) (strengthen|deepen|gain)|defense (pact|agreement) (sign|secured)/i, weight: 0.13, tag: 'alliance_strengthening' }
+  ];
+
   // Scan a domain's signal strings against a civil pattern table and return the
   // summed weighted contribution (clamped). Mirrors how energy accumulates its
   // condition-driven pressure, but over civil-native keywords.
@@ -408,6 +465,26 @@
         _technologyDestabTags = _td.tags;
       }
 
+      // ── Defense-native destabilizing pathways (energy parity) ──
+      // For the defense domain ONLY, add military/national-security pressure
+      // from named failure pathways found in the live signal strings (conflict
+      // escalation, deterrence failure, force-readiness erosion, procurement
+      // delay, munitions/stockpile depletion, defense industrial-base strain,
+      // alliance stress). This is the military-power analogue of energy's
+      // crude_above_*/grid_stress, infrastructure's grid_reliability/
+      // deferred_maintenance, culture's backlash/audience collapse, finance's
+      // liquidity/credit, economy's business-cycle, and technology's
+      // compute-stack weighting — IDENTITY stays kinetic/industrial/readiness
+      // (couples to energy via fuel/strategic reserves, distinct from
+      // intelligence collection and technology cyber). ADVISORY ONLY — wholly
+      // separate from the validated P3 distress kernel.
+      var _defenseDestabTags = null;
+      if (k === 'defense') {
+        var _dd = _infraSignalScore(signals, DEFENSE_DESTABILIZING);
+        destab += _dd.score;
+        _defenseDestabTags = _dd.tags;
+      }
+
       destab = _clamp(destab, 0, 1);
 
       // ─── Stabilizing score ─────────────────────────────────────
@@ -525,6 +602,27 @@
         _technologyStabTags = _ts.tags;
       }
 
+      // ── Defense-native stabilizing pathways (energy parity) ──
+      // Defense recovery vocabulary: force modernization completions,
+      // procurement acceleration (contract awards / production ramps /
+      // multi-year buys), weapons-system upgrades (block upgrades / capability
+      // insertion), strategic-deterrence credibility (triad recapitalization /
+      // posture strengthening), and alliance strengthening (coalition cohesion /
+      // burden-sharing gains / basing expansion). Mirrors energy's
+      // falling-trend / declining-volatility stabilizers, infrastructure's
+      // funding-renewal / repair-completion, culture's fanbase-momentum /
+      // mainstream-adoption, finance's liquidity-restoration /
+      // capital-strengthening, economy's labor-recovery / productivity, and
+      // technology's fab-capacity / breakthrough, with defense semantics from
+      // the live signals. ADVISORY ONLY — wholly separate from the validated
+      // P3 distress kernel.
+      var _defenseStabTags = null;
+      if (k === 'defense') {
+        var _ds = _infraSignalScore(signals, DEFENSE_STABILIZING);
+        stab += _ds.score;
+        _defenseStabTags = _ds.tags;
+      }
+
       stab = _clamp(stab, 0, 1);
 
       // ─── Net balance ───────────────────────────────────────────
@@ -577,6 +675,13 @@
       if (k === 'technology') {
         _balance[k].destabilizingFactors = _technologyDestabTags || [];
         _balance[k].stabilizingFactors = _technologyStabTags || [];
+      }
+
+      // Surface the defense-native pathways that drove the defense score
+      // (energy parity: name the conditions, don't hide them behind a scalar).
+      if (k === 'defense') {
+        _balance[k].destabilizingFactors = _defenseDestabTags || [];
+        _balance[k].stabilizingFactors = _defenseStabTags || [];
       }
 
       // Detect state shift
