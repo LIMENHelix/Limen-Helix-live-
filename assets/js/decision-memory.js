@@ -49,6 +49,8 @@
   var EDUCATION_STACK_COOLDOWN = 180000; // 3 min between education-stack narrations
   var POPULATION_STACK_THRESHOLD = 2; // a population/demographic-vulnerability stack seen N times signals concentration
   var POPULATION_STACK_COOLDOWN = 180000; // 3 min between population-stack narrations
+  var RESEARCH_STACK_THRESHOLD = 2; // a science/research-vulnerability stack seen N times signals concentration
+  var RESEARCH_STACK_COOLDOWN = 180000; // 3 min between science/research-stack narrations
 
   // ─── Infrastructure vulnerability-stack semantics ─────────────────────────
   // CIVIL domain-semantic concentration. Generic (domain, action) frequency only
@@ -681,6 +683,73 @@
       body: 'Operator attention concentrates on the megacity-growth + housing-affordability stack — urban infrastructure overwhelm and housing-access crisis, where rapid urbanization and informal-settlement growth collide with rent burden and stalled household formation (US Census / HUD / UN DESA indicators).' }
   ];
 
+  // ─── Science / research vulnerability-stack semantics ─────────────────────
+  // SCIENCE / RESEARCH domain-semantic concentration. As with the other domains,
+  // generic (domain, action) frequency only says WHERE the operator is looking; for
+  // the science domain we also detect WHAT research-vulnerability STACK the attention
+  // concentrates on. Each stack is a co-occurring pair of research signal families
+  // (peer-review integrity & publication output/reproducibility & replication/grant
+  // pipeline & research funding/talent retention & brain-drain/discovery velocity &
+  // innovation output/methodology rigor/research integrity & fraud/lab capacity &
+  // instrument throughput). The science identity is SCIENTIFIC RESEARCH & DISCOVERY,
+  // BASIC & APPLIED RESEARCH, R&D PIPELINES, ACADEMIC & LAB SCIENCE, PEER REVIEW &
+  // PUBLICATION, RESEARCH FUNDING & GRANTS, SCIENTIFIC INSTRUMENTS & METHODS, and the
+  // INNOVATION PIPELINE — bound to real research-sector equities (TMO, DHR, A, MTD,
+  // WAT, ILMN, BIO, RVTY, BRKR, IQV, ICLR life-science tools, instruments & CRO
+  // capacity) and real research authorities/indices (NSF, NIH, arXiv, Nature,
+  // OpenAlex, NASA). Science is kept DISTINCT from technology (applied product
+  // development is a coupling, not the identity), from medicine (clinical research is
+  // a coupling), and from education (academic teaching is a coupling); its OWN content
+  // is the research enterprise itself and is NEVER energy oil/gas/grid content. NOTE:
+  // the science domain uses runtime/snapshot key 'research' (science↔research
+  // dual-naming via domain-identity.js); this advisory layer narrates under the
+  // canonical/portal key 'science' to match the other emitters.
+  // Mirrors the science/research-brain cross-domain conditions:
+  //   REPLICATION_CRISIS + FUNDING_CUT                 → reproducibility-funding-squeeze
+  //   BRAIN_DRAIN + GRANT_SHORTFALL                    → talent-pipeline-erosion
+  //   DISCOVERY_STAGNATION + LAB_CAPACITY_STRAIN       → innovation-output-collapse
+  //   RESEARCH_FRAUD + PEER_REVIEW_BREAKDOWN           → integrity-crisis-stack
+  //   METHODOLOGY_RIGOR_DECLINE + REPRODUCIBILITY_METRIC_DROP → methodology-confidence-gap
+  // Signal tokens are matched against recorded action/type/pattern text — never
+  // invented; absence of tokens simply yields no stack (silent, no false signal).
+  // STRICTLY ADDITIVE: advisory only; never participates in /api/limen/score scoring.
+  var RESEARCH_SIGNAL_TOKENS = {
+    PEER_REVIEW_BREAKDOWN:       /(peer[_\s-]?review|review[_\s-]?breakdown|reviewer[_\s-]?shortage|review[_\s-]?backlog|editorial[_\s-]?failure|retraction|paper[_\s-]?mill|predatory[_\s-]?journal|review[_\s-]?fraud|gatekeeping[_\s-]?failure|peer[_\s-]?review[_\s-]?signal|publication[_\s-]?gatekeep)/i,
+    PUBLICATION_DROP:            /(publication[_\s-]?output|publication[_\s-]?drop|paper[_\s-]?output|output[_\s-]?decline|citation[_\s-]?decline|preprint|arxiv|openalex|publication[_\s-]?rate|research[_\s-]?output[_\s-]?fall|journal[_\s-]?volume|nature[_\s-]?index)/i,
+    REPRODUCIBILITY_METRIC_DROP: /(reproducibility|reproducibility[_\s-]?metric|replication|replicat|reproduc|p[_\s-]?hacking|hark|underpowered|effect[_\s-]?size[_\s-]?inflation|non[_\s-]?reproducible|failed[_\s-]?replication|reproducibility[_\s-]?crisis)/i,
+    REPLICATION_CRISIS:          /(replication[_\s-]?crisis|reproducibility[_\s-]?crisis|crisis[_\s-]?of[_\s-]?replication|systemic[_\s-]?non[_\s-]?replication|failure[_\s-]?to[_\s-]?replicate|replication[_\s-]?failure[_\s-]?wave|robustness[_\s-]?crisis|generalizability[_\s-]?crisis)/i,
+    GRANT_SHORTFALL:             /(grant[_\s-]?pipeline|grant[_\s-]?shortfall|funding[_\s-]?ratio|grant[_\s-]?success[_\s-]?rate|nsf[_\s-]?funding|nih[_\s-]?funding|award[_\s-]?rate[_\s-]?drop|grant[_\s-]?rejection|proposal[_\s-]?backlog|payline[_\s-]?cut|grant[_\s-]?cycle[_\s-]?stress)/i,
+    FUNDING_CUT:                 /(research[_\s-]?funding[_\s-]?cut|funding[_\s-]?cut|budget[_\s-]?cut[_\s-]?research|appropriations[_\s-]?cut|science[_\s-]?budget|r[_\s-]?and[_\s-]?d[_\s-]?budget[_\s-]?cut|defunding|grant[_\s-]?freeze|funding[_\s-]?collapse[_\s-]?research|sequestration)/i,
+    BRAIN_DRAIN:                 /(brain[_\s-]?drain|talent[_\s-]?retention|researcher[_\s-]?exodus|postdoc[_\s-]?attrition|faculty[_\s-]?flight|scientist[_\s-]?emigration|talent[_\s-]?flight|early[_\s-]?career[_\s-]?exit|leaky[_\s-]?pipeline|principal[_\s-]?investigator[_\s-]?loss|lab[_\s-]?departure)/i,
+    DISCOVERY_STAGNATION:        /(discovery[_\s-]?velocity|discovery[_\s-]?stagnation|innovation[_\s-]?slowdown|stagnant[_\s-]?discovery|breakthrough[_\s-]?drought|diminishing[_\s-]?returns[_\s-]?research|low[_\s-]?hanging[_\s-]?fruit[_\s-]?exhausted|productivity[_\s-]?slowdown[_\s-]?science|ideas[_\s-]?getting[_\s-]?harder)/i,
+    LAB_CAPACITY_STRAIN:         /(lab[_\s-]?capacity|instrument[_\s-]?throughput|core[_\s-]?facility|equipment[_\s-]?backlog|sequencing[_\s-]?capacity|cro[_\s-]?capacity|bench[_\s-]?capacity|lab[_\s-]?bottleneck|instrument[_\s-]?downtime|reagent[_\s-]?shortage|lab[_\s-]?capacity[_\s-]?strain)/i,
+    METHODOLOGY_RIGOR_DECLINE:   /(methodology[_\s-]?rigor|methodology[_\s-]?decline|methods[_\s-]?weakness|statistical[_\s-]?rigor|questionable[_\s-]?research[_\s-]?practice|qrp|preregistration[_\s-]?gap|protocol[_\s-]?drift|rigor[_\s-]?erosion|design[_\s-]?flaw|methodological[_\s-]?confidence)/i,
+    RESEARCH_FRAUD:              /(research[_\s-]?fraud|research[_\s-]?integrity|data[_\s-]?fabrication|falsification|image[_\s-]?manipulation|misconduct|plagiarism|fabricated[_\s-]?data|integrity[_\s-]?breach|orio[_\s-]?finding|investigation[_\s-]?misconduct|fraudulent[_\s-]?paper)/i
+  };
+
+  // Science/research-vulnerability STACKS — ordered token pairs with a research
+  // interpretation. Each describes an operator-concentration meaning specific to a
+  // science vulnerability stack (peer review & publication, reproducibility &
+  // replication, grant pipeline & research funding, talent retention & brain-drain,
+  // discovery velocity & lab capacity, methodology rigor & research integrity) — bound
+  // to REAL research-sector exposure (TMO/DHR/A/MTD/WAT/ILMN/BIO/RVTY/BRKR/IQV/ICLR)
+  // and REAL research authorities (NSF/NIH/arXiv/Nature/OpenAlex/NASA). NOT energy
+  // oil/gas/grid content; kept DISTINCT from technology (applied product dev is a
+  // coupling), medicine (clinical research is a coupling), and education (academic
+  // teaching is a coupling). Science is the research-and-discovery enterprise itself.
+  var RESEARCH_VULN_STACKS = [
+    { id: 'REPRODUCIBILITY_FUNDING_SQUEEZE', signals: ['REPLICATION_CRISIS', 'FUNDING_CUT'],
+      body: 'Operator attention concentrates on the replication-crisis + funding-cut stack — a reproducibility-funding squeeze where systemic non-replication collides with research budget and appropriations cuts, starving the verification work that would restore confidence (TMO/DHR/A/MTD instrument & IQV/ICLR CRO exposure; NSF/NIH paylines).' },
+    { id: 'TALENT_PIPELINE_EROSION',         signals: ['BRAIN_DRAIN', 'GRANT_SHORTFALL'],
+      body: 'Operator attention concentrates on the brain-drain + grant-shortfall stack — talent-pipeline erosion where researcher exodus and postdoc/early-career attrition compound with falling grant success rates and shrinking funding ratios (NSF/NIH award-rate signals; leaky-pipeline dynamics).' },
+    { id: 'INNOVATION_OUTPUT_COLLAPSE',      signals: ['DISCOVERY_STAGNATION', 'LAB_CAPACITY_STRAIN'],
+      body: 'Operator attention concentrates on the discovery-stagnation + lab-capacity-strain stack — an innovation-output collapse where slowing discovery velocity meets instrument-throughput and core-facility bottlenecks (ILMN sequencing / BRKR / WAT / RVTY / BIO bench-capacity exposure).' },
+    { id: 'INTEGRITY_CRISIS_STACK',          signals: ['RESEARCH_FRAUD', 'PEER_REVIEW_BREAKDOWN'],
+      body: 'Operator attention concentrates on the research-fraud + peer-review-breakdown stack — an integrity-crisis stack where data fabrication and misconduct ride on top of failing peer review, retractions, and paper-mill/predatory-journal gatekeeping breakdown (Nature/arXiv/OpenAlex provenance signals).' },
+    { id: 'METHODOLOGY_CONFIDENCE_GAP',      signals: ['METHODOLOGY_RIGOR_DECLINE', 'REPRODUCIBILITY_METRIC_DROP'],
+      body: 'Operator attention concentrates on the methodology-rigor-decline + reproducibility-metric-drop stack — a methodology-confidence gap where questionable research practices and protocol drift erode the reproducibility metrics that underwrite published findings (preregistration/OpenAlex/Nature-index signals).' }
+  ];
+
   // ─── Environment vulnerability-stack semantics ─────────────────────────────
   // ENVIRONMENTAL domain-semantic concentration. As with infrastructure, culture,
   // finance, economy, technology, intelligence, trade and industry, generic
@@ -832,6 +901,8 @@
   var _lastEducationStackId = null;
   var _lastPopulationStackTime = 0;
   var _lastPopulationStackId = null;
+  var _lastResearchStackTime = 0;
+  var _lastResearchStackId = null;
   var _interval = null;
 
   // Detect which civil signal families a user-action references, by scanning its
@@ -1002,6 +1073,18 @@
     return hits;
   }
 
+  // Detect which science/research signal families a user-action references, by scanning
+  // its free-text fields (action / type / cross-domain pattern). Returns a list of
+  // canonical research signal ids. Never fabricates — empty if nothing matches.
+  function _detectResearchSignals(text) {
+    if (!text) return [];
+    var hits = [];
+    for (var sig in RESEARCH_SIGNAL_TOKENS) {
+      if (RESEARCH_SIGNAL_TOKENS[sig].test(text)) hits.push(sig);
+    }
+    return hits;
+  }
+
   // ─── Record decision ─────────────────────────────────────────────────────
 
   function _onUserAction(e) {
@@ -1086,6 +1169,10 @@
       // POPULATION: which population/demographic signal families this action touches (may be []).
       populationSignals: _detectPopulationSignals(
         [detail.action, detail.type, matchedPattern, detail.signal, detail.diagnosis].join(' ')
+      ),
+      // SCIENCE/RESEARCH: which science/research signal families this action touches (may be []).
+      researchSignals: _detectResearchSignals(
+        [detail.action, detail.type, matchedPattern, detail.signal, detail.diagnosis].join(' ')
       )
     };
 
@@ -1110,6 +1197,7 @@
     _checkCommunicationStackConcentration();
     _checkEducationStackConcentration();
     _checkPopulationStackConcentration();
+    _checkResearchStackConcentration();
   }
 
   // ─── Concentration detection ──────────────────────────────────────────────
@@ -2126,6 +2214,73 @@
     });
   }
 
+  // ─── Science / research vulnerability-stack concentration ─────────────────
+  // Domain-semantic concentration for SCIENCE/RESEARCH: beyond "which domain"
+  // (above), surface WHICH research vulnerability STACK the operator keeps returning
+  // to. Tallies co-occurring research signal families across recent entries and fires
+  // when a known stack (reproducibility-funding squeeze, talent-pipeline erosion,
+  // innovation-output collapse, integrity crisis, methodology-confidence gap) crosses
+  // the threshold. Narrates under the canonical/portal key 'science' (the snapshot/
+  // runtime key is 'research'). Schema-faithful to _checkConcentration.
+
+  function _checkResearchStackConcentration() {
+    var now = Date.now();
+    if (now - _lastResearchStackTime < RESEARCH_STACK_COOLDOWN) return;
+    if (_entries.length < RESEARCH_STACK_THRESHOLD) return;
+
+    // Count per-signal-family hits across recent entries (last 10).
+    var recent = _entries.slice(-10);
+    var sigCounts = {};
+    for (var i = 0; i < recent.length; i++) {
+      var sigs = recent[i].researchSignals || [];
+      for (var s = 0; s < sigs.length; s++) {
+        sigCounts[sigs[s]] = (sigCounts[sigs[s]] || 0) + 1;
+      }
+    }
+
+    // A stack fires only when BOTH of its signal families are present and at least
+    // one of them has been focused on repeatedly (>= threshold). Score = sum of the
+    // pair's counts; pick the strongest stack.
+    var best = null;
+    for (var k = 0; k < RESEARCH_VULN_STACKS.length; k++) {
+      var stack = RESEARCH_VULN_STACKS[k];
+      var a = sigCounts[stack.signals[0]] || 0;
+      var b = sigCounts[stack.signals[1]] || 0;
+      if (a === 0 || b === 0) continue;
+      if (Math.max(a, b) < RESEARCH_STACK_THRESHOLD) continue;
+      var score = a + b;
+      if (!best || score > best.score) best = { stack: stack, a: a, b: b, score: score };
+    }
+
+    if (!best) return;
+    if (best.stack.id === _lastResearchStackId) return; // don't re-narrate the same stack
+
+    _lastResearchStackTime = now;
+    _lastResearchStackId = best.stack.id;
+
+    var drivers = [
+      best.a + ' recent actions touching ' + best.stack.signals[0],
+      best.b + ' recent actions touching ' + best.stack.signals[1]
+    ];
+
+    var options = [
+      { label: 'deepen ' + best.stack.id.toLowerCase().replace(/_/g, ' ') + ' analysis', type: 'analysis' },
+      { label: 'broaden scope', type: 'monitoring' },
+      { label: 'hold', type: 'monitoring' }
+    ];
+
+    _dispatch('limen:phase-change', {
+      from: 'observing',
+      to: 'concentrated',
+      type: 'decision-memory',
+      domain: 'science',
+      stackId: best.stack.id,
+      topDrivers: drivers,
+      options: options,
+      body: best.stack.body
+    });
+  }
+
   // ─── Publish ──────────────────────────────────────────────────────────────
 
   function _publish() {
@@ -2147,6 +2302,7 @@
       communicationSignalConcentration: _communicationSignalConcentration(),
       educationSignalConcentration: _educationSignalConcentration(),
       populationSignalConcentration: _populationSignalConcentration(),
+      researchSignalConcentration: _researchSignalConcentration(),
       updated: Date.now()
     };
 
@@ -2380,6 +2536,23 @@
     var recent = _entries.slice(-10);
     for (var i = 0; i < recent.length; i++) {
       var sigs = recent[i].populationSignals || [];
+      for (var s = 0; s < sigs.length; s++) {
+        counts[sigs[s]] = (counts[sigs[s]] || 0) + 1;
+      }
+    }
+    var out = [];
+    for (var sig in counts) { out.push({ signal: sig, count: counts[sig] }); }
+    out.sort(function (x, y) { return y.count - x.count; });
+    return out;
+  }
+
+  // SCIENCE/RESEARCH: roll up which science/research signal families recent attention
+  // concentrates on (descending by count). Empty when no research signals were detected.
+  function _researchSignalConcentration() {
+    var counts = {};
+    var recent = _entries.slice(-10);
+    for (var i = 0; i < recent.length; i++) {
+      var sigs = recent[i].researchSignals || [];
       for (var s = 0; s < sigs.length; s++) {
         counts[sigs[s]] = (counts[sigs[s]] || 0) + 1;
       }

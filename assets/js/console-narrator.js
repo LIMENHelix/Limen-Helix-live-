@@ -406,6 +406,35 @@
       population_depopulation:        'Regional population loss accelerating. Rural exodus and out-migration sustained; shrinking-city dynamics threatening regional viability.',
       population_housing_crisis:      'Housing-affordability collapse deepening. Mortgage/rent burden exceeding household capacity; household-formation stalling and homelessness risk rising.',
       population_generic:             'Population domain under stress. Demographics, migration, aging and labor-force pressured.',
+      // Science-specific distress voice — scientific-research/discovery/R&D-pipeline/peer-review-grounded,
+      // mirrors energy's per-diagnosis narration (energy-brain diagnosisIndex: OIL_SHOCK / GRID_COLLAPSE)
+      // and the infrastructure/culture/finance/economy/technology/defense/intelligence/trade/industry/
+      // environment/governance/education/population ports above, but for the SCIENCE domain identity
+      // (runtime key 'research' — science<->research dual-naming via domain-identity.js): scientific
+      // research & discovery, basic & applied research, R&D pipelines, academic & lab science, peer
+      // review & publication, research funding & grants, scientific instruments & methods, the
+      // innovation pipeline. Science distress lexicon: replication crisis (reproducibility failure,
+      // p-hacking, retraction wave), funding cut (appropriations decline, grant-budget contraction),
+      // research fraud (data fabrication, misconduct, paper-mill), brain drain (researcher exodus,
+      // postdoc attrition, STEM-PhD flight), discovery stagnation (citation decay, productivity
+      // slowdown, idea exhaustion), grant shortfall (NIH/NSF success-rate collapse, proposal rejection),
+      // lab-capacity strain (instrument backlog, core-facility overload, equipment shortage). Bound to
+      // REAL RESEARCH AUTHORITIES — NSF (science & engineering indicators), NIH (grant success rate,
+      // appropriations), arXiv / Nature (publication volume, retraction), OpenAlex (citation trajectory),
+      // NASA (STEM-PhD supply) — and real research-sector tickers: TMO (Thermo Fisher), DHR (Danaher),
+      // A (Agilent), MTD (Mettler-Toledo), WAT (Waters), ILMN (Illumina), BIO (Bio-Rad), RVTY (Revvity),
+      // BRKR (Bruker), IQV (IQVIA). Science COUPLES to technology (applied product dev), medicine
+      // (clinical research), and education (academic teaching) but keeps its own discovery/peer-review/
+      // grant/lab-instrument identity and stays DISTINCT from each of those couplings. CLIENT-SIDE
+      // narration flavor only — never touches any scoring path.
+      science_replication_crisis:   'Replication crisis deepening. Reproducibility failures and retraction waves eroding confidence across the published literature.',
+      science_funding_cut:          'Research funding contracting. NSF and NIH appropriations decline cutting into basic and applied science capacity.',
+      science_research_fraud:       'Research integrity breach detected. Data fabrication, misconduct, and paper-mill activity compromising the evidence base.',
+      science_brain_drain:          'Research talent draining. Postdoc attrition and STEM-PhD flight thinning the scientific workforce.',
+      science_discovery_stagnation: 'Discovery productivity stalling. Citation trajectories and breakthrough cadence decaying across the research frontier.',
+      science_grant_shortfall:      'Grant pipeline tightening. NIH and NSF success rates collapsing as proposal rejection rates climb.',
+      science_lab_capacity_strain:  'Lab capacity overloading. Instrument backlog and core-facility demand outpacing scientific throughput.',
+      science_generic:              'Science domain under stress. Research, discovery, and funding pressured.',
       global_shift:        'Global state shifted to {state}.',
       event_start:         '{event} detected.',
       event_end:           '{event} resolved.',
@@ -533,6 +562,14 @@
       population_depopulation:        'Depopulation accelerating. Rural exodus sustained. Stabilize regional services and stem out-migration.',
       population_housing_crisis:      'Housing crisis. Affordability collapsing. Unlock supply, ease formation barriers, and contain homelessness risk.',
       population_generic:             'Population domain elevated. Investigate demographics and labor-force.',
+      science_replication_crisis:   'Replication crisis. Mandate pre-registration and independent reproduction before citing affected findings.',
+      science_funding_cut:          'Funding cut. Diversify grant sources and protect core research lines (TMO/DHR instrument spend) before program loss.',
+      science_research_fraud:       'Research fraud. Freeze affected studies, audit data integrity, and refer misconduct now.',
+      science_brain_drain:          'Brain drain. Retain postdocs and STEM-PhDs with funding and pipeline incentives before the workforce thins.',
+      science_discovery_stagnation: 'Discovery stagnating. Reprioritize high-risk research and track OpenAlex citation trajectory for renewal.',
+      science_grant_shortfall:      'Grant shortfall. Lock NIH/NSF submissions to highest-yield calls and secure bridge funding now.',
+      science_lab_capacity_strain:  'Lab capacity strain. Expand core-facility throughput and pre-stage critical instruments (A/MTD/WAT/ILMN/BRKR).',
+      science_generic:              'Science domain elevated. Investigate research and funding.',
       global_shift:        'State change: {state}.',
       event_start:         'Event: {event}. Tracking.',
       event_end:           'Event cleared: {event}.',
@@ -839,6 +876,26 @@
       var popkey = _classifyPopulationDistress(detail.signals);
       if (popkey) {
         _narrate(popkey, {}, PRIORITY_MEDIUM);
+        return;
+      }
+    }
+
+    // Science parity: mirror energy's per-diagnosis voice the same way the domains above do, for the
+    // SCIENCE domain identity (scientific research & discovery, basic & applied research, R&D pipelines,
+    // academic & lab science, peer review & publication, research funding & grants, scientific
+    // instruments & methods, innovation pipeline). Science uses the RUNTIME KEY 'research' (science<->
+    // research dual-naming via domain-identity.js), so the dispatch checks 'research'. Classify the
+    // scientific distress flavor from signal content (replication crisis / funding cut / research fraud /
+    // brain drain / discovery stagnation / grant shortfall / lab-capacity strain) and narrate a science-
+    // specific line instead of the generic '{domain} domain pressure increasing'. Bound to real research
+    // authorities (NSF, NIH, arXiv, Nature, OpenAlex, NASA) and real research-sector tickers (TMO, DHR,
+    // A, MTD, WAT, ILMN, BIO, RVTY, BRKR, IQV); kept DISTINCT from technology (applied product dev =
+    // coupling), medicine (clinical research = coupling), and education (academic teaching = coupling).
+    // CLIENT-SIDE narration flavor only — never touches any scoring path.
+    if (detail.domain === 'research') {
+      var scikey = _classifyScienceDistress(detail.signals);
+      if (scikey) {
+        _narrate(scikey, {}, PRIORITY_MEDIUM);
         return;
       }
     }
@@ -1328,6 +1385,52 @@
     if (/urbaniz|megacity|mega[\s_-]?city|slum|informal[\s_-]?settlement|overcrowd|urban[\s_-]?(sprawl|strain|overload)|sprawl|density[\s_-]?strain|city[\s_-]?growth/.test(blob)) return 'population_urbanization_strain';
     if (/labor[\s_-]?(force|shortage|supply)|workforce[\s_-]?(shortage|shrink|decline)|participation[\s_-]?(rate|fall|drop)|lfpr\b|prime[\s_-]?age|working[\s_-]?age[\s_-]?(decline|shortage)|skill[\s_-]?gap|human[\s_-]?capital[\s_-]?(supply|shortage)|cps\b/.test(blob)) return 'population_labor_shortage';
     return 'population_generic';
+  }
+
+  // Map raw science signal content → a scientific-research distress voice key.
+  // Science vocabulary covers the SCIENCE domain identity (runtime key 'research'): scientific
+  // research & discovery, basic & applied research, R&D pipelines, academic & lab science, peer
+  // review & publication, research funding & grants, scientific instruments & methods, the
+  // innovation pipeline. Diagnosis classes mirror energy's per-diagnosis split (OIL_SHOCK /
+  // GRID_COLLAPSE) but for research-system failures: replication crisis (reproducibility failure,
+  // p-hacking, retraction), funding cut (appropriations decline, budget contraction), research
+  // fraud (data fabrication, misconduct, paper-mill), brain drain (researcher exodus, postdoc
+  // attrition, STEM-PhD flight), discovery stagnation (citation decay, productivity slowdown),
+  // grant shortfall (NIH/NSF success-rate collapse, proposal rejection), lab-capacity strain
+  // (instrument backlog, core-facility overload). Bound to REAL RESEARCH AUTHORITIES (NSF, NIH,
+  // arXiv, Nature, OpenAlex, NASA) and real research-sector tickers (TMO/DHR/A/MTD/WAT/ILMN/BIO/
+  // RVTY/BRKR/IQV). Science COUPLES to technology (applied product dev), medicine (clinical
+  // research), and education (academic teaching) but keeps its own discovery/peer-review/grant/
+  // lab-instrument identity and stays DISTINCT from each coupling. Mirrors the energy/infra/culture/
+  // finance/economy/technology/defense/intelligence/trade/industry/environment/governance/education/
+  // population classifier structure exactly. Returns a TEMPLATES key, or null. CLIENT-SIDE narration
+  // flavor only — never touches any scoring path.
+  function _classifyScienceDistress(signals) {
+    var blob = '';
+    if (Array.isArray(signals)) {
+      for (var i = 0; i < signals.length; i++) {
+        var s = signals[i];
+        if (typeof s === 'string') blob += ' ' + s;
+        else if (s && typeof s === 'object') {
+          blob += ' ' + (s.type || '') + ' ' + (s.id || '') + ' ' + (s.label || '') + ' ' + (s.name || '');
+        }
+      }
+    }
+    blob = blob.toLowerCase();
+
+    // Order by specificity: research fraud and replication crisis are sharpest (integrity breach +
+    // reproducibility failure), then brain drain, grant shortfall, funding cut, lab-capacity strain,
+    // discovery stagnation; fall back to a generic science line. Matches research-authority shorthand
+    // (nsf/nih/arxiv/nature/openalex/nasa) and research-sector tickers (tmo/dhr/mtd/wat/ilmn/bio/rvty/
+    // brkr/iqv; 'a' and 'bio'/'wat' guarded by word boundaries) alongside plain words.
+    if (/fraud|fabricat|falsif|misconduct|paper[\s_-]?mill|image[\s_-]?manipulation|plagiar|data[\s_-]?(integrity|tampering)|research[\s_-]?integrity|p[\s_-]?hack/.test(blob)) return 'science_research_fraud';
+    if (/replicat|reproducib|irreproducib|retraction|retracted|reproduction[\s_-]?failure|crisis[\s_-]?of[\s_-]?confidence|pubpeer|null[\s_-]?result/.test(blob)) return 'science_replication_crisis';
+    if (/brain[\s_-]?drain|researcher[\s_-]?(exodus|flight|attrition)|postdoc[\s_-]?(attrition|exodus|shortage)|stem[\s_-]?(phd|talent)[\s_-]?(flight|loss)|talent[\s_-]?(drain|exodus)|faculty[\s_-]?flight|scientist[\s_-]?emigrat/.test(blob)) return 'science_brain_drain';
+    if (/grant[\s_-]?(shortfall|rejection|reject|denial)|success[\s_-]?rate[\s_-]?(collapse|decline|drop)|proposal[\s_-]?(reject|decline)|nih[\s_-]?(grant|success|paylin)|nsf[\s_-]?(grant|award)|payline|r01\b|award[\s_-]?rate[\s_-]?(decline|drop)/.test(blob)) return 'science_grant_shortfall';
+    if (/funding[\s_-]?(cut|decline|contraction|freeze)|appropriation[\s_-]?(cut|decline)|research[\s_-]?budget|science[\s_-]?budget|sequester|defund|budget[\s_-]?(cut|contraction)[\s_-]?(research|science)|r&d[\s_-]?(cut|spend[\s_-]?decline)/.test(blob)) return 'science_funding_cut';
+    if (/lab[\s_-]?(capacity|backlog|overload)|core[\s_-]?facility|instrument[\s_-]?(backlog|shortage|downtime)|equipment[\s_-]?(shortage|backlog)|sequencing[\s_-]?backlog|throughput[\s_-]?(strain|limit)|tmo\b|dhr\b|mtd\b|wat\b|ilmn\b|brkr\b|rvty\b|bio\b/.test(blob)) return 'science_lab_capacity_strain';
+    if (/discovery[\s_-]?(stagnation|slowdown|decline)|citation[\s_-]?(decay|decline|trajectory)|productivity[\s_-]?(slowdown|decline)|idea[\s_-]?(exhaustion|depletion)|innovation[\s_-]?(slowdown|stagnation)|breakthrough[\s_-]?(decay|drought)|openalex|arxiv|stagnat/.test(blob)) return 'science_discovery_stagnation';
+    return 'science_generic';
   }
 
   function _onGlobalStateUpdate(e) {

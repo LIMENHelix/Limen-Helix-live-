@@ -44,7 +44,15 @@
  *                        brainEducationModel (education: human-capital-lifecycle
  *                        — curriculum-delivery phase, accreditation/credentialing
  *                        regulation, enrollment-capacity stress, prior
- *                        learning-outcome/literacy health); each null outside
+ *                        learning-outcome/literacy health),
+ *                        brainResearchModel (science: R&D-pipeline/discovery-cycle
+ *                        lifecycle — exploratory→applied→prototype→technology-transfer
+ *                        phase, research-funding/IP-protection/open-science
+ *                        regulation, innovation-funnel stress
+ *                        (publication-output pressure, talent-pipeline drain,
+ *                        funding-access squeeze), prior discovery-output/
+ *                        publication-momentum health; science uses 'research'
+ *                        snapshot key); each null outside
  *                        its own domain
  *   Status:              brainStatus
  *
@@ -95,6 +103,7 @@
       brainGovernanceModel: _obj(bs.governanceModel), // F0.governance: carry recurrent institutional-lifecycle model (policy regime, regulatory constraint, oversight effectiveness; governance only, null elsewhere)
       brainHealthModel: _obj(bs.healthModel), // F0.medicine: carry recurrent disease-burden/clinical-pipeline lifecycle model (medicine uses 'health' snapshot key; null elsewhere)
       brainEducationModel: _obj(bs.educationModel), // F0.education: carry recurrent human-capital-lifecycle model (curriculum-delivery phase, accreditation/credentialing regulation, enrollment-capacity stress, prior learning-outcome/literacy health; education only, null elsewhere)
+      brainResearchModel: _obj(bs.researchModel), // F0.science: carry recurrent R&D-pipeline/discovery-cycle lifecycle model (exploratory→applied→prototype→technology-transfer phase, research-funding/IP-protection/open-science regulation, innovation-funnel stress, prior discovery-output/publication-momentum health; science uses 'research' snapshot key, null elsewhere)
 
       // === A. Identity & timing (additive) ===
       brainDomainId:              _val(bs.domainId),

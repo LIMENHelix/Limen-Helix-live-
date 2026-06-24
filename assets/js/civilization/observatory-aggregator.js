@@ -44,6 +44,16 @@
     supplyChain:  'trade',        // trade-brain emits domainId 'supplyChain'
     p2_agri:      'agriculture'   // legacy/internal portal-prefix key
   };
+  // science is a PRIMARY source-domain brain (not secondary): science-brain
+  // emits domainId 'research' (runtime/snapshot key); gateway uses canonical
+  // 'science' (URL/portal key) via the dual-naming pattern in
+  // assets/js/domain-identity.js (science.snapshotKey === 'research'). Its
+  // brain-emitted opportunities flow into the artifact lanes documented in
+  // handoff-contract.js: research-grants, nsf-project-pitch, research-papers,
+  // analysis-fusion-capability, semiconductor-IP, supply-chain-mapping. Like
+  // medicine-brain (health → medicine, line 42), science negotiates as its own
+  // source domain — keep it DISTINCT from technology (applied product dev),
+  // medicine (clinical research), and education (academic teaching) couplings.
 
   var _packets = [];
   var _subscribers = [];

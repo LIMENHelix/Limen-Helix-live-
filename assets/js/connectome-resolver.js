@@ -617,6 +617,27 @@ var MACRO_POLICY_PATH = {
   education_k12_funding:          { connectomeDomains: ['education', 'governance', 'economy'],   indicators: ['NAEPMath', 'NAEPReading', 'NCESLiteracy', 'TeacherVacancy'], sources: ['U.S. Dept of Education', 'State Education Agency', 'OMB Education Appropriations'] },
   education_higher_ed_regulation: { connectomeDomains: ['education', 'governance', 'finance'],   indicators: ['NCESGradRate', 'NCESEnrollment', 'AdmissionsYield', 'EdtechEnrollment'], sources: ['ACCJC', 'SACSCOC', 'Federal Student Aid'] },
   education_student_debt:         { connectomeDomains: ['education', 'finance', 'population'],    indicators: ['StudentLoanDelinquency', 'StudentLoanBalance'],              sources: ['Federal Student Aid', 'CFPB Student Loans Report'] },
+  // Science / Research (science gap 4 — ADDITIVE, OPT-IN) = research-policy shocks split by POLICY
+  // MECHANISM. The existing FEED_TO_CONNECTOME relays research-origin innovation through the
+  // 'science' connectome domain (via technology: ['technology','science']); these sub-paths let a
+  // research-POLICY shock route to the CORRECT science nodes (+ the coupled authority domain). These
+  // are PURE research-policy mechanics (fundamental-research funding authority, R&D tax-credit policy,
+  // peer-review / research-integrity regulatory authority, science-education STEM mandates) — NOT
+  // energy. Research-policy shocks originate in research-funding & research-regulation AUTHORITY
+  // (NSF, NIH, university accreditors, journal editorial boards) — DISTINCT from energy regulation
+  // (FERC, PUCs, grid policy), which is governance authority over ENERGY and kept separate; science
+  // nodes carry zero energy-policy content. DUAL-KEY NOTE: 'science' here is the connectome-domain
+  // key (matches brain-node-domains.json); the runtime/snapshot key is 'research'
+  // (domain-identity.js). 'governance' is added on every path for the funding/regulation authority
+  // surface; 'finance' on the funding path (appropriation → research-budget cashflow); 'education'
+  // on the science-education mandate (STEM-pipeline / lab-access). Indicator keys reference
+  // SCIENCE_INDICATOR_BINDING above. Resolved via resolveSciencePolicyPath.
+  //   research_funding           = NSF/NIH appropriation / grant-award volume / R&D budget shock
+  //   research_regulation        = peer-review / research-integrity / scientific-conduct rule shock
+  //   science_education_mandate  = STEM-pipeline funding / lab-access-for-schools mandate
+  research_funding:          { connectomeDomains: ['science', 'governance', 'finance'],   indicators: ['NSFGrantVolume', 'NIHApprovalRate', 'RnDBudgetAlloc', 'ResearchStaffing', 'LabEquipUtil'], sources: ['NSF Budget & Award Data', 'NIH RePORTER', 'AAAS R&D Budget Analysis', 'OMB Science Appropriations'] },
+  research_regulation:       { connectomeDomains: ['science', 'governance'],              indicators: ['PeerReviewTAT', 'RetractionRate', 'ArxivSubmissions', 'NaturePubVelocity', 'OpenAlexCitation', 'ResearchPatents'], sources: ['NSF Research Integrity (OIG)', 'NIH Office of Research Integrity', 'COPE Editorial Standards', 'USPTO'] },
+  science_education_mandate: { connectomeDomains: ['science', 'education', 'governance'],  indicators: ['ResearchStaffing', 'SpinoutFormation', 'LabEquipUtil'], sources: ['NSF EHR / STEM Education', 'U.S. Dept of Education STEM', 'NASA STEM Engagement'] },
   // Population / Demographics (population gap 2 — ADDITIVE, OPT-IN) = demographic-policy shocks
   // split by POLICY MECHANISM. The existing FEED_TO_CONNECTOME['population'] = ['population']
   // mapping routes ALL population stress through the same path regardless of policy origin;
@@ -1077,6 +1098,130 @@ for (var _edik in EDUCATION_INDICATOR_BINDING) {
   var _edib = EDUCATION_INDICATOR_BINDING[_edik];
   if (!NODE_TO_EDUCATION_INDICATOR[_edib.node]) NODE_TO_EDUCATION_INDICATOR[_edib.node] = [];
   NODE_TO_EDUCATION_INDICATOR[_edib.node].push(_edib);
+}
+
+// ── SCIENCE-SECTOR (RESEARCH / R&D / LAB-SCIENCE / INSTRUMENTATION) COMPANY ticker bindings (science gap 1 — ADDITIVE, OPT-IN) ──
+// Parallel to TECH_COMPANY_BINDING, INTELLIGENCE_COMPANY_BINDING, TRADE_COMPANY_BINDING,
+// INDUSTRIAL_COMPANY_BINDING, ENVIRONMENT_SECTOR_COMPANY_BINDING, GOVERNANCE_COMPANY_BINDING,
+// AGRICULTURE_COMPANY_BINDING and EDUCATION_COMPANY_BINDING (and to MACRO_INDICATOR_BINDING).
+// NOT merged into the default resolve() pipeline and NOT included in NODE_TO_MACRO_INDICATOR —
+// consumed ONLY when a context explicitly triggers a science-company-level drill
+// (getScienceCompaniesForNode / SCIENCE_COMPANY_BINDING export). DUAL-KEY NOTE: 'science' is the
+// URL/portal key; the runtime/snapshot key is 'research' (see assets/js/domain-identity.js —
+// snapshotKey('science') = 'research'). In brain-node-domains.json the node-participation domain
+// is literally 'science', so the connectome-domain key used here and in activateNodes() is
+// 'science'; downstream snapshot code that reads the runtime key uses 'research'. Each ticker
+// traces RESEARCH-CAPACITY to a REAL science connectome node (the actual 'science'-domain
+// participations in brain-node-domains.json: DMN=hypothesis generation, dlPFC=experimental
+// design, M1=laboratory methods, FPN=data analysis, ECN=statistical inference, HYPO=biology &
+// life sciences, OFC=chemistry, vmPFC=funding & grants, MGN=research workforce, MFC=shared
+// facilities, VP=research infrastructure & capacity, dACC=peer review). Ticker stress
+// (dir 'low' for all — stress on decline) estimates RESEARCH-CAPACITY DEGRADATION: a TMO decline =
+// life-sciences R&D / instrument supply constrained → reagent & instrument throughput falls; a
+// DHR decline = analytical-lab / diagnostic-research capacity strained; an A/MTD/WAT decline =
+// analytical-instrument / mass-spec / chromatography measurement capacity pulls back; an ILMN
+// decline = genomic-sequencing throughput contracts; a BIO/RVTY/BRKR decline = biotech &
+// life-science R&D-tooling / detection-instrumentation pipeline tightens; an IQV/ICLR decline =
+// research-services / clinical-research operations capacity softens. This is SCIENCE identity =
+// fundamental & applied research, R&D pipelines, academic & lab science, peer review &
+// publication, research funding & grants, scientific instruments & methods, innovation pipeline —
+// DISTINCT from technology (applied product dev is a COUPLING routed via TECH_COMPANY_BINDING;
+// NVDA/MSFT/GOOGL route through tech nodes, never science), medicine (clinical research is a
+// COUPLING — TMO/DHR clinical-diagnostic surfaces live in the health connectome separately) and
+// education (academic TEACHING is the education coupling; research universities appear here for
+// research-OUTPUT identity, not teaching capacity). ENERGY is ZERO science identity: R&D facility
+// power / lab electricity / HPC data-center compute for simulations couple DOWNSTREAM only (route
+// via infrastructure/technology nodes when the origin is compute stress) and NEVER originate a
+// science signal; science nodes carry zero energy-domain content. REAL research-sector tickers only.
+//   TMO → life-sciences R&D instruments & reagents   DHR → analytical-lab / diagnostic research
+//   A   → analytical instruments (Agilent)           MTD → precision lab balances & analytics (Mettler-Toledo)
+//   WAT → chromatography / mass-spec (Waters)         ILMN → genomic sequencing throughput (Illumina)
+//   BIO → biotech / life-science R&D tooling (Bio-Rad)  RVTY → life-science detection (Revvity)
+//   BRKR → scientific instrumentation (Bruker)        IQV → research services / data (IQVIA)
+//   ICLR → clinical-research operations (ICON plc)
+var SCIENCE_COMPANY_BINDING = {
+  TMO:  { series: 'TMO',  node: 'M1',    role: 'Life-Sciences R&D Instrument & Reagent Supply',   nodeRole: 'Laboratory Methods',                  label: 'Thermo Fisher Scientific', threshold: -16, dir: 'low', kind: 'ticker', industry: 'lab-science' },
+  DHR:  { series: 'DHR',  node: 'FPN',   role: 'Analytical-Lab / Diagnostic-Research Capacity',   nodeRole: 'Data Analysis',                       label: 'Danaher',                  threshold: -17, dir: 'low', kind: 'ticker', industry: 'analytical-lab' },
+  A:    { series: 'A',    node: 'OFC',   role: 'Analytical-Instrument / Chemistry Measurement Capacity', nodeRole: 'Chemistry',                    label: 'Agilent Technologies',     threshold: -18, dir: 'low', kind: 'ticker', industry: 'instrumentation' },
+  MTD:  { series: 'MTD',  node: 'ECN',   role: 'Precision Measurement / Statistical-Instrument Capacity', nodeRole: 'Statistical Inference',       label: 'Mettler-Toledo',           threshold: -19, dir: 'low', kind: 'ticker', industry: 'instrumentation' },
+  WAT:  { series: 'WAT',  node: 'OFC',   role: 'Chromatography / Mass-Spec Method Capacity',      nodeRole: 'Chemistry',                           label: 'Waters Corporation',       threshold: -20, dir: 'low', kind: 'ticker', industry: 'instrumentation' },
+  ILMN: { series: 'ILMN', node: 'HYPO',  role: 'Genomic-Sequencing Throughput Capacity',          nodeRole: 'Biology and Life Sciences',           label: 'Illumina',                 threshold: -22, dir: 'low', kind: 'ticker', industry: 'genomics' },
+  BIO:  { series: 'BIO',  node: 'HAB',   role: 'Biotech / Life-Science R&D-Tooling Pipeline',     nodeRole: 'Citation Networks Research & Development', label: 'Bio-Rad Laboratories',  threshold: -21, dir: 'low', kind: 'ticker', industry: 'biotech-rnd' },
+  RVTY: { series: 'RVTY', node: 'AI',    role: 'Life-Science Detection / Diagnostics Capacity',   nodeRole: 'Alternative Metrics Assessment & Diagnostics', label: 'Revvity',         threshold: -20, dir: 'low', kind: 'ticker', industry: 'life-science-detection' },
+  BRKR: { series: 'BRKR', node: 'MFC',   role: 'Scientific-Instrumentation / Shared-Facility Capacity', nodeRole: 'Shared Facilities — Optimization & Innovation', label: 'Bruker', threshold: -23, dir: 'low', kind: 'ticker', industry: 'instrumentation' },
+  IQV:  { series: 'IQV',  node: 'VP',    role: 'Research-Services / Infrastructure Capacity',     nodeRole: 'Citation Networks Infrastructure & Capacity', label: 'IQVIA Holdings',    threshold: -18, dir: 'low', kind: 'ticker', industry: 'research-services' },
+  ICLR: { series: 'ICLR', node: 'dlPFC', role: 'Clinical-Research / Experimental-Operations Capacity', nodeRole: 'Experimental Design',           label: 'ICON plc',                 threshold: -19, dir: 'low', kind: 'ticker', industry: 'research-services' }
+};
+
+// Reverse lookup: connectome node → science-sector company tickers it sources from
+// (opt-in science-company drill, parallel to NODE_TO_AGRICULTURE_COMPANY /
+// NODE_TO_EDUCATION_COMPANY). science gap 3 (company half).
+var NODE_TO_SCIENCE_COMPANY = {};
+for (var _sck in SCIENCE_COMPANY_BINDING) {
+  if (!Object.prototype.hasOwnProperty.call(SCIENCE_COMPANY_BINDING, _sck)) continue;
+  var _scb = SCIENCE_COMPANY_BINDING[_sck];
+  if (!NODE_TO_SCIENCE_COMPANY[_scb.node]) NODE_TO_SCIENCE_COMPANY[_scb.node] = [];
+  NODE_TO_SCIENCE_COMPANY[_scb.node].push(_scb);
+}
+
+// ── SCIENCE-SECTOR INDICATOR bindings (science gap 2 — ADDITIVE, OPT-IN) ──
+// Parallel structure to MACRO_INDICATOR_BINDING (economy gap 1), AGRICULTURE_INDICATOR_BINDING
+// (agriculture gap 2) and EDUCATION_INDICATOR_BINDING (education gap 2), but for PURE science /
+// research-performance signals: NSF/NIH grant-funding volume & approval rate, arXiv/Nature/
+// OpenAlex publication velocity & citation impact, peer-review turnaround time, research-article
+// retraction rate, lab-equipment downtime / utilization, research-staff / PhD-student enrollment
+// trends, research-commercialization pipeline (startup formation / USPTO patent-filing rate from
+// research output), and R&D budget allocation (company / government). Binds each REAL research
+// metric to the science connectome node (domain 'science' in brain-node-domains.json; runtime/
+// snapshot key 'research') that senses it, so the kernel/reporting/diagnosis layers can drill
+// from abstract 'science stress' into the ACTUAL research signal that triggered it (e.g.
+// funding node lit → NSF grant volume collapse → research-funding shock origin; peer-review node
+// lit → Nature turnaround blowout → editorial-throughput bottleneck). These strictly measure
+// SCIENCE identity: research OUTPUTS (publications, peer-review, grant awards, research patents),
+// research CAPACITY (lab equipment utilization, research staff, academic infrastructure),
+// research DISCOVERY (hypothesis testing, experimental design, data collection). Publication lag
+// may COUPLE to compute availability downstream, but the signal ORIGIN is editorial / peer-review
+// throughput, never energy — lab power consumption is a facility-operations CONSEQUENCE of research
+// activity, never a research-signal origin; science nodes carry zero energy-domain content.
+// DISTINCT from education (enrollment / course-enrollment is the education coupling) and technology
+// (patent filing in TECH is an innovation-debt channel routed via the tech circuit, not pure
+// research). Real authority sources only (NSF, NIH, arXiv, Nature, OpenAlex, USPTO, NASA).
+// Annotation/registry metadata ONLY — the resolver does NOT score these.
+//   threshold = the level above/below which the node is considered stressed.
+//   dir = 'high' (stress when ABOVE threshold) | 'low' (stress when BELOW).
+//   kind = 'grants' (NSF/NIH funding) | 'publications' (arXiv/Nature/OpenAlex velocity & impact) |
+//          'peer-review' (turnaround) | 'retractions' | 'utilization' (lab-equipment/staff) |
+//          'commercialization' (startup/patent) | 'staffing' (research workforce / PhD enrollment).
+var SCIENCE_INDICATOR_BINDING = {
+  // ── NSF / NIH grant funding (funding-volume / approval collapse = research-funding stress) ──
+  NSFGrantVolume:   { series: 'NSFGrantVolume',   node: 'vmPFC', role: 'NSF Grant-Funding Volume',         nodeRole: 'Funding and Grants',                      label: 'NSF Award Volume',              threshold: -4, dir: 'low',  kind: 'grants',        policyPath: 'research_funding' },
+  NIHApprovalRate:  { series: 'NIHApprovalRate',  node: 'vmPFC', role: 'NIH Grant Approval / Success Rate', nodeRole: 'Funding and Grants',                      label: 'NIH R01 Success Rate',          threshold: -3, dir: 'low',  kind: 'grants',        policyPath: 'research_funding' },
+  RnDBudgetAlloc:   { series: 'RnDBudgetAlloc',   node: 'PRC',   role: 'Federal R&D Budget Allocation',     nodeRole: 'Policy Sci',                              label: 'Federal R&D Budget (AAAS)',     threshold: -5, dir: 'low',  kind: 'grants',        policyPath: 'research_funding' },
+  // ── Publication velocity & citation impact (output decline = research-productivity stress) ──
+  ArxivSubmissions: { series: 'ArxivSubmissions', node: 'BROCA', role: 'arXiv Preprint Submission Velocity', nodeRole: 'Publication and Dissemination',          label: 'arXiv Submission Rate',         threshold: -4, dir: 'low',  kind: 'publications',  policyPath: 'research_regulation' },
+  NaturePubVelocity:{ series: 'NaturePubVelocity',node: 'DMN',   role: 'Peer-Reviewed Publication Velocity', nodeRole: 'Hypothesis Generation',                  label: 'Nature/Science Publication Rate', threshold: -3, dir: 'low', kind: 'publications',  policyPath: 'research_regulation' },
+  OpenAlexCitation: { series: 'OpenAlexCitation', node: 'VTA',   role: 'Citation-Impact Index',             nodeRole: 'Citation Analysis Technology & Innovation', label: 'OpenAlex Citation Impact',    threshold: -4, dir: 'low',  kind: 'publications',  policyPath: 'research_regulation' },
+  // ── Peer-review turnaround (turnaround blowout = editorial-throughput bottleneck) ──
+  PeerReviewTAT:    { series: 'PeerReviewTAT',    node: 'dACC',  role: 'Peer-Review Turnaround Time',       nodeRole: 'Peer Review',                             label: 'Peer-Review Turnaround (days)', threshold: 120, dir: 'high', kind: 'peer-review',   policyPath: 'research_regulation' },
+  // ── Retraction rate (retraction spike = research-integrity stress) ──
+  RetractionRate:   { series: 'RetractionRate',   node: 'BBB',   role: 'Research-Article Retraction Rate',  nodeRole: 'manipulation retraction — Signal Acquisition', label: 'Retraction Watch Rate',    threshold: 6,   dir: 'high', kind: 'retractions',   policyPath: 'research_regulation' },
+  // ── Lab-equipment / staff utilization (utilization drop = research-capacity stress) ──
+  LabEquipUtil:     { series: 'LabEquipUtil',     node: 'MFC',   role: 'Lab-Equipment / Shared-Facility Utilization', nodeRole: 'Shared Facilities — Optimization & Innovation', label: 'Core-Facility Utilization', threshold: -5, dir: 'low', kind: 'utilization', policyPath: 'research_funding' },
+  ResearchStaffing: { series: 'ResearchStaffing', node: 'MGN',   role: 'Research-Staff / PhD-Enrollment Trend', nodeRole: 'Workforce',                           label: 'Research Workforce Index (NSF SED)', threshold: -3, dir: 'low', kind: 'staffing',    policyPath: 'research_funding' },
+  // ── Commercialization pipeline (startup/patent decline = research-translation stress) ──
+  ResearchPatents:  { series: 'ResearchPatents',  node: 'VIA',   role: 'Research-Origin Patent-Filing Rate', nodeRole: 'Economic Impact — State Assessment',     label: 'USPTO Research Patent Filings',  threshold: -4, dir: 'low',  kind: 'commercialization', policyPath: 'research_regulation' },
+  SpinoutFormation: { series: 'SpinoutFormation', node: 'PPA',   role: 'Research-Spinout / Startup Formation', nodeRole: 'Societal Impact — State Assessment',    label: 'University Spinout Formation',   threshold: -5, dir: 'low',  kind: 'commercialization', policyPath: 'research_regulation' }
+};
+
+// Reverse lookup: connectome node → science indicators it senses
+// (parallel to NODE_TO_AGRICULTURE_INDICATOR / NODE_TO_EDUCATION_INDICATOR; for diagnosis
+// drill-down). science gap 3 (indicator half).
+var NODE_TO_SCIENCE_INDICATOR = {};
+for (var _scik in SCIENCE_INDICATOR_BINDING) {
+  if (!Object.prototype.hasOwnProperty.call(SCIENCE_INDICATOR_BINDING, _scik)) continue;
+  var _scib = SCIENCE_INDICATOR_BINDING[_scik];
+  if (!NODE_TO_SCIENCE_INDICATOR[_scib.node]) NODE_TO_SCIENCE_INDICATOR[_scib.node] = [];
+  NODE_TO_SCIENCE_INDICATOR[_scib.node].push(_scib);
 }
 
 // ── COMMUNICATION-SECTOR (TELECOM / MEDIA / BROADCASTING / PLATFORMS) COMPANY ticker bindings (communication gap 1 — ADDITIVE, OPT-IN) ──
@@ -2376,6 +2521,197 @@ function resolveEducationPolicyPath(policy, stress) {
   return resolvePolicyPath(key, stress);
 }
 
+// ═══════════════════════════════════════════════════
+// 6c-sci. SCIENCE / RESEARCH CIRCUIT SEGREGATION (ADDITIVE — science gap 5, OPT-IN)
+// ═══════════════════════════════════════════════════
+// Science (research) domain stress, by default, activates the generic 'science' node set with NO
+// differentiation of basic-research vs applied-R&D vs research-infrastructure vs research-funding
+// pathways — and those have very different signal sources, stress pathways and outcomes (a
+// peer-review backlog ≠ a drug-discovery pipeline stall ≠ a core-facility instrument outage ≠ an
+// NSF appropriation cut). This routes a science stress trigger to the correct sub-circuit
+// (mirrors resolveAgricultureCircuit / resolveEducationCircuit: a separate opt-in entry point; the
+// default resolve() pipeline is unchanged; no scoring). DUAL-KEY NOTE: the connectome-domain key
+// is 'science' (matches brain-node-domains.json); the runtime/snapshot key is 'research'
+// (domain-identity.js). Each sub-circuit is a SEPARATE stress pathway through different REAL
+// 'science' nodes plus its real ticker anchors + a research-identity anchor. Each circuit carries
+// an energySignature note = ZERO: research never originates an energy signal — R&D facility power /
+// lab electricity / HPC data-center compute couple DOWNSTREAM only (route via infrastructure /
+// technology nodes if the origin is compute stress), never an originating science-to-energy edge,
+// and science nodes carry zero energy-domain content. DISTINCT from technology circuits (which DO
+// carry energy signatures: AI training = linear GPU-days, chip supply = fab power-per-wafer) and
+// agriculture circuits (seasonal/logistics energy signatures). Science circuits carry zero energy
+// content for every non-science node.
+//   • basic-research          = hypothesis testing → experimental design → peer review → publication. DMN → dlPFC → dACC → BROCA.
+//   • applied-research / R&D   = drug discovery, materials, process innovation. HYPO → OFC → HAB → FPN.
+//   • research-infrastructure  = lab equipment, scientific instruments, academic facilities. M1 → MFC → VP → NBM.
+//   • research-funding / grant = NSF/NIH awards, R&D budget, funding bottlenecks. vmPFC → PRC → MGN → STRI.
+var SCIENCE_CIRCUITS = {
+  basic_research: {
+    label: 'Basic-research circuit (hypothesis → experiment → peer review → publication)',
+    pathway: ['DMN', 'dlPFC', 'dACC', 'BROCA'],
+    role: 'discovery-lifecycle: hypothesis-generation → experimental-design → peer-review → publication-and-dissemination',
+    energySignature: 'ZERO — a peer-review backlog may couple to journal editorial compute downstream, but the signal origin is editorial / peer-review throughput, never energy',
+    scalingModel: 'none',                            // basic research does not couple to energy
+    // Connectome domains the circuit lights up. Science (runtime key 'research') is the home
+    // domain; 'governance' = the research-integrity / peer-review oversight authority coupling,
+    // NOT science identity. Energy is never a home/feed domain here.
+    connectomeDomains: ['science', 'governance'],
+    triggers: ['peer_review_backlog', 'publication_slowdown', 'hypothesis_pipeline_stall', 'replication_crisis'],
+    anchors: ['IQV', 'ICLR']
+  },
+  applied_research: {
+    label: 'Applied-research / R&D circuit (drug discovery → materials → process innovation)',
+    pathway: ['HYPO', 'OFC', 'HAB', 'FPN'],
+    role: 'rnd-pipeline: life-science-signal → chemistry-methods → rnd-development → data-analysis',
+    energySignature: 'ZERO — wet-lab / synthesis bench power is a facility-operations consequence of R&D activity, never an applied-research signal origin',
+    scalingModel: 'none',                            // applied R&D does not couple to energy as a signal
+    connectomeDomains: ['science', 'technology'],
+    triggers: ['rnd_pipeline_stall', 'drug_discovery_slowdown', 'materials_research_delay', 'process_innovation_gap'],
+    anchors: ['TMO', 'DHR', 'ILMN', 'BIO', 'RVTY']
+  },
+  research_infrastructure: {
+    label: 'Research-infrastructure circuit (lab equipment → instruments → academic facilities)',
+    pathway: ['M1', 'MFC', 'VP', 'NBM'],
+    role: 'capacity: laboratory-methods → shared-facilities → research-infrastructure → methods-infrastructure',
+    energySignature: 'ZERO — instrument / core-facility electricity is a facility-operations consequence, never a research-infrastructure signal origin; route compute-origin stress via infrastructure/technology',
+    scalingModel: 'none',                            // research infrastructure does not originate an energy edge
+    connectomeDomains: ['science', 'infrastructure'],
+    triggers: ['instrument_outage', 'lab_equipment_downtime', 'core_facility_constraint', 'hpc_capacity_shortfall'],
+    anchors: ['A', 'MTD', 'WAT', 'BRKR']
+  },
+  research_funding: {
+    label: 'Research-funding / grant-management circuit (NSF/NIH awards → budget → bottlenecks)',
+    pathway: ['vmPFC', 'PRC', 'MGN', 'STRI'],
+    role: 'capital-structure: funding-and-grants → research-policy → research-workforce → research-governance',
+    energySignature: 'ZERO — grant administration carries no energy footprint; appropriation shocks are policy events, never energy events',
+    scalingModel: 'none',                            // research funding does not couple to energy
+    connectomeDomains: ['science', 'governance', 'finance'],
+    triggers: ['nsf_budget_cut', 'nih_approval_slowdown', 'grant_award_reduction', 'rnd_budget_shortfall'],
+    anchors: ['IQV']
+  }
+};
+
+// Reverse lookup: trigger source string → science circuit key (built once).
+var SCIENCE_TRIGGER_TO_CIRCUIT = {};
+for (var _scck in SCIENCE_CIRCUITS) {
+  if (!Object.prototype.hasOwnProperty.call(SCIENCE_CIRCUITS, _scck)) continue;
+  var _sctrg = SCIENCE_CIRCUITS[_scck].triggers || [];
+  for (var _scti = 0; _scti < _sctrg.length; _scti++) SCIENCE_TRIGGER_TO_CIRCUIT[_sctrg[_scti]] = _scck;
+}
+
+/**
+ * Route a science (research) stress trigger to its circuit (basic research / applied research /
+ * research infrastructure / research funding) and emit the energy-signature note (ZERO) so
+ * downstream modeling knows science never couples to energy as a signal origin. OPT-IN; default
+ * resolve() is unchanged. No scoring. Mirrors resolveAgricultureCircuit / resolveEducationCircuit.
+ * DUAL-KEY: connectome-domain key is 'science' (matches brain-node-domains.json); accepts either
+ * the canonical 'science' or the runtime/snapshot alias 'research' as the originating domain.
+ * @param {String} stressTrigger - trigger source, e.g. 'peer_review_backlog', 'rnd_pipeline_stall',
+ *        'instrument_outage', 'nsf_budget_cut'; OR a circuit key 'basic_research'|'applied_research'|
+ *        'research_infrastructure'|'research_funding'; OR a convenience alias.
+ * @param {String} [domain] - originating domain (expected 'science' or 'research'); other domains
+ *        return an inactive result (this gap is science-specific).
+ * @param {Object} [context] - optional { stress:Number } raw stress [0..1] for activation.
+ * @returns {Object} { circuit, matched, label, pathway, role, energySignature,
+ *          scalingModel, connectomeDomains, anchors, nodes }
+ */
+function resolveScienceCircuit(stressTrigger, domain, context) {
+  var dom = domain || 'science';
+  var inactive = {
+    circuit: null, matched: false, trigger: stressTrigger || null, domain: dom,
+    label: '', pathway: [], role: '', energySignature: '', scalingModel: '',
+    connectomeDomains: [], anchors: [], nodes: []
+  };
+  // This gap is science-specific; accept the science<->research dual key, never hijack others.
+  if (dom !== 'science' && dom !== 'research') return inactive;
+
+  // Convenience aliases so an advisory layer can pass a research-style trigger name and still
+  // route to the right science circuit (per the SCIENCE_TRIGGER_TO_CIRCUIT spec).
+  var aliases = {
+    rnd_pipeline: 'applied_research',
+    drug_discovery: 'applied_research',
+    grant_management: 'research_funding',
+    research_grants: 'research_funding',
+    lab_infrastructure: 'research_infrastructure',
+    peer_review: 'basic_research'
+  };
+
+  // Resolve which circuit: accept a direct key, a named trigger source, or an alias.
+  var key = null;
+  if (stressTrigger && SCIENCE_CIRCUITS[stressTrigger]) {
+    key = stressTrigger;
+  } else if (stressTrigger && SCIENCE_TRIGGER_TO_CIRCUIT[stressTrigger]) {
+    key = SCIENCE_TRIGGER_TO_CIRCUIT[stressTrigger];
+  } else if (stressTrigger && aliases[stressTrigger]) {
+    key = aliases[stressTrigger];
+  }
+  if (!key) return inactive;
+
+  var cfg = SCIENCE_CIRCUITS[key];
+  var s = (context && typeof context.stress === 'number') ? context.stress : 0;
+  // Reuse the existing activation engine by synthesizing one stressed feed domain per connectome
+  // domain on the circuit (science = home; governance/technology/infrastructure/finance = the
+  // coupling targets). Energy is NEVER synthesized here — it is only a downstream CONSEQUENCE
+  // note (energySignature = ZERO), never an activated feed domain.
+  var synth = cfg.connectomeDomains.map(function(cd) { return { id: cd, stress: s, status: 'SCIENCE_CIRCUIT' }; });
+  var nodes = activateNodes(synth);
+
+  return {
+    circuit: key,
+    matched: true,
+    trigger: stressTrigger,
+    domain: dom,
+    label: cfg.label,
+    pathway: cfg.pathway.slice(),
+    role: cfg.role,
+    // Energy CONSEQUENCE signal (note + scaling model) — science carries ZERO energy identity;
+    // the only couplings are governance/technology/infrastructure/finance, never energy.
+    energySignature: cfg.energySignature,
+    scalingModel: cfg.scalingModel,
+    connectomeDomains: cfg.connectomeDomains.slice(),
+    anchors: cfg.anchors.slice(),
+    nodes: nodes
+  };
+}
+
+/**
+ * Resolve a SCIENCE / RESEARCH policy shock to its connectome nodes (science gap 6, OPT-IN).
+ * Mirrors resolveEducationPolicyPath: accepts a canonical MACRO_POLICY_PATH key
+ * ('research_funding' / 'research_regulation' / 'science_education_mandate') OR a short alias, and
+ * routes through the shared resolvePolicyPath engine. Research-policy identity only — fundamental-
+ * research funding authority (NSF/NIH appropriation), research regulation (peer-review / research-
+ * integrity / scientific-conduct rules), science-education STEM mandates; energy is never part of
+ * the signal chain (energy regulation = FERC/PUC governance authority, kept DISTINCT). DUAL-KEY:
+ * 'science' is the portal key, 'research' the runtime/snapshot key. Default resolve() pipeline is
+ * unchanged; no scoring.
+ * @param {String} policy - canonical key or alias ('funding'/'regulation'/'stem'/'mandate').
+ * @param {Number} [stress] - raw stress [0..1] for activation.
+ * @returns {Object} resolvePolicyPath() result for the research policy path.
+ */
+function resolveSciencePolicyPath(policy, stress) {
+  if (!policy) return resolvePolicyPath(policy, stress);
+  var aliases = {
+    funding: 'research_funding',
+    research_funding: 'research_funding',
+    grants: 'research_funding',
+    grant: 'research_funding',
+    nsf: 'research_funding',
+    nih: 'research_funding',
+    regulation: 'research_regulation',
+    research_regulation: 'research_regulation',
+    integrity: 'research_regulation',
+    peer_review: 'research_regulation',
+    conduct: 'research_regulation',
+    stem: 'science_education_mandate',
+    mandate: 'science_education_mandate',
+    science_education: 'science_education_mandate',
+    education_mandate: 'science_education_mandate'
+  };
+  var key = MACRO_POLICY_PATH[policy] ? policy
+          : (aliases[policy] || ('research_' + String(policy).replace(/-/g, '_')));
+  return resolvePolicyPath(key, stress);
+}
+
 /**
  * Resolve a POPULATION / demographic policy shock to its connectome nodes (population gap 2,
  * OPT-IN). Mirrors resolveEducationPolicyPath: accepts a canonical MACRO_POLICY_PATH key
@@ -3119,6 +3455,50 @@ window.LIMENConnectomeResolver = {
   // nodes via MACRO_POLICY_PATH 'education_*' entries. Signal origin = education-regulation
   // authority (state K-12 boards, accreditors, Federal Student Aid), never energy.
   resolveEducationPolicyPath: resolveEducationPolicyPath,
+
+  // Science-sector (research / R&D / lab-science / instrumentation) company ticker bindings
+  // (science gap 1) — OPT-IN, parallel to the tech/intel/trade/industrial/environment/governance/
+  // agriculture/education company registries; REAL research-sector tickers (TMO/DHR/A/MTD/WAT
+  // instruments & analytical labs, ILMN genomics, BIO/RVTY/BRKR life-science R&D & detection,
+  // IQV/ICLR research services) routed to dedicated 'science' nodes (M1/FPN/OFC/ECN/HYPO/HAB/AI/
+  // MFC/VP/dlPFC). DUAL-KEY: 'science' is the portal/connectome-domain key (matches brain-node-
+  // domains.json); runtime/snapshot key is 'research'. Energy is ZERO science identity: R&D
+  // facility power / lab electricity / HPC compute couple DOWNSTREAM only (route via infrastructure/
+  // technology), never a science signal origin; science nodes carry zero energy-domain content.
+  // DISTINCT from technology (applied product dev coupling), medicine (clinical research coupling)
+  // and education (academic teaching coupling).
+  SCIENCE_COMPANY_BINDING: SCIENCE_COMPANY_BINDING,
+  NODE_TO_SCIENCE_COMPANY: NODE_TO_SCIENCE_COMPANY,
+  getScienceCompaniesForNode: function(nodeId) { return NODE_TO_SCIENCE_COMPANY[nodeId] || []; },
+
+  // Science-sector indicator bindings (science gap 2) — OPT-IN, parallel to the macro registry;
+  // REAL research-performance signals (NSF/NIH grant volume & approval, R&D budget, arXiv/Nature
+  // publication velocity, OpenAlex citation impact, peer-review turnaround, retraction rate,
+  // lab-equipment utilization, research-staff/PhD enrollment, research patents / spinout formation)
+  // routed to dedicated 'science' nodes. These measure SCIENCE identity (research outputs, capacity,
+  // discovery, funding), never energy — lab power is a facility-operations consequence of research
+  // activity, never a research-signal origin. Real authorities only (NSF, NIH, arXiv, Nature,
+  // OpenAlex, USPTO, NASA).
+  SCIENCE_INDICATOR_BINDING: SCIENCE_INDICATOR_BINDING,
+  NODE_TO_SCIENCE_INDICATOR: NODE_TO_SCIENCE_INDICATOR,
+  getScienceIndicatorsForNode: function(nodeId) { return NODE_TO_SCIENCE_INDICATOR[nodeId] || []; },
+
+  // Science circuit segregation (science gap 5) — opt-in. Routes a science (research) stress
+  // trigger to basic-research / applied-research / research-infrastructure / research-funding, each
+  // a SEPARATE 'science' node pathway with its real ticker anchors + energySignature (ZERO). Science
+  // never couples to energy as a signal origin — only governance/technology/infrastructure/finance
+  // couple, and only as downstream consequences, never a science-to-energy edge.
+  SCIENCE_CIRCUITS: SCIENCE_CIRCUITS,
+  SCIENCE_TRIGGER_TO_CIRCUIT: SCIENCE_TRIGGER_TO_CIRCUIT,
+  resolveScienceCircuit: resolveScienceCircuit,
+  getScienceCircuitForTrigger: function(trigger) { return SCIENCE_TRIGGER_TO_CIRCUIT[trigger] || null; },
+
+  // Science policy-path resolution (science gap 4/6) — opt-in. Routes a research-policy shock
+  // (research funding / research regulation / science-education mandate) to the correct science
+  // nodes via MACRO_POLICY_PATH 'research_*' / 'science_education_mandate' entries. Signal origin =
+  // research-funding & research-regulation authority (NSF, NIH, accreditors, journal editorial
+  // boards), never energy (energy regulation = FERC/PUC governance, kept DISTINCT).
+  resolveSciencePolicyPath: resolveSciencePolicyPath,
 
   // Population-sector indicator bindings (population gap 1) — OPT-IN, parallel to the macro
   // registry; REAL demographic signals (Census ACS age/sex/race + density + median age + Gini,

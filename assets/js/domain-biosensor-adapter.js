@@ -264,7 +264,40 @@
       label: 'Research intensity and discovery state',
       arousal: 'Investigation drive — moderate arousal during active research reflects productive engagement',
       coherence: 'Methodological rigor — high coherence during analysis suggests systematic investigation',
-      cognitiveLoad: 'Analytical depth — high load during complex data interpretation reflects deep processing'
+      cognitiveLoad: 'Analytical depth — high load during complex data interpretation reflects deep processing',
+      // Research-program intake/triage readiness map: regulation state → research-intake,
+      // discovery-program, funding-pipeline and talent-pipeline intake/triage posture. Runtime key is
+      // 'research' (science<->research dual-naming via domain-identity.js — science is the URL/portal
+      // key, research the snapshot/runtime key consumed by the domain brain). Mirrors energy's biosensor
+      // intake map (energy gates capex/dispatch by operator regulation state — calm: greenlight capex
+      // programs / overloaded: triage grid/supply crises; research gates research-program & discovery
+      // intake — calm: greenlight discovery, foundation-platform and reproducibility investment /
+      // overloaded: crisis triage on funding-cut, reproducibility-crisis and lab-closure only). Advisory-
+      // layer only and independent of the kernel scoring spine. Consumed by (future) science-clarity-
+      // operator outcome tracking (research-intake velocity, publication-velocity, grant-success-rate,
+      // reproducibility-standard adherence, talent-retention cadence, discovery-stagnation triage).
+      // SCIENCE identity only — scientific research & discovery, basic & applied research, R&D pipelines,
+      // academic & lab science, peer review & publication, research funding & grants, scientific
+      // instruments & methods, the innovation pipeline. Research binds to AUTHORITIES & INDICATORS as well
+      // as instrument companies: NSF (Science & Engineering Indicators, research funding), NIH
+      // (appropriations & grant-success-rate / R01 paylines), arXiv & Nature (publication volume & venue),
+      // OpenAlex (citation trend & scholarly-graph), NASA (STEM-PhD attrition / workforce metrics). Where
+      // research-sector entities are needed use REAL research-instrument & life-science-tools identifiers:
+      // TMO, DHR, A, MTD, WAT, ILMN, BIO, RVTY, BRKR, IQV, ICLR. Distinct from technology (applied product
+      // dev / chips & software is a coupling, not the identity), medicine (clinical research & trials is a
+      // coupling, not the identity) and education (academic teaching is a coupling, not the identity);
+      // never adopts energy oil/gas/grid content. Operator arousal/coherence during manuscript-rejection
+      // or grant-review triage gate research-program intake (high arousal = crisis reproducibility/funding-
+      // cut mode; low arousal = deliberate breakthrough/expansion mode). STRICTLY ADDITIVE — does not touch
+      // any validated scoring spine.
+      readiness: {
+        calm: 'Steady operator state — safe to greenlight discovery and expand research investment: open new basic- and applied-research programs and exploratory lines of inquiry, stand up new reproducibility platforms and shared-instrumentation cores (TMO/DHR/A/MTD/WAT/BRKR/RVTY instruments, ILMN/BIO sequencing & genomics), invest in foundation-platform and high-risk/high-reward discovery (NSF frontier programs, NIH new-investigator initiatives), and launch new talent-pipeline and STEM-PhD recruitment programs; open speculative cross-disciplinary and long-horizon research scouting.',
+        focused: 'Productive engagement — sustain in-flight research programs and active discovery (ongoing studies, IQV/ICLR research-services delivery, in-progress manuscripts and grant-funded work); admit only well-scoped new intake (single-aim studies, proven-method extensions, scoped instrument acquisitions, defined publication targets at arXiv/Nature); hold open-ended new programs and speculative cross-disciplinary expansion (TMO/DHR/A/MTD instrument fleets steady, ILMN/BIO platforms disciplined).',
+        pressured: 'Elevated load — defer discretionary new research intake and speculative discovery lines; focus on publication-velocity and grant-pipeline triage: protect in-flight manuscripts and statutory grant/renewal deadlines, prioritize high-impact submissions and revisions (arXiv/Nature pipelines, OpenAlex citation-impact tracking), and keep reproducibility-standard and research-integrity monitoring active on live studies; pause non-urgent program expansion.',
+        overloaded: 'Saturated — pause all new research programs and discovery intake; respond only to funding-cut, reproducibility-crisis and lab-closure emergencies: research-funding shocks and grant-success-rate collapse (NSF/NIH appropriations cuts, R01 payline failures), reproducibility-crisis and retraction/integrity containment (failed replications, data-integrity investigations), critical instrument or core-facility failure (TMO/DHR/A/MTD/WAT/BRKR equipment downtime, ILMN/BIO platform outages), and acute talent attrition / lab-closure (NASA STEM-PhD attrition spikes, principal-investigator departures).',
+        recovering: 'Stabilizing — resume talent-pipeline rebuilding and instrument/platform restoration first (re-establish proven research staff and PI networks, restore core-facility uptime — TMO/DHR/MTD/WAT/BRKR/ILMN/BIO), then reopen research-program and discovery intake gradually as grant-success-rate (NSF/NIH), publication-velocity (arXiv/Nature/OpenAlex), reproducibility-standard adherence and talent-retention (NASA STEM workforce) metrics normalize.',
+        unknown: 'Regulation state unavailable — default to snapshot-driven prioritization (active research-program / funding-pipeline stress signals and discovery-stagnation / reproducibility criticality ranking).'
+      }
     },
     health: {
       label: 'Clinical attention and system regulation capacity',

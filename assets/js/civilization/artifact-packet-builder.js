@@ -386,6 +386,33 @@
     //     governance / health as permitted co-elevators.
     'demographic-resilience-investment':  'INVESTABLE',
     'aging-infrastructure-modernization': 'INVESTABLE'
+    // ─── Science / research-native fan-out lanes (additive, documentation) ─────
+    // The science domain (runtime/snapshot key `research`; URL/portal key
+    // `science` — see domain-identity.js) covers scientific research & discovery,
+    // basic & applied research, R&D pipelines, academic & lab science, peer
+    // review & publication, research funding & grants, scientific instruments &
+    // methods, and the innovation pipeline. Unlike the industry / environment /
+    // governance / communication / education / population blocks above, science
+    // does NOT introduce new lane KEYS — it emits to the research lanes already
+    // defined at the top of this map: research-grants (→ GRANT-ELIGIBLE) and
+    // nsf-project-pitch (→ GRANT-ELIGIBLE) carry the funding / discovery output,
+    // and research-papers (→ null, white-space cross-domain — built from the
+    // HandoffPacket alone, emits NO_ENRICHMENT_PATH not UNKNOWN_LANE_FOR_PATH_MAP)
+    // carries the publication output. Patentable discovery routes through the
+    // patents / copyrights lanes (→ PATENTABLE) where the research output is a
+    // protectable invention. This block exists only to DOCUMENT the science
+    // coupling and its Observatory enrichment anchors (research → GRANT-ELIGIBLE /
+    // PATENTABLE), mirroring the industry / environment documentation blocks, so
+    // a future maintainer sees where science emits without grepping the brain.
+    // Science binds to real research authorities (NSF, NIH, arXiv, Nature,
+    // OpenAlex, NASA) and real research-sector operators (TMO, DHR, A, WAT, ILMN,
+    // BIO, RVTY, BRKR, IQV, ICLR). Kept DISTINCT from medicine (clinical research
+    // feeds FROM science but is NOT basic research — a coupling), from technology
+    // (applied product dev feeds FROM research but is NOT research — a coupling),
+    // and from education (academic teaching is a coupling, not discovery). No
+    // entries added here on purpose: the research lanes already resolve above, so
+    // science artifacts route without UNKNOWN_LANE_FOR_PATH_MAP. (research-grants /
+    // nsf-project-pitch / research-papers are defined at the top of this map.)
   };
 
   // ─── Lane forbidden-fields policy ──────────────────────────────────────
@@ -850,7 +877,50 @@
     'BLS Labor Force Statistics':            'https://www.bls.gov/cps/',
     'NCES Enrollment Statistics':            'https://nces.ed.gov/programs/digest/',
     'Welltower Investor Relations':          'https://investors.welltower.com/',
-    'Ventas Investor Relations':             'https://ir.ventasreit.com/'
+    'Ventas Investor Relations':             'https://ir.ventasreit.com/',
+    // Science / research primary-source authorities: the SCIENTIFIC-DISCOVERY &
+    // R&D-PIPELINE signal layer (fundamental & applied research, research funding
+    // & grants, peer review & publication, preprints, scientific instruments &
+    // methods, the innovation pipeline). Anchored on the federal research-funding
+    // authorities (NSF grant directory, NIH extramural grant tracker), the
+    // preprint / publication frontier (arXiv, Nature & Science journals, OpenAlex
+    // scholarly graph, PubMed Central), the mission-science authority (NASA
+    // technical reports), and the real research-sector OPERATOR investor-relations
+    // pages (TMO Thermo Fisher, DHR Danaher, A Agilent, WAT Waters, ILMN Illumina,
+    // BIO Bio-Rad, RVTY Revvity, BRKR Bruker, IQV IQVIA, ICLR ICON) that build the
+    // discovery pipeline. DISTINCT from medicine (clinical research & care delivery
+    // is a coupling — basic science is not healthcare; this layer takes NO
+    // FDA-approval / managed-care content), from technology (applied product dev
+    // is a coupling — foundational research is not product engineering; NO chip /
+    // cloud content), and from education (academic teaching is a coupling —
+    // discovery research is not curriculum delivery; NO enrollment / achievement
+    // content). The runtime/snapshot key is `research`; the URL/portal key is
+    // `science` (see domain-identity.js). The TMO operator key is intentionally
+    // suffixed " Research" so it never collides with the identically-named
+    // medicine-side `Thermo Fisher Investor Relations` key. Verified canonical
+    // landing pages only — never AI-constructed deep links. Mirrors the energy /
+    // infrastructure / culture / finance / economy / technology / defense /
+    // intelligence / industry / environment / agriculture / communication /
+    // medicine / education / population structure.
+    'NSF Grants':                            'https://www.nsf.gov/awardsearch/',
+    'NIH Grants':                            'https://grants.nih.gov/grants/award-history.htm',
+    'arXiv CS':                              'https://arxiv.org/list/cs/recent',
+    'Nature Journal':                        'https://www.nature.com/research',
+    'Nature Reviews':                        'https://www.nature.com/nrd',
+    'Science Journal':                       'https://www.science.org/',
+    'OpenAlex':                              'https://openalex.org/',
+    'PubMed Central':                        'https://www.ncbi.nlm.nih.gov/pmc/',
+    'NASA Technical Reports':                'https://ntrs.nasa.gov/',
+    'Thermo Fisher Research Investor Relations': 'https://ir.thermofisher.com/',
+    'Danaher Investor Relations':            'https://investors.danaher.com/',
+    'Agilent Investor Relations':            'https://www.investor.agilent.com/',
+    'Waters Investor Relations':             'https://ir.waters.com/',
+    'Illumina Investor Relations':           'https://investor.illumina.com/',
+    'Bio-Rad Investor Relations':            'https://investor.bio-rad.com/',
+    'Revvity Investor Relations':            'https://ir.revvity.com/',
+    'Bruker Investor Relations':             'https://ir.bruker.com/',
+    'IQVIA Investor Relations':              'https://ir.iqvia.com/',
+    'ICON Investor Relations':               'https://investor.iconplc.com/'
   };
 
   // ─── Domain-specific primary source priority ───────────────────────────
@@ -1079,7 +1149,39 @@
     // intelligence / industry / environment / agriculture / communication /
     // medicine / education ordering so population artifacts no longer demote
     // through the PRIMARY_BY_FALLBACK path.
-    population: ['US Census Bureau Population', 'Census QuickFacts', 'ACS Demographic Microdata', 'Census Migration Flows', 'UN World Population Prospects', 'Pew Research Center', 'BLS Labor Force Statistics', 'NCES Enrollment Statistics', 'Welltower Investor Relations', 'Ventas Investor Relations']
+    population: ['US Census Bureau Population', 'Census QuickFacts', 'ACS Demographic Microdata', 'Census Migration Flows', 'UN World Population Prospects', 'Pew Research Center', 'BLS Labor Force Statistics', 'NCES Enrollment Statistics', 'Welltower Investor Relations', 'Ventas Investor Relations'],
+    // Science / research primary sources: scientific-discovery & R&D-pipeline
+    // authorities that anchor the science signal layer — the fundamental-research
+    // funding authorities (NSF grant directory, NIH extramural grant tracker =
+    // the innovation-funding spine), the preprint / publication frontier (arXiv
+    // preprint server, Nature & Science journals, OpenAlex scholarly graph), the
+    // mission-science authority (NASA technical reports), and the real research-
+    // sector OPERATORS — the life-science tools, instruments, diagnostics, and
+    // contract-research companies that BUILD the discovery pipeline (TMO Thermo
+    // Fisher life-science tools, DHR Danaher diagnostics & instruments, A Agilent
+    // analytical instruments, WAT Waters chromatography & mass spec, ILMN Illumina
+    // genomic sequencing, BIO Bio-Rad life-science research products, RVTY Revvity
+    // life-science & diagnostics, BRKR Bruker scientific instruments, IQV IQVIA
+    // research-data & analytics, ICLR ICON contract research). Ranked highest-
+    // signal structural first: the NSF / NIH fundamental-research funding
+    // authorities lead (the discovery & innovation spine), the preprint /
+    // publication & mission authorities ground it, the instruments / tools /
+    // CRO operators provide the company-level R&D-pipeline signal. DISTINCT from
+    // medicine (clinical / care-delivery is a coupling — basic science is not
+    // healthcare; no FDA-approval / managed-care sources), from technology
+    // (applied product dev is a coupling — foundational research is not product
+    // engineering; no chip / cloud sources), and from education (academic
+    // teaching is a coupling — discovery research is not curriculum delivery; no
+    // enrollment / achievement sources). Keyed under BOTH the runtime/snapshot
+    // key `research` (what hp.sourceDomains emits — the brain sets
+    // domainId:'research') AND the URL/portal alias `science` (see
+    // domain-identity.js), so the lookup matches regardless of which key a caller
+    // carries. Mirrors the energy / infrastructure / culture / finance / economy /
+    // technology / defense / intelligence / industry / environment / agriculture /
+    // communication / medicine / education / population ordering so science
+    // artifacts no longer demote through the PRIMARY_BY_FALLBACK path.
+    research: ['NSF Grants', 'NIH Grants', 'arXiv CS', 'Nature Journal', 'Science Journal', 'OpenAlex', 'NASA Technical Reports', 'Thermo Fisher Research Investor Relations', 'Danaher Investor Relations', 'Agilent Investor Relations', 'Waters Investor Relations', 'Illumina Investor Relations', 'Bio-Rad Investor Relations', 'Revvity Investor Relations', 'Bruker Investor Relations', 'IQVIA Investor Relations', 'ICON Investor Relations'],
+    science: ['NSF Grants', 'NIH Grants', 'arXiv CS', 'Nature Journal', 'Science Journal', 'OpenAlex', 'NASA Technical Reports', 'Thermo Fisher Research Investor Relations', 'Danaher Investor Relations', 'Agilent Investor Relations', 'Waters Investor Relations', 'Illumina Investor Relations', 'Bio-Rad Investor Relations', 'Revvity Investor Relations', 'Bruker Investor Relations', 'IQVIA Investor Relations', 'ICON Investor Relations']
   };
 
   // ─── Feed token map for evidence-source verification ───────────────────
@@ -1431,7 +1533,44 @@
     'BLS Labor Force Statistics':            ['BLS', 'labor force', 'Current Population Survey', 'CPS', 'participation rate', 'labor supply'],
     'NCES Enrollment Statistics':            ['NCES', 'enrollment', 'school-age population', 'cohort'],
     'Welltower Investor Relations':          ['WELL', 'Welltower', 'senior living', 'senior housing', 'aging', 'REIT'],
-    'Ventas Investor Relations':             ['VTR', 'Ventas', 'senior living', 'senior housing', 'aging', 'REIT']
+    'Ventas Investor Relations':             ['VTR', 'Ventas', 'senior living', 'senior housing', 'aging', 'REIT'],
+    // Science / research feed tokens: literal substrings the brain's evidence
+    // prose must contain for _isEvidenceSourceVerified to anchor science
+    // artifacts. Each entry mirrors a CITATION_HINTS / PRIMARY_PRIORITY_MAP
+    // science feed so the scientific-discovery & R&D-pipeline signal layer
+    // verifies instead of always failing. Anchors are the real research-funding
+    // vocabulary (NSF, NIH, R01, SBIR/STTR, grant award, funding opportunity),
+    // the preprint / publication vocabulary (arXiv, preprint, peer review,
+    // manuscript, citation, scholarly), research-method vocabulary (hypothesis,
+    // methodology, replication, longitudinal study), the mission-science
+    // vocabulary (NASA, mission), and real research-sector tickers (TMO, DHR, A,
+    // WAT, ILMN, BIO, RVTY, BRKR, IQV, ICLR) with their life-science-tools /
+    // instruments / diagnostics / sequencing / contract-research vocabulary —
+    // kept DISTINCT from medicine (no clinical-trial-approval / FDA / managed-care
+    // tokens — clinical research is a coupling), from technology (no chip /
+    // software / cloud tokens — applied product dev is a coupling), and from
+    // education (no curriculum / pedagogy / enrollment tokens — academic teaching
+    // is a coupling). Matches the brain prose against real research sources, not
+    // generic science words alone.
+    'NSF Grants':                            ['NSF', 'National Science Foundation', 'grant award', 'funding opportunity', 'SBIR', 'STTR', 'Phase I', 'Phase II', 'merit review'],
+    'NIH Grants':                            ['NIH', 'National Institutes of Health', 'R01', 'extramural', 'grant award', 'study section', 'principal investigator'],
+    'arXiv CS':                              ['arXiv', 'arXiv', 'preprint', 'peer review', 'manuscript', 'submitted', 'eprint'],
+    'Nature Journal':                        ['Nature', 'Nature journal', 'peer-reviewed', 'publication', 'citation', 'scholarly'],
+    'Science Journal':                       ['Science', 'Science journal', 'AAAS', 'peer-reviewed', 'research article'],
+    'OpenAlex':                              ['OpenAlex', 'scholarly graph', 'citation', 'bibliometric', 'works', 'authorship'],
+    'NASA Technical Reports':                ['NASA', 'NTRS', 'technical report', 'mission', 'spaceflight research'],
+    'Thermo Fisher Research Investor Relations': ['TMO', 'Thermo Fisher', 'life sciences', 'laboratory instruments', 'reagents', 'research tools'],
+    'Danaher Investor Relations':            ['DHR', 'Danaher', 'life sciences', 'diagnostics', 'biotechnology', 'research instruments'],
+    'Agilent Investor Relations':            ['A', 'Agilent', 'analytical instruments', 'chromatography', 'mass spectrometry', 'lab solutions'],
+    'Waters Investor Relations':             ['WAT', 'Waters', 'chromatography', 'mass spectrometry', 'analytical science', 'lab instruments'],
+    'Illumina Investor Relations':           ['ILMN', 'Illumina', 'sequencing', 'genomics', 'NGS', 'next-generation sequencing'],
+    'Bio-Rad Investor Relations':            ['BIO', 'Bio-Rad', 'life science research', 'reagents', 'PCR', 'electrophoresis'],
+    'Revvity Investor Relations':            ['RVTY', 'Revvity', 'life sciences', 'diagnostics', 'reagents', 'research solutions'],
+    'Bruker Investor Relations':             ['BRKR', 'Bruker', 'scientific instruments', 'spectroscopy', 'mass spectrometry', 'NMR'],
+    'IQVIA Investor Relations':              ['IQV', 'IQVIA', 'research data', 'clinical research analytics', 'real-world evidence', 'CRO'],
+    'ICON Investor Relations':               ['ICLR', 'ICON', 'contract research', 'CRO', 'clinical research organization', 'research services'],
+    'arXiv Preprint':                        ['arXiv', 'preprint', 'peer review', 'manuscript', 'submitted'],
+    'NSF SBIR/STTR':                         ['NSF', 'SBIR', 'STTR', 'small business innovation', 'Phase I', 'Phase II', 'commercialization']
   };
 
   // ─── Module-level flag: SCHEMA_VERSION_BUMPED warning ─────────────────

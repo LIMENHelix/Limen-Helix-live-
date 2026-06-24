@@ -177,7 +177,7 @@
       domains: ['infrastructure', 'research'],
       threshold: 0.40,
       pattern: 'infrastructure innovation cluster',
-      drivers: ['research funding pressure', 'aging-asset data scarcity', 'resilience solution gap', 'sensor-tech adoption lag', 'infrastructure modeling lag'],
+      drivers: ['research funding pressure', 'aging-asset data scarcity', 'resilience solution gap', 'sensor-tech adoption lag', 'infrastructure modeling lag', 'materials-science research (concrete-durability / recycled-steel / composite-alternative R&D for bridges, materials-innovation adoption lag, CAT/DE/EMR materials dependency)', 'structural-health-monitoring R&D (sensor-network / digital-twin development for infrastructure, monitoring-tech research funding)', 'resilience-engineering research (flood-modeling / seismic-design innovation, resilience-design-standard development velocity)', 'water-treatment & wastewater-system research (treatment-process innovation, contaminant-removal materials R&D)'],
       options: [
         { label: 'trace infrastructure-research pipeline', type: 'analysis' },
         { label: 'hold', type: 'monitoring' }
@@ -1770,7 +1770,7 @@
       domains: ['agriculture', 'research'],
       threshold: 0.40,
       pattern: 'crop-genetics innovation pipeline coupling',
-      drivers: ['crop-genetics research funding pressure (USDA NRCS grant slowdown, university ag-research budget squeeze)', 'yield-improvement innovation pipeline lag (2-5 year breeding cycle delays, gene-editing patent resolution pace)', 'agricultural-science publication rate acceleration (climate-adaptation agronomy, precision-breeding breakthroughs)', 'climate-scenario crop-modeling research gap (yield forecasting under extreme-weather stress, USDA WASDE)', 'drought-tolerance / salt-tolerance genetics commercialization delay (CTVA new-variety rollout timeline)', 'disease-resistance breeding pipeline acceleration (emerging-pest response time, fungicide-resistance breeding, FMC crop-protection R&D)'],
+      drivers: ['crop-genetics research funding pressure (USDA NRCS grant slowdown, university ag-research budget squeeze)', 'yield-improvement innovation pipeline lag (2-5 year breeding cycle delays, gene-editing patent resolution pace)', 'agricultural-science publication rate acceleration (climate-adaptation agronomy, precision-breeding breakthroughs)', 'climate-scenario crop-modeling research gap (yield forecasting under extreme-weather stress, USDA WASDE)', 'drought-tolerance / salt-tolerance genetics commercialization delay (CTVA new-variety rollout timeline)', 'disease-resistance breeding pipeline acceleration (emerging-pest response time, fungicide-resistance breeding, FMC crop-protection R&D)', 'crop-genetics IP pipeline (CRISPR / gene-editing patent backlog, trait-licensing resolution pace, CTVA seed-trait portfolio)', 'precision-ag tech research (IoT field-sensor networks, ML yield-prediction model accuracy, AGCO precision-equipment R&D)', 'soil-carbon research velocity (regenerative-agriculture / soil-microbiome science, carbon-farming measurement-protocol development)', 'agricultural-biotech startup funding scarcity (ag-biotech VC capital gap, gene-editing spinout deep-science financing)'],
       options: [
         { label: 'trace crop-genetics research pipeline exposure', type: 'analysis' },
         { label: 'investigate yield-improvement / climate-modeling gap', type: 'discovery' },
@@ -2022,7 +2022,7 @@
       domains: ['communication', 'research'],
       threshold: 0.40,
       pattern: 'information-ecosystem research transmission',
-      drivers: ['journalism-research funding pressure (Knight Foundation / news-innovation grant velocity)', 'media-literacy curriculum-development lag', 'misinformation-detection algorithm publication rate (peer-review cadence)', 'news-archive digitization backlog (newspaper / broadcast-archive access)', 'information-ecosystem research-infrastructure gap (NSF media/information-science grant flow)'],
+      drivers: ['journalism-research funding pressure (Knight Foundation / news-innovation grant velocity)', 'media-literacy curriculum-development lag', 'misinformation-detection algorithm publication rate (peer-review cadence)', 'news-archive digitization backlog (newspaper / broadcast-archive access)', 'information-ecosystem research-infrastructure gap (NSF media/information-science grant flow)', 'peer-review system capacity bottleneck (reviewer availability, review-cycle lag, Nature / journal review-queue backlog)', 'preprint-archive growth vs journal-legitimacy crisis (arXiv / bioRxiv server capacity & permanence, preprint-to-journal time lag)', 'scientific-publishing consolidation (Elsevier / Springer market power vs open-access adoption barriers, OpenAlex / open-metadata uptake)', 'impact-factor gaming & predatory-journal proliferation (publication-integrity erosion, citation-metric distortion)'],
       options: [
         { label: 'trace information-ecosystem research pipeline', type: 'analysis' },
         { label: 'investigate misinformation-detection innovation', type: 'discovery' },
@@ -2509,6 +2509,93 @@
       options: [
         { label: 'trace research-equity pipeline exposure', type: 'analysis' },
         { label: 'investigate STEM-diversity / leaky-pipeline coupling', type: 'discovery' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    // ─── Research / Science pairs (parity port; mirrors energy/infra/finance/defense structure) ──
+    // RESEARCH (science) identity ONLY — basic & applied research, R&D pipelines, academic &
+    // lab science, peer review & publication, research funding & grants, scientific instruments
+    // & methods, the innovation pipeline. Runtime key is 'research' (snapshotKey; science is the
+    // URL/portal alias — see domain-identity.js). Real research-sector tickers (TMO, DHR, A, MTD,
+    // WAT, ILMN, BIO, RVTY, BRKR, IQV, ICLR) + research authorities (NSF, NIH, arXiv, Nature,
+    // OpenAlex, NASA) — never fabricated, never energy oil/gas/grid content. Each PAIRED domain
+    // is the COUPLING; research's OWN identity stays discovery/grants/publication/instruments.
+    // DISTINCT from technology (applied product dev = coupling), medicine (clinical research =
+    // coupling), education (academic teaching = coupling). ADDITIVE — touches no validated path.
+    {
+      // Mirrors 'governance_economy' (policy-market feedback) translated to evidence-based
+      // policymaking: policy shapes the research agenda; research evidence shapes policy.
+      // Governance is the COUPLING (policy/rulemaking authority); research stays grants/inquiry.
+      id: 'governance_research',
+      domains: ['governance', 'research'],
+      threshold: 0.45,
+      pattern: 'evidence-based-policy stress',
+      drivers: ['research-funding policy shift (NSF grant-making authority, federal science-budget appropriation pressure)', 'science-advisory authority erosion (OSTP / advisory-panel independence, expert-committee staffing gap)', 'Federal Register rulemaking on research compliance (IRB human-subjects rules, data-privacy / data-sharing mandates)', 'governance-tasked research-priority redirection (politically-set agenda vs investigator-driven inquiry)', 'policy-evidence translation lag (peer-reviewed findings vs rulemaking adoption cadence)'],
+      options: [
+        { label: 'trace governance-research policy linkage', type: 'analysis' },
+        { label: 'investigate evidence-to-rulemaking adoption lag', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'finance_supplyChain' (credit-logistics transmission) translated to research
+      // capital: grant instruments + deep-science VC funding. Finance is the COUPLING (capital
+      // transmission); research stays the spinout / grant-funded discovery pipeline.
+      id: 'research_finance',
+      domains: ['research', 'finance'],
+      threshold: 0.45,
+      pattern: 'research-capital transmission',
+      drivers: ['grant-award velocity / funding-rate pressure (NSF / NIH payline contraction, award-cycle lag)', 'biotech / cleantech VC funding gap (Series A/B capital for deep-science spinouts)', 'research-commercialization financing scarcity (tech-transfer / lab-to-market capital)', 'research-instrument capital-equipment financing (TMO / DHR / ILMN lab-equipment lease & credit exposure)', 'clinical-trial / CRO working capital (IQV / ICLR trial-financing pressure)', 'research-spinout capital scarcity (deep-science valuation gap, long-horizon ROI discount)'],
+      options: [
+        { label: 'trace research-capital exposure', type: 'analysis' },
+        { label: 'investigate grant / VC funding-gap coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'finance_law' (financial-regulatory coupling) translated to the IP / compliance
+      // regime over research. Law is the COUPLING (IP prosecution / enforcement / oversight);
+      // research stays the discovery / lab-science pipeline.
+      id: 'research_law',
+      domains: ['research', 'law'],
+      threshold: 0.45,
+      pattern: 'IP-institutional stress',
+      drivers: ['patent prosecution & IP-protection lag (USPTO patent-issuance backlog, patent-quality erosion on research output)', 'research-compliance burden (IRB review delay, data-privacy / HIPAA enforcement on research data)', 'lab-safety regulation & OSHA enforcement (biosafety / chemical-handling citation pressure)', 'scientific-misconduct investigation capacity (ORI / institutional integrity-office queue time)', 'research-litigation risk (IP-dispute / inventorship litigation, technology-transfer contract disputes)'],
+      options: [
+        { label: 'trace IP-institutional exposure', type: 'analysis' },
+        { label: 'investigate patent-backlog / IRB-delay coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'defense_technology' (vulnerability-propagation / innovation edge) translated to
+      // strategic R&D acceleration: DARPA / ONR / AFOSR contract velocity, dual-use research.
+      // Defense is the COUPLING (sponsorship / strategic demand); research stays the discovery
+      // pipeline. Defense primes (LMT/RTX/NOC/GD) sponsor research — they are couplings here.
+      id: 'defense_research',
+      domains: ['defense', 'research'],
+      threshold: 0.42,
+      pattern: 'strategic-R&D stress',
+      drivers: ['defense-sponsored research contract velocity (DARPA / ONR / AFOSR award cadence)', 'classified-research pipeline throughput (clearance-gated lab capacity, compartmented-program lag)', 'dual-use technology R&D pressure (materials / computing / sensors for defense applications, RVTY / BRKR instrument supply)', 'technology-transition delay (research-to-program-of-record valley-of-death, prime-sponsored maturation lag, LMT/RTX/NOC/GD)', 'strategic-research advantage erosion (patent-velocity / publication-lead loss to peer competitors)', 'classified-research workforce pipeline (cleared-scientist supply, security-investigation backlog)'],
+      options: [
+        { label: 'assess strategic-R&D posture', type: 'analysis' },
+        { label: 'trace defense-research transition chain', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'energy_technology' (compute-demand grid coupling) translated to energy-transition
+      // R&D: battery / grid / renewable / fusion materials science. Energy is the COUPLING
+      // (the transition that depends on the research); research stays the materials / modeling
+      // / lab-science pipeline. Research instrument vendors (A / MTD / WAT / BRKR) are couplings.
+      id: 'energy_research',
+      domains: ['energy', 'research'],
+      threshold: 0.45,
+      pattern: 'energy-innovation stress',
+      drivers: ['battery-chemistry & materials-science R&D lag (lithium / solid-state / quantum-dot research, characterization-instrument supply A/MTD/WAT)', 'grid-modeling & simulation research gap (distributed-control / demand-forecasting algorithm accuracy)', 'renewable-energy tech R&D delay (solar-cell efficiency, wind-blade composite materials, deployment-readiness lag)', 'fusion / advanced-reactor research pacing (long-horizon program milestones, NSF / national-lab funding cadence)', 'materials-supply constraint for energy R&D (rare-earth / critical-mineral availability for lab-scale prototyping)'],
+      options: [
+        { label: 'map energy-innovation exposure', type: 'analysis' },
+        { label: 'investigate battery / grid / materials R&D coupling', type: 'discovery' },
         { label: 'hold', type: 'monitoring' }
       ]
     }

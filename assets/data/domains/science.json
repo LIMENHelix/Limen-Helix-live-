@@ -55,6 +55,24 @@
           "ticker_or_id": "DARPA_GOV",
           "functional_reason": "Detects and monitors hypothesis generation signals, identifying early disruption patterns and emerging conditions",
           "binding_strength": 0.66
+        },
+        {
+          "name": "Mettler-Toledo International",
+          "ticker_or_id": "MTD",
+          "functional_reason": "Precision weighing and analytical instruments seed measurable, testable propositions at the bench, supplying the quantitative ground truth from which novel hypotheses are framed",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "National Institutes of Health",
+          "ticker_or_id": "NIH_GOV",
+          "functional_reason": "Allocates and regulates biomedical hypothesis generation resources, setting research priorities across ~$40B of annual biomedical R&D and shaping which questions get investigated",
+          "binding_strength": 0.82
+        },
+        {
+          "name": "arXiv",
+          "ticker_or_id": "ARXIV",
+          "functional_reason": "Preprint server whose physics, math, and CS upload velocity is a leading-edge signal of emerging hypotheses, surfacing novel testable propositions before formal publication",
+          "binding_strength": 0.8
         }
       ],
       "neuralRole": "Other",
@@ -237,6 +255,24 @@
           "ticker_or_id": "ILMN",
           "functional_reason": "Detects and monitors peer review signals, identifying early disruption patterns and emerging conditions",
           "binding_strength": 0.91
+        },
+        {
+          "name": "Waters Corporation",
+          "ticker_or_id": "WAT",
+          "functional_reason": "Analytical chromatography and mass-spectrometry QA underpins the methodological scrutiny peer review applies, surfacing measurement flaws and unsupported analytical claims before publication",
+          "binding_strength": 0.89
+        },
+        {
+          "name": "National Institutes of Health",
+          "ticker_or_id": "NIH_GOV",
+          "functional_reason": "Operates the dominant biomedical grant peer-review apparatus (study sections), filtering proposals on rigor and significance and signaling when funded research requires revision",
+          "binding_strength": 0.82
+        },
+        {
+          "name": "OpenAlex",
+          "ticker_or_id": "OPENALEX",
+          "functional_reason": "Open research-metadata and citation authority that flags integrity anomalies and retraction signals across the literature, mirroring the error-detection role peer review plays",
+          "binding_strength": 0.78
         }
       ],
       "neuralRole": "Salience",
@@ -328,6 +364,12 @@
           "ticker_or_id": "TMO",
           "functional_reason": "Executes core data analysis operations, delivering primary output and managing day-to-day functional processes",
           "binding_strength": 0.93
+        },
+        {
+          "name": "IQVIA Holdings",
+          "ticker_or_id": "IQV",
+          "functional_reason": "Clinical-trial cohort analytics and research data platforms transform raw trial and observational data into statistical conclusions, the core analytical engine of evidence generation",
+          "binding_strength": 0.9
         }
       ],
       "neuralRole": "PFC",
@@ -366,6 +408,10 @@
         {
           "domain": "legal",
           "role": "Multi-District / Complex Coordination"
+        },
+        {
+          "domain": "technology",
+          "role": "High-Performance Computing & Scientific Software"
         }
       ]
     },
@@ -419,6 +465,18 @@
           "ticker_or_id": "SPACEX",
           "functional_reason": "Executes core laboratory methods operations, delivering primary output and managing day-to-day functional processes",
           "binding_strength": 0.91
+        },
+        {
+          "name": "Waters Corporation",
+          "ticker_or_id": "WAT",
+          "functional_reason": "Liquid chromatography and mass-spectrometry instruments execute the precise separation and measurement procedures that turn experimental designs into empirical data",
+          "binding_strength": 0.92
+        },
+        {
+          "name": "Bio-Rad Laboratories",
+          "ticker_or_id": "BIO",
+          "functional_reason": "Life-science research instruments (PCR, electrophoresis, imaging) perform the bench procedures and sample preparation underlying reproducible laboratory measurement",
+          "binding_strength": 0.9
         }
       ],
       "neuralRole": "Motor",
@@ -601,6 +659,12 @@
           "ticker_or_id": "HHMI_NPO",
           "functional_reason": "Allocates and regulates citation networks resources, setting priorities and distributing capacity across competing needs",
           "binding_strength": 0.7
+        },
+        {
+          "name": "OpenAlex",
+          "ticker_or_id": "OPENALEX",
+          "functional_reason": "Open citation and research-metadata graph that maps intellectual influence, traces lineage, and detects citation cartels across the literature, the connective tissue of the citation network",
+          "binding_strength": 0.78
         }
       ],
       "neuralRole": "DMN",
@@ -692,6 +756,12 @@
           "ticker_or_id": "SPACEX",
           "functional_reason": "Executes core funding and grants operations, delivering primary output and managing day-to-day functional processes",
           "binding_strength": 0.65
+        },
+        {
+          "name": "National Institutes of Health",
+          "ticker_or_id": "NIH_GOV",
+          "functional_reason": "Largest public biomedical research funder (~$40B/yr), allocating grant resources by scientific merit and strategic priority and thereby determining which questions can be investigated and at what scale",
+          "binding_strength": 0.82
         }
       ],
       "neuralRole": "PFC",
@@ -782,6 +852,12 @@
           "ticker_or_id": "ILMN",
           "functional_reason": "Stores and retrieves replication knowledge, maintaining institutional memory and diagnostic baselines",
           "binding_strength": 0.95
+        },
+        {
+          "name": "Revvity",
+          "ticker_or_id": "RVTY",
+          "functional_reason": "Reagents, assays, and computational-biology validation tools enable independent reproduction of experimental conditions, the verification substrate that distinguishes robust findings from artifacts",
+          "binding_strength": 0.9
         }
       ],
       "childPortal": "science_replication_portal.html",

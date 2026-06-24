@@ -145,7 +145,34 @@
     { label: 'Explore human-computer interface research', domain: 'technology', type: 'scientific-discovery', baseRelevance: 0.35 },
     { label: 'Analyze cybersecurity threat evolution patterns', domain: 'technology', type: 'system-risk', baseRelevance: 0.30 },
 
-    // Research
+    // Research / Science (mirrors Energy/Health/Education structure, translated to scientific-research &
+    //   knowledge-production-native concepts — Energy seeds focus on storage/grid/renewable ARCHITECTURES; research
+    //   seeds focus on FUNDING-PIPELINE, PEER-REVIEW & PUBLISHING, RESEARCH-WORKFORCE, IP/PATENT-QUALITY, COMPLIANCE,
+    //   INSTRUMENTATION and OPEN-SCIENCE infrastructure: storage→grant-funding & talent-pipeline buffering,
+    //   distributed-grid→lab/institution-network & data-sharing topology, transition→open-science & preprint adoption
+    //   shift resilience, attack-surface→funding-cliff / reproducibility / misconduct early-warning. Runtime key =
+    //   'research' (science↔research dual-naming; science is the URL/portal key, research is the snapshot/runtime key —
+    //   see domain-identity.js). Relevance = research stress x trend boost.
+    //   identity = scientific research & discovery, basic & applied research, R&D pipelines, academic & lab science,
+    //   peer review & publication, research funding & grants, scientific instruments & methods, innovation pipeline;
+    //   bind to NSF/NIH grant & funding-rate data, NSF Science & Engineering Indicators, OpenAlex/arXiv/bioRxiv publication
+    //   & preprint velocity, Nature/journal disruption signals, USPTO patent-quality & backlog data, NASA/NSF research programs;
+    //   universe: TMO/DHR/A/MTD/WAT/ILMN/BIO/RVTY/BRKR/IQV/ICLR (scientific instruments, life-science tools, lab & CRO
+    //   infrastructure) — real research-sector tickers only; couples to technology via applied product dev (a coupling, not
+    //   the identity), to medicine via clinical research (a coupling), and to education via academic teaching (a coupling);
+    //   keeps research identity = knowledge production / funding / publishing / workforce / IP / instrumentation,
+    //   NEVER energy oil/gas/grid content)
+    { label: 'Investigate research-funding bottleneck and grant-rate compression early-warning for science-pipeline resilience (NSF/NIH success-rate decline, appropriations-cliff & continuing-resolution volatility, indirect-cost-cap exposure, IQV/ICLR CRO funded-research backlog)', domain: 'research', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Explore peer-review system stress and publication-delay modeling for knowledge-dissemination throughput (reviewer-availability collapse, review-cycle lag acceleration, desk-reject & resubmission churn, Nature/journal editorial-capacity early-warning)', domain: 'research', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Analyze FAIR data-sharing infrastructure adoption and open-science ecosystem health for reproducibility resilience (OpenAlex/data-repository coverage, FAIR-principle compliance, data-availability-statement enforcement, reproducibility-crisis quantification)', domain: 'research', type: 'scientific-discovery', baseRelevance: 0.45 },
+    { label: 'Investigate research-workforce pipeline fragility and PhD/postdoc-crisis early-warning for talent-continuity resilience (NSF doctorate enrollment, postdoc-employment & attrition, faculty-track scarcity, A/MTD/WAT instrument-skilled-labor demand)', domain: 'research', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Explore STEM talent-supply vs demand and underrepresented-group participation for human-capital-supply resilience (NSF Science & Engineering Indicators workforce data, visa-dependent researcher exposure, broadening-participation ROI)', domain: 'research', type: 'economic-opportunity', baseRelevance: 0.40 },
+    { label: 'Analyze patent-office backlog and patent-quality erosion indicators for innovation-pipeline integrity (USPTO pendency & backlog, low-quality / overbroad patent signals, citation-quality decline, examiner-capacity vs filing-volume mismatch)', domain: 'research', type: 'system-risk', baseRelevance: 0.40 },
+    { label: 'Investigate research-compliance burden and IRB-approval-delay modeling for protocol-throughput resilience (IRB queue time, misconduct-investigation capacity, regulatory-paperwork overhead vs bench-time, compliance-cost-per-grant erosion)', domain: 'research', type: 'economic-opportunity', baseRelevance: 0.40 },
+    { label: 'Explore scientific-instrument supply-chain and obsolescence modeling for lab-capacity resilience (instrument lead-time & single-source dependency, replacement-cycle economics, TMO/DHR/BRKR/RVTY/ILMN platform refresh vs legacy-instrument obsolescence)', domain: 'research', type: 'technological-innovation', baseRelevance: 0.40 },
+    { label: 'Investigate preprint velocity and journal-disruption signals for publishing-model transition resilience (arXiv/bioRxiv adoption acceleration, preprint-to-publication lead-time, open-access vs subscription economics, peer-review decoupling)', domain: 'research', type: 'economic-opportunity', baseRelevance: 0.40 },
+    { label: 'Analyze research-ethics infrastructure and misconduct-investigation capacity for scientific-integrity resilience (retraction-rate trends, image/data-integrity detection at scale, research-integrity-office throughput, reproducibility-failure early-warning)', domain: 'research', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Explore international research-collaboration resilience and export-control / visa coupling for cross-border-science continuity (collaboration-network fragmentation, export-control & dual-use research friction, scholar-mobility restriction exposure, NASA/NSF international-program dependency)', domain: 'research', type: 'system-risk', baseRelevance: 0.40 },
     { label: 'Review open science infrastructure development', domain: 'research', type: 'scientific-discovery', baseRelevance: 0.40 },
     { label: 'Investigate reproducibility crisis solutions', domain: 'research', type: 'scientific-discovery', baseRelevance: 0.45 },
     { label: 'Explore interdisciplinary research convergence', domain: 'research', type: 'scientific-discovery', baseRelevance: 0.35 },

@@ -72,7 +72,41 @@
   // This is a HINT only; handoff-contract refines based on evidence.
   var DOMAIN_LANE_HINTS = {
     technology:    ['patents', 'nsf-project-pitch', 'research-grants', 'business-grants', 'investments', 'research-papers'],
-    research:      ['research-papers', 'research-grants'],
+    // ─── Research / Science = BASIC & APPLIED R&D / DISCOVERY / PUBLICATION
+    //     (lane hints reflect knowledge-production + innovation-commercialization
+    //     identity — NEVER energy oil/gas/grid content) ───────────────────────
+    // Research/Science identity is scientific research & discovery, basic &
+    // applied research, R&D pipelines, academic & lab science, peer review &
+    // publication, research funding & grants, scientific instruments & methods,
+    // and the innovation pipeline. Real research-sector names: TMO, DHR, A
+    // (Agilent), MTD (Mettler-Toledo), WAT (Waters), ILMN (Illumina), BIO
+    // (Bio-Rad), RVTY (Revvity), BRKR (Bruker), IQV (IQVIA), ICLR (ICON) — the
+    // life-sciences instruments / reagents / clinical-research-org space — and
+    // research AUTHORITIES NSF, NIH, arXiv, Nature, OpenAlex, NASA. Research is
+    // DISTINCT from technology (applied product DEV is a coupling, not research's
+    // basic-discovery identity), medicine (clinical research is a coupling),
+    // education (academic TEACHING is a coupling), and economy (R&D-spend macro
+    // is a coupling). 'science' is the URL/portal key; 'research' is the runtime/
+    // snapshot key (domain-identity dual-naming) — BOTH are mapped so whichever
+    // key a packet/node-mapping uses routes identically.
+    //
+    // Energy anchors the multi-lane pattern (energy = ['patents','sba-loans',
+    // 'business-grants'] — a multi-faceted IP + financing + grants space).
+    // Research's OWN opportunity space is similarly multi-faceted and spans BOTH
+    // knowledge-PRODUCTION lanes and innovation-COMMERCIALIZATION lanes: peer-
+    // reviewed output (research-papers), research funding (research-grants),
+    // IP discovery from research (patents — the lab→invention-disclosure edge),
+    // and translational/commercializable funded-proposal innovation (nsf-project-
+    // pitch). Exactly as the energy/medicine/education blocks warn, only tokens
+    // that route to a REAL, research- OR science-accepting LANE_GATES entry in
+    // handoff-contract.js may live here, or recompute() silently drops them (the
+    // dead-token anti-pattern). All four below are live, research-accepting gates:
+    // 'research-papers' / 'research-grants' / 'nsf-project-pitch' (the research-
+    // side multi-domain gates) and 'patents' (broad anyDomain IP gate). This
+    // brings research to lane parity with energy via its own knowledge-production
+    // + innovation-commercialization space. Additive only — never removes prior
+    // domains' hints.
+    research:      ['research-papers', 'research-grants', 'patents', 'nsf-project-pitch'],
     // ─── Medicine / Health = CLINICAL + LIFE-SCIENCES READINESS (lane hints
     //     reflect clinical-research / pharmaceutical-IP / biotech-financing
     //     identity — NEVER energy oil/gas/grid content) ─────────────────────
@@ -186,7 +220,11 @@
     // the live gates carry education's opportunity space. Additive only — never
     // removes prior domains' hints.
     education:     ['research-grants', 'business-grants', 'research-papers'],
-    science:       ['research-grants', 'research-papers'],
+    // 'science' = the URL/portal alias of the 'research' runtime key (see the
+    // research block above + domain-identity.js dual-naming). Kept at lane parity
+    // with research so whichever key a node-mapping/packet uses routes identically
+    // to the same knowledge-production + innovation-commercialization lanes.
+    science:       ['research-papers', 'research-grants', 'patents', 'nsf-project-pitch'],
     governance:    ['copyrights'],
     law:           ['copyrights'],
     // ─── Defense = MILITARY-INDUSTRIAL READINESS (lane hints reflect kinetic/
@@ -426,6 +464,57 @@
     population:  ['research-papers']    // disease-burden / epidemiology
   };
 
+  // ─── Research/Science co-domain coupling lanes (additive, life-sciences /
+  //     translational triangle) ──────────────────────────────────────────────
+  // The INVERSE of HEALTH_COUPLING_LANES.science (which fires when MEDICINE is
+  // primary and science is the partner). This block fires when RESEARCH (or its
+  // URL alias 'science') is the PRIMARY co-elevated domain alongside a partner
+  // that originates a research-shaped opportunity, routing the translational-
+  // research artifact to the research/science negotiator. Research is the basic-
+  // research SOURCE; medicine/health is the clinical coupling; population is the
+  // epidemiology coupling. Together they form the life-sciences triangle
+  // (medicine ↔ research ↔ population on disease epidemiology). Research's
+  // identity stays basic & applied discovery / R&D / publication (TMO, DHR, A,
+  // MTD, WAT, ILMN, BIO, RVTY, BRKR, IQV, ICLR; authorities NSF, NIH, arXiv,
+  // Nature, OpenAlex, NASA) — NEVER energy oil/gas/grid content.
+  //
+  // The translational couplings —
+  //   • research ↔ medicine/health : translational basic-research → clinical
+  //       evidence pipeline (the science-source side of the triangle)
+  //   • research ↔ population       : disease-epidemiology / cohort study
+  //       (population epidemiology demand on research)
+  //   • research ↔ finance          : biotech/cleantech research-startup capital
+  //       (commercializable funded research seeking venture financing)
+  //   • research ↔ technology       : applied R&D → deep-tech commercialization
+  //       (lab discovery feeding applied product dev — tech stays the coupling)
+  // — describe the SHAPE of each opportunity. Exactly as the economy / defense /
+  // intelligence / governance / medicine blocks warn, only tokens that route to
+  // a REAL, research- OR science-accepting LANE_GATES entry in handoff-
+  // contract.js may be emitted, or recompute() silently drops them (the dead-
+  // token anti-pattern; see handoff-contract.js `if (!LANE_GATES[lane])`).
+  // Against the current contract, the research/science-accepting multi-domain
+  // gates (singleDomainOnly:false, so usable for a coupling) are 'nsf-project-
+  // pitch' and 'research-papers'. So each coupling routes through those LIVE
+  // gates — 'nsf-project-pitch' carries the commercializable/translational-
+  // innovation shape (biotech/cleantech startup, deep-tech R&D), 'research-
+  // papers' carries the clinical/epidemiological evidence shape (translational
+  // medicine, disease-epidemiology cohort studies). The 'investments' lane the
+  // gap names for biotech/cleantech research-startup financing is NOT emitted as
+  // a bare token here — 'investments' is singleDomainOnly and its anyDomain does
+  // not include research/science (would be silently dropped); that financing
+  // shape is carried CONDITIONALLY through 'nsf-project-pitch' (the live
+  // translational/commercializable-research gate) when finance/technology is
+  // actually co-elevated — not as a dead token. Accepts either dual-naming key
+  // (science portal-key OR research runtime-key). Additive only — never removes
+  // the generic research/science lanes above.
+  var RESEARCH_COUPLING_LANES = {
+    medicine:    ['research-papers'],     // translational basic→clinical evidence
+    health:      ['research-papers'],     // translational basic→clinical (alias)
+    population:  ['research-papers'],     // disease-epidemiology cohort study
+    finance:     ['nsf-project-pitch'],   // biotech/cleantech research-startup (intent)
+    technology:  ['nsf-project-pitch']    // applied R&D → deep-tech commercialization
+  };
+
   function _laneHints(domains) {
     var bag = {};
     for (var i = 0; i < domains.length; i++) {
@@ -495,6 +584,27 @@
         if (!hcouple) continue;
         for (var hj = 0; hj < hcouple.length; hj++) {
           bag[hcouple[hj]] = (bag[hcouple[hj]] || 0) + 2;
+        }
+      }
+    }
+    // Conditional research/science coupling (life-sciences / translational
+    // triangle): only when research (or its URL alias 'science') is co-elevated
+    // with a partner domain (medicine/health/population/finance/technology) in
+    // this same opportunity's domain set. Mirrors the technology-/finance-/
+    // governance-/medicine-coupling weighting so the translational-research lane
+    // out-ranks generic hints, routing the basic→clinical evidence / disease-
+    // epidemiology / biotech-cleantech-startup / deep-tech artifact to the
+    // research negotiator (via its live 'research-papers' / 'nsf-project-pitch'
+    // gates). Accepts either dual-naming key (research runtime-key OR science
+    // portal-key).
+    if (domains.indexOf('research') >= 0 || domains.indexOf('science') >= 0) {
+      for (var ri = 0; ri < domains.length; ri++) {
+        var rpartner = domains[ri];
+        if (rpartner === 'research' || rpartner === 'science') continue;
+        var rcouple = RESEARCH_COUPLING_LANES[rpartner];
+        if (!rcouple) continue;
+        for (var rj = 0; rj < rcouple.length; rj++) {
+          bag[rcouple[rj]] = (bag[rcouple[rj]] || 0) + 2;
         }
       }
     }

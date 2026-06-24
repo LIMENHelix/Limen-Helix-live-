@@ -663,6 +663,95 @@
  *   remains the sole scoring authority; the bus merely transports already-scored
  *   emissions.
  *
+ * Cross-domain examples — SCIENCE -> OTHER and OTHER -> SCIENCE (science as both
+ * source and target). Science is the SCIENTIFIC-RESEARCH / DISCOVERY domain
+ * (basic & applied research, R&D pipelines, academic & lab science, peer review
+ * & publication, research funding & grants, scientific instruments & methods, the
+ * innovation / IP-generation pipeline). DUAL-KEY NOTE: science is the URL / portal
+ * key but the bus routes on the RUNTIME snapshot key 'research' (see
+ * domain-identity.js — science <-> research), so the emissions below carry
+ * sourceDomain/targetDomain 'research' at the bus layer even though the domain
+ * identity is "science" (the same dual-key pattern as medicine<->health and
+ * trade<->supplyChain). Science is DISTINCT from technology (applied product
+ * engineering & commercialization is a COUPLING — foundational discovery feeds it
+ * but science owns the bench / basic-discovery side, NOT product dev), from
+ * medicine (clinical / pre-clinical translation is a COUPLING — bench research
+ * feeds the clinic but science owns the basic-science side, NOT the bedside or the
+ * regulated product), and from education (academic TEACHING & curriculum delivery
+ * is a COUPLING — research expertise feeds faculty pipelines but science owns
+ * discovery, NOT instruction). And science NEVER takes energy oil/gas/grid as its
+ * own content. The bus previously had NO science-native OUTBOUND wiring — science
+ * appeared only in passing as a TARGET (intelligence -> research declassified
+ * findings, lines 189–191; the medicine / education COUPLING notes), leaving the
+ * discovery / R&D-pipeline / publication channel largely silent in the bus. These
+ * are science's native OUTBOUND paths, mirroring the energy / defense /
+ * intelligence SOURCE examples (the rules live in science/research-brain.js
+ * emissionRules); science emits these native signals when >=1 active diagnosis is
+ * present (per brain cycle):
+ *   science -> technology    (innovation_pipeline / IP_generation -> foundational
+ *                           discoveries and basic-research output feed applied
+ *                           product R&D and patent / IP-filing momentum -> the
+ *                           discovery-to-applied-engineering pull, WITHOUT science
+ *                           taking on product-engineering identity; the bench-side
+ *                           mirror of technology's inbound R&D-funding return below)
+ *   science -> medicine      (drug_discovery_acceleration / therapeutic_pipeline ->
+ *                           basic-research output (targets, assays, modalities)
+ *                           feeds the preclinical and clinical-translation pipeline
+ *                           for drug candidates -> the bench-to-bedside pull, the
+ *                           basic-science input to the clinic, DISTINCT from
+ *                           medicine's own care-delivery / regulated-product content)
+ *   science -> education     (pedagogical_evidence_base / human_capital_formation ->
+ *                           foundational research and learning-science evidence
+ *                           inform STEM curriculum, the evidence base for pedagogy
+ *                           and credentialing standards -> the discovery input to
+ *                           human-capital formation, DISTINCT from education's own
+ *                           teaching-delivery content)
+ * These are science's INBOUND RETURN paths (other brains already emit toward
+ * science — see each source brain's emissionRules / the SOURCE examples above), so
+ * the research-prioritization / funding-momentum / publication-demand channel is
+ * not silent in the bus:
+ *   technology  -> science   (innovation_funding / R&D_collaboration -> tech-sector
+ *                           R&D budgets and corporate-research partnerships flow
+ *                           into university research collaborations and basic-
+ *                           research grant funding -> research_funding_momentum at
+ *                           labs; the inbound mirror of science's innovation_pipeline
+ *                           outbound — funding remains a COUPLING owned by technology)
+ *   medicine    -> science   (clinical_translation_demand / trial_methodology ->
+ *                           therapeutic needs, unmet-disease burden and clinical-
+ *                           trial methodology requirements pull research
+ *                           prioritization and advance clinical-methodology research
+ *                           -> research_prioritization_shift at labs; the inbound
+ *                           mirror of science's drug_discovery_acceleration outbound
+ *                           — clinical demand remains a COUPLING owned by medicine)
+ *   education   -> science   (credentialing_standards_setting / academic_authority ->
+ *                           accreditation, university-rank pressure and credentialing
+ *                           / tenure standards shape research priorities, publication
+ *                           demand and grant-chasing behavior -> publication_demand_
+ *                           pressure at institutions; the inbound mirror of science's
+ *                           pedagogical_evidence_base outbound — academic authority
+ *                           remains a COUPLING owned by education)
+ *   These modify science's PRIOR discovery-productivity / R&D-productivity /
+ *   funding-momentum expectation and stress calculation AFTER the validated Thing
+ *   kernel runs — external stress modifiers ingested via the base
+ *   receiveExternalSignal handler, NOT a second scorer.
+ *   Real research-sector issuers behind these signals (scientific instruments &
+ *   lab equipment / life-science tools & diagnostics / analytical instrumentation /
+ *   contract research organizations — NOT energy oil/gas/grid, NOT medicine clinical
+ *   care providers, NOT technology product chipmakers): TMO, DHR, A, MTD, WAT
+ *   (scientific instruments & analytical / measurement instrumentation); ILMN, BIO,
+ *   RVTY, BRKR (life-science tools / sequencing / lab instruments); IQV, ICLR
+ *   (clinical / contract research organizations & research analytics). Real research-
+ *   authority anchors (REAL, never fabricated): NSF (National Science Foundation
+ *   grants), NIH (R01 / basic-research funding), arXiv (preprint / publication
+ *   volume), Nature (peer-review / publication authority), OpenAlex (open scholarly
+ *   metadata / citation graph), NASA (space & physical-science research). (discovery_
+ *   productivity = basic-research output / discovery rate; R&D_productivity = pipeline
+ *   conversion of research input to output; publication_volume = peer-reviewed /
+ *   preprint throughput; grant_funding_momentum = NSF / NIH funding inflow trajectory;
+ *   research_prioritization_shift = clinical / authority-driven agenda reweighting.)
+ *   SIGNAL examples only — the validated Thing1 P3 distress kernel remains the sole
+ *   scoring authority; the bus merely transports already-scored emissions.
+ *
  * Also detects:
  *   - Propagation chains (A→B→C)
  *   - Co-activation (multiple domains emitting simultaneously)

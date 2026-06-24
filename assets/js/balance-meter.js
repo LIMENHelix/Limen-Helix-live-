@@ -818,6 +818,96 @@
     { re: /re(-| )?populat(e|ion)|return migration (rate|rise|gain)|regional in(-| )?migration|population (stabiliz|recover|rebound|growth)|net in(-| )?migration|(town|region|county) (revival|repopulat|growth)|reverse (brain drain|migration)|(census|acs).{0,30}(in(-| )?migration|population (gain|growth))/i, weight: 0.14, tag: 'repopulation' }
   ];
 
+  // ─── Research / science-native semantics (KNOWLEDGE PRODUCTION & DISCOVERY) ─
+  // Energy parity (same shape as INFRA / CULTURE / FINANCE / ECONOMY /
+  // TECHNOLOGY / DEFENSE / INTELLIGENCE / TRADE / INDUSTRY / AGRICULTURE /
+  // GOVERNANCE / COMMUNICATION / POPULATION above): the science domain (runtime/
+  // snapshot key 'research' — see domain-identity.js: science ↔ research) has its
+  // OWN failure/recovery vocabulary. Where energy reads crude_above_90 /
+  // grid_stress / chokepoint, infrastructure reads grid_reliability /
+  // deferred_maintenance, culture reads the attention economy, finance reads
+  // liquidity/credit, economy reads the business cycle, technology reads the
+  // compute stack, defense reads kinetic military power, intelligence reads the
+  // collection cycle, trade reads exports/tariffs/ports, industry reads factory
+  // output, agriculture reads crops/food, governance reads institutions,
+  // communication reads channels, and population reads demographics, RESEARCH
+  // reads knowledge production & discovery: scientific research & discovery,
+  // basic & applied research, R&D pipelines, academic & lab science, peer review
+  // & publication, research funding & grants, scientific instruments & methods,
+  // and the innovation pipeline. Destabilizing = replication / reproducibility
+  // crisis, funding cut / grant shortfall, research fraud / methodology-rigor
+  // erosion, brain drain (researcher / visa / policy flight), discovery
+  // stagnation, lab-capacity strain, peer-review breakdown, publication-volume
+  // collapse, and citation-trajectory decline. Stabilizing = reproducibility-
+  // standard adoption, open-science-platform emergence, AI-accelerated discovery,
+  // interdisciplinary-collaboration surge, grant-success-rate recovery, STEM-PhD
+  // retention / brain-drain reversal, publication-velocity rebound, citation-
+  // impact recovery, and methodology-rigor restoration.
+  //
+  // Anchors are REAL research-sector tickers — scientific instruments, lab
+  // equipment, reagents & contract research: TMO Thermo Fisher, DHR Danaher,
+  // A Agilent, MTD Mettler-Toledo, WAT Waters, ILMN Illumina, BIO Bio-Rad,
+  // RVTY Revvity, BRKR Bruker, IQV IQVIA, ICLR ICON — and research AUTHORITIES /
+  // INDICATOR SOURCES (NSF science-and-engineering indicators, NIH grant-success-
+  // rate, arXiv / Nature publication & retraction trends, OpenAlex citation
+  // indices, NASA / CDC STEM-pipeline metrics) — NEVER oil/gas/grid content as
+  // the domain's OWN identity, NEVER fabricated. Research COUPLES to technology
+  // via R&D feeding applied product development, to medicine via clinical/
+  // biomedical research, and to education via the academic/PhD pipeline, but its
+  // IDENTITY stays knowledge production / discovery / peer review / grants / the
+  // R&D pipeline, kept DISTINCT from technology (applied product dev is a
+  // coupling), medicine (clinical research is a coupling), and education
+  // (academic teaching is a coupling). ADVISORY ONLY — wholly separate from the
+  // validated P3 distress kernel.
+  //
+  // Each entry maps a keyword pattern (matched against the domain's signal
+  // strings) to a weighted push on the destabilizing or stabilizing score —
+  // identical mechanism to energy's condition→weight mapping, research content.
+  var RESEARCH_DESTABILIZING = [
+    // Replication / reproducibility crisis — failed replication, irreproducible results.
+    { re: /replication crisis|reproducibility (crisis|fail|problem)|(fail(ed|ure)?|unable) to (replicat|reproduc)|irreproducib(le|ility)|non(-| )?reproducib|(study|result|finding)(s)? (fail(ed)? to )?replicat|crisis of (replication|reproducibility)/i, weight: 0.18, tag: 'replication_crisis' },
+    // Funding cut — research-funding cut, NSF/NIH budget slashed, grant freeze.
+    { re: /(research|science|r&d) (funding|budget) (cut|slash|freeze|decline|drop)|(nsf|nih|grant) (funding )?(cut|freeze|slash|decline)|funding (cut|freeze|slash) (research|science|lab|grant)|research (budget|grant) (cut|freeze)|appropriation(s)? (cut|slash) (science|research)/i, weight: 0.17, tag: 'funding_cut' },
+    // Research fraud — data fabrication, falsification, paper-mill misconduct.
+    { re: /research (fraud|misconduct)|(data|result) (fabricat|falsif)|scientific (fraud|misconduct|integrity (breach|crisis))|paper(-| )?mill|fabricated (data|result|finding)|image manipulation (paper|study)|retraction (fraud|misconduct)/i, weight: 0.16, tag: 'research_fraud' },
+    // Brain drain — researcher exodus, visa/policy-driven flight, talent loss.
+    { re: /(research(er)?|scientist|stem|academic) (brain drain|exodus|flight|talent loss)|brain drain (research|science|stem|academic)|(visa|immigration|policy) (restrict|deny).{0,30}(research(er)?|scientist|stem)|talent (exodus|flight|drain) (research|science|lab)|(postdoc|phd) (exodus|attrition|flight)/i, weight: 0.15, tag: 'brain_drain' },
+    // Discovery stagnation — innovation slowdown, low breakthrough rate, R&D plateau.
+    { re: /discovery (stagnat|plateau|slowdown|drought)|innovation (stagnat|slowdown|plateau|stall) (research|science|r&d)|breakthrough (rate )?(decline|stagnat|drought|scarce)|(research|scientific) (productivity|progress) (stagnat|stall|plateau)|r&d (plateau|stagnat|diminishing return)/i, weight: 0.15, tag: 'discovery_stagnation' },
+    // Grant shortfall — grant-success-rate falling, award scarcity, proposal-reject surge.
+    { re: /grant (shortfall|success rate (decline|drop|fall|low)|scarcity|drought)|(nih|nsf) (grant )?(success rate|payline) (decline|drop|fall|low)|award (rate )?(decline|drop|scarce)|proposal (reject(ion)? )?(surge|spike|rate (rise|high))|grant (award|funding rate) (decline|drop)/i, weight: 0.14, tag: 'grant_shortfall' },
+    // Lab-capacity strain — instrument/reagent shortage, lab-space/equipment bottleneck.
+    { re: /lab(-| )?(capacity|space) (strain|shortage|bottleneck|constrain)|(reagent|instrument|equipment) (shortage|backlog|constrain) (lab|research)|(core facility|lab) (bottleneck|overload|constrain)|research (infrastructure|capacity) (strain|shortfall)|(tmo|dhr|wat|mtd|bruker) (backlog|shortage|lead(-| )?time)/i, weight: 0.14, tag: 'lab_capacity_strain' },
+    // Methodology-rigor erosion — p-hacking, underpowered studies, weak methods.
+    { re: /methodology (rigor )?(erosion|decline|weak|lapse)|p(-| )?hack(ing)?|underpowered (study|studies|sample)|questionable research practice|hark(ing)?|(weak|poor|sloppy) (methodology|methods|study design)|statistical (rigor|power) (erod|decline|lapse)/i, weight: 0.13, tag: 'methodology_rigor_erosion' },
+    // Peer-review breakdown — review-system failure, reviewer shortage, fake review.
+    { re: /peer(-| )?review (breakdown|failure|crisis|collapse|overload)|reviewer (shortage|fatigue|crisis|exodus)|(fake|fraudulent|rigged) (peer(-| )?)?review|review (process )?(broke|fail|collaps)|editorial (breakdown|crisis)|peer(-| )?review (backlog|bottleneck)/i, weight: 0.14, tag: 'peer_review_breakdown' },
+    // Publication-volume collapse — output decline, journal closure, productivity drop.
+    { re: /publication (volume|output) (collapse|decline|drop|fall|plunge)|(paper|article) (output|volume) (decline|drop|fall)|(arxiv|nature|journal) (submission|output) (decline|drop)|journal (closure|fold|shut)|(research|scientific) output (collapse|decline|drop)|publish(ing)? (productivity )?(collapse|decline)/i, weight: 0.13, tag: 'publication_volume_collapse' },
+    // Citation-trajectory decline — impact falling, citation-index drop, influence loss.
+    { re: /citation (trajectory|impact|count|rate) (decline|drop|fall|collapse)|(openalex|citation) (index|metric) (decline|drop|fall)|(research|scientific) impact (decline|drop|fall)|h(-| )?index (decline|stagnat)|impact factor (decline|drop|collapse)|influence (decline|fall) (citation|research)/i, weight: 0.12, tag: 'citation_trajectory_decline' }
+  ];
+  var RESEARCH_STABILIZING = [
+    // Reproducibility-standard adoption — preregistration, open data, replication norms.
+    { re: /reproducibility(-| )?standard (adopt|deploy|gain)|(preregistration|pre(-| )?registration|registered report) (adopt|gain|expand)|open(-| )?data (mandate|adopt|gain)|replication (norm|standard|study) (adopt|expand|gain)|(reproducib|rigor) (standard|practice) (adopt|strengthen)|transparency (standard|mandate) (research|science) (adopt|gain)/i, weight: 0.16, tag: 'reproducibility_standard_adoption' },
+    // Open-science-platform emergence — preprint/repository growth, open-access surge.
+    { re: /open(-| )?science (platform|movement|infrastructure) (emerg|gain|grow|adopt)|(preprint|repository|arxiv) (growth|surge|adopt|expand)|open(-| )?access (surge|growth|mandate|expand)|(data|code) sharing (platform|adopt|gain)|fair (data )?principle(s)? (adopt|gain)|open(-| )?science (gain|surge|momentum)/i, weight: 0.15, tag: 'open_science_platform_emergence' },
+    // AI-accelerated discovery — ML-driven research, foundation-model discovery, automation.
+    { re: /ai(-| )?(accelerat|driven|powered|assist) (discovery|research|science)|(ml|machine learning|foundation model) (accelerat|driven) (discovery|research|breakthrough)|ai (lab|research) (breakthrough|accelerat)|(alphafold|automated|self(-| )?driving) (lab|discovery|research)|computational (discovery|research) (accelerat|surge|breakthrough)/i, weight: 0.14, tag: 'ai_accelerated_discovery' },
+    // Interdisciplinary-collaboration surge — cross-field collaboration, consortia, team science.
+    { re: /interdisciplinary (collaboration|research) (surge|gain|grow|expand)|cross(-| )?(field|discipline|institution) (collaboration|research) (surge|gain)|(research )?consorti(um|a) (form|launch|expand|grow)|team science (gain|surge|adopt)|(multi|trans)(-| )?disciplinary (collaboration|surge|gain)|collaborative (research|network) (surge|expand|grow)/i, weight: 0.15, tag: 'interdisciplinary_collaboration_surge' },
+    // Grant-success-rate recovery — funding rebound, payline improvement, award surge.
+    { re: /grant (success rate|payline|funding rate) (recover|rise|improv|rebound)|(nih|nsf) (grant )?(success rate|payline) (rise|recover|improv)|(research|science|r&d) (funding|budget) (boost|increase|surge|rebound)|award (rate )?(rise|recover|surge)|(grant|funding) (boost|surge|increase) (research|science)/i, weight: 0.15, tag: 'grant_success_rate_recovery' },
+    // STEM-PhD retention / brain-drain reversal — talent retention, return migration, pipeline.
+    { re: /(stem|phd|postdoc|researcher|scientist) (retention|retain) (gain|improv|surge)|brain(-| )?drain (reversal|revers|recover)|(talent|researcher|scientist) (return|in(-| )?migration|attract) (gain|surge|rise)|(stem|phd) (pipeline|supply) (recover|strengthen|grow)|reverse brain drain|(visa|policy) (ease|attract).{0,30}(research(er)?|scientist|stem)/i, weight: 0.14, tag: 'stem_phd_retention' },
+    // Publication-velocity rebound — output recovery, submission surge, productivity rise.
+    { re: /publication (velocity|volume|output) (rebound|recover|rise|surge|grow)|(paper|article) (output|volume|submission) (rise|surge|grow|rebound)|(arxiv|nature|journal) (submission|output) (rise|surge|grow)|(research|scientific) output (rebound|recover|rise|surge)|publish(ing)? (productivity )?(rebound|recover|surge)/i, weight: 0.13, tag: 'publication_velocity_rebound' },
+    // Citation-impact recovery — impact rising, citation-index rebound, influence gain.
+    { re: /citation (impact|trajectory|count|rate) (recover|rise|rebound|surge|gain)|(openalex|citation) (index|metric) (rise|recover|rebound|gain)|(research|scientific) impact (recover|rise|rebound|gain)|h(-| )?index (rise|gain|grow)|impact factor (rise|recover|rebound|gain)|influence (rise|gain) (citation|research)/i, weight: 0.13, tag: 'citation_impact_recovery' },
+    // Methodology-rigor restoration — robust methods, power gains, rigor reform.
+    { re: /methodology (rigor )?(restor|strengthen|improv|reform)|(statistical|methodological) (rigor|power) (restor|strengthen|improv|gain)|robust (methodology|method|study design) (adopt|gain)|(adequately|well)(-| )?powered (study|design) (gain|adopt)|rigor (reform|standard) (strengthen|adopt|gain)|(good|sound) research practice (adopt|gain|strengthen)/i, weight: 0.12, tag: 'methodology_rigor_restoration' }
+  ];
+
   // Scan a domain's signal strings against a civil pattern table and return the
   // summed weighted contribution (clamped). Mirrors how energy accumulates its
   // condition-driven pressure, but over civil-native keywords.
@@ -1176,6 +1266,34 @@
         _populationDestabTags = _pd.tags;
       }
 
+      // ── Research / science-native destabilizing pathways (energy parity) ──
+      // For the science domain ONLY (runtime/snapshot key 'research' — see
+      // domain-identity.js: science ↔ research), add knowledge-production pressure
+      // from named failure pathways found in the live signal strings (replication
+      // / reproducibility crisis, funding cut, research fraud / methodology-rigor
+      // erosion, brain drain, discovery stagnation, grant shortfall, lab-capacity
+      // strain, peer-review breakdown, publication-volume collapse, citation-
+      // trajectory decline). This is the discovery-and-R&D analogue of energy's
+      // crude_above_*/grid_stress, infrastructure's grid_reliability/
+      // deferred_maintenance, culture's backlash/audience collapse, finance's
+      // liquidity/credit, economy's business-cycle, technology's compute-stack,
+      // defense's readiness, intelligence's collection, trade's tariff/port,
+      // industry's factory-output, agriculture's crops, governance's institutions,
+      // communication's channels, and population's demographics weighting —
+      // anchored to real research-sector tickers (TMO/DHR/A/MTD/WAT/ILMN/BIO/RVTY/
+      // BRKR/IQV/ICLR) and research authorities (NSF/NIH/arXiv/Nature/OpenAlex/
+      // NASA/CDC). IDENTITY stays knowledge production / discovery / peer review /
+      // grants / the R&D pipeline (couples to technology via applied product dev,
+      // medicine via clinical research, and education via the academic pipeline,
+      // distinct from each). ADVISORY ONLY — wholly separate from the validated P3
+      // distress kernel.
+      var _researchDestabTags = null;
+      if (k === 'research') {
+        var _rd = _infraSignalScore(signals, RESEARCH_DESTABILIZING);
+        destab += _rd.score;
+        _researchDestabTags = _rd.tags;
+      }
+
       destab = _clamp(destab, 0, 1);
 
       // ─── Stabilizing score ─────────────────────────────────────
@@ -1493,6 +1611,39 @@
         _populationStabTags = _ps.tags;
       }
 
+      // ── Research / science-native stabilizing pathways (energy parity) ──
+      // Research recovery vocabulary: reproducibility-standard adoption
+      // (preregistration / open data / replication norms), open-science-platform
+      // emergence (preprint / repository growth / open-access surge), AI-
+      // accelerated discovery (ML-driven research / foundation-model discovery),
+      // interdisciplinary-collaboration surge (cross-field consortia / team
+      // science), grant-success-rate recovery (NIH/NSF payline improvement),
+      // STEM-PhD retention / brain-drain reversal (talent retention / return
+      // migration), publication-velocity rebound (output recovery / submission
+      // surge), citation-impact recovery (impact rising / index rebound), and
+      // methodology-rigor restoration (robust methods / power gains). Mirrors
+      // energy's falling-trend / declining-volatility stabilizers,
+      // infrastructure's funding-renewal / repair-completion, culture's
+      // fanbase-momentum / mainstream-adoption, finance's liquidity-restoration /
+      // capital-strengthening, economy's labor-recovery / productivity,
+      // technology's fab-capacity / breakthrough, defense's force-modernization /
+      // alliance-strengthening, intelligence's improved-observability /
+      // collection-expansion, trade's tariff-normalization / port-reopening,
+      // industry's capacity-modernization / output-recovery, governance's
+      // institutional-strengthening / policy-passage, communication's
+      // network-resilience / connectivity-restoration, and population's
+      // demographic-recovery / labor-force-growth, with research semantics from
+      // the live signals — anchored to real research tickers (TMO/DHR/A/MTD/WAT/
+      // ILMN/BIO/RVTY/BRKR/IQV/ICLR) and authorities (NSF/NIH/arXiv/Nature/
+      // OpenAlex/NASA). ADVISORY ONLY — wholly separate from the validated P3
+      // distress kernel.
+      var _researchStabTags = null;
+      if (k === 'research') {
+        var _rs = _infraSignalScore(signals, RESEARCH_STABILIZING);
+        stab += _rs.score;
+        _researchStabTags = _rs.tags;
+      }
+
       stab = _clamp(stab, 0, 1);
 
       // ─── Net balance ───────────────────────────────────────────
@@ -1603,6 +1754,14 @@
       if (k === 'population') {
         _balance[k].destabilizingFactors = _populationDestabTags || [];
         _balance[k].stabilizingFactors = _populationStabTags || [];
+      }
+
+      // Surface the research/science-native pathways that drove the research score
+      // (runtime/snapshot key 'research'; science ↔ research) — energy parity:
+      // name the conditions, don't hide them behind a scalar.
+      if (k === 'research') {
+        _balance[k].destabilizingFactors = _researchDestabTags || [];
+        _balance[k].stabilizingFactors = _researchStabTags || [];
       }
 
       // Detect state shift

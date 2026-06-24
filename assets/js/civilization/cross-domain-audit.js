@@ -265,6 +265,51 @@
     // finance co-bear the envelope. NEVER energy oil/gas/grid as education's
     // content.
     { id: 'education_core',  domains: ['education', 'law', 'governance', 'finance', 'research'] },
+    // ─── Science/research-native affinity group ───────────────────────────
+    // research_core — research's institutional-envelope group (the
+    // knowledge-production mirror of healthcare_core / education_core /
+    // technology_core / defense_core, built around the SCIENTIFIC-RESEARCH
+    // base rather than a care-, teaching-, or applied-product base). DUAL
+    // NAMING (see assets/js/domain-identity.js): portal/URL key 'science',
+    // runtime/snapshot key 'research' — the civilization adapter packets this
+    // domain under the runtime key 'research', so the group references
+    // 'research' to resolve against real packets (and TAXONOMY_DOMAIN_ALIASES
+    // already maps node value 'research' → 'science' for the canonical lens).
+    // Science's identity is scientific research & discovery, basic & applied
+    // research, R&D pipelines, academic & lab science, peer review &
+    // publication, research funding & grants, scientific instruments &
+    // methods, and the innovation pipeline. Real research-sector anchors are
+    // the life-science / lab-instruments & research-services complex — tools &
+    // instruments (TMO, DHR, A, MTD, WAT, BRKR, RVTY, BIO), sequencing &
+    // genomics (ILMN), and clinical-research / CRO services (IQV, ICLR) — plus
+    // research-authority references (NSF/NIH award rates, arXiv & Nature
+    // publication throughput, OpenAlex citation/output indices, NASA research
+    // tasking, university research-compliance backlog). Research-production
+    // health is co-borne by the funding-policy regime that tasks and authorizes
+    // science (governance — NSF/NIH tasking, grant authority, research-policy
+    // direction), the IP/compliance enforcement regime (law — patent law &
+    // prosecution, IRB authority, research-integrity & misconduct enforcement,
+    // export-control on sensitive research), the grant-capital & VC funding
+    // channel (finance — federal grant capital, endowment funding, biotech/
+    // deep-tech venture access), and the publication & data infrastructure
+    // that disseminates and reproduces findings (technology — preprint/journal
+    // platforms, research-data repositories, lab compute & instrument software).
+    // When research + governance + law + finance + technology co-elevate on
+    // stress the signal is a SYSTEMIC KNOWLEDGE-PRODUCTION institutional crisis
+    // (a funding squeeze + an IP/patent-prosecution bottleneck + grant-capital
+    // access tightening + publication-platform/data-infrastructure strain
+    // co-borne by the institutional envelope) rather than an isolated grant
+    // rejection or a single retracted paper. Mirror of healthcare_core (where
+    // medicine's institutional envelope co-binds health/population/research/law/
+    // governance/finance); research_core is knowledge-production institutional
+    // stress where SCIENCE is the SOURCE. Indices: NSF/NIH award rates, patent-
+    // prosecution lag, university research-compliance backlog. Kept DISTINCT
+    // from technology (applied product development is a COUPLING via the
+    // publication/data-infrastructure tie, not science's own discovery
+    // identity), medicine (clinical research is a COUPLING, not basic science),
+    // and education (academic teaching is a COUPLING, not research output).
+    // NEVER energy oil/gas/grid as science's content.
+    { id: 'research_core',  domains: ['research', 'governance', 'law', 'finance', 'technology'] },
     // (2) health_core — the healthcare institutional-integrity stress cluster
     // (HIGH priority, the tightest mirror of infrastructure_core / financial_core
     // on the care-financing side): health-insurance solvency, hospital-network
