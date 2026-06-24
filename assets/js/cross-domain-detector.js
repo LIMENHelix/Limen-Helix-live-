@@ -2598,6 +2598,151 @@
         { label: 'investigate battery / grid / materials R&D coupling', type: 'discovery' },
         { label: 'hold', type: 'monitoring' }
       ]
+    },
+    // ─── LAW institutional-envelope pairs (parity port; mirrors energy/governance/medicine
+    // structure) ── LAW identity ONLY — legal system & courts, judiciary & rule of law,
+    // litigation & dispute resolution, regulation & compliance, contracts & enforcement,
+    // intellectual-property law, criminal justice, legal services & access to justice. Each
+    // PAIRED domain is a co-binding (the institution whose legitimacy the legal system stresses
+    // when enforcement, litigation and compliance CO-ELEVATE); law's OWN content stays courts/
+    // litigation/enforcement/IP/criminal-justice. Real legal-sector identifiers (RELX
+    // LexisNexis, TRI Thomson Reuters/Westlaw, VRSK compliance-analytics, VERX tax-compliance,
+    // CSGP) + legal authorities/indices (US Courts caseload, ABA, DOJ, SCOTUS, World Justice
+    // Project Rule-of-Law Index) — indicator-based, never fabricated, never energy oil/gas/grid.
+    // DISTINCT from governance (policy/administration/elections), intelligence, and finance.
+    // ADDITIVE — does not touch any validated scoring path. ('medicine_law', 'environment_law',
+    // 'communication_law', 'research_law', 'law_education', 'law_governance' already exist as
+    // separate couplings.)
+    {
+      // Mirrors 'defense_infrastructure' (military attack-surface) + 'defense_governance'
+      // (deterrence-posture policy) translated to the law↔defense rule-of-law regime: ITAR /
+      // arms-control / use-of-force legal constraints on procurement, export licensing and
+      // military conduct. Maps to the rule_of_law affinity (law+governance+defense+intelligence).
+      id: 'defense_law',
+      domains: ['defense', 'law'],
+      threshold: 0.43,
+      pattern: 'law-defense escalation',
+      drivers: ['ITAR / export-control enforcement backlog (weapons-technology transfer risk, DDTC licensing pendency, DOJ National Security Division prosecutions; RELX/TRI export-compliance tooling)', 'arms-control treaty monitoring & compliance pressure (NPT / CTBT enforcement, State Dept verification regime stress)', 'use-of-force legal-authority gaps (war-powers litigation, rules-of-engagement / ROE challenges in federal courts, US Courts caseload)', 'military-contractor compliance burden (DFARS security requirements, False Claims Act defense-procurement enforcement on LMT/RTX/NOC/GD, VRSK/VERX compliance-analytics)', 'international-law-of-war enforcement pressure (ICC / Geneva-Convention litigation, war-crimes docket; World Justice Project Rule-of-Law Index strain)'],
+      options: [
+        { label: 'trace defense-law regulatory exposure', type: 'analysis' },
+        { label: 'investigate export-control enforcement gap', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors the healthcare_core affinity (health+law+governance+finance co-bind) as an
+      // institutional-envelope signal: FDA/CMS regulatory burden, compliance litigation and
+      // payer-provider enforcement CO-ELEVATE → healthcare institutional-legitimacy crisis.
+      // Distinct from 'medicine_law' (transactional single enforcement action). Law identity
+      // stays courts/enforcement/compliance; governance/finance are couplings.
+      id: 'healthcare_law_core',
+      domains: ['health', 'law', 'governance', 'finance'],
+      threshold: 0.48,
+      pattern: 'healthcare-law institutional envelope',
+      drivers: ['FDA approval / compliance backlog surge (drug-lag enforcement gap, warning-letter velocity)', 'CMS coverage / reimbursement litigation (appeals & disputes skyrocketing, administrative-law-judge docket)', 'healthcare-fraud enforcement caseload (False Claims Act velocity, DOJ Health Care Fraud Section, qui tam filings)', 'provider-license suspension / breach-of-contract litigation spike (state medical-board actions, payer-provider disputes)', 'medical-malpractice tort-reform pressure (jury-verdict & settlement trends, US Courts civil caseload)', 'HIPAA / privacy enforcement action volume (OCR breach-penalty velocity, patient-data-breach consequences; RELX/TRI compliance research)', 'hospital / payer consent-decree compliance monitoring (existing enforcement actions intensifying, bond-covenant stress on hospital networks)'],
+      options: [
+        { label: 'trace healthcare-law institutional exposure', type: 'analysis' },
+        { label: 'investigate FDA / CMS / fraud-enforcement co-elevation', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors the education_core affinity (education+law+governance+finance co-bind) as an
+      // institutional-envelope signal: accreditation/Title-IV enforcement, civil-rights and
+      // student-debt litigation CO-ELEVATE → education-system legitimacy crisis. Distinct from
+      // 'law_education' (workforce-pipeline). Law identity stays courts/enforcement.
+      id: 'education_law_core',
+      domains: ['education', 'law', 'governance', 'finance'],
+      threshold: 0.47,
+      pattern: 'education-law institutional envelope',
+      drivers: ['accreditor-authority enforcement pressure (loss-of-accreditation threat, recognition-review litigation)', 'Title IV compliance litigation surge (for-profit oversight, gainful-employment rules, ED Office of Inspector General actions)', 'student-rights civil-rights enforcement (discrimination claims, due-process litigation, US Courts caseload)', 'student-debt collection litigation (FCRA violations, predatory-lending claims, CFPB student-debt enforcement)', 'institutional-closure bankruptcy litigation (financial-aid clawback disputes, teach-out obligations)', 'faculty-labor litigation & union enforcement pressure (NLRA, wage-and-hour claims, NLRB docket)', 'state education-law enforcement (charter-authorization revocation, teacher-certification disputes, state attorneys-general litigation; RELX/TRI legal-research demand)'],
+      options: [
+        { label: 'trace education-law institutional exposure', type: 'analysis' },
+        { label: 'investigate accreditation / Title-IV / debt enforcement co-elevation', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors the research_core affinity (research+law+governance+finance co-bind) as an
+      // institutional-envelope signal: patent enforcement, IRB/misconduct oversight and
+      // grant-compliance pressure CO-ELEVATE → knowledge-production legitimacy crisis. Distinct
+      // from 'research_law' (transactional IP/IRB lag). Law identity stays courts/IP/enforcement.
+      id: 'research_law_core',
+      domains: ['research', 'law', 'governance', 'finance'],
+      threshold: 0.46,
+      pattern: 'research-law institutional envelope',
+      drivers: ['patent-office backlog & quality-erosion enforcement (USPTO pendency, PTAB inter-partes review velocity, overbroad-patent litigation; RELX/TRI patent-research tooling)', 'IP-theft litigation (university-vs-researcher disputes, hostile acquisition of research programs, inventorship suits)', 'IRB-misconduct enforcement & research-integrity compliance pressure (NSF / NIH Office of Inspector General misconduct investigations, ORI queue)', 'research-compliance litigation (FERPA / HIPAA on research data, export-control on dual-use research, BIS/EAR)', 'grant-fraud & false-certification enforcement (False Claims Act on research grants, DOJ / OIG prosecution)', 'university-patent licensing disputes (Bayh-Dole compliance, tech-transfer litigation)', 'researcher-visa / export-control compliance pressure (OFAC / EAR on foreign researchers, VEVRAA enforcement)'],
+      options: [
+        { label: 'trace research-law institutional exposure', type: 'analysis' },
+        { label: 'investigate patent / misconduct / grant-fraud co-elevation', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors the technology_core affinity (technology+law+governance+research co-bind) as an
+      // institutional-envelope signal: antitrust, IP, data-privacy and securities enforcement
+      // CO-ELEVATE → tech-sector legitimacy crisis. Law identity stays courts/antitrust/IP/
+      // enforcement; technology/research are couplings (no chips/AI/cloud content in law's core).
+      id: 'technology_law_core',
+      domains: ['technology', 'law', 'governance', 'research'],
+      threshold: 0.47,
+      pattern: 'technology-law institutional envelope',
+      drivers: ['antitrust litigation (FTC / DOJ Antitrust enforcement against AAPL/MSFT/GOOGL/META, US Courts docket)', 'IP / patent litigation surge (PTAB inter-partes reviews, patent-assertion-entity suits, design-patent disputes; RELX/TRI litigation analytics)', 'cybersecurity-breach / data-privacy enforcement (FTC, state attorneys-general, GDPR / CCPA fines, VRSK compliance-analytics)', 'securities litigation (shareholder suits on data-breach, cybersecurity material-weakness disclosure, SEC enforcement)', 'software-patent validity challenges (patent-quality erosion, overbroad-patent litigation)', 'export-control enforcement on AI / chip tech (EAR / ITAR on semiconductors, BIS foundry-access restrictions, CFIUS reviews)', 'technology-standards regulatory pressure (spectrum policy, platform-liability / Section 230 litigation)'],
+      options: [
+        { label: 'trace technology-law institutional exposure', type: 'analysis' },
+        { label: 'investigate antitrust / IP / privacy enforcement co-elevation', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors the culture_core affinity (culture+law+governance+communication co-bind) as an
+      // institutional-envelope signal: copyright/IP enforcement, heritage litigation, censorship
+      // and civil-rights suits CO-ELEVATE → culture-sector legitimacy crisis. Distinct from
+      // 'communication_law' (telecom/platform). Law identity stays courts/IP/civil-rights enforcement.
+      id: 'culture_law_core',
+      domains: ['culture', 'law', 'governance', 'communication'],
+      threshold: 0.46,
+      pattern: 'culture-law institutional envelope',
+      drivers: ['copyright / IP enforcement on creative works (RIAA / MPAA litigation, fair-use disputes, DRM challenges; RELX/TRI rights-clearance research)', 'heritage-site litigation (UNESCO site-damage claims, cultural-property repatriation, cleanup disputes on cultural sites)', 'artists-rights litigation (labor disputes, residual-payment claims, moral-rights / VARA enforcement)', 'censorship / arts-funding civil-rights litigation (NEA funding challenges, First-Amendment exhibit-content disputes)', 'cultural-institution fraud / misconduct enforcement (museum-board malfeasance, grant-misuse investigations, state attorneys-general actions)', 'youth / civil-rights litigation in arts orgs (First-Amendment on educational materials, US Courts civil-rights caseload)', 'hate-speech / incitement platform-liability litigation (venue-as-platform liability, defamation from cultural events)'],
+      options: [
+        { label: 'trace culture-law institutional exposure', type: 'analysis' },
+        { label: 'investigate copyright / heritage / civil-rights co-elevation', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'environment_law' (CERCLA/RCRA liability) extended to environmental-JUSTICE:
+      // when enforcement, civil-rights litigation, consent-decree violations and environmental-
+      // racism challenges CO-ELEVATE → environmental-justice legitimacy crisis. Population
+      // vulnerability stratification (vulnerable-group legal standing) is the LOAD-BEARING source
+      // dimension. Law identity stays courts/enforcement/civil-rights; environment/population couple.
+      id: 'environment_justice_law',
+      domains: ['environment', 'law', 'population', 'governance'],
+      threshold: 0.48,
+      pattern: 'environmental-justice institutional envelope',
+      drivers: ['environmental-justice civil-rights litigation (disparate-impact under Title VI, Clean Air Act citizen suits, EPA Civil Rights Office docket)', 'community-consent-decree enforcement (EPA-violation suits, communities litigating non-compliance)', 'Superfund / remediation-site civil-rights litigation (disproportionate exposure in low-income zones, CERCLA standing)', 'tribal-sovereignty environmental disputes (Native-lands water rights, mining on reservations, tribal-court litigation)', 'environmental-racism litigation (lead-poisoning, pollution-zone proximity claims, US Courts caseload)', 'selective-enforcement-bias investigations (low-income-vs-affluent enforcement disparity, DOJ Environment & Natural Resources Division)', 'right-to-know / transparency litigation (CERCLA information-access, EPA data-disclosure delays; World Justice Project Rule-of-Law Index strain)'],
+      options: [
+        { label: 'trace environmental-justice legal exposure', type: 'analysis' },
+        { label: 'investigate consent-decree / civil-rights enforcement co-elevation', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors the communication_core affinity (communication+law+governance+finance co-bind)
+      // as an institutional-envelope signal: press-freedom erosion, platform-liability, broadcast-
+      // licensing enforcement and media-merger antitrust CO-ELEVATE → journalism-institutional
+      // legitimacy crisis. Distinct from 'communication_law' (telecom/platform transmission).
+      // Law identity stays courts/enforcement/defamation; communication/finance are couplings.
+      id: 'communication_law_core',
+      domains: ['communication', 'law', 'governance', 'finance'],
+      threshold: 0.47,
+      pattern: 'media-law institutional envelope',
+      drivers: ['press-freedom & journalist-protection litigation (subpoena resistance, shield-law enforcement, reporter-imprisonment cases; RELX/TRI legal research)', 'platform-liability litigation (Section 230 interpretation, defamation suits against social platforms)', 'broadcast-licensing & spectrum enforcement (FCC license revocation, rule-violation forfeitures)', 'media-merger antitrust (DOJ / FTC consolidation review, local-media ownership limits)', 'libel / slander / defamation litigation (rising costs, chilling effect on journalism, US Courts caseload)', 'FOIA / sunshine-law litigation (media suing for government-transparency access)', 'digital-media tax / regulation litigation (state social-media regulation, platform ad-revenue tax challenges)'],
+      options: [
+        { label: 'trace media-law institutional exposure', type: 'analysis' },
+        { label: 'investigate press-freedom / platform / antitrust co-elevation', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
     }
   ];
 

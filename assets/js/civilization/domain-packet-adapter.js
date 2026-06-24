@@ -684,6 +684,53 @@
     // industry/environment/governance/medicine/education win when both are present
     // (a slot is single-domain, so they never collide in practice).
     var _bpopm = _emO(slot && (slot.brainPopulationModel || slot.brainDemographicsModel));
+    // Law parity: law brains emit a recurrent JUDICIAL-LIFECYCLE model
+    // (brainLawModel) that follows the SAME envelope signature as energy's
+    // energyModel, infrastructure's infrastructureModel, culture's cultureModel,
+    // finance's financeModel, economy's economyModel, trade's supplyChainModel,
+    // industry's industryModel, environment's environmentModel, governance's
+    // governanceModel, medicine's medicineModel, education's educationModel, and
+    // population's populationModel, so Civilization + the Main Brain consume it
+    // identically. The law model tracks the JUDICIAL-PROCESS lifecycle (the
+    // docket-cycle phase — intake → docket → trial → appeal — and case-disposition
+    // throughput trajectory as docketCycle / judicialProcessCycle; case-filing &
+    // appellate-standard constraint tightening — filing thresholds, standing /
+    // justiciability gating, evidentiary & appellate-review standards, statutory
+    // compliance mandates, enforcement intensity — as the regulation signal,
+    // caseFilingRegulation; case-backlog & pending-appeal accumulation distress,
+    // adjudicative-capacity shortfall, and judicial-system / rule-of-law failure
+    // risk — predictedStress via caseBacklogRisk / dueProcessFailureRisk; the
+    // prior on judicial-efficiency / on-time-ruling health — priorJudicialHealth)
+    // rather than neurological cycles, civil-asset lifecycles, attention economies,
+    // single-firm capital lifecycles, macroeconomic business cycles, goods-in-motion
+    // logistics, factory-output production, climate / ecosystem health, institutional
+    // / policy regimes, healthcare delivery, curriculum delivery, or demographic
+    // transitions. Law is the LEGAL-SYSTEM & COURTS / JUDICIARY & RULE-OF-LAW /
+    // LITIGATION & DISPUTE-RESOLUTION / REGULATION & COMPLIANCE / CONTRACTS &
+    // ENFORCEMENT / INTELLECTUAL-PROPERTY-LAW / CRIMINAL-JUSTICE / LEGAL-SERVICES &
+    // ACCESS-TO-JUSTICE layer and stays DISTINCT from governance (governance =
+    // policy / rulemaking / administration / elections / oversight; law = the
+    // JUDICIAL / legal-system / courts / case-law / adjudication / enforcement
+    // substrate), from finance (capital markets / credit / solvency — a coupling
+    // via securities litigation, not law's substrate), and from intelligence.
+    // Law's cross-domain couplings (governance enacting statutes that courts
+    // adjudicate, finance generating securities & bankruptcy litigation, business
+    // contract enforcement, intellectual-property disputes, regulatory compliance
+    // across every domain) all presume docket-throughput & adjudicative-capacity
+    // visibility that only a recurrent model provides. Law binds mostly to
+    // INDICATORS & AUTHORITIES, not single companies; where legal-sector entities
+    // are needed, real signal validation anchors on REAL legal-services / legal-
+    // tech / compliance identifiers — RELX (LexisNexis), TRI (Thomson Reuters /
+    // Westlaw), VERX (Vertex tax & compliance), CSGP (CoStar legal/property data) —
+    // and on law INDICES / AUTHORITIES — US Courts caseload statistics (Administrative
+    // Office of the U.S. Courts), the ABA (American Bar Association), DOJ, SCOTUS
+    // (Supreme Court of the United States), and the World Justice Project Rule-of-Law
+    // Index — never energy oil/gas/grid tickers or fabricated entities, which are
+    // another domain's content. We map its judicial field names onto the shared
+    // deepBrain envelope. Energy/infrastructure/culture/finance/economy/supplyChain/
+    // industry/environment/governance/medicine/education/population win when both are
+    // present (a slot is single-domain, so they never collide in practice).
+    var _blawm = _emO(slot && slot.brainLawModel);
     var deepBrain = _bem ? {
       cycle:           _num(_bem.cycle),
       predictionError: _emO(_bem.predictionError),
@@ -1505,6 +1552,112 @@
       socialInequalityTrend:      _num(_bpopm.socialInequalityTrend),
       agingDependencyRisk:        _num(_bpopm.agingDependencyRisk),
       domainDiagnosisPacket: _emO(_bpopm.domainPopulationPacket) || _emO(_bpopm.domainDiagnosisPacket)
+    } : _blawm ? {
+      // Judicial-lifecycle mapped onto the shared recurrent envelope.
+      // docketCycle (judicial-process phase) → cycle,
+      // caseFilingRegulation → regulation,
+      // caseBacklogRisk / dueProcessFailureRisk → predictedStress,
+      // priorJudicialHealth → prior, domainLawPacket → domainDiagnosisPacket.
+      // Field aliases accept the brain's emitted names (brainDocketCycle,
+      // brainJudicialProcessCycle, brainCaseBacklogRisk, brainDueProcessFailureRisk,
+      // brainPriorJudicialHealth) stripped of the brain* prefix, so either naming
+      // flows identically.
+      cycle:           _num(
+                         _blawm.docketCycle != null ? _blawm.docketCycle
+                         : (_blawm.judicialProcessCycle != null ? _blawm.judicialProcessCycle
+                         : (_blawm.docketPhase != null ? _blawm.docketPhase
+                         : _blawm.cycle))
+                       ),
+      predictionError: _emO(_blawm.predictionError),
+      // caseFilingRegulation is the law regulation signal: the tightening (or
+      // loosening) of case-filing & appellate-standard constraint — filing
+      // thresholds, standing / justiciability gating, evidentiary & appellate-
+      // review standards, statutory-compliance mandates, enforcement intensity —
+      // and how it is steering access to adjudication and the flow of disputes
+      // through the courts (analogous to energy's regulationState, infrastructure's
+      // capital-funding regulation, culture's expression state, finance's funding-
+      // source quality, economy's fiscal-monetary regulation, trade's freight-cost
+      // regulation, industry's capacity-utilization regulation, environment's
+      // climate-regulation state, governance's regulatory-constraint state,
+      // medicine's clinical-access regulation, education's pedagogical-access
+      // regulation, and population's immigration-policy regulation). Permissive /
+      // balanced / restrictive filing & appellate-standard regime.
+      regulationState: (_blawm.caseFilingRegulation && _blawm.caseFilingRegulation.state)
+                       || _str(_blawm.caseFilingRegulation)
+                       || (_blawm.appellateStandardState && _blawm.appellateStandardState.state)
+                       || _str(_blawm.appellateStandardState)
+                       || (_blawm.regulation && _blawm.regulation.state)
+                       || null,
+      regulation:      _emO(_blawm.caseFilingRegulation) || _emO(_blawm.appellateStandardState) || _emO(_blawm.regulation),
+      readyForHandoff: _blawm.readyForHandoff === true,
+      // caseBacklogRisk is the law predicted-stress signal (likelihood of a
+      // judicial-process / docket distress — case-backlog & pending-appeal
+      // accumulation overshoot, adjudicative-capacity shortfall, trial-delay /
+      // continuance pileup, court-funding shortfall forcing service cuts),
+      // carried through unchanged in [0..1]. dueProcessFailureRisk is the broader
+      // rule-of-law / access-to-justice analogue (due-process erosion, enforcement
+      // breakdown), and judicialStress is the generic adjudication-stress analogue;
+      // any may stand in for predictedStress, caseBacklogRisk wins as the more
+      // acute near-term signal.
+      predictedStress: _num(
+        _blawm.caseBacklogRisk != null ? _blawm.caseBacklogRisk
+        : (_blawm.dueProcessFailureRisk != null ? _blawm.dueProcessFailureRisk
+        : (_blawm.judicialStress != null ? _blawm.judicialStress
+        : _blawm.predictedStress))
+      ),
+      // priorJudicialHealth carries the prior on judicial-efficiency / on-time-
+      // ruling health (the docket-throughput / adjudicative-capacity trajectory),
+      // mirroring energy's prior, infrastructure's priorAssetHealth, culture's
+      // creativeCapacity, finance's priorCapitalHealth, economy's priorGrowthTrend,
+      // trade's priorThroughputHealth, industry's priorCapacityHealth, environment's
+      // priorEnvironmentalHealth, governance's priorInstitutionalHealth, medicine's
+      // priorHealthSystemHealth, education's priorEducationHealth, and population's
+      // priorPopulationHealth. When reported as a health value ([0..1] high =
+      // on-time rulings, cleared dockets, low appeal-reversal, strong rule-of-law),
+      // invert into a stress (backlog) expectation; an explicit expectedStress wins.
+      prior:           (_blawm.priorJudicialHealth || _blawm.prior)
+                       ? (function (p) {
+                           return {
+                             // expectedStress mirrors energy: here the prior
+                             // expected case-backlog / due-process-failure distress level.
+                             expectedStress: _num(
+                               p.expectedStress != null ? p.expectedStress
+                               : (p.expectedBacklog != null ? p.expectedBacklog
+                               : (typeof p.judicialHealth === 'number' ? (1 - _clamp01(p.judicialHealth))
+                               : (typeof p.judicialEfficiency === 'number' ? (1 - _clamp01(p.judicialEfficiency))
+                               : (typeof p.onTimeRulingRate === 'number' ? (1 - _clamp01(p.onTimeRulingRate))
+                               : (typeof p === 'number' ? (1 - _clamp01(p)) : null)))))
+                             ),
+                             confidence:     _num(p.confidence),
+                             samples:        _num(p.samples)
+                           };
+                         })(_blawm.priorJudicialHealth || _blawm.prior)
+                       : null,
+      // Judicial telemetry preserved alongside the shared envelope so downstream
+      // artifact expansion can feed law / access-to-justice decisions (case-backlog
+      // & pending-appeal accumulation, case-filing / disposition throughput, trial-
+      // delay & continuance trend, appeal-reversal rate, judicial-vacancy &
+      // adjudicative-capacity gap, regulatory-enforcement intensity, rule-of-law /
+      // judicial-independence trajectory, access-to-justice / legal-aid gap). Sourced
+      // from REAL law indicators & authorities: US Courts caseload statistics
+      // (Administrative Office of the U.S. Courts), the ABA, DOJ, SCOTUS, and the
+      // World Justice Project Rule-of-Law Index; legal-sector entity proxies RELX
+      // (LexisNexis), TRI (Thomson Reuters / Westlaw), VERX (Vertex compliance), and
+      // CSGP. These are JUDICIARY / COURTS / LITIGATION / COMPLIANCE / RULE-OF-LAW
+      // signals — distinct from governance's policy / rulemaking (a coupling: courts
+      // adjudicate what governance enacts), finance's capital markets (a coupling via
+      // securities & bankruptcy litigation), and intelligence.
+      caseBacklogTrend:           _num(_blawm.caseBacklogTrend),
+      caseFilingTrend:            _num(_blawm.caseFilingTrend),
+      dispositionThroughputTrend: _num(_blawm.dispositionThroughputTrend),
+      trialDelayTrend:            _num(_blawm.trialDelayTrend),
+      appealReversalTrend:        _num(_blawm.appealReversalTrend),
+      judicialVacancyGap:         _num(_blawm.judicialVacancyGap),
+      enforcementIntensityTrend:  _num(_blawm.enforcementIntensityTrend),
+      ruleOfLawTrend:             _num(_blawm.ruleOfLawTrend),
+      accessToJusticeGap:         _num(_blawm.accessToJusticeGap),
+      dueProcessFailureRisk:      _num(_blawm.dueProcessFailureRisk),
+      domainDiagnosisPacket: _emO(_blawm.domainLawPacket) || _emO(_blawm.domainDiagnosisPacket)
     } : null;
 
     // Feed health. Configured count is the MAX of every honest declaration

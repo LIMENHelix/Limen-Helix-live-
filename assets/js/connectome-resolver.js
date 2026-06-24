@@ -63,7 +63,36 @@ var FEED_TO_CONNECTOME = {
   //   activates the dedicated finance circuit in addition to the science circuit,
   //   so finance can see research-origin stress and propagate a correction.
   research:       ['science', 'finance'],
-  law:            ['legal'],
+  // ADDITIVE (cognition port, law gap 1 — IP-protection + contract/credit-enforcement coupling):
+  //   the law feed signal previously relayed through ['legal'] ONLY. The 'legal'
+  //   connectome domain carries 123 law node-participations (legal system & courts,
+  //   judiciary & rule of law, litigation & dispute resolution, regulation &
+  //   compliance, contracts & enforcement, intellectual-property law, criminal
+  //   justice, legal services & access to justice), but routing through the single
+  //   'legal' domain meant law stress ORIGINATING in other circuits never reached the
+  //   law circuit — it stayed silenced. We KEEP 'legal' FIRST as the primary domain
+  //   (validated path, never removed) and ADD two coupling domains:
+  //     - 'technology': captures IP-PROTECTION stress only — patent-backlog pressure,
+  //       invention/patent disputes, CVE/disclosure-driven liability risk. This is the
+  //       intellectual-property-law coupling (patent & invention safety), NOT compute/
+  //       infrastructure; real anchors are RELX/LexisNexis & TRI/Thomson Reuters-Westlaw
+  //       legal-research over patent dockets, USPTO patent-pendency indicators, and the
+  //       WIPO IP filing series — indicator-based, never fabricated.
+  //     - 'finance': captures CONTRACT/CREDIT-CLAIM-ENFORCEMENT stress only — credit-
+  //       agreement disputes, collateral/security claims, capital-adequacy regulation
+  //       and compliance (VERX/Vertex tax-&-compliance, CSGP/CoStar contract & lease
+  //       enforcement context). This is the contracts-&-enforcement coupling, NOT market
+  //       liquidity; anchored to US Courts caseload statistics (commercial litigation),
+  //       DOJ/SCOTUS docket indices and the World Justice Project Rule-of-Law Index
+  //       (regulatory-enforcement & civil-justice factors) — indicator-based, never
+  //       fabricated. So law stress originating in contracts (supply-chain credit), IP
+  //       (technology), or credit-claims (finance) routes through the dedicated law
+  //       circuit nodes (litigation / regulatory / IP / access-to-justice) instead of
+  //       being silenced. Law is kept DISTINCT from governance (policy/administration/
+  //       elections), intelligence (collection/analysis) and finance (capital markets):
+  //       law is the JUDICIAL / legal-system / courts / enforcement circuit. The law
+  //       feed signal carries ZERO energy content — neither coupling is an energy edge.
+  law:            ['legal', 'technology', 'finance'],
   // ADDITIVE (cognition port, finance gap 2 — trade finance → finance circuit):
   //   trade stress (payment systems, credit for shipments, collateral for goods)
   //   now also activates the dedicated finance circuit. Trade without trade finance

@@ -385,7 +385,48 @@
     //     Single-domain by design — population aging drives it, with finance /
     //     governance / health as permitted co-elevators.
     'demographic-resilience-investment':  'INVESTABLE',
-    'aging-infrastructure-modernization': 'INVESTABLE'
+    'aging-infrastructure-modernization': 'INVESTABLE',
+    // ─── Law / judicial-native fan-out lanes (additive) ────────────────────
+    // The law domain (legal system & courts, judiciary & rule of law,
+    // litigation & dispute resolution, regulation & compliance, contracts &
+    // enforcement, intellectual-property law, criminal justice, legal services
+    // & access to justice) emits to court-modernization / IP-prosecution /
+    // litigation-shaped lanes beyond the generic grant/loan/investment set.
+    // Without entries here those lanes hit the "key absent" branch and emit
+    // UNKNOWN_LANE_FOR_PATH_MAP (warn), demoting every law artifact routed
+    // through them — exactly the trade / industry / environment / governance /
+    // communication / education / population gap fixed above. These are LANE
+    // keys (not domain keys), mirroring how sba-loans / investments map to
+    // INVESTABLE. Law binds to real legal-INFORMATION / litigation-platform /
+    // compliance OPERATORS (RELX LexisNexis legal research, TRI Thomson
+    // Reuters / Westlaw, CSGP CoStar real-estate-legal data, VRSK Verisk
+    // legal-risk analytics, VERX Vertex tax-compliance) and legal AUTHORITIES /
+    // INDICES (US Courts caseload statistics, ABA, DOJ, SCOTUS, World Justice
+    // Project Rule-of-Law Index), mostly indicator-based — NOT single
+    // companies. Kept DISTINCT from governance (governance = policy /
+    // administration / elections / rulemaking; law = the JUDICIAL / legal-
+    // system / courts / enforcement), from intelligence (collection / analysis),
+    // and from finance (capital markets).
+    //   - legal-compliance-infrastructure: a bounded court / docket / e-filing /
+    //     legal-compliance modernization build-out = capital deployment into
+    //     legal-system infrastructure → INVESTABLE path (like sba-loans).
+    //   - intellectual-property-advocacy: IP prosecution / enforcement /
+    //     portfolio protection = an intellectual-property output → PATENTABLE
+    //     path (like patents / copyrights).
+    //   - regulatory-litigation-defense: a cross-domain litigation / regulatory-
+    //     defense / dispute-resolution signal; genuine white-space — no
+    //     Observatory fan-in path defined yet (like franchise / systemic-risk /
+    //     factory-output / ecosystem-restoration / institutional-integrity /
+    //     information-ecosystem-integrity / learning-outcomes-research) → null.
+    //     The packet is built from the HandoffPacket alone and emits
+    //     NO_ENRICHMENT_PATH (info, not warn) rather than UNKNOWN_LANE_FOR_PATH_MAP.
+    //   - rule-of-law-modernization: a bounded judicial-capacity / access-to-
+    //     justice / institutional rule-of-law modernization = capital deployment
+    //     into institutional judicial capacity → INVESTABLE path.
+    'legal-compliance-infrastructure': 'INVESTABLE',
+    'intellectual-property-advocacy':  'PATENTABLE',
+    'regulatory-litigation-defense':   null,
+    'rule-of-law-modernization':       'INVESTABLE'
     // ─── Science / research-native fan-out lanes (additive, documentation) ─────
     // The science domain (runtime/snapshot key `research`; URL/portal key
     // `science` — see domain-identity.js) covers scientific research & discovery,
@@ -490,7 +531,19 @@
     'teacher-development-funding':  [],
     'access-equity-program':        [],
     'institutional-consolidation':  [],
-    'learning-outcomes-research':   []
+    'learning-outcomes-research':   [],
+    // Law / judicial-native fan-out lanes (see LANE_TO_PATH). The IP-advocacy
+    // lane resolves to the PATENTABLE path, so it mirrors the patents lane and
+    // strips dollar figures / counterparty detail (intellectual-property claims
+    // must not carry valuation or who-pays prose). The compliance-infrastructure
+    // / litigation-defense / rule-of-law-modernization lanes are capital /
+    // institutional-capacity lanes where valueRange, compensation, and
+    // counterparty detail are load-bearing — they mirror sba-loans / investments
+    // (no fields forbidden).
+    'legal-compliance-infrastructure': [],
+    'intellectual-property-advocacy':  ['valueRange', 'companies', 'whyPays', 'compensation'],
+    'regulatory-litigation-defense':   [],
+    'rule-of-law-modernization':       []
   };
 
   // ─── Citation hints — verified URLs / opaque agency tokens ONLY ────────
@@ -920,7 +973,38 @@
     'Revvity Investor Relations':            'https://ir.revvity.com/',
     'Bruker Investor Relations':             'https://ir.bruker.com/',
     'IQVIA Investor Relations':              'https://ir.iqvia.com/',
-    'ICON Investor Relations':               'https://investor.iconplc.com/'
+    'ICON Investor Relations':               'https://investor.iconplc.com/',
+    // Law / judicial primary-source authorities: the LEGAL-SYSTEM & RULE-OF-LAW
+    // signal layer (court caseload & docket statistics, judiciary & rule-of-law
+    // institutional health, litigation & dispute-resolution flow, regulation &
+    // compliance, criminal justice, access to justice, plus the real legal-
+    // information / litigation-platform / compliance OPERATOR investor-relations
+    // pages). Anchored on the federal judiciary authority (US Courts caseload
+    // statistics), the prosecutorial authority (DOJ), the high court (SCOTUS),
+    // the bar / legal-profession authority (ABA), the international rule-of-law
+    // index (World Justice Project), and real legal-sector operators (RELX
+    // LexisNexis legal research & analytics, TRI Thomson Reuters / Westlaw legal
+    // information, CSGP CoStar legal/real-estate data, VRSK Verisk legal-risk
+    // analytics, VERX Vertex tax-compliance). DISTINCT from governance (no
+    // rulemaking / elections / public-administration sources — law is the
+    // JUDICIAL / courts / enforcement layer), from intelligence (no collection /
+    // analysis sources), and from finance (no capital-markets sources). Verified
+    // canonical landing pages / opaque agency tokens only — never AI-constructed
+    // deep links. Mostly INDICATOR-based — the operators are a minority, the
+    // indices the spine. Mirrors the energy / infrastructure / culture / finance /
+    // economy / technology / defense / intelligence / industry / environment /
+    // agriculture / communication / medicine / education / population / science
+    // structure.
+    'US Courts Caseload Statistics':         'https://www.uscourts.gov/data-news/judiciary-news/statistics-reports',
+    'DOJ Justice Statistics':                'https://www.justice.gov/',
+    'Supreme Court Docket':                  'https://www.supremecourt.gov/',
+    'American Bar Association':              'https://www.americanbar.org/',
+    'World Justice Project Rule of Law Index': 'https://worldjusticeproject.org/rule-of-law-index/',
+    'RELX Investor Relations':               'https://www.relx.com/investors',
+    'Thomson Reuters Investor Relations':    'https://www.thomsonreuters.com/en/investor-relations.html',
+    'CoStar Group Investor Relations':       'https://www.costargroup.com/investors',
+    'Verisk Legal Risk (Law)':               'https://investor.verisk.com/',
+    'Vertex Compliance Investor Relations':  'https://investors.vertexinc.com/'
   };
 
   // ─── Domain-specific primary source priority ───────────────────────────
@@ -1181,7 +1265,29 @@
     // communication / medicine / education / population ordering so science
     // artifacts no longer demote through the PRIMARY_BY_FALLBACK path.
     research: ['NSF Grants', 'NIH Grants', 'arXiv CS', 'Nature Journal', 'Science Journal', 'OpenAlex', 'NASA Technical Reports', 'Thermo Fisher Research Investor Relations', 'Danaher Investor Relations', 'Agilent Investor Relations', 'Waters Investor Relations', 'Illumina Investor Relations', 'Bio-Rad Investor Relations', 'Revvity Investor Relations', 'Bruker Investor Relations', 'IQVIA Investor Relations', 'ICON Investor Relations'],
-    science: ['NSF Grants', 'NIH Grants', 'arXiv CS', 'Nature Journal', 'Science Journal', 'OpenAlex', 'NASA Technical Reports', 'Thermo Fisher Research Investor Relations', 'Danaher Investor Relations', 'Agilent Investor Relations', 'Waters Investor Relations', 'Illumina Investor Relations', 'Bio-Rad Investor Relations', 'Revvity Investor Relations', 'Bruker Investor Relations', 'IQVIA Investor Relations', 'ICON Investor Relations']
+    science: ['NSF Grants', 'NIH Grants', 'arXiv CS', 'Nature Journal', 'Science Journal', 'OpenAlex', 'NASA Technical Reports', 'Thermo Fisher Research Investor Relations', 'Danaher Investor Relations', 'Agilent Investor Relations', 'Waters Investor Relations', 'Illumina Investor Relations', 'Bio-Rad Investor Relations', 'Revvity Investor Relations', 'Bruker Investor Relations', 'IQVIA Investor Relations', 'ICON Investor Relations'],
+    // Law / judicial primary sources: legal-system & rule-of-law authorities
+    // that anchor the law signal layer — the federal judiciary caseload
+    // authority (US Courts statistics = the docket / litigation-flow spine), the
+    // prosecutorial authority (DOJ), the high court (SCOTUS docket), the
+    // bar / legal-profession authority (ABA), the international rule-of-law index
+    // (World Justice Project = the institutional-health spine), and the real
+    // legal-information / litigation-platform / compliance OPERATORS (RELX
+    // LexisNexis, TRI Thomson Reuters / Westlaw, CSGP CoStar legal data, VRSK
+    // Verisk legal-risk analytics, VERX Vertex compliance). Ranked highest-signal
+    // structural first: the US Courts caseload statistics and World Justice
+    // Project rule-of-law index lead (the litigation-flow & institutional-health
+    // spine), the DOJ / SCOTUS / ABA authorities and the legal-information
+    // operators ground it. Mostly INDICATOR-based — the indices lead, the
+    // operators follow. DISTINCT from governance (no rulemaking / elections /
+    // public-administration sources — this is the JUDICIAL / courts / enforcement
+    // layer), from intelligence (no collection / analysis sources), and from
+    // finance (no capital-markets sources). Mirrors the energy / infrastructure /
+    // culture / finance / economy / technology / defense / intelligence /
+    // industry / environment / agriculture / communication / medicine / education /
+    // population / science ordering so law artifacts no longer demote through the
+    // PRIMARY_BY_FALLBACK path.
+    law: ['US Courts Caseload Statistics', 'World Justice Project Rule of Law Index', 'DOJ Justice Statistics', 'Supreme Court Docket', 'American Bar Association', 'RELX Investor Relations', 'Thomson Reuters Investor Relations', 'CoStar Group Investor Relations', 'Verisk Legal Risk (Law)', 'Vertex Compliance Investor Relations']
   };
 
   // ─── Feed token map for evidence-source verification ───────────────────
@@ -1570,7 +1676,35 @@
     'IQVIA Investor Relations':              ['IQV', 'IQVIA', 'research data', 'clinical research analytics', 'real-world evidence', 'CRO'],
     'ICON Investor Relations':               ['ICLR', 'ICON', 'contract research', 'CRO', 'clinical research organization', 'research services'],
     'arXiv Preprint':                        ['arXiv', 'preprint', 'peer review', 'manuscript', 'submitted'],
-    'NSF SBIR/STTR':                         ['NSF', 'SBIR', 'STTR', 'small business innovation', 'Phase I', 'Phase II', 'commercialization']
+    'NSF SBIR/STTR':                         ['NSF', 'SBIR', 'STTR', 'small business innovation', 'Phase I', 'Phase II', 'commercialization'],
+    // Law / judicial feed tokens: literal substrings the brain's evidence prose
+    // must contain for _isEvidenceSourceVerified to anchor law artifacts. Each
+    // entry mirrors a CITATION_HINTS / PRIMARY_PRIORITY_MAP law feed so the
+    // legal-system & rule-of-law signal layer verifies instead of always
+    // failing. Anchors are the real federal-judiciary vocabulary (US Courts,
+    // caseload, docket, filings, pending cases), prosecutorial vocabulary (DOJ,
+    // prosecution, enforcement action, consent decree), high-court vocabulary
+    // (Supreme Court, SCOTUS, certiorari, ruling, opinion), bar / profession
+    // vocabulary (ABA, legal profession), rule-of-law index vocabulary (World
+    // Justice Project, rule of law, access to justice, judicial independence),
+    // and real legal-information / litigation-platform / compliance OPERATOR
+    // tickers (RELX, TRI, CSGP, VRSK, VERX) with their legal-research / Westlaw /
+    // litigation-analytics / compliance vocabulary — kept DISTINCT from
+    // governance (no rulemaking / elections / public-administration tokens — this
+    // is the JUDICIAL / courts / enforcement layer), from intelligence (no
+    // SIGINT / collection tokens — "lawful interception" belongs to intelligence,
+    // not law), and from finance (no credit / capital-markets tokens). Matches
+    // the brain prose against real legal sources, not generic law words alone.
+    'US Courts Caseload Statistics':         ['US Courts', 'caseload', 'docket', 'case filings', 'pending cases', 'judiciary', 'court statistics'],
+    'DOJ Justice Statistics':                ['DOJ', 'Department of Justice', 'prosecution', 'enforcement action', 'consent decree', 'criminal justice'],
+    'Supreme Court Docket':                  ['Supreme Court', 'SCOTUS', 'certiorari', 'ruling', 'opinion', 'oral argument'],
+    'American Bar Association':              ['ABA', 'American Bar Association', 'legal profession', 'bar admission', 'legal services'],
+    'World Justice Project Rule of Law Index': ['World Justice Project', 'rule of law', 'rule-of-law index', 'access to justice', 'judicial independence', 'civil justice'],
+    'RELX Investor Relations':               ['RELX', 'LexisNexis', 'legal research', 'legal information', 'legal analytics'],
+    'Thomson Reuters Investor Relations':    ['TRI', 'Thomson Reuters', 'Westlaw', 'legal research', 'legal information', 'litigation analytics'],
+    'CoStar Group Investor Relations':       ['CSGP', 'CoStar', 'legal data', 'property records', 'litigation data'],
+    'Verisk Legal Risk (Law)':               ['VRSK', 'Verisk', 'legal risk', 'litigation analytics', 'claims litigation'],
+    'Vertex Compliance Investor Relations':  ['VERX', 'Vertex', 'tax compliance', 'regulatory compliance', 'compliance automation']
   };
 
   // ─── Module-level flag: SCHEMA_VERSION_BUMPED warning ─────────────────

@@ -333,6 +333,28 @@
       gov_fiscal_governance_stress:'Fiscal-governance stress rising. Budget gridlock and public-finance credibility deteriorating.',
       gov_institutional_credibility_shock:'Institutional credibility shock forming. Public trust and rule-of-law confidence falling sharply.',
       gov_generic:                 'Governance domain under stress. Institutions, policy, and public trust pressured.',
+      // Law-specific distress voice — judiciary/courts/litigation/rule-of-law/enforcement-grounded,
+      // mirrors energy's per-diagnosis narration (energy-brain diagnosisIndex: GRID_STRESS /
+      // SUPPLY_SHOCK / CRUDE_SPIKE) and the governance/infrastructure/finance/... ports above, but for
+      // the LAW domain identity: legal system & courts, judiciary & rule of law, litigation & dispute
+      // resolution, regulation & compliance, contracts & enforcement, intellectual-property law,
+      // criminal justice, legal services & access to justice. Law maps to legal-system diagnosis
+      // families: judicial-capacity-failure (court backlog / caseload overload), rule-of-law erosion,
+      // enforcement-gap, litigation surge, regulatory crackdown, compliance failure, constitutional
+      // challenge. Bound to LEGAL AUTHORITIES & INDICES — US Courts caseload statistics, ABA, DOJ,
+      // SCOTUS, World Justice Project Rule-of-Law Index — mostly indicator-based, NOT single companies;
+      // where legal-sector entities are needed, real identifiers (RELX LexisNexis, TRI Thomson Reuters/
+      // Westlaw, VERX Vertex compliance, CSGP CoStar legal-data). Kept DISTINCT from governance
+      // (policy/administration/elections), intelligence (collection/analysis), and finance (capital).
+      // CLIENT-SIDE narration flavor only — never touches any scoring path.
+      law_litigation_surge:         'Litigation volume surging. Case filings and dispute load accelerating across dockets.',
+      law_regulatory_crackdown:     'Regulatory enforcement intensifying. Investigations, penalties, and compliance actions escalating.',
+      law_rule_of_law_erosion:      'Rule-of-law signals weakening. Judicial independence and legal-order integrity degrading.',
+      law_court_backlog:            'Court capacity overloading. Caseload backlog and adjudication delays widening across the judiciary.',
+      law_compliance_failure:       'Compliance posture failing. Regulatory obligations and contractual controls breaking down.',
+      law_constitutional_challenge: 'Constitutional challenge forming. Contested statutes and judicial-review pressure rising before the high court.',
+      law_enforcement_gap:          'Enforcement gap widening. Judgment execution and legal-remedy delivery falling short of mandate.',
+      law_generic:                  'Legal domain under stress. Courts, litigation, and rule of law pressured.',
       // Agriculture-specific distress voice — farming/crops/livestock/food-production-grounded,
       // mirrors energy's per-diagnosis narration (energy-brain diagnosisIndex: OIL_SHOCK /
       // GRID_COLLAPSE) and the infrastructure/culture/finance/economy/technology/defense/
@@ -534,6 +556,14 @@
       gov_fiscal_governance_stress:'Fiscal-governance stress. Resolve budget gridlock and shore up public-finance credibility.',
       gov_institutional_credibility_shock:'Credibility shock. Reinforce rule-of-law confidence and public trust immediately.',
       gov_generic:                 'Governance domain elevated. Investigate institutions and policy.',
+      law_litigation_surge:         'Litigation surge. Triage dockets, staff dispute resolution, and contain exposure.',
+      law_regulatory_crackdown:     'Regulatory crackdown. Close compliance gaps and prepare for enforcement and penalties.',
+      law_rule_of_law_erosion:      'Rule-of-law erosion. Defend judicial independence and legal-order integrity now.',
+      law_court_backlog:            'Court backlog critical. Expand adjudication capacity and clear the caseload queue.',
+      law_compliance_failure:       'Compliance failure. Remediate controls and restore regulatory and contractual standing.',
+      law_constitutional_challenge: 'Constitutional challenge. Prepare judicial-review defense and contingency on contested statutes.',
+      law_enforcement_gap:          'Enforcement gap. Restore judgment execution and legal-remedy delivery against mandate.',
+      law_generic:                  'Legal domain elevated. Investigate courts and rule of law.',
       agr_crop_failure:            'Crop failure. Secure emergency input supply and liquidation pricing support.',
       agr_drought_stress:          'Drought stress. Shift to drought-tolerant varieties and lock irrigation allocations.',
       agr_livestock_disease:       'Livestock disease. Quarantine herds, contain spread, and secure protein supply (TSN).',
@@ -682,7 +712,7 @@
       supplyChain: 'Supply chain', infrastructure: 'Infrastructure',
       culture: 'Culture', finance: 'Finance', defense: 'Defense',
       intelligence: 'Intelligence', industry: 'Industry', governance: 'Governance',
-      education: 'Education', population: 'Population'
+      education: 'Education', population: 'Population', law: 'Law'
     };
 
     // Infrastructure parity: mirror energy's per-diagnosis voice. Energy distinguishes
@@ -845,6 +875,23 @@
       var govkey = _classifyGovernanceDistress(detail.signals);
       if (govkey) {
         _narrate(govkey, {}, PRIORITY_MEDIUM);
+        return;
+      }
+    }
+
+    // Law parity: mirror energy's per-diagnosis voice the same way governance and the other domains
+    // do. Law is the JUDICIAL/LEGAL-SYSTEM/COURTS/ENFORCEMENT identity — classify the legal distress
+    // flavor from signal content (litigation surge / regulatory crackdown / rule-of-law erosion /
+    // court backlog / compliance failure / constitutional challenge / enforcement gap) and narrate a
+    // law-specific line instead of the generic. Law binds mostly to LEGAL AUTHORITIES & INDICES (US
+    // Courts caseload, ABA, DOJ, SCOTUS, World Justice Project Rule-of-Law Index), not single
+    // companies; where entities are needed, real legal-sector identifiers (RELX LexisNexis, TRI
+    // Thomson Reuters/Westlaw, VERX Vertex compliance, CSGP). Kept DISTINCT from governance (policy/
+    // administration/elections), intelligence, and finance. CLIENT-SIDE narration flavor only.
+    if (detail.domain === 'law') {
+      var lawkey = _classifyLawDistress(detail.signals);
+      if (lawkey) {
+        _narrate(lawkey, {}, PRIORITY_MEDIUM);
         return;
       }
     }
@@ -1304,6 +1351,50 @@
     if (/institutional[\s_-]?(credibility|trust|erosion)|public[\s_-]?trust|rule[\s_-]?of[\s_-]?law|wgi\b|worldwide[\s_-]?governance|gao\b|trust[\s_-]?(collapse|erosion)|confidence[\s_-]?(loss|shock)|democratic[\s_-]?backslid/.test(blob)) return 'gov_institutional_credibility_shock';
     if (/policy[\s_-]?(failure|gridlock|incoherence)|legislative[\s_-]?(stalemate|gridlock)|gridlock|stalemate|enforcement[\s_-]?failure|regulatory[\s_-]?(failure|paralysis)|congress\.?gov|policy[\s_-]?paralysis|administrative[\s_-]?(breakdown|failure)/.test(blob)) return 'gov_policy_failure';
     return 'gov_generic';
+  }
+
+  // Map raw law signal content → a legal-system distress voice key.
+  // Law vocabulary covers the LAW domain identity: legal system & courts, judiciary & rule of law,
+  // litigation & dispute resolution, regulation & compliance, contracts & enforcement, intellectual-
+  // property law, criminal justice, legal services & access to justice. Law maps to legal-system
+  // diagnosis families (judicial-capacity-failure / rule-of-law-erosion / enforcement-gap) expressed
+  // as: litigation surge, regulatory crackdown, rule-of-law erosion, court backlog, compliance
+  // failure, constitutional challenge, enforcement gap. Bound to LEGAL AUTHORITIES & INDICES — US
+  // Courts caseload statistics, ABA, DOJ, SCOTUS, World Justice Project (WJP) Rule-of-Law Index —
+  // NOT single-company tickers; where entities are needed, real legal-sector identifiers (RELX
+  // LexisNexis, TRI Thomson Reuters/Westlaw, VERX Vertex compliance, CSGP). Law COUPLES to governance
+  // via regulation but keeps its own judiciary/courts/litigation/enforcement identity and stays
+  // DISTINCT from governance (policy/administration/elections), intelligence (collection/analysis),
+  // and finance (capital markets). Mirrors the energy/infra/.../governance classifier structure
+  // exactly. Returns a TEMPLATES key, or null. CLIENT-SIDE narration flavor only — never touches
+  // any scoring path.
+  function _classifyLawDistress(signals) {
+    var blob = '';
+    if (Array.isArray(signals)) {
+      for (var i = 0; i < signals.length; i++) {
+        var s = signals[i];
+        if (typeof s === 'string') blob += ' ' + s;
+        else if (s && typeof s === 'object') {
+          blob += ' ' + (s.type || '') + ' ' + (s.id || '') + ' ' + (s.label || '') + ' ' + (s.name || '');
+        }
+      }
+    }
+    blob = blob.toLowerCase();
+
+    // Order by specificity: constitutional challenge and rule-of-law erosion are sharpest (the
+    // legal-order signals), then regulatory crackdown, court backlog, litigation surge, compliance
+    // failure, enforcement gap; fall back to a generic law line. Matches legal-authority/index
+    // shorthand (scotus/doj/aba/wjp/us courts) and real legal-sector identifiers (relx/lexisnexis/
+    // westlaw/tri/verx/vertex/csgp) alongside plain words, with word boundaries on short tokens to
+    // avoid substring collisions.
+    if (/constitutional[\s_-]?(challenge|question)|judicial[\s_-]?review|certiorari|cert[\s_-]?petition|scotus|supreme[\s_-]?court|unconstitutional|statute[\s_-]?(strike|challenge)|landmark[\s_-]?(case|ruling)/.test(blob)) return 'law_constitutional_challenge';
+    if (/rule[\s_-]?of[\s_-]?law|judicial[\s_-]?(independence|integrity)|wjp\b|world[\s_-]?justice|legal[\s_-]?order|defy[\s_-]?(ruling|court)|contempt[\s_-]?of[\s_-]?court|court[\s_-]?(capture|packing)|judicial[\s_-]?erosion|due[\s_-]?process[\s_-]?(erosion|breach)/.test(blob)) return 'law_rule_of_law_erosion';
+    if (/regulatory[\s_-]?(crackdown|enforcement|action)|doj\b|sec[\s_-]?(enforce|action|charge)|ftc[\s_-]?(action|enforce)|investigation|subpoena|penalty|fine|prosecut|indict|consent[\s_-]?decree|verx|vertex/.test(blob)) return 'law_regulatory_crackdown';
+    if (/court[\s_-]?(backlog|congestion|delay)|caseload|docket[\s_-]?(backlog|congestion)|adjudication[\s_-]?delay|case[\s_-]?(backlog|pendency)|trial[\s_-]?delay|judicial[\s_-]?capacity|us[\s_-]?courts[\s_-]?caseload|pending[\s_-]?cases/.test(blob)) return 'law_court_backlog';
+    if (/litigation[\s_-]?(surge|wave|spike)|case[\s_-]?filing|lawsuit|class[\s_-]?action|mass[\s_-]?tort|dispute[\s_-]?(load|volume)|claims[\s_-]?surge|filing[\s_-]?(spike|volume)|relx|lexisnexis|westlaw|\btri\b|csgp/.test(blob)) return 'law_litigation_surge';
+    if (/compliance[\s_-]?(failure|breach|gap)|regulatory[\s_-]?(breach|violation)|contract[\s_-]?breach|covenant[\s_-]?breach|aba\b|bar[\s_-]?(complaint|discipline)|sanction[\s_-]?(legal|bar)|governance[\s_-]?control[\s_-]?failure|disclosure[\s_-]?failure/.test(blob)) return 'law_compliance_failure';
+    if (/enforcement[\s_-]?(gap|shortfall|failure)|judgment[\s_-]?(execution|enforcement)|legal[\s_-]?remedy|access[\s_-]?to[\s_-]?justice|unenforced|non[\s_-]?compliance[\s_-]?with[\s_-]?(ruling|order)|remedy[\s_-]?delivery|justice[\s_-]?gap/.test(blob)) return 'law_enforcement_gap';
+    return 'law_generic';
   }
 
   // Map raw education signal content → an education distress voice key.

@@ -835,6 +835,52 @@
       analystEnabled: true,
       connectomeNodes: [12, 13],  // DLPFC + vlPFC
       feeds: [
+        // ── Judicial-system capacity "price/cost" anchors (real quantitative legal-system metrics) ──
+        // Law equivalent of energy's EIA/FRED commodity anchors and governance's WGI/V-Dem
+        // institutional-quality indices: instead of oil/gas spot prices, law's quantitative
+        // spine is the measured STATE OF THE JUDICIAL SYSTEM — caseload throughput, docket-
+        // processing latency, rule-of-law index, litigation pace, incarceration baseline, and
+        // appellate/sentencing outcomes. The identity is the JUDICIARY / COURTS / RULE OF LAW
+        // / ENFORCEMENT — distinct from governance (policy/administration/elections/public
+        // finance). Caseload & throughput = energy grid demand & dispatch; rule-of-law index
+        // degradation = grid frequency/voltage instability (early system-breakdown warning).
+        // Every index/series is REAL (WJP, US Courts, USSC, BJS, NCSC) — never fabricated. This
+        // closes the asymmetry where law had only qualitative docket/enforcement RSS and no
+        // institutional-quality anchor like energy's commodity price or governance's WGI.
+        // -- World Justice Project Rule of Law Index (the "crude price" of the legal system) --
+        // WJP's annual country-level index scores judicial independence, civil & criminal
+        // procedural fairness, and contract/property enforcement; the native judicial-system
+        // anchor (NOT borrowed from governance's WGI RL.EST). Mirrors EIA Petroleum's role.
+        { name: 'WJP Rule of Law Index', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'worldjusticeproject.org/rule-of-law-index/global/2024', feedClass: 'judicial_quality', seriesId: 'WJP_RULEOFLAWINDEX' },                        // overall rule-of-law index — legal-system capacity anchor (mirrors EIA Petroleum LIVE)
+        { name: 'WJP Civil Justice Factor', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'worldjusticeproject.org/rule-of-law-index/factors/2024/Civil%20Justice', feedClass: 'judicial_quality', seriesId: 'WJP_CIVILJUSTICE' },       // civil justice subindex — access/no-delay/effective-enforcement
+        { name: 'WJP Criminal Justice Factor', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'worldjusticeproject.org/rule-of-law-index/factors/2024/Criminal%20Justice', feedClass: 'judicial_quality', seriesId: 'WJP_CRIMINALJUSTICE' }, // criminal justice subindex — effective/impartial adjudication & due process
+        { name: 'WJP Order & Security Factor', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'worldjusticeproject.org/rule-of-law-index/factors/2024/Order%20and%20Security', feedClass: 'judicial_quality', seriesId: 'WJP_ORDERSECURITY' }, // order & security subindex — rule-of-law stability anchor (frequency/voltage analogue)
+        // -- US Courts caseload & docket-throughput (federal judicial dispatch/demand) --
+        // Administrative Office of the U.S. Courts Judicial Business / Judiciary Data tables:
+        // filings, terminations, pending caseload, and median case-resolution time by district
+        // & circuit. The throughput anchor = energy grid demand & dispatch. Series are REAL.
+        { name: 'ABA Federal Caseload (Judicial Business)', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.uscourts.gov/data-news/judicial-business', feedClass: 'caseload', seriesId: 'ABA_CASELOAD_FEDERAL' },                 // AO/Judicial Conference annual federal district & appellate caseload — filings/dispositions throughput anchor
+        { name: 'US Courts Federal Court Management Statistics', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.uscourts.gov/data-news/data-tables', feedClass: 'caseload', seriesId: 'USCOURTS_FCMS_MEDIANTIME' },              // Federal Court Management Statistics — median months filing-to-disposition (docket latency / resolution-time anchor)
+        { name: 'US Courts Appellate Reversal Rates', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.uscourts.gov/data-news/data-tables/2024/12/31/judicial-business-2024/b-5', feedClass: 'caseload', seriesId: 'USCOURTS_APPEALS_REVERSAL' }, // courts-of-appeals dispositions / affirm-reverse-remand rates — appellate-outcome signal
+        // -- Sentencing & criminal-justice outcomes (US Sentencing Commission, REAL datafiles) --
+        { name: 'US Sentencing Commission Datafiles', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.ussc.gov/research/datafiles/commission-datafiles', feedClass: 'sentencing', seriesId: 'SENTENCING_COMMISSION_DATAFILES' }, // USSC individual-offender datafiles — conviction/sentence-length trends by offense (sentencing-outcome anchor)
+        { name: 'US Sentencing Commission Quick Facts', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.ussc.gov/research/quick-facts', feedClass: 'sentencing', seriesId: 'USSC_QUICKFACTS' },                                  // USSC Quick Facts — per-offense sentencing summaries (criminal-justice throughput context)
+        // -- Incarceration & corrections baseline (Bureau of Justice Statistics, DOJ) --
+        { name: 'BJS Incarceration Rate', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'bjs.ojp.gov/data-collection/national-prisoner-statistics-nps-program', feedClass: 'corrections', seriesId: 'INCARCERATION_RATE' },         // BJS National Prisoner Statistics — incarceration per 100k baseline (corrections-system load anchor)
+        { name: 'BJS Federal Justice Statistics', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'bjs.ojp.gov/data-collection/federal-justice-statistics-program-fjsp', feedClass: 'corrections', seriesId: 'BJS_FEDERAL_JUSTICE' }, // BJS Federal Justice Statistics — arrest-to-conviction pipeline volumes (enforcement throughput)
+        // -- Civil litigation pace (National Center for State Courts — state-court resolution time) --
+        { name: 'NCSC Court Statistics (Civil Litigation Pace)', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.courtstatistics.org/court-statistics', feedClass: 'caseload', seriesId: 'CIVIL_LITIGATION_PACE' },             // NCSC Court Statistics Project — state-court case resolution time / time-to-disposition (civil docket-pace anchor)
+        // -- Legal-services & compliance industrial base (REAL listed equities, never fabricated) --
+        // Law's INDUSTRIAL-BASE analogue to energy's commodity anchors and governance's govtech
+        // primes: the firms that supply legal research, court/compliance software, and tax-
+        // regulatory enforcement tooling. Tickers are REAL: RELX (RELX plc — LexisNexis legal
+        // research & risk), TRI (Thomson Reuters — Westlaw / legal & regulatory), VERX (Vertex —
+        // tax/regulatory compliance automation), CSGP (CoStar — property/contract data analogue).
+        { name: 'Polygon.io RELX', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/RELX/prev', feedClass: 'legal_services', ticker: 'RELX' },  // RELX plc — LexisNexis (legal research / litigation analytics / risk & compliance data)
+        { name: 'Polygon.io TRI', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/TRI/prev', feedClass: 'legal_services', ticker: 'TRI' },    // Thomson Reuters — Westlaw (legal research / case law / regulatory intelligence)
+        { name: 'Polygon.io VERX', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/VERX/prev', feedClass: 'legal_services', ticker: 'VERX' }, // Vertex Inc. — tax & regulatory compliance automation (enforcement/compliance tooling)
+        { name: 'Polygon.io CSGP', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/CSGP/prev', feedClass: 'legal_services', ticker: 'CSGP' }, // CoStar Group — property/contract data & analytics (real-property-rights enforcement analogue)
+        // ── Existing rulemaking / judicial / enforcement anchors (kept) ──
         { name: 'Federal Register', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.federalregister.gov/api/v1/documents.json' },
         { name: 'Regulations.gov', apiKey: 'REGULATIONS_GOV_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.regulations.gov/v4/documents' },
         // ── Law feed expansion (judicial / enforcement / compliance) ──

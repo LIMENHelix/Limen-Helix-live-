@@ -489,7 +489,84 @@
     // the complementary LANE_GATES / LANE_TO_PATH updates in artifact-packet-builder.js)
     // so the emitter prefers the population-primary lane, exactly as defense promoted
     // 'defense-procurement' into its hint list.
-    'demographic-resilience-investment', 'aging-infrastructure-modernization'
+    'demographic-resilience-investment', 'aging-infrastructure-modernization',
+    // ─── Law-native PRIMARY lanes (additive) ──────────────────────────────
+    // Law RUNTIME KEY in this file is 'law' (URL/portal key is also 'law'). Law
+    // IDENTITY = the legal SYSTEM & courts, judiciary & rule of law, litigation &
+    // dispute resolution, regulation & compliance ENFORCEMENT, contracts & their
+    // enforcement, intellectual-property LAW, criminal justice, and legal services
+    // & access to justice. Law binds mostly to INDICATORS & INSTITUTIONS (US Courts
+    // caseload statistics, ABA, DOJ, SCOTUS docket, World Justice Project Rule-of-
+    // Law Index), and where a legal-sector ENTITY is genuinely needed it uses real
+    // proxies: legal-information / litigation-analytics / compliance operators (RELX
+    // LexisNexis, TRI Thomson Reuters/Westlaw, VERX Vertex tax-compliance, CSGP
+    // litigation/property analytics, VRSK Verisk claims/litigation analytics). Never
+    // fabricated tickers, never energy oil/gas/grid content.
+    //
+    // Law is DISTINCT from governance (governance = government & public administration,
+    // policy/rulemaking, elections, public finance — the POLICY/ADMINISTRATIVE branch;
+    // law = the JUDICIAL/legal-SYSTEM, courts, litigation, enforcement), from
+    // intelligence (collection/analysis), and from finance (capital markets). Where
+    // governance MAKES the rule, law ADJUDICATES & ENFORCES it.
+    //
+    // BEFORE this block, law appeared ONLY as a SECONDARY co-eligible participant in
+    // copyrights (anyDomain, line 528) and was entirely absent from every other lane.
+    // It NEVER owned a PRIMARY source lane the way defense owns 'defense-procurement'
+    // (line 76), intelligence owns 'intelligence-operations' (line 96), industry owns
+    // 'industrial-capacity-investment' (line 161), governance owns 'regulatory-
+    // compliance-modernization' (line 197), and population owns 'demographic-resilience-
+    // investment' (line 492). This reflected the historical assumption that law is a
+    // 'background' regime that other domains' lanes REFERENCE (merger/antitrust legal
+    // regime in healthcare-provider-consolidation, the legal/judicial regime in
+    // regulatory-compliance-modernization) but never ORIGINATES opportunity. Reality:
+    // the legal system's own modernization (court/docket automation, litigation-
+    // management platforms, IP enforcement, judicial capacity) is bounded, investable
+    // opportunity. This block brings law to PRIMARY-lane parity — law is the
+    // negotiator, not a support domain:
+    //   'legal-compliance-infrastructure' — one bounded court-automation / litigation-
+    //       management-platform / docket-modernization capex program for a SINGLE court
+    //       system or legal-services operator routed to the law negotiator (analogous
+    //       to 'defense-procurement' for kinetic, 'regulatory-compliance-modernization'
+    //       for a single agency). Single-domain: a legal-tech modernization targets one
+    //       bounded court system / docket / platform. Anchored to US Courts caseload
+    //       indicators with legal-tech operator proxies (RELX, TRI, CSGP).
+    //   'intellectual-property-advocacy' — one bounded IP / patent / trademark
+    //       enforcement / prosecution-support campaign for a single rights-holder /
+    //       portfolio routed to the law negotiator (analogous to a single bounded
+    //       'collection-platform-acquisition' / one IP campaign). Single-domain: one
+    //       bounded IP enforcement program. DISTINCT from the generic 'patents' lane
+    //       (which drafts ONE invention) — this is the litigation/enforcement/advocacy
+    //       side of IP LAW. Anchored to USPTO/PTAB & federal-court IP-docket indicators
+    //       with legal-research operator proxies (RELX LexisNexis, TRI Westlaw).
+    //   'regulatory-litigation-defense' — multi-sector regulatory-defense coalition /
+    //       antitrust-coalition / cross-domain enforcement-defense opportunity routed
+    //       to the law negotiator as the PRIMARY coordinator. Inherently MULTI-domain
+    //       (a regulatory-defense coalition spans the defended sector, the governance
+    //       regime being litigated, and the legal counsel), so NOT single-domain. This
+    //       is the WHITE-SPACE cross-domain lane the gap spec flags (energy couples to
+    //       capital-access; law couples to multi-sector regulatory defense). Anchored
+    //       to DOJ/FTC enforcement & federal-court antitrust-docket indicators.
+    //   'rule-of-law-modernization' — institutional judicial-capacity / appellate-
+    //       efficiency / sentencing-reform / docket-backlog-reduction opportunity for a
+    //       single bounded judicial system routed to the law negotiator (analogous to
+    //       'aging-infrastructure-modernization' for a single institution). The
+    //       gap-spec sample gate marks this singleDomainOnly:false because judicial
+    //       capacity spans the courts, governance funding, and the intelligence/oversight
+    //       partners that audit it, so NOT single-domain. Anchored to World Justice
+    //       Project Rule-of-Law Index, US Courts caseload, ABA, SCOTUS docket
+    //       indicators — never fabricated tickers, never energy content.
+    // Like the defense/intelligence/industry/governance/agriculture/medicine/
+    // communication/education/population blocks, these gates are LIVE (reachable): a law
+    // opportunity whose lane hints are empty falls through to the full LANES list in
+    // recompute(), so it is tested against these law-primary gates. The paired follow-up
+    // (NOT done here — single-file edit) is promoting 'legal-compliance-infrastructure'
+    // into DOMAIN_LANE_HINTS.law in cross-node-opportunity.js so the emitter prefers the
+    // law-primary lane, exactly as defense promoted 'defense-procurement' into its hint
+    // list. Like fossil energy's trade-native lanes (design note below), no dead tokens:
+    // these are reachable via the recompute() fall-through, not invented for an emitter
+    // that does not yet produce them.
+    'legal-compliance-infrastructure', 'intellectual-property-advocacy',
+    'regulatory-litigation-defense', 'rule-of-law-modernization'
     // ─── DESIGN NOTE — future trade-native lanes (NOT added now) ──────────
     // Per the wiring-gap analysis: trade currently participates as a SECONDARY
     // participant (via supplyChain in business-grants/sba-loans/franchise/credit-
@@ -529,7 +606,10 @@
     // business-grants — governance added (additive): governance shapes permitting /
     //   environmental-review / public-funding-mandate timelines that gate the capex
     //   business-grant opportunities originate from (infrastructure-native coupling).
-    'business-grants': { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['agriculture','industry','infrastructure','supplyChain','education','energy','technology','governance'] },
+    // business-grants — law added (additive): regulatory-compliance / court-
+    //   modernization grants (legal-services & access-to-justice public funding)
+    //   originate from the law (judicial/legal-system) domain.
+    'business-grants': { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['agriculture','industry','infrastructure','supplyChain','education','energy','technology','governance','law'] },
     'research-grants': { minEvidence: 0.55, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['research','education','medicine','health','science','environment'] },
     // nsf-project-pitch — NSF SBIR/STTR Project Pitch lane. Stricter than the
     // generic research-grants gate: NSF demands BOTH technical innovation AND
@@ -541,7 +621,9 @@
     //   research-funding mandates / agency priorities / regulatory-clarity that shape
     //   whether a publicly-funded innovation pitch is fundable (infrastructure/public-
     //   finance coupling). Does NOT signal NSF eligibility — only packet detail.
-    'nsf-project-pitch': { minEvidence: 0.55, minConfidence: 0.60, singleDomainOnly: false, anyDomain: ['research','technology','medicine','health','science','energy','infrastructure','environment','industry','governance'] },
+    // nsf-project-pitch — law added (additive): legal-tech / judicial-efficiency /
+    //   access-to-justice research pitches originate from the law domain.
+    'nsf-project-pitch': { minEvidence: 0.55, minConfidence: 0.60, singleDomainOnly: false, anyDomain: ['research','technology','medicine','health','science','energy','infrastructure','environment','industry','governance','law'] },
     'sba-loans':       { minEvidence: 0.45, minConfidence: 0.50, singleDomainOnly: true,  anyDomain: ['economy','finance','industry','agriculture','supplyChain','infrastructure','technology'] },
     'franchise':       { minEvidence: 0.45, minConfidence: 0.50, singleDomainOnly: true,  anyDomain: ['supplyChain','industry','culture','agriculture'] },
     'investments':     { minEvidence: 0.55, minConfidence: 0.60, singleDomainOnly: true,  anyDomain: ['finance','economy','technology','energy','infrastructure'] },
@@ -555,7 +637,9 @@
     //   Governance added (additive): prudential supervision / public-finance &
     //   budget authority / monetary-policy regime is governance's regulatory domain,
     //   and it shapes (and originates, via public-credit programs) credit demand.
-    'credit-facilities':  { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: true,  anyDomain: ['finance','economy','industry','infrastructure','supplyChain','technology','governance'] },
+    //   Law added (additive): litigation financing / legal-services-provider credit
+    //   is a single bounded counterparty file originated from the law domain.
+    'credit-facilities':  { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: true,  anyDomain: ['finance','economy','industry','infrastructure','supplyChain','technology','governance','law'] },
     // systemic-risk — solvency cascades / contagion / liquidity-spiral signal.
     //   Inherently cross-domain (contagion crosses sector boundaries), so
     //   singleDomainOnly is false. Higher evidence/confidence bar: a systemic-
@@ -984,7 +1068,71 @@
     //   never fabricated tickers. Passing this gate signals only "sufficient packet
     //   detail to attempt an aging-infrastructure note" — NOT a capex decision, NOT
     //   a funding decision, NOT any prediction.
-    'aging-infrastructure-modernization': { minEvidence: 0.55, minConfidence: 0.60, singleDomainOnly: true,  anyDomain: ['population','health','finance','infrastructure','economy'] }
+    'aging-infrastructure-modernization': { minEvidence: 0.55, minConfidence: 0.60, singleDomainOnly: true,  anyDomain: ['population','health','finance','infrastructure','economy'] },
+    // ─── Law-native PRIMARY lane gates (additive) ─────────────────────────
+    // Law RUNTIME KEY is 'law' (URL/portal key 'law'). Law is the JUDICIAL/legal-
+    // SYSTEM domain — courts, litigation, dispute resolution, regulation/compliance
+    // ENFORCEMENT, IP LAW, criminal justice, access to justice — DISTINCT from
+    // governance (policy/administration/elections/public-finance: governance MAKES
+    // the rule, law ADJUDICATES & ENFORCES it), intelligence (collection/analysis),
+    // and finance (capital markets). Law binds mostly to INDICATORS & INSTITUTIONS
+    // (US Courts caseload, ABA, DOJ, SCOTUS docket, World Justice Project Rule-of-Law
+    // Index); where an entity is needed it uses real legal-sector proxies (RELX
+    // LexisNexis, TRI Thomson Reuters/Westlaw, VERX Vertex, CSGP, VRSK) — never
+    // fabricated tickers, never energy oil/gas/grid content.
+    //
+    // legal-compliance-infrastructure — one bounded court-automation / litigation-
+    //   management-platform / docket-modernization capex program for a SINGLE court
+    //   system or legal-services operator routed to the law negotiator (analogous to
+    //   defense-procurement / regulatory-compliance-modernization as a PRIMARY single-
+    //   domain lane). singleDomainOnly: a legal-tech modernization targets one bounded
+    //   court system / docket / platform, so cross-node multi-domain aggregations are
+    //   routed away. Law-primary, with the modernization-adjacent domains (governance =
+    //   the public-funding / judicial-administration regime, infrastructure = the
+    //   courthouse / records physical & systems plant, technology = the legal-tech /
+    //   case-management platform COUPLING). Passing this gate signals only "sufficient
+    //   packet detail to attempt a legal-compliance-infrastructure note" — NOT a capex
+    //   decision, NOT a procurement, NOT any prediction. Anchored to US Courts caseload
+    //   indicators with legal-tech operator proxies (RELX, TRI, CSGP).
+    'legal-compliance-infrastructure':  { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: true,  anyDomain: ['law','governance','infrastructure','technology'] },
+    // intellectual-property-advocacy — one bounded IP / patent / trademark enforcement
+    //   / prosecution-support campaign for a single rights-holder / portfolio routed to
+    //   the law negotiator (analogous to a single bounded collection-platform-acquisition
+    //   / one IP campaign). singleDomainOnly: one bounded IP enforcement program. DISTINCT
+    //   from the generic 'patents' lane (which drafts ONE invention) — this is the
+    //   litigation / enforcement / advocacy side of IP LAW. Law-primary, with the
+    //   advocacy-adjacent domains (research = the underlying invention/portfolio,
+    //   technology = the IP-analytics / prior-art tooling COUPLING). Higher bar (an
+    //   enforcement-campaign assertion demands stronger support). Passing this gate
+    //   signals only "sufficient packet detail to attempt an IP-advocacy note" — NOT a
+    //   filing, NOT an enforcement decision, NOT any prediction. Anchored to USPTO/PTAB
+    //   & federal-court IP-docket indicators with legal-research proxies (RELX, TRI).
+    'intellectual-property-advocacy':   { minEvidence: 0.55, minConfidence: 0.60, singleDomainOnly: true,  anyDomain: ['law','research','technology'] },
+    // regulatory-litigation-defense — multi-sector regulatory-defense coalition /
+    //   antitrust-coalition / cross-domain enforcement-defense opportunity routed to the
+    //   law negotiator as the PRIMARY coordinator. Inherently MULTI-domain (a regulatory-
+    //   defense coalition spans the defended sector, the governance regime being
+    //   litigated, and the legal counsel), so singleDomainOnly is false. This is the
+    //   WHITE-SPACE cross-domain lane the gap spec flags. Law-primary, with the defense-
+    //   adjacent domains (governance = the regulatory/enforcement regime being litigated,
+    //   intelligence = the investigative/oversight evidence base, finance = the
+    //   defended-sector capital at stake). Passing this gate signals only "sufficient
+    //   packet detail to attempt a regulatory-litigation-defense note" — NOT a legal
+    //   strategy, NOT an outcome, NOT any prediction. Anchored to DOJ/FTC enforcement &
+    //   federal-court antitrust-docket indicators.
+    'regulatory-litigation-defense':    { minEvidence: 0.55, minConfidence: 0.60, singleDomainOnly: false, anyDomain: ['law','governance','intelligence','finance'] },
+    // rule-of-law-modernization — institutional judicial-capacity / appellate-efficiency
+    //   / sentencing-reform / docket-backlog-reduction opportunity for a judicial system
+    //   routed to the law negotiator (analogous to aging-infrastructure-modernization
+    //   for a single institution). singleDomainOnly false (per gap spec): judicial
+    //   capacity spans the courts, governance funding, and the oversight partners that
+    //   audit it. Law-primary, with the capacity-adjacent domains (governance = judicial-
+    //   administration funding & public-finance, intelligence = the oversight/audit
+    //   partner). Passing this gate signals only "sufficient packet detail to attempt a
+    //   rule-of-law-modernization note" — NOT a reform decision, NOT any prediction.
+    //   Anchored to World Justice Project Rule-of-Law Index, US Courts caseload, ABA,
+    //   SCOTUS docket indicators — never fabricated tickers, never energy content.
+    'rule-of-law-modernization':        { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['law','governance','intelligence'] }
   };
 
   var _last = { lanes: {}, timestamp: 0, totalPackets: 0 };

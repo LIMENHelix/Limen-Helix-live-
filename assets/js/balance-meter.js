@@ -908,6 +908,71 @@
     { re: /methodology (rigor )?(restor|strengthen|improv|reform)|(statistical|methodological) (rigor|power) (restor|strengthen|improv|gain)|robust (methodology|method|study design) (adopt|gain)|(adequately|well)(-| )?powered (study|design) (gain|adopt)|rigor (reform|standard) (strengthen|adopt|gain)|(good|sound) research practice (adopt|gain|strengthen)/i, weight: 0.12, tag: 'methodology_rigor_restoration' }
   ];
 
+  // ─── Law-native semantics (JUDICIARY / COURTS / RULE OF LAW / LEGAL SYSTEM) ──
+  // Energy parity (same shape as INFRA / CULTURE / FINANCE / ECONOMY /
+  // TECHNOLOGY / DEFENSE / INTELLIGENCE / TRADE / INDUSTRY / AGRICULTURE /
+  // GOVERNANCE / COMMUNICATION / POPULATION / RESEARCH above): the law domain has
+  // its OWN failure/recovery vocabulary. Where energy reads crude_above_90 /
+  // grid_stress / chokepoint as named pathways with weighted contributions, LAW
+  // reads the JUDICIAL / legal-system stack: courts & the judiciary, rule of law,
+  // litigation & dispute resolution, regulation & compliance, contracts &
+  // enforcement, intellectual-property law, criminal justice, and legal services /
+  // access to justice. Destabilizing = litigation surge, court backlog / docket
+  // congestion, rule-of-law erosion, regulatory crackdown, compliance failure,
+  // constitutional challenge, enforcement gap, judicial-independence erosion, and
+  // access-to-justice collapse. Stabilizing = court-docket recovery,
+  // judicial-independence restoration, access-to-justice recovery, rule-of-law
+  // strengthening, enforcement coherence, compliance adoption, dispute-resolution
+  // efficiency, and legal-services capacity recovery.
+  //
+  // Anchors are REAL legal-sector identifiers (RELX/LexisNexis, TRI Thomson
+  // Reuters/Westlaw, VERX Vertex compliance, CSGP CoStar legal-data) and legal
+  // AUTHORITIES / INDICES (US Courts caseload statistics, ABA, DOJ, SCOTUS, World
+  // Justice Project Rule-of-Law Index) — NEVER oil/gas/grid content as the
+  // domain's OWN identity, and never fabricated. Law COUPLES to governance via
+  // policy/administration, to finance via regulatory enforcement, and to
+  // intelligence via surveillance authority, but its IDENTITY stays the JUDICIAL /
+  // legal-system / courts / enforcement (docket throughput/backlog, rule-of-law
+  // strength/erosion, enforcement coherence/gap, compliance adoption/failure,
+  // access-to-justice reach/collapse), kept DISTINCT from governance (policy/
+  // administration/elections is a coupling, not law's identity), intelligence
+  // (surveillance is a coupling), and finance (capital markets is a coupling).
+  // ADVISORY ONLY — wholly separate from the validated P3 distress kernel.
+  //
+  // Each entry maps a keyword pattern (matched against the domain's signal
+  // strings) to a weighted push on the destabilizing or stabilizing score —
+  // identical mechanism to energy's condition→weight mapping, law content.
+  var LAW_DESTABILIZING = [
+    // Litigation surge — caseload spike, lawsuit wave, mass-tort / class-action flood.
+    { re: /litigation (surge|spike|wave|explosion|flood)|lawsuit (surge|wave|flood|spike)|(mass(-| )?tort|class(-| )?action) (surge|wave|flood)|(case ?load|caseload|filing(s)?) (surge|spike|explosion)|(us courts|federal court) (caseload|filing(s)?) (surge|spike|rise)|legal (claim|dispute) (surge|flood)/i, weight: 0.18, tag: 'litigation_surge' },
+    // Court backlog — docket congestion, case-clearance collapse, trial delay.
+    { re: /court (backlog|congestion|delay)|docket (backlog|congestion|overload|surge)|case(-| )?clearance (collapse|decline|fall|drop)|(trial|hearing|case) (delay|backlog|postpone)|(judicial|court) (capacity|throughput) (strain|collapse|overload)|pending case(s)? (surge|backlog)|(us courts) (backlog|pending)/i, weight: 0.16, tag: 'court_backlog' },
+    // Rule-of-law erosion — WJP index decline, judicial-independence loss, legal-norm breakdown.
+    { re: /rule of law (erosion|erod|decline|breakdown|backslid|deteriorat)|(world justice project|wjp) (rule of law )?(index )?(decline|drop|fall|deteriorat)|judicial (independence) (erod|loss|undermin|decline|threat)|legal (norm|order) (breakdown|erod|collapse)|(court|judiciary) (capture|politiciz|pack)|due process (erod|breakdown|deni)/i, weight: 0.18, tag: 'rule_of_law_erosion' },
+    // Regulatory crackdown — enforcement sweep, sanction wave, regulatory escalation.
+    { re: /regulatory (crackdown|sweep|escalat|onslaught)|enforcement (crackdown|sweep|blitz|escalat)|(doj|sec|ftc|regulator) (crackdown|probe|sweep|sue|charge|indict)|sanction(s)? (wave|surge|escalat)|(antitrust|regulatory) (action|suit) (surge|wave|escalat)|consent decree (surge|wave)/i, weight: 0.15, tag: 'regulatory_crackdown' },
+    // Compliance failure — control breakdown, regulatory breach, audit failure, fine surge.
+    { re: /compliance (failure|breach|breakdown|gap|lapse|violation)|(regulatory|legal) (breach|violation) (surge|wave|spike)|(control|compliance) (breakdown|fail|collapse)|audit (failure|finding) (adverse|critical|material)|(record|regulatory) fine(s)? (surge|spike|record)|(vertex|verx) (compliance) (gap|failure)/i, weight: 0.14, tag: 'compliance_failure' },
+    // Constitutional challenge — SCOTUS/constitutional dispute, statute strike-down, legal uncertainty.
+    { re: /constitutional (challenge|crisis|dispute|breach)|(scotus|supreme court) (strike|overturn|invalidat|challenge)|(statute|law|regulation) (strike(-| )?down|invalidat|unconstitutional)|(landmark|major) (legal|court) (challenge|dispute|uncertainty)|judicial (review|challenge) (surge|wave)/i, weight: 0.15, tag: 'constitutional_challenge' },
+    // Enforcement gap — non-enforcement, impunity, legal vacuum, accountability failure.
+    { re: /enforcement (gap|vacuum|breakdown|failure|collapse)|(non(-| )?enforcement|under(-| )?enforcement)|impunity (surge|gap|culture)|(legal|justice) (vacuum|gap)|accountability (gap|failure) (legal|enforcement)|(law|statute) (unenforced|ignored|flouted)|(doj|prosecutor) (decline|fail) (to )?(charge|enforce|prosecut)/i, weight: 0.14, tag: 'enforcement_gap' }
+  ];
+  var LAW_STABILIZING = [
+    // Court-docket recovery — backlog clearance, case-clearance rebound, throughput restored.
+    { re: /(court|docket) (backlog) (clear|reduc|ease|cut)|case(-| )?clearance (rate )?(recover|rise|improv|rebound)|(docket|court) (throughput|capacity) (recover|improv|restor|expand)|(trial|hearing) (backlog) (clear|reduc)|(us courts) (clearance|throughput) (improv|recover)|pending case(s)? (decline|reduc|clear)/i, weight: 0.16, tag: 'court_docket_recovery' },
+    // Judicial-independence restoration — independence reaffirmed, depoliticization, integrity restored.
+    { re: /judicial (independence) (restor|reaffirm|strengthen|reinforc|protect)|(court|judiciary) (independence|integrity) (restor|strengthen|safeguard)|depoliticiz(e|ation) (court|judiciary)|(judicial|court) (integrity|impartiality) (restor|reinforc)|separation of powers (restor|reaffirm) (judiciary|court)/i, weight: 0.16, tag: 'judicial_independence_restoration' },
+    // Access-to-justice recovery — legal-aid expansion, representation gains, court access widened.
+    { re: /access(-| )?to(-| )?justice (recover|gain|expand|improv|widen)|legal (aid|services) (expand|gain|fund|increase)|(pro bono|representation) (expand|gain|surge|increase)|(court|justice) access (widen|expand|improv)|(unrepresented|justice gap) (reduc|narrow|close)|legal(-| )?aid (funding|capacity) (boost|increase)/i, weight: 0.15, tag: 'access_to_justice_recovery' },
+    // Rule-of-law strengthening — WJP index gain, legal-norm reinforcement, due-process restored.
+    { re: /rule of law (strengthen|restor|improv|reinforc|consolidat)|(world justice project|wjp) (rule of law )?(index )?(rise|improv|gain|strengthen)|legal (norm|order) (strengthen|restor|reinforc)|due process (restor|strengthen|safeguard|reinforc)|(judicial|legal) (norm|institution) (strengthen|consolidat)/i, weight: 0.16, tag: 'rule_of_law_strengthening' },
+    // Enforcement coherence — consistent enforcement, accountability restored, prosecution effective.
+    { re: /enforcement (coherence|consistency|effectiveness) (gain|improv|restor)|(consistent|coherent|effective) (enforcement|prosecution)|accountability (restor|strengthen|reinforc) (legal|enforcement)|(doj|prosecutor) (effective|robust) (enforcement|prosecution)|(law|statute) (enforced|upheld) (consistent|effective)|rule(-| )?of(-| )?law enforcement (gain|strengthen)/i, weight: 0.14, tag: 'enforcement_coherence' },
+    // Compliance adoption — controls strengthened, regulatory-readiness gain, compliance maturity.
+    { re: /compliance (adopt|strengthen|maturity|readiness|improv|uplift)|(control|compliance) (framework|program) (strengthen|adopt|implement|mature)|regulatory (readiness|compliance) (gain|improv|strengthen)|(audit|control) (finding) (remediat|close|resolv)|(vertex|verx|relx|thomson reuters|tri|lexisnexis) (compliance|legal) (deploy|adopt|tool)|legal(-| )?tech (compliance) (adopt|deploy)/i, weight: 0.13, tag: 'compliance_adoption' }
+  ];
+
   // Scan a domain's signal strings against a civil pattern table and return the
   // summed weighted contribution (clamped). Mirrors how energy accumulates its
   // condition-driven pressure, but over civil-native keywords.
@@ -1294,6 +1359,33 @@
         _researchDestabTags = _rd.tags;
       }
 
+      // ── Law / judicial-native destabilizing pathways (energy parity) ──
+      // For the law domain ONLY, add legal-system pressure from named failure
+      // pathways found in the live signal strings (litigation surge, court backlog
+      // / docket congestion, rule-of-law erosion, regulatory crackdown, compliance
+      // failure, constitutional challenge, enforcement gap). This is the JUDICIAL /
+      // legal-system analogue of energy's crude_above_*/grid_stress, infrastructure's
+      // grid_reliability/deferred_maintenance, culture's backlash/audience collapse,
+      // finance's liquidity/credit, economy's business-cycle, technology's
+      // compute-stack, defense's readiness, intelligence's collection, trade's
+      // tariff/port, industry's factory-output, agriculture's crops, governance's
+      // institutions, communication's channels, population's demographics, and
+      // research's knowledge-production weighting — anchored to real legal-sector
+      // identifiers (RELX/LexisNexis, TRI Thomson Reuters/Westlaw, VERX Vertex,
+      // CSGP) and legal authorities/indices (US Courts caseload, ABA, DOJ, SCOTUS,
+      // World Justice Project Rule-of-Law Index). IDENTITY stays the JUDICIAL /
+      // legal-system / courts / enforcement (couples to governance via policy,
+      // finance via regulatory enforcement, and intelligence via surveillance
+      // authority — distinct from governance's policy/administration/elections,
+      // finance's capital markets, and intelligence's collection). ADVISORY ONLY —
+      // wholly separate from the validated P3 distress kernel.
+      var _lawDestabTags = null;
+      if (k === 'law') {
+        var _ld = _infraSignalScore(signals, LAW_DESTABILIZING);
+        destab += _ld.score;
+        _lawDestabTags = _ld.tags;
+      }
+
       destab = _clamp(destab, 0, 1);
 
       // ─── Stabilizing score ─────────────────────────────────────
@@ -1644,6 +1736,36 @@
         _researchStabTags = _rs.tags;
       }
 
+      // ── Law / judicial-native stabilizing pathways (energy parity) ──
+      // Law recovery vocabulary: court-docket recovery (backlog clearance /
+      // throughput restored), judicial-independence restoration (independence
+      // reaffirmed / depoliticization), access-to-justice recovery (legal-aid
+      // expansion / representation gains), rule-of-law strengthening (WJP index
+      // gain / due-process restored), enforcement coherence (consistent
+      // enforcement / accountability restored), and compliance adoption (controls
+      // strengthened / regulatory-readiness gain). Mirrors energy's falling-trend /
+      // declining-volatility stabilizers, infrastructure's funding-renewal /
+      // repair-completion, culture's fanbase-momentum / mainstream-adoption,
+      // finance's liquidity-restoration / capital-strengthening, economy's
+      // labor-recovery / productivity, technology's fab-capacity / breakthrough,
+      // defense's force-modernization / alliance-strengthening, intelligence's
+      // improved-observability / collection-expansion, trade's tariff-normalization
+      // / port-reopening, industry's capacity-modernization / output-recovery,
+      // governance's institutional-strengthening / policy-passage, communication's
+      // network-resilience / connectivity-restoration, population's demographic-
+      // recovery / labor-force-growth, and research's reproducibility-adoption /
+      // grant-recovery, with law semantics from the live signals — anchored to real
+      // legal-sector identifiers (RELX/LexisNexis, TRI Thomson Reuters/Westlaw, VERX
+      // Vertex, CSGP) and authorities/indices (US Courts caseload, ABA, DOJ, SCOTUS,
+      // World Justice Project Rule-of-Law Index). ADVISORY ONLY — wholly separate
+      // from the validated P3 distress kernel.
+      var _lawStabTags = null;
+      if (k === 'law') {
+        var _ls = _infraSignalScore(signals, LAW_STABILIZING);
+        stab += _ls.score;
+        _lawStabTags = _ls.tags;
+      }
+
       stab = _clamp(stab, 0, 1);
 
       // ─── Net balance ───────────────────────────────────────────
@@ -1762,6 +1884,13 @@
       if (k === 'research') {
         _balance[k].destabilizingFactors = _researchDestabTags || [];
         _balance[k].stabilizingFactors = _researchStabTags || [];
+      }
+
+      // Surface the law/judicial-native pathways that drove the law score
+      // (energy parity: name the conditions, don't hide them behind a scalar).
+      if (k === 'law') {
+        _balance[k].destabilizingFactors = _lawDestabTags || [];
+        _balance[k].stabilizingFactors = _lawStabTags || [];
       }
 
       // Detect state shift

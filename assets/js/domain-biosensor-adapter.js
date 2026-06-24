@@ -522,10 +522,41 @@
       }
     },
     law: {
-      label: 'Regulatory attention and compliance pressure',
-      arousal: 'Enforcement urgency — high arousal during legal crises reflects accelerated compliance timelines',
-      coherence: 'Interpretive consistency — low coherence during regulatory change suggests uncertain compliance posture',
-      cognitiveLoad: 'Legal complexity — high load with competing regulations reflects compliance overload'
+      label: 'Legal-system capacity and regulatory-compliance pressure',
+      arousal: 'Enforcement urgency — high arousal during legal crises reflects accelerated compliance and litigation timelines',
+      coherence: 'Interpretive consistency — low coherence during regulatory change or shifting precedent suggests uncertain compliance posture',
+      cognitiveLoad: 'Legal complexity — high load with competing regulations and concurrent dockets reflects compliance overload',
+      // Legal-process intake/triage readiness map: regulation state → legal-process modernization,
+      // regulatory-compliance cadence and litigation-management intake/triage posture. Mirrors energy's
+      // biosensor intake map (energy gates capex/dispatch by operator regulation state — calm: greenlight
+      // capex programs / overloaded: triage grid/supply crises; law gates legal-process intake — calm:
+      // expand legal-process modernization & access-to-justice R&D / overloaded: triage rule-of-law and
+      // enforcement crises only). Advisory-layer only and independent of the kernel scoring spine.
+      // Consumed by (future) law-clarity-operator outcome tracking (legal-process modernization velocity,
+      // regulatory-compliance throughput, litigation/docket-management cadence, appeal/in-flight-matter
+      // momentum, enforcement-action timeliness, access-to-justice program coverage). LAW identity only —
+      // the JUDICIAL / legal system & courts, judiciary & rule of law, litigation & dispute resolution,
+      // regulation & compliance, contracts & enforcement, intellectual-property law, criminal justice,
+      // legal services & access to justice. Law binds mostly to AUTHORITIES & INDICATORS not single
+      // companies: judicial/rule-of-law indices and bodies — US Courts (federal judiciary caseload /
+      // docket statistics), SCOTUS (Supreme Court docket & decisions), DOJ (enforcement & prosecution),
+      // ABA (American Bar Association — bar/access-to-justice metrics), World Justice Project Rule-of-Law
+      // Index. Where legal-sector entities are needed use REAL identifiers: RELX (LexisNexis legal
+      // research & analytics), TRI (Thomson Reuters — Westlaw), VERX (Vertex — tax/regulatory compliance),
+      // CSGP (CoStar — legal/property data). Distinct from governance (policy/administration/elections is
+      // the governance domain — law is the JUDICIAL/courts/enforcement side), finance (capital markets)
+      // and intelligence (collection/analysis). Never adopts energy oil/gas/grid content. Operator
+      // arousal/coherence during legal crises gate legal-process intake (high arousal = crisis rule-of-law
+      // / enforcement-triage mode; low arousal = deliberate legal-modernization / access-to-justice mode).
+      // STRICTLY ADDITIVE — does not touch any validated scoring spine.
+      readiness: {
+        calm: 'Steady operator state — safe to expand legal-process modernization and access-to-justice R&D: open new e-filing / court-technology and case-management modernization programs (RELX/TRI legal-research & docketing platforms, VERX compliance automation), stand up new access-to-justice and self-represented-litigant initiatives (ABA pro-bono and legal-aid programs), launch long-horizon rule-of-law and regulatory-framework studies (World Justice Project Rule-of-Law Index benchmarking, US Courts caseload-trend analysis); open speculative IP-law, alternative-dispute-resolution and contract-automation scouting.',
+        focused: 'Productive engagement — sustain active litigation and in-flight appeals (ongoing dockets, SCOTUS/appellate matters, regulatory-comment cycles); admit only well-scoped new intake (single-matter filings, proven compliance reviews, scoped IP prosecutions — RELX/TRI research-supported, VERX-scoped compliance updates); hold open-ended new modernization programs and speculative access-to-justice expansion (DOJ enforcement engagements steady, court-technology rollouts disciplined).',
+        pressured: 'Elevated load — defer discretionary legal programs and new legal-process-modernization intake; focus on real-time docket and compliance triage of the active situation: protect in-flight litigation and statutory/filing deadlines, prioritize high-stakes appeals and regulatory-compliance obligations, and keep enforcement-action and contract-deadline monitoring active on live matters; pause non-urgent access-to-justice and modernization programs.',
+        overloaded: 'Saturated — pause all non-critical litigation and new legal intake; triage rule-of-law and enforcement crises only: constitutional and rule-of-law breakdowns (World Justice Project / institutional-integrity deterioration), criminal-justice and enforcement emergencies (DOJ urgent prosecutions, due-process and detention crises), critical regulatory-compliance failures and emergency injunctions, and SCOTUS/appellate emergency dockets with systemic legal-system impact.',
+        recovering: 'Stabilizing — resume legal-process modernization first (re-establish court-technology and case-management rollouts, restore docket throughput and compliance reporting on cleared backlogs — RELX/TRI platforms, VERX compliance cadence), then reopen access-to-justice and regulatory-reform programs gradually as caseload backlog (US Courts), rule-of-law indicators (World Justice Project), enforcement timeliness (DOJ) and compliance posture normalize.',
+        unknown: 'Regulation state unavailable — default to snapshot-driven prioritization (active legal-process / compliance stress signals and litigation / rule-of-law criticality ranking).'
+      }
     },
     intelligence: {
       label: 'Collection & analysis execution state',

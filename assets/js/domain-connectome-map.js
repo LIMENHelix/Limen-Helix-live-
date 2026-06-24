@@ -149,7 +149,32 @@
     { source: 'agriculture',    target: 'finance',        weight: 0.6, type: 'DEPENDS_ON' },  // farm credit / land collateral / commodity-futures margin — ag distress (input-cost spike, yield loss) propagates to ag-lending & futures-margin circuits (Farm Credit, CBOT margin calls)
     //   Food-logistics circuit: food & protein logistics, cold-chain, export processing — ag output
     //   SUPPLIES the food supply chain (ADM/BG/INGR processing, TSN/CAG protein, cold-chain & export).
-    { source: 'agriculture',    target: 'supplyChain',    weight: 0.8, type: 'SUPPLIES' }     // food/protein logistics, cold-chain, grain/oilseed export processing — crop/livestock stress propagates downstream into food supply & trade circuits (ADM, BG, INGR, TSN, CAG)
+    { source: 'agriculture',    target: 'supplyChain',    weight: 0.8, type: 'SUPPLIES' },    // food/protein logistics, cold-chain, grain/oilseed export processing — crop/livestock stress propagates downstream into food supply & trade circuits (ADM, BG, INGR, TSN, CAG)
+    // ── ADDITIVE: LAW stress-contagion edges (weighted/typed) ──
+    // Mirrors the TECHNOLOGY/GOVERNANCE/AGRICULTURE contagion blocks above, content→law. These carry
+    // weight+type so a LAW stress wave (litigation surge, regulatory enforcement, IP disputes,
+    // contract-default cascades) propagates as CONTAGION through the civilization stress-web, distinct
+    // from the passive structural edges above (supplyChain→law, law→finance, law→governance) which
+    // carry NO weight/type. Identity stays the JUDICIAL/legal system: courts & judiciary, rule of law,
+    // litigation & dispute resolution, regulation & compliance, contracts & enforcement, intellectual-
+    // property law, criminal justice, access to justice — REAL legal-sector names (RELX/LexisNexis,
+    // TRI/Thomson Reuters-Westlaw, VERX/Vertex compliance, CSGP) and legal authorities/indices (US
+    // Courts caseload, ABA, DOJ, SCOTUS, World Justice Project Rule-of-Law Index). Law is kept DISTINCT
+    // from governance (policy/administration/elections), intelligence, and finance. Law is NEVER wired
+    // to energy: its energy coupling stays at ZERO — law reaches economy only as regulatory/compliance
+    // COST and finance only as solvency-circuit ENFORCEMENT, never as energy price or energy-finance.
+    //   Solvency-enforcement circuit: contract enforcement & capital-adequacy regulation — courts/
+    //   regulators enforce credit claims and capital rules on the balance sheet (NOT energy-finance).
+    { source: 'law',            target: 'finance',        weight: 0.8, type: 'ENFORCES' },    // contract enforcement / capital-adequacy & securities regulation — legal stress (litigation, enforcement actions, contract-default rulings) propagates into the solvency circuit (credit-claim enforcement, DOJ/SEC actions, WJP Rule-of-Law); distinct from passive law→finance structural edge
+    //   Trade-law / export-control circuit: trade law, customs & export controls govern goods flow —
+    //   supply-chain operations REQUIRE legal/regulatory clearance (sanctions, tariffs, customs law).
+    { source: 'supplyChain',    target: 'law',            weight: 0.7, type: 'REQUIRES' },    // trade law / export controls / customs & sanctions compliance — supply-chain flow requires legal clearance; trade-law stress (sanctions regime, export-control enforcement) lands on the legal/judicial system (RELX/TRI compliance content, DOJ export enforcement)
+    //   IP-litigation / data-liability circuit: technology EXPOSES the legal system to IP disputes and
+    //   data-protection liability — patent/IP litigation & privacy-law exposure flow tech→law.
+    { source: 'technology',     target: 'law',            weight: 0.6, type: 'EXPOSES' },     // IP litigation / patent disputes / data-protection & privacy liability — technology stress exposes the legal system to dispute & enforcement load (IP dockets, US Courts caseload, data-breach litigation); tech→law, one-directional
+    //   Regulatory-burden circuit: regulatory compliance cost & litigation risk CONSTRAIN economic
+    //   output — compliance overhead and litigation drag propagate law→economy (NOT energy price).
+    { source: 'law',            target: 'economy',        weight: 0.5, type: 'CONSTRAINS' }   // regulatory compliance cost / litigation risk — legal-system stress imposes compliance overhead & litigation drag on economic output (regulatory burden on GDP, VERX/Vertex compliance load); law→economy as COST, never energy price
   ];
 
   // ─── Color mapping ──────────────────────────────────────────────────────

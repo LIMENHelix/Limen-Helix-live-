@@ -1153,6 +1153,109 @@
       rightHtml += '</div>';
     }
 
+    // ── LAW-SPECIFIC PORTAL SECTIONS ─────────────────────────────────────
+    // Legal-system / judiciary / litigation parity with the energy domain's
+    // company-metadata sections, mirroring the infrastructure, finance, and
+    // population blocks above. STRICTLY ADDITIVE render-layer content keyed on
+    // co.domainId === 'law'; it never touches the validated P3 distress kernel
+    // (Thing1) scoring path consumed by /api/limen/score or
+    // /api/helix/helix-report/score — those run server-side off the kernel,
+    // not off these optional company-JSON display fields.
+    //
+    // IDENTITY = the legal system & courts, judiciary & rule of law, litigation
+    // & dispute resolution, regulation & compliance, contracts & enforcement,
+    // intellectual-property law, criminal justice, and legal services & access
+    // to justice. Law BINDS mostly to INDICATORS (US Courts caseload statistics,
+    // ABA, DOJ, SCOTUS, World Justice Project Rule-of-Law Index, V-Dem) not
+    // single companies; where a legal-sector entity is needed it uses REAL
+    // proxies (RELX / LexisNexis, TRI Thomson Reuters / Westlaw, VERX Vertex
+    // compliance, CSGP CoStar). Kept DISTINCT from governance (policy /
+    // administration / elections), intelligence, and finance — law is the
+    // JUDICIAL / legal-system / courts / enforcement surface.
+    //
+    // The law sections map to legal-system failure modes (the law-brain
+    // diagnosis families): Litigation Portfolio mirrors court-docket backlog
+    // signals, Compliance Status mirrors regulatory-enforcement / enforcement-
+    // gap signals, Judicial Independence mirrors rule-of-law-erosion /
+    // constitutional-challenge signals, and Access-to-Justice Capacity mirrors
+    // court-backlog / enforcement-capacity constraints. Energy's oil/gas/grid
+    // mix is translated to the legal equivalents: case-type / venue / stage
+    // portfolio (energy: generation mix), compliance & penalty status (energy:
+    // maintenance/asset-age), rule-of-law independence (energy: NERC/FERC
+    // compliance), and access-to-justice capacity (energy: capital funding).
+    // Each reads OPTIONAL company-JSON fields and degrades gracefully
+    // (cp-empty) when not yet populated — identical structure to the generic
+    // sections below, only the CONTENT is legal.
+    if (co.domainId === 'law') {
+      // Litigation Portfolio — case type / venue / stage / exposure (energy: generation mix)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Litigation Portfolio</div>';
+      var _lit = co.litigationPortfolio;
+      if (_lit && (Array.isArray(_lit) ? _lit.length : Object.keys(_lit).length)) {
+        var _litEntries = Array.isArray(_lit)
+          ? _lit.map(function (e) { return [e.caseType || e.venue || e.stage || e.type || e.label || '', (e.cases != null ? e.cases : (e.exposure != null ? e.exposure : (e.share != null ? e.share : (e.value != null ? e.value : e.detail)))) + (e.stage && (e.caseType || e.venue) ? ' [' + e.stage + ']' : '')]; })
+          : Object.keys(_lit).map(function (kk) { return [kk, _lit[kk]]; });
+        for (var lit = 0; lit < _litEntries.length; lit++) {
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_litEntries[lit][0]) + '</span><span class="cp-value">' + esc(String(_litEntries[lit][1])) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No litigation distribution recorded (case type — civil / criminal / IP / contract; venue — federal / state / appellate; procedural stage — pleading / discovery / trial / appeal; dollar exposure — sources: US Courts caseload statistics, PACER, court dockets)</div>';
+      }
+      rightHtml += '</div>';
+
+      // Compliance Status — regulatory framework coverage, violation trend, penalty exposure (energy: maintenance/asset-age)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Compliance Status</div>';
+      var _cmp = co.complianceStatus;
+      if (_cmp && Object.keys(_cmp).length > 0) {
+        var _cmpKeys = Object.keys(_cmp);
+        for (var cmk = 0; cmk < _cmpKeys.length; cmk++) {
+          var _cmpv = _cmp[_cmpKeys[cmk]];
+          var _cmpStr = (_cmpv && typeof _cmpv === 'object' && !Array.isArray(_cmpv))
+            ? Object.keys(_cmpv).map(function (sk) { return sk + ': ' + _cmpv[sk]; }).join('  ·  ')
+            : String(_cmpv);
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_cmpKeys[cmk]) + '</span><span class="cp-value">' + esc(_cmpStr) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No compliance data (regulatory-framework coverage, violation / enforcement-action trend, penalty & settlement exposure — sources: DOJ enforcement actions, SEC / agency dockets, ABA model rules; compliance proxies: VERX Vertex, RELX, TRI Thomson Reuters)</div>';
+      }
+      rightHtml += '</div>';
+
+      // Judicial Independence & Rule-of-Law — WJP / V-Dem indices, constitutional challenges (energy: NERC/FERC compliance)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Judicial Independence &amp; Rule-of-Law</div>';
+      var _rol = co.ruleOfLaw || co.judicialIndependence;
+      if (_rol && (Array.isArray(_rol) ? _rol.length : Object.keys(_rol).length)) {
+        var _rolEntries = Array.isArray(_rol)
+          ? _rol.map(function (e) { return [e.index || e.metric || e.label || '', (e.score != null ? e.score : (e.count != null ? e.count : (e.value != null ? e.value : e.detail))) + (e.trend ? ' (' + e.trend + ')' : '')]; })
+          : Object.keys(_rol).map(function (kk) { return [kk, _rol[kk]]; });
+        for (var rol = 0; rol < _rolEntries.length; rol++) {
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_rolEntries[rol][0]) + '</span><span class="cp-value">' + esc(String(_rolEntries[rol][1])) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No rule-of-law record (World Justice Project Rule-of-Law Index score, V-Dem judicial-constraints-on-executive score, constitutional-challenge count, separation-of-powers tension — sources: World Justice Project, V-Dem, SCOTUS docket)</div>';
+      }
+      rightHtml += '</div>';
+
+      // Access-to-Justice Capacity — court backlog, legal-aid funding, pro-bono / ADR adoption (energy: capital funding)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Access-to-Justice Capacity</div>';
+      var _atj = co.accessToJustice || co.accessToJusticeCapacity;
+      if (_atj && Object.keys(_atj).length > 0) {
+        var _atjKeys = Object.keys(_atj);
+        for (var atk = 0; atk < _atjKeys.length; atk++) {
+          var _atjv = _atj[_atjKeys[atk]];
+          var _atjStr = (_atjv && typeof _atjv === 'object' && !Array.isArray(_atjv))
+            ? Object.keys(_atjv).map(function (sk) { return sk + ': ' + _atjv[sk]; }).join('  ·  ')
+            : String(_atjv);
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_atjKeys[atk]) + '</span><span class="cp-value">' + esc(_atjStr) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No access-to-justice profile (court-backlog months / pending caseload, legal-aid funding coverage, pro-bono capacity, alternative-dispute-resolution (ADR / mediation / arbitration) adoption — sources: US Courts caseload statistics, Legal Services Corporation, ABA pro-bono surveys)</div>';
+      }
+      rightHtml += '</div>';
+    }
+
     // Warning signals (placeholder for future)
     rightHtml += '<div class="cp-section">';
     rightHtml += '<div class="cp-section-title">Warning Signals</div>';

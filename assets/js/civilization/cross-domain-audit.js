@@ -69,6 +69,131 @@
     // the judicial/legal-system domain; governance is policy/rulemaking/
     // oversight; the two co-bear integrity but stay DISTINCT.
     { id: 'rule_of_law',    domains: ['law', 'governance', 'defense', 'intelligence', 'environment', 'finance'] },
+    // ─── Law-native affinity groups ───────────────────────────────────────
+    // Law is a SOURCE domain here, not only the compliance/enforcement MEMBER
+    // it plays inside rule_of_law / infrastructure_core / financial_core /
+    // healthcare_core / technology_core / defense_core (where another sector is
+    // the source and law surfaces as the regulatory envelope). Law's OWN
+    // identity is the JUDICIAL / legal-system / courts apparatus: legal system &
+    // courts, judiciary & rule of law, litigation & dispute resolution,
+    // regulation & compliance, contracts & enforcement, intellectual-property
+    // law, criminal justice, and legal services & access to justice. The
+    // load-bearing distinction from governance is the JUDICIAL-PROCESS SIDE:
+    // law = courts/docket/adjudication/enforcement-action/case-backlog; while
+    // governance = policy/rulemaking/elections/administration. Real legal-sector
+    // anchors are the legal-information & compliance complex — legal-research &
+    // information platforms (RELX LexisNexis, TRI Thomson Reuters/Westlaw),
+    // tax-&-compliance automation (VERX Vertex), and legal/commercial-real-estate
+    // data (CSGP CoStar) — plus the judicial-process AUTHORITIES & INDICES that
+    // measure legal-system capacity (Administrative Office of the US Courts
+    // federal-caseload & docket-delay statistics per circuit, ABA litigation-
+    // trends reports, SCOTUS caseloads, World Justice Project Rule-of-Law Index
+    // constraint-on-government subcomponent, NCSC state-court backlog data,
+    // federal judicial-vacancy rates, DOJ/OIG oversight). Law binds mostly to
+    // INDICATORS & INSTITUTIONS, not single firms. NEVER energy oil/gas/grid as
+    // law's content.
+    //
+    // (1) law_core — law's institutional-envelope group (mirror of
+    // infrastructure_core / financial_core / technology_core / governance_core /
+    // intelligence_core, but built around the JUDICIAL-CAPACITY base — courts,
+    // dockets, adjudication throughput, IP prosecution, institutional integrity —
+    // rather than a sector wedded to a regulatory regime). Judicial capacity &
+    // legal-system throughput (law — docket delay, case backlog, appellate
+    // bottleneck, enforcement-action volume) is co-borne by the physical/permitting
+    // throughput plant the legal system processes (infrastructure — permitting
+    // velocity, public-works compliance queues), the policy/rulemaking regime that
+    // sets the rules courts must enforce (governance — Federal Register volume,
+    // statutory mandate), and the knowledge substrate that produces legal
+    // scholarship, IP prior-art & doctrinal analysis (research — patent prosecution
+    // depth, legal-academic research, empirical-legal-studies). When these
+    // co-elevate the signal is a JUDICIAL-CAPACITY / institutional-integrity stress
+    // (court-backlog surge + permitting-throughput collapse + IP-prosecution lag +
+    // rulemaking-vs-enforcement gap moving together) rather than an isolated docket
+    // delay. Indices: AO US Courts federal-docket delay metrics, World Justice
+    // Project Rule-of-Law Index, NCSC state-court backlog, USPTO patent-pendency.
+    // Law is the SOURCE; infrastructure/governance/research are COUPLINGS.
+    { id: 'law_core',  domains: ['law', 'infrastructure', 'governance', 'research'] },
+    // (2) law_finance — the securities/fraud enforcement coupling (mirror of
+    // financial_core on the JUDICIAL side rather than the prudential-policy side):
+    // securities & fraud enforcement, financial-crime docket load, and capital-
+    // market legal confidence (law — SEC/DOJ enforcement-action volume, securities-
+    // fraud litigation, white-collar prosecution backlog, consent-decree pipeline)
+    // are co-borne by the capital channel they police (finance — securities
+    // markets, lending, banking solvency) and the macro real economy whose
+    // confidence rests on enforcement integrity (economy — market-confidence,
+    // investor-protection trust). When these co-elevate the signal is a
+    // securities-enforcement / capital-market-confidence stress (a fraud-docket
+    // surge coinciding with a capital-market dislocation + macro-confidence
+    // erosion) — the judicial-process mirror of financial_core's prudential lens.
+    // Law is the SOURCE (enforcement capacity / securities-docket load); finance
+    // & economy are COUPLINGS (the policed channel and the confidence aggregate).
+    // Anchors: SEC/DOJ enforcement statistics, securities-class-action filings
+    // (Stanford SCAC), white-collar prosecution data — NOT energy content.
+    { id: 'law_finance',  domains: ['law', 'finance', 'economy'] },
+    // (3) law_ip_tech — the IP / patent-prosecution / tech-antitrust / export-
+    // control coupling (mirror of technology_core / research_core on the LEGAL-
+    // ENFORCEMENT side): IP & patent prosecution, technology antitrust, and
+    // export-control / ITAR enforcement (law — USPTO patent-prosecution backlog,
+    // patent-litigation volume, antitrust-case pipeline against the platform
+    // giants, ITAR/EAR export-control enforcement actions) are co-borne by the
+    // knowledge substrate that generates the prior-art & inventions (research —
+    // R&D output, patent filings, scientific priority), the applied-tech sector
+    // whose IP & market structure is litigated (technology — chip/AI/software IP,
+    // platform antitrust exposure), and the dual-use / national-security export
+    // regime (defense — ITAR-controlled defense technology, export-license
+    // adjudication). When these co-elevate the signal is an IP/antitrust/export-
+    // enforcement stress (a patent-prosecution bottleneck coinciding with an
+    // antitrust escalation + a research-output surge straining prosecution + an
+    // export-control enforcement spike) rather than an isolated patent dispute.
+    // Law is the SOURCE (prosecution & enforcement capacity); research/technology/
+    // defense are COUPLINGS. Indices: USPTO patent-pendency, FTC/DOJ-Antitrust
+    // case counts, BIS/State export-enforcement actions. NEVER energy content.
+    { id: 'law_ip_tech',  domains: ['law', 'research', 'technology', 'defense'] },
+    // (4) legal_justice_core — the courts / rule-of-law access / criminal-justice
+    // capacity cluster (law as SOURCE of legal-SYSTEM capacity, distinct from
+    // downstream enforcement consequence of other domains' failure): court
+    // capacity & access to justice, criminal-justice throughput, and judicial
+    // independence (law — court backlog, public-defender capacity, incarceration
+    // & restorative-justice load, rule-of-law access) are co-borne by the policy/
+    // administration regime that funds and constrains courts (governance), the
+    // population the justice system serves & incarcerates (population — case
+    // volume, defendant demographics, access-disparity), and the security-state
+    // adjudication coupling (defense — military-justice, security-clearance
+    // adjudication). When these co-elevate the signal is a LEGAL-SYSTEM CAPACITY
+    // stress (court-backlog + access-to-justice gap + criminal-justice overload
+    // moving together) sourced in the judiciary itself, not a reactive enforcement
+    // spillover. Authorities: AO US Courts, NCSC, World Justice Project, BJS
+    // criminal-justice statistics, SCOTUS caseloads. Law is the SOURCE.
+    { id: 'legal_justice_core',  domains: ['law', 'governance', 'population', 'defense'] },
+    // (5) rule_of_law_institutional — the institutional-integrity cascade cluster
+    // (law as SOURCE; the judicial-process complement to the existing rule_of_law
+    // group which carries law only as a member). When rule-of-law / judicial
+    // independence (law), policy coherence (governance), capital adequacy &
+    // collection authority (finance), regulatory/collection-authority enforcement
+    // (intelligence), and environmental-enforcement integrity (environment) all
+    // co-elevate, the signal is an INSTITUTIONAL-INTEGRITY cascade failure — a
+    // legitimacy feedback loop where compliance erosion amplifies enforcement
+    // burden which spirals into institutional incoherence — sourced in the
+    // legal-system's load-bearing integrity rather than any single sector. This is
+    // the LAW-SOURCE mirror of rule_of_law (which weights the security-state and
+    // finance slices); here the judiciary's rule-of-law capacity is the load.
+    // Indices: World Justice Project constraint-on-government, World Bank WGI
+    // rule-of-law, judicial-vacancy & docket-delay, GAO/IG oversight backlog.
+    { id: 'rule_of_law_institutional',  domains: ['law', 'governance', 'finance', 'intelligence', 'environment'] },
+    // (6) legal_compliance_burden — the regulatory-compliance cost-spiral cluster
+    // (law as SOURCE on the enforcement-escalation side): regulatory-compliance
+    // burden & enforcement intensity (law — enforcement-action volume, compliance
+    // cost, consent-decree pipeline for the VERX/RELX/TRI compliance complex) are
+    // co-borne by the capital-access channel that bears compliance cost (finance —
+    // compliance capex, legal-reserve provisioning) and the policy-volatility
+    // regime that sets the rules (governance — rulemaking churn, regulatory
+    // uncertainty). When these co-elevate the signal is a COMPLIANCE-BURDEN spiral
+    // (enforcement escalation + capital-access tightening + policy volatility
+    // moving together) — distinct from an isolated enforcement action. Law is the
+    // SOURCE (enforcement/compliance load); finance & governance are COUPLINGS.
+    // Anchors: enforcement-action counts (SEC/DOJ/FTC), compliance-cost indices,
+    // Federal Register rulemaking volume. NEVER energy content.
+    { id: 'legal_compliance_burden',  domains: ['law', 'finance', 'governance'] },
     // Economic-core: macro real-economy cycle PLUS its governance steering
     // signal. Monetary & fiscal policy is governance's input into the macro
     // cycle (the law/regulatory regime sets the rules; governance sets the
@@ -486,6 +611,28 @@
     // capability vs. legal-authority constraint, oversight-effectiveness vs.
     // transparency-demand, clearance-investigation backlog vs. threat escalation.
     { id: 'intelligence_oversight_core', domains: ['intelligence', 'governance', 'law'] },
+    // (4b) intelligence_law_oversight — the intelligence↔legal-authority
+    // institutional-envelope coupling (mirror of intelligence_oversight_core, but
+    // with the JUDICIAL/legal-authority gap as the load-bearing source rather than
+    // the governance-tasking side). When collection-authorization legal gaps,
+    // FISA-reauthorization deadlock (Section 702 renewal, bulk-collection legal
+    // authority), clearance-vetting & adjudication backlog (DCSA background-
+    // investigation capacity), legal-oversight effectiveness pressure (FISC
+    // workload, IG-investigation backlogs, Congressional Intelligence Committee
+    // capacity), whistleblower / leak-prosecution litigation exposure (Espionage
+    // Act, intelligence-community leak cases), classification-authority enforcement
+    // (document-mishandling prosecutions, declassification litigation), FOIA/
+    // declassification litigation burden, and intelligence-authorization legal
+    // conflicts (executive orders vs Congressional mandate) CO-ELEVATE, the signal
+    // is an INTELLIGENCE-LEGAL-AUTHORITY institutional crisis — a collection-
+    // authority legal-gap state distinct from a pure oversight-tasking shift. Law
+    // is the load-bearing JUDICIAL/legal-authority source here (FISA appeals,
+    // classification disputes, whistleblower litigation, criminal prosecution of
+    // leaks); intelligence is the collection actor whose authority is contested;
+    // governance is the oversight/tasking coupling. Real identifiers: FISC; DOJ
+    // National Security Division; Office of General Counsel (Intelligence
+    // Community); Congressional Intelligence Committee. NEVER energy content.
+    { id: 'intelligence_law_oversight', domains: ['intelligence', 'law', 'governance'] },
     // (5) intelligence_defense_deterrence — the intelligence→deterrence coupling
     // (HIGH priority, mirror of defense_deterrence but with intelligence-collection
     // -gap as the SOURCE stress rather than threat-escalation): defense kinetic
@@ -917,6 +1064,20 @@
     'shipping':              'supplyChain', // logistics-neutral variant → trade runtime key
     'freight':               'supplyChain', // logistics-neutral variant → trade runtime key
     // ─── other canonical→runtime / synonym normalizations present in data ──
+    // ─── law identity + synonym normalization ─────────────────────────────
+    // Law uses ONE key (no canonical↔runtime split like trade/supplyChain,
+    // medicine/health, or science/research): the portal/URL key, the runtime/
+    // snapshot key, and the brain-node binding value are all 'law'. The
+    // identity entry below is explicit (not relying solely on the pass-through
+    // fallback in _normalizeTaxDomain) so the law node-shared-affinity sibling-
+    // stress lookup is documented as load-bearing — without a recognized 'law'
+    // normalization the judicial/regulatory co-binding cluster (law + governance
+    // + technology + intelligence co-bound at the DLPFC/vlPFC executive nodes)
+    // would not surface when those domains co-elevate. The 'legal' synonym below
+    // maps the brain-node spelling DOWN to the same runtime key.
+    'law':                   'law',         // identity mapping — no alias split (unlike trade/science/medicine)
+    'judiciary':             'law',         // judicial-system synonym → law runtime key
+    'courts':                'law',         // courts synonym → law runtime key
     'legal':                 'law',         // brain-node uses 'legal' synonym for the law domain
     'family':                'population',   // brain-node 'family' rolls up to population
     'p2':                    'agriculture'   // brain-node 'p2' is the agriculture phase-2 tag
@@ -1226,7 +1387,28 @@
       ['communication', 'law'],           // free-speech/platform-liability & press-protection signal ↔ legal-enforcement record quality
       ['communication', 'finance'],       // newsroom/carrier ad-revenue & capex signal ↔ media-operations capital-access quality
       ['communication', 'infrastructure'],// network-uptime & tower/fiber carriage signal ↔ physical telecom-plant telemetry quality
-      ['communication', 'culture']        // narrative-carriage & distribution-reach signal ↔ cultural-content/scene-vitality read quality
+      ['communication', 'culture'],       // narrative-carriage & distribution-reach signal ↔ cultural-content/scene-vitality read quality
+      // Law vs its institutional / capability partners (mirror of technology↔its
+      // physical envelope, finance↔its economic envelope, governance↔its
+      // institutional partners, communication↔its capability partners): when law
+      // evidence (federal-docket & case-backlog telemetry from AO US Courts,
+      // enforcement-action volume from SEC/DOJ/FTC, USPTO patent-pendency,
+      // World Justice Project rule-of-law indices, NCSC state-court backlog, plus
+      // legal-information & compliance signal from RELX/TRI/VERX/CSGP) is strong
+      // but the partner domain is proxy-heavy, the bottleneck is the partner's
+      // signal — the policy/rulemaking read, the capital-market enforcement-target
+      // signal, the IP/research-output picture, the collection-authority record,
+      // or the macro-confidence aggregate — NOT the legal-system signal itself.
+      // Law drives the comparison as a SOURCE domain across its partners. Kept
+      // DISTINCT from governance (judicial/legal-system ↔ policy/administration),
+      // finance (enforcement target ↔ capital channel), and intelligence
+      // (legal-authority adjudication ↔ collection). These are judicial-process
+      // contrasts; NEVER energy content.
+      ['law', 'governance'],              // docket/judicial-capacity & rule-of-law signal ↔ policy/rulemaking & oversight read quality
+      ['law', 'finance'],                 // securities/fraud enforcement & case-backlog signal ↔ capital-market & solvency signal quality
+      ['law', 'research'],                // IP/patent-prosecution & legal-scholarship signal ↔ R&D-output & prior-art evidence-base quality
+      ['law', 'technology'],              // IP-litigation/antitrust & export-enforcement signal ↔ chip/AI/platform & CVE telemetry quality
+      ['law', 'intelligence']             // FISA/classification-authority & legal-oversight signal ↔ collection-authorization & ISR-picture quality
     ];
     var out = [];
     for (var i = 0; i < rivals.length; i++) {

@@ -752,6 +752,86 @@
  *   SIGNAL examples only — the validated Thing1 P3 distress kernel remains the sole
  *   scoring authority; the bus merely transports already-scored emissions.
  *
+ * Cross-domain examples — LAW → OTHER (law as a source). Law is the JUDICIAL /
+ * LEGAL-SYSTEM domain (legal system & courts, judiciary & rule of law, litigation
+ * & dispute resolution, regulation & compliance, contracts & enforcement,
+ * intellectual-property law, criminal justice, legal services & access to justice).
+ * It is DISTINCT from governance (governance = public policy / administration /
+ * elections / rulemaking — the EXECUTIVE & LEGISLATIVE side; law is the JUDICIAL
+ * system / courts / enforcement / legal-process side, see line 379), from
+ * intelligence (FISA / classification authority is a COUPLING that law adjudicates,
+ * NOT intelligence collection itself), and from finance (litigation-finance &
+ * compliance cost is a COUPLING — the legal-process pass-through, not capital
+ * markets). And law NEVER takes energy oil/gas/grid as its own content. The bus
+ * previously documented law as a TARGET only — it RECEIVES from governance
+ * (policy_conflict_enforcement → law, lines 390–394), communication
+ * (speech_regulation_pressure → law, lines 465–470) and medicine
+ * (liability_risk_escalation → law, lines 539–543) — but its OUTBOUND emissions were
+ * silent in the bus, creating the false impression that law is a target-only domain
+ * rather than a full bidirectional SOURCE. These are law's native OUTBOUND paths,
+ * mirroring the energy / defense / intelligence / governance SOURCE examples (the
+ * rules live in law-brain.js emissionRules); law emits these native signals when >=1
+ * active diagnosis is present (law-brain.js diagnoses: JUDICIAL_CRISIS,
+ * CONSTITUTIONAL_VIOLATION, REGULATORY_CAPTURE, MASS_INCARCERATION,
+ * INTERNATIONAL_LAW_BREAKDOWN; per brain cycle):
+ *   law → infrastructure (permitting_delay → litigation, injunctions and judicial
+ *                           review of capital projects defer permitting and stall
+ *                           construction → capital-project litigation drag on
+ *                           infrastructure programs, the legal-process input to the
+ *                           build pipeline, DISTINCT from governance's own
+ *                           administrative-friction permitting content — here the
+ *                           DELAY is a court / injunction / docket-backlog matter, not
+ *                           an agency rulemaking one)
+ *   law → research        (IP_prosecution_backlog → patent-prosecution congestion,
+ *                           IP-litigation pendency and uncertain claim scope slow the
+ *                           IP-generation pipeline and chill research commercialization
+ *                           → patent-filing / prosecution backlog at labs, the
+ *                           legal-process input to the discovery pipeline, DISTINCT
+ *                           from science's own discovery content — the patent OFFICE /
+ *                           court side, not the bench)
+ *   law → technology      (antitrust_enforcement → antitrust action, IP-litigation
+ *                           pressure and merger-review / consent-decree exposure
+ *                           constrain platform strategy and product / acquisition
+ *                           latitude → antitrust & IP-litigation pressure on tech
+ *                           issuers, the legal-process input to technology, DISTINCT
+ *                           from technology's own product / cyber content)
+ *   law → defense         (ITAR_enforcement → export-control adjudication, ITAR /
+ *                           arms-control enforcement and export-license dispute
+ *                           resolution constrain defense-industrial transfers and
+ *                           foreign-military-sales latitude → export-control compliance
+ *                           pressure on the defense industrial base, the legal-process
+ *                           input to defense, DISTINCT from defense's own kinetic /
+ *                           readiness content — the COURT / enforcement side of export
+ *                           control, not the weapons system)
+ *   law → intelligence    (FISA_constraint → FISA-court adjudication, classification-
+ *                           authority disputes and clearance-vetting / surveillance-
+ *                           authorization backlog constrain collection latitude →
+ *                           legal-authority / FISA-constraint pressure on collection,
+ *                           the legal-process input to intelligence, DISTINCT from
+ *                           intelligence's own collection content — the COURT /
+ *                           authorization side, WITHOUT law taking on collection as its
+ *                           identity)
+ *   Additional law-native SIGNAL examples surfacing on these paths:
+ *   permitting_delay, IP_prosecution_backlog, antitrust_enforcement, ITAR_enforcement,
+ *   FISA_constraint, docket_backlog_pressure.
+ *   Law binds mostly to INSTITUTIONS & INDICATORS, not single companies — the legal /
+ *   rule-of-law indices behind these signals (REAL, never fabricated): US Courts
+ *   caseload / docket statistics, ABA (American Bar Association) litigation trends,
+ *   DOJ enforcement statistics, SCOTUS docket, World Justice Project Rule-of-Law
+ *   Index, judicial-vacancy rates. Where real legal-sector operators are needed
+ *   (legal information / litigation analytics / compliance / IP services — NOT energy
+ *   oil/gas/grid, NOT governance govtech, NOT intelligence collection operators): RELX
+ *   (LexisNexis, legal research & analytics), TRI (Thomson Reuters / Westlaw, legal
+ *   information), VERX (Vertex, tax & regulatory compliance), CSGP (CoStar, real-estate
+ *   / litigation-adjacent analytics), VRSK (Verisk, risk & litigation analytics).
+ *   (permitting_delay = capital-project litigation / injunction / judicial-review
+ *   stall; IP_prosecution_backlog = patent-prosecution / IP-litigation pendency
+ *   congestion; antitrust_enforcement = antitrust / merger-review / consent-decree
+ *   pressure; ITAR_enforcement = export-control / arms-control adjudication burden;
+ *   FISA_constraint = FISA-court / classification-authority / clearance-vetting
+ *   constraint.) SIGNAL examples only — the validated Thing1 P3 distress kernel remains
+ *   the sole scoring authority; the bus merely transports already-scored emissions.
+ *
  * Also detects:
  *   - Propagation chains (A→B→C)
  *   - Co-activation (multiple domains emitting simultaneously)

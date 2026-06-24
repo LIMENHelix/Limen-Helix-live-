@@ -316,6 +316,121 @@ var AGRICULTURE_SUB_CIRCUITS = {
   }
 };
 
+// ═══ LAW: EXPLICIT FIVE-PATHWAY LEGAL-SYSTEM CIRCUITRY ═══ (ADDITIVE — law gap)
+// Mirrors FINANCE_CIRCUITS / TECHNOLOGY_CIRCUITS / AGRICULTURE_CIRCUITS shape
+// (label / pathway / role / anchors). Without this, law stress renders as a single
+// blurry 'order' aggregate, losing the fine structure of civil-litigation vs
+// criminal-prosecution vs regulatory-compliance vs intellectual-property vs
+// access-to-justice channels. Law identity = the JUDICIAL / legal system: courts &
+// litigation, dispute resolution, judiciary & rule of law, regulation & compliance,
+// contracts & enforcement, intellectual-property law, criminal justice, legal
+// services & access to justice. DISTINCT from governance (policy/administration/
+// elections), intelligence (analysis/surveillance), and finance (capital).
+// ZERO ENERGY SIGNATURE: law stress carries NO energy content — legal infrastructure
+// (courts, agencies, law offices) couples to communication / real-estate / technology
+// nodes only (case management, legal research databases, document systems), never to
+// the energy domain. Court HVAC is building infrastructure, not law-origin energy
+// demand. Real legal-sector identifiers (RELX LexisNexis, TRI Thomson Reuters/Westlaw,
+// AXON, TYL Tyler court systems, VERI, CLBT, EVBG, DOCU) + legal authorities/indices
+// (ABA, DOJ, SCOTUS, World Justice Project Rule-of-Law Index, US Courts caseload) only.
+var LAW_CIRCUITS = {
+  civil_litigation: {
+    label: 'Civil-litigation circuit (perspective-taking / dispute resolution)',
+    pathway: ['TPJ', 'rACC', 'EMP'],
+    role: 'perspective-taking → conflict-monitoring → empathy-weighted adjudication',
+    // Real legal-research / dispute-data anchors + caseload authority.
+    anchors: ['RELX', 'TRI', 'US Courts Caseload', 'WJP Rule-of-Law Index']
+  },
+  criminal_prosecution: {
+    label: 'Criminal-prosecution circuit (threat-detection / enforcement)',
+    pathway: ['BLA', 'dlPFC', 'CeA'],
+    role: 'threat-detection → prosecutorial-planning → enforcement-response',
+    // Real criminal-justice / public-safety tech anchors + authority.
+    anchors: ['AXON', 'TYL', 'DOJ', 'SCOTUS Docket']
+  },
+  regulatory_compliance: {
+    label: 'Regulatory-compliance circuit (rule-enforcement / administrative law)',
+    pathway: ['dACC', 'vlPFC', 'FORN'],
+    role: 'rule-conflict-detection → compliance-inhibition → administrative-record',
+    // Real regulatory-compliance / tax-compliance anchors + authority.
+    anchors: ['VERX', 'EVBG', 'ABA', 'WJP Regulatory Enforcement']
+  },
+  intellectual_property: {
+    label: 'Intellectual-property circuit (innovation-protection)',
+    pathway: ['FG', 'HIPP', 'STRI'],
+    role: 'pattern-recognition → prior-art-memory → IP-rights-allocation',
+    // Real IP / docketing / e-discovery anchors + authority.
+    anchors: ['RELX', 'CLBT', 'VERI', 'USPTO/PTAB']
+  },
+  access_to_justice: {
+    label: 'Access-to-justice circuit (resource-distribution / legal services)',
+    pathway: ['EMP', 'vlPFC', 'VP'],
+    role: 'need-empathy → service-allocation → legal-aid-distribution',
+    // Real legal-services / e-signature / self-help anchors + authority.
+    anchors: ['LZ', 'DOCU', 'TYL', 'ABA Legal Access']
+  }
+};
+
+// ═══ LAW: SUB-CIRCUIT SEGREGATION + ZERO ENERGY SIGNATURE ═══ (ADDITIVE — law gap)
+// Companion to LAW_CIRCUITS above. Segregates law STRESS into five sub-circuits so
+// generic 'law stress' differentiates between a litigation bottleneck (court docket/
+// delays), regulatory capture (agency-discretion stress), contract-enforcement
+// failure (remedies/damages unavailability), IP-protection gaps (patent backlog), and
+// legal-services scarcity (access-to-justice crisis) — instead of collapsing to a
+// single 'law' node with no diagnostic fine structure. Mirrors AGRICULTURE_SUB_CIRCUITS
+// shape (label / pathway / role / energySignature / scalingModel / triggers / anchors).
+// EVERY sub-circuit carries energySignature:'zero' and scalingModel:'none' — law
+// infrastructure couples to communication / real-estate / technology nodes only, NEVER
+// energy. Do NOT route law stress to the energy domain. Real legal-sector tickers +
+// legal authorities/indices only; never fabricate (indicator-based).
+var LAW_SUB_CIRCUITS = {
+  litigation: {
+    label: 'Litigation circuit (case throughput / court capacity)',
+    pathway: ['TPJ', 'rACC', 'VMPfc', 'EMP'],
+    role: 'civil/criminal case throughput → court-admin capacity → judge availability',
+    energySignature: 'zero (court time / docket capacity / judicial labor — never energy demand)',
+    scalingModel: 'none',
+    triggers: ['litigation_backlog', 'court_docket_delay', 'judge_vacancy', 'caseload_surge'],
+    anchors: ['RELX', 'TRI', 'AXON', 'TYL', 'US Courts Caseload']
+  },
+  regulatory: {
+    label: 'Regulatory circuit (rulemaking / enforcement / administrative adjudication)',
+    pathway: ['dACC', 'vlPFC', 'FORN'],
+    role: 'agency rulemaking/enforcement → administrative adjudication → compliance monitoring',
+    energySignature: 'zero (administrative process / compliance labor — never energy demand)',
+    scalingModel: 'none',
+    triggers: ['regulatory_capture', 'rulemaking_backlog', 'enforcement_action_spike', 'compliance_monitoring_gap'],
+    anchors: ['VERX', 'EVBG', 'RELX', 'ABA', 'DOJ']
+  },
+  contract_enforcement: {
+    label: 'Contract-enforcement circuit (dispute resolution / remedies)',
+    pathway: ['TPJ', 'dlPFC', 'STRI'],
+    role: 'dispute resolution → remedies/damages availability → contract-interpretation clarity',
+    energySignature: 'zero (adjudication / settlement labor — never energy demand)',
+    scalingModel: 'none',
+    triggers: ['contract_interpretation_dispute', 'remedies_unavailability', 'arbitration_backlog', 'damages_uncertainty'],
+    anchors: ['DOCU', 'CLBT', 'TRI', 'WJP Rule-of-Law Index']
+  },
+  intellectual_property: {
+    label: 'Intellectual-property circuit (patent / trademark prosecution)',
+    pathway: ['FG', 'HIPP', 'STRI'],
+    role: 'patent/trademark prosecution → infringement litigation → licensing clarity',
+    energySignature: 'zero (examination / prosecution labor — never energy demand)',
+    scalingModel: 'none',
+    triggers: ['patent_backlog', 'infringement_litigation_surge', 'licensing_dispute', 'trademark_prosecution_delay'],
+    anchors: ['RELX', 'VERI', 'CLBT', 'USPTO/PTAB']
+  },
+  legal_services: {
+    label: 'Legal-services circuit (lawyer availability / legal aid / access)',
+    pathway: ['EMP', 'vlPFC', 'VP'],
+    role: 'lawyer availability → legal-tech adoption → legal-aid funding → bar admission',
+    energySignature: 'zero (human legal labor / legal-tech infrastructure — never energy demand)',
+    scalingModel: 'none',
+    triggers: ['access_to_justice_crisis', 'legal_aid_funding_cut', 'attorney_shortage', 'bar_admission_constraint'],
+    anchors: ['LZ', 'DOCU', 'EVBG', 'ABA Legal Access', 'WJP Civil Justice']
+  }
+};
+
 // === DOMAIN → SUB-PORTAL REGISTRY ===
 var DOMAIN_PORTALS = {
   medicine:[
@@ -457,7 +572,19 @@ var DOMAIN_PORTALS = {
     {name:'RELX (RELX)',url:'/company-portal?company=relx'},
     {name:'Moody\'s (MCO)',url:'/company-portal?company=moodys'},
     {name:'S&P Global (SPGI)',url:'/company-portal?company=sandp_global'},
-    {name:'MSCI (MSCI)',url:'/company-portal?company=msci'}
+    {name:'MSCI (MSCI)',url:'/company-portal?company=msci'},
+    // ── ADDITIVE (law gap): real legal-sector anchors — compliance, court/case-management,
+    //    legal-services/property-law data — distinct from energy. VERX/CSGP serve law
+    //    domain infrastructure, NOT the energy sector; do not conflate with grid/commodities.
+    {name:'Vertex (VERX)',url:'/company-portal?company=vertex_compliance'},
+    {name:'CoStar (CSGP)',url:'/company-portal?company=costar_group'},
+    {name:'Tyler Technologies (TYL)',url:'/company-portal?company=tyler_technologies'},
+    {name:'Everbridge (EVBG)',url:'/company-portal?company=everbridge'},
+    // ── ADDITIVE (law gap): legal authorities / rule-of-law indices (indicator-based,
+    //    never fabricated): judicial independence, docket backlog, Supreme Court tracking.
+    {name:'World Justice Project Rule of Law Index',url:'/authority-portal?authority=wjp_rol_index'},
+    {name:'US Courts Caseload Statistics',url:'/authority-portal?authority=us_courts_caseload'},
+    {name:'SCOTUS Docket',url:'/authority-portal?authority=scotus_docket'}
   ],
   intelligence:[
     {name:'Palantir (PLTR)',url:'/company-portal?company=palantir'},
@@ -826,6 +953,107 @@ function seedStressCivilization(n, idx) {
         scalingModel: TECH_SUBCIRCUITS.supply.scalingModel,
         anchors: TECH_SUBCIRCUITS.supply.anchors
       }
+    };
+  }
+  // ── ADDITIVE: law gets an explicit legal stress channel (the 'legal' channel is
+  //    already canonical; here the law node alone re-derives it from FIVE segregated
+  //    legal-system sub-circuits so it no longer collapses to one blurry 'order' value).
+  //    For the law node only, derive each sub-circuit's stress from edge topology (no
+  //    fabricated numbers): the same structural signals already present in the connectome.
+  //      • litigation backlog        ← inbound DEPENDS_ON edges (court system reliance on external demand)
+  //      • regulatory capture        ← CONTROLS edges (discretionary agency-authority surface)
+  //      • contract-enforcement gaps ← TRANSFORMS edges (dispute-resolution / remediation throughput)
+  //      • IP-protection weakness    ← inbound DEPENDS_ON + (FG-node) innovation reliance on patent protection
+  //      • access-to-justice scarcity← outbound SUPPLIES edges (legal-services distribution fan-out)
+  //    Bind these to LAW_SUB_CIRCUITS pathways and expose n.law_circuits (with a
+  //    sub_circuits array) for downstream advisory layers. ZERO ENERGY: legal stress
+  //    carries no energy content — it scales on human legal labor (attorney/paralegal FTE),
+  //    legal-tech infrastructure (case-management / research databases), and court
+  //    infrastructure (judge time, courtroom availability), NOT energy. Do NOT add
+  //    energy-demand scaling. law_circuits stays inert for every non-law node.
+  if (n.id === 'law') {
+    var litigationDep = 0, regCapture = 0, contractSurface = 0, ipReliance = 0, accessFan = 0;
+    for (var le = 0; le < EDGES.length; le++) {
+      var el = EDGES[le];
+      if (el.ai !== idx && el.bi !== idx) continue;
+      var lawIsSource = (el.ai === idx);
+      if (el.type === 'DEPENDS_ON' && !lawIsSource) { litigationDep++; ipReliance += 0.5; } // court reliance + innovation-on-IP reliance
+      if (el.type === 'DEPENDS_ON' && lawIsSource)  litigationDep += 0.5;                    // own systemic dependencies
+      if (el.type === 'CONTROLS')                   regCapture++;                            // discretionary agency-authority surface
+      if (el.type === 'TRANSFORMS')                 contractSurface++;                       // dispute-resolution / remediation throughput
+      if (el.type === 'SUPPLIES' && lawIsSource)    accessFan++;                             // legal-services distribution fan-out
+      // IP reliance also rises with the innovation surface law must protect (FG pattern-node neighbor).
+      var otherL = lawIsSource ? el.bi : el.ai;
+      if (NODES[otherL] && (NODES[otherL].id === 'technology' || NODES[otherL].id === 'science')) ipReliance += 0.5;
+    }
+    var litN = Math.min(litigationDep / 3, 1);
+    var regN = Math.min(regCapture / 3, 1);
+    var conN = Math.min(contractSurface / 3, 1);
+    var ipN  = Math.min(ipReliance / 3, 1);
+    var accN = Math.min(accessFan / 3, 1);
+    // Map sub-circuit signals onto canonical stress channels (no new channel added —
+    // mirroring finance/agriculture so every length-driven loop & total_stress stays
+    // validated): legal = the aggregate legal-system load (max over sub-circuits),
+    // ops = throughput (litigation/contract), people = legal-services labor scarcity.
+    sv.legal  = Math.min(Math.max(sv.legal, litN, regN, conN, ipN, accN), 1);
+    sv.ops    = Math.min(Math.max(sv.ops, litN, conN), 1);
+    sv.people = Math.min(Math.max(sv.people, accN), 1);
+    // Expose the explicit circuit binding (five legal sub-circuits + real legal anchors).
+    // energySignature is 'zero' throughout — legal stress NEVER couples to energy.
+    n.law_circuits = {
+      civil_litigation:      { stress: litN, pathway: LAW_CIRCUITS.civil_litigation.pathway,      anchors: LAW_CIRCUITS.civil_litigation.anchors },
+      criminal_prosecution:  { stress: litN, pathway: LAW_CIRCUITS.criminal_prosecution.pathway,  anchors: LAW_CIRCUITS.criminal_prosecution.anchors },
+      regulatory_compliance: { stress: regN, pathway: LAW_CIRCUITS.regulatory_compliance.pathway, anchors: LAW_CIRCUITS.regulatory_compliance.anchors },
+      intellectual_property: { stress: ipN,  pathway: LAW_CIRCUITS.intellectual_property.pathway, anchors: LAW_CIRCUITS.intellectual_property.anchors },
+      access_to_justice:     { stress: accN, pathway: LAW_CIRCUITS.access_to_justice.pathway,     anchors: LAW_CIRCUITS.access_to_justice.anchors },
+      energySignature: 'zero (legal labor + legal-tech + court infrastructure — never energy demand)',
+      sub_circuits: [
+        {
+          key: 'litigation',
+          label: LAW_SUB_CIRCUITS.litigation.label,
+          stress: litN,
+          pathway: LAW_SUB_CIRCUITS.litigation.pathway,
+          energySignature: LAW_SUB_CIRCUITS.litigation.energySignature,
+          scalingModel: LAW_SUB_CIRCUITS.litigation.scalingModel,
+          anchors: LAW_SUB_CIRCUITS.litigation.anchors
+        },
+        {
+          key: 'regulatory',
+          label: LAW_SUB_CIRCUITS.regulatory.label,
+          stress: regN,
+          pathway: LAW_SUB_CIRCUITS.regulatory.pathway,
+          energySignature: LAW_SUB_CIRCUITS.regulatory.energySignature,
+          scalingModel: LAW_SUB_CIRCUITS.regulatory.scalingModel,
+          anchors: LAW_SUB_CIRCUITS.regulatory.anchors
+        },
+        {
+          key: 'contract_enforcement',
+          label: LAW_SUB_CIRCUITS.contract_enforcement.label,
+          stress: conN,
+          pathway: LAW_SUB_CIRCUITS.contract_enforcement.pathway,
+          energySignature: LAW_SUB_CIRCUITS.contract_enforcement.energySignature,
+          scalingModel: LAW_SUB_CIRCUITS.contract_enforcement.scalingModel,
+          anchors: LAW_SUB_CIRCUITS.contract_enforcement.anchors
+        },
+        {
+          key: 'intellectual_property',
+          label: LAW_SUB_CIRCUITS.intellectual_property.label,
+          stress: ipN,
+          pathway: LAW_SUB_CIRCUITS.intellectual_property.pathway,
+          energySignature: LAW_SUB_CIRCUITS.intellectual_property.energySignature,
+          scalingModel: LAW_SUB_CIRCUITS.intellectual_property.scalingModel,
+          anchors: LAW_SUB_CIRCUITS.intellectual_property.anchors
+        },
+        {
+          key: 'legal_services',
+          label: LAW_SUB_CIRCUITS.legal_services.label,
+          stress: accN,
+          pathway: LAW_SUB_CIRCUITS.legal_services.pathway,
+          energySignature: LAW_SUB_CIRCUITS.legal_services.energySignature,
+          scalingModel: LAW_SUB_CIRCUITS.legal_services.scalingModel,
+          anchors: LAW_SUB_CIRCUITS.legal_services.anchors
+        }
+      ]
     };
   }
   // ── ADDITIVE: agriculture gets four explicit, non-overlapping sub-circuits

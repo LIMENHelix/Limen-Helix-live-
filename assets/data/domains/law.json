@@ -2250,6 +2250,207 @@
       "_origin": "canonical_anatomical"
     }
   ],
+  "feeds": [
+    {
+      "name": "U.S. Courts Caseload (Judicial Business)",
+      "apiKey": null,
+      "status": "REFERENCE",
+      "endpoint": "uscourts.gov/statistics-reports/analysis-reports/judicial-business-united-states-courts",
+      "feedClass": "judicial_capacity",
+      "indicators": [
+        "CASELOAD_RESOLVED_PCT",
+        "CONTRACT_ENFORCEMENT_TIME",
+        "PENDING_CASE_AGE",
+        "REVERSAL_RATE_CIV"
+      ]
+    },
+    {
+      "name": "World Justice Project Rule of Law Index",
+      "apiKey": null,
+      "status": "REFERENCE",
+      "endpoint": "worldjusticeproject.org/rule-of-law-index/",
+      "feedClass": "legal_system_integrity",
+      "indicators": [
+        "WJP.RULE_OF_LAW",
+        "WJP.CIVIL_JUSTICE",
+        "WJP.CRIMINAL_JUSTICE",
+        "WJP.REGULATORY_ENFORCEMENT",
+        "WJP.ORDER_SECURITY"
+      ]
+    },
+    {
+      "name": "U.S. Department of Justice / Bureau of Justice Statistics",
+      "apiKey": null,
+      "status": "REFERENCE",
+      "endpoint": "bjs.ojp.gov/data-collection",
+      "feedClass": "dispute_resolution_efficiency",
+      "indicators": [
+        "INCARCERATION_RATE_US",
+        "SENTENCING_CONSISTENCY_INDEX",
+        "CONVICTION_EXONERATION_RATIO"
+      ]
+    },
+    {
+      "name": "World Bank WGI (Rule of Law)",
+      "apiKey": "WORLDBANK_API_KEY",
+      "status": "LIVE",
+      "endpoint": "api.worldbank.org/v2/country/all/indicator/",
+      "feedClass": "legal_system_integrity",
+      "indicators": [
+        "RL.EST"
+      ]
+    },
+    {
+      "name": "American Bar Association Profile of the Legal Profession",
+      "apiKey": null,
+      "status": "REFERENCE",
+      "endpoint": "americanbar.org/news/profile-of-profession/",
+      "feedClass": "access_to_justice",
+      "indicators": [
+        "ABA.LEGAL_AID_FUNDING",
+        "ABA.ACCESS_TO_JUSTICE_GAP",
+        "ABA.PUBLIC_DEFENDER_CAPACITY"
+      ]
+    },
+    {
+      "name": "Polygon.io Legal-Sector Equities",
+      "apiKey": "POLYGON_API_KEY",
+      "status": "LIVE",
+      "endpoint": "api.polygon.io/v2/aggs/ticker/",
+      "feedClass": "legal_sector_proxy",
+      "indicators": [
+        "RELX",
+        "TRI",
+        "TYL",
+        "AXON",
+        "PLTR",
+        "VERX",
+        "CSGP",
+        "DOCU"
+      ]
+    }
+  ],
+  "bindingClasses": {
+    "note": "Law binds mostly to JUDICIAL INSTITUTIONS, COURTS, ENFORCEMENT AUTHORITIES & RULE-OF-LAW INDICES, not single companies. The per-node 'companies' arrays are retained as-is for engine compatibility; this block classifies bound entities so legal-tech equity feeds and institutional reference sources are not conflated. Distinct from governance (policy/administration/elections): law tracks judicial-system performance — docket efficiency, appellate reversal, sentencing consistency, access to justice.",
+    "equities": [
+      {
+        "name": "RELX (LexisNexis)",
+        "ticker": "RELX",
+        "role": "legal research, case law & rule-of-law analytics",
+        "feed": "polygon.io"
+      },
+      {
+        "name": "Thomson Reuters (Westlaw)",
+        "ticker": "TRI",
+        "role": "legal research, court analytics & legal data",
+        "feed": "polygon.io"
+      },
+      {
+        "name": "Tyler Technologies",
+        "ticker": "TYL",
+        "role": "court case-management & judicial software",
+        "feed": "polygon.io"
+      },
+      {
+        "name": "Axon Enterprise",
+        "ticker": "AXON",
+        "role": "law enforcement & criminal-justice evidence tech",
+        "feed": "polygon.io"
+      },
+      {
+        "name": "Palantir Technologies",
+        "ticker": "PLTR",
+        "role": "investigative & legal data integration",
+        "feed": "polygon.io"
+      },
+      {
+        "name": "Vertex Inc",
+        "ticker": "VERX",
+        "role": "automated regulatory & tax-compliance software",
+        "feed": "polygon.io"
+      },
+      {
+        "name": "CoStar Group",
+        "ticker": "CSGP",
+        "role": "property / real-estate legal & transactional data",
+        "feed": "polygon.io"
+      },
+      {
+        "name": "DocuSign",
+        "ticker": "DOCU",
+        "role": "digital contract execution & e-signature enforcement",
+        "feed": "polygon.io"
+      },
+      {
+        "name": "Cellebrite",
+        "ticker": "CLBT",
+        "role": "digital forensics & lawful evidence extraction",
+        "feed": "polygon.io"
+      },
+      {
+        "name": "Veritone",
+        "ticker": "VERI",
+        "role": "AI evidence & legal-discovery analytics",
+        "feed": "polygon.io"
+      }
+    ],
+    "referenceSources": [
+      {
+        "name": "Administrative Office of the U.S. Courts",
+        "id": "USCOURTS_GOV",
+        "role": "judicial caseload & docket statistics (analysis source, not an equity)",
+        "indicatorSource": "U.S. Courts Caseload (Judicial Business)"
+      },
+      {
+        "name": "World Justice Project",
+        "id": "WJP_NPO",
+        "role": "rule-of-law index publisher (analysis source)",
+        "indicatorSource": "World Justice Project Rule of Law Index"
+      },
+      {
+        "name": "U.S. Department of Justice",
+        "id": "DOJ_GOV",
+        "role": "federal enforcement & justice statistics (analysis source)",
+        "indicatorSource": "U.S. Department of Justice / Bureau of Justice Statistics"
+      },
+      {
+        "name": "Bureau of Justice Statistics",
+        "id": "BJS_GOV",
+        "role": "incarceration & sentencing data (analysis source)",
+        "indicatorSource": "U.S. Department of Justice / Bureau of Justice Statistics"
+      },
+      {
+        "name": "American Bar Association",
+        "id": "ABA_NPO",
+        "role": "legal-profession & access-to-justice standards (analysis source)",
+        "indicatorSource": "American Bar Association Profile of the Legal Profession"
+      },
+      {
+        "name": "Supreme Court of the United States",
+        "id": "SCOTUS_GOV",
+        "role": "highest appellate authority & precedent (analysis source)",
+        "indicatorSource": "U.S. Courts Caseload (Judicial Business)"
+      },
+      {
+        "name": "Innocence Project",
+        "id": "INNOCENCE_NPO",
+        "role": "wrongful-conviction & exoneration data (analysis source)",
+        "indicatorSource": "U.S. Department of Justice / Bureau of Justice Statistics"
+      },
+      {
+        "name": "World Bank Worldwide Governance Indicators (Rule of Law)",
+        "id": "WGI_RL_REF",
+        "role": "cross-national rule-of-law index (analysis source)",
+        "indicatorSource": "World Bank WGI (Rule of Law)"
+      },
+      {
+        "name": "International Criminal Court",
+        "id": "ICC",
+        "role": "international atrocity-crime adjudication (analysis source)",
+        "indicatorSource": "World Justice Project Rule of Law Index"
+      }
+    ]
+  },
   "_enrichment": {
     "neuralRoleMigratedAt": "2026-05-13T13:15:14.744Z",
     "schemaVersion": "subdomain-portal.v2.0",

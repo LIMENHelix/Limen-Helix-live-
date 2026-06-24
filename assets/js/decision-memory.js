@@ -51,6 +51,8 @@
   var POPULATION_STACK_COOLDOWN = 180000; // 3 min between population-stack narrations
   var RESEARCH_STACK_THRESHOLD = 2; // a science/research-vulnerability stack seen N times signals concentration
   var RESEARCH_STACK_COOLDOWN = 180000; // 3 min between science/research-stack narrations
+  var LAW_STACK_THRESHOLD = 2; // a legal/judicial-vulnerability stack seen N times signals concentration
+  var LAW_STACK_COOLDOWN = 180000; // 3 min between law-stack narrations
 
   // ─── Infrastructure vulnerability-stack semantics ─────────────────────────
   // CIVIL domain-semantic concentration. Generic (domain, action) frequency only
@@ -868,6 +870,75 @@
       body: 'Operator attention concentrates on the corruption-detection + oversight-failure stack — a corruption exposure where bribery, graft, and self-dealing meet inspector-general/audit gaps and whistleblower retaliation, breaking the accountability chain (World Bank WGI control-of-corruption / GAO / LDOS-GDIT integrity-systems exposure).' }
   ];
 
+  // ─── Law / judicial-system vulnerability-stack semantics ──────────────────
+  // LEGAL-SYSTEM domain-semantic concentration. As with the other domains, generic
+  // (domain, action) frequency only says WHERE the operator is looking; for the law
+  // domain we also detect WHAT legal-system-vulnerability STACK the attention
+  // concentrates on. Each stack is a co-occurring pair of legal signal families
+  // (litigation surge & docket pressure/court backlog & case-clearance collapse/
+  // enforcement gap & non-prosecution/judicial independence & rule-of-law erosion/
+  // regulatory crackdown & compliance burden/constitutional challenge & contested
+  // doctrine/access-to-justice failure & legal-services desert/contract & dispute
+  // resolution breakdown). The law identity is the LEGAL SYSTEM & COURTS, JUDICIARY
+  // & RULE OF LAW, LITIGATION & DISPUTE RESOLUTION, REGULATION & COMPLIANCE,
+  // CONTRACTS & ENFORCEMENT, INTELLECTUAL-PROPERTY LAW, CRIMINAL JUSTICE, and LEGAL
+  // SERVICES & ACCESS TO JUSTICE — bound to real legal-sector identifiers (RELX
+  // LexisNexis, TRI Thomson Reuters/Westlaw, VERX Vertex compliance, CSGP) and legal
+  // authorities/indices (US Courts caseload statistics, ABA, DOJ, SCOTUS, World
+  // Justice Project Rule-of-Law Index) — mostly indicator-based; never fabricated.
+  // Law is kept DISTINCT from governance (governance = policy/administration/
+  // elections; law = the JUDICIAL/legal-system/courts/enforcement), from intelligence
+  // (collection/espionage), and from finance (capital markets). Regulation here is
+  // the LEGAL/enforcement dimension (rules, compliance, enforcement actions), not the
+  // governance rulemaking-process dimension. Mirrors the energy anchor where
+  // crude_above_90 + grid_stress pair into a feedback loop — law pairs
+  // litigation-surge + court-backlog into a litigation-paralysis stack, and
+  // enforcement-gap + judicial-independence-loss into a rule-of-law-collapse stack.
+  // Mirrors the law-brain cross-domain conditions:
+  //   LITIGATION_SURGE + COURT_BACKLOG                  → litigation-paralysis stack
+  //   ENFORCEMENT_GAP + JUDICIAL_INDEPENDENCE_LOSS      → rule-of-law-collapse stack
+  //   REGULATORY_CRACKDOWN + ENFORCEMENT_INTENSITY      → regulatory-compliance crunch
+  //   CONSTITUTIONAL_CHALLENGE + ACCESS_TO_JUSTICE_FAILURE → constitutional-access gap
+  //   ENFORCEMENT_GAP + COURT_BACKLOG                   → enforcement-capacity collapse
+  // Signal tokens are matched against recorded action/type/pattern text — never
+  // invented; absence of tokens simply yields no stack (silent, no false signal).
+  // STRICTLY ADDITIVE: advisory only; never participates in /api/limen/score scoring.
+  var LAW_SIGNAL_TOKENS = {
+    LITIGATION_SURGE:            /(litigation[_\s-]?surge|litigation[_\s-]?wave|caseload[_\s-]?surge|filing[_\s-]?surge|new[_\s-]?filings|mass[_\s-]?tort|class[_\s-]?action|multidistrict|mdl|docket[_\s-]?pressure|lawsuit[_\s-]?spike|complaint[_\s-]?volume|civil[_\s-]?suit[_\s-]?surge)/i,
+    COURT_BACKLOG:               /(court[_\s-]?backlog|case[_\s-]?backlog|docket[_\s-]?backlog|pending[_\s-]?cases|case[_\s-]?clearance|clearance[_\s-]?rate|trial[_\s-]?delay|continuance|adjournment|judicial[_\s-]?vacancy|judge[_\s-]?shortage|time[_\s-]?to[_\s-]?disposition|us[_\s-]?courts[_\s-]?caseload)/i,
+    ENFORCEMENT_GAP:             /(enforcement[_\s-]?gap|non[_\s-]?prosecution|declination|under[_\s-]?enforcement|lax[_\s-]?enforcement|unenforced[_\s-]?law|prosecutorial[_\s-]?discretion|enforcement[_\s-]?shortfall|charging[_\s-]?decline|dropped[_\s-]?charges|impunity|enforcement[_\s-]?vacuum)/i,
+    JUDICIAL_INDEPENDENCE_LOSS:  /(judicial[_\s-]?independence|rule[_\s-]?of[_\s-]?law[_\s-]?erosion|court[_\s-]?packing|judicial[_\s-]?legitimacy|defy[_\s-]?court[_\s-]?order|noncompliance[_\s-]?with[_\s-]?ruling|judicial[_\s-]?capture|bench[_\s-]?intimidation|separation[_\s-]?of[_\s-]?judiciary|wjp[_\s-]?rule[_\s-]?of[_\s-]?law|world[_\s-]?justice[_\s-]?project|judicial[_\s-]?erosion)/i,
+    REGULATORY_CRACKDOWN:        /(regulatory[_\s-]?crackdown|enforcement[_\s-]?action|consent[_\s-]?decree|civil[_\s-]?penalty|regulatory[_\s-]?sweep|injunction|cease[_\s-]?and[_\s-]?desist|sec[_\s-]?enforcement|ftc[_\s-]?action|doj[_\s-]?investigation|subpoena|regulatory[_\s-]?probe|compliance[_\s-]?action)/i,
+    ENFORCEMENT_INTENSITY:       /(compliance[_\s-]?burden|compliance[_\s-]?cost|regulatory[_\s-]?burden|disclosure[_\s-]?requirement|audit[_\s-]?intensity|reporting[_\s-]?obligation|sanction[_\s-]?exposure|penalty[_\s-]?exposure|enforcement[_\s-]?intensity|monitorship|deferred[_\s-]?prosecution|compliance[_\s-]?crunch)/i,
+    CONSTITUTIONAL_CHALLENGE:    /(constitutional[_\s-]?challenge|constitutional[_\s-]?question|scotus|supreme[_\s-]?court|circuit[_\s-]?split|cert[_\s-]?petition|amicus|first[_\s-]?amendment|due[_\s-]?process|equal[_\s-]?protection|contested[_\s-]?doctrine|precedent[_\s-]?overturn|stare[_\s-]?decisis)/i,
+    ACCESS_TO_JUSTICE_FAILURE:   /(access[_\s-]?to[_\s-]?justice|legal[_\s-]?desert|legal[_\s-]?aid[_\s-]?gap|pro[_\s-]?se|self[_\s-]?represented|public[_\s-]?defender[_\s-]?shortage|indigent[_\s-]?defense|unmet[_\s-]?legal[_\s-]?need|justice[_\s-]?gap|representation[_\s-]?gap|legal[_\s-]?services[_\s-]?desert|aba[_\s-]?access)/i,
+    DISPUTE_RESOLUTION_BREAKDOWN:/(dispute[_\s-]?resolution|contract[_\s-]?dispute|breach[_\s-]?of[_\s-]?contract|arbitration|mediation[_\s-]?failure|enforcement[_\s-]?of[_\s-]?judgment|award[_\s-]?enforcement|settlement[_\s-]?collapse|adr[_\s-]?failure|contract[_\s-]?enforceability|specific[_\s-]?performance|remedy[_\s-]?gap)/i,
+    IP_LITIGATION:               /(intellectual[_\s-]?property|patent[_\s-]?litigation|patent[_\s-]?infringement|trademark[_\s-]?dispute|copyright[_\s-]?suit|trade[_\s-]?secret|ip[_\s-]?dispute|patent[_\s-]?troll|injunction[_\s-]?ip|ptab|infringement[_\s-]?claim|licensing[_\s-]?dispute)/i,
+    CRIMINAL_JUSTICE_STRESS:     /(criminal[_\s-]?justice|sentencing|incarceration|pretrial[_\s-]?detention|bail|plea[_\s-]?bargain|wrongful[_\s-]?conviction|prosecution[_\s-]?backlog|criminal[_\s-]?docket|recidivism|prison[_\s-]?overcrowd|criminal[_\s-]?caseload)/i
+  };
+
+  // Legal-system-vulnerability STACKS — ordered token pairs with a legal-system
+  // interpretation. Each describes an operator-concentration meaning specific to a
+  // legal/judicial vulnerability stack (litigation & dockets, courts & case
+  // clearance, enforcement & prosecution, judicial independence & rule of law,
+  // regulation & compliance, constitutional doctrine, access to justice, dispute
+  // resolution & contract enforcement) — NOT energy oil/gas/grid content, distinct
+  // from governance (policy/administration/elections), intelligence (collection/
+  // espionage), and finance (capital markets). Law is the JUDICIAL/legal-system,
+  // courts, enforcement, and the rule of law.
+  var LAW_VULN_STACKS = [
+    { id: 'LITIGATION_PARALYSIS',        signals: ['LITIGATION_SURGE', 'COURT_BACKLOG'],
+      body: 'Operator attention concentrates on the litigation-surge + court-backlog stack — a litigation-paralysis posture where mass-tort/class-action filing waves collide with case-clearance collapse, judicial vacancies, and lengthening time-to-disposition (US Courts caseload statistics / RELX-LexisNexis / TRI-Westlaw docket exposure).' },
+    { id: 'RULE_OF_LAW_EROSION',         signals: ['ENFORCEMENT_GAP', 'JUDICIAL_INDEPENDENCE_LOSS'],
+      body: 'Operator attention concentrates on the enforcement-gap + judicial-independence-loss stack — a rule-of-law collapse where non-prosecution and impunity compound with court-packing, defiance of rulings, and judicial-legitimacy erosion (World Justice Project Rule-of-Law Index / SCOTUS / DOJ exposure).' },
+    { id: 'REGULATORY_COMPLIANCE_CRUNCH', signals: ['REGULATORY_CRACKDOWN', 'ENFORCEMENT_INTENSITY'],
+      body: 'Operator attention concentrates on the regulatory-crackdown + enforcement-intensity stack — a regulatory-compliance crunch where enforcement actions, consent decrees, and civil penalties pair with rising compliance burden, disclosure obligations, and monitorship cost (DOJ/SEC/FTC enforcement / VERX-Vertex compliance exposure).' },
+    { id: 'CONSTITUTIONAL_ACCESS_GAP',   signals: ['CONSTITUTIONAL_CHALLENGE', 'ACCESS_TO_JUSTICE_FAILURE'],
+      body: 'Operator attention concentrates on the constitutional-challenge + access-to-justice-failure stack — a constitutional-access gap where SCOTUS-bound contested doctrine and circuit splits play out against legal deserts, public-defender shortages, and an unmet justice gap (SCOTUS / ABA access-to-justice exposure).' },
+    { id: 'ENFORCEMENT_CAPACITY_COLLAPSE', signals: ['ENFORCEMENT_GAP', 'COURT_BACKLOG'],
+      body: 'Operator attention concentrates on the enforcement-gap + court-backlog stack — an enforcement-capacity collapse where non-prosecution and declined charges meet docket backlog and clearance-rate decline, hollowing the legal system ability to adjudicate (US Courts caseload / DOJ charging-statistics exposure).' }
+  ];
+
   // ─── State ───────────────────────────────────────────────────────────────
 
   var _entries = [];
@@ -903,6 +974,8 @@
   var _lastPopulationStackId = null;
   var _lastResearchStackTime = 0;
   var _lastResearchStackId = null;
+  var _lastLawStackTime = 0;
+  var _lastLawStackId = null;
   var _interval = null;
 
   // Detect which civil signal families a user-action references, by scanning its
@@ -1021,6 +1094,18 @@
     var hits = [];
     for (var sig in GOVERNANCE_SIGNAL_TOKENS) {
       if (GOVERNANCE_SIGNAL_TOKENS[sig].test(text)) hits.push(sig);
+    }
+    return hits;
+  }
+
+  // Detect which legal/judicial signal families a user-action references, by scanning its
+  // free-text fields (action / type / cross-domain pattern). Returns a list of
+  // canonical law signal ids. Never fabricates — empty if nothing matches.
+  function _detectLawSignals(text) {
+    if (!text) return [];
+    var hits = [];
+    for (var sig in LAW_SIGNAL_TOKENS) {
+      if (LAW_SIGNAL_TOKENS[sig].test(text)) hits.push(sig);
     }
     return hits;
   }
@@ -1173,6 +1258,10 @@
       // SCIENCE/RESEARCH: which science/research signal families this action touches (may be []).
       researchSignals: _detectResearchSignals(
         [detail.action, detail.type, matchedPattern, detail.signal, detail.diagnosis].join(' ')
+      ),
+      // LAW: which legal/judicial signal families this action touches (may be []).
+      lawSignals: _detectLawSignals(
+        [detail.action, detail.type, matchedPattern, detail.signal, detail.diagnosis].join(' ')
       )
     };
 
@@ -1198,6 +1287,7 @@
     _checkEducationStackConcentration();
     _checkPopulationStackConcentration();
     _checkResearchStackConcentration();
+    _checkLawStackConcentration();
   }
 
   // ─── Concentration detection ──────────────────────────────────────────────
@@ -2281,6 +2371,72 @@
     });
   }
 
+  // ─── Law vulnerability-stack concentration ────────────────────────────────
+  // Domain-semantic concentration for LAW: beyond "which domain" (above), surface
+  // WHICH legal-system-vulnerability STACK the operator keeps returning to. Tallies
+  // co-occurring legal signal families across recent entries and fires when a known
+  // stack (litigation paralysis, rule-of-law erosion, regulatory-compliance crunch,
+  // constitutional-access gap, enforcement-capacity collapse) crosses the threshold.
+  // Schema-faithful to _checkGovernanceStackConcentration (same phase-change shape).
+
+  function _checkLawStackConcentration() {
+    var now = Date.now();
+    if (now - _lastLawStackTime < LAW_STACK_COOLDOWN) return;
+    if (_entries.length < LAW_STACK_THRESHOLD) return;
+
+    // Count per-signal-family hits across recent entries (last 10).
+    var recent = _entries.slice(-10);
+    var sigCounts = {};
+    for (var i = 0; i < recent.length; i++) {
+      var sigs = recent[i].lawSignals || [];
+      for (var s = 0; s < sigs.length; s++) {
+        sigCounts[sigs[s]] = (sigCounts[sigs[s]] || 0) + 1;
+      }
+    }
+
+    // A stack fires only when BOTH of its signal families are present and at least
+    // one of them has been focused on repeatedly (>= threshold). Score = sum of the
+    // pair's counts; pick the strongest stack.
+    var best = null;
+    for (var k = 0; k < LAW_VULN_STACKS.length; k++) {
+      var stack = LAW_VULN_STACKS[k];
+      var a = sigCounts[stack.signals[0]] || 0;
+      var b = sigCounts[stack.signals[1]] || 0;
+      if (a === 0 || b === 0) continue;
+      if (Math.max(a, b) < LAW_STACK_THRESHOLD) continue;
+      var score = a + b;
+      if (!best || score > best.score) best = { stack: stack, a: a, b: b, score: score };
+    }
+
+    if (!best) return;
+    if (best.stack.id === _lastLawStackId) return; // don't re-narrate the same stack
+
+    _lastLawStackTime = now;
+    _lastLawStackId = best.stack.id;
+
+    var drivers = [
+      best.a + ' recent actions touching ' + best.stack.signals[0],
+      best.b + ' recent actions touching ' + best.stack.signals[1]
+    ];
+
+    var options = [
+      { label: 'deepen ' + best.stack.id.toLowerCase().replace(/_/g, ' ') + ' analysis', type: 'analysis' },
+      { label: 'broaden scope', type: 'monitoring' },
+      { label: 'hold', type: 'monitoring' }
+    ];
+
+    _dispatch('limen:phase-change', {
+      from: 'observing',
+      to: 'concentrated',
+      type: 'decision-memory',
+      domain: 'law',
+      stackId: best.stack.id,
+      topDrivers: drivers,
+      options: options,
+      body: best.stack.body
+    });
+  }
+
   // ─── Publish ──────────────────────────────────────────────────────────────
 
   function _publish() {
@@ -2303,6 +2459,7 @@
       educationSignalConcentration: _educationSignalConcentration(),
       populationSignalConcentration: _populationSignalConcentration(),
       researchSignalConcentration: _researchSignalConcentration(),
+      lawSignalConcentration: _lawSignalConcentration(),
       updated: Date.now()
     };
 
@@ -2553,6 +2710,23 @@
     var recent = _entries.slice(-10);
     for (var i = 0; i < recent.length; i++) {
       var sigs = recent[i].researchSignals || [];
+      for (var s = 0; s < sigs.length; s++) {
+        counts[sigs[s]] = (counts[sigs[s]] || 0) + 1;
+      }
+    }
+    var out = [];
+    for (var sig in counts) { out.push({ signal: sig, count: counts[sig] }); }
+    out.sort(function (x, y) { return y.count - x.count; });
+    return out;
+  }
+
+  // LAW: roll up which legal/judicial signal families recent attention concentrates
+  // on (descending by count). Empty when no legal signals were detected.
+  function _lawSignalConcentration() {
+    var counts = {};
+    var recent = _entries.slice(-10);
+    for (var i = 0; i < recent.length; i++) {
+      var sigs = recent[i].lawSignals || [];
       for (var s = 0; s < sigs.length; s++) {
         counts[sigs[s]] = (counts[sigs[s]] || 0) + 1;
       }
