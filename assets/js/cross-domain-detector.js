@@ -1696,6 +1696,200 @@
         { label: 'investigate docket-backlog / policy-coherence coupling', type: 'analysis' },
         { label: 'hold', type: 'monitoring' }
       ]
+    },
+    // ─── Agriculture pairs (parity port; mirrors energy/infra/culture/finance/economy/tech/defense/intelligence/trade/industry/environment/governance structure) ──
+    // AGRICULTURE identity ONLY — farming & crops, livestock & animal protein, agribusiness &
+    // food production, food security & supply, fertilizers & crop inputs, irrigation &
+    // agricultural water, commodity crops (corn/soy/wheat), agricultural technology & precision
+    // ag, farm economics. Real agriculture tickers (ADM, BG, CTVA, DE, NTR, MOS, CF, TSN, CAG,
+    // INGR, AGCO, FMC) + ag commodity refs (CBOT corn/soy/wheat, USDA WASDE) — never fabricated.
+    // Each PAIRED domain couples to agriculture via an INPUT-ENERGY, CREDIT, AUTOMATION-TECH,
+    // R&D, LEGAL/COMPLIANCE, POLICY, WORKFORCE, EPIDEMIOLOGY, NARRATIVE, HERITAGE, or MORAL
+    // regime; agriculture's OWN content stays farming / crops / livestock / inputs / food
+    // production. Energy oil/gas/grid is NEVER agriculture's own content — biofuel feedstock &
+    // fertilizer-energy is a COUPLING. Kept DISTINCT from environment (land/water/climate is a
+    // coupling), trade (export logistics is a coupling), and economy (food prices is a coupling).
+    // ADDITIVE — does not touch any validated scoring path. ('agriculture_population',
+    // 'supplyChain_agriculture', 'economy_agriculture', 'infrastructure_agriculture',
+    // 'defense_agriculture', 'intelligence_agriculture', 'environment_agriculture',
+    // 'industry_agriculture' already cover those couplings.)
+    {
+      // Mirrors 'energy_supply' (fuel commodity transmission) + 'infrastructure_energy' (grid
+      // demand). Agriculture couples biofuel feedstock supply OUT to energy, and couples
+      // energy-input COST (fertilizer synthesis, irrigation electric) IN. Energy is the COUPLING
+      // (fuel/fertilizer-energy consequence); agriculture identity stays crops/inputs/farm ops.
+      id: 'agriculture_energy',
+      domains: ['agriculture', 'energy'],
+      threshold: 0.45,
+      pattern: 'agriculture-energy input-cost coupling',
+      drivers: ['fertilizer cost spike from energy input prices (NH3 synthesis, fuel oil heating: NTR/MOS/CF energy-intensive nitrogen)', 'irrigation energy cost elevation (pump electricity + fuel for diesel rigs)', 'biofuel feedstock demand surge (corn/soy to ethanol/biodiesel, CBOT commodity-price transmission, ADM/BG crush margins)', 'cold-chain energy demand (refrigerated transport + processing facilities, TSN/CAG cold storage)', 'farm equipment fuel cost (diesel tractor fuel, combine harvest fuel: DE/AGCO operating cost)', 'grain-drying energy cost (propane + natural gas for corn/wheat drying, USDA WASDE harvest moisture)'],
+      options: [
+        { label: 'trace fertilizer / fuel input-cost exposure', type: 'analysis' },
+        { label: 'investigate biofuel feedstock demand coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'finance_economy' (credit-tightening transmission) + 'finance_infrastructure'
+      // (capital unavailable for deferred maintenance). Agriculture's working-capital access +
+      // deferred-equipment financing couples to macro credit conditions. Finance is the COUPLING
+      // (credit channel); agriculture identity stays farm income / collateral / debt service.
+      id: 'agriculture_finance',
+      domains: ['agriculture', 'finance'],
+      threshold: 0.50,
+      pattern: 'farm-credit collateral-repricing coupling',
+      drivers: ['farm-credit spread widening (ag-lending prime rate elevation, syndicated-loan stress, AGM Farmer Mac exposure)', 'working-capital line reduction (seasonal commodity-sale financing contraction)', 'commodity-collateral repricing (crop-value decline reducing loan-advance capacity, CBOT corn/soy/wheat)', 'farm-debt-service coverage ratio decline (income / debt-service, USDA ERS farm-income)', 'farm-bankruptcy / debt-restructuring spike (FSA loan-delinquency, Chapter 12 filings)', 'livestock-production credit stress (cattle/dairy borrow-to-feed surge, TSN feed-cost financing)', 'land-collateral repricing (farmland value / REIT portfolio stress for LAND/FPI)'],
+      options: [
+        { label: 'trace farm-credit / collateral exposure', type: 'analysis' },
+        { label: 'investigate working-capital / debt-service coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'technology_infrastructure' (platform strain) + 'defense_technology' (autonomy &
+      // precision-systems coupling). Precision ag couples technology hardware/software INTO farm
+      // operations; ag data couples INTO weather/yield-prediction research. Technology is the
+      // COUPLING (chips/software/automation); agriculture identity stays farm ops / crops / yield.
+      id: 'agriculture_technology',
+      domains: ['agriculture', 'technology'],
+      threshold: 0.45,
+      pattern: 'precision-ag automation coupling',
+      drivers: ['precision-ag hardware supply (drone/sensor/automation equipment lead-time, DE equipment shortage)', 'genetic-seed R&D & IP licensing lag (CTVA/Bayer biotech pipeline, gene-editing patent delays)', 'autonomous-equipment standardization (tractor/harvester automation platform adoption friction, AGCO interoperability gaps)', 'agricultural-data-integration bottleneck (IoT soil sensor deployment pace, weather-data fusion reliability)', 'satellite-imagery processing lag (NDVI/plant-stress detection, crop-acreage forecasting accuracy)', 'machinery-software update cycle (tractor OS patches, remote-diagnostics uptime, DE/AGCO connected fleet)'],
+      options: [
+        { label: 'map precision-ag hardware exposure', type: 'analysis' },
+        { label: 'investigate autonomous-equipment / data-integration coupling', type: 'discovery' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'technology_research' (innovation pipeline) + 'education_research' (knowledge
+      // infrastructure). Agricultural research produces genetics/agronomy knowledge that couples
+      // INTO farm operations. Research is the COUPLING (innovation substrate); agriculture
+      // identity stays crops / genetics-deployment / yield.
+      id: 'agriculture_research',
+      domains: ['agriculture', 'research'],
+      threshold: 0.40,
+      pattern: 'crop-genetics innovation pipeline coupling',
+      drivers: ['crop-genetics research funding pressure (USDA NRCS grant slowdown, university ag-research budget squeeze)', 'yield-improvement innovation pipeline lag (2-5 year breeding cycle delays, gene-editing patent resolution pace)', 'agricultural-science publication rate acceleration (climate-adaptation agronomy, precision-breeding breakthroughs)', 'climate-scenario crop-modeling research gap (yield forecasting under extreme-weather stress, USDA WASDE)', 'drought-tolerance / salt-tolerance genetics commercialization delay (CTVA new-variety rollout timeline)', 'disease-resistance breeding pipeline acceleration (emerging-pest response time, fungicide-resistance breeding, FMC crop-protection R&D)'],
+      options: [
+        { label: 'trace crop-genetics research pipeline exposure', type: 'analysis' },
+        { label: 'investigate yield-improvement / climate-modeling gap', type: 'discovery' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'infrastructure_law' (compliance + liability coupling) + 'defense_law'
+      // (regulatory constraint on operations). The agricultural compliance regime (EPA/USDA/state)
+      // creates legal-enforcement burden for farm operations. Law is the COUPLING (regulatory/
+      // enforcement regime); agriculture identity stays crops / inputs / food production.
+      id: 'agriculture_law',
+      domains: ['agriculture', 'law'],
+      threshold: 0.45,
+      pattern: 'agricultural-compliance liability transmission',
+      drivers: ['crop-insurance claim dispute rate (coverage denial / payment-delay litigation)', 'pesticide-regulatory compliance cost (EPA label restrictions, dicamba drift liability, neonicotinoid restrictions, FMC/CTVA exposure)', 'water-rights litigation spike (basin-wide drought triggers, riparian-doctrine disputes, groundwater-allocation suits)', 'land-use zoning conflict (agricultural-zoning preservation vs residential expansion, farmland-conservation easement disputes)', 'food-safety liability & recall enforcement (FSMA inspections, pathogen-traceability liability, TSN/CAG Salmonella/E.coli litigation)', 'farm-employment lawsuit risk (labor-wage litigation, contractor-classification disputes, H-2A labor-compliance penalties)'],
+      options: [
+        { label: 'trace agricultural-compliance liability exposure', type: 'analysis' },
+        { label: 'investigate pesticide / water-rights / food-safety enforcement coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'governance_economy' (policy-regime institutional envelope) + 'defense_governance'
+      // (policy-authority coupling). The agriculture subsidy & trade regime directly shapes farm
+      // income & planting decisions. Governance is the COUPLING (policy/subsidy/trade regime);
+      // agriculture identity stays crops / farm income / planting.
+      id: 'agriculture_governance',
+      domains: ['agriculture', 'governance'],
+      threshold: 0.50,
+      pattern: 'farm-subsidy trade-policy transmission',
+      drivers: ['farm-subsidy policy change (CRP enrollment, USDA payment-program restructuring, conservation-program funding shifts)', 'commodity-price-support program design (crop-insurance subsidy level, commodity-loan programs)', 'tariff & trade-policy impacts (China soybean tariffs, EU sugar quotas, USMCA rule-of-origin on commodity trade, ADM/BG export exposure)', 'agricultural-zoning policy (farmland-preservation mandates, rural development ordinance changes)', 'water-allocation & irrigation-subsidy policy (federal irrigation-water pricing, state groundwater-extraction limits)', 'agricultural-workforce policy (H-2A visa limits, labor-standard enforcement frequency, immigrant-worker policy shifts)'],
+      options: [
+        { label: 'trace farm-subsidy / trade-policy exposure', type: 'analysis' },
+        { label: 'investigate tariff / water-allocation policy coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'infrastructure_education' (workforce-pipeline stress) + 'culture_education'
+      // (talent-formation pipeline). Agricultural workforce training couples education INTO farm
+      // labor supply. Education is the COUPLING (workforce pipeline); agriculture identity stays
+      // farm labor / mechanization-ready operations.
+      id: 'agriculture_education',
+      domains: ['agriculture', 'education'],
+      threshold: 0.45,
+      pattern: 'agricultural-workforce skills pipeline coupling',
+      drivers: ['agricultural-extension service capacity decline (state funding pressure, agronomist/soil-scientist staffing lag)', 'vocational-agriculture enrollment decline (high-school ag programs closing, FFA membership erosion)', 'precision-ag literacy gap (farmer training in data-analytics, IoT systems, autonomous-equipment operation, DE/AGCO operator training)', 'agricultural-genetics training lag (post-secondary breeding/genetics curriculum expansion vs demand)', 'soil-science / soil-health education gap (sustainable-farming curriculum adoption, carbon-farming training availability)', 'equipment-operator certification backlog (pesticide-applicator certification, heavy-equipment operator training capacity)'],
+      options: [
+        { label: 'trace agricultural-workforce pipeline exposure', type: 'analysis' },
+        { label: 'investigate extension-capacity / precision-ag literacy coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'health_research' (clinical/epidemiological coupling) + 'environment_health'
+      // (environmental-health enforcement). Agricultural operations have occupational-health
+      // (pesticide) and nutritional-access (food supply) coupling to health outcomes. Health is
+      // the COUPLING (epidemiology/occupational-health); agriculture identity stays crops /
+      // farmworkers / food production.
+      id: 'agriculture_health',
+      domains: ['agriculture', 'health'],
+      threshold: 0.45,
+      pattern: 'agricultural occupational-health nutrition coupling',
+      drivers: ['pesticide-exposure health impact studies (EPA health assessments, farmworker neurological / reproductive effects, drinking-water contamination)', 'farmworker occupational-health & safety (heat-stress during harvests, pesticide-handler protective-equipment compliance, field-sanitation access)', 'nutrition-security from crop-production disruption (food-price inflation → nutrition-access decline, farm-to-food-bank supply disruption)', 'livestock-disease spillover surveillance (zoonotic-disease emergence risk, dairy/beef pathogen detection, avian-influenza monitoring in poultry, TSN flock exposure)', 'agricultural-product-contamination health events (produce-recall pathogen detection, foodborne-illness outbreak investigation, pesticide-residue testing, CAG/TSN recall exposure)'],
+      options: [
+        { label: 'trace pesticide-exposure / farmworker-health exposure', type: 'analysis' },
+        { label: 'investigate nutrition-security / livestock-spillover coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'culture_communication' (narrative fragmentation) + 'communication_culture'
+      // (virality & trend-making). Agricultural-practice narrative (GMO debate, pesticide
+      // discourse, supply-chain transparency) shapes consumer purchasing. Communication is the
+      // COUPLING (narrative/media channel); agriculture identity stays crops / inputs / food
+      // production.
+      id: 'agriculture_communication',
+      domains: ['agriculture', 'communication'],
+      threshold: 0.45,
+      pattern: 'agricultural-narrative consumer-trust coupling',
+      drivers: ['GMO/pesticide discourse campaign intensity (social-media amplification of anti-ag narratives, influencer food-safety claims, CTVA/FMC reputation exposure)', 'agricultural-supply-chain transparency demand (farm-to-table narrative, supply-chain provenance communication, organic-certification discourse)', 'food-origin & agricultural-practice misinformation (false pesticide claims, non-GMO marketing pressure, "natural" farming narrative adoption)', 'agricultural-worker-condition narrative (fair-trade & labor-standard discourse, corporate-accountability campaigns)', 'climate-adaptation agricultural-practice communication (regenerative-agriculture narrative, carbon-farming claims, sustainable-certification discourse)'],
+      options: [
+        { label: 'analyze agricultural-narrative ecosystem exposure', type: 'analysis' },
+        { label: 'investigate GMO/pesticide discourse / transparency coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'culture_population' (fanbase/audience identity) + 'culture_economy' (venue
+      // revenue + creator income). Agricultural heritage and rural-community culture couple into
+      // food-narrative identity & agritourism revenue. Culture is the COUPLING (heritage/identity);
+      // agriculture identity stays farming / rural-community / food production.
+      id: 'agriculture_culture',
+      domains: ['agriculture', 'culture'],
+      threshold: 0.40,
+      pattern: 'agricultural-heritage rural-identity coupling',
+      drivers: ['agricultural-heritage loss (farm-community traditions, farmstead architecture preservation, agricultural-craft skills erosion)', 'farmer-identity narrative change (rural-legacy transmission decline, farm-family cultural continuity)', 'food-culture authenticity demand (local-food narrative, agricultural-origin storytelling, farmer-market cultural significance)', 'rural-community cohesion decline (agricultural-extension event participation, county-fair attendance, rural-socialization infrastructure erosion)', 'agritourism & farm-experience commodification (agritourism venue emergence, farm-stay cultural experience, educational farm-tour demand)'],
+      options: [
+        { label: 'analyze agricultural-heritage / rural-identity exposure', type: 'analysis' },
+        { label: 'investigate agritourism / food-culture coupling', type: 'discovery' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'religion_population' (demographic-moral tension) + 'culture_religion'
+      // (cultural-moral identity tension). Religious stewardship doctrine and faith-based
+      // agricultural ethics couple into the sustainable-agriculture movement. Religion is the
+      // COUPLING (faith/moral system); agriculture identity stays farming / land-stewardship /
+      // food production.
+      id: 'agriculture_religion',
+      domains: ['agriculture', 'religion'],
+      threshold: 0.40,
+      pattern: 'agricultural-stewardship moral coupling',
+      drivers: ['stewardship theology & sustainable-agriculture doctrine (religious-community commitment to regenerative agriculture, carbon-farming faith-based framing)', 'agricultural-labor ethical framework (fair-wages / worker-dignity moral theology, migrant-farmworker pastoral care)', 'pastoral-tradition & agricultural-symbolism (pastoral imagery in scripture, agricultural-calendar religious observances, harvest-blessing ceremonies)', 'food-blessing & sacramental agriculture (Eucharist bread origin, agricultural-product sacramental use, blessing-ceremony agricultural-product focus)', 'religious-community farmland ownership (monastery/temple agriculture, religious-order farming operations, faith-based farmland preservation)'],
+      options: [
+        { label: 'investigate agricultural-stewardship moral coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
     }
   ];
 

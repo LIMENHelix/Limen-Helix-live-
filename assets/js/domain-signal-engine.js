@@ -301,6 +301,51 @@
     supplyBottleneckFloor:     0.70  // component lead-time > 90 days always reads as supply_bottleneck
   };
 
+  // Structural-signal overrides for agriculture: certain CROP / LIVESTOCK / FOOD-SUPPLY /
+  // INPUT-COST / FARM-ECONOMICS constraints are NOT noisy commodity-price / WASDE-revision-churn
+  // signals and must bypass saturation dampening (mirrors infrastructure's grid_stress, culture's
+  // scene_collapse, finance's liquidity_crunch, economy's recession_declaration, technology's
+  // chip_shortage, defense's force_readiness, intelligence's collection_gap, trade's tariff_shock,
+  // and industry's capacity_constraint structural conditions — all of which mirror energy-brain's
+  // grid_stress reserve-margin floor, a load-bearing engineering constraint that is never dampened
+  // as commodity noise).
+  // The agriculture domain is FARMING & CROPS, livestock & animal protein, agribusiness & food
+  // production, food security & supply, fertilizers & crop inputs, irrigation & agricultural water,
+  // commodity crops (corn/soy/wheat), agricultural technology & precision ag, and farm economics
+  // (tickers: ADM, BG, CTVA, DE, NTR, MOS, CF, TSN, CAG, INGR, AGCO, FMC). It stays DISTINCT from
+  // environment (land/water/climate is a COUPLING, not the identity — drought matters to ag as a
+  // crop-yield shock, not as an ecosystem signal), from trade (export logistics is a COUPLING — an
+  // export ban matters as a market-access loss for ag output, not as a shipping signal), and from
+  // economy (food prices are a COUPLING — a commodity-price surge matters as a farm-revenue/food-
+  // security signal, not as the macro CPI aggregate). Agriculture couples to energy via biofuel
+  // demand and fertilizer feedstock (natural gas → ammonia), but its identity stays crops/livestock/
+  // food/inputs/farm-economics — NEVER oil/gas/grid as the domain's OWN content.
+  // These floors are LOAD-BEARING food-system constraints — exactly as a grid reserve margin below
+  // 10% reads as grid_stress (a real engineering ceiling never averaged down by volume dampening),
+  // a regional crop failure, an acute drought-stress reading, a livestock-disease outbreak, a
+  // food-commodity price surge, an export-market closure, or a farm-debt distress reading is a real
+  // food-system constraint that must never be averaged down by commodity-price / WASDE-revision noise.
+  // Binds to CBOT corn/soy/wheat futures, USDA WASDE crop-condition / production / stocks-to-use, USDA
+  // NASS drought & livestock data, and ag-sector tickers (ADM, BG, CTVA, DE, NTR, MOS, CF, TSN, CAG,
+  // INGR, AGCO, FMC) only.
+  // Raw stress is forced to the floor when a structural threshold is crossed, before dampening.
+  //   - crop failure (regional crop-loss > 30%)                                → crop_failure (structural)
+  //   - drought severity (drought-stress index > threshold)                    → drought_severity (structural)
+  //   - livestock disease (animal-disease outbreak rate > 5%)                   → livestock_disease (structural)
+  //   - food-price surge (food-commodity price spike > 40% YoY)                 → food_price_surge (structural)
+  //   - export ban (ag export-market suddenly closed)                          → export_ban (structural)
+  //   - farm-debt distress (farm debt-to-income ratio > 1.5)                    → farm_debt_distress (structural)
+  // ADDITIVE ONLY — client-side advisory floor for the domain panel/snapshot; it does NOT touch
+  // the validated P3 distress kernel (/api/limen/score path), which lives in the finance domain.
+  var _AGRICULTURE_STRUCTURAL = {
+    cropFailureFloor:       0.70, // regional crop-loss > 30% always reads as crop_failure
+    droughtSeverityFloor:   0.65, // drought-stress index above threshold always reads as drought_severity
+    livestockDiseaseFloor:  0.68, // animal-disease outbreak rate > 5% always reads as livestock_disease
+    foodPriceSurgeFloor:    0.70, // food-commodity price spike > 40% YoY always reads as food_price_surge
+    exportBanFloor:         0.75, // ag export-market suddenly closed always reads as export_ban
+    farmDebtFloor:          0.65  // farm debt-to-income ratio > 1.5 always reads as farm_debt_distress
+  };
+
   // Structural-signal overrides for environment: certain CLIMATE / POLLUTION / ECOSYSTEM /
   // WATER / REGULATORY constraints are NOT noisy emissions-index / headline-volume signals and
   // must bypass saturation dampening (mirrors infrastructure's grid_stress, culture's
@@ -1133,6 +1178,141 @@
     return { floor: floor, reason: reason };
   }
 
+  // Detect agriculture CROP / LIVESTOCK / FOOD-SUPPLY / INPUT-COST / FARM-ECONOMICS structural
+  // constraints from a feed object. Returns a forced stress floor (0 if none) — food-system breaches
+  // bypass the commodity-price / WASDE-revision volume saturation that the generic agriculture feed is
+  // prone to. Mirrors _infraStructuralFloor / _cultureStructuralFloor / _financeStructuralFloor /
+  // _economyStructuralFloor / _technologyStructuralFloor / _defenseStructuralFloor /
+  // _intelligenceStructuralFloor / _tradeStructuralFloor / _industryStructuralFloor: crop-failure /
+  // drought-severity / livestock-disease / food-price-surge / export-ban / farm-debt-distress are
+  // load-bearing food-system constraints, not commodity-signal noise to be averaged down.
+  // Binds to CBOT corn/soy/wheat futures, USDA WASDE crop-condition / production / stocks-to-use, USDA
+  // NASS drought & livestock data, and ag-sector tickers (ADM, BG, CTVA, DE, NTR, MOS, CF, TSN, CAG,
+  // INGR, AGCO, FMC) — DISTINCT from environment (land/water/climate is a coupling), trade (export
+  // logistics is a coupling), and economy (food prices are a coupling); NEVER oil/gas/grid as the
+  // domain's OWN content (agriculture couples to energy via biofuel demand and fertilizer feedstock,
+  // but its identity stays crops/livestock/food/inputs/farm-economics). The crop-loss > 30% ceiling
+  // mirrors energy's grid reserve-margin < 10% floor — a real food-system constraint never averaged
+  // down by commodity-price volume dampening.
+  // ADDITIVE ONLY — client-side advisory floor; does NOT touch the validated P3 distress kernel.
+  function _agricultureStructuralFloor(feed) {
+    if (!feed) return { floor: 0, reason: '' };
+    var floor = 0;
+    var reason = '';
+    var signals = feed.signals || [];
+    function _has(token) {
+      for (var i = 0; i < signals.length; i++) {
+        if (typeof signals[i] === 'string' && signals[i].toLowerCase().indexOf(token) !== -1) return true;
+      }
+      return false;
+    }
+    // (5) Export ban: ag export-market suddenly closed ALWAYS triggers export_ban
+    //     (highest agriculture floor — a sovereign closure of a grain/protein export market severs
+    //     farm-revenue and food-supply flows; ADM/BG/INGR grain-trading exposure, USDA FAS export
+    //     data). An explicit export-ban signal, or an exportMarketClosed flag, trips it.
+    var exportMarketClosed = (feed.exportMarketClosed !== undefined) ? feed.exportMarketClosed
+                           : (feed.agExportBan !== undefined) ? feed.agExportBan
+                           : null;
+    if ((exportMarketClosed === true) ||
+        _has('export ban') || _has('export-ban') || _has('grain export ban') || _has('export halt') || _has('export market closed') || _has('export embargo')) {
+      if (_AGRICULTURE_STRUCTURAL.exportBanFloor > floor) {
+        floor = _AGRICULTURE_STRUCTURAL.exportBanFloor;
+        reason = 'structural: export_ban (ag export-market closure)';
+      }
+    }
+    // (1) Crop failure: regional crop-loss > 30% ALWAYS triggers crop_failure
+    //     (the load-bearing food-system ceiling — mirrors energy's grid reserve margin < 10%; a real
+    //     yield collapse never averaged down by WASDE-revision volume dampening; ADM/BG/CTVA/CAG/INGR
+    //     exposure, USDA WASDE crop-condition / production). cropLossRate accepts fraction (0.35) or
+    //     percent (35) form; an explicit crop-failure/yield-collapse signal also trips it.
+    var cropLoss = (feed.cropLossRate !== undefined) ? feed.cropLossRate
+                 : (feed.cropFailureRate !== undefined) ? feed.cropFailureRate
+                 : null;
+    var cropLossFrac = (cropLoss !== null && cropLoss > 1) ? cropLoss / 100 : cropLoss;
+    if ((cropLossFrac !== null && cropLossFrac > 0.30 && (_has('crop') || _has('yield') || _has('harvest') || _has('corn') || _has('soy') || _has('wheat') || _has('failure'))) ||
+        _has('crop failure') || _has('crop-failure') || _has('crop loss') || _has('yield collapse') || _has('harvest failure') || _has('total loss')) {
+      if (_AGRICULTURE_STRUCTURAL.cropFailureFloor > floor) {
+        floor = _AGRICULTURE_STRUCTURAL.cropFailureFloor;
+        reason = 'structural: crop_failure' + (cropLossFrac !== null ? ' (regional crop-loss ' + (cropLossFrac * 100).toFixed(0) + '% > 30%)' : '');
+      } else if (floor > 0) {
+        reason += ' + crop_failure';
+      }
+    }
+    // (4) Food-price surge: food-commodity price spike > 40% YoY ALWAYS triggers food_price_surge
+    //     (a food-security constraint — a corn/soy/wheat futures spike repricing the food supply;
+    //     ADM/BG/INGR/CAG exposure, CBOT corn/soy/wheat futures). foodPriceSurgeYoY accepts fraction
+    //     (0.45) or percent (45) form; an explicit food-price-surge/grain-price-spike signal trips it.
+    //     (Food prices couple to economy's CPI, but here the signal is the farm-revenue / food-
+    //     security shock, NOT the macro inflation aggregate.)
+    var foodPriceSurge = (feed.foodPriceSurgeYoY !== undefined) ? feed.foodPriceSurgeYoY
+                       : (feed.cropPriceSpikeYoY !== undefined) ? feed.cropPriceSpikeYoY
+                       : null;
+    var foodPriceFrac = (foodPriceSurge !== null && (foodPriceSurge > 1 || foodPriceSurge < -1)) ? foodPriceSurge / 100 : foodPriceSurge;
+    if ((foodPriceFrac !== null && foodPriceFrac > 0.40 && (_has('food price') || _has('food-price') || _has('grain price') || _has('commodity price') || _has('corn') || _has('soy') || _has('wheat') || _has('crop price'))) ||
+        _has('food price surge') || _has('food-price-surge') || _has('grain price spike') || _has('food inflation') || _has('commodity surge')) {
+      if (_AGRICULTURE_STRUCTURAL.foodPriceSurgeFloor > floor) {
+        floor = _AGRICULTURE_STRUCTURAL.foodPriceSurgeFloor;
+        reason = 'structural: food_price_surge' + (foodPriceFrac !== null ? ' (food-commodity price ' + (foodPriceFrac * 100).toFixed(0) + '% YoY > 40%)' : '');
+      } else if (floor > 0) {
+        reason += ' + food_price_surge';
+      }
+    }
+    // (3) Livestock disease: animal-disease outbreak rate > 5% ALWAYS triggers livestock_disease
+    //     (an animal-protein supply constraint — an HPAI/ASF/FMD outbreak culling herds/flocks;
+    //     TSN/BG/CAG protein exposure, USDA APHIS/NASS livestock data). diseaseOutbreakRate accepts
+    //     fraction (0.06) or percent (6) form; an explicit outbreak/avian-flu/swine-fever signal trips it.
+    var diseaseRate = (feed.livestockDiseaseRate !== undefined) ? feed.livestockDiseaseRate
+                    : (feed.animalDiseaseOutbreakRate !== undefined) ? feed.animalDiseaseOutbreakRate
+                    : null;
+    var diseaseFrac = (diseaseRate !== null && diseaseRate > 1) ? diseaseRate / 100 : diseaseRate;
+    if ((diseaseFrac !== null && diseaseFrac > 0.05 && (_has('livestock') || _has('cattle') || _has('poultry') || _has('hog') || _has('herd') || _has('flock') || _has('disease') || _has('outbreak'))) ||
+        _has('livestock disease') || _has('livestock-disease') || _has('avian flu') || _has('avian influenza') || _has('hpai') || _has('swine fever') || _has('african swine fever') || _has('foot-and-mouth') || _has('foot and mouth') || _has('herd cull') || _has('mass cull')) {
+      if (_AGRICULTURE_STRUCTURAL.livestockDiseaseFloor > floor) {
+        floor = _AGRICULTURE_STRUCTURAL.livestockDiseaseFloor;
+        reason = 'structural: livestock_disease' + (diseaseFrac !== null ? ' (animal-disease outbreak rate ' + (diseaseFrac * 100).toFixed(0) + '% > 5%)' : '');
+      } else if (floor > 0) {
+        reason += ' + livestock_disease';
+      }
+    }
+    // (2) Drought severity: drought-stress index above threshold ALWAYS triggers drought_severity
+    //     (a crop-yield constraint — drought is an environment COUPLING, but here the signal is the
+    //     yield/irrigation shock to crops, not an ecosystem signal; NTR/MOS/CF/DE/AGCO/FMC input &
+    //     equipment exposure, USDA NASS drought / U.S. Drought Monitor). droughtStressIndex accepts
+    //     fraction (0.70) or percent (70) form; D3/D4 (extreme/exceptional) drought, or an explicit
+    //     drought/dry-conditions signal, trips it.
+    var droughtStress = (feed.droughtStressIndex !== undefined) ? feed.droughtStressIndex
+                      : (feed.droughtSeverityIndex !== undefined) ? feed.droughtSeverityIndex
+                      : null;
+    var droughtFrac = (droughtStress !== null && droughtStress > 1) ? droughtStress / 100 : droughtStress;
+    if ((droughtFrac !== null && droughtFrac > 0.60 && (_has('drought') || _has('dry') || _has('irrigation') || _has('soil moisture') || _has('crop stress') || _has('parched'))) ||
+        _has('drought severity') || _has('drought-severity') || _has('severe drought') || _has('extreme drought') || _has('exceptional drought') || _has('crop drought') || _has('d3') || _has('d4')) {
+      if (_AGRICULTURE_STRUCTURAL.droughtSeverityFloor > floor) {
+        floor = _AGRICULTURE_STRUCTURAL.droughtSeverityFloor;
+        reason = 'structural: drought_severity' + (droughtFrac !== null ? ' (drought-stress index ' + (droughtFrac * 100).toFixed(0) + '% > threshold)' : '');
+      } else if (floor > 0) {
+        reason += ' + drought_severity';
+      }
+    }
+    // (6) Farm-debt distress: farm debt-to-income ratio > 1.5 ALWAYS triggers farm_debt_distress
+    //     (a farm-economics solvency constraint — leverage that threatens the producer balance sheet;
+    //     DE/AGCO equipment-finance exposure, USDA ERS farm-sector debt/income). farmDebtToIncome
+    //     above 1.5, or an explicit farm-debt/foreclosure/insolvency signal, trips it. (DISTINCT from
+    //     finance's solvency floors — this is the farm-sector balance sheet, not capital-market plumbing.)
+    var farmDebtRatio = (feed.farmDebtToIncome !== undefined) ? feed.farmDebtToIncome
+                      : (feed.farmDebtIncomeRatio !== undefined) ? feed.farmDebtIncomeRatio
+                      : null;
+    if ((farmDebtRatio !== null && farmDebtRatio > 1.5 && (_has('farm debt') || _has('farm-debt') || _has('debt-to-income') || _has('leverage') || _has('insolven') || _has('farm income') || _has('farm bankrupt'))) ||
+        _has('farm debt distress') || _has('farm-debt-distress') || _has('farm bankruptcy') || _has('farm foreclosure') || _has('farm insolvency')) {
+      if (_AGRICULTURE_STRUCTURAL.farmDebtFloor > floor) {
+        floor = _AGRICULTURE_STRUCTURAL.farmDebtFloor;
+        reason = 'structural: farm_debt_distress' + (farmDebtRatio !== null ? ' (farm debt-to-income ' + farmDebtRatio.toFixed(2) + ' > 1.5)' : '');
+      } else if (floor > 0) {
+        reason += ' + farm_debt_distress';
+      }
+    }
+    return { floor: floor, reason: reason };
+  }
+
   // Detect environment CLIMATE/POLLUTION/ECOSYSTEM/WATER/REGULATORY structural constraints from a
   // feed object. Returns a forced stress floor (0 if none) — ecosystem/climate breaches bypass
   // emissions-index/headline-volume dampening. Mirrors _infraStructuralFloor / _industryStructuralFloor:
@@ -1253,6 +1433,7 @@
                    : (domainKey === 'intelligence') ? _intelligenceStructuralFloor(feed)
                    : (domainKey === 'supplyChain') ? _tradeStructuralFloor(feed)
                    : (domainKey === 'industry') ? _industryStructuralFloor(feed)
+                   : (domainKey === 'agriculture') ? _agricultureStructuralFloor(feed)
                    : (domainKey === 'environment') ? _environmentStructuralFloor(feed)
                    : { floor: 0, reason: '' };
     if (structural.floor > rawStress) {

@@ -772,6 +772,104 @@
       rightHtml += '</div>';
     }
 
+    // ── AGRICULTURE-SPECIFIC PORTAL SECTIONS ─────────────────────────────
+    // Farming / livestock / agribusiness / food-production parity with the
+    // energy domain's company-metadata sections, mirroring the infrastructure,
+    // finance, economy, technology, intelligence, industry, and environment
+    // blocks above. STRICTLY ADDITIVE render-layer content keyed on the
+    // agriculture domain id (co.domainId === 'agriculture' || 'p2_agri', the
+    // runtime key per DOMAIN_LABELS / portal routing); it never touches the
+    // validated P3 distress kernel scoring path consumed by /api/limen/score
+    // or /api/helix/helix-report/score — those run server-side off the kernel,
+    // not off these optional company-JSON display fields.
+    //
+    // Agriculture is FARMING & CROPS, LIVESTOCK & ANIMAL PROTEIN, AGRIBUSINESS
+    // & FOOD PRODUCTION, FOOD SECURITY & SUPPLY, FERTILIZERS & CROP INPUTS,
+    // IRRIGATION & AGRICULTURAL WATER, COMMODITY CROPS (corn / soy / wheat),
+    // AGRICULTURAL TECHNOLOGY & PRECISION AG, and FARM ECONOMICS. It stays
+    // DISTINCT from environment (land / water / climate is a coupling, not the
+    // identity), from trade (export logistics is a coupling), and from economy
+    // (food prices is a coupling). Energy is NEVER the domain's OWN content —
+    // biofuel demand and fertilizer-energy cost are couplings, not identity.
+    // Real ag-sector tickers: ADM, BG, CTVA, DE, NTR, MOS, CF, TSN, CAG, INGR,
+    // AGCO, FMC. Commodity references: CBOT corn / soybeans / wheat, USDA WASDE.
+    //
+    // Energy's generation mix → crop / livestock production portfolio. Energy's
+    // maintenance/asset-age → farm & land status (acreage, deferred-maintenance
+    // backlog, land-value trend, soil health). Energy's NERC/FERC compliance →
+    // USDA program participation & regulatory compliance. Energy's capital
+    // funding → farm capital & debt position. Each reads OPTIONAL company-JSON
+    // fields and degrades gracefully (cp-empty) when not yet populated.
+    if (co.domainId === 'agriculture' || co.domainId === 'p2_agri') {
+      // Crop / Livestock Portfolio — production breakdown by commodity (energy: generation mix)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Crop / Livestock Portfolio</div>';
+      var _agp = co.cropPortfolio || co.livestockPortfolio || co.productionPortfolio;
+      if (_agp && (Array.isArray(_agp) ? _agp.length : Object.keys(_agp).length)) {
+        var _agpEntries = Array.isArray(_agp)
+          ? _agp.map(function (e) { return [e.commodity || e.crop || e.livestock || e.type || e.label || '', e.share != null ? e.share : (e.acres != null ? e.acres : (e.volume != null ? e.volume : (e.value != null ? e.value : e.detail)))]; })
+          : Object.keys(_agp).map(function (kk) { return [kk, _agp[kk]]; });
+        for (var agp = 0; agp < _agpEntries.length; agp++) {
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_agpEntries[agp][0]) + '</span><span class="cp-value">' + esc(String(_agpEntries[agp][1])) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No production distribution recorded (corn / soybeans / wheat / specialty-crop acreage & yield, beef / dairy / poultry / pork herd & output, CBOT commodity mix, production share %)</div>';
+      }
+      rightHtml += '</div>';
+
+      // Farm & Land Status — acreage, deferred-maintenance, land value, soil health (energy: maintenance/asset-age)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Farm &amp; Land Status</div>';
+      var _fls = co.farmStatus || co.landStatus;
+      if (_fls && Object.keys(_fls).length > 0) {
+        var _flsKeys = Object.keys(_fls);
+        for (var flsk = 0; flsk < _flsKeys.length; flsk++) {
+          var _flsv = _fls[_flsKeys[flsk]];
+          var _flsStr = (_flsv && typeof _flsv === 'object' && !Array.isArray(_flsv))
+            ? Object.keys(_flsv).map(function (sk) { return sk + ': ' + _flsv[sk]; }).join('  ·  ')
+            : String(_flsv);
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_flsKeys[flsk]) + '</span><span class="cp-value">' + esc(_flsStr) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No farm / land data (total acreage owned vs leased, deferred-maintenance backlog $ on equipment & facilities, USDA cropland-value trend, soil-health / organic-matter & erosion metrics)</div>';
+      }
+      rightHtml += '</div>';
+
+      // Regulatory Compliance — USDA programs, subsidies, conservation, food safety (energy: NERC/FERC compliance)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Regulatory Compliance</div>';
+      var _arc = co.regulatoryCompliance || co.usdaCompliance;
+      if (_arc && (Array.isArray(_arc) ? _arc.length : Object.keys(_arc).length)) {
+        var _arcEntries = Array.isArray(_arc)
+          ? _arc.map(function (e) { return [e.program || e.agency || e.certification || e.label || '', (e.status != null ? e.status : (e.value != null ? e.value : e.detail)) + (e.trend ? ' (' + e.trend + ')' : '')]; })
+          : Object.keys(_arc).map(function (kk) { return [kk, _arc[kk]]; });
+        for (var arc = 0; arc < _arcEntries.length; arc++) {
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_arcEntries[arc][0]) + '</span><span class="cp-value">' + esc(String(_arcEntries[arc][1])) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No compliance record (USDA program participation & WASDE-aligned reporting, commodity-subsidy / ARC-PLC eligibility, conservation-program & water-quality standing, food-safety certifications — FSMA / USDA-organic / GAP)</div>';
+      }
+      rightHtml += '</div>';
+
+      // Capital & Debt Position — farm debt, credit, equipment finance, hedging, insurance (energy: capital funding)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Capital &amp; Debt Position</div>';
+      var _adp = co.capitalDebt || co.farmCapital;
+      if (_adp && Object.keys(_adp).length > 0) {
+        var _adpKeys = Object.keys(_adp);
+        for (var adpk = 0; adpk < _adpKeys.length; adpk++) {
+          var _adpv = _adp[_adpKeys[adpk]];
+          var _adpStr = (_adpv && typeof _adpv === 'object' && !Array.isArray(_adpv))
+            ? Object.keys(_adpv).map(function (sk) { return sk + ': ' + _adpv[sk]; }).join('  ·  ')
+            : String(_adpv);
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_adpKeys[adpk]) + '</span><span class="cp-value">' + esc(_adpStr) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No capital / debt profile (total farm debt & debt-to-asset ratio, credit-facility types & amounts — operating lines / Farm Credit System, equipment financing, land-value equity cushion, commodity-price hedging exposure — CBOT futures / options, crop & revenue insurance coverage)</div>';
+      }
+      rightHtml += '</div>';
+    }
+
     // Warning signals (placeholder for future)
     rightHtml += '<div class="cp-section">';
     rightHtml += '<div class="cp-section-title">Warning Signals</div>';

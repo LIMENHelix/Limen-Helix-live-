@@ -1498,6 +1498,46 @@
           "escalation": "If actual cash flow deviates from projection by >15% for two consecutive months, or if the target financial ratio deteriorates rather than improves over two quarterly assessments, escalate to an agricultural lender or farm financial management specialist for financial restructuring analysis. If debt service coverage ratio drops below 1.15, schedule lender consultation within 30 days to discuss covenant compliance and workout options."
         }
       ],
+      "phase_archetype": "P7",
+      "functional_role": "arbitrator",
+      "companies": [
+        {
+          "name": "Farm Credit System (Farm Credit Funding Corp.)",
+          "ticker_or_id": "FARM-CREDIT-SYSTEM",
+          "functional_reason": "Cooperative GSE network providing the bulk of U.S. farm real-estate and operating credit; its consolidated systemwide debt spreads and combined-bank capital ratios are the primary public proxy for farm-lending stress and credit availability",
+          "binding_strength": 0.82
+        },
+        {
+          "name": "CoBank, ACB",
+          "ticker_or_id": "COBANK-ACB",
+          "functional_reason": "Largest agribusiness and rural cooperative lender within the Farm Credit System; its loan-volume growth, nonaccrual rates, and net charge-offs signal credit cycle conditions across grain, livestock, and farm-supply cooperatives",
+          "binding_strength": 0.74
+        },
+        {
+          "name": "USDA Farm Service Agency (FSA)",
+          "ticker_or_id": "USDA-FSA",
+          "functional_reason": "Federal lender of last resort and loan guarantor for farmers; FSA direct/guaranteed loan volume, delinquency, and foreclosure rates are a public system-stress indicator that rises when private farm credit tightens",
+          "binding_strength": 0.71
+        },
+        {
+          "name": "Deere & Company (John Deere Financial)",
+          "ticker_or_id": "DE",
+          "functional_reason": "Captive supplier-financing arm extends equipment credit and operating loans to farmers; lease-versus-buy mix, receivables provisions, and delinquency on the financial-services segment proxy farm capital-investment confidence",
+          "binding_strength": 0.69
+        },
+        {
+          "name": "AGCO Corporation (AGCO Finance)",
+          "ticker_or_id": "AGCO",
+          "functional_reason": "Equipment-maker supplier credit and retail financing; order backlog and finance-receivable trends indicate whether producers are deferring or committing to capital outlays under debt-to-asset pressure",
+          "binding_strength": 0.63
+        },
+        {
+          "name": "Nutrien Ltd. (input supplier credit)",
+          "ticker_or_id": "NTR",
+          "functional_reason": "Largest crop-input retailer extending seasonal trade credit for fertilizer, seed, and crop protection; accounts-receivable aging and prepay behavior reflect operating-line liquidity and producer cash-flow stress",
+          "binding_strength": 0.61
+        }
+      ],
       "neuralRole": "PFC",
       "brainNodeRoleCanonical": "Inventory Management",
       "brainNodeLabelCanonical": "P2",

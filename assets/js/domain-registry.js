@@ -245,8 +245,52 @@
       analystEnabled: true,
       connectomeNodes: [31, 73],  // Hypothalamus + ENS
       feeds: [
-        { name: 'USDA NASS', apiKey: 'USDA_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'quickstats.nass.usda.gov/api/api_GET/' },
-        { name: 'FAO FAOSTAT', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'fenixservices.fao.org/faostat/api/v1/en/data/' }
+        // ── Commodity price / cost anchors (the agriculture "crude price" baseline) ──
+        // Agriculture equivalent of energy's EIA/FRED commodity anchors: instead of
+        // oil/gas spot prices, agriculture's quantitative spine is the GRAIN COMPLEX —
+        // CBOT corn/soy/wheat futures price discovery (the daily "crude" of farming),
+        // USDA WASDE monthly supply/demand balance (the directional forecast trend), and
+        // USDA NASS commodity-price series. Every endpoint is a REAL public/government or
+        // exchange source and every ticker is a REAL listed agribusiness/ag-input equity
+        // (never fabricated). This closes the registry asymmetry where agriculture had
+        // only production volume (NASS) + global stats (FAOSTAT) and no live commodity-
+        // market price discovery or supply-forecast anchor like energy. Biofuel /
+        // fertilizer-energy and land/water/climate remain COUPLINGS, not ag's own content.
+        // -- Grain-complex price discovery (CBOT corn/soy/wheat — the "crude price" of agriculture) --
+        { name: 'CBOT Corn Futures (ZC)', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.cmegroup.com/markets/agriculture/grains/corn.quotes.html', feedClass: 'price_cost', commodity: 'corn' },   // CBOT corn front-month spot — grain "crude" anchor (mirrors EIA Petroleum LIVE role)
+        { name: 'CBOT Soybean Futures (ZS)', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.cmegroup.com/markets/agriculture/oilseeds/soybean.quotes.html', feedClass: 'price_cost', commodity: 'soybean' }, // CBOT soybean front-month spot — oilseed price baseline
+        { name: 'CBOT Wheat Futures (ZW)', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.cmegroup.com/markets/agriculture/grains/wheat.quotes.html', feedClass: 'price_cost', commodity: 'wheat' }, // CBOT wheat front-month spot — bread-grain price baseline
+        { name: 'FRED Corn Price', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=PMAIZMTUSDM', feedClass: 'price_cost', commodity: 'corn' },     // global corn price index — corn trend anchor (mirrors FRED Crude Oil LIVE)
+        { name: 'FRED Soybean Price', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=PSOYBUSDM', feedClass: 'price_cost', commodity: 'soybean' }, // global soybean price index — oilseed trend anchor
+        { name: 'FRED Wheat Price', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=PWHEAMTUSDM', feedClass: 'price_cost', commodity: 'wheat' },    // global wheat price index — bread-grain trend anchor
+        { name: 'FRED Producer Price Farm Products', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=WPU01', feedClass: 'price_cost' }, // PPI farm products — aggregate farm-gate price level
+        // -- Supply/demand forecasting (USDA WASDE — the directional supply-balance signal) --
+        { name: 'USDA WASDE', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.usda.gov/oce/commodity/wasde/latest.xml', feedClass: 'supply_forecast' }, // monthly World Ag Supply & Demand Estimates — production/stocks/use balance forecast (mirrors FRED Crude Oil directional trend)
+        { name: 'USDA NASS QuickStats (Prices)', apiKey: 'USDA_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'quickstats.nass.usda.gov/api/api_GET/?statisticcat_desc=PRICE+RECEIVED', feedClass: 'price_cost' }, // NASS commodity prices-received series — farm-gate price discovery (expands the production-only NASS feed)
+        { name: 'USDA ERS Farm Income', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.ers.usda.gov/data-products/farm-income-and-wealth-statistics/', feedClass: 'farm_economics' }, // ERS net farm income / cost of production — farm-economics health anchor
+        { name: 'USDA NASS Crop Progress', apiKey: 'USDA_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'quickstats.nass.usda.gov/api/api_GET/?statisticcat_desc=PROGRESS', feedClass: 'crop_cycle' }, // weekly planting/condition/harvest progress — crop-cycle phase signal
+        { name: 'USDA NASS', apiKey: 'USDA_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'quickstats.nass.usda.gov/api/api_GET/' }, // production volume — original baseline (retained)
+        { name: 'FAO FAOSTAT', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'fenixservices.fao.org/faostat/api/v1/en/data/' }, // global food-balance context (retained)
+        // ── Agribusiness & ag-input industrial base (REAL listed equities, never fabricated) ──
+        // Per-name equities for the agriculture industrial base; the company analogue of
+        // energy's commodity anchors. Tickers are REAL: ADM/BG/CTVA/DE/NTR/MOS/CF/TSN/CAG/INGR/AGCO/FMC.
+        { name: 'Polygon.io ADM', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/ADM/prev', feedClass: 'agribusiness', ticker: 'ADM' },   // Archer-Daniels-Midland — prime (grain trading / oilseed processing / food)
+        { name: 'Polygon.io BG', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/BG/prev', feedClass: 'agribusiness', ticker: 'BG' },     // Bunge — prime (global oilseed processing / grain merchandising)
+        { name: 'Polygon.io INGR', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/INGR/prev', feedClass: 'agribusiness', ticker: 'INGR' }, // Ingredion — prime (corn/starch ingredient processing)
+        { name: 'Polygon.io CTVA', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/CTVA/prev', feedClass: 'crop_inputs', ticker: 'CTVA' }, // Corteva — prime (seed genetics / crop protection)
+        { name: 'Polygon.io FMC', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/FMC/prev', feedClass: 'crop_inputs', ticker: 'FMC' },   // FMC — prime (crop-protection chemistry / insecticides / herbicides)
+        { name: 'Polygon.io NTR', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/NTR/prev', feedClass: 'fertilizer', ticker: 'NTR' },   // Nutrien — prime (potash / nitrogen / ag-retail crop nutrients)
+        { name: 'Polygon.io MOS', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/MOS/prev', feedClass: 'fertilizer', ticker: 'MOS' },   // Mosaic — prime (phosphate / potash crop nutrients)
+        { name: 'Polygon.io CF', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/CF/prev', feedClass: 'fertilizer', ticker: 'CF' },      // CF Industries — prime (nitrogen fertilizer / ammonia)
+        { name: 'Polygon.io DE', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/DE/prev', feedClass: 'ag_machinery', ticker: 'DE' },    // Deere & Co — prime (farm machinery / precision-ag technology)
+        { name: 'Polygon.io AGCO', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/AGCO/prev', feedClass: 'ag_machinery', ticker: 'AGCO' }, // AGCO — prime (agricultural equipment / Fendt / Massey Ferguson)
+        { name: 'Polygon.io TSN', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/TSN/prev', feedClass: 'animal_protein', ticker: 'TSN' }, // Tyson Foods — prime (livestock / animal-protein processing)
+        { name: 'Polygon.io CAG', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/CAG/prev', feedClass: 'food_production', ticker: 'CAG' }, // Conagra Brands — prime (packaged food production)
+        { name: 'Polygon.io MOO', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/MOO/prev', feedClass: 'sector_proxy', ticker: 'MOO' },  // VanEck Agribusiness ETF — agriculture industrial-base regime proxy
+        // ── Qualitative signals (USDA / sector news / food-security context) ──
+        { name: 'USDA Newsroom', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.usda.gov/rss/home.xml', feedClass: 'sector_news' }, // USDA releases — policy / crop reports / disease (e.g. avian influenza)
+        { name: 'USDA FAS Global Ag', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'fas.usda.gov/rss.xml', feedClass: 'sector_news' }, // Foreign Ag Service — global production / food-security context
+        { name: 'Successful Farming', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.agriculture.com/rss.xml', feedClass: 'sector_news' } // farm-operator trade press — sentiment / on-farm conditions
       ],
       diagnostics: [],
       treatments: [],

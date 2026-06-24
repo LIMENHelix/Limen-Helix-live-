@@ -635,8 +635,98 @@
       "group": "delivery",
       "phase": "P1",
       "weight": 0.7,
-      "diagnosticTriggers": [],
+      "diagnosticTriggers": [
+        "Drought severity escalation (USDA Drought Monitor D2-D4)",
+        "Aquifer depletion / groundwater decline",
+        "Saltwater intrusion in coastal aquifers",
+        "Surface-water allocation cutback / curtailment",
+        "Snowpack deficit reducing seasonal runoff",
+        "Irrigation-return-flow quality degradation"
+      ],
       "childPortal": "p2_agri_water_flood_portal.html",
+      "functional_role": "router",
+      "companies": [
+        {
+          "name": "Valmont Industries",
+          "ticker_or_id": "VMI",
+          "functional_reason": "Center-pivot and linear irrigation systems (Valley brand) plus the Valley 365 telemetry platform; pivot order books and irrigated-acreage retrofit demand are a direct proxy for on-farm water-availability stress and the gravity-to-pressurized conversion driven by surface-water curtailment",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "Lindsay Corporation",
+          "ticker_or_id": "LNN",
+          "functional_reason": "Zimmatic pivot irrigation and FieldNET remote water management; equipment sales and subscription telemetry track regional drought severity (USDA Drought Monitor) and the shift away from flood/surface application toward efficient delivery",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "Xylem Inc.",
+          "ticker_or_id": "XYL",
+          "functional_reason": "Agricultural water pumping, conveyance, and tailwater-recovery infrastructure plus reservoir and streamflow instrumentation; binds the node to irrigation-district water movement and surface-water availability monitoring",
+          "binding_strength": 0.8
+        },
+        {
+          "name": "Roper Technologies (Neptune)",
+          "ticker_or_id": "ROP",
+          "functional_reason": "Water metering and allocation-measurement systems used by irrigation districts and state water authorities; flow-measurement demand is a proxy for tightening water-allocation enforcement and aquifer-management accounting",
+          "binding_strength": 0.72
+        },
+        {
+          "name": "Jain Irrigation Systems",
+          "ticker_or_id": "JAINIRR.NS",
+          "functional_reason": "Global drip and micro-irrigation manufacturer; conversion from flood to drip in water-stressed basins is the direct distress-relief pathway for this node, with order trends tracking aquifer depletion and irrigation-water scarcity",
+          "binding_strength": 0.7
+        }
+      ],
+      "signals": [
+        {
+          "name": "USGS Water Services — Streamflow & Groundwater",
+          "source": "U.S. Geological Survey National Water Information System (NWIS)",
+          "api": "https://waterservices.usgs.gov/",
+          "measures": "Real-time surface-water streamflow (discharge, gage height) and groundwater-well levels for irrigation-water availability and aquifer-depletion tracking",
+          "cadence": "real-time / sub-daily",
+          "node_relevance": "Direct operational input: surface-water and groundwater availability for flood/surface irrigation supply"
+        },
+        {
+          "name": "USDA / NDMC U.S. Drought Monitor",
+          "source": "National Drought Mitigation Center (USDA, NOAA, USDA-ARS)",
+          "api": "https://droughtmonitor.unl.edu/DmData/GISData.aspx",
+          "measures": "County-level drought severity classification (D0-D4) driving allocation curtailment and irrigation-demand stress",
+          "cadence": "weekly",
+          "node_relevance": "Maps to diagnosticTrigger 'Drought severity escalation' and surface-water allocation cutbacks"
+        },
+        {
+          "name": "NOAA NWS / NRCS Snowpack (SNOTEL)",
+          "source": "NOAA National Weather Service & USDA-NRCS National Water and Climate Center",
+          "api": "https://www.nrcs.usda.gov/wps/portal/wcc/home/",
+          "measures": "Snow water equivalent (SWE) and seasonal runoff forecasts for reservoir refill and irrigation-season water supply",
+          "cadence": "daily / seasonal forecast",
+          "node_relevance": "Snowpack deficit forecasts seasonal irrigation-water shortfall in western surface-water systems"
+        },
+        {
+          "name": "NASA SMAP Soil Moisture",
+          "source": "NASA Soil Moisture Active Passive satellite mission",
+          "api": "https://nsidc.org/data/smap",
+          "measures": "Surface and root-zone soil moisture for irrigation-demand and crop-water-stress assessment",
+          "cadence": "2-3 day revisit",
+          "node_relevance": "Root-zone soil moisture sets the deficit between crop demand and applied flood-irrigation water"
+        },
+        {
+          "name": "USACE Reservoir Levels",
+          "source": "U.S. Army Corps of Engineers Access to Water (Water Management)",
+          "api": "https://water.usace.army.mil/",
+          "measures": "Reservoir storage, pool elevation, and release schedules for downstream irrigation-district deliveries",
+          "cadence": "daily",
+          "node_relevance": "Reservoir storage governs surface-water delivery to gravity-fed flood irrigation districts"
+        },
+        {
+          "name": "State Water-Allocation Records",
+          "source": "State water-rights / water-authority filings (e.g., California DWR, Texas TWDB, Colorado DWR)",
+          "api": "varies by state (CA DWR, TWDB WaterDataForTexas, CO DWR HydroBase)",
+          "measures": "Water-rights priority, allocation curtailment orders, and irrigation-district delivery cutbacks",
+          "cadence": "event / seasonal",
+          "node_relevance": "Allocation curtailment is the direct distress event for surface/flood irrigation supply"
+        }
+      ],
       "treatments": [
         {
           "label": "Surge Flow Irrigation Implementation",

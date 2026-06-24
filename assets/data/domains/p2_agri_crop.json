@@ -14,7 +14,11 @@
       "phase": "P2",
       "weight": 1,
       "childPortal": "p2_agri_crop_rowcrops_portal.html",
-      "diagnosticTriggers": [],
+      "diagnosticTriggers": [
+        "TRAIT_ADOPTION_RATE",
+        "HERBICIDE_RESISTANCE_EVOLUTION",
+        "YIELD_GENETICS_TREND"
+      ],
       "treatments": [
         {
           "label": "Hybrid Selection Decision Matrix",
@@ -428,7 +432,28 @@
       "brainNodeRoleCanonical": "Tractors",
       "brainNodeLabelCanonical": "P2",
       "linkedDirectiveCount": 1,
-      "linkedCompanies": [],
+      "linkedCompanies": [
+        {
+          "name": "Corteva Agriscience",
+          "ticker": "CTVA",
+          "bindingStrength": 0.96
+        },
+        {
+          "name": "Bunge Global",
+          "ticker": "BG",
+          "bindingStrength": 0.88
+        },
+        {
+          "name": "BASF",
+          "ticker": "BASFY",
+          "bindingStrength": 0.84
+        },
+        {
+          "name": "Syngenta Group",
+          "ticker": "SSNLF",
+          "bindingStrength": 0.82
+        }
+      ],
       "crossDomainAffinities": [
         {
           "domain": "business",
@@ -2579,7 +2604,12 @@
       "group": "inputs",
       "phase": "P1",
       "weight": 0.8,
-      "diagnosticTriggers": [],
+      "diagnosticTriggers": [
+        "TRAIT_ADOPTION_RATE",
+        "HERBICIDE_RESISTANCE_EVOLUTION",
+        "YIELD_GENETICS_TREND",
+        "SEED_TREATMENT_PENETRATION"
+      ],
       "childPortal": "p2_agri_crop_seedprod_portal.html",
       "treatments": [
         {
@@ -2994,6 +3024,28 @@
       "brainNodeRoleCanonical": "Historical Records",
       "brainNodeLabelCanonical": "P2",
       "linkedDirectiveCount": 0,
+      "linkedCompanies": [
+        {
+          "name": "Corteva Agriscience",
+          "ticker": "CTVA",
+          "bindingStrength": 0.96
+        },
+        {
+          "name": "Bunge Global",
+          "ticker": "BG",
+          "bindingStrength": 0.88
+        },
+        {
+          "name": "BASF",
+          "ticker": "BASFY",
+          "bindingStrength": 0.84
+        },
+        {
+          "name": "Syngenta Group",
+          "ticker": "SSNLF",
+          "bindingStrength": 0.82
+        }
+      ],
       "crossDomainAffinities": [
         {
           "domain": "addiction",

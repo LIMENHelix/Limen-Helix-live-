@@ -28,6 +28,13 @@
       { label: 'Analyze GDP-growth (GDPC1) trajectory and demand-component weakness (consumption vs investment)', type: 'analysis', minStress: 0.6 },
       { label: 'Investigate recession-probability indicators and inflation-unanchoring risk (PCE expectations)', type: 'regulation', minStress: 0.7 }
     ],
+    agriculture: [
+      { label: 'Monitor commodity-price signals and weather-stress indicators (CBOT corn/soy/wheat futures, USDA WASDE crop conditions, drought-severity indices) across ADM, BG, CTVA, DE, NTR farm-output and agribusiness throughput', type: 'monitoring', minStress: 0.3 },
+      { label: 'Explore crop-insurance hedging strategies and commodity-price-risk management for grain, livestock and food-production operators (TSN, CAG, INGR, ADM, BG margin-protection adoption)', type: 'discovery', minStress: 0.4 },
+      { label: 'Analyze input-cost exposure and fertilizer/seed availability across agricultural supply chains (NTR, MOS, CF, FMC, CTVA crop-nutrient and crop-protection throughput)', type: 'analysis', minStress: 0.5 },
+      { label: 'Investigate water-availability and irrigation-investment ROI for drought resilience across farm-equipment and precision-ag operators (DE, AGCO, CTVA irrigation and yield-optimization capex)', type: 'analysis', minStress: 0.6 },
+      { label: 'Regulate crop-failure and livestock-disease containment with emergency input supply and farm-debt triage across agribusiness and food-security operators (ADM, BG, TSN, CAG, NTR, MOS critical-supply failure points)', type: 'regulation', minStress: 0.7 }
+    ],
     energy: [
       { label: 'Monitor energy price signals', type: 'monitoring', minStress: 0.3 },
       { label: 'Explore renewable energy technologies', type: 'discovery', minStress: 0.4 },

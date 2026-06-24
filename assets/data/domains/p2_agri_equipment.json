@@ -15,6 +15,32 @@
       "weight": 1,
       "diagnosticTriggers": [],
       "childPortal": "p2_agri_equipment_tractors_portal.html",
+      "companies": [
+        {
+          "name": "Deere & Company",
+          "ticker_or_id": "DE",
+          "functional_reason": "Global ag-equipment leader for tractors, combines, and implements; order books, dealer inventory, and used-equipment auction prices are a direct proxy for farmer capex appetite and on-farm financial stress through the row-crop cycle",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "AGCO Corporation",
+          "ticker_or_id": "AGCO",
+          "functional_reason": "Mid-size tractor and implement maker (Fendt, Massey Ferguson, Valtra); equipment utilization rates and net-farm-income-driven replacement demand bind it to the planting-to-harvest power-unit cycle",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "CNH Industrial",
+          "ticker_or_id": "CNHI",
+          "functional_reason": "Case IH and New Holland harvesting and tractor lines; combine and harvesting-equipment capex cycles track grain prices (CBOT corn/soy/wheat) and USDA WASDE demand signals",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "Kubota Corporation (ADR)",
+          "ticker_or_id": "KUBTY",
+          "functional_reason": "Compact and utility tractor leader for smaller acreage and specialty operations; dealer inventory stress and used-equipment market prices serve as an early proxy for small-farm financial pressure",
+          "binding_strength": 0.82
+        }
+      ],
       "treatments": [
         {
           "label": "Tiered PM Schedule by Engine Hours",

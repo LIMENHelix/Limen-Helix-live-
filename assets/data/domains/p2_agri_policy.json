@@ -13,7 +13,12 @@
       "group": "legislation",
       "phase": "P7",
       "weight": 0.9,
-      "diagnosticTriggers": [],
+      "diagnosticTriggers": [
+        "Farm Bill reauthorization lapse / extension",
+        "Title I commodity reference-price gap (PLC/ARC)",
+        "Baseline CBO outlay shift vs prior bill",
+        "Conservation title funding reallocation"
+      ],
       "childPortal": "p2_agri_policy_farmbill_portal.html",
       "treatments": [
         {
@@ -386,7 +391,28 @@
           "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
           "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a USDA service center representative or extension policy specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
         }
-      ]
+      ],
+      "companies": [
+        {
+          "name": "Archer-Daniels-Midland",
+          "ticker_or_id": "ADM",
+          "functional_reason": "Commodity processor whose crush and origination margins track Title I price-support and biofuel-feedstock provisions of the Farm Bill.",
+          "binding_strength": 0.74
+        },
+        {
+          "name": "Bunge Global",
+          "ticker_or_id": "BG",
+          "functional_reason": "Oilseed and grain trader exposed to commodity-program reference prices and conservation-title acreage effects.",
+          "binding_strength": 0.71
+        },
+        {
+          "name": "Corteva",
+          "ticker_or_id": "CTVA",
+          "functional_reason": "Seed and crop-protection demand shifts with planted-acreage incentives set by Title I and conservation titles.",
+          "binding_strength": 0.66
+        }
+      ],
+      "functional_role": "arbitrator"
     },
     {
       "brainNodeId": "THAL",
@@ -396,7 +422,12 @@
       "group": "federal",
       "phase": "P6",
       "weight": 0.85,
-      "diagnosticTriggers": [],
+      "diagnosticTriggers": [
+        "USDA RMA crop-insurance indemnity surge by commodity",
+        "Crop-insurance participation rate change (acres covered)",
+        "PLC/ARC payment trigger crossing reference price",
+        "Rural Development program enrollment shift"
+      ],
       "childPortal": "p2_agri_policy_usda_portal.html",
       "treatments": [
         {
@@ -658,7 +689,28 @@
           "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
           "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a certified crop adviser (CCA) or agronomist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
         }
-      ]
+      ],
+      "companies": [
+        {
+          "name": "Archer-Daniels-Midland",
+          "ticker_or_id": "ADM",
+          "functional_reason": "Grain origination volumes respond to USDA price-support and loan-rate program signals.",
+          "binding_strength": 0.7
+        },
+        {
+          "name": "Deere & Co",
+          "ticker_or_id": "DE",
+          "functional_reason": "Equipment capex by farmers tracks USDA program payments and crop-insurance indemnity cash flow.",
+          "binding_strength": 0.68
+        },
+        {
+          "name": "Nutrien",
+          "ticker_or_id": "NTR",
+          "functional_reason": "Input demand correlates with insured-acre planting decisions driven by RMA participation.",
+          "binding_strength": 0.64
+        }
+      ],
+      "functional_role": "relay"
     },
     {
       "brainNodeId": "BLA",
@@ -668,7 +720,12 @@
       "group": "environmental",
       "phase": "P6",
       "weight": 0.8,
-      "diagnosticTriggers": [],
+      "diagnosticTriggers": [
+        "EPA pesticide registration review / cancellation",
+        "Nitrate / nutrient-runoff water-quality rule tightening",
+        "EPA WOTUS jurisdiction change affecting field drainage",
+        "Endangered Species Act pesticide-use restriction"
+      ],
       "childPortal": "p2_agri_policy_epa_portal.html",
       "treatments": [
         {
@@ -921,7 +978,28 @@
           "monitoring": "Collect tissue samples at key growth stages (V6 and R1 for corn; V3 and R3 for soybean) to verify nutrient uptake within sufficiency ranges. Compare soil test results pre-application and post-harvest; target soil test P and K values within ±10% of target levels. Track input cost per bushel produced by treatment zone; target ≥10% improvement in nutrient use efficiency within the first crop year. Review and adjust rates annually based on yield response data.",
           "escalation": "If tissue test values remain below the sufficiency range at R1 growth stage despite prescribed application, or if soil test trends show no improvement after 12 months of adjusted rates, escalate to a certified crop adviser (CCA) or soil scientist for diagnostic evaluation including root zone assessment and possible micronutrient panel. If yield response in treated zones is <3% above control after two crop cycles, review zone delineation and rate methodology."
         }
-      ]
+      ],
+      "companies": [
+        {
+          "name": "FMC Corp",
+          "ticker_or_id": "FMC",
+          "functional_reason": "Crop-protection portfolio directly exposed to EPA pesticide registration and re-registration decisions.",
+          "binding_strength": 0.78
+        },
+        {
+          "name": "Corteva",
+          "ticker_or_id": "CTVA",
+          "functional_reason": "Crop-protection and seed-treatment revenue gated by EPA active-ingredient approvals and water-quality limits.",
+          "binding_strength": 0.72
+        },
+        {
+          "name": "Nutrien",
+          "ticker_or_id": "NTR",
+          "functional_reason": "Fertilizer application practices constrained by EPA nutrient-runoff and water-discharge rules.",
+          "binding_strength": 0.6
+        }
+      ],
+      "functional_role": "gate"
     },
     {
       "brainNodeId": "AI",
@@ -931,7 +1009,12 @@
       "group": "food_safety",
       "phase": "P7",
       "weight": 0.8,
-      "diagnosticTriggers": [],
+      "diagnosticTriggers": [
+        "FDA FSMA preventive-controls rule update",
+        "Food labeling / bioengineered-disclosure requirement change",
+        "FDA recall or import-alert action on a commodity",
+        "Animal-drug / feed-additive approval shift"
+      ],
       "childPortal": "p2_agri_policy_fda_portal.html",
       "treatments": [
         {
@@ -1184,7 +1267,28 @@
           "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
           "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a food safety specialist or HACCP consultant for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
         }
-      ]
+      ],
+      "companies": [
+        {
+          "name": "Tyson Foods",
+          "ticker_or_id": "TSN",
+          "functional_reason": "Meat and prepared-foods operations gated by FDA/FSIS food-safety and labeling compliance.",
+          "binding_strength": 0.71
+        },
+        {
+          "name": "Conagra Brands",
+          "ticker_or_id": "CAG",
+          "functional_reason": "Packaged-foods labeling and recall exposure tied to FDA FSMA and disclosure rules.",
+          "binding_strength": 0.68
+        },
+        {
+          "name": "Ingredion",
+          "ticker_or_id": "INGR",
+          "functional_reason": "Food-ingredient GRAS status and labeling subject to FDA regulatory review.",
+          "binding_strength": 0.62
+        }
+      ],
+      "functional_role": "gate"
     },
     {
       "brainNodeId": "TPJ",
@@ -1194,7 +1298,12 @@
       "group": "trade",
       "phase": "P7",
       "weight": 0.75,
-      "diagnosticTriggers": [],
+      "diagnosticTriggers": [
+        "USTR tariff schedule change on ag exports/imports",
+        "Retaliatory tariff cycle on soybeans/corn/pork",
+        "WTO commitment or dispute affecting ag market access",
+        "USDA export-promotion / MFP payment program"
+      ],
       "childPortal": "p2_agri_policy_trade_portal.html",
       "treatments": [
         {
@@ -1484,7 +1593,28 @@
           "monitoring": "Assess participant competency before training (pre-test) and at 30 days post-training (post-test); target ≥70% score improvement. Track field application of trained skills at 30, 60, and 90 days; target ≥80% of participants demonstrating competency in field evaluation by day 90. Document the number of skill-gap-related incidents per quarter; target ≥50% reduction versus the pre-training baseline within 6 months.",
           "escalation": "If post-training competency scores remain below 70% for >25% of participants at the 30-day assessment, or if field-verified skill application rate is <60% at 90 days, escalate to a USDA service center representative or extension policy specialist for curriculum redesign and individualized remediation planning. If skill-gap incidents do not decrease by ≥30% within 6 months of training completion, conduct root cause analysis before scheduling repeat training."
         }
-      ]
+      ],
+      "companies": [
+        {
+          "name": "Archer-Daniels-Midland",
+          "ticker_or_id": "ADM",
+          "functional_reason": "Global grain and oilseed trade flows directly exposed to USTR tariff cycles and WTO market access.",
+          "binding_strength": 0.79
+        },
+        {
+          "name": "Bunge Global",
+          "ticker_or_id": "BG",
+          "functional_reason": "Export crush and origination economics swing with retaliatory tariffs on soy and grain.",
+          "binding_strength": 0.76
+        },
+        {
+          "name": "Tyson Foods",
+          "ticker_or_id": "TSN",
+          "functional_reason": "Pork and poultry export volumes sensitive to bilateral tariff and trade-agreement terms.",
+          "binding_strength": 0.63
+        }
+      ],
+      "functional_role": "arbitrator"
     },
     {
       "brainNodeId": "EC",
@@ -1494,7 +1624,12 @@
       "group": "conservation",
       "phase": "P5",
       "weight": 0.8,
-      "diagnosticTriggers": [],
+      "diagnosticTriggers": [
+        "USDA Conservation Reserve Program (CRP) enrollment / acreage cap change",
+        "EQIP / CSP cost-share funding reallocation",
+        "Conservation-compliance sodbuster/swampbuster trigger",
+        "Climate-smart commodity program land-use incentive"
+      ],
       "childPortal": "p2_agri_policy_conservation_portal.html",
       "treatments": [
         {
@@ -1719,7 +1854,28 @@
           "monitoring": "Track water application volume (gallons/acre/week) versus baseline; target ≥25-30% reduction within 4 weeks of implementation. Measure soil moisture at root zone depth (6-inch and 12-inch) twice weekly; maintain 50-70% field capacity. Record distribution uniformity coefficient monthly using catch-can or flow-meter method; flag any zone dropping below 85%. Reassess full system performance at 30, 60, and 90 days.",
           "escalation": "If water use efficiency fails to improve by ≥15% within 30 days of implementation, or if distribution uniformity drops below 80% on two consecutive monthly measurements, escalate to a certified irrigation designer (CID) or water management specialist for hydraulic redesign assessment and system audit. If soil moisture at root zone remains below 40% field capacity for >7 consecutive days despite scheduled events, request immediate on-site evaluation."
         }
-      ]
+      ],
+      "companies": [
+        {
+          "name": "Deere & Co",
+          "ticker_or_id": "DE",
+          "functional_reason": "Precision-conservation and cover-crop equipment demand shifts with CRP/EQIP enrollment and idled acreage.",
+          "binding_strength": 0.62
+        },
+        {
+          "name": "Corteva",
+          "ticker_or_id": "CTVA",
+          "functional_reason": "Seed demand inversely tied to CRP acreage idled out of production.",
+          "binding_strength": 0.58
+        },
+        {
+          "name": "Nutrien",
+          "ticker_or_id": "NTR",
+          "functional_reason": "Fertilizer volumes affected by conservation-program acreage retirement and nutrient-management plans.",
+          "binding_strength": 0.56
+        }
+      ],
+      "functional_role": "modulator"
     },
     {
       "brainNodeId": "STRI",
@@ -1729,7 +1885,12 @@
       "group": "labor",
       "phase": "P6",
       "weight": 0.7,
-      "diagnosticTriggers": [],
+      "diagnosticTriggers": [
+        "H-2A visa Adverse Effect Wage Rate (AEWR) increase",
+        "Agricultural labor-availability shortfall",
+        "DOL farm-labor wage/hour enforcement action",
+        "H-2A program processing-backlog change"
+      ],
       "childPortal": "p2_agri_policy_labor_portal.html",
       "treatments": [
         {
@@ -1945,7 +2106,22 @@
           "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
           "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a USDA service center representative or extension policy specialist for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
         }
-      ]
+      ],
+      "companies": [
+        {
+          "name": "AGCO Corp",
+          "ticker_or_id": "AGCO",
+          "functional_reason": "Labor-saving automation and equipment demand rises as H-2A wage rates and labor shortages tighten.",
+          "binding_strength": 0.6
+        },
+        {
+          "name": "Deere & Co",
+          "ticker_or_id": "DE",
+          "functional_reason": "Autonomous and mechanized-harvest equipment substitutes for scarce H-2A farm labor.",
+          "binding_strength": 0.59
+        }
+      ],
+      "functional_role": "gate"
     },
     {
       "brainNodeId": "dlPFC",
@@ -1955,7 +2131,12 @@
       "group": "food_safety",
       "phase": "P7",
       "weight": 0.8,
-      "diagnosticTriggers": [],
+      "diagnosticTriggers": [
+        "HACCP / traceability rule update (FSMA 204)",
+        "Multistate foodborne-illness recall event",
+        "Pathogen-testing performance-standard change",
+        "Country-of-origin / traceability labeling mandate"
+      ],
       "childPortal": "p2_agri_policy_foodsafety_portal.html",
       "treatments": [
         {
@@ -2208,7 +2389,28 @@
           "monitoring": "Measure the primary outcome metric at 30, 60, and 90 days post-implementation; target ≥10% improvement versus baseline by day 90. Track implementation fidelity weekly; document any deviations from protocol with justification. Conduct a comprehensive performance review at 6 months; compare all target metrics against pre-implementation baseline. Reassess intervention design if progress is <50% of target at the 90-day checkpoint.",
           "escalation": "If the target outcome shows no measurable improvement (≥10% of goal) after 90 days of implementation, or if implementation barriers prevent protocol adherence for >14 consecutive days, escalate to a food safety specialist or HACCP consultant for root cause analysis and intervention redesign. If the intervention produces adverse unintended effects at any point, pause implementation and request specialist review within 7 days."
         }
-      ]
+      ],
+      "companies": [
+        {
+          "name": "Tyson Foods",
+          "ticker_or_id": "TSN",
+          "functional_reason": "Protein processing carries direct HACCP, pathogen-standard, and recall-protocol exposure.",
+          "binding_strength": 0.73
+        },
+        {
+          "name": "Conagra Brands",
+          "ticker_or_id": "CAG",
+          "functional_reason": "Packaged-foods recall and traceability obligations under FSMA 204.",
+          "binding_strength": 0.66
+        },
+        {
+          "name": "Ingredion",
+          "ticker_or_id": "INGR",
+          "functional_reason": "Ingredient supply-chain traceability subject to food-safety recordkeeping rules.",
+          "binding_strength": 0.58
+        }
+      ],
+      "functional_role": "monitor"
     },
     {
       "brainNodeId": "RF",
@@ -2218,9 +2420,21 @@
       "group": "legislation",
       "phase": "P7",
       "weight": 0.8,
-      "diagnosticTriggers": [],
+      "diagnosticTriggers": [
+        "Cross-program policy coordination gap",
+        "Multi-agency rule conflict (USDA/EPA/FDA)"
+      ],
       "treatments": [],
-      "childPortal": "p2_agri_policy_ri_action_portal.html"
+      "childPortal": "p2_agri_policy_ri_action_portal.html",
+      "companies": [
+        {
+          "name": "Archer-Daniels-Midland",
+          "ticker_or_id": "ADM",
+          "functional_reason": "Operations span multiple ag-policy regimes requiring coordinated compliance.",
+          "binding_strength": 0.55
+        }
+      ],
+      "functional_role": "executor"
     },
     {
       "brainNodeId": "PBN",
@@ -2230,9 +2444,21 @@
       "group": "legislation",
       "phase": "P7",
       "weight": 0.8,
-      "diagnosticTriggers": [],
+      "diagnosticTriggers": [
+        "Policy-outcome feedback divergence",
+        "Program-rule adaptation lag"
+      ],
       "treatments": [],
-      "childPortal": "p2_agri_policy_ri_adapt_portal.html"
+      "childPortal": "p2_agri_policy_ri_adapt_portal.html",
+      "companies": [
+        {
+          "name": "Corteva",
+          "ticker_or_id": "CTVA",
+          "functional_reason": "Product pipeline adapts to evolving registration and program rules.",
+          "binding_strength": 0.52
+        }
+      ],
+      "functional_role": "learner"
     },
     {
       "brainNodeId": "HYPO",
@@ -2242,9 +2468,21 @@
       "group": "legislation",
       "phase": "P7",
       "weight": 0.8,
-      "diagnosticTriggers": [],
+      "diagnosticTriggers": [
+        "Policy-impact diagnostic uncertainty",
+        "Program-stress indicator emergence"
+      ],
       "treatments": [],
-      "childPortal": "p2_agri_policy_ri_diagnosis_portal.html"
+      "childPortal": "p2_agri_policy_ri_diagnosis_portal.html",
+      "companies": [
+        {
+          "name": "Deere & Co",
+          "ticker_or_id": "DE",
+          "functional_reason": "Farmer capex signals diagnose downstream policy stress.",
+          "binding_strength": 0.5
+        }
+      ],
+      "functional_role": "analyzer"
     },
     {
       "brainNodeId": "HPA",
@@ -2254,9 +2492,21 @@
       "group": "legislation",
       "phase": "P7",
       "weight": 0.8,
-      "diagnosticTriggers": [],
+      "diagnosticTriggers": [
+        "Subsidy-change feedback validation",
+        "Insurance-payout reconciliation"
+      ],
       "treatments": [],
-      "childPortal": "p2_agri_policy_ri_feedback_portal.html"
+      "childPortal": "p2_agri_policy_ri_feedback_portal.html",
+      "companies": [
+        {
+          "name": "Nutrien",
+          "ticker_or_id": "NTR",
+          "functional_reason": "Input-demand response validates program-payment feedback loops.",
+          "binding_strength": 0.5
+        }
+      ],
+      "functional_role": "validator"
     },
     {
       "brainNodeId": "EI",
@@ -2266,9 +2516,21 @@
       "group": "legislation",
       "phase": "P7",
       "weight": 0.8,
-      "diagnosticTriggers": [],
+      "diagnosticTriggers": [
+        "Regulation-strategy realignment",
+        "Tariff-cycle strategic response"
+      ],
       "treatments": [],
-      "childPortal": "p2_agri_policy_ri_regulate_portal.html"
+      "childPortal": "p2_agri_policy_ri_regulate_portal.html",
+      "companies": [
+        {
+          "name": "Bunge Global",
+          "ticker_or_id": "BG",
+          "functional_reason": "Trade strategy realigns with tariff and market-access policy shifts.",
+          "binding_strength": 0.53
+        }
+      ],
+      "functional_role": "strategist"
     },
     {
       "brainNodeId": "ASTRO",
@@ -2278,9 +2540,21 @@
       "group": "legislation",
       "phase": "P7",
       "weight": 0.8,
-      "diagnosticTriggers": [],
+      "diagnosticTriggers": [
+        "Early policy-signal detection (rule proposals/dockets)",
+        "WASDE / program-data surprise"
+      ],
       "treatments": [],
-      "childPortal": "p2_agri_policy_ri_signal_portal.html"
+      "childPortal": "p2_agri_policy_ri_signal_portal.html",
+      "companies": [
+        {
+          "name": "Archer-Daniels-Midland",
+          "ticker_or_id": "ADM",
+          "functional_reason": "Market positioning reacts to early USDA WASDE and rulemaking signals.",
+          "binding_strength": 0.54
+        }
+      ],
+      "functional_role": "detector"
     },
     {
       "brainNodeId": "ANT",
@@ -2290,9 +2564,21 @@
       "group": "legislation",
       "phase": "P7",
       "weight": 0.8,
-      "diagnosticTriggers": [],
+      "diagnosticTriggers": [
+        "Aggregate policy-state assessment",
+        "Program-enrollment state shift"
+      ],
       "treatments": [],
-      "childPortal": "p2_agri_policy_ri_state_portal.html"
+      "childPortal": "p2_agri_policy_ri_state_portal.html",
+      "companies": [
+        {
+          "name": "Mosaic Co",
+          "ticker_or_id": "MOS",
+          "functional_reason": "Phosphate demand reflects aggregate planting-policy state.",
+          "binding_strength": 0.51
+        }
+      ],
+      "functional_role": "assessor"
     }
   ],
   "edges": [
@@ -2519,5 +2805,38 @@
         }
       ]
     }
-  ]
+  ],
+  "_enrichment": {
+    "neuralRoleMigratedAt": "2026-06-23T00:00:00.000Z",
+    "schemaVersion": "subdomain-portal.v2.0",
+    "networkMapVersion": "1.0",
+    "policyInstrumentBindings": {
+      "farmBill": {
+        "source": "USDA Farm Bill (Title I commodity, conservation, nutrition)",
+        "node": "dACC"
+      },
+      "cropInsurance": {
+        "source": "USDA RMA crop-insurance indemnities & participation",
+        "node": "THAL"
+      },
+      "tradeTariffs": {
+        "source": "USTR tariff schedules & WTO commitments on ag exports",
+        "node": "TPJ"
+      },
+      "waterQuality": {
+        "source": "EPA/USDA nitrate & pesticide water-quality rules",
+        "node": "BLA"
+      },
+      "conservationReserve": {
+        "source": "USDA Conservation Reserve Program (CRP/EQIP/CSP) enrollment",
+        "node": "EC"
+      }
+    },
+    "commodityRefs": [
+      "CBOT corn",
+      "CBOT soybeans",
+      "CBOT wheat",
+      "USDA WASDE"
+    ]
+  }
 }

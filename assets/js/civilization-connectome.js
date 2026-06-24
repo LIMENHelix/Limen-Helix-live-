@@ -219,6 +219,103 @@ var TECH_SUBCIRCUITS = {
   }
 };
 
+// ═══ AGRICULTURE: EXPLICIT FOUR-PATHWAY CIRCUITRY ═══ (ADDITIVE — agriculture gap)
+// Mirrors FINANCE_CIRCUITS / TECHNOLOGY_CIRCUITS shape (label / pathway / role /
+// anchors). Without this, agriculture stress renders as a single blurry
+// 'nourishment' aggregate, losing the fine structure of crop vs livestock vs trade
+// vs credit channels. Agriculture identity = farming & crops, livestock & animal
+// protein, agribusiness & food production, food security & supply, fertilizers &
+// crop inputs, irrigation & ag water, commodity crops (corn/soy/wheat), precision
+// ag, farm economics. Energy is ONLY a coupling (crop machinery / feed logistics
+// = power DEMAND; commodity futures have zero energy content) — never the domain's
+// own content. Distinct from environment (land/water/climate = coupling), trade
+// (export logistics = coupling), economy (food prices = coupling). Real ag tickers
+// (DE, CTVA, TSN, ADM, BG, NTR, MOS) + CBOT/USDA-WASDE refs only.
+var AGRICULTURE_CIRCUITS = {
+  crop_production: {
+    label: 'Crop-production circuit (seeding → harvest)',
+    pathway: ['GPA', 'SMA', 'TrkB', 'TPOLE'],
+    role: 'genomic-seed-priming → mechanized-planting → growth-signaling → harvest-throughput',
+    // Real crop-input & machinery anchors (genetics/traits + farm equipment).
+    anchors: ['DE', 'CTVA', 'AGCO', 'FMC']
+  },
+  livestock_production: {
+    label: 'Livestock-production circuit (breeding → market)',
+    pathway: ['FEF', 'SCN', 'STN', 'SNS'],
+    role: 'herd-planning → breeding-cycle-timing → feed-conversion-regulation → market-weight-readiness',
+    // Real animal-protein / packaged-food anchors.
+    anchors: ['TSN', 'CAG']
+  },
+  commodity_trading: {
+    label: 'Commodity-trading circuit (futures / hedging)',
+    pathway: ['NAcc', 'STRI', 'NEOCER'],
+    role: 'price-signal-valuation → hedge-allocation → basis-risk-coordination',
+    // Real grain-merchant / processing anchors + CBOT corn/soy/wheat futures, USDA WASDE.
+    anchors: ['CBOT', 'ADM', 'BG', 'INGR']
+  },
+  farm_finance: {
+    label: 'Farm-finance circuit (credit / collateral)',
+    pathway: ['LGN', 'SNIG', 'IPL'],
+    role: 'input-cost-financing → collateral-valuation → operating-credit-extension',
+    // Real crop-input suppliers (input-cost / financed-on-credit) + farm-credit lenders.
+    anchors: ['NTR', 'MOS', 'CF']
+  }
+};
+
+// ═══ AGRICULTURE: SUB-CIRCUIT SEGREGATION + ENERGY SIGNATURE ═══ (ADDITIVE — agriculture gap)
+// Companion to AGRICULTURE_CIRCUITS above. Segregates agriculture STRESS into four
+// sub-circuits whose key difference is their ENERGY SIGNATURE — the energy/logistics
+// coupling each sub-circuit emits so grid / energy-demand modeling picks the right
+// curve WITHOUT triggering the energy domain unless machinery/logistics nodes
+// themselves activate energy DEMAND as a consequence.
+//   • Crop production   = farm machinery (tractors/combines) couples to INDUSTRIAL
+//                         power; diesel/irrigation pumping. Seasonal, planting/harvest peaks.
+//   • Livestock         = feed logistics + cold-chain couples to TRADE-LOGISTICS power;
+//                         continuous (barns/refrigeration always-on) + slaughter burst.
+//   • Commodity trading = CBOT futures / hedging — ZERO energy content (pure price routing).
+//   • Farm finance      = credit / collateral — ZERO direct energy; couples to input
+//                         costs (fertilizer is itself energy-intensive upstream, a coupling).
+// Real ag tickers + CBOT/USDA refs only. Triggers route the generic 'agriculture'
+// stress into the correct sub-circuit (e.g. drought → crop circuit, not energy).
+var AGRICULTURE_SUB_CIRCUITS = {
+  crop: {
+    label: 'Crop-production circuit (machinery / field power)',
+    pathway: ['GPA', 'SMA', 'TrkB', 'TPOLE'],
+    role: 'seed-priming → mechanized-planting → growth → harvest-throughput',
+    energySignature: 'seasonal industrial power (tractor/combine diesel, irrigation pumping) — peaks at planting & harvest',
+    scalingModel: 'seasonal_machinery_load',          // demand peaks at field operations
+    triggers: ['drought', 'planting_window_shift', 'harvest_yield_miss', 'usda_wasde_acreage_cut'],
+    anchors: ['DE', 'CTVA', 'AGCO', 'FMC']
+  },
+  livestock: {
+    label: 'Livestock-production circuit (feed logistics / cold-chain)',
+    pathway: ['FEF', 'SCN', 'STN', 'SNS'],
+    role: 'herd-planning → breeding → feed-conversion → market-readiness',
+    energySignature: 'trade-logistics power — continuous barn/refrigeration baseline + slaughter/processing burst',
+    scalingModel: 'baseline_plus_processing_burst',   // always-on + slaughter spike
+    triggers: ['feed_cost_spike', 'herd_liquidation', 'avian_swine_disease_outbreak', 'cold_chain_disruption'],
+    anchors: ['TSN', 'CAG']
+  },
+  trading: {
+    label: 'Commodity-trading circuit (futures / hedging)',
+    pathway: ['NAcc', 'STRI', 'NEOCER'],
+    role: 'price-valuation → hedge-allocation → basis-risk-coordination',
+    energySignature: 'zero energy content (pure price routing — CBOT corn/soy/wheat futures, USDA WASDE)',
+    scalingModel: 'none',                             // no energy coupling
+    triggers: ['cbot_price_spike', 'basis_blowout', 'export_demand_shock', 'wasde_balance_sheet_revision'],
+    anchors: ['CBOT', 'ADM', 'BG', 'INGR']
+  },
+  finance: {
+    label: 'Farm-finance circuit (credit / collateral)',
+    pathway: ['LGN', 'SNIG', 'IPL'],
+    role: 'input-cost-financing → collateral-valuation → operating-credit-extension',
+    energySignature: 'zero direct energy; couples only via input costs (fertilizer is energy-intensive upstream — a coupling)',
+    scalingModel: 'input_cost_indexed',               // tracks fertilizer/input cost, not direct load
+    triggers: ['input_cost_surge', 'farmland_value_drop', 'operating_credit_tightening', 'crop_insurance_payout_spike'],
+    anchors: ['NTR', 'MOS', 'CF']
+  }
+};
+
 // === DOMAIN → SUB-PORTAL REGISTRY ===
 var DOMAIN_PORTALS = {
   medicine:[
@@ -728,6 +825,92 @@ function seedStressCivilization(n, idx) {
         energySignature: TECH_SUBCIRCUITS.supply.energySignature,
         scalingModel: TECH_SUBCIRCUITS.supply.scalingModel,
         anchors: TECH_SUBCIRCUITS.supply.anchors
+      }
+    };
+  }
+  // ── ADDITIVE: agriculture gets four explicit, non-overlapping sub-circuits
+  //    (crop / livestock / commodity-trading / farm-finance) so stress is no longer
+  //    rendered as a single blurry 'nourishment' aggregate. For the agriculture node
+  //    only, derive each sub-circuit's stress from edge topology (no fabricated
+  //    numbers): the same structural signals already present in the connectome.
+  //      • crop production  ← outbound SUPPLIES edges (food/feed fan-out to the system)
+  //      • livestock        ← inbound DEPENDS_ON edges (feed/water/logistics reliance)
+  //      • commodity trading← TRANSFORMS edges (price/processing/re-intermediation surface)
+  //      • farm finance     ← CONTROLS edges (regulated / collateralized / credit-governed surface)
+  //    Expose the explicit circuit binding (four ag circuits + real tickers) on the
+  //    node for downstream advisory layers and visualization, so drought → crop circuit
+  //    failure → commodity-trading (prices spike) → farm-finance (credit tightens) can
+  //    pulse through the correct sub-circuit pathway, not the whole domain at once.
+  //    Energy is ONLY a coupling (machinery/logistics power DEMAND), never agriculture's
+  //    own content — agriculture_circuits stays inert for every non-agriculture node.
+  if (n.id === 'agriculture') {
+    var cropFan = 0, livestockDep = 0, tradeSurface = 0, creditSurface = 0;
+    for (var ae = 0; ae < EDGES.length; ae++) {
+      var ea = EDGES[ae];
+      if (ea.ai !== idx && ea.bi !== idx) continue;
+      var agIsSource = (ea.ai === idx);
+      if (ea.type === 'SUPPLIES' && agIsSource)    cropFan++;          // food/feed fan-out (seeding → harvest)
+      if (ea.type === 'DEPENDS_ON' && !agIsSource) livestockDep++;     // feed/water/logistics reliance
+      if (ea.type === 'DEPENDS_ON' && agIsSource)  livestockDep += 0.5; // own input dependencies
+      if (ea.type === 'TRANSFORMS')                tradeSurface++;      // price/processing/hedging surface
+      if (ea.type === 'CONTROLS')                  creditSurface++;     // regulated/collateralized credit surface
+      if (ea.type === 'SUPPLIES' && agIsSource)    tradeSurface += 0.5; // downstream exposure widens basis risk
+    }
+    var cropN  = Math.min(cropFan / 3, 1);
+    var liveN  = Math.min(livestockDep / 3, 1);
+    var tradeN = Math.min(tradeSurface / 4, 1);
+    var credN  = Math.min(creditSurface / 3, 1);
+    // Map sub-circuit signals onto canonical stress channels (no new channel added,
+    // mirroring finance — keeps every length-driven loop & total_stress validated):
+    //   crop → demand (throughput) | livestock → ops | trading → liquidity (price flow)
+    //   farm-finance → solvency (collateral/credit)
+    sv.demand    = Math.min(Math.max(sv.demand, cropN), 1);
+    sv.ops       = Math.min(Math.max(sv.ops, liveN), 1);
+    sv.liquidity = Math.min(Math.max(sv.liquidity, tradeN), 1);
+    sv.solvency  = Math.min(Math.max(sv.solvency, credN), 1);
+    // Expose the explicit circuit binding (four ag circuits + sub-circuits + real tickers).
+    n.agriculture_circuits = {
+      crop_production:      { stress: cropN,  pathway: AGRICULTURE_CIRCUITS.crop_production.pathway,      anchors: AGRICULTURE_CIRCUITS.crop_production.anchors },
+      livestock_production: { stress: liveN,  pathway: AGRICULTURE_CIRCUITS.livestock_production.pathway, anchors: AGRICULTURE_CIRCUITS.livestock_production.anchors },
+      commodity_trading:    { stress: tradeN, pathway: AGRICULTURE_CIRCUITS.commodity_trading.pathway,    anchors: AGRICULTURE_CIRCUITS.commodity_trading.anchors },
+      farm_finance:         { stress: credN,  pathway: AGRICULTURE_CIRCUITS.farm_finance.pathway,         anchors: AGRICULTURE_CIRCUITS.farm_finance.anchors }
+    };
+    // Segregated sub-circuits with DISTINCT energy signatures (machinery/logistics
+    // coupling) so energy-demand modeling differentiates crop (seasonal industrial
+    // power) vs livestock (trade-logistics baseline + processing burst) vs trading
+    // (zero energy) vs finance (input-cost-indexed) instead of one generic load.
+    n.agriculture_circuits.sub_circuits = {
+      crop: {
+        label: AGRICULTURE_SUB_CIRCUITS.crop.label,
+        stress: cropN,
+        pathway: AGRICULTURE_SUB_CIRCUITS.crop.pathway,
+        energySignature: AGRICULTURE_SUB_CIRCUITS.crop.energySignature,
+        scalingModel: AGRICULTURE_SUB_CIRCUITS.crop.scalingModel,
+        anchors: AGRICULTURE_SUB_CIRCUITS.crop.anchors
+      },
+      livestock: {
+        label: AGRICULTURE_SUB_CIRCUITS.livestock.label,
+        stress: liveN,
+        pathway: AGRICULTURE_SUB_CIRCUITS.livestock.pathway,
+        energySignature: AGRICULTURE_SUB_CIRCUITS.livestock.energySignature,
+        scalingModel: AGRICULTURE_SUB_CIRCUITS.livestock.scalingModel,
+        anchors: AGRICULTURE_SUB_CIRCUITS.livestock.anchors
+      },
+      trading: {
+        label: AGRICULTURE_SUB_CIRCUITS.trading.label,
+        stress: tradeN,
+        pathway: AGRICULTURE_SUB_CIRCUITS.trading.pathway,
+        energySignature: AGRICULTURE_SUB_CIRCUITS.trading.energySignature,
+        scalingModel: AGRICULTURE_SUB_CIRCUITS.trading.scalingModel,
+        anchors: AGRICULTURE_SUB_CIRCUITS.trading.anchors
+      },
+      finance: {
+        label: AGRICULTURE_SUB_CIRCUITS.finance.label,
+        stress: credN,
+        pathway: AGRICULTURE_SUB_CIRCUITS.finance.pathway,
+        energySignature: AGRICULTURE_SUB_CIRCUITS.finance.energySignature,
+        scalingModel: AGRICULTURE_SUB_CIRCUITS.finance.scalingModel,
+        anchors: AGRICULTURE_SUB_CIRCUITS.finance.anchors
       }
     };
   }

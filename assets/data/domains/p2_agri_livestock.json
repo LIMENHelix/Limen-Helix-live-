@@ -472,7 +472,45 @@
       "group": "species",
       "phase": "P2",
       "weight": 0.8,
-      "diagnosticTriggers": [],
+      "diagnosticTriggers": [
+        "Feed-cost margin compression as CBOT corn/soybean-meal prices spike (feed is 60-70% of hog production cost)",
+        "Disease outbreak impact: African swine fever, PRRS, or avian influenza forcing herd/flock depopulation and export bans",
+        "Export market access loss (China/Mexico/Japan tariff or sanitary barriers) collapsing demand for U.S. protein",
+        "Processing capacity utilization shortfall from labor shortages or plant closures backing up live animals",
+        "Cold-storage protein inventory buildup signaling demand-supply imbalance per USDA Cold Storage report"
+      ],
+      "companies": [
+        {
+          "name": "Tyson Foods",
+          "ticker_or_id": "TSN",
+          "functional_reason": "Largest U.S. integrated processor of chicken, beef, and pork; directly coupled to feed-cost margins (CBOT corn/soybean meal), avian-influenza and swine-disease outbreaks, export-demand swings, and processing-capacity utilization. Spread between live-animal input cost and boxed-meat price is the primary distress signal.",
+          "binding_strength": 0.93
+        },
+        {
+          "name": "Pilgrim's Pride",
+          "ticker_or_id": "PPC",
+          "functional_reason": "Pure-play poultry processor (JBS-controlled); stress couples to broiler feed-conversion economics, avian-influenza flock losses, and export access. Highly sensitive to the corn/soybean-meal feed complex and chicken-breast/leg-quarter pricing.",
+          "binding_strength": 0.91
+        },
+        {
+          "name": "Hormel Foods",
+          "ticker_or_id": "HRL",
+          "functional_reason": "Branded and processed pork/turkey producer; coupled to hog and turkey input costs, disease-driven supply shocks, and packaged-protein demand. Input-cost inflation compresses margins on shelf-stable and refrigerated meat lines.",
+          "binding_strength": 0.82
+        },
+        {
+          "name": "Conagra Brands",
+          "ticker_or_id": "CAG",
+          "functional_reason": "Packaged-meat and prepared-foods producer downstream of livestock supply; couples to protein input-cost inflation passed through to frozen and refrigerated meals, with feed-cost spikes and disease outbreaks propagating up the supply chain.",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "Seaboard",
+          "ticker_or_id": "SEB",
+          "functional_reason": "Vertically integrated pork producer-processor with grain/feed and ocean-transport segments; couples to hog feed-cost margins (corn integration), African-swine-fever export dynamics, and processing throughput. Integration links commodity-grain and protein-margin cycles.",
+          "binding_strength": 0.80
+        }
+      ],
       "childPortal": "p2_agri_livestock_swine_portal.html",
       "treatments": [
         {

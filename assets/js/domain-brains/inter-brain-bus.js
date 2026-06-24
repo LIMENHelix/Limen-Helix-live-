@@ -314,6 +314,63 @@
  *   examples only — the validated Thing1 P3 distress kernel remains the sole scoring
  *   authority; the bus merely transports already-scored emissions.
  *
+ * Cross-domain examples — OTHER → AGRICULTURE (agriculture as a target).
+ * Agriculture is the FARMING / FOOD-PRODUCTION domain (farming & crops, livestock
+ * & animal protein, agribusiness & food production, food security & supply,
+ * fertilizers & crop inputs, irrigation & agricultural water, commodity crops
+ * (corn/soy/wheat), agricultural technology & precision ag, farm economics). It is
+ * DISTINCT from environment (land / water / climate is a COUPLING, not agriculture's
+ * content), from trade (export logistics is a COUPLING, not its identity), and from
+ * economy (food prices are a COUPLING — the macro pass-through, not the farm). And
+ * agriculture NEVER takes energy oil/gas/grid as its own content — the energy link is
+ * a COUPLING (diesel & farm-equipment fuel, fertilizer feedstock / biofuel demand).
+ * The bus previously documented agriculture as a SOURCE only — it EMITS to supplyChain
+ * (food_supply_disruption), economy (food_price_pressure), energy (biofuel_input_stress)
+ * and environment (land_use_pressure) (agriculture-brain.js emissionRules, lines 71–96).
+ * Its INBOUND RETURN paths were silent in the bus, creating the false impression that
+ * agriculture is a source-only domain rather than a full bidirectional node. These are
+ * the paths other brains already emit toward agriculture (see each source brain's
+ * emissionRules / the SOURCE examples above), so the farm cash-flow / input-stress /
+ * yield-risk channel is not silent in the bus:
+ *   energy       → agriculture (fuel_cost_transmission / input_cost_spike → on-farm
+ *                           diesel & farm-equipment fuel cost and the fertilizer
+ *                           feedstock / nitrogen-energy link spike production cost →
+ *                           input_cost_spike at growers → farm-margin compression and
+ *                           input-payment stress; the inbound mirror of agriculture's
+ *                           native biofuel_input_stress outbound, the diesel-for-equipment
+ *                           equivalent of energy's JP-8 fuel-logistics coupling, WITHOUT
+ *                           agriculture taking on oil/gas as its identity)
+ *   economy      → agriculture (macro_demand_shift / demand_consumption_shift /
+ *                           inflation_transmission → a cycle turn and commodity-price
+ *                           repricing shift food demand and compress farm margins →
+ *                           commodity_price_drop / margin_compression cascade → farm
+ *                           cash-flow pressure and input-payment stress; the inbound
+ *                           mirror of agriculture's native food_price_pressure outbound)
+ *   environment  → agriculture (water_scarcity / soil_degradation / climate_stress →
+ *                           irrigation constraint, soil-moisture deficit and yield-loss
+ *                           risk raise water-stress and shift input demand →
+ *                           irrigation_constraint / water_stress / yield_loss cascade →
+ *                           DROUGHT-class on-farm stress; this is the documented
+ *                           environment → agriculture return path, environment-brain.js
+ *                           line 62 / lines 281–285 (water_security_investment & input
+ *                           stress), the inbound mirror of agriculture's native
+ *                           land_use_pressure outbound — land/water remains a COUPLING)
+ *   These modify agriculture's PRIOR yield / farm-margin / food-security expectation and
+ *   stress calculation AFTER the validated P3 kernel runs — external stress modifiers
+ *   ingested via the base receiveExternalSignal handler, NOT a second scorer.
+ *   Real agriculture issuers / anchors behind these signals (farming inputs / grain
+ *   merchandising / seed & crop protection / farm machinery / food production — NOT
+ *   energy oil/gas/grid, NOT environment water/waste operators, NOT trade logistics
+ *   carriers): ADM, BG, INGR (grain merchandising & processing); CTVA, FMC (seed & crop
+ *   protection); NTR, MOS, CF (fertilizers & crop nutrients); DE, AGCO (farm machinery &
+ *   precision ag); TSN, CAG (livestock / animal protein & food production). Commodity
+ *   anchors (REAL, never fabricated): CBOT corn / soybean / wheat futures, USDA WASDE
+ *   (World Agricultural Supply & Demand Estimates). (input_cost_spike = diesel /
+ *   fertilizer-feedstock cost pass-through; commodity_price_drop = CBOT grain repricing
+ *   / margin compression; irrigation_constraint = water-scarcity / soil-moisture deficit
+ *   yield risk.) SIGNAL examples only — the validated Thing1 P3 distress kernel remains
+ *   the sole scoring authority; the bus merely transports already-scored emissions.
+ *
  * Cross-domain examples — GOVERNANCE → OTHER (governance as a source). Governance
  * is the GOVERNMENT / PUBLIC-ADMINISTRATION / RULEMAKING domain (public policy &
  * rulemaking, regulation & oversight, elections & democratic institutions, public

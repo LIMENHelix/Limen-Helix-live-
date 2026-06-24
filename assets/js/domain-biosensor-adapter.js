@@ -195,7 +195,32 @@
       label: 'Seasonal and supply chain pressure',
       arousal: 'Harvest and market urgency — high arousal during crop stress or price spikes reflects time-critical decisions',
       coherence: 'Planning consistency — low coherence during weather uncertainty suggests reactive rather than strategic response',
-      cognitiveLoad: 'Multi-factor assessment — high load with weather, market, and supply chain signals reflects decision overload'
+      cognitiveLoad: 'Multi-factor assessment — high load with weather, market, and supply chain signals reflects decision overload',
+      // Ag-intake/triage readiness map: regulation state → agriculture R&D, crop-cycle and
+      // farm-economics intake/triage posture. Mirrors energy's biosensor intake map (energy gates
+      // capex/dispatch by operator regulation state; agriculture gates ag-investment, input-sourcing,
+      // crop-cycle and farm-viability intake) — advisory-layer only and independent of the kernel
+      // scoring spine. Consumed by (future) agriculture-clarity-operator outcome tracking (precision-ag
+      // R&D velocity, crop-cycle/livestock operation throughput, input-sourcing momentum, commodity-
+      // hedging cadence, farm-viability/debt triage). AGRICULTURE identity only — farming & crops,
+      // livestock & animal protein, agribusiness & food production, food security & supply, fertilizers
+      // & crop inputs, irrigation & agricultural water, commodity crops (corn/soy/wheat), agricultural
+      // technology & precision ag, farm economics. Reference agriculture-identity names: ADM, BG, CTVA,
+      // DE, NTR, MOS, CF, TSN, CAG, INGR, AGCO, FMC; commodity refs via CBOT corn/soy/wheat and USDA
+      // WASDE. Distinct from environment (land/water/climate is a coupling, not the identity), trade
+      // (export logistics is a coupling) and economy (food prices is a coupling); biofuel/fertilizer-
+      // energy is an energy coupling, never agriculture's own content. Operator arousal/coherence during
+      // crop stress or price spikes gate ag-investment & crop-cycle intake (high arousal = crisis farm-
+      // viability triage mode; low arousal = deliberate ag-innovation/expansion mode). STRICTLY ADDITIVE
+      // — does not touch any validated scoring spine.
+      readiness: {
+        calm: 'Steady operator state — safe to expand ag investment and innovation: open new precision-ag R&D programs (CTVA/AGCO smart-farming roadmaps), initiate commodity-hedging and price-risk programs, invest in irrigation and soil-health improvement (DE/AGCO/FMC solutions), launch new crop-genetics and drought-resilience breeding programs.',
+        focused: 'Productive engagement — sustain active crop cycles and livestock operations; admit only proven-vendor input sourcing and well-scoped land/water-infrastructure additions; hold speculative new markets and crop-diversification.',
+        pressured: 'Elevated load — defer discretionary ag-innovation intake and new market expansion; focus on near-term crop health and market triage: protect high-value commodity positions, prioritize input supply and water-availability monitoring, keep harvest-readiness and price-hedging active.',
+        overloaded: 'Saturated — pause all new ag-investment and innovation programs; respond only to critical farm-viability crisis: crop-failure and livestock-disease containment (veterinary emergency response, replanting decisions), farm-debt and land-value stress (refinancing triage, forced-sale exposure), food-security and export-market shock (government-program access, commodity-price hedging).',
+        recovering: 'Stabilizing — resume input sourcing and supply-chain stabilization first, then reopen ag-innovation and expansion programs gradually as crop yields, commodity prices, farm-debt ratios and water availability normalize.',
+        unknown: 'Regulation state unavailable — default to snapshot-driven prioritization (crop-stress and commodity-price signals with farm-viability criticality ranking).'
+      }
     },
     governance: {
       label: 'Policy formation and institutional pressure',

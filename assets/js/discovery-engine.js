@@ -187,6 +187,26 @@
     { label: 'Investigate industrial-recession resilience and order-book contraction early-warning across capital-goods cycles (ISM PMI contraction, CAT/DE/DOV/ITW backlog & inventory destocking)', domain: 'industry', type: 'system-risk', baseRelevance: 0.45 },
     { label: 'Explore production-throughput resilience and automation-displacement mitigation under capacity-utilization stress (FRED TCU drawdown, GEV/ROK/PH automation buildout vs MANEMP labor-displacement)', domain: 'industry', type: 'system-risk', baseRelevance: 0.45 },
 
+    // Agriculture (mirrors Energy/Infrastructure/Industry structure, translated to farming & food-production concepts —
+    //   Energy seeds focus on storage/grid/renewable ARCHITECTURES; agriculture seeds focus on FARM-MARGIN, YIELD-RESILIENCE,
+    //   CROP-INPUTS, FOOD-SECURITY and LAND/LIVESTOCK economics: storage→commodity-price & farm-margin buffering,
+    //   distributed-grid→supply-chain / crop-input dependency topology, transition→precision-ag adoption & drought-resilient
+    //   irrigation, attack-surface→livestock-disease / yield-shock early-warning. Relevance = agriculture stress x trend boost.
+    //   identity = farming & crops, livestock & animal protein, agribusiness & food production, food security & supply,
+    //   fertilizers & crop inputs, irrigation & agricultural water, commodity crops (corn/soy/wheat), precision agriculture,
+    //   farm economics (debt/land-value/margin);
+    //   bind to CBOT corn/soy/wheat futures and USDA WASDE supply-demand estimates;
+    //   universe: ADM/BG/CTVA/DE/NTR/MOS/CF/TSN/CAG/INGR/AGCO/FMC — couples to environment via land/water (a coupling, not the
+    //   identity), to energy via biofuel/fertilizer-feedstock (a coupling), to trade via export logistics (a coupling), and to
+    //   economy via food prices (a coupling); keeps agriculture identity = farms/crops/livestock/agribusiness/food-security)
+    { label: 'Investigate commodity-price volatility and farm-margin compression across crop and livestock supply chains (CBOT corn/soy/wheat futures vs USDA WASDE supply-demand, ADM/BG processing margins, TSN/CAG protein spreads)', domain: 'agriculture', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Explore crop-insurance design and weather-risk hedging mechanisms for smallholder farm resilience (USDA RMA crop-insurance programs, basis-risk modeling, yield-vs-revenue protection structures)', domain: 'agriculture', type: 'economic-opportunity', baseRelevance: 0.40 },
+    { label: 'Analyze water-scarcity adaptation and irrigation-infrastructure investment for drought-resilient agriculture (USDA drought monitoring, deficit-irrigation efficiency, FMC crop-protection vs water-stressed acreage)', domain: 'agriculture', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Investigate precision-agriculture technology adoption (CTVA/AGCO smart-farming seed & equipment, DE/AGCO IoT field sensing & autonomous machinery) for yield and farm-margin improvement', domain: 'agriculture', type: 'technological-innovation', baseRelevance: 0.40 },
+    { label: 'Explore soil-health and biodiversity management for long-run farm-productivity resilience (NTR/MOS/CF nutrient-stewardship vs soil-carbon, cover-crop & rotation agronomics, regenerative-yield modeling)', domain: 'agriculture', type: 'scientific-discovery', baseRelevance: 0.40 },
+    { label: 'Analyze livestock-disease containment and veterinary-resource capacity for food-security (avian-influenza / ASF outbreak modeling, TSN herd & flock biosecurity, USDA APHIS surveillance capacity)', domain: 'agriculture', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Investigate farm-debt and land-value dynamics for regional farm-viability assessment (USDA farm-sector balance-sheet, cropland-value vs farm-income leverage, AGCO/DE equipment-financing exposure)', domain: 'agriculture', type: 'economic-opportunity', baseRelevance: 0.40 },
+
     // Governance (mirrors Infrastructure/Defense/Intelligence structure, translated to government & public-administration concepts —
     //   Energy seeds focus on storage/grid/renewable ARCHITECTURES; governance seeds focus on INSTITUTIONAL-RESILIENCE,
     //   POLICY-EFFECTIVENESS, REGULATORY-INTEGRITY, ELECTORAL-SYSTEM, PUBLIC-FINANCE and ANTI-CORRUPTION pathways:

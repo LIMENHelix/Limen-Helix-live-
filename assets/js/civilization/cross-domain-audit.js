@@ -465,7 +465,42 @@
     // enforcement/compliance escalation). Distinct from environment_climate_
     // adaptation (which is the climate-capex channel); this binds the
     // pollution-quality enforcement channel.
-    { id: 'environment_pollution_control', domains: ['environment', 'infrastructure', 'governance', 'law'] }
+    { id: 'environment_pollution_control', domains: ['environment', 'infrastructure', 'governance', 'law'] },
+    // ─── Agriculture-native affinity group ────────────────────────────────
+    // Agriculture is a SOURCE domain here, not only the coupling target of
+    // environment_arc (where energy emissions flow OUT and agriculture couples
+    // IN via land/water use). Its OWN identity is farming & crops, livestock &
+    // animal protein, agribusiness & food production, food security & supply,
+    // fertilizers & crop inputs, irrigation & agricultural water use, commodity
+    // crops (corn/soy/wheat), agricultural technology & precision ag, and farm
+    // economics. Real-sector anchors are the food/ag complex — grain trading &
+    // processing (ADM, BG, INGR), seeds & crop protection (CTVA, FMC), farm
+    // machinery & precision ag (DE, AGCO), fertilizers & crop inputs (NTR, MOS,
+    // CF), and food/protein production (TSN, CAG) — plus the commodity-market
+    // references (CBOT corn/soy/wheat futures, USDA WASDE crop-balance reports).
+    // Kept DISTINCT from environment (land/water/climate USE is a coupling, not
+    // agriculture's own content), trade (export logistics is a coupling), and
+    // economy (food prices / macro food inflation is a coupling). NEVER energy
+    // oil/gas/grid as agriculture's OWN content (biofuel demand &
+    // fertilizer-energy cost are couplings).
+    //
+    // agriculture_commodity_chain — the crop→commodity→food-inflation→farm-
+    // financing stress channel (mirror of energy_chain / industry_core on the
+    // food-production side). A crop-yield shock (drought, disease, USDA WASDE
+    // downward revision) transmits to commodity prices (environment couples via
+    // the land/water/climate driver; CBOT corn/soy/wheat repricing), which feeds
+    // macro food inflation (economy), which raises supply-chain food cost
+    // (supplyChain — export/processing logistics for ADM/BG grain flows), which
+    // stresses farm financing (finance — operating-loan & land-collateral
+    // credit, input-cost working capital for NTR/MOS/CF fertilizer & DE/AGCO
+    // equipment capex). When all five co-elevate on stress the signal is a
+    // commodity-market / FOOD-SECURITY stress — a food-system feedback loop —
+    // rather than an isolated yield loss or a macro demand shock. Distinct from
+    // environment_arc (agriculture + environment + energy EMISSIONS focus) and
+    // from environment_core (the policy/law/governance/research climate-
+    // institutional lens). Environment & economy are COUPLINGS here (the climate
+    // driver and the food-price aggregate); agriculture is the SOURCE.
+    { id: 'agriculture_commodity_chain', domains: ['agriculture', 'environment', 'economy', 'supplyChain', 'finance'] }
   ];
 
   // Tunables — keep conservative; this is a deciphering layer not a noise

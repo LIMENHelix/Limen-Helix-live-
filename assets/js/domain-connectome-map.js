@@ -128,7 +128,28 @@
     //   Service-delivery circuit: public-administration / public services delivery (Tyler TYL, Maximus MMS, GDIT, LDOS, ACN, BAH).
     { source: 'governance',     target: 'infrastructure', weight: 0.6, type: 'DELIVERS' },     // public-administration service delivery & program execution lands on civic infrastructure/digital-gov nodes — service-delivery circuit (not energy; govtech delivery rails)
     //   Democratic-legitimacy circuit: elections & democratic institutions / political stability (V-Dem, WGI Voice-&-Accountability).
-    { source: 'governance',     target: 'communication',  weight: 0.6, type: 'LEGITIMIZES' }   // elections, democratic institutions & political legitimacy propagate through civic communication channels — democratic-legitimacy circuit (V-Dem electoral component, WGI Voice & Accountability)
+    { source: 'governance',     target: 'communication',  weight: 0.6, type: 'LEGITIMIZES' },  // elections, democratic institutions & political legitimacy propagate through civic communication channels — democratic-legitimacy circuit (V-Dem electoral component, WGI Voice & Accountability)
+    // ── ADDITIVE: AGRICULTURE stress-contagion edges (weighted/typed) ──
+    // Mirrors the TECHNOLOGY/GOVERNANCE contagion blocks above, content→agriculture. These carry
+    // weight+type so an AGRICULTURE stress wave propagates as CONTAGION through the civilization
+    // stress-web, lifting agriculture out of the linear energy→agriculture→industry spine and into
+    // the full stress-contagion topology. Identity stays farming & crops / livestock & animal
+    // protein / agribusiness & food production / fertilizers & crop inputs / irrigation & ag water /
+    // commodity crops (corn/soy/wheat) / precision ag / farm economics — REAL ag names ADM, BG,
+    // CTVA, DE, NTR, MOS, CF, TSN, CAG, INGR, AGCO, FMC and ag commodity refs (CBOT corn/soy/wheat,
+    // USDA WASDE). Agriculture is NEVER wired directly to energy: energy reaches crop stress only as
+    // CONSEQUENCE (machinery/irrigation OpEx → industrial/infrastructure nodes → energy DEMAND),
+    // never as origin. Environment (soil/water/climate), trade (export logistics) and economy (food
+    // prices) remain COUPLINGS, kept distinct from agriculture's own content.
+    //   Climate-impact circuit: soil/water/climate stress → crop & livestock output (drought → crop
+    //   failure → food supply shock). Environmental STRESS impacts food production; not vice versa.
+    { source: 'environment',    target: 'agriculture',    weight: 0.7, type: 'IMPACTS' },     // soil/water/climate coupling — drought/heat/flood degrade crop & livestock output (USDA WASDE yield cuts, CBOT corn/soy/wheat price response); environment→food, one-directional
+    //   Farm-credit / collateral circuit: farm debt & operating credit, farmland as collateral,
+    //   commodity-futures margin (DE/AGCO equipment financing, NTR/MOS/CF input credit, CBOT margin).
+    { source: 'agriculture',    target: 'finance',        weight: 0.6, type: 'DEPENDS_ON' },  // farm credit / land collateral / commodity-futures margin — ag distress (input-cost spike, yield loss) propagates to ag-lending & futures-margin circuits (Farm Credit, CBOT margin calls)
+    //   Food-logistics circuit: food & protein logistics, cold-chain, export processing — ag output
+    //   SUPPLIES the food supply chain (ADM/BG/INGR processing, TSN/CAG protein, cold-chain & export).
+    { source: 'agriculture',    target: 'supplyChain',    weight: 0.8, type: 'SUPPLIES' }     // food/protein logistics, cold-chain, grain/oilseed export processing — crop/livestock stress propagates downstream into food supply & trade circuits (ADM, BG, INGR, TSN, CAG)
   ];
 
   // ─── Color mapping ──────────────────────────────────────────────────────

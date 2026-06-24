@@ -274,6 +274,191 @@
           ],
           "monitoring": "Compare zone-mean yield at harvest against the 3-year field average; target ≥5% improvement in the first crop year. Measure grain quality parameters (test weight, moisture, protein where applicable) at harvest; document any quality shifts. Track input cost per unit of yield ($/bushel or $/ton) per treatment; target ≥8% cost-efficiency improvement within 2 crop years. Reassess annually at crop-year end.",
           "escalation": "If treated zones show <3% yield improvement after two full crop cycles, or if yield variability (CV) increases rather than decreases, escalate to a domain specialist for root cause analysis and intervention redesign for diagnostic sampling and root cause analysis of yield-limiting factors. If input cost per unit of yield does not improve by ≥5% within 2 crop years, conduct intervention cost-benefit review before the next application season."
+        },
+        {
+          "label": "CBOT Grain Futures Contract Binding (ZC / ZS / ZW)",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Bind hedging diagnostics directly to CME Group/CBOT grain futures contract specifications: Corn (ticker ZC, 5,000 bu, contract months H/K/N/U/Z), Soybeans (ticker ZS, 5,000 bu, F/H/K/N/Q/U/X) and Chicago SRW Wheat (ticker ZW, 5,000 bu, H/K/N/U/Z). Track front-month settlement, deferred-month spreads, and delivery-grade discounts against each contract's published spec so that producer hedge ratios and roll timing are calculated from the actual exchange reference price rather than an undefined local proxy.",
+          "cite": "Tomek, W.G. & Kaiser, H.M. (2014). Agricultural Product Prices, 5th Edition. Cornell University Press, 1-400; Irwin, S.H., Sanders, D.R. & Merrin, R.P. (2009). Devil or angel? The role of speculation in the recent commodity price boom (and bust). Journal of Agricultural and Applied Economics, 41(2), 377-391. doi:10.1017/S1074070800002856",
+          "target": "PRICE_COLLAPSE -> Hedge sizing referenced to live CBOT ZC/ZS/ZW settlement and contract specs -> Roll timing and delivery-grade exposure quantified against the exchange benchmark",
+          "citation": [
+            {
+              "author": "Tomek, W.G. & Kaiser, H.M.",
+              "year": 2014,
+              "title": "Agricultural Product Prices, 5th Edition",
+              "journal": "Cornell University Press",
+              "volume": null,
+              "pages": "1-400",
+              "doi": null
+            },
+            {
+              "author": "Irwin, S.H., Sanders, D.R. & Merrin, R.P.",
+              "year": 2009,
+              "title": "Devil or angel? The role of speculation in the recent commodity price boom (and bust)",
+              "journal": "Journal of Agricultural and Applied Economics",
+              "volume": "41(2)",
+              "pages": "377-391",
+              "doi": "10.1017/S1074070800002856"
+            }
+          ],
+          "steps": [
+            "Map each marketed crop to its CBOT contract (corn->ZC, soybeans->ZS, SRW wheat->ZW) and document the contract month cycle relevant to the production calendar",
+            "Pull front-month and first two deferred settlement prices; compute the calendar spread (carry) for each crop",
+            "Calculate hedge ratio and contract count from expected production divided by the 5,000-bushel contract size",
+            "Verify delivery-grade specification (test weight, moisture, damage tolerances) against expected harvest quality and quantify discount exposure",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Track realized hedge price per bushel versus the CBOT front-month settlement weekly; target tracking error within ≤2% of the exchange benchmark. Monitor calendar-spread (carry) versus storage-plus-interest cost monthly; document any inversion to backwardation. Reconcile contract count against actual production at each crop-development milestone; target hedge coverage within 90-110% of expected bushels.",
+          "escalation": "If realized hedge price diverges from the CBOT reference by >5% for two consecutive marketing weeks, or if contract coverage falls outside the 80-120% band, escalate to an agricultural economist or marketing specialist for root cause analysis and intervention redesign. If a contract approaches first-notice day with an open offsetting position, pause and request specialist review within 7 days to avoid unintended delivery."
+        },
+        {
+          "label": "USDA ERS Basis and Cash-Price Series Tracking",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Bind local basis and carry diagnostics to USDA Economic Research Service and Agricultural Marketing Service (AMS) regional cash-price series, computing cash-minus-futures basis by delivery region against the CBOT reference. Anchoring basis to the published USDA/AMS series rather than a single elevator quote allows the carry decision (store vs. sell) to be calculated from a regionally representative cash price and the corresponding deferred futures spread.",
+          "cite": "Tomek, W.G. & Kaiser, H.M. (2014). Agricultural Product Prices, 5th Edition. Cornell University Press, 1-400; Wallander, S., Aillery, M., Hellerstein, D. & Hand, M. (2013). The Role of Conservation Programs in Drought Risk Adaptation. USDA-ERS Economic Research Report 148, 1-44",
+          "target": "MARKET_CONCENTRATION -> Region-level basis referenced to USDA ERS/AMS cash series and CBOT futures -> Store-vs-sell carry decision computed from representative cash price rather than a single buyer quote",
+          "citation": [
+            {
+              "author": "Tomek, W.G. & Kaiser, H.M.",
+              "year": 2014,
+              "title": "Agricultural Product Prices, 5th Edition",
+              "journal": "Cornell University Press",
+              "volume": null,
+              "pages": "1-400",
+              "doi": null
+            },
+            {
+              "author": "Wallander, S., Aillery, M., Hellerstein, D. & Hand, M.",
+              "year": 2013,
+              "title": "The Role of Conservation Programs in Drought Risk Adaptation",
+              "journal": "USDA-ERS Economic Research Report 148",
+              "volume": null,
+              "pages": "1-44",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Identify the USDA AMS market region matching each delivery point and pull the relevant cash-price series",
+            "Compute basis as regional cash price minus the matched CBOT futures month; build a 3-year seasonal basis curve",
+            "Compare current basis percentile against the historical curve to flag narrow-basis selling windows",
+            "Calculate carry (deferred-minus-nearby futures spread) and compare against storage plus interest cost to inform store-vs-sell",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Track current basis against the 3-year USDA/AMS regional average weekly; document timing of sales relative to seasonal basis pattern. Reconcile the modeled carry against realized storage-plus-interest cost monthly; target store-vs-sell decisions that capture carry only when it exceeds cost. Assess basis-capture performance at mid-season and year-end; target realized basis within the top tercile of the seasonal window.",
+          "escalation": "If realized basis falls in the bottom tercile of the seasonal window for two consecutive marketing months, or if storage is held while carry is below storage cost, escalate to an agricultural economist or marketing specialist for root cause analysis and intervention redesign. If the USDA/AMS series shows a structural basis shift beyond the 3-year band, pause the seasonal model and request specialist review within 7 days."
+        },
+        {
+          "label": "CME Livestock Futures Binding (LE / GF / HE)",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Bind livestock and animal-protein hedging diagnostics to CME Group livestock contracts: Live Cattle (ticker LE, 40,000 lb), Feeder Cattle (ticker GF, 50,000 lb) and Lean Hogs (ticker HE, 40,000 lb). Track front-month settlement, the cattle crush and hog crush margins (output price versus feeder/feed input cost), and contract-spec delivery/cash-settlement terms so that cow-calf, feedlot, and hog operations size hedges against the actual exchange reference rather than an undefined proxy.",
+          "cite": "Tomek, W.G. & Kaiser, H.M. (2014). Agricultural Product Prices, 5th Edition. Cornell University Press, 1-400; Barry, P.J. & Ellinger, P.N. (2012). Financial Management in Agriculture, 7th Edition. Pearson, 1-576",
+          "target": "VOLATILITY_SPIKE -> Livestock hedge sizing referenced to CME LE/GF/HE settlement and crush margins -> Feeder/feed input and output-price exposure quantified against the exchange benchmark",
+          "citation": [
+            {
+              "author": "Tomek, W.G. & Kaiser, H.M.",
+              "year": 2014,
+              "title": "Agricultural Product Prices, 5th Edition",
+              "journal": "Cornell University Press",
+              "volume": null,
+              "pages": "1-400",
+              "doi": null
+            },
+            {
+              "author": "Barry, P.J. & Ellinger, P.N.",
+              "year": 2012,
+              "title": "Financial Management in Agriculture, 7th Edition",
+              "journal": "Pearson",
+              "volume": null,
+              "pages": "1-576",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Map each enterprise to its CME contract (finished cattle->LE, feeder placement->GF, market hogs->HE) and the relevant contract month",
+            "Pull front-month settlements and compute the cattle crush (LE output versus GF+corn input) and hog crush (HE output versus corn+meal input) margins",
+            "Calculate hedge ratio and contract count from expected marketings divided by the contract weight (40,000 or 50,000 lb)",
+            "Verify cash-settlement index or delivery terms against the production calendar and quantify basis exposure",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Track realized hedge price per cwt versus the CME front-month settlement weekly; target tracking error within ≤2% of the exchange benchmark. Monitor the crush margin (cattle or hog) against breakeven monthly; document any compression below cost of gain. Reconcile contract count against actual marketings at each placement/marketing milestone; target hedge coverage within 90-110% of expected head.",
+          "escalation": "If realized hedge price diverges from the CME reference by >5% for two consecutive marketing weeks, or if the crush margin falls below breakeven for two months, escalate to an agricultural economist or livestock marketing specialist for root cause analysis and intervention redesign. If a contract approaches expiration with an open offsetting position, pause and request specialist review within 7 days."
+        },
+        {
+          "label": "CFTC Commitments of Traders Positioning and Roll-Yield Monitor",
+          "type": "TOOLS",
+          "evidence": "A",
+          "description": "Bind speculative-imbalance and roll-cost diagnostics to the CFTC Commitments of Traders (COT) report, tracking commercial versus managed-money net positioning and open interest in the CBOT grain (ZC/ZS/ZW) and CME livestock (LE/GF/HE) contracts. Combine COT positioning with realized contract volatility and the index-roll yield (the cost or gain of rolling from nearby to deferred at each roll period) to flag when price has disconnected from physical fundamentals and when roll timing materially affects hedge cost.",
+          "cite": "Irwin, S.H., Sanders, D.R. & Merrin, R.P. (2009). Devil or angel? The role of speculation in the recent commodity price boom (and bust). Journal of Agricultural and Applied Economics, 41(2), 377-391. doi:10.1017/S1074070800002856; Tomek, W.G. & Kaiser, H.M. (2014). Agricultural Product Prices, 5th Edition. Cornell University Press, 1-400",
+          "target": "PRICE_COLLAPSE -> COT commercial-vs-speculative net positioning plus realized volatility and roll yield -> Early detection of price disconnection from physical fundamentals and roll-cost-aware hedge timing",
+          "citation": [
+            {
+              "author": "Irwin, S.H., Sanders, D.R. & Merrin, R.P.",
+              "year": 2009,
+              "title": "Devil or angel? The role of speculation in the recent commodity price boom (and bust)",
+              "journal": "Journal of Agricultural and Applied Economics",
+              "volume": "41(2)",
+              "pages": "377-391",
+              "doi": "10.1017/S1074070800002856"
+            },
+            {
+              "author": "Tomek, W.G. & Kaiser, H.M.",
+              "year": 2014,
+              "title": "Agricultural Product Prices, 5th Edition",
+              "journal": "Cornell University Press",
+              "volume": null,
+              "pages": "1-400",
+              "doi": null
+            }
+          ],
+          "steps": [
+            "Pull the weekly CFTC COT report for each traded CBOT/CME ag contract and extract commercial, managed-money, and total open-interest positions",
+            "Compute the managed-money net position as a share of open interest and compare against its historical percentile band",
+            "Calculate realized volatility from daily settlements over a trailing window and flag readings above the seasonal volatility band",
+            "Compute the roll yield (deferred-minus-nearby spread) at each roll period and incorporate into hedge-cost estimates",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Track managed-money net positioning as a percentile of open interest weekly; flag readings above the 90th or below the 10th percentile. Monitor realized volatility against the seasonal band weekly; document breaches. Reconcile cumulative roll yield against hedge cost quarterly; target roll execution timed to favorable spread windows.",
+          "escalation": "If managed-money positioning remains in an extreme percentile (>90th or <10th) for three consecutive weeks while basis fundamentals are unchanged, or if realized volatility breaches the seasonal band, escalate to an agricultural economist or marketing specialist for root cause analysis and hedge-timing redesign. If cumulative roll yield erodes hedge value beyond plan, pause scheduled rolls and request specialist review within 7 days."
+        },
+        {
+          "label": "Biofuel-Linked Feedstock Hedge Coupling (Corn-Ethanol / Soybean-Oil Crush)",
+          "type": "STRATEGY",
+          "evidence": "B",
+          "description": "Quantify the coupling between agricultural feedstock prices and downstream biofuel demand as an external demand channel on the producer's own CBOT grain and oilseed positions. Track the corn crush (ethanol coproduct value versus CBOT corn) and the soybean crush spread (board crush: soybean oil ZL plus meal ZM versus soybeans ZS) so that the feedstock hedge reflects biofuel-driven demand shifts. Biofuel/energy demand is treated strictly as a coupling input to the agriculture position, not as the domain's own content.",
+          "cite": "Tomek, W.G. & Kaiser, H.M. (2014). Agricultural Product Prices, 5th Edition. Cornell University Press, 1-400; Irwin, S.H., Sanders, D.R. & Merrin, R.P. (2009). Devil or angel? The role of speculation in the recent commodity price boom (and bust). Journal of Agricultural and Applied Economics, 41(2), 377-391. doi:10.1017/S1074070800002856",
+          "target": "VOLATILITY_SPIKE -> Feedstock hedge reflecting corn-ethanol and soybean-oil crush coupling -> Biofuel-driven demand shifts quantified as an input to the CBOT grain/oilseed position",
+          "citation": [
+            {
+              "author": "Tomek, W.G. & Kaiser, H.M.",
+              "year": 2014,
+              "title": "Agricultural Product Prices, 5th Edition",
+              "journal": "Cornell University Press",
+              "volume": null,
+              "pages": "1-400",
+              "doi": null
+            },
+            {
+              "author": "Irwin, S.H., Sanders, D.R. & Merrin, R.P.",
+              "year": 2009,
+              "title": "Devil or angel? The role of speculation in the recent commodity price boom (and bust)",
+              "journal": "Journal of Agricultural and Applied Economics",
+              "volume": "41(2)",
+              "pages": "377-391",
+              "doi": "10.1017/S1074070800002856"
+            }
+          ],
+          "steps": [
+            "Estimate the share of regional corn/soybean demand attributable to biofuel feedstock use as an external coupling factor",
+            "Compute the board soybean crush spread (ZL oil + ZM meal minus ZS soybeans) and the corn-ethanol coproduct margin",
+            "Stress-test the producer's CBOT grain/oilseed hedge under high- and low- biofuel-demand scenarios",
+            "Adjust hedge ratio or add oil/meal leg exposure where the crush coupling materially shifts feedstock price risk",
+            "Document outcomes and lessons learned; update standard operating procedures; schedule next review cycle"
+          ],
+          "monitoring": "Track the board crush spread and corn-ethanol margin against their seasonal averages monthly; document divergences signaling demand shifts. Reassess the biofuel demand-share coupling factor each marketing year. Compare hedge performance under realized versus modeled crush scenarios at mid-season and year-end; target hedge value preserved within ≥90% of the no-coupling-shock baseline.",
+          "escalation": "If the crush spread moves beyond its seasonal band for two consecutive months while the feedstock hedge is unadjusted, or if a policy-driven biofuel demand change materially alters feedstock fundamentals, escalate to an agricultural economist or marketing specialist for coupling-factor recalibration and hedge redesign. If realized hedge value falls below 80% of the baseline, pause and request specialist review within 7 days."
         }
       ],
       "neuralRole": "PFC",

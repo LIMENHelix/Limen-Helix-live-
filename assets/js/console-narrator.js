@@ -333,6 +333,31 @@
       gov_fiscal_governance_stress:'Fiscal-governance stress rising. Budget gridlock and public-finance credibility deteriorating.',
       gov_institutional_credibility_shock:'Institutional credibility shock forming. Public trust and rule-of-law confidence falling sharply.',
       gov_generic:                 'Governance domain under stress. Institutions, policy, and public trust pressured.',
+      // Agriculture-specific distress voice — farming/crops/livestock/food-production-grounded,
+      // mirrors energy's per-diagnosis narration (energy-brain diagnosisIndex: OIL_SHOCK /
+      // GRID_COLLAPSE) and the infrastructure/culture/finance/economy/technology/defense/
+      // intelligence/trade/industry/environment/governance ports above, but for the AGRICULTURE
+      // domain identity: farming & crops, livestock & animal protein, agribusiness & food
+      // production, food security & supply, fertilizers & crop inputs, irrigation & agricultural
+      // water, commodity crops (corn/soy/wheat), agricultural technology & precision ag, farm
+      // economics. Agriculture COUPLES to energy via biofuel/fertilizer-energy, to environment
+      // via land/water/climate, to trade via export logistics, and to economy via food prices —
+      // but keeps its own crop/livestock/farm-margin/input identity, kept DISTINCT from each of
+      // those couplings. Bound to AG COMMODITIES & USDA refs — CBOT corn/soy/wheat, USDA WASDE —
+      // and real agriculture tickers: ADM, BG, CTVA, DE, NTR, MOS, CF, TSN, CAG, INGR, AGCO, FMC.
+      // CLIENT-SIDE narration flavor only — never touches any scoring path.
+      agr_crop_failure:            'Crop failure spreading. Yield collapse and harvest loss compressing farm output across key growing regions.',
+      agr_drought_stress:          'Crop stress rising. Drought and fertilizer costs compressing yields and farm margins.',
+      agr_livestock_disease:       'Livestock herds under threat. Animal-disease outbreak and culling pressure thinning protein supply.',
+      agr_fertilizer_cost_spike:   'Crop-input costs surging. Fertilizer and nutrient prices squeezing planting economics and farm margins.',
+      agr_food_price_surge:        'Food supply tightening. WASDE balance-sheet drawdowns pushing commodity-crop prices higher.',
+      agr_harvest_shortfall:       'Harvest shortfall forming. CBOT corn, soy, and wheat carryout falling below planted-acre expectations.',
+      agr_export_ban:              'Grain export access closing. Origin-country bans and trade barriers stranding commodity-crop supply.',
+      agr_commodity_crash:         'Crop prices collapsing. Oversupply and demand weakness driving CBOT grain markets below cost of production.',
+      agr_input_supply_disruption: 'Crop-input supply breaking. Seed, fertilizer, and chemical shortfalls disrupting the planting cycle.',
+      agr_water_stress:            'Irrigation water tightening. Aquifer drawdown and allocation cuts stressing acreage and crop survival.',
+      agr_soil_degradation:        'Soil productivity eroding. Nutrient depletion and land degradation thinning long-run yield potential.',
+      agr_generic:                 'Agriculture domain under stress. Crops, livestock, and farm economics pressured.',
       global_shift:        'Global state shifted to {state}.',
       event_start:         '{event} detected.',
       event_end:           '{event} resolved.',
@@ -432,6 +457,18 @@
       gov_fiscal_governance_stress:'Fiscal-governance stress. Resolve budget gridlock and shore up public-finance credibility.',
       gov_institutional_credibility_shock:'Credibility shock. Reinforce rule-of-law confidence and public trust immediately.',
       gov_generic:                 'Governance domain elevated. Investigate institutions and policy.',
+      agr_crop_failure:            'Crop failure. Secure emergency input supply and liquidation pricing support.',
+      agr_drought_stress:          'Drought stress. Shift to drought-tolerant varieties and lock irrigation allocations.',
+      agr_livestock_disease:       'Livestock disease. Quarantine herds, contain spread, and secure protein supply (TSN).',
+      agr_fertilizer_cost_spike:   'Fertilizer spike. Pre-buy nutrients (NTR/MOS/CF) and hedge input costs before planting.',
+      agr_food_price_surge:        'Food prices surging. Lock forward grain contracts and review WASDE supply outlook.',
+      agr_harvest_shortfall:       'Harvest shortfall. Reprice CBOT positions and secure carryout against demand.',
+      agr_export_ban:              'Export ban. Re-route grain flows and exploit open origin corridors now.',
+      agr_commodity_crash:         'Commodity crash. Hedge CBOT downside and defer marginal-acre planting.',
+      agr_input_supply_disruption: 'Input supply break. Qualify second-source seed and fertilizer; rebuild buffer stock.',
+      agr_water_stress:            'Water stress critical. Ration irrigation, prioritize high-value acreage, and secure rights.',
+      agr_soil_degradation:        'Soil degrading. Rotate crops, restore nutrients, and protect long-run yield base.',
+      agr_generic:                 'Agriculture domain elevated. Investigate crops and farm economics.',
       global_shift:        'State change: {state}.',
       event_start:         'Event: {event}. Tracking.',
       event_end:           'Event cleared: {event}.',

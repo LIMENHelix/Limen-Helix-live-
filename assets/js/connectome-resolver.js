@@ -100,7 +100,30 @@ var FEED_TO_CONNECTOME = {
   //   tooling is a coupling, not the identity). 'intelligence' is a real connectome
   //   domain in brain-node-domains.json (123 node-participations).
   intelligence:   ['intelligence', 'governance', 'science'],
-  agriculture:    ['environment', 'trade']
+  // ADDITIVE (cognition port, agriculture gap 4 — dedicated agriculture circuit):
+  //   the agriculture feed signal previously relayed through ['environment','trade']
+  //   ONLY, which BYPASSED the 123 dedicated agriculture node-participations that
+  //   exist in brain-node-domains.json under the 'p2' connectome domain (Crop
+  //   Production, Crop Protection, Livestock Production, Fertilizers & Nutrients,
+  //   Seeds & Genetics, Irrigation Management, Agricultural Machinery, Precision
+  //   Agriculture, Agricultural Finance, Commodity Markets, Food Processing, Land
+  //   Use, Climate & Weather). Routing through environment/trade alone meant
+  //   agriculture stress at the signal origin never lit its OWN circuit — Crop,
+  //   Livestock, Farm-Finance and Machinery node clusters stayed inert. We ADD the
+  //   dedicated 'p2' connectome domain FIRST (production-level coupling) so those
+  //   nodes activate, KEEP 'trade' (commodity-exchange / livestock-trade / ag-tariff
+  //   coupling — never removed) and KEEP 'environment' (soil/water/climate IMPACT on
+  //   ag output, a coupling, not ag-origin stress). Agriculture identity = farming &
+  //   crops, livestock & animal protein, agribusiness & food production, fertilizers
+  //   & crop inputs, irrigation & agricultural water, commodity crops (corn/soy/
+  //   wheat), agricultural technology & precision ag, farm economics — kept DISTINCT
+  //   from environment (land/water/climate is a coupling), trade (export logistics is
+  //   a coupling) and economy (food prices is a coupling). Energy is NEVER a feed
+  //   domain for agriculture — only a downstream CONSEQUENCE (mechanization /
+  //   fertilizer-synthesis OpEx on industrial/transport DEMAND), never ag-origin.
+  //   'p2' is the real agriculture connectome domain in brain-node-domains.json
+  //   (123 node-participations).
+  agriculture:    ['p2', 'trade', 'environment']
 };
 
 // ═══════════════════════════════════════════════════
@@ -731,6 +754,131 @@ for (var _govik in GOVERNANCE_INDICATOR_BINDING) {
   NODE_TO_GOVERNANCE_INDICATOR[_govib.node].push(_govib);
 }
 
+// ── AGRICULTURE-SECTOR (FARMING / CROPS / LIVESTOCK / AGRIBUSINESS) COMPANY ticker bindings (agriculture gap 1 — ADDITIVE, OPT-IN) ──
+// Parallel to TECH_COMPANY_BINDING, INTELLIGENCE_COMPANY_BINDING, TRADE_COMPANY_BINDING,
+// INDUSTRIAL_COMPANY_BINDING, ENVIRONMENT_SECTOR_COMPANY_BINDING and GOVERNANCE_COMPANY_
+// BINDING (and to MACRO_INDICATOR_BINDING). NOT merged into the default resolve()
+// pipeline and NOT included in NODE_TO_MACRO_INDICATOR — consumed ONLY when a context
+// explicitly triggers an agriculture-company-level drill (getAgricultureCompaniesForNode
+// / AGRICULTURE_COMPANY_BINDING export). Each ticker traces FARM / AGRIBUSINESS
+// PRODUCTION CAPACITY to a REAL agriculture connectome node (nodes are the actual
+// agriculture-domain participations in brain-node-domains.json under the 'p2' domain:
+// GBA/SMA/GP/A1/TrkB/TPOLE=crop production, BLA/ADR/ARC=crop protection, FEF/STN/SCN/
+// SMN=livestock production, mPFC/HAB/SNS/CeA=fertilizers & nutrients, BDNF/DAN=seeds &
+// genetics, M1/OXY/VP/SN/LGN/V1=equipment & machinery, WERN/ENS/SNIG/IPL=agricultural
+// finance, HYPO/vlPFC=irrigation, NAcc/OFC/CARD=commodity markets, AI=food processing).
+// Ticker stress (dir 'low' for all — stress on decline) estimates an AGRICULTURAL-
+// CAPACITY DEGRADATION that is PURE agriculture identity: an ADM/BG/INGR decline =
+// grain-trading / oilseed-processing throughput constrained → commodity-handling
+// bottleneck; a DE/AGCO decline = farm-machinery production / replacement capex pulls
+// back → mechanization capacity falls; a CTVA/FMC decline = seed / crop-protection
+// supply tightens; an NTR/MOS/CF decline = fertilizer (nitrogen/potash/phosphate)
+// supply constrained → crop-input cost pressure; a TSN/CAG decline = animal-protein /
+// packaged-food production capacity softens. This is AGRICULTURE identity = farming &
+// crops, livestock & animal protein, agribusiness & food production, fertilizers &
+// crop inputs, irrigation & agricultural water, commodity crops (corn/soy/wheat),
+// agricultural technology & precision ag, farm economics — DISTINCT from environment
+// (land/water/climate is a coupling), trade (export logistics is a coupling), economy
+// (food prices is a coupling) and industry (machinery is a coupling routed via
+// INDUSTRIAL_COMPANY_BINDING; DE appears in BOTH because Deere is both a heavy-equipment
+// industrial maker AND a farm-mechanization ag supplier — node differs per identity).
+// ENERGY is PURELY a downstream SECOND-ORDER consequence, never the identity: Haber-
+// Bosch ammonia synthesis (NTR/MOS/CF) is energy-intensive and diesel/electric tractors
+// (DE/AGCO) burn fuel, but those route ONLY as company-ticker stress to crop-input /
+// machinery nodes — they NEVER originate an ag-to-energy edge and ag nodes carry ZERO
+// energy-domain content (no oil/gas production, no grid ops). REAL agriculture / agri-
+// business tickers only.
+//   ADM/BG/INGR → grain trading / oilseed & corn processing   CTVA/FMC → seeds & crop protection
+//   DE/AGCO     → farm machinery & mechanization               NTR/MOS/CF → fertilizers (N/K/P)
+//   TSN         → animal protein / livestock                   CAG → packaged food / processing
+var AGRICULTURE_COMPANY_BINDING = {
+  ADM:  { series: 'ADM',  node: 'NAcc', role: 'Grain Trading / Oilseed Logistics Capacity', nodeRole: 'Premium Markets',                 label: 'Archer-Daniels-Midland', threshold: -16, dir: 'low', kind: 'ticker', industry: 'grain-trading' },
+  BG:   { series: 'BG',   node: 'OFC',  role: 'Oilseed Crushing / Commodity Merchandising Capacity', nodeRole: 'Commodity Markets',      label: 'Bunge Global',           threshold: -18, dir: 'low', kind: 'ticker', industry: 'oilseed-processing' },
+  INGR: { series: 'INGR', node: 'AI',   role: 'Corn / Starch Wet-Milling Processing Capacity', nodeRole: 'Food Processing',             label: 'Ingredion',              threshold: -19, dir: 'low', kind: 'ticker', industry: 'crop-processing' },
+  CTVA: { series: 'CTVA', node: 'BDNF', role: 'Seed Genetics / Crop-Protection Supply',     nodeRole: 'Seeds & Genetics — Signal Detection', label: 'Corteva Agriscience', threshold: -17, dir: 'low', kind: 'ticker', industry: 'seeds-crop-protection' },
+  FMC:  { series: 'FMC',  node: 'BLA',  role: 'Crop-Protection / Agrochemical Supply',      nodeRole: 'Crop Protection',                 label: 'FMC Corporation',        threshold: -21, dir: 'low', kind: 'ticker', industry: 'crop-protection' },
+  DE:   { series: 'DE',   node: 'M1',   role: 'Farm-Machinery / Mechanization Capacity',    nodeRole: 'Tractors',                        label: 'Deere & Company',        threshold: -18, dir: 'low', kind: 'ticker', industry: 'farm-machinery' },
+  AGCO: { series: 'AGCO', node: 'OXY',  role: 'Agricultural-Equipment Production Capacity',  nodeRole: 'Equipment & Machinery',          label: 'AGCO Corporation',       threshold: -22, dir: 'low', kind: 'ticker', industry: 'farm-machinery' },
+  NTR:  { series: 'NTR',  node: 'mPFC', role: 'Nitrogen / Potash Crop-Nutrient Supply',     nodeRole: 'Fertilizers & Nutrients — Diagnostic Analysis', label: 'Nutrien',     threshold: -19, dir: 'low', kind: 'ticker', industry: 'fertilizer' },
+  MOS:  { series: 'MOS',  node: 'HAB',  role: 'Phosphate / Potash Fertilizer Supply',       nodeRole: 'Fertilizers & Nutrients — Action Coordination', label: 'The Mosaic Company', threshold: -20, dir: 'low', kind: 'ticker', industry: 'fertilizer' },
+  CF:   { series: 'CF',   node: 'SNS',  role: 'Ammonia / Nitrogen Fertilizer Synthesis Capacity', nodeRole: 'Fertilizers & Nutrients — Signal Detection', label: 'CF Industries', threshold: -21, dir: 'low', kind: 'ticker', industry: 'nitrogen-fertilizer' },
+  TSN:  { series: 'TSN',  node: 'FEF',  role: 'Animal-Protein / Livestock Processing Capacity', nodeRole: 'Livestock Production — Signal Detection', label: 'Tyson Foods',     threshold: -18, dir: 'low', kind: 'ticker', industry: 'animal-protein' },
+  CAG:  { series: 'CAG',  node: 'AI',   role: 'Packaged-Food / Processing Capacity',         nodeRole: 'Food Processing',                 label: 'Conagra Brands',         threshold: -16, dir: 'low', kind: 'ticker', industry: 'packaged-food' }
+};
+
+// Reverse lookup: connectome node → agriculture-sector company tickers it sources from
+// (opt-in agriculture-company drill, parallel to NODE_TO_TECH_COMPANY /
+// NODE_TO_INTEL_COMPANY / NODE_TO_TRADE_COMPANY / NODE_TO_INDUSTRIAL_COMPANY /
+// NODE_TO_ENVIRONMENT_COMPANY / NODE_TO_GOVERNANCE_COMPANY).
+var NODE_TO_AGRICULTURE_COMPANY = {};
+for (var _agk in AGRICULTURE_COMPANY_BINDING) {
+  if (!Object.prototype.hasOwnProperty.call(AGRICULTURE_COMPANY_BINDING, _agk)) continue;
+  var _agb = AGRICULTURE_COMPANY_BINDING[_agk];
+  if (!NODE_TO_AGRICULTURE_COMPANY[_agb.node]) NODE_TO_AGRICULTURE_COMPANY[_agb.node] = [];
+  NODE_TO_AGRICULTURE_COMPANY[_agb.node].push(_agb);
+}
+
+// ── AGRICULTURE-SECTOR INDICATOR bindings (agriculture gap 2 — ADDITIVE, OPT-IN) ──
+// Parallel structure to MACRO_INDICATOR_BINDING (economy gap 1), INTELLIGENCE_INDICATOR_
+// BINDING (intelligence gap 3), TRADE_INDICATOR_BINDING (trade gap), ENVIRONMENT_
+// INDICATOR_BINDING (environment gap 2) and GOVERNANCE_INDICATOR_BINDING (governance gap 2),
+// but for PURE agriculture-domain signals: USDA WASDE crop production/demand forecasts
+// (corn/soy/wheat), CBOT/CME agricultural futures (corn/soybean/wheat), USDA Producer
+// Price Index for farm products, fertilizer cost indices (ammonia/urea), livestock price
+// indices (cattle/hogs), and farm-credit / farm-real-estate debt signals. Binds each REAL
+// agricultural metric to the agriculture connectome node ('p2' domain) that senses it, so
+// the kernel/reporting/diagnosis layers can drill from abstract 'agriculture stress' into
+// the ACTUAL agricultural signal that triggered it (e.g. crop-production node lit → WASDE
+// corn forecast cut → production-shortfall shock origin; commodity node lit → CBOT
+// soybeans spiked → ag-commodity repricing). USDA series (WASDE, NASS, PPI) and CME/CBOT
+// futures are used where they exist; fertilizer-cost (Green Markets / CRU) and livestock
+// price (CME feeder/live cattle, lean hogs) are hand-curated ag signals. These strictly
+// measure AGRICULTURE identity: crop output, commodity-crop price, input cost (seed/
+// fertilizer/fuel as a farm-cost line), livestock price, farm credit & land collateral.
+// NEVER energy production or grid metrics — fertilizer & fuel appear ONLY as a farm INPUT-
+// COST line (Haber-Bosch energy intensity is the upstream reason an ammonia/urea index
+// moves, but the signal is the AG INPUT cost, not energy output); ag nodes carry zero
+// energy-domain content and energy is NEVER the initiating signal — only a downstream
+// CONSEQUENCE (input-cost pass-through to livestock-feed / protein markets). Annotation/
+// registry metadata ONLY — the resolver does NOT score these.
+//   threshold = the level above/below which the node is considered stressed.
+//   dir = 'high' (stress when ABOVE threshold) | 'low' (stress when BELOW).
+//   kind = 'wasde' (USDA supply/demand forecast) | 'futures' (CBOT/CME) | 'ppi'
+//          (USDA producer price) | 'input' (fertilizer/fuel cost) | 'livestock'
+//          (cattle/hog price) | 'credit' (farm debt / land collateral).
+var AGRICULTURE_INDICATOR_BINDING = {
+  // ── USDA WASDE crop production / demand forecasts (production-shortfall on decline) ──
+  WASDECornProd: { series: 'WASDECornProd', node: 'GBA', role: 'Corn Production Forecast',    nodeRole: 'Crop Production — Adaptation & Learning', label: 'USDA WASDE Corn Production',    threshold: -3, dir: 'low', kind: 'wasde', policyPath: 'ag_crop_production' },
+  WASDESoyProd:  { series: 'WASDESoyProd',  node: 'SMA', role: 'Soybean Production Forecast', nodeRole: 'Crop Production — State Assessment',     label: 'USDA WASDE Soybean Production', threshold: -3, dir: 'low', kind: 'wasde', policyPath: 'ag_crop_production' },
+  WASDEWheatProd:{ series: 'WASDEWheatProd',node: 'GP',  role: 'Wheat Production Forecast',   nodeRole: 'Crop Production — Signal Detection',     label: 'USDA WASDE Wheat Production',   threshold: -3, dir: 'low', kind: 'wasde', policyPath: 'ag_crop_production' },
+  // ── CBOT / CME agricultural futures (price spike = commodity stress) ──
+  CBOTCorn:     { series: 'CBOTCorn',     node: 'NAcc', role: 'Corn Futures Price',     nodeRole: 'Premium Markets',                 label: 'CBOT Corn Futures',     threshold: 6,  dir: 'high', kind: 'futures', policyPath: 'ag_commodity_market' },
+  CBOTSoybean:  { series: 'CBOTSoybean',  node: 'OFC',  role: 'Soybean Futures Price',  nodeRole: 'Commodity Markets',               label: 'CBOT Soybean Futures',  threshold: 13, dir: 'high', kind: 'futures', policyPath: 'ag_commodity_market' },
+  CBOTWheat:    { series: 'CBOTWheat',    node: 'CARD', role: 'Wheat Futures Price',    nodeRole: 'Commodity Markets — State Assessment', label: 'CBOT Wheat Futures', threshold: 7,  dir: 'high', kind: 'futures', policyPath: 'ag_commodity_market' },
+  // ── USDA Producer Price Index — farm products (price collapse stresses farm economics) ──
+  USDAPPIFarm:  { series: 'WPU01',  node: 'WERN', role: 'Farm-Products Producer Price',  nodeRole: 'Agricultural Finance — Diagnostic Analysis', label: 'PPI — Farm Products (BLS WPU01)', threshold: -4, dir: 'low', kind: 'ppi', policyPath: 'ag_farm_economics' },
+  // ── Fertilizer input-cost indices (cost spike = crop-input pressure) ──
+  AmmoniaCost:  { series: 'AmmoniaCost',  node: 'mPFC', role: 'Ammonia Fertilizer Cost',  nodeRole: 'Fertilizers & Nutrients — Diagnostic Analysis', label: 'Ammonia Price Index (Green Markets)', threshold: 8, dir: 'high', kind: 'input', policyPath: 'ag_input_cost' },
+  UreaCost:     { series: 'UreaCost',     node: 'HAB',  role: 'Urea / Nitrogen Cost',     nodeRole: 'Fertilizers & Nutrients — Action Coordination',  label: 'Urea Price Index (CRU)',          threshold: 9, dir: 'high', kind: 'input', policyPath: 'ag_input_cost' },
+  // ── Livestock price indices (price collapse stresses livestock production) ──
+  CMECattle:    { series: 'CMECattle',    node: 'STN',  role: 'Live-Cattle Futures Price', nodeRole: 'Livestock Production — Diagnostic Analysis', label: 'CME Live Cattle Futures',  threshold: -5, dir: 'low', kind: 'livestock', policyPath: 'ag_livestock_market' },
+  CMEHogs:      { series: 'CMEHogs',      node: 'SCN',  role: 'Lean-Hog Futures Price',    nodeRole: 'Livestock Production — Action Coordination', label: 'CME Lean Hog Futures',     threshold: -6, dir: 'low', kind: 'livestock', policyPath: 'ag_livestock_market' },
+  // ── Farm credit / land collateral (debt-service stress on farm finance) ──
+  FarmDebtRatio: { series: 'FarmDebtRatio', node: 'SNIG', role: 'Farm Debt-to-Asset Ratio', nodeRole: 'Agricultural Finance — Action Coordination', label: 'USDA Farm Debt-to-Asset Ratio', threshold: 16, dir: 'high', kind: 'credit', policyPath: 'ag_farm_credit' },
+  FarmlandValue: { series: 'FarmlandValue', node: 'LGN', role: 'Farmland Value (Collateral)', nodeRole: 'Agricultural Machinery — Signal Detection', label: 'USDA Farm Real-Estate Value', threshold: -4, dir: 'low', kind: 'credit', policyPath: 'ag_farm_credit' }
+};
+
+// Reverse lookup: connectome node → agriculture indicators it senses
+// (parallel to NODE_TO_MACRO_INDICATOR / NODE_TO_TRADE_INDICATOR / NODE_TO_ENVIRONMENT_
+// INDICATOR / NODE_TO_GOVERNANCE_INDICATOR; for diagnosis drill-down).
+var NODE_TO_AGRICULTURE_INDICATOR = {};
+for (var _agik in AGRICULTURE_INDICATOR_BINDING) {
+  if (!Object.prototype.hasOwnProperty.call(AGRICULTURE_INDICATOR_BINDING, _agik)) continue;
+  var _agib = AGRICULTURE_INDICATOR_BINDING[_agik];
+  if (!NODE_TO_AGRICULTURE_INDICATOR[_agib.node]) NODE_TO_AGRICULTURE_INDICATOR[_agib.node] = [];
+  NODE_TO_AGRICULTURE_INDICATOR[_agib.node].push(_agib);
+}
+
 // Reverse lookup: connectome node → macro indicators it senses (for diagnosis drill-down).
 var NODE_TO_MACRO_INDICATOR = {};
 for (var _mk in MACRO_INDICATOR_BINDING) {
@@ -1344,6 +1492,159 @@ function resolveTechSubCircuit(stressTrigger, domain, context) {
 }
 
 // ═══════════════════════════════════════════════════
+// 6c-ag. AGRICULTURE SUB-CIRCUIT RESOLUTION (ADDITIVE — agriculture gap 3, OPT-IN)
+// ═══════════════════════════════════════════════════
+// Agriculture domain stress, by default, activates the generic 'p2' agriculture node
+// set as a MONOLITHIC aggregate with NO differentiation of crop-production vs
+// livestock-production vs commodity-trading vs farm-finance vs input-supply — and those
+// have very different production lifecycles, stress pathways and (downstream) energy
+// footprints. This routes an agriculture stress trigger to the correct sub-circuit
+// (mirrors resolveTechSubCircuit / resolveTradeSubCircuit: a separate opt-in entry
+// point; the default resolve() pipeline is unchanged; no scoring). Each circuit is a
+// SEPARATE stress pathway through different REAL 'p2' agriculture nodes, plus its real
+// ticker anchors. Mirrors the connectome-side FINANCE_CIRCUITS / TECHNOLOGY_CIRCUITS
+// pattern (liquidity-vs-solvency / innovation-vs-supply) — here crop / livestock /
+// trading / finance / input-supply are kept separate but interconnected, so an advisory
+// layer can route a Crop-Price spike → Commodity stress [NAcc/OFC] → Input-cost pressure
+// [mPFC/HAB] → Farm-Credit nodes [SNIG/LGN]. Each circuit carries its energy FOOTPRINT
+// note so downstream demand modeling knows which circuits even COUPLE to energy:
+//   • Crop production = mechanical power for tillage/spray (DE/AGCO mechanization).
+//     Pathway GP[signal] → SMA[state] → TrkB[diagnostic] → TPOLE[action].
+//   • Livestock      = feed-energy cost + processing (TSN supply-chain). Pathway
+//     FEF[signal] → STN[diagnostic] → SCN[action].
+//   • Commodity trade = logistics only, NO primary energy. Pathway NAcc → OFC → CARD.
+//   • Farm finance   = credit overhead, NO energy. Pathway WERN → SNIG → IPL.
+//   • Input supply   = fertilizer synthesis (Haber-Bosch energy-intensive) + seed/fuel;
+//     couples to energy ONLY through NTR/MOS/CF company-ticker stress, never a direct
+//     ag-to-energy edge. Pathway SNS → mPFC → HAB.
+// Real agriculture tickers only — energy is the mechanization / fertilizer-synthesis
+// CONSEQUENCE coupling (routed via industrial/transport DEMAND), never ag's own identity.
+var AGRICULTURE_CIRCUITS = {
+  crop_production: {
+    label: 'Crop production circuit (seeding → growth → harvest)',
+    pathway: ['GP', 'SMA', 'TrkB', 'TPOLE'],
+    role: 'production-lifecycle: seeding-signal → crop-state → growth-diagnostic → harvest-action',
+    energyFootprint: 'mechanical power for tillage/planting/spray (diesel/electric tractors & combines)',
+    scalingModel: 'mechanization_hours_x_acreage',   // energy CONSEQUENCE ∝ field-machine hours, routed via industrial demand
+    // Connectome domains the circuit lights up. Agriculture ('p2') is the home domain;
+    // 'environment' = the soil/water/climate IMPACT coupling, NOT ag identity. Energy is
+    // a downstream CONSEQUENCE (mechanization), never a home/feed domain here.
+    connectomeDomains: ['p2', 'environment'],
+    triggers: ['crop_production_shortfall', 'wasde_forecast_cut', 'drought_yield_loss', 'planting_delay'],
+    anchors: ['DE', 'AGCO', 'CTVA', 'ADM']
+  },
+  livestock_production: {
+    label: 'Livestock production circuit (breeding → feeding → slaughter)',
+    pathway: ['FEF', 'STN', 'SCN'],
+    role: 'production-lifecycle: livestock-signal → herd-diagnostic → processing-action',
+    energyFootprint: 'feed-energy cost (feed-grain pass-through) + protein-processing & cold-chain',
+    scalingModel: 'feed_cost_plus_processing_load',  // energy CONSEQUENCE via feed logistics & processing, routed downstream
+    connectomeDomains: ['p2', 'trade'],
+    triggers: ['livestock_price_collapse', 'feed_cost_spike', 'herd_liquidation', 'protein_demand_shock'],
+    anchors: ['TSN', 'CAG', 'ADM']
+  },
+  commodity_trading: {
+    label: 'Commodity trading circuit (futures / hedging)',
+    pathway: ['NAcc', 'OFC', 'CARD'],
+    role: 'price-discovery: premium-market-signal → commodity-market-state → futures-hedging',
+    energyFootprint: 'logistics only — NO primary energy (grain handling / export elevators)',
+    scalingModel: 'none',                            // commodity trading does not couple to energy
+    connectomeDomains: ['p2', 'trade'],
+    triggers: ['cbot_corn_spike', 'cbot_soybean_spike', 'cbot_wheat_spike', 'commodity_basis_blowout'],
+    anchors: ['ADM', 'BG', 'INGR']
+  },
+  farm_finance: {
+    label: 'Farm finance circuit (credit / land collateral)',
+    pathway: ['WERN', 'SNIG', 'IPL'],
+    role: 'capital-structure: farm-credit-diagnostic → land-collateral-action → finance-regulation',
+    energyFootprint: 'credit overhead — NO energy footprint',
+    scalingModel: 'none',                            // farm finance does not couple to energy
+    connectomeDomains: ['p2', 'trade'],
+    triggers: ['farm_debt_ratio_spike', 'farmland_value_drop', 'farm_credit_tightening', 'interest_burden'],
+    anchors: ['DE', 'ADM']
+  },
+  input_supply: {
+    label: 'Input supply circuit (fertilizer / seed / fuel)',
+    pathway: ['SNS', 'mPFC', 'HAB'],
+    role: 'input-cost: nutrient-signal → fertilizer-diagnostic → input-action',
+    energyFootprint: 'fertilizer SYNTHESIS (Haber-Bosch ammonia is energy-intensive) + seed/fuel; couples ONLY via NTR/MOS/CF ticker stress',
+    scalingModel: 'ammonia_synthesis_energy_x_volume', // energy CONSEQUENCE ONLY through company-ticker stress, never a direct ag-to-energy edge
+    connectomeDomains: ['p2', 'environment'],
+    triggers: ['ammonia_cost_spike', 'urea_cost_spike', 'seed_supply_constraint', 'fertilizer_shortage'],
+    anchors: ['NTR', 'MOS', 'CF', 'CTVA', 'FMC']
+  }
+};
+
+// Reverse lookup: trigger source string → agriculture circuit key (built once).
+var AGRICULTURE_TRIGGER_TO_CIRCUIT = {};
+for (var _agck in AGRICULTURE_CIRCUITS) {
+  if (!Object.prototype.hasOwnProperty.call(AGRICULTURE_CIRCUITS, _agck)) continue;
+  var _agtrg = AGRICULTURE_CIRCUITS[_agck].triggers || [];
+  for (var _agti = 0; _agti < _agtrg.length; _agti++) AGRICULTURE_TRIGGER_TO_CIRCUIT[_agtrg[_agti]] = _agck;
+}
+
+/**
+ * Route an agriculture stress trigger to its circuit (crop production / livestock
+ * production / commodity trading / farm finance / input supply) and emit the energy-
+ * footprint note + scaling model so downstream demand modeling knows which circuits even
+ * COUPLE to energy. OPT-IN; default resolve() is unchanged. No scoring. Mirrors
+ * resolveTechSubCircuit / resolveTradeSubCircuit.
+ * @param {String} stressTrigger - trigger source, e.g. 'crop_production_shortfall',
+ *        'livestock_price_collapse', 'cbot_corn_spike', 'ammonia_cost_spike'; OR a
+ *        circuit key 'crop_production'|'livestock_production'|'commodity_trading'|
+ *        'farm_finance'|'input_supply'.
+ * @param {String} [domain] - originating domain (expected 'agriculture'); other domains
+ *        return an inactive result (this gap is agriculture-specific).
+ * @param {Object} [context] - optional { stress:Number } raw stress [0..1] for activation.
+ * @returns {Object} { circuit, matched, label, pathway, role, energyFootprint,
+ *          scalingModel, connectomeDomains, anchors, nodes }
+ */
+function resolveAgricultureCircuit(stressTrigger, domain, context) {
+  var dom = domain || 'agriculture';
+  var inactive = {
+    circuit: null, matched: false, trigger: stressTrigger || null, domain: dom,
+    label: '', pathway: [], role: '', energyFootprint: '', scalingModel: '',
+    connectomeDomains: [], anchors: [], nodes: []
+  };
+  // This gap is agriculture-specific; never hijack another domain's stress.
+  if (dom !== 'agriculture') return inactive;
+
+  // Resolve which circuit: accept a direct key or a named trigger source.
+  var key = null;
+  if (stressTrigger && AGRICULTURE_CIRCUITS[stressTrigger]) {
+    key = stressTrigger;
+  } else if (stressTrigger && AGRICULTURE_TRIGGER_TO_CIRCUIT[stressTrigger]) {
+    key = AGRICULTURE_TRIGGER_TO_CIRCUIT[stressTrigger];
+  }
+  if (!key) return inactive;
+
+  var cfg = AGRICULTURE_CIRCUITS[key];
+  var s = (context && typeof context.stress === 'number') ? context.stress : 0;
+  // Reuse the existing activation engine by synthesizing one stressed feed domain per
+  // connectome domain on the circuit (agriculture = home via 'p2'; environment/trade =
+  // the coupling targets). Energy is NEVER synthesized here — it is only a downstream
+  // CONSEQUENCE note (energyFootprint/scalingModel), never an activated feed domain.
+  var synth = cfg.connectomeDomains.map(function(cd) { return { id: cd, stress: s, status: 'AGRICULTURE_CIRCUIT' }; });
+  var nodes = activateNodes(synth);
+
+  return {
+    circuit: key,
+    matched: true,
+    trigger: stressTrigger,
+    domain: dom,
+    label: cfg.label,
+    pathway: cfg.pathway.slice(),
+    role: cfg.role,
+    // Energy CONSEQUENCE signal (note + scaling model) — never an ag-to-energy edge.
+    energyFootprint: cfg.energyFootprint,
+    scalingModel: cfg.scalingModel,
+    connectomeDomains: cfg.connectomeDomains.slice(),
+    anchors: cfg.anchors.slice(),
+    nodes: nodes
+  };
+}
+
+// ═══════════════════════════════════════════════════
 // 6d. TRADE SUB-CIRCUIT RESOLUTION (ADDITIVE — trade gap, OPT-IN)
 // ═══════════════════════════════════════════════════
 // Trade (supply-chain) stress, by default, activates the generic ['trade','finance']
@@ -1908,6 +2209,37 @@ window.LIMENConnectomeResolver = {
   GOVERNANCE_INDICATOR_BINDING: GOVERNANCE_INDICATOR_BINDING,
   NODE_TO_GOVERNANCE_INDICATOR: NODE_TO_GOVERNANCE_INDICATOR,
   getGovernanceIndicatorsForNode: function(nodeId) { return NODE_TO_GOVERNANCE_INDICATOR[nodeId] || []; },
+
+  // Agriculture-sector company bindings (agriculture gap 1) — OPT-IN, parallel to the
+  // tech/intel/trade/industrial/environment/governance company registries; REAL ag /
+  // agribusiness tickers (ADM/BG/INGR grain+processing, CTVA/FMC seeds+crop-protection,
+  // DE/AGCO machinery, NTR/MOS/CF fertilizers, TSN/CAG protein+food) routed to dedicated
+  // 'p2' agriculture nodes. Energy is ZERO ag identity: Haber-Bosch (NTR/MOS/CF) &
+  // tractor fuel (DE/AGCO) couple to energy ONLY as company-ticker CONSEQUENCE, never an
+  // ag-to-energy edge; ag nodes carry zero energy-domain content.
+  AGRICULTURE_COMPANY_BINDING: AGRICULTURE_COMPANY_BINDING,
+  NODE_TO_AGRICULTURE_COMPANY: NODE_TO_AGRICULTURE_COMPANY,
+  getAgricultureCompaniesForNode: function(nodeId) { return NODE_TO_AGRICULTURE_COMPANY[nodeId] || []; },
+
+  // Agriculture-sector indicator bindings (agriculture gap 2) — OPT-IN, parallel to the
+  // macro registry; REAL ag signals (USDA WASDE corn/soy/wheat, CBOT/CME corn/soybean/
+  // wheat & cattle/hog futures, USDA PPI farm products, ammonia/urea input-cost indices,
+  // USDA farm debt-to-asset & farmland value) routed to dedicated 'p2' agriculture nodes.
+  // Fertilizer/fuel appear ONLY as a farm INPUT-COST line, never energy output; energy is
+  // a downstream CONSEQUENCE (input-cost pass-through to livestock-feed / protein markets).
+  AGRICULTURE_INDICATOR_BINDING: AGRICULTURE_INDICATOR_BINDING,
+  NODE_TO_AGRICULTURE_INDICATOR: NODE_TO_AGRICULTURE_INDICATOR,
+  getAgricultureIndicatorsForNode: function(nodeId) { return NODE_TO_AGRICULTURE_INDICATOR[nodeId] || []; },
+
+  // Agriculture circuit segregation (agriculture gap 3) — opt-in. Routes an agriculture
+  // stress trigger to crop-production / livestock-production / commodity-trading /
+  // farm-finance / input-supply, each a SEPARATE 'p2' node pathway with its real ticker
+  // anchors + energy-footprint note. Only mechanization (DE/AGCO) and fertilizer synthesis
+  // (NTR/MOS/CF) couple to energy, as a downstream CONSEQUENCE, never an ag-to-energy edge.
+  AGRICULTURE_CIRCUITS: AGRICULTURE_CIRCUITS,
+  AGRICULTURE_TRIGGER_TO_CIRCUIT: AGRICULTURE_TRIGGER_TO_CIRCUIT,
+  resolveAgricultureCircuit: resolveAgricultureCircuit,
+  getAgricultureCircuitForTrigger: function(trigger) { return AGRICULTURE_TRIGGER_TO_CIRCUIT[trigger] || null; },
 
   // Fiscal vs monetary policy transmission (economy gap 2) — opt-in
   MACRO_POLICY_PATH: MACRO_POLICY_PATH,

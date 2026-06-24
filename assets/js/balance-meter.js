@@ -498,6 +498,83 @@
     { re: /(predictive|preventive|condition(-| )?based) maintenance (deploy|adopt|gain)|uptime (restor|gain|improv|surge)|\boee\b (gain|improv|rise)|reliability (program|gain|improv) (plant|line|asset)|unplanned downtime (drop|decline|reduc)|mttr (drop|decline|improv)|maintenance (backlog (clear|reduc)|complet)/i, weight: 0.14, tag: 'industrial_maintenance_uptime' }
   ];
 
+  // ─── Agriculture-native semantics (FARMING / CROPS / FOOD PRODUCTION) ─────
+  // Energy parity (same shape as INFRA / CULTURE / FINANCE / ECONOMY /
+  // TECHNOLOGY / DEFENSE / INTELLIGENCE / TRADE / INDUSTRY above): the
+  // agriculture domain has its OWN failure/recovery vocabulary. Where energy
+  // reads crude_above_90 / grid_stress / chokepoint, infrastructure reads
+  // grid_reliability / deferred_maintenance, culture reads the attention
+  // economy, finance reads liquidity/credit, economy reads the business cycle,
+  // technology reads the compute stack, defense reads kinetic military power,
+  // intelligence reads the collection cycle, trade reads exports/tariffs/ports,
+  // and industry reads factory output, AGRICULTURE reads farming & food
+  // production: crops & livestock, harvest yields, agribusiness & food supply,
+  // food security, fertilizers & crop inputs, irrigation & agricultural water,
+  // commodity crops (corn/soy/wheat), ag-technology / precision ag, and farm
+  // economics. Destabilizing = crop failure / harvest shortfall, drought
+  // stress, fertilizer / input cost spike, food-price surge, livestock
+  // disease, export ban (food/grain), commodity-price crash, input-supply
+  // disruption, soil degradation, and agricultural water stress. Stabilizing =
+  // good yield / harvest completion, commodity-price recovery, government farm
+  // support, input-cost normalization, export-market opening, soil-health gain,
+  // irrigation investment, and crop-diversity expansion.
+  //
+  // Anchors are REAL agriculture tickers (ADM Archer-Daniels-Midland, BG Bunge,
+  // CTVA Corteva, DE John Deere, NTR Nutrien, MOS Mosaic, CF CF Industries, TSN
+  // Tyson, CAG Conagra, INGR Ingredion, AGCO AGCO, FMC FMC) and CBOT commodity
+  // / USDA references (CBOT corn / soybean / wheat futures, USDA WASDE crop
+  // reports) — NEVER oil/gas/grid content as the domain's OWN identity (biofuel
+  // / fertilizer-energy is a COUPLING). Agriculture COUPLES to environment via
+  // land/water/climate, to trade via export logistics, and to economy via food
+  // prices, but its IDENTITY stays crops/livestock/food-production/farm-inputs,
+  // kept DISTINCT from environment (land/water/climate is a coupling), trade
+  // (export logistics is a coupling), and economy (food prices is a coupling).
+  // ADVISORY ONLY — wholly separate from the validated P3 distress kernel.
+  //
+  // Each entry maps a keyword pattern (matched against the domain's signal
+  // strings) to a weighted push on the destabilizing or stabilizing score —
+  // identical mechanism to energy's condition→weight mapping, agriculture content.
+  var AGRICULTURE_DESTABILIZING = [
+    // Crop failure / harvest shortfall — yield collapse, failed harvest, WASDE cut.
+    { re: /crop (failure|fail|loss|collapse)|harvest (shortfall|failure|loss|short)|yield (collapse|loss|plunge|shortfall)|(corn|soy(bean)?|wheat) (yield )?(loss|fail|short)|wasde (cut|downgrade|lower) (yield|production)|failed (crop|harvest)|production (shortfall|cut) (crop|grain)/i, weight: 0.18, tag: 'crop_failure' },
+    // Drought stress — agricultural drought, dry conditions, moisture deficit.
+    { re: /(agricultural )?drought (stress|condition|deepen|expand|emergency)|dry (condition|spell) (crop|farm|field)|moisture (deficit|stress) (crop|soil)|(crop|farmland) (parched|withered)|water deficit (crop|irrigation)|flash drought|growing(-| )?season drought/i, weight: 0.16, tag: 'drought_stress' },
+    // Fertilizer / input cost spike — fertilizer price surge, input cost squeeze.
+    { re: /fertilizer (cost|price) (spike|surge|soar|jump)|(nitrogen|potash|phosphate|urea) (price|cost) (surge|spike|soar)|input (cost|price) (spike|surge|squeeze) (farm|crop|ag)|(ntr|mos|cf) (price )?(surge|spike)|crop input (cost|price) (surge|spike)|seed (cost|price) (surge|spike)/i, weight: 0.15, tag: 'input_cost_spike' },
+    // Food-price surge — food inflation, grain price spike, food cost crisis.
+    { re: /food (price|cost) (surge|spike|soar|crisis|inflation)|grain (price|cost) (surge|spike|soar)|food inflation (surge|spike|accelerat)|(corn|soy(bean)?|wheat) (futures )?(price )?(spike|surge|soar)|staple (food|crop) (price|cost) (surge|spike)|food (security|supply) (crisis|stress)/i, weight: 0.14, tag: 'food_price_surge' },
+    // Livestock disease — animal-protein outbreak, herd cull, avian/swine flu.
+    { re: /livestock (disease|outbreak|cull|loss)|(avian|bird) (flu|influenza) (outbreak|spread)|(swine|hog|pig) (flu|fever|disease) (outbreak|spread)|(african swine fever|asf|h5n1|hpai)|herd (cull|loss|depopulat)|(cattle|poultry|hog) (disease|outbreak|cull)|(tsn|tyson) (recall|outbreak)/i, weight: 0.16, tag: 'livestock_disease' },
+    // Export ban — grain/food export restriction, trade barrier on crops.
+    { re: /(grain|food|crop|wheat|corn|soy(bean)?|rice) export (ban|restrict|curb|halt)|export (ban|restrict|curb) (grain|food|crop|agricultur)|agricultural export (ban|control|restrict)|food export (ban|restrict|curb)|grain (blockade|embargo)|(black sea|ukraine) grain (deal collapse|halt)/i, weight: 0.13, tag: 'export_ban' },
+    // Commodity-price crash — crop price collapse, farm-gate price plunge, glut.
+    { re: /(corn|soy(bean)?|wheat|grain|crop) (price|futures) (crash|collapse|plunge|plummet)|commodity (crop )?(price )?(crash|collapse|plunge)|farm(-| )?gate price (collapse|plunge|crash)|(cbot|grain) (price )?(crash|collapse|rout)|crop glut (price|crash)|oversupply (price collapse|glut) (grain|crop)/i, weight: 0.13, tag: 'commodity_price_crash' },
+    // Input-supply disruption — seed/fertilizer/feed supply gap, sourcing halt.
+    { re: /(seed|fertilizer|feed|crop input) (supply )?(disrupt|shortage|gap|stockout)|input(-| )?supply (disruption|gap|shortage) (farm|crop|ag)|(nitrogen|potash|phosphate) (supply )?(disrupt|shortage|gap)|feed (shortage|supply (disrupt|gap))|agricultural (input|supply) (disrupt|shortage)|sourcing (disrupt|gap) (seed|fertilizer|feed)/i, weight: 0.13, tag: 'input_supply_disruption' },
+    // Soil degradation — soil erosion, fertility loss, salinization, depletion.
+    { re: /soil (degradation|erosion|depletion|exhaust|salin)|(topsoil|farmland) (loss|erosion|degrad)|soil (fertility|health) (loss|decline|degrad)|(salinization|salinity) (soil|farmland)|land degradation (farm|crop|agricultur)|nutrient depletion (soil|farmland)/i, weight: 0.12, tag: 'soil_degradation' },
+    // Agricultural water stress — irrigation shortfall, aquifer drawdown, water cut.
+    { re: /(agricultural |irrigation )?water (stress|shortage|cut|curtail) (crop|farm|irrigat)|irrigation (shortfall|cut|curtail|fail)|aquifer (drawdown|depletion|decline) (farm|irrigat)|(ogallala|groundwater) (depletion|drawdown) (farm|irrigat)|water allocation (cut|reduc) (farm|agricultur)|reservoir (low|drain) (irrigat|farm)/i, weight: 0.12, tag: 'agricultural_water_stress' }
+  ];
+  var AGRICULTURE_STABILIZING = [
+    // Good yield / harvest completion — strong harvest, record yield, WASDE raise.
+    { re: /(good|strong|record|bumper) (yield|harvest|crop)|harvest (complet|finish|done|wrap)|yield (gain|rise|record|beat|strong)|(corn|soy(bean)?|wheat) (yield )?(record|strong|beat)|wasde (raise|upgrade|increase) (yield|production)|(robust|favorable) (crop|harvest|growing condition)|crop (rating|condition) (improv|good|excellent)/i, weight: 0.16, tag: 'good_yield_harvest' },
+    // Commodity-price recovery — crop price rebound, farm-gate price firming.
+    { re: /(corn|soy(bean)?|wheat|grain|crop) (price|futures) (recover|rebound|rise|firm|rally)|commodity (crop )?(price )?(recover|rebound|firm)|farm(-| )?gate price (recover|rise|firm|improv)|(cbot|grain) (price )?(rally|recover|rebound)|crop (price )?(rally|firm|support)|agricultural (price|commodity) (recover|firm|stabiliz)/i, weight: 0.15, tag: 'commodity_price_recovery' },
+    // Government support program — farm subsidy, crop insurance, USDA support.
+    { re: /(farm|crop|agricultural) (subsid|support program|aid|relief)|crop insurance (payout|expand|support)|usda (support|payment|program|aid)|(government|federal) (farm|agricultur) (support|aid|relief)|farm bill (support|fund|pass)|(arc|plc|price loss coverage) (payment|support)|agricultural (support|relief) (program|package)/i, weight: 0.14, tag: 'government_support_program' },
+    // Input-cost normalization — fertilizer price easing, input cost falling.
+    { re: /fertilizer (cost|price) (eas|decline|fall|normaliz|drop|soften)|(nitrogen|potash|phosphate|urea) (price|cost) (eas|decline|fall|drop)|input (cost|price) (eas|decline|fall|normaliz) (farm|crop|ag)|(ntr|mos|cf) (price )?(eas|decline|fall)|crop input (cost|price) (eas|normaliz|decline)|seed (cost|price) (eas|decline|normaliz)/i, weight: 0.14, tag: 'input_cost_normalization' },
+    // Export-market opening — new trade access, grain deal, export demand rise.
+    { re: /(grain|food|crop|wheat|corn|soy(bean)?) export (open|access|deal|surge|demand)|export (market|demand) (open|expand|rise) (grain|crop|agricultur)|agricultural export (open|expand|growth|access)|(black sea|ukraine) grain (deal|corridor) (reopen|extend|secure)|food export (open|expand|access)|new (export|trade) (access|market) (grain|crop)/i, weight: 0.13, tag: 'export_market_opening' },
+    // Soil-health gain — regenerative ag, cover crop, soil restoration, fertility.
+    { re: /soil (health|fertility) (gain|improv|restor|rebuild)|regenerative (ag|agricultur|farming) (adopt|gain)|cover crop (adopt|expand|gain)|(no(-| )?till|conservation tillage) (adopt|expand)|soil (carbon|organic matter) (gain|rise|build)|land (restoration|regenerat) (farm|crop)|topsoil (rebuild|restor|gain)/i, weight: 0.14, tag: 'soil_health_gain' },
+    // Irrigation investment — irrigation expansion, water infrastructure, drip systems.
+    { re: /irrigation (investment|expansion|upgrade|build(-| )?out|moderniz)|(drip|precision|micro) irrigation (deploy|adopt|expand)|water (infrastructure|storage) (invest|build|expand) (farm|irrigat)|(reservoir|canal) (invest|build|expand) (irrigat|farm)|irrigation (efficiency|capacity) (gain|expand)|agricultural water (invest|infrastructure|storage)/i, weight: 0.13, tag: 'irrigation_investment' },
+    // Crop-diversity expansion — diversification, rotation, new crop, resilient varieties.
+    { re: /crop (diversi|rotation) (expand|adopt|gain|increase)|(crop |field )?diversif(y|ication) (farm|agricultur|crop)|new (crop|variety) (adopt|introduc|plant)|(drought|disease)(-| )?resistant (variety|seed|crop) (adopt|deploy)|resilient (crop|variety) (adopt|expand)|(ctva|corteva) (trait|seed) (launch|adopt|gain)|planting diversif/i, weight: 0.13, tag: 'crop_diversity_expansion' }
+  ];
+
   // ─── Governance-native semantics (INSTITUTIONS & INDICATORS) ──────────────
   // Energy parity (same shape as INFRA / CULTURE / FINANCE / ECONOMY /
   // TECHNOLOGY / DEFENSE / INTELLIGENCE / TRADE / INDUSTRY above): the
@@ -834,6 +911,31 @@
         _industryDestabTags = _ind.tags;
       }
 
+      // ── Agriculture-native destabilizing pathways (energy parity) ──
+      // For the agriculture domain ONLY, add farming & food-production pressure
+      // from named failure pathways found in the live signal strings (crop
+      // failure / harvest shortfall, drought stress, fertilizer / input cost
+      // spike, food-price surge, livestock disease, food/grain export ban,
+      // commodity-price crash, input-supply disruption, soil degradation,
+      // agricultural water stress). This is the crops-and-food analogue of
+      // energy's crude_above_*/grid_stress, infrastructure's grid_reliability/
+      // deferred_maintenance, culture's backlash/audience collapse, finance's
+      // liquidity/credit, economy's business-cycle, technology's compute-stack,
+      // defense's readiness, intelligence's collection, trade's tariff/port, and
+      // industry's factory-output weighting — anchored to real ag tickers (ADM/
+      // BG/CTVA/DE/NTR/MOS/CF/TSN/CAG/INGR/AGCO/FMC) and CBOT corn/soy/wheat /
+      // USDA WASDE references, IDENTITY stays crops/livestock/food-production/
+      // farm-inputs (couples to environment via land/water/climate, trade via
+      // export logistics, and economy via food prices, distinct from each of
+      // those). ADVISORY ONLY — wholly separate from the validated P3 distress
+      // kernel.
+      var _agricultureDestabTags = null;
+      if (k === 'agriculture') {
+        var _agd = _infraSignalScore(signals, AGRICULTURE_DESTABILIZING);
+        destab += _agd.score;
+        _agricultureDestabTags = _agd.tags;
+      }
+
       // ── Governance-native destabilizing pathways (energy parity) ──
       // For the governance domain ONLY, add institutions-and-policy pressure
       // from named failure pathways found in the live signal strings
@@ -1069,6 +1171,32 @@
         _industryStabTags = _ins.tags;
       }
 
+      // ── Agriculture-native stabilizing pathways (energy parity) ──
+      // Agriculture recovery vocabulary: good yield / harvest completion
+      // (record yield / WASDE raise), commodity-price recovery (crop price
+      // rebound / farm-gate firming), government support program (farm subsidy /
+      // crop insurance / USDA support / farm bill), input-cost normalization
+      // (fertilizer price easing), export-market opening (grain deal / new
+      // export access), soil-health gain (regenerative ag / cover crop / soil
+      // restoration), irrigation investment (drip/precision irrigation / water
+      // infrastructure), and crop-diversity expansion (rotation / resilient
+      // varieties). Mirrors energy's falling-trend / declining-volatility
+      // stabilizers, infrastructure's funding-renewal / repair-completion,
+      // culture's fanbase-momentum / mainstream-adoption, finance's
+      // liquidity-restoration / capital-strengthening, economy's labor-recovery /
+      // productivity, technology's fab-capacity / breakthrough, defense's force-
+      // modernization / alliance-strengthening, intelligence's
+      // improved-observability / collection-expansion, trade's tariff-
+      // normalization / port-reopening, and industry's capacity-modernization /
+      // output-recovery, with agriculture semantics from the live signals.
+      // ADVISORY ONLY — wholly separate from the validated P3 distress kernel.
+      var _agricultureStabTags = null;
+      if (k === 'agriculture') {
+        var _ags = _infraSignalScore(signals, AGRICULTURE_STABILIZING);
+        stab += _ags.score;
+        _agricultureStabTags = _ags.tags;
+      }
+
       // ── Governance-native stabilizing pathways (energy parity) ──
       // Governance recovery vocabulary: institutional strengthening (separation-
       // of-powers restored / WGI / V-Dem improvement), legitimacy / trust
@@ -1176,6 +1304,13 @@
       if (k === 'industry') {
         _balance[k].destabilizingFactors = _industryDestabTags || [];
         _balance[k].stabilizingFactors = _industryStabTags || [];
+      }
+
+      // Surface the agriculture-native pathways that drove the agriculture score
+      // (energy parity: name the conditions, don't hide them behind a scalar).
+      if (k === 'agriculture') {
+        _balance[k].destabilizingFactors = _agricultureDestabTags || [];
+        _balance[k].stabilizingFactors = _agricultureStabTags || [];
       }
 
       // Surface the governance-native pathways that drove the governance score

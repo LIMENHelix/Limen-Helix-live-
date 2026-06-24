@@ -41,6 +41,8 @@
   var ENVIRONMENT_STACK_COOLDOWN = 180000; // 3 min between environment-stack narrations
   var GOVERNANCE_STACK_THRESHOLD = 2; // a governance-vulnerability stack seen N times signals concentration
   var GOVERNANCE_STACK_COOLDOWN = 180000; // 3 min between governance-stack narrations
+  var AGRICULTURE_STACK_THRESHOLD = 2; // an agricultural-vulnerability stack seen N times signals concentration
+  var AGRICULTURE_STACK_COOLDOWN = 180000; // 3 min between agriculture-stack narrations
 
   // ─── Infrastructure vulnerability-stack semantics ─────────────────────────
   // CIVIL domain-semantic concentration. Generic (domain, action) frequency only
@@ -435,6 +437,76 @@
       body: 'Operator attention concentrates on the automation-failure + labor-shortage stack — robotics/line faults exposing a thin skilled-trade workforce with too few technicians to recover throughput.' }
   ];
 
+  // ─── Agriculture vulnerability-stack semantics ────────────────────────────
+  // AGRICULTURAL domain-semantic concentration. As with infrastructure, culture,
+  // finance, economy, technology, intelligence, trade and industry, generic
+  // (domain, action) frequency only says WHERE the operator is looking; for the
+  // agriculture domain we also detect WHAT agricultural-vulnerability STACK the
+  // attention concentrates on. Each stack is a co-occurring pair of agricultural
+  // signal families (crop failure & harvest shortfall/drought & agricultural water
+  // stress/livestock disease & animal-protein supply/fertilizer & crop-input cost
+  // spikes/food price surge & food-security shock/agricultural commodity crash/
+  // input-supply disruption/farm debt, land value & farm viability/soil degradation).
+  // The agriculture identity is FARMING & CROPS, LIVESTOCK & ANIMAL PROTEIN,
+  // AGRIBUSINESS & FOOD PRODUCTION, FOOD SECURITY & SUPPLY, FERTILIZERS & CROP INPUTS,
+  // IRRIGATION & AGRICULTURAL WATER, COMMODITY CROPS (corn/soy/wheat), AGRICULTURAL
+  // TECHNOLOGY & PRECISION AG, and FARM ECONOMICS — bound to real agriculture
+  // equities (ADM, BG, CTVA, DE, NTR, MOS, CF, TSN, CAG, INGR, AGCO, FMC) and ag
+  // commodity references (CBOT corn/soy/wheat, USDA WASDE). Agriculture COUPLES to
+  // energy via biofuel and fertilizer-energy feedstock, but its OWN content is never
+  // energy oil/gas/grid; it is also kept DISTINCT from environment (land/water/climate
+  // use is a coupling, not the identity), from trade (export logistics is a coupling),
+  // and from economy (food prices are a coupling to the macro aggregate). Mirrors the
+  // energy anchor where crude_above_90 + grid_stress pair into a feedback loop —
+  // agriculture pairs drought-stress + input-supply-disruption into a STRUCTURAL
+  // water/input squeeze, not noise dampened away.
+  // Mirrors the agriculture-brain cross-domain conditions:
+  //   DROUGHT_STRESS + INPUT_SUPPLY_DISRUPTION   → water/input squeeze stack
+  //   CROP_FAILURE + FARM_DEBT                    → farm-viability-crisis stack
+  //   LIVESTOCK_DISEASE + FOOD_PRICE_SURGE        → protein-supply-inflation stack
+  //   FERTILIZER_COST_SPIKE + COMMODITY_CRASH     → input-cost margin squeeze
+  //   HARVEST_SHORTFALL + EXPORT_BAN              → food-security supply shock
+  // Signal tokens are matched against recorded action/type/pattern text — never
+  // invented; absence of tokens simply yields no stack (silent, no false signal).
+  // STRICTLY ADDITIVE: advisory only; never participates in /api/limen/score scoring.
+  var AGRICULTURE_SIGNAL_TOKENS = {
+    CROP_FAILURE:            /(crop[_\s-]?failure|crop[_\s-]?loss|yield[_\s-]?collapse|yield[_\s-]?decline|failed[_\s-]?harvest|blight|crop[_\s-]?disease|pest[_\s-]?outbreak|locust|frost[_\s-]?damage|planting[_\s-]?failure|stand[_\s-]?loss)/i,
+    DROUGHT_STRESS:          /(drought|dry[_\s-]?spell|rainfall[_\s-]?deficit|moisture[_\s-]?stress|crop[_\s-]?moisture|growing[_\s-]?season[_\s-]?dry|dryland[_\s-]?stress|monsoon[_\s-]?failure|precipitation[_\s-]?shortfall|heat[_\s-]?stress[_\s-]?crop|evapotranspiration)/i,
+    LIVESTOCK_DISEASE:       /(livestock[_\s-]?disease|avian[_\s-]?influenza|bird[_\s-]?flu|hpai|african[_\s-]?swine[_\s-]?fever|foot[_\s-]?and[_\s-]?mouth|cattle[_\s-]?disease|herd[_\s-]?cull|poultry[_\s-]?cull|animal[_\s-]?disease|hog[_\s-]?disease|dairy[_\s-]?herd[_\s-]?loss)/i,
+    FERTILIZER_COST_SPIKE:   /(fertilizer[_\s-]?cost|fertilizer[_\s-]?price|nitrogen[_\s-]?price|urea[_\s-]?price|potash[_\s-]?price|phosphate[_\s-]?price|ammonia[_\s-]?cost|crop[_\s-]?input[_\s-]?cost|fertilizer[_\s-]?shortage|nutrient[_\s-]?cost|input[_\s-]?price[_\s-]?surge)/i,
+    FOOD_PRICE_SURGE:        /(food[_\s-]?price|food[_\s-]?inflation|grocery[_\s-]?price|food[_\s-]?cost|fao[_\s-]?food[_\s-]?price|food[_\s-]?price[_\s-]?index|staple[_\s-]?price|protein[_\s-]?price|meat[_\s-]?price|dairy[_\s-]?price|bread[_\s-]?price|food[_\s-]?affordability)/i,
+    HARVEST_SHORTFALL:       /(harvest[_\s-]?shortfall|harvest[_\s-]?decline|production[_\s-]?shortfall|grain[_\s-]?shortfall|stocks[_\s-]?to[_\s-]?use|ending[_\s-]?stocks[_\s-]?drop|wasde|usda[_\s-]?cut|production[_\s-]?downgrade|reduced[_\s-]?acreage|abandonment[_\s-]?rate)/i,
+    EXPORT_BAN:              /(export[_\s-]?ban|export[_\s-]?restriction|grain[_\s-]?embargo|food[_\s-]?export[_\s-]?curb|export[_\s-]?quota|export[_\s-]?tariff[_\s-]?grain|wheat[_\s-]?export[_\s-]?ban|rice[_\s-]?export[_\s-]?ban|protectionist[_\s-]?food|hoarding[_\s-]?grain)/i,
+    COMMODITY_CRASH:         /(commodity[_\s-]?crash|grain[_\s-]?price[_\s-]?collapse|corn[_\s-]?price|soybean[_\s-]?price|soy[_\s-]?price|wheat[_\s-]?price|cbot|grain[_\s-]?glut|oversupply[_\s-]?grain|crop[_\s-]?price[_\s-]?slump|farmgate[_\s-]?price[_\s-]?drop|cash[_\s-]?grain[_\s-]?collapse)/i,
+    INPUT_SUPPLY_DISRUPTION: /(seed[_\s-]?shortage|input[_\s-]?supply[_\s-]?disruption|agrochemical[_\s-]?shortage|pesticide[_\s-]?shortage|herbicide[_\s-]?shortage|crop[_\s-]?protection[_\s-]?shortage|farm[_\s-]?input[_\s-]?disruption|fertilizer[_\s-]?supply[_\s-]?disruption|supply[_\s-]?of[_\s-]?inputs)/i,
+    WATER_STRESS:            /(irrigation|agricultural[_\s-]?water|water[_\s-]?allocation[_\s-]?farm|aquifer[_\s-]?irrigation|ogallala|water[_\s-]?rights[_\s-]?farm|groundwater[_\s-]?irrigation|crop[_\s-]?water[_\s-]?stress|irrigation[_\s-]?cutback|water[_\s-]?curtailment[_\s-]?ag)/i,
+    SOIL_DEGRADATION:        /(soil[_\s-]?degradation|soil[_\s-]?erosion|soil[_\s-]?health|topsoil[_\s-]?loss|nutrient[_\s-]?depletion|salinization|desertification[_\s-]?farm|soil[_\s-]?fertility[_\s-]?decline|organic[_\s-]?matter[_\s-]?loss|compaction[_\s-]?soil)/i,
+    FARM_DEBT:               /(farm[_\s-]?debt|agricultural[_\s-]?loan|farm[_\s-]?bankruptcy|chapter[_\s-]?12|farm[_\s-]?credit|operating[_\s-]?loan[_\s-]?farm|farm[_\s-]?financial[_\s-]?stress|ag[_\s-]?lending|farm[_\s-]?foreclosure|farm[_\s-]?insolvency|farm[_\s-]?debt[_\s-]?to[_\s-]?asset)/i,
+    LAND_VALUE_DECLINE:      /(farmland[_\s-]?value|cropland[_\s-]?value|land[_\s-]?value[_\s-]?decline|farm[_\s-]?real[_\s-]?estate|farmland[_\s-]?price[_\s-]?drop|acreage[_\s-]?value|cash[_\s-]?rent[_\s-]?decline|farmland[_\s-]?devaluation|land[_\s-]?equity[_\s-]?erosion)/i
+  };
+
+  // Agricultural-vulnerability STACKS — ordered token pairs with an agricultural
+  // interpretation. Each describes an operator-concentration meaning specific to an
+  // agricultural vulnerability stack (crops & harvest, drought & ag-water, livestock
+  // & animal protein, fertilizers & crop inputs, food price & food security, commodity
+  // crops, farm debt & land value, soil degradation) — NOT energy oil/gas/grid content
+  // (biofuel/fertilizer-energy is a coupling), NOT environment land/water/climate-use
+  // content (a coupling), NOT trade export-logistics content (a coupling), and NOT
+  // economy food-price macro content (a coupling). Agriculture is the PRODUCTION of
+  // food and fiber from farms, crops, and livestock.
+  var AGRICULTURE_VULN_STACKS = [
+    { id: 'WATER_INPUT_SQUEEZE',       signals: ['DROUGHT_STRESS', 'INPUT_SUPPLY_DISRUPTION'],
+      body: 'Operator attention concentrates on the drought-stress + input-supply-disruption stack — a water/input squeeze where moisture deficit collides with seed, agrochemical, and crop-protection shortages on the farm (CTVA/FMC/NTR exposure).' },
+    { id: 'FARM_VIABILITY_CRISIS',     signals: ['CROP_FAILURE', 'FARM_DEBT'],
+      body: 'Operator attention concentrates on the crop-failure + farm-debt stack — a farm-viability crisis where failed harvests and yield collapse compound with operating-loan and ag-credit stress driving Chapter 12 risk (DE/AGCO/ADM-grower-network exposure).' },
+    { id: 'PROTEIN_SUPPLY_INFLATION',  signals: ['LIVESTOCK_DISEASE', 'FOOD_PRICE_SURGE'],
+      body: 'Operator attention concentrates on the livestock-disease + food-price-surge stack — a protein-supply-inflation stack where avian influenza/ASF herd culls collide with rising meat, dairy, and protein prices (TSN/CAG exposure).' },
+    { id: 'INPUT_MARGIN_SQUEEZE',      signals: ['FERTILIZER_COST_SPIKE', 'COMMODITY_CRASH'],
+      body: 'Operator attention concentrates on the fertilizer-cost-spike + commodity-crash stack — an input-cost margin squeeze where rising nitrogen/potash/urea prices meet collapsing CBOT corn/soy/wheat cash-grain prices (NTR/MOS/CF exposure).' },
+    { id: 'FOOD_SECURITY_SHOCK',       signals: ['HARVEST_SHORTFALL', 'EXPORT_BAN'],
+      body: 'Operator attention concentrates on the harvest-shortfall + export-ban stack — a food-security supply shock where USDA WASDE production downgrades and falling stocks-to-use collide with grain export bans and protectionist food curbs (ADM/BG/INGR exposure).' }
+  ];
+
   // ─── Environment vulnerability-stack semantics ─────────────────────────────
   // ENVIRONMENTAL domain-semantic concentration. As with infrastructure, culture,
   // finance, economy, technology, intelligence, trade and industry, generic
@@ -578,6 +650,8 @@
   var _lastEnvironmentStackId = null;
   var _lastGovernanceStackTime = 0;
   var _lastGovernanceStackId = null;
+  var _lastAgricultureStackTime = 0;
+  var _lastAgricultureStackId = null;
   var _interval = null;
 
   // Detect which civil signal families a user-action references, by scanning its
@@ -700,6 +774,18 @@
     return hits;
   }
 
+  // Detect which agricultural signal families a user-action references, by scanning its
+  // free-text fields (action / type / cross-domain pattern). Returns a list of
+  // canonical agriculture signal ids. Never fabricates — empty if nothing matches.
+  function _detectAgricultureSignals(text) {
+    if (!text) return [];
+    var hits = [];
+    for (var sig in AGRICULTURE_SIGNAL_TOKENS) {
+      if (AGRICULTURE_SIGNAL_TOKENS[sig].test(text)) hits.push(sig);
+    }
+    return hits;
+  }
+
   // ─── Record decision ─────────────────────────────────────────────────────
 
   function _onUserAction(e) {
@@ -768,6 +854,10 @@
       // GOVERNANCE: which governance signal families this action touches (may be []).
       governanceSignals: _detectGovernanceSignals(
         [detail.action, detail.type, matchedPattern, detail.signal, detail.diagnosis].join(' ')
+      ),
+      // AGRICULTURE: which agricultural signal families this action touches (may be []).
+      agricultureSignals: _detectAgricultureSignals(
+        [detail.action, detail.type, matchedPattern, detail.signal, detail.diagnosis].join(' ')
       )
     };
 
@@ -788,6 +878,7 @@
     _checkIndustryStackConcentration();
     _checkEnvironmentStackConcentration();
     _checkGovernanceStackConcentration();
+    _checkAgricultureStackConcentration();
   }
 
   // ─── Concentration detection ──────────────────────────────────────────────
@@ -1540,6 +1631,72 @@
     });
   }
 
+  // ─── Agriculture vulnerability-stack concentration ────────────────────────
+  // Domain-semantic concentration for AGRICULTURE: beyond "which domain" (above),
+  // surface WHICH agricultural-vulnerability STACK the operator keeps returning to.
+  // Tallies co-occurring agricultural signal families across recent entries and fires
+  // when a known stack (water/input squeeze, farm-viability crisis, protein-supply
+  // inflation, input-margin squeeze, food-security shock) crosses the threshold.
+  // Schema-faithful to _checkGovernanceStackConcentration (same phase-change shape).
+
+  function _checkAgricultureStackConcentration() {
+    var now = Date.now();
+    if (now - _lastAgricultureStackTime < AGRICULTURE_STACK_COOLDOWN) return;
+    if (_entries.length < AGRICULTURE_STACK_THRESHOLD) return;
+
+    // Count per-signal-family hits across recent entries (last 10).
+    var recent = _entries.slice(-10);
+    var sigCounts = {};
+    for (var i = 0; i < recent.length; i++) {
+      var sigs = recent[i].agricultureSignals || [];
+      for (var s = 0; s < sigs.length; s++) {
+        sigCounts[sigs[s]] = (sigCounts[sigs[s]] || 0) + 1;
+      }
+    }
+
+    // A stack fires only when BOTH of its signal families are present and at least
+    // one of them has been focused on repeatedly (>= threshold). Score = sum of the
+    // pair's counts; pick the strongest stack.
+    var best = null;
+    for (var k = 0; k < AGRICULTURE_VULN_STACKS.length; k++) {
+      var stack = AGRICULTURE_VULN_STACKS[k];
+      var a = sigCounts[stack.signals[0]] || 0;
+      var b = sigCounts[stack.signals[1]] || 0;
+      if (a === 0 || b === 0) continue;
+      if (Math.max(a, b) < AGRICULTURE_STACK_THRESHOLD) continue;
+      var score = a + b;
+      if (!best || score > best.score) best = { stack: stack, a: a, b: b, score: score };
+    }
+
+    if (!best) return;
+    if (best.stack.id === _lastAgricultureStackId) return; // don't re-narrate the same stack
+
+    _lastAgricultureStackTime = now;
+    _lastAgricultureStackId = best.stack.id;
+
+    var drivers = [
+      best.a + ' recent actions touching ' + best.stack.signals[0],
+      best.b + ' recent actions touching ' + best.stack.signals[1]
+    ];
+
+    var options = [
+      { label: 'deepen ' + best.stack.id.toLowerCase().replace(/_/g, ' ') + ' analysis', type: 'analysis' },
+      { label: 'broaden scope', type: 'monitoring' },
+      { label: 'hold', type: 'monitoring' }
+    ];
+
+    _dispatch('limen:phase-change', {
+      from: 'observing',
+      to: 'concentrated',
+      type: 'decision-memory',
+      domain: 'agriculture',
+      stackId: best.stack.id,
+      topDrivers: drivers,
+      options: options,
+      body: best.stack.body
+    });
+  }
+
   // ─── Publish ──────────────────────────────────────────────────────────────
 
   function _publish() {
@@ -1557,6 +1714,7 @@
       industrySignalConcentration: _industrySignalConcentration(),
       environmentSignalConcentration: _environmentSignalConcentration(),
       governanceSignalConcentration: _governanceSignalConcentration(),
+      agricultureSignalConcentration: _agricultureSignalConcentration(),
       updated: Date.now()
     };
 
@@ -1724,6 +1882,23 @@
     var recent = _entries.slice(-10);
     for (var i = 0; i < recent.length; i++) {
       var sigs = recent[i].governanceSignals || [];
+      for (var s = 0; s < sigs.length; s++) {
+        counts[sigs[s]] = (counts[sigs[s]] || 0) + 1;
+      }
+    }
+    var out = [];
+    for (var sig in counts) { out.push({ signal: sig, count: counts[sig] }); }
+    out.sort(function (x, y) { return y.count - x.count; });
+    return out;
+  }
+
+  // AGRICULTURE: roll up which agricultural signal families recent attention
+  // concentrates on (descending by count). Empty when no agricultural signals were detected.
+  function _agricultureSignalConcentration() {
+    var counts = {};
+    var recent = _entries.slice(-10);
+    for (var i = 0; i < recent.length; i++) {
+      var sigs = recent[i].agricultureSignals || [];
       for (var s = 0; s < sigs.length; s++) {
         counts[sigs[s]] = (counts[sigs[s]] || 0) + 1;
       }

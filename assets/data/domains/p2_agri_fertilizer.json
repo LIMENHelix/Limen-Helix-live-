@@ -15,6 +15,33 @@
       "weight": 1,
       "diagnosticTriggers": [],
       "childPortal": "p2_agri_fertilizer_nitrogen_portal.html",
+      "functional_role": "amplifier",
+      "companies": [
+        {
+          "name": "Nutrien",
+          "ticker_or_id": "NTR",
+          "functional_reason": "World's largest potash and crop-nutrient producer; amplifies and scales fertilizer supply across nitrogen, phosphate, and potash, with production capacity utilization and input-cost inflation (natural-gas feedstock) as primary distress signals.",
+          "binding_strength": 0.92
+        },
+        {
+          "name": "Mosaic",
+          "ticker_or_id": "MOS",
+          "functional_reason": "Major phosphate and potash producer; binds to fertilizer supply-stress through phosphate-rock and potash capacity utilization, with supply-chain disruption risk (Belarus/Russia potash trade, Florida phosphate permitting) as the dominant signal.",
+          "binding_strength": 0.91
+        },
+        {
+          "name": "CF Industries",
+          "ticker_or_id": "CF",
+          "functional_reason": "Leading ammonia and urea (UAN) nitrogen producer; binds to nitrogen-fertilizer supply via natural-gas feedstock cost pass-through and ammonia-plant utilization, the tightest coupling to input-cost inflation in the fertilizer node.",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "Yara International",
+          "ticker_or_id": "YAR.OL",
+          "functional_reason": "Global nitrogen-fertilizer benchmark (Oslo-listed); serves as the international supply and price reference for ammonia/urea, anchoring cross-border supply-disruption and input-cost-inflation signals.",
+          "binding_strength": 0.84
+        }
+      ],
       "treatments": [
         {
           "label": "4R Nitrogen Rate Optimization",

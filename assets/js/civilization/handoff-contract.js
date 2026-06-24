@@ -194,7 +194,57 @@
     //       governance negotiator as the PRIMARY coordinator. Inherently MULTI-domain
     //       (policy coordination spans agencies and the real-economy domains it
     //       regulates), so NOT single-domain.
-    'regulatory-compliance-modernization', 'policy-coordination-platform'
+    'regulatory-compliance-modernization', 'policy-coordination-platform',
+    // ─── Agriculture-native PRIMARY lanes (additive) ──────────────────────
+    // Agriculture IDENTITY = farming & crops, livestock & animal protein,
+    // agribusiness & food production, food security & supply, fertilizers &
+    // crop inputs, irrigation & agricultural water, commodity crops (corn/soy/
+    // wheat), agricultural technology & precision ag, and farm economics. Real
+    // agriculture operators anchor these lanes: ADM, BG, CTVA, DE, NTR, MOS, CF,
+    // TSN, CAG, INGR, AGCO, FMC, and ag-commodity references (CBOT corn/soy/wheat,
+    // USDA WASDE). Agriculture is DISTINCT from environment (land/water/climate is
+    // a COUPLING, not agriculture's own content), trade (export logistics is a
+    // COUPLING), economy (food prices is a COUPLING), and energy (biofuel/
+    // fertilizer-energy is a COUPLING, never agriculture's own identity).
+    //
+    // BEFORE this block, agriculture appeared ONLY as a SECONDARY co-eligible
+    // participant in other domains' lanes (anyDomain lists of patents, business-
+    // grants, sba-loans, franchise, supply-chain-sourcing-industrial). It never
+    // owned a PRIMARY source lane the way defense owns 'defense-procurement'
+    // (line 76), intelligence owns 'intelligence-operations' (line 96), industry
+    // owns 'industrial-capacity-investment' (line 161), and governance owns
+    // 'regulatory-compliance-modernization' (line 197). This block brings
+    // agriculture to PRIMARY-lane parity — agriculture is the negotiator, not a
+    // support domain:
+    //   'crop-input-financing'  — one bounded farm operation's fertilizer / seed /
+    //       equipment capex financing (analogous to 'factory-output-financing' for
+    //       a manufacturer / an SBA borrower file). Single-domain: one borrower-
+    //       equivalent farm entity sourcing inputs (NTR/MOS/CF fertilizer, CTVA
+    //       seed, DE/AGCO equipment).
+    //   'yield-assurance'       — one bounded crop-insurance / yield-enhancement /
+    //       precision-ag program for a single farm operation (analogous to a
+    //       weapons-system modernization / 'manufacturing-modernization' for a
+    //       single production base). Single-domain: yield assurance targets one
+    //       bounded operation's crop-risk and productivity.
+    //   'commodity-hedging-facility' — futures / options trading capital / commodity-
+    //       risk management facility for a single agribusiness or commodity trader
+    //       (CBOT corn/soy/wheat hedging; ADM/BG/INGR processor risk books). Single-
+    //       domain: one bounded counterparty's hedging program (analogous to a
+    //       credit facility / 'factory-output-financing').
+    //   'farm-consolidation'    — farm acquisition / cooperative formation / agri-
+    //       business roll-up shaped opportunity. Inherently MULTI-domain (a
+    //       consolidation spans operations, finance, and the input/processing graph
+    //       across counterparties), so NOT single-domain. Agriculture-primary, with
+    //       controlled finance/technology/environment coupling only.
+    // Like the defense/intelligence/industry/governance blocks, these gates are
+    // LIVE (reachable): an agriculture opportunity whose lane hints are empty falls
+    // through to the full LANES list in recompute(), so it is tested against these
+    // agriculture-primary gates. The paired follow-up (NOT done here — single-file
+    // edit) is promoting 'crop-input-financing' into DOMAIN_LANE_HINTS.agriculture
+    // in cross-node-opportunity.js so the emitter prefers the agriculture-primary
+    // lane, exactly as defense promoted 'defense-procurement' into its hint list.
+    'crop-input-financing', 'yield-assurance',
+    'commodity-hedging-facility', 'farm-consolidation'
     // ─── DESIGN NOTE — future trade-native lanes (NOT added now) ──────────
     // Per the wiring-gap analysis: trade currently participates as a SECONDARY
     // participant (via supplyChain in business-grants/sba-loans/franchise/credit-
@@ -449,7 +499,60 @@
     //   economy = macro policy levers, finance = fiscal/monetary regime). Passing
     //   this gate signals only "sufficient packet detail to attempt a policy-
     //   coordination note" — NOT a policy decision, NOT authority, NOT any prediction.
-    'policy-coordination-platform':       { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['governance','law','economy','finance'] }
+    'policy-coordination-platform':       { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['governance','law','economy','finance'] },
+    // ─── Agriculture-native PRIMARY lane gates (additive) ─────────────────
+    // crop-input-financing — one bounded farm operation's fertilizer / seed /
+    //   equipment capex financing routed to the agriculture negotiator
+    //   (analogous to factory-output-financing / sba-loans as a single bounded
+    //   counterparty file). singleDomainOnly: one borrower-equivalent farm entity,
+    //   so cross-node multi-domain aggregations are routed away. Agriculture-
+    //   primary, with the financing-origination domains (finance = the lender,
+    //   economy = the farm-credit/capex cycle, technology = precision-ag input
+    //   optimization, industry = equipment/machinery supply). Passing this gate
+    //   signals only "sufficient packet detail to attempt a crop-input-financing
+    //   note" — NOT a lending decision, NOT any prediction. Real ag-input
+    //   operators: NTR, MOS, CF, CTVA, FMC (inputs); DE, AGCO (equipment).
+    //   Distinct from environment (land/water/climate coupling), trade (export
+    //   logistics coupling), economy (food prices coupling), energy (fertilizer-
+    //   energy coupling) — none of which is agriculture's own content.
+    'crop-input-financing':       { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: true,  anyDomain: ['agriculture','finance','economy','technology','industry'] },
+    // yield-assurance — one bounded crop-insurance / yield-enhancement / precision-
+    //   ag program for a single farm operation (analogous to manufacturing-
+    //   modernization for a single production base). singleDomainOnly: yield
+    //   assurance targets one bounded operation's crop-risk and productivity.
+    //   Agriculture-primary, with the assurance-adjacent domains (finance = crop-
+    //   insurance underwriting, technology = precision-ag / satellite yield models,
+    //   environment = the agronomic-conditions COUPLING that informs but is not
+    //   agriculture's content). Passing this gate signals only "sufficient packet
+    //   detail to attempt a yield-assurance note" — NOT an underwriting decision,
+    //   NOT any prediction. Anchored by CTVA (seed/traits), FMC (crop protection),
+    //   DE/AGCO (precision-ag platforms), with USDA WASDE yield context.
+    'yield-assurance':            { minEvidence: 0.55, minConfidence: 0.60, singleDomainOnly: true,  anyDomain: ['agriculture','finance','technology','environment'] },
+    // commodity-hedging-facility — futures / options trading capital / commodity-
+    //   risk-management facility for a single agribusiness or commodity trader
+    //   (CBOT corn/soy/wheat hedging; processor/merchant risk books). singleDomainOnly:
+    //   one bounded counterparty's hedging program (analogous to a credit facility /
+    //   factory-output-financing). Agriculture-primary, with the hedging-origination
+    //   domains (finance = the futures/options counterparty & clearing, economy =
+    //   the commodity-price cycle, trade = the physical-flow COUPLING that the
+    //   hedge offsets). Passing this gate signals only "sufficient packet detail to
+    //   attempt a commodity-hedging note" — NOT a trading decision, NOT a position,
+    //   NOT any prediction. Real ag-merchant/processor operators: ADM, BG, INGR
+    //   (grain/oilseed processing & merchandising); CBOT corn/soy/wheat references.
+    'commodity-hedging-facility': { minEvidence: 0.55, minConfidence: 0.60, singleDomainOnly: true,  anyDomain: ['agriculture','finance','economy','supplyChain'] },
+    // farm-consolidation — farm acquisition / cooperative formation / agribusiness
+    //   roll-up shaped opportunity. Inherently MULTI-domain (a consolidation spans
+    //   operations, finance, and the input/processing graph across counterparties),
+    //   so singleDomainOnly is false. Slightly lower bar than the single-bounded
+    //   lanes because a consolidation note is a multi-counterparty structural
+    //   artifact, not a single bounded file. Agriculture-primary, with the
+    //   consolidation-adjacent domains (finance = the acquisition capital, economy =
+    //   the farm-economics/scale cycle, technology = the precision-ag platform that
+    //   scales across acquired acreage). Passing this gate signals only "sufficient
+    //   packet detail to attempt a farm-consolidation note" — NOT an acquisition
+    //   decision, NOT any prediction. Anchored by integrators/processors ADM, BG,
+    //   TSN, CAG, INGR and the farm-equipment scale partners DE, AGCO.
+    'farm-consolidation':         { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['agriculture','finance','economy','technology'] }
   };
 
   var _last = { lanes: {}, timestamp: 0, totalPackets: 0 };
@@ -539,6 +642,10 @@
       case 'supply-chain-sourcing-industrial': return 'Domains ' + doms + ' indicate industrial INPUT sourcing / supplier-graph / raw-material & component procurement from the production-node side routed to the industry negotiator — distinct from trade\'s logistics-network mapping; a multi-domain sourcing artifact, not a sourcing decision, not a contract, not any prediction.';
       case 'regulatory-compliance-modernization': return 'Domains ' + doms + ' indicate a bounded regulatory-transformation opportunity for a single agency / regime (rulemaking modernization, oversight-platform upgrade, compliance-regime overhaul) routed to the governance negotiator — anchored to institutions & indicators (WGI/V-Dem/GAO/CBO/Federal Register) and govtech operators (TYL/MMS/BAH/LDOS/ACN/GDIT); not a rulemaking, not an award, not any prediction. Distinct from law (judicial), economy (macro) and finance (capital).';
       case 'policy-coordination-platform': return 'Domains ' + doms + ' indicate inter-agency policy-alignment / cross-branch coherence / systemic institutional-coordination opportunity routed to the governance negotiator as the primary coordinator — an inherently multi-domain institutional-analysis artifact spanning the real-economy domains governance regulates; not a policy decision, not authority, not any prediction.';
+      case 'crop-input-financing': return 'Domains ' + doms + ' indicate fertilizer / seed / equipment capex-financing opportunity for a single bounded farm operation routed to the agriculture negotiator — a single counterparty file (analogous to an SBA borrower or factory-output-financing); anchored by ag-input operators (NTR/MOS/CF/CTVA/FMC) and equipment (DE/AGCO); not a lending decision, not any prediction. Distinct from environment (land/water coupling), trade (export logistics coupling) and energy (fertilizer-energy coupling).';
+      case 'yield-assurance': return 'Domains ' + doms + ' indicate crop-insurance / yield-enhancement / precision-ag opportunity for a single bounded farm operation routed to the agriculture negotiator — anchored by CTVA/FMC and precision-ag platforms (DE/AGCO) with USDA WASDE yield context; not an underwriting decision, not any prediction. Agronomic conditions are an environment coupling, not agriculture\'s own content.';
+      case 'commodity-hedging-facility': return 'Domains ' + doms + ' indicate futures / options / commodity-risk-management facility opportunity (CBOT corn/soy/wheat hedging) for a single bounded agribusiness or commodity trader routed to the agriculture negotiator — anchored by grain/oilseed processors & merchants (ADM/BG/INGR); not a trading decision, not a position, not any prediction. Food-price macro is an economy coupling, physical flow a trade coupling.';
+      case 'farm-consolidation': return 'Domains ' + doms + ' indicate farm-acquisition / cooperative-formation / agribusiness roll-up opportunity routed to the agriculture negotiator — an inherently multi-domain structural artifact spanning operations, acquisition capital and the input/processing graph; anchored by integrators/processors (ADM/BG/TSN/CAG/INGR) and equipment scale partners (DE/AGCO); not an acquisition decision, not any prediction.';
     }
     return '';
   }
