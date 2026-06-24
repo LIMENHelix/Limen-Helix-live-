@@ -185,7 +185,33 @@
     { label: 'Explore industrial workforce reskilling and automation-displacement mitigation as a throughput-continuity signal (MANEMP manufacturing employment vs CES3000000008 wage growth, skills-gap modeling)', domain: 'industry', type: 'system-risk', baseRelevance: 0.45 },
     { label: 'Analyze machinery & capital-goods merger / consolidation trends and pricing-power concentration (CAT/DE equipment, EMR/HON/MMM diversified-industrial portfolio reshaping)', domain: 'industry', type: 'economic-opportunity', baseRelevance: 0.40 },
     { label: 'Investigate industrial-recession resilience and order-book contraction early-warning across capital-goods cycles (ISM PMI contraction, CAT/DE/DOV/ITW backlog & inventory destocking)', domain: 'industry', type: 'system-risk', baseRelevance: 0.45 },
-    { label: 'Explore production-throughput resilience and automation-displacement mitigation under capacity-utilization stress (FRED TCU drawdown, GEV/ROK/PH automation buildout vs MANEMP labor-displacement)', domain: 'industry', type: 'system-risk', baseRelevance: 0.45 }
+    { label: 'Explore production-throughput resilience and automation-displacement mitigation under capacity-utilization stress (FRED TCU drawdown, GEV/ROK/PH automation buildout vs MANEMP labor-displacement)', domain: 'industry', type: 'system-risk', baseRelevance: 0.45 },
+
+    // Governance (mirrors Infrastructure/Defense/Intelligence structure, translated to government & public-administration concepts —
+    //   Energy seeds focus on storage/grid/renewable ARCHITECTURES; governance seeds focus on INSTITUTIONAL-RESILIENCE,
+    //   POLICY-EFFECTIVENESS, REGULATORY-INTEGRITY, ELECTORAL-SYSTEM, PUBLIC-FINANCE and ANTI-CORRUPTION pathways:
+    //   storage→fiscal-resilience / rainy-day-fund buffering, distributed-grid→cross-agency interoperability & coordination topology,
+    //   transition→policy-modernization & institutional-capacity resilience, attack-surface→institutional-erosion / policy-gridlock
+    //   early-warning. Governance binds mostly to INSTITUTIONS & INDICATORS, NOT single companies — there are no single-firm
+    //   'governance tickets'; opportunities route to systemic-risk / capital-access / research lanes mapped to institutional
+    //   innovation. Relevance = governance stress x policy-fragmentation trend x institutional-modernization-lag signal.
+    //   identity = government & public administration, public policy & rulemaking, regulation & oversight, elections &
+    //   democratic institutions, public finance & budgets, rule of law & institutional integrity, public-services delivery,
+    //   political stability & legitimacy;
+    //   bind to World Bank WGI, V-Dem, OECD, GAO, CBO and Federal Register / Congress.gov indices — NEVER energy oil/gas/grid;
+    //   kept DISTINCT from economy (macro aggregate), finance (capital), law (judicial/legal-system) and intelligence (collection);
+    //   where real entities are needed use govtech / public-sector identifiers only: TYL (Tyler Technologies), MMS (Maximus),
+    //   BAH (Booz Allen), LDOS (Leidos), ACN (Accenture), GDIT — never fabricate)
+    { label: 'Investigate institutional-erosion early-warning via World Bank WGI and V-Dem backsliding signals', domain: 'governance', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Analyze electoral-system capacity and voter-access integrity metrics (election-administration capacity, Brennan Center voting data, voter-access restriction tracking)', domain: 'governance', type: 'system-risk', baseRelevance: 0.40 },
+    { label: 'Explore anti-corruption infrastructure and GAO oversight effectiveness (GAO oversight findings, POGO government-oversight reports, conflict-of-interest disclosure systems)', domain: 'governance', type: 'economic-opportunity', baseRelevance: 0.40 },
+    { label: 'Investigate policy-gridlock detection via Congress.gov legislative-velocity and Federal Register regulatory-volume spikes', domain: 'governance', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Explore governance-modernization platforms for administrative-workflow, permitting-system digitization and policy-coordination (TYL govtech, MMS digital-government services, ACN/GDIT public-sector modernization)', domain: 'governance', type: 'economic-opportunity', baseRelevance: 0.40 },
+    { label: 'Analyze public-trust infrastructure (transparency systems, conflict-of-interest disclosure, participatory-governance) via V-Dem legitimacy scores and Pew institutional-confidence trends', domain: 'governance', type: 'economic-opportunity', baseRelevance: 0.40 },
+    { label: 'Investigate regulatory-clarity systems and unified-regulatory-state design (Federal Register searchability, regulatory-volume normalization, agency-rulemaking coherence)', domain: 'governance', type: 'technological-innovation', baseRelevance: 0.40 },
+    { label: 'Explore fiscal-resilience policy and countercyclical-revenue / rainy-day-fund mechanisms for public-finance stability (CBO budget projections, cross-sector revenue rebalancing)', domain: 'governance', type: 'economic-opportunity', baseRelevance: 0.45 },
+    { label: 'Analyze regulatory-capture exposure via agency-rulemaking reversals and captured-industry signals (regulatory-integrity & oversight effectiveness, OECD regulatory-policy indicators)', domain: 'governance', type: 'system-risk', baseRelevance: 0.40 },
+    { label: 'Investigate cross-agency coordination infrastructure (interoperability standards, data-sharing protocols, unified-command structures) for institutional-capacity resilience (BAH/LDOS policy-modernization, GDIT data-sharing platforms)', domain: 'governance', type: 'technological-innovation', baseRelevance: 0.40 }
   ];
 
   // ─── State ───────────────────────────────────────────────────────────────

@@ -243,6 +243,58 @@
     intelligence: ['capital-access']
   };
 
+  // ─── Governance co-domain coupling lanes (additive, policy-regime) ──────
+  // Mirrors the technology-/finance-coupling pattern but keyed on GOVERNANCE
+  // being co-elevated. Fires only when governance is present in an
+  // opportunity's domain set alongside a partner domain whose capex/strategy
+  // is shaped by a POLICY REGIME — the coupling unique to governance.
+  //
+  // GOVERNANCE IDENTITY (distinct from economy=macro, finance=capital,
+  // law=judicial/legal-system, intelligence=collection): government & public
+  // administration, public policy & rulemaking, regulation & oversight,
+  // elections & democratic institutions, public finance & budgets, rule of
+  // law & institutional integrity, public-services delivery, political
+  // stability & legitimacy. Governance binds to INSTITUTIONS & INDICES, not
+  // single firms — where entities are needed the real govtech/public-sector
+  // identifiers are TYL (Tyler Technologies), MMS (Maximus), BAH, LDOS, ACN,
+  // GDIT, and the policy/governance indices are World Bank WGI, V-Dem, OECD,
+  // GAO, CBO, and the Federal Register. NEVER energy oil/gas/grid content.
+  //
+  // The policy-regime couplings the gap names —
+  //   • governance ↔ energy    : carbon-regulatory-compliance (emissions-cap /
+  //       transition-mandate policy shaping capex)
+  //   • governance ↔ finance   : prudential-compliance-modernization (capital-
+  //       adequacy / stress-test regulatory framework)
+  //   • governance ↔ defense   : acquisition-authority-modernization (program-
+  //       of-record decision-making / procurement-authority efficiency)
+  //   • governance ↔ technology: tech-regulation-modernization (IP / antitrust /
+  //       data-privacy regulation shaping capex)
+  // — describe the SHAPE of each opportunity. But exactly as the economy,
+  // defense, and intelligence blocks above warn, only tokens that route to a
+  // REAL, governance-accepting LANE_GATES entry in handoff-contract.js may be
+  // emitted, or recompute() silently drops them (the dead-token anti-pattern;
+  // see handoff-contract.js line `if (!LANE_GATES[lane]) continue;`). Against
+  // the current contract, the ONLY gate whose anyDomain includes 'governance'
+  // is 'copyrights' — governance's analytic/policy work product (rulemaking
+  // analyses, regulatory-compliance frameworks, policy white papers, oversight
+  // assessments) is the copyrightable artifact every policy-regime coupling
+  // produces. So each coupling routes to 'copyrights' (LIVE, never dropped),
+  // and the named lanes above (carbon-regulatory-compliance, prudential-
+  // compliance-modernization, acquisition-authority-modernization, tech-
+  // regulation-modernization) are documented here as the INTENT — they are NOT
+  // emitted as bare tokens (no matching gate yet; adding gates would require
+  // editing handoff-contract.js, out of scope for this additive port). When a
+  // governance-accepting gate for those lanes is later added to LANE_GATES,
+  // swap the 'copyrights' value for the named token — the emitter below already
+  // routes governance couplings to the governance negotiator. Additive only —
+  // never removes the generic governance lanes above.
+  var GOVERNANCE_COUPLING_LANES = {
+    energy:      ['copyrights'], // carbon-regulatory-compliance (intent)
+    finance:     ['copyrights'], // prudential-compliance-modernization (intent)
+    defense:     ['copyrights'], // acquisition-authority-modernization (intent)
+    technology:  ['copyrights']  // tech-regulation-modernization (intent)
+  };
+
   function _laneHints(domains) {
     var bag = {};
     for (var i = 0; i < domains.length; i++) {
@@ -275,6 +327,23 @@
         if (!fcouple) continue;
         for (var fj = 0; fj < fcouple.length; fj++) {
           bag[fcouple[fj]] = (bag[fcouple[fj]] || 0) + 2;
+        }
+      }
+    }
+    // Conditional governance coupling (policy-regime): only when governance is
+    // co-elevated with a partner domain (energy/finance/defense/technology) in
+    // this same opportunity's domain set. Mirrors the technology-/finance-
+    // coupling weighting so the policy-regime lane out-ranks generic hints,
+    // routing the carbon/prudential/acquisition/tech-regulation compliance
+    // artifact to the governance negotiator (via its live 'copyrights' gate).
+    if (domains.indexOf('governance') >= 0) {
+      for (var gi = 0; gi < domains.length; gi++) {
+        var gpartner = domains[gi];
+        if (gpartner === 'governance') continue;
+        var gcouple = GOVERNANCE_COUPLING_LANES[gpartner];
+        if (!gcouple) continue;
+        for (var gj = 0; gj < gcouple.length; gj++) {
+          bag[gcouple[gj]] = (bag[gcouple[gj]] || 0) + 2;
         }
       }
     }

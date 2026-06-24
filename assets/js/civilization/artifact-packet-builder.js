@@ -204,7 +204,42 @@
     'environmental-remediation':         'INVESTABLE',
     'pollution-control-technology':      'INVESTABLE',
     'ecosystem-restoration':             null,
-    'carbon-market-access':              'INVESTABLE'
+    'carbon-market-access':              'INVESTABLE',
+    // ─── Governance-native fan-out lanes (additive) ────────────────────────
+    // The governance domain (government & public administration, public policy
+    // & rulemaking, regulation & oversight, elections & democratic institutions,
+    // public finance & budgets, rule of law & institutional integrity, public
+    // services delivery, political stability & legitimacy) emits to
+    // compliance / coordination / institutional-shaped lanes beyond the generic
+    // grant/loan/investment set. Without entries here those lanes hit the "key
+    // absent" branch and emit UNKNOWN_LANE_FOR_PATH_MAP (warn), demoting every
+    // governance artifact routed through them — exactly the trade / industry /
+    // environment gap fixed above. These are LANE keys (not domain keys),
+    // mirroring how sba-loans / investments map to INVESTABLE. Governance binds
+    // mostly to INSTITUTIONS & INDICATORS (World Bank WGI, V-Dem, OECD, GAO,
+    // CBO, Federal Register) and real govtech operators (TYL Tyler
+    // Technologies, MMS Maximus, BAH, LDOS, ACN, GDIT), NOT single companies.
+    // Kept DISTINCT from economy (macro aggregate), finance (capital markets),
+    // law (judicial / legal-system is the law domain), and intelligence
+    // (collection / analysis). Governance content = rulemaking / oversight /
+    // public administration / institutional integrity.
+    //   - regulatory-compliance-modernization: a bounded compliance-
+    //     infrastructure build-out (rulemaking modernization, regulatory tech,
+    //     public-sector compliance systems) = capital deployment into
+    //     compliance infrastructure → INVESTABLE path (like sba-loans).
+    //   - policy-coordination-platform: an inter-agency coordination platform
+    //     (shared services, cross-jurisdiction policy alignment, govtech
+    //     coordination) = capital deployment into a coordination platform →
+    //     INVESTABLE path (capital deployment).
+    //   - institutional-integrity: rule-of-law / oversight / anti-corruption /
+    //     legitimacy signal bound to governance INDICATORS (WGI, V-Dem, GAO);
+    //     genuine white-space — no Observatory fan-in path defined yet (like
+    //     franchise / systemic-risk / factory-output / ecosystem-restoration)
+    //     → null. The packet is built from the HandoffPacket alone and emits
+    //     NO_ENRICHMENT_PATH (info, not warn) rather than UNKNOWN_LANE_FOR_PATH_MAP.
+    'regulatory-compliance-modernization': 'INVESTABLE',
+    'policy-coordination-platform':        'INVESTABLE',
+    'institutional-integrity':             null
   };
 
   // ─── Lane forbidden-fields policy ──────────────────────────────────────
@@ -246,7 +281,15 @@
     'environmental-remediation':         [],
     'pollution-control-technology':      [],
     'ecosystem-restoration':             [],
-    'carbon-market-access':              []
+    'carbon-market-access':              [],
+    // Governance-native fan-out lanes (see LANE_TO_PATH). No fields forbidden —
+    // these are compliance-infrastructure / coordination-platform / institutional
+    // capital lanes where valueRange, compensation, and counterparty detail are
+    // load-bearing (unlike the patent/grant lanes that strip dollar figures).
+    // Mirrors sba-loans / investments policy.
+    'regulatory-compliance-modernization': [],
+    'policy-coordination-platform':        [],
+    'institutional-integrity':             []
   };
 
   // ─── Citation hints — verified URLs / opaque agency tokens ONLY ────────

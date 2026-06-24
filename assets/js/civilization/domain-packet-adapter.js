@@ -516,6 +516,44 @@
     // finance/economy/supplyChain/industry win when both are present (a slot is
     // single-domain, so they never collide in practice).
     var _ben = _emO(slot && slot.brainEnvironmentModel);
+    // Governance parity: governance brains emit a recurrent INSTITUTIONAL-LIFECYCLE
+    // model (brainGovernanceModel) that follows the SAME envelope signature as
+    // energy's energyModel, infrastructure's infrastructureModel, culture's
+    // cultureModel, finance's financeModel, economy's economyModel, trade's
+    // supplyChainModel, industry's industryModel, and environment's
+    // environmentModel, so Civilization + the Main Brain consume it identically.
+    // The governance model tracks the POLICY / REGULATION / INSTITUTIONAL
+    // lifecycle (policy-regime phase — expansive / stable / restrictive — and the
+    // rulemaking / approval-legitimacy trajectory as policyRegimeCycle;
+    // regulatory-constraint tightening — statutory mandates, oversight rules,
+    // compliance regimes — as the regulation signal, regulatoryConstraintState;
+    // institutional-failure / legitimacy-erosion stress — public-approval collapse,
+    // oversight breakdown, inter-agency coordination failure — with
+    // institutional-collapse risk — predictedStress via institutionalFailureRisk;
+    // the prior on oversight-effectiveness / institutional-capacity health —
+    // priorInstitutionalHealth) rather than neurological cycles, civil-asset
+    // lifecycles, attention economies, single-firm capital lifecycles,
+    // macroeconomic business cycles, goods-in-motion logistics, factory-output
+    // production, or climate / ecosystem health. Governance is the POLICY /
+    // RULEMAKING / OVERSIGHT / DEMOCRATIC-INSTITUTIONS / PUBLIC-FINANCE /
+    // RULE-OF-LAW / LEGITIMACY layer and is the institutional REGULATION SOURCE
+    // that binds the other domains (energy carbon-regulatory pressure, finance
+    // capital rules, environment emissions caps, defense procurement oversight).
+    // It stays DISTINCT from economy (macro aggregate — GDP / inflation /
+    // employment), from finance (capital markets / credit / solvency), from law
+    // (the JUDICIAL / legal-system domain — courts, case law, adjudication), and
+    // from intelligence. Governance binds mostly to INSTITUTIONS & INDICATORS, not
+    // single companies; where entities are needed, real signal validation anchors
+    // on REAL govtech / public-sector identifiers — TYL (Tyler Technologies), MMS
+    // (Maximus), BAH (Booz Allen Hamilton), LDOS (Leidos), ACN (Accenture), GDIT
+    // (General Dynamics IT) — and on governance INDICES / sources — World Bank WGI
+    // (Worldwide Governance Indicators), V-Dem, OECD, GAO, CBO, the Federal
+    // Register — never energy oil/gas/grid tickers or fabricated entities, which
+    // are another domain's content. We map its institutional field names onto the
+    // shared deepBrain envelope. Energy/infrastructure/culture/finance/economy/
+    // supplyChain/industry/environment win when both are present (a slot is
+    // single-domain, so they never collide in practice).
+    var _bgm = _emO(slot && slot.brainGovernanceModel);
     var deepBrain = _bem ? {
       cycle:           _num(_bem.cycle),
       predictionError: _emO(_bem.predictionError),
@@ -960,6 +998,88 @@
       carbonMarketTrend:          _num(_ben.carbonMarketTrend),
       regulatoryTighteningTrend:  _num(_ben.regulatoryTighteningTrend),
       domainDiagnosisPacket: _emO(_ben.domainEnvironmentPacket) || _emO(_ben.domainDiagnosisPacket)
+    } : _bgm ? {
+      // Institutional-lifecycle mapped onto the shared recurrent envelope.
+      // policyRegimeCycle → cycle, regulatoryConstraintState → regulation,
+      // institutionalFailureRisk → predictedStress, priorInstitutionalHealth → prior,
+      // domainGovernancePacket → domainDiagnosisPacket.
+      cycle:           _num(_bgm.policyRegimeCycle != null ? _bgm.policyRegimeCycle : _bgm.cycle),
+      predictionError: _emO(_bgm.predictionError),
+      // regulatoryConstraintState is the governance regulation signal: the
+      // tightening (or loosening) of regulatory / statutory constraint —
+      // rulemaking volume, compliance mandates, oversight scope — and how the
+      // policy regime is steering institutional outcomes (analogous to energy's
+      // regulationState, infrastructure's capital-funding regulation, culture's
+      // expression state, finance's funding-source quality, economy's fiscal-
+      // monetary regulation, trade's freight-cost regulation, industry's
+      // capacity-utilization regulation, and environment's climate-regulation
+      // state). Expansive / stable / restrictive policy regime.
+      regulationState: (_bgm.regulatoryConstraintState && _bgm.regulatoryConstraintState.state)
+                       || _str(_bgm.regulatoryConstraintState)
+                       || (_bgm.policyRegimeState && _bgm.policyRegimeState.state)
+                       || _str(_bgm.policyRegimeState)
+                       || (_bgm.regulation && _bgm.regulation.state)
+                       || null,
+      regulation:      _emO(_bgm.regulatoryConstraintState) || _emO(_bgm.policyRegimeState) || _emO(_bgm.regulation),
+      readyForHandoff: _bgm.readyForHandoff === true,
+      // institutionalFailureRisk is the governance predicted-stress signal
+      // (likelihood of institutional failure / legitimacy erosion — public-
+      // approval collapse, oversight breakdown, inter-agency coordination
+      // failure, rule-of-law degradation), carried through unchanged in [0..1].
+      // legitimacyStress is the broader legitimacy-erosion analogue; either may
+      // stand in for predictedStress, institutionalFailureRisk wins as the more
+      // acute near-term signal.
+      predictedStress: _num(
+        _bgm.institutionalFailureRisk != null ? _bgm.institutionalFailureRisk
+        : (_bgm.legitimacyStress != null ? _bgm.legitimacyStress
+        : (_bgm.governanceStress != null ? _bgm.governanceStress
+        : _bgm.predictedStress))
+      ),
+      // priorInstitutionalHealth carries the prior on oversight-effectiveness /
+      // institutional-capacity health (the institutional-integrity trajectory),
+      // mirroring energy's prior, infrastructure's priorAssetHealth, culture's
+      // creativeCapacity, finance's priorCapitalHealth, economy's priorGrowthTrend,
+      // trade's priorThroughputHealth, industry's priorCapacityHealth, and
+      // environment's priorEnvironmentalHealth. When reported as a health value
+      // ([0..1] high = effective oversight, high legitimacy, strong inter-agency
+      // capacity), invert into a stress (institutional-failure) expectation; an
+      // explicit expectedStress wins.
+      prior:           (_bgm.priorInstitutionalHealth || _bgm.prior)
+                       ? (function (p) {
+                           return {
+                             // expectedStress mirrors energy: here the prior
+                             // expected institutional-failure / legitimacy-erosion distress level.
+                             expectedStress: _num(
+                               p.expectedStress != null ? p.expectedStress
+                               : (p.expectedErosion != null ? p.expectedErosion
+                               : (typeof p.institutionalHealth === 'number' ? (1 - _clamp01(p.institutionalHealth))
+                               : (typeof p.oversightEffectiveness === 'number' ? (1 - _clamp01(p.oversightEffectiveness))
+                               : (typeof p === 'number' ? (1 - _clamp01(p)) : null))))
+                             ),
+                             confidence:     _num(p.confidence),
+                             samples:        _num(p.samples)
+                           };
+                         })(_bgm.priorInstitutionalHealth || _bgm.prior)
+                       : null,
+      // Institutional telemetry preserved alongside the shared envelope so
+      // downstream artifact expansion can feed governance / public-administration
+      // decisions (oversight-effectiveness trend on GAO/CBO/IG audit capacity,
+      // public-approval / legitimacy trajectory, rulemaking / regulatory-constraint
+      // tightening, inter-agency coordination health, public-finance / budget
+      // posture, rule-of-law / institutional-integrity trend, political-stability
+      // trajectory). Sourced from REAL governance INDICES & govtech identifiers:
+      // World Bank WGI, V-Dem, OECD, GAO, CBO, the Federal Register, and the
+      // public-sector vendors TYL, MMS, BAH, LDOS, ACN, GDIT. These are POLICY /
+      // RULEMAKING / OVERSIGHT / LEGITIMACY signals — distinct from economy's
+      // macro aggregates, finance's capital markets, and law's judicial system.
+      oversightEffectivenessTrend: _num(_bgm.oversightEffectivenessTrend != null ? _bgm.oversightEffectivenessTrend : _bgm.oversightEffectiveness),
+      legitimacyTrend:             _num(_bgm.legitimacyTrend != null ? _bgm.legitimacyTrend : _bgm.legitimacyTrendPrior),
+      regulatoryTighteningTrend:   _num(_bgm.regulatoryTighteningTrend),
+      interagencyCoordination:     _num(_bgm.interagencyCoordination != null ? _bgm.interagencyCoordination : _bgm.institutionalCapacity),
+      publicFinancePosture:        _num(_bgm.publicFinancePosture),
+      ruleOfLawTrend:              _num(_bgm.ruleOfLawTrend),
+      politicalStabilityTrend:     _num(_bgm.politicalStabilityTrend),
+      domainDiagnosisPacket: _emO(_bgm.domainGovernancePacket) || _emO(_bgm.domainDiagnosisPacket)
     } : null;
 
     // Feed health. Configured count is the MAX of every honest declaration

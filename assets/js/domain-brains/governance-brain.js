@@ -34,6 +34,12 @@
       { targetDomain: 'supplyChain', signalType: 'administrative_friction', condition: function (s) { return s.stress >= 0.30; }, magnitudeFormula: function (s) { return Math.min(1, s.stress * 0.45); } },
       { targetDomain: 'finance', signalType: 'policy_uncertainty_premium', condition: function (s) { return s.stress >= 0.25; }, magnitudeFormula: function (s) { return Math.min(1, s.stress * 0.5); } }
     ];
+    // ── COGNITION PARITY bootstrap loaders (one-shot, offline-safe) ──
+    try { this._loadGovernanceOperators(); } catch (e) {}                       // real govtech / public-sector entities (state.companies starved)
+    try { this._loadGovernanceBrainSignals(); } catch (e) {}                    // distress ONLY from the validated Thing pipeline
+    try { this._loadGovernanceDiagnosisBundles(); } catch (e) {}                // load real artifact-source bundles (only ones that exist)
+    try { this._loadGovernanceL1PortalDepth(); } catch (e) {}                   // scan L1 branches (treatments mad-lib -> NOT admitted; real entities only)
+    try { this._loadGovernanceInstitutionalIntegritySublayer(); } catch (e) {} // institutional-integrity sub-portal (real-content, unbundled) as an additive LAYER
   };
 
   GovernanceBrain.prototype.normalizeSignals = function () {
@@ -343,7 +349,841 @@
   };
 
   var _origCycle = GovernanceBrain.prototype.cycle;
-  GovernanceBrain.prototype.cycle = function () { var self = this; return _origCycle.call(this).then(function () { return self.resolveDeepContent(); }); };
+  GovernanceBrain.prototype.cycle = function () {
+    var self = this;
+    return _origCycle.call(this).then(function () {
+      return self.resolveDeepContent();
+    }).then(function () {
+      // Higher cognition: predictive self-model + metacognition (runs AFTER diagnoses settle)
+      try { self._updateGovernanceModel(); } catch (e) {}
+    });
+  };
+
+  // ══════════════════════════════════════════════════════════════════════
+  // HIGHER COGNITION — predictive self-model + metacognition (governance).
+  // Generic predictive-coding substrate (prior → observe → prediction error →
+  // regulation → update prior) + awareness / conscience / immune / intuition /
+  // simulation / executive-report, an institutional-integrity sub-portal LAYER,
+  // and the 8-section DomainDiagnosisPacket the console SELF-MODEL panel consumes.
+  // Mirrors culture/energy STRUCTURE exactly; only the CONTENT is governance
+  // (institutions & indicators, public policy & rulemaking, regulation & oversight,
+  // elections & democratic institutions, public finance, rule of law & integrity,
+  // public-service delivery, political stability & legitimacy). Distinct from
+  // economy (macro), finance (capital), law (judicial), and intelligence.
+  // Never fabricates evidence. Real govtech/index identifiers only.
+  // ══════════════════════════════════════════════════════════════════════
+  var GM_VERSION = 1;
+  var GM_LEARNING_RATE = 0.25;
+  var GM_SLOW_RATE = 0.08;
+  var GM_STRESS_FLOOR = 0.30;
+  var GM_FLOOD_CAP = 12;
+  var GM_STALE_MS = 1000 * 60 * 60 * 6;
+  var _gmClamp = function (v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; };
+  var _gmJaccardDistance = function (a, b) {
+    a = a || []; b = b || [];
+    if (!a.length && !b.length) return 0;
+    var sa = {}, inter = 0;
+    a.forEach(function (x) { sa[x] = 1; });
+    b.forEach(function (x) { if (sa[x]) inter++; });
+    var uni = a.length + b.length - inter;
+    return uni ? 1 - inter / uni : 0;
+  };
+
+  (function () {
+    var P = GovernanceBrain.prototype;
+
+    // Governance diagnosis families — an analogy lens for monitoring, NOT evidence.
+    var FAMILY = {
+      'institutional-failure': ['CONSTITUTIONAL_CRISIS', 'POLICY_FAILURE'],
+      'legitimacy-erosion': ['REGIME_INSTABILITY', 'CORRUPTION_SCANDAL'],
+      'integrity-breach': ['CORRUPTION_SCANDAL', 'POLICY_FAILURE'],
+      'external-rupture': ['DIPLOMATIC_BREAKDOWN', 'MILITARY_OVERREACH'],
+      'order-vs-stability': ['CONSTITUTIONAL_CRISIS', 'REGIME_INSTABILITY']
+    };
+
+    P._neutralGovernanceModel = function () {
+      return { version: GM_VERSION, cycle: 0, prior: { expectedStress: 0.5, expectedDiagnoses: [], expectedDiagnosisCount: 0, expectedOpportunityCount: 0, expectedSignal: 0.5, confidence: 0, samples: 0 }, observation: null, predictionError: null, predictedStress: null, regulation: null, plasticity: { learningRate: GM_LEARNING_RATE, slowRate: GM_SLOW_RATE, consolidation: 0 }, readyForHandoff: false, _lowErrorStreak: 0, updated: 0 };
+    };
+    P._buildGovernanceObservation = function () {
+      var s = this.state || {};
+      var active = (s.diagnoses || []).filter(function (d) { return d.active; });
+      // signal = breadth of live governance feeds (institutional / oversight / indicator activity)
+      var feeds = s.feeds || [], fc = 0, newest = 0;
+      if (Array.isArray(feeds)) {
+        for (var i = 0; i < feeds.length; i++) { var fv = feeds[i]; if (fv) { fc++; var u = fv.updated; if (u && u > newest) newest = u; } }
+      } else { for (var k in feeds) { if (feeds.hasOwnProperty(k)) { fc++; var u2 = feeds[k] && feeds[k].updated; if (u2 && u2 > newest) newest = u2; } } }
+      // companyCount = institutions / govtech operators / public-sector entities
+      var companyCount = (s.companies || []).length;
+      return { stress: typeof s.stress === 'number' ? s.stress : 0, phase: s.phase || null, activeDiagnoses: active.map(function (d) { return d.id; }).sort(), diagnosisCount: active.length, opportunityCount: (s.opportunities || []).length, companyCount: companyCount, signal: Math.min(1, fc / 8), feedNewest: newest, timestamp: Date.now() };
+    };
+    P._computeGovernancePredictionError = function (prior, obs) {
+      var se = Math.abs(obs.stress - prior.expectedStress), sg = Math.abs(obs.signal - prior.expectedSignal), de = _gmJaccardDistance(obs.activeDiagnoses, prior.expectedDiagnoses);
+      var od = Math.max(1, prior.expectedOpportunityCount, obs.opportunityCount), oe = Math.abs(obs.opportunityCount - prior.expectedOpportunityCount) / od;
+      var total = _gmClamp(0.4 * se + 0.2 * sg + 0.25 * de + 0.15 * oe, 0, 1);
+      return { total: total, stressError: se, signalError: sg, diagnosisError: de, opportunityError: oe, novelty: Math.max(se, de) };
+    };
+    P._updateGovernancePrior = function (prior, obs, lr) {
+      return { expectedStress: _gmClamp(prior.expectedStress + lr * (obs.stress - prior.expectedStress), 0, 1), expectedDiagnoses: obs.activeDiagnoses.slice(), expectedDiagnosisCount: prior.expectedDiagnosisCount + lr * (obs.diagnosisCount - prior.expectedDiagnosisCount), expectedOpportunityCount: prior.expectedOpportunityCount + lr * (obs.opportunityCount - prior.expectedOpportunityCount), expectedSignal: _gmClamp(prior.expectedSignal + lr * (obs.signal - prior.expectedSignal), 0, 1), confidence: _gmClamp(Math.min(1, (prior.samples + 1) / 20), 0, 1), samples: prior.samples + 1 };
+    };
+    P._computeGovernanceRegulation = function (gm, obs, pe) {
+      var gain = _gmClamp(pe.novelty, 0.05, 0.95), inhib = _gmClamp(1 - pe.novelty, 0, 0.9);
+      var starving = obs.stress >= GM_STRESS_FLOOR && obs.opportunityCount === 0, flooding = obs.opportunityCount > GM_FLOOD_CAP;
+      var streak = (pe.total < 0.05) ? (gm._lowErrorStreak || 0) + 1 : 0; gm._lowErrorStreak = streak; var looping = streak >= 3;
+      var stale = obs.feedNewest > 0 ? (Date.now() - obs.feedNewest) > GM_STALE_MS : false;
+      var overconf = gm.prior.confidence > 0.8 && pe.total > 0.4;
+      var label = flooding ? 'flooding' : starving ? 'starving' : stale ? 'stale' : looping ? 'looping' : overconf ? 'overconfident' : pe.novelty > 0.4 ? 'surprised' : 'calm';
+      return { gain: gain, inhibition: inhib, starving: starving, flooding: flooding, looping: looping, stale: stale, overconfident: overconf, state: label };
+    };
+
+    // ── RECURRENT STEP — the proof surface (state.governanceModel) the console SELF-MODEL reads ──
+    P._updateGovernanceModel = function () {
+      var gm = this.state.governanceModel || this._neutralGovernanceModel();
+      var priorIn = gm.prior;
+      var obs = this._buildGovernanceObservation();
+      var pe = this._computeGovernancePredictionError(priorIn, obs);
+      var gainBlend = _gmClamp(pe.novelty, 0.05, 0.95);
+      var predictedStress = priorIn.expectedStress * (1 - gainBlend) + obs.stress * gainBlend;
+      var reg = this._computeGovernanceRegulation(gm, obs, pe);
+      var readyForHandoff = (gm.cycle > 0) && (predictedStress >= GM_STRESS_FLOOR) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
+      var nextPrior = this._updateGovernancePrior(priorIn, obs, gm.plasticity.learningRate);
+      gm.cycle += 1; gm.observation = obs; gm.predictionError = pe; gm.predictedStress = predictedStress; gm.regulation = reg; gm.readyForHandoff = readyForHandoff; gm.prior = nextPrior; gm.updated = obs.timestamp;
+      this.state.governanceModel = gm;
+
+      var mem = this.state.memory || (this.state.memory = {});
+      var log = mem.outcomeLog || (mem.outcomeLog = []);
+      log.push({ cycle: gm.cycle, predictionError: Math.round(pe.total * 1000) / 1000, stress: obs.stress, activeDx: obs.diagnosisCount, regulation: reg.state, timestamp: obs.timestamp }); if (log.length > 40) log.shift();
+
+      try { this._computeGovernanceHigherLayers(); } catch (e) {}
+
+      // INSTITUTIONAL-INTEGRITY — governance sub-portal layer (additive; BEFORE the DDP build so the
+      // primary packet's promptView advertises it). Never touches the validated 6-diagnosis spine.
+      try { this._buildGovernanceInstitutionalIntegritySublayer(); } catch (e) {}
+
+      // DDP — build the DomainDiagnosisPacket (8-section contract) for the primary diagnosis,
+      // and one per diagnosis. Schema-only: never invents data. Consumed by the console SELF-MODEL.
+      try {
+        var _diags = this.state.diagnoses || [];
+        var _primary = _diags.filter(function (d) { return d.active; })[0] || _diags[0] || null;
+        var _self = this;
+        gm.domainDiagnosisPacket = this._buildDomainDiagnosisPacket(_primary);
+        this.state.governanceDomainDiagnosisPackets = _diags.map(function (d) { return _self._buildDomainDiagnosisPacket(d); });
+      } catch (e) {}
+
+      // state.cognition — generic surface domain-console-brain.js reads for ANY brain.
+      this.state.cognition = {
+        domain: 'governance',
+        governanceModel: gm,
+        model: { cycle: gm.cycle, predictionError: gm.predictionError, predictedStress: gm.predictedStress, regulation: gm.regulation },
+        governanceImmune: this.state.governanceImmune || null,
+        governanceAwareness: this.state.governanceAwareness || null,
+        governanceConscience: this.state.governanceConscience || null,
+        governanceIntuition: this.state.governanceIntuition || null,
+        governanceSimulation: this.state.governanceSimulation || null,
+        governanceExecutiveReport: this.state.governanceExecutiveReport || null,
+        awareness: this.state.governanceAwareness || null,
+        conscience: this.state.governanceConscience || null,
+        immune: this.state.governanceImmune || null,
+        intuition: this.state.governanceIntuition || null,
+        institutionalIntegritySublayer: this.state.governanceInstitutionalIntegrityLayer || null,
+        policyRegimeSublayer: this.state.policyRegimeSublayer || null,
+        treatments: this.state.treatments || [],
+        diagnoses: this.state.diagnoses || [],
+        opportunities: this.state.opportunities || []
+      };
+      return gm;
+    };
+
+    P._computeGovernanceHigherLayers = function () {
+      this._computeGovernanceImmune(); this._computeGovernanceAwareness(); this._computeGovernanceConscience(); this._computeGovernanceIntuition();
+      try { this._computeGovernanceSimulation(); } catch (e) {}
+      try { this._computeGovernanceExecutiveReport(); } catch (e) {}
+    };
+
+    // ── H1 — immune (antigen scan over bundle/feed/regulation state) ──
+    P._computeGovernanceImmune = function () {
+      var s = this.state, gm = s.governanceModel || {}, reg = gm.regulation || {}, ant = [];
+      var bs = (typeof this._governanceBundleStates === 'function') ? this._governanceBundleStates() : [];
+      bs.forEach(function (b) {
+        if (b.bundleStatus === 'missing') ant.push({ type: 'source-bundle-missing', dx: b.dxId, severity: 'medium', action: 'block-from-prompt-evidence' });
+        if (b.buildMethod === 'external-source-authored') ant.push({ type: 'external-source-authored-needs-human-verification', dx: b.dxId, severity: 'low', action: 'allow-with-warning' });
+        if (b.aliasRisk === 'medium' || b.aliasRisk === 'high') ant.push({ type: 'alias-risk-bundle', dx: b.dxId, severity: b.aliasRisk, action: 'allow-with-warning' });
+        if (b.bundleStatus === 'found' && b.shallow) ant.push({ type: 'root-only-shallow-bundle', dx: b.dxId, severity: 'low', action: 'allow-with-warning' });
+      });
+      var pe = (gm.predictionError && gm.predictionError.total) || 0;
+      if (pe > 0.4) ant.push({ type: 'prediction-error-spike', severity: 'medium', action: 'lower-confidence', value: Math.round(pe * 1000) / 1000 });
+      if (reg.stale) ant.push({ type: 'stale-feeds', severity: 'low', action: 'flag' });
+      if (reg.flooding) ant.push({ type: 'opportunity-flood', severity: 'medium', action: 'inhibit' });
+      if (reg.starving) ant.push({ type: 'stress-without-opportunity', severity: 'low', action: 'flag' });
+      var _l1 = s._l1DepthCache;
+      if (_l1 && _l1.byDiagnosis && Object.keys(_l1.byDiagnosis).some(function (dx) { return _l1.byDiagnosis[dx].madLibTreatments > 0; })) {
+        ant.push({ type: 'l1-synthetic-treatments', severity: 'medium', action: 'quarantine', note: 'L1 portal treatments are mad-lib templates (fixed-verb family); quarantined from evidence — only real govtech/public-sector identifiers surfaced relevance-unverified' });
+      }
+      var sev = ant.some(function (a) { return a.severity === 'high'; }) ? 'high' : ant.some(function (a) { return a.severity === 'medium'; }) ? 'medium' : ant.length ? 'low' : 'none';
+      s.governanceImmune = {
+        version: 1, immuneState: sev === 'high' ? 'alert' : sev === 'medium' ? 'active' : sev === 'low' ? 'watch' : 'clear', severity: sev,
+        antigens: ant.slice(0, 12),
+        quarantines: ['L1-portal-treatments-madlib'],
+        allowedWithWarning: ant.filter(function (a) { return a.action === 'allow-with-warning'; }).map(function (a) { return a.type + (a.dx ? (':' + a.dx) : ''); }),
+        blockedFromPrompt: ant.filter(function (a) { return a.action === 'block-from-prompt-evidence'; }).map(function (a) { return a.dx; }),
+        blockedFromTraversal: ['L2'],
+        lastScanAt: gm.updated || null
+      };
+      return s.governanceImmune;
+    };
+    // ── H2 — awareness (narrative on institutional integrity / legitimacy pressure) ──
+    P._computeGovernanceAwareness = function () {
+      var s = this.state, gm = s.governanceModel || {}, im = s.governanceImmune || {}, active = (s.diagnoses || []).filter(function (d) { return d.active; });
+      var pe = (gm.predictionError && gm.predictionError.total) || 0, dxNames = active.map(function (d) { return d.label || d.id; });
+      s.governanceAwareness = {
+        version: 1, selfState: im.immuneState === 'alert' ? 'guarded' : (gm.regulation && gm.regulation.state) || 'unknown',
+        knowns: dxNames.slice(0, 6),
+        uncertainties: ['interpretive tracker — diagnoses are signal-driven readings of institutional integrity / legitimacy / policy-coherence pressure, not validated', 'high-stress diagnoses require corroboration by institutionally strong sources (GAO/CBO/OMB/World Bank WGI/V-Dem); partisan feeds are positional-only', 'predictionError=' + (Math.round(pe * 1000) / 1000)],
+        confidenceDrivers: ['regulation ' + ((gm.regulation && gm.regulation.state) || '?'), active.length + ' active dx'],
+        selfNarrative: 'Governance: ' + active.length + ' active diagnosis pathway' + (active.length !== 1 ? 's' : '') + ' (' + (dxNames.slice(0, 3).join(', ') || 'none') + '), regulation=' + ((gm.regulation && gm.regulation.state) || '?') + ', immune=' + (im.immuneState || '?') + ', prediction-error ' + (Math.round(pe * 100) / 100) + '.',
+        lastAwarenessAt: gm.updated || null
+      };
+      return s.governanceAwareness;
+    };
+    // ── H3 — conscience (artifact readiness; GOVERNANCE does INVESTABLE/RESEARCHABLE only — no patent/grant per 2026 rules) ──
+    P._computeGovernanceConscience = function () {
+      var s = this.state, gm = s.governanceModel || {}, pe = (gm.predictionError && gm.predictionError.total) || 0, cautions = [];
+      if (pe > 0.4) cautions.push({ claim: 'high-confidence-claim', reason: 'predictionError spike ' + (Math.round(pe * 1000) / 1000) });
+      var bs = (typeof this._governanceBundleStates === 'function') ? this._governanceBundleStates() : [];
+      bs.forEach(function (b) {
+        if (b.buildMethod === 'external-source-authored') cautions.push({ claim: 'strong-claim:' + b.dxId, reason: 'external-source-authored; human-verification-required' });
+      });
+      s.governanceConscience = { version: 1, conscienceState: 'restrictive', vetoes: [{ claim: 'patent/grant', reason: 'patent/grant lanes retired across all domains (2026-06-21); governance has no method/embodiment fields' }], cautions: cautions.slice(0, 8), allowedClaims: ['source-summary', 'policy-brief-with-warnings'], blockedClaims: ['patent-claim', 'grant-claim'], artifactReadinessDecision: { patentReady: false, grantReady: false, investmentReady: true, researchReady: true, note: 'patent/grant vetoed; investment/research allowed-with-warning (high-stress institutional claims need GAO/CBO/OMB/WGI corroboration)' }, reasons: ['overclaim prevention', 'interpretive-not-validated', 'institutional-source-sufficiency'], lastCheckAt: gm.updated || null };
+      return s.governanceConscience;
+    };
+    // ── H4 — intuition (hunches on emerging institutional stress / regime drift) ──
+    P._computeGovernanceIntuition = function () {
+      var s = this.state, gm = s.governanceModel || {}, reg = gm.regulation || {}, log = (s.memory && s.memory.outcomeLog) || [], hunches = [];
+      if (log.length >= 2) { var a = log[log.length - 2].predictionError, b = log[log.length - 1].predictionError; if (typeof a === 'number' && typeof b === 'number' && b - a > 0.05) hunches.push({ hunch: 'institutional regime shift forming (prediction error rising) — emerging policy incoherence or legitimacy drift', confidence: 'LOW', evidenceStatus: 'UNVERIFIED', why: 'predictionError rose ' + a + ' → ' + b, verifyIf: 'error keeps rising 2+ cycles', falsifyIf: 'error returns to baseline' }); }
+      if (reg.state === 'surprised') hunches.push({ hunch: 'novel governance stressor entering the system (institutional shock / abrupt policy reversal)', confidence: 'LOW', evidenceStatus: 'UNVERIFIED', why: 'regulation = surprised', verifyIf: 'a specific diagnosis activates with institutional source support', falsifyIf: 'novelty subsides next cycle' });
+      var missing = (typeof this._governanceBundleStates === 'function' ? this._governanceBundleStates() : []).filter(function (x) { return x.bundleStatus === 'missing' && x.active; });
+      if (missing.length) hunches.push({ hunch: 'recurring uncovered diagnosis: ' + missing[0].dxId, confidence: 'LOW', evidenceStatus: 'UNVERIFIED', why: 'active diagnosis with no source bundle', verifyIf: 'a real institutional source bundle is built', falsifyIf: 'diagnosis deactivates' });
+      // patternMatches — recurring regulation state from real memory
+      var patternMatches = [], recent = log.slice(-10), regCount = {};
+      recent.forEach(function (e) { if (e.regulation) regCount[e.regulation] = (regCount[e.regulation] || 0) + 1; });
+      Object.keys(regCount).forEach(function (k) { if (regCount[k] >= 3) patternMatches.push({ pattern: 'recurring regulation state: ' + k, occurrences: regCount[k], window: recent.length, evidenceStatus: 'UNVERIFIED' }); });
+      var active = (s.diagnoses || []).filter(function (d) { return d.active; }).sort(function (a, b) { return (b.relevance || 0) - (a.relevance || 0); });
+      var primaryId = (active[0] || {}).id, analogies = [];
+      Object.keys(FAMILY).forEach(function (fam) { if (FAMILY[fam].indexOf(primaryId) >= 0) { FAMILY[fam].forEach(function (sib) { if (sib !== primaryId) analogies.push({ analogy: primaryId + ' resembles ' + sib, family: fam, evidenceStatus: 'UNVERIFIED', note: 'shared institutional failure-family — a lens for monitoring, not a claim' }); }); } });
+      // promotion — a hunch recurring >=3 cycles -> monitoring target only (never diagnosis/evidence)
+      var hm = this._governanceHunchMemory = this._governanceHunchMemory || {};
+      var curKeys = {}; hunches.forEach(function (h) { curKeys[h.hunch] = true; hm[h.hunch] = (hm[h.hunch] || 0) + 1; });
+      var promotedToMonitoring = [], rejectedHunches = [];
+      Object.keys(hm).forEach(function (k) {
+        if (!curKeys[k]) { rejectedHunches.push({ hunch: k, reason: 'signal subsided across cycles (falsifier path)' }); delete hm[k]; return; }
+        if (hm[k] >= 3) promotedToMonitoring.push({ target: k, basis: 'recurred ' + hm[k] + ' cycles', note: 'monitoring target ONLY — never evidence or diagnosis' });
+      });
+      s.governanceIntuition = { version: 1, hunches: hunches.slice(0, 6), patternMatches: patternMatches.slice(0, 5), analogies: analogies.slice(0, 6), promotedToDiagnosis: [], promotedToMonitoring: promotedToMonitoring.slice(0, 4), rejectedHunches: rejectedHunches.slice(0, 4), confidence: 'LOW', evidenceStatus: 'UNVERIFIED', lastAt: gm.updated || null };
+      return s.governanceIntuition;
+    };
+    // ── H5 — bounded counterfactual simulation (hypothetical only; UNVERIFIED) ──
+    P._computeGovernanceSimulation = function () {
+      var s = this.state, gm = s.governanceModel || {};
+      var base = typeof s.stress === 'number' ? s.stress : 0;
+      function cl(v) { return Math.max(0, Math.min(1, Math.round(v * 1000) / 1000)); }
+      var scenarios = [
+        { type: 'escalate', hypothetical: true, assumption: 'institutional stressor intensifies (gridlock deepens / shutdown extends)', simulatedStress: cl(base + 0.2), risk: 'cascade toward constitutional/policy paralysis (CONSTITUTIONAL_CRISIS / POLICY_FAILURE)', intervention: 'track legislative cadence (Congress.gov/GovTrack), CBO/OMB execution signals', falsifier: 'stress flat or falling next cycle' },
+        { type: 'hold', hypothetical: true, assumption: 'institutional stressor holds at an elevated baseline', simulatedStress: cl(base), risk: 'persistent legitimacy drag / chronic coordination failure', intervention: 'maintain monitoring cadence on GAO oversight + WGI/V-Dem indicators', falsifier: 'stress moves materially' },
+        { type: 'de-escalate', hypothetical: true, assumption: 'institutional stressor reverses (compromise / reform passes)', simulatedStress: cl(base - 0.2), risk: 'premature de-escalation before structural fix lands', intervention: 'confirm with 2 independent institutional sources before standing down', falsifier: 'stress re-rises' },
+        { type: 'institutional-capture', hypothetical: true, assumption: 'oversight weakens; regulatory/agency capture advances', simulatedStress: cl(base + 0.3), risk: 'accountability collapse / corruption entrenchment (CORRUPTION_SCANDAL)', intervention: 'track GAO + POGO oversight findings, IG referrals, ethics-commission actions', falsifier: 'independent oversight findings rise and bind' },
+        { type: 'trust-collapse', hypothetical: true, assumption: 'public confidence/legitimacy falls below the durable threshold', simulatedStress: cl(base + 0.25), risk: 'regime instability / contested legitimacy (REGIME_INSTABILITY)', intervention: 'track approval/confidence series + World Bank WGI voice-and-accountability', falsifier: 'confidence stabilizes above threshold' }
+      ];
+      var sim = {
+        version: 1, scenarios: scenarios, assumptions: scenarios.map(function (x) { return x.assumption; }),
+        simulatedStress: scenarios.map(function (x) { return x.simulatedStress; }),
+        simulatedDiagnoses: ['CONSTITUTIONAL_CRISIS', 'POLICY_FAILURE', 'CORRUPTION_SCANDAL', 'REGIME_INSTABILITY'], simulatedOpportunities: [],
+        risks: scenarios.map(function (x) { return x.risk; }), interventions: scenarios.map(function (x) { return x.intervention; }),
+        falsifiers: scenarios.map(function (x) { return x.falsifier; }), lastSimulatedAt: gm.updated || null
+      };
+      s.governanceSimulation = sim; return sim;
+    };
+    // ── H6 — executive self-report (compact status card) ──
+    P._computeGovernanceExecutiveReport = function () {
+      var s = this.state, gm = s.governanceModel || {}, im = s.governanceImmune || {}, aw = s.governanceAwareness || {}, con = s.governanceConscience || {}, it = s.governanceIntuition || {}, sim = s.governanceSimulation || {};
+      var bs = (typeof this._governanceBundleStates === 'function') ? this._governanceBundleStates() : [];
+      var covered = bs.filter(function (b) { return b.bundleStatus === 'found'; }).length;
+      var hv = bs.filter(function (b) { return b.humanVerification === 'required'; }).length;
+      var active = (s.diagnoses || []).filter(function (d) { return d.active; }).sort(function (a, b) { return (b.relevance || 0) - (a.relevance || 0); });
+      var strongest = active[0] || (s.diagnoses || [])[0] || null;
+      var pe = (gm.predictionError && gm.predictionError.total) || 0;
+      var status = im.immuneState === 'alert' ? 'immune-alert' : hv > 0 ? 'human-review-required' : (bs.length && covered < bs.length) ? 'source-limited' : (gm.regulation && gm.regulation.starving) ? 'starving' : (gm.regulation && gm.regulation.state === 'surprised') ? 'surprised' : 'healthy';
+      var rep = {
+        version: 1, brainStatus: status,
+        strongestDiagnosis: strongest ? strongest.id : null,
+        strongestOpportunity: (s.opportunities && s.opportunities[0] && s.opportunities[0].title) || null,
+        confidence: Math.round((1 - pe) * 100) / 100, predictionError: Math.round(pe * 1000) / 1000,
+        regulationState: (gm.regulation && gm.regulation.state) || null, immuneState: im.immuneState || null,
+        awarenessSummary: aw.selfNarrative || null, conscienceDecision: con.conscienceState || null,
+        intuitionSummary: (it.hunches || []).length + ' hunch(es)', simulationSummary: (sim.scenarios || []).length + ' scenario(s)',
+        artifactReadiness: con.artifactReadinessDecision || null, blockers: (con.blockedClaims || []).slice(0, 6),
+        nextBestAction: (bs.length && covered < bs.length) ? 'build/verify institutional source bundles for uncovered diagnoses (GAO/CBO/OMB/WGI/V-Dem)' : hv > 0 ? 'human-verify external-source bundles' : 'monitor strongest diagnosis sources (legislative cadence, oversight findings, governance indicators)',
+        lastReportAt: gm.updated || null
+      };
+      s.governanceExecutiveReport = rep; return rep;
+    };
+  })();
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // GOVERNANCE COGNITION PARITY — fallback loaders, source-bundle machinery, L1
+  // mad-lib scan, institutional-integrity sub-portal layer, and the 8-section
+  // DomainDiagnosisPacket the console SELF-MODEL consumes. Mirrors culture/energy
+  // STRUCTURE exactly; only the CONTENT is governance (institutions & indicators,
+  // public policy & rulemaking, regulation & oversight, elections, public finance,
+  // rule of law & institutional integrity). Real govtech/index identifiers only.
+  // Never fabricates evidence.
+  // ════════════════════════════════════════════════════════════════════════════
+
+  // ── DDP schema helpers ──
+  var GOV_DDP_SCHEMA_VERSION = 'governance-ddp-1';
+  function _govDdpPresent(v) {
+    if (v == null) return false;
+    if (Array.isArray(v)) return v.length > 0;
+    if (v === 'missing' || v === '' || v === 'none') return false;
+    return true;
+  }
+  function _govDdpCompleteness(section, keys) {
+    var have = 0; for (var i = 0; i < keys.length; i++) { if (_govDdpPresent(section[keys[i]])) have++; }
+    return { have: have, total: keys.length, pct: keys.length ? Math.round(have / keys.length * 100) : 0 };
+  }
+
+  // ── Fallback: REAL govtech / public-sector entities (state.companies starved).
+  //    Governance binds mostly to INSTITUTIONS & INDICATORS, not single companies;
+  //    where entities are needed these are real, listed, public-sector-exposed operators.
+  //    Prefer command-board-data (d='governance' && ticker); else this curated real map. ──
+  var GOV_REAL_OPERATORS = [
+    { ticker: 'TYL', name: 'Tyler Technologies', type: 'govtech', domain: 'governance', governance_focus: 'county/municipal administration & courts modernization' },
+    { ticker: 'MMS', name: 'Maximus', type: 'govtech', domain: 'governance', governance_focus: 'human-services & public-benefits administration' },
+    { ticker: 'BAH', name: 'Booz Allen Hamilton', type: 'govtech', domain: 'governance', governance_focus: 'federal digital modernization & analytics' },
+    { ticker: 'LDOS', name: 'Leidos', type: 'govtech', domain: 'governance', governance_focus: 'federal IT, civil & defense systems' },
+    { ticker: 'ACN', name: 'Accenture (Federal Services)', type: 'govtech', domain: 'governance', governance_focus: 'public-sector digital transformation' },
+    { ticker: 'GDIT', name: 'General Dynamics Information Technology', type: 'govtech', domain: 'governance', governance_focus: 'federal IT, mission & enterprise services' }
+  ];
+  // Real institutional / index sources (evidence-anchor authoring targets; NOT companies).
+  var GOV_INDEX_SOURCES = ['GAO', 'CBO', 'OMB', 'Federal Register', 'regulations.gov', 'Congress.gov', 'GovTrack', 'World Bank WGI', 'V-Dem', 'OECD', 'Congressional Research Service', 'Brennan Center', 'POGO'];
+
+  GovernanceBrain.prototype._loadGovernanceOperators = function () {
+    var self = this;
+    if (self._governanceOperators) return;            // one-shot
+    self._governanceOperators = GOV_REAL_OPERATORS.slice();   // curated real default; merged with command-board below
+    try {
+      fetch('/assets/data/command-board-data.json')
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (data) {
+          if (!data) return;
+          var arr = Array.isArray(data) ? data : (Object.keys(data).map(function (k) { return data[k]; }).find(Array.isArray) || []);
+          var cb = arr
+            .filter(function (x) { return x && x.d === 'governance' && x.t; })
+            .map(function (x) { return { name: x.n, ticker: x.t, cik: x.c, phase: x.p, trajectory: x.tr, type: 'govtech', domain: 'governance' }; });
+          if (cb.length) {
+            var seen = {}; self._governanceOperators.forEach(function (o) { seen[o.ticker] = true; });
+            cb.forEach(function (o) { if (!seen[o.ticker]) { seen[o.ticker] = true; self._governanceOperators.push(o); } });
+          }
+        })
+        .catch(function () {});
+    } catch (e) {}
+  };
+
+  // ── Distress signals come ONLY from the validated Thing pipeline. One-shot. ──
+  GovernanceBrain.prototype._loadGovernanceBrainSignals = function () {
+    var self = this;
+    if (self._pubSignals) return;                  // one-shot
+    self._pubSignals = {};
+    try {
+      fetch('/api/brain-signals?domain=governance')
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (j) {
+          if (!j || !j.publishable) return;
+          var m = {};
+          j.publishable.forEach(function (s) { if (s.ticker) m[s.ticker] = s; });
+          self._pubSignals = m;                    // {} today (gate abstains on degenerate data)
+        })
+        .catch(function () {});
+    } catch (e) {}
+  };
+
+  // ── Canonical diagnosis resolution. Prefers window.LIMENArtifactSourceIndex.aliases(),
+  //    else GOV_DIAGNOSIS_ALIASES. Non-aliased diagnoses are canonical to themselves. ──
+  var GOV_DIAGNOSIS_ALIASES = {
+    CONSTITUTIONAL_CRISIS: { target: 'INSTITUTIONAL_LEGITIMACY_CRISIS', reviewStatus: 'corpus-aliased', risk: 'low', note: 'corpus emits INSTITUTIONAL_LEGITIMACY_CRISIS for constitutional/separation-of-powers stress' },
+    REGIME_INSTABILITY:    { target: 'POLITICAL_STABILITY_EROSION', reviewStatus: 'corpus-aliased', risk: 'low', note: 'corpus emits POLITICAL_STABILITY_EROSION for leadership/confidence collapse' },
+    POLICY_FAILURE:        { target: 'POLICY_IMPLEMENTATION_FAILURE', reviewStatus: 'corpus-aliased', risk: 'low', note: 'corpus emits POLICY_IMPLEMENTATION_FAILURE for fragmented/contradictory execution' },
+    CORRUPTION_SCANDAL:    { target: 'INTEGRITY_BREACH', reviewStatus: 'human-approved', risk: 'medium', note: 'mapped to integrity-breach bundle; verify oversight/IG evidence is appropriate before strong claims' },
+    DIPLOMATIC_BREAKDOWN:  { target: 'DIPLOMATIC_RUPTURE_EVENT', reviewStatus: 'human-approved', risk: 'medium', note: 'mapped to diplomatic-rupture bundle; verify treaty/alliance evidence is appropriate' },
+    MILITARY_OVERREACH:    { target: 'CIVIL_MILITARY_IMBALANCE', reviewStatus: 'corpus-aliased', risk: 'low', note: 'corpus emits CIVIL_MILITARY_IMBALANCE for defense overcommit / civil-military tension' }
+  };
+  GovernanceBrain.prototype._resolveGovernanceCanonicalDiagnosis = function (dxId) {
+    if (!dxId) return { canonicalDiagnosisId: null, aliasUsed: false, aliasReviewStatus: null, aliasRisk: null, aliasNote: null };
+    var target = null;
+    try {
+      var idx = (typeof window !== 'undefined') ? window.LIMENArtifactSourceIndex : null;
+      if (idx && idx.aliases) { var row = idx.aliases()[dxId]; if (row && row.target) target = row.target; }
+    } catch (e) {}
+    var local = GOV_DIAGNOSIS_ALIASES[dxId] || null;
+    if (!target && local) target = local.target;
+    if (target) {
+      return { canonicalDiagnosisId: target, aliasUsed: true, aliasReviewStatus: (local && local.reviewStatus) || 'corpus-aliased', aliasRisk: (local && local.risk) || 'low', aliasNote: (local && local.note) || null };
+    }
+    return { canonicalDiagnosisId: dxId, aliasUsed: false, aliasReviewStatus: null, aliasRisk: null, aliasNote: null };   // canonical to self
+  };
+
+  // ── Load REAL source bundles (one-shot, async). Resolves aliases BEFORE fetching.
+  //    Only files that exist resolve to 'found'; 404s -> 'missing'. Never fabricates. ──
+  GovernanceBrain.prototype._loadGovernanceDiagnosisBundles = function () {
+    var self = this;
+    if (self._governanceBundleLoadPromise) return self._governanceBundleLoadPromise;
+    self._bundleCache = self._bundleCache || {};
+    self._bundleStatusMap = self._bundleStatusMap || {};
+    var ids = {};
+    var known = ['CONSTITUTIONAL_CRISIS', 'REGIME_INSTABILITY', 'POLICY_FAILURE', 'CORRUPTION_SCANDAL', 'DIPLOMATIC_BREAKDOWN', 'MILITARY_OVERREACH'];
+    var diags = (self.state && self.state.diagnoses) || [];
+    var allDxIds = diags.map(function (d) { return d.id; }).concat(known);
+    for (var i = 0; i < allDxIds.length; i++) { var c = self._resolveGovernanceCanonicalDiagnosis(allDxIds[i]).canonicalDiagnosisId; if (c) ids[c] = true; }
+    self._governanceBundleLoadPromise = Promise.all(Object.keys(ids).map(function (cid) {
+      return fetch('/assets/data/artifact-source-index/by-diagnosis/' + encodeURIComponent(cid) + '.json')
+        .then(function (r) { return (r && r.ok) ? r.json() : null; })
+        .then(function (data) { self._bundleStatusMap[cid] = data ? 'found' : 'missing'; if (data) self._bundleCache[cid] = data; })
+        .catch(function () { self._bundleStatusMap[cid] = 'missing'; });
+    })).then(function () { return self._bundleCache; });
+    return self._governanceBundleLoadPromise;
+  };
+
+  // ── _governanceBundleStates — per-diagnosis canonical resolution + bundle status + provenance ──
+  GovernanceBrain.prototype._governanceBundleStates = function () {
+    var self = this; var diags = (this.state && this.state.diagnoses) || [];
+    return diags.map(function (d) {
+      var c = self._resolveGovernanceCanonicalDiagnosis(d.id);
+      var bundle = (self._bundleCache && self._bundleCache[c.canonicalDiagnosisId]) || null;
+      var known = !!(self._bundleStatusMap && Object.prototype.hasOwnProperty.call(self._bundleStatusMap, c.canonicalDiagnosisId));
+      return {
+        dxId: d.id, active: !!d.active, relevance: (typeof d.relevance === 'number' ? d.relevance : 0),
+        canonical: c.canonicalDiagnosisId, aliasUsed: c.aliasUsed, aliasRisk: c.aliasRisk, aliasReviewStatus: c.aliasReviewStatus,
+        bundleStatus: bundle ? 'found' : (known ? 'missing' : 'unknown'),
+        buildMethod: (bundle && bundle.buildMethod) || null, humanVerification: (bundle && bundle.humanVerification) || null,
+        shallow: !!(bundle && ((bundle.maxDepth || 0) === 0 || (bundle.portalCount || 0) <= 1))
+      };
+    });
+  };
+
+  // ── L1 portal mad-lib scan. L1 treatments are fixed-verb templates; quarantined from
+  //    evidence. Only real govtech/public-sector identifiers surface (relevance-unverified). ──
+  var GOV_MADLIB_VERB = /^(Develop|Establish|Implement|Build|Launch|Design|Deploy|Operationalize|Conduct|Create|Define|Assess|Optimize|Modernize|Strengthen|Enhance|Formalize|Institute|Standardize|Coordinate|Integrate|Calibrate|Evaluate|Streamline|Institutionalize|Configure|Monitor|Reform|Audit|Oversee)\b/;
+  GovernanceBrain.prototype._isGovernanceMadLibTreatment = function (label) { return !label || GOV_MADLIB_VERB.test(String(label)); };
+
+  GovernanceBrain.prototype._loadGovernanceL1PortalDepth = function () {
+    var self = this;
+    if (self._governanceL1LoadPromise) return self._governanceL1LoadPromise;
+    // Map each canonical diagnosis to REAL governance sub-portal branch files that exist on disk.
+    var BRANCH = {
+      CONSTITUTIONAL_CRISIS: ['federalism_fedstate', 'federalism_stateauton', 'humanrights_dueprocess'],
+      REGIME_INSTABILITY: ['electoral_results', 'electoral_voting', 'civicpart_voterengg'],
+      POLICY_FAILURE: ['digitalgov_egovplat', 'digitalgov_digservstd', 'intergovt_coopfed'],
+      CORRUPTION_SCANDAL: ['anticorruption_corruptidx', 'anticorruption_procintegr', 'govaudit_intaudit'],
+      DIPLOMATIC_BREAKDOWN: ['diplomatic_foreignaid'],
+      MILITARY_OVERREACH: ['intelligence_oversight', 'crisis_martiallaw']
+    };
+    self._governanceL1Branches = BRANCH;
+    var branches = {}; Object.keys(BRANCH).forEach(function (dx) { BRANCH[dx].forEach(function (b) { branches[b] = true; }); });
+    var byBranch = {};
+    self._governanceL1LoadPromise = Promise.all(Object.keys(branches).map(function (b) {
+      return fetch('/assets/data/domains/governance_' + encodeURIComponent(b) + '.json')
+        .then(function (r) { return (r && r.ok) ? r.json() : null; })
+        .then(function (data) {
+          if (!data) { byBranch[b] = null; return; }
+          var acts = data.activations || [], tickers = {}, total = 0, mad = 0;
+          acts.forEach(function (a) {
+            (a.companies || []).forEach(function (c) { if (c && c.ticker_or_id) tickers[c.ticker_or_id] = c.name || c.ticker_or_id; });
+            (a.treatments || []).forEach(function (t) { var l = t && (t.label || t.title); if (l) { total++; if (self._isGovernanceMadLibTreatment(l)) mad++; } });
+          });
+          byBranch[b] = { file: 'governance_' + b, companyTickers: Object.keys(tickers).map(function (k) { return { ticker: k, name: tickers[k] }; }), treatmentTotal: total, madLibCount: mad, realTreatmentCount: total - mad };
+        })
+        .catch(function () { byBranch[b] = null; });
+    })).then(function () {
+      var byDiagnosis = {};
+      Object.keys(BRANCH).forEach(function (dx) {
+        var tk = {}, total = 0, mad = 0, scanned = 0;
+        BRANCH[dx].forEach(function (b) { var r = byBranch[b]; if (r) { scanned++; r.companyTickers.forEach(function (c) { tk[c.ticker] = c.name; }); total += r.treatmentTotal; mad += r.madLibCount; } });
+        byDiagnosis[dx] = { branchesScanned: scanned, realCompanyTickers: Object.keys(tk).map(function (k) { return { ticker: k, name: tk[k], relevanceUnverified: true }; }), treatmentTotal: total, madLibTreatments: mad, realTreatments: total - mad, admitted: false, reason: 'L1 treatments are mad-lib templates (fixed-verb family) — not source-grade; only govtech/public-sector identifiers surfaced, relevance unverified' };
+      });
+      self.state._l1DepthCache = { byBranch: byBranch, byDiagnosis: byDiagnosis, scannedAt: (self.state.governanceModel && self.state.governanceModel.updated) || null };
+      return self.state._l1DepthCache;
+    });
+    return self._governanceL1LoadPromise;
+  };
+
+  // ── INSTITUTIONAL-INTEGRITY sub-portal layer (counterpart to energy's data-center;
+  //    culture's music-scene). Real-content, citation-backed institutional-integrity
+  //    diagnoses + treatments (agency coordination failures, policy-implementation gaps,
+  //    regulatory capture, institutional reform). NEVER merged into the validated 6-diagnosis
+  //    spine. Prefer a dedicated hand-authored governance_institutional-integrity.json; fall
+  //    back to the real internal-audit sub-portal (governance_govaudit_intaudit). Graceful 404. ──
+  GovernanceBrain.prototype._loadGovernanceInstitutionalIntegritySublayer = function () {
+    var self = this;
+    if (self._governanceIILoadPromise) return self._governanceIILoadPromise;
+    self._governanceIILoadPromise = fetch('/assets/data/domains/governance_institutional-integrity.json')
+      .then(function (r) { return (r && r.ok) ? r.json() : null; })
+      .then(function (data) { if (data) return data; return fetch('/assets/data/domains/governance_govaudit_intaudit.json').then(function (r2) { return (r2 && r2.ok) ? r2.json() : null; }); })
+      .then(function (data) {
+        if (!data) { self._iiPortal = null; return null; }
+        self._iiPortal = { issues: data.issues || [], activations: data.activations || [], title: data.title || 'Institutional Integrity' };
+        return self._iiPortal;
+      })
+      .catch(function () { self._iiPortal = null; return null; });
+    return self._governanceIILoadPromise;
+  };
+
+  GovernanceBrain.prototype._buildGovernanceInstitutionalIntegritySublayer = function () {
+    var self = this;
+    var ii = self._iiPortal;
+    if (!ii || !ii.issues || !ii.issues.length) {
+      self.state.governanceInstitutionalIntegrityDiagnoses = [];
+      self.state.governanceInstitutionalIntegrityTreatments = [];
+      self.state.governanceInstitutionalIntegrityDomainDiagnosisPackets = [];
+      self.state.governanceInstitutionalIntegrityLayer = { loaded: false, count: 0, activeCount: 0, diagnoses: [], note: 'governance institutional-integrity sub-portal not loaded (offline or fetch failed)' };
+      return self.state.governanceInstitutionalIntegrityLayer;
+    }
+    var conditions = self._activeConditions || [];
+    // 1) diagnoses — same condition-match logic as the canonical spine
+    var diagnoses = ii.issues.map(function (iss) {
+      var triggers = (self.diagnosisIndex && self.diagnosisIndex[iss.id]) || [];
+      var matchCount = 0;
+      for (var t = 0; t < triggers.length; t++) {
+        for (var c = 0; c < conditions.length; c++) {
+          if (conditions[c] === triggers[t] || String(conditions[c]).indexOf(triggers[t]) !== -1) matchCount++;
+        }
+      }
+      return {
+        id: iss.id, label: iss.label, summary: iss.summary || '',
+        active: matchCount > 0,
+        relevance: triggers.length ? Math.round((matchCount / triggers.length) * 100) / 100 : 0,
+        circuits: iss.circuits || [],
+        source: 'institutional-integrity', tier: 'real-content-unbundled', branch: 'institutional-integrity'
+      };
+    });
+    // 2) treatments — pull from sub-portal node activations whose brainNodeId is in a diagnosis circuit
+    var nodeToDx = {};
+    diagnoses.forEach(function (d) { (d.circuits || []).forEach(function (c) { if (c && c.nodeId) nodeToDx[c.nodeId] = d.id; }); });
+    var treatments = [];
+    (ii.activations || []).forEach(function (act) {
+      var dxId = nodeToDx[act.brainNodeId];
+      if (!dxId) return;
+      (act.treatments || []).forEach(function (t, ti) {
+        treatments.push({
+          id: 'ii_treat_' + act.brainNodeId + '_' + ti,
+          label: t.label, type: t.type, evidence: t.evidence, description: t.description || '',
+          cite: t.cite || null, citation: t.citation || [], steps: t.steps || [],
+          diagnosisId: dxId, nodeId: act.brainNodeId,
+          source: 'institutional-integrity', madLib: self._isGovernanceMadLibTreatment ? self._isGovernanceMadLibTreatment(t.label) : false
+        });
+      });
+    });
+    var evidenceRank = { A: 10, Strong: 10, B: 7, Moderate: 7, C: 4, Emerging: 1 };
+    treatments.sort(function (a, b) { return (evidenceRank[b.evidence] || 0) - (evidenceRank[a.evidence] || 0); });
+    self.state.governanceInstitutionalIntegrityDiagnoses = diagnoses;
+    self.state.governanceInstitutionalIntegrityTreatments = treatments;
+    // 3) compact layer summary (read by every DDP's promptView)
+    self.state.governanceInstitutionalIntegrityLayer = {
+      loaded: true,
+      portalTitle: ii.title,
+      count: diagnoses.length,
+      activeCount: diagnoses.filter(function (d) { return d.active; }).length,
+      diagnoses: diagnoses.map(function (d) {
+        var rc = self._resolveGovernanceCanonicalDiagnosis ? self._resolveGovernanceCanonicalDiagnosis(d.id) : { canonicalDiagnosisId: d.id };
+        var bsStat = (self._bundleStatusMap && self._bundleStatusMap[rc.canonicalDiagnosisId]) || 'missing';
+        return { id: d.id, label: d.label, active: d.active, branch: 'institutional-integrity', canonicalDiagnosisId: rc.canonicalDiagnosisId, bundleStatus: bsStat, treatmentCount: treatments.filter(function (t) { return t.diagnosisId === d.id; }).length };
+      }),
+      note: 'real-content (hand-authored, citation-backed) institutional-integrity sub-portal — agency coordination failures, policy-implementation gaps, regulatory capture, institutional reform; SEPARATE from the validated 6-diagnosis spine; no external artifact-source bundle yet (build-required); never admitted to evidenceAnchors'
+    };
+    // 4) per-diagnosis DDPs via the SAME schema builder (canonical-to-self; bundle 'missing')
+    self.state.governanceInstitutionalIntegrityDomainDiagnosisPackets = diagnoses.map(function (d) {
+      try { return self._buildDomainDiagnosisPacket(d); } catch (e) { return null; }
+    }).filter(Boolean);
+    return self.state.governanceInstitutionalIntegrityLayer;
+  };
+
+  // ── DDP — the 8-section DomainDiagnosisPacket the console SELF-MODEL consumes.
+  //    Mirrors culture/energy _buildDomainDiagnosisPacket exactly; CONTENT is governance. ──
+  GovernanceBrain.prototype._buildDomainDiagnosisPacket = function (dx) {
+    var s = this.state || {};
+    var gm = s.governanceModel || {};
+    var portal = s._portalCache || null;
+    var dxId = dx ? (dx.id || null) : null;
+
+    var allTreat = Array.isArray(s.treatments) ? s.treatments : [];
+    var treatments = allTreat.filter(function (t) { return !dxId || t.diagnosisId === dxId; });
+    var implementationSteps = [];
+    for (var ti = 0; ti < treatments.length; ti++) { if (Array.isArray(treatments[ti].steps)) implementationSteps = implementationSteps.concat(treatments[ti].steps); }
+
+    var allOpp = Array.isArray(s.opportunities) ? s.opportunities : [];
+    var opps = allOpp.filter(function (o) { return !dxId || o.diagnosisId === dxId; });
+    var primaryOpp = opps[0] || null;
+    var mc = primaryOpp && primaryOpp.moneyChain ? primaryOpp.moneyChain : null;
+
+    if (primaryOpp && Array.isArray(primaryOpp.steps)) implementationSteps = implementationSteps.concat(primaryOpp.steps);
+    if (primaryOpp && Array.isArray(primaryOpp.fastPath)) implementationSteps = implementationSteps.concat(primaryOpp.fastPath);
+
+    var feeds = s.feeds || {}, sourceFeeds = [];
+    if (Array.isArray(feeds)) {
+      feeds.forEach(function (f) { if (f && typeof f === 'object') sourceFeeds.push({ name: f.name || f.label || 'feed', updated: f.updated || null, source: f.source || null }); });
+    } else {
+      for (var fk in feeds) { if (feeds.hasOwnProperty(fk)) { var f = feeds[fk]; if (f && typeof f === 'object') sourceFeeds.push({ name: f.name || fk, updated: (f && f.updated) || null, source: (f && f.source) || null }); } }
+    }
+    if (s._primarySource && !sourceFeeds.length) sourceFeeds.push({ name: 'primary', updated: null, source: s._primarySource });
+
+    var _canon = this._resolveGovernanceCanonicalDiagnosis(dxId);
+    var identity = {
+      domain: 'governance',
+      diagnosisId: dxId,
+      canonicalDiagnosisId: _canon.canonicalDiagnosisId,   // alias map or canonical-to-self
+      aliasUsed: _canon.aliasUsed,
+      aliasReviewStatus: _canon.aliasReviewStatus,          // human-approved | corpus-aliased | null
+      aliasRisk: _canon.aliasRisk,
+      aliasNote: _canon.aliasNote,
+      label: dx ? (dx.label || dx.id || null) : null,
+      phase: s.phase || null,
+      confidence: (dx && typeof dx.relevance === 'number') ? dx.relevance : (typeof s.confidence === 'number' ? s.confidence : null)
+    };
+    // Real source bundle for this canonical id (shipped only when it exists; NEVER fabricated).
+    var _bundle = (this._bundleCache && this._bundleCache[identity.canonicalDiagnosisId]) || null;
+    var _bundleKnown = !!(this._bundleStatusMap && Object.prototype.hasOwnProperty.call(this._bundleStatusMap, identity.canonicalDiagnosisId));
+    var _bl = (_bundle && _bundle.byLane && _bundle.byLane.patents) ? _bundle.byLane.patents : null;
+    var _bArr = function (k) { return (_bl && Array.isArray(_bl[k])) ? _bl[k] : []; };
+    var bundleStatus = _bundle ? 'found' : (_bundleKnown ? 'missing' : 'unknown');
+    var bundleShallow = !!(_bundle && ((_bundle.maxDepth || 0) === 0 || (_bundle.portalCount || 0) <= 1));
+    var bundleResolution = identity.aliasUsed
+      ? (_bundle ? 'alias-resolved-and-bundle-found' : 'alias-resolved-but-bundle-missing')
+      : (_bundle ? 'found' : (_bundleKnown ? 'missing' : 'unknown'));
+    if (!treatments.length && _bl) treatments = _bArr('treatments');             // backfill from REAL bundle only
+    if (!implementationSteps.length && _bl) implementationSteps = _bArr('implementationSteps');
+    var brainState = {
+      governanceModel: { version: gm.version || null, cycle: (typeof gm.cycle === 'number' ? gm.cycle : null) },
+      predictionError: gm.predictionError || null,
+      regulationState: (gm.regulation && gm.regulation.state) || null,
+      prior: gm.prior || null,
+      observation: gm.observation || null,
+      plasticity: gm.plasticity || null,
+      readyForHandoff: gm.readyForHandoff === true
+    };
+    // Domain-identity portal fields are KNOWN facts (this IS the governance root).
+    var rootId = (portal && portal.domainId) || 'governance';
+    var rootTitle = (portal && portal.title) || 'Governance';
+    var ancestry = (portal && portal.parentLabel) ? [portal.parentLabel, rootTitle] : [rootTitle];
+    var portalContext = {
+      portalIds: [rootId],
+      portalDomain: 'governance',
+      portalTitle: rootTitle,
+      depth: 0,                               // brain operates at the root level only
+      ancestryPath: ancestry,
+      portalStatus: portal ? 'root-only' : 'pending',
+      sourceCompleteness: portal ? ((Array.isArray(portal.issues) && portal.issues.length) ? 'partial' : 'thin') : 'root-only',
+      bundleSource: (_bundle && Array.isArray(_bundle.sourcePortals) && _bundle.sourcePortals.length)
+        ? { portalIds: _bundle.sourcePortals.map(function (sp) { return sp.portalId; }), depth: _bundle.maxDepth || 0, ancestryPath: (_bundle.sourcePortals[0].ancestry || []), domains: _bundle.domains || [] }
+        : null,
+      l1Depth: (s._l1DepthCache && s._l1DepthCache.byDiagnosis && s._l1DepthCache.byDiagnosis[dxId]) || (s._l1DepthCache ? { branchesScanned: 0, realCompanyTickers: [], realTreatments: 0, madLibTreatments: 0, admitted: false, reason: 'no L1 branch mapped for this diagnosis' } : null)
+    };
+    // citationHints — real source/feed names; backfill with institutional index sources (real, named).
+    var citationHints = sourceFeeds.map(function (sf) { return sf.source || sf.name; }).filter(Boolean);
+    if (!citationHints.length) citationHints = GOV_INDEX_SOURCES.slice();
+    var evidenceAnchors = _bArr('evidenceAnchors');   // REAL bundle anchors only (empty if no bundle)
+    var missingEv = [];
+    if (!evidenceAnchors.length) missingEv.push('evidenceAnchors');
+    if (!citationHints.length) missingEv.push('citationHints');
+    var evidence = {
+      sourceFeeds: sourceFeeds,
+      evidenceAnchors: evidenceAnchors,
+      citationHints: citationHints,
+      bundleStatus: bundleStatus,
+      bundleResolution: bundleResolution,
+      bundle: _bundle ? { portalCount: _bundle.portalCount || 0, maxDepth: _bundle.maxDepth || 0, domains: _bundle.domains || [], lane: 'patents', shallow: bundleShallow, buildMethod: _bundle.buildMethod || null, humanVerification: _bundle.humanVerification || null } : null,
+      missingEvidence: missingEv
+    };
+    // Human-authoring intake: for external-source bundles missing candidates, emit structured
+    // empty slots (what each needs + which GOVERNANCE primary/institutional source) — never fabricated.
+    var _isExternal = !!(_bundle && _bundle.buildMethod === 'external-source-authored');
+    var _intakeSrcHint = {
+      INSTITUTIONAL_LEGITIMACY_CRISIS: 'Federal Register / Congress.gov legislative history / Brennan Center / CRS constitutional-law reports',
+      POLITICAL_STABILITY_EROSION: 'World Bank WGI (voice & accountability, political stability) / V-Dem / approval & confidence series',
+      POLICY_IMPLEMENTATION_FAILURE: 'CBO cost & implementation estimates / OMB execution data / GAO program-evaluation reports',
+      INTEGRITY_BREACH: 'GAO oversight findings / POGO investigations / Inspector-General referrals / ethics-commission actions',
+      DIPLOMATIC_RUPTURE_EVENT: 'State Dept. reports / USTR filings / treaty databases / UN voting records',
+      CIVIL_MILITARY_IMBALANCE: 'GAO defense reports / Congressional armed-services committee reports / DoD budget justifications'
+    };
+    var authoringIntake = [];
+    if (_isExternal) {
+      ['methodCandidates', 'embodimentCandidates', 'figurePlaceholders'].forEach(function (field) {
+        if (_bArr(field).length === 0) authoringIntake.push({ field: field, status: 'needs-human-input', count: 0, need: field === 'methodCandidates' ? 'a concrete institutional/policy method drawn from a primary source' : field === 'embodimentCandidates' ? 'a specific implementation/embodiment from a real document' : 'a figure description grounded in a real source', sourceHint: _intakeSrcHint[identity.canonicalDiagnosisId] || 'primary institutional / governance-index source', note: 'NOT fabricated by the brain — author from the cited source, then wire in verbatim with attribution' });
+      });
+    }
+    var treatmentContext = {
+      treatments: treatments,
+      implementationSteps: implementationSteps,
+      methodCandidates: _bArr('methodCandidates'),
+      mechanismCandidates: _bArr('mechanismCandidates'),
+      embodimentCandidates: _bArr('embodimentCandidates'),
+      figurePlaceholders: _bArr('figurePlaceholders'),
+      authoringIntake: authoringIntake
+    };
+    // operator targets — prefer the opportunity's resolved targets / moneyChain target; else REAL
+    // govtech operators (never generic). Governance binds to institutions & indicators primarily.
+    var _opTargets = (primaryOpp && primaryOpp._resolvedTargets) ? primaryOpp._resolvedTargets : (mc && mc.target ? [mc.target] : []);
+    if (!_opTargets.length && this._governanceOperators && this._governanceOperators.length) {
+      _opTargets = this._governanceOperators.slice(0, 4).map(function (o) { return o.name + ' (' + o.ticker + ') — ' + (o.governance_focus || o.type); });
+    }
+    var operatorContext = {
+      targets: _opTargets,
+      monitoring: (treatments.length && treatments[0].monitoring) ? treatments[0].monitoring : null,
+      escalation: (treatments.length && treatments[0].escalation) ? treatments[0].escalation : null,
+      invalidIf: mc ? (mc.invalidIf || null) : null,
+      nextStep: mc ? (mc.nextStep || null) : null
+    };
+    var hasTreat = treatments.length > 0;
+    var hasBundle = (bundleStatus === 'found');
+    var hasCanonical = !!identity.canonicalDiagnosisId;
+    var blockers = [];
+    if (hasCanonical && !hasBundle) blockers.push(identity.aliasUsed ? 'canonical-id-resolved-but-bundle-missing' : 'no-source-bundle');
+    if (bundleStatus === 'missing') blockers.push('source-bundle-build-required');
+    blockers.push(portalContext.portalStatus === 'root-only' ? 'portal-root-only' : 'portal-not-loaded');
+    if (!hasTreat) blockers.push('no-treatments');
+    if (!primaryOpp) blockers.push('no-active-opportunity');
+    var lanesIn = [];
+    if (primaryOpp && primaryOpp.path) lanesIn.push(primaryOpp.path);
+    if (primaryOpp && Array.isArray(primaryOpp.paths)) lanesIn = lanesIn.concat(primaryOpp.paths);
+    if (primaryOpp && primaryOpp.compensation && primaryOpp.compensation.type) lanesIn.push(primaryOpp.compensation.type);
+    var seenLane = {}, artifactLanes = [];
+    for (var li = 0; li < lanesIn.length; li++) { if (lanesIn[li] && !seenLane[lanesIn[li]]) { seenLane[lanesIn[li]] = true; artifactLanes.push(lanesIn[li]); } }
+    var readinessReasons = [];
+    if (hasBundle) readinessReasons.push('source bundle found (' + bundleResolution + (bundleShallow ? ', root-only' : '') + ', evidenceAnchors=' + evidenceAnchors.length + ')');
+    if (hasTreat) readinessReasons.push('treatments present (' + treatments.length + ')');
+    if (primaryOpp) readinessReasons.push('opportunity present (path=' + (primaryOpp.path || '?') + ')');
+    if (sourceFeeds.length) readinessReasons.push('source feeds present (' + sourceFeeds.length + ')');
+    var ready = hasTreat && hasBundle && hasCanonical;
+    // Lanes are INVESTABLE (govtech operators / public-sector entities) / RESEARCHABLE (policy briefs).
+    // patent/grant are VETOED by conscience (lanes retired 2026-06-21; no method/embodiment fields).
+    var artifactContext = {
+      artifactLanes: artifactLanes,
+      patentReady: false, grantReady: false, sbaReady: false,   // patent/grant/loan vetoed by H3 conscience
+      investmentReady: !!(hasTreat && primaryOpp), researchReady: ready || hasTreat,
+      readinessReasons: readinessReasons,
+      blockers: blockers
+    };
+
+    var comp = {
+      identity:         _govDdpCompleteness(identity, ['domain', 'diagnosisId', 'canonicalDiagnosisId', 'label', 'phase', 'confidence']),
+      brainState:       _govDdpCompleteness(brainState, ['governanceModel', 'predictionError', 'regulationState', 'prior', 'observation', 'plasticity']),
+      portalContext:    _govDdpCompleteness(portalContext, ['portalIds', 'portalDomain', 'portalTitle', 'depth', 'ancestryPath']),
+      evidence:         _govDdpCompleteness(evidence, ['sourceFeeds', 'evidenceAnchors', 'citationHints']),
+      treatmentContext: _govDdpCompleteness(treatmentContext, ['treatments', 'implementationSteps', 'methodCandidates', 'mechanismCandidates', 'embodimentCandidates', 'figurePlaceholders']),
+      operatorContext:  _govDdpCompleteness(operatorContext, ['targets', 'monitoring', 'escalation', 'invalidIf', 'nextStep']),
+      artifactContext:  _govDdpCompleteness(artifactContext, ['artifactLanes'])
+    };
+    var totHave = 0, totAll = 0;
+    for (var sk in comp) { if (comp.hasOwnProperty(sk)) { totHave += comp[sk].have; totAll += comp[sk].total; } }
+    var missingFields = [];
+    function _gmf(name, obj, keys) { for (var i = 0; i < keys.length; i++) { if (!_govDdpPresent(obj[keys[i]])) missingFields.push(name + '.' + keys[i]); } }
+    _gmf('identity', identity, ['canonicalDiagnosisId', 'confidence']);
+    _gmf('evidence', evidence, ['evidenceAnchors', 'citationHints']);
+    _gmf('treatmentContext', treatmentContext, ['treatments', 'implementationSteps', 'methodCandidates', 'mechanismCandidates', 'embodimentCandidates', 'figurePlaceholders']);
+    _gmf('operatorContext', operatorContext, ['targets', 'monitoring', 'escalation', 'invalidIf', 'nextStep']);
+
+    var warnings = [];
+    if (portalContext.portalStatus === 'root-only') warnings.push('portalContext is root-only (no deep portal cortex)');
+    if (portalContext.portalStatus === 'pending') warnings.push('root portal not yet cached on the brain (domain identity used)');
+    if (identity.aliasUsed) warnings.push('alias-resolved; verify source appropriateness');
+    if (bundleStatus === 'missing') warnings.push('source bundle missing (no artifact-source bundle for this diagnosis)');
+    if (bundleStatus === 'unknown') warnings.push('source bundle not yet checked');
+    if (bundleStatus === 'found' && _bundle && _bundle.buildMethod === 'external-source-authored') warnings.push('external-source-authored; human-verification-required (' + (_bundle.humanVerification || 'required') + ')');
+    else if (bundleStatus === 'found' && bundleShallow) warnings.push('source-bundle-root-only (real bundle but portalCount<=1 / maxDepth 0)');
+    var _emptyCand = [];
+    if (!treatmentContext.methodCandidates.length) _emptyCand.push('method');
+    if (!treatmentContext.mechanismCandidates.length) _emptyCand.push('mechanism');
+    if (!treatmentContext.embodimentCandidates.length) _emptyCand.push('embodiment');
+    if (!treatmentContext.figurePlaceholders.length) _emptyCand.push('figure');
+    if (_emptyCand.length) warnings.push((bundleStatus === 'found' ? 'bundle found but ' : 'no bundle — ') + 'candidate types still empty: ' + _emptyCand.join(',') + ' (not invented)');
+    if (!primaryOpp && (typeof s.stress !== 'number' || s.stress < GM_STRESS_FLOOR)) warnings.push('no active opportunity (offline/low-stress) — operator/lane fields stay empty');
+    if (artifactContext.artifactLanes.length && !hasTreat) warnings.push('artifact lane present but treatments/evidence missing');
+
+    var pct = totAll ? Math.round(totHave / totAll * 100) : 0;
+    var proofTier = pct >= 70 ? 'full' : (pct >= 35 ? 'partial' : 'sparse');
+
+    // Prompt-facing trimming/prioritization. FULL data above is preserved; this is a bounded,
+    // diagnosis-relevant subset for the finalizer prompt. Never trims scalars/warnings.
+    var G2_CAPS = { evidenceAnchors: 8, treatments: 8, implementationSteps: 8, mechanismCandidates: 6, methodCandidates: 6, embodimentCandidates: 6, figurePlaceholders: 6, citationHints: 8, sourceFeeds: 8 };
+    function _g2cap(arr, n) { arr = Array.isArray(arr) ? arr : []; return { sel: arr.slice(0, n), omitted: Math.max(0, arr.length - n) }; }
+    var _g2ea = _g2cap(evidenceAnchors, G2_CAPS.evidenceAnchors);
+    var _g2tr = _g2cap(treatmentContext.treatments, G2_CAPS.treatments);
+    var _g2is = _g2cap(treatmentContext.implementationSteps, G2_CAPS.implementationSteps);
+    var _g2mc = _g2cap(treatmentContext.mechanismCandidates, G2_CAPS.mechanismCandidates);
+    var _g2md = _g2cap(treatmentContext.methodCandidates, G2_CAPS.methodCandidates);
+    var _g2em = _g2cap(treatmentContext.embodimentCandidates, G2_CAPS.embodimentCandidates);
+    var _g2fg = _g2cap(treatmentContext.figurePlaceholders, G2_CAPS.figurePlaceholders);
+    var _g2ch = _g2cap(citationHints, G2_CAPS.citationHints);
+    var _g2sf = _g2cap(sourceFeeds, G2_CAPS.sourceFeeds);
+    var promptView = {
+      compact: true,
+      caps: G2_CAPS,
+      selectedEvidenceAnchors: _g2ea.sel,
+      selectedTreatments: _g2tr.sel,
+      selectedImplementationSteps: _g2is.sel,
+      selectedMechanismCandidates: _g2mc.sel,
+      selectedMethodCandidates: _g2md.sel,
+      selectedEmbodimentCandidates: _g2em.sel,
+      selectedFigurePlaceholders: _g2fg.sel,
+      selectedCitationHints: _g2ch.sel,
+      selectedSourceFeeds: _g2sf.sel,
+      omittedCounts: { evidenceAnchors: _g2ea.omitted, treatments: _g2tr.omitted, implementationSteps: _g2is.omitted, mechanismCandidates: _g2mc.omitted, methodCandidates: _g2md.omitted, embodimentCandidates: _g2em.omitted, figurePlaceholders: _g2fg.omitted, citationHints: _g2ch.omitted, sourceFeeds: _g2sf.omitted },
+      priorityReasons: [
+        'diagnosis-specific bundle anchors preferred over generic governance evidence',
+        'official/primary institutional sources retained (GAO/CBO/OMB/Federal Register/World Bank WGI/V-Dem where present); partisan feeds positional-only',
+        'mechanisms prioritized over figures under prompt-space limits',
+        'treatments with implementation relevance preferred over broad narrative',
+        'caps applied per field; full data preserved in the stored bundle + full DDP'
+      ],
+      retainedWarnings: warnings
+        .concat(s.governanceImmune ? ['immune: ' + s.governanceImmune.immuneState + ' (sev ' + s.governanceImmune.severity + ', ' + (s.governanceImmune.antigens || []).length + ' antigens; L2 traversal blocked)'] : [])
+        .concat(s.governanceConscience && s.governanceConscience.conscienceState === 'restrictive' ? ['conscience: ' + (s.governanceConscience.blockedClaims || []).slice(0, 3).join(', ') + ' blocked'] : []),
+      retainedBlockers: artifactContext.blockers,
+      // higher-layer compact summaries (forwarded to the finalizer via promptView)
+      immuneSummary: s.governanceImmune ? { immuneState: s.governanceImmune.immuneState, severity: s.governanceImmune.severity, antigenCount: (s.governanceImmune.antigens || []).length, quarantines: s.governanceImmune.quarantines, blockedFromTraversal: s.governanceImmune.blockedFromTraversal, allowedWithWarning: s.governanceImmune.allowedWithWarning } : null,
+      awarenessSummary: s.governanceAwareness ? { selfNarrative: s.governanceAwareness.selfNarrative, knowns: (s.governanceAwareness.knowns || []).length, uncertainties: (s.governanceAwareness.uncertainties || []).length } : null,
+      conscienceDecision: s.governanceConscience ? { conscienceState: s.governanceConscience.conscienceState, blockedClaims: s.governanceConscience.blockedClaims, artifactReadinessDecision: s.governanceConscience.artifactReadinessDecision } : null,
+      intuitionSummary: s.governanceIntuition ? s.governanceIntuition.hunches : null,
+      scenarioSummary: s.governanceSimulation ? (s.governanceSimulation.scenarios || []).map(function (x) { return { type: x.type, hypothetical: x.hypothetical, risk: x.risk }; }) : null,
+      executiveReport: s.governanceExecutiveReport || null,
+      l1DepthSummary: portalContext.l1Depth ? { realCompanyTickers: (portalContext.l1Depth.realCompanyTickers || []).length, realTreatments: portalContext.l1Depth.realTreatments, madLibTreatments: portalContext.l1Depth.madLibTreatments, admitted: portalContext.l1Depth.admitted } : null,
+      authoringIntake: treatmentContext.authoringIntake.length ? treatmentContext.authoringIntake : null,
+      // INSTITUTIONAL-INTEGRITY — sub-portal layer (real-content, SEPARATE from the validated spine, no bundle yet)
+      institutionalIntegritySummary: s.governanceInstitutionalIntegrityLayer && s.governanceInstitutionalIntegrityLayer.loaded ? { count: s.governanceInstitutionalIntegrityLayer.count, activeCount: s.governanceInstitutionalIntegrityLayer.activeCount, diagnoses: s.governanceInstitutionalIntegrityLayer.diagnoses, note: s.governanceInstitutionalIntegrityLayer.note } : null
+    };
+
+    return {
+      schemaVersion: GOV_DDP_SCHEMA_VERSION,
+      promptView: promptView,
+      identity: identity,
+      brainState: brainState,
+      portalContext: portalContext,
+      evidence: evidence,
+      treatmentContext: treatmentContext,
+      operatorContext: operatorContext,
+      artifactContext: artifactContext,
+      audit: {
+        generatedAt: (gm.updated || null),
+        schemaVersion: GOV_DDP_SCHEMA_VERSION,
+        fieldCompleteness: { sections: comp, overallPct: pct },
+        missingFields: missingFields,
+        warnings: warnings,
+        proofTier: proofTier,
+        immune: s.governanceImmune || null,
+        awareness: s.governanceAwareness || null,
+        conscience: s.governanceConscience || null,
+        intuition: s.governanceIntuition || null,
+        simulation: s.governanceSimulation || null,
+        executiveReport: s.governanceExecutiveReport || null
+      }
+    };
+  };
 
   var brain = new GovernanceBrain(); brain.init(); brain.start();
   window.LIMENGovernanceBrain = brain;

@@ -93,6 +93,26 @@
           "domain": "infrastructure",
           "role": "Urban Planning"
         }
+      ],
+      "indicators": [
+        {
+          "source": "World Bank WGI",
+          "metric": "GE.EST",
+          "name": "Government Effectiveness",
+          "binding": 0.9
+        },
+        {
+          "source": "V-Dem",
+          "metric": "v2x_ex_confidence",
+          "name": "Executive Constraints",
+          "binding": 0.85
+        },
+        {
+          "source": "OECD Governance",
+          "metric": "REG.QUALITY",
+          "name": "Regulatory Quality",
+          "binding": 0.78
+        }
       ]
     },
     {
@@ -182,6 +202,26 @@
         {
           "domain": "science",
           "role": "Publication and Dissemination"
+        }
+      ],
+      "indicators": [
+        {
+          "source": "V-Dem",
+          "metric": "v2xlg_legcon",
+          "name": "Legislative Constraints on the Executive",
+          "binding": 0.9
+        },
+        {
+          "source": "V-Dem",
+          "metric": "v2x_legabort",
+          "name": "Legislative Effectiveness",
+          "binding": 0.82
+        },
+        {
+          "source": "Federal Register",
+          "metric": "FR.RULES.PROPOSED",
+          "name": "Proposed-Rule Volume",
+          "binding": 0.7
         }
       ]
     },
@@ -273,6 +313,26 @@
           "domain": "pediatric",
           "role": "Social Reward & Food Valuation"
         }
+      ],
+      "indicators": [
+        {
+          "source": "World Bank WGI",
+          "metric": "RL.EST",
+          "name": "Rule of Law",
+          "binding": 0.9
+        },
+        {
+          "source": "V-Dem",
+          "metric": "v2x_jucon",
+          "name": "Judicial Constraints on the Executive",
+          "binding": 0.88
+        },
+        {
+          "source": "OECD Governance",
+          "metric": "JUSTICE.TRUST",
+          "name": "Trust in the Justice System",
+          "binding": 0.72
+        }
       ]
     },
     {
@@ -362,6 +422,26 @@
         {
           "domain": "provider",
           "role": "Patient Perspective-Taking"
+        }
+      ],
+      "indicators": [
+        {
+          "source": "World Bank WGI",
+          "metric": "VA.EST",
+          "name": "Voice and Accountability",
+          "binding": 0.78
+        },
+        {
+          "source": "V-Dem",
+          "metric": "v2x_libdem",
+          "name": "Liberal Democracy Index",
+          "binding": 0.8
+        },
+        {
+          "source": "OECD Governance",
+          "metric": "INTL.COOP",
+          "name": "International Cooperation Indicators",
+          "binding": 0.7
         }
       ]
     },
@@ -453,6 +533,26 @@
           "domain": "medicine",
           "role": "Gut-Brain Axis"
         }
+      ],
+      "indicators": [
+        {
+          "source": "World Bank WGI",
+          "metric": "GE.EST",
+          "name": "Government Effectiveness",
+          "binding": 0.82
+        },
+        {
+          "source": "GAO",
+          "metric": "GAO.HIGHRISK",
+          "name": "GAO High-Risk List",
+          "binding": 0.85
+        },
+        {
+          "source": "V-Dem",
+          "metric": "v2x_civlib",
+          "name": "Civil Liberties Index",
+          "binding": 0.7
+        }
       ]
     },
     {
@@ -542,6 +642,26 @@
         {
           "domain": "legal",
           "role": "Judicial Temperament / Equity"
+        }
+      ],
+      "indicators": [
+        {
+          "source": "OECD Governance",
+          "metric": "REG.QUALITY",
+          "name": "Regulatory Quality (RIA)",
+          "binding": 0.88
+        },
+        {
+          "source": "CBO",
+          "metric": "CBO.BASELINE",
+          "name": "CBO Baseline Projections",
+          "binding": 0.84
+        },
+        {
+          "source": "World Bank WGI",
+          "metric": "GE.EST",
+          "name": "Government Effectiveness",
+          "binding": 0.76
         }
       ]
     },
@@ -633,6 +753,26 @@
           "domain": "industry",
           "role": "Quality Control"
         }
+      ],
+      "indicators": [
+        {
+          "source": "World Bank WGI",
+          "metric": "RQ.EST",
+          "name": "Regulatory Quality",
+          "binding": 0.92
+        },
+        {
+          "source": "World Bank WGI",
+          "metric": "CC.EST",
+          "name": "Control of Corruption",
+          "binding": 0.86
+        },
+        {
+          "source": "Federal Register",
+          "metric": "FR.RULES.FINAL",
+          "name": "Final-Rule Issuance",
+          "binding": 0.8
+        }
       ]
     },
     {
@@ -722,6 +862,26 @@
         {
           "domain": "culture",
           "role": "Retail Design Assessment & Diagnostics"
+        }
+      ],
+      "indicators": [
+        {
+          "source": "World Bank WGI",
+          "metric": "GE.EST",
+          "name": "Government Effectiveness",
+          "binding": 0.9
+        },
+        {
+          "source": "OECD Governance",
+          "metric": "GAAG.DIGITAL",
+          "name": "Digital Government Index",
+          "binding": 0.78
+        },
+        {
+          "source": "OECD Governance",
+          "metric": "SERV.SATISFACTION",
+          "name": "Satisfaction with Public Services",
+          "binding": 0.74
         }
       ]
     },
@@ -813,6 +973,26 @@
           "domain": "trade",
           "role": "Commodity Exchanges"
         }
+      ],
+      "indicators": [
+        {
+          "source": "V-Dem",
+          "metric": "v2xel_frefair",
+          "name": "Clean Elections Index",
+          "binding": 0.9
+        },
+        {
+          "source": "V-Dem",
+          "metric": "v2x_suffr",
+          "name": "Suffrage / Franchise",
+          "binding": 0.8
+        },
+        {
+          "source": "World Bank WGI",
+          "metric": "VA.EST",
+          "name": "Voice and Accountability",
+          "binding": 0.78
+        }
       ]
     },
     {
@@ -902,6 +1082,26 @@
         {
           "domain": "religion",
           "role": "Theological Doctrine"
+        }
+      ],
+      "indicators": [
+        {
+          "source": "V-Dem",
+          "metric": "v2x_polyarchy",
+          "name": "Electoral Democracy (Polyarchy) Index",
+          "binding": 0.88
+        },
+        {
+          "source": "World Bank WGI",
+          "metric": "RL.EST",
+          "name": "Rule of Law",
+          "binding": 0.85
+        },
+        {
+          "source": "V-Dem",
+          "metric": "v2x_libdem",
+          "name": "Liberal Democracy Index",
+          "binding": 0.82
         }
       ]
     },
@@ -993,6 +1193,26 @@
           "domain": "defense",
           "role": "Recruitment & Training"
         }
+      ],
+      "indicators": [
+        {
+          "source": "V-Dem",
+          "metric": "v2x_civlib",
+          "name": "Civil Liberties (Civilian Oversight)",
+          "binding": 0.74
+        },
+        {
+          "source": "World Bank WGI",
+          "metric": "PV.EST",
+          "name": "Political Stability and Absence of Violence",
+          "binding": 0.8
+        },
+        {
+          "source": "CBO",
+          "metric": "CBO.DEFENSE.OUTLAYS",
+          "name": "CBO Defense Outlay Projections",
+          "binding": 0.7
+        }
       ]
     },
     {
@@ -1082,6 +1302,26 @@
         {
           "domain": "neurology",
           "role": "Striatum (Caudate/Putamen)"
+        }
+      ],
+      "indicators": [
+        {
+          "source": "CBO",
+          "metric": "CBO.DEFICIT",
+          "name": "CBO Budget Deficit Projections",
+          "binding": 0.9
+        },
+        {
+          "source": "CBO",
+          "metric": "CBO.DEBT.GDP",
+          "name": "Federal Debt Held by the Public (% GDP)",
+          "binding": 0.86
+        },
+        {
+          "source": "World Bank WGI",
+          "metric": "GE.EST",
+          "name": "Government Effectiveness",
+          "binding": 0.7
         }
       ]
     },
@@ -1173,6 +1413,26 @@
           "domain": "medicine",
           "role": "Neurology"
         }
+      ],
+      "indicators": [
+        {
+          "source": "OECD Governance",
+          "metric": "CBI.INDEX",
+          "name": "Central Bank Independence Index",
+          "binding": 0.86
+        },
+        {
+          "source": "World Bank WGI",
+          "metric": "RQ.EST",
+          "name": "Regulatory Quality",
+          "binding": 0.78
+        },
+        {
+          "source": "CBO",
+          "metric": "CBO.INTEREST",
+          "name": "CBO Net Interest Projections",
+          "binding": 0.72
+        }
       ]
     },
     {
@@ -1262,6 +1522,26 @@
         {
           "domain": "communication",
           "role": "Risk Profiling Governance"
+        }
+      ],
+      "indicators": [
+        {
+          "source": "V-Dem",
+          "metric": "v2x_libdem",
+          "name": "Liberal Democracy Index",
+          "binding": 0.78
+        },
+        {
+          "source": "World Bank WGI",
+          "metric": "RL.EST",
+          "name": "Rule of Law",
+          "binding": 0.82
+        },
+        {
+          "source": "OECD Governance",
+          "metric": "INTL.TREATY",
+          "name": "Treaty Compliance Indicators",
+          "binding": 0.7
         }
       ]
     },
@@ -1353,6 +1633,26 @@
           "domain": "environment",
           "role": "AQ Forecasting Assessment & Diagnostics"
         }
+      ],
+      "indicators": [
+        {
+          "source": "World Bank WGI",
+          "metric": "GE.EST",
+          "name": "Government Effectiveness",
+          "binding": 0.9
+        },
+        {
+          "source": "V-Dem",
+          "metric": "v2stcritrecadm",
+          "name": "Criteria for Public-Service Appointment (Meritocracy)",
+          "binding": 0.84
+        },
+        {
+          "source": "OECD Governance",
+          "metric": "PEM.WORKFORCE",
+          "name": "Public Employment & Management",
+          "binding": 0.76
+        }
       ]
     },
     {
@@ -1442,6 +1742,26 @@
         {
           "domain": "provider",
           "role": "Crisis Response Protocol"
+        }
+      ],
+      "indicators": [
+        {
+          "source": "V-Dem",
+          "metric": "v2x_civlib",
+          "name": "Civil Liberties Index",
+          "binding": 0.82
+        },
+        {
+          "source": "World Bank WGI",
+          "metric": "PV.EST",
+          "name": "Political Stability and Absence of Violence",
+          "binding": 0.84
+        },
+        {
+          "source": "Federal Register",
+          "metric": "FR.EMERGENCY.DECL",
+          "name": "Emergency Declarations & Proclamations",
+          "binding": 0.78
         }
       ]
     },
@@ -1533,6 +1853,26 @@
           "domain": "culture",
           "role": "Architecture — Action Coordination"
         }
+      ],
+      "indicators": [
+        {
+          "source": "V-Dem",
+          "metric": "v2x_freexp_altinf",
+          "name": "Freedom of Expression & Alternative Information",
+          "binding": 0.9
+        },
+        {
+          "source": "World Bank WGI",
+          "metric": "VA.EST",
+          "name": "Voice and Accountability",
+          "binding": 0.84
+        },
+        {
+          "source": "V-Dem",
+          "metric": "v2xme_altinf",
+          "name": "Alternative Sources of Information Index",
+          "binding": 0.8
+        }
       ]
     },
     {
@@ -1623,6 +1963,26 @@
           "domain": "legal",
           "role": "Precedent / Legal Memory"
         }
+      ],
+      "indicators": [
+        {
+          "source": "OECD Governance",
+          "metric": "STAT.CAPACITY",
+          "name": "Statistical Capacity / Performance Indicators",
+          "binding": 0.84
+        },
+        {
+          "source": "World Bank WGI",
+          "metric": "GE.EST",
+          "name": "Government Effectiveness",
+          "binding": 0.74
+        },
+        {
+          "source": "V-Dem",
+          "metric": "v2x_accountability",
+          "name": "Accountability Index",
+          "binding": 0.68
+        }
       ]
     },
     {
@@ -1693,6 +2053,26 @@
           "domain": "energy",
           "role": "flow design — Signal Acquisition"
         }
+      ],
+      "indicators": [
+        {
+          "source": "World Bank WGI",
+          "metric": "CC.EST",
+          "name": "Control of Corruption",
+          "binding": 0.82
+        },
+        {
+          "source": "Federal Register",
+          "metric": "FR.OFAC.ACTIONS",
+          "name": "OFAC Sanctions Actions (Federal Register)",
+          "binding": 0.86
+        },
+        {
+          "source": "World Bank WGI",
+          "metric": "RL.EST",
+          "name": "Rule of Law",
+          "binding": 0.74
+        }
       ]
     },
     {
@@ -1762,6 +2142,26 @@
         {
           "domain": "culture",
           "role": "Fashion & Design"
+        }
+      ],
+      "indicators": [
+        {
+          "source": "V-Dem",
+          "metric": "v2x_polyarchy",
+          "name": "Electoral Democracy (Orderly Transfer)",
+          "binding": 0.78
+        },
+        {
+          "source": "World Bank WGI",
+          "metric": "PV.EST",
+          "name": "Political Stability and Absence of Violence",
+          "binding": 0.82
+        },
+        {
+          "source": "V-Dem",
+          "metric": "v2x_ex_hereditary",
+          "name": "Hereditary / Transfer-of-Power Dimension",
+          "binding": 0.7
         }
       ]
     }
@@ -2452,5 +2852,201 @@
     "neuralRoleMigratedAt": "2026-05-13T13:15:14.740Z",
     "schemaVersion": "subdomain-portal.v2.0",
     "networkMapVersion": "1.0"
+  },
+  "feeds": [
+    {
+      "name": "World Bank WGI",
+      "apiKey": "WORLDBANK_API_KEY",
+      "status": "LIVE",
+      "endpoint": "api.worldbank.org/v2/country/all/indicator/",
+      "indicators": [
+        "GE.EST",
+        "RL.EST",
+        "RQ.EST",
+        "CC.EST",
+        "VA.EST",
+        "PV.EST"
+      ]
+    },
+    {
+      "name": "V-Dem",
+      "apiKey": "VDEM_API_KEY",
+      "status": "REFERENCE",
+      "endpoint": "v-dem.net/data/the-v-dem-dataset/",
+      "indicators": [
+        "v2x_polyarchy",
+        "v2x_libdem",
+        "v2xel_frefair",
+        "v2x_jucon",
+        "v2xlg_legcon",
+        "v2x_freexp_altinf"
+      ]
+    },
+    {
+      "name": "OECD Governance",
+      "apiKey": "OECD_API_KEY",
+      "status": "LIVE",
+      "endpoint": "sdmx.oecd.org/public/rest/data/OECD.GOV/",
+      "indicators": [
+        "REG.QUALITY",
+        "CBI.INDEX",
+        "GAAG.DIGITAL",
+        "STAT.CAPACITY"
+      ]
+    },
+    {
+      "name": "CBO",
+      "apiKey": null,
+      "status": "REFERENCE",
+      "endpoint": "cbo.gov/data/budget-economic-data",
+      "indicators": [
+        "CBO.BASELINE",
+        "CBO.DEFICIT",
+        "CBO.DEBT.GDP",
+        "CBO.INTEREST"
+      ]
+    },
+    {
+      "name": "GAO",
+      "apiKey": null,
+      "status": "REFERENCE",
+      "endpoint": "gao.gov/reports-testimonies",
+      "indicators": [
+        "GAO.HIGHRISK"
+      ]
+    },
+    {
+      "name": "Federal Register",
+      "apiKey": null,
+      "status": "LIVE",
+      "endpoint": "federalregister.gov/api/v1/documents.json",
+      "indicators": [
+        "FR.RULES.PROPOSED",
+        "FR.RULES.FINAL",
+        "FR.EMERGENCY.DECL",
+        "FR.OFAC.ACTIONS"
+      ]
+    }
+  ],
+  "bindingClasses": {
+    "note": "Governance binds mostly to INSTITUTIONS & INDICATORS, not single companies. The per-node 'companies' arrays are retained as-is for engine compatibility; this block classifies bound entities so equity feeds and reference sources are not conflated.",
+    "equities": [
+      {
+        "name": "Tyler Technologies",
+        "ticker": "TYL",
+        "role": "govtech / public-sector software",
+        "feed": "polygon.io"
+      },
+      {
+        "name": "Maximus Inc",
+        "ticker": "MMS",
+        "role": "government program administration",
+        "feed": "polygon.io"
+      },
+      {
+        "name": "Booz Allen Hamilton",
+        "ticker": "BAH",
+        "role": "government consulting / analytics",
+        "feed": "polygon.io"
+      },
+      {
+        "name": "Leidos",
+        "ticker": "LDOS",
+        "role": "government IT & mission systems",
+        "feed": "polygon.io"
+      },
+      {
+        "name": "Accenture (Federal Services)",
+        "ticker": "ACN",
+        "role": "government digital transformation",
+        "feed": "polygon.io"
+      },
+      {
+        "name": "Palantir Technologies",
+        "ticker": "PLTR",
+        "role": "government data integration",
+        "feed": "polygon.io"
+      },
+      {
+        "name": "Science Applications International Corp",
+        "ticker": "SAIC",
+        "role": "government technical services",
+        "feed": "polygon.io"
+      },
+      {
+        "name": "CGI Group",
+        "ticker": "GIB",
+        "role": "government IT services",
+        "feed": "polygon.io"
+      },
+      {
+        "name": "ICF International",
+        "ticker": "ICFI",
+        "role": "policy research & implementation services",
+        "feed": "polygon.io"
+      }
+    ],
+    "referenceSources": [
+      {
+        "name": "U.S. Government Accountability Office",
+        "id": "GAO_GOV",
+        "role": "audit & oversight (analysis source, not an equity)",
+        "indicatorSource": "GAO"
+      },
+      {
+        "name": "Congressional Budget Office",
+        "id": "CBO_GOV",
+        "role": "nonpartisan fiscal analysis (analysis source)",
+        "indicatorSource": "CBO"
+      },
+      {
+        "name": "Transparency International",
+        "id": "TI_NPO",
+        "role": "anti-corruption NGO (analysis source)",
+        "indicatorSource": "World Bank WGI"
+      },
+      {
+        "name": "World Economic Forum",
+        "id": "WEF",
+        "role": "global governance think tank (analysis source)",
+        "indicatorSource": "OECD Governance"
+      },
+      {
+        "name": "Brookings Institution",
+        "id": "BROOKINGS",
+        "role": "public-policy research (analysis source)",
+        "indicatorSource": "V-Dem"
+      },
+      {
+        "name": "RAND Corporation",
+        "id": "RAND",
+        "role": "policy research & analysis (analysis source)",
+        "indicatorSource": "V-Dem"
+      },
+      {
+        "name": "World Bank Worldwide Governance Indicators",
+        "id": "WGI_REF",
+        "role": "governance index publisher",
+        "indicatorSource": "World Bank WGI"
+      },
+      {
+        "name": "V-Dem Institute",
+        "id": "VDEM_REF",
+        "role": "democracy index publisher",
+        "indicatorSource": "V-Dem"
+      },
+      {
+        "name": "OECD",
+        "id": "OECD_REF",
+        "role": "governance index publisher",
+        "indicatorSource": "OECD Governance"
+      },
+      {
+        "name": "Federal Register",
+        "id": "FEDREG_REF",
+        "role": "rulemaking & proclamation record",
+        "indicatorSource": "Federal Register"
+      }
+    ]
   }
 }

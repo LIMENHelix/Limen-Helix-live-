@@ -1571,6 +1571,131 @@
         { label: 'investigate manufacturing cultural-identity feedback', type: 'analysis' },
         { label: 'hold', type: 'monitoring' }
       ]
+    },
+    // ─── Governance pairs (parity port; mirrors energy/infra/culture/finance/economy/tech/defense/intelligence/trade/industry/environment structure) ──
+    // GOVERNANCE identity ONLY — government & public administration, public policy &
+    // rulemaking, regulation & oversight, elections & democratic institutions, public
+    // finance & budgets, rule-of-law & institutional integrity, public-services delivery,
+    // political stability & legitimacy. Governance binds mostly to INSTITUTIONS & INDICATORS,
+    // not single companies; where entities are needed use REAL govtech / public-sector
+    // identifiers (TYL Tyler Technologies, MMS Maximus, BAH Booz Allen, LDOS Leidos, ACN
+    // Accenture, GDIT) and policy/governance indices (World Bank WGI, V-Dem, OECD, GAO, CBO,
+    // Federal Register, FSOC, FISA court, IG reports) — never fabricated. Governance is the
+    // POLICY-TASKING / RULEMAKING / OVERSIGHT / LEGITIMACY / PUBLIC-FINANCE source in each
+    // pair, NOT the paired domain's own content. Kept DISTINCT from economy (macro aggregate),
+    // finance (capital markets/credit/banks), law (judicial / legal-system is the law domain),
+    // and intelligence (collection/analysis/espionage). Energy oil/gas/grid is NEVER
+    // governance's own content. ADDITIVE — does not touch any validated scoring path.
+    // ('governance_economy', 'law_governance', 'intelligence_governance', 'defense_governance',
+    // 'environment_governance', 'governance_supplyChain', 'governance_technology',
+    // 'infrastructure_governance', 'industry_governance', 'culture_governance' already cover
+    // those couplings; the rules below add the MISSING institutional-capacity & legitimacy paths.)
+    {
+      // Mirrors 'defense_governance' (policy-stress) + 'intelligence_governance' (info-policy loop)
+      // anchored in INTELLIGENCE-OVERSIGHT institutional capacity: collection-authorization vs
+      // oversight-effectiveness vs clearance-investigation backlog. Governance is the policy-tasking
+      // SOURCE (priorities, FISA reauthorization, transparency demand); intelligence is the
+      // collection target/coupling, NOT governance's own content. DISTINCT from the basic
+      // 'intelligence_governance' loop (data-integrity / surveillance-state tension).
+      id: 'intelligence_governance_oversight',
+      domains: ['intelligence', 'governance'],
+      threshold: 0.42,
+      pattern: 'intelligence-oversight institutional-capacity coupling',
+      drivers: ['collection-authorization vs capability gap (policy-tasking & priority misalignment)', 'oversight-effectiveness vs transparency-demand tension (Congressional intelligence-committee oversight-hearing frequency, IG oversight-findings surge)', 'FISA reauthorization-cycle status / FISA-court petition volume', 'clearance-investigation backlog vs threat escalation (security-clearance throughput, BAH/LDOS clearance-investigation capacity)', 'foreign-policy constraint escalation on collection priorities', 'public-trust credibility feedback (FOIA-litigation counts, GAO delays, declassification-pressure cadence)'],
+      options: [
+        { label: 'trace intelligence-oversight capacity exposure', type: 'analysis' },
+        { label: 'investigate FISA-reauthorization / clearance-backlog coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'religion_population' (demographic-legitimacy tension) + 'governance_economy'
+      // (institutional feedback) anchored in INSTITUTIONAL-LEGITIMACY transmission: public
+      // confidence → voter-turnout stress → policy-prioritization fragmentation → institutional
+      // incoherence. Governance is institutions↔legitimacy; DISTINCT from culture↔population
+      // (taste/identity). Population is the COUPLING (legitimacy/service-quality feedback), not
+      // governance's own content. Real public-sector service-delivery vendors where needed.
+      id: 'population_governance',
+      domains: ['population', 'governance'],
+      threshold: 0.45,
+      pattern: 'institutional-legitimacy transmission',
+      drivers: ['public-confidence collapse (approval-rating tracking, Pew/Gallup public-satisfaction surveys, World Bank WGI voice-and-accountability)', 'electoral-accessibility stress (voting-age registration-rate delta, turnout anomaly, early-vote / registration metrics)', 'public-service equity gap (healthcare-access / education-access inequality, infrastructure-maintenance equity disparity, GAO service-delivery audits, MMS/TYL service-platform throughput)', 'food-security equity feedback in service delivery', 'policy-prioritization fragmentation under legitimacy erosion (V-Dem electoral-democracy index, agency-responsiveness benchmarks)'],
+      options: [
+        { label: 'trace institutional-legitimacy exposure', type: 'analysis' },
+        { label: 'investigate turnout-stress / service-equity coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'environment_governance' (policy-transmission) + 'infrastructure_governance'
+      // (regulatory/funding stress) applied to PUBLIC-HEALTH POLICY coordination: health-system
+      // capacity stress → regulatory-enforcement pressure → policy-coordination friction →
+      // institutional incoherence. Governance is the policy-tasking / regulatory regime (HHS
+      // direction, FDA/CMS enforcement); health is the system coupling, not governance's content.
+      id: 'health_governance',
+      domains: ['health', 'governance'],
+      threshold: 0.50,
+      pattern: 'public-health policy-coordination coupling',
+      drivers: ['HHS policy-guidance clarity / revision cadence', 'state health-policy adoption-cycle stress', 'CMS regulatory-action count / healthcare-system regulatory burden', 'pandemic-preparedness mandate vs health-system readiness (CDC / state health-assessment reports)', 'health-equity policy-adoption friction', 'public-health-agency coordination stress (HHS/CDC inter-agency policy-coordination, GAO health-program audits)'],
+      options: [
+        { label: 'trace public-health policy-coordination exposure', type: 'analysis' },
+        { label: 'investigate HHS / CMS regulatory-coordination coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'finance_law' (regulatory-coupling) + 'governance_economy' (policy-market feedback)
+      // anchored in FINANCIAL-REGULATORY policy regime: governance policy-shift → financial-
+      // regulatory uncertainty → capital-market repricing → credit-condition contagion → macro
+      // drag. Governance is the policy / fiscal-authority / oversight regime; finance (capital
+      // markets/credit/banks) is the coupling, NOT governance's content. DISTINCT from isolated
+      // credit stress ('finance_economy') or regulatory burden ('finance_law').
+      id: 'finance_governance',
+      domains: ['finance', 'governance'],
+      threshold: 0.48,
+      pattern: 'financial-regulatory policy-credibility coupling',
+      drivers: ['central-bank policy-clarity stress (Fed policy-clarity metrics, Treasury yield-curve signal)', 'prudential-supervision authority / bank-supervision enforcement-action cadence', 'systemic-risk elevation (FSOC elevated-threat cadence, deposit-insurance credibility)', 'capital-requirement enforcement / regulatory-rewrite volume (Federal Register prudential-rule cadence)', 'fiscal-authority credibility (CBO projections, debt-ceiling / appropriation status)', 'regulatory-authority clarity vs financial-stability mandate (co-elevated = systemic-financial-credibility risk)'],
+      options: [
+        { label: 'trace financial-regulatory credibility exposure', type: 'analysis' },
+        { label: 'investigate FSOC / prudential-policy coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Complements the existing 'defense_governance' (deterrence-DOCTRINE/alliance stress) with the
+      // GOVERNANCE-SIDE institutional-execution friction: policy-authorization capacity, NDAA
+      // clarity, civilian-oversight coherence, budget-timeline. Pattern is procurement-execution
+      // feedback: defense readiness stress → policy-authorization pressure → governance-coordination
+      // friction → procurement-timeline slip → readiness degradation. ADDITIVE — leaves
+      // 'defense_governance' untouched. Surfaces the policy-authorization-capability gap.
+      id: 'defense_governance_capacity',
+      domains: ['defense', 'governance'],
+      threshold: 0.44,
+      pattern: 'policy-authorization institutional-capacity stress',
+      drivers: ['Congressional authorization delay (defense-committee hearing frequency, continuing-resolution exposure)', 'NDAA clarity gap (Federal Register defense-rule / authorization-document volume)', 'civilian-military coordination friction (civilian-oversight board effectiveness)', 'budget-constraint on doctrine implementation (CBO defense-outlay projections, procurement-timeline coherence)', 'IG oversight-findings surge on DoD (GAO DoD-program audits)', 'institutional-execution friction when defense elevated but governance/law/intelligence proxy-heavy (policy-authorization-capability gap)'],
+      options: [
+        { label: 'trace policy-authorization capacity exposure', type: 'analysis' },
+        { label: 'investigate NDAA-clarity / oversight-coordination coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Complements the existing 'law_governance' (one-directional regulatory burden) with the
+      // REVERSE institutional-integrity binding: governance → law enforcement-capacity stress
+      // (underfunded courts, docket backlog) AND law → governance policy-clarity constraint
+      // (constitutional / deference doctrine). Both elevated = institutional-incoherence cascade.
+      // ADDITIVE — leaves 'law_governance' untouched. Law identity stays judicial/legal-system;
+      // governance stays policy-coordination / institutional oversight / public administration.
+      id: 'law_governance_integrity',
+      domains: ['law', 'governance'],
+      threshold: 0.46,
+      pattern: 'institutional-integrity bidirectional coupling',
+      drivers: ['legal-enforcement capacity stress (federal/state court docket aging & delays, DOJ enforcement / staffing backlog)', 'regulatory-litigation volume consuming enforcement capacity (regulatory-litigation appeals surge)', 'policy-incoherence → conflicting enforcement directives (regulatory-fragmentation, IG audit backlogs)', 'constitutional-constraint / judicial-deference doctrine limiting policy clarity', 'policy-revision cadence vs enforcement throughput (Federal Register clarity metrics)', 'both elevated = institutional-incoherence cascade (policy-execution constraint ↔ enforcement-backlog feedback)'],
+      options: [
+        { label: 'trace institutional-integrity feedback exposure', type: 'analysis' },
+        { label: 'investigate docket-backlog / policy-coherence coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
     }
   ];
 

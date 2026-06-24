@@ -58,6 +58,7 @@ const HANDLERS = {
   'trade-markets': require('../handlers/trade-markets'),
   'industry-markets': require('../handlers/industry-markets'),
   'environment-markets': require('../handlers/environment-markets'),
+  'governance-markets': require('../handlers/governance-markets'),
   'brain-signals': require('../handlers/brain-signals'),
   'enrich-portal-claude': require('../handlers/enrich-portal-claude'),
   'expand-artifact': require('../handlers/expand-artifact'),

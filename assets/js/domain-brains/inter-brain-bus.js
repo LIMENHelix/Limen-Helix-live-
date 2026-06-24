@@ -314,6 +314,63 @@
  *   examples only — the validated Thing1 P3 distress kernel remains the sole scoring
  *   authority; the bus merely transports already-scored emissions.
  *
+ * Cross-domain examples — GOVERNANCE → OTHER (governance as a source). Governance
+ * is the GOVERNMENT / PUBLIC-ADMINISTRATION / RULEMAKING domain (public policy &
+ * rulemaking, regulation & oversight, elections & democratic institutions, public
+ * finance & budgets, rule of law & institutional integrity, public-services
+ * delivery, political stability & legitimacy). It is DISTINCT from economy (the
+ * macro aggregate), from finance (capital markets / credit / banks), from law (the
+ * JUDICIAL system / courts / legal-process — that is the law domain), and from
+ * intelligence (collection / analysis). The bus previously documented governance as
+ * a TARGET only — it RECEIVES from infrastructure (FUNDING_COLLAPSE → governance,
+ * line 21 family) and from environment (regulatory_pressure_escalation → governance,
+ * lines 291–295) — but its OUTBOUND emissions were silent in the bus, creating the
+ * false impression that governance is a target-only domain rather than a full
+ * bidirectional SOURCE. These are governance's native OUTBOUND paths, mirroring the
+ * energy / defense / intelligence / economy / industry / environment SOURCE examples
+ * (the rules live in governance-brain.js emissionRules, lines 31–36); governance
+ * emits these native signals when ≥1 active diagnosis is present (per brain cycle):
+ *   governance → law            (policy_conflict_enforcement → contradictory
+ *                           directives, fragmented agency authority and cross-branch
+ *                           incoherence strain compliance and create legal-authority
+ *                           gaps — governance-brain.js emissionRules line 32,
+ *                           DISTINCT from law's own judicial-process content)
+ *   governance → finance        (policy_uncertainty_premium → a regulatory-regime
+ *                           shift raises funding-cost pressure, compliance burden and
+ *                           narrows primary-market access for affected issuers —
+ *                           governance-brain.js line 35, the outbound mirror of the
+ *                           inbound governance→finance regulatory-tightening path
+ *                           documented at lines 24–26)
+ *   governance → economy        (institutional_confidence_drag → a collapse in
+ *                           institutional trust / legitimacy transmits as a demand
+ *                           and confidence shock into the macro aggregate —
+ *                           governance-brain.js line 33, DISTINCT from economy's own
+ *                           macro content)
+ *   governance → supplyChain    (administrative_friction → permit delays, capital-
+ *                           allocation constraints and regulatory bottlenecks defer
+ *                           throughput and squeeze deferred-maintenance / capital
+ *                           access — governance-brain.js line 34; the same
+ *                           institutional friction also pressures infrastructure
+ *                           capital programs and tech-sector capex when IP / antitrust
+ *                           / data-privacy regulation tightens, WITHOUT governance
+ *                           taking on any of those domains' content as its identity)
+ *   Additional governance-native SIGNAL examples surfacing on these paths:
+ *   policy_uncertainty_premium, institutional_confidence_drag, policy_conflict_
+ *   enforcement, administrative_friction, regulatory_regime_shift.
+ *   Governance binds mostly to INSTITUTIONS & INDICATORS, not single companies — the
+ *   governance/policy indices behind these signals (REAL, never fabricated): World
+ *   Bank WGI (Worldwide Governance Indicators), V-Dem, OECD, GAO, CBO, the Federal
+ *   Register. Where real govtech / public-sector operators are needed: TYL (Tyler
+ *   Technologies, civil / court case management), MMS (Maximus, public-administration
+ *   outsourcing), BAH (Booz Allen, governance analytics), LDOS (Leidos, compliance /
+ *   oversight), ACN, GDIT. (policy_uncertainty_premium = regulatory-regime-shift
+ *   funding-cost pressure; institutional_confidence_drag = legitimacy / trust-collapse
+ *   demand shock; policy_conflict_enforcement = contradictory-directive & legal-
+ *   authority-gap compliance strain; administrative_friction = permit / capital-
+ *   allocation / regulatory-bottleneck delay.) SIGNAL examples only — the validated
+ *   Thing1 P3 distress kernel remains the sole scoring authority; the bus merely
+ *   transports already-scored emissions.
+ *
  * Also detects:
  *   - Propagation chains (A→B→C)
  *   - Co-activation (multiple domains emitting simultaneously)

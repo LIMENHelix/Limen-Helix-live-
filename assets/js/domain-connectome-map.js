@@ -110,7 +110,25 @@
     // energy is reached only as a DEMAND signal via infrastructure power/cooling.
     { source: 'technology',     target: 'infrastructure', weight: 0.8, type: 'DEPENDS_ON' }, // compute (data infra) needs power/cooling capacity nodes (CARD/BDNF/SNS)
     { source: 'technology',     target: 'energy',         weight: 0.7, type: 'SUPPLIES' },   // tech stress → defensive/less-efficient compute → AI-training/data-center load → energy DEMAND spike (route via infrastructure, not grid policy)
-    { source: 'technology',     target: 'supplyChain',    weight: 0.8, type: 'DEPENDS_ON' }  // semiconductor/component scarcity (tech) blocks goods production (supply chain) — one-directional, not vice versa
+    { source: 'technology',     target: 'supplyChain',    weight: 0.8, type: 'DEPENDS_ON' }, // semiconductor/component scarcity (tech) blocks goods production (supply chain) — one-directional, not vice versa
+    // ── ADDITIVE: GOVERNANCE control-authority edges (weighted/typed) ──
+    // Mirrors the TECHNOLOGY contagion block above, content→governance. Governance is the
+    // CONTROL domain — it BINDS to institutional nodes (executive authority, legislative body,
+    // independent agencies, judiciary oversight, electoral systems, anti-corruption bodies) and
+    // exerts policy authority / institutional oversight / rule-of-law enforcement / budget
+    // execution. Identity stays institutions & indices (World Bank WGI, V-Dem, OECD, GAO, CBO,
+    // Federal Register; govtech delivery TYL/MMS/BAH/LDOS/ACN/GDIT) — NEVER energy oil/gas/grid
+    // content. Energy regulation is a governance COUPLING (authority), never the origin of energy
+    // stress. Targets are REAL existing connectome nodes that stand for each governance circuit so
+    // the edge actually illuminates; non-domain institutional bodies live in the comments.
+    //   Fiscal-authority circuit: budget execution / public finance & appropriations (CBO, GAO, Treasury).
+    { source: 'governance',     target: 'finance',        weight: 0.8, type: 'AUTHORIZES' },  // policy authority over public finance & budgets — fiscal-authority circuit (CBO/GAO appropriations, Maximus MMS payment integrity)
+    //   Institutional-integrity / oversight circuit: independent agencies + anti-corruption bodies (GAO, WGI Control-of-Corruption, V-Dem).
+    { source: 'governance',     target: 'law',            weight: 0.7, type: 'OVERSEES' },     // institutional oversight & rule-of-law ENFORCEMENT direction (regulatory agencies, judiciary oversight) — distinct from law→governance (legal constraint on the executive)
+    //   Service-delivery circuit: public-administration / public services delivery (Tyler TYL, Maximus MMS, GDIT, LDOS, ACN, BAH).
+    { source: 'governance',     target: 'infrastructure', weight: 0.6, type: 'DELIVERS' },     // public-administration service delivery & program execution lands on civic infrastructure/digital-gov nodes — service-delivery circuit (not energy; govtech delivery rails)
+    //   Democratic-legitimacy circuit: elections & democratic institutions / political stability (V-Dem, WGI Voice-&-Accountability).
+    { source: 'governance',     target: 'communication',  weight: 0.6, type: 'LEGITIMIZES' }   // elections, democratic institutions & political legitimacy propagate through civic communication channels — democratic-legitimacy circuit (V-Dem electoral component, WGI Voice & Accountability)
   ];
 
   // ─── Color mapping ──────────────────────────────────────────────────────

@@ -36,6 +36,11 @@
  *                        brainReadyForHandoff
  *   L. Biosensor:        brainBiosensor
  *   M. Provenance:       brainProducedBy, brainProducerVersion, brainValidatedAt
+ *   F0. Lifecycle models: brainEnergyModel (energy), brainSupplyChainModel
+ *                        (supplyChain), brainEnvironmentModel (environment),
+ *                        brainGovernanceModel (governance: institutional-lifecycle
+ *                        — policy regime, regulatory constraint, oversight
+ *                        effectiveness); each null outside its own domain
  *   Status:              brainStatus
  *
  * Fields not yet emitted by a brain read as inert defaults ([] / null) —
@@ -82,6 +87,7 @@
       brainEnergyModel:   _obj(bs.energyModel),   // F0: carry recurrent brain model (energy; null elsewhere)
       brainSupplyChainModel: _obj(bs.supplyChainModel), // F0.trade: carry recurrent logistics-lifecycle model (trade/supplyChain)
       brainEnvironmentModel: _obj(bs.environmentModel), // F0.environment: carry recurrent climate/emissions/ecosystem lifecycle model (environment; null elsewhere)
+      brainGovernanceModel: _obj(bs.governanceModel), // F0.governance: carry recurrent institutional-lifecycle model (policy regime, regulatory constraint, oversight effectiveness; governance only, null elsewhere)
 
       // === A. Identity & timing (additive) ===
       brainDomainId:              _val(bs.domainId),

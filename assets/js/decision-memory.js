@@ -39,6 +39,8 @@
   var INDUSTRY_STACK_COOLDOWN = 180000; // 3 min between industry-stack narrations
   var ENVIRONMENT_STACK_THRESHOLD = 2; // an environmental-vulnerability stack seen N times signals concentration
   var ENVIRONMENT_STACK_COOLDOWN = 180000; // 3 min between environment-stack narrations
+  var GOVERNANCE_STACK_THRESHOLD = 2; // a governance-vulnerability stack seen N times signals concentration
+  var GOVERNANCE_STACK_COOLDOWN = 180000; // 3 min between governance-stack narrations
 
   // ─── Infrastructure vulnerability-stack semantics ─────────────────────────
   // CIVIL domain-semantic concentration. Generic (domain, action) frequency only
@@ -495,6 +497,62 @@
       body: 'Operator attention concentrates on the pollution-event + regulatory-tightening stack — an enforcement-driven compliance shock where contamination incidents trigger EPA/clean-air/clean-water enforcement and permit risk (ECL/LIN/APD exposure).' }
   ];
 
+  // ─── Governance vulnerability-stack semantics ─────────────────────────────
+  // GOVERNANCE domain-semantic concentration. Generic (domain, action) frequency
+  // only says WHERE the operator is looking; for governance we also detect WHAT
+  // vulnerability STACK the attention concentrates on. Each stack is a co-occurring
+  // pair of governance signal families (legislative/executive/judicial coordination,
+  // policy & rulemaking, regulatory integrity & capture, elections & legitimacy,
+  // public finance & budget execution, corruption & oversight). Mirrors the
+  // governance-brain cross-domain conditions:
+  //   LEGISLATIVE_STALEMATE + EXECUTIVE_OVERREACH → separation-of-powers erosion
+  //   POLICY_GRIDLOCK + INSTITUTIONAL_FRAGMENTATION → governance dysfunction
+  // Bound to institution-native concepts (constitutional/separation-of-powers,
+  // institutional credibility & legitimacy, regulatory capture, fiscal & budget
+  // execution, corruption & accountability) — NOT energy oil/gas/grid content, and
+  // distinct from law (judicial/legal-system), economy (macro) and finance (capital).
+  // Where entities are named, REAL govtech/public-sector identifiers and governance
+  // indices are used (TYL Tyler Technologies, MMS Maximus, BAH, LDOS, ACN, GDIT;
+  // World Bank WGI, V-Dem, OECD, GAO, CBO, Federal Register) — never fabricated.
+  // Signal tokens are matched against recorded action/type/pattern text — never
+  // invented; absence of tokens simply yields no stack (silent, no false signal).
+  var GOVERNANCE_SIGNAL_TOKENS = {
+    LEGISLATIVE_STALEMATE:      /(legislative[_\s-]?stalemate|legislative[_\s-]?gridlock|congressional[_\s-]?deadlock|stalled[_\s-]?legislation|filibuster|failed[_\s-]?vote|appropriations[_\s-]?lapse|government[_\s-]?shutdown|continuing[_\s-]?resolution|debt[_\s-]?ceiling|legislative[_\s-]?paralysis)/i,
+    EXECUTIVE_OVERREACH:        /(executive[_\s-]?overreach|executive[_\s-]?order|emergency[_\s-]?power|unilateral[_\s-]?action|executive[_\s-]?action|impoundment|signing[_\s-]?statement|administrative[_\s-]?overreach|power[_\s-]?grab|executive[_\s-]?authority[_\s-]?expansion)/i,
+    POLICY_GRIDLOCK:            /(policy[_\s-]?gridlock|rulemaking[_\s-]?delay|regulatory[_\s-]?freeze|policy[_\s-]?paralysis|stalled[_\s-]?rulemaking|notice[_\s-]?and[_\s-]?comment[_\s-]?backlog|federal[_\s-]?register[_\s-]?backlog|policy[_\s-]?stalemate|implementation[_\s-]?gap|mandate[_\s-]?underfunding)/i,
+    INSTITUTIONAL_FRAGMENTATION:/(institutional[_\s-]?fragmentation|agency[_\s-]?fragmentation|jurisdictional[_\s-]?overlap|interagency[_\s-]?conflict|federal[_\s-]?state[_\s-]?conflict|coordination[_\s-]?failure|siloed[_\s-]?agencies|fragmented[_\s-]?authority|institutional[_\s-]?breakdown|capacity[_\s-]?erosion)/i,
+    ELECTORAL_INTEGRITY:        /(electoral[_\s-]?integrity|election[_\s-]?security|voter[_\s-]?suppression|gerrymander|ballot[_\s-]?access|election[_\s-]?administration|voter[_\s-]?roll|disinformation|contested[_\s-]?election|certification[_\s-]?dispute|election[_\s-]?integrity)/i,
+    VOTER_CONFIDENCE:           /(voter[_\s-]?confidence|public[_\s-]?trust|institutional[_\s-]?trust|legitimacy[_\s-]?crisis|confidence[_\s-]?collapse|trust[_\s-]?in[_\s-]?government|approval[_\s-]?collapse|democratic[_\s-]?backsliding|legitimacy[_\s-]?deficit|trust[_\s-]?erosion)/i,
+    REGULATORY_CAPTURE:         /(regulatory[_\s-]?capture|revolving[_\s-]?door|industry[_\s-]?influence|lobby(ing)?[_\s-]?capture|captured[_\s-]?regulator|rent[_\s-]?seeking|undue[_\s-]?influence|conflict[_\s-]?of[_\s-]?interest|agency[_\s-]?capture|captured[_\s-]?agency)/i,
+    ENFORCEMENT_FAILURE:        /(enforcement[_\s-]?failure|non[_\s-]?enforcement|lax[_\s-]?enforcement|enforcement[_\s-]?gap|compliance[_\s-]?failure|unenforced[_\s-]?rule|enforcement[_\s-]?backlog|regulatory[_\s-]?neglect|weak[_\s-]?enforcement|enforcement[_\s-]?breakdown)/i,
+    FISCAL_GOVERNANCE:          /(fiscal[_\s-]?governance|budget[_\s-]?governance|fiscal[_\s-]?sustainability|structural[_\s-]?deficit|public[_\s-]?debt[_\s-]?governance|cbo[_\s-]?projection|fiscal[_\s-]?rule|appropriations[_\s-]?process|fiscal[_\s-]?oversight|budget[_\s-]?discipline)/i,
+    BUDGET_EXECUTION:           /(budget[_\s-]?execution|budget[_\s-]?shortfall|spending[_\s-]?overrun|fund[_\s-]?obligation|appropriation[_\s-]?lapse|under[_\s-]?execution|disbursement[_\s-]?delay|budget[_\s-]?reallocation|expenditure[_\s-]?control|funding[_\s-]?gap)/i,
+    CORRUPTION_DETECTION:       /(corruption|bribery|graft|embezzlement|kickback|self[_\s-]?dealing|misappropriation|fraud[_\s-]?in[_\s-]?office|public[_\s-]?integrity|abuse[_\s-]?of[_\s-]?office|corruption[_\s-]?exposure)/i,
+    OVERSIGHT_FAILURE:          /(oversight[_\s-]?failure|accountability[_\s-]?gap|inspector[_\s-]?general[_\s-]?gap|audit[_\s-]?failure|gao[_\s-]?finding|watchdog[_\s-]?gap|whistleblower[_\s-]?retaliation|oversight[_\s-]?vacuum|accountability[_\s-]?breakdown|missing[_\s-]?audit)/i
+  };
+
+  // Governance-vulnerability STACKS — ordered token pairs with a governance
+  // interpretation. Each describes an operator-concentration meaning specific to a
+  // governance vulnerability stack (constitutional/separation-of-powers, legislative/
+  // executive/judicial coordination, institutional credibility & legitimacy,
+  // regulatory integrity & capture, fiscal & budget execution, corruption &
+  // accountability) — NOT energy oil/gas/grid, and distinct from law (judicial/
+  // legal-system is the law domain), economy (macro) and finance (capital).
+  var GOVERNANCE_VULN_STACKS = [
+    { id: 'SEPARATION_OF_POWERS_EROSION', signals: ['LEGISLATIVE_STALEMATE', 'EXECUTIVE_OVERREACH'],
+      body: 'Operator attention concentrates on the legislative-stalemate + executive-overreach stack — a separation-of-powers erosion where congressional deadlock and stalled appropriations cede ground to unilateral executive action, emergency powers, and impoundment (constitutional/V-Dem checks-and-balances exposure).' },
+    { id: 'POLICY_GRIDLOCK_DYSFUNCTION',  signals: ['POLICY_GRIDLOCK', 'INSTITUTIONAL_FRAGMENTATION'],
+      body: 'Operator attention concentrates on the policy-gridlock + institutional-fragmentation stack — governance dysfunction where stalled rulemaking and Federal Register backlog compound with interagency conflict, jurisdictional overlap, and capacity erosion (World Bank WGI government-effectiveness / TYL / ACN public-administration exposure).' },
+    { id: 'LEGITIMACY_CRISIS_STACK',      signals: ['ELECTORAL_INTEGRITY', 'VOTER_CONFIDENCE'],
+      body: 'Operator attention concentrates on the electoral-integrity + voter-confidence stack — a legitimacy crisis where election-security and ballot-access disputes feed collapsing public trust and democratic backsliding (V-Dem / World Bank WGI voice-and-accountability exposure).' },
+    { id: 'ACCOUNTABILITY_BREAKDOWN',     signals: ['REGULATORY_CAPTURE', 'ENFORCEMENT_FAILURE'],
+      body: 'Operator attention concentrates on the regulatory-capture + enforcement-failure stack — an accountability breakdown where revolving-door industry influence pairs with lax or unenforced rules, hollowing regulatory integrity (World Bank WGI regulatory-quality / GAO exposure).' },
+    { id: 'FISCAL_GOVERNANCE_STRESS',     signals: ['FISCAL_GOVERNANCE', 'BUDGET_EXECUTION'],
+      body: 'Operator attention concentrates on the fiscal-governance + budget-execution stack — fiscal-governance stress where structural deficits and weak appropriations discipline collide with spending overruns, disbursement delays, and funding gaps (CBO / GAO / MMS public-finance-administration exposure).' },
+    { id: 'CORRUPTION_EXPOSURE',          signals: ['CORRUPTION_DETECTION', 'OVERSIGHT_FAILURE'],
+      body: 'Operator attention concentrates on the corruption-detection + oversight-failure stack — a corruption exposure where bribery, graft, and self-dealing meet inspector-general/audit gaps and whistleblower retaliation, breaking the accountability chain (World Bank WGI control-of-corruption / GAO / LDOS-GDIT integrity-systems exposure).' }
+  ];
+
   // ─── State ───────────────────────────────────────────────────────────────
 
   var _entries = [];
@@ -518,6 +576,8 @@
   var _lastIndustryStackId = null;
   var _lastEnvironmentStackTime = 0;
   var _lastEnvironmentStackId = null;
+  var _lastGovernanceStackTime = 0;
+  var _lastGovernanceStackId = null;
   var _interval = null;
 
   // Detect which civil signal families a user-action references, by scanning its
@@ -628,6 +688,18 @@
     return hits;
   }
 
+  // Detect which governance signal families a user-action references, by scanning its
+  // free-text fields (action / type / cross-domain pattern). Returns a list of
+  // canonical governance signal ids. Never fabricates — empty if nothing matches.
+  function _detectGovernanceSignals(text) {
+    if (!text) return [];
+    var hits = [];
+    for (var sig in GOVERNANCE_SIGNAL_TOKENS) {
+      if (GOVERNANCE_SIGNAL_TOKENS[sig].test(text)) hits.push(sig);
+    }
+    return hits;
+  }
+
   // ─── Record decision ─────────────────────────────────────────────────────
 
   function _onUserAction(e) {
@@ -692,6 +764,10 @@
       // ENVIRONMENT: which environmental signal families this action touches (may be []).
       environmentSignals: _detectEnvironmentSignals(
         [detail.action, detail.type, matchedPattern, detail.signal, detail.diagnosis].join(' ')
+      ),
+      // GOVERNANCE: which governance signal families this action touches (may be []).
+      governanceSignals: _detectGovernanceSignals(
+        [detail.action, detail.type, matchedPattern, detail.signal, detail.diagnosis].join(' ')
       )
     };
 
@@ -711,6 +787,7 @@
     _checkTradeStackConcentration();
     _checkIndustryStackConcentration();
     _checkEnvironmentStackConcentration();
+    _checkGovernanceStackConcentration();
   }
 
   // ─── Concentration detection ──────────────────────────────────────────────
@@ -1396,6 +1473,73 @@
     });
   }
 
+  // ─── Governance vulnerability-stack concentration ─────────────────────────
+  // Domain-semantic concentration for GOVERNANCE: beyond "which domain" (above),
+  // surface WHICH vulnerability STACK the operator keeps returning to. Tallies
+  // co-occurring governance signal families across recent entries and fires when a
+  // known stack (separation-of-powers erosion, policy-gridlock dysfunction,
+  // legitimacy crisis, accountability breakdown, fiscal-governance stress,
+  // corruption exposure) crosses the threshold. Schema-faithful to
+  // _checkConcentration (same phase-change shape).
+
+  function _checkGovernanceStackConcentration() {
+    var now = Date.now();
+    if (now - _lastGovernanceStackTime < GOVERNANCE_STACK_COOLDOWN) return;
+    if (_entries.length < GOVERNANCE_STACK_THRESHOLD) return;
+
+    // Count per-signal-family hits across recent entries (last 10).
+    var recent = _entries.slice(-10);
+    var sigCounts = {};
+    for (var i = 0; i < recent.length; i++) {
+      var sigs = recent[i].governanceSignals || [];
+      for (var s = 0; s < sigs.length; s++) {
+        sigCounts[sigs[s]] = (sigCounts[sigs[s]] || 0) + 1;
+      }
+    }
+
+    // A stack fires only when BOTH of its signal families are present and at least
+    // one of them has been focused on repeatedly (>= threshold). Score = sum of the
+    // pair's counts; pick the strongest stack.
+    var best = null;
+    for (var k = 0; k < GOVERNANCE_VULN_STACKS.length; k++) {
+      var stack = GOVERNANCE_VULN_STACKS[k];
+      var a = sigCounts[stack.signals[0]] || 0;
+      var b = sigCounts[stack.signals[1]] || 0;
+      if (a === 0 || b === 0) continue;
+      if (Math.max(a, b) < GOVERNANCE_STACK_THRESHOLD) continue;
+      var score = a + b;
+      if (!best || score > best.score) best = { stack: stack, a: a, b: b, score: score };
+    }
+
+    if (!best) return;
+    if (best.stack.id === _lastGovernanceStackId) return; // don't re-narrate the same stack
+
+    _lastGovernanceStackTime = now;
+    _lastGovernanceStackId = best.stack.id;
+
+    var drivers = [
+      best.a + ' recent actions touching ' + best.stack.signals[0],
+      best.b + ' recent actions touching ' + best.stack.signals[1]
+    ];
+
+    var options = [
+      { label: 'deepen ' + best.stack.id.toLowerCase().replace(/_/g, ' ') + ' analysis', type: 'analysis' },
+      { label: 'broaden scope', type: 'monitoring' },
+      { label: 'hold', type: 'monitoring' }
+    ];
+
+    _dispatch('limen:phase-change', {
+      from: 'observing',
+      to: 'concentrated',
+      type: 'decision-memory',
+      domain: 'governance',
+      stackId: best.stack.id,
+      topDrivers: drivers,
+      options: options,
+      body: best.stack.body
+    });
+  }
+
   // ─── Publish ──────────────────────────────────────────────────────────────
 
   function _publish() {
@@ -1412,6 +1556,7 @@
       tradeSignalConcentration: _tradeSignalConcentration(),
       industrySignalConcentration: _industrySignalConcentration(),
       environmentSignalConcentration: _environmentSignalConcentration(),
+      governanceSignalConcentration: _governanceSignalConcentration(),
       updated: Date.now()
     };
 
@@ -1562,6 +1707,23 @@
     var recent = _entries.slice(-10);
     for (var i = 0; i < recent.length; i++) {
       var sigs = recent[i].environmentSignals || [];
+      for (var s = 0; s < sigs.length; s++) {
+        counts[sigs[s]] = (counts[sigs[s]] || 0) + 1;
+      }
+    }
+    var out = [];
+    for (var sig in counts) { out.push({ signal: sig, count: counts[sig] }); }
+    out.sort(function (x, y) { return y.count - x.count; });
+    return out;
+  }
+
+  // GOVERNANCE: roll up which governance signal families recent attention
+  // concentrates on (descending by count). Empty when no governance signals were detected.
+  function _governanceSignalConcentration() {
+    var counts = {};
+    var recent = _entries.slice(-10);
+    for (var i = 0; i < recent.length; i++) {
+      var sigs = recent[i].governanceSignals || [];
       for (var s = 0; s < sigs.length; s++) {
         counts[sigs[s]] = (counts[sigs[s]] || 0) + 1;
       }

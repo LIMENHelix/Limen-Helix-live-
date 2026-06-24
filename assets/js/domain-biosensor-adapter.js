@@ -201,7 +201,39 @@
       label: 'Policy formation and institutional pressure',
       arousal: 'Political urgency — high arousal during governance crises reflects accelerated decision timelines',
       coherence: 'Policy consistency — low coherence during multi-stakeholder conflict suggests fragmented institutional response',
-      cognitiveLoad: 'Regulatory complexity — high load with competing policy demands reflects institutional overextension'
+      cognitiveLoad: 'Regulatory complexity — high load with competing policy demands reflects institutional overextension',
+      // Policy-formation intake/triage readiness map: regulation state → policy-research,
+      // institutional-monitoring and regulatory-oversight intake/triage posture. Mirrors energy's
+      // biosensor intake map (energy gates capex/dispatch by operator regulation state — calm:
+      // greenlight capex programs / overloaded: triage grid/supply crises; governance gates policy-
+      // formation intake — calm: expand institutional analysis & open new regulatory-reform programs /
+      // overloaded: crisis institutional triage on constitutional/legitimacy threats only). Advisory-
+      // layer only and independent of the kernel scoring spine. Consumed by (future) governance-clarity-
+      // operator outcome tracking (policy-research throughput, institutional-monitoring coverage,
+      // regulatory-oversight cadence, electoral-system assessment timeliness, fiscal-governance analysis
+      // velocity, anti-corruption investigation momentum). GOVERNANCE identity only — government & public
+      // administration, public policy & rulemaking, regulation & oversight, elections & democratic
+      // institutions, public finance & budgets, rule of law & institutional integrity, public-services
+      // delivery, political stability & legitimacy. Governance binds mostly to INSTITUTIONS & INDICATORS
+      // not single companies: governance/policy indices — World Bank WGI (Worldwide Governance
+      // Indicators), V-Dem (Varieties of Democracy), OECD (government & regulatory indicators), GAO
+      // (Government Accountability Office), CBO (Congressional Budget Office), Federal Register
+      // (rulemaking). Where govtech/public-sector entities are needed use REAL identifiers: TYL (Tyler
+      // Technologies), MMS (Maximus), BAH (Booz Allen Hamilton), LDOS (Leidos), ACN (Accenture), GDIT
+      // (General Dynamics IT). Distinct from economy (macro aggregate — fiscal/monetary series are a
+      // coupling, not governance's content), finance (capital markets), law (judicial/legal-system is the
+      // law domain) and intelligence (collection/analysis). Operator arousal/coherence during governance
+      // crises gate policy-formation intake (high arousal = crisis institutional-triage mode; low arousal
+      // = deliberate institutional-analysis / reform mode). STRICTLY ADDITIVE — does not touch any
+      // validated scoring spine.
+      readiness: {
+        calm: 'Steady operator state — safe to expand institutional analysis: open new regulatory-reform programs, stand up new policy-research initiatives and long-horizon institutional studies (WGI/V-Dem governance-quality trends, OECD regulatory-policy benchmarking), launch new electoral-system assessments and fiscal-governance reviews (CBO long-run budget outlooks), and initiate anti-corruption and rule-of-law strengthening programs; open speculative policy-design and public-services-delivery modernization (TYL/MMS/ACN/GDIT govtech) scouting.',
+        focused: 'Productive engagement — sustain in-flight policy and active institutional monitoring (Federal Register rulemaking pipelines, GAO oversight engagements, ongoing program evaluations); admit only well-scoped new intake (single-rule comment cycles, proven oversight reviews, scoped fiscal analyses — CBO scoring of defined bills); hold open-ended new reform programs and speculative institutional studies (BAH/LDOS/ACN delivery steady, TYL/MMS systems disciplined).',
+        pressured: 'Elevated load — defer discretionary analysis and new policy-research intake; focus on real-time institutional monitoring and short-horizon priorities of the active situation: protect in-flight rulemaking and statutory deadlines, prioritize high-stakes oversight, and keep electoral-integrity and fiscal-governance monitoring active on live matters; pause non-urgent reform programs.',
+        overloaded: 'Saturated — pause all new institutional analysis and policy-research intake; crisis institutional triage on constitutional and legitimacy threats only: rule-of-law and institutional-integrity breakdowns, electoral-legitimacy and democratic-backsliding events (WGI/V-Dem deterioration), fiscal-governance and budget-stability crises (CBO debt/shutdown stress), and acute public-services-delivery failures (GDIT/MMS/TYL critical-system outages, GAO high-risk findings).',
+        recovering: 'Stabilizing — resume institutional monitoring and posture stabilization first (re-establish oversight cadence, rulemaking pipelines and fiscal reporting on restored functions), then reopen policy-research and regulatory-reform programs gradually as governance-quality indicators (WGI/V-Dem), institutional-integrity and fiscal-stability metrics normalize.',
+        unknown: 'Regulation state unavailable — default to snapshot-driven prioritization (active institutional-stress and legitimacy/governance-quality signals with policy-criticality ranking).'
+      }
     },
     research: {
       label: 'Research intensity and discovery state',

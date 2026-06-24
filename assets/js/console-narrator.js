@@ -307,6 +307,32 @@
       env_remediation_backlog:   'Remediation backlog accumulating. Contaminated sites and waste streams outrunning cleanup capacity.',
       env_pollution_event:       'Pollution load rising. Air, water, and soil quality degrading as contaminant exposure climbs.',
       env_generic:               'Environmental domain under stress. Climate, ecosystems, and pollution pressured.',
+      // Governance-specific distress voice — institutions/policy/rule-of-law-grounded,
+      // mirrors energy's per-diagnosis narration (energy-brain diagnosisIndex: GRID_STRESS /
+      // SUPPLY_SHOCK / CRUDE_SPIKE) and the infrastructure/culture/finance/economy/technology/
+      // defense/intelligence/trade/industry/environment ports above, but for the GOVERNANCE domain
+      // identity: government & public administration, public policy & rulemaking, regulation &
+      // oversight, elections & democratic institutions, public finance & budgets, rule of law &
+      // institutional integrity, public services delivery, political stability & legitimacy.
+      // Maps to governance-brain diagnosisIndex (CONSTITUTIONAL_CRISIS / REGIME_INSTABILITY /
+      // POLICY_FAILURE / CORRUPTION_SCANDAL / DIPLOMATIC_BREAKDOWN / MILITARY_OVERREACH). Governance
+      // vocabulary: institutional erosion, policy gridlock, legitimacy crisis, regulatory capture,
+      // fiscal-governance stress, electoral instability, corruption surge, separation-of-powers
+      // tension, legislative stalemate, executive overreach, institutional credibility shock,
+      // policy-enforcement failure, public-trust collapse. Bound to INSTITUTIONS & INDICES — World
+      // Bank WGI, V-Dem, OECD, GAO, CBO, Federal Register, Congress.gov — not single companies; where
+      // entities are needed, real govtech/public-sector identifiers (TYL Tyler Technologies, MMS
+      // Maximus, BAH, LDOS, ACN, GDIT). Kept DISTINCT from economy (macro), finance (capital), law
+      // (judicial/legal-system), and intelligence. CLIENT-SIDE narration flavor only — never scoring.
+      gov_constitutional_crisis:   'Constitutional stress rising. Separation-of-powers tension detected across legislative and executive coordination.',
+      gov_regime_instability:      'Political stability eroding. Electoral instability and legitimacy crisis widening across institutions.',
+      gov_policy_failure:          'Policy coherence breaking down. Legislative stalemate and policy-enforcement failure compounding.',
+      gov_corruption_scandal:      'Corruption surge detected. Institutional integrity and public-trust collapse accelerating.',
+      gov_regulatory_capture:      'Regulatory capture deepening. Oversight independence and rulemaking integrity degrading.',
+      gov_diplomatic_breakdown:    'Diplomatic coordination failing. Treaty commitments and international institutional credibility under strain.',
+      gov_fiscal_governance_stress:'Fiscal-governance stress rising. Budget gridlock and public-finance credibility deteriorating.',
+      gov_institutional_credibility_shock:'Institutional credibility shock forming. Public trust and rule-of-law confidence falling sharply.',
+      gov_generic:                 'Governance domain under stress. Institutions, policy, and public trust pressured.',
       global_shift:        'Global state shifted to {state}.',
       event_start:         '{event} detected.',
       event_end:           '{event} resolved.',
@@ -397,6 +423,15 @@
       env_remediation_backlog:   'Remediation backlog critical. Prioritize cleanup and expand waste-processing capacity.',
       env_pollution_event:       'Pollution event. Contain the source and mitigate air, water, and soil exposure.',
       env_generic:               'Environmental domain elevated. Investigate climate and ecosystems.',
+      gov_constitutional_crisis:   'Constitutional crisis. Restore separation-of-powers coordination across legislative and executive branches.',
+      gov_regime_instability:      'Regime instability. Stabilize legitimacy and contain electoral and institutional disruption.',
+      gov_policy_failure:          'Policy failure. Break the legislative stalemate and restore enforcement coherence.',
+      gov_corruption_scandal:      'Corruption scandal. Contain integrity breach and rebuild public trust now.',
+      gov_regulatory_capture:      'Regulatory capture. Restore oversight independence and rulemaking integrity.',
+      gov_diplomatic_breakdown:    'Diplomatic breakdown. Re-anchor treaty commitments and international credibility.',
+      gov_fiscal_governance_stress:'Fiscal-governance stress. Resolve budget gridlock and shore up public-finance credibility.',
+      gov_institutional_credibility_shock:'Credibility shock. Reinforce rule-of-law confidence and public trust immediately.',
+      gov_generic:                 'Governance domain elevated. Investigate institutions and policy.',
       global_shift:        'State change: {state}.',
       event_start:         'Event: {event}. Tracking.',
       event_end:           'Event cleared: {event}.',
@@ -508,7 +543,7 @@
       health: 'Health', technology: 'Technology', research: 'Research',
       supplyChain: 'Supply chain', infrastructure: 'Infrastructure',
       culture: 'Culture', finance: 'Finance', defense: 'Defense',
-      intelligence: 'Intelligence', industry: 'Industry'
+      intelligence: 'Intelligence', industry: 'Industry', governance: 'Governance'
     };
 
     // Infrastructure parity: mirror energy's per-diagnosis voice. Energy distinguishes
@@ -653,6 +688,24 @@
       var envkey = _classifyEnvironmentDistress(detail.signals);
       if (envkey) {
         _narrate(envkey, {}, PRIORITY_MEDIUM);
+        return;
+      }
+    }
+
+    // Governance parity: mirror energy's per-diagnosis voice the same way infrastructure, culture,
+    // finance, economy, technology, defense, intelligence, trade, industry, and environment do.
+    // Governance is the INSTITUTIONS/POLICY/RULE-OF-LAW identity — classify the governance distress
+    // flavor from signal content (constitutional crisis / regime instability / policy failure /
+    // corruption scandal / regulatory capture / diplomatic breakdown / fiscal-governance stress /
+    // institutional credibility shock) and narrate a governance-specific line instead of the generic.
+    // Governance binds mostly to INSTITUTIONS & INDICES (World Bank WGI, V-Dem, OECD, GAO, CBO,
+    // Federal Register, Congress.gov), not single companies; where entities are needed, real govtech
+    // identifiers (TYL, MMS, BAH, LDOS, ACN, GDIT). Kept DISTINCT from economy (macro), finance
+    // (capital), law (judicial/legal-system), and intelligence. CLIENT-SIDE narration flavor only.
+    if (detail.domain === 'governance') {
+      var govkey = _classifyGovernanceDistress(detail.signals);
+      if (govkey) {
+        _narrate(govkey, {}, PRIORITY_MEDIUM);
         return;
       }
     }
@@ -1015,6 +1068,52 @@
     if (/remediation|cleanup|superfund|contamination|toxic[\s_-]?(site|waste)|hazardous[\s_-]?waste|landfill|spill|leachate|brownfield|waste[\s_-]?(backlog|management|crisis)|recycl|wm\b|rsg\b|wcn\b|cwst\b|ay\b/.test(blob)) return 'env_remediation_backlog';
     if (/pollut|air[\s_-]?quality|smog|particulate|pm2\.?5|aerosol|soil[\s_-]?(contaminat|degrad)|ocean[\s_-]?(acidif|plastic)|microplastic|runoff/.test(blob)) return 'env_pollution_event';
     return 'env_generic';
+  }
+
+  // Map raw governance signal content → a governance distress voice key.
+  // Governance vocabulary covers the GOVERNANCE domain identity: government & public administration,
+  // public policy & rulemaking, regulation & oversight, elections & democratic institutions, public
+  // finance & budgets, rule of law & institutional integrity, public services delivery, political
+  // stability & legitimacy. Maps to governance-brain diagnosisIndex (CONSTITUTIONAL_CRISIS /
+  // REGIME_INSTABILITY / POLICY_FAILURE / CORRUPTION_SCANDAL / DIPLOMATIC_BREAKDOWN /
+  // MILITARY_OVERREACH) plus regulatory-capture / fiscal-governance / institutional-credibility
+  // flavors. Bound to REAL INSTITUTIONS & INDICES — World Bank WGI, V-Dem, OECD, GAO, CBO, Federal
+  // Register, Congress.gov — NOT single-company tickers; where entities are needed, real govtech/
+  // public-sector identifiers (TYL Tyler Technologies, MMS Maximus, BAH, LDOS, ACN, GDIT). Governance
+  // COUPLES to economy via fiscal policy and to defense via military-overreach, but keeps its own
+  // institutions/policy/rule-of-law identity and stays DISTINCT from economy (macro aggregate),
+  // finance (capital markets), law (judicial/legal-system), and intelligence (collection/analysis).
+  // Mirrors the energy/infra/culture/finance/economy/technology/defense/intelligence/trade/industry/
+  // environment classifier structure exactly. Returns a TEMPLATES key, or null. CLIENT-SIDE narration
+  // flavor only — never touches any scoring path.
+  function _classifyGovernanceDistress(signals) {
+    var blob = '';
+    if (Array.isArray(signals)) {
+      for (var i = 0; i < signals.length; i++) {
+        var s = signals[i];
+        if (typeof s === 'string') blob += ' ' + s;
+        else if (s && typeof s === 'object') {
+          blob += ' ' + (s.type || '') + ' ' + (s.id || '') + ' ' + (s.label || '') + ' ' + (s.name || '');
+        }
+      }
+    }
+    blob = blob.toLowerCase();
+
+    // Order by specificity: constitutional crisis and corruption scandal are sharpest (separation-of-
+    // powers + integrity breach), then regime instability, regulatory capture, diplomatic breakdown,
+    // fiscal-governance stress, institutional credibility shock, policy failure; fall back to a generic
+    // governance line. Matches institution/index shorthand (wgi/v-dem/vdem/oecd/gao/cbo/federal register/
+    // congress.gov) and real govtech identifiers (tyl/mms/bah/ldos/acn/gdit) alongside plain words, with
+    // word boundaries on short tokens to avoid substring collisions.
+    if (/constitutional[\s_-]?(crisis|breach)|separation[\s_-]?of[\s_-]?powers|executive[\s_-]?overreach|impeach|checks[\s_-]?and[\s_-]?balances|emergency[\s_-]?powers|martial[\s_-]?law|court[\s_-]?packing|defy[\s_-]?(ruling|court)/.test(blob)) return 'gov_constitutional_crisis';
+    if (/corrupt|bribery|graft|kickback|embezzl|self[\s_-]?dealing|scandal|misappropriat|nepotism|integrity[\s_-]?(breach|failure)|whistleblower/.test(blob)) return 'gov_corruption_scandal';
+    if (/regime[\s_-]?(instability|change|collapse)|coup|electoral[\s_-]?(instability|fraud|dispute)|election[\s_-]?(crisis|integrity)|legitimacy[\s_-]?crisis|political[\s_-]?(instability|unrest)|contested[\s_-]?election|v[\s_-]?dem|vdem/.test(blob)) return 'gov_regime_instability';
+    if (/regulatory[\s_-]?capture|revolving[\s_-]?door|oversight[\s_-]?(independence|erosion)|agency[\s_-]?capture|rulemaking[\s_-]?integrity|lobby[\s_-]?influence|enforcement[\s_-]?(laxity|gap)|federal[\s_-]?register/.test(blob)) return 'gov_regulatory_capture';
+    if (/diplomat|treaty|alliance[\s_-]?(strain|withdrawal)|international[\s_-]?(institution|credibility)|foreign[\s_-]?relations|withdraw[\s_-]?(from|treaty)|oecd|un[\s_-]?(security|council)|multilateral[\s_-]?(breakdown|strain)/.test(blob)) return 'gov_diplomatic_breakdown';
+    if (/fiscal[\s_-]?(crisis|governance|cliff)|budget[\s_-]?(gridlock|impasse|shutdown)|debt[\s_-]?ceiling|appropriation|public[\s_-]?finance|cbo\b|deficit[\s_-]?(governance|credibility)|government[\s_-]?shutdown/.test(blob)) return 'gov_fiscal_governance_stress';
+    if (/institutional[\s_-]?(credibility|trust|erosion)|public[\s_-]?trust|rule[\s_-]?of[\s_-]?law|wgi\b|worldwide[\s_-]?governance|gao\b|trust[\s_-]?(collapse|erosion)|confidence[\s_-]?(loss|shock)|democratic[\s_-]?backslid/.test(blob)) return 'gov_institutional_credibility_shock';
+    if (/policy[\s_-]?(failure|gridlock|incoherence)|legislative[\s_-]?(stalemate|gridlock)|gridlock|stalemate|enforcement[\s_-]?failure|regulatory[\s_-]?(failure|paralysis)|congress\.?gov|policy[\s_-]?paralysis|administrative[\s_-]?(breakdown|failure)/.test(blob)) return 'gov_policy_failure';
+    return 'gov_generic';
   }
 
   function _onGlobalStateUpdate(e) {

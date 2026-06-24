@@ -51,8 +51,36 @@
     // stress (e.g. a transmission/SCADA reliability failure coinciding with
     // a compliance + capital-funding squeeze).
     { id: 'infrastructure_core', domains: ['infrastructure', 'law', 'governance', 'finance'] },
-    { id: 'rule_of_law',    domains: ['law', 'governance', 'defense'] },
-    { id: 'economic_core',  domains: ['economy', 'finance', 'industry'] },
+    // Rule-of-law / institutional-integrity cluster (EXPANDED): the original
+    // law+governance+defense triple captured only the security-state slice of
+    // institutional integrity. But rule of law is load-bearing wherever an
+    // enforcement/compliance regime governs real activity: intelligence (FISA,
+    // classification, clearance-vetting integrity), environment (Clean Air/Water
+    // Act enforcement, EPA permitting & consent-decree integrity), and finance
+    // (securities, lending & anti-fraud enforcement). When law, governance,
+    // defense, intelligence, environment and finance co-elevate on rule-of-law
+    // stress, the signal is an INSTITUTIONAL-INTEGRITY crisis — a legitimacy
+    // feedback loop (compliance erosion → enforcement burden amplifies →
+    // institutional incoherence spirals) rather than an isolated legal burden.
+    // Governance-side indices: World Bank WGI (rule-of-law / control-of-
+    // corruption / government-effectiveness), V-Dem, GAO/IG oversight-backlog
+    // counts, judicial docket-delay and compliance-investigation queue time —
+    // NOT single-company tickers (institutions & indicators, not firms). Law is
+    // the judicial/legal-system domain; governance is policy/rulemaking/
+    // oversight; the two co-bear integrity but stay DISTINCT.
+    { id: 'rule_of_law',    domains: ['law', 'governance', 'defense', 'intelligence', 'environment', 'finance'] },
+    // Economic-core: macro real-economy cycle PLUS its governance steering
+    // signal. Monetary & fiscal policy is governance's input into the macro
+    // cycle (the law/regulatory regime sets the rules; governance sets the
+    // policy stance), so a macro-activity stress is co-borne by the policy
+    // regime that must respond to it. Corroboration = economy + finance +
+    // industry + governance co-elevated, signalling a macro contraction that
+    // the policy apparatus is simultaneously straining to steer. Governance
+    // anchors are policy/indicator series (Federal Register rulemaking volume,
+    // CBO/OMB fiscal projections, FOMC stance), NOT single companies; macro
+    // anchors stay FRED (GDPC1/PAYEMS/INDPRO). Governance kept DISTINCT from
+    // economy (macro aggregate) and finance (capital channel).
+    { id: 'economic_core',  domains: ['economy', 'finance', 'industry', 'governance'] },
     // Industry's own institutional/production envelope (mirror of
     // infrastructure_core / financial_core / technology_core / defense_core,
     // but built around the PRODUCTION BASE rather than a regulatory regime).
@@ -75,7 +103,15 @@
     // vehicle mobilization is a COUPLING (see defense_core), not industry's own
     // identity; trade (logistics/commerce) and economy (macro aggregate) stay
     // DISTINCT.
-    { id: 'industry_core', domains: ['industry', 'technology', 'finance', 'infrastructure', 'supplyChain'] },
+    // Governance is added here as the institutional envelope of the production
+    // base: capacity-utilization & industrial policy, labor/OSHA safety
+    // regulation, and environmental permitting are governance's policy/rulemaking
+    // couplings into the factory floor. A production-capability stress rarely
+    // moves without a parallel policy/permitting/labor-regulation constraint, so
+    // governance co-bears the cluster (institutional layer, indicators — Federal
+    // Register industrial rulemaking, OSHA enforcement counts — not firms).
+    // Technology/finance/infrastructure/supplyChain keep their prior meaning.
+    { id: 'industry_core', domains: ['industry', 'technology', 'finance', 'infrastructure', 'supplyChain', 'governance'] },
     // Industry↔technology automation coupling (mirror of
     // intelligence_collection_infrastructure on the production side):
     // technology couples into the factory via automation — robotic arms,
@@ -318,6 +354,60 @@
     // (threat-assessment lag, deterrence-posture visibility gap), not just the
     // warning picture.
     { id: 'intelligence_defense_deterrence', domains: ['intelligence', 'defense', 'industry', 'supplyChain', 'governance'] },
+    // ─── Governance-native affinity groups ────────────────────────────────
+    // Governance is a SOURCE domain here, not only an episodic member that
+    // surfaces when culture (culture_core) or infrastructure (infrastructure_
+    // core) is stressed. Its identity is government & public administration,
+    // public policy & rulemaking, regulation & oversight, elections & democratic
+    // institutions, public finance & budgets, rule of law & institutional
+    // integrity, public-services delivery, and political stability & legitimacy.
+    // Kept DISTINCT from economy (macro aggregate), finance (capital channel),
+    // law (the judicial/legal-system domain), and intelligence (collection &
+    // analysis). Governance binds mostly to INSTITUTIONS & INDICATORS, not single
+    // firms — anchors are governance/policy indices (World Bank WGI, V-Dem, OECD
+    // government-effectiveness, GAO, CBO, Federal Register rulemaking volume) and,
+    // where a public-sector/govtech entity is genuinely needed, real identifiers
+    // (TYL Tyler Technologies, MMS Maximus, BAH, LDOS, ACN, GDIT) — NEVER energy
+    // oil/gas/grid content.
+    //
+    // (1) governance_institutional_envelope — governance's institutional identity
+    // (policy/regulation/oversight) binds to rule-of-law enforcement (law),
+    // evidence-based policymaking (research), capital access for state operations
+    // (finance — public debt, budget capacity, Treasury issuance), and the
+    // macro-demand/employment effects of state action (economy). Mirror of
+    // infrastructure_core / financial_core / technology_core / defense_core /
+    // culture_core, but built around the POLICY/RULEMAKING regime itself rather
+    // than a sector wedded to it. Corroboration here = policy stress + legal-
+    // enforcement stress + research-consensus stress + capital-constraint co-
+    // elevated, signalling a SYSTEMIC institutional bottleneck (the whole
+    // institutional envelope under pressure, not just one downstream sector).
+    { id: 'governance_institutional_envelope', domains: ['governance', 'law', 'research', 'finance', 'economy'] },
+    // (2) governance_core — governance's OWN institutional-integrity stress
+    // cluster (mirror of infrastructure_core / financial_core / culture_core /
+    // technology_core / defense_core / environment_core): policy-coherence
+    // (law — rulemaking vs. legal/regulatory constraint), public confidence &
+    // legitimacy (population — political stability, trust in institutions,
+    // electoral integrity), fiscal capacity (finance — public finance & budgets),
+    // and collection-/policy-authority pressure (intelligence — tasking authority,
+    // oversight). When these co-elevate the signal is an institutional-LEGITIMACY
+    // crisis — an institutional-trust feedback loop distinct from an isolated
+    // fiscal-stress or regulatory-burden episode. Indices: V-Dem democracy &
+    // legitimacy, World Bank WGI voice-&-accountability / political-stability,
+    // CBO/OMB fiscal-capacity, Federal Register rulemaking throughput. Governance
+    // is the SOURCE domain here, not merely a recipient of couplings from others.
+    { id: 'governance_core', domains: ['governance', 'law', 'population', 'finance', 'intelligence'] },
+    // (3) financial_core_governance — financial-regulatory steering: prudential
+    // supervision, capital-adequacy regulation, and securities enforcement are
+    // governance's policy/oversight couplings into the capital channel. Mirror of
+    // economic_core's governance addition on the FINANCIAL side: a solvency/
+    // liquidity stress is co-borne by the macro economy, the legal/securities-
+    // enforcement regime, and the prudential-policy regime (governance — central-
+    // bank stance, deposit-insurance backstop, capital-adequacy rulemaking).
+    // Corroboration = finance + economy + law + governance co-elevated = a
+    // systemic financial-regulatory bottleneck. (financial_core above already
+    // carries governance; this is the explicit governance-source mirror keeping
+    // the prudential-supervision channel visible as governance's own coupling.)
+    { id: 'financial_core_governance', domains: ['finance', 'economy', 'law', 'governance'] },
     { id: 'environment_arc',domains: ['environment', 'agriculture', 'energy'] },
     // ─── Environment-native affinity groups ───────────────────────────────
     // Environment is a SOURCE domain here (not only the commodity-mirror member
@@ -718,7 +808,25 @@
       ['defense', 'intelligence'],        // procurement/readiness signal ↔ ISR/collection & threat-posture quality
       ['defense', 'technology'],          // kinetic/industrial readiness signal ↔ cyber/CVE & compute-coupling quality
       ['defense', 'infrastructure'],      // weapons-system & basing signal ↔ cyber-physical grid/SCADA telemetry quality
-      ['defense', 'economy']              // military-spending & procurement cycle ↔ macro demand & budget-capacity signal
+      ['defense', 'economy'],             // military-spending & procurement cycle ↔ macro demand & budget-capacity signal
+      // Governance vs its institutional partners (mirror of technology↔its
+      // physical envelope, finance↔its economic envelope, defense↔its
+      // capability partners): when governance evidence (Federal Register
+      // rulemaking volume, GAO/IG oversight reports, CBO/OMB fiscal projections,
+      // V-Dem / World Bank WGI institutional indicators, public-services-delivery
+      // telemetry for TYL/MMS/ACN/GDIT govtech) is strong but the partner domain
+      // is proxy-heavy, the bottleneck is the partner's signal — the legal/
+      // enforcement record, the research/evidence base, the fiscal-capacity
+      // signal, the public-confidence read, or the collection-authority picture —
+      // not the governance signal itself. Governance drives the comparison as a
+      // SOURCE domain across its institutional partners. Governance kept DISTINCT
+      // from law (judicial/legal-system), economy (macro), finance (capital),
+      // intelligence (collection); these are policy/oversight contrasts.
+      ['governance', 'law'],              // rulemaking/oversight signal ↔ legal-enforcement & judicial-system signal quality
+      ['governance', 'research'],         // policy-evidence demand ↔ research-consensus & evidence-base signal quality
+      ['governance', 'finance'],          // public-finance & budget-capacity signal ↔ capital-market & funding signal quality
+      ['governance', 'population'],       // legitimacy & institutional-trust signal ↔ public-confidence & political-stability read
+      ['governance', 'intelligence']      // policy-tasking & oversight-authority signal ↔ collection-authorization & ISR picture quality
     ];
     var out = [];
     for (var i = 0; i < rivals.length; i++) {

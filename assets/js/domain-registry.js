@@ -52,6 +52,63 @@
       analystEnabled: true,
       connectomeNodes: [12, 9],  // DLPFC + ACC
       feeds: [
+        // ── Institutional-quality "price/cost" anchors (real quantitative governance metrics) ──
+        // Governance equivalent of energy's EIA/FRED commodity anchors: instead of oil/gas
+        // spot prices, governance's signal is the measured STATE OF INSTITUTIONS — the
+        // quantitative quality of public administration, rule of law, regulatory capacity,
+        // democratic systems, and fiscal governance. Governance binds to INSTITUTIONS &
+        // INDICATORS (not single companies). Every World Bank WGI series_id, V-Dem index,
+        // OECD dataset, and federal-oversight series is REAL (never fabricated). This closes
+        // the registry asymmetry where governance had only qualitative news/legislative RSS
+        // and no live institutional-quality anchor like energy's commodity price.
+        // -- World Bank Worldwide Governance Indicators (the "crude price" of governance) --
+        // WGI's 6 dimensions are the canonical institutional-quality baseline; each series_id
+        // is REAL (CC/RL/RQ/PV/VA/GE .EST). These mirror EIA Petroleum's price-anchor role.
+        { name: 'WGI Control of Corruption', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.worldbank.org/v2/country/all/indicator/CC.EST?format=json', feedClass: 'institutional_quality', seriesId: 'CC.EST' },   // control of corruption — institutional-integrity anchor (mirrors EIA Petroleum LIVE)
+        { name: 'WGI Rule of Law', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.worldbank.org/v2/country/all/indicator/RL.EST?format=json', feedClass: 'institutional_quality', seriesId: 'RL.EST' },        // rule of law — legal-system confidence / contract enforcement anchor (mirrors FRED Crude Oil LIVE)
+        { name: 'WGI Regulatory Quality', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.worldbank.org/v2/country/all/indicator/RQ.EST?format=json', feedClass: 'institutional_quality', seriesId: 'RQ.EST' }, // regulatory quality — sound-policy capacity anchor
+        { name: 'WGI Political Stability', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.worldbank.org/v2/country/all/indicator/PV.EST?format=json', feedClass: 'institutional_quality', seriesId: 'PV.EST' }, // political stability & absence of violence — legitimacy / stability anchor
+        { name: 'WGI Voice & Accountability', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.worldbank.org/v2/country/all/indicator/VA.EST?format=json', feedClass: 'institutional_quality', seriesId: 'VA.EST' }, // voice & accountability — democratic-participation anchor
+        { name: 'WGI Government Effectiveness', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.worldbank.org/v2/country/all/indicator/GE.EST?format=json', feedClass: 'institutional_quality', seriesId: 'GE.EST' }, // government effectiveness — public-service delivery / state-capacity anchor
+        // -- V-Dem (Varieties of Democracy) democratic-systems indices (real public API) --
+        // V-Dem (University of Gothenburg) is a REAL governance-indicator database distinct
+        // from WGI; country-year panel data on democratic institutions across 202+ countries.
+        { name: 'V-Dem Electoral Democracy Index', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'v-dem.net/api/v1/indicator/v2x_polyarchy', feedClass: 'democratic_quality', seriesId: 'v2x_polyarchy' },        // electoral democracy (polyarchy) index — core democratic-systems anchor
+        { name: 'V-Dem Liberal Principles', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'v-dem.net/api/v1/indicator/v2x_liberal', feedClass: 'democratic_quality', seriesId: 'v2x_liberal' },               // liberal principles index — checks-on-power / civil-liberties protection
+        { name: 'V-Dem Participatory Democracy', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'v-dem.net/api/v1/indicator/v2x_partipdem', feedClass: 'democratic_quality', seriesId: 'v2x_partipdem' },        // participatory democracy index — civic engagement / direct participation
+        { name: 'V-Dem Deliberative Component', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'v-dem.net/api/v1/indicator/v2xdl_delib', feedClass: 'democratic_quality', seriesId: 'v2xdl_delib' },            // deliberative component index — reasoned-discourse / public-justification quality
+        { name: 'V-Dem Civil Liberties', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'v-dem.net/api/v1/indicator/v2x_civlib', feedClass: 'democratic_quality', seriesId: 'v2x_civlib' },                  // civil liberties index — individual-rights protection
+        // -- OECD governance & public-services indicators (real OECD.Stat / data API) --
+        // OECD provides multilateral institutional-quality metrics to balance the registry's
+        // U.S.-legislative bias; every dataset code is REAL and documented.
+        { name: 'OECD Government at a Glance', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'sdmx.oecd.org/public/rest/data/OECD.GOV.GIP,DSD_GOV@DF_GOV/', feedClass: 'public_management' },    // government-at-a-glance — public-sector management / institutional trust
+        { name: 'OECD General Government Expenditure (COFOG)', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'sdmx.oecd.org/public/rest/data/OECD.SDD.NAD,DSD_NASEC10@DF_TABLE11/', feedClass: 'public_finance' }, // government expenditure by function (COFOG) — fiscal-governance / public-finance anchor
+        { name: 'OECD Regulatory Policy (iREG)', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'sdmx.oecd.org/public/rest/data/OECD.GOV.REG,DSD_IREG@DF_IREG/', feedClass: 'regulatory_policy' },  // indicators of regulatory policy & governance — RIA / stakeholder-engagement quality
+        { name: 'OECD Tax Revenue', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'sdmx.oecd.org/public/rest/data/OECD.CTP.TPS,DSD_REV_COMP@DF_RSGLO/', feedClass: 'public_finance' },             // tax revenue / fiscal capacity — public-finance state-capacity signal
+        // -- CBO structured fiscal & budgetary data (the federal fiscal-governance anchor) --
+        { name: 'CBO Budget & Economic Outlook Data', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.cbo.gov/about/products/budget-economic-data', feedClass: 'public_finance' },           // CBO baseline projections / deficit & debt trajectory — fiscal-governance quantitative anchor
+        { name: 'CBO Long-Term Budget Outlook', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.cbo.gov/data/budget-economic-data#4', feedClass: 'public_finance' },                          // long-term fiscal sustainability projections — structural budget signal
+        // -- GAO structured oversight & program-evaluation findings (federal-accountability anchor) --
+        { name: 'GAO High-Risk List', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.gao.gov/high-risk-list', feedClass: 'oversight' },                                                    // GAO High-Risk programs — federal-agency vulnerability / institutional-integrity findings
+        { name: 'GAO Open Recommendations', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.gao.gov/reports-testimonies/recommendations-database', feedClass: 'oversight' },                  // GAO open priority recommendations — program-evaluation / accountability throughput
+        // -- Govtech / public-sector industrial base (REAL listed equities, never fabricated) --
+        // Governance's INDUSTRIAL-BASE analogue to energy's commodity anchors: the public-sector
+        // technology & services firms that build/run government systems. Tickers are REAL:
+        // MMS (Maximus) / TYL (Tyler Technologies) / BAH (Booz Allen) / LDOS (Leidos) /
+        // ACN (Accenture) / GIB (CGI/GDIT-adjacent IT). MMS 0.95-binds Executive Authority in
+        // governance.json; these mirror defense's per-name contractor bindings.
+        { name: 'Polygon.io MMS', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/MMS/prev', feedClass: 'govtech', ticker: 'MMS' },   // Maximus — prime (government program administration / public-benefits delivery)
+        { name: 'Polygon.io TYL', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/TYL/prev', feedClass: 'govtech', ticker: 'TYL' },   // Tyler Technologies — prime (public-sector software / courts / civic ERP)
+        { name: 'Polygon.io BAH', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/BAH/prev', feedClass: 'govtech', ticker: 'BAH' },   // Booz Allen Hamilton — prime (federal advisory / digital government)
+        { name: 'Polygon.io LDOS', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/LDOS/prev', feedClass: 'govtech', ticker: 'LDOS' }, // Leidos — prime (federal IT / systems integration)
+        { name: 'Polygon.io ACN', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/ACN/prev', feedClass: 'govtech', ticker: 'ACN' },   // Accenture (incl. Accenture Federal Services) — prime (public-sector digital transformation)
+        { name: 'Polygon.io GIB', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/GIB/prev', feedClass: 'govtech', ticker: 'GIB' },   // CGI Inc. — prime (government IT / public-sector services; GDIT-adjacent public proxy)
+        // ── Rulemaking / governance-agency policy context (Federal Register, agency-filtered) ──
+        // Federal Register API agency filters scoped to GOVERNANCE institutions (executive
+        // capacity, civil-service integrity, procurement, merit protection) — parallel to the
+        // infrastructure & intelligence registry's agency-filtered Federal Register feeds.
+        { name: 'Federal Register OMB/GSA/OPM/MSPB', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.federalregister.gov/api/v1/documents.json?conditions[agencies][]=management-and-budget-office&conditions[agencies][]=general-services-administration&conditions[agencies][]=personnel-management-office&conditions[agencies][]=merit-systems-protection-board', feedClass: 'rulemaking' }, // OMB/GSA/OPM/MSPB rulemakings — executive capacity / civil-service integrity / procurement governance
+        // ── Existing institutional & legislative anchors (kept) ──
         { name: 'World Bank Governance', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.worldbank.org/v2/country/all/indicator/CC.EST?format=json' },
         { name: 'RSS Governance', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'news.google.com/rss/search' },
         { name: 'GovTrack', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.govtrack.us/events/events.rss' },

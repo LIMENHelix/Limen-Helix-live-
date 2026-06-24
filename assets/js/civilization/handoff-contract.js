@@ -159,7 +159,42 @@
     // cross-node-opportunity.js so the emitter prefers the industry-primary lane,
     // exactly as defense promoted 'defense-procurement' into its hint list.
     'industrial-capacity-investment', 'manufacturing-modernization',
-    'factory-output-financing', 'supply-chain-sourcing-industrial'
+    'factory-output-financing', 'supply-chain-sourcing-industrial',
+    // ─── Governance-native PRIMARY lanes (additive) ───────────────────────
+    // Governance IDENTITY = government & public administration, public policy &
+    // rulemaking, regulation & oversight, elections & democratic institutions,
+    // public finance & budgets, rule of law & institutional integrity, public-
+    // services delivery, political stability & legitimacy. Governance is DISTINCT
+    // from economy (macro aggregate), finance (capital markets), law (the judicial/
+    // legal-SYSTEM domain), and intelligence (collection/analysis). It binds mostly
+    // to INSTITUTIONS & INDICATORS, not single companies — anchored by govtech /
+    // public-sector operators (TYL Tyler Technologies, MMS Maximus, BAH, LDOS, ACN,
+    // GDIT) and policy/governance indices (World Bank WGI, V-Dem, OECD, GAO, CBO,
+    // Federal Register), never fabricated tickers.
+    //
+    // BEFORE this block, governance appeared ONLY as a SECONDARY co-eligible
+    // participant in copyrights (anyDomain, line 198) and was entirely absent from
+    // every other lane. It never owned a PRIMARY source lane the way defense owns
+    // 'defense-procurement', intelligence owns 'intelligence-operations', industry
+    // owns 'industrial-capacity-investment', and trade owns 'supply-chain-mapping'.
+    // This reflected the historical assumption that governance is a 'background'
+    // domain that RECEIVES emissions but never ORIGINATES opportunity. Reality:
+    // governance regulation (emissions caps, capital-funding mandates, permitting/
+    // environmental-review timelines, prudential supervision, defense-budget
+    // authorizations, IP/antitrust/data-privacy/AI policy) is the constraint that
+    // SHAPES every other domain's capex and strategic decisions. This block brings
+    // governance to PRIMARY-lane parity — governance is the negotiator, not support:
+    //   'regulatory-compliance-modernization' — one bounded regulatory-transformation
+    //       opportunity for a SINGLE agency (rulemaking modernization, oversight-
+    //       platform upgrade, compliance-regime overhaul) routed to the governance
+    //       negotiator (analogous to 'defense-procurement' for kinetic). Single-
+    //       domain: a compliance modernization targets one bounded agency/regime.
+    //   'policy-coordination-platform' — inter-agency policy-alignment / cross-branch
+    //       coherence / systemic institutional-coordination opportunity routed to the
+    //       governance negotiator as the PRIMARY coordinator. Inherently MULTI-domain
+    //       (policy coordination spans agencies and the real-economy domains it
+    //       regulates), so NOT single-domain.
+    'regulatory-compliance-modernization', 'policy-coordination-platform'
     // ─── DESIGN NOTE — future trade-native lanes (NOT added now) ──────────
     // Per the wiring-gap analysis: trade currently participates as a SECONDARY
     // participant (via supplyChain in business-grants/sba-loans/franchise/credit-
@@ -196,7 +231,10 @@
   var LANE_GATES = {
     'patents':         { minEvidence: 0.55, minConfidence: 0.60, singleDomainOnly: true,  anyDomain: ['technology','energy','infrastructure','industry','medicine','defense','agriculture'] },
     'copyrights':      { minEvidence: 0.45, minConfidence: 0.50, singleDomainOnly: false, anyDomain: ['culture','communication','religion','governance','law','intelligence'] },
-    'business-grants': { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['agriculture','industry','infrastructure','supplyChain','education','energy','technology'] },
+    // business-grants — governance added (additive): governance shapes permitting /
+    //   environmental-review / public-funding-mandate timelines that gate the capex
+    //   business-grant opportunities originate from (infrastructure-native coupling).
+    'business-grants': { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['agriculture','industry','infrastructure','supplyChain','education','energy','technology','governance'] },
     'research-grants': { minEvidence: 0.55, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['research','education','medicine','health','science','environment'] },
     // nsf-project-pitch — NSF SBIR/STTR Project Pitch lane. Stricter than the
     // generic research-grants gate: NSF demands BOTH technical innovation AND
@@ -204,7 +242,11 @@
     // signals "sufficient packet detail exists to attempt a Project Pitch
     // draft." It does NOT signal NSF eligibility, submission readiness, fit
     // with NSF priorities, reviewer alignment, or any prediction of award.
-    'nsf-project-pitch': { minEvidence: 0.55, minConfidence: 0.60, singleDomainOnly: false, anyDomain: ['research','technology','medicine','health','science','energy','infrastructure','environment','industry'] },
+    // nsf-project-pitch — governance added (additive): governance owns the public-
+    //   research-funding mandates / agency priorities / regulatory-clarity that shape
+    //   whether a publicly-funded innovation pitch is fundable (infrastructure/public-
+    //   finance coupling). Does NOT signal NSF eligibility — only packet detail.
+    'nsf-project-pitch': { minEvidence: 0.55, minConfidence: 0.60, singleDomainOnly: false, anyDomain: ['research','technology','medicine','health','science','energy','infrastructure','environment','industry','governance'] },
     'sba-loans':       { minEvidence: 0.45, minConfidence: 0.50, singleDomainOnly: true,  anyDomain: ['economy','finance','industry','agriculture','supplyChain','infrastructure','technology'] },
     'franchise':       { minEvidence: 0.45, minConfidence: 0.50, singleDomainOnly: true,  anyDomain: ['supplyChain','industry','culture','agriculture'] },
     'investments':     { minEvidence: 0.55, minConfidence: 0.60, singleDomainOnly: true,  anyDomain: ['finance','economy','technology','energy','infrastructure'] },
@@ -215,7 +257,10 @@
     //   relationship (like sba-loans / a patent), so cross-node multi-domain
     //   aggregations are routed away. Finance-primary, with the lending-
     //   adjacent real-economy domains that originate credit demand.
-    'credit-facilities':  { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: true,  anyDomain: ['finance','economy','industry','infrastructure','supplyChain','technology'] },
+    //   Governance added (additive): prudential supervision / public-finance &
+    //   budget authority / monetary-policy regime is governance's regulatory domain,
+    //   and it shapes (and originates, via public-credit programs) credit demand.
+    'credit-facilities':  { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: true,  anyDomain: ['finance','economy','industry','infrastructure','supplyChain','technology','governance'] },
     // systemic-risk — solvency cascades / contagion / liquidity-spiral signal.
     //   Inherently cross-domain (contagion crosses sector boundaries), so
     //   singleDomainOnly is false. Higher evidence/confidence bar: a systemic-
@@ -223,11 +268,18 @@
     //   support than a single-name thesis. Passing this gate signals only
     //   "sufficient packet detail to attempt a systemic-risk note" — NOT a
     //   prediction of any crisis, and NOT the validated P3 distress kernel.
-    'systemic-risk':      { minEvidence: 0.60, minConfidence: 0.60, singleDomainOnly: false, anyDomain: ['finance','economy','infrastructure','supplyChain','technology'] },
+    //   Governance added (additive): institutional credibility / policy-coherence /
+    //   regulatory-clarity / legitimacy is a primary systemic-risk transmission
+    //   channel (prudential-supervision gaps, oversight failures, policy-credibility
+    //   shocks) — governance's regulatory regime is where systemic risk originates.
+    'systemic-risk':      { minEvidence: 0.60, minConfidence: 0.60, singleDomainOnly: false, anyDomain: ['finance','economy','infrastructure','supplyChain','technology','governance'] },
     // capital-access — funding constraints / liquidity gaps / capital-raise
     //   shaped opportunity. Multi-domain-friendly (a capital-access thesis can
     //   span a sector cohort), so singleDomainOnly is false.
-    'capital-access':     { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['finance','economy','industry','infrastructure','energy','technology'] },
+    //   Governance added (additive): public finance / fiscal-constraint / budget
+    //   stress and the permitting & public-funding mandates governance controls
+    //   directly gate capital-access (infrastructure & public-finance coupling).
+    'capital-access':     { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['finance','economy','industry','infrastructure','energy','technology','governance'] },
     // ─── Defense-native + defense-technology coupling lane gates (additive) ──
     // defense-procurement — one program of record / one weapons-system buy /
     //   one sustainment-readiness contract for a single bounded prime or
@@ -315,7 +367,11 @@
     //   logistics decision, NOT an award, NOT any prediction. Real trade/logistics
     //   operators: FDX, UPS, EXPD, CHRW, ZIM, MATX, XPO, GXO, AMKBY, DSDVY, ODFL.
     //   Distinct from economy (macro aggregate) and industry (production).
-    'supply-chain-mapping':            { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['supplyChain','technology','infrastructure','industry','energy','research'] },
+    //   Governance added (additive): trade agreements, customs policy, sanctions/
+    //   embargo enforcement and trade-compliance rulemaking are governance domain
+    //   (not trade's identity) and reshape the logistics-network map governance
+    //   constrains — supplyChain coupling on the policy/enforcement side.
+    'supply-chain-mapping':            { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['supplyChain','technology','infrastructure','industry','energy','research','governance'] },
     // ─── Industry-native PRIMARY lane gates (additive) ────────────────────
     // industrial-capacity-investment — one bounded plant / production line /
     //   capital-goods capacity program routed to the industry negotiator
@@ -362,7 +418,38 @@
     //   inputs). Passing this gate signals only "sufficient packet detail to
     //   attempt an industrial-sourcing note" — NOT a sourcing decision, NOT a
     //   contract, NOT any prediction.
-    'supply-chain-sourcing-industrial':{ minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['industry','supplyChain','infrastructure','technology','energy','agriculture'] }
+    'supply-chain-sourcing-industrial':{ minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['industry','supplyChain','infrastructure','technology','energy','agriculture'] },
+    // ─── Governance-native PRIMARY lane gates (additive) ──────────────────
+    // regulatory-compliance-modernization — one bounded regulatory-transformation
+    //   opportunity for a SINGLE agency / regime (rulemaking modernization,
+    //   oversight-platform upgrade, compliance-regime overhaul) routed to the
+    //   governance negotiator (analogous to defense-procurement / intelligence-
+    //   operations / industrial-capacity-investment as a PRIMARY single-domain
+    //   lane). singleDomainOnly: a compliance modernization targets one bounded
+    //   agency/regime, so cross-node multi-domain aggregations are routed away.
+    //   Governance-primary, with the modernization-adjacent domains it regulates
+    //   and that supply the platform (law = the legal/judicial regime governance
+    //   coordinates with but is distinct from, technology = govtech/regtech
+    //   platforms, infrastructure = permitting/public-works regimes). Passing this
+    //   gate signals only "sufficient packet detail to attempt a regulatory-
+    //   modernization note" — NOT a rulemaking, NOT an award, NOT any prediction.
+    //   Governance binds to INSTITUTIONS & INDICATORS (World Bank WGI, V-Dem, OECD,
+    //   GAO, CBO, Federal Register); where entities are needed, real govtech/public-
+    //   sector operators anchor it: TYL, MMS, BAH, LDOS, ACN, GDIT. Distinct from
+    //   economy (macro), finance (capital), law (judicial), intelligence.
+    'regulatory-compliance-modernization': { minEvidence: 0.55, minConfidence: 0.60, singleDomainOnly: true,  anyDomain: ['governance','law','technology','infrastructure'] },
+    // policy-coordination-platform — inter-agency policy-alignment / cross-branch
+    //   coherence / systemic institutional-coordination opportunity routed to the
+    //   governance negotiator as the PRIMARY coordinator. Inherently MULTI-domain
+    //   (policy coordination spans agencies and the real-economy domains it
+    //   regulates), so singleDomainOnly is false. Slightly lower bar than the
+    //   modernization lane because a coordination note is an institutional-analysis
+    //   artifact, not a bounded acquisition. Governance-primary, with the macro/
+    //   public-finance partners coordination spans (law = legal-framework coherence,
+    //   economy = macro policy levers, finance = fiscal/monetary regime). Passing
+    //   this gate signals only "sufficient packet detail to attempt a policy-
+    //   coordination note" — NOT a policy decision, NOT authority, NOT any prediction.
+    'policy-coordination-platform':       { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['governance','law','economy','finance'] }
   };
 
   var _last = { lanes: {}, timestamp: 0, totalPackets: 0 };
@@ -450,6 +537,8 @@
       case 'manufacturing-modernization': return 'Domains ' + doms + ' indicate automation / robotics / reshoring / industrial-maintenance modernization of a single bounded production base routed to the industry negotiator (automation is the technology coupling, not industry\'s own content) — not a modernization decision, not an award.';
       case 'factory-output-financing': return 'Domains ' + doms + ' indicate working-capital / equipment-financing / supplier-finance opportunity for a single bounded manufacturer routed to the industry negotiator — a single counterparty file (analogous to an SBA borrower or credit facility); not a lending decision, not any prediction.';
       case 'supply-chain-sourcing-industrial': return 'Domains ' + doms + ' indicate industrial INPUT sourcing / supplier-graph / raw-material & component procurement from the production-node side routed to the industry negotiator — distinct from trade\'s logistics-network mapping; a multi-domain sourcing artifact, not a sourcing decision, not a contract, not any prediction.';
+      case 'regulatory-compliance-modernization': return 'Domains ' + doms + ' indicate a bounded regulatory-transformation opportunity for a single agency / regime (rulemaking modernization, oversight-platform upgrade, compliance-regime overhaul) routed to the governance negotiator — anchored to institutions & indicators (WGI/V-Dem/GAO/CBO/Federal Register) and govtech operators (TYL/MMS/BAH/LDOS/ACN/GDIT); not a rulemaking, not an award, not any prediction. Distinct from law (judicial), economy (macro) and finance (capital).';
+      case 'policy-coordination-platform': return 'Domains ' + doms + ' indicate inter-agency policy-alignment / cross-branch coherence / systemic institutional-coordination opportunity routed to the governance negotiator as the primary coordinator — an inherently multi-domain institutional-analysis artifact spanning the real-economy domains governance regulates; not a policy decision, not authority, not any prediction.';
     }
     return '';
   }

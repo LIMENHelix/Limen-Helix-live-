@@ -498,6 +498,94 @@
     { re: /(predictive|preventive|condition(-| )?based) maintenance (deploy|adopt|gain)|uptime (restor|gain|improv|surge)|\boee\b (gain|improv|rise)|reliability (program|gain|improv) (plant|line|asset)|unplanned downtime (drop|decline|reduc)|mttr (drop|decline|improv)|maintenance (backlog (clear|reduc)|complet)/i, weight: 0.14, tag: 'industrial_maintenance_uptime' }
   ];
 
+  // ─── Governance-native semantics (INSTITUTIONS & INDICATORS) ──────────────
+  // Energy parity (same shape as INFRA / CULTURE / FINANCE / ECONOMY /
+  // TECHNOLOGY / DEFENSE / INTELLIGENCE / TRADE / INDUSTRY above): the
+  // governance domain has its OWN failure/recovery vocabulary. Where energy
+  // reads crude_above_90 / grid_stress / chokepoint, infrastructure reads
+  // grid_reliability / deferred_maintenance, culture reads the attention
+  // economy, finance reads liquidity/credit, economy reads the business cycle,
+  // technology reads the compute stack, defense reads kinetic military power,
+  // intelligence reads the collection cycle, trade reads exports/tariffs/ports,
+  // and industry reads factory output, GOVERNANCE reads the machinery of
+  // collective rule: government & public administration, public policy &
+  // rulemaking, regulation & oversight, elections & democratic institutions,
+  // public finance & budgets, rule of law & institutional integrity, public
+  // services delivery, and political stability & legitimacy. Destabilizing =
+  // institutional erosion, policy gridlock / legislative stalemate, legitimacy
+  // crisis / trust erosion, regulatory capture / oversight breakdown,
+  // fiscal-governance stress, electoral instability, corruption surge,
+  // separation-of-powers tension, institutional fragmentation, and inconsistent
+  // execution. Stabilizing = institutional strengthening, policy passage /
+  // bipartisan resolution, legitimacy / trust restoration, oversight &
+  // accountability restored, fiscal-governance discipline, electoral
+  // stabilization / peaceful transfer, anti-corruption gains, and service-
+  // delivery recovery.
+  //
+  // Governance binds mostly to INSTITUTIONS & INDICATORS, not single companies.
+  // Where entities are needed, anchors are REAL govtech / public-sector
+  // identifiers (TYL Tyler Technologies, MMS Maximus, BAH Booz Allen Hamilton,
+  // LDOS Leidos, ACN Accenture Federal Services, GDIT General Dynamics IT) and
+  // policy/governance indices (World Bank WGI, V-Dem, OECD, GAO, CBO, Federal
+  // Register doc-count) — NEVER oil/gas/grid content, and NEVER fabricated.
+  // Governance maps constitutional_stress / legislative_stalemate / policy_conflict
+  // to governance-weighted pathways (separation_of_powers_tension /
+  // institutional_fragmentation_cost / policy_gridlock_pressure) rather than a
+  // single opaque stress scalar — the mirror of energy's crude_parity /
+  // grid_reliability_cost / transmission_congestion pathways. Governance COUPLES
+  // to economy via public finance and to law via rule-of-law signals, but its
+  // IDENTITY stays institutions/policy/elections/legitimacy, kept DISTINCT from
+  // economy (the MACRO business cycle), finance (capital markets), law
+  // (judicial / legal-system adjudication), and intelligence (collection).
+  // ADVISORY ONLY — wholly separate from the validated P3 distress kernel.
+  //
+  // STRUCTURAL-SIGNAL overrides (energy parity — energy uses crude-price
+  // thresholds and grid-reserve-margin floors to distinguish a structural
+  // policy-outcome signal from noisy news volume): a World Bank WGI decline,
+  // a Federal Register doc-count surge, and corruption-detection indicators are
+  // treated as STRUCTURAL institutional signals (institutional_erosion /
+  // policy_gridlock / accountability_failure), weighted above generic news-tone
+  // noise — these patterns carry the heavier weights below. A governance stress
+  // normalization factor (factor 0.55, ceiling 0.80, tone-dampened for the
+  // negative-tone bias of governance news) is applied via the shared score clamp.
+  //
+  // Each entry maps a keyword pattern (matched against the domain's signal
+  // strings) to a weighted push on the destabilizing or stabilizing score —
+  // identical mechanism to energy's condition→weight mapping, governance content.
+  var GOVERNANCE_DESTABILIZING = [
+    // Institutional erosion / separation-of-powers tension — constitutional stress,
+    // cross-branch incoherence, WGI decline (STRUCTURAL: rule-of-law / institutional integrity).
+    { re: /institutional (erosion|decay|breakdown|backslid)|constitutional (stress|crisis|breach)|separation of powers (tension|breach|erod)|cross(-| )?branch (incoherence|conflict|standoff)|checks and balances (erod|breakdown)|(world bank )?wgi (decline|deteriorat|drop)|v-?dem (decline|backslid)|democratic backslid/i, weight: 0.18, tag: 'institutional_erosion' },
+    // Legitimacy crisis / trust erosion / confidence collapse — public trust falling.
+    { re: /legitimacy (crisis|deficit|collapse|erod)|trust (erosion|collapse|crisis) (institution|government|public)|public (trust|confidence) (collapse|erod|plunge|decline)|confidence collapse|governance credibility (shock|crisis|loss)|approval (collapse|plunge)|mandate (loss|crisis)/i, weight: 0.17, tag: 'legitimacy_crisis' },
+    // Policy gridlock / legislative stalemate — Federal Register stall, contradictory directives
+    // (STRUCTURAL: Federal Register doc-count surge / legislative-output collapse).
+    { re: /legislative (stalemate|gridlock|deadlock|paralysis)|policy (gridlock|paralysis|stalemate)|(government|budget) (shutdown|impasse|standoff)|contradictory (directive|policy|mandate)|federal register (surge|backlog|doc-?count (surge|spike))|filibuster (block|deadlock)|debt ceiling (standoff|impasse)|legislative (output|productivity) (collapse|stall)/i, weight: 0.16, tag: 'policy_gridlock' },
+    // Policy conflict / inconsistent execution / fragmented agency — incoherent implementation.
+    { re: /policy conflict|inconsistent (execution|implementation|enforcement)|fragmented (agency|implementation|authority)|agency (fragment|incoherence|turf war)|contradictory (rulemaking|regulation)|regulatory (whipsaw|reversal|incoherence)|implementation (failure|breakdown) (policy|program)/i, weight: 0.14, tag: 'policy_conflict' },
+    // Regulatory capture / oversight breakdown / accountability failure
+    // (STRUCTURAL: corruption-detection indicators → accountability failure).
+    { re: /regulatory capture|oversight (breakdown|failure|gap|lapse)|accountability (failure|breakdown|gap)|corruption (surge|scandal|detected|probe|indict)|(gao|inspector general|ig) (finding|report) (critical|adverse|fail)|watchdog (warn|flag|fail)|graft|bribery (scheme|scandal)|self(-| )?deal/i, weight: 0.17, tag: 'regulatory_capture' },
+    // Fiscal-governance stress — budget/CBO deficit blowout, unfunded mandate, fiscal mismanagement.
+    { re: /fiscal (governance )?(stress|crisis|mismanagement)|budget (deficit|crisis) (blow|surge|spiral)|cbo (warn|project) (deficit|debt) (surge|unsustainable)|unfunded (mandate|liabilit)|public (debt|finance) (unsustainable|spiral|stress)|deficit (blowout|spiral)|fiscal (cliff|unsustainab)/i, weight: 0.14, tag: 'fiscal_governance_stress' },
+    // Electoral instability / political instability — contested results, leadership instability.
+    { re: /electoral (instability|crisis|dispute|fraud (alleg|claim))|election (contest|dispute|overturn|irregularit)|leadership (instability|vacuum|crisis|turnover)|political (instability|turmoil|crisis)|contested (result|transfer|election)|coup|no(-| )?confidence (vote|motion)|government collapse/i, weight: 0.15, tag: 'electoral_instability' }
+  ];
+  var GOVERNANCE_STABILIZING = [
+    // Institutional strengthening — separation-of-powers restored, WGI / V-Dem improvement.
+    { re: /institutional (strengthen|reinforc|reform|restor|resilien)|(world bank )?wgi (improv|rise|gain)|v-?dem (improv|rise|gain)|checks and balances (restor|reinforc|strengthen)|separation of powers (restor|reaffirm|reinforc)|rule of law (strengthen|restor|improv)|institutional integrity (restor|strengthen)|democratic (consolidat|resilien)/i, weight: 0.17, tag: 'institutional_strengthening' },
+    // Legitimacy / trust restoration — public confidence recovering, mandate secured.
+    { re: /legitimacy (restor|gain|secured|reinforc)|(public )?(trust|confidence) (restor|recover|rebuild|rise) (institution|government|public)|public confidence (recover|rise|rebound)|approval (recover|rise|rebound)|mandate (secured|renew|strengthen)|credibility (restor|rebuild|gain) (governance|institution)/i, weight: 0.15, tag: 'legitimacy_restoration' },
+    // Policy passage / bipartisan resolution — legislative output, Federal Register normalization.
+    { re: /(policy|legislation|bill) (passage|enact|sign|ratif)|bipartisan (deal|agreement|resolution|compromise)|gridlock (break|resolv|ease)|(budget|appropriation) (pass|deal|agreement)|legislative (output|productivity) (rise|recover|robust)|federal register (normaliz|stabiliz)|(continuing resolution|deal) (reach|pass)|coherent (rulemaking|policy)/i, weight: 0.15, tag: 'policy_passage' },
+    // Oversight & accountability restored — GAO/IG remediation, anti-corruption gains, transparency.
+    { re: /oversight (restor|strengthen|reinstat|reinforc)|accountability (restor|strengthen|reinforc)|(gao|inspector general|ig) (recommendation )?(implement|remediat|close|resolv)|anti(-| )?corruption (gain|win|reform|crackdown)|transparency (gain|reform|increase)|watchdog (empower|strengthen)|ethics (reform|strengthen)|(corruption|graft) (prosecut|convict|root out)/i, weight: 0.14, tag: 'accountability_restored' },
+    // Fiscal-governance discipline — CBO/budget consolidation, balanced budget, debt path improved.
+    { re: /fiscal (discipline|consolidation|reform|sustainab)|budget (balance|surplus|consolidat|reform)|cbo (project|score) (deficit|debt) (decline|improv|sustainab)|deficit (reduc|narrow|decline)|debt (path|trajectory) (improv|stabiliz|sustainab)|fiscal (responsibilit|prudence)|public finance (stabiliz|strengthen)/i, weight: 0.14, tag: 'fiscal_governance_discipline' },
+    // Electoral stabilization / peaceful transfer / service-delivery recovery — orderly governance.
+    { re: /electoral (stability|integrity|stabiliz)|peaceful (transfer|transition) (of power)?|orderly (transition|transfer|succession)|election(s)? (free and fair|certified|smooth|orderly)|political (stability|stabiliz|continuity)|(public )?service(s)? (deliver|recover|improv|restor)|(tyl|tyler technologies|mms|maximus|gdit|leidos|accenture federal) (deploy|modern|deliver) (service|system)|govtech (deploy|moderniz)/i, weight: 0.13, tag: 'electoral_stabilization' }
+  ];
+
   // Scan a domain's signal strings against a civil pattern table and return the
   // summed weighted contribution (clamped). Mirrors how energy accumulates its
   // condition-driven pressure, but over civil-native keywords.
@@ -746,6 +834,33 @@
         _industryDestabTags = _ind.tags;
       }
 
+      // ── Governance-native destabilizing pathways (energy parity) ──
+      // For the governance domain ONLY, add institutions-and-policy pressure
+      // from named failure pathways found in the live signal strings
+      // (institutional erosion / separation-of-powers tension, legitimacy crisis
+      // / trust erosion, policy gridlock / legislative stalemate, policy conflict
+      // / inconsistent execution, regulatory capture / oversight breakdown /
+      // accountability failure, fiscal-governance stress, electoral instability).
+      // This is the machinery-of-collective-rule analogue of energy's
+      // crude_above_*/grid_stress, infrastructure's grid_reliability/
+      // deferred_maintenance, culture's backlash/audience collapse, finance's
+      // liquidity/credit, economy's business-cycle, technology's compute-stack,
+      // defense's readiness, intelligence's collection, trade's tariff/port, and
+      // industry's factory-output weighting — anchored to governance indices
+      // (World Bank WGI, V-Dem, GAO, CBO, Federal Register) with structural-
+      // signal overrides distinguishing policy-outcome signals from noisy
+      // news-volume signals, IDENTITY stays institutions/policy/elections/
+      // legitimacy (couples to economy via public finance and law via rule of
+      // law, distinct from economy's MACRO aggregate, finance's capital markets,
+      // and law's judicial adjudication). ADVISORY ONLY — wholly separate from
+      // the validated P3 distress kernel.
+      var _governanceDestabTags = null;
+      if (k === 'governance') {
+        var _gd = _infraSignalScore(signals, GOVERNANCE_DESTABILIZING);
+        destab += _gd.score;
+        _governanceDestabTags = _gd.tags;
+      }
+
       destab = _clamp(destab, 0, 1);
 
       // ─── Stabilizing score ─────────────────────────────────────
@@ -954,6 +1069,32 @@
         _industryStabTags = _ins.tags;
       }
 
+      // ── Governance-native stabilizing pathways (energy parity) ──
+      // Governance recovery vocabulary: institutional strengthening (separation-
+      // of-powers restored / WGI / V-Dem improvement), legitimacy / trust
+      // restoration (public confidence recovering / mandate secured), policy
+      // passage / bipartisan resolution (legislative output / Federal Register
+      // normalization), oversight & accountability restored (GAO/IG remediation /
+      // anti-corruption gains / transparency), fiscal-governance discipline
+      // (CBO/budget consolidation / debt-path improvement), and electoral
+      // stabilization / peaceful transfer / service-delivery recovery (orderly
+      // transition / govtech delivery). Mirrors energy's falling-trend /
+      // declining-volatility stabilizers, infrastructure's funding-renewal /
+      // repair-completion, culture's fanbase-momentum / mainstream-adoption,
+      // finance's liquidity-restoration / capital-strengthening, economy's
+      // labor-recovery / productivity, technology's fab-capacity / breakthrough,
+      // defense's force-modernization / alliance-strengthening, intelligence's
+      // improved-observability / collection-expansion, trade's tariff-
+      // normalization / port-reopening, and industry's capacity-modernization /
+      // output-recovery, with governance semantics from the live signals.
+      // ADVISORY ONLY — wholly separate from the validated P3 distress kernel.
+      var _governanceStabTags = null;
+      if (k === 'governance') {
+        var _gs = _infraSignalScore(signals, GOVERNANCE_STABILIZING);
+        stab += _gs.score;
+        _governanceStabTags = _gs.tags;
+      }
+
       stab = _clamp(stab, 0, 1);
 
       // ─── Net balance ───────────────────────────────────────────
@@ -1035,6 +1176,13 @@
       if (k === 'industry') {
         _balance[k].destabilizingFactors = _industryDestabTags || [];
         _balance[k].stabilizingFactors = _industryStabTags || [];
+      }
+
+      // Surface the governance-native pathways that drove the governance score
+      // (energy parity: name the conditions, don't hide them behind a scalar).
+      if (k === 'governance') {
+        _balance[k].destabilizingFactors = _governanceDestabTags || [];
+        _balance[k].stabilizingFactors = _governanceStabTags || [];
       }
 
       // Detect state shift

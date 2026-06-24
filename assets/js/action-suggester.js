@@ -104,6 +104,13 @@
       { label: 'Investigate trust-boundary breaches and surveillance-oversight gaps (CISA KEV, Fed Register, OFAC designations) across collection programs', type: 'analysis', minStress: 0.5 },
       { label: 'Analyze all-source assessment fusion and analytical-bias exposure (VRNT, NICE, VRSK, KBR signal-to-noise degradation)', type: 'analysis', minStress: 0.6 },
       { label: 'Regulate collection expansion and analytical debiasing to restore public trust and oversight compliance', type: 'regulation', minStress: 0.7 }
+    ],
+    governance: [
+      { label: 'Monitor institutional-integrity signals (World Bank WGI government-effectiveness, control-of-corruption and rule-of-law indicators, V-Dem democracy/liberal-component scores) for institutional-erosion drift across public-administration delivery (TYL, MMS govtech throughput)', type: 'monitoring', minStress: 0.3 },
+      { label: 'Explore policy-effectiveness emergence in legislative velocity and rulemaking volume (Congress.gov bill-passage cadence, Federal Register regulatory-publication rate, OECD regulatory-quality and institutional-trust indicators) reshaping public-service delivery (ACN, GDIT modernization roadmaps)', type: 'discovery', minStress: 0.4 },
+      { label: 'Analyze electoral-system capacity and democratic-institution strain (voter-access restrictions, election-administration funding, Brennan Center voting-rights tracking, V-Dem electoral-component backsliding) for legitimacy exposure', type: 'analysis', minStress: 0.5 },
+      { label: 'Investigate regulatory-oversight gaps and agency-capture signals (GAO oversight findings and high-risk-list designations, POGO accountability reports, CBO fiscal-governance assessments, Federal Register enforcement-action trend) across public institutions (BAH, LDOS oversight-modernization programs)', type: 'analysis', minStress: 0.6 },
+      { label: 'Regulate public-trust restoration and accountability-mechanism reinforcement as policy-gridlock and legitimacy-crisis pressure compound (World Bank WGI voice-and-accountability decline, V-Dem backsliding, GAO oversight failures, Federal Register regulatory-instability surge)', type: 'regulation', minStress: 0.7 }
     ]
   };
 

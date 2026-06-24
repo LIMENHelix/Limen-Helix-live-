@@ -390,6 +390,60 @@ for (var _envk in ENVIRONMENT_SECTOR_COMPANY_BINDING) {
   NODE_TO_ENVIRONMENT_COMPANY[_envb.node].push(_envb);
 }
 
+// ── GOVERNANCE-SECTOR (GOVTECH / PUBLIC-SECTOR SERVICES) COMPANY ticker bindings (governance gap 1 — ADDITIVE, OPT-IN) ──
+// Parallel to TECH_COMPANY_BINDING, INTELLIGENCE_COMPANY_BINDING, TRADE_COMPANY_BINDING,
+// INDUSTRIAL_COMPANY_BINDING and ENVIRONMENT_SECTOR_COMPANY_BINDING (and to
+// MACRO_INDICATOR_BINDING). NOT merged into the default resolve() pipeline and NOT
+// included in NODE_TO_MACRO_INDICATOR — consumed ONLY when a context explicitly
+// triggers a governance-company-level drill (getGovernanceSectorCompaniesForNode /
+// GOVERNANCE_COMPANY_BINDING export). Governance binds mostly to INSTITUTIONS &
+// INDICATORS, not single companies; where service-delivery CAPACITY needs a concrete
+// vendor we use REAL govtech / public-sector contractors mapped to the actual
+// governance connectome node that senses their delivery surface (nodes are the real
+// governance-domain participations in brain-node-domains.json: dlPFC=executive
+// authority, STRI=treasury/fiscal ops, dACC=regulatory oversight, NAcc=electoral
+// systems, ECN=public administration, vmPFC=policy formation, V1=technology
+// integration). Ticker stress (dir 'low' for all — stress on decline) estimates a
+// DEGRADATION OF GOVERNANCE SERVICE-DELIVERY CAPACITY: a TYL decline = court / permit /
+// licensing case-management capacity constrained; an MMS decline = benefits-delivery /
+// eligibility-determination capacity strained; a GDIT/MANT decline = federal/civilian
+// IT-modernization backlog; a BAH/ACN decline = digital-transformation & consulting
+// capacity pulls back; a LDOS decline = civil mission-systems capacity. This is
+// GOVERNANCE identity = government & public administration, public services delivery,
+// regulation & oversight, public finance, rule of law & institutional integrity —
+// DISTINCT from economy (macro aggregate), finance (capital markets), law
+// (judicial/legal system), and intelligence (tradecraft). Governance carries ZERO
+// energy content: regulatory-overhead compliance tech (ERP auditing, e-discovery) and
+// federal data-center / secure-facility cooling may COUPLE to compute load downstream,
+// but the signal ORIGIN is governance administration & IT-modernization backlog, NEVER
+// energy production or grid capacity; governance nodes carry zero energy-domain content.
+// REAL govtech / public-sector tickers only.
+//   TYL → court/permit/licensing case management   MMS → benefits delivery / eligibility
+//   MANT → federal IT infrastructure (ManTech)      GDIT → civilian/federal IT (General Dynamics IT, via GD)
+//   BAH → federal consulting / public-sector advisory ACN → digital transformation
+//   LDOS → civil mission systems / agency IT         CACI → govtech analytics / tradecraft tech
+var GOVERNANCE_COMPANY_BINDING = {
+  TYL:  { series: 'TYL',  node: 'ECN',   role: 'Court / Permit / Licensing Case-Management Capacity', nodeRole: 'Public Administration',          label: 'Tyler Technologies',     threshold: -18, dir: 'low', kind: 'ticker', industry: 'govtech-case-management' },
+  MMS:  { series: 'MMS',  node: 'STRI',  role: 'Benefits Delivery / Eligibility-Determination Capacity', nodeRole: 'Treasury and Fiscal Operations', label: 'Maximus',              threshold: -17, dir: 'low', kind: 'ticker', industry: 'benefits-delivery' },
+  MANT: { series: 'MANT', node: 'V1',    role: 'Federal IT-Infrastructure / Modernization Capacity',  nodeRole: 'Technology Integration',         label: 'ManTech International',   threshold: -20, dir: 'low', kind: 'ticker', industry: 'federal-it' },
+  GDIT: { series: 'GD',   node: 'V1',    role: 'Civilian / Federal IT-Services Capacity (GD IT)',     nodeRole: 'Technology Integration',         label: 'General Dynamics IT',    threshold: -16, dir: 'low', kind: 'ticker', industry: 'civilian-it' },
+  BAH:  { series: 'BAH',  node: 'dlPFC', role: 'Federal Consulting / Public-Sector Advisory Capacity', nodeRole: 'Executive Authority',           label: 'Booz Allen Hamilton',    threshold: -16, dir: 'low', kind: 'ticker', industry: 'federal-consulting' },
+  ACN:  { series: 'ACN',  node: 'vmPFC', role: 'Digital-Transformation / Modernization Capacity',     nodeRole: 'Policy Formation',               label: 'Accenture',              threshold: -15, dir: 'low', kind: 'ticker', industry: 'digital-transformation' },
+  LDOS: { series: 'LDOS', node: 'dACC',  role: 'Civil Mission-Systems / Agency-IT Capacity',          nodeRole: 'Regulatory Oversight',          label: 'Leidos',                 threshold: -17, dir: 'low', kind: 'ticker', industry: 'civil-mission-systems' },
+  CACI: { series: 'CACI', node: 'AI',    role: 'Govtech Analytics / Risk-Assessment Tech Capacity',   nodeRole: 'Risk Assessment Risk & Resilience', label: 'CACI International',  threshold: -18, dir: 'low', kind: 'ticker', industry: 'govtech-analytics' }
+};
+
+// Reverse lookup: connectome node → governance-sector company tickers it sources from
+// (opt-in governance-company drill, parallel to NODE_TO_TECH_COMPANY /
+// NODE_TO_INTEL_COMPANY / NODE_TO_TRADE_COMPANY / NODE_TO_ENVIRONMENT_COMPANY).
+var NODE_TO_GOVERNANCE_COMPANY = {};
+for (var _govk in GOVERNANCE_COMPANY_BINDING) {
+  if (!Object.prototype.hasOwnProperty.call(GOVERNANCE_COMPANY_BINDING, _govk)) continue;
+  var _govb = GOVERNANCE_COMPANY_BINDING[_govk];
+  if (!NODE_TO_GOVERNANCE_COMPANY[_govb.node]) NODE_TO_GOVERNANCE_COMPANY[_govb.node] = [];
+  NODE_TO_GOVERNANCE_COMPANY[_govb.node].push(_govb);
+}
+
 // ── FISCAL vs MONETARY POLICY TRANSMISSION (ADDITIVE — economy gap 2) ──
 // The existing FEED_TO_CONNECTOME['finance'] = ['economy','finance'] mapping does
 // NOT distinguish FISCAL (Treasury / OMB / Congress: spending, taxes, debt
@@ -457,7 +511,27 @@ var MACRO_POLICY_PATH = {
   climate_policy:           { connectomeDomains: ['environment', 'governance'],           indicators: ['CarbonPrice', 'ETSVolume', 'ForestCarbon'],        sources: ['EPA GHG Reporting Program', 'ICE/CME Carbon Futures', 'RGGI/WCI Auction'] },
   environmental_regulation: { connectomeDomains: ['environment', 'governance'],           indicators: ['AQI', 'PM25', 'NOx', 'SO2', 'WQI', 'DissolvedO2'], sources: ['EPA Clean Air Act NAAQS', 'EPA Clean Water Act', 'SEC ESG Disclosure'] },
   conservation_policy:      { connectomeDomains: ['environment', 'governance'],           indicators: ['ForestCarbon', 'SpeciesIndex'],                    sources: ['ESA Listing (USFWS)', 'BLM Land-Use Plan', 'NOAA Habitat Designation'] },
-  waste_policy:             { connectomeDomains: ['environment', 'governance'],           indicators: ['WasteVolume'],                                     sources: ['EPA RCRA Subtitle C/D', 'State Landfill Caps', 'EPR / E-Waste Mandates'] }
+  waste_policy:             { connectomeDomains: ['environment', 'governance'],           indicators: ['WasteVolume'],                                     sources: ['EPA RCRA Subtitle C/D', 'State Landfill Caps', 'EPR / E-Waste Mandates'] },
+  // Governance (governance gap 3 — ADDITIVE, OPT-IN) = policy-domain shocks split by
+  // POLICY AUTHORITY / MECHANISM (not energy). These route a governance shock to the
+  // correct governance nodes by sub-circuit: executive/fiscal authority, legislative
+  // rulemaking, electoral & democratic institutions, institutional integrity / rule of
+  // law. These are PURE governance identity (policymaking authority & enforcement,
+  // budget execution, elections integrity, anti-corruption) — DISTINCT from economy
+  // (macro), finance (capital), law (judicial), intelligence (tradecraft). Energy
+  // coupling is ZERO: utility regulation (FERC, state PUCs) is governance AUTHORITY
+  // over energy, never energy production itself; kept distinct. 'economy' is added on
+  // the fiscal path (spending → employment → consumption multiplier); 'finance' on the
+  // institutional-integrity path (rule of law → contract enforcement). Indicator keys
+  // reference GOVERNANCE_INDICATOR_BINDING below. Resolved via resolveGovernancePolicyPath.
+  //   gov_executive_authority   = Treasury / OMB / appropriations → fiscal multiplier
+  //   gov_legislative_rulemaking = statutes / regulations / enforcement velocity
+  //   gov_electoral_institutions = elections / representation / democratic legitimacy
+  //   gov_institutional_integrity = rule of law / anti-corruption / due process
+  gov_executive_authority:    { connectomeDomains: ['governance', 'economy'],           indicators: ['CBOBudgetImpact', 'OMBComplianceRate', 'GSAITModernization'], sources: ['OMB Appropriations', 'Treasury Fiscal Service', 'CBO Budget & Economic Outlook'] },
+  gov_legislative_rulemaking: { connectomeDomains: ['governance'],                      indicators: ['FederalRegisterVolume', 'OECDRegQuality', 'CFPBEnforcement'],  sources: ['Federal Register', 'OECD Regulatory Policy Outlook', 'CFPB Enforcement Actions'] },
+  gov_electoral_institutions: { connectomeDomains: ['governance'],                      indicators: ['VDemElectoralIndex'],                                          sources: ['V-Dem Institute Dataset', 'EAC Election Administration', 'OPM Federal Workforce'] },
+  gov_institutional_integrity:{ connectomeDomains: ['governance', 'finance'],           indicators: ['WGIRuleOfLaw', 'GAOAuditBacklog', 'OPMVacancyRate'],            sources: ['World Bank WGI', 'GAO Performance & Accountability Report', 'OPM FedScope'] }
 };
 
 // ── INTELLIGENCE-SECTOR INDICATOR bindings (intelligence gap 3 — ADDITIVE) ──
@@ -601,6 +675,60 @@ for (var _envik in ENVIRONMENT_INDICATOR_BINDING) {
   var _envib = ENVIRONMENT_INDICATOR_BINDING[_envik];
   if (!NODE_TO_ENVIRONMENT_INDICATOR[_envib.node]) NODE_TO_ENVIRONMENT_INDICATOR[_envib.node] = [];
   NODE_TO_ENVIRONMENT_INDICATOR[_envib.node].push(_envib);
+}
+
+// ── GOVERNANCE-SECTOR INDICATOR bindings (governance gap 2 — ADDITIVE) ──
+// Parallel structure to MACRO_INDICATOR_BINDING (economy gap 1), INTELLIGENCE_INDICATOR_
+// BINDING (intelligence gap 3), TRADE_INDICATOR_BINDING (trade gap) and ENVIRONMENT_
+// INDICATOR_BINDING (environment gap 2), but for PURE policy & governance-PERFORMANCE
+// signals: rule-of-law / governance-quality indices, electoral-democracy indices,
+// regulatory-quality, audit backlogs, budget-impact scores, rulemaking velocity,
+// enforcement velocity, compliance & vacancy rates, IT-modernization spend. Binds each
+// REAL policy/governance metric to the governance connectome node that senses it
+// (nodes are the real governance-domain participations in brain-node-domains.json), so
+// the kernel/reporting/diagnosis layers can drill from abstract 'governance stress' into
+// the ACTUAL institutional signal that triggered it (e.g. rule-of-law node lit → WGI
+// Rule-of-Law fell → institutional-integrity shock; electoral node lit → V-Dem dropped →
+// democratic-legitimacy shock). These are NOT FRED series and NOT single-company tickers
+// — they are policy-performance indices from World Bank, V-Dem, OECD, GAO, CBO, the
+// Federal Register, CFPB, OMB, OPM and GSA, routed to threshold nodes. Governance is
+// measured by POLICY PERFORMANCE, never energy: FERC / state-PUC utility regulation is
+// governance AUTHORITY (policy domain), not energy production or consumption; federal-
+// utility (TVA, Bonneville) management is a governance-coupled infrastructure service,
+// kept DISTINCT from energy-commodity identity. Governance nodes carry zero energy-domain
+// content. Annotation/registry metadata ONLY — the resolver does NOT score these.
+//   threshold = the level above/below which the node is considered stressed.
+//   dir = 'high' (stress when ABOVE threshold) | 'low' (stress when BELOW).
+//   kind = 'index' (governance/democracy/regulatory index) | 'audit' (audit/backlog) |
+//          'budget' (fiscal/budget) | 'rulemaking' (Federal Register / enforcement) |
+//          'admin' (compliance / vacancy / modernization spend).
+var GOVERNANCE_INDICATOR_BINDING = {
+  // ── Rule of law / institutional integrity ──
+  WGIRuleOfLaw:        { series: 'WGIRuleOfLaw',        node: 'VTA',   role: 'Rule-of-Law / Anti-Corruption Index', nodeRole: 'Anticorruption Policy & Governance', label: 'World Bank WGI — Rule of Law',        threshold: 50, dir: 'low',  kind: 'index',      policyPath: 'gov_institutional_integrity' },
+  GAOAuditBacklog:     { series: 'GAOAuditBacklog',     node: 'OFC',   role: 'Federal Audit Backlog',               nodeRole: 'Judicial Review',                    label: 'GAO Federal Audit Backlog',          threshold: 6,  dir: 'high', kind: 'audit',      policyPath: 'gov_institutional_integrity' },
+  // ── Electoral & democratic institutions ──
+  VDemElectoralIndex:  { series: 'VDemElectoralIndex',  node: 'NAcc',  role: 'Electoral Democracy Index',           nodeRole: 'Electoral Systems',                  label: 'V-Dem Electoral Democracy Index',    threshold: 60, dir: 'low',  kind: 'index',      policyPath: 'gov_electoral_institutions' },
+  // ── Regulation & oversight ──
+  OECDRegQuality:      { series: 'OECDRegQuality',      node: 'dACC',  role: 'Regulatory Quality',                  nodeRole: 'Regulatory Oversight',               label: 'OECD Regulatory Quality',            threshold: 50, dir: 'low',  kind: 'index',      policyPath: 'gov_legislative_rulemaking' },
+  FederalRegisterVolume: { series: 'FederalRegisterVolume', node: 'BROCA', role: 'Rulemaking Velocity',             nodeRole: 'Legislative Process',                label: 'Federal Register Rulemaking Volume', threshold: 8,  dir: 'high', kind: 'rulemaking', policyPath: 'gov_legislative_rulemaking' },
+  CFPBEnforcement:     { series: 'CFPBEnforcement',     node: 'dACC',  role: 'Enforcement Velocity',                nodeRole: 'Regulatory Oversight',               label: 'CFPB Enforcement Velocity',          threshold: 4,  dir: 'low',  kind: 'rulemaking', policyPath: 'gov_legislative_rulemaking' },
+  // ── Public finance & budgets ──
+  CBOBudgetImpact:     { series: 'CBOBudgetImpact',     node: 'STRI',  role: 'Budget-Impact Score',                 nodeRole: 'Treasury and Fiscal Operations',     label: 'CBO Budget Impact Score',            threshold: 6,  dir: 'high', kind: 'budget',     policyPath: 'gov_executive_authority' },
+  OMBComplianceRate:   { series: 'OMBComplianceRate',   node: 'vmPFC', role: 'OMB Circular A-136 Compliance',        nodeRole: 'Policy Formation',                   label: 'OMB A-136 Compliance Rate',          threshold: 90, dir: 'low',  kind: 'admin',      policyPath: 'gov_executive_authority' },
+  // ── Public administration / services delivery capacity ──
+  OPMVacancyRate:      { series: 'OPMVacancyRate',      node: 'ECN',   role: 'Federal Workforce Vacancy',           nodeRole: 'Public Administration',              label: 'OPM Federal Vacancy Rate',           threshold: 10, dir: 'high', kind: 'admin',      policyPath: 'gov_institutional_integrity' },
+  GSAITModernization:  { series: 'GSAITModernization',  node: 'V1',    role: 'IT-Modernization Spend Ratio',        nodeRole: 'Technology Integration',             label: 'GSA IT Modernization Spend Ratio',   threshold: 20, dir: 'low',  kind: 'admin',      policyPath: 'gov_executive_authority' }
+};
+
+// Reverse lookup: connectome node → governance indicators it senses
+// (parallel to NODE_TO_MACRO_INDICATOR / NODE_TO_INTEL_INDICATOR / NODE_TO_TRADE_INDICATOR
+// / NODE_TO_ENVIRONMENT_INDICATOR; for diagnosis drill-down).
+var NODE_TO_GOVERNANCE_INDICATOR = {};
+for (var _govik in GOVERNANCE_INDICATOR_BINDING) {
+  if (!Object.prototype.hasOwnProperty.call(GOVERNANCE_INDICATOR_BINDING, _govik)) continue;
+  var _govib = GOVERNANCE_INDICATOR_BINDING[_govik];
+  if (!NODE_TO_GOVERNANCE_INDICATOR[_govib.node]) NODE_TO_GOVERNANCE_INDICATOR[_govib.node] = [];
+  NODE_TO_GOVERNANCE_INDICATOR[_govib.node].push(_govib);
 }
 
 // Reverse lookup: connectome node → macro indicators it senses (for diagnosis drill-down).
@@ -1393,6 +1521,163 @@ function resolveEnvironmentPolicyPath(policy, stress) {
   return resolvePolicyPath(key, stress);
 }
 
+// ── GOVERNANCE SUB-CIRCUIT ROUTING (governance gap 3 — ADDITIVE, OPT-IN) ──
+// Mirrors TRADE_SUBCIRCUIT_ROUTING and TECH_SUBCIRCUIT_ROUTING. Splits abstract
+// 'governance' stress into four PURE policy-domain sub-circuits by policy authority /
+// mechanism (NOT energy), so downstream policy-intervention modeling can pick the right
+// curve: (1) executive authority (fiscal / budget / appropriation → spending →
+// employment), (2) legislative rulemaking (statutes / regulations / enforcement →
+// compliance cost), (3) electoral & democratic institutions (elections / representation
+// → public trust / legitimacy), (4) institutional integrity (rule of law / anti-
+// corruption / due process → contract enforcement). Each sub-circuit carries its own
+// REAL governance nodes (from brain-node-domains.json) + policy indices. These are PURE
+// governance identity splits — energy coupling is ZERO: utility regulation (state-PUC
+// rate-setting, FERC wholesale rules) is governance COUPLING to the energy domain
+// (authority/oversight), NEVER energy production; governance identity = policymaking
+// authority and enforcement, not energy supply.
+var GOVERNANCE_SUBCIRCUIT_ROUTING = {
+  'executive-authority': {
+    label: 'Executive authority circuit (fiscal / budget / appropriation)',
+    pathway: ['dlPFC', 'STRI', 'vmPFC'],
+    role: 'appropriation-authority → treasury-execution → policy-formation-and-disbursement',
+    costSignature: 'step changes on appropriation / continuing-resolution shifts; multiplier propagates through spending → employment → consumption',
+    scalingModel: 'fiscal_multiplier_x_budget_execution',
+    // Governance is home; economy is the fiscal-multiplier coupling (spending → jobs).
+    connectomeDomains: ['governance', 'economy'],
+    triggers: ['appropriation_lapse', 'continuing_resolution', 'budget_sequestration', 'government_shutdown', 'debt_ceiling_impasse'],
+    anchors: ['MMS', 'BAH', 'GDIT']
+  },
+  'legislative-rulemaking': {
+    label: 'Legislative rulemaking circuit (statutes / regulations / enforcement)',
+    pathway: ['BROCA', 'dACC', 'OFC'],
+    role: 'statute-enactment → regulatory-promulgation → enforcement-and-judicial-review',
+    costSignature: 'compliance-cost step changes on rulemaking velocity; enforcement backlog accrues on agency-capacity load',
+    scalingModel: 'rulemaking_velocity_x_compliance_cost',
+    connectomeDomains: ['governance'],
+    triggers: ['rulemaking_surge', 'enforcement_action', 'regulatory_rollback', 'agency_guidance_shift', 'judicial_stay'],
+    anchors: ['ACN', 'LDOS', 'CACI']
+  },
+  'electoral-institutions': {
+    label: 'Electoral & democratic institutions circuit (elections / representation / legitimacy)',
+    pathway: ['NAcc', 'ECN', 'TPJ'],
+    role: 'electoral-administration → public-administration-continuity → representation-and-legitimacy',
+    costSignature: 'legitimacy / public-trust step changes on contested elections, turnout shocks, or administration transitions',
+    scalingModel: 'electoral_integrity_x_public_trust',
+    connectomeDomains: ['governance'],
+    triggers: ['contested_election', 'turnout_collapse', 'administration_transition', 'redistricting_shock', 'voter_access_change'],
+    anchors: ['TYL', 'MMS']
+  },
+  'institutional-integrity': {
+    label: 'Institutional integrity circuit (rule of law / anti-corruption / due process)',
+    pathway: ['VTA', 'OFC', 'ECN'],
+    role: 'anti-corruption-enforcement → judicial-review → administrative-due-process',
+    costSignature: 'contract-enforcement / rule-of-law erosion accrues on corruption, vacancy, and audit-backlog load',
+    scalingModel: 'rule_of_law_x_contract_enforcement',
+    // Governance is home; finance is the contract-enforcement coupling (rule of law → capital).
+    connectomeDomains: ['governance', 'finance'],
+    triggers: ['corruption_finding', 'audit_backlog_surge', 'vacancy_crisis', 'due_process_erosion', 'oversight_failure'],
+    anchors: ['BAH', 'CACI']
+  }
+};
+
+// Reverse lookup: trigger source string → governance sub-circuit key (built once).
+var GOVERNANCE_TRIGGER_TO_SUBCIRCUIT = {};
+for (var _govsk in GOVERNANCE_SUBCIRCUIT_ROUTING) {
+  if (!Object.prototype.hasOwnProperty.call(GOVERNANCE_SUBCIRCUIT_ROUTING, _govsk)) continue;
+  var _govtrg = GOVERNANCE_SUBCIRCUIT_ROUTING[_govsk].triggers || [];
+  for (var _govti = 0; _govti < _govtrg.length; _govti++) GOVERNANCE_TRIGGER_TO_SUBCIRCUIT[_govtrg[_govti]] = _govsk;
+}
+
+/**
+ * Route a governance stress trigger to its sub-circuit (executive-authority /
+ * legislative-rulemaking / electoral-institutions / institutional-integrity) and emit
+ * the policy-performance / cost signature so downstream policy-intervention modeling can
+ * pick the right curve. OPT-IN; default resolve() is unchanged. No scoring. Governance-
+ * specific; never hijacks another domain's stress. Energy coupling is ZERO (utility
+ * regulation is governance AUTHORITY, not energy production).
+ * @param {String} stressTrigger - trigger source, e.g. 'appropriation_lapse',
+ *        'rulemaking_surge', 'contested_election', 'corruption_finding'; OR a sub-circuit key.
+ * @param {String} [domain] - originating domain (expected 'governance'); other domains
+ *        return an inactive result (this gap is governance-specific).
+ * @param {Object} [context] - optional { stress:Number } raw stress [0..1] for activation.
+ * @returns {Object} { subCircuit, matched, label, pathway, role, costSignature,
+ *          scalingModel, connectomeDomains, anchors, nodes }
+ */
+function resolveGovernanceSubCircuit(stressTrigger, domain, context) {
+  var dom = domain || 'governance';
+  var inactive = {
+    subCircuit: null, matched: false, trigger: stressTrigger || null, domain: dom,
+    label: '', pathway: [], role: '', costSignature: '', scalingModel: '',
+    connectomeDomains: [], anchors: [], nodes: []
+  };
+  // This gap is governance-specific; never hijack another domain's stress.
+  if (dom !== 'governance') return inactive;
+
+  // Resolve which sub-circuit: accept a direct key or a named trigger source.
+  var key = null;
+  if (stressTrigger && GOVERNANCE_SUBCIRCUIT_ROUTING[stressTrigger]) {
+    key = stressTrigger;
+  } else if (stressTrigger && GOVERNANCE_TRIGGER_TO_SUBCIRCUIT[stressTrigger]) {
+    key = GOVERNANCE_TRIGGER_TO_SUBCIRCUIT[stressTrigger];
+  }
+  if (!key) return inactive;
+
+  var cfg = GOVERNANCE_SUBCIRCUIT_ROUTING[key];
+  var s = (context && typeof context.stress === 'number') ? context.stress : 0;
+  // Reuse the existing activation engine by synthesizing one stressed feed domain per
+  // connectome domain on the sub-circuit (governance = home; economy/finance = the
+  // fiscal-multiplier / contract-enforcement coupling targets).
+  var synth = cfg.connectomeDomains.map(function(cd) { return { id: cd, stress: s, status: 'GOVERNANCE_SUBCIRCUIT' }; });
+  var nodes = activateNodes(synth);
+
+  return {
+    subCircuit: key,
+    matched: true,
+    trigger: stressTrigger,
+    domain: dom,
+    label: cfg.label,
+    pathway: cfg.pathway.slice(),
+    role: cfg.role,
+    costSignature: cfg.costSignature,
+    scalingModel: cfg.scalingModel,
+    connectomeDomains: cfg.connectomeDomains.slice(),
+    anchors: cfg.anchors.slice(),
+    nodes: nodes
+  };
+}
+
+/**
+ * Resolve node activations for a governance policy shock (executive-authority /
+ * legislative-rulemaking / electoral-institutions / institutional-integrity). Thin
+ * convenience wrapper over resolvePolicyPath that accepts a BARE policy name (e.g.
+ * 'executive' or 'rulemaking') and maps it to the 'gov_*' MACRO_POLICY_PATH key.
+ * OPT-IN; default resolve() pipeline unchanged. No scoring. Governance-specific — the
+ * signal ORIGIN is policymaking authority & enforcement (budget, rulemaking, elections,
+ * rule of law), never energy.
+ * @param {String} policy - 'gov_executive_authority' | 'gov_legislative_rulemaking' |
+ *        'gov_electoral_institutions' | 'gov_institutional_integrity' (also accepts short
+ *        aliases 'executive' | 'rulemaking' | 'electoral' | 'integrity').
+ * @param {Number} stress - raw stress value [0..1] for this policy shock.
+ * @returns {Object} same shape as resolvePolicyPath.
+ */
+function resolveGovernancePolicyPath(policy, stress) {
+  if (!policy) return resolvePolicyPath(policy, stress);
+  var aliases = {
+    executive: 'gov_executive_authority',
+    fiscal: 'gov_executive_authority',
+    rulemaking: 'gov_legislative_rulemaking',
+    legislative: 'gov_legislative_rulemaking',
+    regulatory: 'gov_legislative_rulemaking',
+    electoral: 'gov_electoral_institutions',
+    elections: 'gov_electoral_institutions',
+    integrity: 'gov_institutional_integrity',
+    institutional: 'gov_institutional_integrity'
+  };
+  var key = MACRO_POLICY_PATH[policy] ? policy
+          : (aliases[policy] || policy);
+  return resolvePolicyPath(key, stress);
+}
+
 // ═══════════════════════════════════════════════════
 // 7. KERNEL ADAPTER RELAY (DISABLED)
 // ═══════════════════════════════════════════════════
@@ -1604,6 +1889,26 @@ window.LIMENConnectomeResolver = {
   NODE_TO_TRADE_INDICATOR: NODE_TO_TRADE_INDICATOR,
   getTradeIndicatorsForNode: function(nodeId) { return NODE_TO_TRADE_INDICATOR[nodeId] || []; },
 
+  // Governance-sector (govtech / public-sector services) company ticker bindings
+  // (governance gap 1) — OPT-IN, parallel to the tech/intel/trade/industrial/environment
+  // registries; consumed only for an explicit governance-company drill. Governance binds
+  // mostly to INSTITUTIONS & INDICATORS; where service-delivery capacity needs a vendor we
+  // use REAL govtech / public-sector contractors (TYL/MMS/MANT/GDIT/BAH/ACN/LDOS/CACI).
+  // Energy is ZERO: govtech IT-modernization backlog (data-center / secure-facility cooling)
+  // may couple to compute load downstream, but the signal ORIGIN is governance administration.
+  GOVERNANCE_COMPANY_BINDING: GOVERNANCE_COMPANY_BINDING,
+  NODE_TO_GOVERNANCE_COMPANY: NODE_TO_GOVERNANCE_COMPANY,
+  getGovernanceSectorCompaniesForNode: function(nodeId) { return NODE_TO_GOVERNANCE_COMPANY[nodeId] || []; },
+
+  // Governance-sector indicator bindings (governance gap 2) — OPT-IN, parallel to the
+  // macro registry; REAL policy-performance indices (World Bank WGI, V-Dem, OECD, GAO, CBO,
+  // Federal Register, CFPB, OMB, OPM, GSA) routed to dedicated governance nodes. Governance
+  // is measured by POLICY PERFORMANCE, never energy: FERC / state-PUC utility regulation is
+  // governance AUTHORITY (policy domain), kept DISTINCT from energy production/consumption.
+  GOVERNANCE_INDICATOR_BINDING: GOVERNANCE_INDICATOR_BINDING,
+  NODE_TO_GOVERNANCE_INDICATOR: NODE_TO_GOVERNANCE_INDICATOR,
+  getGovernanceIndicatorsForNode: function(nodeId) { return NODE_TO_GOVERNANCE_INDICATOR[nodeId] || []; },
+
   // Fiscal vs monetary policy transmission (economy gap 2) — opt-in
   MACRO_POLICY_PATH: MACRO_POLICY_PATH,
   resolvePolicyPath: resolvePolicyPath,
@@ -1635,6 +1940,22 @@ window.LIMENConnectomeResolver = {
   // conservation-policy / waste-policy) to the correct environment nodes + governance
   // via MACRO_POLICY_PATH entries. Signal origin = environmental regulation, never energy.
   resolveEnvironmentPolicyPath: resolveEnvironmentPolicyPath,
+
+  // Governance sub-circuit segregation (governance gap 3) — opt-in. Routes a governance
+  // stress trigger to executive-authority / legislative-rulemaking / electoral-institutions
+  // / institutional-integrity, each with its own policy-performance / cost signature +
+  // scaling model. Governance identity is policymaking authority & enforcement; utility
+  // regulation is a governance COUPLING to energy (authority), never energy production.
+  GOVERNANCE_SUBCIRCUIT_ROUTING: GOVERNANCE_SUBCIRCUIT_ROUTING,
+  GOVERNANCE_TRIGGER_TO_SUBCIRCUIT: GOVERNANCE_TRIGGER_TO_SUBCIRCUIT,
+  resolveGovernanceSubCircuit: resolveGovernanceSubCircuit,
+  getGovernanceSubCircuitForTrigger: function(trigger) { return GOVERNANCE_TRIGGER_TO_SUBCIRCUIT[trigger] || null; },
+
+  // Governance policy-path resolution (governance gap 3) — opt-in. Routes a governance
+  // policy shock (executive-authority / legislative-rulemaking / electoral-institutions /
+  // institutional-integrity) to the correct governance nodes via MACRO_POLICY_PATH 'gov_*'
+  // entries. Signal origin = policymaking authority & enforcement, never energy.
+  resolveGovernancePolicyPath: resolveGovernancePolicyPath,
 
   // Last resolve state
   getLastResolve: function() { return _lastResolve; },
