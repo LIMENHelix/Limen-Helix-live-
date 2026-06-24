@@ -134,7 +134,10 @@ for (const f of files) {
   // kernel integrity — ELIGIBLE-marked portals must carry a numeric composite
   const kernelStatus = String(p.kernelStatus || '');
   const fh = p.financialHealth || {};
-  const comp = fh.composite;
+  // field-drift: portals store the score as `compositeScore`, NOT `composite` (same fix the
+  // kernel organ applied). Checking only `.composite` reported ~714 false "null composite".
+  const comp = (typeof fh.compositeScore === 'number') ? fh.compositeScore
+             : (fh.compositeScore != null ? fh.compositeScore : fh.composite);
   if (/ELIGIBLE/.test(kernelStatus)) {
     kernelIntegrity.totalEligible++;
     if (comp == null) kernelIntegrity.nullCompositeEligible.push({ slug, kernelStatus });

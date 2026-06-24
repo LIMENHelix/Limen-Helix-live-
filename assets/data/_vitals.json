@@ -1,16 +1,16 @@
 {
   "schemaVersion": "vitals/2.0",
-  "generatedAt": "2026-06-24T20:02:07.386Z",
+  "generatedAt": "2026-06-24T20:03:57.086Z",
   "overall": {
-    "score": 91,
+    "score": 92,
     "status": "HEALTHY",
-    "summary": "12 organs · 19 attention items · feeds 77 · l1Nodes 98 · domains 100 · portalCorpus 76 · deadLinks 68 · kernel 81 · connectome 100 · civilization 100 · masterBrain 95 · propagator 100 · patternBus 100 · bridge 99"
+    "summary": "12 organs · 19 attention items · feeds 77 · l1Nodes 98 · domains 100 · portalCorpus 85 · deadLinks 68 · kernel 81 · connectome 100 · civilization 100 · masterBrain 95 · propagator 100 · patternBus 100 · bridge 99"
   },
   "scores": {
     "feeds": 77,
     "l1Nodes": 98,
     "domains": 100,
-    "portalCorpus": 76,
+    "portalCorpus": 85,
     "deadLinks": 68,
     "kernel": 81,
     "connectome": 100,
@@ -268,9 +268,9 @@
       "id": "portalCorpus",
       "role": "semantic memory (767 portals)",
       "order": 40,
-      "score": 76,
+      "score": 85,
       "status": "DEGRADED",
-      "summary": "800 portals · DATA_NEEDED 0 · brain-tagged 100% · kernel 0/100 · prose 98/100 · curated 100% · eligible 39%",
+      "summary": "800 portals · DATA_NEEDED 0 · brain-tagged 100% · kernel 100/100 · prose 98/100 · curated 100% · eligible 39%",
       "metrics": {
         "corpus": {
           "totalPortals": 800,
@@ -536,68 +536,12 @@
         },
         "kernelIntegrity": {
           "totalEligible": 714,
-          "nullCompositeCount": 714,
-          "nullCompositeRate": 1,
+          "nullCompositeCount": 1,
+          "nullCompositeRate": 0.001,
           "nanCompositeCount": 0,
           "nullCompositeSample": [
             {
-              "slug": "10x_genomics",
-              "kernelStatus": "ELIGIBLE_NOW"
-            },
-            {
-              "slug": "2u",
-              "kernelStatus": "ELIGIBLE_NOW"
-            },
-            {
-              "slug": "3m",
-              "kernelStatus": "ELIGIBLE_NOW"
-            },
-            {
-              "slug": "abb",
-              "kernelStatus": "ELIGIBLE_NOW"
-            },
-            {
-              "slug": "abbott_diagnostics",
-              "kernelStatus": "ELIGIBLE_NOW"
-            },
-            {
-              "slug": "abbott_laboratories",
-              "kernelStatus": "ELIGIBLE_NOW"
-            },
-            {
-              "slug": "abbott_metabolic",
-              "kernelStatus": "ELIGIBLE_NOW"
-            },
-            {
-              "slug": "abbvie",
-              "kernelStatus": "ELIGIBLE_NOW"
-            },
-            {
-              "slug": "acadia_pharmaceuticals",
-              "kernelStatus": "ELIGIBLE_NOW"
-            },
-            {
-              "slug": "accenture",
-              "kernelStatus": "ELIGIBLE_NOW"
-            },
-            {
-              "slug": "adobe",
-              "kernelStatus": "ELIGIBLE_NOW"
-            },
-            {
-              "slug": "adp",
-              "kernelStatus": "ELIGIBLE_NOW"
-            },
-            {
-              "slug": "adtalem_global_education",
-              "kernelStatus": "ELIGIBLE_NOW"
-            },
-            {
-              "slug": "advanced_drainage_systems",
-              "kernelStatus": "ELIGIBLE_NOW"
-            },
-            {
-              "slug": "adyen",
+              "slug": "patheon_thermo_fisher",
               "kernelStatus": "ELIGIBLE_NOW"
             }
           ],
@@ -728,9 +672,9 @@
         "domainRouting": 50,
         "categoryBleed": 100,
         "cikIntegrity": 80,
-        "kernelIntegrity": 0,
+        "kernelIntegrity": 100,
         "proseQuality": 98,
-        "overall": 76
+        "overall": 85
       },
       "attention": [
         {
@@ -777,7 +721,7 @@
         },
         {
           "issue": "Null kernel composite on ELIGIBLE-marked portals",
-          "count": 714,
+          "count": 1,
           "severity": "high",
           "action": "investigate — kernel never scored these (CIK mismatch? API failure during generation?)",
           "organ": "portalCorpus"
@@ -1448,7 +1392,7 @@
             "research": 626
           }
         },
-        "inboxAgeHours": 544.1979688888889,
+        "inboxAgeHours": 544.2284636111111,
         "scoreParts": {
           "lanes": 100,
           "structural": 89
@@ -1476,7 +1420,7 @@
           "propagator": true,
           "snapshot": true
         },
-        "ageHours": 0.015214813503689237,
+        "ageHours": 0.04570953572591146,
         "nodeCount": 799,
         "edgeCount": 13037,
         "dampedCount": 354,
@@ -1804,13 +1748,6 @@
       "organ": "portalCorpus"
     },
     {
-      "issue": "Null kernel composite on ELIGIBLE-marked portals",
-      "count": 714,
-      "severity": "high",
-      "action": "investigate — kernel never scored these (CIK mismatch? API failure during generation?)",
-      "organ": "portalCorpus"
-    },
-    {
       "issue": "Name-fingerprint dup clusters",
       "count": 2,
       "severity": "high",
@@ -1830,6 +1767,13 @@
       "count": 1,
       "action": "add bindings for: agriculture",
       "organ": "l1Nodes"
+    },
+    {
+      "issue": "Null kernel composite on ELIGIBLE-marked portals",
+      "count": 1,
+      "severity": "high",
+      "action": "investigate — kernel never scored these (CIK mismatch? API failure during generation?)",
+      "organ": "portalCorpus"
     },
     {
       "issue": "CIK collisions in companies-manifest",
