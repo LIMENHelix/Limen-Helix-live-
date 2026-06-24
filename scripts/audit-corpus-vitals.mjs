@@ -168,7 +168,9 @@ kernelIntegrity.nullCompositeRate = kernelIntegrity.totalEligible ? +(kernelInte
 const dupRisk = { byName: [], byBase: [], byCik: [] };
 for (const k in byNameKey) if (byNameKey[k].length > 1) dupRisk.byName.push({ key: k, slugs: byNameKey[k] });
 for (const k in byBase) if (byBase[k].length > 1) dupRisk.byBase.push({ key: k, slugs: byBase[k] });
-for (const k in byCik) if (byCik[k].length > 1) dupRisk.byCik.push({ cik: k, slugs: byCik[k] });
+// Skip empty/zero CIK: CIK-less companies (private / non-EDGAR) legitimately share no real CIK —
+// grouping them on the empty-string key is a false "collision" (e.g. insight_timer/sounds_true/tyndale_house).
+for (const k in byCik) if (k && k !== '0' && k !== '0000000000' && byCik[k].length > 1) dupRisk.byCik.push({ cik: k, slugs: byCik[k] });
 
 // ─── CB wiring health (curated 506 + eligible 302) ────────────────
 function wiringFor(filePath) {
