@@ -1,10 +1,10 @@
 {
   "schemaVersion": "vitals/2.0",
-  "generatedAt": "2026-06-24T17:36:34.463Z",
+  "generatedAt": "2026-06-24T17:37:53.167Z",
   "overall": {
-    "score": 84,
+    "score": 87,
     "status": "DEGRADED",
-    "summary": "12 organs · 20 attention items · feeds 77 · l1Nodes 98 · domains 100 · portalCorpus 76 · deadLinks 68 · kernel 27 · connectome 100 · civilization 100 · masterBrain 95 · propagator 66 · patternBus 100 · bridge 99"
+    "summary": "12 organs · 19 attention items · feeds 77 · l1Nodes 98 · domains 100 · portalCorpus 76 · deadLinks 68 · kernel 27 · connectome 100 · civilization 100 · masterBrain 95 · propagator 100 · patternBus 100 · bridge 99"
   },
   "scores": {
     "feeds": 77,
@@ -16,7 +16,7 @@
     "connectome": 100,
     "civilization": 100,
     "masterBrain": 95,
-    "propagator": 66,
+    "propagator": 100,
     "patternBus": 100,
     "bridge": 99
   },
@@ -1448,7 +1448,7 @@
             "research": 626
           }
         },
-        "inboxAgeHours": 541.7721602777777,
+        "inboxAgeHours": 541.79392,
         "scoreParts": {
           "lanes": 100,
           "structural": 89
@@ -1468,39 +1468,32 @@
       "id": "propagator",
       "role": "spider-web stress propagator",
       "order": 90,
-      "score": 66,
-      "status": "IN_PAIN",
-      "summary": "496 nodes · 7111 edges · 386 damped · 10 pathC · 0 alert · snapshot 716.6h old",
+      "score": 100,
+      "status": "HEALTHY",
+      "summary": "799 nodes · 13037 edges · 354 damped · 11 pathC · 0 alert · snapshot 0.0h old",
       "metrics": {
         "present": {
           "propagator": true,
           "snapshot": true
         },
-        "ageHours": 716.6455238888889,
-        "nodeCount": 496,
-        "edgeCount": 7111,
-        "dampedCount": 386,
-        "pathCCount": 10,
+        "ageHours": 0.00424164313422309,
+        "nodeCount": 799,
+        "edgeCount": 13037,
+        "dampedCount": 354,
+        "pathCCount": 11,
         "alertCount": 0,
-        "networkPushedCount": 338,
+        "networkPushedCount": 567,
         "scoreParts": {
           "presence": 100,
-          "fresh": 0,
-          "size": 99
+          "fresh": 100,
+          "size": 100
         }
       },
       "attention": [
         {
-          "issue": "stress-network snapshot stale (>6h)",
-          "severity": "med",
-          "count": 717,
-          "action": "invoke api/limen-worker-stress-refresh OR investigate the cron",
-          "organ": "propagator"
-        },
-        {
           "issue": "path-C anomalies in propagator output (unbounded composites)",
           "severity": "med",
-          "count": 10,
+          "count": 11,
           "action": "inspect — kernel path C indicates outlier financial state, may be data error",
           "organ": "propagator"
         },
@@ -1713,13 +1706,6 @@
   },
   "operatorAttention": [
     {
-      "issue": "stress-network snapshot stale (>6h)",
-      "severity": "med",
-      "count": 717,
-      "action": "invoke api/limen-worker-stress-refresh OR investigate the cron",
-      "organ": "propagator"
-    },
-    {
       "issue": "Truncated prose in fn entries (ellipsis / fragment / empty)",
       "count": 515,
       "severity": "med",
@@ -1750,7 +1736,7 @@
     {
       "issue": "path-C anomalies in propagator output (unbounded composites)",
       "severity": "med",
-      "count": 10,
+      "count": 11,
       "action": "inspect — kernel path C indicates outlier financial state, may be data error",
       "organ": "propagator"
     },
