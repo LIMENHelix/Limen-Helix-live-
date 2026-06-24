@@ -81,6 +81,10 @@ export function sense() {
       const cb = JSON.parse(fs.readFileSync(cbp, 'utf8'));
       for (const row of (cb.companies || [])) {
         if (!row.s) continue;
+        // Only rows EXPECTED to have a portal (hp=true) can be a "dead click". hp=false rows are
+        // CORRECTLY portal-less (private/non-EDGAR/not-built-by-design) and surfaces gate on hp,
+        // so they never emit a link — counting them as dead clicks was a false over-count.
+        if (row.hp !== true) continue;
         if (!fs.existsSync(path.join(DIR, row.s + '.json'))) {
           cbDeadCount++;
           if (cbDeadSample.length < 10) cbDeadSample.push({ slug: row.s, name: row.n, hp: row.hp === true, source: path.basename(cbp) });

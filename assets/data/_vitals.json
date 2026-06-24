@@ -1,22 +1,22 @@
 {
   "schemaVersion": "vitals/2.0",
-  "generatedAt": "2026-06-24T20:26:58.103Z",
+  "generatedAt": "2026-06-24T21:18:11.948Z",
   "overall": {
-    "score": 92,
+    "score": 94,
     "status": "HEALTHY",
-    "summary": "12 organs · 18 attention items · feeds 77 · l1Nodes 98 · domains 100 · portalCorpus 87 · deadLinks 68 · kernel 81 · connectome 100 · civilization 100 · masterBrain 95 · propagator 99 · patternBus 100 · bridge 99"
+    "summary": "12 organs · 16 attention items · feeds 77 · l1Nodes 98 · domains 100 · portalCorpus 89 · deadLinks 85 · kernel 82 · connectome 100 · civilization 100 · masterBrain 95 · propagator 98 · patternBus 100 · bridge 99"
   },
   "scores": {
     "feeds": 77,
     "l1Nodes": 98,
     "domains": 100,
-    "portalCorpus": 87,
-    "deadLinks": 68,
-    "kernel": 81,
+    "portalCorpus": 89,
+    "deadLinks": 85,
+    "kernel": 82,
     "connectome": 100,
     "civilization": 100,
     "masterBrain": 95,
-    "propagator": 99,
+    "propagator": 98,
     "patternBus": 100,
     "bridge": 99
   },
@@ -268,12 +268,12 @@
       "id": "portalCorpus",
       "role": "semantic memory (767 portals)",
       "order": 40,
-      "score": 87,
+      "score": 89,
       "status": "DEGRADED",
-      "summary": "800 portals · DATA_NEEDED 0 · brain-tagged 100% · kernel 100/100 · prose 98/100 · curated 100% · eligible 39%",
+      "summary": "796 portals · DATA_NEEDED 0 · brain-tagged 100% · kernel 100/100 · prose 98/100 · curated 100% · eligible 39%",
       "metrics": {
         "corpus": {
-          "totalPortals": 800,
+          "totalPortals": 796,
           "curatedBoard": {
             "totalRows": 506,
             "withSlug": 506,
@@ -283,10 +283,10 @@
             "brokenList": []
           },
           "eligibleBoard": {
-            "totalRows": 302,
-            "withSlug": 290,
-            "resolving": 112,
-            "broken": 178,
+            "totalRows": 301,
+            "withSlug": 289,
+            "resolving": 113,
+            "broken": 176,
             "hpTrue": 114,
             "brokenList": [
               {
@@ -385,11 +385,6 @@
                 "cik": "0001819411"
               },
               {
-                "name": "Harmony Biosciences Holdings, Inc.",
-                "s": "hrmy",
-                "cik": "0001802665"
-              },
-              {
                 "name": "INTEGRATED BIOPHARMA INC",
                 "s": "inbp",
                 "cik": "0001016504"
@@ -413,6 +408,11 @@
                 "name": "NRX Pharmaceuticals, Inc.",
                 "s": "nrxpw",
                 "cik": "0001719406"
+              },
+              {
+                "name": "NextCure, Inc.",
+                "s": "nxtc",
+                "cik": "0001661059"
               }
             ]
           }
@@ -423,8 +423,8 @@
           "portalsAffected": 0
         },
         "brainFidelity": {
-          "totalEntries": 31338,
-          "taggedEntries": 31239,
+          "totalEntries": 31298,
+          "taggedEntries": 31199,
           "fullyTaggedRate": 0.997,
           "underTagged": [
             {
@@ -437,13 +437,6 @@
         },
         "dupRisk": {
           "byName": [
-            {
-              "key": "charlesriverlaboratoriesinternational",
-              "slugs": [
-                "charles_river",
-                "charles_river_laboratories"
-              ]
-            },
             {
               "key": "roche",
               "slugs": [
@@ -462,29 +455,13 @@
               ]
             }
           ],
-          "nameCount": 2,
+          "nameCount": 1,
           "baseCount": 0,
           "cikCount": 1
         },
         "thinPortals": {
-          "below20Count": 3,
-          "list": [
-            {
-              "slug": "insight_timer",
-              "name": "Insight Timer",
-              "fn": 0
-            },
-            {
-              "slug": "sounds_true",
-              "name": "Sounds True",
-              "fn": 0
-            },
-            {
-              "slug": "tyndale_house",
-              "name": "Tyndale House",
-              "fn": 0
-            }
-          ]
+          "below20Count": 0,
+          "list": []
         },
         "domainRouting": {
           "mismatchCount": 5,
@@ -523,11 +500,11 @@
         },
         "categoryBleed": {
           "pureMisslot": 0,
-          "coopetition": 531,
+          "coopetition": 525,
           "examples": []
         },
         "kernelIntegrity": {
-          "totalEligible": 714,
+          "totalEligible": 713,
           "nullCompositeCount": 1,
           "nullCompositeRate": 0.001,
           "nanCompositeCount": 0,
@@ -541,7 +518,7 @@
         },
         "prose": {
           "badEntries": 515,
-          "totalEntries": 31338,
+          "totalEntries": 31298,
           "badEntryRate": 0.016,
           "byIssue": {
             "trailing-ellipsis": 498,
@@ -657,37 +634,30 @@
       "scores": {
         "placeholderBleed": 100,
         "brainFidelity": 100,
-        "dupRisk": 90,
+        "dupRisk": 95,
         "curatedWiring": 100,
         "eligibleWiring": 39,
-        "thinPortals": 85,
+        "thinPortals": 100,
         "domainRouting": 50,
         "categoryBleed": 100,
         "cikIntegrity": 100,
         "kernelIntegrity": 100,
         "proseQuality": 98,
-        "overall": 87
+        "overall": 89
       },
       "attention": [
         {
           "issue": "Name-fingerprint dup clusters",
-          "count": 2,
+          "count": 1,
           "severity": "high",
           "action": "review scripts/_dedup-analysis.mjs output and choose canonicals",
           "organ": "portalCorpus"
         },
         {
           "issue": "Eligible CB rows with broken portal links",
-          "count": 178,
+          "count": 176,
           "severity": "med",
           "action": "run scripts/wire-eligible-slugs.mjs",
-          "organ": "portalCorpus"
-        },
-        {
-          "issue": "Thin portals (<20 fn entries)",
-          "count": 3,
-          "severity": "med",
-          "action": "review for regeneration or deletion",
           "organ": "portalCorpus"
         },
         {
@@ -724,9 +694,9 @@
       "id": "deadLinks",
       "role": "surface link integrity (no dead-portal navigation)",
       "order": 45,
-      "score": 68,
-      "status": "IN_PAIN",
-      "summary": "37 unguarded surfaces · 52 total emitters · 177 CB rows point at missing portals (fallback page now handles)",
+      "score": 85,
+      "status": "DEGRADED",
+      "summary": "37 unguarded surfaces · 52 total emitters · 0 CB rows point at missing portals (fallback page now handles)",
       "metrics": {
         "unguardedSurfaces": [
           {
@@ -862,72 +832,11 @@
           }
         ],
         "totalEmitters": 52,
-        "cbDeadCount": 177,
-        "cbDeadSample": [
-          {
-            "slug": "paychex_inc",
-            "name": "Paychex",
-            "hp": false,
-            "source": "command-board-data.json"
-          },
-          {
-            "slug": "groove_botanicals_inc",
-            "name": "GROOVE BOTANICALS INC.",
-            "hp": false,
-            "source": "command-board-eligible.json"
-          },
-          {
-            "slug": "mnr",
-            "name": "MACH NATURAL RESOURCES LP",
-            "hp": false,
-            "source": "command-board-eligible.json"
-          },
-          {
-            "slug": "soc",
-            "name": "Sable Offshore Corp.",
-            "hp": false,
-            "source": "command-board-eligible.json"
-          },
-          {
-            "slug": "abeo",
-            "name": "ABEONA THERAPEUTICS INC.",
-            "hp": false,
-            "source": "command-board-eligible.json"
-          },
-          {
-            "slug": "aytu",
-            "name": "AYTU BIOPHARMA, INC",
-            "hp": false,
-            "source": "command-board-eligible.json"
-          },
-          {
-            "slug": "tcrt",
-            "name": "Alaunos Therapeutics, Inc.",
-            "hp": false,
-            "source": "command-board-eligible.json"
-          },
-          {
-            "slug": "aldx",
-            "name": "Aldeyra Therapeutics, Inc.",
-            "hp": false,
-            "source": "command-board-eligible.json"
-          },
-          {
-            "slug": "apvo",
-            "name": "Aptevo Therapeutics Inc.",
-            "hp": false,
-            "source": "command-board-eligible.json"
-          },
-          {
-            "slug": "arct",
-            "name": "Arcturus Therapeutics Holdings Inc.",
-            "hp": false,
-            "source": "command-board-eligible.json"
-          }
-        ],
+        "cbDeadCount": 0,
+        "cbDeadSample": [],
         "scoreParts": {
           "surface": 70,
-          "realized": 65
+          "realized": 100
         }
       },
       "attention": [
@@ -937,13 +846,6 @@
           "count": 37,
           "action": "MITIGATED by company-portal-ui.js graceful fallback (lands on absent-portal page, not a 404). For best UX, thread `hp` to these emit points and gate the link. Worst: agriculture-opportunities.html, assets/js/agriculture-clarity-operator.js, assets/js/communication-clarity-operator.js, assets/js/company-resolver.js, assets/js/culture-clarity-operator.js",
           "organ": "deadLinks"
-        },
-        {
-          "issue": "CB rows pointing to a portal slug with NO file on disk (dead clicks waiting)",
-          "severity": "med",
-          "count": 177,
-          "action": "either build the missing portals (paused queue) or accept the absence — company-portal-ui.js now handles gracefully",
-          "organ": "deadLinks"
         }
       ]
     },
@@ -951,26 +853,26 @@
       "id": "kernel",
       "role": "kernel coverage (K1 financial validated · K2 polyvagal + K3 relational — reserved)",
       "order": 50,
-      "score": 81,
+      "score": 82,
       "status": "DEGRADED",
-      "summary": "K1 651/800 (81%) · K2 0/800 (0%) · K3 0/800 (reserved) · any-kernel 651/800 (81%)",
+      "summary": "K1 650/796 (82%) · K2 0/796 (0%) · K3 0/796 (reserved) · any-kernel 650/796 (82%)",
       "metrics": {
-        "total": 800,
+        "total": 796,
         "coverage": {
-          "k1": 0.814,
+          "k1": 0.817,
           "k2": 0,
           "k3": 0,
-          "anyKernel": 0.814
+          "anyKernel": 0.817
         },
         "counts": {
-          "k1": 651,
+          "k1": 650,
           "k2": 0,
           "k3": 0,
-          "anyKernel": 651,
-          "blind": 149
+          "anyKernel": 650,
+          "blind": 146
         },
         "slotScores": {
-          "k1": 81,
+          "k1": 82,
           "k2": 0,
           "k3": 0
         },
@@ -1241,14 +1143,14 @@
         {
           "issue": "K2 (Thing 2 polyvagal) reserved — not populated",
           "severity": "low",
-          "count": 800,
+          "count": 796,
           "action": "EXPECTED: Thing 2 is the interpretive, unvalidated layer (not a public default). Building it out is optional — repoint persist-k2-readings.mjs + emit the Thing 2 section.",
           "organ": "kernel"
         },
         {
           "issue": "Portals with NO kernel reading (K1/K2/K3 all empty) — K3 frontier",
           "severity": "med",
-          "count": 149,
+          "count": 146,
           "action": "these are where K3 needs to land. For now: ensure K2 fires post-relaxation. K3 design pending.",
           "organ": "kernel"
         },
@@ -1333,7 +1235,7 @@
       "order": 80,
       "score": 95,
       "status": "HEALTHY",
-      "summary": "6/6 engine lanes · 8/9 markers · inbox 1861/2504 ready (544.6h old)",
+      "summary": "6/6 engine lanes · 8/9 markers · inbox 1861/2504 ready (545.5h old)",
       "metrics": {
         "present": {
           "masterBrain": true,
@@ -1377,7 +1279,7 @@
             "research": 626
           }
         },
-        "inboxAgeHours": 544.6121177777778,
+        "inboxAgeHours": 545.465925,
         "scoreParts": {
           "lanes": 100,
           "structural": 89
@@ -1397,15 +1299,15 @@
       "id": "propagator",
       "role": "spider-web stress propagator",
       "order": 90,
-      "score": 99,
+      "score": 98,
       "status": "HEALTHY",
-      "summary": "799 nodes · 13037 edges · 354 damped · 11 pathC · 0 alert · snapshot 0.4h old",
+      "summary": "799 nodes · 13037 edges · 354 damped · 11 pathC · 0 alert · snapshot 1.3h old",
       "metrics": {
         "present": {
           "propagator": true,
           "snapshot": true
         },
-        "ageHours": 0.42936370239257815,
+        "ageHours": 1.2831709246148004,
         "nodeCount": 799,
         "edgeCount": 13037,
         "dampedCount": 354,
@@ -1414,7 +1316,7 @@
         "networkPushedCount": 567,
         "scoreParts": {
           "presence": 100,
-          "fresh": 98,
+          "fresh": 94,
           "size": 100
         }
       },
@@ -1470,14 +1372,14 @@
       "order": 110,
       "score": 99,
       "status": "HEALTHY",
-      "summary": "33 patterns · 778/800 portals bridged (97%) · 1006 bridges · 2504 engine artifacts on 461 portals · verbiage ✓",
+      "summary": "33 patterns · 777/796 portals bridged (98%) · 1003 bridges · 2504 engine artifacts on 461 portals · verbiage ✓",
       "metrics": {
         "patternCount": 33,
-        "coverage": 0.973,
-        "portalsWithBridges": 778,
-        "portalsBlindToBridge": 22,
-        "totalBridges": 1006,
-        "totalDerivedAngles": 4024,
+        "coverage": 0.976,
+        "portalsWithBridges": 777,
+        "portalsBlindToBridge": 19,
+        "totalBridges": 1003,
+        "totalDerivedAngles": 4012,
         "averageBridgesPerPortal": 1.26,
         "byPattern": {
           "OFC_value_x_capital_allocation_pathology": 157,
@@ -1486,21 +1388,21 @@
           "HPA_chronic_stress_x_covenant_distress_chronification": 28,
           "dlPFC_executive_function_x_strategic_planning_collapse": 38,
           "NAc_reward_dysregulation_x_revenue_chase": 26,
-          "AI_interoception_x_board_self_awareness_deficit": 65,
+          "AI_interoception_x_board_self_awareness_deficit": 64,
           "SPN_striatal_interneuron_phasic_gating_x_payment_network_interchange_fee_passthrough_rigidity": 182,
           "AMY_threat_overdetection_x_defensive_hedging_excess": 20,
           "STN_inhibition_x_regulatory_hold_response": 52,
           "BG_tonic_inhibition_x_monopsony_supplier_throttle": 74,
           "LC_arousal_dysregulation_x_analyst_attention_concentration": 34,
-          "HAB_anti_reward_x_contrarian_board_lock": 124,
+          "HAB_anti_reward_x_contrarian_board_lock": 123,
           "DMN_self_reference_x_strategic_drift": 5,
           "dACC_conflict_monitoring_failure_x_audit_committee_dysfunction": 3,
-          "VMPFC_value_misalignment_x_executive_comp_pathology": 29,
+          "VMPFC_value_misalignment_x_executive_comp_pathology": 28,
           "HIPP_memory_consolidation_failure_x_institutional_knowledge_loss": 4,
           "VTA_dopaminergic_projection_x_capital_attractor_instability": 19
         },
         "byMappingType": {
-          "isomorphic_pathology": 689,
+          "isomorphic_pathology": 686,
           "analogous_mechanism": 317
         },
         "patternDominance": [],
@@ -1562,10 +1464,6 @@
             "name": "Imperial Oil Limited"
           },
           {
-            "slug": "insight_timer",
-            "name": "Insight Timer"
-          },
-          {
             "slug": "lg_energy_solution",
             "name": "LG Energy Solution Ltd."
           },
@@ -1580,14 +1478,6 @@
           {
             "slug": "salesforce",
             "name": "Salesforce, Inc."
-          },
-          {
-            "slug": "sounds_true",
-            "name": "Sounds True"
-          },
-          {
-            "slug": "tyndale_house",
-            "name": "Tyndale House"
           },
           {
             "slug": "wtrg",
@@ -1618,7 +1508,7 @@
           "schemaVersion": "verbiage/1.0"
         },
         "scoreParts": {
-          "coverage": 97,
+          "coverage": 98,
           "library": 100
         }
       },
@@ -1626,7 +1516,7 @@
         {
           "issue": "Bridge readings stale (>24h)",
           "severity": "low",
-          "count": 245,
+          "count": 246,
           "action": "run scripts/build-bridge-readings.mjs --apply",
           "organ": "bridge"
         }
@@ -1643,22 +1533,15 @@
     },
     {
       "issue": "Eligible CB rows with broken portal links",
-      "count": 178,
+      "count": 176,
       "severity": "med",
       "action": "run scripts/wire-eligible-slugs.mjs",
       "organ": "portalCorpus"
     },
     {
-      "issue": "CB rows pointing to a portal slug with NO file on disk (dead clicks waiting)",
-      "severity": "med",
-      "count": 177,
-      "action": "either build the missing portals (paused queue) or accept the absence — company-portal-ui.js now handles gracefully",
-      "organ": "deadLinks"
-    },
-    {
       "issue": "Portals with NO kernel reading (K1/K2/K3 all empty) — K3 frontier",
       "severity": "med",
-      "count": 149,
+      "count": 146,
       "action": "these are where K3 needs to land. For now: ensure K2 fires post-relaxation. K3 design pending.",
       "organ": "kernel"
     },
@@ -1677,13 +1560,6 @@
       "organ": "portalCorpus"
     },
     {
-      "issue": "Thin portals (<20 fn entries)",
-      "count": 3,
-      "severity": "med",
-      "action": "review for regeneration or deletion",
-      "organ": "portalCorpus"
-    },
-    {
       "issue": "Propagator output has NO downstream consumers (per [[limen_full_system_audit_2026_05_25]])",
       "severity": "med",
       "count": 1,
@@ -1693,7 +1569,7 @@
     {
       "issue": "K2 (Thing 2 polyvagal) reserved — not populated",
       "severity": "low",
-      "count": 800,
+      "count": 796,
       "action": "EXPECTED: Thing 2 is the interpretive, unvalidated layer (not a public default). Building it out is optional — repoint persist-k2-readings.mjs + emit the Thing 2 section.",
       "organ": "kernel"
     },
@@ -1707,7 +1583,7 @@
     {
       "issue": "Bridge readings stale (>24h)",
       "severity": "low",
-      "count": 245,
+      "count": 246,
       "action": "run scripts/build-bridge-readings.mjs --apply",
       "organ": "bridge"
     },
@@ -1733,18 +1609,18 @@
       "organ": "portalCorpus"
     },
     {
-      "issue": "Name-fingerprint dup clusters",
-      "count": 2,
-      "severity": "high",
-      "action": "review scripts/_dedup-analysis.mjs output and choose canonicals",
-      "organ": "portalCorpus"
-    },
-    {
       "issue": "Canonical domains with NO L1 node binding",
       "severity": "high",
       "count": 1,
       "action": "add bindings for: agriculture",
       "organ": "l1Nodes"
+    },
+    {
+      "issue": "Name-fingerprint dup clusters",
+      "count": 1,
+      "severity": "high",
+      "action": "review scripts/_dedup-analysis.mjs output and choose canonicals",
+      "organ": "portalCorpus"
     },
     {
       "issue": "Null kernel composite on ELIGIBLE-marked portals",
