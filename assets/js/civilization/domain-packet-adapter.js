@@ -483,6 +483,39 @@
     // culture/finance/economy/supplyChain win when both are present (a slot is
     // single-domain, so they never collide in practice).
     var _bum = _emO(slot && slot.brainIndustryModel);
+    // Environment parity: environment brains emit a recurrent ENVIRONMENTAL-HEALTH
+    // model (brainEnvironmentModel) that follows the SAME envelope signature as
+    // energy's energyModel, infrastructure's infrastructureModel, culture's
+    // cultureModel, finance's financeModel, economy's economyModel, trade's
+    // supplyChainModel, and industry's industryModel, so Civilization + the Main
+    // Brain consume it identically. The environment model tracks the CLIMATE &
+    // ECOSYSTEM lifecycle (climate-cycle phase — warming / stabilization /
+    // extremes — and atmospheric CO2 / methane trajectory as climateCycle;
+    // regulatory-constraint tightening — emissions caps, discharge permits,
+    // remediation mandates — as the regulation signal, climateRegulationState;
+    // pollution-stock accumulation + remediation lag, species-loss trajectory,
+    // and ecosystem-service degradation stress, with ecological-collapse risk —
+    // predictedClimateStress via ecosystemCollapseRisk; the prior on environmental
+    // / ecosystem health — priorEnvironmentalHealth) rather than neurological
+    // cycles, civil-asset lifecycles, attention economies, single-firm capital
+    // lifecycles, macroeconomic business cycles, goods-in-motion logistics, or
+    // factory-output production. Environment is the CLIMATE / POLLUTION /
+    // ECOSYSTEMS / NATURAL-RESOURCES layer and stays DISTINCT from energy (energy
+    // = oil / gas / grid / power generation; environment COUPLES to energy via
+    // emissions & carbon markets but is not energy) and from agriculture (land /
+    // water use is a COUPLING into environment, not environment's own substrate).
+    // Environment's cross-domain couplings (energy emissions, infrastructure
+    // climate-resilience, governance regulation, technology pollution-control,
+    // agriculture land/water) all presume climate & ecosystem visibility that only
+    // a recurrent model provides. Real signal validation anchors on REAL
+    // environmental-sector tickers — WM, RSG, WCN, CWST (waste management), AWK,
+    // WTRG, XYL (water utilities / treatment), ECL, LIN, APD, DAR, AY (pollution
+    // control / remediation / environmental services) — never energy oil/gas/grid
+    // tickers, which are another domain's content. We map its environmental field
+    // names onto the shared deepBrain envelope. Energy/infrastructure/culture/
+    // finance/economy/supplyChain/industry win when both are present (a slot is
+    // single-domain, so they never collide in practice).
+    var _ben = _emO(slot && slot.brainEnvironmentModel);
     var deepBrain = _bem ? {
       cycle:           _num(_bem.cycle),
       predictionError: _emO(_bem.predictionError),
@@ -850,6 +883,83 @@
       maintenanceDowntimeAccum:  _num(_bum.maintenanceDowntimeAccum),
       orderBacklogTrend:         _num(_bum.orderBacklogTrend),
       domainDiagnosisPacket: _emO(_bum.domainIndustryPacket) || _emO(_bum.domainDiagnosisPacket)
+    } : _ben ? {
+      // Environmental-health lifecycle mapped onto the shared recurrent envelope.
+      // climateCycle → cycle, climateRegulationState → regulation,
+      // ecosystemCollapseRisk / predictedClimateStress → predictedStress,
+      // priorEnvironmentalHealth → prior, domainEnvironmentPacket → domainDiagnosisPacket.
+      cycle:           _num(_ben.climateCycle != null ? _ben.climateCycle : _ben.cycle),
+      predictionError: _emO(_ben.predictionError),
+      // climateRegulationState is the environment regulation signal: the tightening
+      // (or loosening) of environmental constraint — emissions caps, discharge
+      // permits, remediation mandates, conservation rules — and how it is steering
+      // pollution and ecosystem outcomes (analogous to energy's regulationState,
+      // infrastructure's capital-funding regulation, culture's expression state,
+      // finance's funding-source quality, economy's fiscal-monetary regulation,
+      // trade's freight-cost regulation, and industry's capacity-utilization
+      // regulation). Permissive / balanced / restrictive regulatory regime.
+      regulationState: (_ben.climateRegulationState && _ben.climateRegulationState.state)
+                       || _str(_ben.climateRegulationState)
+                       || (_ben.regulatoryConstraintState && _ben.regulatoryConstraintState.state)
+                       || _str(_ben.regulatoryConstraintState)
+                       || (_ben.regulation && _ben.regulation.state)
+                       || null,
+      regulation:      _emO(_ben.climateRegulationState) || _emO(_ben.regulatoryConstraintState) || _emO(_ben.regulation),
+      readyForHandoff: _ben.readyForHandoff === true,
+      // ecosystemCollapseRisk is the environment predicted-stress signal (likelihood
+      // of an ecological / environmental-health collapse — pollution-stock overshoot,
+      // species-loss tipping point, ecosystem-service degradation, climate-extreme
+      // shock), carried through unchanged in [0..1]. predictedClimateStress is the
+      // broader climate-stress analogue; either may stand in for predictedStress,
+      // ecosystemCollapseRisk wins as the more acute near-term signal.
+      predictedStress: _num(
+        _ben.ecosystemCollapseRisk != null ? _ben.ecosystemCollapseRisk
+        : (_ben.predictedClimateStress != null ? _ben.predictedClimateStress
+        : (_ben.environmentalStress != null ? _ben.environmentalStress
+        : _ben.predictedStress))
+      ),
+      // priorEnvironmentalHealth carries the prior on ecosystem / environmental
+      // health (the environmental-health trajectory), mirroring energy's prior,
+      // infrastructure's priorAssetHealth, culture's creativeCapacity, finance's
+      // priorCapitalHealth, economy's priorGrowthTrend, trade's priorThroughputHealth,
+      // and industry's priorCapacityHealth. When reported as a health value
+      // ([0..1] high = clean air/water/soil, intact biodiversity, low emissions),
+      // invert into a stress (degradation) expectation; an explicit expectedStress
+      // wins.
+      prior:           (_ben.priorEnvironmentalHealth || _ben.prior)
+                       ? (function (p) {
+                           return {
+                             // expectedStress mirrors energy: here the prior
+                             // expected environmental-degradation / ecosystem-collapse distress level.
+                             expectedStress: _num(
+                               p.expectedStress != null ? p.expectedStress
+                               : (p.expectedDegradation != null ? p.expectedDegradation
+                               : (typeof p.environmentalHealth === 'number' ? (1 - _clamp01(p.environmentalHealth))
+                               : (typeof p.ecosystemHealth === 'number' ? (1 - _clamp01(p.ecosystemHealth))
+                               : (typeof p === 'number' ? (1 - _clamp01(p)) : null))))
+                             ),
+                             confidence:     _num(p.confidence),
+                             samples:        _num(p.samples)
+                           };
+                         })(_ben.priorEnvironmentalHealth || _ben.prior)
+                       : null,
+      // Environmental telemetry preserved alongside the shared envelope so
+      // downstream artifact expansion can feed environment / climate-adaptation
+      // decisions (atmospheric CO2 / methane trajectory, air/water/soil pollution
+      // stock vs remediation lag, biodiversity / species-loss trajectory,
+      // ecosystem-service degradation, carbon-market price, regulatory-constraint
+      // tightening). Sourced from REAL environmental-sector tickers: WM, RSG, WCN,
+      // CWST, AWK, WTRG, XYL, ECL, LIN, APD, DAR, AY. These are CLIMATE / POLLUTION
+      // / ECOSYSTEMS signals — distinct from energy's oil/gas/grid (a coupling via
+      // emissions & carbon) and agriculture's land/water use (a coupling).
+      atmosphericCarbonTrend:     _num(_ben.atmosphericCarbonTrend),
+      pollutionStockTrend:        _num(_ben.pollutionStockTrend),
+      remediationLagTrend:        _num(_ben.remediationLagTrend),
+      biodiversityTrend:          _num(_ben.biodiversityTrend),
+      ecosystemServiceTrend:      _num(_ben.ecosystemServiceTrend),
+      carbonMarketTrend:          _num(_ben.carbonMarketTrend),
+      regulatoryTighteningTrend:  _num(_ben.regulatoryTighteningTrend),
+      domainDiagnosisPacket: _emO(_ben.domainEnvironmentPacket) || _emO(_ben.domainDiagnosisPacket)
     } : null;
 
     // Feed health. Configured count is the MAX of every honest declaration

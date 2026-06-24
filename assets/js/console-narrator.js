@@ -289,6 +289,24 @@
       industry_input_cost_shock:               'Input cost shock propagating. Raw-material and energy prices compressing manufacturing margins.',
       industry_equipment_failure_cascade:      'Equipment failure cascade forming. Machinery breakdowns and maintenance backlog driving unplanned downtime.',
       industry_generic:                        'Industrial domain under stress. Manufacturing, capacity, and equipment pressured.',
+      // Environment-specific distress voice — climate/pollution/ecosystem-grounded,
+      // mirrors energy's per-diagnosis narration (energy-brain diagnosisIndex: OIL_SHOCK /
+      // GRID_COLLAPSE) and the infrastructure/culture/finance/economy/technology/defense/
+      // intelligence/trade/industry ports above, but for the ENVIRONMENT domain identity:
+      // climate & emissions, air/water/soil pollution & quality, ecosystems & biodiversity,
+      // natural resources & conservation, environmental regulation & compliance, climate risk &
+      // adaptation, waste management & remediation, carbon markets. Environment COUPLES to energy
+      // via emissions/carbon and to agriculture via land/water use, but keeps its own climate/
+      // pollution/ecosystem identity — kept DISTINCT from energy (oil/gas/grid/power-generation)
+      // and agriculture (land/water use = coupling). Real environmental-sector tickers: WM, RSG,
+      // WCN, CWST, AWK, WTRG, XYL, ECL, LIN, APD, DAR, AY.
+      env_emissions_spike:       'Emissions trajectory accelerating. Carbon and greenhouse-gas output outpacing decarbonization and carbon-market signals.',
+      env_biodiversity_collapse: 'Ecosystem integrity failing. Biodiversity loss and habitat destruction crossing irreversible thresholds.',
+      env_water_stress:          'Water systems under stress. Scarcity, drought, and contamination degrading supply and quality.',
+      env_regulatory_tightening: 'Environmental regulation tightening. Emission limits, permits, and compliance enforcement intensifying.',
+      env_remediation_backlog:   'Remediation backlog accumulating. Contaminated sites and waste streams outrunning cleanup capacity.',
+      env_pollution_event:       'Pollution load rising. Air, water, and soil quality degrading as contaminant exposure climbs.',
+      env_generic:               'Environmental domain under stress. Climate, ecosystems, and pollution pressured.',
       global_shift:        'Global state shifted to {state}.',
       event_start:         '{event} detected.',
       event_end:           '{event} resolved.',
@@ -372,6 +390,13 @@
       industry_input_cost_shock:               'Input cost shock. Hedge raw materials and reprice contracts to defend margin.',
       industry_equipment_failure_cascade:      'Equipment failing. Trigger predictive maintenance and pre-stage critical spares.',
       industry_generic:                        'Industrial domain elevated. Investigate manufacturing and capacity.',
+      env_emissions_spike:       'Emissions surging. Cut carbon intensity and secure offsets or carbon-market allowances.',
+      env_biodiversity_collapse: 'Ecosystem collapsing. Halt habitat loss and protect remaining biodiversity now.',
+      env_water_stress:          'Water stress critical. Secure supply, treat contamination, and ration demand.',
+      env_regulatory_tightening: 'Regulation tightening. Close compliance gaps and prepare for stricter emission limits.',
+      env_remediation_backlog:   'Remediation backlog critical. Prioritize cleanup and expand waste-processing capacity.',
+      env_pollution_event:       'Pollution event. Contain the source and mitigate air, water, and soil exposure.',
+      env_generic:               'Environmental domain elevated. Investigate climate and ecosystems.',
       global_shift:        'State change: {state}.',
       event_start:         'Event: {event}. Tracking.',
       event_end:           'Event cleared: {event}.',
@@ -610,6 +635,24 @@
       var indkey = _classifyIndustryDistress(detail.signals);
       if (indkey) {
         _narrate(indkey, {}, PRIORITY_MEDIUM);
+        return;
+      }
+    }
+
+    // Environment parity: mirror energy's per-diagnosis voice the same way infrastructure, culture,
+    // finance, economy, technology, defense, intelligence, trade, and industry do. Environment is the
+    // CLIMATE/POLLUTION/ECOSYSTEMS identity — classify the environmental distress flavor from signal
+    // content (emissions/carbon spike / biodiversity & ecosystem collapse / water scarcity & quality /
+    // environmental regulatory tightening / waste & remediation backlog) and narrate an environment-
+    // specific line instead of the generic. Environment COUPLES to energy via emissions/carbon and to
+    // agriculture via land/water use, but keeps its own climate/pollution/ecosystem identity — kept
+    // DISTINCT from energy (oil/gas/grid/power-generation) and agriculture (land/water use = coupling).
+    // Real environmental-sector tickers: WM, RSG, WCN, CWST, AWK, WTRG, XYL, ECL, LIN, APD, DAR, AY.
+    // CLIENT-SIDE narration flavor only — never touches any scoring path.
+    if (detail.domain === 'environment') {
+      var envkey = _classifyEnvironmentDistress(detail.signals);
+      if (envkey) {
+        _narrate(envkey, {}, PRIORITY_MEDIUM);
         return;
       }
     }
@@ -933,6 +976,45 @@
     if (/labor[\s_-]?(shortage|deterioration)|skilled[\s_-]?(trade|labor)|workforce[\s_-]?(attrition|shortage)|hiring[\s_-]?(gap|freeze)|strike|walkout|union[\s_-]?action|worker[\s_-]?shortage|trade[\s_-]?skills/.test(blob)) return 'industry_labor_market_deterioration';
     if (/industrial[\s_-]?recession|pmi\b|ism\b|new[\s_-]?orders|capital[\s_-]?goods|heavy[\s_-]?industry|order[\s_-]?backlog[\s_-]?(decline|drop)|manufacturing[\s_-]?(contraction|slowdown)|durable[\s_-]?goods|itw\b|mmm\b|ph\b/.test(blob)) return 'industry_industrial_recession';
     return 'industry_generic';
+  }
+
+  // Map raw environment signal content → an environmental distress voice key.
+  // Environment vocabulary covers the ENVIRONMENT domain identity: climate & emissions (carbon,
+  // GHG, warming), air/water/soil pollution & quality, ecosystems & biodiversity, natural resources
+  // & conservation, environmental regulation & compliance, climate risk & adaptation, waste
+  // management & remediation, carbon markets. Recognizes real environmental-sector tickers (WM, RSG,
+  // WCN, CWST — waste; AWK, WTRG, XYL — water; ECL — water/hygiene treatment; LIN, APD — industrial/
+  // carbon-capture gas; DAR — rendering/renewables; AY — clean infrastructure). Environment COUPLES
+  // to energy via emissions/carbon and to agriculture via land/water use, but keeps its own climate/
+  // pollution/ecosystem identity and stays DISTINCT from energy (oil/gas/grid/power-generation = the
+  // coupling, not the identity) and agriculture (land/water use = coupling). Mirrors the energy/infra/
+  // culture/finance/economy/technology/defense/intelligence/trade/industry classifier structure
+  // exactly. Returns a TEMPLATES key, or null. CLIENT-SIDE narration flavor only — never touches scoring.
+  function _classifyEnvironmentDistress(signals) {
+    var blob = '';
+    if (Array.isArray(signals)) {
+      for (var i = 0; i < signals.length; i++) {
+        var s = signals[i];
+        if (typeof s === 'string') blob += ' ' + s;
+        else if (s && typeof s === 'object') {
+          blob += ' ' + (s.type || '') + ' ' + (s.id || '') + ' ' + (s.label || '') + ' ' + (s.name || '');
+        }
+      }
+    }
+    blob = blob.toLowerCase();
+
+    // Order by specificity: biodiversity/ecosystem collapse and emissions/carbon spike are sharpest
+    // (irreversible loss + the climate driver), then water scarcity & quality, regulatory tightening,
+    // remediation & waste backlog; fall back to a generic environment line. Matches real environmental-
+    // sector tickers (wm/rsg/wcn/cwst/awk/wtrg/xyl/ecl/lin/apd/dar/ay) alongside plain words, with word
+    // boundaries on short tokens to avoid substring collisions.
+    if (/biodiversity|ecosystem[\s_-]?(collapse|loss|degrad)|species[\s_-]?(loss|extinct)|extinction|habitat[\s_-]?(loss|destruction)|deforestation|wetland[\s_-]?loss|coral[\s_-]?bleach|trophic|rewilding|conservation[\s_-]?failure/.test(blob)) return 'env_biodiversity_collapse';
+    if (/emission|carbon|co2|greenhouse|ghg\b|methane|warming|climate[\s_-]?(disaster|change|shock)|decarboniz|net[\s_-]?zero|carbon[\s_-]?(market|credit|price)|cap[\s_-]?and[\s_-]?trade|lin\b|apd\b|dar\b/.test(blob)) return 'env_emissions_spike';
+    if (/water[\s_-]?(scarcity|stress|shortage|quality|contaminat)|drought|aquifer|groundwater|potable|wastewater|pfas|effluent|watershed|reservoir[\s_-]?(depletion|low)|awk\b|wtrg\b|xyl\b|ecl\b/.test(blob)) return 'env_water_stress';
+    if (/regulat|epa\b|compliance|permit|emission[\s_-]?(standard|limit|cap)|environmental[\s_-]?(rule|law|enforcement)|clean[\s_-]?(air|water)[\s_-]?act|tightening|mandate|carbon[\s_-]?tax|esg[\s_-]?disclosure|fine|penalty/.test(blob)) return 'env_regulatory_tightening';
+    if (/remediation|cleanup|superfund|contamination|toxic[\s_-]?(site|waste)|hazardous[\s_-]?waste|landfill|spill|leachate|brownfield|waste[\s_-]?(backlog|management|crisis)|recycl|wm\b|rsg\b|wcn\b|cwst\b|ay\b/.test(blob)) return 'env_remediation_backlog';
+    if (/pollut|air[\s_-]?quality|smog|particulate|pm2\.?5|aerosol|soil[\s_-]?(contaminat|degrad)|ocean[\s_-]?(acidif|plastic)|microplastic|runoff/.test(blob)) return 'env_pollution_event';
+    return 'env_generic';
   }
 
   function _onGlobalStateUpdate(e) {

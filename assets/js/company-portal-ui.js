@@ -670,6 +670,108 @@
       rightHtml += '</div>';
     }
 
+    // ── ENVIRONMENT-SPECIFIC PORTAL SECTIONS ─────────────────────────────
+    // Climate / emissions / pollution / ecosystems parity with the energy
+    // domain's company-metadata sections, mirroring the infrastructure,
+    // finance, economy, technology, intelligence, and industry blocks above.
+    // STRICTLY ADDITIVE render-layer content keyed on co.domainId ===
+    // 'environment'; it never touches the validated P3 distress kernel
+    // scoring path consumed by /api/limen/score or /api/helix/helix-report/
+    // score — those run server-side off the kernel, not off these optional
+    // company-JSON display fields.
+    //
+    // Environment is CLIMATE & EMISSIONS (GHG intensity, Scope 1/2/3, carbon
+    // budget), AIR/WATER/SOIL POLLUTION & QUALITY, ECOSYSTEMS & BIODIVERSITY
+    // (habitat loss, species indices, conservation coverage), NATURAL
+    // RESOURCES & CONSERVATION, environmental REGULATION & COMPLIANCE (EPA /
+    // state / international permits, emissions caps), climate RISK & adaptation,
+    // WASTE MANAGEMENT & remediation, and CARBON MARKETS. It stays DISTINCT
+    // from energy (energy = oil/gas/grid/power-generation fuel content;
+    // environment couples to energy ONLY via emissions/carbon, its OWN
+    // identity is climate/pollution/ecosystems) and from agriculture (land /
+    // water use is a coupling, not the domain's identity). Real environmental-
+    // sector tickers: WM, RSG, WCN, CWST (waste & remediation), AWK, WTRG, XYL
+    // (water utilities & infrastructure), ECL, LIN, APD (treatment / industrial
+    // gases & carbon-capture inputs), DAR (renderable-waste / circular), AY
+    // (sustainable infrastructure).
+    //
+    // Energy's generation mix → emissions-source portfolio. Energy's
+    // maintenance/asset-age → pollution profile (air/water/soil quality &
+    // violation trends). Energy's NERC/FERC compliance → biodiversity &
+    // ecosystem status. Energy's capital funding → environmental regulatory
+    // compliance (EPA / state / international permits, emissions caps, breach
+    // risk). Each reads OPTIONAL company-JSON fields and degrades gracefully
+    // (cp-empty) when not yet populated.
+    if (co.domainId === 'environment') {
+      // Emissions Portfolio — GHG breakdown by source / scope (energy: generation mix)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Emissions Portfolio</div>';
+      var _ep = co.emissionsPortfolio;
+      if (_ep && (Array.isArray(_ep) ? _ep.length : Object.keys(_ep).length)) {
+        var _epEntries = Array.isArray(_ep)
+          ? _ep.map(function (e) { return [e.source || e.scope || e.type || e.label || '', e.share != null ? e.share : (e.intensity != null ? e.intensity : (e.value != null ? e.value : e.detail))]; })
+          : Object.keys(_ep).map(function (kk) { return [kk, _ep[kk]]; });
+        for (var ep = 0; ep < _epEntries.length; ep++) {
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_epEntries[ep][0]) + '</span><span class="cp-value">' + esc(String(_epEntries[ep][1])) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No emissions distribution recorded (GHG intensity tCO2e, Scope 1 / 2 / 3 breakdown, methane vs CO2 mix, carbon-budget headroom)</div>';
+      }
+      rightHtml += '</div>';
+
+      // Pollution Profile — air/water/soil quality metrics & violation trends (energy: maintenance/asset-age)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Pollution Profile</div>';
+      var _pol = co.pollutionProfile;
+      if (_pol && Object.keys(_pol).length > 0) {
+        var _polKeys = Object.keys(_pol);
+        for (var polk = 0; polk < _polKeys.length; polk++) {
+          var _polv = _pol[_polKeys[polk]];
+          var _polStr = (_polv && typeof _polv === 'object' && !Array.isArray(_polv))
+            ? Object.keys(_polv).map(function (sk) { return sk + ': ' + _polv[sk]; }).join('  ·  ')
+            : String(_polv);
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_polKeys[polk]) + '</span><span class="cp-value">' + esc(_polStr) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No pollution data (air-quality / criteria-pollutant levels, water-discharge quality, soil / hazardous-waste contamination, TRI release trend)</div>';
+      }
+      rightHtml += '</div>';
+
+      // Biodiversity & Ecosystem Status — habitat / species / conservation coverage (energy: NERC/FERC compliance)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Biodiversity &amp; Ecosystem Status</div>';
+      var _bio = co.biodiversityStatus;
+      if (_bio && (Array.isArray(_bio) ? _bio.length : Object.keys(_bio).length)) {
+        var _bioEntries = Array.isArray(_bio)
+          ? _bio.map(function (e) { return [e.metric || e.indicator || e.label || '', (e.value != null ? e.value : (e.index != null ? e.index : e.detail)) + (e.trend ? ' (' + e.trend + ')' : '')]; })
+          : Object.keys(_bio).map(function (kk) { return [kk, _bio[kk]]; });
+        for (var bio = 0; bio < _bioEntries.length; bio++) {
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_bioEntries[bio][0]) + '</span><span class="cp-value">' + esc(String(_bioEntries[bio][1])) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No biodiversity record (habitat-loss rate, species-abundance / IUCN index, conservation-priority-area coverage %, no-net-loss commitment & trend)</div>';
+      }
+      rightHtml += '</div>';
+
+      // Regulatory Compliance — EPA / state / international permits, emissions caps, breach risk (energy: capital funding)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Regulatory Compliance</div>';
+      var _erc = co.environmentalCompliance;
+      if (_erc && Object.keys(_erc).length > 0) {
+        var _ercKeys = Object.keys(_erc);
+        for (var erck = 0; erck < _ercKeys.length; erck++) {
+          var _ercv = _erc[_ercKeys[erck]];
+          var _ercStr = (_ercv && typeof _ercv === 'object' && !Array.isArray(_ercv))
+            ? Object.keys(_ercv).map(function (sk) { return sk + ': ' + _ercv[sk]; }).join('  ·  ')
+            : String(_ercv);
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_ercKeys[erck]) + '</span><span class="cp-value">' + esc(_ercStr) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No compliance profile (EPA / state / international environmental permits, Clean Air / Clean Water Act standing, emissions-cap headroom, consent decrees, breach-risk & penalty exposure)</div>';
+      }
+      rightHtml += '</div>';
+    }
+
     // Warning signals (placeholder for future)
     rightHtml += '<div class="cp-section">';
     rightHtml += '<div class="cp-section-title">Warning Signals</div>';

@@ -37,6 +37,8 @@
   var TRADE_STACK_COOLDOWN = 180000; // 3 min between trade-stack narrations
   var INDUSTRY_STACK_THRESHOLD = 2; // an industrial-production-vulnerability stack seen N times signals concentration
   var INDUSTRY_STACK_COOLDOWN = 180000; // 3 min between industry-stack narrations
+  var ENVIRONMENT_STACK_THRESHOLD = 2; // an environmental-vulnerability stack seen N times signals concentration
+  var ENVIRONMENT_STACK_COOLDOWN = 180000; // 3 min between environment-stack narrations
 
   // ─── Infrastructure vulnerability-stack semantics ─────────────────────────
   // CIVIL domain-semantic concentration. Generic (domain, action) frequency only
@@ -431,6 +433,68 @@
       body: 'Operator attention concentrates on the automation-failure + labor-shortage stack — robotics/line faults exposing a thin skilled-trade workforce with too few technicians to recover throughput.' }
   ];
 
+  // ─── Environment vulnerability-stack semantics ─────────────────────────────
+  // ENVIRONMENTAL domain-semantic concentration. As with infrastructure, culture,
+  // finance, economy, technology, intelligence, trade and industry, generic
+  // (domain, action) frequency only says WHERE the operator is looking; for the
+  // environment domain we also detect WHAT environmental-vulnerability STACK the
+  // attention concentrates on. Each stack is a co-occurring pair of environmental
+  // signal families (climate & GHG emissions/air-water-soil pollution events/
+  // ecosystems & biodiversity loss/natural resources & water scarcity/environmental
+  // regulation & compliance tightening/climate disasters & physical climate risk/
+  // waste management & remediation backlog). The environment identity is CLIMATE &
+  // EMISSIONS, POLLUTION & ENVIRONMENTAL QUALITY, ECOSYSTEMS & BIODIVERSITY, NATURAL
+  // RESOURCES & CONSERVATION, ENVIRONMENTAL REGULATION & COMPLIANCE, CLIMATE RISK &
+  // ADAPTATION, WASTE MANAGEMENT & REMEDIATION, and CARBON MARKETS — bound to real
+  // environmental-sector equities (WM, RSG, WCN, CWST waste & remediation; AWK, WTRG,
+  // XYL water utilities & infrastructure; ECL, LIN, APD environmental services &
+  // industrial gases; DAR rendering/recycling; AY renewable infrastructure). The
+  // environment COUPLES to energy via carbon footprint and emissions, but its OWN
+  // content is never energy oil/gas/grid/power-generation; it is also kept DISTINCT
+  // from agriculture (land/water use is a coupling, not the identity). Mirrors the
+  // energy anchor where crude_above_90 + grid_stress pair into a feedback loop —
+  // environment pairs emissions + regulatory constraint into a STRUCTURAL squeeze
+  // (carbon-compliance), not noise dampened away.
+  // Mirrors the environment-brain cross-domain conditions:
+  //   EMISSIONS_SPIKE + REGULATORY_TIGHTENING   → carbon-compliance squeeze
+  //   BIODIVERSITY_LOSS + WATER_SCARCITY        → ecosystem-water-stress feedback
+  //   POLLUTION_EVENT + REMEDIATION_BACKLOG     → contamination-liability overhang
+  //   CLIMATE_DISASTER + WATER_SCARCITY         → climate-adaptation stress
+  //   POLLUTION_EVENT + REGULATORY_TIGHTENING   → enforcement-driven compliance shock
+  // Signal tokens are matched against recorded action/type/pattern text — never
+  // invented; absence of tokens simply yields no stack (silent, no false signal).
+  // STRICTLY ADDITIVE: advisory only; never participates in /api/limen/score scoring.
+  var ENVIRONMENT_SIGNAL_TOKENS = {
+    EMISSIONS_SPIKE:        /(emission|ghg|greenhouse[_\s-]?gas|carbon[_\s-]?footprint|co2|methane|scope[_\s-]?[123]|carbon[_\s-]?intensity|flaring|carbon[_\s-]?emission|emissions[_\s-]?surge|carbon[_\s-]?budget[_\s-]?overshoot)/i,
+    POLLUTION_EVENT:        /(pollution|contamination|spill|toxic[_\s-]?release|air[_\s-]?quality|water[_\s-]?quality|soil[_\s-]?contamination|effluent|discharge|smog|particulate|pm2\.?5|hazardous[_\s-]?material|brownfield|superfund)/i,
+    BIODIVERSITY_LOSS:      /(biodiversity|species[_\s-]?loss|habitat[_\s-]?loss|deforestation|ecosystem[_\s-]?collapse|extinction|wetland[_\s-]?loss|pollinator[_\s-]?decline|coral[_\s-]?bleaching|land[_\s-]?degradation|ecosystem[_\s-]?service[_\s-]?loss)/i,
+    CLIMATE_DISASTER:       /(climate[_\s-]?disaster|extreme[_\s-]?weather|wildfire|flood|hurricane|drought|heatwave|sea[_\s-]?level[_\s-]?rise|storm[_\s-]?surge|climate[_\s-]?shock|physical[_\s-]?climate[_\s-]?risk|catastrophe[_\s-]?loss)/i,
+    WATER_SCARCITY:         /(water[_\s-]?scarcity|water[_\s-]?stress|drought|aquifer[_\s-]?depletion|reservoir[_\s-]?drawdown|freshwater[_\s-]?shortage|water[_\s-]?table|groundwater[_\s-]?decline|watershed[_\s-]?stress|water[_\s-]?rationing|water[_\s-]?supply[_\s-]?risk)/i,
+    REGULATORY_TIGHTENING:  /(environmental[_\s-]?regulation|epa|emissions[_\s-]?standard|carbon[_\s-]?tax|carbon[_\s-]?price|cap[_\s-]?and[_\s-]?trade|clean[_\s-]?air|clean[_\s-]?water|esg[_\s-]?mandate|compliance[_\s-]?tightening|permit[_\s-]?denial|environmental[_\s-]?enforcement|disclosure[_\s-]?rule)/i,
+    REMEDIATION_BACKLOG:    /(remediation|cleanup|waste[_\s-]?management|landfill|hazardous[_\s-]?waste|environmental[_\s-]?liability|decommission|site[_\s-]?cleanup|recycling[_\s-]?backlog|waste[_\s-]?backlog|reclamation|remediation[_\s-]?cost|cleanup[_\s-]?obligation)/i
+  };
+
+  // Environmental-vulnerability STACKS — ordered token pairs with an environmental
+  // interpretation. Each describes an operator-concentration meaning specific to an
+  // environmental vulnerability stack (climate & emissions, pollution & quality,
+  // ecosystems & biodiversity, natural resources & water, environmental regulation,
+  // climate risk & adaptation, waste & remediation, carbon markets) — NOT energy
+  // oil/gas/grid/power-generation content (emissions/carbon is a coupling to energy,
+  // not the identity) and NOT agriculture land/water-use content (a coupling). The
+  // environment is CLIMATE, POLLUTION, ECOSYSTEMS, and natural-resource quality.
+  var ENVIRONMENT_VULN_STACKS = [
+    { id: 'CARBON_COMPLIANCE_SQUEEZE', signals: ['EMISSIONS_SPIKE', 'REGULATORY_TIGHTENING'],
+      body: 'Operator attention concentrates on the emissions-spike + regulatory-tightening stack — a carbon-compliance squeeze where rising GHG/carbon intensity collides with tightening emissions standards, carbon pricing, and disclosure mandates (WM/RSG/ECL exposure).' },
+    { id: 'ECOSYSTEM_WATER_STRESS',   signals: ['BIODIVERSITY_LOSS', 'WATER_SCARCITY'],
+      body: 'Operator attention concentrates on the biodiversity-loss + water-scarcity stack — an ecosystem-water-stress feedback loop where habitat and species loss compound with aquifer depletion and watershed stress (AWK/WTRG/XYL exposure).' },
+    { id: 'CONTAMINATION_LIABILITY',  signals: ['POLLUTION_EVENT', 'REMEDIATION_BACKLOG'],
+      body: 'Operator attention concentrates on the pollution-event + remediation-backlog stack — a contamination-liability overhang where toxic releases and air/water/soil events feed an unfunded cleanup and waste-management backlog (WCN/CWST/DAR exposure).' },
+    { id: 'CLIMATE_ADAPTATION_STRESS', signals: ['CLIMATE_DISASTER', 'WATER_SCARCITY'],
+      body: 'Operator attention concentrates on the climate-disaster + water-scarcity stack — climate-adaptation stress where extreme weather, wildfire, and flooding collide with drought and freshwater shortage (AWK/WTRG/AY exposure).' },
+    { id: 'ENFORCEMENT_COMPLIANCE_SHOCK', signals: ['POLLUTION_EVENT', 'REGULATORY_TIGHTENING'],
+      body: 'Operator attention concentrates on the pollution-event + regulatory-tightening stack — an enforcement-driven compliance shock where contamination incidents trigger EPA/clean-air/clean-water enforcement and permit risk (ECL/LIN/APD exposure).' }
+  ];
+
   // ─── State ───────────────────────────────────────────────────────────────
 
   var _entries = [];
@@ -452,6 +516,8 @@
   var _lastTradeStackId = null;
   var _lastIndustryStackTime = 0;
   var _lastIndustryStackId = null;
+  var _lastEnvironmentStackTime = 0;
+  var _lastEnvironmentStackId = null;
   var _interval = null;
 
   // Detect which civil signal families a user-action references, by scanning its
@@ -550,6 +616,18 @@
     return hits;
   }
 
+  // Detect which environmental signal families a user-action references, by scanning
+  // its free-text fields (action / type / cross-domain pattern). Returns a list of
+  // canonical environment signal ids. Never fabricates — empty if nothing matches.
+  function _detectEnvironmentSignals(text) {
+    if (!text) return [];
+    var hits = [];
+    for (var sig in ENVIRONMENT_SIGNAL_TOKENS) {
+      if (ENVIRONMENT_SIGNAL_TOKENS[sig].test(text)) hits.push(sig);
+    }
+    return hits;
+  }
+
   // ─── Record decision ─────────────────────────────────────────────────────
 
   function _onUserAction(e) {
@@ -610,6 +688,10 @@
       // INDUSTRY: which industrial-production signal families this action touches (may be []).
       industrySignals: _detectIndustrySignals(
         [detail.action, detail.type, matchedPattern, detail.signal, detail.diagnosis].join(' ')
+      ),
+      // ENVIRONMENT: which environmental signal families this action touches (may be []).
+      environmentSignals: _detectEnvironmentSignals(
+        [detail.action, detail.type, matchedPattern, detail.signal, detail.diagnosis].join(' ')
       )
     };
 
@@ -628,6 +710,7 @@
     _checkIntelligenceStackConcentration();
     _checkTradeStackConcentration();
     _checkIndustryStackConcentration();
+    _checkEnvironmentStackConcentration();
   }
 
   // ─── Concentration detection ──────────────────────────────────────────────
@@ -1243,6 +1326,76 @@
     });
   }
 
+  // ─── Environment vulnerability-stack concentration ────────────────────────
+  // Domain-semantic concentration for ENVIRONMENT: beyond "which domain" (above),
+  // surface WHICH environmental-vulnerability STACK the operator keeps returning to.
+  // Tallies co-occurring environmental signal families across recent entries and fires
+  // when a known stack (carbon-compliance-squeeze, ecosystem-water-stress, contamination-
+  // liability, climate-adaptation-stress, enforcement-compliance-shock) crosses the
+  // threshold. Schema-faithful to _checkIndustryStackConcentration (same phase-change
+  // shape). STRICTLY ADDITIVE, advisory only, kept DISTINCT from energy (emissions/carbon
+  // is a coupling, not the identity) and agriculture (land/water use is a coupling).
+  // Mirrors the energy anchor (crude_above_90 + grid_stress) with the emissions-spike +
+  // regulatory-tightening structural carbon-compliance squeeze — WM/RSG/ECL exposure.
+
+  function _checkEnvironmentStackConcentration() {
+    var now = Date.now();
+    if (now - _lastEnvironmentStackTime < ENVIRONMENT_STACK_COOLDOWN) return;
+    if (_entries.length < ENVIRONMENT_STACK_THRESHOLD) return;
+
+    // Count per-signal-family hits across recent entries (last 10).
+    var recent = _entries.slice(-10);
+    var sigCounts = {};
+    for (var i = 0; i < recent.length; i++) {
+      var sigs = recent[i].environmentSignals || [];
+      for (var s = 0; s < sigs.length; s++) {
+        sigCounts[sigs[s]] = (sigCounts[sigs[s]] || 0) + 1;
+      }
+    }
+
+    // A stack fires only when BOTH of its signal families are present and at least
+    // one of them has been focused on repeatedly (>= threshold). Score = sum of the
+    // pair's counts; pick the strongest stack.
+    var best = null;
+    for (var k = 0; k < ENVIRONMENT_VULN_STACKS.length; k++) {
+      var stack = ENVIRONMENT_VULN_STACKS[k];
+      var a = sigCounts[stack.signals[0]] || 0;
+      var b = sigCounts[stack.signals[1]] || 0;
+      if (a === 0 || b === 0) continue;
+      if (Math.max(a, b) < ENVIRONMENT_STACK_THRESHOLD) continue;
+      var score = a + b;
+      if (!best || score > best.score) best = { stack: stack, a: a, b: b, score: score };
+    }
+
+    if (!best) return;
+    if (best.stack.id === _lastEnvironmentStackId) return; // don't re-narrate the same stack
+
+    _lastEnvironmentStackTime = now;
+    _lastEnvironmentStackId = best.stack.id;
+
+    var drivers = [
+      best.a + ' recent actions touching ' + best.stack.signals[0],
+      best.b + ' recent actions touching ' + best.stack.signals[1]
+    ];
+
+    var options = [
+      { label: 'deepen ' + best.stack.id.toLowerCase().replace(/_/g, ' ') + ' analysis', type: 'analysis' },
+      { label: 'broaden scope', type: 'monitoring' },
+      { label: 'hold', type: 'monitoring' }
+    ];
+
+    _dispatch('limen:phase-change', {
+      from: 'observing',
+      to: 'concentrated',
+      type: 'decision-memory',
+      domain: 'environment',
+      stackId: best.stack.id,
+      topDrivers: drivers,
+      options: options,
+      body: best.stack.body
+    });
+  }
+
   // ─── Publish ──────────────────────────────────────────────────────────────
 
   function _publish() {
@@ -1258,6 +1411,7 @@
       intelligenceSignalConcentration: _intelligenceSignalConcentration(),
       tradeSignalConcentration: _tradeSignalConcentration(),
       industrySignalConcentration: _industrySignalConcentration(),
+      environmentSignalConcentration: _environmentSignalConcentration(),
       updated: Date.now()
     };
 
@@ -1391,6 +1545,23 @@
     var recent = _entries.slice(-10);
     for (var i = 0; i < recent.length; i++) {
       var sigs = recent[i].industrySignals || [];
+      for (var s = 0; s < sigs.length; s++) {
+        counts[sigs[s]] = (counts[sigs[s]] || 0) + 1;
+      }
+    }
+    var out = [];
+    for (var sig in counts) { out.push({ signal: sig, count: counts[sig] }); }
+    out.sort(function (x, y) { return y.count - x.count; });
+    return out;
+  }
+
+  // ENVIRONMENT: roll up which environmental signal families recent attention
+  // concentrates on (descending by count). Empty when no environmental signals were detected.
+  function _environmentSignalConcentration() {
+    var counts = {};
+    var recent = _entries.slice(-10);
+    for (var i = 0; i < recent.length; i++) {
+      var sigs = recent[i].environmentSignals || [];
       for (var s = 0; s < sigs.length; s++) {
         counts[sigs[s]] = (counts[sigs[s]] || 0) + 1;
       }

@@ -72,7 +72,29 @@
     { label: 'Analyze counterparty-default contagion & concentration early-warning for multi-counterparty exposure', domain: 'finance', type: 'system-risk', baseRelevance: 0.45 },
     { label: 'Investigate liquidity-management, repo-resilience & cross-border settlement-risk modeling', domain: 'finance', type: 'technological-innovation', baseRelevance: 0.40 },
 
-    // Environment
+    // Environment (mirrors Energy/Infrastructure/Finance structure, translated to environment-native concepts —
+    //   Energy seeds focus on storage/grid/renewable ARCHITECTURES; environment seeds focus on EMISSIONS/POLLUTION/
+    //   ECOSYSTEM/WATER as domain-native content: storage→carbon-budget exhaustion & emissions-intensity buffering,
+    //   distributed-grid→ecosystem-resilience & biodiversity-tipping-point topology, transition→just-transition &
+    //   climate-adaptation resilience, attack-surface→climate-risk & supply-chain Scope-3 early-warning. Couples to
+    //   energy ONLY via carbon footprint — NEVER borrows oil/gas/grid/power-generation as its OWN identity; couples to
+    //   agriculture/water domains via land/water-use but keeps environmental identity = climate/pollution/ecosystems.
+    //   identity = climate & emissions, air/water/soil pollution & quality, ecosystems & biodiversity, natural
+    //   resources & conservation, environmental regulation & compliance, climate risk & adaptation, waste management &
+    //   remediation, carbon markets;
+    //   universe: WM/RSG/WCN/CWST (waste & remediation), AWK/WTRG/XYL (water utilities & infrastructure),
+    //   ECL/LIN/APD (water/air treatment & industrial-gas / carbon-capture feedstock), DAR (renewable-feedstock &
+    //   waste-valorization), AY (clean-infrastructure / sustainable assets) — real environmental-sector tickers only)
+    { label: 'Investigate emissions-intensity forecasting and carbon-budget exhaustion early-warning across high-Scope-1 sectors (WM/RSG/WCN landfill-methane capture, ECL/LIN/APD process-emissions intensity)', domain: 'environment', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Explore water-stress modeling and freshwater-scarcity adaptation for utility-resilience and drought-exposure pricing (AWK/WTRG supply security, XYL water-efficiency & leakage reduction)', domain: 'environment', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Analyze biodiversity-resilience and ecosystem-tipping-point research for nature-based-solution and conservation-ROI design (wetlands/forests/oceans as carbon sinks, ecosystem-service valuation)', domain: 'environment', type: 'scientific-discovery', baseRelevance: 0.45 },
+    { label: 'Investigate pollution-remediation ROI and soil/water/air-quality recovery-cycle modeling for contaminated-site cleanup economics (WM/CWST hazardous-waste remediation, ECL water-treatment recovery)', domain: 'environment', type: 'economic-opportunity', baseRelevance: 0.40 },
+    { label: 'Explore climate-adaptation infrastructure design patterns for flood/heat/drought resilience and sustainable-asset buildout (AY clean-infrastructure portfolio, WTRG/AWK climate-hardened water systems)', domain: 'environment', type: 'technological-innovation', baseRelevance: 0.40 },
+    { label: 'Analyze regulatory-compliance pathway innovation across carbon markets, ESG disclosure and net-zero roadmaps (carbon-pricing exposure, SEC/EU CSRD reporting, ECL/LIN net-zero pathway design)', domain: 'environment', type: 'economic-opportunity', baseRelevance: 0.40 },
+    { label: 'Investigate nature-based solutions (wetlands, forests, oceans) as climate-carbon sinks and biodiversity-credit infrastructure for offset-quality and permanence assurance', domain: 'environment', type: 'scientific-discovery', baseRelevance: 0.40 },
+    { label: 'Explore just-transition workforce retraining for green-economy sectors and circular-economy job creation (WM/RSG/ECL/DAR/AY recycling, remediation & renewable-feedstock employment)', domain: 'environment', type: 'economic-opportunity', baseRelevance: 0.35 },
+    { label: 'Investigate supply-chain emissions transparency and Scope-3 tracing for value-chain decarbonization and embedded-carbon accounting (LIN/APD industrial-gas footprint, DAR feedstock lifecycle)', domain: 'environment', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Analyze environmental-risk insurance and climate-liability pricing for physical-risk and transition-risk exposure (stranded-asset valuation, remediation-liability provisioning, WM/CWST closure-cost modeling)', domain: 'environment', type: 'economic-opportunity', baseRelevance: 0.40 },
     { label: 'Explore carbon capture technology innovations', domain: 'environment', type: 'scientific-discovery', baseRelevance: 0.40 },
     { label: 'Investigate biodiversity monitoring systems', domain: 'environment', type: 'scientific-discovery', baseRelevance: 0.35 },
     { label: 'Analyze ecosystem tipping point research', domain: 'environment', type: 'system-risk', baseRelevance: 0.45 },

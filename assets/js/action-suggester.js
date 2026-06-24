@@ -48,10 +48,11 @@
       { label: 'Investigate SCADA/ICS breach vectors and deferred-maintenance failure points', type: 'regulation', minStress: 0.7 }
     ],
     environment: [
-      { label: 'Monitor ecological indicators', type: 'monitoring', minStress: 0.3 },
-      { label: 'Explore environmental design innovation', type: 'discovery', minStress: 0.4 },
-      { label: 'Analyze climate mitigation research', type: 'analysis', minStress: 0.5 },
-      { label: 'Investigate tipping point indicators', type: 'analysis', minStress: 0.7 }
+      { label: 'Monitor GHG emissions (Scope 1/2/3) and carbon-budget tracking across waste, water and utility operators (WM, RSG, WCN, CWST, AWK, WTRG)', type: 'monitoring', minStress: 0.3 },
+      { label: 'Explore emissions-reduction, water-treatment and carbon-sequestration technologies (XYL, ECL, LIN, APD industrial-gas and clean-water adoption curves)', type: 'discovery', minStress: 0.4 },
+      { label: 'Investigate pollution-event triage and air/water/soil remediation throughput across environmental-services operators (DAR, AY, CWST hazardous-waste and renewable-resource processing)', type: 'analysis', minStress: 0.5 },
+      { label: 'Analyze regulatory-compliance exposure and emissions-cap breach risk across waste and water utilities (WM, RSG, WCN landfill-methane, AWK, WTRG discharge-permit limits)', type: 'analysis', minStress: 0.6 },
+      { label: 'Regulate emissions-crisis containment and remediation acceleration as carbon-market and discharge-limit pressure compounds (DAR, AY, ECL spill-response and treatment-capacity surge)', type: 'regulation', minStress: 0.7 }
     ],
     health: [
       { label: 'Review emerging research papers', type: 'discovery', minStress: 0.3 },
@@ -200,6 +201,27 @@
       label: 'Analyze credit-cycle transmission to solvency and margin pressure',
       body: 'Co-elevated finance and economic stress suggests credit-tightening, solvency-contagion and liquidity-transmission exposure across lenders and capital markets; trace policy-rate (FEDFUNDS) and credit-spread transmission into corporate solvency and margin pressure as demand (GDPC1) and consumer sentiment (UMCSENT) weaken.',
       type: 'analysis'
+    },
+    {
+      domains: ['environment', 'industry'],
+      minStress: [0.5, 0.4],
+      label: 'Analyze emissions-cap exposure and regulatory-compliance contagion across heavy industry',
+      body: 'Co-elevated environmental and industrial stress suggests Scope 1/2 emissions and discharge-permit breach risk concentrating in capital-goods and heavy-industry production (CAT, DE, EMR throughput) as carbon-cap and remediation pressure rise on waste/water operators (WM, RSG, AWK); regulatory-compliance cost can front-run margin compression.',
+      type: 'analysis'
+    },
+    {
+      domains: ['environment', 'health'],
+      minStress: [0.5, 0.4],
+      label: 'Investigate pollution-event and water/air-quality public-health convergence',
+      body: 'Environmental stress intersecting with health signals suggests air/water/soil pollution-event triage and remediation exposure (DAR, AY, CWST hazardous-waste, AWK, WTRG drinking-water quality) coupling into public-health burden and treatment demand.',
+      type: 'discovery'
+    },
+    {
+      domains: ['environment', 'energy'],
+      minStress: [0.5, 0.4],
+      label: 'Investigate carbon-market and decarbonization-transition coupling',
+      body: 'Environmental emissions/carbon-budget stress couples to energy via decarbonization demand; trace emissions-reduction and carbon-sequestration adoption (XYL, ECL, LIN, APD) against energy-transition pressure — environment carries the climate/compliance identity, energy carries supply/grid, coupled through carbon markets.',
+      type: 'discovery'
     }
   ];
 

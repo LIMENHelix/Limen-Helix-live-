@@ -427,8 +427,56 @@
       analystEnabled: true,
       connectomeNodes: [31, 73],  // Hypothalamus + ENS
       feeds: [
-        { name: 'NOAA Climate', apiKey: 'NOAA_TOKEN', status: FEED_STATUS.LIVE, endpoint: 'www.ncei.noaa.gov/cdo-web/api/v2/data' },
-        { name: 'NOAA Alerts', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.weather.gov/alerts/active' }
+        // ── Climate / weather observation anchors (the environment "crude price" baseline) ──
+        // Environment's quantitative spine is NOT a commodity price but the physical
+        // state of the planet (temperature anomaly, emissions load, air/water quality)
+        // plus the financial health of the environmental-services & water-infrastructure
+        // industrial base. Every endpoint is a REAL public/government source and every
+        // ticker is a REAL listed environmental-sector equity (never fabricated). This
+        // closes the registry asymmetry where environment had only 2 NOAA weather feeds
+        // and no emissions, carbon-market, biodiversity, or industrial-base anchor.
+        { name: 'NOAA Climate', apiKey: 'NOAA_TOKEN', status: FEED_STATUS.LIVE, endpoint: 'www.ncei.noaa.gov/cdo-web/api/v2/data', feedClass: 'climate_observation' },
+        { name: 'NOAA Alerts', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.weather.gov/alerts/active', feedClass: 'climate_observation' },
+        { name: 'NOAA Global Temperature Anomaly', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/global/time-series', feedClass: 'climate_observation' }, // planetary warming trend — environment "set-point" anchor
+        { name: 'NOAA GML CO2 (Mauna Loa)', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'gml.noaa.gov/webdata/ccgg/trends/co2/co2_mm_mlo.csv', feedClass: 'climate_observation' }, // atmospheric CO2 concentration — the canonical emissions-load signal
+        // ── Emissions & pollution inventory (EPA — the regulatory "price/cost" of environment) ──
+        { name: 'EPA GHG Inventory (GHGI)', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.epa.gov/ghgreporting/data-sets', feedClass: 'emissions' }, // national greenhouse gas inventory — emissions-load anchor (mirrors EIA Petroleum LIVE role)
+        { name: 'EPA FLIGHT GHGRP', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'ghgdata.epa.gov/ghgp/service/facilityDetail', feedClass: 'emissions' }, // facility-level reported emissions — point-source emitter detection
+        { name: 'EPA AirNow AQI', apiKey: 'AIRNOW_API_KEY', status: FEED_STATUS.PENDING, endpoint: 'www.airnowapi.org/aq/observation/zipCode/current/', feedClass: 'air_quality' }, // real-time PM2.5/ozone AQI — air-quality stress; LIVE once operator key provided
+        { name: 'EPA ECHO Enforcement', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'echodata.epa.gov/echo/cwa_rest_services.get_facilities', feedClass: 'enforcement' }, // Clean Water/Air Act violations & enforcement — pollution-control conflict signal
+        { name: 'EPA Superfund (SEMS)', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'data.epa.gov/efservice/SEMS_ACTIVE_SITES/JSON', feedClass: 'remediation' }, // active Superfund/NPL remediation sites — cleanup pipeline anchor
+        // ── Water stress / hydrology (USGS + NOAA — freshwater system state) ──
+        { name: 'USGS Water Services', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'waterservices.usgs.gov/nwis/iv/', feedClass: 'water_stress' }, // real-time streamflow / groundwater levels — water-stress index
+        { name: 'USGS Drought Monitor', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'droughtmonitor.unl.edu/DmData/GISData.aspx', feedClass: 'water_stress' }, // U.S. drought severity — freshwater scarcity signal
+        // ── Carbon markets (compliance-market price indices — environment's traded anchor) ──
+        { name: 'CARB Cap-and-Trade Auction', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'ww2.arb.ca.gov/our-work/programs/cap-and-trade-program/auction-information', feedClass: 'carbon_market' }, // California carbon allowance clearing price — compliance carbon anchor
+        { name: 'RGGI Allowance Auction', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.rggi.org/auctions/auction-results', feedClass: 'carbon_market' }, // Northeast RGGI CO2 allowance price — regional carbon market signal
+        { name: 'EU ETS Carbon Price (EEX)', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.eex.com/en/market-data/environmental-markets/spot-market', feedClass: 'carbon_market' }, // EU emissions-trading allowance price — global compliance-carbon benchmark
+        // ── Biodiversity / habitat (ecosystem-health indices) ──
+        { name: 'GBIF Occurrence', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.gbif.org/v1/occurrence/search', feedClass: 'biodiversity' }, // global species occurrence records — biodiversity baseline / range-shift detection
+        { name: 'IUCN Red List', apiKey: 'IUCN_API_KEY', status: FEED_STATUS.PENDING, endpoint: 'apiv3.iucnredlist.org/api/v3/species', feedClass: 'biodiversity' }, // species extinction-risk status — biodiversity-credit & mass-extinction signal; LIVE once operator key provided
+        { name: 'NASA FIRMS Active Fire', apiKey: 'NASA_FIRMS_KEY', status: FEED_STATUS.PENDING, endpoint: 'firms.modaps.eosdis.nasa.gov/api/area/csv/', feedClass: 'biodiversity' }, // satellite active-fire / deforestation detection — habitat-loss signal; LIVE once operator key provided
+        // ── Remediation / cleanup procurement (federal environmental contract pipeline) ──
+        { name: 'SAM.gov Environmental Remediation', apiKey: 'SAM_GOV_API_KEY', status: FEED_STATUS.PENDING, endpoint: 'api.sam.gov/opportunities/v2/search?ptype=o&ncode=562910', feedClass: 'procurement' }, // active environmental remediation solicitations (NAICS 562910) — cleanup pipeline; LIVE once operator key provided
+        { name: 'USAspending EPA Awards', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.usaspending.gov/api/v2/search/spending_by_award/', feedClass: 'procurement' }, // obligated EPA / federal environmental contract awards — remediation throughput
+        // ── Environmental-services & water-infrastructure industrial base (REAL listed equities, never fabricated) ──
+        // Per-name equities for the environmental industrial base; the company analogue of
+        // energy's commodity anchors. Tickers are REAL: WM/RSG/WCN/CWST/AWK/WTRG/XYL/ECL/LIN/APD/DAR/AY/CLH/TTEK.
+        { name: 'Polygon.io WM', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/WM/prev', feedClass: 'enviro_services', ticker: 'WM' },     // Waste Management — prime (waste / landfill / recycling)
+        { name: 'Polygon.io RSG', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/RSG/prev', feedClass: 'enviro_services', ticker: 'RSG' },   // Republic Services — prime (waste / environmental solutions)
+        { name: 'Polygon.io WCN', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/WCN/prev', feedClass: 'enviro_services', ticker: 'WCN' },   // Waste Connections — prime (solid waste / resource recovery)
+        { name: 'Polygon.io CWST', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/CWST/prev', feedClass: 'enviro_services', ticker: 'CWST' }, // Casella Waste — regional waste / recycling operator
+        { name: 'Polygon.io CLH', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/CLH/prev', feedClass: 'remediation', ticker: 'CLH' },     // Clean Harbors — prime (hazardous-waste / remediation / spill response)
+        { name: 'Polygon.io TTEK', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/TTEK/prev', feedClass: 'remediation', ticker: 'TTEK' }, // Tetra Tech — prime (environmental consulting / remediation engineering)
+        { name: 'Polygon.io AWK', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/AWK/prev', feedClass: 'water_utility', ticker: 'AWK' },   // American Water Works — prime (regulated water/wastewater utility)
+        { name: 'Polygon.io WTRG', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/WTRG/prev', feedClass: 'water_utility', ticker: 'WTRG' }, // Essential Utilities (Aqua) — prime (regulated water utility)
+        { name: 'Polygon.io XYL', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/XYL/prev', feedClass: 'water_tech', ticker: 'XYL' },     // Xylem — prime (water technology / treatment / smart water)
+        { name: 'Polygon.io ECL', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/ECL/prev', feedClass: 'water_tech', ticker: 'ECL' },     // Ecolab — prime (water treatment / hygiene / pollution prevention)
+        { name: 'Polygon.io LIN', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/LIN/prev', feedClass: 'carbon_removal', ticker: 'LIN' },  // Linde — industrial gases / carbon-capture & clean-hydrogen infrastructure
+        { name: 'Polygon.io APD', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/APD/prev', feedClass: 'carbon_removal', ticker: 'APD' },  // Air Products — industrial gases / carbon capture / clean-hydrogen
+        { name: 'Polygon.io DAR', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/DAR/prev', feedClass: 'circular_economy', ticker: 'DAR' }, // Darling Ingredients — rendering / waste-to-resource / renewable feedstock
+        { name: 'Polygon.io AY', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/AY/prev', feedClass: 'sector_proxy', ticker: 'AY' },       // Atlantica Sustainable Infrastructure — clean/sustainable infrastructure proxy
+        { name: 'Polygon.io ICLN', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/ICLN/prev', feedClass: 'sector_proxy', ticker: 'ICLN' }  // iShares Global Clean Energy ETF — environmental-transition regime proxy
       ],
       diagnostics: [],
       treatments: [],

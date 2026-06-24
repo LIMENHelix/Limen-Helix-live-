@@ -1116,6 +1116,212 @@
         { label: 'hold', type: 'monitoring' }
       ]
     },
+    // ─── Environment pairs (parity port; mirrors energy/supplyChain/finance/defense structure) ──
+    // ENVIRONMENT identity ONLY — climate & emissions, air/water/soil pollution & quality,
+    // ecosystems & biodiversity, natural resources & conservation, environmental regulation &
+    // compliance, climate risk & adaptation, waste management & remediation, carbon markets.
+    // Real environmental-sector tickers (WM, RSG, WCN, CWST, AWK, WTRG, XYL, ECL, LIN, APD,
+    // DAR, AY, MNRO) — never fabricated. Each PAIRED domain couples to environment via an
+    // INPUT-SUPPLY/EMISSIONS, POLICY, LEGAL, R&D, MONITORING-TECH, KINETIC, CAPITAL, NARRATIVE,
+    // CREATIVE, WORKFORCE, EPIDEMIOLOGY, MIGRATION, or MORAL regime; environment's OWN content
+    // stays climate / pollution / ecosystems / natural resources. Energy oil/gas/grid is NEVER
+    // environment's own content — environment couples to energy via emissions/carbon. Kept
+    // DISTINCT from agriculture (land/water use is a coupling). ADDITIVE — does not touch any
+    // validated scoring path. ('environment_energy', 'environment_supplyChain' already exist.)
+    {
+      // Mirrors 'energy_supply' (commodity input stress → consequence) applied to fertilizer/
+      // pesticide carbon footprint and land-use-change emission. Agriculture is the COUPLING
+      // (input-supply / crop-livestock output); environment identity stays emissions/carbon/water.
+      id: 'environment_agriculture',
+      domains: ['environment', 'agriculture'],
+      threshold: 0.45,
+      pattern: 'agricultural-emissions farming-intensity coupling',
+      drivers: ['crop-input GHG footprint (fertilizer/pesticide manufacturing emissions)', 'livestock-methane intensity surge', 'land-use-change carbon release (deforestation for farmland)', 'soil-carbon loss (tillage / monoculture degradation)', 'agricultural-runoff eutrophication (nitrogen/phosphorus water pollution: AWK water-quality exposure, WTRG essential-water utility, WCN environmental-waste, ECL water solutions, MNRO farm-linked emissions tracking)'],
+      options: [
+        { label: 'map agricultural-emissions exposure', type: 'analysis' },
+        { label: 'investigate land-use-change / runoff transmission', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'law_governance' (compliance-regime stress) applied to environmental-regulation
+      // enforcement and carbon-policy implementation. Governance is the COUPLING (policy regime);
+      // environment identity stays climate/pollution/ecosystems, not legislation.
+      id: 'environment_governance',
+      domains: ['environment', 'governance'],
+      threshold: 0.50,
+      pattern: 'environmental-policy transmission',
+      drivers: ['emissions-regulation tightening (Clean Air Act / GHGRP)', 'carbon-tax incidence / cap-and-trade pricing shift', 'environmental-permit processing delay', 'climate-adaptation-spending allocation shift', 'EPA / state environmental-agency enforcement-priority shift (WM waste-management regulation, RSG emissions compliance, CWST waste-emissions policy, ECL environmental-compliance solutions, XYL water/environmental solutions)'],
+      options: [
+        { label: 'trace environmental-policy exposure', type: 'analysis' },
+        { label: 'investigate carbon-tax / permitting transmission', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'finance_law' (enforcement-regime stress) applied to environmental-liability and
+      // pollution-control compliance burden. Law is the COUPLING (legal/enforcement regime);
+      // environment identity stays pollution/climate/ecosystems, not jurisprudence.
+      id: 'environment_law',
+      domains: ['environment', 'law'],
+      threshold: 0.45,
+      pattern: 'environmental-legal liability transmission',
+      drivers: ['environmental-liability lawsuit surge (CERCLA / RCRA)', 'EPA enforcement-action velocity', 'state environmental-violation fines', 'groundwater-contamination litigation', 'wetlands-destruction / ozone-particulate-pollution-damage claims (WM landfill liability, ECL industrial-cleaning compliance, LIN industrial-emissions exposure, CWST waste-compliance, WTRG water-utility liability)'],
+      options: [
+        { label: 'trace environmental-legal liability exposure', type: 'analysis' },
+        { label: 'investigate CERCLA / RCRA enforcement transmission', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'education_research' (knowledge-pipeline stress) applied to environmental-science
+      // R&D and climate-adaptation technology pipelines. Research is the COUPLING (innovation
+      // substrate); environment identity stays climate/pollution/ecosystems, not academic structure.
+      id: 'environment_research',
+      domains: ['environment', 'research'],
+      threshold: 0.40,
+      pattern: 'environmental-research innovation transmission',
+      drivers: ['climate-research funding availability', 'biodiversity-monitoring technology lag', 'remediation-innovation adoption lag', 'green-tech patent publication rate', 'climate-model refinement velocity (ECL environmental-science R&D, XYL water research, university partnership pipelines)'],
+      options: [
+        { label: 'trace environmental-research pipeline exposure', type: 'analysis' },
+        { label: 'investigate remediation / biodiversity innovation gap', type: 'discovery' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'infrastructure_technology' (cyber-physical attack surface) applied to
+      // environmental-monitoring networks and emissions-tracking infrastructure. Technology is
+      // the COUPLING (chips/software/cloud); environment identity stays climate/pollution/ecosystems.
+      id: 'environment_technology',
+      domains: ['environment', 'technology'],
+      threshold: 0.45,
+      pattern: 'environmental-monitoring tech coupling',
+      drivers: ['emissions-monitoring-sensor deployment lag (satellites / IoT)', 'carbon-capture system efficiency plateau', 'satellite-imagery processing latency for deforestation-tracking', 'environmental-data-platform outage', 'climate-model compute demand (ECL environmental-tech solutions, XYL water-tech, AAPL/MSFT/GOOGL/AMZN cloud for climate-data & ESG-scoring platforms)'],
+      options: [
+        { label: 'map environmental-monitoring tech exposure', type: 'analysis' },
+        { label: 'investigate sensor / carbon-capture deployment gap', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'defense_energy' (fuel-supply coupling) applied to DOD environmental footprint and
+      // rare-earth supply-chain emissions. Defense is the COUPLING (kinetic/industrial); environment
+      // identity stays emissions/pollution/natural resources, not military readiness.
+      id: 'environment_defense',
+      domains: ['environment', 'defense'],
+      threshold: 0.42,
+      pattern: 'military-emissions environmental exposure',
+      drivers: ['military-base Superfund cleanup', 'DOD facility emissions under Clean Air Act', 'rare-earth mining environmental-damage (China dominance)', 'strategic-mineral supply-chain environmental-impact (coltan/cobalt mining)', 'base-remediation spend / sustainable-sourcing pressure (LIN rare-earth/industrial exposure, LMT/RTX/NOC/GD base-remediation & sourcing pressure)'],
+      options: [
+        { label: 'map military-emissions environmental exposure', type: 'analysis' },
+        { label: 'investigate rare-earth / base-remediation transmission', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'finance_infrastructure' (capital-transmission stress) applied to climate-risk asset
+      // valuation and green-financing supply. Finance is the COUPLING (capital markets/credit);
+      // environment identity stays climate/emissions/natural resources, not banking.
+      id: 'environment_finance',
+      domains: ['environment', 'finance'],
+      threshold: 0.45,
+      pattern: 'climate-risk financial transmission',
+      drivers: ['climate-risk-weighted asset impairment (fossil-fuel stranded assets)', 'green-bond market stress (ESG-fund outflow)', 'climate-litigation insurance premium spike', 'transition-risk credit-spread widening', 'climate-adaptation-capex financing tightness (WM ESG-fund exposure, RSG green-debt issuance, CWST sustainable-finance, JPM/BAC/GS climate-risk pricing, BLK iShares ESG funds, V/MA ESG-linked flows)'],
+      options: [
+        { label: 'trace climate-risk financial exposure', type: 'analysis' },
+        { label: 'investigate stranded-asset / green-bond transmission', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'communication_culture' (narrative divergence) applied to climate-communication
+      // fragmentation and environmental-awareness campaigns. Communication is the COUPLING
+      // (narrative/media infra); environment identity stays climate/pollution/ecosystems.
+      id: 'environment_communication',
+      domains: ['environment', 'communication'],
+      threshold: 0.40,
+      pattern: 'environmental-narrative information transmission',
+      drivers: ['climate-news volume spike', 'conflicting climate-science narratives (misinformation)', 'greenwashing-narrative propagation', 'environmental-justice-movement visibility surge', 'climate-crisis discourse tone shift'],
+      options: [
+        { label: 'analyze environmental-narrative ecosystem', type: 'analysis' },
+        { label: 'investigate greenwashing / misinformation transmission', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'culture_finance' (creative-economy capital coupling) applied to sustainability-
+      // themed creative production. Culture is the COUPLING (creative expression); environment
+      // identity stays climate/pollution/ecosystems, not creative output.
+      id: 'environment_culture',
+      domains: ['environment', 'culture'],
+      threshold: 0.38,
+      pattern: 'cultural-climate narrative coupling',
+      drivers: ['climate-crisis as art/music theme surge', 'environmental-justice art-movement visibility', 'heritage-site flood/damage-risk (UNESCO sites)', 'creator-economy carbon-footprint awareness', 'cultural-institution climate-commitment visibility (ECL cultural-sustainability initiatives, META/GOOGL environmental-content platform reach)'],
+      options: [
+        { label: 'map cultural-climate narrative exposure', type: 'analysis' },
+        { label: 'investigate heritage-site / sustainability-theme coupling', type: 'discovery' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'infrastructure_education' (workforce-pipeline stress) applied to environmental-
+      // science and green-careers training. Education is the COUPLING (pedagogy/workforce);
+      // environment identity stays climate/pollution/natural resources, not pedagogy.
+      id: 'environment_education',
+      domains: ['environment', 'education'],
+      threshold: 0.40,
+      pattern: 'environmental-literacy workforce pipeline',
+      drivers: ['climate-curriculum integration pace', 'environmental-science university enrollment trends', 'K-12 environmental-education budget', 'STEM-workforce gap in environmental engineering', 'climate-scientist talent pipeline (ECL educational partnerships, XYL water-engineering workforce)'],
+      options: [
+        { label: 'trace environmental-literacy workforce exposure', type: 'analysis' },
+        { label: 'investigate STEM / climate-talent pipeline gap', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'health_research' (innovation cluster) applied to environmental-epidemiology and
+      // pollution-health research. Health is the COUPLING (medicine/epidemiology); environment
+      // identity stays pollution/air-quality/water-quality, not medicine.
+      id: 'environment_health',
+      domains: ['environment', 'health'],
+      threshold: 0.50,
+      pattern: 'environmental-health impact transmission',
+      drivers: ['air-pollution-linked respiratory disease surge (pediatric asthma incidence, EPA AQI)', 'drinking-water contamination health alerts (PFOA / lead)', 'heat-wave mortality elevation', 'wildfire-smoke respiratory-emergency surge', 'chemical-facility-accident health exposure (AWK water-quality→health, ECL cleaning-for-health, WCN waste→health exposure)'],
+      options: [
+        { label: 'trace environmental-health impact exposure', type: 'analysis' },
+        { label: 'investigate air/water-quality → disease transmission', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'agriculture_population' (food-supply pressure) applied to environmental-disaster
+      // displacement and pollution-zone migration. Population is the COUPLING (demographics/
+      // migration); environment identity stays climate/pollution/natural resources, not demographics.
+      id: 'environment_population',
+      domains: ['environment', 'population'],
+      threshold: 0.45,
+      pattern: 'environmental-migration population coupling',
+      drivers: ['climate-disaster displacement (hurricane / flood)', 'environmental-contamination-zone population flight', 'agricultural-land-degradation migration pressure', 'air-pollution-zone population turnover', 'environmental-justice community exposure (Superfund / refinery proximity: WCN waste-site population exposure)'],
+      options: [
+        { label: 'trace environmental-migration exposure', type: 'analysis' },
+        { label: 'investigate disaster-displacement / pollution-zone transmission', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'religion_population' (demographic-moral tension) applied to faith-community
+      // environmental responsibility. Religion is the COUPLING (faith/moral system); environment
+      // identity stays climate/pollution/ecosystems, not theology.
+      id: 'environment_religion',
+      domains: ['environment', 'religion'],
+      threshold: 0.35,
+      pattern: 'spiritual-environmental moral coupling',
+      drivers: ['religious-institution climate-commitment visibility', 'faith-leader advocacy on environmental justice', 'spiritual-ecological theology adoption', 'indigenous-sacred-site environmental-damage', 'religious-community climate-migration displacement'],
+      options: [
+        { label: 'investigate spiritual-environmental moral coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
     {
       // Mirrors 'agriculture_population' / 'religion_population' (labor-supply / demographic
       // pressure) applied to logistics labor. Population is the COUPLING (labor supply);

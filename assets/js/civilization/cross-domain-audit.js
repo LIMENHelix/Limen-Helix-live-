@@ -318,7 +318,64 @@
     // (threat-assessment lag, deterrence-posture visibility gap), not just the
     // warning picture.
     { id: 'intelligence_defense_deterrence', domains: ['intelligence', 'defense', 'industry', 'supplyChain', 'governance'] },
-    { id: 'environment_arc',domains: ['environment', 'agriculture', 'energy'] }
+    { id: 'environment_arc',domains: ['environment', 'agriculture', 'energy'] },
+    // ─── Environment-native affinity groups ───────────────────────────────
+    // Environment is a SOURCE domain here (not only the commodity-mirror member
+    // of environment_arc, where energy flows OUT and environment couples IN via
+    // emissions). Its identity is climate & emissions, air/water/soil pollution
+    // & quality, ecosystems & biodiversity, natural-resource conservation,
+    // environmental regulation & compliance, climate risk & adaptation, waste
+    // management & remediation, and carbon markets. Kept DISTINCT from energy
+    // (oil/gas/grid/power supply) and agriculture (land/water USE is a coupling,
+    // not environment's own content). Real-sector anchors are environmental-
+    // services & natural-resource primes — waste/remediation (WM, RSG, WCN,
+    // CWST, DAR), water utilities & water technology (AWK, WTRG, XYL), and
+    // emissions/specialty-chemistry & industrial-gas decarbonization (ECL, LIN,
+    // APD, AY) — NOT energy oil/gas/grid as environment's OWN identity.
+    //
+    // (1) environment_core — the environment-institutional envelope (mirror of
+    // defense_core / finance_core / technology_core / infrastructure_core /
+    // culture_core): the environmental regulatory regime, climate policy, and
+    // environmental-science leadership are co-borne by policy & funding tasking
+    // (governance — climate policy, emissions targets, conservation mandates,
+    // environmental-agency direction), the environmental-law & enforcement regime
+    // (law — Clean Air/Water Act enforcement, EPA/permitting, emissions
+    // litigation, pollution liability), and the knowledge substrate that produces
+    // climate & ecological science (research — climate modeling, ecosystem
+    // monitoring, environmental-science pipelines). Corroboration here = systemic
+    // environment-institutional stress (e.g. an environmental-compliance/
+    // enforcement spike coinciding with a climate-policy shift + an
+    // environmental-science/research funding squeeze).
+    { id: 'environment_core', domains: ['environment', 'governance', 'law', 'research'] },
+    // (2) environment_climate_adaptation — the climate-resilience capital layer
+    // (mirror of energy_chain / industry_core on the adaptation-capex side):
+    // climate-resilience capital expenditure, green-infrastructure investment,
+    // and climate-risk repricing are co-borne by the physical adaptation plant
+    // (infrastructure — sea walls, stormwater, grid hardening, water-resilience
+    // works), the macro real economy that bears climate-damage & transition cost
+    // (economy — climate-damage drag, transition demand, stranded-asset exposure),
+    // and the capital that funds resilience build-out & reprices climate risk
+    // (finance — green-bond/adaptation capex, catastrophe-risk repricing,
+    // climate-disclosure pressure). Corroboration here = a climate-adaptation
+    // capital stress (e.g. a climate-risk repricing event coinciding with a
+    // resilience-capex squeeze + adaptation-infrastructure strain + macro
+    // climate-damage drag). Energy is a COUPLING via the transition, not
+    // environment's own content.
+    { id: 'environment_climate_adaptation', domains: ['environment', 'infrastructure', 'economy', 'finance'] },
+    // (3) environment_pollution_control — the pollution-monitoring & enforcement
+    // layer: pollution monitoring, control technology, and regulatory enforcement
+    // are co-borne by the physical control & remediation plant (infrastructure —
+    // monitoring networks, treatment/scrubber/remediation works, waste-management
+    // facilities for WM/RSG/WCN/CWST), the policy & standards regime (governance —
+    // emissions standards, pollution targets, agency enforcement priorities), and
+    // the legal/compliance regime (law — pollution liability, enforcement actions,
+    // permitting & consent decrees). Corroboration here = a pollution-control
+    // stress (e.g. an air/water-quality exceedance coinciding with a
+    // monitoring/treatment-plant shortfall + a standards tightening + an
+    // enforcement/compliance escalation). Distinct from environment_climate_
+    // adaptation (which is the climate-capex channel); this binds the
+    // pollution-quality enforcement channel.
+    { id: 'environment_pollution_control', domains: ['environment', 'infrastructure', 'governance', 'law'] }
   ];
 
   // Tunables — keep conservative; this is a deciphering layer not a noise

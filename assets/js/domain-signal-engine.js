@@ -301,6 +301,44 @@
     supplyBottleneckFloor:     0.70  // component lead-time > 90 days always reads as supply_bottleneck
   };
 
+  // Structural-signal overrides for environment: certain CLIMATE / POLLUTION / ECOSYSTEM /
+  // WATER / REGULATORY constraints are NOT noisy emissions-index / headline-volume signals and
+  // must bypass saturation dampening (mirrors infrastructure's grid_stress, culture's
+  // scene_collapse, finance's liquidity_crunch, economy's recession_declaration, technology's
+  // chip_shortage, defense's force_readiness, intelligence's collection_gap, trade's tariff_shock,
+  // and industry's capacity_constraint structural conditions — all of which mirror energy-brain's
+  // grid_stress reserve-margin floor, a load-bearing engineering constraint that is never dampened
+  // as commodity noise).
+  // The environment domain is CLIMATE & EMISSIONS, air/water/soil pollution & quality, ecosystems
+  // & biodiversity, natural resources & conservation, environmental regulation & compliance, climate
+  // risk & adaptation, waste management & remediation, and carbon markets (tickers: WM, RSG, WCN,
+  // CWST, AWK, WTRG, XYL, ECL, LIN, APD, DAR, AY). It stays DISTINCT from energy (environment couples
+  // to energy via emissions/carbon, but its identity is climate/pollution/ecosystems — NEVER oil/gas/
+  // grid/power-generation as the domain's OWN content) and from agriculture (land/water use is a
+  // coupling, not the identity).
+  // These floors are LOAD-BEARING ecosystem/climate constraints — exactly as a grid reserve margin
+  // below 10% reads as grid_stress (a real engineering ceiling never averaged down by volume
+  // dampening), an emissions spike, an acute pollution event, biodiversity collapse, water stress,
+  // or a carbon-cap breach is a real ecosystem/climate constraint that must never be averaged down
+  // by emissions-index volume dampening.
+  // Binds to real environmental metrics and FRED/EPA proxies (atmospheric CO2 concentration, the
+  // EPA AQI, water-stress indices, extinction/habitat-loss rates, carbon-cap compliance).
+  // Raw stress is forced to the floor when a structural threshold is crossed, before dampening.
+  //   - emissions spike (CO2e YoY spike > 50%)                                  → emissions_spike (structural)
+  //   - acute pollution event (AQI / spill with health/ecosystem impact)        → pollution_event (structural)
+  //   - biodiversity loss (extinction rate / habitat loss > threshold)          → biodiversity_loss (structural)
+  //   - water stress (scarcity index / water-quality failure)                   → water_stress (structural)
+  //   - regulatory breach (carbon cap exceeded / compliance failure)            → regulatory_breach (structural)
+  // ADDITIVE ONLY — client-side advisory floor for the domain panel/snapshot; it does NOT touch
+  // the validated P3 distress kernel (/api/limen/score path), which lives in the finance domain.
+  var _ENVIRONMENT_STRUCTURAL = {
+    emissionsSpikeFloor:    0.68, // CO2e YoY spike > 50% always reads as emissions_spike
+    pollutionEventFloor:    0.70, // acute pollution event w/ health/ecosystem impact always reads as pollution_event
+    biodiversityLossFloor:  0.65, // extinction rate / habitat loss > threshold always reads as biodiversity_loss
+    waterStressFloor:       0.65, // water scarcity / quality failure always reads as water_stress
+    regulatoryBreachFloor:  0.70  // carbon cap exceeded / compliance failure always reads as regulatory_breach
+  };
+
   // Rolling baseline state (accumulates across feed cycles within session)
   var _baselineState = {}; // domainKey → { samples: [], mean: number }
   var _BASELINE_WINDOW = 12; // ~6 minutes at 30s poll (enough for session deviation)
@@ -1095,6 +1133,114 @@
     return { floor: floor, reason: reason };
   }
 
+  // Detect environment CLIMATE/POLLUTION/ECOSYSTEM/WATER/REGULATORY structural constraints from a
+  // feed object. Returns a forced stress floor (0 if none) — ecosystem/climate breaches bypass
+  // emissions-index/headline-volume dampening. Mirrors _infraStructuralFloor / _industryStructuralFloor:
+  // emissions-spike / pollution-event / biodiversity-loss / water-stress / regulatory-breach are
+  // load-bearing ecosystem/climate constraints, not commodity-signal noise to be averaged down.
+  // Binds to CO2/AQI/water-stress/extinction/carbon-cap metrics and environmental tickers
+  // (WM, RSG, WCN, CWST, AWK, WTRG, XYL, ECL, LIN, APD, DAR, AY) — NEVER oil/gas/grid/power-generation
+  // as the domain's OWN content (environment couples to energy via emissions/carbon, but its identity
+  // stays climate/pollution/ecosystems), and DISTINCT from agriculture (land/water use is a coupling).
+  // ADDITIVE ONLY — client-side advisory floor; does NOT touch the validated P3 distress kernel.
+  function _environmentStructuralFloor(feed) {
+    if (!feed) return { floor: 0, reason: '' };
+    var floor = 0;
+    var reason = '';
+    var signals = feed.signals || [];
+    function _has(token) {
+      for (var i = 0; i < signals.length; i++) {
+        if (typeof signals[i] === 'string' && signals[i].toLowerCase().indexOf(token) !== -1) return true;
+      }
+      return false;
+    }
+    // (2) Acute pollution event: AQI / spill with health/ecosystem impact ALWAYS triggers pollution_event
+    //     (highest environment floor — an acute air/water/soil contamination with downstream health and
+    //     ecosystem damage; WM/RSG/WCN/CWST/ECL remediation exposure, EPA AQI). aqi > 200 (very
+    //     unhealthy/hazardous), or an explicit spill/contamination/pollution signal, trips it.
+    var aqi = (feed.airQualityIndex !== undefined) ? feed.airQualityIndex
+            : (feed.aqi !== undefined) ? feed.aqi
+            : null;
+    if ((aqi !== null && aqi > 200 && (_has('air') || _has('aqi') || _has('pollut') || _has('smog') || _has('hazard'))) ||
+        _has('pollution event') || _has('pollution-event') || _has('chemical spill') || _has('oil spill') || _has('contamination') || _has('toxic release') || _has('hazardous')) {
+      if (_ENVIRONMENT_STRUCTURAL.pollutionEventFloor > floor) {
+        floor = _ENVIRONMENT_STRUCTURAL.pollutionEventFloor;
+        reason = 'structural: pollution_event' + (aqi !== null ? ' (AQI ' + Math.round(aqi) + ' > 200, hazardous)' : '');
+      }
+    }
+    // (5) Regulatory breach: carbon cap exceeded / compliance failure ALWAYS triggers regulatory_breach
+    //     (an environmental-compliance constraint — carbon-market cap-and-trade overage, permit
+    //     violation, or enforcement action; LIN/APD/ECL/WM/RSG compliance exposure, carbon markets).
+    //     capComplianceRatio above 1.0 (emissions exceed the allocated cap), or an explicit
+    //     cap-breach/compliance-failure/enforcement signal, trips it.
+    var capRatio = (feed.carbonCapComplianceRatio !== undefined) ? feed.carbonCapComplianceRatio
+                 : (feed.emissionsCapRatio !== undefined) ? feed.emissionsCapRatio
+                 : null;
+    if ((capRatio !== null && capRatio > 1.0 && (_has('carbon') || _has('cap') || _has('compliance') || _has('permit') || _has('emission'))) ||
+        _has('regulatory breach') || _has('regulatory-breach') || _has('cap exceeded') || _has('compliance failure') || _has('permit violation') || _has('enforcement action') || _has('non-compliance')) {
+      if (_ENVIRONMENT_STRUCTURAL.regulatoryBreachFloor > floor) {
+        floor = _ENVIRONMENT_STRUCTURAL.regulatoryBreachFloor;
+        reason = 'structural: regulatory_breach' + (capRatio !== null ? ' (emissions ' + (capRatio * 100).toFixed(0) + '% of carbon cap > 100%)' : '');
+      } else if (floor > 0) {
+        reason += ' + regulatory_breach';
+      }
+    }
+    // (1) Emissions spike: CO2e YoY spike > 50% ALWAYS triggers emissions_spike
+    //     (a structural climate signal, not noise — the load-bearing climate ceiling, mirrors energy's
+    //     grid reserve margin < 10%; DAR/LIN/APD carbon-intensity exposure, atmospheric CO2 proxy).
+    //     co2eYoY accepts fraction (0.55) or percent (55) form; an explicit emissions-spike signal trips it.
+    var co2eYoY = (feed.co2eYoY !== undefined) ? feed.co2eYoY
+                : (feed.emissionsYoY !== undefined) ? feed.emissionsYoY
+                : null;
+    var co2eFrac = (co2eYoY !== null && (co2eYoY > 1 || co2eYoY < -1)) ? co2eYoY / 100 : co2eYoY;
+    if ((co2eFrac !== null && co2eFrac > 0.50 && (_has('emission') || _has('co2') || _has('carbon') || _has('greenhouse') || _has('ghg'))) ||
+        _has('emissions spike') || _has('emissions-spike') || _has('emissions surge') || _has('carbon spike')) {
+      if (_ENVIRONMENT_STRUCTURAL.emissionsSpikeFloor > floor) {
+        floor = _ENVIRONMENT_STRUCTURAL.emissionsSpikeFloor;
+        reason = 'structural: emissions_spike' + (co2eFrac !== null ? ' (CO2e ' + (co2eFrac * 100).toFixed(0) + '% YoY > 50%)' : '');
+      } else if (floor > 0) {
+        reason += ' + emissions_spike';
+      }
+    }
+    // (3) Biodiversity loss: extinction rate / habitat loss > threshold ALWAYS triggers biodiversity_loss
+    //     (an ecosystem-collapse constraint — accelerated species extinction or habitat conversion;
+    //     conservation/natural-resources exposure). habitatLossYoY > 5% (fraction 0.05), or an explicit
+    //     extinction/habitat/deforestation/biodiversity signal, trips it.
+    var habitatLoss = (feed.habitatLossYoY !== undefined) ? feed.habitatLossYoY
+                    : (feed.extinctionRate !== undefined) ? feed.extinctionRate
+                    : null;
+    var habitatFrac = (habitatLoss !== null && (habitatLoss > 1 || habitatLoss < -1)) ? habitatLoss / 100 : habitatLoss;
+    var habitatMag = (habitatFrac !== null) ? Math.abs(habitatFrac) : null;
+    if ((habitatMag !== null && habitatMag > 0.05 && (_has('biodivers') || _has('extinct') || _has('habitat') || _has('species') || _has('ecosystem') || _has('deforest'))) ||
+        _has('biodiversity loss') || _has('biodiversity-loss') || _has('mass extinction') || _has('habitat loss') || _has('ecosystem collapse') || _has('deforestation')) {
+      if (_ENVIRONMENT_STRUCTURAL.biodiversityLossFloor > floor) {
+        floor = _ENVIRONMENT_STRUCTURAL.biodiversityLossFloor;
+        reason = 'structural: biodiversity_loss' + (habitatMag !== null ? ' (habitat/extinction ' + (habitatMag * 100).toFixed(1) + '% > 5%)' : '');
+      } else if (floor > 0) {
+        reason += ' + biodiversity_loss';
+      }
+    }
+    // (4) Water stress: scarcity index / water-quality failure ALWAYS triggers water_stress
+    //     (a natural-resource constraint — water scarcity or a potable-water-quality failure; AWK/WTRG/
+    //     XYL water-utility/treatment exposure, water-stress indices). waterStressIndex > 0.80 (high
+    //     baseline water stress, withdrawals near supply), or an explicit scarcity/water-quality/drought
+    //     signal, trips it.
+    var waterStress = (feed.waterStressIndex !== undefined) ? feed.waterStressIndex
+                    : (feed.waterScarcityIndex !== undefined) ? feed.waterScarcityIndex
+                    : null;
+    var waterFrac = (waterStress !== null && waterStress > 1) ? waterStress / 100 : waterStress;
+    if ((waterFrac !== null && waterFrac > 0.80 && (_has('water') || _has('scarcit') || _has('drought') || _has('aquifer') || _has('reservoir'))) ||
+        _has('water stress') || _has('water-stress') || _has('water scarcity') || _has('water quality') || _has('drought') || _has('water shortage') || _has('contaminated water')) {
+      if (_ENVIRONMENT_STRUCTURAL.waterStressFloor > floor) {
+        floor = _ENVIRONMENT_STRUCTURAL.waterStressFloor;
+        reason = 'structural: water_stress' + (waterFrac !== null ? ' (water-stress index ' + (waterFrac * 100).toFixed(0) + '% > 80%)' : '');
+      } else if (floor > 0) {
+        reason += ' + water_stress';
+      }
+    }
+    return { floor: floor, reason: reason };
+  }
+
   function _normalizeStress(domainKey, rawStress, feed) {
     // Phase 0: domain structural-signal floor (engineering/attention-economy constraints
     // bypass commodity/market/volume dampening — mirrors energy-brain grid_stress conditions)
@@ -1107,6 +1253,7 @@
                    : (domainKey === 'intelligence') ? _intelligenceStructuralFloor(feed)
                    : (domainKey === 'supplyChain') ? _tradeStructuralFloor(feed)
                    : (domainKey === 'industry') ? _industryStructuralFloor(feed)
+                   : (domainKey === 'environment') ? _environmentStructuralFloor(feed)
                    : { floor: 0, reason: '' };
     if (structural.floor > rawStress) {
       rawStress = structural.floor;

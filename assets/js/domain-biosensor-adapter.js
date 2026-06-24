@@ -302,7 +302,34 @@
       label: 'Ecological monitoring and response urgency',
       arousal: 'Environmental urgency — high arousal during ecological crises reflects time-critical intervention pressure',
       coherence: 'Assessment quality — low coherence during compound environmental stress suggests overwhelmed monitoring',
-      cognitiveLoad: 'System complexity — high load with interacting environmental factors reflects analytical difficulty'
+      cognitiveLoad: 'System complexity — high load with interacting environmental factors reflects analytical difficulty',
+      // Environmental-program intake/triage readiness map: regulation state → monitoring,
+      // research and remediation program intake velocity and compliance/remediation urgency.
+      // Mirrors energy's biosensor intake map (energy gates capex/dispatch; environment gates
+      // monitoring/research/remediation program intake by operator regulation state) — both are
+      // advisory-layer only and independent of the kernel scoring spine. Consumed by (future)
+      // environment-clarity-operator outcome tracking (monitoring-program coverage, remediation-project
+      // velocity, conservation-initiative throughput, compliance-deadline timeliness, climate-risk
+      // adaptation cadence). ENVIRONMENT identity only — climate & emissions, air/water/soil pollution
+      // & quality, ecosystems & biodiversity, natural resources & conservation, environmental regulation
+      // & compliance, climate risk & adaptation, waste management & remediation, carbon markets. Distinct
+      // from energy (couples via emissions/carbon but environment never adopts grid/oil/gas/power-
+      // generation as its own content) and from agriculture (land/water use is a coupling, not the
+      // identity). Reference environmental-sector names: WM, RSG, WCN, CWST (waste & remediation), AWK,
+      // WTRG, XYL (water utilities & infrastructure), ECL (water/hygiene treatment), LIN, APD (industrial
+      // gases & carbon-capture/clean-energy enablement), DAR (rendering & recycling), AY (clean
+      // infrastructure). Operator arousal/coherence during environmental crises gate monitoring/research/
+      // remediation intake (high arousal = crisis pollution/biodiversity/climate-triage mode; low arousal
+      // = deliberate monitoring/research-expansion mode). STRICTLY ADDITIVE — does not touch any validated
+      // scoring spine.
+      readiness: {
+        calm: 'Steady operator state — safe to expand environmental research and monitoring programs: stand up new air/water/soil quality monitoring networks, invest in remediation and waste-treatment technology (WM/RSG/WCN/CWST recycling & landfill-gas, DAR rendering & circular processing, ECL water treatment), and launch new conservation and biodiversity initiatives; open speculative climate-risk adaptation and carbon-market (LIN/APD carbon-capture, AY clean-infrastructure) programs.',
+        focused: 'Productive engagement — sustain active monitoring and in-flight conservation projects (WTRG/AWK/XYL water-infrastructure operations, WM/RSG live remediation sites); admit only well-scoped new intake (single-site cleanup, proven monitoring expansions, scoped compliance reporting); hold open-ended speculative research and new conservation programs.',
+        pressured: 'Elevated load — defer speculative environmental programs and new research intake; focus on active pollution, biodiversity and climate triage: protect ongoing remediation, prioritize at-risk ecosystems and exceedance events, and keep compliance-deadline and discharge/emissions monitoring active on live sites.',
+        overloaded: 'Saturated — pause all new initiatives; triage critical emissions, water and ecosystem failures: acute air/water/soil contamination events (WM/RSG/CWST spill and hazardous-waste response, ECL/WTRG/AWK water-quality breaches), regulatory compliance violations and remediation-deadline failures, and irreversible biodiversity/ecosystem-collapse risk.',
+        recovering: 'Stabilizing — resume monitoring first (re-establish air/water/soil sensing and compliance reporting on restored sites), then gradually reopen research and conservation programs as environmental-quality indicators, remediation-completion rates and compliance posture normalize.',
+        unknown: 'Regulation state unavailable — default to snapshot-driven prioritization (active environmental-exceedance signals and ecosystem/compliance-criticality ranking).'
+      }
     },
     religion: {
       label: 'Contemplative state and community engagement',

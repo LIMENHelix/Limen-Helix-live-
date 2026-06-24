@@ -1,5 +1,11 @@
 /**
- * science-clarity-operator.js — Money-Driven Action Surface for Environment / Environment Domain
+ * environment-clarity-operator.js — Money-Driven Action Surface for Environment Domain
+ *
+ * ENVIRONMENTAL IDENTITY: climate & emissions, air/water/soil pollution & quality,
+ * ecosystems & biodiversity, natural resources & conservation, environmental
+ * regulation & compliance, climate risk & adaptation, waste management & remediation,
+ * carbon markets. Couples to energy via emissions/carbon and to agriculture via
+ * land/water use, but keeps a distinct environmental identity.
  *
  * Self-gates: only runs when ?domain=environment or ?domain=research
  *
@@ -18,7 +24,7 @@
 
   var params = new URLSearchParams(window.location.search);
   var _dom = params.get('domain');
-  if (_dom !== 'environment' && _dom !== 'environment') return;
+  if (_dom !== 'environment' && _dom !== 'research') return;
 
   var VIEW_ID = 'sos-operator-view';
   var STATUS_KEY = 'limen_environment_operator_status';

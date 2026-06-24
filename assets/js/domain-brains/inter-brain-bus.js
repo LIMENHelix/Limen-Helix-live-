@@ -257,6 +257,63 @@
  *   SIGNAL examples only — the validated Thing1 P3 distress kernel remains the
  *   sole scoring authority; the bus merely transports already-scored emissions.
  *
+ * Cross-domain examples — ENVIRONMENT → OTHER (environment as a source).
+ * Environment is the CLIMATE / POLLUTION / ECOSYSTEMS domain (climate & emissions,
+ * air/water/soil pollution & quality, ecosystems & biodiversity, natural resources
+ * & conservation, environmental regulation & compliance, climate risk & adaptation,
+ * waste management & remediation, carbon markets). It is DISTINCT from energy
+ * (oil/gas/grid/power-generation — environment COUPLES to energy via emissions /
+ * carbon pricing but NEVER takes fuel/grid as its own identity) and from
+ * agriculture (land & water USE is a coupling, not environment's content). The bus
+ * previously documented environment as a TARGET only — it RECEIVES from energy /
+ * agriculture / industry (inbound, line 18 family) but its OUTBOUND emissions were
+ * silent in the bus. These are environment's native OUTBOUND paths, mirroring the
+ * energy / defense / intelligence SOURCE examples (the rules live in
+ * environment-brain.js emissionRules, lines 60–91); environment emits these native
+ * signals when ≥1 active diagnosis is present (per brain cycle):
+ *   environment → energy        (carbon_regulatory_tightening / climate_asset_
+ *                           stranding → carbon_regulatory_pressure escalates
+ *                           renewable-transition urgency and fossil-fuel capex /
+ *                           stranded-asset risk for capex-heavy energy issuers —
+ *                           the outbound mirror of energy's inbound climate_resource
+ *                           _constraint, WITHOUT environment taking on oil/gas as
+ *                           its identity)
+ *   environment → agriculture   (water_scarcity / soil_degradation →
+ *                           water_security_investment & input stress raise yield
+ *                           risk and irrigation / soil-remediation demand — the
+ *                           ecosystem_soil_stress return path, environment-brain.js
+ *                           line 62)
+ *   environment → infrastructure(ecosystem_degradation / flooding_risk →
+ *                           climate_adaptation_spending pressures asset resilience
+ *                           and drives adaptation capex / hardening of exposed
+ *                           infrastructure — environment-brain.js line 74,
+ *                           environmental_degradation_impact)
+ *   environment → governance    (regulatory_pressure_escalation / climate_tipping_
+ *                           risk → carbon_regulatory_pressure raises policy &
+ *                           compliance urgency, emissions-disclosure and remediation
+ *                           mandates — environment-brain.js line 86,
+ *                           environmental_regulatory_pressure)
+ *   environment → economy       (environmental_cost_burden / carbon_pricing →
+ *                           emission_control_cost imposes capex burden and margin
+ *                           pressure on high-emission firms → environmental_cost_
+ *                           pressure, environment-brain.js line 80)
+ *   Additional environment-native SIGNAL examples surfacing on these paths:
+ *   carbon_regulatory_pressure, emission_control_cost, biodiversity_restoration_
+ *   demand, climate_adaptation_spending, water_security_investment.
+ *   Real environmental-sector issuers behind these signals (waste management &
+ *   remediation / water utilities & treatment / pollution-control & industrial
+ *   gases / environmental services — NOT energy oil/gas/grid, NOT agriculture
+ *   land/water operators): WM, RSG, WCN, CWST (waste & remediation); AWK, WTRG, XYL
+ *   (water utilities & treatment); ECL (water/hygiene & pollution control); LIN, APD
+ *   (industrial gases & carbon-capture/abatement); DAR (rendering & waste-to-value);
+ *   AY (clean-infrastructure / environmental assets). (carbon_regulatory_pressure =
+ *   emissions / carbon-price compliance burden; emission_control_cost = abatement &
+ *   pollution-control capex; biodiversity_restoration_demand = ecosystem / habitat
+ *   remediation pull; climate_adaptation_spending = resilience / hardening capex;
+ *   water_security_investment = water-scarcity / treatment investment.) SIGNAL
+ *   examples only — the validated Thing1 P3 distress kernel remains the sole scoring
+ *   authority; the bus merely transports already-scored emissions.
+ *
  * Also detects:
  *   - Propagation chains (A→B→C)
  *   - Co-activation (multiple domains emitting simultaneously)

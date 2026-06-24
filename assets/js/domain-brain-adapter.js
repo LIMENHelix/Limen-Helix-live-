@@ -81,6 +81,7 @@
       brainUpdated:       _val(bs.updated),
       brainEnergyModel:   _obj(bs.energyModel),   // F0: carry recurrent brain model (energy; null elsewhere)
       brainSupplyChainModel: _obj(bs.supplyChainModel), // F0.trade: carry recurrent logistics-lifecycle model (trade/supplyChain)
+      brainEnvironmentModel: _obj(bs.environmentModel), // F0.environment: carry recurrent climate/emissions/ecosystem lifecycle model (environment; null elsewhere)
 
       // === A. Identity & timing (additive) ===
       brainDomainId:              _val(bs.domainId),

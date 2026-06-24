@@ -172,7 +172,39 @@
     //     (info, not warn) rather than UNKNOWN_LANE_FOR_PATH_MAP.
     'industrial-capacity': 'INVESTABLE',
     'automation-upgrade':  'INVESTABLE',
-    'factory-output':      null
+    'factory-output':      null,
+    // ─── Environment-native fan-out lanes (additive) ───────────────────────
+    // The environment domain (climate & emissions, air/water/soil pollution &
+    // quality, ecosystems & biodiversity, natural resources & conservation,
+    // environmental regulation & compliance, climate risk & adaptation, waste
+    // management & remediation, carbon markets) emits to climate/pollution/
+    // remediation/ecosystem-shaped lanes beyond the generic grant/loan/
+    // investment set. Without entries here those lanes hit the "key absent"
+    // branch and emit UNKNOWN_LANE_FOR_PATH_MAP (warn), demoting every
+    // environment artifact routed through them. These are LANE keys (not domain
+    // keys), mirroring how sba-loans / investments map to INVESTABLE. Kept
+    // DISTINCT from energy (no oil/gas/grid — environment couples to energy via
+    // emissions/carbon, not power generation) and from agriculture (land/water
+    // USE is a coupling, not environment's identity).
+    //   - climate-adaptation-infrastructure: bounded resilience facility /
+    //     adaptation capital project = capital deployment → INVESTABLE path.
+    //   - environmental-remediation: bounded cleanup / brownfield / superfund
+    //     remediation operator = capital deployment → INVESTABLE path.
+    //   - pollution-control-technology: emissions-control / treatment
+    //     technology deployment = capital deployment → INVESTABLE path.
+    //   - ecosystem-restoration: cross-domain multi-ecosystem opportunity
+    //     spanning agriculture/environment co-elevation; no single Observatory
+    //     fan-in path defined yet (white-space cross-domain opportunity, like
+    //     franchise / systemic-risk / factory-output) → null. The packet is
+    //     built from the HandoffPacket alone and emits NO_ENRICHMENT_PATH
+    //     (info, not warn) rather than UNKNOWN_LANE_FOR_PATH_MAP.
+    //   - carbon-market-access: carbon-credit / offset market access =
+    //     capital deployment into a tradable instrument → INVESTABLE path.
+    'climate-adaptation-infrastructure': 'INVESTABLE',
+    'environmental-remediation':         'INVESTABLE',
+    'pollution-control-technology':      'INVESTABLE',
+    'ecosystem-restoration':             null,
+    'carbon-market-access':              'INVESTABLE'
   };
 
   // ─── Lane forbidden-fields policy ──────────────────────────────────────
@@ -204,7 +236,17 @@
     // investments policy.
     'industrial-capacity': [],
     'automation-upgrade':  [],
-    'factory-output':      []
+    'factory-output':      [],
+    // Environment-native fan-out lanes (see LANE_TO_PATH). No fields forbidden —
+    // these are climate/pollution/remediation/carbon capital lanes where
+    // valueRange, compensation, and counterparty detail are load-bearing (unlike
+    // the patent/grant lanes that strip dollar figures). Mirrors sba-loans /
+    // investments policy.
+    'climate-adaptation-infrastructure': [],
+    'environmental-remediation':         [],
+    'pollution-control-technology':      [],
+    'ecosystem-restoration':             [],
+    'carbon-market-access':              []
   };
 
   // ─── Citation hints — verified URLs / opaque agency tokens ONLY ────────
@@ -370,7 +412,41 @@
     'Dover Investor Relations':       'https://investors.dovercorporation.com/',
     'GE Vernova Investor Relations':  'https://www.gevernova.com/investor-relations',
     'FRED Industrial Production Index': 'https://fred.stlouisfed.org/series/INDPRO',
-    'ISM Manufacturing PMI':          'https://www.ismworld.org/supply-management-news-and-reports/reports/ism-report-on-business/'
+    'ISM Manufacturing PMI':          'https://www.ismworld.org/supply-management-news-and-reports/reports/ism-report-on-business/',
+    // Environment primary-source authorities: the CLIMATE & ENVIRONMENTAL-HEALTH
+    // signal layer (climate forcing & emissions, air/water quality, ecosystem &
+    // biodiversity health, international climate policy, plus the real
+    // environmental-services / waste-remediation / water / treatment OPERATOR
+    // investor-relations pages). Anchored on the federal environmental
+    // authorities (EPA air/water, NOAA climate, USGS ecosystems), the
+    // international assessment authority (IPCC), and real environmental-sector
+    // operators (WM, RSG, WCN, CWST waste & remediation; AWK, WTRG, XYL water
+    // utilities & technology; ECL water/treatment chemistry; LIN, APD
+    // environmental gases; DAR waste-to-value; AY sustainability). DISTINCT from
+    // energy (no oil/gas/grid — environment couples to energy via emissions/
+    // carbon, but its OWN content = climate/pollution/ecosystems) and from
+    // agriculture (land/water USE is a coupling, not the identity). Verified
+    // canonical landing pages / opaque agency tokens only — never AI-constructed
+    // deep links. Mirrors the energy / infrastructure / culture / finance /
+    // economy / technology / defense / intelligence / industry structure.
+    'EPA Air Quality':                       'https://www.epa.gov/air-quality',
+    'EPA Water Quality':                     'https://www.epa.gov/waterdata',
+    'NOAA Climate Data':                     'https://www.ncei.noaa.gov/products/climate-data/',
+    'USGS Ecosystem Health':                 'https://www.usgs.gov/ecosystems',
+    'IPCC Climate Assessment':               'https://www.ipcc.ch/',
+    'International Carbon Market':            'https://icecap.greenclimate.fund/',
+    'Waste Management Investor Relations':   'https://investors.wm.com/',
+    'Republic Services Investor Relations':  'https://investor.rsg.com/',
+    'Waste Connections Investor Relations':  'https://investor.wasteconnections.com/',
+    'Casella Waste Systems Investor Relations': 'https://investor.casella.com/',
+    'American Water Works Investor Relations':  'https://investor.amwater.com/',
+    'Water Technologies Group':              'investor-relations',
+    'Xylem Investor Relations':              'https://investors.xylem.com/',
+    'Ecolab Investor Relations':             'https://investor.ecolab.com/',
+    'Linde Environmental':                   'https://investor.linde.com/',
+    'Air Products Environmental':            'https://investor.airproducts.com/',
+    'Darling Ingredients Investor Relations': 'https://investor.darlingii.com/',
+    'Asure Energy':                          'https://investors.asuregroup.com/'
   };
 
   // ─── Domain-specific primary source priority ───────────────────────────
@@ -479,7 +555,21 @@
     // chip/cloud sources). Mirrors the energy / infrastructure / culture /
     // finance / economy / technology / defense / intelligence ordering so
     // industry artifacts no longer demote through the PRIMARY_BY_FALLBACK path.
-    industry: ['Caterpillar Investor Relations', 'Deere Investor Relations', 'Honeywell Investor Relations', 'Emerson Investor Relations', 'Rockwell Automation Investor Relations', 'GE Investor Relations', '3M Investor Relations', 'ITW Investor Relations', 'Eaton Investor Relations', 'Parker Hannifin Investor Relations', 'Dover Investor Relations', 'GE Vernova Investor Relations', 'FRED Industrial Production Index', 'ISM Manufacturing PMI']
+    industry: ['Caterpillar Investor Relations', 'Deere Investor Relations', 'Honeywell Investor Relations', 'Emerson Investor Relations', 'Rockwell Automation Investor Relations', 'GE Investor Relations', '3M Investor Relations', 'ITW Investor Relations', 'Eaton Investor Relations', 'Parker Hannifin Investor Relations', 'Dover Investor Relations', 'GE Vernova Investor Relations', 'FRED Industrial Production Index', 'ISM Manufacturing PMI'],
+    // Environment primary sources: climate & environmental-health authorities
+    // that anchor the environment signal layer — climate forcing & emissions
+    // (NOAA temperature anomaly / CO2 = the climate spine), air & water quality
+    // (EPA AQI / contamination), ecosystem & biodiversity health (USGS), and
+    // international climate policy (IPCC). Ranked highest-signal structural
+    // first: NOAA climate forcing leads (the warming / emissions spine), EPA
+    // air/water quality and USGS ecosystem health ground it, IPCC provides the
+    // policy anchor. DISTINCT from energy (no oil/gas/grid sources — environment
+    // couples to energy via emissions/carbon) and from agriculture (no land/
+    // water-use sources — a coupling, not the identity). Mirrors the energy /
+    // infrastructure / culture / finance / economy / technology / defense /
+    // intelligence / industry ordering so environment artifacts no longer demote
+    // through the PRIMARY_BY_FALLBACK path.
+    environment: ['NOAA Climate Data', 'EPA Air Quality', 'EPA Water Quality', 'USGS Ecosystem Health', 'IPCC Climate Assessment']
   };
 
   // ─── Feed token map for evidence-source verification ───────────────────
@@ -637,7 +727,37 @@
     'Dover Investor Relations':               ['DOV', 'Dover', 'industrial equipment', 'pumps', 'manufacturing', 'machinery'],
     'GE Vernova Investor Relations':          ['GEV', 'GE Vernova', 'Vernova', 'turbine', 'industrial power equipment', 'grid'],
     'FRED Industrial Production Index':       ['FRED', 'Industrial Production', 'INDPRO', 'factory output', 'capacity utilization', 'manufacturing output'],
-    'ISM Manufacturing PMI':                  ['ISM', 'Manufacturing PMI', 'PMI', 'factory expansion', 'new orders', 'production index']
+    'ISM Manufacturing PMI':                  ['ISM', 'Manufacturing PMI', 'PMI', 'factory expansion', 'new orders', 'production index'],
+    // Environment feed tokens: literal substrings the brain's evidence prose
+    // must contain for _isEvidenceSourceVerified to anchor environment
+    // artifacts. Each entry mirrors a CITATION_HINTS / PRIMARY_PRIORITY_MAP
+    // environment feed so the climate & environmental-health signal layer
+    // verifies instead of always failing. Anchors are real climate / air /
+    // water / ecosystem vocabulary (AQI, temperature anomaly, CO2, species
+    // decline, biodiversity) plus real environmental-sector OPERATOR tickers
+    // (WM, RSG, WCN, CWST, AWK, WTRG, XYL, ECL, LIN, APD, DAR, AY) and their
+    // waste / water / treatment / sustainability vocabulary — kept DISTINCT
+    // from energy (no oil/gas/grid tokens — environment couples to energy via
+    // emissions/carbon), from agriculture (no land-use/crop tokens — a
+    // coupling), and from technology (no chip/cloud tokens). Matches the brain
+    // prose against real environmental sources, not generic climate words alone.
+    'EPA Air Quality':                       ['EPA', 'air quality index', 'AQI', 'particulate', 'ozone'],
+    'EPA Water Quality':                     ['EPA', 'water contamination', 'MCL', 'Safe Drinking Water'],
+    'NOAA Climate Data':                     ['NOAA', 'temperature anomaly', 'CO2', 'climate', 'warming'],
+    'USGS Ecosystem Health':                 ['USGS', 'species decline', 'habitat loss', 'biodiversity', 'ecosystem'],
+    'IPCC Climate Assessment':               ['IPCC', 'climate change', 'anthropogenic', 'emissions', 'global warming'],
+    'Waste Management Investor Relations':   ['WM', 'waste', 'landfill', 'recycling', 'solid waste'],
+    'Republic Services Investor Relations':  ['RSG', 'Republic Services', 'waste collection', 'disposal'],
+    'Waste Connections Investor Relations':  ['WCN', 'Waste Connections', 'waste'],
+    'Casella Waste Systems Investor Relations': ['CWST', 'Casella', 'waste'],
+    'American Water Works Investor Relations':   ['AWK', 'American Water', 'water utility', 'treatment'],
+    'Water Technologies Group':              ['WTRG', 'water tech', 'treatment', 'pipeline'],
+    'Xylem Investor Relations':              ['XYL', 'Xylem', 'water management', 'infrastructure'],
+    'Ecolab Investor Relations':             ['ECL', 'Ecolab', 'water solutions', 'treatment chemistry'],
+    'Linde Environmental':                   ['LIN', 'Linde', 'environmental gases', 'air separation'],
+    'Air Products Environmental':            ['APD', 'Air Products', 'environmental solutions', 'emissions'],
+    'Darling Ingredients Investor Relations': ['DAR', 'Darling', 'sustainability', 'waste-to-value'],
+    'Asure Energy':                          ['AY', 'Asure', 'energy efficiency', 'sustainability']
   };
 
   // ─── Module-level flag: SCHEMA_VERSION_BUMPED warning ─────────────────

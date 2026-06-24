@@ -330,6 +330,66 @@ for (var _idk in INDUSTRIAL_COMPANY_BINDING) {
   NODE_TO_INDUSTRIAL_COMPANY[_idb.node].push(_idb);
 }
 
+// ── ENVIRONMENT-SECTOR (WASTE / WATER / EMISSIONS / CLIMATE-INFRA) COMPANY ticker bindings (environment gap 1 — ADDITIVE, OPT-IN) ──
+// Parallel to TECH_COMPANY_BINDING, INTELLIGENCE_COMPANY_BINDING, TRADE_COMPANY_BINDING
+// and INDUSTRIAL_COMPANY_BINDING (and to MACRO_INDICATOR_BINDING). NOT merged into the
+// default resolve() pipeline and NOT included in NODE_TO_MACRO_INDICATOR — consumed ONLY
+// when a context explicitly triggers an environment-company-level drill
+// (getEnvironmentCompaniesForNode / ENVIRONMENT_SECTOR_COMPANY_BINDING export). Each
+// ticker traces ENVIRONMENTAL-SERVICE / ENVIRONMENTAL-INFRASTRUCTURE CAPACITY to a REAL
+// environment connectome node (nodes are the actual environment-domain participations in
+// brain-node-domains.json: dACC=pollution control, CeA=soil/remediation, GABA_GLU=envlaw/
+// compliance, DV=water cycles, NTS=ocean chemistry, PBN=atmospheric regulation,
+// VTA=renewable resources, HYPO=climate systems). Ticker stress (dir 'low' for all —
+// stress on decline) estimates an ENVIRONMENTAL-CAPACITY DEGRADATION that is PURE
+// environmental identity: a WM/RSG decline = waste-routing / landfill-processing capacity
+// constrained → collection & disposal bottleneck; an AWK/WTRG decline = water-supply /
+// distribution & treatment-compliance capacity strained → advanced-treatment OpEx; an
+// XYL/ECL decline = water-treatment-technology / emissions-chemistry capacity pulls back →
+// scrubber & treatment efficiency drag; a LIN/APD decline = industrial-gas / air-quality
+// emission-control capacity tightens → capture & abatement throughput; a DAR decline =
+// waste/byproduct-to-resource sustainability capacity falls; an AY decline = climate /
+// clean infrastructure capacity softens. This is ENVIRONMENT identity = waste management
+// & remediation, water quality & treatment, air/emissions control, carbon/climate
+// infrastructure — DISTINCT from energy (no oil/gas production, no grid ops, no power
+// generation), DISTINCT from agriculture (land/water USE is a coupling), and DISTINCT from
+// industry (capital goods). ENERGY is PURELY a downstream SECOND-ORDER consequence, never
+// the identity: when waste/water/emissions stress drives higher treatment/control OpEx,
+// facility power & cooling demand can spike — but environment nodes carry ZERO
+// energy-domain content and energy is NEVER the initiating signal. REAL environmental-
+// sector tickers only.
+//   WM/RSG/WCN/CWST → waste management infrastructure / ops / capacity / logistics
+//   AWK/WTRG        → water supply quality / distribution & compliance
+//   XYL/ECL         → water-treatment technology / water-chemistry & emissions treatment
+//   LIN/APD         → emissions capture (industrial gases) / air-quality emissions control
+//   DAR             → waste & byproduct-to-resource sustainability
+//   AY              → climate / clean infrastructure
+var ENVIRONMENT_SECTOR_COMPANY_BINDING = {
+  WM:   { series: 'WM',   node: 'dACC',     role: 'Waste-Management Infrastructure Capacity',   nodeRole: 'Pollution Control',           label: 'Waste Management Inc.',     threshold: -15, dir: 'low', kind: 'ticker', industry: 'waste-management' },
+  RSG:  { series: 'RSG',  node: 'dACC',     role: 'Waste Collection & Disposal Ops Capacity',   nodeRole: 'Pollution Control',           label: 'Republic Services',         threshold: -16, dir: 'low', kind: 'ticker', industry: 'waste-management' },
+  WCN:  { series: 'WCN',  node: 'CeA',      role: 'Waste / Landfill Processing Capacity',       nodeRole: 'Soilenv',                     label: 'Waste Connections',         threshold: -17, dir: 'low', kind: 'ticker', industry: 'waste-management' },
+  CWST: { series: 'CWST', node: 'GABA_GLU', role: 'Waste Logistics & Compliance Capacity',      nodeRole: 'Envlaw',                      label: 'Casella Waste Systems',     threshold: -22, dir: 'low', kind: 'ticker', industry: 'waste-logistics' },
+  AWK:  { series: 'AWK',  node: 'DV',       role: 'Water Supply & Quality Capacity',            nodeRole: 'Water Cycles',                label: 'American Water Works',      threshold: -14, dir: 'low', kind: 'ticker', industry: 'water-utility' },
+  WTRG: { series: 'WTRG', node: 'DV',       role: 'Water Distribution & Compliance Capacity',   nodeRole: 'Water Cycles',                label: 'Essential Utilities',       threshold: -16, dir: 'low', kind: 'ticker', industry: 'water-utility' },
+  XYL:  { series: 'XYL',  node: 'NTS',      role: 'Water-Treatment Technology Capacity',        nodeRole: 'Ocean Chemistry',             label: 'Xylem',                     threshold: -18, dir: 'low', kind: 'ticker', industry: 'water-technology' },
+  ECL:  { series: 'ECL',  node: 'NTS',      role: 'Water-Chemistry & Emissions-Treatment Capacity', nodeRole: 'Ocean Chemistry',         label: 'Ecolab',                    threshold: -15, dir: 'low', kind: 'ticker', industry: 'water-chemistry' },
+  LIN:  { series: 'LIN',  node: 'PBN',      role: 'Emissions Capture / Industrial-Gas Capacity', nodeRole: 'Atmospheric Regulation',     label: 'Linde',                     threshold: -16, dir: 'low', kind: 'ticker', industry: 'emissions-control' },
+  APD:  { series: 'APD',  node: 'PBN',      role: 'Air-Quality / Emissions-Control Capacity',   nodeRole: 'Atmospheric Regulation',      label: 'Air Products & Chemicals',  threshold: -17, dir: 'low', kind: 'ticker', industry: 'emissions-control' },
+  DAR:  { series: 'DAR',  node: 'VTA',      role: 'Waste / Byproduct Sustainability Capacity',  nodeRole: 'Renewable Resources',         label: 'Darling Ingredients',       threshold: -20, dir: 'low', kind: 'ticker', industry: 'circular-economy' },
+  AY:   { series: 'AY',   node: 'HYPO',     role: 'Climate / Clean Infrastructure Capacity',    nodeRole: 'Climate Systems',             label: 'Atlantica Sustainable Infrastructure', threshold: -19, dir: 'low', kind: 'ticker', industry: 'climate-infrastructure' }
+};
+
+// Reverse lookup: connectome node → environment-sector company tickers it sources from
+// (opt-in environment-company drill, parallel to NODE_TO_TECH_COMPANY /
+// NODE_TO_INTEL_COMPANY / NODE_TO_TRADE_COMPANY / NODE_TO_INDUSTRIAL_COMPANY).
+var NODE_TO_ENVIRONMENT_COMPANY = {};
+for (var _envk in ENVIRONMENT_SECTOR_COMPANY_BINDING) {
+  if (!Object.prototype.hasOwnProperty.call(ENVIRONMENT_SECTOR_COMPANY_BINDING, _envk)) continue;
+  var _envb = ENVIRONMENT_SECTOR_COMPANY_BINDING[_envk];
+  if (!NODE_TO_ENVIRONMENT_COMPANY[_envb.node]) NODE_TO_ENVIRONMENT_COMPANY[_envb.node] = [];
+  NODE_TO_ENVIRONMENT_COMPANY[_envb.node].push(_envb);
+}
+
 // ── FISCAL vs MONETARY POLICY TRANSMISSION (ADDITIVE — economy gap 2) ──
 // The existing FEED_TO_CONNECTOME['finance'] = ['economy','finance'] mapping does
 // NOT distinguish FISCAL (Treasury / OMB / Congress: spending, taxes, debt
@@ -377,7 +437,27 @@ var MACRO_POLICY_PATH = {
   trade_bilateral_agreement: { connectomeDomains: ['trade', 'governance'],          indicators: ['EXPGS', 'IMPGS', 'BOPGSTB'],                    sources: ['USTR FTA Text', 'Congressional Ratification'] },
   trade_sanctions: { connectomeDomains: ['trade', 'governance', 'finance'],         indicators: ['ExportPermitDelay', 'CustomsBacklog'],          sources: ['OFAC SDN List', 'BIS Entity List'] },
   trade_export_control: { connectomeDomains: ['trade', 'governance'],               indicators: ['ExportPermitDelay', 'TariffLevel'],             sources: ['BIS EAR / CCL', 'State DDTC ITAR'] },
-  trade_origin_rule: { connectomeDomains: ['trade', 'finance'],                     indicators: ['CustomsBacklog', 'TariffLevel'],                sources: ['CBP Rules of Origin', 'USMCA Certificate of Origin'] }
+  trade_origin_rule: { connectomeDomains: ['trade', 'finance'],                     indicators: ['CustomsBacklog', 'TariffLevel'],                sources: ['CBP Rules of Origin', 'USMCA Certificate of Origin'] },
+  // Environment (environment gap 3 — ADDITIVE, OPT-IN) = climate / environmental-
+  // regulation / conservation / waste policy shocks. The existing FEED_TO_CONNECTOME
+  // ['environment'] = ['environment'] mapping routes ALL environment stress through the
+  // same path regardless of policy origin; these sub-paths let a regulation/compliance/
+  // climate-policy shock route to the CORRECT environment nodes + governance (for
+  // authority/enforcement). These are PURE environmental-regulation mechanics (carbon
+  // tax, cap-and-trade, emissions limits, water-quality standards, habitat/species
+  // protection, landfill caps, recycling/e-waste mandates) — NOT energy scarcity. Energy
+  // coupling arises ONLY if a policy mandates fuel-switching or efficiency improvements,
+  // but the SIGNAL ORIGIN is environmental regulation, kept DISTINCT from energy.
+  // Indicator keys reference ENVIRONMENT_INDICATOR_BINDING above. Resolved via
+  // resolveEnvironmentPolicyPath.
+  //   climate_policy           = carbon tax, cap-and-trade rules, climate-compliance cost
+  //   environmental_regulation = Clean Air Act, water-quality standards, emissions limits, ESG mandates
+  //   conservation_policy      = habitat protection, species protection, land-use restriction
+  //   waste_policy             = landfill caps, recycling mandates, e-waste rules
+  climate_policy:           { connectomeDomains: ['environment', 'governance'],           indicators: ['CarbonPrice', 'ETSVolume', 'ForestCarbon'],        sources: ['EPA GHG Reporting Program', 'ICE/CME Carbon Futures', 'RGGI/WCI Auction'] },
+  environmental_regulation: { connectomeDomains: ['environment', 'governance'],           indicators: ['AQI', 'PM25', 'NOx', 'SO2', 'WQI', 'DissolvedO2'], sources: ['EPA Clean Air Act NAAQS', 'EPA Clean Water Act', 'SEC ESG Disclosure'] },
+  conservation_policy:      { connectomeDomains: ['environment', 'governance'],           indicators: ['ForestCarbon', 'SpeciesIndex'],                    sources: ['ESA Listing (USFWS)', 'BLM Land-Use Plan', 'NOAA Habitat Designation'] },
+  waste_policy:             { connectomeDomains: ['environment', 'governance'],           indicators: ['WasteVolume'],                                     sources: ['EPA RCRA Subtitle C/D', 'State Landfill Caps', 'EPR / E-Waste Mandates'] }
 };
 
 // ── INTELLIGENCE-SECTOR INDICATOR bindings (intelligence gap 3 — ADDITIVE) ──
@@ -465,6 +545,62 @@ for (var _trik in TRADE_INDICATOR_BINDING) {
   var _trib = TRADE_INDICATOR_BINDING[_trik];
   if (!NODE_TO_TRADE_INDICATOR[_trib.node]) NODE_TO_TRADE_INDICATOR[_trib.node] = [];
   NODE_TO_TRADE_INDICATOR[_trib.node].push(_trib);
+}
+
+// ── ENVIRONMENT-SECTOR INDICATOR bindings (environment gap 2 — ADDITIVE) ──
+// Parallel structure to MACRO_INDICATOR_BINDING (economy gap 1), INTELLIGENCE_INDICATOR_
+// BINDING (intelligence gap 3) and TRADE_INDICATOR_BINDING (trade gap), but for PURE
+// environmental-domain signals: air-quality / particulate concentrations, water-quality
+// indices, carbon-price futures, waste-volume indices, forest-carbon inventory, and
+// emissions-trading volume. Binds each real metric to the environment connectome node
+// that senses it, so the kernel/reporting/diagnosis layers can drill from abstract
+// 'environment stress' into the ACTUAL environmental signal that triggered it (e.g.
+// atmospheric node lit → PM2.5 spiked → air-pollution shock origin; climate node lit →
+// carbon price surged → carbon-market repricing). FRED series are used where they exist
+// (forest-carbon / land-use as inventory proxies); air-quality (AQI/PM2.5/NOx/SO2/ozone),
+// water-quality (pH/DO/contamination), carbon-price futures (ICE/CME), waste-volume, and
+// emissions-trading (ETS/RGGI) are hand-curated environmental signals (EPA/NOAA/USGS/
+// carbon-market sources — not single-company tickers). These strictly measure ENVIR-
+// domain identity: air pollutant concentration, water quality, emissions volume (Scope
+// 1/2/3 GHG + criteria pollutants), waste streams, biodiversity proxies, carbon-
+// sequestration rate. NEVER energy production or grid metrics — coupling to energy is
+// downstream & SECOND-ORDER (emissions control needs more power to run scrubbers, water
+// treatment needs more pumping), never the signal origin; environment nodes carry zero
+// energy-domain content. Annotation/registry metadata ONLY — the resolver does NOT score
+// these.
+//   threshold = the level above/below which the node is considered stressed.
+//   dir = 'high' (stress when ABOVE threshold) | 'low' (stress when BELOW).
+//   kind = 'air' (air-quality index) | 'water' (water-quality index) | 'carbon'
+//          (carbon-price / emissions-trading) | 'waste' (waste-volume) | 'fred' (inventory).
+var ENVIRONMENT_INDICATOR_BINDING = {
+  // ── Air quality (particulate / criteria pollutants) ──
+  AQI:       { series: 'AQI',       node: 'PBN',  role: 'Air Quality Index',            nodeRole: 'Atmospheric Regulation', label: 'Air Quality Index (AQI)',          threshold: 100,  dir: 'high', kind: 'air',    policyPath: 'environmental_regulation' },
+  PM25:      { series: 'PM25',      node: 'PBN',  role: 'Fine Particulate (PM2.5)',     nodeRole: 'Atmospheric Regulation', label: 'PM2.5 Concentration (µg/m³)',      threshold: 35,   dir: 'high', kind: 'air',    policyPath: 'environmental_regulation' },
+  NOx:       { series: 'NOx',       node: 'dACC', role: 'Nitrogen-Oxide Pollution',     nodeRole: 'Pollution Control',      label: 'NOx Concentration (ppb)',          threshold: 100,  dir: 'high', kind: 'air',    policyPath: 'environmental_regulation' },
+  SO2:       { series: 'SO2',       node: 'dACC', role: 'Sulfur-Dioxide Pollution',     nodeRole: 'Pollution Control',      label: 'SO2 Concentration (ppb)',          threshold: 75,   dir: 'high', kind: 'air',    policyPath: 'environmental_regulation' },
+  // ── Water quality (USGS / EPA) ──
+  WQI:       { series: 'WQI',       node: 'DV',   role: 'Water Quality Index',          nodeRole: 'Water Cycles',           label: 'Water Quality Index',              threshold: 50,   dir: 'low',  kind: 'water',  policyPath: 'environmental_regulation' },
+  DissolvedO2: { series: 'DissolvedO2', node: 'NTS', role: 'Aquatic Dissolved Oxygen', nodeRole: 'Ocean Chemistry',        label: 'Dissolved Oxygen (mg/L)',          threshold: 5,    dir: 'low',  kind: 'water',  policyPath: 'environmental_regulation' },
+  // ── Carbon markets (ICE/CME futures + emissions-trading volume) ──
+  CarbonPrice: { series: 'CarbonPrice', node: 'HYPO', role: 'Carbon Price (Allowance)', nodeRole: 'Climate Systems',       label: 'Carbon Allowance Price (EUA/CCA)', threshold: 80,   dir: 'high', kind: 'carbon', policyPath: 'climate_policy' },
+  ETSVolume:   { series: 'ETSVolume',   node: 'vmPFC', role: 'Emissions-Trading Volume', nodeRole: 'Conservation Policy',   label: 'Emissions-Trading Volume (ETS/RGGI)', threshold: 30, dir: 'low',  kind: 'carbon', policyPath: 'climate_policy' },
+  // ── Waste streams (volume index) ──
+  WasteVolume: { series: 'WasteVolume', node: 'CeA', role: 'Solid/Hazardous Waste Volume', nodeRole: 'Soilenv',           label: 'Waste-Volume Index',               threshold: 6,    dir: 'high', kind: 'waste',  policyPath: 'waste_policy' },
+  // ── Forest carbon / sequestration inventory (FRED-style inventory proxy) ──
+  ForestCarbon: { series: 'ForestCarbon', node: 'ENS', role: 'Forest-Carbon Inventory', nodeRole: 'Forests & Carbon Sinks', label: 'Forest-Carbon Inventory Signal',  threshold: -2,   dir: 'low',  kind: 'fred',   policyPath: 'conservation_policy' },
+  // ── Biodiversity proxy (species / habitat) ──
+  SpeciesIndex: { series: 'SpeciesIndex', node: 'MICRO', role: 'Biodiversity / Species Index', nodeRole: 'Biodiversity', label: 'Living Planet / Species Index',    threshold: -5,   dir: 'low',  kind: 'fred',   policyPath: 'conservation_policy' }
+};
+
+// Reverse lookup: connectome node → environment indicators it senses
+// (parallel to NODE_TO_MACRO_INDICATOR / NODE_TO_INTEL_INDICATOR / NODE_TO_TRADE_INDICATOR;
+// for diagnosis drill-down).
+var NODE_TO_ENVIRONMENT_INDICATOR = {};
+for (var _envik in ENVIRONMENT_INDICATOR_BINDING) {
+  if (!Object.prototype.hasOwnProperty.call(ENVIRONMENT_INDICATOR_BINDING, _envik)) continue;
+  var _envib = ENVIRONMENT_INDICATOR_BINDING[_envik];
+  if (!NODE_TO_ENVIRONMENT_INDICATOR[_envib.node]) NODE_TO_ENVIRONMENT_INDICATOR[_envib.node] = [];
+  NODE_TO_ENVIRONMENT_INDICATOR[_envib.node].push(_envib);
 }
 
 // Reverse lookup: connectome node → macro indicators it senses (for diagnosis drill-down).
@@ -1229,6 +1365,34 @@ function resolveTradePolicyPath(policy, stress) {
   return resolvePolicyPath(key, stress);
 }
 
+/**
+ * Resolve node activations for an environmental policy shock (climate-policy /
+ * environmental-regulation / conservation-policy / waste-policy). Thin convenience
+ * wrapper over resolvePolicyPath that accepts a BARE policy name (e.g. 'climate' or
+ * 'regulation') and maps it to the ENVIRONMENT_POLICY_PATH key in MACRO_POLICY_PATH.
+ * OPT-IN; default resolve() pipeline unchanged. No scoring. Environment-specific —
+ * the signal ORIGIN is environmental regulation (carbon tax, emissions cap, water-
+ * quality tightening, habitat/waste mandate), never energy scarcity.
+ * @param {String} policy - 'climate_policy' | 'environmental_regulation' |
+ *        'conservation_policy' | 'waste_policy' (also accepts short aliases
+ *        'climate' | 'regulation' | 'conservation' | 'waste').
+ * @param {Number} stress - raw stress value [0..1] for this policy shock.
+ * @returns {Object} same shape as resolvePolicyPath.
+ */
+function resolveEnvironmentPolicyPath(policy, stress) {
+  if (!policy) return resolvePolicyPath(policy, stress);
+  var aliases = {
+    climate: 'climate_policy',
+    regulation: 'environmental_regulation',
+    environmental: 'environmental_regulation',
+    conservation: 'conservation_policy',
+    waste: 'waste_policy'
+  };
+  var key = MACRO_POLICY_PATH[policy] ? policy
+          : (aliases[policy] || policy);
+  return resolvePolicyPath(key, stress);
+}
+
 // ═══════════════════════════════════════════════════
 // 7. KERNEL ADAPTER RELAY (DISABLED)
 // ═══════════════════════════════════════════════════
@@ -1415,6 +1579,24 @@ window.LIMENConnectomeResolver = {
   NODE_TO_INDUSTRIAL_COMPANY: NODE_TO_INDUSTRIAL_COMPANY,
   getIndustrialCompaniesForNode: function(nodeId) { return NODE_TO_INDUSTRIAL_COMPANY[nodeId] || []; },
 
+  // Environment-sector (waste / water / emissions / climate-infra) company ticker bindings
+  // (environment gap 1) — OPT-IN, parallel to the tech/intel/trade/industrial registries;
+  // consumed only for an explicit environment-company drill. Energy is a downstream
+  // SECOND-ORDER coupling (treatment/control OpEx → facility power/cooling), never the
+  // sector identity. REAL environmental-sector tickers (WM/RSG/WCN/CWST/AWK/WTRG/XYL/ECL/
+  // LIN/APD/DAR/AY).
+  ENVIRONMENT_SECTOR_COMPANY_BINDING: ENVIRONMENT_SECTOR_COMPANY_BINDING,
+  NODE_TO_ENVIRONMENT_COMPANY: NODE_TO_ENVIRONMENT_COMPANY,
+  getEnvironmentCompaniesForNode: function(nodeId) { return NODE_TO_ENVIRONMENT_COMPANY[nodeId] || []; },
+
+  // Environment-sector indicator bindings (environment gap 2) — OPT-IN, parallel to the
+  // macro registry; air-quality / water-quality / carbon-price / waste-volume / forest-
+  // carbon / biodiversity environmental signals (zero energy content) routed to dedicated
+  // environment nodes.
+  ENVIRONMENT_INDICATOR_BINDING: ENVIRONMENT_INDICATOR_BINDING,
+  NODE_TO_ENVIRONMENT_INDICATOR: NODE_TO_ENVIRONMENT_INDICATOR,
+  getEnvironmentIndicatorsForNode: function(nodeId) { return NODE_TO_ENVIRONMENT_INDICATOR[nodeId] || []; },
+
   // Trade-sector indicator bindings (trade gap) — OPT-IN, parallel to the macro
   // registry; trade-balance / commodity-flow / shipping-index / tariff-customs /
   // port-congestion commerce signals (zero energy content) routed to trade nodes.
@@ -1447,6 +1629,12 @@ window.LIMENConnectomeResolver = {
   // shock (unilateral-tariff / bilateral-agreement / sanctions / export-control /
   // origin-rule) to the correct trade nodes via MACRO_POLICY_PATH 'trade_*' entries.
   resolveTradePolicyPath: resolveTradePolicyPath,
+
+  // Environment policy-path resolution (environment gap 3) — opt-in. Routes an
+  // environmental-regulation shock (climate-policy / environmental-regulation /
+  // conservation-policy / waste-policy) to the correct environment nodes + governance
+  // via MACRO_POLICY_PATH entries. Signal origin = environmental regulation, never energy.
+  resolveEnvironmentPolicyPath: resolveEnvironmentPolicyPath,
 
   // Last resolve state
   getLastResolve: function() { return _lastResolve; },
