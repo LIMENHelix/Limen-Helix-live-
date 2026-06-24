@@ -1,10 +1,10 @@
 {
   "schemaVersion": "vitals/2.0",
-  "generatedAt": "2026-06-24T17:37:53.167Z",
+  "generatedAt": "2026-06-24T19:59:55.053Z",
   "overall": {
-    "score": 87,
-    "status": "DEGRADED",
-    "summary": "12 organs · 19 attention items · feeds 77 · l1Nodes 98 · domains 100 · portalCorpus 76 · deadLinks 68 · kernel 27 · connectome 100 · civilization 100 · masterBrain 95 · propagator 100 · patternBus 100 · bridge 99"
+    "score": 91,
+    "status": "HEALTHY",
+    "summary": "12 organs · 19 attention items · feeds 77 · l1Nodes 98 · domains 100 · portalCorpus 76 · deadLinks 68 · kernel 81 · connectome 100 · civilization 100 · masterBrain 95 · propagator 96 · patternBus 100 · bridge 99"
   },
   "scores": {
     "feeds": 77,
@@ -12,11 +12,11 @@
     "domains": 100,
     "portalCorpus": 76,
     "deadLinks": 68,
-    "kernel": 27,
+    "kernel": 81,
     "connectome": 100,
     "civilization": 100,
     "masterBrain": 95,
-    "propagator": 100,
+    "propagator": 96,
     "patternBus": 100,
     "bridge": 99
   },
@@ -1020,10 +1020,10 @@
     },
     "kernel": {
       "id": "kernel",
-      "role": "kernel coverage (K1 financial · K2 polyvagal · K3 relational-only · reserved)",
+      "role": "kernel coverage (K1 financial validated · K2 polyvagal + K3 relational — reserved)",
       "order": 50,
-      "score": 27,
-      "status": "IN_PAIN",
+      "score": 81,
+      "status": "DEGRADED",
       "summary": "K1 651/800 (81%) · K2 0/800 (0%) · K3 0/800 (reserved) · any-kernel 651/800 (81%)",
       "metrics": {
         "total": 800,
@@ -1306,14 +1306,14 @@
             ]
           }
         ],
-        "note": "K3 is a reserved slot — score always 0 until the relational-only kernel is built. Rendering surfaces should read kernelReadings.primary to be kernel-agnostic."
+        "note": "K2 (Thing 2 polyvagal) and K3 (relational-only) are RESERVED interpretive slots — not validated public defaults — so they do not penalize the score; only active kernels (K1 + any reserved slot once populated) are averaged. Rendering surfaces should read kernelReadings.primary to be kernel-agnostic."
       },
       "attention": [
         {
-          "issue": "K2 (universal kernel) coverage below 100%",
-          "severity": "high",
+          "issue": "K2 (Thing 2 polyvagal) reserved — not populated",
+          "severity": "low",
           "count": 800,
-          "action": "persist K2 readings via scripts/persist-k2-readings.mjs (requires relaxed K2 gates in api/helix_app/index.py deployed first)",
+          "action": "EXPECTED: Thing 2 is the interpretive, unvalidated layer (not a public default). Building it out is optional — repoint persist-k2-readings.mjs + emit the Thing 2 section.",
           "organ": "kernel"
         },
         {
@@ -1404,7 +1404,7 @@
       "order": 80,
       "score": 95,
       "status": "HEALTHY",
-      "summary": "6/6 engine lanes · 8/9 markers · inbox 1861/2504 ready (541.8h old)",
+      "summary": "6/6 engine lanes · 8/9 markers · inbox 1861/2504 ready (544.2h old)",
       "metrics": {
         "present": {
           "masterBrain": true,
@@ -1448,7 +1448,7 @@
             "research": 626
           }
         },
-        "inboxAgeHours": 541.79392,
+        "inboxAgeHours": 544.1612294444444,
         "scoreParts": {
           "lanes": 100,
           "structural": 89
@@ -1458,7 +1458,7 @@
         {
           "issue": "Master Brain inbox stale (>6h)",
           "severity": "low",
-          "count": 542,
+          "count": 544,
           "action": "invoke build-master-inbox.mjs (also runs in the autonomic loop)",
           "organ": "masterBrain"
         }
@@ -1468,15 +1468,15 @@
       "id": "propagator",
       "role": "spider-web stress propagator",
       "order": 90,
-      "score": 100,
+      "score": 96,
       "status": "HEALTHY",
-      "summary": "799 nodes · 13037 edges · 354 damped · 11 pathC · 0 alert · snapshot 0.0h old",
+      "summary": "799 nodes · 13037 edges · 354 damped · 11 pathC · 0 alert · snapshot 2.4h old",
       "metrics": {
         "present": {
           "propagator": true,
           "snapshot": true
         },
-        "ageHours": 0.00424164313422309,
+        "ageHours": 2.3715510875786676,
         "nodeCount": 799,
         "edgeCount": 13037,
         "dampedCount": 354,
@@ -1485,7 +1485,7 @@
         "networkPushedCount": 567,
         "scoreParts": {
           "presence": 100,
-          "fresh": 100,
+          "fresh": 88,
           "size": 100
         }
       },
@@ -1697,7 +1697,7 @@
         {
           "issue": "Bridge readings stale (>24h)",
           "severity": "low",
-          "count": 243,
+          "count": 245,
           "action": "run scripts/build-bridge-readings.mjs --apply",
           "organ": "bridge"
         }
@@ -1762,16 +1762,23 @@
       "organ": "propagator"
     },
     {
+      "issue": "K2 (Thing 2 polyvagal) reserved — not populated",
+      "severity": "low",
+      "count": 800,
+      "action": "EXPECTED: Thing 2 is the interpretive, unvalidated layer (not a public default). Building it out is optional — repoint persist-k2-readings.mjs + emit the Thing 2 section.",
+      "organ": "kernel"
+    },
+    {
       "issue": "Master Brain inbox stale (>6h)",
       "severity": "low",
-      "count": 542,
+      "count": 544,
       "action": "invoke build-master-inbox.mjs (also runs in the autonomic loop)",
       "organ": "masterBrain"
     },
     {
       "issue": "Bridge readings stale (>24h)",
       "severity": "low",
-      "count": 243,
+      "count": 245,
       "action": "run scripts/build-bridge-readings.mjs --apply",
       "organ": "bridge"
     },
@@ -1795,13 +1802,6 @@
       "severity": "low",
       "action": "regenerate via runner (gate enforces ≥90%)",
       "organ": "portalCorpus"
-    },
-    {
-      "issue": "K2 (universal kernel) coverage below 100%",
-      "severity": "high",
-      "count": 800,
-      "action": "persist K2 readings via scripts/persist-k2-readings.mjs (requires relaxed K2 gates in api/helix_app/index.py deployed first)",
-      "organ": "kernel"
     },
     {
       "issue": "Null kernel composite on ELIGIBLE-marked portals",

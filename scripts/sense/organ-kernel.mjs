@@ -7,10 +7,10 @@
 //        Coverage gap is expected (banks/insurers/REITs excluded, ETFs,
 //        private, pre-revenue, bankrupt with <2Q data, off-CB portals).
 //        K1-null is INFORMATIONAL, not a system failure.
-//   K2 = financial × relational / polyvagal (Pass 2, phase_engine.py)
-//        Target: every portal should have a K2 reading once gates relaxed +
-//        context sourced from portal-direct functionalNetwork.
-//        K2-null = real coverage gap.
+//   K2 = financial × relational / polyvagal (Pass 2, phase_engine.py). RESERVED slot.
+//        Thing 2 is the interpretive, never-validated layer — explicitly NOT a public
+//        default (per the Thing taxonomy). K2-null is EXPECTED, not a failure; it does
+//        not penalize the organ score (operator decision 2026-06-24, treat like K3).
 //   K3 = relational-only (slot reserved). Future fill for any portal that
 //        K1 and K2 can't reach. For now: always null, slot present in schema.
 //
@@ -26,7 +26,7 @@ const ROOT = path.resolve(__dirname, '..', '..');
 const PORTAL_DIR = path.join(ROOT, 'assets', 'data', 'companies');
 
 export const id = 'kernel';
-export const role = 'kernel coverage (K1 financial · K2 polyvagal · K3 relational-only · reserved)';
+export const role = 'kernel coverage (K1 financial validated · K2 polyvagal + K3 relational — reserved)';
 export const order = 50;
 
 const FILES = {
@@ -119,21 +119,30 @@ export function sense() {
   const worstSectors = sectorList.slice(0, 10);
 
   const attention = [];
-  // K2 universal coverage is the primary goal (per "K2 should work for all of them")
-  if (k2Cov < 1.0 && total > 0) attention.push({ issue: 'K2 (universal kernel) coverage below 100%', severity: 'high', count: total - k2Have, action: 'persist K2 readings via scripts/persist-k2-readings.mjs (requires relaxed K2 gates in api/helix_app/index.py deployed first)', organ: id });
+  // K2 = Thing 2 polyvagal: interpretive, never-validated, NOT a public default → RESERVED slot.
+  // Empty K2 is expected/acceptable (informational), not a system failure. To build it out later:
+  // repoint persist-k2-readings.mjs (its /api/helix/helix-report/score route 404s) + have the
+  // Python kernel emit the Thing 2 section (currently stays intrinsic_only with no relational signal).
+  if (k2Cov < 1.0 && total > 0) attention.push({ issue: 'K2 (Thing 2 polyvagal) reserved — not populated', severity: 'low', count: total - k2Have, action: 'EXPECTED: Thing 2 is the interpretive, unvalidated layer (not a public default). Building it out is optional — repoint persist-k2-readings.mjs + emit the Thing 2 section.', organ: id });
   // Blind portals — no kernel of any kind. These are the K3 frontier.
   if (blindPortals.length > 0 || (total - anyKernel) > 0) attention.push({ issue: 'Portals with NO kernel reading (K1/K2/K3 all empty) — K3 frontier', severity: 'med', count: total - anyKernel, action: 'these are where K3 needs to land. For now: ensure K2 fires post-relaxation. K3 design pending.', organ: id });
   if (k1Cov === 0 && total > 0) attention.push({ issue: 'K1 (financial kernel) ZERO coverage — expected during migration if all readings are in legacy financialHealth slot', severity: 'low', count: total, action: 'informational — K1 nulls are expected for off-EDGAR portals', organ: id });
   if (cikCollisions.length > 0) attention.push({ issue: 'CIK collisions in companies-manifest', severity: 'high', count: cikCollisions.length, action: 'inspect — usually intentional segment, else dedup', organ: id });
   if (!present.helixApp || !present.phaseEngine) attention.push({ issue: 'Python kernel files missing', severity: 'high', count: Object.values(present).filter(v => !v).length, action: 'restore api/helix_app/', organ: id });
 
-  // score: average of three slot coverages. K3 = 0 (reserved) by design until built.
-  // Once K2 is universal we expect this to land around (k1Cov + 1.0 + 0) / 3 ≈ 50-60.
-  // Once K3 lands and covers what K2 misses, it'll approach 67+.
+  // Score reflects only ACTIVE kernels. K1 is the validated kernel. K2 (Thing 2 polyvagal)
+  // and K3 (relational-only) are RESERVED interpretive slots — Thing 2 is explicitly NOT a
+  // validated public default (per the Thing taxonomy), so an empty K2/K3 must NOT penalize the
+  // score the way an empty validated kernel would. We average only slots that are active:
+  // K1 always counts; K2/K3 count only once they actually carry readings (so building them
+  // out later still raises the bar). Operator decision 2026-06-24: treat K2 as reserved like K3.
   const k1Score = Math.round(k1Cov * 100);
   const k2Score = Math.round(k2Cov * 100);
   const k3Score = Math.round(k3Cov * 100);
-  const score = Math.round((k1Score + k2Score + k3Score) / 3);
+  const activeScores = [k1Score];
+  if (k2Have > 0) activeScores.push(k2Score);   // K2 reserved until populated
+  if (k3Have > 0) activeScores.push(k3Score);   // K3 reserved until built
+  const score = Math.round(activeScores.reduce((a, b) => a + b, 0) / activeScores.length);
   const status = score >= 90 ? 'HEALTHY' : score >= 75 ? 'DEGRADED' : 'IN_PAIN';
 
   return {
@@ -149,7 +158,7 @@ export function sense() {
       present,
       manifestCount,
       cikCollisions: cikCollisions.slice(0, 15),
-      note: 'K3 is a reserved slot — score always 0 until the relational-only kernel is built. Rendering surfaces should read kernelReadings.primary to be kernel-agnostic.'
+      note: 'K2 (Thing 2 polyvagal) and K3 (relational-only) are RESERVED interpretive slots — not validated public defaults — so they do not penalize the score; only active kernels (K1 + any reserved slot once populated) are averaged. Rendering surfaces should read kernelReadings.primary to be kernel-agnostic.'
     },
     attention
   };
