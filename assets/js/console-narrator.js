@@ -249,6 +249,24 @@
       intel_counterintelligence_failure:'Counterintelligence breach forming. Insider risk, mole exposure, and clearance compromise threatening sources and methods.',
       intel_adversarial_penetration:   'Adversary penetration rising. Foreign interference, cyber espionage, and network intrusion compromising the collection perimeter.',
       intel_generic:                   'Intelligence domain under stress. Collection, analysis, and counterintelligence pressured.',
+      // Trade-specific distress voice — international-trade/logistics/supply-chain-grounded,
+      // mirrors energy's per-diagnosis narration (energy-brain diagnosisIndex) and the
+      // infrastructure/culture/finance/economy/technology/defense/intelligence ports above, but for
+      // the TRADE domain identity (runtime key 'supplyChain'): international trade & commerce,
+      // exports/imports, tariffs & trade policy, shipping & logistics, supply chains, trade balance,
+      // customs, trade agreements, sanctions/embargoes, freight & ports/chokepoints. Trade COUPLES to
+      // economy via the trade balance and to defense via sanctions/chokepoints, but keeps its own
+      // flow/freight/customs identity — kept DISTINCT from economy (macro aggregate) and industry
+      // (production). Real trade/logistics tickers: FDX, UPS, EXPD, CHRW, ZIM, MATX, XPO, GXO, AMKBY,
+      // DSDVY, ODFL. CLIENT-SIDE narration flavor only — never touches any scoring path.
+      trade_tariff_shock:          'Tariff shock propagating. Duty escalation and trade-policy reversals repricing import costs across lanes.',
+      trade_port_blockade:         'Port throughput collapsing. Berth congestion and chokepoint disruption stranding container volume.',
+      trade_supply_collapse:       'Supply chain fracturing. Sourcing breaks and lead-time blowouts cascading through the network.',
+      trade_shipping_crisis:       'Freight markets dislocating. Ocean and ground capacity tightening as rates and dwell times spike.',
+      trade_trade_war:             'Trade war escalating. Retaliatory barriers and bloc realignment fragmenting cross-border flow.',
+      trade_customs_disruption:    'Customs clearance degrading. Inspection backlogs and compliance friction stalling border movement.',
+      trade_sanctions_impact:      'Sanctions regime tightening. Embargo exposure and de-risking severing trade corridors.',
+      trade_generic:               'Trade domain under stress. Flows, freight, and supply chains pressured.',
       global_shift:        'Global state shifted to {state}.',
       event_start:         '{event} detected.',
       event_end:           '{event} resolved.',
@@ -316,6 +334,14 @@
       intel_counterintelligence_failure:'Counterintelligence breach. Lock down sources and methods, freeze clearances, and hunt the insider.',
       intel_adversarial_penetration:   'Adversary penetration. Contain foreign intrusion and harden countermeasures; check LDOS/CACI/SAIC perimeter posture.',
       intel_generic:                   'Intelligence domain elevated. Investigate collection and counterintelligence.',
+      trade_tariff_shock:          'Tariff shock. Reprice landed cost and re-route sourcing around the duty hit.',
+      trade_port_blockade:         'Port blockade. Divert to alternate gateways and clear stranded container volume.',
+      trade_supply_collapse:       'Supply chain breaking. Qualify second-source suppliers and rebuild buffer stock.',
+      trade_shipping_crisis:       'Freight crisis. Lock capacity contracts and hedge rate and dwell-time exposure.',
+      trade_trade_war:             'Trade war active. Realign trade lanes and exploit tariff-exempt corridors.',
+      trade_customs_disruption:    'Customs disruption. Pre-clear shipments and tighten documentation compliance.',
+      trade_sanctions_impact:      'Sanctions impact. Screen counterparties and exit embargoed corridors now.',
+      trade_generic:               'Trade domain elevated. Investigate flows and supply chains.',
       global_shift:        'State change: {state}.',
       event_start:         'Event: {event}. Tracking.',
       event_end:           'Event cleared: {event}.',
@@ -522,6 +548,22 @@
       var ikey = _classifyIntelligenceDistress(detail.signals);
       if (ikey) {
         _narrate(ikey, {}, PRIORITY_MEDIUM);
+        return;
+      }
+    }
+
+    // Trade parity: mirror energy's per-diagnosis voice the same way infrastructure, culture,
+    // finance, economy, technology, defense, and intelligence do. Trade is the FLOW/FREIGHT/
+    // CUSTOMS identity and uses the RUNTIME KEY 'supplyChain' (trade<->supplyChain dual-naming via
+    // domain-identity.js) — classify the trade distress flavor from signal content (tariff /
+    // sanctions / port / freight / chokepoint / export / customs / shipping / container / blockade /
+    // embargo) and narrate a trade-specific line instead of the generic. Kept DISTINCT from economy
+    // (macro aggregate) and industry (production). CLIENT-SIDE narration flavor only — never touches
+    // any scoring path.
+    if (detail.domain === 'supplyChain') {
+      var tradekey = _classifyTradeDistress(detail.signals);
+      if (tradekey) {
+        _narrate(tradekey, {}, PRIORITY_MEDIUM);
         return;
       }
     }
@@ -767,6 +809,43 @@
     if (/analyt|assessment[\s_-]?(bias|distortion)|politiciz|confidence[\s_-]?(drift|inflation)|cognitive[\s_-]?bias|groupthink|intelligence[\s_-]?(failure|surprise)|warning[\s_-]?failure|estimate[\s_-]?error|pltr|vrnt|nice|vrsk/.test(blob)) return 'intel_analytical_distortion';
     if (/collection[\s_-]?(gap|shortfall)|sigint|humint|geoint|osint|masint|isr\b|coverage[\s_-]?gap|source[\s_-]?(loss|recruitment)|reconnaissance|tasking|denied[\s_-]?area|bah|ldos|caci|saic|kbr/.test(blob)) return 'intel_collection_gap';
     return 'intel_generic';
+  }
+
+  // Map raw trade signal content → a trade distress voice key.
+  // Trade vocabulary covers the TRADE domain identity (runtime key 'supplyChain'): international
+  // trade & commerce, exports/imports, tariffs & trade policy, shipping & logistics, supply chains,
+  // trade balance, customs, trade agreements, sanctions/embargoes, freight & ports/chokepoints.
+  // Recognizes real trade/logistics tickers (FDX, UPS, EXPD, CHRW, ZIM, MATX, XPO, GXO, AMKBY,
+  // DSDVY, ODFL). Trade COUPLES to economy via the trade balance and to defense via sanctions/
+  // chokepoints, but keeps its own flow/freight/customs identity and stays DISTINCT from economy
+  // (macro aggregate) and industry (production). Mirrors the energy/infra/culture/finance/economy/
+  // technology/defense/intelligence classifier structure exactly. Returns a TEMPLATES key, or null.
+  // CLIENT-SIDE narration flavor only — never touches any scoring path.
+  function _classifyTradeDistress(signals) {
+    var blob = '';
+    if (Array.isArray(signals)) {
+      for (var i = 0; i < signals.length; i++) {
+        var s = signals[i];
+        if (typeof s === 'string') blob += ' ' + s;
+        else if (s && typeof s === 'object') {
+          blob += ' ' + (s.type || '') + ' ' + (s.id || '') + ' ' + (s.label || '') + ' ' + (s.name || '');
+        }
+      }
+    }
+    blob = blob.toLowerCase();
+
+    // Order by specificity: sanctions/embargo and trade war are sharpest (policy/geopolitical),
+    // then tariff shock, port blockade, customs disruption, shipping crisis, supply collapse;
+    // fall back to a generic trade line. Matches real trade/logistics tickers (fdx/ups/expd/chrw/
+    // zim/matx/xpo/gxo/amkby/dsdvy/odfl) alongside plain words, with word boundaries on short tokens.
+    if (/sanction|embargo|de[\s_-]?risk|export[\s_-]?control|entity[\s_-]?list|trade[\s_-]?ban|corridor[\s_-]?(sever|cut)|counterparty[\s_-]?screen/.test(blob)) return 'trade_sanctions_impact';
+    if (/trade[\s_-]?war|retaliat|trade[\s_-]?barrier|protectionism|bloc[\s_-]?realign|decoupling|trade[\s_-]?dispute|wto\b/.test(blob)) return 'trade_trade_war';
+    if (/tariff|duty|duties|customs[\s_-]?duty|import[\s_-]?(cost|levy)|antidump|countervail|landed[\s_-]?cost/.test(blob)) return 'trade_tariff_shock';
+    if (/port|berth|chokepoint|canal|strait|blockade|terminal[\s_-]?congestion|dwell[\s_-]?time|harbor|zim|matx|amkby/.test(blob)) return 'trade_port_blockade';
+    if (/customs|clearance|border[\s_-]?(delay|inspection)|broker|documentation|compliance[\s_-]?friction|inspection[\s_-]?backlog|origin[\s_-]?rule/.test(blob)) return 'trade_customs_disruption';
+    if (/freight|shipping|ocean[\s_-]?(rate|carrier)|container[\s_-]?(rate|rate)|drayage|trucking|logistics|fdx|ups\b|expd|chrw|xpo|gxo|odfl|dsdvy|capacity[\s_-]?crunch/.test(blob)) return 'trade_shipping_crisis';
+    if (/supply[\s_-]?(chain|collapse|break|disruption)|sourcing|lead[\s_-]?time|stockout|inventory[\s_-]?(shortfall|gap)|supplier[\s_-]?(loss|failure)|reshoring|nearshoring|bullwhip|container\b/.test(blob)) return 'trade_supply_collapse';
+    return 'trade_generic';
   }
 
   function _onGlobalStateUpdate(e) {

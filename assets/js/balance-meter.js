@@ -365,6 +365,67 @@
     { re: /counter(-| )?intelligence (containment|win|success|operation)|(penetration|mole|spy) (neutraliz|caught|contain|expell)|(espionage|exfiltration) (contain|disrupt|thwart)|ci (operation|win|success)|(double agent|network) (rolled ?up|neutraliz)|hostile (service|collection) (disrupt|contain)/i, weight: 0.13, tag: 'counterintelligence_containment' }
   ];
 
+  // ─── Trade / supply-chain-native semantics ────────────────────────────────
+  // Energy parity (same shape as INFRA / CULTURE / FINANCE / ECONOMY /
+  // TECHNOLOGY / DEFENSE / INTELLIGENCE above): the trade domain (runtime key
+  // 'supplyChain') has its OWN failure/recovery vocabulary. Where energy reads
+  // crude_above_90 / grid_stress / chokepoint, infrastructure reads
+  // grid_reliability / deferred_maintenance, culture reads the attention
+  // economy, finance reads liquidity/credit, economy reads the business cycle,
+  // technology reads the compute stack, defense reads kinetic military power,
+  // and intelligence reads the collection cycle, TRADE reads international
+  // trade & commerce: exports/imports, tariffs & trade policy, shipping &
+  // logistics, supply chains, the trade balance, customs, trade agreements,
+  // sanctions/embargoes, and freight & ports. Destabilizing = tariff shock /
+  // trade-war escalation, sanctions / export bans, port congestion & closures,
+  // chokepoint / route constraint, freight-rate spikes, customs / clearance
+  // disruption, and supply-chain bottlenecks (sourcing disruption, production
+  // halt, container shortage). Stabilizing = tariff normalization, sanctions
+  // relief, port reopening, container-capacity recovery, customs-clearance
+  // acceleration, and freight-rate stabilization.
+  //
+  // Anchors are REAL trade/logistics tickers (FDX, UPS, EXPD, CHRW, ZIM, MATX,
+  // XPO, GXO, AMKBY, DSDVY, ODFL) — NEVER oil/gas/grid content. Trade COUPLES to
+  // energy via bunker/fuel cost and to economy via the trade balance, but its
+  // IDENTITY stays exports/tariffs/shipping/ports/customs, kept DISTINCT from
+  // economy (the MACRO aggregate / business cycle) and from industry (domestic
+  // PRODUCTION / manufacturing output). ADVISORY ONLY — wholly separate from the
+  // validated P3 distress kernel.
+  //
+  // Each entry maps a keyword pattern (matched against the domain's signal
+  // strings) to a weighted push on the destabilizing or stabilizing score —
+  // identical mechanism to energy's condition→weight mapping, trade content.
+  var TRADE_DESTABILIZING = [
+    // Tariff shock / trade-war escalation — duties imposed, retaliation, escalation.
+    { re: /tariff(s)? (shock|hike|spike|impos|escalat|increase|surge)|trade war (escalat|erupt|intensif)|retaliat(ory|ion) (tariff|duty|measure)|duties (impos|rais|hike)|protectionis(t|m) (surge|escalat)|trade (tension|dispute) (escalat|intensif)/i, weight: 0.18, tag: 'tariff_shock' },
+    // Sanctions / export ban / embargo — restrictions cutting off flows.
+    { re: /sanction(s)? (impos|tighten|expand|escalat)|export (ban|control|restrict|curb)|embargo|trade (ban|blockade|restrict)|entity list|secondary sanction|export licen(s|c)e (deny|revoke)/i, weight: 0.17, tag: 'sanctions_export_ban' },
+    // Port congestion / closure — backlog, gridlock, strike, terminal shutdown.
+    { re: /port (congestion|backlog|gridlock|closure|shutdown|strike)|terminal (congestion|closure|shutdown)|berth (delay|congestion)|dwell time (surge|spike)|vessel (queue|backlog|wait)|dockworker(s)? strike|harbor (closure|congestion)/i, weight: 0.16, tag: 'port_congestion' },
+    // Chokepoint / route constraint — canal/strait closure, blockade, rerouting.
+    { re: /chokepoint (closure|disrupt|block)|(suez|panama) canal (closure|disrupt|block|restrict|drought)|(strait|red sea|bab[-\s]?el[-\s]?mandeb|hormuz|malacca) (closure|disrupt|attack|block)|blockade|route (constraint|closure|divert)|rerout(e|ing) (around|via)|transit (denial|restrict)/i, weight: 0.16, tag: 'route_constraint' },
+    // Freight-rate spike — shipping cost surge, container/spot rate blowout.
+    { re: /freight (rate|cost) (spike|surge|soar|blow)|shipping (cost|rate) (spike|surge|soar)|container (rate|price) (spike|surge|soar)|spot rate (surge|spike|blow)|ocean freight (surge|spike)|bunker (cost|surcharge) (surge|spike)/i, weight: 0.14, tag: 'freight_rate_spike' },
+    // Customs / clearance disruption — border delays, inspection backlog, clearance failure.
+    { re: /customs (delay|disrupt|backlog|congestion)|clearance (fail|delay|backlog|stall)|border (delay|closure|gridlock)|inspection (backlog|delay|surge)|(border|customs) (hold|detention)|documentation (delay|reject)/i, weight: 0.13, tag: 'customs_disruption' },
+    // Supply-chain bottleneck — sourcing disruption, production halt, container shortage.
+    { re: /supply(-| )?chain (bottleneck|disrupt|breakdown|gridlock)|sourcing (disrupt|gap|failure)|production halt|(component|input) (shortage|stockout) (sourc|import)|container (shortage|imbalance|repositioning)|stockout(s)? (import|sourc)|lead(-| )?time (stretch|blow) (import|sourc)/i, weight: 0.14, tag: 'supply_chain_bottleneck' }
+  ];
+  var TRADE_STABILIZING = [
+    // Tariff normalization — rollback, exemption, trade deal, de-escalation.
+    { re: /tariff(s)? (rollback|reduc|cut|exempt|normaliz|suspend|removed)|trade (deal|agreement|accord|pact) (sign|reach|ratif)|de(-| )?escalat(e|ion) (trade|tariff)|trade (truce|détente|normaliz)|duty (relief|exemption|waiver)|free(-| )?trade (agreement|deal)/i, weight: 0.16, tag: 'tariff_normalization' },
+    // Sanctions relief — restrictions lifted, license granted, embargo eased.
+    { re: /sanction(s)? (relief|lift|eas|remov|waiver)|export (control|ban|restrict) (eas|lift|remov)|embargo (lift|eas|end)|licen(s|c)e (grant|approv|reinstat)|trade (restrict|ban) (lift|remov)|delist(ed|ing) (entity|sanction)/i, weight: 0.15, tag: 'sanctions_relief' },
+    // Port reopening / throughput recovery — backlog cleared, congestion easing.
+    { re: /port (reopen|recovery|clear|throughput (recover|rise))|congestion (eas|clear|resolv)|backlog (clear|reduc|burn)|terminal (reopen|recover|fluid)|dwell time (drop|decline|normaliz)|berth (avail|free)|harbor (reopen|fluid)/i, weight: 0.15, tag: 'port_reopening' },
+    // Container-capacity recovery — equipment available, imbalance resolving, fleet capacity.
+    { re: /container (capacity|availability) (recover|rise|ample|restor)|equipment (available|surplus|repositioned)|container imbalance (resolv|eas|correct)|(vessel|fleet) capacity (add|expand|ample)|new (capacity|tonnage) (online|deliver)|shipping capacity (recover|expand)/i, weight: 0.14, tag: 'container_capacity_recovery' },
+    // Customs-clearance acceleration — faster processing, single-window, facilitation.
+    { re: /customs (clearance )?(accelerat|expedit|streamlin|facilitat)|clearance (faster|expedit|accelerat|automat)|(border|trade) facilitation|single(-| )?window (deploy|launch)|(border|customs) (fluid|throughput (rise|gain))|pre(-| )?clearance (deploy|expand)/i, weight: 0.14, tag: 'customs_clearance_acceleration' },
+    // Freight-rate stabilization — rates normalizing, cost easing, spot softening.
+    { re: /freight (rate|cost) (stabiliz|normaliz|eas|soften|decline|drop)|shipping (cost|rate) (eas|soften|decline|normaliz)|container (rate|price) (eas|soften|decline|normaliz)|spot rate (soften|decline|normaliz)|ocean freight (eas|soften|decline)|rate(s)? (normaliz|stabiliz)/i, weight: 0.14, tag: 'freight_rate_stabilization' }
+  ];
+
   // Scan a domain's signal strings against a civil pattern table and return the
   // summed weighted contribution (clamped). Mirrors how energy accumulates its
   // condition-driven pressure, but over civil-native keywords.
@@ -567,6 +628,28 @@
         _intelligenceDestabTags = _itd.tags;
       }
 
+      // ── Trade-native destabilizing pathways (energy parity) ──
+      // For the trade domain ONLY (runtime key 'supplyChain'), add international-
+      // trade/logistics pressure from named failure pathways found in the live
+      // signal strings (tariff shock / trade-war escalation, sanctions / export
+      // ban, port congestion / closure, chokepoint / route constraint, freight-
+      // rate spike, customs / clearance disruption, supply-chain bottleneck).
+      // This is the trade-and-commerce analogue of energy's crude_above_*/
+      // grid_stress, infrastructure's grid_reliability/deferred_maintenance,
+      // culture's backlash/audience collapse, finance's liquidity/credit,
+      // economy's business-cycle, technology's compute-stack, defense's
+      // readiness, and intelligence's collection weighting — IDENTITY stays
+      // exports/tariffs/shipping/ports/customs (couples to energy via fuel cost
+      // and to economy via the trade balance, distinct from economy's MACRO lane
+      // and industry's domestic production). ADVISORY ONLY — wholly separate from
+      // the validated P3 distress kernel.
+      var _tradeDestabTags = null;
+      if (k === 'supplyChain') {
+        var _trd = _infraSignalScore(signals, TRADE_DESTABILIZING);
+        destab += _trd.score;
+        _tradeDestabTags = _trd.tags;
+      }
+
       destab = _clamp(destab, 0, 1);
 
       // ─── Stabilizing score ─────────────────────────────────────
@@ -728,6 +811,29 @@
         _intelligenceStabTags = _its.tags;
       }
 
+      // ── Trade-native stabilizing pathways (energy parity) ──
+      // Trade recovery vocabulary: tariff normalization (rollback / trade deal /
+      // de-escalation), sanctions relief (restrictions lifted / license granted),
+      // port reopening / throughput recovery (congestion easing / backlog
+      // cleared), container-capacity recovery (equipment available / imbalance
+      // resolving), customs-clearance acceleration (faster processing / single-
+      // window / facilitation), and freight-rate stabilization (rates
+      // normalizing / spot softening). Mirrors energy's falling-trend /
+      // declining-volatility stabilizers, infrastructure's funding-renewal /
+      // repair-completion, culture's fanbase-momentum / mainstream-adoption,
+      // finance's liquidity-restoration / capital-strengthening, economy's
+      // labor-recovery / productivity, technology's fab-capacity / breakthrough,
+      // defense's force-modernization / alliance-strengthening, and
+      // intelligence's improved-observability / collection-expansion, with trade
+      // semantics from the live signals. ADVISORY ONLY — wholly separate from the
+      // validated P3 distress kernel.
+      var _tradeStabTags = null;
+      if (k === 'supplyChain') {
+        var _trs = _infraSignalScore(signals, TRADE_STABILIZING);
+        stab += _trs.score;
+        _tradeStabTags = _trs.tags;
+      }
+
       stab = _clamp(stab, 0, 1);
 
       // ─── Net balance ───────────────────────────────────────────
@@ -794,6 +900,14 @@
       if (k === 'intelligence') {
         _balance[k].destabilizingFactors = _intelligenceDestabTags || [];
         _balance[k].stabilizingFactors = _intelligenceStabTags || [];
+      }
+
+      // Surface the trade-native pathways that drove the trade score (runtime
+      // key 'supplyChain') — energy parity: name the conditions, don't hide them
+      // behind a scalar.
+      if (k === 'supplyChain') {
+        _balance[k].destabilizingFactors = _tradeDestabTags || [];
+        _balance[k].stabilizingFactors = _tradeStabTags || [];
       }
 
       // Detect state shift

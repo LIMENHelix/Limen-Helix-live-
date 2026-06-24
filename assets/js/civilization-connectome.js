@@ -343,7 +343,11 @@ var DOMAIN_PORTALS = {
     {name:'UPS (UPS)',url:'/company-portal?company=ups'},
     {name:'Expeditors (EXPD)',url:'/company-portal?company=expeditors_international'},
     {name:'C.H. Robinson (CHRW)',url:'/company-portal?company=c_h_robinson'},
-    {name:'XPO (XPO)',url:'/company-portal?company=xpo'}
+    {name:'XPO (XPO)',url:'/company-portal?company=xpo'},
+    {name:'ZIM Integrated Shipping (ZIM)',url:'/company-portal?company=zim'},
+    {name:'Matson (MATX)',url:'/company-portal?company=matx'},
+    {name:'Maersk (AMKBY)',url:'/company-portal?company=maersk'},
+    {name:'Old Dominion (ODFL)',url:'/company-portal?company=old_dominion_freight'}
   ],
   law:[
     {name:'Thomson Reuters (TRI)',url:'/company-portal?company=thomson_reuters'},

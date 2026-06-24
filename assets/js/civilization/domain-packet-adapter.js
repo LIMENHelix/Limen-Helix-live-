@@ -428,6 +428,32 @@
     // deepBrain envelope. Energy/infrastructure/culture/finance win when both
     // are present (a slot is single-domain, so they never collide in practice).
     var _bzm = _emO(slot && slot.brainEconomyModel);
+    // Trade / supply-chain parity: trade brains (runtime key 'supplyChain')
+    // emit a recurrent LOGISTICS-LIFECYCLE model (brainSupplyChainModel) that
+    // follows the SAME envelope signature as energy's energyModel,
+    // infrastructure's infrastructureModel, culture's cultureModel, finance's
+    // financeModel, and economy's economyModel, so Civilization + the Main
+    // Brain consume it identically. The supply-chain model tracks the GOODS-FLOW
+    // lifecycle (shipment-throughput cadence across ocean/air/truck/rail —
+    // shipmentCycle; shipping-cost / rate / carrier-capacity tightness as the
+    // regulation signal — freightCostRegulation; route-constraint + customs-
+    // clearance backlog stress and freight network failure risk — predictedStress
+    // via routeDisruptionRisk; the prior on logistics throughput / service-level
+    // health — priorThroughputHealth) rather than neurological cycles, civil-asset
+    // lifecycles, attention economies, single-firm capital lifecycles, or
+    // macroeconomic business cycles. Trade is the GOODS-IN-MOTION layer and stays
+    // DISTINCT from economy (macro aggregate — GDP/inflation/employment) and from
+    // industry (production / factory output). Trade's cross-domain couplings
+    // (energy fuel logistics, defense munitions supply, finance working-capital,
+    // agriculture food supply) all presume logistics-cost & throughput visibility
+    // that only a recurrent model provides. Real signal validation anchors on
+    // REAL freight & logistics tickers — FDX, UPS, EXPD, CHRW, ZIM, MATX, XPO,
+    // GXO, AMKBY (Maersk), DSDVY (DSV), ODFL — never energy oil/gas/grid tickers,
+    // which are another domain's content. We map its logistics field names onto
+    // the shared deepBrain envelope. Energy/infrastructure/culture/finance/economy
+    // win when both are present (a slot is single-domain, so they never collide
+    // in practice).
+    var _bsm = _emO(slot && slot.brainSupplyChainModel);
     var deepBrain = _bem ? {
       cycle:           _num(_bem.cycle),
       predictionError: _emO(_bem.predictionError),
@@ -651,6 +677,76 @@
       consumptionTrend:       _num(_bzm.consumptionTrend),
       investmentTrend:        _num(_bzm.investmentTrend),
       domainDiagnosisPacket: _emO(_bzm.domainEconomyPacket) || _emO(_bzm.domainDiagnosisPacket)
+    } : _bsm ? {
+      // Logistics / goods-flow lifecycle mapped onto the shared recurrent
+      // envelope. shipmentCycle → cycle, freightCostRegulation → regulation,
+      // routeDisruptionRisk → predictedStress, priorThroughputHealth → prior,
+      // domainSupplyChainPacket → domainDiagnosisPacket.
+      cycle:           _num(_bsm.shipmentCycle != null ? _bsm.shipmentCycle : _bsm.cycle),
+      predictionError: _emO(_bsm.predictionError),
+      // freightCostRegulation is the trade regulation signal: the tightness of
+      // shipping rates and carrier capacity (ocean/air/truck/rail), and how
+      // freight-cost / customs-clearance conditions are steering goods flow
+      // (analogous to energy's regulationState, infrastructure's capital-funding
+      // regulation, culture's expression state, finance's funding-source quality,
+      // and economy's fiscal-monetary regulation). Loose / balanced / tight.
+      regulationState: (_bsm.freightCostRegulation && _bsm.freightCostRegulation.state)
+                       || _str(_bsm.freightCostRegulation)
+                       || (_bsm.carrierCapacityState && _bsm.carrierCapacityState.state)
+                       || _str(_bsm.carrierCapacityState)
+                       || (_bsm.regulation && _bsm.regulation.state)
+                       || null,
+      regulation:      _emO(_bsm.freightCostRegulation) || _emO(_bsm.carrierCapacityState) || _emO(_bsm.regulation),
+      readyForHandoff: _bsm.readyForHandoff === true,
+      // routeDisruptionRisk is the trade predicted-stress signal (likelihood of a
+      // freight-network disruption — port congestion, route closure, customs
+      // backlog, carrier-capacity shortfall), carried through unchanged in
+      // [0..1]. logisticsStress is the broader throughput-degradation analogue;
+      // either may stand in for predictedStress, routeDisruptionRisk wins as the
+      // more acute near-term signal.
+      predictedStress: _num(
+        _bsm.routeDisruptionRisk != null ? _bsm.routeDisruptionRisk
+        : (_bsm.logisticsStress != null ? _bsm.logisticsStress
+        : _bsm.predictedStress)
+      ),
+      // priorThroughputHealth carries the prior on logistics throughput /
+      // service-level health (the freight-throughput trend), mirroring energy's
+      // prior, infrastructure's priorAssetHealth, culture's creativeCapacity,
+      // finance's priorCapitalHealth, and economy's priorGrowthTrend. When
+      // reported as a health value ([0..1] high = strong, on-time throughput),
+      // invert into a stress (disruption) expectation; an explicit expectedStress
+      // wins.
+      prior:           (_bsm.priorThroughputHealth || _bsm.prior)
+                       ? (function (p) {
+                           return {
+                             // expectedStress mirrors energy: here the prior
+                             // expected freight-disruption / logistics distress level.
+                             expectedStress: _num(
+                               p.expectedStress != null ? p.expectedStress
+                               : (p.expectedDisruption != null ? p.expectedDisruption
+                               : (typeof p.throughputHealth === 'number' ? (1 - _clamp01(p.throughputHealth))
+                               : (typeof p.serviceLevel === 'number' ? (1 - _clamp01(p.serviceLevel))
+                               : (typeof p === 'number' ? (1 - _clamp01(p)) : null))))
+                             ),
+                             confidence:     _num(p.confidence),
+                             samples:        _num(p.samples)
+                           };
+                         })(_bsm.priorThroughputHealth || _bsm.prior)
+                       : null,
+      // Logistics telemetry preserved alongside the shared envelope so downstream
+      // artifact expansion can feed trade / supply-chain decisions (shipping-cost
+      // pressure, carrier-capacity utilization, freight-modal-shift adoption,
+      // customs-clearance backlog, inventory-accumulation vs throughput / working-
+      // capital vs service level). Sourced from REAL freight & logistics tickers:
+      // FDX, UPS, EXPD, CHRW, ZIM, MATX, XPO, GXO, AMKBY, DSDVY, ODFL. These are
+      // GOODS-IN-MOTION signals — distinct from economy's macro aggregates and
+      // industry's production output.
+      freightCostTrend:        _num(_bsm.freightCostTrend),
+      carrierCapacityTrend:    _num(_bsm.carrierCapacityTrend),
+      customsBacklogTrend:     _num(_bsm.customsBacklogTrend),
+      modalShiftTrend:         _num(_bsm.modalShiftTrend),
+      inventoryThroughputGap:  _num(_bsm.inventoryThroughputGap),
+      domainDiagnosisPacket: _emO(_bsm.domainSupplyChainPacket) || _emO(_bsm.domainDiagnosisPacket)
     } : null;
 
     // Feed health. Configured count is the MAX of every honest declaration

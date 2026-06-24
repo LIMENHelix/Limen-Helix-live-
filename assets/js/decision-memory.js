@@ -33,6 +33,8 @@
   var TECHNOLOGY_STACK_COOLDOWN = 180000; // 3 min between technology-stack narrations
   var INTELLIGENCE_STACK_THRESHOLD = 2; // an intelligence-vulnerability stack seen N times signals concentration
   var INTELLIGENCE_STACK_COOLDOWN = 180000; // 3 min between intelligence-stack narrations
+  var TRADE_STACK_THRESHOLD = 2; // a trade/supply-chain-vulnerability stack seen N times signals concentration
+  var TRADE_STACK_COOLDOWN = 180000; // 3 min between trade-stack narrations
 
   // ─── Infrastructure vulnerability-stack semantics ─────────────────────────
   // CIVIL domain-semantic concentration. Generic (domain, action) frequency only
@@ -310,6 +312,62 @@
       body: 'Operator attention concentrates on the counterintelligence-failure + trust-boundary-breach stack — insider-threat exposure as recruited or compromised insiders exploit clearance and access-control weaknesses.' }
   ];
 
+  // ─── Trade / supply-chain vulnerability-stack semantics ───────────────────
+  // TRADE domain-semantic concentration. As with infrastructure, culture, finance,
+  // economy, technology and intelligence, generic (domain, action) frequency only
+  // says WHERE the operator is looking; for the trade domain we also detect WHAT
+  // trade-vulnerability STACK the attention concentrates on. Each stack is a
+  // co-occurring pair of trade signal families (tariffs & trade policy/sanctions &
+  // embargoes/ports & maritime chokepoints/freight & shipping cost/customs &
+  // border friction/supply-chain disruption/export & import collapse/strategic
+  // chokepoint closure). The trade identity is INTERNATIONAL TRADE & COMMERCE,
+  // EXPORTS/IMPORTS, TARIFFS & TRADE POLICY, SHIPPING & LOGISTICS, SUPPLY CHAINS,
+  // TRADE BALANCE, CUSTOMS, TRADE AGREEMENTS, SANCTIONS/EMBARGOES, and FREIGHT &
+  // PORTS — bound to real trade/logistics equities (FDX, UPS, EXPD, CHRW, ZIM,
+  // MATX, XPO, GXO, AMKBY, DSDVY, ODFL). Trade is kept DISTINCT from economy
+  // (the macro aggregate) and from industry (production) — it is the FLOW of goods
+  // across borders and the logistics that carry them, never energy oil/gas/grid as
+  // its own content. NOTE: the trade domain uses runtime/snapshot key 'supplyChain'
+  // (trade↔supplyChain dual-naming via domain-identity.js); this advisory layer
+  // narrates under the canonical/portal key 'trade' to match the other emitters.
+  // Mirrors the trade-brain cross-domain conditions:
+  //   TARIFF_ESCALATION + PORT_DISRUPTION       → trade-war escalation
+  //   SHIPPING_CRISIS + CUSTOMS_FRICTION         → logistics paralysis
+  //   SUPPLY_DISRUPTION + FREIGHT_COST           → cost-transmission cascade
+  // Signal tokens are matched against recorded action/type/pattern text — never
+  // invented; absence of tokens simply yields no stack (silent, no false signal).
+  // STRICTLY ADDITIVE: advisory only; never participates in /api/limen/score scoring.
+  var TRADE_SIGNAL_TOKENS = {
+    TARIFF_ESCALATION:   /(tariff|trade[_\s-]?war|duty|duties|protectionism|trade[_\s-]?barrier|retaliatory[_\s-]?tariff|section[_\s-]?301|section[_\s-]?232|import[_\s-]?levy|trade[_\s-]?policy|antidumping|countervailing)/i,
+    SANCTIONS_IMPACT:    /(sanction|embargo|export[_\s-]?control|entity[_\s-]?list|ofac|trade[_\s-]?restriction|blacklist|denied[_\s-]?party|secondary[_\s-]?sanction|decoupling|trade[_\s-]?ban)/i,
+    PORT_DISRUPTION:     /(port|harbor|terminal|berth|port[_\s-]?congestion|port[_\s-]?strike|dockworker|longshore|port[_\s-]?closure|maritime[_\s-]?chokepoint|suez|panama[_\s-]?canal|strait[_\s-]?of[_\s-]?hormuz|blockade)/i,
+    FREIGHT_COST:        /(freight|shipping[_\s-]?rate|container[_\s-]?rate|drewry|baltic[_\s-]?dry|bdi|spot[_\s-]?rate|trucking[_\s-]?rate|freight[_\s-]?spike|ocean[_\s-]?freight|air[_\s-]?freight|demurrage|detention[_\s-]?fee)/i,
+    SHIPPING_CRISIS:     /(shipping[_\s-]?crisis|vessel|container[_\s-]?shortage|liner|carrier[_\s-]?capacity|blank[_\s-]?sailing|rerouting|cape[_\s-]?of[_\s-]?good[_\s-]?hope|red[_\s-]?sea|transit[_\s-]?delay|schedule[_\s-]?reliability|backlog[_\s-]?at[_\s-]?sea)/i,
+    CUSTOMS_FRICTION:    /(customs|border[_\s-]?delay|clearance|inspection[_\s-]?hold|cbp|rules[_\s-]?of[_\s-]?origin|documentation[_\s-]?error|trade[_\s-]?compliance|broker[_\s-]?delay|border[_\s-]?friction|red[_\s-]?tape|de[_\s-]?minimis)/i,
+    SUPPLY_DISRUPTION:   /(supply[_\s-]?chain[_\s-]?disruption|supply[_\s-]?disruption|bottleneck|component[_\s-]?shortage|stockout|inventory[_\s-]?shortfall|sole[_\s-]?source|reshoring|nearshoring|supplier[_\s-]?failure|input[_\s-]?shortage)/i,
+    EXPORT_COLLAPSE:     /(export[_\s-]?collapse|import[_\s-]?collapse|trade[_\s-]?deficit|trade[_\s-]?balance|trade[_\s-]?volume[_\s-]?drop|order[_\s-]?cancellation|demand[_\s-]?collapse[_\s-]?abroad|export[_\s-]?slump|trade[_\s-]?contraction|shipment[_\s-]?decline)/i,
+    CHOKEPOINT_CLOSURE:  /(chokepoint|canal[_\s-]?closure|strait[_\s-]?closure|waterway[_\s-]?block|transit[_\s-]?route[_\s-]?closure|land[_\s-]?border[_\s-]?closure|airspace[_\s-]?closure|corridor[_\s-]?disruption|route[_\s-]?denial|passage[_\s-]?restriction)/i
+  };
+
+  // Trade-vulnerability STACKS — ordered token pairs with a trade interpretation.
+  // Each describes an operator-concentration meaning specific to a trade vulnerability
+  // stack (tariffs & trade policy, sanctions & embargoes, ports & maritime, freight &
+  // shipping, customs & border, supply-chain disruption, export/import flows,
+  // strategic chokepoints) — NOT energy oil/gas/grid content, NOT economy macro-aggregate
+  // content, and NOT industry production content. Trade is the cross-border FLOW.
+  var TRADE_VULN_STACKS = [
+    { id: 'TRADE_WAR_ESCALATION',     signals: ['TARIFF_ESCALATION', 'PORT_DISRUPTION'],
+      body: 'Operator attention concentrates on the tariff-escalation + port-disruption stack — a trade-war escalation where retaliatory duties collide with port congestion and maritime chokepoint risk.' },
+    { id: 'LOGISTICS_PARALYSIS',      signals: ['SHIPPING_CRISIS', 'CUSTOMS_FRICTION'],
+      body: 'Operator attention concentrates on the shipping-crisis + customs-friction stack — logistics paralysis as vessel/carrier capacity strains compound with customs and border-clearance delays.' },
+    { id: 'COST_TRANSMISSION_CASCADE', signals: ['SUPPLY_DISRUPTION', 'FREIGHT_COST'],
+      body: 'Operator attention concentrates on the supply-disruption + freight-cost stack — a cost-transmission cascade where supply-chain bottlenecks ride on top of spiking freight and container rates.' },
+    { id: 'SANCTIONS_DECOUPLING',     signals: ['SANCTIONS_IMPACT', 'EXPORT_COLLAPSE'],
+      body: 'Operator attention concentrates on the sanctions-impact + export-collapse stack — sanctions and export controls driving trade decoupling and collapsing export/import volumes.' },
+    { id: 'CHOKEPOINT_BLOCKADE',      signals: ['CHOKEPOINT_CLOSURE', 'SHIPPING_CRISIS'],
+      body: 'Operator attention concentrates on the chokepoint-closure + shipping-crisis stack — a strategic waterway or corridor closure forcing reroutes and a shipping crisis across trade lanes.' }
+  ];
+
   // ─── State ───────────────────────────────────────────────────────────────
 
   var _entries = [];
@@ -327,6 +385,8 @@
   var _lastTechnologyStackId = null;
   var _lastIntelligenceStackTime = 0;
   var _lastIntelligenceStackId = null;
+  var _lastTradeStackTime = 0;
+  var _lastTradeStackId = null;
   var _interval = null;
 
   // Detect which civil signal families a user-action references, by scanning its
@@ -401,6 +461,18 @@
     return hits;
   }
 
+  // Detect which trade/supply-chain signal families a user-action references, by scanning
+  // its free-text fields (action / type / cross-domain pattern). Returns a list of
+  // canonical trade signal ids. Never fabricates — empty if nothing matches.
+  function _detectTradeSignals(text) {
+    if (!text) return [];
+    var hits = [];
+    for (var sig in TRADE_SIGNAL_TOKENS) {
+      if (TRADE_SIGNAL_TOKENS[sig].test(text)) hits.push(sig);
+    }
+    return hits;
+  }
+
   // ─── Record decision ─────────────────────────────────────────────────────
 
   function _onUserAction(e) {
@@ -453,6 +525,10 @@
       // INTELLIGENCE: which intelligence signal families this action touches (may be []).
       intelligenceSignals: _detectIntelligenceSignals(
         [detail.action, detail.type, matchedPattern, detail.signal, detail.diagnosis].join(' ')
+      ),
+      // TRADE: which trade/supply-chain signal families this action touches (may be []).
+      tradeSignals: _detectTradeSignals(
+        [detail.action, detail.type, matchedPattern, detail.signal, detail.diagnosis].join(' ')
       )
     };
 
@@ -469,6 +545,7 @@
     _checkEconomyStackConcentration();
     _checkTechnologyStackConcentration();
     _checkIntelligenceStackConcentration();
+    _checkTradeStackConcentration();
   }
 
   // ─── Concentration detection ──────────────────────────────────────────────
@@ -945,6 +1022,75 @@
     });
   }
 
+  // ─── Trade / supply-chain vulnerability-stack concentration ───────────────
+  // Domain-semantic concentration for TRADE: beyond "which domain" (above), surface
+  // WHICH trade-vulnerability STACK the operator keeps returning to. Tallies
+  // co-occurring trade signal families across recent entries and fires when a known
+  // stack (trade-war-escalation, logistics-paralysis, cost-transmission-cascade,
+  // sanctions-decoupling, chokepoint-blockade) crosses the threshold. Schema-faithful
+  // to _checkIntelligenceStackConcentration (same phase-change shape). STRICTLY
+  // ADDITIVE, advisory only, kept DISTINCT from economy (macro aggregate) and industry
+  // (production). Narrates under the canonical/portal key 'trade' (runtime/snapshot
+  // key is 'supplyChain' via domain-identity.js dual-naming).
+
+  function _checkTradeStackConcentration() {
+    var now = Date.now();
+    if (now - _lastTradeStackTime < TRADE_STACK_COOLDOWN) return;
+    if (_entries.length < TRADE_STACK_THRESHOLD) return;
+
+    // Count per-signal-family hits across recent entries (last 10).
+    var recent = _entries.slice(-10);
+    var sigCounts = {};
+    for (var i = 0; i < recent.length; i++) {
+      var sigs = recent[i].tradeSignals || [];
+      for (var s = 0; s < sigs.length; s++) {
+        sigCounts[sigs[s]] = (sigCounts[sigs[s]] || 0) + 1;
+      }
+    }
+
+    // A stack fires only when BOTH of its signal families are present and at least
+    // one of them has been focused on repeatedly (>= threshold). Score = sum of the
+    // pair's counts; pick the strongest stack.
+    var best = null;
+    for (var k = 0; k < TRADE_VULN_STACKS.length; k++) {
+      var stack = TRADE_VULN_STACKS[k];
+      var a = sigCounts[stack.signals[0]] || 0;
+      var b = sigCounts[stack.signals[1]] || 0;
+      if (a === 0 || b === 0) continue;
+      if (Math.max(a, b) < TRADE_STACK_THRESHOLD) continue;
+      var score = a + b;
+      if (!best || score > best.score) best = { stack: stack, a: a, b: b, score: score };
+    }
+
+    if (!best) return;
+    if (best.stack.id === _lastTradeStackId) return; // don't re-narrate the same stack
+
+    _lastTradeStackTime = now;
+    _lastTradeStackId = best.stack.id;
+
+    var drivers = [
+      best.a + ' recent actions touching ' + best.stack.signals[0],
+      best.b + ' recent actions touching ' + best.stack.signals[1]
+    ];
+
+    var options = [
+      { label: 'deepen ' + best.stack.id.toLowerCase().replace(/_/g, ' ') + ' analysis', type: 'analysis' },
+      { label: 'broaden scope', type: 'monitoring' },
+      { label: 'hold', type: 'monitoring' }
+    ];
+
+    _dispatch('limen:phase-change', {
+      from: 'observing',
+      to: 'concentrated',
+      type: 'decision-memory',
+      domain: 'trade',
+      stackId: best.stack.id,
+      topDrivers: drivers,
+      options: options,
+      body: best.stack.body
+    });
+  }
+
   // ─── Publish ──────────────────────────────────────────────────────────────
 
   function _publish() {
@@ -958,6 +1104,7 @@
       economySignalConcentration: _economySignalConcentration(),
       technologySignalConcentration: _technologySignalConcentration(),
       intelligenceSignalConcentration: _intelligenceSignalConcentration(),
+      tradeSignalConcentration: _tradeSignalConcentration(),
       updated: Date.now()
     };
 
@@ -1057,6 +1204,23 @@
     var recent = _entries.slice(-10);
     for (var i = 0; i < recent.length; i++) {
       var sigs = recent[i].intelligenceSignals || [];
+      for (var s = 0; s < sigs.length; s++) {
+        counts[sigs[s]] = (counts[sigs[s]] || 0) + 1;
+      }
+    }
+    var out = [];
+    for (var sig in counts) { out.push({ signal: sig, count: counts[sig] }); }
+    out.sort(function (x, y) { return y.count - x.count; });
+    return out;
+  }
+
+  // TRADE: roll up which trade/supply-chain signal families recent attention concentrates
+  // on (descending by count). Empty when no trade signals were detected.
+  function _tradeSignalConcentration() {
+    var counts = {};
+    var recent = _entries.slice(-10);
+    for (var i = 0; i < recent.length; i++) {
+      var sigs = recent[i].tradeSignals || [];
       for (var s = 0; s < sigs.length; s++) {
         counts[sigs[s]] = (counts[sigs[s]] || 0) + 1;
       }

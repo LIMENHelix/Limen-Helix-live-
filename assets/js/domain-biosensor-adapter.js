@@ -122,7 +122,30 @@
       label: 'Logistics coordination stress',
       arousal: 'Operational urgency — high arousal during supply disruptions reflects real-time coordination pressure',
       coherence: 'Routing decision quality — low coherence during multi-node failures suggests overwhelmed coordination',
-      cognitiveLoad: 'Simultaneous disruption management — high load with cascading failures reflects system overextension'
+      cognitiveLoad: 'Simultaneous disruption management — high load with cascading failures reflects system overextension',
+      // Trade-flow execution-readiness map: regulation state → trade & supply-chain intake/triage
+      // posture. Runtime key is 'supplyChain' (trade<->supplyChain dual-naming via domain-identity.js;
+      // trade is the URL/portal key, supplyChain the snapshot/runtime key). Consumed by (future)
+      // trade-clarity-operator outcome tracking (trade-flow initiative velocity, sourcing-route
+      // throughput, customs-clearance time, port/carrier-partnership momentum, logistics velocity,
+      // sanctions/tariff-exposure triage). TRADE identity only — international trade & commerce,
+      // exports/imports, tariffs & trade policy, shipping & logistics, supply chains, trade balance,
+      // customs, trade agreements, sanctions/embargoes, freight & ports. Distinct from economy (macro
+      // aggregate / trade balance as a series) and industry (production). Trade couples to economy via
+      // trade balance and to industry via sourced goods but never adopts macro indicators or factory
+      // production as its own content. Reference trade/logistics-identity names: FDX, UPS, EXPD, CHRW,
+      // ZIM, MATX, XPO, GXO, AMKBY, DSDVY, ODFL. Operator arousal/coherence during supply disruptions
+      // gate trade-flow & sourcing intake (high arousal = crisis bottleneck-triage mode; low arousal =
+      // deliberate route/partnership-expansion mode). STRICTLY ADDITIVE — does not touch any validated
+      // scoring spine.
+      readiness: {
+        calm: 'Steady operator state — safe to greenlight new trade-flow initiatives: open new port/carrier and freight-forwarder partnerships (FDX/UPS/EXPD/CHRW/ZIM/MATX), expand into new ocean/rail/LTL lanes (XPO/ODFL/DSDVY/AMKBY), and stand up new tariff/sanctions-monitoring and trade-agreement programs; open speculative new sourcing-route scouting.',
+        focused: 'Productive engagement — sustain active supply-chain flows and in-flight shipments (GXO warehousing, EXPD/CHRW brokerage, ODFL/XPO domestic freight); admit only proven-vendor sourcing and well-scoped lane additions; hold speculative new routes and open-ended carrier onboarding.',
+        pressured: 'Elevated load — defer discretionary sourcing and new lane/partnership intake; focus on critical-route triage: protect highest-volume trade flows, expedite at-risk shipments, and keep customs-clearance and on-time-delivery monitoring active on live routes.',
+        overloaded: 'Saturated — pause all new supply-chain programs and sourcing intake; triage customs/port bottlenecks and sanctions exposure: port congestion and carrier capacity shortfalls (ZIM/MATX/AMKBY/DSDVY), customs holds and clearance failures, tariff/embargo and sanctions-list exposure on active shipments.',
+        recovering: 'Stabilizing — resume vendor-relationship building first (re-establish proven suppliers, freight-forwarders and carriers), then reopen supply-flow and lane expansion gradually as logistics velocity, port throughput and customs-clearance time normalize.',
+        unknown: 'Regulation state unavailable — default to snapshot-driven prioritization (active route-disruption signals and trade-flow / customs-bottleneck criticality ranking).'
+      }
     },
     economy: {
       label: 'Macroeconomic assessment pressure',

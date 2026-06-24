@@ -231,6 +231,50 @@ for (var _ik in INTELLIGENCE_COMPANY_BINDING) {
   NODE_TO_INTEL_COMPANY[_ib.node].push(_ib);
 }
 
+// ── TRADE-SECTOR (SUPPLY CHAIN) COMPANY ticker bindings (trade gap — ADDITIVE, OPT-IN) ──
+// Parallel to TECH_COMPANY_BINDING and INTELLIGENCE_COMPANY_BINDING (and to
+// MACRO_INDICATOR_BINDING). NOT merged into the default resolve() pipeline and NOT
+// included in NODE_TO_MACRO_INDICATOR — consumed ONLY when a context explicitly
+// triggers a trade-company-level drill (getTradeCompaniesForNode /
+// TRADE_COMPANY_BINDING export). Each ticker traces LOGISTICS / SUPPLY CAPACITY to a
+// REAL trade connectome node (nodes are the actual trade-domain participations in
+// brain-node-domains.json: NTS=container shipping, FEF=air freight, M1=trucking,
+// THAL=port ops, OFC=customs/tariffs, dlPFC=supply-chain planning, CC=freight
+// forwarding). Ticker stress (dir 'low' for all — stress on decline) estimates
+// LOGISTICS/SUPPLY CAPACITY DEGRADATION (shipping delays, fuel-hedging cost pass-
+// through, customs backlog, container shortage, port congestion). This is TRADE
+// identity = international commerce, freight, ports, customs, supply chains — NOT
+// energy. Fuel-cost pass-through is a downstream CONSEQUENCE of freight stress, never
+// the signal origin; trade nodes carry zero energy-domain content. Export-control
+// shocks (semiconductors, food, dual-use) are TRADE-specific stressors here. REAL
+// trade/logistics tickers only.
+//   FDX/UPS → air-freight & parcel    EXPD/CHRW → 3PL freight forwarding
+//   ZIM/MATX/AMKBY → container-shipping  XPO/ODFL → trucking / LTL
+//   GXO → contract logistics/warehousing  DSDVY → global 3PL / customs
+var TRADE_COMPANY_BINDING = {
+  FDX:   { series: 'FDX',   node: 'FEF',   role: 'Air-Freight / Express Parcel Capacity',   nodeRole: 'Air Freight',               label: 'FedEx',                  threshold: -18, dir: 'low', kind: 'ticker', industry: 'air-freight' },
+  UPS:   { series: 'UPS',   node: 'FEF',   role: 'Integrated Air & Ground Parcel Capacity', nodeRole: 'Air Freight',               label: 'United Parcel Service',  threshold: -16, dir: 'low', kind: 'ticker', industry: 'air-freight' },
+  EXPD:  { series: 'EXPD',  node: 'CC',    role: 'Freight Forwarding / 3PL Capacity',       nodeRole: 'Freight Forwarding',        label: 'Expeditors International', threshold: -17, dir: 'low', kind: 'ticker', industry: '3pl' },
+  CHRW:  { series: 'CHRW',  node: 'CC',    role: 'Brokered Freight / 3PL Capacity',         nodeRole: 'Freight Forwarding',        label: 'C.H. Robinson',          threshold: -19, dir: 'low', kind: 'ticker', industry: '3pl' },
+  ZIM:   { series: 'ZIM',   node: 'NTS',   role: 'Container Liner Vessel Capacity',         nodeRole: 'Container Shipping',        label: 'ZIM Integrated Shipping', threshold: -28, dir: 'low', kind: 'ticker', industry: 'container-shipping' },
+  MATX:  { series: 'MATX',  node: 'NTS',   role: 'Pacific Container Shipping Capacity',      nodeRole: 'Container Shipping',        label: 'Matson',                 threshold: -20, dir: 'low', kind: 'ticker', industry: 'container-shipping' },
+  AMKBY: { series: 'AMKBY', node: 'THAL',  role: 'Global Container Alliance & Port Capacity', nodeRole: 'Port Operations',          label: 'A.P. Moller-Maersk',     threshold: -22, dir: 'low', kind: 'ticker', industry: 'container-shipping' },
+  XPO:   { series: 'XPO',   node: 'M1',    role: 'Less-Than-Truckload Freight Capacity',    nodeRole: 'Trucking',                  label: 'XPO',                    threshold: -23, dir: 'low', kind: 'ticker', industry: 'trucking' },
+  ODFL:  { series: 'ODFL',  node: 'M1',    role: 'LTL Trucking Network Capacity',           nodeRole: 'Trucking',                  label: 'Old Dominion Freight Line', threshold: -18, dir: 'low', kind: 'ticker', industry: 'trucking' },
+  GXO:   { series: 'GXO',   node: 'HIPP',  role: 'Contract Logistics / Warehousing Capacity', nodeRole: 'Warehousing',             label: 'GXO Logistics',          threshold: -21, dir: 'low', kind: 'ticker', industry: '3pl' },
+  DSDVY: { series: 'DSDVY', node: 'OFC',   role: 'Global 3PL / Customs-Clearance Capacity', nodeRole: 'Customs & Tariffs',         label: 'DSV A/S',                threshold: -20, dir: 'low', kind: 'ticker', industry: 'customs-compliance' }
+};
+
+// Reverse lookup: connectome node → trade-sector company tickers it sources from
+// (opt-in trade-company drill, parallel to NODE_TO_TECH_COMPANY / NODE_TO_INTEL_COMPANY).
+var NODE_TO_TRADE_COMPANY = {};
+for (var _trk in TRADE_COMPANY_BINDING) {
+  if (!Object.prototype.hasOwnProperty.call(TRADE_COMPANY_BINDING, _trk)) continue;
+  var _trb = TRADE_COMPANY_BINDING[_trk];
+  if (!NODE_TO_TRADE_COMPANY[_trb.node]) NODE_TO_TRADE_COMPANY[_trb.node] = [];
+  NODE_TO_TRADE_COMPANY[_trb.node].push(_trb);
+}
+
 // ── FISCAL vs MONETARY POLICY TRANSMISSION (ADDITIVE — economy gap 2) ──
 // The existing FEED_TO_CONNECTOME['finance'] = ['economy','finance'] mapping does
 // NOT distinguish FISCAL (Treasury / OMB / Congress: spending, taxes, debt
@@ -261,7 +305,24 @@ var MACRO_POLICY_PATH = {
   // 'intelligence' circuit. 'governance' is added for the oversight/authority path
   // (intelligence oversight, covert-action finding authority) — NOT energy. Indicator
   // keys reference INTELLIGENCE_INDICATOR_BINDING below.
-  intelligence: { connectomeDomains: ['intelligence', 'governance'], indicators: ['ThreatLevel_CRITICAL', 'SIGINTCapacity_DEGRADED', 'HUMINTBacklog_HIGH'], sources: ['ODNI Threat Assessment', 'SIGINT Collection Tasking', 'HUMINT Source Reporting'] }
+  intelligence: { connectomeDomains: ['intelligence', 'governance'], indicators: ['ThreatLevel_CRITICAL', 'SIGINTCapacity_DEGRADED', 'HUMINTBacklog_HIGH'], sources: ['ODNI Threat Assessment', 'SIGINT Collection Tasking', 'HUMINT Source Reporting'] },
+  // Trade (trade gap — ADDITIVE, OPT-IN) = commerce-policy shocks: a unilateral
+  // tariff, a bilateral trade-agreement ratification, sanctions/embargo, an
+  // export-control rule change, or an origin-rule (rules-of-origin) shift. The
+  // existing FEED_TO_CONNECTOME['supplyChain'] = ['trade','finance'] routes ALL
+  // supply-chain stress through the same path regardless of policy origin; these
+  // sub-paths let a policy shock route to the CORRECT trade nodes. Example: a
+  // Trump-style unilateral tariff shock = OFC (customs/tariff valuation) +
+  // governance (enforcement/authority) + trade (re-routing). These are PURE
+  // commerce-policy mechanics (tariffs, sanctions, customs, origin rules) — NOT
+  // energy. 'finance' is added where trade finance is implicated (sanctions freeze
+  // payment rails, tariffs alter letter-of-credit collateral). Indicator keys
+  // reference TRADE_INDICATOR_BINDING below. Resolved via resolveTradePolicyPath.
+  trade_unilateral_tariff: { connectomeDomains: ['trade', 'governance'],            indicators: ['TariffLevel', 'CustomsBacklog'],                sources: ['USTR Section 301', 'CBP HTS Duty Schedule'] },
+  trade_bilateral_agreement: { connectomeDomains: ['trade', 'governance'],          indicators: ['EXPGS', 'IMPGS', 'BOPGSTB'],                    sources: ['USTR FTA Text', 'Congressional Ratification'] },
+  trade_sanctions: { connectomeDomains: ['trade', 'governance', 'finance'],         indicators: ['ExportPermitDelay', 'CustomsBacklog'],          sources: ['OFAC SDN List', 'BIS Entity List'] },
+  trade_export_control: { connectomeDomains: ['trade', 'governance'],               indicators: ['ExportPermitDelay', 'TariffLevel'],             sources: ['BIS EAR / CCL', 'State DDTC ITAR'] },
+  trade_origin_rule: { connectomeDomains: ['trade', 'finance'],                     indicators: ['CustomsBacklog', 'TariffLevel'],                sources: ['CBP Rules of Origin', 'USMCA Certificate of Origin'] }
 };
 
 // ── INTELLIGENCE-SECTOR INDICATOR bindings (intelligence gap 3 — ADDITIVE) ──
@@ -296,6 +357,59 @@ for (var _iik in INTELLIGENCE_INDICATOR_BINDING) {
   var _iib = INTELLIGENCE_INDICATOR_BINDING[_iik];
   if (!NODE_TO_INTEL_INDICATOR[_iib.node]) NODE_TO_INTEL_INDICATOR[_iib.node] = [];
   NODE_TO_INTEL_INDICATOR[_iib.node].push(_iib);
+}
+
+// ── TRADE-SECTOR (SUPPLY CHAIN) INDICATOR bindings (trade gap — ADDITIVE) ──
+// Parallel structure to MACRO_INDICATOR_BINDING (economy gap 1) and
+// INTELLIGENCE_INDICATOR_BINDING (intelligence gap 3), but for PURE trade/commerce
+// signals: commodity prices, the trade balance, shipping/freight indices, tariff &
+// customs levels, and port congestion. Binds each real metric to the trade
+// connectome node that senses it, so the kernel/reporting/diagnosis layers can drill
+// from abstract 'trade stress' into the ACTUAL commerce signal that triggered it
+// (e.g. customs node lit → tariff escalation → trade-policy shock origin; container
+// node lit → freight index spiked → shipping-capacity shortage). FRED series are used
+// where they exist (trade balance BOPGSTB, imports IMPGS, exports EXPGS, commodity
+// constituents like soybeans/wheat/crude as TRADED goods — measured here as trade
+// FLOW, not energy production); tariff / port-congestion / container-utilization are
+// hand-curated policy/operational signals (not FRED, not single-company tickers).
+// These are PURE commerce metrics: tariff escalation, export-permit delay, container
+// shortage, customs-clearance backlog, vessel-queue congestion. Energy (fuel hedging,
+// shipping fuel cost) is a downstream CONSEQUENCE of trade stress (higher freight =>
+// fuel-cost pass-through), never the signal origin; trade nodes carry zero
+// energy-domain content. Annotation/registry metadata ONLY — the resolver does NOT
+// score these.
+//   threshold = the level above/below which the node is considered stressed.
+//   dir = 'high' (stress when ABOVE threshold) | 'low' (stress when BELOW).
+//   kind = 'fred' (FRED series) | 'index' (shipping/freight index) | 'policy'
+//          (tariff/customs/export-control signal) | 'ops' (operational congestion).
+var TRADE_INDICATOR_BINDING = {
+  // ── Trade balance / flows (FRED) ──
+  BOPGSTB: { series: 'BOPGSTB', node: 'TPJ',  role: 'Trade Balance',           nodeRole: 'Cross-Border Commerce', label: 'U.S. Trade Balance (Goods & Services)', threshold: -75000, dir: 'low',  kind: 'fred',   policyPath: 'trade' },
+  IMPGS:   { series: 'IMPGS',   node: 'TPJ',  role: 'Import Volume',           nodeRole: 'Cross-Border Commerce', label: 'Imports of Goods & Services',          threshold: 5,      dir: 'high', kind: 'fred',   policyPath: 'trade' },
+  EXPGS:   { series: 'EXPGS',   node: 'CARD', role: 'Export Volume',           nodeRole: 'Services Trade',        label: 'Exports of Goods & Services',          threshold: -3,     dir: 'low',  kind: 'fred',   policyPath: 'trade' },
+  // ── Commodity indices (FRED, measured as TRADED GOODS flow, not energy production) ──
+  PSOYBUSDM: { series: 'PSOYBUSDM', node: 'NAcc', role: 'Agri-Commodity Trade Price', nodeRole: 'Commodity Exchanges', label: 'Soybeans (Global Price)', threshold: 18, dir: 'high', kind: 'fred', policyPath: 'trade' },
+  PWHEAMTUSDM: { series: 'PWHEAMTUSDM', node: 'NAcc', role: 'Grain Trade Price',     nodeRole: 'Commodity Exchanges', label: 'Wheat (Global Price)',    threshold: 20, dir: 'high', kind: 'fred', policyPath: 'trade' },
+  // ── Shipping / freight indices (operational throughput, NOT fuel cost) ──
+  BalticDry:      { series: 'BalticDry',      node: 'NTS',  role: 'Dry-Bulk Freight Rate',      nodeRole: 'Container Shipping',  label: 'Baltic Dry Index',           threshold: 2500, dir: 'high', kind: 'index', policyPath: 'trade' },
+  ContainerUtil:  { series: 'ContainerUtil',  node: 'NTS',  role: 'Container Fleet Utilization', nodeRole: 'Container Shipping',  label: 'Container Utilization',      threshold: 90,   dir: 'high', kind: 'index', policyPath: 'trade' },
+  FreightForward: { series: 'FreightForward', node: 'CC',   role: 'Freight-Forwarding Rate',    nodeRole: 'Freight Forwarding',  label: 'Forwarding Spot Rate Index', threshold: 8,    dir: 'high', kind: 'index', policyPath: 'trade' },
+  // ── Tariff / customs / export-control (hand-curated policy signals) ──
+  TariffLevel:   { series: 'TariffLevel',   node: 'OFC',  role: 'Average Applied Tariff',      nodeRole: 'Customs & Tariffs',  label: 'Average Applied Tariff Rate', threshold: 6,  dir: 'high', kind: 'policy', policyPath: 'trade' },
+  CustomsBacklog: { series: 'CustomsBacklog', node: 'OFC', role: 'Customs Clearance Backlog',   nodeRole: 'Customs & Tariffs',  label: 'Customs Clearance Backlog',   threshold: 5,  dir: 'high', kind: 'policy', policyPath: 'trade' },
+  ExportPermitDelay: { series: 'ExportPermitDelay', node: 'vmPFC', role: 'Export-Control Permit Delay', nodeRole: 'Trade Agreements', label: 'Export License Delay',     threshold: 7,  dir: 'high', kind: 'policy', policyPath: 'trade' },
+  // ── Port congestion (operational) ──
+  PortCongestion: { series: 'PortCongestion', node: 'THAL', role: 'Port Vessel-Queue Congestion', nodeRole: 'Port Operations', label: 'Port Congestion (Vessel Queue)', threshold: 6, dir: 'high', kind: 'ops', policyPath: 'trade' }
+};
+
+// Reverse lookup: connectome node → trade indicators it senses
+// (parallel to NODE_TO_MACRO_INDICATOR / NODE_TO_INTEL_INDICATOR; for diagnosis drill-down).
+var NODE_TO_TRADE_INDICATOR = {};
+for (var _trik in TRADE_INDICATOR_BINDING) {
+  if (!Object.prototype.hasOwnProperty.call(TRADE_INDICATOR_BINDING, _trik)) continue;
+  var _trib = TRADE_INDICATOR_BINDING[_trik];
+  if (!NODE_TO_TRADE_INDICATOR[_trib.node]) NODE_TO_TRADE_INDICATOR[_trib.node] = [];
+  NODE_TO_TRADE_INDICATOR[_trib.node].push(_trib);
 }
 
 // Reverse lookup: connectome node → macro indicators it senses (for diagnosis drill-down).
@@ -783,7 +897,7 @@ function resolvePolicyPath(path, stress) {
   // references INTELLIGENCE_INDICATOR_BINDING — check both so each policy path
   // resolves its own registry. (Additive: pre-existing fiscal/monetary unchanged.)
   var indSet = cfg.indicators.map(function(id) {
-    return MACRO_INDICATOR_BINDING[id] || INTELLIGENCE_INDICATOR_BINDING[id];
+    return MACRO_INDICATOR_BINDING[id] || INTELLIGENCE_INDICATOR_BINDING[id] || TRADE_INDICATOR_BINDING[id];
   }).filter(Boolean);
   return {
     path: path,
@@ -908,6 +1022,156 @@ function resolveTechSubCircuit(stressTrigger, domain, context) {
     anchors: cfg.anchors.slice(),
     nodes: nodes
   };
+}
+
+// ═══════════════════════════════════════════════════
+// 6d. TRADE SUB-CIRCUIT RESOLUTION (ADDITIVE — trade gap, OPT-IN)
+// ═══════════════════════════════════════════════════
+// Trade (supply-chain) stress, by default, activates the generic ['trade','finance']
+// node set with NO differentiation of container-maritime vs trucking vs air-cargo vs
+// customs — and those four have very different capacity/cost curves and geopolitical
+// exposure (export control on chips → container shortage; driver scarcity → trucking
+// cost surge; sanctions → port closure). This routes a trade stress trigger to the
+// correct sub-circuit (mirrors resolveTechSubCircuit: a separate opt-in entry point;
+// the default resolve() pipeline is unchanged; no scoring). Each sub-circuit carries
+// its capacity/cost SIGNATURE so downstream modeling can pick the right curve. Real
+// trade/logistics tickers only. The SIGNAL ORIGIN is trade operational cost (vessel
+// utilization, driver scarcity, tolling, customs backlog), NOT energy production —
+// fuel-cost coupling (e.g. trucking fuel hedging → oil/gas demand visibility) is a
+// downstream CONSEQUENCE, never the domain identity.
+//   • container-maritime = vessel utilization × alliance capacity. NTS → THAL → vmPFC.
+//   • trucking-drayage    = driver supply + fuel hedge + tolling. M1 → S1 → CARD.
+//   • air-cargo           = fuel surcharge + aircraft utilization. FEF → CC → OFC.
+//   • customs-compliance  = tariff change + origin cert backlog + OFAC. OFC → vmPFC → TPJ.
+var TRADE_SUBCIRCUIT_ROUTING = {
+  'container-maritime': {
+    label: 'Container maritime circuit (vessel utilization & port capacity)',
+    pathway: ['NTS', 'THAL', 'vmPFC'],
+    role: 'vessel-utilization → port-queue-clearance → alliance-capacity-allocation',
+    costSignature: 'high fixed cost (vessel + slot), nonlinear surge on port congestion & blank sailings',
+    scalingModel: 'utilization_x_alliance_capacity',
+    // Connectome domains the sub-circuit lights up (trade is the home domain;
+    // finance is the trade-finance coupling — letters of credit, freight collateral).
+    connectomeDomains: ['trade', 'finance'],
+    triggers: ['port_congestion', 'blank_sailing_surge', 'container_shortage', 'alliance_capacity_cut', 'canal_disruption'],
+    anchors: ['ZIM', 'MATX', 'AMKBY']
+  },
+  'trucking-drayage': {
+    label: 'Trucking & drayage circuit (road freight capacity)',
+    pathway: ['M1', 'S1', 'CARD'],
+    role: 'driver-supply → last-mile-throughput → fuel-hedge-and-tolling-cost',
+    costSignature: 'driver-scarcity wage pressure + tolling + fuel pass-through (fuel is a downstream cost, not the origin)',
+    scalingModel: 'driver_supply_x_tolling_pressure',
+    connectomeDomains: ['trade', 'finance'],
+    triggers: ['driver_shortage', 'fuel_surcharge_spike', 'tolling_increase', 'ltl_capacity_crunch', 'drayage_backlog'],
+    anchors: ['XPO', 'ODFL', 'GXO']
+  },
+  'air-cargo': {
+    label: 'Air-cargo circuit (express freight capacity)',
+    pathway: ['FEF', 'CC', 'OFC'],
+    role: 'aircraft-utilization → forwarding-capacity → fuel-surcharge-and-clearance',
+    costSignature: 'fuel surcharge + aircraft utilization; bursts on belly-capacity loss & peak-season parcel surge',
+    scalingModel: 'aircraft_utilization_x_fuel_surcharge',
+    connectomeDomains: ['trade', 'finance'],
+    triggers: ['fuel_surcharge_spike', 'belly_capacity_loss', 'parcel_peak_surge', 'aircraft_grounding'],
+    anchors: ['FDX', 'UPS']
+  },
+  'customs-compliance': {
+    label: 'Customs & compliance circuit (tariff / sanctions / origin)',
+    pathway: ['OFC', 'vmPFC', 'TPJ'],
+    role: 'tariff-valuation → origin-certificate-clearance → cross-border-sanctions-screening',
+    costSignature: 'step changes on tariff/sanctions rule shifts; backlog accrues on origin-cert & OFAC screening load',
+    scalingModel: 'tariff_change_plus_clearance_backlog',
+    connectomeDomains: ['trade', 'governance'],
+    triggers: ['tariff_change', 'origin_certificate_backlog', 'ofac_sanctions_action', 'export_control_shock', 'customs_clearance_backlog'],
+    anchors: ['EXPD', 'CHRW', 'DSDVY']
+  }
+};
+
+// Reverse lookup: trigger source string → trade sub-circuit key (built once).
+var TRADE_TRIGGER_TO_SUBCIRCUIT = {};
+for (var _trsk in TRADE_SUBCIRCUIT_ROUTING) {
+  if (!Object.prototype.hasOwnProperty.call(TRADE_SUBCIRCUIT_ROUTING, _trsk)) continue;
+  var _trtrg = TRADE_SUBCIRCUIT_ROUTING[_trsk].triggers || [];
+  for (var _trti = 0; _trti < _trtrg.length; _trti++) TRADE_TRIGGER_TO_SUBCIRCUIT[_trtrg[_trti]] = _trsk;
+}
+
+/**
+ * Route a trade stress trigger to its sub-circuit (container-maritime / trucking-
+ * drayage / air-cargo / customs-compliance) and emit the capacity/cost signature so
+ * downstream supply-chain modeling can pick the right curve. OPT-IN; default resolve()
+ * is unchanged. No scoring. Trade-specific; never hijacks another domain's stress.
+ * The trade domain's runtime/snapshot key is 'supplyChain' (see domain-identity.js),
+ * so the domain guard accepts BOTH the canonical 'trade' and snapshot 'supplyChain'.
+ * @param {String} stressTrigger - trigger source, e.g. 'port_congestion',
+ *        'driver_shortage', 'tariff_change'; OR a sub-circuit key.
+ * @param {String} [domain] - originating domain (expected 'trade' or 'supplyChain');
+ *        other domains return an inactive result (this gap is trade-specific).
+ * @param {Object} [context] - optional { stress:Number } raw stress [0..1] for activation.
+ * @returns {Object} { subCircuit, matched, label, pathway, role, costSignature,
+ *          scalingModel, connectomeDomains, anchors, nodes }
+ */
+function resolveTradeSubCircuit(stressTrigger, domain, context) {
+  var dom = domain || 'trade';
+  var inactive = {
+    subCircuit: null, matched: false, trigger: stressTrigger || null, domain: dom,
+    label: '', pathway: [], role: '', costSignature: '', scalingModel: '',
+    connectomeDomains: [], anchors: [], nodes: []
+  };
+  // This gap is trade-specific; never hijack another domain's stress. Accept both
+  // the canonical URL key 'trade' and the runtime/snapshot key 'supplyChain'.
+  if (dom !== 'trade' && dom !== 'supplyChain') return inactive;
+
+  // Resolve which sub-circuit: accept a direct key or a named trigger source.
+  var key = null;
+  if (stressTrigger && TRADE_SUBCIRCUIT_ROUTING[stressTrigger]) {
+    key = stressTrigger;
+  } else if (stressTrigger && TRADE_TRIGGER_TO_SUBCIRCUIT[stressTrigger]) {
+    key = TRADE_TRIGGER_TO_SUBCIRCUIT[stressTrigger];
+  }
+  if (!key) return inactive;
+
+  var cfg = TRADE_SUBCIRCUIT_ROUTING[key];
+  var s = (context && typeof context.stress === 'number') ? context.stress : 0;
+  // Reuse the existing activation engine by synthesizing one stressed feed domain
+  // per connectome domain on the sub-circuit (trade = home; finance/governance =
+  // the trade-finance / policy coupling targets).
+  var synth = cfg.connectomeDomains.map(function(cd) { return { id: cd, stress: s, status: 'TRADE_SUBCIRCUIT' }; });
+  var nodes = activateNodes(synth);
+
+  return {
+    subCircuit: key,
+    matched: true,
+    trigger: stressTrigger,
+    domain: dom,
+    label: cfg.label,
+    pathway: cfg.pathway.slice(),
+    role: cfg.role,
+    // Capacity/cost signal: the scaling model downstream supply-chain modeling uses.
+    costSignature: cfg.costSignature,
+    scalingModel: cfg.scalingModel,
+    connectomeDomains: cfg.connectomeDomains.slice(),
+    anchors: cfg.anchors.slice(),
+    nodes: nodes
+  };
+}
+
+/**
+ * Resolve node activations for a trade policy shock (unilateral-tariff /
+ * bilateral-agreement / sanctions / export-control / origin-rule). Thin convenience
+ * wrapper over resolvePolicyPath that accepts the BARE policy name (e.g.
+ * 'unilateral-tariff') and maps it to the namespaced MACRO_POLICY_PATH key
+ * ('trade_unilateral_tariff'). OPT-IN; default resolve() pipeline unchanged.
+ * @param {String} policy - 'unilateral-tariff' | 'bilateral-agreement' | 'sanctions'
+ *        | 'export-control' | 'origin-rule' (also accepts the full 'trade_*' key).
+ * @param {Number} stress - raw stress value [0..1] for this policy shock.
+ * @returns {Object} same shape as resolvePolicyPath.
+ */
+function resolveTradePolicyPath(policy, stress) {
+  if (!policy) return resolvePolicyPath(policy, stress);
+  var key = MACRO_POLICY_PATH[policy] ? policy
+          : 'trade_' + String(policy).replace(/-/g, '_');
+  return resolvePolicyPath(key, stress);
 }
 
 // ═══════════════════════════════════════════════════
@@ -1080,6 +1344,20 @@ window.LIMENConnectomeResolver = {
   NODE_TO_INTEL_INDICATOR: NODE_TO_INTEL_INDICATOR,
   getIntelIndicatorsForNode: function(nodeId) { return NODE_TO_INTEL_INDICATOR[nodeId] || []; },
 
+  // Trade-sector (supply chain) company ticker bindings (trade gap) — OPT-IN, parallel
+  // to the tech/intel registries; consumed only for explicit trade-company drill.
+  // REAL trade/logistics tickers (FDX/UPS/EXPD/CHRW/ZIM/MATX/AMKBY/XPO/ODFL/GXO/DSDVY).
+  TRADE_COMPANY_BINDING: TRADE_COMPANY_BINDING,
+  NODE_TO_TRADE_COMPANY: NODE_TO_TRADE_COMPANY,
+  getTradeCompaniesForNode: function(nodeId) { return NODE_TO_TRADE_COMPANY[nodeId] || []; },
+
+  // Trade-sector indicator bindings (trade gap) — OPT-IN, parallel to the macro
+  // registry; trade-balance / commodity-flow / shipping-index / tariff-customs /
+  // port-congestion commerce signals (zero energy content) routed to trade nodes.
+  TRADE_INDICATOR_BINDING: TRADE_INDICATOR_BINDING,
+  NODE_TO_TRADE_INDICATOR: NODE_TO_TRADE_INDICATOR,
+  getTradeIndicatorsForNode: function(nodeId) { return NODE_TO_TRADE_INDICATOR[nodeId] || []; },
+
   // Fiscal vs monetary policy transmission (economy gap 2) — opt-in
   MACRO_POLICY_PATH: MACRO_POLICY_PATH,
   resolvePolicyPath: resolvePolicyPath,
@@ -1091,6 +1369,20 @@ window.LIMENConnectomeResolver = {
   TECH_TRIGGER_TO_SUBCIRCUIT: TECH_TRIGGER_TO_SUBCIRCUIT,
   resolveTechSubCircuit: resolveTechSubCircuit,
   getTechSubCircuitForTrigger: function(trigger) { return TECH_TRIGGER_TO_SUBCIRCUIT[trigger] || null; },
+
+  // Trade sub-circuit segregation (trade gap) — opt-in. Routes a trade stress
+  // trigger to container-maritime / trucking-drayage / air-cargo / customs-compliance,
+  // each with its own capacity/cost signature + scaling model. Trade identity is
+  // commerce/logistics; fuel coupling is downstream, never the origin.
+  TRADE_SUBCIRCUIT_ROUTING: TRADE_SUBCIRCUIT_ROUTING,
+  TRADE_TRIGGER_TO_SUBCIRCUIT: TRADE_TRIGGER_TO_SUBCIRCUIT,
+  resolveTradeSubCircuit: resolveTradeSubCircuit,
+  getTradeSubCircuitForTrigger: function(trigger) { return TRADE_TRIGGER_TO_SUBCIRCUIT[trigger] || null; },
+
+  // Trade policy-path resolution (trade gap) — opt-in. Routes a commerce-policy
+  // shock (unilateral-tariff / bilateral-agreement / sanctions / export-control /
+  // origin-rule) to the correct trade nodes via MACRO_POLICY_PATH 'trade_*' entries.
+  resolveTradePolicyPath: resolveTradePolicyPath,
 
   // Last resolve state
   getLastResolve: function() { return _lastResolve; },

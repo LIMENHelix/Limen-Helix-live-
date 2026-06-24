@@ -93,7 +93,42 @@
     // (cyber tooling is a coupling, NOT intelligence's own content). Real intel-
     // sector operators anchor these lanes: PLTR, BAH, LDOS, CACI, SAIC, KBR,
     // VRNT, NICE, VRSK.
-    'intelligence-operations', 'collection-platform-acquisition', 'analysis-fusion-capability'
+    'intelligence-operations', 'collection-platform-acquisition', 'analysis-fusion-capability',
+    // ─── Trade / supplyChain coupling lane (additive) ─────────────────────
+    // Trade's RUNTIME KEY in this file is 'supplyChain' (URL/portal key is
+    // 'trade'; see domain-identity.js dual-naming). Trade IDENTITY = international
+    // trade & commerce, exports/imports, tariffs & trade policy, shipping &
+    // logistics, supply chains, trade balance, customs, trade agreements,
+    // sanctions/embargoes, freight & ports — distinct from economy (macro
+    // aggregate) and industry (production).
+    //
+    // 'supply-chain-mapping' is NOT a new invented lane: cross-node-opportunity.js
+    // ALREADY emits it from TECH_COUPLING_LANES.energy and TECH_COUPLING_LANES.research
+    // (technology↔energy and technology↔research co-elevation). Until now those
+    // emissions were SILENTLY DROPPED at the handoff gate because no LANE_GATES
+    // entry existed (recompute() skips any lane absent from LANE_GATES) — exactly
+    // the dropped-hint situation the defense coupling block fixed. Defining the
+    // gate here gives that already-emitted lane a home, routing supply-chain /
+    // logistics-network-mapping artifacts to the trade (supplyChain) negotiator.
+    // singleDomainOnly is false: a supply-chain-mapping artifact spans a logistics
+    // network across multiple counterparties/sectors, so cross-node multi-domain
+    // aggregations are appropriate. Real trade/logistics operators anchor this
+    // lane: FDX, UPS, EXPD, CHRW, ZIM, MATX, XPO, GXO, AMKBY, DSDVY, ODFL.
+    'supply-chain-mapping'
+    // ─── DESIGN NOTE — future trade-native lanes (NOT added now) ──────────
+    // Per the wiring-gap analysis: trade currently participates as a SECONDARY
+    // participant (via supplyChain in business-grants/sba-loans/franchise/credit-
+    // facilities/systemic-risk/capital-access and now supply-chain-mapping), never
+    // as a PRIMARY source negotiator the way defense owns 'defense-procurement' or
+    // intelligence owns 'intelligence-operations'. A future handoff expansion could
+    // add trade-PRIMARY lanes — 'supply-chain-resilience' (trade↔infrastructure:
+    // port/freight-network resilience investments), 'logistics-financing'
+    // (trade↔finance: working capital / supplier financing), 'trade-compliance-tech'
+    // (trade↔technology: customs/EDI/tariff-classification platforms). These are
+    // DELIBERATELY NOT added here because no cross-node emitter produces those lane
+    // names yet — adding them now would create dead tokens (the dead-token
+    // discipline the finance/intelligence blocks observe). Add them only once
+    // cross-node-opportunity.js emits them.
   ];
 
   // ─── Lane gates — minimum quality requirements per artifact type ────────
@@ -216,7 +251,26 @@
     //   analytic artifact, not a bounded acquisition. Intelligence + technology +
     //   research are the native fusion partners. Passing this gate signals only
     //   "sufficient packet detail to attempt an analysis-fusion-capability note."
-    'analysis-fusion-capability':      { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['intelligence','technology','research','defense','infrastructure'] }
+    'analysis-fusion-capability':      { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['intelligence','technology','research','defense','infrastructure'] },
+    // ─── Trade / supplyChain coupling lane gate (additive) ────────────────
+    // supply-chain-mapping — logistics-network / freight-route / supplier-graph
+    //   mapping artifact routed to the trade (supplyChain) negotiator. Fires when
+    //   technology is co-elevated with energy or research at a node (already
+    //   emitted by TECH_COUPLING_LANES.energy / .research in cross-node-opportunity.js),
+    //   and is also reachable when an opportunity touches supplyChain directly.
+    //   singleDomainOnly false: a supply-chain map spans a logistics network
+    //   across multiple counterparties/sectors, so multi-domain cross-node
+    //   aggregations are appropriate (unlike sba-loans/franchise which bound a
+    //   single entity). Trade-primary, with the logistics-adjacent domains that
+    //   originate supply-chain mapping demand (supplyChain = the trade runtime key,
+    //   technology = EDI/visibility platforms, infrastructure = ports/freight
+    //   corridors, industry = production nodes, energy/research = the co-elevating
+    //   technology partners that emit this lane). Passing this gate signals only
+    //   "sufficient packet detail to attempt a supply-chain-mapping note" — NOT a
+    //   logistics decision, NOT an award, NOT any prediction. Real trade/logistics
+    //   operators: FDX, UPS, EXPD, CHRW, ZIM, MATX, XPO, GXO, AMKBY, DSDVY, ODFL.
+    //   Distinct from economy (macro aggregate) and industry (production).
+    'supply-chain-mapping':            { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['supplyChain','technology','infrastructure','industry','energy','research'] }
   };
 
   var _last = { lanes: {}, timestamp: 0, totalPackets: 0 };
@@ -299,6 +353,7 @@
       case 'intelligence-operations': return 'Domains ' + doms + ' indicate collection / analysis-fusion / covert-operations-shaped opportunity for a single bounded engagement (collection tasking, all-source analysis, counterintelligence) routed to the intelligence negotiator — not tasking authority, not clearance, not award.';
       case 'collection-platform-acquisition': return 'Domains ' + doms + ' indicate a single bounded SIGINT/HUMINT/GEOINT/OSINT collection-platform upgrade / sensor acquisition routed to the intelligence negotiator (analogous to a weapons-system buy for kinetic) — not an acquisition decision, not eligibility.';
       case 'analysis-fusion-capability': return 'Domains ' + doms + ' indicate all-source fusion / analysis-platform capability opportunity (intelligence + technology + research) sufficient to attempt an analysis-fusion-capability note — an inherently multi-domain analytic artifact, not a bounded acquisition.';
+      case 'supply-chain-mapping': return 'Domains ' + doms + ' indicate logistics-network / freight-route / supplier-graph mapping opportunity routed to the trade (supplyChain) negotiator — a multi-domain artifact spanning shipping, customs, ports and supplier relationships; not a logistics decision, not an award, not any prediction.';
     }
     return '';
   }

@@ -224,6 +224,42 @@
     counterintelligenceFailureFloor:  0.60  // active counterintelligence loss / penetration always reads as counterintelligence_failure
   };
 
+  // Structural-signal overrides for trade / supply chain: certain TRADE-POLICY / LOGISTICS /
+  // CHOKEPOINT / SANCTIONS constraints are NOT noisy commodity-price / shipping-rate-churn signals
+  // and must bypass saturation dampening (mirrors infrastructure's grid_stress, culture's
+  // scene_collapse, finance's liquidity_crunch, economy's recession_declaration, technology's
+  // chip_shortage, defense's force_readiness, and intelligence's collection_gap structural
+  // conditions — all of which mirror energy-brain's grid_stress reserve-margin floor, a
+  // load-bearing engineering constraint that is never dampened as commodity noise).
+  // The trade domain (runtime key 'supplyChain') is INTERNATIONAL TRADE & COMMERCE,
+  // exports/imports, tariffs & trade policy, shipping & logistics, supply chains, the trade
+  // balance, customs, trade agreements, sanctions/embargoes, and freight & ports (tickers:
+  // FDX, UPS, EXPD, CHRW, ZIM, MATX, XPO, GXO, AMKBY, DSDVY, ODFL). It stays DISTINCT from
+  // economy (the macro aggregate — GDP/inflation/employment) and from industry (production /
+  // manufacturing output). Trade couples to economy via the trade balance and to industry via
+  // input sourcing, but its identity stays cross-border flow / tariffs / shipping / ports —
+  // NEVER oil/gas/grid as the domain's OWN content (a port can be an energy terminal, but the
+  // trade signal is the throughput/closure, not the commodity).
+  // These floors are LOAD-BEARING trade-flow constraints — a real tariff shock, a port closure,
+  // a sanctions escalation, a shipping crisis, or a customs blockade must never be averaged down
+  // by the commodity-price / freight-rate / headline-volume saturation that the generic trade
+  // feed is prone to.
+  // Raw stress is forced to the floor when a structural threshold is crossed, before dampening.
+  //   - tariff shock (tariff escalation / new-tariff announcement count)        → tariff_shock (structural)
+  //   - port closure (major-port shutdown / strike / chokepoint blockage)        → port_closure (structural)
+  //   - sanctions escalation (OFAC/USTR designation surge / embargo)             → sanctions_escalation (structural)
+  //   - shipping crisis (freight-rate spike / vessel-rerouting / canal closure)  → shipping_crisis (structural)
+  //   - customs blockade (customs-delay surge / border holds / CBP enforcement)  → customs_blockade (structural)
+  // ADDITIVE ONLY — client-side advisory floor for the domain panel/snapshot; it does NOT
+  // touch the validated P3 distress kernel (/api/limen/score path), which lives in finance.
+  var _TRADE_STRUCTURAL = {
+    tariffShockFloor:          0.65, // tariff escalation / new-tariff surge always reads as tariff_shock
+    portClosureFloor:          0.70, // major-port shutdown / chokepoint blockage always reads as port_closure
+    sanctionsEscalationFloor:  0.70, // OFAC/USTR designation surge / embargo always reads as sanctions_escalation
+    shippingCrisisFloor:       0.68, // freight-rate spike / vessel-rerouting / canal closure always reads as shipping_crisis
+    customsBlockadeFloor:      0.65  // customs-delay surge / border holds / CBP enforcement always reads as customs_blockade
+  };
+
   // Rolling baseline state (accumulates across feed cycles within session)
   var _baselineState = {}; // domainKey → { samples: [], mean: number }
   var _BASELINE_WINDOW = 12; // ~6 minutes at 30s poll (enough for session deviation)
@@ -789,6 +825,114 @@
     return { floor: floor, reason: reason };
   }
 
+  // Detect trade / supply-chain TRADE-POLICY / LOGISTICS / CHOKEPOINT / SANCTIONS structural
+  // constraints from a feed object. Returns a forced stress floor (0 if none) — trade-flow
+  // breaches bypass the commodity-price / freight-rate / headline-volume saturation that the
+  // generic trade feed is prone to. Mirrors _infraStructuralFloor / _cultureStructuralFloor /
+  // _financeStructuralFloor / _economyStructuralFloor / _technologyStructuralFloor /
+  // _defenseStructuralFloor / _intelligenceStructuralFloor: tariff-shock / port-closure /
+  // sanctions-escalation / shipping-crisis / customs-blockade are load-bearing trade-flow
+  // constraints, not commodity noise to dampen.
+  // Binds to tariff-escalation / port-closure / OFAC-USTR-designation / freight-rate-spike /
+  // customs-delay metrics and trade/logistics tickers (FDX, UPS, EXPD, CHRW, ZIM, MATX, XPO,
+  // GXO, AMKBY, DSDVY, ODFL) — DISTINCT from economy (macro aggregate) and from industry
+  // (production); NEVER oil/gas/grid as the domain's OWN content (the trade signal is the
+  // throughput/closure of cross-border flow, not the commodity carried).
+  // The trade-brain normalizeSignals scans these institutional feeds (USTR/CBP/OFAC, port
+  // authorities, freight indices) — this floor mirrors that on the client advisory layer.
+  // ADDITIVE ONLY — client-side advisory floor; does NOT touch the validated P3 distress kernel.
+  function _tradeStructuralFloor(feed) {
+    if (!feed) return { floor: 0, reason: '' };
+    var floor = 0;
+    var reason = '';
+    var signals = feed.signals || [];
+    function _has(token) {
+      for (var i = 0; i < signals.length; i++) {
+        if (typeof signals[i] === 'string' && signals[i].toLowerCase().indexOf(token) !== -1) return true;
+      }
+      return false;
+    }
+    // (2) Sanctions escalation: OFAC/USTR designation surge / embargo ALWAYS triggers
+    //     sanctions_escalation (highest trade floor alongside port closure — a sovereign
+    //     trade-policy rupture that severs flows; an explicit embargo/sanctions signal or a
+    //     designation-count surge above 5 new notices trips it).
+    var sanctionsCount = (feed.sanctionsNoticeCount !== undefined) ? feed.sanctionsNoticeCount
+                       : (feed.ofacDesignationCount !== undefined) ? feed.ofacDesignationCount
+                       : null;
+    if ((sanctionsCount !== null && sanctionsCount > 5 && (_has('sanction') || _has('ofac') || _has('embargo') || _has('designation') || _has('export control'))) ||
+        _has('sanctions escalation') || _has('sanctions-escalation') || _has('new sanctions') || _has('embargo') || _has('export ban')) {
+      if (_TRADE_STRUCTURAL.sanctionsEscalationFloor > floor) {
+        floor = _TRADE_STRUCTURAL.sanctionsEscalationFloor;
+        reason = 'structural: sanctions_escalation' + (sanctionsCount !== null ? ' (' + Math.round(sanctionsCount) + ' new sanctions notices > 5)' : '');
+      }
+    }
+    // (3) Port closure: major-port shutdown / strike / chokepoint blockage ALWAYS triggers
+    //     port_closure (a logistics-chokepoint constraint — a closed port or blocked canal
+    //     halts throughput; ZIM/MATX/FDX/UPS/EXPD exposure). An explicit closure signal or a
+    //     port-closure-event count above 0 trips it.
+    var portClosures = (feed.portClosureCount !== undefined) ? feed.portClosureCount
+                     : (feed.closedPortCount !== undefined) ? feed.closedPortCount
+                     : null;
+    if ((portClosures !== null && portClosures > 0 && (_has('port') || _has('chokepoint') || _has('canal') || _has('strait') || _has('blockad') || _has('strike'))) ||
+        _has('port closure') || _has('port-closure') || _has('port shutdown') || _has('port strike') || _has('canal closure') || _has('chokepoint')) {
+      if (_TRADE_STRUCTURAL.portClosureFloor > floor) {
+        floor = _TRADE_STRUCTURAL.portClosureFloor;
+        reason = 'structural: port_closure' + (portClosures !== null ? ' (' + Math.round(portClosures) + ' major-port closure event(s))' : '');
+      } else if (floor > 0) {
+        reason += ' + port_closure';
+      }
+    }
+    // (4) Shipping crisis: freight-rate spike / vessel-rerouting / canal closure ALWAYS triggers
+    //     shipping_crisis (the freight-network constraint — a sustained rate spike or mass
+    //     rerouting; ZIM/MATX/AMKBY/DSDVY exposure). A freight-rate multiple above 2x baseline
+    //     or an explicit rerouting/crisis signal trips it.
+    var freightRateMultiple = (feed.freightRateMultiple !== undefined) ? feed.freightRateMultiple
+                            : (feed.shippingRateMultiple !== undefined) ? feed.shippingRateMultiple
+                            : null;
+    if ((freightRateMultiple !== null && freightRateMultiple > 2 && (_has('freight') || _has('shipping') || _has('container') || _has('vessel') || _has('rate'))) ||
+        _has('shipping crisis') || _has('shipping-crisis') || _has('freight spike') || _has('vessel rerouting') || _has('rerouting') || _has('container shortage')) {
+      if (_TRADE_STRUCTURAL.shippingCrisisFloor > floor) {
+        floor = _TRADE_STRUCTURAL.shippingCrisisFloor;
+        reason = 'structural: shipping_crisis' + (freightRateMultiple !== null ? ' (freight rate ' + freightRateMultiple.toFixed(1) + 'x > 2x baseline)' : '');
+      } else if (floor > 0) {
+        reason += ' + shipping_crisis';
+      }
+    }
+    // (1) Tariff shock: tariff escalation / new-tariff announcement surge ALWAYS triggers
+    //     tariff_shock (the trade-policy constraint — a tariff regime change reprices flows;
+    //     USTR/Section-301 exposure). A new-tariff-action count above 3 or an explicit
+    //     tariff-shock/escalation signal trips it.
+    var tariffActionCount = (feed.tariffActionCount !== undefined) ? feed.tariffActionCount
+                          : (feed.tariffEscalationCount !== undefined) ? feed.tariffEscalationCount
+                          : null;
+    if ((tariffActionCount !== null && tariffActionCount > 3 && (_has('tariff') || _has('duty') || _has('section 301') || _has('section-301') || _has('trade war') || _has('trade-war'))) ||
+        _has('tariff shock') || _has('tariff-shock') || _has('tariff escalation') || _has('new tariff') || _has('tariff hike') || _has('trade war')) {
+      if (_TRADE_STRUCTURAL.tariffShockFloor > floor) {
+        floor = _TRADE_STRUCTURAL.tariffShockFloor;
+        reason = 'structural: tariff_shock' + (tariffActionCount !== null ? ' (' + Math.round(tariffActionCount) + ' new tariff actions > 3)' : '');
+      } else if (floor > 0) {
+        reason += ' + tariff_shock';
+      }
+    }
+    // (5) Customs blockade: customs-delay surge / border holds / CBP enforcement ALWAYS triggers
+    //     customs_blockade (the border-throughput constraint — a customs slowdown holds cargo;
+    //     EXPD/CHRW/XPO/GXO/ODFL exposure). A customs-delay-days reading above 5 days or an
+    //     explicit blockade/hold signal trips it.
+    var customsDelayDays = (feed.customsDelayDays !== undefined) ? feed.customsDelayDays
+                         : (feed.borderHoldDays !== undefined) ? feed.borderHoldDays
+                         : null;
+    if ((customsDelayDays !== null && customsDelayDays > 5 && (_has('customs') || _has('border') || _has('cbp') || _has('clearance') || _has('inspection') || _has('hold'))) ||
+        _has('customs blockade') || _has('customs-blockade') || _has('customs delay') || _has('border hold') || _has('cbp enforcement') || _has('cargo hold')) {
+      if (_TRADE_STRUCTURAL.customsBlockadeFloor > floor) {
+        floor = _TRADE_STRUCTURAL.customsBlockadeFloor;
+        reason = 'structural: customs_blockade' + (customsDelayDays !== null ? ' (customs delay ' + customsDelayDays.toFixed(1) + ' days > 5)' : '');
+      } else if (floor > 0) {
+        reason += ' + customs_blockade';
+      }
+    }
+    return { floor: floor, reason: reason };
+  }
+
   function _normalizeStress(domainKey, rawStress, feed) {
     // Phase 0: domain structural-signal floor (engineering/attention-economy constraints
     // bypass commodity/market/volume dampening — mirrors energy-brain grid_stress conditions)
@@ -799,6 +943,7 @@
                    : (domainKey === 'technology') ? _technologyStructuralFloor(feed)
                    : (domainKey === 'defense') ? _defenseStructuralFloor(feed)
                    : (domainKey === 'intelligence') ? _intelligenceStructuralFloor(feed)
+                   : (domainKey === 'supplyChain') ? _tradeStructuralFloor(feed)
                    : { floor: 0, reason: '' };
     if (structural.floor > rawStress) {
       rawStress = structural.floor;

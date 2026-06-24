@@ -996,6 +996,156 @@
         { label: 'investigate academic-security coupling', type: 'analysis' },
         { label: 'hold', type: 'monitoring' }
       ]
+    },
+    // ─── Trade & Supply Chain pairs (parity port; mirrors energy/infra/culture/finance/economy/tech/defense/intelligence structure) ──
+    // TRADE / SUPPLY-CHAIN identity ONLY (runtime key 'supplyChain', URL/portal key
+    // 'trade' per domain-identity.js) — international trade & commerce, exports/imports,
+    // tariffs & trade policy, shipping & logistics, supply chains, trade balance, customs,
+    // trade agreements, sanctions/embargoes, freight & ports. Real trade/logistics tickers
+    // (FDX, UPS, EXPD, CHRW, ZIM, MATX, XPO, GXO, AMKBY, DSDVY, ODFL, JBHT, SAIA, ARC) —
+    // never fabricated. Each PAIRED domain couples to supplyChain via a POLICY / ENFORCEMENT /
+    // PHYSICAL-PLANT / WORKFORCE / DATA / COMPLIANCE regime; supplyChain is NOT that domain's
+    // OWN content (policy is institutional, jurisprudence is legal, physical assets are infra,
+    // demographics are population, etc.). DISTINCT from economy (macro aggregate) and industry
+    // (production). Energy oil/gas/grid is NEVER trade's own content. ADDITIVE — does not touch
+    // any validated scoring path. ('energy_supply', 'economy_liquidity', 'finance_supplyChain',
+    // 'supplyChain_agriculture', 'supplyChain_technology', 'defense_supplyChain',
+    // 'intelligence_supplyChain' already cover those couplings.)
+    {
+      // Mirrors 'law_governance' / 'infrastructure_governance' (policy-regime stress)
+      // applied to trade policy: tariffs, export controls, trade agreements, USMCA/WTO.
+      // Governance is the COUPLING (policy regime); supplyChain is logistics, not policy.
+      id: 'governance_supplyChain',
+      domains: ['governance', 'supplyChain'],
+      threshold: 0.45,
+      pattern: 'trade-policy transmission',
+      drivers: ['tariff shock (25% rate escalation)', 'export-control list expansion (semiconductor / dual-use)', 'trade-agreement negotiation delay (USMCA renegotiation)', 'regional-trade-bloc divergence (CPTPP vs. RCEP)', 'WTO-compliance dispute pressure (CHRW/EXPD tariff-impact exposure, JBHT trade-policy compliance cost)'],
+      options: [
+        { label: 'trace trade-policy transmission exposure', type: 'analysis' },
+        { label: 'investigate tariff / export-control escalation', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'finance_law' / 'law_governance' (enforcement-regime stress) applied to
+      // trade-law enforcement: customs, sanctions-evasion, CFIUS, FCPA. Law is the COUPLING
+      // (regulatory/enforcement regime); supplyChain is logistics operations, not jurisprudence.
+      id: 'law_supplyChain',
+      domains: ['law', 'supplyChain'],
+      threshold: 0.45,
+      pattern: 'trade-enforcement transmission',
+      drivers: ['customs audit backlog surge', 'sanctions-evasion fine escalation (Huawei / ZTE supply-chain penalties)', 'CFIUS review timeline extension', 'FCPA / anti-bribery trade-compliance burden', 'trade-compliance litigation spike (CHRW tariff-classification disputes, SAIA customs compliance, EXPD customs brokerage exposure)'],
+      options: [
+        { label: 'trace trade-enforcement transmission exposure', type: 'analysis' },
+        { label: 'investigate customs / sanctions enforcement velocity', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'infrastructure_energy' (physical-plant dependency coupling) applied to the
+      // transport plant (ports/rail/roads). DISTINCT from 'energy_supply' (fuel coupling):
+      // infrastructure is the physical-transport asset; supplyChain is logistics operations.
+      id: 'infrastructure_supplyChain',
+      domains: ['infrastructure', 'supplyChain'],
+      threshold: 0.45,
+      pattern: 'transport-infrastructure capacity transmission',
+      drivers: ['port congestion (Long Beach / Rotterdam queue depth)', 'rail-yard equipment shortage (intermodal yard saturation)', 'bridge weight-restriction enforcement (I-35 corridor choke)', 'dredging-maintenance backlog degrading channel depth (Mississippi low-water events)', 'port terminal closure / capacity strain (ZIM port-slot availability, MATX port-automation handling, ODFL road-capacity pressure)'],
+      options: [
+        { label: 'map transport-infrastructure capacity exposure', type: 'analysis' },
+        { label: 'trace port / rail / road bottleneck chain', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'infrastructure_research' / 'culture_research' (innovation-cluster structure)
+      // applied to logistics-optimization R&D. Research is the COUPLING (innovation substrate);
+      // supplyChain is operational logistics, not academic methodology.
+      id: 'research_supplyChain',
+      domains: ['research', 'supplyChain'],
+      threshold: 0.40,
+      pattern: 'logistics-research innovation transmission',
+      drivers: ['autonomous-port-equipment deployment lag (Port Authority trials)', 'ML route-optimization accuracy plateau (congestion-prediction drag)', 'blockchain-customs pilot scalability delay', 'supply-chain-visibility mapping gap', 'autonomous-warehouse R&D deployment lag (AMZN logistics R&D, MSFT Azure supply-chain AI, PLTR supply-chain visibility)'],
+      options: [
+        { label: 'trace logistics-research pipeline exposure', type: 'analysis' },
+        { label: 'investigate autonomous-port / route-optimization gap', type: 'discovery' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'infrastructure_education' / 'culture_education' (workforce-pipeline stress)
+      // applied to logistics workforce. Education is the COUPLING (workforce pipeline);
+      // supplyChain is logistics operations, not pedagogy.
+      id: 'education_supplyChain',
+      domains: ['education', 'supplyChain'],
+      threshold: 0.45,
+      pattern: 'logistics-workforce pipeline transmission',
+      drivers: ['port-operator apprenticeship intake lag', 'CDL truck-driver training capacity bottleneck (driver shortage intensity)', 'customs-broker licensing exam backlog surge', 'rail-logistics apprenticeship-enrollment decline', 'logistics workforce skill gap (JBHT training pipeline, CHRW customs-broker hiring, ARC driver-training programs)'],
+      options: [
+        { label: 'trace logistics-workforce pipeline exposure', type: 'analysis' },
+        { label: 'investigate CDL / customs-broker shortage', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'communication_culture' / 'finance_technology' (real-time data-infrastructure
+      // stress) applied to customs/visibility data exchange. Communication is the COUPLING
+      // (real-time data infra); supplyChain is logistics operations, not signals/platforms.
+      id: 'communication_supplyChain',
+      domains: ['communication', 'supplyChain'],
+      threshold: 0.45,
+      pattern: 'supply-chain data-infrastructure transmission',
+      drivers: ['customs eManifest API downtime (CBP processing lag)', 'shipping-visibility platform outage', 'blockchain-customs network partition / node sync failure', 'shipping-tracker reliability degradation', 'customs document-API availability stress (FDX Track & Trace uptime, UPS tracking reliability, DHL customs-document API)'],
+      options: [
+        { label: 'trace supply-chain data-infrastructure exposure', type: 'analysis' },
+        { label: 'investigate customs-API / tracker outage', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'infrastructure_environment' / 'economy_environment' (compliance-regime stress)
+      // applied to carbon-accounting & green-shipping. Environment is the COUPLING (carbon /
+      // compliance regime); supplyChain is logistics operations, not physical emissions.
+      id: 'environment_supplyChain',
+      domains: ['environment', 'supplyChain'],
+      threshold: 0.45,
+      pattern: 'green-shipping compliance transmission',
+      drivers: ['IMO 2030 bunker-fuel regulation compliance-cost spike', 'EU carbon-border-adjustment mechanism (CBAM) tariff on imports', 'port-emission-zone expansion (EU ETS / California clean-air rules)', 'intermodal-route carbon-intensity reporting burden', 'clean-fuel transition capex pressure (ZIM shipping-fuel cost, AMKBY clean-fuel transition, MATX port-equipment emissions)'],
+      options: [
+        { label: 'trace green-shipping compliance exposure', type: 'analysis' },
+        { label: 'investigate IMO 2030 / CBAM cost transmission', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'agriculture_population' / 'religion_population' (labor-supply / demographic
+      // pressure) applied to logistics labor. Population is the COUPLING (labor supply);
+      // supplyChain is logistics operations, not demographics.
+      id: 'population_supplyChain',
+      domains: ['population', 'supplyChain'],
+      threshold: 0.45,
+      pattern: 'logistics labor-supply transmission',
+      drivers: ['migrant-worker visa restriction (H-2B cap exhaustion)', 'border-crossing delay reducing cross-border-driver availability', 'port-automation layoffs displacing casual labor', 'distribution-hub labor-availability decline', 'international-labor-movement barriers (JBHT driver-availability stress, CHRW international-labor-supply pressure, DSDVY logistics workforce composition)'],
+      options: [
+        { label: 'trace logistics labor-supply exposure', type: 'analysis' },
+        { label: 'investigate visa / cross-border-driver constraint', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'industry_economy' (output-cycle contraction) applied to direct
+      // industry↔supplyChain operational coupling. DISTINCT from 'industry_economy'
+      // (macro real-economy): this is manufacturing-capacity → logistics-readiness.
+      // Industry is the COUPLING (production output); supplyChain is logistics operations.
+      id: 'industry_supplyChain',
+      domains: ['industry', 'supplyChain'],
+      threshold: 0.50,
+      pattern: 'manufacturing-logistics readiness transmission',
+      drivers: ['manufacturing-capacity utilization peak straining logistics (near-100% inventory surge)', 'manufacturing-employment cliff cascading demand destruction to logistics', 'industrial-output surge requiring inventory/logistics surge', 'industrial-supply-chain services strain (FDX manufacturing-output-dependent volume, XPO industrial-supply-chain services, GXO manufacturing supply-chain spinoff)'],
+      options: [
+        { label: 'trace manufacturing-logistics readiness exposure', type: 'analysis' },
+        { label: 'investigate industrial-output cycle coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
     }
   ];
 

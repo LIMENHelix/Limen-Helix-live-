@@ -124,7 +124,32 @@
     'sba-loans':         'INVESTABLE',
     'franchise':         null,
     'investments':       'INVESTABLE',
-    'research-papers':   null
+    'research-papers':   null,
+    // ─── Finance-native + supply-chain/trade fan-out lanes (additive) ──────
+    // The trade domain (runtime/snapshot key `supplyChain`; URL/portal key
+    // `trade` — see domain-identity.js) emits to several lanes beyond the
+    // generic grant/loan/franchise set. Per handoff-contract.js LANE_GATES,
+    // supplyChain appears in the anyDomain lists of: business-grants, sba-loans,
+    // franchise (above) AND the finance-native lanes credit-facilities /
+    // systemic-risk / capital-access. Without entries here those lanes hit the
+    // "key absent" branch and emit UNKNOWN_LANE_FOR_PATH_MAP (warn), demoting
+    // every trade/finance artifact routed through them. These are LANE keys
+    // (not domain keys), so they serve every domain that emits to them — energy
+    // (capital-access), finance, economy, infrastructure, industry, technology,
+    // and supplyChain/trade alike — exactly mirroring how sba-loans/investments
+    // already map to INVESTABLE.
+    //   - credit-facilities: a bounded borrower / credit-line / syndication =
+    //     capital deployment → INVESTABLE path (like sba-loans).
+    //   - capital-access:    funding-constraint / capital-raise shaped =
+    //     INVESTABLE path (capital deployment).
+    //   - systemic-risk:     cross-domain contagion / solvency-cascade signal;
+    //     no Observatory fan-in path defined yet (white-space cross-domain
+    //     opportunity, like franchise / research-papers) → null. The packet is
+    //     built from the HandoffPacket alone and emits NO_ENRICHMENT_PATH
+    //     (info, not warn) rather than UNKNOWN_LANE_FOR_PATH_MAP.
+    'credit-facilities': 'INVESTABLE',
+    'capital-access':    'INVESTABLE',
+    'systemic-risk':     null
   };
 
   // ─── Lane forbidden-fields policy ──────────────────────────────────────
@@ -140,7 +165,15 @@
     'franchise':         [],
     'investments':       [],
     'copyrights':        [],
-    'research-papers':   []
+    'research-papers':   [],
+    // Finance-native / supplyChain-trade fan-out lanes (see LANE_TO_PATH).
+    // No fields forbidden — these are capital/risk lanes where valueRange,
+    // compensation, and counterparty detail are load-bearing (unlike the
+    // patent/grant lanes that strip dollar figures). Mirrors sba-loans /
+    // investments policy.
+    'credit-facilities': [],
+    'capital-access':    [],
+    'systemic-risk':     []
   };
 
   // ─── Citation hints — verified URLs / opaque agency tokens ONLY ────────

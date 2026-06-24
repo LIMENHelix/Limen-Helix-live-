@@ -66,9 +66,17 @@
     // trade-balance via the BoP identity) and broad-market proxies (SPY/DIA/
     // TLT), NOT single-company tickers. Distinct from finance_systemic, which
     // is the capital channel. Mirror of energy_chain on the demand side.
-    // NOTE: the trade/supply-chain domain is keyed 'supplyChain' in the
-    // civilization adapter (the 'trade'→'supplyChain' alias is taxonomy-only),
-    // so the group references 'supplyChain' to resolve against real packets.
+    // NOTE: the trade/supply-chain domain has DUAL NAMING (see
+    // assets/js/domain-identity.js): portal/URL key 'trade', runtime/snapshot
+    // key 'supplyChain'. The civilization adapter packets it under the runtime
+    // key, so EVERY affinity group below references 'supplyChain' to resolve
+    // against real packets. The brain-node taxonomy, by contrast, keys trade
+    // bindings under the canonical value 'trade' — so TAXONOMY_DOMAIN_ALIASES
+    // (below) maps node value 'trade' → runtime key 'supplyChain'. That
+    // normalization is LOAD-BEARING (not cosmetic): without it the
+    // node-shared-affinity sibling-stress lookup for trade silently misses, and
+    // any unmapped variant ('logistics'/'shipping'/'supply chain') now raises an
+    // ATLAS_MAPPING_GAP warning instead of failing silently.
     { id: 'economy_trade_labor', domains: ['economy', 'supplyChain', 'industry'] },
     // Finance's own institutional envelope: capital markets, credit & lending,
     // banking and liquidity/solvency are co-borne by the broader economy
@@ -291,6 +299,21 @@
   // Map raw business-domain labels in brain-node-domains.json to the
   // domain ids used in LIMENCivilizationAdapter. Keep conservative:
   // unmapped entries pass through unchanged.
+  //
+  // IMPORTANT — alias TARGETS are the RUNTIME / SNAPSHOT keys the civilization
+  // adapter actually packets under (NOT the portal/URL canonical key), because
+  // _nodeSharedAffinities resolves siblings against `packets[domain]`. Per
+  // assets/js/domain-identity.js four domains have a runtime key that differs
+  // from their portal/canonical key:
+  //   trade      → runtime/snapshot key 'supplyChain'  (portal key 'trade')
+  //   medicine   → runtime/snapshot key 'health'       (portal key 'medicine')
+  //   science    → runtime/snapshot key 'research'     (portal key 'science')
+  //   agriculture→ runtime/snapshot key 'agriculture'  (portal key 'p2_agri')
+  // brain-node-domains.json keys its bindings by the CANONICAL/portal value
+  // (verified: it carries 'trade' x123, 'legal', 'family', 'p2', 'science',
+  // etc.), so we must normalize those canonical values DOWN to the runtime key
+  // the packets are stored under — otherwise the sibling-stress lookup silently
+  // misses (e.g. node value 'trade' would never match packet key 'supplyChain').
   var TAXONOMY_DOMAIN_ALIASES = {
     'business':              'economy',   // generic 'business' rolls up to economy
     'addiction':             'medicine',
@@ -302,8 +325,51 @@
     'provider':              'medicine',
     'p2_agri':               'agriculture',
     'research':              'science',
-    'supplyChain':           'trade'      // brain.domainId('trade') uses portal-key 'supplyChain'
+    // ─── trade ↔ supplyChain dual-naming (the load-bearing fix) ───────────
+    // brain-node-domains.json tags trade bindings with the canonical value
+    // 'trade'; the civilization adapter packets the trade brain under its
+    // runtime/snapshot key 'supplyChain' (trade-brain.js domainId/snapshotKey
+    // = 'supplyChain', portalKey 'trade'). Map the canonical node value to the
+    // runtime key so node-shared affinities resolve. The legacy reverse entry
+    // ('supplyChain' → ...) is kept idempotent below for forward-compat with
+    // any node entry that already uses the runtime key.
+    'trade':                 'supplyChain', // canonical node value → runtime packet key
+    'supplyChain':           'supplyChain', // already the runtime key — pass through unchanged
+    'logistics':             'supplyChain', // logistics-neutral variant → trade runtime key
+    'shipping':              'supplyChain', // logistics-neutral variant → trade runtime key
+    'freight':               'supplyChain', // logistics-neutral variant → trade runtime key
+    // ─── other canonical→runtime / synonym normalizations present in data ──
+    'legal':                 'law',         // brain-node uses 'legal' synonym for the law domain
+    'family':                'population',   // brain-node 'family' rolls up to population
+    'p2':                    'agriculture'   // brain-node 'p2' is the agriculture phase-2 tag
   };
+
+  // The set of runtime/snapshot domain keys the audit can actually resolve a
+  // packet for. Used to flag node-domain values that normalize to something
+  // outside the known surface (an atlas/mapping gap). Sourced from the
+  // civilization adapter's known domains when available, else a static
+  // fallback mirroring assets/js/domain-identity.js snapshot keys.
+  // Includes BOTH runtime/snapshot keys (health, research, supplyChain) AND the
+  // canonical portal keys that pre-existing alias entries target (medicine,
+  // science, trade) — so the ATLAS_MAPPING_GAP guard fires ONLY for genuinely
+  // unrecognized node-domain values, never for the established mappings. (The
+  // medicine→health / science→research canonical-vs-runtime mismatch is a known
+  // pre-existing condition for those domains and is intentionally out of scope
+  // for this trade-parity port; this guard does not regress it.)
+  var KNOWN_RUNTIME_DOMAINS = {
+    energy: 1, supplyChain: 1, finance: 1, economy: 1, governance: 1,
+    infrastructure: 1, education: 1, technology: 1, communication: 1,
+    culture: 1, defense: 1, environment: 1, religion: 1, population: 1,
+    law: 1, intelligence: 1, industry: 1, health: 1, research: 1,
+    agriculture: 1,
+    // canonical/portal keys that established TAXONOMY_DOMAIN_ALIASES targets use
+    medicine: 1, science: 1, trade: 1
+  };
+
+  // Accumulates node-domain values that could not be normalized to a known
+  // runtime key during the last taxonomy load, so recompute() can surface an
+  // ATLAS_MAPPING_GAP warning. Observer-only; never throws, never mutates data.
+  var _unmappedTaxDomains = {};
 
   function _normalizeTaxDomain(d) {
     if (!d) return null;
@@ -318,6 +384,7 @@
       .then(function (j) {
         if (!j || typeof j !== 'object') return;
         var idx = {};
+        var unmapped = {};
         for (var node in j) {
           if (node.charAt(0) === '_') continue;
           var entries = j[node];
@@ -329,12 +396,23 @@
             if (!e || !e.domain) continue;
             var norm = _normalizeTaxDomain(e.domain);
             if (!norm || seen[norm]) continue;  // dedup by normalized domain
+            // Atlas/mapping-gap detection: a node-domain value that normalizes
+            // to something outside the known runtime surface will silently miss
+            // the packet lookup in _nodeSharedAffinities. Record it (raw →
+            // normalized) so recompute() can surface an ATLAS_MAPPING_GAP. This
+            // is the trade↔supplyChain dual-naming guard generalized: it catches
+            // any future variant spelling ('supply chain', 'logistics', etc.)
+            // before it becomes a silent mismatch.
+            if (!KNOWN_RUNTIME_DOMAINS[norm]) {
+              unmapped[e.domain] = norm;
+            }
             seen[norm] = true;
             list.push({ domain: norm, role: e.role || '', label: e.label || '' });
           }
           if (list.length > 0) idx[node] = list;
         }
         _NODE_TO_DOMAINS = idx;
+        _unmappedTaxDomains = unmapped;
         // Trigger a rebuild now that the taxonomy is available so the first
         // findings emission carries node-shared affinities.
         _scheduleRebuild();
@@ -708,6 +786,31 @@
           message: 'Technology elevated but not connected via brain node map — brain taxonomy may be incomplete.'
         });
       }
+    }
+
+    // ─── ATLAS_MAPPING_GAP — node-domain values that did not normalize to a
+    // known runtime key. This is the trade↔supplyChain dual-naming guard made
+    // general: brain-node-domains.json keys trade bindings as the canonical
+    // 'trade' while packets are stored under runtime key 'supplyChain'; if a
+    // future node-domains update introduces a variant spelling ('supply chain',
+    // 'logistics', etc.) that TAXONOMY_DOMAIN_ALIASES does not cover, the
+    // sibling-stress lookup in _nodeSharedAffinities would silently miss. Rather
+    // than fail silently, surface every un-normalizable value (raw → normalized)
+    // so the mapping gap is forced into view. Observer-only; emits one warning
+    // per distinct raw value.
+    var gapKeys = Object.keys(_unmappedTaxDomains);
+    for (var gi = 0; gi < gapKeys.length; gi++) {
+      var raw = gapKeys[gi];
+      var norm = _unmappedTaxDomains[raw];
+      out.push({
+        warning:     'ATLAS_MAPPING_GAP',
+        rawDomain:   raw,
+        normalized:  norm,
+        message:     'brain-node-domains.json domain "' + raw + '" normalized to "' +
+                     norm + '", which is not a known runtime domain key — ' +
+                     'add it to TAXONOMY_DOMAIN_ALIASES (e.g. trade↔supplyChain) ' +
+                     'or its node-shared affinities will silently miss.'
+      });
     }
     return out;
   }
