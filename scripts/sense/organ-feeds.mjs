@@ -17,9 +17,10 @@ export const role = 'afferent / sensory cortex';
 export const order = 10;   // first thing the body senses
 
 export function sense() {
-  const FEED_STATUS = path.join(ROOT, 'api', 'feed-status.js');
-  if (!fs.existsSync(FEED_STATUS)) {
-    return { score: 0, status: 'IN_PAIN', summary: 'feed-status.js missing — system has no sensory cortex', metrics: {}, attention: [{ issue: 'feed-status.js not found', severity: 'high', count: 1, action: 'inspect api/feed-status.js', organ: id }] };
+  // feed-status was migrated into the Hono catch-all (handlers/); check there first, fall back to legacy api/
+  const FEED_STATUS = [path.join(ROOT, 'handlers', 'feed-status.js'), path.join(ROOT, 'api', 'feed-status.js')].find(p => fs.existsSync(p));
+  if (!FEED_STATUS) {
+    return { score: 0, status: 'IN_PAIN', summary: 'feed-status.js missing — system has no sensory cortex', metrics: {}, attention: [{ issue: 'feed-status.js not found', severity: 'high', count: 1, action: 'inspect handlers/feed-status.js', organ: id }] };
   }
   const src = fs.readFileSync(FEED_STATUS, 'utf8');
 
@@ -27,6 +28,8 @@ export function sense() {
   // pattern conservative: match the canonical { domain: 'x', source: 'y', ... }
   const sources = [...src.matchAll(/\{\s*domain:\s*['"`]([a-zA-Z_]+)['"`][\s\S]*?source:\s*['"`]([^'"`]+)['"`]/g)].map(m => ({ domain: m[1], source: m[2] }));
   const byDomain = sources.reduce((acc, s) => { (acc[s.domain] = acc[s.domain] || []).push(s.source); return acc; }, {});
+  if (byDomain.trade && !byDomain.supplyChain) byDomain.supplyChain = byDomain.trade;   // dual-key: trade ↔ supplyChain
+  if (byDomain.supplyChain && !byDomain.trade) byDomain.trade = byDomain.supplyChain;
   // env-var-requiring sources — `requires_auth: true` blocks
   const envGated = (src.match(/requires_auth:\s*true/g) || []).length;
   // env vars referenced

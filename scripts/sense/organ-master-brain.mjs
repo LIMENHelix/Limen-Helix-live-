@@ -12,7 +12,8 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..', '..');
 const MASTER_BRAIN = path.join(ROOT, 'assets', 'js', 'limen', 'master-living-brain.js');
 const EXECUTOR = path.join(ROOT, 'assets', 'js', 'master-brain-executor.js');
-const ENGINE_PERSIST = path.join(ROOT, 'api', 'limen-engine-output.js');
+// migrated from api/ into the Hono catch-all (handlers/); check there first, fall back to legacy api/
+const ENGINE_PERSIST = [path.join(ROOT, 'handlers', 'limen-engine-output.js'), path.join(ROOT, 'api', 'limen-engine-output.js')].find(p => fs.existsSync(p)) || path.join(ROOT, 'handlers', 'limen-engine-output.js');
 const INBOX_PATH = path.join(ROOT, 'assets', 'data', '_master-inbox.json');
 const CONSUMER_PATH = path.join(ROOT, 'lib', 'master-brain-consumer.js');
 

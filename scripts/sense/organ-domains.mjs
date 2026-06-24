@@ -16,7 +16,11 @@ export const id = 'domains';
 export const role = '21 cortical circuits (domain brains)';
 export const order = 30;
 
-const EXPECTED_DOMAINS = ['agriculture','communication','culture','defense','economy','education','energy','environment','finance','governance','industry','infrastructure','intelligence','law','medicine','population','religion','science','supplyChain','technology','trade'];
+// 20 canonical domains. trade-brain.js IS the dual-key supplyChain brain (exposes LIMENSupplyChainBrain) —
+// supplyChain is the runtime/snapshot key, NOT a separate file, so it is not listed here.
+const EXPECTED_DOMAINS = ['agriculture','communication','culture','defense','economy','education','energy','environment','finance','governance','industry','infrastructure','intelligence','law','medicine','population','religion','science','technology','trade'];
+// files that live in domain-brains/ but are NOT cortical circuits (don't extend the base / aren't a domain)
+const NON_DOMAIN_BRAIN_FILES = ['domain-console'];
 // Domain brains are IIFE-wrapped scripts that extend LIMENDomainBrainBase and
 // expose window.LIMEN<X>Brain. Required structural markers, not literal field names:
 const REQUIRED_MARKERS = ['LIMENDomainBrainBase', 'window.LIMEN'];
@@ -25,7 +29,7 @@ export function sense() {
   if (!fs.existsSync(DOMAIN_BRAINS_DIR)) {
     return { score: 0, status: 'IN_PAIN', summary: 'domain-brains dir missing — no cortical circuits', metrics: {}, attention: [{ issue: 'assets/js/domain-brains directory missing', severity: 'high', count: 1, action: 'restore from git history', organ: id }] };
   }
-  const files = fs.readdirSync(DOMAIN_BRAINS_DIR).filter(f => f.endsWith('-brain.js') || f.endsWith('-brain.mjs'));
+  const files = fs.readdirSync(DOMAIN_BRAINS_DIR).filter(f => (f.endsWith('-brain.js') || f.endsWith('-brain.mjs')) && !NON_DOMAIN_BRAIN_FILES.includes(f.replace(/-brain\.(js|mjs)$/, '')));
   const present = new Set(files.map(f => f.replace(/-brain\.(js|mjs)$/, '')));
   const missing = EXPECTED_DOMAINS.filter(d => !present.has(d));
   const extras = [...present].filter(d => !EXPECTED_DOMAINS.includes(d));

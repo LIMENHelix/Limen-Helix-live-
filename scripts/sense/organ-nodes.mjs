@@ -18,7 +18,8 @@ export const id = 'l1Nodes';
 export const role = '123 L1 neural operators (FROZEN)';
 export const order = 20;
 
-const CANONICAL_DOMAINS = ['agriculture','communication','culture','defense','economy','education','energy','environment','finance','governance','industry','infrastructure','intelligence','law','medicine','population','religion','science','supplyChain','technology'];
+// brain-node-domains.json binds to the runtime key 'trade' (the dual-key for supplyChain), not 'supplyChain'
+const CANONICAL_DOMAINS = ['agriculture','communication','culture','defense','economy','education','energy','environment','finance','governance','industry','infrastructure','intelligence','law','medicine','population','religion','science','trade','technology'];
 const EXPECTED_NODES = 123;
 
 export function sense() {
