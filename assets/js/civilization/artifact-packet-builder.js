@@ -308,7 +308,54 @@
     //     NO_ENRICHMENT_PATH (info, not warn) rather than UNKNOWN_LANE_FOR_PATH_MAP.
     'media-infrastructure-resilience': 'INVESTABLE',
     'spectrum-allocation-compliance':  'INVESTABLE',
-    'information-ecosystem-integrity': null
+    'information-ecosystem-integrity': null,
+    // ─── Education-native fan-out lanes (additive) ─────────────────────────
+    // The education domain (K-12 schools & higher-ed institutions, edtech &
+    // online learning, student outcomes & literacy, teaching & curriculum,
+    // education funding & access/equity, workforce training & skills,
+    // credentialing & enrollment, student debt) emits to outcome /
+    // curriculum / access-shaped lanes beyond the generic grant/loan/
+    // investment set. Without entries here those lanes hit the "key absent"
+    // branch and emit UNKNOWN_LANE_FOR_PATH_MAP (warn), demoting every
+    // education artifact routed through them — exactly the trade / industry /
+    // environment / governance / communication gap fixed above. These are
+    // LANE keys (not domain keys), mirroring how sba-loans / investments map
+    // to INVESTABLE. Kept DISTINCT from science (basic research is the science
+    // domain), from population (demographics is a coupling), from technology
+    // (edtech tooling is a coupling, not education's identity), and from
+    // economy (workforce as a macro aggregate is a coupling). Education binds
+    // to real education authorities (NCES, IPEDS, ED.gov, UNESCO, OECD, World
+    // Bank human capital) and real education operators (CHGG, COUR, DUOL, LRN,
+    // ATGE, LOPE, STRA, LAUR, TWOU, UTI).
+    //   - student-outcome-improvement: a bounded student-outcome program /
+    //     edtech deployment / achievement-intervention = capital deployment
+    //     into student outcomes → INVESTABLE path (like sba-loans).
+    //   - curriculum-modernization: a curriculum / courseware / instructional-
+    //     platform build-out = capital deployment into instructional content →
+    //     INVESTABLE path (capital deployment).
+    //   - teacher-development-funding: teacher-workforce development / training
+    //     / retention capital = capital deployment into the teaching workforce
+    //     → INVESTABLE path (capital deployment).
+    //   - access-equity-program: a bounded access / equity / affordability
+    //     program (under-served enrollment, financial-aid infrastructure) =
+    //     capital deployment into access → INVESTABLE path.
+    //   - institutional-consolidation: a higher-ed / school-system / edtech
+    //     acquisition = capital deployment into institutional consolidation →
+    //     INVESTABLE path (acquisition capital).
+    //   - learning-outcomes-research: cross-domain learning-science / outcome-
+    //     measurement signal bound to education INDICATORS (NCES NAEP, PISA,
+    //     IPEDS); genuine white-space — no Observatory fan-in path defined yet
+    //     (like franchise / systemic-risk / factory-output / ecosystem-
+    //     restoration / institutional-integrity / information-ecosystem-
+    //     integrity) → null. The packet is built from the HandoffPacket alone
+    //     and emits NO_ENRICHMENT_PATH (info, not warn) rather than
+    //     UNKNOWN_LANE_FOR_PATH_MAP.
+    'student-outcome-improvement': 'INVESTABLE',
+    'curriculum-modernization':    'INVESTABLE',
+    'teacher-development-funding':  'INVESTABLE',
+    'access-equity-program':        'INVESTABLE',
+    'institutional-consolidation':  'INVESTABLE',
+    'learning-outcomes-research':   null
   };
 
   // ─── Lane forbidden-fields policy ──────────────────────────────────────
@@ -374,7 +421,19 @@
     // Mirrors sba-loans / investments policy.
     'media-infrastructure-resilience': [],
     'spectrum-allocation-compliance':  [],
-    'information-ecosystem-integrity': []
+    'information-ecosystem-integrity': [],
+    // Education-native fan-out lanes (see LANE_TO_PATH). No fields forbidden —
+    // these are student-outcome / curriculum / teacher-development / access-
+    // equity / institutional-consolidation capital lanes where valueRange,
+    // compensation, and counterparty detail are load-bearing (unlike the
+    // patent/grant lanes that strip dollar figures). Mirrors sba-loans /
+    // investments policy.
+    'student-outcome-improvement': [],
+    'curriculum-modernization':    [],
+    'teacher-development-funding':  [],
+    'access-equity-program':        [],
+    'institutional-consolidation':  [],
+    'learning-outcomes-research':   []
   };
 
   // ─── Citation hints — verified URLs / opaque agency tokens ONLY ────────
@@ -687,7 +746,47 @@
     'HCA Healthcare Investor Relations':     'https://investor.hcahealthcare.com/',
     'CVS Health Investor Relations':         'https://investors.cvshealth.com/',
     'Amgen Investor Relations':              'https://investors.amgen.com/',
-    'Gilead Sciences Investor Relations':    'https://investors.gilead.com/'
+    'Gilead Sciences Investor Relations':    'https://investors.gilead.com/',
+    // Education primary-source authorities: the K-12 / HIGHER-ED / WORKFORCE-
+    // TRAINING / STUDENT-OUTCOME / CREDENTIALING signal layer (K-12 enrollment
+    // & achievement statistics, higher-ed institutional data, student-debt
+    // data, workforce-readiness trends, teacher-workforce data, accreditation
+    // status). Anchored on the federal education authorities (U.S. Dept of
+    // Education, NCES National Center for Education Statistics, IPEDS
+    // Integrated Postsecondary Education Data System, NAEP the Nation's Report
+    // Card), the international education indices (UNESCO Institute for
+    // Statistics, World Bank Human Capital, OECD education / PISA), and the
+    // real edtech / higher-ed OPERATOR investor-relations pages (CHGG Chegg,
+    // COUR Coursera, DUOL Duolingo, LRN Stride/K12, ATGE Adtalem, LOPE Grand
+    // Canyon Education, STRA Strategic Education, LAUR Laureate, TWOU 2U, UTI
+    // Universal Technical Institute). DISTINCT from science (basic / academic
+    // RESEARCH is the science domain, not education delivery), from population
+    // (demographics / enrollment-by-cohort is a coupling), from technology
+    // (edtech TOOLING / platforms are a coupling, not education's identity),
+    // and from economy (workforce as a macro aggregate is a coupling).
+    // Verified canonical landing pages only — never AI-constructed deep links.
+    // Mirrors the energy / infrastructure / culture / finance / economy /
+    // technology / defense / intelligence / industry / environment /
+    // agriculture / communication / medicine structure.
+    'NCES Student Data':                     'https://nces.ed.gov/',
+    'IPEDS Higher-Ed':                       'https://nces.ed.gov/ipeds/',
+    'NAEP Nation Report Card':               'https://www.nationsreportcard.gov/',
+    'ED.gov K-12':                           'https://www2.ed.gov/about/overview/fed/10facts/index.html',
+    'USDOE Department':                      'https://www.ed.gov/',
+    'Federal Student Aid Debt Data':         'https://studentaid.gov/data-center/student/portfolio',
+    'UNESCO Institute for Statistics':       'https://uis.unesco.org/',
+    'World Bank Human Capital':              'https://www.worldbank.org/en/publication/human-capital',
+    'OECD Education Statistics':             'https://www.oecd.org/en/topics/education.html',
+    'Chegg Investor Relations':              'https://investor.chegg.com/',
+    'Coursera Investor Relations':           'https://investor.coursera.com/',
+    'Duolingo Investor Relations':           'https://investors.duolingo.com/',
+    'Stride Investor Relations':             'https://investors.stridelearning.com/',
+    'Adtalem Investor Relations':            'https://investors.adtalem.com/',
+    'Grand Canyon Education Investor Relations': 'https://investors.gce.com/',
+    'Strategic Education Investor Relations': 'https://investor.strategiceducation.com/',
+    'Laureate Education Investor Relations':  'https://investors.laureate.net/',
+    '2U Investor Relations':                 'https://investor.2u.com/',
+    'Universal Technical Institute Investor Relations': 'https://investors.uti.edu/'
   };
 
   // ─── Domain-specific primary source priority ───────────────────────────
@@ -874,7 +973,26 @@
     // agriculture / communication ordering so medicine artifacts no longer demote
     // through the PRIMARY_BY_FALLBACK path.
     health: ['FDA Drug Evaluation', 'FDA Medical Device Clearance', 'UnitedHealth Group Investor Relations', 'Johnson & Johnson Investor Relations', 'Pfizer Investor Relations', 'Merck Investor Relations', 'AbbVie Investor Relations', 'Eli Lilly Investor Relations', 'NIH NHLBI Clinical Research', 'CDC Disease Surveillance', 'ClinicalTrials.gov Registry', 'Thermo Fisher Investor Relations', 'Abbott Investor Relations', 'Medtronic Investor Relations', 'HCA Healthcare Investor Relations', 'CVS Health Investor Relations', 'AAFP Clinical Guidance'],
-    medicine: ['FDA Drug Evaluation', 'FDA Medical Device Clearance', 'UnitedHealth Group Investor Relations', 'Johnson & Johnson Investor Relations', 'Pfizer Investor Relations', 'Merck Investor Relations', 'AbbVie Investor Relations', 'Eli Lilly Investor Relations', 'NIH NHLBI Clinical Research', 'CDC Disease Surveillance', 'ClinicalTrials.gov Registry', 'Thermo Fisher Investor Relations', 'Abbott Investor Relations', 'Medtronic Investor Relations', 'HCA Healthcare Investor Relations', 'CVS Health Investor Relations', 'AAFP Clinical Guidance']
+    medicine: ['FDA Drug Evaluation', 'FDA Medical Device Clearance', 'UnitedHealth Group Investor Relations', 'Johnson & Johnson Investor Relations', 'Pfizer Investor Relations', 'Merck Investor Relations', 'AbbVie Investor Relations', 'Eli Lilly Investor Relations', 'NIH NHLBI Clinical Research', 'CDC Disease Surveillance', 'ClinicalTrials.gov Registry', 'Thermo Fisher Investor Relations', 'Abbott Investor Relations', 'Medtronic Investor Relations', 'HCA Healthcare Investor Relations', 'CVS Health Investor Relations', 'AAFP Clinical Guidance'],
+    // Education primary sources: K-12 / higher-ed / workforce-training
+    // authorities that anchor the education signal layer — the federal
+    // education-statistics authorities (NCES K-12 statistics, IPEDS higher-ed
+    // institutional data, NAEP achievement = the outcome & enrollment spine),
+    // the U.S. Dept of Education (policy / funding authority), student-debt
+    // data (Federal Student Aid portfolio), the international education indices
+    // (UNESCO UIS, World Bank Human Capital, OECD / PISA), and the real edtech /
+    // higher-ed OPERATORS (CHGG, COUR, DUOL learning platforms; LRN, ATGE,
+    // LOPE, STRA, LAUR, TWOU, UTI institutions). Ranked highest-signal
+    // structural first: NCES / IPEDS statistics and NAEP achievement lead (the
+    // student-outcome & enrollment spine), the department / debt authorities
+    // and operators ground it. DISTINCT from science (basic research is the
+    // science domain), from population (demographics is a coupling), from
+    // technology (edtech tooling is a coupling), and from economy (workforce is
+    // a coupling). Mirrors the energy / infrastructure / culture / finance /
+    // economy / technology / defense / intelligence / industry / environment /
+    // agriculture / communication / medicine ordering so education artifacts no
+    // longer demote through the PRIMARY_BY_FALLBACK path.
+    education: ['NCES Student Data', 'IPEDS Higher-Ed', 'NAEP Nation Report Card', 'USDOE Department', 'ED.gov K-12', 'Federal Student Aid Debt Data', 'UNESCO Institute for Statistics', 'World Bank Human Capital', 'OECD Education Statistics', 'Chegg Investor Relations', 'Coursera Investor Relations', 'Duolingo Investor Relations', 'Stride Investor Relations', 'Adtalem Investor Relations', 'Grand Canyon Education Investor Relations', 'Strategic Education Investor Relations', '2U Investor Relations', 'Universal Technical Institute Investor Relations']
   };
 
   // ─── Feed token map for evidence-source verification ───────────────────
@@ -1163,7 +1281,42 @@
     'HCA Healthcare Investor Relations':     ['HCA', 'HCA Healthcare', 'hospital', 'care delivery', 'health system', 'admissions'],
     'CVS Health Investor Relations':         ['CVS', 'CVS Health', 'Aetna', 'pharmacy', 'health services', 'managed care'],
     'Amgen Investor Relations':              ['AMGN', 'Amgen', 'biotech', 'biologics', 'drug pipeline'],
-    'Gilead Sciences Investor Relations':    ['GILD', 'Gilead', 'biotech', 'antiviral', 'HIV', 'drug pipeline']
+    'Gilead Sciences Investor Relations':    ['GILD', 'Gilead', 'biotech', 'antiviral', 'HIV', 'drug pipeline'],
+    // Education feed tokens: literal substrings the brain's evidence prose must
+    // contain for _isEvidenceSourceVerified to anchor education artifacts. Each
+    // entry mirrors a CITATION_HINTS / PRIMARY_PRIORITY_MAP education feed so
+    // the K-12 / higher-ed / workforce-training / student-outcome /
+    // credentialing signal layer verifies instead of always failing. Anchors
+    // are the real federal education-authority vocabulary (NCES, IPEDS, NAEP,
+    // Dept of Education, enrollment, achievement, graduation rate, student
+    // debt), the international index vocabulary (UNESCO, World Bank human
+    // capital, OECD, PISA), and real edtech / higher-ed tickers (CHGG, COUR,
+    // DUOL, LRN, ATGE, LOPE, STRA, LAUR, TWOU, UTI) with their online-learning /
+    // institution / credentialing vocabulary — kept DISTINCT from science (no
+    // basic-research tokens — a coupling), from population (no demographics
+    // tokens — a coupling), from technology (no chip / cloud tokens — edtech
+    // tooling is a coupling), and from economy (no macro-aggregate tokens —
+    // workforce is a coupling). Matches the brain prose against real education
+    // sources, not generic learning words alone.
+    'NCES Student Data':                     ['NCES', 'National Center for Education Statistics', 'enrollment', 'K-12', 'graduation rate', 'achievement'],
+    'IPEDS Higher-Ed':                       ['IPEDS', 'postsecondary', 'higher education', 'institution', 'completion', 'enrollment'],
+    'NAEP Nation Report Card':               ['NAEP', "Nation's Report Card", 'achievement', 'reading', 'math', 'proficiency'],
+    'ED.gov K-12':                           ['ED.gov', 'Department of Education', 'K-12', 'Title I', 'public school'],
+    'USDOE Department':                      ['U.S. Department of Education', 'USDOE', 'Department of Education', 'education policy', 'federal funding'],
+    'Federal Student Aid Debt Data':         ['Federal Student Aid', 'student debt', 'student loan', 'loan portfolio', 'FAFSA', 'financial aid'],
+    'UNESCO Institute for Statistics':       ['UNESCO', 'UIS', 'literacy', 'out-of-school', 'education for all'],
+    'World Bank Human Capital':              ['World Bank', 'human capital', 'learning poverty', 'education investment'],
+    'OECD Education Statistics':             ['OECD', 'PISA', 'education at a glance', 'tertiary attainment'],
+    'Chegg Investor Relations':              ['CHGG', 'Chegg', 'online learning', 'study', 'edtech', 'student services'],
+    'Coursera Investor Relations':           ['COUR', 'Coursera', 'online course', 'MOOC', 'edtech', 'credential'],
+    'Duolingo Investor Relations':           ['DUOL', 'Duolingo', 'language learning', 'edtech', 'daily active learners'],
+    'Stride Investor Relations':             ['LRN', 'Stride', 'K12', 'online K-12', 'virtual school', 'enrollment'],
+    'Adtalem Investor Relations':            ['ATGE', 'Adtalem', 'higher education', 'medical education', 'enrollment'],
+    'Grand Canyon Education Investor Relations': ['LOPE', 'Grand Canyon', 'university', 'higher education', 'enrollment'],
+    'Strategic Education Investor Relations': ['STRA', 'Strategic Education', 'Strayer', 'Capella', 'university', 'enrollment'],
+    'Laureate Education Investor Relations':  ['LAUR', 'Laureate', 'university', 'higher education', 'enrollment'],
+    '2U Investor Relations':                 ['TWOU', '2U', 'online degree', 'edtech', 'university partner', 'OPM'],
+    'Universal Technical Institute Investor Relations': ['UTI', 'Universal Technical Institute', 'workforce training', 'technical', 'skilled trades', 'credential']
   };
 
   // ─── Module-level flag: SCHEMA_VERSION_BUMPED warning ─────────────────

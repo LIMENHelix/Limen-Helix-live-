@@ -133,7 +133,59 @@
     // stays the macro aggregate, distinct from finance.
     economy:       ['sba-loans', 'investments', 'systemic-risk', 'capital-access'],
     finance:       ['investments', 'copyrights', 'patents', 'business-grants', 'sba-loans', 'research-grants'],
-    education:     ['research-grants', 'business-grants'],
+    // ─── Education = SCHOOLS / EDTECH / STUDENT OUTCOMES (lane hints reflect
+    //     learning, funding & access identity — NEVER energy oil/gas/grid
+    //     content, and DISTINCT from the science research domain) ─────────────
+    // Education's identity is schools & universities (K-12 + higher ed), edtech &
+    // online learning, student outcomes & literacy, teaching & curriculum,
+    // education funding & access/equity, workforce training & skills,
+    // credentialing & enrollment, and student debt. Real education-sector names:
+    // CHGG (study/learning services), COUR, DUOL, TWOU (edtech / online learning),
+    // LRN (Stride K-12 virtual), ATGE (Adtalem), LOPE (Grand Canyon), STRA
+    // (Strategic Education), LAUR (Laureate), UTI (Universal Technical Institute /
+    // workforce-skills training). Education is DISTINCT from science (basic
+    // RESEARCH is the science domain, a COUPLING here — not education's own
+    // content), population (demographics / enrollment cohorts is a COUPLING),
+    // technology (edtech TOOLING is a COUPLING, not education's identity), and
+    // economy (workforce / labor-market is a COUPLING). NEVER energy content.
+    //
+    // Energy anchors the multi-lane pattern (energy = ['patents','sba-loans',
+    // 'business-grants'] — a multi-faceted IP + financing + grants space).
+    // Education's OWN opportunity space — student-outcome-improvement, curriculum-
+    // modernization, teacher-development-funding, access-equity-program,
+    // institutional-consolidation — is similarly multi-faceted. But exactly as the
+    // economy, defense, intelligence, governance, medicine and communication
+    // blocks warn, only tokens that route to a REAL, education-accepting
+    // LANE_GATES entry in handoff-contract.js may live here, or recompute()
+    // silently drops them (the dead-token anti-pattern; see handoff-contract.js
+    // `if (!LANE_GATES[lane]) continue;`). Against the CURRENT contract, the
+    // ONLY gates whose anyDomain includes 'education' are 'business-grants'
+    // (line 402), 'research-grants' (line 403), and 'research-papers' (line 418).
+    // So those three LIVE, education-accepting lanes are the hint set:
+    //   • 'business-grants'  — education access/equity programs, institutional
+    //       capacity, edtech small-business / workforce-training funding.
+    //   • 'research-grants'  — education research, curriculum & pedagogy studies,
+    //       student-outcome / literacy improvement programs.
+    //   • 'research-papers'  — education evidence output (learning-science,
+    //       outcome studies) — the copyrightable/published education work product.
+    //
+    // SYMMETRY CHECK (paired with handoff-contract.js): the education-PRIMARY
+    // lanes the gap names — 'student-outcome-improvement', 'curriculum-
+    // modernization', 'teacher-development-funding', 'access-equity-program',
+    // 'institutional-consolidation' — describe the SHAPE of education's own
+    // negotiator opportunities (analogous to defense's 'defense-procurement',
+    // industry's 'industrial-capacity-investment', communication's 'broadcast-
+    // infrastructure-modernization'). They are documented here as the INTENT, but
+    // are NOT emitted as bare tokens: those PRIMARY gates do NOT yet exist in
+    // handoff-contract.js LANE_GATES (adding them would require editing handoff-
+    // contract.js, out of scope for this additive single-file port). This mirrors
+    // the defense block's INTERIM state BEFORE 'defense-procurement' was promoted —
+    // when an education-accepting PRIMARY gate for those lanes is later added to
+    // LANE_GATES, promote 'student-outcome-improvement' to the FRONT of this hint
+    // list (exactly as defense promoted 'defense-procurement' first). Until then
+    // the live gates carry education's opportunity space. Additive only — never
+    // removes prior domains' hints.
+    education:     ['research-grants', 'business-grants', 'research-papers'],
     science:       ['research-grants', 'research-papers'],
     governance:    ['copyrights'],
     law:           ['copyrights'],

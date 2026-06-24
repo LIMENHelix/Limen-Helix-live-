@@ -2207,6 +2207,181 @@
         { label: 'investigate nursing/physician shortage coupling', type: 'analysis' },
         { label: 'hold', type: 'monitoring' }
       ]
+    },
+    // ─── Education pairs (parity port; mirrors energy/infra/culture/finance/economy/tech/defense/intelligence/trade/industry/medicine structure) ──
+    // EDUCATION identity ONLY — schools & universities (K-12 + higher ed), edtech & online
+    // learning, student outcomes & literacy, teaching & curriculum, education funding &
+    // access/equity, workforce training & skills, credentialing & enrollment, student debt.
+    // Real education-sector tickers (CHGG, COUR, DUOL, LRN, ATGE, LOPE, STRA, LAUR, TWOU,
+    // UTI) — never fabricated, never energy oil/gas/grid content. Each PAIRED domain is a
+    // COUPLING (the sector whose workforce/financing/policy education trains, funds, or
+    // serves); education's OWN content stays schools/curriculum/enrollment/credentialing/
+    // student-outcomes/training. DISTINCT from science (research is the 'education_research'
+    // coupling), population (demographics is a coupling), technology (edtech tooling is a
+    // coupling), and economy (workforce is a coupling). ADDITIVE — does not touch any
+    // validated scoring path. ('infrastructure_education', 'culture_education',
+    // 'economy_education', 'education_research', 'education_supplyChain', 'intelligence_education',
+    // 'medicine_education' already cover those couplings.)
+    {
+      // Mirrors 'defense_technology' (vulnerability-propagation) + 'defense_energy'
+      // (sustained-operations exposure) translated to the defense technical-workforce
+      // pipeline. Defense is the COUPLING (the sector whose STEM talent / training capacity
+      // education supplies); education identity stays enrollment / curriculum / credentialing.
+      id: 'defense_education',
+      domains: ['defense', 'education'],
+      threshold: 0.45,
+      pattern: 'military-workforce pipeline stress',
+      drivers: ['defense-STEM recruiting shortfall (weapons-systems engineering talent for LMT/RTX/NOC/GD primes, STRA/LOPE workforce programs)', 'ROTC / service-academy enrollment decline (military-workforce intake velocity)', 'acquisition-authority technical-certification gap (program-management credentialing backlog, ATGE skills-training capacity)', 'defense-science university-partnership lag (MIT Lincoln Lab / national-lab fellowship pipeline thinning)', 'security-clearance-eligible graduate scarcity (cleared-workforce training bottleneck)'],
+      options: [
+        { label: 'trace military-workforce pipeline exposure', type: 'analysis' },
+        { label: 'investigate defense-STEM recruiting shortfall', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'energy_supply' (logistics disruption) + 'infrastructure_education'
+      // (engineer shortage, curriculum lag) translated to the energy-sector workforce.
+      // Energy is the COUPLING (the sector whose technicians education certifies); education
+      // identity stays apprenticeship / certification / training capacity — NOT grid/oil/gas.
+      id: 'energy_education',
+      domains: ['energy', 'education'],
+      threshold: 0.45,
+      pattern: 'energy-workforce pipeline stress',
+      drivers: ['clean-energy technician certification bottleneck (solar-installer / IREC credential intake, UTI technical-training capacity)', 'electrical-engineering / power-systems enrollment decline (grid-modernization talent thinning)', 'utility-operator licensing exam pass-rate drag (technician-training capacity strain)', 'lineworker / electrician wage-premium pressure signaling apprenticeship-intake shortfall (IBEW apprenticeship pipeline)', 'legacy oil/gas workforce reskilling lag (energy-transition training-program scale, STRA/LRN reskilling programs)'],
+      options: [
+        { label: 'trace energy-workforce pipeline exposure', type: 'analysis' },
+        { label: 'investigate technician-certification bottleneck', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'finance_technology' (fintech-infrastructure coupling) + 'finance_supplyChain'
+      // (credit-logistics transmission) translated to the finance-sector workforce. Finance is
+      // the COUPLING (the sector whose credentialed staff education certifies); education
+      // identity stays credentialing / enrollment / exam pass-rates — NOT capital/credit/banking.
+      id: 'finance_education',
+      domains: ['finance', 'education'],
+      threshold: 0.45,
+      pattern: 'finance-workforce credentialing stress',
+      drivers: ['CPA / CFA credentialing-pipeline drag (exam pass-rate decline, candidate-flow contraction, COUR/CHGG exam-prep demand)', 'accounting-program enrollment decline (AICPA talent-pipeline thinning)', 'Series 7 / Series 65 exam-registration backlog (financial-advisor credentialing velocity)', 'compliance / AML-specialist training capacity gap (FINRA continuing-education throughput, STRA professional programs)', 'actuarial-science / risk-management graduate scarcity (quantitative-finance talent pipeline)'],
+      options: [
+        { label: 'trace finance-workforce credentialing exposure', type: 'analysis' },
+        { label: 'investigate CPA/CFA pipeline drag', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'governance_technology' (regtech-governance coupling) + 'law_governance'
+      // (institutional-envelope stress) translated to the public-sector workforce. Governance
+      // is the COUPLING (the sector whose administrators education trains); education identity
+      // stays MPA/MGA enrollment / civil-service exam / fellowship throughput.
+      id: 'governance_education',
+      domains: ['governance', 'education'],
+      threshold: 0.45,
+      pattern: 'public-administration workforce stress',
+      drivers: ['MPA / MGA enrollment decline (public-administration talent-pipeline thinning, Maxwell/Kennedy-School fills)', 'civil-service exam pass-rate / OPM recruitment backlog (agency-staffing intake velocity)', 'regulatory-analyst recruitment gap (EPA/FCC/SEC technical-staff pipeline, STRA/LOPE public-service programs)', 'policy-fellowship pipeline contraction (White House / OECD fellow throughput)', 'Senior-Executive-Service continuity gap (agency-leadership succession / institutional-continuity stress)'],
+      options: [
+        { label: 'trace public-administration workforce exposure', type: 'analysis' },
+        { label: 'investigate civil-service recruitment backlog', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'law_governance' (regulatory/enforcement stress) translated to the legal-sector
+      // workforce. Law is the COUPLING (the sector whose attorneys education trains); education
+      // identity stays law-school enrollment / bar-passage / clerkship fills.
+      id: 'law_education',
+      domains: ['law', 'education'],
+      threshold: 0.40,
+      pattern: 'legal-workforce pipeline stress',
+      drivers: ['law-school enrollment volatility (ABA matriculation trend, applicant-pool swing)', 'bar-exam passage-rate decline by jurisdiction (credentialing bottleneck, CHGG/COUR bar-prep demand)', 'judicial-clerkship / court-administration recruitment gap (legal-workforce intake velocity)', 'legal-aid attorney retention collapse (Legal Services Corporation staffing, access-to-justice pipeline)', 'paralegal / legal-admin training-program capacity strain (LAUR/STRA professional programs)'],
+      options: [
+        { label: 'trace legal-workforce pipeline exposure', type: 'analysis' },
+        { label: 'investigate bar-passage / clerkship gap', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'technology_core' (institutional-envelope) + 'tech_research' (innovation
+      // acceleration via workforce) translated to the technology-sector workforce. Technology
+      // is the COUPLING (the sector whose engineers education trains); education identity stays
+      // CS/EE enrollment / bootcamp placement / certification throughput — NOT chips/AI/cloud.
+      id: 'technology_education',
+      domains: ['technology', 'education'],
+      threshold: 0.40,
+      pattern: 'technology-workforce STEM pipeline stress',
+      drivers: ['CS / EE enrollment plateau (NSF/NCES degree-production drag, software-engineer pipeline thinning)', 'coding-bootcamp placement-rate decline / market saturation (job-placement velocity, DUOL/COUR/CHGG learning demand)', 'cybersecurity-certification supply gap (CompTIA / CISSP / ISC2 throughput vs. demand)', 'AI/ML specialist scarcity (graduate-program fills, foundation-model talent pipeline)', 'software-developer wage-premium pressure signaling talent-shortage drag (TWOU/COUR enterprise-reskilling demand)'],
+      options: [
+        { label: 'trace technology-workforce STEM exposure', type: 'analysis' },
+        { label: 'investigate CS/EE pipeline & cert-supply gap', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Triple-domain: mirrors 'culture_finance_infrastructure' (creator-capital-venue coupling)
+      // translated to the biotech-startup workforce node — academic biomedical training
+      // (education), venture/biotech financing (finance), and healthcare-product development
+      // (health) co-bearing the talent pipeline. Education identity stays graduate-program
+      // production / credentialing; finance + health are the couplings.
+      id: 'health_finance_education',
+      domains: ['health', 'finance', 'education'],
+      threshold: 0.46,
+      pattern: 'biotech-startup workforce-capital coupling',
+      drivers: ['chemistry / pharmacology PhD production drag entering biotech (graduate-program fills, drug-discovery talent pipeline)', 'medical-device engineering enrollment gap (mechanical-engineering pipeline for device-startup financing)', 'bioinformatics / computational-biology specialist scarcity (program throughput vs. venture-backed demand)', 'clinical-research-associate (CRA) recruitment gap from allied-health programs (LOPE/ATGE health-professions training)', 'biotech-venture funding contraction tightening academic-research-to-startup talent flow (research-grant-to-commercialization pipeline)'],
+      options: [
+        { label: 'trace biotech-startup workforce-capital exposure', type: 'analysis' },
+        { label: 'investigate research-to-startup talent flow', type: 'discovery' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Triple-domain: mirrors 'culture_finance_infrastructure' (triple coupling) anchored to
+      // the academic-security node — collection-targeting (intelligence), visa/IP legal regime
+      // (law), and researcher-security training (education) co-bearing the surface. Education
+      // identity stays curriculum / vetting-throughput / academic-integrity training;
+      // intelligence + law are the couplings.
+      id: 'intelligence_law_education',
+      domains: ['intelligence', 'law', 'education'],
+      threshold: 0.44,
+      pattern: 'academic-security intelligence-law coupling',
+      drivers: ['foreign-student security-vetting backlog (enrollment-background-investigation velocity, LDOS/BAH vetting services)', 'academic-IP-theft enforcement gap (DOJ IP-prosecution + university-counsel coordination lag)', 'researcher security-clearance / facility-access vetting backlog (NSF/DOE sensitive-program access)', 'research-ethics & IP-protection curriculum lag (academic-integrity training throughput, STRA/LOPE compliance programs)', 'CFIUS review of foreign academic partnerships (sensitive-field collaboration-screening timeline extension)'],
+      options: [
+        { label: 'trace academic-security exposure', type: 'analysis' },
+        { label: 'investigate foreign-vetting / IP-enforcement coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'culture_population' (composition/generational shift) + 'agriculture_population'
+      // (supply-demand pressure) translated to the demographic-education transmission. Population
+      // is the COUPLING (cohort composition driving demand); education identity stays K-12 /
+      // university enrollment-cohort & training-demand — NOT demographics/disease-burden itself.
+      id: 'population_education',
+      domains: ['population', 'education'],
+      threshold: 0.45,
+      pattern: 'demographic-enrollment transmission',
+      drivers: ['K-12 enrollment volatility (Census cohort-aging forecast, district-consolidation pressure)', 'university-bound cohort contraction (18-year-old population projection / demographic-cliff undergrad squeeze, LAUR/STRA/LOPE enrollment exposure)', 'graduate-program demand vs. shrinking cohort size (higher-ed cost-structure stress)', 'aging-driven career-shift training demand (reskilling-cohort surge, COUR/CHGG/TWOU adult-learner demand)', 'skill-demand forecast mismatch (cohort-aging vs. STEM/healthcare workforce-training pipeline)'],
+      options: [
+        { label: 'trace demographic-enrollment exposure', type: 'analysis' },
+        { label: 'investigate demographic-cliff cohort squeeze', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'culture_religion' (cultural-moral identity tension) + 'religion_population'
+      // (demographic-moral tension) translated to the religious-education institutional coupling.
+      // Religion is the COUPLING (the faith institutions operating schools); education identity
+      // stays seminary / religious-school enrollment & funding / educator-workforce capacity.
+      id: 'religion_education',
+      domains: ['religion', 'education'],
+      threshold: 0.40,
+      pattern: 'faith-education institutional stress',
+      drivers: ['seminary enrollment decline (ATS theological-school matriculation contraction)', 'religious-school K-12 enrollment & funding strain (NCES religious-sector data, parochial-school closure spike)', 'divinity-school / theological PhD production drag (clergy-educator pipeline thinning)', 'religious-studies university enrollment decline (comparative-religion / religious-literacy program contraction)', 'interfaith-education & religious-literacy curriculum-adoption lag (teacher-training capacity for religious literacy)'],
+      options: [
+        { label: 'trace faith-education institutional exposure', type: 'analysis' },
+        { label: 'investigate seminary / religious-school decline', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
     }
   ];
 

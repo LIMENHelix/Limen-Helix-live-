@@ -3866,6 +3866,176 @@
           "role": "benefown crossref — Signal Acquisition"
         }
       ]
+    },
+    {
+      "brainNodeId": "LC",
+      "state": "active",
+      "domainLabel": "Higher Education Institutional Data Infrastructure — IPEDS Panel",
+      "domainDescription": "Institution-level enrollment, completion, debt, and post-graduation earnings drawn from the U.S. Dept. of Education IPEDS database (updated annually). The quantitative bedrock of higher-ed viability — the higher-ed analogue to FERC Form 1 utility reporting in energy.",
+      "domainFunction": "Annual institution-level panel (enrollment by level/program, completion rates, net price, federal-loan debt, College Scorecard earnings) that anchors every downstream viability and outcomes judgment in real Dept-of-Ed data rather than synthetic estimates.",
+      "whyThisNode": "The locus coeruleus broadcasts a global arousal/salience signal the whole system calibrates against, mirroring how IPEDS panel data sets the baseline reference every higher-ed assessment is measured against.",
+      "group": "extended",
+      "dataSource": "IPEDS (U.S. Department of Education) — institution-level, updated annually",
+      "phase": "P9",
+      "weight": 0.9,
+      "diagnosticTriggers": [
+        "Enrollment decline across cohorts",
+        "Completion-rate divergence from peer set",
+        "Net-price / debt-load escalation",
+        "Earnings-outcome underperformance vs. program benchmark"
+      ],
+      "functional_role": "sensor",
+      "companies": [
+        {
+          "name": "Adtalem Global Education",
+          "ticker_or_id": "ATGE",
+          "functional_reason": "Multi-institution operator whose enrollment, completion, and debt metrics are tracked institution-by-institution in IPEDS panels.",
+          "binding_strength": 0.82
+        },
+        {
+          "name": "Strategic Education",
+          "ticker_or_id": "STRA",
+          "functional_reason": "Strayer/Capella enrollment, completion, and net-price reporting flows through IPEDS institutional panels.",
+          "binding_strength": 0.8
+        },
+        {
+          "name": "Grand Canyon Education",
+          "ticker_or_id": "LOPE",
+          "functional_reason": "Large-enrollment institution whose IPEDS completion and earnings outcomes drive viability signals.",
+          "binding_strength": 0.78
+        }
+      ],
+      "treatments": [],
+      "childPortal": "education_higher_enrollment_portal.html"
+    },
+    {
+      "brainNodeId": "dACC",
+      "state": "active",
+      "domainLabel": "Higher Education Title-IV Financial-Responsibility Composite — OFSA",
+      "domainDescription": "Federal Student Aid (OFSA) Title-IV composite-score database measuring institutional financial responsibility, administrative capability, and program quality (updated annually). Directly tied to degree viability and accreditation-probation/loss risk — the for-profit vs. non-profit institutional risk stratifier.",
+      "domainFunction": "Annual institutional financial-responsibility composite (1.5+ pass / 1.0-1.4 zone / <1.0 fail) plus accreditation-status risk that stratifies institutions by Title-IV continuation risk — the higher-ed solvency veto.",
+      "whyThisNode": "The dorsal anterior cingulate flags conflict and error against a threshold and mobilizes correction, mirroring how the Title-IV composite score acts as a pass/fail financial-responsibility threshold gating institutional viability.",
+      "group": "extended",
+      "dataSource": "Federal Student Aid (OFSA) Title-IV composite scores — institution-level, updated annually",
+      "phase": "P9",
+      "weight": 0.88,
+      "diagnosticTriggers": [
+        "Composite score below 1.5 (financial-responsibility zone)",
+        "Composite score below 1.0 (fail / Heightened Cash Monitoring)",
+        "Accreditation probation or loss risk",
+        "For-profit Title-IV revenue concentration (90/10) stress"
+      ],
+      "functional_role": "regulator",
+      "companies": [
+        {
+          "name": "Adtalem Global Education",
+          "ticker_or_id": "ATGE",
+          "functional_reason": "For-profit operator whose Title-IV composite score and accreditation standing govern continued federal-aid eligibility.",
+          "binding_strength": 0.84
+        },
+        {
+          "name": "Strategic Education",
+          "ticker_or_id": "STRA",
+          "functional_reason": "Title-IV-dependent institution stratified by OFSA financial-responsibility composite.",
+          "binding_strength": 0.82
+        },
+        {
+          "name": "Laureate Education",
+          "ticker_or_id": "LAUR",
+          "functional_reason": "Institution whose financial-responsibility and accreditation risk shape Title-IV viability.",
+          "binding_strength": 0.76
+        },
+        {
+          "name": "Universal Technical Institute",
+          "ticker_or_id": "UTI",
+          "functional_reason": "Career-focused institution whose Title-IV composite and program-quality metrics gate aid eligibility.",
+          "binding_strength": 0.74
+        }
+      ],
+      "treatments": [],
+      "childPortal": "education_higher_accreditation_portal.html"
+    },
+    {
+      "brainNodeId": "OFC",
+      "state": "active",
+      "domainLabel": "Higher Education Doctoral Production & Outcomes — NSF SED",
+      "domainDescription": "NSF Survey of Earned Doctorates (SED) tracking doctoral-degree production by field plus graduate employment outcomes (employment rate, earnings, underemployment 6-10 years post-graduation) from real longitudinal federal data — the research-university output signal.",
+      "domainFunction": "Longitudinal doctoral-production and graduate-outcome panel (degrees by field, time-to-degree, post-graduation employment/earnings/underemployment) signaling research-university viability and the higher-ed-to-workforce transition (coupling, not the workforce domain itself).",
+      "whyThisNode": "The orbitofrontal cortex integrates long-horizon outcome value to guide decisions, mirroring how SED longitudinal outcomes (6-10 years post-degree) value the long-run return of doctoral production.",
+      "group": "extended",
+      "dataSource": "NSF Survey of Earned Doctorates (SED) + longitudinal graduate-outcome tracking — annual",
+      "phase": "P9",
+      "weight": 0.82,
+      "diagnosticTriggers": [
+        "Doctoral production decline in a field",
+        "Time-to-degree escalation",
+        "Post-graduation underemployment rate rising",
+        "Earnings underperformance 6-10 years post-degree"
+      ],
+      "functional_role": "integrator",
+      "companies": [
+        {
+          "name": "Coursera",
+          "ticker_or_id": "COUR",
+          "functional_reason": "Graduate and professional credentialing whose completion-to-employment outcomes parallel SED longitudinal tracking.",
+          "binding_strength": 0.7
+        },
+        {
+          "name": "2U",
+          "ticker_or_id": "TWOU",
+          "functional_reason": "Online graduate-degree enabler whose program outcomes track post-graduation employment and earnings.",
+          "binding_strength": 0.68
+        },
+        {
+          "name": "Chegg",
+          "ticker_or_id": "CHGG",
+          "functional_reason": "Student-services signal correlated with graduate-stage academic support and outcomes.",
+          "binding_strength": 0.6
+        }
+      ],
+      "treatments": [],
+      "childPortal": "education_higher_graduate_portal.html"
+    },
+    {
+      "brainNodeId": "AIns",
+      "state": "active",
+      "domainLabel": "Higher Education International-Enrollment Signal — DHS F-1 Visa",
+      "domainDescription": "DHS / SEVIS F-1 visa statistics by institution (international-student enrollment, OPT-eligible STEM fields) signaling higher-ed export viability and global competitiveness — IP-bound degree production as a tradable signal.",
+      "domainFunction": "Institution-level international-enrollment panel (F-1 visa counts, OPT/STEM-OPT-eligible field mix) that signals global competitiveness and the export viability of degree production — a population/economy coupling, kept distinct from those domains.",
+      "whyThisNode": "The anterior insula monitors the boundary between self and external environment, mirroring how F-1 visa flows track the boundary between domestic and international student populations entering the higher-ed system.",
+      "group": "extended",
+      "dataSource": "DHS SEVIS F-1 visa statistics by institution — annual",
+      "phase": "P9",
+      "weight": 0.78,
+      "diagnosticTriggers": [
+        "International (F-1) enrollment decline",
+        "STEM-OPT-eligible field concentration shift",
+        "Visa-policy-driven enrollment volatility",
+        "Tuition-revenue dependence on international students"
+      ],
+      "functional_role": "sensor",
+      "companies": [
+        {
+          "name": "Duolingo",
+          "ticker_or_id": "DUOL",
+          "functional_reason": "English-proficiency testing (Duolingo English Test) gates international F-1 admissions, directly tied to international-enrollment flows.",
+          "binding_strength": 0.74
+        },
+        {
+          "name": "Coursera",
+          "ticker_or_id": "COUR",
+          "functional_reason": "Global online enrollment signal paralleling international degree-seeker demand.",
+          "binding_strength": 0.62
+        },
+        {
+          "name": "Stride (K12 Inc.)",
+          "ticker_or_id": "LRN",
+          "functional_reason": "Online education operator whose global enrollment mix tracks cross-border student demand.",
+          "binding_strength": 0.55
+        }
+      ],
+      "treatments": [],
+      "childPortal": "education_higher_enrollment_portal.html"
     }
   ],
   "edges": [
@@ -3928,6 +4098,36 @@
       "target": "DAN",
       "type": "SUPPLIES",
       "weight": 0.6
+    },
+    {
+      "source": "LC",
+      "target": "vlPFC",
+      "type": "SUPPLIES",
+      "weight": 0.7
+    },
+    {
+      "source": "dACC",
+      "target": "RSC",
+      "type": "CONTROLS",
+      "weight": 0.75
+    },
+    {
+      "source": "OFC",
+      "target": "rACC",
+      "type": "SUPPLIES",
+      "weight": 0.65
+    },
+    {
+      "source": "AIns",
+      "target": "PRECUNEUS",
+      "type": "SUPPLIES",
+      "weight": 0.6
+    },
+    {
+      "source": "LC",
+      "target": "dACC",
+      "type": "SUPPLIES",
+      "weight": 0.55
     }
   ],
   "issues": [
@@ -4038,6 +4238,37 @@
           "nodeId": "DAN",
           "dir": "Hypo-active",
           "detail": "Higher Education Coordination & Integration function reduced, compromising Higher Education system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "EDUCATION_HIGHER_INSTITUTIONAL_VIABILITY_EROSION",
+      "label": "Higher Education Institutional Viability Erosion",
+      "summary": "Real institution-level data infrastructure (IPEDS enrollment/completion/debt/earnings, OFSA Title-IV financial-responsibility composite, NSF SED doctoral outcomes, DHS F-1 international enrollment) signals deteriorating institutional viability and elevated accreditation-probation / Title-IV-loss risk, concentrated in tuition-dependent and for-profit operators",
+      "circuits": [
+        {
+          "nodeId": "LC",
+          "dir": "Hypo-active",
+          "detail": "IPEDS panel shows enrollment and completion falling with debt rising relative to the earnings outcomes graduates achieve, eroding the institutional viability baseline",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo-active",
+          "detail": "Title-IV financial-responsibility composite drifting below the 1.5 pass threshold toward the heightened-cash-monitoring zone, raising accreditation-probation and federal-aid-eligibility risk",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "OFC",
+          "dir": "Altered",
+          "detail": "NSF SED doctoral production and post-graduation employment/earnings outcomes deviating from field benchmarks, weakening research-university output signal",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "AIns",
+          "dir": "Hypo-active",
+          "detail": "DHS F-1 international enrollment declining, compressing a tuition-revenue source and signaling reduced global competitiveness",
           "evidence": "Moderate"
         }
       ]

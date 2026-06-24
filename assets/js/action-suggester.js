@@ -48,6 +48,13 @@
       { label: 'Investigate workforce-transition exposure and machinery-order softening as automation adoption reshapes industrial labor (HON, MMM, ITW, ETN, PH labor-intensity shift)', type: 'analysis', minStress: 0.6 },
       { label: 'Regulate production-halt triage and equipment-failure cascade containment across heavy-industry and machinery supply chains (GE, GEV, DOV, ROK critical-line failure points)', type: 'regulation', minStress: 0.7 }
     ],
+    education: [
+      { label: 'Monitor student-outcome and enrollment-trend signals (NCES enrollment counts, graduation/completion rates, college-enrollment decline, birth-rate and family-migration loss) across K-12, higher-ed and edtech operators (CHGG, COUR, DUOL, LRN, ATGE engagement and matriculation throughput)', type: 'monitoring', minStress: 0.3 },
+      { label: 'Explore teacher-recruitment and retention innovation (alternative-certification programs, paraprofessional pathways, burnout-exodus and wage-lag mitigation, online-tutoring capacity) across credentialing and learning operators (CHGG, COUR, LRN, ATGE, LOPE workforce-pipeline adoption)', type: 'discovery', minStress: 0.4 },
+      { label: 'Analyze curriculum modernization and skills-gap response (STEM/literacy assessment, learning-loss recovery, edtech-adoption ROI, vocational/STEM output vs employer demand) across edtech and for-profit education operators (DUOL, LRN, COUR, STRA, UTI program-completion and credential-value)', type: 'analysis', minStress: 0.5 },
+      { label: 'Investigate funding fragility and student-debt crisis (state budget cuts, federal-aid dependency, municipal property-tax decline, income-driven-repayment default and refinancing pressure) across higher-ed and student-lending exposure (ATGE, LOPE, STRA, LAUR, TWOU enrollment-revenue and debt-load risk)', type: 'analysis', minStress: 0.6 },
+      { label: 'Regulate student-outcome crisis and achievement-gap containment (learning-loss emergency response, equity-of-access restoration, credential-value decay triage) across K-12, higher-ed and online-learning operators (CHGG, COUR, DUOL, LRN, LOPE, TWOU critical-access and completion failure points)', type: 'regulation', minStress: 0.7 }
+    ],
     infrastructure: [
       { label: 'Monitor electric grid transmission/distribution reliability', type: 'monitoring', minStress: 0.3 },
       { label: 'Explore resilient infrastructure funding & capital reallocation', type: 'discovery', minStress: 0.4 },

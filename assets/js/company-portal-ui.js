@@ -970,6 +970,96 @@
       rightHtml += '</div>';
     }
 
+    // ── EDUCATION-SPECIFIC PORTAL SECTIONS ───────────────────────────────
+    // Schools & universities (K-12 + higher ed), edtech / online learning,
+    // student outcomes & teaching parity with the energy domain's
+    // company-metadata sections, mirroring the infrastructure block above.
+    // This is STRICTLY ADDITIVE render-layer content keyed on
+    // co.domainId === 'education'; it never touches the validated P3 distress
+    // kernel (Thing1) scoring path consumed by /api/limen/score or
+    // /api/helix/helix-report/score — those run server-side off the kernel,
+    // not off these optional company-JSON display fields.
+    //
+    // Education COUPLES to economy (workforce pipeline), technology (edtech
+    // tooling), and population (demographic / enrollment trends) — couplings,
+    // not identity. IDENTITY stays teaching / learning / credentials / schools;
+    // distinct from research (basic science = the science domain). Energy's
+    // oil/gas/grid mix is translated to the education equivalents:
+    // student / enrollment portfolio (energy: generation mix), curriculum &
+    // instruction status (energy: maintenance / asset-age), accreditation &
+    // compliance (energy: NERC/FERC compliance), and funding & financial aid
+    // (energy: capital funding). Real sector tickers: CHGG, COUR, DUOL, LRN,
+    // ATGE, LOPE, STRA, LAUR, TWOU, UTI.
+    if (co.domainId === 'education') {
+      // Student / Enrollment Portfolio — K-12 / higher-ed / online mix + enrollment trend (energy: generation mix)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Student / Enrollment Portfolio</div>';
+      var _ep = co.enrollmentPortfolio || co.studentPortfolio;
+      if (_ep && (Array.isArray(_ep) ? _ep.length : Object.keys(_ep).length)) {
+        var _epEntries = Array.isArray(_ep)
+          ? _ep.map(function (e) { return [e.segment || e.type || e.label || '', e.share != null ? e.share : (e.enrollment != null ? e.enrollment : (e.value != null ? e.value : e.detail))]; })
+          : Object.keys(_ep).map(function (kk) { return [kk, _ep[kk]]; });
+        for (var ep = 0; ep < _epEntries.length; ep++) {
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_epEntries[ep][0]) + '</span><span class="cp-value">' + esc(String(_epEntries[ep][1])) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No enrollment distribution recorded (K-12 / higher-ed / online-learning mix, total enrollment & YoY trend, completion / retention rate, online vs in-person split)</div>';
+      }
+      rightHtml += '</div>';
+
+      // Curriculum & Instruction Status — teaching quality, instructor retention, modernization backlog (energy: maintenance/asset-age)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Curriculum &amp; Instruction Status</div>';
+      var _ci = co.curriculumStatus || co.instructionStatus;
+      if (_ci && Object.keys(_ci).length > 0) {
+        var _ciKeys = Object.keys(_ci);
+        for (var cik = 0; cik < _ciKeys.length; cik++) {
+          var _civ = _ci[_ciKeys[cik]];
+          var _ciStr = (_civ && typeof _civ === 'object' && !Array.isArray(_civ))
+            ? Object.keys(_civ).map(function (sk) { return sk + ': ' + _civ[sk]; }).join('  ·  ')
+            : String(_civ);
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_ciKeys[cik]) + '</span><span class="cp-value">' + esc(_ciStr) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No curriculum / instruction data (teaching quality & student-outcome scores, instructor / faculty retention & vacancy rate, curriculum-modernization backlog, course-content refresh cadence)</div>';
+      }
+      rightHtml += '</div>';
+
+      // Accreditation & Compliance — regional/national accreditation, Title IV, federal-aid eligibility (energy: NERC/FERC compliance)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Accreditation &amp; Compliance</div>';
+      var _ac = co.accreditationCompliance || co.regulatoryCompliance;
+      if (_ac && (Array.isArray(_ac) ? _ac.length : Object.keys(_ac).length)) {
+        var _acEntries = Array.isArray(_ac)
+          ? _ac.map(function (e) { return [e.body || e.agency || e.accreditation || e.label || '', (e.status != null ? e.status : (e.violations != null ? e.violations : (e.value != null ? e.value : e.detail))) + (e.trend ? ' (' + e.trend + ')' : '')]; })
+          : Object.keys(_ac).map(function (kk) { return [kk, _ac[kk]]; });
+        for (var ac = 0; ac < _acEntries.length; ac++) {
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_acEntries[ac][0]) + '</span><span class="cp-value">' + esc(String(_acEntries[ac][1])) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No accreditation record (regional / national accreditation standing, Title IV federal-aid eligibility, student-outcome / cohort-default-rate reporting, gainful-employment compliance, state authorization)</div>';
+      }
+      rightHtml += '</div>';
+
+      // Funding & Financial Aid — endowment, tuition dependency, grant revenue, student-debt coverage (energy: capital funding)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Funding &amp; Financial Aid</div>';
+      var _ffa = co.fundingProfile || co.financialAidProfile;
+      if (_ffa && Object.keys(_ffa).length > 0) {
+        var _ffaKeys = Object.keys(_ffa);
+        for (var ffak = 0; ffak < _ffaKeys.length; ffak++) {
+          var _ffav = _ffa[_ffaKeys[ffak]];
+          var _ffaStr = (_ffav && typeof _ffav === 'object' && !Array.isArray(_ffav))
+            ? Object.keys(_ffav).map(function (sk) { return sk + ': ' + _ffav[sk]; }).join('  ·  ')
+            : String(_ffav);
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_ffaKeys[ffak]) + '</span><span class="cp-value">' + esc(_ffaStr) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No funding / aid profile (endowment $ & draw rate, tuition-revenue dependency %, federal / state grant revenue, financial-aid discount rate, student-debt obligation coverage & loan-default exposure)</div>';
+      }
+      rightHtml += '</div>';
+    }
+
     // Warning signals (placeholder for future)
     rightHtml += '<div class="cp-section">';
     rightHtml += '<div class="cp-section-title">Warning Signals</div>';

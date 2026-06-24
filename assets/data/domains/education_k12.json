@@ -4804,6 +4804,231 @@
           "role": "Cross-Referencing — Implementation & Strategy — Workforce Alignment"
         }
       ]
+    },
+    {
+      "state": "active",
+      "weight": 0.85,
+      "phase": "P9",
+      "phase_archetype": "P3",
+      "treatments": [],
+      "childPortal": "-",
+      "neuralRole": "DMN",
+      "brainNodeLabelCanonical": "Education",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [],
+      "brainNodeId": "FUND",
+      "domainLabel": "K-12 Per-Pupil Spending & State Funding Variation",
+      "domainDescription": "NCES Common Core of Data (CCD) annual survey of public schools — enrollment, staffing, and per-pupil current expenditure by state and district; tracks state-level variation in education funding the way energy tracks state RPS/net-metering policy variation.",
+      "domainFunction": "Resources the entire K-12 system; state and district funding levels set the operating envelope every other K-12 node must work within, and disparities propagate into outcome and equity gaps.",
+      "group": "governance",
+      "functional_role": "reservoir",
+      "brainNodeRoleCanonical": "Resource Reservoir Funding & Capacity",
+      "diagnosticTriggers": [
+        "Per-pupil expenditure gap widening across districts",
+        "State education-funding formula under litigation or revision",
+        "Federal ESSER pandemic-relief funding cliff",
+        "Local property-tax revenue volatility"
+      ],
+      "companies": [
+        {
+          "name": "PowerSchool",
+          "ticker_or_id": "PWSC",
+          "functional_reason": "Student-information and finance/HR platforms districts use to report CCD enrollment, staffing, and per-pupil expenditure data.",
+          "binding_strength": 0.84
+        },
+        {
+          "name": "Stride (K12 Inc.)",
+          "ticker_or_id": "LRN",
+          "functional_reason": "Operates state-funded online public K-12 programs whose per-pupil allocations depend directly on state funding formulas.",
+          "binding_strength": 0.8
+        },
+        {
+          "name": "U.S. Department of Education",
+          "ticker_or_id": "ED_GOV",
+          "functional_reason": "NCES publishes the Common Core of Data that establishes per-pupil spending and enrollment benchmarks by state.",
+          "binding_strength": 0.9
+        }
+      ]
+    },
+    {
+      "state": "active",
+      "weight": 0.85,
+      "phase": "P9",
+      "phase_archetype": "P3",
+      "treatments": [],
+      "childPortal": "-",
+      "neuralRole": "DMN",
+      "brainNodeLabelCanonical": "Education",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [],
+      "brainNodeId": "NAEP",
+      "domainLabel": "K-12 Achievement & NAEP Proficiency Trends",
+      "domainDescription": "National Assessment of Educational Progress (NAEP) longitudinal reading and math proficiency by state, plus state-standards accountability regimes — the student-outcome signal analogous to how energy tracks state-by-state policy performance.",
+      "domainFunction": "The outcome readout of the K-12 system; state-level reading/math proficiency trends reveal whether funding, staffing, and standards are translating into measurable learning.",
+      "group": "analysis",
+      "functional_role": "sensor",
+      "brainNodeRoleCanonical": "Outcome Sensor Achievement & Proficiency",
+      "diagnosticTriggers": [
+        "NAEP reading or math scores declining vs prior administration",
+        "Widening state-to-state proficiency gap",
+        "Pandemic learning-loss recovery stalling",
+        "State accountability rating downgrades"
+      ],
+      "companies": [
+        {
+          "name": "ETS (Educational Testing Service)",
+          "ticker_or_id": "ETS",
+          "functional_reason": "Develops and administers large-scale standardized assessments underpinning NAEP-style proficiency measurement.",
+          "binding_strength": 0.86
+        },
+        {
+          "name": "Pearson PLC",
+          "ticker_or_id": "PSO",
+          "functional_reason": "Builds state summative assessments and item banks that report reading/math proficiency by state.",
+          "binding_strength": 0.82
+        },
+        {
+          "name": "Chegg",
+          "ticker_or_id": "CHGG",
+          "functional_reason": "Supplemental learning and homework-help signal reflecting where students struggle against proficiency standards.",
+          "binding_strength": 0.62
+        }
+      ]
+    },
+    {
+      "state": "active",
+      "weight": 0.85,
+      "phase": "P9",
+      "phase_archetype": "P3",
+      "treatments": [],
+      "childPortal": "-",
+      "neuralRole": "DMN",
+      "brainNodeLabelCanonical": "Education",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [],
+      "brainNodeId": "WAGE",
+      "domainLabel": "K-12 Teacher Compensation & Labor Supply",
+      "domainDescription": "BLS Occupational Employment and Wage Statistics (OEWS) for K-12 educators — wage trends, supply/demand forecasts, and vacancy/turnover signals by state; the teaching-labor benchmark mirroring BLS labor data used elsewhere.",
+      "domainFunction": "Sets the price and availability of teaching labor; compensation competitiveness drives recruitment, retention, and the staffing levels every classroom node depends on.",
+      "group": "operations",
+      "functional_role": "amplifier",
+      "brainNodeRoleCanonical": "Labor Supply Compensation & Staffing",
+      "diagnosticTriggers": [
+        "Teacher vacancy and turnover rates rising",
+        "Educator wages lagging regional cost-of-living",
+        "Substitute-teacher and paraprofessional shortages",
+        "Teacher-pipeline / certification enrollment decline"
+      ],
+      "companies": [
+        {
+          "name": "U.S. Department of Education",
+          "ticker_or_id": "ED_GOV",
+          "functional_reason": "Coordinates with BLS OEWS wage and educator-staffing data informing teacher-shortage and compensation policy.",
+          "binding_strength": 0.78
+        },
+        {
+          "name": "PowerSchool",
+          "ticker_or_id": "PWSC",
+          "functional_reason": "HR/payroll and talent modules districts use to manage educator compensation, hiring, and retention.",
+          "binding_strength": 0.8
+        },
+        {
+          "name": "Instructure (Canvas)",
+          "ticker_or_id": "INST",
+          "functional_reason": "Professional-learning and credentialing tools tied to teacher development and retention.",
+          "binding_strength": 0.6
+        }
+      ]
+    },
+    {
+      "state": "active",
+      "weight": 0.85,
+      "phase": "P9",
+      "phase_archetype": "P3",
+      "treatments": [],
+      "childPortal": "-",
+      "neuralRole": "DMN",
+      "brainNodeLabelCanonical": "Education",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [],
+      "brainNodeId": "INFRA",
+      "domainLabel": "K-12 Digital Infrastructure & 1:1 Device Adoption",
+      "domainDescription": "State education agency (SEA) reporting on digital-infrastructure adoption — 1:1 device penetration, broadband access, and LMS platform usage; mirrors infrastructure-domain digital-infrastructure feeds applied to schools.",
+      "domainFunction": "The connective substrate of modern K-12 delivery; device, broadband, and LMS penetration determine whether instruction, assessment, and equity initiatives can actually reach students.",
+      "group": "systems",
+      "functional_role": "conduit",
+      "brainNodeRoleCanonical": "Digital Conduit Devices & Connectivity",
+      "diagnosticTriggers": [
+        "1:1 device program funding lapsing post-ESSER",
+        "Home-broadband / digital-divide access gaps",
+        "LMS platform consolidation or migration",
+        "Device refresh-cycle backlog"
+      ],
+      "companies": [
+        {
+          "name": "Instructure (Canvas)",
+          "ticker_or_id": "INST",
+          "functional_reason": "Leading K-12 learning-management platform whose penetration measures digital-infrastructure adoption.",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "PowerSchool",
+          "ticker_or_id": "PWSC",
+          "functional_reason": "Student-information backbone integrating device, roster, and LMS data across districts.",
+          "binding_strength": 0.82
+        },
+        {
+          "name": "Stride (K12 Inc.)",
+          "ticker_or_id": "LRN",
+          "functional_reason": "Delivers fully online K-12 instruction dependent on 1:1 devices and home connectivity.",
+          "binding_strength": 0.74
+        }
+      ]
+    },
+    {
+      "state": "active",
+      "weight": 0.85,
+      "phase": "P9",
+      "phase_archetype": "P3",
+      "treatments": [],
+      "childPortal": "-",
+      "neuralRole": "DMN",
+      "brainNodeLabelCanonical": "Education",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [],
+      "brainNodeId": "FISC",
+      "domainLabel": "K-12 District Fiscal Stress & Pension Liability",
+      "domainDescription": "GFOA / Moody’s school-district fiscal-stress indicators — general-fund balance, bond ratings, and pension-liability trends; the asset-condition/fiscal-health signal mirroring infrastructure-domain asset-condition feeds.",
+      "domainFunction": "The solvency early-warning of the K-12 system; deteriorating fund balances and rising pension liabilities signal an impending state or local education-funding crisis before it reaches the classroom.",
+      "group": "analysis",
+      "functional_role": "sentinel",
+      "brainNodeRoleCanonical": "Fiscal Sentinel Solvency & Liability",
+      "diagnosticTriggers": [
+        "District general-fund balance falling below policy reserve floor",
+        "Teacher-pension unfunded-liability ratio rising",
+        "School-district bond-rating downgrade",
+        "Structural deficit from enrollment decline"
+      ],
+      "companies": [
+        {
+          "name": "U.S. Department of Education",
+          "ticker_or_id": "ED_GOV",
+          "functional_reason": "Federal fiscal data and oversight informing district financial-health and funding-crisis monitoring.",
+          "binding_strength": 0.76
+        },
+        {
+          "name": "PowerSchool",
+          "ticker_or_id": "PWSC",
+          "functional_reason": "Finance, budgeting, and ERP modules districts use to track fund balance and fiscal-stress indicators.",
+          "binding_strength": 0.83
+        },
+        {
+          "name": "Stride (K12 Inc.)",
+          "ticker_or_id": "LRN",
+          "functional_reason": "Enrollment shifts to online options directly affect brick-and-mortar district per-pupil revenue and fiscal stress.",
+          "binding_strength": 0.66
+        }
+      ]
     }
   ],
   "edges": [
@@ -4976,6 +5201,43 @@
           "nodeId": "PIN",
           "dir": "Hypo-active",
           "detail": "K-12 Teaching Coordination & Integration function reduced, compromising K-12 Teaching system integrity and continuity",
+          "evidence": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "EDUCATION_K12_FUNDING_STRESS",
+      "label": "K-12 Funding Stress & State Disparity",
+      "summary": "State-level education-funding disparity and district fiscal stress eroding per-pupil resources, teacher compensation, and digital infrastructure, with measurable downstream impact on NAEP proficiency outcomes.",
+      "circuits": [
+        {
+          "nodeId": "FUND",
+          "dir": "Hypo-active",
+          "detail": "Per-pupil spending and state funding allocations falling below the level needed to sustain staffing and program quality, widening cross-district disparity.",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "WAGE",
+          "dir": "Hypo-active",
+          "detail": "Educator compensation lagging labor-market benchmarks, deepening teacher shortages and turnover.",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "FISC",
+          "dir": "Hyper-active",
+          "detail": "District fiscal stress and pension-liability pressure overloading budgets and forcing program cuts.",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "INFRA",
+          "dir": "Altered",
+          "detail": "1:1 device and broadband investment stalling as relief funding expires, reintroducing digital-divide gaps.",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "NAEP",
+          "dir": "Hypo-active",
+          "detail": "Reading and math proficiency trends declining as funding, staffing, and infrastructure pressures compound.",
           "evidence": "Moderate"
         }
       ]

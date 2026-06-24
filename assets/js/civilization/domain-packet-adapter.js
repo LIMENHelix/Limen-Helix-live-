@@ -593,6 +593,50 @@
     // supplyChain/industry/environment/governance win when both are present (a slot
     // is single-domain, so they never collide in practice).
     var _bhm = _emO(slot && (slot.brainMedicineModel || slot.brainHealthModel));
+    // Education parity: education brains emit a recurrent EDUCATION-LIFECYCLE
+    // model (brainEducationModel) that follows the SAME envelope signature as
+    // energy's energyModel, infrastructure's infrastructureModel, culture's
+    // cultureModel, finance's financeModel, economy's economyModel, trade's
+    // supplyChainModel, industry's industryModel, environment's environmentModel,
+    // governance's governanceModel, and medicine's medicineModel, so Civilization
+    // + the Main Brain consume it identically. The education model tracks the
+    // CURRICULUM-DELIVERY & HUMAN-CAPITAL-PREPARATION lifecycle (the curriculum-
+    // delivery progression — K-12 → higher-ed → workforce-pipeline cadence as
+    // curriculumDeliveryCycle; pedagogical-access constraint tightening —
+    // accreditation gating, credentialing rules, enrollment caps, Title IV /
+    // financial-aid eligibility, licensure standards — as the regulation signal,
+    // pedagogicalAccessRegulation; enrollment-capacity shortfall + student-outcome
+    // distress, demographic-cohort (the enrollment-cliff) sizing, and credential-
+    // devaluation risk — predictedStress via enrollmentCapacityRisk /
+    // credentialDevaluationRisk; the prior on human-capital-readiness / preparation
+    // health — priorEducationHealth) rather than neurological cycles, civil-asset
+    // lifecycles, attention economies, single-firm capital lifecycles, macro-
+    // economic business cycles, goods-in-motion logistics, factory-output
+    // production, climate / ecosystem health, institutional / policy regimes, or
+    // healthcare delivery. Education is the SCHOOLS & UNIVERSITIES (K-12 + higher
+    // ed) / EDTECH & ONLINE-LEARNING / STUDENT-OUTCOMES & LITERACY / TEACHING &
+    // CURRICULUM / EDUCATION-FUNDING & ACCESS-EQUITY / WORKFORCE-TRAINING & SKILLS
+    // / CREDENTIALING & ENROLLMENT / STUDENT-DEBT layer and stays DISTINCT from
+    // science (basic / bench research is the science domain, a COUPLING into
+    // curriculum, not education's delivery substrate), from population (demographic
+    // cohort sizing is a COUPLING, not education's own lifecycle), from technology
+    // (edtech tooling / LMS platforms are a COUPLING, not education's substrate),
+    // and from economy (workforce macro — labor-market aggregate — is a COUPLING).
+    // Education's cross-domain couplings (science feeding curriculum content,
+    // population driving cohort enrollment & the demographic cliff, technology
+    // supplying edtech / LMS, economy steering workforce-skill demand, finance
+    // funding student debt, governance setting accreditation / Title IV rules) all
+    // presume enrollment & outcome visibility that only a recurrent model provides.
+    // Real signal validation anchors on REAL edtech / higher-ed operators — CHGG
+    // (Chegg tutoring), COUR (Coursera online), DUOL (Duolingo language), LRN (Stride
+    // / K12 K-12 services), ATGE (Adtalem global education), LOPE (Grand Canyon
+    // Education), STRA (Strategic Education / Strayer), LAUR (Laureate higher ed),
+    // TWOU (2U digital), UTI (Universal Technical Institute) — never energy oil/gas/
+    // grid tickers, which are another domain's content. We map its education field
+    // names onto the shared deepBrain envelope. Energy/infrastructure/culture/
+    // finance/economy/supplyChain/industry/environment/governance/medicine win when
+    // both are present (a slot is single-domain, so they never collide in practice).
+    var _bedm = _emO(slot && slot.brainEducationModel);
     var deepBrain = _bem ? {
       cycle:           _num(_bem.cycle),
       predictionError: _emO(_bem.predictionError),
@@ -1212,6 +1256,104 @@
       deviceAdoptionTrend:      _num(_bhm.deviceAdoptionTrend),
       diseaseBurdenTrend:       _num(_bhm.diseaseBurdenTrend),
       domainDiagnosisPacket: _emO(_bhm.domainMedicinePacket) || _emO(_bhm.domainHealthPacket) || _emO(_bhm.domainDiagnosisPacket)
+    } : _bedm ? {
+      // Education-lifecycle mapped onto the shared recurrent envelope.
+      // curriculumDeliveryCycle → cycle, pedagogicalAccessRegulation → regulation,
+      // enrollmentCapacityRisk / credentialDevaluationRisk → predictedStress,
+      // priorEducationHealth → prior, domainEducationPacket → domainDiagnosisPacket.
+      // Field aliases accept the brain's emitted names (brainCurriculumDeliveryCycle,
+      // brainEnrollmentCapacityRisk, brainCredentialDevaluationRisk,
+      // brainPriorEducationHealth) stripped of the brain* prefix, so either naming
+      // flows identically.
+      cycle:           _num(
+                         _bedm.curriculumDeliveryCycle != null ? _bedm.curriculumDeliveryCycle
+                         : (_bedm.curriculumDeliveryPhase != null ? _bedm.curriculumDeliveryPhase
+                         : _bedm.cycle)
+                       ),
+      predictionError: _emO(_bedm.predictionError),
+      // pedagogicalAccessRegulation is the education regulation signal: the
+      // tightening (or loosening) of pedagogical-access constraint — accreditation
+      // gating, credentialing / licensure standards, enrollment caps, Title IV /
+      // financial-aid eligibility rules — and how it is steering access to schooling
+      // and credentials (analogous to energy's regulationState, infrastructure's
+      // capital-funding regulation, culture's expression state, finance's funding-
+      // source quality, economy's fiscal-monetary regulation, trade's freight-cost
+      // regulation, industry's capacity-utilization regulation, environment's
+      // climate-regulation state, governance's regulatory-constraint state, and
+      // medicine's clinical-access regulation). Permissive / balanced / restrictive
+      // access regime.
+      regulationState: (_bedm.pedagogicalAccessRegulation && _bedm.pedagogicalAccessRegulation.state)
+                       || _str(_bedm.pedagogicalAccessRegulation)
+                       || (_bedm.accreditationState && _bedm.accreditationState.state)
+                       || _str(_bedm.accreditationState)
+                       || (_bedm.regulation && _bedm.regulation.state)
+                       || null,
+      regulation:      _emO(_bedm.pedagogicalAccessRegulation) || _emO(_bedm.accreditationState) || _emO(_bedm.regulation),
+      readyForHandoff: _bedm.readyForHandoff === true,
+      // enrollmentCapacityRisk is the education predicted-stress signal (likelihood
+      // of an enrollment-capacity / student-outcome distress — demographic-cliff
+      // enrollment shortfall, declining completion / outcome trajectory, tuition-
+      // dependency strain, institution-closure pressure), carried through unchanged
+      // in [0..1]. credentialDevaluationRisk is the broader human-capital-value
+      // analogue (degree / credential losing labor-market signal value), and
+      // educationStress is the generic delivery-stress analogue; any may stand in
+      // for predictedStress, enrollmentCapacityRisk wins as the more acute near-term
+      // signal.
+      predictedStress: _num(
+        _bedm.enrollmentCapacityRisk != null ? _bedm.enrollmentCapacityRisk
+        : (_bedm.credentialDevaluationRisk != null ? _bedm.credentialDevaluationRisk
+        : (_bedm.educationStress != null ? _bedm.educationStress
+        : _bedm.predictedStress))
+      ),
+      // priorEducationHealth carries the prior on human-capital-preparation /
+      // education-readiness health (the human-capital trajectory), mirroring energy's
+      // prior, infrastructure's priorAssetHealth, culture's creativeCapacity,
+      // finance's priorCapitalHealth, economy's priorGrowthTrend, trade's
+      // priorThroughputHealth, industry's priorCapacityHealth, environment's
+      // priorEnvironmentalHealth, governance's priorInstitutionalHealth, and
+      // medicine's priorHealthSystemHealth. When reported as a health value
+      // ([0..1] high = strong enrollment, rising outcomes, valued credentials,
+      // well-prepared graduates), invert into a stress (decline) expectation; an
+      // explicit expectedStress wins.
+      prior:           (_bedm.priorEducationHealth || _bedm.prior)
+                       ? (function (p) {
+                           return {
+                             // expectedStress mirrors energy: here the prior
+                             // expected enrollment-capacity / credential-devaluation distress level.
+                             expectedStress: _num(
+                               p.expectedStress != null ? p.expectedStress
+                               : (p.expectedDecline != null ? p.expectedDecline
+                               : (typeof p.educationHealth === 'number' ? (1 - _clamp01(p.educationHealth))
+                               : (typeof p.humanCapitalHealth === 'number' ? (1 - _clamp01(p.humanCapitalHealth))
+                               : (typeof p.readiness === 'number' ? (1 - _clamp01(p.readiness))
+                               : (typeof p === 'number' ? (1 - _clamp01(p)) : null)))))
+                             ),
+                             confidence:     _num(p.confidence),
+                             samples:        _num(p.samples)
+                           };
+                         })(_bedm.priorEducationHealth || _bedm.prior)
+                       : null,
+      // Education telemetry preserved alongside the shared envelope so downstream
+      // artifact expansion can feed education / human-capital decisions (enrollment
+      // trajectory & the demographic enrollment-cliff, student-outcome / completion /
+      // literacy trend, credential / degree labor-market value, teacher / faculty
+      // capacity & shortage, access-equity gap, student-debt burden, curriculum-
+      // modernization cadence, STEM-workforce pipeline). Sourced from REAL edtech /
+      // higher-ed operators: CHGG, COUR, DUOL, LRN, ATGE, LOPE, STRA, LAUR, TWOU,
+      // UTI. These are SCHOOLS & UNIVERSITIES / EDTECH / STUDENT-OUTCOMES /
+      // CREDENTIALING signals — distinct from science's bench research (a coupling),
+      // population's demographics (a coupling), technology's edtech tooling (a
+      // coupling), and economy's workforce macro (a coupling).
+      enrollmentTrend:            _num(_bedm.enrollmentTrend),
+      studentOutcomeTrend:        _num(_bedm.studentOutcomeTrend),
+      credentialValueTrend:       _num(_bedm.credentialValueTrend),
+      teacherCapacityTrend:       _num(_bedm.teacherCapacityTrend),
+      accessEquityGap:            _num(_bedm.accessEquityGap),
+      debtBurdenTrend:            _num(_bedm.debtBurdenTrend),
+      curriculumModernizationTrend: _num(_bedm.curriculumModernizationTrend),
+      stemWorkforcePipelineTrend: _num(_bedm.stemWorkforcePipelineTrend != null ? _bedm.stemWorkforcePipelineTrend : _bedm.stemPipelineTrend),
+      credentialDevaluationRisk:  _num(_bedm.credentialDevaluationRisk),
+      domainDiagnosisPacket: _emO(_bedm.domainEducationPacket) || _emO(_bedm.domainDiagnosisPacket)
     } : null;
 
     // Feed health. Configured count is the MAX of every honest declaration

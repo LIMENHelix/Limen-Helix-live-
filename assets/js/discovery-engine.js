@@ -279,7 +279,37 @@
     { label: 'Explore journalism-sustainability and local-news-desert mitigation as information-dissemination resilience (NYT/NWSA digital-subscription models, newsroom-capacity collapse early-warning)', domain: 'communication', type: 'economic-opportunity', baseRelevance: 0.35 },
     { label: 'Investigate broadcast & streaming distribution-channel disruption and bundle-disintermediation economics (CMCSA/CHTR pay-TV erosion, streaming-platform distribution shift, carriage & retransmission dynamics)', domain: 'communication', type: 'economic-opportunity', baseRelevance: 0.40 },
     { label: 'Analyze network cyber-physical attack surface across telecom backbones, undersea cables and routing infrastructure (BGP-hijack & DNS resilience, CSCO/ANET firmware hardening, CISA KEV telecom exposure)', domain: 'communication', type: 'system-risk', baseRelevance: 0.45 },
-    { label: 'Investigate public-discourse infrastructure and information-integrity counter-narrative systems for civic-information resilience (cross-platform provenance, authenticated-content standards, META/GOOGL distribution transparency)', domain: 'communication', type: 'scientific-discovery', baseRelevance: 0.40 }
+    { label: 'Investigate public-discourse infrastructure and information-integrity counter-narrative systems for civic-information resilience (cross-platform provenance, authenticated-content standards, META/GOOGL distribution transparency)', domain: 'communication', type: 'scientific-discovery', baseRelevance: 0.40 },
+
+    // Education (mirrors Energy/Infrastructure/Health/Finance structure, translated to schooling & learning-system concepts —
+    //   Energy seeds focus on storage/grid/renewable ARCHITECTURES; education seeds focus on ENROLLMENT-DEMAND,
+    //   STUDENT-OUTCOMES, TEACHER-WORKFORCE, EDUCATION-FUNDING, STUDENT-DEBT and CREDENTIAL-VALUE economics:
+    //   storage→enrollment-pipeline & funding-buffer resilience, distributed-grid→school/district-network & teacher-workforce
+    //   topology, transition→edtech-adoption & care-model (online/hybrid) shift resilience, attack-surface→funding-cut /
+    //   learning-loss / debt-default early-warning. Relevance = education stress x trend boost.
+    //   Education RECEIVES 11 cross-domain stress signals (infrastructure/economy/culture/research/intelligence/supplyChain/
+    //   environment/industry/agriculture/communication/health) but historically EMITTED ZERO discoveries — these seeds restore
+    //   the symmetry so education feeds the discovery engine back.
+    //   identity = K-12 schools & higher-ed colleges/universities, edtech & online learning, student outcomes & literacy,
+    //   teaching & curriculum design, education funding & access/equity, workforce training & skills, credentialing &
+    //   enrollment, student debt & financing;
+    //   bind to NCES enrollment & assessment data, NSF science-education indicators, BLS OES workforce series, graduation &
+    //   credential-award rates, student-loan delinquency data;
+    //   universe: CHGG/COUR/DUOL/LRN/ATGE/LOPE/STRA/LAUR/TWOU/UTI — real education-sector tickers only;
+    //   couples to research/science via knowledge-production (a coupling, not the identity), to technology via edtech tooling
+    //   (a coupling), to population via demographic/enrollment trends (a coupling), and to economy via workforce output
+    //   (a coupling); keeps education identity = schools/learning/teaching/credentials, NEVER energy oil/gas/grid content)
+    { label: 'Investigate student-outcome recovery and learning-loss quantification post-disruption for achievement-trajectory resilience (NCES learning-assessments & NAEP score-recovery modeling, achievement-trajectory forecasting, intervention-ROI tracking)', domain: 'education', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Explore teacher-workforce pipeline and alternative-certification ROI for staffing-continuity resilience (BLS OES educator labor data, career-switcher & residency programs, CHGG/COUR teacher-preparation & credentialing pathways)', domain: 'education', type: 'economic-opportunity', baseRelevance: 0.40 },
+    { label: 'Analyze K-12 funding fragility and state-budget-cut contagion early-warning (property-tax dependency, federal-aid volatility & ESSER cliff, per-pupil-funding compression across districts)', domain: 'education', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Investigate higher-ed enrollment-demand and credential-value arbitrage for demographic-cohort demand modeling (NCES enrollment trends, online-degree cost advantage & employer-recognition shift, LOPE/STRA/ATGE/LAUR degree-awarding volatility)', domain: 'education', type: 'economic-opportunity', baseRelevance: 0.40 },
+    { label: 'Explore edtech adoption ROI and learning-outcome efficacy for adaptive-instruction innovation (DUOL/COUR personalized-learning & learning-analytics prediction, digital-divide early-warning, efficacy-vs-engagement measurement)', domain: 'education', type: 'scientific-discovery', baseRelevance: 0.40 },
+    { label: 'Analyze student-debt and income-driven-repayment sustainability for default-contagion early-warning (student-loan delinquency data, public-service-loan-forgiveness stress, repayment-resumption shock modeling)', domain: 'education', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Investigate achievement-gap drivers and equity-access interventions for outcome-equity research (poverty-correlation, language-access & EL resourcing, special-ed funding adequacy, NCES disaggregated-outcome analysis)', domain: 'education', type: 'scientific-discovery', baseRelevance: 0.40 },
+    { label: 'Explore skills-mismatch labor-pipeline and vocational-training modernization for workforce-supply resilience (BLS OES skill-demand vs credential-supply, apprenticeship-expansion & credential-stackability, UTI/STRA career-and-technical training ROI)', domain: 'education', type: 'economic-opportunity', baseRelevance: 0.40 },
+    { label: 'Analyze curriculum-modernization pace and STEM-literacy gap closure for instructional-relevance risk (NSF science-education indicators, computer-science adoption K-12, quantitative-literacy assessment, LRN/COUR STEM-curriculum delivery)', domain: 'education', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Investigate school-facility deferred-maintenance and infrastructure-modernization ROI for learning-environment resilience (lead-pipe remediation, broadband-access & digital-divide buildout, climate-resilience retrofits, capital-backlog valuation)', domain: 'education', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Explore credentialing & enrollment volatility and graduation-rate stability for pipeline-throughput early-warning (K-12 graduation rates, higher-ed completion & stop-out modeling, professional-cert demand, TWOU/COUR/LAUR program-completion economics)', domain: 'education', type: 'economic-opportunity', baseRelevance: 0.40 }
   ];
 
   // ─── State ───────────────────────────────────────────────────────────────

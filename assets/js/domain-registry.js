@@ -371,13 +371,61 @@
       analystEnabled: true,
       connectomeNodes: [20, 12],  // HIPP + DLPFC
       feeds: [
-        { name: 'World Bank Education', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.worldbank.org/v2/country/all/indicator/SE.XPD.TOTL.GD.ZS?format=json' },
-        { name: 'OpenAlex Institutions', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.openalex.org/institutions' },
-        { name: 'ED.gov News', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.ed.gov/feed' },
-        { name: 'NCES News', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'nces.ed.gov/whatsnew/whatsnew.rss' },
-        { name: 'EdWeek News', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.edweek.org/feed' },
-        { name: 'IES News', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'ies.ed.gov/whatsnew/whatsnew.rss' },
-        { name: 'Chronicle of Higher Ed', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.chronicle.com/feed' }
+        // ── Enrollment / cost / outcome anchors (the education "crude price" baseline) ──
+        // Education equivalent of energy's EIA/FRED commodity anchors: instead of oil/gas
+        // spot prices, education's quantitative spine is the FEDERAL EDUCATION DATA COMPLEX —
+        // NCES IPEDS institution-level enrollment/completion/debt/earnings (the daily "crude"
+        // of education), NAEP proficiency trend (the directional outcome signal), and FRED
+        // student-loan / federal-aid time series (the cost / debt-level anchor). Every
+        // endpoint is a REAL public/government or exchange source and every ticker is a REAL
+        // listed education-sector equity (never fabricated). This closes the registry
+        // asymmetry where education had only news/qualitative anchors (ED.gov/NCES/EdWeek) and
+        // no live enrollment/outcome/cost price-discovery anchor like energy. Workforce/skills
+        // (economy), research output (science), demographics (population) and edtech tooling
+        // (technology) remain COUPLINGS, not education's own content.
+        // -- Enrollment / completion / debt / earnings discovery (NCES IPEDS — the "crude price" of education) --
+        { name: 'NCES IPEDS Data', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'nces.ed.gov/ipeds/use-the-data', feedClass: 'enrollment_outcome', metric: 'ipeds' },        // IPEDS institution-level enrollment/completion/debt/earnings — the education "crude" anchor (mirrors EIA Petroleum LIVE role)
+        { name: 'Urban Institute Education Data API (IPEDS)', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'educationdata.urban.org/api/v1/college-university/ipeds/enrollment-full-time-equivalent/', feedClass: 'enrollment_outcome', metric: 'enrollment' }, // machine-readable IPEDS enrollment/completion mirror — programmatic enrollment trend-line
+        { name: 'College Scorecard (Dept of Ed)', apiKey: 'DATA_GOV_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.data.gov/ed/collegescorecard/v1/schools', feedClass: 'enrollment_outcome', metric: 'cost_debt_earnings' }, // institution-level net price / debt / post-grad earnings — cost & outcome price discovery
+        { name: 'NCES NAEP Data (proficiency)', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.nationsreportcard.gov/ndecore/xplore/NDE', feedClass: 'outcome_quality', metric: 'naep' }, // National Assessment of Educational Progress reading/math proficiency by state — directional student-outcome signal (mirrors USDA WASDE supply-balance trend)
+        { name: 'NCES CCD (K-12)', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'educationdata.urban.org/api/v1/schools/ccd/enrollment/', feedClass: 'enrollment_outcome', metric: 'k12_enrollment' }, // Common Core of Data — K-12 public-school enrollment/staffing headcount
+        // -- Cost / debt / aid level (FRED student-loan & federal-aid series — the directional cost anchor) --
+        { name: 'FRED Student Loans Outstanding', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=SLOAS', feedClass: 'cost_debt', metric: 'student_debt' }, // total student loans owned & securitized — student-debt level anchor (mirrors FRED Crude Oil LIVE)
+        { name: 'FRED Tuition CPI', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=CUSR0000SEEB', feedClass: 'cost_debt', metric: 'tuition_cpi' }, // CPI college tuition & fees — tuition cost-level trend
+        { name: 'FRED State & Local Education Spending', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=SLEXPND', feedClass: 'education_finance', metric: 'public_spend' }, // state & local govt education expenditures — per-pupil / appropriations macro anchor (mirrors FRED macro anchors)
+        { name: 'FRED Education Services Employment', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=USEDU', feedClass: 'education_finance', metric: 'sector_employment' }, // private education-services payroll employment — sector capacity level
+        // -- Teacher / education-sector labor demand (BLS — workforce capacity signal) --
+        { name: 'BLS Education Employment Projections', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.bls.gov/publicAPI/v2/timeseries/data/', feedClass: 'labor_demand', metric: 'teacher_demand' }, // BLS education-occupation employment projections — teacher/paraprofessional demand trend
+        // ── Education-sector industrial base (REAL listed equities, never fabricated) ──
+        // Per-name equities for the education industrial base; the company analogue of
+        // energy's commodity anchors. Tickers are REAL: CHGG/COUR/DUOL/LRN/ATGE/LOPE/STRA/LAUR/TWOU/UTI.
+        { name: 'Polygon.io CHGG', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/CHGG/prev', feedClass: 'edtech', ticker: 'CHGG' },  // Chegg — prime (online learning / homework & study support)
+        { name: 'Polygon.io COUR', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/COUR/prev', feedClass: 'edtech', ticker: 'COUR' },  // Coursera — prime (MOOC / online higher-ed & professional certificates)
+        { name: 'Polygon.io DUOL', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/DUOL/prev', feedClass: 'edtech', ticker: 'DUOL' },  // Duolingo — prime (mobile language learning / consumer edtech)
+        { name: 'Polygon.io TWOU', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/TWOU/prev', feedClass: 'edtech', ticker: 'TWOU' },  // 2U — prime (online program management / university partnerships)
+        { name: 'Polygon.io LRN', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/LRN/prev', feedClass: 'k12_provider', ticker: 'LRN' },    // Stride (K12 Inc) — prime (online K-12 / virtual schools)
+        { name: 'Polygon.io ATGE', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/ATGE/prev', feedClass: 'higher_ed', ticker: 'ATGE' }, // Adtalem Global Education — prime (medical/healthcare/professional higher-ed)
+        { name: 'Polygon.io LOPE', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/LOPE/prev', feedClass: 'higher_ed', ticker: 'LOPE' }, // Grand Canyon Education — prime (university services / online higher-ed)
+        { name: 'Polygon.io STRA', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/STRA/prev', feedClass: 'higher_ed', ticker: 'STRA' }, // Strategic Education — prime (Strayer/Capella / working-adult degrees)
+        { name: 'Polygon.io LAUR', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/LAUR/prev', feedClass: 'higher_ed', ticker: 'LAUR' }, // Laureate Education — prime (international higher-ed networks)
+        { name: 'Polygon.io UTI', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/UTI/prev', feedClass: 'vocational', ticker: 'UTI' },     // Universal Technical Institute — prime (vocational / skilled-trade training)
+        // ── Regulatory / compliance / accreditation anchors (institutional-quality framework) ──
+        // The education analogue of energy's FERC/NERC rulemaking + reliability feeds: federal
+        // Dept-of-Ed rulemaking, Office of Federal Student Aid (Title-IV) compliance, and
+        // accreditor enforcement notices — the "institutional-quality" composite (mirrors
+        // governance's WGI/V-Dem and energy's NERC/ISO-RTO institutional anchors).
+        { name: 'Federal Register Dept of Education', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.federalregister.gov/api/v1/documents.json?conditions[agencies][]=education-department', feedClass: 'regulatory', metric: 'ed_rulemaking' }, // ED rulemaking incl. gainful-employment / Title-IV (mirrors FERC rulemaking feeds)
+        { name: 'Federal Student Aid (Title-IV)', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'studentaid.gov/data-center/school', feedClass: 'compliance', metric: 'title_iv' }, // OFSA Title-IV program-participation / compliance & cohort default rates — federal-aid pipeline integrity
+        { name: 'CHEA Accreditation Database', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.chea.org/search-institutions', feedClass: 'accreditation', metric: 'accreditor_status' }, // CHEA recognized accreditor / institution status — accreditation institutional-quality anchor (mirrors NERC reliability)
+        { name: 'HLC Accreditation Actions', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.hlcommission.org/Student-Resources/directory-of-hlc-institutions.html', feedClass: 'accreditation', metric: 'probation_revocation' }, // Higher Learning Commission probation/revocation actions — accreditor enforcement signal
+        // ── Qualitative signals (govt / sector news / global context — retained) ──
+        { name: 'World Bank Education', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.worldbank.org/v2/country/all/indicator/SE.XPD.TOTL.GD.ZS?format=json', feedClass: 'global_context' }, // global education-spend % GDP context (retained)
+        { name: 'OpenAlex Institutions', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.openalex.org/institutions', feedClass: 'institution_registry' }, // institution registry / scholarly footprint (retained)
+        { name: 'ED.gov News', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.ed.gov/feed', feedClass: 'sector_news' }, // Dept of Education releases — policy / regulation (retained)
+        { name: 'NCES News', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'nces.ed.gov/whatsnew/whatsnew.rss', feedClass: 'sector_news' }, // NCES statistics releases (retained)
+        { name: 'EdWeek News', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.edweek.org/feed', feedClass: 'sector_news' }, // K-12 trade press — sentiment / on-ground conditions (retained)
+        { name: 'IES News', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'ies.ed.gov/whatsnew/whatsnew.rss', feedClass: 'sector_news' }, // Institute of Education Sciences research releases (retained)
+        { name: 'Chronicle of Higher Ed', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.chronicle.com/feed', feedClass: 'sector_news' } // higher-ed trade press — sector sentiment (retained)
       ],
       diagnostics: [],
       treatments: [],

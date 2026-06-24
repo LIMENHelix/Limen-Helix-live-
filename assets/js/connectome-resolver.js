@@ -596,7 +596,27 @@ var MACRO_POLICY_PATH = {
   cms_payment_rule_change:         { connectomeDomains: ['medicine', 'governance', 'finance'], indicators: ['HospitalOccupancy', 'HospitalBedAvail', 'SurgicalCapacityUtil'], sources: ['CMS.gov Payment Rule (OPPS/PFS)', 'OMB Regulatory Review', 'CMS Hospital Quality Reporting'] },
   fda_enforcement_action:          { connectomeDomains: ['medicine', 'governance'],            indicators: ['FDAAdverseEvents', 'FDAPharmacyRecall', 'FDAApprovalRate'],     sources: ['FDA.gov Enforcement Report', 'openFDA Adverse Events', 'FDA Drug Approvals'] },
   medicaid_expansion:              { connectomeDomains: ['medicine', 'governance', 'economy'], indicators: ['InsuranceMLR', 'ClaimsApprovalRate'],                          sources: ['State Medicaid Agency', 'CMS Medicaid & CHIP', 'HHS Coverage Data'] },
-  health_it_certification_mandate: { connectomeDomains: ['medicine', 'technology', 'governance'], indicators: ['DiagnosticVolume', 'DiagnosticTAT'],                        sources: ['ONC.gov Health-IT Certification', 'CMS Interoperability Rule', 'HHS HITECH'] }
+  health_it_certification_mandate: { connectomeDomains: ['medicine', 'technology', 'governance'], indicators: ['DiagnosticVolume', 'DiagnosticTAT'],                        sources: ['ONC.gov Health-IT Certification', 'CMS Interoperability Rule', 'HHS HITECH'] },
+  // Education (education gap 4 — ADDITIVE, OPT-IN) = U.S. Dept of Education / state-education-
+  // agency / accreditor / Federal Student Aid regulatory shocks. The existing FEED_TO_CONNECTOME
+  // ['education'] = ['education'] mapping routes ALL education stress through the same path
+  // regardless of policy origin; these sub-paths let an education-regulation shock route to the
+  // CORRECT education nodes + governance (for funding/accreditation authority). These are PURE
+  // education-policy mechanics (Title I funding, PELL/special-ed appropriation, K-12 curriculum
+  // mandates, accreditation rules, student-debt forgiveness) — NOT energy. Education policy
+  // shocks originate in education-regulation AUTHORITY (state K-12 boards, accreditors, Federal
+  // Student Aid) — distinct from energy regulation (FERC, PUCs); energy is never part of the
+  // signal chain (campus power is an infrastructure consequence of facility occupancy). 'economy'
+  // is added on K-12 funding (spending → employment / consumption multiplier); 'finance' on
+  // higher-ed regulation (affordability → tuition cashflow); 'population' on student debt
+  // (debt burden → demographic/household formation). Indicator keys reference
+  // EDUCATION_INDICATOR_BINDING. Resolved via resolveEducationPolicyPath.
+  //   education_k12_funding          = Title I / special-ed / free-lunch funding → K-12 capacity
+  //   education_higher_ed_regulation = accreditation / affordability / grad-outcome rules
+  //   education_student_debt         = student-loan delinquency / balances / forgiveness volumes
+  education_k12_funding:          { connectomeDomains: ['education', 'governance', 'economy'],   indicators: ['NAEPMath', 'NAEPReading', 'NCESLiteracy', 'TeacherVacancy'], sources: ['U.S. Dept of Education', 'State Education Agency', 'OMB Education Appropriations'] },
+  education_higher_ed_regulation: { connectomeDomains: ['education', 'governance', 'finance'],   indicators: ['NCESGradRate', 'NCESEnrollment', 'AdmissionsYield', 'EdtechEnrollment'], sources: ['ACCJC', 'SACSCOC', 'Federal Student Aid'] },
+  education_student_debt:         { connectomeDomains: ['education', 'finance', 'population'],    indicators: ['StudentLoanDelinquency', 'StudentLoanBalance'],              sources: ['Federal Student Aid', 'CFPB Student Loans Report'] }
 };
 
 // ── INTELLIGENCE-SECTOR INDICATOR bindings (intelligence gap 3 — ADDITIVE) ──
@@ -919,6 +939,123 @@ for (var _agik in AGRICULTURE_INDICATOR_BINDING) {
   var _agib = AGRICULTURE_INDICATOR_BINDING[_agik];
   if (!NODE_TO_AGRICULTURE_INDICATOR[_agib.node]) NODE_TO_AGRICULTURE_INDICATOR[_agib.node] = [];
   NODE_TO_AGRICULTURE_INDICATOR[_agib.node].push(_agib);
+}
+
+// ── EDUCATION-SECTOR (SCHOOLS / UNIVERSITIES / EDTECH / SKILLS / COURSEWARE) COMPANY ticker bindings (education gap 1 — ADDITIVE, OPT-IN) ──
+// Parallel to TECH_COMPANY_BINDING, INTELLIGENCE_COMPANY_BINDING, TRADE_COMPANY_BINDING,
+// INDUSTRIAL_COMPANY_BINDING, ENVIRONMENT_SECTOR_COMPANY_BINDING, GOVERNANCE_COMPANY_BINDING
+// and AGRICULTURE_COMPANY_BINDING (and to MACRO_INDICATOR_BINDING). NOT merged into the
+// default resolve() pipeline and NOT included in NODE_TO_MACRO_INDICATOR — consumed ONLY
+// when a context explicitly triggers an education-company-level drill
+// (getEducationCompaniesForNode / EDUCATION_COMPANY_BINDING export). Each ticker traces
+// TEACHING / LEARNING / CREDENTIALING CAPACITY to a REAL education connectome node (nodes
+// are the actual education-domain participations in brain-node-domains.json under the
+// 'education' domain: dlPFC=curriculum design/pedagogy, vlPFC=student-outcome trend
+// analysis/research, mPFC=enrollment/admissions demographic analysis, AI=assessment &
+// diagnostics, V1=student access / admissions-equity / digital inclusion, VP=credentialing
+// & recruitment infrastructure, STRI=education-system operations / application process,
+// NAcc=student motivation / scenario planning, THAL=education distribution channels /
+// admissions-equity capacity, BLA=human-capital / admissions adaptation, AG=higher
+// education, BROCA=K-12 teaching). Ticker stress (dir 'low' for all — stress on decline)
+// estimates a TEACHING/LEARNING-CAPACITY DEGRADATION that is PURE education identity: a
+// CHGG/COUR/DUOL/TWOU decline = online-learning / edtech enrollment & engagement contracts
+// → digital-access reach falls; an LRN decline = K-12 virtual-school / curriculum delivery
+// pulls back; an ATGE/LOPE/STRA/LAUR decline = higher-ed / university enrollment & degree
+// throughput softens; a PSO decline = courseware / assessment-content supply tightens; a
+// UTI decline = vocational / skills-training capacity contracts. This is EDUCATION identity
+// = schools & universities (K-12 + higher ed), edtech & online learning, student outcomes &
+// literacy, teaching & curriculum, education funding & access/equity, workforce training &
+// skills, credentialing & enrollment, student debt — DISTINCT from science (research is the
+// science domain), population (demographics is a coupling), technology (edtech tooling is a
+// coupling routed via TECH_COMPANY_BINDING) and economy (workforce/tuition is a coupling).
+// ENERGY is ZERO education identity: edtech platform scaling → data-center load is facility-
+// operations coupling (infrastructure domain), training-volume spikes are education-signal
+// CONSEQUENCES of enrollment demand, never energy-supply constraints; education nodes carry
+// zero energy-domain content and never originate an education-to-energy edge. REAL
+// education-sector tickers only.
+//   CHGG → online learning / homework help        COUR → MOOC / online-course platform
+//   DUOL → language-learning / engagement app      TWOU → online-program management (OPM)
+//   LRN  → K-12 virtual schools (Stride)           PSO → courseware / assessment content (Pearson)
+//   ATGE → for-profit higher ed (Adtalem)          LOPE → university (Grand Canyon Education)
+//   STRA → university (Strategic Education)         LAUR → global higher ed (Laureate)
+//   UTI  → vocational / skills training (Universal Technical Institute)
+var EDUCATION_COMPANY_BINDING = {
+  CHGG: { series: 'CHGG', node: 'AI',    role: 'Online-Learning / Assessment & Diagnostics Capacity', nodeRole: 'Assessment — Diagnostic Analysis',     label: 'Chegg',                       threshold: -19, dir: 'low', kind: 'ticker', industry: 'edtech' },
+  COUR: { series: 'COUR', node: 'V1',    role: 'MOOC Platform / Student-Access Reach',                nodeRole: 'Student Access — Digital Inclusion',   label: 'Coursera',                    threshold: -18, dir: 'low', kind: 'ticker', industry: 'edtech' },
+  DUOL: { series: 'DUOL', node: 'NAcc',  role: 'Learning-App Engagement / Student Motivation',        nodeRole: 'Student Motivation & Engagement',      label: 'Duolingo',                    threshold: -20, dir: 'low', kind: 'ticker', industry: 'edtech' },
+  TWOU: { series: 'TWOU', node: 'THAL',  role: 'Online-Program-Management Distribution Capacity',     nodeRole: 'Education Distribution Channels',       label: '2U',                          threshold: -22, dir: 'low', kind: 'ticker', industry: 'edtech' },
+  LRN:  { series: 'LRN',  node: 'mPFC',  role: 'K-12 Virtual-School Enrollment / Admissions Reach',   nodeRole: 'Enrollment & Admissions',              label: 'Stride (K12)',                threshold: -17, dir: 'low', kind: 'ticker', industry: 'edtech' },
+  PSO:  { series: 'PSO',  node: 'dlPFC', role: 'Courseware / Curriculum & Pedagogy Supply',           nodeRole: 'Curriculum Design / Pedagogy',         label: 'Pearson',                     threshold: -16, dir: 'low', kind: 'ticker', industry: 'courseware' },
+  ATGE: { series: 'ATGE', node: 'STRI',  role: 'For-Profit Higher-Ed System Operations',              nodeRole: 'Education-System Operations',          label: 'Adtalem Global Education',    threshold: -18, dir: 'low', kind: 'ticker', industry: 'higher-ed' },
+  LOPE: { series: 'LOPE', node: 'VP',    role: 'University Credentialing / Degree Output',             nodeRole: 'Credentialing & Recruitment',          label: 'Grand Canyon Education',      threshold: -19, dir: 'low', kind: 'ticker', industry: 'higher-ed' },
+  STRA: { series: 'STRA', node: 'vlPFC', role: 'University Student-Outcome / Completion Research',     nodeRole: 'Student-Outcome Trend Analysis',       label: 'Strategic Education',         threshold: -18, dir: 'low', kind: 'ticker', industry: 'higher-ed' },
+  LAUR: { series: 'LAUR', node: 'BLA',   role: 'Global Higher-Ed Human-Capital Capacity',             nodeRole: 'Admissions — Adaptation & Learning',   label: 'Laureate Education',          threshold: -20, dir: 'low', kind: 'ticker', industry: 'higher-ed' },
+  UTI:  { series: 'UTI',  node: 'VP',    role: 'Vocational / Skills-Training Credentialing Capacity', nodeRole: 'Credentialing & Recruitment',          label: 'Universal Technical Institute', threshold: -21, dir: 'low', kind: 'ticker', industry: 'skills' }
+};
+
+// Reverse lookup: connectome node → education-sector company tickers it sources from
+// (opt-in education-company drill, parallel to NODE_TO_AGRICULTURE_COMPANY).
+var NODE_TO_EDUCATION_COMPANY = {};
+for (var _edk in EDUCATION_COMPANY_BINDING) {
+  if (!Object.prototype.hasOwnProperty.call(EDUCATION_COMPANY_BINDING, _edk)) continue;
+  var _edb = EDUCATION_COMPANY_BINDING[_edk];
+  if (!NODE_TO_EDUCATION_COMPANY[_edb.node]) NODE_TO_EDUCATION_COMPANY[_edb.node] = [];
+  NODE_TO_EDUCATION_COMPANY[_edb.node].push(_edb);
+}
+
+// ── EDUCATION-SECTOR INDICATOR bindings (education gap 2 — ADDITIVE, OPT-IN) ──
+// Parallel structure to MACRO_INDICATOR_BINDING (economy gap 1) and AGRICULTURE_INDICATOR_
+// BINDING (agriculture gap 2), but for PURE education-domain signals: U.S. Department of
+// Education NCES (National Center for Education Statistics) enrollment / graduation /
+// literacy data, NAEP (National Assessment of Educational Progress) test scores, student-
+// loan delinquency (FFELP / Direct loan data), edtech-company subscriber metrics, college-
+// admissions yield, degree-completion rates and teacher-vacancy indices. Binds each REAL
+// education metric to the education connectome node that senses it, so the kernel/reporting/
+// diagnosis layers can drill from abstract 'education stress' into the ACTUAL education
+// signal that triggered it (e.g. curriculum node lit → NAEP math score drop → pedagogy-
+// effectiveness shock origin; credentialing node lit → NCES graduation-rate decline →
+// degree-output shortfall). These strictly measure EDUCATION identity: learning outcomes,
+// student access/reach, credentialing output, human-capital supply, education-system
+// solvency (student debt). Student-loan stress is education-FINANCE coupling (to economy /
+// finance domains); teacher-shortage is education-WORKFORCE coupling (to population domain) —
+// they appear here ONLY as the education-sector SIGNAL, never as the coupled domain's signal.
+// NEVER energy production or grid metrics — campus power/cooling load is an INFRASTRUCTURE
+// consequence of facility occupancy, never an education-sector stress signal; education nodes
+// carry zero energy-domain content. Annotation/registry metadata ONLY — the resolver does NOT
+// score these.
+//   threshold = the level above/below which the node is considered stressed.
+//   dir = 'high' (stress when ABOVE threshold) | 'low' (stress when BELOW).
+//   kind = 'nces' (NCES enrollment/graduation/literacy) | 'naep' (NAEP test scores) |
+//          'debt' (student-loan delinquency / balances) | 'edtech' (edtech subscriber/
+//          enrollment metrics) | 'access' (admissions yield / equity / teacher vacancy).
+var EDUCATION_INDICATOR_BINDING = {
+  // ── NAEP test scores (learning-outcome decline = curriculum-effectiveness stress) ──
+  NAEPMath:    { series: 'NAEPMath',    node: 'dlPFC', role: 'NAEP Mathematics Score',    nodeRole: 'Curriculum Design / Pedagogy',         label: 'NAEP Mathematics Assessment', threshold: -3, dir: 'low', kind: 'naep', policyPath: 'education_k12_funding' },
+  NAEPReading: { series: 'NAEPReading', node: 'vlPFC', role: 'NAEP Reading / Literacy Score', nodeRole: 'Student-Outcome Trend Analysis',     label: 'NAEP Reading Assessment',     threshold: -3, dir: 'low', kind: 'naep', policyPath: 'education_k12_funding' },
+  // ── NCES enrollment / graduation / completion (output decline = credentialing stress) ──
+  NCESGradRate:    { series: 'NCESGradRate',    node: 'VP',   role: 'High-School / Degree Graduation Rate', nodeRole: 'Credentialing & Recruitment', label: 'NCES Graduation Rate',         threshold: -2, dir: 'low', kind: 'nces', policyPath: 'education_higher_ed_regulation' },
+  NCESEnrollment:  { series: 'NCESEnrollment',  node: 'mPFC', role: 'Postsecondary Enrollment',             nodeRole: 'Enrollment & Admissions',     label: 'NCES Total Enrollment',        threshold: -3, dir: 'low', kind: 'nces', policyPath: 'education_higher_ed_regulation' },
+  NCESLiteracy:    { series: 'NCESLiteracy',    node: 'AI',   role: 'Adult Literacy / Numeracy Rate',       nodeRole: 'Assessment & Diagnostics',    label: 'NCES Adult Literacy (PIAAC)',  threshold: -2, dir: 'low', kind: 'nces', policyPath: 'education_k12_funding' },
+  // ── Student-loan stress (delinquency/balance spike = education-system solvency stress) ──
+  StudentLoanDelinquency: { series: 'StudentLoanDelinquency', node: 'STRI', role: 'Student-Loan Delinquency Rate', nodeRole: 'Education-System Operations', label: 'Federal Student Aid Delinquency', threshold: 9, dir: 'high', kind: 'debt', policyPath: 'education_student_debt' },
+  StudentLoanBalance:     { series: 'StudentLoanBalance',     node: 'NAcc', role: 'Outstanding Student-Loan Balance', nodeRole: 'Scenario Planning / Motivation', label: 'FFELP/Direct Loan Balance',     threshold: 8, dir: 'high', kind: 'debt', policyPath: 'education_student_debt' },
+  // ── Edtech subscriber / enrollment metrics (engagement drop = access/reach stress) ──
+  EdtechEnrollment: { series: 'EdtechEnrollment', node: 'mPFC', role: 'Edtech Active-Learner Enrollment', nodeRole: 'Enrollment & Admissions / Reach', label: 'Edtech Active-Learner Index',  threshold: -5, dir: 'low', kind: 'edtech', policyPath: 'education_higher_ed_regulation' },
+  EdtechEngagement: { series: 'EdtechEngagement', node: 'NAcc', role: 'Edtech Engagement / Retention',    nodeRole: 'Student Motivation & Engagement', label: 'Edtech Engagement Index',      threshold: -6, dir: 'low', kind: 'edtech', policyPath: 'education_higher_ed_regulation' },
+  // ── Admissions yield / access equity (yield collapse = higher-ed admissions stress) ──
+  AdmissionsYield: { series: 'AdmissionsYield', node: 'V1', role: 'College-Admissions Yield / Access',     nodeRole: 'Student Access — Digital Inclusion', label: 'College Admissions Yield',  threshold: -4, dir: 'low', kind: 'access', policyPath: 'education_higher_ed_regulation' },
+  // ── Teacher-vacancy index (human-capital shortfall = teaching-capacity stress) ──
+  TeacherVacancy: { series: 'TeacherVacancy', node: 'BLA', role: 'Teacher-Vacancy / Human-Capital Index', nodeRole: 'Admissions — Adaptation & Learning', label: 'Teacher Vacancy Index (NCES)', threshold: 7, dir: 'high', kind: 'access', policyPath: 'education_k12_funding' }
+};
+
+// Reverse lookup: connectome node → education indicators it senses
+// (parallel to NODE_TO_AGRICULTURE_INDICATOR; for diagnosis drill-down).
+var NODE_TO_EDUCATION_INDICATOR = {};
+for (var _edik in EDUCATION_INDICATOR_BINDING) {
+  if (!Object.prototype.hasOwnProperty.call(EDUCATION_INDICATOR_BINDING, _edik)) continue;
+  var _edib = EDUCATION_INDICATOR_BINDING[_edik];
+  if (!NODE_TO_EDUCATION_INDICATOR[_edib.node]) NODE_TO_EDUCATION_INDICATOR[_edib.node] = [];
+  NODE_TO_EDUCATION_INDICATOR[_edib.node].push(_edib);
 }
 
 // ── COMMUNICATION-SECTOR (TELECOM / MEDIA / BROADCASTING / PLATFORMS) COMPANY ticker bindings (communication gap 1 — ADDITIVE, OPT-IN) ──
@@ -1639,7 +1776,7 @@ function resolvePolicyPath(path, stress) {
   // references INTELLIGENCE_INDICATOR_BINDING — check both so each policy path
   // resolves its own registry. (Additive: pre-existing fiscal/monetary unchanged.)
   var indSet = cfg.indicators.map(function(id) {
-    return MACRO_INDICATOR_BINDING[id] || INTELLIGENCE_INDICATOR_BINDING[id] || TRADE_INDICATOR_BINDING[id];
+    return MACRO_INDICATOR_BINDING[id] || INTELLIGENCE_INDICATOR_BINDING[id] || TRADE_INDICATOR_BINDING[id] || EDUCATION_INDICATOR_BINDING[id];
   }).filter(Boolean);
   return {
     path: path,
@@ -1917,6 +2054,184 @@ function resolveAgricultureCircuit(stressTrigger, domain, context) {
     anchors: cfg.anchors.slice(),
     nodes: nodes
   };
+}
+
+// ═══════════════════════════════════════════════════
+// 6c-edu. EDUCATION CIRCUIT SEGREGATION (ADDITIVE — education gap 3, OPT-IN)
+// ═══════════════════════════════════════════════════
+// Education domain stress, by default, activates the generic 'education' node set with NO
+// differentiation of K-12 schools vs higher-ed vs edtech platforms vs workforce/skills
+// training vs student-debt pathways — and those have very different funding sources,
+// stress pathways and outcomes (a NAEP score drop ≠ a college-admissions collapse ≠ an
+// edtech churn spike ≠ a student-loan default surge). This routes an education stress
+// trigger to the correct sub-circuit (mirrors resolveAgricultureCircuit / resolveTradeSub
+// Circuit: a separate opt-in entry point; the default resolve() pipeline is unchanged; no
+// scoring). Culture routes THROUGH education (civilization-connectome culture→
+// ['culture','religion','education']) but there is no reciprocal education→culture/economy
+// edge in the base map; these circuits make the education-side pathways explicit. Each
+// circuit is a SEPARATE stress pathway through different REAL 'education' nodes plus its
+// real ticker anchors + policy source. Real education tickers only. Each circuit carries an
+// energySignature note = ZERO: student-support infrastructure (libraries, labs, servers) is
+// a FACILITY coupling routed via the infrastructure domain; K-12 facility power is an
+// infrastructure concern, not an education signal. Education NEVER activates energy nodes —
+// only infrastructure + population (demographics) + economy (tuition/funding) couple, and
+// only as downstream CONSEQUENCES, never an education-to-energy edge.
+//   • K-12 schools     = teaching, curriculum, public funding. BLA → BROCA → S1 → dlPFC.
+//   • higher ed        = university research, admissions, degree output. AG → ANT → CC → vlPFC.
+//   • edtech platforms = online learning, engagement, access equity. AI → mPFC → NAcc → V1.
+//   • workforce/skills = vocational training, credentialing, labor alignment. dlPFC → STRI → VP → CC.
+var EDUCATION_CIRCUITS = {
+  k12_schools: {
+    label: 'K-12 schools circuit (teaching → curriculum → public funding)',
+    pathway: ['BLA', 'BROCA', 'S1', 'dlPFC'],
+    role: 'learning-delivery: human-capital-signal → K-12-teaching → secondary-assessment → curriculum-design',
+    energySignature: 'ZERO — school facility power/HVAC is an infrastructure consequence of building occupancy, never a K-12 education signal',
+    scalingModel: 'none',                            // K-12 education does not couple to energy
+    // Connectome domains the circuit lights up. Education is the home domain; 'governance' =
+    // the public-funding / school-board authority coupling, NOT education identity. Energy is
+    // never a home/feed domain here.
+    connectomeDomains: ['education', 'governance'],
+    triggers: ['teacher_shortage', 'naep_score_drop', 'k12_funding_cut', 'literacy_decline'],
+    anchors: ['LRN', 'PSO']
+  },
+  higher_ed: {
+    label: 'Higher-ed circuit (research → admissions → degree output)',
+    pathway: ['AG', 'ANT', 'CC', 'vlPFC'],
+    role: 'degree-throughput: higher-ed-signal → college-admissions → completion-quality → student-outcome-research',
+    energySignature: 'ZERO — campus power/cooling is an infrastructure consequence of facility occupancy, never a higher-ed education signal',
+    scalingModel: 'none',                            // higher ed does not couple to energy
+    connectomeDomains: ['education', 'finance'],
+    triggers: ['admissions_decline', 'enrollment_collapse', 'grad_rate_decline', 'tuition_affordability_shock'],
+    anchors: ['ATGE', 'LOPE', 'STRA', 'LAUR']
+  },
+  edtech_platforms: {
+    label: 'Edtech platforms circuit (online learning → engagement → access equity)',
+    pathway: ['AI', 'mPFC', 'NAcc', 'V1'],
+    role: 'digital-learning: assessment-signal → enrollment-reach → engagement-motivation → access-equity',
+    energySignature: 'ZERO — edtech platform scaling → data-center load is a facility-operations coupling (infrastructure domain), never an education-signal origin',
+    scalingModel: 'none',                            // edtech compute load is an infrastructure consequence, not an education-to-energy edge
+    connectomeDomains: ['education', 'technology'],
+    triggers: ['edtech_churn', 'engagement_drop', 'access_inequity', 'subscriber_decline'],
+    anchors: ['CHGG', 'COUR', 'DUOL', 'TWOU']
+  },
+  workforce_skills: {
+    label: 'Workforce / skills circuit (vocational training → credentialing → labor alignment)',
+    pathway: ['dlPFC', 'STRI', 'VP', 'CC'],
+    role: 'skills-supply: pedagogy-signal → training-operations → credentialing → labor-market-quality',
+    energySignature: 'ZERO — training-lab/server power is an infrastructure consequence of facility use, never a workforce-education signal',
+    scalingModel: 'none',                            // workforce/skills training does not couple to energy
+    connectomeDomains: ['education', 'economy'],
+    triggers: ['workforce_skills_gap', 'credential_devaluation', 'vocational_enrollment_drop', 'labor_misalignment'],
+    anchors: ['UTI', 'ATGE', 'LOPE']
+  }
+};
+
+// Reverse lookup: trigger source string → education circuit key (built once).
+var EDUCATION_TRIGGER_TO_CIRCUIT = {};
+for (var _edck in EDUCATION_CIRCUITS) {
+  if (!Object.prototype.hasOwnProperty.call(EDUCATION_CIRCUITS, _edck)) continue;
+  var _edtrg = EDUCATION_CIRCUITS[_edck].triggers || [];
+  for (var _edti = 0; _edti < _edtrg.length; _edti++) EDUCATION_TRIGGER_TO_CIRCUIT[_edtrg[_edti]] = _edck;
+}
+
+/**
+ * Route an education stress trigger to its circuit (K-12 schools / higher ed / edtech
+ * platforms / workforce skills) and emit the energy-signature note (ZERO) so downstream
+ * modeling knows education never couples to energy as a signal origin. OPT-IN; default
+ * resolve() is unchanged. No scoring. Mirrors resolveAgricultureCircuit.
+ * @param {String} stressTrigger - trigger source, e.g. 'teacher_shortage',
+ *        'admissions_decline', 'loan_default_spike', 'edtech_churn',
+ *        'workforce_skills_gap'; OR a circuit key 'k12_schools'|'higher_ed'|
+ *        'edtech_platforms'|'workforce_skills'; OR the convenience aliases
+ *        'admissions_decline'/'loan_default_spike'/'edtech_churn'/'workforce_training'.
+ * @param {String} [domain] - originating domain (expected 'education'); other domains
+ *        return an inactive result (this gap is education-specific).
+ * @param {Object} [context] - optional { stress:Number } raw stress [0..1] for activation.
+ * @returns {Object} { circuit, matched, label, pathway, role, energySignature,
+ *          scalingModel, connectomeDomains, anchors, nodes }
+ */
+function resolveEducationCircuit(stressTrigger, domain, context) {
+  var dom = domain || 'education';
+  var inactive = {
+    circuit: null, matched: false, trigger: stressTrigger || null, domain: dom,
+    label: '', pathway: [], role: '', energySignature: '', scalingModel: '',
+    connectomeDomains: [], anchors: [], nodes: []
+  };
+  // This gap is education-specific; never hijack another domain's stress.
+  if (dom !== 'education') return inactive;
+
+  // Convenience aliases so an advisory layer can pass a finance-style trigger name and
+  // still route to the right education circuit (per the EDUCATION_TRIGGER_TO_CIRCUIT spec).
+  var aliases = {
+    loan_default_spike: 'higher_ed',   // student-debt stress routes via the higher-ed solvency pathway
+    education_finance: 'higher_ed',
+    workforce_training: 'workforce_skills'
+  };
+
+  // Resolve which circuit: accept a direct key, a named trigger source, or an alias.
+  var key = null;
+  if (stressTrigger && EDUCATION_CIRCUITS[stressTrigger]) {
+    key = stressTrigger;
+  } else if (stressTrigger && EDUCATION_TRIGGER_TO_CIRCUIT[stressTrigger]) {
+    key = EDUCATION_TRIGGER_TO_CIRCUIT[stressTrigger];
+  } else if (stressTrigger && aliases[stressTrigger]) {
+    key = aliases[stressTrigger];
+  }
+  if (!key) return inactive;
+
+  var cfg = EDUCATION_CIRCUITS[key];
+  var s = (context && typeof context.stress === 'number') ? context.stress : 0;
+  // Reuse the existing activation engine by synthesizing one stressed feed domain per
+  // connectome domain on the circuit (education = home; governance/finance/technology/
+  // economy = the coupling targets). Energy is NEVER synthesized here — it is only a
+  // downstream CONSEQUENCE note (energySignature = ZERO), never an activated feed domain.
+  var synth = cfg.connectomeDomains.map(function(cd) { return { id: cd, stress: s, status: 'EDUCATION_CIRCUIT' }; });
+  var nodes = activateNodes(synth);
+
+  return {
+    circuit: key,
+    matched: true,
+    trigger: stressTrigger,
+    domain: dom,
+    label: cfg.label,
+    pathway: cfg.pathway.slice(),
+    role: cfg.role,
+    // Energy CONSEQUENCE signal (note + scaling model) — education carries ZERO energy
+    // identity; the only couplings are infrastructure/population/economy, never energy.
+    energySignature: cfg.energySignature,
+    scalingModel: cfg.scalingModel,
+    connectomeDomains: cfg.connectomeDomains.slice(),
+    anchors: cfg.anchors.slice(),
+    nodes: nodes
+  };
+}
+
+/**
+ * Resolve node activations for an education policy shock (K-12 funding / higher-ed
+ * regulation / student debt). Thin convenience wrapper over resolvePolicyPath that accepts
+ * a BARE policy name (e.g. 'k12_funding' or 'student_debt') and maps it to the namespaced
+ * MACRO_POLICY_PATH key ('education_k12_funding'). OPT-IN; default resolve() pipeline
+ * unchanged. No scoring. Education-specific — the signal ORIGIN is education-regulation
+ * authority (state K-12 boards, accreditors, Federal Student Aid), never energy.
+ * @param {String} policy - 'education_k12_funding' | 'education_higher_ed_regulation' |
+ *        'education_student_debt' (also accepts short aliases 'k12'/'k12_funding',
+ *        'higher_ed'/'higher_ed_regulation', 'student_debt'/'debt').
+ * @param {Number} stress - raw stress value [0..1] for this policy shock.
+ * @returns {Object} same shape as resolvePolicyPath.
+ */
+function resolveEducationPolicyPath(policy, stress) {
+  if (!policy) return resolvePolicyPath(policy, stress);
+  var aliases = {
+    k12: 'education_k12_funding',
+    k12_funding: 'education_k12_funding',
+    higher_ed: 'education_higher_ed_regulation',
+    higher_ed_regulation: 'education_higher_ed_regulation',
+    student_debt: 'education_student_debt',
+    debt: 'education_student_debt'
+  };
+  var key = MACRO_POLICY_PATH[policy] ? policy
+          : (aliases[policy] || ('education_' + String(policy).replace(/-/g, '_')));
+  return resolvePolicyPath(key, stress);
 }
 
 // ═══════════════════════════════════════════════════
@@ -2591,6 +2906,44 @@ window.LIMENConnectomeResolver = {
   AGRICULTURE_TRIGGER_TO_CIRCUIT: AGRICULTURE_TRIGGER_TO_CIRCUIT,
   resolveAgricultureCircuit: resolveAgricultureCircuit,
   getAgricultureCircuitForTrigger: function(trigger) { return AGRICULTURE_TRIGGER_TO_CIRCUIT[trigger] || null; },
+
+  // Education-sector (schools / universities / edtech / skills / courseware) company ticker
+  // bindings (education gap 1) — OPT-IN, parallel to the tech/intel/trade/industrial/
+  // environment/governance/agriculture company registries; REAL education tickers (CHGG/COUR/
+  // DUOL/TWOU edtech, LRN K-12 virtual schools, PSO courseware, ATGE/LOPE/STRA/LAUR higher ed,
+  // UTI vocational/skills) routed to dedicated 'education' nodes (AI/V1/NAcc/THAL/mPFC/dlPFC/
+  // STRI/VP/vlPFC/BLA). Energy is ZERO education identity: edtech platform scaling → data-center
+  // load is a facility-operations coupling (infrastructure domain), never an education signal.
+  EDUCATION_COMPANY_BINDING: EDUCATION_COMPANY_BINDING,
+  NODE_TO_EDUCATION_COMPANY: NODE_TO_EDUCATION_COMPANY,
+  getEducationCompaniesForNode: function(nodeId) { return NODE_TO_EDUCATION_COMPANY[nodeId] || []; },
+
+  // Education-sector indicator bindings (education gap 2) — OPT-IN, parallel to the macro
+  // registry; REAL education signals (NAEP math/reading scores, NCES graduation/enrollment/
+  // literacy, student-loan delinquency/balance, edtech enrollment/engagement, admissions yield,
+  // teacher-vacancy index) routed to dedicated 'education' nodes. These measure EDUCATION
+  // identity (learning outcomes, access/reach, credentialing output, human-capital supply,
+  // education-system solvency), never energy — campus power/cooling is an infrastructure
+  // consequence of facility occupancy, not an education-sector signal.
+  EDUCATION_INDICATOR_BINDING: EDUCATION_INDICATOR_BINDING,
+  NODE_TO_EDUCATION_INDICATOR: NODE_TO_EDUCATION_INDICATOR,
+  getEducationIndicatorsForNode: function(nodeId) { return NODE_TO_EDUCATION_INDICATOR[nodeId] || []; },
+
+  // Education circuit segregation (education gap 3) — opt-in. Routes an education stress
+  // trigger to K-12-schools / higher-ed / edtech-platforms / workforce-skills, each a SEPARATE
+  // 'education' node pathway with its real ticker anchors + energySignature (ZERO). Education
+  // never couples to energy as a signal origin — only infrastructure/population/economy couple,
+  // and only as downstream consequences, never an education-to-energy edge.
+  EDUCATION_CIRCUITS: EDUCATION_CIRCUITS,
+  EDUCATION_TRIGGER_TO_CIRCUIT: EDUCATION_TRIGGER_TO_CIRCUIT,
+  resolveEducationCircuit: resolveEducationCircuit,
+  getEducationCircuitForTrigger: function(trigger) { return EDUCATION_TRIGGER_TO_CIRCUIT[trigger] || null; },
+
+  // Education policy-path resolution (education gap 4) — opt-in. Routes an education-regulation
+  // policy shock (K-12 funding / higher-ed regulation / student debt) to the correct education
+  // nodes via MACRO_POLICY_PATH 'education_*' entries. Signal origin = education-regulation
+  // authority (state K-12 boards, accreditors, Federal Student Aid), never energy.
+  resolveEducationPolicyPath: resolveEducationPolicyPath,
 
   // Fiscal vs monetary policy transmission (economy gap 2) — opt-in
   MACRO_POLICY_PATH: MACRO_POLICY_PATH,

@@ -359,7 +359,66 @@
     // prefers the communication-primary lane, exactly as defense promoted
     // 'defense-procurement' into its hint list.
     'broadcast-infrastructure-modernization', 'media-ownership-restructuring',
-    'information-integrity-platform'
+    'information-integrity-platform',
+    // ─── Education-native PRIMARY lanes (additive) ────────────────────────
+    // Education IDENTITY = schools & universities (K-12 + higher ed), edtech &
+    // online learning, student outcomes & literacy, teaching & curriculum,
+    // education funding & access/equity, workforce training & skills, credentialing
+    // & enrollment, and student debt. Real education-sector operators anchor these
+    // lanes: CHGG (Chegg), COUR (Coursera), DUOL (Duolingo), LRN (Stride/K12),
+    // ATGE (Adtalem), LOPE (Grand Canyon Education), STRA (Strategic Education),
+    // LAUR (Laureate), TWOU (2U), UTI (Universal Technical Institute). Education is
+    // DISTINCT from science (basic research is the science/research domain, a
+    // COUPLING — not education's teaching/outcomes content), population
+    // (demographics/enrollment-pool is a COUPLING, not education's content),
+    // technology (edtech tooling/LMS is a COUPLING, not education's own identity),
+    // and economy (workforce/skills macro is a COUPLING, not education's content).
+    //
+    // BEFORE this block, education appeared ONLY as a SECONDARY co-eligible
+    // participant in other domains' lanes (anyDomain lists of business-grants
+    // (line 402), research-grants (line 403), research-papers (line 418)). It NEVER
+    // owned a PRIMARY source lane the way defense owns 'defense-procurement' (line 76),
+    // intelligence owns 'intelligence-operations' (line 96), industry owns 'industrial-
+    // capacity-investment' (line 161), governance owns 'regulatory-compliance-
+    // modernization' (line 197), agriculture owns 'crop-input-financing' (line 246),
+    // medicine owns 'clinical-trial-capacity' (line 306), and communication owns
+    // 'broadcast-infrastructure-modernization' (line 361). This block brings education
+    // to PRIMARY-lane parity — education is the negotiator, not a support domain:
+    //   'student-outcome-improvement' — one bounded K-12 / higher-ed student-
+    //       achievement program (literacy, graduation/completion, learning-loss
+    //       recovery, outcome-measurement) for a single bounded institution / district
+    //       routed to the education negotiator (analogous to 'defense-procurement' for
+    //       kinetic, 'clinical-trial-capacity' for capacity). Single-domain: one bounded
+    //       achievement program. Anchored by outcome operators (CHGG, COUR, DUOL, LRN).
+    //   'curriculum-modernization' — pedagogical / content / delivery modernization
+    //       (online/blended delivery, curriculum redesign, edtech-enabled instruction)
+    //       for a single bounded institution (analogous to 'manufacturing-modernization'
+    //       for a single production base). Single-domain. Anchored by COUR, DUOL, TWOU,
+    //       LRN (online/blended delivery operators).
+    //   'teacher-development-funding' — recruitment / training / professional-
+    //       development funding for a single bounded district / institution (analogous to
+    //       'factory-output-financing' / an SBA borrower file). Single-domain: one
+    //       borrower-equivalent district/institution. Anchored by ATGE, LOPE, STRA, UTI
+    //       (teacher-prep / credentialing operators).
+    //   'access-equity-program' — enrollment growth / access-barrier removal for a
+    //       single bounded population (financial-aid expansion, first-gen access,
+    //       affordability, student-debt relief). Single-domain: one bounded population.
+    //       Anchored by LOPE, STRA, ATGE, LAUR (broad-access enrollment operators).
+    //   'institutional-consolidation' — merger / affiliation / partnership across
+    //       schools/universities. Inherently MULTI-domain (a consolidation spans
+    //       operations, finance acquisition capital, and the accreditation/governance
+    //       regime across counterparties), so NOT single-domain. Anchored by ATGE,
+    //       LAUR, STRA, LOPE (multi-institution operators).
+    // Like the defense/intelligence/industry/governance/agriculture/medicine/
+    // communication blocks, these gates are LIVE (reachable): an education opportunity
+    // whose lane hints are empty falls through to the full LANES list in recompute(),
+    // so it is tested against these education-primary gates. The paired follow-up (NOT
+    // done here — single-file edit) is promoting 'student-outcome-improvement' into
+    // DOMAIN_LANE_HINTS.education in cross-node-opportunity.js so the emitter prefers
+    // the education-primary lane, exactly as defense promoted 'defense-procurement'.
+    'student-outcome-improvement', 'curriculum-modernization',
+    'teacher-development-funding', 'access-equity-program',
+    'institutional-consolidation'
     // ─── DESIGN NOTE — future trade-native lanes (NOT added now) ──────────
     // Per the wiring-gap analysis: trade currently participates as a SECONDARY
     // participant (via supplyChain in business-grants/sba-loans/franchise/credit-
@@ -761,7 +820,60 @@
     //   an information-integrity note" — NOT a moderation decision, NOT a policy, NOT
     //   any prediction. Real dissemination-channel operators: META, GOOGL (social-media
     //   / search as distribution); NWSA, NYT (news-flow).
-    'information-integrity-platform':          { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['communication','technology','governance','culture'] }
+    'information-integrity-platform':          { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['communication','technology','governance','culture'] },
+    // ─── Education-native PRIMARY lane gates (additive) ───────────────────
+    // student-outcome-improvement — one bounded K-12 / higher-ed student-
+    //   achievement program (literacy, completion, learning-loss recovery,
+    //   outcome measurement) for a single bounded institution / district routed to
+    //   the education negotiator (analogous to defense-procurement / clinical-trial-
+    //   capacity as a PRIMARY single-domain lane). singleDomainOnly: one bounded
+    //   achievement program, so cross-node multi-domain aggregations are routed
+    //   away. Education-primary, with the outcome-adjacent domains (technology =
+    //   edtech / LMS / adaptive-learning tooling COUPLING, research = the pedagogy/
+    //   learning-science evidence base, governance = accreditation / accountability
+    //   standards). Passing this gate signals only "sufficient packet detail to
+    //   attempt a student-outcome note" — NOT an achievement prediction, NOT an
+    //   accreditation outcome, NOT any guarantee. Real education operators: CHGG,
+    //   COUR, DUOL, LRN. Distinct from science (research is a coupling), population
+    //   (demographics is a coupling), economy (workforce is a coupling).
+    'student-outcome-improvement':     { minEvidence: 0.55, minConfidence: 0.60, singleDomainOnly: true,  anyDomain: ['education','technology','research','governance'] },
+    // curriculum-modernization — pedagogical / content / delivery modernization
+    //   (online/blended delivery, curriculum redesign, edtech-enabled instruction)
+    //   for a single bounded institution (analogous to manufacturing-modernization
+    //   for a single production base). singleDomainOnly: a modernization program
+    //   targets one bounded institution. Education-primary, with the modernization-
+    //   adjacent domains (technology = LMS / delivery-platform COUPLING, research =
+    //   instructional-design evidence, governance = curriculum-standards regime).
+    //   Real online/blended operators: COUR, DUOL, TWOU, LRN.
+    'curriculum-modernization':        { minEvidence: 0.55, minConfidence: 0.60, singleDomainOnly: true,  anyDomain: ['education','technology','research','governance'] },
+    // teacher-development-funding — recruitment / training / professional-development
+    //   funding for a single bounded district / institution (analogous to factory-
+    //   output-financing / sba-loans as a single bounded counterparty file).
+    //   singleDomainOnly: one borrower-equivalent district/institution. Education-
+    //   primary, with the financing-origination domains (finance = the funder/lender,
+    //   technology = training-platform COUPLING, governance = certification / licensure
+    //   standards). Real teacher-prep / credentialing operators: ATGE, LOPE, STRA, UTI.
+    'teacher-development-funding':      { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: true,  anyDomain: ['education','finance','technology','governance'] },
+    // access-equity-program — enrollment growth / access-barrier removal for a single
+    //   bounded population (financial-aid expansion, first-gen access, affordability,
+    //   student-debt relief). singleDomainOnly: one bounded population. Education-
+    //   primary, with the access-adjacent domains (governance = public-funding /
+    //   financial-aid policy, finance = aid / student-debt instruments, population =
+    //   the enrollment-pool COUPLING that informs but is not education's content).
+    //   Real broad-access enrollment operators: LOPE, STRA, ATGE, LAUR.
+    'access-equity-program':           { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: true,  anyDomain: ['education','governance','finance','population'] },
+    // institutional-consolidation — merger / affiliation / partnership across schools /
+    //   universities. Inherently MULTI-domain (a consolidation spans operations,
+    //   acquisition capital, and the accreditation/governance regime across
+    //   counterparties), so singleDomainOnly is false. Slightly lower bar than the
+    //   single-bounded lanes because a consolidation note is a multi-counterparty
+    //   structural artifact, not a single bounded file. Education-primary, with the
+    //   consolidation-adjacent domains (finance = the acquisition capital, governance =
+    //   accreditation / regional-accreditor / antitrust regime). Passing this gate
+    //   signals only "sufficient packet detail to attempt an institutional-consolidation
+    //   note" — NOT a merger decision, NOT an accreditation ruling, NOT any prediction.
+    //   Real multi-institution operators: ATGE, LAUR, STRA, LOPE.
+    'institutional-consolidation':     { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['education','finance','governance'] }
   };
 
   var _last = { lanes: {}, timestamp: 0, totalPackets: 0 };
@@ -858,6 +970,11 @@
       case 'broadcast-infrastructure-modernization': return 'Domains ' + doms + ' indicate telecom / spectrum / fiber / tower capex opportunity (5G build-out, fiber-to-the-home, spectrum refarm, tower densification) for a single bounded carrier or wireless-infrastructure operator routed to the communication negotiator — anchored by carriers (VZ/T/TMUS), tower REITs (AMT/CCI/SBAC) and network gear (CSCO/ANET), with FCC spectrum-license & broadband-deployment context; not a capex decision, not a license, not any prediction. Distinct from culture (content, not channels), technology (gear is a coupling) and intelligence (collection, not open dissemination).';
       case 'media-ownership-restructuring': return 'Domains ' + doms + ' indicate antitrust / consolidation / divestiture / station-portfolio restructuring opportunity in the media & broadcasting CHANNEL layer routed to the communication negotiator — an inherently multi-domain artifact spanning the channel operator, governance/FCC ownership-cap rulemaking and acquisition capital; anchored by cable distributors (CMCSA/CHTR) and news/publishing (NWSA/NYT); not an antitrust ruling, not a deal, not any prediction. The content carried is a culture coupling, not communication\'s own identity.';
       case 'information-integrity-platform': return 'Domains ' + doms + ' indicate disinformation-resistance / content-moderation / provenance / trust-and-safety platform opportunity at the information-DISSEMINATION layer (social-media & search AS DISTRIBUTION channels, news-flow integrity) routed to the communication negotiator — an inherently multi-domain artifact spanning the platform, governance policy and technology tooling; anchored by social/search distribution (META/GOOGL) and news-flow (NWSA/NYT); not a moderation decision, not a policy, not any prediction. Distinct from intelligence: open dissemination integrity, not covert signals collection.';
+      case 'student-outcome-improvement': return 'Domains ' + doms + ' indicate a bounded K-12 / higher-ed student-achievement program (literacy, completion, learning-loss recovery, outcome measurement) for a single bounded institution / district routed to the education negotiator — anchored by education operators (CHGG/COUR/DUOL/LRN); not an achievement prediction, not an accreditation outcome, not any guarantee. Distinct from science (research is a coupling), population (demographics is a coupling) and economy (workforce is a coupling).';
+      case 'curriculum-modernization': return 'Domains ' + doms + ' indicate pedagogical / content / delivery modernization (online/blended delivery, curriculum redesign, edtech-enabled instruction) for a single bounded institution routed to the education negotiator — edtech / LMS tooling is the technology coupling, not education\'s own content; anchored by online/blended operators (COUR/DUOL/TWOU/LRN); not a modernization decision, not any prediction.';
+      case 'teacher-development-funding': return 'Domains ' + doms + ' indicate recruitment / training / professional-development funding opportunity for a single bounded district / institution routed to the education negotiator — a single counterparty file (analogous to an SBA borrower or factory-output-financing); anchored by teacher-prep / credentialing operators (ATGE/LOPE/STRA/UTI); not a funding decision, not any prediction.';
+      case 'access-equity-program': return 'Domains ' + doms + ' indicate enrollment growth / access-barrier removal for a single bounded population (financial-aid expansion, first-gen access, affordability, student-debt relief) routed to the education negotiator — anchored by broad-access enrollment operators (LOPE/STRA/ATGE/LAUR); the enrollment pool is a population coupling, not education\'s own content; not an enrollment decision, not any prediction.';
+      case 'institutional-consolidation': return 'Domains ' + doms + ' indicate merger / affiliation / partnership across schools/universities routed to the education negotiator — an inherently multi-domain structural artifact spanning operations, acquisition capital and the accreditation/governance regime; anchored by multi-institution operators (ATGE/LAUR/STRA/LOPE); not a merger decision, not an accreditation ruling, not any prediction.';
     }
     return '';
   }

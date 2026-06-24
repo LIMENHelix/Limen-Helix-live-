@@ -40,7 +40,12 @@
  *                        (supplyChain), brainEnvironmentModel (environment),
  *                        brainGovernanceModel (governance: institutional-lifecycle
  *                        — policy regime, regulatory constraint, oversight
- *                        effectiveness); each null outside its own domain
+ *                        effectiveness), brainHealthModel (medicine),
+ *                        brainEducationModel (education: human-capital-lifecycle
+ *                        — curriculum-delivery phase, accreditation/credentialing
+ *                        regulation, enrollment-capacity stress, prior
+ *                        learning-outcome/literacy health); each null outside
+ *                        its own domain
  *   Status:              brainStatus
  *
  * Fields not yet emitted by a brain read as inert defaults ([] / null) —
@@ -89,6 +94,7 @@
       brainEnvironmentModel: _obj(bs.environmentModel), // F0.environment: carry recurrent climate/emissions/ecosystem lifecycle model (environment; null elsewhere)
       brainGovernanceModel: _obj(bs.governanceModel), // F0.governance: carry recurrent institutional-lifecycle model (policy regime, regulatory constraint, oversight effectiveness; governance only, null elsewhere)
       brainHealthModel: _obj(bs.healthModel), // F0.medicine: carry recurrent disease-burden/clinical-pipeline lifecycle model (medicine uses 'health' snapshot key; null elsewhere)
+      brainEducationModel: _obj(bs.educationModel), // F0.education: carry recurrent human-capital-lifecycle model (curriculum-delivery phase, accreditation/credentialing regulation, enrollment-capacity stress, prior learning-outcome/literacy health; education only, null elsewhere)
 
       // === A. Identity & timing (additive) ===
       brainDomainId:              _val(bs.domainId),

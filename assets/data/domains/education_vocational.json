@@ -28,6 +28,18 @@
           "ticker_or_id": "COUR",
           "functional_reason": "Executes core vocational training operations, delivering primary output and managing day-to-day functional processes",
           "binding_strength": 0.67
+        },
+        {
+          "name": "Adtalem Global Education",
+          "ticker_or_id": "ATGE",
+          "functional_reason": "Benchmarks CTE program cost against post-completion wage outcomes — operates Chamberlain University nursing programs where DOL OES median-wage and 6-month placement data validate tuition-to-earnings return; diagnoses RN/CNA training value against BLS wage benchmarks",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "Grand Canyon Education",
+          "ticker_or_id": "LOPE",
+          "functional_reason": "Assesses workforce-program outcomes at scale — large nursing and skilled-occupation cohorts whose completion and wage-outcome data (vs DOL OES medians) measure whether vocational tuition converts to in-demand-occupation earnings",
+          "binding_strength": 0.86
         }
       ],
       "treatments": [
@@ -754,6 +766,18 @@
           "ticker_or_id": "KHAN_NPO",
           "functional_reason": "Amplifies and scales vocational training capacity, driving growth and expanding reach of vocational training operations",
           "binding_strength": 0.66
+        },
+        {
+          "name": "Universal Technical Institute",
+          "ticker_or_id": "UTI",
+          "functional_reason": "Builds skilled-trades training capacity (HVAC, automotive, welding, diesel) — campus seats and program slots sized against BLS Employment Projections for in-demand trade occupations; enrollment-by-CIP-cluster capacity is the supply side that meets NCES CTE demand",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "Adtalem Global Education",
+          "ticker_or_id": "ATGE",
+          "functional_reason": "Scales healthcare-training infrastructure (Chamberlain nursing seats, clinical-placement capacity) sized to BLS RN/CNA projected job growth; expands cohort capacity where Employment Projections forecast healthcare workforce shortfalls",
+          "binding_strength": 0.85
         }
       ],
       "treatments": [
@@ -1855,6 +1879,24 @@
           "ticker_or_id": "COUR",
           "functional_reason": "Executes core vocational training operations, delivering primary output and managing day-to-day functional processes",
           "binding_strength": 0.92
+        },
+        {
+          "name": "Universal Technical Institute",
+          "ticker_or_id": "UTI",
+          "functional_reason": "Senses employer hiring velocity for skilled trades — BLS JOLTS openings for electricians, HVAC and diesel technicians signal demand surges or softening that the trade-training pipeline must flex to; resilience depends on placement absorbing graduates into open trade roles",
+          "binding_strength": 0.87
+        },
+        {
+          "name": "Adtalem Global Education",
+          "ticker_or_id": "ATGE",
+          "functional_reason": "Tracks healthcare hiring velocity — BLS JOLTS RN/CNA openings are the critical demand signal validating Chamberlain nursing-program throughput; sustained high openings de-risk enrollment, a JOLTS reversal is the early-warning resilience trigger",
+          "binding_strength": 0.86
+        },
+        {
+          "name": "Grand Canyon Education",
+          "ticker_or_id": "LOPE",
+          "functional_reason": "Monitors skilled-occupation labor-turnover signals across nursing and licensed trades — JOLTS quits and openings indicate whether trained graduates face a tight or saturated hiring market, gating program-mix risk",
+          "binding_strength": 0.83
         }
       ],
       "treatments": [
@@ -2593,6 +2635,18 @@
           "ticker_or_id": "ANTHOLOGY",
           "functional_reason": "Routes and distributes vocational training resources, connecting supply nodes to demand endpoints across the system",
           "binding_strength": 0.91
+        },
+        {
+          "name": "Strategic Education",
+          "ticker_or_id": "STRA",
+          "functional_reason": "Optimizes program performance against wage outcomes — Strayer/Capella employer-sponsored and competency degrees are tuned to FRED wage data showing the skilled-credential vs four-year wage premium; reallocates toward programs where post-completion earnings beat the OES median",
+          "binding_strength": 0.84
+        },
+        {
+          "name": "Universal Technical Institute",
+          "ticker_or_id": "UTI",
+          "functional_reason": "Optimizes trade-program mix on wage-premium signals — FRED skilled-trades wages relative to college-grad earnings indicate whether HVAC/auto/diesel tracks are expanding or eroding their pay advantage, steering program investment",
+          "binding_strength": 0.8
         }
       ],
       "treatments": [
@@ -3305,7 +3359,20 @@
       "domainDescription": "Apprenticeship Completion — Assessment & Monitoring — Risk Profiling within Apprenticeship Completion — Assessment & Monitoring",
       "whyThisNode": null,
       "treatments": [],
-      "companies": [],
+      "companies": [
+        {
+          "name": "Universal Technical Institute",
+          "ticker_or_id": "UTI",
+          "functional_reason": "Profiles apprenticeship-completion risk in skilled trades — DOL Registered Apprenticeship active-vs-completion ratios and earn-and-learn growth for HVAC/auto/diesel benchmark whether trade cohorts finish and place; flags drop-off against registered-program completion norms",
+          "binding_strength": 0.82
+        },
+        {
+          "name": "Strategic Education",
+          "ticker_or_id": "STRA",
+          "functional_reason": "Monitors earn-and-learn pipeline health — employer-sponsored degree and apprenticeship-style completion data versus DOL registered-apprenticeship completion rates surface retention risk in workforce credential pathways",
+          "binding_strength": 0.76
+        }
+      ],
       "_origin": "migrated_from_L4_L6",
       "_sourceBranch": "education_vocational",
       "neuralRole": "Sensory",
@@ -4326,7 +4393,20 @@
           "_descriptionHash": "d00153d61fba1325fa81d2495cdc1f09282d0380"
         }
       ],
-      "companies": [],
+      "companies": [
+        {
+          "name": "Adtalem Global Education",
+          "ticker_or_id": "ATGE",
+          "functional_reason": "Tracks workforce KPIs against BLS JOLTS healthcare hiring velocity — RN/CNA openings and turnover are leading KPIs for Chamberlain nursing-program demand; dashboards completion, NCLEX pass, and placement rates against JOLTS-implied absorption",
+          "binding_strength": 0.81
+        },
+        {
+          "name": "Universal Technical Institute",
+          "ticker_or_id": "UTI",
+          "functional_reason": "Tracks trade-program KPIs against BLS JOLTS skilled-trade openings (electrician, HVAC, diesel) — graduation, certification, and placement-velocity metrics are KPI-tracked against employer hiring-velocity benchmarks",
+          "binding_strength": 0.79
+        }
+      ],
       "_origin": "migrated_from_L4_L6",
       "_sourceBranch": "education_vocational",
       "neuralRole": "Limbic",
@@ -4841,6 +4921,24 @@
           "ticker_or_id": "COUR",
           "functional_reason": "Amplifies and scales curriculum design capacity, driving growth and expanding reach of curriculum design operations",
           "binding_strength": 0.91
+        },
+        {
+          "name": "Strategic Education",
+          "ticker_or_id": "STRA",
+          "functional_reason": "Benchmarks for-profit vs community-college market share — IPEDS for-profit enrollment vs NCES CCD community-college enrollment is the competitive-share frame against which Strayer/Capella position; tracks where adult-learner workforce demand shifts between sectors",
+          "binding_strength": 0.83
+        },
+        {
+          "name": "Laureate Education",
+          "ticker_or_id": "LAUR",
+          "functional_reason": "Benchmarks career-oriented enrollment share against public-sector CTE — IPEDS career-college enrollment trends versus NCES CCD community-college CTE volume reveal competitive market-share movement in vocational segments",
+          "binding_strength": 0.78
+        },
+        {
+          "name": "Adtalem Global Education",
+          "ticker_or_id": "ATGE",
+          "functional_reason": "Benchmarks proprietary healthcare-education share against community-college nursing pipelines — IPEDS vs NCES CCD enrollment comparison sizes Chamberlain's competitive position in the RN/CNA training market",
+          "binding_strength": 0.82
         }
       ],
       "_origin": "migrated_from_L4_L6",
@@ -5622,7 +5720,26 @@
       "domainDescription": "Reskilling Programs — Optimization & Innovation — System Integration within Reskilling Programs — Optimization & Innovation",
       "whyThisNode": null,
       "treatments": [],
-      "companies": [],
+      "companies": [
+        {
+          "name": "Coursera",
+          "ticker_or_id": "COUR",
+          "functional_reason": "Integrates reskilling pathways toward in-demand occupations — aligns professional-certificate catalog to BLS Employment Projections (2024–2034) for fast-growing roles, converting projected occupation growth into stackable workforce credentials",
+          "binding_strength": 0.84
+        },
+        {
+          "name": "Strategic Education",
+          "ticker_or_id": "STRA",
+          "functional_reason": "Delivers employer-sponsored earn-and-learn reskilling — workforce-edge programs map to DOL registered-apprenticeship and BLS projected-growth occupations, integrating tuition-benefit reskilling into employer talent pipelines",
+          "binding_strength": 0.8
+        },
+        {
+          "name": "Stride Inc",
+          "ticker_or_id": "LRN",
+          "functional_reason": "Integrates career-learning reskilling into in-demand trade and healthcare tracks — adult and career-readiness programs sequenced to BLS Employment Projections for occupations with high projected openings",
+          "binding_strength": 0.74
+        }
+      ],
       "_origin": "migrated_from_L4_L6",
       "_sourceBranch": "education_vocational",
       "neuralRole": "PFC",

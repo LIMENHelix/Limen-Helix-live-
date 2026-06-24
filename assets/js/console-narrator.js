@@ -358,6 +358,32 @@
       agr_water_stress:            'Irrigation water tightening. Aquifer drawdown and allocation cuts stressing acreage and crop survival.',
       agr_soil_degradation:        'Soil productivity eroding. Nutrient depletion and land degradation thinning long-run yield potential.',
       agr_generic:                 'Agriculture domain under stress. Crops, livestock, and farm economics pressured.',
+      // Education-specific distress voice — schools/universities/student-outcomes-grounded,
+      // mirrors energy's per-diagnosis narration (energy-brain diagnosisIndex: OIL_SHOCK /
+      // GRID_COLLAPSE) and the infrastructure/culture/finance/economy/technology/defense/
+      // intelligence/trade/industry/environment/governance/agriculture ports above, but for the
+      // EDUCATION domain identity: schools & universities (K-12 + higher ed), edtech & online
+      // learning, student outcomes & literacy, teaching & curriculum, education funding &
+      // access/equity, workforce training & skills, credentialing & enrollment, student debt.
+      // Education distress lexicon: enrollment-decline shock (birth-rate / out-migration loss,
+      // higher-ed demand decay), learning-loss crisis (assessment-score regression, cohort-outcome
+      // deterioration), teacher-shortage crisis (burnout exodus, wage lag), funding-cut cascade
+      // (state budget cuts, federal-aid reduction, tuition dependency), achievement-gap widening
+      // (poverty-correlation, equity-access erosion), student-debt crisis (loan-default spike,
+      // income-driven-repayment strain), skills-mismatch labor-pipeline misalignment. Real
+      // education-sector tickers: CHGG, COUR, DUOL, LRN, ATGE, LOPE, STRA, LAUR, TWOU, UTI.
+      // Education COUPLES to science (research), population (demographics), technology (edtech
+      // tooling), and economy (workforce) but keeps its own school/student/teacher/curriculum
+      // identity — kept DISTINCT from each of those couplings. CLIENT-SIDE narration flavor only —
+      // never touches any scoring path.
+      education_enrollment_collapse:'Student enrollment contracting. Birth-rate decline and family out-migration shrinking classroom demand.',
+      education_learning_loss:      'Learning-loss accumulation. Assessment scores and achievement trajectories deteriorating across grade cohorts.',
+      education_teacher_exodus:     'Teacher workforce eroding. Burnout and alternative-career flight thinning instructional capacity.',
+      education_funding_crisis:     'Education funding under stress. State budget cuts and federal-aid dependency creating capital squeeze.',
+      education_achievement_gap:    'Achievement gap widening. Poverty correlation and equity-access erosion deepening outcome disparities.',
+      education_debt_spiral:        'Student-debt crisis deepening. Loan-default rates climbing as income-driven repayment strains borrower capacity.',
+      education_skills_mismatch:    'Skills-pipeline misalignment. Employer demand and credential output diverging across the workforce.',
+      education_generic:            'Education domain under stress. Schools, students, and teaching pressured.',
       global_shift:        'Global state shifted to {state}.',
       event_start:         '{event} detected.',
       event_end:           '{event} resolved.',
@@ -469,6 +495,14 @@
       agr_water_stress:            'Water stress critical. Ration irrigation, prioritize high-value acreage, and secure rights.',
       agr_soil_degradation:        'Soil degrading. Rotate crops, restore nutrients, and protect long-run yield base.',
       agr_generic:                 'Agriculture domain elevated. Investigate crops and farm economics.',
+      education_enrollment_collapse:'Enrollment contracting. Stabilize K-12 / higher-ed recruitment and retain proven cohorts; adjust capacity and staffing.',
+      education_learning_loss:      'Learning loss critical. Deploy intensive-intervention instruction and close achievement gaps before further backslide.',
+      education_teacher_exodus:     'Teacher shortage crisis. Expand recruitment, retention raises, and alternative-certification pipelines immediately.',
+      education_funding_crisis:     'Funding gap critical. Secure tuition, endowment utilization, and federal-aid maximization before program cuts.',
+      education_achievement_gap:    'Achievement gap critical. Target equity funding and intervention resources to the highest-need cohorts now.',
+      education_debt_spiral:        'Student debt crisis. Establish income-driven-repayment hardship programs and accelerate public-service-loan-forgiveness.',
+      education_skills_mismatch:    'Skills mismatch. Realign curriculum and credentials to employer demand and expand workforce-training pipelines.',
+      education_generic:            'Education domain elevated. Investigate schools and student outcomes.',
       global_shift:        'State change: {state}.',
       event_start:         'Event: {event}. Tracking.',
       event_end:           'Event cleared: {event}.',
@@ -580,7 +614,8 @@
       health: 'Health', technology: 'Technology', research: 'Research',
       supplyChain: 'Supply chain', infrastructure: 'Infrastructure',
       culture: 'Culture', finance: 'Finance', defense: 'Defense',
-      intelligence: 'Intelligence', industry: 'Industry', governance: 'Governance'
+      intelligence: 'Intelligence', industry: 'Industry', governance: 'Governance',
+      education: 'Education'
     };
 
     // Infrastructure parity: mirror energy's per-diagnosis voice. Energy distinguishes
@@ -743,6 +778,19 @@
       var govkey = _classifyGovernanceDistress(detail.signals);
       if (govkey) {
         _narrate(govkey, {}, PRIORITY_MEDIUM);
+        return;
+      }
+    }
+
+    // Education parity: mirror energy's per-diagnosis voice for the EDUCATION domain identity
+    // (K-12 + higher ed, edtech/online learning, student outcomes/literacy, teaching/curriculum,
+    // funding/access/equity, workforce training/skills, credentialing/enrollment, student debt).
+    // Classify the education distress flavor from the emitted signal content and narrate an
+    // education-specific line instead of the generic '{domain} domain pressure increasing'.
+    if (detail.domain === 'education') {
+      var edukey = _classifyEducationDistress(detail.signals);
+      if (edukey) {
+        _narrate(edukey, {}, PRIORITY_MEDIUM);
         return;
       }
     }
@@ -1151,6 +1199,44 @@
     if (/institutional[\s_-]?(credibility|trust|erosion)|public[\s_-]?trust|rule[\s_-]?of[\s_-]?law|wgi\b|worldwide[\s_-]?governance|gao\b|trust[\s_-]?(collapse|erosion)|confidence[\s_-]?(loss|shock)|democratic[\s_-]?backslid/.test(blob)) return 'gov_institutional_credibility_shock';
     if (/policy[\s_-]?(failure|gridlock|incoherence)|legislative[\s_-]?(stalemate|gridlock)|gridlock|stalemate|enforcement[\s_-]?failure|regulatory[\s_-]?(failure|paralysis)|congress\.?gov|policy[\s_-]?paralysis|administrative[\s_-]?(breakdown|failure)/.test(blob)) return 'gov_policy_failure';
     return 'gov_generic';
+  }
+
+  // Map raw education signal content → an education distress voice key.
+  // Education vocabulary covers the EDUCATION domain identity: schools & universities (K-12 +
+  // higher ed), edtech & online learning, student outcomes & literacy, teaching & curriculum,
+  // education funding & access/equity, workforce training & skills, credentialing & enrollment,
+  // student debt. Translates energy oil/gas/grid content to education equivalents. Mirrors the
+  // energy/infra/culture/finance/economy classifier structure exactly. Matches real education-
+  // sector tickers (CHGG, COUR, DUOL, LRN, ATGE, LOPE, STRA, LAUR, TWOU, UTI) and indicator
+  // shorthand (NAEP, FAFSA, IDR/PSLF, enrollment/yield) alongside plain words, with word boundaries
+  // on short tokens. Kept DISTINCT from science (research), population (demographics), technology
+  // (edtech tooling is a coupling), and economy (workforce is a coupling). CLIENT-SIDE narration
+  // flavor ONLY — never touches any scoring path. Returns a TEMPLATES key, or null.
+  function _classifyEducationDistress(signals) {
+    var blob = '';
+    if (Array.isArray(signals)) {
+      for (var i = 0; i < signals.length; i++) {
+        var s = signals[i];
+        if (typeof s === 'string') blob += ' ' + s;
+        else if (s && typeof s === 'object') {
+          blob += ' ' + (s.type || '') + ' ' + (s.id || '') + ' ' + (s.label || '') + ' ' + (s.name || '');
+        }
+      }
+    }
+    blob = blob.toLowerCase();
+
+    // Order by specificity: enrollment collapse and student-debt crisis are sharpest, then teacher
+    // exodus, learning loss, funding crisis, achievement gap, skills mismatch; fall back to a generic
+    // education line. Matches edu-ticker and indicator shorthand (chgg/cour/duol/lrn/atge/lope/stra/
+    // laur/twou/uti/naep/fafsa/idr/pslf) alongside plain words.
+    if (/enrollment[\s_-]?(decline|collapse|drop|contraction)|declining[\s_-]?enrollment|enrollment[\s_-]?cliff|yield[\s_-]?(rate|drop)|out[\s_-]?migration|birth[\s_-]?rate[\s_-]?decline|matriculat|chgg|twou|cour|duol/.test(blob)) return 'education_enrollment_collapse';
+    if (/student[\s_-]?debt|loan[\s_-]?default|default[\s_-]?(rate|spike)|income[\s_-]?driven[\s_-]?repayment|\bidr\b|\bpslf\b|loan[\s_-]?forgiveness|borrower[\s_-]?(distress|strain)|tuition[\s_-]?debt/.test(blob)) return 'education_debt_spiral';
+    if (/teacher[\s_-]?(shortage|exodus|burnout|attrition|flight)|instructional[\s_-]?(capacity|shortage)|educator[\s_-]?(shortage|burnout)|faculty[\s_-]?(shortage|attrition)|staffing[\s_-]?gap|substitute[\s_-]?shortage/.test(blob)) return 'education_teacher_exodus';
+    if (/learning[\s_-]?loss|assessment[\s_-]?(score|decline)|test[\s_-]?score|naep|achievement[\s_-]?(trajectory|decline)|cohort[\s_-]?outcome|literacy[\s_-]?(decline|crisis)|proficiency[\s_-]?(drop|decline)|grade[\s_-]?regression/.test(blob)) return 'education_learning_loss';
+    if (/education[\s_-]?funding|budget[\s_-]?cut|federal[\s_-]?aid|state[\s_-]?(budget|funding)[\s_-]?cut|endowment|tuition[\s_-]?(dependency|reliance)|fafsa|per[\s_-]?pupil[\s_-]?(cut|funding)|appropriation[\s_-]?cut|program[\s_-]?cut/.test(blob)) return 'education_funding_crisis';
+    if (/achievement[\s_-]?gap|equity[\s_-]?(gap|access|erosion)|poverty[\s_-]?correlation|access[\s_-]?disparit|opportunity[\s_-]?gap|outcome[\s_-]?disparit|underserved/.test(blob)) return 'education_achievement_gap';
+    if (/skills[\s_-]?(mismatch|gap)|credential[\s_-]?(output|mismatch)|workforce[\s_-]?(pipeline|training)|labor[\s_-]?pipeline|employer[\s_-]?demand|reskill|upskill|vocational|apprenticeship/.test(blob)) return 'education_skills_mismatch';
+    return 'education_generic';
   }
 
   function _onGlobalStateUpdate(e) {

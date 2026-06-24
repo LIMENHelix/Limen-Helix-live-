@@ -590,6 +590,79 @@
  *   examples only — the validated Thing1 P3 distress kernel remains the sole scoring
  *   authority; the bus merely transports already-scored emissions.
  *
+ * Cross-domain examples — OTHER → EDUCATION (education as a target). Education is
+ * the HUMAN-CAPITAL / KNOWLEDGE-TRANSMISSION / CREDENTIAL domain (schools &
+ * universities — K-12 + higher ed, edtech & online learning, student outcomes &
+ * literacy, teaching & curriculum, education funding & access / equity, workforce
+ * training & skills, credentialing & enrollment, student debt). It is DISTINCT
+ * from science (basic / academic RESEARCH is the science domain — a COUPLING that
+ * feeds education but is not its content), from population (demographics is a
+ * COUPLING — enrollment cohorts, not education's own content), from technology
+ * (edtech TOOLING is a COUPLING that feeds the classroom, NOT education's
+ * identity), and from economy (workforce / labor-market MACRO is a COUPLING — the
+ * employment pass-through, not the school). And education NEVER takes energy
+ * oil/gas/grid as its own content. The bus previously documented education as a
+ * SOURCE only — it EMITS to economy / governance / population / technology /
+ * culture (education-brain.js emissionRules) — but its INBOUND RETURN paths were
+ * silent in the bus, creating the false impression that education is a source-only
+ * domain rather than a full bidirectional node. These are the paths other brains
+ * already emit toward education (see each source brain's emissionRules / the SOURCE
+ * examples above), so the human-capital-health / credential / funding-access /
+ * enrollment channel is not silent in the bus:
+ *   governance   → education (credentialing_standards_tightening / curriculum_mandate
+ *                           / accreditation_pressure → tightening credentialing
+ *                           standards, curriculum mandates and accreditation review
+ *                           raise compliance burden and program-viability risk →
+ *                           accreditation_pressure at institutions; the regulatory-
+ *                           authority input to education, the inbound mirror of
+ *                           education's native credential / standards outbound —
+ *                           credentialing authority remains a COUPLING owned by
+ *                           governance, DISTINCT from governance's own public-
+ *                           administration content)
+ *   finance      → education (funding_squeeze / capex_squeeze / liquidity_constraint
+ *                           → tighter capital access, the student-loan debt spiral
+ *                           and a cost-of-capital rise pressure institutional
+ *                           solvency, endowment draw and tuition-revenue dependence
+ *                           → institutional_solvency_stress / funding_squeeze at
+ *                           schools; the inbound mirror of finance's native
+ *                           credit_spread / liquidity_constraint outbound — student
+ *                           debt remains a COUPLING owned by finance)
+ *   technology   → education (edtech_disruption / platform_transition_demand →
+ *                           edtech & online-learning platform disruption and a
+ *                           platform-transition push reshape delivery models and
+ *                           force pedagogical-innovation demand → platform_transition
+ *                           _demand at institutions; the edtech-tooling coupling that
+ *                           feeds the classroom, WITHOUT education taking on chips /
+ *                           software as its identity)
+ *   population   → education (enrollment_demographic_shift / cohort_composition_change
+ *                           → demographic shifts in the school-age and college-age
+ *                           cohort and changes in cohort composition shift enrollment
+ *                           demand and program mix → enrollment_demographic_shift at
+ *                           institutions; the demographic-cohort coupling that drives
+ *                           student population, the inbound mirror of education's
+ *                           native human-capital outbound — demographics remain a
+ *                           COUPLING owned by population)
+ *   These modify education's PRIOR human-capital-health / enrollment / funding-access
+ *   / credential-viability expectation and stress calculation AFTER the validated
+ *   Thing kernel runs — external stress modifiers ingested via the base
+ *   receiveExternalSignal handler, NOT a second scorer.
+ *   Real education-sector issuers behind these signals (edtech & online learning /
+ *   higher-ed & for-profit institutions / workforce training & skills / credentialing
+ *   & enrollment — NOT energy oil/gas/grid, NOT science research labs, NOT macro
+ *   labor proxies): CHGG (Chegg, edtech / study services); COUR (Coursera, online
+ *   learning platform); DUOL (Duolingo, online language learning); LRN (Stride / K12,
+ *   online K-12); ATGE (Adtalem, healthcare / professional education); LOPE (Grand
+ *   Canyon Education, higher-ed services); STRA (Strategic Education / Strayer, higher
+ *   ed); LAUR (Laureate Education, higher ed); TWOU (2U, online-program management);
+ *   UTI (Universal Technical Institute, workforce / vocational training).
+ *   (accreditation_pressure = credentialing-standards / curriculum-mandate compliance
+ *   burden; institutional_solvency_stress = funding-squeeze / endowment-draw / student-
+ *   debt-dependence pressure; platform_transition_demand = edtech-disruption / delivery-
+ *   model-shift pull; enrollment_demographic_shift = cohort-composition / enrollment-
+ *   demand change.) SIGNAL examples only — the validated Thing1 P3 distress kernel
+ *   remains the sole scoring authority; the bus merely transports already-scored
+ *   emissions.
+ *
  * Also detects:
  *   - Propagation chains (A→B→C)
  *   - Co-activation (multiple domains emitting simultaneously)

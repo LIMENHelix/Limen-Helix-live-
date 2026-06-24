@@ -144,6 +144,30 @@
           "ticker_or_id": "KHAN_NPO",
           "functional_reason": "Amplifies and scales higher education capacity, driving growth and expanding reach of higher education operations",
           "binding_strength": 0.65
+        },
+        {
+          "name": "Grand Canyon Education",
+          "ticker_or_id": "LOPE",
+          "functional_reason": "Large degree-granting university operator delivering primary higher-education output across on-campus and online programs",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "Strategic Education",
+          "ticker_or_id": "STRA",
+          "functional_reason": "Strayer and Capella universities deliver accredited higher-education degrees at scale",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "Adtalem Global Education",
+          "ticker_or_id": "ATGE",
+          "functional_reason": "Multi-institution higher-education operator spanning medical, healthcare, and professional degrees",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "Laureate Education",
+          "ticker_or_id": "LAUR",
+          "functional_reason": "International network of degree-granting universities providing higher-education capacity",
+          "binding_strength": 0.82
         }
       ],
       "neuralRole": "DMN",
@@ -233,6 +257,24 @@
           "name": "2U Inc",
           "ticker_or_id": "TWOU",
           "functional_reason": "Executes core vocational training operations, delivering primary output and managing day-to-day functional processes",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "Universal Technical Institute",
+          "ticker_or_id": "UTI",
+          "functional_reason": "Executes hands-on skilled-trades and technician training, the core vocational output pipeline into employer placement",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "Adtalem Global Education",
+          "ticker_or_id": "ATGE",
+          "functional_reason": "Delivers professional and healthcare credentialing programs that train job-ready vocational talent",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "Strategic Education",
+          "ticker_or_id": "STRA",
+          "functional_reason": "Employer-funded Workforce Edge upskilling delivers vocational and continuing-education training at scale",
           "binding_strength": 0.85
         }
       ],
@@ -773,6 +815,24 @@
           "ticker_or_id": "TWOU",
           "functional_reason": "Executes core distance learning operations, delivering primary output and managing day-to-day functional processes",
           "binding_strength": 0.95
+        },
+        {
+          "name": "Grand Canyon Education",
+          "ticker_or_id": "LOPE",
+          "functional_reason": "Operates one of the largest online university platforms, executing distance-learning delivery at national scale",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Coursera",
+          "ticker_or_id": "COUR",
+          "functional_reason": "Global MOOC and online-degree platform delivering distance-learning content and credentials",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "Stride Inc",
+          "ticker_or_id": "LRN",
+          "functional_reason": "Delivers fully online K-12 and career schooling, a core distance-learning provider",
+          "binding_strength": 0.85
         }
       ],
       "childPortal": "education_distance_portal.html",
@@ -1403,6 +1463,12 @@
           "ticker_or_id": "CHGG",
           "functional_reason": "Stores and retrieves research universities knowledge, maintaining institutional memory and diagnostic baselines",
           "binding_strength": 0.69
+        },
+        {
+          "name": "Laureate Education",
+          "ticker_or_id": "LAUR",
+          "functional_reason": "Operates degree-granting universities with graduate and research programs, anchoring the research-university base",
+          "binding_strength": 0.75
         }
       ],
       "content": {
@@ -1489,6 +1555,28 @@
       "brainNodeRoleCanonical": "Governance Edu",
       "brainNodeLabelCanonical": "Education",
       "linkedDirectiveCount": 0,
+      "phase_archetype": "P9",
+      "functional_role": "arbitrator",
+      "companies": [
+        {
+          "name": "Stride Inc",
+          "ticker_or_id": "LRN",
+          "functional_reason": "Operates state-authorized online K-12 and career schools, sitting at the intersection of public education governance, charter authorization, and accountability reporting",
+          "binding_strength": 0.69
+        },
+        {
+          "name": "Strategic Education",
+          "ticker_or_id": "STRA",
+          "functional_reason": "Title IV institutional compliance, accreditor relations, and regulatory governance (gainful-employment, 90/10) shape its degree-granting authority",
+          "binding_strength": 0.72
+        },
+        {
+          "name": "Adtalem Global Education",
+          "ticker_or_id": "ATGE",
+          "functional_reason": "Multi-institution operator whose programmatic accreditation and state board governance determine licensure pathways for its graduates",
+          "binding_strength": 0.7
+        }
+      ],
       "crossDomainAffinities": [
         {
           "domain": "communication",
@@ -1539,6 +1627,28 @@
       "brainNodeRoleCanonical": "Research Edu",
       "brainNodeLabelCanonical": "Education",
       "linkedDirectiveCount": 0,
+      "phase_archetype": "P9",
+      "functional_role": "signal_detector",
+      "companies": [
+        {
+          "name": "Coursera",
+          "ticker_or_id": "COUR",
+          "functional_reason": "Platform partnerships with research universities surface enrollment, completion, and skills-demand signals from the higher-ed research base",
+          "binding_strength": 0.69
+        },
+        {
+          "name": "Chegg",
+          "ticker_or_id": "CHGG",
+          "functional_reason": "Student-study and learning-services usage data is an early demand signal across the research-university undergraduate pipeline",
+          "binding_strength": 0.69
+        },
+        {
+          "name": "Laureate Education",
+          "ticker_or_id": "LAUR",
+          "functional_reason": "Operates degree-granting universities whose research and graduate-program enrollment track institutional research-base health",
+          "binding_strength": 0.7
+        }
+      ],
       "crossDomainAffinities": [
         {
           "domain": "communication",
@@ -1589,6 +1699,28 @@
       "brainNodeRoleCanonical": "Workforce Dev",
       "brainNodeLabelCanonical": "Education",
       "linkedDirectiveCount": 0,
+      "phase_archetype": "P6",
+      "functional_role": "executor",
+      "companies": [
+        {
+          "name": "Universal Technical Institute",
+          "ticker_or_id": "UTI",
+          "functional_reason": "Trains and places skilled trades and technician talent, executing the core workforce-development pipeline from enrollment to employer placement",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "Strategic Education",
+          "ticker_or_id": "STRA",
+          "functional_reason": "Workforce Edge and employer-funded degree programs deliver upskilling at scale into the labor market",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "Adtalem Global Education",
+          "ticker_or_id": "ATGE",
+          "functional_reason": "Healthcare and professional credentialing programs feed licensed workforce supply into high-demand sectors",
+          "binding_strength": 0.85
+        }
+      ],
       "crossDomainAffinities": [
         {
           "domain": "contemplative",

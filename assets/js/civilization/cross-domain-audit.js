@@ -229,6 +229,42 @@
     // policy, financing regimes). Medicine is the SOURCE; research/population are
     // COUPLINGS, not the delivery identity.
     { id: 'healthcare_core',  domains: ['health', 'population', 'research', 'law', 'governance', 'finance'] },
+    // ─── Education-native affinity group ──────────────────────────────────
+    // education_core — education's institutional-envelope group (the
+    // educational-delivery mirror of healthcare_core, built around the
+    // EDUCATION-DELIVERY base rather than the care-delivery base). Education's
+    // identity is schools & universities (K-12 + higher ed), edtech & online
+    // learning, student outcomes & literacy, teaching & curriculum, education
+    // funding & access/equity, workforce training & skills, credentialing &
+    // enrollment, and student debt. Education-delivery health is co-borne by
+    // the accreditation/credentialing enforcement regime (law — accreditor
+    // authority, Title IV compliance, for-profit oversight, gainful-employment
+    // rules), the curriculum & pedagogy standards / education-policy regime
+    // (governance — state education agencies DOE/CDE, standards & assessment
+    // policy, public-education direction), the funding capacity & access-equity
+    // channel (finance — district/endowment capital, student-loan financing,
+    // tuition affordability), and the knowledge substrate that produces
+    // research expertise & faculty pipelines (research — basic research,
+    // doctoral training, scholarship). When all co-elevate on stress the signal
+    // is a SYSTEMIC education-institutional crisis — credentialing-authority
+    // collapse + funding/access squeeze + curriculum-modernization lag +
+    // research/expertise shortage co-borne by the institutional envelope —
+    // rather than an isolated enrollment dip or teacher shortage. Mirror of
+    // infrastructure_core / financial_core / healthcare_core (a delivery sector
+    // wedded to its institutional envelope). Real education-sector anchors are
+    // the edtech & education complex — online learning & edtech (CHGG, COUR,
+    // DUOL, LRN, TWOU), for-profit & higher-ed operators (ATGE, LOPE, STRA,
+    // LAUR, UTI), and govtech-for-schools (TYL, MMS) — plus governance/law
+    // indices (OECD education statistics, World Bank human-capital index,
+    // UNESCO, state education-agency DOE/CDE metrics, accreditor & Title IV
+    // compliance data). Kept DISTINCT from science (basic research is the
+    // research domain, a COUPLING here — not education's own delivery content),
+    // population (student demographics & enrollment cohorts are a COUPLING),
+    // technology (edtech tooling is a COUPLING), and economy (workforce/skills
+    // macro is a COUPLING). Education is the SOURCE; research/law/governance/
+    // finance co-bear the envelope. NEVER energy oil/gas/grid as education's
+    // content.
+    { id: 'education_core',  domains: ['education', 'law', 'governance', 'finance', 'research'] },
     // (2) health_core — the healthcare institutional-integrity stress cluster
     // (HIGH priority, the tightest mirror of infrastructure_core / financial_core
     // on the care-financing side): health-insurance solvency, hospital-network

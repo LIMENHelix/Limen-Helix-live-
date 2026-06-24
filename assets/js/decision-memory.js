@@ -45,6 +45,8 @@
   var AGRICULTURE_STACK_COOLDOWN = 180000; // 3 min between agriculture-stack narrations
   var COMMUNICATION_STACK_THRESHOLD = 2; // a communication-vulnerability stack seen N times signals concentration
   var COMMUNICATION_STACK_COOLDOWN = 180000; // 3 min between communication-stack narrations
+  var EDUCATION_STACK_THRESHOLD = 2; // an education-vulnerability stack seen N times signals concentration
+  var EDUCATION_STACK_COOLDOWN = 180000; // 3 min between education-stack narrations
 
   // ─── Infrastructure vulnerability-stack semantics ─────────────────────────
   // CIVIL domain-semantic concentration. Generic (domain, action) frequency only
@@ -572,6 +574,58 @@
       body: 'Operator attention concentrates on the network-disruption + misinformation-surge stack — a degraded-channel narrative exposure where outages and connectivity loss leave information channels vulnerable to disinformation and coordinated amplification (T/VZ/META/GOOGL exposure).' }
   ];
 
+  // ─── Education vulnerability-stack semantics ───────────────────────────────
+  // EDUCATIONAL domain-semantic concentration. As with infrastructure, culture,
+  // finance, economy, technology, intelligence, trade, industry, agriculture,
+  // environment, governance and communication, generic (domain, action) frequency
+  // only says WHERE the operator is looking; for the education domain we also detect
+  // WHAT education-vulnerability STACK the attention concentrates on. Each stack is a
+  // co-occurring pair of education signal families (enrollment & cohort trends/
+  // learning loss & achievement/teacher workforce stability/education funding &
+  // budget/student debt & financing/achievement equity & access). The education
+  // identity is the LEARNING / CREDENTIAL / SCHOOL-SYSTEM identity — K-12 + higher ed,
+  // student-outcome measurement, teaching quality & curriculum, institutional
+  // accreditation, student financing, school infrastructure — bound to real
+  // education-sector equities (CHGG, COUR, DUOL edtech & online learning; LRN, ATGE,
+  // LOPE, STRA, LAUR, TWOU schools & universities & higher-ed services; UTI workforce
+  // training & skills). Education COUPLES to science (basic research is the science
+  // identity, not education), technology (edtech tooling is a coupling), economy
+  // (workforce pipeline is a coupling) and population (demographics is a coupling) —
+  // but its OWN content is enrollment, learning outcomes, teacher workforce, funding,
+  // student debt and achievement equity, never energy oil/gas/grid/power-generation.
+  // Mirrors the education-brain cross-domain conditions:
+  //   ENROLLMENT_DECLINE + FUNDING_COLLAPSE   → enrollment-funding squeeze
+  //   LEARNING_LOSS + TEACHER_SHORTAGE        → learning-teacher crisis
+  //   STUDENT_DEBT + ENROLLMENT_DECLINE       → debt-enrollment spiral
+  //   ACHIEVEMENT_GAP + FUNDING_COLLAPSE      → equity-funding gap
+  // Signal tokens are matched against recorded action/type/pattern text — never
+  // invented; absence of tokens simply yields no stack (silent, no false signal).
+  // STRICTLY ADDITIVE: advisory only; never participates in /api/limen/score scoring.
+  var EDUCATION_SIGNAL_TOKENS = {
+    ENROLLMENT_DECLINE:      /(enrollment|student (enrollment|count|population)|birth.*rate|out.*migration|K-12|college.*(decline|drop)|cohort.*(shrink|loss))/i,
+    LEARNING_LOSS:           /(learning.*(loss|gap|regression)|test score|achievement.*(gap|decline|deteriorat)|assessment (fail|decline)|learning deficit|grade-level|literacy.*decline)/i,
+    TEACHER_SHORTAGE:        /(teacher (shortage|burnout|exodus|loss|retention|attrition)|instructor shortage|teaching (vacancy|crisis)|educator burnout|resignation|turnover)/i,
+    FUNDING_COLLAPSE:        /(funding|budget.*cut|fiscal.*crisis|state.*budget|federal.*aid|grant.*loss|tuition.*dependenc|endowment.*(loss|volatility))/i,
+    STUDENT_DEBT:            /(student.*debt|loan.*default|income.*driven|repayment.*crisis|debt.*burden|default.*(surge|risk))/i,
+    ACHIEVEMENT_GAP:         /(achievement gap|equity.*gap|equity.*access|opportunity gap|disparit|minority.*enrollment|poverty.*correlation)/i
+  };
+
+  // Education-vulnerability STACKS — ordered token pairs with an education interpretation.
+  // Each describes an operator-concentration meaning specific to an education vulnerability
+  // stack (K-12 & higher ed, edtech & online learning, student outcomes & literacy,
+  // teaching & curriculum, education funding & access/equity, workforce training & skills,
+  // credentialing & enrollment, student debt) — NOT energy oil/gas/grid/datacenter content.
+  var EDUCATION_VULN_STACKS = [
+    { id: 'ENROLLMENT_FUNDING_SQUEEZE', signals: ['ENROLLMENT_DECLINE', 'FUNDING_COLLAPSE'],
+      body: 'Operator attention concentrates on the enrollment-decline + funding-collapse stack — a shrinking student base forcing budget cuts and a tuition/state-aid revenue-loss cascade across schools and tuition-dependent institutions (LRN/ATGE/LOPE/STRA/LAUR exposure).' },
+    { id: 'LEARNING_TEACHER_CRISIS',    signals: ['LEARNING_LOSS', 'TEACHER_SHORTAGE'],
+      body: 'Operator attention concentrates on the learning-loss + teacher-shortage stack — learning degradation compounding as teacher exodus and burnout erode instructional quality across the K-12 and higher-ed workforce (CHGG/COUR/DUOL/TWOU exposure).' },
+    { id: 'DEBT_ENROLLMENT_SPIRAL',     signals: ['STUDENT_DEBT', 'ENROLLMENT_DECLINE'],
+      body: 'Operator attention concentrates on the student-debt + enrollment-decline stack — rising debt burden and default risk driving prospective students away from higher ed and credential programs (LAUR/STRA/ATGE/LOPE/UTI exposure).' },
+    { id: 'EQUITY_FUNDING_GAP',         signals: ['ACHIEVEMENT_GAP', 'FUNDING_COLLAPSE'],
+      body: 'Operator attention concentrates on the achievement-gap + funding-collapse stack — resource-poor schools losing funding precisely when achievement-gap and access-equity remediation is most critical (LRN/COUR/DUOL/CHGG exposure).' }
+  ];
+
   // ─── Environment vulnerability-stack semantics ─────────────────────────────
   // ENVIRONMENTAL domain-semantic concentration. As with infrastructure, culture,
   // finance, economy, technology, intelligence, trade and industry, generic
@@ -719,6 +773,8 @@
   var _lastAgricultureStackId = null;
   var _lastCommunicationStackTime = 0;
   var _lastCommunicationStackId = null;
+  var _lastEducationStackTime = 0;
+  var _lastEducationStackId = null;
   var _interval = null;
 
   // Detect which civil signal families a user-action references, by scanning its
@@ -865,6 +921,18 @@
     return hits;
   }
 
+  // Detect which education signal families a user-action references, by scanning its
+  // free-text fields (action / type / cross-domain pattern). Returns a list of
+  // canonical education signal ids. Never fabricates — empty if nothing matches.
+  function _detectEducationSignals(text) {
+    if (!text) return [];
+    var hits = [];
+    for (var sig in EDUCATION_SIGNAL_TOKENS) {
+      if (EDUCATION_SIGNAL_TOKENS[sig].test(text)) hits.push(sig);
+    }
+    return hits;
+  }
+
   // ─── Record decision ─────────────────────────────────────────────────────
 
   function _onUserAction(e) {
@@ -941,6 +1009,10 @@
       // COMMUNICATION: which communication signal families this action touches (may be []).
       communicationSignals: _detectCommunicationSignals(
         [detail.action, detail.type, matchedPattern, detail.signal, detail.diagnosis].join(' ')
+      ),
+      // EDUCATION: which education signal families this action touches (may be []).
+      educationSignals: _detectEducationSignals(
+        [detail.action, detail.type, matchedPattern, detail.signal, detail.diagnosis].join(' ')
       )
     };
 
@@ -963,6 +1035,7 @@
     _checkGovernanceStackConcentration();
     _checkAgricultureStackConcentration();
     _checkCommunicationStackConcentration();
+    _checkEducationStackConcentration();
   }
 
   // ─── Concentration detection ──────────────────────────────────────────────
@@ -1848,6 +1921,72 @@
     });
   }
 
+  // ─── Education vulnerability-stack concentration ──────────────────────────
+  // Domain-semantic concentration for EDUCATION: beyond "which domain" (above),
+  // surface WHICH education-vulnerability STACK the operator keeps returning to.
+  // Tallies co-occurring education signal families across recent entries and fires
+  // when a known stack (enrollment-funding squeeze, learning-teacher crisis,
+  // debt-enrollment spiral, equity-funding gap) crosses the threshold.
+  // Schema-faithful to _checkCommunicationStackConcentration (same phase-change shape).
+
+  function _checkEducationStackConcentration() {
+    var now = Date.now();
+    if (now - _lastEducationStackTime < EDUCATION_STACK_COOLDOWN) return;
+    if (_entries.length < EDUCATION_STACK_THRESHOLD) return;
+
+    // Count per-signal-family hits across recent entries (last 10).
+    var recent = _entries.slice(-10);
+    var sigCounts = {};
+    for (var i = 0; i < recent.length; i++) {
+      var sigs = recent[i].educationSignals || [];
+      for (var s = 0; s < sigs.length; s++) {
+        sigCounts[sigs[s]] = (sigCounts[sigs[s]] || 0) + 1;
+      }
+    }
+
+    // A stack fires only when BOTH of its signal families are present and at least
+    // one of them has been focused on repeatedly (>= threshold). Score = sum of the
+    // pair's counts; pick the strongest stack.
+    var best = null;
+    for (var k = 0; k < EDUCATION_VULN_STACKS.length; k++) {
+      var stack = EDUCATION_VULN_STACKS[k];
+      var a = sigCounts[stack.signals[0]] || 0;
+      var b = sigCounts[stack.signals[1]] || 0;
+      if (a === 0 || b === 0) continue;
+      if (Math.max(a, b) < EDUCATION_STACK_THRESHOLD) continue;
+      var score = a + b;
+      if (!best || score > best.score) best = { stack: stack, a: a, b: b, score: score };
+    }
+
+    if (!best) return;
+    if (best.stack.id === _lastEducationStackId) return; // don't re-narrate the same stack
+
+    _lastEducationStackTime = now;
+    _lastEducationStackId = best.stack.id;
+
+    var drivers = [
+      best.a + ' recent actions touching ' + best.stack.signals[0],
+      best.b + ' recent actions touching ' + best.stack.signals[1]
+    ];
+
+    var options = [
+      { label: 'deepen ' + best.stack.id.toLowerCase().replace(/_/g, ' ') + ' analysis', type: 'analysis' },
+      { label: 'broaden scope', type: 'monitoring' },
+      { label: 'hold', type: 'monitoring' }
+    ];
+
+    _dispatch('limen:phase-change', {
+      from: 'observing',
+      to: 'concentrated',
+      type: 'decision-memory',
+      domain: 'education',
+      stackId: best.stack.id,
+      topDrivers: drivers,
+      options: options,
+      body: best.stack.body
+    });
+  }
+
   // ─── Publish ──────────────────────────────────────────────────────────────
 
   function _publish() {
@@ -1867,6 +2006,7 @@
       governanceSignalConcentration: _governanceSignalConcentration(),
       agricultureSignalConcentration: _agricultureSignalConcentration(),
       communicationSignalConcentration: _communicationSignalConcentration(),
+      educationSignalConcentration: _educationSignalConcentration(),
       updated: Date.now()
     };
 
@@ -2068,6 +2208,23 @@
     var recent = _entries.slice(-10);
     for (var i = 0; i < recent.length; i++) {
       var sigs = recent[i].communicationSignals || [];
+      for (var s = 0; s < sigs.length; s++) {
+        counts[sigs[s]] = (counts[sigs[s]] || 0) + 1;
+      }
+    }
+    var out = [];
+    for (var sig in counts) { out.push({ signal: sig, count: counts[sig] }); }
+    out.sort(function (x, y) { return y.count - x.count; });
+    return out;
+  }
+
+  // EDUCATION: roll up which education signal families recent attention concentrates
+  // on (descending by count). Empty when no education signals were detected.
+  function _educationSignalConcentration() {
+    var counts = {};
+    var recent = _entries.slice(-10);
+    for (var i = 0; i < recent.length; i++) {
+      var sigs = recent[i].educationSignals || [];
       for (var s = 0; s < sigs.length; s++) {
         counts[sigs[s]] = (counts[sigs[s]] || 0) + 1;
       }
