@@ -93,7 +93,7 @@
     var m = cog.model || {}, im = cog.immune || {}, aw = cog.awareness || {}, co = cog.conscience || {}, it = cog.intuition || {};
     return {
       domain: cog.domain || null,
-      model: { cycle: _num(m.cycle), predictionError: _num(m.predictionError), predictedStress: _num(m.predictedStress), regulation: _val(m.regulation) },
+      model: { cycle: _num(m.cycle), predictionError: _num(m.predictionError), predictedStress: _num(m.predictedStress), regulation: _val((m.regulation && typeof m.regulation === 'object') ? m.regulation.state : m.regulation) },
       immune: { immuneState: _val(im.immuneState), severity: _num(im.severity), antigenCount: _arr(im.antigens).length, quarantines: _val(im.quarantines), blockedFromTraversal: _val(im.blockedFromTraversal) },
       awareness: { selfNarrative: _val(aw.selfNarrative), humanReviewRequired: !!aw.humanReviewRequired },
       conscience: { conscienceState: _val(co.conscienceState), artifactReadinessDecision: _val(co.artifactReadinessDecision), blockedClaims: _arr(co.blockedClaims).slice(0, 4) },
