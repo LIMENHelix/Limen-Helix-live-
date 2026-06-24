@@ -307,7 +307,36 @@
       label: 'Information processing and signal clarity',
       arousal: 'Information urgency — high arousal during disinformation events reflects narrative processing pressure',
       coherence: 'Signal quality — low coherence during high-volume information reflects difficulty filtering noise',
-      cognitiveLoad: 'Narrative complexity — high load with competing narratives reflects interpretive overload'
+      cognitiveLoad: 'Narrative complexity — high load with competing narratives reflects interpretive overload',
+      // Information-ecosystem intake/triage readiness map: regulation state → media-literacy /
+      // misinformation-detection R&D and telecom-resilience / spectrum-efficiency program intake posture.
+      // Mirrors energy's biosensor intake map (energy gates capex/dispatch by operator regulation state —
+      // calm: greenlight capex programs / overloaded: triage grid/supply crises; communication gates
+      // media-literacy & telecom-redundancy intake — calm: open new fact-check / content-authentication
+      // and network-hardening programs / overloaded: crisis triage on information-ecosystem and mass-outage
+      // events only). Advisory-layer only and independent of the kernel scoring spine. Consumed by (future)
+      // communication-clarity-operator outcome tracking (misinformation-monitoring throughput, content-
+      // authentication R&D velocity, telecom-incident response cadence, network-resilience program momentum,
+      // spectrum-efficiency research velocity, media-trust-signal recovery). COMMUNICATION identity only —
+      // telecommunications & networks, connectivity & broadband, internet infrastructure (towers/fiber/
+      // spectrum), media & broadcasting CHANNELS, journalism & news flow, information dissemination,
+      // social-media platforms as distribution, public-discourse infrastructure. Reference communication-
+      // identity names: VZ, T, TMUS, CMCSA, CHTR (telecom/broadband), CSCO, ANET (network hardware),
+      // AMT, CCI, SBAC (towers/infrastructure), NWSA, NYT (journalism/news), META, GOOGL (platforms as
+      // distribution). Distinct from culture (content/movements/scenes — communication is the CHANNELS/
+      // networks/information-flow, not the content), technology (chips/software is a coupling, not the
+      // identity) and intelligence (signals collection is a coupling). Operator arousal/coherence during
+      // disinformation events or network disruptions gate media-literacy & telecom intake (high arousal =
+      // crisis information-triage mode; low arousal = deliberate media-resilience / platform-research mode).
+      // STRICTLY ADDITIVE — does not touch the validated P3 distress kernel (Thing1) scoring spine.
+      readiness: {
+        calm: 'Steady operator state — safe to expand media-literacy and misinformation-detection R&D: fact-check platform development, content-authentication systems, counter-narrative infrastructure; open new telecom-resilience programs (VZ/T/TMUS network redundancy, CSCO/ANET hardening, satellite-backup planning); initiate spectrum-efficiency research (5G/6G architecture, unlicensed-band optimization); speculative platform-interoperability and decentralization scouting (META/GOOGL distribution research, AMT/CCI/SBAC tower-network expansion).',
+        focused: 'Productive engagement — sustain active misinformation monitoring and telecom-incident response; admit only proven-vendor content-moderation and well-scoped network-resilience projects (CMCSA/CHTR broadband-uptime, CSCO/ANET scoped hardening); hold speculative new platform and spectrum initiatives.',
+        pressured: 'Elevated load — defer discretionary media-literacy intake and new broadcast R&D; focus on real-time misinformation triage and critical connectivity monitoring on live service disruptions (VZ/T/TMUS network events, NWSA/NYT live news-flow integrity); keep fact-check and network-uptime surveillance active.',
+        overloaded: 'Saturated — pause all new media/platform research and spectrum initiatives; respond only to critical information-ecosystem crises: large-scale censorship events and content-suppression waves, mass network outages affecting critical services (utility control, emergency comms — VZ/T/TMUS/CMCSA/CHTR backbone failures), coordinated disinformation campaigns with measurable public-harm impact (META/GOOGL distribution-amplified).',
+        recovering: 'Stabilizing — resume misinformation counter-narrative and fact-check infrastructure first, then reopen telecom R&D and spectrum-efficiency programs gradually as network uptime (VZ/T/TMUS/CMCSA/CHTR), media-trust-signal recovery and information-integrity metrics normalize.',
+        unknown: 'Regulation state unavailable — default to snapshot-driven prioritization (active information-ecosystem stress and network-disruption / misinformation criticality ranking).'
+      }
     },
     culture: {
       label: 'Identity engagement and creative state',

@@ -231,7 +231,35 @@
     { label: 'Investigate regulatory-clarity systems and unified-regulatory-state design (Federal Register searchability, regulatory-volume normalization, agency-rulemaking coherence)', domain: 'governance', type: 'technological-innovation', baseRelevance: 0.40 },
     { label: 'Explore fiscal-resilience policy and countercyclical-revenue / rainy-day-fund mechanisms for public-finance stability (CBO budget projections, cross-sector revenue rebalancing)', domain: 'governance', type: 'economic-opportunity', baseRelevance: 0.45 },
     { label: 'Analyze regulatory-capture exposure via agency-rulemaking reversals and captured-industry signals (regulatory-integrity & oversight effectiveness, OECD regulatory-policy indicators)', domain: 'governance', type: 'system-risk', baseRelevance: 0.40 },
-    { label: 'Investigate cross-agency coordination infrastructure (interoperability standards, data-sharing protocols, unified-command structures) for institutional-capacity resilience (BAH/LDOS policy-modernization, GDIT data-sharing platforms)', domain: 'governance', type: 'technological-innovation', baseRelevance: 0.40 }
+    { label: 'Investigate cross-agency coordination infrastructure (interoperability standards, data-sharing protocols, unified-command structures) for institutional-capacity resilience (BAH/LDOS policy-modernization, GDIT data-sharing platforms)', domain: 'governance', type: 'technological-innovation', baseRelevance: 0.40 },
+
+    // Communication (mirrors Energy/Infrastructure/Culture/Technology structure, translated to telecom/networks/media
+    //   & information-flow concepts — Energy seeds focus on storage/grid/renewable ARCHITECTURES; communication seeds
+    //   focus on the CHANNELS, NETWORKS and INFORMATION FLOW themselves: broadcast-capacity→spectrum-allocation &
+    //   interference-mitigation valuation, distributed-grid→network-resilience-through-interoperability &
+    //   single-platform-dominance topology, transition→rural-broadband & next-gen-network (5G/6G/fiber) buildout
+    //   resilience, attack-surface→information-integrity / misinformation & platform-concentration early-warning,
+    //   information-integrity→counter-narrative & fact-check infrastructure. Relevance = communication stress x trend boost.
+    //   identity = telecommunications & networks, connectivity & broadband, internet infrastructure (towers/fiber/spectrum/
+    //   satellites), media & broadcasting CHANNELS, journalism & news flow, information dissemination, social-media
+    //   platforms AS DISTRIBUTION, public-discourse infrastructure;
+    //   universe: VZ/T/TMUS/CMCSA/CHTR/CSCO/ANET (telecom & networking), AMT/CCI/SBAC (towers & fiber/spectrum infra),
+    //   NWSA/NYT/META/GOOGL (media, news & platform distribution) — real telecom/media tickers only;
+    //   couples to technology via chips/software (a coupling, not the identity), kept DISTINCT from culture
+    //   (culture = content/movements/scenes; communication = the CHANNELS/networks/information-flow) and from
+    //   intelligence (signals collection is a coupling, not the identity))
+    { label: 'Investigate spectrum allocation efficiency and interference mitigation for broadband coverage expansion (FCC licensing & auction design, ITU coordination, incumbent-protection relief, VZ/TMUS mid-band deployment)', domain: 'communication', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Explore censorship-resistant communication architectures and decentralized protocols (mesh networks, satellite internet, VPN resilience, CSCO/ANET routing-layer redundancy)', domain: 'communication', type: 'technological-innovation', baseRelevance: 0.40 },
+    { label: 'Analyze telecom-competition dynamics and rural broadband investment ROI (VZ/T/TMUS rural buildout, USDA ReConnect funding, FCC subsidy design, CHTR/CMCSA last-mile economics)', domain: 'communication', type: 'economic-opportunity', baseRelevance: 0.40 },
+    { label: 'Investigate misinformation early-warning systems and fact-check infrastructure (detection at scale, counter-narrative velocity, audience reach of corrections across NYT/NWSA newsrooms)', domain: 'communication', type: 'scientific-discovery', baseRelevance: 0.45 },
+    { label: 'Analyze platform-concentration risk and media-monopoly structural signals (META/GOOGL distribution market share, content-moderation bottleneck, algorithmic amplification of single-platform dominance)', domain: 'communication', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Explore next-generation network (5G/6G, fiber, low-earth-orbit satellite) buildout resilience and capital-funding valuation for connectivity expansion (CSCO/ANET core gear, AMT/CCI/SBAC tower & fiber backbone)', domain: 'communication', type: 'technological-innovation', baseRelevance: 0.40 },
+    { label: 'Investigate network-resilience-through-interoperability and single-carrier-outage contagion topology across interconnected telecom backbones (VZ/T/TMUS peering, CMCSA/CHTR transit dependency mapping)', domain: 'communication', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Analyze tower & passive-infrastructure (REIT) capacity economics and spectrum-densification ROI for sustained connectivity demand (AMT/CCI/SBAC tower leasing, small-cell & DAS densification)', domain: 'communication', type: 'economic-opportunity', baseRelevance: 0.40 },
+    { label: 'Explore journalism-sustainability and local-news-desert mitigation as information-dissemination resilience (NYT/NWSA digital-subscription models, newsroom-capacity collapse early-warning)', domain: 'communication', type: 'economic-opportunity', baseRelevance: 0.35 },
+    { label: 'Investigate broadcast & streaming distribution-channel disruption and bundle-disintermediation economics (CMCSA/CHTR pay-TV erosion, streaming-platform distribution shift, carriage & retransmission dynamics)', domain: 'communication', type: 'economic-opportunity', baseRelevance: 0.40 },
+    { label: 'Analyze network cyber-physical attack surface across telecom backbones, undersea cables and routing infrastructure (BGP-hijack & DNS resilience, CSCO/ANET firmware hardening, CISA KEV telecom exposure)', domain: 'communication', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Investigate public-discourse infrastructure and information-integrity counter-narrative systems for civic-information resilience (cross-platform provenance, authenticated-content standards, META/GOOGL distribution transparency)', domain: 'communication', type: 'scientific-discovery', baseRelevance: 0.40 }
   ];
 
   // ─── State ───────────────────────────────────────────────────────────────

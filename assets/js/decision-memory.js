@@ -43,6 +43,8 @@
   var GOVERNANCE_STACK_COOLDOWN = 180000; // 3 min between governance-stack narrations
   var AGRICULTURE_STACK_THRESHOLD = 2; // an agricultural-vulnerability stack seen N times signals concentration
   var AGRICULTURE_STACK_COOLDOWN = 180000; // 3 min between agriculture-stack narrations
+  var COMMUNICATION_STACK_THRESHOLD = 2; // a communication-vulnerability stack seen N times signals concentration
+  var COMMUNICATION_STACK_COOLDOWN = 180000; // 3 min between communication-stack narrations
 
   // ─── Infrastructure vulnerability-stack semantics ─────────────────────────
   // CIVIL domain-semantic concentration. Generic (domain, action) frequency only
@@ -507,6 +509,69 @@
       body: 'Operator attention concentrates on the harvest-shortfall + export-ban stack — a food-security supply shock where USDA WASDE production downgrades and falling stocks-to-use collide with grain export bans and protectionist food curbs (ADM/BG/INGR exposure).' }
   ];
 
+  // ─── Communication vulnerability-stack semantics ──────────────────────────
+  // COMMUNICATION domain-semantic concentration. As with infrastructure, culture,
+  // finance, economy, technology, intelligence, trade, industry, environment,
+  // governance and agriculture, generic (domain, action) frequency only says WHERE
+  // the operator is looking; for the communication domain we also detect WHAT
+  // communication-vulnerability STACK the attention concentrates on. Each stack is a
+  // co-occurring pair of communication signal families (network outage & connectivity
+  // loss/spectrum & bandwidth allocation crunch/transmission & distribution
+  // infrastructure failure/censorship & platform restriction/misinformation &
+  // narrative amplification/media concentration & consolidation). The communication
+  // identity is TELECOMMUNICATIONS & NETWORKS, CONNECTIVITY & BROADBAND, INTERNET
+  // INFRASTRUCTURE (towers/fiber/spectrum), MEDIA & BROADCASTING CHANNELS, JOURNALISM
+  // & NEWS FLOW, INFORMATION DISSEMINATION, SOCIAL-MEDIA PLATFORMS AS DISTRIBUTION,
+  // and PUBLIC-DISCOURSE INFRASTRUCTURE — bound to real telecom/media equities
+  // (VZ, T, TMUS, CMCSA, CHTR, CSCO, ANET, AMT, CCI, SBAC, NWSA, NYT, META, GOOGL).
+  // Communication COUPLES to technology (chips/software is a coupling, not the
+  // identity) and to intelligence (signals collection is a coupling), but its OWN
+  // content is never energy oil/gas/grid; it is also kept DISTINCT from culture
+  // (culture = content/movements/scenes; communication = the CHANNELS/networks/
+  // information-flow that carry them). Mirrors the energy anchor where two stressors
+  // pair into a structural squeeze — communication pairs spectrum-crunch +
+  // broadcast-failure into a transmission-capacity squeeze, and misinformation-surge
+  // + censorship-event into an information-control posture, not noise dampened away.
+  // Mirrors the communication-brain cross-domain conditions:
+  //   SPECTRUM_CRUNCH + BROADCAST_FAILURE        → transmission-capacity squeeze
+  //   MISINFORMATION_SURGE + CENSORSHIP_EVENT     → information-control posture
+  //   NETWORK_DISRUPTION + BROADCAST_FAILURE      → connectivity-infrastructure collapse
+  //   MEDIA_CONCENTRATION + CENSORSHIP_EVENT      → channel-gatekeeping concentration
+  //   NETWORK_DISRUPTION + MISINFORMATION_SURGE   → degraded-channel narrative exposure
+  // Signal tokens are matched against recorded action/type/pattern text — never
+  // invented; absence of tokens simply yields no stack (silent, no false signal).
+  // STRICTLY ADDITIVE: advisory only; never participates in /api/limen/score scoring.
+  var COMMUNICATION_SIGNAL_TOKENS = {
+    NETWORK_DISRUPTION:    /(outage|shutdown|blackout|connectivity[_\s-]?loss|internet[_\s-]?down|network[_\s-]?down|service[_\s-]?disruption|fiber[_\s-]?cut|cell[_\s-]?site[_\s-]?down|tower[_\s-]?down|dropped[_\s-]?connection|broadband[_\s-]?outage)/i,
+    SPECTRUM_CRUNCH:       /(spectrum|bandwidth|allocation|frequency|interference|airwave|c[_\s-]?band|mid[_\s-]?band|5g[_\s-]?spectrum|fcc[_\s-]?auction|spectrum[_\s-]?scarcity|capacity[_\s-]?crunch|congestion[_\s-]?network)/i,
+    BROADCAST_FAILURE:     /(transmission|distribution|infrastructure[_\s-]?fail|network[_\s-]?fail|broadcast[_\s-]?failure|backhaul|backbone[_\s-]?fail|tower[_\s-]?failure|antenna[_\s-]?fail|signal[_\s-]?loss|relay[_\s-]?fail|carrier[_\s-]?outage)/i,
+    CENSORSHIP_EVENT:      /(censor|suppress|restrict|platform[_\s-]?ban|content[_\s-]?remov|takedown|deplatform|throttl|content[_\s-]?moderation|account[_\s-]?suspension|government[_\s-]?block|internet[_\s-]?restriction|news[_\s-]?blackout)/i,
+    MISINFORMATION_SURGE:  /(disinformation|misinformation|narrative[_\s-]?manip|amplification|deepfake|fake[_\s-]?news|bot[_\s-]?network|coordinated[_\s-]?inauthentic|propaganda|information[_\s-]?warfare|viral[_\s-]?falsehood|astroturf)/i,
+    MEDIA_CONCENTRATION:   /(monopoly|consolidat|merger|market[_\s-]?concentrat|antitrust[_\s-]?media|media[_\s-]?ownership|carrier[_\s-]?consolidation|broadcast[_\s-]?consolidation|gatekeep|vertical[_\s-]?integration[_\s-]?media|local[_\s-]?news[_\s-]?collapse|news[_\s-]?desert)/i
+  };
+
+  // Communication-vulnerability STACKS — ordered token pairs with a communication
+  // interpretation. Each describes an operator-concentration meaning specific to a
+  // communication vulnerability stack (networks & connectivity, spectrum & bandwidth,
+  // transmission & distribution infrastructure, censorship & platform restriction,
+  // misinformation & narrative amplification, media concentration) — NOT energy
+  // oil/gas/grid content, NOT technology chips/software as identity (a coupling), NOT
+  // intelligence signals-collection as identity (a coupling), and NOT culture content/
+  // movements/scenes (communication is the CHANNELS that carry them). Communication is
+  // the information-flow infrastructure and the channels of public discourse.
+  var COMMUNICATION_VULN_STACKS = [
+    { id: 'SPECTRUM_INFRASTRUCTURE_SQUEEZE', signals: ['SPECTRUM_CRUNCH', 'BROADCAST_FAILURE'],
+      body: 'Operator attention concentrates on the spectrum-crunch + broadcast-failure stack — a transmission-capacity squeeze where bandwidth/frequency allocation pressure collides with transmission and distribution infrastructure failures across towers, fiber, and backhaul (T/VZ/TMUS/AMT/CCI/SBAC exposure).' },
+    { id: 'MISINFORMATION_REGULATORY_PINCH', signals: ['MISINFORMATION_SURGE', 'CENSORSHIP_EVENT'],
+      body: 'Operator attention concentrates on the misinformation-surge + censorship-event stack — an information-integrity erosion under platform and government pressure, where narrative manipulation and amplification meet content removal, throttling, and restriction (META/GOOGL/NWSA/NYT exposure).' },
+    { id: 'CONNECTIVITY_INFRASTRUCTURE_COLLAPSE', signals: ['NETWORK_DISRUPTION', 'BROADCAST_FAILURE'],
+      body: 'Operator attention concentrates on the network-disruption + broadcast-failure stack — a connectivity-infrastructure collapse where outages and connectivity loss compound with transmission/distribution and backbone failures (CMCSA/CHTR/CSCO/ANET exposure).' },
+    { id: 'CHANNEL_GATEKEEPING_CONCENTRATION', signals: ['MEDIA_CONCENTRATION', 'CENSORSHIP_EVENT'],
+      body: 'Operator attention concentrates on the media-concentration + censorship-event stack — a channel-gatekeeping concentration where consolidation and monopoly control of distribution channels meet platform bans, takedowns, and content restriction (CMCSA/NWSA/GOOGL/META exposure).' },
+    { id: 'DEGRADED_CHANNEL_NARRATIVE_EXPOSURE', signals: ['NETWORK_DISRUPTION', 'MISINFORMATION_SURGE'],
+      body: 'Operator attention concentrates on the network-disruption + misinformation-surge stack — a degraded-channel narrative exposure where outages and connectivity loss leave information channels vulnerable to disinformation and coordinated amplification (T/VZ/META/GOOGL exposure).' }
+  ];
+
   // ─── Environment vulnerability-stack semantics ─────────────────────────────
   // ENVIRONMENTAL domain-semantic concentration. As with infrastructure, culture,
   // finance, economy, technology, intelligence, trade and industry, generic
@@ -652,6 +717,8 @@
   var _lastGovernanceStackId = null;
   var _lastAgricultureStackTime = 0;
   var _lastAgricultureStackId = null;
+  var _lastCommunicationStackTime = 0;
+  var _lastCommunicationStackId = null;
   var _interval = null;
 
   // Detect which civil signal families a user-action references, by scanning its
@@ -786,6 +853,18 @@
     return hits;
   }
 
+  // Detect which communication signal families a user-action references, by scanning its
+  // free-text fields (action / type / cross-domain pattern). Returns a list of
+  // canonical communication signal ids. Never fabricates — empty if nothing matches.
+  function _detectCommunicationSignals(text) {
+    if (!text) return [];
+    var hits = [];
+    for (var sig in COMMUNICATION_SIGNAL_TOKENS) {
+      if (COMMUNICATION_SIGNAL_TOKENS[sig].test(text)) hits.push(sig);
+    }
+    return hits;
+  }
+
   // ─── Record decision ─────────────────────────────────────────────────────
 
   function _onUserAction(e) {
@@ -858,6 +937,10 @@
       // AGRICULTURE: which agricultural signal families this action touches (may be []).
       agricultureSignals: _detectAgricultureSignals(
         [detail.action, detail.type, matchedPattern, detail.signal, detail.diagnosis].join(' ')
+      ),
+      // COMMUNICATION: which communication signal families this action touches (may be []).
+      communicationSignals: _detectCommunicationSignals(
+        [detail.action, detail.type, matchedPattern, detail.signal, detail.diagnosis].join(' ')
       )
     };
 
@@ -879,6 +962,7 @@
     _checkEnvironmentStackConcentration();
     _checkGovernanceStackConcentration();
     _checkAgricultureStackConcentration();
+    _checkCommunicationStackConcentration();
   }
 
   // ─── Concentration detection ──────────────────────────────────────────────
@@ -1697,6 +1781,73 @@
     });
   }
 
+  // ─── Communication vulnerability-stack concentration ──────────────────────
+  // Domain-semantic concentration for COMMUNICATION: beyond "which domain" (above),
+  // surface WHICH communication-vulnerability STACK the operator keeps returning to.
+  // Tallies co-occurring communication signal families across recent entries and fires
+  // when a known stack (spectrum-infrastructure squeeze, misinformation-regulatory
+  // pinch, connectivity-infrastructure collapse, channel-gatekeeping concentration,
+  // degraded-channel narrative exposure) crosses the threshold.
+  // Schema-faithful to _checkAgricultureStackConcentration (same phase-change shape).
+
+  function _checkCommunicationStackConcentration() {
+    var now = Date.now();
+    if (now - _lastCommunicationStackTime < COMMUNICATION_STACK_COOLDOWN) return;
+    if (_entries.length < COMMUNICATION_STACK_THRESHOLD) return;
+
+    // Count per-signal-family hits across recent entries (last 10).
+    var recent = _entries.slice(-10);
+    var sigCounts = {};
+    for (var i = 0; i < recent.length; i++) {
+      var sigs = recent[i].communicationSignals || [];
+      for (var s = 0; s < sigs.length; s++) {
+        sigCounts[sigs[s]] = (sigCounts[sigs[s]] || 0) + 1;
+      }
+    }
+
+    // A stack fires only when BOTH of its signal families are present and at least
+    // one of them has been focused on repeatedly (>= threshold). Score = sum of the
+    // pair's counts; pick the strongest stack.
+    var best = null;
+    for (var k = 0; k < COMMUNICATION_VULN_STACKS.length; k++) {
+      var stack = COMMUNICATION_VULN_STACKS[k];
+      var a = sigCounts[stack.signals[0]] || 0;
+      var b = sigCounts[stack.signals[1]] || 0;
+      if (a === 0 || b === 0) continue;
+      if (Math.max(a, b) < COMMUNICATION_STACK_THRESHOLD) continue;
+      var score = a + b;
+      if (!best || score > best.score) best = { stack: stack, a: a, b: b, score: score };
+    }
+
+    if (!best) return;
+    if (best.stack.id === _lastCommunicationStackId) return; // don't re-narrate the same stack
+
+    _lastCommunicationStackTime = now;
+    _lastCommunicationStackId = best.stack.id;
+
+    var drivers = [
+      best.a + ' recent actions touching ' + best.stack.signals[0],
+      best.b + ' recent actions touching ' + best.stack.signals[1]
+    ];
+
+    var options = [
+      { label: 'deepen ' + best.stack.id.toLowerCase().replace(/_/g, ' ') + ' analysis', type: 'analysis' },
+      { label: 'broaden scope', type: 'monitoring' },
+      { label: 'hold', type: 'monitoring' }
+    ];
+
+    _dispatch('limen:phase-change', {
+      from: 'observing',
+      to: 'concentrated',
+      type: 'decision-memory',
+      domain: 'communication',
+      stackId: best.stack.id,
+      topDrivers: drivers,
+      options: options,
+      body: best.stack.body
+    });
+  }
+
   // ─── Publish ──────────────────────────────────────────────────────────────
 
   function _publish() {
@@ -1715,6 +1866,7 @@
       environmentSignalConcentration: _environmentSignalConcentration(),
       governanceSignalConcentration: _governanceSignalConcentration(),
       agricultureSignalConcentration: _agricultureSignalConcentration(),
+      communicationSignalConcentration: _communicationSignalConcentration(),
       updated: Date.now()
     };
 
@@ -1899,6 +2051,23 @@
     var recent = _entries.slice(-10);
     for (var i = 0; i < recent.length; i++) {
       var sigs = recent[i].agricultureSignals || [];
+      for (var s = 0; s < sigs.length; s++) {
+        counts[sigs[s]] = (counts[sigs[s]] || 0) + 1;
+      }
+    }
+    var out = [];
+    for (var sig in counts) { out.push({ signal: sig, count: counts[sig] }); }
+    out.sort(function (x, y) { return y.count - x.count; });
+    return out;
+  }
+
+  // COMMUNICATION: roll up which communication signal families recent attention
+  // concentrates on (descending by count). Empty when no communication signals were detected.
+  function _communicationSignalConcentration() {
+    var counts = {};
+    var recent = _entries.slice(-10);
+    for (var i = 0; i < recent.length; i++) {
+      var sigs = recent[i].communicationSignals || [];
       for (var s = 0; s < sigs.length; s++) {
         counts[sigs[s]] = (counts[sigs[s]] || 0) + 1;
       }

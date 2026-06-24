@@ -417,8 +417,79 @@
       analystEnabled: true,
       connectomeNodes: [8, 15],  // AI + FPCN
       feeds: [
+        // ── Institutional-quality "price/cost" anchors (real quantitative connectivity metrics) ──
+        // Communication equivalent of energy's EIA/FRED commodity anchors: instead of oil/gas
+        // spot prices, communication's quantitative spine is the CONNECTIVITY & DISTRIBUTION
+        // backbone — the price discovery and demand signals of the CHANNELS that carry
+        // information (towers / fiber / spectrum / broadband / broadcast / streaming), plus the
+        // financial health of the journalism institutions that produce the news flow. This
+        // closes the registry asymmetry where communication had only qualitative news/press-
+        // freedom RSS and no live institutional-quality anchor like energy's commodity price.
+        // Communication binds to the NETWORKS & INFORMATION FLOW (distinct from culture's
+        // content/scenes, technology's chips/software coupling, and intelligence's signals-
+        // collection coupling). Every FRED series_id is REAL and every ticker is a REAL listed
+        // telecom/media equity (never fabricated).
+        // -- Spectrum / connectivity price discovery (the telecom "crude price") --
+        // FCC spectrum auction clearing prices = the price discovery of wireless frequency,
+        // the communication equivalent of an oil-barrel spot price (mirrors EIA Petroleum LIVE).
+        { name: 'FCC Spectrum Auction Clearing Data', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.fcc.gov/auctions/summary', feedClass: 'spectrum_pricing', commodity: 'wireless_spectrum' }, // FCC spectrum auction clearing prices — wireless-frequency price discovery (mirrors EIA Petroleum LIVE role)
+        { name: 'OOKLA Broadband Speed Index', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.speedtest.net/global-index', feedClass: 'connectivity_quality', commodity: 'broadband_throughput' }, // Ookla median fixed/mobile speeds — connectivity throughput/quality baseline
+        { name: 'FCC Broadband Coverage (BDC)', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'broadbandmap.fcc.gov/data-download', feedClass: 'connectivity_quality', commodity: 'broadband_coverage' }, // FCC Broadband Data Collection — coverage/availability map — connectivity reach signal
+        // -- Macro connectivity price/cost trend (real FRED series — the directional anchor) --
+        { name: 'FRED CPI Telephone Services', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=CUUR0000SEED', feedClass: 'price_cost', seriesId: 'CUUR0000SEED' }, // CPI telephone services — consumer connectivity price trend (mirrors FRED Crude Oil LIVE)
+        { name: 'FRED CPI Internet Services', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=CUUR0000SEEE03', feedClass: 'price_cost', seriesId: 'CUUR0000SEEE03' }, // CPI internet services & electronic information providers — broadband price trend
+        { name: 'FRED PPI Wired Telecom Carriers', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=PCU5171515171511', feedClass: 'price_cost', seriesId: 'PCU5171515171511' }, // PPI wired telecommunications carriers — wholesale connectivity price level
+        { name: 'FRED Telecom Sector Employment', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=CES5051700001', feedClass: 'industry_health', seriesId: 'CES5051700001' }, // telecommunications sector employment — network-industry capacity health
+        // -- Journalism / media industry financial health (the news-flow institutional anchor) --
+        // Institutional-quality anchor for the JOURNALISM capacity that produces the news flow
+        // (the communication analogue of governance's WGI institutional-quality metrics): media
+        // employment + sector financial health as the structural quality of the information supply.
+        { name: 'FRED Publishing & Broadcasting Employment', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=CES5051000001', feedClass: 'institutional_quality', seriesId: 'CES5051000001' }, // information-sector (publishing/broadcasting) employment — journalism-capacity anchor
+        { name: 'FRED Newspaper Publishers Employment', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=CES5051110001', feedClass: 'institutional_quality', seriesId: 'CES5051110001' }, // newspaper publishers employment — newsroom-headcount / journalism-supply trend
+        { name: 'Pew State of the News Media', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.pewresearch.org/journalism/fact-sheet/newspapers/', feedClass: 'institutional_quality' }, // Pew newsroom revenue / profitability / headcount — news-industry structural health
+        { name: 'Reuters Institute Digital News', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'reutersinstitute.politics.ox.ac.uk/digital-news-report', feedClass: 'institutional_quality' }, // Reuters Institute — global news consumption / trust — information-flow demand & quality
+        // ── Telecom / media / network industrial base (REAL listed equities, never fabricated) ──
+        // Per-name equities for the communication industrial base; the company analogue of
+        // energy's commodity anchors. Tickers are REAL: VZ/T/TMUS/LUMN (carriers), AMT/CCI/SBAC
+        // (tower/infra REITs), CMCSA/CHTR (cable/distribution), NFLX (streaming distribution),
+        // CSCO/ANET/ERIC/NOK (network equipment), QCOM (wireless silicon — connectivity coupling),
+        // NWSA/NYT (news institutions), META/GOOGL (social-media distribution platforms).
+        { name: 'Polygon.io VZ', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/VZ/prev', feedClass: 'carrier', ticker: 'VZ' },       // Verizon — prime (wireless/wireline carrier — subscriber/ARPU demand signal)
+        { name: 'Polygon.io T', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/T/prev', feedClass: 'carrier', ticker: 'T' },         // AT&T — prime (wireless/fiber carrier — net-adds / churn demand signal)
+        { name: 'Polygon.io TMUS', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/TMUS/prev', feedClass: 'carrier', ticker: 'TMUS' }, // T-Mobile US — prime (wireless carrier — spectrum depth / net-adds)
+        { name: 'Polygon.io LUMN', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/LUMN/prev', feedClass: 'carrier', ticker: 'LUMN' }, // Lumen Technologies — prime (fixed-line / fiber backbone capacity)
+        { name: 'Polygon.io AMT', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/AMT/prev', feedClass: 'infrastructure_reit', ticker: 'AMT' },   // American Tower — prime (cell-tower infrastructure REIT — tower utilization)
+        { name: 'Polygon.io CCI', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/CCI/prev', feedClass: 'infrastructure_reit', ticker: 'CCI' },   // Crown Castle — prime (towers + fiber/small-cell infrastructure REIT)
+        { name: 'Polygon.io SBAC', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/SBAC/prev', feedClass: 'infrastructure_reit', ticker: 'SBAC' }, // SBA Communications — prime (wireless-tower infrastructure REIT)
+        { name: 'Polygon.io CMCSA', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/CMCSA/prev', feedClass: 'distribution', ticker: 'CMCSA' }, // Comcast — prime (cable broadband + NBCU media distribution)
+        { name: 'Polygon.io CHTR', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/CHTR/prev', feedClass: 'distribution', ticker: 'CHTR' },   // Charter Communications — prime (Spectrum cable broadband distribution)
+        { name: 'Polygon.io NFLX', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/NFLX/prev', feedClass: 'distribution', ticker: 'NFLX' },   // Netflix — prime (streaming video distribution — bandwidth/subscriber demand)
+        { name: 'Polygon.io CSCO', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/CSCO/prev', feedClass: 'network_equipment', ticker: 'CSCO' }, // Cisco Systems — prime (routing/switching network equipment)
+        { name: 'Polygon.io ANET', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/ANET/prev', feedClass: 'network_equipment', ticker: 'ANET' }, // Arista Networks — prime (data-center/cloud network switching)
+        { name: 'Polygon.io ERIC', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/ERIC/prev', feedClass: 'network_equipment', ticker: 'ERIC' }, // Ericsson — prime (radio-access / 5G network infrastructure)
+        { name: 'Polygon.io NOK', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/NOK/prev', feedClass: 'network_equipment', ticker: 'NOK' },   // Nokia — prime (mobile/fixed network infrastructure)
+        { name: 'Polygon.io QCOM', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/QCOM/prev', feedClass: 'wireless_silicon', ticker: 'QCOM' }, // Qualcomm — coupling (wireless modem/connectivity silicon — distinct from technology chips)
+        { name: 'Polygon.io NWSA', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/NWSA/prev', feedClass: 'news_institution', ticker: 'NWSA' }, // News Corp — prime (news publishing institution — journalism capacity)
+        { name: 'Polygon.io NYT', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/NYT/prev', feedClass: 'news_institution', ticker: 'NYT' },   // New York Times — prime (digital news subscription / journalism institution)
+        { name: 'Polygon.io META', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/META/prev', feedClass: 'platform_distribution', ticker: 'META' }, // Meta Platforms — prime (social-media distribution channel for information flow)
+        { name: 'Polygon.io GOOGL', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/GOOGL/prev', feedClass: 'platform_distribution', ticker: 'GOOGL' }, // Alphabet — prime (search/YouTube distribution channel for information flow)
+        { name: 'Polygon.io FCOM', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/FCOM/prev', feedClass: 'sector_proxy', ticker: 'FCOM' },   // Fidelity Communication Services ETF — communication industrial-base regime proxy
+        // ── Operational status / infrastructure-dependency / regulatory feeds (mirror infrastructure registry) ──
+        // The communication analogue of infrastructure's NERC/FERC/ISO-RTO grid feeds: the
+        // operational reliability of the CHANNELS — network/SCADA security, submarine/fiber
+        // cable status, satellite-constellation health, and the regulatory throughput governing
+        // telecom. These are the connectivity equivalent of grid-reliability metrics.
+        { name: 'CISA Telecom ICS Alerts', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.cisa.gov/cybersecurity-advisories/all.xml', feedClass: 'security_alert' }, // cyber-physical / ICS / SCADA advisories affecting telecom network management
+        { name: 'FCC Enforcement Bureau Actions', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.fcc.gov/enforcement/orders/rss', feedClass: 'regulatory' },          // FCC enforcement actions — telecom rule violations / compliance throughput
+        { name: 'FCC Rulemaking (Federal Register)', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.federalregister.gov/api/v1/documents.json?conditions[agencies][]=federal-communications-commission', feedClass: 'regulatory' }, // FCC rulemakings — spectrum/broadband/media-ownership regulatory context
+        { name: 'TeleGeography Submarine Cable Status', apiKey: 'TELEGEOGRAPHY_API_KEY', status: FEED_STATUS.PENDING, endpoint: 'www.submarinecablemap.com', feedClass: 'infrastructure_status' }, // submarine/international fiber cable status — LIVE once operator key provided; falls back to heuristic
+        { name: 'CelesTrak Satellite Catalog', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'celestrak.org/NORAD/elements/gp.php?GROUP=active&FORMAT=json', feedClass: 'infrastructure_status' }, // active communications-satellite constellation health / conjunction proximity (NORAD TLEs)
+        { name: 'NERC Reliability (Telecom Load)', apiKey: 'NERC_API_KEY', status: FEED_STATUS.PENDING, endpoint: 'api.nerc.net/reliability/metrics', feedClass: 'infrastructure_dependency' }, // grid power feeding telecom/data-center infrastructure — LIVE once operator key provided
+        { name: 'Telecom Net Subscriber Adds', apiKey: 'CARRIER_REPORTING_API', status: FEED_STATUS.PENDING, endpoint: 'internal:carrier-nacs-reporting', feedClass: 'demand_signal' }, // aggregate carrier net-adds / churn / ARPU — connectivity demand signal; PENDING until carrier reporting bridge added
+        // ── News / narrative / press-freedom signals (kept — qualitative information-flow channel) ──
         { name: 'NewsAPI Headlines', apiKey: 'NEWS_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'newsapi.org/v2/top-headlines' },
         { name: 'RSS Media', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'multi-source-rss-aggregator' },
+        { name: 'NewsGuard Media Trust Index', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.newsguardtech.com/ratings/rating-process-criteria/', feedClass: 'institutional_quality' }, // NewsGuard credibility ratings — institutional-quality proxy for journalism trust
         { name: 'Reporters Without Borders', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'rsf.org/en/rss.xml' },
         { name: 'CPJ Press Freedom', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'cpj.org/feed' },
         { name: 'Snopes Fact Checks', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'snopes.com/feed' },

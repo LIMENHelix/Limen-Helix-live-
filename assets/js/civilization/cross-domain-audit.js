@@ -500,7 +500,94 @@
     // from environment_core (the policy/law/governance/research climate-
     // institutional lens). Environment & economy are COUPLINGS here (the climate
     // driver and the food-price aggregate); agriculture is the SOURCE.
-    { id: 'agriculture_commodity_chain', domains: ['agriculture', 'environment', 'economy', 'supplyChain', 'finance'] }
+    { id: 'agriculture_commodity_chain', domains: ['agriculture', 'environment', 'economy', 'supplyChain', 'finance'] },
+    // ─── Communication-native affinity groups ─────────────────────────────
+    // Communication is a SOURCE domain here, not only an episodic MEMBER of
+    // culture_arc / culture_core (where culture is the source and communication
+    // surfaces as the narrative carrier). Its OWN identity is telecommunications
+    // & networks, connectivity & broadband, internet infrastructure (cell towers,
+    // fiber, spectrum), media & broadcasting CHANNELS, journalism & news flow,
+    // information dissemination, social-media platforms AS DISTRIBUTION, and
+    // public-discourse infrastructure. Kept DISTINCT from culture (culture =
+    // content/movements/scenes; communication = the CHANNELS/networks/
+    // information-flow that carry them), technology (chips/software/cloud is a
+    // COUPLING, not communication's identity), and intelligence (signals
+    // COLLECTION is a coupling; communication is the open civilian carriage of
+    // information). Real-sector anchors are the telecom carriers (VZ, T, TMUS),
+    // cable/broadband (CMCSA, CHTR), tower/spectrum REITs (AMT, CCI, SBAC),
+    // networking gear (CSCO, ANET), media/journalism (NWSA, NYT), and the
+    // platform-distribution giants (META, GOOGL) — NEVER energy oil/gas/grid as
+    // communication's OWN content.
+    //
+    // (1) communication_core — the communication-institutional envelope (HIGH
+    // priority; mirror of infrastructure_core / financial_core / culture_core /
+    // technology_core / defense_core / governance_core / environment_core, but
+    // built around the MEDIA-INSTITUTIONAL base — journalism/media outlets,
+    // broadcasting, telecom carriers, spectrum-governance, the free-speech legal
+    // regime, and public-discourse infrastructure — rather than a regulatory
+    // regime alone). Journalism, media & broadcasting are co-borne by their
+    // spectrum / digital-platform / broadcast-licensing policy regime (governance
+    // — FCC spectrum auctions, platform/Section-230 policy, broadcast licensing),
+    // the free-speech & platform-liability legal regime (law — First-Amendment,
+    // platform liability, defamation, FCC/FTC enforcement), the capital that funds
+    // newsroom operations & carrier capex (finance — ad-revenue, subscription,
+    // newsroom funding, 5G/fiber buildout capital for VZ/T/TMUS/CMCSA/CHTR), the
+    // research substrate (research — journalism-partnership, media-literacy R&D,
+    // disinformation studies), and the platform/network technology layer
+    // (technology — CDN stability, codec standards, social-media APIs, the
+    // CSCO/ANET routing fabric). When these co-elevate the signal is a
+    // MEDIA-INSTITUTIONAL SUSTAINABILITY / LEGITIMACY crisis — newsroom-layoffs +
+    // regulatory-pressure + audience-fragmentation + ad-revenue-collapse moving
+    // together (an audience-trust / ad-sustainability / newsroom-operations /
+    // regulatory-compliance feedback loop) — rather than an isolated narrative
+    // signal. Communication is the SOURCE domain here, not merely the narrative
+    // carrier it plays inside culture_core.
+    { id: 'communication_core', domains: ['communication', 'governance', 'law', 'finance', 'research', 'technology'] },
+    // (2) information_ecosystem_integrity — the OSINT / media-freedom /
+    // regulatory-coherence channel (mirror of rule_of_law on the information
+    // side): open information flow, media freedom, and news-ecosystem integrity
+    // are co-borne by the all-source collection/analysis surface that consumes
+    // and is shaped by open media (intelligence — OSINT, influence-ops exposure),
+    // the free-speech / platform-liability / press-protection legal regime (law),
+    // and the spectrum / platform / press policy regime (governance — media
+    // regulation, broadcast licensing, platform oversight). When these co-elevate
+    // the signal is an INFORMATION-ECOSYSTEM INTEGRITY stress (press-freedom
+    // erosion + platform-liability pressure + collection/influence-ops exposure
+    // moving together), distinct from a media-institutional sustainability crisis
+    // (communication_core, which is the capital/operations lens). Communication
+    // is the SOURCE; intelligence is a COUPLING (collection shaped by open media),
+    // NOT the carriage itself.
+    { id: 'information_ecosystem_integrity', domains: ['communication', 'intelligence', 'law', 'governance'] },
+    // (3) narrative_infrastructure — the attention-flow & democratic-discourse
+    // health channel (mirror of culture_arc, but with communication as the SOURCE
+    // CHANNEL rather than a member carrier of cultural output): the information/
+    // narrative carriage (communication — virality, discourse propagation,
+    // platform-distribution reach for META/GOOGL, news flow for NWSA/NYT) drives
+    // and is driven by the cultural content it transmits (culture — scenes,
+    // movements, the meaning carried), the audience mass that supplies attention
+    // (population — fandom/electorate size, attention supply), and the taste-/
+    // literacy-forming substrate that conditions how narratives land (education —
+    // media literacy, critical-reading capacity). When these co-elevate the signal
+    // is a NARRATIVE-INFRASTRUCTURE / public-discourse-health stress (attention
+    // fragmentation, discourse-channel breakdown, audience-trust erosion) rather
+    // than an isolated cultural-scene shift. Culture is a COUPLING here (the
+    // content carried), not the source; communication is the CHANNEL.
+    { id: 'narrative_infrastructure', domains: ['communication', 'culture', 'population', 'education'] },
+    // (4) telecom_resilience — the network-uptime & spectrum-policy coupling
+    // (mirror of energy_chain / intelligence_collection_infrastructure on the
+    // telecom side): network connectivity, broadband reach, and carrier-network
+    // resilience are co-borne by the physical plant the network runs on
+    // (infrastructure — cell towers AMT/CCI/SBAC, fiber routes, data-center
+    // interconnect, broadcast sites), the build/equipment & routing-fabric layer
+    // (technology — CSCO/ANET networking gear, 5G radios, codec/CDN stack), and
+    // the spectrum-allocation & telecom policy regime (governance — FCC spectrum
+    // auctions, universal-service mandates, net-neutrality/interconnection
+    // policy). When these co-elevate the signal is a TELECOM-RESILIENCE stress
+    // (a network-uptime/connectivity failure coinciding with an equipment/routing
+    // shortfall + a spectrum/policy constraint) — the carriage-layer mirror of an
+    // energy grid-reliability event. Technology is a COUPLING (the gear), not
+    // communication's identity (the carriage/connectivity).
+    { id: 'telecom_resilience', domains: ['communication', 'infrastructure', 'technology', 'governance'] }
   ];
 
   // Tunables — keep conservative; this is a deciphering layer not a noise
@@ -861,7 +948,27 @@
       ['governance', 'research'],         // policy-evidence demand ↔ research-consensus & evidence-base signal quality
       ['governance', 'finance'],          // public-finance & budget-capacity signal ↔ capital-market & funding signal quality
       ['governance', 'population'],       // legitimacy & institutional-trust signal ↔ public-confidence & political-stability read
-      ['governance', 'intelligence']      // policy-tasking & oversight-authority signal ↔ collection-authorization & ISR picture quality
+      ['governance', 'intelligence'],     // policy-tasking & oversight-authority signal ↔ collection-authorization & ISR picture quality
+      // Communication vs its institutional / capability partners (mirror of
+      // technology↔its physical envelope, finance↔its economic envelope,
+      // defense↔its capability partners, governance↔its institutional partners):
+      // when communication evidence (carrier network-uptime & spectrum telemetry
+      // for VZ/T/TMUS, broadband/cable subscriber & outage feeds for CMCSA/CHTR,
+      // tower-occupancy for AMT/CCI/SBAC, routing-fabric/peering telemetry for
+      // CSCO/ANET, newsroom/audience & circulation signal for NWSA/NYT,
+      // platform-distribution reach for META/GOOGL) is strong but the partner
+      // domain is proxy-heavy, the bottleneck is the partner's signal quality —
+      // the spectrum/platform policy read, the free-speech/liability legal record,
+      // the ad-revenue/newsroom-capital signal, the physical tower/fiber plant
+      // telemetry, or the content/cultural read — NOT the communication signal
+      // itself. Communication drives the comparison as a SOURCE domain across its
+      // institutional partners. Kept DISTINCT from culture (content/scenes),
+      // technology (gear/cloud coupling), and intelligence (collection coupling).
+      ['communication', 'governance'],    // spectrum/platform/broadcast-licensing signal ↔ media & telecom policy/oversight quality
+      ['communication', 'law'],           // free-speech/platform-liability & press-protection signal ↔ legal-enforcement record quality
+      ['communication', 'finance'],       // newsroom/carrier ad-revenue & capex signal ↔ media-operations capital-access quality
+      ['communication', 'infrastructure'],// network-uptime & tower/fiber carriage signal ↔ physical telecom-plant telemetry quality
+      ['communication', 'culture']        // narrative-carriage & distribution-reach signal ↔ cultural-content/scene-vitality read quality
     ];
     var out = [];
     for (var i = 0; i < rivals.length; i++) {

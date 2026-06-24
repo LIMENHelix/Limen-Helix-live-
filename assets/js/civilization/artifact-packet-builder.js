@@ -239,7 +239,46 @@
     //     NO_ENRICHMENT_PATH (info, not warn) rather than UNKNOWN_LANE_FOR_PATH_MAP.
     'regulatory-compliance-modernization': 'INVESTABLE',
     'policy-coordination-platform':        'INVESTABLE',
-    'institutional-integrity':             null
+    'institutional-integrity':             null,
+    // ─── Communication-native fan-out lanes (additive) ─────────────────────
+    // The communication domain (telecommunications & networks, connectivity &
+    // broadband, internet infrastructure — towers / fiber / spectrum, media &
+    // broadcasting CHANNELS, journalism & news flow, information dissemination,
+    // social-media platforms as distribution, public-discourse infrastructure)
+    // emits to connectivity / spectrum / information-flow-shaped lanes beyond
+    // the generic grant/loan/investment set. Without entries here those lanes
+    // hit the "key absent" branch and emit UNKNOWN_LANE_FOR_PATH_MAP (warn),
+    // demoting every communication artifact routed through them — exactly the
+    // trade / industry / environment / governance gap fixed above. These are
+    // LANE keys (not domain keys), mirroring how sba-loans / investments map to
+    // INVESTABLE. Communication is the NEGOTIATOR, not a secondary participant:
+    // defense owns 'defense-procurement', intelligence owns
+    // 'intelligence-operations', industry owns 'industrial-capacity', and
+    // communication owns its connectivity / spectrum / information lanes. Kept
+    // DISTINCT from culture (culture = content / movements / scenes;
+    // communication = the CHANNELS / networks / information-flow), from
+    // technology (chips / software is a coupling, not the carrier identity), and
+    // from intelligence (signals COLLECTION is a coupling, not communication's
+    // open-network distribution identity).
+    //   - media-infrastructure-resilience: bounded telecom / broadcast / fiber
+    //     resilience capex (5G build-out, fiber-to-the-home, tower / data-center
+    //     interconnect, broadcast hardening) = capital deployment into carrier
+    //     infrastructure → INVESTABLE path (like sba-loans).
+    //   - spectrum-allocation-compliance: an FCC spectrum-modernization /
+    //     auction / licensing / regulatory-compliance build-out = capital
+    //     deployment into spectrum & compliance infrastructure → INVESTABLE path
+    //     (capital deployment).
+    //   - information-ecosystem-integrity: content-moderation / disinformation
+    //     countermeasures / press-freedom / internet-shutdown-resilience signal
+    //     bound to communication INDICATORS (RSF Press Freedom Index, CPJ,
+    //     Netblocks, Cloudflare Radar); genuine white-space — no Observatory
+    //     fan-in path defined yet (like franchise / systemic-risk /
+    //     factory-output / ecosystem-restoration / institutional-integrity) →
+    //     null. The packet is built from the HandoffPacket alone and emits
+    //     NO_ENRICHMENT_PATH (info, not warn) rather than UNKNOWN_LANE_FOR_PATH_MAP.
+    'media-infrastructure-resilience': 'INVESTABLE',
+    'spectrum-allocation-compliance':  'INVESTABLE',
+    'information-ecosystem-integrity': null
   };
 
   // ─── Lane forbidden-fields policy ──────────────────────────────────────
@@ -289,7 +328,15 @@
     // Mirrors sba-loans / investments policy.
     'regulatory-compliance-modernization': [],
     'policy-coordination-platform':        [],
-    'institutional-integrity':             []
+    'institutional-integrity':             [],
+    // Communication-native fan-out lanes (see LANE_TO_PATH). No fields forbidden —
+    // these are carrier-infrastructure / spectrum-compliance / information-integrity
+    // capital lanes where valueRange, compensation, and counterparty detail are
+    // load-bearing (unlike the patent/grant lanes that strip dollar figures).
+    // Mirrors sba-loans / investments policy.
+    'media-infrastructure-resilience': [],
+    'spectrum-allocation-compliance':  [],
+    'information-ecosystem-integrity': []
   };
 
   // ─── Citation hints — verified URLs / opaque agency tokens ONLY ────────
@@ -520,7 +567,48 @@
     'Conagra Brands Investor':               'https://www.conagrabrands.com/investors',
     'Ingredion Investor':                    'https://www.ingredion.com/en/investors',
     'AGCO Investor':                         'https://investor.agcocorp.com/',
-    'FMC Investor':                          'https://investor.fmc.com/'
+    'FMC Investor':                          'https://investor.fmc.com/',
+    // Communication primary-source authorities: the CONNECTIVITY & INFORMATION-FLOW
+    // signal layer (telecom carriers & networks, broadband / connectivity,
+    // internet infrastructure — towers / fiber / spectrum, broadcasting & media
+    // CHANNELS, journalism & news flow, press freedom, social-media distribution
+    // platforms). Anchored on the federal communications regulator (FCC), the
+    // press-freedom / journalist-safety authorities (RSF Reporters Without
+    // Borders, CPJ Committee to Protect Journalists), the broadcast-industry
+    // bodies (NAB, Broadcasters Foundation), and the real telecom / tower /
+    // network / media OPERATOR investor-relations pages (VZ, T, TMUS carriers;
+    // CMCSA, CHTR cable/broadband; CSCO, ANET networking; AMT, CCI, SBAC towers;
+    // NWSA, NYT news; META, GOOGL social/distribution platforms). DISTINCT from
+    // culture (no charts / discography / box-office — culture = content/scenes;
+    // communication = the CHANNELS that carry it), from technology (no chip /
+    // foundry sources — networking silicon is a coupling, not the carrier
+    // identity), and from intelligence (no SIGINT / collection sources — signals
+    // COLLECTION is a coupling; communication is open-network distribution).
+    // Verified canonical landing pages / opaque agency tokens only — never
+    // AI-constructed deep links. Mirrors the energy / infrastructure / culture /
+    // finance / economy / technology / defense / intelligence / industry /
+    // environment / agriculture structure.
+    'Federal Communications Commission':     'https://www.fcc.gov/',
+    'Press Freedom Index RSF':               'https://rsf.org/en/index',
+    'CPJ Press Freedom Violations':          'https://cpj.org/',
+    'National Association of Broadcasters':  'https://www.nab.org/',
+    'Broadcasters Foundation':               'https://www.broadcastersfoundation.org/',
+    'Cloudflare Radar':                      'https://radar.cloudflare.com/',
+    'Netblocks Internet Observatory':        'https://netblocks.org/',
+    'Verizon Investor Relations':            'https://www.verizon.com/about/investors',
+    'AT&T Investor Relations':               'https://investors.att.com/',
+    'T-Mobile Investor Relations':           'https://investor.t-mobile.com/',
+    'Comcast Investor Relations':            'https://www.cmcsa.com/',
+    'Charter Communications Investor Relations': 'https://ir.charter.com/',
+    'Cisco Investor Relations':              'https://investor.cisco.com/',
+    'Arista Networks Investor Relations':    'https://investors.arista.com/',
+    'American Tower Investor Relations':     'https://www.americantower.com/investor-relations',
+    'Crown Castle Investor Relations':       'https://investor.crowncastle.com/',
+    'SBA Communications Investor Relations': 'https://www.sbasite.com/English/investor-relations/',
+    'News Corp Investor Relations':          'https://investors.newscorp.com/',
+    'New York Times Investor Relations':     'https://investors.nytco.com/',
+    'Meta Investor Relations':               'https://investor.atmeta.com/',
+    'Alphabet Investor Relations':           'https://abc.xyz/investor/'
   };
 
   // ─── Domain-specific primary source priority ───────────────────────────
@@ -662,7 +750,28 @@
     // economy / technology / defense / intelligence / industry / environment
     // ordering so agriculture artifacts no longer demote through the
     // PRIMARY_BY_FALLBACK path.
-    agriculture: ['USDA NASS', 'CBOT Grain Futures', 'USDA WASDE', 'ADM Investor', 'Bunge Investor', 'Corteva Investor', 'Nutrien Investor', 'Mosaic Investor', 'CF Industries Investor', 'Deere Agriculture Investor', 'Tyson Foods Investor', 'AGCO Investor', 'FMC Investor']
+    agriculture: ['USDA NASS', 'CBOT Grain Futures', 'USDA WASDE', 'ADM Investor', 'Bunge Investor', 'Corteva Investor', 'Nutrien Investor', 'Mosaic Investor', 'CF Industries Investor', 'Deere Agriculture Investor', 'Tyson Foods Investor', 'AGCO Investor', 'FMC Investor'],
+    // Communication primary sources: connectivity & information-flow authorities
+    // that anchor the communication signal layer — the federal communications
+    // regulator (FCC = spectrum / licensing / rulemaking authority), the
+    // press-freedom & journalist-safety authorities (RSF Press Freedom Index,
+    // CPJ violations = the news-flow / information-integrity spine), the
+    // broadcast-industry bodies (NAB, Broadcasters Foundation), and the real
+    // telecom / tower / network / media OPERATORS (VZ, T, TMUS carriers; CMCSA,
+    // CHTR cable/broadband; CSCO, ANET networking; AMT, CCI, SBAC towers; NWSA,
+    // NYT news; META, GOOGL distribution platforms). Ranked highest-signal
+    // structural first: the FCC regulatory authority and the carrier / tower
+    // operators lead (the connectivity & spectrum spine), press-freedom indices
+    // and the distribution platforms ground the information-flow signal.
+    // DISTINCT from culture (no charts / discography — culture = content/scenes;
+    // communication = the CHANNELS), from technology (no chip / foundry sources
+    // — networking silicon is a coupling), and from intelligence (no SIGINT /
+    // collection sources — collection is a coupling; communication is
+    // open-network distribution). Mirrors the energy / infrastructure / culture /
+    // finance / economy / technology / defense / intelligence / industry /
+    // environment / agriculture ordering so communication artifacts no longer
+    // demote through the PRIMARY_BY_FALLBACK path.
+    communication: ['Federal Communications Commission', 'Verizon Investor Relations', 'AT&T Investor Relations', 'T-Mobile Investor Relations', 'Comcast Investor Relations', 'Charter Communications Investor Relations', 'American Tower Investor Relations', 'Crown Castle Investor Relations', 'Cisco Investor Relations', 'Arista Networks Investor Relations', 'Press Freedom Index RSF', 'CPJ Press Freedom Violations', 'News Corp Investor Relations', 'New York Times Investor Relations', 'Meta Investor Relations', 'Alphabet Investor Relations']
   };
 
   // ─── Feed token map for evidence-source verification ───────────────────
@@ -879,7 +988,45 @@
     'Conagra Brands Investor':   ['CAG', 'Conagra', 'food brand', 'packaged food', 'grocery'],
     'Ingredion Investor':        ['INGR', 'Ingredion', 'ingredient', 'starch', 'sweetener', 'food processing'],
     'AGCO Investor':             ['AGCO', 'farm equipment', 'tractor', 'harvesting', 'farm machinery'],
-    'FMC Investor':              ['FMC', 'FMC Corp', 'crop inputs', 'crop protection', 'pesticide', 'agricultural chemistry']
+    'FMC Investor':              ['FMC', 'FMC Corp', 'crop inputs', 'crop protection', 'pesticide', 'agricultural chemistry'],
+    // Communication feed tokens: literal substrings the brain's evidence prose
+    // must contain for _isEvidenceSourceVerified to anchor communication
+    // artifacts. Each entry mirrors a CITATION_HINTS / PRIMARY_PRIORITY_MAP
+    // communication feed so the connectivity & information-flow signal layer
+    // verifies instead of always failing. Anchors are the real communications-
+    // regulator vocabulary (FCC, spectrum, rulemaking, auction, licensing),
+    // press-freedom / news-flow vocabulary (RSF, CPJ, press freedom, internet
+    // shutdown), broadcast vocabulary (NAB, broadcast), and real telecom / tower /
+    // network / media OPERATOR tickers (VZ, T, TMUS, CMCSA, CHTR, CSCO, ANET,
+    // AMT, CCI, SBAC, NWSA, NYT, META, GOOGL) with their carrier / fiber / 5G /
+    // tower / broadband / streaming / distribution vocabulary — kept DISTINCT
+    // from culture (no charts / discography / box-office tokens — culture =
+    // content; communication = the CHANNELS), from technology (no chip / foundry
+    // tokens — networking silicon is a coupling), from intelligence (no SIGINT /
+    // collection tokens — collection is a coupling; this is open-network
+    // distribution), and from energy (no oil/gas/grid tokens). Matches the brain
+    // prose against real communications sources, not generic media words alone.
+    'Federal Communications Commission':     ['FCC', 'Federal Communications Commission', 'spectrum', 'rulemaking', 'auction', 'licensing', 'broadband deployment'],
+    'Press Freedom Index RSF':               ['RSF', 'Reporters Without Borders', 'press freedom', 'press freedom index'],
+    'CPJ Press Freedom Violations':          ['CPJ', 'Committee to Protect Journalists', 'press freedom', 'journalist', 'censorship'],
+    'National Association of Broadcasters':  ['NAB', 'National Association of Broadcasters', 'broadcast', 'broadcaster'],
+    'Broadcasters Foundation':               ['Broadcasters Foundation', 'broadcast industry'],
+    'Cloudflare Radar':                      ['Cloudflare Radar', 'Cloudflare', 'internet traffic', 'outage', 'internet shutdown'],
+    'Netblocks Internet Observatory':        ['Netblocks', 'NetBlocks', 'internet shutdown', 'connectivity disruption'],
+    'Verizon Investor Relations':            ['VZ', 'Verizon', 'wireless', '5G', 'fiber', 'broadband', 'network'],
+    'AT&T Investor Relations':               ['T', 'AT&T', 'wireless', 'fiber', '5G', 'broadband', 'connectivity'],
+    'T-Mobile Investor Relations':           ['TMUS', 'T-Mobile', 'wireless', '5G', 'spectrum', 'network'],
+    'Comcast Investor Relations':            ['CMCSA', 'Comcast', 'broadband', 'cable', 'Xfinity', 'connectivity', 'media'],
+    'Charter Communications Investor Relations': ['CHTR', 'Charter', 'Spectrum', 'broadband', 'cable', 'connectivity'],
+    'Cisco Investor Relations':              ['CSCO', 'Cisco', 'networking', 'router', 'switch', 'network infrastructure'],
+    'Arista Networks Investor Relations':    ['ANET', 'Arista', 'networking', 'data center switch', 'network infrastructure'],
+    'American Tower Investor Relations':     ['AMT', 'American Tower', 'tower', 'cell site', 'macro tower', 'colocation'],
+    'Crown Castle Investor Relations':       ['CCI', 'Crown Castle', 'tower', 'small cell', 'fiber', 'cell site'],
+    'SBA Communications Investor Relations': ['SBAC', 'SBA Communications', 'tower', 'cell site', 'wireless infrastructure'],
+    'News Corp Investor Relations':          ['NWSA', 'News Corp', 'news', 'publishing', 'journalism', 'media'],
+    'New York Times Investor Relations':     ['NYT', 'New York Times', 'news', 'journalism', 'subscription', 'digital news'],
+    'Meta Investor Relations':               ['META', 'Meta', 'Facebook', 'Instagram', 'social media', 'distribution platform', 'feed'],
+    'Alphabet Investor Relations':           ['GOOGL', 'GOOG', 'Alphabet', 'Google', 'YouTube', 'search', 'distribution platform']
   };
 
   // ─── Module-level flag: SCHEMA_VERSION_BUMPED warning ─────────────────

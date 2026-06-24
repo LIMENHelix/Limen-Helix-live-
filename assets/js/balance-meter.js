@@ -663,6 +663,86 @@
     { re: /electoral (stability|integrity|stabiliz)|peaceful (transfer|transition) (of power)?|orderly (transition|transfer|succession)|election(s)? (free and fair|certified|smooth|orderly)|political (stability|stabiliz|continuity)|(public )?service(s)? (deliver|recover|improv|restor)|(tyl|tyler technologies|mms|maximus|gdit|leidos|accenture federal) (deploy|modern|deliver) (service|system)|govtech (deploy|moderniz)/i, weight: 0.13, tag: 'electoral_stabilization' }
   ];
 
+  // ─── Communication-native semantics (TELECOM / NETWORKS / MEDIA CHANNELS) ──
+  // Energy parity (same shape as INFRA / CULTURE / FINANCE / ECONOMY /
+  // TECHNOLOGY / DEFENSE / INTELLIGENCE / TRADE / INDUSTRY / AGRICULTURE /
+  // GOVERNANCE above): the communication domain has its OWN failure/recovery
+  // vocabulary. Where energy reads crude_above_90 / grid_stress / chokepoint,
+  // infrastructure reads grid_reliability / deferred_maintenance, culture reads
+  // the attention economy, finance reads liquidity/credit, economy reads the
+  // business cycle, technology reads the compute stack, defense reads kinetic
+  // military power, intelligence reads the collection cycle, trade reads
+  // exports/tariffs/ports, industry reads factory output, agriculture reads
+  // crops/food, and governance reads institutions, COMMUNICATION reads the
+  // telecommunications & information-flow stack: telecom & networks (carriers,
+  // mobile, broadband), internet infrastructure (towers / fiber / spectrum),
+  // media & broadcasting CHANNELS, journalism & news flow, information
+  // dissemination, social-media platforms as DISTRIBUTION, and public-discourse
+  // infrastructure. Destabilizing = network outage / internet shutdown,
+  // spectrum crunch / bandwidth strain, connectivity gap, censorship event,
+  // media-trust collapse, misinformation surge, platform concentration,
+  // broadcast failure, signal degradation, and regulatory overreach.
+  // Stabilizing = network resilience recovery, spectrum allocation recovery,
+  // connectivity restoration, media-trust rebuilding, misinformation
+  // counter-narrative infrastructure, platform interoperability, and broadcast
+  // capacity recovery.
+  //
+  // Anchors are REAL telecom/network tickers (VZ Verizon, T AT&T, TMUS T-Mobile,
+  // CMCSA Comcast, CHTR Charter, CSCO Cisco, ANET Arista, AMT American Tower,
+  // CCI Crown Castle, SBAC SBA Communications) and media/journalism tickers
+  // (NWSA News Corp, NYT New York Times, META Meta, GOOGL Alphabet) — NEVER
+  // oil/gas/grid content as the domain's OWN identity. Communication COUPLES to
+  // technology via chips/software, to intelligence via signals collection, and
+  // to culture via content riding the channels, but its IDENTITY stays the
+  // CHANNELS / networks / information-flow (network uptime/downtime, spectrum
+  // availability/crunch, broadcast capacity/failure, information clarity/
+  // degradation, audience reach/loss, message integrity/corruption), kept
+  // DISTINCT from culture (content/movements/scenes), technology (chips/software
+  // is a coupling), and intelligence (signals collection is a coupling).
+  // ADVISORY ONLY — wholly separate from the validated P3 distress kernel.
+  //
+  // Each entry maps a keyword pattern (matched against the domain's signal
+  // strings) to a weighted push on the destabilizing or stabilizing score —
+  // identical mechanism to energy's condition→weight mapping, communication content.
+  var COMMUNICATION_DESTABILIZING = [
+    // Network outage / internet shutdown — carrier outage, 911 down, blackout.
+    { re: /network (outage|down|failure|blackout)|internet (shutdown|outage|blackout|kill ?switch)|(carrier|telecom|broadband|cellular|mobile) (outage|down|failure)|911 (outage|down|fail)|fiber cut|(vz|t|tmus|cmcsa|chtr) (outage|down|disruption)|service (blackout|outage) (network|telecom)/i, weight: 0.18, tag: 'network_outage' },
+    // Spectrum crunch / bandwidth strain — capacity exhaustion, congestion.
+    { re: /spectrum (crunch|shortage|exhaust|scarcity|congest)|bandwidth (strain|crunch|exhaust|saturat)|(network|backhaul) (congestion|saturat|overload)|capacity (exhaust|crunch) (spectrum|network|bandwidth)|airwave (shortage|crunch)|throughput (collapse|degrad) (network|bandwidth)/i, weight: 0.16, tag: 'spectrum_crunch' },
+    // Connectivity gap — digital divide, coverage hole, broadband desert.
+    { re: /connectivity (gap|loss|desert)|digital divide|coverage (gap|hole|dead ?zone)|broadband (desert|gap|unserved)|unconnected|no(-| )?service (gap|area)|(rural|underserved) (connectivity|broadband) (gap|loss)/i, weight: 0.13, tag: 'connectivity_gap' },
+    // Censorship event — content blocking, throttling, platform takedown.
+    { re: /censorship|content (block|takedown|removal mandate)|(internet|web|site) (block|ban|filter)|throttl(e|ing) (content|traffic|platform)|deplatform (state|government)|(government|state) (block|shutdown) (platform|media|site)|press (crackdown|restriction)/i, weight: 0.15, tag: 'censorship_event' },
+    // Media-trust collapse — credibility erosion, public distrust of news.
+    { re: /media (trust|credibility) (collapse|erod|plunge|crisis)|(public )?(trust|confidence) (in (the )?(media|press|news)) (collapse|erod|fall)|news (credibility|trust) (collapse|erod)|distrust (media|press|news) (surge|spike)|(nyt|nwsa) (credibility|trust) (loss|erod)/i, weight: 0.16, tag: 'media_trust_collapse' },
+    // Misinformation surge — disinformation flood, fake-news spread, deepfakes.
+    { re: /misinformation (surge|flood|spread|wave)|disinformation (surge|flood|campaign|spread)|fake news (surge|spread|wave)|deepfake (surge|flood|spread)|(false|misleading) (narrative|content) (surge|viral|spread)|information (warfare|pollution) (surge|escalat)/i, weight: 0.15, tag: 'misinformation_surge' },
+    // Platform concentration — distribution monopoly, gatekeeper choke, lock-in.
+    { re: /platform concentration|(distribution|media) (monopoly|consolidat)|(meta|googl|google) (dominance|gatekeep|monopol)|gatekeeper (choke|control) (platform|distribution)|(market|platform) (concentration|consolidation) (media|distribution|telecom)|single(-| )?platform (dependence|lock(-| )?in)/i, weight: 0.13, tag: 'platform_concentration' },
+    // Broadcast failure — transmitter down, broadcast outage, signal loss.
+    { re: /broadcast (failure|outage|down|loss)|transmitter (down|fail|outage)|(tv|radio|satellite) (broadcast )?(outage|down|fail)|(broadcast|uplink|downlink) signal (loss|down|fail)|station (off ?air|down|outage)|over(-| )?the(-| )?air (outage|loss)/i, weight: 0.14, tag: 'broadcast_failure' },
+    // Signal degradation — packet loss, latency surge, jitter, interference.
+    { re: /signal (degrad|loss|interference|jam)|packet loss (surge|spike)|latency (surge|spike|blow)|jitter (surge|spike)|(network|connection) (degrad|deteriorat)|interference (surge|spike) (signal|network)|message (integrity )?(corrupt|degrad)/i, weight: 0.12, tag: 'signal_degradation' },
+    // Regulatory overreach — net-neutrality rollback, surveillance mandate, data mandate.
+    { re: /regulatory overreach (telecom|media|communication)|net(-| )?neutrality (rollback|repeal|threat)|(surveillance|data(-| )?retention) mandate|(communication|telecom|media) (regulatory )?(crackdown|overreach|capture)|forced (data|content) (handover|localization)|spectrum (clawback|reallocation mandate)/i, weight: 0.13, tag: 'regulatory_overreach' }
+  ];
+  var COMMUNICATION_STABILIZING = [
+    // Network resilience recovery — outage restored, redundancy, hardening.
+    { re: /network (resilien|recover|restor|hardening|redundancy)|(carrier|telecom|broadband|cellular) (service )?(restor|recover|back online)|outage (restor|resolv|recover)|(redundan|failover) (deploy|build)|network (uptime|reliability) (gain|improv|restor)|(vz|t|tmus|cmcsa|chtr) (service (restor|recover))/i, weight: 0.16, tag: 'network_resilience_recovery' },
+    // Spectrum allocation recovery — spectrum freed, auction, capacity added.
+    { re: /spectrum (allocation|auction|reallocat|freed|grant)|(spectrum|airwave) (capacity )?(add|expand|release)|new spectrum (auction|allocat|license)|bandwidth (capacity )?(add|expand|restor)|(5g|6g) spectrum (allocat|deploy|expand)|spectrum (crunch )?(eas|resolv)/i, weight: 0.15, tag: 'spectrum_allocation_recovery' },
+    // Connectivity restoration — broadband build-out, coverage expansion, access.
+    { re: /connectivity (restor|expand|recover)|broadband (build(-| )?out|expansion|deploy|access)|coverage (expand|restor|gain)|(fiber|5g|broadband) (deploy|roll ?out|expand)|digital (inclusion|access) (gain|expand)|(rural|underserved) (broadband|connectivity) (gain|deploy|expand)/i, weight: 0.15, tag: 'connectivity_restoration' },
+    // Media-trust rebuilding — credibility restored, fact-checking, transparency.
+    { re: /media (trust|credibility) (rebuild|restor|recover|gain)|(public )?(trust|confidence) (in (the )?(media|press|news)) (rebuild|restor|recover|rise)|fact(-| )?check(ing)? (expand|deploy|gain)|(news|press) (transparency|standards) (gain|strengthen)|(nyt|nwsa) (credibility|trust) (gain|rebuild)/i, weight: 0.14, tag: 'media_trust_rebuilding' },
+    // Misinformation counter-narrative infrastructure — debunk, literacy, provenance.
+    { re: /(misinformation|disinformation) (counter|debunk|mitigat|defense)|counter(-| )?narrative (infrastructure|deploy|build)|(media|information|digital) literacy (gain|deploy|expand)|content (provenance|authenticat) (deploy|adopt)|(deepfake|fake news) (detect|counter|debunk)|prebunk(ing)? (deploy|gain)/i, weight: 0.14, tag: 'misinformation_counter_infrastructure' },
+    // Platform interoperability — open standards, federation, anti-lock-in.
+    { re: /platform interoperab(le|ility)|(open|federat) (standard|protocol|network) (adopt|deploy|gain)|(media|distribution|messaging) interoperab|anti(-| )?lock(-| )?in (gain|standard)|(decentraliz|federat) (platform|network) (adopt|gain)|cross(-| )?platform (standard|interop) (adopt|deploy)/i, weight: 0.14, tag: 'platform_interoperability' },
+    // Broadcast capacity recovery — transmitter restored, broadcast expansion, uplink.
+    { re: /broadcast (capacity )?(recover|restor|expand|online)|transmitter (restor|back online|deploy)|(tv|radio|satellite) (broadcast )?(restor|recover|expand|online)|(broadcast|uplink|downlink) (capacity|signal) (restor|gain|expand)|station (back (on ?air)|restor)|over(-| )?the(-| )?air (restor|recover)/i, weight: 0.13, tag: 'broadcast_capacity_recovery' }
+  ];
+
   // Scan a domain's signal strings against a civil pattern table and return the
   // summed weighted contribution (clamped). Mirrors how energy accumulates its
   // condition-driven pressure, but over civil-native keywords.
@@ -963,6 +1043,33 @@
         _governanceDestabTags = _gd.tags;
       }
 
+      // ── Communication-native destabilizing pathways (energy parity) ──
+      // For the communication domain ONLY, add telecom/network/media-channel
+      // pressure from named failure pathways found in the live signal strings
+      // (network outage / internet shutdown, spectrum crunch / bandwidth strain,
+      // connectivity gap, censorship event, media-trust collapse, misinformation
+      // surge, platform concentration, broadcast failure, signal degradation,
+      // regulatory overreach). This is the information-flow analogue of energy's
+      // crude_above_*/grid_stress, infrastructure's grid_reliability/
+      // deferred_maintenance, culture's backlash/audience collapse, finance's
+      // liquidity/credit, economy's business-cycle, technology's compute-stack,
+      // defense's readiness, intelligence's collection, trade's tariff/port,
+      // industry's factory-output, agriculture's crops, and governance's
+      // institutions weighting — anchored to real telecom/network tickers (VZ/T/
+      // TMUS/CMCSA/CHTR/CSCO/ANET/AMT/CCI/SBAC) and media tickers (NWSA/NYT/META/
+      // GOOGL), IDENTITY stays the CHANNELS / networks / information-flow (couples
+      // to technology via chips/software, intelligence via signals collection,
+      // and culture via content riding the channels, distinct from culture's
+      // content/movements, technology's chips/software, and intelligence's
+      // collection). ADVISORY ONLY — wholly separate from the validated P3
+      // distress kernel.
+      var _communicationDestabTags = null;
+      if (k === 'communication') {
+        var _cmd = _infraSignalScore(signals, COMMUNICATION_DESTABILIZING);
+        destab += _cmd.score;
+        _communicationDestabTags = _cmd.tags;
+      }
+
       destab = _clamp(destab, 0, 1);
 
       // ─── Stabilizing score ─────────────────────────────────────
@@ -1223,6 +1330,33 @@
         _governanceStabTags = _gs.tags;
       }
 
+      // ── Communication-native stabilizing pathways (energy parity) ──
+      // Communication recovery vocabulary: network resilience recovery (outage
+      // restored / redundancy / hardening), spectrum allocation recovery
+      // (spectrum freed / auction / capacity added), connectivity restoration
+      // (broadband build-out / coverage expansion), media-trust rebuilding
+      // (credibility restored / fact-checking / transparency), misinformation
+      // counter-narrative infrastructure (debunk / literacy / provenance),
+      // platform interoperability (open standards / federation / anti-lock-in),
+      // and broadcast capacity recovery (transmitter restored / broadcast
+      // expansion / uplink). Mirrors energy's falling-trend / declining-volatility
+      // stabilizers, infrastructure's funding-renewal / repair-completion,
+      // culture's fanbase-momentum / mainstream-adoption, finance's
+      // liquidity-restoration / capital-strengthening, economy's labor-recovery /
+      // productivity, technology's fab-capacity / breakthrough, defense's force-
+      // modernization / alliance-strengthening, intelligence's
+      // improved-observability / collection-expansion, trade's tariff-
+      // normalization / port-reopening, industry's capacity-modernization /
+      // output-recovery, and governance's institutional-strengthening /
+      // policy-passage, with communication semantics from the live signals.
+      // ADVISORY ONLY — wholly separate from the validated P3 distress kernel.
+      var _communicationStabTags = null;
+      if (k === 'communication') {
+        var _cms = _infraSignalScore(signals, COMMUNICATION_STABILIZING);
+        stab += _cms.score;
+        _communicationStabTags = _cms.tags;
+      }
+
       stab = _clamp(stab, 0, 1);
 
       // ─── Net balance ───────────────────────────────────────────
@@ -1318,6 +1452,13 @@
       if (k === 'governance') {
         _balance[k].destabilizingFactors = _governanceDestabTags || [];
         _balance[k].stabilizingFactors = _governanceStabTags || [];
+      }
+
+      // Surface the communication-native pathways that drove the communication
+      // score (energy parity: name the conditions, don't hide them behind a scalar).
+      if (k === 'communication') {
+        _balance[k].destabilizingFactors = _communicationDestabTags || [];
+        _balance[k].stabilizingFactors = _communicationStabTags || [];
       }
 
       // Detect state shift

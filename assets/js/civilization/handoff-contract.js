@@ -244,7 +244,62 @@
     // in cross-node-opportunity.js so the emitter prefers the agriculture-primary
     // lane, exactly as defense promoted 'defense-procurement' into its hint list.
     'crop-input-financing', 'yield-assurance',
-    'commodity-hedging-facility', 'farm-consolidation'
+    'commodity-hedging-facility', 'farm-consolidation',
+    // ─── Communication-native PRIMARY lanes (additive) ────────────────────
+    // Communication IDENTITY = telecommunications & networks, connectivity &
+    // broadband, internet infrastructure (towers / fiber / spectrum), media &
+    // broadcasting CHANNELS, journalism & news flow, information dissemination,
+    // social-media platforms AS DISTRIBUTION, and public-discourse infrastructure.
+    // Real telecom/media/network operators anchor these lanes: VZ, T, TMUS,
+    // CMCSA, CHTR (carriers/cable); CSCO, ANET (network gear); AMT, CCI, SBAC
+    // (towers / wireless infrastructure REITs); NWSA, NYT (news/publishing);
+    // META, GOOGL (social-media / search AS DISTRIBUTION CHANNELS). Communication
+    // is DISTINCT from culture (culture = content / movements / scenes; communication
+    // = the CHANNELS / networks / information-flow that carry it), from technology
+    // (chips/software is a COUPLING, not communication's own content), and from
+    // intelligence (signals COLLECTION is a COUPLING, not communication's open
+    // dissemination identity).
+    //
+    // BEFORE this block, communication appeared ONLY as a SECONDARY co-eligible
+    // participant in copyrights (anyDomain, line 283) and research-papers, and was
+    // absent from every other lane. It never owned a PRIMARY source lane the way
+    // defense owns 'defense-procurement' (line 76), intelligence owns
+    // 'intelligence-operations' (line 96), industry owns 'industrial-capacity-
+    // investment' (line 161), governance owns 'regulatory-compliance-modernization'
+    // (line 197), and agriculture owns 'crop-input-financing' (line 246). This block
+    // brings communication to PRIMARY-lane parity — communication is the negotiator,
+    // not a support domain:
+    //   'broadcast-infrastructure-modernization' — one bounded telecom / spectrum /
+    //       fiber / tower capex program (5G build-out, fiber-to-the-home, spectrum
+    //       refarm, tower densification) for a single bounded carrier / infra REIT
+    //       routed to the communication negotiator (analogous to 'defense-procurement'
+    //       for kinetic, 'industrial-capacity-investment' for capacity). Single-domain:
+    //       a network-modernization program targets one bounded operator's plant
+    //       (VZ/T/TMUS carriers, AMT/CCI/SBAC towers, CSCO/ANET gear). Anchored to
+    //       FCC spectrum-license & broadband-deployment regulatory indicators.
+    //   'media-ownership-restructuring' — antitrust / consolidation / divestiture /
+    //       station-portfolio restructuring opportunity in the media & broadcasting
+    //       CHANNEL layer (NWSA/NYT publishing, CMCSA/CHTR cable distribution) routed
+    //       to the communication negotiator. Inherently MULTI-domain (a media
+    //       restructuring spans the channel operator, governance/FCC ownership-cap
+    //       rulemaking, and finance acquisition capital), so NOT single-domain.
+    //   'information-integrity-platform' — disinformation-resistance / content-
+    //       moderation / provenance / trust-and-safety platform opportunity at the
+    //       information-DISSEMINATION layer (META/GOOGL social-media & search AS
+    //       DISTRIBUTION, news-flow integrity). Inherently MULTI-domain (integrity
+    //       spans the platform, governance policy, and technology tooling), so NOT
+    //       single-domain. DISTINCT from intelligence (this is OPEN dissemination
+    //       integrity, not covert signals collection).
+    // Like the defense/intelligence/industry/governance/agriculture blocks, these
+    // gates are LIVE (reachable): a communication opportunity whose lane hints are
+    // empty falls through to the full LANES list in recompute(), so it is tested
+    // against these communication-primary gates. The paired follow-up (NOT done here
+    // — single-file edit) is promoting 'broadcast-infrastructure-modernization' into
+    // DOMAIN_LANE_HINTS.communication in cross-node-opportunity.js so the emitter
+    // prefers the communication-primary lane, exactly as defense promoted
+    // 'defense-procurement' into its hint list.
+    'broadcast-infrastructure-modernization', 'media-ownership-restructuring',
+    'information-integrity-platform'
     // ─── DESIGN NOTE — future trade-native lanes (NOT added now) ──────────
     // Per the wiring-gap analysis: trade currently participates as a SECONDARY
     // participant (via supplyChain in business-grants/sba-loans/franchise/credit-
@@ -552,7 +607,54 @@
     //   packet detail to attempt a farm-consolidation note" — NOT an acquisition
     //   decision, NOT any prediction. Anchored by integrators/processors ADM, BG,
     //   TSN, CAG, INGR and the farm-equipment scale partners DE, AGCO.
-    'farm-consolidation':         { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['agriculture','finance','economy','technology'] }
+    'farm-consolidation':         { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['agriculture','finance','economy','technology'] },
+    // ─── Communication-native PRIMARY lane gates (additive) ───────────────
+    // broadcast-infrastructure-modernization — one bounded telecom / spectrum /
+    //   fiber / tower capex program (5G build-out, FTTH, spectrum refarm, tower
+    //   densification) routed to the communication negotiator (analogous to
+    //   defense-procurement / industrial-capacity-investment as a PRIMARY single-
+    //   domain lane). singleDomainOnly: a network-modernization program targets a
+    //   single bounded operator's plant, so cross-node multi-domain aggregations
+    //   are routed away. Communication-primary, with the build-adjacent real-economy
+    //   domains that originate connectivity demand (infrastructure = the physical
+    //   network / towers / conduit, technology = network gear / chipsets COUPLING,
+    //   energy = network power draw, governance = FCC spectrum-license & broadband-
+    //   deployment regulatory mandates). Passing this gate signals only "sufficient
+    //   packet detail to attempt a broadcast-infrastructure note" — NOT a capex
+    //   decision, NOT a license, NOT any prediction. Real operators: VZ, T, TMUS
+    //   (carriers), AMT, CCI, SBAC (towers), CSCO, ANET (network gear). Distinct
+    //   from culture (content, not channels), technology (gear is a coupling), and
+    //   intelligence (collection, not open dissemination).
+    'broadcast-infrastructure-modernization': { minEvidence: 0.55, minConfidence: 0.60, singleDomainOnly: true,  anyDomain: ['communication','infrastructure','technology','energy','governance'] },
+    // media-ownership-restructuring — antitrust / consolidation / divestiture /
+    //   station-portfolio restructuring opportunity in the media & broadcasting
+    //   CHANNEL layer routed to the communication negotiator. Inherently MULTI-domain
+    //   (a media restructuring spans the channel operator, governance/FCC ownership-cap
+    //   rulemaking, and finance acquisition capital), so singleDomainOnly is false.
+    //   Communication-primary, with the restructuring-adjacent domains (governance =
+    //   FCC/antitrust ownership-cap regime, finance = acquisition/divestiture capital,
+    //   culture = the CONTENT carried by the channel but NOT communication's own
+    //   identity, economy = the media-advertising cycle). Passing this gate signals
+    //   only "sufficient packet detail to attempt a media-restructuring note" — NOT
+    //   an antitrust ruling, NOT a deal, NOT any prediction. Real channel/media
+    //   operators: CMCSA, CHTR (cable distribution), NWSA, NYT (news/publishing).
+    'media-ownership-restructuring':           { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['communication','governance','finance','culture','economy'] },
+    // information-integrity-platform — disinformation-resistance / content-moderation
+    //   / provenance / trust-and-safety platform opportunity at the information-
+    //   DISSEMINATION layer (social-media & search AS DISTRIBUTION CHANNELS, news-flow
+    //   integrity). Inherently MULTI-domain (integrity spans the platform, governance
+    //   policy, and technology tooling), so singleDomainOnly is false. Slightly lower
+    //   bar than the infrastructure lane because an integrity note is an analytic /
+    //   platform artifact, not a bounded capex buy. Communication-primary, with the
+    //   integrity-adjacent domains (technology = moderation / provenance tooling
+    //   COUPLING, governance = platform-regulation / content-policy rulemaking,
+    //   culture = the discourse carried but NOT communication's own identity). DISTINCT
+    //   from intelligence: this is OPEN dissemination integrity, NOT covert signals
+    //   collection. Passing this gate signals only "sufficient packet detail to attempt
+    //   an information-integrity note" — NOT a moderation decision, NOT a policy, NOT
+    //   any prediction. Real dissemination-channel operators: META, GOOGL (social-media
+    //   / search as distribution); NWSA, NYT (news-flow).
+    'information-integrity-platform':          { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['communication','technology','governance','culture'] }
   };
 
   var _last = { lanes: {}, timestamp: 0, totalPackets: 0 };
@@ -646,6 +748,9 @@
       case 'yield-assurance': return 'Domains ' + doms + ' indicate crop-insurance / yield-enhancement / precision-ag opportunity for a single bounded farm operation routed to the agriculture negotiator — anchored by CTVA/FMC and precision-ag platforms (DE/AGCO) with USDA WASDE yield context; not an underwriting decision, not any prediction. Agronomic conditions are an environment coupling, not agriculture\'s own content.';
       case 'commodity-hedging-facility': return 'Domains ' + doms + ' indicate futures / options / commodity-risk-management facility opportunity (CBOT corn/soy/wheat hedging) for a single bounded agribusiness or commodity trader routed to the agriculture negotiator — anchored by grain/oilseed processors & merchants (ADM/BG/INGR); not a trading decision, not a position, not any prediction. Food-price macro is an economy coupling, physical flow a trade coupling.';
       case 'farm-consolidation': return 'Domains ' + doms + ' indicate farm-acquisition / cooperative-formation / agribusiness roll-up opportunity routed to the agriculture negotiator — an inherently multi-domain structural artifact spanning operations, acquisition capital and the input/processing graph; anchored by integrators/processors (ADM/BG/TSN/CAG/INGR) and equipment scale partners (DE/AGCO); not an acquisition decision, not any prediction.';
+      case 'broadcast-infrastructure-modernization': return 'Domains ' + doms + ' indicate telecom / spectrum / fiber / tower capex opportunity (5G build-out, fiber-to-the-home, spectrum refarm, tower densification) for a single bounded carrier or wireless-infrastructure operator routed to the communication negotiator — anchored by carriers (VZ/T/TMUS), tower REITs (AMT/CCI/SBAC) and network gear (CSCO/ANET), with FCC spectrum-license & broadband-deployment context; not a capex decision, not a license, not any prediction. Distinct from culture (content, not channels), technology (gear is a coupling) and intelligence (collection, not open dissemination).';
+      case 'media-ownership-restructuring': return 'Domains ' + doms + ' indicate antitrust / consolidation / divestiture / station-portfolio restructuring opportunity in the media & broadcasting CHANNEL layer routed to the communication negotiator — an inherently multi-domain artifact spanning the channel operator, governance/FCC ownership-cap rulemaking and acquisition capital; anchored by cable distributors (CMCSA/CHTR) and news/publishing (NWSA/NYT); not an antitrust ruling, not a deal, not any prediction. The content carried is a culture coupling, not communication\'s own identity.';
+      case 'information-integrity-platform': return 'Domains ' + doms + ' indicate disinformation-resistance / content-moderation / provenance / trust-and-safety platform opportunity at the information-DISSEMINATION layer (social-media & search AS DISTRIBUTION channels, news-flow integrity) routed to the communication negotiator — an inherently multi-domain artifact spanning the platform, governance policy and technology tooling; anchored by social/search distribution (META/GOOGL) and news-flow (NWSA/NYT); not a moderation decision, not a policy, not any prediction. Distinct from intelligence: open dissemination integrity, not covert signals collection.';
     }
     return '';
   }

@@ -36,6 +36,12 @@
       { targetDomain: 'law', signalType: 'speech_regulatory_pressure', condition: function (s) { return s.stress >= 0.30; }, magnitudeFormula: function (s) { return Math.min(1, s.stress * 0.4); } },
       { targetDomain: 'population', signalType: 'behavioral_informational_influence', condition: function (s) { return s.stress >= 0.30; }, magnitudeFormula: function (s) { return Math.min(1, s.stress * 0.4); } }
     ];
+
+    // Cognition-parity one-shot loaders (mirror energy/culture init). Each is try/caught and
+    // resolves only files that actually exist; 404s are honest 'missing'. Never fabricates.
+    try { this._loadCommunicationDiagnosisBundles(); } catch (e) {}   // real artifact-source bundles (only ones that exist)
+    try { this._loadCommunicationL1PortalDepth(); } catch (e) {}      // scan L1 branches (treatments mad-lib -> NOT admitted; real tickers only)
+    try { this._loadCommunicationNetworkLayer(); } catch (e) {}       // NETWORK: telecom/infrastructure sub-portal (real-content, unbundled) as an additive LAYER
   };
 
   CommunicationBrain.prototype.normalizeSignals = function () {
@@ -396,7 +402,764 @@
   };
 
   var _origCycle = CommunicationBrain.prototype.cycle;
-  CommunicationBrain.prototype.cycle = function () { var self = this; return _origCycle.call(this).then(function () { return self.resolveDeepContent(); }); };
+  CommunicationBrain.prototype.cycle = function () {
+    var self = this;
+    return _origCycle.call(this).then(function () { return self.resolveDeepContent(); }).then(function () {
+      // PHASE B — recurrent loop step + higher layers + DDP build (communication-local, try/caught).
+      try { self._updateCommunicationModel(); } catch (e) {}
+    });
+  };
+
+  // ══════════════════════════════════════════════════════════════════════
+  // COMMUNICATION COGNITION PARITY (mirrors energy/culture STRUCTURE; only
+  // CONTENT is communication: telecom & networks, broadband/connectivity,
+  // internet infrastructure (towers/fiber/spectrum), media/broadcasting
+  // CHANNELS, journalism & news flow, information dissemination, social-media
+  // platforms AS DISTRIBUTION, public-discourse infrastructure).
+  // Generic predictive-coding substrate (prior → observe → prediction error →
+  // regulation → update prior) + immune / awareness / conscience / intuition /
+  // simulation / executive-report + network/information-integrity sub-layer +
+  // the 8-section DomainDiagnosisPacket the Civilization cockpit consumes.
+  // Never fabricates evidence.
+  // ══════════════════════════════════════════════════════════════════════
+  var CM_VERSION = 1;
+  var CM_LEARNING_RATE = 0.25;
+  var CM_SLOW_RATE = 0.08;
+  var CM_STRESS_FLOOR = 0.30;
+  var CM_FLOOD_CAP = 12;
+  var CM_STALE_MS = 1000 * 60 * 60 * 6;
+  var _cmClamp = function (v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; };
+  var _cmJaccardDistance = function (a, b) {
+    a = a || []; b = b || [];
+    if (!a.length && !b.length) return 0;
+    var sa = {}, inter = 0;
+    a.forEach(function (x) { sa[x] = 1; });
+    b.forEach(function (x) { if (sa[x]) inter++; });
+    var uni = a.length + b.length - inter;
+    return uni ? 1 - inter / uni : 0;
+  };
+
+  (function () {
+    var P = CommunicationBrain.prototype;
+
+    // Communication diagnosis families — an analogy lens for monitoring, NOT evidence.
+    var FAMILY = {
+      'information-integrity': ['DISINFORMATION_CRISIS', 'CYBER_PROPAGANDA'],
+      'infrastructure': ['TELECOM_FAILURE'],
+      'expression': ['CENSORSHIP_OVERREACH', 'CYBER_PROPAGANDA'],
+      'concentration': ['MEDIA_MONOPOLY', 'CENSORSHIP_OVERREACH'],
+      'channel-capture': ['MEDIA_MONOPOLY', 'DISINFORMATION_CRISIS']
+    };
+
+    P._neutralCommunicationModel = function () {
+      return { version: CM_VERSION, cycle: 0, prior: { expectedStress: 0.5, expectedDiagnoses: [], expectedDiagnosisCount: 0, expectedOpportunityCount: 0, expectedSignal: 0.5, confidence: 0, samples: 0 }, observation: null, predictionError: null, predictedStress: null, regulation: null, plasticity: { learningRate: CM_LEARNING_RATE, slowRate: CM_SLOW_RATE, consolidation: 'cycle-light/rebuild-heavy' }, readyForHandoff: false, _lowErrorStreak: 0, updated: 0 };
+    };
+    P._buildCommunicationObservation = function () {
+      var s = this.state || {};
+      var active = (s.diagnoses || []).filter(function (d) { return d.active; });
+      // signal = breadth of live communication feeds (NewsAPI, RSS media, press-freedom, Cloudflare Radar, CISA, BBC World)
+      var feeds = s.feeds || [], fc = 0, newest = 0;
+      if (Array.isArray(feeds)) {
+        for (var i = 0; i < feeds.length; i++) { var fv = feeds[i]; if (fv) { fc++; var u = fv.updated; if (u && u > newest) newest = u; } }
+      } else { for (var k in feeds) { if (feeds.hasOwnProperty(k)) { fc++; var u2 = feeds[k] && feeds[k].updated; if (u2 && u2 > newest) newest = u2; } } }
+      // companyCount = carriers / platforms / publishers / tower-REITs
+      var companyCount = (s.companies || []).length;
+      return { stress: typeof s.stress === 'number' ? s.stress : 0, phase: s.phase || null, activeDiagnoses: active.map(function (d) { return d.id; }).sort(), diagnosisCount: active.length, opportunityCount: (s.opportunities || []).length, companyCount: companyCount, signal: Math.min(1, fc / 8), feedNewest: newest, timestamp: Date.now() };
+    };
+    P._computeCommunicationPredictionError = function (prior, obs) {
+      var se = Math.abs(obs.stress - prior.expectedStress), sg = Math.abs(obs.signal - prior.expectedSignal), de = _cmJaccardDistance(obs.activeDiagnoses, prior.expectedDiagnoses);
+      var od = Math.max(1, prior.expectedOpportunityCount, obs.opportunityCount), oe = Math.abs(obs.opportunityCount - prior.expectedOpportunityCount) / od;
+      var total = _cmClamp(0.4 * se + 0.2 * sg + 0.25 * de + 0.15 * oe, 0, 1);
+      return { total: total, stressError: se, signalError: sg, diagnosisError: de, opportunityError: oe, novelty: Math.max(se, de) };
+    };
+    P._updateCommunicationPrior = function (prior, obs, lr) {
+      return { expectedStress: _cmClamp(prior.expectedStress + lr * (obs.stress - prior.expectedStress), 0, 1), expectedDiagnoses: obs.activeDiagnoses.slice(), expectedDiagnosisCount: prior.expectedDiagnosisCount + lr * (obs.diagnosisCount - prior.expectedDiagnosisCount), expectedOpportunityCount: prior.expectedOpportunityCount + lr * (obs.opportunityCount - prior.expectedOpportunityCount), expectedSignal: _cmClamp(prior.expectedSignal + lr * (obs.signal - prior.expectedSignal), 0, 1), confidence: _cmClamp(Math.min(1, (prior.samples + 1) / 20), 0, 1), samples: prior.samples + 1 };
+    };
+    P._computeCommunicationRegulation = function (cm, obs, pe) {
+      var gain = _cmClamp(pe.novelty, 0.05, 0.95), inhib = _cmClamp(1 - pe.novelty, 0, 0.9);
+      var starving = obs.stress >= CM_STRESS_FLOOR && obs.opportunityCount === 0, flooding = obs.opportunityCount > CM_FLOOD_CAP;
+      var streak = (pe.total < 0.05) ? (cm._lowErrorStreak || 0) + 1 : 0; cm._lowErrorStreak = streak; var looping = streak >= 3;
+      var stale = obs.feedNewest > 0 ? (Date.now() - obs.feedNewest) > CM_STALE_MS : false;
+      var overconf = cm.prior.confidence > 0.8 && pe.total > 0.4;
+      var label = flooding ? 'flooding' : starving ? 'starving' : stale ? 'stale' : looping ? 'looping' : overconf ? 'overconfident' : pe.novelty > 0.4 ? 'surprised' : 'calm';
+      return { gain: gain, inhibition: inhib, starving: starving, flooding: flooding, looping: looping, stale: stale, overconfident: overconf, state: label };
+    };
+
+    // ── RECURRENT STEP — the proof surface (state.communicationModel) the cockpit reads ──
+    P._updateCommunicationModel = function () {
+      var cm = this.state.communicationModel || this._neutralCommunicationModel();
+      var priorIn = cm.prior;
+      var obs = this._buildCommunicationObservation();
+      var pe = this._computeCommunicationPredictionError(priorIn, obs);
+      var gainBlend = _cmClamp(pe.novelty, 0.05, 0.95);
+      var predictedStress = priorIn.expectedStress * (1 - gainBlend) + obs.stress * gainBlend;
+      var reg = this._computeCommunicationRegulation(cm, obs, pe);
+      var readyForHandoff = (cm.cycle > 0) && (predictedStress >= CM_STRESS_FLOOR) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
+      var nextPrior = this._updateCommunicationPrior(priorIn, obs, cm.plasticity.learningRate);
+
+      cm.cycle += 1; cm.observation = obs; cm.predictionError = pe; cm.predictedStress = predictedStress; cm.regulation = reg; cm.readyForHandoff = readyForHandoff; cm.prior = nextPrior; cm.updated = obs.timestamp;
+      this.state.communicationModel = cm;
+
+      var mem = this.state.memory || (this.state.memory = {});
+      var log = mem.outcomeLog || (mem.outcomeLog = []);
+      log.push({ cycle: cm.cycle, predictionError: Math.round(pe.total * 1000) / 1000, stress: obs.stress, activeDx: obs.diagnosisCount, regulation: reg.state, timestamp: obs.timestamp }); if (log.length > 40) log.shift();
+
+      // H1-H6 — higher communication layers (BEFORE the DDP build so the packet embeds their summaries).
+      try { this._computeCommunicationHigherLayers(); } catch (e) {}
+
+      // NETWORK — telecom/infrastructure & information-integrity sub-portal layer (additive; BEFORE the
+      // DDP build so the primary packet's promptView advertises it). NEVER merged into the canonical
+      // 5-diagnosis spine.
+      try { this._buildCommunicationNetworkLayer(); } catch (e) {}
+
+      // DDP — build the DomainDiagnosisPacket (8-section contract) for the primary diagnosis + one per dx.
+      try {
+        var _diags = this.state.diagnoses || [];
+        var _primary = _diags.filter(function (d) { return d.active; })[0] || _diags[0] || null;
+        var _self = this;
+        cm.domainDiagnosisPacket = this._buildDomainDiagnosisPacket(_primary);
+        this.state.communicationDomainDiagnosisPacket = cm.domainDiagnosisPacket;
+        this.state.communicationDomainDiagnosisPackets = _diags.map(function (d) { return _self._buildDomainDiagnosisPacket(d); });
+      } catch (e) {}
+
+      // state.cognition — generic surface domain-console-brain.js reads for ANY brain (SELF-MODEL panel).
+      this.state.cognition = {
+        domain: 'communication',
+        communicationModel: cm,
+        model: { cycle: cm.cycle, predictionError: cm.predictionError, predictedStress: cm.predictedStress, regulation: cm.regulation },
+        communicationImmune: this.state.communicationImmune || null,
+        communicationAwareness: this.state.communicationAwareness || null,
+        communicationConscience: this.state.communicationConscience || null,
+        communicationIntuition: this.state.communicationIntuition || null,
+        communicationSimulation: this.state.communicationSimulation || null,
+        communicationExecutiveReport: this.state.communicationExecutiveReport || null,
+        awareness: this.state.communicationAwareness || null,
+        conscience: this.state.communicationConscience || null,
+        immune: this.state.communicationImmune || null,
+        intuition: this.state.communicationIntuition || null,
+        networkLayer: this.state.networkLayer || null,
+        treatments: this.state.treatments || [],
+        diagnoses: this.state.diagnoses || [],
+        opportunities: this.state.opportunities || []
+      };
+      return cm;
+    };
+
+    P._computeCommunicationHigherLayers = function () {
+      this._computeCommunicationImmune(); this._computeCommunicationAwareness(); this._computeCommunicationConscience(); this._computeCommunicationIntuition();
+      try { this._computeCommunicationSimulation(); } catch (e) {}
+      try { this._computeCommunicationExecutiveReport(); } catch (e) {}
+    };
+
+    // ── H1 — immune (antigen scan over bundle/feed/regulation state) ──
+    P._computeCommunicationImmune = function () {
+      var s = this.state, cm = s.communicationModel || {}, reg = cm.regulation || {}, ant = [];
+      var bs = (typeof this._communicationBundleStates === 'function') ? this._communicationBundleStates() : [];
+      bs.forEach(function (b) {
+        if (b.bundleStatus === 'missing') ant.push({ type: 'source-bundle-missing', dx: b.dxId, severity: 'medium', action: 'block-from-prompt-evidence' });
+        if (b.buildMethod === 'external-source-authored') ant.push({ type: 'external-source-authored-needs-human-verification', dx: b.dxId, severity: 'low', action: 'allow-with-warning' });
+        if (b.aliasRisk === 'medium' || b.aliasRisk === 'high') ant.push({ type: 'alias-risk-bundle', dx: b.dxId, severity: b.aliasRisk, action: 'allow-with-warning' });
+        if (b.bundleStatus === 'found' && b.shallow) ant.push({ type: 'root-only-shallow-bundle', dx: b.dxId, severity: 'low', action: 'allow-with-warning' });
+      });
+      var pe = (cm.predictionError && cm.predictionError.total) || 0;
+      if (pe > 0.4) ant.push({ type: 'prediction-error-spike', severity: 'medium', action: 'lower-confidence', value: Math.round(pe * 1000) / 1000 });
+      if (reg.stale) ant.push({ type: 'stale-feeds', severity: 'low', action: 'flag' });
+      if (reg.flooding) ant.push({ type: 'opportunity-flood', severity: 'medium', action: 'inhibit' });
+      if (reg.starving) ant.push({ type: 'stress-without-opportunity', severity: 'low', action: 'flag' });
+      var _l1 = s._l1DepthCache;
+      if (_l1 && _l1.byDiagnosis && Object.keys(_l1.byDiagnosis).some(function (dx) { return _l1.byDiagnosis[dx].madLibTreatments > 0; })) {
+        ant.push({ type: 'l1-synthetic-treatments', severity: 'medium', action: 'quarantine', note: 'L1 portal treatments are mad-lib templates (fixed-verb family); quarantined from evidence — only real carrier/platform/publisher tickers surfaced relevance-unverified' });
+      }
+      var sev = ant.some(function (a) { return a.severity === 'high'; }) ? 'high' : ant.some(function (a) { return a.severity === 'medium'; }) ? 'medium' : ant.length ? 'low' : 'none';
+      s.communicationImmune = {
+        version: 1, immuneState: sev === 'high' ? 'alert' : sev === 'medium' ? 'active' : sev === 'low' ? 'watch' : 'clear', severity: sev,
+        antigens: ant.slice(0, 12),
+        quarantines: ['L1-portal-treatments-madlib'],
+        allowedWithWarning: ant.filter(function (a) { return a.action === 'allow-with-warning'; }).map(function (a) { return a.type + (a.dx ? (':' + a.dx) : ''); }),
+        blockedFromPrompt: ant.filter(function (a) { return a.action === 'block-from-prompt-evidence'; }).map(function (a) { return a.dx; }),
+        blockedFromTraversal: ['L2'],
+        lastScanAt: cm.updated || null
+      };
+      return s.communicationImmune;
+    };
+    // ── H2 — awareness (narrative on communication identity / information-ecosystem pressure) ──
+    P._computeCommunicationAwareness = function () {
+      var s = this.state, cm = s.communicationModel || {}, im = s.communicationImmune || {}, active = (s.diagnoses || []).filter(function (d) { return d.active; });
+      var bs = (typeof this._communicationBundleStates === 'function') ? this._communicationBundleStates() : [];
+      var covered = bs.filter(function (b) { return b.bundleStatus === 'found'; });
+      var missing = bs.filter(function (b) { return b.bundleStatus === 'missing'; });
+      var pe = (cm.predictionError && cm.predictionError.total) || 0, dxNames = active.map(function (d) { return d.label || d.id; });
+      s.communicationAwareness = {
+        version: 1, selfState: im.immuneState === 'alert' ? 'guarded' : (cm.regulation && cm.regulation.state) || 'unknown',
+        knowns: covered.map(function (b) { return b.dxId + ' (source-backed' + (b.buildMethod === 'external-source-authored' ? ', external' : '') + ')'; }),
+        unknowns: missing.map(function (b) { return b.dxId + ' (no source bundle)'; }),
+        uncertainties: ['interpretive tracker — diagnoses are signal-driven readings of information-flow / network / channel-concentration pressure, not validated', 'L1 portal treatments are mad-lib templates (NOT real depth)', 'predictionError=' + (Math.round(pe * 1000) / 1000)],
+        suppressions: (im.quarantines || []).concat(['L2-traversal', 'L1-portal-treatments']),
+        confidenceDrivers: ['source coverage ' + covered.length + '/' + bs.length, 'regulation ' + ((cm.regulation && cm.regulation.state) || '?'), active.length + ' active dx'],
+        selfNarrative: 'Communication: ' + covered.length + '/' + bs.length + ' source-backed, ' + active.length + ' active diagnosis pathway' + (active.length !== 1 ? 's' : '') + ' (' + (dxNames.slice(0, 3).join(', ') || 'none') + '), regulation=' + ((cm.regulation && cm.regulation.state) || '?') + ', immune=' + (im.immuneState || '?') + ', prediction-error ' + (Math.round(pe * 100) / 100) + '.',
+        lastAwarenessAt: cm.updated || null
+      };
+      return s.communicationAwareness;
+    };
+    // ── H3 — conscience (artifact readiness; COMMUNICATION does INVESTABLE/RESEARCHABLE only — no patent/grant per 2026 rules) ──
+    P._computeCommunicationConscience = function () {
+      var s = this.state, cm = s.communicationModel || {}, pe = (cm.predictionError && cm.predictionError.total) || 0, cautions = [], blocked = ['patent-claim', 'grant-claim'];
+      var bs = (typeof this._communicationBundleStates === 'function') ? this._communicationBundleStates() : [];
+      var vetoes = [{ claim: 'patent/grant', reason: 'patent/grant lanes retired across all domains (2026-06-21); communication has no method/embodiment fields' }];
+      bs.forEach(function (b) { if (b.bundleStatus === 'missing') { blocked.push('strong-claim:' + b.dxId); vetoes.push({ claim: 'strong-claim:' + b.dxId, reason: 'no source bundle' }); } });
+      if (pe > 0.4) cautions.push({ claim: 'high-confidence-claim', reason: 'predictionError spike ' + (Math.round(pe * 1000) / 1000) });
+      var hasFound = bs.some(function (b) { return b.bundleStatus === 'found'; });
+      s.communicationConscience = { version: 1, conscienceState: 'restrictive', vetoes: vetoes.slice(0, 10), cautions: cautions.slice(0, 8), allowedClaims: ['source-summary'].concat(hasFound ? ['investment-memo-with-warnings'] : []), blockedClaims: blocked.slice(0, 10), artifactReadinessDecision: { patentReady: false, grantReady: false, sbaReady: false, investmentReady: hasFound, researchReady: hasFound, note: 'patent/grant vetoed (no candidate fields); investment/research allowed-with-warning only for source-backed diagnoses' }, reasons: ['overclaim prevention', 'source sufficiency', 'interpretive-not-validated'], lastCheckAt: cm.updated || null };
+      return s.communicationConscience;
+    };
+    // ── H4 — intuition (hunches on emerging contamination / coordinated-campaign patterns; UNVERIFIED) ──
+    P._computeCommunicationIntuition = function () {
+      var s = this.state, cm = s.communicationModel || {}, reg = cm.regulation || {}, log = (s.memory && s.memory.outcomeLog) || [], hunches = [];
+      if (log.length >= 2) { var a = log[log.length - 2].predictionError, b = log[log.length - 1].predictionError; if (typeof a === 'number' && typeof b === 'number' && b - a > 0.05) hunches.push({ hunch: 'emerging information-contamination pattern (prediction error rising) — possible coordinated campaign or signal degradation', confidence: 'LOW', evidenceStatus: 'UNVERIFIED', why: 'predictionError rose ' + a + ' → ' + b }); }
+      if (reg.state === 'surprised') hunches.push({ hunch: 'novel information-flow disruption entering the system (network event / narrative break / attention shift)', confidence: 'LOW', evidenceStatus: 'UNVERIFIED', why: 'regulation = surprised' });
+      var active = (s.diagnoses || []).filter(function (d) { return d.active; }).sort(function (a, b) { return (b.relevance || 0) - (a.relevance || 0); });
+      var primaryId = (active[0] || {}).id, analogies = [];
+      Object.keys(FAMILY).forEach(function (fam) { if (FAMILY[fam].indexOf(primaryId) >= 0) { FAMILY[fam].forEach(function (sib) { if (sib !== primaryId) analogies.push({ analogy: primaryId + ' resembles ' + sib, family: fam, evidenceStatus: 'UNVERIFIED', note: 'shared structural failure-family — a lens for monitoring, not a claim' }); }); } });
+      s.communicationIntuition = { version: 1, hunches: hunches.slice(0, 6), analogies: analogies.slice(0, 6), confidence: 'LOW', evidenceStatus: 'UNVERIFIED', lastAt: cm.updated || null };
+      return s.communicationIntuition;
+    };
+    // ── H5 — bounded counterfactual simulation (hypothetical only; UNVERIFIED) ──
+    P._computeCommunicationSimulation = function () {
+      var s = this.state, cm = s.communicationModel || {};
+      var base = typeof s.stress === 'number' ? s.stress : 0;
+      function cl(v) { return Math.max(0, Math.min(1, Math.round(v * 1000) / 1000)); }
+      var scenarios = [
+        { type: 'disinformation_surge', hypothetical: true, assumption: 'platforms manipulated; false narratives amplify faster than verification', simulatedStress: cl(base + 0.2), risk: 'information ecosystem contamination (DISINFORMATION_CRISIS)', intervention: 'content provenance / fact-check throughput / amplification-rate monitoring', falsifier: 'verification keeps pace; amplification of false claims falls' },
+        { type: 'telecom_outage', hypothetical: true, assumption: 'core network infrastructure (towers/fiber/routing) fails or is attacked', simulatedStress: cl(base + 0.25), risk: 'connectivity loss / service blackout (TELECOM_FAILURE)', intervention: 'network redundancy / outage telemetry (Cloudflare Radar, CISA) / resilient routing', falsifier: 'uptime + connectivity metrics stay nominal' },
+        { type: 'information_monopoly', hypothetical: true, assumption: 'one platform/carrier captures dominant share of distribution', simulatedStress: cl(base + 0.2), risk: 'channel gatekeeping / editorial capture (MEDIA_MONOPOLY)', intervention: 'distribution-pluralism watch / antitrust + interoperability signal', falsifier: 'multiple viable distribution channels persist' },
+        { type: 'coordinated_attack', hypothetical: true, assumption: 'organized inauthentic actors run a synchronized influence operation', simulatedStress: cl(base + 0.3), risk: 'coordinated propaganda / bot amplification (CYBER_PROPAGANDA)', intervention: 'coordinated-inauthentic-behavior detection / network-graph anomaly tracking', falsifier: 'no synchronized amplification signature persists' },
+        { type: 'speech_clampdown', hypothetical: true, assumption: 'regulatory or platform action suppresses lawful expression', simulatedStress: cl(base + 0.15), risk: 'over-broad censorship (CENSORSHIP_OVERREACH)', intervention: 'press-freedom monitoring (RSF/CPJ) / transparency-report watch', falsifier: 'expression channels stay open; takedowns remain narrowly scoped' }
+      ];
+      var sim = {
+        version: 1, scenarios: scenarios, assumptions: scenarios.map(function (x) { return x.assumption; }),
+        simulatedStress: scenarios.map(function (x) { return x.simulatedStress; }),
+        simulatedDiagnoses: ['DISINFORMATION_CRISIS', 'TELECOM_FAILURE', 'CYBER_PROPAGANDA'], simulatedOpportunities: [],
+        risks: scenarios.map(function (x) { return x.risk; }), interventions: scenarios.map(function (x) { return x.intervention; }),
+        falsifiers: scenarios.map(function (x) { return x.falsifier; }), lastSimulatedAt: cm.updated || null
+      };
+      s.communicationSimulation = sim; return sim;
+    };
+    // ── H6 — executive self-report (compact status card) ──
+    P._computeCommunicationExecutiveReport = function () {
+      var s = this.state, cm = s.communicationModel || {}, im = s.communicationImmune || {}, aw = s.communicationAwareness || {}, con = s.communicationConscience || {}, it = s.communicationIntuition || {}, sim = s.communicationSimulation || {};
+      var bs = (typeof this._communicationBundleStates === 'function') ? this._communicationBundleStates() : [];
+      var covered = bs.filter(function (b) { return b.bundleStatus === 'found'; }).length;
+      var hv = bs.filter(function (b) { return b.humanVerification === 'required'; }).length;
+      var active = (s.diagnoses || []).filter(function (d) { return d.active; }).sort(function (a, b) { return (b.relevance || 0) - (a.relevance || 0); });
+      var strongest = active[0] || (s.diagnoses || [])[0] || null;
+      var pe = (cm.predictionError && cm.predictionError.total) || 0;
+      var status = im.immuneState === 'alert' ? 'immune-alert' : hv > 0 ? 'human-review-required' : (bs.length && covered < bs.length) ? 'source-limited' : (cm.regulation && cm.regulation.starving) ? 'starving' : (cm.regulation && cm.regulation.state === 'surprised') ? 'surprised' : 'healthy';
+      var rep = {
+        version: 1, brainStatus: status,
+        strongestDiagnosis: strongest ? strongest.id : null,
+        strongestOpportunity: (s.opportunities && s.opportunities[0] && s.opportunities[0].title) || null,
+        confidence: Math.round((1 - pe) * 100) / 100, predictionError: Math.round(pe * 1000) / 1000,
+        regulationState: (cm.regulation && cm.regulation.state) || null, immuneState: im.immuneState || null,
+        awarenessSummary: aw.selfNarrative || null, conscienceDecision: con.conscienceState || null,
+        intuitionSummary: (it.hunches || []).length + ' hunch(es)', simulationSummary: (sim.scenarios || []).length + ' scenario(s)',
+        artifactReadiness: con.artifactReadinessDecision || null, blockers: (con.blockedClaims || []).slice(0, 6),
+        nextBestAction: (bs.length && covered < bs.length) ? 'build/verify source for uncovered diagnoses (ensure telecom/press-freedom/platform-transparency sources are current)' : hv > 0 ? 'human-verify external-source bundles' : 'monitor strongest diagnosis sources (network telemetry, news/amplification signals, press-freedom status)',
+        lastReportAt: cm.updated || null
+      };
+      s.communicationExecutiveReport = rep; return rep;
+    };
+  })();
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // COMMUNICATION COGNITION PARITY — fallback loaders, source-bundle machinery, L1
+  // mad-lib scan, network/information-integrity sub-portal layer, and the 8-section
+  // DomainDiagnosisPacket the Civilization cockpit consumes. Mirrors energy/culture
+  // STRUCTURE exactly; only the CONTENT is communication (telecom & networks,
+  // broadband/connectivity, internet infrastructure (towers/fiber/spectrum), media/
+  // broadcasting CHANNELS, journalism & news flow, information dissemination, social-
+  // media platforms AS DISTRIBUTION, public-discourse infrastructure). Never fabricates.
+  // ════════════════════════════════════════════════════════════════════════════
+
+  // ── DDP schema helpers ──
+  var COMMUNICATION_DDP_SCHEMA_VERSION = 'communication-ddp-1';
+  function _communicationDdpPresent(v) {
+    if (v == null) return false;
+    if (Array.isArray(v)) return v.length > 0;
+    if (v === 'missing' || v === '' || v === 'none') return false;
+    return true;
+  }
+  function _communicationDdpCompleteness(section, keys) {
+    var have = 0; for (var i = 0; i < keys.length; i++) { if (_communicationDdpPresent(section[keys[i]])) have++; }
+    return { have: have, total: keys.length, pct: keys.length ? Math.round(have / keys.length * 100) : 0 };
+  }
+
+  // ── Canonical diagnosis resolution. Prefers window.LIMENArtifactSourceIndex.aliases(),
+  //    else COMMUNICATION_DIAGNOSIS_ALIASES. Non-aliased diagnoses are canonical to themselves. ──
+  var COMMUNICATION_DIAGNOSIS_ALIASES = {
+    DISINFORMATION_CRISIS: { target: 'INFORMATION_CONTAMINATION_SYNDROME', reviewStatus: 'corpus-aliased', risk: 'low', note: 'corpus emits INFORMATION_CONTAMINATION_SYNDROME for disinformation/misinformation surges' },
+    TELECOM_FAILURE:       { target: 'NETWORK_INFRASTRUCTURE_DISRUPTION', reviewStatus: 'corpus-aliased', risk: 'low', note: 'corpus emits NETWORK_INFRASTRUCTURE_DISRUPTION for outages / connectivity loss' },
+    CENSORSHIP_OVERREACH:  { target: 'EXPRESSION_SUPPRESSION', reviewStatus: 'human-approved', risk: 'medium', note: 'mapped to expression-suppression bundle; verify the suppression evidence is appropriate for the specific claim' },
+    MEDIA_MONOPOLY:        { target: 'CHANNEL_CONCENTRATION', reviewStatus: 'corpus-aliased', risk: 'low', note: 'corpus emits CHANNEL_CONCENTRATION for distribution/editorial capture' },
+    CYBER_PROPAGANDA:      { target: 'COORDINATED_INFLUENCE_OPERATION', reviewStatus: 'human-approved', risk: 'medium', note: 'mapped to coordinated-influence-operation bundle; verify inauthentic-behavior evidence is appropriate' }
+  };
+  CommunicationBrain.prototype._resolveCommunicationCanonicalDiagnosis = function (dxId) {
+    if (!dxId) return { canonicalDiagnosisId: null, aliasUsed: false, aliasReviewStatus: null, aliasRisk: null, aliasNote: null };
+    var target = null;
+    try {
+      var idx = (typeof window !== 'undefined') ? window.LIMENArtifactSourceIndex : null;
+      if (idx && idx.aliases) { var row = idx.aliases()[dxId]; if (row && row.target) target = row.target; }
+    } catch (e) {}
+    var local = COMMUNICATION_DIAGNOSIS_ALIASES[dxId] || null;
+    if (!target && local) target = local.target;
+    if (target) {
+      return { canonicalDiagnosisId: target, aliasUsed: true, aliasReviewStatus: (local && local.reviewStatus) || 'corpus-aliased', aliasRisk: (local && local.risk) || 'low', aliasNote: (local && local.note) || null };
+    }
+    return { canonicalDiagnosisId: dxId, aliasUsed: false, aliasReviewStatus: null, aliasRisk: null, aliasNote: null };   // canonical to self
+  };
+
+  // ── Load REAL source bundles (one-shot, async). Resolves aliases BEFORE fetching.
+  //    Only files that exist resolve to 'found'; 404s -> 'missing'. Never fabricates. ──
+  CommunicationBrain.prototype._loadCommunicationDiagnosisBundles = function () {
+    var self = this;
+    if (self._communicationBundleLoadPromise) return self._communicationBundleLoadPromise;
+    self._bundleCache = self._bundleCache || {};
+    self._bundleStatusMap = self._bundleStatusMap || {};
+    var ids = {};
+    var known = ['DISINFORMATION_CRISIS', 'TELECOM_FAILURE', 'CENSORSHIP_OVERREACH', 'MEDIA_MONOPOLY', 'CYBER_PROPAGANDA'];
+    var diags = (self.state && self.state.diagnoses) || [];
+    var allDxIds = diags.map(function (d) { return d.id; }).concat(known);
+    for (var i = 0; i < allDxIds.length; i++) { var c = self._resolveCommunicationCanonicalDiagnosis(allDxIds[i]).canonicalDiagnosisId; if (c) ids[c] = true; }
+    self._communicationBundleLoadPromise = Promise.all(Object.keys(ids).map(function (cid) {
+      return fetch('/assets/data/artifact-source-index/by-diagnosis/' + encodeURIComponent(cid) + '.json')
+        .then(function (r) { return (r && r.ok) ? r.json() : null; })
+        .then(function (data) { self._bundleStatusMap[cid] = data ? 'found' : 'missing'; if (data) self._bundleCache[cid] = data; })
+        .catch(function () { self._bundleStatusMap[cid] = 'missing'; });
+    })).then(function () { return self._bundleCache; });
+    return self._communicationBundleLoadPromise;
+  };
+
+  // ── _communicationBundleStates — per-diagnosis canonical resolution + bundle status + provenance ──
+  CommunicationBrain.prototype._communicationBundleStates = function () {
+    var self = this; var diags = (this.state && this.state.diagnoses) || [];
+    return diags.map(function (d) {
+      var c = self._resolveCommunicationCanonicalDiagnosis(d.id);
+      var bundle = (self._bundleCache && self._bundleCache[c.canonicalDiagnosisId]) || null;
+      var known = !!(self._bundleStatusMap && Object.prototype.hasOwnProperty.call(self._bundleStatusMap, c.canonicalDiagnosisId));
+      return {
+        dxId: d.id, active: !!d.active, relevance: (typeof d.relevance === 'number' ? d.relevance : 0),
+        canonical: c.canonicalDiagnosisId, aliasUsed: c.aliasUsed, aliasRisk: c.aliasRisk, aliasReviewStatus: c.aliasReviewStatus,
+        bundleStatus: bundle ? 'found' : (known ? 'missing' : 'unknown'),
+        buildMethod: (bundle && bundle.buildMethod) || null, humanVerification: (bundle && bundle.humanVerification) || null,
+        shallow: !!(bundle && ((bundle.maxDepth || 0) === 0 || (bundle.portalCount || 0) <= 1))
+      };
+    });
+  };
+
+  // ── L1 portal mad-lib scan. L1 treatments are fixed-verb templates; quarantined from
+  //    evidence. Only real carrier/platform/publisher tickers surface (relevance-unverified). ──
+  var COMMUNICATION_MADLIB_VERB = /^(Develop|Establish|Implement|Build|Launch|Design|Deploy|Operationalize|Conduct|Create|Define|Assess|Optimize|Modernize|Strengthen|Enhance|Formalize|Institute|Standardize|Coordinate|Integrate|Calibrate|Evaluate|Streamline|Institutionalize|Configure|Monitor|Verify|Moderate|Amplify)\b/;
+  CommunicationBrain.prototype._isCommunicationMadLibTreatment = function (label) { return !label || COMMUNICATION_MADLIB_VERB.test(String(label)); };
+
+  CommunicationBrain.prototype._loadCommunicationL1PortalDepth = function () {
+    var self = this;
+    if (self._communicationL1LoadPromise) return self._communicationL1LoadPromise;
+    var BRANCH = {
+      DISINFORMATION_CRISIS: ['media', 'social', 'journalism'],
+      TELECOM_FAILURE: ['telecom', 'broadband', 'spectrum'],
+      CENSORSHIP_OVERREACH: ['pressfreedom', 'platforms', 'broadcast'],
+      MEDIA_MONOPOLY: ['broadcast', 'platforms', 'publishing'],
+      CYBER_PROPAGANDA: ['social', 'cyber', 'media']
+    };
+    self._communicationL1Branches = BRANCH;
+    var branches = {}; Object.keys(BRANCH).forEach(function (dx) { BRANCH[dx].forEach(function (b) { branches[b] = true; }); });
+    var byBranch = {};
+    self._communicationL1LoadPromise = Promise.all(Object.keys(branches).map(function (b) {
+      return fetch('/assets/data/domains/communication_' + encodeURIComponent(b) + '.json')
+        .then(function (r) { return (r && r.ok) ? r.json() : null; })
+        .then(function (data) {
+          if (!data) { byBranch[b] = null; return; }
+          var acts = data.activations || [], tickers = {}, total = 0, mad = 0;
+          acts.forEach(function (a) {
+            (a.companies || []).forEach(function (c) { if (c && c.ticker_or_id) tickers[c.ticker_or_id] = c.name || c.ticker_or_id; });
+            (a.treatments || []).forEach(function (t) { var l = t && (t.label || t.title); if (l) { total++; if (self._isCommunicationMadLibTreatment(l)) mad++; } });
+          });
+          byBranch[b] = { file: 'communication_' + b, companyTickers: Object.keys(tickers).map(function (k) { return { ticker: k, name: tickers[k] }; }), treatmentTotal: total, madLibCount: mad, realTreatmentCount: total - mad };
+        })
+        .catch(function () { byBranch[b] = null; });
+    })).then(function () {
+      var byDiagnosis = {};
+      Object.keys(BRANCH).forEach(function (dx) {
+        var tk = {}, total = 0, mad = 0, scanned = 0;
+        BRANCH[dx].forEach(function (b) { var r = byBranch[b]; if (r) { scanned++; r.companyTickers.forEach(function (c) { tk[c.ticker] = c.name; }); total += r.treatmentTotal; mad += r.madLibCount; } });
+        byDiagnosis[dx] = { branchesScanned: scanned, realCompanyTickers: Object.keys(tk).map(function (k) { return { ticker: k, name: tk[k], relevanceUnverified: true }; }), treatmentTotal: total, madLibTreatments: mad, realTreatments: total - mad, admitted: false, reason: 'L1 treatments are mad-lib templates (fixed-verb family) — not source-grade; only carrier/platform/publisher tickers surfaced, relevance unverified' };
+      });
+      self.state._l1DepthCache = { byBranch: byBranch, byDiagnosis: byDiagnosis, scannedAt: (self.state.communicationModel && self.state.communicationModel.updated) || null };
+      return self.state._l1DepthCache;
+    });
+    return self._communicationL1LoadPromise;
+  };
+
+  // ── NETWORK sub-portal layer (counterpart to energy's data-center; culture's music scene).
+  //    The NETWORK/INFRASTRUCTURE & information-integrity layer = real-content telecom/network
+  //    diagnostics (telecom outages, infrastructure strain, spectrum bottlenecks) SEPARATE from
+  //    the canonical 5-diagnosis spine. This is NOT a broadcast/media/content layer. ──
+  CommunicationBrain.prototype._loadCommunicationNetworkLayer = function () {
+    var self = this;
+    if (self._communicationNetworkLoadPromise) return self._communicationNetworkLoadPromise;
+    self._communicationNetworkLoadPromise = fetch('/assets/data/domains/communication_network.json')
+      .then(function (r) { return (r && r.ok) ? r.json() : null; })
+      .then(function (data) {
+        if (!data) { self._networkPortal = null; return null; }
+        self._networkPortal = { issues: data.issues || [], activations: data.activations || [], title: data.title || 'Communication Network Infrastructure' };
+        return self._networkPortal;
+      })
+      .catch(function () { self._networkPortal = null; return null; });
+    return self._communicationNetworkLoadPromise;
+  };
+
+  CommunicationBrain.prototype._buildCommunicationNetworkLayer = function () {
+    var self = this;
+    var np = self._networkPortal;
+    // Network sub-layer canonical diagnoses (additive; NEVER merged into the validated 5-diagnosis spine).
+    var NET_TICKERS = ['VZ', 'T', 'TMUS', 'AMT', 'CCI', 'SBAC', 'CSCO', 'ANET'];
+    if (!np || !np.issues || !np.issues.length) {
+      self.state.networkDiagnoses = [];
+      self.state.networkTreatments = [];
+      self.state.communicationNetworkDomainDiagnosisPackets = [];
+      self.state.networkLayer = { loaded: false, count: 0, activeCount: 0, diagnoses: [], realTickers: NET_TICKERS, note: 'communication network sub-portal not loaded (offline or fetch failed)' };
+      return self.state.networkLayer;
+    }
+    var conditions = self._activeConditions || [];
+    // 1) diagnoses — same condition-match logic as the canonical spine
+    var diagnoses = np.issues.map(function (iss) {
+      var triggers = (self.diagnosisIndex && self.diagnosisIndex[iss.id]) || [];
+      var matchCount = 0;
+      for (var t = 0; t < triggers.length; t++) {
+        for (var c = 0; c < conditions.length; c++) {
+          if (conditions[c] === triggers[t] || String(conditions[c]).indexOf(triggers[t]) !== -1) matchCount++;
+        }
+      }
+      return {
+        id: iss.id, label: iss.label, summary: iss.summary || '',
+        active: matchCount > 0,
+        relevance: triggers.length ? Math.round((matchCount / triggers.length) * 100) / 100 : 0,
+        circuits: iss.circuits || [],
+        source: 'network', tier: 'real-content-unbundled', branch: 'network'
+      };
+    });
+    // 2) treatments — pull from network node activations whose brainNodeId is in a diagnosis circuit
+    var nodeToDx = {};
+    diagnoses.forEach(function (d) { (d.circuits || []).forEach(function (c) { if (c && c.nodeId) nodeToDx[c.nodeId] = d.id; }); });
+    var treatments = [];
+    (np.activations || []).forEach(function (act) {
+      var dxId = nodeToDx[act.brainNodeId];
+      if (!dxId) return;
+      (act.treatments || []).forEach(function (t, ti) {
+        treatments.push({
+          id: 'net_treat_' + act.brainNodeId + '_' + ti,
+          label: t.label, type: t.type, evidence: t.evidence, description: t.description || '',
+          cite: t.cite || null, citation: t.citation || [], steps: t.steps || [],
+          diagnosisId: dxId, nodeId: act.brainNodeId,
+          source: 'network', madLib: self._isCommunicationMadLibTreatment ? self._isCommunicationMadLibTreatment(t.label) : false
+        });
+      });
+    });
+    var evidenceRank = { A: 10, Strong: 10, B: 7, Moderate: 7, C: 4, Emerging: 1 };
+    treatments.sort(function (a, b) { return (evidenceRank[b.evidence] || 0) - (evidenceRank[a.evidence] || 0); });
+    self.state.networkDiagnoses = diagnoses;
+    self.state.networkTreatments = treatments;
+    // 3) compact layer summary (read by every DDP's promptView)
+    self.state.networkLayer = {
+      loaded: true,
+      portalTitle: np.title,
+      count: diagnoses.length,
+      activeCount: diagnoses.filter(function (d) { return d.active; }).length,
+      realTickers: NET_TICKERS,
+      diagnoses: diagnoses.map(function (d) {
+        var rc = self._resolveCommunicationCanonicalDiagnosis ? self._resolveCommunicationCanonicalDiagnosis(d.id) : { canonicalDiagnosisId: d.id };
+        var bsStat = (self._bundleStatusMap && self._bundleStatusMap[rc.canonicalDiagnosisId]) || 'missing';
+        return { id: d.id, label: d.label, active: d.active, branch: 'network', canonicalDiagnosisId: rc.canonicalDiagnosisId, bundleStatus: bsStat, treatmentCount: treatments.filter(function (t) { return t.diagnosisId === d.id; }).length };
+      }),
+      note: 'real-content NETWORK/INFRASTRUCTURE sub-portal diagnoses (telecom outages, infrastructure strain, spectrum congestion: VZ/T/TMUS/AMT/CCI/SBAC/CSCO/ANET); SEPARATE from the validated 5-diagnosis spine; no external artifact-source bundle yet; never admitted to evidenceAnchors'
+    };
+    // 4) per-diagnosis DDPs via the SAME schema builder (canonical-to-self; bundle 'missing')
+    self.state.communicationNetworkDomainDiagnosisPackets = diagnoses.map(function (d) {
+      try { return self._buildDomainDiagnosisPacket(d); } catch (e) { return null; }
+    }).filter(Boolean);
+    return self.state.networkLayer;
+  };
+
+  // ── DDP — the 8-section DomainDiagnosisPacket the Civilization cockpit consumes.
+  //    Mirrors culture's _buildDomainDiagnosisPacket exactly; only the CONTENT is communication. ──
+  CommunicationBrain.prototype._buildDomainDiagnosisPacket = function (dx) {
+    var s = this.state || {};
+    var cm = s.communicationModel || {};
+    var portal = s._portalCache || null;
+    var dxId = dx ? (dx.id || null) : null;
+
+    var allTreat = Array.isArray(s.treatments) ? s.treatments : [];
+    var treatments = allTreat.filter(function (t) { return !dxId || t.diagnosisId === dxId; });
+    var implementationSteps = [];
+    for (var ti = 0; ti < treatments.length; ti++) { if (Array.isArray(treatments[ti].steps)) implementationSteps = implementationSteps.concat(treatments[ti].steps); }
+
+    var allOpp = Array.isArray(s.opportunities) ? s.opportunities : [];
+    var opps = allOpp.filter(function (o) { return !dxId || o.diagnosisId === dxId; });
+    var primaryOpp = opps[0] || null;
+    var mc = primaryOpp && primaryOpp.moneyChain ? primaryOpp.moneyChain : null;
+
+    if (primaryOpp && Array.isArray(primaryOpp.steps)) implementationSteps = implementationSteps.concat(primaryOpp.steps);
+    if (primaryOpp && Array.isArray(primaryOpp.fastPath)) implementationSteps = implementationSteps.concat(primaryOpp.fastPath);
+
+    var feeds = s.feeds || {}, sourceFeeds = [];
+    if (Array.isArray(feeds)) {
+      feeds.forEach(function (f) { if (f && typeof f === 'object') sourceFeeds.push({ name: f.name || f.label || 'feed', updated: f.updated || null, source: f.source || null }); });
+    } else {
+      for (var fk in feeds) { if (feeds.hasOwnProperty(fk)) { var f = feeds[fk]; if (f && typeof f === 'object') sourceFeeds.push({ name: f.name || fk, updated: (f && f.updated) || null, source: (f && f.source) || null }); } }
+    }
+    if (s._primarySource && !sourceFeeds.length) sourceFeeds.push({ name: 'primary', updated: null, source: s._primarySource });
+
+    var _canon = this._resolveCommunicationCanonicalDiagnosis(dxId);
+    var identity = {
+      domain: 'communication',
+      diagnosisId: dxId,
+      canonicalDiagnosisId: _canon.canonicalDiagnosisId,   // alias map or canonical-to-self
+      aliasUsed: _canon.aliasUsed,
+      aliasReviewStatus: _canon.aliasReviewStatus,          // human-approved | corpus-aliased | null
+      aliasRisk: _canon.aliasRisk,
+      aliasNote: _canon.aliasNote,
+      label: dx ? (dx.label || dx.id || null) : null,
+      phase: s.phase || null,
+      confidence: (dx && typeof dx.relevance === 'number') ? dx.relevance : (typeof s.confidence === 'number' ? s.confidence : null)
+    };
+    // Real source bundle for this canonical id (shipped only when it exists; NEVER fabricated).
+    var _bundle = (this._bundleCache && this._bundleCache[identity.canonicalDiagnosisId]) || null;
+    var _bundleKnown = !!(this._bundleStatusMap && Object.prototype.hasOwnProperty.call(this._bundleStatusMap, identity.canonicalDiagnosisId));
+    var _bl = (_bundle && _bundle.byLane && _bundle.byLane.patents) ? _bundle.byLane.patents : null;
+    var _bArr = function (k) { return (_bl && Array.isArray(_bl[k])) ? _bl[k] : []; };
+    var bundleStatus = _bundle ? 'found' : (_bundleKnown ? 'missing' : 'unknown');
+    var bundleShallow = !!(_bundle && ((_bundle.maxDepth || 0) === 0 || (_bundle.portalCount || 0) <= 1));
+    var bundleResolution = identity.aliasUsed
+      ? (_bundle ? 'alias-resolved-and-bundle-found' : 'alias-resolved-but-bundle-missing')
+      : (_bundle ? 'found' : (_bundleKnown ? 'missing' : 'unknown'));
+    if (!treatments.length && _bl) treatments = _bArr('treatments');             // backfill from REAL bundle only
+    if (!implementationSteps.length && _bl) implementationSteps = _bArr('implementationSteps');
+    var brainState = {
+      communicationModel: { version: cm.version || null, cycle: (typeof cm.cycle === 'number' ? cm.cycle : null) },
+      predictionError: cm.predictionError || null,
+      regulationState: (cm.regulation && cm.regulation.state) || null,
+      prior: cm.prior || null,
+      observation: cm.observation || null,
+      plasticity: cm.plasticity || null,
+      readyForHandoff: cm.readyForHandoff === true
+    };
+    // Domain-identity portal fields are KNOWN facts (this IS the communication root).
+    var rootId = (portal && portal.domainId) || 'communication';
+    var rootTitle = (portal && portal.title) || 'Communication';
+    var ancestry = (portal && portal.parentLabel) ? [portal.parentLabel, rootTitle] : [rootTitle];
+    var portalContext = {
+      portalIds: [rootId],
+      portalDomain: 'communication',
+      portalTitle: rootTitle,
+      depth: 0,                               // brain operates at the root level only
+      ancestryPath: ancestry,
+      portalStatus: portal ? 'root-only' : 'pending',
+      sourceCompleteness: portal ? ((Array.isArray(portal.issues) && portal.issues.length) ? 'partial' : 'thin') : 'root-only',
+      bundleSource: (_bundle && Array.isArray(_bundle.sourcePortals) && _bundle.sourcePortals.length)
+        ? { portalIds: _bundle.sourcePortals.map(function (sp) { return sp.portalId; }), depth: _bundle.maxDepth || 0, ancestryPath: (_bundle.sourcePortals[0].ancestry || []), domains: _bundle.domains || [] }
+        : null,
+      l1Depth: (s._l1DepthCache && s._l1DepthCache.byDiagnosis && s._l1DepthCache.byDiagnosis[dxId]) || (s._l1DepthCache ? { branchesScanned: 0, realCompanyTickers: [], realTreatments: 0, madLibTreatments: 0, admitted: false, reason: 'no L1 branch mapped for this diagnosis' } : null)
+    };
+    var citationHints = sourceFeeds.map(function (sf) { return sf.source || sf.name; }).filter(Boolean);
+    var evidenceAnchors = _bArr('evidenceAnchors');   // REAL bundle anchors only (empty if no bundle)
+    var missingEv = [];
+    if (!evidenceAnchors.length) missingEv.push('evidenceAnchors');
+    if (!citationHints.length) missingEv.push('citationHints');
+    var evidence = {
+      sourceFeeds: sourceFeeds,
+      evidenceAnchors: evidenceAnchors,
+      citationHints: citationHints,
+      bundleStatus: bundleStatus,
+      bundleResolution: bundleResolution,
+      bundle: _bundle ? { portalCount: _bundle.portalCount || 0, maxDepth: _bundle.maxDepth || 0, domains: _bundle.domains || [], lane: 'patents', shallow: bundleShallow, buildMethod: _bundle.buildMethod || null, humanVerification: _bundle.humanVerification || null } : null,
+      missingEvidence: missingEv
+    };
+    // Human-authoring intake: for external-source bundles missing candidates, emit structured
+    // empty slots (what each needs + which COMMUNICATION primary source) rather than fabricating.
+    var _isExternal = !!(_bundle && _bundle.buildMethod === 'external-source-authored');
+    var _intakeSrcHint = {
+      INFORMATION_CONTAMINATION_SYNDROME: 'fact-check throughput (Snopes/PolitiFact) / platform transparency reports / academic disinformation studies (Stanford IO / EU DisinfoLab)',
+      NETWORK_INFRASTRUCTURE_DISRUPTION: 'Cloudflare Radar outage data / NetBlocks / CISA advisories / FCC outage filings / carrier (VZ/T/TMUS) network reports',
+      EXPRESSION_SUPPRESSION: 'RSF Press Freedom Index / CPJ / Freedom House / platform takedown + transparency reports',
+      CHANNEL_CONCENTRATION: 'FCC/FTC media-ownership filings / antitrust dockets / market-share data (CMCSA/CHTR/NWSA/GOOGL/META)',
+      COORDINATED_INFLUENCE_OPERATION: 'platform coordinated-inauthentic-behavior takedown reports / DFRLab / Stanford Internet Observatory / network-graph analyses'
+    };
+    var authoringIntake = [];
+    if (_isExternal) {
+      ['methodCandidates', 'embodimentCandidates', 'figurePlaceholders'].forEach(function (field) {
+        if (_bArr(field).length === 0) authoringIntake.push({ field: field, status: 'needs-human-input', count: 0, need: field === 'methodCandidates' ? 'a concrete information-integrity/network-resilience method drawn from a primary source' : field === 'embodimentCandidates' ? 'a specific implementation/embodiment from a real document' : 'a figure description grounded in a real source', sourceHint: _intakeSrcHint[identity.canonicalDiagnosisId] || 'primary institutional / telecom / press-freedom source', note: 'NOT fabricated by the brain — author from the cited source, then wire in verbatim with attribution' });
+      });
+    }
+    var treatmentContext = {
+      treatments: treatments,
+      implementationSteps: implementationSteps,
+      methodCandidates: _bArr('methodCandidates'),
+      mechanismCandidates: _bArr('mechanismCandidates'),
+      embodimentCandidates: _bArr('embodimentCandidates'),
+      figurePlaceholders: _bArr('figurePlaceholders'),
+      authoringIntake: authoringIntake
+    };
+    var operatorContext = {
+      targets: (primaryOpp && primaryOpp._resolvedTargets) ? primaryOpp._resolvedTargets : (mc && mc.target ? [mc.target] : []),
+      monitoring: (treatments.length && treatments[0].monitoring) ? treatments[0].monitoring : null,
+      escalation: (treatments.length && treatments[0].escalation) ? treatments[0].escalation : null,
+      invalidIf: mc ? (mc.invalidIf || null) : null,
+      nextStep: mc ? (mc.nextStep || null) : null
+    };
+    var hasTreat = treatments.length > 0;
+    var hasBundle = (bundleStatus === 'found');
+    var hasCanonical = !!identity.canonicalDiagnosisId;
+    var blockers = [];
+    if (hasCanonical && !hasBundle) blockers.push(identity.aliasUsed ? 'canonical-id-resolved-but-bundle-missing' : 'no-source-bundle');
+    if (bundleStatus === 'missing') blockers.push('source-bundle-build-required');
+    blockers.push(portalContext.portalStatus === 'root-only' ? 'portal-root-only' : 'portal-not-loaded');
+    if (!hasTreat) blockers.push('no-treatments');
+    if (!primaryOpp) blockers.push('no-active-opportunity');
+    var lanesIn = [];
+    if (primaryOpp && primaryOpp.path) lanesIn.push(primaryOpp.path);
+    if (primaryOpp && Array.isArray(primaryOpp.paths)) lanesIn = lanesIn.concat(primaryOpp.paths);
+    if (primaryOpp && primaryOpp.compensation && primaryOpp.compensation.type) lanesIn.push(primaryOpp.compensation.type);
+    var seenLane = {}, artifactLanes = [];
+    for (var li = 0; li < lanesIn.length; li++) { if (lanesIn[li] && !seenLane[lanesIn[li]]) { seenLane[lanesIn[li]] = true; artifactLanes.push(lanesIn[li]); } }
+    var readinessReasons = [];
+    if (hasBundle) readinessReasons.push('source bundle found (' + bundleResolution + (bundleShallow ? ', root-only' : '') + ', evidenceAnchors=' + evidenceAnchors.length + ')');
+    if (hasTreat) readinessReasons.push('treatments present (' + treatments.length + ')');
+    if (primaryOpp) readinessReasons.push('opportunity present (path=' + (primaryOpp.path || '?') + ')');
+    if (sourceFeeds.length) readinessReasons.push('source feeds present (' + sourceFeeds.length + ')');
+    var ready = hasTreat && hasBundle && hasCanonical;
+    // Lanes are INVESTABLE (carriers/platforms/publishers/tower-REITs) / RESEARCHABLE (communication briefs).
+    // patent/grant are VETOED by conscience (lanes retired 2026-06-21; no method/embodiment fields).
+    var artifactContext = {
+      artifactLanes: artifactLanes,
+      patentReady: false, grantReady: false, sbaReady: false,   // patent/grant/loan vetoed by H3 conscience
+      investmentReady: !!(hasTreat && primaryOpp), researchReady: ready || hasTreat,
+      readinessReasons: readinessReasons,
+      blockers: blockers
+    };
+
+    var comp = {
+      identity:         _communicationDdpCompleteness(identity, ['domain', 'diagnosisId', 'canonicalDiagnosisId', 'label', 'phase', 'confidence']),
+      brainState:       _communicationDdpCompleteness(brainState, ['communicationModel', 'predictionError', 'regulationState', 'prior', 'observation', 'plasticity']),
+      portalContext:    _communicationDdpCompleteness(portalContext, ['portalIds', 'portalDomain', 'portalTitle', 'depth', 'ancestryPath']),
+      evidence:         _communicationDdpCompleteness(evidence, ['sourceFeeds', 'evidenceAnchors', 'citationHints']),
+      treatmentContext: _communicationDdpCompleteness(treatmentContext, ['treatments', 'implementationSteps', 'methodCandidates', 'mechanismCandidates', 'embodimentCandidates', 'figurePlaceholders']),
+      operatorContext:  _communicationDdpCompleteness(operatorContext, ['targets', 'monitoring', 'escalation', 'invalidIf', 'nextStep']),
+      artifactContext:  _communicationDdpCompleteness(artifactContext, ['artifactLanes'])
+    };
+    var totHave = 0, totAll = 0;
+    for (var sk in comp) { if (comp.hasOwnProperty(sk)) { totHave += comp[sk].have; totAll += comp[sk].total; } }
+    var missingFields = [];
+    function _cmf(name, obj, keys) { for (var i = 0; i < keys.length; i++) { if (!_communicationDdpPresent(obj[keys[i]])) missingFields.push(name + '.' + keys[i]); } }
+    _cmf('identity', identity, ['canonicalDiagnosisId', 'confidence']);
+    _cmf('evidence', evidence, ['evidenceAnchors', 'citationHints']);
+    _cmf('treatmentContext', treatmentContext, ['treatments', 'implementationSteps', 'methodCandidates', 'mechanismCandidates', 'embodimentCandidates', 'figurePlaceholders']);
+    _cmf('operatorContext', operatorContext, ['targets', 'monitoring', 'escalation', 'invalidIf', 'nextStep']);
+
+    var warnings = [];
+    if (portalContext.portalStatus === 'root-only') warnings.push('portalContext is root-only (no deep portal cortex)');
+    if (portalContext.portalStatus === 'pending') warnings.push('root portal not yet cached on the brain (domain identity used)');
+    if (identity.aliasUsed) warnings.push('alias-resolved; verify source appropriateness');
+    if (bundleStatus === 'missing') warnings.push('source bundle missing (no artifact-source bundle for this diagnosis)');
+    if (bundleStatus === 'unknown') warnings.push('source bundle not yet checked');
+    if (bundleStatus === 'found' && _bundle && _bundle.buildMethod === 'external-source-authored') warnings.push('external-source-authored; human-verification-required (' + (_bundle.humanVerification || 'required') + ')');
+    else if (bundleStatus === 'found' && bundleShallow) warnings.push('source-bundle-root-only (real bundle but portalCount<=1 / maxDepth 0)');
+    var _emptyCand = [];
+    if (!treatmentContext.methodCandidates.length) _emptyCand.push('method');
+    if (!treatmentContext.mechanismCandidates.length) _emptyCand.push('mechanism');
+    if (!treatmentContext.embodimentCandidates.length) _emptyCand.push('embodiment');
+    if (!treatmentContext.figurePlaceholders.length) _emptyCand.push('figure');
+    if (_emptyCand.length) warnings.push((bundleStatus === 'found' ? 'bundle found but ' : 'no bundle — ') + 'candidate types still empty: ' + _emptyCand.join(',') + ' (not invented)');
+    if (!primaryOpp && (typeof s.stress !== 'number' || s.stress < CM_STRESS_FLOOR)) warnings.push('no active opportunity (offline/low-stress) — operator/lane fields stay empty');
+    if (artifactContext.artifactLanes.length && !hasTreat) warnings.push('artifact lane present but treatments/evidence missing');
+
+    var pct = totAll ? Math.round(totHave / totAll * 100) : 0;
+    var proofTier = pct >= 70 ? 'full' : (pct >= 35 ? 'partial' : 'sparse');
+
+    // Prompt-facing trimming/prioritization. FULL data above is preserved; this is a bounded,
+    // diagnosis-relevant subset for the finalizer prompt. Never trims scalars/warnings.
+    var G2_CAPS = { evidenceAnchors: 8, treatments: 8, implementationSteps: 8, mechanismCandidates: 6, methodCandidates: 6, embodimentCandidates: 6, figurePlaceholders: 6, citationHints: 8, sourceFeeds: 8 };
+    function _g2cap(arr, n) { arr = Array.isArray(arr) ? arr : []; return { sel: arr.slice(0, n), omitted: Math.max(0, arr.length - n) }; }
+    var _g2ea = _g2cap(evidenceAnchors, G2_CAPS.evidenceAnchors);
+    var _g2tr = _g2cap(treatmentContext.treatments, G2_CAPS.treatments);
+    var _g2is = _g2cap(treatmentContext.implementationSteps, G2_CAPS.implementationSteps);
+    var _g2mc = _g2cap(treatmentContext.mechanismCandidates, G2_CAPS.mechanismCandidates);
+    var _g2md = _g2cap(treatmentContext.methodCandidates, G2_CAPS.methodCandidates);
+    var _g2em = _g2cap(treatmentContext.embodimentCandidates, G2_CAPS.embodimentCandidates);
+    var _g2fg = _g2cap(treatmentContext.figurePlaceholders, G2_CAPS.figurePlaceholders);
+    var _g2ch = _g2cap(citationHints, G2_CAPS.citationHints);
+    var _g2sf = _g2cap(sourceFeeds, G2_CAPS.sourceFeeds);
+    var promptView = {
+      compact: true,
+      caps: G2_CAPS,
+      selectedEvidenceAnchors: _g2ea.sel,
+      selectedTreatments: _g2tr.sel,
+      selectedImplementationSteps: _g2is.sel,
+      selectedMechanismCandidates: _g2mc.sel,
+      selectedMethodCandidates: _g2md.sel,
+      selectedEmbodimentCandidates: _g2em.sel,
+      selectedFigurePlaceholders: _g2fg.sel,
+      selectedCitationHints: _g2ch.sel,
+      selectedSourceFeeds: _g2sf.sel,
+      omittedCounts: { evidenceAnchors: _g2ea.omitted, treatments: _g2tr.omitted, implementationSteps: _g2is.omitted, mechanismCandidates: _g2mc.omitted, methodCandidates: _g2md.omitted, embodimentCandidates: _g2em.omitted, figurePlaceholders: _g2fg.omitted, citationHints: _g2ch.omitted, sourceFeeds: _g2sf.omitted },
+      priorityReasons: [
+        'diagnosis-specific bundle anchors preferred over generic communication evidence',
+        'official/primary sources retained (FCC/RSF/CPJ/Cloudflare Radar/CISA/platform transparency reports where present)',
+        'mechanisms prioritized over figures under prompt-space limits',
+        'treatments with implementation relevance preferred over broad narrative',
+        'caps applied per field; full data preserved in the stored bundle + full DDP'
+      ],
+      retainedWarnings: warnings
+        .concat(s.communicationImmune ? ['immune: ' + s.communicationImmune.immuneState + ' (sev ' + s.communicationImmune.severity + ', ' + (s.communicationImmune.antigens || []).length + ' antigens; L2 traversal blocked)'] : [])
+        .concat(s.communicationConscience && s.communicationConscience.conscienceState === 'restrictive' ? ['conscience: ' + (s.communicationConscience.blockedClaims || []).slice(0, 3).join(', ') + ' blocked'] : []),
+      retainedBlockers: artifactContext.blockers,
+      // higher-layer compact summaries (forwarded to the finalizer via promptView)
+      immuneSummary: s.communicationImmune ? { immuneState: s.communicationImmune.immuneState, severity: s.communicationImmune.severity, antigenCount: (s.communicationImmune.antigens || []).length, quarantines: s.communicationImmune.quarantines, blockedFromTraversal: s.communicationImmune.blockedFromTraversal, allowedWithWarning: s.communicationImmune.allowedWithWarning } : null,
+      awarenessSummary: s.communicationAwareness ? { selfNarrative: s.communicationAwareness.selfNarrative, knowns: (s.communicationAwareness.knowns || []).length, uncertainties: (s.communicationAwareness.uncertainties || []).length } : null,
+      conscienceDecision: s.communicationConscience ? { conscienceState: s.communicationConscience.conscienceState, blockedClaims: s.communicationConscience.blockedClaims, artifactReadinessDecision: s.communicationConscience.artifactReadinessDecision } : null,
+      intuitionSummary: s.communicationIntuition ? s.communicationIntuition.hunches : null,
+      scenarioSummary: s.communicationSimulation ? (s.communicationSimulation.scenarios || []).map(function (x) { return { type: x.type, hypothetical: x.hypothetical, risk: x.risk }; }) : null,
+      executiveReport: s.communicationExecutiveReport || null,
+      l1DepthSummary: portalContext.l1Depth ? { realCompanyTickers: (portalContext.l1Depth.realCompanyTickers || []).length, realTreatments: portalContext.l1Depth.realTreatments, madLibTreatments: portalContext.l1Depth.madLibTreatments, admitted: portalContext.l1Depth.admitted } : null,
+      authoringIntake: treatmentContext.authoringIntake.length ? treatmentContext.authoringIntake : null,
+      // NETWORK — telecom/infrastructure sub-portal layer (real-content, SEPARATE from the validated spine, no bundle yet)
+      networkSummary: s.networkLayer && s.networkLayer.loaded ? { count: s.networkLayer.count, activeCount: s.networkLayer.activeCount, diagnoses: s.networkLayer.diagnoses, realTickers: s.networkLayer.realTickers, note: s.networkLayer.note } : null
+    };
+
+    return {
+      schemaVersion: COMMUNICATION_DDP_SCHEMA_VERSION,
+      promptView: promptView,
+      identity: identity,
+      brainState: brainState,
+      portalContext: portalContext,
+      evidence: evidence,
+      treatmentContext: treatmentContext,
+      operatorContext: operatorContext,
+      artifactContext: artifactContext,
+      audit: {
+        generatedAt: (cm.updated || null),
+        schemaVersion: COMMUNICATION_DDP_SCHEMA_VERSION,
+        fieldCompleteness: { sections: comp, overallPct: pct },
+        missingFields: missingFields,
+        warnings: warnings,
+        proofTier: proofTier,
+        immune: s.communicationImmune || null,
+        awareness: s.communicationAwareness || null,
+        conscience: s.communicationConscience || null,
+        intuition: s.communicationIntuition || null,
+        simulation: s.communicationSimulation || null,
+        executiveReport: s.communicationExecutiveReport || null
+      }
+    };
+  };
 
   var brain = new CommunicationBrain(); brain.init(); brain.start();
   window.LIMENCommunicationBrain = brain;

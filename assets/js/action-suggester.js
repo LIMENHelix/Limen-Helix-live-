@@ -86,6 +86,13 @@
       { label: 'Map disruption clusters', type: 'analysis', minStress: 0.5 },
       { label: 'Detect innovation gaps', type: 'discovery', minStress: 0.7 }
     ],
+    communication: [
+      { label: 'Monitor network outage incidents and connectivity disruption signals (Cloudflare Radar, NetBlocks, CISA advisories) across broadband and telecom operators (VZ, T, TMUS, CMCSA, CHTR)', type: 'monitoring', minStress: 0.3 },
+      { label: 'Explore spectrum-efficient and resilient network architectures (5G, fiber, satellite) and censorship-resistant communication protocols across telecom and infrastructure providers (CSCO, ANET, AMT, CCI, SBAC)', type: 'discovery', minStress: 0.4 },
+      { label: 'Investigate media-trust collapse and misinformation-propagation vectors across journalism and media platforms (NWSA, NYT, META, GOOGL)', type: 'analysis', minStress: 0.5 },
+      { label: 'Analyze platform concentration and broadcast-capacity bottlenecks (META, GOOGL market share, spectrum allocation limits)', type: 'analysis', minStress: 0.6 },
+      { label: 'Regulate misinformation surge and censorship events with counter-narrative infrastructure and platform-moderation capacity (fact-check systems, content authentication, regulatory coordination)', type: 'regulation', minStress: 0.7 }
+    ],
     culture: [
       { label: 'Monitor viral-moment saturation and audience attention patterns', type: 'monitoring', minStress: 0.3 },
       { label: 'Explore creator-sustainability and fanbase-lifecycle modeling', type: 'discovery', minStress: 0.4 },

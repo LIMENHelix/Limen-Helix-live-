@@ -41,19 +41,22 @@
           "name": "Comcast",
           "ticker_or_id": "CMCSA",
           "functional_reason": "Executes core journalism operations, delivering primary output and managing day-to-day functional processes",
-          "binding_strength": 0.95
+          "binding_strength": 0.95,
+          "feedClass": "news_infrastructure"
         },
         {
           "name": "Netflix",
           "ticker_or_id": "NFLX",
           "functional_reason": "Executes core journalism operations, delivering primary output and managing day-to-day functional processes",
-          "binding_strength": 0.87
+          "binding_strength": 0.87,
+          "feedClass": "media_distrib"
         },
         {
           "name": "T-Mobile US",
           "ticker_or_id": "TMUS",
           "functional_reason": "Executes core journalism operations, delivering primary output and managing day-to-day functional processes",
-          "binding_strength": 0.94
+          "binding_strength": 0.94,
+          "feedClass": "telecom_carrier"
         }
       ],
       "neuralRole": "Language",
@@ -131,19 +134,22 @@
           "name": "T-Mobile US",
           "ticker_or_id": "TMUS",
           "functional_reason": "Detects and monitors broadcasting signals, identifying early disruption patterns and emerging conditions",
-          "binding_strength": 0.95
+          "binding_strength": 0.95,
+          "feedClass": "telecom_carrier"
         },
         {
           "name": "Ericsson",
           "ticker_or_id": "ERIC",
           "functional_reason": "Detects and monitors broadcasting signals, identifying early disruption patterns and emerging conditions",
-          "binding_strength": 0.93
+          "binding_strength": 0.93,
+          "feedClass": "internet_backbone"
         },
         {
           "name": "Alphabet (Google)",
           "ticker_or_id": "GOOGL",
           "functional_reason": "Detects and monitors broadcasting signals, identifying early disruption patterns and emerging conditions",
-          "binding_strength": 0.94
+          "binding_strength": 0.94,
+          "feedClass": "social_platform"
         }
       ],
       "neuralRole": "Sensory",
@@ -221,19 +227,22 @@
           "name": "Netflix",
           "ticker_or_id": "NFLX",
           "functional_reason": "Amplifies and scales social media capacity, driving growth and expanding reach of social media operations",
-          "binding_strength": 0.9
+          "binding_strength": 0.9,
+          "feedClass": "media_distrib"
         },
         {
           "name": "Meta Platforms",
           "ticker_or_id": "META",
           "functional_reason": "Amplifies and scales social media capacity, driving growth and expanding reach of social media operations",
-          "binding_strength": 0.95
+          "binding_strength": 0.95,
+          "feedClass": "social_platform"
         },
         {
           "name": "Comcast",
           "ticker_or_id": "CMCSA",
           "functional_reason": "Amplifies and scales social media capacity, driving growth and expanding reach of social media operations",
-          "binding_strength": 0.92
+          "binding_strength": 0.92,
+          "feedClass": "media_distrib"
         }
       ],
       "neuralRole": "Limbic",
@@ -311,19 +320,22 @@
           "name": "Cisco Systems",
           "ticker_or_id": "CSCO",
           "functional_reason": "Routes and distributes telecommunications resources, connecting supply nodes to demand endpoints across the system",
-          "binding_strength": 0.91
+          "binding_strength": 0.91,
+          "feedClass": "internet_backbone"
         },
         {
           "name": "Crown Castle",
           "ticker_or_id": "CCI",
           "functional_reason": "Routes and distributes telecommunications resources, connecting supply nodes to demand endpoints across the system",
-          "binding_strength": 0.91
+          "binding_strength": 0.91,
+          "feedClass": "tower_fiber"
         },
         {
           "name": "Alphabet (Google)",
           "ticker_or_id": "GOOGL",
           "functional_reason": "Routes and distributes telecommunications resources, connecting supply nodes to demand endpoints across the system",
-          "binding_strength": 0.95
+          "binding_strength": 0.95,
+          "feedClass": "social_platform"
         }
       ],
       "neuralRole": "DMN",
@@ -401,19 +413,22 @@
           "name": "Comcast",
           "ticker_or_id": "CMCSA",
           "functional_reason": "Executes core satellite systems operations, delivering primary output and managing day-to-day functional processes",
-          "binding_strength": 0.95
+          "binding_strength": 0.95,
+          "feedClass": "media_distrib"
         },
         {
           "name": "Netflix",
           "ticker_or_id": "NFLX",
           "functional_reason": "Executes core satellite systems operations, delivering primary output and managing day-to-day functional processes",
-          "binding_strength": 0.89
+          "binding_strength": 0.89,
+          "feedClass": "media_distrib"
         },
         {
           "name": "AT&T",
           "ticker_or_id": "T",
           "functional_reason": "Executes core satellite systems operations, delivering primary output and managing day-to-day functional processes",
-          "binding_strength": 0.91
+          "binding_strength": 0.91,
+          "feedClass": "telecom_carrier"
         }
       ],
       "neuralRole": "Attention",
@@ -491,19 +506,22 @@
           "name": "Qualcomm",
           "ticker_or_id": "QCOM",
           "functional_reason": "Executes core internet infrastructure operations, delivering primary output and managing day-to-day functional processes",
-          "binding_strength": 0.87
+          "binding_strength": 0.87,
+          "feedClass": "internet_backbone"
         },
         {
           "name": "Ericsson",
           "ticker_or_id": "ERIC",
           "functional_reason": "Executes core internet infrastructure operations, delivering primary output and managing day-to-day functional processes",
-          "binding_strength": 0.88
+          "binding_strength": 0.88,
+          "feedClass": "internet_backbone"
         },
         {
           "name": "Nokia",
           "ticker_or_id": "NOK",
           "functional_reason": "Executes core internet infrastructure operations, delivering primary output and managing day-to-day functional processes",
-          "binding_strength": 0.88
+          "binding_strength": 0.88,
+          "feedClass": "internet_backbone"
         }
       ],
       "neuralRole": "PFC",
@@ -581,19 +599,22 @@
           "name": "Comcast",
           "ticker_or_id": "CMCSA",
           "functional_reason": "Executes core publishing operations, delivering primary output and managing day-to-day functional processes",
-          "binding_strength": 0.77
+          "binding_strength": 0.77,
+          "feedClass": "media_distrib"
         },
         {
           "name": "Nokia",
           "ticker_or_id": "NOK",
           "functional_reason": "Executes core publishing operations, delivering primary output and managing day-to-day functional processes",
-          "binding_strength": 0.65
+          "binding_strength": 0.65,
+          "feedClass": "internet_backbone"
         },
         {
           "name": "Alphabet (Google)",
           "ticker_or_id": "GOOGL",
           "functional_reason": "Detects and monitors publishing signals, identifying early disruption patterns and emerging conditions",
-          "binding_strength": 0.65
+          "binding_strength": 0.65,
+          "feedClass": "social_platform"
         }
       ],
       "neuralRole": "Language",
@@ -671,19 +692,22 @@
           "name": "Verizon Communications",
           "ticker_or_id": "VZ",
           "functional_reason": "Executes core advertising operations, delivering primary output and managing day-to-day functional processes",
-          "binding_strength": 0.73
+          "binding_strength": 0.73,
+          "feedClass": "telecom_carrier"
         },
         {
           "name": "Qualcomm",
           "ticker_or_id": "QCOM",
           "functional_reason": "Detects and monitors advertising signals, identifying early disruption patterns and emerging conditions",
-          "binding_strength": 0.7
+          "binding_strength": 0.7,
+          "feedClass": "internet_backbone"
         },
         {
           "name": "Ericsson",
           "ticker_or_id": "ERIC",
           "functional_reason": "Executes core advertising operations, delivering primary output and managing day-to-day functional processes",
-          "binding_strength": 0.71
+          "binding_strength": 0.71,
+          "feedClass": "internet_backbone"
         }
       ],
       "neuralRole": "PFC",
@@ -760,19 +784,22 @@
           "name": "Netflix",
           "ticker_or_id": "NFLX",
           "functional_reason": "Executes core public relations operations, delivering primary output and managing day-to-day functional processes",
-          "binding_strength": 0.95
+          "binding_strength": 0.95,
+          "feedClass": "media_distrib"
         },
         {
           "name": "Verizon Communications",
           "ticker_or_id": "VZ",
           "functional_reason": "Executes core public relations operations, delivering primary output and managing day-to-day functional processes",
-          "binding_strength": 0.93
+          "binding_strength": 0.93,
+          "feedClass": "telecom_carrier"
         },
         {
           "name": "Comcast",
           "ticker_or_id": "CMCSA",
           "functional_reason": "Executes core public relations operations, delivering primary output and managing day-to-day functional processes",
-          "binding_strength": 0.93
+          "binding_strength": 0.93,
+          "feedClass": "media_distrib"
         }
       ],
       "childPortal": "communication_public_portal.html",
@@ -850,19 +877,22 @@
           "name": "Alphabet (Google)",
           "ticker_or_id": "GOOGL",
           "functional_reason": "Detects and monitors censorship & regulation signals, identifying early disruption patterns and emerging conditions",
-          "binding_strength": 0.95
+          "binding_strength": 0.95,
+          "feedClass": "social_platform"
         },
         {
           "name": "Ericsson",
           "ticker_or_id": "ERIC",
           "functional_reason": "Detects and monitors censorship & regulation signals, identifying early disruption patterns and emerging conditions",
-          "binding_strength": 0.95
+          "binding_strength": 0.95,
+          "feedClass": "internet_backbone"
         },
         {
           "name": "T-Mobile US",
           "ticker_or_id": "TMUS",
           "functional_reason": "Detects and monitors censorship & regulation signals, identifying early disruption patterns and emerging conditions",
-          "binding_strength": 0.9
+          "binding_strength": 0.9,
+          "feedClass": "telecom_carrier"
         }
       ],
       "childPortal": "communication_accesscomm_portal.html",
@@ -940,19 +970,22 @@
           "name": "Verizon Communications",
           "ticker_or_id": "VZ",
           "functional_reason": "Executes core language translation operations, delivering primary output and managing day-to-day functional processes",
-          "binding_strength": 0.73
+          "binding_strength": 0.73,
+          "feedClass": "telecom_carrier"
         },
         {
           "name": "Nokia",
           "ticker_or_id": "NOK",
           "functional_reason": "Executes core language translation operations, delivering primary output and managing day-to-day functional processes",
-          "binding_strength": 0.69
+          "binding_strength": 0.69,
+          "feedClass": "internet_backbone"
         },
         {
           "name": "Crown Castle",
           "ticker_or_id": "CCI",
           "functional_reason": "Routes and distributes language translation resources, connecting supply nodes to demand endpoints across the system",
-          "binding_strength": 0.74
+          "binding_strength": 0.74,
+          "feedClass": "tower_fiber"
         }
       ],
       "childPortal": "communication_analytics_portal.html",
@@ -1030,19 +1063,22 @@
           "name": "Nokia",
           "ticker_or_id": "NOK",
           "functional_reason": "Stabilizes postal systems oscillations, maintaining homeostatic balance and damping system volatility",
-          "binding_strength": 0.85
+          "binding_strength": 0.85,
+          "feedClass": "internet_backbone"
         },
         {
           "name": "Lumen Technologies",
           "ticker_or_id": "LUMN",
           "functional_reason": "Stabilizes postal systems oscillations, maintaining homeostatic balance and damping system volatility",
-          "binding_strength": 0.9
+          "binding_strength": 0.9,
+          "feedClass": "tower_fiber"
         },
         {
           "name": "Cisco Systems",
           "ticker_or_id": "CSCO",
           "functional_reason": "Stabilizes postal systems oscillations, maintaining homeostatic balance and damping system volatility",
-          "binding_strength": 0.95
+          "binding_strength": 0.95,
+          "feedClass": "internet_backbone"
         }
       ],
       "childPortal": "communication_archives_portal.html",
@@ -1120,19 +1156,22 @@
           "name": "Crown Castle",
           "ticker_or_id": "CCI",
           "functional_reason": "Routes and distributes radio spectrum resources, connecting supply nodes to demand endpoints across the system",
-          "binding_strength": 0.95
+          "binding_strength": 0.95,
+          "feedClass": "tower_fiber"
         },
         {
           "name": "Alphabet (Google)",
           "ticker_or_id": "GOOGL",
           "functional_reason": "Routes and distributes radio spectrum resources, connecting supply nodes to demand endpoints across the system",
-          "binding_strength": 0.94
+          "binding_strength": 0.94,
+          "feedClass": "social_platform"
         },
         {
           "name": "Lumen Technologies",
           "ticker_or_id": "LUMN",
           "functional_reason": "Routes and distributes radio spectrum resources, connecting supply nodes to demand endpoints across the system",
-          "binding_strength": 0.93
+          "binding_strength": 0.93,
+          "feedClass": "tower_fiber"
         }
       ],
       "childPortal": "communication_corporate_portal.html",
@@ -1210,19 +1249,22 @@
           "name": "Ericsson",
           "ticker_or_id": "ERIC",
           "functional_reason": "Detects and monitors photography & visual media signals, identifying early disruption patterns and emerging conditions",
-          "binding_strength": 0.95
+          "binding_strength": 0.95,
+          "feedClass": "internet_backbone"
         },
         {
           "name": "Alphabet (Google)",
           "ticker_or_id": "GOOGL",
           "functional_reason": "Detects and monitors photography & visual media signals, identifying early disruption patterns and emerging conditions",
-          "binding_strength": 0.85
+          "binding_strength": 0.85,
+          "feedClass": "social_platform"
         },
         {
           "name": "T-Mobile US",
           "ticker_or_id": "TMUS",
           "functional_reason": "Detects and monitors photography & visual media signals, identifying early disruption patterns and emerging conditions",
-          "binding_strength": 0.86
+          "binding_strength": 0.86,
+          "feedClass": "telecom_carrier"
         }
       ],
       "childPortal": "communication_datacomm_portal.html",
@@ -1300,19 +1342,22 @@
           "name": "T-Mobile US",
           "ticker_or_id": "TMUS",
           "functional_reason": "Detects and monitors film & video signals, identifying early disruption patterns and emerging conditions",
-          "binding_strength": 0.91
+          "binding_strength": 0.91,
+          "feedClass": "telecom_carrier"
         },
         {
           "name": "Qualcomm",
           "ticker_or_id": "QCOM",
           "functional_reason": "Detects and monitors film & video signals, identifying early disruption patterns and emerging conditions",
-          "binding_strength": 0.94
+          "binding_strength": 0.94,
+          "feedClass": "internet_backbone"
         },
         {
           "name": "Alphabet (Google)",
           "ticker_or_id": "GOOGL",
           "functional_reason": "Detects and monitors film & video signals, identifying early disruption patterns and emerging conditions",
-          "binding_strength": 0.88
+          "binding_strength": 0.88,
+          "feedClass": "social_platform"
         }
       ],
       "childPortal": "communication_disinfo_portal.html",
@@ -1390,19 +1435,22 @@
           "name": "Qualcomm",
           "ticker_or_id": "QCOM",
           "functional_reason": "Detects and monitors propaganda analysis signals, identifying early disruption patterns and emerging conditions",
-          "binding_strength": 0.95
+          "binding_strength": 0.95,
+          "feedClass": "internet_backbone"
         },
         {
           "name": "Ericsson",
           "ticker_or_id": "ERIC",
           "functional_reason": "Detects and monitors propaganda analysis signals, identifying early disruption patterns and emerging conditions",
-          "binding_strength": 0.95
+          "binding_strength": 0.95,
+          "feedClass": "internet_backbone"
         },
         {
           "name": "Alphabet (Google)",
           "ticker_or_id": "GOOGL",
           "functional_reason": "Detects and monitors propaganda analysis signals, identifying early disruption patterns and emerging conditions",
-          "binding_strength": 0.91
+          "binding_strength": 0.91,
+          "feedClass": "social_platform"
         }
       ],
       "childPortal": "communication_events_portal.html",
@@ -1442,6 +1490,79 @@
         {
           "domain": "population",
           "role": "Ethnic Diversity"
+        }
+      ]
+    },
+    {
+      "brainNodeId": "PULV",
+      "state": "active",
+      "domainLabel": "News Distribution Infrastructure",
+      "domainDescription": "The physical broadcast-carriage layer — cell towers, fiber, and broadcast transmission towers that physically carry news, broadcast, and data signals from producers to the population.",
+      "domainFunction": "Relays and distributes news and broadcast signals across the population through the tower/fiber carriage grid, forming the physical transmission substrate beneath every information channel.",
+      "whyThisNode": "The pulvinar coordinates and relays signals across widely distributed cortical regions, mirroring how news distribution infrastructure relays broadcast and data signals across the entire population grid.",
+      "group": "telecom",
+      "phase": "P6",
+      "weight": 1,
+      "diagnosticTriggers": [
+        "Tower capacity saturation",
+        "Broadcast transmission outage"
+      ],
+      "treatments": [
+        {
+          "label": "Resilient Carriage Redundancy",
+          "type": "STRUCTURAL",
+          "description": "Geographically diverse tower, fiber, and broadcast-transmission paths ensuring news and emergency signals reach the population during single-point failures.",
+          "evidence": "Strong"
+        },
+        {
+          "label": "Coverage Gap Mapping",
+          "type": "DIAGNOSTIC",
+          "description": "Systematic mapping of tower and fiber coverage to identify underserved populations cut off from broadcast and data distribution.",
+          "evidence": "Strong"
+        }
+      ],
+      "childPortal": "communication_newsdistrib_portal.html",
+      "phase_archetype": "P3",
+      "functional_role": "router",
+      "companies": [
+        {
+          "name": "American Tower",
+          "ticker_or_id": "AMT",
+          "functional_reason": "Operates the cell-tower grid that physically carries broadcast and data signals to the population.",
+          "binding_strength": 0.95,
+          "feedClass": "tower_fiber"
+        },
+        {
+          "name": "Crown Castle",
+          "ticker_or_id": "CCI",
+          "functional_reason": "Operates radio towers and fiber routes carrying broadcast transmission and last-mile data distribution.",
+          "binding_strength": 0.92,
+          "feedClass": "tower_fiber"
+        },
+        {
+          "name": "SBA Communications",
+          "ticker_or_id": "SBAC",
+          "functional_reason": "Owns and operates broadcast transmission towers relaying signals across distribution markets.",
+          "binding_strength": 0.9,
+          "feedClass": "tower_fiber"
+        }
+      ],
+      "neuralRole": "Sensory",
+      "brainNodeRoleCanonical": "News Distribution Infrastructure",
+      "brainNodeLabelCanonical": "Communication",
+      "linkedDirectiveCount": 0,
+      "crossDomainAffinities": [
+        {
+          "domain": "infrastructure",
+          "role": "Telecommunications"
+        },
+        {
+          "domain": "energy",
+          "role": "Transmission Lines"
+        },
+        {
+          "domain": "technology",
+          "role": "Networking & Internet"
         }
       ]
     },
@@ -2244,6 +2365,29 @@
       "label": "Caption Accuracy Policy & Governance → [PVN] (sympathetic → HPA crosstalk)",
       "_origin": "canonical_anatomical"
     }
+  ],
+  "registry": [
+    { "name": "Polygon.io VZ", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/VZ/prev", "feedClass": "telecom_carrier", "ticker": "VZ" },
+    { "name": "Polygon.io T", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/T/prev", "feedClass": "telecom_carrier", "ticker": "T" },
+    { "name": "Polygon.io TMUS", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/TMUS/prev", "feedClass": "telecom_carrier", "ticker": "TMUS" },
+    { "name": "Polygon.io CMCSA", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/CMCSA/prev", "feedClass": "media_distrib", "ticker": "CMCSA" },
+    { "name": "Polygon.io CHTR", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/CHTR/prev", "feedClass": "telecom_carrier", "ticker": "CHTR" },
+    { "name": "Polygon.io AMT", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/AMT/prev", "feedClass": "tower_fiber", "ticker": "AMT" },
+    { "name": "Polygon.io CCI", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/CCI/prev", "feedClass": "tower_fiber", "ticker": "CCI" },
+    { "name": "Polygon.io SBAC", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/SBAC/prev", "feedClass": "tower_fiber", "ticker": "SBAC" },
+    { "name": "Polygon.io PWR", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/PWR/prev", "feedClass": "tower_fiber", "ticker": "PWR" },
+    { "name": "Polygon.io LUMN", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/LUMN/prev", "feedClass": "tower_fiber", "ticker": "LUMN" },
+    { "name": "Polygon.io CSCO", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/CSCO/prev", "feedClass": "internet_backbone", "ticker": "CSCO" },
+    { "name": "Polygon.io QCOM", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/QCOM/prev", "feedClass": "internet_backbone", "ticker": "QCOM" },
+    { "name": "Polygon.io ANET", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/ANET/prev", "feedClass": "internet_backbone", "ticker": "ANET" },
+    { "name": "Polygon.io ERIC", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/ERIC/prev", "feedClass": "internet_backbone", "ticker": "ERIC" },
+    { "name": "Polygon.io NOK", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/NOK/prev", "feedClass": "internet_backbone", "ticker": "NOK" },
+    { "name": "Polygon.io NFLX", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/NFLX/prev", "feedClass": "media_distrib", "ticker": "NFLX" },
+    { "name": "Polygon.io DIS", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/DIS/prev", "feedClass": "media_distrib", "ticker": "DIS" },
+    { "name": "Polygon.io NYT", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/NYT/prev", "feedClass": "news_production", "ticker": "NYT" },
+    { "name": "Polygon.io NWSA", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/NWSA/prev", "feedClass": "news_production", "ticker": "NWSA" },
+    { "name": "Polygon.io META", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/META/prev", "feedClass": "social_platform", "ticker": "META" },
+    { "name": "Polygon.io GOOGL", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/GOOGL/prev", "feedClass": "social_platform", "ticker": "GOOGL" }
   ],
   "_enrichment": {
     "neuralRoleMigratedAt": "2026-05-13T13:15:14.681Z",

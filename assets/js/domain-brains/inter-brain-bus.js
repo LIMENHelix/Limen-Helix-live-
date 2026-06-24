@@ -428,6 +428,75 @@
  *   Thing1 P3 distress kernel remains the sole scoring authority; the bus merely
  *   transports already-scored emissions.
  *
+ * Cross-domain examples — COMMUNICATION → OTHER (communication as a source).
+ * Communication is the TELECOMMUNICATIONS / NETWORKS / INFORMATION-FLOW domain
+ * (telecom carriers & networks, connectivity & broadband, internet infrastructure
+ * — cell towers / fiber / spectrum, media & broadcasting CHANNELS, journalism &
+ * news flow, information dissemination, social-media platforms as DISTRIBUTION,
+ * public-discourse infrastructure). It is DISTINCT from culture (culture = content
+ * / movements / scenes; communication = the CHANNELS / networks / information-flow
+ * that carry them), from technology (chips / software / cyber is a COUPLING that
+ * feeds the network, NOT communication's identity), and from intelligence (signals
+ * COLLECTION is a coupling; communication owns the carriage & dissemination of
+ * information, not its clandestine interception). And communication NEVER takes
+ * energy oil/gas/grid as its own content. The bus previously documented
+ * communication as a TARGET only — it RECEIVES from intelligence
+ * (information_contamination_risk → communication, lines 180–182) and EMITS to
+ * intelligence (information_contamination_signal → intelligence, lines 159–161) —
+ * but its broader OUTBOUND emissions were silent in the bus, creating the false
+ * impression that communication is a target-only domain rather than a full
+ * bidirectional SOURCE. These are communication's native OUTBOUND paths, mirroring
+ * the energy / defense / intelligence / environment SOURCE examples (the rules live
+ * in communication-brain.js emissionRules); communication emits these native
+ * signals when ≥1 active diagnosis is present (per brain cycle):
+ *   communication → culture       (narrative_platform_reach → distribution-channel
+ *                           reach, broadband penetration and broadcast/streaming
+ *                           carriage shape how far cultural narratives and scenes
+ *                           propagate — communication carries the CHANNEL, culture
+ *                           owns the CONTENT; a platform-reach signal, NOT a content
+ *                           judgment, the channel-side mirror of culture's content
+ *                           movement)
+ *   communication → population    (behavioral_informational_influence → information
+ *                           dissemination, news flow and social-platform distribution
+ *                           shape public attention, awareness and behavioral response
+ *                           across a population — the information-environment input to
+ *                           collective behavior, WITHOUT communication taking on
+ *                           demographic / public-health content as its identity)
+ *   communication → law           (speech_regulation_pressure → platform-carriage,
+ *                           content-moderation, net-neutrality, spectrum-licensing
+ *                           and broadcast-standards questions raise speech / common-
+ *                           carrier / telecom-regulation pressure on the legal system
+ *                           — the channel-regulation input to law, DISTINCT from law's
+ *                           own judicial-process content)
+ *   communication → intelligence  (osint_signal_availability → the volume, reach and
+ *                           integrity of open information flows and social-platform
+ *                           distribution set the open-source collection surface and
+ *                           confidence available to all-source analysis — the
+ *                           carriage-side OSINT-availability mirror of intelligence's
+ *                           inbound information_contamination_signal, the channel feeds
+ *                           collection feasibility WITHOUT communication taking on
+ *                           clandestine interception as its identity)
+ *   Additional communication-native SIGNAL examples surfacing on these paths:
+ *   narrative_platform_reach, behavioral_informational_influence, speech_regulation_
+ *   pressure, osint_signal_availability, network_capacity_strain.
+ *   Real communication-sector issuers behind these signals (telecom carriers /
+ *   internet & tower infrastructure / network equipment / media & broadcasting
+ *   channels / social-platform distribution — NOT energy oil/gas/grid, NOT culture
+ *   content studios, NOT intelligence collection operators): VZ, T, TMUS, CMCSA, CHTR
+ *   (telecom carriers & broadband / cable); AMT, CCI, SBAC (cell-tower / wireless
+ *   infrastructure REITs — towers / spectrum siting); CSCO, ANET (network equipment &
+ *   routing / switching infrastructure); NWSA, NYT (journalism & news-flow / news
+ *   media); META, GOOGL (social-media platforms & search as information DISTRIBUTION,
+ *   the channel layer — not the cultural content itself). (narrative_platform_reach =
+ *   distribution-channel & broadband-penetration reach for narratives; behavioral_
+ *   informational_influence = information-environment input to collective behavior;
+ *   speech_regulation_pressure = platform-carriage / common-carrier / telecom-
+ *   regulation pressure; osint_signal_availability = open-source collection-surface
+ *   reach & integrity; network_capacity_strain = backhaul / spectrum / bandwidth
+ *   congestion.) SIGNAL examples only — the validated Thing1 P3 distress kernel
+ *   remains the sole scoring authority; the bus merely transports already-scored
+ *   emissions.
+ *
  * Also detects:
  *   - Propagation chains (A→B→C)
  *   - Co-activation (multiple domains emitting simultaneously)

@@ -81,7 +81,28 @@ var FEED_TO_CONNECTOME = {
   //   that activate zero nodes. The single 'finance' connectome domain is the
   //   dedicated multi-circuit relay.
   finance:        ['economy', 'finance'],
-  communication:  ['technology'],
+  // ADDITIVE (cognition port, communication gap 3 — dedicated communication circuit):
+  //   the communication feed signal previously relayed through ['technology'] ONLY,
+  //   which BYPASSED the dedicated communication node-participations that exist in
+  //   brain-node-domains.json (CC=Telecommunications, BROCA=Journalism, A1=Broadcasting,
+  //   FEF=Satellite Systems, FPN=Internet Infrastructure, V1=Photography/Visual Media,
+  //   dlPFC=Medialaw, NAcc=Social Media). Routing through technology alone meant
+  //   communication stress at the signal origin never lit its OWN circuit — the
+  //   telecom / broadcast / news-flow / platform-distribution nodes stayed inert. We
+  //   KEEP the validated 'technology' relay (never removed — communication platforms
+  //   depend on cloud/AI infrastructure, a coupling) and ADD the dedicated
+  //   'communication' connectome domain FIRST so the telecom/broadcast/internet/
+  //   social nodes activate. Communication identity = telecommunications & networks,
+  //   connectivity & broadband, internet infrastructure (towers/fiber/spectrum), media
+  //   & broadcasting CHANNELS, journalism & news flow, information dissemination,
+  //   social-media platforms as DISTRIBUTION, public-discourse infrastructure — kept
+  //   DISTINCT from technology (chips/software is a coupling, not the identity), culture
+  //   (content/movements/scenes is a coupling, not the channel) and intelligence (signals
+  //   collection is a coupling). Energy carries ZERO communication identity: platform
+  //   scaling (META/GOOGL stress) creates downstream compute demand that routes THROUGH
+  //   technology nodes for data-center efficiency — a SECONDARY coupling, never an
+  //   ag/communication-to-energy origin edge; communication nodes carry zero energy content.
+  communication:  ['communication', 'technology'],
   culture:        ['culture', 'religion', 'education'],
   defense:        ['governance'],
   // ADDITIVE (cognition port, intelligence gap 1 — dedicated intelligence circuit):
@@ -877,6 +898,117 @@ for (var _agik in AGRICULTURE_INDICATOR_BINDING) {
   var _agib = AGRICULTURE_INDICATOR_BINDING[_agik];
   if (!NODE_TO_AGRICULTURE_INDICATOR[_agib.node]) NODE_TO_AGRICULTURE_INDICATOR[_agib.node] = [];
   NODE_TO_AGRICULTURE_INDICATOR[_agib.node].push(_agib);
+}
+
+// ── COMMUNICATION-SECTOR (TELECOM / MEDIA / BROADCASTING / PLATFORMS) COMPANY ticker bindings (communication gap 1 — ADDITIVE, OPT-IN) ──
+// Parallel to TECH_COMPANY_BINDING, INTELLIGENCE_COMPANY_BINDING, TRADE_COMPANY_BINDING,
+// INDUSTRIAL_COMPANY_BINDING, ENVIRONMENT_SECTOR_COMPANY_BINDING, GOVERNANCE_COMPANY_BINDING
+// and AGRICULTURE_COMPANY_BINDING (and to MACRO_INDICATOR_BINDING). NOT merged into the
+// default resolve() pipeline and NOT included in NODE_TO_MACRO_INDICATOR — consumed ONLY
+// when a context explicitly triggers a communication-company-level drill
+// (getCommCompaniesForNode / COMMUNICATION_COMPANY_BINDING export). Each ticker traces
+// TELECOMMUNICATIONS / MEDIA / BROADCASTING CAPACITY to a REAL communication connectome
+// node (the actual communication-domain participations in brain-node-domains.json:
+// CC=Telecommunications, BROCA=Journalism, A1=Broadcasting, FEF=Satellite Systems,
+// FPN=Internet Infrastructure, V1=Photography/Visual Media, dlPFC=Medialaw, NAcc=Social Media).
+// Ticker stress (dir 'low' for all — stress on decline) estimates a COMMUNICATION-CAPACITY
+// DEGRADATION that is PURE communication identity: a VZ/T/TMUS decline = wireless coverage /
+// bandwidth capacity strained; a CMCSA/CHTR decline = cable broadband distribution capacity
+// constrained; a CSCO/ANET decline = network-routing / switching capacity falls; an
+// AMT/CCI/SBAC decline = tower / fiber / data-center infrastructure capacity tightens; an
+// NWSA/NYT decline = editorial / news-gathering capacity softens; a META/GOOGL decline =
+// platform distribution / content-routing capacity constrained. This is COMMUNICATION
+// identity = telecommunications networks, broadcast channels, news-flow infrastructure,
+// platform distribution — DISTINCT from technology (chips/software is a coupling routed via
+// TECH_COMPANY_BINDING), culture (content/movements/scenes is a coupling, not the channel)
+// and intelligence (signals collection is a coupling). ENERGY is PURELY a downstream
+// SECOND-ORDER consequence, never the identity: data-center cooling rises when platforms
+// (META/GOOGL) and infrastructure (AMT/CCI/SBAC, CSCO/ANET) scale, but those route ONLY as
+// company-ticker stress to communication nodes — they NEVER originate a communication-to-
+// energy edge and communication nodes carry ZERO energy-domain content (no oil/gas
+// production, no grid ops). REAL telecom / media / platform tickers only.
+//   VZ/T/TMUS  → wireless coverage & bandwidth         CMCSA/CHTR → cable broadband distribution
+//   CSCO/ANET  → network routing & switching           AMT/CCI/SBAC → tower / fiber / DC infrastructure
+//   NWSA/NYT   → editorial / news-gathering            META/GOOGL → platform distribution / content routing
+var COMMUNICATION_COMPANY_BINDING = {
+  VZ:    { series: 'VZ',    node: 'CC',    role: 'Wireless Coverage / Bandwidth Capacity',          nodeRole: 'Telecommunications',          label: 'Verizon Communications',  threshold: -15, dir: 'low', kind: 'ticker', industry: 'wireless-telecom' },
+  T:     { series: 'T',     node: 'CC',    role: 'Wireless / Broadband Network Capacity',           nodeRole: 'Telecommunications',          label: 'AT&T',                    threshold: -16, dir: 'low', kind: 'ticker', industry: 'wireless-telecom' },
+  TMUS:  { series: 'TMUS',  node: 'CC',    role: 'Wireless Coverage / Spectrum Capacity',           nodeRole: 'Telecommunications',          label: 'T-Mobile US',             threshold: -17, dir: 'low', kind: 'ticker', industry: 'wireless-telecom' },
+  CMCSA: { series: 'CMCSA', node: 'FPN',   role: 'Cable Broadband Distribution Capacity',           nodeRole: 'Internet Infrastructure',     label: 'Comcast',                 threshold: -16, dir: 'low', kind: 'ticker', industry: 'cable-broadband' },
+  CHTR:  { series: 'CHTR',  node: 'FPN',   role: 'Cable Broadband Distribution Capacity',           nodeRole: 'Internet Infrastructure',     label: 'Charter Communications',  threshold: -18, dir: 'low', kind: 'ticker', industry: 'cable-broadband' },
+  CSCO:  { series: 'CSCO',  node: 'FPN',   role: 'Network Routing / Switching Capacity',            nodeRole: 'Internet Infrastructure',     label: 'Cisco Systems',           threshold: -15, dir: 'low', kind: 'ticker', industry: 'network-equipment' },
+  ANET:  { series: 'ANET',  node: 'FEF',   role: 'High-Speed Network Switching Capacity',           nodeRole: 'Satellite Systems',           label: 'Arista Networks',         threshold: -20, dir: 'low', kind: 'ticker', industry: 'network-switching' },
+  AMT:   { series: 'AMT',   node: 'FEF',   role: 'Tower / Wireless-Site Infrastructure Capacity',   nodeRole: 'Satellite Systems',           label: 'American Tower',          threshold: -17, dir: 'low', kind: 'ticker', industry: 'tower-infrastructure' },
+  CCI:   { series: 'CCI',   node: 'FEF',   role: 'Tower / Fiber Infrastructure Capacity',           nodeRole: 'Satellite Systems',           label: 'Crown Castle',            threshold: -18, dir: 'low', kind: 'ticker', industry: 'tower-infrastructure' },
+  SBAC:  { series: 'SBAC',  node: 'FEF',   role: 'Tower / Site Infrastructure Capacity',            nodeRole: 'Satellite Systems',           label: 'SBA Communications',      threshold: -19, dir: 'low', kind: 'ticker', industry: 'tower-infrastructure' },
+  NWSA:  { series: 'NWSA',  node: 'BROCA', role: 'Editorial / News-Gathering Capacity',             nodeRole: 'Journalism',                  label: 'News Corp',               threshold: -16, dir: 'low', kind: 'ticker', industry: 'news-media' },
+  NYT:   { series: 'NYT',   node: 'BROCA', role: 'Editorial / News-Gathering Capacity',             nodeRole: 'Journalism',                  label: 'The New York Times Co.',  threshold: -17, dir: 'low', kind: 'ticker', industry: 'news-media' },
+  META:  { series: 'META',  node: 'NAcc',  role: 'Platform Distribution / Content-Routing Capacity', nodeRole: 'Social Media',               label: 'Meta Platforms',          threshold: -18, dir: 'low', kind: 'ticker', industry: 'social-platform' },
+  GOOGL: { series: 'GOOGL', node: 'NAcc',  role: 'Platform Distribution / Search-Routing Capacity',  nodeRole: 'Social Media',               label: 'Alphabet',                threshold: -17, dir: 'low', kind: 'ticker', industry: 'platform-distribution' }
+};
+
+// Reverse lookup: connectome node → communication-sector company tickers it sources from
+// (opt-in communication-company drill, parallel to NODE_TO_TECH_COMPANY /
+// NODE_TO_INTEL_COMPANY / NODE_TO_TRADE_COMPANY / NODE_TO_INDUSTRIAL_COMPANY /
+// NODE_TO_ENVIRONMENT_COMPANY / NODE_TO_GOVERNANCE_COMPANY / NODE_TO_AGRICULTURE_COMPANY).
+var NODE_TO_COMMUNICATION_COMPANY = {};
+for (var _cmk in COMMUNICATION_COMPANY_BINDING) {
+  if (!Object.prototype.hasOwnProperty.call(COMMUNICATION_COMPANY_BINDING, _cmk)) continue;
+  var _cmb = COMMUNICATION_COMPANY_BINDING[_cmk];
+  if (!NODE_TO_COMMUNICATION_COMPANY[_cmb.node]) NODE_TO_COMMUNICATION_COMPANY[_cmb.node] = [];
+  NODE_TO_COMMUNICATION_COMPANY[_cmb.node].push(_cmb);
+}
+
+// ── COMMUNICATION-SECTOR INDICATOR bindings (communication gap 2 — ADDITIVE, OPT-IN) ──
+// Parallel structure to MACRO_INDICATOR_BINDING (economy gap 1), INTELLIGENCE_INDICATOR_
+// BINDING, TRADE_INDICATOR_BINDING, ENVIRONMENT_INDICATOR_BINDING, GOVERNANCE_INDICATOR_
+// BINDING and AGRICULTURE_INDICATOR_BINDING, but for PURE communication-infrastructure
+// signals: FCC broadband speed (Mbps) & rural-coverage %, spectrum-auction revenue &
+// available MHz, Nielsen/Arbitron broadcast viewership & reach, BLS employment in
+// journalism / media production, and platform Daily-Active-Users / engagement metrics.
+// Binds each REAL communication metric to the communication connectome node that senses
+// it, so the kernel/reporting/diagnosis layers can drill from abstract 'communication
+// stress' into the ACTUAL signal that triggered it (e.g. FPN Internet-Infrastructure node
+// lit → broadband-coverage index fell → connectivity-gap shock origin; A1 Broadcasting
+// node lit → Nielsen reach collapsed → audience-reach shock). These strictly measure
+// COMMUNICATION identity: network capacity, coverage, audience reach, editorial workforce,
+// platform engagement. NEVER measure energy — data-center SLA/uptime is a governance/
+// infrastructure coupling, not a communication signal; a platform power-consumption spike
+// when scaling is a DOWNSTREAM consequence, not the origin signal; communication nodes
+// carry zero energy-domain content. Annotation/registry metadata ONLY — the resolver does
+// NOT score these.
+//   threshold = the level above/below which the node is considered stressed.
+//   dir = 'high' (stress when ABOVE threshold) | 'low' (stress when BELOW).
+//   kind = 'broadband' (FCC speed/coverage) | 'spectrum' (auction revenue / available MHz)
+//          | 'viewership' (Nielsen/Arbitron reach) | 'workforce' (BLS media employment)
+//          | 'engagement' (platform DAU / engagement).
+var COMMUNICATION_INDICATOR_BINDING = {
+  // ── FCC broadband speed / rural coverage (connectivity-gap on decline) ──
+  FCCBroadbandSpeed: { series: 'FCCBroadbandSpeed', node: 'FPN', role: 'Broadband Speed (Mbps)',       nodeRole: 'Internet Infrastructure', label: 'FCC Median Broadband Speed (Mbps)', threshold: -6, dir: 'low', kind: 'broadband', policyPath: 'comm_connectivity' },
+  FCCRuralCoverage:  { series: 'FCCRuralCoverage',  node: 'CC',  role: 'Rural Broadband Coverage (%)', nodeRole: 'Telecommunications',      label: 'FCC Rural Broadband Coverage %',    threshold: -3, dir: 'low', kind: 'broadband', policyPath: 'comm_connectivity' },
+  // ── Spectrum-auction signals (capacity scarcity: revenue spike / available-MHz collapse) ──
+  SpectrumAuctionRev: { series: 'SpectrumAuctionRev', node: 'CC',  role: 'Spectrum-Auction Revenue',    nodeRole: 'Telecommunications', label: 'FCC Spectrum-Auction Revenue',  threshold: 10, dir: 'high', kind: 'spectrum', policyPath: 'comm_spectrum' },
+  SpectrumAvailMHz:   { series: 'SpectrumAvailMHz',   node: 'FEF', role: 'Available Spectrum (MHz)',     nodeRole: 'Satellite Systems',  label: 'FCC Available Spectrum (MHz)',   threshold: -5, dir: 'low',  kind: 'spectrum', policyPath: 'comm_spectrum' },
+  // ── Nielsen / Arbitron broadcast viewership & reach (audience-reach collapse) ──
+  NielsenViewership: { series: 'NielsenViewership', node: 'A1',    role: 'Broadcast Viewership',  nodeRole: 'Broadcasting', label: 'Nielsen Broadcast Viewership', threshold: -7, dir: 'low', kind: 'viewership', policyPath: 'comm_audience_reach' },
+  ArbitronReach:     { series: 'ArbitronReach',     node: 'BROCA', role: 'News / Audio Reach',    nodeRole: 'Journalism',   label: 'Arbitron / Nielsen Audio Reach', threshold: -6, dir: 'low', kind: 'viewership', policyPath: 'comm_audience_reach' },
+  // ── BLS employment in journalism / media production (editorial-workforce contraction) ──
+  BLSJournalismJobs: { series: 'BLSJournalismJobs', node: 'BROCA', role: 'Journalist Employment',        nodeRole: 'Journalism',                label: 'BLS Employment — News Analysts/Reporters/Journalists', threshold: -4, dir: 'low', kind: 'workforce', policyPath: 'comm_editorial_workforce' },
+  BLSMediaProdJobs:  { series: 'BLSMediaProdJobs',  node: 'V1',    role: 'Media-Production Employment',   nodeRole: 'Photography & Visual Media', label: 'BLS Employment — Media & Communication Production',     threshold: -4, dir: 'low', kind: 'workforce', policyPath: 'comm_editorial_workforce' },
+  // ── Platform Daily-Active-Users / engagement (distribution-engagement collapse) ──
+  PlatformDAU:        { series: 'PlatformDAU',        node: 'NAcc',  role: 'Platform Daily Active Users',  nodeRole: 'Social Media', label: 'Aggregate Platform Daily Active Users', threshold: -5, dir: 'low', kind: 'engagement', policyPath: 'comm_platform_engagement' },
+  PlatformEngagement: { series: 'PlatformEngagement', node: 'dlPFC', role: 'Platform Engagement Index',    nodeRole: 'Medialaw',     label: 'Platform Engagement / Time-on-Platform Index', threshold: -6, dir: 'low', kind: 'engagement', policyPath: 'comm_platform_engagement' }
+};
+
+// Reverse lookup: connectome node → communication indicators it senses
+// (parallel to NODE_TO_MACRO_INDICATOR / NODE_TO_TRADE_INDICATOR / NODE_TO_ENVIRONMENT_
+// INDICATOR / NODE_TO_GOVERNANCE_INDICATOR / NODE_TO_AGRICULTURE_INDICATOR; for diagnosis drill-down).
+var NODE_TO_COMMUNICATION_INDICATOR = {};
+for (var _cmik in COMMUNICATION_INDICATOR_BINDING) {
+  if (!Object.prototype.hasOwnProperty.call(COMMUNICATION_INDICATOR_BINDING, _cmik)) continue;
+  var _cmib = COMMUNICATION_INDICATOR_BINDING[_cmik];
+  if (!NODE_TO_COMMUNICATION_INDICATOR[_cmib.node]) NODE_TO_COMMUNICATION_INDICATOR[_cmib.node] = [];
+  NODE_TO_COMMUNICATION_INDICATOR[_cmib.node].push(_cmib);
 }
 
 // Reverse lookup: connectome node → macro indicators it senses (for diagnosis drill-down).
@@ -2230,6 +2362,30 @@ window.LIMENConnectomeResolver = {
   AGRICULTURE_INDICATOR_BINDING: AGRICULTURE_INDICATOR_BINDING,
   NODE_TO_AGRICULTURE_INDICATOR: NODE_TO_AGRICULTURE_INDICATOR,
   getAgricultureIndicatorsForNode: function(nodeId) { return NODE_TO_AGRICULTURE_INDICATOR[nodeId] || []; },
+
+  // Communication-sector (telecom / media / broadcasting / platforms) company ticker
+  // bindings (communication gap 1) — OPT-IN, parallel to the tech/intel/trade/industrial/
+  // environment/governance/agriculture company registries; REAL telecom/media/platform
+  // tickers (VZ/T/TMUS wireless, CMCSA/CHTR cable-broadband, CSCO/ANET network,
+  // AMT/CCI/SBAC tower-infrastructure, NWSA/NYT editorial/news, META/GOOGL platform
+  // distribution) routed to dedicated communication nodes (CC/BROCA/A1/FEF/FPN/V1/dlPFC/
+  // NAcc). Energy is ZERO communication identity: data-center cooling (platform scaling)
+  // may couple downstream, but signal origin is communication-network capacity & distribution.
+  COMMUNICATION_COMPANY_BINDING: COMMUNICATION_COMPANY_BINDING,
+  NODE_TO_COMMUNICATION_COMPANY: NODE_TO_COMMUNICATION_COMPANY,
+  getCommCompaniesForNode: function(nodeId) { return NODE_TO_COMMUNICATION_COMPANY[nodeId] || []; },
+
+  // Communication-sector indicator bindings (communication gap 2) — OPT-IN, parallel to the
+  // macro registry; REAL communication-infrastructure signals (FCC broadband speed & rural
+  // coverage, spectrum-auction revenue & available MHz, Nielsen/Arbitron broadcast
+  // viewership & reach, BLS journalism/media-production employment, platform DAU &
+  // engagement) routed to dedicated communication nodes. These measure COMMUNICATION
+  // identity (network capacity, coverage, audience reach, editorial workforce, platform
+  // engagement), never energy: data-center SLA/uptime is a governance/infrastructure
+  // coupling, and a platform power-consumption spike is a downstream consequence, not origin.
+  COMMUNICATION_INDICATOR_BINDING: COMMUNICATION_INDICATOR_BINDING,
+  NODE_TO_COMMUNICATION_INDICATOR: NODE_TO_COMMUNICATION_INDICATOR,
+  getCommIndicatorsForNode: function(nodeId) { return NODE_TO_COMMUNICATION_INDICATOR[nodeId] || []; },
 
   // Agriculture circuit segregation (agriculture gap 3) — opt-in. Routes an agriculture
   // stress trigger to crop-production / livestock-production / commodity-trading /

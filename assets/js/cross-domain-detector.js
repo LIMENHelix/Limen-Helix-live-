@@ -1890,6 +1890,175 @@
         { label: 'investigate agricultural-stewardship moral coupling', type: 'analysis' },
         { label: 'hold', type: 'monitoring' }
       ]
+    },
+    // ─── Communication pairs (parity port; mirrors energy/infrastructure/culture structure) ──
+    // COMMUNICATION identity ONLY — telecommunications & networks, connectivity & broadband,
+    // internet infrastructure (towers/fiber/spectrum), media & broadcasting CHANNELS, journalism
+    // & news flow, information dissemination, social-media platforms as DISTRIBUTION, public-discourse
+    // infrastructure. Real telecom/media tickers (VZ, T, TMUS, CMCSA, CHTR, CSCO, ANET, AMT, CCI,
+    // SBAC, NWSA, NYT, META, GOOGL, AMZN, NET, AKAM) — never fabricated. Each PAIRED domain couples
+    // to communication via a PHYSICAL-PLANT / PLATFORM / POLICY / CAPITAL / ENFORCEMENT / MACRO /
+    // COLLECTION / RESEARCH / DEFENSE / PEDAGOGY regime; communication is NOT that domain's OWN
+    // content. DISTINCT from culture (culture = content/movements/scenes; communication = the
+    // CHANNELS / networks / information-flow), technology (chips/software is a coupling), and
+    // intelligence (signals collection is a coupling). Energy oil/gas/grid is NEVER communication's
+    // own content. ADDITIVE — does not touch any validated scoring path. ('communication_culture',
+    // 'communication_supplyChain', 'economy_communication', 'intelligence_communication',
+    // 'environment_communication', 'industry_communication', 'agriculture_communication' already
+    // cover those couplings.)
+    {
+      // Mirrors 'infrastructure_energy' (dependency coupling / grid strain) → telecom physical-plant
+      // resilience. Infrastructure is the ASSET (poles/towers/conduits); communication is the
+      // COUPLING (fiber/spectrum/backhaul as connectivity), not the physical real-estate.
+      id: 'communication_infrastructure',
+      domains: ['communication', 'infrastructure'],
+      threshold: 0.45,
+      pattern: 'connectivity-infrastructure resilience transmission',
+      drivers: ['fiber-cut MTTR elevation (backbone splice-restore lag)', '5G-tower deployment pace stall (small-cell siting backlog, AMT/CCI/SBAC tower-lease cycle)', 'submarine-cable capacity strain (subsea repair-ship queue)', 'backhaul congestion (middle-mile saturation, ANET switch-fabric load)', 'last-mile build-out delay (VZ/T/TMUS/CHTR/CMCSA network capex deferral)'],
+      options: [
+        { label: 'map connectivity-infrastructure exposure', type: 'analysis' },
+        { label: 'investigate fiber/tower-capacity early-warning', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'culture_technology' (distribution-platform strain, codec failure) → media-distribution
+      // platform layer (CDNs, APIs, DNS, codec standards). Technology is the COUPLING (chips/software/
+      // cloud); communication stays platforms/distribution/information-flow, not the silicon itself.
+      id: 'communication_technology',
+      domains: ['communication', 'technology'],
+      threshold: 0.45,
+      pattern: 'media-platform dependency transmission',
+      drivers: ['CDN outage (NET Cloudflare / AKAM Akamai edge failover)', 'codec standardization lag (AV1/H.266 adoption velocity)', 'DNS / BGP cascade (route-leak propagation)', 'social-media API stability (META/GOOGL/AMZN platform-API rate-limit / deprecation)', 'streaming-delivery degradation (origin-shield saturation, multi-CDN failover gap)'],
+      options: [
+        { label: 'map media-platform dependency exposure', type: 'analysis' },
+        { label: 'investigate codec / CDN / DNS-cascade detection', type: 'discovery' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'infrastructure_governance' (permitting delay / regulatory constraint) → spectrum &
+      // platform policy regime. Governance is the COUPLING (policy/oversight); communication stays
+      // telecom/spectrum/platforms, not the policy apparatus.
+      id: 'communication_governance',
+      domains: ['communication', 'governance'],
+      threshold: 0.50,
+      pattern: 'spectrum-policy transmission',
+      drivers: ['FCC spectrum-auction policy volatility (band-clearing / re-auction delay)', 'net-neutrality rulemaking reversal (Title II reclassification litigation)', 'telecom-merger antitrust bottleneck (TMUS/VZ/CHTR deal-review friction)', 'broadband-mandate compliance (universal-service obligation cost)', 'digital-platform regulation (EU DSA / UK OSB transmission to META/GOOGL)'],
+      options: [
+        { label: 'trace spectrum-policy transmission exposure', type: 'analysis' },
+        { label: 'investigate net-neutrality / merger bottleneck', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'infrastructure_finance' / 'finance_infrastructure' (capital unavailable, deferred
+      // maintenance) → telecom-capex & platform-valuation layer. Finance is the COUPLING (capital/
+      // credit/liquidity); communication stays spectrum/fiber/platforms/distribution.
+      id: 'communication_finance',
+      domains: ['communication', 'finance'],
+      threshold: 0.45,
+      pattern: 'telecom-capital transmission',
+      drivers: ['5G capex refinancing stress (VZ/T/TMUS leverage / dividend-coverage strain)', 'broadband-subsidy funding velocity (BEAD disbursement lag)', 'streaming-platform ad-revenue concentration collapse (META/GOOGL ad-market sensitivity)', 'telecom-debt spread widening (high-yield bond covenant pressure)', 'tower-REIT cost-of-capital shock (AMT/CCI/SBAC rate sensitivity, JPM/BAC/GS/WFC credit exposure)'],
+      options: [
+        { label: 'trace telecom-capital exposure', type: 'analysis' },
+        { label: 'investigate capex refinancing / subsidy dependency', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'finance_law' / 'infrastructure_law' (enforcement-regime stress) → telecom & platform
+      // liability. Law is the COUPLING (judicial/enforcement); communication stays telecom/platforms/
+      // journalism, not the courtroom.
+      id: 'communication_law',
+      domains: ['communication', 'law'],
+      threshold: 0.45,
+      pattern: 'telecom-law enforcement transmission',
+      drivers: ['net-neutrality litigation docket growth (circuit-split escalation)', 'platform-liability surge (Section 230 reform / state-law preemption fights)', 'free-speech injunction velocity (compelled-carriage / take-down disputes)', 'trademark/copyright enforcement (DMCA take-down backlog, news-content licensing suits, NWSA/NYT litigation)', 'DNS-seizure backlog (domain-forfeiture enforcement lag)'],
+      options: [
+        { label: 'trace telecom-law enforcement exposure', type: 'analysis' },
+        { label: 'investigate platform-liability / Section 230 impact', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'infrastructure_economy' (transport-access GDP impact / employment cascade) →
+      // broadband-access macro demand. Economy is the COUPLING (macro aggregate GDP/inflation/
+      // employment); communication stays telecom/broadband/platforms/media. Macro indices ONLY
+      // (UNRATE, PCE, FCC broadband stats) — NEVER single-firm tickers in the economy coupling.
+      id: 'communication_economy',
+      domains: ['communication', 'economy'],
+      threshold: 0.50,
+      pattern: 'broadband-access macro transmission',
+      drivers: ['broadband-adoption employment-opportunity gap (UNRATE divergence by broadband-access region)', 'streaming-consumption elasticity (BEA PCE digital-media-spend detail, CPIAUCSL communication-services index)', 'digital-divide regional GDP drag (FCC broadband-availability stats vs. local output)', 'remote-work connectivity dependency (labor-force participation by broadband tier)', 'telecom-services price pass-through (communication-services CPI to household budget)'],
+      options: [
+        { label: 'trace broadband-access macro exposure', type: 'analysis' },
+        { label: 'investigate digital-divide employment drag', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'intelligence_supplyChain' (collection-targeting of logistics) → collection-targeting
+      // of MEDIA-INFRASTRUCTURE / OSINT platforms. Distinct from 'intelligence_communication' (which
+      // is narrative-output / influence-attribution); HERE communication-infrastructure IS the
+      // collection ASSET. Intelligence is the COUPLING (collection/analysis); communication stays
+      // platforms/media/distribution.
+      id: 'communication_intelligence',
+      domains: ['communication', 'intelligence'],
+      threshold: 0.44,
+      pattern: 'collection-targeting media-infrastructure transmission',
+      drivers: ['OSINT-platform API access degradation (X / Reddit / Discord query-restriction tightening, PLTR OSINT ingest impact)', 'social-media-archive accessibility loss (Wayback Machine / news-archive retrieval gaps)', 'foreign-influence-operation platform-targeting detection velocity (coordinated-network attribution, VRNT SIGINT on comms)', 'spectrum-intelligence SIGINT capacity (signal-collection bandwidth strain, NICE social-media surveillance)', 'media-infrastructure collection-surface change (platform-encryption / closed-API shift)'],
+      options: [
+        { label: 'trace media-infrastructure collection exposure', type: 'analysis' },
+        { label: 'investigate OSINT-API / archive availability coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'culture_research' (creative-innovation) → journalism / media-literacy / information-
+      // ecosystem research pipeline. Research is the COUPLING (R&D / knowledge-production);
+      // communication stays journalism/media/information-flow, not the academic apparatus.
+      id: 'communication_research',
+      domains: ['communication', 'research'],
+      threshold: 0.40,
+      pattern: 'information-ecosystem research transmission',
+      drivers: ['journalism-research funding pressure (Knight Foundation / news-innovation grant velocity)', 'media-literacy curriculum-development lag', 'misinformation-detection algorithm publication rate (peer-review cadence)', 'news-archive digitization backlog (newspaper / broadcast-archive access)', 'information-ecosystem research-infrastructure gap (NSF media/information-science grant flow)'],
+      options: [
+        { label: 'trace information-ecosystem research pipeline', type: 'analysis' },
+        { label: 'investigate misinformation-detection innovation', type: 'discovery' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'defense_industry' (attrition-driven production stress) → defense's INSTITUTIONAL
+      // communication layer (strategic messaging, allied-interoperability, PSYOPS infrastructure).
+      // NOT cyber-attack surface (that is tech_defense). Defense is the COUPLING (kinetic/industrial/
+      // readiness); communication stays telecom/media/information-flow.
+      id: 'communication_defense',
+      domains: ['communication', 'defense'],
+      threshold: 0.42,
+      pattern: 'strategic-communication readiness transmission',
+      drivers: ['military-comms modernization delay (tactical-radio / encryption-upgrade schedule slip, LMT/RTX/NOC/GD comms programs)', 'NATO-STANAG compliance timeline lag (allied-interoperability certification)', 'PSYOPS / strategic-messaging platform deployment readiness (BAH/LDOS support-contract throughput)', 'military-streaming / information-access policy friction', 'defense-media-relations staffing shortfall (public-affairs capacity strain)'],
+      options: [
+        { label: 'assess strategic-communication readiness posture', type: 'analysis' },
+        { label: 'trace allied-interoperability / STANAG coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'culture_education' (creative-literacy pipeline) → media-literacy & journalism-training
+      // pedagogy. Education is the COUPLING (curriculum/pedagogy/workforce); communication stays
+      // journalism/media/information-literacy, not the schoolhouse apparatus.
+      id: 'communication_education',
+      domains: ['communication', 'education'],
+      threshold: 0.45,
+      pattern: 'media-literacy pipeline transmission',
+      drivers: ['K-12 media-literacy adoption velocity (state-curriculum standard rollout)', 'journalism-school enrollment decline (program-viability pressure)', 'information-literacy university-program gap', 'fact-checking-skills training deficit (workforce-readiness lag)', 'norm-transmission failure in information consumption (critical-evaluation pedagogy erosion)'],
+      options: [
+        { label: 'trace media-literacy pipeline exposure', type: 'analysis' },
+        { label: 'investigate journalism-training / fact-check-skills gap', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
     }
   ];
 
