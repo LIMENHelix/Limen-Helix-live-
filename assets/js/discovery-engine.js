@@ -309,7 +309,61 @@
     { label: 'Explore skills-mismatch labor-pipeline and vocational-training modernization for workforce-supply resilience (BLS OES skill-demand vs credential-supply, apprenticeship-expansion & credential-stackability, UTI/STRA career-and-technical training ROI)', domain: 'education', type: 'economic-opportunity', baseRelevance: 0.40 },
     { label: 'Analyze curriculum-modernization pace and STEM-literacy gap closure for instructional-relevance risk (NSF science-education indicators, computer-science adoption K-12, quantitative-literacy assessment, LRN/COUR STEM-curriculum delivery)', domain: 'education', type: 'system-risk', baseRelevance: 0.45 },
     { label: 'Investigate school-facility deferred-maintenance and infrastructure-modernization ROI for learning-environment resilience (lead-pipe remediation, broadband-access & digital-divide buildout, climate-resilience retrofits, capital-backlog valuation)', domain: 'education', type: 'system-risk', baseRelevance: 0.45 },
-    { label: 'Explore credentialing & enrollment volatility and graduation-rate stability for pipeline-throughput early-warning (K-12 graduation rates, higher-ed completion & stop-out modeling, professional-cert demand, TWOU/COUR/LAUR program-completion economics)', domain: 'education', type: 'economic-opportunity', baseRelevance: 0.40 }
+    { label: 'Explore credentialing & enrollment volatility and graduation-rate stability for pipeline-throughput early-warning (K-12 graduation rates, higher-ed completion & stop-out modeling, professional-cert demand, TWOU/COUR/LAUR program-completion economics)', domain: 'education', type: 'economic-opportunity', baseRelevance: 0.40 },
+
+    // Population (mirrors Energy/Infrastructure/Culture/Finance/Economy structure, translated to DEMOGRAPHY-native concepts —
+    //   Energy seeds focus on storage/grid/renewable ARCHITECTURES; population seeds focus on DEMOGRAPHIC-LIFECYCLE,
+    //   FAMILY-FORMATION, WORKFORCE-AGE STABILITY, MIGRATION-INTEGRATION, URBANIZATION-STRAIN and REGIONAL-DEPOPULATION:
+    //   storage→demographic buffer / intergenerational-resilience capacity, distributed-grid→household-formation & family-structure
+    //   diversity topology, transition→demographic-lifecycle management (youth-absorption / prime-age stability / aging-system capacity),
+    //   attack-surface→demographic-cliff / depopulation-drift early-warning. Population binds mostly to INDICATORS not single companies —
+    //   use REAL demographic sources (US Census ACS, UN World Population Prospects, Pew Research, BLS prime-age series); where
+    //   demographic-exposed entities are needed use real proxies (WELL/VTR senior-living REITs; housing/migration-exposed names) — never fabricate.
+    //   identity = demographics & population dynamics, migration & immigration, urbanization & settlement, fertility & mortality,
+    //   aging & generational shifts, labor-force & human-capital SUPPLY, household formation & housing demand, social structure & inequality;
+    //   couples to economy via labor-market (a coupling, not the identity), to medicine/health via mortality (a coupling), to education via
+    //   enrollment (a coupling) and to governance via policy (a coupling); keeps population identity = WHO/WHERE/HOW-MANY people, NEVER energy oil/gas/grid content)
+    { label: 'Investigate demographic-lifecycle resilience systems for aging societies (intergenerational transfer design, pension-system sustainability, age-friendly housing and long-term-care infrastructure capacity, WELL/VTR senior-living REIT demand vs old-age dependency ratio)', domain: 'population', type: 'economic-opportunity', baseRelevance: 0.40 },
+    { label: 'Explore family-formation policy innovation and demographic-recovery pathways (childcare subsidy ROI, housing-affordability design, parental-leave policy trade-offs, fertility-incentive effectiveness vs UN World Population Prospects fertility trajectories)', domain: 'population', type: 'scientific-discovery', baseRelevance: 0.45 },
+    { label: 'Analyze prime-age labor-force-participation recovery and workforce-age-population stabilization (BLS prime-age employment-population ratio, Census Bureau generational-cohort analysis, skill-gap and wage-gap pathways as a human-capital-supply signal)', domain: 'population', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Investigate migration-resettlement infrastructure and displaced-person integration capacity (IOM migration data, refugee-resettlement program throughput, climate-migration absorption systems, Census ACS foreign-born integration outcomes)', domain: 'population', type: 'scientific-discovery', baseRelevance: 0.40 },
+    { label: 'Explore urbanization-resilience design for megacity infrastructure strain (slum-remediation, affordable-housing development, mass-transit capacity, water/sanitation infrastructure under settlement-density growth, UN urbanization projections)', domain: 'population', type: 'technological-innovation', baseRelevance: 0.40 },
+    { label: 'Analyze regional-depopulation dynamics and shrinking-city economic-viability recovery (rural-exodus drivers, out-migration rate, regional-viability index, population-stabilization programs, Census county-level population-loss early-warning)', domain: 'population', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Investigate demographic-cliff and old-age dependency-ratio early-warning for fiscal and care-system load (UN World Population Prospects aging curves, Census median-age drift, household-formation slowdown vs housing-demand mismatch)', domain: 'population', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Explore household-formation and housing-demand modeling for settlement-pattern resilience (Census household-composition shifts, single-person & multigenerational household growth, Pew Research family-structure diversity as housing-demand drivers)', domain: 'population', type: 'economic-opportunity', baseRelevance: 0.40 },
+
+    // Law (mirrors Governance/Intelligence structure, translated to LEGAL-SYSTEM-native concepts — binds to INSTITUTIONS &
+    //   INDICATORS, not single companies (no single-firm 'law tickets'): storage→judicial-capacity / case-backlog buffering,
+    //   distributed-grid→court-system & access-to-justice topology, transition→legal-process modernization & rule-of-law
+    //   resilience, attack-surface→rule-of-law erosion / judicial-independence early-warning.
+    //   identity = legal system & jurisprudence, courts & litigation, rule of law & judicial independence, legislation &
+    //   statutory interpretation, access to justice, regulatory & compliance law, dispute resolution, legal-process modernization;
+    //   bind to World Justice Project Rule-of-Law Index, US Courts caseload statistics, ABA access-to-justice data, V-Dem judicial
+    //   constraints — NEVER energy oil/gas/grid; kept DISTINCT from governance (administration/policy), finance (capital) and
+    //   intelligence (collection); where govtech/legaltech entities are needed use real identifiers (TYL court-management software,
+    //   RELX/Thomson Reuters legal-data) — never fabricate)
+    { label: 'Investigate judicial-capacity and case-backlog early-warning for access-to-justice resilience (US Courts caseload statistics, civil/criminal docket-clearance rates, ABA justice-gap data, TYL court-management modernization)', domain: 'law', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Analyze rule-of-law erosion and judicial-independence backsliding signals (World Justice Project Rule-of-Law Index, V-Dem judicial-constraints scores, court-packing & enforcement-selectivity early-warning)', domain: 'law', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Explore access-to-justice infrastructure and legal-aid capacity for representation-gap mitigation (ABA legal-aid funding, pro-bono & self-represented-litigant support, online dispute-resolution platforms)', domain: 'law', type: 'economic-opportunity', baseRelevance: 0.40 },
+    { label: 'Investigate legal-process modernization and legaltech adoption ROI for litigation-efficiency and compliance-cost reduction (e-filing & e-discovery automation, RELX/Thomson Reuters legal-data analytics, contract-lifecycle automation)', domain: 'law', type: 'technological-innovation', baseRelevance: 0.40 },
+    { label: 'Analyze regulatory-compliance complexity and statutory-coherence design for legal-clarity resilience (statutory-volume growth, conflicting-rule exposure, compliance-burden modeling across regulated sectors)', domain: 'law', type: 'economic-opportunity', baseRelevance: 0.40 },
+    { label: 'Explore dispute-resolution innovation and litigation-alternative pathways for court-load reduction (arbitration & mediation adoption, small-claims modernization, online dispute-resolution scalability)', domain: 'law', type: 'economic-opportunity', baseRelevance: 0.35 },
+
+    // Religion (mirrors Culture/Governance structure, translated to FAITH-COMMUNITY & belief-institution concepts — binds to
+    //   INDICATORS & INSTITUTIONS, not single companies: storage→congregation & affiliation buffering, distributed-grid→
+    //   faith-community-network & interfaith topology, transition→secularization & generational-affiliation shift resilience,
+    //   attack-surface→religious-polarization / persecution / community-decline early-warning.
+    //   identity = religious institutions & faith communities, belief & affiliation trends, congregations & worship, interfaith
+    //   relations & pluralism, religious freedom & persecution, faith-based social services, secularization & spirituality shifts;
+    //   bind to Pew Research Religious Landscape, ARDA (Association of Religion Data Archives), Gallup affiliation surveys, Pew
+    //   Global Restrictions on Religion — NEVER energy oil/gas/grid; kept DISTINCT from culture (movements/scenes), governance
+    //   (policy) and population (demographics is a coupling, not the identity); never fabricate)
+    { label: 'Investigate congregation-decline and affiliation-erosion early-warning for faith-community resilience (Pew Religious Landscape disaffiliation trends, Gallup membership decline, generational secularization vs congregation-viability modeling)', domain: 'religion', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Explore interfaith-cooperation and pluralism infrastructure for religious-polarization mitigation (interfaith-dialogue programs, cross-community trust-building, Pew religious-tolerance indicators)', domain: 'religion', type: 'economic-opportunity', baseRelevance: 0.40 },
+    { label: 'Analyze religious-freedom and persecution early-warning across global restrictions (Pew Global Restrictions on Religion index, government & social-hostility scores, minority-faith protection signals)', domain: 'religion', type: 'system-risk', baseRelevance: 0.45 },
+    { label: 'Investigate faith-based social-service capacity and community-support infrastructure for vulnerable-population resilience (congregation-led charity, food & housing assistance networks, faith-community social-capital measurement)', domain: 'religion', type: 'economic-opportunity', baseRelevance: 0.40 },
+    { label: 'Explore secularization and spirituality-shift dynamics for belief-landscape transition modeling (ARDA affiliation data, "nones" growth, unaffiliated-spirituality patterns, generational belief-transmission analysis)', domain: 'religion', type: 'scientific-discovery', baseRelevance: 0.40 },
+    { label: 'Analyze religious-institution adaptation and digital-worship transition for engagement resilience (online-congregation adoption, hybrid-worship models, faith-community engagement vs physical-attendance decline)', domain: 'religion', type: 'technological-innovation', baseRelevance: 0.35 }
   ];
 
   // ─── State ───────────────────────────────────────────────────────────────

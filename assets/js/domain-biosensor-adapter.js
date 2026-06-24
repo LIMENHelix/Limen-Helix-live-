@@ -454,7 +454,39 @@
       label: 'Demographic assessment and migration pressure',
       arousal: 'Demographic urgency — high arousal during population shocks reflects time-critical policy pressure',
       coherence: 'Assessment quality — low coherence during contradictory demographic signals suggests unreliable forecasting',
-      cognitiveLoad: 'Modeling complexity — high load with migration and aging data reflects analytical burden'
+      cognitiveLoad: 'Modeling complexity — high load with migration and aging data reflects analytical burden',
+      // Demographic intake/triage readiness map: regulation state → demographic-research,
+      // population-monitoring and demographic-policy intake/triage cadence. Mirrors economy's
+      // indicator-based biosensor intake map (economy gates macro research-intake by operator
+      // regulation state; population gates demographic-research, settlement/migration-monitoring and
+      // demographic-policy intake) — advisory-layer only and independent of the kernel scoring spine.
+      // Consumed by (future) population-clarity-operator outcome tracking (demographic-forecasting
+      // horizon, population-research throughput, settlement/migration-monitoring focus, fertility/
+      // mortality & aging tail-risk triage, household-formation & housing-demand cadence). POPULATION
+      // identity only — demographics & population dynamics, migration & immigration, urbanization &
+      // settlement, fertility & mortality, aging & generational shifts, labor-force & human-capital
+      // supply, household formation & housing demand, social structure & inequality. Population binds
+      // mostly to INDICATORS & DATA SOURCES not single companies: US Census Bureau (decennial census,
+      // ACS American Community Survey, Population Estimates Program), UN World Population Prospects (WPP),
+      // Pew Research Center (migration/generational/social trends), BLS (CPS labor-force & participation),
+      // CDC/NCHS (NVSS births/deaths, fertility & mortality rates), Census migration/ACS-flows. Where
+      // demographic-exposed entities are needed use REAL proxies: WELL, VTR (senior-living / aging-
+      // exposed REITs), PEAK/DOC (healthcare/senior real estate), AVB, EQR, INVH (housing & household-
+      // formation-exposed residential REITs), LEN, DHI (homebuilders — housing demand). Distinct from
+      // economy (labor MARKET is a coupling via labor-force supply, not population's content), medicine
+      // (mortality/health burden is a coupling, not the identity), education (enrollment is a coupling)
+      // and governance (immigration POLICY is a coupling). Never adopts energy oil/gas/grid content.
+      // Operator arousal/coherence during population shocks gate demographic-research intake (high
+      // arousal = reactive crisis-mode demographic triage; low arousal = deliberate demographic-analysis
+      // mode). STRICTLY ADDITIVE — does not touch any validated scoring spine.
+      readiness: {
+        calm: 'Steady operator state — safe to expand demographic-forecasting horizon: initiate long-run structural analysis (UN WPP century-scale population projections, Census long-term Population Estimates, cohort fertility/mortality and aging trajectories), open new research initiatives across migration & settlement, urbanization, household-formation & housing-demand (LEN/DHI homebuilding pipeline, AVB/EQR/INVH residential demand) and social-structure/inequality regimes; stand up new senior-living and aging-society studies (WELL/VTR/PEAK/DOC demand modeling).',
+        focused: 'Productive engagement — sustain demographic monitoring and in-flight analysis (Census ACS / Population Estimates tracking, BLS CPS labor-force participation, CDC/NCHS NVSS births & deaths, Pew migration/generational releases); admit only incremental, well-scoped research additions (single-cohort studies, defined metro/migration-flow analyses, scoped housing-demand models) and hold open-ended new programs and speculative projection rebuilds.',
+        pressured: 'Elevated load — defer non-urgent analysis and long-run structural projections; focus on real-time demographic monitoring and short-run assessment of the active situation: near-term migration-flow and settlement shifts, current fertility/mortality prints (CDC/NCHS), labor-force participation changes (BLS CPS) and immediate household-formation / housing-demand pressure on live markets.',
+        overloaded: 'Saturated — pause all non-critical demographic research; respond only to immediate population shocks and triage demographic tail risks: acute migration/displacement surges and settlement crises, mortality spikes and fertility collapse (CDC/NCHS NVSS deterioration), rapid-aging dependency-ratio stress (WELL/VTR/PEAK senior-care capacity strain), and acute housing-demand / household-formation dislocations (AVB/EQR/INVH/LEN/DHI market shock).',
+        recovering: 'Stabilizing — resume longer-run structural analysis first (cohort projections, urbanization and aging trajectories, household-formation outlooks), then reopen research programs gradually as migration flows, fertility/mortality rates, labor-force participation and housing-demand indicators settle and the demographic outlook normalizes.',
+        unknown: 'Regulation state unavailable — default to snapshot-driven prioritization (active demographic-shock signals and population-dynamics-phase ranking — migration/settlement, fertility/mortality, aging and household-formation criticality).'
+      }
     },
     law: {
       label: 'Regulatory attention and compliance pressure',

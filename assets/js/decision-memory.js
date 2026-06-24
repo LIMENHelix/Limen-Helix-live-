@@ -47,6 +47,8 @@
   var COMMUNICATION_STACK_COOLDOWN = 180000; // 3 min between communication-stack narrations
   var EDUCATION_STACK_THRESHOLD = 2; // an education-vulnerability stack seen N times signals concentration
   var EDUCATION_STACK_COOLDOWN = 180000; // 3 min between education-stack narrations
+  var POPULATION_STACK_THRESHOLD = 2; // a population/demographic-vulnerability stack seen N times signals concentration
+  var POPULATION_STACK_COOLDOWN = 180000; // 3 min between population-stack narrations
 
   // ─── Infrastructure vulnerability-stack semantics ─────────────────────────
   // CIVIL domain-semantic concentration. Generic (domain, action) frequency only
@@ -626,6 +628,59 @@
       body: 'Operator attention concentrates on the achievement-gap + funding-collapse stack — resource-poor schools losing funding precisely when achievement-gap and access-equity remediation is most critical (LRN/COUR/DUOL/CHGG exposure).' }
   ];
 
+  // ─── Population vulnerability-stack semantics ──────────────────────────────
+  // POPULATION / DEMOGRAPHIC domain-semantic concentration. As with the other
+  // domains, generic (domain, action) frequency only says WHERE the operator is
+  // looking; for the population domain we also detect WHAT demographic-vulnerability
+  // STACK the attention concentrates on. Each stack is a co-occurring pair of
+  // population signal families. The population identity is DEMOGRAPHICS & POPULATION
+  // DYNAMICS, MIGRATION & IMMIGRATION, URBANIZATION & SETTLEMENT, FERTILITY &
+  // MORTALITY, AGING & GENERATIONAL SHIFTS, LABOR FORCE & HUMAN-CAPITAL SUPPLY,
+  // HOUSEHOLD FORMATION & HOUSING DEMAND, and SOCIAL STRUCTURE & INEQUALITY. It binds
+  // mostly to demographic INDICATORS and the agencies that publish them (US Census
+  // Bureau / ACS, UN DESA World Population Prospects, Pew Research, BLS labor-force
+  // data, HUD housing data) — never to single-company tickers; where demographic-
+  // exposed entities are genuinely needed, REAL proxies are used (WELL, VTR senior-
+  // living/healthcare REITs for the aging cohort; housing/migration-exposed names).
+  // Population COUPLES to economy (labor market), medicine (mortality/health),
+  // education (enrollment) and governance, but its OWN content is those couplings'
+  // demographic substrate — and it is NEVER energy oil/gas/grid content. Mirrors the
+  // population-identity anchor: demographic collapse, migration dynamics, aging/
+  // generational shifts, labor-supply constraints, urbanization resilience, and
+  // depopulation regional drift. Signal tokens are matched against recorded action/
+  // type/pattern text — never invented; absence of tokens simply yields no stack
+  // (silent, no false signal). STRICTLY ADDITIVE: advisory only; never participates
+  // in /api/limen/score scoring.
+  var POPULATION_SIGNAL_TOKENS = {
+    DEMOGRAPHIC_COLLAPSE:   /(birth[_\s-]?rate[_\s-]?decline|fertility[_\s-]?rate[_\s-]?(drop|decline|below[_\s-]?replacement)|sub[_\s-]?replacement|family[_\s-]?formation[_\s-]?stall|baby[_\s-]?bust|generational[_\s-]?shortage|natural[_\s-]?decrease|declining[_\s-]?births|total[_\s-]?fertility|tfr[_\s-]?decline)/i,
+    MIGRATION_SURGE:        /(refugee[_\s-]?inflow|displaced[_\s-]?person|asylum[_\s-]?surge|internal[_\s-]?out[_\s-]?migration|migration[_\s-]?hot[_\s-]?spot|climate[_\s-]?migration|net[_\s-]?migration[_\s-]?surge|immigration[_\s-]?inflow|border[_\s-]?crossing[_\s-]?surge|forced[_\s-]?displacement)/i,
+    AGING_CRISIS:           /(median[_\s-]?age[_\s-]?acceleration|old[_\s-]?age[_\s-]?dependency|aging[_\s-]?population|graying[_\s-]?population|working[_\s-]?age[_\s-]?decline|retirement[_\s-]?system[_\s-]?strain|pension[_\s-]?solvency|dependency[_\s-]?ratio[_\s-]?spike|silver[_\s-]?tsunami|65[_\s-]?and[_\s-]?over[_\s-]?surge)/i,
+    LABOR_SHORTAGE:         /(labor[_\s-]?force[_\s-]?participation[_\s-]?drop|prime[_\s-]?age[_\s-]?employment[_\s-]?loss|skill[_\s-]?gap[_\s-]?widening|worker[_\s-]?shortage|labor[_\s-]?supply[_\s-]?constraint|workforce[_\s-]?decline|talent[_\s-]?shortage|participation[_\s-]?rate[_\s-]?decline|labor[_\s-]?shortfall)/i,
+    URBANIZATION_STRAIN:    /(slum[_\s-]?growth|megacity[_\s-]?overwhelm|urban[_\s-]?infrastructure[_\s-]?strain|rapid[_\s-]?urbanization|informal[_\s-]?settlement|urban[_\s-]?sprawl[_\s-]?strain|city[_\s-]?overcrowding|urbanization[_\s-]?pressure|peri[_\s-]?urban[_\s-]?growth)/i,
+    DEPOPULATION:           /(regional[_\s-]?population[_\s-]?loss|rural[_\s-]?exodus|shrinking[_\s-]?city|depopulation|population[_\s-]?decline|out[_\s-]?migration[_\s-]?hot[_\s-]?spot|county[_\s-]?population[_\s-]?loss|hollowing[_\s-]?out|abandonment|shrinking[_\s-]?town)/i,
+    HOUSING_AFFORDABILITY:  /(housing[_\s-]?unaffordability|housing[_\s-]?affordability|housing[_\s-]?access[_\s-]?crisis|rent[_\s-]?burden|household[_\s-]?formation[_\s-]?stall|housing[_\s-]?cost[_\s-]?burden|housing[_\s-]?shortage|home[_\s-]?affordability|cost[_\s-]?burdened[_\s-]?household)/i
+  };
+
+  // Population/demographic-vulnerability STACKS — ordered token pairs with a
+  // demographic interpretation. Each describes an operator-concentration meaning
+  // specific to a population vulnerability stack (demographics & population dynamics,
+  // migration & immigration, urbanization & settlement, fertility & mortality, aging
+  // & generational shifts, labor-force & human-capital supply, household formation &
+  // housing demand). Bound to REAL demographic reporting (US Census Bureau / ACS, UN
+  // DESA, Pew Research, BLS, HUD) and real demographic-exposed proxies (WELL/VTR
+  // senior-living REITs) — never single-company tickers as the identity, and NEVER
+  // energy oil/gas/grid content. Kept DISTINCT from economy (labor market is a
+  // coupling), medicine (mortality/health is a coupling), education (enrollment is a
+  // coupling), and governance.
+  var POPULATION_VULN_STACKS = [
+    { id: 'AGING_PLUS_LABOR_SHORTAGE', signals: ['AGING_CRISIS', 'LABOR_SHORTAGE'],
+      body: 'Operator attention concentrates on the aging + labor-shortage stack — strain on working-age-population capacity and health/pension system solvency, where a rising old-age-dependency ratio collides with falling labor-force participation (US Census / BLS / UN DESA indicators; WELL/VTR senior-living exposure).' },
+    { id: 'DEMOGRAPHIC_COLLAPSE_PLUS_DEPOPULATION', signals: ['DEMOGRAPHIC_COLLAPSE', 'DEPOPULATION'],
+      body: 'Operator attention concentrates on the fertility decline + regional out-migration stack — compound population loss threatening regional economic viability, where sub-replacement births and rural exodus hollow out shrinking counties and towns (US Census / ACS / UN World Population Prospects indicators).' },
+    { id: 'URBANIZATION_STRAIN_PLUS_HOUSING_CRISIS', signals: ['URBANIZATION_STRAIN', 'HOUSING_AFFORDABILITY'],
+      body: 'Operator attention concentrates on the megacity-growth + housing-affordability stack — urban infrastructure overwhelm and housing-access crisis, where rapid urbanization and informal-settlement growth collide with rent burden and stalled household formation (US Census / HUD / UN DESA indicators).' }
+  ];
+
   // ─── Environment vulnerability-stack semantics ─────────────────────────────
   // ENVIRONMENTAL domain-semantic concentration. As with infrastructure, culture,
   // finance, economy, technology, intelligence, trade and industry, generic
@@ -775,6 +830,8 @@
   var _lastCommunicationStackId = null;
   var _lastEducationStackTime = 0;
   var _lastEducationStackId = null;
+  var _lastPopulationStackTime = 0;
+  var _lastPopulationStackId = null;
   var _interval = null;
 
   // Detect which civil signal families a user-action references, by scanning its
@@ -933,6 +990,18 @@
     return hits;
   }
 
+  // Detect which population/demographic signal families a user-action references, by
+  // scanning its free-text fields (action / type / cross-domain pattern). Returns a
+  // list of canonical population signal ids. Never fabricates — empty if nothing matches.
+  function _detectPopulationSignals(text) {
+    if (!text) return [];
+    var hits = [];
+    for (var sig in POPULATION_SIGNAL_TOKENS) {
+      if (POPULATION_SIGNAL_TOKENS[sig].test(text)) hits.push(sig);
+    }
+    return hits;
+  }
+
   // ─── Record decision ─────────────────────────────────────────────────────
 
   function _onUserAction(e) {
@@ -1013,6 +1082,10 @@
       // EDUCATION: which education signal families this action touches (may be []).
       educationSignals: _detectEducationSignals(
         [detail.action, detail.type, matchedPattern, detail.signal, detail.diagnosis].join(' ')
+      ),
+      // POPULATION: which population/demographic signal families this action touches (may be []).
+      populationSignals: _detectPopulationSignals(
+        [detail.action, detail.type, matchedPattern, detail.signal, detail.diagnosis].join(' ')
       )
     };
 
@@ -1036,6 +1109,7 @@
     _checkAgricultureStackConcentration();
     _checkCommunicationStackConcentration();
     _checkEducationStackConcentration();
+    _checkPopulationStackConcentration();
   }
 
   // ─── Concentration detection ──────────────────────────────────────────────
@@ -1987,6 +2061,71 @@
     });
   }
 
+  // Domain-semantic concentration for POPULATION: beyond "which domain" (above),
+  // surface WHICH population/demographic-vulnerability STACK the operator keeps
+  // returning to. Tallies co-occurring population signal families across recent
+  // entries and fires when a known stack (aging + labor-shortage, demographic-collapse
+  // + depopulation, urbanization-strain + housing-crisis) crosses the threshold.
+  // Schema-faithful to _checkEducationStackConcentration (same phase-change shape).
+
+  function _checkPopulationStackConcentration() {
+    var now = Date.now();
+    if (now - _lastPopulationStackTime < POPULATION_STACK_COOLDOWN) return;
+    if (_entries.length < POPULATION_STACK_THRESHOLD) return;
+
+    // Count per-signal-family hits across recent entries (last 10).
+    var recent = _entries.slice(-10);
+    var sigCounts = {};
+    for (var i = 0; i < recent.length; i++) {
+      var sigs = recent[i].populationSignals || [];
+      for (var s = 0; s < sigs.length; s++) {
+        sigCounts[sigs[s]] = (sigCounts[sigs[s]] || 0) + 1;
+      }
+    }
+
+    // A stack fires only when BOTH of its signal families are present and at least
+    // one of them has been focused on repeatedly (>= threshold). Score = sum of the
+    // pair's counts; pick the strongest stack.
+    var best = null;
+    for (var k = 0; k < POPULATION_VULN_STACKS.length; k++) {
+      var stack = POPULATION_VULN_STACKS[k];
+      var a = sigCounts[stack.signals[0]] || 0;
+      var b = sigCounts[stack.signals[1]] || 0;
+      if (a === 0 || b === 0) continue;
+      if (Math.max(a, b) < POPULATION_STACK_THRESHOLD) continue;
+      var score = a + b;
+      if (!best || score > best.score) best = { stack: stack, a: a, b: b, score: score };
+    }
+
+    if (!best) return;
+    if (best.stack.id === _lastPopulationStackId) return; // don't re-narrate the same stack
+
+    _lastPopulationStackTime = now;
+    _lastPopulationStackId = best.stack.id;
+
+    var drivers = [
+      best.a + ' recent actions touching ' + best.stack.signals[0],
+      best.b + ' recent actions touching ' + best.stack.signals[1]
+    ];
+
+    var options = [
+      { label: 'deepen ' + best.stack.id.toLowerCase().replace(/_/g, ' ') + ' analysis', type: 'analysis' },
+      { label: 'broaden scope', type: 'monitoring' },
+      { label: 'hold', type: 'monitoring' }
+    ];
+
+    _dispatch('limen:phase-change', {
+      from: 'observing',
+      to: 'concentrated',
+      type: 'decision-memory',
+      domain: 'population',
+      stackId: best.stack.id,
+      topDrivers: drivers,
+      options: options,
+      body: best.stack.body
+    });
+  }
+
   // ─── Publish ──────────────────────────────────────────────────────────────
 
   function _publish() {
@@ -2007,6 +2146,7 @@
       agricultureSignalConcentration: _agricultureSignalConcentration(),
       communicationSignalConcentration: _communicationSignalConcentration(),
       educationSignalConcentration: _educationSignalConcentration(),
+      populationSignalConcentration: _populationSignalConcentration(),
       updated: Date.now()
     };
 
@@ -2225,6 +2365,21 @@
     var recent = _entries.slice(-10);
     for (var i = 0; i < recent.length; i++) {
       var sigs = recent[i].educationSignals || [];
+      for (var s = 0; s < sigs.length; s++) {
+        counts[sigs[s]] = (counts[sigs[s]] || 0) + 1;
+      }
+    }
+    var out = [];
+    for (var sig in counts) { out.push({ signal: sig, count: counts[sig] }); }
+    out.sort(function (x, y) { return y.count - x.count; });
+    return out;
+  }
+
+  function _populationSignalConcentration() {
+    var counts = {};
+    var recent = _entries.slice(-10);
+    for (var i = 0; i < recent.length; i++) {
+      var sigs = recent[i].populationSignals || [];
       for (var s = 0; s < sigs.length; s++) {
         counts[sigs[s]] = (counts[sigs[s]] || 0) + 1;
       }

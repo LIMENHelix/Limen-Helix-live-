@@ -616,7 +616,28 @@ var MACRO_POLICY_PATH = {
   //   education_student_debt         = student-loan delinquency / balances / forgiveness volumes
   education_k12_funding:          { connectomeDomains: ['education', 'governance', 'economy'],   indicators: ['NAEPMath', 'NAEPReading', 'NCESLiteracy', 'TeacherVacancy'], sources: ['U.S. Dept of Education', 'State Education Agency', 'OMB Education Appropriations'] },
   education_higher_ed_regulation: { connectomeDomains: ['education', 'governance', 'finance'],   indicators: ['NCESGradRate', 'NCESEnrollment', 'AdmissionsYield', 'EdtechEnrollment'], sources: ['ACCJC', 'SACSCOC', 'Federal Student Aid'] },
-  education_student_debt:         { connectomeDomains: ['education', 'finance', 'population'],    indicators: ['StudentLoanDelinquency', 'StudentLoanBalance'],              sources: ['Federal Student Aid', 'CFPB Student Loans Report'] }
+  education_student_debt:         { connectomeDomains: ['education', 'finance', 'population'],    indicators: ['StudentLoanDelinquency', 'StudentLoanBalance'],              sources: ['Federal Student Aid', 'CFPB Student Loans Report'] },
+  // Population / Demographics (population gap 2 — ADDITIVE, OPT-IN) = demographic-policy shocks
+  // split by POLICY MECHANISM. The existing FEED_TO_CONNECTOME['population'] = ['population']
+  // mapping routes ALL population stress through the same path regardless of policy origin;
+  // these sub-paths let a demographic-policy shock route to the CORRECT population nodes (+ the
+  // coupled domain where the policy mechanism crosses one). These are PURE demographic-policy
+  // mechanics (immigration/settlement rules, fertility/household incentives, gerontology/aging-
+  // care mandates) — NOT energy. Population is kept DISTINCT from labor-market (employment is a
+  // COUPLING — 'economy' is added only where the policy mechanism touches household formation /
+  // consumption, never as population content), medicine (mortality/aging-care is a COUPLING —
+  // 'medicine' is added only on the aging-care mandate path), education (enrollment is a
+  // COUPLING) and governance (policy AUTHORITY — 'governance' is added on every path for the
+  // settlement/authority surface, never as population content). Energy coupling is ZERO at the
+  // signal origin: settlement surge → infrastructure capex and aging-care mandates → always-on
+  // facility load are downstream CONSEQUENCES, never the initiating signal. Indicator keys
+  // reference POPULATION_INDICATOR_BINDING above. Resolved via resolvePopulationPolicyPath.
+  //   pop_immigration_reform     = immigration / settlement-rule shock → migration + settlement nodes
+  //   pop_fertility_incentive    = child-tax-credit / fertility-incentive shock → birth/youth + household nodes
+  //   pop_aging_care             = Medicare-expansion / gerontology-care mandate → aging + caregiving nodes
+  pop_immigration_reform:  { connectomeDomains: ['population', 'governance'],            indicators: ['NetMigration', 'RefugeeInflow', 'UrbanizationRate', 'PopulationDensity', 'EthnicDiversity'], sources: ['Census Bureau Components of Change', 'DHS Immigration Statistics', 'UNHCR Refugee Data'] },
+  pop_fertility_incentive: { connectomeDomains: ['population', 'economy'],               indicators: ['FertilityRate', 'BirthRate', 'YouthShare', 'HouseholdFormation'],       sources: ['CDC/NCHS Natality', 'Census ACS Households', 'IRS Child Tax Credit'] },
+  pop_aging_care:          { connectomeDomains: ['population', 'governance', 'medicine'], indicators: ['LifeExpectancy', 'MortalityByAge', 'MedianAge', 'OldAgeDependency', 'LFPR', 'UnemploymentByAge', 'EducationAttainment'], sources: ['CMS Medicare', 'SSA Mortality Tables', 'BLS CPS', 'UN World Population Prospects'] }
 };
 
 // ── INTELLIGENCE-SECTOR INDICATOR bindings (intelligence gap 3 — ADDITIVE) ──
@@ -1291,6 +1312,127 @@ for (var _hcik in HEALTHCARE_INDICATOR_BINDING) {
   NODE_TO_HEALTHCARE_INDICATOR[_hcib.node].push(_hcib);
 }
 
+// ── POPULATION-SECTOR (DEMOGRAPHICS / MIGRATION / AGING / LABOR-SUPPLY) INDICATOR bindings (population gap 1 — ADDITIVE) ──
+// Parallel structure to MACRO_INDICATOR_BINDING (economy gap 1), AGRICULTURE_INDICATOR_
+// BINDING, EDUCATION_INDICATOR_BINDING and HEALTHCARE_INDICATOR_BINDING, but for PURE
+// population/demographic signals: U.S. Census Bureau ACS (age/sex/race, population density,
+// median age), UN World Population Prospects (life expectancy, fertility, net migration),
+// CDC/NCHS vital statistics (life expectancy, fertility/birth rate, mortality by age),
+// Census Components-of-Change (net migration flow, urbanization), and BLS CPS (labor-force-
+// participation rate, unemployment by age). Binds each REAL demographic metric to the
+// population connectome node that senses it (nodes are the actual population-domain
+// participations in brain-node-domains.json: CARD=Mortality & Life Expectancy, OXY=Birth
+// Rates, VTA=Youth Demographics, STN=Youthpop, vlPFC/HPA/HIPP/mPFC=Aging Population /
+// Elderly Healthcare, VEST=Migration Patterns, CeA=Refugee Populations, dlPFC=Urbanization,
+// AI=Population Density, M1=Labor Force, S2=workforce retention, OFC=Income Distribution,
+// TPJ=Ethnic Diversity, ECN=Census Systems, SEPT=Family Structure, BNST=Retirement Reform,
+// HYPO=Gender Demographics), so the kernel/reporting/diagnosis layers can drill from
+// abstract 'population stress' into the ACTUAL demographic signal that triggered it (e.g.
+// aging node lit → life-expectancy decline → mortality-shift origin; labor node lit → LFPR
+// drop → human-capital-supply shortfall). These strictly measure POPULATION identity:
+// demographics & population dynamics, migration & immigration, urbanization & settlement,
+// fertility & mortality, aging & generational shifts, labor-force / human-capital SUPPLY,
+// household formation, social structure & inequality. KEPT DISTINCT from economy (the LABOR
+// MARKET — wages, employment demand — is a coupling, not population content; LFPR is the
+// SUPPLY side of human capital, a demographic stock), from medicine (mortality/health is a
+// coupling — measured here as the demographic life-expectancy STOCK, not clinical care),
+// from education (enrollment is a coupling — measured here only as the human-capital
+// attainment stock), and from governance (policy is a coupling). NEVER energy production or
+// grid metrics — population shifts COUPLE downstream to energy demand (aging-care facility
+// baseline load, settlement-driven infrastructure capex), but that coupling is a CONSEQUENCE,
+// never a population-sector signal; population nodes carry zero energy-domain content.
+// Annotation/registry metadata ONLY — the resolver does NOT score these.
+//   threshold = the level above/below which the node is considered stressed.
+//   dir = 'high' (stress when ABOVE threshold) | 'low' (stress when BELOW).
+//   kind = 'census' (Census ACS / Components-of-Change) | 'unwpp' (UN World Population
+//          Prospects) | 'cdc' (CDC/NCHS vital statistics) | 'bls' (BLS CPS labor supply).
+var POPULATION_INDICATOR_BINDING = {
+  // ── Mortality / life expectancy (aging-population & demographic-transition stress) ──
+  LifeExpectancy:   { series: 'LifeExpectancy',   node: 'CARD',  role: 'Life Expectancy at Birth',       nodeRole: 'Mortality & Life Expectancy',           label: 'Life Expectancy (CDC WONDER / UN WPP)',   threshold: -0.5, dir: 'low',  kind: 'cdc',    policyPath: 'pop_aging_care' },
+  MortalityByAge:   { series: 'MortalityByAge',   node: 'mPFC',  role: 'Age-Specific Mortality Rate',     nodeRole: 'Elderly Healthcare Assessment & Diagnostics', label: 'Mortality by Age (CDC WONDER)',     threshold: 5,    dir: 'high', kind: 'cdc',    policyPath: 'pop_aging_care' },
+  MedianAge:        { series: 'MedianAge',        node: 'vlPFC', role: 'Median Population Age',           nodeRole: 'Aging Population Assessment & Diagnostics', label: 'Median Age (Census ACS)',           threshold: 40,   dir: 'high', kind: 'census', policyPath: 'pop_aging_care' },
+  OldAgeDependency: { series: 'OldAgeDependency', node: 'HPA',   role: 'Old-Age Dependency Ratio',        nodeRole: 'Aging Population — Action Coordination',  label: 'Old-Age Dependency Ratio (UN WPP)',  threshold: 28,   dir: 'high', kind: 'unwpp',  policyPath: 'pop_aging_care' },
+  // ── Fertility / birth / youth (birth-cohort & generational-renewal stress) ──
+  FertilityRate:    { series: 'FertilityRate',    node: 'OXY',   role: 'Total Fertility Rate',            nodeRole: 'Birth Rates',                           label: 'Total Fertility Rate (CDC/NCHS, UN WPP)', threshold: 2.1, dir: 'low', kind: 'cdc',    policyPath: 'pop_fertility_incentive' },
+  BirthRate:        { series: 'BirthRate',        node: 'VTA',   role: 'Crude Birth Rate / Youth Cohort', nodeRole: 'Youth Demographics',                    label: 'Birth Rate (CDC/NCHS)',                  threshold: 11,   dir: 'low',  kind: 'cdc',    policyPath: 'pop_fertility_incentive' },
+  YouthShare:       { series: 'YouthShare',       node: 'STN',   role: 'Youth Population Share (<15)',     nodeRole: 'Youthpop',                              label: 'Youth Share of Population (Census ACS)', threshold: 18,   dir: 'low',  kind: 'census', policyPath: 'pop_fertility_incentive' },
+  // ── Migration / settlement / urbanization (mobility & settlement-pressure stress) ──
+  NetMigration:     { series: 'NetMigration',     node: 'VEST',  role: 'Net Migration Flow',              nodeRole: 'Migration Patterns',                    label: 'Net Migration (Census Components of Change)', threshold: 4, dir: 'high', kind: 'census', policyPath: 'pop_immigration_reform' },
+  RefugeeInflow:    { series: 'RefugeeInflow',    node: 'CeA',   role: 'Refugee / Displaced Inflow',      nodeRole: 'Refugee Populations',                   label: 'Refugee Inflow (UNHCR / Census)',        threshold: 6,    dir: 'high', kind: 'unwpp',  policyPath: 'pop_immigration_reform' },
+  UrbanizationRate: { series: 'UrbanizationRate', node: 'dlPFC', role: 'Urbanization Rate',               nodeRole: 'Urbanization',                          label: 'Urban Population Share (Census Metro)',  threshold: 5,    dir: 'high', kind: 'census', policyPath: 'pop_immigration_reform' },
+  PopulationDensity:{ series: 'PopulationDensity',node: 'AI',    role: 'Population Density',               nodeRole: 'Population Density',                     label: 'Population Density (Census ACS)',        threshold: 8,    dir: 'high', kind: 'census', policyPath: 'pop_immigration_reform' },
+  // ── Labor-force / human-capital SUPPLY (demographic supply side, NOT labor-market demand) ──
+  LFPR:             { series: 'LFPR',             node: 'M1',    role: 'Labor-Force Participation Rate',  nodeRole: 'Labor Force',                           label: 'Labor-Force Participation (BLS CPS LFPR)', threshold: 62, dir: 'low',  kind: 'bls',    policyPath: 'pop_aging_care' },
+  UnemploymentByAge:{ series: 'UnemploymentByAge',node: 'S2',    role: 'Age-Cohort Unemployment',         nodeRole: 'workforce retention — Signal Acquisition', label: 'Unemployment by Age (BLS CPS)',       threshold: 8,    dir: 'high', kind: 'bls',    policyPath: 'pop_aging_care' },
+  // ── Social structure / inequality / household / family (settlement & cohesion stress) ──
+  IncomeInequality: { series: 'IncomeInequality', node: 'OFC',   role: 'Income Distribution (Gini)',      nodeRole: 'Income Distribution',                   label: 'Income Inequality (Census ACS Gini)',    threshold: 0.48, dir: 'high', kind: 'census', policyPath: 'pop_immigration_reform' },
+  HouseholdFormation:{ series: 'HouseholdFormation', node: 'SEPT', role: 'Household / Family Formation',   nodeRole: 'Family Structure',                      label: 'Household Formation (Census ACS)',       threshold: -1,   dir: 'low',  kind: 'census', policyPath: 'pop_fertility_incentive' },
+  EthnicDiversity:  { series: 'EthnicDiversity',  node: 'TPJ',   role: 'Ethnic / Racial Composition',     nodeRole: 'Ethnic Diversity',                      label: 'Ethnic Diversity (Census ACS Race)',     threshold: 10,   dir: 'high', kind: 'census', policyPath: 'pop_immigration_reform' },
+  EducationAttainment:{ series: 'EducationAttainment', node: 'AG', role: 'Educational Attainment Stock',  nodeRole: 'Education Levels',                      label: 'Educational Attainment (Census ACS)',    threshold: -2,   dir: 'low',  kind: 'census', policyPath: 'pop_aging_care' },
+  CensusCoverage:   { series: 'CensusCoverage',   node: 'ECN',   role: 'Census Enumeration Coverage',     nodeRole: 'Census Systems',                        label: 'Census Coverage / Undercount (ACS)',     threshold: -3,   dir: 'low',  kind: 'census', policyPath: 'pop_immigration_reform' }
+};
+
+// Reverse lookup: connectome node → population indicators it senses
+// (parallel to NODE_TO_MACRO_INDICATOR / NODE_TO_EDUCATION_INDICATOR; for diagnosis drill-down).
+var NODE_TO_POPULATION_INDICATOR = {};
+for (var _popik in POPULATION_INDICATOR_BINDING) {
+  if (!Object.prototype.hasOwnProperty.call(POPULATION_INDICATOR_BINDING, _popik)) continue;
+  var _popib = POPULATION_INDICATOR_BINDING[_popik];
+  if (!NODE_TO_POPULATION_INDICATOR[_popib.node]) NODE_TO_POPULATION_INDICATOR[_popib.node] = [];
+  NODE_TO_POPULATION_INDICATOR[_popib.node].push(_popib);
+}
+
+// ── POPULATION-SECTOR (DEMOGRAPHIC-EXPOSED) COMPANY ticker bindings (population gap 3 — ADDITIVE, OPT-IN) ──
+// Parallel to TECH_COMPANY_BINDING and the other sector company registries (and to
+// MACRO_INDICATOR_BINDING). NOT merged into the default resolve() pipeline and NOT included
+// in NODE_TO_MACRO_INDICATOR — consumed ONLY when a context explicitly triggers a
+// population-company-level drill (getPopulationCompaniesForNode / POPULATION_COMPANY_BINDING
+// export). Population binds MOSTLY to INDICATORS, not single companies (demographics is a
+// public-statistics domain); where a demographic-exposure SURFACE needs a concrete proxy we
+// use REAL demographic-exposed entities mapped to the actual population connectome node that
+// senses their exposure: senior-living REITs for the AGING surface (WELL/VTR/LTC/NHI/BSR),
+// housing/migration proxies for the SETTLEMENT surface (ZG/RDFN), and demographic-data
+// providers for the DATA-QUALITY surface (EFX/CSGP). Ticker stress (dir 'low' for all —
+// stress on decline) estimates a DEMOGRAPHIC-EXPOSURE DEGRADATION: a WELL/VTR/LTC/NHI/BSR
+// decline = senior-living occupancy pressure / care-labor cost spike → aging-care capacity
+// strain; a ZG/RDFN decline = migration-driven housing-demand freeze → settlement-mobility
+// stall; an EFX/CSGP decline = demographic / property-data quality risk → household-formation
+// forecast error. This is POPULATION identity = demographic exposure (aging cohorts, migration
+// flows, settlement, household formation) — DISTINCT from economy (housing-PRICE aggregate is a
+// coupling, not migration dynamics), medicine (clinical care is a coupling, senior-living here
+// is the demographic occupancy SURFACE), and construction (capital goods is a coupling, not
+// settlement). ENERGY is PURELY a downstream COUPLING, never the identity: senior-living
+// always-on aging-care infrastructure carries a flat/rising per-bed HVAC baseline, and a
+// settlement freeze idles construction-equipment fleets — but population nodes carry ZERO
+// energy-domain content (no oil/gas, no grid ops) and never originate a population-to-energy
+// edge. REAL demographic-exposed tickers only.
+//   WELL → Welltower (senior housing REIT)        VTR → Ventas (senior housing REIT)
+//   LTC  → LTC Properties (senior/SNF REIT)        NHI → National Health Investors (senior REIT)
+//   BSR  → BSR REIT (multifamily / household formation)  ZG → Zillow Group (housing/migration)
+//   RDFN → Redfin (housing/migration)              EFX → Equifax (demographic/credit data)
+//   CSGP → CoStar Group (property/settlement data)
+var POPULATION_COMPANY_BINDING = {
+  WELL: { series: 'WELL', node: 'vlPFC', role: 'Senior-Living Occupancy / Aging-Care Capacity',     nodeRole: 'Aging Population Assessment & Diagnostics',  label: 'Welltower',                threshold: -16, dir: 'low', kind: 'ticker', industry: 'senior-living-reit' },
+  VTR:  { series: 'VTR',  node: 'HPA',   role: 'Senior-Housing Capacity / Aging-Care Coordination', nodeRole: 'Aging Population — Action Coordination',     label: 'Ventas',                   threshold: -17, dir: 'low', kind: 'ticker', industry: 'senior-living-reit' },
+  LTC:  { series: 'LTC',  node: 'mPFC',  role: 'Skilled-Nursing / Elderly-Care Facility Capacity',  nodeRole: 'Elderly Healthcare Assessment & Diagnostics', label: 'LTC Properties',          threshold: -19, dir: 'low', kind: 'ticker', industry: 'senior-living-reit' },
+  NHI:  { series: 'NHI',  node: 'HIPP',  role: 'Senior-Living Portfolio / Aging-Care Resilience',   nodeRole: 'Aging Population — Regulation Strategy',     label: 'National Health Investors', threshold: -18, dir: 'low', kind: 'ticker', industry: 'senior-living-reit' },
+  BSR:  { series: 'BSR',  node: 'SEPT',  role: 'Multifamily / Household-Formation Exposure',        nodeRole: 'Family Structure',                          label: 'BSR REIT',                 threshold: -20, dir: 'low', kind: 'ticker', industry: 'multifamily-reit' },
+  ZG:   { series: 'ZG',   node: 'VEST',  role: 'Housing-Demand / Migration-Flow Proxy',             nodeRole: 'Migration Patterns',                        label: 'Zillow Group',             threshold: -22, dir: 'low', kind: 'ticker', industry: 'housing-migration-data' },
+  RDFN: { series: 'RDFN', node: 'dlPFC', role: 'Migration-Driven Housing-Demand Proxy',             nodeRole: 'Urbanization',                              label: 'Redfin',                   threshold: -24, dir: 'low', kind: 'ticker', industry: 'housing-migration-data' },
+  EFX:  { series: 'EFX',  node: 'ECN',   role: 'Demographic / Credit-Data Quality Surface',         nodeRole: 'Census Systems',                            label: 'Equifax',                  threshold: -16, dir: 'low', kind: 'ticker', industry: 'demographic-data' },
+  CSGP: { series: 'CSGP', node: 'AI',    role: 'Property / Settlement-Data Quality Surface',        nodeRole: 'Population Density',                         label: 'CoStar Group',             threshold: -18, dir: 'low', kind: 'ticker', industry: 'demographic-data' }
+};
+
+// Reverse lookup: connectome node → population-sector company tickers it sources from
+// (opt-in population-company drill, parallel to NODE_TO_EDUCATION_COMPANY).
+var NODE_TO_POPULATION_COMPANY = {};
+for (var _popck in POPULATION_COMPANY_BINDING) {
+  if (!Object.prototype.hasOwnProperty.call(POPULATION_COMPANY_BINDING, _popck)) continue;
+  var _popcb = POPULATION_COMPANY_BINDING[_popck];
+  if (!NODE_TO_POPULATION_COMPANY[_popcb.node]) NODE_TO_POPULATION_COMPANY[_popcb.node] = [];
+  NODE_TO_POPULATION_COMPANY[_popcb.node].push(_popcb);
+}
+
 // Reverse lookup: connectome node → macro indicators it senses (for diagnosis drill-down).
 var NODE_TO_MACRO_INDICATOR = {};
 for (var _mk in MACRO_INDICATOR_BINDING) {
@@ -1776,7 +1918,7 @@ function resolvePolicyPath(path, stress) {
   // references INTELLIGENCE_INDICATOR_BINDING — check both so each policy path
   // resolves its own registry. (Additive: pre-existing fiscal/monetary unchanged.)
   var indSet = cfg.indicators.map(function(id) {
-    return MACRO_INDICATOR_BINDING[id] || INTELLIGENCE_INDICATOR_BINDING[id] || TRADE_INDICATOR_BINDING[id] || EDUCATION_INDICATOR_BINDING[id];
+    return MACRO_INDICATOR_BINDING[id] || INTELLIGENCE_INDICATOR_BINDING[id] || TRADE_INDICATOR_BINDING[id] || EDUCATION_INDICATOR_BINDING[id] || POPULATION_INDICATOR_BINDING[id];
   }).filter(Boolean);
   return {
     path: path,
@@ -2231,6 +2373,39 @@ function resolveEducationPolicyPath(policy, stress) {
   };
   var key = MACRO_POLICY_PATH[policy] ? policy
           : (aliases[policy] || ('education_' + String(policy).replace(/-/g, '_')));
+  return resolvePolicyPath(key, stress);
+}
+
+/**
+ * Resolve a POPULATION / demographic policy shock to its connectome nodes (population gap 2,
+ * OPT-IN). Mirrors resolveEducationPolicyPath: accepts a canonical MACRO_POLICY_PATH key
+ * ('pop_immigration_reform' / 'pop_fertility_incentive' / 'pop_aging_care') OR a short alias,
+ * and routes through the shared resolvePolicyPath engine. Demographic-policy identity only —
+ * immigration/settlement, fertility/household incentives, aging-care mandates; energy is never
+ * part of the signal chain (settlement capex / aging-care facility load are downstream
+ * consequences). Default resolve() pipeline is unchanged; no scoring.
+ * @param {String} policy - canonical key or alias ('immigration'/'fertility'/'aging').
+ * @param {Number} [stress] - raw stress [0..1] for activation.
+ * @returns {Object} resolvePolicyPath() result for the population policy path.
+ */
+function resolvePopulationPolicyPath(policy, stress) {
+  if (!policy) return resolvePolicyPath(policy, stress);
+  var aliases = {
+    immigration: 'pop_immigration_reform',
+    immigration_reform: 'pop_immigration_reform',
+    migration: 'pop_immigration_reform',
+    settlement: 'pop_immigration_reform',
+    fertility: 'pop_fertility_incentive',
+    fertility_incentive: 'pop_fertility_incentive',
+    birth: 'pop_fertility_incentive',
+    household: 'pop_fertility_incentive',
+    aging: 'pop_aging_care',
+    aging_care: 'pop_aging_care',
+    gerontology: 'pop_aging_care',
+    medicare: 'pop_aging_care'
+  };
+  var key = MACRO_POLICY_PATH[policy] ? policy
+          : (aliases[policy] || ('pop_' + String(policy).replace(/-/g, '_')));
   return resolvePolicyPath(key, stress);
 }
 
@@ -2944,6 +3119,43 @@ window.LIMENConnectomeResolver = {
   // nodes via MACRO_POLICY_PATH 'education_*' entries. Signal origin = education-regulation
   // authority (state K-12 boards, accreditors, Federal Student Aid), never energy.
   resolveEducationPolicyPath: resolveEducationPolicyPath,
+
+  // Population-sector indicator bindings (population gap 1) — OPT-IN, parallel to the macro
+  // registry; REAL demographic signals (Census ACS age/sex/race + density + median age + Gini,
+  // UN World Population Prospects life-expectancy/fertility/migration/old-age-dependency,
+  // CDC/NCHS life-expectancy/fertility/mortality-by-age, BLS CPS labor-force-participation &
+  // unemployment-by-age, Census Components-of-Change net migration) routed to dedicated
+  // 'population' nodes (CARD/OXY/VTA/STN/vlPFC/HPA/HIPP/mPFC/VEST/CeA/dlPFC/AI/M1/S2/OFC/TPJ/
+  // ECN/SEPT/AG). These measure POPULATION identity (demographics, migration, urbanization,
+  // fertility/mortality, aging, labor-SUPPLY, household formation, social structure), never
+  // energy — settlement capex & aging-care facility load are downstream couplings, not signals.
+  // Population is DISTINCT from economy (labor MARKET is a coupling), medicine (mortality/health
+  // is a coupling), education (enrollment is a coupling) and governance (policy is a coupling).
+  POPULATION_INDICATOR_BINDING: POPULATION_INDICATOR_BINDING,
+  NODE_TO_POPULATION_INDICATOR: NODE_TO_POPULATION_INDICATOR,
+  getPopulationIndicatorsForNode: function(nodeId) { return NODE_TO_POPULATION_INDICATOR[nodeId] || []; },
+
+  // Population-sector (demographic-exposed) company ticker bindings (population gap 3) — OPT-IN,
+  // parallel to the other sector company registries; population binds mostly to INDICATORS, but
+  // where a demographic-exposure surface needs a proxy we use REAL demographic-exposed entities:
+  // senior-living REITs for the AGING surface (WELL/VTR/LTC/NHI/BSR), housing/migration proxies
+  // for the SETTLEMENT surface (ZG/RDFN), demographic-data providers for the DATA-QUALITY surface
+  // (EFX/CSGP), routed to dedicated population nodes (vlPFC/HPA/mPFC/HIPP/SEPT/VEST/dlPFC/ECN/AI).
+  // Energy is a downstream COUPLING (senior-living always-on per-bed HVAC baseline, idled
+  // construction fleets on a settlement freeze), never the identity; population nodes carry zero
+  // energy content. DISTINCT from economy (housing-PRICE aggregate is a coupling), medicine
+  // (clinical care is a coupling) and construction (capital goods is a coupling).
+  POPULATION_COMPANY_BINDING: POPULATION_COMPANY_BINDING,
+  NODE_TO_POPULATION_COMPANY: NODE_TO_POPULATION_COMPANY,
+  getPopulationCompaniesForNode: function(nodeId) { return NODE_TO_POPULATION_COMPANY[nodeId] || []; },
+
+  // Population policy-path resolution (population gap 2) — opt-in. Routes a demographic-policy
+  // shock (immigration-reform / fertility-incentive / aging-care mandate) to the correct
+  // population nodes via MACRO_POLICY_PATH 'pop_*' entries. Signal origin = demographic-policy
+  // authority (DHS/Census settlement rules, IRS/Census fertility incentives, CMS/SSA aging-care
+  // mandates), never energy. Population kept DISTINCT from labor-market/medicine/education/
+  // governance (those are couplings the policy mechanism may cross, never population content).
+  resolvePopulationPolicyPath: resolvePopulationPolicyPath,
 
   // Fiscal vs monetary policy transmission (economy gap 2) — opt-in
   MACRO_POLICY_PATH: MACRO_POLICY_PATH,

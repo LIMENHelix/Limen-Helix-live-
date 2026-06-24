@@ -44,7 +44,8 @@
     governance:    { factor: 0.55, ceiling: 0.80, reason: 'tone-dampened: negative tone bias' },
     finance:       { factor: 0.60, ceiling: 0.85, reason: 'volatility-dampened: common market moves' },
     infrastructure:{ factor: 0.50, ceiling: 0.80, reason: 'cyber-dampened: embedded system CVE churn does not indicate compromise; construction-index-dampened: baseline volatility' },
-    technology:    { factor: 0.55, ceiling: 0.82, reason: 'adoption-velocity-dampened: patent/arxiv/GitHub churn inflates commodity signal noise' }
+    technology:    { factor: 0.55, ceiling: 0.82, reason: 'adoption-velocity-dampened: patent/arxiv/GitHub churn inflates commodity signal noise' },
+    population:    { factor: 0.50, ceiling: 0.80, reason: 'demographic-signal-dampened: Census/ACS/BLS reporting lag and seasonal volatility in birth/fertility/migration counts does not indicate structural demographic shift; real demographic constraints (below-replacement fertility, aging-dependency spike, prime-age employment collapse) bypass dampening' }
   };
 
   // Structural-signal overrides for infrastructure: certain engineering constraints are
@@ -382,6 +383,49 @@
     biodiversityLossFloor:  0.65, // extinction rate / habitat loss > threshold always reads as biodiversity_loss
     waterStressFloor:       0.65, // water scarcity / quality failure always reads as water_stress
     regulatoryBreachFloor:  0.70  // carbon cap exceeded / compliance failure always reads as regulatory_breach
+  };
+
+  // Structural-signal overrides for population: certain DEMOGRAPHIC / MIGRATION / AGING /
+  // LABOR-SUPPLY / URBANIZATION constraints are NOT noisy Census/ACS/BLS headline-volume or
+  // seasonal birth/fertility/migration-count churn and must bypass saturation dampening (mirrors
+  // infrastructure's grid_stress, culture's scene_collapse, finance's liquidity_crunch, economy's
+  // recession_declaration, technology's chip_shortage, defense's force_readiness, intelligence's
+  // collection_gap, trade's tariff_shock, industry's capacity_constraint, agriculture's crop_failure,
+  // and environment's emissions_spike structural conditions — all of which mirror energy-brain's
+  // grid_stress reserve-margin floor, a load-bearing engineering constraint that is never dampened
+  // as commodity noise).
+  // The population domain is DEMOGRAPHICS & POPULATION DYNAMICS, migration & immigration,
+  // urbanization & settlement, fertility & mortality, aging & generational shifts, labor force &
+  // human-capital supply, household formation & housing demand, and social structure & inequality.
+  // It binds mostly to INDICATORS, not single companies (US Census 5-year ACS, UN World Population
+  // Prospects, Pew Research Center, BLS prime-age employment / labor-force participation, HUD housing
+  // affordability, IOM migration), and where demographic-exposed entities are needed it uses real
+  // proxies (WELL, VTR senior-living REITs; housing/migration-exposed names). It stays DISTINCT from
+  // economy (the labor MARKET is a coupling — population owns the labor-SUPPLY/human-capital pool, not
+  // GDP/inflation/unemployment as the macro aggregate), from medicine (mortality/health is a coupling —
+  // population owns demographic mortality counts, not clinical health), from education (enrollment is a
+  // coupling), and from governance. NEVER oil/gas/grid as the domain's OWN content.
+  // These floors are LOAD-BEARING demographic constraints — exactly as a grid reserve margin below
+  // 10% reads as grid_stress (a real engineering ceiling never averaged down by volume dampening), a
+  // below-replacement fertility reading, a migration surge, an aging-dependency breach, a prime-age
+  // labor-force collapse, an urbanization-strain reading, or a regional depopulation reading is a real
+  // demographic constraint that must never be averaged down by Census/ACS reporting-lag noise.
+  // Raw stress is forced to the floor when a structural threshold is crossed, before dampening.
+  //   - demographic collapse (total fertility rate < 1.5 / below-replacement birth rate)   → demographic_collapse (structural)
+  //   - migration surge (net migration inflow acceleration > 50% YoY / displaced surge)     → migration_surge (structural)
+  //   - aging crisis (median age > 42 / old-age dependency > 30% / working-age decline > 2%)→ aging_crisis (structural)
+  //   - labor shortage (prime-age LFPR < 75% / prime-age employment < 80% / U-LF gap > 4%)  → labor_shortage (structural)
+  //   - urbanization strain (slum growth > 5%/yr / housing-unaffordability > 40% / megacity) → urbanization_strain (structural)
+  //   - depopulation (regional population loss > 2% YoY / sustained rural out-migration)     → depopulation (structural)
+  // ADDITIVE ONLY — client-side advisory floor for the domain panel/snapshot; it does NOT touch
+  // the validated P3 distress kernel (/api/limen/score path), which lives in the finance domain.
+  var _POPULATION_STRUCTURAL = {
+    demographicCollapseFloor: 0.65, // total fertility rate < 1.5 / below-replacement birth rate always reads as demographic_collapse
+    migrationSurgeFloor:      0.60, // net migration inflow acceleration > 50% YoY / displaced surge always reads as migration_surge
+    agingCrisisFloor:         0.70, // median age > 42 / old-age dependency > 30% / working-age decline > 2% YoY always reads as aging_crisis
+    laborShortageFloor:       0.65, // prime-age LFPR < 75% / prime-age employment < 80% / U-to-LF gap > 4% always reads as labor_shortage
+    urbanizationStrainFloor:  0.60, // slum growth > 5%/yr / housing-unaffordability index > 40% / megacity stress always reads as urbanization_strain
+    depopulationFloor:        0.65  // regional population loss > 2% YoY / sustained rural out-migration always reads as depopulation
   };
 
   // Rolling baseline state (accumulates across feed cycles within session)
@@ -1421,6 +1465,149 @@
     return { floor: floor, reason: reason };
   }
 
+  // Detect population DEMOGRAPHIC/MIGRATION/AGING/LABOR-SUPPLY/URBANIZATION structural constraints
+  // from a feed object. Returns a forced stress floor (0 if none) — real demographic constraints
+  // bypass the Census/ACS/BLS reporting-lag + seasonal birth/fertility/migration-count dampening
+  // (0.50). Mirrors _economyStructuralFloor / _industryStructuralFloor / _environmentStructuralFloor:
+  // demographic-collapse / migration-surge / aging-crisis / labor-shortage / urbanization-strain /
+  // depopulation are load-bearing demographic constraints, not commodity-signal noise to be averaged
+  // down. Binds to US Census 5-year ACS, UN World Population Prospects, Pew Research, BLS prime-age
+  // employment / labor-force participation, HUD housing affordability, and IOM migration — and where
+  // demographic-exposed entities are needed, real proxies (WELL, VTR senior-living REITs;
+  // housing/migration-exposed names). NEVER oil/gas/grid as the domain's OWN content. DISTINCT from
+  // economy (labor MARKET is a coupling — population owns labor SUPPLY), medicine (mortality/health is
+  // a coupling), education (enrollment is a coupling), and governance.
+  // ADDITIVE ONLY — client-side advisory floor; does NOT touch the validated P3 distress kernel.
+  function _populationStructuralFloor(feed) {
+    if (!feed) return { floor: 0, reason: '' };
+    var floor = 0;
+    var reason = '';
+    var signals = feed.signals || [];
+    function _has(token) {
+      for (var i = 0; i < signals.length; i++) {
+        if (typeof signals[i] === 'string' && signals[i].toLowerCase().indexOf(token) !== -1) return true;
+      }
+      return false;
+    }
+    // (3) Aging crisis: median age > 42 / old-age dependency ratio > 30% / working-age decline > 2% YoY
+    //     ALWAYS triggers aging_crisis (highest population floor — a generational-structure break;
+    //     UN WPP median age, BLS/Census age structure, WELL/VTR senior-living exposure).
+    var medianAge = (feed.medianAge !== undefined) ? feed.medianAge : null;
+    var oldAgeDependency = (feed.oldAgeDependencyRatio !== undefined) ? feed.oldAgeDependencyRatio
+                         : (feed.dependencyRatio !== undefined) ? feed.dependencyRatio
+                         : null;
+    // accept fraction (0.32) or percent (32) form for the dependency ratio
+    var depFrac = (oldAgeDependency !== null && oldAgeDependency > 1) ? oldAgeDependency / 100 : oldAgeDependency;
+    var workingAgeDecline = (feed.workingAgePopGrowthYoY !== undefined) ? feed.workingAgePopGrowthYoY
+                          : (feed.workingAgeDeclineYoY !== undefined) ? feed.workingAgeDeclineYoY
+                          : null;
+    var workFrac = (workingAgeDecline !== null && (workingAgeDecline > 1 || workingAgeDecline < -1)) ? workingAgeDecline / 100 : workingAgeDecline;
+    if ((medianAge !== null && medianAge > 42 && (_has('aging') || _has('age') || _has('elderly') || _has('senior') || _has('dependency'))) ||
+        (depFrac !== null && depFrac > 0.30 && (_has('dependency') || _has('aging') || _has('elderly') || _has('old-age'))) ||
+        (workFrac !== null && workFrac < -0.02 && (_has('working-age') || _has('labor') || _has('workforce'))) ||
+        _has('aging crisis') || _has('aging-crisis') || _has('aging society') || _has('greying') || _has('demographic aging')) {
+      if (_POPULATION_STRUCTURAL.agingCrisisFloor > floor) {
+        floor = _POPULATION_STRUCTURAL.agingCrisisFloor;
+        reason = 'structural: aging_crisis' + (medianAge !== null ? ' (median age ' + medianAge.toFixed(1) + ' > 42)' : (depFrac !== null ? ' (old-age dependency ' + (depFrac * 100).toFixed(0) + '% > 30%)' : ''));
+      }
+    }
+    // (1) Demographic collapse: total fertility rate < 1.5 / below-replacement birth rate ALWAYS
+    //     triggers demographic_collapse (a generational-shortage signal — TFR below the 2.1 replacement
+    //     level and into structural-decline territory; UN WPP / Census fertility, Pew Research).
+    var fertilityRate = (feed.totalFertilityRate !== undefined) ? feed.totalFertilityRate
+                      : (feed.fertilityRate !== undefined) ? feed.fertilityRate
+                      : (feed.tfr !== undefined) ? feed.tfr
+                      : null;
+    var birthRateGrowth = (feed.birthRateYoY !== undefined) ? feed.birthRateYoY : null;
+    var birthFrac = (birthRateGrowth !== null && (birthRateGrowth > 1 || birthRateGrowth < -1)) ? birthRateGrowth / 100 : birthRateGrowth;
+    if ((fertilityRate !== null && fertilityRate < 1.5 && (_has('fertility') || _has('birth') || _has('tfr') || _has('replacement') || _has('natal'))) ||
+        (birthFrac !== null && birthFrac < -0.05 && (_has('birth') || _has('fertility') || _has('natal'))) ||
+        _has('below replacement') || _has('below-replacement') || _has('demographic collapse') || _has('demographic-collapse') || _has('baby bust') || _has('fertility crisis') || _has('birth dearth')) {
+      if (_POPULATION_STRUCTURAL.demographicCollapseFloor > floor) {
+        floor = _POPULATION_STRUCTURAL.demographicCollapseFloor;
+        reason = 'structural: demographic_collapse' + (fertilityRate !== null ? ' (TFR ' + fertilityRate.toFixed(2) + ' < 1.5, below replacement)' : '');
+      } else if (floor > 0) {
+        reason += ' + demographic_collapse';
+      }
+    }
+    // (4) Labor shortage: prime-age LFPR < 75% / prime-age employment < 80% / unemployment-to-labor-force
+    //     gap > 4% ALWAYS triggers labor_shortage (a human-capital SUPPLY constraint — population owns the
+    //     labor SUPPLY pool; the labor MARKET stays with economy). BLS prime-age (25-54) LFPR / EPOP.
+    var primeLfpr = (feed.primeAgeLFPR !== undefined) ? feed.primeAgeLFPR
+                  : (feed.laborForceParticipation !== undefined) ? feed.laborForceParticipation
+                  : null;
+    var lfprFrac = (primeLfpr !== null && primeLfpr > 1) ? primeLfpr / 100 : primeLfpr;
+    var primeEpop = (feed.primeAgeEmploymentRate !== undefined) ? feed.primeAgeEmploymentRate
+                  : (feed.primeAgeEPOP !== undefined) ? feed.primeAgeEPOP
+                  : null;
+    var epopFrac = (primeEpop !== null && primeEpop > 1) ? primeEpop / 100 : primeEpop;
+    if ((lfprFrac !== null && lfprFrac < 0.75 && (_has('participation') || _has('labor') || _has('workforce') || _has('lfpr'))) ||
+        (epopFrac !== null && epopFrac < 0.80 && (_has('employment') || _has('labor') || _has('workforce') || _has('epop'))) ||
+        _has('labor shortage') || _has('labor-shortage') || _has('worker shortage') || _has('labor-force collapse') || _has('workforce shortage')) {
+      if (_POPULATION_STRUCTURAL.laborShortageFloor > floor) {
+        floor = _POPULATION_STRUCTURAL.laborShortageFloor;
+        reason = 'structural: labor_shortage' + (lfprFrac !== null ? ' (prime-age LFPR ' + (lfprFrac * 100).toFixed(0) + '% < 75%)' : (epopFrac !== null ? ' (prime-age EPOP ' + (epopFrac * 100).toFixed(0) + '% < 80%)' : ''));
+      } else if (floor > 0) {
+        reason += ' + labor_shortage';
+      }
+    }
+    // (6) Depopulation: regional population loss > 2% YoY / sustained rural out-migration ALWAYS triggers
+    //     depopulation (a regional-decline constraint — sustained population loss / rural hollowing-out;
+    //     Census regional/county estimates, IOM internal migration).
+    var popGrowth = (feed.populationGrowthYoY !== undefined) ? feed.populationGrowthYoY
+                  : (feed.regionalPopGrowthYoY !== undefined) ? feed.regionalPopGrowthYoY
+                  : null;
+    var popFrac = (popGrowth !== null && (popGrowth > 1 || popGrowth < -1)) ? popGrowth / 100 : popGrowth;
+    if ((popFrac !== null && popFrac < -0.02 && (_has('population') || _has('depopul') || _has('out-migration') || _has('rural') || _has('decline'))) ||
+        _has('depopulation') || _has('population loss') || _has('rural out-migration') || _has('rural exodus') || _has('hollowing out') || _has('population decline')) {
+      if (_POPULATION_STRUCTURAL.depopulationFloor > floor) {
+        floor = _POPULATION_STRUCTURAL.depopulationFloor;
+        reason = 'structural: depopulation' + (popFrac !== null ? ' (regional population ' + (popFrac * 100).toFixed(1) + '% YoY < -2%)' : '');
+      } else if (floor > 0) {
+        reason += ' + depopulation';
+      }
+    }
+    // (2) Migration surge: net migration inflow acceleration > 50% YoY / displaced-person surge ALWAYS
+    //     triggers migration_surge (a migration-flow constraint — sudden inflow acceleration or a
+    //     displaced/refugee surge; IOM migration, UN WPP net-migration, Census net international migration).
+    var migrationAccel = (feed.netMigrationAccelYoY !== undefined) ? feed.netMigrationAccelYoY
+                       : (feed.migrationInflowYoY !== undefined) ? feed.migrationInflowYoY
+                       : null;
+    var migFrac = (migrationAccel !== null && (migrationAccel > 1 || migrationAccel < -1)) ? migrationAccel / 100 : migrationAccel;
+    if ((migFrac !== null && migFrac > 0.50 && (_has('migration') || _has('migrant') || _has('immigration') || _has('inflow') || _has('displaced') || _has('refugee'))) ||
+        _has('migration surge') || _has('migration-surge') || _has('displaced surge') || _has('refugee surge') || _has('mass migration') || _has('migration wave')) {
+      if (_POPULATION_STRUCTURAL.migrationSurgeFloor > floor) {
+        floor = _POPULATION_STRUCTURAL.migrationSurgeFloor;
+        reason = 'structural: migration_surge' + (migFrac !== null ? ' (net migration inflow ' + (migFrac * 100).toFixed(0) + '% YoY > 50%)' : '');
+      } else if (floor > 0) {
+        reason += ' + migration_surge';
+      }
+    }
+    // (5) Urbanization strain: slum-population growth > 5% annual / housing-unaffordability index > 40% /
+    //     megacity infrastructure-stress ALWAYS triggers urbanization_strain (a settlement-saturation
+    //     constraint — population owns settlement/household-formation demand; UN WPP urbanization, HUD
+    //     housing affordability, housing/migration-exposed names).
+    var slumGrowth = (feed.slumPopGrowthYoY !== undefined) ? feed.slumPopGrowthYoY
+                   : (feed.informalSettlementGrowthYoY !== undefined) ? feed.informalSettlementGrowthYoY
+                   : null;
+    var slumFrac = (slumGrowth !== null && (slumGrowth > 1 || slumGrowth < -1)) ? slumGrowth / 100 : slumGrowth;
+    var housingUnaffordability = (feed.housingUnaffordabilityIndex !== undefined) ? feed.housingUnaffordabilityIndex
+                               : (feed.housingCostBurdenRate !== undefined) ? feed.housingCostBurdenRate
+                               : null;
+    var housingFrac = (housingUnaffordability !== null && housingUnaffordability > 1) ? housingUnaffordability / 100 : housingUnaffordability;
+    if ((slumFrac !== null && slumFrac > 0.05 && (_has('slum') || _has('informal') || _has('settlement') || _has('urban'))) ||
+        (housingFrac !== null && housingFrac > 0.40 && (_has('housing') || _has('afford') || _has('rent') || _has('cost-burden') || _has('urban'))) ||
+        _has('urbanization strain') || _has('urbanization-strain') || _has('megacity') || _has('housing crisis') || _has('housing unaffordability') || _has('urban overcrowding') || _has('slum growth')) {
+      if (_POPULATION_STRUCTURAL.urbanizationStrainFloor > floor) {
+        floor = _POPULATION_STRUCTURAL.urbanizationStrainFloor;
+        reason = 'structural: urbanization_strain' + (housingFrac !== null ? ' (housing-unaffordability ' + (housingFrac * 100).toFixed(0) + '% > 40%)' : (slumFrac !== null ? ' (slum growth ' + (slumFrac * 100).toFixed(0) + '% > 5%/yr)' : ''));
+      } else if (floor > 0) {
+        reason += ' + urbanization_strain';
+      }
+    }
+    return { floor: floor, reason: reason };
+  }
+
   function _normalizeStress(domainKey, rawStress, feed) {
     // Phase 0: domain structural-signal floor (engineering/attention-economy constraints
     // bypass commodity/market/volume dampening — mirrors energy-brain grid_stress conditions)
@@ -1435,6 +1622,7 @@
                    : (domainKey === 'industry') ? _industryStructuralFloor(feed)
                    : (domainKey === 'agriculture') ? _agricultureStructuralFloor(feed)
                    : (domainKey === 'environment') ? _environmentStructuralFloor(feed)
+                   : (domainKey === 'population') ? _populationStructuralFloor(feed)
                    : { floor: 0, reason: '' };
     if (structural.floor > rawStress) {
       rawStress = structural.floor;

@@ -2382,6 +2382,135 @@
         { label: 'investigate seminary / religious-school decline', type: 'analysis' },
         { label: 'hold', type: 'monitoring' }
       ]
+    },
+    // ─── Population pairs (parity port; mirrors energy/infra/culture/finance/economy structure) ──
+    // POPULATION / DEMOGRAPHIC identity ONLY — demographics & population dynamics, migration
+    // & immigration, urbanization & settlement, fertility & mortality, aging & generational
+    // shifts, labor-force & human-capital supply, household formation & housing demand,
+    // social structure & inequality. Population binds mostly to INDICATORS (US Census, ACS,
+    // UN World Population Prospects, Pew Research, BLS, IRS migration) — NOT single-company
+    // tickers; where demographic-exposed entities are needed, only real proxies (WELL/VTR
+    // senior-living REITs; housing/migration-exposed names). Each PAIRED domain is the
+    // COUPLING; population's OWN content stays demographics/settlement/migration/aging/
+    // household-formation/inequality. DISTINCT from economy (labor MARKET is a coupling),
+    // medicine (mortality/health is a coupling), education (enrollment is a coupling), and
+    // governance (legitimacy is a coupling). NEVER energy oil/gas/grid content. ADDITIVE —
+    // does not touch any validated scoring path. (population_supplyChain / population_governance
+    // / population_education / *_population already cover those couplings.)
+    {
+      // Mirrors 'agriculture_population' (supply-demand settlement pressure) + 'environment_population'
+      // (displacement/migration) translated to the BUILT-ENVIRONMENT settlement & household channel:
+      // urbanization → housing-demand → infrastructure capacity/permitting stress. Infrastructure is
+      // the COUPLING (capacity/permitting); population identity stays settlement & household formation.
+      id: 'population_infrastructure',
+      domains: ['population', 'infrastructure'],
+      threshold: 0.50,
+      pattern: 'urbanization-infrastructure capacity coupling',
+      drivers: ['urban-density growth rate / housing-demand surge (Census urban/metro population % change)', 'household-formation rate / housing-unit supply mismatch (Census ACS new-household formation vs housing-completions)', 'internal-migration inflow / local-infrastructure strain (Census IRS tax-return migration signals, ACS in-migration by MSA)', 'aging-in-place housing-adaptation demand / accessibility-infrastructure lag (Census age-composition & disability prevalence, AARP aging-readiness; WELL/VTR senior-housing exposure)', 'gentrification-driven displacement / community-infrastructure dislocation (Census tract demographic turnover, eviction/stability metrics)'],
+      options: [
+        { label: 'map urbanization-infrastructure capacity exposure', type: 'analysis' },
+        { label: 'investigate household-formation / housing-supply mismatch', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'economy_technology' (automation-driven employment displacement / PAYEMS shift) +
+      // 'industry_technology' (automation-displacement) translated to POPULATION-LEVEL labor-force
+      // composition & skill-readiness. Technology is the COUPLING (automation adoption); population
+      // identity stays age-cohort / human-capital supply / skill-readiness — DISTINCT from economy's
+      // macro labor MARKET (that's the coupling lens).
+      id: 'population_technology',
+      domains: ['population', 'technology'],
+      threshold: 0.50,
+      pattern: 'demographic-automation labor-displacement coupling',
+      drivers: ['automation-adoption rate correlated with regional labor-force composition (BLS regional employment by sector vs FRED technological-adoption indices)', 'age-cohort distribution vs retraining-readiness / digital-literacy gap (Census age pyramid / ACS digital-access % by demographic)', 'migration-selectivity bias / brain-drain from automation-exposed regions (Census IRS-return outflow from manufacturing-dense vs tech-hub regions)', 'household-income volatility / skill-wage premium divergence / inequality widening (Census household-income distribution / BLS wage-premium trend)', 'education-credential mismatch vs automation-driven skill-demand shift (Census educational attainment / NSF STEM-degree production vs BLS occupational demand)'],
+      options: [
+        { label: 'map demographic-automation displacement exposure', type: 'analysis' },
+        { label: 'investigate cohort skill-readiness / digital-divide coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'energy_supply' (fuel-cost / supply stress) + 'environment_population' (vulnerable-zone
+      // migration) translated to HOUSEHOLD energy-affordability / fuel-poverty vulnerability stratified
+      // by demographic group. Energy is the COUPLING (affordability/access); population identity stays
+      // demographic vulnerability (age/income/geography) — NEVER oil/gas/grid as its own content.
+      id: 'population_energy',
+      domains: ['population', 'energy'],
+      threshold: 0.45,
+      pattern: 'energy-affordability demographic-vulnerability coupling',
+      drivers: ['household-energy-cost burden by income quintile / fuel-poverty prevalence (EIA residential-energy-expenditure survey by income)', 'aging-population heating/cooling vulnerability / elderly-health risk under energy-access stress (Census age-composition + CDC heat/cold mortality by age)', 'rural-population energy-access scarcity / grid-connectivity gaps (Census rural-population % + EIA rural-electrification access, broadband-proxy)', 'low-income housing stock energy-efficiency deficit / rental-tenant heating-cooling burden (Census housing-unit efficiency distribution, tenant-homeowner gap)', 'climate-migration pressure from energy-cost-shock in vulnerable regions (Census IRS out-migration from high-cost energy regions to lower-cost destinations)'],
+      options: [
+        { label: 'map energy-affordability vulnerability exposure', type: 'analysis' },
+        { label: 'investigate fuel-poverty / aging heating-cooling coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'finance_economy' (credit-tightening / demand loss) + 'finance_systemic' (default
+      // cascade) translated to HOUSEHOLD-LEVEL credit stress & wealth-inequality by demographic.
+      // Finance is the COUPLING (credit/debt markets); population identity stays household
+      // debt-burden / credit-access stratification / wealth-inequality — DISTINCT from economy's
+      // macro aggregate.
+      id: 'population_finance',
+      domains: ['population', 'finance'],
+      threshold: 0.50,
+      pattern: 'household-debt demographic credit-access coupling',
+      drivers: ['household-debt-to-income ratio surge by demographic quintile (Census household-debt distribution / Federal Reserve Consumer Credit data by age/income)', 'student-loan default rate by demographic cohort / education-debt burden (ED National Student Loan Data System delinquency by age-cohort / Census education-attainment debt)', 'mortgage-delinquency stratification by race/ethnicity / credit-access disparity (Federal Reserve mortgage-delinquency by demographic, CFPB lending-discrimination signals)', 'retirement-savings adequacy gap / wealth-inequality expansion (Census household-wealth / retirement-account ownership by age/race)', 'household-credit-access / banking-service access by geography (unbanked/underbanked Census prevalence + FDIC deposit-access by region)'],
+      options: [
+        { label: 'trace household-debt / credit-access exposure', type: 'analysis' },
+        { label: 'investigate student-debt / wealth-inequality coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'law_governance' (compliance/enforcement-regime stress) + 'governance_core'
+      // (institutional-legitimacy crisis) translated to POPULATION-LEVEL differential legal-system
+      // exposure & access-to-justice stratification. Law is the COUPLING (legal-system/enforcement);
+      // population identity stays demographic differential exposure — DISTINCT from governance's
+      // institutional-legitimacy lens.
+      id: 'population_law',
+      domains: ['population', 'law'],
+      threshold: 0.45,
+      pattern: 'legal-access equity enforcement demographic coupling',
+      drivers: ['incarceration rate surge by demographic / criminal-justice disparity (DOJ BJS incarceration rates by race/age, recidivism by demographic)', 'civil-rights violation concentration by geography / racial-discrimination enforcement activity (DOJ civil-rights cases filed + EEOC discrimination charges by demographic)', 'legal-aid attorney availability / access-to-justice gap (Legal Services Corporation legal-aid caseload + ABA legal-access surveys by region/income)', 'immigration-enforcement intensity / deportation-rate by origin demographic (DHS ICE deportation data by country-of-origin / demographic)', 'domestic-violence victimization rate / protective-order backlog by demographic (DOJ NCVS victimization by age/gender, state court protective-order processing)'],
+      options: [
+        { label: 'trace legal-access equity exposure', type: 'analysis' },
+        { label: 'investigate incarceration / civil-rights enforcement coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'communication_core' (media-institutional sustainability) + 'narrative_infrastructure'
+      // (attention-fragmentation) translated to POPULATION-LEVEL information-access disparity &
+      // digital-divide stratification. Communication is the COUPLING (media/information ecosystem);
+      // population identity stays demographic access disparity (race/income/geography/cohort).
+      id: 'population_communication',
+      domains: ['population', 'communication'],
+      threshold: 0.45,
+      pattern: 'information-access demographic digital-divide coupling',
+      drivers: ['broadband-access disparity by race/income/geography (Census broadband-availability, FCC broadband-deployment gap maps by demographic)', 'digital-literacy gap / social-media-platform usage stratification (Pew Research digital-literacy survey by age/income/education)', 'misinformation-exposure concentration by demographic / information-ecosystem fragmentation (Pew misinformation-exposure surveys by demographic cohort)', 'news-consumption collapse in younger cohorts / generational media-diet shift (Pew news-consumption trends by age-cohort)', 'media-desert underserving rural/low-income populations / local-news collapse by geography (Hussman Institute local-news desert mapping + Census population coverage)'],
+      options: [
+        { label: 'trace information-access digital-divide exposure', type: 'analysis' },
+        { label: 'investigate misinformation-exposure / media-desert coupling', type: 'analysis' },
+        { label: 'hold', type: 'monitoring' }
+      ]
+    },
+    {
+      // Mirrors 'knowledge_arc' (research-education-technology knowledge pipeline) + 'education_research'
+      // coupling translated to POPULATION-LEVEL human-capital science production & research-equity
+      // stratification. Research is the COUPLING (science production / pipeline); population identity
+      // stays demographic representation / diversity in the research-labor-force.
+      id: 'population_research',
+      domains: ['population', 'research'],
+      threshold: 0.40,
+      pattern: 'research-capacity demographic equity pipeline coupling',
+      drivers: ['STEM-degree production by demographic / PhD-program diversity in pipeline (NSF Survey of Earned Doctorates demographic composition by field)', 'postdoctoral researcher diversity / minority-researcher mentorship capacity (NIH K-award / R-award by investigator-race trend)', 'research-opportunity access / NSF-grant award disparity by demographic (NSF grant-success rates by race/gender, NIH funding disparity analysis)', 'immigrant-scientist visa-restriction impact on research-talent supply (NSF Survey of Earned Doctorates foreign-citizen % by field / visa-category)', 'underrepresented-minority attrition in STEM pipeline / leaky-pipeline dynamics (NSF data on minority-student degree-completion rates vs enrollment)'],
+      options: [
+        { label: 'trace research-equity pipeline exposure', type: 'analysis' },
+        { label: 'investigate STEM-diversity / leaky-pipeline coupling', type: 'discovery' },
+        { label: 'hold', type: 'monitoring' }
+      ]
     }
   ];
 

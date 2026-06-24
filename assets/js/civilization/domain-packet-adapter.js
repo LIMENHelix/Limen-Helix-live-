@@ -637,6 +637,53 @@
     // finance/economy/supplyChain/industry/environment/governance/medicine win when
     // both are present (a slot is single-domain, so they never collide in practice).
     var _bedm = _emO(slot && slot.brainEducationModel);
+    // Population parity: population brains emit a recurrent DEMOGRAPHIC-LIFECYCLE
+    // model (brainPopulationModel) that follows the SAME envelope signature as
+    // energy's energyModel, infrastructure's infrastructureModel, culture's
+    // cultureModel, finance's financeModel, economy's economyModel, trade's
+    // supplyChainModel, industry's industryModel, environment's environmentModel,
+    // governance's governanceModel, medicine's medicineModel, and education's
+    // educationModel, so Civilization + the Main Brain consume it identically.
+    // The population model tracks the DEMOGRAPHIC-TRANSITION lifecycle (the
+    // fertility-decline → aging-bulge → migration-surge demographic-transition
+    // phase as populationCycle / demographicTransitionCycle; immigration-policy &
+    // birth-incentive mandate tightening — visa caps, family-reunification rules,
+    // natalist subsidies, refugee admissions — as the regulation signal,
+    // immigrationPolicyRegulation; population-collapse / aging-dependency distress
+    // — sub-replacement fertility, old-age dependency-ratio overshoot, depopulation
+    // / labor-force shrinkage, with demographic-collapse risk — predictedStress via
+    // populationCollapseRisk / agingDependencyRisk; the prior on birth-rate /
+    // life-expectancy / migration-stability health — priorPopulationHealth) rather
+    // than neurological cycles, civil-asset lifecycles, attention economies,
+    // single-firm capital lifecycles, macroeconomic business cycles, goods-in-motion
+    // logistics, factory-output production, climate / ecosystem health, institutional
+    // / policy regimes, healthcare delivery, or curriculum delivery. Population is
+    // the DEMOGRAPHICS & POPULATION-DYNAMICS / MIGRATION & IMMIGRATION / URBANIZATION
+    // & SETTLEMENT / FERTILITY & MORTALITY / AGING & GENERATIONAL-SHIFTS / LABOR-FORCE
+    // & HUMAN-CAPITAL-SUPPLY / HOUSEHOLD-FORMATION & HOUSING-DEMAND / SOCIAL-STRUCTURE
+    // & INEQUALITY layer and stays DISTINCT from economy (labor market is a COUPLING,
+    // not population's own lifecycle), from medicine (mortality / health / disease
+    // burden is a COUPLING, not population's substrate), from education (cohort
+    // enrollment is a COUPLING), and from governance (immigration policy is a
+    // regulation INPUT, not the demographic substrate). Population's cross-domain
+    // couplings (economy drawing on labor-force supply & the dependency ratio,
+    // medicine driving mortality & life expectancy, education sizing the enrollment
+    // cohort & the demographic cliff, governance setting immigration & natalist
+    // policy, finance pricing pension / longevity risk, infrastructure & housing
+    // tracking household formation & urbanization) all presume demographic-transition
+    // visibility that only a recurrent model provides. Population binds mostly to
+    // INDICATORS, not single companies; real signal validation anchors on REAL
+    // demographic sources — US Census Bureau (ACS, decennial, Population Estimates),
+    // UN World Population Prospects (WPP), Pew Research, BLS (labor-force /
+    // participation), CDC NCHS (births / deaths / fertility / life expectancy) — and,
+    // where demographic-exposed entities are needed, on REAL proxies: WELL & VTR
+    // (senior-living / aging-bulge REITs), housing & household-formation-exposed
+    // names — never energy oil/gas/grid tickers or fabricated entities, which are
+    // another domain's content. We map its demographic field names onto the shared
+    // deepBrain envelope. Energy/infrastructure/culture/finance/economy/supplyChain/
+    // industry/environment/governance/medicine/education win when both are present
+    // (a slot is single-domain, so they never collide in practice).
+    var _bpopm = _emO(slot && (slot.brainPopulationModel || slot.brainDemographicsModel));
     var deepBrain = _bem ? {
       cycle:           _num(_bem.cycle),
       predictionError: _emO(_bem.predictionError),
@@ -1354,6 +1401,110 @@
       stemWorkforcePipelineTrend: _num(_bedm.stemWorkforcePipelineTrend != null ? _bedm.stemWorkforcePipelineTrend : _bedm.stemPipelineTrend),
       credentialDevaluationRisk:  _num(_bedm.credentialDevaluationRisk),
       domainDiagnosisPacket: _emO(_bedm.domainEducationPacket) || _emO(_bedm.domainDiagnosisPacket)
+    } : _bpopm ? {
+      // Demographic-lifecycle mapped onto the shared recurrent envelope.
+      // populationCycle (demographic-transition phase) → cycle,
+      // immigrationPolicyRegulation → regulation,
+      // populationCollapseRisk / agingDependencyRisk → predictedStress,
+      // priorPopulationHealth → prior, domainPopulationPacket → domainDiagnosisPacket.
+      // Field aliases accept the brain's emitted names (brainPopulationCycle,
+      // brainDemographicTransitionCycle, brainPopulationCollapseRisk,
+      // brainAgingDependencyRisk, brainPriorPopulationHealth) stripped of the
+      // brain* prefix, so either naming flows identically.
+      cycle:           _num(
+                         _bpopm.populationCycle != null ? _bpopm.populationCycle
+                         : (_bpopm.demographicTransitionCycle != null ? _bpopm.demographicTransitionCycle
+                         : (_bpopm.demographicTransitionPhase != null ? _bpopm.demographicTransitionPhase
+                         : _bpopm.cycle))
+                       ),
+      predictionError: _emO(_bpopm.predictionError),
+      // immigrationPolicyRegulation is the population regulation signal: the
+      // tightening (or loosening) of population-policy constraint — immigration /
+      // visa caps, family-reunification & refugee-admission rules, birth-incentive
+      // / natalist subsidy mandates, family-planning policy — and how it is steering
+      // migration flows and the birth rate (analogous to energy's regulationState,
+      // infrastructure's capital-funding regulation, culture's expression state,
+      // finance's funding-source quality, economy's fiscal-monetary regulation,
+      // trade's freight-cost regulation, industry's capacity-utilization regulation,
+      // environment's climate-regulation state, governance's regulatory-constraint
+      // state, medicine's clinical-access regulation, and education's pedagogical-
+      // access regulation). Permissive / balanced / restrictive population regime.
+      regulationState: (_bpopm.immigrationPolicyRegulation && _bpopm.immigrationPolicyRegulation.state)
+                       || _str(_bpopm.immigrationPolicyRegulation)
+                       || (_bpopm.populationPolicyState && _bpopm.populationPolicyState.state)
+                       || _str(_bpopm.populationPolicyState)
+                       || (_bpopm.regulation && _bpopm.regulation.state)
+                       || null,
+      regulation:      _emO(_bpopm.immigrationPolicyRegulation) || _emO(_bpopm.populationPolicyState) || _emO(_bpopm.regulation),
+      readyForHandoff: _bpopm.readyForHandoff === true,
+      // populationCollapseRisk is the population predicted-stress signal (likelihood
+      // of a demographic-collapse / depopulation distress — sub-replacement
+      // fertility, accelerating natural decrease, labor-force shrinkage, out-
+      // migration shock), carried through unchanged in [0..1]. agingDependencyRisk
+      // is the broader old-age-dependency analogue (dependency-ratio overshoot,
+      // aging-bulge fiscal strain), and demographicStress is the generic analogue;
+      // any may stand in for predictedStress, populationCollapseRisk wins as the
+      // more acute near-term signal.
+      predictedStress: _num(
+        _bpopm.populationCollapseRisk != null ? _bpopm.populationCollapseRisk
+        : (_bpopm.agingDependencyRisk != null ? _bpopm.agingDependencyRisk
+        : (_bpopm.demographicStress != null ? _bpopm.demographicStress
+        : _bpopm.predictedStress))
+      ),
+      // priorPopulationHealth carries the prior on demographic / population-vitality
+      // health (the birth-rate / life-expectancy / migration-stability trajectory),
+      // mirroring energy's prior, infrastructure's priorAssetHealth, culture's
+      // creativeCapacity, finance's priorCapitalHealth, economy's priorGrowthTrend,
+      // trade's priorThroughputHealth, industry's priorCapacityHealth, environment's
+      // priorEnvironmentalHealth, governance's priorInstitutionalHealth, medicine's
+      // priorHealthSystemHealth, and education's priorEducationHealth. When reported
+      // as a health value ([0..1] high = at-or-above-replacement fertility, rising
+      // life expectancy, balanced age structure, stable net migration), invert into a
+      // stress (decline) expectation; an explicit expectedStress wins.
+      prior:           (_bpopm.priorPopulationHealth || _bpopm.prior)
+                       ? (function (p) {
+                           return {
+                             // expectedStress mirrors energy: here the prior
+                             // expected population-collapse / aging-dependency distress level.
+                             expectedStress: _num(
+                               p.expectedStress != null ? p.expectedStress
+                               : (p.expectedDecline != null ? p.expectedDecline
+                               : (typeof p.populationHealth === 'number' ? (1 - _clamp01(p.populationHealth))
+                               : (typeof p.demographicHealth === 'number' ? (1 - _clamp01(p.demographicHealth))
+                               : (typeof p.vitality === 'number' ? (1 - _clamp01(p.vitality))
+                               : (typeof p === 'number' ? (1 - _clamp01(p)) : null)))))
+                             ),
+                             confidence:     _num(p.confidence),
+                             samples:        _num(p.samples)
+                           };
+                         })(_bpopm.priorPopulationHealth || _bpopm.prior)
+                       : null,
+      // Demographic telemetry preserved alongside the shared envelope so downstream
+      // artifact expansion can feed population / human-capital-supply decisions
+      // (total-fertility-rate trajectory & sub-replacement gap, life-expectancy /
+      // mortality trend, net-migration & immigration flow, old-age dependency-ratio
+      // & aging-bulge, working-age labor-force-supply trend, urbanization &
+      // household-formation rate, generational-cohort shifts, social-structure /
+      // inequality trend). Sourced from REAL demographic indicators: US Census
+      // (ACS / decennial / Population Estimates), UN World Population Prospects,
+      // Pew Research, BLS labor-force participation, CDC NCHS births / deaths /
+      // fertility / life expectancy; demographic-exposed entity proxies WELL & VTR
+      // (senior-living / aging-bulge REITs) and housing / household-formation names.
+      // These are DEMOGRAPHICS / MIGRATION / FERTILITY-MORTALITY / AGING signals —
+      // distinct from economy's labor MARKET (a coupling), medicine's mortality /
+      // health (a coupling), education's cohort enrollment (a coupling), and
+      // governance's immigration policy (a regulation input).
+      fertilityRateTrend:         _num(_bpopm.fertilityRateTrend),
+      lifeExpectancyTrend:        _num(_bpopm.lifeExpectancyTrend),
+      netMigrationTrend:          _num(_bpopm.netMigrationTrend),
+      dependencyRatioTrend:       _num(_bpopm.dependencyRatioTrend),
+      laborForceSupplyTrend:      _num(_bpopm.laborForceSupplyTrend),
+      urbanizationTrend:          _num(_bpopm.urbanizationTrend),
+      householdFormationTrend:    _num(_bpopm.householdFormationTrend),
+      agingBulgeTrend:            _num(_bpopm.agingBulgeTrend),
+      socialInequalityTrend:      _num(_bpopm.socialInequalityTrend),
+      agingDependencyRisk:        _num(_bpopm.agingDependencyRisk),
+      domainDiagnosisPacket: _emO(_bpopm.domainPopulationPacket) || _emO(_bpopm.domainDiagnosisPacket)
     } : null;
 
     // Feed health. Configured count is the MAX of every honest declaration

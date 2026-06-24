@@ -384,6 +384,28 @@
       education_debt_spiral:        'Student-debt crisis deepening. Loan-default rates climbing as income-driven repayment strains borrower capacity.',
       education_skills_mismatch:    'Skills-pipeline misalignment. Employer demand and credential output diverging across the workforce.',
       education_generic:            'Education domain under stress. Schools, students, and teaching pressured.',
+      // Population-specific distress voice — demographics/migration/aging/labor-supply/household-grounded,
+      // mirrors energy's per-diagnosis narration (energy-brain diagnosisIndex: OIL_SHOCK / GRID_COLLAPSE)
+      // and the infrastructure/culture/finance/economy/technology/defense/intelligence/trade/industry/
+      // environment/governance/agriculture/education ports above, but for the POPULATION/DEMOGRAPHIC
+      // domain identity: demographics & population dynamics, migration & immigration, urbanization &
+      // settlement, fertility & mortality, aging & generational shifts, labor force & human-capital
+      // supply, household formation & housing demand, social structure & inequality. Bound to REAL
+      // DEMOGRAPHIC SOURCES — US Census / ACS, UN World Population Prospects (WPP), Pew Research, BLS
+      // labor-force series (CPS), CDC natality/mortality — NOT single companies; where demographic-
+      // exposed entities are needed, real proxies (WELL, VTR senior-living REITs; housing/migration-
+      // exposed names). Population COUPLES to economy (labor MARKET), medicine (mortality/health),
+      // education (enrollment), and governance, but keeps its own demographics/migration/aging/household
+      // identity and stays DISTINCT from each of those couplings. CLIENT-SIDE narration flavor only —
+      // never touches any scoring path.
+      population_demographic_collapse:'Population trajectory inverting. Birth rates and fertility declining below replacement; demographic cliff forming.',
+      population_aging_crisis:        'Population aging sharply. Working-age-population declining; old-age dependency spiking and pension/healthcare system strain rising.',
+      population_migration_surge:     'Migration inflows accelerating. Displaced-person and climate-migration volume spiking; resettlement and social-integration capacity overwhelmed.',
+      population_labor_shortage:      'Prime-age employment eroding. Labor-force participation falling and skill-gap widening; working-age capacity insufficient for demand.',
+      population_urbanization_strain: 'Urban systems overloading. Megacity growth outpacing infrastructure; slums expanding and housing unaffordability spiking.',
+      population_depopulation:        'Regional population loss accelerating. Rural exodus and out-migration sustained; shrinking-city dynamics threatening regional viability.',
+      population_housing_crisis:      'Housing-affordability collapse deepening. Mortgage/rent burden exceeding household capacity; household-formation stalling and homelessness risk rising.',
+      population_generic:             'Population domain under stress. Demographics, migration, aging and labor-force pressured.',
       global_shift:        'Global state shifted to {state}.',
       event_start:         '{event} detected.',
       event_end:           '{event} resolved.',
@@ -503,6 +525,14 @@
       education_debt_spiral:        'Student debt crisis. Establish income-driven-repayment hardship programs and accelerate public-service-loan-forgiveness.',
       education_skills_mismatch:    'Skills mismatch. Realign curriculum and credentials to employer demand and expand workforce-training pipelines.',
       education_generic:            'Education domain elevated. Investigate schools and student outcomes.',
+      population_demographic_collapse:'Demographic cliff forming. Plan for sub-replacement fertility; cushion the shrinking workforce and tax base.',
+      population_aging_crisis:        'Aging crisis. Old-age dependency spiking. Shore up pension/healthcare capacity and senior-living supply (WELL/VTR).',
+      population_migration_surge:     'Migration surge. Resettlement capacity overwhelmed. Scale integration, housing, and services intake now.',
+      population_labor_shortage:      'Labor shortage. Participation falling and skills gap widening. Expand pipelines, automate, and re-skill.',
+      population_urbanization_strain: 'Urban strain critical. Growth outpacing infrastructure. Expand housing supply and transit capacity.',
+      population_depopulation:        'Depopulation accelerating. Rural exodus sustained. Stabilize regional services and stem out-migration.',
+      population_housing_crisis:      'Housing crisis. Affordability collapsing. Unlock supply, ease formation barriers, and contain homelessness risk.',
+      population_generic:             'Population domain elevated. Investigate demographics and labor-force.',
       global_shift:        'State change: {state}.',
       event_start:         'Event: {event}. Tracking.',
       event_end:           'Event cleared: {event}.',
@@ -615,7 +645,7 @@
       supplyChain: 'Supply chain', infrastructure: 'Infrastructure',
       culture: 'Culture', finance: 'Finance', defense: 'Defense',
       intelligence: 'Intelligence', industry: 'Industry', governance: 'Governance',
-      education: 'Education'
+      education: 'Education', population: 'Population'
     };
 
     // Infrastructure parity: mirror energy's per-diagnosis voice. Energy distinguishes
@@ -791,6 +821,24 @@
       var edukey = _classifyEducationDistress(detail.signals);
       if (edukey) {
         _narrate(edukey, {}, PRIORITY_MEDIUM);
+        return;
+      }
+    }
+
+    // Population parity: mirror energy's per-diagnosis voice for the POPULATION/DEMOGRAPHIC domain
+    // identity (demographics & population dynamics, migration & immigration, urbanization & settlement,
+    // fertility & mortality, aging & generational shifts, labor-force & human-capital supply, household
+    // formation & housing demand, social structure & inequality). Classify the demographic distress
+    // flavor from signal content (demographic collapse / aging crisis / migration surge / labor shortage /
+    // urbanization strain / depopulation / housing crisis) and narrate a population-specific line instead
+    // of the generic '{domain} domain pressure increasing'. Bound to REAL DEMOGRAPHIC SOURCES (US Census/
+    // ACS, UN WPP, Pew, BLS/CPS, CDC) and real proxies (WELL/VTR senior-living REITs; housing/migration-
+    // exposed names), kept DISTINCT from economy (labor MARKET = coupling), medicine (mortality/health =
+    // coupling), education (enrollment = coupling), and governance. CLIENT-SIDE narration flavor only.
+    if (detail.domain === 'population') {
+      var popkey = _classifyPopulationDistress(detail.signals);
+      if (popkey) {
+        _narrate(popkey, {}, PRIORITY_MEDIUM);
         return;
       }
     }
@@ -1237,6 +1285,49 @@
     if (/achievement[\s_-]?gap|equity[\s_-]?(gap|access|erosion)|poverty[\s_-]?correlation|access[\s_-]?disparit|opportunity[\s_-]?gap|outcome[\s_-]?disparit|underserved/.test(blob)) return 'education_achievement_gap';
     if (/skills[\s_-]?(mismatch|gap)|credential[\s_-]?(output|mismatch)|workforce[\s_-]?(pipeline|training)|labor[\s_-]?pipeline|employer[\s_-]?demand|reskill|upskill|vocational|apprenticeship/.test(blob)) return 'education_skills_mismatch';
     return 'education_generic';
+  }
+
+  // Map raw population signal content → a demographic distress voice key.
+  // Population vocabulary covers the POPULATION/DEMOGRAPHIC domain identity: demographics &
+  // population dynamics, migration & immigration, urbanization & settlement, fertility & mortality,
+  // aging & generational shifts, labor-force & human-capital supply, household formation & housing
+  // demand, social structure & inequality. Bound to REAL DEMOGRAPHIC SOURCES — US Census / ACS, UN
+  // World Population Prospects (WPP), Pew Research, BLS labor-force (CPS) series, CDC natality/
+  // mortality — NOT single-company tickers; where demographic-exposed entities are needed, real
+  // proxies (WELL, VTR senior-living REITs; housing/migration-exposed names). Mirrors the energy/
+  // infra/culture/finance/economy/technology/defense/intelligence/trade/industry/environment/
+  // governance/agriculture/education classifier structure exactly. Recognizes indicator shorthand
+  // (lfpr/tfr/acs/wpp/cps) and senior-living proxies (well/vtr) alongside plain words. Population
+  // COUPLES to economy (labor MARKET), medicine (mortality/health), education (enrollment), and
+  // governance, but keeps its own demographics/migration/aging/household identity and stays DISTINCT
+  // from each coupling. Returns a TEMPLATES key, or null. CLIENT-SIDE narration flavor only — never
+  // touches any scoring path.
+  function _classifyPopulationDistress(signals) {
+    var blob = '';
+    if (Array.isArray(signals)) {
+      for (var i = 0; i < signals.length; i++) {
+        var s = signals[i];
+        if (typeof s === 'string') blob += ' ' + s;
+        else if (s && typeof s === 'object') {
+          blob += ' ' + (s.type || '') + ' ' + (s.id || '') + ' ' + (s.label || '') + ' ' + (s.name || '');
+        }
+      }
+    }
+    blob = blob.toLowerCase();
+
+    // Order by specificity: demographic collapse (sub-replacement fertility) and aging crisis are
+    // sharpest, then migration surge, depopulation (regional loss), housing crisis, urbanization
+    // strain, labor shortage; fall back to a generic population line. Matches demographic-source
+    // shorthand (census/acs/wpp/cps/tfr/lfpr) and senior-living proxies (well/vtr) alongside plain
+    // words, with word boundaries on short tokens to avoid substring collisions.
+    if (/(fertility|birth[\s_-]?rate)[\s_-]?(decline|drop|collapse)|sub[\s_-]?replacement|below[\s_-]?replacement|replacement[\s_-]?rate|demographic[\s_-]?(cliff|collapse|winter|decline)|tfr\b|baby[\s_-]?bust|population[\s_-]?(decline|inversion)/.test(blob)) return 'population_demographic_collapse';
+    if (/aging|ageing|old[\s_-]?age[\s_-]?dependency|dependency[\s_-]?ratio|graying|gray[\s_-]?wave|silver[\s_-]?tsunami|pension[\s_-]?(strain|burden)|elderly[\s_-]?(care|surge)|retiree[\s_-]?wave|median[\s_-]?age[\s_-]?(rise|spike)|well\b|vtr\b|senior[\s_-]?living/.test(blob)) return 'population_aging_crisis';
+    if (/migration[\s_-]?(surge|inflow|wave|pressure)|immigrat|refugee|displaced[\s_-]?person|asylum|climate[\s_-]?migra|border[\s_-]?(surge|crossing)|resettle|integration[\s_-]?capacity|inflow[\s_-]?accelerat/.test(blob)) return 'population_migration_surge';
+    if (/depopulat|rural[\s_-]?exodus|out[\s_-]?migration|shrinking[\s_-]?(city|cities|town)|population[\s_-]?loss|regional[\s_-]?decline|brain[\s_-]?drain|ghost[\s_-]?town|abandonment|emigrat/.test(blob)) return 'population_depopulation';
+    if (/housing[\s_-]?(crisis|affordability|shortage)|affordability[\s_-]?(collapse|crisis)|mortgage[\s_-]?burden|rent[\s_-]?burden|homeless|household[\s_-]?formation|cost[\s_-]?burdened|housing[\s_-]?(supply|unaffordab)|shelter[\s_-]?cost/.test(blob)) return 'population_housing_crisis';
+    if (/urbaniz|megacity|mega[\s_-]?city|slum|informal[\s_-]?settlement|overcrowd|urban[\s_-]?(sprawl|strain|overload)|sprawl|density[\s_-]?strain|city[\s_-]?growth/.test(blob)) return 'population_urbanization_strain';
+    if (/labor[\s_-]?(force|shortage|supply)|workforce[\s_-]?(shortage|shrink|decline)|participation[\s_-]?(rate|fall|drop)|lfpr\b|prime[\s_-]?age|working[\s_-]?age[\s_-]?(decline|shortage)|skill[\s_-]?gap|human[\s_-]?capital[\s_-]?(supply|shortage)|cps\b/.test(blob)) return 'population_labor_shortage';
+    return 'population_generic';
   }
 
   function _onGlobalStateUpdate(e) {

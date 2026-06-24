@@ -105,6 +105,48 @@
         signalType: 'production_cost_impact',
         condition: function (s) { return s.stress >= 0.60 && s.diagnoses && s.diagnoses.some(function (d) { return d.active; }); },
         magnitudeFormula: function (s) { return Math.min(1, s.stress * 0.45); }
+      },
+      // ── ENERGY → POPULATION (energy-poverty / household-energy-burden coupling) ──
+      // Mirrors the energy→agriculture input-cost transmission link. Energy price &
+      // grid stress raise the household energy burden, which propagates to the
+      // population domain as migration pressure (climate migration on grid failure +
+      // energy-cost-driven relocation), healthcare-access risk (energy-dependent
+      // medical devices), and residential-stability risk. The population brain reads
+      // this as a demographic INPUT signal, not an energy-production signal. The
+      // received magnitude is interpreted there against REAL demographic sources
+      // (US Census ACS energy-burden %, heating/cooling load, Pew climate-migration
+      // surveys) — this rule only transmits the coupling strength, never energy
+      // content. Routed stronger when the stress is grid/renewable-intermittency-led
+      // (the failure modes that translate most directly into household energy burden).
+      {
+        targetDomain: 'population',
+        signalType: 'energy_poverty_household_burden',
+        condition: function (s) {
+          var hasDx = s.diagnoses && s.diagnoses.some(function (d) { return d.active; });
+          if (!(s.stress >= 0.55 && hasDx)) return false;
+          // Require a household-energy-burden-relevant pathway: grid stress,
+          // renewable intermittency, structural stress, or crude price shock.
+          var conds = (s.diagnoses || []).filter(function (d) { return d.active; })
+            .reduce(function (acc, d) { return acc.concat(d.id || ''); }, []);
+          var burdenPathway = conds.some(function (id) {
+            return id === 'GRID_COLLAPSE' || id === 'RENEWABLE_INTERMITTENCY' ||
+                   id === 'SYSTEMIC_ENERGY_STRESS' || id === 'OIL_SHOCK';
+          });
+          return burdenPathway;
+        },
+        magnitudeFormula: function (s) {
+          // Base household-energy-burden coupling on overall energy stress, then
+          // amplify (per the gap's magnitude spec) when the driving pathway is a
+          // grid-stress or renewable-intermittency failure — the modes that hit the
+          // residential heating/cooling load hardest. stress * 0.35 when grid/
+          // renewable, otherwise a softer crude-price-driven burden (stress * 0.25).
+          var active = (s.diagnoses || []).filter(function (d) { return d.active; });
+          var gridLed = active.some(function (d) {
+            return d.id === 'GRID_COLLAPSE' || d.id === 'RENEWABLE_INTERMITTENCY';
+          });
+          var factor = gridLed ? 0.35 : 0.25;
+          return Math.min(1, s.stress * factor);
+        }
       }
     ];
   };

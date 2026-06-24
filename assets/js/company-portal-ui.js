@@ -1060,6 +1060,99 @@
       rightHtml += '</div>';
     }
 
+    // POPULATION domain — demographics & population-dynamics parity with the
+    // energy domain's company-metadata sections, mirroring the education,
+    // economy, technology, intelligence, industry, environment, agriculture,
+    // and health blocks above. STRICTLY ADDITIVE render-layer content keyed on
+    // co.domainId === 'population'; it never touches the validated P3 distress
+    // kernel (Thing1) scoring path consumed by /api/limen/score or
+    // /api/helix/helix-report/score — those run server-side off the kernel,
+    // not off these optional company-JSON display fields.
+    //
+    // IDENTITY = demographics & population dynamics, migration & immigration,
+    // urbanization & settlement, fertility & mortality, aging & generational
+    // shifts, labor-force & human-capital SUPPLY, household formation & housing
+    // demand, social structure & inequality. Population BINDS mostly to
+    // INDICATORS (US Census / ACS, UN World Population Prospects, Pew Research,
+    // BLS) not single companies; where a demographic-exposed entity is needed
+    // it uses REAL proxies (WELL, VTR senior-living REITs; housing / migration-
+    // exposed names). Kept DISTINCT from economy (labor MARKET is a coupling),
+    // medicine (mortality / health is a coupling), education (enrollment is a
+    // coupling), and governance. Energy's oil/gas/grid mix is translated to the
+    // population equivalents: demographic-structure portfolio (energy:
+    // generation mix), aging & vital-rate status (energy: maintenance/asset-age),
+    // migration & policy compliance (energy: NERC/FERC compliance), and
+    // human-capital & housing-demand position (energy: capital funding).
+    if (co.domainId === 'population') {
+      // Demographic Structure Portfolio — age/cohort/urban-rural mix + growth trend (energy: generation mix)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Demographic Structure Portfolio</div>';
+      var _dp = co.demographicPortfolio || co.populationPortfolio;
+      if (_dp && (Array.isArray(_dp) ? _dp.length : Object.keys(_dp).length)) {
+        var _dpEntries = Array.isArray(_dp)
+          ? _dp.map(function (e) { return [e.cohort || e.segment || e.type || e.label || '', e.share != null ? e.share : (e.population != null ? e.population : (e.value != null ? e.value : e.detail))]; })
+          : Object.keys(_dp).map(function (kk) { return [kk, _dp[kk]]; });
+        for (var dp = 0; dp < _dpEntries.length; dp++) {
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_dpEntries[dp][0]) + '</span><span class="cp-value">' + esc(String(_dpEntries[dp][1])) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No demographic distribution recorded (age-cohort / generational mix, urban vs rural settlement split, total population & YoY growth trend, dependency ratio — sources: US Census / ACS, UN World Population Prospects)</div>';
+      }
+      rightHtml += '</div>';
+
+      // Aging & Vital-Rate Status — fertility, mortality, median age, aging pressure (energy: maintenance/asset-age)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Aging &amp; Vital-Rate Status</div>';
+      var _vr = co.vitalRateStatus || co.agingStatus;
+      if (_vr && Object.keys(_vr).length > 0) {
+        var _vrKeys = Object.keys(_vr);
+        for (var vrk = 0; vrk < _vrKeys.length; vrk++) {
+          var _vrv = _vr[_vrKeys[vrk]];
+          var _vrStr = (_vrv && typeof _vrv === 'object' && !Array.isArray(_vrv))
+            ? Object.keys(_vrv).map(function (sk) { return sk + ': ' + _vrv[sk]; }).join('  ·  ')
+            : String(_vrv);
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_vrKeys[vrk]) + '</span><span class="cp-value">' + esc(_vrStr) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No vital-rate data (total fertility rate vs replacement, crude / age-adjusted mortality, median age & aging-pressure trend, old-age dependency ratio — sources: US Census / NCHS vital statistics, UN World Population Prospects)</div>';
+      }
+      rightHtml += '</div>';
+
+      // Migration & Policy Compliance — immigration flows, settlement policy, mobility regs (energy: NERC/FERC compliance)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Migration &amp; Policy Compliance</div>';
+      var _mp = co.migrationCompliance || co.migrationProfile;
+      if (_mp && (Array.isArray(_mp) ? _mp.length : Object.keys(_mp).length)) {
+        var _mpEntries = Array.isArray(_mp)
+          ? _mp.map(function (e) { return [e.flow || e.body || e.policy || e.label || '', (e.status != null ? e.status : (e.value != null ? e.value : e.detail)) + (e.trend ? ' (' + e.trend + ')' : '')]; })
+          : Object.keys(_mp).map(function (kk) { return [kk, _mp[kk]]; });
+        for (var mp = 0; mp < _mpEntries.length; mp++) {
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_mpEntries[mp][0]) + '</span><span class="cp-value">' + esc(String(_mpEntries[mp][1])) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No migration / policy record (net international & domestic migration flows, immigration / settlement policy exposure, naturalization & mobility compliance, region-to-region net-flow trend — sources: US Census ACS migration flows, Pew Research, UN migration estimates)</div>';
+      }
+      rightHtml += '</div>';
+
+      // Human-Capital & Housing-Demand Position — labor supply, household formation, inequality (energy: capital funding)
+      rightHtml += '<div class="cp-section">';
+      rightHtml += '<div class="cp-section-title">Human-Capital &amp; Housing-Demand Position</div>';
+      var _hc = co.humanCapitalPosition || co.housingDemandProfile;
+      if (_hc && Object.keys(_hc).length > 0) {
+        var _hcKeys = Object.keys(_hc);
+        for (var hck = 0; hck < _hcKeys.length; hck++) {
+          var _hcv = _hc[_hcKeys[hck]];
+          var _hcStr = (_hcv && typeof _hcv === 'object' && !Array.isArray(_hcv))
+            ? Object.keys(_hcv).map(function (sk) { return sk + ': ' + _hcv[sk]; }).join('  ·  ')
+            : String(_hcv);
+          rightHtml += '<div class="cp-field"><span class="cp-label">' + esc(_hcKeys[hck]) + '</span><span class="cp-value">' + esc(_hcStr) + '</span></div>';
+        }
+      } else {
+        rightHtml += '<div class="cp-empty">No human-capital / housing position (labor-force participation & working-age supply, household-formation rate & housing-demand pressure, educational-attainment / skill distribution, income & wealth inequality (Gini) — sources: BLS labor-force statistics, US Census household & income tables; demographic-exposed proxies: WELL, VTR senior-living REITs, housing / migration-exposed names)</div>';
+      }
+      rightHtml += '</div>';
+    }
+
     // Warning signals (placeholder for future)
     rightHtml += '<div class="cp-section">';
     rightHtml += '<div class="cp-section-title">Warning Signals</div>';

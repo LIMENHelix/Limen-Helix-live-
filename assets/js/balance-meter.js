@@ -743,6 +743,81 @@
     { re: /broadcast (capacity )?(recover|restor|expand|online)|transmitter (restor|back online|deploy)|(tv|radio|satellite) (broadcast )?(restor|recover|expand|online)|(broadcast|uplink|downlink) (capacity|signal) (restor|gain|expand)|station (back (on ?air)|restor)|over(-| )?the(-| )?air (restor|recover)/i, weight: 0.13, tag: 'broadcast_capacity_recovery' }
   ];
 
+  // ─── Population / demographic-native semantics ────────────────────────────
+  // Energy parity (same shape as INFRA / CULTURE / FINANCE / ECONOMY /
+  // TECHNOLOGY / DEFENSE / INTELLIGENCE / TRADE / INDUSTRY / AGRICULTURE /
+  // GOVERNANCE / COMMUNICATION above): the population domain has its OWN failure/
+  // recovery vocabulary. Where energy reads crude_above_90 / grid_stress /
+  // chokepoint, infrastructure reads grid_reliability / deferred_maintenance,
+  // culture reads the attention economy, finance reads liquidity/credit, economy
+  // reads the business cycle, technology reads the compute stack, defense reads
+  // kinetic military power, intelligence reads the collection cycle, trade reads
+  // tariffs/ports, and governance reads institutions, POPULATION reads
+  // demographics & human-population dynamics: demographics & population
+  // structure, migration & immigration, urbanization & settlement, fertility &
+  // mortality, aging & generational shifts, labor force & human-capital SUPPLY,
+  // and household formation & housing demand. Destabilizing = demographic
+  // collapse (birth-rate / fertility decline, family-formation stall), migration
+  // surge (refugee inflow, internal displacement, climate migration), aging
+  // crisis (median-age rise, old-age-dependency spike, working-age decline),
+  // labor-supply shortage (participation drop, prime-age employment loss),
+  // urbanization strain (slum growth, housing-unaffordability spike), and
+  // depopulation (rural exodus, regional out-migration, population stagnation).
+  // Stabilizing = demographic recovery (birth-rate / fertility stabilization,
+  // family-formation uptick), migration containment (resettlement, displacement
+  // recovery, absorption capacity), aging support (age-friendly housing,
+  // long-term-care capacity, intergenerational-transfer strengthening),
+  // labor-force growth (prime-age / participation recovery, workforce-age
+  // growth), urbanization resilience (affordable-housing development, slum
+  // remediation, urban-infrastructure investment), and re-population (return /
+  // regional in-migration, population stabilization).
+  //
+  // Anchors are REAL demographic SOURCES (US Census Bureau / ACS migration
+  // tabulations, UN World Population Prospects, Pew Research Center, BLS labor-
+  // force data) and demographic-exposed PROXIES (WELL / VTR senior-living &
+  // senior-housing REITs for aging; LEN / PHM / DHI housing-starts & mortgage-
+  // origination for household formation) — NEVER fabricated, NEVER oil/gas/grid
+  // content. Population BINDS MOSTLY TO INDICATORS, not single companies, and
+  // COUPLES to economy via the labor market, medicine via mortality/health,
+  // education via enrollment, and governance via policy — but its IDENTITY stays
+  // demographics & population dynamics, kept DISTINCT from economy (the MACRO
+  // aggregate / business cycle), medicine (mortality/health is a coupling),
+  // education (enrollment is a coupling), and governance (structure is a
+  // coupling). ADVISORY ONLY — wholly separate from the validated P3 distress
+  // kernel.
+  //
+  // Each entry maps a keyword pattern (matched against the domain's signal
+  // strings) to a weighted push on the destabilizing or stabilizing score —
+  // identical mechanism to energy's condition→weight mapping, population content.
+  var POPULATION_DESTABILIZING = [
+    // Demographic collapse — birth-rate / fertility decline, family-formation stall.
+    { re: /demographic (collapse|decline|winter|crisis)|birth(-| )?rate (decline|drop|fall|plunge|collapse)|fertility(-| )?rate (decline|drop|fall|below replacement|sub(-| )?replacement)|family(-| )?formation (stall|decline|delay)|baby bust|total fertility rate (decline|drop)|(un world population prospects|census).{0,30}(decline|drop)/i, weight: 0.18, tag: 'demographic_collapse' },
+    // Migration surge — refugee inflow, internal displacement, climate migration spike.
+    { re: /(refugee|migrant) (inflow|surge|wave|crisis|influx)|internal(ly)? displace(d|ment)|climate (migration|displace) (spike|surge|wave)|(mass|forced) migration|displacement (surge|spike|crisis)|asylum (surge|backlog)|border (surge|crossing surge)|(acs|census).{0,30}migration (surge|inflow)/i, weight: 0.16, tag: 'migration_surge' },
+    // Aging crisis — median-age rise, old-age-dependency spike, working-age decline.
+    { re: /(median age|population) (aging|ageing|rise|graying)|old(-| )?age dependency (ratio )?(rise|spike|surge)|dependency ratio (rise|spike|worsen)|working(-| )?age (population )?(decline|drop|shrink|contract)|aging (crisis|society|population)|super(-| )?aged|(well|vtr).{0,30}(occupancy decline|demand surge)|elder(ly)? (boom|wave)/i, weight: 0.16, tag: 'aging_crisis' },
+    // Labor-supply shortage — participation drop, prime-age employment loss.
+    { re: /labor(-| )?force participation (drop|decline|fall|low)|participation rate (drop|decline|fall)|prime(-| )?age (employment|worker) (loss|decline|drop)|(labor|worker|workforce) (shortage|shrink|supply (gap|shortfall))|human(-| )?capital (supply )?(shortage|gap)|(bls).{0,30}participation (drop|decline)/i, weight: 0.15, tag: 'labor_supply_shortage' },
+    // Urbanization strain — megacity slum growth, housing-unaffordability spike.
+    { re: /(megacity|urban) slum (growth|expansion)|slum(-| )?population (growth|surge)|housing(-| )?(un)?affordab(le|ility) (spike|crisis|worsen)|housing (cost|price) (unaffordab|crisis|surge)|urbanization (strain|pressure|overload)|(overcrowd|informal settlement) (growth|surge)|housing (shortage|deficit) (urban|spike)/i, weight: 0.13, tag: 'urbanization_strain' },
+    // Depopulation — rural exodus, regional out-migration, population stagnation.
+    { re: /depopulat(e|ion)|rural (exodus|depopulat|decline|flight)|regional out(-| )?migration|population (stagnat|shrink|decline|loss)|net out(-| )?migration|(town|region|county) (shrink|empty|hollow)|brain drain|(census|acs).{0,30}(out(-| )?migration|population loss)/i, weight: 0.14, tag: 'depopulation' }
+  ];
+  var POPULATION_STABILIZING = [
+    // Demographic recovery — birth-rate / fertility stabilization, family-formation uptick.
+    { re: /demographic (recovery|stabiliz|rebound)|birth(-| )?rate (stabiliz|recover|uptick|rise|rebound)|fertility(-| )?rate (recover|stabiliz|rise|rebound|uptick)|family(-| )?formation (uptick|rise|recover|rebound)|baby (boom|bump)|total fertility rate (rise|recover|stabiliz)|(pew|census).{0,30}(birth|fertility) (rise|recover)/i, weight: 0.16, tag: 'demographic_recovery' },
+    // Migration containment — resettlement rate, displacement recovery, absorption capacity.
+    { re: /(refugee|migrant) resettlement (rate|gain|success)|internal(-| )?displacement (recover|return|resolv)|climate(-| )?migration (absorption|capacity)|(migration|displacement) (absorption|integration|containment)|(asylum|refugee) (integration|absorption) (capacity|gain)|orderly (migration|resettlement)|return (migration|migrant) (rate|gain)/i, weight: 0.15, tag: 'migration_containment' },
+    // Aging support — age-friendly housing, long-term-care capacity, intergenerational transfer.
+    { re: /age(-| )?friendly housing (build|expand|deploy)|long(-| )?term(-| )?care (capacity )?(expand|build|gain)|senior(-| )?(housing|living) (capacity|build|expand|occupancy gain)|intergenerational(-| )?transfer (strengthen|system|gain)|(well|vtr).{0,30}(occupancy gain|capacity expand|build(-| )?out)|elder(-| )?care (capacity|build) (expand|gain)/i, weight: 0.15, tag: 'aging_support' },
+    // Labor-force growth — prime-age / participation recovery, workforce-age growth.
+    { re: /labor(-| )?force participation (recover|rise|gain|uptick)|participation rate (rise|recover|gain)|prime(-| )?age (employment|worker) (uptick|rise|gain|recover)|workforce(-| )?age (population )?(growth|rise|expand)|(labor|worker|workforce) (supply )?(growth|expand|recover)|(bls).{0,30}participation (rise|recover)/i, weight: 0.14, tag: 'labor_force_growth' },
+    // Urbanization resilience — affordable-housing development, slum remediation, urban investment.
+    { re: /affordable(-| )?housing (development|build|deploy) (rate|gain|surge)|slum (remediation|upgrade|clearance)|urban(-| )?infrastructure (investment|build|upgrade)|housing (supply|development|starts) (rise|expand|surge)|(len|phm|dhi).{0,30}(housing(-| )?start|origination) (rise|surge|gain)|informal settlement (upgrade|remediat)/i, weight: 0.14, tag: 'urbanization_resilience' },
+    // Re-population — return / regional in-migration, population stabilization.
+    { re: /re(-| )?populat(e|ion)|return migration (rate|rise|gain)|regional in(-| )?migration|population (stabiliz|recover|rebound|growth)|net in(-| )?migration|(town|region|county) (revival|repopulat|growth)|reverse (brain drain|migration)|(census|acs).{0,30}(in(-| )?migration|population (gain|growth))/i, weight: 0.14, tag: 'repopulation' }
+  ];
+
   // Scan a domain's signal strings against a civil pattern table and return the
   // summed weighted contribution (clamped). Mirrors how energy accumulates its
   // condition-driven pressure, but over civil-native keywords.
@@ -1070,6 +1145,37 @@
         _communicationDestabTags = _cmd.tags;
       }
 
+      // ── Population / demographic-native destabilizing pathways (energy parity) ──
+      // For the population domain ONLY, add demographic pressure from named
+      // failure pathways found in the live signal strings (demographic collapse:
+      // birth-rate / fertility decline & family-formation stall; migration surge:
+      // refugee inflow / internal displacement / climate migration; aging crisis:
+      // median-age rise / old-age-dependency spike / working-age decline; labor-
+      // supply shortage: participation drop / prime-age employment loss;
+      // urbanization strain: slum growth / housing-unaffordability spike;
+      // depopulation: rural exodus / regional out-migration / population
+      // stagnation). This is the demographic analogue of energy's crude_above_*/
+      // grid_stress, infrastructure's grid_reliability/deferred_maintenance,
+      // culture's backlash/audience collapse, finance's liquidity/credit,
+      // economy's business-cycle, technology's compute-stack, defense's readiness,
+      // intelligence's collection, trade's tariff/port, industry's factory-output,
+      // agriculture's crops, governance's institutions, and communication's
+      // channels weighting — anchored to real demographic SOURCES (US Census/ACS,
+      // UN World Population Prospects, Pew Research, BLS labor-force) and
+      // demographic-exposed PROXIES (WELL/VTR senior-living REITs; LEN/PHM/DHI
+      // housing). IDENTITY stays demographics & population dynamics (couples to
+      // economy via the labor market, medicine via mortality/health, education via
+      // enrollment, governance via policy — distinct from economy's MACRO
+      // aggregate, medicine's mortality/health, education's enrollment, and
+      // governance's structure). ADVISORY ONLY — wholly separate from the
+      // validated P3 distress kernel.
+      var _populationDestabTags = null;
+      if (k === 'population') {
+        var _pd = _infraSignalScore(signals, POPULATION_DESTABILIZING);
+        destab += _pd.score;
+        _populationDestabTags = _pd.tags;
+      }
+
       destab = _clamp(destab, 0, 1);
 
       // ─── Stabilizing score ─────────────────────────────────────
@@ -1357,6 +1463,36 @@
         _communicationStabTags = _cms.tags;
       }
 
+      // ── Population / demographic-native stabilizing pathways (energy parity) ──
+      // Demographic recovery vocabulary: demographic recovery (birth-rate /
+      // fertility stabilization, family-formation uptick), migration containment
+      // (resettlement rate, displacement recovery, absorption capacity), aging
+      // support (age-friendly housing, long-term-care capacity, intergenerational-
+      // transfer strengthening), labor-force growth (prime-age / participation
+      // recovery, workforce-age growth), urbanization resilience (affordable-
+      // housing development, slum remediation, urban-infrastructure investment),
+      // and re-population (return / regional in-migration, population
+      // stabilization). Mirrors energy's falling-trend / declining-volatility
+      // stabilizers, infrastructure's funding-renewal / repair-completion,
+      // culture's fanbase-momentum / mainstream-adoption, finance's liquidity-
+      // restoration / capital-strengthening, economy's labor-recovery /
+      // productivity, technology's fab-capacity / breakthrough, defense's force-
+      // modernization / alliance-strengthening, intelligence's
+      // improved-observability / collection-expansion, trade's tariff-
+      // normalization / port-reopening, industry's capacity-modernization /
+      // output-recovery, governance's institutional-strengthening / policy-
+      // passage, and communication's network-resilience / connectivity-
+      // restoration, with demographic semantics from the live signals — anchored
+      // to real demographic SOURCES (Census/ACS, UN WPP, Pew, BLS) and proxies
+      // (WELL/VTR; LEN/PHM/DHI). ADVISORY ONLY — wholly separate from the
+      // validated P3 distress kernel.
+      var _populationStabTags = null;
+      if (k === 'population') {
+        var _ps = _infraSignalScore(signals, POPULATION_STABILIZING);
+        stab += _ps.score;
+        _populationStabTags = _ps.tags;
+      }
+
       stab = _clamp(stab, 0, 1);
 
       // ─── Net balance ───────────────────────────────────────────
@@ -1459,6 +1595,14 @@
       if (k === 'communication') {
         _balance[k].destabilizingFactors = _communicationDestabTags || [];
         _balance[k].stabilizingFactors = _communicationStabTags || [];
+      }
+
+      // Surface the population/demographic-native pathways that drove the
+      // population score (energy parity: name the conditions, don't hide them
+      // behind a scalar).
+      if (k === 'population') {
+        _balance[k].destabilizingFactors = _populationDestabTags || [];
+        _balance[k].stabilizingFactors = _populationStabTags || [];
       }
 
       // Detect state shift

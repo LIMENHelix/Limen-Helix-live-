@@ -731,8 +731,76 @@
       analystEnabled: true,
       connectomeNodes: [31, 1],  // Hypothalamus + mPFC
       feeds: [
-        { name: 'World Bank Population', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.worldbank.org/v2/country/all/indicator/SP.POP.TOTL?format=json' },
-        { name: 'UN Population', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'population.un.org/dataportalapi/api/v1/data/indicators/' }
+        // ── Demographic "price/cost" discovery anchors (the population "crude price" baseline) ──
+        // Population equivalent of energy's EIA/FRED commodity anchors: instead of oil/gas
+        // spot prices, population's quantitative spine is the VITAL-RATE COMPLEX — fertility
+        // (crude birth rate / total fertility rate = the "crude oil" primary input), mortality
+        // (crude death rate / mortality by cause = the "refining" output), and net migration
+        // (= the "trading" flow). These three identity rates need quantitative high-frequency
+        // discovery, plus a supply/demand-balance forecast (population projections, dependency
+        // ratios, age structure = the demographic dividend/burden). Every endpoint is a REAL
+        // public/government or institutional source (US Census, UN WPP, CDC NCHS, FRED, BLS,
+        // DHS, Pew). Population binds to INDICATORS not single companies. This closes the
+        // asymmetry where population had only World Bank total + a generic UN stub and no live
+        // vital-rate price-discovery, projection-forecast, or institutional-quality anchor like
+        // energy. Labor market (economy), mortality/health (medicine), enrollment (education)
+        // and governance remain COUPLINGS, not population's own content.
+        // -- Fertility & mortality identity: vital-rate price discovery (the "crude oil + refining" of population) --
+        { name: 'CDC WONDER Natality', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'wonder.cdc.gov/controller/datarequest/D149', feedClass: 'fertility', metric: 'births' }, // CDC NCHS births by age/race/state — US birth-rate discovery (mirrors EIA Petroleum LIVE role)
+        { name: 'CDC WONDER Mortality', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'wonder.cdc.gov/controller/datarequest/D158', feedClass: 'mortality', metric: 'deaths' }, // CDC NCHS deaths by cause/age/state — US mortality discovery (the "refining" output)
+        { name: 'CDC NCHS Vital Statistics Rapid Release', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.cdc.gov/nchs/nvss/vsrr.htm', feedClass: 'vital_rates' }, // monthly provisional births/deaths — high-frequency vital-rate trend (mirrors WASDE directional cadence)
+        { name: 'UN Demographic Yearbook', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'unstats.un.org/unsd/demographic-social/products/dyb/', feedClass: 'vital_rates' }, // global births/deaths by country — international vital-rate context
+        { name: 'DHS Program API', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.dhsprogram.com/rest/dhs/data?indicatorIds=FE_FRTR_W_TFR,FE_FRTR_W_CBR', feedClass: 'fertility' }, // Demographic & Health Surveys — TFR/CBR by country (fertility "crude" for the developing world)
+        { name: 'Guttmacher Institute Data', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.guttmacher.org/data', feedClass: 'fertility' }, // family-planning / fertility-determinant research — fertility input context
+        // -- FRED demographic macro series (real series_ids — analogue to economy's FRED depth) --
+        { name: 'FRED US Crude Birth Rate', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=SPDYNCBRTINUSA', feedClass: 'fertility', metric: 'crude_birth_rate' }, // crude birth rate, US (annual) — fertility trend anchor (mirrors FRED Crude Oil LIVE)
+        { name: 'FRED US Crude Death Rate', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=SPDYNCDRTINUSA', feedClass: 'mortality', metric: 'crude_death_rate' }, // crude death rate, US (annual) — mortality trend anchor
+        { name: 'FRED US Total Fertility Rate', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=SPDYNTFRTINUSA', feedClass: 'fertility', metric: 'tfr' }, // total fertility rate, US (annual) — births-per-woman replacement signal
+        { name: 'FRED US Age Dependency Ratio', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=SPPOPDPNDUSA', feedClass: 'dependency', metric: 'dependency_ratio' }, // age dependency ratio, US (annual) — demographic-dividend/burden balance (the supply/demand forecast)
+        { name: 'FRED US Population 65+', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=SPPOP65UPTOZSUSA', feedClass: 'aging', metric: 'pct_65_plus' }, // population ages 65+ % of total, US (annual) — aging / generational-shift signal
+        { name: 'FRED US Net Migration', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=SMPOPNETMUSA', feedClass: 'migration', metric: 'net_migration' }, // net migration, US (5-yr) — migration-flow trend (the "trading flow")
+        { name: 'FRED US Total Households', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=TTLHHM156N', feedClass: 'household_formation', metric: 'total_households' }, // total US households (monthly) — household-formation / housing-demand driver
+        { name: 'FRED US Labor Force Participation', apiKey: 'FRED_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.stlouisfed.org/fred/series/observations?series_id=CIVPART', feedClass: 'labor_supply', metric: 'lfpr' }, // civilian labor force participation rate (monthly) — labor-supply / human-capital signal
+        // -- Demographics & population dynamics: census + projection supply/demand balance --
+        { name: 'US Census ACS 1-Year', apiKey: 'CENSUS_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.census.gov/data/2022/acs/acs1', feedClass: 'demographics' }, // American Community Survey 1-yr — rolling population/age/income/household discovery
+        { name: 'US Census ACS 5-Year', apiKey: 'CENSUS_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.census.gov/data/2022/acs/acs5', feedClass: 'demographics' }, // ACS 5-yr — small-area demographic detail
+        { name: 'US Census Population Estimates', apiKey: 'CENSUS_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.census.gov/data/2023/pep/population', feedClass: 'demographics' }, // annual population estimates by geography — between-decennial population trend
+        { name: 'US Census Decennial', apiKey: 'CENSUS_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.census.gov/data/2020/dec/pl', feedClass: 'demographics' }, // 2020 decennial — population baseline / apportionment
+        { name: 'UN World Population Prospects', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'population.un.org/dataportalapi/api/v1/data/indicators/47/locations/all', feedClass: 'projection' }, // UN WPP projections by country/age (annual) — the supply/demand-balance forecast (mirrors USDA WASDE)
+        { name: 'World Bank Population', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.worldbank.org/v2/country/all/indicator/SP.POP.TOTL?format=json', feedClass: 'demographics' }, // total population (annual) — original baseline (retained)
+        { name: 'UN Population Data Portal', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'population.un.org/dataportalapi/api/v1/data/indicators/', feedClass: 'demographics' }, // UN population indicators — generic baseline (retained)
+        // -- Migration & immigration + urbanization & settlement flows --
+        { name: 'IOM World Migration Report', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'worldmigrationreport.iom.int/', feedClass: 'migration' }, // IOM bilateral migration flows / stocks — international migration-flow discovery
+        { name: 'UN-Habitat Urban Data', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'data.unhabitat.org/', feedClass: 'urbanization' }, // urban population / settlement indicators — urbanization & settlement signal
+        { name: 'US Census Migration Flows', apiKey: 'CENSUS_API_KEY', status: FEED_STATUS.LIVE, endpoint: 'api.census.gov/data/2022/acs/flows', feedClass: 'migration' }, // county-to-county migration flows — internal-migration discovery
+        // -- Labor force supply projections (BLS — human-capital supply by demographic) --
+        { name: 'BLS Labor Force Projections', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.bls.gov/emp/tables/civilian-labor-force-summary.htm', feedClass: 'labor_supply' }, // BLS labor force projections by age/sex/race — labor-supply forecast
+        { name: 'BLS Labor Force Statistics (CPS)', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.bls.gov/publicAPI/v2/timeseries/data/', feedClass: 'labor_supply' }, // CPS labor force by demographic — participation / unemployment by group
+        // ── Demographic-exposed REAL proxies (never fabricated; indicators-bound domain, proxies only where housing/aging demand needs a price) ──
+        // Population mostly binds to indicators; where demographic demand needs a tradable
+        // price the proxies are REAL listed senior-living / housing / aging-exposed names mapped
+        // to the relevant vital rate (aging → senior-living occupancy; household formation →
+        // housing demand). Tickers are REAL: WELL/VTR/OHI/SBRA/HCM-class healthcare REITs +
+        // housing/migration-exposed names. These are DEMAND proxies, not population's identity.
+        { name: 'Polygon.io WELL', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/WELL/prev', feedClass: 'senior_living', ticker: 'WELL' },  // Welltower — senior-living / aging-population housing-demand proxy
+        { name: 'Polygon.io VTR', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/VTR/prev', feedClass: 'senior_living', ticker: 'VTR' },    // Ventas — senior housing / healthcare REIT (aging demand)
+        { name: 'Polygon.io OHI', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/OHI/prev', feedClass: 'senior_living', ticker: 'OHI' },    // Omega Healthcare — skilled-nursing REIT (oldest-old demand)
+        { name: 'Polygon.io SBRA', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/SBRA/prev', feedClass: 'senior_living', ticker: 'SBRA' }, // Sabra Health Care — senior-care REIT (aging demand)
+        { name: 'Polygon.io AVB', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/AVB/prev', feedClass: 'household_formation', ticker: 'AVB' }, // AvalonBay — apartment REIT (household-formation / migration housing demand)
+        { name: 'Polygon.io INVH', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/INVH/prev', feedClass: 'household_formation', ticker: 'INVH' }, // Invitation Homes — single-family rental (family-formation housing demand)
+        { name: 'Polygon.io LEN', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.polygon.io/v2/aggs/ticker/LEN/prev', feedClass: 'household_formation', ticker: 'LEN' }, // Lennar — homebuilder (household-formation / new-household demand)
+        { name: 'Zillow Research Data', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.zillow.com/research/data/', feedClass: 'household_formation' }, // Zillow housing / migration indices — housing-demand & migration-flow proxy
+        // ── Institutional-quality anchors (census coverage / vital-registration completeness) ──
+        // Analogue of education's CHEA accreditation + energy's NERC reliability + governance's
+        // WGI: data-system quality is itself a signal. Census coverage error and vital-
+        // registration completeness gate how trustworthy every rate above is.
+        { name: 'US Census Coverage Measurement', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.census.gov/programs-surveys/decennial-census/decade/coverage-estimation.html', feedClass: 'data_quality' }, // census coverage / undercount by geography — population-count reliability anchor
+        { name: 'World Bank Vital Registration Completeness', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'api.worldbank.org/v2/country/all/indicator/SP.REG.BRTH.ZS?format=json', feedClass: 'data_quality' }, // birth-registration completeness by country — vital-rate reliability anchor
+        { name: 'WHO Excess Mortality / Mortality Database', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.who.int/data/data-collection-tools/who-mortality-database', feedClass: 'data_quality' }, // WHO mortality-data completeness / excess-mortality — death-data reliability anchor
+        // ── Qualitative signals (demographic research / sector context) ──
+        { name: 'Pew Research Demographics', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.pewresearch.org/topic/population-trends/feed/', feedClass: 'sector_research' }, // Pew demographic research / surveys — generational & social-structure context
+        { name: 'US Census Newsroom', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.census.gov/newsroom/press-releases.rss', feedClass: 'sector_news' }, // Census releases — estimates / ACS / migration announcements
+        { name: 'PRB Population Reference Bureau', apiKey: null, status: FEED_STATUS.PUBLIC, endpoint: 'www.prb.org/feed/', feedClass: 'sector_research' } // PRB — global population dynamics / aging / household analysis
       ],
       diagnostics: [],
       treatments: [],

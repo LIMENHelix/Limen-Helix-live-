@@ -418,7 +418,78 @@
     // the education-primary lane, exactly as defense promoted 'defense-procurement'.
     'student-outcome-improvement', 'curriculum-modernization',
     'teacher-development-funding', 'access-equity-program',
-    'institutional-consolidation'
+    'institutional-consolidation',
+    // ─── Population-native PRIMARY lanes (additive) ───────────────────────
+    // Population RUNTIME KEY in this file is 'population' (URL/portal key is also
+    // 'population'). Population IDENTITY = demographics & population dynamics,
+    // migration & immigration, urbanization & settlement, fertility & mortality,
+    // aging & generational shifts, labor-force & human-capital supply, household
+    // formation & housing demand, social structure & inequality. Population binds
+    // mostly to INDICATORS, not single companies — anchored by demographic data
+    // authorities (US Census Bureau / ACS, UN World Population Prospects, Pew
+    // Research, BLS, CDC NVSS mortality, CMS long-term-care quality), and where a
+    // demographic-EXPOSED entity is genuinely needed it uses real proxies: senior-
+    // living / elder-care REITs and operators (WELL Welltower, VTR Ventas, BSR /
+    // Brookdale-type nursing chains), and housing / migration-exposed names. Never
+    // fabricated tickers, never energy oil/gas/grid content.
+    //
+    // Population is DISTINCT from economy (the LABOR MARKET is a COUPLING, not
+    // population's own content), medicine/health (MORTALITY & disease-burden is a
+    // COUPLING, not population's content), education (ENROLLMENT-POOL is a COUPLING),
+    // and governance (immigration/settlement POLICY is a COUPLING, not population's
+    // demographic identity).
+    //
+    // BEFORE this block, population appeared ONLY as a SECONDARY co-eligible
+    // participant in other domains' lanes (research-papers anyDomain, line 477;
+    // research-grants binds via medicine/health/science, line 462; access-equity-
+    // program lists population as the enrollment-pool COUPLING, line 864). It NEVER
+    // owned a PRIMARY source lane the way defense owns 'defense-procurement' (line 76),
+    // intelligence owns 'intelligence-operations' (line 96), industry owns 'industrial-
+    // capacity-investment' (line 161), governance owns 'regulatory-compliance-
+    // modernization' (line 197), agriculture owns 'crop-input-financing' (line 246),
+    // medicine owns 'clinical-trial-capacity' (line 306), communication owns
+    // 'broadcast-infrastructure-modernization' (line 361), and education owns
+    // 'student-outcome-improvement' (line 419). This block brings population to
+    // PRIMARY-lane parity — population is the negotiator, not a support domain:
+    //   'demographic-resilience-investment' — one bounded population-health /
+    //       migration-integration / settlement-infrastructure program for a single
+    //       bounded jurisdiction or operator routed to the population negotiator
+    //       (analogous to 'clinical-trial-capacity' for medicine, 'industrial-capacity-
+    //       investment' for industry as a PRIMARY single-domain lane). Single-domain:
+    //       one bounded resilience program (a region's settlement-infrastructure /
+    //       migration-integration / population-health build-out), so cross-node multi-
+    //       domain aggregations are routed away. Population-primary, with the
+    //       resilience-adjacent domains that originate demand (governance =
+    //       immigration/settlement policy & public funding, economy = labor-supply &
+    //       household-formation demand, infrastructure = housing/settlement physical
+    //       build-out, health = the population-health COUPLING). Anchored to Census /
+    //       ACS / UN World Population Prospects / Pew demographic indicators, with
+    //       housing/settlement-exposed proxies where an entity is needed. Passing this
+    //       gate signals only "sufficient packet detail to attempt a demographic-
+    //       resilience note" — NOT a population prediction, NOT a policy, NOT any
+    //       guarantee.
+    //   'aging-infrastructure-modernization' — one bounded elder-care / pension-system
+    //       / long-term-care facility capex / modernization program (analogous to
+    //       'manufacturing-modernization' for a single production base, 'broadcast-
+    //       infrastructure-modernization' for a single network). Single-domain: a
+    //       modernization targets one bounded elder-care / LTC operator or pension
+    //       regime. Population-primary, with the aging-adjacent domains (health = the
+    //       care-delivery COUPLING, finance = pension-system funding & capex capital,
+    //       infrastructure = senior-living / LTC physical plant, economy = the
+    //       generational/dependency-ratio cycle). Anchored to real elder-care /
+    //       senior-living operators & REITs (WELL Welltower, VTR Ventas; Brookdale /
+    //       BSR-type nursing chains) and CDC NVSS mortality / CMS long-term-care
+    //       quality indicators — never energy operators, never fabricated tickers.
+    // Like the defense/intelligence/industry/governance/agriculture/medicine/
+    // communication/education blocks, these gates are LIVE (reachable): a population
+    // opportunity whose lane hints are empty falls through to the full LANES list in
+    // recompute(), so it is tested against these population-primary gates. The paired
+    // follow-up (NOT done here — single-file edit) is promoting 'demographic-resilience-
+    // investment' into DOMAIN_LANE_HINTS.population in cross-node-opportunity.js (and
+    // the complementary LANE_GATES / LANE_TO_PATH updates in artifact-packet-builder.js)
+    // so the emitter prefers the population-primary lane, exactly as defense promoted
+    // 'defense-procurement' into its hint list.
+    'demographic-resilience-investment', 'aging-infrastructure-modernization'
     // ─── DESIGN NOTE — future trade-native lanes (NOT added now) ──────────
     // Per the wiring-gap analysis: trade currently participates as a SECONDARY
     // participant (via supplyChain in business-grants/sba-loans/franchise/credit-
@@ -873,7 +944,47 @@
     //   signals only "sufficient packet detail to attempt an institutional-consolidation
     //   note" — NOT a merger decision, NOT an accreditation ruling, NOT any prediction.
     //   Real multi-institution operators: ATGE, LAUR, STRA, LOPE.
-    'institutional-consolidation':     { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['education','finance','governance'] }
+    'institutional-consolidation':     { minEvidence: 0.50, minConfidence: 0.55, singleDomainOnly: false, anyDomain: ['education','finance','governance'] },
+    // ─── Population-native PRIMARY lane gates (additive) ──────────────────
+    // Population RUNTIME KEY is 'population' (URL/portal key 'population'). Population
+    // is DISTINCT from economy (labor market is a COUPLING), medicine/health
+    // (mortality/disease-burden is a COUPLING), education (enrollment-pool is a
+    // COUPLING), and governance (immigration/settlement policy is a COUPLING). It
+    // binds mostly to INDICATORS (US Census/ACS, UN World Population Prospects, Pew,
+    // BLS, CDC NVSS, CMS LTC quality), with senior-living/elder-care REIT proxies
+    // (WELL, VTR; Brookdale/BSR-type nursing chains) where an entity is needed —
+    // never energy operators, never fabricated tickers.
+    //
+    // demographic-resilience-investment — one bounded population-health / migration-
+    //   integration / settlement-infrastructure program for a single bounded
+    //   jurisdiction or operator routed to the population negotiator (analogous to
+    //   clinical-trial-capacity / industrial-capacity-investment as a PRIMARY single-
+    //   domain lane). singleDomainOnly: one bounded resilience program, so cross-node
+    //   multi-domain aggregations are routed away. Population-primary, with the
+    //   resilience-adjacent domains that originate demand (governance = immigration/
+    //   settlement policy & public funding, economy = labor-supply & household-formation
+    //   demand, infrastructure = housing/settlement physical build-out, health = the
+    //   population-health COUPLING). Anchored to Census/ACS/UN WPP/Pew demographic
+    //   indicators, housing/settlement-exposed proxies where an entity is needed.
+    //   Passing this gate signals only "sufficient packet detail to attempt a
+    //   demographic-resilience note" — NOT a population prediction, NOT a policy, NOT
+    //   any guarantee.
+    'demographic-resilience-investment':  { minEvidence: 0.55, minConfidence: 0.60, singleDomainOnly: true,  anyDomain: ['population','governance','economy','infrastructure','health'] },
+    // aging-infrastructure-modernization — one bounded elder-care / pension-system /
+    //   long-term-care facility capex / modernization program (analogous to
+    //   manufacturing-modernization for a single production base, broadcast-
+    //   infrastructure-modernization for a single network). singleDomainOnly: a
+    //   modernization targets one bounded elder-care / LTC operator or pension regime.
+    //   Population-primary, with the aging-adjacent domains (health = the care-delivery
+    //   COUPLING, finance = pension-system funding & capex capital, infrastructure =
+    //   senior-living / LTC physical plant, economy = the generational/dependency-ratio
+    //   cycle). Anchored to real elder-care / senior-living operators & REITs (WELL
+    //   Welltower, VTR Ventas; Brookdale / BSR-type nursing chains) and CDC NVSS
+    //   mortality / CMS long-term-care quality indicators — never energy operators,
+    //   never fabricated tickers. Passing this gate signals only "sufficient packet
+    //   detail to attempt an aging-infrastructure note" — NOT a capex decision, NOT
+    //   a funding decision, NOT any prediction.
+    'aging-infrastructure-modernization': { minEvidence: 0.55, minConfidence: 0.60, singleDomainOnly: true,  anyDomain: ['population','health','finance','infrastructure','economy'] }
   };
 
   var _last = { lanes: {}, timestamp: 0, totalPackets: 0 };
@@ -975,6 +1086,8 @@
       case 'teacher-development-funding': return 'Domains ' + doms + ' indicate recruitment / training / professional-development funding opportunity for a single bounded district / institution routed to the education negotiator — a single counterparty file (analogous to an SBA borrower or factory-output-financing); anchored by teacher-prep / credentialing operators (ATGE/LOPE/STRA/UTI); not a funding decision, not any prediction.';
       case 'access-equity-program': return 'Domains ' + doms + ' indicate enrollment growth / access-barrier removal for a single bounded population (financial-aid expansion, first-gen access, affordability, student-debt relief) routed to the education negotiator — anchored by broad-access enrollment operators (LOPE/STRA/ATGE/LAUR); the enrollment pool is a population coupling, not education\'s own content; not an enrollment decision, not any prediction.';
       case 'institutional-consolidation': return 'Domains ' + doms + ' indicate merger / affiliation / partnership across schools/universities routed to the education negotiator — an inherently multi-domain structural artifact spanning operations, acquisition capital and the accreditation/governance regime; anchored by multi-institution operators (ATGE/LAUR/STRA/LOPE); not a merger decision, not an accreditation ruling, not any prediction.';
+      case 'demographic-resilience-investment': return 'Domains ' + doms + ' indicate a bounded population-health / migration-integration / settlement-infrastructure program for a single bounded jurisdiction or operator routed to the population negotiator — anchored to demographic authorities (US Census/ACS, UN World Population Prospects, Pew, BLS) with housing/settlement-exposed proxies where an entity is needed; not a population prediction, not a policy, not any guarantee. Distinct from economy (labor market is a coupling), medicine/health (mortality is a coupling), education (enrollment pool is a coupling) and governance (immigration/settlement policy is a coupling).';
+      case 'aging-infrastructure-modernization': return 'Domains ' + doms + ' indicate a bounded elder-care / pension-system / long-term-care facility capex / modernization program for a single bounded operator or regime routed to the population negotiator — anchored by real senior-living / elder-care operators & REITs (WELL Welltower, VTR Ventas; Brookdale/BSR-type nursing chains) and CDC NVSS mortality / CMS long-term-care quality indicators; not a capex decision, not a funding decision, not any prediction. Care delivery is a health coupling, pension funding a finance coupling — not population\'s own demographic content.';
     }
     return '';
   }

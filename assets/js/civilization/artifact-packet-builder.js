@@ -355,7 +355,37 @@
     'teacher-development-funding':  'INVESTABLE',
     'access-equity-program':        'INVESTABLE',
     'institutional-consolidation':  'INVESTABLE',
-    'learning-outcomes-research':   null
+    'learning-outcomes-research':   null,
+    // ─── Population / demographic-native fan-out lanes (additive) ───────────
+    // The population domain (demographics & population dynamics, migration &
+    // immigration, urbanization & settlement, fertility & mortality, aging &
+    // generational shifts, labor-force / human-capital SUPPLY, household
+    // formation & housing demand, social structure & inequality) emits to
+    // demographic-resilience / aging-infrastructure-shaped lanes beyond the
+    // generic grant/loan/investment set. Without entries here those lanes hit
+    // the "key absent" branch and emit UNKNOWN_LANE_FOR_PATH_MAP (warn),
+    // demoting every population artifact routed through them — exactly the
+    // trade / industry / environment / governance / communication / education
+    // gap fixed above. These are LANE keys (not domain keys), mirroring how
+    // sba-loans / investments map to INVESTABLE. Population binds mostly to
+    // INDICATORS & demographic statistics (US Census, ACS, UN WPP, Pew, BLS)
+    // and real demographic-exposed PROXIES (WELL, VTR senior-living REITs),
+    // NOT single companies. Kept DISTINCT from economy (labor MARKET is a
+    // coupling — this is human-capital supply), from medicine (mortality is a
+    // coupling), from education (enrollment is a coupling), and from governance.
+    //   - demographic-resilience-investment: a bounded demographic-resilience
+    //     capital project (workforce / household-formation / migration-receiving
+    //     capacity build-out) = capital deployment into demographic resilience →
+    //     INVESTABLE path (like sba-loans). Single-domain by design — population
+    //     dynamics drive it, with finance / infrastructure / governance as
+    //     permitted co-elevators, NOT a spurious multi-domain fan-out.
+    //   - aging-infrastructure-modernization: a bounded senior-living / aging-
+    //     care / age-friendly-infrastructure modernization = capital deployment
+    //     into aging infrastructure → INVESTABLE path (capital deployment).
+    //     Single-domain by design — population aging drives it, with finance /
+    //     governance / health as permitted co-elevators.
+    'demographic-resilience-investment':  'INVESTABLE',
+    'aging-infrastructure-modernization': 'INVESTABLE'
   };
 
   // ─── Lane forbidden-fields policy ──────────────────────────────────────
@@ -786,7 +816,41 @@
     'Strategic Education Investor Relations': 'https://investor.strategiceducation.com/',
     'Laureate Education Investor Relations':  'https://investors.laureate.net/',
     '2U Investor Relations':                 'https://investor.2u.com/',
-    'Universal Technical Institute Investor Relations': 'https://investors.uti.edu/'
+    'Universal Technical Institute Investor Relations': 'https://investors.uti.edu/',
+    // Population / demographic primary-source authorities: the DEMOGRAPHIC-
+    // DYNAMICS signal layer (population counts & growth, migration &
+    // immigration flows, urbanization & settlement, fertility & mortality,
+    // aging & generational shifts, labor-force / human-capital supply,
+    // household formation & housing demand, social structure & inequality).
+    // Population binds mostly to INDICATORS & GOVERNMENT STATISTICS, NOT single
+    // companies — anchored on the federal demographic authorities (US Census
+    // Bureau population counts & QuickFacts, ACS American Community Survey
+    // demographic microdata, BLS labor-force / CPS), the international
+    // population-projection authority (UN World Population Prospects fertility /
+    // mortality / projections), the demographic research authority (Pew Research
+    // Center aging / migration / urbanization), and the enrollment-coupling
+    // statistics authority (NCES education-population coupling). Where a
+    // demographic-EXPOSED entity is genuinely needed, real proxies only — the
+    // senior-living / aging-infrastructure REITs (WELL Welltower, VTR Ventas)
+    // and migration / household-formation-exposed names — never fabricated.
+    // DISTINCT from economy (labor MARKET is a coupling, not the demographic
+    // supply identity), from medicine (mortality / disease burden is a
+    // coupling), from education (enrollment is a coupling), and from governance
+    // (no rulemaking / oversight sources). Verified canonical landing pages /
+    // opaque agency tokens only — never AI-constructed deep links. Mirrors the
+    // energy / infrastructure / culture / finance / economy / technology /
+    // defense / intelligence / industry / environment / agriculture /
+    // communication / medicine / education structure.
+    'US Census Bureau Population':            'https://www.census.gov/topics/population.html',
+    'Census QuickFacts':                     'https://www.census.gov/quickfacts/',
+    'ACS Demographic Microdata':             'https://www.census.gov/programs-surveys/acs',
+    'Census Migration Flows':                'https://www.census.gov/topics/population/migration.html',
+    'UN World Population Prospects':          'https://population.un.org/wpp/',
+    'Pew Research Center':                    'https://www.pewresearch.org/',
+    'BLS Labor Force Statistics':            'https://www.bls.gov/cps/',
+    'NCES Enrollment Statistics':            'https://nces.ed.gov/programs/digest/',
+    'Welltower Investor Relations':          'https://investors.welltower.com/',
+    'Ventas Investor Relations':             'https://ir.ventasreit.com/'
   };
 
   // ─── Domain-specific primary source priority ───────────────────────────
@@ -992,7 +1056,30 @@
     // economy / technology / defense / intelligence / industry / environment /
     // agriculture / communication / medicine ordering so education artifacts no
     // longer demote through the PRIMARY_BY_FALLBACK path.
-    education: ['NCES Student Data', 'IPEDS Higher-Ed', 'NAEP Nation Report Card', 'USDOE Department', 'ED.gov K-12', 'Federal Student Aid Debt Data', 'UNESCO Institute for Statistics', 'World Bank Human Capital', 'OECD Education Statistics', 'Chegg Investor Relations', 'Coursera Investor Relations', 'Duolingo Investor Relations', 'Stride Investor Relations', 'Adtalem Investor Relations', 'Grand Canyon Education Investor Relations', 'Strategic Education Investor Relations', '2U Investor Relations', 'Universal Technical Institute Investor Relations']
+    education: ['NCES Student Data', 'IPEDS Higher-Ed', 'NAEP Nation Report Card', 'USDOE Department', 'ED.gov K-12', 'Federal Student Aid Debt Data', 'UNESCO Institute for Statistics', 'World Bank Human Capital', 'OECD Education Statistics', 'Chegg Investor Relations', 'Coursera Investor Relations', 'Duolingo Investor Relations', 'Stride Investor Relations', 'Adtalem Investor Relations', 'Grand Canyon Education Investor Relations', 'Strategic Education Investor Relations', '2U Investor Relations', 'Universal Technical Institute Investor Relations'],
+    // Population / demographic primary sources: demographic-dynamics authorities
+    // that anchor the population signal layer — the federal demographic
+    // authorities (US Census Bureau population counts, Census QuickFacts, ACS
+    // demographic microdata, Census migration flows = the structural
+    // population-count & migration spine), the international population-
+    // projection authority (UN World Population Prospects fertility / mortality /
+    // projections), the demographic research authority (Pew Research aging /
+    // migration / urbanization), the labor-force / human-capital supply
+    // authority (BLS CPS), the enrollment-coupling statistics (NCES), and the
+    // real demographic-exposed PROXY operators (WELL Welltower, VTR Ventas
+    // senior-living / aging-infrastructure REITs). Ranked highest-signal
+    // structural first: the Census population counts and ACS microdata lead (the
+    // count & demographic-detail spine), UN WPP projections and Pew research
+    // ground it, BLS / NCES couplings and the aging-infrastructure proxies
+    // provide the labor-supply and demographic-exposure signal. DISTINCT from
+    // economy (labor MARKET is a coupling — this is human-capital SUPPLY), from
+    // medicine (mortality / disease burden is a coupling), from education
+    // (enrollment is a coupling), and from governance. Mirrors the energy /
+    // infrastructure / culture / finance / economy / technology / defense /
+    // intelligence / industry / environment / agriculture / communication /
+    // medicine / education ordering so population artifacts no longer demote
+    // through the PRIMARY_BY_FALLBACK path.
+    population: ['US Census Bureau Population', 'Census QuickFacts', 'ACS Demographic Microdata', 'Census Migration Flows', 'UN World Population Prospects', 'Pew Research Center', 'BLS Labor Force Statistics', 'NCES Enrollment Statistics', 'Welltower Investor Relations', 'Ventas Investor Relations']
   };
 
   // ─── Feed token map for evidence-source verification ───────────────────
@@ -1316,7 +1403,35 @@
     'Strategic Education Investor Relations': ['STRA', 'Strategic Education', 'Strayer', 'Capella', 'university', 'enrollment'],
     'Laureate Education Investor Relations':  ['LAUR', 'Laureate', 'university', 'higher education', 'enrollment'],
     '2U Investor Relations':                 ['TWOU', '2U', 'online degree', 'edtech', 'university partner', 'OPM'],
-    'Universal Technical Institute Investor Relations': ['UTI', 'Universal Technical Institute', 'workforce training', 'technical', 'skilled trades', 'credential']
+    'Universal Technical Institute Investor Relations': ['UTI', 'Universal Technical Institute', 'workforce training', 'technical', 'skilled trades', 'credential'],
+    // Population / demographic feed tokens: literal substrings the brain's
+    // evidence prose must contain for _isEvidenceSourceVerified to anchor
+    // population artifacts. Each entry mirrors a CITATION_HINTS /
+    // PRIMARY_PRIORITY_MAP population feed so the demographic-dynamics signal
+    // layer verifies instead of always failing. Anchors are the real federal
+    // demographic-authority vocabulary (Census, ACS, QuickFacts, population
+    // count, migration, urbanization), the international projection vocabulary
+    // (UN World Population Prospects, fertility, mortality, life expectancy,
+    // dependency ratio), the demographic-research vocabulary (Pew, aging,
+    // generational), the labor-supply vocabulary (BLS, labor force, CPS,
+    // participation rate), the enrollment-coupling vocabulary (NCES), and the
+    // real demographic-exposed PROXY tickers (WELL, VTR) with their senior-
+    // living / aging-infrastructure REIT vocabulary — kept DISTINCT from economy
+    // (no labor-MARKET aggregate tokens — this is human-capital SUPPLY), from
+    // medicine (no disease / mortality-burden clinical tokens — a coupling),
+    // from education (no achievement / curriculum tokens — enrollment is a
+    // coupling), and from governance. Matches the brain prose against real
+    // demographic sources, not generic population words alone.
+    'US Census Bureau Population':            ['US Census Bureau', 'Census Bureau', 'Census', 'population count', 'decennial', 'population estimate'],
+    'Census QuickFacts':                     ['QuickFacts', 'Census QuickFacts', 'county', 'demographic profile', 'population'],
+    'ACS Demographic Microdata':             ['ACS', 'American Community Survey', 'microdata', 'demographic', 'household', 'PUMS'],
+    'Census Migration Flows':                ['migration', 'Census migration', 'domestic migration', 'net migration', 'in-migration', 'out-migration'],
+    'UN World Population Prospects':          ['UN World Population Prospects', 'World Population Prospects', 'WPP', 'fertility', 'mortality', 'life expectancy', 'dependency ratio', 'projection'],
+    'Pew Research Center':                    ['Pew Research', 'Pew', 'aging', 'generational', 'urbanization', 'immigration'],
+    'BLS Labor Force Statistics':            ['BLS', 'labor force', 'Current Population Survey', 'CPS', 'participation rate', 'labor supply'],
+    'NCES Enrollment Statistics':            ['NCES', 'enrollment', 'school-age population', 'cohort'],
+    'Welltower Investor Relations':          ['WELL', 'Welltower', 'senior living', 'senior housing', 'aging', 'REIT'],
+    'Ventas Investor Relations':             ['VTR', 'Ventas', 'senior living', 'senior housing', 'aging', 'REIT']
   };
 
   // ─── Module-level flag: SCHEMA_VERSION_BUMPED warning ─────────────────

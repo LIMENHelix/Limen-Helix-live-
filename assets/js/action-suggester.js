@@ -128,6 +128,41 @@
       { label: 'Analyze all-source assessment fusion and analytical-bias exposure (VRNT, NICE, VRSK, KBR signal-to-noise degradation)', type: 'analysis', minStress: 0.6 },
       { label: 'Regulate collection expansion and analytical debiasing to restore public trust and oversight compliance', type: 'regulation', minStress: 0.7 }
     ],
+    population: [
+      { label: 'Monitor demographic-transition signals and generational-shift patterns (US Census Bureau 5-year ACS data, UN World Population Prospects, Pew Research Center demographic reports: birth rate, total fertility rate, median age, generational cohort sizes)', type: 'monitoring', minStress: 0.3 },
+      { label: 'Explore demographic-resilience policies and family-formation support programs (housing-affordability, childcare-subsidy design, parental-leave policy, intergenerational-transfer system strengthening)', type: 'discovery', minStress: 0.4 },
+      { label: 'Analyze prime-age labor-force-participation trends and workforce-age-population decline exposure (BLS employment data, Census Bureau prime-age employment metrics, skill-gap analysis)', type: 'analysis', minStress: 0.5 },
+      { label: 'Investigate aging-dependency ratio and pension/healthcare-system solvency exposure (Census Bureau old-age-dependency ratio, SSA trust-fund burndown, Medicare trustee actuarial projections, long-term-care capacity shortage — senior-living proxies WELL, VTR)', type: 'analysis', minStress: 0.6 },
+      { label: 'Regulate demographic-crisis containment and population-stabilization (family-formation incentive design, migration-resettlement surge capacity, aged-care emergency triage, housing-affordability crisis recovery, prime-age employment crisis response)', type: 'regulation', minStress: 0.7 }
+    ],
+    law: [
+      { label: 'Monitor case-backlog and judicial-throughput signals (Administrative Office of US Courts caseload statistics, BJS court-processing data, filing-to-disposition lag, pretrial-detention duration) across legal-services and litigation-support operators', type: 'monitoring', minStress: 0.3 },
+      { label: 'Explore access-to-justice innovation and dispute-resolution modernization (legal-aid funding design, online dispute resolution, court e-filing adoption, pro-bono capacity, regulatory-sandbox alternative legal services)', type: 'discovery', minStress: 0.4 },
+      { label: 'Analyze regulatory-enforcement intensity and compliance-burden exposure (Federal Register rulemaking volume, DOJ/SEC/FTC enforcement-action trend, GAO findings, litigation-frequency by sector)', type: 'analysis', minStress: 0.5 },
+      { label: 'Investigate rule-of-law erosion and judicial-independence strain (World Justice Project Rule of Law Index, V-Dem judicial-constraints scores, contract-enforceability decline, due-process backsliding)', type: 'analysis', minStress: 0.6 },
+      { label: 'Regulate legal-system-crisis containment and access-to-justice restoration (court-backlog emergency triage, legal-aid surge funding, enforcement-priority rebalancing, constitutional-crisis response)', type: 'regulation', minStress: 0.7 }
+    ],
+    religion: [
+      { label: 'Monitor religious-affiliation and participation-trend signals (Pew Research Religious Landscape, ARDA congregational data, GSS religiosity series, attendance and "nones" growth, generational disaffiliation)', type: 'monitoring', minStress: 0.3 },
+      { label: 'Explore congregational-resilience and community-cohesion innovation (multi-site and hybrid worship adoption, interfaith dialogue, faith-based social-service capacity, youth-retention programming)', type: 'discovery', minStress: 0.4 },
+      { label: 'Analyze institutional-trust and clergy-pipeline strain (declining clergy ordinations, seminary enrollment, denominational-budget contraction, public-trust-in-religion polling)', type: 'analysis', minStress: 0.5 },
+      { label: 'Investigate religious-freedom and pluralism-conflict exposure (Pew government-restrictions and social-hostilities indices, USCIRF reports, sectarian-tension and persecution signals)', type: 'analysis', minStress: 0.6 },
+      { label: 'Regulate faith-community-crisis containment and pluralism restoration (sectarian-conflict de-escalation, congregational-collapse triage, religious-freedom protection, faith-based safety-net surge capacity)', type: 'regulation', minStress: 0.7 }
+    ],
+    medicine: [
+      { label: 'Monitor mortality and disease-burden signals (CDC WONDER mortality, NCHS life-expectancy series, NNDSS notifiable-disease counts, chronic-disease prevalence, drug-overdose and excess-mortality trend)', type: 'monitoring', minStress: 0.3 },
+      { label: 'Explore care-delivery and therapeutic-access innovation (telehealth expansion, value-based-care models, biosimilar/generic adoption, rural-care access programs, preventive-medicine scaling)', type: 'discovery', minStress: 0.4 },
+      { label: 'Analyze clinical-workforce and care-capacity strain (HRSA health-professional-shortage areas, AAMC physician-shortage projections, nurse-staffing ratios, ICU-occupancy and burnout-exodus metrics)', type: 'analysis', minStress: 0.5 },
+      { label: 'Investigate health-system solvency and reimbursement-disruption exposure (CMS payment-model revisions, IRA drug-price negotiation, hospital-margin compression, Medicare/Medicaid rate transmission)', type: 'analysis', minStress: 0.6 },
+      { label: 'Regulate medical-crisis containment and care-continuity restoration (pandemic-surge triage, drug-shortage response, hospital-capacity emergency reallocation, mortality-spike public-health intervention)', type: 'regulation', minStress: 0.7 }
+    ],
+    science: [
+      { label: 'Monitor research-output and reproducibility signals (NSF science-and-engineering indicators, publication and citation volume, retraction-rate trend, replication-success metrics, preprint-adoption rate)', type: 'monitoring', minStress: 0.3 },
+      { label: 'Explore open-science and research-infrastructure innovation (open-access and FAIR-data adoption, shared-instrumentation funding, interdisciplinary-platform emergence, AI-accelerated discovery)', type: 'discovery', minStress: 0.4 },
+      { label: 'Analyze research-funding allocation and grant-pipeline strain (NIH/NSF appropriations trend, grant-success rate, early-career-investigator funding gap, basic-vs-applied balance)', type: 'analysis', minStress: 0.5 },
+      { label: 'Investigate research-integrity and talent-pipeline erosion (reproducibility-crisis exposure, fraud and data-fabrication signals, STEM-PhD attrition, brain-drain and visa-policy effects)', type: 'analysis', minStress: 0.6 },
+      { label: 'Regulate research-crisis containment and integrity restoration (funding-cliff emergency response, reproducibility-standard enforcement, research-misconduct triage, critical-capability preservation)', type: 'regulation', minStress: 0.7 }
+    ],
     governance: [
       { label: 'Monitor institutional-integrity signals (World Bank WGI government-effectiveness, control-of-corruption and rule-of-law indicators, V-Dem democracy/liberal-component scores) for institutional-erosion drift across public-administration delivery (TYL, MMS govtech throughput)', type: 'monitoring', minStress: 0.3 },
       { label: 'Explore policy-effectiveness emergence in legislative velocity and rulemaking volume (Congress.gov bill-passage cadence, Federal Register regulatory-publication rate, OECD regulatory-quality and institutional-trust indicators) reshaping public-service delivery (ACN, GDIT modernization roadmaps)', type: 'discovery', minStress: 0.4 },

@@ -690,7 +690,117 @@
     // shortfall + a spectrum/policy constraint) — the carriage-layer mirror of an
     // energy grid-reliability event. Technology is a COUPLING (the gear), not
     // communication's identity (the carriage/connectivity).
-    { id: 'telecom_resilience', domains: ['communication', 'infrastructure', 'technology', 'governance'] }
+    { id: 'telecom_resilience', domains: ['communication', 'infrastructure', 'technology', 'governance'] },
+    // ─── Population-native affinity groups ─────────────────────────────────
+    // Population is a SOURCE domain here, not only the passive disease-burden
+    // member of human_systems / health_population (where health is the source
+    // and population supplies the demographic driver) or the labor coupling in
+    // economy_industry_labor. Population's OWN identity is demographics &
+    // population dynamics, migration & immigration, urbanization & settlement,
+    // fertility & mortality, aging & generational shifts, labor-force & human-
+    // capital supply, household formation & housing demand, and social structure
+    // & inequality. Population binds mostly to INDICATORS, not single firms —
+    // anchors are real demographic series (US Census Bureau / ACS, UN World
+    // Population Prospects, Pew Research, BLS labor-force / participation, CDC
+    // NVSS vital statistics) — and where a demographically-exposed entity is
+    // genuinely needed, real proxies (WELL, VTR senior-living/healthcare REITs;
+    // housing/migration-exposed names). Kept DISTINCT from economy (the labor
+    // market is a COUPLING, not population's content), medicine/health
+    // (mortality & disease burden are a COUPLING), education (enrollment is a
+    // COUPLING), and governance (census authority is a COUPLING, not population's
+    // own identity). NEVER energy oil/gas/grid as population's content.
+    //
+    // (1) population_core — population's OWN demographic-institutional integrity
+    // cluster (HIGH priority; mirror of infrastructure_core / finance_core /
+    // governance_core, but built around the DEMOGRAPHIC-DATA infrastructure
+    // core rather than a sector's regulatory regime). The census / vital-
+    // statistics / migration-data infrastructure that underwrites apportionment,
+    // representation, and demographic measurement is co-borne by the policy &
+    // census-authority regime (governance — Census Bureau mandate, apportionment
+    // authority, statistical-policy direction), the legal/compliance regime
+    // (law — Voting Rights Act / census-representation litigation, redistricting
+    // & enumeration challenges), and the knowledge substrate that produces
+    // demographic methodology (research — survey methodology, demographic
+    // modeling, census-innovation R&D). When these co-elevate the signal is a
+    // DEMOGRAPHIC-INSTITUTIONAL stress (census-data quality decline +
+    // apportionment-litigation pressure + methodology-modernization lag co-borne
+    // by the institutional envelope) distinct from an isolated demographic-
+    // composition shift. Indices: Census Bureau undercount/net-coverage error,
+    // ACS response rates, GAO census-readiness oversight, redistricting-
+    // litigation volume. Population is the SOURCE; governance/law/research are
+    // COUPLINGS, not population's own measured identity.
+    { id: 'population_core', domains: ['population', 'governance', 'law', 'research'] },
+    // (2) population_labor_market — the labor-market supply-demand transmission
+    // surface (mirror of economy_trade_labor / economy_industry_labor, but with
+    // population's LABOR-SUPPLY role as the load-bearing SOURCE dimension rather
+    // than a generic member). Workforce supply (population — labor-force
+    // participation rate, working-age cohort size, net migration inflow),
+    // macro-demand (economy — GDP growth GDPC1, unemployment UNRATE), and
+    // production capacity (industry — capacity utilization, manufacturing
+    // employment PAYEMS-mfg) co-bear the labor-market equilibrium. When these
+    // co-elevate on stress the signal is a LABOR-MARKET mismatch (participation-
+    // rate collapse + demand destruction + capacity underutilization producing
+    // structural unemployment) distinct from an isolated demographic or macro
+    // episode. Anchors are BLS labor-force / participation (CIVPART, LNS) and
+    // FRED macro series, NOT single tickers. Economy & industry are COUPLINGS
+    // here (the demand and capacity channels); population is the SOURCE (the
+    // human-capital supply). Distinct from economy (macro aggregate) and
+    // education (skills/credentialing is a coupling).
+    { id: 'population_labor_market', domains: ['population', 'economy', 'industry'] },
+    // (3) population_housing_infrastructure — the household-formation /
+    // housing-market capacity coupling (mirror of culture_finance_infrastructure
+    // /environment_climate_adaptation on the housing-market side, a population↔
+    // infrastructure↔finance triple). Household-formation demand (population —
+    // age-cohort family-formation rate, household-size trend, migration inflow),
+    // housing-unit supply & permitting/zoning capacity (infrastructure —
+    // housing-starts HOUST, permitting velocity PERMIT, zoning-reform adoption),
+    // and mortgage/construction financing (finance — mortgage-lending volume,
+    // construction credit, real-estate investment capital) co-bear housing-market
+    // equilibrium. When co-elevated on stress the signal is HOUSING-MARKET stress
+    // (family-formation surge + permit/construction bottleneck + mortgage-credit
+    // tightening) distinct from an isolated demographic, zoning, or lending
+    // episode. Where a demographically-exposed entity is needed, real housing-/
+    // demographics-exposed proxies (homebuilders, residential REITs) — NOT
+    // energy content. Infrastructure & finance are COUPLINGS (supply capacity and
+    // the capital channel); population is the SOURCE (household-formation demand).
+    { id: 'population_housing_infrastructure', domains: ['population', 'infrastructure', 'finance'] },
+    // (4) population_health_environment — the environmental-health burden /
+    // demographic-vulnerability coupling (mirror of health_population on the
+    // environmental-mediation side; the environmental-exposure channel rather
+    // than the pure disease-burden channel). Environmental exposure (environment
+    // — air/water-quality exceedances, pollution-zone proximity), disease-
+    // prevalence response (health — respiratory/cancer prevalence, excess
+    // mortality), and demographic vulnerability (population — age composition,
+    // income-stratified health-access disparity, social-determinant drivers)
+    // co-bear the burden. When co-elevated the signal is ENVIRONMENTAL-HEALTH
+    // JUSTICE stress (air-quality exceedance + disease surge + vulnerable-
+    // population concentration in the exposure zone) distinct from an isolated
+    // environmental or epidemiological episode. Indices: EPA AQI exceedances, CDC
+    // environmental-public-health tracking, ACS income/age stratification, CDC
+    // social-vulnerability index. Environment & health are COUPLINGS here (the
+    // exposure driver and the disease response); population is the load-bearing
+    // SOURCE via demographic-vulnerable-group stratification. Distinct from
+    // health_population (disease-burden only) and healthcare_core (the
+    // institutional envelope).
+    { id: 'population_health_environment', domains: ['population', 'health', 'environment'] },
+    // (5) energy_population_access — the energy-access-to-settlement coupling
+    // (mirror of infrastructure_core / healthcare_core's physical-shock→access-
+    // channel→population-outcome cascade, but with population as the SOURCE of
+    // the demographic response). Grid/crude stress (energy — the STRESSOR) raises
+    // household energy-cost burden (the access channel), which drives migration
+    // pressure / residential (in)stability / healthcare-access constraints
+    // (population — the demographic outcome), with the physical delivery plant
+    // (infrastructure) co-bearing the access squeeze. When co-elevated the signal
+    // is an ENERGY-POVERTY / settlement stress (energy-burden spike + migration/
+    // residential-instability + grid-access strain) distinct from an isolated
+    // energy-price move. Uses REAL demographic energy-burden metrics (ACS energy-
+    // burden % of household income, Census heating/cooling-load & utility-cost
+    // tables, LIHEAP enrollment, Pew climate-migration data) — NOT energy prices
+    // as population's content. Population is the SOURCE (demographic response to
+    // access constraints); energy is the STRESSOR. Kept DISTINCT from energy ↔
+    // agriculture (fertilizer/biofuel input cost is an agriculture identity —
+    // energy-poverty is a population identity).
+    { id: 'energy_population_access', domains: ['energy', 'population', 'infrastructure'] }
   ];
 
   // Tunables — keep conservative; this is a deciphering layer not a noise
