@@ -1,6 +1,6 @@
 {
   "schemaVersion": "vitals/2.0",
-  "generatedAt": "2026-06-23T09:18:53.848Z",
+  "generatedAt": "2026-06-24T09:17:28.775Z",
   "overall": {
     "score": 72,
     "status": "IN_PAIN",
@@ -45,10 +45,10 @@
       "order": 20,
       "score": 97,
       "status": "HEALTHY",
-      "summary": "123/123 nodes · 3120 bindings · 18/20 canonical domains covered · 0 orphans · 0 single-binding",
+      "summary": "123/123 nodes · 3124 bindings · 18/20 canonical domains covered · 0 orphans · 0 single-binding",
       "metrics": {
         "nodeCount": 123,
-        "totalBindings": 3120,
+        "totalBindings": 3124,
         "orphans": [],
         "underused": [],
         "canonicalCovered": [
@@ -108,7 +108,7 @@
           "environment": 123,
           "family": 72,
           "finance": 123,
-          "industry": 123,
+          "industry": 127,
           "infrastructure": 123,
           "intelligence": 123,
           "law": 123,
@@ -3461,6 +3461,145 @@
           "issue": "Eligible CB rows with broken portal links",
           "countBefore": 178,
           "ranAt": "2026-06-23T09:18:51.754Z",
+          "success": true,
+          "summary": "completed",
+          "exitCode": 0
+        }
+      ],
+      "skipped": [
+        {
+          "issue": "Truncated prose in fn entries (ellipsis / fragment / empty)",
+          "severity": "med",
+          "count": 515,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "CB rows pointing to a portal slug with NO file on disk (dead clicks waiting)",
+          "severity": "med",
+          "count": 177,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Portals with NO kernel reading (K1/K2/K3 all empty) — K3 frontier",
+          "severity": "med",
+          "count": 149,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Domain mis-routing (pharma SIC on non-medicine domain)",
+          "severity": "med",
+          "count": 5,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Thin portals (<20 fn entries)",
+          "severity": "med",
+          "count": 3,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Domain brain files lacking required markers (brainId / feedSources / kernels)",
+          "severity": "med",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Master Brain inbox never built — engine outputs not gated/prioritized yet",
+          "severity": "med",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Portals with brain-tagging below 90%",
+          "severity": "low",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "K2 (universal kernel) coverage below 100%",
+          "severity": "high",
+          "count": 800,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Null kernel composite on ELIGIBLE-marked portals",
+          "severity": "high",
+          "count": 714,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Canonical domains with NO L1 node binding",
+          "severity": "high",
+          "count": 2,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Name-fingerprint dup clusters",
+          "severity": "high",
+          "count": 2,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "CIK collisions (real ciks shared)",
+          "severity": "high",
+          "count": 2,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Surfaces build company-portal links without an hp gate",
+          "severity": "high",
+          "count": 2,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "feed-status.js not found",
+          "severity": "high",
+          "count": 1,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Missing canonical domain brain files",
+          "severity": "high",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "CIK collisions in companies-manifest",
+          "severity": "high",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "api/limen-engine-output.js missing — engine outputs cannot persist",
+          "severity": "high",
+          "count": 1,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "limen-stress-propagator.js missing",
+          "severity": "high",
+          "count": 1,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Portal regen backlog — entities the body needs but has no portal for",
+          "severity": "med",
+          "count": 176,
+          "reason": "no registered heal"
+        }
+      ]
+    },
+    {
+      "startedAt": "2026-06-24T09:17:26.656Z",
+      "finishedAt": "2026-06-24T09:17:28.783Z",
+      "preScore": 72,
+      "postScore": 72,
+      "heals": [
+        {
+          "name": "wire-eligible-cb",
+          "issue": "Eligible CB rows with broken portal links",
+          "countBefore": 178,
+          "ranAt": "2026-06-24T09:17:26.659Z",
           "success": true,
           "summary": "completed",
           "exitCode": 0
