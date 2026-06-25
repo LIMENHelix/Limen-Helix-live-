@@ -4742,6 +4742,23 @@ async function _fetchRSS(query, sourceName, domain, channel) {
     var count = (xml.match(/<item>/gi) || []).length;
     var norm = clamp(count / 100, 0, 1); // normalized 0-1 against RSS max ~100
 
+    // Capture the actual REAL headlines (not just a count) so the Signals dropdown shows
+    // what's really going on in the world, and changes as the news changes (refreshed every
+    // snapshot cron). Google News RSS item titles are "Headline - Publisher".
+    var headlines = [];
+    var _items = xml.split(/<item>/i).slice(1);
+    for (var _hi = 0; _hi < _items.length && headlines.length < 5; _hi++) {
+      var _tm = _items[_hi].match(/<title>([\s\S]*?)<\/title>/i);
+      if (!_tm) continue;
+      var _t = _tm[1].replace(/<!\[CDATA\[|\]\]>/g, '')
+                     .replace(/&amp;/g, '&').replace(/&#0?39;|&apos;|&#x27;/gi, "'")
+                     .replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').trim();
+      if (_t) headlines.push(_t);
+    }
+    var _topSignal = headlines.length
+      ? (headlines[0] + (count > 1 ? '  (+' + (count - 1) + ' more)' : ''))
+      : (count + ' news articles on ' + domain);
+
     trackHealth(sourceName, domain, 'live', null, count);
 
     if (channel === 'stress') {
@@ -4751,10 +4768,10 @@ async function _fetchRSS(query, sourceName, domain, channel) {
       var STRESS_SCALE = { defense: 30, supplyChain: 35, energy: 35 };
       var scale = STRESS_SCALE[domain] || 50;
       var stress = clamp(count / scale, 0.05, 0.85);
-      return { value: count, label: count + ' articles', stress: round(stress), channel: 'stress', signal: count + ' news articles on ' + domain, updated: Date.now(), fetchedAt: Date.now(), _isRss: true };
+      return { value: count, label: count + ' articles', stress: round(stress), channel: 'stress', signal: _topSignal, headlines: headlines, updated: Date.now(), fetchedAt: Date.now(), _isRss: true };
     }
     // Activity indicator: volume only, does not drive stress
-    return { value: count, label: count + ' articles', activity: round(norm), channel: 'activity', signal: count + ' news articles on ' + domain, updated: Date.now(), fetchedAt: Date.now(), _isRss: true };
+    return { value: count, label: count + ' articles', activity: round(norm), channel: 'activity', signal: _topSignal, headlines: headlines, updated: Date.now(), fetchedAt: Date.now(), _isRss: true };
   } catch (e) {
     trackHealth(sourceName, domain, 'fallback', e.message || 'RSS fetch failed');
     return null;
