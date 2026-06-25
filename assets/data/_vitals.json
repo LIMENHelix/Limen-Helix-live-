@@ -1,22 +1,22 @@
 {
   "schemaVersion": "vitals/2.0",
-  "generatedAt": "2026-06-24T21:18:11.948Z",
+  "generatedAt": "2026-06-25T09:16:07.755Z",
   "overall": {
-    "score": 94,
-    "status": "HEALTHY",
-    "summary": "12 organs · 16 attention items · feeds 77 · l1Nodes 98 · domains 100 · portalCorpus 89 · deadLinks 85 · kernel 82 · connectome 100 · civilization 100 · masterBrain 95 · propagator 98 · patternBus 100 · bridge 99"
+    "score": 79,
+    "status": "DEGRADED",
+    "summary": "12 organs · 15 attention items · feeds 0 · l1Nodes 98 · domains 100 · portalCorpus 89 · deadLinks 95 · kernel 82 · connectome 100 · civilization 100 · masterBrain 89 · propagator 0 · patternBus 100 · bridge 99"
   },
   "scores": {
-    "feeds": 77,
+    "feeds": 0,
     "l1Nodes": 98,
     "domains": 100,
     "portalCorpus": 89,
-    "deadLinks": 85,
+    "deadLinks": 95,
     "kernel": 82,
     "connectome": 100,
     "civilization": 100,
-    "masterBrain": 95,
-    "propagator": 98,
+    "masterBrain": 89,
+    "propagator": 0,
     "patternBus": 100,
     "bridge": 99
   },
@@ -25,101 +25,16 @@
       "id": "feeds",
       "role": "afferent / sensory cortex",
       "order": 10,
-      "score": 77,
-      "status": "DEGRADED",
-      "summary": "22 sources across 11 domains (20/20 canonical) · 7 require auth · 7 env vars referenced",
-      "metrics": {
-        "sourceCount": 22,
-        "byDomain": {
-          "governance": [
-            "World Bank Governance",
-            "GDELT Governance"
-          ],
-          "infrastructure": [
-            "World Bank Infrastructure",
-            "OECD Infrastructure"
-          ],
-          "agriculture": [
-            "USDA NASS",
-            "FAO FAOSTAT"
-          ],
-          "industry": [
-            "FRED Industrial Production",
-            "BLS Manufacturing PPI"
-          ],
-          "education": [
-            "World Bank Education",
-            "OpenAlex Institutions"
-          ],
-          "communication": [
-            "NewsAPI Headlines",
-            "GDELT Media"
-          ],
-          "culture": [
-            "Event Registry",
-            "GDELT Tone"
-          ],
-          "defense": [
-            "ACLED Conflict",
-            "GDELT Conflict"
-          ],
-          "religion": [
-            "GDELT Religion",
-            "Event Registry Religion"
-          ],
-          "population": [
-            "World Bank Population",
-            "UN Population"
-          ],
-          "law": [
-            "Federal Register",
-            "Regulations.gov"
-          ]
-        },
-        "coveredDomains": [
-          "agriculture",
-          "communication",
-          "culture",
-          "defense",
-          "economy",
-          "education",
-          "energy",
-          "environment",
-          "finance",
-          "governance",
-          "industry",
-          "infrastructure",
-          "intelligence",
-          "law",
-          "medicine",
-          "population",
-          "religion",
-          "science",
-          "supplyChain",
-          "technology"
-        ],
-        "uncoveredDomains": [],
-        "envGated": 7,
-        "envVars": [
-          "USDA_API_KEY",
-          "FRED_API_KEY",
-          "NEWS_API_KEY",
-          "EVENT_REGISTRY_API_KEY",
-          "ACLED_API_KEY",
-          "ACLED_EMAIL",
-          "REGULATIONS_GOV_API_KEY"
-        ],
-        "scoreParts": {
-          "domainCoverage": 100,
-          "sourceDensity": 54
-        }
-      },
+      "score": 0,
+      "status": "IN_PAIN",
+      "summary": "feed-status.js missing — system has no sensory cortex",
+      "metrics": {},
       "attention": [
         {
-          "issue": "Feed status-registry source count low (<30) — informational; real feeds live in domain-snapshot.js",
-          "severity": "low",
-          "count": 22,
-          "action": "optionally expand handlers/feed-status.js diagnostics registry",
+          "issue": "feed-status.js not found",
+          "severity": "high",
+          "count": 1,
+          "action": "inspect handlers/feed-status.js",
           "organ": "feeds"
         }
       ]
@@ -279,7 +194,7 @@
             "withSlug": 506,
             "resolving": 506,
             "broken": 0,
-            "hpTrue": 0,
+            "hpTrue": 506,
             "brokenList": []
           },
           "eligibleBoard": {
@@ -287,7 +202,7 @@
             "withSlug": 289,
             "resolving": 113,
             "broken": 176,
-            "hpTrue": 114,
+            "hpTrue": 115,
             "brokenList": [
               {
                 "name": "GROOVE BOTANICALS INC.",
@@ -694,157 +609,37 @@
       "id": "deadLinks",
       "role": "surface link integrity (no dead-portal navigation)",
       "order": 45,
-      "score": 85,
-      "status": "DEGRADED",
-      "summary": "37 unguarded surfaces · 52 total emitters · 0 CB rows point at missing portals (fallback page now handles)",
+      "score": 95,
+      "status": "HEALTHY",
+      "summary": "2 unguarded surfaces · 2 total emitters · 0 CB rows point at missing portals (fallback page now handles)",
       "metrics": {
         "unguardedSurfaces": [
           {
-            "file": "agriculture-opportunities.html",
-            "unguarded": 2,
-            "gated": 0
-          },
-          {
-            "file": "assets/js/agriculture-clarity-operator.js",
+            "file": "scripts/score-companies.js",
             "unguarded": 1,
             "gated": 0
           },
           {
-            "file": "assets/js/communication-clarity-operator.js",
+            "file": "scripts/sense/organ-dead-links.mjs",
             "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "assets/js/company-resolver.js",
-            "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "assets/js/culture-clarity-operator.js",
-            "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "assets/js/defense-clarity-operator.js",
-            "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "assets/js/economy-clarity-operator.js",
-            "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "assets/js/energy-clarity-operator.js",
-            "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "assets/js/environment-clarity-operator.js",
-            "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "assets/js/finance-clarity-operator.js",
-            "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "assets/js/governance-clarity-operator.js",
-            "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "assets/js/industry-clarity-operator.js",
-            "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "assets/js/infrastructure-clarity-operator.js",
-            "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "assets/js/intelligence-clarity-operator.js",
-            "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "assets/js/population-clarity-operator.js",
-            "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "assets/js/religion-clarity-operator.js",
-            "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "assets/js/technology-clarity-operator.js",
-            "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "communication-opportunities.html",
-            "unguarded": 2,
-            "gated": 0
-          },
-          {
-            "file": "company-lookup.html",
-            "unguarded": 2,
-            "gated": 0
-          },
-          {
-            "file": "company-portal.html",
-            "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "culture-opportunities.html",
-            "unguarded": 2,
-            "gated": 0
-          },
-          {
-            "file": "education-opportunities.html",
-            "unguarded": 2,
-            "gated": 0
-          },
-          {
-            "file": "energy-opportunities.html",
-            "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "environment-opportunities.html",
-            "unguarded": 1,
-            "gated": 0
-          },
-          {
-            "file": "finance-opportunities.html",
-            "unguarded": 2,
             "gated": 0
           }
         ],
-        "guardedSurfaces": [
-          {
-            "file": "assets/js/kernel-comparison.js",
-            "gated": 1
-          }
-        ],
-        "totalEmitters": 52,
+        "guardedSurfaces": [],
+        "totalEmitters": 2,
         "cbDeadCount": 0,
         "cbDeadSample": [],
         "scoreParts": {
-          "surface": 70,
+          "surface": 90,
           "realized": 100
         }
       },
       "attention": [
         {
           "issue": "Surfaces build company-portal links without an hp gate",
-          "severity": "low",
-          "count": 37,
-          "action": "MITIGATED by company-portal-ui.js graceful fallback (lands on absent-portal page, not a 404). For best UX, thread `hp` to these emit points and gate the link. Worst: agriculture-opportunities.html, assets/js/agriculture-clarity-operator.js, assets/js/communication-clarity-operator.js, assets/js/company-resolver.js, assets/js/culture-clarity-operator.js",
+          "severity": "high",
+          "count": 2,
+          "action": "add `if (d.hp)` guard before rendering link. Worst: scripts/score-companies.js, scripts/sense/organ-dead-links.mjs",
           "organ": "deadLinks"
         }
       ]
@@ -1233,16 +1028,16 @@
       "id": "masterBrain",
       "role": "PFC / executive cortex (6 engine gates)",
       "order": 80,
-      "score": 95,
-      "status": "HEALTHY",
-      "summary": "6/6 engine lanes · 8/9 markers · inbox 1861/2504 ready (545.5h old)",
+      "score": 89,
+      "status": "DEGRADED",
+      "summary": "6/6 engine lanes · 7/9 markers · inbox ✗",
       "metrics": {
         "present": {
           "masterBrain": true,
           "executor": false,
-          "enginePersist": true,
+          "enginePersist": false,
           "consumer": false,
-          "inbox": true
+          "inbox": false
         },
         "lanesPresent": [
           "patent",
@@ -1260,37 +1055,30 @@
           "readinessGate": true,
           "salienceGate": true,
           "engineFireLog": true,
-          "enginePersistEndpoint": true,
+          "enginePersistEndpoint": false,
           "readyToSignGate": true,
           "patternEnvelopeEmit": false
         },
-        "inbox": {
-          "portalsScanned": 767,
-          "portalsWithArtifacts": 461,
-          "totalCandidates": 2504,
-          "readyToFire": 1861,
-          "inhibited": 643,
-          "byLaneReady": {
-            "patent": 614,
-            "grant": 621,
-            "sba": 0,
-            "franchise": 0,
-            "investment": 0,
-            "research": 626
-          }
-        },
-        "inboxAgeHours": 545.465925,
+        "inbox": null,
+        "inboxAgeHours": null,
         "scoreParts": {
           "lanes": 100,
-          "structural": 89
+          "structural": 78
         }
       },
       "attention": [
         {
-          "issue": "Master Brain inbox stale (>6h)",
-          "severity": "low",
-          "count": 545,
-          "action": "invoke build-master-inbox.mjs (also runs in the autonomic loop)",
+          "issue": "api/limen-engine-output.js missing — engine outputs cannot persist",
+          "severity": "high",
+          "count": 1,
+          "action": "restore persistence endpoint",
+          "organ": "masterBrain"
+        },
+        {
+          "issue": "Master Brain inbox never built — engine outputs not gated/prioritized yet",
+          "severity": "med",
+          "count": 1,
+          "action": "run scripts/build-master-inbox.mjs --apply",
           "organ": "masterBrain"
         }
       ]
@@ -1299,40 +1087,21 @@
       "id": "propagator",
       "role": "spider-web stress propagator",
       "order": 90,
-      "score": 98,
-      "status": "HEALTHY",
-      "summary": "799 nodes · 13037 edges · 354 damped · 11 pathC · 0 alert · snapshot 1.3h old",
+      "score": 0,
+      "status": "IN_PAIN",
+      "summary": "propagator file missing",
       "metrics": {
         "present": {
-          "propagator": true,
+          "propagator": false,
           "snapshot": true
-        },
-        "ageHours": 1.2831709246148004,
-        "nodeCount": 799,
-        "edgeCount": 13037,
-        "dampedCount": 354,
-        "pathCCount": 11,
-        "alertCount": 0,
-        "networkPushedCount": 567,
-        "scoreParts": {
-          "presence": 100,
-          "fresh": 94,
-          "size": 100
         }
       },
       "attention": [
         {
-          "issue": "path-C anomalies in propagator output (unbounded composites)",
-          "severity": "med",
-          "count": 11,
-          "action": "inspect — kernel path C indicates outlier financial state, may be data error",
-          "organ": "propagator"
-        },
-        {
-          "issue": "Propagator output has NO downstream consumers (per [[limen_full_system_audit_2026_05_25]])",
-          "severity": "med",
+          "issue": "limen-stress-propagator.js missing",
+          "severity": "high",
           "count": 1,
-          "action": "wire stress-network-state into civilization-super-brain.js / Master Brain",
+          "action": "restore from git history",
           "organ": "propagator"
         }
       ]
@@ -1512,15 +1281,7 @@
           "library": 100
         }
       },
-      "attention": [
-        {
-          "issue": "Bridge readings stale (>24h)",
-          "severity": "low",
-          "count": 246,
-          "action": "run scripts/build-bridge-readings.mjs --apply",
-          "organ": "bridge"
-        }
-      ]
+      "attention": []
     }
   },
   "operatorAttention": [
@@ -1546,13 +1307,6 @@
       "organ": "kernel"
     },
     {
-      "issue": "path-C anomalies in propagator output (unbounded composites)",
-      "severity": "med",
-      "count": 11,
-      "action": "inspect — kernel path C indicates outlier financial state, may be data error",
-      "organ": "propagator"
-    },
-    {
       "issue": "Domain mis-routing (pharma SIC on non-medicine domain)",
       "count": 5,
       "severity": "med",
@@ -1560,11 +1314,11 @@
       "organ": "portalCorpus"
     },
     {
-      "issue": "Propagator output has NO downstream consumers (per [[limen_full_system_audit_2026_05_25]])",
+      "issue": "Master Brain inbox never built — engine outputs not gated/prioritized yet",
       "severity": "med",
       "count": 1,
-      "action": "wire stress-network-state into civilization-super-brain.js / Master Brain",
-      "organ": "propagator"
+      "action": "run scripts/build-master-inbox.mjs --apply",
+      "organ": "masterBrain"
     },
     {
       "issue": "K2 (Thing 2 polyvagal) reserved — not populated",
@@ -1574,39 +1328,25 @@
       "organ": "kernel"
     },
     {
-      "issue": "Master Brain inbox stale (>6h)",
-      "severity": "low",
-      "count": 545,
-      "action": "invoke build-master-inbox.mjs (also runs in the autonomic loop)",
-      "organ": "masterBrain"
-    },
-    {
-      "issue": "Bridge readings stale (>24h)",
-      "severity": "low",
-      "count": 246,
-      "action": "run scripts/build-bridge-readings.mjs --apply",
-      "organ": "bridge"
-    },
-    {
-      "issue": "Surfaces build company-portal links without an hp gate",
-      "severity": "low",
-      "count": 37,
-      "action": "MITIGATED by company-portal-ui.js graceful fallback (lands on absent-portal page, not a 404). For best UX, thread `hp` to these emit points and gate the link. Worst: agriculture-opportunities.html, assets/js/agriculture-clarity-operator.js, assets/js/communication-clarity-operator.js, assets/js/company-resolver.js, assets/js/culture-clarity-operator.js",
-      "organ": "deadLinks"
-    },
-    {
-      "issue": "Feed status-registry source count low (<30) — informational; real feeds live in domain-snapshot.js",
-      "severity": "low",
-      "count": 22,
-      "action": "optionally expand handlers/feed-status.js diagnostics registry",
-      "organ": "feeds"
-    },
-    {
       "issue": "Portals with brain-tagging below 90%",
       "count": 1,
       "severity": "low",
       "action": "regenerate via runner (gate enforces ≥90%)",
       "organ": "portalCorpus"
+    },
+    {
+      "issue": "Surfaces build company-portal links without an hp gate",
+      "severity": "high",
+      "count": 2,
+      "action": "add `if (d.hp)` guard before rendering link. Worst: scripts/score-companies.js, scripts/sense/organ-dead-links.mjs",
+      "organ": "deadLinks"
+    },
+    {
+      "issue": "feed-status.js not found",
+      "severity": "high",
+      "count": 1,
+      "action": "inspect handlers/feed-status.js",
+      "organ": "feeds"
     },
     {
       "issue": "Canonical domains with NO L1 node binding",
@@ -1635,7 +1375,131 @@
       "count": 1,
       "action": "inspect — usually intentional segment, else dedup",
       "organ": "kernel"
+    },
+    {
+      "issue": "api/limen-engine-output.js missing — engine outputs cannot persist",
+      "severity": "high",
+      "count": 1,
+      "action": "restore persistence endpoint",
+      "organ": "masterBrain"
+    },
+    {
+      "issue": "limen-stress-propagator.js missing",
+      "severity": "high",
+      "count": 1,
+      "action": "restore from git history",
+      "organ": "propagator"
     }
   ],
-  "lastHeals": []
+  "lastHeals": [
+    {
+      "startedAt": "2026-06-25T09:16:05.752Z",
+      "finishedAt": "2026-06-25T09:16:07.765Z",
+      "preScore": 79,
+      "postScore": 79,
+      "heals": [
+        {
+          "name": "wire-eligible-cb",
+          "issue": "Eligible CB rows with broken portal links",
+          "countBefore": 176,
+          "ranAt": "2026-06-25T09:16:05.755Z",
+          "success": true,
+          "summary": "completed",
+          "exitCode": 0
+        }
+      ],
+      "skipped": [
+        {
+          "issue": "Truncated prose in fn entries (ellipsis / fragment / empty)",
+          "severity": "med",
+          "count": 515,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Portals with NO kernel reading (K1/K2/K3 all empty) — K3 frontier",
+          "severity": "med",
+          "count": 146,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Domain mis-routing (pharma SIC on non-medicine domain)",
+          "severity": "med",
+          "count": 5,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Master Brain inbox never built — engine outputs not gated/prioritized yet",
+          "severity": "med",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "K2 (Thing 2 polyvagal) reserved — not populated",
+          "severity": "low",
+          "count": 796,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Portals with brain-tagging below 90%",
+          "severity": "low",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Surfaces build company-portal links without an hp gate",
+          "severity": "high",
+          "count": 2,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "feed-status.js not found",
+          "severity": "high",
+          "count": 1,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Canonical domains with NO L1 node binding",
+          "severity": "high",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Name-fingerprint dup clusters",
+          "severity": "high",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Null kernel composite on ELIGIBLE-marked portals",
+          "severity": "high",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "CIK collisions in companies-manifest",
+          "severity": "high",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "api/limen-engine-output.js missing — engine outputs cannot persist",
+          "severity": "high",
+          "count": 1,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "limen-stress-propagator.js missing",
+          "severity": "high",
+          "count": 1,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Portal regen backlog — entities the body needs but has no portal for",
+          "severity": "med",
+          "count": 174,
+          "reason": "no registered heal"
+        }
+      ]
+    }
+  ]
 }
