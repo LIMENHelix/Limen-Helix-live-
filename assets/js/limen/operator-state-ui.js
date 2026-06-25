@@ -308,10 +308,10 @@
   // ── Boot ──
   function boot() {
     if (_mounted) return;
-    // Auto-mount only on console pages — match biosensor-control-panel.js
+    // Auto-mount only on console pages — match biosensor-control-panel.js.
+    // Civilization removed 2026-06-25 per operator: no operator-state biosensor panel there.
     var p = (window.location.pathname || '').replace(/^\//, '').replace(/\/$/, '');
-    var ok = (p === '' || p === 'civilization.html' || p === 'civilization' ||
-              p === 'domain-console.html' || p === 'domain-console' ||
+    var ok = (p === '' || p === 'domain-console.html' || p === 'domain-console' ||
               p.indexOf('energy-') === 0);
     if (!ok) return;
     mount();
