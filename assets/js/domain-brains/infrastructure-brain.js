@@ -454,8 +454,13 @@
       var issues = portal.issues || [];
       var conditions = self._activeConditions || [];
 
+      // Re-resolve the portal-issue → brain-diagnosis map at RUNTIME (not just the load-time
+      // capture): if domain-identity.js loaded after this brain, the load-time INFRA_PORTAL_TO_BRAIN
+      // is {} and portal issues (GRID_FAILURE) never map to diagnosisIndex keys (GRID_DEGRADATION),
+      // leaving every diagnosis inactive ("STRESSED / NO DX MATCH"). Bulletproofs load order.
+      var _i2b = (window.LIMENDomainIdentity && window.LIMENDomainIdentity.INFRA_PORTAL_TO_BRAIN) || INFRA_PORTAL_TO_BRAIN;
       self.state.diagnoses = issues.map(function (iss) {
-        var brainKey = INFRA_PORTAL_TO_BRAIN[iss.id] || iss.id;
+        var brainKey = _i2b[iss.id] || iss.id;
         var triggers = self.diagnosisIndex[brainKey] || [];
         var matchCount = 0;
         for (var t = 0; t < triggers.length; t++) {

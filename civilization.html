@@ -385,6 +385,11 @@ html,body{background:#050810;color:#e8e3d9;font-family:monospace;height:100%;wid
 <script src="assets/js/portal/gap-synthesis-templates.js"></script>
 <script src="assets/js/portal/limen-gap-synthesis-engine.js"></script>
 <script src="assets/js/domain-biosensor-adapter.js"></script>
+<!-- domain-identity.js MUST load before the brains: infrastructure-brain.js (and dual-key brains)
+     capture window.LIMENDomainIdentity.INFRA_PORTAL_TO_BRAIN at load time. Without it the portal-issue
+     IDs (GRID_FAILURE) never map to the brain diagnosisIndex keys (GRID_DEGRADATION) → diagnoses stay
+     inactive → "STRESSED / NO DX MATCH". Added 2026-06-25. -->
+<script src="assets/js/domain-identity.js"></script>
 <script src="assets/js/domain-brains/domain-brain-base.js"></script>
 <script src="assets/js/domain-brains/portal-content-resolver.js"></script>
 <script src="assets/js/domain-brains/inter-brain-bus.js"></script>

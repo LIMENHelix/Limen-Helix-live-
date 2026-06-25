@@ -118,9 +118,9 @@
 
   var INFRA_PORTAL_TO_BRAIN = {
     'GRID_FAILURE':      'GRID_DEGRADATION',
-    'BRIDGE_COLLAPSE':   'MAINTENANCE_DEFICIT',
-    'WATER_CRISIS':      'GRID_DEGRADATION',
-    'TELECOM_OUTAGE':    'GRID_DEGRADATION',
+    'BRIDGE_COLLAPSE':   'MAINTENANCE_DEFICIT',     // structural / aging-asset failure
+    'WATER_CRISIS':      'MAINTENANCE_DEFICIT',     // aging water mains / deferred maintenance
+    'TELECOM_OUTAGE':    'CYBER_PHYSICAL_ATTACK',   // digital/telecom infra → cyber-physical
     'TRANSIT_BREAKDOWN': 'MAINTENANCE_DEFICIT'
   };
 
