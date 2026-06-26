@@ -1423,7 +1423,16 @@ function buildDomain(key, sources, opts) {
     }
 
     liveCount++;
-    if (d.signal) signals.push(d.signal);
+    // Surface the REAL top headlines per feed (source-tagged) so the Signals dropdown shows what's
+    // actually in the news, expandable per source — not a single generic line. RSS feeds carry
+    // headlines[]; everything else keeps its single signal string.
+    if (d.headlines && d.headlines.length) {
+      for (var _sh = 0; _sh < Math.min(5, d.headlines.length); _sh++) {
+        signals.push(s.name + ' — ' + d.headlines[_sh]);
+      }
+    } else if (d.signal) {
+      signals.push(d.signal);
+    }
 
     var ch = d.channel || 'stress';
     var sq = _getSourceQuality(s.name);
@@ -1465,7 +1474,11 @@ function buildDomain(key, sources, opts) {
       name: s.name, value: d.value, label: d.label, channel: ch,
       quality: sq, classification: classification, signalType: signalType,
       updated: d.updated || Date.now(), fetchedAt: d.fetchedAt || Date.now(),
-      sourceUpdatedAt: d.sourceUpdatedAt || null, live: true
+      sourceUpdatedAt: d.sourceUpdatedAt || null, live: true,
+      // carry the real headlines + freshest-headline signal so the Signals dropdown can
+      // expand each feed to its top stories (RSS feeds only; undefined elsewhere = omitted)
+      headlines: (d.headlines && d.headlines.length) ? d.headlines : undefined,
+      signal: d.signal || undefined
     });
   }
 
