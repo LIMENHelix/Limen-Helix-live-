@@ -1,7 +1,11 @@
 {
   "diagnosisId": "NUCLEAR_INCIDENT",
-  "rawDiagnosisLabels": ["Nuclear Incident"],
-  "domains": ["energy"],
+  "rawDiagnosisLabels": [
+    "Nuclear Incident"
+  ],
+  "domains": [
+    "energy"
+  ],
   "portalCount": 0,
   "maxDepth": 0,
   "sourcePortals": [],
@@ -11,37 +15,33 @@
   "builtAt": "2026-06-17",
   "provenanceNote": "Authored from verified public institutional sources (NOT portal traversal). evidenceAnchors point to real source products; no data values or evidence grades are fabricated. method/embodiment/figure candidates intentionally empty. Mappings are author-asserted and require human verification.",
   "sources": [
-    { "org": "IAEA", "product": "International Nuclear and Radiological Event Scale (INES)", "url": "https://www.iaea.org/resources/databases/international-nuclear-and-radiological-event-scale", "provides": "7-level severity classification for nuclear/radiological events" },
-    { "org": "IAEA", "product": "Nuclear Events Web-based System (NEWS)", "url": "https://www.iaea.org/", "provides": "publicly reported events rated INES Level 2 and above (past 12 months)" },
-    { "org": "NRC", "product": "Emergency Classification / INES", "url": "https://www.nrc.gov/about-nrc/emerg-preparedness/about-emerg-preparedness/emerg-classification/event-scale", "provides": "U.S. reactor event classification & emergency-preparedness framework" },
-    { "org": "NRC", "product": "Reactor Oversight & Event Reporting", "url": "https://www.nrc.gov/", "provides": "U.S. operating-reactor safety oversight and event notifications" }
+    {
+      "org": "IAEA",
+      "product": "International Nuclear and Radiological Event Scale (INES)",
+      "url": "https://www.iaea.org/resources/databases/international-nuclear-and-radiological-event-scale",
+      "provides": "7-level severity classification for nuclear/radiological events"
+    },
+    {
+      "org": "IAEA",
+      "product": "Nuclear Events Web-based System (NEWS)",
+      "url": "https://www.iaea.org/",
+      "provides": "publicly reported events rated INES Level 2 and above (past 12 months)"
+    },
+    {
+      "org": "NRC",
+      "product": "Emergency Classification / INES",
+      "url": "https://www.nrc.gov/about-nrc/emerg-preparedness/about-emerg-preparedness/emerg-classification/event-scale",
+      "provides": "U.S. reactor event classification & emergency-preparedness framework"
+    },
+    {
+      "org": "NRC",
+      "product": "Reactor Oversight & Event Reporting",
+      "url": "https://www.nrc.gov/",
+      "provides": "U.S. operating-reactor safety oversight and event notifications"
+    }
   ],
   "byLaneShared": {},
-  "byLane": {
-    "patents": {
-      "topSources": ["IAEA", "NRC"],
-      "treatments": [
-        { "label": "Classify event severity on the IAEA INES 7-level scale", "type": "DIAGNOSTIC", "sourceBacked": true, "source": "IAEA INES" },
-        { "label": "Check IAEA NEWS for internationally reported events (INES Level 2+)", "type": "DIAGNOSTIC", "sourceBacked": true, "source": "IAEA NEWS" },
-        { "label": "Apply NRC emergency-classification framework for U.S. reactor events", "type": "STRATEGY", "sourceBacked": true, "source": "NRC" }
-      ],
-      "implementationSteps": [
-        { "step": "Determine INES level (1-3 incident vs 4-7 accident; scale is logarithmic, ~10x per level)", "source": "IAEA INES" },
-        { "step": "Cross-check NRC reactor oversight / event notifications for the affected facility", "source": "NRC" }
-      ],
-      "evidenceAnchors": [
-        { "source": "IAEA", "product": "INES (International Nuclear and Radiological Event Scale)", "url": "https://www.iaea.org/resources/databases/international-nuclear-and-radiological-event-scale", "provides": "event severity classification", "verification": "author-cited-public-source" },
-        { "source": "NRC", "product": "INES / Emergency Classification", "url": "https://www.nrc.gov/about-nrc/emerg-preparedness/about-emerg-preparedness/emerg-classification/event-scale", "provides": "U.S. event classification framework", "verification": "author-cited-public-source" }
-      ],
-      "mechanismCandidates": [
-        { "mechanism": "Reactor safety event progresses from coolant-system malfunction toward partial core damage; severity classified on the IAEA INES 7-level logarithmic scale (Levels 1-3 incidents, 4-7 accidents)", "basis": "IAEA INES definition (verified)", "source": "IAEA INES" },
-        { "mechanism": "A radiological release triggers regulatory emergency classification and public communication via INES/NEWS", "basis": "established regulatory process", "source": "NRC/IAEA" }
-      ],
-      "methodCandidates": [],
-      "embodimentCandidates": [],
-      "figurePlaceholders": []
-    }
-  },
+  "byLane": {},
   "warnings": [
     "external-source-authored: evidenceAnchors point to real public sources but the diagnosis->source mappings are author-asserted and require human verification",
     "method/embodiment/figure candidates empty: public safety/regulatory sources do not yield patentable invention candidates"

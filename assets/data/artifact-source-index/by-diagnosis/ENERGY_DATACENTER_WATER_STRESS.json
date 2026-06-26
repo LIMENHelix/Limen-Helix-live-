@@ -1,7 +1,11 @@
 {
   "diagnosisId": "ENERGY_DATACENTER_WATER_STRESS",
-  "rawDiagnosisLabels": ["Data-Center Water & Cooling Stress"],
-  "domains": ["energy"],
+  "rawDiagnosisLabels": [
+    "Data-Center Water & Cooling Stress"
+  ],
+  "domains": [
+    "energy"
+  ],
   "portalCount": 0,
   "maxDepth": 0,
   "sourcePortals": [],
@@ -11,41 +15,39 @@
   "builtAt": "2026-06-20",
   "provenanceNote": "Authored from verified public institutional sources (NOT portal traversal) for the data-center water/cooling-stress diagnosis. evidenceAnchors point to real source products; no data values or evidence grades are fabricated. method/embodiment/figure candidates intentionally empty - public efficiency/cooling sources do not yield patentable invention candidates. Mappings are author-asserted and require human verification.",
   "sources": [
-    { "org": "LBNL", "product": "2024 United States Data Center Energy Usage Report", "url": "https://eta.lbl.gov/publications", "provides": "data-center energy & water-usage-effectiveness (WUE) context" },
-    { "org": "Uptime Institute", "product": "Global Data Center Survey", "url": "https://uptimeinstitute.com/resources/research-and-reports", "provides": "industry cooling-method and efficiency trends (liquid/closed-loop adoption)" },
-    { "org": "DOE", "product": "Data Centers and Servers (energy efficiency)", "url": "https://www.energy.gov/eere/buildings/data-centers-and-servers", "provides": "data-center cooling & efficiency best practices" },
-    { "org": "The Green Grid", "product": "PUE / WUE metrics", "url": "https://www.thegreengrid.org/", "provides": "standard Power- and Water-Usage-Effectiveness definitions" },
-    { "org": "IEA", "product": "Electricity 2024", "url": "https://www.iea.org/reports/electricity-2024", "provides": "data-centre energy-demand and efficiency context" }
+    {
+      "org": "LBNL",
+      "product": "2024 United States Data Center Energy Usage Report",
+      "url": "https://eta.lbl.gov/publications",
+      "provides": "data-center energy & water-usage-effectiveness (WUE) context"
+    },
+    {
+      "org": "Uptime Institute",
+      "product": "Global Data Center Survey",
+      "url": "https://uptimeinstitute.com/resources/research-and-reports",
+      "provides": "industry cooling-method and efficiency trends (liquid/closed-loop adoption)"
+    },
+    {
+      "org": "DOE",
+      "product": "Data Centers and Servers (energy efficiency)",
+      "url": "https://www.energy.gov/eere/buildings/data-centers-and-servers",
+      "provides": "data-center cooling & efficiency best practices"
+    },
+    {
+      "org": "The Green Grid",
+      "product": "PUE / WUE metrics",
+      "url": "https://www.thegreengrid.org/",
+      "provides": "standard Power- and Water-Usage-Effectiveness definitions"
+    },
+    {
+      "org": "IEA",
+      "product": "Electricity 2024",
+      "url": "https://www.iea.org/reports/electricity-2024",
+      "provides": "data-centre energy-demand and efficiency context"
+    }
   ],
   "byLaneShared": {},
-  "byLane": {
-    "patents": {
-      "topSources": ["LBNL", "Uptime Institute", "DOE", "The Green Grid"],
-      "treatments": [
-        { "label": "Instrument PUE and WUE at facility and rack level using The Green Grid definitions", "type": "OPERATIONAL", "sourceBacked": true, "source": "The Green Grid / LBNL" },
-        { "label": "Pilot direct-to-chip liquid cooling on high-density racks", "type": "STRUCTURAL", "sourceBacked": true, "source": "Uptime Institute" },
-        { "label": "Move to closed-loop / air-cooled chillers in water-stressed sites to cut evaporative freshwater use", "type": "STRUCTURAL", "sourceBacked": true, "source": "DOE / Uptime Institute" }
-      ],
-      "implementationSteps": [
-        { "step": "Audit current PUE and WUE against The Green Grid metric definitions", "source": "The Green Grid" },
-        { "step": "Identify high-density rows where air cooling is at its limit and stage liquid-cooling pilots", "source": "Uptime Institute" },
-        { "step": "Prioritize closed-loop cooling at sites with local water-permit or drought exposure", "source": "DOE" }
-      ],
-      "evidenceAnchors": [
-        { "source": "LBNL", "product": "2024 U.S. Data Center Energy Usage Report", "url": "https://eta.lbl.gov/publications", "provides": "energy & WUE context", "verification": "author-cited-public-source" },
-        { "source": "Uptime Institute", "product": "Global Data Center Survey", "url": "https://uptimeinstitute.com/resources/research-and-reports", "provides": "cooling-method trends", "verification": "author-cited-public-source" },
-        { "source": "DOE", "product": "Data Centers and Servers", "url": "https://www.energy.gov/eere/buildings/data-centers-and-servers", "provides": "cooling efficiency practices", "verification": "author-cited-public-source" },
-        { "source": "The Green Grid", "product": "PUE / WUE metrics", "url": "https://www.thegreengrid.org/", "provides": "efficiency metric definitions", "verification": "author-cited-public-source" }
-      ],
-      "mechanismCandidates": [
-        { "mechanism": "High rack densities raise cooling load; evaporative cooling is energy-efficient but consumes large volumes of freshwater, creating local water-permit friction in drought-prone regions", "basis": "established thermal-management & water-use dynamics, consistent with LBNL/DOE analysis", "source": "LBNL/DOE" },
-        { "mechanism": "As rack density exceeds air-cooling limits, operators shift to direct-to-chip / closed-loop liquid cooling, trading evaporative water use for higher cooling efficiency", "basis": "established cooling-technology trend", "source": "Uptime Institute" }
-      ],
-      "methodCandidates": [],
-      "embodimentCandidates": [],
-      "figurePlaceholders": []
-    }
-  },
+  "byLane": {},
   "warnings": [
     "external-source-authored: evidenceAnchors point to real public sources but the diagnosis->source mappings are author-asserted and require human verification",
     "method/embodiment/figure candidates empty: public efficiency/cooling sources do not yield patentable invention candidates"

@@ -1,7 +1,11 @@
 {
   "diagnosisId": "ENERGY_DATACENTER_GRID_STRAIN",
-  "rawDiagnosisLabels": ["Data-Center Grid Strain"],
-  "domains": ["energy"],
+  "rawDiagnosisLabels": [
+    "Data-Center Grid Strain"
+  ],
+  "domains": [
+    "energy"
+  ],
   "portalCount": 0,
   "maxDepth": 0,
   "sourcePortals": [],
@@ -11,42 +15,39 @@
   "builtAt": "2026-06-20",
   "provenanceNote": "Authored from verified public institutional sources (NOT portal traversal) for the data-center grid-strain diagnosis. evidenceAnchors point to real source products; no data values or evidence grades are fabricated. method/embodiment/figure candidates intentionally empty - public planning/reliability sources do not yield patentable invention candidates. Mappings are author-asserted and require human verification.",
   "sources": [
-    { "org": "IEA", "product": "Electricity 2024 - Analysis and forecast to 2026", "url": "https://www.iea.org/reports/electricity-2024", "provides": "data-centre electricity-demand forecast; first sustained demand growth in ~two decades" },
-    { "org": "LBNL", "product": "2024 United States Data Center Energy Usage Report", "url": "https://eta.lbl.gov/publications", "provides": "U.S. data-center electricity consumption trajectory" },
-    { "org": "NERC", "product": "Long-Term Reliability Assessment", "url": "https://www.nerc.com/pa/RAPA/ra/Pages/default.aspx", "provides": "regional resource-adequacy & large-load reliability risk" },
-    { "org": "FERC", "product": "Order No. 2023 - Interconnection Process Reform", "url": "https://www.ferc.gov/explainer-interconnection-final-rule", "provides": "interconnection-queue reform & flexible-connection framework" },
-    { "org": "DOE", "product": "Pathways to Commercial Liftoff: Advanced Nuclear", "url": "https://liftoff.energy.gov/advanced-nuclear/", "provides": "firm clean-power options (nuclear PPA / SMR) for large loads" }
+    {
+      "org": "IEA",
+      "product": "Electricity 2024 - Analysis and forecast to 2026",
+      "url": "https://www.iea.org/reports/electricity-2024",
+      "provides": "data-centre electricity-demand forecast; first sustained demand growth in ~two decades"
+    },
+    {
+      "org": "LBNL",
+      "product": "2024 United States Data Center Energy Usage Report",
+      "url": "https://eta.lbl.gov/publications",
+      "provides": "U.S. data-center electricity consumption trajectory"
+    },
+    {
+      "org": "NERC",
+      "product": "Long-Term Reliability Assessment",
+      "url": "https://www.nerc.com/pa/RAPA/ra/Pages/default.aspx",
+      "provides": "regional resource-adequacy & large-load reliability risk"
+    },
+    {
+      "org": "FERC",
+      "product": "Order No. 2023 - Interconnection Process Reform",
+      "url": "https://www.ferc.gov/explainer-interconnection-final-rule",
+      "provides": "interconnection-queue reform & flexible-connection framework"
+    },
+    {
+      "org": "DOE",
+      "product": "Pathways to Commercial Liftoff: Advanced Nuclear",
+      "url": "https://liftoff.energy.gov/advanced-nuclear/",
+      "provides": "firm clean-power options (nuclear PPA / SMR) for large loads"
+    }
   ],
   "byLaneShared": {},
-  "byLane": {
-    "patents": {
-      "topSources": ["IEA", "LBNL", "NERC", "FERC"],
-      "treatments": [
-        { "label": "Track IEA Electricity 2024 data-centre demand forecast against regional load growth", "type": "DIAGNOSTIC", "sourceBacked": true, "source": "IEA Electricity 2024" },
-        { "label": "Separate confirmed vs speculative large-load interconnection requests in resource planning", "type": "STRATEGY", "sourceBacked": true, "source": "FERC Order 2023 / NERC LTRA" },
-        { "label": "Use flexible/curtailable interconnection agreements to energize large loads sooner", "type": "POLICY", "sourceBacked": true, "source": "FERC Order 2023" },
-        { "label": "Secure 24/7 firm clean power (nuclear PPA / SMR) independent of interconnection timelines", "type": "STRATEGY", "sourceBacked": true, "source": "DOE Liftoff: Advanced Nuclear" }
-      ],
-      "implementationSteps": [
-        { "step": "Pull regional large-load forecasts and reserve-margin risk from NERC LTRA", "source": "NERC" },
-        { "step": "De-duplicate speculative interconnection requests before sizing generation/transmission", "source": "FERC/NERC" },
-        { "step": "Match concentrated load clusters to firm-supply commitments and transmission headroom", "source": "IEA/DOE" }
-      ],
-      "evidenceAnchors": [
-        { "source": "IEA", "product": "Electricity 2024", "url": "https://www.iea.org/reports/electricity-2024", "provides": "data-centre demand forecast", "verification": "author-cited-public-source" },
-        { "source": "LBNL", "product": "2024 U.S. Data Center Energy Usage Report", "url": "https://eta.lbl.gov/publications", "provides": "U.S. data-center consumption trajectory", "verification": "author-cited-public-source" },
-        { "source": "NERC", "product": "Long-Term Reliability Assessment", "url": "https://www.nerc.com/pa/RAPA/ra/Pages/default.aspx", "provides": "large-load reliability risk", "verification": "author-cited-public-source" },
-        { "source": "FERC", "product": "Order No. 2023", "url": "https://www.ferc.gov/explainer-interconnection-final-rule", "provides": "interconnection reform", "verification": "author-cited-public-source" }
-      ],
-      "mechanismCandidates": [
-        { "mechanism": "Concentrated AI/accelerated-compute load grows faster than firm generation and transmission can be added, so the public grid cannot serve new demand on the data center's timeline", "basis": "established grid-planning dynamics, consistent with IEA/NERC analysis", "source": "IEA/NERC" },
-        { "mechanism": "Multi-year interconnection queues and transmission constraints delay energization, pushing operators toward behind-the-meter / on-site firm generation", "basis": "established interconnection-process dynamics", "source": "FERC/DOE" }
-      ],
-      "methodCandidates": [],
-      "embodimentCandidates": [],
-      "figurePlaceholders": []
-    }
-  },
+  "byLane": {},
   "warnings": [
     "external-source-authored: evidenceAnchors point to real public sources but the diagnosis->source mappings are author-asserted and require human verification",
     "method/embodiment/figure candidates empty: public planning/reliability sources do not yield patentable invention candidates"

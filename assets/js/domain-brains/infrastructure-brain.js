@@ -1635,7 +1635,7 @@
     // G1 — real source bundle for this canonical id (shipped only when it exists; NEVER fabricated).
     var _bundle = (this._bundleCache && this._bundleCache[identity.canonicalDiagnosisId]) || null;
     var _bundleKnown = !!(this._bundleStatusMap && Object.prototype.hasOwnProperty.call(this._bundleStatusMap, identity.canonicalDiagnosisId));
-    var _bl = (_bundle && _bundle.byLane && _bundle.byLane.patents) ? _bundle.byLane.patents : null;
+    var _bl = (_bundle && _bundle.byLane && _bundle.byLane.investments) ? _bundle.byLane.investments : null;
     var _bArr = function (k) { return (_bl && Array.isArray(_bl[k])) ? _bl[k] : []; };
     var bundleStatus = _bundle ? 'found' : (_bundleKnown ? 'missing' : 'unknown');
     var bundleShallow = !!(_bundle && ((_bundle.maxDepth || 0) === 0 || (_bundle.portalCount || 0) <= 1));
@@ -1681,7 +1681,7 @@
       citationHints: citationHints,
       bundleStatus: bundleStatus,
       bundleResolution: bundleResolution,
-      bundle: _bundle ? { portalCount: _bundle.portalCount || 0, maxDepth: _bundle.maxDepth || 0, domains: _bundle.domains || [], lane: 'patents', shallow: bundleShallow, buildMethod: _bundle.buildMethod || null, humanVerification: _bundle.humanVerification || null } : null,
+      bundle: _bundle ? { portalCount: _bundle.portalCount || 0, maxDepth: _bundle.maxDepth || 0, domains: _bundle.domains || [], lane: 'investments', shallow: bundleShallow, buildMethod: _bundle.buildMethod || null, humanVerification: _bundle.humanVerification || null } : null,
       missingEvidence: missingEv
     };
     // J2 — human-authoring intake: for external-source bundles missing invention candidates, emit

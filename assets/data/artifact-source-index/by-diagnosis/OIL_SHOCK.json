@@ -1,7 +1,11 @@
 {
   "diagnosisId": "OIL_SHOCK",
-  "rawDiagnosisLabels": ["Oil Supply Shock"],
-  "domains": ["energy"],
+  "rawDiagnosisLabels": [
+    "Oil Supply Shock"
+  ],
+  "domains": [
+    "energy"
+  ],
   "portalCount": 0,
   "maxDepth": 0,
   "sourcePortals": [],
@@ -11,42 +15,39 @@
   "builtAt": "2026-06-17",
   "provenanceNote": "Authored from verified public institutional sources (NOT portal traversal). evidenceAnchors point to real source products; no data values or evidence grades are fabricated. method/embodiment/figure candidates intentionally empty - public monitoring sources do not yield patentable invention candidates. Mappings are author-asserted and require human verification.",
   "sources": [
-    { "org": "EIA", "product": "Short-Term Energy Outlook (STEO)", "url": "https://www.eia.gov/outlooks/steo/", "provides": "crude oil & petroleum product supply/price forecasts; OPEC production-capacity estimates" },
-    { "org": "EIA", "product": "Weekly Petroleum Status Report", "url": "https://www.eia.gov/petroleum/supply/weekly/", "provides": "weekly U.S. crude/product inventories & supply" },
-    { "org": "IEA", "product": "Oil Market Report (OMR)", "url": "https://www.iea.org/topics/oil-market-report", "provides": "monthly global oil supply, demand, stocks, prices, refinery activity" },
-    { "org": "OPEC", "product": "Monthly Oil Market Report (MOMR)", "url": "https://www.opec.org/", "provides": "OPEC+ production and market analysis" },
-    { "org": "DOE", "product": "Strategic Petroleum Reserve (SPR)", "url": "https://www.energy.gov/ceser/strategic-petroleum-reserve", "provides": "emergency crude reserve levels & drawdown actions" }
+    {
+      "org": "EIA",
+      "product": "Short-Term Energy Outlook (STEO)",
+      "url": "https://www.eia.gov/outlooks/steo/",
+      "provides": "crude oil & petroleum product supply/price forecasts; OPEC production-capacity estimates"
+    },
+    {
+      "org": "EIA",
+      "product": "Weekly Petroleum Status Report",
+      "url": "https://www.eia.gov/petroleum/supply/weekly/",
+      "provides": "weekly U.S. crude/product inventories & supply"
+    },
+    {
+      "org": "IEA",
+      "product": "Oil Market Report (OMR)",
+      "url": "https://www.iea.org/topics/oil-market-report",
+      "provides": "monthly global oil supply, demand, stocks, prices, refinery activity"
+    },
+    {
+      "org": "OPEC",
+      "product": "Monthly Oil Market Report (MOMR)",
+      "url": "https://www.opec.org/",
+      "provides": "OPEC+ production and market analysis"
+    },
+    {
+      "org": "DOE",
+      "product": "Strategic Petroleum Reserve (SPR)",
+      "url": "https://www.energy.gov/ceser/strategic-petroleum-reserve",
+      "provides": "emergency crude reserve levels & drawdown actions"
+    }
   ],
   "byLaneShared": {},
-  "byLane": {
-    "patents": {
-      "topSources": ["EIA", "IEA", "OPEC", "DOE"],
-      "treatments": [
-        { "label": "Monitor EIA Short-Term Energy Outlook for crude supply/price trajectory", "type": "DIAGNOSTIC", "sourceBacked": true, "source": "EIA STEO" },
-        { "label": "Track IEA Oil Market Report for global supply/demand balance and stock draws", "type": "DIAGNOSTIC", "sourceBacked": true, "source": "IEA OMR" },
-        { "label": "Watch OPEC+ production decisions via OPEC Monthly Oil Market Report", "type": "DIAGNOSTIC", "sourceBacked": true, "source": "OPEC MOMR" },
-        { "label": "Assess Strategic Petroleum Reserve drawdown capacity", "type": "STRATEGY", "sourceBacked": true, "source": "DOE SPR" }
-      ],
-      "implementationSteps": [
-        { "step": "Pull weekly U.S. inventory deltas from EIA Weekly Petroleum Status Report", "source": "EIA" },
-        { "step": "Compare IEA vs EIA supply forecasts for divergence signals", "source": "IEA/EIA" },
-        { "step": "Flag OPEC+ quota/compliance changes that alter the supply path", "source": "OPEC" }
-      ],
-      "evidenceAnchors": [
-        { "source": "EIA", "product": "Short-Term Energy Outlook", "url": "https://www.eia.gov/outlooks/steo/", "provides": "forecast crude/product supply & price", "verification": "author-cited-public-source" },
-        { "source": "EIA", "product": "Weekly Petroleum Status Report", "url": "https://www.eia.gov/petroleum/supply/weekly/", "provides": "weekly inventories", "verification": "author-cited-public-source" },
-        { "source": "IEA", "product": "Oil Market Report", "url": "https://www.iea.org/topics/oil-market-report", "provides": "global supply/demand/stocks", "verification": "author-cited-public-source" },
-        { "source": "OPEC", "product": "Monthly Oil Market Report", "url": "https://www.opec.org/", "provides": "OPEC+ production", "verification": "author-cited-public-source" }
-      ],
-      "mechanismCandidates": [
-        { "mechanism": "Sudden supply disruption (geopolitical conflict, embargo, or facility damage) reduces available crude; short-run inelastic demand transmits the shortfall into rapid price spikes", "basis": "established energy-economics, consistent with EIA/IEA market analysis", "source": "EIA/IEA" },
-        { "mechanism": "Price shock propagates through transportation, petrochemical, and heating sectors that depend on petroleum inputs", "basis": "established sectoral linkage", "source": "EIA" }
-      ],
-      "methodCandidates": [],
-      "embodimentCandidates": [],
-      "figurePlaceholders": []
-    }
-  },
+  "byLane": {},
   "warnings": [
     "external-source-authored: evidenceAnchors point to real public sources but the diagnosis->source mappings are author-asserted and require human verification",
     "method/embodiment/figure candidates empty: public monitoring sources do not yield patentable invention candidates"
