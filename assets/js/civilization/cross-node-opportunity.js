@@ -71,7 +71,7 @@
   // Lane heuristics — domains have natural artifact-lane affinities.
   // This is a HINT only; handoff-contract refines based on evidence.
   var DOMAIN_LANE_HINTS = {
-    technology:    ['patents', 'nsf-project-pitch', 'research-grants', 'business-grants', 'investments', 'research-papers'],
+    technology:    [ 'nsf-project-pitch', 'research-grants', 'business-grants', 'investments', 'research-papers'],
     // ─── Research / Science = BASIC & APPLIED R&D / DISCOVERY / PUBLICATION
     //     (lane hints reflect knowledge-production + innovation-commercialization
     //     identity — NEVER energy oil/gas/grid content) ───────────────────────
@@ -90,7 +90,7 @@
     // snapshot key (domain-identity dual-naming) — BOTH are mapped so whichever
     // key a packet/node-mapping uses routes identically.
     //
-    // Energy anchors the multi-lane pattern (energy = ['patents','sba-loans',
+    // Energy anchors the multi-lane pattern (energy = [
     // 'business-grants'] — a multi-faceted IP + financing + grants space).
     // Research's OWN opportunity space is similarly multi-faceted and spans BOTH
     // knowledge-PRODUCTION lanes and innovation-COMMERCIALIZATION lanes: peer-
@@ -119,7 +119,7 @@
     // the URL/portal key; 'health' is the runtime/snapshot key (domain-identity
     // dual-naming) — BOTH are mapped so whichever key a packet uses routes.
     //
-    // Energy anchors the multi-lane pattern (energy = ['patents','sba-loans',
+    // Energy anchors the multi-lane pattern (energy = [
     // 'business-grants'] — a multi-faceted IP + financing + grants space).
     // Medicine's OWN opportunity space is similarly multi-faceted: clinical
     // research output (research-papers), pharmaceutical/diagnostic IP (patents),
@@ -139,9 +139,9 @@
     // co-elevated — not as dead tokens.
     medicine:      ['research-papers', 'patents', 'research-grants', 'nsf-project-pitch'],
     health:        ['research-papers', 'research-grants', 'nsf-project-pitch'],
-    energy:        ['patents', 'sba-loans', 'business-grants'],
-    industry:      ['patents', 'sba-loans'],
-    agriculture:   ['business-grants', 'sba-loans', 'patents'],
+    energy:        [ 'sba-loans', 'business-grants'],
+    industry:      [ 'sba-loans'],
+    agriculture:   [ 'sba-loans', 'patents'],
     // ─── Economy = MACRO AGGREGATE (additive macro lanes) ──────────────────
     // Economy is the macro aggregate (GDP/growth, inflation CPI/PCE, employment
     // PAYEMS/UNRATE, fiscal & monetary policy FEDFUNDS/DGS10, sentiment UMCSENT,
@@ -165,7 +165,7 @@
     // Existing firm-level lanes are kept (never removed). credit-facilities is
     // deliberately NOT added here — that is finance-native credit/lending; economy
     // stays the macro aggregate, distinct from finance.
-    economy:       ['sba-loans', 'investments', 'systemic-risk', 'capital-access'],
+    economy:       [ 'investments', 'systemic-risk', 'capital-access'],
     finance:       ['investments', 'copyrights', 'patents', 'business-grants', 'sba-loans', 'research-grants'],
     // ─── Education = SCHOOLS / EDTECH / STUDENT OUTCOMES (lane hints reflect
     //     learning, funding & access identity — NEVER energy oil/gas/grid
@@ -183,7 +183,7 @@
     // technology (edtech TOOLING is a COUPLING, not education's identity), and
     // economy (workforce / labor-market is a COUPLING). NEVER energy content.
     //
-    // Energy anchors the multi-lane pattern (energy = ['patents','sba-loans',
+    // Energy anchors the multi-lane pattern (energy = [
     // 'business-grants'] — a multi-faceted IP + financing + grants space).
     // Education's OWN opportunity space — student-outcome-improvement, curriculum-
     // modernization, teacher-development-funding, access-equity-program,
@@ -219,14 +219,14 @@
     // list (exactly as defense promoted 'defense-procurement' first). Until then
     // the live gates carry education's opportunity space. Additive only — never
     // removes prior domains' hints.
-    education:     ['research-grants', 'business-grants', 'research-papers'],
+    education:     [ 'business-grants', 'research-papers'],
     // 'science' = the URL/portal alias of the 'research' runtime key (see the
     // research block above + domain-identity.js dual-naming). Kept at lane parity
     // with research so whichever key a node-mapping/packet uses routes identically
     // to the same knowledge-production + innovation-commercialization lanes.
     science:       ['research-papers', 'research-grants', 'patents', 'nsf-project-pitch'],
-    governance:    ['copyrights'],
-    law:           ['copyrights'],
+    governance:    [],
+    law:           [],
     // ─── Defense = MILITARY-INDUSTRIAL READINESS (lane hints reflect kinetic/
     //     industrial identity, not IP) ───────────────────────────────────────
     // Defense's identity is military spending & procurement, the defense
@@ -238,7 +238,7 @@
     // It couples to energy via fuel security / strategic petroleum reserve, but
     // its OWN content stays kinetic/industrial readiness — never oil/gas/grid.
     //
-    // Energy anchors the multi-lane pattern: energy = ['patents','sba-loans',
+    // Energy anchors the multi-lane pattern: energy = [
     // 'business-grants'] reflects a multi-faceted opportunity space (IP
     // licensing, small-business suppliers, infrastructure grants). Defense's
     // opportunity space is similarly multi-faceted — procurement contracts,
@@ -255,7 +255,7 @@
     // infrastructure/energy/technology). The interim dead-token risk is therefore
     // resolved — both hints below route to real, defense-accepting LANE_GATES
     // entries (no silent drop). This brings defense to lane parity with energy
-    // (energy = ['patents','sba-loans','business-grants'], a multi-faceted IP +
+    // (energy = [], a multi-faceted IP +
     // financing + grants space) via defense's OWN multi-faceted space:
     //   • 'defense-procurement' FIRST — defense identity is kinetic/industrial
     //     readiness: programs of record, weapons-system buys, sustainment/
@@ -283,7 +283,7 @@
     // from defense (kinetic/industrial readiness) and from technology (cyber
     // tooling is a COUPLING, not the identity).
     //
-    // Energy anchors the multi-lane pattern (energy = ['patents','sba-loans',
+    // Energy anchors the multi-lane pattern (energy = [
     // 'business-grants'] — a multi-faceted IP + financing + grants space).
     // Intelligence's OWN opportunity space is similarly multi-faceted —
     // all-source assessment (systemic-risk shaped), collection capability,
@@ -300,21 +300,21 @@
     // research output) even though the contract currently routes it via the
     // research-side domains — it stays as an honest affinity hint, the contract
     // decides. The gap's other requested unconditional tokens
-    // ('systemic-risk','research-grants','insider-risk-assessment',
+    // ('systemic-risk','insider-risk-assessment',
     // 'fintech-infrastructure','intelligence-sharing') are NOT added here:
     // 'systemic-risk'/'research-grants' exist but do not list 'intelligence' in
     // anyDomain (would be dropped), and the remaining three do not exist as gates
     // at all. The collection↔technology and finint↔finance opportunities are
     // therefore carried CONDITIONALLY (coupling, below) where the co-elevated
     // partner that negotiates them is actually present — not as dead tokens.
-    intelligence:  ['copyrights', 'research-papers'],
-    communication: ['copyrights'],
-    culture:       ['copyrights', 'franchise', 'patents', 'research-papers', 'business-grants', 'research-grants'],
-    religion:      ['copyrights'],
+    intelligence:  [ 'research-papers'],
+    communication: [],
+    culture:       [ 'franchise', 'patents', 'research-papers', 'business-grants', 'research-grants'],
+    religion:      [],
     population:    ['research-papers'],
-    environment:   ['research-grants', 'patents'],
-    infrastructure:['patents', 'research-grants', 'research-papers', 'business-grants', 'sba-loans'],
-    supplyChain:   ['business-grants', 'sba-loans', 'franchise']
+    environment:   [ 'patents'],
+    infrastructure:[ 'research-grants', 'research-papers', 'business-grants', 'sba-loans'],
+    supplyChain:   [ 'sba-loans', 'franchise']
   };
 
   // ─── Technology co-domain coupling lanes (additive) ─────────────────────
@@ -409,10 +409,10 @@
   // routes governance couplings to the governance negotiator. Additive only —
   // never removes the generic governance lanes above.
   var GOVERNANCE_COUPLING_LANES = {
-    energy:      ['copyrights'], // carbon-regulatory-compliance (intent)
-    finance:     ['copyrights'], // prudential-compliance-modernization (intent)
-    defense:     ['copyrights'], // acquisition-authority-modernization (intent)
-    technology:  ['copyrights']  // tech-regulation-modernization (intent)
+    energy:      [], // carbon-regulatory-compliance (intent)
+    finance:     [], // prudential-compliance-modernization (intent)
+    defense:     [], // acquisition-authority-modernization (intent)
+    technology:  []  // tech-regulation-modernization (intent)
   };
 
   // ─── Medicine/Health co-domain coupling lanes (additive, life-sciences) ──
@@ -456,10 +456,10 @@
   // negotiator. Additive only — never removes the generic medicine/health lanes
   // above.
   var HEALTH_COUPLING_LANES = {
-    finance:     ['nsf-project-pitch'], // pharma-funding / medtech-VC (intent)
-    economy:     ['nsf-project-pitch'], // biotech-startup capital (intent)
-    technology:  ['nsf-project-pitch'], // medtech-IP / digital-health (intent)
-    defense:     ['nsf-project-pitch'], // biodefense countermeasure (intent)
+    finance:     [], // pharma-funding / medtech-VC (intent)
+    economy:     [], // biotech-startup capital (intent)
+    technology:  [], // medtech-IP / digital-health (intent)
+    defense:     [], // biodefense countermeasure (intent)
     science:     ['research-papers'],   // translational basic→clinical
     population:  ['research-papers']    // disease-burden / epidemiology
   };
@@ -511,8 +511,8 @@
     medicine:    ['research-papers'],     // translational basic→clinical evidence
     health:      ['research-papers'],     // translational basic→clinical (alias)
     population:  ['research-papers'],     // disease-epidemiology cohort study
-    finance:     ['nsf-project-pitch'],   // biotech/cleantech research-startup (intent)
-    technology:  ['nsf-project-pitch']    // applied R&D → deep-tech commercialization
+    finance:     [],   // biotech/cleantech research-startup (intent)
+    technology:  []    // applied R&D → deep-tech commercialization
   };
 
   function _laneHints(domains) {

@@ -47,9 +47,9 @@
   var REBUILD_DEBOUNCE = 800;
 
   var LANES = [
-    'patents', 'copyrights', 'business-grants', 'research-grants',
-    'nsf-project-pitch',
-    'sba-loans', 'franchise', 'investments', 'research-papers',
+    // patents/copyrights/business-grants/research-grants/nsf-project-pitch/sba-loans/franchise
+    // RETIRED (investment + research only). Removed 2026-06-26 per operator.
+    'investments', 'research-papers',
     // ─── Finance-native lanes (additive) ──────────────────────────────────
     // Finance is the canonical source domain for capital-market opportunity.
     // These three lanes give finance-native signal (credit/lending, systemic

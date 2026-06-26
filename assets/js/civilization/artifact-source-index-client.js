@@ -38,7 +38,7 @@
 
   var SCHEMA_VERSION  = 'D3-G.deepSource.v1';
   var BUNDLE_BASE     = '/assets/data/artifact-source-index/by-diagnosis/';
-  var LANES = ['patents', 'business-grants', 'research-grants', 'nsf-project-pitch', 'sba-loans', 'investments'];
+  var LANES = [ 'business-grants', 'research-grants', 'nsf-project-pitch', 'sba-loans', 'investments'];
 
   // ── Diagnosis canonicalization ────────────────────────────────────
   // Mirror of scripts/build-artifact-deep-source-index.js
