@@ -602,7 +602,7 @@
   // — only routed away from lanes where it would produce garbage filings.
   var LANE_GATES = {
     'patents':         { minEvidence: 0.55, minConfidence: 0.60, singleDomainOnly: true,  anyDomain: ['technology','energy','infrastructure','industry','medicine','defense','agriculture'] },
-    'copyrights':      { minEvidence: 0.45, minConfidence: 0.50, singleDomainOnly: false, anyDomain: ['culture','communication','religion','governance','law','intelligence'] },
+    'copyrights':      { minEvidence: 0.45, minConfidence: 0.50, singleDomainOnly: false, anyDomain: ['culture','communication','religion','governance','law'] },
     // business-grants — governance added (additive): governance shapes permitting /
     //   environmental-review / public-funding-mandate timelines that gate the capex
     //   business-grant opportunities originate from (infrastructure-native coupling).
