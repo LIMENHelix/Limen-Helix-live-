@@ -196,10 +196,9 @@
     var clock = document.createElement('div');
     clock.className = 'ltb-clock';
     clock.id = 'ltb-clock';
+    // operator-state (biosensor regulation) indicator removed 2026-06-26 per operator — clock + tz only
     clock.innerHTML =
-      '<span class="ltb-clock-state" id="ltb-clock-state">CALM</span>'
-      + '<span class="ltb-sep">&middot;</span>'
-      + '<span id="ltb-clock-time">--:--:--</span>'
+      '<span id="ltb-clock-time">--:--:--</span>'
       + '<span class="ltb-sep">&middot;</span>'
       + '<span id="ltb-clock-tz">UTC</span>';
     bar.appendChild(clock);
@@ -253,8 +252,7 @@
   function tickClock() {
     var t = document.getElementById('ltb-clock-time');
     var z = document.getElementById('ltb-clock-tz');
-    var st = document.getElementById('ltb-clock-state');
-    if (!t || !z || !st) return;
+    if (!t || !z) return;
     var d = new Date();
     var h = d.getHours(), m = d.getMinutes(), s = d.getSeconds();
     t.textContent = pad2(h) + ':' + pad2(m) + ':' + pad2(s);
@@ -262,8 +260,6 @@
     var sign = tzMin <= 0 ? '+' : '-';
     var tzH = Math.abs(Math.floor(tzMin / 60));
     z.textContent = 'UTC' + sign + tzH;
-    var disp = STATE_DISPLAY[_clockState] || STATE_DISPLAY.unknown;
-    st.textContent = disp.label;
     st.style.color = disp.color;
   }
 
