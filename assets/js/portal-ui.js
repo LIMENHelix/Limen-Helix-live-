@@ -2565,6 +2565,13 @@ var PortalUI = (function() {
 
     var html = '<div style="text-align:center;margin-bottom:8px;font-size:0.3rem;letter-spacing:1.5px;color:rgba(200,195,184,0.18)">RECURSIVE REGULATION ENGINE</div>';
 
+    // LIVE badge — shows the portal is reading the current snapshot, not frozen structure.
+    if (typeof window !== 'undefined' && window._portalLiveAt) {
+      var _ageMin = Math.max(0, Math.round((Date.now() - window._portalLiveAt) / 60000));
+      var _ageTxt = _ageMin < 1 ? 'just now' : _ageMin + 'm ago';
+      html += '<div style="text-align:center;margin-bottom:8px;font-size:0.38rem;letter-spacing:1.5px;color:rgba(90,181,160,0.7)">● LIVE · updated ' + _ageTxt + '</div>';
+    }
+
     // Opportunity context handoff
     if (config.opportunityContext && config.opportunityContext.title) {
       var oc = config.opportunityContext;
@@ -3028,10 +3035,42 @@ var PortalUI = (function() {
     }
   }
 
+  // Connect the static portal to the LIVE layer. The intel block already renders
+  // domain stress + signals from window.LIMENDomains, but portal pages never load
+  // a snapshot to populate it — so it stayed dormant (frozen structure only). Fetch
+  // the live domain-snapshot once, populate window.LIMENDomains (with portal→runtime
+  // dual-key aliases), stamp the refresh time, and re-render the intel block.
+  function _loadLiveContext() {
+    if (typeof fetch === 'undefined') return;
+    var opts = (typeof AbortSignal !== 'undefined' && AbortSignal.timeout) ? { signal: AbortSignal.timeout(8000) } : {};
+    try {
+      fetch('/api/domain-snapshot', opts)
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (snap) {
+          if (!snap || !snap.domains) return;
+          var doms = snap.domains;
+          var ALIAS = { science: 'research', medicine: 'health', trade: 'supplyChain' };
+          for (var pk in ALIAS) { if (doms[ALIAS[pk]] && !doms[pk]) doms[pk] = doms[ALIAS[pk]]; }
+          window.LIMENDomains = doms;
+          window._portalLiveAt = (snap.meta && snap.meta.fetchedAt) ? snap.meta.fetchedAt : Date.now();
+          // re-render the intel block now that live data exists
+          try {
+            var empty = document.getElementById('rightEmpty');
+            if (empty) { var old = empty.querySelector('.nd-empty-intel'); if (old) old.parentNode.removeChild(old); }
+            _injectEmptyStateIntelligence();
+          } catch (e) {}
+        })
+        .catch(function () {});
+    } catch (e) {}
+  }
+
   // === PUBLIC API ===
   return {
     init: function(cfg) {
       config = cfg;
+
+      // Connect this portal to the live layer (async; re-renders intel when ready)
+      _loadLiveContext();
 
       // Build circuit legend
       buildCircuitLegend();
