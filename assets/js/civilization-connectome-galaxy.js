@@ -803,13 +803,13 @@ var _ttName = null;
 var _ttTagline = null;
 var _ttCounts = null;
 var _DOMAIN_COUNTS = {
-  governance:{p:10395,dx:612}, economy:{p:9742,dx:480}, infrastructure:{p:10244,dx:578},
-  energy:{p:10230,dx:578}, agriculture:{p:30,dx:106}, industry:{p:10244,dx:578},
-  science:{p:7294,dx:363}, medicine:{p:7628,dx:423}, education:{p:6877,dx:326},
-  technology:{p:8171,dx:408}, communication:{p:7742,dx:359}, culture:{p:9942,dx:512},
-  defense:{p:10300,dx:579}, environment:{p:10341,dx:578}, religion:{p:10402,dx:611},
-  population:{p:10395,dx:611}, trade:{p:8022,dx:569}, law:{p:8089,dx:476},
-  finance:{p:8596,dx:570}, intelligence:{p:8895,dx:605}
+  governance:{p:10395,dx:612,tx:11828}, economy:{p:9742,dx:492,tx:14326}, infrastructure:{p:10244,dx:581,tx:11912},
+  energy:{p:10230,dx:585,tx:11696}, agriculture:{p:30,dx:106,tx:2024}, industry:{p:10244,dx:581,tx:12289},
+  science:{p:7294,dx:366,tx:16271}, medicine:{p:7628,dx:430,tx:15993}, education:{p:6877,dx:340,tx:18480},
+  technology:{p:8171,dx:408,tx:14309}, communication:{p:7742,dx:359,tx:13518}, culture:{p:9942,dx:521,tx:13068},
+  defense:{p:10300,dx:582,tx:11482}, environment:{p:10341,dx:581,tx:12478}, religion:{p:10402,dx:611,tx:10988},
+  population:{p:10395,dx:611,tx:11574}, trade:{p:8022,dx:572,tx:16215}, law:{p:8089,dx:485,tx:14746},
+  finance:{p:8596,dx:573,tx:14247}, intelligence:{p:8895,dx:605,tx:12428}
 };
 var _subMenu = null;
 var _animFrameId = null;
@@ -1683,7 +1683,7 @@ function showTooltip(idx,mx,my) {
   _ttPhase.textContent=NODE_TAGLINES[n.id]||'';
   _ttPhase.style.color=n.phaseHex; _ttName.textContent=n.label; _ttTagline.textContent=n.description;
   if(_ttCounts){ var _c=_DOMAIN_COUNTS[n.id];
-    _ttCounts.innerHTML = _c ? ('<b>'+_c.p.toLocaleString()+'</b> portals &middot; <b>'+_c.dx+'</b> diagnoses') : ''; }
+    _ttCounts.innerHTML = _c ? ('<b>'+_c.p.toLocaleString()+'</b> portals &middot; <b>'+_c.dx.toLocaleString()+'</b> diagnoses &middot; <b>'+_c.tx.toLocaleString()+'</b> treatments') : ''; }
   var ttE=document.getElementById('ttEnter');
   if(DOMAIN_PORTALS[n.id]) ttE.textContent='View portals \u2192';
   else if(n.childUniverse && PORTAL_ROUTES[n.childUniverse]) ttE.textContent='Enter portal \u2192';
