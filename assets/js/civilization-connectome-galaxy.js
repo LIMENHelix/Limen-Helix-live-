@@ -803,13 +803,13 @@ var _ttName = null;
 var _ttTagline = null;
 var _ttCounts = null;
 var _DOMAIN_COUNTS = {
-  governance:{p:10395,dx:612,tx:11828}, economy:{p:9742,dx:492,tx:14326}, infrastructure:{p:10244,dx:581,tx:11912},
-  energy:{p:10230,dx:585,tx:11696}, agriculture:{p:30,dx:106,tx:2024}, industry:{p:10244,dx:581,tx:12289},
-  science:{p:7294,dx:366,tx:16271}, medicine:{p:7628,dx:430,tx:15993}, education:{p:6877,dx:340,tx:18480},
-  technology:{p:8171,dx:408,tx:14309}, communication:{p:7742,dx:359,tx:13518}, culture:{p:9942,dx:521,tx:13068},
-  defense:{p:10300,dx:582,tx:11482}, environment:{p:10341,dx:581,tx:12478}, religion:{p:10402,dx:611,tx:10988},
-  population:{p:10395,dx:611,tx:11574}, trade:{p:8022,dx:572,tx:16215}, law:{p:8089,dx:485,tx:14746},
-  finance:{p:8596,dx:573,tx:14247}, intelligence:{p:8895,dx:605,tx:12428}
+  governance:{p:28129,dx:59071,tx:516899}, economy:{p:24534,dx:45928,tx:405596}, infrastructure:{p:27275,dx:48440,tx:440218},
+  energy:{p:27165,dx:54113,tx:475496}, agriculture:{p:18814,dx:54410,tx:445440}, industry:{p:27265,dx:51040,tx:457616},
+  science:{p:18183,dx:32511,tx:296165}, medicine:{p:19493,dx:30019,tx:274539}, education:{p:17060,dx:31936,tx:484913},
+  technology:{p:19976,dx:34039,tx:313943}, communication:{p:18502,dx:32638,tx:296846}, culture:{p:25409,dx:44212,tx:398515},
+  defense:{p:27478,dx:52758,tx:468005}, environment:{p:27709,dx:54199,tx:608600}, religion:{p:28124,dx:53323,tx:476308},
+  population:{p:28359,dx:57512,tx:526570}, trade:{p:18508,dx:31982,tx:330331}, law:{p:19511,dx:36993,tx:339101},
+  finance:{p:20764,dx:37375,tx:349583}, intelligence:{p:21781,dx:37638,tx:341003}
 };
 var _subMenu = null;
 var _animFrameId = null;
