@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>LIMEN HELIX — Live intelligence across 20 domains</title>
+<meta name="description" content="LIMEN Helix maps 20 domains of civilization in real time — portals, diagnoses, treatments, and live opportunities. Explore the connectome." />
+<style>
+  :root{
+    --gold:#c9a94e; --ink:#efe9d8; --void:#05050c; --void2:#0a0a14;
+    --line:rgba(201,169,78,0.22); --cyan:#22d3ee;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{min-height:100%;background:var(--void);color:var(--ink);
+    font-family:Georgia,"Times New Roman",serif;-webkit-font-smoothing:antialiased}
+  body{overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  .wrap{position:relative;z-index:2;max-width:1100px;margin:0 auto;padding:0 22px}
+
+  /* top bar */
+  .top{position:relative;z-index:5;display:flex;align-items:center;justify-content:space-between;
+    padding:20px 26px;border-bottom:1px solid var(--line)}
+  .brand{font-size:1.15rem;letter-spacing:.22em;color:var(--gold);
+    text-shadow:0 0 16px rgba(201,169,78,.5)}
+  .brand b{font-weight:700}
+  .adminbtn{font-size:.58rem;letter-spacing:2px;text-transform:uppercase;color:rgba(201,169,78,0.62);
+    border:1px solid rgba(201,169,78,0.32);padding:7px 14px;border-radius:3px;background:rgba(0,0,0,0.35);cursor:pointer}
+  .adminbtn:hover{color:#fff;border-color:var(--gold)}
+
+  /* hero */
+  .hero{text-align:center;padding:54px 22px 8px}
+  .hero h1{font-weight:400;letter-spacing:.06em;font-size:clamp(1.9rem,5vw,3.3rem);line-height:1.05;
+    background:linear-gradient(180deg,#e9d49a,#c9a94e 55%,#7a5e22);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .hero p{max-width:620px;margin:18px auto 0;font-size:clamp(.95rem,2vw,1.12rem);line-height:1.7;color:#d9d3c0}
+  .hero .em{color:#e6c869;font-weight:700}
+
+  /* connectome */
+  .stage{position:relative;width:100%;height:min(620px,80vh);margin:8px auto 0}
+  #cx{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:crosshair}
+  .tip{position:fixed;pointer-events:none;z-index:30;min-width:180px;
+    background:rgba(6,6,14,0.94);border:1px solid var(--line);border-radius:10px;padding:14px 16px;
+    box-shadow:0 10px 40px rgba(0,0,0,.6),0 0 22px rgba(201,169,78,.12);opacity:0;transition:opacity .12s;transform:translate(-50%,-115%)}
+  .tip.show{opacity:1}
+  .tip h4{font-size:1.05rem;letter-spacing:.04em;color:var(--gold);margin-bottom:9px;text-transform:capitalize}
+  .tip .row{display:flex;justify-content:space-between;gap:24px;font-size:.82rem;padding:3px 0;color:#d9d3c0}
+  .tip .row b{color:#fff;font-variant-numeric:tabular-nums}
+  .tip .est{margin-top:8px;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(239,233,216,.4)}
+  .stage__hint{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);font-size:.62rem;
+    letter-spacing:.28em;text-transform:uppercase;color:rgba(239,233,216,.3)}
+
+  /* how it works */
+  .how{padding:42px 22px 10px}
+  .how h2{text-align:center;font-weight:400;letter-spacing:.04em;font-size:clamp(1.3rem,3vw,1.9rem);color:#e9d49a;margin-bottom:8px}
+  .how .sub{text-align:center;color:#bdb7a4;font-size:.95rem;max-width:600px;margin:0 auto 32px;line-height:1.6}
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .stp{border:1px solid var(--line);border-radius:12px;padding:20px 18px;background:rgba(10,10,20,0.5)}
+  .stp .n{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+  .stp h3{font-weight:400;font-size:1.05rem;margin:8px 0 6px;color:#efe9d8}
+  .stp p{font-size:.82rem;line-height:1.55;color:#ada794}
+
+  /* free tools */
+  .tools{padding:40px 22px 16px;text-align:center}
+  .tools .lab{display:block;margin-bottom:14px;color:#f3efe2;letter-spacing:.04em;font-size:.95rem}
+  .tools a{color:#06060e;font-weight:700;background:#d8b85a;border-radius:20px;padding:9px 17px;
+    display:inline-block;margin:5px;box-shadow:0 2px 12px rgba(0,0,0,.5);font-family:Georgia,serif;font-size:.9rem;transition:.2s}
+  .tools a:hover{background:#e9cd74;transform:translateY(-2px)}
+
+  /* footer */
+  .foot{text-align:center;padding:46px 22px 40px;border-top:1px solid var(--line);margin-top:40px;color:rgba(239,233,216,.4);font-size:.72rem;letter-spacing:.1em}
+
+  /* admin overlay */
+  .ov{position:fixed;inset:0;background:rgba(0,0,0,0.94);display:none;align-items:center;justify-content:center;z-index:60;padding:24px;backdrop-filter:blur(6px)}
+  .ov.show{display:flex}
+  .card{background:#06060e;border:1px solid rgba(201,169,78,0.35);padding:34px 30px 26px;max-width:360px;width:100%;text-align:center;position:relative}
+  .card .lbl{font-size:.62rem;letter-spacing:6px;color:rgba(201,169,78,.85);text-transform:uppercase;margin-bottom:22px}
+  .card input{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(201,169,78,0.35);color:var(--ink);font-family:Georgia,serif;font-size:1rem;padding:10px 4px;letter-spacing:2px;text-align:center;outline:none}
+  .card button{margin-top:20px;background:transparent;border:1px solid rgba(201,169,78,0.45);color:rgba(201,169,78,.85);font-family:Georgia,serif;font-size:.7rem;letter-spacing:4px;text-transform:uppercase;padding:10px 24px;cursor:pointer}
+  .card .x{position:absolute;top:8px;right:12px;background:none;border:none;color:rgba(239,233,216,.4);font-size:1.2rem;cursor:pointer}
+  .card .err{margin-top:12px;min-height:14px;font-size:.62rem;letter-spacing:2px;color:rgba(220,120,100,.85);text-transform:uppercase}
+  @media (max-width:760px){ .steps{grid-template-columns:1fr 1fr} .stage{height:64vh} }
+</style>
+</head>
+<body>
+
+<div class="top">
+  <a href="/" class="brand">⊹ LIMEN <b>HELIX</b></a>
+  <button class="adminbtn" id="adminBtn">Admin</button>
+</div>
+
+<section class="hero">
+  <h1>Civilization, in real time.</h1>
+  <p>LIMEN Helix maps <span class="em">20 domains</span> of civilization — reading the live state of each
+    and surfacing where stress, failure, repair, and <span class="em">opportunity</span> are emerging.
+    Hover any domain to see what's inside.</p>
+</section>
+
+<div class="stage">
+  <canvas id="cx"></canvas>
+  <div class="stage__hint">hover a domain</div>
+</div>
+<div class="tip" id="tip"></div>
+
+<section class="how wrap">
+  <h2>How it reads a civilization</h2>
+  <p class="sub">Every domain breaks down the same way — a fractal of structure, failure, and repair.</p>
+  <div class="steps">
+    <div class="stp"><div class="n">01 · Domains</div><h3>20 domains</h3><p>Energy, finance, medicine, law, infrastructure and 15 more — the working systems of a civilization.</p></div>
+    <div class="stp"><div class="n">02 · Portals</div><h3>3,700+ portals</h3><p>Inside each domain, the specific entities and sub-systems we track and score.</p></div>
+    <div class="stp"><div class="n">03 · Diagnoses</div><h3>Failure states</h3><p>The ways each system breaks — stress, fracture, rupture — mapped and watched.</p></div>
+    <div class="stp"><div class="n">04 · Treatments</div><h3>Interventions</h3><p>And what repairs it — the moves, signals, and opportunities that follow.</p></div>
+  </div>
+</section>
+
+<section class="tools">
+  <span class="lab">Free, live now —</span>
+  <a href="/energy">⚡ Energy Bill X-Ray</a>
+  <a href="/energy-markets">📈 Energy Stocks by Theme</a>
+  <a href="/culture">🎭 Culture Watch</a>
+  <a href="/infrastructure">🏗 Plan Your Project</a>
+</section>
+
+<div class="foot">LIMEN HELIX · a cross-domain intelligence engine</div>
+
+<!-- admin -->
+<div class="ov" id="ov">
+  <div class="card">
+    <button class="x" id="ovX" aria-label="close">&times;</button>
+    <div class="lbl">Authorized Access</div>
+    <form id="ovForm">
+      <input type="password" id="ovPw" placeholder="• • • • • •" autocomplete="off" inputmode="numeric" />
+      <div class="err" id="ovErr"></div>
+      <button type="submit">Enter</button>
+    </form>
+  </div>
+</div>
+
+<script>
+/* ===== Connectome viz ===== */
+(function(){
+  var DOMAINS=[
+    {k:'governance',p:203,dx:36,tx:36},{k:'population',p:203,dx:32,tx:32},{k:'religion',p:203,dx:49,tx:46},
+    {k:'intelligence',p:201,dx:42,tx:32},{k:'energy',p:198,dx:52,tx:32},{k:'infrastructure',p:193,dx:66,tx:53},
+    {k:'industry',p:193,dx:48,tx:32},{k:'environment',p:193,dx:33,tx:32},{k:'defense',p:193,dx:40,tx:40},
+    {k:'trade',p:190,dx:33,tx:32},{k:'finance',p:190,dx:56,tx:38},{k:'culture',p:173,dx:32,tx:32},
+    {k:'economy',p:163,dx:43,tx:38},{k:'law',p:161,dx:39,tx:32},{k:'medicine',p:139,dx:41,tx:40},
+    {k:'technology',p:135,dx:48,tx:44},{k:'science',p:121,dx:54,tx:36},{k:'communication',p:119,dx:34,tx:34},
+    {k:'education',p:112,dx:32,tx:32},{k:'agriculture',p:150,dx:40,tx:34,est:true}
+  ];
+  var cv=document.getElementById('cx'), ctx=cv.getContext('2d'), tip=document.getElementById('tip');
+  var dpr=Math.min(window.devicePixelRatio||1,2), W=0,H=0, cxp=0,cyp=0, R=0, t0=Date.now(), hover=-1, mx=-999,my=-999;
+  function size(){ var r=cv.getBoundingClientRect(); W=r.width;H=r.height; cv.width=W*dpr;cv.height=H*dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0); cxp=W/2; cyp=H/2; R=Math.min(W,H)*0.40; }
+  function col(i){ return 'hsl('+Math.round(i/DOMAINS.length*330)+',72%,62%)'; }
+  function nodeAt(i,rot){ var a=i/DOMAINS.length*Math.PI*2 + rot - Math.PI/2;
+    return {x:cxp+Math.cos(a)*R, y:cyp+Math.sin(a)*R}; }
+  function rad(d){ return 7 + (d.p/203)*16; }
+  size(); addEventListener('resize',size);
+  cv.addEventListener('mousemove',function(e){ var r=cv.getBoundingClientRect(); mx=e.clientX-r.left; my=e.clientY-r.top;
+    tip.style.left=e.clientX+'px'; tip.style.top=e.clientY+'px'; });
+  cv.addEventListener('mouseleave',function(){ mx=-999;my=-999; });
+  function draw(){
+    var time=(Date.now()-t0)/1000, rot=time*0.05;
+    ctx.clearRect(0,0,W,H);
+    var pts=DOMAINS.map(function(d,i){return nodeAt(i,rot);});
+    // links: each to core + to neighbors a few steps away
+    ctx.lineWidth=1;
+    for(var i=0;i<pts.length;i++){
+      // to center
+      ctx.strokeStyle='rgba(201,169,78,0.07)'; ctx.beginPath(); ctx.moveTo(pts[i].x,pts[i].y); ctx.lineTo(cxp,cyp); ctx.stroke();
+      // to two neighbors offset (web feel)
+      [3,7].forEach(function(off){ var j=(i+off)%pts.length; var pulse=0.04+0.05*Math.abs(Math.sin(time*0.8+i));
+        ctx.strokeStyle='rgba(120,200,220,'+pulse.toFixed(3)+')'; ctx.beginPath(); ctx.moveTo(pts[i].x,pts[i].y); ctx.lineTo(pts[j].x,pts[j].y); ctx.stroke(); });
+    }
+    // hover hit-test
+    hover=-1; var best=1e9;
+    for(var i=0;i<pts.length;i++){ var dd=(pts[i].x-mx)*(pts[i].x-mx)+(pts[i].y-my)*(pts[i].y-my); var rr=rad(DOMAINS[i])+10;
+      if(dd<rr*rr && dd<best){best=dd;hover=i;} }
+    // core
+    var cg=ctx.createRadialGradient(cxp,cyp,0,cxp,cyp,28); cg.addColorStop(0,'rgba(201,169,78,0.9)'); cg.addColorStop(1,'rgba(201,169,78,0)');
+    ctx.fillStyle=cg; ctx.beginPath(); ctx.arc(cxp,cyp,28,0,6.2832); ctx.fill();
+    ctx.fillStyle='rgba(239,233,216,0.85)'; ctx.font='600 11px Georgia'; ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText('LIMEN',cxp,cyp);
+    // nodes
+    for(var i=0;i<pts.length;i++){ var d=DOMAINS[i], P=pts[i], r=rad(d), on=(i===hover);
+      var g=ctx.createRadialGradient(P.x,P.y,0,P.x,P.y,r*2.2); g.addColorStop(0,col(i)); g.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.globalAlpha=on?0.55:0.32; ctx.fillStyle=g; ctx.beginPath(); ctx.arc(P.x,P.y,r*2.2,0,6.2832); ctx.fill();
+      ctx.globalAlpha=1; ctx.fillStyle=col(i); ctx.beginPath(); ctx.arc(P.x,P.y,on?r*1.25:r,0,6.2832); ctx.fill();
+      if(on){ ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.stroke(); }
+      ctx.fillStyle=on?'#fff':'rgba(239,233,216,0.78)'; ctx.font=(on?'600 ':'')+'11px Georgia';
+      var la=i/DOMAINS.length*Math.PI*2+rot-Math.PI/2, lx=P.x+Math.cos(la)*(r+14), ly=P.y+Math.sin(la)*(r+14);
+      ctx.textAlign=(Math.cos(la)<-0.3?'right':(Math.cos(la)>0.3?'left':'center'));
+      ctx.fillText(d.k.charAt(0).toUpperCase()+d.k.slice(1),lx,ly);
+    }
+    // tooltip
+    if(hover>=0){ var d=DOMAINS[hover];
+      tip.innerHTML='<h4>'+d.k+'</h4>'+
+        '<div class="row"><span>Portals</span><b>'+d.p+'</b></div>'+
+        '<div class="row"><span>Diagnoses</span><b>'+d.dx+'</b></div>'+
+        '<div class="row"><span>Treatments</span><b>'+d.tx+'</b></div>'+
+        (d.est?'<div class="est">estimated</div>':'');
+      tip.classList.add('show');
+    } else tip.classList.remove('show');
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ===== Admin (passcode → /api/admin-auth → /admin) ===== */
+(function(){
+  var btn=document.getElementById('adminBtn'), ov=document.getElementById('ov'),
+      form=document.getElementById('ovForm'), pw=document.getElementById('ovPw'),
+      err=document.getElementById('ovErr'), x=document.getElementById('ovX');
+  function show(){ ov.classList.add('show'); setTimeout(function(){pw.focus();},50); }
+  function hide(){ ov.classList.remove('show'); err.textContent=''; pw.value=''; }
+  btn.addEventListener('click',show); x.addEventListener('click',hide);
+  ov.addEventListener('click',function(e){ if(e.target===ov) hide(); });
+  document.addEventListener('keydown',function(e){
+    if((e.ctrlKey||e.metaKey)&&e.shiftKey&&(e.key==='A'||e.key==='a')){e.preventDefault();show();}
+    if(e.key==='Escape') hide(); });
+  form.addEventListener('submit',function(e){ e.preventDefault();
+    var v=(pw.value||'').trim(); if(!v){err.textContent='Enter code';return;} err.textContent='checking…';
+    fetch('/api/admin-auth',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({passcode:v})})
+      .then(function(r){return r.json();})
+      .then(function(j){ if(j&&j.ok){ try{sessionStorage.setItem('limen_access','granted'); if(j.person)sessionStorage.setItem('limen_admin',JSON.stringify(j.person)); sessionStorage.setItem('limen_pass',v);}catch(e){} window.location.replace('/admin'); }
+        else { err.textContent='Incorrect'; pw.value=''; pw.focus(); } })
+      .catch(function(){ err.textContent='Error — try again'; });
+  });
+})();
+</script>
+</body>
+</html>
