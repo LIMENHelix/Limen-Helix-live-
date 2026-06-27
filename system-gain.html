@@ -82,7 +82,9 @@
 
 <script>
 function fmtAge(ts){ if(!ts) return '—'; var m=Math.round((Date.now()-ts)/60000); if(m<1) return 'just now'; if(m<60) return m+' min ago'; var h=Math.round(m/60); return h+' hr ago'; }
-function stateOf(g){ if(g>=0.30) return {t:'HIGH',c:'var(--high)'}; if(g>=0.10) return {t:'RISING',c:'var(--rising)'}; return {t:'CALM',c:'var(--calm)'}; }
+// Cuts calibrated to the observed calm envelope (γ ~0.15 with 3 domains barely over).
+// CALM up to a quarter of domains; RISING a quarter-to-half; HIGH = half+ destabilizing at once.
+function stateOf(g){ if(g>=0.50) return {t:'HIGH',c:'var(--high)'}; if(g>=0.25) return {t:'RISING',c:'var(--rising)'}; return {t:'CALM',c:'var(--calm)'}; }
 function load(){
   fetch('/api/system-gain?cb='+Date.now()).then(function(r){return r.json();}).then(function(j){
     var c=j.current;
