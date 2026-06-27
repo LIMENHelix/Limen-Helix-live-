@@ -1734,8 +1734,8 @@ function draw() {
     var r = spiralMaxR * (0.38 + 0.62 * (i / last));
     if (NODES[i]._spin === undefined) {
       NODES[i]._spin = i * GOLDEN_ANGLE;
-      var _h = Math.abs(Math.sin((i + 1) * 12.9898)); // stable per-domain 0..1
-      NODES[i]._spd = spiralSpeed * (0.45 + 1.7 * _h); // each domain orbits 0.45x–2.15x speed
+      var _rf = 0.38 + 0.62 * (i / last); // orbital radius (fraction): inner 0.38 .. outer 1.0
+      NODES[i]._spd = 0.00078 / Math.pow(_rf, 1.5); // Kepler's 3rd law: ω ∝ r^-1.5 (inner orbits faster)
     }
     NODES[i]._spin += NODES[i]._spd;
     var theta = NODES[i]._spin;
