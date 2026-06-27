@@ -9,6 +9,7 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{background:#050810;color:#e8e3d9;font-family:monospace;overflow:hidden;height:100%;width:100%;-webkit-user-select:none;user-select:none}
 canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;background:#050810}
+canvas#stars{position:fixed;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;mix-blend-mode:screen}
 .scanline{position:fixed;inset:0;z-index:5;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.02) 2px,rgba(0,0,0,0.02) 4px)}
 
 /* public top bar */
@@ -65,6 +66,7 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;background
 </div>
 
 <canvas id="c"></canvas>
+<canvas id="stars"></canvas>
 <div class="scanline"></div>
 
 <div class="center-label">
@@ -146,6 +148,40 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;background
         else { err.textContent='Incorrect'; pw.value=''; pw.focus(); } })
       .catch(function(){ err.textContent='Error — try again'; });
   });
+})();
+</script>
+<script>
+/* galaxy starfield — bright + dull specks + faint nebula, screen-blended over the connectome */
+(function(){
+  var cv=document.getElementById('stars'); if(!cv) return; var ctx=cv.getContext('2d');
+  var dpr=Math.min(window.devicePixelRatio||1,2), stars=[], neb=[];
+  function rand(a,b){ return a+Math.random()*(b-a); }
+  function build(){
+    cv.width=innerWidth*dpr; cv.height=innerHeight*dpr;
+    var n=Math.floor(innerWidth*innerHeight/1500); stars=[];
+    for(var i=0;i<n;i++){
+      var bright=Math.random()<0.16;
+      stars.push({ x:Math.random()*cv.width, y:Math.random()*cv.height,
+        r:(bright?rand(0.8,1.7):rand(0.3,0.9))*dpr,
+        base:bright?rand(0.6,1):rand(0.1,0.42),
+        tw:rand(0.004,0.018), ph:Math.random()*6.2832,
+        col:Math.random()<0.8?'255,255,255':(Math.random()<0.5?'180,205,255':'232,200,140') });
+    }
+    neb=[{x:cv.width*0.30,y:cv.height*0.34,r:cv.width*0.42,c:'90,120,205'},
+         {x:cv.width*0.74,y:cv.height*0.62,r:cv.width*0.38,c:'150,95,185'}];
+  }
+  build(); addEventListener('resize',build);
+  var run=true; document.addEventListener('visibilitychange',function(){ run=!document.hidden; if(run) draw(); });
+  function draw(){
+    if(!run) return;
+    ctx.clearRect(0,0,cv.width,cv.height);
+    for(var k=0;k<neb.length;k++){ var b=neb[k]; var g=ctx.createRadialGradient(b.x,b.y,0,b.x,b.y,b.r);
+      g.addColorStop(0,'rgba('+b.c+',0.055)'); g.addColorStop(1,'rgba('+b.c+',0)'); ctx.fillStyle=g; ctx.fillRect(0,0,cv.width,cv.height); }
+    for(var i=0;i<stars.length;i++){ var s=stars[i]; s.ph+=s.tw; var a=s.base*(0.55+0.45*Math.sin(s.ph));
+      ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,6.2832); ctx.fillStyle='rgba('+s.col+','+a.toFixed(3)+')'; ctx.fill(); }
+    requestAnimationFrame(draw);
+  }
+  draw();
 })();
 </script>
 </body>
