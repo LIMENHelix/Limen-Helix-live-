@@ -106,7 +106,7 @@ module.exports = async function handler(req, res) {
     consoleSnapshot.convergenceSignals = {};
   }
 
-  await db.set('console_snapshot', consoleSnapshot, 300);
+  await db.set('console_snapshot', consoleSnapshot, 1200); // 20m > 15m cron, so it never expires between runs
 
   // ── Server-side change log: detect and record domain changes ──
   try {
@@ -139,7 +139,7 @@ module.exports = async function handler(req, res) {
         await db.set(clKey, { entries:clEntries, updatedAt:clNow }, 604800);
       }
     }
-    await db.set('prev_console_snapshot', consoleSnapshot, 600);
+    await db.set('prev_console_snapshot', consoleSnapshot, 1800);
   } catch (e) { /* change log non-critical */ }
 
   // ── Phase 23D-E: Activity-aware opportunity ranking ──
@@ -270,7 +270,7 @@ module.exports = async function handler(req, res) {
     opportunities: opportunities.slice(0, 100)
   };
 
-  await db.set('opportunities_snapshot', oppSnapshot, 300);
+  await db.set('opportunities_snapshot', oppSnapshot, 1200); // 20m > 15m cron, never expires between runs
 
   res.status(200).json({
     ok: true,
