@@ -3044,15 +3044,19 @@ var PortalUI = (function() {
     if (typeof fetch === 'undefined') return;
     var opts = (typeof AbortSignal !== 'undefined' && AbortSignal.timeout) ? { signal: AbortSignal.timeout(8000) } : {};
     try {
-      fetch('/api/domain-snapshot', opts)
+      // Read the CACHED console snapshot (Redis-backed, no feed rebuild, no paid
+      // Tavily call) — not /api/domain-snapshot, which can trigger a live build.
+      fetch('/api/limen-snapshot?type=console', opts)
         .then(function (r) { return r.ok ? r.json() : null; })
         .then(function (snap) {
           if (!snap || !snap.domains) return;
           var doms = snap.domains;
           var ALIAS = { science: 'research', medicine: 'health', trade: 'supplyChain' };
           for (var pk in ALIAS) { if (doms[ALIAS[pk]] && !doms[pk]) doms[pk] = doms[ALIAS[pk]]; }
+          // console snapshot carries a single topSignal string, not a signals[] array
+          for (var dk in doms) { if (doms[dk] && doms[dk].topSignal && !doms[dk].signals) doms[dk].signals = [doms[dk].topSignal]; }
           window.LIMENDomains = doms;
-          window._portalLiveAt = (snap.meta && snap.meta.fetchedAt) ? snap.meta.fetchedAt : Date.now();
+          window._portalLiveAt = snap.generatedAt || (snap.meta && snap.meta.fetchedAt) || Date.now();
           // re-render the intel block now that live data exists
           try {
             var empty = document.getElementById('rightEmpty');
