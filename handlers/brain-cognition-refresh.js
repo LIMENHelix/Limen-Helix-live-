@@ -83,6 +83,13 @@ function buildSandbox(snap, BASE){
     getDomain: function(k){ return sb.window.LIMENDomains[k] || null; },
     start: noop, subscribe: noop, onUpdate: noop
   };
+  // Brains read their observation via _getSnapshot() -> LIMENFastBoot.getConsoleSnapshotSync().
+  // Without this the recurrent loop gets a null observation and predictionError never computes
+  // (same path that starved companies). Provide it so the cognition actually runs.
+  sb.window.LIMENFastBoot = {
+    getConsoleSnapshotSync: function(){ return { domains: sb.window.LIMENDomains, meta: snap.meta, domainCompanyJoin: snap.domainCompanyJoin || {} }; },
+    getOpportunitiesSnapshotSync: function(){ return {}; }
+  };
   return sb;
 }
 
@@ -121,7 +128,11 @@ module.exports = async function handler(req, res) {
         var c = compact(b.state && b.state.cognition);
         if (c) {
           var r = await redisSet(PREFIX + dom, { c: c, ts: Date.now() }, TTL); if (r && r.ok) stored++;
-          var _pe = c.model && c.model.predictionError;
+          // predictionError is an OBJECT {total, novelty, stressError, ...} on the raw cognition
+          // (compact() null'd it via num()). Read the scalar .total for γ.
+          var _cog = b.state && b.state.cognition;
+          var _peObj = _cog && _cog.model && _cog.model.predictionError;
+          var _pe = (_peObj && typeof _peObj === 'object') ? _peObj.total : (typeof _peObj === 'number' ? _peObj : null);
           if (typeof _pe === 'number') peSamples.push({ domain: dom, pe: _pe });
         }
       } catch (e) {}
@@ -135,7 +146,7 @@ module.exports = async function handler(req, res) {
     // It feeds back into no brain. Removing this block changes zero behavior.
     var gammaRecord = null;
     try {
-      var GAMMA_HIGH_PE = 0.40;                 // a brain is "surprised" above this (matches the brains' own novelty cut)
+      var GAMMA_HIGH_PE = 0.40;                 // a brain counts as "destabilizing" when its total prediction-error exceeds this (typical baseline ~0.15)
       var peVals = peSamples.map(function (s) { return s.pe; });
       var surprised = peSamples.filter(function (s) { return s.pe >= GAMMA_HIGH_PE; });
       var gamma = peVals.length ? surprised.length / peVals.length : 0;
