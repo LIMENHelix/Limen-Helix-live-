@@ -10,7 +10,7 @@
  *   GET/POST /api/brain-cognition-refresh → { ok, ran, stored, ms }
  */
 const vm = require('vm');
-const { redisSet } = require('../lib/redis-kv.js');
+const { redisSet, redisGet } = require('../lib/redis-kv.js');
 
 const PREFIX = 'limen:brain:cognition:';
 const TTL = 3 * 3600; // matches the feed handler
@@ -105,6 +105,7 @@ module.exports = async function handler(req, res) {
     }
 
     var ran = 0, stored = 0;
+    var peSamples = [];   // for γ (system gain) — collected, never fed back this cycle
     for (var d = 0; d < DOMAINS.length; d++) {
       var dom = DOMAINS[d];
       var ref = sb.window[BRAIN_GLOBAL[dom]];
@@ -118,12 +119,45 @@ module.exports = async function handler(req, res) {
         }
         ran++;
         var c = compact(b.state && b.state.cognition);
-        if (c) { var r = await redisSet(PREFIX + dom, { c: c, ts: Date.now() }, TTL); if (r && r.ok) stored++; }
+        if (c) {
+          var r = await redisSet(PREFIX + dom, { c: c, ts: Date.now() }, TTL); if (r && r.ok) stored++;
+          var _pe = c.model && c.model.predictionError;
+          if (typeof _pe === 'number') peSamples.push({ domain: dom, pe: _pe });
+        }
       } catch (e) {}
     }
 
+    // ── γ (SYSTEM GAIN) — READ-ONLY collective-surprise signal. MODULATES NOTHING. ──
+    // = the breadth of simultaneous surprise: what fraction of the interpretive brains
+    // are in high prediction-error AT ONCE this cycle. This is NOT validated cross-domain
+    // distress (only the financial kernel is validated) — it is the cheap experiment for
+    // "does collective surprise across domains mean anything." We compute, store, and WATCH.
+    // It feeds back into no brain. Removing this block changes zero behavior.
+    var gammaRecord = null;
+    try {
+      var GAMMA_HIGH_PE = 0.40;                 // a brain is "surprised" above this (matches the brains' own novelty cut)
+      var peVals = peSamples.map(function (s) { return s.pe; });
+      var surprised = peSamples.filter(function (s) { return s.pe >= GAMMA_HIGH_PE; });
+      var gamma = peVals.length ? surprised.length / peVals.length : 0;
+      var meanPE = peVals.length ? peVals.reduce(function (a, v) { return a + v; }, 0) / peVals.length : 0;
+      gammaRecord = {
+        gamma: Math.round(gamma * 1000) / 1000,            // 0..1 — fraction of brains surprised at once
+        meanPredictionError: Math.round(meanPE * 1000) / 1000,
+        surprisedCount: surprised.length,
+        brainsSampled: peVals.length,
+        surprisedDomains: surprised.map(function (s) { return s.domain; }).sort(),
+        ts: Date.now(),
+        note: 'READ-ONLY interpretive collective-surprise; modulates nothing; NOT validated cross-domain distress'
+      };
+      var prev = await redisGet('limen:system_gain');
+      var hist = (prev && Array.isArray(prev.history)) ? prev.history : [];
+      hist.push({ g: gammaRecord.gamma, m: gammaRecord.meanPredictionError, n: gammaRecord.surprisedCount, ts: gammaRecord.ts });
+      if (hist.length > 96) hist = hist.slice(hist.length - 96);   // ~2 days at 30-min cadence
+      await redisSet('limen:system_gain', { current: gammaRecord, history: hist }, 7 * 24 * 3600);
+    } catch (e) {}
+
     res.statusCode = 200;
-    return res.end(JSON.stringify({ ok: true, ran: ran, stored: stored, ms: Date.now() - t0 }));
+    return res.end(JSON.stringify({ ok: true, ran: ran, stored: stored, gamma: gammaRecord, ms: Date.now() - t0 }));
   } catch (e) {
     res.statusCode = 200;
     return res.end(JSON.stringify({ ok: false, error: String(e && e.message || e), ms: Date.now() - t0 }));
