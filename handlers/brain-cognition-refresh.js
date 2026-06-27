@@ -146,14 +146,24 @@ module.exports = async function handler(req, res) {
     // It feeds back into no brain. Removing this block changes zero behavior.
     var gammaRecord = null;
     try {
-      var GAMMA_HIGH_PE = 0.40;                 // a brain counts as "destabilizing" when its total prediction-error exceeds this (typical baseline ~0.15)
+      // Threshold calibrated by mechanism test (gamma-mech probe): a domain's total
+      // prediction-error sits ~0.15 at baseline and reaches ~0.35 under a near-maximal
+      // stress shock. 0.40 was unreachable (γ would be dead-flat at 0). 0.25 sits
+      // clearly above baseline and is crossed by a genuine shock. We also record the
+      // full distribution (max + counts at several cuts) so we recalibrate from real data.
+      var GAMMA_HIGH_PE = 0.25;
       var peVals = peSamples.map(function (s) { return s.pe; });
       var surprised = peSamples.filter(function (s) { return s.pe >= GAMMA_HIGH_PE; });
       var gamma = peVals.length ? surprised.length / peVals.length : 0;
       var meanPE = peVals.length ? peVals.reduce(function (a, v) { return a + v; }, 0) / peVals.length : 0;
+      var maxPE = peVals.length ? Math.max.apply(null, peVals) : 0;
+      var cnt = function (t) { return peVals.filter(function (v) { return v >= t; }).length; };
       gammaRecord = {
-        gamma: Math.round(gamma * 1000) / 1000,            // 0..1 — fraction of brains surprised at once
+        gamma: Math.round(gamma * 1000) / 1000,            // 0..1 — fraction of brains destabilizing at once
         meanPredictionError: Math.round(meanPE * 1000) / 1000,
+        maxPredictionError: Math.round(maxPE * 1000) / 1000,
+        thresholdUsed: GAMMA_HIGH_PE,
+        distribution: { ge_0_20: cnt(0.20), ge_0_25: cnt(0.25), ge_0_30: cnt(0.30), ge_0_40: cnt(0.40) },
         surprisedCount: surprised.length,
         brainsSampled: peVals.length,
         surprisedDomains: surprised.map(function (s) { return s.domain; }).sort(),
