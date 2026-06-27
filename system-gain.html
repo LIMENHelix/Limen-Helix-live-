@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>System Gain (γ) — LIMEN</title>
+<style>
+  :root { --bg:#0c0d10; --panel:#16181d; --line:#23262d; --ink:#e8e3d9; --dim:#8b8f98; --ghost:#5a5e66;
+          --calm:#4a8fd4; --rising:#d4a84a; --high:#e85454; --gold:#c9a94e; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:14px/1.5 -apple-system,Segoe UI,Roboto,sans-serif; }
+  .wrap { max-width:820px; margin:0 auto; padding:28px 20px 60px; }
+  .top { display:flex; align-items:baseline; justify-content:space-between; border-bottom:1px solid var(--line); padding-bottom:12px; margin-bottom:24px; }
+  .top h1 { font-size:16px; font-weight:600; letter-spacing:.5px; margin:0; }
+  .top .tag { font-size:11px; letter-spacing:1.5px; color:var(--ghost); text-transform:uppercase; }
+  .gauge { text-align:center; padding:30px 0 18px; }
+  .gnum { font-size:84px; font-weight:300; line-height:1; letter-spacing:-2px; }
+  .gstate { font-size:13px; letter-spacing:3px; text-transform:uppercase; margin-top:8px; }
+  .gsub { color:var(--dim); font-size:13px; margin-top:14px; }
+  .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:24px 0; }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:14px 16px; }
+  .card .k { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--ghost); }
+  .card .v { font-size:24px; font-weight:400; margin-top:4px; }
+  .card .v small { font-size:13px; color:var(--dim); }
+  .sec { margin-top:26px; }
+  .sec h2 { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--gold); margin:0 0 10px; font-weight:600; }
+  .spark { display:flex; align-items:flex-end; gap:2px; height:80px; background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:10px; }
+  .bar { flex:1; min-width:2px; background:var(--calm); border-radius:1px 1px 0 0; transition:height .3s; }
+  .domchips { display:flex; flex-wrap:wrap; gap:6px; }
+  .chip { font-size:12px; padding:3px 10px; border-radius:12px; background:rgba(232,84,84,.12); border:1px solid rgba(232,84,84,.3); color:#f0b8b8; }
+  .calmnote { color:var(--dim); font-size:13px; }
+  .explain { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:16px 18px; color:var(--dim); font-size:13px; line-height:1.7; margin-top:26px; }
+  .explain b { color:var(--ink); font-weight:600; }
+  .foot { color:var(--ghost); font-size:11px; margin-top:22px; text-align:center; letter-spacing:.5px; }
+  a.refresh { color:var(--gold); text-decoration:none; font-size:12px; cursor:pointer; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <h1>SYSTEM GAIN &middot; <span style="color:var(--gold)">γ</span></h1>
+    <span class="tag">read-only &middot; modulates nothing</span>
+  </div>
+
+  <div class="gauge">
+    <div class="gnum" id="gnum">—</div>
+    <div class="gstate" id="gstate">loading…</div>
+    <div class="gsub" id="gsub"></div>
+  </div>
+
+  <div class="grid">
+    <div class="card"><div class="k">Domains destabilizing</div><div class="v" id="cCount">—<small>/20</small></div></div>
+    <div class="card"><div class="k">Avg prediction-error</div><div class="v" id="cMean">—</div></div>
+    <div class="card"><div class="k">Last reading</div><div class="v" id="cAge" style="font-size:16px">—</div></div>
+  </div>
+
+  <div class="sec">
+    <h2>History — γ over the last ~2 days</h2>
+    <div class="spark" id="spark"></div>
+  </div>
+
+  <div class="sec">
+    <h2>Which domains are surprised right now</h2>
+    <div id="doms"><span class="calmnote">None — every domain is near its baseline (calm).</span></div>
+  </div>
+
+  <div class="explain">
+    <b>What this is.</b> γ is the <b>collective surprise</b> across all 20 domain brains — the fraction that are
+    destabilizing (high prediction-error) <b>at the same time</b>. It updates every ~30&nbsp;minutes.<br><br>
+    <b>What to watch for.</b> γ should sit near <b>0</b> when things are quiet, and <b>rise</b> when several domains
+    wobble together — a possible system-wide event. When it spikes, check whether a real event lined up, and whether
+    it was finance-driven or genuinely cross-domain.<br><br>
+    <b>Important honesty.</b> This is <b>interpretive</b> surprise, <b>not</b> validated distress — only the financial
+    kernel is validated. γ <b>modulates nothing</b>; it changes no score and feeds back into no brain. We are only
+    watching it to learn whether it tracks anything real, before it is ever allowed to do more.
+  </div>
+
+  <div class="foot">
+    <a class="refresh" onclick="load()">↻ refresh</a> &nbsp;·&nbsp; auto-refreshes every 60s &nbsp;·&nbsp; source: /api/system-gain
+  </div>
+</div>
+
+<script>
+function fmtAge(ts){ if(!ts) return '—'; var m=Math.round((Date.now()-ts)/60000); if(m<1) return 'just now'; if(m<60) return m+' min ago'; var h=Math.round(m/60); return h+' hr ago'; }
+function stateOf(g){ if(g>=0.30) return {t:'HIGH',c:'var(--high)'}; if(g>=0.10) return {t:'RISING',c:'var(--rising)'}; return {t:'CALM',c:'var(--calm)'}; }
+function load(){
+  fetch('/api/system-gain?cb='+Date.now()).then(function(r){return r.json();}).then(function(j){
+    var c=j.current;
+    if(!c){ document.getElementById('gstate').textContent = j.note || 'no reading yet'; return; }
+    var st=stateOf(c.gamma);
+    var gn=document.getElementById('gnum'); gn.textContent=c.gamma.toFixed(2); gn.style.color=st.c;
+    var gs=document.getElementById('gstate'); gs.textContent=st.t; gs.style.color=st.c;
+    document.getElementById('gsub').textContent = c.surprisedCount+' of '+c.brainsSampled+' domains destabilizing together';
+    document.getElementById('cCount').innerHTML = c.surprisedCount+'<small>/'+c.brainsSampled+'</small>';
+    document.getElementById('cMean').textContent = (c.meanPredictionError!=null? c.meanPredictionError.toFixed(3):'—');
+    document.getElementById('cAge').textContent = fmtAge(c.ts);
+    // domains
+    var dd=document.getElementById('doms');
+    if(c.surprisedDomains && c.surprisedDomains.length){
+      dd.innerHTML = c.surprisedDomains.map(function(d){ return '<span class="chip">'+d+'</span>'; }).join('');
+      dd.parentNode.querySelector('.domchips')||dd.classList.add('domchips');
+    } else { dd.innerHTML='<span class="calmnote">None — every domain is near its baseline (calm).</span>'; }
+    // sparkline
+    var hist=(j.history||[]); var sp=document.getElementById('spark'); sp.innerHTML='';
+    if(!hist.length){ sp.innerHTML='<span class="calmnote" style="margin:auto">No history yet — fills in every 30 min.</span>'; }
+    hist.slice(-90).forEach(function(h){
+      var b=document.createElement('div'); b.className='bar';
+      var pct=Math.max(3, Math.min(100, (h.g||0)*100));
+      b.style.height=pct+'%';
+      var s=stateOf(h.g||0); b.style.background=s.c;
+      b.title='γ '+(h.g||0).toFixed(2)+' · '+(h.n||0)+' destabilizing';
+      sp.appendChild(b);
+    });
+  }).catch(function(){ document.getElementById('gstate').textContent='could not load'; });
+}
+load(); setInterval(load, 60000);
+</script>
+</body>
+</html>
