@@ -801,6 +801,16 @@ var _tooltip = null;
 var _ttPhase = null;
 var _ttName = null;
 var _ttTagline = null;
+var _ttCounts = null;
+var _DOMAIN_COUNTS = {
+  governance:{p:203,dx:36,tx:36}, economy:{p:163,dx:43,tx:38}, infrastructure:{p:193,dx:66,tx:53},
+  energy:{p:198,dx:52,tx:32}, agriculture:{p:150,dx:40,tx:34}, industry:{p:193,dx:48,tx:32},
+  science:{p:121,dx:54,tx:36}, medicine:{p:139,dx:41,tx:40}, education:{p:112,dx:32,tx:32},
+  technology:{p:135,dx:48,tx:44}, communication:{p:119,dx:34,tx:34}, culture:{p:173,dx:32,tx:32},
+  defense:{p:193,dx:40,tx:40}, environment:{p:193,dx:33,tx:32}, religion:{p:203,dx:49,tx:46},
+  population:{p:203,dx:32,tx:32}, trade:{p:190,dx:33,tx:32}, law:{p:161,dx:39,tx:32},
+  finance:{p:190,dx:56,tx:38}, intelligence:{p:201,dx:42,tx:32}
+};
 var _subMenu = null;
 var _animFrameId = null;
 
@@ -1672,6 +1682,8 @@ function showTooltip(idx,mx,my) {
   var n=NODES[idx];
   _ttPhase.textContent=NODE_TAGLINES[n.id]||'';
   _ttPhase.style.color=n.phaseHex; _ttName.textContent=n.label; _ttTagline.textContent=n.description;
+  if(_ttCounts){ var _c=_DOMAIN_COUNTS[n.id];
+    _ttCounts.innerHTML = _c ? ('<b>'+_c.p+'</b> portals &middot; <b>'+_c.dx+'</b> diagnoses &middot; <b>'+_c.tx+'</b> treatments') : ''; }
   var ttE=document.getElementById('ttEnter');
   if(DOMAIN_PORTALS[n.id]) ttE.textContent='View portals \u2192';
   else if(n.childUniverse && PORTAL_ROUTES[n.childUniverse]) ttE.textContent='Enter portal \u2192';
@@ -1878,6 +1890,7 @@ function init(canvasId, opts) {
     _ttPhase = document.getElementById('ttPhase');
     _ttName = document.getElementById('ttName');
     _ttTagline = document.getElementById('ttTagline');
+    _ttCounts = document.getElementById('ttCounts');
     _subMenu = document.getElementById('subMenu');
   }
 
