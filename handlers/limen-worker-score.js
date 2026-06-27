@@ -1,0 +1,41 @@
+// handlers/limen-worker-score.js — lightweight, FREQUENT company scorer.
+//
+// The heavy snapshot worker (limen-worker-snapshot, every 15 min) also scores,
+// but it re-fetches all external feeds to rebuild the snapshot — expensive, so it
+// can't run often. This decoupled cron does ONLY scoring: it reads domain stress
+// from the already-cached console_snapshot (Redis, no external calls, no cost) and
+// scores a batch every 5 min, writing company_phase_* keys. The snapshot worker's
+// buildDomainJoin() picks those scores up. Net effect: ~3x faster CIK coverage at
+// the SAME per-run concurrency (avoids the EDGAR-throttling that bigger batches hit).
+
+var db = require('../lib/limen-db');
+var companyScorer = require('../lib/company-phase-scorer');
+
+// snapshot uses runtime keys; the company registry (scoreBatch) uses portal keys —
+// map so dual-key domains (research/health/supplyChain) get priority scoring too.
+var RUNTIME_TO_PORTAL = { research: 'science', health: 'medicine', supplyChain: 'trade' };
+
+module.exports = async function handler(req, res) {
+  try {
+    var snap = await db.get('console_snapshot');
+    var domains = (snap && snap.domains) || {};
+    var domainHealth = {};
+    for (var dk in domains) {
+      if (!domains.hasOwnProperty(dk)) continue;
+      var pk = RUNTIME_TO_PORTAL[dk] || dk;
+      domainHealth[pk] = { stress: (domains[dk] && domains[dk].stress) || 0 };
+    }
+    // scoreBatch reads only domainHealth[key].stress. If no cached snapshot, it
+    // falls back to pure round-robin (still advances coverage) — graceful.
+    var result = await companyScorer.scoreBatch(domainHealth);
+    res.status(200).json({
+      ok: true,
+      totalScored: result.totalScored,
+      priorityCount: result.priorityCount,
+      roundRobinCount: result.roundRobinCount,
+      domainsWithHealth: Object.keys(domainHealth).length
+    });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e.message });
+  }
+};

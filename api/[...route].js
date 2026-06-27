@@ -90,6 +90,7 @@ const HANDLERS = {
   'limen-ingest': require('../handlers/limen-ingest'),
   'limen-worker-ingest': require('../handlers/limen-worker-ingest'),
   'limen-worker-snapshot': require('../handlers/limen-worker-snapshot'),
+  'limen-worker-score': require('../handlers/limen-worker-score'),
   'limen-worker-stress-refresh': require('../handlers/limen-worker-stress-refresh'),
   'limen-intents': require('../handlers/limen-intents'),
   'limen-iteration': require('../handlers/limen-iteration'),
