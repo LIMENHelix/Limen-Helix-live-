@@ -803,13 +803,13 @@ var _ttName = null;
 var _ttTagline = null;
 var _ttCounts = null;
 var _DOMAIN_COUNTS = {
-  governance:{p:203,dx:36,tx:36}, economy:{p:163,dx:43,tx:38}, infrastructure:{p:193,dx:66,tx:53},
-  energy:{p:198,dx:52,tx:32}, agriculture:{p:150,dx:40,tx:34}, industry:{p:193,dx:48,tx:32},
-  science:{p:121,dx:54,tx:36}, medicine:{p:139,dx:41,tx:40}, education:{p:112,dx:32,tx:32},
-  technology:{p:135,dx:48,tx:44}, communication:{p:119,dx:34,tx:34}, culture:{p:173,dx:32,tx:32},
-  defense:{p:193,dx:40,tx:40}, environment:{p:193,dx:33,tx:32}, religion:{p:203,dx:49,tx:46},
-  population:{p:203,dx:32,tx:32}, trade:{p:190,dx:33,tx:32}, law:{p:161,dx:39,tx:32},
-  finance:{p:190,dx:56,tx:38}, intelligence:{p:201,dx:42,tx:32}
+  governance:{p:10395,dx:612}, economy:{p:9742,dx:480}, infrastructure:{p:10244,dx:578},
+  energy:{p:10230,dx:578}, agriculture:{p:30,dx:106}, industry:{p:10244,dx:578},
+  science:{p:7294,dx:363}, medicine:{p:7628,dx:423}, education:{p:6877,dx:326},
+  technology:{p:8171,dx:408}, communication:{p:7742,dx:359}, culture:{p:9942,dx:512},
+  defense:{p:10300,dx:579}, environment:{p:10341,dx:578}, religion:{p:10402,dx:611},
+  population:{p:10395,dx:611}, trade:{p:8022,dx:569}, law:{p:8089,dx:476},
+  finance:{p:8596,dx:570}, intelligence:{p:8895,dx:605}
 };
 var _subMenu = null;
 var _animFrameId = null;
@@ -1683,7 +1683,7 @@ function showTooltip(idx,mx,my) {
   _ttPhase.textContent=NODE_TAGLINES[n.id]||'';
   _ttPhase.style.color=n.phaseHex; _ttName.textContent=n.label; _ttTagline.textContent=n.description;
   if(_ttCounts){ var _c=_DOMAIN_COUNTS[n.id];
-    _ttCounts.innerHTML = _c ? ('<b>'+_c.p+'</b> portals &middot; <b>'+_c.dx+'</b> diagnoses &middot; <b>'+_c.tx+'</b> treatments') : ''; }
+    _ttCounts.innerHTML = _c ? ('<b>'+_c.p.toLocaleString()+'</b> portals &middot; <b>'+_c.dx+'</b> diagnoses') : ''; }
   var ttE=document.getElementById('ttEnter');
   if(DOMAIN_PORTALS[n.id]) ttE.textContent='View portals \u2192';
   else if(n.childUniverse && PORTAL_ROUTES[n.childUniverse]) ttE.textContent='Enter portal \u2192';
