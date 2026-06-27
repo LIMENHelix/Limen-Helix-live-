@@ -15,34 +15,6 @@
 
 var db = require('../lib/limen-db');
 
-// ─── Company join (server-side fix for the long-standing console starvation) ──
-// The base brain reads snap.domainCompanyJoin[snapshotKey].companies (domain-brain-
-// base.js ~L372). The snapshot never emitted it → every domain's state.companies
-// was empty. Build it once from command-board-data.json, mapping the company's
-// portal key (x.d) to the runtime/snapshot key. Guarded: any failure → {} (no
-// companies, i.e. prior behavior), never breaks the snapshot.
-var _companyJoin = null;
-function buildCompanyJoin() {
-  if (_companyJoin) return _companyJoin;
-  _companyJoin = {};
-  try {
-    var board = require('../assets/data/command-board-data.json');
-    var arr = (board && Array.isArray(board.companies)) ? board.companies : [];
-    var KEYMAP = { science: 'research', medicine: 'health', trade: 'supplyChain' };
-    for (var i = 0; i < arr.length; i++) {
-      var x = arr[i];
-      if (!x || !x.t || !x.d) continue;
-      var key = KEYMAP[x.d] || x.d;
-      if (!_companyJoin[key]) _companyJoin[key] = { companies: [] };
-      _companyJoin[key].companies.push({ name: x.n, ticker: x.t, cik: x.c, phase: x.p, trajectory: x.tr });
-    }
-  } catch (e) {
-    console.error('[domain-snapshot] companyJoin load failed:', e.message);
-    _companyJoin = {};
-  }
-  return _companyJoin;
-}
-
 var TIMEOUT = 5000;
 var RETRY_DELAY = 800;
 var MAX_RETRIES = 1;
@@ -1162,7 +1134,6 @@ module.exports = async function handler(req, res) {
 
     return res.status(200).json({
       domains: domains,
-      domainCompanyJoin: buildCompanyJoin(),
       meta: {
         snapshotId: now + '-' + liveCount,
         fetchedAt: now,
