@@ -1264,7 +1264,7 @@
       var label = document.createElement('span');
       label.className = 'clr-domain-label';
       label.textContent = DOMAIN_LABELS[dk] || dk;
-      row.appendChild(label);
+      // (appended after the globe, below — globe first, then name)
 
       // Rotating phase globe (color matches the connectome's per-domain phase)
       if (!document.getElementById('clr-globe-style')) {
@@ -1286,6 +1286,7 @@
       globe.style.background = 'radial-gradient(circle at 33% 28%,' + _clrSh(_pcol,0.55) + ' 0%,' + _pcol + ' 44%,' + _clrSh(_pcol,-0.55) + ' 100%)';
       globe.style.boxShadow = '0 0 6px ' + _pcol + ',inset -2px -2px 3px rgba(0,0,0,0.5),inset 1px 1px 2px rgba(255,255,255,0.35)';
       row.appendChild(globe);
+      row.appendChild(label);
 
       var val = document.createElement('span');
       val.className = 'clr-domain-val';
