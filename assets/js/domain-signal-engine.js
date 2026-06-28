@@ -2443,6 +2443,17 @@
     ].join(';');
     document.body.appendChild(panelEl);
 
+    if (!document.getElementById('limen-dsphere-style')) {
+      var _ds = document.createElement('style');
+      _ds.id = 'limen-dsphere-style';
+      _ds.textContent =
+        '.limen-dsphere{display:inline-block;width:13px;height:13px;border-radius:50%;vertical-align:-2px;margin:0 6px 0 3px;position:relative;overflow:hidden;background:radial-gradient(circle at 33% 28%,#fbeec2 0%,#d8b85a 38%,#b9933f 62%,#6e5320 100%);box-shadow:0 0 5px rgba(201,169,78,0.55),inset -2px -2px 3px rgba(0,0,0,0.55),inset 1px 1px 2px rgba(255,240,200,0.4)}' +
+        '.limen-dsphere::after{content:"";position:absolute;inset:0;border-radius:50%;background:repeating-linear-gradient(90deg,rgba(50,35,8,0) 0 3px,rgba(45,30,6,0.5) 3px 4px);animation:limen-dspin 1.4s linear infinite}' +
+        '.limen-dsphere::before{content:"";position:absolute;left:20%;top:14%;width:28%;height:22%;border-radius:50%;background:rgba(255,250,235,0.7)}' +
+        '@keyframes limen-dspin{from{background-position:0 0}to{background-position:4px 0}}';
+      document.head.appendChild(_ds);
+    }
+
     panelEl.addEventListener('click', function (e) {
       var target = e.target;
       while (target && target !== panelEl) {
@@ -2589,8 +2600,8 @@
       lines.push(
         '<div data-domain="' + k + '" style="cursor:pointer;padding:1px 0">' +
         '<span style="color:' + dim + '">' + name + '</span>' +
-        '<span style="color:' + barColor + '">' + bar + '</span>' +
-        '<span style="color:' + dim + '"> ' + pct + '%' + trendArrow + '</span>' +
+        '<span class="limen-dsphere" title="' + pct + '% stress"></span>' +
+        '<span style="color:' + dim + '">' + pct + '%' + trendArrow + '</span>' +
         '<span style="color:' + statusColor + ';font-size:0.40rem;margin-left:4px">' + statusLabel + '</span>' +
         '<span style="color:' + dim + ';font-size:0.38rem;margin-left:3px">' + confShort + '</span>' +
         balTag +
