@@ -1266,14 +1266,26 @@
       label.textContent = DOMAIN_LABELS[dk] || dk;
       row.appendChild(label);
 
-      var track = document.createElement('div');
-      track.className = 'clr-domain-track';
-      var fill = document.createElement('div');
-      fill.className = 'clr-domain-fill';
-      fill.style.width = (Math.min(stress, 1) * 100) + '%';
-      fill.style.background = stress > 0.65 ? '#e85454' : (stress > 0.4 ? '#FF9800' : '#5ab5a0');
-      track.appendChild(fill);
-      row.appendChild(track);
+      // Rotating phase globe (color matches the connectome's per-domain phase)
+      if (!document.getElementById('clr-globe-style')) {
+        var _gs = document.createElement('style'); _gs.id = 'clr-globe-style';
+        _gs.textContent =
+          '.clr-domain-globe{display:inline-block;width:14px;height:14px;border-radius:50%;vertical-align:middle;margin:0 8px;position:relative;overflow:hidden;flex:none}' +
+          '.clr-domain-globe::after{content:"";position:absolute;inset:0;border-radius:50%;background:repeating-linear-gradient(90deg,rgba(40,28,8,0) 0 3px,rgba(35,24,6,0.5) 3px 4px);animation:clr-dspin 1.4s linear infinite}' +
+          '.clr-domain-globe::before{content:"";position:absolute;left:20%;top:14%;width:28%;height:22%;border-radius:50%;background:rgba(255,250,235,0.7)}' +
+          '@keyframes clr-dspin{from{background-position:0 0}to{background-position:4px 0}}';
+        document.head.appendChild(_gs);
+      }
+      var _cid = ({ health:'medicine', research:'science', supplyChain:'trade' })[dk] || dk;
+      var _ph = ({ governance:'P7',economy:'P1',infrastructure:'P4',energy:'P3',agriculture:'P2',industry:'P3',science:'P6',medicine:'P8',education:'P1',technology:'P6',communication:'P6',culture:'P9',defense:'P7',environment:'P0',religion:'P10',population:'P5',trade:'P5',law:'P4',finance:'P1',intelligence:'P9' })[_cid] || 'P0';
+      var _pcol = ({ P0:'#1B2A4A',P1:'#F2CF5B',P2:'#2BA8A0',P3:'#7A6B9D',P4:'#4FB3D4',P5:'#A98C6B',P6:'#C3CAD4',P7:'#5478A8',P8:'#5A4FC0',P9:'#D8B85A',P10:'#EFA6B8' })[_ph] || '#B4C8DC';
+      var _clrSh = function (h, a) { h = h.replace('#',''); var r=parseInt(h.slice(0,2),16),g=parseInt(h.slice(2,4),16),b=parseInt(h.slice(4,6),16); if(a>=0){r+=(255-r)*a;g+=(255-g)*a;b+=(255-b)*a;}else{r*=(1+a);g*=(1+a);b*=(1+a);} return 'rgb('+(r|0)+','+(g|0)+','+(b|0)+')'; };
+      var globe = document.createElement('span');
+      globe.className = 'clr-domain-globe';
+      globe.title = _ph + ' · ' + Math.round(stress * 100) + '%';
+      globe.style.background = 'radial-gradient(circle at 33% 28%,' + _clrSh(_pcol,0.55) + ' 0%,' + _pcol + ' 44%,' + _clrSh(_pcol,-0.55) + ' 100%)';
+      globe.style.boxShadow = '0 0 6px ' + _pcol + ',inset -2px -2px 3px rgba(0,0,0,0.5),inset 1px 1px 2px rgba(255,255,255,0.35)';
+      row.appendChild(globe);
 
       var val = document.createElement('span');
       val.className = 'clr-domain-val';
