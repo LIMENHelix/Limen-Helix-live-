@@ -170,13 +170,15 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
       var t=Math.random(), bright=t>0.9, mid=t>0.68, roll=Math.random();
       var col=roll<0.55?'255,255,255':roll<0.74?'190,210,255':roll<0.89?'225,205,235':'245,210,170';
       stars.push({ x:x, y:y, r:(bright?rand(1.1,2.1):mid?rand(0.6,1.05):rand(0.3,0.7))*dpr,
-        base:bright?rand(0.85,1):mid?rand(0.5,0.85):rand(0.18,0.55), tw:rand(0.006,0.034), ph:Math.random()*6.2832, col:col, spark:bright });
+        base:bright?rand(0.85,1):mid?rand(0.5,0.85):rand(0.18,0.55), tw:rand(0.006,0.034), ph:Math.random()*6.2832, col:col, spark:bright, flare:(bright&&Math.random()<0.32) });
     }
     neb=[]; var pal=['150,80,215','125,70,200','205,85,165','215,100,160','75,105,225','60,150,200','175,110,225'];
     for(var j=0;j<22;j++){
       var spread=Math.random()<0.5, u=rand(-RAD*0.95,RAD*0.95), v=gauss()*(spread?RAD*0.62:RAD*0.28);
       neb.push({ x:W/2+u*cosB-v*sinB, y:H/2+u*sinB+v*cosB, r:rand(RAD*0.18,RAD*0.5), c:pal[(Math.random()*pal.length)|0], a:rand(0.08,0.20) });
     }
+    for(var m=0;m<30;m++){ var pu=rand(-RAD*0.9,RAD*0.9), pv=gauss()*RAD*0.17;
+      neb.push({ x:W/2+pu*cosB-pv*sinB, y:H/2+pu*sinB+pv*cosB, r:rand(RAD*0.05,RAD*0.15), c:pal[(Math.random()*pal.length)|0], a:rand(0.05,0.12) }); }
     var cx=W*0.30, cy=H*0.70; // warm galactic core, lower-left
     neb.push({ x:cx, y:cy, r:RAD*0.62, c:'232,165,110', a:0.24 });
     neb.push({ x:cx, y:cy, r:RAD*0.34, c:'245,200,150', a:0.22 });
@@ -196,6 +198,7 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
       ctx.fillStyle=g; ctx.fillRect(b.x-b.r,b.y-b.r,b.r*2,b.r*2); }
     for(var i=0;i<stars.length;i++){ var s=stars[i]; s.ph+=s.tw; var al=s.base*(0.45+0.55*Math.sin(s.ph)); if(al<0) al=0;
       if(s.spark){ ctx.beginPath(); ctx.arc(s.x,s.y,s.r*3,0,6.2832); ctx.fillStyle='rgba('+s.col+','+(al*0.12).toFixed(3)+')'; ctx.fill(); }
+      if(s.flare){ var fl=s.r*6; ctx.strokeStyle='rgba('+s.col+','+(al*0.22).toFixed(3)+')'; ctx.lineWidth=0.7*dpr; ctx.beginPath(); ctx.moveTo(s.x-fl,s.y); ctx.lineTo(s.x+fl,s.y); ctx.moveTo(s.x,s.y-fl); ctx.lineTo(s.x,s.y+fl); ctx.stroke(); }
       ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,6.2832); ctx.fillStyle='rgba('+s.col+','+al.toFixed(3)+')'; ctx.fill(); }
     ctx.globalCompositeOperation='source-over';
     requestAnimationFrame(draw);
