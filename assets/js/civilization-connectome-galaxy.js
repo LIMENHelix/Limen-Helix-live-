@@ -1548,9 +1548,7 @@ function hitTest(mx,my) {
 // === LAYER 3: BACKGROUND ===
 function drawBackground() {
   var maxR = Math.sqrt(CX*CX+CY*CY);
-  var grad = ctx.createRadialGradient(CX,CY,0,CX,CY,maxR);
-  grad.addColorStop(0,'#080d18'); grad.addColorStop(1,'#020408');
-  ctx.fillStyle = grad; ctx.fillRect(0,0,W,H);
+  ctx.clearRect(0,0,W,H); // transparent — the galaxy photo backdrop shows through
   if (noiseCanvas) { ctx.globalAlpha=0.03; ctx.drawImage(noiseCanvas,0,0); ctx.globalAlpha=1; }
   for (var i=0;i<bgParticles.length;i++) {
     var bp=bgParticles[i]; ctx.beginPath(); ctx.arc(bp.x,bp.y,bp.r,0,Math.PI*2);
