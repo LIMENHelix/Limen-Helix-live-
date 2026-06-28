@@ -14,10 +14,8 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{background:#050810;color:#e8e3d9;font-family:monospace;overflow:hidden;height:100%;width:100%;-webkit-user-select:none;user-select:none}
-.galaxybg{position:fixed;inset:0;z-index:0;background:#03030a url('assets/img/galaxy-bg.jpg') center/cover no-repeat}
-.galaxyscrim{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse at 50% 46%,rgba(3,5,14,0.18),rgba(3,5,14,0.62))}
+canvas#stars{position:fixed;inset:0;width:100%;height:100%;z-index:0;background:#03030a}
 canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background:transparent}
-canvas#stars{position:fixed;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;mix-blend-mode:screen}
 .scanline{position:fixed;inset:0;z-index:5;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.02) 2px,rgba(0,0,0,0.02) 4px)}
 
 /* public top bar */
@@ -78,10 +76,8 @@ canvas#stars{position:fixed;inset:0;width:100%;height:100%;z-index:2;pointer-eve
 </div>
 <div class="headline"><b>20</b> domains · <b>123</b> brain nodes · <b>465,939</b> portals · <b>~880K</b> diagnoses · <b>~8.2M</b> treatments</div>
 
-<div class="galaxybg"></div>
-<div class="galaxyscrim"></div>
-<canvas id="c"></canvas>
 <canvas id="stars"></canvas>
+<canvas id="c"></canvas>
 <div class="scanline"></div>
 
 <div class="center-label">
@@ -156,8 +152,8 @@ canvas#stars{position:fixed;inset:0;width:100%;height:100%;z-index:2;pointer-eve
 })();
 </script>
 <script>
-/* Galaxy backdrop — dense small sparkling stars + multi-hue nebula (purple/magenta/blue) with a
-   warm amber galactic core lower-left, like a deep Milky Way photo. Static sky; screen-blended. */
+/* Animated galaxy backdrop — opaque base + vivid additive nebula (purple/magenta/blue + warm core)
+   + dense twinkling stars. The connectome floats transparently above this. */
 (function(){
   var cv=document.getElementById('stars'); if(!cv) return; var ctx=cv.getContext('2d');
   var dpr=Math.min(window.devicePixelRatio||1,2), stars=[], neb=[], W=0, H=0, RAD=0;
@@ -165,33 +161,43 @@ canvas#stars{position:fixed;inset:0;width:100%;height:100%;z-index:2;pointer-eve
   function rand(a,b){ return a+Math.random()*(b-a); }
   function gauss(){ return (Math.random()+Math.random()+Math.random()-1.5)/1.5; }
   function build(){
-    W=cv.width=innerWidth*dpr; H=cv.height=innerHeight*dpr;
-    RAD=Math.sqrt(W*W+H*H)/2;
-    var n=Math.floor(innerWidth*innerHeight/800); stars=[];
+    W=cv.width=innerWidth*dpr; H=cv.height=innerHeight*dpr; RAD=Math.sqrt(W*W+H*H)/2;
+    var n=Math.floor(innerWidth*innerHeight/380); stars=[];
     for(var i=0;i<n;i++){
       var x,y;
-      if(Math.random()<0.45){ var u=rand(-RAD,RAD), v=gauss()*RAD*0.5; x=W/2+u*cosB-v*sinB; y=H/2+u*sinB+v*cosB; }
+      if(Math.random()<0.5){ var u=rand(-RAD,RAD), v=gauss()*RAD*0.5; x=W/2+u*cosB-v*sinB; y=H/2+u*sinB+v*cosB; }
       else { x=Math.random()*W; y=Math.random()*H; }
-      var t=Math.random(), bright=t>0.91, mid=t>0.7, roll=Math.random();
-      var col=roll<0.55?'255,255,255':roll<0.74?'190,210,255':roll<0.89?'225,205,235':'240,205,165';
-      stars.push({ x:x, y:y,
-        r:(bright?rand(1.1,2.0):mid?rand(0.6,1.05):rand(0.3,0.7))*dpr,
-        base:bright?rand(0.8,1):mid?rand(0.5,0.85):rand(0.14,0.5),
-        tw:rand(0.006,0.032), ph:Math.random()*6.2832, col:col, spark:bright });
+      var t=Math.random(), bright=t>0.9, mid=t>0.68, roll=Math.random();
+      var col=roll<0.55?'255,255,255':roll<0.74?'190,210,255':roll<0.89?'225,205,235':'245,210,170';
+      stars.push({ x:x, y:y, r:(bright?rand(1.1,2.1):mid?rand(0.6,1.05):rand(0.3,0.7))*dpr,
+        base:bright?rand(0.85,1):mid?rand(0.5,0.85):rand(0.18,0.55), tw:rand(0.006,0.034), ph:Math.random()*6.2832, col:col, spark:bright });
     }
-    neb=[]; // nebula + color now come from the galaxy photo backdrop
+    neb=[]; var pal=['150,80,215','125,70,200','205,85,165','215,100,160','75,105,225','60,150,200','175,110,225'];
+    for(var j=0;j<22;j++){
+      var spread=Math.random()<0.5, u=rand(-RAD*0.95,RAD*0.95), v=gauss()*(spread?RAD*0.62:RAD*0.28);
+      neb.push({ x:W/2+u*cosB-v*sinB, y:H/2+u*sinB+v*cosB, r:rand(RAD*0.18,RAD*0.5), c:pal[(Math.random()*pal.length)|0], a:rand(0.08,0.20) });
+    }
+    var cx=W*0.30, cy=H*0.70; // warm galactic core, lower-left
+    neb.push({ x:cx, y:cy, r:RAD*0.62, c:'232,165,110', a:0.24 });
+    neb.push({ x:cx, y:cy, r:RAD*0.34, c:'245,200,150', a:0.22 });
+    neb.push({ x:W*0.46, y:H*0.56, r:RAD*0.46, c:'212,120,150', a:0.15 });
+    neb.push({ x:W*0.62, y:H*0.30, r:RAD*0.5, c:'110,90,205', a:0.13 });
   }
   build(); addEventListener('resize',build);
   var run=true; document.addEventListener('visibilitychange',function(){ run=!document.hidden; if(run) draw(); });
   function draw(){
     if(!run) return;
-    ctx.clearRect(0,0,W,H);
+    var bg=ctx.createRadialGradient(W*0.34,H*0.62,0,W*0.34,H*0.62,RAD*1.15);
+    bg.addColorStop(0,'#0a0815'); bg.addColorStop(0.55,'#05040d'); bg.addColorStop(1,'#020207');
+    ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
+    ctx.globalCompositeOperation='lighter';
     for(var k=0;k<neb.length;k++){ var b=neb[k]; var g=ctx.createRadialGradient(b.x,b.y,0,b.x,b.y,b.r);
-      g.addColorStop(0,'rgba('+b.c+','+b.a+')'); g.addColorStop(0.55,'rgba('+b.c+','+(b.a*0.38).toFixed(3)+')'); g.addColorStop(1,'rgba('+b.c+',0)');
+      g.addColorStop(0,'rgba('+b.c+','+b.a+')'); g.addColorStop(0.5,'rgba('+b.c+','+(b.a*0.4).toFixed(3)+')'); g.addColorStop(1,'rgba('+b.c+',0)');
       ctx.fillStyle=g; ctx.fillRect(b.x-b.r,b.y-b.r,b.r*2,b.r*2); }
-    for(var i=0;i<stars.length;i++){ var s=stars[i]; s.ph+=s.tw; var al=s.base*(0.4+0.6*Math.sin(s.ph)); if(al<0) al=0;
-      if(s.spark){ ctx.beginPath(); ctx.arc(s.x,s.y,s.r*2.8,0,6.2832); ctx.fillStyle='rgba('+s.col+','+(al*0.11).toFixed(3)+')'; ctx.fill(); }
+    for(var i=0;i<stars.length;i++){ var s=stars[i]; s.ph+=s.tw; var al=s.base*(0.45+0.55*Math.sin(s.ph)); if(al<0) al=0;
+      if(s.spark){ ctx.beginPath(); ctx.arc(s.x,s.y,s.r*3,0,6.2832); ctx.fillStyle='rgba('+s.col+','+(al*0.12).toFixed(3)+')'; ctx.fill(); }
       ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,6.2832); ctx.fillStyle='rgba('+s.col+','+al.toFixed(3)+')'; ctx.fill(); }
+    ctx.globalCompositeOperation='source-over';
     requestAnimationFrame(draw);
   }
   draw();
