@@ -146,34 +146,51 @@ canvas#stars{position:fixed;inset:0;width:100%;height:100%;z-index:1;pointer-eve
 })();
 </script>
 <script>
-/* galaxy starfield — bright + dull specks + faint nebula, screen-blended over the connectome */
+/* Milky-Way galaxy — tilted star band + colored nebula + glowing stars, slowly rotating
+   around the SAME center as the connectome so the whole scene moves as one galaxy. */
 (function(){
   var cv=document.getElementById('stars'); if(!cv) return; var ctx=cv.getContext('2d');
-  var dpr=Math.min(window.devicePixelRatio||1,2), stars=[], neb=[];
+  var dpr=Math.min(window.devicePixelRatio||1,2), stars=[], neb=[], RAD=0, ang=0;
+  var BAND=-0.42, cosB=Math.cos(BAND), sinB=Math.sin(BAND); // galactic plane tilt
   function rand(a,b){ return a+Math.random()*(b-a); }
+  function gauss(){ return (Math.random()+Math.random()+Math.random()-1.5)/1.5; }
   function build(){
     cv.width=innerWidth*dpr; cv.height=innerHeight*dpr;
-    var n=Math.floor(innerWidth*innerHeight/1500); stars=[];
+    RAD=Math.sqrt(cv.width*cv.width+cv.height*cv.height)/2*1.06;
+    var n=Math.floor(innerWidth*innerHeight/1100); stars=[];
+    var bandHalf=RAD*0.20;
     for(var i=0;i<n;i++){
-      var bright=Math.random()<0.16;
-      stars.push({ x:Math.random()*cv.width, y:Math.random()*cv.height,
-        r:(bright?rand(0.8,1.7):rand(0.3,0.9))*dpr,
-        base:bright?rand(0.6,1):rand(0.1,0.42),
-        tw:rand(0.004,0.018), ph:Math.random()*6.2832,
-        col:Math.random()<0.8?'255,255,255':(Math.random()<0.5?'180,205,255':'232,200,140') });
+      var x,y;
+      if(Math.random()<0.58){ var u=rand(-RAD,RAD), v=gauss()*bandHalf; x=u*cosB-v*sinB; y=u*sinB+v*cosB; }
+      else { var a2=Math.random()*6.2832, rr=Math.sqrt(Math.random())*RAD; x=Math.cos(a2)*rr; y=Math.sin(a2)*rr; }
+      var bright=Math.random()<0.13, roll=Math.random();
+      var col=roll<0.62?'255,255,255':roll<0.78?'180,205,255':roll<0.9?'235,205,150':'230,160,170';
+      stars.push({ x:x, y:y, r:(bright?rand(0.9,1.9):rand(0.3,0.95))*dpr,
+        base:bright?rand(0.6,1):rand(0.08,0.4), tw:rand(0.004,0.02), ph:Math.random()*6.2832, col:col, glow:bright });
     }
-    neb=[{x:cv.width*0.30,y:cv.height*0.34,r:cv.width*0.42,c:'90,120,205'},
-         {x:cv.width*0.74,y:cv.height*0.62,r:cv.width*0.38,c:'150,95,185'}];
+    neb=[]; var cols=['80,120,220','150,90,200','210,90,150','60,170,170','220,170,90'];
+    for(var j=0;j<7;j++){
+      var along=Math.random()<0.62, uu=rand(-RAD*0.8,RAD*0.8), vv=gauss()*RAD*0.18;
+      var nx=along?(uu*cosB-vv*sinB):rand(-RAD*0.7,RAD*0.7), ny=along?(uu*sinB+vv*cosB):rand(-RAD*0.7,RAD*0.7);
+      neb.push({ x:nx, y:ny, r:rand(RAD*0.18,RAD*0.42), c:cols[j%cols.length], a:rand(0.035,0.075) });
+    }
   }
   build(); addEventListener('resize',build);
   var run=true; document.addEventListener('visibilitychange',function(){ run=!document.hidden; if(run) draw(); });
   function draw(){
     if(!run) return;
     ctx.clearRect(0,0,cv.width,cv.height);
+    ctx.save(); ctx.translate(cv.width/2,cv.height/2); ctx.rotate(ang);
+    var cg=ctx.createRadialGradient(0,0,0,0,0,RAD*0.55);
+    cg.addColorStop(0,'rgba(120,140,210,0.06)'); cg.addColorStop(0.5,'rgba(90,110,180,0.025)'); cg.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=cg; ctx.fillRect(-RAD,-RAD,RAD*2,RAD*2);
     for(var k=0;k<neb.length;k++){ var b=neb[k]; var g=ctx.createRadialGradient(b.x,b.y,0,b.x,b.y,b.r);
-      g.addColorStop(0,'rgba('+b.c+',0.055)'); g.addColorStop(1,'rgba('+b.c+',0)'); ctx.fillStyle=g; ctx.fillRect(0,0,cv.width,cv.height); }
-    for(var i=0;i<stars.length;i++){ var s=stars[i]; s.ph+=s.tw; var a=s.base*(0.55+0.45*Math.sin(s.ph));
-      ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,6.2832); ctx.fillStyle='rgba('+s.col+','+a.toFixed(3)+')'; ctx.fill(); }
+      g.addColorStop(0,'rgba('+b.c+','+b.a+')'); g.addColorStop(1,'rgba('+b.c+',0)'); ctx.fillStyle=g; ctx.fillRect(b.x-b.r,b.y-b.r,b.r*2,b.r*2); }
+    for(var i=0;i<stars.length;i++){ var s=stars[i]; s.ph+=s.tw; var al=s.base*(0.5+0.5*Math.sin(s.ph));
+      if(s.glow){ ctx.beginPath(); ctx.arc(s.x,s.y,s.r*3.2,0,6.2832); ctx.fillStyle='rgba('+s.col+','+(al*0.10).toFixed(3)+')'; ctx.fill(); }
+      ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,6.2832); ctx.fillStyle='rgba('+s.col+','+al.toFixed(3)+')'; ctx.fill(); }
+    ctx.restore();
+    ang+=0.0006;
     requestAnimationFrame(draw);
   }
   draw();

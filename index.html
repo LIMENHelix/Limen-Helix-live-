@@ -1,425 +1,205 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>LIMEN HELIX — Civilization, in real time</title>
+<meta name="description" content="LIMEN Helix maps 20 domains of civilization in real time — a living connectome of 465,939 portals across 123 brain nodes. Hover any domain to explore; free public tools live now.">
 <meta name="google-site-verification" content="2xLI4zw_nL8XXPveYa48ALKWg6WDC86VzvtRvV6HayA" />
-<title>LIMEN HELIX — Coming Soon</title>
-<meta name="description" content="LIMEN Helix — a cross-domain discovery engine. Something unreal is almost here.">
-<meta property="og:title" content="LIMEN HELIX — Coming Soon">
-<meta property="og:description" content="A cross-domain discovery engine. Coming soon.">
+<link rel="canonical" href="https://limenhelix.com/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://limenhelix.com/">
+<meta property="og:title" content="LIMEN HELIX — Civilization, in real time">
+<meta property="og:description" content="A living connectome of 20 domains and 465,939 portals, read in real time. Hover any domain to explore.">
 <style>
-  :root{
-    --gold:#c9a94e; --gold-soft:rgba(201,169,78,0.85);
-    --amber:#e0b659; --cyan:#e0b659; --ink:#efe9d8; --line:rgba(201,169,78,0.22);
-    --void:#03030a;
-  }
-  *{box-sizing:border-box}
-  html,body{margin:0;min-height:100%;background:var(--void)}
-  body{overflow-x:hidden}
-  body{font-family:Georgia,"Times New Roman",serif;color:var(--ink);
-    -webkit-font-smoothing:antialiased;cursor:default}
-  /* full-screen layers */
-  #gl,#frac,#fx{position:fixed;inset:0;width:100%;height:100%;display:block}
-  #gl{z-index:0;
-    background:
-      radial-gradient(130% 100% at 24% 20%, var(--c1,#FFD166), rgba(6,6,14,0) 56%),
-      radial-gradient(120% 100% at 80% 34%, var(--c2,#9D6BFF), rgba(6,6,14,0) 54%),
-      radial-gradient(165% 135% at 50% 104%, var(--c3,#2DD4BF), rgba(6,6,14,0) 60%),
-      #06060e;
-    background-size:220% 220%,220% 220%,220% 220%,100% 100%;
-    background-position:0% 0%,100% 0%,50% 100%,0 0;
-    animation:drift 32s ease-in-out infinite alternate;will-change:background-position}
-  @keyframes drift{to{background-position:45% 35%,55% 45%,50% 55%,0 0}}
-  /* WebGL fractal fades in OVER the instant color-field — no slow blank start */
-  #frac{z-index:1;pointer-events:none;mix-blend-mode:screen;opacity:0;transition:opacity 1.4s ease}
-  #frac.on{opacity:.9}
-  #fx{z-index:2;pointer-events:none;mix-blend-mode:screen;opacity:.7}
-  .veil{position:fixed;inset:0;z-index:3;pointer-events:none;
-    background:radial-gradient(120% 90% at 50% 42%,rgba(3,3,10,0) 38%,rgba(3,3,10,0.55) 78%,rgba(3,3,10,0.92) 100%)}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#050810;color:#e8e3d9;font-family:monospace;overflow:hidden;height:100%;width:100%;-webkit-user-select:none;user-select:none}
+canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;background:#050810}
+canvas#stars{position:fixed;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;mix-blend-mode:screen}
+.scanline{position:fixed;inset:0;z-index:5;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.02) 2px,rgba(0,0,0,0.02) 4px)}
 
-  /* center stage */
-  .stage{position:relative;z-index:4;min-height:100vh;display:flex;flex-direction:column;
-    align-items:center;justify-content:center;text-align:center;padding:48px 24px}
-  .stage::before{content:'';position:absolute;left:50%;top:48%;transform:translate(-50%,-50%);
-    width:min(820px,94vw);height:min(620px,86vh);pointer-events:none;z-index:-1;
-    background:radial-gradient(ellipse at center,rgba(2,2,8,0.46) 0%,rgba(2,2,8,0.30) 32%,rgba(2,2,8,0.12) 58%,rgba(2,2,8,0) 82%)}
-  .sigil{font-size:2.1rem;color:var(--gold);line-height:1;cursor:pointer;
-    text-shadow:0 0 18px rgba(201,169,78,0.8),0 0 42px rgba(201,169,78,0.45);
-    animation:spin 14s linear infinite, pulse 3.2s ease-in-out infinite;user-select:none}
-  @keyframes spin{to{transform:rotate(360deg)}}
-  @keyframes pulse{0%,100%{opacity:.7;filter:drop-shadow(0 0 6px rgba(224,182,89,.4))}50%{opacity:1;filter:drop-shadow(0 0 16px rgba(224,182,89,.85))}}
-  h1.word{margin:18px 0 6px;font-weight:400;letter-spacing:.18em;
-    font-size:clamp(2.1rem,7vw,5.4rem);line-height:.98;cursor:pointer;user-select:none;
-    background:linear-gradient(180deg,#cda14e 0%,#a8862f 52%,#4e3910 100%);
-    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-    filter:drop-shadow(0 0 16px rgba(201,169,78,0.42));
-    animation:flicker 6s ease-in-out infinite}
-  h1.word b{font-weight:700;letter-spacing:.22em}
-  @keyframes flicker{0%,100%{filter:drop-shadow(0 0 16px rgba(201,169,78,.45))}45%{filter:drop-shadow(0 0 30px rgba(224,182,89,.5))}}
-  .soon{font-size:clamp(.62rem,2.4vw,.92rem);letter-spacing:.74em;text-indent:.74em;
-    color:rgba(201,169,78,0.72);text-transform:uppercase;
-    text-shadow:0 0 12px rgba(201,169,78,.45);animation:breathe 4s ease-in-out infinite}
-  @keyframes breathe{0%,100%{opacity:.55}50%{opacity:1}}
-  .teaser{max-width:560px;margin:26px auto 0;font-size:clamp(.86rem,2.1vw,1.02rem);
-    line-height:1.7;color:#efe9d8;font-weight:600;
-    text-shadow:0 1px 3px rgba(0,0,0,0.95),0 0 14px rgba(0,0,0,0.9),0 0 32px rgba(0,0,0,0.7)}
-  .teaser .em{color:#e6c869;font-weight:700}
-  .teaser .cy{color:#e6c869;font-weight:700}
+/* public top bar */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:14px 20px}
+.topbar .brand{font-family:Georgia,serif;font-size:1.05rem;letter-spacing:.22em;color:rgba(201,169,78,0.9);text-shadow:0 0 16px rgba(201,169,78,.4)}
+.topbar .brand b{font-weight:700}
+.adminbtn{font-size:.55rem;letter-spacing:2px;text-transform:uppercase;color:rgba(201,169,78,0.55);border:1px solid rgba(201,169,78,0.3);padding:7px 13px;border-radius:3px;background:rgba(5,8,16,0.5);cursor:pointer;font-family:monospace}
+.adminbtn:hover{color:#fff;border-color:rgba(201,169,78,0.8)}
 
-  /* email capture */
-  form.capture{margin:34px auto 0;display:flex;gap:0;max-width:440px;width:100%;
-    border:1px solid rgba(201,169,78,0.5);background:rgba(2,2,8,0.85);backdrop-filter:blur(5px);
-    border-radius:4px;overflow:hidden;box-shadow:0 0 30px rgba(0,0,0,0.55),0 0 22px rgba(201,169,78,0.14)}
-  form.capture input{flex:1;min-width:0;background:transparent;border:none;outline:none;
-    color:var(--ink);font-family:Georgia,serif;font-size:.95rem;padding:14px 16px;letter-spacing:.04em}
-  form.capture input::placeholder{color:rgba(239,233,216,0.4)}
-  form.capture button{background:linear-gradient(180deg,rgba(201,169,78,.22),rgba(201,169,78,.08));
-    border:none;border-left:1px solid var(--line);color:var(--gold);cursor:pointer;
-    font-family:Georgia,serif;font-size:.66rem;letter-spacing:.28em;text-transform:uppercase;
-    padding:0 22px;transition:.2s;white-space:nowrap}
-  form.capture button:hover{background:rgba(201,169,78,.28);color:#fff;text-shadow:0 0 10px rgba(201,169,78,.8)}
-  form.capture button:disabled{opacity:.5;cursor:default}
-  .capmsg{margin-top:14px;min-height:16px;font-size:.66rem;letter-spacing:.18em;text-transform:uppercase}
-  .capmsg.ok{color:rgba(224,182,89,0.95);text-shadow:0 0 10px rgba(201,169,78,.45)}
-  .capmsg.err{color:#e08a72}
-  .hint{margin-top:40px;font-size:.5rem;letter-spacing:.34em;text-transform:uppercase;
-    color:rgba(239,233,216,0.12);user-select:none}
-  .hint b{color:rgba(201,169,78,0.28)}
+/* center label */
+.center-label{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:50;text-align:center;pointer-events:none}
+.center-label .title{font-size:clamp(1.1rem,3.6vw,1.8rem);font-weight:100;letter-spacing:clamp(6px,2vw,14px);opacity:0.05;font-family:Georgia,serif;color:rgba(140,170,200,0.6)}
+.center-label .subtitle{font-size:clamp(0.42rem,1.3vw,0.56rem);letter-spacing:clamp(4px,1.5vw,9px);text-transform:uppercase;opacity:0.22;margin-top:4px;color:rgba(140,170,200,0.4)}
 
-  /* operator login overlay (preserved from the prior front door) */
-  .admin-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.94);display:none;
-    align-items:center;justify-content:center;z-index:60;padding:24px;backdrop-filter:blur(6px)}
-  .admin-overlay.show{display:flex}
-  .admin-card{background:#06060e;border:1px solid rgba(201,169,78,0.35);padding:36px 32px 28px;
-    max-width:380px;width:100%;text-align:center;position:relative;box-shadow:0 0 60px rgba(201,169,78,0.18)}
-  .admin-card .label{font-size:0.65rem;letter-spacing:6px;color:var(--gold-soft);text-transform:uppercase;margin-bottom:24px}
-  .admin-card input[type=password]{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(201,169,78,0.35);
-    color:var(--ink);font-family:Georgia,serif;font-size:1rem;padding:10px 4px;letter-spacing:2px;text-align:center;outline:none}
-  .admin-card input[type=password]:focus{border-bottom-color:rgba(201,169,78,0.8)}
-  .admin-card button{margin-top:22px;background:transparent;border:1px solid rgba(201,169,78,0.45);color:var(--gold-soft);
-    font-family:Georgia,serif;font-size:0.7rem;letter-spacing:4px;text-transform:uppercase;padding:10px 24px;cursor:pointer}
-  .admin-card button:hover{background:rgba(201,169,78,0.08)}
-  .admin-card .close{position:absolute;top:8px;right:12px;background:none;border:none;color:rgba(239,233,216,0.4);font-size:1.2rem;cursor:pointer;padding:4px 8px}
-  .admin-error{margin-top:14px;min-height:14px;font-size:0.65rem;letter-spacing:2px;color:rgba(220,120,100,0.85);text-transform:uppercase}
-  .admin-hint{margin-top:18px;font-size:0.55rem;letter-spacing:2px;color:rgba(239,233,216,0.35);text-transform:uppercase}
-  @media (prefers-reduced-motion: reduce){
-    .sigil,h1.word,.soon{animation:none}
-  }
-  .phase{margin-top:16px;padding:13px 22px;border-radius:11px;
-    background:rgba(18,18,24,0.62);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
-    border:1px solid rgba(255,255,255,0.07);box-shadow:0 4px 26px rgba(0,0,0,0.5)}
-  .phase-title{font-size:clamp(.82rem,3vw,1.2rem);font-weight:700;letter-spacing:.5em;text-indent:.5em;text-transform:uppercase;
-    color:rgba(201,169,78,0.92);transition:color 2.5s ease;text-shadow:0 0 10px rgba(0,0,0,0.85),0 1px 10px rgba(0,0,0,0.7)}
-  .phase-desc{margin-top:9px;font-size:clamp(.62rem,2vw,.84rem);font-weight:600;letter-spacing:.16em;font-style:italic;
-    color:rgba(239,233,216,0.55);transition:color 2.5s ease;text-shadow:0 0 10px rgba(0,0,0,0.85),0 1px 10px rgba(0,0,0,0.7)}
-  .musicbtn{position:fixed;right:18px;bottom:16px;z-index:5;width:38px;height:38px;border-radius:50%;
-    background:rgba(2,2,8,0.5);border:1px solid var(--line);color:var(--gold);font-size:1rem;cursor:pointer;
-    transition:.25s;backdrop-filter:blur(3px)}
-  .musicbtn:hover{background:rgba(201,169,78,0.14);color:#fff;box-shadow:0 0 16px rgba(201,169,78,0.4)}
-  .musicbtn.on{color:#fff;border-color:var(--gold);box-shadow:0 0 18px rgba(201,169,78,0.55);animation:breathe 2.4s ease-in-out infinite}
+/* hud */
+.hud{position:fixed;z-index:100;font-size:clamp(0.34rem,1vw,0.44rem);letter-spacing:2px;text-transform:uppercase;color:rgba(201,169,78,0.4)}
+.hud-tr{top:52px;right:16px;text-align:right}.hud-bl{bottom:74px;left:16px}
+.headline{position:fixed;top:50px;left:0;right:0;z-index:150;text-align:center;padding:0 16px;pointer-events:none;font-family:Georgia,serif;font-size:clamp(.7rem,2vw,.98rem);letter-spacing:.05em;color:rgba(201,169,78,0.82);text-shadow:0 0 18px rgba(0,0,0,.8)}
+.headline b{color:#fff;font-weight:700}
+
+/* tooltip (engine-driven) */
+#tooltip{position:fixed;z-index:400;background:rgba(5,8,16,0.96);border:1px solid rgba(140,170,200,0.15);padding:14px 18px;max-width:340px;width:max-content;pointer-events:none;display:none;font-family:monospace}
+#tooltip .tt-phase{font-size:0.5rem;letter-spacing:3px;text-transform:uppercase;margin-bottom:4px}
+#tooltip .tt-name{font-size:clamp(0.85rem,2.8vw,1rem);color:rgba(180,200,220,0.9);letter-spacing:2px;margin-bottom:2px}
+#tooltip .tt-tagline{font-family:Georgia,serif;font-size:0.8rem;color:rgba(180,200,220,0.45);line-height:1.5;margin-bottom:8px}
+#tooltip .tt-counts{font-family:monospace;font-size:0.62rem;letter-spacing:.5px;color:rgba(201,169,78,0.75);margin-bottom:8px}
+#tooltip .tt-counts b{color:#fff;font-weight:700}
+#tooltip .tt-enter{font-size:0.5rem;letter-spacing:3px;color:rgba(140,170,200,0.5);text-transform:uppercase}
+#subMenu{display:none}
+
+/* intro + tools */
+.intro{position:fixed;left:0;right:0;bottom:0;z-index:120;text-align:center;padding:0 18px 18px;pointer-events:none}
+.intro p{max-width:640px;margin:0 auto 12px;font-family:Georgia,serif;font-size:clamp(.74rem,2vw,.92rem);line-height:1.6;color:rgba(232,227,217,0.62)}
+.intro .em{color:rgba(201,169,78,0.9)}
+.tools{pointer-events:auto}
+.tools a{color:#06060e;font-weight:700;background:#d8b85a;border-radius:18px;padding:7px 13px;display:inline-block;margin:4px;box-shadow:0 2px 12px rgba(0,0,0,.55);font-family:Georgia,serif;font-size:.78rem;text-decoration:none;transition:.2s}
+.tools a:hover{background:#e9cd74;transform:translateY(-2px)}
+.tools .lab{display:block;font-family:monospace;font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(232,227,217,0.4);margin-bottom:6px}
+
+#entry-veil{position:fixed;inset:0;z-index:60;background:#050810;pointer-events:none;transition:opacity 2s}
+
+/* admin overlay */
+.ov{position:fixed;inset:0;background:rgba(0,0,0,0.94);display:none;align-items:center;justify-content:center;z-index:600;padding:24px;backdrop-filter:blur(6px)}
+.ov.show{display:flex}
+.card{background:#06060e;border:1px solid rgba(201,169,78,0.35);padding:34px 30px 26px;max-width:360px;width:100%;text-align:center;position:relative;font-family:Georgia,serif}
+.card .lbl{font-size:.62rem;letter-spacing:6px;color:rgba(201,169,78,.85);text-transform:uppercase;margin-bottom:22px}
+.card input{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(201,169,78,0.35);color:#efe9d8;font-family:Georgia,serif;font-size:1rem;padding:10px 4px;letter-spacing:2px;text-align:center;outline:none}
+.card button{margin-top:20px;background:transparent;border:1px solid rgba(201,169,78,0.45);color:rgba(201,169,78,.85);font-family:Georgia,serif;font-size:.7rem;letter-spacing:4px;text-transform:uppercase;padding:10px 24px;cursor:pointer}
+.card .x{position:absolute;top:8px;right:12px;background:none;border:none;color:rgba(239,233,216,.4);font-size:1.2rem;cursor:pointer}
+.card .err{margin-top:12px;min-height:14px;font-size:.62rem;letter-spacing:2px;color:rgba(220,120,100,.85);text-transform:uppercase}
 </style>
 </head>
 <body>
-<a href="#admin" id="admin-open" style="position:fixed;top:14px;right:16px;z-index:60;font-size:0.58rem;letter-spacing:2px;text-transform:uppercase;color:rgba(201,169,78,0.62);border:1px solid rgba(201,169,78,0.32);padding:6px 13px;border-radius:3px;background:rgba(0,0,0,0.35);backdrop-filter:blur(2px)">Admin</a>
-<canvas id="gl"></canvas>
-<canvas id="frac"></canvas>
-<canvas id="fx"></canvas>
-<div class="veil"></div>
 
-<main class="stage">
-  <div class="sigil" id="sigil" title="">&#10070;</div>
-  <h1 class="word" id="word">LIMEN <b>HELIX</b></h1>
-  <div class="soon">Coming Soon</div>
-  <div class="phase" id="phaseTag">
-    <div class="phase-title" id="phaseTitle">P1 · COLLAPSE / LIGHT</div>
-    <div class="phase-desc" id="phaseDesc">Adaptive collapse / defensive contraction</div>
-  </div>
-  <p class="teaser">A <span class="em">cross-domain discovery engine</span> — mapping stress, failure, repair, and opportunity across every domain, then turning the signal into <span class="cy">leads, theses, and action</span>. Something unreal is almost here.</p>
+<div class="topbar">
+  <span class="brand">⊹ LIMEN <b>HELIX</b></span>
+  <button class="adminbtn" id="adminBtn">Admin</button>
+</div>
+<div class="headline"><b>20</b> domains · <b>123</b> brain nodes · <b>465,939</b> portals · <b>~880K</b> diagnoses · <b>~8.2M</b> treatments</div>
 
-  <form class="capture" id="capture" autocomplete="on">
-    <input type="email" id="cap-email" name="email" placeholder="your email — be first through the door" required maxlength="200">
-    <button type="submit" id="cap-btn">Notify me</button>
-  </form>
-  <div class="capmsg" id="capmsg"></div>
+<canvas id="c"></canvas>
+<canvas id="stars"></canvas>
+<div class="scanline"></div>
 
-  <div style="margin-top:22px;font-size:0.85rem;line-height:2.3">
-    <span style="display:block;margin-bottom:8px;color:#f3efe2;font-weight:600;letter-spacing:.04em;text-shadow:0 1px 3px rgba(0,0,0,0.95),0 0 14px rgba(0,0,0,0.85)">Free, live now:</span>
-    <a href="/energy" style="color:#000;font-weight:700;text-decoration:none;background:#d8b85a;border-radius:20px;padding:8px 16px;display:inline-block;margin:4px;box-shadow:0 2px 10px rgba(0,0,0,0.45)">⚡ Energy Bill X-Ray</a>
-    <a href="/energy-markets" style="color:#000;font-weight:700;text-decoration:none;background:#d8b85a;border-radius:20px;padding:8px 16px;display:inline-block;margin:4px;box-shadow:0 2px 10px rgba(0,0,0,0.45)">📈 Energy Stocks by Theme</a>
-    <a href="/culture" style="color:#000;font-weight:700;text-decoration:none;background:#d8b85a;border-radius:20px;padding:8px 16px;display:inline-block;margin:4px;box-shadow:0 2px 10px rgba(0,0,0,0.45)">🎭 Culture Watch</a>
-    <a href="/infrastructure" style="color:#000;font-weight:700;text-decoration:none;background:#d8b85a;border-radius:20px;padding:8px 16px;display:inline-block;margin:4px;box-shadow:0 2px 10px rgba(0,0,0,0.45)">🏗 Plan Your Project</a>
-  </div>
+<div class="center-label">
+  <div class="title">CIVILIZATION</div>
+  <div class="subtitle">System Atlas · 20 Sectors · Live</div>
+</div>
+<div class="hud hud-tr">CONNECTOME</div>
+<div class="hud hud-bl">20 DOMAINS · 30 PATHWAYS</div>
 
-  <div class="hint">triple-click the <b>&#10070;</b> mark to enter &nbsp;·&nbsp; <b>Ctrl/&#8984; + Shift + A</b></div>
-  <button class="musicbtn" id="musicBtn" title="ambient soundscape" aria-label="toggle sound">&#9834;</button>
-</main>
+<div id="tooltip">
+  <div class="tt-phase" id="ttPhase"></div>
+  <div class="tt-name" id="ttName"></div>
+  <div class="tt-tagline" id="ttTagline"></div>
+  <div class="tt-counts" id="ttCounts"></div>
+  <div class="tt-enter" id="ttEnter"></div>
+</div>
+<div id="subMenu"></div>
+<div id="entry-veil"></div>
 
-<!-- operator login -->
-<div class="admin-overlay" id="admin-overlay">
-  <div class="admin-card">
-    <button class="close" id="admin-close" aria-label="close">&times;</button>
-    <div class="label">Authorized Access</div>
-    <form id="admin-form">
-      <input type="password" id="admin-pw" placeholder="• • • • • •" autocomplete="off" inputmode="numeric">
-      <div class="admin-error" id="admin-error"></div>
+<!-- admin -->
+<div class="ov" id="ov">
+  <div class="card">
+    <button class="x" id="ovX" aria-label="close">&times;</button>
+    <div class="lbl">Authorized Access</div>
+    <form id="ovForm">
+      <input type="password" id="ovPw" placeholder="• • • • • •" autocomplete="off" inputmode="numeric">
+      <div class="err" id="ovErr"></div>
       <button type="submit">Enter</button>
     </form>
-    <div class="admin-hint">Operators only</div>
   </div>
 </div>
 
-<script type="x-shader/x-vertex" id="vert">
-attribute vec2 p; void main(){ gl_Position = vec4(p,0.0,1.0); }
-</script>
-<script type="x-shader/x-fragment" id="frag">
-precision highp float;
-uniform vec2 u_res; uniform float u_time; uniform vec3 u_color; uniform float u_chaos; uniform float u_pulse;
-vec3 hsv(float h,float s,float v){
-  vec3 K=vec3(1.,2./3.,1./3.);
-  vec3 p=abs(fract(vec3(h)+K)*6.-3.);
-  return v*mix(vec3(1.),clamp(p-1.,0.,1.),s);
-}
-mat2 rot(float a){ float c=cos(a),s=sin(a); return mat2(c,-s,s,c); }
-void main(){
-  vec2 uv=(gl_FragCoord.xy-0.5*u_res)/min(u_res.x,u_res.y);
-  float t=u_time*0.12;
-  uv*= (1.35 + 0.42*sin(u_time*0.13)) * (1.0 - u_pulse*0.16);
-  uv*=rot(t*0.25);
-  // recursive kaleidoscopic folds
-  for(int i=0;i<4;i++){ uv=abs(uv)-(0.42-u_chaos*0.10); uv*=rot(0.38+0.16*sin(t+float(i)) + u_chaos*0.55*sin(t*1.9+float(i)*2.1)); }
-  // animated Julia
-  vec2 c=0.7885*vec2(cos(t*0.7),sin(t*0.93));
-  vec2 z=uv*1.55;
-  float m=0.0; bool esc=false;
-  for(int i=0;i<110;i++){
-    z=vec2(z.x*z.x-z.y*z.y, 2.0*z.x*z.y)+c;
-    float d=dot(z,z);
-    if(d>16.0){ m=float(i)-log2(log2(d))+4.0; esc=true; break; }
-  }
-  float n = esc ? clamp(m/110.0,0.0,1.0) : 1.0;
-  float core=exp(-3.2*n);
-  vec3 base=u_color;
-  vec3 col=base*(0.22+0.85*pow(n,0.6));                // body in the phase color
-  col+=core*mix(base,vec3(1.0),0.65)*1.45;             // luminous core
-  col+=base*pow(1.0-n,4.0)*0.95;                       // rim glow (phase color)
-  col+=vec3(1.0)*pow(max(0.0,sin(34.0*length(z)+u_time*2.6)),22.0)*0.18; // micro sparkle
-  col*=1.0+u_pulse*0.55;                               // audio-reactive bloom
-  float vig=1.0-0.55*length((gl_FragCoord.xy/u_res)-0.5);
-  col*=clamp(vig,0.0,1.0);
-  col=pow(col,vec3(0.86)); // gentle lift
-  gl_FragColor=vec4(col,1.0);
-}
-</script>
-
+<script src="assets/js/limen-ui-state.js"></script>
+<script src="assets/js/civilization-connectome-galaxy.js?v=20260627c"></script>
 <script>
-/* ── 1. WebGL fractal — fades in OVER the instant CSS color-field (#gl), so the page
-       is colorful immediately and the fractal arrives a beat later (no slow blank). ── */
 (function(){
-  var cv=document.getElementById('frac');
-  var gl=null; try{ gl=cv.getContext('webgl')||cv.getContext('experimental-webgl'); }catch(e){}
-  if(!gl) return; // the CSS color-field already provides a full background
-  function sh(type,src){ var s=gl.createShader(type); gl.shaderSource(s,src); gl.compileShader(s); return s; }
-  var prog=gl.createProgram();
-  gl.attachShader(prog,sh(gl.VERTEX_SHADER,document.getElementById('vert').textContent));
-  gl.attachShader(prog,sh(gl.FRAGMENT_SHADER,document.getElementById('frag').textContent));
-  gl.linkProgram(prog);
-  if(!gl.getProgramParameter(prog,gl.LINK_STATUS)) return;
-  gl.useProgram(prog);
-  var buf=gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,buf);
-  gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
-  var loc=gl.getAttribLocation(prog,'p'); gl.enableVertexAttribArray(loc);
-  gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
-  var uRes=gl.getUniformLocation(prog,'u_res'), uTime=gl.getUniformLocation(prog,'u_time'), uColor=gl.getUniformLocation(prog,'u_color'), uChaos=gl.getUniformLocation(prog,'u_chaos'), uPulse=gl.getUniformLocation(prog,'u_pulse');
-  function size(){ var dpr=Math.min(window.devicePixelRatio||1,1.25); cv.width=Math.floor(innerWidth*dpr); cv.height=Math.floor(innerHeight*dpr); gl.viewport(0,0,cv.width,cv.height); }
-  size(); addEventListener('resize',size);
-  var t0=Date.now(), running=true, shown=false;
-  document.addEventListener('visibilitychange',function(){ running=!document.hidden; if(running) loop(); });
-  function loop(){
-    if(!running) return;
-    gl.uniform2f(uRes,cv.width,cv.height);
-    gl.uniform1f(uTime,(Date.now()-t0)/1000);
-    var c=window.__limenColor||[1.0,0.82,0.4]; gl.uniform3f(uColor,c[0],c[1],c[2]);
-    gl.uniform1f(uChaos,(window.__limenChaos!=null?window.__limenChaos:0.32));
-    gl.uniform1f(uPulse,(window.__limenPulse!=null?window.__limenPulse:0.0));
-    gl.drawArrays(gl.TRIANGLES,0,3);
-    if(!shown){ shown=true; cv.classList.add('on'); } // fade in after the first frame paints
-    requestAnimationFrame(loop);
+  'use strict';
+  // PUBLIC routing only — clicks never reach gated pages.
+  var PUBLIC = { energy:'/energy', culture:'/culture', infrastructure:'/infrastructure' };
+  function onNodeClick(n){
+    var url = n && (PUBLIC[n.id] || PUBLIC[(n.childUniverse||'').toLowerCase()]);
+    if (url) window.location.href = url;
+    // else: no navigation — hover tooltip already shows the sector's state
   }
-  requestAnimationFrame(loop);
+  if (window.CivilizationConnectome) {
+    CivilizationConnectome.init('c', { miniMode:false, focusDomain:null, onNodeClick:onNodeClick });
+  }
+  var v=document.getElementById('entry-veil');
+  setTimeout(function(){ if(v){ v.style.opacity='0'; setTimeout(function(){ v.remove(); },2000); } },300);
 })();
 
-/* ── 2. Sparkle particle overlay ─────────────────────────────────── */
+/* admin: passcode → /api/admin-auth → /admin */
 (function(){
-  var cv=document.getElementById('fx'), ctx=cv.getContext('2d'); if(!ctx) return;
-  var dpr=Math.min(window.devicePixelRatio||1,2), P=[], N=0;
-  function size(){ cv.width=innerWidth*dpr; cv.height=innerHeight*dpr;
-    N=Math.min(150,Math.floor(innerWidth*innerHeight/9000)); seed(); }
-  function seed(){ P=[]; for(var i=0;i<N;i++) P.push(mk()); }
-  function mk(){ return { x:Math.random()*cv.width, y:Math.random()*cv.height,
-    r:(Math.random()*1.6+0.3)*dpr, s:Math.random()*0.5+0.15,
-    a:Math.random()*Math.PI*2, tw:Math.random()*0.04+0.01,
-    h:Math.random()<0.5?'201,169,78':'224,182,89' }; }
-  size(); addEventListener('resize',size);
-  var run=true; document.addEventListener('visibilitychange',function(){run=!document.hidden; if(run) draw();});
+  var btn=document.getElementById('adminBtn'),ov=document.getElementById('ov'),
+      f=document.getElementById('ovForm'),pw=document.getElementById('ovPw'),
+      err=document.getElementById('ovErr'),x=document.getElementById('ovX');
+  function show(){ov.classList.add('show');setTimeout(function(){pw.focus();},50);}
+  function hide(){ov.classList.remove('show');err.textContent='';pw.value='';}
+  btn.addEventListener('click',show); x.addEventListener('click',hide);
+  ov.addEventListener('click',function(e){if(e.target===ov)hide();});
+  document.addEventListener('keydown',function(e){
+    if((e.ctrlKey||e.metaKey)&&e.shiftKey&&(e.key==='A'||e.key==='a')){e.preventDefault();show();}
+    if(e.key==='Escape')hide();});
+  f.addEventListener('submit',function(e){e.preventDefault();var val=(pw.value||'').trim();
+    if(!val){err.textContent='Enter code';return;} err.textContent='checking…';
+    fetch('/api/admin-auth',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({passcode:val})})
+      .then(function(r){return r.json();})
+      .then(function(j){ if(j&&j.ok){ try{sessionStorage.setItem('limen_access','granted');if(j.person)sessionStorage.setItem('limen_admin',JSON.stringify(j.person));sessionStorage.setItem('limen_pass',val);}catch(e){} window.location.replace('/admin'); }
+        else { err.textContent='Incorrect'; pw.value=''; pw.focus(); } })
+      .catch(function(){ err.textContent='Error — try again'; });
+  });
+})();
+</script>
+<script>
+/* Milky-Way galaxy — tilted star band + colored nebula + glowing stars, slowly rotating
+   around the SAME center as the connectome so the whole scene moves as one galaxy. */
+(function(){
+  var cv=document.getElementById('stars'); if(!cv) return; var ctx=cv.getContext('2d');
+  var dpr=Math.min(window.devicePixelRatio||1,2), stars=[], neb=[], RAD=0, ang=0;
+  var BAND=-0.42, cosB=Math.cos(BAND), sinB=Math.sin(BAND); // galactic plane tilt
+  function rand(a,b){ return a+Math.random()*(b-a); }
+  function gauss(){ return (Math.random()+Math.random()+Math.random()-1.5)/1.5; }
+  function build(){
+    cv.width=innerWidth*dpr; cv.height=innerHeight*dpr;
+    RAD=Math.sqrt(cv.width*cv.width+cv.height*cv.height)/2*1.06;
+    var n=Math.floor(innerWidth*innerHeight/1100); stars=[];
+    var bandHalf=RAD*0.20;
+    for(var i=0;i<n;i++){
+      var x,y;
+      if(Math.random()<0.58){ var u=rand(-RAD,RAD), v=gauss()*bandHalf; x=u*cosB-v*sinB; y=u*sinB+v*cosB; }
+      else { var a2=Math.random()*6.2832, rr=Math.sqrt(Math.random())*RAD; x=Math.cos(a2)*rr; y=Math.sin(a2)*rr; }
+      var bright=Math.random()<0.13, roll=Math.random();
+      var col=roll<0.62?'255,255,255':roll<0.78?'180,205,255':roll<0.9?'235,205,150':'230,160,170';
+      stars.push({ x:x, y:y, r:(bright?rand(0.9,1.9):rand(0.3,0.95))*dpr,
+        base:bright?rand(0.6,1):rand(0.08,0.4), tw:rand(0.004,0.02), ph:Math.random()*6.2832, col:col, glow:bright });
+    }
+    neb=[]; var cols=['80,120,220','150,90,200','210,90,150','60,170,170','220,170,90'];
+    for(var j=0;j<7;j++){
+      var along=Math.random()<0.62, uu=rand(-RAD*0.8,RAD*0.8), vv=gauss()*RAD*0.18;
+      var nx=along?(uu*cosB-vv*sinB):rand(-RAD*0.7,RAD*0.7), ny=along?(uu*sinB+vv*cosB):rand(-RAD*0.7,RAD*0.7);
+      neb.push({ x:nx, y:ny, r:rand(RAD*0.18,RAD*0.42), c:cols[j%cols.length], a:rand(0.035,0.075) });
+    }
+  }
+  build(); addEventListener('resize',build);
+  var run=true; document.addEventListener('visibilitychange',function(){ run=!document.hidden; if(run) draw(); });
   function draw(){
     if(!run) return;
     ctx.clearRect(0,0,cv.width,cv.height);
-    for(var i=0;i<P.length;i++){ var p=P[i];
-      p.y-=p.s*dpr; p.a+=p.tw; if(p.y< -10) { p.y=cv.height+10; p.x=Math.random()*cv.width; }
-      var tw=0.35+0.65*Math.abs(Math.sin(p.a));
-      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,6.2832);
-      ctx.fillStyle='rgba('+p.h+','+tw.toFixed(3)+')';
-      ctx.shadowBlur=8*dpr; ctx.shadowColor='rgba('+p.h+',0.9)';
-      ctx.fill();
-    }
-    ctx.shadowBlur=0;
+    ctx.save(); ctx.translate(cv.width/2,cv.height/2); ctx.rotate(ang);
+    var cg=ctx.createRadialGradient(0,0,0,0,0,RAD*0.55);
+    cg.addColorStop(0,'rgba(120,140,210,0.06)'); cg.addColorStop(0.5,'rgba(90,110,180,0.025)'); cg.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=cg; ctx.fillRect(-RAD,-RAD,RAD*2,RAD*2);
+    for(var k=0;k<neb.length;k++){ var b=neb[k]; var g=ctx.createRadialGradient(b.x,b.y,0,b.x,b.y,b.r);
+      g.addColorStop(0,'rgba('+b.c+','+b.a+')'); g.addColorStop(1,'rgba('+b.c+',0)'); ctx.fillStyle=g; ctx.fillRect(b.x-b.r,b.y-b.r,b.r*2,b.r*2); }
+    for(var i=0;i<stars.length;i++){ var s=stars[i]; s.ph+=s.tw; var al=s.base*(0.5+0.5*Math.sin(s.ph));
+      if(s.glow){ ctx.beginPath(); ctx.arc(s.x,s.y,s.r*3.2,0,6.2832); ctx.fillStyle='rgba('+s.col+','+(al*0.10).toFixed(3)+')'; ctx.fill(); }
+      ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,6.2832); ctx.fillStyle='rgba('+s.col+','+al.toFixed(3)+')'; ctx.fill(); }
+    ctx.restore();
+    ang+=0.0006;
     requestAnimationFrame(draw);
   }
   draw();
-})();
-
-/* ── 3. Email capture → /api/lead ────────────────────────────────── */
-(function(){
-  var form=document.getElementById('capture'), inp=document.getElementById('cap-email'),
-      btn=document.getElementById('cap-btn'), msg=document.getElementById('capmsg');
-  form.addEventListener('submit',function(e){
-    e.preventDefault();
-    var email=(inp.value||'').trim();
-    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ msg.className='capmsg err'; msg.textContent='Enter a valid email'; return; }
-    btn.disabled=true; var orig=btn.textContent; btn.textContent='…';
-    fetch('/api/lead',{method:'POST',headers:{'content-type':'application/json'},
-      body:JSON.stringify({ email:email, consent:true, interest:'coming-soon waitlist', sourcePage:'/coming-soon' })})
-      .then(function(r){ return r.json().then(function(j){ return {ok:r.ok,j:j}; }); })
-      .then(function(res){
-        if(res.ok && res.j && res.j.ok){ form.reset(); msg.className='capmsg ok'; msg.textContent='You’re on the list — see you soon.'; }
-        else { msg.className='capmsg err'; msg.textContent='Could not save — try again'; }
-      })
-      .catch(function(){ msg.className='capmsg err'; msg.textContent='Network error — try again'; })
-      .finally(function(){ btn.disabled=false; btn.textContent=orig; });
-  });
-})();
-
-/* ── 4. Operator login (preserved: passphrase → /civilization) ───── */
-(function(){
-  'use strict';
-  var AUTH_KEY='limen_access', AUTH_VALUE='granted', DEFAULT_LANDING='/admin';
-  var overlay=document.getElementById('admin-overlay'), form=document.getElementById('admin-form'),
-      pwInput=document.getElementById('admin-pw'), errorBox=document.getElementById('admin-error'),
-      closeBtn=document.getElementById('admin-close'),
-      sigil=document.getElementById('sigil'), word=document.getElementById('word');
-  function show(){ overlay.classList.add('show'); setTimeout(function(){ pwInput.focus(); },50); }
-  function hide(){ overlay.classList.remove('show'); errorBox.textContent=''; pwInput.value='';
-    if(location.hash==='#admin') history.replaceState(null,'',location.pathname+location.search); }
-  var RETURN_ALLOWLIST=['/civilization','/my-documents',
-    '/pattern-proposals','/kernel-comparison','/domain-console','/treatment-discovery','/admin-leads'];
-  function getReturnParam(){
-    try{ var ret=new URLSearchParams(location.search).get('return');
-      if(!ret||ret.charAt(0)!=='/'||ret.indexOf('//')!==-1) return null;
-      var pathOnly=ret.split('?')[0].split('#')[0].replace(/\.html$/,'').replace(/\/+$/,'');
-      if(RETURN_ALLOWLIST.indexOf(pathOnly)!==-1) return ret;
-    }catch(e){} return null;
-  }
-  function grantAndRedirect(person,pass){
-    try{ sessionStorage.setItem(AUTH_KEY,AUTH_VALUE); if(person) sessionStorage.setItem('limen_admin',JSON.stringify(person)); if(pass) sessionStorage.setItem('limen_pass',pass); }catch(e){}
-    window.location.replace(getReturnParam()||DEFAULT_LANDING); }
-  function checkHash(){ if(location.hash==='#admin') show(); }
-  checkHash(); addEventListener('hashchange',checkHash);
-  document.addEventListener('keydown',function(e){
-    if((e.ctrlKey||e.metaKey)&&e.shiftKey&&(e.key==='A'||e.key==='a')){ e.preventDefault(); show(); }
-    if(e.key==='Escape'&&overlay.classList.contains('show')) hide();
-  });
-  function tripler(el){ var c=0,tm=null; el.addEventListener('click',function(){ c++; clearTimeout(tm);
-    if(c>=3){ c=0; show(); } else tm=setTimeout(function(){ c=0; },600); }); }
-  tripler(sigil); tripler(word);
-  form.addEventListener('submit',function(e){ e.preventDefault();
-    var entered=(pwInput.value||'').trim();
-    if(!entered){ errorBox.textContent='Enter code'; return; }
-    errorBox.textContent='checking…';
-    fetch('/api/admin-auth',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({passcode:entered})})
-      .then(function(r){return r.json();})
-      .then(function(j){
-        if(j&&j.ok){ errorBox.textContent=''; grantAndRedirect(j.person,entered); }
-        else { errorBox.textContent='Incorrect'; pwInput.value=''; pwInput.focus(); }
-      })
-      .catch(function(){ errorBox.textContent='Error — try again'; });
-  });
-  closeBtn.addEventListener('click',hide);
-  overlay.addEventListener('click',function(e){ if(e.target===overlay) hide(); });
-  try{ if(sessionStorage.getItem(AUTH_KEY)===AUTH_VALUE){ var ret=getReturnParam(); if(ret) window.location.replace(ret); } }catch(e){}
-})();
-</script>
-<script>
-/* ── 5. Phase-cycle color driver — the P0–P10 arc tints the fractal ── */
-(function(){
-  var PHASES=[
-    {p:'P0', l:'SOURCE / NULL SYMMETRY',   d:'Pre-recursive non-differentiation',                       hex:'#F4F1E8', c:[0.957,0.945,0.910]},
-    {p:'P1', l:'COLLAPSE / LIGHT',         d:'Adaptive collapse / defensive contraction',               hex:'#FFD166', c:[1.000,0.820,0.400]},
-    {p:'P2', l:'RHYTHM / BONDING',         d:'Dyadic co-regulation / phase-locked entrainment',          hex:'#2DD4BF', c:[0.176,0.831,0.749]},
-    {p:'P3', l:'DARKNESS / FRACTURE',      d:'Recursive overload / pattern instability',                 hex:'#9D6BFF', c:[0.165,0.063,0.239]},
-    {p:'P4', l:'PEACE / STABILIZATION',    d:'Scaffolded stabilization / nested integration',            hex:'#8FBF9F', c:[0.561,0.749,0.624]},
-    {p:'P5', l:'ENDURANCE',                d:'Rhythmic self-regulation / recurrent predictive control',  hex:'#F59E0B', c:[0.961,0.620,0.043]},
-    {p:'P6', l:'ORDER',                    d:'Coordinated modularity / executive task-state switching',  hex:'#2563EB', c:[0.145,0.388,0.922]},
-    {p:'P7', l:'SEPARATION',               d:'Recursive shear / functional dissociation',                hex:'#DC2626', c:[0.863,0.149,0.149]},
-    {p:'P7b',l:'DIVERGENCE FORK',          d:'Bifurcation point / recursive exhaustion vs re-engagement',hex:'#F97316', c:[0.976,0.451,0.086]},
-    {p:'P8', l:'CONSCIENCE / REFLECTION',  d:'Reflective feedback / metacognitive self-monitoring',      hex:'#6D5DFC', c:[0.427,0.365,0.988]},
-    {p:'P9', l:'THRESHOLD',                d:'Poised disequilibrium / pre-transformation saturation',    hex:'#A855F7', c:[0.659,0.333,0.969]},
-    {p:'P10',l:'RESURRECTION',             d:'Reintegrated recursion / multilayer integration',          hex:'#10B981', c:[0.063,0.725,0.506]}
-  ];
-  var i=1, root=document.documentElement;
-  var elT=document.getElementById('phaseTitle'), elD=document.getElementById('phaseDesc');
-  function hx(h){ h=h.replace('#',''); return [parseInt(h.substr(0,2),16),parseInt(h.substr(2,2),16),parseInt(h.substr(4,2),16)]; }
-  function css(a){ return 'rgb('+Math.round(a[0])+','+Math.round(a[1])+','+Math.round(a[2])+')'; }
-  var c1=hx(PHASES[1].hex), c2=hx(PHASES[5].hex), c3=hx(PHASES[9].hex);
-  var t1=c1.slice(), t2=c2.slice(), t3=c3.slice();
-  function targets(ix){ t1=hx(PHASES[ix].hex); t2=hx(PHASES[(ix+4)%PHASES.length].hex); t3=hx(PHASES[(ix+8)%PHASES.length].hex); }
-  (function ease(){ for(var k=0;k<3;k++){ c1[k]+=(t1[k]-c1[k])*0.02; c2[k]+=(t2[k]-c2[k])*0.02; c3[k]+=(t3[k]-c3[k])*0.02; }
-    root.style.setProperty('--c1',css(c1)); root.style.setProperty('--c2',css(c2)); root.style.setProperty('--c3',css(c3));
-    window.__limenColor=[c1[0]/255,c1[1]/255,c1[2]/255]; requestAnimationFrame(ease); })();
-  function show(ph){ if(elT){ elT.textContent=ph.p+' · '+ph.l; elT.style.color=ph.hex; } if(elD){ elD.textContent=ph.d; elD.style.color=ph.hex; } }
-  targets(1); show(PHASES[1]);
-  setInterval(function(){ i=(i+1)%PHASES.length; targets(i); show(PHASES[i]); }, 14000);
-})();
-
-/* ── 6. Generative ambient soundscape (original — ♪ toggle, no autoplay) ── */
-(function(){
-  var btn=document.getElementById('musicBtn'); if(!btn) return;
-  var actx=null, master=null, voices=[], arp=null;
-  function start(){
-    var AC=window.AudioContext||window.webkitAudioContext; if(!AC) return;
-    actx=new AC(); master=actx.createGain(); master.gain.value=0;
-    var an=actx.createAnalyser(); an.fftSize=256; master.connect(an); an.connect(actx.destination);
-    var adata=new Uint8Array(an.frequencyBinCount);
-    (function meter(){ if(!actx) return; an.getByteTimeDomainData(adata); var sum=0; for(var j=0;j<adata.length;j++){var v=(adata[j]-128)/128; sum+=v*v;} window.__limenPulse=Math.min(1,Math.sqrt(sum/adata.length)*3.5); requestAnimationFrame(meter); })();
-    master.gain.linearRampToValueAtTime(0.16, actx.currentTime+4);
-    [55,82.41,110,164.81].forEach(function(f,k){
-      var o=actx.createOscillator(); o.type=k%2?'sine':'triangle'; o.frequency.value=f;
-      var filt=actx.createBiquadFilter(); filt.type='lowpass'; filt.frequency.value=520;
-      var g=actx.createGain(); g.gain.value=0.13/(k+1);
-      var lfo=actx.createOscillator(); lfo.frequency.value=0.04+0.025*k; var lg=actx.createGain(); lg.gain.value=2+k;
-      lfo.connect(lg); lg.connect(o.detune); lfo.start();
-      var flfo=actx.createOscillator(); flfo.frequency.value=0.025; var flg=actx.createGain(); flg.gain.value=380;
-      flfo.connect(flg); flg.connect(filt.frequency); flfo.start();
-      o.connect(filt); filt.connect(g); g.connect(master); o.start(); voices.push(o,lfo,flfo);
-    });
-    var delay=actx.createDelay(1.5); delay.delayTime.value=0.66; var fb=actx.createGain(); fb.gain.value=0.42;
-    delay.connect(fb); fb.connect(delay); var wet=actx.createGain(); wet.gain.value=0.5; delay.connect(wet); wet.connect(master);
-    var scale=[220,261.63,293.66,329.63,392,440,523.25], s=0;
-    arp=setInterval(function(){ if(!actx) return; var n=scale[s%scale.length]*(Math.random()<0.25?2:1); s++;
-      var o=actx.createOscillator(); o.type='sine'; o.frequency.value=n; var g=actx.createGain(); g.gain.value=0;
-      o.connect(g); g.connect(delay); g.connect(master); var t=actx.currentTime;
-      g.gain.linearRampToValueAtTime(0.05,t+0.05); g.gain.exponentialRampToValueAtTime(0.0008,t+1.7);
-      o.start(t); o.stop(t+1.9);
-    }, 1500);
-  }
-  function stop(){ if(!actx) return; clearInterval(arp); var a=actx,m=master;
-    try{ m.gain.linearRampToValueAtTime(0,a.currentTime+1.2);}catch(e){}
-    setTimeout(function(){ try{a.close();}catch(e){} },1400); actx=null; voices=[];
-    (function dk(){ var p=(window.__limenPulse||0)*0.88; window.__limenPulse=p; if(p>0.01) requestAnimationFrame(dk); })(); }
-  btn.addEventListener('click', function(){
-    if(actx){ stop(); btn.classList.remove('on'); btn.innerHTML='&#9834;'; }
-    else { start(); btn.classList.add('on'); btn.innerHTML='&#9835;'; }
-  });
 })();
 </script>
 </body>
