@@ -190,7 +190,7 @@ canvas#stars{position:fixed;inset:0;width:100%;height:100%;z-index:1;pointer-eve
       if(s.glow){ ctx.beginPath(); ctx.arc(s.x,s.y,s.r*3.2,0,6.2832); ctx.fillStyle='rgba('+s.col+','+(al*0.10).toFixed(3)+')'; ctx.fill(); }
       ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,6.2832); ctx.fillStyle='rgba('+s.col+','+al.toFixed(3)+')'; ctx.fill(); }
     ctx.restore();
-    ang+=0.0016;
+    /* stars stay fixed — like the real night sky; only the connectome moves */
     requestAnimationFrame(draw);
   }
   draw();
