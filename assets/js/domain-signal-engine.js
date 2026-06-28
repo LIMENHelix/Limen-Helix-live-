@@ -2549,6 +2549,12 @@
       intelligence: 'INTEL'
     };
 
+    // Phase color per domain — matches the connectome's NODE_PHASES + the canonical P0–P10 palette
+    var _phaseIdMap = { health:'medicine', research:'science', supplyChain:'trade' };
+    var _nodePhases = { governance:'P7',economy:'P1',infrastructure:'P4',energy:'P3',agriculture:'P2',industry:'P3',science:'P6',medicine:'P8',education:'P1',technology:'P6',communication:'P6',culture:'P9',defense:'P7',environment:'P0',religion:'P10',population:'P5',trade:'P5',law:'P4',finance:'P1',intelligence:'P9' };
+    var _phaseColors = { P0:'#1B2A4A',P1:'#F2CF5B',P2:'#2BA8A0',P3:'#7A6B9D',P4:'#4FB3D4',P5:'#A98C6B',P6:'#C3CAD4',P7:'#5478A8',P8:'#5A4FC0',P9:'#D8B85A',P10:'#EFA6B8' };
+    function _shade(hex,amt){ hex=hex.replace('#',''); var r=parseInt(hex.slice(0,2),16),g=parseInt(hex.slice(2,4),16),b=parseInt(hex.slice(4,6),16); if(amt>=0){r+=(255-r)*amt;g+=(255-g)*amt;b+=(255-b)*amt;}else{r*=(1+amt);g*=(1+amt);b*=(1+amt);} return 'rgb('+(r|0)+','+(g|0)+','+(b|0)+')'; }
+
     for (var i = 0; i < DOMAIN_KEYS.length; i++) {
       var k = DOMAIN_KEYS[i];
       var d = domains[k];
@@ -2597,10 +2603,12 @@
         'onmouseover="this.style.color=\'rgba(201,169,78,0.9)\'" onmouseout="this.style.color=\'rgba(201,169,78,0.5)\'"' +
         '>\u25B8</a>';
 
+      var _cid = _phaseIdMap[k] || k, _ph = _nodePhases[_cid] || 'P0', _pc = _phaseColors[_ph] || '#B4C8DC';
+      var _globe = '<span class="limen-dsphere" style="background:radial-gradient(circle at 33% 28%,' + _shade(_pc,0.55) + ' 0%,' + _pc + ' 44%,' + _shade(_pc,-0.55) + ' 100%);box-shadow:0 0 6px ' + _pc + ',inset -2px -2px 3px rgba(0,0,0,0.5),inset 1px 1px 2px rgba(255,255,255,0.35)" title="' + pct + '% · ' + _ph + '"></span>';
       lines.push(
         '<div data-domain="' + k + '" style="cursor:pointer;padding:1px 0">' +
         '<span style="color:' + dim + '">' + name + '</span>' +
-        '<span class="limen-dsphere" title="' + pct + '% stress"></span>' +
+        _globe +
         '<span style="color:' + dim + '">' + pct + '%' + trendArrow + '</span>' +
         '<span style="color:' + statusColor + ';font-size:0.40rem;margin-left:4px">' + statusLabel + '</span>' +
         '<span style="color:' + dim + ';font-size:0.38rem;margin-left:3px">' + confShort + '</span>' +
