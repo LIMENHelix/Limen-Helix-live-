@@ -2199,6 +2199,7 @@
   function _refreshHandoff() {
     if (!_handoffEl) return;
     _handoffEl.innerHTML = '';
+    _handoffEl.style.display = 'none'; // hidden until the queue actually has packets (auto-shows below)
 
     // Header (title + refresh button) — built unconditionally so the
     // card always reads as a real surface even when the pipeline is
@@ -2307,12 +2308,14 @@
     }
 
     if (totalAcross === 0) {
-      var empty = document.createElement('div');
-      empty.className = 'clr-handoff-empty';
-      empty.textContent = 'No handoff packets ready yet. Waiting for domain brain opportunities.';
-      _handoffEl.appendChild(empty);
-      // Continue to render all 8 lane rows below (zero counts visible).
+      // Queue empty (Master Brain write not wired in this MVP) — hide the whole
+      // card instead of showing a dead surface. Auto-returns when packets exist.
+      _handoffEl.style.display = 'none';
+      return;
     }
+
+    // Has packets — ensure the card is visible.
+    _handoffEl.style.display = '';
 
     // Build lane chips. Always render every lane the summary reports
     // (including zero-count) so the full artifact map is visible.
