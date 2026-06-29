@@ -38,9 +38,32 @@ const PORTAL_KEYS = [
 ];
 
 const MAX_TX_PER_DX = 2;       // keep the digest lean — top treatments by evidence
-const MAX_DX_PER_DOMAIN = 150; // brain injects only ~8 stress-gated per cycle; keep the richest
+const MAX_DX_PER_DOMAIN = 180; // brain injects only ~8 stress-gated per cycle; keep the richest + urgent
 const SUMMARY_MAX = 160;
 const EV_RANK = { Strong: 4, A: 4, Moderate: 3, B: 3, C: 2, Emerging: 1 };
+
+// Urgent current-situation themes (grounded in June 2026 news: Colorado/Lake
+// Powell drought emergency, $72B migration enforcement + TPS rulings, etc.).
+// Diagnoses matching these float to the TOP of the digest so the brain's
+// stress-gated top-N pick always includes the current-relevant ones instead of
+// only the treatment-richest. Pure ranking bias — no content is added.
+const URGENT_THEMES = {
+  water:      /water|drought|aquifer|reservoir|potable|sewer|wastewater|scarcity|hydropower/i,
+  migration:  /migrat|refugee|asylum|\bborder\b|displace|immigr|deportation/i,
+  weather:    /\bweather\b|storm|hurricane|flood|wildfire|\bheat\b|heatwave|extreme|climate/i,
+  population: /population|demograph|aging|fertility|housing|birth rate|depopulat/i,
+  economy:    /inflation|recession|interest rate|unemploy|tariff|\bdebt\b|deficit|fiscal|cost of living/i,
+  grid:       /\bgrid\b|blackout|\bpower\b|electric|outage|capacity overload/i,
+  food:       /\bfood\b|famine|crop|harvest|agricultur|supply shortage/i,
+  health:     /outbreak|epidemic|pandemic|disease|shortage|overdose/i,
+  conflict:   /conflict|\bwar\b|security threat|cyberattack|terror|sanction/i
+};
+
+function matchThemes(text) {
+  const t = [];
+  for (const k in URGENT_THEMES) if (URGENT_THEMES[k].test(text)) t.push(k);
+  return t;
+}
 
 function readJSON(p) {
   try { return JSON.parse(fs.readFileSync(p, 'utf8')); } catch (e) { return null; }
@@ -92,6 +115,9 @@ function buildDigest(pk) {
       tx.sort((a, b) => (EV_RANK[b.e] || 0) - (EV_RANK[a.e] || 0));
       tx = tx.slice(0, MAX_TX_PER_DX);
 
+      const themes = matchThemes(
+        (iss.label || '') + ' ' + (iss.summary || '') + ' ' + (iss.id || '') + ' ' + slug
+      );
       diagnoses.push({
         id: iss.id,
         label: iss.label || iss.id,
@@ -101,6 +127,7 @@ function buildDigest(pk) {
         depth: depth,
         circuits: circuits.map(c => c.nodeId).filter(Boolean),
         evidence: bestCircuitEvidence(circuits),
+        themes: themes,
         tx: tx,
         txCount: txCount
       });
@@ -115,12 +142,18 @@ function buildDigest(pk) {
   });
   let deduped = Object.keys(byId).map(k => byId[k]);
 
-  // Keep the richest diagnoses (most treatment links, strongest evidence). The
-  // brain only surfaces a stress-gated handful per cycle, so the long tail of
-  // thin diagnoses just bloats the fetch. Full tail stays in the portal tree
-  // (reachable via eager drill); the digest is the brain's working set.
+  // Rank: urgent current-theme diagnoses FIRST (so the brain's stress-gated
+  // top-N pick always includes them), then by treatment richness + evidence.
+  // The brain only surfaces a handful per cycle, so the thin non-urgent tail
+  // just bloats the fetch; it stays in the portal tree (reachable via eager
+  // drill). The digest is the brain's working set.
   const totalBeforeCap = deduped.length;
-  deduped.sort((a, b) => (b.txCount - a.txCount) || ((EV_RANK[b.evidence] || 0) - (EV_RANK[a.evidence] || 0)));
+  deduped.sort((a, b) =>
+    ((b.themes.length ? 1 : 0) - (a.themes.length ? 1 : 0)) ||
+    (b.txCount - a.txCount) ||
+    ((EV_RANK[b.evidence] || 0) - (EV_RANK[a.evidence] || 0))
+  );
+  const urgentCount = deduped.filter(d => d.themes.length).length;
   deduped = deduped.slice(0, MAX_DX_PER_DOMAIN);
 
   return {
@@ -128,6 +161,8 @@ function buildDigest(pk) {
     portalCount: portalCount,
     diagnosisCount: deduped.length,
     diagnosisTotalAvailable: totalBeforeCap,
+    urgentThemeCount: deduped.filter(d => d.themes.length).length,
+    urgentThemeAvailable: urgentCount,
     treatmentTotal: deduped.reduce((s, d) => s + d.txCount, 0),
     diagnoses: deduped
   };
@@ -144,8 +179,9 @@ PORTAL_KEYS.forEach(pk => {
   console.log(
     pk.padEnd(15),
     'portals=' + String(dg.portalCount).padStart(3),
-    'diagnoses=' + String(dg.diagnosisCount).padStart(4),
-    'treatments=' + String(dg.treatmentTotal).padStart(5),
+    'dx=' + String(dg.diagnosisCount).padStart(4),
+    'urgent=' + String(dg.urgentThemeCount).padStart(3) + '/' + String(dg.urgentThemeAvailable).padStart(3),
+    'tx=' + String(dg.treatmentTotal).padStart(5),
     '(' + kb + 'KB)'
   );
   grand.domains++; grand.diagnoses += dg.diagnosisCount; grand.treatments += dg.treatmentTotal;
