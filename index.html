@@ -35,6 +35,9 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
 .hud-tr{top:52px;right:16px;text-align:right}.hud-bl{bottom:74px;left:16px}
 .headline{position:fixed;top:17px;left:0;right:0;z-index:150;text-align:center;padding:0 16px;pointer-events:none;font-family:Georgia,serif;font-size:clamp(.7rem,2vw,.98rem);letter-spacing:.05em;color:rgba(201,169,78,0.82);text-shadow:0 0 18px rgba(0,0,0,.8)}
 .headline b{color:#fff;font-weight:700}
+/* Phone: the stats headline crowds the small viewport — hide it (desktop keeps it).
+   The hover dimming effect is suppressed on touch devices in the galaxy renderer. */
+@media (max-width:640px){.headline{display:none}}
 
 /* tooltip (engine-driven) */
 #tooltip{position:fixed;z-index:400;background:rgba(5,8,16,0.96);border:1px solid rgba(140,170,200,0.15);padding:14px 18px;max-width:340px;width:max-content;pointer-events:none;display:none;font-family:monospace}

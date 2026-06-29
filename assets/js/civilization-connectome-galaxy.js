@@ -796,6 +796,11 @@ var lastTouchDist, touchStartPos;
 // Module options
 var _miniMode = false;
 var _focusDomain = null;
+// Phone/touch devices have no real hover — the hover dimming effect just makes
+// the galaxy flicker on tap. Detect a no-hover (touch-primary) device once and
+// suppress the hover effect there. Desktop is unaffected.
+var _noHover = (typeof window !== 'undefined' && window.matchMedia)
+  ? window.matchMedia('(hover: none)').matches : false;
 var _onNodeClick = null;
 var _tooltip = null;
 var _ttPhase = null;
@@ -1770,7 +1775,7 @@ function draw() {
   drawMasterBrainSun(fa);
   drawWatermark();
 
-  var hoverActive = hoveredNode >= 0;
+  var hoverActive = hoveredNode >= 0 && !_noHover;
   var hoverN = {};
   if (hoverActive) { hoverN[hoveredNode]=true; var nm=neighborMap[hoveredNode]; if(nm) for(var k in nm) hoverN[k]=true; }
 

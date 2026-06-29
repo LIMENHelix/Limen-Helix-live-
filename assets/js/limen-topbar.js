@@ -260,7 +260,10 @@
     var sign = tzMin <= 0 ? '+' : '-';
     var tzH = Math.abs(Math.floor(tzMin / 60));
     z.textContent = 'UTC' + sign + tzH;
-    st.style.color = disp.color;
+    // Tint the clock by the current biosensor regulation state. (Was a broken
+    // reference to undefined `st`/`disp` — threw "st is not defined" every tick.)
+    var disp = STATE_DISPLAY[_clockState] || STATE_DISPLAY.unknown;
+    t.style.color = disp.color;
   }
 
   // ─── Biosensor wiring ───────────────────────────────────────────────────
