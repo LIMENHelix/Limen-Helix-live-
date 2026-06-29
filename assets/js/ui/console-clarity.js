@@ -3718,7 +3718,13 @@
       var f = null;
       for (var i = 0; i < feeds.length; i++) { if (feeds[i] && feeds[i].value != null) { f = feeds[i]; break; } }
       f = f || feeds[0];
-      if (f && f.name) return String(f.name) + (f.value != null ? (': ' + f.value) : '');
+      if (f && f.name) {
+        var v = f.value;
+        // Suppress ID-like / cumulative raw values (e.g. openFDA event ids) —
+        // they read as misleading "counts". Show the feed name alone instead.
+        var showVal = (typeof v === 'number') && v >= 0 && v < 100000;
+        return String(f.name) + (showVal ? (': ' + v) : '');
+      }
     }
     return '';
   }
