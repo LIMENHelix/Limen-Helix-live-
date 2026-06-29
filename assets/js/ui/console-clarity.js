@@ -3648,6 +3648,134 @@
     };
   }
 
+  // ── TOP-10 INVESTMENT TARGETS support ──────────────────────────────────
+  // command-board domain key differs from the brain domainId for three domains.
+  var _CAP_BOARD_ALIAS = { health: 'medicine', research: 'science', supplyChain: 'trade' };
+
+  // Load the command-board company universe once (cached on window). Builds a
+  // domain -> [{ticker,name,ds,phase,alert,traj}] map sorted by alert then
+  // distress (the most-stressed = the most urgent target). When it finishes,
+  // re-render the patent tab so targets upgrade from the brainCompanies
+  // fallback to distress-ranked names.
+  function _capLoadBoardMap() {
+    if (window._capBoardMap || window._capBoardMapLoading) return;
+    window._capBoardMapLoading = true;
+    fetch('/assets/data/command-board-data.json')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) {
+        var map = {};
+        if (data) {
+          var arr = Array.isArray(data) ? data
+            : (Object.keys(data).map(function (k) { return data[k]; }).find(Array.isArray) || []);
+          arr.forEach(function (x) {
+            if (!x || !x.d || !x.t) return;
+            (map[x.d] = map[x.d] || []).push({
+              ticker: x.t, name: x.n, ds: (typeof x.ds === 'number' ? x.ds : 0),
+              phase: x.p, alert: !!x.a, traj: x.tr
+            });
+          });
+          Object.keys(map).forEach(function (k) {
+            map[k].sort(function (a, b) { return (b.alert - a.alert) || (b.ds - a.ds); });
+          });
+        }
+        window._capBoardMap = map;
+        window._capBoardMapLoading = false;
+        if (_activeTab === 'patent') { _tabContentEl.innerHTML = ''; _renderTabPatent(); }
+      })
+      .catch(function () { window._capBoardMapLoading = false; window._capBoardMap = {}; });
+  }
+
+  // Pick the top-N target names for an opportunity's domain. Prefers the
+  // distress-ranked command-board map; falls back to the brain's company list
+  // (always present after the base-brain company fallback) so a target always
+  // shows even before the board map finishes loading.
+  function _capTargetsForDomain(domain, n) {
+    var key = _CAP_BOARD_ALIAS[domain] || domain;
+    var map = window._capBoardMap;
+    if (map && map[key] && map[key].length) return map[key].slice(0, n);
+    var dom = (window.LIMENDomains || {})[domain];
+    var bc = dom && dom.brainCompanies;
+    if (Array.isArray(bc) && bc.length) {
+      return bc.slice(0, n).map(function (c) {
+        return { ticker: c.ticker, name: c.name, phase: c.phase, ds: 0, alert: false };
+      });
+    }
+    return [];
+  }
+
+  // Cross-domain Top-10 of the highest-urgency INVESTABLE opportunities, each
+  // with concrete target tickers. Advisory framing only (not buy advice).
+  function _renderTopInvestmentTargets(container, opportunities) {
+    _capLoadBoardMap();
+    var invest = (opportunities || []).filter(function (o) { return o && o.path === 'INVESTABLE'; });
+    if (!invest.length) return;
+
+    function uTier(o) {
+      var u = (o._brainUrgency || o.urgency || '').toString().toUpperCase();
+      if (u.indexOf('HIGH') !== -1 || u === 'CRITICAL') return 3;
+      if ((o.stress || 0) >= 0.70 && (o.confidence || 0) >= 0.40) return 3;
+      if (u.indexOf('MED') !== -1 || (o.stress || 0) >= 0.50) return 2;
+      return 1;
+    }
+    invest.forEach(function (o) { o._uTier = uTier(o); });
+    invest.sort(function (a, b) {
+      return (b._uTier - a._uTier) || (b._priority - a._priority) || (b.confidence - a.confidence);
+    });
+
+    // Diversity cap: at most 2 per domain, then relax to fill to 10.
+    var perDom = {}, top = [];
+    for (var i = 0; i < invest.length && top.length < 10; i++) {
+      var d = invest[i].domain || '?';
+      if ((perDom[d] || 0) >= 2) continue;
+      perDom[d] = (perDom[d] || 0) + 1; top.push(invest[i]);
+    }
+    for (var j = 0; j < invest.length && top.length < 10; j++) {
+      if (top.indexOf(invest[j]) === -1) top.push(invest[j]);
+    }
+
+    var card = _subCard('TOP 10 HIGH-URGENCY INVESTMENT TARGETS');
+    var sub = document.createElement('div');
+    sub.style.cssText = 'font-size:0.34rem;color:rgba(200,195,184,0.45);padding:2px 8px 6px;letter-spacing:0.5px';
+    sub.textContent = 'Cross-domain · INVESTABLE lane · ranked by urgency × priority · names with exposure, NOT buy recommendations';
+    card.appendChild(sub);
+
+    top.forEach(function (o, idx) {
+      var targets = _capTargetsForDomain(o.domain, 3);
+      var tickers = targets.map(function (t) { return t.ticker; }).filter(Boolean);
+      if (o.exposedCompanies && o.exposedCompanies.length) {
+        var ex = o.exposedCompanies.map(function (c) { return typeof c === 'string' ? c : (c && c.ticker); }).filter(Boolean);
+        if (ex.length) tickers = ex.slice(0, 3);
+      }
+      var uColor = o._uTier >= 3 ? '#e85454' : o._uTier === 2 ? '#C9A94E' : '#888';
+      var uLabel = o._uTier >= 3 ? 'HIGH' : o._uTier === 2 ? 'MED' : 'LOW';
+      var thesis = (o.title || o.indication || 'opportunity').replace(/_/g, ' ');
+      if (thesis.length > 72) thesis = thesis.slice(0, 70) + '…';
+
+      var row = document.createElement('div');
+      row.style.cssText = 'display:flex;gap:8px;align-items:baseline;padding:5px 8px;border-bottom:1px solid rgba(255,255,255,0.03)';
+      var html = '';
+      html += '<span style="font-size:0.5rem;color:rgba(201,169,78,0.7);width:18px;flex-shrink:0">' + (idx + 1) + '</span>';
+      html += '<div style="flex:1;min-width:0">';
+      html += '<div style="font-size:0.44rem;color:rgba(228,224,214,0.92)">' + thesis + '</div>';
+      html += '<div style="font-size:0.34rem;color:rgba(200,195,184,0.45);margin-top:1px">' + (o.domain || '').toUpperCase() + ' · ' + Math.round((o.confidence || 0) * 100) + '% conf · ' + Math.round((o.stress || 0) * 100) + '% stress</div>';
+      if (tickers.length) {
+        html += '<div style="font-size:0.42rem;color:rgba(120,205,185,0.92);margin-top:2px;letter-spacing:0.5px">Targets: ' + tickers.join(' · ') + '</div>';
+      } else {
+        html += '<div style="font-size:0.34rem;color:rgba(200,195,184,0.3);margin-top:2px">Targets: pull command board for ' + (o.domain || '') + ' names</div>';
+      }
+      html += '</div>';
+      html += '<span style="font-size:0.3rem;letter-spacing:1.5px;color:' + uColor + ';border:1px solid ' + uColor + '55;border-radius:2px;padding:1px 5px;flex-shrink:0">' + uLabel + '</span>';
+      row.innerHTML = html;
+      card.appendChild(row);
+    });
+
+    var note = document.createElement('div');
+    note.style.cssText = 'font-size:0.3rem;color:rgba(200,195,184,0.25);padding:5px 8px;letter-spacing:0.5px';
+    note.textContent = 'Targets ranked by distress/alert within each opportunity’s domain · advisory only · not financial advice.';
+    card.appendChild(note);
+    container.appendChild(card);
+  }
+
   function _renderTabPatent() {
     var reports = window.LIMENReports || {};
     var report = reports.patentOpportunity;
@@ -3940,6 +4068,9 @@
     noteDiv.textContent = 'RECURSIVE REGULATION ENGINE \u00b7 ADVISORY \u00b7 NOT FINANCIAL ADVICE';
     summCard.appendChild(noteDiv);
     _tabContentEl.appendChild(summCard);
+
+    // ── TOP 10 HIGH-URGENCY INVESTMENT TARGETS (cross-domain, with tickers) ──
+    _renderTopInvestmentTargets(_tabContentEl, opportunities);
 
     // ── OPPORTUNITY CARDS ──
     // Group by capital pathway
