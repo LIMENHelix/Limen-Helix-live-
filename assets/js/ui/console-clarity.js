@@ -56,8 +56,9 @@
   var TABS = [
     { id: 'evidence',        label: 'Source Audit' },
     { id: 'regulation',      label: 'Regulation' },
-    { id: 'patent',          label: 'Capital Conversion' },
-    { id: 'council',         label: 'Artifact Council' }
+    { id: 'patent',          label: 'Capital Conversion' }
+    // 'council' (Artifact Council) retired 2026-06-28 — patent/NSF-only + unfed + AI-cost.
+    // Engine/render code kept below; re-add this entry to relane it to investment/research.
   ];
 
   // Brain diagnosis hold-last-nonempty cache — prevents section flap on transient inactive cycles
