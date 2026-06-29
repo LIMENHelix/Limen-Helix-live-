@@ -3739,12 +3739,22 @@
     sub.textContent = 'Cross-domain · INVESTABLE lane · ranked by urgency × priority · names with exposure, NOT buy recommendations';
     card.appendChild(sub);
 
+    function _dedupTickers(list, n) {
+      var seen = {}, out = [];
+      for (var k = 0; k < list.length && out.length < n; k++) {
+        var tk = list[k];
+        if (!tk || seen[tk]) continue;
+        seen[tk] = true; out.push(tk);
+      }
+      return out;
+    }
+
     top.forEach(function (o, idx) {
-      var targets = _capTargetsForDomain(o.domain, 3);
-      var tickers = targets.map(function (t) { return t.ticker; }).filter(Boolean);
+      var targets = _capTargetsForDomain(o.domain, 6);
+      var tickers = _dedupTickers(targets.map(function (t) { return t.ticker; }), 3);
       if (o.exposedCompanies && o.exposedCompanies.length) {
         var ex = o.exposedCompanies.map(function (c) { return typeof c === 'string' ? c : (c && c.ticker); }).filter(Boolean);
-        if (ex.length) tickers = ex.slice(0, 3);
+        if (ex.length) tickers = _dedupTickers(ex, 3);
       }
       var uColor = o._uTier >= 3 ? '#e85454' : o._uTier === 2 ? '#C9A94E' : '#888';
       var uLabel = o._uTier >= 3 ? 'HIGH' : o._uTier === 2 ? 'MED' : 'LOW';
