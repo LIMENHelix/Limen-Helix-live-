@@ -3753,11 +3753,11 @@
   }
 
   // Cross-domain Top-10 of the highest-urgency INVESTABLE opportunities, each
-  // with concrete target tickers + a live signal line. The list HOLDS STEADY
-  // and only re-ranks when the measure materially changes (the score-set turns
-  // over, or a retained target's score shifts >= CAP_TOP10_THRESHOLD) — so
-  // breaking news adjusts it, ordinary jitter does not. Advisory only.
-  var CAP_TOP10_THRESHOLD = 5;            // score points
+  // with concrete target tickers + a live signal line. A live leaderboard: it
+  // ranks by SCORE top-to-bottom and re-orders freely as the feeds move —
+  // entries shuffle up/down (▲/▼), new ones enter (NEW), and ones that fall out
+  // of the top-10 drop off. The timestamp shows how long the order has actually
+  // held when nothing is moving. Advisory only.
   function _renderTopInvestmentTargets(container, opportunities) {
     _capLoadBoardMap();
     var invest = (opportunities || []).filter(function (o) { return o && o.path === 'INVESTABLE'; });
@@ -3777,46 +3777,29 @@
       if (cand.indexOf(invest[j]) === -1) cand.push(invest[j]);
     }
 
-    // ── CHANGE DETECTION (the "mark") ──
-    // Compare the candidate set to the last published list. Only republish when
-    // the change is material; otherwise hold the published order steady.
-    var curByKey = {};
-    invest.forEach(function (o) { curByKey[_capOppKey(o)] = o; });
-    var candItems = cand.map(function (o) { return { key: _capOppKey(o), score: o._score }; });
+    // ── DYNAMIC RANKING + CHANGE MARK ──
+    // Always display in current score order (top -> bottom). Compare to the last
+    // render to mark per-row movement (NEW / ▲ up / ▼ down) and detect drops.
     var now = Date.now();
+    var displayOpps = cand;                                   // live score order
+    var curItems = cand.map(function (o, idx) { return { key: _capOppKey(o), score: o._score, rank: idx }; });
+
     var pub = null;
     try { pub = JSON.parse(localStorage.getItem('limen_cap_top10') || 'null'); } catch (e) {}
+    var prevRank = {}, prevKeys = [];
+    if (pub && pub.items) { pub.items.forEach(function (it) { prevRank[it.key] = it.rank; prevKeys.push(it.key); }); }
 
-    var material = false, entered = {};
-    if (!pub || !pub.items || !pub.items.length) {
-      material = true;
-    } else {
-      var pubKeys = pub.items.map(function (it) { return it.key; });
-      var candKeys = candItems.map(function (it) { return it.key; });
-      var setSame = pubKeys.length === candKeys.length &&
-                    pubKeys.every(function (k) { return candKeys.indexOf(k) !== -1; });
-      if (!setSame) material = true;
-      else {
-        var pubScore = {}; pub.items.forEach(function (it) { pubScore[it.key] = it.score; });
-        candItems.forEach(function (it) {
-          if (Math.abs(it.score - (pubScore[it.key] || 0)) >= CAP_TOP10_THRESHOLD) material = true;
-        });
-        for (var p = 0; p < pubKeys.length && !material; p++) { if (!curByKey[pubKeys[p]]) material = true; }
-      }
-    }
+    var entered = {}, moved = {}, nNew = 0, nMoved = 0;
+    curItems.forEach(function (it) {
+      if (!(it.key in prevRank)) { entered[it.key] = true; nNew++; }
+      else if (prevRank[it.key] !== it.rank) { moved[it.key] = prevRank[it.key] - it.rank; nMoved++; } // +up / -down
+    });
+    var curKeySet = {}; curItems.forEach(function (it) { curKeySet[it.key] = true; });
+    var dropped = prevKeys.filter(function (k) { return !curKeySet[k]; });
+    var changedThisCycle = nNew > 0 || dropped.length > 0 || nMoved > 0;
 
-    var displayOpps, lastChangedAt;
-    if (material) {
-      displayOpps = cand;
-      var oldKeys = (pub && pub.items) ? pub.items.map(function (it) { return it.key; }) : [];
-      candItems.forEach(function (it) { if (oldKeys.indexOf(it.key) === -1) entered[it.key] = true; });
-      lastChangedAt = now;
-      try { localStorage.setItem('limen_cap_top10', JSON.stringify({ publishedAt: now, lastChangedAt: now, items: candItems })); } catch (e) {}
-    } else {
-      displayOpps = pub.items.map(function (it) { return curByKey[it.key]; }).filter(Boolean);
-      lastChangedAt = pub.lastChangedAt || pub.publishedAt || now;
-      try { localStorage.setItem('limen_cap_top10', JSON.stringify({ publishedAt: now, lastChangedAt: lastChangedAt, items: pub.items })); } catch (e) {}
-    }
+    var lastChangedAt = (!pub || changedThisCycle) ? now : (pub.lastChangedAt || pub.publishedAt || now);
+    try { localStorage.setItem('limen_cap_top10', JSON.stringify({ publishedAt: now, lastChangedAt: lastChangedAt, items: curItems })); } catch (e) {}
 
     function _fmtT(ms) { var d = new Date(ms); function p(n) { return n < 10 ? '0' + n : '' + n; } return p(d.getHours()) + ':' + p(d.getMinutes()); }
     var heldMin = Math.max(0, Math.round((now - lastChangedAt) / 60000));
@@ -3827,17 +3810,27 @@
     sub.textContent = 'Cross-domain · INVESTABLE lane · names with exposure, NOT buy recommendations';
     card.appendChild(sub);
 
-    // The MARK: live state + when it last re-ranked.
+    // The MARK: live state + what just moved.
     var mark = document.createElement('div');
-    mark.style.cssText = 'font-size:0.34rem;padding:1px 8px 3px;letter-spacing:0.5px;color:' + (material ? 'rgba(232,84,84,0.85)' : 'rgba(120,205,185,0.85)');
-    mark.textContent = (material ? '◉ UPDATED ' + _fmtT(lastChangedAt) + ' — breaking signal re-ranked the list'
-                                 : '◉ LIVE · holding steady · last change ' + _fmtT(lastChangedAt) + ' (held ' + heldMin + 'm)');
+    mark.style.cssText = 'font-size:0.34rem;padding:1px 8px 3px;letter-spacing:0.5px;color:' + (changedThisCycle ? 'rgba(232,84,84,0.85)' : 'rgba(120,205,185,0.85)');
+    var markText;
+    if (!pub) markText = '◉ LIVE · initialized ' + _fmtT(now);
+    else if (changedThisCycle) {
+      var parts = [];
+      if (nNew) parts.push(nNew + ' new');
+      if (nMoved) parts.push(nMoved + ' moved');
+      if (dropped.length) parts.push(dropped.length + ' dropped');
+      markText = '◉ LIVE · re-ranked ' + _fmtT(now) + ' — ' + parts.join(' · ');
+    } else {
+      markText = '◉ LIVE · holding steady · last change ' + _fmtT(lastChangedAt) + ' (held ' + heldMin + 'm)';
+    }
+    mark.textContent = markText;
     card.appendChild(mark);
 
     // How it's measured (transparency).
     var legend = document.createElement('div');
     legend.style.cssText = 'font-size:0.3rem;color:rgba(200,195,184,0.35);padding:0 8px 6px;letter-spacing:0.3px;line-height:1.4';
-    legend.textContent = 'How it’s measured — SCORE = urgency(0–30) + priority(0–25) + stress(0–30) + confidence(0–15). Re-ranks only when a target’s score shifts ≥' + CAP_TOP10_THRESHOLD + ' or the set turns over; the live signal under each row feeds stress in real time.';
+    legend.textContent = 'How it’s measured — SCORE = urgency(0–30) + priority(0–25) + stress(0–30) + confidence(0–15). Ranked by score top-to-bottom; ▲/▼ = rank moves since last update, NEW = just entered. The live signal under each row feeds stress in real time.';
     card.appendChild(legend);
 
     function _dedupTickers(list, n) {
@@ -3861,16 +3854,24 @@
       var uLabel = o._uTier >= 3 ? 'HIGH' : o._uTier === 2 ? 'MED' : 'LOW';
       var thesis = (o.title || o.indication || 'opportunity').replace(/_/g, ' ');
       if (thesis.length > 72) thesis = thesis.slice(0, 70) + '…';
-      var isNew = entered[_capOppKey(o)];
+      var _k = _capOppKey(o);
       var live = _capLiveSignal(o.domain);
+      // Movement marker since last update.
+      var mvBadge = '';
+      if (entered[_k]) {
+        mvBadge = ' <span style="font-size:0.28rem;letter-spacing:1px;color:#e85454;border:1px solid rgba(232,84,84,0.45);border-radius:2px;padding:0 4px;vertical-align:middle">NEW</span>';
+      } else if (moved[_k] > 0) {
+        mvBadge = ' <span style="font-size:0.3rem;color:#5ab5a0;vertical-align:middle">▲' + moved[_k] + '</span>';
+      } else if (moved[_k] < 0) {
+        mvBadge = ' <span style="font-size:0.3rem;color:rgba(232,84,84,0.8);vertical-align:middle">▼' + (-moved[_k]) + '</span>';
+      }
 
       var row = document.createElement('div');
       row.style.cssText = 'display:flex;gap:8px;align-items:baseline;padding:5px 8px;border-bottom:1px solid rgba(255,255,255,0.03)';
       var html = '';
       html += '<span style="font-size:0.5rem;color:rgba(201,169,78,0.7);width:18px;flex-shrink:0">' + (idx + 1) + '</span>';
       html += '<div style="flex:1;min-width:0">';
-      html += '<div style="font-size:0.44rem;color:rgba(228,224,214,0.92)">' + thesis +
-              (isNew ? ' <span style="font-size:0.28rem;letter-spacing:1px;color:#e85454;border:1px solid rgba(232,84,84,0.45);border-radius:2px;padding:0 4px;vertical-align:middle">NEW</span>' : '') + '</div>';
+      html += '<div style="font-size:0.44rem;color:rgba(228,224,214,0.92)">' + thesis + mvBadge + '</div>';
       html += '<div style="font-size:0.34rem;color:rgba(200,195,184,0.45);margin-top:1px">' + (o.domain || '').toUpperCase() + ' · score <b style="color:rgba(201,169,78,0.85)">' + o._score + '</b> · ' + Math.round((o.confidence || 0) * 100) + '% conf · ' + Math.round((o.stress || 0) * 100) + '% stress</div>';
       if (tickers.length) {
         html += '<div style="font-size:0.42rem;color:rgba(120,205,185,0.92);margin-top:2px;letter-spacing:0.5px">Targets: ' + tickers.join(' · ') + '</div>';
