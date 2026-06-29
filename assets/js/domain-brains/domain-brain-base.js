@@ -91,6 +91,24 @@
     return _cbCompanyMapPromise;
   }
 
+  // Shared per-domain diagnosis digest loader. The digest (built offline by
+  // scripts/build-diagnosis-digest.mjs) rolls up the deep subportal tree's
+  // already-authored diagnoses + treatments into one lean file, so the brain
+  // can surface the deep tree without fetching ~200 portal files per cycle.
+  // One fetch per portalKey per page, cached. Resolves to null on any failure.
+  var _digestPromises = {};   // portalKey -> Promise<digest|null>
+  function _loadDiagnosisDigest(portalKey) {
+    if (_digestPromises[portalKey]) return _digestPromises[portalKey];
+    _digestPromises[portalKey] = (function () {
+      try {
+        return fetch('/assets/data/deep/' + portalKey + '-diagnosis-digest.json')
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .catch(function () { return null; });
+      } catch (e) { return Promise.resolve(null); }
+    })();
+    return _digestPromises[portalKey];
+  }
+
   // ══════════════════════════════════════════════════════════════════════
   // BASE CLASS
   // ══════════════════════════════════════════════════════════════════════
@@ -411,6 +429,13 @@
       self.state.companies = join.companies || [];
     }
 
+    // Deep-digest augmentation (applies to every domain): inject stress-gated
+    // deep diagnoses + treatments from the already-authored subportal tree so
+    // the domain's existing opportunity generator surfaces them. Runs every
+    // cycle from the cached digest; eventually consistent (the digest loads in
+    // the background and starts applying from the next cycle).
+    this._applyDeepDigest();
+
     // Company fallback (applies to every domain): when the snapshot supplied
     // no companies, load the real command-board entities for this domain. This
     // is what was previously hand-wired only in energy-brain — now centralized
@@ -428,6 +453,75 @@
     }
 
     return Promise.resolve();
+  };
+
+  /**
+   * Deep-digest augmentation. Injects a stress-gated, ranked subset of the
+   * domain's deep subportal diagnoses (+ their treatments) into state so the
+   * subclass opportunity generator — which iterates state.diagnoses generically
+   * — surfaces the deep tree, not just the L1 root. Idempotent per cycle:
+   * deriveDiagnoses() rebuilds state.diagnoses fresh each cycle, and this
+   * re-applies from the cached digest. No network per cycle after first load.
+   */
+  DomainBrainBase.prototype._applyDeepDigest = function () {
+    var self = this;
+    var pk = this.portalKey || this.domainId;
+
+    // First cycle(s): digest not cached yet — kick off the one-time load and
+    // return. It will be present (and applied) on a subsequent cycle.
+    if (!self._deepDigest) {
+      _loadDiagnosisDigest(pk).then(function (d) { if (d) self._deepDigest = d; });
+      return;
+    }
+
+    var list = (self._deepDigest && self._deepDigest.diagnoses) || [];
+    if (!list.length) return;
+
+    var stress = self.state.stress || 0;
+    if (stress < 0.30) return;                       // only surface deep dx under real stress
+    var cap = Math.max(0, Math.min(8, Math.round(stress * 8)));
+    if (cap === 0) return;
+
+    if (!Array.isArray(self.state.diagnoses)) self.state.diagnoses = [];
+    if (!Array.isArray(self.state.treatments)) self.state.treatments = [];
+
+    // Don't duplicate ids the subclass already produced from the root portal.
+    var have = {};
+    self.state.diagnoses.forEach(function (d) { if (d && d.id) have[d.id] = true; });
+
+    var EV = { Strong: 3, A: 3, Moderate: 2, B: 2, C: 1, Emerging: 1 };
+    // Digest is pre-ranked (richest first); take the first `cap` not already present.
+    var added = 0;
+    for (var i = 0; i < list.length && added < cap; i++) {
+      var d = list[i];
+      if (!d || !d.id || have[d.id]) continue;
+      have[d.id] = true;
+      added++;
+
+      self.state.diagnoses.push({
+        id: d.id,
+        label: d.label || d.id,
+        summary: d.summary || '',
+        active: true,
+        relevance: Math.min(1, 0.4 + stress * 0.5),
+        circuits: (d.circuits || []).map(function (n) { return { nodeId: n }; }),
+        source: 'deep-digest',
+        subportal: d.slug || null,
+        depth: d.depth || null
+      });
+
+      (d.tx || []).forEach(function (t, ti) {
+        self.state.treatments.push({
+          id: 'deep_' + d.id + '_' + ti,
+          label: t.l,
+          type: t.t || '',
+          evidence: t.e || '',
+          diagnosisId: d.id,
+          relevance: 0.7 + 0.05 * (EV[t.e] || 0),
+          source: 'deep-digest'
+        });
+      });
+    }
   };
 
   /**
