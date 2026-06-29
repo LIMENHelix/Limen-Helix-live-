@@ -54,6 +54,43 @@
   var _negPortalCache = {};        // portalKey -> timestamp of last failed lookup
   var PORTAL_NEG_TTL = 3600000;    // 1 hour
 
+  // Shared command-board company map: domain -> [{ name, ticker, cik, phase,
+  // trajectory }]. Loaded ONCE per page across ALL brain instances and reused.
+  // Exists because the client-side console snapshot frequently lacks
+  // domainCompanyJoin (only the server cron emits it), starving state.companies
+  // for most domains. Generalizes the per-brain fallback that previously lived
+  // only in energy-brain. Resolves to {} on any failure (honest empty, no throw).
+  // Brain domainId -> command-board `.d` key. Three brains key differently than
+  // the command-board dataset (medicine='health', science='research',
+  // trade='supplyChain'); without this bridge their fallback finds nothing.
+  var _CB_DOMAIN_ALIAS = { health: 'medicine', research: 'science', supplyChain: 'trade' };
+  var _cbCompanyMapPromise = null;
+  function _loadCommandBoardMap() {
+    if (_cbCompanyMapPromise) return _cbCompanyMapPromise;
+    _cbCompanyMapPromise = (function () {
+      try {
+        return fetch('/assets/data/command-board-data.json')
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (data) {
+            var map = {};
+            if (!data) return map;
+            var arr = Array.isArray(data) ? data
+              : (Object.keys(data).map(function (k) { return data[k]; }).find(Array.isArray) || []);
+            for (var i = 0; i < arr.length; i++) {
+              var x = arr[i];
+              if (!x || !x.d || !x.t) continue;     // need a domain + ticker
+              (map[x.d] = map[x.d] || []).push({
+                name: x.n, ticker: x.t, cik: x.c, phase: x.p, trajectory: x.tr
+              });
+            }
+            return map;
+          })
+          .catch(function () { return {}; });
+      } catch (e) { return Promise.resolve({}); }
+    })();
+    return _cbCompanyMapPromise;
+  }
+
   // ══════════════════════════════════════════════════════════════════════
   // BASE CLASS
   // ══════════════════════════════════════════════════════════════════════
@@ -372,6 +409,22 @@
     if (snap && snap.domainCompanyJoin && snap.domainCompanyJoin[this.snapshotKey]) {
       var join = snap.domainCompanyJoin[this.snapshotKey];
       self.state.companies = join.companies || [];
+    }
+
+    // Company fallback (applies to every domain): when the snapshot supplied
+    // no companies, load the real command-board entities for this domain. This
+    // is what was previously hand-wired only in energy-brain — now centralized
+    // so all 20 domains (notably environment) get real names instead of an
+    // empty list. Subclass surfaceOpportunities() overrides call into this base
+    // first, so their own opportunity logic sees a populated state.companies.
+    if (!self.state.companies || !self.state.companies.length) {
+      return _loadCommandBoardMap().then(function (map) {
+        if (!self.state.companies || !self.state.companies.length) {
+          var cbKey = _CB_DOMAIN_ALIAS[self.domainId] || self.domainId;
+          var list = (map && (map[cbKey] || map[self.domainId] || map[self.snapshotKey])) || [];
+          if (list.length) self.state.companies = list;
+        }
+      });
     }
 
     return Promise.resolve();

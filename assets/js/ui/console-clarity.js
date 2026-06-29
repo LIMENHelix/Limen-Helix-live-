@@ -4021,8 +4021,8 @@
         var oh = '';
         // Header
         oh += '<div style="display:flex;align-items:baseline;gap:6px;margin-bottom:3px">';
-        oh += '<span style="color:' + opp.color + ';font-size:0.42rem">' + opp.icon + '</span>';
-        oh += '<span style="font-size:0.4rem;color:rgba(220,215,200,0.7)">' + opp.indication + '</span>';
+        oh += '<span style="color:' + opp.color + ';font-size:0.5rem">' + opp.icon + '</span>';
+        oh += '<span style="font-size:0.5rem;color:rgba(228,224,214,0.95)">' + opp.indication + '</span>';
         var _provCh = _provenanceChip(opp.sourceType);
         oh += '<span style="font-size:0.26rem;letter-spacing:1.2px;color:' + _provCh.color + ';padding:1px 5px;border:1px solid ' + _provCh.color + '33;border-radius:2px;margin-left:auto">' + _provCh.label + '</span>';
         oh += '<span style="font-size:0.28rem;color:rgba(200,195,184,0.2);margin-left:8px">' + Math.round(opp.confidence * 100) + '% conf</span>';
@@ -4030,7 +4030,7 @@
 
         // Domain + stress context
         if (opp.domain && opp.stress > 0) {
-          oh += '<div style="font-size:0.34rem;color:rgba(200,195,184,0.4)">' + opp.domain.toUpperCase() + ' stress: ' + Math.round(opp.stress * 100) + '%</div>';
+          oh += '<div style="font-size:0.4rem;color:rgba(210,205,194,0.65)">' + opp.domain.toUpperCase() + ' stress: ' + Math.round(opp.stress * 100) + '%</div>';
         }
 
         // Gate B #9C.4 Phase 1 — capital opportunity authority.
@@ -4081,7 +4081,7 @@
 
         // Implementation from portal treatments
         if (opp.implementations.length > 0) {
-          oh += '<div style="font-size:0.32rem;color:rgba(200,195,184,0.35);margin-top:3px">Implementation: ' + opp.implementations.join(' \u00b7 ') + '</div>';
+          oh += '<div style="font-size:0.38rem;color:rgba(205,200,189,0.62);margin-top:3px">Implementation: ' + opp.implementations.join(' \u00b7 ') + '</div>';
         }
 
         // Companies exposed
@@ -4095,10 +4095,10 @@
         var _bo = opp._brainObj;
         if (_bo) {
           if (_bo.whyNow && _bo.whyNow !== _bo.title) {
-            oh += '<div style="font-size:0.32rem;color:rgba(200,195,184,0.38);margin-top:3px">Why now: ' + _bo.whyNow + '</div>';
+            oh += '<div style="font-size:0.4rem;color:rgba(210,205,194,0.7);margin-top:3px">Why now: ' + _bo.whyNow + '</div>';
           }
           if (_bo.explain) {
-            oh += '<div style="font-size:0.32rem;color:rgba(210,205,195,0.55);margin-top:3px;line-height:1.4">' + _bo.explain + '</div>';
+            oh += '<div style="font-size:0.42rem;color:rgba(216,211,201,0.85);margin-top:3px;line-height:1.45">' + _bo.explain + '</div>';
           }
           if (_bo.urgency) {
             oh += '<div style="font-size:0.28rem;letter-spacing:1px;color:rgba(201,169,78,0.55);margin-top:3px">URGENCY: ' + _bo.urgency + '</div>';
@@ -4109,16 +4109,16 @@
           var _mc = _bo.moneyChain;
           if (_mc && typeof _mc === 'object') {
             if (_mc.doThis) {
-              oh += '<div style="font-size:0.32rem;color:rgba(90,181,160,0.7);margin-top:4px;padding:3px 6px;border-left:2px solid rgba(90,181,160,0.25)">Do this: ' + _mc.doThis + '</div>';
+              oh += '<div style="font-size:0.4rem;color:rgba(120,205,185,0.92);margin-top:4px;padding:3px 6px;border-left:2px solid rgba(90,181,160,0.4)">Do this: ' + _mc.doThis + '</div>';
             }
             if (_mc.whyPays) {
-              oh += '<div style="font-size:0.3rem;color:rgba(200,195,184,0.5);margin-top:2px;padding:3px 6px;border-left:2px solid rgba(201,169,78,0.2)">Why it pays: ' + _mc.whyPays + '</div>';
+              oh += '<div style="font-size:0.38rem;color:rgba(208,203,192,0.72);margin-top:2px;padding:3px 6px;border-left:2px solid rgba(201,169,78,0.3)">Why it pays: ' + _mc.whyPays + '</div>';
             }
             if (_mc.target) {
-              oh += '<div style="font-size:0.3rem;color:rgba(200,195,184,0.45);margin-top:2px">Target: ' + _mc.target + '</div>';
+              oh += '<div style="font-size:0.37rem;color:rgba(206,201,190,0.68);margin-top:2px">Target: ' + _mc.target + '</div>';
             }
             if (_mc.timing) {
-              oh += '<div style="font-size:0.3rem;color:rgba(200,195,184,0.45);margin-top:2px">Timing: ' + _mc.timing + '</div>';
+              oh += '<div style="font-size:0.37rem;color:rgba(206,201,190,0.68);margin-top:2px">Timing: ' + _mc.timing + '</div>';
             }
             if (_mc.invalidIf) {
               oh += '<div style="font-size:0.3rem;color:rgba(232,84,84,0.45);margin-top:2px">Invalid if: ' + _mc.invalidIf + '</div>';
@@ -4127,7 +4127,7 @@
               oh += '<div style="font-size:0.3rem;color:rgba(200,195,184,0.4);margin-top:2px">Evidence: ' + _mc.evidence + '</div>';
             }
             if (_mc.nextStep) {
-              oh += '<div style="font-size:0.3rem;color:rgba(90,181,160,0.6);margin-top:2px">Next step: ' + _mc.nextStep + '</div>';
+              oh += '<div style="font-size:0.38rem;color:rgba(110,200,180,0.82);margin-top:2px">Next step: ' + _mc.nextStep + '</div>';
             }
           }
           if (Array.isArray(_bo.steps) && _bo.steps.length > 0) {
@@ -4186,7 +4186,7 @@
 
         // Pathway trace
         var trace = _traceRegulationPathway(opp);
-        oh += '<div style="font-size:0.3rem;color:rgba(200,195,184,0.2);margin-top:3px;line-height:1.4">';
+        oh += '<div style="font-size:0.36rem;color:rgba(200,195,184,0.45);margin-top:3px;line-height:1.4">';
         oh += 'Pathway: ' + trace.summary;
         oh += '</div>';
 
@@ -4196,9 +4196,9 @@
         if (opp._priority) oh += '<span style="font-size:0.26rem;color:rgba(200,195,184,0.2);letter-spacing:1px;margin-right:4px">PRI:' + opp._priority + '</span>';
         if (opp._execReady) {
           if (opp.path === 'RESEARCHABLE') {
-            oh += '<span style="font-size:0.28rem;color:#9b8cff;cursor:pointer;padding:2px 6px;border:1px solid rgba(155,140,255,0.25);border-radius:2px;letter-spacing:1px" onclick="window._execGenerate(\'' + oppId + '\',\'research\')">Draft Research Brief</span>';
+            oh += '<span style="font-size:0.36rem;color:#b3a6ff;cursor:pointer;padding:3px 8px;border:1px solid rgba(155,140,255,0.4);border-radius:2px;letter-spacing:1px" onclick="window._execGenerate(\'' + oppId + '\',\'research\')">Draft Research Brief</span>';
           } else {
-            oh += '<span style="font-size:0.28rem;color:#5ab5a0;cursor:pointer;padding:2px 6px;border:1px solid rgba(90,181,160,0.2);border-radius:2px;letter-spacing:1px" onclick="window._execGenerate(\'' + oppId + '\',\'investment\')">Draft Investment Brief</span>';
+            oh += '<span style="font-size:0.36rem;color:#72c9b3;cursor:pointer;padding:3px 8px;border:1px solid rgba(90,181,160,0.4);border-radius:2px;letter-spacing:1px" onclick="window._execGenerate(\'' + oppId + '\',\'investment\')">Draft Investment Brief</span>';
           }
         } else {
           oh += '<span style="font-size:0.28rem;color:#555;padding:2px 6px;letter-spacing:1px">' + (!canGrant ? 'Insufficient grounding' : 'Below confidence threshold') + '</span>';
