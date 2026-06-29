@@ -3557,10 +3557,8 @@
   };
 
   var _CAP_KNOWN_PATHS = {
-    'PATENTABLE': true,
     'INVESTABLE': true,
-    'GRANT-ELIGIBLE': true,
-    'LOAN/INFRASTRUCTURE': true
+    'RESEARCHABLE': true
   };
 
   function _capEscapeText(s) {
@@ -3571,10 +3569,8 @@
   }
 
   function _hedgedLabelForPath(path) {
-    if (path === 'PATENTABLE')          return 'CANDIDATE PATENTABLE — not a filing recommendation';
-    if (path === 'INVESTABLE')          return 'CANDIDATE INVESTABLE — not a position recommendation';
-    if (path === 'GRANT-ELIGIBLE')      return 'CANDIDATE GRANT-ELIGIBLE — not an application recommendation';
-    if (path === 'LOAN/INFRASTRUCTURE') return 'CANDIDATE FINANCING SIGNAL — not a loan recommendation';
+    if (path === 'INVESTABLE')   return 'CANDIDATE INVESTABLE — not a position recommendation';
+    if (path === 'RESEARCHABLE') return 'CANDIDATE RESEARCHABLE — not a validated finding';
     return 'CAPITAL SIGNAL — AUTHORITY UNKNOWN';
   }
 
@@ -3660,13 +3656,13 @@
     // ── CAPITAL CLASSIFICATION MAP ──
     // Signal type → capital pathway
     var CAPITAL_MAP = {
-      temporal_gap:         { path: 'PATENTABLE',         color: '#C9A94E', icon: '\u00A7', action: 'File provisional patent at uspto.gov ($320 small entity). Draft 5 method claims from portal treatment steps.' },
-      filing_density:       { path: 'PATENTABLE',         color: '#C9A94E', icon: '\u00A7', action: 'Search patents.google.com for CPC group. If <10 recent filings, draft provisional with treatment-derived claims.' },
-      novelty:              { path: 'PATENTABLE',         color: '#C9A94E', icon: '\u00A7', action: 'Innovation spike with no IP coverage. Draft claims from portal treatment methodology. File provisional.' },
-      cross_domain:         { path: 'INVESTABLE',         color: '#5ab5a0', icon: '\u25B6', action: 'Cross-domain node = bridge company opportunity. Check command board for companies in both domains. Position in strongest.' },
-      cross_domain_node:    { path: 'INVESTABLE',         color: '#5ab5a0', icon: '\u25B6', action: 'Node spans multiple sectors. Identify companies operating at this intersection via command board.' },
-      institutional_gap:    { path: 'GRANT-ELIGIBLE',     color: '#4a8fd4', icon: '\u2691', action: 'Institutional gap = venture or grant opportunity. Search grants.gov for matching FOA. Draft 1-page problem statement from portal diagnosis.' },
-      medium_confidence_gap:{ path: 'LOAN/INFRASTRUCTURE', color: '#888',   icon: '\u2692', action: 'Infrastructure gap detected. Evaluate SBA 7(a) or 504 loan for platform/tooling buildout. Moderate confidence \u2014 investigate before committing capital.' }
+      temporal_gap:         { path: 'RESEARCHABLE', color: '#9b8cff', icon: '\u203B', action: 'Innovation has stalled here with no formalized approach \u2014 a research opening. Frame the open question from the portal treatment steps and pursue it as a study.' },
+      filing_density:       { path: 'RESEARCHABLE', color: '#9b8cff', icon: '\u203B', action: 'Thin formal coverage of an active area \u2014 a research opening. Characterize what works in practice and turn it into a documented method.' },
+      novelty:              { path: 'RESEARCHABLE', color: '#9b8cff', icon: '\u203B', action: 'Innovation spike with little prior work. Define the research question from the portal treatment methodology and validate it.' },
+      cross_domain:         { path: 'INVESTABLE',   color: '#5ab5a0', icon: '\u25B6', action: 'Cross-domain node = bridge company opportunity. Check the command board for companies in both domains. Position in the strongest.' },
+      cross_domain_node:    { path: 'INVESTABLE',   color: '#5ab5a0', icon: '\u25B6', action: 'Node spans multiple sectors. Identify companies operating at this intersection via the command board.' },
+      institutional_gap:    { path: 'INVESTABLE',   color: '#5ab5a0', icon: '\u25B6', action: 'Institutional gap = an unserved market. Identify who could build/operate this and the public names with exposure via the command board.' },
+      medium_confidence_gap:{ path: 'INVESTABLE',   color: '#5ab5a0', icon: '\u25B6', action: 'Possible opening at moderate confidence \u2014 watch-list it. Confirm the strain via the live feeds before sizing any position.' }
     };
 
     // ── PROVENANCE CHIP ──
@@ -3732,13 +3728,13 @@
         var txList = mgr.getTreatmentsOnDomainStress(dk[di], dd.stress || 0);
         if (dxList.length > 10 && txList.length < 3 && (dd.stress || 0) > 0.3) {
           opportunities.push({
-            path: 'GRANT-ELIGIBLE',
-            color: '#4a8fd4',
-            icon: '\u2691',
+            path: 'RESEARCHABLE',
+            color: '#9b8cff',
+            icon: '\u203b',
             domain: dk[di],
             indication: dk[di].toUpperCase() + ': ' + dxList.length + ' diagnoses but only ' + txList.length + ' treatments',
             stress: dd.stress || 0,
-            action: 'Treatment gap in stressed domain. Apply to SBIR/STTR (sbir.gov) or domain-specific grant programs. Build SaaS addressing the diagnostic triggers.',
+            action: 'Treatment gap in a stressed domain \u2014 a research opening: many diagnoses, few treatments. Frame the unmet-need question and pursue a study or build that addresses the diagnostic triggers.',
             implementations: txList.length > 0 ? [txList[0].title || ''] : ['No existing treatments \u2014 greenfield opportunity'],
             exposedCompanies: [],
             confidence: (dd.stress || 0) * 0.8,
@@ -3754,12 +3750,8 @@
     var allDomKeys = Object.keys(domains);
     function _capPathFromBrain(bopp) {
       var p = bopp && bopp.path;
-      if (p === 'PATENTABLE') return { path: 'PATENTABLE', color: '#C9A94E', icon: '\u00A7' };
-      if (p === 'GRANT-ELIGIBLE') return { path: 'GRANT-ELIGIBLE', color: '#4a8fd4', icon: '\u2691' };
-      if (p === 'INVESTABLE') return { path: 'INVESTABLE', color: '#5ab5a0', icon: '\u25B6' };
-      if (p === 'LOAN' || p === 'INFRASTRUCTURE' || p === 'LOAN/INFRASTRUCTURE') {
-        return { path: 'LOAN/INFRASTRUCTURE', color: '#888', icon: '\u2692' };
-      }
+      // investment + research only. Legacy relane: PATENTABLE->RESEARCHABLE, GRANT/LOAN->INVESTABLE.
+      if (p === 'RESEARCHABLE' || p === 'PATENTABLE') return { path: 'RESEARCHABLE', color: '#9b8cff', icon: '\u203B' };
       return { path: 'INVESTABLE', color: '#5ab5a0', icon: '\u25B6' };
     }
 
@@ -3853,9 +3845,9 @@
         for (var mdi = 0; mdi < msig.affectedDomains.length; mdi++) {
           var mDom = msig.affectedDomains[mdi];
           opportunities.push({
-            path: msig.magnitude > 0.8 ? 'GRANT-ELIGIBLE' : 'INVESTABLE',
-            color: msig.magnitude > 0.8 ? '#4a8fd4' : '#5ab5a0',
-            icon: msig.magnitude > 0.8 ? '\u2691' : '\u25B6',
+            path: 'INVESTABLE',
+            color: '#5ab5a0',
+            icon: '\u25B6',
             domain: mDom,
             indication: msig.eventType.replace(/_/g, ' ') + ' \u2192 ' + mDom.toUpperCase() + ' impact (' + msig.articleCount + ' signals)',
             title: msig.eventType.replace(/_/g, ' ').toLowerCase() + ' response — ' + mDom,
@@ -3908,8 +3900,8 @@
       var conf = o.confidence || 0;
       // Actionability: grounded domains score higher
       var groundable = _canGenerateGrant(o) ? 1.0 : 0.3;
-      // Capital fit: patentable/grant > investable > loan
-      var capFit = (o.path === 'PATENTABLE' || o.path === 'GRANT-ELIGIBLE') ? 0.8 : o.path === 'INVESTABLE' ? 0.6 : 0.4;
+      // Capital fit: investable + researchable are the only lanes now.
+      var capFit = (o.path === 'INVESTABLE') ? 0.7 : (o.path === 'RESEARCHABLE') ? 0.6 : 0.4;
       var actionability = groundable * 0.6 + capFit * 0.4;
       var priority = conf * 0.3 + actionability * 0.3 + (o.stress || 0) * 0.2 + groundable * 0.2;
       o._priority = _adjustedPriority(o, Math.round(priority * 100));
@@ -3931,10 +3923,8 @@
     opportunities.forEach(function(o) { pathCounts[o.path] = (pathCounts[o.path] || 0) + 1; });
     var summCard = _subCard('CAPITAL OPPORTUNITIES \u2014 ' + opportunities.length + ' TOTAL');
     var summLine = [];
-    if (pathCounts['PATENTABLE']) summLine.push(pathCounts['PATENTABLE'] + ' patentable');
-    if (pathCounts['GRANT-ELIGIBLE']) summLine.push(pathCounts['GRANT-ELIGIBLE'] + ' grant-eligible');
     if (pathCounts['INVESTABLE']) summLine.push(pathCounts['INVESTABLE'] + ' investable');
-    if (pathCounts['LOAN/INFRASTRUCTURE']) summLine.push(pathCounts['LOAN/INFRASTRUCTURE'] + ' loan/infrastructure');
+    if (pathCounts['RESEARCHABLE']) summLine.push(pathCounts['RESEARCHABLE'] + ' researchable');
     var summDiv = document.createElement('div');
     summDiv.style.cssText = 'font-size:0.38rem;color:rgba(200,195,184,0.5);padding:4px 8px';
     summDiv.textContent = summLine.join(' \u00b7 ');
@@ -3989,9 +3979,9 @@
       var pathBreakdown = {};
       domOpps.forEach(function (o) { pathBreakdown[o.path] = (pathBreakdown[o.path] || 0) + 1; });
       var breakdownParts = [];
-      ['PATENTABLE', 'GRANT-ELIGIBLE', 'INVESTABLE', 'LOAN/INFRASTRUCTURE'].forEach(function (p) {
+      ['INVESTABLE', 'RESEARCHABLE'].forEach(function (p) {
         if (pathBreakdown[p]) {
-          var short = p === 'PATENTABLE' ? 'PATENT' : p === 'GRANT-ELIGIBLE' ? 'GRANT' : p === 'INVESTABLE' ? 'INVEST' : 'LOAN';
+          var short = p === 'INVESTABLE' ? 'INVEST' : 'RESEARCH';
           breakdownParts.push(pathBreakdown[p] + ' ' + short);
         }
       });
@@ -4204,14 +4194,10 @@
         oh += '<div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;align-items:center">';
         if (opp._priority) oh += '<span style="font-size:0.26rem;color:rgba(200,195,184,0.2);letter-spacing:1px;margin-right:4px">PRI:' + opp._priority + '</span>';
         if (opp._execReady) {
-          if (opp.path === 'PATENTABLE') {
-            oh += '<span style="font-size:0.28rem;color:#C9A94E;cursor:pointer;padding:2px 6px;border:1px solid rgba(201,169,78,0.2);border-radius:2px;letter-spacing:1px" onclick="window._execGenerate(\'' + oppId + '\',\'patent\')">Draft Candidate Patent Memo</span>';
-          }
-          if ((opp.path === 'GRANT-ELIGIBLE' || opp.path === 'PATENTABLE') && canGrant) {
-            oh += '<span style="font-size:0.28rem;color:#4a8fd4;cursor:pointer;padding:2px 6px;border:1px solid rgba(74,143,212,0.2);border-radius:2px;letter-spacing:1px" onclick="window._execGenerate(\'' + oppId + '\',\'grant\')">Draft Candidate Grant Memo</span>';
-          }
-          if (opp.path === 'LOAN/INFRASTRUCTURE' || opp.path === 'INVESTABLE') {
-            oh += '<span style="font-size:0.28rem;color:#5ab5a0;cursor:pointer;padding:2px 6px;border:1px solid rgba(90,181,160,0.2);border-radius:2px;letter-spacing:1px" onclick="window._execGenerate(\'' + oppId + '\',\'loan\')">Draft Candidate Loan Memo</span>';
+          if (opp.path === 'RESEARCHABLE') {
+            oh += '<span style="font-size:0.28rem;color:#9b8cff;cursor:pointer;padding:2px 6px;border:1px solid rgba(155,140,255,0.25);border-radius:2px;letter-spacing:1px" onclick="window._execGenerate(\'' + oppId + '\',\'research\')">Draft Research Brief</span>';
+          } else {
+            oh += '<span style="font-size:0.28rem;color:#5ab5a0;cursor:pointer;padding:2px 6px;border:1px solid rgba(90,181,160,0.2);border-radius:2px;letter-spacing:1px" onclick="window._execGenerate(\'' + oppId + '\',\'investment\')">Draft Investment Brief</span>';
           }
         } else {
           oh += '<span style="font-size:0.28rem;color:#555;padding:2px 6px;letter-spacing:1px">' + (!canGrant ? 'Insufficient grounding' : 'Below confidence threshold') + '</span>';
