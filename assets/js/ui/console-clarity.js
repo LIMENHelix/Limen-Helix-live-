@@ -3703,41 +3703,136 @@
     return [];
   }
 
+  // Live current-signal line for a domain — the conditions the feeds are
+  // currently firing (real-time, feed-derived). Falls back to the top feed
+  // name/value. This is what drives stress, hence the ranking, in real time.
+  function _capLiveSignal(domain) {
+    var dom = (window.LIMENDomains || {})[domain];
+    if (!dom) return '';
+    var cond = dom.brainActiveConditions;
+    if (Array.isArray(cond) && cond.length) {
+      return cond.slice(0, 3).map(function (c) { return String(c).replace(/_/g, ' '); }).join(' · ');
+    }
+    var feeds = dom.brainFeeds;
+    if (Array.isArray(feeds) && feeds.length) {
+      var f = null;
+      for (var i = 0; i < feeds.length; i++) { if (feeds[i] && feeds[i].value != null) { f = feeds[i]; break; } }
+      f = f || feeds[0];
+      if (f && f.name) return String(f.name) + (f.value != null ? (': ' + f.value) : '');
+    }
+    return '';
+  }
+
+  // Transparent urgency score (0–100), so "how it's measured" is visible:
+  //   urgency tier (0–30) + priority (0–25) + stress (0–30) + confidence (0–15)
+  // The score is the single number the Top-10 is ranked and change-detected on.
+  function _capUrgencyTier(o) {
+    var u = (o._brainUrgency || o.urgency || '').toString().toUpperCase();
+    if (u.indexOf('HIGH') !== -1 || u === 'CRITICAL') return 3;
+    if ((o.stress || 0) >= 0.70 && (o.confidence || 0) >= 0.40) return 3;
+    if (u.indexOf('MED') !== -1 || (o.stress || 0) >= 0.50) return 2;
+    return 1;
+  }
+  function _capScore(o) {
+    return Math.round(
+      (_capUrgencyTier(o) * 10) +                 // 10 / 20 / 30
+      ((o._priority || 0) / 100) * 25 +           // 0 – 25
+      (o.stress || 0) * 30 +                      // 0 – 30
+      (o.confidence || 0) * 15                    // 0 – 15
+    );
+  }
+  function _capOppKey(o) {
+    return (o.domain || '?') + '|' +
+      String(o.title || o.indication || '').toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 40);
+  }
+
   // Cross-domain Top-10 of the highest-urgency INVESTABLE opportunities, each
-  // with concrete target tickers. Advisory framing only (not buy advice).
+  // with concrete target tickers + a live signal line. The list HOLDS STEADY
+  // and only re-ranks when the measure materially changes (the score-set turns
+  // over, or a retained target's score shifts >= CAP_TOP10_THRESHOLD) — so
+  // breaking news adjusts it, ordinary jitter does not. Advisory only.
+  var CAP_TOP10_THRESHOLD = 5;            // score points
   function _renderTopInvestmentTargets(container, opportunities) {
     _capLoadBoardMap();
     var invest = (opportunities || []).filter(function (o) { return o && o.path === 'INVESTABLE'; });
     if (!invest.length) return;
 
-    function uTier(o) {
-      var u = (o._brainUrgency || o.urgency || '').toString().toUpperCase();
-      if (u.indexOf('HIGH') !== -1 || u === 'CRITICAL') return 3;
-      if ((o.stress || 0) >= 0.70 && (o.confidence || 0) >= 0.40) return 3;
-      if (u.indexOf('MED') !== -1 || (o.stress || 0) >= 0.50) return 2;
-      return 1;
-    }
-    invest.forEach(function (o) { o._uTier = uTier(o); });
-    invest.sort(function (a, b) {
-      return (b._uTier - a._uTier) || (b._priority - a._priority) || (b.confidence - a.confidence);
-    });
+    invest.forEach(function (o) { o._uTier = _capUrgencyTier(o); o._score = _capScore(o); });
+    invest.sort(function (a, b) { return (b._score - a._score) || (b.confidence - a.confidence); });
 
-    // Diversity cap: at most 2 per domain, then relax to fill to 10.
-    var perDom = {}, top = [];
-    for (var i = 0; i < invest.length && top.length < 10; i++) {
-      var d = invest[i].domain || '?';
-      if ((perDom[d] || 0) >= 2) continue;
-      perDom[d] = (perDom[d] || 0) + 1; top.push(invest[i]);
+    // Candidate: at most 2 per domain for spread, then relax to fill to 10.
+    var perDom = {}, cand = [];
+    for (var i = 0; i < invest.length && cand.length < 10; i++) {
+      var dk = invest[i].domain || '?';
+      if ((perDom[dk] || 0) >= 2) continue;
+      perDom[dk] = (perDom[dk] || 0) + 1; cand.push(invest[i]);
     }
-    for (var j = 0; j < invest.length && top.length < 10; j++) {
-      if (top.indexOf(invest[j]) === -1) top.push(invest[j]);
+    for (var j = 0; j < invest.length && cand.length < 10; j++) {
+      if (cand.indexOf(invest[j]) === -1) cand.push(invest[j]);
     }
+
+    // ── CHANGE DETECTION (the "mark") ──
+    // Compare the candidate set to the last published list. Only republish when
+    // the change is material; otherwise hold the published order steady.
+    var curByKey = {};
+    invest.forEach(function (o) { curByKey[_capOppKey(o)] = o; });
+    var candItems = cand.map(function (o) { return { key: _capOppKey(o), score: o._score }; });
+    var now = Date.now();
+    var pub = null;
+    try { pub = JSON.parse(localStorage.getItem('limen_cap_top10') || 'null'); } catch (e) {}
+
+    var material = false, entered = {};
+    if (!pub || !pub.items || !pub.items.length) {
+      material = true;
+    } else {
+      var pubKeys = pub.items.map(function (it) { return it.key; });
+      var candKeys = candItems.map(function (it) { return it.key; });
+      var setSame = pubKeys.length === candKeys.length &&
+                    pubKeys.every(function (k) { return candKeys.indexOf(k) !== -1; });
+      if (!setSame) material = true;
+      else {
+        var pubScore = {}; pub.items.forEach(function (it) { pubScore[it.key] = it.score; });
+        candItems.forEach(function (it) {
+          if (Math.abs(it.score - (pubScore[it.key] || 0)) >= CAP_TOP10_THRESHOLD) material = true;
+        });
+        for (var p = 0; p < pubKeys.length && !material; p++) { if (!curByKey[pubKeys[p]]) material = true; }
+      }
+    }
+
+    var displayOpps, lastChangedAt;
+    if (material) {
+      displayOpps = cand;
+      var oldKeys = (pub && pub.items) ? pub.items.map(function (it) { return it.key; }) : [];
+      candItems.forEach(function (it) { if (oldKeys.indexOf(it.key) === -1) entered[it.key] = true; });
+      lastChangedAt = now;
+      try { localStorage.setItem('limen_cap_top10', JSON.stringify({ publishedAt: now, lastChangedAt: now, items: candItems })); } catch (e) {}
+    } else {
+      displayOpps = pub.items.map(function (it) { return curByKey[it.key]; }).filter(Boolean);
+      lastChangedAt = pub.lastChangedAt || pub.publishedAt || now;
+      try { localStorage.setItem('limen_cap_top10', JSON.stringify({ publishedAt: now, lastChangedAt: lastChangedAt, items: pub.items })); } catch (e) {}
+    }
+
+    function _fmtT(ms) { var d = new Date(ms); function p(n) { return n < 10 ? '0' + n : '' + n; } return p(d.getHours()) + ':' + p(d.getMinutes()); }
+    var heldMin = Math.max(0, Math.round((now - lastChangedAt) / 60000));
 
     var card = _subCard('TOP 10 HIGH-URGENCY INVESTMENT TARGETS');
     var sub = document.createElement('div');
-    sub.style.cssText = 'font-size:0.34rem;color:rgba(200,195,184,0.45);padding:2px 8px 6px;letter-spacing:0.5px';
-    sub.textContent = 'Cross-domain · INVESTABLE lane · ranked by urgency × priority · names with exposure, NOT buy recommendations';
+    sub.style.cssText = 'font-size:0.34rem;color:rgba(200,195,184,0.45);padding:2px 8px 4px;letter-spacing:0.5px';
+    sub.textContent = 'Cross-domain · INVESTABLE lane · names with exposure, NOT buy recommendations';
     card.appendChild(sub);
+
+    // The MARK: live state + when it last re-ranked.
+    var mark = document.createElement('div');
+    mark.style.cssText = 'font-size:0.34rem;padding:1px 8px 3px;letter-spacing:0.5px;color:' + (material ? 'rgba(232,84,84,0.85)' : 'rgba(120,205,185,0.85)');
+    mark.textContent = (material ? '◉ UPDATED ' + _fmtT(lastChangedAt) + ' — breaking signal re-ranked the list'
+                                 : '◉ LIVE · holding steady · last change ' + _fmtT(lastChangedAt) + ' (held ' + heldMin + 'm)');
+    card.appendChild(mark);
+
+    // How it's measured (transparency).
+    var legend = document.createElement('div');
+    legend.style.cssText = 'font-size:0.3rem;color:rgba(200,195,184,0.35);padding:0 8px 6px;letter-spacing:0.3px;line-height:1.4';
+    legend.textContent = 'How it’s measured — SCORE = urgency(0–30) + priority(0–25) + stress(0–30) + confidence(0–15). Re-ranks only when a target’s score shifts ≥' + CAP_TOP10_THRESHOLD + ' or the set turns over; the live signal under each row feeds stress in real time.';
+    card.appendChild(legend);
 
     function _dedupTickers(list, n) {
       var seen = {}, out = [];
@@ -3749,7 +3844,7 @@
       return out;
     }
 
-    top.forEach(function (o, idx) {
+    displayOpps.forEach(function (o, idx) {
       var targets = _capTargetsForDomain(o.domain, 6);
       var tickers = _dedupTickers(targets.map(function (t) { return t.ticker; }), 3);
       if (o.exposedCompanies && o.exposedCompanies.length) {
@@ -3760,18 +3855,24 @@
       var uLabel = o._uTier >= 3 ? 'HIGH' : o._uTier === 2 ? 'MED' : 'LOW';
       var thesis = (o.title || o.indication || 'opportunity').replace(/_/g, ' ');
       if (thesis.length > 72) thesis = thesis.slice(0, 70) + '…';
+      var isNew = entered[_capOppKey(o)];
+      var live = _capLiveSignal(o.domain);
 
       var row = document.createElement('div');
       row.style.cssText = 'display:flex;gap:8px;align-items:baseline;padding:5px 8px;border-bottom:1px solid rgba(255,255,255,0.03)';
       var html = '';
       html += '<span style="font-size:0.5rem;color:rgba(201,169,78,0.7);width:18px;flex-shrink:0">' + (idx + 1) + '</span>';
       html += '<div style="flex:1;min-width:0">';
-      html += '<div style="font-size:0.44rem;color:rgba(228,224,214,0.92)">' + thesis + '</div>';
-      html += '<div style="font-size:0.34rem;color:rgba(200,195,184,0.45);margin-top:1px">' + (o.domain || '').toUpperCase() + ' · ' + Math.round((o.confidence || 0) * 100) + '% conf · ' + Math.round((o.stress || 0) * 100) + '% stress</div>';
+      html += '<div style="font-size:0.44rem;color:rgba(228,224,214,0.92)">' + thesis +
+              (isNew ? ' <span style="font-size:0.28rem;letter-spacing:1px;color:#e85454;border:1px solid rgba(232,84,84,0.45);border-radius:2px;padding:0 4px;vertical-align:middle">NEW</span>' : '') + '</div>';
+      html += '<div style="font-size:0.34rem;color:rgba(200,195,184,0.45);margin-top:1px">' + (o.domain || '').toUpperCase() + ' · score <b style="color:rgba(201,169,78,0.85)">' + o._score + '</b> · ' + Math.round((o.confidence || 0) * 100) + '% conf · ' + Math.round((o.stress || 0) * 100) + '% stress</div>';
       if (tickers.length) {
         html += '<div style="font-size:0.42rem;color:rgba(120,205,185,0.92);margin-top:2px;letter-spacing:0.5px">Targets: ' + tickers.join(' · ') + '</div>';
       } else {
         html += '<div style="font-size:0.34rem;color:rgba(200,195,184,0.3);margin-top:2px">Targets: pull command board for ' + (o.domain || '') + ' names</div>';
+      }
+      if (live) {
+        html += '<div style="font-size:0.32rem;color:rgba(180,160,120,0.6);margin-top:2px"><span style="color:rgba(232,84,84,0.7)">●</span> LIVE: ' + live + '</div>';
       }
       html += '</div>';
       html += '<span style="font-size:0.3rem;letter-spacing:1.5px;color:' + uColor + ';border:1px solid ' + uColor + '55;border-radius:2px;padding:1px 5px;flex-shrink:0">' + uLabel + '</span>';
