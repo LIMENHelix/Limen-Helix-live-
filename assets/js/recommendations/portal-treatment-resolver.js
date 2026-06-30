@@ -92,11 +92,30 @@
       }
     }
 
-    // NOTE: a previous attempt collected treatments from the active diagnosis's
-    // circuit nodeIds (THAL/dlPFC/…). That regressed badly — those are SHARED
-    // neural nodes used by every domain, so the registry's global circuit index
-    // returned cross-domain (medical) treatments. Reverted. The right fix is a
-    // domain-scoped circuit lookup in the registry (follow-up), not this.
+    // 2a': Same-portal treatments. The active diagnosis was authored in a portal
+    // FILE; treatments from that same portal are on-topic (Grid Collapse's portal
+    // holds the grid treatments). The portal index (_byPortal) is portal-specific
+    // — NOT a shared neural node — so this is safe from the cross-domain leak that
+    // killed the circuit-node approach. Marked 'diagnosis' so the relevance weight
+    // ranks them above the generic domain sweep.
+    for (var pdi = 0; pdi < activeDx.length; pdi++) {
+      var pPortalId = activeDx[pdi]._portalId;
+      if (!pPortalId || typeof mgr.getTreatmentsForPortal !== 'function') continue;
+      var portalTx = mgr.getTreatmentsForPortal(pPortalId);
+      for (var pti = 0; pti < portalTx.length; pti++) {
+        if (!seen[portalTx[pti].id]) {
+          portalTx[pti]._sourceMethod = 'diagnosis';
+          portalTx[pti]._sourceDiagnosis = activeDx[pdi];
+          allTreatments.push(portalTx[pti]);
+          seen[portalTx[pti].id] = true;
+        }
+      }
+    }
+
+    // NOTE: do NOT collect treatments from the diagnosis's circuit nodeIds
+    // (THAL/dlPFC/…) — those are SHARED neural nodes used by every domain, so the
+    // registry's circuit index returns cross-domain (medical) treatments. See the
+    // banked regression. Portal-scoping above is the safe in-domain alternative.
 
     // 2b: Circuit-based treatments (from domain's connectome nodes), scoped to
     // this domain so shared neural nodes can't pull in other domains' treatments.
