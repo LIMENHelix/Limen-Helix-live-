@@ -40,6 +40,26 @@ module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   res.setHeader('Cache-Control', 'no-store');
   if ((req.method || 'GET') === 'OPTIONS') { res.statusCode = 204; return res.end(); }
+
+  // Gated diagnostic: which Stripe account + mode does the env key belong to?
+  var q = {};
+  try { q = Object.fromEntries(new URL(req.url, 'http://h').searchParams); } catch (e) {}
+  if ((req.method || 'GET') === 'GET' && q.account != null) {
+    if (q.account !== (process.env.RELAY_MARGIN_KEY || 'limen-relay')) return sendJSON(res, 403, { error: 'forbidden' });
+    var k = process.env.STRIPE_SECRET_KEY || '';
+    var mode = k.indexOf('sk_live') === 0 ? 'LIVE' : k.indexOf('sk_test') === 0 ? 'TEST' : 'unknown';
+    if (!k) return sendJSON(res, 200, { hasKey: false });
+    try {
+      var ar = await fetch('https://api.stripe.com/v1/account', { headers: { Authorization: 'Bearer ' + k } });
+      var a = await ar.json();
+      return sendJSON(res, 200, {
+        hasKey: true, mode: mode, account_id: a.id || null,
+        name: (a.settings && a.settings.dashboard && a.settings.dashboard.display_name) ||
+              (a.business_profile && a.business_profile.name) || a.email || null
+      });
+    } catch (e) { return sendJSON(res, 200, { hasKey: true, mode: mode, error: String(e && e.message) }); }
+  }
+
   if (req.method !== 'POST') return sendJSON(res, 405, { ok: false, error: 'POST only' });
 
   if (!stripe.hasKey()) return sendJSON(res, 200, { ok: false, error: 'payments not enabled yet', needsKey: true });
