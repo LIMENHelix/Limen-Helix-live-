@@ -31,6 +31,7 @@
   var ROUTES = [
     { label: 'LIMEN HELIX',        href: '/' },
     { label: '$ CAPITAL ENGINE',   href: '/capital-engine' },
+    { label: '◆ RELAY MARGIN',     href: '/relay-margin' },
     { label: '⬇ MY DOCUMENTS',     href: '/my-documents' },
     { label: '⬢ TREATMENT DISCOVERY', href: '/treatment-discovery' },
     { label: 'PATTERN PROPOSALS',  href: '/pattern-proposals' },

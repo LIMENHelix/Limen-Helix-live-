@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Relay · Margin Control · LIMEN Helix</title>
+<script src="assets/js/auth-gate.js"></script>
+<style>
+  :root{ --bg:#0c0e13; --panel:#14171f; --line:#252a35; --ink:#e8e3d9; --soft:#8b94a3; --gold:#c9a94e; --green:#5ab5a0; }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;max-width:460px;width:100%;padding:30px 32px;box-shadow:0 12px 40px rgba(0,0,0,.4)}
+  .eyebrow{font-size:.58rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);opacity:.8;font-weight:600}
+  h1{font-size:1.5rem;margin:.4rem 0 .2rem;letter-spacing:-.01em}
+  .sub{color:var(--soft);font-size:.9rem;margin:0 0 24px;line-height:1.5}
+  .pct{font-size:3.4rem;font-weight:800;letter-spacing:-.02em;text-align:center;color:var(--gold);margin:8px 0}
+  input[type=range]{width:100%;accent-color:var(--gold);margin:6px 0 4px}
+  .scale{display:flex;justify-content:space-between;font-size:.66rem;color:var(--soft);margin-bottom:20px}
+  .preview{background:#0e1117;border:1px solid var(--line);border-radius:11px;padding:14px 16px;margin-bottom:22px;font-size:.9rem}
+  .preview .row{display:flex;justify-content:space-between;margin-bottom:5px}
+  .preview .row:last-child{margin-bottom:0;font-weight:700}
+  .preview .soft{color:var(--soft)} .preview .g{color:var(--green)}
+  .save{width:100%;background:var(--gold);color:#1a1306;border:none;border-radius:10px;padding:14px;font-weight:800;font-size:1rem;cursor:pointer}
+  .save:hover{filter:brightness(1.08)} .save:disabled{opacity:.5;cursor:default}
+  .status{text-align:center;font-size:.82rem;color:var(--soft);min-height:1.3em;margin-top:12px}
+  .status.ok{color:var(--green)}
+  .links{display:flex;justify-content:space-between;margin-top:18px;font-size:.78rem}
+  .links a{color:var(--soft);text-decoration:none}.links a:hover{color:var(--gold)}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="eyebrow">LIMEN Helix · finance</div>
+  <h1>Relay margin</h1>
+  <p class="sub">The markup Relay adds to every sourced item before listing. Saved here, read live by the storefront.</p>
+
+  <div class="pct" id="pct">—</div>
+  <input type="range" id="slider" min="5" max="150" step="1" value="35" />
+  <div class="scale"><span>5%</span><span>50%</span><span>100%</span><span>150%</span></div>
+
+  <div class="preview">
+    <div class="row"><span class="soft">Example source cost</span><span>$100.00</span></div>
+    <div class="row"><span class="soft">Your spread</span><span class="g" id="pvSpread">+$35.00</span></div>
+    <div class="row"><span>Customer pays</span><span id="pvPrice">$135.00</span></div>
+  </div>
+
+  <button class="save" id="saveBtn" onclick="save()">Save margin</button>
+  <div class="status" id="status">Loading current margin…</div>
+
+  <div class="links"><a href="/civilization">← Cockpit</a><a id="storeLink" href="#" target="_blank">View store ↗</a></div>
+</div>
+
+<script>
+// The store reads this margin from /api/relay-margin. Write is gated by this key
+// (this page is already behind LIMEN's auth-gate, so only operators reach it).
+var KEY = 'limen-relay';
+var STORE_URL = 'https://broker-one-tau.vercel.app';
+var EL = function (id) { return document.getElementById(id); };
+EL('storeLink').href = STORE_URL;
+
+var saved = 0.35;
+function render() {
+  var m = +EL('slider').value;
+  EL('pct').textContent = m + '%';
+  EL('pvSpread').textContent = '+$' + (m).toFixed(2);
+  EL('pvPrice').textContent = '$' + (100 + m).toFixed(2);
+  var changed = (m / 100).toFixed(2) !== saved.toFixed(2);
+  EL('saveBtn').disabled = !changed;
+  EL('saveBtn').textContent = changed ? 'Save margin' : 'Saved';
+}
+EL('slider').addEventListener('input', render);
+
+function load() {
+  fetch('/api/relay-margin').then(function (r) { return r.json(); }).then(function (j) {
+    saved = (typeof j.margin === 'number') ? j.margin : 0.35;
+    EL('slider').value = Math.round(saved * 100);
+    render();
+    EL('status').textContent = 'Current margin: ' + Math.round(saved * 100) + '%' + (j.source === 'default' ? ' (default — not yet set)' : '');
+    EL('status').className = 'status';
+  }).catch(function () { EL('status').textContent = 'Could not load margin.'; });
+}
+function save() {
+  var m = (+EL('slider').value) / 100;
+  EL('saveBtn').disabled = true; EL('status').textContent = 'Saving…'; EL('status').className = 'status';
+  fetch('/api/relay-margin?set=' + m + '&key=' + encodeURIComponent(KEY)).then(function (r) { return r.json(); }).then(function (j) {
+    if (j.ok) { saved = j.margin; render(); EL('status').textContent = '✓ Saved — store now marks up ' + Math.round(j.margin * 100) + '%'; EL('status').className = 'status ok'; }
+    else { EL('status').textContent = 'Error: ' + (j.error || 'failed'); EL('saveBtn').disabled = false; }
+  }).catch(function () { EL('status').textContent = 'Save failed.'; EL('saveBtn').disabled = false; });
+}
+load();
+</script>
+</body>
+</html>

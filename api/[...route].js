@@ -26,6 +26,7 @@ const BUILD = 'phase-5';
 // name → handler module. Static requires so the tracer bundles them.
 const HANDLERS = {
   'admin-auth': require('../handlers/admin-auth'),
+  'relay-margin': require('../handlers/relay-margin'),
   'wave-radar': require('../handlers/wave-radar'),
   'music-feed': require('../handlers/music-feed'),
   'civil-radar': require('../handlers/civil-radar'),
