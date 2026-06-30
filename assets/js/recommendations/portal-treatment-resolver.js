@@ -92,30 +92,16 @@
       }
     }
 
-    // 2a': Same-portal treatments. The active diagnosis was authored in a portal
-    // FILE; treatments from that same portal are on-topic (Grid Collapse's portal
-    // holds the grid treatments). The portal index (_byPortal) is portal-specific
-    // — NOT a shared neural node — so this is safe from the cross-domain leak that
-    // killed the circuit-node approach. Marked 'diagnosis' so the relevance weight
-    // ranks them above the generic domain sweep.
-    for (var pdi = 0; pdi < activeDx.length; pdi++) {
-      var pPortalId = activeDx[pdi]._portalId;
-      if (!pPortalId || typeof mgr.getTreatmentsForPortal !== 'function') continue;
-      var portalTx = mgr.getTreatmentsForPortal(pPortalId);
-      for (var pti = 0; pti < portalTx.length; pti++) {
-        if (!seen[portalTx[pti].id]) {
-          portalTx[pti]._sourceMethod = 'diagnosis';
-          portalTx[pti]._sourceDiagnosis = activeDx[pdi];
-          allTreatments.push(portalTx[pti]);
-          seen[portalTx[pti].id] = true;
-        }
-      }
-    }
-
-    // NOTE: do NOT collect treatments from the diagnosis's circuit nodeIds
-    // (THAL/dlPFC/…) — those are SHARED neural nodes used by every domain, so the
-    // registry's circuit index returns cross-domain (medical) treatments. See the
-    // banked regression. Portal-scoping above is the safe in-domain alternative.
+    // NOTE: two attempts at a tighter diagnosis→treatment link were reverted:
+    //   (1) diagnosis circuit nodeIds (THAL/dlPFC/…) — SHARED neural nodes, the
+    //       circuit index returned cross-domain MEDICAL treatments.
+    //   (2) diagnosis _portalId via getTreatmentsForPortal — the portalId is
+    //       broad/shared enough to pull cross-domain (intel treatments into
+    //       Technology/Defense) without helping the target case (Energy).
+    // The clean, verified state = domain-scoped circuit lookup (2b below) +
+    // diagnosis-relevance weight. Sub-domain specificity (Energy grid vs oil/gas)
+    // needs a genuine per-diagnosis treatment link in the registry harvest, not a
+    // shared-index lookup — a separate, careful piece of work.
 
     // 2b: Circuit-based treatments (from domain's connectome nodes), scoped to
     // this domain so shared neural nodes can't pull in other domains' treatments.
