@@ -92,28 +92,11 @@
       }
     }
 
-    // 2a': Treatments on the ACTIVE DIAGNOSIS's OWN circuits. The diagnosis
-    // carries its circuits (e.g. Grid Collapse → THAL/dlPFC/dACC/CC/M1), and
-    // treatments on those nodes are on-topic (Diversified Generation, Smart
-    // Grid, HVDC…). This is the missing link: 2b below sweeps ALL of the
-    // domain's nodes, which mixes in unrelated subportals (refinery/finance for
-    // Energy). Marked 'diagnosis' so the relevance weight floats them to the top.
-    for (var dci = 0; dci < activeDx.length; dci++) {
-      var dxCircuits = activeDx[dci].circuits || [];
-      for (var cci = 0; cci < dxCircuits.length; cci++) {
-        var dxNode = dxCircuits[cci].nodeId || dxCircuits[cci];
-        if (!dxNode) continue;
-        var dxCircTx = mgr.getTreatmentsOnCircuitActivation(dxNode);
-        for (var dct = 0; dct < dxCircTx.length; dct++) {
-          if (!seen[dxCircTx[dct].id]) {
-            dxCircTx[dct]._sourceMethod = 'diagnosis';
-            dxCircTx[dct]._sourceDiagnosis = activeDx[dci];
-            allTreatments.push(dxCircTx[dct]);
-            seen[dxCircTx[dct].id] = true;
-          }
-        }
-      }
-    }
+    // NOTE: a previous attempt collected treatments from the active diagnosis's
+    // circuit nodeIds (THAL/dlPFC/…). That regressed badly — those are SHARED
+    // neural nodes used by every domain, so the registry's global circuit index
+    // returned cross-domain (medical) treatments. Reverted. The right fix is a
+    // domain-scoped circuit lookup in the registry (follow-up), not this.
 
     // 2b: Circuit-based treatments (from domain's connectome nodes)
     var nodes = opts.nodes || [];
