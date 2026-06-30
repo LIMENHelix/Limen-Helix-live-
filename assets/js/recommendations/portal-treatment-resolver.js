@@ -17,6 +17,14 @@
   var W_BENEFIT    = 0.25;
   var W_CROSSDOM   = 0.15;
   var W_EVIDENCE   = 0.15;
+  // Diagnosis-relevance: a treatment matched to an ACTIVE diagnosis is far more
+  // relevant than one pulled from any of the domain's connectome circuits (which
+  // is how, e.g., refinery/finance treatments leaked into Energy's Grid Collapse
+  // card). Weighted strongly so diagnosis-matched treatments rank first; circuit
+  // and domain-fallback treatments only fill in below them. Reorders the pool —
+  // removes nothing.
+  var W_RELEVANCE  = 0.40;
+  var RELEVANCE_BY_SOURCE = { diagnosis: 1.0, circuit: 0.3, domain: 0.15 };
 
   var EVIDENCE_SCORES = {
     A: 1.0, Strong: 1.0,
@@ -187,11 +195,15 @@
     var evGrade = tx.evidenceGrade || tx.evidence || 'Emerging';
     var evidence = EVIDENCE_SCORES[evGrade] || 0.2;
 
+    // Diagnosis-relevance by collection path (set on tx in resolve()).
+    var relevance = RELEVANCE_BY_SOURCE[tx._sourceMethod] || RELEVANCE_BY_SOURCE.domain;
+
     return (urgency * W_URGENCY) +
            (confidence * W_CONFIDENCE) +
            (benefit * W_BENEFIT) +
            (crossDom * W_CROSSDOM) +
-           (evidence * W_EVIDENCE);
+           (evidence * W_EVIDENCE) +
+           (relevance * W_RELEVANCE);
   }
 
   function _empty(domainId) {
