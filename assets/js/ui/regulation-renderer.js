@@ -51,6 +51,13 @@
     pressured: 'under pressure', recovering: 'recovering', stable: 'stable'
   };
 
+  // Plain-language translation of the stress-trajectory descriptor (NOT the
+  // P0–P10 developmental phase — this is just where stress sits in its cycle).
+  var PHASE_PHRASES = {
+    peak: 'stress at a peak', ascending: 'stress rising', descending: 'stress easing',
+    trough: 'quiet · low stress', plateau: 'holding steady'
+  };
+
   // ═══════════════════════════════════════════════════════════════
   // Styles
   // ═══════════════════════════════════════════════════════════════
@@ -273,7 +280,7 @@
     // What is wrong
     var problem = name + ' is ' + phrase;
     if (reg.stressors && reg.stressors.length > 0) {
-      problem += ' (' + reg.stressors[0].name + ')';
+      problem += ' (' + String(reg.stressors[0].name || '').replace(/_/g, ' ') + ')';
     } else if (reg.diagnosis && reg.diagnosis.primary) {
       problem += ' (' + (reg.diagnosis.primary.title || 'diagnosed') + ')';
     }
@@ -399,15 +406,10 @@
     var statsHTML = '<span style="color:' + GOLD + '">20</span> domains regulated · ';
     statsHTML += '<span style="color:' + (distressed.length > 0 ? RED : GREEN) + '">' +
       distressed.length + '</span> distressed · ';
-    statsHTML += '<span style="color:' + GOLD + '">' + totalTx + '</span> treatments · ';
-    statsHTML += '<span style="color:' + GOLD + '">' + totalActions + '</span> actions · ';
-    statsHTML += '<span style="color:' + (portalSourced > 0 ? GREEN : ORANGE) + '">' +
-      portalSourced + '</span> portal-sourced · ';
-    statsHTML += '<span style="color:' + (totalVerified > 0 ? GREEN : TEXT_DIM) + '">' +
-      totalVerified + '</span> verified';
-    if (totalGeneric > 0) {
-      statsHTML += ' · <span style="color:' + RED + '">' + totalGeneric + '</span> generic';
-    }
+    statsHTML += '<span style="color:' + GOLD + '">' + totalTx + '</span> candidate interventions · ';
+    statsHTML += '<span style="color:' + (totalVerified > 0 ? GREEN : ORANGE) + '">' +
+      totalVerified + '</span> of ' + totalTx + ' confirmed ' +
+      '<span style="color:rgba(200,195,184,0.45)">(the rest are model estimates)</span>';
     stats.innerHTML = statsHTML;
     el.appendChild(stats);
 
@@ -429,7 +431,7 @@
 
     // Common driver
     if (commonDriver && maxDriverCount >= 2) {
-      narText += 'Common driver across ' + maxDriverCount + ' domains: ' + commonDriver + '. ';
+      narText += 'Common driver across ' + maxDriverCount + ' domains: ' + commonDriver.replace(/_/g, ' ') + '. ';
     }
 
     // Highest-value intervention
@@ -503,8 +505,19 @@
 
     var title = document.createElement('div');
     title.className = 'lreg-title';
-    title.textContent = 'Domain Regulation';
+    title.textContent = 'Domain Regulation — the 20 real-world domains';
     wrap.appendChild(title);
+
+    // Plain-language explainer + disambiguation from the Vitals page. These are
+    // two different "bodies": Regulation = the world's domains (live brains);
+    // Vitals = LIMEN's own machine health (offline sensors). Same metaphor,
+    // different subject — so say which one this is.
+    var intro = document.createElement('div');
+    intro.style.cssText = 'font-size:0.4rem;line-height:1.5;color:rgba(200,195,184,0.6);margin:2px 0 10px;max-width:780px';
+    intro.innerHTML = 'For each domain: how stressed it is right now, what looks wrong, the best move to relieve it, and the ripple to other domains. ' +
+      'Numbers below a domain’s confidence are <b>model estimates, not confirmed outcomes</b>. ' +
+      '<span style="color:rgba(200,195,184,0.4)">This is the state of the world’s domains — not LIMEN’s own system health (that’s the <b>/vitals</b> page).</span>';
+    wrap.appendChild(intro);
 
     // Global coherence summary
     wrap.appendChild(_buildGlobalCoherence(output));
@@ -588,11 +601,13 @@
     card.appendChild(_stressRow('stress', reg.stress || 0, 'lreg-stress-fill'));
     card.appendChild(_stressRow('conf', reg.confidence || 0, 'lreg-conf-fill'));
 
-    // ── 3. Meta line (phase) ──
+    // ── 3. Meta line (plain-language stress phase + honest data source) ──
     var meta = document.createElement('div');
     meta.className = 'lreg-meta';
-    meta.textContent = 'phase ' + (reg.dominantPhase || '?');
-    if (reg.isPortalSourced) meta.textContent += ' · portal-sourced';
+    meta.textContent = PHASE_PHRASES[reg.dominantPhase] || (reg.dominantPhase || '');
+    meta.textContent += reg.isPortalSourced
+      ? ' · matched to authored portal content'
+      : ' · inferred (no authored match)';
     card.appendChild(meta);
 
     // ── 4. Active stressors ──
@@ -601,7 +616,7 @@
       for (var si = 0; si < Math.min(stressors.length, 3); si++) {
         var sEl = document.createElement('div');
         sEl.className = 'lreg-stressor';
-        sEl.textContent = '\u26A0 ' + stressors[si].name;
+        sEl.textContent = '\u26A0 ' + String(stressors[si].name || '').replace(/_/g, ' ');
         card.appendChild(sEl);
       }
     }
@@ -612,15 +627,19 @@
     summary.textContent = _buildSummarySentence(reg);
     card.appendChild(summary);
 
-    // ── 6. Diagnosis ──
+    // ── 6. What looks wrong ──
+    // The card's live state badge already carries severity (from current
+    // stress). The diagnosis object also has a *static* severity authored in
+    // the portal — showing both made cards read as self-contradictory
+    // ("CRITICAL" + "moderate: Grid Collapse"). So we show the matched
+    // condition NAME only and let the live state badge speak to severity.
     if (reg.diagnosis && reg.diagnosis.primary) {
-      _appendLabel(card, 'Diagnosis');
+      _appendLabel(card, 'What looks wrong');
       var dx = reg.diagnosis.primary;
       var dxEl = document.createElement('div');
       dxEl.className = 'lreg-dx' + (reg.diagnosis.portalSourced ? ' portal' : '');
-      dxEl.textContent = (dx.severity || '?') + ': ' + (dx.title || dx.id);
-      if (reg.diagnosis.portalSourced) dxEl.textContent += ' [portal]';
-      if (reg.diagnosis.count > 1) dxEl.textContent += ' (+' + (reg.diagnosis.count - 1) + ' more)';
+      dxEl.textContent = 'Closest match: ' + (dx.title || dx.id);
+      if (reg.diagnosis.count > 1) dxEl.textContent += ' (+' + (reg.diagnosis.count - 1) + ' related)';
       card.appendChild(dxEl);
     }
 
@@ -632,7 +651,7 @@
     // ── 8. Treatment hierarchy + quality tiers ──
     var treatments = reg.treatments || [];
     if (treatments.length > 0) {
-      _appendLabel(card, 'Interventions');
+      _appendLabel(card, 'Candidate interventions');
       for (var ti = 0; ti < treatments.length; ti++) {
         var txEl = document.createElement('div');
         if (ti === 0) {
@@ -650,17 +669,21 @@
         if (qTier) {
           var qBadge = document.createElement('span');
           qBadge.className = 'lreg-quality ' + (qTier === 'fully_specified' ? 'full' : qTier === 'partial' ? 'partial' : 'generic');
-          qBadge.textContent = qTier === 'fully_specified' ? 'verified' : qTier;
+          qBadge.textContent = qTier === 'fully_specified' ? 'verified' : qTier === 'partial' ? 'inferred' : 'unverified';
           txEl.appendChild(qBadge);
         }
         card.appendChild(txEl);
       }
 
-      // Portal completeness indicator
+      // Honest verified-vs-inferred indicator. "0% verified" presented as a
+      // bare stat read as a quality score; say plainly how many are confirmed.
       if (reg.portalCompleteness !== undefined) {
+        var nVerified = (reg.qualityTiers && reg.qualityTiers.fully_specified) || 0;
         var compEl = document.createElement('div');
         compEl.className = 'lreg-completeness';
-        compEl.textContent = 'portal completeness: ' + (reg.portalCompleteness * 100).toFixed(0) + '% verified';
+        compEl.textContent = nVerified === 0
+          ? 'None of these are confirmed protocols yet — model-matched candidates from this domain’s portals.'
+          : nVerified + ' of ' + treatments.length + ' confirmed; the rest are model-matched candidates.';
         card.appendChild(compEl);
       }
     }
@@ -668,11 +691,13 @@
     // ── 9. Actions (deduplicated) ──
     var actions = _deduplicateActions(reg.actions || [], treatments);
     if (actions.length > 0) {
-      _appendLabel(card, 'Actions');
+      _appendLabel(card, 'Ordered steps');
+      // Global 1..N numbering. The per-treatment `sequence` reset to 1 for each
+      // treatment's first step, so the list rendered as "[1] … [1] … [1]".
       for (var ai = 0; ai < Math.min(actions.length, 4); ai++) {
         var actEl = document.createElement('div');
         actEl.className = 'lreg-action';
-        actEl.textContent = '[' + actions[ai].sequence + '] ' + actions[ai].action;
+        actEl.textContent = (ai + 1) + '. ' + actions[ai].action;
         card.appendChild(actEl);
       }
     }
@@ -723,7 +748,7 @@
 
     var label = document.createElement('div');
     label.className = 'lreg-fractal-label';
-    label.textContent = 'Recommended Action';
+    label.textContent = 'Best single move';
     wrap.appendChild(label);
 
     var answer = document.createElement('div');
@@ -737,9 +762,6 @@
     }
     if (fractal.confidence) {
       metaParts.push('confidence ' + (fractal.confidence * 100).toFixed(0) + '%');
-    }
-    if (fractal.depth > 0) {
-      metaParts.push('depth ' + fractal.depth);
     }
     if (metaParts.length > 0) {
       var metaEl = document.createElement('div');
@@ -760,14 +782,14 @@
     localCol.className = 'lreg-impact-col';
     var localLabel = document.createElement('div');
     localLabel.className = 'lreg-impact-label';
-    localLabel.textContent = 'Local Impact';
+    localLabel.textContent = 'If applied \u2014 here (projected)';
     localCol.appendChild(localLabel);
     if (local && local.reduction > 0) {
       var lv = document.createElement('div');
       lv.className = 'lreg-impact-value positive';
-      lv.textContent = '\u2193 ' + (local.reduction * 100).toFixed(1) + '% stress (' +
-        (local.currentStress * 100).toFixed(0) + '% \u2192 ' +
-        (local.projectedStress * 100).toFixed(0) + '%)';
+      lv.textContent = '~' + Math.round(local.reduction * 100) + '% relief (' +
+        Math.round(local.currentStress * 100) + '% \u2192 ' +
+        Math.round(local.projectedStress * 100) + '%)';
       localCol.appendChild(lv);
     } else {
       var lv2 = document.createElement('div');
@@ -782,15 +804,15 @@
     globalCol.className = 'lreg-impact-col';
     var globalLabel = document.createElement('div');
     globalLabel.className = 'lreg-impact-label';
-    globalLabel.textContent = 'Global Impact';
+    globalLabel.textContent = 'Ripple to other domains (est.)';
     globalCol.appendChild(globalLabel);
     global = global || [];
     if (global.length > 0) {
       for (var gi = 0; gi < Math.min(global.length, 3); gi++) {
         var gv = document.createElement('div');
         gv.className = 'lreg-impact-value positive';
-        gv.textContent = '\u2192 ' + global[gi].name + ': \u2193' +
-          (global[gi].propagatedReduction * 100).toFixed(1) + '%';
+        gv.textContent = '\u2192 ' + global[gi].name + ': ~' +
+          Math.round(global[gi].propagatedReduction * 100) + '%';
         globalCol.appendChild(gv);
       }
     } else {
@@ -812,7 +834,7 @@
 
     var header = document.createElement('div');
     header.className = 'lreg-evidence-header';
-    header.textContent = '\u25B6 Evidence Chain (' + chain.chain.length + ' steps)';
+    header.textContent = '\u25B6 Why we think this (' +chain.chain.length + ' steps)';
 
     var body = document.createElement('div');
     body.className = 'lreg-evidence-body';
@@ -834,7 +856,7 @@
     header.addEventListener('click', function () {
       var isOpen = body.classList.contains('open');
       body.classList.toggle('open');
-      header.textContent = (isOpen ? '\u25B6' : '\u25BC') + ' Evidence Chain (' + steps.length + ' steps)';
+      header.textContent = (isOpen ? '\u25B6' : '\u25BC') + ' Why we think this (' +steps.length + ' steps)';
     });
 
     wrap.appendChild(header);

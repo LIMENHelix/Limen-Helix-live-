@@ -5974,6 +5974,12 @@
       return;
     }
 
+    // Render the main regulation content FIRST. renderRegulationTab() calls
+    // innerHTML='' on the container, which previously wiped the TOP-3 card built
+    // below — so the "TOP 3 ACTIONS NOW" summary never showed. Build it after,
+    // then insert it at the top.
+    renderer.renderRegulationTab(_tabContentEl);
+
     // TOP 3 ACTIONS summary from regulation output
     var regOut = window.LIMENRegulationOutput;
     if (regOut) {
@@ -6041,11 +6047,11 @@
 
           top3Card.appendChild(actDiv);
         }
-        _tabContentEl.appendChild(top3Card);
+        // Insert at the TOP, above the renderer's content (already rendered).
+        if (_tabContentEl.firstChild) _tabContentEl.insertBefore(top3Card, _tabContentEl.firstChild);
+        else _tabContentEl.appendChild(top3Card);
       }
     }
-
-    renderer.renderRegulationTab(_tabContentEl);
   }
 
   // ─── Empty state ──────────────────────────────────────────────────────────
