@@ -436,7 +436,15 @@
    * Returns treatments relevant when a circuit activates.
    * Looks up: direct circuit matches + diagnoses with that circuit + their treatments.
    */
-  function getTreatmentsOnCircuitActivation(nodeId) {
+  // Optional domainId scopes the result to that domain's own treatments.
+  // Circuit nodes (THAL/dACC/…) are SHARED across all 20 domains in the fractal
+  // map, so an unscoped lookup leaks cross-domain (e.g. Oncology treatments into
+  // Energy). Scoping filters by treatment._domainId. Falls back to the unscoped
+  // set when scoping yields nothing (treatments missing _domainId), so it never
+  // silently empties a domain. Brain domainIds that differ from the harvested
+  // portal id (health/research/supplyChain) are aliased to the canonical id.
+  var _CIRCUIT_DOMAIN_ALIAS = { health: 'medicine', research: 'science', supplyChain: 'trade' };
+  function getTreatmentsOnCircuitActivation(nodeId, domainId) {
     var direct = getTreatmentsForCircuit(nodeId);
     var dxIds = _dxByCircuit[String(nodeId)] || [];
     var fromDx = [];
@@ -448,7 +456,15 @@
         }
       }
     }
-    return _dedup(direct.concat(fromDx));
+    var all = _dedup(direct.concat(fromDx));
+    if (domainId) {
+      var alias = _CIRCUIT_DOMAIN_ALIAS[domainId] || domainId;
+      var scoped = all.filter(function (t) {
+        return t && (t._domainId === domainId || t._domainId === alias);
+      });
+      if (scoped.length > 0) return scoped;
+    }
+    return all;
   }
 
   /**

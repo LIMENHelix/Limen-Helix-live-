@@ -98,10 +98,11 @@
     // returned cross-domain (medical) treatments. Reverted. The right fix is a
     // domain-scoped circuit lookup in the registry (follow-up), not this.
 
-    // 2b: Circuit-based treatments (from domain's connectome nodes)
+    // 2b: Circuit-based treatments (from domain's connectome nodes), scoped to
+    // this domain so shared neural nodes can't pull in other domains' treatments.
     var nodes = opts.nodes || [];
     for (var ni = 0; ni < nodes.length; ni++) {
-      var circuitTx = mgr.getTreatmentsOnCircuitActivation(nodes[ni]);
+      var circuitTx = mgr.getTreatmentsOnCircuitActivation(nodes[ni], domainId);
       for (var ct = 0; ct < circuitTx.length; ct++) {
         if (!seen[circuitTx[ct].id]) {
           circuitTx[ct]._sourceMethod = 'circuit';
