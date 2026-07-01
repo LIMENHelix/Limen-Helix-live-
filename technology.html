@@ -460,81 +460,94 @@
 </script>
 
 <script>
-/* Fractal backdrop: a slowly morphing Julia set whose color moves through the
-   eleven LIMEN Helix phases (P0 Source -> P10 Return) and loops. Computed on a
-   small offscreen buffer and upscaled, so it stays cheap. */
+/* Fractal backdrop (WebGL): kaleidoscopic fold + Julia iteration, full-screen,
+   same look/motion as limen-biosensor.vercel.app. Colored by THIS domain's LIVE
+   phase from /api/limen-snapshot; recolors + reshapes when the phase changes. */
 (function(){
   var cv = document.getElementById('techbg'); if(!cv) return;
-  var ctx = cv.getContext('2d');
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var DOMAIN = 'technology';
 
-  // LIMEN Helix phase palette P0..P10: Source, Emergence, Nourishment, Formation,
-  // Structure, Movement, Coordination, Regulation, Repair, Identity, Return.
-  var PHASES = [
-    [139,92,246],[245,158,11],[16,185,129],[239,68,68],[59,130,246],[236,72,153],
-    [6,182,212],[249,115,22],[132,204,22],[167,139,250],[226,232,240]
+  // canonical LIMEN phase palette P0..P10 (rgb 0..1) + per-phase fractal form
+  var COL = [
+    [0.545,0.361,0.965],[0.961,0.620,0.043],[0.063,0.725,0.506],[0.937,0.267,0.267],
+    [0.231,0.510,0.965],[0.925,0.282,0.600],[0.024,0.714,0.831],[0.976,0.451,0.086],
+    [0.518,0.800,0.086],[0.655,0.545,0.980],[0.886,0.910,0.941]
   ];
-  var DOMAIN = 'technology';                    // this page's domain -> its live phase drives the color
+  var CH = [0.08,0.50,0.28,1.00,0.25,0.42,0.12,0.80,0.40,0.72,0.22];
+  var FX = [[0,0,0.10],[0.2,0.3,0.25],[0,0,0.55],[0.6,0.8,0.12],[0.15,0,0.30],[0.4,0.2,0.45],[1,0,0],[0.5,0.5,0.6],[0.25,0.1,0.5],[0.7,0.6,0.9],[1,0,0.3]];
 
-  var buf, bctx, img, data, bw, bh, W, H, ITER, run=true, last=0, t0=Date.now();
+  var VERT = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.0,1.0);}';
+  var FRAG = [
+    'precision highp float;',
+    'uniform vec2 u_res; uniform float u_time; uniform vec3 u_color; uniform float u_chaos; uniform float u_pow; uniform float u_ship; uniform float u_twist;',
+    'mat2 rot(float a){float c=cos(a),s=sin(a);return mat2(c,-s,s,c);}',
+    'void main(){',
+    '  vec2 uv=(gl_FragCoord.xy-0.5*u_res)/min(u_res.x,u_res.y);',
+    '  float t=u_time*0.12;',
+    '  uv*=(1.35+0.42*sin(u_time*0.13));',
+    '  uv*=rot(t*0.25 + length(uv)*u_twist*2.2);',
+    '  for(int i=0;i<4;i++){ uv=abs(uv)-(0.42-u_chaos*0.10); uv*=rot(0.38+0.16*sin(t+float(i))+u_chaos*0.55*sin(t*1.9+float(i)*2.1)); }',
+    '  vec2 c=0.7885*vec2(cos(t*0.7),sin(t*0.93));',
+    '  vec2 z=uv*1.55; float m=0.0; bool esc=false;',
+    '  for(int i=0;i<110;i++){ z=mix(z,abs(z),u_ship); vec2 z2=vec2(z.x*z.x-z.y*z.y,2.0*z.x*z.y); vec2 z3=vec2(z2.x*z.x-z2.y*z.y,z2.x*z.y+z2.y*z.x); z=mix(z2,z3,u_pow)+c; float d=dot(z,z);',
+    '    if(d>16.0){ m=float(i)-log2(log2(d))+4.0; esc=true; break; } }',
+    '  float n=esc?clamp(m/110.0,0.0,1.0):1.0;',
+    '  float core=exp(-3.2*n);',
+    '  vec3 base=u_color;',
+    '  float shade=pow(n,1.25);',
+    '  vec3 col=base*(0.05+0.78*shade);',
+    '  col=mix(col, col*(0.65+0.6*sin(n*9.0+length(z)*2.2+t*0.6)), 0.42);',
+    '  col+=core*mix(base,vec3(1.0),0.6)*1.3;',
+    '  col+=base*pow(1.0-n,4.5)*1.0;',
+    '  col=mix(col, vec3(dot(col,vec3(0.299,0.587,0.114))), 0.12);',
+    '  col+=vec3(1.0)*pow(max(0.0,sin(34.0*length(z)+u_time*2.6)),22.0)*0.15;',
+    '  float vig=1.0-0.55*length((gl_FragCoord.xy/u_res)-0.5);',
+    '  col*=clamp(vig,0.0,1.0); col=pow(col,vec3(0.86));',
+    '  gl_FragColor=vec4(col,1.0);',
+    '}'
+  ].join('\n');
 
-  function build(){
-    W = cv.width = innerWidth; H = cv.height = innerHeight;
-    cv.style.width = innerWidth+'px'; cv.style.height = innerHeight+'px';
-    bw = Math.max(160, Math.min(320, Math.round(innerWidth/5)));
-    bh = Math.max(110, Math.round(bw * innerHeight/innerWidth));
-    ITER = innerWidth < 640 ? 70 : 130;
-    buf = document.createElement('canvas'); buf.width=bw; buf.height=bh;
-    bctx = buf.getContext('2d'); img = bctx.createImageData(bw,bh); data = img.data;
-    ctx.imageSmoothingEnabled = true;
-  }
-  build(); addEventListener('resize', build);
-  document.addEventListener('visibilitychange', function(){ run=!document.hidden; if(run&&!reduce) requestAnimationFrame(frame); });
+  var gl=null; try{ gl=cv.getContext('webgl')||cv.getContext('experimental-webgl'); }catch(e){}
+  if(!gl){ cv.style.background='radial-gradient(60% 60% at 50% 40%,#141019,#050507)'; return; }
+  function sh(ty,s){ var x=gl.createShader(ty); gl.shaderSource(x,s); gl.compileShader(x); return x; }
+  var pr=gl.createProgram();
+  gl.attachShader(pr,sh(gl.VERTEX_SHADER,VERT));
+  gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,FRAG));
+  gl.linkProgram(pr);
+  if(!gl.getProgramParameter(pr,gl.LINK_STATUS)){ cv.style.background='radial-gradient(60% 60% at 50% 40%,#141019,#050507)'; return; }
+  gl.useProgram(pr);
+  var b=gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,b);
+  gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+  var lc=gl.getAttribLocation(pr,'p'); gl.enableVertexAttribArray(lc); gl.vertexAttribPointer(lc,2,gl.FLOAT,false,0,0);
+  var uR=gl.getUniformLocation(pr,'u_res'),uT=gl.getUniformLocation(pr,'u_time'),uC=gl.getUniformLocation(pr,'u_color'),
+      uH=gl.getUniformLocation(pr,'u_chaos'),uPow=gl.getUniformLocation(pr,'u_pow'),uShip=gl.getUniformLocation(pr,'u_ship'),uTwist=gl.getUniformLocation(pr,'u_twist');
+  function sz(){ var d=Math.min(window.devicePixelRatio||1,1.5); cv.width=(innerWidth*d)|0; cv.height=(innerHeight*d)|0; gl.viewport(0,0,cv.width,cv.height); }
+  sz(); addEventListener('resize',sz);
 
-  // Color follows this domain's LIVE phase (p0..p10) from the snapshot; refreshed
-  // periodically so the fractal recolors when the domain changes phase.
-  var curCol = PHASES[6].slice(), tgtCol = PHASES[6].slice();   // fallback tint until the snapshot loads
+  // color + form ease toward the domain's LIVE phase
+  var cur=COL[6].slice(), tgt=COL[6].slice(), curCh=CH[6], tgtCh=CH[6], curFx=FX[6].slice(), tgtFx=FX[6].slice();
+  function setPhase(i){ if(i<0||i>10) return; tgt=COL[i]; tgtCh=CH[i]; tgtFx=FX[i]; }
   function fetchPhase(){
     fetch('/api/limen-snapshot').then(function(r){ return r.json(); }).then(function(j){
-      var d = (j.domains||j)[DOMAIN] || {};
-      var p = (d.phase || d.phaseLabel || '').toString();
-      var idx = parseInt(p.replace(/[^0-9]/g,''), 10);
-      if(!isNaN(idx) && PHASES[idx]){ tgtCol = PHASES[idx]; if(reduce){ curCol = tgtCol.slice(); render(0); } }
+      var d=(j.domains||j)[DOMAIN]||{}; var p=(d.phase||d.phaseLabel||'').toString();
+      var i=parseInt(p.replace(/[^0-9]/g,''),10); if(!isNaN(i)) setPhase(i);
     }).catch(function(){});
   }
-  fetchPhase(); setInterval(fetchPhase, 150000);
+  fetchPhase(); setInterval(fetchPhase,150000);
 
-  function render(time){
-    // ease the fractal color toward the domain's live phase color
-    curCol[0]+=(tgtCol[0]-curCol[0])*0.03; curCol[1]+=(tgtCol[1]-curCol[1])*0.03; curCol[2]+=(tgtCol[2]-curCol[2])*0.03;
-    var col = curCol;
-    // Julia c sits on the Mandelbrot boundary (a dendrite) so filaments fill the
-    // whole plane, then drifts slowly so the fractal morphs.
-    var a = time*0.00010;
-    var cx = -0.8 + 0.03*Math.cos(a), cy = 0.156 + 0.03*Math.sin(a*1.3);
-    var zoom = 1.42 + 0.10*Math.sin(time*0.00006), ar = bw/bh, iterInv = 1/ITER, o=0;
-    for(var py=0; py<bh; py++){
-      var iy = (py/bh - 0.5)*2*zoom;
-      for(var px=0; px<bw; px++){
-        var zx = (px/bw - 0.5)*2*zoom*ar, zy = iy, n=0, m=0;
-        while(n<ITER){ m=zx*zx+zy*zy; if(m>4) break; var xt=zx*zx-zy*zy+cx; zy=2*zx*zy+cy; zx=xt; n++; }
-        if(n>=ITER){ data[o++]=col[0]*0.05; data[o++]=col[1]*0.05; data[o++]=col[2]*0.05; data[o++]=255; }
-        else {
-          var sm=(n+1-Math.log(Math.log(Math.sqrt(m)))/0.6931)*iterInv; if(sm<0)sm=0; else if(sm>1)sm=1;
-          var f=Math.pow(sm,0.4), hi=Math.pow(sm,8)*120;   // bright phase-colored filaments + white-hot rim
-          var R=col[0]*f+hi, G=col[1]*f+hi, B=col[2]*f+hi;
-          data[o++]=R>255?255:R; data[o++]=G>255?255:G; data[o++]=B>255?255:B; data[o++]=255;
-        }
-      }
-    }
-    bctx.putImageData(img,0,0);
-    ctx.globalAlpha=1; ctx.fillStyle='#050507'; ctx.fillRect(0,0,W,H);
-    ctx.globalAlpha=0.92; ctx.drawImage(buf,0,0,W,H); ctx.globalAlpha=1;
+  var t0=Date.now(), run=true;
+  document.addEventListener('visibilitychange',function(){ run=!document.hidden; if(run) requestAnimationFrame(loop); });
+  function paint(){
+    for(var k=0;k<3;k++) cur[k]+=(tgt[k]-cur[k])*0.02;
+    curCh+=(tgtCh-curCh)*0.02;
+    for(var f=0;f<3;f++) curFx[f]+=(tgtFx[f]-curFx[f])*0.02;
+    gl.uniform2f(uR,cv.width,cv.height); gl.uniform1f(uT,(Date.now()-t0)/1000);
+    gl.uniform3f(uC,cur[0],cur[1],cur[2]); gl.uniform1f(uH,curCh);
+    gl.uniform1f(uPow,curFx[0]); gl.uniform1f(uShip,curFx[1]); gl.uniform1f(uTwist,curFx[2]);
+    gl.drawArrays(gl.TRIANGLES,0,3);
   }
-
-  function frame(){ if(!run) return; requestAnimationFrame(frame);
-    var now=Date.now(); if(now-last<33) return; last=now; render(now-t0); }
-  if(reduce) render(0); else frame();
+  function loop(){ if(!run) return; paint(); requestAnimationFrame(loop); }
+  loop();
 })();
 </script>
 </body>
