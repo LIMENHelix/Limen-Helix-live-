@@ -81,13 +81,15 @@
     font-size:1rem;padding:16px 26px;border-radius:11px;cursor:pointer;border:none;
     display:inline-flex;align-items:center;gap:10px;transition:transform .15s ease, box-shadow .25s ease, background .25s, opacity .25s;
   }
-  .btn-primary{background:var(--red);color:#fff;box-shadow:0 0 0 rgba(255,56,38,0)}
-  .btn-primary.armed{box-shadow:0 8px 30px -6px rgba(255,56,38,.6), 0 0 0 1px rgba(255,56,38,.4) inset}
+  .btn-primary{background:var(--red);color:#fff;box-shadow:0 0 0 rgba(255,85,70,0)}
+  .btn-primary.armed{box-shadow:0 8px 30px -6px rgba(255,85,70,.6), 0 0 0 1px rgba(255,85,70,.4) inset}
   .btn-primary:hover{transform:translateY(-2px)}
-  .btn-primary.standby{background:var(--metal);color:var(--mute);box-shadow:none}
-  .btn-primary.standby .arrow{opacity:.4}
+  /* standby (default) = transparent outline like the ghost button; fills solid with black text on hover */
+  .btn-primary.standby{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none}
+  .btn-primary.standby:hover{background:var(--amber);color:#111;border-color:var(--amber)}
+  .btn-primary.standby .arrow{opacity:.55}
   .btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line);font-weight:600;font-family:"Inter",sans-serif;font-size:.95rem;padding:15px 22px}
-  .btn-ghost:hover{border-color:var(--amber);color:var(--amber)}
+  .btn-ghost:hover{background:var(--amber);border-color:var(--amber);color:#111}
 
   .hero-fine{margin-top:18px;font-size:.85rem;color:var(--mute-2);display:flex;align-items:center;gap:8px}
   .hero-fine .pip{width:6px;height:6px;border-radius:50%;background:var(--ok)}
