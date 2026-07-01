@@ -139,7 +139,13 @@
   .disc{font-size:.72rem;color:var(--faint);margin-top:16px;line-height:1.55}
   .nowtag{font-size:.6rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#fff;background:var(--red);border-radius:5px;padding:3px 8px;vertical-align:middle}
   .whytrig{font-size:.78rem;color:var(--soft);margin:-4px 0 14px}
-  footer{border-top:1px solid rgba(255,255,255,.14);margin-top:26px;padding:26px 0 50px;color:rgba(255,255,255,.6);font-size:.8rem;text-align:center;text-shadow:0 1px 6px rgba(0,0,0,.5)}
+  /* explore strip (makes each front feel like one big system) */
+  .explore{text-align:center;margin-top:44px;padding-top:28px;border-top:1px solid rgba(255,255,255,.12)}
+  .explore-k{font-size:.6rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:14px;text-shadow:0 1px 6px rgba(0,0,0,.5)}
+  .explore-links{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+  .explore-links a{font-size:.85rem;color:#eaeef4;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:8px 15px;text-decoration:none;transition:.15s;backdrop-filter:blur(4px)}
+  .explore-links a:hover{background:rgba(255,255,255,.17);border-color:rgba(255,255,255,.32)}
+  footer{border-top:none;margin-top:22px;padding:18px 0 50px;color:rgba(255,255,255,.6);font-size:.8rem;text-align:center;text-shadow:0 1px 6px rgba(0,0,0,.5)}
   footer a{color:var(--soft);text-decoration:none}
   .backrow{padding:16px 0 0}
   .backrow a{color:rgba(255,255,255,.75);text-decoration:none;font-size:.82rem;text-shadow:0 1px 6px rgba(0,0,0,.5)}
@@ -218,13 +224,13 @@ void main(){
   </div>
 
   <div id="sections">
+    <div class="wow" id="wowBanner" style="display:none">
+      <div class="k">● the numbers behind the news</div>
+      <div class="fact" id="wowFact"></div>
+      <div class="dots" id="wowDots"></div>
+    </div>
     <!-- WHERE AMERICA IS MOVING (population) -->
     <section id="popSection" style="display:none">
-      <div class="wow" id="wowBanner" style="display:none">
-        <div class="k">● the numbers behind the news</div>
-        <div class="fact" id="wowFact"></div>
-        <div class="dots" id="wowDots"></div>
-      </div>
       <div class="card">
         <h2><span class="livedot"></span> Where the world is moving <span class="updated" id="wpopUpdated"></span></h2>
         <div class="sub">Global population and net migration, per country, from the World Bank. Net migration is people moving in minus people moving out (latest estimate).</div>
@@ -341,8 +347,19 @@ void main(){
     </section>
   </div>
 
+  <div class="explore">
+    <div class="explore-k">Part of LIMEN Helix · a live read on 20 domains of civilization</div>
+    <div class="explore-links">
+      <a href="/environment">🌍 Environment</a>
+      <a href="/population">👥 Population</a>
+      <a href="/energy">⚡ Energy</a>
+      <a href="/economy">📈 Economy</a>
+      <a href="/finance">💵 Finance</a>
+      <a href="/">See all 20 →</a>
+    </div>
+  </div>
   <footer>
-    A <b style="color:var(--soft)">LIMEN Helix Transformation Sciences</b> public front · <a href="/">limenhelix.com</a><br>
+    A <b style="color:#cdd6e4">LIMEN Helix Transformation Sciences</b> public front · <a href="/">limenhelix.com</a><br>
     Educational information, not professional, financial, or emergency advice. In an emergency, follow official local alerts.
   </footer>
 </div>
@@ -553,6 +570,7 @@ function loadEnvLive() {
     renderGovStats(n);
     renderNews(n.news || [], n.updated);
     applyLiveToGuide(n, null);
+    startWow(buildEnvWowFacts(n));
   }).catch(function () {
     EL('govStats').innerHTML = '<div class="muted">Government feeds are warming up. Refresh in a moment.</div>';
   });
@@ -689,7 +707,7 @@ function migRow(o) {
     '<div><span class="rt ' + cls + '">' + rt + '</span><span class="ct">' + net + '/yr</span></div></div>';
 }
 function loadPopLive() {
-  fetch('/api/population-live').then(function (r) { return r.json(); }).then(function (j) { renderWorld(j.global); renderPopNational(j.national || {}); startWow(j.global || {}, j.national || {}); })
+  fetch('/api/population-live').then(function (r) { return r.json(); }).then(function (j) { renderWorld(j.global); renderPopNational(j.national || {}); startWow(buildWowFacts(j.global || {}, j.national || {})); })
     .catch(function () { EL('popGainers').innerHTML = '<div class="muted">Census data is warming up. Refresh shortly.</div>'; });
 }
 function migRowC(o) {
@@ -738,9 +756,20 @@ function buildWowFacts(g, n) {
   if (disp && g.displacement.top && g.displacement.top[0]) { var d0 = g.displacement.top[0]; f.push('<b>' + fmtBig(d0.total) + '</b> people have been driven from their homes in <b>' + esc(d0.name) + '</b> alone.'); }
   return f;
 }
+function buildEnvWowFacts(n) {
+  var f = [], a = (n && n.alerts) || {}, dr = n && n.drought, qk = n && n.quakes;
+  if (n && n.totalAlerts) f.push('<b>' + Number(n.totalAlerts).toLocaleString() + '</b> active weather alerts are in effect across the U.S. right now.');
+  if (a.heatWarnings) f.push('<b>' + a.heatWarnings + '</b> extreme-heat warnings are up — dangerous heat for millions today.');
+  if (dr && dr.droughtOrWorse) f.push('<b>' + dr.droughtOrWorse + '%</b> of the United States is in drought right now.');
+  if (qk && qk.count) f.push('The ground moved <b>' + qk.count + '</b> times in the last 24 hours' + (qk.largest && qk.largest.mag ? ' — the biggest a magnitude <b>' + qk.largest.mag + '</b>' : '') + '.');
+  if (a.redFlag) f.push('<b>' + a.redFlag + '</b> red-flag fire warnings are up — the ground is ready to burn.');
+  if (a.floodWarnings) f.push('<b>' + a.floodWarnings + '</b> flood warnings are active across the country.');
+  if (a.airQuality) f.push('Air-quality alerts cover <b>' + a.airQuality + '</b> areas today — check before you head outside.');
+  return f;
+}
 var _wowT = null, _wowI = 0;
-function startWow(g, n) {
-  var facts = buildWowFacts(g, n); if (!facts.length) return;
+function startWow(facts) {
+  if (!facts || !facts.length) return;
   EL('wowBanner').style.display = '';
   var el = EL('wowFact'), dots = EL('wowDots');
   dots.innerHTML = facts.map(function (_, k) { return '<i data-k="' + k + '"></i>'; }).join('');
