@@ -208,6 +208,23 @@ void main(){
     <!-- WHERE AMERICA IS MOVING (population) -->
     <section id="popSection" style="display:none">
       <div class="card">
+        <h2><span class="livedot"></span> Where the world is moving <span class="updated" id="wpopUpdated"></span></h2>
+        <div class="sub">Global population and net migration, per country, from the World Bank. Net migration is people moving in minus people moving out (latest estimate).</div>
+        <div id="worldStat" style="margin-bottom:16px"><div class="muted">Reading World Bank…</div></div>
+        <div class="mig-cols">
+          <div><div class="mig-h gain">Countries gaining most people</div><div id="wMigGain"></div></div>
+          <div><div class="mig-h lose">Countries losing most people</div><div id="wMigLose"></div></div>
+        </div>
+        <div class="disc" id="wCite"></div>
+      </div>
+      <div class="card">
+        <h2><span class="livedot"></span> Forced displacement</h2>
+        <div class="sub">People forced from home worldwide, by country of origin — refugees, asylum-seekers, and those displaced inside their own country. Source: UNHCR (2023).</div>
+        <div id="dispTotal" style="margin-bottom:14px"></div>
+        <div class="stats" id="dispTop"></div>
+      </div>
+
+      <div class="card">
         <h2><span class="livedot"></span> Where America is moving <span class="updated" id="popUpdated"></span></h2>
         <div class="sub">Net domestic migration, U.S. residents moving in vs. out, straight from the U.S. Census Bureau. The number is the rate per 1,000 residents (a fair read across big and small states); the gray figure is people per year.</div>
         <div class="mig-cols">
@@ -644,8 +661,28 @@ function migRow(o) {
     '<div><span class="rt ' + cls + '">' + rt + '</span><span class="ct">' + net + '/yr</span></div></div>';
 }
 function loadPopLive() {
-  fetch('/api/population-live').then(function (r) { return r.json(); }).then(function (j) { renderPopNational(j.national || {}); })
+  fetch('/api/population-live').then(function (r) { return r.json(); }).then(function (j) { renderWorld(j.global); renderPopNational(j.national || {}); })
     .catch(function () { EL('popGainers').innerHTML = '<div class="muted">Census data is warming up. Refresh shortly.</div>'; });
+}
+function migRowC(o) {
+  var v = (o.value > 0 ? '+' : '') + Number(o.value).toLocaleString();
+  return '<div class="mig-row"><div class="nm">' + esc(o.country) + '</div><div><span class="rt ' + (o.value >= 0 ? 'pos' : 'neg') + '">' + v + '</span><span class="ct">/yr</span></div></div>';
+}
+function renderWorld(g) {
+  if (!g) { EL('worldStat').innerHTML = '<div class="muted">Global data is warming up. Refresh shortly.</div>'; return; }
+  if (g.worldPop) EL('worldStat').innerHTML = '<span class="bign" style="color:var(--ink)">' + (g.worldPop / 1e9).toFixed(2) + 'B</span> <span style="color:var(--soft);font-weight:600">people on Earth</span>' + (g.worldGrowth != null ? ' <span class="c" style="color:var(--faint);font-size:.8rem">· growing ' + (Math.round(g.worldGrowth * 100) / 100) + '% a year</span>' : '');
+  EL('wMigGain').innerHTML = (g.migGainers || []).map(migRowC).join('') || '<div class="muted">—</div>';
+  EL('wMigLose').innerHTML = (g.migLosers || []).map(migRowC).join('') || '<div class="muted">—</div>';
+  EL('wpopUpdated').textContent = 'World Bank · 2023';
+  EL('wCite').innerHTML = 'Sources: ' + (g.sources || []).map(function (s) { return esc(s.name); }).join(' · ') + '. Net migration = migrants in minus out (latest World Bank estimate). Excludes regional aggregates.';
+  var disp = g.displacement;
+  if (disp) {
+    if (disp.globalTotal) EL('dispTotal').innerHTML = '<span class="bign" style="color:var(--red)">' + (disp.globalTotal / 1e6).toFixed(1) + 'M</span> <span style="color:var(--soft);font-weight:600">people forced from home worldwide</span>';
+    EL('dispTop').innerHTML = (disp.top || []).map(function (o) {
+      return '<div class="stat hot"><div class="n" style="color:var(--red)">' + (o.total / 1e6).toFixed(1) + 'M</div><div class="k">' + esc(o.name) + '</div>' +
+        '<div class="c">' + (Math.round(o.refugees / 1e5) / 10) + 'M refugees · ' + (Math.round(o.idps / 1e5) / 10) + 'M displaced at home</div></div>';
+    }).join('');
+  }
 }
 function renderPopNational(n) {
   EL('popGainers').innerHTML = (n.gainers || []).map(migRow).join('') || '<div class="muted">—</div>';

@@ -25,6 +25,8 @@ var STATE_CSV = 'https://www2.census.gov/programs-surveys/popest/datasets/2020-2
 var COUNTY_CSV = 'https://www2.census.gov/programs-surveys/popest/datasets/2020-2023/counties/totals/co-est2023-alldata.csv';
 var NAT_KEY = 'pop:national:v2';
 var CTY_KEY = 'pop:counties:v2';
+var GLOBAL_KEY = 'pop:global:v1';
+var WBC_KEY = 'pop:wbcountries:v1';
 var TTL_MS = 24 * 3600 * 1000;
 
 function j(res, code, obj) { res.statusCode = code; res.setHeader('content-type', 'application/json'); res.end(JSON.stringify(obj)); }
@@ -111,6 +113,49 @@ async function localForZip(zip) {
   return out;
 }
 
+// ── GLOBAL layer (World Bank + UNHCR, all keyless) ──
+async function realCountrySet() {
+  try { var cached = await db.get(WBC_KEY); if (cached && cached.map) return cached.map; } catch (e) {}
+  var d = await getText('https://api.worldbank.org/v2/country?format=json&per_page=400').then(JSON.parse);
+  var map = {};
+  (d[1] || []).forEach(function (c) { if (c.region && c.region.value !== 'Aggregates') map[c.id] = c.name; });
+  try { await db.set(WBC_KEY, { map: map }); } catch (e) {}
+  return map;
+}
+async function wbIndicator(ind, date) {
+  var d = await getText('https://api.worldbank.org/v2/country/all/indicator/' + ind + '?format=json&date=' + date + '&per_page=400').then(JSON.parse);
+  return (d && d[1]) || [];
+}
+async function wbWorld(ind, date) {
+  try { var d = await getText('https://api.worldbank.org/v2/country/WLD/indicator/' + ind + '?format=json&date=' + date).then(JSON.parse); return d && d[1] && d[1][0] ? d[1][0].value : null; } catch (e) { return null; }
+}
+async function unhcrDisplacement() {
+  var d = await getText('https://api.unhcr.org/population/v1/population/?year=2023&coo_all=true&cf_type=ISO&limit=500').then(JSON.parse);
+  var by = {};
+  (d.items || []).forEach(function (it) {
+    var k = it.coo_name; if (!k) return;
+    var o = by[k] || (by[k] = { name: k, refugees: 0, idps: 0, asylum: 0 });
+    o.refugees += +it.refugees || 0; o.idps += +it.idps || 0; o.asylum += +it.asylum_seekers || 0;
+  });
+  var arr = Object.keys(by).map(function (k) { var o = by[k]; o.total = o.refugees + o.idps + o.asylum; return o; })
+    .filter(function (o) { return o.total > 0; }).sort(function (a, b) { return b.total - a.total; });
+  return { top: arr.slice(0, 8), globalTotal: arr.reduce(function (s, o) { return s + o.total; }, 0) };
+}
+async function buildGlobal() {
+  var real = await realCountrySet();
+  var mig = (await wbIndicator('SM.POP.NETM', '2023')).filter(function (r) { return r.value != null && real[r.country.id]; })
+    .map(function (r) { return { country: r.country.value, value: Math.round(r.value) }; }).sort(function (a, b) { return b.value - a.value; });
+  var grow = [];
+  try { grow = (await wbIndicator('SP.POP.GROW', '2023')).filter(function (r) { return r.value != null && real[r.country.id]; }).map(function (r) { return { country: r.country.value, rate: Math.round(r.value * 10) / 10 }; }).sort(function (a, b) { return b.rate - a.rate; }).slice(0, 6); } catch (e) {}
+  var disp = null; try { disp = await unhcrDisplacement(); } catch (e) {}
+  return {
+    updated: new Date().toISOString(), updatedMs: Date.now(),
+    worldPop: await wbWorld('SP.POP.TOTL', '2023'), worldGrowth: await wbWorld('SP.POP.GROW', '2023'),
+    migGainers: mig.slice(0, 8), migLosers: mig.slice(-8).reverse(), fastestGrowing: grow, displacement: disp,
+    sources: [{ name: 'World Bank Open Data', url: 'https://data.worldbank.org' }, { name: 'UNHCR Refugee Data Finder', url: 'https://www.unhcr.org/refugee-statistics' }]
+  };
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate=86400');
@@ -122,7 +167,11 @@ module.exports = async function handler(req, res) {
   if (q.fresh !== '1') { try { var c = await db.get(NAT_KEY); if (c && c.updatedMs && (now - c.updatedMs) < TTL_MS) national = c; } catch (e) {} }
   if (!national) { try { national = await buildAll(); } catch (e) { try { national = await db.get(NAT_KEY); } catch (e2) {} } }
 
-  var payload = { ok: true, national: national || null };
+  var global = null;
+  if (q.fresh !== '1') { try { var gc = await db.get(GLOBAL_KEY); if (gc && gc.updatedMs && (now - gc.updatedMs) < TTL_MS) global = gc; } catch (e) {} }
+  if (!global) { try { global = await buildGlobal(); await db.set(GLOBAL_KEY, global); } catch (e) { try { global = await db.get(GLOBAL_KEY); } catch (e2) {} } }
+
+  var payload = { ok: true, global: global || null, national: national || null };
 
   var zip = (q.zip || '').replace(/[^0-9]/g, '').slice(0, 5);
   if (zip.length === 5) {
