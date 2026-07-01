@@ -40,6 +40,30 @@
   .card .pn{font-family:'Fraunces',serif;font-weight:600;font-size:.95rem}
   .card h3{font-size:1.12rem;margin:1px 0 4px}
   .card p{font-size:.92rem;color:var(--body);margin:0}
+  .card.fork{border-left-style:dashed;background:#fff}
+  .card .forktag{font-family:'Inter';font-size:.54rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--mute);border:1px solid var(--line);border-radius:999px;padding:.12rem .5rem;margin-left:7px;vertical-align:middle}
+
+  /* phase-path ladder: P0 free, P1-P10 monthly programming + Zoom */
+  .ladder{border:1px solid rgba(255,255,255,.12);border-radius:13px;overflow:hidden;margin:20px 0 6px}
+  .prow{padding:16px 18px;border-bottom:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.03)}
+  .prow:last-child{border-bottom:none}
+  .prow.free{background:rgba(45,212,191,.09)}
+  .ptop{display:flex;align-items:baseline;gap:11px;flex-wrap:wrap}
+  .pnum{font-family:'Fraunces',serif;font-weight:600;font-size:1rem;flex:0 0 auto}
+  .pname{color:#fff;font-weight:600;font-size:1.02rem}
+  .pstage{font-family:'Inter';font-size:.57rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:#8b97a9}
+  .pprice{margin-left:auto;font-family:'Fraunces',serif;font-weight:600;font-size:1rem;color:#9fb0c6;white-space:nowrap}
+  .prow.free .pprice{color:#2dd4bf}
+  .pwhat{color:#cdd6e4;font-size:.93rem;margin:5px 0 6px}
+  .psold{font-size:.82rem;color:#93a1b5;line-height:1.55}
+  @media(max-width:560px){.pprice{margin-left:0;width:100%;order:3}}
+
+  /* email early-access capture */
+  .capform{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+  .capform input{flex:1;min-width:210px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:.72rem 1.1rem;color:#fff;font-family:inherit;font-size:.95rem}
+  .capform input::placeholder{color:#8b97a9}
+  .capform button{background:#2dd4bf;color:#04231f;font-weight:700;border:none;border-radius:999px;padding:.72rem 1.6rem;font-size:.95rem;cursor:pointer;font-family:inherit}
+  .capnote{font-size:.85rem;margin-top:11px;color:#9fb0c6}
 
   /* paywall */
   .gate{background:linear-gradient(180deg,#0f172a,#111a2e);color:#e8edf6;border-radius:18px;padding:34px 30px;margin-top:8px}
@@ -80,7 +104,7 @@
 <section class="section"><div class="wrap">
   <div class="kicker">The map, free</div>
   <h2>The eleven phases</h2>
-  <p class="lead">Every phase is a real physiological state. Distress is never a phase. It's getting <i>stuck</i> in one, or failing a transition.</p>
+  <p class="lead">Eleven phases, Source to Resurrection, plus one fork where the path can split. Every phase is a real physiological state. Distress is never a phase. It's getting <i>stuck</i> in one, or failing a transition.</p>
   <div class="grid" id="grid"></div>
 </div></section>
 
@@ -88,19 +112,15 @@
   <div class="gate">
     <div class="kicker" style="color:#7fe9db">The secret isn't the map</div>
     <h2>It's where you stand on it.</h2>
-    <p class="lead">Anyone can read the eleven phases. What can't be copied is your position in the arc, read from your own body, and the exact move for where you are. That's what lives here.</p>
-    <div class="locks">
-      <div class="lock"><div class="ic">🔒</div><h3>Locate yourself</h3><p>A guided read that places you in your current phase, at the rep, the session, and the block scale.</p></div>
-      <div class="lock"><div class="ic">🔒</div><h3>Your phase protocol</h3><p>The exact training and fuel for the phase you're in: tension, carbs, fasting, fat-adaptation, the cut.</p></div>
-      <div class="lock"><div class="ic">🔒</div><h3>The threshold dashboard</h3><p>HRV, recovery lag and variance readouts that warn you before you break, not after.</p></div>
-      <div class="lock"><div class="ic">🔒</div><h3>Coaching</h3><p>Direct guidance to keep every nested arc turning instead of stalling.</p></div>
-    </div>
-    <div class="price">
-      <span class="amt">$19</span><span class="per">/ month</span>
-      <span class="note">placeholder pricing, not yet live</span>
-    </div>
-    <a class="buy" href="#">Unlock the arc</a>
-    <p class="cred">Grounded in published physiology: Panda, Xie, Volek, McEwen, Scheffer, Porges, Craig. The mechanisms are cited; the arc is the model.</p>
+    <p class="lead">Read the arc as a periodization model: eleven phases, each a physiological state with its own optimal load, fuel, and recovery. The map is free. Each phase is a month of programming built for the state you're actually in, prescribed and adjusted over a live Zoom call. Train the phase you're in. Build toward the ones you're not.</p>
+    <div class="ladder" id="ladder"></div>
+    <p class="capnote">Every paid phase is a monthly mesocycle plus one live Zoom coaching call. Prices are indicative; enrollment opens soon. Add your email and I'll bring you in first.</p>
+    <form class="capform" id="eaForm" onsubmit="return earlyAccess(event)">
+      <input type="email" id="eaEmail" placeholder="you@email.com" required />
+      <button type="submit" id="eaBtn">Get early access</button>
+    </form>
+    <div class="capnote" id="eaNote"></div>
+    <p class="cred">Grounded in published science: Issurin on block periodization, Schoenfeld on hypertrophy mechanics, Seiler on polarized training, Volek on fat adaptation, Panda on circadian metabolism, McEwen on allostasis, Craig and Porges on interoception. The mechanisms are cited; the arc is the model.</p>
   </div>
 </div></section>
 
@@ -119,16 +139,76 @@ var PH=[
  {p:'P5',t:'Endurance',c:'#D97706',d:'Allostasis and the shift to fat and ketone fuel. Slower, deeper, harder to break.'},
  {p:'P6',t:'Order',c:'#2563eb',d:'Meals, light, movement, sleep held in sequence. The frame.'},
  {p:'P7',t:'Separation',c:'#dc2626',d:'Pruning, apoptosis, metabolic shedding. Optimization that feels like loss.'},
- {p:'P7b',t:'Divergence',c:'#ea580c',d:'The fork: reintegrate, or drift. Calm can mask collapse.'},
+ {p:'P7b',t:'Divergence',c:'#ea580c',fork:true,d:'The fork: reintegrate, or drift. Calm can mask collapse.'},
  {p:'P8',t:'Conscience',c:'#5b4fe0',d:'Interoception surfaces what no longer fits. Recalibration.'},
  {p:'P9',t:'Threshold',c:'#9333ea',d:'A region, not a line. Poised between transformation and collapse.'},
  {p:'P10',t:'Resurrection',c:'#059669',d:'Metabolic flexibility, a new baseline. The spiral re-enters higher.'}
 ];
 document.getElementById('grid').innerHTML = PH.map(function(x){
-  return '<div class="card" style="border-left-color:'+x.c+'">'
-    +'<div class="pn" style="color:'+x.c+'">'+x.p+'</div>'
+  return '<div class="card'+(x.fork?' fork':'')+'" style="border-left-color:'+x.c+'">'
+    +'<div class="pn" style="color:'+x.c+'">'+x.p+(x.fork?'<span class="forktag">the fork</span>':'')+'</div>'
     +'<h3>'+x.t+'</h3><p>'+x.d+'</p></div>';
 }).join('');
+
+// ── phase-path ladder: P0 free, P1-P10 monthly programming + a live Zoom call ──
+var LADDER=[
+ {p:'P0',c:'#475569',stage:'Assessment',name:'Needs Analysis',price:'Free',free:true,
+  what:'Find where you actually stand before you train.',
+  sold:'A movement and lifestyle screen · training-age and recovery-capacity read · where you sit at the rep, session, and macrocycle scale · your starting phase · free, no card, no wall'},
+ {p:'P1',c:'#D99400',stage:'Chronobiology',name:'Chronoload',price:'$39 / mo',
+  what:'Load the day when your physiology is primed to adapt.',
+  sold:'Session timing set to your cortisol and insulin-sensitivity peak · morning light and wake protocol · pre-session fueling on the sensitivity window · monthly Zoom coaching call'},
+ {p:'P2',c:'#0d9488',stage:'Nutrient timing',name:'Periodized Fueling',price:'$39 / mo',
+  what:'Match carbohydrate to the work, not the clock.',
+  sold:'Carbohydrate periodization (train-low, compete-high) · protein distribution and feeding windows · fasting cycled to session demand · monthly Zoom coaching call'},
+ {p:'P3',c:'#7c3aed',stage:'Recovery',name:'Supercompensation',price:'$49 / mo',
+  what:'Program the rebound; don’t just rest.',
+  sold:'A planned deload microcycle · sleep-architecture and glymphatic protocol · autophagy and fasting window · HRV-timed return to load · monthly Zoom coaching call'},
+ {p:'P4',c:'#2e9e6e',stage:'Hypertrophy',name:'Accumulation',price:'$59 / mo',
+  what:'Grow through mechanical tension and volume.',
+  sold:'An accumulation block driving hypertrophy · constant load with progressive time-under-tension · volume-landmark progression (MEV → MAV) · RIR-based effort targets · monthly Zoom coaching call'},
+ {p:'P5',c:'#D97706',stage:'Metabolic conditioning',name:'Aerobic Base',price:'$59 / mo',
+  what:'Build the mitochondria that make you hard to break.',
+  sold:'Zone-2 and lactate-threshold work · fat-oxidation and metabolic efficiency · aerobic base and GPP · polarized weekly distribution · monthly Zoom coaching call'},
+ {p:'P6',c:'#2563eb',stage:'Periodization',name:'The Macrocycle',price:'$79 / mo',
+  what:'Sequence everything into one plan.',
+  sold:'A full periodized macrocycle · training, meals, light and sleep phase-locked · microcycle-to-mesocycle structure · adherence and load tracking · monthly Zoom coaching call'},
+ {p:'P7',c:'#dc2626',stage:'Cutting',name:'Intensification',price:'$79 / mo',
+  what:'Cut volume, keep intensity, defend muscle.',
+  sold:'A muscle-sparing energy deficit · intensification block (strip volume, hold load) · macro and refeed periodization · strength-retention testing · monthly Zoom coaching call'},
+ {p:'P8',c:'#5b4fe0',stage:'Readiness',name:'Autoregulation',price:'$99 / mo',
+  what:'Let today’s readiness set today’s dose.',
+  sold:'HRV- and RPE-guided autoregulation · velocity-loss and readiness gating · plateau diagnosis and deload triggers · in-session load-adjustment rules · monthly Zoom coaching call'},
+ {p:'P9',c:'#9333ea',stage:'Peaking',name:'Realization',price:'$99 / mo',
+  what:'Peak on the day it counts.',
+  sold:'A taper and realization block · volume down, intensity held · supercompensation timed to a meet, shoot, or season · go/no-go readiness calls · monthly Zoom coaching call'},
+ {p:'P10',c:'#059669',stage:'Adaptation',name:'Metabolic Flexibility',price:'Custom',
+  what:'Hold the elevated baseline; plan the next arc.',
+  sold:'Fuel-switching and metabolic-flexibility programming · maintenance at the new set point · next-macrocycle design · continuity coaching · monthly Zoom coaching call'}
+];
+document.getElementById('ladder').innerHTML = LADDER.map(function(x){
+  return '<div class="prow'+(x.free?' free':'')+'">'
+    +'<div class="ptop"><span class="pnum" style="color:'+x.c+'">'+x.p+'</span>'
+    +'<span class="pname">'+x.name+'</span><span class="pstage">'+x.stage+'</span>'
+    +'<span class="pprice">'+x.price+'</span></div>'
+    +'<div class="pwhat">'+x.what+'</div>'
+    +'<div class="psold">'+x.sold+'</div></div>';
+}).join('');
+
+// ── email early-access capture → /api/lead ──
+function earlyAccess(e){
+  e.preventDefault();
+  var email=document.getElementById('eaEmail').value.trim(); if(!email) return false;
+  var btn=document.getElementById('eaBtn'); btn.disabled=true; btn.textContent='Adding…';
+  fetch('/api/lead',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({email:email,interest:'Fitness phase-path programming (early access)',sourcePage:'/fitness'})})
+    .then(function(r){return r.json().catch(function(){return {};});})
+    .then(function(){document.getElementById('eaForm').style.display='none';
+      var n=document.getElementById('eaNote'); n.textContent='✓ You’re on the early-access list. I’ll reach out as the phases open up.'; n.style.color='#2dd4bf';})
+    .catch(function(){btn.disabled=false; btn.textContent='Get early access';
+      document.getElementById('eaNote').textContent='Try again in a moment.';});
+  return false;
+}
 </script>
 </body>
 </html>
