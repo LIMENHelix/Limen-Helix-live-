@@ -81,6 +81,19 @@
   .sig:last-child{border-bottom:none}
   .sig .dot{color:var(--amber);margin-right:8px}
   .muted{color:var(--soft);font-size:.9rem}
+  /* "whoa" rotating stat banner (the hook) */
+  .wow{position:relative;background:linear-gradient(135deg,rgba(22,32,54,.62),rgba(12,18,32,.55));border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:24px 26px 20px;margin-bottom:16px;box-shadow:var(--shadow);text-align:center;backdrop-filter:blur(5px);overflow:hidden}
+  .wow .k{font-size:.58rem;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:#e8c869;margin-bottom:10px}
+  .wow .fact{font-size:clamp(1.15rem,2.7vw,1.65rem);font-weight:700;color:#fff;line-height:1.36;min-height:2.7em;display:flex;align-items:center;justify-content:center;transition:opacity .45s ease;text-shadow:0 1px 12px rgba(0,0,0,.55)}
+  .wow .fact b{color:#e8c869}
+  .wow .dots{display:flex;gap:6px;justify-content:center;margin-top:14px}
+  .wow .dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.28);transition:.3s;cursor:pointer}
+  .wow .dots i.on{background:#e8c869;transform:scale(1.25)}
+  /* "what to do" action tiles */
+  .todo{display:grid;grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:12px}
+  .td{background:var(--panel2);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:11px;padding:14px 16px}
+  .td b{display:block;margin-bottom:5px;font-size:.98rem}
+  .td span{font-size:.86rem;color:var(--soft);line-height:1.5}
   /* migration (population) */
   .mig-cols{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:6px}
   @media(max-width:640px){.mig-cols{grid-template-columns:1fr;gap:18px}}
@@ -207,6 +220,11 @@ void main(){
   <div id="sections">
     <!-- WHERE AMERICA IS MOVING (population) -->
     <section id="popSection" style="display:none">
+      <div class="wow" id="wowBanner" style="display:none">
+        <div class="k">● the numbers behind the news</div>
+        <div class="fact" id="wowFact"></div>
+        <div class="dots" id="wowDots"></div>
+      </div>
       <div class="card">
         <h2><span class="livedot"></span> Where the world is moving <span class="updated" id="wpopUpdated"></span></h2>
         <div class="sub">Global population and net migration, per country, from the World Bank. Net migration is people moving in minus people moving out (latest estimate).</div>
@@ -246,6 +264,16 @@ void main(){
         <h2>Top landing spots</h2>
         <div class="sub">The larger counties (150k+ people) gaining residents fastest right now, where movers are actually going.</div>
         <div class="stats" id="popLanding"></div>
+      </div>
+      <div class="card">
+        <h2>What to do with this</h2>
+        <div class="sub">Turn the numbers into a move.</div>
+        <div class="todo">
+          <div class="td"><b>🏡 Chase the value</b><span>Your dollar stretches furthest where people are already piling in. The landing spots above are where jobs and still-affordable housing overlap — start there.</span></div>
+          <div class="td"><b>📉 In a shrinking area? Negotiate.</b><span>Fewer buyers means leverage: more inventory, softer prices, motivated sellers. A “losing” county can be a winning deal if you’re staying.</span></div>
+          <div class="td"><b>💻 Remote? Arbitrage it.</b><span>Earn a big-city salary, live in a cheap, growing town. Check your ZIP above for the local home price, rent, and whether it’s filling up or emptying out.</span></div>
+          <div class="td"><b>🔔 Track your area</b><span>Watch this domain (top of the page) and we’ll flag when your county or state flips between gaining and losing people.</span></div>
+        </div>
       </div>
     </section>
 
@@ -661,7 +689,7 @@ function migRow(o) {
     '<div><span class="rt ' + cls + '">' + rt + '</span><span class="ct">' + net + '/yr</span></div></div>';
 }
 function loadPopLive() {
-  fetch('/api/population-live').then(function (r) { return r.json(); }).then(function (j) { renderWorld(j.global); renderPopNational(j.national || {}); })
+  fetch('/api/population-live').then(function (r) { return r.json(); }).then(function (j) { renderWorld(j.global); renderPopNational(j.national || {}); startWow(j.global || {}, j.national || {}); })
     .catch(function () { EL('popGainers').innerHTML = '<div class="muted">Census data is warming up. Refresh shortly.</div>'; });
 }
 function migRowC(o) {
@@ -694,6 +722,37 @@ function renderPopNational(n) {
       '<div class="c">+' + Number(o.netIn).toLocaleString() + '/yr · pop ' + Math.round(o.pop / 1000) + 'k</div></div>';
   }).join('');
 }
+// ── the "whoa" rotating stat banner (dopamine hook, computed from live data) ──
+function fmtBig(n) { n = Math.abs(Math.round(n)); return n >= 1e6 ? (Math.round(n / 1e5) / 10) + ' million' : n >= 1000 ? Math.round(n).toLocaleString() : String(n); }
+function _findUS(arr) { for (var i = 0; i < (arr || []).length; i++) { if (/United States/.test(arr[i].country)) return arr[i]; } return null; }
+function buildWowFacts(g, n) {
+  var f = [];
+  var disp = g && g.displacement && g.displacement.globalTotal;
+  if (g && g.worldPop && disp) f.push('<b>1 in ' + Math.round(g.worldPop / disp) + '</b> people alive today has been forced to flee their home.');
+  var us = _findUS(g && g.migGainers);
+  if (us) f.push('The U.S. takes in about <b>' + fmtBig(us.value) + '</b> more people than it loses every year — a whole new big city, annually.');
+  if (g && g.worldPop && g.worldGrowth) { var add = g.worldPop * g.worldGrowth / 100; f.push('Earth adds roughly <b>' + fmtBig(add) + '</b> people a year — about <b>' + fmtBig(add / 365) + '</b> every single day.'); }
+  if (n && n.gainers && n.gainers[0]) f.push('<b>' + n.gainers[0].state + '</b> is the No.&nbsp;1 state Americans are moving to right now.');
+  if (n && n.losers && n.losers[0]) { var L = n.losers[0]; f.push('<b>' + L.state + '</b> loses about <b>' + fmtBig(Math.abs(L.netIn) / 365) + '</b> residents to other states every day.'); }
+  if (n && n.landing && n.landing[0]) { var C = n.landing[0]; f.push('<b>' + C.county + ', ' + C.state + '</b> is growing so fast it gains about <b>' + fmtBig(C.netIn / 365) + '</b> new residents a day.'); }
+  if (disp && g.displacement.top && g.displacement.top[0]) { var d0 = g.displacement.top[0]; f.push('<b>' + fmtBig(d0.total) + '</b> people have been driven from their homes in <b>' + esc(d0.name) + '</b> alone.'); }
+  return f;
+}
+var _wowT = null, _wowI = 0;
+function startWow(g, n) {
+  var facts = buildWowFacts(g, n); if (!facts.length) return;
+  EL('wowBanner').style.display = '';
+  var el = EL('wowFact'), dots = EL('wowDots');
+  dots.innerHTML = facts.map(function (_, k) { return '<i data-k="' + k + '"></i>'; }).join('');
+  function show(k) {
+    _wowI = (k + facts.length) % facts.length;
+    el.style.opacity = 0;
+    setTimeout(function () { el.innerHTML = facts[_wowI]; el.style.opacity = 1; Array.prototype.forEach.call(dots.children, function (d, di) { d.className = di === _wowI ? 'on' : ''; }); }, 300);
+  }
+  Array.prototype.forEach.call(dots.children, function (d) { d.addEventListener('click', function () { if (_wowT) clearInterval(_wowT); show(+d.getAttribute('data-k')); _wowT = setInterval(function () { show(_wowI + 1); }, 6500); }); });
+  el.innerHTML = facts[0]; el.style.opacity = 1; if (dots.children[0]) dots.children[0].className = 'on';
+  if (_wowT) clearInterval(_wowT); _wowT = setInterval(function () { show(_wowI + 1); }, 6500);
+}
 function popLookupZip(e) {
   e.preventDefault();
   var zip = (EL('popZipInput').value || '').replace(/[^0-9]/g, '').slice(0, 5);
@@ -720,6 +779,10 @@ function renderPopLocal(L) {
     if (L.cost.rent) parts.push('median rent <b>$' + Number(L.cost.rent).toLocaleString() + '/mo</b>');
     if (L.cost.income) parts.push('median income <b>$' + Number(L.cost.income).toLocaleString() + '</b>');
     h += '<div class="hl" style="margin-top:8px">' + parts.join(' · ') + ' <span class="c" style="color:var(--faint);font-size:.7rem">(Census ACS)</span></div>';
+  }
+  if (L.migration) {
+    var gaining = L.migration.netIn >= 0;
+    h += '<div class="hl" style="margin-top:10px;color:var(--gold);font-weight:700">→ ' + (gaining ? 'Your area is filling up — expect rising prices and competition, so move fast if you’re buying.' : 'It’s a buyer’s market here — more inventory and leverage to negotiate. If you’re selling, price sharp.') + '</div>';
   }
   h += '</div>';
   EL('popLocalOut').innerHTML = h;
