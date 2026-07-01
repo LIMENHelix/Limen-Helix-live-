@@ -43,7 +43,7 @@
   .card.fork{border-left-style:dashed;background:#fff}
   .card .forktag{font-family:'Inter';font-size:.54rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--mute);border:1px solid var(--line);border-radius:999px;padding:.12rem .5rem;margin-left:7px;vertical-align:middle}
 
-  /* phase-path ladder: P0 free, P1-P10 monthly programming + Zoom */
+  /* phase-path ladder: P0 free, P1-P10 written monthly mesocycle (coaching = top-tier upsell) */
   .ladder{border:1px solid rgba(255,255,255,.12);border-radius:13px;overflow:hidden;margin:20px 0 6px}
   .prow{padding:16px 18px;border-bottom:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.03)}
   .prow:last-child{border-bottom:none}
@@ -64,6 +64,15 @@
   .capform input::placeholder{color:#8b97a9}
   .capform button{background:#2dd4bf;color:#04231f;font-weight:700;border:none;border-radius:999px;padding:.72rem 1.6rem;font-size:.95rem;cursor:pointer;font-family:inherit}
   .capnote{font-size:.85rem;margin-top:11px;color:#9fb0c6}
+
+  /* top-tier coaching upsell */
+  .upsell{border:1px solid rgba(45,212,191,.4);background:rgba(45,212,191,.07);border-radius:13px;padding:16px 18px;margin:14px 0 4px}
+  .upsell .ut{display:flex;align-items:baseline;gap:11px;flex-wrap:wrap}
+  .upsell .utag{font-family:'Inter';font-size:.57rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:#2dd4bf}
+  .upsell .un{color:#fff;font-weight:600;font-size:1.04rem;font-family:'Fraunces',serif}
+  .upsell .up{margin-left:auto;font-family:'Fraunces',serif;font-weight:600;font-size:1rem;color:#2dd4bf;white-space:nowrap}
+  .upsell .ud{color:#cdd6e4;font-size:.9rem;margin-top:7px;line-height:1.55}
+  @media(max-width:560px){.upsell .up{margin-left:0;width:100%;order:3}}
 
   /* paywall */
   .gate{background:linear-gradient(180deg,#0f172a,#111a2e);color:#e8edf6;border-radius:18px;padding:34px 30px;margin-top:8px}
@@ -112,9 +121,13 @@
   <div class="gate">
     <div class="kicker" style="color:#7fe9db">The secret isn't the map</div>
     <h2>It's where you stand on it.</h2>
-    <p class="lead">Read the arc as a periodization model: eleven phases, each a physiological state with its own optimal load, fuel, and recovery. The map is free. Each phase is a month of programming built for the state you're actually in, prescribed and adjusted over a live Zoom call. Train the phase you're in. Build toward the ones you're not.</p>
+    <p class="lead">Read the arc as a periodization model: eleven phases, each a physiological state with its own optimal load, fuel, and recovery. The map is free. Each phase is a written monthly mesocycle built for the state you're actually in, yours to run on your own. Train the phase you're in. Build toward the ones you're not. When you want eyes on it, add live coaching on top.</p>
     <div class="ladder" id="ladder"></div>
-    <p class="capnote">Every paid phase is a monthly mesocycle plus one live Zoom coaching call. Prices are indicative; enrollment opens soon. Add your email and I'll bring you in first.</p>
+    <div class="upsell">
+      <div class="ut"><span class="utag">Top tier</span><span class="un">The Coaching Layer</span><span class="up">+ $149 / mo · any phase</span></div>
+      <div class="ud">Add a live 1:1 to any written phase. A monthly Zoom call where your mesocycle is prescribed to you, your lifts and readiness reviewed, and the plan adjusted in real time. The human layer on top of the program.</div>
+    </div>
+    <p class="capnote">Every phase is a written monthly mesocycle you can run solo. Add The Coaching Layer for live 1:1 on any phase. Prices are indicative; enrollment opens soon. Add your email and I'll bring you in first.</p>
     <form class="capform" id="eaForm" onsubmit="return earlyAccess(event)">
       <input type="email" id="eaEmail" placeholder="you@email.com" required />
       <button type="submit" id="eaBtn">Get early access</button>
@@ -150,41 +163,41 @@ document.getElementById('grid').innerHTML = PH.map(function(x){
     +'<h3>'+x.t+'</h3><p>'+x.d+'</p></div>';
 }).join('');
 
-// ── phase-path ladder: P0 free, P1-P10 monthly programming + a live Zoom call ──
+// ── phase-path ladder: P0 free, P1-P10 written monthly mesocycle (coaching = top-tier upsell) ──
 var LADDER=[
  {p:'P0',c:'#475569',stage:'Assessment',name:'Needs Analysis',price:'Free',free:true,
   what:'Find where you actually stand before you train.',
   sold:'A movement and lifestyle screen · training-age and recovery-capacity read · where you sit at the rep, session, and macrocycle scale · your starting phase · free, no card, no wall'},
  {p:'P1',c:'#D99400',stage:'Chronobiology',name:'Chronoload',price:'$39 / mo',
   what:'Load the day when your physiology is primed to adapt.',
-  sold:'Session timing set to your cortisol and insulin-sensitivity peak · morning light and wake protocol · pre-session fueling on the sensitivity window · monthly Zoom coaching call'},
+  sold:'Session timing set to your cortisol and insulin-sensitivity peak · morning light and wake protocol · pre-session fueling on the sensitivity window'},
  {p:'P2',c:'#0d9488',stage:'Nutrient timing',name:'Periodized Fueling',price:'$39 / mo',
   what:'Match carbohydrate to the work, not the clock.',
-  sold:'Carbohydrate periodization (train-low, compete-high) · protein distribution and feeding windows · fasting cycled to session demand · monthly Zoom coaching call'},
+  sold:'Carbohydrate periodization (train-low, compete-high) · protein distribution and feeding windows · fasting cycled to session demand'},
  {p:'P3',c:'#7c3aed',stage:'Recovery',name:'Supercompensation',price:'$49 / mo',
   what:'Program the rebound; don’t just rest.',
-  sold:'A planned deload microcycle · sleep-architecture and glymphatic protocol · autophagy and fasting window · HRV-timed return to load · monthly Zoom coaching call'},
+  sold:'A planned deload microcycle · sleep-architecture and glymphatic protocol · autophagy and fasting window · HRV-timed return to load'},
  {p:'P4',c:'#2e9e6e',stage:'Hypertrophy',name:'Accumulation',price:'$59 / mo',
   what:'Grow through mechanical tension and volume.',
-  sold:'An accumulation block driving hypertrophy · constant load with progressive time-under-tension · volume-landmark progression (MEV → MAV) · RIR-based effort targets · monthly Zoom coaching call'},
+  sold:'An accumulation block driving hypertrophy · constant load with progressive time-under-tension · volume-landmark progression (MEV → MAV) · RIR-based effort targets'},
  {p:'P5',c:'#D97706',stage:'Metabolic conditioning',name:'Aerobic Base',price:'$59 / mo',
   what:'Build the mitochondria that make you hard to break.',
-  sold:'Zone-2 and lactate-threshold work · fat-oxidation and metabolic efficiency · aerobic base and GPP · polarized weekly distribution · monthly Zoom coaching call'},
+  sold:'Zone-2 and lactate-threshold work · fat-oxidation and metabolic efficiency · aerobic base and GPP · polarized weekly distribution'},
  {p:'P6',c:'#2563eb',stage:'Periodization',name:'The Macrocycle',price:'$79 / mo',
   what:'Sequence everything into one plan.',
-  sold:'A full periodized macrocycle · training, meals, light and sleep phase-locked · microcycle-to-mesocycle structure · adherence and load tracking · monthly Zoom coaching call'},
+  sold:'A full periodized macrocycle · training, meals, light and sleep phase-locked · microcycle-to-mesocycle structure · adherence and load tracking'},
  {p:'P7',c:'#dc2626',stage:'Cutting',name:'Intensification',price:'$79 / mo',
   what:'Cut volume, keep intensity, defend muscle.',
-  sold:'A muscle-sparing energy deficit · intensification block (strip volume, hold load) · macro and refeed periodization · strength-retention testing · monthly Zoom coaching call'},
+  sold:'A muscle-sparing energy deficit · intensification block (strip volume, hold load) · macro and refeed periodization · strength-retention testing'},
  {p:'P8',c:'#5b4fe0',stage:'Readiness',name:'Autoregulation',price:'$99 / mo',
   what:'Let today’s readiness set today’s dose.',
-  sold:'HRV- and RPE-guided autoregulation · velocity-loss and readiness gating · plateau diagnosis and deload triggers · in-session load-adjustment rules · monthly Zoom coaching call'},
+  sold:'HRV- and RPE-guided autoregulation · velocity-loss and readiness gating · plateau diagnosis and deload triggers · in-session load-adjustment rules'},
  {p:'P9',c:'#9333ea',stage:'Peaking',name:'Realization',price:'$99 / mo',
   what:'Peak on the day it counts.',
-  sold:'A taper and realization block · volume down, intensity held · supercompensation timed to a meet, shoot, or season · go/no-go readiness calls · monthly Zoom coaching call'},
+  sold:'A taper and realization block · volume down, intensity held · supercompensation timed to a meet, shoot, or season · go/no-go readiness calls'},
  {p:'P10',c:'#059669',stage:'Adaptation',name:'Metabolic Flexibility',price:'Custom',
   what:'Hold the elevated baseline; plan the next arc.',
-  sold:'Fuel-switching and metabolic-flexibility programming · maintenance at the new set point · next-macrocycle design · continuity coaching · monthly Zoom coaching call'}
+  sold:'Fuel-switching and metabolic-flexibility programming · maintenance at the new set point · next-macrocycle design · continuity coaching'}
 ];
 document.getElementById('ladder').innerHTML = LADDER.map(function(x){
   return '<div class="prow'+(x.free?' free':'')+'">'
