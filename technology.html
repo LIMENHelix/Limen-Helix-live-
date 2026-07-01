@@ -33,7 +33,11 @@
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{
-    background:var(--bg);
+    background:
+      radial-gradient(900px 520px at 80% -14%, rgba(255,85,70,.11), transparent 66%),
+      radial-gradient(720px 460px at 8% 2%, rgba(122,10,18,.16), transparent 64%),
+      var(--bg);
+    background-attachment:fixed;
     color:var(--ink);
     font-family:"Inter",system-ui,sans-serif;
     line-height:1.55;
@@ -56,8 +60,8 @@
   /* ---- NAV ---- */
   header.nav{position:sticky;top:0;z-index:60;background:rgba(18,18,20,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line-soft)}
   .nav-in{display:flex;align-items:center;justify-content:space-between;height:64px}
-  .brand{font-family:"Archivo",sans-serif;font-weight:900;letter-spacing:.04em;font-size:1.15rem;display:flex;align-items:center;gap:10px}
-  .brand .dot{width:11px;height:11px;border-radius:50%;background:var(--red);box-shadow:0 0 10px var(--red);display:inline-block}
+  .brand{font-family:"Archivo",sans-serif;font-weight:900;letter-spacing:.04em;font-size:1.15rem;display:flex;align-items:center;gap:9px}
+  .brand-ic{width:1.12em;height:1.12em;color:var(--red);flex:0 0 auto}
   .nav-links{display:flex;gap:26px;align-items:center}
   .nav-links a{font-size:.9rem;color:var(--mute);transition:color .2s}
   .nav-links a:hover{color:var(--ink)}
@@ -71,14 +75,9 @@
   .eyebrow{display:inline-flex;align-items:center;gap:10px;margin-bottom:26px}
   .eyebrow::before{content:"";width:26px;height:1px;background:var(--amber)}
   h1.hero-h{font-size:clamp(2rem,5vw,3.4rem)}
-  h1.hero-h{color:#000}
-  .hero .eyebrow .mono{color:#000}
-  .hero-sub{margin-top:24px;font-size:1.12rem;color:#000;max-width:30em}
-  .hero-sub strong{color:#000;font-weight:700}
-  .hero-fine{color:#000}
-  /* black hero verbiage, kept legible over the fractal with a soft light halo */
-  .hero .eyebrow .mono, h1.hero-h, .hero-sub, .hero-fine{text-shadow:0 0 12px rgba(255,255,255,.5), 0 1px 2px rgba(255,255,255,.55)}
-  h1.hero-h .free{color:var(--amber);position:relative;text-shadow:0 0 22px rgba(255,196,46,.6)}
+  .hero-sub{margin-top:24px;font-size:1.12rem;color:var(--mute);max-width:30em}
+  .hero-sub strong{color:var(--ink);font-weight:700}
+  h1.hero-h .free{color:var(--amber);position:relative;text-shadow:0 0 22px rgba(255,196,46,.55)}
   .hero-actions{margin-top:34px;display:flex;gap:14px;flex-wrap:wrap;align-items:center}
 
   .btn{
@@ -117,33 +116,24 @@
   .panel-body .top-haz,.panel-body .bot-haz{position:absolute;left:0;right:0;height:7px;background:repeating-linear-gradient(-45deg,var(--amber-dim) 0 12px,transparent 12px 24px);opacity:.5}
   .panel-body .top-haz{top:0}.panel-body .bot-haz{bottom:0}
 
-  /* the actual toggle */
+  /* the power button — round, click on/off */
   .switch{
-    width:88px;height:158px;border-radius:15px;
-    background:linear-gradient(180deg,#15151b,#0a0a0d);
-    border:1px solid #2b2b33;
-    box-shadow:inset 0 2px 16px rgba(0,0,0,.9), 0 1px 0 rgba(255,255,255,.06), 0 12px 30px -14px rgba(0,0,0,.85);
-    position:relative;cursor:pointer;display:block;padding:0;transition:box-shadow .3s, border-color .3s;
+    width:116px;height:116px;border-radius:50%;padding:0;
+    background:radial-gradient(circle at 50% 36%,#2a2a31,#0d0d11 72%);
+    border:1px solid #34343c;position:relative;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;color:var(--amber);
+    box-shadow:inset 0 3px 12px rgba(0,0,0,.8), inset 0 -4px 12px rgba(0,0,0,.5), 0 10px 26px -12px rgba(0,0,0,.85);
+    transition:box-shadow .3s, border-color .3s, color .3s, background .3s;
   }
-  .switch.on{border-color:rgba(255,85,70,.5);box-shadow:inset 0 2px 16px rgba(0,0,0,.9), 0 0 36px -6px rgba(255,85,70,.6), 0 0 0 1px rgba(255,85,70,.35)}
+  .switch::after{content:"\23FB";font-size:44px;line-height:1;text-shadow:0 0 10px rgba(255,196,46,.45);transition:color .3s, text-shadow .3s}
+  .switch:hover{border-color:var(--amber)}
   .switch:focus-visible{outline:2px solid var(--amber);outline-offset:4px}
-  .slot{position:absolute;left:50%;top:13px;bottom:13px;width:42px;transform:translateX(-50%);border-radius:22px;
-    background:radial-gradient(130% 55% at 50% 8%, rgba(255,196,46,.20), transparent 62%), #050506;
-    box-shadow:inset 0 0 14px rgba(0,0,0,.95), inset 0 0 0 1px rgba(255,255,255,.03);transition:background .35s}
-  .switch.on .slot{background:radial-gradient(130% 55% at 50% 92%, rgba(255,85,70,.42), transparent 62%), #050506}
-  .knob{
-    position:absolute;left:50%;width:62px;height:62px;transform:translateX(-50%);
-    border-radius:14px;
-    background:linear-gradient(180deg,#43434d,#1c1c22);
-    border:1px solid #4e4e58;
-    box-shadow:0 6px 14px rgba(0,0,0,.6), inset 0 2px 3px rgba(255,255,255,.18), inset 0 -4px 8px rgba(0,0,0,.55);
-    bottom:13px;transition:bottom .32s cubic-bezier(.45,1.7,.4,1), background .32s, box-shadow .32s, border-color .32s, color .32s;
-    display:flex;align-items:center;justify-content:center;color:#787883;
+  .switch.on{
+    color:#fff;border-color:rgba(255,85,70,.6);
+    background:radial-gradient(circle at 50% 40%,#3a1614,#120a0b 74%);
+    box-shadow:inset 0 3px 12px rgba(0,0,0,.7), 0 0 42px -4px rgba(255,85,70,.7), 0 0 0 1px rgba(255,85,70,.4);
   }
-  .knob::after{content:"\23FB";font-size:25px;line-height:1;transition:color .32s, text-shadow .32s;text-shadow:0 1px 1px rgba(0,0,0,.7)}
-  .switch.on .knob{bottom:83px;background:linear-gradient(180deg,#ff6a5b,var(--red-deep));border-color:#ff9084;color:#fff;
-    box-shadow:0 6px 16px rgba(255,85,70,.4), inset 0 2px 3px rgba(255,255,255,.35), inset 0 -4px 8px rgba(0,0,0,.4)}
-  .switch.on .knob::after{color:#fff;text-shadow:0 0 10px rgba(255,255,255,.95), 0 0 20px rgba(255,85,70,.85)}
+  .switch.on::after{color:#fff;text-shadow:0 0 12px rgba(255,255,255,.95), 0 0 26px rgba(255,85,70,.9)}
 
   .switch-caption{font-family:"IBM Plex Mono",monospace;text-transform:uppercase;letter-spacing:.14em;font-size:.74rem;color:var(--mute);text-align:center}
   .switch-caption b{color:var(--amber);font-weight:600}
@@ -208,7 +198,7 @@
 
   footer{border-top:1px solid var(--line-soft);padding:46px 0 40px}
   .foot-in{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:flex-start}
-  .foot-brand{font-family:"Archivo",sans-serif;font-weight:900;font-size:1.1rem;letter-spacing:.04em}
+  .foot-brand{font-family:"Archivo",sans-serif;font-weight:900;font-size:1.1rem;letter-spacing:.04em;display:inline-flex;align-items:center;gap:8px}
   .foot-brand .dot{width:9px;height:9px;border-radius:50%;background:var(--red);display:inline-block;margin-left:4px}
   .foot-tag{color:var(--mute);font-size:.88rem;margin-top:8px;max-width:24em}
   .foot-tag .lh{color:var(--mute-2);display:block;margin-top:6px;font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}
@@ -231,22 +221,24 @@
     *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
     .reveal{opacity:1;transform:none}
   }
-  /* techy animated backdrop (behind all content) */
-  #techbg{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:-1;pointer-events:none;display:block;background:#08080b}
+  /* subtle technical grid, fading out (behind all content) */
+  body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);
+    background-size:46px 46px;
+    -webkit-mask-image:radial-gradient(120% 78% at 50% 0%,#000 42%,transparent 82%);
+    mask-image:radial-gradient(120% 78% at 50% 0%,#000 42%,transparent 82%)}
 </style>
 </head>
 <body>
-<canvas id="techbg" aria-hidden="true"></canvas>
 <div class="hazard" aria-hidden="true"></div>
 
 <header class="nav">
   <div class="wrap nav-in">
-    <a href="https://killswitch.domains/" class="brand"><span class="dot"></span>KILLSWITCH</a>
+    <a href="https://killswitch.domains/" class="brand"><svg class="brand-ic" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="11" stroke-linecap="round" aria-hidden="true"><path d="M62.5 30.4 A25 25 0 1 1 37.5 30.4"/><path d="M50 22 V52"/></svg>KILLSWITCH</a>
     <nav class="nav-links">
       <a href="https://killswitch.domains/work">Work</a>
       <a href="#modules">Pricing</a>
       <a href="https://killswitch.domains/switch">Ask the AI</a>
-      <a href="/tech-watch">Tech Watch</a>
       <a href="https://calendly.com/chrishubbel72/30min" class="nav-cta">Get my free site</a>
     </nav>
   </div>
@@ -276,10 +268,7 @@
         </div>
         <div class="panel-body">
           <span class="top-haz" aria-hidden="true"></span>
-          <button class="switch" id="killSwitch" role="switch" aria-checked="false" aria-label="Power on your free website">
-            <span class="slot"></span>
-            <span class="knob"></span>
-          </button>
+          <button class="switch" id="killSwitch" role="switch" aria-checked="false" aria-label="Power on your free website"></button>
           <p class="switch-caption">Status: <b id="capState">Standby</b><br><span style="color:var(--mute-2);font-size:.68rem">tap to power on</span></p>
           <span class="bot-haz" aria-hidden="true"></span>
         </div>
@@ -412,7 +401,7 @@
 <footer>
   <div class="wrap foot-in">
     <div>
-      <div class="foot-brand">KILLSWITCH<span class="dot"></span></div>
+      <div class="foot-brand"><svg class="brand-ic" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="11" stroke-linecap="round" aria-hidden="true"><path d="M62.5 30.4 A25 25 0 1 1 37.5 30.4"/><path d="M50 22 V52"/></svg>KILLSWITCH</div>
       <div class="foot-tag">Custom software, disguised as a website. Built in Kansas City.
         <span class="lh">A Limen Helix company</span></div>
     </div>
@@ -421,7 +410,6 @@
       <a href="#modules">Pricing</a>
       <a href="https://killswitch.domains/switch">Ask the AI</a>
       <a href="https://calendly.com/chrishubbel72/30min">Book a call</a>
-      <a href="/tech-watch">Tech Watch</a>
     </div>
   </div>
   <div class="wrap copy">© 2026 KILLSWITCH · Kansas City, MO</div>
@@ -470,98 +458,6 @@
     }, {threshold:.12});
     document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
   })();
-</script>
-
-<script>
-/* Fractal backdrop (WebGL): kaleidoscopic fold + Julia iteration, full-screen,
-   same look/motion as limen-biosensor.vercel.app. Colored by THIS domain's LIVE
-   phase from /api/limen-snapshot; recolors + reshapes when the phase changes. */
-(function(){
-  var cv = document.getElementById('techbg'); if(!cv) return;
-  var DOMAIN = 'technology';
-
-  // canonical LIMEN phase palette P0..P10 (rgb 0..1) + per-phase fractal form
-  var COL = [
-    [0.545,0.361,0.965],[0.961,0.620,0.043],[0.063,0.725,0.506],[0.937,0.267,0.267],
-    [0.231,0.510,0.965],[0.925,0.282,0.600],[0.024,0.714,0.831],[0.976,0.451,0.086],
-    [0.518,0.800,0.086],[0.655,0.545,0.980],[0.886,0.910,0.941]
-  ];
-  var CH = [0.08,0.50,0.28,1.00,0.25,0.42,0.12,0.80,0.40,0.72,0.22];
-  var FX = [[0,0,0.10],[0.2,0.3,0.25],[0,0,0.55],[0.6,0.8,0.12],[0.15,0,0.30],[0.4,0.2,0.45],[1,0,0],[0.5,0.5,0.6],[0.25,0.1,0.5],[0.7,0.6,0.9],[1,0,0.3]];
-
-  var VERT = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.0,1.0);}';
-  var FRAG = [
-    'precision highp float;',
-    'uniform vec2 u_res; uniform float u_time; uniform vec3 u_color; uniform float u_chaos; uniform float u_pow; uniform float u_ship; uniform float u_twist;',
-    'mat2 rot(float a){float c=cos(a),s=sin(a);return mat2(c,-s,s,c);}',
-    'void main(){',
-    '  vec2 uv=(gl_FragCoord.xy-0.5*u_res)/min(u_res.x,u_res.y);',
-    '  float t=u_time*0.12;',
-    '  uv*=(1.35+0.42*sin(u_time*0.13));',
-    '  uv*=rot(t*0.25 + length(uv)*u_twist*2.2);',
-    '  for(int i=0;i<4;i++){ uv=abs(uv)-(0.42-u_chaos*0.10); uv*=rot(0.38+0.16*sin(t+float(i))+u_chaos*0.55*sin(t*1.9+float(i)*2.1)); }',
-    '  vec2 c=0.7885*vec2(cos(t*0.7),sin(t*0.93));',
-    '  vec2 z=uv*1.55; float m=0.0; bool esc=false;',
-    '  for(int i=0;i<110;i++){ z=mix(z,abs(z),u_ship); vec2 z2=vec2(z.x*z.x-z.y*z.y,2.0*z.x*z.y); vec2 z3=vec2(z2.x*z.x-z2.y*z.y,z2.x*z.y+z2.y*z.x); z=mix(z2,z3,u_pow)+c; float d=dot(z,z);',
-    '    if(d>16.0){ m=float(i)-log2(log2(d))+4.0; esc=true; break; } }',
-    '  float n=esc?clamp(m/110.0,0.0,1.0):1.0;',
-    '  float core=exp(-3.2*n);',
-    '  vec3 base=u_color;',
-    '  float shade=pow(n,1.25);',
-    '  vec3 col=base*(0.05+0.78*shade);',
-    '  col=mix(col, col*(0.65+0.6*sin(n*9.0+length(z)*2.2+t*0.6)), 0.42);',
-    '  col+=core*mix(base,vec3(1.0),0.6)*1.3;',
-    '  col+=base*pow(1.0-n,4.5)*1.0;',
-    '  col=mix(col, vec3(dot(col,vec3(0.299,0.587,0.114))), 0.12);',
-    '  col+=vec3(1.0)*pow(max(0.0,sin(34.0*length(z)+u_time*2.6)),22.0)*0.15;',
-    '  float vig=1.0-0.55*length((gl_FragCoord.xy/u_res)-0.5);',
-    '  col*=clamp(vig,0.0,1.0); col=pow(col,vec3(0.86));',
-    '  gl_FragColor=vec4(col,1.0);',
-    '}'
-  ].join('\n');
-
-  var gl=null; try{ gl=cv.getContext('webgl')||cv.getContext('experimental-webgl'); }catch(e){}
-  if(!gl){ cv.style.background='radial-gradient(60% 60% at 50% 40%,#141019,#050507)'; return; }
-  function sh(ty,s){ var x=gl.createShader(ty); gl.shaderSource(x,s); gl.compileShader(x); return x; }
-  var pr=gl.createProgram();
-  gl.attachShader(pr,sh(gl.VERTEX_SHADER,VERT));
-  gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,FRAG));
-  gl.linkProgram(pr);
-  if(!gl.getProgramParameter(pr,gl.LINK_STATUS)){ cv.style.background='radial-gradient(60% 60% at 50% 40%,#141019,#050507)'; return; }
-  gl.useProgram(pr);
-  var b=gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,b);
-  gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
-  var lc=gl.getAttribLocation(pr,'p'); gl.enableVertexAttribArray(lc); gl.vertexAttribPointer(lc,2,gl.FLOAT,false,0,0);
-  var uR=gl.getUniformLocation(pr,'u_res'),uT=gl.getUniformLocation(pr,'u_time'),uC=gl.getUniformLocation(pr,'u_color'),
-      uH=gl.getUniformLocation(pr,'u_chaos'),uPow=gl.getUniformLocation(pr,'u_pow'),uShip=gl.getUniformLocation(pr,'u_ship'),uTwist=gl.getUniformLocation(pr,'u_twist');
-  function sz(){ var d=Math.min(window.devicePixelRatio||1,1.5); cv.width=(innerWidth*d)|0; cv.height=(innerHeight*d)|0; gl.viewport(0,0,cv.width,cv.height); }
-  sz(); addEventListener('resize',sz);
-
-  // color + form ease toward the domain's LIVE phase
-  var cur=COL[6].slice(), tgt=COL[6].slice(), curCh=CH[6], tgtCh=CH[6], curFx=FX[6].slice(), tgtFx=FX[6].slice();
-  function setPhase(i){ if(i<0||i>10) return; tgt=COL[i]; tgtCh=CH[i]; tgtFx=FX[i]; }
-  function fetchPhase(){
-    fetch('/api/limen-snapshot').then(function(r){ return r.json(); }).then(function(j){
-      var d=(j.domains||j)[DOMAIN]||{}; var p=(d.phase||d.phaseLabel||'').toString();
-      var i=parseInt(p.replace(/[^0-9]/g,''),10); if(!isNaN(i)) setPhase(i);
-    }).catch(function(){});
-  }
-  fetchPhase(); setInterval(fetchPhase,150000);
-
-  var t0=Date.now(), run=true;
-  document.addEventListener('visibilitychange',function(){ run=!document.hidden; if(run) requestAnimationFrame(loop); });
-  function paint(){
-    for(var k=0;k<3;k++) cur[k]+=(tgt[k]-cur[k])*0.02;
-    curCh+=(tgtCh-curCh)*0.02;
-    for(var f=0;f<3;f++) curFx[f]+=(tgtFx[f]-curFx[f])*0.02;
-    gl.uniform2f(uR,cv.width,cv.height); gl.uniform1f(uT,(Date.now()-t0)/1000);
-    gl.uniform3f(uC,cur[0],cur[1],cur[2]); gl.uniform1f(uH,curCh);
-    gl.uniform1f(uPow,curFx[0]); gl.uniform1f(uShip,curFx[1]); gl.uniform1f(uTwist,curFx[2]);
-    gl.drawArrays(gl.TRIANGLES,0,3);
-  }
-  function loop(){ if(!run) return; paint(); requestAnimationFrame(loop); }
-  loop();
-})();
 </script>
 </body>
 </html>
