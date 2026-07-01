@@ -508,6 +508,7 @@ var DOMAIN_PORTALS = {
     {name:'NextEra (NEE)',url:'/company-portal?company=nextera_energy'}
   ],
   technology:[
+    {name:'KILLSWITCH · Free Websites',url:'/technology'},
     {name:'Microsoft (MSFT)',url:'/company-portal?company=microsoft'},
     {name:'Apple (AAPL)',url:'/company-portal?company=apple'},
     {name:'NVIDIA (NVDA)',url:'/company-portal?company=nvidia'},
