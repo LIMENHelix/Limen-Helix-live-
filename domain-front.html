@@ -147,6 +147,19 @@
   .disc{font-size:.74rem;color:var(--faint);margin-top:18px;line-height:1.6}
   .nowtag{font-family:var(--mono);font-size:.58rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#10131a;background:var(--red);border-radius:3px;padding:3px 8px;vertical-align:middle}
   .whytrig{font-size:.8rem;color:var(--soft);margin:-2px 0 16px}
+  /* phase path — P0 free, P1-P10 add-ons (each an analogy for the phase) */
+  .ladder{border:1px solid var(--line);border-radius:6px;overflow:hidden}
+  .prow{display:flex;align-items:center;gap:16px;padding:14px 18px;border-bottom:1px solid var(--line);background:rgba(12,17,27,.42)}
+  .prow:last-child{border-bottom:none}
+  .prow.free{background:rgba(201,168,106,.09);border-left:2px solid var(--gold)}
+  .pnum{font-family:var(--mono);font-size:.92rem;font-weight:600;color:var(--gold);width:40px;flex:0 0 auto;letter-spacing:.01em}
+  .pmid{flex:1;min-width:0}
+  .pmid .pt{font-size:.96rem;color:var(--ink);font-weight:600}
+  .pmid .pph{font-family:var(--mono);font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-left:9px}
+  .pmid .pl{font-size:.82rem;color:var(--soft);margin-top:3px;line-height:1.45}
+  .pprice{font-family:var(--mono);font-size:.78rem;color:var(--soft);flex:0 0 auto;text-align:right;white-space:nowrap}
+  .prow.free .pprice{color:var(--green);font-weight:600}
+  @media(max-width:560px){.prow{flex-wrap:wrap;gap:6px 14px}.pprice{width:100%;text-align:left;padding-left:56px}}
   /* explore strip */
   .explore{text-align:center;margin-top:48px;padding-top:30px;border-top:1px solid var(--line)}
   .explore-k{font-family:var(--mono);font-size:.6rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);margin-bottom:16px}
@@ -351,6 +364,19 @@ void main(){
         <h2><span class="livedot"></span> Latest news <span class="updated" id="newsUpdated"></span></h2>
         <div class="sub">Headlines from across the web on heat, water, drought, air &amp; hazards, links go to the original source.</div>
         <div class="news" id="news"><div class="muted">Loading headlines…</div></div>
+      </div>
+    </section>
+
+    <section id="pathSection">
+      <div class="card">
+        <h2>Go deeper: the phase path</h2>
+        <div class="sub">The live read is free. Everything past it follows the same P0 to P10 cycle LIMEN uses to read the world, each layer one step deeper into this domain. These are coming as we grow; add your email for early access.</div>
+        <div class="ladder" id="phaseLadder"></div>
+        <form class="capture" id="eaForm" style="margin:20px auto 0" onsubmit="return earlyAccess(event)">
+          <input type="email" id="eaEmail" placeholder="you@email.com" required />
+          <button type="submit" id="eaBtn">Get early access</button>
+        </form>
+        <div class="cap-note" id="eaNote"></div>
       </div>
     </section>
   </div>
@@ -823,6 +849,40 @@ function renderPopLocal(L) {
   }
   h += '</div>';
   EL('popLocalOut').innerHTML = h;
+}
+
+// ── phase path: P0 free, P1-P10 add-ons (each an analogy for the phase) ──
+var PHASE_LADDER = [
+  { p: 'P0', phase: 'Source', name: 'The Live Watch', line: 'The raw, live read of this domain. What you are using right now.', price: 'Free', free: true },
+  { p: 'P1', phase: 'Emergence', name: 'Your Signal', line: 'The moment it becomes yours: an alert the instant something moves for your place.', price: 'from $4 / mo' },
+  { p: 'P2', phase: 'Rhythm', name: 'The Briefing', line: 'A steady pulse: a daily or weekly digest you can sync your week to.', price: 'from $6 / mo' },
+  { p: 'P3', phase: 'Stress', name: 'Early Warning', line: 'Catch the cracks before they break: threshold and anomaly alerts.', price: 'from $9 / mo' },
+  { p: 'P4', phase: 'Stabilization', name: 'The Playbook', line: 'Turn the signal into steadiness: deep, tailored what-to-do plans.', price: 'from $9 / mo' },
+  { p: 'P5', phase: 'Endurance', name: 'The Record', line: 'The long view: history, trends, and this domain’s trajectory over time.', price: 'from $12 / mo' },
+  { p: 'P6', phase: 'Order', name: 'Command', line: 'Coordinate the whole: every place or asset you track, in one dashboard.', price: 'from $19 / mo' },
+  { p: 'P7', phase: 'Separation', name: 'The Fork', line: 'At a decision point: compare paths and model which way to go.', price: 'from $19 / mo' },
+  { p: 'P8', phase: 'Reflection', name: 'The Analyst', line: 'Step back and understand: a custom, expert read on your exact situation.', price: 'from $49 / mo' },
+  { p: 'P9', phase: 'Threshold', name: 'Live Edge', line: 'When timing is everything: real-time, instant alerts, poised to act.', price: 'from $29 / mo' },
+  { p: 'P10', phase: 'Renewal', name: 'The Engine', line: 'The whole system inside your operation: API, embeds, done-for-you.', price: 'Custom' }
+];
+function renderPhaseLadder() {
+  var host = EL('phaseLadder'); if (!host) return;
+  host.innerHTML = PHASE_LADDER.map(function (x) {
+    return '<div class="prow' + (x.free ? ' free' : '') + '"><div class="pnum">' + x.p + '</div>' +
+      '<div class="pmid"><span class="pt">' + esc(x.name) + '</span><span class="pph">' + esc(x.phase) + '</span><div class="pl">' + esc(x.line) + '</div></div>' +
+      '<div class="pprice">' + esc(x.price) + '</div></div>';
+  }).join('');
+}
+renderPhaseLadder();
+function earlyAccess(e) {
+  e.preventDefault();
+  var email = EL('eaEmail').value.trim(); if (!email) return false;
+  EL('eaBtn').disabled = true; EL('eaBtn').textContent = 'Adding…';
+  fetch('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, interest: C.name + ' add-ons (early access)', sourcePage: '/' + DID }) })
+    .then(function (r) { return r.json().catch(function () { return {}; }); })
+    .then(function () { EL('eaForm').style.display = 'none'; EL('eaNote').textContent = '✓ You’re on the early-access list. We’ll reach out as these open up.'; EL('eaNote').style.color = 'var(--green)'; })
+    .catch(function () { EL('eaBtn').disabled = false; EL('eaBtn').textContent = 'Get early access'; EL('eaNote').textContent = 'Try again in a moment.'; });
+  return false;
 }
 
 // ── email capture → /api/lead ──
