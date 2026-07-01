@@ -219,7 +219,7 @@
     .reveal{opacity:1;transform:none}
   }
   /* techy animated backdrop (behind all content) */
-  #techbg{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;display:block;background:radial-gradient(1200px 800px at 78% -10%,rgba(244,163,0,.05),transparent 60%),radial-gradient(900px 700px at 10% 110%,rgba(255,56,38,.05),transparent 60%),#0d0d0f}
+  #techbg{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;display:block;background:#08080b}
 </style>
 </head>
 <body>
@@ -460,91 +460,71 @@
 </script>
 
 <script>
-/* Techy backdrop: drifting node network + faint circuit grid + travelling data pulses.
-   Canvas has its own CSS gradient background; we clearRect each frame so it shows through. */
+/* Fractal backdrop: a slowly morphing Julia set whose color moves through the
+   eleven LIMEN Helix phases (P0 Source -> P10 Return) and loops. Computed on a
+   small offscreen buffer and upscaled, so it stays cheap. */
 (function(){
   var cv = document.getElementById('techbg'); if(!cv) return;
   var ctx = cv.getContext('2d');
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-  var dpr = Math.min(window.devicePixelRatio||1, 2);
-  var W=0, H=0, GRID=46, nodes=[], pulses=[], LINK=150, run=true;
 
-  function rand(a,b){ return a+Math.random()*(b-a); }
+  // LIMEN Helix phase palette P0..P10: Source, Emergence, Nourishment, Formation,
+  // Structure, Movement, Coordination, Regulation, Repair, Identity, Return.
+  var PHASES = [
+    [139,92,246],[245,158,11],[16,185,129],[239,68,68],[59,130,246],[236,72,153],
+    [6,182,212],[249,115,22],[132,204,22],[167,139,250],[226,232,240]
+  ];
+  var PHASE_MS = 5200;                          // time per phase transition
+
+  var buf, bctx, img, data, bw, bh, W, H, ITER, run=true, last=0, t0=Date.now();
+
   function build(){
-    W = cv.width = Math.floor(innerWidth*dpr);
-    H = cv.height = Math.floor(innerHeight*dpr);
+    W = cv.width = innerWidth; H = cv.height = innerHeight;
     cv.style.width = innerWidth+'px'; cv.style.height = innerHeight+'px';
-    var n = Math.max(28, Math.min(90, Math.floor(innerWidth*innerHeight/22000)));
-    nodes = [];
-    for(var i=0;i<n;i++){
-      nodes.push({ x:Math.random()*W, y:Math.random()*H,
-        vx:rand(-0.16,0.16)*dpr, vy:rand(-0.16,0.16)*dpr, r:rand(1.1,2.3)*dpr,
-        hot:Math.random()<0.14 });
-    }
+    bw = Math.max(120, Math.min(230, Math.round(innerWidth/7)));
+    bh = Math.max(80,  Math.round(bw * innerHeight/innerWidth));
+    ITER = innerWidth < 640 ? 34 : 52;
+    buf = document.createElement('canvas'); buf.width=bw; buf.height=bh;
+    bctx = buf.getContext('2d'); img = bctx.createImageData(bw,bh); data = img.data;
+    ctx.imageSmoothingEnabled = true;
   }
   build(); addEventListener('resize', build);
-  document.addEventListener('visibilitychange', function(){ run=!document.hidden; if(run&&!reduce) requestAnimationFrame(draw); });
+  document.addEventListener('visibilitychange', function(){ run=!document.hidden; if(run&&!reduce) requestAnimationFrame(frame); });
 
-  function grid(){
-    ctx.lineWidth = 1;
-    ctx.strokeStyle = 'rgba(140,150,165,0.045)';
-    var step = GRID*dpr;
-    ctx.beginPath();
-    for(var x=0;x<=W;x+=step){ ctx.moveTo(x,0); ctx.lineTo(x,H); }
-    for(var y=0;y<=H;y+=step){ ctx.moveTo(0,y); ctx.lineTo(W,y); }
-    ctx.stroke();
+  function phaseColor(time){
+    var f = (time/PHASE_MS) % PHASES.length, i = Math.floor(f), k = f - i;
+    var a = PHASES[i], b = PHASES[(i+1)%PHASES.length];
+    return [a[0]+(b[0]-a[0])*k, a[1]+(b[1]-a[1])*k, a[2]+(b[2]-a[2])*k];
   }
-  function maybeSpawnPulse(){
-    if(pulses.length>7 || Math.random()>0.04) return;
-    // pick two nearby nodes, send a pulse along the link
-    var a = nodes[(Math.random()*nodes.length)|0];
-    var best=null, bd=LINK*dpr;
-    for(var i=0;i<nodes.length;i++){ var b=nodes[i]; if(b===a) continue;
-      var d=Math.hypot(a.x-b.x,a.y-b.y); if(d<bd){ bd=d; best=b; } }
-    if(best) pulses.push({ a:a, b:best, t:0, sp:rand(0.012,0.03) });
-  }
-  function draw(){
-    if(!run) return;
-    ctx.clearRect(0,0,W,H);
-    grid();
-    // links
-    for(var i=0;i<nodes.length;i++){
-      var a=nodes[i]; a.x+=a.vx; a.y+=a.vy;
-      if(a.x<0||a.x>W) a.vx*=-1; if(a.y<0||a.y>H) a.vy*=-1;
-      for(var j=i+1;j<nodes.length;j++){
-        var b=nodes[j], d=Math.hypot(a.x-b.x,a.y-b.y);
-        if(d<LINK*dpr){
-          var al=(1-d/(LINK*dpr))*0.22;
-          ctx.strokeStyle='rgba(244,163,0,'+al.toFixed(3)+')';
-          ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
-        }
+
+  function render(time){
+    var col = phaseColor(time);
+    var th = time*0.00013;                       // Julia parameter orbit -> morph
+    var cx = 0.7885*Math.cos(th), cy = 0.7885*Math.sin(th);
+    var zoom = 1.55 + 0.28*Math.sin(time*0.00007), ar = bw/bh, o=0;
+    for(var py=0; py<bh; py++){
+      var iy = (py/bh - 0.5)*2*zoom;
+      for(var px=0; px<bw; px++){
+        var ix = (px/bw - 0.5)*2*zoom*ar, zx=ix, zy=iy, n=0, m=0;
+        while(n<ITER){ m=zx*zx+zy*zy; if(m>4) break;
+          var xt=zx*zx-zy*zy+cx; zy=2*zx*zy+cy; zx=xt; n++; }
+        var f;
+        if(n>=ITER){ f=0; }                      // interior -> dark (keeps text legible)
+        else { var sm=n+1-Math.log(Math.log(Math.sqrt(m)))/0.6931; f=Math.pow(sm/ITER,0.62); if(f<0)f=0; else if(f>1)f=1; }
+        data[o++]=col[0]*f; data[o++]=col[1]*f; data[o++]=col[2]*f; data[o++]=255;
       }
     }
-    // nodes
-    for(var k=0;k<nodes.length;k++){ var nn=nodes[k];
-      ctx.beginPath(); ctx.arc(nn.x,nn.y,nn.r,0,6.2832);
-      ctx.fillStyle = nn.hot ? 'rgba(255,86,74,0.85)' : 'rgba(210,215,225,0.55)';
-      ctx.fill();
-      if(nn.hot){ ctx.beginPath(); ctx.arc(nn.x,nn.y,nn.r*3.4,0,6.2832);
-        ctx.fillStyle='rgba(255,56,38,0.10)'; ctx.fill(); }
-    }
-    // travelling data pulses
-    maybeSpawnPulse();
-    for(var p=pulses.length-1;p>=0;p--){ var pu=pulses[p]; pu.t+=pu.sp;
-      if(pu.t>=1){ pulses.splice(p,1); continue; }
-      var px=pu.a.x+(pu.b.x-pu.a.x)*pu.t, py=pu.a.y+(pu.b.y-pu.a.y)*pu.t;
-      ctx.beginPath(); ctx.arc(px,py,1.7*dpr,0,6.2832);
-      ctx.fillStyle='rgba(244,163,0,0.9)'; ctx.fill();
-      ctx.beginPath(); ctx.arc(px,py,5*dpr,0,6.2832);
-      ctx.fillStyle='rgba(244,163,0,0.18)'; ctx.fill();
-    }
-    requestAnimationFrame(draw);
+    bctx.putImageData(img,0,0);
+    ctx.globalAlpha=1; ctx.fillStyle='#08080b'; ctx.fillRect(0,0,W,H);
+    ctx.globalAlpha=0.55; ctx.drawImage(buf,0,0,W,H); ctx.globalAlpha=1;
+    var g=ctx.createRadialGradient(W/2,H*0.44,0,W/2,H*0.44,Math.max(W,H)*0.72);
+    g.addColorStop(0,'rgba(8,8,11,0)'); g.addColorStop(1,'rgba(8,8,11,0.5)');
+    ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
   }
-  if(reduce){ ctx.clearRect(0,0,W,H); grid();
-    for(var q=0;q<nodes.length;q++){ var s=nodes[q];
-      ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,6.2832);
-      ctx.fillStyle=s.hot?'rgba(255,86,74,0.7)':'rgba(210,215,225,0.5)'; ctx.fill(); }
-  } else { draw(); }
+
+  function frame(){ if(!run) return; requestAnimationFrame(frame);
+    var now=Date.now(); if(now-last<33) return; last=now; render(now-t0); }
+  if(reduce) render(0); else frame();
 })();
 </script>
 </body>
