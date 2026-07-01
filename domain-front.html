@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title id="pgTitle">LIMEN Helix</title>
+<meta name="description" id="pgDesc" content="A free public watch for this domain — live signals and a plain-language read." />
+<style>
+  :root{ --bg:#0b0d12; --panel:#141821; --line:#232a36; --ink:#e8e3d9; --soft:#8b94a3; --faint:#5f6875;
+    --gold:#c9a94e; --green:#5ab5a0; --red:#e0655a; --amber:#d8a24e; }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1100px 500px at 78% -12%,#161d2a,var(--bg));color:var(--ink);
+    font-family:-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;line-height:1.5}
+  .wrap{max-width:920px;margin:0 auto;padding:0 20px}
+  a{color:var(--gold)}
+  /* hero */
+  .hero{padding:64px 0 34px;text-align:center}
+  .emoji{font-size:2.6rem;line-height:1}
+  .eyebrow{font-size:.6rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);opacity:.8;margin:14px 0 6px;font-weight:600}
+  h1{font-size:clamp(1.9rem,5vw,3rem);margin:0 0 10px;letter-spacing:-.02em}
+  .lead{max-width:600px;margin:0 auto;color:var(--soft);font-size:1.08rem}
+  /* email capture */
+  .capture{max-width:460px;margin:24px auto 0;display:flex;gap:8px}
+  .capture input{flex:1;background:#0e131b;border:1px solid var(--line);border-radius:9px;padding:12px 14px;color:var(--ink);font-size:.95rem;outline:none}
+  .capture input:focus{border-color:var(--gold)}
+  .capture button{background:var(--gold);color:#1a1306;border:none;border-radius:9px;padding:0 20px;font-weight:700;cursor:pointer;white-space:nowrap}
+  .cap-note{font-size:.72rem;color:var(--faint);margin-top:8px;text-align:center;min-height:1.1em}
+  /* sections */
+  section{padding:26px 0}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin-bottom:16px}
+  .card h2{margin:0 0 4px;font-size:1.15rem}
+  .card .sub{color:var(--faint);font-size:.82rem;margin-bottom:14px}
+  .pulse-top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+  .status{font-size:.66rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--line);border-radius:6px;padding:5px 10px}
+  .bar{flex:1;min-width:160px;height:8px;background:#0e131b;border-radius:6px;overflow:hidden}
+  .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--amber),var(--red))}
+  .barlbl{font-size:.78rem;color:var(--soft)}
+  .sig{font-size:.9rem;padding:9px 0;border-bottom:1px solid var(--line);color:var(--ink)}
+  .sig:last-child{border-bottom:none}
+  .sig .dot{color:var(--amber);margin-right:8px}
+  .muted{color:var(--soft);font-size:.9rem}
+  .tools{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+  .tool{background:#0e131b;border:1px solid var(--line);border-radius:11px;padding:14px 15px}
+  .tool b{display:block;margin-bottom:3px}
+  .tool span{font-size:.82rem;color:var(--soft)}
+  .tool.soon{opacity:.6}
+  .soonbadge{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);border:1px solid var(--line);border-radius:5px;padding:2px 6px;float:right}
+  footer{border-top:1px solid var(--line);margin-top:30px;padding:26px 0 50px;color:var(--faint);font-size:.8rem;text-align:center}
+  footer a{color:var(--soft);text-decoration:none}
+  .backrow{padding:16px 0 0}
+  .backrow a{color:var(--soft);text-decoration:none;font-size:.82rem}
+</style>
+</head>
+<body>
+<script src="/assets/js/limen-nav.js"></script>
+
+<div class="wrap">
+  <div class="backrow"><a href="/">← LIMEN Helix</a></div>
+
+  <div class="hero">
+    <div class="emoji" id="emoji">◆</div>
+    <div class="eyebrow" id="eyebrow">LIMEN Helix · public watch</div>
+    <h1 id="title">Domain Watch</h1>
+    <p class="lead" id="lead">A free, plain-language watch on this domain.</p>
+    <form class="capture" id="capForm" onsubmit="return subscribe(event)">
+      <input type="email" id="capEmail" placeholder="you@email.com" required />
+      <button type="submit" id="capBtn">Watch this</button>
+    </form>
+    <div class="cap-note" id="capNote">Free. We email you when this domain moves. No spam, unsubscribe anytime.</div>
+  </div>
+
+  <section>
+    <div class="card">
+      <h2 id="pulseTitle">Live pulse</h2>
+      <div class="sub">Real-time signals from the LIMEN feed network — updated continuously.</div>
+      <div id="pulse"><div class="muted">Reading the live feed…</div></div>
+    </div>
+
+    <div class="card">
+      <h2>Free tools</h2>
+      <div class="sub">The watchlist above is live now. These are on the way for this domain.</div>
+      <div class="tools" id="tools"></div>
+    </div>
+  </section>
+
+  <footer>
+    A <b style="color:var(--soft)">LIMEN Helix Transformation Sciences</b> public front · <a href="/">limenhelix.com</a><br>
+    Educational information, not professional advice.
+  </footer>
+</div>
+
+<script>
+// ── per-domain config (route id → content). snapshotKey = domain-snapshot key ──
+var CONFIG = {
+  economy:       { key:'economy',       emoji:'📈', name:'Economy Watch',        lead:'Track the forces moving jobs, prices, and growth — where you live and nationwide.', tools:['Cost-of-living tracker','Local jobs & wages','Recession signal meter'] },
+  environment:   { key:'environment',   emoji:'🌍', name:'Environment Watch',    lead:'Air, water, climate, and hazard signals for your region — in plain language.', tools:['Air & water quality by ZIP','Drought & wildfire map','Local hazard alerts'] },
+  medicine:      { key:'health',        emoji:'🩺', name:'Health Watch',         lead:'Disease spread, drug shortages, and care-system stress — decoded for humans.', tools:['Drug shortage lookup','Outbreak tracker','Plain-language recall alerts'] },
+  technology:    { key:'technology',    emoji:'💻', name:'Tech Watch',           lead:'Cyber threats, breakthroughs, and the tools reshaping how you work.', tools:['Breach & threat feed','New-tool radar','Was-I-affected checker'] },
+  science:       { key:'research',      emoji:'🔬', name:'Science Watch',        lead:'What is being discovered, funded, and retracted — as it happens.', tools:['New-study digest','Funding tracker','Retraction watch'] },
+  trade:         { key:'supplyChain',   emoji:'🚢', name:'Trade Watch',          lead:'Ports, tariffs, and supply-chain pressure that hit your shelf and your wallet.', tools:['Tariff impact estimator','Port congestion map','Shortage watch'] },
+  governance:    { key:'governance',    emoji:'🏛️', name:'Governance Watch',     lead:'Bills, rules, and oversight that actually change your day.', tools:['Bill tracker by topic','Rule-change alerts','Who-decides finder'] },
+  agriculture:   { key:'agriculture',   emoji:'🌾', name:'Agriculture Watch',    lead:'Drought, inputs, crops, and food-system stress — from field to table.', tools:['Input & fertilizer prices','Crop condition map','Farm-margin estimator'] },
+  industry:      { key:'industry',      emoji:'🏭', name:'Industry Watch',       lead:'Manufacturing, recalls, and the machines behind everything you buy.', tools:['Recall lookup','Factory & strike tracker','Supply-risk meter'] },
+  education:     { key:'education',      emoji:'🎓', name:'Education Watch',      lead:'Funding, policy, and what is actually working in learning.', tools:['District funding tracker','Policy-change alerts','What-works library'] },
+  communication: { key:'communication', emoji:'📡', name:'Communication Watch',  lead:'Media, misinformation, and the fight over what is true.', tools:['Misinformation radar','Source-trust checker','Story-spread tracker'] },
+  defense:       { key:'defense',       emoji:'🛡️', name:'Defense Watch',        lead:'Security, conflict, and the systems that keep watch.', tools:['Conflict tracker','Threat-level meter','Contract & program watch'] },
+  religion:      { key:'religion',      emoji:'🕊️', name:'Faith & Community Watch', lead:'Belief, community care, and the institutions that hold people together.', tools:['Community-aid finder','Interfaith event radar','Congregation resources'] },
+  population:    { key:'population',     emoji:'👥', name:'Population Watch',      lead:'Housing, migration, and demographics — the human tide.', tools:['Housing-cost tracker','Migration & border watch','Local demographics'] },
+  law:           { key:'law',           emoji:'⚖️', name:'Law Watch',            lead:'Courts, enforcement, and the rules that bind — decoded.', tools:['Know-your-rights guide','Court & ruling tracker','Complaint builder'] },
+  finance:       { key:'finance',       emoji:'💵', name:'Finance Watch',        lead:'Banks, markets, and the money system’s stress points.', tools:['Bank-health check','Rate & inflation tracker','Fraud & scam alerts'] },
+  intelligence:  { key:'intelligence',  emoji:'🛰️', name:'Intelligence Watch',   lead:'Signals, threats, and the analysis behind the headlines.', tools:['Threat digest','OSINT radar','Analysis briefings'] }
+};
+
+function domainFromUrl() {
+  var q = new URLSearchParams(location.search).get('domain');
+  if (q) return q;
+  var seg = location.pathname.replace(/^\/|\/$/g, '').split('/')[0];
+  return seg || 'economy';
+}
+var DID = domainFromUrl();
+var C = CONFIG[DID] || CONFIG.economy;
+var EL = function (id) { return document.getElementById(id); };
+
+// paint the page
+document.title = C.name + ' · LIMEN Helix';
+EL('pgTitle').textContent = C.name + ' · LIMEN Helix';
+EL('pgDesc').setAttribute('content', C.lead);
+EL('emoji').textContent = C.emoji;
+EL('title').textContent = C.name;
+EL('lead').textContent = C.lead;
+EL('pulseTitle').textContent = C.name.replace(' Watch', '') + ' · live pulse';
+EL('tools').innerHTML = C.tools.map(function (t) {
+  return '<div class="tool soon"><span class="soonbadge">soon</span><b>' + t + '</b><span>Free tool, in build.</span></div>';
+}).join('');
+
+// ── live pulse from the domain-snapshot ──
+function statusColor(s) { s = (s || '').toLowerCase(); return s.indexOf('crit') > -1 || s.indexOf('pain') > -1 ? 'var(--red)' : s.indexOf('degr') > -1 || s.indexOf('press') > -1 ? 'var(--amber)' : 'var(--green)'; }
+fetch('/api/domain-snapshot').then(function (r) { return r.json(); }).then(function (j) {
+  var d = (j.domains || j)[C.key] || {};
+  var stress = typeof d.stress === 'number' ? d.stress : null;
+  var st = d.status || (stress != null ? (stress > 0.65 ? 'ELEVATED' : stress > 0.4 ? 'ACTIVE' : 'CALM') : 'UNKNOWN');
+  var sigs = (d.signals || []).filter(Boolean).slice(0, 6);
+  var h = '<div class="pulse-top">' +
+    '<span class="status" style="color:' + statusColor(st) + ';border-color:' + statusColor(st) + '55">' + st + '</span>';
+  if (stress != null) h += '<span class="barlbl">pressure ' + Math.round(stress * 100) + '%</span><div class="bar"><i style="width:' + Math.round(stress * 100) + '%"></i></div>';
+  h += '</div>';
+  if (sigs.length) h += sigs.map(function (s) { return '<div class="sig"><span class="dot">●</span>' + String(s).replace(/_/g, ' ') + '</div>'; }).join('');
+  else h += '<div class="muted">No active signals right now — quiet is good. Watch it to catch the next move.</div>';
+  EL('pulse').innerHTML = h;
+}).catch(function () { EL('pulse').innerHTML = '<div class="muted">Live pulse is warming up — check back shortly.</div>'; });
+
+// ── email capture → /api/lead ──
+function subscribe(e) {
+  e.preventDefault();
+  var email = EL('capEmail').value.trim();
+  if (!email) return false;
+  EL('capBtn').disabled = true; EL('capBtn').textContent = 'Adding…';
+  fetch('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: email, interest: C.name, sourcePage: '/' + DID }) })
+    .then(function (r) { return r.json().catch(function () { return {}; }); })
+    .then(function () { EL('capForm').style.display = 'none'; EL('capNote').textContent = '✓ You’re on the ' + C.name + ' watchlist.'; EL('capNote').style.color = 'var(--green)'; })
+    .catch(function () { EL('capBtn').disabled = false; EL('capBtn').textContent = 'Watch this'; EL('capNote').textContent = 'Hmm, try again in a moment.'; });
+  return false;
+}
+</script>
+</body>
+</html>
