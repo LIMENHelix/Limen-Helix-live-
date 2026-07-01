@@ -715,7 +715,7 @@ var PORTAL_ROUTES = {
 // Domains with a FREE PUBLIC front (no auth). These take priority in the hover
 // cue so a public visitor is invited to open the live watch. Keep in sync with
 // the PUBLIC map in index.html's onNodeClick.
-var PUBLIC_FRONTS = { energy:1, culture:1, infrastructure:1, environment:1 };
+var PUBLIC_FRONTS = { economy:1, environment:1, medicine:1, technology:1, science:1, trade:1, governance:1, agriculture:1, industry:1, education:1, communication:1, defense:1, religion:1, population:1, law:1, finance:1, intelligence:1, energy:1, culture:1, infrastructure:1 };
 
 // ═══ 3-LAYER HELPER FUNCTIONS ═══
 
@@ -1758,7 +1758,7 @@ function draw() {
     if (NODES[i]._spin === undefined) {
       NODES[i]._spin = i * GOLDEN_ANGLE;
       var _rf = 0.38 + 0.62 * (i / last); // orbital radius (fraction): inner 0.38 .. outer 1.0
-      NODES[i]._spd = 0.00078 / Math.pow(_rf, 1.5); // Kepler's 3rd law: ω ∝ r^-1.5 (inner orbits faster)
+      NODES[i]._spd = 0.00100 / Math.pow(_rf, 1.5); // Kepler's 3rd law: ω ∝ r^-1.5 (inner orbits faster)
     }
     NODES[i]._spin += NODES[i]._spd;
     var theta = NODES[i]._spin;

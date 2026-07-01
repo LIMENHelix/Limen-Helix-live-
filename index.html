@@ -99,17 +99,6 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
 </div>
 <div id="subMenu"></div>
 
-<div class="intro">
-  <div class="tools">
-    <span class="lab">Free public watches · live now</span>
-    <a href="/environment">🌍 Environment</a>
-    <a href="/energy">⚡ Energy</a>
-    <a href="/culture">🎵 Culture</a>
-    <a href="/infrastructure">🏗️ Infrastructure</a>
-    <a href="/technology">💻 Technology</a>
-  </div>
-</div>
-
 <div id="entry-veil"></div>
 
 <!-- admin -->
@@ -126,12 +115,17 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
 </div>
 
 <script src="assets/js/limen-ui-state.js"></script>
-<script src="assets/js/civilization-connectome-galaxy.js?v=20260630a"></script>
+<script src="assets/js/civilization-connectome-galaxy.js?v=20260701a"></script>
 <script>
 (function(){
   'use strict';
-  // PUBLIC routing only — clicks never reach gated pages.
-  var PUBLIC = { energy:'/energy', culture:'/culture', infrastructure:'/infrastructure', environment:'/environment', technology:'/technology', medicine:'/fitness' };
+  // PUBLIC routing only — clicks never reach gated pages. Every domain has a free
+  // public front; each node id maps to its own route (medicine → the fitness front).
+  var PUBLIC = {};
+  ['economy','environment','technology','science','trade','governance','agriculture',
+   'industry','education','communication','defense','religion','population','law','finance',
+   'intelligence','energy','culture','infrastructure'].forEach(function(d){ PUBLIC[d] = '/' + d; });
+  PUBLIC.medicine = '/fitness';
   function onNodeClick(n){
     var url = n && (PUBLIC[n.id] || PUBLIC[(n.childUniverse||'').toLowerCase()]);
     if (url) window.location.href = url;
