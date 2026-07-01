@@ -173,6 +173,25 @@
   .mods-note a{color:var(--amber)}
   .mods-note a:hover{text-decoration:underline}
 
+  /* P0-P10 growth-path ladder */
+  .ladder{margin-top:42px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel)}
+  .rung{display:grid;grid-template-columns:64px 1fr auto;gap:20px;align-items:start;padding:19px 22px;border-top:1px solid var(--line-soft)}
+  .rung:first-child{border-top:none}
+  .rung .px{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:1.12rem;color:var(--amber);letter-spacing:.02em}
+  .rung h3{font-family:"Archivo",sans-serif;font-weight:700;font-size:1.14rem;margin:0}
+  .rung .stage{font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--mute-2);margin-top:3px}
+  .rung .k{display:block;font-family:"IBM Plex Mono",monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mute-2);margin:11px 0 3px}
+  .rung .v{color:var(--mute);font-size:.93rem}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+  .chips span{font-size:.72rem;color:var(--mute);background:var(--metal);border:1px solid var(--line-soft);border-radius:6px;padding:3px 9px;line-height:1.4}
+  .rung .amt{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:.96rem;color:var(--amber);text-align:right;white-space:nowrap}
+  .rung .amt small{display:block;color:var(--mute-2);font-size:.66rem;font-weight:400;margin-top:2px;letter-spacing:.03em}
+  .rung.free{background:linear-gradient(180deg,rgba(255,196,46,.06),transparent)}
+  .rung.flag{background:linear-gradient(180deg,rgba(255,85,70,.07),transparent)}
+  .rung.flag .px,.rung.flag .amt{color:var(--red)}
+  .rung .tag{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:#111;background:var(--amber);padding:2px 8px;border-radius:999px;margin-left:8px;vertical-align:3px}
+  @media(max-width:880px){.rung{grid-template-columns:42px 1fr;gap:13px;padding:17px 15px}.rung .amt{grid-column:2;text-align:left;margin-top:8px}}
+
   /* proof */
   .proof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:42px}
   .pcard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:24px;display:flex;flex-direction:column;min-height:210px;transition:.2s}
@@ -292,60 +311,141 @@
   </div>
 </section>
 
-<!-- MODULES -->
+<!-- P0-P10 GROWTH PATH -->
 <section class="s" id="modules">
   <div class="wrap">
     <div class="s-head reveal">
-      <span class="mono">What's free · what you bolt on</span>
-      <h2>Start with the site. Add power when you need it.</h2>
-      <p class="lead">Every module snaps onto the free build. Turn them on one at a time, or never. Your call.</p>
+      <span class="mono">The growth path · P0 → P10</span>
+      <h2>Start free. Add power as you grow.</h2>
+      <p class="lead">Every business moves through the same stages. Each add-on is built for one of them, switch it on when you reach it. Own it outright or run it monthly.</p>
     </div>
 
-    <div class="mods">
-      <div class="mod free reveal">
-        <span class="light"></span>
-        <div class="ix">MODULE 00 · INCLUDED</div>
-        <h3>The website</h3>
-        <p>Fast, modern, mobile-perfect. Your own domain, a contact form, your content. Live in minutes by end of call, and you own all of it.</p>
-        <div class="price">$0 · on the house</div>
+    <div class="ladder reveal">
+      <div class="rung free">
+        <div class="px">P0</div>
+        <div>
+          <h3>Root <span class="tag">You're here · free</span></h3>
+          <div class="stage">Source</div>
+          <span class="k">What it does</span><div class="v">Your site, live and yours to keep.</div>
+          <span class="k">Sold under it</span><div class="chips"><span>Responsive site</span><span>Your own domain</span><span>Contact form</span><span>Starter AI chat</span><span>You own the code</span></div>
+        </div>
+        <div class="amt">$0<small>on the house</small></div>
       </div>
-      <div class="mod reveal">
-        <span class="light"></span>
-        <div class="ix">MODULE 01</div>
-        <h3>Online booking</h3>
-        <p>Customers book and reschedule themselves. Synced to your calendar, no more phone tag.</p>
-        <div class="price">from $19 / mo</div>
+
+      <div class="rung">
+        <div class="px">P1</div>
+        <div>
+          <h3>Beacon</h3>
+          <div class="stage">Emergence</div>
+          <span class="k">What it does</span><div class="v">Get found on Google.</div>
+          <span class="k">Sold under it</span><div class="chips"><span>Google Business Profile</span><span>On-page SEO</span><span>Sitemap + Search Console</span><span>Local map listings</span><span>Keyword targeting</span></div>
+        </div>
+        <div class="amt">$19<small>/mo · or $149 once</small></div>
       </div>
-      <div class="mod reveal">
-        <span class="light"></span>
-        <div class="ix">MODULE 02</div>
-        <h3>AI concierge</h3>
-        <p>A 24/7 assistant that answers questions, quotes, qualifies, and books, even while you sleep.</p>
-        <div class="price">from $29 / mo</div>
+
+      <div class="rung">
+        <div class="px">P2</div>
+        <div>
+          <h3>Cadence</h3>
+          <div class="stage">Rhythm</div>
+          <span class="k">What it does</span><div class="v">Content that ships on schedule.</div>
+          <span class="k">Sold under it</span><div class="chips"><span>Blog / news section</span><span>AI-drafted posts</span><span>Email newsletter</span><span>Social scheduling</span><span>Content calendar</span></div>
+        </div>
+        <div class="amt">$29<small>/mo · or $149 once</small></div>
       </div>
-      <div class="mod reveal">
-        <span class="light"></span>
-        <div class="ix">MODULE 03</div>
-        <h3>Payments</h3>
-        <p>Take deposits and cards right on the site. Invoices, receipts, the works.</p>
-        <div class="price">from $19 / mo</div>
+
+      <div class="rung">
+        <div class="px">P3</div>
+        <div>
+          <h3>Intake</h3>
+          <div class="stage">Stress</div>
+          <span class="k">What it does</span><div class="v">Handle the rush without the phone tag.</div>
+          <span class="k">Sold under it</span><div class="chips"><span>Online booking</span><span>Calendar sync</span><span>Auto reminders</span><span>Intake / quote forms</span><span>Waitlist</span></div>
+        </div>
+        <div class="amt">$19<small>/mo · or $149 once</small></div>
       </div>
-      <div class="mod reveal">
-        <span class="light"></span>
-        <div class="ix">MODULE 04</div>
-        <h3>Lead dashboard</h3>
-        <p>Every lead, customer, and job in one place, built around how you actually work.</p>
-        <div class="price">from $29 / mo</div>
+
+      <div class="rung">
+        <div class="px">P4</div>
+        <div>
+          <h3>Uptime</h3>
+          <div class="stage">Stabilization</div>
+          <span class="k">What it does</span><div class="v">Keep it running, hands-off.</div>
+          <span class="k">Sold under it</span><div class="chips"><span>Managed hosting</span><span>Daily backups</span><span>Security patches</span><span>Uptime monitoring</span><span>Same-day small edits</span></div>
+        </div>
+        <div class="amt">$29<small>/month</small></div>
       </div>
-      <div class="mod reveal">
-        <span class="light"></span>
-        <div class="ix">MODULE 05</div>
-        <h3>Done-for-you upkeep</h3>
-        <p>Local SEO, edits, and updates handled. Text us a change, it's live the same day.</p>
-        <div class="price">from $29 / mo</div>
+
+      <div class="rung">
+        <div class="px">P5</div>
+        <div>
+          <h3>Ledger</h3>
+          <div class="stage">Endurance</div>
+          <span class="k">What it does</span><div class="v">Remember every lead and customer.</div>
+          <span class="k">Sold under it</span><div class="chips"><span>CRM</span><span>Pipeline tracking</span><span>Contact history</span><span>Activity dashboard</span><span>Reports / export</span></div>
+        </div>
+        <div class="amt">$29<small>/mo · or $499 once</small></div>
+      </div>
+
+      <div class="rung">
+        <div class="px">P6</div>
+        <div>
+          <h3>Pipeline</h3>
+          <div class="stage">Order</div>
+          <span class="k">What it does</span><div class="v">The busywork runs itself.</div>
+          <span class="k">Sold under it</span><div class="chips"><span>Automated follow-ups</span><span>Lead routing</span><span>Review requests</span><span>App integrations</span><span>Internal alerts</span></div>
+        </div>
+        <div class="amt">$29<small>/mo · or $199 once</small></div>
+      </div>
+
+      <div class="rung">
+        <div class="px">P7</div>
+        <div>
+          <h3>Gateway</h3>
+          <div class="stage">Separation</div>
+          <span class="k">What it does</span><div class="v">Take payments right on your site.</div>
+          <span class="k">Sold under it</span><div class="chips"><span>Stripe checkout</span><span>Invoicing</span><span>Subscriptions</span><span>Product catalog</span><span>Booking deposits</span></div>
+        </div>
+        <div class="amt">$19<small>/mo · or $149 once</small></div>
+      </div>
+
+      <div class="rung">
+        <div class="px">P8</div>
+        <div>
+          <h3>Telemetry</h3>
+          <div class="stage">Reflection</div>
+          <span class="k">What it does</span><div class="v">See what's working.</div>
+          <span class="k">Sold under it</span><div class="chips"><span>Analytics dashboard</span><span>Conversion tracking</span><span>Monthly plain-English report</span><span>Funnel + goals</span><span>Behavior heatmaps</span></div>
+        </div>
+        <div class="amt">$19<small>/month</small></div>
+      </div>
+
+      <div class="rung">
+        <div class="px">P9</div>
+        <div>
+          <h3>Edge</h3>
+          <div class="stage">Threshold</div>
+          <span class="k">What it does</span><div class="v">Always someone at the door.</div>
+          <span class="k">Sold under it</span><div class="chips"><span>24/7 AI concierge</span><span>Answers + qualifies</span><span>Books appointments</span><span>Trained on your business</span><span>Lead capture + handoff</span></div>
+        </div>
+        <div class="amt">$29<small>/mo · or $99 once</small></div>
+      </div>
+
+      <div class="rung flag">
+        <div class="px">P10</div>
+        <div>
+          <h3>Engine <span class="tag" style="background:var(--red);color:#fff">The Switch</span></h3>
+          <div class="stage">Renewal</div>
+          <span class="k">What it does</span><div class="v">It goes out and grows you.</div>
+          <span class="k">Sold under it</span><div class="chips"><span>Autonomous AI sales rep</span><span>Finds + researches prospects</span><span>Personalized outreach</span><span>Auto follow-up + booking</span><span>Custom software / full systems</span></div>
+        </div>
+        <div class="amt">Custom<small>book a scope call</small></div>
       </div>
     </div>
-    <p class="mods-note reveal">// prices are starting points, your exact mix gets set on the call · <a href="https://killswitch.domains/pricing">See full pricing &amp; checkout →</a></p>
+    <p class="mods-note reveal">// P0 is free and yours · prices are starting points, your mix gets set on the call · <a href="https://killswitch.domains/pricing">See full pricing &amp; checkout →</a></p>
+    <div class="hero-actions reveal" style="margin-top:30px">
+      <a href="https://calendly.com/chrishubbel72/30min" class="btn btn-primary armed">Book a call to map your path <span class="arrow">→</span></a>
+    </div>
   </div>
 </section>
 
