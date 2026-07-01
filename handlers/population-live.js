@@ -25,7 +25,7 @@ var STATE_CSV = 'https://www2.census.gov/programs-surveys/popest/datasets/2020-2
 var COUNTY_CSV = 'https://www2.census.gov/programs-surveys/popest/datasets/2020-2023/counties/totals/co-est2023-alldata.csv';
 var NAT_KEY = 'pop:national:v2';
 var CTY_KEY = 'pop:counties:v2';
-var GLOBAL_KEY = 'pop:global:v1';
+var GLOBAL_KEY = 'pop:global:v2';
 var WBC_KEY = 'pop:wbcountries:v1';
 var TTL_MS = 24 * 3600 * 1000;
 
@@ -143,10 +143,10 @@ async function unhcrDisplacement() {
 }
 async function buildGlobal() {
   var real = await realCountrySet();
-  var mig = (await wbIndicator('SM.POP.NETM', '2023')).filter(function (r) { return r.value != null && real[r.country.id]; })
+  var mig = (await wbIndicator('SM.POP.NETM', '2023')).filter(function (r) { return r.value != null && real[r.countryiso3code]; })
     .map(function (r) { return { country: r.country.value, value: Math.round(r.value) }; }).sort(function (a, b) { return b.value - a.value; });
   var grow = [];
-  try { grow = (await wbIndicator('SP.POP.GROW', '2023')).filter(function (r) { return r.value != null && real[r.country.id]; }).map(function (r) { return { country: r.country.value, rate: Math.round(r.value * 10) / 10 }; }).sort(function (a, b) { return b.rate - a.rate; }).slice(0, 6); } catch (e) {}
+  try { grow = (await wbIndicator('SP.POP.GROW', '2023')).filter(function (r) { return r.value != null && real[r.countryiso3code]; }).map(function (r) { return { country: r.country.value, rate: Math.round(r.value * 10) / 10 }; }).sort(function (a, b) { return b.rate - a.rate; }).slice(0, 6); } catch (e) {}
   var disp = null; try { disp = await unhcrDisplacement(); } catch (e) {}
   return {
     updated: new Date().toISOString(), updatedMs: Date.now(),
