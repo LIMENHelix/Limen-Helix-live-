@@ -77,6 +77,18 @@
   .sig:last-child{border-bottom:none}
   .sig .dot{color:var(--amber);margin-right:8px}
   .muted{color:var(--soft);font-size:.9rem}
+  /* migration (population) */
+  .mig-cols{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:6px}
+  @media(max-width:640px){.mig-cols{grid-template-columns:1fr;gap:18px}}
+  .mig-h{font-size:.68rem;font-weight:800;letter-spacing:.11em;text-transform:uppercase;margin-bottom:6px}
+  .mig-h.gain{color:var(--green)} .mig-h.lose{color:var(--red)}
+  .mig-row{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
+  .mig-row:last-child{border-bottom:none}
+  .mig-row .nm{font-size:.92rem;color:var(--ink)}
+  .mig-row .rk{font-size:.72rem;color:var(--faint);margin-right:8px}
+  .mig-row .rt{font-weight:800;font-size:.96rem}
+  .mig-row .rt.pos{color:var(--green)} .mig-row .rt.neg{color:var(--red)}
+  .mig-row .ct{font-size:.72rem;color:var(--faint);margin-left:7px}
   /* news */
   .news a.item{display:block;padding:11px 0;border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink)}
   .news a.item:last-child{border-bottom:none}
@@ -189,6 +201,33 @@ void main(){
   </div>
 
   <div id="sections">
+    <!-- WHERE AMERICA IS MOVING (population) -->
+    <section id="popSection" style="display:none">
+      <div class="card">
+        <h2><span class="livedot"></span> Where America is moving <span class="updated" id="popUpdated"></span></h2>
+        <div class="sub">Net domestic migration, U.S. residents moving in vs. out, straight from the U.S. Census Bureau. The number is the rate per 1,000 residents (a fair read across big and small states); the gray figure is people per year.</div>
+        <div class="mig-cols">
+          <div><div class="mig-h gain">Gaining people fastest</div><div id="popGainers"><div class="muted">Reading Census migration…</div></div></div>
+          <div><div class="mig-h lose">Losing people fastest</div><div id="popLosers"></div></div>
+        </div>
+        <div style="margin-top:24px">
+          <div style="font-weight:700;font-size:.95rem;margin-bottom:6px">Your area</div>
+          <div class="sub" style="margin-bottom:8px">Enter your ZIP to see whether your county is gaining or losing people, and where your state ranks.</div>
+          <form class="ziprow" id="popZipForm" onsubmit="return popLookupZip(event)">
+            <input id="popZipInput" inputmode="numeric" maxlength="5" placeholder="ZIP code" />
+            <button type="submit" id="popZipBtn">Check my area</button>
+          </form>
+          <div id="popLocalOut"></div>
+        </div>
+        <div class="disc" id="popCite"></div>
+      </div>
+      <div class="card">
+        <h2>Top landing spots</h2>
+        <div class="sub">The larger counties (150k+ people) gaining residents fastest right now, where movers are actually going.</div>
+        <div class="stats" id="popLanding"></div>
+      </div>
+    </section>
+
     <!-- LIMEN read: current phase -->
     <section id="phaseSection" style="display:none">
       <div class="card">
@@ -275,7 +314,7 @@ var CONFIG = {
   communication: { key:'communication', emoji:'📡', name:'Communication Watch',  lead:'Media, misinformation, and the fight over what is true.', tools:['Misinformation radar','Source-trust checker','Story-spread tracker'] },
   defense:       { key:'defense',       emoji:'🛡️', name:'Defense Watch',        lead:'Security, conflict, and the systems that keep watch.', tools:['Conflict tracker','Threat-level meter','Contract & program watch'] },
   religion:      { key:'religion',      emoji:'🕊️', name:'Faith & Community Watch', lead:'Belief, community care, and the institutions that hold people together.', tools:['Community-aid finder','Interfaith event radar','Congregation resources'] },
-  population:    { key:'population',     emoji:'👥', name:'Population Watch',      lead:'Housing, migration, and demographics, the human tide.', tools:['Housing-cost tracker','Migration & border watch','Local demographics'] },
+  population:    { key:'population',     emoji:'👥', name:'Population Watch',      lead:'Where America is actually moving, who is gaining people, who is losing them, and what your own county is doing, in plain numbers.', live:'pop', tools:['Housing-cost tracker','Migration & border watch','Local demographics'] },
   law:           { key:'law',           emoji:'⚖️', name:'Law Watch',            lead:'Courts, enforcement, and the rules that bind, decoded.', tools:['Know-your-rights guide','Court & ruling tracker','Complaint builder'] },
   finance:       { key:'finance',       emoji:'💵', name:'Finance Watch',        lead:'Banks, markets, and the money system’s stress points.', tools:['Bank-health check','Rate & inflation tracker','Fraud & scam alerts'] },
   intelligence:  { key:'intelligence',  emoji:'🛰️', name:'Intelligence Watch',   lead:'Signals, threats, and the analysis behind the headlines.', tools:['Threat digest','OSINT radar','Analysis briefings'] }
@@ -378,6 +417,13 @@ if (C.live === 'env') {
   EL('newsSection').style.display = '';
   EL('pulseSection').style.display = 'none'; // the phase card is the LIMEN read for environment
   loadEnvLive();
+}
+
+// population: "where America is moving" migration tool
+if (C.live === 'pop') {
+  EL('popSection').style.display = '';
+  EL('toolsCard').style.display = 'none';
+  loadPopLive();
 }
 
 // ── live pulse from the CACHED snapshot (fast: ~400ms) ──
@@ -581,6 +627,52 @@ function renderCondition(G, key, d) {
   Array.prototype.forEach.call(EL('guideBody').querySelectorAll('.chip'), function (ch) {
     ch.addEventListener('click', function () { renderCondition(G, ch.getAttribute('data-k'), d); });
   });
+}
+
+// ── population: "where America is moving" (real Census migration data) ──
+function migRow(o) {
+  var rt = (o.rate > 0 ? '+' : '') + o.rate;
+  var cls = o.rate >= 0 ? 'pos' : 'neg';
+  var net = (o.netIn > 0 ? '+' : '') + Number(o.netIn).toLocaleString();
+  return '<div class="mig-row"><div class="nm"><span class="rk">#' + o.rank + '</span>' + esc(o.state) + '</div>' +
+    '<div><span class="rt ' + cls + '">' + rt + '</span><span class="ct">' + net + '/yr</span></div></div>';
+}
+function loadPopLive() {
+  fetch('/api/population-live').then(function (r) { return r.json(); }).then(function (j) { renderPopNational(j.national || {}); })
+    .catch(function () { EL('popGainers').innerHTML = '<div class="muted">Census data is warming up. Refresh shortly.</div>'; });
+}
+function renderPopNational(n) {
+  EL('popGainers').innerHTML = (n.gainers || []).map(migRow).join('') || '<div class="muted">—</div>';
+  EL('popLosers').innerHTML = (n.losers || []).map(migRow).join('') || '<div class="muted">—</div>';
+  EL('popUpdated').textContent = 'Census 2023 vintage';
+  EL('popCite').innerHTML = 'Source: ' + esc((n.source && n.source.name) || 'U.S. Census Bureau, Population Estimates') + '. Net domestic migration = U.S. residents moving between states/counties (it excludes births, deaths, and international arrivals). Latest annual data (Vintage 2023).';
+  EL('popLanding').innerHTML = (n.landing || []).map(function (o) {
+    return '<div class="stat"><div class="n" style="color:var(--green)">+' + o.rate + '</div><div class="k">' + esc(o.county) + ', ' + esc(o.state) + '</div>' +
+      '<div class="c">+' + Number(o.netIn).toLocaleString() + '/yr · pop ' + Math.round(o.pop / 1000) + 'k</div></div>';
+  }).join('');
+}
+function popLookupZip(e) {
+  e.preventDefault();
+  var zip = (EL('popZipInput').value || '').replace(/[^0-9]/g, '').slice(0, 5);
+  if (zip.length !== 5) { EL('popLocalOut').innerHTML = '<div class="muted" style="margin-top:8px">Enter a 5-digit ZIP.</div>'; return false; }
+  EL('popZipBtn').disabled = true; EL('popZipBtn').textContent = 'Checking…';
+  EL('popLocalOut').innerHTML = '<div class="muted" style="margin-top:8px">Reading Census migration for ' + zip + '…</div>';
+  fetch('/api/population-live?zip=' + zip).then(function (r) { return r.json(); }).then(function (j) { renderPopLocal(j.local || {}); })
+    .catch(function () { EL('popLocalOut').innerHTML = '<div class="muted" style="margin-top:8px">Could not read that area. Try again.</div>'; })
+    .finally(function () { EL('popZipBtn').disabled = false; EL('popZipBtn').textContent = 'Check my area'; });
+  return false;
+}
+function renderPopLocal(L) {
+  if (!L || (L.error && !L.migration)) { EL('popLocalOut').innerHTML = '<div class="muted" style="margin-top:8px">' + esc((L && L.error) || 'No data for that ZIP.') + '</div>'; return; }
+  var h = '<div class="fcast"><div style="font-weight:700">' + esc(L.place || '') + (L.state ? ', ' + esc(L.state) : '') + (L.county ? ' · ' + esc(L.county) : '') + '</div>';
+  if (L.migration) {
+    var m = L.migration, pos = m.netIn >= 0;
+    h += '<div style="margin-top:6px"><span style="font-weight:800;font-size:1.3rem;color:' + (pos ? 'var(--green)' : 'var(--red)') + '">' + (pos ? '+' : '') + Number(m.netIn).toLocaleString() + '</span> <span style="color:var(--soft)">net movers per year in your county</span> <span class="c" style="color:var(--faint);font-size:.72rem">(' + (m.rate > 0 ? '+' : '') + m.rate + ' per 1,000)</span></div>';
+    h += '<div class="hl" style="margin-top:4px">' + (pos ? 'More people are moving into your county than leaving.' : 'More people are leaving your county than moving in.') + '</div>';
+  } else h += '<div class="muted" style="margin-top:6px">No county migration figure available for your area.</div>';
+  if (L.stateRank) h += '<div class="hl" style="margin-top:8px">' + esc(L.state) + ' ranks <b>#' + L.stateRank.rank + '</b> of 51 states (+ DC) for net migration (' + (L.stateRank.rate > 0 ? '+' : '') + L.stateRank.rate + ' per 1,000).</div>';
+  h += '</div>';
+  EL('popLocalOut').innerHTML = h;
 }
 
 // ── email capture → /api/lead ──
