@@ -45,6 +45,26 @@
   .tool span{font-size:.82rem;color:var(--soft)}
   .tool.soon{opacity:.6}
   .soonbadge{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);border:1px solid var(--line);border-radius:5px;padding:2px 6px;float:right}
+  /* action guide */
+  .guide-cond{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .chip{font-size:.72rem;border:1px solid var(--line);border-radius:999px;padding:6px 12px;color:var(--soft);cursor:pointer;background:#0e131b;transition:all .12s}
+  .chip:hover{border-color:var(--soft)}
+  .chip.on{color:#1a1306;background:var(--gold);border-color:var(--gold);font-weight:700}
+  .lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:14px}
+  .lane{background:#0e131b;border:1px solid var(--line);border-radius:11px;padding:15px 16px}
+  .lane h3{margin:0 0 8px;font-size:.66rem;letter-spacing:.13em;text-transform:uppercase}
+  .lane ul{margin:0;padding:0;list-style:none}
+  .lane li{font-size:.86rem;color:var(--ink);padding:8px 0;border-bottom:1px solid var(--line);display:flex;gap:8px;line-height:1.45}
+  .lane li:last-child{border-bottom:none}
+  .lane li::before{content:'›';color:var(--faint);font-weight:700}
+  .lane.survive h3{color:var(--red)} .lane.save h3{color:var(--green)}
+  .lane.position h3{color:var(--gold)} .lane.act h3{color:var(--amber)}
+  .names{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+  .names span{font-size:.72rem;border:1px solid var(--line);border-radius:6px;padding:3px 8px;color:var(--soft)}
+  .guide-cta{display:inline-block;margin-top:16px;color:var(--gold);text-decoration:none;font-size:.9rem;font-weight:600;border:1px solid var(--gold);border-radius:9px;padding:9px 15px}
+  .guide-cta:hover{background:var(--gold);color:#1a1306}
+  .disc{font-size:.72rem;color:var(--faint);margin-top:16px;line-height:1.55}
+  .nowtag{font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--red);border:1px solid var(--red);border-radius:5px;padding:3px 8px;margin-left:8px;vertical-align:middle}
   footer{border-top:1px solid var(--line);margin-top:30px;padding:26px 0 50px;color:var(--faint);font-size:.8rem;text-align:center}
   footer a{color:var(--soft);text-decoration:none}
   .backrow{padding:16px 0 0}
@@ -53,6 +73,7 @@
 </head>
 <body>
 <script src="/assets/js/limen-nav.js"></script>
+<script src="/assets/js/domain-guides.js"></script>
 
 <div class="wrap">
   <div class="backrow"><a href="/">← LIMEN Helix</a></div>
@@ -76,7 +97,13 @@
       <div id="pulse"><div class="muted">Reading the live feed…</div></div>
     </div>
 
-    <div class="card">
+    <div class="card" id="guideCard" style="display:none">
+      <h2>What to do right now <span class="nowtag" id="nowTag" style="display:none">live</span></h2>
+      <div class="sub" id="guideWhen">—</div>
+      <div id="guideBody"></div>
+    </div>
+
+    <div class="card" id="toolsCard">
       <h2>Free tools</h2>
       <div class="sub">The watchlist above is live now. These are on the way for this domain.</div>
       <div class="tools" id="tools"></div>
@@ -150,7 +177,45 @@ fetch('/api/limen-snapshot').then(function (r) { return r.json(); }).then(functi
   else h += '<div class="muted">Quiet right now — no elevated signals. Watch it to catch the next move.</div>';
   if (typeof d.liveCount === 'number') h += '<div class="muted" style="margin-top:10px;font-size:.78rem">' + d.liveCount + ' live sources tracked · updates continuously</div>';
   EL('pulse').innerHTML = h;
-}).catch(function () { EL('pulse').innerHTML = '<div class="muted">Live pulse is warming up — check back shortly.</div>'; });
+  renderGuide(d);
+}).catch(function () { EL('pulse').innerHTML = '<div class="muted">Live pulse is warming up — check back shortly.</div>'; renderGuide({}); });
+
+// ── the "what to do right now" action guide (from domain-guides.js) ──
+function renderGuide(d) {
+  var G = (window.LIMEN_DOMAIN_GUIDES || {})[DID];
+  if (!G || !G.conditions) { EL('guideCard').style.display = 'none'; return; }
+  EL('guideCard').style.display = '';
+  EL('toolsCard').style.display = 'none'; // the guide IS this domain's tool
+  var active = (typeof G.match === 'function' && d) ? G.match(d) : Object.keys(G.conditions)[0];
+  if (d && d.topSignal) EL('nowTag').style.display = ''; // matched to a live signal
+  renderCondition(G, active, d);
+}
+function esc(s){ return String(s); } // content is authored, kept as-is (allows <b>)
+function renderCondition(G, key, d) {
+  var c = G.conditions[key]; if (!c) return;
+  var chips = Object.keys(G.conditions).map(function (k) {
+    return '<span class="chip' + (k === key ? ' on' : '') + '" data-k="' + k + '">' + G.conditions[k].title + '</span>';
+  }).join('');
+  var lane = function (cls, label, items) {
+    return '<div class="lane ' + cls + '"><h3>' + label + '</h3><ul>' +
+      items.map(function (x) { return '<li><span>' + esc(x) + '</span></li>'; }).join('') + '</ul></div>';
+  };
+  var pos = '<div class="lane position"><h3>Position</h3><ul><li><span>' + esc(c.position.note) + '</span></li></ul>' +
+    '<div class="names">' + c.position.names.map(function (n) { return '<span>' + esc(n) + '</span>'; }).join('') + '</div></div>';
+  var html = '<div class="guide-cond">' + chips + '</div><div class="lanes">' +
+    lane('survive', 'Survive / prepare', c.survive) +
+    lane('save', 'Save money', c.save) +
+    pos +
+    lane('act', 'Act', c.act) +
+    '</div>';
+  if (G.cta) html += '<a class="guide-cta" href="' + G.cta.href + '">' + esc(G.cta.label) + '</a>';
+  html += '<div class="disc">This shifts with the live pulse above. <b>“Position”</b> names are companies with exposure to this condition — shared for research, <b>not</b> a recommendation to buy or a forecast. Survival tips are widely-recommended prep, not emergency instructions — <b>in a real emergency, official local alerts always come first.</b></div>';
+  EL('guideBody').innerHTML = html;
+  EL('guideWhen').innerHTML = '<b style="color:var(--ink)">' + esc(c.title) + '</b>' + (c.when ? ' · ' + esc(c.when) : '');
+  Array.prototype.forEach.call(EL('guideBody').querySelectorAll('.chip'), function (ch) {
+    ch.addEventListener('click', function () { renderCondition(G, ch.getAttribute('data-k'), d); });
+  });
+}
 
 // ── email capture → /api/lead ──
 function subscribe(e) {
