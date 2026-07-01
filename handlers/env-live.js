@@ -43,7 +43,7 @@ async function countEvents(events) {
   var total = 0, samples = [];
   await Promise.all(events.map(async function (ev) {
     try {
-      var d = await getJSON('https://api.weather.gov/alerts/active?limit=500&event=' + encodeURIComponent(ev), { 'Accept': 'application/geo+json' });
+      var d = await getJSON('https://api.weather.gov/alerts/active?event=' + encodeURIComponent(ev), { 'Accept': 'application/geo+json' });
       var f = (d && d.features) || [];
       total += f.length;
       for (var i = 0; i < f.length && samples.length < 4; i++) {
