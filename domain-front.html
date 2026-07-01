@@ -103,6 +103,32 @@
   footer a{color:var(--soft);text-decoration:none}
   .backrow{padding:16px 0 0}
   .backrow a{color:var(--soft);text-decoration:none;font-size:.82rem}
+  /* photo hero (environment: Yosemite) */
+  .hero.photo{position:relative;border-radius:20px;overflow:hidden;color:#fff;margin-top:8px;padding:0;text-align:center;box-shadow:var(--shadow);
+    background:linear-gradient(180deg,rgba(12,22,38,.30),rgba(10,18,32,.74)),url('/assets/img/yosemite.jpg') center 46%/cover no-repeat}
+  .hero.photo .hero-inner{max-width:760px;margin:0 auto;padding:64px 24px 30px}
+  .hero.photo .eyebrow{color:#e7d9ab}
+  .hero.photo h1{color:#fff;text-shadow:0 2px 22px rgba(0,0,0,.5)}
+  .hero.photo .lead{color:#eef2f7;text-shadow:0 1px 12px rgba(0,0,0,.5)}
+  .hero.photo .cap-note{color:rgba(255,255,255,.82)}
+  .photocred{position:absolute;bottom:6px;right:11px;font-size:.58rem;color:rgba(255,255,255,.6)}
+  .photocred a{color:rgba(255,255,255,.7)}
+  /* LIMEN phase card */
+  .phasewrap{display:flex;gap:20px;flex-wrap:wrap;align-items:stretch}
+  .phasebadge{flex:0 0 auto;text-align:center;background:linear-gradient(160deg,#1a2740,#0f1a2e);border:1px solid #26324a;border-radius:16px;padding:20px 24px;min-width:158px;display:flex;flex-direction:column;justify-content:center;color:#fff}
+  .phasebadge .pn{font-size:2.6rem;font-weight:800;line-height:1;color:#e7c766}
+  .phasebadge .pl{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:#aeb9cc;margin-top:8px;font-weight:700}
+  .phasebadge .pm{font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:#7f8ca4;margin-top:6px}
+  .phasebody{flex:1;min-width:250px}
+  .phasebody p{margin:0 0 10px;font-size:.95rem}
+  .gauge{display:flex;gap:22px;flex-wrap:wrap;margin-top:10px}
+  .gauge .g{font-size:.8rem;color:var(--soft)} .gauge .g b{color:var(--ink);font-size:1.05rem}
+  .feedstrip{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+  .feedchip{font-size:.72rem;border:1px solid var(--line);border-radius:999px;padding:5px 11px;background:#fff;color:var(--soft);display:flex;align-items:center;gap:6px}
+  .feeddot{width:7px;height:7px;border-radius:50%;background:var(--faint);flex:0 0 auto}
+  .feedchip.live{color:var(--ink)} .feedchip.live .feeddot{background:var(--green)}
+  .bign{font-size:2.1rem;font-weight:800;letter-spacing:-.02em;color:var(--red);line-height:1}
+  .aqipill{display:inline-block;padding:2px 10px;border-radius:6px;color:#fff;font-weight:700;font-size:.8rem}
 </style>
 </head>
 <body>
@@ -112,27 +138,40 @@
 <div class="wrap">
   <div class="backrow"><a href="/">← LIMEN Helix</a></div>
 
-  <div class="hero">
-    <div class="emoji" id="emoji">◆</div>
-    <div class="eyebrow" id="eyebrow">LIMEN Helix · public watch</div>
-    <h1 id="title">Domain Watch</h1>
-    <p class="lead" id="lead">A free, plain-language watch on this domain.</p>
-    <form class="capture" id="capForm" onsubmit="return subscribe(event)">
-      <input type="email" id="capEmail" placeholder="you@email.com" required />
-      <button type="submit" id="capBtn">Watch this</button>
-    </form>
-    <div class="cap-note" id="capNote">Free. We email you when this domain moves. No spam, unsubscribe anytime.</div>
+  <div class="hero" id="hero">
+    <div class="hero-inner">
+      <div class="emoji" id="emoji">◆</div>
+      <div class="eyebrow" id="eyebrow">LIMEN Helix · public watch</div>
+      <h1 id="title">Domain Watch</h1>
+      <p class="lead" id="lead">A free, plain-language watch on this domain.</p>
+      <form class="capture" id="capForm" onsubmit="return subscribe(event)">
+        <input type="email" id="capEmail" placeholder="you@email.com" required />
+        <button type="submit" id="capBtn">Watch this</button>
+      </form>
+      <div class="cap-note" id="capNote">Free. We email you when this domain moves. No spam, unsubscribe anytime.</div>
+    </div>
+    <div class="photocred" id="photocred" style="display:none"></div>
   </div>
 
   <div id="sections">
+    <!-- LIMEN read: current phase -->
+    <section id="phaseSection" style="display:none">
+      <div class="card">
+        <h2>Where the environment stands — the LIMEN Helix read</h2>
+        <div class="sub">LIMEN Helix reads every live feed below as one system and places it on a phase cycle. This is the phase it is in right now — and what that means.</div>
+        <div id="phaseBody"><div class="muted">Reading the system…</div></div>
+      </div>
+    </section>
+
     <!-- LIVE GOVERNMENT ALERTS (environment) -->
     <section id="govSection" style="display:none">
       <div class="card">
-        <h2><span class="livedot"></span> Live government alerts <span class="updated" id="govUpdated"></span></h2>
-        <div class="sub">Active watches, warnings &amp; drought status pulled directly from federal sources — updated continuously.</div>
-        <div class="stats" id="govStats"><div class="muted">Reading National Weather Service &amp; U.S. Drought Monitor…</div></div>
+        <h2><span class="livedot"></span> Live alerts across the country <span class="updated" id="govUpdated"></span></h2>
+        <div class="sub">Every active federal watch, warning &amp; hazard right now — pulled straight from the National Weather Service, U.S. Drought Monitor and USGS. These numbers move minute to minute.</div>
+        <div id="govHead"></div>
+        <div class="stats" id="govStats"><div class="muted">Reading National Weather Service, Drought Monitor &amp; USGS…</div></div>
 
-        <div style="margin-top:20px">
+        <div style="margin-top:22px">
           <div style="font-weight:700;font-size:.95rem;margin-bottom:6px">Your area</div>
           <div class="sub" style="margin-bottom:8px">Enter your ZIP for active local alerts, today's forecast, and your state's drought status.</div>
           <form class="ziprow" id="zipForm" onsubmit="return lookupZip(event)">
@@ -189,7 +228,7 @@
 // ── per-domain config (route id → content). key = domain-snapshot key ──
 var CONFIG = {
   economy:       { key:'economy',       emoji:'📈', name:'Economy Watch',        lead:'Track the forces moving jobs, prices, and growth — where you live and nationwide.', tools:['Cost-of-living tracker','Local jobs & wages','Recession signal meter'] },
-  environment:   { key:'environment',   emoji:'🌍', name:'Environment Watch',    lead:'Live heat, drought, air, water and hazard alerts for your area — plus exactly what to do about them.', live:'env', tools:['Air & water quality by ZIP','Drought & wildfire map','Local hazard alerts'] },
+  environment:   { key:'environment',   emoji:'🌍', name:'Environment Watch',    lead:'Every heat warning, drought reading, wildfire, flood, earthquake and air-quality alert in the country — read as one living system, in plain language, with exactly what to do about it where you live.', live:'env', tools:['Air & water quality by ZIP','Drought & wildfire map','Local hazard alerts'] },
   medicine:      { key:'health',        emoji:'🩺', name:'Health Watch',         lead:'Disease spread, drug shortages, and care-system stress — decoded for humans.', tools:['Drug shortage lookup','Outbreak tracker','Plain-language recall alerts'] },
   technology:    { key:'technology',    emoji:'💻', name:'Tech Watch',           lead:'Cyber threats, breakthroughs, and the tools reshaping how you work.', tools:['Breach & threat feed','New-tool radar','Was-I-affected checker'] },
   science:       { key:'research',      emoji:'🔬', name:'Science Watch',        lead:'What is being discovered, funded, and retracted — as it happens.', tools:['New-study digest','Funding tracker','Retraction watch'] },
@@ -231,12 +270,15 @@ EL('tools').innerHTML = C.tools.map(function (t) {
   return '<div class="tool soon"><span class="soonbadge">soon</span><b>' + esc(t) + '</b><span>Free tool, in build.</span></div>';
 }).join('');
 
-// for environment: gov alerts + news on, and pulse drops to the bottom
+// environment: Yosemite hero + phase card + wall of feeds + news
 if (C.live === 'env') {
+  EL('hero').className = 'hero photo';
+  EL('photocred').style.display = '';
+  EL('photocred').innerHTML = 'Yosemite Valley, Tunnel View · <a href="https://commons.wikimedia.org/wiki/File:Tunnel_View,_Yosemite_Valley,_Yosemite_NP_-_Diliff.jpg" target="_blank" rel="noopener">Diliff, CC BY-SA</a>';
+  EL('phaseSection').style.display = '';
   EL('govSection').style.display = '';
   EL('newsSection').style.display = '';
-  var sec = EL('sections');
-  sec.appendChild(EL('pulseSection')); // move LIMEN's own pulse below the real data
+  EL('pulseSection').style.display = 'none'; // the phase card is the LIMEN read for environment
   loadEnvLive();
 }
 
@@ -256,8 +298,55 @@ fetch('/api/limen-snapshot').then(function (r) { return r.json(); }).then(functi
   else h += '<div class="muted">Quiet right now — no elevated signals.</div>';
   if (typeof d.liveCount === 'number') h += '<div class="muted" style="margin-top:10px;font-size:.78rem">' + d.liveCount + ' live sources tracked · updates continuously</div>';
   EL('pulse').innerHTML = h;
-  if (C.live !== 'env') renderGuide(d); // for env, real gov data drives the guide
+  if (C.live === 'env') renderPhase(d);
+  else renderGuide(d);
 }).catch(function () { EL('pulse').innerHTML = '<div class="muted">Live pulse is warming up — check back shortly.</div>'; if (C.live !== 'env') renderGuide({}); });
+
+// ── LIMEN phase read (environment) — current phase only, plain language ──
+var PHASE_TEXT = {
+  p0: 'holding steady — no major shift is underway; the system sits near equilibrium.',
+  p1: 'in emergence — the first signals of a new change are appearing.',
+  p2: 'building — activity and momentum are rising across the board.',
+  p3: 'under strain — pressure points and early cracks are starting to show.',
+  p4: 'reorganizing — actively restructuring itself under a heavy load.',
+  p5: 'in endurance — carrying a heavy, sustained load and holding its structure, but strained. This is not a passing spike; it is pressure the system has been under for a while.',
+  p6: 'coordinating — the pieces are re-aligning around a shared response.',
+  p7: 'at a fork — near a turning point, and could tip one of two ways from here.',
+  p8: 'consolidating — a new configuration is locking into place.',
+  p9: 'releasing — shedding load and winding a cycle down.',
+  p10: 'renewing — resetting and rebuilding for the next cycle.'
+};
+function renderFeeds(sources) {
+  if (!sources || !sources.length) return '';
+  var chips = sources.slice(0, 14).map(function (s) {
+    return '<span class="feedchip' + (s.live ? ' live' : '') + '"><span class="feeddot"></span>' + esc(s.name) + '</span>';
+  }).join('');
+  return '<div style="font-size:.68rem;color:var(--faint);margin-top:16px;font-weight:800;letter-spacing:.1em;text-transform:uppercase">Feeds in this read</div><div class="feedstrip">' + chips + '</div>';
+}
+function renderPhase(d) {
+  d = d || {};
+  var phase = String(d.phase || '').toLowerCase();
+  var label = d.phaseLabel || (phase ? phase.toUpperCase() : '—');
+  var pnum = phase.replace('p', '') || '?';
+  var txt = PHASE_TEXT[phase] || ('in its ' + String(label).toLowerCase() + ' phase.');
+  var stress = typeof d.stress === 'number' ? Math.round(d.stress * 100) : null;
+  var conf = typeof d.confidence === 'number' ? Math.round(d.confidence * 100) : null;
+  var mat = d.maturity ? String(d.maturity).toLowerCase() : '';
+  var h = '<div class="phasewrap">';
+  h += '<div class="phasebadge"><div class="pn">P' + esc(pnum) + '</div><div class="pl">' + esc(label) + '</div>' + (mat ? '<div class="pm">' + esc(mat) + ' load</div>' : '') + '</div>';
+  h += '<div class="phasebody">';
+  h += '<p><b>The environment is ' + esc(txt) + '</b></p>';
+  if (d.topSignal) h += '<p style="color:var(--soft)">Loudest live signal right now: ' + esc(String(d.topSignal).replace(/_/g, ' ')) + '. LIMEN Helix watches whether a domain is emerging, building, straining, or renewing — and reads the environment as squarely in its <b>' + esc(String(label).toLowerCase()) + '</b> band today.</p>';
+  h += '<div class="gauge">';
+  if (stress != null) h += '<div class="g">System pressure<br><b>' + stress + '%</b></div>';
+  if (conf != null) h += '<div class="g">Read confidence<br><b>' + conf + '%</b></div>';
+  if (typeof d.liveCount === 'number') h += '<div class="g">Live feeds<br><b>' + d.liveCount + '</b></div>';
+  h += '</div>';
+  h += renderFeeds(d.sources || []);
+  h += '<div class="disc" style="margin-top:14px">“Phase” is LIMEN Helix’s own reading of the system’s state — one position on a repeating 0–10 cycle. We show only the phase it is in now, not a forecast.</div>';
+  h += '</div></div>';
+  EL('phaseBody').innerHTML = h;
+}
 
 // ── REAL government data (environment) ──
 var GUIDE_D = {};
@@ -277,18 +366,18 @@ function statCard(n, label, cite, cls) {
   return '<div class="stat ' + (cls || '') + '"><div class="n">' + val + '</div><div class="k">' + label + '</div><div class="c">' + cite + '</div></div>';
 }
 function renderGovStats(n) {
-  var a = n.alerts || {}, dr = n.drought || null;
-  var cards = [
-    statCard(a.heatWarnings, 'Extreme/Excessive heat warnings', 'NWS · active now', (a.heatWarnings > 0 ? 'hot' : '')),
-    statCard(a.heatAdvisories, 'Heat advisories', 'NWS · active now', (a.heatAdvisories > 0 ? 'warm' : '')),
-    statCard(a.redFlag, 'Red-flag fire warnings', 'NWS · active now', (a.redFlag > 0 ? 'warm' : '')),
-    statCard(a.floodWarnings, 'Flood warnings', 'NWS · active now', (a.floodWarnings > 0 ? 'warm' : '')),
-    statCard(dr ? dr.droughtOrWorse + '%' : null, 'of the U.S. in drought', (dr ? 'U.S. Drought Monitor · ' + esc(dr.mapDate) : 'U.S. Drought Monitor'), 'dry')
-  ];
+  var dr = n.drought || null, qk = n.quakes || null;
+  EL('govHead').innerHTML = '<div style="margin-bottom:16px"><span class="bign">' + (n.totalAlerts != null ? n.totalAlerts : '—') + '</span> <span style="color:var(--soft);font-weight:600">active National Weather Service alerts nationwide right now</span></div>';
+  var cards = (n.breakdown || []).map(function (b) {
+    var cls = /heat|fire|tornado/i.test(b.label) ? 'hot' : /flood|wind|thunder|coastal/i.test(b.label) ? 'warm' : '';
+    return statCard(b.count, b.label, 'NWS · active', b.count > 0 ? cls : '');
+  });
+  cards.push(statCard(dr ? dr.droughtOrWorse + '%' : null, 'of the U.S. in drought', (dr ? 'U.S. Drought Monitor · ' + esc(dr.mapDate) : 'U.S. Drought Monitor'), 'dry'));
+  if (qk) cards.push(statCard(qk.count, 'earthquakes M2.5+ · past 24h', 'USGS' + (qk.largest && qk.largest.mag ? ' · max M' + qk.largest.mag : ''), ''));
   EL('govStats').innerHTML = cards.join('');
   EL('govUpdated').textContent = n.updated ? 'updated ' + ago(n.updated) : '';
   var src = (n.sources || []).map(function (s) { return esc(s.name); }).join(' · ');
-  EL('govCite').innerHTML = 'Sources: ' + (src || 'National Weather Service, U.S. Drought Monitor') + '. Counts are active alerts nationwide; “in drought” = D1–D4 area. Data is official but may lag minutes to a day.';
+  EL('govCite').innerHTML = 'Sources: ' + (src || 'National Weather Service, U.S. Drought Monitor, USGS') + '. Counts are active alerts nationwide; “in drought” = D1–D4 land area. Official data, may lag minutes to a day.';
 }
 function renderNews(items, updated) {
   if (!items || !items.length) { EL('news').innerHTML = '<div class="muted">No fresh headlines right now.</div>'; return; }
@@ -327,6 +416,11 @@ function renderLocal(L) {
   }
   if (L.forecast) {
     h += '<div class="fcast"><div class="t">' + esc(L.forecast.temp) + '°' + esc(L.forecast.unit || 'F') + ' <span style="font-size:.9rem;color:var(--soft);font-weight:600">' + esc(L.forecast.name || 'Today') + '</span></div><div class="hl" style="margin-top:4px">' + esc(L.forecast.short || '') + '</div></div>';
+  }
+  if (L.air && L.air.usAqi != null) {
+    var aq = L.air.usAqi;
+    var col = aq <= 50 ? '#0e8f68' : aq <= 100 ? '#b8901a' : aq <= 150 ? '#e07b1a' : aq <= 200 ? '#d1462f' : aq <= 300 ? '#8e3bd1' : '#7a1020';
+    h += '<div class="fcast"><b>Air quality:</b> <span class="aqipill" style="background:' + col + '">US AQI ' + aq + '</span> ' + esc(L.air.label || '') + ' <span style="color:var(--faint);font-size:.7rem">(Open-Meteo)</span></div>';
   }
   if (L.droughtLabel) {
     h += '<div class="fcast"><b>' + esc(L.state) + ' drought:</b> ' + esc(L.droughtLabel) + (L.drought ? ' — ' + L.drought.droughtOrWorse + '% of the state in drought' : '') + ' <span class="c" style="color:var(--faint);font-size:.7rem">(U.S. Drought Monitor)</span></div>';
