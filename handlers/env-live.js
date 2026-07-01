@@ -191,12 +191,14 @@ module.exports = async function handler(req, res) {
   try { q = Object.fromEntries(new URL(req.url, 'http://h').searchParams); } catch (e) {}
   var now = Date.now();
 
-  // national (+news) — cached
+  // national (+news) — cached (?fresh=1 forces a live rebuild)
   var national = null;
-  try {
-    var cached = await db.get(NAT_KEY);
-    if (cached && cached.updatedMs && (now - cached.updatedMs) < NAT_TTL_MS) national = cached;
-  } catch (e) {}
+  if (q.fresh !== '1') {
+    try {
+      var cached = await db.get(NAT_KEY);
+      if (cached && cached.updatedMs && (now - cached.updatedMs) < NAT_TTL_MS) national = cached;
+    } catch (e) {}
+  }
   if (!national) {
     try { national = await buildNational(); await db.set(NAT_KEY, national); }
     catch (e) { try { national = await db.get(NAT_KEY); } catch (e2) {} }
