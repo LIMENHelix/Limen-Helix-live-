@@ -18,7 +18,7 @@
 var db = require('../lib/limen-db');
 
 var UA = 'LIMEN-Helix-EnvWatch (limenhelix.com; chrishubbel72@gmail.com)';
-var NAT_KEY = 'env:live:national:v3';
+var NAT_KEY = 'env:live:national:v4';
 var NAT_TTL_MS = 20 * 60 * 1000;
 var ZIP_TTL_MS = 30 * 60 * 1000;
 
@@ -43,7 +43,7 @@ async function countEvents(events) {
   var total = 0, samples = [];
   await Promise.all(events.map(async function (ev) {
     try {
-      var d = await getJSON('https://api.weather.gov/alerts/active?limit=500&event=' + encodeURIComponent(ev));
+      var d = await getJSON('https://api.weather.gov/alerts/active?limit=500&event=' + encodeURIComponent(ev), { 'Accept': 'application/geo+json' });
       var f = (d && d.features) || [];
       total += f.length;
       for (var i = 0; i < f.length && samples.length < 4; i++) {
@@ -157,7 +157,7 @@ async function buildLocal(zip) {
 
   // active alerts at this point
   try {
-    var al = await getJSON('https://api.weather.gov/alerts/active?point=' + lat + ',' + lon);
+    var al = await getJSON('https://api.weather.gov/alerts/active?point=' + lat + ',' + lon, { 'Accept': 'application/geo+json' });
     out.alerts = ((al && al.features) || []).map(function (f) {
       var p = f.properties || {};
       return { event: p.event, severity: p.severity, urgency: p.urgency, headline: p.headline, area: p.areaDesc, sender: p.senderName, onset: p.onset, expires: p.expires, instruction: p.instruction ? String(p.instruction).slice(0, 400) : '' };
@@ -166,11 +166,10 @@ async function buildLocal(zip) {
 
   // today's forecast (heat read)
   try {
-    var pts = await getJSON('https://api.weather.gov/points/' + lat + ',' + lon);
+    var pts = await getJSON('https://api.weather.gov/points/' + lat + ',' + lon, { 'Accept': 'application/geo+json' });
     var fcUrl = pts && pts.properties && pts.properties.forecast;
-    out.gridArea = pts && pts.properties && (pts.properties.relativeLocation && pts.properties.relativeLocation.properties ? null : null);
     if (fcUrl) {
-      var fc = await getJSON(fcUrl);
+      var fc = await getJSON(fcUrl, { 'Accept': 'application/geo+json' });
       var per = (fc.properties && fc.properties.periods) || [];
       if (per[0]) out.forecast = { name: per[0].name, temp: per[0].temperature, unit: per[0].temperatureUnit, short: per[0].shortForecast, detailed: per[0].detailedForecast };
     }
