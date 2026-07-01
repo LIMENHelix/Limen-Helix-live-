@@ -191,20 +191,6 @@ module.exports = async function handler(req, res) {
   try { q = Object.fromEntries(new URL(req.url, 'http://h').searchParams); } catch (e) {}
   var now = Date.now();
 
-  // ── debug probe: raw NWS fetch result ──
-  if (q.debug === '1') {
-    var out = {};
-    try {
-      var r = await fetch('https://api.weather.gov/alerts/active?limit=5&event=Heat%20Advisory', { headers: { 'User-Agent': UA, 'Accept': 'application/geo+json' } });
-      out.status = r.status;
-      out.ct = r.headers.get('content-type');
-      var t = await r.text();
-      out.len = t.length;
-      out.snippet = t.slice(0, 300);
-    } catch (e) { out.error = String(e && e.message || e); }
-    return j(res, 200, out);
-  }
-
   // national (+news) — cached (?fresh=1 forces a live rebuild)
   var national = null;
   if (q.fresh !== '1') {
