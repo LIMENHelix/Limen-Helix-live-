@@ -22,6 +22,8 @@
   .hero{position:relative;width:100vw;margin-left:calc(50% - 50vw);min-height:84vh;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;overflow:hidden;background:transparent}
   /* the fractal is a FULL-PAGE fixed backdrop behind all content */
   #fractal{position:fixed;inset:0;width:100vw;height:100vh;z-index:-1;display:block;background:#0a0d14}
+  /* a soft dark veil over the fractal so bright phases stay moody behind the cards */
+  body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,rgba(8,11,18,.40),rgba(8,11,18,.56))}
   .hero-bg{position:absolute;inset:0;z-index:1;background-size:cover;background-position:center 46%;opacity:.5;display:none;pointer-events:none}
   .hero.photo .hero-bg{display:block}
   .hero-scrim{position:absolute;inset:0;z-index:1;pointer-events:none;
