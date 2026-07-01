@@ -62,6 +62,7 @@ const HANDLERS = {
   'trade-markets': require('../handlers/trade-markets'),
   'industry-markets': require('../handlers/industry-markets'),
   'environment-markets': require('../handlers/environment-markets'),
+  'env-live': require('../handlers/env-live'),
   'governance-markets': require('../handlers/governance-markets'),
   'agriculture-markets': require('../handlers/agriculture-markets'),
   'communication-markets': require('../handlers/communication-markets'),

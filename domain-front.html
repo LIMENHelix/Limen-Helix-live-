@@ -6,52 +6,85 @@
 <title id="pgTitle">LIMEN Helix</title>
 <meta name="description" id="pgDesc" content="A free public watch for this domain — live signals and a plain-language read." />
 <style>
-  :root{ --bg:#0b0d12; --panel:#141821; --line:#232a36; --ink:#e8e3d9; --soft:#8b94a3; --faint:#5f6875;
-    --gold:#c9a94e; --green:#5ab5a0; --red:#e0655a; --amber:#d8a24e; }
+  :root{
+    --bg:#eef1f6; --bg2:#e5eaf2; --panel:#ffffff; --panel2:#f6f8fb; --line:#dce2ec;
+    --ink:#111c2e; --soft:#4f5d74; --faint:#8593a8;
+    --gold:#9a6f1f; --green:#0e8f68; --red:#c93b23; --amber:#bf7714; --blue:#1f5fbf;
+    --shadow:0 1px 2px rgba(16,32,58,.05),0 6px 22px rgba(16,32,58,.06);
+  }
   *{box-sizing:border-box}
-  body{margin:0;background:radial-gradient(1100px 500px at 78% -12%,#161d2a,var(--bg));color:var(--ink);
-    font-family:-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;line-height:1.5}
-  .wrap{max-width:920px;margin:0 auto;padding:0 20px}
-  a{color:var(--gold)}
+  body{margin:0;background:linear-gradient(180deg,var(--bg),var(--bg2));color:var(--ink);
+    font-family:-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:940px;margin:0 auto;padding:0 20px}
+  a{color:var(--blue)}
   /* hero */
-  .hero{padding:64px 0 34px;text-align:center}
-  .emoji{font-size:2.6rem;line-height:1}
-  .eyebrow{font-size:.6rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);opacity:.8;margin:14px 0 6px;font-weight:600}
-  h1{font-size:clamp(1.9rem,5vw,3rem);margin:0 0 10px;letter-spacing:-.02em}
-  .lead{max-width:600px;margin:0 auto;color:var(--soft);font-size:1.08rem}
+  .hero{padding:52px 0 22px;text-align:center}
+  .emoji{font-size:2.5rem;line-height:1}
+  .eyebrow{font-size:.6rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin:14px 0 6px;font-weight:700}
+  h1{font-size:clamp(1.9rem,5vw,2.9rem);margin:0 0 10px;letter-spacing:-.02em}
+  .lead{max-width:620px;margin:0 auto;color:var(--soft);font-size:1.06rem}
   /* email capture */
-  .capture{max-width:460px;margin:24px auto 0;display:flex;gap:8px}
-  .capture input{flex:1;background:#0e131b;border:1px solid var(--line);border-radius:9px;padding:12px 14px;color:var(--ink);font-size:.95rem;outline:none}
-  .capture input:focus{border-color:var(--gold)}
-  .capture button{background:var(--gold);color:#1a1306;border:none;border-radius:9px;padding:0 20px;font-weight:700;cursor:pointer;white-space:nowrap}
+  .capture{max-width:470px;margin:22px auto 0;display:flex;gap:8px}
+  .capture input{flex:1;background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px;color:var(--ink);font-size:.95rem;outline:none;box-shadow:var(--shadow)}
+  .capture input:focus{border-color:var(--blue)}
+  .capture button{background:var(--ink);color:#fff;border:none;border-radius:10px;padding:0 20px;font-weight:700;cursor:pointer;white-space:nowrap}
   .cap-note{font-size:.72rem;color:var(--faint);margin-top:8px;text-align:center;min-height:1.1em}
-  /* sections */
-  section{padding:26px 0}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin-bottom:16px}
-  .card h2{margin:0 0 4px;font-size:1.15rem}
-  .card .sub{color:var(--faint);font-size:.82rem;margin-bottom:14px}
+  /* sections + cards */
+  section{padding:16px 0}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px 24px;margin-bottom:16px;box-shadow:var(--shadow)}
+  .card h2{margin:0 0 4px;font-size:1.2rem;display:flex;align-items:center;gap:10px}
+  .card .sub{color:var(--faint);font-size:.82rem;margin-bottom:16px}
+  .livedot{width:9px;height:9px;border-radius:50%;background:var(--green);display:inline-block;box-shadow:0 0 0 0 rgba(14,143,104,.5);animation:pulse 2s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(14,143,104,.45)}70%{box-shadow:0 0 0 8px rgba(14,143,104,0)}100%{box-shadow:0 0 0 0 rgba(14,143,104,0)}}
+  .updated{font-size:.72rem;color:var(--faint);margin-left:auto;font-weight:400}
+  /* stat grid (national gov numbers) */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+  .stat{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 15px}
+  .stat .n{font-size:1.9rem;font-weight:800;line-height:1;letter-spacing:-.02em}
+  .stat .k{font-size:.76rem;color:var(--soft);margin-top:6px;font-weight:600}
+  .stat .c{font-size:.66rem;color:var(--faint);margin-top:6px}
+  .stat.hot .n{color:var(--red)} .stat.warm .n{color:var(--amber)} .stat.dry .n{color:var(--gold)}
+  /* zip lookup */
+  .ziprow{display:flex;gap:8px;margin:4px 0 2px}
+  .ziprow input{width:150px;background:#fff;border:1px solid var(--line);border-radius:9px;padding:10px 12px;font-size:.95rem;outline:none}
+  .ziprow input:focus{border-color:var(--blue)}
+  .ziprow button{background:var(--blue);color:#fff;border:none;border-radius:9px;padding:0 16px;font-weight:700;cursor:pointer}
+  .alert{border:1px solid var(--line);border-left:4px solid var(--red);border-radius:10px;padding:13px 15px;margin-top:10px;background:var(--panel2)}
+  .alert .ev{font-weight:800;font-size:.95rem}
+  .alert .sev{font-size:.62rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border-radius:5px;padding:2px 7px;margin-left:8px;color:#fff;background:var(--red)}
+  .alert .meta{font-size:.74rem;color:var(--faint);margin-top:4px}
+  .alert .hl{font-size:.86rem;color:var(--soft);margin-top:6px}
+  .fcast{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:13px 15px;margin-top:10px}
+  .fcast .t{font-size:1.5rem;font-weight:800}
+  /* pulse */
   .pulse-top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}
-  .status{font-size:.66rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--line);border-radius:6px;padding:5px 10px}
-  .bar{flex:1;min-width:160px;height:8px;background:#0e131b;border-radius:6px;overflow:hidden}
+  .status{font-size:.66rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--line);border-radius:6px;padding:5px 10px}
+  .bar{flex:1;min-width:160px;height:8px;background:var(--panel2);border-radius:6px;overflow:hidden;border:1px solid var(--line)}
   .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--amber),var(--red))}
   .barlbl{font-size:.78rem;color:var(--soft)}
   .sig{font-size:.9rem;padding:9px 0;border-bottom:1px solid var(--line);color:var(--ink)}
   .sig:last-child{border-bottom:none}
   .sig .dot{color:var(--amber);margin-right:8px}
   .muted{color:var(--soft);font-size:.9rem}
+  /* news */
+  .news a.item{display:block;padding:11px 0;border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink)}
+  .news a.item:last-child{border-bottom:none}
+  .news .h{font-size:.92rem;font-weight:600}
+  .news .s{font-size:.72rem;color:var(--faint);margin-top:3px}
+  /* tools */
   .tools{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
-  .tool{background:#0e131b;border:1px solid var(--line);border-radius:11px;padding:14px 15px}
+  .tool{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:14px 15px}
   .tool b{display:block;margin-bottom:3px}
   .tool span{font-size:.82rem;color:var(--soft)}
-  .tool.soon{opacity:.6}
+  .tool.soon{opacity:.7}
   .soonbadge{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);border:1px solid var(--line);border-radius:5px;padding:2px 6px;float:right}
   /* action guide */
   .guide-cond{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
-  .chip{font-size:.72rem;border:1px solid var(--line);border-radius:999px;padding:6px 12px;color:var(--soft);cursor:pointer;background:#0e131b;transition:all .12s}
+  .chip{font-size:.72rem;border:1px solid var(--line);border-radius:999px;padding:6px 12px;color:var(--soft);cursor:pointer;background:#fff;transition:all .12s}
   .chip:hover{border-color:var(--soft)}
-  .chip.on{color:#1a1306;background:var(--gold);border-color:var(--gold);font-weight:700}
+  .chip.on{color:#fff;background:var(--ink);border-color:var(--ink);font-weight:700}
   .lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:14px}
-  .lane{background:#0e131b;border:1px solid var(--line);border-radius:11px;padding:15px 16px}
+  .lane{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:15px 16px}
   .lane h3{margin:0 0 8px;font-size:.66rem;letter-spacing:.13em;text-transform:uppercase}
   .lane ul{margin:0;padding:0;list-style:none}
   .lane li{font-size:.86rem;color:var(--ink);padding:8px 0;border-bottom:1px solid var(--line);display:flex;gap:8px;line-height:1.45}
@@ -60,12 +93,13 @@
   .lane.survive h3{color:var(--red)} .lane.save h3{color:var(--green)}
   .lane.position h3{color:var(--gold)} .lane.act h3{color:var(--amber)}
   .names{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
-  .names span{font-size:.72rem;border:1px solid var(--line);border-radius:6px;padding:3px 8px;color:var(--soft)}
-  .guide-cta{display:inline-block;margin-top:16px;color:var(--gold);text-decoration:none;font-size:.9rem;font-weight:600;border:1px solid var(--gold);border-radius:9px;padding:9px 15px}
-  .guide-cta:hover{background:var(--gold);color:#1a1306}
+  .names span{font-size:.72rem;border:1px solid var(--line);border-radius:6px;padding:3px 8px;color:var(--soft);background:#fff}
+  .guide-cta{display:inline-block;margin-top:16px;color:#fff;background:var(--green);text-decoration:none;font-size:.9rem;font-weight:700;border-radius:10px;padding:10px 16px}
+  .guide-cta:hover{filter:brightness(1.05)}
   .disc{font-size:.72rem;color:var(--faint);margin-top:16px;line-height:1.55}
-  .nowtag{font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--red);border:1px solid var(--red);border-radius:5px;padding:3px 8px;margin-left:8px;vertical-align:middle}
-  footer{border-top:1px solid var(--line);margin-top:30px;padding:26px 0 50px;color:var(--faint);font-size:.8rem;text-align:center}
+  .nowtag{font-size:.6rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#fff;background:var(--red);border-radius:5px;padding:3px 8px;vertical-align:middle}
+  .whytrig{font-size:.78rem;color:var(--soft);margin:-4px 0 14px}
+  footer{border-top:1px solid var(--line);margin-top:26px;padding:26px 0 50px;color:var(--faint);font-size:.8rem;text-align:center}
   footer a{color:var(--soft);text-decoration:none}
   .backrow{padding:16px 0 0}
   .backrow a{color:var(--soft);text-decoration:none;font-size:.82rem}
@@ -90,37 +124,72 @@
     <div class="cap-note" id="capNote">Free. We email you when this domain moves. No spam, unsubscribe anytime.</div>
   </div>
 
-  <section>
-    <div class="card">
-      <h2 id="pulseTitle">Live pulse</h2>
-      <div class="sub">Real-time signals from the LIMEN feed network — updated continuously.</div>
-      <div id="pulse"><div class="muted">Reading the live feed…</div></div>
-    </div>
+  <div id="sections">
+    <!-- LIVE GOVERNMENT ALERTS (environment) -->
+    <section id="govSection" style="display:none">
+      <div class="card">
+        <h2><span class="livedot"></span> Live government alerts <span class="updated" id="govUpdated"></span></h2>
+        <div class="sub">Active watches, warnings &amp; drought status pulled directly from federal sources — updated continuously.</div>
+        <div class="stats" id="govStats"><div class="muted">Reading National Weather Service &amp; U.S. Drought Monitor…</div></div>
 
-    <div class="card" id="guideCard" style="display:none">
-      <h2>What to do right now <span class="nowtag" id="nowTag" style="display:none">live</span></h2>
-      <div class="sub" id="guideWhen">—</div>
-      <div id="guideBody"></div>
-    </div>
+        <div style="margin-top:20px">
+          <div style="font-weight:700;font-size:.95rem;margin-bottom:6px">Your area</div>
+          <div class="sub" style="margin-bottom:8px">Enter your ZIP for active local alerts, today's forecast, and your state's drought status.</div>
+          <form class="ziprow" id="zipForm" onsubmit="return lookupZip(event)">
+            <input id="zipInput" inputmode="numeric" maxlength="5" placeholder="ZIP code" />
+            <button type="submit" id="zipBtn">Check my area</button>
+          </form>
+          <div id="localOut"></div>
+        </div>
+        <div class="disc" id="govCite"></div>
+      </div>
+    </section>
 
-    <div class="card" id="toolsCard">
-      <h2>Free tools</h2>
-      <div class="sub">The watchlist above is live now. These are on the way for this domain.</div>
-      <div class="tools" id="tools"></div>
-    </div>
-  </section>
+    <!-- PULSE (LIMEN's own read) -->
+    <section id="pulseSection">
+      <div class="card">
+        <h2 id="pulseTitle">Live pulse</h2>
+        <div class="sub">LIMEN's own cross-domain read of this system — from the feed network.</div>
+        <div id="pulse"><div class="muted">Reading the live feed…</div></div>
+      </div>
+    </section>
+
+    <!-- ACTION GUIDE -->
+    <section id="guideSection">
+      <div class="card" id="guideCard" style="display:none">
+        <h2>What to do right now <span class="nowtag" id="nowTag" style="display:none">live</span></h2>
+        <div class="whytrig" id="whyTrig" style="display:none"></div>
+        <div class="sub" id="guideWhen">—</div>
+        <div id="guideBody"></div>
+      </div>
+      <div class="card" id="toolsCard">
+        <h2>Free tools</h2>
+        <div class="sub">The watchlist above is live now. These are on the way for this domain.</div>
+        <div class="tools" id="tools"></div>
+      </div>
+    </section>
+
+    <!-- NEWS -->
+    <section id="newsSection" style="display:none">
+      <div class="card">
+        <h2><span class="livedot"></span> Latest news <span class="updated" id="newsUpdated"></span></h2>
+        <div class="sub">Headlines from across the web on heat, water, drought, air &amp; hazards — links go to the original source.</div>
+        <div class="news" id="news"><div class="muted">Loading headlines…</div></div>
+      </div>
+    </section>
+  </div>
 
   <footer>
     A <b style="color:var(--soft)">LIMEN Helix Transformation Sciences</b> public front · <a href="/">limenhelix.com</a><br>
-    Educational information, not professional advice.
+    Educational information, not professional, financial, or emergency advice. In an emergency, follow official local alerts.
   </footer>
 </div>
 
 <script>
-// ── per-domain config (route id → content). snapshotKey = domain-snapshot key ──
+// ── per-domain config (route id → content). key = domain-snapshot key ──
 var CONFIG = {
   economy:       { key:'economy',       emoji:'📈', name:'Economy Watch',        lead:'Track the forces moving jobs, prices, and growth — where you live and nationwide.', tools:['Cost-of-living tracker','Local jobs & wages','Recession signal meter'] },
-  environment:   { key:'environment',   emoji:'🌍', name:'Environment Watch',    lead:'Air, water, climate, and hazard signals for your region — in plain language.', tools:['Air & water quality by ZIP','Drought & wildfire map','Local hazard alerts'] },
+  environment:   { key:'environment',   emoji:'🌍', name:'Environment Watch',    lead:'Live heat, drought, air, water and hazard alerts for your area — plus exactly what to do about them.', live:'env', tools:['Air & water quality by ZIP','Drought & wildfire map','Local hazard alerts'] },
   medicine:      { key:'health',        emoji:'🩺', name:'Health Watch',         lead:'Disease spread, drug shortages, and care-system stress — decoded for humans.', tools:['Drug shortage lookup','Outbreak tracker','Plain-language recall alerts'] },
   technology:    { key:'technology',    emoji:'💻', name:'Tech Watch',           lead:'Cyber threats, breakthroughs, and the tools reshaping how you work.', tools:['Breach & threat feed','New-tool radar','Was-I-affected checker'] },
   science:       { key:'research',      emoji:'🔬', name:'Science Watch',        lead:'What is being discovered, funded, and retracted — as it happens.', tools:['New-study digest','Funding tracker','Retraction watch'] },
@@ -147,6 +216,8 @@ function domainFromUrl() {
 var DID = domainFromUrl();
 var C = CONFIG[DID] || CONFIG.economy;
 var EL = function (id) { return document.getElementById(id); };
+function ago(iso) { if (!iso) return ''; var t = Date.parse(iso); if (!t) return ''; var s = (Date.now() - t) / 1000; if (s < 60) return 'just now'; if (s < 3600) return Math.floor(s / 60) + 'm ago'; if (s < 86400) return Math.floor(s / 3600) + 'h ago'; return Math.floor(s / 86400) + 'd ago'; }
+function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 
 // paint the page
 document.title = C.name + ' · LIMEN Helix';
@@ -157,10 +228,19 @@ EL('title').textContent = C.name;
 EL('lead').textContent = C.lead;
 EL('pulseTitle').textContent = C.name.replace(' Watch', '') + ' · live pulse';
 EL('tools').innerHTML = C.tools.map(function (t) {
-  return '<div class="tool soon"><span class="soonbadge">soon</span><b>' + t + '</b><span>Free tool, in build.</span></div>';
+  return '<div class="tool soon"><span class="soonbadge">soon</span><b>' + esc(t) + '</b><span>Free tool, in build.</span></div>';
 }).join('');
 
-// ── live pulse from the CACHED snapshot (fast: ~400ms vs ~10s for the live one) ──
+// for environment: gov alerts + news on, and pulse drops to the bottom
+if (C.live === 'env') {
+  EL('govSection').style.display = '';
+  EL('newsSection').style.display = '';
+  var sec = EL('sections');
+  sec.appendChild(EL('pulseSection')); // move LIMEN's own pulse below the real data
+  loadEnvLive();
+}
+
+// ── live pulse from the CACHED snapshot (fast: ~400ms) ──
 function statusColor(s) { return s === 'ELEVATED' ? 'var(--red)' : s === 'ACTIVE' ? 'var(--amber)' : 'var(--green)'; }
 fetch('/api/limen-snapshot').then(function (r) { return r.json(); }).then(function (j) {
   var d = (j.domains || j)[C.key] || {};
@@ -169,47 +249,140 @@ fetch('/api/limen-snapshot').then(function (r) { return r.json(); }).then(functi
   var sigs = [];
   if (d.phaseLabel) sigs.push('Cycle position: ' + String(d.phaseLabel).toLowerCase() + (d.maturity ? ' · ' + String(d.maturity).toLowerCase() : ''));
   if (d.topSignal) sigs.push(String(d.topSignal).replace(/_/g, ' '));
-  var h = '<div class="pulse-top">' +
-    '<span class="status" style="color:' + statusColor(st) + ';border-color:' + statusColor(st) + '55">' + st + '</span>';
+  var h = '<div class="pulse-top"><span class="status" style="color:' + statusColor(st) + ';border-color:' + statusColor(st) + '55">' + st + '</span>';
   if (stress != null) h += '<span class="barlbl">pressure ' + Math.round(stress * 100) + '%</span><div class="bar"><i style="width:' + Math.round(stress * 100) + '%"></i></div>';
   h += '</div>';
-  if (sigs.length) h += sigs.map(function (s) { return '<div class="sig"><span class="dot">●</span>' + s + '</div>'; }).join('');
-  else h += '<div class="muted">Quiet right now — no elevated signals. Watch it to catch the next move.</div>';
+  if (sigs.length) h += sigs.map(function (s) { return '<div class="sig"><span class="dot">●</span>' + esc(s) + '</div>'; }).join('');
+  else h += '<div class="muted">Quiet right now — no elevated signals.</div>';
   if (typeof d.liveCount === 'number') h += '<div class="muted" style="margin-top:10px;font-size:.78rem">' + d.liveCount + ' live sources tracked · updates continuously</div>';
   EL('pulse').innerHTML = h;
-  renderGuide(d);
-}).catch(function () { EL('pulse').innerHTML = '<div class="muted">Live pulse is warming up — check back shortly.</div>'; renderGuide({}); });
+  if (C.live !== 'env') renderGuide(d); // for env, real gov data drives the guide
+}).catch(function () { EL('pulse').innerHTML = '<div class="muted">Live pulse is warming up — check back shortly.</div>'; if (C.live !== 'env') renderGuide({}); });
+
+// ── REAL government data (environment) ──
+var GUIDE_D = {};
+function loadEnvLive() {
+  renderGuide(GUIDE_D); // paint default guide immediately
+  fetch('/api/env-live').then(function (r) { return r.json(); }).then(function (j) {
+    var n = j.national || {};
+    renderGovStats(n);
+    renderNews(n.news || [], n.updated);
+    applyLiveToGuide(n, null);
+  }).catch(function () {
+    EL('govStats').innerHTML = '<div class="muted">Government feeds are warming up — refresh in a moment.</div>';
+  });
+}
+function statCard(n, label, cite, cls) {
+  var val = (n == null) ? '—' : n;
+  return '<div class="stat ' + (cls || '') + '"><div class="n">' + val + '</div><div class="k">' + label + '</div><div class="c">' + cite + '</div></div>';
+}
+function renderGovStats(n) {
+  var a = n.alerts || {}, dr = n.drought || null;
+  var cards = [
+    statCard(a.heatWarnings, 'Extreme/Excessive heat warnings', 'NWS · active now', (a.heatWarnings > 0 ? 'hot' : '')),
+    statCard(a.heatAdvisories, 'Heat advisories', 'NWS · active now', (a.heatAdvisories > 0 ? 'warm' : '')),
+    statCard(a.redFlag, 'Red-flag fire warnings', 'NWS · active now', (a.redFlag > 0 ? 'warm' : '')),
+    statCard(a.floodWarnings, 'Flood warnings', 'NWS · active now', (a.floodWarnings > 0 ? 'warm' : '')),
+    statCard(dr ? dr.droughtOrWorse + '%' : null, 'of the U.S. in drought', (dr ? 'U.S. Drought Monitor · ' + esc(dr.mapDate) : 'U.S. Drought Monitor'), 'dry')
+  ];
+  EL('govStats').innerHTML = cards.join('');
+  EL('govUpdated').textContent = n.updated ? 'updated ' + ago(n.updated) : '';
+  var src = (n.sources || []).map(function (s) { return esc(s.name); }).join(' · ');
+  EL('govCite').innerHTML = 'Sources: ' + (src || 'National Weather Service, U.S. Drought Monitor') + '. Counts are active alerts nationwide; “in drought” = D1–D4 area. Data is official but may lag minutes to a day.';
+}
+function renderNews(items, updated) {
+  if (!items || !items.length) { EL('news').innerHTML = '<div class="muted">No fresh headlines right now.</div>'; return; }
+  EL('news').innerHTML = items.map(function (it) {
+    return '<a class="item" href="' + esc(it.link) + '" target="_blank" rel="noopener"><div class="h">' + esc(it.title) + '</div><div class="s">' + esc(it.source || 'News') + (it.pubDate ? ' · ' + ago(it.pubDate) : '') + '</div></a>';
+  }).join('');
+  EL('newsUpdated').textContent = updated ? 'updated ' + ago(updated) : '';
+}
+
+// ── ZIP lookup → local alerts + forecast + state drought ──
+function lookupZip(e) {
+  e.preventDefault();
+  var zip = (EL('zipInput').value || '').replace(/[^0-9]/g, '').slice(0, 5);
+  if (zip.length !== 5) { EL('localOut').innerHTML = '<div class="muted" style="margin-top:8px">Enter a 5-digit ZIP.</div>'; return false; }
+  EL('zipBtn').disabled = true; EL('zipBtn').textContent = 'Checking…';
+  EL('localOut').innerHTML = '<div class="muted" style="margin-top:8px">Reading NWS alerts &amp; forecast for ' + zip + '…</div>';
+  fetch('/api/env-live?zip=' + zip).then(function (r) { return r.json(); }).then(function (j) {
+    renderLocal(j.local || {});
+    applyLiveToGuide(j.national || {}, j.local || {});
+  }).catch(function () { EL('localOut').innerHTML = '<div class="muted" style="margin-top:8px">Could not read that area — try again.</div>'; })
+    .finally(function () { EL('zipBtn').disabled = false; EL('zipBtn').textContent = 'Check my area'; });
+  return false;
+}
+function renderLocal(L) {
+  if (!L || L.error) { EL('localOut').innerHTML = '<div class="muted" style="margin-top:8px">' + esc((L && L.error) || 'No data for that ZIP.') + '</div>'; return; }
+  var h = '<div style="margin-top:12px;font-weight:700">' + esc(L.place || '') + (L.state ? ', ' + esc(L.state) : '') + '</div>';
+  var al = L.alerts || [];
+  if (al.length) {
+    h += al.map(function (a) {
+      return '<div class="alert"><div><span class="ev">' + esc(a.event || 'Alert') + '</span>' + (a.severity ? '<span class="sev">' + esc(a.severity) + '</span>' : '') + '</div>' +
+        (a.headline ? '<div class="hl">' + esc(a.headline) + '</div>' : '') +
+        '<div class="meta">' + esc(a.sender || 'NWS') + (a.expires ? ' · until ' + new Date(a.expires).toLocaleString() : '') + '</div></div>';
+    }).join('');
+  } else {
+    h += '<div class="muted" style="margin-top:8px">✓ No active NWS alerts for your area right now.</div>';
+  }
+  if (L.forecast) {
+    h += '<div class="fcast"><div class="t">' + esc(L.forecast.temp) + '°' + esc(L.forecast.unit || 'F') + ' <span style="font-size:.9rem;color:var(--soft);font-weight:600">' + esc(L.forecast.name || 'Today') + '</span></div><div class="hl" style="margin-top:4px">' + esc(L.forecast.short || '') + '</div></div>';
+  }
+  if (L.droughtLabel) {
+    h += '<div class="fcast"><b>' + esc(L.state) + ' drought:</b> ' + esc(L.droughtLabel) + (L.drought ? ' — ' + L.drought.droughtOrWorse + '% of the state in drought' : '') + ' <span class="c" style="color:var(--faint);font-size:.7rem">(U.S. Drought Monitor)</span></div>';
+  }
+  EL('localOut').innerHTML = h;
+}
+
+// ── real gov data picks which action-guide condition to show ──
+function applyLiveToGuide(national, local) {
+  var key = null, why = '';
+  var la = (local && local.alerts) || [];
+  for (var i = 0; i < la.length; i++) {
+    var ev = String(la[i].event || '').toLowerCase();
+    if (/heat/.test(ev)) { key = 'heat'; why = 'Triggered by an active ' + la[i].event + ' in your area (National Weather Service).'; break; }
+    if (/flood|storm|hurricane/.test(ev)) { key = 'storm'; why = 'Triggered by an active ' + la[i].event + ' in your area (NWS).'; break; }
+    if (/red flag|fire/.test(ev)) { key = 'air'; why = 'Triggered by an active ' + la[i].event + ' in your area (NWS).'; break; }
+  }
+  if (!key && local && local.droughtLabel && /drought/.test(local.droughtLabel.toLowerCase())) { key = 'drought'; why = local.state + ' is in ' + local.droughtLabel.toLowerCase() + ' (U.S. Drought Monitor).'; }
+  if (!key && national && national.alerts) {
+    var a = national.alerts;
+    if (a.heatWarnings > 0) { key = 'heat'; why = a.heatWarnings + ' active extreme/excessive-heat warnings nationwide right now (National Weather Service).'; }
+    else if (national.drought && national.drought.droughtOrWorse >= 20) { key = 'drought'; why = national.drought.droughtOrWorse + '% of the U.S. is in drought (U.S. Drought Monitor).'; }
+    else if (a.heatAdvisories > 0) { key = 'heat'; why = a.heatAdvisories + ' active heat advisories nationwide (NWS).'; }
+    else if (a.floodWarnings > 0) { key = 'storm'; why = a.floodWarnings + ' active flood warnings nationwide (NWS).'; }
+  }
+  var G = (window.LIMEN_DOMAIN_GUIDES || {})[DID];
+  if (!G || !key) return;
+  renderCondition(G, key, GUIDE_D);
+  EL('nowTag').style.display = ''; EL('nowTag').textContent = 'live';
+  if (why) { EL('whyTrig').style.display = ''; EL('whyTrig').innerHTML = '● ' + esc(why); }
+}
 
 // ── the "what to do right now" action guide (from domain-guides.js) ──
 function renderGuide(d) {
   var G = (window.LIMEN_DOMAIN_GUIDES || {})[DID];
   if (!G || !G.conditions) { EL('guideCard').style.display = 'none'; return; }
+  GUIDE_D = d || {};
   EL('guideCard').style.display = '';
-  EL('toolsCard').style.display = 'none'; // the guide IS this domain's tool
+  EL('toolsCard').style.display = 'none';
   var active = (typeof G.match === 'function' && d) ? G.match(d) : Object.keys(G.conditions)[0];
-  if (d && d.topSignal) EL('nowTag').style.display = ''; // matched to a live signal
   renderCondition(G, active, d);
 }
-function esc(s){ return String(s); } // content is authored, kept as-is (allows <b>)
 function renderCondition(G, key, d) {
   var c = G.conditions[key]; if (!c) return;
   var chips = Object.keys(G.conditions).map(function (k) {
-    return '<span class="chip' + (k === key ? ' on' : '') + '" data-k="' + k + '">' + G.conditions[k].title + '</span>';
+    return '<span class="chip' + (k === key ? ' on' : '') + '" data-k="' + k + '">' + esc(G.conditions[k].title) + '</span>';
   }).join('');
   var lane = function (cls, label, items) {
-    return '<div class="lane ' + cls + '"><h3>' + label + '</h3><ul>' +
-      items.map(function (x) { return '<li><span>' + esc(x) + '</span></li>'; }).join('') + '</ul></div>';
+    return '<div class="lane ' + cls + '"><h3>' + label + '</h3><ul>' + items.map(function (x) { return '<li><span>' + x + '</span></li>'; }).join('') + '</ul></div>';
   };
-  var pos = '<div class="lane position"><h3>Position</h3><ul><li><span>' + esc(c.position.note) + '</span></li></ul>' +
-    '<div class="names">' + c.position.names.map(function (n) { return '<span>' + esc(n) + '</span>'; }).join('') + '</div></div>';
+  var pos = '<div class="lane position"><h3>Position</h3><ul><li><span>' + c.position.note + '</span></li></ul>' +
+    '<div class="names">' + c.position.names.map(function (nm) { return '<span>' + esc(nm) + '</span>'; }).join('') + '</div></div>';
   var html = '<div class="guide-cond">' + chips + '</div><div class="lanes">' +
-    lane('survive', 'Survive / prepare', c.survive) +
-    lane('save', 'Save money', c.save) +
-    pos +
-    lane('act', 'Act', c.act) +
-    '</div>';
+    lane('survive', 'Survive / prepare', c.survive) + lane('save', 'Save money', c.save) + pos + lane('act', 'Act', c.act) + '</div>';
   if (G.cta) html += '<a class="guide-cta" href="' + G.cta.href + '">' + esc(G.cta.label) + '</a>';
-  html += '<div class="disc">This shifts with the live pulse above. <b>“Position”</b> names are companies with exposure to this condition — shared for research, <b>not</b> a recommendation to buy or a forecast. Survival tips are widely-recommended prep, not emergency instructions — <b>in a real emergency, official local alerts always come first.</b></div>';
+  html += '<div class="disc">This shifts with the live alerts above. <b>“Position”</b> names are companies with exposure to this condition — shared for research, <b>not</b> a recommendation to buy or a forecast. Survival tips are widely-recommended prep, not emergency instructions — <b>in a real emergency, official local alerts always come first.</b></div>';
   EL('guideBody').innerHTML = html;
   EL('guideWhen').innerHTML = '<b style="color:var(--ink)">' + esc(c.title) + '</b>' + (c.when ? ' · ' + esc(c.when) : '');
   Array.prototype.forEach.call(EL('guideBody').querySelectorAll('.chip'), function (ch) {
@@ -223,8 +396,7 @@ function subscribe(e) {
   var email = EL('capEmail').value.trim();
   if (!email) return false;
   EL('capBtn').disabled = true; EL('capBtn').textContent = 'Adding…';
-  fetch('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: email, interest: C.name, sourcePage: '/' + DID }) })
+  fetch('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, interest: C.name, sourcePage: '/' + DID }) })
     .then(function (r) { return r.json().catch(function () { return {}; }); })
     .then(function () { EL('capForm').style.display = 'none'; EL('capNote').textContent = '✓ You’re on the ' + C.name + ' watchlist.'; EL('capNote').style.color = 'var(--green)'; })
     .catch(function () { EL('capBtn').disabled = false; EL('capBtn').textContent = 'Watch this'; EL('capNote').textContent = 'Hmm, try again in a moment.'; });
