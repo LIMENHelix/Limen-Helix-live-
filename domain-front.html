@@ -747,10 +747,10 @@ function startWow(g, n) {
   function show(k) {
     _wowI = (k + facts.length) % facts.length;
     el.style.opacity = 0;
-    setTimeout(function () { el.innerHTML = facts[_wowI]; el.style.opacity = 1; Array.prototype.forEach.call(dots.children, function (d, di) { d.className = di === _wowI ? 'on' : ''; }); }, 300);
+    setTimeout(function () { el.innerHTML = '<span>' + facts[_wowI] + '</span>'; el.style.opacity = 1; Array.prototype.forEach.call(dots.children, function (d, di) { d.className = di === _wowI ? 'on' : ''; }); }, 300);
   }
   Array.prototype.forEach.call(dots.children, function (d) { d.addEventListener('click', function () { if (_wowT) clearInterval(_wowT); show(+d.getAttribute('data-k')); _wowT = setInterval(function () { show(_wowI + 1); }, 6500); }); });
-  el.innerHTML = facts[0]; el.style.opacity = 1; if (dots.children[0]) dots.children[0].className = 'on';
+  el.innerHTML = '<span>' + facts[0] + '</span>'; el.style.opacity = 1; if (dots.children[0]) dots.children[0].className = 'on';
   if (_wowT) clearInterval(_wowT); _wowT = setInterval(function () { show(_wowI + 1); }, 6500);
 }
 function popLookupZip(e) {
