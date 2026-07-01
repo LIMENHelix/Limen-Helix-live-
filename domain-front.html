@@ -23,7 +23,7 @@
     font-family:var(--sans);line-height:1.58;font-size:15.5px;-webkit-font-smoothing:antialiased}
   .wrap{max-width:960px;margin:0 auto;padding:0 22px}
   a{color:var(--gold)}
-  /* hero — full-bleed, phase-colored WebGL fractal behind the content/image */
+  /* hero, full-bleed, phase-colored WebGL fractal behind the content/image */
   .hero{position:relative;width:100vw;margin-left:calc(50% - 50vw);min-height:84vh;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;overflow:hidden;background:transparent}
   /* the fractal is a FULL-PAGE fixed backdrop behind all content */
   #fractal{position:fixed;inset:0;width:100vw;height:100vh;z-index:-1;display:block;background:#0a0d14}
@@ -57,7 +57,7 @@
   .livedot{width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;box-shadow:0 0 0 0 rgba(75,191,147,.5);animation:pulse 2.4s infinite;flex:0 0 auto}
   @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(75,191,147,.45)}70%{box-shadow:0 0 0 7px rgba(75,191,147,0)}100%{box-shadow:0 0 0 0 rgba(75,191,147,0)}}
   .updated{font-family:var(--mono);font-size:.64rem;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);margin-left:auto}
-  /* stat grid — hairline table */
+  /* stat grid, hairline table */
   .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(152px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden}
   .stat{background:rgba(12,17,27,.72);padding:16px 17px}
   .stat .n{font-family:var(--mono);font-size:1.65rem;font-weight:600;line-height:1;letter-spacing:-.01em;color:var(--ink)}
@@ -251,7 +251,7 @@ void main(){
       </div>
       <div class="card">
         <h2><span class="livedot"></span> Forced displacement</h2>
-        <div class="sub">People forced from home worldwide, by country of origin — refugees, asylum-seekers, and those displaced inside their own country. Source: UNHCR (2023).</div>
+        <div class="sub">People forced from home worldwide, by country of origin: refugees, asylum-seekers, and those displaced inside their own country. Source: UNHCR (2023).</div>
         <div id="dispTotal" style="margin-bottom:14px"></div>
         <div class="stats" id="dispTop"></div>
       </div>
@@ -283,7 +283,7 @@ void main(){
         <h2>What to do with this</h2>
         <div class="sub">Turn the numbers into a move.</div>
         <div class="todo">
-          <div class="td"><b>Chase the value</b><span>Your dollar stretches furthest where people are already piling in. The landing spots above are where jobs and still-affordable housing overlap — start there.</span></div>
+          <div class="td"><b>Chase the value</b><span>Your dollar stretches furthest where people are already piling in. The landing spots above are where jobs and still-affordable housing overlap, start there.</span></div>
           <div class="td"><b>In a shrinking area? Negotiate.</b><span>Fewer buyers means leverage: more inventory, softer prices, motivated sellers. A “losing” county can be a winning deal if you’re staying.</span></div>
           <div class="td"><b>Remote? Arbitrage it.</b><span>Earn a big-city salary, live in a cheap, growing town. Check your ZIP above for the local home price, rent, and whether it’s filling up or emptying out.</span></div>
           <div class="td"><b>Track your area</b><span>Watch this domain (top of the page) and we’ll flag when your county or state flips between gaining and losing people.</span></div>
@@ -756,8 +756,8 @@ function buildWowFacts(g, n) {
   var disp = g && g.displacement && g.displacement.globalTotal;
   if (g && g.worldPop && disp) f.push('<b>1 in ' + Math.round(g.worldPop / disp) + '</b> people alive today has been forced to flee their home.');
   var us = _findUS(g && g.migGainers);
-  if (us) f.push('The U.S. takes in about <b>' + fmtBig(us.value) + '</b> more people than it loses every year — a whole new big city, annually.');
-  if (g && g.worldPop && g.worldGrowth) { var add = g.worldPop * g.worldGrowth / 100; f.push('Earth adds roughly <b>' + fmtBig(add) + '</b> people a year — about <b>' + fmtBig(add / 365) + '</b> every single day.'); }
+  if (us) f.push('The U.S. takes in about <b>' + fmtBig(us.value) + '</b> more people than it loses every year, a whole new big city, annually.');
+  if (g && g.worldPop && g.worldGrowth) { var add = g.worldPop * g.worldGrowth / 100; f.push('Earth adds roughly <b>' + fmtBig(add) + '</b> people a year, about <b>' + fmtBig(add / 365) + '</b> every single day.'); }
   if (n && n.gainers && n.gainers[0]) f.push('<b>' + n.gainers[0].state + '</b> is the No.&nbsp;1 state Americans are moving to right now.');
   if (n && n.losers && n.losers[0]) { var L = n.losers[0]; f.push('<b>' + L.state + '</b> loses about <b>' + fmtBig(Math.abs(L.netIn) / 365) + '</b> residents to other states every day.'); }
   if (n && n.landing && n.landing[0]) { var C = n.landing[0]; f.push('<b>' + C.county + ', ' + C.state + '</b> is growing so fast it gains about <b>' + fmtBig(C.netIn / 365) + '</b> new residents a day.'); }
@@ -767,12 +767,12 @@ function buildWowFacts(g, n) {
 function buildEnvWowFacts(n) {
   var f = [], a = (n && n.alerts) || {}, dr = n && n.drought, qk = n && n.quakes;
   if (n && n.totalAlerts) f.push('<b>' + Number(n.totalAlerts).toLocaleString() + '</b> active weather alerts are in effect across the U.S. right now.');
-  if (a.heatWarnings) f.push('<b>' + a.heatWarnings + '</b> extreme-heat warnings are up — dangerous heat for millions today.');
+  if (a.heatWarnings) f.push('<b>' + a.heatWarnings + '</b> extreme-heat warnings are up, dangerous heat for millions today.');
   if (dr && dr.droughtOrWorse) f.push('<b>' + dr.droughtOrWorse + '%</b> of the United States is in drought right now.');
-  if (qk && qk.count) f.push('The ground moved <b>' + qk.count + '</b> times in the last 24 hours' + (qk.largest && qk.largest.mag ? ' — the biggest a magnitude <b>' + qk.largest.mag + '</b>' : '') + '.');
-  if (a.redFlag) f.push('<b>' + a.redFlag + '</b> red-flag fire warnings are up — the ground is ready to burn.');
+  if (qk && qk.count) f.push('The ground moved <b>' + qk.count + '</b> times in the last 24 hours' + (qk.largest && qk.largest.mag ? ', the biggest a magnitude <b>' + qk.largest.mag + '</b>' : '') + '.');
+  if (a.redFlag) f.push('<b>' + a.redFlag + '</b> red-flag fire warnings are up, the ground is ready to burn.');
   if (a.floodWarnings) f.push('<b>' + a.floodWarnings + '</b> flood warnings are active across the country.');
-  if (a.airQuality) f.push('Air-quality alerts cover <b>' + a.airQuality + '</b> areas today — check before you head outside.');
+  if (a.airQuality) f.push('Air-quality alerts cover <b>' + a.airQuality + '</b> areas today; check before you head outside.');
   return f;
 }
 var _wowT = null, _wowI = 0;
@@ -819,7 +819,7 @@ function renderPopLocal(L) {
   }
   if (L.migration) {
     var gaining = L.migration.netIn >= 0;
-    h += '<div class="hl" style="margin-top:10px;color:var(--gold);font-weight:700">→ ' + (gaining ? 'Your area is filling up — expect rising prices and competition, so move fast if you’re buying.' : 'It’s a buyer’s market here — more inventory and leverage to negotiate. If you’re selling, price sharp.') + '</div>';
+    h += '<div class="hl" style="margin-top:10px;color:var(--gold);font-weight:700">→ ' + (gaining ? 'Your area is filling up, expect rising prices and competition, so move fast if you’re buying.' : 'It’s a buyer’s market here, more inventory and leverage to negotiate. If you’re selling, price sharp.') + '</div>';
   }
   h += '</div>';
   EL('popLocalOut').innerHTML = h;
