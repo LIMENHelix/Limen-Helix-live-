@@ -133,19 +133,22 @@ EL('tools').innerHTML = C.tools.map(function (t) {
   return '<div class="tool soon"><span class="soonbadge">soon</span><b>' + t + '</b><span>Free tool, in build.</span></div>';
 }).join('');
 
-// ── live pulse from the domain-snapshot ──
-function statusColor(s) { s = (s || '').toLowerCase(); return s.indexOf('crit') > -1 || s.indexOf('pain') > -1 ? 'var(--red)' : s.indexOf('degr') > -1 || s.indexOf('press') > -1 ? 'var(--amber)' : 'var(--green)'; }
-fetch('/api/domain-snapshot').then(function (r) { return r.json(); }).then(function (j) {
+// ── live pulse from the CACHED snapshot (fast: ~400ms vs ~10s for the live one) ──
+function statusColor(s) { return s === 'ELEVATED' ? 'var(--red)' : s === 'ACTIVE' ? 'var(--amber)' : 'var(--green)'; }
+fetch('/api/limen-snapshot').then(function (r) { return r.json(); }).then(function (j) {
   var d = (j.domains || j)[C.key] || {};
   var stress = typeof d.stress === 'number' ? d.stress : null;
-  var st = d.status || (stress != null ? (stress > 0.65 ? 'ELEVATED' : stress > 0.4 ? 'ACTIVE' : 'CALM') : 'UNKNOWN');
-  var sigs = (d.signals || []).filter(Boolean).slice(0, 6);
+  var st = stress != null ? (stress > 0.65 ? 'ELEVATED' : stress > 0.4 ? 'ACTIVE' : 'CALM') : 'QUIET';
+  var sigs = [];
+  if (d.phaseLabel) sigs.push('Cycle position: ' + String(d.phaseLabel).toLowerCase() + (d.maturity ? ' · ' + String(d.maturity).toLowerCase() : ''));
+  if (d.topSignal) sigs.push(String(d.topSignal).replace(/_/g, ' '));
   var h = '<div class="pulse-top">' +
     '<span class="status" style="color:' + statusColor(st) + ';border-color:' + statusColor(st) + '55">' + st + '</span>';
   if (stress != null) h += '<span class="barlbl">pressure ' + Math.round(stress * 100) + '%</span><div class="bar"><i style="width:' + Math.round(stress * 100) + '%"></i></div>';
   h += '</div>';
-  if (sigs.length) h += sigs.map(function (s) { return '<div class="sig"><span class="dot">●</span>' + String(s).replace(/_/g, ' ') + '</div>'; }).join('');
-  else h += '<div class="muted">No active signals right now — quiet is good. Watch it to catch the next move.</div>';
+  if (sigs.length) h += sigs.map(function (s) { return '<div class="sig"><span class="dot">●</span>' + s + '</div>'; }).join('');
+  else h += '<div class="muted">Quiet right now — no elevated signals. Watch it to catch the next move.</div>';
+  if (typeof d.liveCount === 'number') h += '<div class="muted" style="margin-top:10px;font-size:.78rem">' + d.liveCount + ' live sources tracked · updates continuously</div>';
   EL('pulse').innerHTML = h;
 }).catch(function () { EL('pulse').innerHTML = '<div class="muted">Live pulse is warming up — check back shortly.</div>'; });
 
