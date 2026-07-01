@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>LIMEN HELIX — Civilization, in real time</title>
-<meta name="description" content="LIMEN Helix maps 20 domains of civilization in real time — a living connectome of 465,939 portals across 123 brain nodes. Hover any domain to explore; free public tools live now.">
+<title>LIMEN HELIX · Civilization, in real time</title>
+<meta name="description" content="LIMEN Helix maps 20 domains of civilization in real time. A living connectome of 465,939 portals across 123 brain nodes. Hover any domain to explore; free public tools live now.">
 <meta name="google-site-verification" content="2xLI4zw_nL8XXPveYa48ALKWg6WDC86VzvtRvV6HayA" />
 <link rel="canonical" href="https://limenhelix.com/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://limenhelix.com/">
-<meta property="og:title" content="LIMEN HELIX — Civilization, in real time">
+<meta property="og:title" content="LIMEN HELIX · Civilization, in real time">
 <meta property="og:description" content="A living connectome of 20 domains and 465,939 portals, read in real time. Hover any domain to explore.">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -130,7 +130,7 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
 (function(){
   'use strict';
   // PUBLIC routing only — clicks never reach gated pages.
-  var PUBLIC = { energy:'/energy', culture:'/culture', infrastructure:'/infrastructure', environment:'/environment' };
+  var PUBLIC = { energy:'/energy', culture:'/culture', infrastructure:'/infrastructure', environment:'/environment', technology:'/technology' };
   function onNodeClick(n){
     var url = n && (PUBLIC[n.id] || PUBLIC[(n.childUniverse||'').toLowerCase()]);
     if (url) window.location.href = url;
@@ -161,7 +161,7 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
       .then(function(r){return r.json();})
       .then(function(j){ if(j&&j.ok){ try{sessionStorage.setItem('limen_access','granted');if(j.person)sessionStorage.setItem('limen_admin',JSON.stringify(j.person));sessionStorage.setItem('limen_pass',val);}catch(e){} window.location.replace('/admin'); }
         else { err.textContent='Incorrect'; pw.value=''; pw.focus(); } })
-      .catch(function(){ err.textContent='Error — try again'; });
+      .catch(function(){ err.textContent='Error. Try again'; });
   });
 })();
 </script>
