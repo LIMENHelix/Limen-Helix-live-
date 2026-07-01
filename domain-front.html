@@ -13,13 +13,15 @@
     --shadow:0 1px 2px rgba(16,32,58,.05),0 6px 22px rgba(16,32,58,.06);
   }
   *{box-sizing:border-box}
-  body{margin:0;background:linear-gradient(180deg,var(--bg),var(--bg2));color:var(--ink);overflow-x:hidden;
+  html{background:#0a0d14}
+  body{margin:0;background:transparent;color:var(--ink);overflow-x:hidden;
     font-family:-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
   .wrap{max-width:940px;margin:0 auto;padding:0 20px}
   a{color:var(--blue)}
   /* hero — full-bleed, phase-colored WebGL fractal behind the content/image */
-  .hero{position:relative;width:100vw;margin-left:calc(50% - 50vw);min-height:84vh;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;overflow:hidden;background:#070a12}
-  #fractal{position:absolute;inset:0;width:100%;height:100%;z-index:0;display:block}
+  .hero{position:relative;width:100vw;margin-left:calc(50% - 50vw);min-height:84vh;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;overflow:hidden;background:transparent}
+  /* the fractal is a FULL-PAGE fixed backdrop behind all content */
+  #fractal{position:fixed;inset:0;width:100vw;height:100vh;z-index:-1;display:block;background:#0a0d14}
   .hero-bg{position:absolute;inset:0;z-index:1;background-size:cover;background-position:center 46%;opacity:.5;display:none;pointer-events:none}
   .hero.photo .hero-bg{display:block}
   .hero-scrim{position:absolute;inset:0;z-index:1;pointer-events:none;
@@ -122,10 +124,10 @@
   .disc{font-size:.72rem;color:var(--faint);margin-top:16px;line-height:1.55}
   .nowtag{font-size:.6rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#fff;background:var(--red);border-radius:5px;padding:3px 8px;vertical-align:middle}
   .whytrig{font-size:.78rem;color:var(--soft);margin:-4px 0 14px}
-  footer{border-top:1px solid var(--line);margin-top:26px;padding:26px 0 50px;color:var(--faint);font-size:.8rem;text-align:center}
+  footer{border-top:1px solid rgba(255,255,255,.14);margin-top:26px;padding:26px 0 50px;color:rgba(255,255,255,.6);font-size:.8rem;text-align:center;text-shadow:0 1px 6px rgba(0,0,0,.5)}
   footer a{color:var(--soft);text-decoration:none}
   .backrow{padding:16px 0 0}
-  .backrow a{color:var(--soft);text-decoration:none;font-size:.82rem}
+  .backrow a{color:rgba(255,255,255,.75);text-decoration:none;font-size:.82rem;text-shadow:0 1px 6px rgba(0,0,0,.5)}
   /* photo hero (environment: Yosemite image blended over the fractal) */
   .photocred{position:absolute;bottom:6px;right:11px;z-index:2;font-size:.58rem;color:rgba(255,255,255,.6)}
   .photocred a{color:rgba(255,255,255,.7)}
@@ -178,12 +180,12 @@ void main(){
 }
 </script>
 <script src="/assets/js/domain-guides.js"></script>
+<canvas id="fractal"></canvas>
 
 <div class="wrap">
   <div class="backrow"><a href="/">← LIMEN Helix</a></div>
 
   <div class="hero" id="hero">
-    <canvas id="fractal"></canvas>
     <div class="hero-bg" id="heroBg"></div>
     <div class="hero-scrim"></div>
     <div class="hero-inner">
@@ -371,9 +373,9 @@ function setFractalPhase(phase) {
   tgtColor = p.c.slice(); tgtChaos = p.ch; tgtFx = p.fx.slice();
 }
 (function () {
-  var host = EL('hero'), cv = EL('fractal'); if (!host || !cv) return;
+  var cv = EL('fractal'); if (!cv) return;
   var gl = null; try { gl = cv.getContext('webgl') || cv.getContext('experimental-webgl'); } catch (e) {}
-  function fallback() { host.style.background = 'radial-gradient(60% 60% at 50% 45%,#161d33,#05060d)'; }
+  function fallback() { cv.style.background = 'radial-gradient(60% 60% at 50% 40%,#161d33,#05060d)'; }
   if (!gl) { fallback(); return; }
   var VERT = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.0,1.0);}';
   var FRAG = document.getElementById('fragEnv').textContent;
@@ -388,7 +390,7 @@ function setFractalPhase(phase) {
   var lc = gl.getAttribLocation(pr, 'p'); gl.enableVertexAttribArray(lc); gl.vertexAttribPointer(lc, 2, gl.FLOAT, false, 0, 0);
   var uR = gl.getUniformLocation(pr, 'u_res'), uT = gl.getUniformLocation(pr, 'u_time'), uC = gl.getUniformLocation(pr, 'u_color'),
       uH = gl.getUniformLocation(pr, 'u_chaos'), uPow = gl.getUniformLocation(pr, 'u_pow'), uShip = gl.getUniformLocation(pr, 'u_ship'), uTwist = gl.getUniformLocation(pr, 'u_twist');
-  function sz() { var d = Math.min(window.devicePixelRatio || 1, 1.5); cv.width = Math.max(1, (host.clientWidth * d) | 0); cv.height = Math.max(1, (host.clientHeight * d) | 0); gl.viewport(0, 0, cv.width, cv.height); }
+  function sz() { var d = Math.min(window.devicePixelRatio || 1, 1.5); cv.width = Math.max(1, (window.innerWidth * d) | 0); cv.height = Math.max(1, (window.innerHeight * d) | 0); gl.viewport(0, 0, cv.width, cv.height); }
   sz(); addEventListener('resize', sz);
   var run = true, tAcc = 0, last = Date.now();
   document.addEventListener('visibilitychange', function () { run = !document.hidden; if (run) loop(); });
@@ -421,6 +423,8 @@ if (C.live === 'env') {
 
 // population: "where America is moving" migration tool
 if (C.live === 'pop') {
+  EL('hero').className = 'hero photo';
+  EL('heroBg').style.backgroundImage = "url('/assets/img/population.webp')";
   EL('popSection').style.display = '';
   EL('toolsCard').style.display = 'none';
   loadPopLive();
@@ -671,6 +675,13 @@ function renderPopLocal(L) {
     h += '<div class="hl" style="margin-top:4px">' + (pos ? 'More people are moving into your county than leaving.' : 'More people are leaving your county than moving in.') + '</div>';
   } else h += '<div class="muted" style="margin-top:6px">No county migration figure available for your area.</div>';
   if (L.stateRank) h += '<div class="hl" style="margin-top:8px">' + esc(L.state) + ' ranks <b>#' + L.stateRank.rank + '</b> of 51 states (+ DC) for net migration (' + (L.stateRank.rate > 0 ? '+' : '') + L.stateRank.rate + ' per 1,000).</div>';
+  if (L.cost && (L.cost.homeValue || L.cost.rent)) {
+    var parts = [];
+    if (L.cost.homeValue) parts.push('typical home <b>$' + Number(L.cost.homeValue).toLocaleString() + '</b>');
+    if (L.cost.rent) parts.push('median rent <b>$' + Number(L.cost.rent).toLocaleString() + '/mo</b>');
+    if (L.cost.income) parts.push('median income <b>$' + Number(L.cost.income).toLocaleString() + '</b>');
+    h += '<div class="hl" style="margin-top:8px">' + parts.join(' · ') + ' <span class="c" style="color:var(--faint);font-size:.7rem">(Census ACS)</span></div>';
+  }
   h += '</div>';
   EL('popLocalOut').innerHTML = h;
 }

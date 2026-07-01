@@ -16,6 +16,11 @@
  */
 var db = require('../lib/limen-db');
 
+// Optional: set CENSUS_API_KEY (free, api.census.gov/data/key_signup.html) to add
+// local cost figures (home value / rent / income) to the ZIP lookup. Everything
+// else works keyless off the Census CSV files.
+var CENSUS_KEY = process.env.CENSUS_API_KEY || '';
+
 var STATE_CSV = 'https://www2.census.gov/programs-surveys/popest/datasets/2020-2023/state/totals/NST-EST2023-ALLDATA.csv';
 var COUNTY_CSV = 'https://www2.census.gov/programs-surveys/popest/datasets/2020-2023/counties/totals/co-est2023-alldata.csv';
 var NAT_KEY = 'pop:national:v2';
@@ -95,6 +100,14 @@ async function localForZip(zip) {
     if (cty) out.migration = { netIn: cty.d, rate: cty.r, pop: cty.p };
     if (srank) out.stateRank = srank;
   } catch (e) { out.error = 'Could not resolve that ZIP to a county.'; }
+  // optional cost enrichment (needs a free Census API key)
+  if (CENSUS_KEY) {
+    try {
+      var a = await getText('https://api.census.gov/data/2022/acs/acs5?get=B25077_001E,B25064_001E,B19013_001E&for=zip%20code%20tabulation%20area:' + zip + '&key=' + CENSUS_KEY).then(JSON.parse);
+      var row = a[1], hv = +row[0], rent = +row[1], inc = +row[2];
+      out.cost = { homeValue: hv > 0 ? hv : null, rent: rent > 0 ? rent : null, income: inc > 0 ? inc : null };
+    } catch (e) {}
+  }
   return out;
 }
 
@@ -113,7 +126,7 @@ module.exports = async function handler(req, res) {
 
   var zip = (q.zip || '').replace(/[^0-9]/g, '').slice(0, 5);
   if (zip.length === 5) {
-    var zkey = 'pop:zip:' + zip + ':v3', local = null;
+    var zkey = 'pop:zip:' + zip + ':v4', local = null;
     if (q.fresh !== '1') { try { var zc = await db.get(zkey); if (zc && zc.updatedMs && (now - zc.updatedMs) < TTL_MS) local = zc; } catch (e) {} }
     if (!local) { try { local = await localForZip(zip); local.updatedMs = now; await db.set(zkey, local); } catch (e) { local = { zip: zip, error: 'Lookup failed. Try again.' }; } }
     payload.local = local;
