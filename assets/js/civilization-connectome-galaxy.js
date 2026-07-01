@@ -697,7 +697,7 @@ var PORTAL_ROUTES = {
   'science': '/domain-console?domain=science',
   'medicine': '/domain-console?domain=medicine',
   'education': '/domain-console?domain=education',
-  'technology': '/domain-console?domain=technology',
+  'technology': '/technology',
   'communication': '/domain-console?domain=communication',
   'culture': '/domain-console?domain=culture',
   'defense': '/domain-console?domain=defense',
@@ -709,6 +709,11 @@ var PORTAL_ROUTES = {
   'finance': '/domain-console?domain=finance',
   'intelligence': '/domain-console?domain=intelligence'
 };
+
+// Domains with a FREE PUBLIC front (no auth). These take priority in the hover
+// cue so a public visitor is invited to open the live watch. Keep in sync with
+// the PUBLIC map in index.html's onNodeClick.
+var PUBLIC_FRONTS = { energy:1, culture:1, infrastructure:1, environment:1 };
 
 // ═══ 3-LAYER HELPER FUNCTIONS ═══
 
@@ -1688,7 +1693,8 @@ function showTooltip(idx,mx,my) {
   if(_ttCounts){ var _c=_DOMAIN_COUNTS[n.id];
     _ttCounts.innerHTML = _c ? ('<b>'+_c.p.toLocaleString()+'</b> portals &middot; <b>'+_c.dx.toLocaleString()+'</b> diagnoses &middot; <b>'+_c.tx.toLocaleString()+'</b> treatments') : ''; }
   var ttE=document.getElementById('ttEnter');
-  if(DOMAIN_PORTALS[n.id]) ttE.textContent='View portals \u2192';
+  if(PUBLIC_FRONTS[n.id]) ttE.textContent='Open live watch \u2192';
+  else if(DOMAIN_PORTALS[n.id]) ttE.textContent='View portals \u2192';
   else if(n.childUniverse && PORTAL_ROUTES[n.childUniverse]) ttE.textContent='Enter portal \u2192';
   else ttE.textContent='Portal coming soon';
   _tooltip.style.display='block';
