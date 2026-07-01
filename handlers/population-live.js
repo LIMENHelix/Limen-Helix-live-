@@ -104,6 +104,20 @@ module.exports = async function handler(req, res) {
   var q = {}; try { q = Object.fromEntries(new URL(req.url, 'http://h').searchParams); } catch (e) {}
   var now = Date.now();
 
+  if (q.diag) {
+    var d = {};
+    try {
+      var geo = await getText('https://api.zippopotam.us/us/' + q.diag).then(JSON.parse);
+      var pl = (geo.places && geo.places[0]) || {}; d.lat = pl.latitude; d.lon = pl.longitude; d.state = pl.state;
+      var url = 'https://geocoding.geo.census.gov/geocoder/geographies/coordinates?x=' + parseFloat(pl.longitude) + '&y=' + parseFloat(pl.latitude) + '&benchmark=Public_AR_Current&vintage=Current_Current&layers=Counties&format=json';
+      d.geoUrl = url;
+      var gr = await fetch(url, { headers: { 'User-Agent': 'LIMEN-PopulationWatch (limenhelix.com)' } });
+      d.geoStatus = gr.status; var gt = await gr.text(); d.geoLen = gt.length; d.geoSnippet = gt.slice(0, 200);
+    } catch (e) { d.error = String(e && e.message || e); }
+    try { var cm = await db.get(CTY_KEY); d.ctyMapPresent = !!(cm && cm.map); d.ctyMapSize = cm && cm.map ? Object.keys(cm.map).length : 0; } catch (e) {}
+    return j(res, 200, d);
+  }
+
   var national = null;
   if (q.fresh !== '1') { try { var c = await db.get(NAT_KEY); if (c && c.updatedMs && (now - c.updatedMs) < TTL_MS) national = c; } catch (e) {} }
   if (!national) { try { national = await buildAll(); } catch (e) { try { national = await db.get(NAT_KEY); } catch (e2) {} } }
