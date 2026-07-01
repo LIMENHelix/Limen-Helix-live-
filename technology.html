@@ -18,13 +18,13 @@
     --metal-hi:#2c2c33;
     --line:#34343c;
     --line-soft:#26262c;
-    --ink:#ECEAE4;
-    --mute:#8d8d86;
-    --mute-2:#6a6a64;
-    --amber:#F4A300;     /* hazard / standby */
-    --amber-dim:#a87d2a;
-    --red:#FF3826;       /* live / emergency */
-    --red-deep:#c4180b;
+    --ink:#FFFFFF;
+    --mute:#b6bac2;
+    --mute-2:#888c96;
+    --amber:#FFC42E;     /* hazard / standby — brighter gold */
+    --amber-dim:#c79a34;
+    --red:#FF5546;       /* live / emergency — brighter */
+    --red-deep:#d21f10;
     --ok:#3ad17a;
     --maxw:1140px;
     --r:14px;
@@ -71,8 +71,8 @@
   .eyebrow{display:inline-flex;align-items:center;gap:10px;margin-bottom:26px}
   .eyebrow::before{content:"";width:26px;height:1px;background:var(--amber)}
   h1.hero-h{font-size:clamp(2rem,5vw,3.4rem)}
-  h1.hero-h .free{color:var(--amber);position:relative}
-  .hero-sub{margin-top:24px;font-size:1.12rem;color:#cfcfc8;max-width:30em}
+  h1.hero-h .free{color:var(--amber);position:relative;text-shadow:0 0 26px rgba(255,196,46,.45)}
+  .hero-sub{margin-top:24px;font-size:1.12rem;color:#e7e9f0;max-width:30em}
   .hero-sub strong{color:var(--ink);font-weight:600}
   .hero-actions{margin-top:34px;display:flex;gap:14px;flex-wrap:wrap;align-items:center}
 
@@ -112,25 +112,31 @@
 
   /* the actual toggle */
   .switch{
-    width:118px;height:210px;border-radius:16px;
-    background:linear-gradient(180deg,#0e0e10,#16161a);
-    border:1px solid #000;box-shadow:inset 0 2px 14px rgba(0,0,0,.9), 0 1px 0 rgba(255,255,255,.05);
-    position:relative;cursor:pointer;display:block;padding:0;
+    width:88px;height:158px;border-radius:15px;
+    background:linear-gradient(180deg,#15151b,#0a0a0d);
+    border:1px solid #2b2b33;
+    box-shadow:inset 0 2px 16px rgba(0,0,0,.9), 0 1px 0 rgba(255,255,255,.06), 0 12px 30px -14px rgba(0,0,0,.85);
+    position:relative;cursor:pointer;display:block;padding:0;transition:box-shadow .3s, border-color .3s;
   }
+  .switch.on{border-color:rgba(255,85,70,.5);box-shadow:inset 0 2px 16px rgba(0,0,0,.9), 0 0 36px -6px rgba(255,85,70,.6), 0 0 0 1px rgba(255,85,70,.35)}
   .switch:focus-visible{outline:2px solid var(--amber);outline-offset:4px}
-  .slot{position:absolute;left:50%;top:18px;bottom:18px;width:34px;transform:translateX(-50%);border-radius:18px;background:#070708;box-shadow:inset 0 0 10px rgba(0,0,0,.9)}
+  .slot{position:absolute;left:50%;top:13px;bottom:13px;width:42px;transform:translateX(-50%);border-radius:22px;
+    background:radial-gradient(130% 55% at 50% 8%, rgba(255,196,46,.20), transparent 62%), #050506;
+    box-shadow:inset 0 0 14px rgba(0,0,0,.95), inset 0 0 0 1px rgba(255,255,255,.03);transition:background .35s}
+  .switch.on .slot{background:radial-gradient(130% 55% at 50% 92%, rgba(255,85,70,.42), transparent 62%), #050506}
   .knob{
-    position:absolute;left:50%;width:80px;height:84px;transform:translateX(-50%);
-    border-radius:12px;
-    background:linear-gradient(180deg,#3a3a42,#1d1d22);
-    border:1px solid #45454e;
-    box-shadow:0 6px 14px rgba(0,0,0,.6), inset 0 2px 2px rgba(255,255,255,.12), inset 0 -3px 6px rgba(0,0,0,.5);
-    bottom:20px;transition:bottom .28s cubic-bezier(.5,1.6,.5,1), background .28s;
-    display:flex;align-items:center;justify-content:center;
+    position:absolute;left:50%;width:62px;height:62px;transform:translateX(-50%);
+    border-radius:14px;
+    background:linear-gradient(180deg,#43434d,#1c1c22);
+    border:1px solid #4e4e58;
+    box-shadow:0 6px 14px rgba(0,0,0,.6), inset 0 2px 3px rgba(255,255,255,.18), inset 0 -4px 8px rgba(0,0,0,.55);
+    bottom:13px;transition:bottom .32s cubic-bezier(.45,1.7,.4,1), background .32s, box-shadow .32s, border-color .32s, color .32s;
+    display:flex;align-items:center;justify-content:center;color:#787883;
   }
-  .knob::after{content:"";width:34px;height:4px;border-radius:3px;background:#56565f;box-shadow:0 7px 0 #56565f,0 -7px 0 #56565f}
-  .switch.on .knob{bottom:106px;background:linear-gradient(180deg,#ff5a4a,var(--red-deep));border-color:#ff7a6c}
-  .switch.on .knob::after{background:rgba(255,255,255,.5);box-shadow:0 7px 0 rgba(255,255,255,.5),0 -7px 0 rgba(255,255,255,.5)}
+  .knob::after{content:"\23FB";font-size:25px;line-height:1;transition:color .32s, text-shadow .32s;text-shadow:0 1px 1px rgba(0,0,0,.7)}
+  .switch.on .knob{bottom:83px;background:linear-gradient(180deg,#ff6a5b,var(--red-deep));border-color:#ff9084;color:#fff;
+    box-shadow:0 6px 16px rgba(255,85,70,.4), inset 0 2px 3px rgba(255,255,255,.35), inset 0 -4px 8px rgba(0,0,0,.4)}
+  .switch.on .knob::after{color:#fff;text-shadow:0 0 10px rgba(255,255,255,.95), 0 0 20px rgba(255,85,70,.85)}
 
   .switch-caption{font-family:"IBM Plex Mono",monospace;text-transform:uppercase;letter-spacing:.14em;font-size:.74rem;color:var(--mute);text-align:center}
   .switch-caption b{color:var(--amber);font-weight:600}
