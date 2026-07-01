@@ -13,7 +13,7 @@
     --shadow:0 1px 2px rgba(16,32,58,.05),0 6px 22px rgba(16,32,58,.06);
   }
   *{box-sizing:border-box}
-  body{margin:0;background:linear-gradient(180deg,var(--bg),var(--bg2));color:var(--ink);
+  body{margin:0;background:linear-gradient(180deg,var(--bg),var(--bg2));color:var(--ink);overflow-x:hidden;
     font-family:-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
   .wrap{max-width:940px;margin:0 auto;padding:0 20px}
   a{color:var(--blue)}
@@ -104,9 +104,9 @@
   .backrow{padding:16px 0 0}
   .backrow a{color:var(--soft);text-decoration:none;font-size:.82rem}
   /* photo hero (environment: Yosemite) */
-  .hero.photo{position:relative;border-radius:20px;overflow:hidden;color:#fff;margin-top:8px;padding:0;text-align:center;box-shadow:var(--shadow);
-    background:linear-gradient(180deg,rgba(12,22,38,.30),rgba(10,18,32,.74)),url('/assets/img/yosemite.jpg') center 46%/cover no-repeat}
-  .hero.photo .hero-inner{max-width:760px;margin:0 auto;padding:64px 24px 30px}
+  .hero.photo{position:relative;width:100vw;margin-left:calc(50% - 50vw);margin-top:0;border-radius:0;overflow:hidden;color:#fff;padding:0;text-align:center;display:flex;align-items:center;min-height:62vh;
+    background:linear-gradient(180deg,rgba(10,18,32,.42),rgba(10,18,32,.68)),url('/assets/img/yosemite.jpg') center 46%/cover no-repeat}
+  .hero.photo .hero-inner{max-width:780px;margin:0 auto;padding:52px 24px}
   .hero.photo .eyebrow{color:#e7d9ab}
   .hero.photo h1{color:#fff;text-shadow:0 2px 22px rgba(0,0,0,.5)}
   .hero.photo .lead{color:#eef2f7;text-shadow:0 1px 12px rgba(0,0,0,.5)}
