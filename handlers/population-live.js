@@ -18,8 +18,8 @@ var db = require('../lib/limen-db');
 
 var STATE_CSV = 'https://www2.census.gov/programs-surveys/popest/datasets/2020-2023/state/totals/NST-EST2023-ALLDATA.csv';
 var COUNTY_CSV = 'https://www2.census.gov/programs-surveys/popest/datasets/2020-2023/counties/totals/co-est2023-alldata.csv';
-var NAT_KEY = 'pop:national:v1';
-var CTY_KEY = 'pop:counties:v1';
+var NAT_KEY = 'pop:national:v2';
+var CTY_KEY = 'pop:counties:v2';
 var TTL_MS = 24 * 3600 * 1000;
 
 function j(res, code, obj) { res.statusCode = code; res.setHeader('content-type', 'application/json'); res.end(JSON.stringify(obj)); }
@@ -37,7 +37,7 @@ async function getText(url) { var r = await fetch(url, { headers: { 'User-Agent'
 
 async function buildStates() {
   var p = parse(await getText(STATE_CSV)), x = p.idx;
-  var st = p.data.filter(function (c) { return c[x.SUMLEV] === '040'; }).map(function (c) {
+  var st = p.data.filter(function (c) { return c[x.SUMLEV] === '040' && c[x.STATE] !== '72'; }).map(function (c) {
     return { name: c[x.NAME], pop: ri(c[x.POPESTIMATE2023]), dmig: ri(c[x.DOMESTICMIG2023]), rate: r1(c[x.RDOMESTICMIG2023]) };
   });
   st.sort(function (a, b) { return b.rate - a.rate; });
@@ -104,19 +104,6 @@ module.exports = async function handler(req, res) {
   var q = {}; try { q = Object.fromEntries(new URL(req.url, 'http://h').searchParams); } catch (e) {}
   var now = Date.now();
 
-  if (q.diag) {
-    var d = {};
-    try {
-      var geo = await getText('https://api.zippopotam.us/us/' + q.diag).then(JSON.parse);
-      var pl = (geo.places && geo.places[0]) || {}; d.lat = pl.latitude; d.lon = pl.longitude; d.state = pl.state;
-      var url = 'https://geocoding.geo.census.gov/geocoder/geographies/coordinates?x=' + parseFloat(pl.longitude) + '&y=' + parseFloat(pl.latitude) + '&benchmark=Public_AR_Current&vintage=Current_Current&layers=Counties&format=json';
-      d.geoUrl = url;
-      var gr = await fetch(url, { headers: { 'User-Agent': 'LIMEN-PopulationWatch (limenhelix.com)' } });
-      d.geoStatus = gr.status; var gt = await gr.text(); d.geoLen = gt.length; d.geoSnippet = gt.slice(0, 200);
-    } catch (e) { d.error = String(e && e.message || e); }
-    try { var cm = await db.get(CTY_KEY); d.ctyMapPresent = !!(cm && cm.map); d.ctyMapSize = cm && cm.map ? Object.keys(cm.map).length : 0; } catch (e) {}
-    return j(res, 200, d);
-  }
 
   var national = null;
   if (q.fresh !== '1') { try { var c = await db.get(NAT_KEY); if (c && c.updatedMs && (now - c.updatedMs) < TTL_MS) national = c; } catch (e) {} }
@@ -126,7 +113,7 @@ module.exports = async function handler(req, res) {
 
   var zip = (q.zip || '').replace(/[^0-9]/g, '').slice(0, 5);
   if (zip.length === 5) {
-    var zkey = 'pop:zip:' + zip + ':v2', local = null;
+    var zkey = 'pop:zip:' + zip + ':v3', local = null;
     if (q.fresh !== '1') { try { var zc = await db.get(zkey); if (zc && zc.updatedMs && (now - zc.updatedMs) < TTL_MS) local = zc; } catch (e) {} }
     if (!local) { try { local = await localForZip(zip); local.updatedMs = now; await db.set(zkey, local); } catch (e) { local = { zip: zip, error: 'Lookup failed. Try again.' }; } }
     payload.local = local;
