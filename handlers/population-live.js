@@ -82,7 +82,7 @@ async function localForZip(zip) {
   var out = { zip: zip, place: place['place name'] || '', state: state };
   // ZIP centroid → county FIPS via the Census geocoder
   try {
-    var g = await getText('https://geocoding.geo.census.gov/geocoder/geographies/coordinates?x=' + lat + '&y=' + lon + '&benchmark=Public_AR_Current&vintage=Current_Current&layers=Counties&format=json').then(JSON.parse);
+    var g = await getText('https://geocoding.geo.census.gov/geocoder/geographies/coordinates?x=' + lon + '&y=' + lat + '&benchmark=Public_AR_Current&vintage=Current_Current&layers=Counties&format=json').then(JSON.parse);
     var cc = g.result.geographies.Counties[0];
     var fips = cc.STATE + cc.COUNTY;
     var cty = null, srank = null;
@@ -112,8 +112,8 @@ module.exports = async function handler(req, res) {
 
   var zip = (q.zip || '').replace(/[^0-9]/g, '').slice(0, 5);
   if (zip.length === 5) {
-    var zkey = 'pop:zip:' + zip + ':v1', local = null;
-    try { var zc = await db.get(zkey); if (zc && zc.updatedMs && (now - zc.updatedMs) < TTL_MS) local = zc; } catch (e) {}
+    var zkey = 'pop:zip:' + zip + ':v2', local = null;
+    if (q.fresh !== '1') { try { var zc = await db.get(zkey); if (zc && zc.updatedMs && (now - zc.updatedMs) < TTL_MS) local = zc; } catch (e) {} }
     if (!local) { try { local = await localForZip(zip); local.updatedMs = now; await db.set(zkey, local); } catch (e) { local = { zip: zip, error: 'Lookup failed. Try again.' }; } }
     payload.local = local;
   }
