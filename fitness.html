@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>LIMEN Helix · Fitness · the recursive arc</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#fff;--bg2:#f6f8fc;--ink:#16202e;--body:#34414f;--mute:#697787;--line:#e3e9f1;--brand:#0f172a;--teal:#0d9488;--hero-img:url('hero.jpg')}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--body);font-family:'Inter',system-ui,sans-serif;line-height:1.66;font-size:17px}
+  .wrap{max-width:940px;margin:0 auto;padding:0 22px}
+  h1,h2,h3{font-family:'Fraunces',Georgia,serif;color:var(--ink);line-height:1.14;font-weight:600}
+  a{color:inherit}
+  header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.93);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .hd{display:flex;align-items:center;gap:12px;padding:12px 22px;max-width:940px;margin:0 auto}
+  .brand{font-family:'Fraunces',serif;font-weight:600;font-size:1.16rem;color:var(--brand);display:inline-flex;align-items:center;gap:9px}
+  .brand .chip{font-family:'Inter';font-size:.57rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);border:1px solid var(--line);border-radius:999px;padding:.22rem .55rem}
+  .hd .cta{margin-left:auto;font-size:.82rem;font-weight:600;color:#fff;background:var(--ink);border-radius:999px;padding:.5rem 1rem;text-decoration:none}
+
+  .hero{position:relative;overflow:hidden;display:flex;align-items:center;min-height:80vh;padding:120px 0 104px;background:#0a0e18;border-bottom:1px solid var(--line)}
+  .hero .bg{position:absolute;inset:0;background-image:var(--hero-img);background-size:cover;background-position:center;z-index:0}
+  .hero .scrim{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(7,10,18,.92) 0%,rgba(7,10,18,.74) 46%,rgba(7,10,18,.32) 100%)}
+  .hero .wrap{position:relative;z-index:2;width:100%}
+  .eyebrow{font-size:.66rem;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:#5eead4}
+  .hero h1{font-size:clamp(2.2rem,5.8vw,3.6rem);margin:.5rem 0 .5rem;max-width:640px;color:#fff}
+  .hero p{font-size:1.16rem;color:#cdd6e4;max-width:600px;margin:0}
+  .hero .small{font-size:.95rem;color:#8b97a9;margin-top:16px}
+
+  .section{padding:46px 0;border-bottom:1px solid var(--line)}
+  .kicker{font-size:.68rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--mute)}
+  .section h2{font-size:1.8rem;margin:.3rem 0 6px}
+  .lead{color:var(--body);max-width:680px;margin:0 0 20px}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+  .card{border:1px solid var(--line);border-left-width:5px;border-radius:11px;padding:14px 16px;background:var(--bg2)}
+  .card .pn{font-family:'Fraunces',serif;font-weight:600;font-size:.95rem}
+  .card h3{font-size:1.12rem;margin:1px 0 4px}
+  .card p{font-size:.92rem;color:var(--body);margin:0}
+
+  /* paywall */
+  .gate{background:linear-gradient(180deg,#0f172a,#111a2e);color:#e8edf6;border-radius:18px;padding:34px 30px;margin-top:8px}
+  .gate h2{color:#fff}
+  .gate .lead{color:#b9c4d4;max-width:640px}
+  .locks{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;margin:18px 0 6px}
+  .lock{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:11px;padding:15px 16px;position:relative}
+  .lock .ic{font-size:.9rem;opacity:.7}
+  .lock h3{color:#fff;font-size:1.05rem;margin:6px 0 4px}
+  .lock p{font-size:.9rem;color:#aab6c8;margin:0}
+  .price{display:flex;align-items:baseline;gap:10px;margin-top:20px;flex-wrap:wrap}
+  .price .amt{font-family:'Fraunces',serif;font-size:2rem;color:#fff;font-weight:600}
+  .price .per{color:#9fb0c6;font-size:.95rem}
+  .price .note{color:#7f8ea6;font-size:.8rem}
+  .buy{display:inline-block;margin-top:14px;background:#2dd4bf;color:#04231f;font-weight:700;border-radius:999px;padding:.7rem 1.5rem;text-decoration:none;font-size:.95rem}
+  .cred{font-size:.85rem;color:var(--mute);margin-top:16px}
+  .foot{padding:30px 0 68px;color:var(--mute);font-size:.83rem}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hd">
+    <span class="brand">LIMEN&nbsp;HELIX <span class="chip">Fitness</span></span>
+    <a class="cta" href="#unlock">Locate yourself →</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="bg"></div><div class="scrim"></div>
+  <div class="wrap">
+  <div class="eyebrow">The recursive arc</div>
+  <h1>You are always somewhere in the arc.</h1>
+  <p>One arc of eleven phases, Source to Resurrection, governs the body at every scale at once: a rep, a set, a session, a day, a season. The same shape, nested inside itself, turning higher each time. The only question is where you are in it right now.</p>
+  <p class="small">This is the map. It's free. Knowing where <i>you</i> stand on it, and what to do there, is the work.</p>
+</div></div>
+
+<section class="section"><div class="wrap">
+  <div class="kicker">The map, free</div>
+  <h2>The eleven phases</h2>
+  <p class="lead">Every phase is a real physiological state. Distress is never a phase. It's getting <i>stuck</i> in one, or failing a transition.</p>
+  <div class="grid" id="grid"></div>
+</div></section>
+
+<section class="section" id="unlock"><div class="wrap">
+  <div class="gate">
+    <div class="kicker" style="color:#7fe9db">The secret isn't the map</div>
+    <h2>It's where you stand on it.</h2>
+    <p class="lead">Anyone can read the eleven phases. What can't be copied is your position in the arc, read from your own body, and the exact move for where you are. That's what lives here.</p>
+    <div class="locks">
+      <div class="lock"><div class="ic">🔒</div><h3>Locate yourself</h3><p>A guided read that places you in your current phase, at the rep, the session, and the block scale.</p></div>
+      <div class="lock"><div class="ic">🔒</div><h3>Your phase protocol</h3><p>The exact training and fuel for the phase you're in: tension, carbs, fasting, fat-adaptation, the cut.</p></div>
+      <div class="lock"><div class="ic">🔒</div><h3>The threshold dashboard</h3><p>HRV, recovery lag and variance readouts that warn you before you break, not after.</p></div>
+      <div class="lock"><div class="ic">🔒</div><h3>Coaching</h3><p>Direct guidance to keep every nested arc turning instead of stalling.</p></div>
+    </div>
+    <div class="price">
+      <span class="amt">$19</span><span class="per">/ month</span>
+      <span class="note">placeholder pricing, not yet live</span>
+    </div>
+    <a class="buy" href="#">Unlock the arc</a>
+    <p class="cred">Grounded in published physiology: Panda, Xie, Volek, McEwen, Scheffer, Porges, Craig. The mechanisms are cited; the arc is the model.</p>
+  </div>
+</div></section>
+
+<div class="foot"><div class="wrap">
+  LIMEN Helix · Fitness · the human doorway into the <b>Medicine</b> domain · limenhelix.com/fitness · one of the twenty domains.<br>
+  Educational framework, not medical advice. Low-carbohydrate and ketogenic protocols aren't right for everyone and warrant supervision.
+</div></div>
+
+<script>
+var PH=[
+ {p:'P0',t:'Source',c:'#475569',d:'The unspent baseline: full recovery, latent potential. The still point before the turn.'},
+ {p:'P1',t:'Light',c:'#D99400',d:'Cortisol rises, insulin sensitivity peaks, melatonin off. The command to rise.'},
+ {p:'P2',t:'Rhythm',c:'#0d9488',d:'Feeding and fasting cycles, pulsed hormones. Timing, not constancy.'},
+ {p:'P3',t:'Darkness',c:'#7c3aed',d:'Melatonin, glymphatic flush, autophagy. The descent into repair.'},
+ {p:'P4',t:'Peace',c:'#2e9e6e',d:'Vagal tone returns; the body grants permission to build.'},
+ {p:'P5',t:'Endurance',c:'#D97706',d:'Allostasis and the shift to fat and ketone fuel. Slower, deeper, harder to break.'},
+ {p:'P6',t:'Order',c:'#2563eb',d:'Meals, light, movement, sleep held in sequence. The frame.'},
+ {p:'P7',t:'Separation',c:'#dc2626',d:'Pruning, apoptosis, metabolic shedding. Optimization that feels like loss.'},
+ {p:'P7b',t:'Divergence',c:'#ea580c',d:'The fork: reintegrate, or drift. Calm can mask collapse.'},
+ {p:'P8',t:'Conscience',c:'#5b4fe0',d:'Interoception surfaces what no longer fits. Recalibration.'},
+ {p:'P9',t:'Threshold',c:'#9333ea',d:'A region, not a line. Poised between transformation and collapse.'},
+ {p:'P10',t:'Resurrection',c:'#059669',d:'Metabolic flexibility, a new baseline. The spiral re-enters higher.'}
+];
+document.getElementById('grid').innerHTML = PH.map(function(x){
+  return '<div class="card" style="border-left-color:'+x.c+'">'
+    +'<div class="pn" style="color:'+x.c+'">'+x.p+'</div>'
+    +'<h3>'+x.t+'</h3><p>'+x.d+'</p></div>';
+}).join('');
+</script>
+</body>
+</html>

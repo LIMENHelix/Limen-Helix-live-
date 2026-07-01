@@ -434,6 +434,7 @@ var LAW_SUB_CIRCUITS = {
 // === DOMAIN → SUB-PORTAL REGISTRY ===
 var DOMAIN_PORTALS = {
   medicine:[
+    {name:'Fitness',url:'/fitness'},
     {name:'Clinical Circuit Map',url:'/clinical'},
     {name:'Neurology Circuit Map',url:'/neurology'},
     {name:'Metabolic Circuit Map',url:'/metabolic'},
