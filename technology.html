@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>KILLSWITCH — Free Websites in Kansas City</title>
+<meta name="description" content="KILLSWITCH builds you a real website — free. You own it. Add booking, payments, and a 24/7 AI assistant when you're ready. Kansas City." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230a0b0e'/%3E%3Cg fill='none' stroke='%23FF3826' stroke-width='9' stroke-linecap='round'%3E%3Cpath d='M62.5 30.4 A25 25 0 1 1 37.5 30.4'/%3E%3Cpath d='M50 22 V52'/%3E%3C/g%3E%3C/svg%3E" />
+<meta name="google-site-verification" content="y-rQyRpN8xyv4gVq61auWfMm8tfURu-bQkqDbiYz3Pg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#121214;
+    --panel:#1a1a1e;
+    --metal:#232328;
+    --metal-hi:#2c2c33;
+    --line:#34343c;
+    --line-soft:#26262c;
+    --ink:#ECEAE4;
+    --mute:#8d8d86;
+    --mute-2:#6a6a64;
+    --amber:#F4A300;     /* hazard / standby */
+    --amber-dim:#a87d2a;
+    --red:#FF3826;       /* live / emergency */
+    --red-deep:#c4180b;
+    --ok:#3ad17a;
+    --maxw:1140px;
+    --r:14px;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Inter",system-ui,sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none}
+
+  .mono{font-family:"IBM Plex Mono",monospace;text-transform:uppercase;letter-spacing:.16em;font-size:.72rem;color:var(--mute)}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  .display{font-family:"Archivo",sans-serif;font-weight:900;line-height:.96;letter-spacing:-.02em}
+
+  /* hazard stripe */
+  .hazard{
+    height:10px;
+    background:repeating-linear-gradient(-45deg,var(--amber) 0 16px,#161616 16px 32px);
+    opacity:.85;
+  }
+
+  /* ---- NAV ---- */
+  header.nav{position:sticky;top:0;z-index:60;background:rgba(18,18,20,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line-soft)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{font-family:"Archivo",sans-serif;font-weight:900;letter-spacing:.04em;font-size:1.15rem;display:flex;align-items:center;gap:10px}
+  .brand .dot{width:11px;height:11px;border-radius:50%;background:var(--red);box-shadow:0 0 10px var(--red);display:inline-block}
+  .nav-links{display:flex;gap:26px;align-items:center}
+  .nav-links a{font-size:.9rem;color:var(--mute);transition:color .2s}
+  .nav-links a:hover{color:var(--ink)}
+  .nav-cta{font-family:"IBM Plex Mono",monospace;text-transform:uppercase;letter-spacing:.1em;font-size:.74rem;padding:9px 16px;border:1px solid var(--amber);color:var(--amber);border-radius:8px;transition:.2s}
+  .nav-cta:hover{background:var(--amber);color:#111}
+  @media(max-width:760px){.nav-links a:not(.nav-cta){display:none}}
+
+  /* ---- HERO ---- */
+  .hero{position:relative;padding:74px 0 64px}
+  .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;margin-bottom:26px}
+  .eyebrow::before{content:"";width:26px;height:1px;background:var(--amber)}
+  h1.hero-h{font-size:clamp(2.9rem,7vw,5.4rem)}
+  h1.hero-h .free{color:var(--amber);position:relative}
+  .hero-sub{margin-top:24px;font-size:1.12rem;color:#cfcfc8;max-width:30em}
+  .hero-sub strong{color:var(--ink);font-weight:600}
+  .hero-actions{margin-top:34px;display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+
+  .btn{
+    font-family:"Archivo",sans-serif;font-weight:700;letter-spacing:.01em;
+    font-size:1rem;padding:16px 26px;border-radius:11px;cursor:pointer;border:none;
+    display:inline-flex;align-items:center;gap:10px;transition:transform .15s ease, box-shadow .25s ease, background .25s, opacity .25s;
+  }
+  .btn-primary{background:var(--red);color:#fff;box-shadow:0 0 0 rgba(255,56,38,0)}
+  .btn-primary.armed{box-shadow:0 8px 30px -6px rgba(255,56,38,.6), 0 0 0 1px rgba(255,56,38,.4) inset}
+  .btn-primary:hover{transform:translateY(-2px)}
+  .btn-primary.standby{background:var(--metal);color:var(--mute);box-shadow:none}
+  .btn-primary.standby .arrow{opacity:.4}
+  .btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line);font-weight:600;font-family:"Inter",sans-serif;font-size:.95rem;padding:15px 22px}
+  .btn-ghost:hover{border-color:var(--amber);color:var(--amber)}
+
+  .hero-fine{margin-top:18px;font-size:.85rem;color:var(--mute-2);display:flex;align-items:center;gap:8px}
+  .hero-fine .pip{width:6px;height:6px;border-radius:50%;background:var(--ok)}
+
+  /* ---- THE SWITCH PANEL ---- */
+  .panel-unit{
+    background:linear-gradient(180deg,var(--metal-hi),var(--metal));
+    border:1px solid var(--line);border-radius:18px;overflow:hidden;
+    box-shadow:0 30px 60px -30px rgba(0,0,0,.8), inset 0 1px 0 rgba(255,255,255,.04);
+  }
+  .panel-head{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line-soft)}
+  .panel-head .lbl{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.18em;color:var(--mute);text-transform:uppercase}
+  .status{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:8px;color:var(--amber);transition:color .3s}
+  .status .sdot{width:9px;height:9px;border-radius:50%;background:var(--amber);box-shadow:0 0 8px var(--amber);transition:.3s}
+  .status.live{color:var(--red)}
+  .status.live .sdot{background:var(--red);box-shadow:0 0 12px var(--red);animation:pulse 1.4s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
+
+  .panel-body{padding:30px 18px 26px;display:flex;flex-direction:column;align-items:center;gap:18px;position:relative}
+  .panel-body .top-haz,.panel-body .bot-haz{position:absolute;left:0;right:0;height:7px;background:repeating-linear-gradient(-45deg,var(--amber-dim) 0 12px,transparent 12px 24px);opacity:.5}
+  .panel-body .top-haz{top:0}.panel-body .bot-haz{bottom:0}
+
+  /* the actual toggle */
+  .switch{
+    width:118px;height:210px;border-radius:16px;
+    background:linear-gradient(180deg,#0e0e10,#16161a);
+    border:1px solid #000;box-shadow:inset 0 2px 14px rgba(0,0,0,.9), 0 1px 0 rgba(255,255,255,.05);
+    position:relative;cursor:pointer;display:block;padding:0;
+  }
+  .switch:focus-visible{outline:2px solid var(--amber);outline-offset:4px}
+  .slot{position:absolute;left:50%;top:18px;bottom:18px;width:34px;transform:translateX(-50%);border-radius:18px;background:#070708;box-shadow:inset 0 0 10px rgba(0,0,0,.9)}
+  .knob{
+    position:absolute;left:50%;width:80px;height:84px;transform:translateX(-50%);
+    border-radius:12px;
+    background:linear-gradient(180deg,#3a3a42,#1d1d22);
+    border:1px solid #45454e;
+    box-shadow:0 6px 14px rgba(0,0,0,.6), inset 0 2px 2px rgba(255,255,255,.12), inset 0 -3px 6px rgba(0,0,0,.5);
+    bottom:20px;transition:bottom .28s cubic-bezier(.5,1.6,.5,1), background .28s;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .knob::after{content:"";width:34px;height:4px;border-radius:3px;background:#56565f;box-shadow:0 7px 0 #56565f,0 -7px 0 #56565f}
+  .switch.on .knob{bottom:106px;background:linear-gradient(180deg,#ff5a4a,var(--red-deep));border-color:#ff7a6c}
+  .switch.on .knob::after{background:rgba(255,255,255,.5);box-shadow:0 7px 0 rgba(255,255,255,.5),0 -7px 0 rgba(255,255,255,.5)}
+
+  .switch-caption{font-family:"IBM Plex Mono",monospace;text-transform:uppercase;letter-spacing:.14em;font-size:.74rem;color:var(--mute);text-align:center}
+  .switch-caption b{color:var(--amber);font-weight:600}
+  .switch.on ~ .switch-caption b{color:var(--red)}
+
+  /* ---- SECTION SCAFFOLD ---- */
+  section.s{padding:88px 0;border-top:1px solid var(--line-soft)}
+  .s-head{max-width:34em}
+  .s-head h2{font-family:"Archivo",sans-serif;font-weight:900;font-size:clamp(1.9rem,4vw,2.9rem);line-height:1.02;letter-spacing:-.02em;margin-top:18px}
+  .s-head p.lead{margin-top:18px;color:#c2c2bb;font-size:1.08rem}
+
+  /* catch */
+  .catch{background:var(--panel)}
+  .catch-card{margin-top:30px;border:1px solid var(--line);border-left:3px solid var(--amber);border-radius:12px;padding:30px 30px;background:var(--metal);max-width:46em}
+  .catch-card p{color:#cfcfc8}
+  .catch-card p+p{margin-top:14px}
+  .catch-card .pun{color:var(--amber);font-weight:600}
+
+  /* modules grid */
+  .mods{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:42px}
+  .mod{
+    background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px 20px;
+    position:relative;transition:transform .2s, border-color .2s;
+  }
+  .mod:hover{transform:translateY(-3px);border-color:var(--amber)}
+  .mod .ix{font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.14em;color:var(--mute-2)}
+  .mod h3{font-family:"Archivo",sans-serif;font-weight:700;font-size:1.18rem;margin:10px 0 8px}
+  .mod p{font-size:.92rem;color:var(--mute);line-height:1.5}
+  .mod .price{margin-top:16px;font-family:"IBM Plex Mono",monospace;font-size:.8rem;letter-spacing:.06em;color:var(--ink)}
+  .mod.free{border-color:var(--amber);background:linear-gradient(180deg,rgba(244,163,0,.07),var(--panel))}
+  .mod.free .ix{color:var(--amber)}
+  .mod.free .price{color:var(--amber)}
+  .mod .light{position:absolute;top:18px;right:18px;width:8px;height:8px;border-radius:50%;background:#3a3a42;transition:.2s}
+  .mod:hover .light{background:var(--red);box-shadow:0 0 8px var(--red)}
+  .mod.free .light{background:var(--amber);box-shadow:0 0 8px var(--amber)}
+  .mods-note{margin-top:20px;font-size:.85rem;color:var(--mute-2);font-family:"IBM Plex Mono",monospace;letter-spacing:.04em}
+  .mods-note a{color:var(--amber)}
+  .mods-note a:hover{text-decoration:underline}
+
+  /* proof */
+  .proof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:42px}
+  .pcard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:24px;display:flex;flex-direction:column;min-height:210px;transition:.2s}
+  .pcard:hover{border-color:var(--line);transform:translateY(-3px);background:var(--metal)}
+  .pcard .tag{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--amber)}
+  .pcard h3{font-family:"Archivo",sans-serif;font-weight:700;font-size:1.3rem;margin:12px 0 8px}
+  .pcard p{font-size:.92rem;color:var(--mute);flex:1}
+  .pcard .go{margin-top:14px;font-size:.85rem;color:var(--ink);font-weight:500}
+  .pcard .go .arrow{color:var(--amber)}
+
+  /* assurance row */
+  .assure{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:42px}
+  .acell{border:1px solid var(--line-soft);border-radius:12px;padding:22px}
+  .acell .k{font-family:"Archivo",sans-serif;font-weight:900;font-size:1.5rem;color:var(--amber)}
+  .acell .v{margin-top:8px;color:var(--mute);font-size:.92rem}
+
+  /* final cta */
+  .final{position:relative;text-align:center;padding:96px 0}
+  .final h2{font-family:"Archivo",sans-serif;font-weight:900;font-size:clamp(2.2rem,6vw,4rem);line-height:1;letter-spacing:-.02em}
+  .final h2 .free{color:var(--amber)}
+  .final p{margin:22px auto 0;color:#c2c2bb;max-width:32em;font-size:1.08rem}
+  .final .hero-actions{justify-content:center}
+
+  footer{border-top:1px solid var(--line-soft);padding:46px 0 40px}
+  .foot-in{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:flex-start}
+  .foot-brand{font-family:"Archivo",sans-serif;font-weight:900;font-size:1.1rem;letter-spacing:.04em}
+  .foot-brand .dot{width:9px;height:9px;border-radius:50%;background:var(--red);display:inline-block;margin-left:4px}
+  .foot-tag{color:var(--mute);font-size:.88rem;margin-top:8px;max-width:24em}
+  .foot-tag .lh{color:var(--mute-2);display:block;margin-top:6px;font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}
+  .foot-links{display:flex;gap:22px;flex-wrap:wrap}
+  .foot-links a{color:var(--mute);font-size:.88rem;transition:.2s}
+  .foot-links a:hover{color:var(--amber)}
+  .copy{margin-top:30px;color:var(--mute-2);font-size:.8rem;font-family:"IBM Plex Mono",monospace;letter-spacing:.06em}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease, transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media(max-width:880px){
+    .hero-grid{grid-template-columns:1fr;gap:40px}
+    .panel-unit{max-width:340px;margin:0 auto;width:100%}
+    .mods,.proof-grid,.assure{grid-template-columns:1fr}
+    .mods{gap:12px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+    .reveal{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+<div class="hazard" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a href="https://killswitch.domains/" class="brand"><span class="dot"></span>KILLSWITCH</a>
+    <nav class="nav-links">
+      <a href="https://killswitch.domains/work">Work</a>
+      <a href="#modules">Pricing</a>
+      <a href="https://killswitch.domains/switch">Ask the AI</a>
+      <a href="https://calendly.com/chrishubbel72/30min" class="nav-cta">Get my free site</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow"><span class="mono">Kansas City · Custom software shop</span></div>
+      <h1 class="display hero-h">We'll build your<br>website. <span class="free">Free.</span></h1>
+      <p class="hero-sub">A real, modern site on <strong>your</strong> domain — built by a real, live human, live in days. You own every bit of it. No contract, no catch. <strong>Flip the switch and we'll get started.</strong></p>
+      <div class="hero-actions">
+        <a href="https://calendly.com/chrishubbel72/30min" id="primaryCta" class="btn btn-primary standby">
+          <span class="label">Flip the switch to start</span><span class="arrow">→</span>
+        </a>
+        <a href="https://killswitch.domains/switch" class="btn btn-ghost">Ask the AI first</a>
+      </div>
+      <div class="hero-fine"><span class="pip"></span> Now booking new builds · usually replies same day</div>
+    </div>
+
+    <div>
+      <div class="panel-unit">
+        <div class="panel-head">
+          <span class="lbl">KS-01 · Your site</span>
+          <span class="status" id="status"><span class="sdot"></span><span id="statusText">Offline</span></span>
+        </div>
+        <div class="panel-body">
+          <span class="top-haz" aria-hidden="true"></span>
+          <button class="switch" id="killSwitch" role="switch" aria-checked="false" aria-label="Power on your free website">
+            <span class="slot"></span>
+            <span class="knob"></span>
+          </button>
+          <p class="switch-caption">Status: <b id="capState">Standby</b><br><span style="color:var(--mute-2);font-size:.68rem">tap to power on</span></p>
+          <span class="bot-haz" aria-hidden="true"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE CATCH -->
+<section class="s catch" id="catch">
+  <div class="wrap">
+    <div class="s-head reveal">
+      <span class="mono">The catch</span>
+      <h2>There isn't one.<br>Here's how we actually make money.</h2>
+    </div>
+    <div class="catch-card reveal">
+      <p>The website is <strong>genuinely free and yours</strong> — your domain, your content, your code. We hand you the keys and walk away if that's all you want.</p>
+      <p>We're betting you won't want to. Once it's pulling in customers, most folks want the stuff that turns a nice site into a machine: online booking, card payments, an AI that answers at 2&nbsp;a.m., a dashboard that catches every lead. <span class="pun">That's the part we charge for</span> — and it's always optional. We'll never switch on anything you didn't ask for.</p>
+      <p style="color:var(--mute);font-size:.92rem">Translation: we earn the free site back by being good enough that you <em>choose</em> to buy more. That's the whole deal.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MODULES -->
+<section class="s" id="modules">
+  <div class="wrap">
+    <div class="s-head reveal">
+      <span class="mono">What's free · what you bolt on</span>
+      <h2>Start with the site. Add power when you need it.</h2>
+      <p class="lead">Every module snaps onto the free build. Turn them on one at a time — or never. Your call.</p>
+    </div>
+
+    <div class="mods">
+      <div class="mod free reveal">
+        <span class="light"></span>
+        <div class="ix">MODULE 00 · INCLUDED</div>
+        <h3>The website</h3>
+        <p>Fast, modern, mobile-perfect. Your own domain, a contact form, your content. Live in days, and you own all of it.</p>
+        <div class="price">$0 — on the house</div>
+      </div>
+      <div class="mod reveal">
+        <span class="light"></span>
+        <div class="ix">MODULE 01</div>
+        <h3>Online booking</h3>
+        <p>Customers book and reschedule themselves. Synced to your calendar, no more phone tag.</p>
+        <div class="price">from $19 / mo</div>
+      </div>
+      <div class="mod reveal">
+        <span class="light"></span>
+        <div class="ix">MODULE 02</div>
+        <h3>AI concierge</h3>
+        <p>A 24/7 assistant that answers questions, quotes, qualifies, and books — even while you sleep.</p>
+        <div class="price">from $29 / mo</div>
+      </div>
+      <div class="mod reveal">
+        <span class="light"></span>
+        <div class="ix">MODULE 03</div>
+        <h3>Payments</h3>
+        <p>Take deposits and cards right on the site. Invoices, receipts, the works.</p>
+        <div class="price">from $19 / mo</div>
+      </div>
+      <div class="mod reveal">
+        <span class="light"></span>
+        <div class="ix">MODULE 04</div>
+        <h3>Lead dashboard</h3>
+        <p>Every lead, customer, and job in one place — built around how you actually work.</p>
+        <div class="price">from $29 / mo</div>
+      </div>
+      <div class="mod reveal">
+        <span class="light"></span>
+        <div class="ix">MODULE 05</div>
+        <h3>Done-for-you upkeep</h3>
+        <p>Local SEO, edits, and updates handled. Text us a change, it's live the same day.</p>
+        <div class="price">from $29 / mo</div>
+      </div>
+    </div>
+    <p class="mods-note reveal">// prices are starting points — your exact mix gets set on the call · <a href="https://killswitch.domains/pricing">See full pricing &amp; checkout →</a></p>
+  </div>
+</section>
+
+<!-- PROOF -->
+<section class="s" id="work">
+  <div class="wrap">
+    <div class="s-head reveal">
+      <span class="mono">Work we're proud of</span>
+      <h2>Three live builds. Wildly different jobs.</h2>
+    </div>
+    <div class="proof-grid">
+      <a class="pcard reveal" href="https://killswitch.domains/work">
+        <span class="tag">Flagship</span>
+        <h3>LIMEN Helix</h3>
+        <p>A recursive intelligence engine — hundreds of live feeds across 20 domains, surfacing opportunities in real time.</p>
+        <span class="go">See the case <span class="arrow">→</span></span>
+      </a>
+      <a class="pcard reveal" href="https://allaccesskc.com" target="_blank" rel="noopener">
+        <span class="tag">Live · Kansas City</span>
+        <h3>AllAccessKC</h3>
+        <p>A free KC guide — game-day toolkits, food, live local feeds, and an ask-a-local chat.</p>
+        <span class="go">Visit the site <span class="arrow">→</span></span>
+      </a>
+      <a class="pcard reveal" href="https://recursivelove.com" target="_blank" rel="noopener">
+        <span class="tag">Live · Community</span>
+        <h3>Recursive Love</h3>
+        <p>A calm resource hub for families of autistic kids and adults — guides, forum, and an AI companion.</p>
+        <span class="go">Visit the site <span class="arrow">→</span></span>
+      </a>
+    </div>
+
+    <div class="assure">
+      <div class="acell reveal"><div class="k">You own it</div><div class="v">Your domain, your code, your content. No hostage situations, ever.</div></div>
+      <div class="acell reveal"><div class="k">No contract</div><div class="v">Add-ons are month-to-month. Cancel any of them anytime.</div></div>
+      <div class="acell reveal"><div class="k">A few a month</div><div class="v">We only take a handful of free builds at a time so each one's done right.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final" id="start">
+  <div class="hazard" aria-hidden="true" style="opacity:.5;margin-bottom:60px"></div>
+  <div class="wrap">
+    <h2 class="reveal">Your free site is one<br>switch away.</h2>
+    <p class="reveal">Hop on a 30-minute call with a real, live human. We'll figure out what you need, what's free, and what's worth adding — no script, no pressure.</p>
+    <div class="hero-actions reveal">
+      <a href="https://calendly.com/chrishubbel72/30min" class="btn btn-primary armed">Book my free build <span class="arrow">→</span></a>
+      <a href="https://killswitch.domains/switch" class="btn btn-ghost">Or ask the AI anything</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-in">
+    <div>
+      <div class="foot-brand">KILLSWITCH<span class="dot"></span></div>
+      <div class="foot-tag">Custom software, disguised as a website. Built in Kansas City.
+        <span class="lh">A Limen Helix company</span></div>
+    </div>
+    <div class="foot-links">
+      <a href="https://killswitch.domains/work">Work</a>
+      <a href="#modules">Pricing</a>
+      <a href="https://killswitch.domains/switch">Ask the AI</a>
+      <a href="https://calendly.com/chrishubbel72/30min">Book a call</a>
+    </div>
+  </div>
+  <div class="wrap copy">© 2026 KILLSWITCH · Kansas City, MO</div>
+</footer>
+
+<script>
+  (function(){
+    var sw = document.getElementById('killSwitch');
+    var status = document.getElementById('status');
+    var statusText = document.getElementById('statusText');
+    var capState = document.getElementById('capState');
+    var cta = document.getElementById('primaryCta');
+    var ctaLabel = cta.querySelector('.label');
+    var on = false;
+
+    function flip(){
+      on = !on;
+      sw.classList.toggle('on', on);
+      sw.setAttribute('aria-checked', on ? 'true' : 'false');
+      status.classList.toggle('live', on);
+      statusText.textContent = on ? 'Live' : 'Offline';
+      capState.textContent = on ? 'Powered on' : 'Standby';
+      if(on){
+        cta.classList.remove('standby');
+        cta.classList.add('armed');
+        ctaLabel.textContent = 'Claim my free build';
+      } else {
+        cta.classList.add('standby');
+        cta.classList.remove('armed');
+        ctaLabel.textContent = 'Flip the switch to start';
+      }
+    }
+
+    sw.addEventListener('click', flip);
+    sw.addEventListener('keydown', function(e){
+      if(e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); flip(); }
+    });
+    // clicking the CTA while in standby flips it on first, then proceeds
+    cta.addEventListener('click', function(e){
+      if(!on){ e.preventDefault(); flip(); setTimeout(function(){ window.location.href = cta.getAttribute('href'); }, 350); }
+    });
+
+    // scroll reveal
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target);} });
+    }, {threshold:.12});
+    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+  })();
+</script>
+</body>
+</html>
