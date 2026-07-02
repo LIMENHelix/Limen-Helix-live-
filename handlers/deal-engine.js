@@ -75,12 +75,19 @@ module.exports = async function handler(req, res) {
   res.setHeader('Cache-Control', 's-maxage=1800, stale-while-revalidate=7200');
   var q = {}; try { q = Object.fromEntries(new URL(req.url, 'http://h').searchParams); } catch (e) {}
 
-  var cities, key;
+  var cities, key, zipCity = null, zipSt = null;
+  if (q.zip) {
+    try {
+      var z = await (await fetch('https://api.zippopotam.us/us/' + encodeURIComponent(String(q.zip).replace(/[^0-9]/g, '').slice(0, 5)), { headers: UA })).json();
+      if (z && z.places && z.places[0]) { zipSt = (z.places[0]['state abbreviation'] || '').toUpperCase(); zipCity = z.places[0]['place name']; }
+    } catch (e) {}
+  }
   if (q.citystate) { cities = [q.citystate]; key = 'deal:city:' + q.citystate.toLowerCase(); }
   else if (q.state) { var st = String(q.state).toUpperCase(); cities = STATE_METROS[st] || null; key = 'deal:state:' + st; }
+  else if (zipSt) { cities = STATE_METROS[zipSt] || (zipCity ? [zipCity + ',' + zipSt] : null); key = 'deal:z:' + zipSt + ':' + (STATE_METROS[zipSt] ? 'm' : (zipCity || '')); }
   else { cities = HOT; key = 'deal:hot'; }
 
-  if (!cities) return j(res, 200, { ok: true, deals: [], note: 'No metro list for that state yet; pass ?citystate=City,ST.' });
+  if (!cities) return j(res, 200, { ok: true, deals: [], note: 'No HUD metros mapped for that area yet.' });
 
   var now = Date.now(), data = null;
   if (q.fresh !== '1') { try { var c = await db.get(key); if (c && c.updatedMs && (now - c.updatedMs) < TTL_MS) data = c; } catch (e) {} }

@@ -226,6 +226,13 @@
   .oppcap{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:14px}
   .oppcap input{background:rgba(255,255,255,.06);border:1px solid var(--line2);border-radius:5px;padding:11px 13px;color:var(--ink);font-family:var(--sans);font-size:.92rem;flex:1;min-width:180px}
   .oppcap-note{font-family:var(--mono);font-size:.68rem;color:var(--gold);width:100%}
+  .deal{display:block;padding:9px 0;border-top:1px solid var(--line);text-decoration:none;color:var(--ink)}
+  .deal:first-of-type{border-top:none}
+  .deal-p{font-family:var(--mono);font-weight:700;color:var(--green);margin-right:10px}
+  .deal-a{font-size:.9rem;color:var(--ink)}
+  .deal-same{color:#10131a;background:var(--gold);font-family:var(--mono);font-size:.54rem;letter-spacing:.06em;text-transform:uppercase;border-radius:20px;padding:2px 7px;margin-left:6px}
+  .deal-m{display:block;font-family:var(--mono);font-size:.66rem;color:var(--faint);margin-top:2px}
+  .deal:hover .deal-a{color:var(--gold)}
   .bign{font-family:var(--mono);font-size:2rem;font-weight:600;letter-spacing:-.01em;color:var(--red);line-height:1}
   .aqipill{display:inline-block;padding:2px 9px;border-radius:3px;color:#10131a;font-family:var(--mono);font-weight:600;font-size:.78rem}
 </style>
@@ -1043,12 +1050,14 @@ function renderPopLocal(L) {
     EL('o1').open = true;
   }
 
-  // OPPORTUNITY · rung 2 — County
+  // OPPORTUNITY · rung 2 — County (LIVE deal engine: cheap supply × your demand)
   if (m) {
     var cty = esc(L.county || 'your county');
-    EL('o2body').innerHTML = '<div class="hl">' + (pos ? 'People are pouring into ' + cty + '. That is <b>demand</b>. The play: pick up distressed, below-market, or tax-delinquent homes here and sell into that inflow.' : cty + ' is losing people, so skip the flip, but a shrinking county means <b>motivated sellers</b> and discounted cash-flow rentals if you’re staying.') + '</div>' +
-      '<div class="oppdo"><button class="oppbtn" onclick="captureOpp(event,2,\'county distressed / tax-delinquent signal\')">Send me distressed listings in my county &rarr;</button></div>' +
-      '<div class="disc">We assemble foreclosure, tax-delinquent, and below-market signals for your county and route them to you or a partner buyer. This is the middleman rung.</div>';
+    EL('o2body').innerHTML = '<div class="hl">' + (pos ? 'People are pouring into ' + cty + '. That is <b>demand</b>. Here is the <b>cheap supply</b> to meet it, real below-market foreclosures near you.' : cty + ' is losing people, so a flip is riskier, but a shrinking county means <b>motivated sellers</b>, and these below-market homes still cash-flow if you hold.') + '</div>' +
+      '<div id="o2deals"><div class="muted" style="margin-top:10px">Reading HUD foreclosures near you…</div></div>' +
+      '<div class="oppdo"><button class="oppbtn" onclick="captureOpp(event,2,\'county below-market deal alerts\')">Alert me to new deals in my county &rarr;</button></div>' +
+      '<div class="disc">Live from HUD HomeStore (federal foreclosures, publicly listed). We surface the deal and cross-reference your county\'s demand; a licensed broker closes it for the HUD commission. We never own it.</div>';
+    loadCountyDeals(L);
   }
 }
 function oppDelivered(rung, intent) {
@@ -1089,6 +1098,22 @@ function captureOpp(ev, rung, intent) {
       })
       .catch(function () { note.style.color = '#e88'; note.textContent = 'Network error. Please try again.'; btn.disabled = false; });
   };
+}
+function loadCountyDeals(L) {
+  fetch('/api/deal-engine?zip=' + (_popZip || '')).then(function (r) { return r.json(); }).then(function (jd) {
+    var deals = (jd && jd.deals) || [], host = EL('o2deals'); if (!host) return;
+    if (!deals.length) { host.innerHTML = '<div class="muted" style="margin-top:10px">No HUD foreclosures listed near you right now. Hit the button and we’ll alert you the moment one lists.</div>'; return; }
+    var myCounty = String(L.county || '').replace(/\s+County$/i, '').toLowerCase();
+    deals.sort(function (a, b) { var as = String(a.county || '').toLowerCase() === myCounty ? 0 : 1, bs = String(b.county || '').toLowerCase() === myCounty ? 0 : 1; return as - bs || a.price - b.price; });
+    var rows = deals.slice(0, 6).map(function (d) {
+      var same = String(d.county || '').toLowerCase() === myCounty;
+      return '<a class="deal" href="' + esc(d.url) + '" target="_blank" rel="noopener">' +
+        '<span><span class="deal-p">$' + Number(d.price).toLocaleString() + '</span>' +
+        '<span class="deal-a">' + esc(d.address || '') + ', ' + esc(d.city) + ', ' + esc(d.state) + (same ? '<span class="deal-same">your county</span>' : '') + '</span></span>' +
+        '<span class="deal-m">' + (d.county ? esc(d.county) + ' County · ' : '') + (d.beds || '?') + 'bd · ' + (d.sqft ? Number(d.sqft).toLocaleString() + ' sqft' : '') + (d.hundred_down ? ' · $100 down' : '') + '</span></a>';
+    }).join('');
+    host.innerHTML = '<div class="mig-h gain" style="margin-top:12px">Below-market homes near you (live · HUD)</div>' + rows + '<div class="c" style="color:var(--faint);font-size:.68rem;margin-top:8px">' + jd.count + ' HUD foreclosures across your state · cheapest $' + Number(jd.cheapest || 0).toLocaleString() + '. A licensed broker closes for the HUD commission.</div>';
+  }).catch(function () { var host = EL('o2deals'); if (host) host.innerHTML = '<div class="muted" style="margin-top:10px">Deal feed is warming up. Use the button to get alerts.</div>'; });
 }
 
 // ── phase path: P0 free, P1-P10 add-ons (each an analogy for the phase) ──
