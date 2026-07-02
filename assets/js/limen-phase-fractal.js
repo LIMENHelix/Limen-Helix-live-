@@ -73,7 +73,7 @@
 
   var css = 'html{background:#070b12}body{background:transparent !important}'
     + '#lfx-canvas{position:fixed;inset:0;width:100vw;height:100vh;z-index:-2;display:block;background:#070b12}'
-    + '#lfx-veil{position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,rgba(8,11,18,.12),rgba(8,11,18,.42))}';
+    + '#lfx-veil{position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,rgba(8,11,18,.42),rgba(8,11,18,.12) 46%,rgba(8,11,18,.32))}';
 
   function init(cv) {
     var gl = null; try { gl = cv.getContext('webgl') || cv.getContext('experimental-webgl'); } catch (e) {}
