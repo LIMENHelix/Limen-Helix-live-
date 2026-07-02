@@ -45,7 +45,8 @@ async function build() {
     kev.sort(function (a, b) { return String(b.dateAdded).localeCompare(String(a.dateAdded)); });
     var monthStart = new Date().toISOString().slice(0, 7);
     var addedThisMonth = kev.filter(function (v) { return String(v.dateAdded).slice(0, 7) === monthStart; }).length;
-    var ransom = kev.filter(function (v) { return /known/i.test(v.knownRansomwareCampaignUse || ''); }).length;
+    var isRansom = function (v) { return /^known$/i.test(String(v.knownRansomwareCampaignUse || '')); };
+    var ransom = kev.filter(isRansom).length;
     var newest = kev[0];
 
     out.stats.push({ n: kev.length.toLocaleString(), k: 'Flaws under active attack', c: 'in CISA’s exploited-vuln catalog', hot: true });
@@ -61,7 +62,7 @@ async function build() {
     out.sections.push({
       title: 'Patch these now: actively exploited', note: 'CISA',
       sub: 'The most recently confirmed vulnerabilities under active attack. Red means it is tied to known ransomware.',
-      rows: kev.slice(0, 14).map(function (v) { return { name: (v.vendorProject || '') + ' ' + cap(v.product, 30), value: v.cveID, vsub: v.dateAdded, dir: /known/i.test(v.knownRansomwareCampaignUse || '') ? 'neg' : '' }; })
+      rows: kev.slice(0, 14).map(function (v) { return { name: (v.vendorProject || '') + ' ' + cap(v.product, 30), value: v.cveID, vsub: v.dateAdded, dir: isRansom(v) ? 'neg' : '' }; })
     });
     out.cards = kev.slice(0, 10).map(function (v) { return { title: v.vulnerabilityName || (v.vendorProject + ' ' + v.product), meta: v.cveID + ' · ' + (v.vendorProject || '') + ' · added ' + v.dateAdded, body: cap(v.shortDescription, 170), href: 'https://nvd.nist.gov/vuln/detail/' + v.cveID }; });
   }
