@@ -33,11 +33,16 @@ try { db = require('../lib/limen-db'); } catch (e) { /* dry run */ }
 
 // FL sweet-spot ring: Tampa/Orlando overflow, high inflow, not the picked-over cores.
 // Each = a RealForeclose subdomain. Extendable: add {key,name,host,product}.
+// Osceola runs NO foreclosure sales on RealForeclose (empty calendar) — its distress
+// supply is TAX DEED on realtaxdeed.com (Opening Bid + Assessed Value; same PREVIEW
+// schema, normalize's fallback keys already handle it: equity = assessed - opening bid).
 var COUNTIES = [
-  { key: 'pasco',    name: 'Pasco',    metro: 'Tampa',   host: 'pasco.realforeclose.com',    product: 'foreclosure' },
-  { key: 'polk',     name: 'Polk',     metro: 'Lakeland',host: 'polk.realforeclose.com',     product: 'foreclosure' },
-  { key: 'lee',      name: 'Lee',      metro: 'Ft Myers',host: 'lee.realforeclose.com',      product: 'foreclosure' },
-  { key: 'osceola',  name: 'Osceola',  metro: 'Orlando', host: 'osceola.realforeclose.com',  product: 'foreclosure' }
+  { key: 'pasco',        name: 'Pasco',        metro: 'Tampa',   host: 'pasco.realforeclose.com',       product: 'foreclosure' },
+  { key: 'polk',         name: 'Polk',         metro: 'Lakeland',host: 'polk.realforeclose.com',        product: 'foreclosure' },
+  { key: 'lee',          name: 'Lee',          metro: 'Ft Myers',host: 'lee.realforeclose.com',         product: 'foreclosure' },
+  { key: 'hillsborough', name: 'Hillsborough', metro: 'Tampa',   host: 'hillsborough.realforeclose.com',product: 'foreclosure' },
+  { key: 'orange',       name: 'Orange',       metro: 'Orlando', host: 'orange.realforeclose.com',      product: 'foreclosure' },
+  { key: 'osceola',      name: 'Osceola',      metro: 'Orlando', host: 'osceola.realtaxdeed.com',       product: 'taxdeed' }
 ];
 
 var MAX_DATES = parseInt(process.env.RA_MAX_DATES || '4', 10);
