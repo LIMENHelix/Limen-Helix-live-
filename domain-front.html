@@ -1043,21 +1043,22 @@ function renderPopLocal(L) {
     var hv = (L.cost && L.cost.homeValue) ? ' The typical home here runs about <b>$' + Number(L.cost.homeValue).toLocaleString() + '</b>.' : '';
     EL('o1body').innerHTML = '<div class="hl gold">' + verdict + hv + '</div>' +
       '<div class="oppdo">' +
-      '<button class="oppbtn" onclick="captureOpp(event,1,\'home value + local agent\')">' + (pos ? 'What is my home worth now' : 'Find me a deal / an agent') + ' &rarr;</button>' +
+      '<button class="oppbtn" onclick="captureOpp(event,1,\'home value + local agent\')">' + (pos ? 'What is my home worth' : 'Find me a deal / agent') + ' &rarr;</button>' +
+      '<button class="oppbtn" onclick="captureOpp(event,1,\'mortgage / refinance rate\')">Get my mortgage rate</button>' +
+      '<button class="oppbtn" onclick="captureOpp(event,1,\'home insurance quote\')">Home insurance quote</button>' +
+      '<button class="oppbtn" onclick="captureOpp(event,1,\'moving company quote\')">Movers &amp; quotes</button>' +
       '<button class="oppbtn ghost" onclick="captureOpp(event,1,\'alert when my area flips\')">Alert me when my area flips</button>' +
       '</div>' +
-      '<div class="disc">We connect you to a vetted local agent or lender for your ZIP. Free to you.</div>';
+      '<div class="disc">We connect you to a vetted local agent, lender, insurer, or mover for your area. Free to you, no spam.</div>';
     EL('o1').open = true;
   }
 
-  // OPPORTUNITY · rung 2 — County (LIVE deal engine: cheap supply × your demand)
+  // OPPORTUNITY · rung 2 — County (INVESTOR capture only; the deal engine itself is ADMIN-side, never public)
   if (m) {
     var cty = esc(L.county || 'your county');
-    EL('o2body').innerHTML = '<div class="hl">' + (pos ? 'People are pouring into ' + cty + '. That is <b>demand</b>. Here is the <b>cheap supply</b> to meet it, real below-market foreclosures near you.' : cty + ' is losing people, so a flip is riskier, but a shrinking county means <b>motivated sellers</b>, and these below-market homes still cash-flow if you hold.') + '</div>' +
-      '<div id="o2deals"><div class="muted" style="margin-top:10px">Reading HUD foreclosures near you…</div></div>' +
-      '<div class="oppdo"><button class="oppbtn" onclick="captureOpp(event,2,\'county below-market deal alerts\')">Alert me to new deals in my county &rarr;</button></div>' +
-      '<div class="disc">Live from HUD HomeStore (federal foreclosures, publicly listed). We surface the deal and cross-reference your county\'s demand; a licensed broker closes it for the HUD commission. We never own it.</div>';
-    loadCountyDeals(L);
+    EL('o2body').innerHTML = '<div class="hl">' + (pos ? 'People are pouring into ' + cty + '. That inflow is <b>demand</b>, and below-market or distressed homes here can be bought under value and sold into it.' : cty + ' is losing people, which means <b>motivated sellers</b> and homes below value if you buy to hold.') + '</div>' +
+      '<div class="oppdo"><button class="oppbtn" onclick="captureOpp(event,2,\'investor: off-market deal alerts\')">I invest, send me deals &rarr;</button></div>' +
+      '<div class="disc">For investors and cash buyers: we source below-market and foreclosure deals in your county and bring them to serious buyers. Tell us you invest and we’ll reach out.</div>';
   }
 }
 function oppDelivered(rung, intent) {

@@ -73,8 +73,11 @@ async function build(cities) {
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Cache-Control', 's-maxage=1800, stale-while-revalidate=7200');
+  res.setHeader('Cache-Control', 'private, no-store');
   var q = {}; try { q = Object.fromEntries(new URL(req.url, 'http://h').searchParams); } catch (e) {}
+  // ADMIN-ONLY. This is our arbitrage engine, never public. Gated by LEAD_ADMIN_KEY (?key=).
+  var ADMIN = process.env.LEAD_ADMIN_KEY || '';
+  if (ADMIN && q.key !== ADMIN) { res.statusCode = 403; res.setHeader('content-type', 'application/json'); return res.end(JSON.stringify({ ok: false, error: 'Admin key required. This engine is not public.' })); }
 
   var cities, key, zipCity = null, zipSt = null;
   if (q.zip) {
