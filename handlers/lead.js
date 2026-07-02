@@ -57,7 +57,7 @@ async function notifyLead(lead) {
         })
       });
       var wj = await wr.json().catch(function () { return {}; });
-      return { sent: !!(wr.ok && wj && wj.success), via: 'web3forms', http: wr.status };
+      return { sent: !!(wr.ok && wj && wj.success), via: 'web3forms', http: wr.status, reason: (wj && wj.message) || null };
     } catch (e) { return { sent: false, via: 'web3forms', reason: String(e && e.message || e) }; }
   }
   // Fallback: Resend (needs RESEND_API_KEY + LEAD_NOTIFY_EMAIL + a verified sender + DNS).
@@ -131,11 +131,17 @@ module.exports = async function handler(req, res) {
         res.statusCode = 500;
         return res.end(JSON.stringify({ ok: false, error: 'Write could not be confirmed.' }));
       }
-      // Forward to the LIMEN inbox (inert unless RESEND_API_KEY + LEAD_NOTIFY_EMAIL set; never blocks capture).
-      var notified = false;
-      try { notified = (await notifyLead(lead)).sent; } catch (e) {}
+      // Forward to the LIMEN inbox (inert unless a notify channel is set; never blocks capture).
+      var notifyRes = { sent: false };
+      try { notifyRes = await notifyLead(lead); } catch (e) { notifyRes = { sent: false, reason: String(e && e.message || e) }; }
       res.statusCode = 200;
-      return res.end(JSON.stringify({ ok: true, id: id, backend: db.getBackend(), notified: notified }));
+      return res.end(JSON.stringify({
+        ok: true, id: id, backend: db.getBackend(), notified: !!notifyRes.sent,
+        notify: {
+          via: notifyRes.via || null, http: notifyRes.http || null, reason: notifyRes.reason || null,
+          cfg: { w3: !!process.env.WEB3FORMS_ACCESS_KEY, resend: !!process.env.RESEND_API_KEY, notifyTo: !!process.env.LEAD_NOTIFY_EMAIL }
+        }
+      }));
     } catch (e) {
       res.statusCode = 500;
       return res.end(JSON.stringify({ ok: false, error: String(e && e.message || e) }));
