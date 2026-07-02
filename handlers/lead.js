@@ -46,7 +46,7 @@ async function notifyLead(lead) {
     try {
       var wr = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        headers: { 'content-type': 'application/json', accept: 'application/json' },
+        headers: { 'content-type': 'application/json', accept: 'application/json', origin: 'https://limenhelix.com', referer: 'https://limenhelix.com/' },
         body: JSON.stringify({
           access_key: w3,
           subject: 'New LIMEN lead: ' + lead.email + (lead.interest ? ' · ' + lead.interest : '') + (lead.test ? ' [TEST]' : ''),
