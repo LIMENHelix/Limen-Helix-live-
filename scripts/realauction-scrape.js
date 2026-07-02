@@ -111,7 +111,9 @@ function normalize(o, county, date) {
   var cityzip = o[''] || ''; // sometimes "TRINITY, 34655" (Pasco); Polk packs it into street
   // combine both possible layouts, then pull the 5-digit zip from anywhere
   var combined = (street + ' ' + cityzip).replace(/\s+/g, ' ').trim();
-  var zm = combined.match(/\b(\d{5})\b/);
+  // zip is at the END after the state, never the leading house number: prefer FL-adjacent, else the LAST 5-digit group
+  var zm = combined.match(/\bFL[- ,]*(\d{5})\b/i);
+  if (!zm) { var all = combined.match(/\b\d{5}\b/g); zm = all ? [null, all[all.length - 1]] : null; }
   var zip = zm ? zm[1] : '';
   // city: prefer the dedicated cityzip cell, else the token before ", FL" in the street
   var city = '';
@@ -195,6 +197,11 @@ async function run() {
   live.sort(function (a, b) { return (b.equity || -1e15) - (a.equity || -1e15); });
 
   var meta = { updatedMs: Date.now(), counties: report, total: live.length };
+
+  // optional: dump the full deal array to a file for downstream tools (owner lookup, etc.)
+  if (process.env.RA_DUMP) {
+    try { require('fs').writeFileSync(process.env.RA_DUMP, JSON.stringify(live, null, 1)); console.log('  -> dumped ' + live.length + ' deals to ' + process.env.RA_DUMP); } catch (e) { console.error('dump failed', e.message); }
+  }
 
   console.log('== RealAuction scrape ==');
   report.forEach(function (r) { console.log('  ' + r); });
