@@ -67,6 +67,16 @@
   </div>
 
   <div class="card">
+    <h2>Distress supply <span class="tag">RealAuction · county courts</span></h2>
+    <div class="sub">Upcoming FL foreclosure auctions (Pasco / Polk / Lee / Osceola), ranked by equity = appraised value − final judgment. Big equity = surplus / assignment candidate. Scraped daily by the cron worker. We never bid; a licensed human closes.</div>
+    <div class="row">
+      <button class="btn" onclick="loadRA()">Load distress deals</button>
+      <span class="muted" id="raMeta"></span>
+    </div>
+    <div id="ra"><div class="muted">Load to see the foreclosure calendar.</div></div>
+  </div>
+
+  <div class="card">
     <h2>Captured leads <span class="tag">live</span></h2>
     <div class="sub">Everyone who raised a hand, across all domains, tagged by rung, ZIP, and intent. Investor leads highlighted.</div>
     <div class="row">
@@ -106,7 +116,7 @@
   function boot() {
     EL('gate').hidden = true; EL('app').hidden = false;
     EL('stateSel').innerHTML = STATES.map(function (s) { return '<option value="' + s + '">' + (s === 'hot' ? 'Top migration metros' : s) + '</option>'; }).join('');
-    loadDeals(); loadLeads();
+    loadDeals(); loadRA(); loadLeads();
   }
 
   function loadDeals() {
@@ -125,6 +135,30 @@
             '<td><a href="' + esc(x.url) + '" target="_blank" rel="noopener">HUD →</a></td></tr>';
         }).join('') + '</tbody></table>';
     }).catch(function () { EL('deals').innerHTML = '<div class="err">Failed to load.</div>'; });
+  }
+
+  function loadRA() {
+    EL('ra').innerHTML = '<div class="muted">Reading county calendars…</div>'; EL('raMeta').textContent = '';
+    fetch('/api/deal-engine?source=realauction&key=' + encodeURIComponent(key())).then(function (r) { return r.json(); }).then(function (j) {
+      var d = (j && j.deals) || [];
+      var m = j && j.meta;
+      if (m) EL('raMeta').textContent = j.count + ' deals · updated ' + (m.updatedMs ? new Date(m.updatedMs).toLocaleString() : '?') + (m.counties ? ' · ' + m.counties.join(' | ') : '');
+      if (!d.length) { EL('ra').innerHTML = '<div class="muted">No distress deals stored yet. The daily worker POSTs them here — or run the workflow manually.</div>'; return; }
+      EL('ra').innerHTML = '<table><thead><tr><th>Equity</th><th>Address</th><th>County</th><th>Judgment</th><th>Mkt value</th><th>Sale date</th><th>Sell to (matched)</th><th></th></tr></thead><tbody>' +
+        d.map(function (x) {
+          var eq = x.equity;
+          var eqCls = eq == null ? 'muted' : (eq > 0 ? 'price' : '');
+          var eqTxt = eq == null ? '?' : (eq >= 0 ? money(eq) : '-' + money(-eq));
+          return '<tr><td class="' + eqCls + '"' + (eq != null && eq < 0 ? ' style="color:var(--red)"' : '') + '>' + eqTxt + '</td>' +
+            '<td>' + esc(x.address) + '<div class="muted">' + esc(x.parcel || '') + '</div></td>' +
+            '<td>' + esc(x.county) + '</td>' +
+            '<td class="muted">' + (x.judgment != null ? money(x.judgment) : '?') + '</td>' +
+            '<td class="muted">' + (x.marketValue != null ? money(x.marketValue) : '?') + '</td>' +
+            '<td class="muted" style="white-space:nowrap">' + esc(x.saleDate) + '</td>' +
+            '<td>' + buyersCell(x.buyers) + '</td>' +
+            '<td><a href="' + esc(x.url) + '" target="_blank" rel="noopener">calendar →</a></td></tr>';
+        }).join('') + '</tbody></table>';
+    }).catch(function () { EL('ra').innerHTML = '<div class="err">Failed to load.</div>'; });
   }
 
   function loadLeads() {

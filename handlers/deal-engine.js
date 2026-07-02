@@ -51,13 +51,32 @@ var BUYERS = [
   { name: 'Opendoor', type: 'iBuyer', states: ['AZ', 'TX', 'FL', 'GA', 'NC', 'SC', 'TN', 'NV', 'CO', 'UT', 'OH'], min: 100000, max: 600000, minBeds: 2, note: 'Instant offer, near-market condition preferred', url: 'https://www.opendoor.com/sell' },
   { name: 'Offerpad', type: 'iBuyer', states: ['AZ', 'TX', 'FL', 'GA', 'NC', 'SC', 'TN', 'NV', 'CO', 'AL'], min: 100000, max: 500000, minBeds: 2, note: 'Instant offer, lighter rehab', url: 'https://www.offerpad.com/' }
 ];
-function matchBuyers(d) {
+// price = the figure a disposition buyer underwrites to; beds may be unknown (RA).
+function matchBuyersFor(state, price, beds) {
+  var bd = (beds == null || beds === '') ? null : (parseInt(beds, 10) || 0);
   return BUYERS.filter(function (b) {
-    var stOk = b.states === 'ALL' || b.states.indexOf(d.state) !== -1;
-    var priceOk = d.price >= b.min && d.price <= b.max;
-    var bedsOk = !b.minBeds || (parseInt(d.beds, 10) || 0) >= b.minBeds;
+    var stOk = b.states === 'ALL' || b.states.indexOf(state) !== -1;
+    var priceOk = price >= b.min && price <= b.max;
+    var bedsOk = !b.minBeds || bd == null || bd >= b.minBeds; // unknown beds don't exclude
     return stOk && priceOk && bedsOk;
   }).map(function (b) { return { name: b.name, type: b.type, note: b.note, url: b.url }; });
+}
+function matchBuyers(d) { return matchBuyersFor(d.state, d.price, d.beds); }
+
+// RealAuction distress supply (county foreclosure calendars, scraped by the cron
+// worker → POSTed to /api/realauction-ingest → Redis). Match disposition buyers on
+// the APPRAISED market value (resale target), not the judgment (acquisition cost).
+async function readRealAuction(q) {
+  var deals = (await db.get('realauction:deals')) || [];
+  var meta = (await db.get('realauction:meta')) || null;
+  var st = q.state ? String(q.state).toUpperCase() : null;
+  var out = deals.filter(function (d) {
+    if (st && (d.state || 'FL').toUpperCase() !== st) return false;
+    return true;
+  }).map(function (d) {
+    return Object.assign({}, d, { buyers: matchBuyersFor(d.state || 'FL', d.marketValue || d.judgment || 0, null) });
+  });
+  return { updatedMs: meta && meta.updatedMs, source: 'RealAuction (county foreclosure calendars)', meta: meta, count: out.length, deals: out };
 }
 
 function j(res, code, obj) { res.statusCode = code; res.setHeader('content-type', 'application/json'); res.end(JSON.stringify(obj)); }
@@ -104,6 +123,13 @@ module.exports = async function handler(req, res) {
   var ADMIN = process.env.LEAD_ADMIN_KEY || '';
   if (ADMIN && q.key !== ADMIN) { res.statusCode = 403; res.setHeader('content-type', 'application/json'); return res.end(JSON.stringify({ ok: false, error: 'Admin key required. This engine is not public.' })); }
 
+  // RealAuction distress source (Redis, fed by the scraper cron). ?source=realauction
+  // returns only county-foreclosure deals; ?source=all merges them ahead of HUD.
+  if (q.source === 'realauction') {
+    var ra = await readRealAuction(q);
+    return j(res, 200, Object.assign({ ok: true }, ra));
+  }
+
   var cities, key, zipCity = null, zipSt = null;
   if (q.zip) {
     try {
@@ -129,5 +155,16 @@ module.exports = async function handler(req, res) {
     } catch (e) { try { data = await db.get(key); } catch (e2) {} }
   }
   if (!data) return j(res, 503, { ok: false, error: 'warming up' });
+
+  // ?source=all → prepend RealAuction distress deals (ranked by equity) to HUD.
+  if (q.source === 'all') {
+    try {
+      var raAll = await readRealAuction(q);
+      return j(res, 200, Object.assign({ ok: true }, data, {
+        source: 'RealAuction + HUD', realauction: raAll.count, realauctionMeta: raAll.meta,
+        deals: raAll.deals.concat(data.deals || [])
+      }));
+    } catch (e) {}
+  }
   return j(res, 200, Object.assign({ ok: true }, data));
 };

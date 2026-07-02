@@ -1,0 +1,63 @@
+# RealAuction distress-supply worker (LIVE repo).
+#
+# Scrapes upcoming county foreclosure calendars (FL sweet-spot ring: Pasco, Polk,
+# Lee, Osceola) with a headless browser — the sites 403 a plain fetch but serve a
+# real browser. Extracts address / parcel / final-judgment / appraised value, ranks
+# by equity (market value - judgment = the surplus/assignment signal), and POSTs the
+# deals to /api/realauction-ingest (gated by LEAD_ADMIN_KEY), which stores them in
+# Redis. The Deal Desk (/admin-deals) + /api/deal-engine?source=all then read them
+# alongside HUD. We own nothing; a licensed human closes = the legal gate.
+#
+# Bounded + polite: caps dates/county, one browser, short waits. Runs once daily.
+# SECRET REQUIRED (repo Settings > Secrets > Actions): LEAD_ADMIN_KEY (same value as
+# the Vercel env var that gates the deal engine).
+name: RealAuction distress supply
+
+on:
+  schedule:
+    - cron: '0 11 * * *'      # 11:00 UTC daily (~6-7am ET, after clerks post the day's calendar)
+  workflow_dispatch:
+    inputs:
+      counties:
+        description: 'CSV of county keys to limit (blank = all)'
+        required: false
+        default: ''
+      maxdates:
+        description: 'Auction dates per county'
+        required: false
+        default: '4'
+
+permissions:
+  contents: read
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: realauction
+      cancel-in-progress: false
+    steps:
+      - name: checkout (sparse — only the worker + its deps)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout: |
+            scripts/realauction-scrape.js
+            lib/limen-db.js
+          sparse-checkout-cone-mode: false
+
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: install puppeteer (bundled chromium)
+        run: npm install puppeteer@23 --no-save --no-audit --no-fund
+
+      - name: scrape + POST deals to ingest
+        run: node scripts/realauction-scrape.js
+        env:
+          RA_INGEST_URL: https://limenhelix.com/api/realauction-ingest
+          RA_INGEST_KEY: ${{ secrets.LEAD_ADMIN_KEY }}
+          RA_COUNTIES: ${{ github.event.inputs.counties }}
+          RA_MAX_DATES: ${{ github.event.inputs.maxdates || '4' }}

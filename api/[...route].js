@@ -99,6 +99,7 @@ const HANDLERS = {
   'kernel-experiment': require('../handlers/kernel-experiment'),
   'lead': require('../handlers/lead'),
   'deal-engine': require('../handlers/deal-engine'),
+  'realauction-ingest': require('../handlers/realauction-ingest'),
   'limen-autofire-log': require('../handlers/limen-autofire-log'),
   'limen-autoqueue': require('../handlers/limen-autoqueue'),
   'limen-changelog': require('../handlers/limen-changelog'),
