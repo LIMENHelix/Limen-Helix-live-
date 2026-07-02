@@ -34,6 +34,7 @@ var STATE_METROS = {
   ID: ['Boise,ID'], UT: ['Salt Lake City,UT'], VA: ['Richmond,VA', 'Virginia Beach,VA']
 };
 var HOT = ['Houston,TX', 'San Antonio,TX', 'Charlotte,NC', 'Tampa,FL', 'Phoenix,AZ', 'Columbia,SC', 'Nashville,TN', 'Atlanta,GA', 'Jacksonville,FL', 'Dallas,TX'];
+var NAME2ABBR = { 'Alabama': 'AL', 'Alaska': 'AK', 'Arizona': 'AZ', 'Arkansas': 'AR', 'California': 'CA', 'Colorado': 'CO', 'Connecticut': 'CT', 'Delaware': 'DE', 'District of Columbia': 'DC', 'Florida': 'FL', 'Georgia': 'GA', 'Hawaii': 'HI', 'Idaho': 'ID', 'Illinois': 'IL', 'Indiana': 'IN', 'Iowa': 'IA', 'Kansas': 'KS', 'Kentucky': 'KY', 'Louisiana': 'LA', 'Maine': 'ME', 'Maryland': 'MD', 'Massachusetts': 'MA', 'Michigan': 'MI', 'Minnesota': 'MN', 'Mississippi': 'MS', 'Missouri': 'MO', 'Montana': 'MT', 'Nebraska': 'NE', 'Nevada': 'NV', 'New Hampshire': 'NH', 'New Jersey': 'NJ', 'New Mexico': 'NM', 'New York': 'NY', 'North Carolina': 'NC', 'North Dakota': 'ND', 'Ohio': 'OH', 'Oklahoma': 'OK', 'Oregon': 'OR', 'Pennsylvania': 'PA', 'Rhode Island': 'RI', 'South Carolina': 'SC', 'South Dakota': 'SD', 'Tennessee': 'TN', 'Texas': 'TX', 'Utah': 'UT', 'Vermont': 'VT', 'Virginia': 'VA', 'Washington': 'WA', 'West Virginia': 'WV', 'Wisconsin': 'WI', 'Wyoming': 'WY' };
 
 function j(res, code, obj) { res.statusCode = code; res.setHeader('content-type', 'application/json'); res.end(JSON.stringify(obj)); }
 function num(v) { var n = parseFloat(v); return isFinite(n) ? n : 0; }
@@ -78,8 +79,9 @@ module.exports = async function handler(req, res) {
   var cities, key, zipCity = null, zipSt = null;
   if (q.zip) {
     try {
-      var z = await (await fetch('https://api.zippopotam.us/us/' + encodeURIComponent(String(q.zip).replace(/[^0-9]/g, '').slice(0, 5)), { headers: UA })).json();
-      if (z && z.places && z.places[0]) { zipSt = (z.places[0]['state abbreviation'] || '').toUpperCase(); zipCity = z.places[0]['place name']; }
+      var z = await (await fetch('https://api.zippopotam.us/us/' + encodeURIComponent(String(q.zip).replace(/[^0-9]/g, '').slice(0, 5)), { headers: { 'User-Agent': UA['User-Agent'] } })).json();
+      var pl = (z && z.places && z.places[0]) || null;
+      if (pl) { zipSt = (NAME2ABBR[pl.state] || pl['state abbreviation'] || '').toUpperCase(); zipCity = pl['place name']; }
     } catch (e) {}
   }
   if (q.citystate) { cities = [q.citystate]; key = 'deal:city:' + q.citystate.toLowerCase(); }
