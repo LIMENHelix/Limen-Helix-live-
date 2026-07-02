@@ -57,13 +57,14 @@ async function notifyLead(lead) {
         })
       });
       var wj = await wr.json().catch(function () { return {}; });
-      return { sent: !!(wr.ok && wj && wj.success), via: 'web3forms', http: wr.status, reason: (wj && wj.message) || null };
-    } catch (e) { return { sent: false, via: 'web3forms', reason: String(e && e.message || e) }; }
+      if (wr.ok && wj && wj.success) return { sent: true, via: 'web3forms', http: wr.status };
+      // web3forms did not send (e.g. 403 IP block) → fall through to Resend below
+    } catch (e) {}
   }
-  // Fallback: Resend (needs RESEND_API_KEY + LEAD_NOTIFY_EMAIL + a verified sender + DNS).
+  // Fallback: Resend (needs RESEND_API_KEY + LEAD_NOTIFY_EMAIL). Runs whenever web3forms did not send.
   var apiKey = process.env.RESEND_API_KEY;
   var to = process.env.LEAD_NOTIFY_EMAIL;
-  if (!apiKey || !to) return { sent: false, reason: 'not-configured' };
+  if (!apiKey || !to) return { sent: false, via: 'none', reason: 'web3forms failed and Resend not configured' };
   var from = process.env.LEAD_FROM_EMAIL || 'LIMEN Helix Leads <onboarding@resend.dev>';
   var fields = ['email', 'name', 'organization', 'interest', 'phone', 'message', 'accredited', 'sourcePage', 'ts'];
   var rows = fields.map(function (k) {
@@ -81,8 +82,9 @@ async function notifyLead(lead) {
         html: '<h2 style="font-family:sans-serif">New lead from limenhelix.com</h2><table style="font-family:monospace;font-size:13px;border-collapse:collapse">' + rows + '</table>'
       })
     });
-    return { sent: !!r.ok, http: r.status };
-  } catch (e) { return { sent: false, reason: String(e && e.message || e) }; }
+    var rj = await r.json().catch(function () { return {}; });
+    return { sent: !!r.ok, via: 'resend', http: r.status, reason: r.ok ? null : ((rj && rj.message) || null) };
+  } catch (e) { return { sent: false, via: 'resend', reason: String(e && e.message || e) }; }
 }
 
 module.exports = async function handler(req, res) {
