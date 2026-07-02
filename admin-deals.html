@@ -1,0 +1,147 @@
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>LIMEN Deal Desk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@400;500;600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{ --bg:#0a0d14; --panel:rgba(15,20,31,.72); --line:rgba(255,255,255,.10); --line2:rgba(255,255,255,.18); --ink:#e9edf3; --soft:#aeb7c6; --faint:#6b7686; --gold:#c9a86a; --green:#5bbf88; --red:#d16a6a; --sans:'Inter',system-ui,sans-serif; --serif:'Newsreader',Georgia,serif; --mono:'IBM Plex Mono',monospace; }
+  *{box-sizing:border-box} html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14.5px}
+  a{color:var(--gold)}
+  .wrap{max-width:1180px;margin:0 auto;padding:22px 20px 60px}
+  header.top{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:22px}
+  header.top h1{font-family:var(--serif);font-weight:600;font-size:1.5rem;margin:0}
+  header.top .sub{font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+  button,select,input{font:inherit}
+  .btn{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;font-weight:600;color:#10131a;background:var(--gold);border:none;border-radius:5px;padding:9px 15px;cursor:pointer}
+  .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line2)}
+  input,select{background:rgba(255,255,255,.06);border:1px solid var(--line2);border-radius:5px;color:var(--ink);padding:9px 11px;outline:none}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:20px 22px;margin-bottom:16px;backdrop-filter:blur(7px)}
+  .card h2{font-family:var(--serif);font-weight:600;font-size:1.2rem;margin:0 0 4px;display:flex;align-items:center;gap:10px}
+  .card .sub{color:var(--soft);font-size:.86rem;margin-bottom:14px}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);text-align:left;padding:8px 10px;border-bottom:1px solid var(--line2)}
+  td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:hover td{background:rgba(255,255,255,.02)}
+  .price{font-family:var(--mono);font-weight:700;color:var(--green)}
+  .tag{font-family:var(--mono);font-size:.58rem;letter-spacing:.05em;text-transform:uppercase;border:1px solid var(--line2);border-radius:20px;padding:2px 8px;color:var(--soft)}
+  .tag.inv{color:#10131a;background:var(--gold);border-color:var(--gold)}
+  .muted{color:var(--faint)}
+  .kv{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:12px}
+  .kv b{font-family:var(--mono);font-size:1.4rem;color:var(--gold);display:block}
+  .kv span{font-size:.72rem;color:var(--soft)}
+  #gate{max-width:420px;margin:12vh auto;text-align:center}
+  #gate h1{font-family:var(--serif);font-weight:600}
+  #gate .note{color:var(--soft);font-size:.85rem;margin:8px 0 18px}
+  .err{color:var(--red);font-size:.8rem;margin-top:8px;font-family:var(--mono)}
+</style>
+
+<div id="gate">
+  <h1>LIMEN Deal Desk</h1>
+  <div class="note">Private. Enter your admin key.</div>
+  <div class="row" style="justify-content:center">
+    <input id="keyInput" type="password" placeholder="admin key" style="min-width:220px" />
+    <button class="btn" onclick="saveKey()">Enter</button>
+  </div>
+  <div class="err" id="gateErr"></div>
+</div>
+
+<div class="wrap" id="app" hidden>
+  <header class="top">
+    <div><h1>Deal Desk</h1><div class="sub">Arbitrage cockpit · not public</div></div>
+    <button class="btn ghost" onclick="logout()">Lock</button>
+  </header>
+
+  <div class="card">
+    <h2>Below-market homes <span class="tag">HUD · live</span></h2>
+    <div class="sub">Cheap supply, ranked. Cross-reference the county with where people are moving, then assign or list to a buyer. We never own it.</div>
+    <div class="row">
+      <select id="stateSel"></select>
+      <button class="btn" onclick="loadDeals()">Load deals</button>
+      <span class="muted" id="dealMeta"></span>
+    </div>
+    <div id="deals"><div class="muted">Pick a state and load.</div></div>
+  </div>
+
+  <div class="card">
+    <h2>Captured leads <span class="tag">live</span></h2>
+    <div class="sub">Everyone who raised a hand, across all domains, tagged by rung, ZIP, and intent. Investor leads highlighted.</div>
+    <div class="row">
+      <button class="btn" onclick="loadLeads()">Refresh</button>
+      <label class="muted"><input type="checkbox" id="invOnly" onchange="renderLeads()" /> investors only</label>
+      <span class="muted" id="leadMeta"></span>
+    </div>
+    <div id="leads"><div class="muted">Load to see leads.</div></div>
+  </div>
+</div>
+
+<script>
+  var KEYNAME = 'limenAdminKey';
+  var STATES = ['hot', 'TX', 'FL', 'NC', 'SC', 'TN', 'GA', 'AZ', 'NV', 'OH', 'IN', 'OK', 'MO', 'AL', 'CO', 'ID', 'UT', 'VA'];
+  var _leads = [];
+  function key() { return sessionStorage.getItem(KEYNAME) || ''; }
+  function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  function money(n) { n = +n || 0; return '$' + n.toLocaleString(); }
+  function EL(id) { return document.getElementById(id); }
+
+  function saveKey() {
+    var k = EL('keyInput').value.trim(); if (!k) return;
+    sessionStorage.setItem(KEYNAME, k);
+    // validate against the gated endpoint
+    fetch('/api/deal-engine?hot=1&key=' + encodeURIComponent(k)).then(function (r) {
+      if (r.status === 403) { EL('gateErr').textContent = 'Wrong key.'; sessionStorage.removeItem(KEYNAME); return; }
+      boot();
+    }).catch(function () { EL('gateErr').textContent = 'Network error.'; });
+  }
+  function logout() { sessionStorage.removeItem(KEYNAME); location.reload(); }
+  function boot() {
+    EL('gate').hidden = true; EL('app').hidden = false;
+    EL('stateSel').innerHTML = STATES.map(function (s) { return '<option value="' + s + '">' + (s === 'hot' ? 'Top migration metros' : s) + '</option>'; }).join('');
+    loadDeals(); loadLeads();
+  }
+
+  function loadDeals() {
+    var s = EL('stateSel').value, q = s === 'hot' ? 'hot=1' : 'state=' + s;
+    EL('deals').innerHTML = '<div class="muted">Reading HUD…</div>'; EL('dealMeta').textContent = '';
+    fetch('/api/deal-engine?' + q + '&key=' + encodeURIComponent(key())).then(function (r) { return r.json(); }).then(function (j) {
+      var d = (j && j.deals) || [];
+      if (!d.length) { EL('deals').innerHTML = '<div class="muted">No listings found.</div>'; return; }
+      EL('dealMeta').textContent = j.count + ' found · cheapest ' + money(j.cheapest);
+      EL('deals').innerHTML = '<table><thead><tr><th>Price</th><th>Address</th><th>County</th><th>Beds/Ba</th><th>SqFt</th><th>Yr</th><th></th></tr></thead><tbody>' +
+        d.map(function (x) {
+          return '<tr><td class="price">' + money(x.price) + (x.hundred_down ? ' <span class="tag">$100↓</span>' : '') + '</td>' +
+            '<td>' + esc(x.address) + '<div class="muted">' + esc(x.city) + ', ' + esc(x.state) + ' ' + esc(x.zip) + '</div></td>' +
+            '<td>' + esc(x.county) + '</td><td>' + esc(x.beds || '?') + '/' + esc(x.baths || '?') + '</td><td>' + (x.sqft ? (+x.sqft).toLocaleString() : '?') + '</td><td>' + esc(x.year || '') + '</td>' +
+            '<td><a href="' + esc(x.url) + '" target="_blank" rel="noopener">HUD →</a></td></tr>';
+        }).join('') + '</tbody></table>';
+    }).catch(function () { EL('deals').innerHTML = '<div class="err">Failed to load.</div>'; });
+  }
+
+  function loadLeads() {
+    EL('leads').innerHTML = '<div class="muted">Loading…</div>';
+    fetch('/api/lead?key=' + encodeURIComponent(key())).then(function (r) { return r.json(); }).then(function (j) {
+      _leads = (j && j.leads) || [];
+      EL('leadMeta').textContent = _leads.length + ' total';
+      renderLeads();
+    }).catch(function () { EL('leads').innerHTML = '<div class="err">Failed to load.</div>'; });
+  }
+  function renderLeads() {
+    var invOnly = EL('invOnly').checked;
+    var rows = _leads.filter(function (l) { return !invOnly || /invest/i.test(l.interest || ''); });
+    if (!rows.length) { EL('leads').innerHTML = '<div class="muted">No leads' + (invOnly ? ' from investors yet.' : ' yet.') + '</div>'; return; }
+    EL('leads').innerHTML = '<table><thead><tr><th>When</th><th>Email</th><th>Interest</th><th>Where</th><th>Note</th></tr></thead><tbody>' +
+      rows.map(function (l) {
+        var inv = /invest/i.test(l.interest || '');
+        var when = (l.ts || '').replace('T', ' ').slice(0, 16);
+        return '<tr><td class="muted" style="white-space:nowrap">' + esc(when) + (l.test ? ' <span class="tag">test</span>' : '') + '</td>' +
+          '<td>' + esc(l.email) + '</td>' +
+          '<td>' + esc(l.interest) + (inv ? ' <span class="tag inv">investor</span>' : '') + '</td>' +
+          '<td class="muted">' + esc(l.sourcePage) + '</td>' +
+          '<td class="muted">' + esc(l.message || '') + '</td></tr>';
+      }).join('') + '</tbody></table>';
+  }
+
+  if (key()) boot();
+  EL('keyInput') && EL('keyInput').addEventListener('keydown', function (e) { if (e.key === 'Enter') saveKey(); });
+</script>
