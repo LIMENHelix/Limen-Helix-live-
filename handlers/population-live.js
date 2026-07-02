@@ -144,14 +144,15 @@ async function unhcrDisplacement() {
 async function buildGlobal() {
   var real = await realCountrySet();
   var mig = (await wbIndicator('SM.POP.NETM', '2023')).filter(function (r) { return r.value != null && real[r.countryiso3code]; })
-    .map(function (r) { return { country: r.country.value, value: Math.round(r.value) }; }).sort(function (a, b) { return b.value - a.value; });
+    .map(function (r) { return { iso: r.countryiso3code, country: r.country.value, value: Math.round(r.value) }; }).sort(function (a, b) { return b.value - a.value; });
+  var na = ['CAN', 'USA', 'MEX'].map(function (c) { return mig.filter(function (m) { return m.iso === c; })[0]; }).filter(Boolean);
   var grow = [];
   try { grow = (await wbIndicator('SP.POP.GROW', '2023')).filter(function (r) { return r.value != null && real[r.countryiso3code]; }).map(function (r) { return { country: r.country.value, rate: Math.round(r.value * 10) / 10 }; }).sort(function (a, b) { return b.rate - a.rate; }).slice(0, 6); } catch (e) {}
   var disp = null; try { disp = await unhcrDisplacement(); } catch (e) {}
   return {
     updated: new Date().toISOString(), updatedMs: Date.now(),
     worldPop: await wbWorld('SP.POP.TOTL', '2023'), worldGrowth: await wbWorld('SP.POP.GROW', '2023'),
-    migGainers: mig.slice(0, 8), migLosers: mig.slice(-8).reverse(), fastestGrowing: grow, displacement: disp,
+    migGainers: mig.slice(0, 8), migLosers: mig.slice(-8).reverse(), northAmerica: na, fastestGrowing: grow, displacement: disp,
     sources: [{ name: 'World Bank Open Data', url: 'https://data.worldbank.org' }, { name: 'UNHCR Refugee Data Finder', url: 'https://www.unhcr.org/refugee-statistics' }]
   };
 }

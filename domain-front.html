@@ -309,6 +309,14 @@ void main(){
         </div>
       </details>
 
+      <details class="rung" data-tier="5">
+        <summary><span class="tchip">5</span><span class="tscope">North America</span><span class="thead" id="t5head">Canada · United States · Mexico</span></summary>
+        <div class="rungbody">
+          <div class="sub">The Canada to U.S. to Mexico corridor: net migration across the three, and the trade and business that rides it. This is where nearshoring and cross-border money move.</div>
+          <div id="t5body"><div class="muted">Reading World Bank…</div></div>
+        </div>
+      </details>
+
       <details class="rung" data-tier="4">
         <summary><span class="tchip">4</span><span class="tscope">United States</span><span class="thead" id="t4head">Net domestic migration by state</span></summary>
         <div class="rungbody">
@@ -330,6 +338,11 @@ void main(){
       <details class="rung" data-tier="2" id="t2" style="display:none">
         <summary><span class="tchip">2</span><span class="tscope">Your county</span><span class="thead" id="t2head"></span></summary>
         <div class="rungbody" id="t2body"></div>
+      </details>
+
+      <details class="rung" data-tier="1" id="t1" style="display:none">
+        <summary><span class="tchip">1</span><span class="tscope">You</span><span class="thead" id="t1head"></span></summary>
+        <div class="rungbody" id="t1body"></div>
       </details>
 
       <!-- THE HINGE -->
@@ -364,6 +377,11 @@ void main(){
       <details class="orung" data-tier="4">
         <summary><span class="tchip">4</span><span class="tscope">Country</span><span class="thead">The migration-arbitrage signal (funds &amp; iBuyers)</span><span class="soon">opens as we climb</span></summary>
         <div class="rungbody"><div class="sub">The ranked county-by-county inflow signal, cross-referenced with distress, sold to institutional buyers. Inquire if you deploy capital at scale.</div><button class="oppbtn" onclick="captureOpp(event,4,'national migration signal')">Inquire →</button></div>
+      </details>
+
+      <details class="orung" data-tier="5">
+        <summary><span class="tchip">5</span><span class="tscope">Continent</span><span class="thead">The North America corridor: nearshoring, cross-border property, remittances</span><span class="soon">opens as we climb</span></summary>
+        <div class="rungbody"><div class="sub">Factories are moving from Asia to Mexico and the U.S. under USMCA, Americans are buying across the border, and hundreds of billions in remittances flow south every year. The Canada-to-Mexico corridor is the biggest business story on the continent. We assemble its migration, trade, and property signals for operators and investors.</div><button class="oppbtn" onclick="captureOpp(event,5,'North America corridor brief')">Get the corridor brief →</button></div>
       </details>
 
       <details class="orung" data-tier="6">
@@ -897,6 +915,16 @@ function renderWorld(g) {
         '<div class="c">' + (Math.round(o.refugees / 1e5) / 10) + 'M refugees · ' + (Math.round(o.idps / 1e5) / 10) + 'M displaced at home</div></div>';
     }).join('');
   }
+  // CONTINENT (5) — the North America corridor
+  var na = g.northAmerica || [];
+  if (na.length && EL('t5body')) {
+    EL('t5body').innerHTML = na.map(function (o) {
+      var p = o.value >= 0;
+      return '<div class="mig-row"><div class="nm">' + esc(o.country) + '</div><div><span class="rt ' + (p ? 'pos' : 'neg') + '">' + (p ? '+' : '') + Number(o.value).toLocaleString() + '</span><span class="ct">/yr net</span></div></div>';
+    }).join('');
+    var tot = na.reduce(function (s, o) { return s + o.value; }, 0);
+    EL('t5head').textContent = (tot >= 0 ? '+' : '') + Number(tot).toLocaleString() + '/yr across the three';
+  }
 }
 function renderPopNational(n) {
   EL('popGainers').innerHTML = (n.gainers || []).map(migRow).join('') || '<div class="muted">—</div>';
@@ -991,6 +1019,15 @@ function renderPopLocal(L) {
     }
     EL('t2body').innerHTML = '<div class="hl"><span style="font-weight:800;font-size:1.3rem;color:' + (pos ? 'var(--green)' : 'var(--red)') + '">' + (pos ? '+' : '') + Number(m.netIn).toLocaleString() + '</span> net movers per year (' + (m.rate > 0 ? '+' : '') + m.rate + ' per 1,000). ' + (pos ? 'More people move into your county than leave.' : 'More people leave your county than move in.') + '</div>' + cost;
   }
+
+  // CONTEXT · rung 1 — You (the mirror of the opportunity You rung)
+  EL('t1').style.display = ''; EL('t1').open = true;
+  EL('t1head').textContent = (L.place || 'Your area') + (L.state ? ', ' + L.state : '');
+  var yline = 'Your street sits in <b>' + esc(L.place || 'your area') + (L.county ? ', ' + esc(L.county) : '') + '</b>.';
+  if (m) yline += ' It is ' + (pos ? 'gaining' : 'losing') + ' people right now';
+  if (L.cost && L.cost.homeValue) yline += (m ? ', and the' : ' The') + ' typical home runs about <b>$' + Number(L.cost.homeValue).toLocaleString() + '</b>';
+  yline += '. The plays below turn that into moves.';
+  EL('t1body').innerHTML = '<div class="hl">' + yline + '</div>';
 
   // OPPORTUNITY · rung 1 — You
   if (m) {
