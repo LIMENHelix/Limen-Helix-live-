@@ -194,6 +194,38 @@
   .fc-title a:hover{border-bottom-color:var(--gold);color:var(--gold)}
   .fc-meta{font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.04em;color:var(--faint);margin-top:4px;text-transform:uppercase}
   .fc-body{color:var(--soft);font-size:.88rem;margin-top:6px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  /* ── the telescope: mirrored collapsible rungs, ZIP as the hinge ── */
+  .teleband{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:24px 2px 10px;font-weight:600}
+  .teleband b{color:var(--ink)}
+  details.rung,details.orung{background:var(--panel);border:1px solid var(--line);border-radius:6px;margin-bottom:8px;box-shadow:var(--shadow);backdrop-filter:blur(7px);overflow:hidden}
+  details.orung{border-color:color-mix(in srgb,var(--gold) 24%,var(--line))}
+  details.orung[data-tier="1"]{border-color:color-mix(in srgb,var(--gold) 55%,var(--line))}
+  details.rung>summary,details.orung>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:15px 18px}
+  details>summary::-webkit-details-marker{display:none}
+  .tchip{font-family:var(--mono);font-weight:700;font-size:.9rem;color:var(--soft);border:1px solid var(--line2);border-radius:5px;width:27px;height:27px;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto}
+  .tchip.on{color:#10131a;background:var(--gold);border-color:var(--gold)}
+  .tscope{font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);min-width:70px}
+  .thead{font-family:var(--serif);font-size:1.02rem;color:var(--ink);font-weight:500;flex:1;line-height:1.3}
+  .frontier{font-family:var(--mono);font-size:.54rem;letter-spacing:.08em;text-transform:uppercase;color:#10131a;background:var(--gold);border-radius:20px;padding:3px 9px;flex:0 0 auto}
+  .soon{font-family:var(--mono);font-size:.54rem;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);border:1px solid var(--line);border-radius:20px;padding:3px 9px;flex:0 0 auto}
+  .rungbody{padding:4px 18px 18px;border-top:1px solid var(--line)}
+  .rungbody .sub{margin:12px 0}
+  .hinge{text-align:center;background:linear-gradient(135deg,rgba(201,169,78,.12),rgba(11,16,26,.5));border:1px solid color-mix(in srgb,var(--gold) 34%,var(--line));border-radius:8px;padding:24px 20px;margin:16px 0}
+  .hinge-k{font-family:var(--mono);font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:600}
+  .hinge-sub{color:var(--soft);font-size:.92rem;margin:9px auto 14px;max-width:46ch;line-height:1.5}
+  .hinge-sub b{color:var(--ink)}
+  .hinge .ziprow{justify-content:center}
+  .pin{font-weight:700;margin-top:14px;font-size:1.02rem}
+  .hl{color:var(--soft);font-size:.92rem;line-height:1.55}
+  .hl.gold{color:var(--gold);font-weight:700}
+  .hl .c{color:var(--faint);font-size:.7rem}
+  .oppdo{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  .oppbtn{font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;text-transform:uppercase;font-weight:600;color:#10131a;background:var(--gold);border:none;border-radius:5px;padding:11px 16px;cursor:pointer;transition:filter .15s}
+  .oppbtn:hover{filter:brightness(1.08)}
+  .oppbtn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line2)}
+  .oppcap{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:14px}
+  .oppcap input{background:rgba(255,255,255,.06);border:1px solid var(--line2);border-radius:5px;padding:11px 13px;color:var(--ink);font-family:var(--sans);font-size:.92rem;flex:1;min-width:180px}
+  .oppcap-note{font-family:var(--mono);font-size:.68rem;color:var(--gold);width:100%}
   .bign{font-family:var(--mono);font-size:2rem;font-weight:600;letter-spacing:-.01em;color:var(--red);line-height:1}
   .aqipill{display:inline-block;padding:2px 9px;border-radius:3px;color:#10131a;font-family:var(--mono);font-weight:600;font-size:.78rem}
 </style>
@@ -259,56 +291,85 @@ void main(){
     </div>
     <!-- WHERE AMERICA IS MOVING (population) -->
     <section id="popSection" style="display:none">
-      <div class="card">
-        <h2><span class="livedot"></span> Where the world is moving <span class="updated" id="wpopUpdated"></span></h2>
-        <div class="sub">Global population and net migration, per country, from the World Bank. Net migration is people moving in minus people moving out (latest estimate).</div>
-        <div id="worldStat" style="margin-bottom:16px"><div class="muted">Reading World Bank…</div></div>
-        <div class="mig-cols">
-          <div><div class="mig-h gain">Countries gaining most people</div><div id="wMigGain"></div></div>
-          <div><div class="mig-h lose">Countries losing most people</div><div id="wMigLose"></div></div>
+      <!-- CONTEXT telescope: the world (6) down to your street (1) -->
+      <div class="teleband">The view · the world down to your street</div>
+
+      <details class="rung" data-tier="6" open>
+        <summary><span class="tchip">6</span><span class="tscope">World</span><span class="thead" id="t6head">Reading World Bank…</span></summary>
+        <div class="rungbody">
+          <div class="sub">Global population and net migration per country (World Bank), plus people forced from home worldwide (UNHCR).</div>
+          <div id="worldStat" style="margin-bottom:14px"><div class="muted">Reading World Bank…</div></div>
+          <div class="mig-cols">
+            <div><div class="mig-h gain">Gaining most people</div><div id="wMigGain"></div></div>
+            <div><div class="mig-h lose">Losing most people</div><div id="wMigLose"></div></div>
+          </div>
+          <div id="dispTotal" style="margin:16px 0 8px"></div>
+          <div class="stats" id="dispTop"></div>
+          <div class="disc" id="wCite"></div>
         </div>
-        <div class="disc" id="wCite"></div>
-      </div>
-      <div class="card">
-        <h2><span class="livedot"></span> Forced displacement</h2>
-        <div class="sub">People forced from home worldwide, by country of origin: refugees, asylum-seekers, and those displaced inside their own country. Source: UNHCR (2023).</div>
-        <div id="dispTotal" style="margin-bottom:14px"></div>
-        <div class="stats" id="dispTop"></div>
+      </details>
+
+      <details class="rung" data-tier="4">
+        <summary><span class="tchip">4</span><span class="tscope">United States</span><span class="thead" id="t4head">Net domestic migration by state</span></summary>
+        <div class="rungbody">
+          <div class="sub">U.S. residents moving state to state (Census). Rate is per 1,000 residents; the gray figure is people per year.</div>
+          <div class="mig-cols">
+            <div><div class="mig-h gain">Gaining fastest</div><div id="popGainers"><div class="muted">Reading Census…</div></div></div>
+            <div><div class="mig-h lose">Losing fastest</div><div id="popLosers"></div></div>
+          </div>
+          <div style="margin-top:18px"><div class="mig-h gain">Top landing counties (150k+)</div><div class="stats" id="popLanding"></div></div>
+          <div class="disc" id="popCite"></div>
+        </div>
+      </details>
+
+      <details class="rung" data-tier="3" id="t3" style="display:none">
+        <summary><span class="tchip">3</span><span class="tscope">Your state</span><span class="thead" id="t3head"></span></summary>
+        <div class="rungbody" id="t3body"></div>
+      </details>
+
+      <details class="rung" data-tier="2" id="t2" style="display:none">
+        <summary><span class="tchip">2</span><span class="tscope">Your county</span><span class="thead" id="t2head"></span></summary>
+        <div class="rungbody" id="t2body"></div>
+      </details>
+
+      <!-- THE HINGE -->
+      <div class="hinge">
+        <div class="hinge-k">⟐ your ZIP — the hinge ⟐</div>
+        <div class="hinge-sub">Everything above is the world's context. Everything below is what <b>you</b> can do about it, easiest money first.</div>
+        <form class="ziprow" id="popZipForm" onsubmit="return popLookupZip(event)">
+          <input id="popZipInput" inputmode="numeric" maxlength="5" placeholder="ZIP code" />
+          <button type="submit" id="popZipBtn">Drop my pin</button>
+        </form>
+        <div id="popLocalOut"></div>
       </div>
 
-      <div class="card">
-        <h2><span class="livedot"></span> Where America is moving <span class="updated" id="popUpdated"></span></h2>
-        <div class="sub">Net domestic migration, U.S. residents moving in vs. out, straight from the U.S. Census Bureau. The number is the rate per 1,000 residents (a fair read across big and small states); the gray figure is people per year.</div>
-        <div class="mig-cols">
-          <div><div class="mig-h gain">Gaining people fastest</div><div id="popGainers"><div class="muted">Reading Census migration…</div></div></div>
-          <div><div class="mig-h lose">Losing people fastest</div><div id="popLosers"></div></div>
-        </div>
-        <div style="margin-top:24px">
-          <div style="font-weight:700;font-size:.95rem;margin-bottom:6px">Your area</div>
-          <div class="sub" style="margin-bottom:8px">Enter your ZIP to see whether your county is gaining or losing people, and where your state ranks.</div>
-          <form class="ziprow" id="popZipForm" onsubmit="return popLookupZip(event)">
-            <input id="popZipInput" inputmode="numeric" maxlength="5" placeholder="ZIP code" />
-            <button type="submit" id="popZipBtn">Check my area</button>
-          </form>
-          <div id="popLocalOut"></div>
-        </div>
-        <div class="disc" id="popCite"></div>
-      </div>
-      <div class="card">
-        <h2>Top landing spots</h2>
-        <div class="sub">The larger counties (150k+ people) gaining residents fastest right now, where movers are actually going.</div>
-        <div class="stats" id="popLanding"></div>
-      </div>
-      <div class="card">
-        <h2>What to do with this</h2>
-        <div class="sub">Turn the numbers into a move.</div>
-        <div class="todo">
-          <div class="td"><b>Chase the value</b><span>Your dollar stretches furthest where people are already piling in. The landing spots above are where jobs and still-affordable housing overlap, start there.</span></div>
-          <div class="td"><b>In a shrinking area? Negotiate.</b><span>Fewer buyers means leverage: more inventory, softer prices, motivated sellers. A “losing” county can be a winning deal if you’re staying.</span></div>
-          <div class="td"><b>Remote? Arbitrage it.</b><span>Earn a big-city salary, live in a cheap, growing town. Check your ZIP above for the local home price, rent, and whether it’s filling up or emptying out.</span></div>
-          <div class="td"><b>Track your area</b><span>Watch this domain (top of the page) and we’ll flag when your county or state flips between gaining and losing people.</span></div>
-        </div>
-      </div>
+      <!-- OPPORTUNITY telescope: your street (1) out to the institutions (6) -->
+      <div class="teleband">The plays · your street out to the institutions · <b>we take the easy money first, then climb</b></div>
+
+      <details class="orung" data-tier="1" id="o1" open>
+        <summary><span class="tchip on">1</span><span class="tscope">You</span><span class="thead">Your home's trajectory</span><span class="frontier">● live frontier</span></summary>
+        <div class="rungbody" id="o1body"><div class="muted">Drop your ZIP above and this rung loads for your street.</div></div>
+      </details>
+
+      <details class="orung" data-tier="2" id="o2">
+        <summary><span class="tchip">2</span><span class="tscope">County</span><span class="thead">Distressed homes where people are pouring in</span></summary>
+        <div class="rungbody" id="o2body"><div class="muted">Drop your ZIP above to load your county play.</div></div>
+      </details>
+
+      <details class="orung" data-tier="3">
+        <summary><span class="tchip">3</span><span class="tscope">State</span><span class="thead">Buy-and-hold where the state is concentrating</span><span class="soon">opens as we climb</span></summary>
+        <div class="rungbody"><div class="sub">Rentals and multifamily in the metros a state is funneling people into. We're assembling the state rung; claim first access.</div><button class="oppbtn" onclick="captureOpp(event,3,'state buy-and-hold')">Get first access →</button></div>
+      </details>
+
+      <details class="orung" data-tier="4">
+        <summary><span class="tchip">4</span><span class="tscope">Country</span><span class="thead">The migration-arbitrage signal (funds &amp; iBuyers)</span><span class="soon">opens as we climb</span></summary>
+        <div class="rungbody"><div class="sub">The ranked county-by-county inflow signal, cross-referenced with distress, sold to institutional buyers. Inquire if you deploy capital at scale.</div><button class="oppbtn" onclick="captureOpp(event,4,'national migration signal')">Inquire →</button></div>
+      </details>
+
+      <details class="orung" data-tier="6">
+        <summary><span class="tchip">6</span><span class="tscope">World</span><span class="thead">Global labor &amp; housing demand shift</span><span class="soon">opens as we climb</span></summary>
+        <div class="rungbody"><div class="sub">Where global migration will move labor and housing demand next. Institutional briefings.</div><button class="oppbtn" onclick="captureOpp(event,6,'global demand shift')">Inquire →</button></div>
+      </details>
     </section>
 
     <!-- GENERIC LIVE (any domain with its own <key>-live feed: economy, law, …) -->
@@ -826,7 +887,7 @@ function renderWorld(g) {
   if (g.worldPop) EL('worldStat').innerHTML = '<span class="bign" style="color:var(--ink)">' + (g.worldPop / 1e9).toFixed(2) + 'B</span> <span style="color:var(--soft);font-weight:600">people on Earth</span>' + (g.worldGrowth != null ? ' <span class="c" style="color:var(--faint);font-size:.8rem">· growing ' + (Math.round(g.worldGrowth * 100) / 100) + '% a year</span>' : '');
   EL('wMigGain').innerHTML = (g.migGainers || []).map(migRowC).join('') || '<div class="muted">—</div>';
   EL('wMigLose').innerHTML = (g.migLosers || []).map(migRowC).join('') || '<div class="muted">—</div>';
-  EL('wpopUpdated').textContent = 'World Bank · 2023';
+  if (g.worldPop) EL('t6head').textContent = (g.worldPop / 1e9).toFixed(2) + 'B people on Earth';
   EL('wCite').innerHTML = 'Sources: ' + (g.sources || []).map(function (s) { return esc(s.name); }).join(' · ') + '. Net migration = migrants in minus out (latest World Bank estimate). Excludes regional aggregates.';
   var disp = g.displacement;
   if (disp) {
@@ -840,7 +901,7 @@ function renderWorld(g) {
 function renderPopNational(n) {
   EL('popGainers').innerHTML = (n.gainers || []).map(migRow).join('') || '<div class="muted">—</div>';
   EL('popLosers').innerHTML = (n.losers || []).map(migRow).join('') || '<div class="muted">—</div>';
-  EL('popUpdated').textContent = 'Census 2023 vintage';
+  if (n.gainers && n.gainers[0] && n.losers && n.losers[0]) EL('t4head').textContent = n.gainers[0].state + ' gaining fastest, ' + n.losers[0].state + ' losing fastest';
   EL('popCite').innerHTML = 'Source: ' + esc((n.source && n.source.name) || 'U.S. Census Bureau, Population Estimates') + '. Net domestic migration = U.S. residents moving between states/counties (it excludes births, deaths, and international arrivals). Latest annual data (Vintage 2023).';
   EL('popLanding').innerHTML = (n.landing || []).map(function (o) {
     return '<div class="stat"><div class="n" style="color:var(--green)">+' + o.rate + '</div><div class="k">' + esc(o.county) + ', ' + esc(o.state) + '</div>' +
@@ -889,39 +950,85 @@ function startWow(facts) {
   el.innerHTML = '<span>' + facts[0] + '</span>'; el.style.opacity = 1; if (dots.children[0]) dots.children[0].className = 'on';
   if (_wowT) clearInterval(_wowT); _wowT = setInterval(function () { show(_wowI + 1); }, 6500);
 }
+var _popZip = '';
 function popLookupZip(e) {
   e.preventDefault();
   var zip = (EL('popZipInput').value || '').replace(/[^0-9]/g, '').slice(0, 5);
   if (zip.length !== 5) { EL('popLocalOut').innerHTML = '<div class="muted" style="margin-top:8px">Enter a 5-digit ZIP.</div>'; return false; }
-  EL('popZipBtn').disabled = true; EL('popZipBtn').textContent = 'Checking…';
+  _popZip = zip;
+  EL('popZipBtn').disabled = true; EL('popZipBtn').textContent = 'Reading…';
   EL('popLocalOut').innerHTML = '<div class="muted" style="margin-top:8px">Reading Census migration for ' + zip + '…</div>';
   fetch('/api/population-live?zip=' + zip).then(function (r) { return r.json(); }).then(function (j) { renderPopLocal(j.local || {}); })
     .catch(function () { EL('popLocalOut').innerHTML = '<div class="muted" style="margin-top:8px">Could not read that area. Try again.</div>'; })
-    .finally(function () { EL('popZipBtn').disabled = false; EL('popZipBtn').textContent = 'Check my area'; });
+    .finally(function () { EL('popZipBtn').disabled = false; EL('popZipBtn').textContent = 'Drop my pin'; });
   return false;
 }
 function renderPopLocal(L) {
   if (!L || (L.error && !L.migration)) { EL('popLocalOut').innerHTML = '<div class="muted" style="margin-top:8px">' + esc((L && L.error) || 'No data for that ZIP.') + '</div>'; return; }
-  var h = '<div class="fcast"><div style="font-weight:700">' + esc(L.place || '') + (L.state ? ', ' + esc(L.state) : '') + (L.county ? ' · ' + esc(L.county) : '') + '</div>';
-  if (L.migration) {
-    var m = L.migration, pos = m.netIn >= 0;
-    h += '<div style="margin-top:6px"><span style="font-weight:800;font-size:1.3rem;color:' + (pos ? 'var(--green)' : 'var(--red)') + '">' + (pos ? '+' : '') + Number(m.netIn).toLocaleString() + '</span> <span style="color:var(--soft)">net movers per year in your county</span> <span class="c" style="color:var(--faint);font-size:.72rem">(' + (m.rate > 0 ? '+' : '') + m.rate + ' per 1,000)</span></div>';
-    h += '<div class="hl" style="margin-top:4px">' + (pos ? 'More people are moving into your county than leaving.' : 'More people are leaving your county than moving in.') + '</div>';
-  } else h += '<div class="muted" style="margin-top:6px">No county migration figure available for your area.</div>';
-  if (L.stateRank) h += '<div class="hl" style="margin-top:8px">' + esc(L.state) + ' ranks <b>#' + L.stateRank.rank + '</b> of 51 states (+ DC) for net migration (' + (L.stateRank.rate > 0 ? '+' : '') + L.stateRank.rate + ' per 1,000).</div>';
-  if (L.cost && (L.cost.homeValue || L.cost.rent)) {
-    var parts = [];
-    if (L.cost.homeValue) parts.push('typical home <b>$' + Number(L.cost.homeValue).toLocaleString() + '</b>');
-    if (L.cost.rent) parts.push('median rent <b>$' + Number(L.cost.rent).toLocaleString() + '/mo</b>');
-    if (L.cost.income) parts.push('median income <b>$' + Number(L.cost.income).toLocaleString() + '</b>');
-    h += '<div class="hl" style="margin-top:8px">' + parts.join(' · ') + ' <span class="c" style="color:var(--faint);font-size:.7rem">(Census ACS)</span></div>';
+  var place = esc(L.place || '') + (L.state ? ', ' + esc(L.state) : '') + (L.county ? ' · ' + esc(L.county) : '');
+  EL('popLocalOut').innerHTML = '<div class="pin">📍 ' + place + '</div><div class="muted" style="font-size:.8rem;margin-top:4px">Your rungs are open, above and below.</div>';
+  var m = L.migration, pos = m ? m.netIn >= 0 : false;
+
+  // CONTEXT · rung 3 — your state
+  if (L.stateRank) {
+    EL('t3').style.display = ''; EL('t3').open = true;
+    EL('t3head').textContent = '#' + L.stateRank.rank + ' of 51 · ' + (L.stateRank.rate > 0 ? '+' : '') + L.stateRank.rate + '/1k';
+    var fast = L.stateRank.rank <= 12 ? ' One of the fastest-gaining states in the country.' : (L.stateRank.rank >= 40 ? ' One of the fastest-losing states in the country.' : '');
+    EL('t3body').innerHTML = '<div class="hl">' + esc(L.state) + ' ranks <b>#' + L.stateRank.rank + '</b> of 51 states (plus DC) for net migration (' + (L.stateRank.rate > 0 ? '+' : '') + L.stateRank.rate + ' per 1,000 residents).' + fast + '</div>';
   }
-  if (L.migration) {
-    var gaining = L.migration.netIn >= 0;
-    h += '<div class="hl" style="margin-top:10px;color:var(--gold);font-weight:700">→ ' + (gaining ? 'Your area is filling up, expect rising prices and competition, so move fast if you’re buying.' : 'It’s a buyer’s market here, more inventory and leverage to negotiate. If you’re selling, price sharp.') + '</div>';
+
+  // CONTEXT · rung 2 — your county
+  if (m) {
+    EL('t2').style.display = ''; EL('t2').open = true;
+    EL('t2head').textContent = (pos ? '+' : '') + Number(m.netIn).toLocaleString() + '/yr';
+    var cost = '';
+    if (L.cost && (L.cost.homeValue || L.cost.rent)) {
+      var pp = [];
+      if (L.cost.homeValue) pp.push('typical home <b>$' + Number(L.cost.homeValue).toLocaleString() + '</b>');
+      if (L.cost.rent) pp.push('median rent <b>$' + Number(L.cost.rent).toLocaleString() + '/mo</b>');
+      if (L.cost.income) pp.push('median income <b>$' + Number(L.cost.income).toLocaleString() + '</b>');
+      cost = '<div class="hl" style="margin-top:8px">' + pp.join(' · ') + ' <span class="c">(Census ACS)</span></div>';
+    }
+    EL('t2body').innerHTML = '<div class="hl"><span style="font-weight:800;font-size:1.3rem;color:' + (pos ? 'var(--green)' : 'var(--red)') + '">' + (pos ? '+' : '') + Number(m.netIn).toLocaleString() + '</span> net movers per year (' + (m.rate > 0 ? '+' : '') + m.rate + ' per 1,000). ' + (pos ? 'More people move into your county than leave.' : 'More people leave your county than move in.') + '</div>' + cost;
   }
-  h += '</div>';
-  EL('popLocalOut').innerHTML = h;
+
+  // OPPORTUNITY · rung 1 — You
+  if (m) {
+    var verdict = pos ? 'Your area is <b>filling up</b>, so prices and competition are rising. If you own, you’re gaining equity; if you’re buying, move fast.' : 'It’s a <b>buyer’s market</b>, more inventory and leverage. If you’re buying or renting, negotiate hard; if you’re selling, price sharp.';
+    var hv = (L.cost && L.cost.homeValue) ? ' The typical home here runs about <b>$' + Number(L.cost.homeValue).toLocaleString() + '</b>.' : '';
+    EL('o1body').innerHTML = '<div class="hl gold">' + verdict + hv + '</div>' +
+      '<div class="oppdo">' +
+      '<button class="oppbtn" onclick="captureOpp(event,1,\'home value + local agent\')">' + (pos ? 'What is my home worth now' : 'Find me a deal / an agent') + ' &rarr;</button>' +
+      '<button class="oppbtn ghost" onclick="captureOpp(event,1,\'alert when my area flips\')">Alert me when my area flips</button>' +
+      '</div>' +
+      '<div class="disc">We connect you to a vetted local agent or lender for your ZIP. Free to you.</div>';
+    EL('o1').open = true;
+  }
+
+  // OPPORTUNITY · rung 2 — County
+  if (m) {
+    var cty = esc(L.county || 'your county');
+    EL('o2body').innerHTML = '<div class="hl">' + (pos ? 'People are pouring into ' + cty + '. That is <b>demand</b>. The play: pick up distressed, below-market, or tax-delinquent homes here and sell into that inflow.' : cty + ' is losing people, so skip the flip, but a shrinking county means <b>motivated sellers</b> and discounted cash-flow rentals if you’re staying.') + '</div>' +
+      '<div class="oppdo"><button class="oppbtn" onclick="captureOpp(event,2,\'county distressed / tax-delinquent signal\')">Send me distressed listings in my county &rarr;</button></div>' +
+      '<div class="disc">We assemble foreclosure, tax-delinquent, and below-market signals for your county and route them to you or a partner buyer. This is the middleman rung.</div>';
+  }
+}
+function captureOpp(ev, rung, intent) {
+  var host = ev.currentTarget.parentNode;
+  var box = document.createElement('div'); box.className = 'oppcap';
+  box.innerHTML = '<input type="email" placeholder="you@email.com" /><button class="oppbtn" type="button">Send</button><div class="oppcap-note"></div>';
+  host.appendChild(box);
+  ev.currentTarget.disabled = true; ev.currentTarget.style.opacity = '.5';
+  var inp = box.querySelector('input'), btn = box.querySelector('button'), note = box.querySelector('.oppcap-note');
+  try { inp.focus(); } catch (e) {}
+  btn.onclick = function () {
+    var em = (inp.value || '').trim();
+    if (!/.+@.+\..+/.test(em)) { note.textContent = 'Enter a valid email.'; return; }
+    btn.disabled = true; note.textContent = 'Sending…';
+    fetch('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: em, interest: C.name + ' · rung ' + rung + ' · ' + intent, sourcePage: '/' + DID, zip: _popZip || '', rung: rung }) })
+      .then(function (r) { return r.json(); }).then(function () { note.textContent = '✓ You’re in. We’ll be in touch fast.'; inp.disabled = true; btn.disabled = true; })
+      .catch(function () { note.textContent = 'Try again.'; btn.disabled = false; });
+  };
 }
 
 // ── phase path: P0 free, P1-P10 add-ons (each an analogy for the phase) ──
