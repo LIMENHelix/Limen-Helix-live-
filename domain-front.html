@@ -978,7 +978,7 @@ function startWow(facts) {
   el.innerHTML = '<span>' + facts[0] + '</span>'; el.style.opacity = 1; if (dots.children[0]) dots.children[0].className = 'on';
   if (_wowT) clearInterval(_wowT); _wowT = setInterval(function () { show(_wowI + 1); }, 6500);
 }
-var _popZip = '';
+var _popZip = '', _popLocal = null;
 function popLookupZip(e) {
   e.preventDefault();
   var zip = (EL('popZipInput').value || '').replace(/[^0-9]/g, '').slice(0, 5);
@@ -993,6 +993,7 @@ function popLookupZip(e) {
 }
 function renderPopLocal(L) {
   if (!L || (L.error && !L.migration)) { EL('popLocalOut').innerHTML = '<div class="muted" style="margin-top:8px">' + esc((L && L.error) || 'No data for that ZIP.') + '</div>'; return; }
+  _popLocal = L;
   var place = esc(L.place || '') + (L.state ? ', ' + esc(L.state) : '') + (L.county ? ' · ' + esc(L.county) : '');
   EL('popLocalOut').innerHTML = '<div class="pin">📍 ' + place + '</div><div class="muted" style="font-size:.8rem;margin-top:4px">Your rungs are open, above and below.</div>';
   var m = L.migration, pos = m ? m.netIn >= 0 : false;
@@ -1050,21 +1051,43 @@ function renderPopLocal(L) {
       '<div class="disc">We assemble foreclosure, tax-delinquent, and below-market signals for your county and route them to you or a partner buyer. This is the middleman rung.</div>';
   }
 }
+function oppDelivered(rung, intent) {
+  var L = _popLocal || {};
+  var h = '<div class="hl gold">✓ Saved. Here is your instant read, free:</div>';
+  if (rung === 1 || rung === 2) {
+    var bits = [];
+    if (L.place) bits.push('<b>' + esc(L.place) + (L.state ? ', ' + esc(L.state) : '') + '</b>');
+    if (L.cost && L.cost.homeValue) bits.push('typical home <b>$' + Number(L.cost.homeValue).toLocaleString() + '</b>');
+    if (L.cost && L.cost.rent) bits.push('median rent <b>$' + Number(L.cost.rent).toLocaleString() + '/mo</b>');
+    if (L.migration) bits.push('your county is <b>' + (L.migration.netIn >= 0 ? 'gaining' : 'losing') + '</b> people (' + (L.migration.rate > 0 ? '+' : '') + L.migration.rate + '/1k)');
+    if (bits.length) h += '<div class="hl" style="margin-top:8px">' + bits.join(' · ') + '.</div>';
+    h += '<div class="hl" style="margin-top:8px">Next: we are matching you with a vetted local ' + (rung === 2 ? 'investor-friendly agent and off-market source' : 'agent or lender') + ' for your area. Watch your inbox. No spam, ever.</div>';
+  } else {
+    h += '<div class="hl" style="margin-top:8px">You are on the early list for <b>' + esc(intent) + '</b>. We will send the first briefing the moment this rung opens.</div>';
+  }
+  return h;
+}
 function captureOpp(ev, rung, intent) {
-  var host = ev.currentTarget.parentNode;
+  var host = ev.currentTarget.closest ? ev.currentTarget.closest('.rungbody') : ev.currentTarget.parentNode;
+  if (!host) host = ev.currentTarget.parentNode;
+  if (host.querySelector('.oppcap')) { var ex = host.querySelector('.oppcap input'); if (ex && !ex.disabled) { ex.focus(); } return; }
   var box = document.createElement('div'); box.className = 'oppcap';
   box.innerHTML = '<input type="email" placeholder="you@email.com" /><button class="oppbtn" type="button">Send</button><div class="oppcap-note"></div>';
   host.appendChild(box);
-  ev.currentTarget.disabled = true; ev.currentTarget.style.opacity = '.5';
   var inp = box.querySelector('input'), btn = box.querySelector('button'), note = box.querySelector('.oppcap-note');
   try { inp.focus(); } catch (e) {}
   btn.onclick = function () {
     var em = (inp.value || '').trim();
-    if (!/.+@.+\..+/.test(em)) { note.textContent = 'Enter a valid email.'; return; }
-    btn.disabled = true; note.textContent = 'Sending…';
-    fetch('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: em, interest: C.name + ' · rung ' + rung + ' · ' + intent, sourcePage: '/' + DID, zip: _popZip || '', rung: rung }) })
-      .then(function (r) { return r.json(); }).then(function () { note.textContent = '✓ You’re in. We’ll be in touch fast.'; inp.disabled = true; btn.disabled = true; })
-      .catch(function () { note.textContent = 'Try again.'; btn.disabled = false; });
+    note.style.color = '';
+    if (!/.+@.+\..+/.test(em)) { note.style.color = '#e88'; note.textContent = 'Enter a valid email.'; return; }
+    btn.disabled = true; note.textContent = 'Saving…';
+    fetch('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: em, consent: true, interest: C.name + ' rung ' + rung + ': ' + intent, sourcePage: '/' + DID, message: 'ZIP ' + (_popZip || 'n/a') + ' · rung ' + rung + ' · ' + intent }) })
+      .then(function (r) { return r.json().then(function (jd) { return { httpOk: r.ok, jd: jd }; }); })
+      .then(function (res) {
+        if (!res.httpOk || !res.jd || !res.jd.ok) { note.style.color = '#e88'; note.textContent = (res.jd && res.jd.error) || 'Could not save that. Please try again.'; btn.disabled = false; return; }
+        box.innerHTML = oppDelivered(rung, intent);
+      })
+      .catch(function () { note.style.color = '#e88'; note.textContent = 'Network error. Please try again.'; btn.disabled = false; });
   };
 }
 
