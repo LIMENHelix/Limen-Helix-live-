@@ -27,6 +27,8 @@
   .price{font-family:var(--mono);font-weight:700;color:var(--green)}
   .tag{font-family:var(--mono);font-size:.58rem;letter-spacing:.05em;text-transform:uppercase;border:1px solid var(--line2);border-radius:20px;padding:2px 8px;color:var(--soft)}
   .tag.inv{color:#10131a;background:var(--gold);border-color:var(--gold)}
+  .btag{display:inline-block;font-family:var(--mono);font-size:.6rem;border:1px solid var(--line2);border-radius:20px;padding:2px 8px;margin:1px 3px 1px 0;color:var(--soft);text-decoration:none;white-space:nowrap}
+  .btag:hover{border-color:var(--gold);color:var(--gold)}
   .muted{color:var(--faint)}
   .kv{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:12px}
   .kv b{font-family:var(--mono);font-size:1.4rem;color:var(--gold);display:block}
@@ -84,6 +86,12 @@
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
   function money(n) { n = +n || 0; return '$' + n.toLocaleString(); }
   function EL(id) { return document.getElementById(id); }
+  function buyersCell(bs) {
+    bs = bs || [];
+    if (!bs.length) return '<span class="muted">—</span>';
+    var show = bs.slice(0, 3).map(function (b) { return '<a class="btag" href="' + esc(b.url) + '" target="_blank" rel="noopener" title="' + esc(b.type + ': ' + b.note) + '">' + esc(b.name.split(' (')[0]) + '</a>'; }).join('');
+    return show + (bs.length > 3 ? ' <span class="muted">+' + (bs.length - 3) + '</span>' : '');
+  }
 
   function saveKey() {
     var k = EL('keyInput').value.trim(); if (!k) return;
@@ -108,11 +116,12 @@
       var d = (j && j.deals) || [];
       if (!d.length) { EL('deals').innerHTML = '<div class="muted">No listings found.</div>'; return; }
       EL('dealMeta').textContent = j.count + ' found · cheapest ' + money(j.cheapest);
-      EL('deals').innerHTML = '<table><thead><tr><th>Price</th><th>Address</th><th>County</th><th>Beds/Ba</th><th>SqFt</th><th>Yr</th><th></th></tr></thead><tbody>' +
+      EL('deals').innerHTML = '<table><thead><tr><th>Price</th><th>Address</th><th>County</th><th>Bd/Ba</th><th>SqFt</th><th>Sell to (matched buyers)</th><th></th></tr></thead><tbody>' +
         d.map(function (x) {
           return '<tr><td class="price">' + money(x.price) + (x.hundred_down ? ' <span class="tag">$100↓</span>' : '') + '</td>' +
             '<td>' + esc(x.address) + '<div class="muted">' + esc(x.city) + ', ' + esc(x.state) + ' ' + esc(x.zip) + '</div></td>' +
-            '<td>' + esc(x.county) + '</td><td>' + esc(x.beds || '?') + '/' + esc(x.baths || '?') + '</td><td>' + (x.sqft ? (+x.sqft).toLocaleString() : '?') + '</td><td>' + esc(x.year || '') + '</td>' +
+            '<td>' + esc(x.county) + '</td><td>' + esc(x.beds || '?') + '/' + esc(x.baths || '?') + '</td><td>' + (x.sqft ? (+x.sqft).toLocaleString() : '?') + '</td>' +
+            '<td>' + buyersCell(x.buyers) + '</td>' +
             '<td><a href="' + esc(x.url) + '" target="_blank" rel="noopener">HUD →</a></td></tr>';
         }).join('') + '</tbody></table>';
     }).catch(function () { EL('deals').innerHTML = '<div class="err">Failed to load.</div>'; });

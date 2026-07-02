@@ -36,6 +36,30 @@ var STATE_METROS = {
 var HOT = ['Houston,TX', 'San Antonio,TX', 'Charlotte,NC', 'Tampa,FL', 'Phoenix,AZ', 'Columbia,SC', 'Nashville,TN', 'Atlanta,GA', 'Jacksonville,FL', 'Dallas,TX'];
 var NAME2ABBR = { 'Alabama': 'AL', 'Alaska': 'AK', 'Arizona': 'AZ', 'Arkansas': 'AR', 'California': 'CA', 'Colorado': 'CO', 'Connecticut': 'CT', 'Delaware': 'DE', 'District of Columbia': 'DC', 'Florida': 'FL', 'Georgia': 'GA', 'Hawaii': 'HI', 'Idaho': 'ID', 'Illinois': 'IL', 'Indiana': 'IN', 'Iowa': 'IA', 'Kansas': 'KS', 'Kentucky': 'KY', 'Louisiana': 'LA', 'Maine': 'ME', 'Maryland': 'MD', 'Massachusetts': 'MA', 'Michigan': 'MI', 'Minnesota': 'MN', 'Mississippi': 'MS', 'Missouri': 'MO', 'Montana': 'MT', 'Nebraska': 'NE', 'Nevada': 'NV', 'New Hampshire': 'NH', 'New Jersey': 'NJ', 'New Mexico': 'NM', 'New York': 'NY', 'North Carolina': 'NC', 'North Dakota': 'ND', 'Ohio': 'OH', 'Oklahoma': 'OK', 'Oregon': 'OR', 'Pennsylvania': 'PA', 'Rhode Island': 'RI', 'South Carolina': 'SC', 'South Dakota': 'SD', 'Tennessee': 'TN', 'Texas': 'TX', 'Utah': 'UT', 'Vermont': 'VT', 'Virginia': 'VA', 'Washington': 'WA', 'West Virginia': 'WV', 'Wisconsin': 'WI', 'Wyoming': 'WY' };
 
+// Disposition side: the "big companies" that buy below-market SFR, with their public
+// buy-box. A deal that fits a box = a place to assign/sell it to. Own nothing; a
+// licensed human executes the contract/assignment (the legal sign-off).
+var BUYERS = [
+  { name: 'HomeVestors (We Buy Ugly Houses)', type: 'Cash buyer', states: 'ALL', min: 20000, max: 400000, minBeds: 0, note: 'Any condition, fast cash, national franchises', url: 'https://www.homevestors.com/sell-your-house/' },
+  { name: 'Sundae', type: 'Cash marketplace', states: ['AZ', 'CA', 'CO', 'FL', 'GA', 'NV', 'SC', 'TN', 'TX', 'UT', 'WA'], min: 30000, max: 600000, minBeds: 0, note: 'As-is marketplace, multiple investor bids', url: 'https://sundae.com/sell/' },
+  { name: 'Invitation Homes', type: 'SFR fund', states: ['AZ', 'CA', 'CO', 'FL', 'GA', 'IL', 'MN', 'NV', 'NC', 'SC', 'TN', 'TX', 'WA'], min: 180000, max: 500000, minBeds: 3, note: 'Buy-and-hold SFR, Sun Belt, rent-ready or light rehab', url: 'https://www.invitationhomes.com/' },
+  { name: 'American Homes 4 Rent', type: 'SFR fund', states: ['AZ', 'FL', 'GA', 'NC', 'SC', 'TN', 'TX', 'NV', 'OH', 'IN', 'OK', 'AL', 'MO'], min: 140000, max: 400000, minBeds: 3, note: 'SFR buy-and-hold', url: 'https://www.amh.com/' },
+  { name: 'Progress Residential', type: 'SFR fund', states: ['AZ', 'FL', 'GA', 'NC', 'SC', 'TN', 'TX', 'NV', 'AL', 'IN', 'OH', 'OK'], min: 130000, max: 400000, minBeds: 3, note: 'SFR buy-and-hold, Sun Belt', url: 'https://rentprogress.com/' },
+  { name: 'Tricon Residential', type: 'SFR fund', states: ['AZ', 'FL', 'GA', 'NC', 'SC', 'TN', 'TX', 'NV'], min: 180000, max: 400000, minBeds: 3, note: 'SFR buy-and-hold', url: 'https://www.triconresidential.com/' },
+  { name: 'FirstKey Homes', type: 'SFR fund', states: ['AL', 'FL', 'GA', 'NC', 'SC', 'TN', 'TX', 'OH', 'IN', 'OK', 'MO'], min: 100000, max: 350000, minBeds: 3, note: 'SFR buy-and-hold, Southeast/Midwest', url: 'https://firstkeyhomes.com/' },
+  { name: 'Amherst / Main Street Renewal', type: 'SFR fund', states: ['AL', 'FL', 'GA', 'NC', 'SC', 'TN', 'TX', 'OH', 'IN', 'OK', 'MO', 'AZ'], min: 100000, max: 350000, minBeds: 3, note: 'SFR buy-and-hold', url: 'https://www.amherst.com/' },
+  { name: 'Opendoor', type: 'iBuyer', states: ['AZ', 'TX', 'FL', 'GA', 'NC', 'SC', 'TN', 'NV', 'CO', 'UT', 'OH'], min: 100000, max: 600000, minBeds: 2, note: 'Instant offer, near-market condition preferred', url: 'https://www.opendoor.com/sell' },
+  { name: 'Offerpad', type: 'iBuyer', states: ['AZ', 'TX', 'FL', 'GA', 'NC', 'SC', 'TN', 'NV', 'CO', 'AL'], min: 100000, max: 500000, minBeds: 2, note: 'Instant offer, lighter rehab', url: 'https://www.offerpad.com/' }
+];
+function matchBuyers(d) {
+  return BUYERS.filter(function (b) {
+    var stOk = b.states === 'ALL' || b.states.indexOf(d.state) !== -1;
+    var priceOk = d.price >= b.min && d.price <= b.max;
+    var bedsOk = !b.minBeds || (parseInt(d.beds, 10) || 0) >= b.minBeds;
+    return stOk && priceOk && bedsOk;
+  }).map(function (b) { return { name: b.name, type: b.type, note: b.note, url: b.url }; });
+}
+
 function j(res, code, obj) { res.statusCode = code; res.setHeader('content-type', 'application/json'); res.end(JSON.stringify(obj)); }
 function num(v) { var n = parseFloat(v); return isFinite(n) ? n : 0; }
 function decode(s) { return String(s == null ? '' : s).replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>'); }
@@ -68,6 +92,7 @@ async function build(cities) {
   // dedupe by case number, cheapest first
   var seen = {}, deals = [];
   out.sort(function (a, b) { return a.price - b.price; }).forEach(function (d) { if (!seen[d.caseNumber]) { seen[d.caseNumber] = 1; deals.push(d); } });
+  deals.forEach(function (d) { d.buyers = matchBuyers(d); });
   return deals;
 }
 
