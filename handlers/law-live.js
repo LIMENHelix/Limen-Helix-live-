@@ -70,6 +70,17 @@ async function build() {
   if (propWeek) out.wow.push(propWeek + ' proposed rules opened for public comment this week; you can weigh in on each before it becomes law.');
   if (eoYear) out.wow.push(eoYear + ' executive order' + (eoYear === 1 ? '' : 's') + ' have been signed so far this year.');
 
+  out.sections = [{
+    title: 'This week in the Federal Register', note: 'federalregister.gov',
+    sub: 'What the executive branch put on the books in the last seven days.',
+    rows: [
+      { name: 'All documents', value: docsWeek.toLocaleString(), vsub: 'this week' },
+      { name: 'Final rules (now in force)', value: String(rulesWeek), vsub: 'last 7 days', dir: rulesWeek > 0 ? 'neg' : '' },
+      { name: 'Proposed rules', value: String(propWeek), vsub: 'open for comment', dir: propWeek > 0 ? 'pos' : '' },
+      { name: 'Executive orders', value: String(eoYear), vsub: 'this year' }
+    ]
+  }];
+
   out.cards = newest;
   try { var nw = await fetchNews(); out.cards = newest.concat(nw); out.sources.push({ name: 'Google News', live: true }); } catch (e) {}
 

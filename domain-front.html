@@ -319,6 +319,7 @@ void main(){
         <div class="stats" id="liveStats"><div class="muted">Reading live data…</div></div>
         <div class="disc" id="liveCite"></div>
       </div>
+      <div id="liveSections"></div>
       <div class="card" id="liveFeedCard" style="display:none">
         <h2><span class="livedot"></span> The feed <span class="updated">live</span></h2>
         <div class="sub" id="liveFeedSub">The latest, straight from the source. Fresh every few minutes.</div>
@@ -580,6 +581,16 @@ function loadGeneric() {
       return '<div class="stat' + (s.hot ? ' hot' : '') + '"><div class="n"' + (s.hot ? ' style="color:var(--red)"' : '') + '>' + esc(s.n) + '</div><div class="k">' + esc(s.k) + '</div>' + (s.c ? '<div class="c">' + esc(s.c) + '</div>' : '') + '</div>';
     }).join('') : '<div class="muted">Live data is warming up. Refresh shortly.</div>';
     if (jd.cite) EL('liveCite').innerHTML = esc(jd.cite);
+    var sections = jd.sections || [];
+    EL('liveSections').innerHTML = sections.map(function (sec) {
+      var rows = (sec.rows || []).map(function (o) {
+        var dir = o.dir === 'neg' ? 'neg' : (o.dir === 'pos' ? 'pos' : '');
+        return '<div class="mig-row"><div class="nm">' + (o.rank ? '<span class="rk">#' + o.rank + '</span>' : '') + esc(o.name) + '</div>' +
+          '<div><span class="rt ' + dir + '">' + esc(o.value) + '</span>' + (o.vsub ? '<span class="ct">' + esc(o.vsub) + '</span>' : '') + '</div></div>';
+      }).join('');
+      return '<div class="card"><h2><span class="livedot"></span> ' + esc(sec.title) + (sec.note ? ' <span class="updated">' + esc(sec.note) + '</span>' : '') + '</h2>' +
+        (sec.sub ? '<div class="sub">' + esc(sec.sub) + '</div>' : '') + rows + '</div>';
+    }).join('');
     var cards = jd.cards || [];
     if (cards.length) { EL('liveFeedCard').style.display = ''; EL('liveFeed').innerHTML = cards.map(feedCard).join(''); }
     var todo = jd.todo || [];

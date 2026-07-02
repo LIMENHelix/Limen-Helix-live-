@@ -63,6 +63,16 @@ async function build() {
     if (gd) out.wow.push(gd.arpt + ' is running an average ' + gd.avg + ' ground delay right now (FAA)' + (gd.reason ? ', due to ' + gd.reason : '') + '.');
     if (faa.stops.length) out.wow.push(faa.stops.length + ' airport' + (faa.stops.length === 1 ? ' is' : 's are') + ' under a full ground stop this hour, no departures until it lifts.');
 
+    out.sections = [{
+      title: 'Disruptions by type', note: 'FAA',
+      sub: 'How the national airspace is running right now, by category.',
+      rows: [
+        { name: 'Ground stops', value: String(faa.stops.length), vsub: 'flights held', dir: faa.stops.length > 0 ? 'neg' : '' },
+        { name: 'Ground delay programs', value: String(faa.delays.length), vsub: 'metered arrivals', dir: faa.delays.length > 0 ? 'neg' : '' },
+        { name: 'Arrival / departure delays', value: String(faa.arrdep.length), vsub: 'airports', dir: faa.arrdep.length > 0 ? 'neg' : '' },
+        { name: 'Airport closures', value: String(faa.closures.length), vsub: '', dir: faa.closures.length > 0 ? 'neg' : '' }
+      ]
+    }];
     var all = faa.stops.concat(faa.closures).concat(faa.delays).concat(faa.arrdep);
     out.cards = all.slice(0, 12).map(function (a) {
       return { title: a.arpt + ' · ' + a.kind, meta: a.reason ? 'Reason: ' + a.reason : 'FAA', body: a.avg ? 'Average delay ' + a.avg + '.' : '', href: 'https://nasstatus.faa.gov/' };

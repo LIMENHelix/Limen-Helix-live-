@@ -50,13 +50,14 @@ async function fetchNews() {
 async function build() {
   var out = { updated: new Date().toISOString(), updatedMs: Date.now(), stats: [], wow: [], cards: [], todo: [], sources: [] };
 
-  var debt = null, prev = null, prevDate = null;
+  var debt = null, prev = null, prevDate = null, histRows = [];
   try {
     var d = await getJSON(FD + '/v2/accounting/od/debt_to_penny?sort=-record_date&fields=record_date,tot_pub_debt_out_amt,debt_held_public_amt,intragov_hold_amt&page%5Bsize%5D=40');
     var rows = d.data || [];
     if (rows.length) {
       debt = { date: rows[0].record_date, total: num(rows[0].tot_pub_debt_out_amt), pub: num(rows[0].debt_held_public_amt), intra: num(rows[0].intragov_hold_amt) };
       var last = rows[rows.length - 1]; prev = num(last.tot_pub_debt_out_amt); prevDate = last.record_date;
+      histRows = rows.slice(0, 8).map(function (r) { return { date: r.record_date, total: num(r.tot_pub_debt_out_amt) }; });
     }
   } catch (e) {}
 
@@ -85,6 +86,17 @@ async function build() {
   if (rate != null) {
     out.stats.push({ n: rate.toFixed(2) + '%', k: 'Avg interest on the debt', c: 'weighted across all Treasury securities' });
     out.wow.push('Washington pays about ' + rate.toFixed(2) + '% average interest on its debt; the interest bill now rivals major federal programs.');
+  }
+
+  if (histRows.length > 1) {
+    out.sections = [{
+      title: 'The national debt, day by day', note: 'U.S. Treasury',
+      sub: 'Each business day’s official total, newest first. The change is versus the prior reading, red means it grew.',
+      rows: histRows.map(function (h, i) {
+        var chg = i < histRows.length - 1 ? h.total - histRows[i + 1].total : 0;
+        return { name: h.date, value: usd(h.total), vsub: i < histRows.length - 1 ? ((chg >= 0 ? '+' : '') + usd(chg)) : 'latest', dir: chg > 0 ? 'neg' : (chg < 0 ? 'pos' : '') };
+      })
+    }];
   }
 
   out.sources.push({ name: 'U.S. Treasury (FiscalData)', live: true });

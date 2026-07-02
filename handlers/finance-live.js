@@ -60,29 +60,34 @@ async function fetchFilings() {
 }
 
 async function build() {
-  var out = { updated: new Date().toISOString(), updatedMs: Date.now(), stats: [], wow: [], cards: [], todo: [], sources: [{ name: 'Yahoo Finance', live: true }] };
+  var out = { updated: new Date().toISOString(), updatedMs: Date.now(), stats: [], wow: [], sections: [], cards: [], todo: [], sources: [{ name: 'Yahoo Finance', live: true }] };
   var syms = ['^GSPC', '^IXIC', '^DJI', '^VIX', '^TNX', '^IRX', 'BTC-USD', 'GC=F'];
   var vals = {};
   await Promise.all(syms.map(function (s) { return yahoo(s).then(function (v) { vals[s] = v; }).catch(function () {}); }));
 
   var sp = vals['^GSPC'], nq = vals['^IXIC'], dj = vals['^DJI'], vix = vals['^VIX'], tnx = vals['^TNX'], irx = vals['^IRX'], btc = vals['BTC-USD'], gold = vals['GC=F'];
 
+  var inv = (tnx && irx) ? irx.price > tnx.price : false;
+  // headline KPI tiles
   if (sp) { out.stats.push({ n: comma(sp.price), k: 'S&P 500', c: signed(sp.chg) + '% today', hot: true }); out.wow.push('The S&P 500 is at ' + comma(sp.price) + ', ' + signed(sp.chg) + '% on the day.'); }
-  if (nq) out.stats.push({ n: comma(nq.price), k: 'Nasdaq', c: signed(nq.chg) + '% today' });
-  if (dj) out.stats.push({ n: comma(dj.price), k: 'Dow Jones', c: signed(dj.chg) + '% today' });
   if (tnx) out.stats.push({ n: tnx.price.toFixed(2) + '%', k: '10-year Treasury yield', c: 'the benchmark rate' });
-  if (vix) out.stats.push({ n: vix.price.toFixed(1), k: 'VIX (fear gauge)', c: vix.price > 20 ? 'elevated, markets nervous' : 'low, markets calm' });
-  if (tnx && irx) {
-    var inv = irx.price > tnx.price;
-    out.stats.push({ n: (tnx.price - irx.price).toFixed(2) + ' pts', k: 'Yield curve (10yr vs 3mo)', c: inv ? 'INVERTED, a recession signal' : 'normal' });
-    out.wow.push('The 10-year Treasury yields ' + tnx.price.toFixed(2) + '% while the 3-month pays ' + irx.price.toFixed(2) + '%. ' + (inv ? 'That inversion, short rates above long, has preceded most U.S. recessions.' : 'A normal, upward-sloping curve.'));
-  }
+  if (vix) out.stats.push({ n: vix.price.toFixed(1), k: 'VIX (fear gauge)', c: vix.price > 20 ? 'elevated, nervous' : 'low, calm' });
+  if (tnx && irx) out.stats.push({ n: (tnx.price - irx.price).toFixed(2) + ' pts', k: 'Yield curve (10yr vs 3mo)', c: inv ? 'INVERTED, a recession signal' : 'normal' });
+
+  if (tnx && irx) out.wow.push('The 10-year Treasury yields ' + tnx.price.toFixed(2) + '% while the 3-month pays ' + irx.price.toFixed(2) + '%. ' + (inv ? 'That inversion, short rates above long, has preceded most U.S. recessions.' : 'A normal, upward-sloping curve.'));
   if (vix) out.wow.push('The VIX, Wall Street’s fear gauge, sits at ' + vix.price.toFixed(1) + ' right now (' + (vix.price > 20 ? 'nervous' : 'calm') + ').');
-  if (btc || gold) {
-    if (btc) out.stats.push({ n: '$' + comma(btc.price), k: 'Bitcoin', c: signed(btc.chg) + '% today' });
-    if (gold) out.stats.push({ n: '$' + comma(gold.price), k: 'Gold / oz', c: signed(gold.chg) + '% today' });
-    out.wow.push((btc ? 'Bitcoin trades near $' + comma(btc.price) : '') + (btc && gold ? '; ' : '') + (gold ? 'gold is about $' + comma(gold.price) + ' an ounce' : '') + '.');
-  }
+  if (btc || gold) out.wow.push((btc ? 'Bitcoin trades near $' + comma(btc.price) : '') + (btc && gold ? '; ' : '') + (gold ? 'gold is about $' + comma(gold.price) + ' an ounce' : '') + '.');
+
+  // ranked detail tables (comprehensive view)
+  var mkt = [];
+  function mrow(v, name, dollar, neutral) { if (!v) return; mkt.push({ name: name, value: (dollar ? '$' : '') + comma(v.price), vsub: signed(v.chg) + '%', dir: neutral ? '' : (v.chg >= 0 ? 'pos' : 'neg') }); }
+  mrow(sp, 'S&P 500'); mrow(nq, 'Nasdaq Composite'); mrow(dj, 'Dow Jones'); mrow(vix, 'VIX (volatility)', false, true); mrow(btc, 'Bitcoin', true); mrow(gold, 'Gold / oz', true);
+  if (mkt.length) out.sections.push({ title: 'Markets right now', note: 'Yahoo Finance', sub: 'Latest level and change on the day. Green is up, red is down.', rows: mkt });
+  var rr = [];
+  if (tnx) rr.push({ name: '10-year Treasury', value: tnx.price.toFixed(2) + '%', vsub: 'benchmark' });
+  if (irx) rr.push({ name: '3-month Treasury', value: irx.price.toFixed(2) + '%', vsub: 'short-term' });
+  if (tnx && irx) rr.push({ name: 'Yield curve (10yr minus 3mo)', value: (tnx.price - irx.price).toFixed(2) + ' pts', vsub: inv ? 'inverted' : 'normal', dir: inv ? 'neg' : 'pos' });
+  if (rr.length) out.sections.push({ title: 'Rates and the yield curve', sub: 'When short-term rates climb above long-term (a negative spread), the curve is inverted, a pattern that has preceded most U.S. recessions.', rows: rr });
 
   try { out.cards = await fetchFilings(); out.sources.push({ name: 'SEC EDGAR', live: true }); } catch (e) {}
   try { var nw = await fetchNews(); out.cards = out.cards.concat(nw); out.sources.push({ name: 'Google News', live: true }); } catch (e) {}

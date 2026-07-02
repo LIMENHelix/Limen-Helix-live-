@@ -73,13 +73,14 @@ async function build() {
     out.wow.push(usd(obligated) + ' has already been obligated (legally committed to spend) this year, ' + pctOb + '% of the total.');
     if (agencies[1] && agencies[2]) out.wow.push('After the top agency come ' + shortName(agencies[1].name) + ' (' + usd(agencies[1].ba) + ') and ' + shortName(agencies[2].name) + ' (' + usd(agencies[2].ba) + ').');
 
-    // feed = top agencies ranked (where the money goes)
-    out.cards = agencies.slice(0, 12).map(function (a, i) {
-      return { title: '#' + (i + 1) + '  ' + a.name, meta: 'Budget ' + usd(a.ba) + ' · obligated ' + usd(a.ob), body: '', href: 'https://www.usaspending.gov/agency' };
-    });
+    out.sections = [{
+      title: 'Where the money goes: biggest agency budgets', note: 'USAspending',
+      sub: 'The 12 largest federal agencies by budget authority this fiscal year, with how much each has already obligated (committed to spend).',
+      rows: agencies.slice(0, 12).map(function (a, i) { return { rank: i + 1, name: a.name, value: usd(a.ba), vsub: 'obl ' + usd(a.ob) }; })
+    }];
   }
 
-  try { var nw = await fetchNews(); out.cards = out.cards.concat(nw); out.sources.push({ name: 'Google News', live: true }); } catch (e) {}
+  try { var nw = await fetchNews(); out.cards = nw; out.sources.push({ name: 'Google News', live: true }); } catch (e) {}
 
   out.todo = [
     { t: 'See where it goes', d: 'Every federal dollar is traceable. Search any agency, program, or contractor at usaspending.gov and follow the money down to individual awards.' },
