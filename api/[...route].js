@@ -98,6 +98,7 @@ const HANDLERS = {
   'fetch-portal': require('../handlers/fetch-portal'),
   'kernel-experiment': require('../handlers/kernel-experiment'),
   'lead': require('../handlers/lead'),
+  'deal-engine': require('../handlers/deal-engine'),
   'limen-autofire-log': require('../handlers/limen-autofire-log'),
   'limen-autoqueue': require('../handlers/limen-autoqueue'),
   'limen-changelog': require('../handlers/limen-changelog'),
