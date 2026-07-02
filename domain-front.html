@@ -187,6 +187,13 @@
   .feedchip{font-family:var(--mono);font-size:.66rem;border:1px solid var(--line);border-radius:3px;padding:5px 10px;background:transparent;color:var(--soft);display:flex;align-items:center;gap:6px}
   .feeddot{width:6px;height:6px;border-radius:50%;background:var(--faint);flex:0 0 auto}
   .feedchip.live{color:var(--ink)} .feedchip.live .feeddot{background:var(--green)}
+  .feedcard{padding:14px 0;border-top:1px solid var(--line)}
+  .feedcard:first-child{border-top:none;padding-top:2px}
+  .fc-title{font-weight:700;font-size:.98rem;line-height:1.35}
+  .fc-title a{color:var(--ink);text-decoration:none;border-bottom:1px solid transparent;transition:.15s}
+  .fc-title a:hover{border-bottom-color:var(--gold);color:var(--gold)}
+  .fc-meta{font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.04em;color:var(--faint);margin-top:4px;text-transform:uppercase}
+  .fc-body{color:var(--soft);font-size:.88rem;margin-top:6px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
   .bign{font-family:var(--mono);font-size:2rem;font-weight:600;letter-spacing:-.01em;color:var(--red);line-height:1}
   .aqipill{display:inline-block;padding:2px 9px;border-radius:3px;color:#10131a;font-family:var(--mono);font-weight:600;font-size:.78rem}
 </style>
@@ -304,6 +311,27 @@ void main(){
       </div>
     </section>
 
+    <!-- GENERIC LIVE (any domain with its own <key>-live feed: economy, law, …) -->
+    <section id="liveSection" style="display:none">
+      <div class="card">
+        <h2><span class="livedot"></span> <span id="liveHeadline">Live read</span> <span class="updated" id="liveUpdated"></span></h2>
+        <div class="sub" id="liveSub"></div>
+        <div class="stats" id="liveStats"><div class="muted">Reading live data…</div></div>
+        <div class="disc" id="liveCite"></div>
+      </div>
+      <div class="card" id="liveFeedCard" style="display:none">
+        <h2><span class="livedot"></span> The feed <span class="updated">live</span></h2>
+        <div class="sub" id="liveFeedSub">The latest, straight from the source. Fresh every few minutes.</div>
+        <div id="liveFeed"></div>
+      </div>
+      <div class="card" id="liveTodoCard" style="display:none">
+        <h2>What to do with this</h2>
+        <div class="sub">Turn the signal into a move.</div>
+        <div class="todo" id="liveTodo"></div>
+        <div class="disc">General information to help you act, not financial, legal, or emergency advice. For decisions with real stakes, confirm with a professional and with official sources.</div>
+      </div>
+    </section>
+
     <!-- LIMEN read: current phase -->
     <section id="phaseSection" style="display:none">
       <div class="card">
@@ -401,7 +429,7 @@ void main(){
 <script>
 // ── per-domain config (route id → content). key = domain-snapshot key ──
 var CONFIG = {
-  economy:       { key:'economy',       emoji:'📈', name:'Economy Watch',        lead:'Track the forces moving jobs, prices, and growth, where you live and nationwide.', tools:['Cost-of-living tracker','Local jobs & wages','Recession signal meter'] },
+  economy:       { key:'economy',       emoji:'📈', name:'Economy Watch',        lead:'Track the forces moving jobs, prices, and growth, where you live and nationwide.', live:'econ', liveHeadline:'The U.S. economy, by the real numbers', liveSub:'The federal figures behind the headlines, straight from the U.S. Treasury. These move every business day.', tools:['Cost-of-living tracker','Local jobs & wages','Recession signal meter'] },
   environment:   { key:'environment',   emoji:'🌍', name:'Environment Watch',    lead:'Every heat warning, drought reading, wildfire, flood, earthquake and air-quality alert in the country, read as one living system, in plain language, with exactly what to do about it where you live.', live:'env', tools:['Air & water quality by ZIP','Drought & wildfire map','Local hazard alerts'] },
   medicine:      { key:'health',        emoji:'🩺', name:'Health Watch',         lead:'Disease spread, drug shortages, and care-system stress, decoded for humans.', tools:['Drug shortage lookup','Outbreak tracker','Plain-language recall alerts'] },
   technology:    { key:'technology',    emoji:'💻', name:'Tech Watch',           lead:'Cyber threats, breakthroughs, and the tools reshaping how you work.', tools:['Breach & threat feed','New-tool radar','Was-I-affected checker'] },
@@ -415,7 +443,7 @@ var CONFIG = {
   defense:       { key:'defense',       emoji:'🛡️', name:'Defense Watch',        lead:'Security, conflict, and the systems that keep watch.', tools:['Conflict tracker','Threat-level meter','Contract & program watch'] },
   religion:      { key:'religion',      emoji:'🕊️', name:'Faith & Community Watch', lead:'Belief, community care, and the institutions that hold people together.', tools:['Community-aid finder','Interfaith event radar','Congregation resources'] },
   population:    { key:'population',     emoji:'👥', name:'Population Watch',      lead:'Where America is actually moving, who is gaining people, who is losing them, and what your own county is doing, in plain numbers.', live:'pop', tools:['Housing-cost tracker','Migration & border watch','Local demographics'] },
-  law:           { key:'law',           emoji:'⚖️', name:'Law Watch',            lead:'Courts, enforcement, and the rules that bind, decoded.', tools:['Know-your-rights guide','Court & ruling tracker','Complaint builder'] },
+  law:           { key:'law',           emoji:'⚖️', name:'Law Watch',            lead:'Courts, enforcement, and the rules that bind, decoded.', live:'law', liveHeadline:'What Washington is making law right now', liveSub:'Every new federal rule, proposal, and notice as it publishes, straight from the Federal Register.', tools:['Know-your-rights guide','Court & ruling tracker','Complaint builder'] },
   finance:       { key:'finance',       emoji:'💵', name:'Finance Watch',        lead:'Banks, markets, and the money system’s stress points.', tools:['Bank-health check','Rate & inflation tracker','Fraud & scam alerts'] },
   intelligence:  { key:'intelligence',  emoji:'🛰️', name:'Intelligence Watch',   lead:'Signals, threats, and the analysis behind the headlines.', tools:['Threat digest','OSINT radar','Analysis briefings'] }
 };
@@ -526,6 +554,36 @@ if (C.live === 'pop') {
   EL('popSection').style.display = '';
   EL('toolsCard').style.display = 'none';
   loadPopLive();
+}
+
+// generic live domains (economy, law, …): render their own /api/<key>-live feed
+if (C.live && C.live !== 'env' && C.live !== 'pop') {
+  EL('liveSection').style.display = '';
+  EL('toolsCard').style.display = 'none';
+  EL('liveHeadline').textContent = C.liveHeadline || (C.name.replace(' Watch', '') + ' now');
+  EL('liveSub').textContent = C.liveSub || '';
+  loadGeneric();
+}
+function feedCard(o) {
+  var t = o.href ? '<a href="' + esc(o.href) + '" target="_blank" rel="noopener">' + esc(o.title) + '</a>' : esc(o.title);
+  var meta = o.meta ? '<div class="fc-meta">' + esc(o.meta) + '</div>' : '';
+  var body = o.body ? '<div class="fc-body">' + esc(o.body) + '</div>' : '';
+  return '<div class="feedcard"><div class="fc-title">' + t + '</div>' + meta + body + '</div>';
+}
+function loadGeneric() {
+  fetch('/api/' + C.key + '-live').then(function (r) { return r.json(); }).then(function (jd) {
+    if (jd.wow && jd.wow.length) startWow(jd.wow);
+    if (jd.updated) EL('liveUpdated').textContent = 'updated ' + ago(jd.updated);
+    var stats = jd.stats || [];
+    EL('liveStats').innerHTML = stats.length ? stats.map(function (s) {
+      return '<div class="stat' + (s.hot ? ' hot' : '') + '"><div class="n"' + (s.hot ? ' style="color:var(--red)"' : '') + '>' + esc(s.n) + '</div><div class="k">' + esc(s.k) + '</div>' + (s.c ? '<div class="c">' + esc(s.c) + '</div>' : '') + '</div>';
+    }).join('') : '<div class="muted">Live data is warming up. Refresh shortly.</div>';
+    if (jd.cite) EL('liveCite').innerHTML = esc(jd.cite);
+    var cards = jd.cards || [];
+    if (cards.length) { EL('liveFeedCard').style.display = ''; EL('liveFeed').innerHTML = cards.map(feedCard).join(''); }
+    var todo = jd.todo || [];
+    if (todo.length) { EL('liveTodoCard').style.display = ''; EL('liveTodo').innerHTML = todo.map(function (t) { return '<div class="td"><b>' + esc(t.t) + '</b><span>' + esc(t.d) + '</span></div>'; }).join(''); }
+  }).catch(function () { EL('liveStats').innerHTML = '<div class="muted">Live data is warming up. Refresh shortly.</div>'; });
 }
 
 // ── live pulse from the CACHED snapshot (fast: ~400ms) ──

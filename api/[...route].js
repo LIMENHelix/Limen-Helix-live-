@@ -64,6 +64,8 @@ const HANDLERS = {
   'environment-markets': require('../handlers/environment-markets'),
   'env-live': require('../handlers/env-live'),
   'population-live': require('../handlers/population-live'),
+  'economy-live': require('../handlers/economy-live'),
+  'law-live': require('../handlers/law-live'),
   'governance-markets': require('../handlers/governance-markets'),
   'agriculture-markets': require('../handlers/agriculture-markets'),
   'communication-markets': require('../handlers/communication-markets'),
