@@ -58,7 +58,7 @@ async function build() {
     out.stats.push({ n: money(aPrice) + '/yr', k: 'Net price after aid', c: 'avg across the largest colleges', hot: true });
     out.stats.push({ n: money(aEarn), k: 'Median grad earnings', c: '10 years after starting' });
     out.stats.push({ n: money(aDebt), k: 'Median student debt', c: 'federal loans, at graduation', hot: aDebt > 0 });
-    out.stats.push({ n: schools[0] ? cap(schools[0].name, 22) : '—', k: 'Biggest U.S. college', c: schools[0] ? Math.round(schools[0].size).toLocaleString() + ' students' : '' });
+    out.stats.push({ n: schools[0] ? cap(schools[0].name, 22) : 'n/a', k: 'Biggest U.S. college', c: schools[0] ? Math.round(schools[0].size).toLocaleString() + ' students' : '' });
 
     out.wow.push('At the largest U.S. colleges, the average student pays about ' + money(aPrice) + ' a year after grants and scholarships.');
     out.wow.push('Ten years after starting college, the typical graduate earns around ' + money(aEarn) + ' a year.');
