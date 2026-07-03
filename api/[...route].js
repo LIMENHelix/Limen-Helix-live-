@@ -100,6 +100,7 @@ const HANDLERS = {
   'lead': require('../handlers/lead'),
   'deal-engine': require('../handlers/deal-engine'),
   'realauction-ingest': require('../handlers/realauction-ingest'),
+  'skip-trace': require('../handlers/skip-trace'),
   'limen-autofire-log': require('../handlers/limen-autofire-log'),
   'limen-autoqueue': require('../handlers/limen-autoqueue'),
   'limen-changelog': require('../handlers/limen-changelog'),
