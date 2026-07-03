@@ -18,7 +18,8 @@
 var db = require('../lib/limen-db');
 
 var KEY_NAMES = ['BATCHDATA_API_KEY', 'SKIPTRACE_KEY', 'BATCHDATA_KEY', 'BATCH_DATA_KEY'];
-var TRACE_URL = process.env.SKIPTRACE_URL || 'https://api.batchdata.com/api/v1/property/skip-trace';
+// v3 endpoint confirmed live for the property-skip-trace-v3 scope (v1 path 403s that scope).
+var TRACE_URL = process.env.SKIPTRACE_URL || 'https://api.batchdata.com/api/v3/property/skip-trace';
 var CACHE_TTL = 30 * 24 * 3600;
 var HARD_CAP = 200;
 
