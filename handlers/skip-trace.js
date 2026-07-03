@@ -53,9 +53,9 @@ async function ownerFor(parcel) {
   try { var a = (await (await fetch(url)).json()).features[0].attributes; return { name: a.OWN_NAME, mailAddr: a.OWN_ADDR1, mailCity: a.OWN_CITY, mailState: a.OWN_STATE, mailZip: String(a.OWN_ZIPCD || '').slice(0, 5) }; } catch (e) { return null; }
 }
 
-async function traceOne(rec, key) {
+async function traceOne(rec, key, url) {
   var body = { requests: [{ propertyAddress: { street: rec.street, city: rec.city, state: rec.state || 'FL', zip: rec.zip } }] };
-  var r = await fetch(TRACE_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'Authorization': 'Bearer ' + key }, body: JSON.stringify(body) });
+  var r = await fetch(url || TRACE_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'Authorization': 'Bearer ' + key }, body: JSON.stringify(body) });
   var text = await r.text(); var json; try { json = JSON.parse(text); } catch (e) { json = text; }
   var phones = {}, emails = {}; harvest(json, phones, emails);
   var list = Object.keys(phones).map(function (p) { return { number: '(' + p.slice(0, 3) + ') ' + p.slice(3, 6) + '-' + p.slice(6), dnc: !!phones[p].dnc, type: phones[p].type || '' }; });
@@ -96,7 +96,7 @@ module.exports = async function handler(req, res) {
     if (!contact) {
       // ensure owner
       var owner = d.owner || (d.parcel ? await ownerFor(d.parcel) : null);
-      var t = await traceOne(d, k.val); spent++;
+      var t = await traceOne(d, k.val, q.traceUrl); spent++;
       if (i === 0 && (q.probe === '1' || q.debug === '1')) sample = t.raw;
       if (!t.ok) { out.push({ property: d.street, error: 'HTTP ' + t.status, owner: owner && owner.name }); continue; }
       contact = { owner: owner, phones: t.phones, emails: t.emails, ts: Date.now() };
