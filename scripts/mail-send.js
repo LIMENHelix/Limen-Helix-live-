@@ -61,14 +61,26 @@ function today() {
 }
 function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 
+function ownerName(rec) { return (rec.owner_name && rec.owner_name.trim()) || (rec.owner && rec.owner.trim()) || 'Homeowner'; }
+// where the letter is MAILED (owner's mailing address; falls back to the property)
+function mailTo(rec) {
+  return {
+    line1: rec.mail_to_addr || rec.property_address,
+    city: rec.mail_to_city || rec.property_city || rec.city,
+    state: rec.mail_to_state || 'FL',
+    zip: rec.mail_to_zip || rec.property_zip || rec.zip
+  };
+}
 function letterHTML(rec) {
-  var owner = (rec.owner && rec.owner.trim()) || 'Homeowner';
+  var owner = ownerName(rec);
+  var to = mailTo(rec);
+  var prop = rec.property_address || rec.property || '';
   var ret = [FROM.name || FROM.company, FROM.line1, (FROM.city ? FROM.city + ', ' + FROM.state + ' ' + FROM.zip : '')].filter(Boolean).join('<br>');
   return '<html><body style="font-family:Georgia,serif;font-size:12pt;line-height:1.5;color:#111;margin:1in 0.9in">' +
     (ret ? '<div style="margin-bottom:24px">' + ret + '</div>' : '<div style="height:24px"></div>') +
     '<div>' + today() + '</div>' +
-    '<div style="margin:18px 0">' + esc(owner) + '<br>' + esc(rec.property_address) + '<br>' + esc(rec.city) + ', FL ' + esc(rec.zip) + '</div>' +
-    '<div style="margin-bottom:10px"><b>Re: Your home at ' + esc(rec.property_address) + '</b></div>' +
+    '<div style="margin:18px 0">' + esc(owner) + '<br>' + esc(to.line1) + '<br>' + esc(to.city) + ', ' + esc(to.state) + ' ' + esc(to.zip) + '</div>' +
+    '<div style="margin-bottom:10px"><b>Re: Your property at ' + esc(prop) + '</b></div>' +
     '<p>Dear ' + esc(owner) + ',</p>' +
     '<p>Public records show your home may have a foreclosure sale date coming up, around <b>' + esc(rec.sale_date) + '</b>. I am writing because there may be a much better outcome than letting it go at the courthouse auction.</p>' +
     '<p>At auction, homes often sell for far less than they are worth, and the equity you have built can disappear. My work is the opposite. I help homeowners sell for the <b>most</b> before the sale date, by putting the property in front of serious buyers who compete to pay top dollar, as-is, with no repairs and no cost to you.</p>' +
@@ -83,14 +95,15 @@ function letterHTML(rec) {
 }
 
 async function lobSend(rec) {
-  var owner = (rec.owner && rec.owner.trim()) || 'Current Resident';
+  var owner = ownerName(rec); if (owner === 'Homeowner') owner = 'Current Resident';
+  var to = mailTo(rec);
   var form = new URLSearchParams();
-  form.set('description', 'Pre-foreclosure offer ' + rec.property_address);
+  form.set('description', 'Pre-foreclosure offer ' + (rec.property_address || ''));
   form.set('to[name]', owner.slice(0, 40));
-  form.set('to[address_line1]', rec.property_address);
-  form.set('to[address_city]', rec.city);
-  form.set('to[address_state]', 'FL');
-  form.set('to[address_zip]', rec.zip);
+  form.set('to[address_line1]', to.line1);
+  form.set('to[address_city]', to.city);
+  form.set('to[address_state]', to.state);
+  form.set('to[address_zip]', to.zip);
   form.set('from[name]', (FROM.name || FROM.company).slice(0, 40));
   form.set('from[address_line1]', FROM.line1);
   form.set('from[address_city]', FROM.city);
@@ -126,7 +139,8 @@ async function main() {
     recs.forEach(function (rec, i) {
       var f = path.join(OUT, String(i + 1).padStart(2, '0') + '-' + (rec.property_address || 'x').replace(/[^a-z0-9]+/gi, '-').slice(0, 30) + '.html');
       fs.writeFileSync(f, letterHTML(rec));
-      console.log('  ' + (i + 1) + '. ' + (rec.owner || 'Homeowner') + ' | ' + rec.property_address + ', ' + rec.city + ' ' + rec.zip + '  -> ' + path.basename(f));
+      var to = mailTo(rec);
+      console.log('  ' + (i + 1) + '. ' + ownerName(rec) + (rec.absentee === 'YES' ? ' [ABSENTEE]' : '') + ' | prop ' + rec.property_address + ' | mail-> ' + to.line1 + ', ' + to.city + ' ' + to.state + ' ' + to.zip + '  -> ' + path.basename(f));
     });
     console.log('  rendered ' + recs.length + ' letters to ' + OUT + ' (open in a browser, print, mail).');
     return;
