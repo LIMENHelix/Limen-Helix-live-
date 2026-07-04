@@ -36,13 +36,32 @@ try { db = require('../lib/limen-db'); } catch (e) { /* dry run */ }
 // Osceola runs NO foreclosure sales on RealForeclose (empty calendar) — its distress
 // supply is TAX DEED on realtaxdeed.com (Opening Bid + Assessed Value; same PREVIEW
 // schema, normalize's fallback keys already handle it: equity = assessed - opening bid).
+// Original sweet-spot ring (Tampa/Orlando overflow) + a statewide high-volume expansion
+// (2026-07-04). Hosts follow the RealForeclose pattern <county>.realforeclose.com; RealAuction's
+// WAF 403s plain requests AND wildcard-resolves every subdomain, so hosts can't be curl-verified —
+// they're verified live by the scrape itself (a wrong slug returns an empty calendar = 0 deals and
+// is pruned). Broward/Duval confirmed via clerk sites; Miami-Dade/Pinellas confirmed as RealAuction.
 var COUNTIES = [
-  { key: 'pasco',        name: 'Pasco',        metro: 'Tampa',   host: 'pasco.realforeclose.com',       product: 'foreclosure' },
-  { key: 'polk',         name: 'Polk',         metro: 'Lakeland',host: 'polk.realforeclose.com',        product: 'foreclosure' },
-  { key: 'lee',          name: 'Lee',          metro: 'Ft Myers',host: 'lee.realforeclose.com',         product: 'foreclosure' },
-  { key: 'hillsborough', name: 'Hillsborough', metro: 'Tampa',   host: 'hillsborough.realforeclose.com',product: 'foreclosure' },
-  { key: 'orange',       name: 'Orange',       metro: 'Orlando', host: 'orange.realforeclose.com',      product: 'foreclosure' },
-  { key: 'osceola',      name: 'Osceola',      metro: 'Orlando', host: 'osceola.realtaxdeed.com',       product: 'taxdeed' }
+  // --- original ring ---
+  { key: 'pasco',        name: 'Pasco',        metro: 'Tampa',      host: 'pasco.realforeclose.com',        product: 'foreclosure' },
+  { key: 'polk',         name: 'Polk',         metro: 'Lakeland',   host: 'polk.realforeclose.com',         product: 'foreclosure' },
+  { key: 'lee',          name: 'Lee',          metro: 'Ft Myers',   host: 'lee.realforeclose.com',          product: 'foreclosure' },
+  { key: 'hillsborough', name: 'Hillsborough', metro: 'Tampa',      host: 'hillsborough.realforeclose.com', product: 'foreclosure' },
+  { key: 'orange',       name: 'Orange',       metro: 'Orlando',    host: 'orange.realforeclose.com',       product: 'foreclosure' },
+  { key: 'osceola',      name: 'Osceola',      metro: 'Orlando',    host: 'osceola.realtaxdeed.com',        product: 'taxdeed' },
+  // --- statewide expansion (high population / high foreclosure volume) ---
+  { key: 'miamidade',    name: 'Miami-Dade',   metro: 'Miami',      host: 'miami-dade.realforeclose.com',   product: 'foreclosure' },
+  { key: 'broward',      name: 'Broward',      metro: 'Ft Lauderdale', host: 'broward.realforeclose.com',   product: 'foreclosure' },
+  { key: 'pinellas',     name: 'Pinellas',     metro: 'St Petersburg', host: 'pinellas.realforeclose.com',  product: 'foreclosure' },
+  { key: 'duval',        name: 'Duval',        metro: 'Jacksonville', host: 'duval.realforeclose.com',      product: 'foreclosure' },
+  { key: 'volusia',      name: 'Volusia',      metro: 'Daytona',    host: 'volusia.realforeclose.com',      product: 'foreclosure' },
+  { key: 'brevard',      name: 'Brevard',      metro: 'Melbourne',  host: 'brevard.realforeclose.com',      product: 'foreclosure' },
+  { key: 'sarasota',     name: 'Sarasota',     metro: 'Sarasota',   host: 'sarasota.realforeclose.com',     product: 'foreclosure' },
+  { key: 'manatee',      name: 'Manatee',      metro: 'Bradenton',  host: 'manatee.realforeclose.com',      product: 'foreclosure' },
+  { key: 'collier',      name: 'Collier',      metro: 'Naples',     host: 'collier.realforeclose.com',      product: 'foreclosure' },
+  { key: 'marion',       name: 'Marion',       metro: 'Ocala',      host: 'marion.realforeclose.com',       product: 'foreclosure' },
+  { key: 'seminole',     name: 'Seminole',     metro: 'Orlando',    host: 'seminole.realforeclose.com',     product: 'foreclosure' },
+  { key: 'lake',         name: 'Lake',         metro: 'Orlando',    host: 'lake.realforeclose.com',          product: 'foreclosure' }
 ];
 
 var MAX_DATES = parseInt(process.env.RA_MAX_DATES || '4', 10);
