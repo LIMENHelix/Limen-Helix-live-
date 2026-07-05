@@ -91,7 +91,12 @@ module.exports = async function handler(req, res) {
   // OWNER ROLLUP: one owner with many distressed parcels = a single bulk lead (one letter/call,
   // not N). Group by normalized owner name across the current view; stamp each deal with its
   // owner's portfolio size so the UI can badge it, and surface the multi-property owners.
-  function ownerKey(n) { return String(n || '').toUpperCase().replace(/[^A-Z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim(); }
+  // generic/placeholder owner labels appear on MANY unrelated parcels — never roll them up as one owner
+  var GENERIC_OWNER = /^(UNKNOWN|UNKNOWN HEIRS?|ALL UNKNOWN|HEIRS?( OF)?|ESTATE OF|THE ESTATE OF|TENANT|OCCUPANT|CURRENT (OWNER|RESIDENT)|NO OWNER|OWNER( UNKNOWN)?|N ?A|NONE|TBD)$/;
+  function ownerKey(n) {
+    var k = String(n || '').toUpperCase().replace(/[^A-Z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim();
+    return GENERIC_OWNER.test(k) ? '' : k;
+  }
   var portMap = {};
   pool.forEach(function (d) {
     var o = d.owner && d.owner.name; if (!o) return;
