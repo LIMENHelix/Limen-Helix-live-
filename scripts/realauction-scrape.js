@@ -100,8 +100,8 @@ var COUNTIES = [
   { key: 'oh-clark',      name: 'Clark OH',   metro: 'Springfield',   host: 'clark.sheriffsaleauction.ohio.gov',      product: 'foreclosure', state: 'OH' },
   { key: 'oh-richland',   name: 'Richland',   metro: 'Mansfield',     host: 'richland.sheriffsaleauction.ohio.gov',   product: 'foreclosure', state: 'OH' },
   // ── TEXAS constable/tax foreclosure: <county>.texas.realforeclose.com ──
-  { key: 'tx-travis',     name: 'Travis',     metro: 'Austin',        host: 'travis.texas.realforeclose.com',         product: 'foreclosure', state: 'TX' },
-  { key: 'tx-montgomery', name: 'Montgomery TX', metro: 'Conroe',     host: 'montgomery.texas.realforeclose.com',     product: 'foreclosure', state: 'TX' },
+  { key: 'tx-travis',     name: 'Travis',     metro: 'Austin',        host: 'travis.texas.realforeclose.com',         product: 'taxdeed', state: 'TX' },
+  { key: 'tx-montgomery', name: 'Montgomery TX', metro: 'Conroe',     host: 'montgomery.texas.realforeclose.com',     product: 'taxdeed', state: 'TX' },
   // ── LOUISIANA sheriff sales: <parish>.la.realforeclose.com ──
   { key: 'la-iberville',  name: 'Iberville',  metro: 'Plaquemine',    host: 'iberville.la.realforeclose.com',         product: 'foreclosure', state: 'LA' },
   // ── NEW YORK delinquent-tax auction: <county>.ny.realforeclose.com ──
@@ -182,22 +182,23 @@ function fixMergedStreet(s) {
 }
 
 function normalize(o, county, date) {
-  var caseNo = o['Case #:'] || o['Case Number:'] || '';
+  var caseNo = o['Case #:'] || o['Case Number:'] || o['Cause Number:'] || '';
   var street = fixMergedStreet(o['Property Address:'] || o['Property Address'] || '');
-  var cityzip = o[''] || ''; // sometimes "TRINITY, 34655" (Pasco); Polk packs it into street
-  // combine both possible layouts, then pull the 5-digit zip from anywhere
+  var cityzip = o[''] || ''; // "TRINITY, 34655" (FL) / "MAPLE HEIGHTS , 441370000" (OH, 9-digit zip, no state)
   var combined = (street + ' ' + cityzip).replace(/\s+/g, ' ').trim();
-  // zip is at the END after the state, never the leading house number: prefer FL-adjacent, else the LAST 5-digit group
-  var zm = combined.match(/\bFL[- ,]*(\d{5})\b/i);
-  if (!zm) { var all = combined.match(/\b\d{5}\b/g); zm = all ? [null, all[all.length - 1]] : null; }
-  var zip = zm ? zm[1] : '';
-  // city: prefer the dedicated cityzip cell, else the token before ", FL" in the street
+  // zip: a 5-digit after a standalone 2-letter state ("FL 32137"), else the last 5-9-digit group's first 5
+  var zip = '';
+  var zm = combined.match(/\b[A-Z]{2}\b[- ,]*(\d{5})(?:-?\d{4})?\b/i);
+  if (zm) zip = zm[1];
+  else { var groups = (cityzip.match(/\d{5,9}/g) || combined.match(/\d{5,9}/g)); if (groups) zip = groups[groups.length - 1].slice(0, 5); }
+  // city: text before the first comma in the cityzip cell, else the token before a 2-letter state in the street
   var city = '';
-  var cm = cityzip.match(/^([A-Za-z .'-]+?),?\s*(?:FL)?[- ]*\d{5}?$/);
+  var cm = cityzip.match(/^\s*([A-Za-z .'\/-]+?)\s*,/);
   if (cm && cm[1]) city = cm[1].trim();
-  if (!city) { var sm = street.match(/,\s*([A-Za-z .'-]+?),?\s*FL/i); if (sm) city = sm[1].trim(); }
-  var judgment = parseMoney(o['Final Judgment Amount:'] || o['Opening Bid:'] || o['Judgment Amount:']);
-  var market = parseMoney(o['Property App. Market Value:'] || o['Assessed Value:'] || o['Appraised Value:']);
+  if (!city) { var sm = street.match(/,\s*([A-Za-z .'\/-]+?),?\s*[A-Z]{2}\b/i); if (sm) city = sm[1].trim(); }
+  // judgment/opening-bid basis + market/appraised value — aliases across FL foreclosure/taxdeed, OH sheriff, TX tax
+  var judgment = parseMoney(o['Final Judgment Amount:'] || o['Opening Bid:'] || o['Judgment Amount:'] || o['Est. Min. Bid:']);
+  var market = parseMoney(o['Property App. Market Value:'] || o['Assessed Value:'] || o['Appraised Value:'] || o['Adjudged Value:']);
   var maxBid = o['Plaintiff Max Bid:'] || o['Plaintiff Max Bid'] || '';
   var status = (o._status || '').trim();
   // clean display address: normalize state, drop dangling "FL-" / trailing punctuation
@@ -219,7 +220,7 @@ function normalize(o, county, date) {
     street: street,
     city: city,
     zip: zip,
-    parcel: o['Parcel ID:'] || o['Parcel ID'] || '',
+    parcel: o['Parcel ID:'] || o['Parcel ID'] || o['Account Number:'] || '',
     judgment: judgment,          // debt owed = opening-bid basis
     marketValue: market,         // county appraised value
     plaintiffMaxBid: maxBid,
