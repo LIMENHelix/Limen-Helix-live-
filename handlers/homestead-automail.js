@@ -46,6 +46,22 @@ module.exports = async function handler(req, res) {
   if (ADMIN && key !== ADMIN) return j(res, 403, { ok: false, error: 'Admin key required. Not public.' });
 
   var st = (await db.get(STATE)) || { armed: false, cap: 20, mailedTotal: 0, lastRunMs: null };
+  if (!Array.isArray(st.states)) st.states = ['FL']; // which states auto-mail is enabled for (opt-in)
+
+  // action=test — mail ONE letter to a given address (the operator's own) to verify the physical
+  // piece BEFORE arming a mass run. Uses the live key + return address, so it's a real letter.
+  if (method === 'POST' && body.action === 'test') {
+    var TLOB = process.env.LOB_API_KEY || '';
+    var TFROM = { name: process.env.MAIL_FROM_NAME || '', line1: process.env.MAIL_FROM_LINE1 || '', city: process.env.MAIL_FROM_CITY || '', state: process.env.MAIL_FROM_STATE || 'FL', zip: process.env.MAIL_FROM_ZIP || '' };
+    if (!TLOB) return j(res, 200, { ok: false, error: 'No LOB_API_KEY on the server.' });
+    if (!TFROM.line1) return j(res, 200, { ok: false, error: 'Set MAIL_FROM_* return address in Vercel first.' });
+    var t = body.to || {};
+    if (!t.line1) return j(res, 400, { ok: false, error: 'Test recipient line1 required.' });
+    var sample = { county: t.county || 'Sample', street: t.line1, city: t.city || '', saleDate: '08/15/2026',
+      owner: { name: t.name || 'Test Recipient', mailAddr: t.line1, mailCity: t.city || '', mailState: t.state || TFROM.state, mailZip: t.zip || '' } };
+    var tr = await lobSend(sample, TLOB, TFROM, process.env.CONTACT_PHONE || '', process.env.CONTACT_NAME || '');
+    return j(res, 200, { ok: tr.ok, id: tr.id, err: tr.err, mode: 'test-live' });
+  }
 
   // action=send — the actual mail run (called by the daily cron). No-op unless armed;
   // dry-run unless LOB_API_KEY + MAIL_FROM_* return address are set in Vercel env.
@@ -57,7 +73,8 @@ module.exports = async function handler(req, res) {
     var live = !!(LOB && FROM.line1);
     var deals = (await db.get('realauction:deals')) || [];
     var mailed = (await db.get(MAILED)) || {};
-    var picks = deals.filter(function (d) { return d.workFirst && d.owner && d.owner.mailAddr && (d.equity || 0) > 0 && (d.state || 'FL').toUpperCase() === 'FL'; })
+    var enabled = (st.states && st.states.length) ? st.states : ['FL'];
+    var picks = deals.filter(function (d) { return d.workFirst && d.owner && d.owner.mailAddr && (d.equity || 0) > 0 && enabled.indexOf((d.state || 'FL').toUpperCase()) >= 0; })
       .filter(function (d) { return !mailed[d.parcel || d.caseNumber]; })
       .sort(function (a, b) { return ((a.tier || 9) - (b.tier || 9)) || ((b.priority || 0) - (a.priority || 0)); })
       .slice(0, st.cap || 20);
@@ -74,6 +91,7 @@ module.exports = async function handler(req, res) {
   if (method === 'POST') {
     if (typeof body.armed === 'boolean') st.armed = body.armed;
     if (body.cap != null) st.cap = Math.max(1, Math.min(200, parseInt(body.cap, 10) || 20));
+    if (Array.isArray(body.states)) st.states = body.states.map(function (s) { return String(s).toUpperCase().trim(); }).filter(Boolean);
     if (body.run && Array.isArray(body.run.mailed)) {
       var mailed = (await db.get(MAILED)) || {};
       body.run.mailed.forEach(function (k) { if (k) mailed[k] = Date.now(); });
@@ -86,8 +104,9 @@ module.exports = async function handler(req, res) {
 
   var m = (await db.get(MAILED)) || {};
   return j(res, 200, {
-    ok: true, armed: !!st.armed, cap: st.cap || 20,
+    ok: true, armed: !!st.armed, cap: st.cap || 20, states: st.states,
     mailedTotal: st.mailedTotal || 0, lastRunMs: st.lastRunMs || null,
-    mailedKeys: Object.keys(m), hasLobKey: !!(process.env.LOB_API_KEY)
+    mailedKeys: Object.keys(m), hasLobKey: !!(process.env.LOB_API_KEY),
+    hasReturnAddr: !!(process.env.MAIL_FROM_LINE1)
   });
 };

@@ -379,14 +379,33 @@ function loadArm(){
 function renderArm(s){
   var bar=$('#armbar'); bar.style.display='flex';
   var last=s.lastRunMs?new Date(s.lastRunMs).toLocaleString():'never';
-  var stCls=!s.armed?'off':(s.hasLobKey?'on':'dry'), stTxt=!s.armed?'OFF':(s.hasLobKey?'ARMED':'ARMED · DRY RUN');
+  var live=s.armed&&s.hasLobKey&&s.hasReturnAddr;
+  var stCls=!s.armed?'off':(live?'on':'dry'), stTxt=!s.armed?'OFF':(live?'ARMED · LIVE':'ARMED · DRY RUN');
+  var states=s.states||['FL'];
+  var box=function(c,l){return '<label style="margin-right:12px;cursor:pointer"><input type="checkbox" class="armSt" value="'+c+'"'+(states.indexOf(c)>=0?' checked':'')+'> '+l+'</label>';};
   bar.innerHTML=
     '<div class="sw'+(s.armed?' on':'')+'" id="armSw"><i></i></div>'+
     '<div class="lbl">Autonomous auto-mail<span class="st '+stCls+'">'+stTxt+'</span></div>'+
     '<div class="meta">cap <input id="armCap" type="number" value="'+(s.cap||20)+'" min="1" max="200"> letters/day · '+(s.mailedTotal||0)+' mailed all-time · last run '+last+'</div>'+
-    (s.hasLobKey?'':'<div class="warn">⚠ No Lob key on the server — even armed, it runs DRY (logs who it would mail, sends nothing). Add LOB_API_KEY + return address to actually mail.</div>');
+    '<div class="meta" style="flex-basis:100%">mail states: '+box('FL','Florida')+box('OH','Ohio')+box('TX','Texas')+
+      ' &nbsp;·&nbsp; <button id="armTest" style="font-size:12px;padding:4px 10px;border-radius:6px;border:1px solid var(--line);background:var(--panel);color:var(--txt);cursor:pointer">✉ Send test letter to me</button></div>'+
+    (!s.hasLobKey?'<div class="warn">⚠ No Lob key on the server — even armed it runs DRY. Add LOB_API_KEY.</div>'
+      :(!s.hasReturnAddr?'<div class="warn">⚠ Armed but DRY — no return address. Add MAIL_FROM_NAME/LINE1/CITY/STATE/ZIP (+ CONTACT_PHONE/CONTACT_NAME) in Vercel to go LIVE; it mails on the next daily run once set.</div>'
+      :(s.armed?'<div class="warn" style="color:#7fd8b0">● LIVE — the daily run mails up to '+(s.cap||20)+' letters across ['+states.join(', ')+']. Send yourself a test first.</div>':'')));
   $('#armSw').onclick=function(){ setArm({armed:!s.armed}); };
   $('#armCap').onchange=function(){ setArm({cap:parseInt(this.value,10)||20}); };
+  [].forEach.call(document.querySelectorAll('.armSt'),function(cb){ cb.onchange=function(){ setArm({states:[].filter.call(document.querySelectorAll('.armSt'),function(x){return x.checked;}).map(function(x){return x.value;})}); }; });
+  $('#armTest').onclick=sendTestLetter;
+}
+function sendTestLetter(){
+  var saved=localStorage.getItem('hsTestAddr')||((localStorage.getItem('hsName')||'')+' |  |  |  | ');
+  var v=prompt('Send a REAL test letter (uses your LIVE Lob key, ~$0.90) to:\nName | Street | City | ST | Zip', saved);
+  if(!v) return; localStorage.setItem('hsTestAddr',v);
+  var p=v.split('|').map(function(x){return x.trim();});
+  var to={name:p[0],line1:p[1],city:p[2],state:p[3],zip:p[4]};
+  if(!to.line1){ alert('Street (line1) is required.'); return; }
+  fetch('/api/homestead-automail',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({key:KEY,action:'test',to:to})})
+    .then(function(r){return r.json();}).then(function(x){ alert(x.ok?('Test letter created in Lob ✓  (id '+x.id+')\nIt will arrive in a few days.'):('Failed: '+(x.error||JSON.stringify(x.err||x)))); });
 }
 function setArm(body){
   body.key=KEY;
