@@ -710,6 +710,15 @@ var PORTAL_ROUTES = {
   'intelligence': '/domain-console?domain=intelligence'
 };
 
+// Satellite pages that hang OFF a domain node (linked to, but not inside it). Hovering/clicking
+// the node offers a second door alongside "enter domain". Population -> the Homestead P3 deal desk.
+// Admin-only pages: on the public homepage the custom onNodeClick intercepts before the submenu,
+// so these never surface there.
+var DOMAIN_SATELLITES = {
+  'population': [{ name: '🏠 Homestead · P3 deal desk', url: '/admin-homestead', phase: 'P3' }]
+};
+function satellitesFor(n) { return (n && (DOMAIN_SATELLITES[n.id] || DOMAIN_SATELLITES[n.childUniverse])) || null; }
+
 // ═══ 3-LAYER HELPER FUNCTIONS ═══
 
 function initPhaseVector(phaseStr) {
@@ -1675,7 +1684,8 @@ function showTooltip(idx,mx,my) {
   _ttPhase.textContent=NODE_TAGLINES[n.id]||'';
   _ttPhase.style.color=n.phaseHex; _ttName.textContent=n.label; _ttTagline.textContent=n.description;
   var ttE=document.getElementById('ttEnter');
-  if(DOMAIN_PORTALS[n.id]) ttE.textContent='View portals \u2192';
+  if(satellitesFor(n)) ttE.textContent='Enter domain \u00b7 Homestead \u2192';
+  else if(DOMAIN_PORTALS[n.id]) ttE.textContent='View portals \u2192';
   else if(n.childUniverse && PORTAL_ROUTES[n.childUniverse]) ttE.textContent='Enter portal \u2192';
   else ttE.textContent='Portal coming soon';
   _tooltip.style.display='block';
@@ -1688,12 +1698,17 @@ function hideTooltip() { if (_miniMode || !_tooltip) return; _tooltip.style.disp
 
 function showSubMenu(idx) {
   if (_miniMode) return;
-  var n = NODES[idx], subs = DOMAIN_PORTALS[n.id];
+  var n = NODES[idx], subs = DOMAIN_PORTALS[n.id] || [], sats = satellitesFor(n) || [];
   var p = w2s(n.x, n.y);
   var html = '<div class="sm-title">' + (SHORT_NAMES[n.id]||n.id) + '</div>';
   var domainUrl = PORTAL_ROUTES[n.childUniverse];
-  if (domainUrl) html += '<a class="sm-main" href="'+domainUrl+'">'+n.label+' Portal &rarr;</a>';
-  html += '<div class="sm-sep"></div>';
+  if (domainUrl) html += '<a class="sm-main" href="'+domainUrl+'">Enter ' + n.label + ' domain &rarr;</a>';
+  // satellite pages linked off this node (Homestead, etc.) — a distinct second door
+  for (var s = 0; s < sats.length; s++) {
+    html += '<a href="'+sats[s].url+'" style="color:#35e0c4">&#8627; '+sats[s].name+
+      (sats[s].phase ? ' <span style="opacity:.6;font-size:.85em">'+sats[s].phase+'</span>' : '')+'</a>';
+  }
+  if (subs.length) html += '<div class="sm-sep"></div>';
   for (var i = 0; i < subs.length; i++) html += '<a href="'+subs[i].url+'">'+subs[i].name+'</a>';
   _subMenu.innerHTML = html;
   _subMenu.style.display = 'block';
@@ -1710,7 +1725,7 @@ function navigateToUniverse(idx) {
   var n=NODES[idx]; if(!n||!n.childUniverse) return;
   if (_onNodeClick) { _onNodeClick(n); return; }
   if (_miniMode) { window.location.href = '/connectome.html'; return; }
-  if (DOMAIN_PORTALS[n.id]) { hideTooltip(); showSubMenu(idx); return; }
+  if (DOMAIN_PORTALS[n.id] || satellitesFor(n)) { hideTooltip(); showSubMenu(idx); return; }
   var targetUrl = PORTAL_ROUTES[n.childUniverse];
   if (!targetUrl) return;
   if (window.LIMENUIState) window.LIMENUIState.save({ focusDomain: n.id, navigatedAt: Date.now() });
