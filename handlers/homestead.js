@@ -36,7 +36,7 @@ function project(d) {
     address: d.street || d.address, city: d.city, zip: d.zip, county: d.county,
     saleDate: d.saleDate, product: d.product, caseNumber: d.caseNumber, parcel: d.parcel,
     url: d.url || null, enrichStatus: d.enrichStatus,
-    owner: o.name || null, absentee: !!o.absentee,
+    owner: o.name || null, absentee: !!o.absentee, servicer: !!d.servicer,
     mailAddr: o.mailAddr || null, mailCity: o.mailCity || null, mailState: o.mailState || null, mailZip: o.mailZip || null,
     mailTo: o.name ? [o.mailAddr, o.mailCity, o.mailState, o.mailZip].filter(Boolean).join(', ') : null,
     // disposition: who to assign/sell to (matched on the value a buyer underwrites to)
@@ -59,14 +59,24 @@ module.exports = async function handler(req, res) {
   var deals = (await db.get('realauction:deals')) || [];
   var meta = (await db.get('realauction:meta')) || null;
 
-  // re-apply the value floor at read time (corrects deals scored under an older rule
-  // without a re-scrape): underwater/thin equity can't be work-first.
+  // servicer/lockbox mailing detection needs the FULL inventory (same address across many
+  // distinct owners = an escrow processor, not the seller) — build it once over all deals.
+  var servicerSet = enrich.servicerMailSet(deals);
+
+  // read-time corrections (fix deals scored under an older rule without a re-scrape):
+  //  1) value floor — underwater/thin equity can't be work-first
+  //  2) servicer down-weight — mail can't reach the seller, so it can't be work-first
   deals.forEach(function (d) {
     if (d.tier == null) return;
     var fl = enrich.floorTier(d, d.tier, d.tierLabel, []);
     if (fl) {
       d.tier = fl.tier; d.tierLabel = fl.tierLabel; d.workFirst = fl.tier <= 2;
       if ((d.priorityReasons || []).indexOf(fl.add) < 0) (d.priorityReasons = d.priorityReasons || []).push(fl.add);
+    }
+    var sv = enrich.servicerTier(d, servicerSet);
+    if (sv) {
+      d.servicer = true; d.tier = sv.tier; d.tierLabel = sv.tierLabel; d.workFirst = sv.tier <= 2;
+      if ((d.priorityReasons || []).indexOf(sv.add) < 0) (d.priorityReasons = d.priorityReasons || []).push(sv.add);
     }
   });
 
@@ -90,6 +100,7 @@ module.exports = async function handler(req, res) {
     var g = byCounty[k];
     g.deals.sort(function (a, b) {
       if ((a.tier || 9) !== (b.tier || 9)) return (a.tier || 9) - (b.tier || 9);
+      if (!!a.servicer !== !!b.servicer) return a.servicer ? 1 : -1; // reachable before lockbox
       if ((b.priority || 0) !== (a.priority || 0)) return (b.priority || 0) - (a.priority || 0);
       return (b.equity || -1e15) - (a.equity || -1e15);
     });
