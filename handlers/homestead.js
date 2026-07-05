@@ -51,6 +51,7 @@ module.exports = async function handler(req, res) {
   if (ADMIN && q.key !== ADMIN) return j(res, 403, { ok: false, error: 'Admin key required. Not public.' });
 
   var state = (q.state || 'FL').toUpperCase();
+  var allStates = state === 'ALL';
   var residentialOnly = q.all !== '1';
   var maxTier = q.tier ? parseInt(q.tier, 10) : 99;
   var perCounty = q.perCounty ? Math.max(1, parseInt(q.perCounty, 10)) : 12;
@@ -69,24 +70,24 @@ module.exports = async function handler(req, res) {
     }
   });
 
-  // filter to the state + (residential) + tier
+  // filter to the state (or all) + (residential) + tier
   var pool = deals.filter(function (d) {
-    if ((d.state || 'FL').toUpperCase() !== state) return false;
+    if (!allStates && (d.state || 'FL').toUpperCase() !== state) return false;
     if (residentialOnly && d.residential === false) return false;
     if (d.tier && d.tier > maxTier) return false;
     return true;
   });
 
-  // group by county
+  // group by state+county (county names repeat across states)
   var byCounty = {};
   pool.forEach(function (d) {
-    var c = d.county || 'Unknown';
-    if (!byCounty[c]) byCounty[c] = { county: c, metro: d.metro || null, deals: [] };
-    byCounty[c].deals.push(d);
+    var st = (d.state || 'FL').toUpperCase(), c = d.county || 'Unknown', k = st + '|' + c;
+    if (!byCounty[k]) byCounty[k] = { state: st, county: c, metro: d.metro || null, deals: [] };
+    byCounty[k].deals.push(d);
   });
 
-  var counties = Object.keys(byCounty).map(function (c) {
-    var g = byCounty[c];
+  var counties = Object.keys(byCounty).map(function (k) {
+    var g = byCounty[k];
     g.deals.sort(function (a, b) {
       if ((a.tier || 9) !== (b.tier || 9)) return (a.tier || 9) - (b.tier || 9);
       if ((b.priority || 0) !== (a.priority || 0)) return (b.priority || 0) - (a.priority || 0);
@@ -94,7 +95,7 @@ module.exports = async function handler(req, res) {
     });
     var workFirst = g.deals.filter(function (d) { return d.workFirst; }).length;
     return {
-      county: g.county, metro: g.metro,
+      state: g.state, county: g.county, metro: g.metro,
       total: g.deals.length, workFirst: workFirst,
       topEquity: g.deals.length ? Math.max.apply(null, g.deals.map(function (d) { return d.equity || 0; })) : 0,
       opportunities: g.deals.slice(0, perCounty).map(project)

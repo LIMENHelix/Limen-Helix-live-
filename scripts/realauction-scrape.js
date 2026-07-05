@@ -182,7 +182,7 @@ function normalize(o, county, date) {
     product: county.product,
     county: county.name,
     metro: county.metro,
-    state: 'FL',
+    state: county.state || 'FL',
     saleDate: date,
     caseNumber: caseNo,
     address: address,

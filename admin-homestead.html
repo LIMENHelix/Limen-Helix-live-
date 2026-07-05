@@ -181,7 +181,7 @@ function load(){
   if(!KEY)return;
   $('#err').textContent='loading…';
   Promise.all([
-    fetch('/api/homestead?state=FL&perCounty=40&key='+encodeURIComponent(KEY)).then(function(r){return r.json();}),
+    fetch('/api/homestead?state=ALL&perCounty=40&key='+encodeURIComponent(KEY)).then(function(r){return r.json();}),
     fetch('/api/homestead-status?key='+encodeURIComponent(KEY)).then(function(r){return r.json();}).catch(function(){return{statuses:{}};})
   ]).then(function(res){
     var j=res[0];
@@ -223,29 +223,34 @@ function render(){
     statF('review',cRev,'Human review')+
     statF('closed',cClosed,'Closed (mo)')+
     stat('$'+rev.toLocaleString(),'Revenue (mo)');
-  // index API counties by name
-  var byName={}; (DATA.counties||[]).forEach(function(c){byName[c.county]=c;});
-  var html='';
+  // index API counties by state -> name
+  var byState={}; (DATA.counties||[]).forEach(function(c){ (byState[c.state]=byState[c.state]||{})[c.county]=c; });
+  var html='', filtered=FILTER!=='all';
   STATES.forEach(function(s){
-    var isFL=s[0]==='FL';
-    var counties = isFL ? FL_COUNTIES : [];
-    var withData = isFL ? (DATA.counties||[]).length : 0;
-    html+='<details class="state"'+(isFL?' open':'')+'>'+
-      '<summary><span class="caret">▶</span><span class="name'+(isFL?'':' empty')+'">'+s[1]+'</span>'+
-      (isFL?'<span class="pill">'+ (t.deals||0) +' deals · '+withData+' counties</span>':'<span class="pill">no supply wired</span>')+'</summary>';
-    if(isFL){
+    var abbr=s[0], dc=byState[abbr]||{}, dealCount=0;
+    Object.keys(dc).forEach(function(k){dealCount+=dc[k].total||0;});
+    var hasData=Object.keys(dc).length>0;
+    // FL shows all 67 county shells; other states show only counties that have data
+    var countyNames = abbr==='FL' ? FL_COUNTIES : Object.keys(dc).sort();
+    // under a filter, hide states with nothing matching
+    if(filtered){
+      var anyMatch=countyNames.some(function(cn){return dc[cn] && (dc[cn].opportunities||[]).some(passFilter);});
+      if(!anyMatch) return;
+    }
+    var open = abbr==='FL' || hasData || filtered;
+    html+='<details class="state"'+(open?' open':'')+'>'+
+      '<summary><span class="caret">▶</span><span class="name'+(hasData?'':' empty')+'">'+s[1]+'</span>'+
+      (hasData?'<span class="pill">'+dealCount+' deals · '+Object.keys(dc).length+' counties</span>':'<span class="pill">no supply wired</span>')+'</summary>';
+    if(hasData){
       html+='<div class="county-body">';
-      counties.forEach(function(cn){
-        var c=byName[cn];
-        html+=countyBlock(cn,c);
-      });
+      countyNames.forEach(function(cn){ html+=countyBlock(cn, dc[cn]); });
       html+='</div>';
     }else{
-      html+='<div class="empty-note">Supply not wired for this state yet. The engine fills it here once its distress feed + owner source are connected.</div>';
+      html+='<div class="empty-note">Supply not wired for this state yet — fills in once its RealAuction/other feed is connected.</div>';
     }
     html+='</details>';
   });
-  $('#states').innerHTML=html;
+  $('#states').innerHTML=html || '<div class="empty-note" style="padding:20px">No deals match this filter.</div>';
 }
 function stat(n,l,hot){return '<div class="stat'+(hot?' hot':'')+'"><div class="n">'+(n==null?'–':n)+'</div><div class="l">'+l+'</div></div>';}
 function statF(f,n,l,hot){return '<div class="stat clk'+(hot?' hot':'')+(FILTER===f?' active':'')+'" onclick="setFilter(\''+f+'\')"><div class="n">'+(n==null?'–':n)+'</div><div class="l">'+l+'</div></div>';}
