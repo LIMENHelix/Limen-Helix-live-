@@ -1,0 +1,41 @@
+# Homestead autonomous auto-mail — ARM-SWITCH gated.
+# Runs daily AFTER the scrape/enrich. Does nothing unless the operator armed the switch
+# on /admin-homestead, and only really mails when LOB_API_KEY + MAIL_FROM_* are set
+# (otherwise DRY RUN — logs who it would mail, sends nothing). Two gates: switch = safety,
+# Lob key = spend. This is the "wire everything, hit a switch" pattern.
+name: Homestead auto-mail
+
+on:
+  schedule:
+    - cron: '45 11 * * *'      # ~45 min after the 11:00 UTC scrape/enrich
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  automail:
+    runs-on: ubuntu-latest
+    concurrency: { group: homestead-automail, cancel-in-progress: false }
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout: scripts/automail-run.js
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: auto-mail (no-op unless armed; dry-run unless Lob key set)
+        run: node scripts/automail-run.js
+        env:
+          AUTOMAIL_BASE: https://limenhelix.com
+          LEAD_ADMIN_KEY: ${{ secrets.LEAD_ADMIN_KEY }}
+          LOB_API_KEY: ${{ secrets.LOB_API_KEY }}
+          CONTACT_NAME: ${{ secrets.CONTACT_NAME }}
+          CONTACT_PHONE: ${{ secrets.CONTACT_PHONE }}
+          MAIL_FROM_NAME: ${{ secrets.MAIL_FROM_NAME }}
+          MAIL_FROM_LINE1: ${{ secrets.MAIL_FROM_LINE1 }}
+          MAIL_FROM_CITY: ${{ secrets.MAIL_FROM_CITY }}
+          MAIL_FROM_STATE: ${{ secrets.MAIL_FROM_STATE }}
+          MAIL_FROM_ZIP: ${{ secrets.MAIL_FROM_ZIP }}

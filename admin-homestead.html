@@ -88,6 +88,18 @@
   .steps b{color:var(--txt)}
   .cfg{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:12px 0 4px;font-size:12px;color:var(--mut)}
   .cfg input{background:var(--panel);border:1px solid var(--line);border-radius:6px;color:var(--txt);padding:7px 10px;font-size:12px}
+  /* arm switch */
+  .armbar{background:var(--ink2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:12px 0 4px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .sw{width:52px;height:28px;border-radius:20px;background:#2a333d;position:relative;cursor:pointer;flex:none;transition:background .2s}
+  .sw.on{background:var(--teal)}
+  .sw i{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:left .2s}
+  .sw.on i{left:27px}
+  .armbar .lbl{font-weight:700}
+  .armbar .st{font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;margin-left:8px;letter-spacing:.5px}
+  .armbar .st.on{background:#123028;color:var(--teal)} .armbar .st.off{background:#2a2320;color:#d9a} .armbar .st.dry{background:#2a2410;color:#e0b06a}
+  .armbar .meta{color:var(--mut);font-size:12px}
+  .armbar .meta input{width:54px;background:var(--panel);border:1px solid var(--line);border-radius:6px;color:var(--txt);padding:4px 7px;font-size:12px}
+  .armbar .warn{color:#e0a06a;font-size:12px;flex-basis:100%}
 </style>
 </head>
 <body>
@@ -114,6 +126,7 @@
     <input id="cfgPhone" placeholder="Call/text number" autocomplete="off">
     <span id="cfgSaved" style="color:var(--teal)"></span>
   </div>
+  <div class="armbar" id="armbar" style="display:none"></div>
   <div id="states"></div>
   <div class="foot">
     P3 distress engine · owner + motivated-seller priority (probate/heirs &gt; foreign/out-of-state absentee &gt; trust/LLC &gt; in-state absentee).
@@ -148,7 +161,7 @@ function load(){
       if(!j.ok){$('#err').textContent=j.error||'denied';return;}
       localStorage.setItem('hsKey',KEY);
       DATA=j; $('#gate').hidden=true; $('#app').hidden=false;
-      initCfg(); render();
+      initCfg(); render(); loadArm();
     })
     .catch(function(){$('#err').textContent='network error';});
 }
@@ -297,6 +310,26 @@ function oppRow(o){
       view+
     '</div>'+
   '</div>';
+}
+// ---- autonomous auto-mail arm switch ----
+function loadArm(){
+  fetch('/api/homestead-automail?key='+encodeURIComponent(KEY)).then(function(r){return r.json();}).then(function(s){ if(s.ok) renderArm(s); }).catch(function(){});
+}
+function renderArm(s){
+  var bar=$('#armbar'); bar.style.display='flex';
+  var last=s.lastRunMs?new Date(s.lastRunMs).toLocaleString():'never';
+  var stCls=!s.armed?'off':(s.hasLobKey?'on':'dry'), stTxt=!s.armed?'OFF':(s.hasLobKey?'ARMED':'ARMED · DRY RUN');
+  bar.innerHTML=
+    '<div class="sw'+(s.armed?' on':'')+'" id="armSw"><i></i></div>'+
+    '<div class="lbl">Autonomous auto-mail<span class="st '+stCls+'">'+stTxt+'</span></div>'+
+    '<div class="meta">cap <input id="armCap" type="number" value="'+(s.cap||20)+'" min="1" max="200"> letters/day · '+(s.mailedTotal||0)+' mailed all-time · last run '+last+'</div>'+
+    (s.hasLobKey?'':'<div class="warn">⚠ No Lob key on the server — even armed, it runs DRY (logs who it would mail, sends nothing). Add LOB_API_KEY + return address to actually mail.</div>');
+  $('#armSw').onclick=function(){ setArm({armed:!s.armed}); };
+  $('#armCap').onchange=function(){ setArm({cap:parseInt(this.value,10)||20}); };
+}
+function setArm(body){
+  body.key=KEY;
+  fetch('/api/homestead-automail',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)}).then(function(r){return r.json();}).then(function(s){ if(s.ok) renderArm(s); });
 }
 boot();
 </script>
