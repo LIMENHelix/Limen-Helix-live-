@@ -70,6 +70,24 @@
   @media(max-width:640px){.opp{grid-template-columns:46px 1fr}.opp .right{grid-column:1/-1;text-align:left;margin-top:4px;display:flex;gap:14px;align-items:baseline}.opp .nums{margin-top:0}}
   .empty-note{color:var(--mut);font-size:12px;padding:8px 10px}
   .foot{color:var(--mut);font-size:11px;margin-top:24px;border-top:1px solid var(--line);padding-top:10px}
+  /* sell-to + work actions */
+  .sellto{margin-top:9px;font-size:12px;color:var(--mut)}
+  .sellto b{color:var(--soft);font-weight:600}
+  .sellto a{display:inline-block;margin:4px 6px 0 0;padding:3px 9px;border:1px solid var(--line);border-radius:6px;font-size:11px;color:var(--soft)}
+  .sellto a:hover{border-color:var(--teal);color:var(--teal)}
+  .work{margin-top:11px}
+  .work>summary{list-style:none;cursor:pointer;color:var(--teal);font-size:12.5px;font-weight:700;display:inline-block}
+  .work>summary::-webkit-details-marker{display:none}
+  .work[open]>summary{margin-bottom:8px}
+  .actions{background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:13px}
+  .actions h4{margin:0 0 4px;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--mut)}
+  .tmpl{position:relative;background:#0a1119;border:1px solid var(--line);border-radius:7px;padding:11px 12px;font-size:12px;color:var(--soft);white-space:pre-wrap;line-height:1.55;margin:5px 0 14px}
+  .copy{position:absolute;top:7px;right:7px;background:var(--teal);color:#04120f;border:0;border-radius:5px;padding:3px 10px;font-size:11px;font-weight:700;cursor:pointer}
+  .copy.done{background:#243a2f;color:var(--teal)}
+  .steps{margin:5px 0 0;padding-left:18px;color:var(--soft);font-size:12.5px;line-height:1.75}
+  .steps b{color:var(--txt)}
+  .cfg{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:12px 0 4px;font-size:12px;color:var(--mut)}
+  .cfg input{background:var(--panel);border:1px solid var(--line);border-radius:6px;color:var(--txt);padding:7px 10px;font-size:12px}
 </style>
 </head>
 <body>
@@ -90,6 +108,12 @@
     <a href="#" id="refresh">refresh</a>
   </header>
   <div class="today" id="today"></div>
+  <div class="cfg">
+    <span>Your contact (fills the letters/emails):</span>
+    <input id="cfgName" placeholder="Your name" autocomplete="off">
+    <input id="cfgPhone" placeholder="Call/text number" autocomplete="off">
+    <span id="cfgSaved" style="color:var(--teal)"></span>
+  </div>
   <div id="states"></div>
   <div class="foot">
     P3 distress engine · owner + motivated-seller priority (probate/heirs &gt; foreign/out-of-state absentee &gt; trust/LLC &gt; in-state absentee).
@@ -124,12 +148,21 @@ function load(){
       if(!j.ok){$('#err').textContent=j.error||'denied';return;}
       localStorage.setItem('hsKey',KEY);
       DATA=j; $('#gate').hidden=true; $('#app').hidden=false;
-      render();
+      initCfg(); render();
     })
     .catch(function(){$('#err').textContent='network error';});
 }
 
+var _cfgInit=false;
+function initCfg(){
+  if(_cfgInit)return; _cfgInit=true;
+  var n=$('#cfgName'), p=$('#cfgPhone');
+  n.value=localStorage.getItem('hsName')||''; p.value=localStorage.getItem('hsPhone')||'';
+  function save(){ localStorage.setItem('hsName',n.value.trim()); localStorage.setItem('hsPhone',p.value.trim()); $('#cfgSaved').textContent='saved ✓'; setTimeout(function(){$('#cfgSaved').textContent='';},1200); if(DATA)render(); }
+  n.addEventListener('change',save); p.addEventListener('change',save);
+}
 function render(){
+  TMPL=[];
   var t=DATA.totals||{};
   $('#updated').textContent=DATA.updatedMs?('updated '+new Date(DATA.updatedMs).toLocaleString()):'';
   $('#today').innerHTML=
@@ -184,6 +217,54 @@ var MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
 function fmtDate(s){var m=/^(\d{2})\/(\d{2})\/(\d{4})$/.exec(s||'');return m?MO[+m[1]-1]+' '+(+m[2])+', '+m[3]:(s||'');}
 function shortMoney(n){if(n==null)return '—';var a=Math.abs(n),s=n<0?'-':'';if(a>=1e6)return s+'$'+(a/1e6).toFixed(2)+'M';if(a>=1e3)return s+'$'+Math.round(a/1e3)+'k';return money(n);}
 function whyText(sigs){var p=(sigs||[]).map(function(s){return WHY[s];}).filter(Boolean);return p.length?p.join(' · '):null;}
+function titleCase(s){return String(s||'').toLowerCase().replace(/\b\w/g,function(c){return c.toUpperCase();});}
+
+// ---- disposition: who buys it ----
+function selltoHtml(o){
+  var b=o.buyers||[];
+  if(!b.length) return '<div class="sellto"><b>Sell / assign to:</b> <span style="color:var(--mut)">no matched buy-box at this value — list retail or wholesale locally</span></div>';
+  return '<div class="sellto"><b>Sell / assign to:</b> '+b.slice(0,4).map(function(x){
+    return '<a href="'+esc(x.url)+'" target="_blank" rel="noopener" title="'+esc(x.type+' — '+x.note)+'">'+esc(x.name.split(' (')[0])+'</a>';
+  }).join('')+'</div>';
+}
+
+// ---- outreach templates (help-first, legally careful: no "stop foreclosure", no fee, not your lender) ----
+function contact(){ return { name:(localStorage.getItem('hsName')||'').trim()||'[your name]', phone:(localStorage.getItem('hsPhone')||'').trim()||'[your call/text number]' }; }
+function letterBody(o){
+  var c=contact(), addr=(o.address||'your property')+(o.city?', '+titleCase(o.city):''), when=o.saleDate?fmtDate(o.saleDate):'soon';
+  return 'Hello,\n\n'+
+  'I work with homeowners in '+(o.county||'your')+' County, and I noticed '+addr+' has a court sale scheduled for '+when+'.\n\n'+
+  'If that date holds, the property is sold at auction — often for far less than it is worth, and any value above what is owed can be lost. Public records suggest '+addr+' may hold real equity worth protecting.\n\n'+
+  'You have options before that date. I can bring you a fair, no-obligation cash offer, so you can sell on your terms and walk away with money in hand instead of losing it at the sale. There is no fee, no pressure, and I am not your lender.\n\n'+
+  'If that is worth a quick conversation, call or text me at '+c.phone+'.\n\n'+c.name;
+}
+function textMsg(o){
+  var c=contact(), addr=o.address||'your property', when=o.saleDate?fmtDate(o.saleDate):'soon';
+  return 'Hi — I work with homeowners in '+(o.county||'your')+' County. I saw '+addr+' has a sale date ('+when+'). You may have equity you could keep by selling before then. No fee, and I am not your lender. Want a free cash offer? Call/text '+c.phone+'. — '+c.name;
+}
+function stepsHtml(o){
+  var mail=o.mailTo?('mail the letter to <b>'+esc(o.mailTo)+'</b>'+(o.absentee?' (absentee — reaches the real owner)':'')):'owner not matched yet — open the listing to get the owner + address';
+  var bl=(o.buyers||[]).slice(0,3).map(function(b){return b.name.split(' (')[0];}).join(', ')||'no buy-box match — wholesale/list locally';
+  return '<ol class="steps">'+
+    '<li><b>Verify</b> at the '+(o.url?'<a href="'+esc(o.url)+'" target="_blank" rel="noopener">source listing</a>':'county listing')+' — confirm the amounts and the sale date.</li>'+
+    '<li><b>Reach the seller</b> — '+mail+'. To call/text, skip-trace the owner for phone + email (paid, ~$0.15).</li>'+
+    '<li><b>Get it under contract</b> through a licensed agent or attorney — the legal sign-off. We never take title.</li>'+
+    '<li><b>Assign / sell</b> to a matched buyer: '+esc(bl)+'. Keep the spread.</li>'+
+    '<li><b>Close</b> before '+(o.saleDate?fmtDate(o.saleDate):'the sale date')+'.</li>'+
+  '</ol>';
+}
+var TMPL=[];
+function tmplBox(txt){ var i=TMPL.push(txt)-1; return '<div class="tmpl"><button class="copy" data-i="'+i+'" onclick="copyTmpl(this)">Copy</button>'+esc(txt).replace(/\n/g,'<br>')+'</div>'; }
+function copyTmpl(btn){ var t=TMPL[+btn.getAttribute('data-i')]||''; (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){btn.textContent='Copied ✓';btn.classList.add('done');setTimeout(function(){btn.textContent='Copy';btn.classList.remove('done');},1400);}).catch(function(){var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}ta.remove();btn.textContent='Copied ✓';}); }
+function workHtml(o){
+  var subj='Options for '+(o.address||'your property')+' before your sale date';
+  return '<details class="work"><summary>▸ Work this deal — outreach + steps</summary>'+
+    '<div class="actions">'+
+      '<h4>Email / mailer letter — subject + body</h4>'+tmplBox('Subject: '+subj+'\n\n'+letterBody(o))+
+      '<h4>Text message</h4>'+tmplBox(textMsg(o))+
+      '<h4>Operator steps</h4>'+stepsHtml(o)+
+    '</div></details>';
+}
 
 function oppRow(o){
   var eqc=(o.equity||0)>0?'pos':'neg';
@@ -207,6 +288,8 @@ function oppRow(o){
       (facts.length?'<div class="facts"><span>'+facts.join('</span><span>')+'</span></div>':'')+
       '<div class="ownr">'+owner+(o.mailTo?'<div class="mail">✉ mail to: '+esc(o.mailTo)+'</div>':'')+'</div>'+
       ((o.caseNumber||o.parcel)?'<div class="ref">'+(o.caseNumber?'Case '+esc(o.caseNumber):'')+(o.parcel?' · Parcel '+esc(o.parcel):'')+'</div>':'')+
+      selltoHtml(o)+
+      workHtml(o)+
     '</div>'+
     '<div class="right">'+
       '<div class="eq '+eqc+'">'+money(o.equity)+'</div><div class="eqlbl">equity</div>'+

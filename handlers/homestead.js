@@ -16,6 +16,7 @@
  */
 var db = require('../lib/limen-db');
 var enrich = require('../lib/deal-enrich');
+var buyers = require('../lib/buyers');
 
 function j(res, code, o) {
   res.statusCode = code;
@@ -36,7 +37,10 @@ function project(d) {
     saleDate: d.saleDate, product: d.product, caseNumber: d.caseNumber, parcel: d.parcel,
     url: d.url || null, enrichStatus: d.enrichStatus,
     owner: o.name || null, absentee: !!o.absentee,
-    mailTo: o.name ? [o.mailAddr, o.mailCity, o.mailState, o.mailZip].filter(Boolean).join(', ') : null
+    mailAddr: o.mailAddr || null, mailCity: o.mailCity || null, mailState: o.mailState || null, mailZip: o.mailZip || null,
+    mailTo: o.name ? [o.mailAddr, o.mailCity, o.mailState, o.mailZip].filter(Boolean).join(', ') : null,
+    // disposition: who to assign/sell to (matched on the value a buyer underwrites to)
+    buyers: buyers.matchBuyersFor(d.state || 'FL', d.assessedValue || d.marketValue || d.equity || 0, null)
   };
 }
 
