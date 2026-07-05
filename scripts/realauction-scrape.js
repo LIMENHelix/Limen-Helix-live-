@@ -75,7 +75,37 @@ var COUNTIES = [
   // ── confirmed TAX DEED ──
   { key: 'osceola',      name: 'Osceola',      metro: 'Orlando',       host: 'osceola.realtaxdeed.com',        product: 'taxdeed' },
   { key: 'brevard',      name: 'Brevard',      metro: 'Melbourne',     host: 'brevard.realforeclose.com',      product: 'taxdeed' },
-  { key: 'baker',        name: 'Baker',        metro: 'Macclenny',     host: 'baker.realtaxdeed.com',          product: 'taxdeed' }
+  { key: 'baker',        name: 'Baker',        metro: 'Macclenny',     host: 'baker.realtaxdeed.com',          product: 'taxdeed' },
+  // ── OHIO sheriff/foreclosure sales (state contract): <county>.sheriffsaleauction.ohio.gov ──
+  // Mortgage foreclosure w/ appraised value (2/3 min-bid rule) + judgment → equity model fits.
+  { key: 'oh-cuyahoga',   name: 'Cuyahoga',   metro: 'Cleveland',     host: 'cuyahoga.sheriffsaleauction.ohio.gov',   product: 'foreclosure', state: 'OH' },
+  { key: 'oh-franklin',   name: 'Franklin',   metro: 'Columbus',      host: 'franklin.sheriffsaleauction.ohio.gov',   product: 'foreclosure', state: 'OH' },
+  { key: 'oh-hamilton',   name: 'Hamilton',   metro: 'Cincinnati',    host: 'hamilton.sheriffsaleauction.ohio.gov',   product: 'foreclosure', state: 'OH' },
+  { key: 'oh-summit',     name: 'Summit',     metro: 'Akron',         host: 'summit.sheriffsaleauction.ohio.gov',     product: 'foreclosure', state: 'OH' },
+  { key: 'oh-montgomery', name: 'Montgomery', metro: 'Dayton',        host: 'montgomery.sheriffsaleauction.ohio.gov', product: 'foreclosure', state: 'OH' },
+  { key: 'oh-lucas',      name: 'Lucas',      metro: 'Toledo',        host: 'lucas.sheriffsaleauction.ohio.gov',      product: 'foreclosure', state: 'OH' },
+  { key: 'oh-stark',      name: 'Stark',      metro: 'Canton',        host: 'stark.sheriffsaleauction.ohio.gov',      product: 'foreclosure', state: 'OH' },
+  { key: 'oh-butler',     name: 'Butler',     metro: 'Hamilton OH',   host: 'butler.sheriffsaleauction.ohio.gov',     product: 'foreclosure', state: 'OH' },
+  { key: 'oh-lorain',     name: 'Lorain',     metro: 'Lorain',        host: 'lorain.sheriffsaleauction.ohio.gov',     product: 'foreclosure', state: 'OH' },
+  { key: 'oh-mahoning',   name: 'Mahoning',   metro: 'Youngstown',    host: 'mahoning.sheriffsaleauction.ohio.gov',   product: 'foreclosure', state: 'OH' },
+  { key: 'oh-lake',       name: 'Lake OH',    metro: 'Painesville',   host: 'lake.sheriffsaleauction.ohio.gov',       product: 'foreclosure', state: 'OH' },
+  { key: 'oh-warren',     name: 'Warren OH',  metro: 'Lebanon OH',    host: 'warren.sheriffsaleauction.ohio.gov',     product: 'foreclosure', state: 'OH' },
+  { key: 'oh-clermont',   name: 'Clermont',   metro: 'Batavia',       host: 'clermont.sheriffsaleauction.ohio.gov',   product: 'foreclosure', state: 'OH' },
+  { key: 'oh-trumbull',   name: 'Trumbull',   metro: 'Warren OH',     host: 'trumbull.sheriffsaleauction.ohio.gov',   product: 'foreclosure', state: 'OH' },
+  { key: 'oh-licking',    name: 'Licking',    metro: 'Newark OH',     host: 'licking.sheriffsaleauction.ohio.gov',    product: 'foreclosure', state: 'OH' },
+  { key: 'oh-delaware',   name: 'Delaware OH',metro: 'Delaware OH',   host: 'delaware.sheriffsaleauction.ohio.gov',   product: 'foreclosure', state: 'OH' },
+  { key: 'oh-medina',     name: 'Medina',     metro: 'Medina',        host: 'medina.sheriffsaleauction.ohio.gov',     product: 'foreclosure', state: 'OH' },
+  { key: 'oh-portage',    name: 'Portage',    metro: 'Ravenna',       host: 'portage.sheriffsaleauction.ohio.gov',    product: 'foreclosure', state: 'OH' },
+  { key: 'oh-greene',     name: 'Greene',     metro: 'Xenia',         host: 'greene.sheriffsaleauction.ohio.gov',     product: 'foreclosure', state: 'OH' },
+  { key: 'oh-clark',      name: 'Clark OH',   metro: 'Springfield',   host: 'clark.sheriffsaleauction.ohio.gov',      product: 'foreclosure', state: 'OH' },
+  { key: 'oh-richland',   name: 'Richland',   metro: 'Mansfield',     host: 'richland.sheriffsaleauction.ohio.gov',   product: 'foreclosure', state: 'OH' },
+  // ── TEXAS constable/tax foreclosure: <county>.texas.realforeclose.com ──
+  { key: 'tx-travis',     name: 'Travis',     metro: 'Austin',        host: 'travis.texas.realforeclose.com',         product: 'foreclosure', state: 'TX' },
+  { key: 'tx-montgomery', name: 'Montgomery TX', metro: 'Conroe',     host: 'montgomery.texas.realforeclose.com',     product: 'foreclosure', state: 'TX' },
+  // ── LOUISIANA sheriff sales: <parish>.la.realforeclose.com ──
+  { key: 'la-iberville',  name: 'Iberville',  metro: 'Plaquemine',    host: 'iberville.la.realforeclose.com',         product: 'foreclosure', state: 'LA' },
+  // ── NEW YORK delinquent-tax auction: <county>.ny.realforeclose.com ──
+  { key: 'ny-suffolk',    name: 'Suffolk',    metro: 'Long Island',   host: 'suffolk.ny.realforeclose.com',           product: 'foreclosure', state: 'NY' }
 ];
 
 var MAX_DATES = parseInt(process.env.RA_MAX_DATES || '4', 10);
