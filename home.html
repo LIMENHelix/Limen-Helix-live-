@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LIMEN Helix — the transformation map for every system that matters</title>
+<meta name="description" content="LIMEN Helix reads distress and opportunity across 20 domains of civilization — from public data — and connects the people who suddenly need each other.">
+<style>
+  :root{
+    --ink:#0a0e14; --ink2:#0d141d; --panel:#111a25; --line:#1e2a38;
+    --txt:#eaf1f7; --mut:#8b9aa8; --soft:#c7d2da; --teal:#35e0c4; --gold:#d9b74a;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--ink);color:var(--txt);font:16px/1.6 -apple-system,Segoe UI,Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:var(--teal);text-decoration:none}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+  .eyebrow{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--mut)}
+  /* nav */
+  nav{position:sticky;top:0;z-index:50;background:rgba(10,14,20,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;gap:18px;height:58px}
+  nav .logo{font-weight:700;letter-spacing:1px}
+  nav .logo b{color:var(--teal)}
+  nav .sp{flex:1}
+  nav a.link{color:var(--soft);font-size:14px}
+  nav a.cta{background:var(--teal);color:#04120f;padding:7px 14px;border-radius:8px;font-weight:700;font-size:14px}
+  /* hero */
+  .hero{padding:76px 0 54px;border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+  .hero::after{content:"";position:absolute;inset:0;background:radial-gradient(900px 400px at 78% -10%,rgba(53,224,196,.10),transparent 60%),radial-gradient(700px 360px at 8% 120%,rgba(217,183,74,.07),transparent 60%);pointer-events:none}
+  .hero h1{font-size:clamp(30px,5vw,52px);line-height:1.08;margin:16px 0 0;letter-spacing:-.5px;max-width:16ch}
+  .hero h1 .g{color:var(--teal)}
+  .hero p.lead{font-size:clamp(16px,2.2vw,20px);color:var(--soft);max-width:60ch;margin:20px 0 0}
+  .hero .btns{margin-top:30px;display:flex;gap:12px;flex-wrap:wrap}
+  .btn{padding:12px 20px;border-radius:10px;font-weight:700;font-size:15px}
+  .btn.p{background:var(--teal);color:#04120f}
+  .btn.s{background:transparent;color:var(--txt);border:1px solid var(--line)}
+  /* sections */
+  section{padding:60px 0}
+  h2.sec{font-size:clamp(22px,3vw,30px);margin:0 0 6px;letter-spacing:-.3px}
+  .sub{color:var(--mut);max-width:62ch;margin:0 0 30px}
+  /* pillars */
+  .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .pill{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px}
+  .pill .k{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--teal)}
+  .pill h3{margin:10px 0 8px;font-size:19px}
+  .pill p{color:var(--soft);font-size:15px;margin:0}
+  /* domains grid */
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .card{background:var(--ink2);border:1px solid var(--line);border-radius:12px;padding:16px 16px 14px;display:block;transition:border-color .15s,transform .15s,background .15s}
+  .card:hover{border-color:var(--teal);background:var(--panel);transform:translateY(-2px)}
+  .card .ess{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--gold)}
+  .card .nm{font-size:18px;font-weight:700;color:var(--txt);margin-top:5px}
+  .card .go{color:var(--mut);font-size:12px;margin-top:8px}
+  .card:hover .go{color:var(--teal)}
+  /* tools band */
+  .band{background:linear-gradient(180deg,var(--ink2),transparent);border:1px solid var(--line);border-radius:16px;padding:26px;display:grid;grid-template-columns:1.3fr 1fr;gap:22px;align-items:center}
+  .band h3{margin:0 0 8px;font-size:22px}
+  .band p{color:var(--soft);margin:0}
+  .toolrow{display:flex;gap:12px;flex-wrap:wrap}
+  .tool{flex:1;min-width:180px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .tool .t{font-weight:700}
+  .tool .d{color:var(--mut);font-size:13px;margin:4px 0 10px}
+  .tool a{font-size:13px;font-weight:700}
+  /* footer */
+  footer{border-top:1px solid var(--line);padding:36px 0;color:var(--mut);font-size:13px}
+  footer .cols{display:flex;gap:26px;flex-wrap:wrap;justify-content:space-between}
+  footer a{color:var(--soft)}
+  .honest{background:var(--ink2);border:1px solid var(--line);border-radius:12px;padding:16px 18px;color:var(--mut);font-size:13px;margin-top:22px;line-height:1.65}
+  @media(max-width:820px){.pillars{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}.band{grid-template-columns:1fr}}
+  @media(max-width:480px){.grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <span class="logo">LIMEN <b>Helix</b></span>
+  <span class="sp"></span>
+  <a class="link" href="#domains">Domains</a>
+  <a class="link" href="#how">How it works</a>
+  <a class="link" href="/connectome.html">The map</a>
+  <a class="cta" href="#domains">Explore</a>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <div class="eyebrow">LIMEN Helix · Transformation Sciences</div>
+  <h1>Every system moves through the same arc. <span class="g">We read where it is.</span></h1>
+  <p class="lead">From energy grids to housing markets to courtrooms, LIMEN Helix maps <b>distress</b> and
+    <b>opportunity</b> across 20 domains of civilization — built from public data — and connects the people
+    who suddenly need each other.</p>
+  <div class="btns">
+    <a class="btn p" href="#domains">Explore the 20 domains</a>
+    <a class="btn s" href="#how">How it works</a>
+  </div>
+</div></header>
+
+<section id="how"><div class="wrap">
+  <h2 class="sec">What LIMEN Helix actually does</h2>
+  <p class="sub">Not a crystal ball. Three honest things, done well.</p>
+  <div class="pillars">
+    <div class="pill">
+      <div class="k">1 · The signals</div>
+      <h3>Read the whole board</h3>
+      <p>We aggregate hundreds of public feeds into a current read on each domain — what's under stress,
+        what's shifting, where people and capital are moving.</p>
+    </div>
+    <div class="pill">
+      <div class="k">2 · The one validated edge</div>
+      <h3>See failure early</h3>
+      <p>A distress model that flags structural collapse well before the market does — within a defined
+        envelope. It's the single predictive signal we stand behind; everything else is aggregation and speed.</p>
+    </div>
+    <div class="pill">
+      <div class="k">3 · The connection</div>
+      <h3>Introduce the two sides</h3>
+      <p>When a trigger creates two parties who now need each other — a motivated seller and a ready buyer,
+        a new rule and the business it hits — we surface it and make the introduction. We own nothing.</p>
+    </div>
+  </div>
+</div></section>
+
+<section id="domains"><div class="wrap">
+  <h2 class="sec">Twenty domains, one engine</h2>
+  <p class="sub">Every domain of civilization runs the same transformation arc. Open any one for its live pulse
+    and the opportunities forming inside it.</p>
+  <div class="grid" id="grid"></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="band">
+    <div>
+      <h3>Start with a tool, not a pitch</h3>
+      <p>The fastest way to understand LIMEN Helix is to use one of the free front-line tools — each turns our
+        data into something you can act on today.</p>
+    </div>
+    <div class="toolrow">
+      <div class="tool">
+        <div class="t">⚡ Energy Bill X-Ray</div>
+        <div class="d">Decode your power bill, find the overcharge, build a complaint — free.</div>
+        <a href="/energy">Open →</a>
+      </div>
+      <div class="tool">
+        <div class="t">🏠 Population / housing</div>
+        <div class="d">Where people and money are moving, from your ZIP to the nation.</div>
+        <a href="/population">Open →</a>
+      </div>
+    </div>
+  </div>
+  <div class="honest">
+    <b>Straight talk.</b> LIMEN Helix is educational information, not professional, financial, or emergency
+    advice. Our data is compiled from public sources and refreshed regularly — it is not real-time, and we
+    never file or transact on your behalf. Our one validated edge is early distress detection within a defined
+    envelope; we don't claim to predict everything. In an emergency, follow official local alerts.
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="cols">
+    <div><b style="color:var(--soft)">LIMEN Helix</b> Transformation Sciences · <a href="/connectome.html">See the whole map →</a></div>
+    <div><a href="#domains">Domains</a> &nbsp; <a href="#how">How it works</a> &nbsp; <a href="/energy">Energy tool</a></div>
+  </div>
+</div></footer>
+
+<script>
+var DOMAINS = [
+  ['energy','Power'],['finance','Capital'],['population','Organism'],['law','Order'],
+  ['economy','Exchange'],['governance','Control'],['medicine','Repair'],['technology','Coordination'],
+  ['trade','Movement'],['industry','Formation'],['agriculture','Nourishment'],['infrastructure','Structure'],
+  ['science','Discovery'],['education','Transmission'],['communication','Signal'],['defense','Protection'],
+  ['environment','Substrate'],['religion','Meaning'],['culture','Identity'],['intelligence','Awareness']
+];
+function cap(s){return s.charAt(0).toUpperCase()+s.slice(1)}
+document.getElementById('grid').innerHTML = DOMAINS.map(function(d){
+  return '<a class="card" href="/'+d[0]+'"><div class="ess">'+d[1]+'</div>'+
+    '<div class="nm">'+cap(d[0])+'</div><div class="go">Live pulse &amp; opportunities →</div></a>';
+}).join('');
+</script>
+</body>
+</html>
