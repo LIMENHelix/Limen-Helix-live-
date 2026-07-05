@@ -26,6 +26,10 @@ on:
         description: 'Auction dates per county'
         required: false
         default: '4'
+      debug:
+        description: 'Set 1 to dump raw label/value pairs (no enrich/write)'
+        required: false
+        default: ''
 
 permissions:
   contents: read
@@ -62,3 +66,4 @@ jobs:
           RA_INGEST_KEY: ${{ secrets.LEAD_ADMIN_KEY }}
           RA_COUNTIES: ${{ github.event.inputs.counties }}
           RA_MAX_DATES: ${{ github.event.inputs.maxdates || '3' }}
+          RA_DEBUG_RAW: ${{ github.event.inputs.debug }}

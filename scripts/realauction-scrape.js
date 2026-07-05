@@ -135,6 +135,9 @@ async function scrapeDate(page, county, date) {
     });
     return res;
   });
+  if (process.env.RA_DEBUG_RAW) {
+    raw.slice(0, 3).forEach(function (o) { console.log('RAWDUMP ' + county.key + ' ' + JSON.stringify(o)); });
+  }
   return raw.map(function (o) { return normalize(o, county, date); }).filter(Boolean);
 }
 
@@ -219,6 +222,9 @@ async function run() {
     }
   }
   await browser.close();
+
+  // diagnostic: raw label/value pairs already logged in scrapeDate — stop before enrich/write
+  if (process.env.RA_DEBUG_RAW) { console.log('== RA_DEBUG_RAW: raw pairs dumped, skipping enrich + write =='); return; }
 
   // dedupe by case #, keep live, rank by equity (biggest surplus first)
   var seen = {}, live = [];
