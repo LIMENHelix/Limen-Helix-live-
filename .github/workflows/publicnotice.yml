@@ -1,0 +1,44 @@
+# Public-notice scraper (Column/MSPN platform — GA first). Manual for now while we map + wire it.
+name: Public notice scrape
+
+on:
+  workflow_dispatch:
+    inputs:
+      site:
+        description: 'Public-notice site host'
+        required: false
+        default: 'georgiapublicnotice.com'
+      query:
+        description: 'Search query'
+        required: false
+        default: 'notice of sale under power foreclosure'
+      debug:
+        description: 'Set 1 to dump search UI + captured API + a sample notice (no write)'
+        required: false
+        default: '1'
+
+permissions:
+  contents: read
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout: |
+            scripts/publicnotice-scrape.js
+            lib/limen-db.js
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: install puppeteer
+        run: npm install puppeteer@23 --no-save --no-audit --no-fund
+      - name: run public-notice scrape
+        run: node scripts/publicnotice-scrape.js
+        env:
+          PN_SITE: ${{ github.event.inputs.site }}
+          PN_QUERY: ${{ github.event.inputs.query }}
+          PN_DEBUG: ${{ github.event.inputs.debug }}
