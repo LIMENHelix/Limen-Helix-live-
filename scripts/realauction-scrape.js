@@ -105,7 +105,26 @@ var COUNTIES = [
   // ── LOUISIANA sheriff sales: <parish>.la.realforeclose.com ──
   { key: 'la-iberville',  name: 'Iberville',  metro: 'Plaquemine',    host: 'iberville.la.realforeclose.com',         product: 'foreclosure', state: 'LA' },
   // ── NEW YORK delinquent-tax auction: <county>.ny.realforeclose.com ──
-  { key: 'ny-suffolk',    name: 'Suffolk',    metro: 'Long Island',   host: 'suffolk.ny.realforeclose.com',           product: 'foreclosure', state: 'NY' }
+  { key: 'ny-suffolk',    name: 'Suffolk',    metro: 'Long Island',   host: 'suffolk.ny.realforeclose.com',           product: 'foreclosure', state: 'NY' },
+  // ── OHIO expansion (state contract — same host pattern + parser; empty calendars skip) ──
+  { key: 'oh-wood',       name: 'Wood',       metro: 'Bowling Green', host: 'wood.sheriffsaleauction.ohio.gov',        product: 'foreclosure', state: 'OH' },
+  { key: 'oh-union',      name: 'Union OH',   metro: 'Marysville',    host: 'union.sheriffsaleauction.ohio.gov',       product: 'foreclosure', state: 'OH' },
+  { key: 'oh-champaign',  name: 'Champaign',  metro: 'Urbana',        host: 'champaign.sheriffsaleauction.ohio.gov',   product: 'foreclosure', state: 'OH' },
+  { key: 'oh-fairfield',  name: 'Fairfield',  metro: 'Lancaster',     host: 'fairfield.sheriffsaleauction.ohio.gov',   product: 'foreclosure', state: 'OH' },
+  { key: 'oh-geauga',     name: 'Geauga',     metro: 'Chardon',       host: 'geauga.sheriffsaleauction.ohio.gov',      product: 'foreclosure', state: 'OH' },
+  { key: 'oh-ashtabula',  name: 'Ashtabula',  metro: 'Ashtabula',     host: 'ashtabula.sheriffsaleauction.ohio.gov',   product: 'foreclosure', state: 'OH' },
+  { key: 'oh-allen',      name: 'Allen OH',   metro: 'Lima',          host: 'allen.sheriffsaleauction.ohio.gov',       product: 'foreclosure', state: 'OH' },
+  { key: 'oh-miami',      name: 'Miami OH',   metro: 'Troy',          host: 'miami.sheriffsaleauction.ohio.gov',       product: 'foreclosure', state: 'OH' },
+  { key: 'oh-wayne',      name: 'Wayne OH',   metro: 'Wooster',       host: 'wayne.sheriffsaleauction.ohio.gov',       product: 'foreclosure', state: 'OH' },
+  { key: 'oh-columbiana', name: 'Columbiana', metro: 'Lisbon',        host: 'columbiana.sheriffsaleauction.ohio.gov',  product: 'foreclosure', state: 'OH' },
+  { key: 'oh-hancock',    name: 'Hancock OH', metro: 'Findlay',       host: 'hancock.sheriffsaleauction.ohio.gov',     product: 'foreclosure', state: 'OH' },
+  { key: 'oh-tuscarawas', name: 'Tuscarawas', metro: 'New Philadelphia', host: 'tuscarawas.sheriffsaleauction.ohio.gov', product: 'foreclosure', state: 'OH' },
+  { key: 'oh-muskingum',  name: 'Muskingum',  metro: 'Zanesville',    host: 'muskingum.sheriffsaleauction.ohio.gov',   product: 'foreclosure', state: 'OH' },
+  { key: 'oh-marion',     name: 'Marion OH',  metro: 'Marion OH',     host: 'marion.sheriffsaleauction.ohio.gov',      product: 'foreclosure', state: 'OH' },
+  { key: 'oh-ross',       name: 'Ross',       metro: 'Chillicothe',   host: 'ross.sheriffsaleauction.ohio.gov',        product: 'foreclosure', state: 'OH' },
+  { key: 'oh-scioto',     name: 'Scioto',     metro: 'Portsmouth',    host: 'scioto.sheriffsaleauction.ohio.gov',      product: 'foreclosure', state: 'OH' },
+  { key: 'oh-erie',       name: 'Erie OH',    metro: 'Sandusky',      host: 'erie.sheriffsaleauction.ohio.gov',        product: 'foreclosure', state: 'OH' },
+  { key: 'oh-sandusky',   name: 'Sandusky OH',metro: 'Fremont',       host: 'sandusky.sheriffsaleauction.ohio.gov',    product: 'foreclosure', state: 'OH' }
 ];
 
 var MAX_DATES = parseInt(process.env.RA_MAX_DATES || '4', 10);
