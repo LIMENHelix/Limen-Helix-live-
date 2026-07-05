@@ -511,6 +511,7 @@ void main(){
     A <b style="color:#cdd6e4">LIMEN Helix Transformation Sciences</b> public front · <a href="/">limenhelix.com</a><br>
     Educational information, not professional, financial, or emergency advice. In an emergency, follow official local alerts.
     <a id="adminLink" href="/admin-deals" title="Deal Desk (admin)" style="display:none;margin-left:.5em;opacity:.45;text-decoration:none;letter-spacing:.12em;font-size:.7em">· DESK</a>
+    <a id="homesteadLink" href="/admin-homestead" title="Homestead — state → county opportunities (admin)" style="display:none;margin-left:.5em;opacity:.45;text-decoration:none;letter-spacing:.12em;font-size:.7em">· HOMESTEAD</a>
   </footer>
 </div>
 
@@ -547,7 +548,7 @@ var DID = domainFromUrl();
 var C = CONFIG[DID] || CONFIG.economy;
 var EL = function (id) { return document.getElementById(id); };
 // discreet admin entry to the private Deal Desk — population front only (page is key-gated regardless)
-if (DID === 'population') { var _al = document.getElementById('adminLink'); if (_al) _al.style.display = 'inline'; }
+if (DID === 'population') { var _al = document.getElementById('adminLink'); if (_al) _al.style.display = 'inline'; var _hl = document.getElementById('homesteadLink'); if (_hl) _hl.style.display = 'inline'; }
 function ago(iso) { if (!iso) return ''; var t = Date.parse(iso); if (!t) return ''; var s = (Date.now() - t) / 1000; if (s < 60) return 'just now'; if (s < 3600) return Math.floor(s / 60) + 'm ago'; if (s < 86400) return Math.floor(s / 3600) + 'h ago'; return Math.floor(s / 86400) + 'd ago'; }
 function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 

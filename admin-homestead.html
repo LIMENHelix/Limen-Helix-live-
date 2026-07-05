@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Homestead · Deal Desk</title>
+<style>
+  :root{
+    --ink:#0a0e14; --panel:#111823; --panel2:#0d141d; --line:#1e2a38;
+    --txt:#e7eef4; --mut:#8798a6; --soft:#c7d2da; --teal:#35e0c4;
+    --t1:#e8b23a; --t2:#e07a3a; --t3:#6ea8d8; --t4:#5a6b7a; --bad:#c0505a;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ink);color:var(--txt);font:14px/1.45 -apple-system,Segoe UI,Roboto,Arial,sans-serif}
+  a{color:var(--teal);text-decoration:none}
+  .wrap{max-width:1080px;margin:0 auto;padding:18px}
+  header.top{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:12px}
+  header.top h1{font-size:19px;margin:0;letter-spacing:.5px}
+  header.top .sub{color:var(--mut);font-size:12px}
+  header.top .brand{color:var(--mut);font-size:11px;letter-spacing:3px;text-transform:uppercase}
+  /* today bar */
+  .today{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:9px 13px;min-width:96px}
+  .stat .n{font-size:20px;font-weight:700}
+  .stat .l{font-size:10px;color:var(--mut);text-transform:uppercase;letter-spacing:.5px}
+  .stat.hot .n{color:var(--t1)}
+  /* gate */
+  #gate{max-width:340px;margin:12vh auto;text-align:center}
+  #gate input{width:100%;padding:11px;margin:10px 0;background:var(--panel);border:1px solid var(--line);border-radius:8px;color:var(--txt);font-size:15px}
+  #gate button{width:100%;padding:11px;background:var(--teal);color:#04120f;border:0;border-radius:8px;font-weight:700;cursor:pointer}
+  #gate .err{color:var(--bad);font-size:13px;min-height:18px}
+  /* tree */
+  details{border:1px solid var(--line);border-radius:8px;margin:7px 0;background:var(--panel2);overflow:hidden}
+  details[open]{background:var(--panel)}
+  summary{list-style:none;cursor:pointer;padding:10px 13px;display:flex;align-items:center;gap:10px;user-select:none}
+  summary::-webkit-details-marker{display:none}
+  summary .caret{color:var(--mut);transition:transform .15s;font-size:11px}
+  details[open]>summary .caret{transform:rotate(90deg)}
+  summary .name{font-weight:600;flex:1}
+  summary .name.empty{color:var(--mut);font-weight:500}
+  .pill{font-size:11px;padding:2px 8px;border-radius:20px;background:#16222f;color:var(--soft);border:1px solid var(--line)}
+  .pill.wf{background:#2a2410;color:var(--t1);border-color:#4a3d14}
+  .county-body{padding:2px 10px 10px}
+  .state details{margin-left:10px}
+  /* opportunity row */
+  .opp{display:grid;grid-template-columns:44px 1fr auto;gap:10px;padding:9px 10px;border-top:1px solid var(--line);align-items:start}
+  .opp:first-child{border-top:0}
+  .tier{font-size:10px;font-weight:700;text-align:center;border-radius:6px;padding:3px 0;height:fit-content}
+  .t1{background:#3a2f0e;color:var(--t1)} .t2{background:#3a250f;color:var(--t2)}
+  .t3{background:#16283a;color:var(--t3)} .t4{background:#1a222a;color:var(--t4)}
+  .opp .who{font-weight:600}
+  .opp .addr{color:var(--mut);font-size:12px}
+  .opp .sig{margin-top:3px;display:flex;gap:5px;flex-wrap:wrap}
+  .chip{font-size:10px;padding:1px 6px;border-radius:4px;background:#16222f;color:var(--soft)}
+  .chip.hn{background:#2a1418;color:#e08a94}
+  .opp .money{text-align:right;white-space:nowrap}
+  .opp .eq{font-weight:700} .opp .eq.pos{color:var(--teal)} .opp .eq.neg{color:var(--t4)}
+  .opp .meta{color:var(--mut);font-size:11px}
+  .empty-note{color:var(--mut);font-size:12px;padding:8px 10px}
+  .foot{color:var(--mut);font-size:11px;margin-top:24px;border-top:1px solid var(--line);padding-top:10px}
+</style>
+</head>
+<body>
+<div id="gate">
+  <div class="brand" style="letter-spacing:3px;color:var(--mut);font-size:11px">L I M E N&nbsp;&nbsp;H E L I X</div>
+  <h2 style="margin:8px 0">Homestead · Deal Desk</h2>
+  <input id="key" type="password" placeholder="admin key" autocomplete="off">
+  <button id="go">Open</button>
+  <div class="err" id="err"></div>
+</div>
+
+<div class="wrap" id="app" hidden>
+  <header class="top">
+    <span class="brand">L I M E N&nbsp;&nbsp;H E L I X</span>
+    <h1>Homestead · Deal Desk</h1>
+    <span class="sub" id="updated"></span>
+    <span style="flex:1"></span>
+    <a href="#" id="refresh">refresh</a>
+  </header>
+  <div class="today" id="today"></div>
+  <div id="states"></div>
+  <div class="foot">
+    P3 distress engine · owner + motivated-seller priority (probate/heirs &gt; foreign/out-of-state absentee &gt; trust/LLC &gt; in-state absentee).
+    Underwater/thin-equity deals are demoted below the value floor. Owner data is public record; contact rules (DNC/TCPA) apply.
+  </div>
+</div>
+
+<script>
+// full geographic skeleton — states as shells, FL counties enumerated. Fill as the engine populates.
+var STATES = [["FL","Florida"],["AL","Alabama"],["AK","Alaska"],["AZ","Arizona"],["AR","Arkansas"],["CA","California"],["CO","Colorado"],["CT","Connecticut"],["DE","Delaware"],["GA","Georgia"],["HI","Hawaii"],["ID","Idaho"],["IL","Illinois"],["IN","Indiana"],["IA","Iowa"],["KS","Kansas"],["KY","Kentucky"],["LA","Louisiana"],["ME","Maine"],["MD","Maryland"],["MA","Massachusetts"],["MI","Michigan"],["MN","Minnesota"],["MS","Mississippi"],["MO","Missouri"],["MT","Montana"],["NE","Nebraska"],["NV","Nevada"],["NH","New Hampshire"],["NJ","New Jersey"],["NM","New Mexico"],["NY","New York"],["NC","North Carolina"],["ND","North Dakota"],["OH","Ohio"],["OK","Oklahoma"],["OR","Oregon"],["PA","Pennsylvania"],["RI","Rhode Island"],["SC","South Carolina"],["SD","South Dakota"],["TN","Tennessee"],["TX","Texas"],["UT","Utah"],["VT","Vermont"],["VA","Virginia"],["WA","Washington"],["WV","West Virginia"],["WI","Wisconsin"],["WY","Wyoming"]];
+var FL_COUNTIES = ["Alachua","Baker","Bay","Bradford","Brevard","Broward","Calhoun","Charlotte","Citrus","Clay","Collier","Columbia","DeSoto","Dixie","Duval","Escambia","Flagler","Franklin","Gadsden","Gilchrist","Glades","Gulf","Hamilton","Hardee","Hendry","Hernando","Highlands","Hillsborough","Holmes","Indian River","Jackson","Jefferson","Lafayette","Lake","Lee","Leon","Levy","Liberty","Madison","Manatee","Marion","Martin","Miami-Dade","Monroe","Nassau","Okaloosa","Okeechobee","Orange","Osceola","Palm Beach","Pasco","Pinellas","Polk","Putnam","St. Johns","St. Lucie","Santa Rosa","Sarasota","Seminole","Sumter","Suwannee","Taylor","Union","Volusia","Wakulla","Walton","Washington"];
+
+var KEY='', DATA=null;
+var $=function(s){return document.querySelector(s)};
+function esc(s){return String(s==null?'':s).replace(/[&<>]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[c]})}
+function money(n){if(n==null)return '';var s=n<0?'-':'';return s+'$'+Math.abs(n).toLocaleString()}
+
+function boot(){
+  var k=localStorage.getItem('hsKey')||new URLSearchParams(location.search).get('key');
+  if(k){KEY=k;load();}
+}
+$('#go').onclick=function(){KEY=$('#key').value.trim();load();};
+$('#key').addEventListener('keydown',function(e){if(e.key==='Enter')$('#go').click();});
+$('#refresh').onclick=function(e){e.preventDefault();load();};
+
+function load(){
+  if(!KEY)return;
+  $('#err').textContent='loading…';
+  fetch('/api/homestead?state=FL&perCounty=25&key='+encodeURIComponent(KEY))
+    .then(function(r){return r.json()})
+    .then(function(j){
+      if(!j.ok){$('#err').textContent=j.error||'denied';return;}
+      localStorage.setItem('hsKey',KEY);
+      DATA=j; $('#gate').hidden=true; $('#app').hidden=false;
+      render();
+    })
+    .catch(function(){$('#err').textContent='network error';});
+}
+
+function render(){
+  var t=DATA.totals||{};
+  $('#updated').textContent=DATA.updatedMs?('updated '+new Date(DATA.updatedMs).toLocaleString()):'';
+  $('#today').innerHTML=
+    stat(t.deals,'Deals')+stat(t.counties,'Counties w/ deals')+
+    stat((t.enriched||0)+' / '+(t.deals||0),'Owner-matched')+
+    stat(t.workFirst,'Work-first',true);
+  // index API counties by name
+  var byName={}; (DATA.counties||[]).forEach(function(c){byName[c.county]=c;});
+  var html='';
+  STATES.forEach(function(s){
+    var isFL=s[0]==='FL';
+    var counties = isFL ? FL_COUNTIES : [];
+    var withData = isFL ? (DATA.counties||[]).length : 0;
+    html+='<details class="state"'+(isFL?' open':'')+'>'+
+      '<summary><span class="caret">▶</span><span class="name'+(isFL?'':' empty')+'">'+s[1]+'</span>'+
+      (isFL?'<span class="pill">'+ (t.deals||0) +' deals · '+withData+' counties</span>':'<span class="pill">no supply wired</span>')+'</summary>';
+    if(isFL){
+      html+='<div class="county-body">';
+      counties.forEach(function(cn){
+        var c=byName[cn];
+        html+=countyBlock(cn,c);
+      });
+      html+='</div>';
+    }else{
+      html+='<div class="empty-note">Supply not wired for this state yet. The engine fills it here once its distress feed + owner source are connected.</div>';
+    }
+    html+='</details>';
+  });
+  $('#states').innerHTML=html;
+}
+function stat(n,l,hot){return '<div class="stat'+(hot?' hot':'')+'"><div class="n">'+(n==null?'–':n)+'</div><div class="l">'+l+'</div></div>';}
+
+function countyBlock(name,c){
+  if(!c){ // empty shell
+    return '<details class="county"><summary><span class="caret">▶</span><span class="name empty">'+name+'</span><span class="pill">—</span></summary>'+
+      '<div class="empty-note">No active auctions in the current window.</div></details>';
+  }
+  var wf=c.workFirst||0;
+  var head='<span class="pill">'+c.total+' deal'+(c.total===1?'':'s')+'</span>'+
+    (wf?'<span class="pill wf">'+wf+' work-first</span>':'')+
+    '<span class="pill">top '+money(c.topEquity)+'</span>';
+  var rows=(c.opportunities||[]).map(oppRow).join('');
+  return '<details class="county"'+(wf?' open':'')+'><summary><span class="caret">▶</span><span class="name">'+name+' '+(c.metro?'<span style="color:var(--mut);font-weight:400;font-size:12px">('+esc(c.metro)+')</span>':'')+'</span>'+head+'</summary><div>'+rows+'</div></details>';
+}
+function oppRow(o){
+  var sig=(o.signals||[]).map(function(s){return '<span class="chip">'+esc(s.replace(/-/g,' ').toLowerCase())+'</span>';}).join('');
+  var eqc=(o.equity||0)>0?'pos':'neg';
+  return '<div class="opp">'+
+    '<div class="tier t'+o.tier+'">T'+o.tier+'</div>'+
+    '<div><div class="who">'+esc(o.owner||'(owner unknown)')+(o.absentee?' <span class="chip hn">absentee</span>':'')+'</div>'+
+      '<div class="addr">'+esc(o.address||'')+(o.city?', '+esc(o.city):'')+' · '+esc(o.propType||'?')+'</div>'+
+      (sig?'<div class="sig">'+sig+'</div>':'')+'</div>'+
+    '<div class="money"><div class="eq '+eqc+'">'+money(o.equity)+'</div><div class="meta">'+esc(o.saleDate||'')+'</div>'+
+      (o.mailTo?'<div class="meta">→ '+esc(o.mailTo)+'</div>':'')+'</div>'+
+  '</div>';
+}
+boot();
+</script>
+</body>
+</html>

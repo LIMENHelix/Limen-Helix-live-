@@ -141,9 +141,19 @@ async function scrapeDate(page, county, date) {
   return raw.map(function (o) { return normalize(o, county, date); }).filter(Boolean);
 }
 
+// Some counties (Indian River, Flagler) render the house number and street in adjacent
+// inline elements with no whitespace, so innerText glues them: "87CROOKED LN" / "65661ST ST".
+// Re-insert the missing space — numbered-street case first (6566|1ST), then lettered (87|CROOKED).
+function fixMergedStreet(s) {
+  s = String(s || '').trim();
+  s = s.replace(/^(\d+)(\d(?:ST|ND|RD|TH)\b)/i, '$1 $2');  // 65661ST -> 6566 1ST
+  s = s.replace(/^(\d+)([A-Za-z])/, '$1 $2');              // 87CROOKED -> 87 CROOKED
+  return s;
+}
+
 function normalize(o, county, date) {
   var caseNo = o['Case #:'] || o['Case Number:'] || '';
-  var street = o['Property Address:'] || o['Property Address'] || '';
+  var street = fixMergedStreet(o['Property Address:'] || o['Property Address'] || '');
   var cityzip = o[''] || ''; // sometimes "TRINITY, 34655" (Pasco); Polk packs it into street
   // combine both possible layouts, then pull the 5-digit zip from anywhere
   var combined = (street + ' ' + cityzip).replace(/\s+/g, ' ').trim();
