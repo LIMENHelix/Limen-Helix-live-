@@ -7,7 +7,10 @@
  * Vercel Upstash env) stores them. A POST to /api/* also bypasses the Vercel
  * Security Checkpoint that 403s browser GETs. Gated by LEAD_ADMIN_KEY — never public.
  *
- * POST body: { key, deals:[...], meta:{...} }  -> stores realauction:deals + :meta
+ * POST body: { key, deals:[...], meta:{...}, replace?:bool }  -> stores realauction:deals + :meta
+ *   MERGE BY COUNTY (default): replaces only the state|county buckets present in this payload and
+ *   keeps every other county — so a county-scoped scrape (e.g. OH only) can't wipe the rest (FL).
+ *   Pass replace:true (or ?replace=1) to force a full overwrite.
  * GET  ?key=  -> returns the currently stored deals + meta (Deal Desk / debug)
  */
 var db = require('../lib/limen-db');
@@ -44,13 +47,26 @@ module.exports = async function handler(req, res) {
     var body = await readBody(req);
     var key = (body && body.key) || q.key;
     if (ADMIN && key !== ADMIN) return j(res, 403, { ok: false, error: 'Admin key required. Not public.' });
-    var deals = body && body.deals;
-    if (!Array.isArray(deals)) return j(res, 400, { ok: false, error: 'deals[] required' });
-    var meta = (body && body.meta) || { updatedMs: Date.now(), total: deals.length };
-    meta.total = deals.length;
-    await db.set('realauction:deals', deals, TTL);
+    var incoming = body && body.deals;
+    if (!Array.isArray(incoming)) return j(res, 400, { ok: false, error: 'deals[] required' });
+    var replace = body.replace === true || q.replace === '1';
+    var ckey = function (d) { return (d.state || 'FL').toUpperCase() + '|' + (d.county || ''); };
+
+    var final = incoming, kept = 0;
+    if (!replace) {
+      // merge-by-county: drop existing deals for any county this payload covers, keep the rest
+      var covered = {}; incoming.forEach(function (d) { covered[ckey(d)] = 1; });
+      var existing = (await db.get('realauction:deals')) || [];
+      var keptDeals = existing.filter(function (d) { return !covered[ckey(d)]; });
+      kept = keptDeals.length;
+      final = keptDeals.concat(incoming);
+    }
+    var meta = (body && body.meta) || { updatedMs: Date.now() };
+    meta.updatedMs = meta.updatedMs || Date.now();
+    meta.total = final.length;
+    await db.set('realauction:deals', final, TTL);
     await db.set('realauction:meta', meta, TTL);
-    return j(res, 200, { ok: true, stored: deals.length });
+    return j(res, 200, { ok: true, stored: incoming.length, kept: kept, total: final.length, mode: replace ? 'replace' : 'merge' });
   }
 
   return j(res, 405, { ok: false, error: 'method not allowed' });
