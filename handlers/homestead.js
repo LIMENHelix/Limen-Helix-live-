@@ -15,6 +15,7 @@
  *   perCounty -> max opportunities per county (default 12)
  */
 var db = require('../lib/limen-db');
+var enrich = require('../lib/deal-enrich');
 
 function j(res, code, o) {
   res.statusCode = code;
@@ -49,6 +50,17 @@ module.exports = async function handler(req, res) {
 
   var deals = (await db.get('realauction:deals')) || [];
   var meta = (await db.get('realauction:meta')) || null;
+
+  // re-apply the value floor at read time (corrects deals scored under an older rule
+  // without a re-scrape): underwater/thin equity can't be work-first.
+  deals.forEach(function (d) {
+    if (d.tier == null) return;
+    var fl = enrich.floorTier(d, d.tier, d.tierLabel, []);
+    if (fl) {
+      d.tier = fl.tier; d.tierLabel = fl.tierLabel; d.workFirst = fl.tier <= 2;
+      if ((d.priorityReasons || []).indexOf(fl.add) < 0) (d.priorityReasons = d.priorityReasons || []).push(fl.add);
+    }
+  });
 
   // filter to the state + (residential) + tier
   var pool = deals.filter(function (d) {
