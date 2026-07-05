@@ -29,9 +29,12 @@ function project(d) {
   return {
     tier: d.tier, tierLabel: d.tierLabel, priority: d.priority, workFirst: !!d.workFirst,
     signals: (d.priorityReasons || []).filter(function (r) { return r === r.toUpperCase(); }),
-    propType: d.propType, equity: d.equity, assessedValue: d.assessedValue || d.marketValue,
+    propType: d.propType, equity: d.equity,
+    assessedValue: d.assessedValue || d.marketValue, judgment: d.judgment,
+    livingArea: d.livingArea, yearBuilt: d.yearBuilt,
     address: d.street || d.address, city: d.city, zip: d.zip, county: d.county,
     saleDate: d.saleDate, product: d.product, caseNumber: d.caseNumber, parcel: d.parcel,
+    url: d.url || null, enrichStatus: d.enrichStatus,
     owner: o.name || null, absentee: !!o.absentee,
     mailTo: o.name ? [o.mailAddr, o.mailCity, o.mailState, o.mailZip].filter(Boolean).join(', ') : null
   };
