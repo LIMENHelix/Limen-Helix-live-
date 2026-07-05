@@ -712,6 +712,14 @@ var PORTAL_ROUTES = {
   'intelligence': '/domain-console?domain=intelligence'
 };
 
+// Satellite pages that hang OFF a domain node (linked to, not inside it). Clicking the node
+// opens a menu with a second door. Population -> the Homestead P3 deal desk. On the PUBLIC
+// homepage (index.html) the custom onNodeClick intercepts before this menu, so it never leaks.
+var DOMAIN_SATELLITES = {
+  'population': [{ name: '🏠 Homestead · P3 deal desk', url: '/admin-homestead', phase: 'P3' }]
+};
+function satellitesFor(n) { return (n && (DOMAIN_SATELLITES[n.id] || DOMAIN_SATELLITES[n.childUniverse])) || null; }
+
 // Domains with a FREE PUBLIC front (no auth). These take priority in the hover
 // cue so a public visitor is invited to open the live watch. Keep in sync with
 // the PUBLIC map in index.html's onNodeClick.
@@ -1689,13 +1697,15 @@ function drawNode(n, idx, nodeAlpha) {
 // === TOOLTIP ===
 function showTooltip(idx,mx,my) {
   if (_miniMode) return;
+  if (_subMenu && _subMenu.style.display === 'block') return; // don't cover the open click-panel
   var n=NODES[idx];
   _ttPhase.textContent=NODE_TAGLINES[n.id]||'';
   _ttPhase.style.color=n.phaseHex; _ttName.textContent=n.label; _ttTagline.textContent=n.description;
   if(_ttCounts){ var _c=_DOMAIN_COUNTS[n.id];
     _ttCounts.innerHTML = _c ? ('<b>'+_c.p.toLocaleString()+'</b> portals &middot; <b>'+_c.dx.toLocaleString()+'</b> diagnoses &middot; <b>'+_c.tx.toLocaleString()+'</b> treatments') : ''; }
   var ttE=document.getElementById('ttEnter');
-  if(PUBLIC_FRONTS[n.id]) ttE.textContent='Open live watch \u2192';
+  if(satellitesFor(n)) ttE.textContent='Enter domain \u00b7 Homestead \u2192';
+  else if(PUBLIC_FRONTS[n.id]) ttE.textContent='Open live watch \u2192';
   else if(DOMAIN_PORTALS[n.id]) ttE.textContent='View portals \u2192';
   else if(n.childUniverse && PORTAL_ROUTES[n.childUniverse]) ttE.textContent='Enter portal \u2192';
   else ttE.textContent='Portal coming soon';
@@ -1707,21 +1717,52 @@ function showTooltip(idx,mx,my) {
 }
 function hideTooltip() { if (_miniMode || !_tooltip) return; _tooltip.style.display='none'; }
 
+// Create + style the click-panel on demand so it works on every page hosting the connectome.
+function ensureSubMenu() {
+  if (_subMenu && _subMenu.__built) return _subMenu;
+  if (!document.getElementById('subMenuCSS')) {
+    var st = document.createElement('style'); st.id = 'subMenuCSS';
+    st.textContent = '#subMenu{position:fixed;z-index:99999;display:none;min-width:200px;max-width:300px;'
+      + 'background:#0d141d;border:1px solid #26333f;border-radius:10px;padding:6px;'
+      + 'box-shadow:0 12px 38px rgba(0,0,0,.6);font:13px/1.45 -apple-system,Segoe UI,Roboto,Arial,sans-serif}'
+      + '#subMenu .sm-title{font-size:10px;letter-spacing:1.6px;text-transform:uppercase;color:#8798a6;padding:6px 9px}'
+      + '#subMenu a{display:block;padding:9px 10px;color:#e7eef4;text-decoration:none;border-radius:7px;cursor:pointer}'
+      + '#subMenu a:hover{background:#16222f}'
+      + '#subMenu a.sm-main{color:#c7d2da;font-weight:600}'
+      + '#subMenu a.sm-sat{color:#35e0c4;font-weight:600}'
+      + '#subMenu a.sm-sat .ph{opacity:.55;font-size:.85em;margin-left:4px}'
+      + '#subMenu .sm-sep{height:1px;background:#1e2a38;margin:5px 5px}';
+    document.head.appendChild(st);
+  }
+  var d = document.getElementById('subMenu');
+  if (!d) { d = document.createElement('div'); d.id = 'subMenu'; document.body.appendChild(d); }
+  d.addEventListener('mousedown', function (e) { e.stopPropagation(); });
+  d.addEventListener('mouseup', function (e) { e.stopPropagation(); });
+  d.__built = true; _subMenu = d; return d;
+}
+
 function showSubMenu(idx) {
   if (_miniMode) return;
-  var n = NODES[idx], subs = DOMAIN_PORTALS[n.id];
+  var n = NODES[idx], subs = DOMAIN_PORTALS[n.id] || [], sats = satellitesFor(n) || [];
+  ensureSubMenu();
   var p = w2s(n.x, n.y);
-  var html = '<div class="sm-title">' + (SHORT_NAMES[n.id]||n.id) + '</div>';
+  var html = '<div class="sm-title">' + (SHORT_NAMES[n.id] || n.id) + '</div>';
   var domainUrl = PORTAL_ROUTES[n.childUniverse];
-  if (domainUrl) html += '<a class="sm-main" href="'+domainUrl+'">'+n.label+' Portal &rarr;</a>';
-  html += '<div class="sm-sep"></div>';
-  for (var i = 0; i < subs.length; i++) html += '<a href="'+subs[i].url+'">'+subs[i].name+'</a>';
+  if (domainUrl) html += '<a class="sm-main" href="' + domainUrl + '">Enter ' + n.label + ' domain &rarr;</a>';
+  for (var s = 0; s < sats.length; s++) {
+    html += '<a class="sm-sat" href="' + sats[s].url + '">&#8627; ' + sats[s].name +
+      (sats[s].phase ? '<span class="ph">' + sats[s].phase + '</span>' : '') + '</a>';
+  }
+  if (subs.length) html += '<div class="sm-sep"></div>';
+  for (var i = 0; i < subs.length; i++) html += '<a href="' + subs[i].url + '">' + subs[i].name + '</a>';
   _subMenu.innerHTML = html;
   _subMenu.style.display = 'block';
   var mx = p.x + 20, my = p.y - 10;
   var mw = _subMenu.offsetWidth, mh = _subMenu.offsetHeight;
-  if (mx + mw > W - 10) mx = p.x - mw - 20;
-  if (my + mh > H - 10) my = H - mh - 10;
+  var vw = window.innerWidth, vh = window.innerHeight;
+  if (mx + mw > vw - 10) mx = p.x - mw - 20;
+  if (mx < 10) mx = 10;
+  if (my + mh > vh - 10) my = vh - mh - 10;
   if (my < 10) my = 10;
   _subMenu.style.left = mx + 'px'; _subMenu.style.top = my + 'px';
 }
@@ -1731,7 +1772,7 @@ function navigateToUniverse(idx) {
   var n=NODES[idx]; if(!n||!n.childUniverse) return;
   if (_onNodeClick) { _onNodeClick(n); return; }
   if (_miniMode) { window.location.href = '/connectome.html'; return; }
-  if (DOMAIN_PORTALS[n.id]) { hideTooltip(); showSubMenu(idx); return; }
+  if (DOMAIN_PORTALS[n.id] || satellitesFor(n)) { hideTooltip(); showSubMenu(idx); return; }
   var targetUrl = PORTAL_ROUTES[n.childUniverse];
   if (!targetUrl) return;
   if (window.LIMENUIState) window.LIMENUIState.save({ focusDomain: n.id, navigatedAt: Date.now() });
