@@ -25,6 +25,17 @@
   .stat .n{font-size:20px;font-weight:700}
   .stat .l{font-size:10px;color:var(--mut);text-transform:uppercase;letter-spacing:.5px}
   .stat.hot .n{color:var(--t1)}
+  .stat.clk{cursor:pointer;transition:border-color .15s}
+  .stat.clk:hover{border-color:var(--teal)}
+  .stat.active{border-color:var(--teal);background:#0f1f24}
+  /* status control */
+  .statusrow{margin-bottom:8px;text-align:right}
+  .stsel{font-size:11px;font-weight:700;border-radius:6px;padding:4px 6px;background:#1a222a;color:var(--soft);border:1px solid var(--line);cursor:pointer}
+  .stsel.st-new{color:var(--mut)}
+  .stsel.st-contacted,.stsel.st-negotiating,.stsel.st-under-contract,.stsel.st-assigned{color:var(--t3);border-color:#24485f}
+  .stsel.st-closed{color:var(--teal);border-color:#1f5a4a}
+  .stsel.st-dead{color:#8a5a5a} .stsel.st-review{color:var(--t1);border-color:#4a3d14}
+  .revin{width:82px;font-size:11px;background:var(--panel);border:1px solid var(--line);border-radius:6px;color:var(--txt);padding:4px 6px;margin-top:4px}
   /* gate */
   #gate{max-width:340px;margin:12vh auto;text-align:center}
   #gate input{width:100%;padding:11px;margin:10px 0;background:var(--panel);border:1px solid var(--line);border-radius:8px;color:var(--txt);font-size:15px}
@@ -139,7 +150,21 @@
 var STATES = [["FL","Florida"],["AL","Alabama"],["AK","Alaska"],["AZ","Arizona"],["AR","Arkansas"],["CA","California"],["CO","Colorado"],["CT","Connecticut"],["DE","Delaware"],["GA","Georgia"],["HI","Hawaii"],["ID","Idaho"],["IL","Illinois"],["IN","Indiana"],["IA","Iowa"],["KS","Kansas"],["KY","Kentucky"],["LA","Louisiana"],["ME","Maine"],["MD","Maryland"],["MA","Massachusetts"],["MI","Michigan"],["MN","Minnesota"],["MS","Mississippi"],["MO","Missouri"],["MT","Montana"],["NE","Nebraska"],["NV","Nevada"],["NH","New Hampshire"],["NJ","New Jersey"],["NM","New Mexico"],["NY","New York"],["NC","North Carolina"],["ND","North Dakota"],["OH","Ohio"],["OK","Oklahoma"],["OR","Oregon"],["PA","Pennsylvania"],["RI","Rhode Island"],["SC","South Carolina"],["SD","South Dakota"],["TN","Tennessee"],["TX","Texas"],["UT","Utah"],["VT","Vermont"],["VA","Virginia"],["WA","Washington"],["WV","West Virginia"],["WI","Wisconsin"],["WY","Wyoming"]];
 var FL_COUNTIES = ["Alachua","Baker","Bay","Bradford","Brevard","Broward","Calhoun","Charlotte","Citrus","Clay","Collier","Columbia","DeSoto","Dixie","Duval","Escambia","Flagler","Franklin","Gadsden","Gilchrist","Glades","Gulf","Hamilton","Hardee","Hendry","Hernando","Highlands","Hillsborough","Holmes","Indian River","Jackson","Jefferson","Lafayette","Lake","Lee","Leon","Levy","Liberty","Madison","Manatee","Marion","Martin","Miami-Dade","Monroe","Nassau","Okaloosa","Okeechobee","Orange","Osceola","Palm Beach","Pasco","Pinellas","Polk","Putnam","St. Johns","St. Lucie","Santa Rosa","Sarasota","Seminole","Sumter","Suwannee","Taylor","Union","Volusia","Wakulla","Walton","Washington"];
 
-var KEY='', DATA=null;
+var KEY='', DATA=null, STATUS={}, FILTER='all';
+var STATUS_OPTS=['','contacted','negotiating','under contract','assigned','closed','dead','review'];
+var STATUS_LBL={'':'New','contacted':'Contacted','negotiating':'Negotiating','under contract':'Under contract','assigned':'Assigned','closed':'Closed','dead':'Dead','review':'Human review'};
+var PROGRESS=['contacted','negotiating','under contract','assigned'];
+function dealKey(o){return o.parcel||o.caseNumber||(o.address+o.saleDate);}
+function stOf(o){var s=STATUS[dealKey(o)]||{};return s.status||'';}
+function isThisMonth(ms){if(!ms)return false;var d=new Date(ms),n=new Date();return d.getFullYear()===n.getFullYear()&&d.getMonth()===n.getMonth();}
+function passFilter(o){var s=stOf(o);
+  if(FILTER==='all')return true;
+  if(FILTER==='attention')return o.workFirst && !s;
+  if(FILTER==='progress')return PROGRESS.indexOf(s)>=0;
+  if(FILTER==='review')return s==='review';
+  if(FILTER==='closed')return s==='closed';
+  return true;
+}
 var $=function(s){return document.querySelector(s)};
 function esc(s){return String(s==null?'':s).replace(/[&<>]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[c]})}
 function money(n){if(n==null)return '';var s=n<0?'-':'';return s+'$'+Math.abs(n).toLocaleString()}
@@ -155,16 +180,24 @@ $('#refresh').onclick=function(e){e.preventDefault();load();};
 function load(){
   if(!KEY)return;
   $('#err').textContent='loading…';
-  fetch('/api/homestead?state=FL&perCounty=25&key='+encodeURIComponent(KEY))
-    .then(function(r){return r.json()})
-    .then(function(j){
-      if(!j.ok){$('#err').textContent=j.error||'denied';return;}
-      localStorage.setItem('hsKey',KEY);
-      DATA=j; $('#gate').hidden=true; $('#app').hidden=false;
-      initCfg(); render(); loadArm();
-    })
-    .catch(function(){$('#err').textContent='network error';});
+  Promise.all([
+    fetch('/api/homestead?state=FL&perCounty=40&key='+encodeURIComponent(KEY)).then(function(r){return r.json();}),
+    fetch('/api/homestead-status?key='+encodeURIComponent(KEY)).then(function(r){return r.json();}).catch(function(){return{statuses:{}};})
+  ]).then(function(res){
+    var j=res[0];
+    if(!j.ok){$('#err').textContent=j.error||'denied';return;}
+    localStorage.setItem('hsKey',KEY);
+    DATA=j; STATUS=(res[1]&&res[1].statuses)||{};
+    $('#gate').hidden=true; $('#app').hidden=false;
+    initCfg(); render(); loadArm();
+  }).catch(function(){$('#err').textContent='network error';});
 }
+function setStatus(k,patch){
+  var cur=STATUS[k]||{}; Object.keys(patch).forEach(function(p){cur[p]=patch[p];}); STATUS[k]=cur;
+  render();
+  fetch('/api/homestead-status',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(Object.assign({key:KEY,dealKey:k},patch))}).catch(function(){});
+}
+window.setStatus=setStatus;
 
 var _cfgInit=false;
 function initCfg(){
@@ -178,10 +211,18 @@ function render(){
   TMPL=[];
   var t=DATA.totals||{};
   $('#updated').textContent=DATA.updatedMs?('updated '+new Date(DATA.updatedMs).toLocaleString()):'';
+  var allOpps=(DATA.counties||[]).reduce(function(a,c){return a.concat(c.opportunities||[]);},[]);
+  var cAtt=0,cProg=0,cRev=0,cClosed=0,rev=0;
+  allOpps.forEach(function(o){var s=stOf(o),ss=STATUS[dealKey(o)]||{};
+    if(o.workFirst&&!s)cAtt++; if(PROGRESS.indexOf(s)>=0)cProg++; if(s==='review')cRev++;
+    if(s==='closed'&&isThisMonth(ss.closedMs)){cClosed++;rev+=(ss.revenue||0);}});
   $('#today').innerHTML=
-    stat(t.deals,'Deals')+stat(t.counties,'Counties w/ deals')+
-    stat((t.enriched||0)+' / '+(t.deals||0),'Owner-matched')+
-    stat(t.workFirst,'Work-first',true);
+    statF('all',allOpps.length,'Live deals')+
+    statF('attention',cAtt,'Need attention',true)+
+    statF('progress',cProg,'In progress')+
+    statF('review',cRev,'Human review')+
+    statF('closed',cClosed,'Closed (mo)')+
+    stat('$'+rev.toLocaleString(),'Revenue (mo)');
   // index API counties by name
   var byName={}; (DATA.counties||[]).forEach(function(c){byName[c.county]=c;});
   var html='';
@@ -207,18 +248,32 @@ function render(){
   $('#states').innerHTML=html;
 }
 function stat(n,l,hot){return '<div class="stat'+(hot?' hot':'')+'"><div class="n">'+(n==null?'–':n)+'</div><div class="l">'+l+'</div></div>';}
+function statF(f,n,l,hot){return '<div class="stat clk'+(hot?' hot':'')+(FILTER===f?' active':'')+'" onclick="setFilter(\''+f+'\')"><div class="n">'+(n==null?'–':n)+'</div><div class="l">'+l+'</div></div>';}
+function setFilter(f){FILTER=(FILTER===f&&f!=='all')?'all':f;render();}
+window.setFilter=setFilter;
+function statusSelect(o){
+  var k=dealKey(o), cur=stOf(o), ss=STATUS[k]||{};
+  var opts=STATUS_OPTS.map(function(v){return '<option value="'+v+'"'+(v===cur?' selected':'')+'>'+STATUS_LBL[v]+'</option>';}).join('');
+  var sel='<select class="stsel st-'+(cur||'new').replace(/ /g,'-')+'" onchange="setStatus(\''+k.replace(/'/g,'')+'\',{status:this.value})">'+opts+'</select>';
+  var revv = cur==='closed' ? ' <input class="revin" type="number" placeholder="$ spread" value="'+(ss.revenue||'')+'" onchange="setStatus(\''+k.replace(/'/g,'')+'\',{revenue:this.value})">' : '';
+  return '<div class="statusrow">'+sel+revv+'</div>';
+}
 
 function countyBlock(name,c){
-  if(!c){ // empty shell
+  var filtered=FILTER!=='all';
+  if(!c){ // empty shell — hidden entirely when a filter is active
+    if(filtered) return '';
     return '<details class="county"><summary><span class="caret">▶</span><span class="name empty">'+name+'</span><span class="pill">—</span></summary>'+
       '<div class="empty-note">No active auctions in the current window.</div></details>';
   }
+  var opps=(c.opportunities||[]).filter(passFilter);
+  if(filtered && !opps.length) return ''; // no matches under this filter
   var wf=c.workFirst||0;
-  var head='<span class="pill">'+c.total+' deal'+(c.total===1?'':'s')+'</span>'+
-    (wf?'<span class="pill wf">'+wf+' work-first</span>':'')+
+  var head='<span class="pill">'+(filtered?opps.length:c.total)+' deal'+((filtered?opps.length:c.total)===1?'':'s')+'</span>'+
+    (wf&&!filtered?'<span class="pill wf">'+wf+' work-first</span>':'')+
     '<span class="pill">top '+money(c.topEquity)+'</span>';
-  var rows=(c.opportunities||[]).map(oppRow).join('');
-  return '<details class="county"'+(wf?' open':'')+'><summary><span class="caret">▶</span><span class="name">'+name+' '+(c.metro?'<span style="color:var(--mut);font-weight:400;font-size:12px">('+esc(c.metro)+')</span>':'')+'</span>'+head+'</summary><div>'+rows+'</div></details>';
+  var rows=opps.map(oppRow).join('');
+  return '<details class="county"'+(wf||filtered?' open':'')+'><summary><span class="caret">▶</span><span class="name">'+name+' '+(c.metro?'<span style="color:var(--mut);font-weight:400;font-size:12px">('+esc(c.metro)+')</span>':'')+'</span>'+head+'</summary><div>'+rows+'</div></details>';
 }
 var WHY={
   'PROBATE/HEIRS':'Estate / deceased owner (heirs)','FOREIGN-ABSENTEE':'Foreign absentee owner',
@@ -305,6 +360,7 @@ function oppRow(o){
       workHtml(o)+
     '</div>'+
     '<div class="right">'+
+      statusSelect(o)+
       '<div class="eq '+eqc+'">'+money(o.equity)+'</div><div class="eqlbl">equity</div>'+
       '<div class="nums">assessed '+shortMoney(o.assessedValue)+(o.judgment!=null?'<br>owed '+shortMoney(o.judgment):'')+'</div>'+
       view+

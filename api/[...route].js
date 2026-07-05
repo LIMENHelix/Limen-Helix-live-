@@ -101,6 +101,7 @@ const HANDLERS = {
   'deal-engine': require('../handlers/deal-engine'),
   'homestead': require('../handlers/homestead'),
   'homestead-automail': require('../handlers/homestead-automail'),
+  'homestead-status': require('../handlers/homestead-status'),
   'realauction-ingest': require('../handlers/realauction-ingest'),
   'skip-trace': require('../handlers/skip-trace'),
   'limen-autofire-log': require('../handlers/limen-autofire-log'),
