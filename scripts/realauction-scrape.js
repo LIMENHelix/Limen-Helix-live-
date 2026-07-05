@@ -31,37 +31,51 @@ try {
 var db = null;
 try { db = require('../lib/limen-db'); } catch (e) { /* dry run */ }
 
-// FL sweet-spot ring: Tampa/Orlando overflow, high inflow, not the picked-over cores.
-// Each = a RealForeclose subdomain. Extendable: add {key,name,host,product}.
-// Osceola runs NO foreclosure sales on RealForeclose (empty calendar) — its distress
-// supply is TAX DEED on realtaxdeed.com (Opening Bid + Assessed Value; same PREVIEW
-// schema, normalize's fallback keys already handle it: equity = assessed - opening bid).
-// Original sweet-spot ring (Tampa/Orlando overflow) + a statewide high-volume expansion
-// (2026-07-04). Hosts follow the RealForeclose pattern <county>.realforeclose.com; RealAuction's
-// WAF 403s plain requests AND wildcard-resolves every subdomain, so hosts can't be curl-verified —
-// they're verified live by the scrape itself (a wrong slug returns an empty calendar = 0 deals and
-// is pruned). Broward/Duval confirmed via clerk sites; Miami-Dade/Pinellas confirmed as RealAuction.
+// FLORIDA RealAuction roster (verified 2026-07-04 against county clerk sites — see the
+// p3-regulation-business memory + research). Hosts follow <county>.realforeclose.com
+// (foreclosure) / <county>.realtaxdeed.com (tax deed), but slugs are NOT guessable —
+// RealAuction WAF-403s + wildcard-resolves every subdomain, so each was matched to what
+// the CLERK actually publishes. Special slugs: miamidade (NO hyphen), saintjohns (spelled
+// out), indian-river (WITH hyphen), santarosa/palmbeach/stlucie (no hyphen). Brevard
+// foreclosure is in-person only → its realforeclose host serves TAX DEEDS. ~12 rural
+// counties are in-person only (no online supply — an honest ceiling, not a gap).
 var COUNTIES = [
-  // --- original ring ---
-  { key: 'pasco',        name: 'Pasco',        metro: 'Tampa',      host: 'pasco.realforeclose.com',        product: 'foreclosure' },
-  { key: 'polk',         name: 'Polk',         metro: 'Lakeland',   host: 'polk.realforeclose.com',         product: 'foreclosure' },
-  { key: 'lee',          name: 'Lee',          metro: 'Ft Myers',   host: 'lee.realforeclose.com',          product: 'foreclosure' },
-  { key: 'hillsborough', name: 'Hillsborough', metro: 'Tampa',      host: 'hillsborough.realforeclose.com', product: 'foreclosure' },
-  { key: 'orange',       name: 'Orange',       metro: 'Orlando',    host: 'orange.realforeclose.com',       product: 'foreclosure' },
-  { key: 'osceola',      name: 'Osceola',      metro: 'Orlando',    host: 'osceola.realtaxdeed.com',        product: 'taxdeed' },
-  // --- statewide expansion (high population / high foreclosure volume) ---
-  { key: 'miamidade',    name: 'Miami-Dade',   metro: 'Miami',      host: 'miami-dade.realforeclose.com',   product: 'foreclosure' },
-  { key: 'broward',      name: 'Broward',      metro: 'Ft Lauderdale', host: 'broward.realforeclose.com',   product: 'foreclosure' },
-  { key: 'pinellas',     name: 'Pinellas',     metro: 'St Petersburg', host: 'pinellas.realforeclose.com',  product: 'foreclosure' },
-  { key: 'duval',        name: 'Duval',        metro: 'Jacksonville', host: 'duval.realforeclose.com',      product: 'foreclosure' },
-  { key: 'volusia',      name: 'Volusia',      metro: 'Daytona',    host: 'volusia.realforeclose.com',      product: 'foreclosure' },
-  { key: 'brevard',      name: 'Brevard',      metro: 'Melbourne',  host: 'brevard.realforeclose.com',      product: 'foreclosure' },
-  { key: 'sarasota',     name: 'Sarasota',     metro: 'Sarasota',   host: 'sarasota.realforeclose.com',     product: 'foreclosure' },
-  { key: 'manatee',      name: 'Manatee',      metro: 'Bradenton',  host: 'manatee.realforeclose.com',      product: 'foreclosure' },
-  { key: 'collier',      name: 'Collier',      metro: 'Naples',     host: 'collier.realforeclose.com',      product: 'foreclosure' },
-  { key: 'marion',       name: 'Marion',       metro: 'Ocala',      host: 'marion.realforeclose.com',       product: 'foreclosure' },
-  { key: 'seminole',     name: 'Seminole',     metro: 'Orlando',    host: 'seminole.realforeclose.com',     product: 'foreclosure' },
-  { key: 'lake',         name: 'Lake',         metro: 'Orlando',    host: 'lake.realforeclose.com',          product: 'foreclosure' }
+  // ── confirmed FORECLOSURE (*.realforeclose.com) ──
+  { key: 'miamidade',    name: 'Miami-Dade',   metro: 'Miami',         host: 'miamidade.realforeclose.com',    product: 'foreclosure' },
+  { key: 'broward',      name: 'Broward',      metro: 'Ft Lauderdale', host: 'broward.realforeclose.com',      product: 'foreclosure' },
+  { key: 'palmbeach',    name: 'Palm Beach',   metro: 'West Palm Beach', host: 'palmbeach.realforeclose.com',  product: 'foreclosure' },
+  { key: 'hillsborough', name: 'Hillsborough', metro: 'Tampa',         host: 'hillsborough.realforeclose.com', product: 'foreclosure' },
+  { key: 'orange',       name: 'Orange',       metro: 'Orlando',       host: 'orange.realforeclose.com',       product: 'foreclosure' },
+  { key: 'pinellas',     name: 'Pinellas',     metro: 'St Petersburg', host: 'pinellas.realforeclose.com',     product: 'foreclosure' },
+  { key: 'duval',        name: 'Duval',        metro: 'Jacksonville',  host: 'duval.realforeclose.com',        product: 'foreclosure' },
+  { key: 'lee',          name: 'Lee',          metro: 'Ft Myers',      host: 'lee.realforeclose.com',          product: 'foreclosure' },
+  { key: 'polk',         name: 'Polk',         metro: 'Lakeland',      host: 'polk.realforeclose.com',         product: 'foreclosure' },
+  { key: 'pasco',        name: 'Pasco',        metro: 'Tampa',         host: 'pasco.realforeclose.com',        product: 'foreclosure' },
+  { key: 'volusia',      name: 'Volusia',      metro: 'Daytona',       host: 'volusia.realforeclose.com',      product: 'foreclosure' },
+  { key: 'seminole',     name: 'Seminole',     metro: 'Orlando',       host: 'seminole.realforeclose.com',     product: 'foreclosure' },
+  { key: 'sarasota',     name: 'Sarasota',     metro: 'Sarasota',      host: 'sarasota.realforeclose.com',     product: 'foreclosure' },
+  { key: 'manatee',      name: 'Manatee',      metro: 'Bradenton',     host: 'manatee.realforeclose.com',      product: 'foreclosure' },
+  { key: 'collier',      name: 'Collier',      metro: 'Naples',        host: 'collier.realforeclose.com',      product: 'foreclosure' },
+  { key: 'marion',       name: 'Marion',       metro: 'Ocala',         host: 'marion.realforeclose.com',       product: 'foreclosure' },
+  { key: 'alachua',      name: 'Alachua',      metro: 'Gainesville',   host: 'alachua.realforeclose.com',      product: 'foreclosure' },
+  { key: 'escambia',     name: 'Escambia',     metro: 'Pensacola',     host: 'escambia.realforeclose.com',     product: 'foreclosure' },
+  { key: 'leon',         name: 'Leon',         metro: 'Tallahassee',   host: 'leon.realforeclose.com',         product: 'foreclosure' },
+  { key: 'clay',         name: 'Clay',         metro: 'Jacksonville',  host: 'clay.realforeclose.com',         product: 'foreclosure' },
+  { key: 'stlucie',      name: 'St. Lucie',    metro: 'Port St Lucie', host: 'stlucie.realforeclose.com',      product: 'foreclosure' },
+  { key: 'stjohns',      name: 'St. Johns',    metro: 'St Augustine',  host: 'saintjohns.realforeclose.com',   product: 'foreclosure' },
+  { key: 'indianriver',  name: 'Indian River', metro: 'Vero Beach',    host: 'indian-river.realforeclose.com', product: 'foreclosure' },
+  { key: 'santarosa',    name: 'Santa Rosa',   metro: 'Pensacola',     host: 'santarosa.realforeclose.com',    product: 'foreclosure' },
+  { key: 'flagler',      name: 'Flagler',      metro: 'Palm Coast',    host: 'flagler.realforeclose.com',      product: 'foreclosure' },
+  { key: 'bay',          name: 'Bay',          metro: 'Panama City',   host: 'bay.realforeclose.com',          product: 'foreclosure' },
+  { key: 'okeechobee',   name: 'Okeechobee',   metro: 'Okeechobee',    host: 'okeechobee.realforeclose.com',   product: 'foreclosure' },
+  { key: 'desoto',       name: 'DeSoto',       metro: 'Arcadia',       host: 'desoto.realforeclose.com',       product: 'foreclosure' },
+  { key: 'walton',       name: 'Walton',       metro: 'DeFuniak',      host: 'walton.realforeclose.com',       product: 'foreclosure' },
+  { key: 'washington',   name: 'Washington',   metro: 'Chipley',       host: 'washington.realforeclose.com',   product: 'foreclosure' },
+  { key: 'gilchrist',    name: 'Gilchrist',    metro: 'Gainesville',   host: 'gilchrist.realforeclose.com',    product: 'foreclosure' },
+  // ── confirmed TAX DEED ──
+  { key: 'osceola',      name: 'Osceola',      metro: 'Orlando',       host: 'osceola.realtaxdeed.com',        product: 'taxdeed' },
+  { key: 'brevard',      name: 'Brevard',      metro: 'Melbourne',     host: 'brevard.realforeclose.com',      product: 'taxdeed' },
+  { key: 'baker',        name: 'Baker',        metro: 'Macclenny',     host: 'baker.realtaxdeed.com',          product: 'taxdeed' }
 ];
 
 var MAX_DATES = parseInt(process.env.RA_MAX_DATES || '4', 10);
@@ -214,6 +228,21 @@ async function run() {
     if (isLive(d)) live.push(d);
   });
   live.sort(function (a, b) { return (b.equity || -1e15) - (a.equity || -1e15); });
+
+  // P3 ENRICHMENT: owner + property type + motivated-seller priority (FL cadastral, free).
+  // Turns the raw ranked list into "top opportunities" (heirs / absentee / high-equity) that
+  // the Homestead portal groups by state -> county. Best-effort: on failure, store unenriched.
+  try {
+    var enrich = require('../lib/deal-enrich.js');
+    console.log('  enriching ' + live.length + ' deals (owner + P3 priority)...');
+    await enrich.enrichDeals(live, { gap: 120, log: true });
+    // re-rank: work-first tier, then priority, then equity
+    live.sort(function (a, b) {
+      if ((a.tier || 9) !== (b.tier || 9)) return (a.tier || 9) - (b.tier || 9);
+      if ((b.priority || 0) !== (a.priority || 0)) return (b.priority || 0) - (a.priority || 0);
+      return (b.equity || -1e15) - (a.equity || -1e15);
+    });
+  } catch (e) { console.error('  enrich skipped (continuing unenriched):', e.message); }
 
   var meta = { updatedMs: Date.now(), counties: report, total: live.length };
 

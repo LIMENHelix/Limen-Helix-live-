@@ -44,6 +44,7 @@ jobs:
           sparse-checkout: |
             scripts/realauction-scrape.js
             lib/limen-db.js
+            lib/deal-enrich.js
           sparse-checkout-cone-mode: false
 
       - name: setup node
@@ -60,4 +61,4 @@ jobs:
           RA_INGEST_URL: https://limenhelix.com/api/realauction-ingest
           RA_INGEST_KEY: ${{ secrets.LEAD_ADMIN_KEY }}
           RA_COUNTIES: ${{ github.event.inputs.counties }}
-          RA_MAX_DATES: ${{ github.event.inputs.maxdates || '4' }}
+          RA_MAX_DATES: ${{ github.event.inputs.maxdates || '3' }}
