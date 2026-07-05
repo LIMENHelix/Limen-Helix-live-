@@ -24,5 +24,10 @@ jobs:
           RESP=$(curl -s -X POST "https://limenhelix.com/api/homestead-automail" \
             -H "content-type: application/json" \
             -d "{\"key\":\"${{ secrets.LEAD_ADMIN_KEY }}\",\"action\":\"send\"}")
-          echo "Response: $RESP"
+          echo "auto-mail: $RESP"
           echo "$RESP" | grep -q '"ok":true' || { echo "auto-mail call failed"; exit 1; }
+      - name: validation tracker — snapshot cohort + check outcomes
+        run: |
+          K='${{ secrets.LEAD_ADMIN_KEY }}'
+          echo "snapshot: $(curl -s -X POST https://limenhelix.com/api/homestead-validation -H 'content-type: application/json' -d "{\"key\":\"$K\",\"action\":\"snapshot\"}")"
+          echo "check:    $(curl -s -X POST https://limenhelix.com/api/homestead-validation -H 'content-type: application/json' -d "{\"key\":\"$K\",\"action\":\"check\"}")"
