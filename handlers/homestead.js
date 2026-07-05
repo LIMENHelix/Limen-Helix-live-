@@ -36,7 +36,7 @@ function project(d) {
     address: d.street || d.address, city: d.city, zip: d.zip, county: d.county,
     saleDate: d.saleDate, product: d.product, caseNumber: d.caseNumber, parcel: d.parcel,
     url: d.url || null, enrichStatus: d.enrichStatus,
-    owner: o.name || null, absentee: !!o.absentee, servicer: !!d.servicer,
+    owner: o.name || null, absentee: !!o.absentee, servicer: !!d.servicer, ownerDealCount: d.ownerDealCount || 1,
     mailAddr: o.mailAddr || null, mailCity: o.mailCity || null, mailState: o.mailState || null, mailZip: o.mailZip || null,
     mailTo: o.name ? [o.mailAddr, o.mailCity, o.mailState, o.mailZip].filter(Boolean).join(', ') : null,
     // disposition: who to assign/sell to (matched on the value a buyer underwrites to)
@@ -88,6 +88,34 @@ module.exports = async function handler(req, res) {
     return true;
   });
 
+  // OWNER ROLLUP: one owner with many distressed parcels = a single bulk lead (one letter/call,
+  // not N). Group by normalized owner name across the current view; stamp each deal with its
+  // owner's portfolio size so the UI can badge it, and surface the multi-property owners.
+  function ownerKey(n) { return String(n || '').toUpperCase().replace(/[^A-Z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim(); }
+  var portMap = {};
+  pool.forEach(function (d) {
+    var o = d.owner && d.owner.name; if (!o) return;
+    var k = ownerKey(o); if (!k) return;
+    var p = portMap[k] || (portMap[k] = { name: o, count: 0, equity: 0, deals: [], mailTo: null, servicer: false });
+    p.count++; p.equity += (d.equity || 0); p.deals.push(d);
+    if (d.servicer) p.servicer = true;
+    if (!p.mailTo && d.owner) p.mailTo = [d.owner.mailAddr, d.owner.mailCity, d.owner.mailState, d.owner.mailZip].filter(Boolean).join(', ');
+  });
+  Object.keys(portMap).forEach(function (k) { portMap[k].deals.forEach(function (d) { d.ownerDealCount = portMap[k].count; }); });
+  var portfolios = Object.keys(portMap).map(function (k) { return portMap[k]; })
+    .filter(function (p) { return p.count >= 2 && !p.servicer; })
+    .map(function (p) {
+      p.deals.sort(function (a, b) { return (b.equity || 0) - (a.equity || 0); });
+      return {
+        owner: p.name, mailTo: p.mailTo || null, properties: p.count, totalEquity: Math.round(p.equity),
+        counties: Object.keys(p.deals.reduce(function (m, d) { m[d.county || '?'] = 1; return m; }, {})),
+        properties_list: p.deals.slice(0, 25).map(function (d) {
+          return { address: d.street || d.address, county: d.county, equity: d.equity, tier: d.tier, saleDate: d.saleDate, url: d.url || null };
+        })
+      };
+    })
+    .sort(function (a, b) { return (b.properties - a.properties) || (b.totalEquity - a.totalEquity); });
+
   // group by state+county (county names repeat across states)
   var byCounty = {};
   pool.forEach(function (d) {
@@ -122,7 +150,8 @@ module.exports = async function handler(req, res) {
     updatedMs: meta && meta.updatedMs || null,
     residentialOnly: residentialOnly,
     totals: { deals: pool.length, counties: counties.length, enriched: enrichedCount,
-      workFirst: pool.filter(function (d) { return d.workFirst; }).length },
+      workFirst: pool.filter(function (d) { return d.workFirst; }).length, portfolios: portfolios.length },
+    portfolios: portfolios.slice(0, 25),
     counties: counties
   });
 };
