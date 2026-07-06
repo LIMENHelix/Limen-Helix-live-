@@ -20,6 +20,9 @@
   .brand{font-family:'Fraunces',serif;font-weight:600;font-size:1.16rem;color:var(--brand);display:inline-flex;align-items:center;gap:9px}
   .brand .chip{font-family:'Inter';font-size:.57rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);border:1px solid var(--line);border-radius:999px;padding:.22rem .55rem}
   .hd .cta{margin-left:auto;font-size:.82rem;font-weight:600;color:#fff;background:var(--ink);border-radius:999px;padding:.5rem 1rem;text-decoration:none}
+  .hd-admin{font-size:.72rem;font-weight:600;color:var(--mute);background:none;border:1px solid var(--line);border-radius:999px;padding:.4rem .8rem;cursor:pointer;font-family:inherit}
+  .hd-admin:hover{color:var(--ink);border-color:var(--mute)}
+  .hd-admin.on{color:var(--teal);border-color:var(--teal)}
 
   .hero{position:relative;overflow:hidden;display:flex;align-items:center;min-height:80vh;padding:120px 0 104px;background:#0a0e18;border-bottom:1px solid var(--line)}
   .hero .bg{position:absolute;inset:0;background-image:var(--hero-img);background-size:cover;background-position:center;z-index:0}
@@ -117,6 +120,7 @@
   <div class="hd">
     <span class="brand">LIMEN&nbsp;HELIX <span class="chip">Fitness</span></span>
     <a class="cta" href="#unlock">Locate yourself →</a>
+    <button id="adminBtn" class="hd-admin" type="button" title="Admin sign-in">admin</button>
   </div>
 </header>
 
@@ -153,7 +157,6 @@
     </form>
     <div class="capnote" id="eaNote"></div>
     <p class="cred">Grounded in published science: Issurin on block periodization, Schoenfeld on hypertrophy mechanics, Seiler on polarized training, Volek on fat adaptation, Panda on circadian metabolism, McEwen on allostasis, Craig and Porges on interoception. The mechanisms are cited; the arc is the model.</p>
-    <div class="adminrow"><button id="adminBtn" class="adminlink" type="button">admin</button><span class="adminbadge" id="adminBadge">programming loaded</span></div>
   </div>
 </div></section>
 
@@ -268,6 +271,7 @@ function loadAdminPrograms(pass,quiet){
         if(el) el.innerHTML=programHTML(d.programs[p]);
       });
       document.body.classList.add('admin-on');
+      var b=document.getElementById('adminBtn'); if(b){ b.textContent='admin ✓'; b.classList.add('on'); }
       try{ sessionStorage.setItem('flk',pass); }catch(e){}
     })
     .catch(function(e){ if(!quiet) alert('Invalid passcode.'); try{ sessionStorage.removeItem('flk'); }catch(_){ } throw e; });
