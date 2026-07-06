@@ -90,6 +90,25 @@
   .buy{display:inline-block;margin-top:14px;background:#2dd4bf;color:#04231f;font-weight:700;border-radius:999px;padding:.7rem 1.5rem;text-decoration:none;font-size:.95rem}
   .cred{font-size:.85rem;color:var(--mute);margin-top:16px}
   .foot{padding:30px 0 68px;color:var(--mute);font-size:.83rem}
+
+  /* admin-only phase programming — served from a gated endpoint, empty for public */
+  .pprog:empty{display:none}
+  .pprog{margin-top:12px}
+  .progbox{border:1px solid rgba(45,212,191,.28);background:rgba(45,212,191,.05);border-radius:11px;padding:14px 16px}
+  .proghd{font-family:'Fraunces',serif;font-weight:600;color:#fff;font-size:.95rem;display:flex;flex-wrap:wrap;gap:8px;align-items:baseline}
+  .proghd span{font-family:'Inter';font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#7fdccb}
+  .proggoal{color:#cdd6e4;font-size:.9rem;margin:8px 0 10px;font-style:italic}
+  .progsec{margin:9px 0}
+  .progsec h4{font-family:'Inter';color:#e8edf6;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin:0 0 3px}
+  .progsec ul{margin:0;padding-left:18px}
+  .progsec li{font-size:.85rem;color:#aab6c8;line-height:1.5;margin:2px 0}
+  .progout,.progexit{font-size:.83rem;color:#93a1b5;margin:8px 0 0}
+  .progout b,.progexit b{color:#cdd6e4}
+  .adminrow{margin-top:18px;display:flex;align-items:center;gap:10px}
+  .adminlink{background:none;border:none;color:#54657a;font-size:.78rem;cursor:pointer;font-family:inherit;text-decoration:underline;text-underline-offset:2px;padding:0}
+  .adminlink:hover{color:#8b97a9}
+  .adminbadge{display:none;font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#2dd4bf}
+  body.admin-on .adminbadge{display:inline}
 </style>
 </head>
 <body>
@@ -134,6 +153,7 @@
     </form>
     <div class="capnote" id="eaNote"></div>
     <p class="cred">Grounded in published science: Issurin on block periodization, Schoenfeld on hypertrophy mechanics, Seiler on polarized training, Volek on fat adaptation, Panda on circadian metabolism, McEwen on allostasis, Craig and Porges on interoception. The mechanisms are cited; the arc is the model.</p>
+    <div class="adminrow"><button id="adminBtn" class="adminlink" type="button">admin</button><span class="adminbadge" id="adminBadge">programming loaded</span></div>
   </div>
 </div></section>
 
@@ -205,7 +225,8 @@ document.getElementById('ladder').innerHTML = LADDER.map(function(x){
     +'<span class="pname">'+x.name+'</span><span class="pstage">'+x.stage+'</span>'
     +'<span class="pprice">'+x.price+'</span></div>'
     +'<div class="pwhat">'+x.what+'</div>'
-    +'<div class="psold">'+x.sold+'</div></div>';
+    +'<div class="psold">'+x.sold+'</div>'
+    +'<div class="pprog" id="prog-'+x.p+'"></div></div>';
 }).join('');
 
 // ── email early-access capture → /api/lead ──
@@ -222,6 +243,42 @@ function earlyAccess(e){
       document.getElementById('eaNote').textContent='Try again in a moment.';});
   return false;
 }
+
+// ── admin-only phase programming: fetched from a gated endpoint, injected under each phase ──
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function programHTML(pr){
+  var h='<div class="progbox"><div class="proghd">Program · '+esc(pr.name)+(pr.meta?' <span>'+esc(pr.meta)+'</span>':'')+'</div>';
+  h+='<p class="proggoal">'+esc(pr.goal)+'</p>';
+  (pr.sections||[]).forEach(function(s){
+    h+='<div class="progsec"><h4>'+esc(s.h)+'</h4><ul>';
+    (s.items||[]).forEach(function(it){ h+='<li>'+esc(it)+'</li>'; });
+    h+='</ul></div>';
+  });
+  if(pr.output) h+='<p class="progout"><b>Output —</b> '+esc(pr.output)+'</p>';
+  if(pr.exit) h+='<p class="progexit"><b>Exit —</b> '+esc(pr.exit)+'</p>';
+  return h+'</div>';
+}
+function loadAdminPrograms(pass,quiet){
+  return fetch('/api/fitness-program',{headers:{'x-limen-pass':pass}})
+    .then(function(r){ if(!r.ok) throw new Error('denied'); return r.json(); })
+    .then(function(d){
+      if(!d||!d.programs) throw new Error('empty');
+      Object.keys(d.programs).forEach(function(p){
+        var el=document.getElementById('prog-'+p);
+        if(el) el.innerHTML=programHTML(d.programs[p]);
+      });
+      document.body.classList.add('admin-on');
+      try{ sessionStorage.setItem('flk',pass); }catch(e){}
+    })
+    .catch(function(e){ if(!quiet) alert('Invalid passcode.'); try{ sessionStorage.removeItem('flk'); }catch(_){ } throw e; });
+}
+(function(){
+  var btn=document.getElementById('adminBtn');
+  if(btn) btn.addEventListener('click',function(){
+    var p=prompt('Admin passcode'); if(p&&p.trim()) loadAdminPrograms(p.trim(),false);
+  });
+  try{ var k=sessionStorage.getItem('flk'); if(k) loadAdminPrograms(k,true); }catch(e){}
+})();
 </script>
 </body>
 </html>

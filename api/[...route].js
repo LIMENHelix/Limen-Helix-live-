@@ -98,6 +98,7 @@ const HANDLERS = {
   'fetch-portal': require('../handlers/fetch-portal'),
   'kernel-experiment': require('../handlers/kernel-experiment'),
   'lead': require('../handlers/lead'),
+  'fitness-program': require('../handlers/fitness-program'),
   'deal-engine': require('../handlers/deal-engine'),
   'homestead': require('../handlers/homestead'),
   'homestead-automail': require('../handlers/homestead-automail'),
