@@ -33,7 +33,7 @@ async function lobSend(o, LOB, FROM, PHONE, NAME) {
   f.set('to[name]', ow.name || 'Current Owner'); f.set('to[address_line1]', ow.mailAddr || o.street || '');
   f.set('to[address_city]', ow.mailCity || o.city || ''); f.set('to[address_state]', ow.mailState || 'FL'); f.set('to[address_zip]', String(ow.mailZip || o.zip || '').slice(0, 5));
   f.set('from[name]', FROM.name); f.set('from[address_line1]', FROM.line1); f.set('from[address_city]', FROM.city); f.set('from[address_state]', FROM.state); f.set('from[address_zip]', FROM.zip);
-  f.set('file', letterHTML(o, PHONE, NAME)); f.set('color', 'false');
+  f.set('file', letterHTML(o, PHONE, NAME)); f.set('color', 'false'); f.set('use_type', 'marketing');
   try { var r = await fetch('https://api.lob.com/v1/letters', { method: 'POST', headers: { Authorization: au, 'Content-Type': 'application/x-www-form-urlencoded' }, body: f.toString() }); var jr = await r.json(); return { ok: r.ok, id: jr.id, err: jr.error }; }
   catch (e) { return { ok: false, err: String(e && e.message || e) }; }
 }
