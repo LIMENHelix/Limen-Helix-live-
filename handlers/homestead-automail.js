@@ -30,11 +30,26 @@ function letterHTML(o, PHONE, NAME) {
   return '<html><head><meta charset="utf-8"></head>' +
     '<body style="font-family:Georgia,serif;font-size:12pt;line-height:1.6;color:#111;margin:0;padding:3.1in 1in 1in 1in">' + body + '</body></html>';
 }
+// some sources (e.g. TX TCAD py_address) give the whole mailing as one line, so the city ends up
+// embedded in the street. Split it back out at the street-type suffix so Lob gets a real address_city.
+function splitStreetCity(line) {
+  var SUF = /^(ST|STREET|AVE|AVENUE|BLVD|BOULEVARD|DR|DRIVE|RD|ROAD|LN|LANE|CT|COURT|WAY|PL|PLACE|TER|TERRACE|CIR|CIRCLE|PKWY|PARKWAY|HWY|HIGHWAY|TRL|TRAIL|LOOP|RUN|PASS|PT|POINT|SQ|SQUARE|PLZ|PLAZA|ROW|PATH|XING|BND|BEND|CV|COVE|WALK|EXPY|FWY|TPKE)$/i;
+  var UNIT = /^(#|APT|UNIT|STE|SUITE|FL|BLDG|RM|SPC|LOT|NO)/i;
+  var toks = String(line || '').trim().split(/\s+/), suf = -1;
+  for (var i = 0; i < toks.length; i++) { if (SUF.test(toks[i].replace(/[.,]/g, ''))) suf = i; }
+  if (suf < 0 || suf >= toks.length - 1) return { street: line, city: '' };
+  var end = suf + 1;
+  while (end < toks.length && UNIT.test(toks[end])) { end++; if (end < toks.length && /^[0-9]/.test(toks[end])) end++; }
+  if (end >= toks.length) return { street: line, city: '' };
+  return { street: toks.slice(0, end).join(' '), city: toks.slice(end).join(' ') };
+}
 async function lobSend(o, LOB, FROM, PHONE, NAME) {
   var au = 'Basic ' + Buffer.from(LOB + ':').toString('base64'), ow = o.owner || {}, f = new URLSearchParams();
+  var line1 = ow.mailAddr || o.street || '', city = ow.mailCity || o.city || '';
+  if (!city && line1) { var sc = splitStreetCity(line1); if (sc.city) { line1 = sc.street; city = sc.city; } }
   f.set('description', 'Homestead ' + (o.parcel || o.caseNumber || ''));
-  f.set('to[name]', ow.name || 'Current Owner'); f.set('to[address_line1]', ow.mailAddr || o.street || '');
-  f.set('to[address_city]', ow.mailCity || o.city || ''); f.set('to[address_state]', ow.mailState || 'FL'); f.set('to[address_zip]', String(ow.mailZip || o.zip || '').slice(0, 5));
+  f.set('to[name]', ow.name || 'Current Owner'); f.set('to[address_line1]', line1);
+  f.set('to[address_city]', city); f.set('to[address_state]', ow.mailState || 'FL'); f.set('to[address_zip]', String(ow.mailZip || o.zip || '').slice(0, 5));
   f.set('from[name]', FROM.name); f.set('from[address_line1]', FROM.line1); f.set('from[address_city]', FROM.city); f.set('from[address_state]', FROM.state); f.set('from[address_zip]', FROM.zip);
   f.set('file', letterHTML(o, PHONE, NAME)); f.set('color', 'false'); f.set('use_type', 'marketing');
   try { var r = await fetch('https://api.lob.com/v1/letters', { method: 'POST', headers: { Authorization: au, 'Content-Type': 'application/x-www-form-urlencoded' }, body: f.toString() }); var jr = await r.json(); return { ok: r.ok, id: jr.id, err: jr.error }; }
