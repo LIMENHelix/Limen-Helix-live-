@@ -207,8 +207,11 @@ function initCfg(){
   if(_cfgInit)return; _cfgInit=true;
   var n=$('#cfgName'), p=$('#cfgPhone');
   n.value=localStorage.getItem('hsName')||''; p.value=localStorage.getItem('hsPhone')||'';
-  function save(){ localStorage.setItem('hsName',n.value.trim()); localStorage.setItem('hsPhone',p.value.trim()); $('#cfgSaved').textContent='saved ✓'; setTimeout(function(){$('#cfgSaved').textContent='';},1200); if(DATA)render(); }
+  // this name + phone sign the actual mailed letter, so sync to the server (Lob) config too, not just localStorage
+  function syncServer(){ fetch('/api/homestead-automail',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({key:KEY,config:{contactName:n.value.trim(),contactPhone:p.value.trim()}})}).then(function(){loadArm();}).catch(function(){}); }
+  function save(){ localStorage.setItem('hsName',n.value.trim()); localStorage.setItem('hsPhone',p.value.trim()); $('#cfgSaved').textContent='saved ✓'; setTimeout(function(){$('#cfgSaved').textContent='';},1200); if(DATA)render(); syncServer(); }
   n.addEventListener('change',save); p.addEventListener('change',save);
+  if(n.value||p.value) syncServer(); // push name/phone already saved in this browser up to the server
 }
 function render(){
   TMPL=[];
@@ -425,16 +428,15 @@ function ci(id,ph,v){ return '<input id="'+id+'" placeholder="'+ph+'" value="'+S
 function cfgFormHTML(c){
   c=c||{};
   return '<div id="mailCfgForm" style="display:none;flex-basis:100%;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px;margin-top:6px">'+
-    '<div style="font-size:11px;color:#e0a06a;margin-bottom:8px">This prints on every letter. Use a <b>PO Box or virtual mailbox</b> for the address and a <b>Google Voice</b> number for the phone — never your home or personal cell.</div>'+
-    ci('cfgName','Your name (signs the letter)',c.contactName)+ci('cfgPhone','Phone — Google Voice',c.contactPhone)+'<br>'+
+    '<div style="font-size:11px;color:#e0a06a;margin-bottom:8px">Return address printed on every letter. Use a <b>PO Box or virtual mailbox</b>, never your home. (Your name and phone that sign the letter come from the contact box at the top of the page.)</div>'+
     ci('cfgFromName','Return name on envelope (e.g. Homestead by LIMEN Helix)',c.fromName)+'<br>'+
     ci('cfgLine1','Return address (PO Box / mailbox)',c.fromLine1)+ci('cfgCity','City',c.fromCity)+ci('cfgState','ST',c.fromState)+ci('cfgZip','Zip',c.fromZip)+'<br>'+
-    '<button id="cfgSave" style="margin-top:6px;font-size:12px;padding:6px 14px;border-radius:6px;border:1px solid var(--teal);background:#123028;color:var(--teal);cursor:pointer;font-weight:700">Save mail setup</button>'+
+    '<button id="cfgSave" style="margin-top:6px;font-size:12px;padding:6px 14px;border-radius:6px;border:1px solid var(--teal);background:#123028;color:var(--teal);cursor:pointer;font-weight:700">Save return address</button>'+
   '</div>';
 }
 function saveMailConfig(){
   var g=function(id){return (document.getElementById(id)||{}).value||'';};
-  var config={ contactName:g('cfgName'), contactPhone:g('cfgPhone'), fromName:g('cfgFromName'), fromLine1:g('cfgLine1'), fromCity:g('cfgCity'), fromState:g('cfgState'), fromZip:g('cfgZip') };
+  var config={ fromName:g('cfgFromName'), fromLine1:g('cfgLine1'), fromCity:g('cfgCity'), fromState:g('cfgState'), fromZip:g('cfgZip') };
   fetch('/api/homestead-automail',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({key:KEY,config:config})})
     .then(function(r){return r.json();}).then(function(s){ if(s.ok){ alert('Mail setup saved ✓'); renderArm(s); } else alert('Save failed'); });
 }
