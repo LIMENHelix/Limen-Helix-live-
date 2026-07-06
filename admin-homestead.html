@@ -33,6 +33,7 @@
   .stsel{font-size:11px;font-weight:700;border-radius:6px;padding:4px 6px;background:#1a222a;color:var(--soft);border:1px solid var(--line);cursor:pointer}
   .stsel.st-new{color:var(--mut)}
   .stsel.st-contacted,.stsel.st-negotiating,.stsel.st-under-contract,.stsel.st-assigned{color:var(--t3);border-color:#24485f}
+  .stsel.st-mailed{color:#6fb3e0;border-color:#24485f;background:#122430}
   .stsel.st-closed{color:var(--teal);border-color:#1f5a4a}
   .stsel.st-dead{color:#8a5a5a} .stsel.st-review{color:var(--t1);border-color:#4a3d14}
   .revin{width:82px;font-size:11px;background:var(--panel);border:1px solid var(--line);border-radius:6px;color:var(--txt);padding:4px 6px;margin-top:4px}
@@ -154,8 +155,8 @@ var STATES = [["FL","Florida"],["AL","Alabama"],["AK","Alaska"],["AZ","Arizona"]
 var FL_COUNTIES = ["Alachua","Baker","Bay","Bradford","Brevard","Broward","Calhoun","Charlotte","Citrus","Clay","Collier","Columbia","DeSoto","Dixie","Duval","Escambia","Flagler","Franklin","Gadsden","Gilchrist","Glades","Gulf","Hamilton","Hardee","Hendry","Hernando","Highlands","Hillsborough","Holmes","Indian River","Jackson","Jefferson","Lafayette","Lake","Lee","Leon","Levy","Liberty","Madison","Manatee","Marion","Martin","Miami-Dade","Monroe","Nassau","Okaloosa","Okeechobee","Orange","Osceola","Palm Beach","Pasco","Pinellas","Polk","Putnam","St. Johns","St. Lucie","Santa Rosa","Sarasota","Seminole","Sumter","Suwannee","Taylor","Union","Volusia","Wakulla","Walton","Washington"];
 
 var KEY='', DATA=null, STATUS={}, FILTER='all';
-var STATUS_OPTS=['','contacted','negotiating','under contract','assigned','closed','dead','review'];
-var STATUS_LBL={'':'New','contacted':'Contacted','negotiating':'Negotiating','under contract':'Under contract','assigned':'Assigned','closed':'Closed','dead':'Dead','review':'Human review'};
+var STATUS_OPTS=['','mailed','contacted','negotiating','under contract','assigned','closed','dead','review'];
+var STATUS_LBL={'':'New','mailed':'Mailed','contacted':'Contacted','negotiating':'Negotiating','under contract':'Under contract','assigned':'Assigned','closed':'Closed','dead':'Dead','review':'Human review'};
 var PROGRESS=['contacted','negotiating','under contract','assigned'];
 function dealKey(o){return o.parcel||o.caseNumber||(o.address+o.saleDate);}
 function stOf(o){var s=STATUS[dealKey(o)]||{};return s.status||'';}
@@ -163,6 +164,7 @@ function isThisMonth(ms){if(!ms)return false;var d=new Date(ms),n=new Date();ret
 function passFilter(o){var s=stOf(o);
   if(FILTER==='all')return true;
   if(FILTER==='attention')return o.workFirst && !s;
+  if(FILTER==='mailed')return s==='mailed';
   if(FILTER==='progress')return PROGRESS.indexOf(s)>=0;
   if(FILTER==='review')return s==='review';
   if(FILTER==='closed')return s==='closed';
@@ -218,13 +220,14 @@ function render(){
   var t=DATA.totals||{};
   $('#updated').textContent=DATA.updatedMs?('updated '+new Date(DATA.updatedMs).toLocaleString()):'';
   var allOpps=(DATA.counties||[]).reduce(function(a,c){return a.concat(c.opportunities||[]);},[]);
-  var cAtt=0,cProg=0,cRev=0,cClosed=0,rev=0;
+  var cAtt=0,cMailed=0,cProg=0,cRev=0,cClosed=0,rev=0;
   allOpps.forEach(function(o){var s=stOf(o),ss=STATUS[dealKey(o)]||{};
-    if(o.workFirst&&!s)cAtt++; if(PROGRESS.indexOf(s)>=0)cProg++; if(s==='review')cRev++;
+    if(o.workFirst&&!s)cAtt++; if(s==='mailed')cMailed++; if(PROGRESS.indexOf(s)>=0)cProg++; if(s==='review')cRev++;
     if(s==='closed'&&isThisMonth(ss.closedMs)){cClosed++;rev+=(ss.revenue||0);}});
   $('#today').innerHTML=
     statF('all',allOpps.length,'Live deals')+
     statF('attention',cAtt,'Need attention',true)+
+    statF('mailed',cMailed,'Mailed / sent')+
     statF('progress',cProg,'In progress')+
     statF('review',cRev,'Human review')+
     statF('closed',cClosed,'Closed (mo)')+
@@ -390,7 +393,8 @@ function mailOneDeal(key,btn){
   var old=btn.textContent; btn.disabled=true; btn.textContent='sending…';
   fetch('/api/homestead-automail',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({key:KEY,action:'mailone',dealKey:key})})
     .then(function(r){return r.json();}).then(function(x){
-      if(x.ok){ btn.textContent=x.already?'already mailed ✓':'mailed ✓'; btn.classList.add('done'); }
+      if(x.ok){ btn.textContent=x.already?'already mailed ✓':'mailed ✓'; btn.classList.add('done');
+        if(!x.already) setStatus(key,{status:'mailed',mailedMs:Date.now()}); } // move it to the Mailed bucket
       else { btn.disabled=false; btn.textContent=old; alert('Failed: '+(x.error||JSON.stringify(x.err||x))); }
     }).catch(function(){ btn.disabled=false; btn.textContent=old; alert('Network error — try again.'); });
 }
