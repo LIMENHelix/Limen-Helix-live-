@@ -22,10 +22,13 @@ function fmtDate(s) { var m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(s || ''); var m
 function letterHTML(o, PHONE, NAME) {
   var addr = (o.street || o.address || 'your property') + (o.city ? ', ' + tc(o.city) : '');
   var body = 'Hello,<br><br>I work with homeowners in ' + (o.county || 'your') + ' County, and I noticed ' + addr + ' has a court sale scheduled for ' + fmtDate(o.saleDate) + '.<br><br>' +
-    'If that date holds, the property is sold at auction — often for far less than it is worth, and any value above what is owed can be lost. Public records suggest ' + addr + ' may hold real equity worth protecting.<br><br>' +
+    'If that date holds, the property is sold at auction, often for far less than it is worth, and any value above what is owed can be lost. Public records suggest ' + addr + ' may hold real equity worth protecting.<br><br>' +
     'You have options before that date. I can bring you a fair, no-obligation cash offer, so you can sell on your terms and walk away with money in hand instead of losing it at the sale. There is no fee, no pressure, and I am not your lender.<br><br>' +
     'If that is worth a quick conversation, call or text me at ' + (PHONE || '[phone]') + '.<br><br>' + (NAME || 'the Homestead team');
-  return '<html><body style="font-family:Georgia,serif;font-size:12pt;line-height:1.6;padding:1in">' + body + '</body></html>';
+  // Lob stamps the recipient address + IMB barcode on the top-left of page 1, so the body must
+  // start BELOW that zone (~3in) or it gets overlapped. margin:0 + explicit padding, UTF-8 forced.
+  return '<html><head><meta charset="utf-8"></head>' +
+    '<body style="font-family:Georgia,serif;font-size:12pt;line-height:1.6;color:#111;margin:0;padding:3.1in 1in 1in 1in">' + body + '</body></html>';
 }
 async function lobSend(o, LOB, FROM, PHONE, NAME) {
   var au = 'Basic ' + Buffer.from(LOB + ':').toString('base64'), ow = o.owner || {}, f = new URLSearchParams();
