@@ -11,7 +11,8 @@
  * Admin-only (LEAD_ADMIN_KEY). LOB key never leaves the server.
  */
 var db = require('../lib/limen-db');
-var STATE = 'homestead:automail', MAILED = 'homestead:mailed';
+var STATE = 'homestead:automail', MAILED = 'homestead:mailed', MCFG = 'homestead:mailconfig';
+var CFG_FIELDS = ['fromName', 'fromLine1', 'fromCity', 'fromState', 'fromZip', 'contactPhone', 'contactName'];
 
 function j(res, c, o) { res.statusCode = c; res.setHeader('content-type', 'application/json'); res.setHeader('Cache-Control', 'private, no-store'); res.end(JSON.stringify(o)); }
 function readBody(req) { return new Promise(function (r) { var b = ''; req.on('data', function (c) { b += c; if (b.length > 2e6) req.destroy(); }); req.on('end', function () { try { r(JSON.parse(b || '{}')); } catch (e) { r({}); } }); req.on('error', function () { r({}); }); }); }
@@ -48,27 +49,33 @@ module.exports = async function handler(req, res) {
   var st = (await db.get(STATE)) || { armed: false, cap: 20, mailedTotal: 0, lastRunMs: null };
   if (!Array.isArray(st.states)) st.states = ['FL']; // which states auto-mail is enabled for (opt-in)
 
+  // Return address + contact come from a Redis config the operator sets in the admin form (nothing
+  // secret prints on a letter), falling back to env vars. Only the LOB key must stay a Vercel secret.
+  var cfg = (await db.get(MCFG)) || {};
+  var fromCfg = function () {
+    return { name: cfg.fromName || process.env.MAIL_FROM_NAME || '', line1: cfg.fromLine1 || process.env.MAIL_FROM_LINE1 || '',
+      city: cfg.fromCity || process.env.MAIL_FROM_CITY || '', state: cfg.fromState || process.env.MAIL_FROM_STATE || 'FL', zip: cfg.fromZip || process.env.MAIL_FROM_ZIP || '' };
+  };
+  var CPHONE = cfg.contactPhone || process.env.CONTACT_PHONE || '', CNAME = cfg.contactName || process.env.CONTACT_NAME || '';
+
   // action=test — mail ONE letter to a given address (the operator's own) to verify the physical
   // piece BEFORE arming a mass run. Uses the live key + return address, so it's a real letter.
   if (method === 'POST' && body.action === 'test') {
-    var TLOB = process.env.LOB_API_KEY || '';
-    var TFROM = { name: process.env.MAIL_FROM_NAME || '', line1: process.env.MAIL_FROM_LINE1 || '', city: process.env.MAIL_FROM_CITY || '', state: process.env.MAIL_FROM_STATE || 'FL', zip: process.env.MAIL_FROM_ZIP || '' };
+    var TLOB = process.env.LOB_API_KEY || '', TFROM = fromCfg();
     if (!TLOB) return j(res, 200, { ok: false, error: 'No LOB_API_KEY on the server.' });
-    if (!TFROM.line1) return j(res, 200, { ok: false, error: 'Set MAIL_FROM_* return address in Vercel first.' });
+    if (!TFROM.line1) return j(res, 200, { ok: false, error: 'Set your return address in the Mail setup form first.' });
     var t = body.to || {};
     if (!t.line1) return j(res, 400, { ok: false, error: 'Test recipient line1 required.' });
     var sample = { county: t.county || 'Sample', street: t.line1, city: t.city || '', saleDate: '08/15/2026',
       owner: { name: t.name || 'Test Recipient', mailAddr: t.line1, mailCity: t.city || '', mailState: t.state || TFROM.state, mailZip: t.zip || '' } };
-    var tr = await lobSend(sample, TLOB, TFROM, process.env.CONTACT_PHONE || '', process.env.CONTACT_NAME || '');
+    var tr = await lobSend(sample, TLOB, TFROM, CPHONE, CNAME);
     return j(res, 200, { ok: tr.ok, id: tr.id, err: tr.err, mode: 'test-live' });
   }
 
   // action=send — the actual mail run (called by the daily cron). No-op unless armed;
-  // dry-run unless LOB_API_KEY + MAIL_FROM_* return address are set in Vercel env.
+  // dry-run unless LOB key + a return address (admin form or env) are set.
   if (method === 'POST' && body.action === 'send') {
-    var LOB = process.env.LOB_API_KEY || '';
-    var FROM = { name: process.env.MAIL_FROM_NAME || '', line1: process.env.MAIL_FROM_LINE1 || '', city: process.env.MAIL_FROM_CITY || '', state: process.env.MAIL_FROM_STATE || 'FL', zip: process.env.MAIL_FROM_ZIP || '' };
-    var PHONE = process.env.CONTACT_PHONE || '', NAME = process.env.CONTACT_NAME || '';
+    var LOB = process.env.LOB_API_KEY || '', FROM = fromCfg(), PHONE = CPHONE, NAME = CNAME;
     if (!st.armed) return j(res, 200, { ok: true, mode: 'disarmed', count: 0 });
     var live = !!(LOB && FROM.line1);
     var deals = (await db.get('realauction:deals')) || [];
@@ -92,6 +99,10 @@ module.exports = async function handler(req, res) {
     if (typeof body.armed === 'boolean') st.armed = body.armed;
     if (body.cap != null) st.cap = Math.max(1, Math.min(200, parseInt(body.cap, 10) || 20));
     if (Array.isArray(body.states)) st.states = body.states.map(function (s) { return String(s).toUpperCase().trim(); }).filter(Boolean);
+    if (body.config && typeof body.config === 'object') {
+      CFG_FIELDS.forEach(function (k) { if (body.config[k] != null) cfg[k] = String(body.config[k]).slice(0, 120).trim(); });
+      await db.set(MCFG, cfg);
+    }
     if (body.run && Array.isArray(body.run.mailed)) {
       var mailed = (await db.get(MAILED)) || {};
       body.run.mailed.forEach(function (k) { if (k) mailed[k] = Date.now(); });
@@ -103,10 +114,11 @@ module.exports = async function handler(req, res) {
   }
 
   var m = (await db.get(MAILED)) || {};
+  var conf = {}; CFG_FIELDS.forEach(function (k) { conf[k] = cfg[k] || ''; });
   return j(res, 200, {
     ok: true, armed: !!st.armed, cap: st.cap || 20, states: st.states,
     mailedTotal: st.mailedTotal || 0, lastRunMs: st.lastRunMs || null,
     mailedKeys: Object.keys(m), hasLobKey: !!(process.env.LOB_API_KEY),
-    hasReturnAddr: !!(process.env.MAIL_FROM_LINE1)
+    hasReturnAddr: !!fromCfg().line1, config: conf
   });
 };

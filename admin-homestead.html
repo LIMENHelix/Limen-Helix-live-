@@ -382,20 +382,42 @@ function renderArm(s){
   var live=s.armed&&s.hasLobKey&&s.hasReturnAddr;
   var stCls=!s.armed?'off':(live?'on':'dry'), stTxt=!s.armed?'OFF':(live?'ARMED · LIVE':'ARMED · DRY RUN');
   var states=s.states||['FL'];
-  var box=function(c,l){return '<label style="margin-right:12px;cursor:pointer"><input type="checkbox" class="armSt" value="'+c+'"'+(states.indexOf(c)>=0?' checked':'')+'> '+l+'</label>';};
+  var c=s.config||{};
+  var box=function(code,l){return '<label style="margin-right:12px;cursor:pointer"><input type="checkbox" class="armSt" value="'+code+'"'+(states.indexOf(code)>=0?' checked':'')+'> '+l+'</label>';};
   bar.innerHTML=
     '<div class="sw'+(s.armed?' on':'')+'" id="armSw"><i></i></div>'+
     '<div class="lbl">Autonomous auto-mail<span class="st '+stCls+'">'+stTxt+'</span></div>'+
     '<div class="meta">cap <input id="armCap" type="number" value="'+(s.cap||20)+'" min="1" max="200"> letters/day · '+(s.mailedTotal||0)+' mailed all-time · last run '+last+'</div>'+
     '<div class="meta" style="flex-basis:100%">mail states: '+box('FL','Florida')+box('OH','Ohio')+box('TX','Texas')+
+      ' &nbsp;·&nbsp; <a href="#" id="cfgToggle" style="color:var(--teal)">⚙ Mail setup</a>'+
       ' &nbsp;·&nbsp; <button id="armTest" style="font-size:12px;padding:4px 10px;border-radius:6px;border:1px solid var(--line);background:var(--panel);color:var(--txt);cursor:pointer">✉ Send test letter to me</button></div>'+
+    cfgFormHTML(c)+
     (!s.hasLobKey?'<div class="warn">⚠ No Lob key on the server — even armed it runs DRY. Add LOB_API_KEY.</div>'
-      :(!s.hasReturnAddr?'<div class="warn">⚠ Armed but DRY — no return address. Add MAIL_FROM_NAME/LINE1/CITY/STATE/ZIP (+ CONTACT_PHONE/CONTACT_NAME) in Vercel to go LIVE; it mails on the next daily run once set.</div>'
+      :(!s.hasReturnAddr?'<div class="warn">⚠ Armed but DRY — no return address yet. Open <b>⚙ Mail setup</b> and fill in your return address + phone to go LIVE; it mails on the next daily run once set.</div>'
       :(s.armed?'<div class="warn" style="color:#7fd8b0">● LIVE — the daily run mails up to '+(s.cap||20)+' letters across ['+states.join(', ')+']. Send yourself a test first.</div>':'')));
   $('#armSw').onclick=function(){ setArm({armed:!s.armed}); };
   $('#armCap').onchange=function(){ setArm({cap:parseInt(this.value,10)||20}); };
   [].forEach.call(document.querySelectorAll('.armSt'),function(cb){ cb.onchange=function(){ setArm({states:[].filter.call(document.querySelectorAll('.armSt'),function(x){return x.checked;}).map(function(x){return x.value;})}); }; });
   $('#armTest').onclick=sendTestLetter;
+  $('#cfgToggle').onclick=function(e){ e.preventDefault(); var f=$('#mailCfgForm'); f.style.display=(f.style.display==='none'?'block':'none'); };
+  var sv=$('#cfgSave'); if(sv) sv.onclick=saveMailConfig;
+}
+function ci(id,ph,v){ return '<input id="'+id+'" placeholder="'+ph+'" value="'+String(v||'').replace(/"/g,'&quot;')+'" style="background:var(--panel);border:1px solid var(--line);border-radius:6px;color:var(--txt);padding:6px 8px;font-size:12px;margin:3px 6px 3px 0">'; }
+function cfgFormHTML(c){
+  c=c||{};
+  return '<div id="mailCfgForm" style="display:none;flex-basis:100%;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px;margin-top:6px">'+
+    '<div style="font-size:11px;color:#e0a06a;margin-bottom:8px">This prints on every letter. Use a <b>PO Box or virtual mailbox</b> for the address and a <b>Google Voice</b> number for the phone — never your home or personal cell.</div>'+
+    ci('cfgName','Your name (signs the letter)',c.contactName)+ci('cfgPhone','Phone — Google Voice',c.contactPhone)+'<br>'+
+    ci('cfgFromName','Return name on envelope (e.g. Homestead by LIMEN Helix)',c.fromName)+'<br>'+
+    ci('cfgLine1','Return address (PO Box / mailbox)',c.fromLine1)+ci('cfgCity','City',c.fromCity)+ci('cfgState','ST',c.fromState)+ci('cfgZip','Zip',c.fromZip)+'<br>'+
+    '<button id="cfgSave" style="margin-top:6px;font-size:12px;padding:6px 14px;border-radius:6px;border:1px solid var(--teal);background:#123028;color:var(--teal);cursor:pointer;font-weight:700">Save mail setup</button>'+
+  '</div>';
+}
+function saveMailConfig(){
+  var g=function(id){return (document.getElementById(id)||{}).value||'';};
+  var config={ contactName:g('cfgName'), contactPhone:g('cfgPhone'), fromName:g('cfgFromName'), fromLine1:g('cfgLine1'), fromCity:g('cfgCity'), fromState:g('cfgState'), fromZip:g('cfgZip') };
+  fetch('/api/homestead-automail',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({key:KEY,config:config})})
+    .then(function(r){return r.json();}).then(function(s){ if(s.ok){ alert('Mail setup saved ✓'); renderArm(s); } else alert('Save failed'); });
 }
 function sendTestLetter(){
   var saved=localStorage.getItem('hsTestAddr')||((localStorage.getItem('hsName')||'')+' |  |  |  | ');
