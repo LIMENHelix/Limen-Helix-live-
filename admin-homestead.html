@@ -86,6 +86,9 @@
   .sellto b{color:var(--soft);font-weight:600}
   .sellto a{display:inline-block;margin:4px 6px 0 0;padding:3px 9px;border:1px solid var(--line);border-radius:6px;font-size:11px;color:var(--soft)}
   .sellto a:hover{border-color:var(--teal);color:var(--teal)}
+  .mailbtn{margin-top:7px;font-size:12px;font-weight:700;padding:5px 12px;border-radius:6px;border:1px solid var(--teal);background:#123028;color:var(--teal);cursor:pointer}
+  .mailbtn:hover{background:#164235} .mailbtn:disabled{opacity:.6;cursor:default}
+  .mailbtn.done{border-color:var(--line);background:var(--panel);color:var(--mut)}
   .work{margin-top:11px}
   .work>summary{list-style:none;cursor:pointer;color:var(--teal);font-size:12.5px;font-weight:700;display:inline-block}
   .work>summary::-webkit-details-marker{display:none}
@@ -359,7 +362,8 @@ function oppRow(o){
         '<span class="dtype'+(isTD?' td':'')+'">'+(isTD?'Tax Deed':'Foreclosure')+'</span></div>'+
       (why?'<div class="why">'+why+'</div>':'<div class="why none">Owner not identified — open the listing to verify</div>')+
       (facts.length?'<div class="facts"><span>'+facts.join('</span><span>')+'</span></div>':'')+
-      '<div class="ownr">'+owner+(o.mailTo?'<div class="mail">✉ mail to: '+esc(o.mailTo)+'</div>':'')+'</div>'+
+      '<div class="ownr">'+owner+(o.mailTo?'<div class="mail">✉ mail to: '+esc(o.mailTo)+'</div>'+
+        '<button class="mailbtn" data-mk="'+esc(o.parcel||o.caseNumber||'')+'">✉ Mail this owner · ~$0.90</button>':'')+'</div>'+
       ((o.caseNumber||o.parcel)?'<div class="ref">'+(o.caseNumber?'Case '+esc(o.caseNumber):'')+(o.parcel?' · Parcel '+esc(o.parcel):'')+'</div>':'')+
       selltoHtml(o)+
       workHtml(o)+
@@ -371,6 +375,21 @@ function oppRow(o){
       view+
     '</div>'+
   '</div>';
+}
+// ---- per-property manual mail: one deliberate letter to the clicked owner ----
+document.addEventListener('click',function(e){
+  var b=e.target.closest?e.target.closest('.mailbtn'):null; if(!b||b.disabled) return;
+  mailOneDeal(b.getAttribute('data-mk'),b);
+});
+function mailOneDeal(key,btn){
+  if(!key){ alert('No parcel/case key on this deal.'); return; }
+  if(!confirm('Send ONE real letter to this owner now?\n~$0.90, live — goes out via Lob.')) return;
+  var old=btn.textContent; btn.disabled=true; btn.textContent='sending…';
+  fetch('/api/homestead-automail',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({key:KEY,action:'mailone',dealKey:key})})
+    .then(function(r){return r.json();}).then(function(x){
+      if(x.ok){ btn.textContent=x.already?'already mailed ✓':'mailed ✓'; btn.classList.add('done'); }
+      else { btn.disabled=false; btn.textContent=old; alert('Failed: '+(x.error||JSON.stringify(x.err||x))); }
+    }).catch(function(){ btn.disabled=false; btn.textContent=old; alert('Network error — try again.'); });
 }
 // ---- autonomous auto-mail arm switch ----
 function loadArm(){

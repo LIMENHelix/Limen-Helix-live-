@@ -72,6 +72,25 @@ module.exports = async function handler(req, res) {
     return j(res, 200, { ok: tr.ok, id: tr.id, err: tr.err, mode: 'test-live' });
   }
 
+  // action=mailone — mail ONE specific deal the operator clicked (manual mode). Deliberate, so it
+  // works whether or not the auto-switch is armed. Looks the deal up server-side + dedupes.
+  if (method === 'POST' && body.action === 'mailone') {
+    var OLOB = process.env.LOB_API_KEY || '', OFROM = fromCfg();
+    if (!OLOB) return j(res, 200, { ok: false, error: 'No LOB_API_KEY on the server.' });
+    if (!OFROM.line1) return j(res, 200, { ok: false, error: 'Set your return address in Mail setup first.' });
+    var dk = body.dealKey;
+    if (!dk) return j(res, 400, { ok: false, error: 'dealKey required.' });
+    var odeals = (await db.get('realauction:deals')) || [], od = null;
+    for (var oi = 0; oi < odeals.length; oi++) { if ((odeals[oi].parcel || odeals[oi].caseNumber) === dk) { od = odeals[oi]; break; } }
+    if (!od) return j(res, 404, { ok: false, error: 'Deal not found (list may have refreshed).' });
+    if (!(od.owner && od.owner.mailAddr)) return j(res, 200, { ok: false, error: 'No mailing address for this owner.' });
+    var omailed = (await db.get(MAILED)) || {};
+    if (omailed[dk]) return j(res, 200, { ok: true, already: true, mode: 'already-mailed' });
+    var orr = await lobSend(od, OLOB, OFROM, CPHONE, CNAME);
+    if (orr.ok) { omailed[dk] = Date.now(); await db.set(MAILED, omailed); st.mailedTotal = (st.mailedTotal || 0) + 1; st.lastRunMs = Date.now(); await db.set(STATE, st); }
+    return j(res, 200, { ok: orr.ok, id: orr.id, err: orr.err, mode: 'mailed-one' });
+  }
+
   // action=send — the actual mail run (called by the daily cron). No-op unless armed;
   // dry-run unless LOB key + a return address (admin form or env) are set.
   if (method === 'POST' && body.action === 'send') {
