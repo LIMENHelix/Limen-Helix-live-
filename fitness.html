@@ -52,7 +52,9 @@
   .toolhd{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}
   .tool h3{font-size:1.1rem;margin:0}
   .toolsrc{font-size:.62rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--teal)}
-  .toolwhat{font-size:.85rem;color:var(--body);margin:6px 0 12px}
+  .toolwhat{font-size:.85rem;color:var(--body);margin:6px 0 10px}
+  .toolhelp{font-size:.78rem;color:var(--mute);background:#eef2f8;border-radius:8px;padding:.5rem .65rem;margin:0 0 12px;line-height:1.5}
+  .toolhelp b{color:var(--ink)}
   .toolin{display:flex;flex-wrap:wrap;gap:9px}
   .toolin label{font-size:.71rem;color:var(--mute);display:flex;flex-direction:column;gap:3px;flex:1 1 46%;min-width:104px}
   .toolin .row{display:flex;gap:6px}
@@ -207,7 +209,8 @@
 
     <div class="tool">
       <div class="toolhd"><h3>Critical Power &amp; W′</h3><span class="toolsrc">Monod–Scherrer model</span></div>
-      <p class="toolwhat">Your sustainable aerobic ceiling and your finite anaerobic battery, from two all-out efforts (any power meter, or watts from pace).</p>
+      <p class="toolwhat">Your sustainable aerobic ceiling and your finite anaerobic battery, from two all-out efforts.</p>
+      <p class="toolhelp"><b>Where do watts come from?</b> Cyclists read them off a power meter; runners use a running-power watch (Stryd, Garmin, COROS) or a treadmill's watt display. Do <b>two even, all-out efforts of different lengths</b> — a ~3-minute and a ~12-minute work best.</p>
       <div class="toolin">
         <label>Effort 1 · power (W)<input id="cp_p1" type="number" inputmode="decimal" placeholder="320"></label>
         <label>Effort 1 · time (mm:ss)<input id="cp_t1" placeholder="3:00"></label>
@@ -221,6 +224,7 @@
     <div class="tool">
       <div class="toolhd"><h3>Race Time Predictor</h3><span class="toolsrc">Riegel endurance law</span></div>
       <p class="toolwhat">Enter one recent race and see predicted times across every distance, using the empirical fatigue exponent 1.06.</p>
+      <p class="toolhelp"><b>How to enter it:</b> use a recent, evenly-paced race or time trial. Pick km, miles, or metres for the distance — your predicted <b>pace shows back in that same unit</b>.</p>
       <div class="toolin">
         <label>Distance<div class="row"><input id="ri_d" type="number" inputmode="decimal" placeholder="5"><select id="ri_u"><option value="km">km</option><option value="mi">mi</option><option value="m">m</option></select></div></label>
         <label>Time (hh:mm:ss)<input id="ri_t" placeholder="22:30"></label>
@@ -232,6 +236,7 @@
     <div class="tool">
       <div class="toolhd"><h3>Natural Muscle Ceiling</h3><span class="toolsrc">FFMI · Kouri et al.</span></div>
       <p class="toolwhat">Your fat-free mass index and how close you sit to the drug-free upper limit (~25 normalized).</p>
+      <p class="toolhelp"><b>Body fat %:</b> from a DEXA/InBody scan, calipers, or a careful visual estimate — even a rough figure works. FFMI is a metric index; your lean mass shows back in whichever weight unit you pick.</p>
       <div class="toolin">
         <label>Weight<div class="row"><input id="ff_w" type="number" inputmode="decimal" placeholder="82"><select id="ff_wu"><option value="kg">kg</option><option value="lb">lb</option></select></div></label>
         <label>Height<div class="row"><input id="ff_h" type="number" inputmode="decimal" placeholder="180"><select id="ff_hu"><option value="cm">cm</option><option value="in">in</option></select></div></label>
@@ -244,6 +249,7 @@
     <div class="tool">
       <div class="toolhd"><h3>Metabolic Engine</h3><span class="toolsrc">Katch–McArdle</span></div>
       <p class="toolwhat">Calories from your lean mass (sharper than height/weight formulas), plus cut / maintain / build targets and protein.</p>
+      <p class="toolhelp"><b>Activity</b> = how many genuinely hard training days you average per week. <b>Body fat %</b> from a scan, calipers, or estimate.</p>
       <div class="toolin">
         <label>Weight<div class="row"><input id="km_w" type="number" inputmode="decimal" placeholder="82"><select id="km_wu"><option value="kg">kg</option><option value="lb">lb</option></select></div></label>
         <label>Body fat (%)<input id="km_bf" type="number" inputmode="decimal" placeholder="15"></label>
@@ -267,6 +273,7 @@
     <div class="tool">
       <div class="toolhd"><h3>Injury-Risk Load</h3><span class="toolsrc">Acute:Chronic · Gabbett</span></div>
       <p class="toolwhat">Compare this week's training load to your rolling 4-week average. The 0.8–1.3 band is the injury sweet spot.</p>
+      <p class="toolhelp"><b>What is "load"?</b> Simplest: for each session multiply your effort (RPE 1–10) by its minutes, then add up the week. Example: a 60-min session at RPE 7 = 420. <b>This week</b> = that total; <b>4-week avg</b> = the average of your last four weekly totals. Lifters can use weekly tonnage, runners weekly distance — just stay consistent.</p>
       <div class="toolin">
         <label>This week's load<input id="ac_a" type="number" inputmode="decimal" placeholder="2600"></label>
         <label>4-week avg load<input id="ac_c" type="number" inputmode="decimal" placeholder="2400"></label>
@@ -301,15 +308,17 @@
     var d=nn('ri_d'),u=v('ri_u'),t=ptime(v('ri_t'));
     if(isNaN(d)||d<=0||isNaN(t)||t<=0){set('ri_out','Enter a distance and a time (e.g. 5 km, 22:30).');return;}
     var meters=u==='km'?d*1000:u==='mi'?d*1609.344:d;
+    var mi=(u==='mi'),pu=mi?'/mi':'/km',pdiv=mi?1609.344:1000;
     var tg=[['1500 m',1500],['5 K',5000],['10 K',10000],['Half',21097.5],['Marathon',42195]];
-    var rows=tg.map(function(x){var T=t*Math.pow(x[1]/meters,1.06);return '<tr><td>'+x[0]+'</td><td><b>'+ftime(T)+'</b></td><td>'+ftime(T/(x[1]/1000))+' /km</td></tr>';}).join('');
+    var rows=tg.map(function(x){var T=t*Math.pow(x[1]/meters,1.06);return '<tr><td>'+x[0]+'</td><td><b>'+ftime(T)+'</b></td><td>'+ftime(T/(x[1]/pdiv))+' '+pu+'</td></tr>';}).join('');
     set('ri_out','<table class="zt"><tr><td>Distance</td><td>Predicted</td><td>Pace</td></tr>'+rows+'</table><span class="tooltiny">Riegel: T₂ = T₁·(D₂/D₁)^1.06</span>');
   };
   window.calcFFMI=function(){
     var w=toKg(nn('ff_w'),v('ff_wu')),h=toM(nn('ff_h'),v('ff_hu')),bf=nn('ff_bf');
     if([w,h,bf].some(function(x){return isNaN(x);})||h<=0||bf<0||bf>70){set('ff_out','Enter weight, height, and body fat %.');return;}
     var lbm=w*(1-bf/100),ffmi=lbm/(h*h),norm=ffmi+6.1*(1.8-h),pct=Math.round(norm/25*100);
-    set('ff_out','<b>FFMI '+ffmi.toFixed(1)+'</b> · normalized <b>'+norm.toFixed(1)+'</b><br>Lean mass '+lbm.toFixed(1)+' kg — about <b>'+pct+'%</b> of the ~25 drug-free ceiling. Normalized values above ~26 are rarely reached naturally.<span class="tooltiny">FFMI = lean-kg / height-m²; normalized to 1.8 m (Kouri 1995).</span>');
+    var lbmDisp=v('ff_wu')==='lb'?(lbm/0.45359237).toFixed(1)+' lb':lbm.toFixed(1)+' kg';
+    set('ff_out','<b>FFMI '+ffmi.toFixed(1)+'</b> · normalized <b>'+norm.toFixed(1)+'</b><br>Lean mass '+lbmDisp+' — about <b>'+pct+'%</b> of the ~25 drug-free ceiling. Normalized values above ~26 are rarely reached naturally.<span class="tooltiny">FFMI = lean-kg / height-m²; normalized to 1.8 m (Kouri 1995).</span>');
   };
   window.calcKM=function(){
     var w=toKg(nn('km_w'),v('km_wu')),bf=nn('km_bf'),a=parseFloat(v('km_a'));
