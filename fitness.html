@@ -100,10 +100,11 @@
   .progbox{border:1px solid rgba(45,212,191,.28);background:rgba(45,212,191,.05);border-radius:11px;padding:14px 16px}
   .proghd{font-family:'Fraunces',serif;font-weight:600;color:#fff;font-size:.95rem;display:flex;flex-wrap:wrap;gap:8px;align-items:baseline}
   .proghd span{font-family:'Inter';font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#7fdccb}
-  .proggoal{color:#cdd6e4;font-size:.9rem;margin:8px 0 10px;font-style:italic}
-  .progsec{margin:9px 0}
-  .progsec h4{font-family:'Inter';color:#e8edf6;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin:0 0 3px}
-  .progsec ul{margin:0;padding-left:18px}
+  .progthesis{color:#e8edf6;font-size:.92rem;line-height:1.55;font-style:italic;margin:8px 0 14px;border-left:2px solid #2dd4bf;padding-left:12px}
+  .progsec{margin:12px 0}
+  .progsec h4{font-family:'Inter';color:#7fdccb;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin:0 0 4px}
+  .progsec p{font-size:.87rem;color:#c2ccda;line-height:1.62;margin:0 0 6px}
+  .progsec ul{margin:4px 0 0;padding-left:18px}
   .progsec li{font-size:.85rem;color:#aab6c8;line-height:1.5;margin:2px 0}
   .progout,.progexit{font-size:.83rem;color:#93a1b5;margin:8px 0 0}
   .progout b,.progexit b{color:#cdd6e4}
@@ -250,14 +251,14 @@ function earlyAccess(e){
 // ── admin-only phase programming: fetched from a gated endpoint, injected under each phase ──
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function programHTML(pr){
-  var h='<div class="progbox"><div class="proghd">Program · '+esc(pr.name)+(pr.meta?' <span>'+esc(pr.meta)+'</span>':'')+'</div>';
-  h+='<p class="proggoal">'+esc(pr.goal)+'</p>';
-  (pr.sections||[]).forEach(function(s){
-    h+='<div class="progsec"><h4>'+esc(s.h)+'</h4><ul>';
-    (s.items||[]).forEach(function(it){ h+='<li>'+esc(it)+'</li>'; });
-    h+='</ul></div>';
+  var h='<div class="progbox"><div class="proghd">'+esc(pr.name)+(pr.meta?' <span>'+esc(pr.meta)+'</span>':'')+'</div>';
+  if(pr.thesis) h+='<p class="progthesis">'+esc(pr.thesis)+'</p>';
+  (pr.chapters||[]).forEach(function(s){
+    h+='<div class="progsec"><h4>'+esc(s.h)+'</h4>';
+    if(s.body) h+='<p>'+esc(s.body)+'</p>';
+    if(s.items&&s.items.length){ h+='<ul>'; s.items.forEach(function(it){ h+='<li>'+esc(it)+'</li>'; }); h+='</ul>'; }
+    h+='</div>';
   });
-  if(pr.output) h+='<p class="progout"><b>Output —</b> '+esc(pr.output)+'</p>';
   if(pr.exit) h+='<p class="progexit"><b>Exit —</b> '+esc(pr.exit)+'</p>';
   return h+'</div>';
 }
