@@ -24,6 +24,13 @@ details.state>summary{cursor:pointer;font-weight:700;padding:8px 0;list-style:no
 .right{flex:0 0 130px;text-align:right}.aff{font-size:20px;font-weight:800}.afflbl{color:var(--mut);font-size:11px}
 .clo{font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:4px;display:inline-block}
 .clo.c{background:#3a1a1a;color:#e29}.clo.l{background:#1a2a1a;color:#7c9}
+.stsel{font-size:11px;font-weight:700;border-radius:6px;padding:4px 6px;background:#1a222a;color:var(--soft);border:1px solid var(--line);cursor:pointer;margin-bottom:6px;width:100%}
+.stsel.st-new{color:var(--mut)}.stsel.st-contacted,.stsel.st-pitched,.stsel.st-negotiating,.stsel.st-deal{color:var(--t3);border-color:#24485f}
+.stsel.st-closed{color:var(--teal);border-color:#1f5a4a}.stsel.st-dead{color:#8a5a5a}
+details.work{margin-top:8px}details.work>summary{cursor:pointer;color:var(--teal);font-size:12px;list-style:none}
+.steps{font-size:12px;color:var(--soft);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-top:6px}
+.steps ol{margin:6px 0 0;padding-left:18px}.steps li{margin:3px 0}
+details.work textarea{width:100%;height:150px;margin-top:6px;background:var(--panel);border:1px solid var(--line);border-radius:8px;color:var(--txt);padding:8px;font:12px/1.5 ui-monospace,monospace;resize:vertical}
 </style>
 <h1>Industry Desk — plant closings</h1>
 <div class="sub">WARN Act notices (legally-mandated closure/layoff filings) ranked as P3 distress. Each closing plant fire-sells equipment, inventory, and the building. ADMIN ONLY.</div>
@@ -31,15 +38,43 @@ details.state>summary{cursor:pointer;font-weight:700;padding:8px 0;list-style:no
 <div class="today" id="today"></div>
 <div id="states"></div>
 <script>
-var KEY='',DATA=null;
+var KEY='',DATA=null,STATUS={};
+var STATUS_OPTS=['','contacted','pitched','negotiating','deal','closed','dead'];
+var STATUS_LBL={'':'New','contacted':'Contacted','pitched':'Buyers pitched','negotiating':'Negotiating','deal':'Deal','closed':'Closed','dead':'Dead'};
 var $=function(s){return document.querySelector(s)};
 function esc(s){return String(s==null?'':s).replace(/[&<>]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[c]})}
+function dealKey(o){return o.key||(o.company+o.effectiveDate);}
+function stOf(o){var s=STATUS[dealKey(o)]||{};return s.status||'';}
 function boot(){var k=localStorage.getItem('hsKey')||new URLSearchParams(location.search).get('key');if(k){KEY=k;$('#key').value=k;load();}}
 $('#go').onclick=function(){KEY=$('#key').value.trim();localStorage.setItem('hsKey',KEY);load();};
 function load(){if(!KEY)return;$('#err').textContent='loading…';
-  fetch('/api/industry?state=ALL&key='+encodeURIComponent(KEY)).then(function(r){return r.json();}).then(function(j){
-    if(!j.ok){$('#err').textContent=j.error||'denied';return;}$('#err').textContent='';DATA=j;render();
+  Promise.all([
+    fetch('/api/industry?state=ALL&key='+encodeURIComponent(KEY)).then(function(r){return r.json();}),
+    fetch('/api/industry-status?key='+encodeURIComponent(KEY)).then(function(r){return r.json();}).catch(function(){return{statuses:{}};})
+  ]).then(function(res){
+    if(!res[0].ok){$('#err').textContent=res[0].error||'denied';return;}
+    $('#err').textContent='';DATA=res[0];STATUS=(res[1]&&res[1].statuses)||{};render();
   }).catch(function(){$('#err').textContent='error';});
+}
+function setStatus(k,v){STATUS[k]=Object.assign(STATUS[k]||{},{status:v});render();
+  fetch('/api/industry-status',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({key:KEY,dealKey:k,status:v})}).catch(function(){});}
+window.setStatus=setStatus;
+function pitch(o){
+  return 'Subject: '+(o.company||'your facility')+' '+(o.city||'')+' closure — asset disposition\n\n'+
+    'Hi,\n\nI saw the WARN filing for '+(o.company||'your company')+"'s "+(o.city||'')+' location closing '+(o.effectiveDate||'soon')+'. '+
+    'I work with industrial asset buyers and auctioneers who pay for equipment, inventory, and the building in an ORDERLY sale — usually well above a rushed liquidation. '+
+    'No cost to you: I bring competing offers and take my fee from the buy side. Worth a quick call before the assets move?\n\n— [your name] · [phone]';
+}
+function workPanel(o){
+  var k=dealKey(o);
+  return '<details class="work"><summary>▸ Work this closing</summary>'+
+    '<div class="steps"><b>Play:</b> broker the closing company’s asset sale to the matched liquidators, keep the buy-side fee.'+
+    '<ol><li>Find the decision-maker (plant manager / VP ops / CFO) on LinkedIn or the company site — WARN gives the company + address, not a contact.</li>'+
+    '<li>Send the pitch below.</li>'+
+    '<li>Line up 2-3 of the matched buyers above for competing bids.</li>'+
+    '<li>Broker the intro; take the fee from the buyer.</li></ol></div>'+
+    '<textarea readonly onclick="this.select()">'+esc(pitch(o))+'</textarea>'+
+  '</details>';
 }
 function stat(n,l,hot){return '<div class="stat'+(hot?' hot':'')+'"><div class="n">'+n+'</div><div class="l">'+l+'</div></div>';}
 function render(){
@@ -66,10 +101,16 @@ function oppRow(o){
       (why?'<div class="why">'+esc(why)+'</div>':'')+
       '<div class="facts">'+(o.industry?esc(o.industry)+' · ':'')+'notice '+esc(o.noticeDate||'?')+' · effective '+esc(o.effectiveDate||'?')+'</div>'+
       '<div class="sell"><b>Sell the assets to:</b> '+(sell||'<span style="color:var(--mut)">no match</span>')+'</div>'+
+      workPanel(o)+
     '</div>'+
-    '<div class="right"><div class="aff">'+(o.affected||'?')+'</div><div class="afflbl">jobs cut</div>'+
+    '<div class="right">'+statusSelect(o)+'<div class="aff">'+(o.affected||'?')+'</div><div class="afflbl">jobs cut</div>'+
       '<div class="clo '+(isC?'c':'l')+'">'+(isC?'CLOSURE':(o.isClosure===false?'layoff':'notice'))+'</div></div>'+
   '</div>';
+}
+function statusSelect(o){
+  var k=dealKey(o),cur=stOf(o);
+  var opts=STATUS_OPTS.map(function(v){return '<option value="'+v+'"'+(v===cur?' selected':'')+'>'+STATUS_LBL[v]+'</option>';}).join('');
+  return '<select class="stsel st-'+(cur||'new')+'" onchange="setStatus(\''+String(k).replace(/'/g,'')+'\',this.value)">'+opts+'</select>';
 }
 boot();
 </script>

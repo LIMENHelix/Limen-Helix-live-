@@ -107,6 +107,7 @@ const HANDLERS = {
   'realauction-ingest': require('../handlers/realauction-ingest'),
   'industry': require('../handlers/industry'),
   'industry-ingest': require('../handlers/industry-ingest'),
+  'industry-status': require('../handlers/industry-status'),
   'skip-trace': require('../handlers/skip-trace'),
   'limen-autofire-log': require('../handlers/limen-autofire-log'),
   'limen-autoqueue': require('../handlers/limen-autoqueue'),
