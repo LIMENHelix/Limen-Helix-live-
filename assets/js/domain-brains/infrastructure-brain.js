@@ -444,6 +444,12 @@
       this.state.stress = Math.max(this.state.stress || 0, floor);
       this.state._stressFloorReason = (ac.indexOf('CYBER_ATTACK') !== -1) ? 'cyber-physical threat' : 'grid stress';
     }
+    // AFFERENT — fold in received cross-domain pressure (base-capped at 0.3, decayed). Every
+    // other domain does this; infrastructure was the one that didn't, leaving it deaf to the
+    // inter-brain bus (e.g. energy grid-stress / finance funding-collapse coupling to infra).
+    var ext = (typeof this.getExternalPressure === 'function') ? this.getExternalPressure() : 0;
+    this.state._externalPressureApplied = ext;
+    if (ext > 0) this.state.stress = Math.max(0, Math.min(1, (this.state.stress || 0) + ext));
   };
 
   InfrastructureBrain.prototype.deriveDiagnoses = function () {
