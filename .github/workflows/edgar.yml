@@ -1,0 +1,28 @@
+# FINANCE distress signal worker — pulls SEC EDGAR distress filings (bankruptcy / default / delisting /
+# going-concern / late), ranks them, POSTs to /api/finance-distress-ingest. National single-source, free.
+name: EDGAR distress signal
+on:
+  schedule:
+    - cron: '0 13 * * *'      # daily
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout: |
+            scripts/edgar-fetch.js
+            lib/edgar.js
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: fetch + ingest EDGAR distress
+        run: node scripts/edgar-fetch.js
+        env:
+          LEAD_ADMIN_KEY: ${{ secrets.LEAD_ADMIN_KEY }}
+          INGEST_URL: https://limenhelix.com
