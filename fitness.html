@@ -152,6 +152,11 @@
   .progsec:not(.collapsed)>h4.sech::before{content:'▾'}
   .progsec.collapsed>*:not(h4){display:none}
   .progsec{border-top:1px solid rgba(255,255,255,.07);padding-top:8px}
+  /* phase-level collapse (whole phase folds under its ladder header, admin only) */
+  body.admin-on .prow.hasprog .ptop{cursor:pointer}
+  body.admin-on .prow.hasprog .pname::after{content:' ▸';color:#2dd4bf;font-size:.85em}
+  body.admin-on .prow.hasprog:not(.pcollapsed) .pname::after{content:' ▾'}
+  .prow.pcollapsed .pprog{display:none}
   .progchem li{font-size:.85rem;color:#c2ccda;line-height:1.56;margin:5px 0}
   /* live feed */
   .progfeed .feedmsg{font-size:.82rem;color:#8b97a9;margin:6px 0 0}
@@ -538,6 +543,11 @@ document.addEventListener('click',function(e){
   sec.classList.toggle('collapsed');
   if(wasCollapsed && sec.classList.contains('progfeed')) loadFeed(sec);
 });
+// phase-level collapse: click the ladder-row header to fold/unfold the whole phase
+document.addEventListener('click',function(e){
+  var top=e.target.closest('.ptop'); if(!top) return;
+  var row=top.closest('.prow'); if(row && row.classList.contains('hasprog')) row.classList.toggle('pcollapsed');
+});
 function loadAdminPrograms(pass,quiet){
   return fetch('/api/fitness-program',{headers:{'x-limen-pass':pass}})
     .then(function(r){ if(!r.ok) throw new Error('denied'); return r.json(); })
@@ -545,7 +555,7 @@ function loadAdminPrograms(pass,quiet){
       if(!d||!d.programs) throw new Error('empty');
       Object.keys(d.programs).forEach(function(p){
         var el=document.getElementById('prog-'+p);
-        if(el) el.innerHTML=programHTML(d.programs[p], p);
+        if(el){ el.innerHTML=programHTML(d.programs[p], p); var row=el.closest('.prow'); if(row) row.classList.add('hasprog','pcollapsed'); }
       });
       document.querySelectorAll('.progbox').forEach(wireSearch);
       document.body.classList.add('admin-on');
