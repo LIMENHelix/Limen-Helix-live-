@@ -374,6 +374,16 @@
     // Biosensor modulation REMOVED 2026-06-18 — operator biometrics no longer
     // modulate any domain's stress/confidence/activity (see readBiosensor).
 
+    // AFFERENT (continuous integration) — real brain dynamics: afferent input is a graded,
+    // continuous summation folded into the domain's activation (stress), base-capped at 0.3.
+    // UNIVERSAL here so every domain continuously integrates received cross-domain pressure.
+    // The per-domain THRESHOLD firing (extPressure -> a named condition) stays in each domain's
+    // normalizeSignals — integrate-and-fire: continuous integration + threshold response.
+    // Overriding domains (energy/technology) call this base method, so they get it once here.
+    var _ext = (typeof this.getExternalPressure === 'function') ? this.getExternalPressure() : 0;
+    this.state._externalPressureApplied = _ext;
+    if (_ext > 0) this.state.stress = Math.max(0, Math.min(1, (this.state.stress || 0) + _ext));
+
     return Promise.resolve();
   };
 

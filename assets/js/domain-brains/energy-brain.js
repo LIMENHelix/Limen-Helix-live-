@@ -431,12 +431,14 @@
   EnergyBrain.prototype.scoreStress = function () {
     var self = this;
     return Base.prototype.scoreStress.call(this).then(function () {
-      var ext = (typeof self.getExternalPressure === 'function') ? self.getExternalPressure() : 0;
+      // Base already folded afferent (external pressure) into stress and set
+      // _externalPressureApplied. Add ONLY the operator request-steer bias here, keeping the
+      // combined injection <= 0.3 so steer never dominates perception.
+      var ext = self.state._externalPressureApplied || 0;
       var rb = self._readRequestBiases ? self._readRequestBiases() : { stressBias: 0 };
-      var inject = Math.min(0.3, ext + (rb.stressBias || 0));   // afferent + operator steer, combined cap 0.3 (steer never dominates)
-      self.state._externalPressureApplied = ext;
-      self.state._requestStressApplied = Math.max(0, inject - ext);
-      if (inject > 0) self.state.stress = Math.max(0, Math.min(1, (self.state.stress || 0) + inject));
+      var reqDelta = Math.max(0, Math.min(0.3 - ext, rb.stressBias || 0));
+      self.state._requestStressApplied = reqDelta;
+      if (reqDelta > 0) self.state.stress = Math.max(0, Math.min(1, (self.state.stress || 0) + reqDelta));
     });
   };
 
