@@ -45,6 +45,21 @@
   .card p{font-size:.92rem;color:var(--body);margin:0}
   .card.fork{border-left-style:dashed;background:#fff}
   .card .forktag{font-family:'Inter';font-size:.54rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--mute);border:1px solid var(--line);border-radius:999px;padding:.12rem .5rem;margin-left:7px;vertical-align:middle}
+  /* public per-phase evidence (free) */
+  .cardev{margin-top:10px}
+  .cardev:empty{display:none}
+  .evtoggle{width:100%;text-align:left;background:none;border:none;border-top:1px solid var(--line);padding:9px 0 0;margin:0;font-family:inherit;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--teal);cursor:pointer;display:flex;align-items:center;gap:6px}
+  .evtoggle::before{content:'▸';font-size:.8em}
+  .evtoggle[aria-expanded="true"]::before{content:'▾'}
+  .evwrap{display:none}
+  .evwrap.open{display:block;margin-top:8px}
+  .evlist{list-style:none;padding:0;margin:0}
+  .evlist li{margin:0 0 9px;font-size:.82rem;line-height:1.5}
+  .evf{color:var(--body);display:block}
+  .evlink{color:var(--teal);text-decoration:none;font-size:.75rem}
+  .evlink:hover{text-decoration:underline}
+  .evcaveat{font-size:.77rem;color:#9a5b2c;background:#fdf3ea;border-left:2px solid #e0955a;padding:.4rem .6rem;border-radius:6px;margin:6px 0 0}
+  .evsrc{font-size:.68rem;color:var(--mute);margin:8px 0 0}
 
   /* free public instruments */
   .tools{display:grid;grid-template-columns:repeat(auto-fill,minmax(298px,1fr));gap:14px;margin-top:22px}
@@ -404,7 +419,7 @@
   </div>
 
   <div class="ledger">
-    <div class="lrow"><span class="ls est">Established</span><span class="lt"><b>The phases are real physiological states.</b> Each one is standard exercise science, grounded in the researchers named at the bottom of this page.</span></div>
+    <div class="lrow"><span class="ls est">Established</span><span class="lt"><b>The phases are real physiological states.</b> Each one is standard exercise science. Open the evidence on any phase above: the peer-reviewed citations are free, linked to PubMed, with the honest caveats where the literature is mixed.</span></div>
     <div class="lrow"><span class="ls con">Consilient</span><span class="lt"><b>Periodization already orders training into blocks.</b> The arc names that sequence and claims it recurs at every scale. Agreement across frames is a stronger reason to look, never a proof on its own.</span></div>
     <div class="lrow"><span class="ls fro">Frontier</span><span class="lt"><b>One identical arc across every scale and every domain.</b> This is the open claim. It is being tested, it can fail, and where it fails we say so. Surviving honest attempts to break it is what earns a claim the word fact.</span></div>
   </div>
@@ -459,8 +474,37 @@ var PH=[
 document.getElementById('grid').innerHTML = PH.map(function(x){
   return '<div class="card'+(x.fork?' fork':'')+'" style="border-left-color:'+x.c+'">'
     +'<div class="pn" style="color:'+x.c+'">'+x.p+(x.fork?'<span class="forktag">the fork</span>':'')+'</div>'
-    +'<h3>'+x.t+'</h3><p>'+x.d+'</p></div>';
+    +'<h3>'+x.t+'</h3><p>'+x.d+'</p>'
+    +'<div class="cardev" id="ev-'+x.p+'"></div></div>';
 }).join('');
+
+// ── public per-phase citations (free): load from the ungated evidence endpoint ──
+(function(){
+  function evesc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  fetch('/api/fitness-evidence').then(function(r){return r.ok?r.json():null;}).then(function(d){
+    if(!d||!d.evidence) return;
+    Object.keys(d.evidence).forEach(function(p){
+      var mount=document.getElementById('ev-'+p); if(!mount) return;
+      var list=d.evidence[p]||[]; if(!list.length) return;
+      var note=(d.notes&&d.notes[p])||'';
+      var items=list.map(function(e){
+        var url=e.url||(e.pmid?'https://pubmed.ncbi.nlm.nih.gov/'+e.pmid+'/':'#');
+        return '<li><span class="evf">'+evesc(e.find)+'</span>'
+          +'<a class="evlink" href="'+evesc(url)+'" target="_blank" rel="noopener">'+evesc(e.ref)+(e.pmid?' · PMID '+evesc(e.pmid):'')+' ↗</a></li>';
+      }).join('');
+      var cav=note?'<p class="evcaveat">Caveat: '+evesc(note)+'</p>':'';
+      mount.innerHTML='<button class="evtoggle" type="button" aria-expanded="false">Evidence · '+list.length+' peer-reviewed studies</button>'
+        +'<div class="evwrap"><ul class="evlist">'+items+'</ul>'+cav
+        +'<p class="evsrc">Source: PubMed. Findings paraphrased; follow each link to the study.</p></div>';
+    });
+    var grid=document.getElementById('grid');
+    if(grid) grid.addEventListener('click',function(e){
+      var b=e.target.closest('.evtoggle'); if(!b) return;
+      var w=b.nextElementSibling; if(!w) return;
+      var open=w.classList.toggle('open'); b.setAttribute('aria-expanded',open?'true':'false');
+    });
+  }).catch(function(){});
+})();
 
 // ── phase-path ladder: P0 free, P1-P10 written monthly mesocycle (coaching = top-tier upsell) ──
 var LADDER=[
