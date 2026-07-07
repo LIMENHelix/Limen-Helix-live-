@@ -210,6 +210,7 @@
       .then(function () { return self.emitCrossDomainSignals(); })
       .then(function () { return self.updateMemory(); })
       .then(function () {
+        try { self._applyRequestSteer(); } catch (e) {}   // re-apply operator steer each cycle (no-op if none)
         self.state.updated = Date.now();
         self._emitEvent('domain-brain-update', { domainId: self.domainId, state: self.state });
       })
@@ -645,6 +646,87 @@
 
   DomainBrainBase.prototype.getState = function () {
     return this.state;
+  };
+
+  // ══════════════════════════════════════════════════════════════════════
+  // REQUEST STEERING SURFACE (generic) — the write path the operator AI box uses.
+  // A prompt enters as a decaying BIAS, never a command to an effector, never forces
+  // a finding. Energy overrides applyRequestBias / getStateSummary with spine-level
+  // versions; every other domain uses these generic (view-level re-rank) ones.
+  // ══════════════════════════════════════════════════════════════════════
+  var DB_BIAS_TTL = 20 * 60 * 1000;   // operator steer relaxes over ~20 min (a task set, not a command)
+
+  DomainBrainBase.prototype._readRequestBiases = function () {
+    var rb = this.state._requestBiasRaw;
+    if (!rb) return { stressBias: 0, attentionFocus: [], valuationLane: null, active: false };
+    var age = Date.now() - (rb.updatedAt || 0);
+    var factor = Math.max(0, 1 - age / DB_BIAS_TTL);
+    if (factor <= 0) return { stressBias: 0, attentionFocus: [], valuationLane: null, active: false };
+    return { stressBias: (rb.stressBias || 0) * factor, attentionFocus: rb.attentionFocus || [], valuationLane: rb.valuationLane || null, active: true, decay: Math.round(factor * 100) / 100 };
+  };
+
+  DomainBrainBase.prototype.applyRequestBias = function (bias) {
+    bias = bias || {};
+    var rb = this.state._requestBiasRaw || { stressBias: 0, attentionFocus: [], valuationLane: null };
+    if (bias.clear) rb = { stressBias: 0, attentionFocus: [], valuationLane: null };
+    if (typeof bias.stressBias === 'number') rb.stressBias = Math.max(0, Math.min(0.3, bias.stressBias));   // clamped: steer can never dominate
+    if (Array.isArray(bias.attentionFocus)) rb.attentionFocus = bias.attentionFocus.slice(0, 5).map(function (x) { return String(x); });
+    if (bias.valuationLane === 'INVESTABLE' || bias.valuationLane === 'RESEARCHABLE') rb.valuationLane = bias.valuationLane;
+    rb.updatedAt = Date.now();
+    this.state._requestBiasRaw = rb;
+    try { this._applyRequestSteer(); } catch (e) {}
+    return this._readRequestBiases();
+  };
+
+  // View-level re-rank of the current opportunities + diagnoses by the active bias.
+  // Uses _baseRank so repeated cycles never compound the multiplier.
+  DomainBrainBase.prototype._applyRequestSteer = function () {
+    var rb = this._readRequestBiases(); if (!rb || !rb.active) return;
+    var focus = (rb.attentionFocus || []).map(function (f) { return String(f).toLowerCase(); });
+    var lane = rb.valuationLane;
+    var opps = this.state.opportunities || [];
+    opps.forEach(function (o) {
+      if (o._baseRank === undefined) o._baseRank = (typeof o.rank === 'number') ? o.rank : 0;
+      var r = o._baseRank;
+      var hay = String(o.title || '').toLowerCase();
+      if (focus.some(function (f) { return f && hay.indexOf(f) !== -1; })) r *= 1.4;
+      if (lane && o.path === lane) r *= 1.3;
+      o.rank = r;
+    });
+    opps.sort(function (a, b) { return (b.rank || 0) - (a.rank || 0); });
+    var dg = this.state.diagnoses || [];
+    dg.forEach(function (d) { var hay = (String(d.id) + ' ' + String(d.label || '')).toLowerCase(); d._focus = focus.some(function (f) { return f && hay.indexOf(f) !== -1; }) ? 1 : 0; });
+    dg.sort(function (a, b) { if ((b._focus || 0) !== (a._focus || 0)) return (b._focus || 0) - (a._focus || 0); if (a.active !== b.active) return a.active ? -1 : 1; return (b.relevance || 0) - (a.relevance || 0); });
+  };
+
+  // Bounded control surface (autonomy toggle, capital envelope). No code edits.
+  DomainBrainBase.prototype.setDomainConfig = function (cfg) {
+    cfg = cfg || {};
+    var c = this.state._domainConfig = this.state._domainConfig || { maxConcurrent: 5, lanes: ['INVESTABLE', 'RESEARCHABLE'], autonomy: false };
+    if (typeof cfg.autonomy === 'boolean') c.autonomy = cfg.autonomy;
+    if (typeof cfg.maxConcurrent === 'number') c.maxConcurrent = Math.max(1, Math.min(12, Math.round(cfg.maxConcurrent)));
+    if (Array.isArray(cfg.lanes)) { var allow = cfg.lanes.filter(function (l) { return l === 'INVESTABLE' || l === 'RESEARCHABLE'; }); if (allow.length) c.lanes = allow; }
+    return { autonomy: c.autonomy, maxConcurrent: c.maxConcurrent, lanes: c.lanes };
+  };
+
+  // Compact domain readout — the context the box/LLM gets so it "knows its own domain".
+  DomainBrainBase.prototype.getStateSummary = function () {
+    var s = this.state, cog = s.cognition || {}, m = cog.model || {};
+    var active = (s.diagnoses || []).filter(function (d) { return d.active; }).slice(0, 8).map(function (d) { return { id: d.id, relevance: d.relevance, blocked: !!d.blocked }; });
+    var opps = (s.opportunities || []).slice(0, 6).map(function (o) { return { title: o.title, path: o.path, confidence: o.confidence }; });
+    var cfg = s._domainConfig || {};
+    return {
+      domain: this.domainId, label: this.label,
+      stress: Math.round((s.stress || 0) * 100) / 100, phase: s.phase || null, phaseLabel: s.phaseLabel || null,
+      regulation: (m.regulation && (m.regulation.state || m.regulation)) || null,
+      predictionError: (m.predictionError && (typeof m.predictionError === 'object' ? m.predictionError.total : m.predictionError)) || null,
+      predictedStress: (typeof m.predictedStress === 'number') ? m.predictedStress : null,
+      immune: (cog.immune && cog.immune.immuneState) || null,
+      activeDiagnoses: active, topOpportunities: opps,
+      config: { autonomy: !!cfg.autonomy, maxConcurrent: cfg.maxConcurrent || 5, lanes: cfg.lanes || ['INVESTABLE', 'RESEARCHABLE'] },
+      activeSteering: this._readRequestBiases(),
+      interoceptionCaveat: 'readings rest on a single-channel interoceptive layer; multimodal not yet built'
+    };
   };
 
   // ══════════════════════════════════════════════════════════════════════

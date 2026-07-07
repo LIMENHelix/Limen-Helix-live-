@@ -2746,8 +2746,7 @@
       'assets/js/energy-directive-translator.js',
       'assets/js/energy-targeting-engine.js',
       'assets/js/energy-promotion-bridge.js',
-      'assets/js/energy-clarity-operator.js',
-      'assets/js/energy-agent-box.js'
+      'assets/js/energy-clarity-operator.js'
     ];
     (function loadNext(i) {
       if (i >= _energyScripts.length) return;

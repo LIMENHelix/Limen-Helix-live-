@@ -543,7 +543,8 @@ if (!window.__isDomainPage) {
   // Domain-specific operator scripts are loaded by each brain's auto-loader.
   loadScript('assets/js/domain-brains/'+domain+'-brain.js')
     .then(function(){return loadScript('assets/js/domain-brains/'+domain+'-refresh-controller.js')})
-    .then(function(){return loadScript('assets/js/domain-brains/domain-console-brain.js')});
+    .then(function(){return loadScript('assets/js/domain-brains/domain-console-brain.js')})
+    .then(function(){return loadScript('assets/js/domain-agent-box.js')});
 })();
 </script>
 

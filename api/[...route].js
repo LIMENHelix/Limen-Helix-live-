@@ -53,6 +53,7 @@ const HANDLERS = {
   'energy-markets': require('../handlers/energy-markets'),
   'energy-news': require('../handlers/energy-news'),
   'energy-agent': require('../handlers/energy-agent'),
+  'domain-agent': require('../handlers/domain-agent'),
   'culture-markets': require('../handlers/culture-markets'),
   'culture-news': require('../handlers/culture-news'),
   'finance-markets': require('../handlers/finance-markets'),
