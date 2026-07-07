@@ -210,7 +210,8 @@
       .then(function () { return self.emitCrossDomainSignals(); })
       .then(function () { return self.updateMemory(); })
       .then(function () {
-        try { self._applyRequestSteer(); } catch (e) {}   // re-apply operator steer each cycle (no-op if none)
+        try { self._applyRequestSteer(); } catch (e) {}       // re-apply operator steer each cycle (no-op if none)
+        try { self._computeGenericKStack(); } catch (e) {}    // generic K-stack -> cognition.neuro (energy self-skips)
         self.state.updated = Date.now();
         self._emitEvent('domain-brain-update', { domainId: self.domainId, state: self.state });
       })
@@ -737,6 +738,82 @@
       activeSteering: this._readRequestBiases(),
       interoceptionCaveat: 'readings rest on a single-channel interoceptive layer; multimodal not yet built'
     };
+  };
+
+  // ══════════════════════════════════════════════════════════════════════
+  // GENERIC K-STACK — energy's advanced brain-dynamics layers, generalized to EVERY
+  // domain (energy keeps its own richer version; the guard skips it). Attached to
+  // state.cognition.neuro after each cycle (one-cycle lag, recurrent by design). Reads the
+  // normalized cognition surface + recurrent model + stress history; advisory analytical
+  // layers. The homeostasis layer IS the ADAPTIVE afferent THRESHOLD (Turrigiano scaling).
+  // Autonomous emission / capital-fit packaging stay energy-specific (the acting layer).
+  // ══════════════════════════════════════════════════════════════════════
+  var GK_HOMEO_WINDOW = 60, GK_FORECAST_WINDOW = 12, GK_FORECAST_HORIZON = 8, GK_OUTCOME_BUF = 40, GK_SLOW_RATE = 0.08;
+  function gkClamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+  DomainBrainBase.prototype._computeGenericKStack = function () {
+    if (typeof this._runEnergyAutonomousEmission === 'function') return;   // energy has its own richer K-stack
+    var st = this.state, cog = st.cognition; if (!cog) return;
+    var m = cog.model || {};
+    var pe = (m.predictionError && typeof m.predictionError === 'object') ? (m.predictionError.total || 0) : (m.predictionError || 0);
+    var reg = (m.regulation && typeof m.regulation === 'object') ? m.regulation : { state: m.regulation };
+    var ps = (typeof m.predictedStress === 'number') ? m.predictedStress : (st.stress || 0);
+    var imm = cog.immune || {}, con = cog.conscience || {};
+    var diags = st.diagnoses || [];
+    var hist = ((st.memory && st.memory.stressHistory) || []);
+    var cur = (typeof st.stress === 'number') ? st.stress : 0;
+
+    // homeostasis — ADAPTIVE afferent threshold (rolling baseline; Turrigiano synaptic scaling)
+    var win = hist.slice(-GK_HOMEO_WINDOW), n = win.length, sum = 0; for (var i = 0; i < n; i++) sum += (win[i].stress || 0);
+    var baseline = n ? sum / n : 0.5;
+    var homeostasis = { baseline: Math.round(baseline * 1000) / 1000, deviation: Math.round((cur - baseline) * 1000) / 1000, scalingFactor: baseline > 0 ? Math.round((0.5 / Math.max(0.1, baseline)) * 1000) / 1000 : 1, adaptiveThreshold: Math.round(gkClamp(0.10 * (baseline / 0.5), 0.05, 0.25) * 1000) / 1000, samples: n, note: 'adaptive afferent threshold: baseline-scaled firing threshold' };
+
+    // brake — stop-circuit (advisory)
+    var reasons = [];
+    if (imm.immuneState === 'alert') reasons.push({ code: 'immune-alert', severity: 'halt' });
+    if (reg.stale) reasons.push({ code: 'stale-feeds', severity: 'halt' });
+    if (reg.flooding) reasons.push({ code: 'flooding', severity: 'dampen' });
+    if (pe > 0.4) reasons.push({ code: 'prediction-error-spike', severity: 'dampen' });
+    if (con.conscienceState === 'restrictive' && con.artifactReadinessDecision && !con.artifactReadinessDecision.researchReady && !con.artifactReadinessDecision.investmentReady) reasons.push({ code: 'conscience-no-lane', severity: 'dampen' });
+    var halt = reasons.some(function (r) { return r.severity === 'halt'; }), dampen = reasons.some(function (r) { return r.severity === 'dampen'; });
+    var brake = { level: halt ? 'halt' : dampen ? 'dampen' : 'clear', reasons: reasons, note: 'stop-circuit (advisory; energy has the gated version)' };
+
+    // gain — neuromodulation (advisory)
+    var novelty = gkClamp(pe, 0.05, 0.95);
+    var gainControl = { gain: novelty, inhibition: gkClamp(1 - novelty, 0, 0.9), outputScale: gkClamp(1 - gkClamp(1 - novelty, 0, 0.9) * 0.5, 0.4, 1), note: 'graded gain (advisory)' };
+
+    // attention — top-down salience
+    var scored = diags.map(function (d) { return { id: d.id, active: !!d.active, salience: Math.round(((d.active ? 0.5 : 0) + (d.relevance || 0) * 0.4 + pe * 0.1) * 1000) / 1000 }; }).sort(function (a, b) { return b.salience - a.salience; });
+    var attention = { focus: scored.slice(0, 3), driver: reg.state === 'surprised' ? 'novelty-driven' : 'goal-driven', note: 'attention ranking (advisory)' };
+
+    // inhibition — lateral, winner-take-most
+    var active = diags.filter(function (d) { return d.active; }).sort(function (a, b) { return (b.relevance || 0) - (a.relevance || 0); });
+    var inhibition = { winner: active[0] ? active[0].id : null, competitors: active.slice(1, 6).map(function (d) { return d.id; }), note: 'winner-take-most (advisory)' };
+
+    // slow model — consolidation track (fast-vs-slow divergence = regime shift)
+    var slow = st._gkSlow || { expectedStress: 0.5, samples: 0 };
+    slow.expectedStress = gkClamp(slow.expectedStress + GK_SLOW_RATE * (cur - slow.expectedStress), 0, 1); slow.samples++;
+    st._gkSlow = slow;
+    var slowModel = { expectedStress: Math.round(slow.expectedStress * 1000) / 1000, fastSlowDivergence: Math.round(Math.abs(cur - slow.expectedStress) * 1000) / 1000, regimeShift: Math.abs(cur - slow.expectedStress) > 0.25, samples: slow.samples, note: 'slow consolidation (uses slow rate 0.08)' };
+
+    // truth brake — outcome ledger (this cycle's realized vs LAST cycle's predicted stress)
+    var buf = st._gkOutcomeBuf || [];
+    if (st._gkPrevPred != null) { buf.push(Math.abs(st._gkPrevPred - cur)); if (buf.length > GK_OUTCOME_BUF) buf.shift(); }
+    st._gkPrevPred = ps; st._gkOutcomeBuf = buf;
+    var hit = buf.length ? buf.filter(function (e) { return e <= 0.1; }).length / buf.length : null;
+    var outcomeLedger = { samples: buf.length, hitRate: hit == null ? null : Math.round(hit * 100) / 100, meanError: buf.length ? Math.round((buf.reduce(function (a, b) { return a + b; }, 0) / buf.length) * 1000) / 1000 : null, note: 'truth brake: forecast-vs-realized calibration (measurement only)' };
+
+    // forecast — forward render with falsifier (trend-projected, calibrated by truth brake)
+    var fh = hist.slice(-GK_FORECAST_WINDOW), fn = fh.length, slope = 0;
+    if (fn >= 3) { var sx = 0, sy = 0, sxy = 0, sxx = 0; for (var j = 0; j < fn; j++) { var x = j, yy = fh[j].stress || 0; sx += x; sy += yy; sxy += x * yy; sxx += x * x; } var dd = fn * sxx - sx * sx; slope = dd !== 0 ? (fn * sxy - sx * sy) / dd : 0; }
+    var projected = gkClamp(cur + slope * GK_FORECAST_HORIZON, 0, 1);
+    var direction = slope > 0.005 ? 'rising' : slope < -0.005 ? 'falling' : 'stable';
+    var conf = Math.round(gkClamp((1 - pe) * (hit == null ? 0.7 : hit), 0, 1) * 100) / 100;
+    var forecast = { direction: direction, projectedStress: Math.round(projected * 1000) / 1000, horizonPeriods: GK_FORECAST_HORIZON, confidence: conf, falsifier: 'stress moves >= 0.1 against the projection within ' + GK_FORECAST_HORIZON + ' periods', note: 'forward render with falsifier (front-run, not nowcast)' };
+
+    var neuro = { version: 1, status: 'generic', homeostasis: homeostasis, brake: brake, gainControl: gainControl, attention: attention, inhibition: inhibition, slowModel: slowModel, outcomeLedger: outcomeLedger, forecast: forecast, note: 'generic K-stack (analytical). Autonomous emission stays energy-specific.' };
+    cog.neuro = neuro; st.domainNeuro = neuro;
+    return neuro;
   };
 
   // ══════════════════════════════════════════════════════════════════════
