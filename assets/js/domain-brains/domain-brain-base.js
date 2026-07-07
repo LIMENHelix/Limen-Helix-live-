@@ -212,6 +212,7 @@
       .then(function () {
         try { self._applyRequestSteer(); } catch (e) {}       // re-apply operator steer each cycle (no-op if none)
         try { self._computeGenericKStack(); } catch (e) {}    // generic K-stack -> cognition.neuro (energy self-skips)
+        try { self._applyGenericBrakeGate(); } catch (e) {}   // closed loop: brake gates emitted opportunities
         self.state.updated = Date.now();
         self._emitEvent('domain-brain-update', { domainId: self.domainId, state: self.state });
       })
@@ -811,9 +812,36 @@
     var conf = Math.round(gkClamp((1 - pe) * (hit == null ? 0.7 : hit), 0, 1) * 100) / 100;
     var forecast = { direction: direction, projectedStress: Math.round(projected * 1000) / 1000, horizonPeriods: GK_FORECAST_HORIZON, confidence: conf, falsifier: 'stress moves >= 0.1 against the projection within ' + GK_FORECAST_HORIZON + ' periods', note: 'forward render with falsifier (front-run, not nowcast)' };
 
-    var neuro = { version: 1, status: 'generic', homeostasis: homeostasis, brake: brake, gainControl: gainControl, attention: attention, inhibition: inhibition, slowModel: slowModel, outcomeLedger: outcomeLedger, forecast: forecast, note: 'generic K-stack (analytical). Autonomous emission stays energy-specific.' };
+    var neuro = { version: 1, status: 'generic', homeostasis: homeostasis, brake: brake, gainControl: gainControl, attention: attention, inhibition: inhibition, slowModel: slowModel, outcomeLedger: outcomeLedger, forecast: forecast, note: 'generic K-stack (analytical + gated). Autonomous emission stays energy-specific.' };
     cog.neuro = neuro; st.domainNeuro = neuro;
     return neuro;
+  };
+
+  // CLOSED LOOP — the generic brake actually gates this domain's emitted opportunities (not just
+  // reports). halt -> hold + zero confidence; dampen -> halve confidence + gain-scaled soft cap.
+  // Runs after the generic K-stack in the base cycle. Energy gates its own emission (skipped here).
+  // Non-destructive: opportunities are rebuilt fresh each cycle by surfaceOpportunities, so this
+  // re-applies from the current brake without compounding.
+  DomainBrainBase.prototype._applyGenericBrakeGate = function () {
+    if (typeof this._runEnergyAutonomousEmission === 'function') return;   // energy gates its own
+    var st = this.state, neuro = st.domainNeuro; if (!neuro || !neuro.brake) return;
+    var brake = neuro.brake, opps = st.opportunities || [];
+    if (brake.level === 'clear') { st.opportunitiesHeld = false; return; }
+    var pen = brake.level === 'halt' ? 0 : 0.5;
+    var codes = (brake.reasons || []).map(function (r) { return r.code; }).join(',');
+    for (var i = 0; i < opps.length; i++) {
+      if (typeof opps[i].confidence === 'number' && pen < 1) opps[i].confidence = Math.round(opps[i].confidence * pen);
+      if (brake.level === 'halt') { opps[i].held = true; opps[i].heldReason = codes; }
+    }
+    st.opportunitiesHeld = (brake.level === 'halt');
+    // dampen -> gain-scaled soft cap: mark the ranked tail as gated (non-destructive; consumers may skip)
+    var gc = neuro.gainControl;
+    if (brake.level === 'dampen' && gc && typeof gc.outputScale === 'number' && gc.outputScale < 1 && opps.length > 1) {
+      var keep = Math.max(1, Math.round(opps.length * gc.outputScale));
+      for (var k = keep; k < opps.length; k++) opps[k].gainGated = true;
+      st._gainGatedCount = Math.max(0, opps.length - keep);
+    }
+    return { level: brake.level, held: st.opportunitiesHeld };
   };
 
   // ══════════════════════════════════════════════════════════════════════
