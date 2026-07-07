@@ -117,6 +117,34 @@
   .cred{font-size:.85rem;color:var(--mute);margin-top:16px}
   .foot{padding:30px 0 68px;color:var(--mute);font-size:.83rem}
 
+  /* the honest layer — known vs frontier, the public ledger */
+  .honest{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0 8px}
+  @media(max-width:640px){.honest{grid-template-columns:1fr}}
+  .hcol{border:1px solid var(--line);border-radius:14px;padding:18px 20px;background:var(--bg2)}
+  .hcol.frontier{background:#0f172a;border-color:#1e293b}
+  .hcol .htag{font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--teal)}
+  .hcol.frontier .htag{color:#5eead4}
+  .hcol h3{font-size:1.14rem;margin:6px 0 6px}
+  .hcol.frontier h3{color:#fff}
+  .hcol p{font-size:.9rem;margin:0 0 8px}
+  .hcol.frontier p{color:#cdd6e4}
+  .hcol ul{margin:6px 0 0;padding-left:18px}
+  .hcol li{font-size:.86rem;margin:3px 0}
+  .hcol.frontier li{color:#aab6c8}
+  .ledger{border:1px solid var(--line);border-radius:14px;overflow:hidden;margin:18px 0 6px}
+  .lrow{display:flex;gap:12px;align-items:flex-start;padding:13px 16px;border-bottom:1px solid var(--line)}
+  .lrow:last-child{border-bottom:none}
+  .lrow .ls{flex:0 0 auto;font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border-radius:999px;padding:.25rem .6rem;margin-top:2px;white-space:nowrap}
+  .ls.est{color:#065f46;background:#d1fae5}
+  .ls.con{color:#92400e;background:#fef3c7}
+  .ls.fro{color:#5b21b6;background:#ede9fe}
+  .lrow .lt{font-size:.9rem;color:var(--body)}
+  .lrow .lt b{color:var(--ink)}
+  .stance{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-top:20px}
+  .stance div{border-left:3px solid var(--teal);padding:2px 0 2px 13px}
+  .stance .sh{font-family:'Fraunces',serif;font-weight:600;color:var(--ink);font-size:.98rem}
+  .stance .sp{font-size:.84rem;color:var(--body);margin-top:3px}
+
   /* admin-only phase programming — served from a gated endpoint, empty for public */
   .pprog:empty{display:none}
   .pprog{margin-top:12px}
@@ -346,6 +374,47 @@
   };
 })();
 </script>
+
+<section class="section" id="honest"><div class="wrap">
+  <div class="kicker">The honest part</div>
+  <h2>What we know, and what we're still proving.</h2>
+  <p class="lead">Reality is the flux. The map is the abstraction we lay over it to make it usable. Everything inside each phase on this page rests on published, cited physiology. The bigger claim, that one arc of eleven phases is the same shape at every scale and in every domain, is not proven. We do not sell it as proven. We show the work and let you watch the gap close.</p>
+
+  <div class="honest">
+    <div class="hcol">
+      <div class="htag">Known · free · cited</div>
+      <h3>The mechanisms</h3>
+      <p>The physiology inside each phase is established science, and it is free on this page.</p>
+      <ul>
+        <li>Cortisol and insulin-sensitivity rhythms</li>
+        <li>Autophagy, glymphatic clearance, supercompensation</li>
+        <li>Volume landmarks (MEV to MAV), RIR, zone-2, allostasis</li>
+      </ul>
+    </div>
+    <div class="hcol frontier">
+      <div class="htag">Frontier · unproven · the reason to stay</div>
+      <h3>The one arc</h3>
+      <p>That these states form one repeating, ordered shape, nested from a single rep up to a whole season, and that the same shape governs a market, an ecosystem, a life. That is the hypothesis LIMEN is testing across twenty domains.</p>
+      <ul>
+        <li>The arc is a model, not a proven law</li>
+        <li>Every piece of it gets tested in the open</li>
+        <li>Fitness is the doorway you can feel in your own body</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="ledger">
+    <div class="lrow"><span class="ls est">Established</span><span class="lt"><b>The phases are real physiological states.</b> Each one is standard exercise science, grounded in the researchers named at the bottom of this page.</span></div>
+    <div class="lrow"><span class="ls con">Consilient</span><span class="lt"><b>Periodization already orders training into blocks.</b> The arc names that sequence and claims it recurs at every scale. Agreement across frames is a stronger reason to look, never a proof on its own.</span></div>
+    <div class="lrow"><span class="ls fro">Frontier</span><span class="lt"><b>One identical arc across every scale and every domain.</b> This is the open claim. It is being tested, it can fail, and where it fails we say so. Surviving honest attempts to break it is what earns a claim the word fact.</span></div>
+  </div>
+
+  <div class="stance">
+    <div><div class="sh">Consilience, not proof</div><div class="sp">When old practice and modern data point the same way, that is a reason to look harder, not a substitute for evidence.</div></div>
+    <div><div class="sh">Falsification earns the word fact</div><div class="sp">A claim becomes fact by surviving honest attempts to break it. We run those attempts in the open.</div></div>
+    <div><div class="sh">Nothing about the frontier hides</div><div class="sp">The map is free, the science is free, and where the arc holds or breaks is public. Only your own programming sits behind the wall.</div></div>
+  </div>
+</div></section>
 
 <section class="section" id="unlock"><div class="wrap">
   <div class="gate">
