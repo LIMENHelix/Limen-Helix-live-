@@ -36,14 +36,15 @@ async function california() {
   var wb = XLSX.read(buf, { type: 'buffer' });
   var sheet = wb.SheetNames.find(function (n) { return /detail/i.test(n); }) || wb.SheetNames[0];
   var aoa = XLSX.utils.sheet_to_json(wb.Sheets[sheet], { header: 1, raw: false });
-  var hi = aoa.findIndex(function (row) { return (row || []).some(function (c) { return /^company$/i.test(String(c).trim()); }) && (row || []).some(function (c) { return /notice date/i.test(String(c)); }); });
+  var nk = function (s) { return String(s == null ? '' : s).toLowerCase().replace(/[^a-z0-9]/g, ''); }; // CA headers have \r\n inside
+  var hi = aoa.findIndex(function (row) { return (row || []).some(function (c) { return nk(c) === 'company'; }) && (row || []).some(function (c) { return nk(c) === 'noticedate'; }); });
   if (hi < 0) return [];
-  var hdr = aoa[hi].map(function (c) { return String(c).trim(); });
+  var hdr = aoa[hi].map(nk);
   var out = [];
   for (var i = hi + 1; i < aoa.length; i++) {
     var row = aoa[i]; if (!row || !row.length) continue;
     var o = {}; hdr.forEach(function (h, j) { o[h] = row[j]; });
-    if (!o['Company'] || !String(o['Company']).trim()) continue;
+    if (!o.company || !String(o.company).trim()) continue;
     out.push(W.normCA(o));
   }
   return out;
