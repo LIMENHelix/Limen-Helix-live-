@@ -1,0 +1,34 @@
+# INDUSTRY signal worker — pulls WARN notices (plant closings / mass layoffs) from the free state
+# feeds, ranks them, POSTs to /api/industry-ingest. Same pattern as the RealAuction worker.
+# SECRET REQUIRED: LEAD_ADMIN_KEY (same value as the Vercel env var).
+name: WARN industry signal
+
+on:
+  schedule:
+    - cron: '0 12 * * *'      # daily, after CA's Tue/Thu refresh
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout: |
+            scripts/warn-fetch.js
+            lib/warn.js
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: install xlsx (for the California .xlsx feed)
+        run: npm install xlsx@0.18 --no-save --no-audit --no-fund
+      - name: fetch + ingest WARN notices
+        run: node scripts/warn-fetch.js
+        env:
+          LEAD_ADMIN_KEY: ${{ secrets.LEAD_ADMIN_KEY }}
+          INGEST_URL: https://limenhelix.com

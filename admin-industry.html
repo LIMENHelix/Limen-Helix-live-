@@ -1,0 +1,75 @@
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Industry Desk — Plant Closings (WARN)</title>
+<style>
+:root{--bg:#0d1117;--ink2:#131a22;--panel:#161d26;--line:#24303c;--txt:#e6edf3;--soft:#c9d5e0;--mut:#8b98a6;--teal:#3fb;--t1:#e0b06a;--t3:#6fb3e0}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font:14px/1.5 -apple-system,Segoe UI,Roboto,sans-serif;padding:18px;max-width:1100px;margin:0 auto}
+h1{font-size:19px;margin:0 0 2px}.sub{color:var(--mut);font-size:12px;margin-bottom:14px}
+input#key{background:var(--panel);border:1px solid var(--line);border-radius:8px;color:var(--txt);padding:8px 10px;width:220px}
+button{background:#123028;border:1px solid var(--teal);color:var(--teal);border-radius:8px;padding:8px 14px;font-weight:700;cursor:pointer}
+.today{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
+.stat{background:var(--ink2);border:1px solid var(--line);border-radius:10px;padding:10px 14px;min-width:96px}
+.stat .n{font-size:22px;font-weight:800}.stat .l{color:var(--mut);font-size:11px}
+.stat.hot .n{color:var(--t1)}
+details.state{background:var(--ink2);border:1px solid var(--line);border-radius:10px;margin:8px 0;padding:4px 12px}
+details.state>summary{cursor:pointer;font-weight:700;padding:8px 0;list-style:none}
+.pill{background:var(--panel);border:1px solid var(--line);border-radius:20px;font-size:11px;color:var(--mut);padding:2px 9px;margin-left:8px}
+.opp{display:flex;gap:12px;border-top:1px solid var(--line);padding:12px 0}
+.tier{flex:0 0 52px;text-align:center;border-radius:8px;padding:6px 2px;font-weight:800;font-size:11px}
+.t1{background:#3a2410;color:var(--t1)}.t2{background:#2a2a12;color:#d9d06a}.t3{background:#122430;color:var(--t3)}.t4{background:#1a2028;color:var(--mut)}
+.co{font-weight:700;font-size:15px}.loc{color:var(--soft);font-size:12px}
+.why{color:var(--teal);font-size:12px;margin-top:3px}.facts{color:var(--mut);font-size:12px;margin-top:3px}
+.sell{margin-top:8px;font-size:12px;color:var(--mut)}.sell b{color:var(--soft)}
+.sell a{display:inline-block;margin:3px 6px 0 0;padding:3px 9px;border:1px solid var(--line);border-radius:6px;font-size:11px;color:var(--soft);text-decoration:none}
+.sell a:hover{border-color:var(--teal);color:var(--teal)}
+.right{flex:0 0 130px;text-align:right}.aff{font-size:20px;font-weight:800}.afflbl{color:var(--mut);font-size:11px}
+.clo{font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:4px;display:inline-block}
+.clo.c{background:#3a1a1a;color:#e29}.clo.l{background:#1a2a1a;color:#7c9}
+</style>
+<h1>Industry Desk — plant closings</h1>
+<div class="sub">WARN Act notices (legally-mandated closure/layoff filings) ranked as P3 distress. Each closing plant fire-sells equipment, inventory, and the building. ADMIN ONLY.</div>
+<div><input id="key" placeholder="admin key" autocomplete="off"> <button id="go">Load</button> <span id="err" style="color:var(--mut);font-size:12px"></span></div>
+<div class="today" id="today"></div>
+<div id="states"></div>
+<script>
+var KEY='',DATA=null;
+var $=function(s){return document.querySelector(s)};
+function esc(s){return String(s==null?'':s).replace(/[&<>]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[c]})}
+function boot(){var k=localStorage.getItem('hsKey')||new URLSearchParams(location.search).get('key');if(k){KEY=k;$('#key').value=k;load();}}
+$('#go').onclick=function(){KEY=$('#key').value.trim();localStorage.setItem('hsKey',KEY);load();};
+function load(){if(!KEY)return;$('#err').textContent='loading…';
+  fetch('/api/industry?state=ALL&key='+encodeURIComponent(KEY)).then(function(r){return r.json();}).then(function(j){
+    if(!j.ok){$('#err').textContent=j.error||'denied';return;}$('#err').textContent='';DATA=j;render();
+  }).catch(function(){$('#err').textContent='error';});
+}
+function stat(n,l,hot){return '<div class="stat'+(hot?' hot':'')+'"><div class="n">'+n+'</div><div class="l">'+l+'</div></div>';}
+function render(){
+  var t=DATA.totals||{};
+  $('#today').innerHTML=stat(t.deals||0,'Active closings')+stat(t.workFirst||0,'Work-first',true)+stat(t.states||0,'States')+
+    stat(DATA.updatedMs?new Date(DATA.updatedMs).toLocaleDateString():'—','Updated');
+  var html='';
+  (DATA.states||[]).forEach(function(s){
+    html+='<details class="state" open><summary>'+esc(s.state)+'<span class="pill">'+s.total+' closings</span>'+
+      (s.workFirst?'<span class="pill">'+s.workFirst+' work-first</span>':'')+'<span class="pill">top '+s.topAffected+' jobs</span></summary>'+
+      s.deals.map(oppRow).join('')+'</details>';
+  });
+  $('#states').innerHTML=html||'<div style="color:var(--mut);padding:20px">No WARN deals loaded yet. Run the fetcher to populate.</div>';
+}
+function oppRow(o){
+  var why=(o.signals||[]).filter(function(x){return x!=='type-unknown'&&x!=='past-effective';}).join(' · ');
+  var isC=o.isClosure===true;
+  var sell=(o.buyers||[]).slice(0,4).map(function(b){return '<a href="'+esc(b.url)+'" target="_blank" rel="noopener">'+esc(b.name)+'</a>';}).join('');
+  var loc=[o.city,o.county&&o.county+' Co.',o.state].filter(Boolean).join(', ');
+  return '<div class="opp"><div class="tier t'+o.tier+'">T'+o.tier+'<br>'+esc(o.tierLabel||'')+'</div>'+
+    '<div style="flex:1">'+
+      '<div class="co">'+esc(o.company||'?')+'</div>'+
+      '<div class="loc">'+esc(loc)+(o.address?' · '+esc(o.address):'')+'</div>'+
+      (why?'<div class="why">'+esc(why)+'</div>':'')+
+      '<div class="facts">'+(o.industry?esc(o.industry)+' · ':'')+'notice '+esc(o.noticeDate||'?')+' · effective '+esc(o.effectiveDate||'?')+'</div>'+
+      '<div class="sell"><b>Sell the assets to:</b> '+(sell||'<span style="color:var(--mut)">no match</span>')+'</div>'+
+    '</div>'+
+    '<div class="right"><div class="aff">'+(o.affected||'?')+'</div><div class="afflbl">jobs cut</div>'+
+      '<div class="clo '+(isC?'c':'l')+'">'+(isC?'CLOSURE':(o.isClosure===false?'layoff':'notice'))+'</div></div>'+
+  '</div>';
+}
+boot();
+</script>

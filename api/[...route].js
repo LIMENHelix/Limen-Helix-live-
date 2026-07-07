@@ -105,6 +105,8 @@ const HANDLERS = {
   'homestead-status': require('../handlers/homestead-status'),
   'homestead-validation': require('../handlers/homestead-validation'),
   'realauction-ingest': require('../handlers/realauction-ingest'),
+  'industry': require('../handlers/industry'),
+  'industry-ingest': require('../handlers/industry-ingest'),
   'skip-trace': require('../handlers/skip-trace'),
   'limen-autofire-log': require('../handlers/limen-autofire-log'),
   'limen-autoqueue': require('../handlers/limen-autoqueue'),
