@@ -308,12 +308,145 @@ const EVNOTES = {
   P10: 'Metabolic-flexibility evidence is largely from insulin-resistant/diabetic populations, not trained athletes — read it as mechanistic support, not athlete-proven.',
 };
 
+// ── DEEP layer: the smallest-grain molecular cascade (enzymes, residues, ions)
+// end-to-end, plus how the chemistry maps to the phase's Book I meaning (pattern).
+// Canonical pathway biochemistry; the Evidence block above cites the outcome level.
+const DEEP = {
+  P0: {
+    cascade: [
+      'Resting equilibrium: cytosolic ATP:ADP high and AMP:ATP low → AMPK-α Thr172 dephosphorylated → AMPK inactive.',
+      'Basal mTORC1 low (Rheb-GTP restrained by TSC1/2) → muscle protein synthesis ≈ breakdown; net protein turnover at detailed balance.',
+      'Vagal tone at the sinoatrial node: acetylcholine → M2 muscarinic receptor → Gi → βγ opens GIRK (K⁺) channels → hyperpolarization → resting HR/HRV set point.',
+      'Fuel stores topped: muscle glycogen and intramuscular triglyceride full; basal insulin; PDH and CPT1 both idling — either fuel available.',
+      'This poised symmetry is the reference zero every later perturbation is measured against.',
+    ],
+    pattern: 'P0 = Null Symmetry: the undifferentiated, balanced base state before a stimulus breaks symmetry. Molecularly it is detailed balance — synthesis equals degradation, charge equals discharge, sympathetic equals parasympathetic. Assessment reads this symmetry so that every downstream phase has a defined starting point from which the first distinction can be made.',
+  },
+  P1: {
+    cascade: [
+      'Dawn light → melanopsin (OPN4) in intrinsically photosensitive retinal ganglion cells → glutamate/PACAP along the retinohypothalamic tract → SCN → phase-locks the master clock.',
+      'HPA axis fires: hypothalamic CRH → pituitary POMC cleaved to ACTH → adrenal cortex → cortisol.',
+      'Cortisol → cytosolic glucocorticoid receptor (released from HSP90) → nuclear translocation → binds glucocorticoid response elements → transcribes gluconeogenic/catabolic genes (mobilization).',
+      'Overnight rising AMP:ATP → LKB1 phosphorylates AMPK-α Thr172 → AMPK active.',
+      'AMPK phosphorylates ACC Ser79 (de-represses CPT1 → fat oxidation) and inhibits mTORC1 (Raptor Ser792, TSC2 Ser1387) → the overnight anabolic program is switched off.',
+      'β-adrenergic tone rises → cAMP/PKA → hormone-sensitive lipase primed → the fed/repair structure gives way to daytime mobilization.',
+    ],
+    pattern: 'P1 = Collapse: the prior overnight anabolic structure collapses so the day can begin. Molecularly, the cortisol + AMPK catabolic switch dismantles the fed-state signaling set. Collapse is the first distinction — a symmetric resting state breaks into a directional catabolic flux, the entry point of the recursion.',
+  },
+  P2: {
+    cascade: [
+      'Insulin binds the insulin-receptor α-subunits → β-subunit intrinsic tyrosine kinase trans-autophosphorylates.',
+      'Recruits IRS-1 (Tyr-phosphorylated) → PI3K (p85 SH2 docks, p110 catalytic) → converts PIP2 → PIP3 at the membrane.',
+      'PIP3 recruits PDK1 and Akt via PH domains → Akt phosphorylated at Thr308 (PDK1) and Ser473 (mTORC2) → active.',
+      'Akt phosphorylates AS160/TBC1D4 → releases its Rab-GAP brake → Rab-GTP → GLUT4 storage vesicles translocate/fuse → glucose enters → hexokinase → glucose-6-phosphate.',
+      'Akt inhibits GSK3β → glycogen synthase dephosphorylated/active → glycogen stored. (Contraction adds an insulin-independent AMPK/Ca²⁺-CaMK GLUT4 route.)',
+      'Leucine sensed: binds Sestrin2 → releases GATOR2 → GATOR2 inhibits GATOR1 (the RagA/B GAP) → RagA/B-GTP·RagC/D-GDP → Ragulator recruits mTORC1 to the lysosome where Rheb-GTP activates it → p70S6K1 Thr389, 4E-BP1 Thr37/46.',
+    ],
+    pattern: 'P2 = Bonding / Structural Pairing: the first stable pairing. Molecularly it is literal binding — ligand to receptor (insulin), substrate to signal (glucose to GLUT4, leucine to Sestrin2), the first closed feedback loop that commits the system to continue. The dyad here is receptor+ligand and enzyme+substrate: the minimal recursive unit.',
+  },
+  P3: {
+    cascade: [
+      'Energy/mechanical stress: AMPK phosphorylates ULK1 at Ser317/Ser777 (activating); falling mTORC1 removes the inhibitory ULK1 Ser757 phosphorylation.',
+      'ULK1 complex (ULK1–ATG13–FIP200–ATG101) activates the Beclin-1–VPS34 class III PI3K → phosphatidylinositol-3-phosphate (PI3P) marks the phagophore → WIPI2 recruits ATG16L1.',
+      'Two ubiquitin-like conjugations build the membrane: ATG7 (E1) + ATG10 form ATG12–ATG5–ATG16L1; ATG7 + ATG3 lipidate LC3-I with phosphatidylethanolamine → LC3-II.',
+      'Damaged mitochondria tagged: PINK1 stabilizes on depolarized outer membrane → phospho-ubiquitin → recruits/activates Parkin → poly-ubiquitin chains → p62/SQSTM1 bridges ubiquitin to LC3-II (mitophagy).',
+      'Autophagosome closes → fuses with the lysosome (HOPS/SNAREs) → cathepsins hydrolyze cargo → amino acids and fatty acids recycled.',
+      'In the depleted window glycogen synthase is up-regulated → glycogen resynthesizes above baseline (supercompensation).',
+    ],
+    pattern: 'P3 = Fracture: the disassembly of paired structures under load, the descent into repair. Molecularly it is regulated demolition — autophagy, mitophagy, the ubiquitin-proteasome system — a controlled fracture that clears damaged components so a stronger, supercompensated structure can be rebuilt. Breakdown is the mechanism, not the failure.',
+  },
+  P4: {
+    cascade: [
+      'Mechanical load strains the costamere (integrin–talin–vinculin–actin) and titin springs → mechanotransduction begins.',
+      'Focal adhesion kinase autophosphorylates at Tyr397 → recruits Src; phospholipase D generates phosphatidic acid, which binds the mTOR FRB domain and activates mTORC1.',
+      'Signal integration: Akt phosphorylates TSC2 → Rheb-GTP accumulates; amino acids drive Rag GTPases → mTORC1 (mTOR–Raptor–mLST8–PRAS40–DEPTOR) is docked at the lysosome and switched on.',
+      'mTORC1 → p70S6K1 Thr389 → phosphorylates rpS6, eIF4B, and eEF2K (relieving the brake on eEF2).',
+      'mTORC1 → 4E-BP1 (Thr37/46 → Ser65/Thr70) → releases eIF4E → eIF4F cap complex (eIF4E–eIF4G–eIF4A) assembles on the m⁷G mRNA cap.',
+      '43S pre-initiation complex (40S + eIF2·GTP·Met-tRNAi) scans to the AUG → 60S joins → 80S; elongation: eEF1A·GTP delivers aminoacyl-tRNA, the rRNA peptidyl-transferase forms the bond, eEF2·GTP translocates → new sarcomeric protein.',
+      'Longer term: mTORC1/MYC drive RNA-Pol-I rRNA transcription (ribosome biogenesis = translational capacity); Pax7⁺ satellite cells proliferate and fuse, donating myonuclei.',
+    ],
+    pattern: 'P4 = Nested Integration: modular subsystems operating in coordinated, multi-tiered recursion. mTORC1 is the integration node — it nests mechanical, amino-acid, energy, and growth-factor inputs into one output (translation), which nests again into ribosome biogenesis and myonuclear addition. Growth is integration recursing across scales, exactly the phase’s definition.',
+  },
+  P5: {
+    cascade: [
+      'Repeated contraction raises three signals: Ca²⁺ transients → CaMKII; AMP:ATP → LKB1 → AMPK-α Thr172; ROS/mechanical stress → p38 MAPK.',
+      'These converge on PGC-1α: AMPK phosphorylates it (Thr177/Ser538) and p38 stabilizes it; high NAD⁺:NADH from oxidative flux activates SIRT1, which deacetylates and further activates PGC-1α.',
+      'PGC-1α coactivates NRF-1 and NRF-2 → transcription of nuclear-encoded mitochondrial genes and of TFAM; also ERRα for oxidative metabolism.',
+      'TFAM enters the mitochondrion → transcribes and helps replicate mtDNA (the 13 core electron-transport-chain subunits).',
+      'New Complex I–IV and ATP synthase assemble; CPT1 and β-oxidation enzymes rise; VEGF drives capillary growth for O₂ delivery.',
+      'The result is a self-reinforcing loop: more oxidative flux → more NAD⁺ → more SIRT1/PGC-1α → more mitochondria.',
+    ],
+    pattern: 'P5 = Recursive Stability: sustained internal recursion, an endogenous rhythm. The mitochondrial-biogenesis pathway is literally a positive-feedback recursion (flux → NAD⁺ → SIRT1 → PGC-1α → capacity → flux) that stabilizes the system at a higher oxidative set point — slower, deeper, and harder to break, as the phase name says.',
+  },
+  P6: {
+    cascade: [
+      'The central coordinator is the AMPK↔mTOR switch: AMPK phosphorylates TSC2 (Ser1387) and Raptor (Ser722/792) to shut mTORC1 off under energy stress; when energy is replete, Rheb-GTP lets mTORC1 dominate.',
+      'Concurrent endurance keeps AMPK elevated → antagonizes mTORC1 → the molecular basis of the interference effect that block sequencing is designed to avoid.',
+      'Circadian gating: BMAL1:CLOCK bind E-boxes to time metabolic genes; feeding and exercise entrain the peripheral muscle clock; NAD⁺/SIRT1 and AMPK feed the clock back to metabolism.',
+      'Substrate handling, protein synthesis, and autonomic recovery are thereby phase-locked into a repeating daily and weekly sequence.',
+    ],
+    pattern: 'P6 = Coordinated Modularity: distinct subsystems operating independently yet phase-locked to the whole. Molecularly, the AMPK / mTOR / circadian-clock network is the coordinator that sequences catabolic and anabolic modules in time — the frame that orders the day and the training block so the modules complement rather than interfere.',
+  },
+  P7: {
+    cascade: [
+      'β-adrenergic receptor (Gs) → adenylyl cyclase → ATP → cAMP → protein kinase A.',
+      'PKA phosphorylates perilipin-1 (releasing CGI-58/ABHD5, which activates ATGL) and hormone-sensitive lipase (Ser563/659/660 → translocates to the lipid droplet).',
+      'Triacylglycerol lipolysis cascade: ATGL (TAG→DAG) → HSL (DAG→MAG) → MGL (MAG→glycerol + free fatty acid). Insulin, being antilipolytic, gates the whole chain.',
+      'FFA → fatty-acyl-CoA (ACSL) → CPT1 carnitine shuttle into the mitochondrion (malonyl-CoA inhibits CPT1; AMPK lowers malonyl-CoA by phosphorylating ACC).',
+      'β-oxidation spiral (4 steps/turn): acyl-CoA dehydrogenase → FADH₂; enoyl-CoA hydratase; 3-hydroxyacyl-CoA dehydrogenase → NADH; thiolase → acetyl-CoA → TCA cycle → electron-transport chain.',
+      'Muscle sparing: a retained high-tension resistance stimulus keeps mTORC1/MPS active, while the ubiquitin-proteasome atrophy program (FOXO → MuRF1, atrogin-1/MAFbx, triggered when Akt falls) is held in check by high leucine and that mechanical signal.',
+    ],
+    pattern: 'P7 = Recursive Shear / Separation: a system-wide unbinding — pruning, apoptosis, metabolic shedding. Molecularly it is the enzymatic separation of stored triacylglycerol into usable fuel, coupled with a restrained proteolysis that removes fat without severing muscle. Optimization that reads as loss because it is, precisely, controlled separation.',
+  },
+  P7b: {
+    cascade: [
+      'The bifurcation variable is the energy-charge / AMPK:mTOR balance held over days.',
+      'Reintegration branch: energy restored + anabolic signaling (Akt→mTORC1) returns → FOXO stays phosphorylated/cytoplasmic → atrogenes off → supercompensation.',
+      'Drift branch: sustained low energy charge → chronic AMPK, low Akt → FOXO nuclear → autophagy/atrogenes dominate → non-functional overreaching.',
+      'Autonomic tell: prolonged sympathetic drive can flip to parasympathetic dominance (vagal M2→GIRK) — an unusually low resting HR and blunted HR response that masquerades as recovery while performance falls.',
+    ],
+    pattern: 'P7b = Divergence: the decision node where the recursion either reintegrates or drifts. Molecularly it is a bistable switch (AMPK vs mTOR, FOXO vs Akt) resolving at a threshold. Calm can mask collapse because the same low-HR reading sits on both sides of the fork — the phase is a genuine branch point, not a step to train through.',
+  },
+  P8: {
+    cascade: [
+      'Cellular energy sensor: AMP/ADP bind the AMPK γ-subunit → allosteric activation + protection of Thr172 from dephosphorylation → AMPK reports the energy state.',
+      'Nutrient sensor: the Sestrin2–GATOR–Rag axis reports amino-acid availability to mTORC1 → the cell reads its own supply.',
+      'Autonomic readout: vagal efferent ACh → SA-node M2 → Gi → GIRK sets beat-to-beat variability; RMSSD indexes parasympathetic reactivation = recovery state.',
+      'Interoceptive loop: vagal afferents → nucleus tractus solitarius → insular cortex → conscious readiness; RPE/RIR is this signal made usable.',
+      'These readouts gate the day’s dose (green/amber/red) and trigger a deload when suppression persists.',
+    ],
+    pattern: 'P8 = Reflective Feedback / Conscience: a system that monitors and adjusts itself. Molecularly, AMPK and mTOR are the cell reading its own energy and nutrient state, while the autonomic/interoceptive loop is the organism reading its own recovery. Autoregulation is the phase’s definition enacted — the recursion reflecting on itself and recalibrating.',
+  },
+  P9: {
+    cascade: [
+      'Taper: fatigue components (plasma-volume shift, glycogen depletion, autonomic load) decay faster than fitness components (mitochondrial and myofibrillar protein, capillarity) → the fitness-minus-fatigue difference rises to a peak.',
+      'Post-activation potentiation: a heavy/explosive conditioning contraction → Ca²⁺/calmodulin → myosin light-chain kinase phosphorylates the myosin regulatory light chain → increased Ca²⁺-sensitivity of cross-bridge cycling → transient rise in force and rate of force development.',
+      'Glycogen supercompensation: prior depletion + carbohydrate load → glycogen synthase stores above baseline; each gram of glycogen binds ~3 g water (fuel + hydration).',
+      'The peak has switch-like (ultrasensitive, cooperative) character — a narrow window, poised between full expression and over-reach.',
+    ],
+    pattern: 'P9 = Threshold: recursive tension at maximum saturation, poised between transformation and collapse. Molecularly the system sits at a switch point — potentiated cross-bridges, supercompensated glycogen, fatigue shed — an ultrasensitive threshold rather than a line, exactly the region the phase names.',
+  },
+  P10: {
+    cascade: [
+      'Randle cycle (fat side): fatty-acid oxidation raises acetyl-CoA and NADH → activates pyruvate-dehydrogenase kinase → phosphorylates and inhibits PDH; citrate inhibits phosphofructokinase-1 → glucose spared.',
+      'Randle cycle (carb side): insulin / high intensity → pyruvate-dehydrogenase phosphatase dephosphorylates and activates PDH → pyruvate flux; malonyl-CoA (from ACC) inhibits CPT1 → fat oxidation switched down when carbohydrate is abundant.',
+      'Metabolic flexibility = fast, appropriate switching at these two nodes (PDH on/off, CPT1 gating), enabled by trained mitochondrial density, GLUT4 content, and enzyme capacity.',
+      'Consolidation: reduced-volume training holds the adaptation; a reverse diet adds carbohydrate weekly to restore leptin, T3, and NEAT (reversing adaptive thermogenesis) at a new, higher set point.',
+    ],
+    pattern: 'P10 = Reintegrated Recursion / Resurrection: the system repatterned across all prior levels, a new baseline from which the spiral re-enters higher. Molecularly it is the restored capacity to switch fuels cleanly (the Randle nodes) at an elevated set point — the loop closed and reintegrated, ready to begin the arc again one turn up.',
+  },
+};
+
 module.exports = async function handler(req, res) {
   const pass = reqKey(req);
   if (!(isMaster(pass) || hasDomain(pass, 'fitness'))) return deny(res);
   const programs = {};
   for (const k of Object.keys(PROGRAMS)) {
-    programs[k] = Object.assign({}, PROGRAMS[k], { evidence: EVIDENCE[k] || [], evNote: EVNOTES[k] || '' });
+    const d = DEEP[k] || {};
+    programs[k] = Object.assign({}, PROGRAMS[k], {
+      evidence: EVIDENCE[k] || [], evNote: EVNOTES[k] || '',
+      cascade: d.cascade || [], pattern: d.pattern || '',
+    });
   }
   res.statusCode = 200;
   res.setHeader('content-type', 'application/json');

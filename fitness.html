@@ -116,6 +116,15 @@
   .evref:hover{text-decoration:underline}
   .evnote{font-size:.8rem;color:#e6b9a4;margin:8px 0 0;border-left:2px solid #d98a54;padding-left:10px}
   .evcred{font-size:.71rem;color:#54657a;margin:8px 0 0}
+  .progsearchwrap{display:flex;align-items:center;gap:9px;margin:6px 0 12px}
+  .progsearch{flex:1;min-width:0;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);border-radius:8px;color:#e8edf6;font-family:inherit;font-size:.82rem;padding:.5rem .72rem;outline:none}
+  .progsearch::placeholder{color:#6b7a8d}
+  .progsearch:focus{border-color:#2dd4bf}
+  .progsearchn{font-size:.72rem;color:#7fdccb;white-space:nowrap;min-width:56px;text-align:right}
+  .progcascade ol{margin:6px 0 0;padding-left:20px}
+  .progcascade li{font-size:.85rem;color:#c2ccda;line-height:1.56;margin:5px 0}
+  .progpattern p{color:#e8edf6;font-style:italic}
+  mark{background:#2dd4bf;color:#04231f;border-radius:2px;padding:0 1px}
   .adminrow{margin-top:18px;display:flex;align-items:center;gap:10px}
   .adminlink{background:none;border:none;color:#54657a;font-size:.78rem;cursor:pointer;font-family:inherit;text-decoration:underline;text-underline-offset:2px;padding:0}
   .adminlink:hover{color:#8b97a9}
@@ -260,6 +269,7 @@ function earlyAccess(e){
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function programHTML(pr){
   var h='<div class="progbox"><div class="proghd">'+esc(pr.name)+(pr.meta?' <span>'+esc(pr.meta)+'</span>':'')+'</div>';
+  h+='<div class="progsearchwrap"><input class="progsearch" type="search" placeholder="Search this phase — enzyme, residue, term, PMID…" aria-label="Search this phase"><span class="progsearchn"></span></div>';
   if(pr.thesis) h+='<p class="progthesis">'+esc(pr.thesis)+'</p>';
   (pr.chapters||[]).forEach(function(s){
     h+='<div class="progsec"><h4>'+esc(s.h)+'</h4>';
@@ -267,6 +277,14 @@ function programHTML(pr){
     if(s.items&&s.items.length){ h+='<ul>'; s.items.forEach(function(it){ h+='<li>'+esc(it)+'</li>'; }); h+='</ul>'; }
     h+='</div>';
   });
+  if(pr.cascade&&pr.cascade.length){
+    h+='<div class="progsec progcascade"><h4>Molecular cascade · smallest-grain sequence</h4><ol>';
+    pr.cascade.forEach(function(step){ h+='<li>'+esc(step)+'</li>'; });
+    h+='</ol></div>';
+  }
+  if(pr.pattern){
+    h+='<div class="progsec progpattern"><h4>The pattern · phase = process</h4><p>'+esc(pr.pattern)+'</p></div>';
+  }
   if(pr.evidence&&pr.evidence.length){
     h+='<div class="progsec progev"><h4>Evidence · peer-reviewed (PubMed)</h4><ul>';
     pr.evidence.forEach(function(e){
@@ -280,6 +298,36 @@ function programHTML(pr){
   if(pr.exit) h+='<p class="progexit"><b>Exit —</b> '+esc(pr.exit)+'</p>';
   return h+'</div>';
 }
+function hlmark(o,q){
+  var e=String(o).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  if(!q) return e;
+  var re=new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','ig');
+  return e.replace(re,'<mark>$1</mark>');
+}
+function wireSearch(box){
+  var input=box.querySelector('.progsearch'); if(!input) return;
+  var nEl=box.querySelector('.progsearchn');
+  var leaves=[].slice.call(box.querySelectorAll('.progthesis,.progsec h4,.progsec p,.progsec li'));
+  leaves.forEach(function(el){ if(el.getAttribute('data-o')===null){ el.setAttribute('data-o',el.textContent); el.setAttribute('data-s', el.childElementCount===0?'1':'0'); } });
+  function paint(el,q){ if(el.getAttribute('data-s')==='1') el.innerHTML=hlmark(el.getAttribute('data-o'),q); }
+  input.addEventListener('input',function(){
+    var q=input.value.trim().toLowerCase(), hits=0;
+    var th=box.querySelector('.progthesis');
+    if(th){ var mt=!q||th.getAttribute('data-o').toLowerCase().indexOf(q)>-1; paint(th,q); th.style.display=mt?'':'none'; if(q&&mt)hits++; }
+    box.querySelectorAll('.progsec').forEach(function(s){
+      if(!q){ s.style.display=''; s.querySelectorAll('h4,p,li').forEach(function(c){ c.style.display=''; paint(c,''); }); return; }
+      if(s.textContent.toLowerCase().indexOf(q)>-1){
+        s.style.display='';
+        s.querySelectorAll('h4').forEach(function(c){ paint(c,q); });
+        s.querySelectorAll('p,li').forEach(function(c){
+          var o=(c.getAttribute('data-o')||c.textContent).toLowerCase(), mm=o.indexOf(q)>-1;
+          paint(c,q); c.style.display=mm?'':'none'; if(mm)hits++;
+        });
+      } else { s.style.display='none'; }
+    });
+    nEl.textContent = q ? (hits?(hits+' match'+(hits>1?'es':'')):'no matches') : '';
+  });
+}
 function loadAdminPrograms(pass,quiet){
   return fetch('/api/fitness-program',{headers:{'x-limen-pass':pass}})
     .then(function(r){ if(!r.ok) throw new Error('denied'); return r.json(); })
@@ -289,6 +337,7 @@ function loadAdminPrograms(pass,quiet){
         var el=document.getElementById('prog-'+p);
         if(el) el.innerHTML=programHTML(d.programs[p]);
       });
+      document.querySelectorAll('.progbox').forEach(wireSearch);
       document.body.classList.add('admin-on');
       var b=document.getElementById('adminBtn'); if(b){ b.textContent='admin ✓'; b.classList.add('on'); }
       try{ sessionStorage.setItem('flk',pass); }catch(e){}
