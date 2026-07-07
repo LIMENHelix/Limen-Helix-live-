@@ -437,6 +437,66 @@ const DEEP = {
   },
 };
 
+// ── CHEM: the layer BELOW the signaling cascade — atomic, energetic, and
+// physical-chemistry events (electron/proton transfers, bond chemistry, ion
+// gradients, conformational mechanics, thermodynamics). Canonical biochemistry.
+const CHEM = {
+  P0: [
+    'Resting membrane potential ~-90 mV in muscle, held by the Na⁺/K⁺-ATPase (3 Na⁺ out / 2 K⁺ in per ATP) against K⁺ leak — stored electrochemical potential.',
+    'Cytosolic Ca²⁺ ~100 nM vs ~1 mM in the sarcoplasmic reticulum (SERCA-pumped) and ~1-2 mM extracellular — a ~10⁴ gradient poised for release.',
+    'ATP hydrolysis free energy in the cell is ΔG ≈ -50 to -65 kJ/mol (more negative than the -30.5 kJ/mol standard) — the currency every downstream step spends.',
+  ],
+  P1: [
+    'Light isomerizes 11-cis to all-trans retinal in melanopsin within femtoseconds → G-protein conformational change → the first chemical event of entrainment.',
+    'Cortisol is a 21-carbon steroid that diffuses straight through the lipid bilayer to its cytosolic receptor — no membrane transporter required.',
+    'AMP binding the AMPK γ-subunit is an allosteric conformational change that both activates the kinase and shields Thr172 from phosphatases — the chemistry of an energy-charge read-out.',
+  ],
+  P2: [
+    'Insulin binding drives a scissor-like conformational change in the receptor ectodomain that trans-activates the intracellular kinase — mechanochemical coupling across the membrane.',
+    'GLUT4 carries glucose by facilitated diffusion (alternating outward/inward conformations, no ATP), riding the gradient hexokinase maintains by trapping glucose as glucose-6-phosphate.',
+    'Glycogen is built from UDP-glucose via α-1,4 glycosidic bonds (glycogen synthase), with α-1,6 branch points — each bond a specific covalent linkage.',
+  ],
+  P3: [
+    'The lysosome is acidified to pH ~4.5 by the V-ATPase (a proton pump burning ATP); cathepsin hydrolases only cut at that pH — a chemical safety interlock.',
+    'LC3 lipidation forms an amide bond between LC3’s C-terminal glycine and the amino group of phosphatidylethanolamine — a covalent membrane tag.',
+    'PINK1 reads the loss of the ~-150 mV mitochondrial membrane potential: imported and cleaved on healthy mitochondria, it accumulates on depolarized ones and phosphorylates ubiquitin at Ser65.',
+  ],
+  P4: [
+    'Cross-bridge chemistry: ATP binding myosin releases actin; hydrolysis (ATP→ADP·Pi) cocks the lever arm; Pi release fires the power stroke (~10 nm, ~5 pN); ADP release resets — one ATP per stroke.',
+    'Peptide bonds are made by the ribosome’s rRNA (a ribozyme): the aminoacyl α-amino group attacks the peptidyl-tRNA ester; the energy came from charging the tRNA (aminoacyl-tRNA synthetase, ATP→AMP+PPi).',
+    'GTP hydrolysis on eEF1A and eEF2 acts as a conformational timer/ratchet enforcing fidelity and one-way translocation during elongation.',
+  ],
+  P5: [
+    'Electron transport: NADH → Complex I (FMN → seven Fe-S clusters) → ubiquinone; FADH₂ → Complex II → ubiquinone; Complex III (Q-cycle) → cytochrome c → Complex IV (cytochromes a/a₃, CuA/CuB) reduces O₂ to H₂O with 4 e⁻ + 4 H⁺.',
+    'Complexes I, III, IV pump protons to build a ~200 mV proton-motive force (Δψ + ΔpH) across the inner membrane — Mitchell’s chemiosmosis.',
+    'ATP synthase is a rotary motor: protons flowing through the c-ring (~3-4 H⁺ per ATP) crank the γ-subunit, cycling the β-subunits through loose/tight/open states (Boyer’s binding-change mechanism).',
+  ],
+  P6: [
+    'The AMPK-vs-mTOR decision is the cell reading the [ATP]:[ADP]:[AMP] mass-action ratio; adenylate kinase (2 ADP ⇌ ATP + AMP) amplifies a small energy deficit into a large AMP swing.',
+    'BMAL1:CLOCK recognizes the E-box DNA sequence (CACGTG) through specific hydrogen-bond and van-der-Waals contacts, gating transcription with a ~24 h period.',
+  ],
+  P7: [
+    'β-adrenergic amplification: one receptor activates many Gs, one adenylyl cyclase makes many cAMP — a chemical gain of ~10⁴-10⁶ per receptor.',
+    'β-oxidation is a redox spiral: FAD captures 2 e⁻/2 H⁺ (acyl-CoA dehydrogenase → FADH₂); NAD⁺ takes a hydride (3-hydroxyacyl-CoA dehydrogenase → NADH); each turn cleaves one acetyl-CoA.',
+    'CPT1 gating is competitive chemistry: malonyl-CoA (the ACC product) blocks carnitine acylation; AMPK phosphorylating ACC lowers malonyl-CoA and opens the fat-oxidation gate.',
+  ],
+  P7b: [
+    'The fork is a bistable chemical switch: mutual antagonism (AMPK ⊣ mTOR, FOXO ⊣ Akt) plus feedback creates hysteresis — the system snaps to one state and resists returning, which is why drift is hard to reverse.',
+  ],
+  P8: [
+    'AMPK is an ultrasensitive sensor: cooperative AMP binding to its γ-subunit CBS domains gives a switch-like (sigmoidal) response to small energy-charge changes.',
+    'Vagal HRV chemistry: acetylcholine on M2 → Gi βγ → GIRK K⁺ channel opens in milliseconds, and acetylcholinesterase clears ACh just as fast — so beat-to-beat vagal control is chemically fast (the basis of RMSSD).',
+  ],
+  P9: [
+    'Potentiation chemistry: phosphorylating the myosin regulatory light chain swings the heads toward actin, so the same Ca²⁺ transient yields more force — a covalent tuning of the contractile apparatus.',
+    'Glycogen’s osmotic water (~3 g per g) is hydrogen-bonded to the polymer’s hydroxyls — the chemical reason carbohydrate loading adds mass and hydration.',
+  ],
+  P10: [
+    'The Randle switch is covalent-modification chemistry: pyruvate dehydrogenase is turned OFF by PDH-kinase phosphorylation (fat-fed) and ON by PDH-phosphatase (carb/insulin) — a phospho-switch selecting the fuel.',
+    'Metabolic flexibility is ultimately the trained capacity of these covalent switches plus mitochondrial enzyme content to redirect carbon flux within minutes.',
+  ],
+};
+
 module.exports = async function handler(req, res) {
   const pass = reqKey(req);
   if (!(isMaster(pass) || hasDomain(pass, 'fitness'))) return deny(res);
@@ -445,7 +505,7 @@ module.exports = async function handler(req, res) {
     const d = DEEP[k] || {};
     programs[k] = Object.assign({}, PROGRAMS[k], {
       evidence: EVIDENCE[k] || [], evNote: EVNOTES[k] || '',
-      cascade: d.cascade || [], pattern: d.pattern || '',
+      cascade: d.cascade || [], pattern: d.pattern || '', chem: CHEM[k] || [],
     });
   }
   res.statusCode = 200;

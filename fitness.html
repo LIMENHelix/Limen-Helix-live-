@@ -125,6 +125,21 @@
   .progcascade li{font-size:.85rem;color:#c2ccda;line-height:1.56;margin:5px 0}
   .progpattern p{color:#e8edf6;font-style:italic}
   mark{background:#2dd4bf;color:#04231f;border-radius:2px;padding:0 1px}
+  /* collapsible windows */
+  .progsec>h4.sech{cursor:pointer;user-select:none;display:flex;align-items:center;gap:8px;margin:0;padding:2px 0}
+  .progsec>h4.sech::before{content:'▸';font-size:.7em;color:#2dd4bf;line-height:1}
+  .progsec:not(.collapsed)>h4.sech::before{content:'▾'}
+  .progsec.collapsed>*:not(h4){display:none}
+  .progsec{border-top:1px solid rgba(255,255,255,.07);padding-top:8px}
+  .progchem li{font-size:.85rem;color:#c2ccda;line-height:1.56;margin:5px 0}
+  /* live feed */
+  .progfeed .feedmsg{font-size:.82rem;color:#8b97a9;margin:6px 0 0}
+  .feedlist{list-style:none;padding-left:0;margin:6px 0 0}
+  .feedlist li{margin:0 0 10px;font-size:.85rem;line-height:1.45}
+  .feedlist a{color:#7fdccb;text-decoration:none}
+  .feedlist a:hover{text-decoration:underline}
+  .feedmeta{display:block;font-size:.73rem;color:#6b7a8d;margin-top:2px}
+  .feedcred{font-size:.71rem;color:#54657a;margin:8px 0 0}
   .adminrow{margin-top:18px;display:flex;align-items:center;gap:10px}
   .adminlink{background:none;border:none;color:#54657a;font-size:.78rem;cursor:pointer;font-family:inherit;text-decoration:underline;text-underline-offset:2px;padding:0}
   .adminlink:hover{color:#8b97a9}
@@ -267,34 +282,41 @@ function earlyAccess(e){
 
 // ── admin-only phase programming: fetched from a gated endpoint, injected under each phase ──
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function programHTML(pr){
+function progSec(cls,title,inner,pkey){
+  var attr=(cls==='progfeed')?(' data-phase="'+esc(pkey||'')+'"'):'';
+  return '<div class="progsec collapsed'+(cls?' '+cls:'')+'"'+attr+'><h4 class="sech">'+esc(title)+'</h4>'+inner+'</div>';
+}
+function programHTML(pr,pkey){
   var h='<div class="progbox"><div class="proghd">'+esc(pr.name)+(pr.meta?' <span>'+esc(pr.meta)+'</span>':'')+'</div>';
   h+='<div class="progsearchwrap"><input class="progsearch" type="search" placeholder="Search this phase — enzyme, residue, term, PMID…" aria-label="Search this phase"><span class="progsearchn"></span></div>';
   if(pr.thesis) h+='<p class="progthesis">'+esc(pr.thesis)+'</p>';
   (pr.chapters||[]).forEach(function(s){
-    h+='<div class="progsec"><h4>'+esc(s.h)+'</h4>';
-    if(s.body) h+='<p>'+esc(s.body)+'</p>';
-    if(s.items&&s.items.length){ h+='<ul>'; s.items.forEach(function(it){ h+='<li>'+esc(it)+'</li>'; }); h+='</ul>'; }
-    h+='</div>';
+    var inner='';
+    if(s.body) inner+='<p>'+esc(s.body)+'</p>';
+    if(s.items&&s.items.length){ inner+='<ul>'; s.items.forEach(function(it){ inner+='<li>'+esc(it)+'</li>'; }); inner+='</ul>'; }
+    h+=progSec('',s.h,inner);
   });
   if(pr.cascade&&pr.cascade.length){
-    h+='<div class="progsec progcascade"><h4>Molecular cascade · smallest-grain sequence</h4><ol>';
-    pr.cascade.forEach(function(step){ h+='<li>'+esc(step)+'</li>'; });
-    h+='</ol></div>';
+    var o='<ol>'; pr.cascade.forEach(function(step){ o+='<li>'+esc(step)+'</li>'; }); o+='</ol>';
+    h+=progSec('progcascade','Molecular cascade · smallest-grain sequence',o);
   }
-  if(pr.pattern){
-    h+='<div class="progsec progpattern"><h4>The pattern · phase = process</h4><p>'+esc(pr.pattern)+'</p></div>';
+  if(pr.chem&&pr.chem.length){
+    var cu='<ul>'; pr.chem.forEach(function(x){ cu+='<li>'+esc(x)+'</li>'; }); cu+='</ul>';
+    h+=progSec('progchem','Chemistry · atomic & energetic',cu);
   }
+  if(pr.pattern){ h+=progSec('progpattern','The pattern · phase = process','<p>'+esc(pr.pattern)+'</p>'); }
   if(pr.evidence&&pr.evidence.length){
-    h+='<div class="progsec progev"><h4>Evidence · peer-reviewed (PubMed)</h4><ul>';
+    var ev='<ul>';
     pr.evidence.forEach(function(e){
-      h+='<li><span class="evf">'+esc(e.find)+'</span>'
+      ev+='<li><span class="evf">'+esc(e.find)+'</span>'
         +'<a class="evref" href="https://doi.org/'+esc(e.doi)+'" target="_blank" rel="noopener">'+esc(e.ref)+' · PMID '+esc(e.pmid)+' ↗</a></li>';
     });
-    h+='</ul>';
-    if(pr.evNote) h+='<p class="evnote">Caveat — '+esc(pr.evNote)+'</p>';
-    h+='<p class="evcred">Source: PubMed. Findings paraphrased; follow the DOI to the original study.</p></div>';
+    ev+='</ul>';
+    if(pr.evNote) ev+='<p class="evnote">Caveat — '+esc(pr.evNote)+'</p>';
+    ev+='<p class="evcred">Source: PubMed. Findings paraphrased; follow the DOI to the original study.</p>';
+    h+=progSec('progev','Evidence · peer-reviewed (PubMed)',ev);
   }
+  h+=progSec('progfeed','Live research feed · Europe PMC','<div class="feedbody"><p class="feedmsg">Expand to load the latest studies for this phase.</p></div>',pkey);
   if(pr.exit) h+='<p class="progexit"><b>Exit —</b> '+esc(pr.exit)+'</p>';
   return h+'</div>';
 }
@@ -315,9 +337,9 @@ function wireSearch(box){
     var th=box.querySelector('.progthesis');
     if(th){ var mt=!q||th.getAttribute('data-o').toLowerCase().indexOf(q)>-1; paint(th,q); th.style.display=mt?'':'none'; if(q&&mt)hits++; }
     box.querySelectorAll('.progsec').forEach(function(s){
-      if(!q){ s.style.display=''; s.querySelectorAll('h4,p,li').forEach(function(c){ c.style.display=''; paint(c,''); }); return; }
+      if(!q){ s.style.display=''; s.classList.add('collapsed'); s.querySelectorAll('h4,p,li').forEach(function(c){ c.style.display=''; paint(c,''); }); return; }
       if(s.textContent.toLowerCase().indexOf(q)>-1){
-        s.style.display='';
+        s.style.display=''; s.classList.remove('collapsed');
         s.querySelectorAll('h4').forEach(function(c){ paint(c,q); });
         s.querySelectorAll('p,li').forEach(function(c){
           var o=(c.getAttribute('data-o')||c.textContent).toLowerCase(), mm=o.indexOf(q)>-1;
@@ -328,6 +350,34 @@ function wireSearch(box){
     nEl.textContent = q ? (hits?(hits+' match'+(hits>1?'es':'')):'no matches') : '';
   });
 }
+function loadFeed(sec){
+  if(sec.getAttribute('data-loaded')) return;
+  sec.setAttribute('data-loaded','1');
+  var body=sec.querySelector('.feedbody'), ph=sec.getAttribute('data-phase');
+  if(!body||!ph) return;
+  body.innerHTML='<p class="feedmsg">Loading recent studies…</p>';
+  var k=''; try{ k=sessionStorage.getItem('flk')||''; }catch(e){}
+  fetch('/api/fitness-program-feed?phase='+encodeURIComponent(ph),{headers:{'x-limen-pass':k}})
+    .then(function(r){ return r.ok?r.json():null; })
+    .then(function(d){
+      if(!d||!d.papers||!d.papers.length){ body.innerHTML='<p class="feedmsg">No recent studies found right now.</p>'; return; }
+      var hh='<ul class="feedlist">';
+      d.papers.forEach(function(p){
+        hh+='<li><a href="'+esc(p.url||'#')+'" target="_blank" rel="noopener">'+esc(p.title)+'</a>'
+          +'<span class="feedmeta">'+esc(p.journal||'')+(p.year?' · '+esc(p.year):'')+(p.pmid?' · PMID '+esc(p.pmid):'')+'</span></li>';
+      });
+      hh+='</ul><p class="feedcred">Live from Europe PMC · most recent matches for this phase.</p>';
+      body.innerHTML=hh;
+    })
+    .catch(function(){ body.innerHTML='<p class="feedmsg">Feed unavailable right now — reopen to retry.</p>'; sec.removeAttribute('data-loaded'); });
+}
+document.addEventListener('click',function(e){
+  var head=e.target.closest('.sech'); if(!head) return;
+  var sec=head.parentElement; if(!sec||!sec.classList.contains('progsec')) return;
+  var wasCollapsed=sec.classList.contains('collapsed');
+  sec.classList.toggle('collapsed');
+  if(wasCollapsed && sec.classList.contains('progfeed')) loadFeed(sec);
+});
 function loadAdminPrograms(pass,quiet){
   return fetch('/api/fitness-program',{headers:{'x-limen-pass':pass}})
     .then(function(r){ if(!r.ok) throw new Error('denied'); return r.json(); })
@@ -335,7 +385,7 @@ function loadAdminPrograms(pass,quiet){
       if(!d||!d.programs) throw new Error('empty');
       Object.keys(d.programs).forEach(function(p){
         var el=document.getElementById('prog-'+p);
-        if(el) el.innerHTML=programHTML(d.programs[p]);
+        if(el) el.innerHTML=programHTML(d.programs[p], p);
       });
       document.querySelectorAll('.progbox').forEach(wireSearch);
       document.body.classList.add('admin-on');

@@ -99,6 +99,7 @@ const HANDLERS = {
   'kernel-experiment': require('../handlers/kernel-experiment'),
   'lead': require('../handlers/lead'),
   'fitness-program': require('../handlers/fitness-program'),
+  'fitness-program-feed': require('../handlers/fitness-program-feed'),
   'deal-engine': require('../handlers/deal-engine'),
   'homestead': require('../handlers/homestead'),
   'homestead-automail': require('../handlers/homestead-automail'),
