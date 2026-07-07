@@ -423,6 +423,21 @@
   };
 
   // ══════════════════════════════════════════════════════════════════════
+  // STEP 3 OVERRIDE: Score stress — K1 afferent integration (closed loop)
+  // Base scoreStress reads stress from the snapshot; every OTHER domain then folds in
+  // received cross-domain pressure. Energy previously did not. This restores it:
+  // getExternalPressure() (base-capped at 0.3, decayed) is added to stress live each cycle.
+  // ══════════════════════════════════════════════════════════════════════
+  EnergyBrain.prototype.scoreStress = function () {
+    var self = this;
+    return Base.prototype.scoreStress.call(this).then(function () {
+      var ext = (typeof self.getExternalPressure === 'function') ? self.getExternalPressure() : 0;
+      self.state._externalPressureApplied = ext;
+      if (ext > 0) self.state.stress = Math.max(0, Math.min(1, (self.state.stress || 0) + ext));
+    });
+  };
+
+  // ══════════════════════════════════════════════════════════════════════
   // STEP 4 OVERRIDE: Derive diagnoses — condition-matched from portal
   // ══════════════════════════════════════════════════════════════════════
 
@@ -818,6 +833,10 @@
 
     opps.sort(function (a, b) { return (b.rank || 0) - (a.rank || 0); });
 
+    // ── K2/K6/K7 CLOSED — apply attention boost, lateral inhibition, and gain-scaled
+    // output cap from the PRIOR cycle's neuro layers (no-op on cycle 1). Recurrent by design.
+    opps = this._applyNeuroGating(opps);
+
     // ═══ CANONICAL ENRICHMENT — merge playbook detail into each opportunity ═══
     // This is the single upstream enrichment point. Console, Opportunities page,
     // and Operator all read from state.opportunities and get the same object.
@@ -1048,6 +1067,9 @@
       };
     }
 
+    // HALT BRAKE - hold / dampen the opportunity set when the stop-circuit is engaged (prior cycle).
+    opps = this._applyEmissionBrake(opps);
+
     this.state.opportunities = opps;
     this.state.opportunityCount = opps.length;
 
@@ -1059,6 +1081,9 @@
   // ══════════════════════════════════════════════════════════════════════
 
   EnergyBrain.prototype._checkDiagnosisActions = function () {
+    // HALT BRAKE - do not emit action drafts while the stop-circuit is engaged (prior cycle).
+    var _brake = this.state.energyBrake;
+    if (_brake && _brake.suppressActions) { this.state._brakeHeldActions = (this.state._brakeHeldActions || 0) + 1; return; }
     var activeDx = this.state.diagnoses.filter(function (d) { return d.active; });
     if (activeDx.length === 0) return;
 
@@ -1250,8 +1275,10 @@
     var diagnosisError = _emJaccardDistance(obs.activeDiagnoses, prior.expectedDiagnoses);
     var oppDenom = Math.max(1, prior.expectedOpportunityCount, obs.opportunityCount);
     var opportunityError = Math.abs(obs.opportunityCount - prior.expectedOpportunityCount) / oppDenom;
-    var portalError = 0; // honest 0 — no live portal traversal yet (Phase C)
-    var total = _emClamp(0.4 * stressError + 0.2 * signalError + 0.25 * diagnosisError + 0.15 * opportunityError, 0, 1);
+    // K5 CLOSED - deep-perception error now sourced from the perception-depth layer (prior cycle; 0 on cycle 1)
+    var _pd = this.state.energyPerceptionDepth;
+    var portalError = (_pd && typeof _pd.portalErrorEstimate === 'number') ? _pd.portalErrorEstimate : 0;
+    var total = _emClamp(0.35 * stressError + 0.2 * signalError + 0.25 * diagnosisError + 0.15 * opportunityError + 0.05 * portalError, 0, 1);
     var novelty = Math.max(stressError, diagnosisError);
     return { total: total, stressError: stressError, signalError: signalError, diagnosisError: diagnosisError, opportunityError: opportunityError, portalError: portalError, novelty: novelty };
   };
@@ -1275,7 +1302,11 @@
     var inhibition = _emClamp(1 - pe.novelty, 0, 0.9);
     var outputScale = _emClamp(1 - inhibition * 0.5, 0.4, 1);
     var starving = obs.stress >= EM_STRESS_FLOOR && obs.opportunityCount === 0;
-    var flooding = obs.opportunityCount > EM_FLOOD_CAP;
+    // K2 stability - hysteresis so flooding does not flip each cycle at the boundary (fixes oscillation):
+    // engages above the cap, releases only below 75% of it.
+    var floodOn = em._floodingOn || false;
+    var flooding = floodOn ? (obs.opportunityCount > EM_FLOOD_CAP * 0.75) : (obs.opportunityCount > EM_FLOOD_CAP);
+    em._floodingOn = flooding;
     var streak = (pe.total < 0.05) ? (em._lowErrorStreak || 0) + 1 : 0;
     em._lowErrorStreak = streak;
     var looping = streak >= 3;
@@ -1298,10 +1329,29 @@
     var predictedStress = priorIn.expectedStress * (1 - gainBlend) + obs.stress * gainBlend;
     var reg = this._computeRegulation(em, obs, pe);
 
-    // a FINAL decision that depends on the prior, not just on raw obs:
-    var readyForHandoff = (em.cycle > 0) && (predictedStress >= EM_STRESS_FLOOR) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
+    // K8 CLOSED - homeostatic set-point: handoff gates on a 50/50 blend of the fixed floor
+    // and the adaptive baseline (prior cycle; needs >=10 samples, else the fixed floor).
+    // K8 stability - bound the adaptive floor to at most +0.15 above the fixed floor so a
+    // sustained-stress baseline cannot ratchet the handoff gate out of reach.
+    var _hm = this.state.energyHomeostasis;
+    var _floor = (_hm && typeof _hm.adaptiveBaseline === 'number' && _hm.samples >= 10)
+      ? _emClamp(Math.min(0.5 * EM_STRESS_FLOOR + 0.5 * _hm.adaptiveBaseline, EM_STRESS_FLOOR + 0.15), 0.15, 0.6) : EM_STRESS_FLOOR;
+    em._effectiveFloor = _floor;
 
-    var nextPrior = this._updatePrior(priorIn, obs, em.plasticity.learningRate); // → next cycle reads this
+    // a FINAL decision that depends on the prior, not just on raw obs:
+    var readyForHandoff = (em.cycle > 0) && (predictedStress >= _floor) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
+
+    // K4 CLOSED - credit assignment. Prefer the TRUTH BRAKE (realized call hitRate, >=3 resolved)
+    // over stress self-prediction (>=5 samples); low hit-rate raises the effective learning rate.
+    var _om = this.state.energyOutcomeModel, _led = this.state.energyOutcomeLedger;
+    var _lr = em.plasticity.learningRate;
+    var _fromLedger = !!(_led && typeof _led.callHitRate === 'number' && _led.resolvedSamples >= 3);
+    var _hit = _fromLedger ? _led.callHitRate
+      : (_om && typeof _om.hitRate === 'number' && _om.samples >= 5) ? _om.hitRate : null;
+    if (_hit !== null) _lr = _emClamp(_lr * (1 + (1 - _hit)), EM_SLOW_RATE, 0.6);
+    em._effectiveLearningRate = _lr;
+    em._creditSource = _fromLedger ? 'call-ledger' : (_hit !== null ? 'stress-self-pred' : 'none');
+    var nextPrior = this._updatePrior(priorIn, obs, _lr); // → next cycle reads this
 
     em.cycle += 1;
     em.observation = obs;
@@ -1320,6 +1370,10 @@
     // DC — data-center diagnosis layer (additive; BEFORE the DDP build so the primary
     // packet's promptView advertises it). Never touches the validated 6-diagnosis spine.
     try { this._buildDatacenterLayer(); } catch (e) {}
+
+    // PHASE K - neuro-completion layers (additive, advisory; never rewires the spine).
+    // Runs after higher-layers + DC so it reads the current cognition surface and DC layer.
+    try { this._computeEnergyNeuroLayers(); } catch (e) {}
 
     // F1 — build the DomainDiagnosisPacket (schema) for the primary diagnosis,
     // and expose one per diagnosis. Schema-only: never invents data.
@@ -1766,6 +1820,538 @@
       simulation: this.state.energySimulation || null,
       executiveReport: this.state.energyExecutiveReport || null
     };
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // PHASE K - ENERGY NEURO-COMPLETION LAYERS (energy-local, additive, reversible).
+  // Fills the brain functions the self-model map flagged as missing or open-loop:
+  //   K1 afferent integration, K2 neuromodulatory gain, K3 slow consolidation,
+  //   K4 outcome / credit learning, K5 deep-perception depth, K6 attention,
+  //   K7 lateral inhibition, K8 homeostatic set-point.
+  // ADVISORY BY DESIGN: every layer COMPUTES and EXPOSES its signal on state, but
+  // NONE rewires the existing scoring spine (stress, prior update, opportunity
+  // output, portalError). Each carries a `wouldChange` naming the one existing line
+  // that closes its loop, gated on operator approval. Reads cached state only; adds
+  // no network calls. Never fabricates evidence.
+  // ════════════════════════════════════════════════════════════════════════════
+  var EK_OUTCOME_BUFFER = 40;     // rolling predicted-vs-realized samples
+  var EK_HOMEO_WINDOW = 60;       // cycles of stress baseline for the adaptive set-point
+
+  // K1 - afferent inter-brain integration. The loop every OTHER domain has and energy
+  // lacks: receiveExternalSignal()/getExternalPressure() write _externalSignals but the
+  // energy pipeline never reads them. This surfaces received cross-domain pressure and
+  // the stress delta it WOULD add, without touching stress.
+  EnergyBrain.prototype._computeEnergyAfferent = function () {
+    var s = this.state, em = s.energyModel || {};
+    var raw = this._externalSignals || [];
+    var now = Date.now();
+    var bySource = {}, active = 0;
+    for (var i = 0; i < raw.length; i++) {
+      var sig = raw[i];
+      var age = now - (sig.receivedAt || now);
+      var weight = age < 300000 ? 1 : Math.max(0, 1 - (age - 300000) / 600000);
+      if (weight <= 0) continue;
+      active++;
+      var k = sig.source || 'unknown';
+      if (!bySource[k]) bySource[k] = { source: k, signals: [], weightedMagnitude: 0 };
+      bySource[k].signals.push(sig.signal);
+      bySource[k].weightedMagnitude += (sig.magnitude || 0) * weight;
+    }
+    var pressure = (typeof this.getExternalPressure === 'function') ? this.getExternalPressure() : 0;
+    var contributors = Object.keys(bySource).map(function (kk) { return bySource[kk]; })
+      .sort(function (a, b) { return b.weightedMagnitude - a.weightedMagnitude; });
+    var af = {
+      version: 1,
+      externalPressure: Math.round(pressure * 1000) / 1000,      // base-capped at 0.3
+      receivedSignalCount: raw.length,
+      activeSignalCount: active,
+      contributors: contributors.slice(0, 6),
+      integrated: true,                                           // K1 CLOSED - folded into stress by the scoreStress override
+      appliedStressDelta: Math.round(((this.state._externalPressureApplied) || 0) * 1000) / 1000,
+      wouldRaiseStressBy: Math.round(pressure * 1000) / 1000,     // matches appliedStressDelta once a cycle has run
+      note: 'CLOSED: the energy scoreStress override adds externalPressure to stress each cycle (matches the other 18 domains).',
+      lastAfferentAt: em.updated || now
+    };
+    s.energyAfferent = af; return af;
+  };
+
+  // K2 - neuromodulatory gain application. reg.gain/inhibition/outputScale are computed
+  // by _computeRegulation but only gain reaches predictedStress (via the duplicated
+  // gainBlend). This shows the graded output modulation on opportunities without applying it.
+  EnergyBrain.prototype._computeEnergyGainControl = function () {
+    var s = this.state, em = s.energyModel || {}, reg = em.regulation || {};
+    var opps = s.opportunities || [];
+    var outputScale = (typeof reg.outputScale === 'number') ? reg.outputScale : 1;
+    var wouldCapAt = Math.max(1, Math.round(opps.length * outputScale));
+    var gc = {
+      version: 1,
+      gain: (typeof reg.gain === 'number') ? reg.gain : null,
+      inhibition: (typeof reg.inhibition === 'number') ? reg.inhibition : null,
+      outputScale: outputScale,
+      currentOpportunityCount: opps.length,
+      wouldCapOpportunitiesAt: wouldCapAt,                        // gain-scaled ranked cut (advisory)
+      wouldSuppress: Math.max(0, opps.length - wouldCapAt),
+      appliedTargets: ['predictedStress (gain-blend)', 'opportunity output (via _applyNeuroGating cap)'],
+      unappliedTargets: ['stress', 'treatment surfacing'],
+      shadow: false,
+      lastGatedCount: (this.state._neuroGatedCount || 0),
+      note: 'CLOSED: outputScale caps ranked opportunity output in surfaceOpportunities via _applyNeuroGating.',
+      lastGainAt: em.updated || Date.now()
+    };
+    s.energyGainControl = gc; return gc;
+  };
+
+  // K3 - slow consolidation / long-term plasticity. EM_SLOW_RATE was defined but never
+  // used ("reserved for rebuild/cron"). This maintains a PARALLEL slow-weight track that
+  // never touches em.prior; fast-vs-slow divergence is a real regime-shift indicator.
+  EnergyBrain.prototype._consolidateEnergySlowModel = function () {
+    var s = this.state, em = s.energyModel || {}, obs = em.observation || null;
+    var slow = s.energySlowModel || {
+      version: 1, cycle: 0,
+      slow: { expectedStress: 0.5, expectedDiagnosisCount: 0, expectedOpportunityCount: 0, expectedSignal: 0.5, samples: 0 },
+      rate: EM_SLOW_RATE, note: 'parallel slow-weight track (EM_SLOW_RATE); does NOT touch em.prior'
+    };
+    if (obs) {
+      var r = EM_SLOW_RATE, w = slow.slow;
+      w.expectedStress = _emClamp(w.expectedStress + r * ((obs.stress || 0) - w.expectedStress), 0, 1);
+      w.expectedSignal = _emClamp(w.expectedSignal + r * ((obs.signal || 0) - w.expectedSignal), 0, 1);
+      w.expectedDiagnosisCount = w.expectedDiagnosisCount + r * ((obs.diagnosisCount || 0) - w.expectedDiagnosisCount);
+      w.expectedOpportunityCount = w.expectedOpportunityCount + r * ((obs.opportunityCount || 0) - w.expectedOpportunityCount);
+      w.samples += 1;
+      slow.cycle += 1;
+    }
+    var fast = (em.prior && typeof em.prior.expectedStress === 'number') ? em.prior.expectedStress : 0.5;
+    slow.fastSlowDivergence = Math.round(Math.abs(fast - slow.slow.expectedStress) * 1000) / 1000;
+    slow.regimeShift = slow.fastSlowDivergence > 0.25;             // fast prior pulled far from slow baseline
+    slow.updated = em.updated || Date.now();
+    s.energySlowModel = slow; return slow;
+  };
+
+  // K4 - outcome / credit learning. outcomeLog stored predictions but nothing reconciled
+  // them against realized values. This compares each cycle's predictedStress against the
+  // NEXT cycle's realized stress (the online forward-prediction loop the map said was
+  // absent). Measurement only; not yet fed back into learning.
+  EnergyBrain.prototype._scoreEnergyOutcomes = function () {
+    var s = this.state, em = s.energyModel || {};
+    var buf = this._energyOutcomeBuffer = this._energyOutcomeBuffer || [];
+    var obs = em.observation || null;
+    if (this._energyPrevPrediction != null && obs && typeof obs.stress === 'number') {
+      buf.push({ predicted: this._energyPrevPrediction, realized: obs.stress, err: Math.abs(this._energyPrevPrediction - obs.stress) });
+      if (buf.length > EK_OUTCOME_BUFFER) buf.shift();
+    }
+    this._energyPrevPrediction = (typeof em.predictedStress === 'number') ? em.predictedStress : null;   // stash for next-cycle reconciliation
+    var n = buf.length, sumErr = 0, sumSq = 0, hits = 0;
+    for (var i = 0; i < n; i++) { sumErr += buf[i].err; sumSq += buf[i].err * buf[i].err; if (buf[i].err <= 0.1) hits++; }
+    var om = {
+      version: 1,
+      samples: n,
+      meanRealizedError: n ? Math.round((sumErr / n) * 1000) / 1000 : null,     // does the forecast come true
+      brierLike: n ? Math.round((sumSq / n) * 1000) / 1000 : null,
+      hitRate: n ? Math.round((hits / n) * 100) / 100 : null,                    // fraction within 0.1 of realized
+      loopType: 'online-continuous (predicted-vs-next-realized); distinct from any offline supervised calibration',
+      creditAssignmentActive: (n >= 5),
+      effectiveLearningRate: ((this.state.energyModel || {})._effectiveLearningRate) || null,
+      note: 'CLOSED: hitRate scales the effective learning rate in _updateEnergyModel (>=5 samples) so persistent mis-prediction speeds adaptation.',
+      lastOutcomeAt: em.updated || Date.now()
+    };
+    s.energyOutcomeModel = om; return om;
+  };
+
+  // K5 - deep hierarchical perception. _computePredictionError hardcodes portalError=0
+  // ("no live portal traversal yet, Phase C"). This aggregates the depth the brain HAS
+  // (from existing L1 + DC caches, no new fetches) and estimates the portalError the
+  // recurrent model currently zeroes out.
+  EnergyBrain.prototype._computeEnergyPerceptionDepth = function () {
+    var s = this.state, em = s.energyModel || {};
+    var l1 = s._l1DepthCache || null;
+    var dc = s.datacenterLayer || null;
+    var l1Real = 0, l1Mad = 0;
+    if (l1 && l1.byDiagnosis) { Object.keys(l1.byDiagnosis).forEach(function (k) { l1Real += (l1.byDiagnosis[k].realTreatments || 0); l1Mad += (l1.byDiagnosis[k].madLibTreatments || 0); }); }
+    var levels = [
+      { level: 'L0', name: 'root', status: (this._portalCache || s._portalCache) ? 'loaded' : 'pending' },
+      { level: 'L1', name: 'branch-scan', status: l1 ? 'scanned' : 'pending', realTreatments: l1Real, madLibTreatments: l1Mad },
+      { level: 'L2', name: 'deep-cortex', status: 'quarantined', note: '~98% synthetic (immune-blocked)' },
+      { level: 'DC', name: 'datacenter-subportal', status: (dc && dc.loaded) ? 'loaded' : 'absent', activeCount: (dc && dc.activeCount) || 0 }
+    ];
+    var loadedDepth = (dc && dc.loaded) ? 3 : (l1 ? 1 : 0);
+    var admissible = l1Real + ((dc && dc.count) ? dc.count : 0);
+    var blocked = l1Mad + 1;                                        // +1 for the quarantined L2 tier
+    var portalErrorEstimate = Math.round((blocked / Math.max(1, admissible + blocked)) * 1000) / 1000;
+    var pd = {
+      version: 1, levels: levels, deepestUsableLevel: loadedDepth,
+      portalErrorEstimate: portalErrorEstimate,                     // consumed by _computePredictionError (weight 0.05)
+      note: 'CLOSED: _computePredictionError folds portalErrorEstimate into total (weight 0.05). Perception still stops at L1 (L2 quarantined); no new fetches.',
+      lastDepthAt: em.updated || Date.now()
+    };
+    s.energyPerceptionDepth = pd; return pd;
+  };
+
+  // K6 - attention / selective routing. No mechanism biases which inputs/diagnoses the
+  // brain prioritizes. This ranks top-down salience (active + relevance + novelty) and
+  // names focus vs suppressed, without gating the pipeline.
+  EnergyBrain.prototype._computeEnergyAttention = function () {
+    var s = this.state, em = s.energyModel || {}, reg = em.regulation || {};
+    var pe = (em.predictionError && em.predictionError.total) || 0;
+    var scored = (s.diagnoses || []).map(function (d) {
+      var sal = (d.active ? 0.5 : 0) + (d.relevance || 0) * 0.4 + pe * 0.1;
+      return { id: d.id, active: !!d.active, salience: Math.round(sal * 1000) / 1000 };
+    }).sort(function (a, b) { return b.salience - a.salience; });
+    var at = {
+      version: 1,
+      driver: reg.state === 'surprised' ? 'novelty-driven (bottom-up)' : 'goal-driven (top-down)',
+      focus: scored.slice(0, 3),
+      suppressed: scored.slice(3).map(function (x) { return x.id; }).slice(0, 8),
+      broadenUnderSurprise: reg.state === 'surprised',
+      note: 'CLOSED: focus[] boosts opportunity rank in surfaceOpportunities via _applyNeuroGating.',
+      lastAttentionAt: em.updated || Date.now()
+    };
+    s.energyAttention = at; return at;
+  };
+
+  // K7 - lateral inhibition (microcircuit). reg.inhibition is computed but unused. This
+  // shows the winner-take-most ranking it implies among competing active diagnoses.
+  EnergyBrain.prototype._computeEnergyInhibition = function () {
+    var s = this.state, em = s.energyModel || {}, reg = em.regulation || {};
+    var inhib = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;
+    var active = (s.diagnoses || []).filter(function (d) { return d.active; })
+      .sort(function (a, b) { return (b.relevance || 0) - (a.relevance || 0); });
+    var winner = active[0] || null;
+    var li = {
+      version: 1, inhibitionStrength: inhib,
+      winner: winner ? winner.id : null,
+      competitors: active.slice(1).map(function (d) { return { id: d.id, relevance: d.relevance, suppressBy: Math.round((d.relevance || 0) * inhib * 1000) / 1000 }; }).slice(0, 6),
+      note: 'CLOSED: non-winner diagnoses are down-weighted in surfaceOpportunities via _applyNeuroGating (suppressBy).',
+      lastInhibitionAt: em.updated || Date.now()
+    };
+    s.energyInhibition = li; return li;
+  };
+
+  // K8 - homeostatic set-point (microcircuit). Energy uses fixed constants
+  // (EM_STRESS_FLOOR/EM_FLOOD_CAP) as set-points. This maintains an adaptive baseline
+  // (Turrigiano-style scaling) alongside them, without replacing the fixed floor.
+  EnergyBrain.prototype._computeEnergyHomeostasis = function () {
+    var s = this.state, em = s.energyModel || {};
+    var win = ((s.memory && s.memory.stressHistory) || []).slice(-EK_HOMEO_WINDOW);
+    var n = win.length, sum = 0;
+    for (var i = 0; i < n; i++) sum += (win[i].stress || 0);
+    var baseline = n ? sum / n : 0.5;                              // adaptive set-point vs fixed EM_STRESS_FLOOR
+    var cur = (typeof s.stress === 'number') ? s.stress : 0;
+    var scalingFactor = baseline > 0 ? Math.round((0.5 / Math.max(0.1, baseline)) * 1000) / 1000 : 1;
+    var hm = {
+      version: 1,
+      fixedFloor: EM_STRESS_FLOOR,                                 // current hardcoded set-point
+      adaptiveBaseline: Math.round(baseline * 1000) / 1000,
+      currentStress: cur,
+      deviationFromBaseline: Math.round((cur - baseline) * 1000) / 1000,
+      scalingFactor: scalingFactor,                                // synaptic-scaling multiplier
+      samples: n,
+      effectiveFloor: ((this.state.energyModel || {})._effectiveFloor) || null,
+      note: 'CLOSED: readyForHandoff gates on a 50/50 blend of EM_STRESS_FLOOR and adaptiveBaseline (>=10 samples) via em._effectiveFloor.',
+      lastHomeostasisAt: em.updated || Date.now()
+    };
+    s.energyHomeostasis = hm; return hm;
+  };
+
+  // Assemble the neuro-completion surface (mirrors _computeEnergyHigherLayers). Runs all
+  // K-layers, stores each on state (like energyImmune/energyAwareness), and attaches a
+  // compact roll-up to state.cognition ADDITIVELY (new key `neuro`; existing keys untouched).
+  EnergyBrain.prototype._computeEnergyNeuroLayers = function () {
+    this._computeEnergyAfferent();          // K1 - afferent inter-brain input
+    this._computeEnergyGainControl();       // K2 - neuromodulatory gain application
+    this._consolidateEnergySlowModel();     // K3 - slow consolidation / long-term plasticity
+    this._scoreEnergyOutcomes();            // K4 - outcome / credit learning
+    this._computeEnergyPerceptionDepth();   // K5 - deep hierarchical perception
+    this._computeEnergyAttention();         // K6 - attention / selective routing
+    this._computeEnergyInhibition();        // K7 - lateral inhibition (microcircuit)
+    this._computeEnergyHomeostasis();       // K8 - adaptive set-point (microcircuit)
+    this._scoreEnergyCallOutcomes();        // STEP 2 - truth brake (before brake: feeds calibration)
+    this._computeEnergyBrake();             // HALT BRAKE - stop-circuit (reads ledger calibration)
+    this._computeEnergyForecast();          // STEP 4 - forward render (reads ledger calibration)
+    this._computeEnergyEmissionQueue();     // STEP 5 - capital-fit packaging (reads forecast + brake)
+    this._runEnergyAutonomousEmission();    // STEP 6 - autonomous emission (fail-safe on brake; capital staged)
+    var s = this.state;
+    var neuro = {
+      version: 1,
+      status: 'closed',                     // all K-loops wired into the scoring spine (recurrent, one-cycle lag)
+      brake: s.energyBrake || null,         // stop-circuit state (halt/dampen/clear)
+      outcomeLedger: s.energyOutcomeLedger || null,   // STEP 2 truth brake
+      forecast: s.energyForecast || null,             // STEP 4 forward render
+      emissionQueue: s.energyEmissionQueue || null,   // STEP 5 capital-fit packaging
+      autoEmission: s.energyAutoEmission || null,      // STEP 6 autonomous emission
+      afferent: s.energyAfferent || null,
+      gainControl: s.energyGainControl || null,
+      slowModel: s.energySlowModel || null,
+      outcomeModel: s.energyOutcomeModel || null,
+      perceptionDepth: s.energyPerceptionDepth || null,
+      attention: s.energyAttention || null,
+      inhibition: s.energyInhibition || null,
+      homeostasis: s.energyHomeostasis || null,
+      closedLoops: [
+        'K1 afferent -> scoreStress (externalPressure folded into stress)',
+        'K2 gain -> surfaceOpportunities (outputScale caps ranked output)',
+        'K4 outcome -> _updateEnergyModel (hitRate scales learning rate)',
+        'K5 portalError -> _computePredictionError (weight 0.05)',
+        'K6 attention -> surfaceOpportunities (focus boosts rank)',
+        'K7 inhibition -> surfaceOpportunities (non-winner down-weight)',
+        'K8 set-point -> readyForHandoff (blended adaptive floor)'
+      ]
+    };
+    s.energyNeuro = neuro;
+    if (s.cognition && typeof s.cognition === 'object') s.cognition.neuro = neuro;   // additive: new key only
+    return neuro;
+  };
+
+  // K2/K6/K7 loop-closure helper - applied by surfaceOpportunities after the rank sort.
+  // Reads the PRIOR cycle's neuro layers (null on cycle 1 -> returns opps unchanged).
+  EnergyBrain.prototype._applyNeuroGating = function (opps) {
+    var s = this.state;
+    var inh = s.energyInhibition || null, att = s.energyAttention || null, gc = s.energyGainControl || null;
+    if (!inh && !att && !gc) { s._neuroGatedCount = 0; return opps; }
+    // K7 lateral inhibition - down-weight opportunities tied to non-winner diagnoses
+    if (inh && inh.competitors && inh.competitors.length) {
+      var sup = {}; inh.competitors.forEach(function (c) { sup[c.id] = c.suppressBy || 0; });
+      opps.forEach(function (o) { if (o.diagnosisId && sup[o.diagnosisId]) o.rank = Math.max(0, (o.rank || 0) * (1 - sup[o.diagnosisId])); });
+    }
+    // K6 attention - boost opportunities tied to focus diagnoses
+    if (att && att.focus && att.focus.length) {
+      var foc = {}; att.focus.forEach(function (f) { foc[f.id] = f.salience || 0; });
+      opps.forEach(function (o) { if (o.diagnosisId && foc[o.diagnosisId]) o.rank = (o.rank || 0) * (1 + 0.15 * foc[o.diagnosisId]); });
+    }
+    opps.sort(function (a, b) { return (b.rank || 0) - (a.rank || 0); });   // re-rank after re-weighting
+    // K2 gain - cap ranked output to the gain-scaled count
+    s._neuroGatedCount = 0;
+    if (gc && typeof gc.outputScale === 'number' && gc.outputScale < 1 && opps.length > 1) {
+      var cap = Math.max(1, Math.round(opps.length * gc.outputScale));
+      if (cap < opps.length) { s._neuroGatedCount = opps.length - cap; opps = opps.slice(0, cap); }
+    }
+    return opps;
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // HALT BRAKE (stop-circuit) - the prerequisite for any autonomous emission.
+  // The governor layers (immune / conscience / regulation / pulse) previously only
+  // ANNOTATED danger. This converts them into an actual brake: on a danger state,
+  // emission is halted or dampened, not just flagged. Computed each cycle end from the
+  // already-computed governor layers; CONSUMED next cycle by _checkDiagnosisActions
+  // (action drafts) and _applyEmissionBrake (opportunities). Recurrent, one-cycle lag.
+  // Fail-open when brake state is absent (cycle 1) - to be flipped to fail-safe when
+  // autonomous emission is turned on. Additive; never rewrites the scoring spine.
+  // ════════════════════════════════════════════════════════════════════════════
+  EnergyBrain.prototype._computeEnergyBrake = function () {
+    var s = this.state, em = s.energyModel || {}, reg = em.regulation || {};
+    var im = s.energyImmune || {}, con = s.energyConscience || {};
+    var diags = s.diagnoses || [];
+    var activeUnblocked = diags.filter(function (d) { return d.active && !d.blocked; });
+    var reasons = [];
+    // full-halt conditions - acting here would be unsafe or unsupported
+    if (im.immuneState === 'alert') reasons.push({ code: 'immune-alert', severity: 'halt', detail: 'immune severity ' + (im.severity || '?') });
+    if (reg.stale) reasons.push({ code: 'stale-feeds', severity: 'halt', detail: 'feeds older than staleness window' });
+    if (diags.length && activeUnblocked.length === 0) reasons.push({ code: 'no-evidence-backed-diagnosis', severity: 'halt', detail: 'all active diagnoses blocked by the evidence contract' });
+    // dampen conditions - emit but at reduced confidence, hold for review.
+    // NOTE: immune is chronically 'active' (baseline quarantined synthetic-portal antigen), so
+    // 'active' is NOT a dampen trigger; only acute 'alert' halts. Acute uncertainty is caught by
+    // the prediction-error spike below, decoupled from the baseline antigen load.
+    var pe = (em.predictionError && em.predictionError.total) || 0;
+    if (pe > 0.4) reasons.push({ code: 'prediction-error-spike', severity: 'dampen', detail: 'predictionError ' + (Math.round(pe * 1000) / 1000) });
+    if (reg.flooding) reasons.push({ code: 'opportunity-flood', severity: 'dampen', detail: 'opportunity count above flood cap' });
+    if (con.conscienceState === 'restrictive' && con.artifactReadinessDecision && !con.artifactReadinessDecision.researchReady && !con.artifactReadinessDecision.investmentReady) reasons.push({ code: 'conscience-no-lane', severity: 'dampen', detail: 'no artifact lane cleared by conscience' });
+    // TRUTH BRAKE feed - poor realized calibration dampens emission
+    var led = s.energyOutcomeLedger || {};
+    if (typeof led.callHitRate === 'number' && led.resolvedSamples >= 5 && led.callHitRate < 0.34) reasons.push({ code: 'poor-call-calibration', severity: 'dampen', detail: 'realized call hit-rate ' + led.callHitRate + ' over ' + led.resolvedSamples + ' resolved' });
+    var halt = reasons.some(function (r) { return r.severity === 'halt'; });
+    var dampen = reasons.some(function (r) { return r.severity === 'dampen'; });
+    var level = halt ? 'halt' : dampen ? 'dampen' : 'clear';
+    var brake = {
+      version: 1,
+      level: level,
+      engaged: halt,
+      dampen: dampen,
+      reasons: reasons,
+      suppressActions: halt,                                   // block action-draft emission entirely
+      suppressOpportunities: halt,                             // hold opportunities from (future) autonomous emission
+      confidencePenalty: halt ? 0 : dampen ? 0.5 : 1,          // halt zeroes emitted confidence; dampen halves it
+      note: level === 'clear' ? 'stop-circuit clear - emission allowed'
+        : level === 'halt' ? 'STOP-CIRCUIT ENGAGED - action emission halted, opportunities held'
+        : 'stop-circuit dampening - confidence reduced, emission held for review',
+      lastBrakeAt: em.updated || Date.now()
+    };
+    s.energyBrake = brake; return brake;
+  };
+
+  // Consumed by surfaceOpportunities (end): applies the prior cycle's brake to the
+  // opportunity set. Halt -> hold + zero confidence; dampen -> halve confidence.
+  EnergyBrain.prototype._applyEmissionBrake = function (opps) {
+    var brake = this.state.energyBrake;
+    if (!brake || brake.level === 'clear') { this.state.opportunitiesHeld = false; return opps; }
+    var pen = (typeof brake.confidencePenalty === 'number') ? brake.confidencePenalty : 1;
+    var codes = (brake.reasons || []).map(function (r) { return r.code; }).join(',');
+    for (var i = 0; i < opps.length; i++) {
+      if (pen < 1 && typeof opps[i].confidence === 'number') opps[i].confidence = Math.round(opps[i].confidence * pen);
+      if (brake.suppressOpportunities) { opps[i].held = true; opps[i].heldReason = codes; }
+    }
+    this.state.opportunitiesHeld = !!brake.suppressOpportunities;
+    return opps;
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // STEP 2 - TRUTH BRAKE (outcome ledger). K4 learned from stress self-prediction;
+  // this learns from whether a CALL held up. Each non-held surfaced opportunity is
+  // tracked to confirmed / falsified against realized stress + diagnosis persistence.
+  // callHitRate feeds K4 credit assignment and the halt brake. Additive; own ledger.
+  // ════════════════════════════════════════════════════════════════════════════
+  var EK_LEDGER_CONFIRM = 3;      // cycles a call must hold to confirm
+  var EK_LEDGER_MAXAGE = 20;      // cycles before an open call expires
+  var EK_LEDGER_DELTA = 0.1;      // stress drop that falsifies a persistence call
+  var EK_LEDGER_MAX = 60;         // ledger cap
+  var EK_FORECAST_HORIZON = 8;    // periods projected forward
+  var EK_FORECAST_WINDOW = 12;    // history window for the trend
+  var EK_EMIT_MAXCONCURRENT = 3;  // solo capital-fit: few decision-ready calls
+
+  EnergyBrain.prototype._scoreEnergyCallOutcomes = function () {
+    var s = this.state, em = s.energyModel || {};
+    var led = this._energyCallLedger = this._energyCallLedger || [];
+    var cur = (typeof s.stress === 'number') ? s.stress : 0;
+    var activeIds = {};
+    (s.diagnoses || []).forEach(function (d) { if (d.active) activeIds[d.id] = true; });
+    // 1) resolve open calls against what actually unfolded
+    for (var i = 0; i < led.length; i++) {
+      var c = led[i];
+      if (c.status !== 'open') continue;
+      c.age = (c.age || 0) + 1;
+      var dxGone = c.diagnosisId && !activeIds[c.diagnosisId];
+      if (cur <= c.emitStress - EK_LEDGER_DELTA || dxGone) { c.status = 'falsified'; c.resolvedStress = cur; }
+      else if (c.age >= EK_LEDGER_CONFIRM && cur >= c.emitStress) { c.status = 'confirmed'; c.resolvedStress = cur; }
+      else if (c.age >= EK_LEDGER_MAXAGE) { c.status = 'expired'; c.resolvedStress = cur; }
+    }
+    // 2) register new calls from current NON-HELD top opportunities (dedupe by diagnosis+path)
+    var open = {};
+    led.forEach(function (c) { if (c.status === 'open') open[c.key] = true; });
+    var opps = (s.opportunities || []).filter(function (o) { return !o.held; }).slice(0, 3);
+    for (var j = 0; j < opps.length; j++) {
+      var o = opps[j];
+      var key = (o.diagnosisId || o.source || 'opp') + '|' + (o.path || '');
+      if (open[key]) continue;
+      led.push({ id: 'call_' + key + '_' + (em.cycle || 0), key: key, diagnosisId: o.diagnosisId || null, path: o.path || null, emitStress: cur, emitCycle: em.cycle || 0, status: 'open', age: 0, thesis: 'elevated stress persists / diagnosis holds' });
+      open[key] = true;
+    }
+    if (led.length > EK_LEDGER_MAX) this._energyCallLedger = led = led.slice(-EK_LEDGER_MAX);
+    // 3) calibration
+    var confirmed = 0, falsified = 0, openN = 0, expired = 0;
+    led.forEach(function (c) { if (c.status === 'confirmed') confirmed++; else if (c.status === 'falsified') falsified++; else if (c.status === 'open') openN++; else expired++; });
+    var resolved = confirmed + falsified;
+    var ledger = {
+      version: 1, open: openN, confirmed: confirmed, falsified: falsified, expired: expired,
+      resolvedSamples: resolved,
+      callHitRate: resolved >= 1 ? Math.round((confirmed / resolved) * 100) / 100 : null,
+      note: 'TRUTH BRAKE: each surfaced call resolved to confirmed/falsified vs realized stress + diagnosis persistence; callHitRate feeds K4 + the halt brake.',
+      lastLedgerAt: em.updated || Date.now()
+    };
+    s.energyOutcomeLedger = ledger; return ledger;
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // STEP 4 - FORWARD RENDERING. The emitted artifact becomes a forecast with an
+  // explicit falsifier (front-run), not a nowcast. Projects the stress trajectory
+  // from the learned trend; confidence is scaled by the truth brake's realized
+  // calibration. Uses only history + prior + ledger already on state. No new fetches.
+  // ════════════════════════════════════════════════════════════════════════════
+  EnergyBrain.prototype._computeEnergyForecast = function () {
+    var s = this.state, em = s.energyModel || {};
+    var hist = ((s.memory && s.memory.stressHistory) || []).slice(-EK_FORECAST_WINDOW);
+    var n = hist.length, cur = (typeof s.stress === 'number') ? s.stress : 0, slope = 0;
+    if (n >= 3) {
+      var sx = 0, sy = 0, sxy = 0, sxx = 0;
+      for (var i = 0; i < n; i++) { var x = i, y = hist[i].stress || 0; sx += x; sy += y; sxy += x * y; sxx += x * x; }
+      var d = (n * sxx - sx * sx);
+      slope = d !== 0 ? (n * sxy - sx * sy) / d : 0;
+    }
+    var projected = Math.max(0, Math.min(1, cur + slope * EK_FORECAST_HORIZON));
+    var direction = slope > 0.005 ? 'rising' : slope < -0.005 ? 'falling' : 'stable';
+    var pe = (em.predictionError && em.predictionError.total) || 0;
+    var led = s.energyOutcomeLedger || {};
+    var calib = (typeof led.callHitRate === 'number') ? led.callHitRate : null;
+    var conf = Math.round(Math.max(0, Math.min(1, (1 - pe) * (calib === null ? 0.7 : calib))) * 100) / 100;
+    var active = (s.diagnoses || []).filter(function (d) { return d.active; }).sort(function (a, b) { return (b.relevance || 0) - (a.relevance || 0); });
+    var primary = active[0] || null;
+    var fc = {
+      version: 1, horizonPeriods: EK_FORECAST_HORIZON,
+      currentStress: Math.round(cur * 1000) / 1000, projectedStress: Math.round(projected * 1000) / 1000,
+      direction: direction, slope: Math.round(slope * 10000) / 10000, confidence: conf,
+      primaryDiagnosis: primary ? primary.id : null,
+      falsifier: direction === 'rising'
+        ? 'stress falls >= ' + EK_LEDGER_DELTA + ' below current within ' + EK_FORECAST_HORIZON + ' periods, or ' + (primary ? primary.id : 'primary dx') + ' deactivates'
+        : direction === 'falling'
+        ? 'stress rises >= ' + EK_LEDGER_DELTA + ' above current within ' + EK_FORECAST_HORIZON + ' periods'
+        : 'stress moves >= ' + EK_LEDGER_DELTA + ' either way within ' + EK_FORECAST_HORIZON + ' periods',
+      calibratedBy: calib === null ? 'uncalibrated (default 0.7)' : 'call-ledger hitRate ' + calib,
+      note: 'FORWARD call with falsifier - the front-run artifact, not a nowcast.',
+      lastForecastAt: em.updated || Date.now()
+    };
+    s.energyForecast = fc; return fc;
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // STEP 5 - CAPITAL-FIT PACKAGING. Autonomy for a SOLO operator means FEWER,
+  // decision-ready calls, not more. Prunes to the few non-held, allowed-lane calls a
+  // solo operator can act on; packages each with forecast + falsifier + instrument +
+  // moneyChain. Investment packages carry requiresSignoff (financial gate).
+  // ════════════════════════════════════════════════════════════════════════════
+  EnergyBrain.prototype._computeEnergyEmissionQueue = function () {
+    var s = this.state, em = s.energyModel || {}, brake = s.energyBrake || {};
+    var cfg = this._energyCapitalConfig = this._energyCapitalConfig || { maxConcurrent: EK_EMIT_MAXCONCURRENT, lanes: ['INVESTABLE', 'RESEARCHABLE'] };
+    var fc = s.energyForecast || null;
+    var pool = (s.opportunities || []).filter(function (o) { return !o.held && o.path && cfg.lanes.indexOf(o.path) !== -1; });
+    var queue = pool.slice(0, cfg.maxConcurrent).map(function (o) {
+      var capital = (o.path === 'INVESTABLE');
+      return {
+        id: o.id, title: o.title, lane: o.path, confidence: o.confidence,
+        forecast: fc ? { direction: fc.direction, projectedStress: fc.projectedStress, horizonPeriods: fc.horizonPeriods, falsifier: fc.falsifier, confidence: fc.confidence } : null,
+        thesis: o.whyNow || o.title, moneyChain: o.moneyChain || null,
+        instrument: (o.companies && o.companies.length) ? o.companies : (o.examples || []),
+        requiresSignoff: capital,                       // FINANCIAL GATE: capital always human
+        decision: capital ? 'commit-capital? (human sign-off required)' : 'research emit (autonomous-eligible)',
+        brakeLevel: brake.level || 'clear'
+      };
+    });
+    var q = { version: 1, maxConcurrent: cfg.maxConcurrent, poolSize: pool.length, queued: queue.length, prunedOut: Math.max(0, pool.length - queue.length), packages: queue, note: 'capital-fit: pruned to the few decision-ready calls a solo operator can act on; investment requires sign-off, research is autonomous-eligible.', lastQueueAt: em.updated || Date.now() };
+    s.energyEmissionQueue = q; return q;
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // STEP 6 - AUTONOMOUS EMISSION (financially gated). Research packages emit
+  // autonomously into the operator stream; investment packages ALWAYS stage for
+  // sign-off. FAIL-SAFE: with autonomy on, anything other than a clear brake holds
+  // everything. Flag window.LIMEN_ENERGY_AUTONOMY (default on). Internal stream only
+  // (audience of one) - no external distribution, freeze-safe.
+  // ════════════════════════════════════════════════════════════════════════════
+  EnergyBrain.prototype._runEnergyAutonomousEmission = function () {
+    var s = this.state, em = s.energyModel || {}, brake = s.energyBrake || null;
+    var on = (typeof window !== 'undefined' && typeof window.LIMEN_ENERGY_AUTONOMY !== 'undefined') ? !!window.LIMEN_ENERGY_AUTONOMY : true;
+    var emitted = [], staged = [], holdReason = null;
+    if (!on) holdReason = 'autonomy-off';
+    else if (!brake || brake.level !== 'clear') holdReason = 'brake-' + (brake ? brake.level : 'absent');   // FAIL-SAFE
+    var q = (s.energyEmissionQueue && s.energyEmissionQueue.packages) || [];
+    if (!holdReason) {
+      for (var i = 0; i < q.length; i++) {
+        var p = q[i];
+        if (p.requiresSignoff) { p.status = 'staged-for-signoff'; staged.push(p); }   // FINANCIAL GATE
+        else { p.status = 'emitted'; emitted.push(p); }                               // research: autonomous
+      }
+    } else {
+      for (var k = 0; k < q.length; k++) { q[k].status = 'held'; staged.push(q[k]); }
+    }
+    if (emitted.length) {
+      var stream = this.state.energyEmitted = this.state.energyEmitted || [];
+      for (var e = 0; e < emitted.length; e++) stream.push({ at: em.updated || Date.now(), cycle: em.cycle || 0, title: emitted[e].title, lane: emitted[e].lane, forecast: emitted[e].forecast });
+      if (stream.length > 50) this.state.energyEmitted = stream.slice(-50);
+    }
+    var out = {
+      version: 1, autonomy: on, holdReason: holdReason,
+      emittedCount: emitted.length, stagedCount: staged.length, emitted: emitted, staged: staged,
+      note: holdReason ? ('emission held: ' + holdReason + ' (fail-safe)') : 'autonomous research emission live; investment staged for sign-off',
+      lastEmissionAt: em.updated || Date.now()
+    };
+    s.energyAutoEmission = out; return out;
   };
 
   EnergyBrain.prototype._buildDomainDiagnosisPacket = function (dx) {
