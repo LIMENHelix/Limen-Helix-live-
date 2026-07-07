@@ -2078,6 +2078,7 @@
     this._computeEnergyForecast();          // STEP 4 - forward render (reads ledger calibration)
     this._computeEnergyEmissionQueue();     // STEP 5 - capital-fit packaging (reads forecast + brake)
     this._runEnergyAutonomousEmission();    // STEP 6 - autonomous emission (fail-safe on brake; capital staged)
+    this._computeEnergyInteroception();     // MULTIMODAL INTEROCEPTION (Phase 1) - observe-only divergence readout
     var s = this.state;
     var neuro = {
       version: 1,
@@ -2087,6 +2088,7 @@
       forecast: s.energyForecast || null,             // STEP 4 forward render
       emissionQueue: s.energyEmissionQueue || null,   // STEP 5 capital-fit packaging
       autoEmission: s.energyAutoEmission || null,      // STEP 6 autonomous emission
+      interoception: s.energyInteroception || null,    // MULTIMODAL INTEROCEPTION (Phase 1) - observe-only
       afferent: s.energyAfferent || null,
       gainControl: s.energyGainControl || null,
       slowModel: s.energySlowModel || null,
@@ -2108,6 +2110,127 @@
     s.energyNeuro = neuro;
     if (s.cognition && typeof s.cognition === 'object') s.cognition.neuro = neuro;   // additive: new key only
     return neuro;
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // MULTIMODAL INTEROCEPTION (Phase 1) - the north-star first slice, for energy.
+  // Energy's stress read was single-channel (financial) = alexithymic: the self-
+  // model could score itself calm on money while other live channels screamed.
+  // This integrates the channels energy ALREADY computes (no new data systems) into
+  // one confidence-weighted interoceptive read and, crucially, detects DIVERGENCE:
+  // the primary financial channel disagreeing with the consensus of the others.
+  // The blind-channel case (financial calm, another channel alarmed) is surfaced +
+  // logged for behaviour measurement (did it flag a real divergence).
+  //
+  // Per the north-star discipline: ONE engine + per-domain weight profile (config,
+  // not systems); explicitly Phase 1 (confidence-weighted + divergence, NOT full
+  // predictive-coding active inference); OBSERVE-ONLY - never modifies state.stress
+  // or the scoring spine. Additive. Reads the layers computed above this cycle.
+  // ════════════════════════════════════════════════════════════════════════════
+  EnergyBrain.prototype._computeEnergyInteroception = function () {
+    var s = this.state, em = s.energyModel || {};
+    var cl = function (x) { return Math.max(0, Math.min(1, x)); };
+    var r3 = function (x) { return Math.round(x * 1000) / 1000; };
+
+    // ENERGY's per-domain weight profile (other domains would carry different weights;
+    // this is the "config not 100 systems" moat surface).
+    var W = { financial: 1.0, prediction: 0.85, regulation: 0.7, metacognitive: 0.75, immune: 0.6, allostatic: 0.6 };
+
+    var channels = [];
+
+    // 1. FINANCIAL (primary / structured) - the channel the old caveat named.
+    channels.push({ name: 'financial', primary: true, alarm: r3(cl(s.stress || 0)), confidence: 0.9, weight: W.financial, provenance: 'structured stress-drivers' });
+
+    // 2. PREDICTION (predictive-coding surprise) - is the model surprised?
+    var pe = (em.predictionError && typeof em.predictionError.total === 'number') ? em.predictionError.total : null;
+    if (pe !== null) channels.push({ name: 'prediction', alarm: r3(cl(pe)), confidence: 0.7, weight: W.prediction, provenance: 'model prediction error' });
+
+    // 3. REGULATION (homeostatic set-point) - regulated vs surprised/starving.
+    var reg = em.regulation || {};
+    if (reg.state || reg.starving || reg.flooding) {
+      var ra = reg.starving ? 0.8 : (reg.state === 'surprised' ? 0.65 : (reg.flooding ? 0.55 : (/dysreg|alarm|stress/i.test(String(reg.state)) ? 0.7 : 0.15)));
+      channels.push({ name: 'regulation', alarm: r3(ra), confidence: 0.6, weight: W.regulation, provenance: 'regulation state (' + (reg.state || (reg.starving ? 'starving' : 'flooding')) + ')' });
+    }
+
+    // 4. METACOGNITIVE (truth brake / outcome ledger) - am I actually being right?
+    var led = s.energyOutcomeLedger || {};
+    if (typeof led.callHitRate === 'number' && led.resolvedSamples >= 3) {
+      channels.push({ name: 'metacognitive', alarm: r3(cl(1 - led.callHitRate)), confidence: led.resolvedSamples >= 5 ? 0.7 : 0.4, weight: W.metacognitive, provenance: 'realized call hit-rate (' + led.resolvedSamples + ' resolved)' });
+    }
+
+    // 5. IMMUNE (self-integrity) - chronically 'active' at baseline (quarantined
+    //    synthetic-portal antigen), so 'active' is down-weighted; only 'alert' screams.
+    var im = s.energyImmune || {};
+    if (im.immuneState) {
+      var iaMap = { clear: 0, watch: 0.34, active: 0.4, alert: 1.0 };
+      var ia = (typeof iaMap[im.immuneState] === 'number') ? iaMap[im.immuneState] : 0.34;
+      channels.push({ name: 'immune', alarm: r3(ia), confidence: im.immuneState === 'active' ? 0.4 : 0.6, weight: W.immune, provenance: 'immune state (' + im.immuneState + ')' });
+    }
+
+    // 6. ALLOSTATIC (forward render) - am I heading somewhere worse than now?
+    var fc = s.energyForecast || null;
+    if (fc && typeof fc.projectedStress === 'number') {
+      var rising = fc.direction === 'rising' || fc.projectedStress > (s.stress || 0);
+      var aa = rising ? cl((fc.projectedStress - (s.stress || 0)) * 3) : cl((fc.projectedStress - (s.stress || 0)) * 1.5);
+      channels.push({ name: 'allostatic', alarm: r3(aa), confidence: (typeof fc.confidence === 'number' ? cl(fc.confidence) : 0.4), weight: W.allostatic, provenance: 'forecast (' + (fc.direction || '?') + ')' });
+    }
+
+    // ── Integration (confidence x weight; NOT a naive sum) ──
+    var primary = channels[0];
+    var others = channels.slice(1);
+    var wsum = function (arr) {
+      var num = 0, den = 0;
+      for (var i = 0; i < arr.length; i++) { var ew = arr[i].weight * arr[i].confidence; num += arr[i].alarm * ew; den += ew; }
+      return den > 0 ? num / den : 0;
+    };
+    var consensusOther = others.length ? wsum(others) : 0;
+    var integrated = wsum(channels);
+    var alarms = channels.map(function (c) { return c.alarm; });
+    var uncertainty = alarms.length ? (Math.max.apply(null, alarms) - Math.min.apply(null, alarms)) : 0;
+
+    // ── Divergence / blind-channel salience ──
+    var DIV_T = 0.22;
+    var pa = primary.alarm;
+    var divergence = consensusOther - pa;   // positive => calm on money, alarmed elsewhere (blind spot)
+    var salience = 'aligned', attend = null;
+    if (others.length && divergence >= DIV_T && pa < 0.5) {
+      // loudest non-financial channel that clears a meaningful floor
+      var best = null;
+      for (var j = 0; j < others.length; j++) {
+        if (others[j].alarm < 0.4) continue;
+        var sc = others[j].alarm * others[j].confidence;
+        if (!best || sc > best._sc) { best = others[j]; best._sc = sc; }
+      }
+      if (best) { salience = 'blind-channel'; attend = best.name; }
+    } else if (pa >= 0.5 && (pa - consensusOther) >= DIV_T) {
+      salience = 'financial-only';   // money alarmed, other channels calm - financial-specific / possible overreaction
+    }
+
+    // ── Behaviour log: record blind-channel flags so "did it flag divergence" is measurable ──
+    if (!this._energyInteroLog) this._energyInteroLog = [];
+    if (salience === 'blind-channel') {
+      this._energyInteroLog.push({ cycle: em.cycle || 0, attend: attend, divergence: r3(divergence), primaryAlarm: r3(pa), consensusOther: r3(consensusOther) });
+      if (this._energyInteroLog.length > 20) this._energyInteroLog = this._energyInteroLog.slice(-20);
+    }
+
+    s.energyInteroception = {
+      version: 1,
+      method: 'phase1-weighted-divergence',    // NOT full predictive-coding active inference
+      observeOnly: true,                        // never modifies stress / scoring
+      channels: channels.map(function (c) { return { name: c.name, alarm: c.alarm, confidence: c.confidence, weight: c.weight, provenance: c.provenance }; }),
+      channelCount: channels.length,
+      primary: 'financial',
+      primaryAlarm: r3(pa),
+      consensusOther: r3(consensusOther),
+      integrated: r3(integrated),
+      divergence: r3(divergence),
+      uncertainty: r3(uncertainty),
+      salience: salience,                        // 'blind-channel' | 'financial-only' | 'aligned'
+      attend: attend,                            // loudest ignored channel, or null
+      recentDivergences: this._energyInteroLog.slice(-8),
+      note: 'observe-only; integrates energy\'s own live channels; does NOT modify stress/scoring; per-domain weight profile; full active inference not yet built'
+    };
+    return s.energyInteroception;
   };
 
   // K2/K6/K7 loop-closure helper - applied by surfaceOpportunities after the rank sort.
@@ -2426,7 +2549,18 @@
       autoEmission: n.autoEmission ? { autonomy: n.autoEmission.autonomy, emittedCount: n.autoEmission.emittedCount, holdReason: n.autoEmission.holdReason } : null,
       config: { autonomy: (typeof window !== 'undefined' && typeof window.LIMEN_ENERGY_AUTONOMY !== 'undefined') ? !!window.LIMEN_ENERGY_AUTONOMY : true, maxConcurrent: cfg.maxConcurrent || 3, lanes: cfg.lanes || ['INVESTABLE', 'RESEARCHABLE'] },
       activeSteering: this._readRequestBiases(),
-      interoceptionCaveat: 'stress read rests on a single-channel (financial) interoceptive layer; multimodal not yet built'
+      interoception: n.interoception ? {
+        salience: n.interoception.salience,
+        divergence: n.interoception.divergence,
+        attend: n.interoception.attend,
+        primaryAlarm: n.interoception.primaryAlarm,
+        consensusOther: n.interoception.consensusOther,
+        channels: (n.interoception.channels || []).map(function (c) { return { name: c.name, alarm: c.alarm, confidence: c.confidence }; }),
+        method: n.interoception.method
+      } : null,
+      interoceptionCaveat: n.interoception
+        ? 'multi-channel interoception is Phase 1 (confidence-weighted across ' + n.interoception.channelCount + ' live channels + divergence detection, observe-only); full predictive-coding active inference not yet built'
+        : 'stress read rests on a single-channel (financial) interoceptive layer; multimodal not yet built'
     };
   };
 
