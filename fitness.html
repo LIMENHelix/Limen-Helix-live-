@@ -108,6 +108,14 @@
   .progsec li{font-size:.85rem;color:#aab6c8;line-height:1.5;margin:2px 0}
   .progout,.progexit{font-size:.83rem;color:#93a1b5;margin:8px 0 0}
   .progout b,.progexit b{color:#cdd6e4}
+  .progev{border-top:1px solid rgba(255,255,255,.1);padding-top:10px;margin-top:14px}
+  .progev ul{list-style:none;padding-left:0;margin:6px 0 0}
+  .progev li{margin:0 0 10px;font-size:.83rem;line-height:1.5}
+  .evf{color:#c2ccda;display:block}
+  .evref{color:#7fdccb;text-decoration:none;font-size:.77rem}
+  .evref:hover{text-decoration:underline}
+  .evnote{font-size:.8rem;color:#e6b9a4;margin:8px 0 0;border-left:2px solid #d98a54;padding-left:10px}
+  .evcred{font-size:.71rem;color:#54657a;margin:8px 0 0}
   .adminrow{margin-top:18px;display:flex;align-items:center;gap:10px}
   .adminlink{background:none;border:none;color:#54657a;font-size:.78rem;cursor:pointer;font-family:inherit;text-decoration:underline;text-underline-offset:2px;padding:0}
   .adminlink:hover{color:#8b97a9}
@@ -259,6 +267,16 @@ function programHTML(pr){
     if(s.items&&s.items.length){ h+='<ul>'; s.items.forEach(function(it){ h+='<li>'+esc(it)+'</li>'; }); h+='</ul>'; }
     h+='</div>';
   });
+  if(pr.evidence&&pr.evidence.length){
+    h+='<div class="progsec progev"><h4>Evidence · peer-reviewed (PubMed)</h4><ul>';
+    pr.evidence.forEach(function(e){
+      h+='<li><span class="evf">'+esc(e.find)+'</span>'
+        +'<a class="evref" href="https://doi.org/'+esc(e.doi)+'" target="_blank" rel="noopener">'+esc(e.ref)+' · PMID '+esc(e.pmid)+' ↗</a></li>';
+    });
+    h+='</ul>';
+    if(pr.evNote) h+='<p class="evnote">Caveat — '+esc(pr.evNote)+'</p>';
+    h+='<p class="evcred">Source: PubMed. Findings paraphrased; follow the DOI to the original study.</p></div>';
+  }
   if(pr.exit) h+='<p class="progexit"><b>Exit —</b> '+esc(pr.exit)+'</p>';
   return h+'</div>';
 }
