@@ -432,8 +432,11 @@
     var self = this;
     return Base.prototype.scoreStress.call(this).then(function () {
       var ext = (typeof self.getExternalPressure === 'function') ? self.getExternalPressure() : 0;
+      var rb = self._readRequestBiases ? self._readRequestBiases() : { stressBias: 0 };
+      var inject = Math.min(0.3, ext + (rb.stressBias || 0));   // afferent + operator steer, combined cap 0.3 (steer never dominates)
       self.state._externalPressureApplied = ext;
-      if (ext > 0) self.state.stress = Math.max(0, Math.min(1, (self.state.stress || 0) + ext));
+      self.state._requestStressApplied = Math.max(0, inject - ext);
+      if (inject > 0) self.state.stress = Math.max(0, Math.min(1, (self.state.stress || 0) + inject));
     });
   };
 
@@ -1992,8 +1995,12 @@
   EnergyBrain.prototype._computeEnergyAttention = function () {
     var s = this.state, em = s.energyModel || {}, reg = em.regulation || {};
     var pe = (em.predictionError && em.predictionError.total) || 0;
+    var rb = this._readRequestBiases ? this._readRequestBiases() : { attentionFocus: [] };
+    var focus = (rb.attentionFocus || []).map(function (f) { return String(f).toLowerCase(); });
     var scored = (s.diagnoses || []).map(function (d) {
       var sal = (d.active ? 0.5 : 0) + (d.relevance || 0) * 0.4 + pe * 0.1;
+      var hay = (String(d.id) + ' ' + String(d.label || '')).toLowerCase();
+      if (focus.some(function (f) { return f && hay.indexOf(f) !== -1; })) sal += 0.5;   // operator steer: attention focus boost
       return { id: d.id, active: !!d.active, salience: Math.round(sal * 1000) / 1000 };
     }).sort(function (a, b) { return b.salience - a.salience; });
     var at = {
@@ -2106,7 +2113,11 @@
   EnergyBrain.prototype._applyNeuroGating = function (opps) {
     var s = this.state;
     var inh = s.energyInhibition || null, att = s.energyAttention || null, gc = s.energyGainControl || null;
-    if (!inh && !att && !gc) { s._neuroGatedCount = 0; return opps; }
+    var rb = this._readRequestBiases ? this._readRequestBiases() : {};
+    var laneBias = (rb && rb.valuationLane) ? rb.valuationLane : null;
+    if (!inh && !att && !gc && !laneBias) { s._neuroGatedCount = 0; return opps; }
+    // operator steer: lane preference (INVESTABLE vs RESEARCHABLE) boosts rank before the cap
+    if (laneBias) opps.forEach(function (o) { if (o.path === laneBias) o.rank = (o.rank || 0) * 1.3; });
     // K7 lateral inhibition - down-weight opportunities tied to non-winner diagnoses
     if (inh && inh.competitors && inh.competitors.length) {
       var sup = {}; inh.competitors.forEach(function (c) { sup[c.id] = c.suppressBy || 0; });
@@ -2352,6 +2363,69 @@
       lastEmissionAt: em.updated || Date.now()
     };
     s.energyAutoEmission = out; return out;
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // REQUEST STEERING SURFACE - the ONLY write path the operator AI box may use.
+  // A prompt enters as a decaying BIAS at the contract's injection points (never a
+  // command to an effector, never forces a finding). Config is a bounded control
+  // surface (autonomy toggle, capital envelope). Source code is NOT reachable here.
+  // ════════════════════════════════════════════════════════════════════════════
+  var EK_BIAS_TTL = 20 * 60 * 1000;   // operator steer relaxes over ~20 min (a task set, not a permanent command)
+
+  EnergyBrain.prototype._readRequestBiases = function () {
+    var rb = this.state._requestBiasRaw;
+    if (!rb) return { stressBias: 0, attentionFocus: [], valuationLane: null, active: false };
+    var age = Date.now() - (rb.updatedAt || 0);
+    var factor = Math.max(0, 1 - age / EK_BIAS_TTL);
+    if (factor <= 0) return { stressBias: 0, attentionFocus: [], valuationLane: null, active: false };
+    return { stressBias: (rb.stressBias || 0) * factor, attentionFocus: rb.attentionFocus || [], valuationLane: rb.valuationLane || null, active: true, decay: Math.round(factor * 100) / 100, setAt: rb.updatedAt };
+  };
+
+  // Steer (bias) - clamped by construction so a bad/hostile prompt cannot exceed bounds.
+  EnergyBrain.prototype.applyRequestBias = function (bias) {
+    bias = bias || {};
+    var rb = this.state._requestBiasRaw || { stressBias: 0, attentionFocus: [], valuationLane: null };
+    if (bias.clear) rb = { stressBias: 0, attentionFocus: [], valuationLane: null };
+    if (typeof bias.stressBias === 'number') rb.stressBias = Math.max(0, Math.min(0.3, bias.stressBias));   // cap: steer can never dominate perception
+    if (Array.isArray(bias.attentionFocus)) rb.attentionFocus = bias.attentionFocus.slice(0, 5).map(function (x) { return String(x); });
+    if (bias.valuationLane === 'INVESTABLE' || bias.valuationLane === 'RESEARCHABLE') rb.valuationLane = bias.valuationLane;
+    rb.updatedAt = Date.now();
+    this.state._requestBiasRaw = rb;
+    return this._readRequestBiases();
+  };
+
+  // Config - bounded control surface (autonomy on/off, capital envelope). No code edits.
+  EnergyBrain.prototype.setEnergyConfig = function (cfg) {
+    cfg = cfg || {};
+    this._energyCapitalConfig = this._energyCapitalConfig || { maxConcurrent: EK_EMIT_MAXCONCURRENT, lanes: ['INVESTABLE', 'RESEARCHABLE'] };
+    if (typeof cfg.autonomy === 'boolean' && typeof window !== 'undefined') window.LIMEN_ENERGY_AUTONOMY = cfg.autonomy;
+    if (typeof cfg.maxConcurrent === 'number') this._energyCapitalConfig.maxConcurrent = Math.max(1, Math.min(8, Math.round(cfg.maxConcurrent)));
+    if (Array.isArray(cfg.lanes)) { var allow = cfg.lanes.filter(function (l) { return l === 'INVESTABLE' || l === 'RESEARCHABLE'; }); if (allow.length) this._energyCapitalConfig.lanes = allow; }
+    return { autonomy: (typeof window !== 'undefined') ? !!window.LIMEN_ENERGY_AUTONOMY : true, maxConcurrent: this._energyCapitalConfig.maxConcurrent, lanes: this._energyCapitalConfig.lanes };
+  };
+
+  // Compact domain readout - the context the box/LLM gets so it "knows its own domain".
+  EnergyBrain.prototype.getEnergyStateSummary = function () {
+    var s = this.state, em = s.energyModel || {}, n = s.energyNeuro || {};
+    var active = (s.diagnoses || []).filter(function (d) { return d.active; }).map(function (d) { return { id: d.id, relevance: d.relevance, blocked: !!d.blocked }; });
+    var opps = (s.opportunities || []).slice(0, 6).map(function (o) { return { title: o.title, path: o.path, confidence: o.confidence, held: !!o.held }; });
+    var cfg = this._energyCapitalConfig || {};
+    return {
+      domain: 'energy',
+      stress: Math.round((s.stress || 0) * 100) / 100, phase: s.phase || null, stressFlag: s._stressFlag || null,
+      regulation: (em.regulation && em.regulation.state) || null,
+      predictionError: (em.predictionError && em.predictionError.total) || null,
+      predictedStress: (typeof em.predictedStress === 'number') ? Math.round(em.predictedStress * 100) / 100 : null,
+      activeDiagnoses: active, topOpportunities: opps,
+      forecast: n.forecast ? { direction: n.forecast.direction, projectedStress: n.forecast.projectedStress, confidence: n.forecast.confidence, falsifier: n.forecast.falsifier } : null,
+      brake: n.brake ? { level: n.brake.level, reasons: (n.brake.reasons || []).map(function (r) { return r.code; }) } : null,
+      outcomeLedger: n.outcomeLedger ? { callHitRate: n.outcomeLedger.callHitRate, confirmed: n.outcomeLedger.confirmed, falsified: n.outcomeLedger.falsified } : null,
+      autoEmission: n.autoEmission ? { autonomy: n.autoEmission.autonomy, emittedCount: n.autoEmission.emittedCount, holdReason: n.autoEmission.holdReason } : null,
+      config: { autonomy: (typeof window !== 'undefined' && typeof window.LIMEN_ENERGY_AUTONOMY !== 'undefined') ? !!window.LIMEN_ENERGY_AUTONOMY : true, maxConcurrent: cfg.maxConcurrent || 3, lanes: cfg.lanes || ['INVESTABLE', 'RESEARCHABLE'] },
+      activeSteering: this._readRequestBiases(),
+      interoceptionCaveat: 'stress read rests on a single-channel (financial) interoceptive layer; multimodal not yet built'
+    };
   };
 
   EnergyBrain.prototype._buildDomainDiagnosisPacket = function (dx) {
@@ -2672,7 +2746,8 @@
       'assets/js/energy-directive-translator.js',
       'assets/js/energy-targeting-engine.js',
       'assets/js/energy-promotion-bridge.js',
-      'assets/js/energy-clarity-operator.js'
+      'assets/js/energy-clarity-operator.js',
+      'assets/js/energy-agent-box.js'
     ];
     (function loadNext(i) {
       if (i >= _energyScripts.length) return;
