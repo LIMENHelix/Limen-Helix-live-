@@ -46,6 +46,27 @@
   .card.fork{border-left-style:dashed;background:#fff}
   .card .forktag{font-family:'Inter';font-size:.54rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--mute);border:1px solid var(--line);border-radius:999px;padding:.12rem .5rem;margin-left:7px;vertical-align:middle}
 
+  /* free public instruments */
+  .tools{display:grid;grid-template-columns:repeat(auto-fill,minmax(298px,1fr));gap:14px;margin-top:22px}
+  .tool{border:1px solid var(--line);border-radius:14px;padding:18px;background:var(--bg2)}
+  .toolhd{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  .tool h3{font-size:1.1rem;margin:0}
+  .toolsrc{font-size:.62rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--teal)}
+  .toolwhat{font-size:.85rem;color:var(--body);margin:6px 0 12px}
+  .toolin{display:flex;flex-wrap:wrap;gap:9px}
+  .toolin label{font-size:.71rem;color:var(--mute);display:flex;flex-direction:column;gap:3px;flex:1 1 46%;min-width:104px}
+  .toolin .row{display:flex;gap:6px}
+  .toolin input,.toolin select{border:1px solid var(--line);border-radius:8px;padding:.44rem .55rem;font-family:inherit;font-size:.9rem;background:#fff;color:var(--ink);width:100%;min-width:0}
+  .toolbtn{margin-top:12px;background:var(--ink);color:#fff;border:none;border-radius:999px;padding:.52rem 1.2rem;font-weight:600;font-size:.85rem;cursor:pointer;font-family:inherit}
+  .toolbtn:hover{background:var(--teal)}
+  .toolout{font-size:.9rem;color:var(--ink);line-height:1.55;display:none}
+  .toolout.on{display:block;margin-top:12px;padding-top:11px;border-top:1px solid var(--line)}
+  .toolout b{color:var(--teal)}
+  .tooltiny{display:block;margin-top:6px;font-size:.71rem;color:var(--mute)}
+  .zt{width:100%;border-collapse:collapse;margin-top:5px}
+  .zt td{padding:3px 6px;border-bottom:1px solid var(--line);font-size:.85rem}
+  .zt tr:first-child td{color:var(--mute);font-size:.71rem;text-transform:uppercase;letter-spacing:.04em}
+
   /* phase-path ladder: P0 free, P1-P10 written monthly mesocycle (coaching = top-tier upsell) */
   .ladder{border:1px solid rgba(255,255,255,.12);border-radius:13px;overflow:hidden;margin:20px 0 6px}
   .prow{padding:16px 18px;border-bottom:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.03)}
@@ -172,6 +193,145 @@
   <p class="lead">Eleven phases, Null Symmetry to Reintegrated Recursion, plus one fork where the path can split. Every phase is a real physiological state. Distress is never a phase. It's getting <i>stuck</i> in one, or failing a transition.</p>
   <div class="grid" id="grid"></div>
 </div></section>
+
+<section class="section" id="instruments"><div class="wrap">
+  <div class="kicker">Free instruments</div>
+  <h2>Read your own numbers.</h2>
+  <p class="lead">The map is free, and so are the instruments to locate yourself on it. Real sports-science formulas, run right in your browser. Nothing is sent anywhere, nothing is stored.</p>
+  <div class="tools">
+
+    <div class="tool">
+      <div class="toolhd"><h3>Critical Power &amp; W′</h3><span class="toolsrc">Monod–Scherrer model</span></div>
+      <p class="toolwhat">Your sustainable aerobic ceiling and your finite anaerobic battery, from two all-out efforts (any power meter, or watts from pace).</p>
+      <div class="toolin">
+        <label>Effort 1 · power (W)<input id="cp_p1" type="number" inputmode="decimal" placeholder="320"></label>
+        <label>Effort 1 · time (mm:ss)<input id="cp_t1" placeholder="3:00"></label>
+        <label>Effort 2 · power (W)<input id="cp_p2" type="number" inputmode="decimal" placeholder="255"></label>
+        <label>Effort 2 · time (mm:ss)<input id="cp_t2" placeholder="12:00"></label>
+      </div>
+      <button class="toolbtn" onclick="calcCP()">Compute CP &amp; W′</button>
+      <div class="toolout" id="cp_out"></div>
+    </div>
+
+    <div class="tool">
+      <div class="toolhd"><h3>Race Time Predictor</h3><span class="toolsrc">Riegel endurance law</span></div>
+      <p class="toolwhat">Enter one recent race and see predicted times across every distance, using the empirical fatigue exponent 1.06.</p>
+      <div class="toolin">
+        <label>Distance<div class="row"><input id="ri_d" type="number" inputmode="decimal" placeholder="5"><select id="ri_u"><option value="km">km</option><option value="mi">mi</option><option value="m">m</option></select></div></label>
+        <label>Time (hh:mm:ss)<input id="ri_t" placeholder="22:30"></label>
+      </div>
+      <button class="toolbtn" onclick="calcRiegel()">Predict my times</button>
+      <div class="toolout" id="ri_out"></div>
+    </div>
+
+    <div class="tool">
+      <div class="toolhd"><h3>Natural Muscle Ceiling</h3><span class="toolsrc">FFMI · Kouri et al.</span></div>
+      <p class="toolwhat">Your fat-free mass index and how close you sit to the drug-free upper limit (~25 normalized).</p>
+      <div class="toolin">
+        <label>Weight<div class="row"><input id="ff_w" type="number" inputmode="decimal" placeholder="82"><select id="ff_wu"><option value="kg">kg</option><option value="lb">lb</option></select></div></label>
+        <label>Height<div class="row"><input id="ff_h" type="number" inputmode="decimal" placeholder="180"><select id="ff_hu"><option value="cm">cm</option><option value="in">in</option></select></div></label>
+        <label>Body fat (%)<input id="ff_bf" type="number" inputmode="decimal" placeholder="15"></label>
+      </div>
+      <button class="toolbtn" onclick="calcFFMI()">Compute FFMI</button>
+      <div class="toolout" id="ff_out"></div>
+    </div>
+
+    <div class="tool">
+      <div class="toolhd"><h3>Metabolic Engine</h3><span class="toolsrc">Katch–McArdle</span></div>
+      <p class="toolwhat">Calories from your lean mass (sharper than height/weight formulas), plus cut / maintain / build targets and protein.</p>
+      <div class="toolin">
+        <label>Weight<div class="row"><input id="km_w" type="number" inputmode="decimal" placeholder="82"><select id="km_wu"><option value="kg">kg</option><option value="lb">lb</option></select></div></label>
+        <label>Body fat (%)<input id="km_bf" type="number" inputmode="decimal" placeholder="15"></label>
+        <label>Activity<select id="km_a"><option value="1.2">Sedentary</option><option value="1.375">Light (1–3 d)</option><option value="1.55" selected>Moderate (3–5 d)</option><option value="1.725">High (6–7 d)</option><option value="1.9">Athlete (2×/day)</option></select></label>
+      </div>
+      <button class="toolbtn" onclick="calcKM()">Compute my numbers</button>
+      <div class="toolout" id="km_out"></div>
+    </div>
+
+    <div class="tool">
+      <div class="toolhd"><h3>True Max HR &amp; Zones</h3><span class="toolsrc">Tanaka + Karvonen</span></div>
+      <p class="toolwhat">A better max-HR estimate than 220−age, and your five training zones (heart-rate-reserve if you add resting HR).</p>
+      <div class="toolin">
+        <label>Age<input id="hr_age" type="number" inputmode="decimal" placeholder="35"></label>
+        <label>Resting HR (optional)<input id="hr_rest" type="number" inputmode="decimal" placeholder="55"></label>
+      </div>
+      <button class="toolbtn" onclick="calcHR()">Compute my zones</button>
+      <div class="toolout" id="hr_out"></div>
+    </div>
+
+    <div class="tool">
+      <div class="toolhd"><h3>Injury-Risk Load</h3><span class="toolsrc">Acute:Chronic · Gabbett</span></div>
+      <p class="toolwhat">Compare this week's training load to your rolling 4-week average. The 0.8–1.3 band is the injury sweet spot.</p>
+      <div class="toolin">
+        <label>This week's load<input id="ac_a" type="number" inputmode="decimal" placeholder="2600"></label>
+        <label>4-week avg load<input id="ac_c" type="number" inputmode="decimal" placeholder="2400"></label>
+      </div>
+      <button class="toolbtn" onclick="calcACWR()">Compute my ratio</button>
+      <div class="toolout" id="ac_out"></div>
+    </div>
+
+  </div>
+  <p class="cred" style="margin-top:18px">Estimates for healthy, screened adults — education, not medical advice. Each tool names the model it uses; the math runs on your device.</p>
+</div></section>
+
+<script>
+(function(){
+  function v(id){var e=document.getElementById(id);return e?String(e.value).trim():'';}
+  function nn(id){var x=parseFloat(v(id));return isFinite(x)?x:NaN;}
+  function set(id,html){var e=document.getElementById(id);if(e){e.innerHTML=html;e.classList.add('on');}}
+  function toKg(w,u){return u==='lb'?w*0.45359237:w;}
+  function toM(h,u){return u==='in'?h*0.0254:h/100;}
+  function ptime(str){str=String(str).trim();if(!str)return NaN;var p=str.split(':').map(Number);if(p.some(function(x){return isNaN(x);}))return NaN;if(p.length===1)return p[0];if(p.length===2)return p[0]*60+p[1];return p[0]*3600+p[1]*60+p[2];}
+  function ftime(sec){sec=Math.round(sec);var h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s=sec%60;function z(x){return (x<10?'0':'')+x;}return (h?h+':'+z(m):m)+':'+z(s);}
+
+  window.calcCP=function(){
+    var p1=nn('cp_p1'),t1=ptime(v('cp_t1')),p2=nn('cp_p2'),t2=ptime(v('cp_t2'));
+    if([p1,t1,p2,t2].some(function(x){return isNaN(x);})||t1<=0||t2<=0){set('cp_out','Enter both efforts — power in watts, time as mm:ss.');return;}
+    if(t1===t2){set('cp_out','The two efforts need different durations.');return;}
+    var CP=(p2*t2-p1*t1)/(t2-t1),Wp=p1*t1-CP*t1;
+    if(CP<=0||Wp<=0){set('cp_out','Those two efforts don’t fit the model — the shorter effort should be at the higher power.');return;}
+    set('cp_out','<b>Critical Power ≈ '+Math.round(CP)+' W</b> — the intensity you can hold quasi-indefinitely, your aerobic ceiling.<br><b>W′ ≈ '+(Wp/1000).toFixed(1)+' kJ</b> — your finite anaerobic battery above CP.<span class="tooltiny">Work = W′ + CP·t (Monod–Scherrer). Time at power P: t = W′ / (P − CP).</span>');
+  };
+  window.calcRiegel=function(){
+    var d=nn('ri_d'),u=v('ri_u'),t=ptime(v('ri_t'));
+    if(isNaN(d)||d<=0||isNaN(t)||t<=0){set('ri_out','Enter a distance and a time (e.g. 5 km, 22:30).');return;}
+    var meters=u==='km'?d*1000:u==='mi'?d*1609.344:d;
+    var tg=[['1500 m',1500],['5 K',5000],['10 K',10000],['Half',21097.5],['Marathon',42195]];
+    var rows=tg.map(function(x){var T=t*Math.pow(x[1]/meters,1.06);return '<tr><td>'+x[0]+'</td><td><b>'+ftime(T)+'</b></td><td>'+ftime(T/(x[1]/1000))+' /km</td></tr>';}).join('');
+    set('ri_out','<table class="zt"><tr><td>Distance</td><td>Predicted</td><td>Pace</td></tr>'+rows+'</table><span class="tooltiny">Riegel: T₂ = T₁·(D₂/D₁)^1.06</span>');
+  };
+  window.calcFFMI=function(){
+    var w=toKg(nn('ff_w'),v('ff_wu')),h=toM(nn('ff_h'),v('ff_hu')),bf=nn('ff_bf');
+    if([w,h,bf].some(function(x){return isNaN(x);})||h<=0||bf<0||bf>70){set('ff_out','Enter weight, height, and body fat %.');return;}
+    var lbm=w*(1-bf/100),ffmi=lbm/(h*h),norm=ffmi+6.1*(1.8-h),pct=Math.round(norm/25*100);
+    set('ff_out','<b>FFMI '+ffmi.toFixed(1)+'</b> · normalized <b>'+norm.toFixed(1)+'</b><br>Lean mass '+lbm.toFixed(1)+' kg — about <b>'+pct+'%</b> of the ~25 drug-free ceiling. Normalized values above ~26 are rarely reached naturally.<span class="tooltiny">FFMI = lean-kg / height-m²; normalized to 1.8 m (Kouri 1995).</span>');
+  };
+  window.calcKM=function(){
+    var w=toKg(nn('km_w'),v('km_wu')),bf=nn('km_bf'),a=parseFloat(v('km_a'));
+    if([w,bf].some(function(x){return isNaN(x);})||bf<0||bf>70){set('km_out','Enter weight and body fat %.');return;}
+    var lbm=w*(1-bf/100),bmr=370+21.6*lbm,tdee=bmr*a,prot=Math.round(w*2.0);
+    set('km_out','<b>BMR '+Math.round(bmr)+' kcal</b> · <b>TDEE '+Math.round(tdee)+' kcal</b><br>Cut '+Math.round(tdee*0.8)+' · Maintain '+Math.round(tdee)+' · Build '+Math.round(tdee*1.1)+' kcal/day.<br>Protein ≈ <b>'+prot+' g/day</b> (2.0 g/kg).<span class="tooltiny">Katch–McArdle: BMR = 370 + 21.6·lean-kg.</span>');
+  };
+  window.calcHR=function(){
+    var age=nn('hr_age'),rest=nn('hr_rest');
+    if(isNaN(age)||age<=0||age>120){set('hr_out','Enter your age.');return;}
+    var hrmax=Math.round(208-0.7*age),kar=isFinite(rest)&&rest>0&&rest<hrmax;
+    var z=[['Z1 Recovery',.5,.6],['Z2 Aerobic base',.6,.7],['Z3 Tempo',.7,.8],['Z4 Threshold',.8,.9],['Z5 VO₂max',.9,1.0]];
+    var rows=z.map(function(x){var lo,hi;if(kar){lo=Math.round(rest+x[1]*(hrmax-rest));hi=Math.round(rest+x[2]*(hrmax-rest));}else{lo=Math.round(x[1]*hrmax);hi=Math.round(x[2]*hrmax);}return '<tr><td>'+x[0]+'</td><td><b>'+lo+'–'+hi+'</b> bpm</td></tr>';}).join('');
+    set('hr_out','<b>Max HR ≈ '+hrmax+' bpm</b> (Tanaka: 208 − 0.7·age)<table class="zt">'+rows+'</table><span class="tooltiny">'+(kar?'Zones via heart-rate reserve (Karvonen).':'Add a resting HR for personalized reserve zones.')+'</span>');
+  };
+  window.calcACWR=function(){
+    var a=nn('ac_a'),c=nn('ac_c');
+    if([a,c].some(function(x){return isNaN(x);})||c<=0){set('ac_out','Enter this week’s load and your 4-week average.');return;}
+    var r=a/c,zone;
+    if(r<0.8)zone='Undertraining — detraining / spike risk if you jump up';
+    else if(r<=1.3)zone='Sweet spot — adaptive and protective';
+    else if(r<=1.5)zone='Caution — load is rising fast';
+    else zone='Danger zone — a sharp injury-risk spike';
+    set('ac_out','<b>ACWR '+r.toFixed(2)+'</b> — '+zone+'.<span class="tooltiny">Gabbett: keep the ratio ~0.8–1.3; spikes above 1.5 drive soft-tissue injury.</span>');
+  };
+})();
+</script>
 
 <section class="section" id="unlock"><div class="wrap">
   <div class="gate">
