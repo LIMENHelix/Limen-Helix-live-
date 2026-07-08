@@ -438,10 +438,10 @@
     <p class="lead">Read the arc as a periodization model: eleven phases, each a physiological state with its own optimal load, fuel, and recovery. The map is free. Each phase is a written monthly mesocycle built for the state you're actually in, yours to run on your own. Train the phase you're in. Build toward the ones you're not. When you want eyes on it, add live coaching on top.</p>
     <div class="ladder" id="ladder"></div>
     <div class="upsell">
-      <div class="ut"><span class="utag">Top tier</span><span class="un">The Coaching Layer</span><span class="up">+ $149 / mo · any phase</span></div>
+      <div class="ut"><span class="utag">Top tier</span><span class="un">The Coaching Layer</span><span class="up">live 1:1 · any phase</span></div>
       <div class="ud">Add a live 1:1 to any written phase. A monthly Zoom call where your mesocycle is prescribed to you, your lifts and readiness reviewed, and the plan adjusted in real time. The human layer on top of the program.</div>
     </div>
-    <p class="capnote">Every phase is a written monthly mesocycle you can run solo. Add The Coaching Layer for live 1:1 on any phase. Prices are indicative; enrollment opens soon. Add your email and I'll bring you in first.</p>
+    <p class="capnote">Every phase is a written monthly mesocycle you can run solo. Add The Coaching Layer for live 1:1 on any phase. Enrollment opens soon. Add your email and I'll bring you in first.</p>
     <form class="capform" id="eaForm" onsubmit="return earlyAccess(event)">
       <input type="email" id="eaEmail" placeholder="you@email.com" required />
       <button type="submit" id="eaBtn">Get early access</button>
@@ -545,8 +545,7 @@ var LADDER=[
 document.getElementById('ladder').innerHTML = LADDER.map(function(x){
   return '<div class="prow'+(x.free?' free':'')+'">'
     +'<div class="ptop"><span class="pnum" style="color:'+x.c+'">'+x.p+'</span>'
-    +'<span class="pname">'+x.name+'</span><span class="pstage">'+x.stage+'</span>'
-    +'<span class="pprice">'+x.price+'</span></div>'
+    +'<span class="pname">'+x.name+'</span><span class="pstage">'+x.stage+'</span></div>'
     +'<div class="pwhat">'+x.what+'</div>'
     +'<div class="psold">'+x.sold+'</div>'
     +'<div class="pprog" id="prog-'+x.p+'"></div></div>';
