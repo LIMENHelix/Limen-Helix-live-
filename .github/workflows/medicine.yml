@@ -1,0 +1,29 @@
+# MEDICINE distress signal worker — pulls openFDA enforcement (drug + device recalls), ranks by
+# class + tort pattern + recency, POSTs to /api/medicine-distress-ingest. National single-source, free.
+name: openFDA recall distress signal
+on:
+  schedule:
+    - cron: '0 14 * * *'      # daily, offset from EDGAR (13:00) + layoffs (13:30)
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout: |
+            scripts/medicine-fetch.js
+            lib/medicine.js
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: fetch + ingest openFDA recalls
+        run: node scripts/medicine-fetch.js
+        env:
+          LEAD_ADMIN_KEY: ${{ secrets.LEAD_ADMIN_KEY }}
+          OPENFDA_KEY: ${{ secrets.OPENFDA_KEY }}
+          INGEST_URL: https://limenhelix.com
