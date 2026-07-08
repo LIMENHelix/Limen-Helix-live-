@@ -1,0 +1,32 @@
+# RECALL SHIELD fulfillment — sends the free weekly FDA recall digest to clinic subscribers.
+# DRY RUN until RECALL_DIGEST_ARMED=1 + RESEND_API_KEY are set (arm switch). Runs after the
+# openFDA medicine cron (14:00 UTC) so the recall data is fresh.
+name: Recall Shield weekly digest
+on:
+  schedule:
+    - cron: '0 15 * * 1'      # Mondays 15:00 UTC
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout: |
+            scripts/recall-digest.js
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: build + send recall digest
+        run: node scripts/recall-digest.js
+        env:
+          LEAD_ADMIN_KEY: ${{ secrets.LEAD_ADMIN_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          RECALL_FROM_EMAIL: ${{ secrets.RECALL_FROM_EMAIL }}
+          RECALL_POSTAL_ADDRESS: ${{ secrets.RECALL_POSTAL_ADDRESS }}
+          RECALL_DIGEST_ARMED: ${{ secrets.RECALL_DIGEST_ARMED }}
+          INGEST_URL: https://limenhelix.com
