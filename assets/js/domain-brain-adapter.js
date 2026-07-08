@@ -145,6 +145,7 @@
       brainStatus:        _val(bs.status),
       brainUpdated:       _val(bs.updated),
       brainCognition:     _obj(bs.cognition),     // self-model surface (immune/awareness/conscience/intuition + model) — every domain
+      brainInteroception: _obj(bs.interoception),  // multimodal interoception (Phase 1): confidence-weighted channels + divergence/blind-channel salience — every domain (energy aliases its own into state.interoception)
       brainEnergyModel:   _obj(bs.energyModel),   // F0: carry recurrent brain model (energy; null elsewhere)
       brainSupplyChainModel: _obj(bs.supplyChainModel), // F0.trade: carry recurrent logistics-lifecycle model (trade/supplyChain)
       brainEnvironmentModel: _obj(bs.environmentModel), // F0.environment: carry recurrent climate/emissions/ecosystem lifecycle model (environment; null elsewhere)

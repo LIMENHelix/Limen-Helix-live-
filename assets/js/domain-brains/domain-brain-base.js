@@ -213,6 +213,7 @@
         try { self._applyRequestSteer(); } catch (e) {}       // re-apply operator steer each cycle (no-op if none)
         try { self._computeGenericKStack(); } catch (e) {}    // generic K-stack -> cognition.neuro (energy self-skips)
         try { self._applyGenericBrakeGate(); } catch (e) {}   // closed loop: brake gates emitted opportunities
+        try { self._computeGenericInteroception(); } catch (e) {}  // multimodal interoception (Phase 1): observe-only divergence read (energy self-skips)
         self.state.updated = Date.now();
         self._emitEvent('domain-brain-update', { domainId: self.domainId, state: self.state });
       })
@@ -727,6 +728,14 @@
     var active = (s.diagnoses || []).filter(function (d) { return d.active; }).slice(0, 8).map(function (d) { return { id: d.id, relevance: d.relevance, blocked: !!d.blocked }; });
     var opps = (s.opportunities || []).slice(0, 6).map(function (o) { return { title: o.title, path: o.path, confidence: o.confidence }; });
     var cfg = s._domainConfig || {};
+    var intero = s.interoception || null;
+    var caveat = (intero && intero.channelCount > 1)
+      ? ('multimodal interoception (Phase 1): ' + intero.channelCount + ' channels, confidence-weighted divergence'
+         + (intero.salience === 'blind-channel' ? ' — BLIND CHANNEL: ' + intero.attend + ' alarmed while financial calm'
+            : intero.salience === 'financial-only' ? ' — financial-only alarm (other channels calm)'
+            : ' — channels aligned')
+         + '; not yet full predictive-coding active inference')
+      : 'readings rest on a single-channel interoceptive layer; multimodal not yet built';
     return {
       domain: this.domainId, label: this.label,
       stress: Math.round((s.stress || 0) * 100) / 100, phase: s.phase || null, phaseLabel: s.phaseLabel || null,
@@ -737,7 +746,8 @@
       activeDiagnoses: active, topOpportunities: opps,
       config: { autonomy: !!cfg.autonomy, maxConcurrent: cfg.maxConcurrent || 5, lanes: cfg.lanes || ['INVESTABLE', 'RESEARCHABLE'] },
       activeSteering: this._readRequestBiases(),
-      interoceptionCaveat: 'readings rest on a single-channel interoceptive layer; multimodal not yet built'
+      interoception: intero ? { salience: intero.salience, attend: intero.attend, divergence: intero.divergence, integrated: intero.integrated, primaryAlarm: intero.primaryAlarm, consensusOther: intero.consensusOther, channelCount: intero.channelCount, uncertainty: intero.uncertainty, channels: intero.channels } : null,
+      interoceptionCaveat: caveat
     };
   };
 
@@ -842,6 +852,135 @@
       st._gainGatedCount = Math.max(0, opps.length - keep);
     }
     return { level: brake.level, held: st.opportunitiesHeld };
+  };
+
+  // ══════════════════════════════════════════════════════════════════════
+  // MULTIMODAL INTEROCEPTION (Phase 1) — generic, EVERY domain (energy self-skips;
+  // it keeps its own richer _computeEnergyInteroception). The domain's stress read was
+  // single-channel (structured/financial) = alexithymic: the self-model could score
+  // itself calm on money while other live channels screamed. This integrates the
+  // channels the brain ALREADY computes this cycle (no new data systems) into one
+  // confidence-weighted interoceptive read and detects DIVERGENCE — the primary
+  // financial channel disagreeing with the consensus of the others. The blind-channel
+  // case (financial calm, another channel alarmed) is surfaced via `attend` + logged
+  // so "did it flag a real divergence" is measurable (behaviour, not a moved number).
+  //
+  // North-star discipline: ONE engine + per-domain weight profile (config, not 100
+  // systems — the moat surface); explicitly Phase 1 (confidence-weighted + divergence,
+  // NOT full predictive-coding active inference); OBSERVE-ONLY — never modifies
+  // state.stress or the scoring spine. Additive. Reads cognition.model + the generic
+  // K-stack (domainNeuro: outcomeLedger, forecast) computed earlier this cycle.
+  //
+  // NOTE — this is the PER-BRAIN self-model divergence (internal channels). A separate
+  // window-level instrument (interoceptive-divergence.js) logs cross-domain divergence
+  // between EXTERNAL channels (polarity/balance/escalation) and records how it resolved;
+  // that one is the empirical calibration source for the weight overrides below.
+  // ══════════════════════════════════════════════════════════════════════
+  var INTERO_DIV_T = 0.22;
+  // Per-domain weight profiles. Default mirrors energy's Phase-1 priors. Overrides are
+  // the "config not 100 systems" surface — to be CALIBRATED from real divergence-
+  // resolution data (interoceptive-divergence.js), never hard-coded as if measured, so
+  // the table ships empty until that data exists. Every domain uses the default today.
+  var INTERO_WEIGHTS_DEFAULT = { financial: 1.0, prediction: 0.85, regulation: 0.7, metacognitive: 0.75, immune: 0.6, allostatic: 0.6 };
+  var INTERO_WEIGHTS_BY_DOMAIN = { /* domainId: { …overrides… } — populated by calibration, not by hand */ };
+
+  DomainBrainBase.prototype._computeGenericInteroception = function () {
+    if (typeof this._runEnergyAutonomousEmission === 'function') return;   // energy has its own richer version
+    var st = this.state, cog = st.cognition; if (!cog) return;
+    var m = cog.model || {}, neuro = st.domainNeuro || cog.neuro || {};
+    var cl = function (x) { return Math.max(0, Math.min(1, x)); };
+    var r3 = function (x) { return Math.round(x * 1000) / 1000; };
+    var W = INTERO_WEIGHTS_BY_DOMAIN[this.domainId] || INTERO_WEIGHTS_DEFAULT;
+
+    var channels = [];
+
+    // 1. FINANCIAL / structured (primary) — the single channel the old caveat named.
+    channels.push({ name: 'financial', primary: true, alarm: r3(cl(st.stress || 0)), confidence: 0.9, weight: W.financial, provenance: 'structured stress' });
+
+    // 2. PREDICTION — predictive-coding surprise (is the model surprised?).
+    var pe = (m.predictionError && typeof m.predictionError === 'object') ? m.predictionError.total : m.predictionError;
+    if (typeof pe === 'number') channels.push({ name: 'prediction', alarm: r3(cl(pe)), confidence: 0.7, weight: W.prediction, provenance: 'model prediction error' });
+
+    // 3. REGULATION — homeostatic set-point (regulated vs surprised/starving/flooding).
+    var reg = (m.regulation && typeof m.regulation === 'object') ? m.regulation : { state: m.regulation };
+    if (reg.state || reg.starving || reg.flooding) {
+      var ra = reg.starving ? 0.8 : (reg.state === 'surprised' ? 0.65 : (reg.flooding ? 0.55 : (/dysreg|alarm|stress/i.test(String(reg.state)) ? 0.7 : 0.15)));
+      channels.push({ name: 'regulation', alarm: r3(ra), confidence: 0.6, weight: W.regulation, provenance: 'regulation state (' + (reg.state || (reg.starving ? 'starving' : 'flooding')) + ')' });
+    }
+
+    // 4. METACOGNITIVE — truth brake / outcome ledger (am I actually being right?).
+    var led = neuro.outcomeLedger || {};
+    if (typeof led.hitRate === 'number' && led.samples >= 3) {
+      channels.push({ name: 'metacognitive', alarm: r3(cl(1 - led.hitRate)), confidence: led.samples >= 5 ? 0.7 : 0.4, weight: W.metacognitive, provenance: 'realized hit-rate (' + led.samples + ' samples)' });
+    }
+
+    // 5. IMMUNE — self-integrity ('active' is often baseline for quarantined synthetic
+    //    antigens, so it is down-weighted; only 'alert' screams).
+    var im = cog.immune || {};
+    if (im.immuneState) {
+      var iaMap = { clear: 0, watch: 0.34, active: 0.4, alert: 1.0 };
+      var ia = (typeof iaMap[im.immuneState] === 'number') ? iaMap[im.immuneState] : 0.34;
+      channels.push({ name: 'immune', alarm: r3(ia), confidence: im.immuneState === 'active' ? 0.4 : 0.6, weight: W.immune, provenance: 'immune state (' + im.immuneState + ')' });
+    }
+
+    // 6. ALLOSTATIC — forward render (am I heading somewhere worse than now?).
+    var fc = neuro.forecast || null;
+    if (fc && typeof fc.projectedStress === 'number') {
+      var cur = st.stress || 0;
+      var rising = fc.direction === 'rising' || fc.projectedStress > cur;
+      var aa = rising ? cl((fc.projectedStress - cur) * 3) : cl((fc.projectedStress - cur) * 1.5);
+      channels.push({ name: 'allostatic', alarm: r3(aa), confidence: (typeof fc.confidence === 'number' ? cl(fc.confidence) : 0.4), weight: W.allostatic, provenance: 'forecast (' + (fc.direction || '?') + ')' });
+    }
+
+    // ── Integration (confidence × weight; NOT a naive sum) ──
+    var primary = channels[0], others = channels.slice(1);
+    var wsum = function (arr) { var num = 0, den = 0; for (var i = 0; i < arr.length; i++) { var ew = arr[i].weight * arr[i].confidence; num += arr[i].alarm * ew; den += ew; } return den > 0 ? num / den : 0; };
+    var consensusOther = others.length ? wsum(others) : 0;
+    var integrated = wsum(channels);
+    var alarms = channels.map(function (c) { return c.alarm; });
+    var uncertainty = alarms.length ? (Math.max.apply(null, alarms) - Math.min.apply(null, alarms)) : 0;
+
+    // ── Divergence / blind-channel salience ──
+    var pa = primary.alarm, divergence = consensusOther - pa;   // positive => calm on money, alarmed elsewhere
+    var salience = 'aligned', attend = null;
+    if (others.length && divergence >= INTERO_DIV_T && pa < 0.5) {
+      var best = null;
+      for (var j = 0; j < others.length; j++) {
+        if (others[j].alarm < 0.4) continue;
+        var sc = others[j].alarm * others[j].confidence;
+        if (!best || sc > best._sc) { best = others[j]; best._sc = sc; }
+      }
+      if (best) { salience = 'blind-channel'; attend = best.name; }
+    } else if (pa >= 0.5 && (pa - consensusOther) >= INTERO_DIV_T) {
+      salience = 'financial-only';   // money alarmed, other channels calm — financial-specific / possible overreaction
+    }
+
+    // ── Behaviour log: record blind-channel flags so "did it flag divergence" is measurable ──
+    if (!this._interoLog) this._interoLog = [];
+    if (salience === 'blind-channel') {
+      this._interoLog.push({ cycle: (m.cycle || this._cycleCount || 0), attend: attend, divergence: r3(divergence), primaryAlarm: r3(pa), consensusOther: r3(consensusOther) });
+      if (this._interoLog.length > 20) this._interoLog = this._interoLog.slice(-20);
+    }
+
+    var intero = {
+      version: 1,
+      method: 'phase1-weighted-divergence',    // NOT full predictive-coding active inference
+      observeOnly: true,                        // never modifies stress / scoring
+      channels: channels.map(function (c) { return { name: c.name, alarm: c.alarm, confidence: c.confidence, weight: c.weight, provenance: c.provenance }; }),
+      channelCount: channels.length,
+      primary: 'financial',
+      primaryAlarm: r3(pa),
+      consensusOther: r3(consensusOther),
+      integrated: r3(integrated),
+      divergence: r3(divergence),
+      uncertainty: r3(uncertainty),
+      salience: salience,                        // 'blind-channel' | 'financial-only' | 'aligned'
+      attend: attend,                            // loudest ignored channel, or null
+      recentDivergences: this._interoLog.slice(-8),
+      note: 'observe-only; integrates this brain\'s own live channels; does NOT modify stress/scoring; per-domain weight profile; full active inference not yet built'
+    };
+    st.interoception = intero; cog.interoception = intero; st.domainInteroception = intero;
+    return intero;
   };
 
   // ══════════════════════════════════════════════════════════════════════

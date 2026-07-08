@@ -2230,6 +2230,11 @@
       recentDivergences: this._energyInteroLog.slice(-8),
       note: 'observe-only; integrates energy\'s own live channels; does NOT modify stress/scoring; per-domain weight profile; full active inference not yet built'
     };
+    // Alias into the canonical generic field so the brain->civilization adapter and the
+    // master brain see interoception uniformly across all 20 domains (energy computes its
+    // own richer version above; the other 19 use the base _computeGenericInteroception).
+    s.interoception = s.energyInteroception;
+    if (s.cognition && typeof s.cognition === 'object') s.cognition.interoception = s.energyInteroception;
     return s.energyInteroception;
   };
 

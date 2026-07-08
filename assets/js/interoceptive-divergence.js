@@ -28,6 +28,18 @@
  * The alarm mappings below are coarse Phase-1 ASSUMPTIONS (tunable), not measured
  * quantities. Raw channel values are logged verbatim so the assumptions can be
  * recalibrated from real resolution data — never hard-code a number as if measured.
+ *
+ * TWO INTEROCEPTION LAYERS, distinct by design (do not merge or duplicate):
+ *   - THIS module = WINDOW-LEVEL, cross-domain: reads EXTERNAL channels
+ *     (LIMENDomains.stress / LIMENPolarity / LIMENBalance / LIMENEscalation) across
+ *     all 20 domains and, crucially, records HOW each divergence RESOLVED. That
+ *     resolution log is the empirical basis for the per-domain channel weights.
+ *   - PER-BRAIN self-model = domain-brain-base._computeGenericInteroception (and
+ *     energy-brain._computeEnergyInteroception): integrates each brain's OWN INTERNAL
+ *     channels (prediction-error / regulation / outcome-ledger / immune / forecast)
+ *     into state.interoception, with the same divergence/blind-channel grammar.
+ *   The per-brain layer is the live self-model read; this window layer is the
+ *   calibration instrument that tells us whether the alarmed channels were right.
  */
 (function () {
   'use strict';
