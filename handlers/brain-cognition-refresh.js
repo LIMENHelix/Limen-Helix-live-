@@ -127,6 +127,13 @@ module.exports = async function handler(req, res) {
         ran++;
         var c = compact(b.state && b.state.cognition);
         if (c) {
+          // Augment with the multimodal interoception read + headline stress/phase (server feed
+          // parity with the client adapter) so lightweight consumers see them without live brains.
+          var _st = b.state || {};
+          var _it = (_st.interoception && typeof _st.interoception === 'object') ? _st.interoception : (_st.cognition && _st.cognition.interoception) || null;
+          c.interoception = _it ? { salience: val(_it.salience), attend: val(_it.attend), divergence: num(_it.divergence), channelCount: num(_it.channelCount), integrated: num(_it.integrated) } : null;
+          c.stress = num(_st.stress);
+          c.phase = val(_st.phaseLabel || _st.phase);
           var r = await redisSet(PREFIX + dom, { c: c, ts: Date.now() }, TTL); if (r && r.ok) stored++;
           // predictionError is an OBJECT {total, novelty, stressError, ...} on the raw cognition
           // (compact() null'd it via num()). Read the scalar .total for γ.

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Master Brain — Operator Console</title>
+<style>
+  :root{
+    --bg:#0a0d17; --panel:#0f1320; --panel2:#12172a; --line:rgba(150,175,200,.12);
+    --gold:#c9a94e; --goldd:#e9dcb4; --txt:#e0e4f5; --mut:#8a93ad; --dim:#5c667e;
+    --calm:#5ab5a0; --mild:#c9a94e; --hot:#d98a5a; --alarm:#d96565; --blind:#c96fd9;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+  a{color:var(--gold);text-decoration:none} a:hover{text-decoration:underline}
+  .wrap{max-width:1180px;margin:0 auto;padding:22px 18px 90px}
+  header.top{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:6px}
+  h1{font-size:1.25rem;letter-spacing:2px;color:var(--goldd);margin:0;font-weight:600}
+  .sub{color:var(--mut);font-size:.82rem}
+  .asof{color:var(--dim);font-size:.72rem}
+  .refresh{background:var(--panel2);color:var(--goldd);border:1px solid rgba(201,169,78,.35);border-radius:8px;padding:5px 12px;font:600 12px system-ui;cursor:pointer}
+  .refresh:hover{background:#1b2440}
+
+  /* TODAY bar */
+  .today{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:16px 0 22px}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+  .stat .k{color:var(--mut);font-size:.62rem;letter-spacing:.6px;text-transform:uppercase}
+  .stat .v{font-size:1.5rem;font-weight:600;color:var(--goldd);margin-top:2px}
+  .stat .v small{font-size:.72rem;color:var(--mut);font-weight:400}
+
+  h2.sec{font-size:.82rem;letter-spacing:1.4px;text-transform:uppercase;color:var(--gold);margin:26px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+  .note{color:var(--dim);font-size:.74rem;margin:-6px 0 14px}
+
+  /* domain cards */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:12px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px 15px;border-left:3px solid var(--dim)}
+  .card.calm{border-left-color:var(--calm)} .card.mild{border-left-color:var(--mild)}
+  .card.hot{border-left-color:var(--hot)} .card.alarm{border-left-color:var(--alarm)}
+  .card.blind{border-left-color:var(--blind)}
+  .card h3{margin:0 0 6px;font-size:1rem;color:var(--goldd);display:flex;justify-content:space-between;align-items:center}
+  .card h3 .st{font-size:.66rem;color:var(--mut);font-weight:400;letter-spacing:.5px}
+  .say{font-size:.9rem;color:#d3d9ee;margin:4px 0 9px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+  .chip{font-size:.62rem;letter-spacing:.4px;padding:2px 8px;border-radius:9px;background:rgba(150,175,200,.09);border:1px solid var(--line);color:var(--mut)}
+  .chip.hot{background:rgba(217,138,90,.14);border-color:rgba(217,138,90,.4);color:#eab68c}
+  .chip.alarm{background:rgba(217,101,101,.14);border-color:rgba(217,101,101,.4);color:#e9a0a0}
+  .chip.blind{background:rgba(201,111,217,.14);border-color:rgba(201,111,217,.4);color:#e0a8ea}
+  .chip.calm{background:rgba(90,181,160,.13);border-color:rgba(90,181,160,.36);color:#9fd8c8}
+  .opp{font-size:.78rem;color:var(--mut);border-top:1px dashed var(--line);padding-top:7px;margin-top:3px}
+  .opp b{color:#cdd3ec;font-weight:600}
+
+  /* opportunity table */
+  table{width:100%;border-collapse:collapse;font-size:.84rem}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+  th{color:var(--mut);font-size:.64rem;letter-spacing:.6px;text-transform:uppercase;font-weight:600}
+  td.dom{color:var(--goldd)} td.cf{text-align:right;color:var(--calm);font-variant-numeric:tabular-nums;font-weight:600}
+  .tblwrap{overflow-x:auto;background:var(--panel);border:1px solid var(--line);border-radius:12px}
+
+  /* revenue desks */
+  .desks{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+  .desk{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:13px 15px;display:block}
+  .desk:hover{border-color:rgba(201,169,78,.4);text-decoration:none}
+  .desk .dn{color:var(--goldd);font-weight:600;font-size:.95rem}
+  .desk .dd{color:var(--mut);font-size:.74rem;margin-top:3px}
+  .desk .dc{color:var(--calm);font-size:.72rem;margin-top:6px}
+
+  .empty{color:var(--dim);padding:30px;text-align:center;font-size:.9rem}
+  .foot{color:var(--dim);font-size:.72rem;margin-top:30px;border-top:1px solid var(--line);padding-top:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>MASTER BRAIN · OPERATOR CONSOLE</h1>
+      <div class="sub">Every domain, plain language. What each one is doing, what to execute, where the money is. Admin / internal.</div>
+    </div>
+    <div style="text-align:right">
+      <button class="refresh" id="refresh">Refresh now</button>
+      <div class="asof" id="asof">warming up the brains…</div>
+    </div>
+  </header>
+
+  <div class="today" id="today"></div>
+
+  <h2 class="sec">What each domain is doing</h2>
+  <div class="note" id="dom-note">A one-line read of every domain's live self-model. Left edge = overall state; ⚠ purple = a hidden channel is alarmed while the money read looks calm.</div>
+  <div class="grid" id="domains"><div class="empty">Loading the 20 domain brains…</div></div>
+
+  <h2 class="sec">Opportunities to execute</h2>
+  <div class="note">Ranked by the engine's confidence across all domains (the brains score confidence, not dollar value — booked revenue lives in the deal desks below). Click a path to open it.</div>
+  <div class="tblwrap"><table id="opptbl"><thead><tr><th>Domain</th><th>Opportunity</th><th>Where</th><th style="text-align:right">Confidence</th></tr></thead><tbody id="oppbody"></tbody></table></div>
+
+  <h2 class="sec">Revenue · deal desks</h2>
+  <div class="note">The 20-domain brains are the intelligence layer. Actual deals + booked revenue are recorded per-deal in the P3 distress desks below (each admin-gated). This is where money is executed and tracked.</div>
+  <div class="desks" id="desks"></div>
+
+  <div class="foot" id="foot"></div>
+</div>
+
+<!-- ── data layer: snapshot + observation (brains need these for real numbers) ── -->
+<script src="assets/js/limen-fast-boot.js"></script>
+<script src="assets/js/shared-snapshot-engine.js"></script>
+<!-- ── brain stack (order matters: identity → base → resolvers → 20 brains → adapter) ── -->
+<script src="assets/js/domain-identity.js"></script>
+<script src="assets/js/domain-brains/domain-brain-base.js"></script>
+<script src="assets/js/domain-brains/portal-content-resolver.js"></script>
+<script src="assets/js/domain-brains/inter-brain-bus.js"></script>
+<script src="assets/js/interoceptive-divergence.js"></script>
+<script src="assets/js/domain-brains/domain-change-log.js"></script>
+<script src="assets/js/domain-brains/energy-brain.js"></script>
+<script src="assets/js/domain-brains/finance-brain.js"></script>
+<script src="assets/js/domain-brains/defense-brain.js"></script>
+<script src="assets/js/domain-brains/trade-brain.js"></script>
+<script src="assets/js/domain-brains/medicine-brain.js"></script>
+<script src="assets/js/domain-brains/agriculture-brain.js"></script>
+<script src="assets/js/domain-brains/communication-brain.js"></script>
+<script src="assets/js/domain-brains/culture-brain.js"></script>
+<script src="assets/js/domain-brains/economy-brain.js"></script>
+<script src="assets/js/domain-brains/education-brain.js"></script>
+<script src="assets/js/domain-brains/environment-brain.js"></script>
+<script src="assets/js/domain-brains/governance-brain.js"></script>
+<script src="assets/js/domain-brains/industry-brain.js"></script>
+<script src="assets/js/domain-brains/infrastructure-brain.js"></script>
+<script src="assets/js/domain-brains/intelligence-brain.js"></script>
+<script src="assets/js/domain-brains/law-brain.js"></script>
+<script src="assets/js/domain-brains/population-brain.js"></script>
+<script src="assets/js/domain-brains/religion-brain.js"></script>
+<script src="assets/js/domain-brains/science-brain.js"></script>
+<script src="assets/js/domain-brains/technology-brain.js"></script>
+<script src="assets/js/domain-brain-adapter.js"></script>
+<!-- ── the Ask-the-System master box (mounts itself; no ?domain= here) ── -->
+<script src="assets/js/master-consciousness-box.js"></script>
+
+<script>
+(function () {
+  'use strict';
+  var DESKS = [
+    { name: 'Homestead', href: '/admin-homestead', dd: 'Real estate — tax/foreclosure distress → owner mail (FL/OH/TX)' },
+    { name: 'Finance', href: '/admin-finance', dd: 'Corporate distress — EDGAR 8-K/going-concern → distressed-debt funds' },
+    { name: 'Industry', href: '/admin-industry', dd: 'Plant closings — WARN notices → asset buyers / rollups' },
+    { name: 'Technology', href: '/admin-technology', dd: 'Tech layoffs — layoffs.fyi → software rollups / IP buyers' },
+    { name: 'Medicine', href: '/admin-medicine', dd: 'Healthcare distress → wind-down advisors / acquirers' }
+  ];
+
+  function $(id){ return document.getElementById(id); }
+  function pct(v){ return (typeof v === 'number' && isFinite(v)) ? Math.round(v*100)+'%' : '?'; }
+  function cap(s){ s=String(s||''); return s.charAt(0).toUpperCase()+s.slice(1); }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c];}); }
+  function human(id){ return String(id||'').replace(/_/g,' ').toLowerCase(); }
+
+  function brains(){ var r=window.LIMENDomainBrains; return (r&&r.getAll)?r.getAll():{}; }
+  function summ(b){ try { return (typeof b.getEnergyStateSummary==='function')?b.getEnergyStateSummary():(typeof b.getStateSummary==='function')?b.getStateSummary():null; } catch(e){ return null; } }
+  function narrative(b){ try { var a=b.state&&b.state.cognition&&b.state.cognition.awareness; return a&&a.selfNarrative||null; } catch(e){ return null; } }
+
+  function tone(m){
+    var it = m.interoception;
+    if (it && it.salience === 'blind-channel') return 'blind';
+    var s = m.stress;
+    if (typeof s !== 'number') return '';
+    if (s < 0.25) return 'calm'; if (s < 0.5) return 'mild'; if (s < 0.7) return 'hot'; return 'alarm';
+  }
+  function toneWord(s){ if (typeof s!=='number') return 'no read'; if (s<0.25) return 'calm and steady'; if (s<0.5) return 'under mild load'; if (s<0.7) return 'stressed'; return 'highly stressed'; }
+
+  // plain-language one-liner for a domain
+  function say(m, b){
+    var nar = narrative(b);
+    var parts = [];
+    parts.push(m.label + ' is ' + toneWord(m.stress) + ' (stress ' + pct(m.stress) + ').');
+    var dx = (m.activeDiagnoses||[])[0];
+    if (dx) parts.push('Watching ' + human(dx.id) + (dx.blocked ? ' (blocked)' : '') + '.');
+    var it = m.interoception;
+    if (it && it.salience === 'blind-channel') parts.push('⚠ Looks calm on the money read, but its ' + it.attend + ' signal is alarmed — worth a look.');
+    else if (it && it.salience === 'financial-only') parts.push('Money read is stressed while its other signals are calm — possible overreaction.');
+    if (m.immune === 'alert') parts.push('Immune system on ALERT.');
+    else if (m.immune === 'active') parts.push('Immune system active.');
+    var oppN = (m.topOpportunities||[]).length;
+    parts.push(oppN ? (oppN + ' opportunit' + (oppN===1?'y':'ies') + ' ready.') : 'No opportunities surfaced.');
+    // prefer the brain's own self-narrative when it adds something
+    return (nar && nar.length > 20) ? (esc(nar) + ' ' + esc(parts.join(' '))) : esc(parts.join(' '));
+  }
+
+  function chips(m){
+    var out = [];
+    var t = tone(m);
+    out.push('<span class="chip '+(t==='calm'?'calm':t==='hot'||t==='alarm'?'alarm':'')+'">stress '+pct(m.stress)+'</span>');
+    if (m.phaseLabel || m.phase) out.push('<span class="chip">'+esc(m.phaseLabel||('phase '+m.phase))+'</span>');
+    if (m.regulation) out.push('<span class="chip">'+esc(m.regulation)+'</span>');
+    if (m.immune) out.push('<span class="chip '+(m.immune==='alert'||m.immune==='active'?'alarm':'calm')+'">immune '+esc(m.immune)+'</span>');
+    var it = m.interoception;
+    if (it && it.salience === 'blind-channel') out.push('<span class="chip blind">blind: '+esc(it.attend)+'</span>');
+    else if (it && it.salience === 'financial-only') out.push('<span class="chip">money-only alarm</span>');
+    return out.join('');
+  }
+
+  function collect(){
+    var all = brains(), out = [];
+    for (var k in all){ if(!all.hasOwnProperty(k)) continue; var b=all[k]; if(!b) continue; var m=summ(b); if(!m) continue; m._b=b; m.label=m.label||cap(k); m.domain=m.domain||k; out.push(m); }
+    return out;
+  }
+
+  function render(){
+    var ms = collect();
+    if (!ms.length){ return; }
+
+    // TODAY bar
+    var n=ms.length, ss=0, sc=0, blind=0, imm=0, opp=0;
+    for (var i=0;i<ms.length;i++){ var m=ms[i]; if(typeof m.stress==='number'){ss+=m.stress;sc++;} var it=m.interoception; if(it&&it.salience==='blind-channel')blind++; if(m.immune==='alert'||m.immune==='active')imm++; opp+=(m.topOpportunities||[]).length; }
+    var mean = sc?ss/sc:null;
+    var hottest = ms.slice().sort(function(a,b){return (b.stress||0)-(a.stress||0);})[0];
+    $('today').innerHTML =
+      stat('Domains online', n + ' <small>/ 20</small>') +
+      stat('Mean stress', pct(mean)) +
+      stat('Most stressed', hottest ? (esc(hottest.label)+' <small>'+pct(hottest.stress)+'</small>') : '—') +
+      stat('Blind-channel', blind + ' <small>hidden alarms</small>') +
+      stat('Immune flags', imm) +
+      stat('Opportunities', opp + ' <small>ready</small>');
+
+    // domain cards (most stressed / most divergent first)
+    var ordered = ms.slice().sort(function(a,b){
+      var ba=(a.interoception&&a.interoception.salience==='blind-channel')?1:0, bb=(b.interoception&&b.interoception.salience==='blind-channel')?1:0;
+      if (ba!==bb) return bb-ba; return (b.stress||0)-(a.stress||0);
+    });
+    var cards = ordered.map(function(m){
+      var top = (m.topOpportunities||[])[0];
+      return '<div class="card '+tone(m)+'"><h3>'+esc(m.label)+'<span class="st">'+esc(m.phaseLabel||m.phase||'')+'</span></h3>'+
+        '<div class="say">'+say(m, m._b)+'</div>'+
+        '<div class="chips">'+chips(m)+'</div>'+
+        (top ? '<div class="opp">Top opportunity: <b>'+esc(top.title)+'</b>'+(top.path?' · <a href="'+esc(top.path)+'">'+esc(top.path)+'</a>':'')+' · conf '+esc(top.confidence)+'</div>' : '')+
+      '</div>';
+    }).join('');
+    $('domains').innerHTML = cards;
+
+    // opportunities to execute
+    var opps = [];
+    for (var j=0;j<ms.length;j++){ var o=ms[j].topOpportunities||[]; for(var q=0;q<o.length;q++){ opps.push({dom:ms[j].label, title:o[q].title, path:o[q].path, cf:o[q].confidence}); } }
+    opps.sort(function(a,b){ return (b.cf||0)-(a.cf||0); });
+    $('oppbody').innerHTML = opps.length ? opps.slice(0,40).map(function(o){
+      return '<tr><td class="dom">'+esc(o.dom)+'</td><td>'+esc(o.title)+'</td><td>'+(o.path?'<a href="'+esc(o.path)+'">'+esc(o.path)+'</a>':'—')+'</td><td class="cf">'+esc(o.cf)+'</td></tr>';
+    }).join('') : '<tr><td colspan="4" class="empty">No opportunities surfaced across the domains yet — the brains are still cycling.</td></tr>';
+
+    // as-of
+    $('asof').textContent = 'live · ' + n + '/20 brains · updated ' + new Date().toLocaleTimeString();
+    $('foot').innerHTML = 'Reads each domain brain\'s live self-model in your browser (same engine as the cockpit). Opportunities are ranked by engine confidence, not dollar value. Booked revenue is tracked in the deal desks. Interoception is a Phase-1 confidence-weighted divergence read, not full active inference.';
+  }
+  function stat(k,v){ return '<div class="stat"><div class="k">'+k+'</div><div class="v">'+v+'</div></div>'; }
+
+  // desks (static links; real pipeline + revenue live inside each)
+  $('desks').innerHTML = DESKS.map(function(d){
+    return '<a class="desk" href="'+d.href+'"><div class="dn">'+esc(d.name)+' desk →</div><div class="dd">'+esc(d.dd)+'</div><div class="dc">open to see live pipeline + recorded revenue</div></a>';
+  }).join('');
+
+  // Drive the brains ourselves so the page is never empty (mirrors the server cron:
+  // two cycles so prediction-error/interoception populate), then render + keep fresh.
+  function cycleAll(){
+    var all = brains(), ps = [];
+    for (var k in all){ if(all.hasOwnProperty(k) && all[k] && typeof all[k].cycle==='function'){ try{ ps.push(Promise.resolve(all[k].cycle())); }catch(e){} } }
+    return Promise.all(ps).catch(function(){});
+  }
+  function warmAndRender(){ cycleAll().then(function(){ return cycleAll(); }).then(render); }
+
+  function boot(){
+    // give the brain scripts a beat to self-register, then warm + render
+    var tries = 0;
+    var iv = setInterval(function(){
+      tries++;
+      if (Object.keys(brains()).length >= 1 || tries > 20){ clearInterval(iv); warmAndRender(); }
+    }, 300);
+    // keep it fresh; re-render on brain updates too
+    setInterval(warmAndRender, 45000);
+    try { window.addEventListener('limen:domain-brain-update', function(){ render(); }); } catch(e){}
+    $('refresh').onclick = warmAndRender;
+  }
+  if (document.readyState !== 'loading') boot(); else document.addEventListener('DOMContentLoaded', boot);
+})();
+</script>
+</body>
+</html>

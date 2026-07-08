@@ -101,9 +101,17 @@
     };
   }
   var _cogPostThrottle = {};   // domainId → last server-POST ts (throttle to limit Redis writes)
-  function _mirrorCognition(domainId, cog) {
+  function _mirrorCognition(domainId, state) {
+    var cog = state && state.cognition;
     var c = _compactCognition(cog);
     if (!c) return;
+    // Augment the server feed with the multimodal interoception read + headline stress/phase
+    // so lightweight consumers (vitals, the master console fallback) see them without loading
+    // 20 live brains. Additive; older readers ignore the new fields.
+    var it = (state.interoception && typeof state.interoception === 'object') ? state.interoception : (cog && cog.interoception) || null;
+    c.interoception = it ? { salience: _val(it.salience), attend: _val(it.attend), divergence: _num(it.divergence), channelCount: _num(it.channelCount), integrated: _num(it.integrated) } : null;
+    c.stress = _num(state.stress);
+    c.phase = _val(state.phaseLabel || state.phase);
     // (1) localStorage — instant, same-device, offline
     try {
       if (typeof localStorage !== 'undefined') {
@@ -254,7 +262,7 @@
       // If LIMENDomains doesn't exist yet, still cache so we can apply later
       var payload = _buildPayload(bs);
       _payloadCache[domainId] = { payload: payload, capturedAt: Date.now() };
-      _mirrorCognition(domainId, bs.cognition);   // mirror self-model to localStorage for the Vitals page
+      _mirrorCognition(domainId, bs);   // mirror self-model (+interoception/stress/phase) to localStorage + server feed
 
       if (!target || typeof target !== 'object') return;
       if (!target[domainId]) target[domainId] = {};
