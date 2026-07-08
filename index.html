@@ -2,108 +2,310 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>LIMEN HELIX · Civilization, in real time</title>
-<meta name="description" content="LIMEN Helix maps 20 domains of civilization in real time. A living connectome of 465,939 portals across 123 brain nodes. Hover any domain to explore; free public tools live now.">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LIMEN HELIX · The living map of civilization</title>
+<meta name="description" content="LIMEN Helix models twenty domains of civilization as one brain-inspired connectome — sensing where systems fall out of regulation and converting that signal into opportunity. 465,939 portals. 123 nodes. One engine.">
 <meta name="google-site-verification" content="2xLI4zw_nL8XXPveYa48ALKWg6WDC86VzvtRvV6HayA" />
 <link rel="canonical" href="https://limenhelix.com/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://limenhelix.com/">
-<meta property="og:title" content="LIMEN HELIX · Civilization, in real time">
-<meta property="og:description" content="A living connectome of 20 domains and 465,939 portals, read in real time. Hover any domain to explore.">
+<meta property="og:title" content="LIMEN HELIX · The living map of civilization">
+<meta property="og:description" content="Twenty domains of civilization, modeled as one living connectome. Sense distress, surface opportunity.">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{background:#050810;color:#e8e3d9;font-family:monospace;overflow:hidden;height:100%;width:100%;-webkit-user-select:none;user-select:none}
-canvas#stars{position:fixed;inset:0;width:100%;height:100%;z-index:0;background:#03030a}
-canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background:transparent}
-.scanline{position:fixed;inset:0;z-index:5;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.02) 2px,rgba(0,0,0,0.02) 4px)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --bg:#05070f; --ink:#e9ecf6; --mut:#9aa6be; --dim:#6a7286;
+    --gold:#c9a94e; --gold2:#e6cd82; --goldd:#efe2b4;
+    --line:rgba(150,175,210,.12); --glass:rgba(10,15,28,.55);
+  }
+  html{scroll-behavior:smooth}
+  body{background:#05070f;color:#e9ecf6;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3,.serif{font-family:Georgia,"Times New Roman",serif}
+  ::selection{background:rgba(201,169,78,.3);color:#fff}
 
-/* public top bar */
-.topbar{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:14px 20px}
-.topbar .brand{font-family:Georgia,serif;font-size:1.05rem;letter-spacing:.22em;color:rgba(201,169,78,0.9);text-shadow:0 0 16px rgba(201,169,78,.4)}
-.topbar .brand b{font-weight:700}
-.adminbtn{font-size:.55rem;letter-spacing:2px;text-transform:uppercase;color:rgba(201,169,78,0.55);border:1px solid rgba(201,169,78,0.3);padding:7px 13px;border-radius:3px;background:rgba(5,8,16,0.5);cursor:pointer;font-family:monospace}
-.adminbtn:hover{color:#fff;border-color:rgba(201,169,78,0.8)}
+  /* ── moving galaxy backdrop ── */
+  canvas#stars{position:fixed;inset:0;width:100%;height:100%;z-index:0;background:#03030a}
+  .vignette{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(120% 90% at 30% 15%,transparent 40%,rgba(5,7,15,.55) 78%,rgba(5,7,15,.9) 100%)}
+  .wrap{position:relative;z-index:2}
 
-/* center label */
-.center-label{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:50;text-align:center;pointer-events:none}
-.center-label .title{font-size:clamp(1.1rem,3.6vw,1.8rem);font-weight:100;letter-spacing:clamp(6px,2vw,14px);opacity:0.05;font-family:Georgia,serif;color:rgba(140,170,200,0.6)}
-.center-label .subtitle{font-size:clamp(0.42rem,1.3vw,0.56rem);letter-spacing:clamp(4px,1.5vw,9px);text-transform:uppercase;opacity:0.22;margin-top:4px;color:rgba(140,170,200,0.4)}
+  /* ── nav ── */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;
+      padding:16px 30px;backdrop-filter:blur(10px);background:linear-gradient(180deg,rgba(5,7,15,.82),rgba(5,7,15,0));transition:.3s}
+  nav.scrolled{background:rgba(5,7,15,.9);border-bottom:1px solid var(--line);padding:11px 30px}
+  nav .brand{font-family:Georgia,serif;font-size:1.12rem;letter-spacing:.24em;color:var(--goldd);text-shadow:0 0 20px rgba(201,169,78,.35)}
+  nav .brand b{font-weight:700;color:#fff}
+  nav .links{display:flex;align-items:center;gap:30px}
+  nav .links a{font-size:.78rem;letter-spacing:.08em;color:var(--mut);transition:.2s;text-transform:uppercase}
+  nav .links a:hover{color:var(--goldd)}
+  nav .enter{border:1px solid rgba(201,169,78,.4);color:var(--goldd);padding:8px 16px;border-radius:4px;background:rgba(201,169,78,.06)}
+  nav .enter:hover{background:rgba(201,169,78,.16);border-color:var(--gold)}
+  @media(max-width:820px){nav .links a:not(.enter){display:none}}
 
-/* hud */
-.hud{position:fixed;z-index:100;font-size:clamp(0.34rem,1vw,0.44rem);letter-spacing:2px;text-transform:uppercase;color:rgba(201,169,78,0.4)}
-.hud-tr{top:52px;right:16px;text-align:right}.hud-bl{bottom:74px;left:16px}
-.headline{position:fixed;top:17px;left:0;right:0;z-index:150;text-align:center;padding:0 16px;pointer-events:none;font-family:Georgia,serif;font-size:clamp(.7rem,2vw,.98rem);letter-spacing:.05em;color:rgba(201,169,78,0.82);text-shadow:0 0 18px rgba(0,0,0,.8)}
-.headline b{color:#fff;font-weight:700}
-/* Phone: the stats headline crowds the small viewport — hide it (desktop keeps it).
-   The hover dimming effect is suppressed on touch devices in the galaxy renderer. */
-@media (max-width:640px){.headline{display:none}}
+  .container{max-width:1180px;margin:0 auto;padding:0 26px}
 
-/* tooltip (engine-driven) */
-#tooltip{position:fixed;z-index:400;background:rgba(5,8,16,0.96);border:1px solid rgba(140,170,200,0.15);padding:14px 18px;max-width:340px;width:max-content;pointer-events:none;display:none;font-family:monospace}
-#tooltip .tt-phase{font-size:0.5rem;letter-spacing:3px;text-transform:uppercase;margin-bottom:4px}
-#tooltip .tt-name{font-size:clamp(0.85rem,2.8vw,1rem);color:rgba(180,200,220,0.9);letter-spacing:2px;margin-bottom:2px}
-#tooltip .tt-tagline{font-family:Georgia,serif;font-size:0.8rem;color:rgba(180,200,220,0.45);line-height:1.5;margin-bottom:8px}
-#tooltip .tt-counts{font-family:monospace;font-size:0.62rem;letter-spacing:.5px;color:rgba(201,169,78,0.75);margin-bottom:8px}
-#tooltip .tt-counts b{color:#fff;font-weight:700}
-#tooltip .tt-enter{font-size:0.5rem;letter-spacing:3px;color:rgba(140,170,200,0.5);text-transform:uppercase}
-#subMenu{display:none}
+  /* ── hero ── */
+  .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:120px 26px 80px;max-width:1180px;margin:0 auto}
+  .eyebrow{font-size:.72rem;letter-spacing:.42em;text-transform:uppercase;color:var(--gold);margin-bottom:26px;opacity:.9}
+  .hero h1{font-size:clamp(2.3rem,6.2vw,4.6rem);line-height:1.06;font-weight:400;letter-spacing:-.01em;color:#fff;max-width:16ch;text-shadow:0 4px 40px rgba(0,0,0,.6)}
+  .hero h1 em{font-style:italic;color:var(--goldd)}
+  .hero .lede{margin-top:26px;font-size:clamp(1.02rem,2.1vw,1.28rem);color:var(--mut);max-width:60ch;line-height:1.65}
+  .hero .cta{margin-top:40px;display:flex;flex-wrap:wrap;gap:14px}
+  .btn{display:inline-flex;align-items:center;gap:9px;font-size:.92rem;letter-spacing:.02em;padding:14px 26px;border-radius:6px;transition:.22s;font-weight:500}
+  .btn-primary{background:linear-gradient(180deg,var(--gold2),var(--gold));color:#0a0a12;font-weight:700;box-shadow:0 6px 30px rgba(201,169,78,.28)}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 40px rgba(201,169,78,.4)}
+  .btn-ghost{border:1px solid var(--line);color:var(--ink);background:var(--glass)}
+  .btn-ghost:hover{border-color:rgba(201,169,78,.5);color:var(--goldd)}
+  .scrollhint{margin-top:64px;font-size:.66rem;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);opacity:.6}
 
-/* intro + tools */
-.intro{position:fixed;left:0;right:0;bottom:0;z-index:120;text-align:center;padding:0 18px 18px;pointer-events:none}
-.intro p{max-width:640px;margin:0 auto 12px;font-family:Georgia,serif;font-size:clamp(.74rem,2vw,.92rem);line-height:1.6;color:rgba(232,227,217,0.62)}
-.intro .em{color:rgba(201,169,78,0.9)}
-.tools{pointer-events:auto}
-.tools a{color:#06060e;font-weight:700;background:#d8b85a;border-radius:18px;padding:7px 13px;display:inline-block;margin:4px;box-shadow:0 2px 12px rgba(0,0,0,.55);font-family:Georgia,serif;font-size:.78rem;text-decoration:none;transition:.2s}
-.tools a:hover{background:#e9cd74;transform:translateY(-2px)}
-.tools .lab{display:block;font-family:monospace;font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(232,227,217,0.4);margin-bottom:6px}
+  /* ── scale band ── */
+  .band{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(8,11,22,.55);backdrop-filter:blur(6px)}
+  .band .container{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding-top:34px;padding-bottom:34px}
+  .stat{text-align:center;padding:8px}
+  .stat .n{font-family:Georgia,serif;font-size:clamp(1.5rem,3.4vw,2.5rem);color:var(--goldd);line-height:1;letter-spacing:-.01em}
+  .stat .l{font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);margin-top:9px}
+  @media(max-width:720px){.band .container{grid-template-columns:repeat(2,1fr);gap:18px}.stat:last-child{grid-column:span 2}}
 
-#entry-veil{position:fixed;inset:0;z-index:60;background:#050810;pointer-events:none;transition:opacity 2s}
+  /* ── sections ── */
+  section.blk{padding:100px 0;position:relative}
+  .sec-head{max-width:760px;margin-bottom:52px}
+  .sec-head .kick{font-size:.72rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+  .sec-head h2{font-size:clamp(1.8rem,4vw,2.9rem);font-weight:400;color:#fff;line-height:1.12;letter-spacing:-.01em}
+  .sec-head p{margin-top:18px;font-size:1.06rem;color:var(--mut);max-width:62ch}
 
-/* admin overlay */
-.ov{position:fixed;inset:0;background:rgba(0,0,0,0.94);display:none;align-items:center;justify-content:center;z-index:600;padding:24px;backdrop-filter:blur(6px)}
-.ov.show{display:flex}
-.card{background:#06060e;border:1px solid rgba(201,169,78,0.35);padding:34px 30px 26px;max-width:360px;width:100%;text-align:center;position:relative;font-family:Georgia,serif}
-.card .lbl{font-size:.62rem;letter-spacing:6px;color:rgba(201,169,78,.85);text-transform:uppercase;margin-bottom:22px}
-.card input{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(201,169,78,0.35);color:#efe9d8;font-family:Georgia,serif;font-size:1rem;padding:10px 4px;letter-spacing:2px;text-align:center;outline:none}
-.card button{margin-top:20px;background:transparent;border:1px solid rgba(201,169,78,0.45);color:rgba(201,169,78,.85);font-family:Georgia,serif;font-size:.7rem;letter-spacing:4px;text-transform:uppercase;padding:10px 24px;cursor:pointer}
-.card .x{position:absolute;top:8px;right:12px;background:none;border:none;color:rgba(239,233,216,.4);font-size:1.2rem;cursor:pointer}
-.card .err{margin-top:12px;min-height:14px;font-size:.62rem;letter-spacing:2px;color:rgba(220,120,100,.85);text-transform:uppercase}
+  /* pillars */
+  .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .pill{background:var(--glass);border:1px solid var(--line);border-radius:14px;padding:30px 26px;backdrop-filter:blur(8px);transition:.25s}
+  .pill:hover{border-color:rgba(201,169,78,.35);transform:translateY(-4px);background:rgba(14,20,36,.62)}
+  .pill .ix{font-family:Georgia,serif;font-size:.9rem;color:var(--gold);letter-spacing:.2em;margin-bottom:18px}
+  .pill h3{font-size:1.32rem;color:var(--goldd);margin-bottom:12px;font-weight:400}
+  .pill p{color:var(--mut);font-size:.96rem}
+  @media(max-width:820px){.pillars{grid-template-columns:1fr}}
+
+  /* sector grid */
+  .sectors{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+  .sector{display:block;background:rgba(10,14,26,.5);border:1px solid var(--line);border-radius:11px;padding:18px 16px;transition:.2s;position:relative;overflow:hidden}
+  .sector:hover{border-color:rgba(201,169,78,.45);background:rgba(16,22,40,.7);transform:translateY(-3px)}
+  .sector .sn{font-size:1rem;color:var(--ink);letter-spacing:.02em;font-weight:600}
+  .sector .sd{font-size:.72rem;color:var(--mut);margin-top:5px;line-height:1.4}
+  .sector .go{position:absolute;top:14px;right:14px;color:var(--gold);opacity:0;transition:.2s;font-size:.8rem}
+  .sector:hover .go{opacity:.9}
+  @media(max-width:1000px){.sectors{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:600px){.sectors{grid-template-columns:repeat(2,1fr)}}
+
+  /* deal engines */
+  .desks{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .desk{background:linear-gradient(160deg,rgba(16,20,36,.7),rgba(9,12,22,.6));border:1px solid var(--line);border-radius:14px;padding:26px 24px;transition:.25s}
+  .desk:hover{border-color:rgba(201,169,78,.4);transform:translateY(-4px)}
+  .desk .tag{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+  .desk h3{font-size:1.24rem;color:#fff;font-weight:400;margin-bottom:9px}
+  .desk p{color:var(--mut);font-size:.92rem}
+  @media(max-width:900px){.desks{grid-template-columns:1fr}}
+
+  /* tech split */
+  .split{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+  .split .lead{font-size:clamp(1.4rem,3vw,2.1rem);font-family:Georgia,serif;color:#fff;line-height:1.3;font-weight:400}
+  .split .lead em{color:var(--goldd);font-style:italic}
+  .split ul{list-style:none;margin-top:8px}
+  .split li{padding:16px 0;border-top:1px solid var(--line);color:var(--mut);font-size:.98rem}
+  .split li b{color:var(--goldd);font-weight:600;display:block;margin-bottom:3px;font-size:1rem;font-family:Georgia,serif}
+  @media(max-width:860px){.split{grid-template-columns:1fr;gap:30px}}
+
+  /* closing cta */
+  .close{text-align:center;padding:120px 26px}
+  .close h2{font-size:clamp(2rem,5vw,3.4rem);color:#fff;font-weight:400;line-height:1.14;max-width:20ch;margin:0 auto}
+  .close h2 em{color:var(--goldd);font-style:italic}
+  .close .cta{margin-top:36px;display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+
+  /* footer */
+  footer{border-top:1px solid var(--line);background:rgba(5,7,14,.82);backdrop-filter:blur(8px);padding:56px 0 30px}
+  .fgrid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:30px}
+  footer .brand{font-family:Georgia,serif;font-size:1.05rem;letter-spacing:.2em;color:var(--goldd)}
+  footer .brand b{color:#fff}
+  footer .tagline{color:var(--mut);font-size:.88rem;margin-top:14px;max-width:38ch}
+  .fcol h4{font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+  .fcol a{display:block;color:var(--mut);font-size:.86rem;padding:5px 0;transition:.2s}
+  .fcol a:hover{color:var(--goldd)}
+  .fbottom{margin-top:44px;padding-top:22px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;color:var(--dim);font-size:.72rem}
+  @media(max-width:760px){.fgrid{grid-template-columns:1fr 1fr}.fcol:first-child{grid-column:span 2}}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+
+  /* admin overlay */
+  .ov{position:fixed;inset:0;background:rgba(0,0,0,.94);display:none;align-items:center;justify-content:center;z-index:600;padding:24px;backdrop-filter:blur(6px)}
+  .ov.show{display:flex}
+  .ovcard{background:#06060e;border:1px solid rgba(201,169,78,.35);padding:34px 30px 26px;max-width:360px;width:100%;text-align:center;position:relative;font-family:Georgia,serif}
+  .ovcard .lbl{font-size:.62rem;letter-spacing:6px;color:rgba(201,169,78,.85);text-transform:uppercase;margin-bottom:22px}
+  .ovcard input{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(201,169,78,.35);color:#efe9d8;font-family:Georgia,serif;font-size:1rem;padding:10px 4px;letter-spacing:2px;text-align:center;outline:none}
+  .ovcard button{margin-top:20px;background:transparent;border:1px solid rgba(201,169,78,.45);color:rgba(201,169,78,.85);font-family:Georgia,serif;font-size:.7rem;letter-spacing:4px;text-transform:uppercase;padding:10px 24px;cursor:pointer}
+  .ovcard .x{position:absolute;top:8px;right:12px;background:none;border:none;color:rgba(239,233,216,.4);font-size:1.2rem;cursor:pointer}
+  .ovcard .err{margin-top:12px;min-height:14px;font-size:.62rem;letter-spacing:2px;color:rgba(220,120,100,.85);text-transform:uppercase}
 </style>
 </head>
 <body>
 
-<div class="topbar">
-  <span class="brand">⊹ LIMEN <b>HELIX</b></span>
-  <button class="adminbtn" id="adminBtn">Admin</button>
-</div>
-<div class="headline"><b>20</b> domains · <b>123</b> brain nodes · <b>465,939</b> portals · <b>~880K</b> diagnoses · <b>~8.2M</b> treatments</div>
-
 <canvas id="stars"></canvas>
-<canvas id="c"></canvas>
-<div class="scanline"></div>
+<div class="vignette"></div>
 
-<div class="center-label">
-  <div class="title">CIVILIZATION</div>
-  <div class="subtitle">System Atlas · 20 Sectors · Live</div>
-</div>
-<div class="hud hud-tr">CONNECTOME</div>
-<div class="hud hud-bl">20 DOMAINS · 30 PATHWAYS</div>
+<nav id="nav">
+  <a href="/" class="brand">⊹ LIMEN <b>HELIX</b></a>
+  <div class="links">
+    <a href="#approach">Approach</a>
+    <a href="#sectors">Sectors</a>
+    <a href="#desks">Deal engines</a>
+    <a href="/atlas">Live atlas</a>
+    <a href="#" class="enter" id="enterBtn">Enter</a>
+  </div>
+</nav>
 
-<div id="tooltip">
-  <div class="tt-phase" id="ttPhase"></div>
-  <div class="tt-name" id="ttName"></div>
-  <div class="tt-tagline" id="ttTagline"></div>
-  <div class="tt-counts" id="ttCounts"></div>
-  <div class="tt-enter" id="ttEnter"></div>
-</div>
-<div id="subMenu"></div>
+<div class="wrap">
 
-<div id="entry-veil"></div>
+  <!-- HERO -->
+  <header class="hero">
+    <div class="reveal in">
+      <div class="eyebrow">Civilization-scale intelligence</div>
+      <h1>One connectome for <em>twenty domains</em> of civilization.</h1>
+      <p class="lede">LIMEN Helix models the real economy the way a brain monitors its own body — sensing where any system falls out of regulation, and turning that signal into opportunity. Twenty domains. 465,939 portals. One engine.</p>
+      <div class="cta">
+        <a href="/atlas" class="btn btn-primary">Explore the live atlas →</a>
+        <a href="#approach" class="btn btn-ghost">How it works</a>
+      </div>
+      <div class="scrollhint">Scroll to descend ↓</div>
+    </div>
+  </header>
 
-<!-- admin -->
+  <!-- SCALE BAND -->
+  <div class="band">
+    <div class="container">
+      <div class="stat reveal"><div class="n">20</div><div class="l">Domains</div></div>
+      <div class="stat reveal"><div class="n">123</div><div class="l">Brain nodes</div></div>
+      <div class="stat reveal"><div class="n">465,939</div><div class="l">Portals mapped</div></div>
+      <div class="stat reveal"><div class="n">880K+</div><div class="l">Diagnoses</div></div>
+      <div class="stat reveal"><div class="n">8.2M+</div><div class="l">Treatments</div></div>
+    </div>
+  </div>
+
+  <!-- APPROACH -->
+  <section class="blk container" id="approach">
+    <div class="sec-head reveal">
+      <div class="kick">The approach</div>
+      <h2>Sense. Map. Act.</h2>
+      <p>Most systems watch one number. LIMEN watches the way a nervous system does — many channels at once, integrated into a single read of health, then routed to where it creates value.</p>
+    </div>
+    <div class="pillars">
+      <div class="pill reveal">
+        <div class="ix">01 · SENSE</div>
+        <h3>Multimodal interoception</h3>
+        <p>Every domain runs a brain-inspired self-model that reads its own distress across financial, predictive, regulatory, immune and forward-looking channels — and flags when the money read disagrees with the rest.</p>
+      </div>
+      <div class="pill reveal">
+        <div class="ix">02 · MAP</div>
+        <h3>A living connectome</h3>
+        <p>465,939 portals across 123 nodes, organized as one navigable map of civilization's moving parts — every sector, continuously re-read and cross-linked.</p>
+      </div>
+      <div class="pill reveal">
+        <div class="ix">03 · ACT</div>
+        <h3>Distress to opportunity</h3>
+        <p>Where a system falls out of regulation, LIMEN surfaces the counterparty who benefits — and routes it to a live desk built to move on it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTORS -->
+  <section class="blk container" id="sectors">
+    <div class="sec-head reveal">
+      <div class="kick">Coverage</div>
+      <h2>Twenty sectors of the real economy.</h2>
+      <p>Each domain is its own live front with free public instruments. Open any one.</p>
+    </div>
+    <div class="sectors" id="sectorGrid"></div>
+  </section>
+
+  <!-- DEAL ENGINES -->
+  <section class="blk container" id="desks">
+    <div class="sec-head reveal">
+      <div class="kick">Deal engines</div>
+      <h2>Where distress becomes a deal.</h2>
+      <p>Live intelligence feeds that detect early distress from public signals and match it to the counterparty positioned to act — data, not brokerage.</p>
+    </div>
+    <div class="desks">
+      <div class="desk reveal"><div class="tag">Real estate</div><h3>Homestead</h3><p>Tax and foreclosure distress across counties, enriched to a mailable owner and routed to acquirers.</p></div>
+      <div class="desk reveal"><div class="tag">Corporate</div><h3>Distress feed</h3><p>SEC 8-K bankruptcy, default and going-concern filings, ranked and matched to distressed-debt funds and restructuring advisors.</p></div>
+      <div class="desk reveal"><div class="tag">Industry</div><h3>Plant closings</h3><p>WARN closure notices surfaced early and matched to asset buyers and roll-ups.</p></div>
+      <div class="desk reveal"><div class="tag">Technology</div><h3>Layoff signal</h3><p>Workforce contraction across tech, ranked by scale and routed to software roll-ups and IP-asset buyers.</p></div>
+      <div class="desk reveal"><div class="tag">Healthcare</div><h3>Recall intelligence</h3><p>Drug and device enforcement actions classified by severity and matched to mass-tort counsel.</p></div>
+      <div class="desk reveal" style="display:flex;align-items:center;justify-content:center;text-align:center;border-style:dashed"><p style="color:var(--gold)">+ new instances stand up in a single build — one spine, any distress.</p></div>
+    </div>
+  </section>
+
+  <!-- TECHNOLOGY -->
+  <section class="blk container">
+    <div class="split">
+      <div class="reveal">
+        <div class="kick" style="font-size:.72rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);margin-bottom:16px">The engine</div>
+        <div class="lead">One engine, per-domain weights. Modeled on <em>how a brain monitors its own health</em> — then pointed at everything else.</div>
+      </div>
+      <div class="reveal">
+        <ul>
+          <li><b>Substrate-independent</b>The same regulatory dynamics that govern a nervous system govern a balance sheet, a supply chain, a population. LIMEN maps from the most evolved regulator we know.</li>
+          <li><b>Divergence, not a single number</b>The platform's edge is catching the blind channel — the moment the financial read looks calm while another signal is already alarmed.</li>
+          <li><b>Continuously re-read</b>The connectome is updated on a cadence, not frozen. Readouts are analytical and honest about their own confidence.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSE -->
+  <section class="close">
+    <div class="reveal">
+      <h2>This is civilization, <em>in motion.</em></h2>
+      <div class="cta">
+        <a href="/atlas" class="btn btn-primary">Enter the live atlas →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="fgrid">
+        <div>
+          <div class="brand">⊹ LIMEN <b>HELIX</b></div>
+          <div class="tagline">A living map of twenty domains of civilization — sensing distress, surfacing opportunity.</div>
+        </div>
+        <div class="fcol">
+          <h4>Platform</h4>
+          <a href="#approach">Approach</a>
+          <a href="#sectors">Sectors</a>
+          <a href="#desks">Deal engines</a>
+          <a href="/atlas">Live atlas</a>
+        </div>
+        <div class="fcol">
+          <h4>Sectors</h4>
+          <a href="/finance">Finance</a>
+          <a href="/energy">Energy</a>
+          <a href="/technology">Technology</a>
+          <a href="/fitness">Health</a>
+        </div>
+        <div class="fcol">
+          <h4>Access</h4>
+          <a href="#" id="enterBtn2">Operator entrance</a>
+        </div>
+      </div>
+      <div class="fbottom">
+        <span>© 2026 LIMEN Helix. All rights reserved.</span>
+        <span>Analytical intelligence, continuously updated. Figures reflect the mapped corpus. Not financial, legal, or investment advice.</span>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- /wrap -->
+
+<!-- admin overlay -->
 <div class="ov" id="ov">
-  <div class="card">
+  <div class="ovcard">
     <button class="x" id="ovX" aria-label="close">&times;</button>
     <div class="lbl">Authorized Access</div>
     <form id="ovForm">
@@ -114,42 +316,65 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
   </div>
 </div>
 
-<script src="assets/js/limen-ui-state.js"></script>
-<script src="assets/js/civilization-connectome-galaxy.js?v=hs20260705b"></script>
 <script>
+/* ── sectors ── */
 (function(){
-  'use strict';
-  // PUBLIC routing only — clicks never reach gated pages. Every domain has a free
-  // public front; each node id maps to its own route (medicine → the fitness front).
-  var PUBLIC = {};
-  ['economy','environment','technology','science','trade','governance','agriculture',
-   'industry','education','communication','defense','religion','population','law','finance',
-   'intelligence','energy','culture','infrastructure'].forEach(function(d){ PUBLIC[d] = '/' + d; });
-  PUBLIC.medicine = '/fitness';
-  function onNodeClick(n){
-    var url = n && (PUBLIC[n.id] || PUBLIC[(n.childUniverse||'').toLowerCase()]);
-    if (url) window.location.href = url;
-    // else: no navigation — hover tooltip already shows the sector's state
-  }
-  if (window.CivilizationConnectome) {
-    CivilizationConnectome.init('c', { miniMode:false, focusDomain:null, onNodeClick:onNodeClick });
-  }
-  var v=document.getElementById('entry-veil');
-  setTimeout(function(){ if(v){ v.style.opacity='0'; setTimeout(function(){ v.remove(); },2000); } },300);
+  var S = [
+    ['Finance','Capital, credit, distress','/finance'],
+    ['Energy','Grids, power, generation','/energy'],
+    ['Technology','Software, hardware, layoffs','/technology'],
+    ['Health','Medicine, safety, recalls','/fitness'],
+    ['Defense','Security, deterrence','/defense'],
+    ['Trade','Supply chains, logistics','/trade'],
+    ['Industry','Manufacturing, plants','/industry'],
+    ['Infrastructure','Build, transport','/infrastructure'],
+    ['Agriculture','Food, land, yield','/agriculture'],
+    ['Economy','Markets, output','/economy'],
+    ['Governance','Policy, institutions','/governance'],
+    ['Law','Courts, compliance','/law'],
+    ['Intelligence','Signals, analysis','/intelligence'],
+    ['Communication','Networks, media','/communication'],
+    ['Culture','Media, attention','/culture'],
+    ['Education','Learning, credentials','/education'],
+    ['Environment','Climate, ecosystems','/environment'],
+    ['Population','Demographics, migration','/population'],
+    ['Science','Research, discovery','/science'],
+    ['Religion','Belief, community','/religion']
+  ];
+  var g = document.getElementById('sectorGrid');
+  g.innerHTML = S.map(function(s){
+    return '<a class="sector" href="'+s[2]+'"><span class="go">→</span><div class="sn">'+s[0]+'</div><div class="sd">'+s[1]+'</div></a>';
+  }).join('');
 })();
 
-/* admin: passcode → /api/admin-auth → /admin */
+/* ── nav scroll state + reveal ── */
 (function(){
-  var btn=document.getElementById('adminBtn'),ov=document.getElementById('ov'),
-      f=document.getElementById('ovForm'),pw=document.getElementById('ovPw'),
+  var nav = document.getElementById('nav');
+  addEventListener('scroll', function(){ nav.classList.toggle('scrolled', window.scrollY > 40); }, {passive:true});
+  var reveals = document.querySelectorAll('.reveal');
+  function showAll(){ reveals.forEach(function(el){ el.classList.add('in'); }); }
+  if(!('IntersectionObserver' in window)){ showAll(); return; }   // old browsers: never leave content hidden
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:.12});
+  reveals.forEach(function(el){ io.observe(el); });
+  setTimeout(showAll, 3000);   // failsafe: reveal anything still hidden
+})();
+
+/* ── admin: passcode → /api/admin-auth → /admin ── */
+(function(){
+  var ov=document.getElementById('ov'),f=document.getElementById('ovForm'),pw=document.getElementById('ovPw'),
       err=document.getElementById('ovErr'),x=document.getElementById('ovX');
-  function show(){ov.classList.add('show');setTimeout(function(){pw.focus();},50);}
-  function hide(){ov.classList.remove('show');err.textContent='';pw.value='';}
-  btn.addEventListener('click',show); x.addEventListener('click',hide);
-  ov.addEventListener('click',function(e){if(e.target===ov)hide();});
+  function show(e){ if(e)e.preventDefault(); ov.classList.add('show'); setTimeout(function(){pw.focus();},50); }
+  function hide(){ ov.classList.remove('show'); err.textContent=''; pw.value=''; }
+  var b1=document.getElementById('enterBtn'), b2=document.getElementById('enterBtn2');
+  if(b1)b1.addEventListener('click',show); if(b2)b2.addEventListener('click',show);
+  x.addEventListener('click',hide);
+  ov.addEventListener('click',function(e){ if(e.target===ov)hide(); });
   document.addEventListener('keydown',function(e){
     if((e.ctrlKey||e.metaKey)&&e.shiftKey&&(e.key==='A'||e.key==='a')){e.preventDefault();show();}
-    if(e.key==='Escape')hide();});
+    if(e.key==='Escape')hide();
+  });
   f.addEventListener('submit',function(e){e.preventDefault();var val=(pw.value||'').trim();
     if(!val){err.textContent='Enter code';return;} err.textContent='checking…';
     fetch('/api/admin-auth',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({passcode:val})})
@@ -160,9 +385,9 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
   });
 })();
 </script>
+
 <script>
-/* Animated galaxy backdrop — opaque base + vivid additive nebula (purple/magenta/blue + warm core)
-   + dense twinkling stars. The connectome floats transparently above this. */
+/* Animated galaxy backdrop — opaque base + vivid additive nebula + dense twinkling stars. */
 (function(){
   var cv=document.getElementById('stars'); if(!cv) return; var ctx=cv.getContext('2d');
   var dpr=Math.min(window.devicePixelRatio||1,2), stars=[], neb=[], W=0, H=0, RAD=0;
@@ -171,7 +396,7 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
   function gauss(){ return (Math.random()+Math.random()+Math.random()-1.5)/1.5; }
   function build(){
     W=cv.width=innerWidth*dpr; H=cv.height=innerHeight*dpr; RAD=Math.sqrt(W*W+H*H)/2;
-    var n=Math.floor(innerWidth*innerHeight/380); stars=[];
+    var n=Math.floor(innerWidth*innerHeight/460); stars=[];
     for(var i=0;i<n;i++){
       var x,y;
       if(Math.random()<0.5){ var u=rand(-RAD,RAD), v=gauss()*RAD*0.5; x=W/2+u*cosB-v*sinB; y=H/2+u*sinB+v*cosB; }
@@ -188,7 +413,7 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
     }
     for(var m=0;m<30;m++){ var pu=rand(-RAD*0.9,RAD*0.9), pv=gauss()*RAD*0.17;
       neb.push({ x:W/2+pu*cosB-pv*sinB, y:H/2+pu*sinB+pv*cosB, r:rand(RAD*0.05,RAD*0.15), c:pal[(Math.random()*pal.length)|0], a:rand(0.05,0.12) }); }
-    var cx=W*0.30, cy=H*0.70; // warm galactic core, lower-left
+    var cx=W*0.30, cy=H*0.70;
     neb.push({ x:cx, y:cy, r:RAD*0.62, c:'232,165,110', a:0.24 });
     neb.push({ x:cx, y:cy, r:RAD*0.34, c:'245,200,150', a:0.22 });
     neb.push({ x:W*0.46, y:H*0.56, r:RAD*0.46, c:'212,120,150', a:0.15 });
