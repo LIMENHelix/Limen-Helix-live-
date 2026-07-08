@@ -66,8 +66,7 @@ footer{color:var(--mut);font-size:13px;padding:30px 0 50px;border-top:1px solid 
     <p class="lede">The moment the FDA pulls a drug or device, you hear about it — watched for you around the clock, so a recall never slips past your practice. No contract, no catch.</p>
     <div class="cta-row">
       <a class="btn" href="#start">Start free recall alerts →</a>
-      <!-- TODO(operator): point this at your Calendly link -->
-      <a class="btn ghost" href="#start">Book a 10-min call</a>
+      <a class="btn ghost" id="bookcall" href="#start">Book a 10-min call</a>
     </div>
     <div class="trust">Set up in ~2 min · no call required · covers every FDA drug &amp; device recall · we never touch patient data</div>
   </div>
@@ -96,16 +95,16 @@ footer{color:var(--mut);font-size:13px;padding:30px 0 50px;border-top:1px solid 
   <p class="sub">Each add-on does one job. Switch it on when you need it. Cancel anytime.</p>
   <div class="mods">
     <div class="mod free"><span class="price">Free</span><h3>Weekly Recall Digest</h3><p>Every FDA drug &amp; device recall from the past week, ranked by severity. The anchor — always free.</p></div>
-    <div class="mod"><span class="price">$29/mo</span><h3>Tuned Monitoring</h3><p>Alerts filtered to the drugs, devices &amp; suppliers you actually use. No noise — only what touches your clinic.</p></div>
-    <div class="mod"><span class="price">$19/mo</span><h3>Instant Class I Alerts</h3><p>The serious, injury-or-death-risk recalls hit your phone the moment they post — not next week.</p></div>
-    <div class="mod"><span class="price">$29/mo</span><h3>Compliance Log</h3><p>A timestamped record that your clinic reviewed each recall. Quiet proof for audits and malpractice defense.</p></div>
-    <div class="mod"><span class="price">$19/mo</span><h3>Patient Notify Kit</h3><p>Ready-to-send letter &amp; text templates to reach affected patients fast — you send them, we never see patient data.</p></div>
+    <div class="mod"><span class="price">$9/mo</span><h3>Tuned Monitoring</h3><p>Alerts filtered to the drugs, devices &amp; suppliers you actually use. No noise — only what touches your clinic.</p></div>
+    <div class="mod"><span class="price">$6/mo</span><h3>Instant Class I Alerts</h3><p>The serious, injury-or-death-risk recalls hit your phone the moment they post — not next week.</p></div>
+    <div class="mod"><span class="price">$9/mo</span><h3>Compliance Log</h3><p>A timestamped record that your clinic reviewed each recall. Quiet proof for audits and malpractice defense.</p></div>
+    <div class="mod"><span class="price">$6/mo</span><h3>Patient Notify Kit</h3><p>Ready-to-send letter &amp; text templates to reach affected patients fast — you send them, we never see patient data.</p></div>
     <div class="mod"><span class="price">$0</span><h3>Multi-location &amp; seats</h3><p>Add clinics and staff as you grow. Priced per location — ask on your call.</p></div>
   </div>
   <div style="height:16px"></div>
   <div class="bundle">
-    <div><div class="tag">Most popular</div><div style="font-size:20px;font-weight:800">The Safety Bundle</div><small>Tuned Monitoring + Instant Class I Alerts + Compliance Log — the three most clinics start with.</small></div>
-    <div style="text-align:right"><div class="p">$79<span style="font-size:15px">/mo</span></div><a class="btn" href="#start" style="margin-top:6px">Start free, add this later</a></div>
+    <div><div class="tag">Most popular</div><div style="font-size:20px;font-weight:800">The Safety Bundle</div><small>Tuned Monitoring + Instant Class I Alerts + Compliance Log — all three for less than a coffee run. Cancel anytime.</small></div>
+    <div style="text-align:right"><div class="p">$19<span style="font-size:15px">/mo</span></div><a class="btn" href="#start" style="margin-top:6px">Start free, add this later</a></div>
   </div>
 </section>
 
@@ -135,6 +134,10 @@ footer{color:var(--mut);font-size:13px;padding:30px 0 50px;border-top:1px solid 
 </div>
 
 <script>
+// Resolve the operator's Calendly link via the server (token stays server-side). Falls back to the form.
+fetch('/api/calendly-link').then(function(r){return r.json();}).then(function(j){
+  if(j&&j.ok&&j.url){var b=document.getElementById('bookcall');if(b){b.href=j.url;b.target='_blank';b.rel='noopener';}}
+}).catch(function(){});
 var f=document.getElementById('lead'),msg=document.getElementById('msg');
 f.addEventListener('submit',function(e){
   e.preventDefault();

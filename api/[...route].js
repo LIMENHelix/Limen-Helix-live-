@@ -122,6 +122,7 @@ const HANDLERS = {
   'medicine-distress': require('../handlers/medicine-distress'),
   'medicine-distress-ingest': require('../handlers/medicine-distress-ingest'),
   'medicine-distress-status': require('../handlers/medicine-distress-status'),
+  'calendly-link': require('../handlers/calendly-link'),
   'skip-trace': require('../handlers/skip-trace'),
   'limen-autofire-log': require('../handlers/limen-autofire-log'),
   'limen-autoqueue': require('../handlers/limen-autoqueue'),
