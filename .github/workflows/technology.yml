@@ -1,0 +1,28 @@
+# TECHNOLOGY distress signal worker — pulls the layoffs.fyi tracker (tech layoffs / shutdowns),
+# ranks them, POSTs to /api/technology-distress-ingest. National single-source, free-with-attribution.
+name: layoffs.fyi distress signal
+on:
+  schedule:
+    - cron: '30 13 * * *'      # daily, offset from EDGAR (0 13) to spread load
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout: |
+            scripts/tech-fetch.js
+            lib/tech.js
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: fetch + ingest layoffs.fyi distress
+        run: node scripts/tech-fetch.js
+        env:
+          LEAD_ADMIN_KEY: ${{ secrets.LEAD_ADMIN_KEY }}
+          INGEST_URL: https://limenhelix.com
