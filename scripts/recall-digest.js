@@ -19,6 +19,7 @@ var BASE = process.env.INGEST_URL || 'https://limenhelix.com';
 var KEY = process.env.LEAD_ADMIN_KEY || '';
 var RESEND = process.env.RESEND_API_KEY || '';
 var FROM = process.env.RECALL_FROM_EMAIL || 'Recall Shield <onboarding@resend.dev>';
+var REPLY_TO = process.env.RECALL_REPLY_TO || 'chrishubbel72@gmail.com';
 var POSTAL = process.env.RECALL_POSTAL_ADDRESS || '[set RECALL_POSTAL_ADDRESS]';
 var ARMED = process.env.RECALL_DIGEST_ARMED === '1';
 var MAX = parseInt(process.env.RECALL_MAX || '300', 10);
@@ -69,7 +70,7 @@ function buildHTML(recalls) {
 async function sendOne(to, html) {
   var r = await fetch('https://api.resend.com/emails', {
     method: 'POST', headers: { 'content-type': 'application/json', authorization: 'Bearer ' + RESEND },
-    body: JSON.stringify({ from: FROM, to: [to], subject: 'Recall Shield — this week’s FDA recalls', html: html })
+    body: JSON.stringify({ from: FROM, to: [to], reply_to: REPLY_TO, subject: 'Recall Shield: this week’s FDA recalls', html: html })
   });
   return r.ok;
 }
