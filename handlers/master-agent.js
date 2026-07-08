@@ -90,7 +90,7 @@ async function callClaude(system, user) {
 
 module.exports = async function handler(req, res) {
   res.setHeader('content-type', 'application/json');
-  if (require('../lib/ai-kill-switch').aiDisabled()) { res.statusCode = 503; return res.end(JSON.stringify({ ok: false, disabled: true, error: 'AI disabled — billing stopped per operator' })); }
+  if (require('../lib/ai-kill-switch').agentBoxesDisabled()) { res.statusCode = 503; return res.end(JSON.stringify({ ok: false, disabled: true, error: 'Operator AI boxes disabled (unset LIMEN_AGENT_BOXES_DISABLED to enable)' })); }
   res.setHeader('Cache-Control', 'no-store');
   if ((req.method || 'GET').toUpperCase() !== 'POST') { res.statusCode = 405; return res.end(JSON.stringify({ ok: false, error: 'POST only' })); }
 
