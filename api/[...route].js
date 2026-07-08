@@ -123,6 +123,7 @@ const HANDLERS = {
   'medicine-distress-ingest': require('../handlers/medicine-distress-ingest'),
   'medicine-distress-status': require('../handlers/medicine-distress-status'),
   'calendly-link': require('../handlers/calendly-link'),
+  'recall-digest': require('../handlers/recall-digest'),
   'skip-trace': require('../handlers/skip-trace'),
   'limen-autofire-log': require('../handlers/limen-autofire-log'),
   'limen-autoqueue': require('../handlers/limen-autoqueue'),
