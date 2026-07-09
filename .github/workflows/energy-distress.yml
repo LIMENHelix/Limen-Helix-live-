@@ -1,0 +1,29 @@
+# ENERGY L1 signal worker — pulls EIA retiring generators (EIA-860M), ranks by interconnection value,
+# POSTs to /api/energy-distress-ingest. National, structured, free with a free EIA API key.
+name: EIA retiring-generator signal
+on:
+  schedule:
+    - cron: '0 16 * * 1'      # weekly Mondays 16:00 UTC (EIA-860M is monthly data)
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout: |
+            scripts/energy-distress-fetch.js
+            lib/energy-distress.js
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: fetch + ingest EIA retiring generators
+        run: node scripts/energy-distress-fetch.js
+        env:
+          LEAD_ADMIN_KEY: ${{ secrets.LEAD_ADMIN_KEY }}
+          EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
+          INGEST_URL: https://limenhelix.com
