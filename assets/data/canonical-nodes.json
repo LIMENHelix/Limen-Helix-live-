@@ -1,0 +1,855 @@
+{
+  "_meta": {
+    "source": "brain-node-domains.json + Connectome Node Regulatory Reference + 10-agent audit backbone",
+    "built": "deterministic",
+    "total": 123
+  },
+  "nodes": {
+    "NAcc": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": "M11",
+      "role": "incentive/reward drive",
+      "failureModes": "over-pursuit=bubble / avolition"
+    },
+    "VTA": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": "M11",
+      "role": "dopamine reward source",
+      "failureModes": "mania/addiction / anhedonia"
+    },
+    "OFC": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": "M6",
+      "role": "outcome valuation / update",
+      "failureModes": "confabulation / over-react"
+    },
+    "dlPFC": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "BLA": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": "M7",
+      "role": "threat learning/acquisition",
+      "failureModes": "over-fear=PTSD / fearless"
+    },
+    "BNST": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": "M7",
+      "role": "sustained threat monitor",
+      "failureModes": "tonic-stuck=burnout / under-vigilant"
+    },
+    "AI": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": "M10",
+      "role": "interoceptive salience",
+      "failureModes": "flying-blind / metric-obsession"
+    },
+    "dACC": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": "M6",
+      "role": "conflict/error monitor",
+      "failureModes": "priors-too-strong / noise-chase"
+    },
+    "mPFC": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "DMN": {
+      "class": "composite",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "view",
+      "remapTarget": "aggregate view",
+      "note": "a read-only computed network view; not an edge endpoint or a firm"
+    },
+    "STRI": {
+      "class": "composite",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "view",
+      "remapTarget": "CAUD+PUT+NAcc",
+      "note": "a read-only computed network view; not an edge endpoint or a firm"
+    },
+    "HPA": {
+      "class": "composite",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "view",
+      "remapTarget": "HYPO→PIT→ADR loop",
+      "note": "a read-only computed network view; not an edge endpoint or a firm"
+    },
+    "GABA_GLU": {
+      "class": "molecule",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "parameter",
+      "remapTarget": "EI (edge sign + gain)",
+      "note": "a modulator/transmitter; model as an edge sign or gain parameter, not a unit"
+    },
+    "OPIOID": {
+      "class": "molecule",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "parameter",
+      "remapTarget": "modulator (source PAG/ARC)",
+      "note": "a modulator/transmitter; model as an edge sign or gain parameter, not a unit"
+    },
+    "LC": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": "M2",
+      "role": "broadcast / alerting",
+      "failureModes": "gain stuck high=thrash / low=missed"
+    },
+    "HAB": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": "M8",
+      "role": "anti-reward brake",
+      "failureModes": "too-strong=anhedonia / too-weak=sunk-cost"
+    },
+    "vmPFC": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": "M1",
+      "role": "top-down inhibitory brake",
+      "failureModes": "over-grip=flatness / brake-fail=rogue"
+    },
+    "GBA": {
+      "class": "composite",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "view",
+      "remapTarget": "gut-brain axis view",
+      "note": "a read-only computed network view; not an edge endpoint or a firm"
+    },
+    "HIPP": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": "M3",
+      "role": "HPA feedback + memory index",
+      "failureModes": "feedback-fail=runaway / intrusive-recall"
+    },
+    "VP": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "BDNF": {
+      "class": "molecule",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "parameter",
+      "remapTarget": "plasticity/investment param",
+      "note": "a modulator/transmitter; model as an edge sign or gain parameter, not a unit"
+    },
+    "RAPHE": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": "M2",
+      "role": "serotonin broadcast",
+      "failureModes": "mood/patience gain mis-set"
+    },
+    "HYPO": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": "M3",
+      "role": "homeostatic set-point",
+      "failureModes": "severed=runaway / delayed=oscillation"
+    },
+    "PAG": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": "M8",
+      "role": "defensive kill/lockdown",
+      "failureModes": "over-freeze / no-stop"
+    },
+    "vlPFC": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": "M1",
+      "role": "response-inhibition / stop",
+      "failureModes": "over-suppress / disinhibited"
+    },
+    "EMP": {
+      "class": "construct",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "state",
+      "remapTarget": "multi-region computed view",
+      "note": "a state/parameter/emergent property, not a regulated node"
+    },
+    "CBLM": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": "M6",
+      "role": "forward-model error-correct",
+      "failureModes": "model-drift / over-correct"
+    },
+    "THAL": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": "M4",
+      "role": "gating relay / routing",
+      "failureModes": "stuck-open=flood / stuck-closed=starvation"
+    },
+    "OXY": {
+      "class": "molecule",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "parameter",
+      "remapTarget": "HYPO efferent modulator (trust capital)",
+      "note": "a modulator/transmitter; model as an edge sign or gain parameter, not a unit"
+    },
+    "FPN": {
+      "class": "composite",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "view",
+      "remapTarget": "control-network view",
+      "note": "a read-only computed network view; not an edge endpoint or a firm"
+    },
+    "M1": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "BROCA": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "PCC": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "SN": {
+      "class": "composite",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "view",
+      "remapTarget": "AI+dACC",
+      "note": "a read-only computed network view; not an edge endpoint or a firm"
+    },
+    "SMN": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "OSC": {
+      "class": "construct",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "state",
+      "remapTarget": "oscillation state (motif M12)",
+      "note": "a state/parameter/emergent property, not a regulated node"
+    },
+    "VV": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "TPJ": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "PRECUNEUS": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "S1": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "ECN": {
+      "class": "composite",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "view",
+      "remapTarget": "= FPN (dedupe)",
+      "note": "a read-only computed network view; not an edge endpoint or a firm"
+    },
+    "SNS": {
+      "class": "effector",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "effector",
+      "remapTarget": null,
+      "note": "peripheral effector organ/output; weak as a business-unit node"
+    },
+    "CeA": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": "M7",
+      "role": "phasic fear output",
+      "failureModes": "hair-trigger=false-alarm / blunted"
+    },
+    "AG": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "SMA": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "WERN": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "IPS": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "FG": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "rPFC": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "sgACC": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "NTS": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": "M10",
+      "role": "visceral afferent hub",
+      "failureModes": "no internal-state sense / hyper-signal"
+    },
+    "CC": {
+      "class": "tract",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "edge",
+      "remapTarget": null,
+      "note": "a connection between nodes (white-matter tract); model as an edge / reporting line"
+    },
+    "FORN": {
+      "class": "tract",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "edge",
+      "remapTarget": null,
+      "note": "a connection between nodes (white-matter tract); model as an edge / reporting line"
+    },
+    "ENS": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "CAUD": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "FEF": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "MICRO": {
+      "class": "glia",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "infrastructure",
+      "remapTarget": "immune-surveillance infra",
+      "note": "non-neuronal support/immune/barrier; infrastructure, not a directed unit"
+    },
+    "PBN": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": "M10",
+      "role": "interoceptive/alarm relay",
+      "failureModes": "blunted / over-alarm"
+    },
+    "DV": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "EC": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "PIN": {
+      "class": "effector",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "effector",
+      "remapTarget": null,
+      "note": "peripheral effector organ/output; weak as a business-unit node"
+    },
+    "DAN": {
+      "class": "composite",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "view",
+      "remapTarget": "attention view",
+      "note": "a read-only computed network view; not an edge endpoint or a firm"
+    },
+    "SEPT": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "S2": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "LANG": {
+      "class": "composite",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "view",
+      "remapTarget": "Broca+Wernicke+AG view",
+      "note": "a read-only computed network view; not an edge endpoint or a firm"
+    },
+    "UNC": {
+      "class": "tract",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "edge",
+      "remapTarget": null,
+      "note": "a connection between nodes (white-matter tract); model as an edge / reporting line"
+    },
+    "CING": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "CON": {
+      "class": "composite",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "view",
+      "remapTarget": "cingulo-opercular view",
+      "note": "a read-only computed network view; not an edge endpoint or a firm"
+    },
+    "V1": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "CARD": {
+      "class": "effector",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "effector",
+      "remapTarget": null,
+      "note": "peripheral effector organ/output; weak as a business-unit node"
+    },
+    "LGN": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "rACC": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "MI": {
+      "class": "ambiguous",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "confirm",
+      "remapTarget": "mid-insula?",
+      "note": "abbreviation not confidently resolvable; confirm from source before any binding"
+    },
+    "PIT": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "ADR": {
+      "class": "effector",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "effector",
+      "remapTarget": null,
+      "note": "peripheral effector organ/output; weak as a business-unit node"
+    },
+    "SNIG": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "STN": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": "M1",
+      "role": "hyperdirect brake / hold",
+      "failureModes": "over-brake=paralysis / no-brake=runaway"
+    },
+    "GP": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": "M4",
+      "role": "basal-ganglia output gate",
+      "failureModes": "flood / lock (bradykinetic freeze)"
+    },
+    "RF": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "LAR": {
+      "class": "effector",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "effector",
+      "remapTarget": null,
+      "note": "peripheral effector organ/output; weak as a business-unit node"
+    },
+    "STS": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "VEST": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "RSC": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "EI": {
+      "class": "construct",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "state",
+      "remapTarget": "excitation/inhibition balance param (motif M9)",
+      "note": "a state/parameter/emergent property, not a regulated node"
+    },
+    "PULV": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": "M4",
+      "role": "attentional gate",
+      "failureModes": "overload / neglect"
+    },
+    "CLAUST": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "DISS": {
+      "class": "construct",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "state",
+      "remapTarget": "Phase-7 state (no efferent)",
+      "note": "a state/parameter/emergent property, not a regulated node"
+    },
+    "ENDO": {
+      "class": "ambiguous",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "confirm",
+      "remapTarget": "endocannabinoid/endocrine?",
+      "note": "abbreviation not confidently resolvable; confirm from source before any binding"
+    },
+    "A1": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "SC": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "IC": {
+      "class": "ambiguous",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "confirm",
+      "remapTarget": "inferior colliculus vs internal capsule?",
+      "note": "abbreviation not confidently resolvable; confirm from source before any binding"
+    },
+    "MGN": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "PRC": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "NEOCER": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": "M6",
+      "role": "cognitive forward model",
+      "failureModes": "model-drift / over-correct"
+    },
+    "MAMM": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "NBM": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": "M2",
+      "role": "cholinergic broadcast",
+      "failureModes": "attention/plasticity gain mis-set"
+    },
+    "CMZ": {
+      "class": "ambiguous",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "confirm",
+      "remapTarget": "cingulate motor zone?",
+      "note": "abbreviation not confidently resolvable; confirm from source before any binding"
+    },
+    "ARC": {
+      "class": "ambiguous",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "confirm",
+      "remapTarget": "arcuate nucleus vs fasciculus?",
+      "note": "abbreviation not confidently resolvable; confirm from source before any binding"
+    },
+    "PUT": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "TPOLE": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "VAN": {
+      "class": "composite",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "view",
+      "remapTarget": "attention view",
+      "note": "a read-only computed network view; not an edge endpoint or a firm"
+    },
+    "MDT": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": "M4",
+      "role": "PFC relay gate",
+      "failureModes": "flood / freeze"
+    },
+    "ANT": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "PPN": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "VERM": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "TrkB": {
+      "class": "molecule",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "parameter",
+      "remapTarget": "BDNF-receptor param",
+      "note": "a modulator/transmitter; model as an edge sign or gain parameter, not a unit"
+    },
+    "VIA": {
+      "class": "ambiguous",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "confirm",
+      "remapTarget": null,
+      "note": "abbreviation not confidently resolvable; confirm from source before any binding"
+    },
+    "MFC": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "EBA": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "SCN": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": "M12",
+      "role": "circadian pacemaker",
+      "failureModes": "desync / over-rigid cadence"
+    },
+    "V4V5": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "PPA": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "SDH": {
+      "class": "ambiguous",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "confirm",
+      "remapTarget": "spinal dorsal horn?",
+      "note": "abbreviation not confidently resolvable; confirm from source before any binding"
+    },
+    "IPL": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "FPC": {
+      "class": "composite",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "view",
+      "remapTarget": "control-network view",
+      "note": "a read-only computed network view; not an edge endpoint or a firm"
+    },
+    "PI": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": "M10",
+      "role": "primary interoception",
+      "failureModes": "alexithymia / somatic hypervigilance"
+    },
+    "ACC": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "OLF": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "BBB": {
+      "class": "glia",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "infrastructure",
+      "remapTarget": "boundary infra",
+      "note": "non-neuronal support/immune/barrier; infrastructure, not a directed unit"
+    },
+    "ASTRO": {
+      "class": "glia",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "infrastructure",
+      "remapTarget": "metabolic/support infra",
+      "note": "non-neuronal support/immune/barrier; infrastructure, not a directed unit"
+    },
+    "DMNMTL": {
+      "class": "composite",
+      "canBindBusiness": false,
+      "motif": null,
+      "remapTo": "view",
+      "remapTarget": "DMN subsystem view",
+      "note": "a read-only computed network view; not an edge endpoint or a firm"
+    },
+    "SPL": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    },
+    "PMC": {
+      "class": "real",
+      "canBindBusiness": true,
+      "motif": null,
+      "role": null
+    }
+  }
+}
