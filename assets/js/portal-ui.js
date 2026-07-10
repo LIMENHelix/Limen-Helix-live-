@@ -167,6 +167,61 @@ var PortalUI = (function() {
   //   category map  → INTERVENTION_CATS constant
   // ═══════════════════════════════════════════════════════
 
+  // ═══ LIVE DERIVATION (portals-as-feeds) ═══════════════════════════════
+  // Every portal renders its diagnosis from (live domain level x the bound
+  // node's motif failure-mode), NOT the frozen stored summary. Same grammar as
+  // lib/node-guard.js (server) and domain-brain-base (brain), so every domain
+  // and every portal reads identically — universal, because every portal loads
+  // this one file. Level source = window.LIMENDomains (cached console snapshot,
+  // loaded cheaply by _loadLiveContext — no paid rebuild). Non-nodes are BRAKED.
+  var _CANON = null, _canonPromise = null;
+  function _loadCanon() {
+    if (_CANON) return Promise.resolve(_CANON);
+    if (_canonPromise) return _canonPromise;
+    _canonPromise = fetch('/assets/data/canonical-nodes.json')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) { _CANON = (j && j.nodes) || {}; return _CANON; })
+      .catch(function () { _CANON = {}; return _CANON; });
+    return _canonPromise;
+  }
+  function _rootDomain(d) { return String(d || '').split('_')[0]; }
+  function _liveLevel(domainId) {
+    try {
+      var L = window.LIMENDomains, s = L && L[_rootDomain(domainId)];
+      if (s) {
+        var v = (typeof s.stress === 'number') ? s.stress
+              : (typeof s.distress === 'number') ? s.distress
+              : (typeof s.score === 'number') ? s.score : null;
+        if (v != null) return v > 1 ? v / 100 : v;   // normalize 0..100 -> 0..1
+      }
+    } catch (e) {}
+    return null;
+  }
+  function _deriveNode(nodeId, level) {
+    var rec = _CANON && _CANON[nodeId];
+    if (!rec) return { unknown: true, nodeId: nodeId };
+    if (!rec.canBindBusiness) return { blocked: true, nodeId: nodeId, cls: rec.class, remapTo: rec.remapTo };
+    if (level == null) return { ok: true, nodeId: nodeId, motif: rec.motif, role: rec.role || null, pole: null, reading: null };
+    var parts = String(rec.failureModes || '').split('/');
+    var pole = level >= 0.60 ? 'hyper' : (level <= 0.15 ? 'hypo' : 'regulated');
+    var text = pole === 'hyper' ? (parts[0] || '').trim() : pole === 'hypo' ? (parts[1] || '').trim() : 'within regulated range';
+    return { ok: true, nodeId: nodeId, motif: rec.motif, role: rec.role || null, level: level, pole: pole, reading: text };
+  }
+  // derive a whole issue: primary = first real bound node's live reading; braked = non-node bindings
+  function deriveIssue(issue, domainId) {
+    if (!_CANON) return null;
+    var circuits = (issue && issue.circuits) || [];
+    var level = _liveLevel(domainId);
+    var primary = null, braked = [];
+    for (var i = 0; i < circuits.length; i++) {
+      var nid = circuits[i] && circuits[i].nodeId; if (!nid) continue;
+      var d = _deriveNode(nid, level);
+      if (d.blocked) { braked.push(d); continue; }
+      if (d.ok && !primary) primary = d;
+    }
+    return { level: level, primary: primary, braked: braked, domain: _rootDomain(domainId) };
+  }
+
   function issueToDx(issue) {
     var circuits = (issue.circuits || []).filter(function(c) {
       return c && c.nodeId; // skip circuits with missing nodeId
@@ -210,8 +265,23 @@ var PortalUI = (function() {
       circuits: circuits,
       interventions: interventions,
       criteria: null,
-      metabolic: null
+      metabolic: null,
+      _issue: issue,   // kept so the live reading can be recomputed on refresh
+      // Live reading computed from (live domain level x node motif). Null until
+      // canonical-nodes.json loads; the open dx re-renders when it + the live
+      // snapshot arrive (see init / _loadLiveContext).
+      derived: deriveIssue(issue, DATA && DATA.domainId)
     };
+  }
+
+  // Recompute the open diagnosis's live reading and re-render it. Called when
+  // the canonical registry and/or the live level finish loading, so the words
+  // upgrade from baked -> live without a click.
+  function _refreshOpenDx() {
+    if (!currentDx || !currentDx._issue) return;
+    currentDx.derived = deriveIssue(currentDx._issue, DATA && DATA.domainId);
+    var content = document.getElementById('interventionContent');
+    if (content && content.style.display !== 'none') buildInterventions(currentDx);
   }
 
   // ═══════════════════════════════════════════════════════
@@ -230,11 +300,35 @@ var PortalUI = (function() {
     var cats = INTERVENTION_CATS;
     var catLabels = CAT_LABELS;
 
+    // ─── LIVE READING: derived from (live domain level × bound node motif) ───
+    // This is the verbiage that MOVES as feeds move; the stored summary below
+    // becomes authored reference. Brakes any non-node binding it finds.
+    var _live = '';
+    if (dx.derived) {
+      var der = dx.derived;
+      if (der.primary && der.primary.reading) {
+        var pc = der.primary.pole === 'hyper' ? '#e0913c' : der.primary.pole === 'hypo' ? '#6fa8c8' : '#5ab5a0';
+        _live += '<div style="margin-top:8px;padding:8px 10px;border-left:2px solid ' + pc + ';background:rgba(90,181,160,0.06);border-radius:2px">' +
+          '<div style="font-size:0.42rem;letter-spacing:2px;color:' + pc + ';text-transform:uppercase">LIVE · ' + escHtml(der.primary.nodeId) + (der.primary.motif ? ' · ' + escHtml(der.primary.motif) : '') + ' · ' + escHtml(der.primary.pole) + '</div>' +
+          '<div style="font-family:Crimson Pro,serif;font-size:0.86rem;color:var(--text);line-height:1.5;margin-top:4px">' + escHtml(der.primary.reading) + '</div>' +
+          '<div style="font-size:0.4rem;color:var(--text-ghost);letter-spacing:1px;margin-top:4px">' + escHtml(der.domain) + ' level ' + (der.level != null ? Math.round(der.level * 100) + '%' : 'n/a') + ' × node motif · updates with feeds</div>' +
+          '</div>';
+      } else if (der.primary) {
+        _live += '<div style="margin-top:6px;font-size:0.42rem;color:var(--text-ghost);letter-spacing:1px">LIVE READING PENDING — awaiting live ' + escHtml(der.domain) + ' level</div>';
+      }
+      if (der.braked && der.braked.length) {
+        _live += '<div style="margin-top:6px;font-size:0.42rem;color:#c98a3c;letter-spacing:1px">⚠ ' + der.braked.length + ' mis-wired binding(s) braked: ' + der.braked.map(function (b) { return escHtml(b.nodeId) + '→' + escHtml(b.remapTo || '?'); }).join(', ') + '</div>';
+      }
+    }
+    var _summaryLabel = _live ? '<div style="font-size:0.42rem;color:var(--text-ghost);letter-spacing:2px;margin-top:10px;text-transform:uppercase">Authored reference</div>' : '';
+
     // ─── HEADER: Issue info ───
     var html = '<div style="padding:14px 16px;border-bottom:1px solid var(--border)">' +
       '<div style="font-family:Crimson Pro,serif;font-size:1.1rem;font-weight:300;color:var(--gold);letter-spacing:1px">' + escHtml(dx.name) + '</div>' +
       '<div style="font-size:0.5rem;color:var(--gold-dim);letter-spacing:2px;margin-top:2px">' + escHtml(dx.dsm5) + '</div>' +
       '<div style="font-size:0.5rem;color:var(--text-ghost);letter-spacing:1px;margin-top:3px">' + escHtml(dx.prevalence) + '</div>' +
+      _live +
+      _summaryLabel +
       '<div style="font-family:Crimson Pro,serif;font-size:0.78rem;color:var(--text-dim);line-height:1.5;margin-top:8px">' + escHtml(dx.summary) + '</div>' +
       '<div style="font-size:0.5rem;color:var(--text-ghost);letter-spacing:1px;margin-top:3px">' + (dx.circuits || []).length + ' CIRCUITS AFFECTED</div>' +
       '</div>';
@@ -3062,6 +3156,8 @@ var PortalUI = (function() {
             var empty = document.getElementById('rightEmpty');
             if (empty) { var old = empty.querySelector('.nd-empty-intel'); if (old) old.parentNode.removeChild(old); }
             _injectEmptyStateIntelligence();
+            // now that a live domain level exists, upgrade the open dx's reading
+            _refreshOpenDx();
           } catch (e) {}
         })
         .catch(function () {});
@@ -3075,6 +3171,10 @@ var PortalUI = (function() {
 
       // Connect this portal to the live layer (async; re-renders intel when ready)
       _loadLiveContext();
+
+      // Load the canonical node registry; when ready, upgrade the open dx from
+      // baked text to the live (feed x motif) reading.
+      _loadCanon().then(function () { _refreshOpenDx(); });
 
       // Build circuit legend
       buildCircuitLegend();
