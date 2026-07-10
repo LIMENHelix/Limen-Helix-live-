@@ -164,6 +164,21 @@
     return { motif: rec.motif || null, role: rec.role || null, level: Math.round(level * 1000) / 1000, pole: pole, authored: !!authoredPole, reading: text };
   }
 
+  // Generic failure-TYPE stamps get one canonical primary node + direction whose
+  // failure grammar names the failure (matches portal-ui). Tunable in one place.
+  var _TYPE_DEFAULT = {
+    'capacity overload':      { node: 'THAL',  dir: 'hyper' },
+    'quality degradation':    { node: 'CBLM',  dir: 'hyper' },
+    'system failure':         { node: 'STN',   dir: 'hyper' },
+    'governance gap':         { node: 'vmPFC', dir: 'hypo'  },
+    'coordination breakdown': { node: 'THAL',  dir: 'hypo'  }
+  };
+  function _typeDefaultFor(label) {
+    var l = String(label || '').toLowerCase();
+    for (var k in _TYPE_DEFAULT) { if (l.length >= k.length && l.slice(-k.length) === k) return { type: k, spec: _TYPE_DEFAULT[k] }; }
+    return null;
+  }
+
   // ══════════════════════════════════════════════════════════════════════
   // BASE CLASS
   // ══════════════════════════════════════════════════════════════════════
@@ -704,8 +719,11 @@
     var braked = 0, live = 0;
     for (var i = 0; i < dg.length; i++) {
       var d = dg[i];
+      // TYPE DEFAULT: a generic failure-type stamp uses its canonical primary node
+      // instead of the near-random authored one. Named diagnoses keep their circuit.
+      var _td = _typeDefaultFor(d.label);
       var circ = (d.circuits && d.circuits[0]) || null;
-      var nid = circ ? (circ.nodeId || circ) : null;
+      var nid = _td ? _td.spec.node : (circ ? (circ.nodeId || circ) : null);
       if (!nid) { d.derived = null; continue; }
       var rec = _classifyNode(nid, nodes);
       var _via = null;
@@ -724,10 +742,11 @@
       }
       d.blocked = false;
       var st = self._subTopicSignal(d);
-      // Honor the circuit's authored direction (Hyper/Hypo) as the pole; live level = intensity.
-      var _dir = (circ && typeof circ === 'object' && (circ.dir || circ.direction)) || d.dir || null;
+      // Honor the authored direction (Hyper/Hypo) as the pole; live level = intensity.
+      // A type-default supplies its own canonical direction.
+      var _dir = (_td && _td.spec.dir) || (circ && typeof circ === 'object' && (circ.dir || circ.direction)) || d.dir || null;
       var der = _deriveFailurePole(rec, st.level, null, null, _dir);
-      der.node = nid; der.viaComposite = _via; der.feeds = st.feeds; der.matchedFeeds = st.matched;
+      der.node = nid; der.viaComposite = _via; der.typeDefault = _td ? _td.type : null; der.feeds = st.feeds; der.matchedFeeds = st.matched;
       der.source = st.matched ? 'live-feed-derived' : 'node-level-derived';
       d.derived = der;
       if (der.pole !== 'regulated' && der.reading) {

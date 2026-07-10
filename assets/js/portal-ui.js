@@ -221,6 +221,23 @@ var PortalUI = (function() {
     return { ok: true, nodeId: nodeId, motif: rec.motif, role: rec.role || null,
              level: level, intensity: level, pole: pole, authored: !!authoredPole, reading: _poleText(rec, pole) };
   }
+  // Generic failure-TYPE stamps (System Failure / Capacity Overload / ...) are
+  // auto-generated with near-random node-sets; ~95% of authored issues are these.
+  // Each type has a canonical mechanism, so it gets ONE consistent primary node +
+  // direction whose failure grammar names the failure. Tunable in this one place.
+  var _TYPE_DEFAULT = {
+    'capacity overload':      { node: 'THAL',  dir: 'hyper' },   // gate stuck-open = flood
+    'quality degradation':    { node: 'CBLM',  dir: 'hyper' },   // forward-model drift
+    'system failure':         { node: 'STN',   dir: 'hyper' },   // over-brake = paralysis / seizure
+    'governance gap':         { node: 'vmPFC', dir: 'hypo'  },   // brake-fail = rogue
+    'coordination breakdown': { node: 'THAL',  dir: 'hypo'  }    // routing stuck-closed = starvation
+  };
+  function _typeDefault(label) {
+    var l = String(label || '').toLowerCase();
+    for (var k in _TYPE_DEFAULT) { if (l.length >= k.length && l.slice(-k.length) === k) return { type: k, spec: _TYPE_DEFAULT[k] }; }
+    return null;
+  }
+
   // derive a whole issue: primary = first real bound node's live reading; braked = non-node bindings
   function deriveIssue(issue, domainId) {
     if (!_CANON) return null;
@@ -232,6 +249,14 @@ var PortalUI = (function() {
       var d = _deriveNode(nid, level, c && c.dir);
       if (d.blocked) { d._dir = c && c.dir; braked.push(d); continue; }
       if (d.ok && !primary) primary = d;
+    }
+    // TYPE DEFAULT: a generic failure-type stamp gets its canonical primary node,
+    // overriding the near-random authored node (the authored circuits still show
+    // as braked context). Named diagnoses (no type suffix) keep their own primary.
+    var td = _typeDefault(issue && issue.label);
+    if (td) {
+      var tdd = _deriveNode(td.spec.node, level, td.spec.dir);
+      if (tdd.ok) { tdd.typeDefault = td.type; primary = tdd; }
     }
     // Rescue: an issue wired ONLY to non-nodes still reads by routing a braked
     // composite to its real member node (deterministic, from the anatomy).
@@ -364,7 +389,7 @@ var PortalUI = (function() {
       if (der.primary && der.primary.reading) {
         var pc = der.primary.pole === 'hyper' ? '#e0913c' : der.primary.pole === 'hypo' ? '#6fa8c8' : '#5ab5a0';
         _live += '<div style="margin-top:8px;padding:8px 10px;border-left:2px solid ' + pc + ';background:rgba(90,181,160,0.06);border-radius:2px">' +
-          '<div style="font-size:0.42rem;letter-spacing:2px;color:' + pc + ';text-transform:uppercase">LIVE · ' + escHtml(der.primary.nodeId) + (der.primary.motif ? ' · ' + escHtml(der.primary.motif) : '') + ' · ' + escHtml(der.primary.pole) + (der.primary.authored ? '' : ' (level-derived)') + (der.primary.viaComposite ? ' · via ' + escHtml(der.primary.viaComposite) : '') + '</div>' +
+          '<div style="font-size:0.42rem;letter-spacing:2px;color:' + pc + ';text-transform:uppercase">LIVE · ' + escHtml(der.primary.nodeId) + (der.primary.motif ? ' · ' + escHtml(der.primary.motif) : '') + ' · ' + escHtml(der.primary.pole) + (der.primary.authored ? '' : ' (level-derived)') + (der.primary.viaComposite ? ' · via ' + escHtml(der.primary.viaComposite) : '') + (der.primary.typeDefault ? ' · type-default' : '') + '</div>' +
           '<div style="font-family:Crimson Pro,serif;font-size:0.86rem;color:var(--text);line-height:1.5;margin-top:4px">' + escHtml(der.primary.reading) + '</div>' +
           '<div style="font-size:0.4rem;color:var(--text-ghost);letter-spacing:1px;margin-top:4px">' + escHtml(der.domain) + (der.primary.authored ? ' intensity ' : ' level ') + (der.level != null ? Math.round(der.level * 100) + '%' : 'n/a') + ' × ' + (der.primary.authored ? 'authored direction' : 'node motif') + ' · updates with feeds</div>' +
           '</div>';
