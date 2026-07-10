@@ -109,6 +109,26 @@
     return _digestPromises[portalKey];
   }
 
+  // Shared per-domain CUMULATIVE FOLD loader. The fold (built offline by
+  // scripts/build-cumulative-fold.mjs) integrates the ENTIRE deep tree (L4-L7,
+  // ~466k files that never deploy) UPWARD into the reachable L1-L3 surface, so
+  // an L1/L3 portal already holds everything beneath it: descendant count,
+  // distress mass, real-node histogram (non-nodes braked out), and the heaviest
+  // drill path. This is how the deep signal reaches the browser without the deep
+  // files ever being served. One fetch per portalKey per page, cached.
+  var _foldPromises = {};   // portalKey -> Promise<fold|null>
+  function _loadFold(portalKey) {
+    if (_foldPromises[portalKey]) return _foldPromises[portalKey];
+    _foldPromises[portalKey] = (function () {
+      try {
+        return fetch('/assets/data/deep/' + portalKey + '-fold.json')
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .catch(function () { return null; });
+      } catch (e) { return Promise.resolve(null); }
+    })();
+    return _foldPromises[portalKey];
+  }
+
   // ── Canonical node registry (assets/data/canonical-nodes.json) — the ONE source
   //    of truth for what a node IS. Loaded once per page, cached. Powers the
   //    inhibitory brake (no diagnosis may bind to a non-node) + the portals-as-feeds
@@ -481,6 +501,11 @@
     // the background and starts applying from the next cycle).
     this._applyDeepDigest();
 
+    // CUMULATIVE FOLD: attach the whole deep subtree's folded reading to the
+    // surface (its dominant real nodes lit live from feed x motif) so the domain
+    // reading reflects L4-L7 without ever fetching them. Additive, degrade-safe.
+    this._applyDeepFold();
+
     // LIVE DERIVATION (portals-as-feeds): after the diagnoses are assembled (root + deep),
     // compute each one's reading from (its node's live feed activation x the node's motif
     // failure-mode) and BRAKE any wired to a non-node. Supersedes the stuck baked verbiage.
@@ -571,6 +596,64 @@
           source: 'deep-digest'
         });
       });
+    }
+  };
+
+  /**
+   * Cumulative-fold augmentation. Attaches the domain's whole deep subtree —
+   * folded upward by build-cumulative-fold.mjs into the L1 surface entry — onto
+   * state.deepFold, with its dominant REAL nodes lit LIVE from feed x motif.
+   * This is where L4-L7 (never deployed) actually reaches the reading: not by
+   * fetching the deep files, but by their folded signal having moved forward.
+   * First cycle kicks off the one-time load; applies from a later cycle.
+   */
+  DomainBrainBase.prototype._applyDeepFold = function () {
+    var self = this;
+    var pk = this.portalKey || this.domainId;
+    if (!self._fold) {
+      _loadFold(pk).then(function (f) { if (f) self._fold = f; });
+      return;
+    }
+    var surface = (self._fold && self._fold.surface) || [];
+    if (!surface.length) return;
+
+    // L1 root entry carries the entire domain subtree folded in.
+    var root = null;
+    for (var i = 0; i < surface.length; i++) { if (surface[i].slug === pk || surface[i].depth === 1) { root = surface[i]; break; } }
+    if (!root) root = surface[0];
+
+    var stress = self.state.stress || 0;
+    // Light each dominant folded node LIVE: its reading = feed/stress level x its
+    // motif failure-mode (same derivation the diagnoses use). Real nodes only —
+    // the fold already braked the non-nodes out of the histogram.
+    var nodes = _canonNodes || null;
+    var liveNodes = (root.topNodes || []).map(function (n) {
+      var rec = nodes ? _classifyNode(n.id, nodes) : null;
+      var der = (rec && rec.canBindBusiness) ? _deriveFailurePole(rec, stress) : null;
+      return { id: n.id, motif: n.motif || (rec && rec.motif) || null, weight: n.count,
+               pole: der ? der.pole : null, reading: der ? der.diagnosis : null };
+    });
+
+    // Hottest deep sub-topics (drill targets) = heaviest surface entries below L1.
+    var hot = surface.filter(function (s) { return s.depth > 1; })
+      .sort(function (a, b) { return b.subtreeMass - a.subtreeMass; })
+      .slice(0, 6)
+      .map(function (s) { return { slug: s.slug, depth: s.depth, mass: s.subtreeMass, beneath: s.subtreeCount, path: s.heaviestPath || [] }; });
+
+    self.state.deepFold = {
+      subtreeCount: root.subtreeCount || 0,
+      subtreeMass: root.subtreeMass || 0,
+      blockedBindings: root.blockedBindings || 0,
+      heaviestPath: root.heaviestPath || [],
+      liveNodes: liveNodes,
+      hotSubtopics: hot,
+      srcFiles: self._fold.srcFiles || 0
+    };
+    // Let the deep tree raise the domain's relevance floor: a large hot subtree
+    // means real distress is concentrated below, even if the L1 root looks calm.
+    if (root.subtreeMass > 0 && Array.isArray(self.state.diagnoses) && self.state.diagnoses.length) {
+      var lift = Math.min(0.25, root.subtreeMass / 200000); // gentle, capped
+      self.state.diagnoses.forEach(function (d) { if (d && !d.blocked) d.relevance = Math.max(d.relevance || 0, lift); });
     }
   };
 
