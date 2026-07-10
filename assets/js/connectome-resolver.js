@@ -1762,11 +1762,37 @@ var _directoryLoaded = false;
 var _directoryLoading = false;
 var _directoryCallbacks = [];
 
+// Canonical-node classification (the connectome's inhibitory brake, browser
+// side). Same source of truth as lib/node-guard.js. Loaded once, cached.
+// activateNodes() stamps each activation with its class so a downstream
+// consumer NEVER binds a business/opportunity onto a non-node (tract,
+// molecule, glia, composite, construct, effector, ambiguous). Degrade-safe:
+// if not yet loaded, activations simply carry no guard stamp that cycle.
+var _canon = null;
+function _loadCanon() {
+  if (_canon) return;
+  fetch('/assets/data/canonical-nodes.json')
+    .then(function(r) { return r.ok ? r.json() : null; })
+    .then(function(d) { _canon = (d && d.nodes) || {}; })
+    .catch(function() { _canon = {}; });
+}
+function _guardStamp(nodeId, entry) {
+  if (!_canon) return entry;
+  var rec = _canon[nodeId];
+  if (!rec) { entry.nodeClass = 'unknown'; entry.canBind = false; entry.blocked = true; entry.blockReason = 'id not in canonical set'; return entry; }
+  entry.nodeClass = rec.class;
+  entry.canBind = !!rec.canBindBusiness;
+  entry.motif = rec.motif || null;
+  if (!rec.canBindBusiness) { entry.blocked = true; entry.remapTo = rec.remapTo; entry.blockReason = rec.class + ' is not a bindable node -> ' + rec.remapTo; }
+  return entry;
+}
+
 function loadNodeDirectory(callback) {
   if (_directoryLoaded) { callback(_nodeDirectory); return; }
   _directoryCallbacks.push(callback);
   if (_directoryLoading) return;
   _directoryLoading = true;
+  _loadCanon();
 
   fetch('/assets/data/brain-node-domains.json')
     .then(function(r) { return r.ok ? r.json() : null; })
@@ -1869,14 +1895,14 @@ function activateNodes(stressedFeedDomains) {
     }
 
     if (matchedDomains.length > 0) {
-      nodeActivations[nodeId] = {
+      nodeActivations[nodeId] = _guardStamp(nodeId, {
         nodeId: nodeId,
         domains: matchedDomains,
         // activationStrength is avg raw feed stress — annotation only, not a score
         activationStrength: Math.min(1.0, totalStrength / matchedDomains.length),
         domainCount: matchedDomains.length,
         crossDomainNode: _countUnique(matchedDomains.map(function(d){ return d.feedDomain; })) > 1
-      };
+      });
     }
   }
 
@@ -2007,7 +2033,12 @@ function enrichOpportunity(opp, nodeActivations, feedSnapshot) {
   // Build business mappings from node roles
   var businessMappings = [];
   var seenRoles = {};
+  var brakedNodes = 0;
   for (var ni = 0; ni < topNodes.length; ni++) {
+    // Inhibitory brake: a non-node (tract/molecule/glia/composite/construct/
+    // effector) may NOT carry a business mapping. Skip it — the function
+    // belongs on an edge/param/view, not this phantom unit.
+    if (topNodes[ni].blocked) { brakedNodes++; continue; }
     var nd = topNodes[ni].domains;
     for (var ndi = 0; ndi < nd.length; ndi++) {
       var roleKey = nd[ndi].role;
@@ -2083,11 +2114,18 @@ function enrichOpportunity(opp, nodeActivations, feedSnapshot) {
           feedDomains: srcDomains.filter(function(v, i, a) { return a.indexOf(v) === i; }),
           diagnosisBindings: Array.isArray(n.diagnosisBindings) ? n.diagnosisBindings.slice() : [],
           macroIndicators: macroInd,
+          // canonical guard stamp (carried from activateNodes): a blocked node
+          // is a non-node that was refused a business mapping above.
+          nodeClass: n.nodeClass || null,
+          motif: n.motif || null,
+          blocked: !!n.blocked,
+          remapTo: n.remapTo || null,
           activationOrigin: econOnly ? 'ECONOMY_CONTAGION' : (hasDirect ? 'DIRECT_FEED' : 'TRANSITIVE')
         };
       }),
       nodeCount: topNodes.length,
       totalActivated: relevantNodes.length,
+      brakedNodes: brakedNodes,
       crossDomainNodes: topNodes.filter(function(n) { return n.crossDomainNode; }).length,
       stressorSummary: stressorSummary,
       businessMappings: businessMappings.slice(0, 6),

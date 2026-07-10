@@ -578,6 +578,39 @@ module.exports = async function handler(req, res) {
       }));
     }
 
+    // ── Author-time inhibitory brake (lib/node-guard, motif M1) ─────────
+    // Refuse to WRITE a business binding onto a non-node. The LLM palette
+    // lists neuralRole names (DMN, Salience, ...) that resolve to non-node
+    // ids (composite/tract/molecule/glia/construct/effector/ambiguous); if
+    // one slips into a brainNodeId we STRIP it and flag the entry rather
+    // than shipping a phantom node into the connectome. Empirical remap to
+    // the correct real node is a human job, never an LLM guess — so the
+    // brake refuses, it does not re-guess. Same brake the read-out layer
+    // runs, moved upstream to author time. Additive, never throws.
+    let nodeGuard = { checked: 0, blocked: 0, motifTagged: 0, blockedIds: [] };
+    try {
+      const guard = require('../lib/node-guard');
+      (function walk(o) {
+        if (!o || typeof o !== 'object') return;
+        if (Array.isArray(o)) { for (const v of o) walk(v); return; }
+        for (const k of Object.keys(o)) {
+          if (k === 'brainNodeId' && typeof o[k] === 'string' && o[k]) {
+            nodeGuard.checked++;
+            const g = guard.guardBinding(o[k]);
+            if (!g.ok) {
+              nodeGuard.blocked++;
+              if (nodeGuard.blockedIds.length < 40) nodeGuard.blockedIds.push({ id: o[k], class: g.class, remapTo: g.remapTo });
+              o.brainNodeIdBlocked = { was: o[k], class: g.class, remapTo: g.remapTo, remapTarget: g.remapTarget, reason: g.reason };
+              o[k] = null; // strip the aberrant binding — never ship a phantom node
+            } else if (g.motif) {
+              o.brainNodeMotif = g.motif; // stamp the confirmed motif for the derivation layer
+              nodeGuard.motifTagged++;
+            }
+          } else { walk(o[k]); }
+        }
+      })(r.portal);
+    } catch (e) { nodeGuard.error = String(e && e.message || e); }
+
     // Count functionalNetwork entries — use the FULL WMT-shape category
     // list. Includes both new (logisticsPartners, competitors,
     // executiveTeam, marketSignals) and legacy (peers, partners,
@@ -670,6 +703,7 @@ module.exports = async function handler(req, res) {
         genericityWarning: genericityWarning,
         genericExamples: genericExamples
       },
+      nodeGuard: nodeGuard,
       usage: r.usage,
       model: r.model,
       provenance: {
