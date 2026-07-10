@@ -255,11 +255,12 @@
       "note": "a read-only computed network view; not an edge endpoint or a firm"
     },
     "SMN": {
-      "class": "real",
-      "canBindBusiness": true,
+      "class": "composite",
+      "canBindBusiness": false,
       "motif": null,
-      "role": "somatomotor network — sensorimotor integration",
-      "failureModes": "motor tension/hyperkinesia / motor hypofunction"
+      "remapTo": "view",
+      "remapTarget": "somatomotor network = M1/S1/S2/SMA/PMC (audit: resting-state network, not a region)",
+      "note": "a read-only computed network view; not an edge endpoint or a firm"
     },
     "OSC": {
       "class": "construct",
@@ -270,11 +271,12 @@
       "note": "a state/parameter/emergent property, not a regulated node"
     },
     "VV": {
-      "class": "real",
-      "canBindBusiness": true,
+      "class": "composite",
+      "canBindBusiness": false,
       "motif": null,
-      "role": "ventral visual stream — object recognition",
-      "failureModes": "over-recognition/pareidolia / visual agnosia"
+      "remapTo": "view",
+      "remapTarget": "ventral visual stream = V1/V4V5/FG/PPA/EBA (audit: what-pathway, not a region)",
+      "note": "a read-only computed network view; not an edge endpoint or a firm"
     },
     "TPJ": {
       "class": "real",
@@ -492,8 +494,8 @@
       "class": "real",
       "canBindBusiness": true,
       "motif": null,
-      "role": "cingulate — salience integration",
-      "failureModes": "over-integration/hypervigilance / disintegration, error-blind"
+      "role": "mid-cingulate (MCC) — action-outcome & effort integration",
+      "failureModes": "over-effort/conflict-monitoring / effort-apathy, error-blind"
     },
     "CON": {
       "class": "composite",
@@ -523,7 +525,7 @@
       "canBindBusiness": true,
       "motif": "M4",
       "role": "lateral geniculate — visual thalamic relay",
-      "failureModes": "flood/overload / starvation, blindsight"
+      "failureModes": "flood/overload / starvation, homonymous-field-loss"
     },
     "rACC": {
       "class": "real",
@@ -655,7 +657,7 @@
       "canBindBusiness": true,
       "motif": null,
       "role": "primary auditory processing",
-      "failureModes": "auditory overload/hyperacusis / auditory gating loss"
+      "failureModes": "auditory overload/hyperacusis / cortical-deafness, auditory-agnosia"
     },
     "SC": {
       "class": "real",
@@ -698,7 +700,7 @@
       "canBindBusiness": true,
       "motif": null,
       "role": "mammillary bodies — memory circuit (Papez)",
-      "failureModes": "confabulation / amnesia (Korsakoff)"
+      "failureModes": "memory-interference/intrusion / amnesia, confabulation (Korsakoff)"
     },
     "NBM": {
       "class": "real",
