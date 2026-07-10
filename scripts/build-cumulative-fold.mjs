@@ -43,19 +43,40 @@ const canon = JSON.parse(fs.readFileSync(path.join(LIVE_ROOT, 'assets', 'data', 
 function realNode(id) { const r = canon[id]; return r && r.canBindBusiness ? r : null; }
 function motifOf(id) { const r = canon[id]; return r ? (r.motif || null) : null; }
 
+// ── fractal inheritance resolver (shared with the render derivation): an issue's node is
+//    its verified override, else the nearest ANCESTOR slug's node for that failure-type,
+//    else the type-default. So the deep tree folds up CORRECTED wiring, not random templates.
+const OV = JSON.parse(fs.readFileSync(path.join(LIVE_ROOT, 'assets', 'data', 'diagnosis-node-overrides.json'), 'utf8'));
+const AMAP = JSON.parse(fs.readFileSync(path.join(LIVE_ROOT, 'assets', 'data', 'diagnosis-ancestor-map.json'), 'utf8'));
+const TDEF = AMAP._def || {};
+const FTYPES = { 'system failure': 'sf', 'capacity overload': 'co', 'quality degradation': 'qd', 'governance gap': 'gg', 'coordination breakdown': 'cb' };
+function ftype(l) { l = String(l).toLowerCase(); for (const k in FTYPES) if (l.endsWith(k)) return FTYPES[k]; return 'nm'; }
+function resolveNode(slug, label) {
+  const l = String(label || '').toLowerCase();
+  if (OV[l]) return OV[l].node;                         // named / L1-L3: direct verified node
+  const t = ftype(l); if (t === 'nm') return null;
+  const parts = slug.split('_');
+  for (let d = parts.length - 1; d >= 1; d--) { const a = parts.slice(0, d).join('_'); if (AMAP[a] && AMAP[a][t]) return AMAP[a][t].split('|')[0]; }
+  return TDEF[t] ? TDEF[t].split('|')[0] : null;
+}
+
 const onlyArg = process.argv[2] || null; // optional: fold a single domain (proof/time run)
 
 // depth = underscore segments; parent = drop last segment
 function depthOf(slug) { return slug.split('_').length; }
 function parentOf(slug) { const i = slug.lastIndexOf('_'); return i < 0 ? null : slug.slice(0, i); }
 
-// the foldable per-portal own signal
-function ownSignal(j) {
+// the foldable per-portal own signal — counts the RESOLVED (verified/inherited) node per
+// issue, not the random authored circuits. Authored non-nodes are still tallied as `blocked`.
+function ownSignal(j, slug) {
   const nodes = {};   // real node id -> count
   let blocked = 0;
-  const add = (id) => { if (!id) return; if (realNode(id)) nodes[id] = (nodes[id] || 0) + 1; else if (canon[id] || id) blocked++; };
-  (j.issues || []).forEach(iss => (iss.circuits || []).forEach(c => add(c && c.nodeId)));
-  (j.activations || []).forEach(a => add(a && a.brainNodeId));
+  const countBlocked = (id) => { if (id && !realNode(id) && (canon[id] || id)) blocked++; };
+  (j.issues || []).forEach(iss => (iss.circuits || []).forEach(c => countBlocked(c && c.nodeId)));
+  (j.activations || []).forEach(a => countBlocked(a && a.brainNodeId));
+  (j.issues || []).forEach(iss => { const n = resolveNode(slug, iss.label); if (n && realNode(n)) nodes[n] = (nodes[n] || 0) + 1; });
+  // issue-less portals (activations only) still contribute their inherited system-failure node
+  if (!(j.issues || []).length && (j.activations || []).length) { const n = resolveNode(slug, 'x system failure'); if (n && realNode(n)) nodes[n] = (nodes[n] || 0) + 1; }
   return { issues: (j.issues || []).length, nodes, blocked };
 }
 
@@ -73,7 +94,7 @@ function foldDomain(root) {
   for (const f of files) {
     const slug = f.slice(0, -5);
     let j; try { j = JSON.parse(fs.readFileSync(path.join(SRC, f), 'utf8')); } catch { continue; }
-    const own = ownSignal(j);
+    const own = ownSignal(j, slug);
     rec.set(slug, {
       depth: depthOf(slug), own,
       // subtree accumulators (seed with own; children fold in during pass 2)

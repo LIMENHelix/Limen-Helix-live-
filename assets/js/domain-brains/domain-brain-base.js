@@ -205,6 +205,29 @@
     var l = String(label || '').toLowerCase();
     return (_NAMED_LOADED && _NAMED_LOADED[l]) || _NAMED_OVERRIDE[l] || null;
   }
+  // Fractal ancestor map (deep-issue inheritance; same table as portal-ui + the fold).
+  var _AMAP = null, _amPromise = null;
+  function _loadAncestorMap() {
+    if (_AMAP) return Promise.resolve(_AMAP);
+    if (_amPromise) return _amPromise;
+    _amPromise = fetch('/assets/data/diagnosis-ancestor-map.json')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) { _AMAP = j || {}; return _AMAP; })
+      .catch(function () { _AMAP = {}; return _AMAP; });
+    return _amPromise;
+  }
+  var _FTYPES = { 'system failure': 'sf', 'capacity overload': 'co', 'quality degradation': 'qd', 'governance gap': 'gg', 'coordination breakdown': 'cb' };
+  function _ftypeOf(l) { l = String(l || '').toLowerCase(); for (var k in _FTYPES) { if (l.length >= k.length && l.slice(-k.length) === k) return _FTYPES[k]; } return null; }
+  function _inheritFor(slug, label) {
+    if (!_AMAP) return null;
+    var t = _ftypeOf(label); if (!t) return null;
+    var parts = String(slug || '').split('_');
+    for (var d = parts.length - 1; d >= 1; d--) {
+      var a = parts.slice(0, d).join('_');
+      if (_AMAP[a] && _AMAP[a][t]) { var s = _AMAP[a][t].split('|'); return { node: s[0], dir: s[1] === 'o' ? 'hypo' : 'hyper' }; }
+    }
+    return null;
+  }
 
   // ══════════════════════════════════════════════════════════════════════
   // BASE CLASS
@@ -741,16 +764,18 @@
   // it supersedes it — d.liveReading / d.derived carry the live truth, d.blocked the mis-wire.
   DomainBrainBase.prototype._applyLiveDerivation = function () {
     var self = this;
-    if (!_canonNodes) { _loadCanonicalNodes(); _loadOverrides(); return; }   // load once; applies from next cycle
+    if (!_canonNodes) { _loadCanonicalNodes(); _loadOverrides(); _loadAncestorMap(); return; }   // load once; applies from next cycle
     if (!_NAMED_LOADED) { _loadOverrides(); }
+    if (!_AMAP) { _loadAncestorMap(); }
     var nodes = _canonNodes, dg = self.state.diagnoses || [];
     var braked = 0, live = 0;
     for (var i = 0; i < dg.length; i++) {
       var d = dg[i];
       // Correction priority: named override > generic type-default > authored circuit.
       var _no = _namedOverrideFor(d.label);
-      var _td = _no ? null : _typeDefaultFor(d.label);
-      var _corr = _no || (_td && _td.spec) || null;
+      var _inh = _no ? null : _inheritFor(d.subportal || d.slug, d.label);   // fractal ancestor inheritance
+      var _td = (_no || _inh) ? null : _typeDefaultFor(d.label);
+      var _corr = _no || _inh || (_td && _td.spec) || null;
       var circ = (d.circuits && d.circuits[0]) || null;
       var nid = _corr ? _corr.node : (circ ? (circ.nodeId || circ) : null);
       if (!nid) { d.derived = null; continue; }

@@ -282,6 +282,31 @@ var PortalUI = (function() {
     return (_NAMED_LOADED && _NAMED_LOADED[l]) || _NAMED_OVERRIDE[l] || null;
   }
 
+  // Fractal inheritance: a deep (L4-L7) issue whose exact label isn't in the override set
+  // resolves its node by walking UP the portal slug to the nearest verified ancestor for its
+  // failure-type. Same table + logic as the fold. Subtopic refinement (captioning->BROCA)
+  // cascades all the way down. Falls through to the type-default when no ancestor exists.
+  var _AMAP = null;
+  function _loadAncestorMap() {
+    if (_AMAP) return Promise.resolve(_AMAP);
+    return fetch('/assets/data/diagnosis-ancestor-map.json')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) { _AMAP = j || {}; return _AMAP; })
+      .catch(function () { _AMAP = {}; return _AMAP; });
+  }
+  var _FTYPES = { 'system failure': 'sf', 'capacity overload': 'co', 'quality degradation': 'qd', 'governance gap': 'gg', 'coordination breakdown': 'cb' };
+  function _ftype(l) { l = String(l || '').toLowerCase(); for (var k in _FTYPES) { if (l.length >= k.length && l.slice(-k.length) === k) return _FTYPES[k]; } return null; }
+  function _inheritNode(slug, label) {
+    if (!_AMAP) return null;
+    var t = _ftype(label); if (!t) return null;
+    var parts = String(slug || '').split('_');
+    for (var d = parts.length - 1; d >= 1; d--) {
+      var a = parts.slice(0, d).join('_');
+      if (_AMAP[a] && _AMAP[a][t]) { var s = _AMAP[a][t].split('|'); return { node: s[0], dir: s[1] === 'o' ? 'hypo' : 'hyper' }; }
+    }
+    return null; // type-default handles the rest
+  }
+
   // derive a whole issue: primary = first real bound node's live reading; braked = non-node bindings
   function deriveIssue(issue, domainId) {
     if (!_CANON) return null;
@@ -302,7 +327,14 @@ var PortalUI = (function() {
       var tdd = _deriveNode(td.spec.node, level, td.spec.dir);
       if (tdd.ok) { tdd.typeDefault = td.type; primary = tdd; }
     }
-    // Named override wins over both circuit-primary and type-default.
+    // Fractal inheritance (deep portals): subtopic-refined ancestor node beats the blanket
+    // type-default. DATA.domainId is the portal's slug.
+    var inh = _inheritNode(DATA && DATA.domainId, issue && issue.label);
+    if (inh) {
+      var ind = _deriveNode(inh.node, level, inh.dir);
+      if (ind.ok) { ind.inherited = true; primary = ind; }
+    }
+    // Named override wins over everything (exact verified label).
     var no = _namedOverride(issue && issue.label);
     if (no) {
       var nod = _deriveNode(no.node, level, no.dir);
@@ -439,7 +471,7 @@ var PortalUI = (function() {
       if (der.primary && der.primary.reading) {
         var pc = der.primary.pole === 'hyper' ? '#e0913c' : der.primary.pole === 'hypo' ? '#6fa8c8' : '#5ab5a0';
         _live += '<div style="margin-top:8px;padding:8px 10px;border-left:2px solid ' + pc + ';background:rgba(90,181,160,0.06);border-radius:2px">' +
-          '<div style="font-size:0.42rem;letter-spacing:2px;color:' + pc + ';text-transform:uppercase">LIVE · ' + escHtml(der.primary.nodeId) + (der.primary.motif ? ' · ' + escHtml(der.primary.motif) : '') + ' · ' + escHtml(der.primary.pole) + (der.primary.authored ? '' : ' (level-derived)') + (der.primary.viaComposite ? ' · via ' + escHtml(der.primary.viaComposite) : '') + (der.primary.typeDefault ? ' · type-default' : '') + (der.primary.corrected ? ' · corrected' : '') + '</div>' +
+          '<div style="font-size:0.42rem;letter-spacing:2px;color:' + pc + ';text-transform:uppercase">LIVE · ' + escHtml(der.primary.nodeId) + (der.primary.motif ? ' · ' + escHtml(der.primary.motif) : '') + ' · ' + escHtml(der.primary.pole) + (der.primary.authored ? '' : ' (level-derived)') + (der.primary.viaComposite ? ' · via ' + escHtml(der.primary.viaComposite) : '') + (der.primary.typeDefault ? ' · type-default' : '') + (der.primary.inherited ? ' · inherited' : '') + (der.primary.corrected ? ' · corrected' : '') + '</div>' +
           '<div style="font-family:Crimson Pro,serif;font-size:0.86rem;color:var(--text);line-height:1.5;margin-top:4px">' + escHtml(der.primary.reading) + '</div>' +
           '<div style="font-size:0.4rem;color:var(--text-ghost);letter-spacing:1px;margin-top:4px">' + escHtml(der.domain) + (der.primary.authored ? ' intensity ' : ' level ') + (der.level != null ? Math.round(der.level * 100) + '%' : 'n/a') + ' × ' + (der.primary.authored ? 'authored direction' : 'node motif') + ' · updates with feeds</div>' +
           '</div>';
@@ -3313,8 +3345,9 @@ var PortalUI = (function() {
         }
         _refreshOpenDx();
       });
-      // Load the full mechanism-judged override set; refresh the open dx when ready.
+      // Load the full mechanism-judged override set + the fractal ancestor map; refresh when ready.
       _loadOverrides().then(function () { _refreshOpenDx(); });
+      _loadAncestorMap().then(function () { _refreshOpenDx(); });
 
       // Build circuit legend
       buildCircuitLegend();
