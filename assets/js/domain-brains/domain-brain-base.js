@@ -190,7 +190,21 @@
     'mass surveillance scandal':{node:'vlPFC',dir:'hyper'},'provider burnout / compassion fatigue':{node:'BNST',dir:'hyper'},
     'climate tipping point':{node:'STN',dir:'hypo'},'systemic contagion':{node:'HIPP',dir:'hyper'}
   };
-  function _namedOverrideFor(label) { return _NAMED_OVERRIDE[String(label || '').toLowerCase()] || null; }
+  // Full 517-diagnosis override set (audit-judged), loaded from data once per page.
+  var _NAMED_LOADED = null, _nlPromise = null;
+  function _loadOverrides() {
+    if (_NAMED_LOADED) return Promise.resolve(_NAMED_LOADED);
+    if (_nlPromise) return _nlPromise;
+    _nlPromise = fetch('/assets/data/diagnosis-node-overrides.json')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) { _NAMED_LOADED = j || {}; return _NAMED_LOADED; })
+      .catch(function () { _NAMED_LOADED = {}; return _NAMED_LOADED; });
+    return _nlPromise;
+  }
+  function _namedOverrideFor(label) {
+    var l = String(label || '').toLowerCase();
+    return (_NAMED_LOADED && _NAMED_LOADED[l]) || _NAMED_OVERRIDE[l] || null;
+  }
 
   // ══════════════════════════════════════════════════════════════════════
   // BASE CLASS
@@ -727,7 +741,8 @@
   // it supersedes it — d.liveReading / d.derived carry the live truth, d.blocked the mis-wire.
   DomainBrainBase.prototype._applyLiveDerivation = function () {
     var self = this;
-    if (!_canonNodes) { _loadCanonicalNodes(); return; }   // load once; applies from next cycle
+    if (!_canonNodes) { _loadCanonicalNodes(); _loadOverrides(); return; }   // load once; applies from next cycle
+    if (!_NAMED_LOADED) { _loadOverrides(); }
     var nodes = _canonNodes, dg = self.state.diagnoses || [];
     var braked = 0, live = 0;
     for (var i = 0; i < dg.length; i++) {

@@ -267,7 +267,20 @@ var PortalUI = (function() {
     'climate tipping point':    { node: 'STN',   dir: 'hypo'  },   // no-brake = runaway
     'systemic contagion':       { node: 'HIPP',  dir: 'hyper' }    // feedback-fail = runaway
   };
-  function _namedOverride(label) { return _NAMED_OVERRIDE[String(label || '').toLowerCase()] || null; }
+  // The full 517-diagnosis override set (mechanism-judged by the audit) is loaded
+  // from data; the hardcoded map above is the pre-load fallback. Loaded map wins.
+  var _NAMED_LOADED = null;
+  function _loadOverrides() {
+    if (_NAMED_LOADED) return Promise.resolve(_NAMED_LOADED);
+    return fetch('/assets/data/diagnosis-node-overrides.json')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) { _NAMED_LOADED = j || {}; return _NAMED_LOADED; })
+      .catch(function () { _NAMED_LOADED = {}; return _NAMED_LOADED; });
+  }
+  function _namedOverride(label) {
+    var l = String(label || '').toLowerCase();
+    return (_NAMED_LOADED && _NAMED_LOADED[l]) || _NAMED_OVERRIDE[l] || null;
+  }
 
   // derive a whole issue: primary = first real bound node's live reading; braked = non-node bindings
   function deriveIssue(issue, domainId) {
@@ -3300,6 +3313,8 @@ var PortalUI = (function() {
         }
         _refreshOpenDx();
       });
+      // Load the full mechanism-judged override set; refresh the open dx when ready.
+      _loadOverrides().then(function () { _refreshOpenDx(); });
 
       // Build circuit legend
       buildCircuitLegend();
