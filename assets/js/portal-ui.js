@@ -228,10 +228,21 @@ var PortalUI = (function() {
     var level = _liveLevel(domainId);
     var primary = null, braked = [];
     for (var i = 0; i < circuits.length; i++) {
-      var nid = circuits[i] && circuits[i].nodeId; if (!nid) continue;
-      var d = _deriveNode(nid, level, circuits[i] && circuits[i].dir);
-      if (d.blocked) { braked.push(d); continue; }
+      var c = circuits[i], nid = c && c.nodeId; if (!nid) continue;
+      var d = _deriveNode(nid, level, c && c.dir);
+      if (d.blocked) { d._dir = c && c.dir; braked.push(d); continue; }
       if (d.ok && !primary) primary = d;
+    }
+    // Rescue: an issue wired ONLY to non-nodes still reads by routing a braked
+    // composite to its real member node (deterministic, from the anatomy).
+    if (!primary) {
+      for (var b = 0; b < braked.length && !primary; b++) {
+        var comps = (_CANON[braked[b].nodeId] && _CANON[braked[b].nodeId].components) || [];
+        for (var k = 0; k < comps.length; k++) {
+          var cd = _deriveNode(comps[k], level, braked[b]._dir);
+          if (cd.ok) { cd.viaComposite = braked[b].nodeId; primary = cd; break; }
+        }
+      }
     }
     return { level: level, primary: primary, braked: braked, domain: _rootDomain(domainId) };
   }
@@ -353,7 +364,7 @@ var PortalUI = (function() {
       if (der.primary && der.primary.reading) {
         var pc = der.primary.pole === 'hyper' ? '#e0913c' : der.primary.pole === 'hypo' ? '#6fa8c8' : '#5ab5a0';
         _live += '<div style="margin-top:8px;padding:8px 10px;border-left:2px solid ' + pc + ';background:rgba(90,181,160,0.06);border-radius:2px">' +
-          '<div style="font-size:0.42rem;letter-spacing:2px;color:' + pc + ';text-transform:uppercase">LIVE · ' + escHtml(der.primary.nodeId) + (der.primary.motif ? ' · ' + escHtml(der.primary.motif) : '') + ' · ' + escHtml(der.primary.pole) + (der.primary.authored ? '' : ' (level-derived)') + '</div>' +
+          '<div style="font-size:0.42rem;letter-spacing:2px;color:' + pc + ';text-transform:uppercase">LIVE · ' + escHtml(der.primary.nodeId) + (der.primary.motif ? ' · ' + escHtml(der.primary.motif) : '') + ' · ' + escHtml(der.primary.pole) + (der.primary.authored ? '' : ' (level-derived)') + (der.primary.viaComposite ? ' · via ' + escHtml(der.primary.viaComposite) : '') + '</div>' +
           '<div style="font-family:Crimson Pro,serif;font-size:0.86rem;color:var(--text);line-height:1.5;margin-top:4px">' + escHtml(der.primary.reading) + '</div>' +
           '<div style="font-size:0.4rem;color:var(--text-ghost);letter-spacing:1px;margin-top:4px">' + escHtml(der.domain) + (der.primary.authored ? ' intensity ' : ' level ') + (der.level != null ? Math.round(der.level * 100) + '%' : 'n/a') + ' × ' + (der.primary.authored ? 'authored direction' : 'node motif') + ' · updates with feeds</div>' +
           '</div>';

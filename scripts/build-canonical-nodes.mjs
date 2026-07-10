@@ -136,6 +136,17 @@ const PROCESSING = {
   ENS:       { role:'enteric nervous system — gut autonomic regulation',                fail:'gut hypermotility/IBS / gut hypomotility, atony' },
 };
 
+// Composite → its REAL member nodes. A composite can't carry a business/diagnosis
+// itself (it's a view), but when an issue is wired ONLY to composites the reading
+// would vanish; the derivation falls back to the composite's real members so the
+// function still lands on a real node. Deterministic, from the anatomy.
+const COMPOSITE_COMPONENTS = {
+  DMN:['mPFC','PCC','PRECUNEUS'], DMNMTL:['HIPP','mPFC'], SN:['AI','dACC'],
+  FPN:['dlPFC','IPS'], FPC:['dlPFC','IPS'], ECN:['dlPFC'], DAN:['FEF','IPS'],
+  VAN:['TPJ'], CON:['dACC','AI'], LANG:['BROCA','WERN','AG'], STRI:['CAUD','PUT','NAcc'],
+  HPA:['HYPO','PIT'], GBA:['ENS','NTS'], SMN:['M1','S1'], VV:['FG','V4V5']
+};
+
 const idIndex = {};
 for (const [cls, spec] of Object.entries(NON)) for (const [m, target] of Object.entries(spec.members)) idIndex[m] = { class: cls, remapTo: spec.remapTo, remapTarget: target || null, note: spec.note };
 
@@ -143,7 +154,7 @@ const nodeIds = Object.keys(JSON.parse(fs.readFileSync(SRC, 'utf8'))).filter(k =
 const out = { _meta: { source: 'brain-node-domains.json + Connectome Node Regulatory Reference + 10-agent audit backbone', built: 'deterministic', total: nodeIds.length }, nodes: {} };
 let real = 0, control = 0, non = 0, processing = 0, ungrammared = 0;
 for (const id of nodeIds) {
-  if (idIndex[id]) { out.nodes[id] = { class: idIndex[id].class, canBindBusiness: false, motif: null, remapTo: idIndex[id].remapTo, remapTarget: idIndex[id].remapTarget, note: idIndex[id].note }; non++; }
+  if (idIndex[id]) { out.nodes[id] = { class: idIndex[id].class, canBindBusiness: false, motif: null, remapTo: idIndex[id].remapTo, remapTarget: idIndex[id].remapTarget, note: idIndex[id].note }; if (COMPOSITE_COMPONENTS[id]) out.nodes[id].components = COMPOSITE_COMPONENTS[id].filter(c => CONTROL[c] || PROCESSING[c]); non++; }
   else if (CONTROL[id]) { out.nodes[id] = { class: 'real', canBindBusiness: true, motif: CONTROL[id].motif, role: CONTROL[id].role, failureModes: CONTROL[id].fail }; real++; control++; }
   else if (PROCESSING[id]) { out.nodes[id] = { class: 'real', canBindBusiness: true, motif: null, role: PROCESSING[id].role, failureModes: PROCESSING[id].fail }; real++; processing++; }
   else { out.nodes[id] = { class: 'real', canBindBusiness: true, motif: null, role: null }; real++; ungrammared++; }

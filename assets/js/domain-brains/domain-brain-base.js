@@ -708,18 +708,26 @@
       var nid = circ ? (circ.nodeId || circ) : null;
       if (!nid) { d.derived = null; continue; }
       var rec = _classifyNode(nid, nodes);
+      var _via = null;
       if (!rec.canBindBusiness) {
-        d.blocked = true;
-        d.blockReason = 'wired to non-node ' + nid + ' (' + rec.class + ' → ' + (rec.remapTo || '?') + ')';
-        d.derived = null; braked++;
-        continue;
+        // Rescue: route a composite to its real member so the reading survives.
+        var comps = rec.components || [];
+        var frec = null, fid = null;
+        for (var ci = 0; ci < comps.length; ci++) { var cr = _classifyNode(comps[ci], nodes); if (cr.canBindBusiness) { frec = cr; fid = comps[ci]; break; } }
+        if (!frec) {
+          d.blocked = true;
+          d.blockReason = 'wired to non-node ' + nid + ' (' + rec.class + ' → ' + (rec.remapTo || '?') + ')';
+          d.derived = null; braked++;
+          continue;
+        }
+        _via = nid; rec = frec; nid = fid;   // proceed with the real component
       }
       d.blocked = false;
       var st = self._subTopicSignal(d);
       // Honor the circuit's authored direction (Hyper/Hypo) as the pole; live level = intensity.
       var _dir = (circ && typeof circ === 'object' && (circ.dir || circ.direction)) || d.dir || null;
       var der = _deriveFailurePole(rec, st.level, null, null, _dir);
-      der.node = nid; der.feeds = st.feeds; der.matchedFeeds = st.matched;
+      der.node = nid; der.viaComposite = _via; der.feeds = st.feeds; der.matchedFeeds = st.matched;
       der.source = st.matched ? 'live-feed-derived' : 'node-level-derived';
       d.derived = der;
       if (der.pole !== 'regulated' && der.reading) {

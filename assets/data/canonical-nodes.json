@@ -74,7 +74,12 @@
       "motif": null,
       "remapTo": "view",
       "remapTarget": "aggregate view",
-      "note": "a read-only computed network view; not an edge endpoint or a firm"
+      "note": "a read-only computed network view; not an edge endpoint or a firm",
+      "components": [
+        "mPFC",
+        "PCC",
+        "PRECUNEUS"
+      ]
     },
     "STRI": {
       "class": "composite",
@@ -82,7 +87,12 @@
       "motif": null,
       "remapTo": "view",
       "remapTarget": "CAUD+PUT+NAcc",
-      "note": "a read-only computed network view; not an edge endpoint or a firm"
+      "note": "a read-only computed network view; not an edge endpoint or a firm",
+      "components": [
+        "CAUD",
+        "PUT",
+        "NAcc"
+      ]
     },
     "HPA": {
       "class": "composite",
@@ -90,7 +100,11 @@
       "motif": null,
       "remapTo": "view",
       "remapTarget": "HYPO→PIT→ADR loop",
-      "note": "a read-only computed network view; not an edge endpoint or a firm"
+      "note": "a read-only computed network view; not an edge endpoint or a firm",
+      "components": [
+        "HYPO",
+        "PIT"
+      ]
     },
     "GABA_GLU": {
       "class": "molecule",
@@ -135,7 +149,11 @@
       "motif": null,
       "remapTo": "view",
       "remapTarget": "gut-brain axis view",
-      "note": "a read-only computed network view; not an edge endpoint or a firm"
+      "note": "a read-only computed network view; not an edge endpoint or a firm",
+      "components": [
+        "ENS",
+        "NTS"
+      ]
     },
     "HIPP": {
       "class": "real",
@@ -223,7 +241,11 @@
       "motif": null,
       "remapTo": "view",
       "remapTarget": "control-network view",
-      "note": "a read-only computed network view; not an edge endpoint or a firm"
+      "note": "a read-only computed network view; not an edge endpoint or a firm",
+      "components": [
+        "dlPFC",
+        "IPS"
+      ]
     },
     "M1": {
       "class": "real",
@@ -252,7 +274,11 @@
       "motif": null,
       "remapTo": "view",
       "remapTarget": "AI+dACC",
-      "note": "a read-only computed network view; not an edge endpoint or a firm"
+      "note": "a read-only computed network view; not an edge endpoint or a firm",
+      "components": [
+        "AI",
+        "dACC"
+      ]
     },
     "SMN": {
       "class": "composite",
@@ -260,7 +286,11 @@
       "motif": null,
       "remapTo": "view",
       "remapTarget": "somatomotor network = M1/S1/S2/SMA/PMC (audit: resting-state network, not a region)",
-      "note": "a read-only computed network view; not an edge endpoint or a firm"
+      "note": "a read-only computed network view; not an edge endpoint or a firm",
+      "components": [
+        "M1",
+        "S1"
+      ]
     },
     "OSC": {
       "class": "construct",
@@ -276,7 +306,11 @@
       "motif": null,
       "remapTo": "view",
       "remapTarget": "ventral visual stream = V1/V4V5/FG/PPA/EBA (audit: what-pathway, not a region)",
-      "note": "a read-only computed network view; not an edge endpoint or a firm"
+      "note": "a read-only computed network view; not an edge endpoint or a firm",
+      "components": [
+        "FG",
+        "V4V5"
+      ]
     },
     "TPJ": {
       "class": "real",
@@ -305,7 +339,10 @@
       "motif": null,
       "remapTo": "view",
       "remapTarget": "= FPN (dedupe)",
-      "note": "a read-only computed network view; not an edge endpoint or a firm"
+      "note": "a read-only computed network view; not an edge endpoint or a firm",
+      "components": [
+        "dlPFC"
+      ]
     },
     "SNS": {
       "class": "effector",
@@ -458,7 +495,11 @@
       "motif": null,
       "remapTo": "view",
       "remapTarget": "attention view",
-      "note": "a read-only computed network view; not an edge endpoint or a firm"
+      "note": "a read-only computed network view; not an edge endpoint or a firm",
+      "components": [
+        "FEF",
+        "IPS"
+      ]
     },
     "SEPT": {
       "class": "real",
@@ -480,7 +521,12 @@
       "motif": null,
       "remapTo": "view",
       "remapTarget": "Broca+Wernicke+AG view",
-      "note": "a read-only computed network view; not an edge endpoint or a firm"
+      "note": "a read-only computed network view; not an edge endpoint or a firm",
+      "components": [
+        "BROCA",
+        "WERN",
+        "AG"
+      ]
     },
     "UNC": {
       "class": "tract",
@@ -503,7 +549,11 @@
       "motif": null,
       "remapTo": "view",
       "remapTarget": "cingulo-opercular view",
-      "note": "a read-only computed network view; not an edge endpoint or a firm"
+      "note": "a read-only computed network view; not an edge endpoint or a firm",
+      "components": [
+        "dACC",
+        "AI"
+      ]
     },
     "V1": {
       "class": "real",
@@ -745,7 +795,10 @@
       "motif": null,
       "remapTo": "view",
       "remapTarget": "attention view",
-      "note": "a read-only computed network view; not an edge endpoint or a firm"
+      "note": "a read-only computed network view; not an edge endpoint or a firm",
+      "components": [
+        "TPJ"
+      ]
     },
     "MDT": {
       "class": "real",
@@ -847,7 +900,11 @@
       "motif": null,
       "remapTo": "view",
       "remapTarget": "control-network view",
-      "note": "a read-only computed network view; not an edge endpoint or a firm"
+      "note": "a read-only computed network view; not an edge endpoint or a firm",
+      "components": [
+        "dlPFC",
+        "IPS"
+      ]
     },
     "PI": {
       "class": "real",
@@ -892,7 +949,11 @@
       "motif": null,
       "remapTo": "view",
       "remapTarget": "DMN subsystem view",
-      "note": "a read-only computed network view; not an edge endpoint or a firm"
+      "note": "a read-only computed network view; not an edge endpoint or a firm",
+      "components": [
+        "HIPP",
+        "mPFC"
+      ]
     },
     "SPL": {
       "class": "real",
