@@ -197,20 +197,29 @@ var PortalUI = (function() {
     } catch (e) {}
     return null;
   }
-  function _deriveNode(nodeId, level) {
+  function _poleText(rec, pole) {
+    // Split on " / " (space-slash-space) — a pole itself may contain a slash,
+    // e.g. "mania/addiction / anhedonia".
+    var parts = String(rec.failureModes || '').split(/\s+\/\s+/);
+    if (pole === 'hyper') return (parts[0] || '').trim() || 'elevated activation';
+    if (pole === 'hypo') return (parts[1] || '').trim() || 'suppressed activation';
+    return rec.motif ? 'within regulated range' : 'nominal activation';
+  }
+  function _deriveNode(nodeId, level, dir) {
     var rec = _CANON && _CANON[nodeId];
     if (!rec) return { unknown: true, nodeId: nodeId };
     if (!rec.canBindBusiness) return { blocked: true, nodeId: nodeId, cls: rec.class, remapTo: rec.remapTo };
-    if (level == null) return { ok: true, nodeId: nodeId, motif: rec.motif, role: rec.role || null, pole: null, reading: null };
-    var parts = String(rec.failureModes || '').split('/');
-    var pole = level >= 0.60 ? 'hyper' : (level <= 0.15 ? 'hypo' : 'regulated');
-    // Motif nodes carry a specific failure grammar; real nodes without a control
-    // motif fall back to a generic level reading so EVERY portal reads live.
-    var text;
-    if (pole === 'hyper') text = (parts[0] || '').trim() || 'elevated activation';
-    else if (pole === 'hypo') text = (parts[1] || '').trim() || 'suppressed activation';
-    else text = rec.motif ? 'within regulated range' : 'nominal activation';
-    return { ok: true, nodeId: nodeId, motif: rec.motif, role: rec.role || null, level: level, pole: pole, reading: text };
+    // The circuit's AUTHORED direction (Hyper/Hypo) is the issue's inherent
+    // dysregulation pole — e.g. a credit freeze IS a shut gate (hypo) whether or
+    // not the whole domain is hot. So the authored direction sets the POLE and
+    // the live level sets INTENSITY. Only when a circuit carries no direction do
+    // we fall back to deriving the pole from the level.
+    var dl = String(dir || '').toLowerCase();
+    var authoredPole = dl.indexOf('hyper') === 0 ? 'hyper' : dl.indexOf('hypo') === 0 ? 'hypo' : null;
+    if (level == null && !authoredPole) return { ok: true, nodeId: nodeId, motif: rec.motif, role: rec.role || null, pole: null, reading: null };
+    var pole = authoredPole || (level >= 0.60 ? 'hyper' : (level <= 0.15 ? 'hypo' : 'regulated'));
+    return { ok: true, nodeId: nodeId, motif: rec.motif, role: rec.role || null,
+             level: level, intensity: level, pole: pole, authored: !!authoredPole, reading: _poleText(rec, pole) };
   }
   // derive a whole issue: primary = first real bound node's live reading; braked = non-node bindings
   function deriveIssue(issue, domainId) {
@@ -220,7 +229,7 @@ var PortalUI = (function() {
     var primary = null, braked = [];
     for (var i = 0; i < circuits.length; i++) {
       var nid = circuits[i] && circuits[i].nodeId; if (!nid) continue;
-      var d = _deriveNode(nid, level);
+      var d = _deriveNode(nid, level, circuits[i] && circuits[i].dir);
       if (d.blocked) { braked.push(d); continue; }
       if (d.ok && !primary) primary = d;
     }
@@ -344,9 +353,9 @@ var PortalUI = (function() {
       if (der.primary && der.primary.reading) {
         var pc = der.primary.pole === 'hyper' ? '#e0913c' : der.primary.pole === 'hypo' ? '#6fa8c8' : '#5ab5a0';
         _live += '<div style="margin-top:8px;padding:8px 10px;border-left:2px solid ' + pc + ';background:rgba(90,181,160,0.06);border-radius:2px">' +
-          '<div style="font-size:0.42rem;letter-spacing:2px;color:' + pc + ';text-transform:uppercase">LIVE · ' + escHtml(der.primary.nodeId) + (der.primary.motif ? ' · ' + escHtml(der.primary.motif) : '') + ' · ' + escHtml(der.primary.pole) + '</div>' +
+          '<div style="font-size:0.42rem;letter-spacing:2px;color:' + pc + ';text-transform:uppercase">LIVE · ' + escHtml(der.primary.nodeId) + (der.primary.motif ? ' · ' + escHtml(der.primary.motif) : '') + ' · ' + escHtml(der.primary.pole) + (der.primary.authored ? '' : ' (level-derived)') + '</div>' +
           '<div style="font-family:Crimson Pro,serif;font-size:0.86rem;color:var(--text);line-height:1.5;margin-top:4px">' + escHtml(der.primary.reading) + '</div>' +
-          '<div style="font-size:0.4rem;color:var(--text-ghost);letter-spacing:1px;margin-top:4px">' + escHtml(der.domain) + ' level ' + (der.level != null ? Math.round(der.level * 100) + '%' : 'n/a') + ' × node motif · updates with feeds</div>' +
+          '<div style="font-size:0.4rem;color:var(--text-ghost);letter-spacing:1px;margin-top:4px">' + escHtml(der.domain) + (der.primary.authored ? ' intensity ' : ' level ') + (der.level != null ? Math.round(der.level * 100) + '%' : 'n/a') + ' × ' + (der.primary.authored ? 'authored direction' : 'node motif') + ' · updates with feeds</div>' +
           '</div>';
       } else if (der.primary) {
         _live += '<div style="margin-top:6px;font-size:0.42rem;color:var(--text-ghost);letter-spacing:1px">LIVE READING PENDING — awaiting live ' + escHtml(der.domain) + ' level</div>';

@@ -147,13 +147,21 @@
   function _classifyNode(id, nodes) {
     return (nodes && nodes[id]) || { class: 'unknown', canBindBusiness: false, motif: null, remapTo: 'confirm' };
   }
-  // diagnosis = f(live activation, node motif failure-modes). hi/lo = the failure poles.
-  function _deriveFailurePole(rec, level, hi, lo) {
+  // diagnosis = f(authored direction OR live activation, node motif failure-modes).
+  // The circuit's authored direction (Hyper/Hypo) sets the POLE (a diagnosis has an
+  // inherent dysregulation direction); the live level sets INTENSITY. Falls back to
+  // level-derived pole when no direction is authored. hi/lo = the level thresholds.
+  function _deriveFailurePole(rec, level, hi, lo, dir) {
     hi = hi == null ? 0.60 : hi; lo = lo == null ? 0.15 : lo;
-    var parts = String(rec.failureModes || '').split('/');
-    var pole = level >= hi ? 'hyper' : (level <= lo ? 'hypo' : 'regulated');
-    var text = pole === 'hyper' ? (parts[0] || '').trim() : pole === 'hypo' ? (parts[1] || '').trim() : 'within regulated range';
-    return { motif: rec.motif || null, role: rec.role || null, level: Math.round(level * 1000) / 1000, pole: pole, reading: text };
+    // Split on " / " — a pole may contain its own slash (e.g. "mania/addiction / anhedonia").
+    var parts = String(rec.failureModes || '').split(/\s+\/\s+/);
+    var dl = String(dir || '').toLowerCase();
+    var authoredPole = dl.indexOf('hyper') === 0 ? 'hyper' : dl.indexOf('hypo') === 0 ? 'hypo' : null;
+    var pole = authoredPole || (level >= hi ? 'hyper' : (level <= lo ? 'hypo' : 'regulated'));
+    var text = pole === 'hyper' ? ((parts[0] || '').trim() || 'elevated activation')
+             : pole === 'hypo' ? ((parts[1] || '').trim() || 'suppressed activation')
+             : (rec.motif ? 'within regulated range' : 'nominal activation');
+    return { motif: rec.motif || null, role: rec.role || null, level: Math.round(level * 1000) / 1000, pole: pole, authored: !!authoredPole, reading: text };
   }
 
   // ══════════════════════════════════════════════════════════════════════
@@ -708,7 +716,9 @@
       }
       d.blocked = false;
       var st = self._subTopicSignal(d);
-      var der = _deriveFailurePole(rec, st.level);
+      // Honor the circuit's authored direction (Hyper/Hypo) as the pole; live level = intensity.
+      var _dir = (circ && typeof circ === 'object' && (circ.dir || circ.direction)) || d.dir || null;
+      var der = _deriveFailurePole(rec, st.level, null, null, _dir);
       der.node = nid; der.feeds = st.feeds; der.matchedFeeds = st.matched;
       der.source = st.matched ? 'live-feed-derived' : 'node-level-derived';
       d.derived = der;
