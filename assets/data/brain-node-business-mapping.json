@@ -154,7 +154,8 @@
         "label": "Technology",
         "role": "Artificial Intelligence — Adaptation & Learning"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "VTA": {
     "region": "Ventral Tegmental Area (VTA)",
@@ -311,7 +312,8 @@
         "label": "Trade & Logistics",
         "role": "Food Safety Standards Technology & Innovation"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "OFC": {
     "region": "Orbitofrontal Cortex (OFC)",
@@ -468,7 +470,8 @@
         "label": "Technology",
         "role": "AI Analytics Risk & Resilience"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "dlPFC": {
     "region": "Dorsolateral PFC (DLPFC)",
@@ -630,7 +633,8 @@
         "label": "P2",
         "role": "Inventory Management"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "BLA": {
     "region": "Basolateral Amygdala (BLA)",
@@ -792,7 +796,8 @@
         "label": "Trade & Logistics",
         "role": "Traceability Systems Infrastructure & Capacity"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "BNST": {
     "region": "Bed Nucleus of Stria Terminalis (BNST)",
@@ -944,7 +949,8 @@
         "label": "Trade & Logistics",
         "role": "Bound vs Applied Tariffs Policy & Governance"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "AI": {
     "region": "Anterior Insula (AI)",
@@ -1106,7 +1112,8 @@
         "label": "Trade & Logistics",
         "role": "Agricultural Quotas Core Operations"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "dACC": {
     "region": "Dorsal ACC (dACC)",
@@ -1268,7 +1275,8 @@
         "label": "Trade & Logistics",
         "role": "Commodity Futures Quality & Performance"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "mPFC": {
     "region": "Medial Prefrontal Cortex (mPFC)",
@@ -1425,7 +1433,8 @@
         "label": "Trade & Logistics",
         "role": "Agritrade Technology & Innovation"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "DMN": {
     "region": "Default Mode Network (network-level)",
@@ -1433,7 +1442,6 @@
     "phase": "P0/P8",
     "function": "Network-level: rest-state activity, autobiographical narrative, self-referential thought, mind-wandering. Aggregates mPFC + PCC + AG + precuneus + parts of HIPP.",
     "dysregulation": "Hyperactive → rumination, depression, ego inflation. Hypoactive → depersonalization, psychedelic ego dissolution.",
-    "business": "Brand strategy firms, corporate identity consulting, legacy/heritage agencies, succession planning, executive coaching",
     "source": "draft",
     "domainBindings": [
       {
@@ -1572,7 +1580,11 @@
         "label": "Trade & Logistics",
         "role": "Agritrade — Adaptation & Learning — Primary"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "view",
+    "business_braked": "Brand strategy firms, corporate identity consulting, legacy/heritage agencies, succession planning, executive coaching"
   },
   "STRI": {
     "region": "Striatum (Caudate + Putamen + NAc aggregate)",
@@ -1580,7 +1592,6 @@
     "phase": "P6/P5",
     "function": "Action selection, habit formation, procedural learning, reward-based decision-making. Habit-circuit machinery.",
     "dysregulation": "Hyperactive → compulsion, OCD, Tourette's. Hypoactive → Parkinson's bradykinesia.",
-    "business": "Workflow automation, process management, manufacturing operations, habit-forming product design, RPA / robotic process automation, training-platform companies",
     "source": "draft",
     "domainBindings": [
       {
@@ -1729,7 +1740,11 @@
         "label": "Trade & Logistics",
         "role": "Commodity Markets Risk & Resilience"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "view",
+    "business_braked": "Workflow automation, process management, manufacturing operations, habit-forming product design, RPA / robotic process automation, training-platform companies"
   },
   "HPA": {
     "region": "Hypothalamic-Pituitary-Adrenal axis",
@@ -1737,7 +1752,6 @@
     "phase": "P3/P1",
     "function": "Master stress-response cascade — CRH → ACTH → cortisol. Bridges acute (sympathetic) and chronic (cortisol) stress responses.",
     "dysregulation": "Hyperactive → chronic stress, Cushing's, immunosuppression. Hypoactive → adrenal fatigue.",
-    "business": "Stress management programs, cortisol testing labs, occupational health, corporate wellness, endocrinology practices, crisis-management consulting",
     "source": "draft",
     "domainBindings": [
       {
@@ -1891,7 +1905,11 @@
         "label": "Trade & Logistics",
         "role": "Traceability Systems Risk & Resilience"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "view",
+    "business_braked": "Stress management programs, cortisol testing labs, occupational health, corporate wellness, endocrinology practices, crisis-management consulting"
   },
   "GABA_GLU": {
     "region": "GABA-Glutamate balance (neurotransmitter system)",
@@ -1899,7 +1917,6 @@
     "phase": "P5/P3",
     "function": "Excitatory (glutamate) and inhibitory (GABA) balance — sets cortical excitability, network synchrony, sleep depth. The brain's gain control.",
     "dysregulation": "Glutamate excess → excitotoxicity, anxiety, seizure. GABA deficit → anxiety, insomnia.",
-    "business": "Anti-anxiety pharma, sleep medicine, anesthesiology, neurology, seizure-monitoring devices, market-makers / liquidity providers (finance analog)",
     "source": "draft",
     "domainBindings": [
       {
@@ -2028,7 +2045,11 @@
         "label": "Trade & Logistics",
         "role": "Tariff Escalation Assessment & Diagnostics"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "parameter",
+    "business_braked": "Anti-anxiety pharma, sleep medicine, anesthesiology, neurology, seizure-monitoring devices, market-makers / liquidity providers (finance analog)"
   },
   "OPIOID": {
     "region": "Endogenous Opioid System",
@@ -2036,7 +2057,6 @@
     "phase": "P3/P4",
     "function": "Pain modulation, social bonding (mu-opioid), reward/affect (beta-endorphin), withdrawal/aversion (kappa-opioid). Hedonic tone.",
     "dysregulation": "Excess seeking → addiction. Deficit → social pain, depression, fibromyalgia.",
-    "business": "Pain management clinics, opioid pharma (prescription + addiction treatment), MAT clinics, social-bonding platforms, customer-loyalty platforms",
     "source": "draft",
     "domainBindings": [
       {
@@ -2145,7 +2165,11 @@
         "label": "Trade & Logistics",
         "role": "Codex Alimentarius Policy & Governance"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "parameter",
+    "business_braked": "Pain management clinics, opioid pharma (prescription + addiction treatment), MAT clinics, social-bonding platforms, customer-loyalty platforms"
   },
   "LC": {
     "region": "Locus Coeruleus (LC)",
@@ -2297,7 +2321,8 @@
         "label": "Trade & Logistics",
         "role": "Agritrade Core Operations"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "HAB": {
     "region": "Habenula (Lateral)",
@@ -2449,7 +2474,8 @@
         "label": "Trade & Logistics",
         "role": "Contamination Standards Technology & Innovation"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "vmPFC": {
     "region": "Ventromedial PFC (vmPFC)",
@@ -2611,7 +2637,8 @@
         "label": "Technology",
         "role": "generativeai alignment — Signal Acquisition"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "GBA": {
     "region": "Gut-Brain Axis (vagal + microbiome + ENS)",
@@ -2619,7 +2646,6 @@
     "phase": "P0/P4",
     "function": "Bidirectional gut-brain signaling — vagal afferents + microbial metabolites + ENS. Produces 95% of body's serotonin via enterochromaffin cells.",
     "dysregulation": "Dysbiosis → mood, immune, metabolic disorder. Vagal tone loss → autonomic dysregulation.",
-    "business": "Gut microbiome companies, probiotics industry, IBS treatment, functional GI medicine, food-as-medicine companies",
     "source": "draft",
     "domainBindings": [
       {
@@ -2733,7 +2759,11 @@
         "label": "Trade & Logistics",
         "role": "Commodity Markets Human Capital & Development"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "view",
+    "business_braked": "Gut microbiome companies, probiotics industry, IBS treatment, functional GI medicine, food-as-medicine companies"
   },
   "HIPP": {
     "region": "Hippocampus (CA1/CA3/DG aggregate)",
@@ -2895,7 +2925,8 @@
         "label": "Population & Demographics",
         "role": "Aging Population — Regulation Strategy"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "VP": {
     "region": "Ventral Pallidum",
@@ -3047,7 +3078,8 @@
         "label": "Trade & Logistics",
         "role": "Metric Design Evaluation"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "BDNF": {
     "region": "Brain-Derived Neurotrophic Factor (growth factor)",
@@ -3055,7 +3087,6 @@
     "phase": "P10/P8",
     "function": "Neuroplasticity master regulator — synaptic strength, neurogenesis, dendritic growth. Downstream of exercise, ketamine, psychedelics, antidepressants.",
     "dysregulation": "Low BDNF → depression, cognitive decline. High BDNF → enhanced learning, recovery.",
-    "business": "R&D departments, innovation incubators, brain-training apps, ketamine/psychedelic clinics, exercise/wellness brands",
     "source": "draft",
     "domainBindings": [
       {
@@ -3194,7 +3225,11 @@
         "label": "Trade & Logistics",
         "role": "Agritrade — Action Coordination"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "parameter",
+    "business_braked": "R&D departments, innovation incubators, brain-training apps, ketamine/psychedelic clinics, exercise/wellness brands"
   },
   "RAPHE": {
     "region": "Raphe Nuclei (Dorsal + Median)",
@@ -3351,7 +3386,8 @@
         "label": "Trade & Logistics",
         "role": "Commodity Markets Policy & Governance"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "HYPO": {
     "region": "Hypothalamus (preoptic / lateral / arcuate)",
@@ -3488,7 +3524,8 @@
         "label": "Technology",
         "role": "AI Analytics Technology & Innovation"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "PAG": {
     "region": "Periaqueductal Gray (PAG)",
@@ -3630,7 +3667,8 @@
         "label": "Trade & Logistics",
         "role": "Agricultural Quotas Infrastructure & Capacity"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "vlPFC": {
     "region": "Ventrolateral PFC (vlPFC)",
@@ -3792,7 +3830,8 @@
         "label": "Trade & Logistics",
         "role": "Livestock Trade Policy & Governance"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "EMP": {
     "region": "Empathy circuit (AI + ACC + TPJ aggregate)",
@@ -3800,7 +3839,6 @@
     "phase": "P2/P8",
     "function": "Network-level empathy — pain empathy (AI+ACC), cognitive empathy (TPJ), affective empathy (mirror neurons).",
     "dysregulation": "Hyperactive → empathic distress burnout. Hypoactive → psychopathy, autism social cognition deficit.",
-    "business": "UX research, customer service training, mediation/conflict resolution, autism intervention, social robotics, HR consulting",
     "source": "draft",
     "domainBindings": [
       {
@@ -3954,7 +3992,11 @@
         "label": "Trade & Logistics",
         "role": "Diagnostic Mapping Governance"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "state",
+    "business_braked": "UX research, customer service training, mediation/conflict resolution, autism intervention, social robotics, HR consulting"
   },
   "CBLM": {
     "region": "Cerebellum (vermis + hemispheres + dentate aggregate)",
@@ -4106,7 +4148,8 @@
         "label": "Science",
         "role": "Crossref System Technology & Innovation"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "THAL": {
     "region": "Thalamus (multiple nuclei aggregate)",
@@ -4268,7 +4311,8 @@
         "label": "Science",
         "role": "altmetric usage — Signal Acquisition"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "OXY": {
     "region": "Oxytocin System",
@@ -4276,7 +4320,6 @@
     "phase": "P2/P4",
     "function": "Social bonding, trust, in-group affiliation, childbirth/lactation, pair-bonding. Released by social touch and synchrony.",
     "dysregulation": "Low → social aloofness, attachment disorder. High → in-group bias, tribalism.",
-    "business": "Loyalty programs, community platforms, dating services, relationship counseling, in-person retail/hospitality, religious organizations",
     "source": "draft",
     "domainBindings": [
       {
@@ -4410,7 +4453,11 @@
         "label": "Trade & Logistics",
         "role": "Livestock Trade Quality & Performance"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "parameter",
+    "business_braked": "Loyalty programs, community platforms, dating services, relationship counseling, in-person retail/hospitality, religious organizations"
   },
   "FPN": {
     "region": "Frontoparietal Network (=FPCN)",
@@ -4418,7 +4465,6 @@
     "phase": "P6/P5",
     "function": "Cognitive control, flexible task-switching, goal maintenance, working-memory updates. Distinct from DMN (mind-wandering) and DAN (top-down attention).",
     "dysregulation": "Hypoactive → executive dysfunction, ADHD. Hyperactive → cognitive rigidity.",
-    "business": "Management consulting, strategic planning firms, executive search, ERP/PPM software, agile-transformation services, fractional COO firms",
     "source": "draft",
     "domainBindings": [
       {
@@ -4542,7 +4588,11 @@
         "label": "Religion & Symbolic Systems",
         "role": "Buddhism Infrastructure & Capacity"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "view",
+    "business_braked": "Management consulting, strategic planning firms, executive search, ERP/PPM software, agile-transformation services, fractional COO firms"
   },
   "M1": {
     "region": "Primary Motor Cortex (M1)",
@@ -4694,7 +4744,8 @@
         "label": "Religion & Symbolic Systems",
         "role": "Buddhism Quality & Performance"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "BROCA": {
     "region": "Broca's Area (IFG)",
@@ -4851,7 +4902,8 @@
         "label": "Trade & Logistics",
         "role": "Agritrade Infrastructure & Capacity"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "PCC": {
     "region": "Posterior Cingulate Cortex (PCC)",
@@ -4998,7 +5050,8 @@
         "label": "Trade & Logistics",
         "role": "Codex Alimentarius Assessment & Diagnostics"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "SN": {
     "region": "Substantia Nigra (SN)",
@@ -5006,7 +5059,6 @@
     "phase": "P6 / P5",
     "function": "Dopamine for motor control and habit formation. Basal ganglia input via nigrostriatal pathway. Procedural learning.",
     "dysregulation": "Degeneration → Parkinson's disease. Disrupted → motor rigidity, habit inflexibility",
-    "business": "Parkinson's therapeutics, motor rehabilitation, industrial automation, habit-forming product design, sports training tech",
     "source": "111-directory",
     "domainBindings": [
       {
@@ -5145,7 +5197,11 @@
         "label": "Trade & Logistics",
         "role": "Agricultural Tariffs Risk & Resilience"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "view",
+    "business_braked": "Parkinson's therapeutics, motor rehabilitation, industrial automation, habit-forming product design, sports training tech"
   },
   "SMN": {
     "region": "Sensorimotor Network",
@@ -5153,7 +5209,6 @@
     "phase": "P5/P6",
     "function": "Sensorimotor integration — M1+S1+SMA+premotor coordination. Closed-loop sensing + acting.",
     "dysregulation": "Stroke → hemiplegia/hemisensory loss. Plasticity gain → motor learning.",
-    "business": "Industrial automation, robotics, prosthetics, AR/VR haptics, physical therapy, athletic coaching, surgical training",
     "source": "draft",
     "domainBindings": [
       {
@@ -5297,7 +5352,11 @@
         "label": "Trade & Logistics",
         "role": "Commodity Markets Technology & Innovation"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "view",
+    "business_braked": "Industrial automation, robotics, prosthetics, AR/VR haptics, physical therapy, athletic coaching, surgical training"
   },
   "OSC": {
     "region": "Oscillatory dynamics (theta/alpha/beta/gamma)",
@@ -5305,7 +5364,6 @@
     "phase": "P5/P6",
     "function": "Neural rhythms enabling coordination across distant brain regions. Theta (memory), alpha (cortical inhibition), beta (motor + maintenance), gamma (binding).",
     "dysregulation": "Theta dysregulation → memory loss. Gamma decoherence → schizophrenia. Beta excess → motor freezing.",
-    "business": "EEG companies, neurofeedback, meditation tech, sleep-stage research, brain-computer interfaces",
     "source": "draft",
     "domainBindings": [
       {
@@ -5439,7 +5497,11 @@
         "label": "Trade & Logistics",
         "role": "Codex Alimentarius Human Capital & Development"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "state",
+    "business_braked": "EEG companies, neurofeedback, meditation tech, sleep-stage research, brain-computer interfaces"
   },
   "VV": {
     "region": "Ventral Vagal complex",
@@ -5447,7 +5509,6 @@
     "phase": "P2/P4",
     "function": "Ventral vagal branch (parasympathetic, social engagement system per Polyvagal Theory). Heart-rate variability, facial expression, prosody, breathing.",
     "dysregulation": "Low tone → social withdrawal, depression. Hyperactive → fainting (vasovagal).",
-    "business": "HRV-monitoring wearables, polyvagal-informed therapy practices, voice-tech, breathing-app companies, customer-engagement platforms",
     "source": "draft",
     "domainBindings": [
       {
@@ -5566,7 +5627,11 @@
         "label": "Trade & Logistics",
         "role": "bindover diag — Intervention Planning"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "view",
+    "business_braked": "HRV-monitoring wearables, polyvagal-informed therapy practices, voice-tech, breathing-app companies, customer-engagement platforms"
   },
   "TPJ": {
     "region": "Temporoparietal Junction (TPJ)",
@@ -5723,7 +5788,8 @@
         "label": "Psychedelic Medicine",
         "role": "Self-Referential Processing Hub Core Operations"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "PRECUNEUS": {
     "region": "Precuneus",
@@ -5875,7 +5941,8 @@
         "label": "Trade & Logistics",
         "role": "Livestock Trade Risk & Resilience"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "S1": {
     "region": "Primary Somatosensory Cortex (S1)",
@@ -6022,7 +6089,8 @@
         "label": "Science",
         "role": "Citation Networks Policy & Governance"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "ECN": {
     "region": "Executive Control Network (=FPCN)",
@@ -6030,7 +6098,6 @@
     "phase": "P6",
     "function": "Cognitive flexibility, top-down attention, goal maintenance — overlapping but not identical to FPN. Some authors treat FPN/ECN as synonyms.",
     "dysregulation": "Same as FPN.",
-    "business": "Same business set as FPN — management consulting, strategic planning, executive-control software",
     "source": "draft",
     "domainBindings": [
       {
@@ -6134,7 +6201,11 @@
         "label": "Religion & Symbolic Systems",
         "role": "Mahayana Risk & Resilience"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "view",
+    "business_braked": "Same business set as FPN — management consulting, strategic planning, executive-control software"
   },
   "SNS": {
     "region": "Sympathetic Nervous System",
@@ -6142,7 +6213,6 @@
     "phase": "P1/P3",
     "function": "Fight-flight activation — distributed sympathetic chain ganglia, locus coeruleus norepinephrine, adrenal medulla epinephrine.",
     "dysregulation": "Chronic activation → hypertension, anxiety, immunosuppression. Underactive → orthostatic intolerance.",
-    "business": "Stress physiology research, cardiovascular medicine, hypertension treatment, occupational health, military physiology",
     "source": "draft",
     "domainBindings": [
       {
@@ -6251,7 +6321,11 @@
         "label": "Trade & Logistics",
         "role": "Livestock Trade Technology & Innovation"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "effector",
+    "business_braked": "Stress physiology research, cardiovascular medicine, hypertension treatment, occupational health, military physiology"
   },
   "CeA": {
     "region": "Central Amygdala (CeA)",
@@ -6408,7 +6482,8 @@
         "label": "Trade & Logistics",
         "role": "Change Management Systems"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "AG": {
     "region": "Angular Gyrus (AG)",
@@ -6555,7 +6630,8 @@
         "label": "Trade & Logistics",
         "role": "Metric Design Systems"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "SMA": {
     "region": "Supplementary Motor Area (SMA)",
@@ -6702,7 +6778,8 @@
         "label": "Trade & Logistics",
         "role": "Agricultural Quotas Technology & Innovation"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "WERN": {
     "region": "Wernicke's Area (posterior STG)",
@@ -6849,7 +6926,8 @@
         "label": "Technology",
         "role": "Model Inference Policy & Governance"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "IPS": {
     "region": "Intraparietal Sulcus (IPS)",
@@ -6996,7 +7074,8 @@
         "label": "Trade & Logistics",
         "role": "Tariff Escalation Technology & Innovation"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "FG": {
     "region": "Fusiform Gyrus (FFA/VWFA)",
@@ -7133,7 +7212,8 @@
         "label": "Trade & Logistics",
         "role": "Tariff Escalation Core Operations"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "rPFC": {
     "region": "Right Hemisphere Frontal (rPFC)",
@@ -7245,7 +7325,8 @@
         "label": "Trade & Logistics",
         "role": "Tariff Escalation — Optimization & Innovation — Waste Reduction"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "sgACC": {
     "region": "Subgenual ACC (sgACC)",
@@ -7357,7 +7438,8 @@
         "label": "Trade & Logistics",
         "role": "Tariff Escalation — Implementation & Strategy — Workforce Alignment"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "NTS": {
     "region": "Nucleus Tractus Solitarius (NTS)",
@@ -7499,7 +7581,8 @@
         "label": "Technology",
         "role": "Model Monitoring Risk & Resilience"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "CC": {
     "region": "Cingulate Cortex (anterior + mid + posterior aggregate)",
@@ -7507,7 +7590,6 @@
     "phase": "P1/P6",
     "function": "Aggregate cingulate — error monitoring (dACC), emotional regulation (rACC), autobiographical memory (PCC). The brain's referee.",
     "dysregulation": "Hyperactive → OCD checking, depression rumination. Hypoactive → apathy, anosognosia.",
-    "business": "Compliance / audit firms, conflict resolution, quality assurance, regulatory consulting",
     "source": "draft",
     "domainBindings": [
       {
@@ -7651,7 +7733,11 @@
         "label": "Science",
         "role": "Download Metrics Quality & Performance"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "edge",
+    "business_braked": "Compliance / audit firms, conflict resolution, quality assurance, regulatory consulting"
   },
   "FORN": {
     "region": "Fornix",
@@ -7659,7 +7745,6 @@
     "phase": "P0/P2",
     "function": "Major output tract of hippocampus to mammillary bodies, septum, anterior thalamus. Memory consolidation and retrieval pathway.",
     "dysregulation": "Lesion → anterograde amnesia, confabulation.",
-    "business": "Memory-care facilities, neurosurgical device companies, white-matter imaging firms",
     "source": "draft",
     "domainBindings": [
       {
@@ -7803,7 +7888,11 @@
         "label": "Trade & Logistics",
         "role": "Agricultural Tariffs Assessment & Diagnostics"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "edge",
+    "business_braked": "Memory-care facilities, neurosurgical device companies, white-matter imaging firms"
   },
   "ENS": {
     "region": "Enteric Nervous System (ENS)",
@@ -7920,7 +8009,8 @@
         "label": "Trade & Logistics",
         "role": "Agritrade Risk & Resilience"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "CAUD": {
     "region": "Caudate Nucleus",
@@ -8057,7 +8147,8 @@
         "label": "Trade & Logistics",
         "role": "Agritrade Assessment & Diagnostics"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "FEF": {
     "region": "Frontal Eye Field",
@@ -8204,7 +8295,8 @@
         "label": "Technology",
         "role": "AI Deployment Human Capital & Development"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "MICRO": {
     "region": "Microglia (neuroimmune cells)",
@@ -8212,7 +8304,6 @@
     "phase": "P3/P10",
     "function": "Brain's resident immune cells — synaptic pruning, neuroinflammation, debris clearance, neuroprotection. Activated by stress, infection, injury.",
     "dysregulation": "Chronic activation → neuroinflammation, depression, Alzheimer's. Suppressed → poor injury recovery.",
-    "business": "Neuroinflammation pharma, post-COVID clinics, Alzheimer's therapeutics, psychedelic therapy, neuroimmunology labs",
     "source": "draft",
     "domainBindings": [
       {
@@ -8326,7 +8417,11 @@
         "label": "Trade & Logistics",
         "role": "Commodity Hedging Human Capital & Development"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "infrastructure",
+    "business_braked": "Neuroinflammation pharma, post-COVID clinics, Alzheimer's therapeutics, psychedelic therapy, neuroimmunology labs"
   },
   "PBN": {
     "region": "Parabrachial Nucleus (PBN)",
@@ -8468,7 +8563,8 @@
         "label": "Trade & Logistics",
         "role": "Organic Trade Technology & Innovation"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "DV": {
     "region": "Dorsal Vagal complex",
@@ -8580,7 +8676,8 @@
         "label": "Trade & Logistics",
         "role": "Agritrade Quality & Performance"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "EC": {
     "region": "Entorhinal Cortex (EC)",
@@ -8727,7 +8824,8 @@
         "label": "Trade & Logistics",
         "role": "Bound vs Applied Tariffs Risk & Resilience"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "PIN": {
     "region": "Pineal Gland",
@@ -8735,7 +8833,6 @@
     "phase": "P0/P7",
     "function": "Melatonin production — circadian rhythm entrainment, sleep onset, seasonal physiology. Light-suppressed.",
     "dysregulation": "Calcification → poor sleep. Excess melatonin → seasonal-affective patterns.",
-    "business": "Sleep medicine, melatonin/sleep-aid pharma, light therapy, jet-lag remedies, shift-work health programs",
     "source": "draft",
     "domainBindings": [
       {
@@ -8879,7 +8976,11 @@
         "label": "Technology",
         "role": "Process Automation Risk & Resilience"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "effector",
+    "business_braked": "Sleep medicine, melatonin/sleep-aid pharma, light therapy, jet-lag remedies, shift-work health programs"
   },
   "DAN": {
     "region": "Dorsal Attention Network (DAN)",
@@ -8887,7 +8988,6 @@
     "phase": "P5 / P6",
     "function": "Top-down voluntary attention — sustained focus, spatial attention, goal-directed visual search, attention to task.",
     "dysregulation": "Disrupted → difficulty sustaining focus, spatial attention failure. Anticorrelated with DMN normally",
-    "business": "Focus training tech, deep work productivity platforms, military attention training, air traffic control, surgical attention",
     "source": "111-directory",
     "domainBindings": [
       {
@@ -9031,7 +9131,11 @@
         "label": "Trade & Logistics",
         "role": "Commodity Hedging — State Assessment"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "view",
+    "business_braked": "Focus training tech, deep work productivity platforms, military attention training, air traffic control, surgical attention"
   },
   "SEPT": {
     "region": "Septal Nuclei",
@@ -9183,7 +9287,8 @@
         "label": "Trade & Logistics",
         "role": "Traceability Systems Human Capital & Development"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "S2": {
     "region": "Secondary Somatosensory Cortex (S2)",
@@ -9295,7 +9400,8 @@
         "label": "Trade & Logistics",
         "role": "Contamination Standards — Assessment & Monitoring — Outcome Tracking"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "LANG": {
     "region": "Language Network (Broca + Wernicke + AG aggregate)",
@@ -9303,7 +9409,6 @@
     "phase": "P6/P2",
     "function": "Distributed language network — production, comprehension, semantics, syntax. Lateralized (typically left hemisphere).",
     "dysregulation": "Stroke → aphasias of varying type. Neurodegeneration → primary progressive aphasia.",
-    "business": "Speech-language pathology, language learning, translation, LLM/NLP companies, accessibility (subtitling/captioning), legal advocacy",
     "source": "draft",
     "domainBindings": [
       {
@@ -9452,7 +9557,11 @@
         "label": "Technology",
         "role": "Model Monitoring Human Capital & Development"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "view",
+    "business_braked": "Speech-language pathology, language learning, translation, LLM/NLP companies, accessibility (subtitling/captioning), legal advocacy"
   },
   "UNC": {
     "region": "Uncinate Fasciculus",
@@ -9460,7 +9569,6 @@
     "phase": "P2/P3",
     "function": "White-matter tract connecting orbitofrontal cortex to anterior temporal lobe. Carries emotional-mnemonic associations.",
     "dysregulation": "Disrupted → emotional-memory disconnect, PTSD, frontotemporal dementia.",
-    "business": "Diffusion-MRI imaging, white-matter therapeutics, dementia research",
     "source": "draft",
     "domainBindings": [
       {
@@ -9594,7 +9702,11 @@
         "label": "Trade & Logistics",
         "role": "Tariff Escalation Risk & Resilience"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "edge",
+    "business_braked": "Diffusion-MRI imaging, white-matter therapeutics, dementia research"
   },
   "CING": {
     "region": "Cingulum Bundle",
@@ -9746,7 +9858,8 @@
         "label": "Trade & Logistics",
         "role": "Organic Trade Policy & Governance"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "CON": {
     "region": "Cingulo-Opercular Network",
@@ -9754,7 +9867,6 @@
     "phase": "P5/P6",
     "function": "Tonic alertness, task-set maintenance, sustained attention — distinct from phasic FPN switching.",
     "dysregulation": "Hypoactive → attention lapses, ADHD-inattentive type. Hyperactive → hypervigilance.",
-    "business": "Attention-training platforms, ADHD therapeutics, vigilance-monitoring tech, surveillance-operations design",
     "source": "draft",
     "domainBindings": [
       {
@@ -9903,7 +10015,11 @@
         "label": "Trade & Logistics",
         "role": "Agricultural Quotas Assessment & Diagnostics"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "view",
+    "business_braked": "Attention-training platforms, ADHD therapeutics, vigilance-monitoring tech, surveillance-operations design"
   },
   "V1": {
     "region": "Primary Visual Cortex (V1)",
@@ -10045,7 +10161,8 @@
         "label": "Trade & Logistics",
         "role": "Traceability Systems Technology & Innovation"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "CARD": {
     "region": "Cardiac Autonomic Control (NTS + NA + DMV)",
@@ -10053,7 +10170,6 @@
     "phase": "P2/P4",
     "function": "Heart-rate variability, baroreceptor reflex, cardiac autonomic balance. Integrated brainstem control.",
     "dysregulation": "Low HRV → cardiovascular risk, poor stress resilience. Imbalance → arrhythmia.",
-    "business": "Cardiac monitoring, HRV wearables, telecardiology, autonomic-balance therapies",
     "source": "draft",
     "domainBindings": [
       {
@@ -10157,7 +10273,11 @@
         "label": "Technology",
         "role": "AI Deployment Quality & Performance"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "effector",
+    "business_braked": "Cardiac monitoring, HRV wearables, telecardiology, autonomic-balance therapies"
   },
   "LGN": {
     "region": "Lateral Geniculate Nucleus",
@@ -10304,7 +10424,8 @@
         "label": "Trade & Logistics",
         "role": "Agricultural Quotas Policy & Governance"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "rACC": {
     "region": "Rostral ACC",
@@ -10456,7 +10577,8 @@
         "label": "Trade & Logistics",
         "role": "Agritrade Policy & Governance"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "MI": {
     "region": "Mid Insula",
@@ -10464,7 +10586,6 @@
     "phase": "P4/P5",
     "function": "Integration of body-state with behavioral context — bridge between raw interoceptive signal (PI) and emotional-cognitive meaning (AI).",
     "dysregulation": "Dysregulated → eating disorders, addiction, somatic-symptom disorders.",
-    "business": "Eating-disorder treatment, addiction recovery, integrative medicine, occupational therapy, performance coaching",
     "source": "draft",
     "domainBindings": [
       {
@@ -10568,7 +10689,11 @@
         "label": "Trade & Logistics",
         "role": "Contamination Standards — Implementation & Strategy — Workforce Alignment"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "confirm",
+    "business_braked": "Eating-disorder treatment, addiction recovery, integrative medicine, occupational therapy, performance coaching"
   },
   "PIT": {
     "region": "Pituitary Gland (anterior + posterior)",
@@ -10705,7 +10830,8 @@
         "label": "Trade & Logistics",
         "role": "Bound vs Applied Tariffs Technology & Innovation"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "ADR": {
     "region": "Adrenal Glands (cortex + medulla aggregate)",
@@ -10713,7 +10839,6 @@
     "phase": "P1/P3",
     "function": "Cortex: cortisol + aldosterone (sustained stress, metabolism). Medulla: epinephrine + norepinephrine (acute stress).",
     "dysregulation": "Adrenal insufficiency → Addison's. Excess → Cushing's.",
-    "business": "Functional medicine, longevity clinics, adrenal-fatigue programs, emergency medicine, tactical training",
     "source": "draft",
     "domainBindings": [
       {
@@ -10822,7 +10947,11 @@
         "label": "Trade & Logistics",
         "role": "Agricultural Tariffs Technology & Innovation"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "effector",
+    "business_braked": "Functional medicine, longevity clinics, adrenal-fatigue programs, emergency medicine, tactical training"
   },
   "SNIG": {
     "region": "Substantia Nigra (SN)",
@@ -10969,7 +11098,8 @@
         "label": "Trade & Logistics",
         "role": "Tariff Escalation Quality & Performance"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "STN": {
     "region": "Subthalamic Nucleus (STN)",
@@ -11106,7 +11236,8 @@
         "label": "Trade & Logistics",
         "role": "Livestock Trade Human Capital & Development"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "GP": {
     "region": "Globus Pallidus (GP)",
@@ -11243,7 +11374,8 @@
         "label": "Trade & Logistics",
         "role": "Codex Alimentarius Risk & Resilience"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "RF": {
     "region": "Reticular Formation",
@@ -11385,7 +11517,8 @@
         "label": "Trade & Logistics",
         "role": "Baseline Calibration Innovation"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "LAR": {
     "region": "Larynx motor + sensory control",
@@ -11393,7 +11526,6 @@
     "phase": "P2",
     "function": "Laryngeal motor (recurrent laryngeal nerve), voice production, swallow protection.",
     "dysregulation": "Paralysis → voice loss, aspiration risk.",
-    "business": "ENT/laryngology, voice therapy, speech pathology, professional voice coaching",
     "source": "draft",
     "domainBindings": [
       {
@@ -11502,7 +11634,11 @@
         "label": "Trade & Logistics",
         "role": "Tariff Escalation Human Capital & Development"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "effector",
+    "business_braked": "ENT/laryngology, voice therapy, speech pathology, professional voice coaching"
   },
   "STS": {
     "region": "Superior Temporal Sulcus (STS)",
@@ -11639,7 +11775,8 @@
         "label": "Trade & Logistics",
         "role": "Baseline Calibration Governance"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "VEST": {
     "region": "Vestibular System",
@@ -11791,7 +11928,8 @@
         "label": "Trade & Logistics",
         "role": "Trade Subsidies Quality & Performance"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "RSC": {
     "region": "Retrosplenial Cortex (RSC)",
@@ -11943,7 +12081,8 @@
         "label": "Trade & Logistics",
         "role": "Traceability Systems Core Operations"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "EI": {
     "region": "Excitation-Inhibition balance (network-level)",
@@ -11951,7 +12090,6 @@
     "phase": "P5/P3",
     "function": "Network-wide ratio of glutamate to GABA. Sets cortical gain and signal-to-noise. Critical for sensory accuracy, sleep, plasticity.",
     "dysregulation": "Imbalance → autism (E>I), schizophrenia (variable), epilepsy (E>>I).",
-    "business": "Autism therapeutics, antiepileptic pharma, sleep medicine, sensory-processing therapy",
     "source": "draft",
     "domainBindings": [
       {
@@ -12060,7 +12198,11 @@
         "label": "Trade & Logistics",
         "role": "Agritrade — Feedback & Validation"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "state",
+    "business_braked": "Autism therapeutics, antiepileptic pharma, sleep medicine, sensory-processing therapy"
   },
   "PULV": {
     "region": "Pulvinar Thalamus",
@@ -12197,7 +12339,8 @@
         "label": "Trade & Logistics",
         "role": "Agricultural Tariffs Human Capital & Development"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "CLAUST": {
     "region": "Claustrum",
@@ -12339,7 +12482,8 @@
         "label": "Trade & Logistics",
         "role": "commkt futures — Signal Acquisition"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "DISS": {
     "region": "Dissociation Circuit (DMN+claustrum+vagal aggregate)",
@@ -12347,7 +12491,6 @@
     "phase": "P9/P3",
     "function": "Detachment from self / surroundings under overwhelming threat. Combines DMN suppression + claustrum decoupling + dorsal vagal shutdown.",
     "dysregulation": "Chronic → DID, derealization. Acute → trauma response.",
-    "business": "Trauma-informed therapy, DID/dissociation clinics, ketamine-assisted psychotherapy, mindfulness programs",
     "source": "draft",
     "domainBindings": [
       {
@@ -12456,7 +12599,11 @@
         "label": "Trade & Logistics",
         "role": "Codex Alimentarius Quality & Performance"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "state",
+    "business_braked": "Trauma-informed therapy, DID/dissociation clinics, ketamine-assisted psychotherapy, mindfulness programs"
   },
   "ENDO": {
     "region": "Endogenous Cannabinoid System",
@@ -12464,7 +12611,6 @@
     "phase": "P4/P5",
     "function": "Retrograde modulation of synaptic strength. Anxiety, appetite, pain, memory, neuroprotection.",
     "dysregulation": "Low tone → anxiety, PTSD. Excess → motivation deficit.",
-    "business": "Cannabis pharma, CBD wellness brands, PTSD treatment, appetite-regulation products",
     "source": "draft",
     "domainBindings": [
       {
@@ -12578,7 +12724,11 @@
         "label": "Trade & Logistics",
         "role": "Agritrade Monitoring & Evaluation"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "confirm",
+    "business_braked": "Cannabis pharma, CBD wellness brands, PTSD treatment, appetite-regulation products"
   },
   "A1": {
     "region": "Primary Auditory Cortex (A1)",
@@ -12715,7 +12865,8 @@
         "label": "Trade & Logistics",
         "role": "Agritrade — State Assessment"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "SC": {
     "region": "Superior Colliculus (SC)",
@@ -12862,7 +13013,8 @@
         "label": "Trade & Logistics",
         "role": "Bound vs Applied Tariffs Core Operations"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "IC": {
     "region": "Inferior Colliculus",
@@ -12870,7 +13022,6 @@
     "phase": "P0",
     "function": "Midbrain auditory relay — integrates ascending auditory information, sound localization.",
     "dysregulation": "Lesion → auditory processing deficits, sound localization failure.",
-    "business": "Hearing aids, audiology, acoustic engineering, cochlear implants",
     "source": "draft",
     "domainBindings": [
       {
@@ -13009,7 +13160,11 @@
         "label": "Trade & Logistics",
         "role": "Agricultural Tariffs Core Operations"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "confirm",
+    "business_braked": "Hearing aids, audiology, acoustic engineering, cochlear implants"
   },
   "MGN": {
     "region": "Medial Geniculate Nucleus",
@@ -13156,7 +13311,8 @@
         "label": "Trade & Logistics",
         "role": "Food Safety Standards Human Capital & Development"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "PRC": {
     "region": "Perirhinal Cortex",
@@ -13268,7 +13424,8 @@
         "label": "Trade & Logistics",
         "role": "contam diag — Intervention Planning"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "NEOCER": {
     "region": "Neocerebellum (lateral cerebellar hemispheres)",
@@ -13410,7 +13567,8 @@
         "label": "Trade & Logistics",
         "role": "Commodity Markets Assessment & Diagnostics"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "MAMM": {
     "region": "Mammillary Bodies",
@@ -13562,7 +13720,8 @@
         "label": "Trade & Logistics",
         "role": "Food Security Trade Quality & Performance"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "NBM": {
     "region": "Nucleus Basalis of Meynert",
@@ -13714,7 +13873,8 @@
         "label": "Trade & Logistics",
         "role": "Bound vs Applied Tariffs Assessment & Diagnostics"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "CMZ": {
     "region": "Central Migratory Zone (subventricular zone)",
@@ -13722,7 +13882,6 @@
     "phase": "P10/P8",
     "function": "Adult neurogenesis source — neural stem cells migrate from SVZ to olfactory bulb, hippocampus, lesion sites.",
     "dysregulation": "Suppressed → impaired recovery, depression. Excess → glioma origin.",
-    "business": "Regenerative medicine, neural stem-cell therapeutics, post-stroke recovery, neurogenesis research",
     "source": "draft",
     "domainBindings": [
       {
@@ -13866,7 +14025,11 @@
         "label": "Trade & Logistics",
         "role": "Food Safety Standards Quality & Performance"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "confirm",
+    "business_braked": "Regenerative medicine, neural stem-cell therapeutics, post-stroke recovery, neurogenesis research"
   },
   "ARC": {
     "region": "Arcuate Nucleus (hypothalamus)",
@@ -13874,7 +14037,6 @@
     "phase": "P3/P0",
     "function": "Hypothalamic feeding circuit — AgRP (hunger) and POMC (satiety) neurons. Master appetite regulator.",
     "dysregulation": "Hyperphagia (AgRP hyperactive) → obesity. Anorexia (POMC hyperactive).",
-    "business": "Obesity pharma (GLP-1), eating-disorder clinics, weight-management programs, appetite research",
     "source": "draft",
     "domainBindings": [
       {
@@ -14018,7 +14180,11 @@
         "label": "Trade & Logistics",
         "role": "Traceability Systems Assessment & Diagnostics"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "confirm",
+    "business_braked": "Obesity pharma (GLP-1), eating-disorder clinics, weight-management programs, appetite research"
   },
   "PUT": {
     "region": "Putamen",
@@ -14155,7 +14321,8 @@
         "label": "Trade & Logistics",
         "role": "Agritrade Strategic Planning & Alignment"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "TPOLE": {
     "region": "Temporal Pole",
@@ -14307,7 +14474,8 @@
         "label": "Trade & Logistics",
         "role": "Tariff Escalation Policy & Governance"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "VAN": {
     "region": "Ventral Attention Network (VAN)",
@@ -14315,7 +14483,6 @@
     "phase": "P1 / P5",
     "function": "Bottom-up attention reorienting — detects unexpected, behaviorally relevant stimuli and redirects top-down attention. The 'circuit breaker.'",
     "dysregulation": "Hyperactive → distractibility, ADHD. Hypoactive → neglect syndrome, hemineglect after stroke",
-    "business": "Attention training platforms, ADHD intervention, UX design for alert systems, emergency notification design",
     "source": "111-directory",
     "domainBindings": [
       {
@@ -14459,7 +14626,11 @@
         "label": "Trade & Logistics",
         "role": "Bound vs Applied Tariffs Infrastructure & Capacity"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "view",
+    "business_braked": "Attention training platforms, ADHD intervention, UX design for alert systems, emergency notification design"
   },
   "MDT": {
     "region": "Mediodorsal Thalamus",
@@ -14596,7 +14767,8 @@
         "label": "Trade & Logistics",
         "role": "Metric Design Operations"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "ANT": {
     "region": "Anterior Thalamus",
@@ -14733,7 +14905,8 @@
         "label": "Trade & Logistics",
         "role": "Bound vs Applied Tariffs Human Capital & Development"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "PPN": {
     "region": "Pedunculopontine Nucleus (PPN)",
@@ -14875,7 +15048,8 @@
         "label": "Trade & Logistics",
         "role": "Agricultural Quotas Quality & Performance"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "VERM": {
     "region": "Cerebellar Vermis",
@@ -15017,7 +15191,8 @@
         "label": "Trade & Logistics",
         "role": "Commodity Futures Human Capital & Development"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "TrkB": {
     "region": "TrkB Receptor (BDNF receptor)",
@@ -15025,7 +15200,6 @@
     "phase": "P10/P8",
     "function": "BDNF signaling receptor — gates neuroplasticity, synaptic strengthening, antidepressant response.",
     "dysregulation": "Low signaling → depression. Loss-of-function variants → cognitive deficits.",
-    "business": "Antidepressant pharma (TrkB agonists / BDNF-mimetics), psychedelic therapeutics, neuroplasticity research",
     "source": "draft",
     "domainBindings": [
       {
@@ -15134,7 +15308,11 @@
         "label": "Trade & Logistics",
         "role": "Contamination Standards Policy & Governance"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "parameter",
+    "business_braked": "Antidepressant pharma (TrkB agonists / BDNF-mimetics), psychedelic therapeutics, neuroplasticity research"
   },
   "VIA": {
     "region": "Visual Awareness (V1+higher visual cortex aggregate)",
@@ -15142,7 +15320,6 @@
     "phase": "P0/P2",
     "function": "Network-level conscious visual awareness — V1 + V2/V4/IT + parietal attentional networks.",
     "dysregulation": "Lesion → blindsight (unconscious vision), neglect.",
-    "business": "Ophthalmology, neuro-ophthalmology, visual-prosthesis companies, autonomous-vehicle perception",
     "source": "draft",
     "domainBindings": [
       {
@@ -15246,7 +15423,11 @@
         "label": "Trade & Logistics",
         "role": "Air Warehouse — State Assessment"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "confirm",
+    "business_braked": "Ophthalmology, neuro-ophthalmology, visual-prosthesis companies, autonomous-vehicle perception"
   },
   "MFC": {
     "region": "Medial Frontal Cortex (MFC)",
@@ -15358,7 +15539,8 @@
         "label": "Trade & Logistics",
         "role": "Agritrade — Diagnostic Analysis"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "EBA": {
     "region": "Extrastriate Body Area (EBA)",
@@ -15470,7 +15652,8 @@
         "label": "Trade & Logistics",
         "role": "Sort Facilities — State Assessment"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "SCN": {
     "region": "Suprachiasmatic Nucleus (SCN)",
@@ -15582,7 +15765,8 @@
         "label": "Trade & Logistics",
         "role": "seedtrade germplasm — Signal Acquisition"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "V4V5": {
     "region": "Visual Association Cortex (V4 color + V5/MT motion)",
@@ -15694,7 +15878,8 @@
         "label": "Trade & Logistics",
         "role": "Tariff Escalation — Optimization & Innovation — Sustainability Engineering"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "PPA": {
     "region": "Parahippocampal Place Area (PPA)",
@@ -15806,7 +15991,8 @@
         "label": "Trade & Logistics",
         "role": "Security Compliance — State Assessment"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "SDH": {
     "region": "Spinal Dorsal Horn",
@@ -15814,7 +16000,6 @@
     "phase": "P3/P5",
     "function": "Pain signal gating (Gate Control Theory), proprioceptive relay, spinal reflexes, descending modulation from brain.",
     "dysregulation": "Sensitization → chronic pain. Loss → analgesia.",
-    "business": "Pain management, spinal-cord stimulation, physical therapy, chronic-pain pharma",
     "source": "draft",
     "domainBindings": [
       {
@@ -15918,7 +16103,11 @@
         "label": "Trade & Logistics",
         "role": "Residue Limits — Optimization & Innovation — Waste Reduction"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "confirm",
+    "business_braked": "Pain management, spinal-cord stimulation, physical therapy, chronic-pain pharma"
   },
   "IPL": {
     "region": "Inferior Parietal Lobule (IPL)",
@@ -16030,7 +16219,8 @@
         "label": "Trade & Logistics",
         "role": "bindover signal — Signal Ingestion"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "FPC": {
     "region": "Frontopolar Cortex (rPFC = BA10)",
@@ -16038,7 +16228,6 @@
     "phase": "P8/P6",
     "function": "Counterfactual reasoning, exploration vs. exploitation tradeoffs, metacognition, multi-tasking, prospective memory.",
     "dysregulation": "Hypoactive → impulsivity, lack of long-term planning.",
-    "business": "Strategic-foresight consulting, scenario-planning firms, futurology, exploration-stage VC",
     "source": "draft",
     "domainBindings": [
       {
@@ -16142,7 +16331,11 @@
         "label": "Trade & Logistics",
         "role": "aircustoms bonded — Signal Acquisition"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "view",
+    "business_braked": "Strategic-foresight consulting, scenario-planning firms, futurology, exploration-stage VC"
   },
   "PI": {
     "region": "Posterior Insula",
@@ -16254,7 +16447,8 @@
         "label": "Trade & Logistics",
         "role": "Agritrade — Signal Detection"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "ACC": {
     "region": "Anterior Cingulate Cortex (ACC)",
@@ -16366,7 +16560,8 @@
         "label": "Trade & Logistics",
         "role": "documentation diag — Root Cause Analysis"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "OLF": {
     "region": "Olfactory System (bulb + piriform)",
@@ -16513,7 +16708,8 @@
         "label": "Trade & Logistics",
         "role": "Agritrade — Adaptation & Learning"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "BBB": {
     "region": "Blood-Brain Barrier (BBB)",
@@ -16521,7 +16717,6 @@
     "phase": "P3 / P0",
     "function": "Selective barrier protecting brain from peripheral immune signals, pathogens, toxins. Compromised by stress, inflammation, trauma.",
     "dysregulation": "Breach → neuroinflammation, depression, cognitive impairment. Post-COVID, TBI, chronic stress all breach BBB",
-    "business": "CNS drug delivery companies, neuroinflammation treatment, post-COVID clinics, BBB-crossing therapeutic development",
     "source": "111-directory",
     "domainBindings": [
       {
@@ -16625,7 +16820,11 @@
         "label": "Trade & Logistics",
         "role": "Security Technology — State Assessment"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "infrastructure",
+    "business_braked": "CNS drug delivery companies, neuroinflammation treatment, post-COVID clinics, BBB-crossing therapeutic development"
   },
   "ASTRO": {
     "region": "Astrocytes",
@@ -16633,7 +16832,6 @@
     "phase": "P4/P10",
     "function": "Synaptic support, neurotransmitter recycling (glutamate/GABA), blood-brain barrier maintenance, metabolic support.",
     "dysregulation": "Reactive astrocytosis → scar tissue, inflammation. Loss → metabolic collapse of neurons.",
-    "business": "Neuroregeneration, BBB drug-delivery tech, glutamate-targeting pharma, glia-focused biotech",
     "source": "draft",
     "domainBindings": [
       {
@@ -16737,7 +16935,11 @@
         "label": "Trade & Logistics",
         "role": "residue signal — Signal Ingestion"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "infrastructure",
+    "business_braked": "Neuroregeneration, BBB drug-delivery tech, glutamate-targeting pharma, glia-focused biotech"
   },
   "DMNMTL": {
     "region": "DMN Medial Temporal Lobe Subsystem",
@@ -16745,7 +16947,6 @@
     "phase": "P0/P2",
     "function": "DMN subsystem coupling hippocampus + parahippocampal + retrosplenial + posterior IPL — episodic / autobiographical memory retrieval mode.",
     "dysregulation": "Atrophy → Alzheimer's. Hyperactive → rumination, intrusive autobiographical recall.",
-    "business": "Alzheimer's diagnostics, autobiographical-memory research, narrative therapy, legacy-planning",
     "source": "draft",
     "domainBindings": [
       {
@@ -16849,7 +17050,11 @@
         "label": "Trade & Logistics",
         "role": "turnaround signal — Signal Ingestion"
       }
-    ]
+    ],
+    "canBindBusiness": false,
+    "braked": true,
+    "remapTo": "view",
+    "business_braked": "Alzheimer's diagnostics, autobiographical-memory research, narrative therapy, legacy-planning"
   },
   "SPL": {
     "region": "Superior Parietal Lobule (SPL)",
@@ -16961,7 +17166,8 @@
         "label": "Trade & Logistics",
         "role": "Tariff Escalation — State Assessment"
       }
-    ]
+    ],
+    "canBindBusiness": true
   },
   "PMC": {
     "region": "Premotor Cortex (PMC)",
@@ -17073,22 +17279,7 @@
         "label": "Trade & Logistics",
         "role": "Air Freight — State Assessment"
       }
-    ]
-  },
-  "NAc": {
-    "region": "Nucleus Accumbens (NAc)",
-    "network": "Reward",
-    "phase": "P5 / P0",
-    "function": "Reward processing, motivation, addiction, wanting vs. liking distinction, salience gating into action.",
-    "dysregulation": "Hyperactive → addiction, compulsive behavior. Hypoactive → anhedonia, depression, motivational deficits",
-    "business": "Addiction treatment centers, behavioral economics firms, loyalty/rewards platforms, gambling industry regulators",
-    "source": "111-directory",
-    "domainBindings": [
-      {
-        "domain": "medicine",
-        "label": "Medicine",
-        "role": "Addiction Medicine"
-      }
-    ]
+    ],
+    "canBindBusiness": true
   }
 }
