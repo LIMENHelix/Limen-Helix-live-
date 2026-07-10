@@ -204,7 +204,12 @@ var PortalUI = (function() {
     if (level == null) return { ok: true, nodeId: nodeId, motif: rec.motif, role: rec.role || null, pole: null, reading: null };
     var parts = String(rec.failureModes || '').split('/');
     var pole = level >= 0.60 ? 'hyper' : (level <= 0.15 ? 'hypo' : 'regulated');
-    var text = pole === 'hyper' ? (parts[0] || '').trim() : pole === 'hypo' ? (parts[1] || '').trim() : 'within regulated range';
+    // Motif nodes carry a specific failure grammar; real nodes without a control
+    // motif fall back to a generic level reading so EVERY portal reads live.
+    var text;
+    if (pole === 'hyper') text = (parts[0] || '').trim() || 'elevated activation';
+    else if (pole === 'hypo') text = (parts[1] || '').trim() || 'suppressed activation';
+    else text = rec.motif ? 'within regulated range' : 'nominal activation';
     return { ok: true, nodeId: nodeId, motif: rec.motif, role: rec.role || null, level: level, pole: pole, reading: text };
   }
   // derive a whole issue: primary = first real bound node's live reading; braked = non-node bindings
@@ -220,6 +225,36 @@ var PortalUI = (function() {
       if (d.ok && !primary) primary = d;
     }
     return { level: level, primary: primary, braked: braked, domain: _rootDomain(domainId) };
+  }
+
+  // STRUCTURAL UNIFORMITY: issues[] is authored in only ~half the tree (L1-L3);
+  // the deep tree (L4-L7) carries only activations[]. But activations[] with a
+  // brainNodeId is present in 100% of portals at every depth. So when a portal
+  // has no authored issues, synthesize the diagnosis list from its activations —
+  // one node-anchored issue per unique REAL bound node (non-nodes skipped once
+  // the registry is loaded; else braked at render). Result: every portal, every
+  // domain, every depth presents the identical structure and renders live.
+  function _ensureIssues(data) {
+    if (!data) return;
+    if (Array.isArray(data.issues) && data.issues.length) return; // authored issues win
+    var acts = (data.activations || []).filter(function (a) { return a && a.brainNodeId; });
+    if (!acts.length) { data.issues = data.issues || []; return; }
+    var seen = {}, out = [];
+    for (var i = 0; i < acts.length; i++) {
+      var a = acts[i], nid = a.brainNodeId;
+      if (seen[nid]) continue; seen[nid] = true;
+      var rec = _CANON && _CANON[nid];
+      if (rec && !rec.canBindBusiness) continue;   // skip non-nodes once registry is loaded
+      out.push({
+        id: 'act_' + nid,
+        label: a.domainLabel || a.nodeRole || (nid + ' activation'),
+        summary: a.domainDescription || a.description || ('Node ' + nid + ' is active in this portal; reading derived live below.'),
+        circuits: [{ nodeId: nid, dir: a.dir || '', detail: a.state || '' }],
+        _synthetic: true
+      });
+    }
+    data.issues = out;
+    data._issuesSynthetic = true;
   }
 
   function issueToDx(issue) {
@@ -3172,9 +3207,17 @@ var PortalUI = (function() {
       // Connect this portal to the live layer (async; re-renders intel when ready)
       _loadLiveContext();
 
-      // Load the canonical node registry; when ready, upgrade the open dx from
-      // baked text to the live (feed x motif) reading.
-      _loadCanon().then(function () { _refreshOpenDx(); });
+      // Load the canonical node registry; when ready, (a) re-synthesize any
+      // activation-derived issue list now that non-nodes can be skipped, and
+      // (b) upgrade the open dx from baked text to the live (feed x motif) reading.
+      _loadCanon().then(function () {
+        if (DATA && DATA._issuesSynthetic) {
+          DATA.issues = null; DATA._issuesSynthetic = false;
+          _ensureIssues(DATA);
+          try { buildIssueSelector(); } catch (e) {}
+        }
+        _refreshOpenDx();
+      });
 
       // Build circuit legend
       buildCircuitLegend();
@@ -3269,6 +3312,7 @@ var PortalUI = (function() {
             }
             var activated = Engine.getActivatedNodes ? Engine.getActivatedNodes() : [];
             console.log('[PortalUI] activated nodes:', activated.length, 'DATA.activations:', (actData.activations||[]).length);
+            _ensureIssues(DATA);   // synthesize issues from activations if none authored
             buildNodeList();
             buildIssueSelector();
             _injectEmptyStateIntelligence();
@@ -3284,6 +3328,7 @@ var PortalUI = (function() {
                 if (proxyData) {
                   if (Engine.applyActivation) Engine.applyActivation(proxyData);
                   DATA = proxyData;
+                  _ensureIssues(DATA);   // synthesize issues from activations if none authored
                   // Harvest into registry if available
                   if (window.LIMENRemedyRegistryManager && typeof window.LIMENRemedyRegistryManager.harvestFromPortal === 'function') {
                     try { window.LIMENRemedyRegistryManager.harvestFromPortal(proxyData, { portalUrl: '/api/fetch-portal?domainId=' + config.domainId }); } catch (e) {}
