@@ -238,6 +238,37 @@ var PortalUI = (function() {
     return null;
   }
 
+  // NAMED OVERRIDES — operator-approved per-diagnosis corrections (scorer-suggested,
+  // hand-validated against the crosswalk; false positives like LGN-on-flood were
+  // cut). Each sets the corrected primary node + its mechanism direction. Keyed by
+  // exact lowercase label. Tunable/reversible here.
+  var _NAMED_OVERRIDE = {
+    'credit freeze':            { node: 'GP',    dir: 'hypo'  },   // capital gate locked shut
+    'debt crisis':              { node: 'GP',    dir: 'hypo'  },
+    'banking crisis':           { node: 'GP',    dir: 'hypo'  },
+    'cash flow crisis':         { node: 'GP',    dir: 'hypo'  },
+    'research funding collapse': { node: 'GP',   dir: 'hypo'  },
+    'education funding crisis':  { node: 'GP',   dir: 'hypo'  },
+    'farm bill gridlock':       { node: 'GP',    dir: 'hypo'  },
+    'interest rate shock':      { node: 'GP',    dir: 'hypo'  },
+    'recession':                { node: 'GP',    dir: 'hypo'  },
+    'oil supply shock':         { node: 'THAL',  dir: 'hypo'  },   // supply gate starved
+    'global chip shortage':     { node: 'THAL',  dir: 'hypo'  },
+    'demand shock':             { node: 'HYPO',  dir: 'hyper' },   // homeostat destabilized
+    'market collapse':          { node: 'HYPO',  dir: 'hyper' },
+    'systemic energy stress':   { node: 'HYPO',  dir: 'hyper' },
+    'reward-appetite circuit capacity crisis': { node: 'NAcc', dir: 'hyper' },
+    'creative stagnation':      { node: 'NAcc',  dir: 'hypo'  },   // avolition
+    'alcohol use disorder':     { node: 'HAB',   dir: 'hypo'  },   // anti-reward brake too weak
+    'constitutional crisis':    { node: 'vmPFC', dir: 'hypo'  },   // brake-fail = rogue
+    'fraud scandal':            { node: 'vmPFC', dir: 'hypo'  },
+    'mass surveillance scandal': { node: 'vlPFC', dir: 'hyper' },  // over-suppression
+    'provider burnout / compassion fatigue': { node: 'BNST', dir: 'hyper' }, // tonic-stuck=burnout
+    'climate tipping point':    { node: 'STN',   dir: 'hypo'  },   // no-brake = runaway
+    'systemic contagion':       { node: 'HIPP',  dir: 'hyper' }    // feedback-fail = runaway
+  };
+  function _namedOverride(label) { return _NAMED_OVERRIDE[String(label || '').toLowerCase()] || null; }
+
   // derive a whole issue: primary = first real bound node's live reading; braked = non-node bindings
   function deriveIssue(issue, domainId) {
     if (!_CANON) return null;
@@ -257,6 +288,12 @@ var PortalUI = (function() {
     if (td) {
       var tdd = _deriveNode(td.spec.node, level, td.spec.dir);
       if (tdd.ok) { tdd.typeDefault = td.type; primary = tdd; }
+    }
+    // Named override wins over both circuit-primary and type-default.
+    var no = _namedOverride(issue && issue.label);
+    if (no) {
+      var nod = _deriveNode(no.node, level, no.dir);
+      if (nod.ok) { nod.corrected = true; primary = nod; }
     }
     // Rescue: an issue wired ONLY to non-nodes still reads by routing a braked
     // composite to its real member node (deterministic, from the anatomy).
@@ -389,7 +426,7 @@ var PortalUI = (function() {
       if (der.primary && der.primary.reading) {
         var pc = der.primary.pole === 'hyper' ? '#e0913c' : der.primary.pole === 'hypo' ? '#6fa8c8' : '#5ab5a0';
         _live += '<div style="margin-top:8px;padding:8px 10px;border-left:2px solid ' + pc + ';background:rgba(90,181,160,0.06);border-radius:2px">' +
-          '<div style="font-size:0.42rem;letter-spacing:2px;color:' + pc + ';text-transform:uppercase">LIVE · ' + escHtml(der.primary.nodeId) + (der.primary.motif ? ' · ' + escHtml(der.primary.motif) : '') + ' · ' + escHtml(der.primary.pole) + (der.primary.authored ? '' : ' (level-derived)') + (der.primary.viaComposite ? ' · via ' + escHtml(der.primary.viaComposite) : '') + (der.primary.typeDefault ? ' · type-default' : '') + '</div>' +
+          '<div style="font-size:0.42rem;letter-spacing:2px;color:' + pc + ';text-transform:uppercase">LIVE · ' + escHtml(der.primary.nodeId) + (der.primary.motif ? ' · ' + escHtml(der.primary.motif) : '') + ' · ' + escHtml(der.primary.pole) + (der.primary.authored ? '' : ' (level-derived)') + (der.primary.viaComposite ? ' · via ' + escHtml(der.primary.viaComposite) : '') + (der.primary.typeDefault ? ' · type-default' : '') + (der.primary.corrected ? ' · corrected' : '') + '</div>' +
           '<div style="font-family:Crimson Pro,serif;font-size:0.86rem;color:var(--text);line-height:1.5;margin-top:4px">' + escHtml(der.primary.reading) + '</div>' +
           '<div style="font-size:0.4rem;color:var(--text-ghost);letter-spacing:1px;margin-top:4px">' + escHtml(der.domain) + (der.primary.authored ? ' intensity ' : ' level ') + (der.level != null ? Math.round(der.level * 100) + '%' : 'n/a') + ' × ' + (der.primary.authored ? 'authored direction' : 'node motif') + ' · updates with feeds</div>' +
           '</div>';

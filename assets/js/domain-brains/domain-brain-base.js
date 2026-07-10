@@ -178,6 +178,19 @@
     for (var k in _TYPE_DEFAULT) { if (l.length >= k.length && l.slice(-k.length) === k) return { type: k, spec: _TYPE_DEFAULT[k] }; }
     return null;
   }
+  // Operator-approved per-diagnosis corrections (hand-validated; matches portal-ui).
+  var _NAMED_OVERRIDE = {
+    'credit freeze':{node:'GP',dir:'hypo'},'debt crisis':{node:'GP',dir:'hypo'},'banking crisis':{node:'GP',dir:'hypo'},
+    'cash flow crisis':{node:'GP',dir:'hypo'},'research funding collapse':{node:'GP',dir:'hypo'},'education funding crisis':{node:'GP',dir:'hypo'},
+    'farm bill gridlock':{node:'GP',dir:'hypo'},'interest rate shock':{node:'GP',dir:'hypo'},'recession':{node:'GP',dir:'hypo'},
+    'oil supply shock':{node:'THAL',dir:'hypo'},'global chip shortage':{node:'THAL',dir:'hypo'},
+    'demand shock':{node:'HYPO',dir:'hyper'},'market collapse':{node:'HYPO',dir:'hyper'},'systemic energy stress':{node:'HYPO',dir:'hyper'},
+    'reward-appetite circuit capacity crisis':{node:'NAcc',dir:'hyper'},'creative stagnation':{node:'NAcc',dir:'hypo'},
+    'alcohol use disorder':{node:'HAB',dir:'hypo'},'constitutional crisis':{node:'vmPFC',dir:'hypo'},'fraud scandal':{node:'vmPFC',dir:'hypo'},
+    'mass surveillance scandal':{node:'vlPFC',dir:'hyper'},'provider burnout / compassion fatigue':{node:'BNST',dir:'hyper'},
+    'climate tipping point':{node:'STN',dir:'hypo'},'systemic contagion':{node:'HIPP',dir:'hyper'}
+  };
+  function _namedOverrideFor(label) { return _NAMED_OVERRIDE[String(label || '').toLowerCase()] || null; }
 
   // ══════════════════════════════════════════════════════════════════════
   // BASE CLASS
@@ -719,11 +732,12 @@
     var braked = 0, live = 0;
     for (var i = 0; i < dg.length; i++) {
       var d = dg[i];
-      // TYPE DEFAULT: a generic failure-type stamp uses its canonical primary node
-      // instead of the near-random authored one. Named diagnoses keep their circuit.
-      var _td = _typeDefaultFor(d.label);
+      // Correction priority: named override > generic type-default > authored circuit.
+      var _no = _namedOverrideFor(d.label);
+      var _td = _no ? null : _typeDefaultFor(d.label);
+      var _corr = _no || (_td && _td.spec) || null;
       var circ = (d.circuits && d.circuits[0]) || null;
-      var nid = _td ? _td.spec.node : (circ ? (circ.nodeId || circ) : null);
+      var nid = _corr ? _corr.node : (circ ? (circ.nodeId || circ) : null);
       if (!nid) { d.derived = null; continue; }
       var rec = _classifyNode(nid, nodes);
       var _via = null;
@@ -744,9 +758,9 @@
       var st = self._subTopicSignal(d);
       // Honor the authored direction (Hyper/Hypo) as the pole; live level = intensity.
       // A type-default supplies its own canonical direction.
-      var _dir = (_td && _td.spec.dir) || (circ && typeof circ === 'object' && (circ.dir || circ.direction)) || d.dir || null;
+      var _dir = (_corr && _corr.dir) || (circ && typeof circ === 'object' && (circ.dir || circ.direction)) || d.dir || null;
       var der = _deriveFailurePole(rec, st.level, null, null, _dir);
-      der.node = nid; der.viaComposite = _via; der.typeDefault = _td ? _td.type : null; der.feeds = st.feeds; der.matchedFeeds = st.matched;
+      der.node = nid; der.viaComposite = _via; der.typeDefault = _td ? _td.type : null; der.corrected = !!_no; der.feeds = st.feeds; der.matchedFeeds = st.matched;
       der.source = st.matched ? 'live-feed-derived' : 'node-level-derived';
       d.derived = der;
       if (der.pole !== 'regulated' && der.reading) {
