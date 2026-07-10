@@ -109,6 +109,33 @@
     return _digestPromises[portalKey];
   }
 
+  // ── Canonical node registry (assets/data/canonical-nodes.json) — the ONE source
+  //    of truth for what a node IS. Loaded once per page, cached. Powers the
+  //    inhibitory brake (no diagnosis may bind to a non-node) + the portals-as-feeds
+  //    derivation (a diagnosis is COMPUTED from live feed level x the node's motif
+  //    failure-mode, not read from stored text). Degrades safe (empty -> no-op).
+  var _canonPromise = null, _canonNodes = null;
+  function _loadCanonicalNodes() {
+    if (_canonNodes) return Promise.resolve(_canonNodes);
+    if (_canonPromise) return _canonPromise;
+    _canonPromise = fetch('/assets/data/canonical-nodes.json')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) { _canonNodes = (j && j.nodes) || {}; return _canonNodes; })
+      .catch(function () { _canonNodes = {}; return _canonNodes; });
+    return _canonPromise;
+  }
+  function _classifyNode(id, nodes) {
+    return (nodes && nodes[id]) || { class: 'unknown', canBindBusiness: false, motif: null, remapTo: 'confirm' };
+  }
+  // diagnosis = f(live activation, node motif failure-modes). hi/lo = the failure poles.
+  function _deriveFailurePole(rec, level, hi, lo) {
+    hi = hi == null ? 0.60 : hi; lo = lo == null ? 0.15 : lo;
+    var parts = String(rec.failureModes || '').split('/');
+    var pole = level >= hi ? 'hyper' : (level <= lo ? 'hypo' : 'regulated');
+    var text = pole === 'hyper' ? (parts[0] || '').trim() : pole === 'hypo' ? (parts[1] || '').trim() : 'within regulated range';
+    return { motif: rec.motif || null, role: rec.role || null, level: Math.round(level * 1000) / 1000, pole: pole, reading: text };
+  }
+
   // ══════════════════════════════════════════════════════════════════════
   // BASE CLASS
   // ══════════════════════════════════════════════════════════════════════
@@ -321,7 +348,11 @@
           value: s.value,
           label: s.label,
           channel: s.channel || 'stress',
-          updated: s.updated || Date.now()
+          updated: s.updated || Date.now(),
+          // per-source signal fields (previously dropped) — sub-topic feed derivation reads these:
+          signal: s.signal || '',                                   // latest live headline for this source
+          quality: (typeof s.quality === 'number') ? s.quality : null,
+          classification: s.classification || null                  // 'real' | 'event' | 'broken'
         };
       });
 
@@ -450,6 +481,11 @@
     // the background and starts applying from the next cycle).
     this._applyDeepDigest();
 
+    // LIVE DERIVATION (portals-as-feeds): after the diagnoses are assembled (root + deep),
+    // compute each one's reading from (its node's live feed activation x the node's motif
+    // failure-mode) and BRAKE any wired to a non-node. Supersedes the stuck baked verbiage.
+    this._applyLiveDerivation();
+
     // Company fallback (applies to every domain): when the snapshot supplied
     // no companies, load the real command-board entities for this domain. This
     // is what was previously hand-wired only in energy-brain — now centralized
@@ -536,6 +572,71 @@
         });
       });
     }
+  };
+
+  // Sub-topic feed router: match a diagnosis to the domain's live sources by token overlap
+  // so a sub-portal derives from ITS feeds, not just the domain aggregate. Level = domain
+  // stress base, elevated by the matched sources that are LIVE + event-firing + high-quality
+  // (a hot sub-topic reads hotter). Returns the level + the matched sources as provenance.
+  var _DX_STOP = { the:1, and:1, for:1, with:1, from:1, into:1, this:1, that:1, system:1, systems:1, failure:1, assessment:1, diagnostics:1, core:1, operations:1, management:1, capacity:1, overload:1, quality:1, degradation:1, strategic:1, planning:1, alignment:1, infrastructure:1, development:1, human:1, capital:1, coordination:1, primary:1, secondary:1, tertiary:1, node:1, standards:1, governance:1, monitoring:1, risk:1, profiling:1 };
+  function _dxTokens(s) {
+    return String(s || '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ').split(/\s+/).filter(function (t) { return t.length >= 4 && !_DX_STOP[t] && !/^\d+$/.test(t); });
+  }
+  DomainBrainBase.prototype._subTopicSignal = function (dx) {
+    var feeds = this.state.feeds || [];
+    var base = this.state.stress || 0;
+    var dxToks = _dxTokens((dx.label || '') + ' ' + (dx.subportal || '') + ' ' + (dx.id || ''));
+    if (!dxToks.length || !feeds.length) return { level: base, feeds: [], matched: 0 };
+    var matched = [], act = 0, actN = 0;
+    for (var i = 0; i < feeds.length; i++) {
+      var f = feeds[i], ft = _dxTokens((f.name || '') + ' ' + (f.label || ''));
+      if (!dxToks.some(function (t) { return ft.indexOf(t) !== -1; })) continue;
+      matched.push({ name: f.name, headline: String(f.signal || f.label || '').slice(0, 120), value: f.value, live: !!f.live, classification: f.classification });
+      var q = (typeof f.quality === 'number') ? f.quality : 0.5;
+      var ev = (f.classification === 'event') ? 1 : (f.classification === 'broken') ? 0 : 0.5;
+      act += q * ev * (f.live ? 1 : 0.3); actN++;
+    }
+    if (!matched.length) return { level: base, feeds: [], matched: 0 };
+    var level = Math.max(0, Math.min(1, base * 0.6 + (actN ? act / actN : 0) * 0.5));
+    return { level: level, feeds: matched.slice(0, 4), matched: matched.length };
+  };
+
+  // LIVE DERIVATION: every diagnosis gets a reading COMPUTED from (its node's live level x
+  // the node's motif failure-mode) + its feed provenance; and any diagnosis wired to a
+  // NON-NODE is BRAKED (flagged, not derived). This is the inhibitory brake + the portals-
+  // as-feeds substrate operating in the live brain. Additive: never removes baked content,
+  // it supersedes it — d.liveReading / d.derived carry the live truth, d.blocked the mis-wire.
+  DomainBrainBase.prototype._applyLiveDerivation = function () {
+    var self = this;
+    if (!_canonNodes) { _loadCanonicalNodes(); return; }   // load once; applies from next cycle
+    var nodes = _canonNodes, dg = self.state.diagnoses || [];
+    var braked = 0, live = 0;
+    for (var i = 0; i < dg.length; i++) {
+      var d = dg[i];
+      var circ = (d.circuits && d.circuits[0]) || null;
+      var nid = circ ? (circ.nodeId || circ) : null;
+      if (!nid) { d.derived = null; continue; }
+      var rec = _classifyNode(nid, nodes);
+      if (!rec.canBindBusiness) {
+        d.blocked = true;
+        d.blockReason = 'wired to non-node ' + nid + ' (' + rec.class + ' → ' + (rec.remapTo || '?') + ')';
+        d.derived = null; braked++;
+        continue;
+      }
+      d.blocked = false;
+      var st = self._subTopicSignal(d);
+      var der = _deriveFailurePole(rec, st.level);
+      der.node = nid; der.feeds = st.feeds; der.matchedFeeds = st.matched;
+      der.source = st.matched ? 'live-feed-derived' : 'node-level-derived';
+      d.derived = der;
+      if (der.pole !== 'regulated' && der.reading) {
+        d.liveReading = der.reading;                 // supersedes the stuck baked summary
+        d.active = true;
+        d.relevance = Math.max(d.relevance || 0, der.level);
+        live++;
+      }
+    }
+    self.state._derivation = { braked: braked, liveActive: live, total: dg.length, ts: Date.now() };
   };
 
   /**
