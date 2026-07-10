@@ -70,6 +70,72 @@ const CONTROL = {
   NAcc: { motif:'M11', role:'incentive/reward drive',      fail:'over-pursuit=bubble / avolition' },
   VTA:  { motif:'M11', role:'dopamine reward source',      fail:'mania/addiction / anhedonia' },
   SCN:  { motif:'M12', role:'circadian pacemaker',         fail:'desync / over-rigid cadence' },
+  // Thalamic sensory/memory relays — same gating motif (M4) as THAL/MDT/GP/PULV.
+  LGN:  { motif:'M4',  role:'lateral geniculate — visual thalamic relay',  fail:'flood/overload / starvation, blindsight' },
+  MGN:  { motif:'M4',  role:'medial geniculate — auditory thalamic relay', fail:'flood/overload / starvation, deafness' },
+  ANT:  { motif:'M4',  role:'anterior thalamus — memory relay (Papez)',    fail:'flood/interference / amnesic gating' },
+  // Cerebellar forward-model — same error-correction motif (M6) as CBLM/NEOCER.
+  VERM: { motif:'M6',  role:'cerebellar vermis — affective-postural forward model', fail:'over-correction/anxiety / postural-affective instability' },
+  // Brainstem arousal broadcast — same neuromodulatory gain motif (M2) as LC/RAPHE/NBM.
+  PPN:  { motif:'M2',  role:'pedunculopontine — cholinergic arousal & locomotion', fail:'hyperarousal/REM-intrusion / gait-freeze, hypoarousal' },
+  RF:   { motif:'M2',  role:'reticular formation — global arousal broadcast',       fail:'hyperarousal/agitation / stupor, coma' },
+};
+
+// REAL PROCESSING/ASSOCIATION nodes — genuine brain regions that are NOT control-
+// law archetypes, so motif stays null (forcing a control motif here would repeat
+// the category error). Each still gets a role + hyper/hypo failure grammar so
+// EVERY portal derives a sharp reading, not a generic one. Grammar is functional
+// (what over-/under-activation of THIS region does), not a control-motif claim.
+const PROCESSING = {
+  dlPFC:     { role:'dorsolateral PFC — executive working-memory / cognitive control', fail:'rigidity/rumination-lock / executive-lapse, distractible' },
+  mPFC:      { role:'medial PFC — self-referential value integration (DMN core)',       fail:'self-focus/rumination / disengaged, apathetic' },
+  rPFC:      { role:'frontopolar PFC — metacognition & prospective control',            fail:'overplanning/analysis-paralysis / no-foresight, myopic' },
+  MFC:       { role:'medial frontal — action-value monitoring',                         fail:'over-deliberation / action apathy' },
+  PMC:       { role:'premotor — motor planning & preparation',                          fail:'over-preparation/jitter / inertia, slow initiation' },
+  SMA:       { role:'supplementary motor — self-initiated action sequencing',           fail:'compulsive sequencing / akinesia, initiation failure' },
+  M1:        { role:'primary motor cortex — motor output',                              fail:'hyperkinesia/spasticity / weakness, paresis' },
+  FEF:       { role:'frontal eye fields — attentional gaze control',                    fail:'over-fixation / neglect, scattered gaze' },
+  BROCA:     { role:"Broca's area — expressive language production",                     fail:'pressured/over-production / expressive block, aphasia' },
+  WERN:      { role:"Wernicke's area — receptive language comprehension",                fail:'over-interpretation / receptive aphasia' },
+  AG:        { role:'angular gyrus — semantic/conceptual integration',                  fail:'over-association / semantic fragmentation' },
+  PCC:       { role:'posterior cingulate — DMN internal-focus hub',                     fail:'rumination/internal-loop / dissociation from self' },
+  PRECUNEUS: { role:'precuneus — self-imagery / DMN integration',                       fail:'self-referential loop / dissociation' },
+  RSC:       { role:'retrosplenial — spatial memory & navigation',                      fail:'over-contextualization / topographical disorientation' },
+  CING:      { role:'cingulate — salience integration',                                 fail:'over-integration/hypervigilance / disintegration, error-blind' },
+  ACC:       { role:'anterior cingulate — conflict/effort monitor',                     fail:'hypervigilant conflict / error-blind, low-effort' },
+  rACC:      { role:'rostral ACC — affective appraisal & regulation',                   fail:'emotional over-monitoring / blunted appraisal' },
+  sgACC:     { role:'subgenual ACC — mood / negative-affect hub',                       fail:'depressive lock/anhedonic drive / affective flattening' },
+  TPJ:       { role:'temporoparietal junction — social attribution & reorienting',      fail:'over-attribution/paranoia / mindblindness' },
+  STS:       { role:'superior temporal sulcus — social perception',                     fail:'over-reading social cues / social-cue blindness' },
+  TPOLE:     { role:'temporal pole — semantic-social knowledge hub',                    fail:'over-generalized semantics / semantic dementia' },
+  IPS:       { role:'intraparietal sulcus — spatial attention & magnitude',             fail:'over attention-shift / hemineglect' },
+  IPL:       { role:'inferior parietal — multimodal integration',                       fail:'sensory over-binding / integration deficit' },
+  SPL:       { role:'superior parietal — spatial orienting & body-schema',              fail:'spatial hypervigilance / spatial disorientation' },
+  S1:        { role:'primary somatosensory processing',                                 fail:'hypersensitivity/pain-amplification / numbness, sensory loss' },
+  S2:        { role:'secondary somatosensory integration',                              fail:'sensory hypervigilance / tactile agnosia' },
+  V1:        { role:'primary visual processing',                                        fail:'visual overload / input starvation, blindsight' },
+  V4V5:      { role:'visual V4/V5 — color & motion',                                    fail:'motion overload / feature agnosia' },
+  A1:        { role:'primary auditory processing',                                      fail:'auditory overload/hyperacusis / auditory gating loss' },
+  FG:        { role:'fusiform gyrus — face/object recognition',                         fail:'pareidolia/over-recognition / agnosia, prosopagnosia' },
+  PPA:       { role:'parahippocampal place area — scene/context recognition',           fail:'context over-binding / context blindness' },
+  EBA:       { role:'extrastriate body area — body-form perception',                    fail:'body hypervigilance / body agnosia' },
+  VV:        { role:'ventral visual stream — object recognition',                       fail:'over-recognition/pareidolia / visual agnosia' },
+  SC:        { role:'superior colliculus — orienting & saccades',                       fail:'distractible orienting / orienting failure' },
+  SMN:       { role:'somatomotor network — sensorimotor integration',                   fail:'motor tension/hyperkinesia / motor hypofunction' },
+  VEST:      { role:'vestibular nuclei — balance & spatial orientation',                fail:'vertigo/motion hypersensitivity / imbalance, disorientation' },
+  CLAUST:    { role:'claustrum — cross-cortical salience binding',                      fail:'sensory over-binding / fragmented consciousness' },
+  OLF:       { role:'olfactory-limbic processing',                                      fail:'phantosmia/hyperosmia / anosmia' },
+  EC:        { role:'entorhinal — hippocampal memory gateway',                          fail:'memory flooding/interference / encoding failure' },
+  PRC:       { role:'perirhinal — object recognition memory',                           fail:'false familiarity / recognition-memory loss' },
+  MAMM:      { role:'mammillary bodies — memory circuit (Papez)',                       fail:'confabulation / amnesia (Korsakoff)' },
+  SEPT:      { role:'septal nuclei — theta rhythm / social reward',                     fail:'over-arousal / blunted bonding' },
+  CAUD:      { role:'caudate — goal-directed action selection',                         fail:'compulsion/OCD loop / apathy, bradyphrenia' },
+  PUT:       { role:'putamen — sensorimotor habit selection',                           fail:'compulsive habit/dyskinesia / bradykinesia' },
+  VP:        { role:'ventral pallidum — reward/hedonic output',                         fail:'compulsive pursuit / anhedonia, blunted' },
+  SNIG:      { role:'substantia nigra — dopamine / motor gating',                       fail:'dyskinesia/impulsivity / parkinsonian rigidity' },
+  PIT:       { role:'pituitary — endocrine output (HPA/HPG axis)',                      fail:'hormonal overdrive / hormonal insufficiency' },
+  DV:        { role:'dorsal motor vagus — parasympathetic output',                      fail:'dorsal-vagal shutdown/collapse / sympathetic unopposed' },
+  ENS:       { role:'enteric nervous system — gut autonomic regulation',                fail:'gut hypermotility/IBS / gut hypomotility, atony' },
 };
 
 const idIndex = {};
@@ -77,11 +143,12 @@ for (const [cls, spec] of Object.entries(NON)) for (const [m, target] of Object.
 
 const nodeIds = Object.keys(JSON.parse(fs.readFileSync(SRC, 'utf8'))).filter(k => k[0] !== '_');
 const out = { _meta: { source: 'brain-node-domains.json + Connectome Node Regulatory Reference + 10-agent audit backbone', built: 'deterministic', total: nodeIds.length }, nodes: {} };
-let real = 0, control = 0, non = 0;
+let real = 0, control = 0, non = 0, processing = 0, ungrammared = 0;
 for (const id of nodeIds) {
   if (idIndex[id]) { out.nodes[id] = { class: idIndex[id].class, canBindBusiness: false, motif: null, remapTo: idIndex[id].remapTo, remapTarget: idIndex[id].remapTarget, note: idIndex[id].note }; non++; }
   else if (CONTROL[id]) { out.nodes[id] = { class: 'real', canBindBusiness: true, motif: CONTROL[id].motif, role: CONTROL[id].role, failureModes: CONTROL[id].fail }; real++; control++; }
-  else { out.nodes[id] = { class: 'real', canBindBusiness: true, motif: null, role: null }; real++; }
+  else if (PROCESSING[id]) { out.nodes[id] = { class: 'real', canBindBusiness: true, motif: null, role: PROCESSING[id].role, failureModes: PROCESSING[id].fail }; real++; processing++; }
+  else { out.nodes[id] = { class: 'real', canBindBusiness: true, motif: null, role: null }; real++; ungrammared++; }
 }
 fs.writeFileSync(OUT, JSON.stringify(out, null, 2));
-console.log(`wrote ${path.relative(process.cwd(), OUT)}: ${nodeIds.length} nodes  (real ${real} [${control} with a control-motif], non-node ${non})`);
+console.log(`wrote ${path.relative(process.cwd(), OUT)}: ${nodeIds.length} nodes  (real ${real} [${control} control-motif + ${processing} processing-grammar + ${ungrammared} still ungrammared], non-node ${non})`);
