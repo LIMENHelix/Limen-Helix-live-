@@ -50,8 +50,8 @@ const NON = {
 // Only motifs the audit/crosswalk confirmed. Every other real node = class:real, motif:null.
 const CONTROL = {
   LC:   { motif:'M2',  role:'broadcast / alerting',        fail:'gain stuck high=thrash / low=missed' },
-  RAPHE:{ motif:'M2',  role:'serotonin broadcast',         fail:'mood/patience gain mis-set' },
-  NBM:  { motif:'M2',  role:'cholinergic broadcast',       fail:'attention/plasticity gain mis-set' },
+  RAPHE:{ motif:'M2',  role:'serotonin broadcast',         fail:'gain stuck high=rigid over-damping / low=impulsive volatility' },
+  NBM:  { motif:'M2',  role:'cholinergic broadcast',       fail:'gain stuck high=hyper-focus on noise / low=inattention, no consolidation' },
   THAL: { motif:'M4',  role:'gating relay / routing',      fail:'stuck-open=flood / stuck-closed=starvation' },
   MDT:  { motif:'M4',  role:'PFC relay gate',              fail:'flood / freeze' },
   GP:   { motif:'M4',  role:'basal-ganglia output gate',   fail:'flood / lock (bradykinetic freeze)' },
