@@ -123,7 +123,7 @@
 
 <script>
 const $=s=>document.querySelector(s);
-let CADENCE=[], CHANNELS=['call','text','email','mailer','social','other'], OUTCOMES=[], SEL=null, COMPANIES=[];
+let CADENCE=[], CHANNELS=['call','text','email','mailer','social','other'], OUTCOMES=[], SEL=null, COMPANIES=[], EMAILCFG={ready:false};
 function key(){ return localStorage.getItem('salesKey')||''; }
 function saveKey(){ localStorage.setItem('salesKey',$('#key').value.trim()); loadAll(); }
 function toast(m){ const t=$('#toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2600); }
@@ -141,7 +141,7 @@ async function loadAll(){
   $('#key').value=key();
   const st=await api('crm','status');
   $('#keyState').textContent = st.keyConfigured?(key()?'unlocked':'key required'):'server key not configured';
-  CHANNELS=st.channels||CHANNELS; OUTCOMES=st.outcomes||[];
+  CHANNELS=st.channels||CHANNELS; OUTCOMES=st.outcomes||[]; EMAILCFG=st.email||{ready:false};
   if(!key()){ $('#wl').innerHTML='<tr><td colspan="5" class="muted">Enter the admin key to unlock.</td></tr>'; return; }
   // ventures for the loaders
   const comps=(await api('leadgen','companies')).companies||[]; COMPANIES=comps;
@@ -196,6 +196,23 @@ async function openLead(id){
   const outOpt=OUTCOMES.map(o=>`<option value="${o}">${o}</option>`).join('');
   const tl=(s.touches||[]).slice().reverse().map(t=>`<li class="${t.outcome==='booked'?'booked':(t.outcome==='dead'||t.outcome==='not-interested'||t.outcome==='bad-contact'?'bad':'')}">
     <b>${t.channel}</b> · ${t.outcome} ${t.note?('· '+esc(t.note)):''}<div class="muted">${when(t.ts)}${t.costCents?(' · '+money(t.costCents)):''}</div></li>`).join('');
+  // email compose (only when the lead has an email)
+  const first=(s.name||'').trim().split(/\s+/)[0]||'there';
+  let emailBlock='';
+  if(s.email){
+    if(EMAILCFG.ready){
+      const draft=`Hi ${first},\n\n\n\nBest,\n`;
+      emailBlock=`<div class="next" style="border-color:#1e5a4f">
+        <b style="color:var(--cyan)">✉ Email</b> → ${esc(s.email)}
+        <input id="emSubj" placeholder="subject" style="width:100%;margin:6px 0">
+        <textarea id="emBody" style="width:100%;min-height:90px">${esc(draft)}</textarea>
+        <button class="sm primary" style="margin-top:6px" onclick="sendEmail('${s.leadId}')">Send email now</button>
+        <span class="muted" style="margin-left:8px">sends via Resend + logs the touch</span>
+      </div>`;
+    } else {
+      emailBlock=`<div class="next"><b>✉ Email setup needed</b> — ${EMAILCFG.sandbox?'from-address is a resend.dev sandbox; verify a domain and set RESEND_FROM_EMAIL.':'set RESEND_API_KEY + RESEND_FROM_EMAIL.'}</div>`;
+    }
+  }
   $('#leadPanel').innerHTML=`
     <div class="hd"><div><div class="nm">${esc(s.name)||'(no name)'}</div>
       <span class="chip co">${esc(s.company||'—')}</span> <span class="chip">${s.domain||'—'}</span> <span class="st ${s.status}">${s.status}</span></div>
@@ -217,6 +234,7 @@ async function openLead(id){
       <button class="sm" onclick="setStatus('${s.leadId}','unresponsive')">unresponsive</button>
       <button class="sm warn" onclick="setStatus('${s.leadId}','dead')">dead</button>
     </div>
+    ${emailBlock}
     <h2 style="margin-top:14px">Activity (${(s.touches||[]).length})</h2>
     <ul class="tl">${tl||'<li class="muted">No touches yet — log the first one above.</li>'}</ul>`;
 }
@@ -241,6 +259,15 @@ async function bookAppt(id){
 async function setStatus(id,status){
   const r=await api('crm','status','POST',{leadId:id,status});
   toast(r.ok?status:'err'); loadAll();
+}
+async function sendEmail(id){
+  const subj=$('#emSubj').value.trim(), bodyv=$('#emBody').value.trim();
+  if(!subj||!bodyv)return toast('subject and body required');
+  if(!confirm('Send this email now?'))return;
+  toast('sending…');
+  const r=await api('crm','send-email','POST',{leadId:id,subject:subj,body:bodyv});
+  if(r.ok){ toast('✉ sent'+(r.warning?' (see warning)':'')); if(r.warning)console.warn(r.warning); loadAll(); }
+  else toast('not sent: '+(r.error||'')+(r.hint?(' — '+r.hint):''));
 }
 async function removeLead(id){
   if(!confirm('Remove from CRM? (the lead stays in the leads page)'))return;

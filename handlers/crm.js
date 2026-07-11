@@ -38,6 +38,7 @@ var K = {
   worklist: 'crm:worklist',
   state: 'crm:state:',
   cadence: 'crm:cadence',
+  suppress: 'crm:suppress',
   lgIndex: 'leadgen:index',
   lgLead: 'leadgen:lead:',
   salesAgg: 'sales:agg',
@@ -45,7 +46,7 @@ var K = {
 };
 
 var CHANNELS = ['call', 'text', 'email', 'mailer', 'social', 'other'];
-var OUTCOMES = ['no-answer', 'left-voicemail', 'bad-contact', 'replied', 'callback', 'not-interested', 'booked', 'dead'];
+var OUTCOMES = ['sent', 'no-answer', 'left-voicemail', 'bad-contact', 'replied', 'callback', 'not-interested', 'booked', 'dead'];
 var STATUSES = ['new', 'working', 'appointment', 'unresponsive', 'dead'];
 
 // per-touch cost (cents) — from the funnel's leads>appointments transition
@@ -103,18 +104,80 @@ async function mirrorTouch(channel, won, cost, dealSize, trigger) {
   } catch (e) {}
 }
 
+function esc(v) { return String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+function validEmail(e) { return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e || ''); }
+
+// Email sending config — reported by status, enforced by send-email.
+function emailConfig() {
+  var apiKey = process.env.RESEND_API_KEY || '';
+  var from = process.env.RESEND_FROM_EMAIL || process.env.CRM_FROM_EMAIL || process.env.LEAD_FROM_EMAIL || '';
+  var replyTo = process.env.CRM_REPLY_TO || process.env.LEAD_NOTIFY_EMAIL || '';
+  var addr = process.env.CRM_SENDER_ADDRESS || '';
+  var sandbox = /resend\.dev/i.test(from) || !from;
+  return { hasKey: !!apiKey, from: from, replyTo: replyTo, addr: addr, sandbox: sandbox, apiKey: apiKey };
+}
+
+async function loadSuppress() { return (await db.get(K.suppress)) || {}; }
+
+// Compliant HTML: the body + sender identity + physical address + unsubscribe.
+function emailHtml(bodyText, toEmail, cfg) {
+  var base = 'https://limenhelix.com/api/crm?action=unsubscribe&e=' + encodeURIComponent(toEmail);
+  var body = esc(bodyText).replace(/\n/g, '<br>');
+  var footerAddr = cfg.addr ? esc(cfg.addr) : '[sender postal address not configured — set CRM_SENDER_ADDRESS]';
+  return '<div style="font-family:sans-serif;font-size:14px;line-height:1.55;color:#111">' + body +
+    '<hr style="border:none;border-top:1px solid #ddd;margin:22px 0 10px">' +
+    '<div style="font-size:11px;color:#888">' + footerAddr +
+    '<br>You received this because we believe it is relevant to you. ' +
+    '<a href="' + base + '" style="color:#888">Unsubscribe</a> or reply STOP to opt out.</div></div>';
+}
+
+async function sendEmailResend(cfg, toEmail, subject, bodyText) {
+  var payload = {
+    from: cfg.from,
+    to: [toEmail],
+    subject: subject,
+    html: emailHtml(bodyText, toEmail, cfg),
+    text: bodyText + '\n\n---\n' + (cfg.addr || '') + '\nUnsubscribe: https://limenhelix.com/api/crm?action=unsubscribe&e=' + encodeURIComponent(toEmail) + '  (or reply STOP)'
+  };
+  if (cfg.replyTo) payload.reply_to = cfg.replyTo;
+  try {
+    var r = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', authorization: 'Bearer ' + cfg.apiKey },
+      body: JSON.stringify(payload)
+    });
+    var jd = await r.json().catch(function () { return {}; });
+    if (!r.ok) return { ok: false, error: (jd && (jd.message || jd.name)) || ('resend ' + r.status), status: r.status };
+    return { ok: true, id: jd && jd.id };
+  } catch (e) { return { ok: false, error: String(e && e.message || e) }; }
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader('content-type', 'application/json');
   var method = (req.method || 'GET').toUpperCase();
   var u; try { u = new URL(req.url, 'http://x'); } catch (e) { u = { searchParams: new URLSearchParams('') }; }
   var action = (u.searchParams.get('action') || 'status').toLowerCase();
 
+  // Public unsubscribe — adds an address to the suppression list. Safe to be
+  // public: it only PREVENTS sending. Returns a tiny confirmation page.
+  if (action === 'unsubscribe') {
+    var e = '';
+    try { e = (u.searchParams.get('e') || '').toLowerCase().trim(); } catch (x) {}
+    if (validEmail(e)) {
+      try { var sup = await loadSuppress(); sup[e] = { ts: new Date().toISOString(), reason: 'unsubscribe' }; await db.set(K.suppress, sup); } catch (x) {}
+    }
+    res.statusCode = 200; res.setHeader('content-type', 'text/html');
+    return res.end('<!doctype html><meta charset="utf-8"><title>Unsubscribed</title><body style="font-family:sans-serif;max-width:520px;margin:60px auto;color:#222"><h2>You are unsubscribed</h2><p>' + (validEmail(e) ? esc(e) : 'That address') + ' will not receive further email from us. You can close this page.</p></body>');
+  }
+
   if (action === 'status') {
     var wl = await loadWorklist();
+    var ec = emailConfig();
     return j(res, 200, {
       ok: true, surface: 'crm', backend: db.getBackend(),
       keyConfigured: !!(process.env.SALES_ADMIN_KEY || process.env.LEAD_ADMIN_KEY),
-      inWorklist: wl.length, channels: CHANNELS, outcomes: OUTCOMES, statuses: STATUSES
+      inWorklist: wl.length, channels: CHANNELS, outcomes: OUTCOMES, statuses: STATUSES,
+      email: { ready: ec.hasKey && !ec.sandbox, hasKey: ec.hasKey, from: ec.from || null, sandbox: ec.sandbox, replyToSet: !!ec.replyTo, addrSet: !!ec.addr }
     });
   }
 
@@ -235,6 +298,33 @@ module.exports = async function handler(req, res) {
       // mirror into the funnel (every touch = an attempt; booked = a win)
       await mirrorTouch(channel, booked, cost, body.dealSize, body.trigger);
       return j(res, 200, { ok: true, status: st3.status, touchCount: st3.touches.length, booked: booked });
+    }
+
+    // Send a real email via Resend, then auto-log the touch. Outward-facing:
+    // operator-triggered per lead, checked against the suppression list.
+    if (method === 'POST' && action === 'send-email') {
+      var eid = clip(body.leadId, 80);
+      var este = await loadState(eid);
+      if (!este) return j(res, 404, { ok: false, error: 'lead not in CRM' });
+      if (!validEmail(este.email)) return j(res, 400, { ok: false, error: 'lead has no valid email' });
+      var subject = clip(body.subject, 200), text = clip(body.body, 8000);
+      if (!subject || !text) return j(res, 400, { ok: false, error: 'subject and body required' });
+      var cfg = emailConfig();
+      if (!cfg.hasKey) return j(res, 503, { ok: false, error: 'Email not configured. Set RESEND_API_KEY in Vercel.' });
+      if (cfg.sandbox) return j(res, 503, { ok: false, error: 'RESEND_FROM_EMAIL is unset or a resend.dev sandbox address, which can only email your own account. Verify a domain in Resend and set RESEND_FROM_EMAIL to an address on it.' });
+      var sup = await loadSuppress();
+      if (sup[este.email.toLowerCase()]) return j(res, 409, { ok: false, error: 'This address has unsubscribed — not sending.', suppressed: true });
+      var sr = await sendEmailResend(cfg, este.email, subject, text);
+      if (!sr.ok) return j(res, 502, { ok: false, error: 'Resend: ' + sr.error, hint: sr.status === 403 || /domain|verif/i.test(sr.error || '') ? 'Likely the sending domain is not verified in Resend.' : null });
+      // auto-log the touch + mirror as an attempt (no reply yet)
+      var costE = CHANNEL_COST.email || 0;
+      este.touches = este.touches || [];
+      este.touches.push({ ts: new Date().toISOString(), channel: 'email', outcome: 'sent', note: '✉ ' + subject, costCents: costE, providerId: sr.id || null });
+      if (este.status === 'new') este.status = 'working';
+      este.updatedTs = new Date().toISOString();
+      await db.set(K.state + eid, este);
+      await mirrorTouch('email', false, costE, body.dealSize, body.trigger);
+      return j(res, 200, { ok: true, sent: true, id: sr.id || null, warning: cfg.addr ? null : 'No CRM_SENDER_ADDRESS set — CAN-SPAM requires a physical postal address in the footer.' });
     }
 
     if (method === 'POST' && action === 'appointment') {
