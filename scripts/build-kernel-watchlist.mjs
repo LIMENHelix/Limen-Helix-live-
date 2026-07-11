@@ -49,7 +49,7 @@ function pick(r) {
   const ph = String(r.p || r.phase || '').toLowerCase();
   const pf = phaseFactor(ph);
   return {
-    slug: r.slug || r.d || null, name: r.n || r.name, ticker: r.t || r.ticker, cik: r.c || r.cik,
+    slug: r.s || r.slug || null, name: r.n || r.name, ticker: r.t || r.ticker, cik: r.c || r.cik,
     phase: ph, phaseFactor: pf != null ? pf : null, side: pf != null ? (pf < 1 ? 'SHORT' : 'LONG') : null,
     path: r.path, composite: Number(r.co || r.composite || 0), trajectory: r.tr || r.trajectory,
     distressScore: Number(r.ds || 0), alert: !!(r.a || r.alert), sector: r.sec, sic: r.sic

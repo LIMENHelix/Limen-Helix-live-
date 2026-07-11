@@ -312,7 +312,7 @@ function renderDomainPanel() {
 // TASK 3 — SORT / FILTER ENGINE
 // ═══════════════════════════════════════════════════════════════════════
 
-var _currentFilter = 'all';
+var _currentFilter = 'kernel';   // default: only kernel-actionable companies (SHORT + LONG)
 var _currentSort = 'severity';
 var _currentPage = 1;
 var _pageSize = 50;
@@ -326,7 +326,13 @@ function applyFilterSort() {
   var filtered = DATA;
 
   // Filter
-  if (_currentFilter === 'high-stress') {
+  if (_currentFilter === 'kernel') {           // the only companies that matter
+    filtered = DATA.filter(function(d) { return d._matters; });
+  } else if (_currentFilter === 'short') {     // kernel1 bankruptcy-call
+    filtered = DATA.filter(function(d) { return d._side === 'SHORT'; });
+  } else if (_currentFilter === 'long') {      // investment-primed (kernel2 phase)
+    filtered = DATA.filter(function(d) { return d._side === 'LONG'; });
+  } else if (_currentFilter === 'high-stress') {
     filtered = DATA.filter(function(d) { return d.ds >= 0.70; });
   } else if (_currentFilter === 'watchlist') {
     var wl = _getWatchlist();
@@ -425,7 +431,7 @@ function renderTable(rows, startOffset) {
     tr.setAttribute('data-company-idx', i);
     tr.innerHTML =
       '<td style="color:#555"><span class="wl-star' + (isWatched ? ' active' : '') + '" onclick="_toggleStar(\'' + d.t + '\',event)">' + (isWatched ? '★' : '☆') + '</span>' + (startOffset + i + 1) + '</td>' +
-      '<td><span style="color:rgba(201,169,78,0.5)">' + d.n + '</span></td>' +
+      '<td>' + (d._side ? '<span style="font-size:0.55em;padding:1px 4px;border-radius:2px;margin-right:5px;' + (d._side === 'SHORT' ? 'background:rgba(232,84,84,0.15);color:#e85454' : 'background:rgba(90,181,160,0.15);color:#5ab5a0') + '">' + (d._side === 'SHORT' ? '▼ SHORT' : '▲ LONG') + '</span>' : '') + '<span style="color:rgba(201,169,78,0.5)">' + d.n + '</span></td>' +
       '<td style="color:#C9A94E">' + d.t + '</td>' +
       '<td><span class="phase" style="background:' + pc + '22;color:' + pc + ';border:1px solid ' + pc + '44">' + (PHASE_LABELS[d.p] || d.p.toUpperCase()) + '</span></td>' +
       '<td style="color:' + tc + '">' + d.tr.replace(/_/g, ' ') + '</td>' +
@@ -864,11 +870,32 @@ function _addPortfolioPrompt() {
 // ═══════════════════════════════════════════════════════════════════════
 
 // Board init — called after DATA loads from JSON
+// Kernel-watchlist classification (operator directive 2026-07-11): the kernel is
+// validated for a small % of companies where it calls bankruptcy ~12-20mo out;
+// only those (SHORT) + investment-primed (LONG) matter. Same logic as
+// scripts/build-kernel-watchlist.mjs. PHASE_FACTOR>=1 phases (lib/valuation.js):
+// p0 STABLE 1.05 / p6 EXPANSION 1.20 / p10 RESURRECTION 1.25.
+var LONG_PHASES = { p0: 1, p6: 1, p10: 1 };
+function _isFIRE(d) { var s = parseInt(String(d.sic || d.SIC || '').slice(0, 4), 10); return !isNaN(s) && s >= 6000 && s <= 6799; }
+function _kernelSide(d) {
+  if ((d.vs || d.validation_status) !== 'validated') return null;   // out of validated envelope
+  if (_isFIRE(d)) return null;                                       // kernel invalid on FIRE
+  if (d.a) return 'SHORT';                                           // kernel1 bankruptcy-call
+  if (LONG_PHASES[String(d.p || '').toLowerCase()]) return 'LONG';   // kernel2 phase -> investment-primed
+  return null;                                                       // in-scope but no actionable signal
+}
+
 function _initBoard() {
-  // Enrich DATA with signal + severity
+  // STRUCTURAL EXCLUSION: drop Finance/Insurance/Real-Estate (SIC 6000-6799) — the
+  // kernel is invalid on FIRE (deposits/borrowings read as debt -> pathC artifacts,
+  // e.g. a community bank showing composite 38). Out of envelope; never a kernel row.
+  DATA = DATA.filter(function(d) { return !_isFIRE(d); });
+  // Enrich DATA with signal + severity + kernel-watchlist side
   DATA.forEach(function(d) {
     d._signal = classifySignal(d);
     d._severity = computeSeverity(d);
+    d._side = _kernelSide(d);        // 'SHORT' | 'LONG' | null
+    d._matters = d._side !== null;   // on the kernel watchlist = the only companies that matter
   });
   _updateTimestamp();
   _seedPortfolio();

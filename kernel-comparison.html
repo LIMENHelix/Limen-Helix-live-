@@ -106,7 +106,10 @@ if (_CMD_DOMAIN_FILTER) {
 
 <div class="filter-bar" id="controlBar">
   <span style="font-size:0.3rem;color:rgba(200,195,184,0.25);letter-spacing:1.5px;margin-right:4px">FILTER</span>
-  <button class="filter-btn active" data-filter="all">ALL</button>
+  <button class="filter-btn active" data-filter="kernel" title="The only companies the kernel is valid for: bankruptcy-call + investment-primed">◈ KERNEL</button>
+  <button class="filter-btn" data-filter="short" title="kernel1 bankruptcy-call (validated alert, ~12-20mo lead)" style="color:rgba(232,84,84,0.6)">▼ SHORT</button>
+  <button class="filter-btn" data-filter="long" title="investment-primed (kernel2 phase, PHASE_FACTOR ≥ 1)" style="color:rgba(90,181,160,0.6)">▲ LONG</button>
+  <button class="filter-btn" data-filter="all">ALL IN-SCOPE</button>
   <button class="filter-btn" data-filter="DATA_ERROR">DATA ERRORS</button>
   <button class="filter-btn" data-filter="ALERT">ALERTS</button>
   <button class="filter-btn" data-filter="EARLY_WARNING">EARLY WARNING</button>
