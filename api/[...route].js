@@ -29,6 +29,7 @@ const HANDLERS = {
   'sales': require('../handlers/sales'),
   'leadgen': require('../handlers/leadgen'),
   'crm': require('../handlers/crm'),
+  'spine': require('../handlers/spine'),
   'relay-margin': require('../handlers/relay-margin'),
   'relay-checkout': require('../handlers/relay-checkout'),
   'wave-radar': require('../handlers/wave-radar'),
