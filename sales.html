@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>SALES — Revenue Machine · LIMEN Helix</title>
+<style>
+  :root{
+    --bg:#0a0e14; --panel:#111823; --panel2:#0d141d; --line:#1e2b3a;
+    --ink:#e6edf3; --dim:#8b9bb0; --faint:#5a6b80;
+    --cyan:#35d0ba; --blue:#4a9eff; --amber:#f5b642; --red:#ff5d5d; --green:#3ddc84; --violet:#a882ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+  a{color:var(--blue);text-decoration:none}
+  .wrap{max-width:1200px;margin:0 auto;padding:22px 18px 80px}
+  header.top{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:14px}
+  h1{font-size:20px;margin:0;letter-spacing:.5px}
+  h1 .machine{color:var(--cyan)}
+  .sub{color:var(--dim);font-size:12.5px;max-width:640px}
+  .badge{font-size:11px;padding:2px 8px;border-radius:20px;border:1px solid var(--line);color:var(--dim)}
+  .badge.sim{color:var(--amber);border-color:#5a4a1a;background:#1a1408}
+  .badge.real{color:var(--green);border-color:#1a4a2a;background:#08160e}
+  .badge.mixed{color:var(--violet);border-color:#3a2a5a;background:#120a1e}
+  .keybar{margin:14px 0;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  input,select,button{font:inherit}
+  input,select{background:var(--panel2);border:1px solid var(--line);color:var(--ink);border-radius:7px;padding:7px 10px}
+  button{background:var(--panel);border:1px solid var(--line);color:var(--ink);border-radius:7px;padding:7px 12px;cursor:pointer}
+  button:hover{border-color:var(--cyan);color:#fff}
+  button.primary{background:#0f2a26;border-color:#1e5a4f;color:var(--cyan)}
+  button.warn{border-color:#5a2020;color:var(--red)}
+  .muted{color:var(--faint);font-size:12px}
+  .grid{display:grid;gap:14px}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .panel h2{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);margin:0 0 12px}
+  /* funnel */
+  .funnel{display:flex;align-items:stretch;gap:0;overflow-x:auto;padding-bottom:6px}
+  .stage{flex:1 1 0;min-width:150px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px;text-align:center;position:relative;transition:.15s}
+  .stage:hover{border-color:var(--cyan);transform:translateY(-2px)}
+  .stage .name{font-size:11px;letter-spacing:1.5px;color:var(--dim);text-transform:uppercase}
+  .stage .count{font-size:30px;font-weight:700;margin:6px 0 2px;font-variant-numeric:tabular-nums}
+  .stage .role{font-size:11px;color:var(--faint);min-height:28px}
+  .arrow{flex:0 0 74px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--dim)}
+  .arrow .pct{font-size:15px;font-weight:700;color:var(--cyan);font-variant-numeric:tabular-nums}
+  .arrow .lbl{font-size:9.5px;color:var(--faint);text-transform:uppercase;letter-spacing:.5px}
+  .arrow .glyph{font-size:18px;color:var(--line)}
+  .loop{margin-top:10px;font-size:12px;color:var(--dim);display:flex;align-items:center;gap:8px}
+  .loop b{color:var(--violet)}
+  .kpis{display:flex;gap:20px;flex-wrap:wrap;margin-top:4px}
+  .kpi{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 14px;min-width:120px}
+  .kpi .v{font-size:20px;font-weight:700;font-variant-numeric:tabular-nums}
+  .kpi .k{font-size:10.5px;letter-spacing:.5px;color:var(--faint);text-transform:uppercase}
+  .kpi.pos .v{color:var(--green)} .kpi.neg .v{color:var(--red)}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line)}
+  th{color:var(--faint);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+  td.num{text-align:right;font-variant-numeric:tabular-nums}
+  .chip{font-size:10.5px;padding:1px 7px;border-radius:20px;border:1px solid var(--line);color:var(--dim)}
+  .chip.ai{color:var(--violet);border-color:#3a2a5a}
+  .bar{height:6px;background:var(--panel2);border-radius:4px;overflow:hidden;min-width:60px}
+  .bar > i{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--blue))}
+  .note{font-size:12px;color:var(--faint);margin-top:8px}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:820px){.row2{grid-template-columns:1fr}}
+  dialog{background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:18px;max-width:420px}
+  dialog::backdrop{background:rgba(0,0,0,.6)}
+  .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--panel);border:1px solid var(--cyan);color:var(--ink);padding:10px 16px;border-radius:8px;font-size:13px;opacity:0;transition:.2s;pointer-events:none;z-index:9}
+  .toast.show{opacity:1}
+  .legend{font-size:11px;color:var(--faint);margin-top:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>SALES <span class="machine">· Revenue Machine</span></h1>
+    <span id="modeBadge" class="badge">loading…</span>
+    <div class="sub">A liquid 5-bucket funnel. Every <b>play</b> is a composable FITT / SET / FBA unit run through the LASER engine. The machine tracks what actually converts and reallocates toward the winners — segmented by deal size and emotional trigger.</div>
+  </header>
+
+  <div class="keybar">
+    <input id="key" type="password" placeholder="admin key" style="width:180px">
+    <button onclick="saveKey()">Unlock</button>
+    <span class="muted" id="keyState"></span>
+    <span style="flex:1"></span>
+    <button class="primary" onclick="runSim()">▶ Run simulation</button>
+    <button onclick="openGen()">✦ Generate plays</button>
+    <button onclick="seed()">Seed plays</button>
+    <button class="warn" onclick="reset()">Reset</button>
+  </div>
+
+  <div class="grid" style="margin-top:6px">
+    <div class="panel">
+      <h2>The Funnel</h2>
+      <div class="funnel" id="funnel"><div class="muted" style="padding:20px">Unlock and run a simulation to bring the machine alive.</div></div>
+      <div class="loop" id="loop"></div>
+      <div class="kpis" id="kpis"></div>
+      <div class="legend">Click any bucket to open its command page: the FITT × SET × FBA grid, live channel economics, and the plays running there.</div>
+    </div>
+
+    <div class="row2">
+      <div class="panel">
+        <h2>Optimizer · top plays (Wilson-lower ranked)</h2>
+        <table><thead><tr><th>Play</th><th>Segment</th><th class="num">Conv</th><th class="num">n</th><th class="num">Alloc</th></tr></thead>
+        <tbody id="topPlays"><tr><td colspan="5" class="muted">—</td></tr></tbody></table>
+        <div class="note">Ranked by lower-confidence bound, not raw rate — a 2-of-2 play cannot outrank a 40-of-50 play. Losers keep a small exploration share; winners get fed.</div>
+      </div>
+      <div class="panel">
+        <h2>Recent events</h2>
+        <table><thead><tr><th>Step</th><th>Unit</th><th>Seg</th><th class="num">Won</th></tr></thead>
+        <tbody id="feed"><tr><td colspan="4" class="muted">—</td></tr></tbody></table>
+        <div class="note" id="aiState"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<dialog id="genDlg">
+  <h2 style="margin-top:0;font-size:14px;letter-spacing:1px;color:var(--dim)">GENERATE PLAYS</h2>
+  <div class="grid" style="gap:10px">
+    <label>Funnel step<br><select id="gStep" style="width:100%"></select></label>
+    <div class="row2" style="gap:10px">
+      <label>Deal size<br><select id="gDeal" style="width:100%"><option>small</option><option selected>medium</option><option>large</option></select></label>
+      <label>Trigger<br><select id="gTrig" style="width:100%"></select></label>
+    </div>
+    <label>Count<br><input id="gCount" type="number" value="4" min="1" max="8" style="width:100%"></label>
+    <div class="muted">Uses Anthropic (Grok/OpenAI fallback). If the AI kill-switch is on, falls back to deterministic template plays — no spend.</div>
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button onclick="genDlg.close()">Cancel</button>
+      <button class="primary" onclick="doGen()">Generate</button>
+    </div>
+  </div>
+</dialog>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const STAGES = [
+  {id:'leads', label:'Leads', role:'raw prospects in', to:'leads>appointments'},
+  {id:'appointments', label:'Appointments', role:'booked to meet', to:'appointments>shows'},
+  {id:'shows', label:'Shows', role:'actually showed', to:'shows>enrollments'},
+  {id:'enrollments', label:'Enrollments', role:'closed / paid', to:'enrollments>referrals'},
+  {id:'referrals', label:'Referrals', role:'happy → refer', to:'source>leads'}
+];
+const $ = s => document.querySelector(s);
+let CFG = null;
+function key(){ return localStorage.getItem('salesKey')||''; }
+function saveKey(){ localStorage.setItem('salesKey', $('#key').value.trim()); load(); }
+function toast(m){ const t=$('#toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2200); }
+function money(c){ if(c==null) return '—'; const d=c/100; return '$'+(d>=1000?(d/1000).toFixed(1)+'k':d.toFixed(0)); }
+function pct(x){ return (x*100).toFixed(1)+'%'; }
+
+async function api(action, method='GET', body){
+  const k = key();
+  const url = '/api/sales?action='+action+(k?('&key='+encodeURIComponent(k)):'');
+  const opt = {method}; if(body){opt.headers={'content-type':'application/json'}; opt.body=JSON.stringify(body);}
+  const r = await fetch(url, opt); return r.json();
+}
+
+async function load(){
+  $('#key').value = key();
+  const st = await api('status');
+  $('#keyState').textContent = st.keyConfigured ? (key()?'unlocked':'key required') : 'server key not configured';
+  const mb = $('#modeBadge'); mb.className='badge '+(st.dataMode||'');
+  mb.textContent = ({empty:'no data',simulated:'SIMULATED',real:'LIVE',mixed:'SIM + LIVE'}[st.dataMode]||st.dataMode||'—')
+    + (st.playCount?(' · '+st.playCount+' plays'):'');
+  $('#aiState').textContent = st.aiProviders ? ('AI providers — '+Object.keys(st.aiProviders).filter(p=>st.aiProviders[p]).join(', ')||'AI providers — none live (template fallback)') : '';
+  if(!key()) return;
+  CFG = (await api('config')).config;
+  fillGen();
+  const f = (await api('funnel')).funnel;
+  if(f) renderFunnel(f);
+  renderTop((await api('plays')).plays||[]);
+  renderFeed((await api('events&limit=14')).events||[]);
+}
+
+function renderFunnel(f){
+  const sc = f.stageCounts||{};
+  const tById = {}; (f.transitions||[]).forEach(t=>tById[t.id]=t);
+  const el = $('#funnel'); el.innerHTML='';
+  STAGES.forEach((s,i)=>{
+    const card = document.createElement('div');
+    card.className='stage'; card.style.cursor='pointer';
+    card.onclick = ()=> location.href='/sales-'+s.id;
+    card.innerHTML = `<div class="name">${s.label}</div><div class="count">${(sc[s.id]??0).toLocaleString()}</div><div class="role">${s.role}</div>`;
+    el.appendChild(card);
+    if(i<STAGES.length-1){
+      const t = tById[s.to]||{};
+      const a=document.createElement('div'); a.className='arrow';
+      a.innerHTML = `<div class="pct">${t.conv!=null?pct(t.conv):'—'}</div><div class="glyph">→</div><div class="lbl">${t.bestConverter?('best: '+t.bestConverter):'convert'}</div>`;
+      el.appendChild(a);
+    }
+  });
+  const fb = f.feedbackLoop||{};
+  $('#loop').innerHTML = `↩ <b>Feedback loop:</b>&nbsp; ${fb.referralsProduced||0} referrals re-enter the LEADS bucket — the healthiest, cheapest source. The REFERRALS page drives acquisition (source → leads).`;
+  const enroll = sc.enrollments||0;
+  const spend = f.spendCents||0;
+  // revenue estimate from config deal values is not in agg; show spend + enroll + implied
+  const kpis = [
+    {k:'Enrollments', v:enroll, cls:''},
+    {k:'Total spend', v:money(spend), cls:'neg'},
+    {k:'Cost / enroll', v: enroll?money(spend/enroll):'—', cls:''},
+    {k:'Referrals', v: sc.referrals||0, cls:'pos'}
+  ];
+  $('#kpis').innerHTML = kpis.map(x=>`<div class="kpi ${x.cls}"><div class="v">${typeof x.v==='number'?x.v.toLocaleString():x.v}</div><div class="k">${x.k}</div></div>`).join('');
+}
+
+function renderTop(plays){
+  const top = plays.filter(p=>p.trials>0).slice(0,10);
+  $('#topPlays').innerHTML = top.length? top.map(p=>`<tr>
+    <td>${p.unit} <span class="chip ${p.source==='ai'?'ai':''}">${p.notation}</span></td>
+    <td class="muted">${p.dealSize}/${p.trigger}</td>
+    <td class="num">${pct(p.rate)}<div class="bar"><i style="width:${Math.round(p.lower*100)}%"></i></div></td>
+    <td class="num">${p.trials}</td>
+    <td class="num">${(p.allocation*100).toFixed(0)}%</td></tr>`).join('')
+    : '<tr><td colspan="5" class="muted">No outcomes yet — run a simulation.</td></tr>';
+}
+function renderFeed(evs){
+  $('#feed').innerHTML = evs.length? evs.map(e=>`<tr>
+    <td class="muted">${e.from}→${e.to}</td><td>${e.unit}</td>
+    <td class="muted">${e.dealSize}/${e.trigger}</td>
+    <td class="num" style="color:${e.won?'var(--green)':'var(--faint)'}">${e.won?'✓':'·'}</td></tr>`).join('')
+    : '<tr><td colspan="4" class="muted">—</td></tr>';
+}
+
+function fillGen(){
+  if(!CFG) return;
+  $('#gStep').innerHTML = CFG.transitions.map(t=>`<option value="${t.id}">${t.label}</option>`).join('');
+  $('#gTrig').innerHTML = CFG.triggers.map(t=>`<option>${t}</option>`).join('');
+}
+function openGen(){ if(!key())return toast('unlock first'); $('#genDlg').showModal(); }
+async function doGen(){
+  $('#genDlg').close(); toast('generating…');
+  const r = await api('generate','POST',{transitionId:$('#gStep').value,dealSize:$('#gDeal').value,trigger:$('#gTrig').value,count:+$('#gCount').value});
+  toast(r.ok?`+${r.generated} plays (${r.via})`:('error: '+(r.error||'')));
+  load();
+}
+async function runSim(){
+  if(!key())return toast('unlock first');
+  toast('simulating…');
+  const r = await api('simulate','POST',{n:1500});
+  toast(r.ok?`sim: ${r.summary.leadsIn} leads → ${r.summary.enrolled} enrolled`:('error: '+(r.error||'')));
+  load();
+}
+async function seed(){ if(!key())return toast('unlock first'); const r=await api('seed','POST',{perSegment:2}); toast(r.ok?`+${r.added} template plays`:('err')); load(); }
+async function reset(){ if(!key())return toast('unlock first'); if(!confirm('Wipe all sales data?'))return; await api('reset','POST',{}); toast('reset'); load(); }
+
+load();
+</script>
+</body>
+</html>

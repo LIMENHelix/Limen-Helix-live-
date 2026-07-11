@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>SALES stage · LIMEN Helix</title>
+<style>
+  :root{
+    --bg:#0a0e14; --panel:#111823; --panel2:#0d141d; --line:#1e2b3a;
+    --ink:#e6edf3; --dim:#8b9bb0; --faint:#5a6b80;
+    --cyan:#35d0ba; --blue:#4a9eff; --amber:#f5b642; --red:#ff5d5d; --green:#3ddc84; --violet:#a882ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+  a{color:var(--blue);text-decoration:none}
+  .wrap{max-width:1180px;margin:0 auto;padding:22px 18px 80px}
+  .crumbs{font-size:12px;color:var(--faint);margin-bottom:10px}
+  header.top{border-bottom:1px solid var(--line);padding-bottom:14px}
+  h1{font-size:22px;margin:0;letter-spacing:.5px}
+  h1 .drives{color:var(--cyan);font-size:14px}
+  .sub{color:var(--dim);font-size:12.5px;margin-top:4px;max-width:720px}
+  .keybar{margin:14px 0;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  input,select,button{font:inherit}
+  input,select{background:var(--panel2);border:1px solid var(--line);color:var(--ink);border-radius:7px;padding:7px 10px}
+  button{background:var(--panel);border:1px solid var(--line);color:var(--ink);border-radius:7px;padding:7px 12px;cursor:pointer}
+  button:hover{border-color:var(--cyan);color:#fff}
+  button.primary{background:#0f2a26;border-color:#1e5a4f;color:var(--cyan)}
+  .muted{color:var(--faint);font-size:12px}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;margin-top:14px}
+  .panel h2{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);margin:0 0 12px}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line)}
+  th{color:var(--faint);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+  td.num{text-align:right;font-variant-numeric:tabular-nums}
+  .flag{font-size:10px;padding:1px 6px;border-radius:20px;margin-left:6px}
+  .flag.best{background:#08160e;border:1px solid #1a4a2a;color:var(--green)}
+  .flag.value{background:#0a1420;border:1px solid #1e3a5a;color:var(--blue)}
+  .bar{height:6px;background:var(--panel2);border-radius:4px;overflow:hidden;min-width:60px}
+  .bar > i{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--blue))}
+  .chip{font-size:10.5px;padding:1px 7px;border-radius:20px;border:1px solid var(--line);color:var(--dim)}
+  .chip.ai{color:var(--violet);border-color:#3a2a5a}
+  /* FITT grid */
+  .fitt{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  @media(max-width:760px){.fitt{grid-template-columns:1fr 1fr}}
+  .dim{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:12px}
+  .dim .h{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--cyan);margin-bottom:8px}
+  .dim .layers{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
+  .layer{font-size:10px;padding:2px 7px;border-radius:20px;border:1px solid var(--line)}
+  .layer.SET{color:var(--amber);border-color:#5a4a1a}
+  .layer.FBA{color:var(--violet);border-color:#3a2a5a}
+  .dim .opts{font-size:11.5px;color:var(--dim);line-height:1.7}
+  .best-play{background:linear-gradient(180deg,#0f2a26,var(--panel2));border:1px solid #1e5a4f;border-radius:10px;padding:14px;margin-bottom:12px}
+  .best-play .k{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--cyan)}
+  .best-play .notation{font-family:ui-monospace,Menlo,monospace;font-size:16px;color:#fff;margin:6px 0}
+  .copy{font-size:12px;color:var(--dim);margin-top:8px;display:grid;gap:3px}
+  .copy b{color:var(--ink)}
+  .selrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+  .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--panel);border:1px solid var(--cyan);color:var(--ink);padding:10px 16px;border-radius:8px;font-size:13px;opacity:0;transition:.2s;pointer-events:none;z-index:9}
+  .toast.show{opacity:1}
+  .badge{font-size:11px;padding:2px 8px;border-radius:20px;border:1px solid var(--line);color:var(--dim)}
+  .badge.sim{color:var(--amber);border-color:#5a4a1a;background:#1a1408}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="crumbs"><a href="/sales">← SALES</a> · <span id="crumbStage"></span></div>
+  <header class="top">
+    <h1 id="title">…</h1>
+    <div class="drives" id="drives"></div>
+    <div class="sub" id="sub"></div>
+  </header>
+
+  <div class="keybar">
+    <input id="key" type="password" placeholder="admin key" style="width:170px">
+    <button onclick="saveKey()">Unlock</button>
+    <span id="modeBadge" class="badge">—</span>
+    <span style="flex:1"></span>
+    <label class="muted">Segment:</label>
+    <select id="segDeal"><option>small</option><option selected>medium</option><option>large</option></select>
+    <select id="segTrig"></select>
+    <button onclick="applySeg()">View</button>
+    <button class="primary" onclick="genHere()">✦ Generate plays here</button>
+  </div>
+
+  <div class="panel">
+    <h2>Channel economics — what converts, and the bang for the buck</h2>
+    <table><thead><tr><th id="unitHdr">Channel</th><th class="num">Attempts</th><th class="num">Conv %</th><th class="num">Cost / win</th><th></th></tr></thead>
+    <tbody id="econ"><tr><td colspan="5" class="muted">Unlock and run a simulation on the SALES hub.</td></tr></tbody></table>
+  </div>
+
+  <div class="panel">
+    <h2>Next best play <span class="muted" id="segLabel"></span></h2>
+    <div id="bestPlay"><div class="muted">—</div></div>
+    <h2 style="margin-top:16px">FITT × SET × FBA grid</h2>
+    <div class="fitt" id="fittGrid"></div>
+    <div class="muted" style="margin-top:8px">FITT sets the shape (Frequency · Intensity=quantity · Time · Type). Under each dimension you layer <span class="layer SET">SET</span> (state-fact → expose-need → tie-down) and/or <span class="layer FBA">FBA</span> (feature · benefit · advantage). Any combination is legal — the machine tests them and keeps what closes this segment.</div>
+  </div>
+
+  <div class="panel">
+    <h2>Plays running here — Wilson-lower ranked</h2>
+    <table><thead><tr><th id="unitHdr2">Unit</th><th>Composition</th><th>Segment</th><th class="num">Conv</th><th class="num">n</th><th class="num">Alloc</th></tr></thead>
+    <tbody id="plays"><tr><td colspan="6" class="muted">—</td></tr></tbody></table>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+// bucket -> the transition that bucket DRIVES
+const MAP = {
+  leads:        {tid:'leads>appointments', label:'Leads', drives:'Lead → Appointment', unit:'channel',
+                 sub:'Turn raw prospects into booked appointments. The volume game: reach fast, on cadence, before the lead cools.'},
+  appointments: {tid:'appointments>shows', label:'Appointments', drives:'Appointment → Show', unit:'channel',
+                 sub:'Get booked appointments to actually show up. Confirmation cadence is the whole battle here.'},
+  shows:        {tid:'shows>enrollments', label:'Shows', drives:'Show → Enrollment (the close)', unit:'lever',
+                 sub:'Convert a live conversation into a paid enrollment. Levers are closing skills — rapport, urgency, presentation, price-point.'},
+  enrollments:  {tid:'enrollments>referrals', label:'Enrollments', drives:'Enrollment → Referral', unit:'channel',
+                 sub:'Turn happy buyers into referrers. A high referral rate is the signal the sale was not forced.'},
+  referrals:    {tid:'source>leads', label:'Referrals', drives:'Referral loop → new Leads', unit:'source',
+                 sub:'Referrals feed the LEADS bucket — the cheapest, highest-trust acquisition. This page tracks all acquisition sources so you can compare paid vs referred.'}
+};
+const $ = s=>document.querySelector(s);
+const qs = new URLSearchParams(location.search);
+const STAGE = (qs.get('stage')||'leads').toLowerCase();
+const M = MAP[STAGE] || MAP.leads;
+let CFG=null;
+function key(){ return localStorage.getItem('salesKey')||''; }
+function saveKey(){ localStorage.setItem('salesKey',$('#key').value.trim()); load(); }
+function toast(m){ const t=$('#toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2200); }
+function pct(x){ return (x==null?'—':(x*100).toFixed(1)+'%'); }
+function money(c){ if(c==null) return '—'; const d=c/100; return '$'+(d>=1000?(d/1000).toFixed(1)+'k':d.toFixed(2)); }
+
+async function api(action, method='GET', body){
+  const k=key(); const url='/api/sales?action='+action+(k?('&key='+encodeURIComponent(k)):'');
+  const opt={method}; if(body){opt.headers={'content-type':'application/json'};opt.body=JSON.stringify(body);}
+  return (await fetch(url,opt)).json();
+}
+function seg(){ return {deal:$('#segDeal').value, trig:$('#segTrig').value}; }
+
+function header(){
+  $('#crumbStage').textContent = M.label;
+  $('#title').textContent = M.label.toUpperCase();
+  $('#drives').textContent = '▸ drives: '+M.drives;
+  $('#sub').textContent = M.sub;
+  $('#unitHdr').textContent = M.unit==='lever'?'Lever (closing skill)':(M.unit==='source'?'Source':'Channel');
+  $('#unitHdr2').textContent = M.unit==='lever'?'Lever':(M.unit==='source'?'Source':'Channel');
+}
+
+async function load(){
+  header();
+  $('#key').value = key();
+  const st = await api('status');
+  const mb=$('#modeBadge'); mb.className='badge '+(st.dataMode==='simulated'?'sim':'');
+  mb.textContent = ({empty:'no data',simulated:'SIMULATED',real:'LIVE',mixed:'SIM + LIVE'}[st.dataMode]||'—');
+  if(!key()){ return; }
+  CFG=(await api('config')).config;
+  $('#segTrig').innerHTML = CFG.triggers.map(t=>`<option${t==='trust'?' selected':''}>${t}</option>`).join('');
+  renderEcon((await api('funnel')).funnel);
+  renderPlays((await api('plays&stage='+encodeURIComponent(M.tid))).plays||[]);
+}
+
+function renderEcon(f){
+  if(!f) return;
+  const t = (f.transitions||[]).filter(x=>x.id===M.tid)[0];
+  if(!t){ $('#econ').innerHTML='<tr><td colspan="5" class="muted">No data for this step yet.</td></tr>'; return; }
+  const rows = (t.units||[]).map(u=>`<tr>
+    <td>${u.name}${u.name===t.bestConverter?'<span class="flag best">best converter</span>':''}${u.name===t.bestValue?'<span class="flag value">bang / buck</span>':''}</td>
+    <td class="num">${u.attempts}</td>
+    <td class="num">${pct(u.conv)}<div class="bar"><i style="width:${Math.round((u.conv||0)*100)}%"></i></div></td>
+    <td class="num">${money(u.costPerWinCents)}</td><td></td></tr>`).join('');
+  $('#econ').innerHTML = rows || '<tr><td colspan="5" class="muted">No attempts logged for this step.</td></tr>';
+}
+
+function layerBadges(layerMap, dim){
+  const arr=(layerMap&&layerMap[dim])||[];
+  return arr.map(l=>`<span class="layer ${l}">${l}</span>`).join('') || '<span class="muted" style="font-size:10px">no layer</span>';
+}
+function renderGrid(play){
+  const dims=[['frequency','Frequency'],['intensity','Intensity'],['time','Time'],['type','Type']];
+  $('#fittGrid').innerHTML = dims.map(([kk,lab])=>{
+    const opts=(CFG&&CFG.fitt&&CFG.fitt[kk])||[];
+    const cur = play&&play.fitt?play.fitt[kk]:null;
+    return `<div class="dim"><div class="h">${lab}</div>
+      <div class="layers">${layerBadges(play?play.layerMap:null,kk)}</div>
+      <div class="opts">${opts.map(o=>`<div style="${o===cur?'color:var(--cyan)':''}">${o===cur?'▸ ':'· '}${o}</div>`).join('')}</div></div>`;
+  }).join('');
+}
+function renderBest(play){
+  if(!play){ $('#bestPlay').innerHTML='<div class="muted">No play for this segment yet — generate one, or run a simulation.</div>'; renderGrid(null); return; }
+  const c=play.copy||{};
+  $('#bestPlay').innerHTML = `<div class="best-play">
+    <div class="k">recommended · ${play.unit} · alloc ${(play.allocation*100).toFixed(0)}% · ${play.trials} trials</div>
+    <div class="notation">${play.notation} <span class="chip ${play.source==='ai'?'ai':''}">${play.source}</span></div>
+    <div class="copy">
+      ${c.fact?`<div><b>Fact.</b> ${c.fact}</div>`:''}
+      ${c.need?`<div><b>Need.</b> ${c.need}</div>`:''}
+      ${c.tie?`<div><b>Tie-down.</b> ${c.tie}</div>`:''}
+      ${c.advantage?`<div><b>Advantage.</b> ${c.advantage}</div>`:''}
+    </div></div>`;
+  renderGrid(play);
+}
+
+function renderPlays(plays){
+  const {deal,trig}=seg();
+  $('#segLabel').textContent = '· '+deal+' / '+trig;
+  const segPlays = plays.filter(p=>p.dealSize===deal&&p.trigger===trig);
+  const best = segPlays.slice().sort((a,b)=>b.allocation-a.allocation)[0] || segPlays[0];
+  renderBest(best);
+  const show = plays.slice(0,40);
+  $('#plays').innerHTML = show.length? show.map(p=>`<tr style="${p===best?'background:#0f1a18':''}">
+    <td>${p.unit}</td><td><span class="chip ${p.source==='ai'?'ai':''}">${p.notation}</span></td>
+    <td class="muted">${p.dealSize}/${p.trigger}</td>
+    <td class="num">${pct(p.rate)}<div class="bar"><i style="width:${Math.round(p.lower*100)}%"></i></div></td>
+    <td class="num">${p.trials}</td><td class="num">${(p.allocation*100).toFixed(0)}%</td></tr>`).join('')
+    : '<tr><td colspan="6" class="muted">No plays here — generate some.</td></tr>';
+}
+
+function applySeg(){ load(); }
+async function genHere(){
+  if(!key())return toast('unlock first');
+  const {deal,trig}=seg(); toast('generating…');
+  const r=await api('generate','POST',{transitionId:M.tid,dealSize:deal,trigger:trig,count:4});
+  toast(r.ok?`+${r.generated} plays (${r.via})`:('err: '+(r.error||'')));
+  load();
+}
+load();
+</script>
+</body>
+</html>
