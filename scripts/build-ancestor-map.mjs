@@ -34,6 +34,8 @@ for (const f of files) {
   if (map[slug]) slugs++;
 }
 // type-default fallback baked in under key "_def"
-map._def = { sf: 'STN|o', co: 'THAL|h', qd: 'CBLM|h', gg: 'vmPFC|o', cb: 'THAL|o' };
+// sf = system failure = STN HYPER (over-brake = paralysis); runaway is contagion/
+// tipping-point. Matches the reasoned named-override in portal-ui.js / base.
+map._def = { sf: 'STN|h', co: 'THAL|h', qd: 'CBLM|h', gg: 'vmPFC|o', cb: 'THAL|o' };
 fs.writeFileSync(OUT, JSON.stringify(map));
 console.log('wrote diagnosis-ancestor-map.json: ' + slugs + ' slugs, ' + cells + ' type-cells, ' + (fs.statSync(OUT).size / 1024).toFixed(0) + 'KB');
