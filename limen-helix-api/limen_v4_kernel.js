@@ -699,7 +699,13 @@ function computeRuptureScore(rows) {
       }
     }
     if (signals >= LIMEN.RUPTURE_MIN_SIGNALS) {
-      var intensity = signals * (0.5 + Math.max(cashDropPct,0) + Math.max(debtSpikePct,0) + Math.min(varRatio,20.0)/10.0);
+      // debtSpikePct is (currDebt-prevDebt)/prevDebt — UNBOUNDED when a prior
+      // quarter's debt is small-but-nonzero (reclassification / data artifact),
+      // which spiked path-C composites to 30-100+ for healthy blue-chips (Ecolab
+      // 107.8, Leidos 33.2). Cap at 2.0 = 4x the RUPTURE_DEBT_SPIKE trigger (0.50),
+      // mirroring the varRatio cap (4x its 5.0 trigger); a real rupture (>=2
+      // signals, thresh 1.5) still clears. Bounds the artifact, keeps real spikes.
+      var intensity = signals * (0.5 + Math.max(cashDropPct,0) + Math.min(Math.max(debtSpikePct,0),2.0) + Math.min(varRatio,20.0)/10.0);
       ruptureEvents.push({ idx: i, quarter: btRows[i].quarter, intensity: intensity, signals: signals, cashDrop: cashDropPct });
     }
   }
