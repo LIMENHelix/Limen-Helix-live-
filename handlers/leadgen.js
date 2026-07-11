@@ -36,6 +36,7 @@ var K = {
   companyStats: 'leadgen:companystats', // { companyId: {count, costCents} }
   companies: 'sales:companies', // editable venture registry
   companiesSeeded: 'sales:companies_seeded', // default ids already introduced (so deletes stick)
+  companiesCorr: 'sales:companies_corr',     // one-time correction ids already applied
   salesAgg: 'sales:agg',        // shared with the sales funnel
   salesMeta: 'sales:meta'
 };
@@ -54,13 +55,21 @@ var DEFAULT_COMPANIES = [
   { id: 'killswitch', name: 'Killswitch', domain: 'technology', level: 'L1', note: 'Web agency — free-site anchor + module upsells.' },
   { id: 'relay', name: 'Relay', domain: 'finance', level: 'L1', note: 'Arbitrage broker (Relay / Spread).' },
   { id: 'homestead', name: 'Homestead', domain: 'economy', level: 'L1', note: 'Distressed real-estate desk (P3 / RE).' },
-  { id: 'tension', name: 'TENSION', domain: 'medicine', level: 'L1', note: 'Fitness — time-under-tension + meal replacement. (no fitness domain; medicine is closest)' },
+  { id: 'tension', name: 'TENSION', domain: 'population', level: 'L1', note: 'Fitness — time-under-tension + meal replacement.' },
+  { id: 'heartland', name: 'Heartland', domain: 'medicine', level: 'L1', note: 'TRT clinic — sales presentation deck.' },
   { id: 'industry-desk', name: 'Industry Desk', domain: 'industry', level: 'L1', note: 'Industrial distress / WARN desk (P3).' },
   { id: 'finance-desk', name: 'Finance Desk', domain: 'finance', level: 'L1', note: 'Distressed securities / EDGAR desk (P3).' },
-  { id: 'technology-desk', name: 'Technology Desk', domain: 'technology', level: 'L1', note: 'Tech layoffs desk (P3 / layoffs.fyi).' },
-  { id: 'medicine-desk', name: 'Medicine Desk', domain: 'medicine', level: 'L1', note: 'Adverse-event / openFDA desk (P3).' },
-  { id: 'energy-desk', name: 'Energy Desk', domain: 'energy', level: 'L1', note: 'Retiring-generators / EIA desk (P3).' }
+  { id: 'technology-desk', name: 'Technology Desk', domain: 'technology', level: 'L1', note: 'Tech layoffs desk (P3 / layoffs.fyi).' }
 ];
+// Ventures retired by the operator — stripped from the registry on load even if
+// a prior seed already introduced them (belt-and-suspenders removal).
+var RETIRED_COMPANIES = ['medicine-desk', 'energy-desk'];
+// One-time corrections applied to an already-seeded registry (each id runs once,
+// tracked in companiesCorr). Lets us fix a default's domain post-seed without
+// clobbering later operator page-edits.
+var CORRECTIONS = {
+  'tension-to-population': function (stored) { var c = stored.filter(function (x) { return x.id === 'tension'; })[0]; if (c && c.domain === 'medicine') c.domain = 'population'; }
+};
 
 // ── source registry ──────────────────────────────────────────────────────
 var SOURCE_DEFS = [
@@ -153,7 +162,21 @@ async function loadCompanies() {
       seeded.push(d.id); seen[d.id] = 1; changed = true;
     }
   });
-  if (changed) { await db.set(K.companies, stored); await db.set(K.companiesSeeded, seeded); }
+  // strip any retired venture that a prior seed already introduced
+  if (RETIRED_COMPANIES.length && stored.some(function (c) { return RETIRED_COMPANIES.indexOf(c.id) !== -1; })) {
+    stored = stored.filter(function (c) { return RETIRED_COMPANIES.indexOf(c.id) === -1; });
+    changed = true;
+  }
+  // apply one-time corrections (each id runs once)
+  var applied = await db.get(K.companiesCorr);
+  applied = Array.isArray(applied) ? applied : [];
+  var appliedSet = {}; applied.forEach(function (id) { appliedSet[id] = 1; });
+  var corrChanged = false;
+  Object.keys(CORRECTIONS).forEach(function (cid) {
+    if (!appliedSet[cid]) { CORRECTIONS[cid](stored); applied.push(cid); appliedSet[cid] = 1; corrChanged = true; }
+  });
+  if (corrChanged) await db.set(K.companiesCorr, applied);
+  if (changed || corrChanged) { await db.set(K.companies, stored); await db.set(K.companiesSeeded, seeded); }
   return stored;
 }
 function slugify(s) { return String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || ('c' + Date.now().toString(36)); }
