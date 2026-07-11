@@ -306,6 +306,25 @@ def score(req: ScoreRequest):
     else:
         pathway = None
 
+    # Trajectory label — the validated 5-state classifier (limen_backtest.py
+    # run_backtest lines 1224-1236), replicated here EXACTLY so per-company scoring
+    # surfaces it. RECOVERED = crossed P3 distress then recovered (the turnaround /
+    # investment-primed survival signal). Patent/public (the classifier is a claimed
+    # method), not a trade-secret weight — safe to return.
+    _ever_p3 = bool((df["p3"] >= P3_ENTRY_FROZEN).any()) if "p3" in df.columns else False
+    _ever_recovered = bool(df["recovered"].any()) if "recovered" in df.columns else False
+    _max_p3 = float(df["p3"].max()) if ("p3" in df.columns and len(df)) else 0.0
+    if alert and path_c >= THRESH_C:
+        trajectory = "RUPTURE"
+    elif alert:
+        trajectory = "UNRECOVERED_P3"
+    elif not _ever_p3:
+        trajectory = "STABLE"
+    elif _ever_recovered:
+        trajectory = "RECOVERED"
+    else:
+        trajectory = "MILD_STRESS"
+
     latest = df.iloc[-1] if not df.empty else None
     latest_quarter = (
         f"{int(latest['quarter'][0])}Q{int(latest['quarter'][1])}"
@@ -407,6 +426,8 @@ def score(req: ScoreRequest):
             if first_alert_q else None
         ),
         "pathway": pathway,
+        "trajectory": trajectory,
+        "max_p3": _max_p3,
         "composite_score": float(composite),
         "path_a_score": path_a,
         "path_b_score": path_b,
