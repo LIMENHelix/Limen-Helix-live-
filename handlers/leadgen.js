@@ -79,9 +79,12 @@ var SOURCE_DEFS = [
   { id: 'google-places', label: 'Google Places', kind: 'scrape', env: 'GOOGLE_PLACES_API_KEY', costModel: 'per-query', note: 'Real business leads (name, phone, address, website) by query + location.' },
   { id: 'web-scrape', label: 'Web scrape (URL)', kind: 'scrape', costModel: 'free', note: 'Best-effort extract of emails/phones from a public page you provide. Respect ToS/robots.' },
   { id: 'serp', label: 'Search (SERP API)', kind: 'scrape', env: 'SERP_API_KEY', costModel: 'per-query', note: 'Harvest leads from search results via a SERP provider.' },
-  { id: 'twilio-inbound', label: 'Call / Text inbound', kind: 'inbound', env: 'TWILIO_AUTH_TOKEN', costModel: 'per-msg', note: 'Inbound calls/texts (from mailers, ads) become leads. Needs a Twilio number + webhook.' }
+  { id: 'twilio-inbound', label: 'Call / Text inbound', kind: 'inbound', env: 'TWILIO_AUTH_TOKEN', costModel: 'per-msg', note: 'Inbound calls/texts (from mailers, ads) become leads. Needs a Twilio number + webhook.' },
+  // Internal LIMEN desks — sync their live candidate pools into the unified feed.
+  { id: 'homestead-desk', label: 'Homestead desk', kind: 'desk', company: 'homestead', costModel: 'free', note: 'Distressed real-estate deals (realauction) → Homestead. Sync to pull the current top pool.' },
+  { id: 'finance-desk', label: 'Finance desk', kind: 'desk', company: 'finance-desk', costModel: 'free', note: 'Distressed companies (EDGAR signals) → Finance Desk. Sync to pull the current pool.' }
 ];
-var SOURCE_TRUST = { 'inbound-form': 12, referral: 16, 'list-import': 4, 'google-places': 9, 'web-scrape': 3, serp: 5, 'twilio-inbound': 10 };
+var SOURCE_TRUST = { 'inbound-form': 12, referral: 16, 'list-import': 4, 'google-places': 9, 'web-scrape': 3, serp: 5, 'twilio-inbound': 10, 'homestead-desk': 12, 'finance-desk': 12 };
 
 function sourceStatus(def) {
   if (!def.env) return def.kind === 'scrape' ? 'best-effort' : 'live';
@@ -137,10 +140,12 @@ function makeLead(raw, source, costCents) {
 
 // Stamp domain + company context onto a batch (adapters don't know it; the
 // pull/import/capture request does).
+// Fills domain/company from the working context, but NEVER overrides a tag the
+// adapter already set (desk pulls self-tag to their fixed venture).
 function stampContext(leads, domain, company) {
   var d = (DOMAINS.indexOf(clip(domain, 40)) !== -1) ? clip(domain, 40) : '';
   var c = clip(company, 80);
-  leads.forEach(function (l) { if (d) l.domain = d; if (c) l.company = c; });
+  leads.forEach(function (l) { if (d && !l.domain) l.domain = d; if (c && !l.company) l.company = c; });
   return leads;
 }
 
@@ -326,6 +331,50 @@ async function pullWebScrape(url, limit) {
   } catch (e) { return { error: String(e && e.message || e), leads: [] }; }
 }
 
+// homestead-desk: sync the distressed-RE pool (realauction:deals). Each owner+
+// property is a mailable lead, tagged to Homestead / economy. Top-by-equity.
+async function pullHomesteadDesk(limit) {
+  var deals = (await db.get('realauction:deals')) || [];
+  if (!Array.isArray(deals)) return { leads: [], note: 'no realauction:deals in store' };
+  var withOwner = deals.filter(function (d) { return d && d.owner && d.owner.name; });
+  withOwner.sort(function (a, b) { return (b.equity || 0) - (a.equity || 0); });
+  var cap = Math.min(limit || 300, 500);
+  var take = withOwner.slice(0, cap);
+  var leads = take.map(function (d) {
+    var o = d.owner || {};
+    var mailTo = [o.mailAddr, o.mailCity, o.mailState, o.mailZip].filter(Boolean).join(', ');
+    return makeLead({
+      name: o.name, org: '',
+      city: d.city || '', state: o.mailState || d.state || '',
+      website: d.url || '',
+      notes: [d.street || d.address, d.county && (d.county + ' County'), d.tier && ('tier ' + d.tier),
+        d.equity && ('~$' + Math.round(d.equity).toLocaleString() + ' equity'),
+        o.absentee ? 'absentee' : '', d.ownerDealCount > 1 ? (d.ownerDealCount + ' properties') : '',
+        mailTo ? ('mail: ' + mailTo) : ''].filter(Boolean).join(' · '),
+      domain: 'economy', company: 'homestead'
+    }, 'homestead-desk', 0);
+  });
+  return { leads: leads, note: withOwner.length + ' deals in pool, synced top ' + take.length + (withOwner.length > cap ? ' (capped)' : '') };
+}
+
+// finance-desk: sync the distressed-company pool (finance:distress). Each company
+// is a lead tagged to Finance Desk / finance.
+async function pullFinanceDesk(limit) {
+  var deals = (await db.get('finance:distress')) || [];
+  if (!Array.isArray(deals)) return { leads: [], note: 'no finance:distress in store' };
+  var cap = Math.min(limit || 300, 500);
+  var take = deals.slice(0, cap);
+  var leads = take.map(function (d) {
+    return makeLead({
+      name: d.company || d.ticker || 'unknown', org: d.company || '',
+      website: d.cik ? ('https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=' + d.cik) : '',
+      notes: [d.signalLabel || d.signalType, d.ticker && ('$' + d.ticker), d.cik && ('CIK ' + d.cik)].filter(Boolean).join(' · '),
+      domain: 'finance', company: 'finance-desk'
+    }, 'finance-desk', 0);
+  });
+  return { leads: leads, note: deals.length + ' distressed companies, synced top ' + take.length + (deals.length > cap ? ' (capped)' : '') };
+}
+
 // ── handler ────────────────────────────────────────────────────────────────
 module.exports = async function handler(req, res) {
   res.setHeader('content-type', 'application/json');
@@ -464,7 +513,9 @@ module.exports = async function handler(req, res) {
       if (source3 === 'inbound-form') { got = await pullInboundForm(limit3); }
       else if (source3 === 'google-places') { var g = await pullGooglePlaces(body.query, body.location, limit3); got = g.leads; note = g.note || (g.raw != null ? (g.raw + ' places') : null); err = g.error; }
       else if (source3 === 'web-scrape') { var w = await pullWebScrape(body.url, limit3); got = w.leads; note = w.note; err = w.error; }
-      else { return j(res, 400, { ok: false, error: 'Pull not available for source "' + source3 + '". Live pull: inbound-form, google-places (key), web-scrape.' }); }
+      else if (source3 === 'homestead-desk') { var hd = await pullHomesteadDesk(limit3); got = hd.leads; note = hd.note; err = hd.error; }
+      else if (source3 === 'finance-desk') { var fd = await pullFinanceDesk(limit3); got = fd.leads; note = fd.note; err = fd.error; }
+      else { return j(res, 400, { ok: false, error: 'Pull not available for source "' + source3 + '". Live pull: inbound-form, google-places (key), web-scrape, homestead-desk, finance-desk.' }); }
       if (err) return j(res, 200, { ok: false, source: source3, error: err, added: 0 });
       stampContext(got || [], body.domain, body.company);
       var pr3 = await persistLeads(got || []);

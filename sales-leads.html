@@ -282,6 +282,7 @@ function renderSources(sources){
     const card=document.createElement('div'); card.className='src';
     let act='';
     if(s.id==='inbound-form') act=`<button class="sm primary" onclick="pull('inbound-form',{})">Import site leads</button>`;
+    else if(s.kind==='desk') act=`<button class="sm primary" onclick="pull('${s.id}',{limit:300})">↻ Sync desk now</button>`;
     else if(s.id==='google-places') act = s.status==='live'
       ? `<input id="gpQ" placeholder="e.g. dentists" style="width:110px"><input id="gpL" placeholder="location" style="width:100px"><button class="sm primary" onclick="pullPlaces()">Pull</button>`
       : `<span class="muted">set GOOGLE_PLACES_API_KEY to enable</span>`;
