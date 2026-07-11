@@ -77,6 +77,9 @@ const CONTROL = {
   NAcc: { motif:'M11', role:'incentive/reward drive',      fail:'over-pursuit=bubble / avolition' },
   VTA:  { motif:'M11', role:'dopamine reward source',      fail:'mania/addiction / anhedonia' },
   SCN:  { motif:'M12', role:'circadian pacemaker',         fail:'desync / over-rigid cadence' },
+  // M5 switching/reallocation carrier — frontopolar cortex is the explore/exploit +
+  // mode-switching arbiter (BAU vs crisis reallocation). Cases: Kodak, Intel.
+  rPFC: { motif:'M5',  role:'frontopolar PFC — explore/exploit + mode-switching arbiter', fail:'thrashing=strategy-whiplash, no mode completes / stuck-in-mode, cannot switch' },
   // Thalamic sensory/memory relays — same gating motif (M4) as THAL/MDT/GP/PULV.
   LGN:  { motif:'M4',  role:'lateral geniculate — visual thalamic relay',  fail:'flood/overload / starvation, homonymous-field-loss' },
   MGN:  { motif:'M4',  role:'medial geniculate — auditory thalamic relay', fail:'flood/overload / starvation, deafness' },
@@ -96,7 +99,6 @@ const CONTROL = {
 const PROCESSING = {
   dlPFC:     { role:'dorsolateral PFC — executive working-memory / cognitive control', fail:'rigidity/rumination-lock / executive-lapse, distractible' },
   mPFC:      { role:'medial PFC — self-referential value integration (DMN core)',       fail:'self-focus/rumination / disengaged, apathetic' },
-  rPFC:      { role:'frontopolar PFC — metacognition & prospective control',            fail:'overplanning/analysis-paralysis / no-foresight, myopic' },
   MFC:       { role:'medial frontal — action-value monitoring',                         fail:'over-deliberation / action apathy' },
   PMC:       { role:'premotor — motor planning & preparation',                          fail:'over-preparation/jitter / inertia, slow initiation' },
   SMA:       { role:'supplementary motor — self-initiated action sequencing',           fail:'compulsive sequencing / akinesia, initiation failure' },
