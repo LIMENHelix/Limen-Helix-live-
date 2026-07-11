@@ -1,9 +1,9 @@
 /**
- * environment-business-review.js — Culture Business Assignment Review Surface
+ * culture-business-review.js — Culture Business Assignment Review Surface
  *
  * CULTURE DOMAIN ONLY. Renders a review panel for proposed business mappings
  * across the full 103-node hierarchy.
- * Requires environment-node-business-engine.js to be loaded first.
+ * Requires culture-node-business-engine.js to be loaded first.
  *
  * Self-gates: only runs when ?domain=culture or ?domain=research
  * Exposes: window.LIMENCultureBusinessReview

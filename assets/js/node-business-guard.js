@@ -151,8 +151,17 @@
     .then(function (j) {
       NODES = (j && j.nodes) || {};
       scan();
-      // Engines load dynamically after the brain boots; scan a bounded window.
-      var n = 0, t = setInterval(function () { scan(); if (++n > 80) clearInterval(t); }, 750); // ~60s
+      // Engines load LAZILY (on domain-select), often long after page load — a
+      // bounded scan window would leave a late-opened domain's engine UNGUARDED
+      // (fabricated confidence + private flat-dict leaking to its review). Scan a
+      // fast burst, then keep a cheap perpetual slow scan: patch() is idempotent
+      // (__nbGuarded), so any late engine is caught within ~2.5s of loading,
+      // before its review can render. Closes the timing hole in the overlay.
+      var n = 0;
+      var fast = setInterval(function () {
+        scan();
+        if (++n > 80) { clearInterval(fast); setInterval(scan, 2500); } // burst ~60s -> perpetual 2.5s
+      }, 750);
       window.LIMENNodeBusinessGuard = { rescan: scan, stats: function () { return { enginesPatched: patched, braked: brakedByEngine }; } };
     })
     .catch(function () {});
