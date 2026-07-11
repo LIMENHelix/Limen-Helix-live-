@@ -16,26 +16,51 @@
   var NODES = null, patched = 0, brakedByEngine = {};
   function real(id) { return !!(NODES && NODES[id] && NODES[id].canBindBusiness); }
 
+  // A2/C1: attach the DEFENSIBLE motif->function layer to a business entry so the
+  // engine renders node->motif->function (structural, from the docs) alongside the
+  // empirical guess. fractalWeight/tier let the UI mark true cross-domain transfer
+  // (M6/M8/M11) vs T3 control-law universality vs unvalidated analogy.
+  function enrich(entry, id) {
+    var rec = NODES[id]; if (!rec || !entry || typeof entry !== 'object') return;
+    entry.motif = rec.motif || null;
+    entry.businessFunction = rec.businessFunction || null;
+    entry.isomorphismTier = rec.tier || null;
+    entry.fractalWeight = !!rec.fractalWeight;
+    entry.mappingClass = rec.fractalWeight ? 'fractal-bearing (M6/M8/M11)' : (rec.motif ? 'T3 control-law (doctrine-neutral)' : 'unvalidated analogy');
+  }
+  // A1: a fabricated confidence float on a node->company GUESS is the forbidden
+  // anti-pattern. Keep the number (internal ordering) but relabel it honestly as an
+  // UNVALIDATED analogy strength so nothing presents it as earned confidence.
+  function unvalidate(c) {
+    if (c && typeof c === 'object' && typeof c.confidence === 'number' && c.analogyStrength === undefined) { c.analogyStrength = c.confidence; c.unvalidated = true; }
+  }
+  function unvalidateLists(entry) {
+    ['companies', 'expectedTypes', 'types', 'firms'].forEach(function (L) { if (Array.isArray(entry && entry[L])) entry[L].forEach(unvalidate); });
+  }
+
   function patch(name, eng) {
     if (!eng || eng.__nbGuarded) return;
     eng.__nbGuarded = true;
     var braked = [];
-    // 1) prune the hardcoded directory so non-nodes never enter a fresh inference
+    // 1) prune non-nodes, then enrich each REAL entry with the defensible motif layer
+    //    and flag its node->company guesses as unvalidated.
     var dir = eng.NODE_DIRECTORY;
     if (dir && typeof dir === 'object') {
       for (var k in dir) {
-        if (Object.prototype.hasOwnProperty.call(dir, k) && !real(k)) { braked.push(k); delete dir[k]; }
+        if (!Object.prototype.hasOwnProperty.call(dir, k)) continue;
+        if (!real(k)) { braked.push(k); delete dir[k]; continue; }
+        enrich(dir[k], k); unvalidateLists(dir[k]);
       }
     }
-    // 2) filter runInference output (belt + suspenders: also catches cached paths)
+    // 2) filter runInference output + enrich/flag each surviving result.
     if (typeof eng.runInference === 'function') {
       var orig = eng.runInference.bind(eng);
       eng.runInference = function () {
         var r = orig.apply(null, arguments);
         if (r) ['mapped', 'missing', 'speculative'].forEach(function (key) {
-          if (Array.isArray(r[key])) r[key] = r[key].filter(function (e) {
-            return real(e && (e.nodeId || e.node || e.brainNodeId || e.id));
-          });
+          if (!Array.isArray(r[key])) return;
+          r[key] = r[key].filter(function (e) { return real(e && (e.nodeId || e.node || e.brainNodeId || e.id)); });
+          r[key].forEach(function (e) { enrich(e, e && (e.nodeId || e.node || e.brainNodeId || e.id)); unvalidate(e); unvalidateLists(e); });
         });
         return r;
       };
