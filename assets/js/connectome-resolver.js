@@ -2178,18 +2178,29 @@ function resolve(opportunities) {
     var dxEntry = dxActivationMap.get(a.nodeId);
     var bindings = dxEntry ? dxEntry.diagnosisBindings.slice() : [];
     // Shallow clone to avoid mutating the original stress activation object.
+    // CRITICAL: carry the _guardStamp fields (nodeClass/canBind/blocked/remapTo/
+    // blockReason) through the clone — dropping them killed the non-node brake in
+    // the entire resolve() path (enrichOpportunity brakes on n.blocked).
     merged.push({
       nodeId: a.nodeId,
       domains: a.domains,
       activationStrength: a.activationStrength,
       domainCount: a.domainCount,
       crossDomainNode: a.crossDomainNode,
-      diagnosisBindings: bindings
+      diagnosisBindings: bindings,
+      nodeClass: a.nodeClass,
+      canBind: a.canBind,
+      blocked: a.blocked,
+      remapTo: a.remapTo,
+      blockReason: a.blockReason
     });
     coveredNodeIds[a.nodeId] = true;
   }
+  // Diagnosis-only activations never passed through _guardStamp — stamp them now
+  // so a non-node named by an active circuit is braked here too, not just the
+  // stress-activation path.
   dxActivationMap.forEach(function(v, nid) {
-    if (!coveredNodeIds[nid]) merged.push(v);
+    if (!coveredNodeIds[nid]) merged.push(_guardStamp(nid, v));
   });
 
   // Re-sort using the existing rule: cross-domain first, then by strength.
