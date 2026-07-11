@@ -33,6 +33,7 @@ var ALIAS = { medicine: 'health', science: 'research', trade: 'supplyChain' };
 var K = {
   config: 'spine:config',
   cells: 'spine:cells',
+  overrides: 'spine:overrides',
   snapshot: 'console_snapshot',
   companies: 'sales:companies',
   lgIndex: 'leadgen:index',
@@ -56,22 +57,58 @@ async function loadConfig() {
   return Object.assign({ enabled: true, defaultMode: 'recommend', defaultThreshold: 0.5 }, c || {});
 }
 async function loadCellsOverlay() { return (await db.get(K.cells)) || {}; }
+async function loadOverrides() { return (await db.get(K.overrides)) || {}; }
 async function loadCompanies() { var c = await db.get(K.companies); return Array.isArray(c) ? c : []; }
 
-// Per-domain dysregulation from the live snapshot. weight = stress × confidence.
-function domainSignals(snap) {
+// Live event magnitude for a domain, read from the snapshot's defenseSignals[]
+// (event clusters with magnitude + affectedDomains — the geopolitical/kinetic
+// layer the slow structural stress metric misses). affectedDomains uses the
+// snapshot alias keys (health/supplyChain/research), so match on the alias.
+function eventMagFor(domain, snap) {
+  var ds = (snap && snap.defenseSignals) || [];
+  var key = ALIAS[domain] || domain;
+  var mag = 0, et = null, conf = 0;
+  for (var i = 0; i < ds.length; i++) {
+    var aff = ds[i].affectedDomains || [];
+    if (aff.indexOf(key) !== -1 || aff.indexOf(domain) !== -1) {
+      var m = num(ds[i].magnitude, 0);
+      if (m > mag) { mag = m; et = ds[i].eventType || null; conf = num(ds[i].confidenceValue, 0); }
+    }
+  }
+  return { mag: mag, eventType: et, confidence: conf };
+}
+
+// Per-domain dysregulation = MAX(structural stress, live event magnitude,
+// operator override floor). Max, not blend: if any channel says a domain is
+// hot, it is an opportunity window. confidence is kept separate (it gates
+// autonomy later, it does not suppress the dysregulation reading).
+function domainSignals(snap, overrides) {
+  overrides = overrides || {};
   var domainsRaw = (snap && snap.domains) || {};
   var out = {};
   DOMAINS.forEach(function (d) {
     var key = ALIAS[d] || d;
     var x = domainsRaw[key];
-    if (!x) { out[d] = { domain: d, stress: 0, confidence: 0, activity: 0, weight: 0, phase: null, topSignal: null, missing: true }; return; }
-    var stress = num(x.stress, 0), confidence = num(x.confidence, 0);
+    var structural = x ? num(x.stress, 0) : 0;
+    var confidence = x ? num(x.confidence, 0) : 0;
+    var ev = eventMagFor(d, snap);
+    var ovf = (overrides[d] && overrides[d].floor != null) ? num(overrides[d].floor, 0) : 0;
+    var weight = Math.max(structural, ev.mag, ovf);
+    var driver = 'none';
+    if (weight > 0) {
+      driver = 'structural';
+      if (ev.mag > 0 && ev.mag >= structural) driver = 'event';
+      if (ovf > 0 && ovf >= structural && ovf >= ev.mag) driver = 'override';
+    }
+    var topSignal = (driver === 'event' && ev.eventType) ? ('EVENT: ' + ev.eventType.replace(/_/g, ' '))
+      : (driver === 'override' ? ('OVERRIDE: ' + ((overrides[d] && overrides[d].note) || 'operator pin'))
+        : (x ? x.topSignal : null));
     out[d] = {
-      domain: d, stress: stress, confidence: confidence, activity: num(x.activity, 0),
-      weight: +(stress * confidence).toFixed(3),
-      maturity: x.maturity || null, phase: x.phase || null, phaseLabel: x.phaseLabel || null,
-      status: x.status || null, topSignal: x.topSignal || null
+      domain: d, weight: +weight.toFixed(3), driver: driver,
+      structural: structural, stress: structural, eventMag: +ev.mag.toFixed(3), eventType: ev.eventType,
+      override: ovf, confidence: confidence, activity: x ? num(x.activity, 0) : 0,
+      maturity: x ? x.maturity : null, phase: x ? x.phase : null, phaseLabel: x ? x.phaseLabel : null,
+      status: x ? x.status : null, topSignal: topSignal, missing: !x
     };
   });
   return out;
@@ -121,8 +158,9 @@ module.exports = async function handler(req, res) {
       var snap = await db.get(K.snapshot);
       var cfg = await loadConfig();
       var overlay = await loadCellsOverlay();
+      var overrides = await loadOverrides();
       var companies = await loadCompanies();
-      var sig = domainSignals(snap);
+      var sig = domainSignals(snap, overrides);
       var domains = DOMAINS.map(function (d) { return sig[d]; }).sort(function (a, b) { return b.weight - a.weight; });
       var cells = companies.map(function (c) { return resolveCell(c, cfg, overlay, sig); })
         .sort(function (a, b) { return b.domainWeight - a.domainWeight; });
@@ -130,14 +168,14 @@ module.exports = async function handler(req, res) {
         ok: true,
         config: cfg,
         snapshot: snap ? { generatedAt: snap.generatedAt || null, ageSeconds: snap._ageSeconds || null, stale: !!snap._stale, macroShock: !!snap.macroShock } : { missing: true },
-        domains: domains, cells: cells,
+        domains: domains, cells: cells, overrides: overrides,
         firing: cells.filter(function (c) { return c.firing; }).length
       });
     }
 
     if (method === 'GET' && action === 'cells') {
       var cfg2 = await loadConfig(); var overlay2 = await loadCellsOverlay();
-      var sig2 = domainSignals(await db.get(K.snapshot));
+      var sig2 = domainSignals(await db.get(K.snapshot), await loadOverrides());
       var cells2 = (await loadCompanies()).map(function (c) { return resolveCell(c, cfg2, overlay2, sig2); });
       return j(res, 200, { ok: true, cells: cells2 });
     }
@@ -152,7 +190,7 @@ module.exports = async function handler(req, res) {
       var comps = await loadCompanies();
       var comp = comps.filter(function (c) { return c.id === company; })[0];
       if (!comp) return j(res, 404, { ok: false, error: 'unknown cell' });
-      var sig3 = domainSignals(await db.get(K.snapshot));
+      var sig3 = domainSignals(await db.get(K.snapshot), await loadOverrides());
       var cell = resolveCell(comp, cfg3, overlay3, sig3);
       var dw = cell.domainWeight;
       var idx = (await db.get(K.lgIndex)) || [];
@@ -198,6 +236,18 @@ module.exports = async function handler(req, res) {
       ov[cid] = c;
       await db.set(K.cells, ov);
       return j(res, 200, { ok: true, companyId: cid, cell: c });
+    }
+
+    // Operator override: pin a domain's dysregulation FLOOR (0..1) when your
+    // read of the world beats a slow/weak feed. floor=null clears it.
+    if (method === 'POST' && action === 'override') {
+      var od = clip(body.domain, 40);
+      if (DOMAINS.indexOf(od) === -1) return j(res, 400, { ok: false, error: 'unknown domain' });
+      var ovr = await loadOverrides();
+      if (body.floor === null || body.floor === '' || body.floor === undefined) { delete ovr[od]; }
+      else { ovr[od] = { floor: Math.max(0, Math.min(1, num(body.floor, 0))), note: clip(body.note, 200), ts: new Date().toISOString() }; }
+      await db.set(K.overrides, ovr);
+      return j(res, 200, { ok: true, domain: od, override: ovr[od] || null });
     }
 
     // Global kill switch (fast).

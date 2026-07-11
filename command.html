@@ -42,6 +42,9 @@
   .dom .meta{font-size:10px;color:var(--faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .dom.hot{border-color:#5a2020} .dom.warm{border-color:#5a4a1a}
   .dom.hot .w{color:var(--red)} .dom.warm .w{color:var(--amber)} .dom.cool .w{color:var(--faint)}
+  .dom{cursor:pointer}
+  .drv{font-size:9px;padding:0 4px;border-radius:6px}
+  .drv.event{color:var(--amber)} .drv.override{color:var(--violet)}
   /* cells */
   .cells{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
   .cell{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:11px;cursor:pointer;transition:.12s}
@@ -97,7 +100,7 @@
   <div class="panel">
     <h2>Civilization board · per-domain dysregulation (stress × confidence)</h2>
     <div class="doms" id="doms"><div class="muted">Unlock to read the live signal.</div></div>
-    <div class="legend">Weight = live domain stress times confidence, 0 to 1. Higher = more dysregulated = more opportunity for first intervention. Updates every 15 minutes.</div>
+    <div class="legend">Weight = MAX(structural stress, live event magnitude, operator pin), 0 to 1. <span class="drv event">⚡EVENT</span> = a live event cluster (war, shock) is driving it, not the slow feed. <span class="drv override">✚PIN</span> = you pinned it. Click any domain to set or clear an override floor. Structural updates every 15 min; events fold in live.</div>
   </div>
 
   <div class="panel">
@@ -150,12 +153,16 @@ async function loadAll(){
 
 function heat(w){ return w>=0.6?'hot':(w>=0.4?'warm':'cool'); }
 function renderDoms(doms){
-  $('#doms').innerHTML = doms.map(d=>`<div class="dom ${heat(d.weight)}" title="${esc(d.topSignal||'')}">
-    <div class="fill" style="width:${Math.round(d.weight*100)}%"></div>
-    <div class="nm">${d.domain}</div>
-    <div class="w">${d.weight.toFixed(2)}</div>
-    <div class="meta">${d.missing?'no signal':('stress '+d.stress.toFixed(2)+(d.phase?(' · '+d.phase):''))}</div>
-    <div class="meta">${esc(d.topSignal||'')}</div></div>`).join('');
+  $('#doms').innerHTML = doms.map(d=>{
+    const drv = d.driver==='event'?'<span class="drv event">⚡EVENT</span>':(d.driver==='override'?'<span class="drv override">✚PIN</span>':'');
+    const sub = d.driver==='event'?('event '+d.eventMag.toFixed(2)):(d.driver==='override'?('pinned '+(+d.override).toFixed(2)):(d.missing?'no signal':('struct '+d.structural.toFixed(2))));
+    return `<div class="dom ${heat(d.weight)}" onclick="setOverride('${d.domain}',${d.override||0})" title="click to set operator override floor">
+      <div class="fill" style="width:${Math.round(d.weight*100)}%"></div>
+      <div class="nm">${d.domain} ${drv}</div>
+      <div class="w">${d.weight.toFixed(2)}</div>
+      <div class="meta">${sub}${d.phase?(' · '+d.phase):''}</div>
+      <div class="meta">${esc(d.topSignal||'')}</div></div>`;
+  }).join('');
 }
 
 function renderCells(cells){
@@ -190,6 +197,14 @@ async function openCell(id){
     : '<tr><td colspan="4" class="muted">No leads tagged to this cell yet — generate/sync on the Leads page.</td></tr>';
 }
 
+async function setOverride(domain,cur){
+  const v=prompt('Operator override FLOOR for '+domain+' (0 to 1). This pins the domain\'s dysregulation when your read beats the feed. Blank = clear. Current: '+(cur||'none'), cur||'');
+  if(v===null)return;
+  const floor = String(v).trim()===''?null:Math.max(0,Math.min(1,parseFloat(v)));
+  const r=await api('override','POST',{domain,floor,note:'operator'});
+  if(r.ok) toast(floor===null?('cleared '+domain):('pinned '+domain+' ≥ '+floor)); else toast('err');
+  loadAll();
+}
 async function toggleCell(id,on){ await api('cell','POST',{companyId:id,enabled:on}); loadAll(); }
 async function setMode(id,mode){ if(mode==='control'&&!confirm('Arm CONTROL mode for this cell? (still surfaces only until actuators are wired)'))return loadAll(); await api('cell','POST',{companyId:id,mode}); loadAll(); }
 async function setThr(id,v){ await api('cell','POST',{companyId:id,threshold:+v}); loadAll(); }
