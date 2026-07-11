@@ -2278,6 +2278,15 @@
       "summary": "Critical breakdown in Population Birth Fertility systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "NAcc",
+          "dir": "Hypo",
+          "detail": "incentive/reward drive — avolition",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "SC",
           "dir": "Hyper-active",
           "detail": "Fertility Trends Assessment & Diagnostics function overloaded",
@@ -2307,13 +2316,28 @@
           "detail": "Fertility Trends Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_BIRTH_FERTILITY_CAPACITY_OVERLOAD",
       "label": "Population Birth Fertility Capacity Overload",
       "summary": "Demand exceeding available Population Birth Fertility capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
+          "detail": "incentive/reward drive — over-pursuit=bubble",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SC",
           "dir": "Hyper-active",
@@ -2338,13 +2362,28 @@
           "detail": "Fertility Trends Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_BIRTH_FERTILITY_QUALITY_DEGRADATION",
       "label": "Population Birth Fertility Quality Degradation",
       "summary": "Progressive decline in Population Birth Fertility quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hypo",
+          "detail": "incentive/reward drive — avolition",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SC",
           "dir": "Hypo-active",
@@ -2369,7 +2408,13 @@
           "detail": "Fertility Trends Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

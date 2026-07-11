@@ -2277,6 +2277,15 @@
       "summary": "Critical breakdown in Communication Social Moderation systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "CeA",
+          "dir": "Hypo",
+          "detail": "phasic fear output — blunted",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "SN",
           "dir": "Hyper-active",
           "detail": "Content Moderation Assessment & Diagnostics function overloaded",
@@ -2306,13 +2315,28 @@
           "detail": "Content Moderation Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CeA",
+        "dir": "hypo",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_SOCIAL_MODERATION_CAPACITY_OVERLOAD",
       "label": "Communication Social Moderation Capacity Overload",
       "summary": "Demand exceeding available Communication Social Moderation capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "CeA",
+          "dir": "Hyper",
+          "detail": "phasic fear output — hair-trigger=false-alarm",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SN",
           "dir": "Hyper-active",
@@ -2337,13 +2361,28 @@
           "detail": "Content Moderation Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CeA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_SOCIAL_MODERATION_QUALITY_DEGRADATION",
       "label": "Communication Social Moderation Quality Degradation",
       "summary": "Progressive decline in Communication Social Moderation quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SN",
           "dir": "Hypo-active",
@@ -2368,7 +2407,13 @@
           "detail": "Content Moderation Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

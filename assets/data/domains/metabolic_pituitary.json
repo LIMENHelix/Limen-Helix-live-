@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Pituitary Hormone Coordination systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "PIT",
+          "dir": "Hyper",
+          "detail": "pituitary — endocrine output (HPA/HPG axis) — hormonal overdrive",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "MDT",
           "dir": "Hypo-active",
           "detail": "Pituitary Hormone Coordination Assessment & Diagnostics capacity falling below operational thresholds, reducing Pituitary Hormone Coordination output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Pituitary Hormone Coordination Performance & Optimization function reduced, compromising Pituitary Hormone Coordination system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PIT",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "METABOLIC_PITUITARY_CAPACITY_CRISIS",
       "label": "Pituitary Hormone Coordination Capacity Crisis",
       "summary": "Demand exceeding available Pituitary Hormone Coordination capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "PIT",
+          "dir": "Hypo",
+          "detail": "pituitary — endocrine output (HPA/HPG axis) — hormonal insufficiency",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ANT",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Pituitary Hormone Coordination Performance & Optimization operating outside normal parameters, introducing uncertainty into Pituitary Hormone Coordination outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PIT",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "METABOLIC_PITUITARY_GOVERNANCE_GAP",
       "label": "Pituitary Hormone Coordination Governance Gap",
       "summary": "Oversight or regulatory failure in Pituitary Hormone Coordination creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "PIT",
+          "dir": "Hypo",
+          "detail": "pituitary — endocrine output (HPA/HPG axis) — hormonal insufficiency",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "V1",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Pituitary Hormone Coordination Coordination & Integration function reduced, compromising Pituitary Hormone Coordination system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PIT",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

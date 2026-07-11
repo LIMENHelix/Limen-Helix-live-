@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Communication Advertising Adregulation systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "OXY",
           "dir": "Hyper-active",
           "detail": "Advertising Regulation Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Advertising Regulation Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_ADVERTISING_ADREGULATION_CAPACITY_OVERLOAD",
       "label": "Communication Advertising Adregulation Capacity Overload",
       "summary": "Demand exceeding available Communication Advertising Adregulation capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OXY",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Advertising Regulation Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_ADVERTISING_ADREGULATION_QUALITY_DEGRADATION",
       "label": "Communication Advertising Adregulation Quality Degradation",
       "summary": "Progressive decline in Communication Advertising Adregulation quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hyper",
+          "detail": "top-down inhibitory brake — over-grip=flatness",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OXY",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Advertising Regulation Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hyper",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ]
 }

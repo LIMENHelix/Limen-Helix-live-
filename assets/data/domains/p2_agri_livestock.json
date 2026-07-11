@@ -508,7 +508,7 @@
           "name": "Seaboard",
           "ticker_or_id": "SEB",
           "functional_reason": "Vertically integrated pork producer-processor with grain/feed and ocean-transport segments; couples to hog feed-cost margins (corn integration), African-swine-fever export dynamics, and processing throughput. Integration links commodity-grain and protein-margin cycles.",
-          "binding_strength": 0.80
+          "binding_strength": 0.8
         }
       ],
       "childPortal": "p2_agri_livestock_swine_portal.html",
@@ -3941,6 +3941,15 @@
       "summary": "Contagious disease spreading through herd or flock requiring quarantine, depopulation, and massive biosecurity response",
       "circuits": [
         {
+          "nodeId": "PAG",
+          "dir": "Hypo",
+          "detail": "defensive kill/lockdown — no-stop",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "dACC",
           "dir": "Hyper-active",
           "detail": "Veterinary and biosecurity protocols overwhelmed by rapid disease transmission rates",
@@ -3970,13 +3979,28 @@
           "detail": "Breeding programs set back by loss of genetically valuable animals in disease events",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PAG",
+        "dir": "hypo",
+        "motif": "M8",
+        "source": "override"
+      }
     },
     {
       "id": "FEED_COST_SPIKE",
       "label": "Feed Cost Spike",
       "summary": "Rapid increase in feed ingredient costs from crop failure, export demand, or supply chain disruption compressing livestock margins",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
+          "detail": "incentive/reward drive — over-pursuit=bubble",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NAcc",
           "dir": "Hyper-active",
@@ -4007,13 +4031,28 @@
           "detail": "Pasture carrying capacity reduced by drought, forcing supplemental feeding at elevated costs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "PROCESSING_BOTTLENECK",
       "label": "Processing Bottleneck",
       "summary": "Slaughter and processing capacity shortfall causing backed-up livestock, welfare concerns, and market disruptions across the supply chain",
       "circuits": [
+        {
+          "nodeId": "GP",
+          "dir": "Hypo",
+          "detail": "basal-ganglia output gate — lock (bradykinetic freeze)",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BLA",
           "dir": "Hypo-active",
@@ -4044,13 +4083,28 @@
           "detail": "Feed consumption exceeding budgets as market-ready animals continue eating without revenue",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "GP",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "WELFARE_VIOLATION",
       "label": "Animal Welfare Violation",
       "summary": "Systemic animal welfare failures triggering regulatory action, market access loss, and consumer confidence damage",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dACC",
           "dir": "Hypo-active",
@@ -4081,13 +4135,28 @@
           "detail": "Slaughter practices failing humane handling audits, risking market access suspension",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "GENETIC_NARROWING",
       "label": "Genetic Narrowing",
       "summary": "Excessive selection pressure on production traits reducing genetic diversity and increasing vulnerability to disease, inbreeding, and environmental change",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HIPP",
           "dir": "Hyper-active",
@@ -4118,7 +4187,13 @@
           "detail": "Disease resistance declining as genetic uniformity creates population-wide vulnerability",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

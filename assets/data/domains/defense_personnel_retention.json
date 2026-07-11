@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Defense Personnel Retention systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "VP",
+          "dir": "Hypo",
+          "detail": "ventral pallidum — reward/hedonic output — anhedonia, blunted",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CON",
           "dir": "Hyper-active",
           "detail": "Retention Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Retention Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "VP",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_PERSONNEL_RETENTION_CAPACITY_OVERLOAD",
       "label": "Defense Personnel Retention Capacity Overload",
       "summary": "Demand exceeding available Defense Personnel Retention capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "VP",
+          "dir": "Hyper",
+          "detail": "ventral pallidum — reward/hedonic output — compulsive pursuit",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CON",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Retention Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "VP",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_PERSONNEL_RETENTION_QUALITY_DEGRADATION",
       "label": "Defense Personnel Retention Quality Degradation",
       "summary": "Progressive decline in Defense Personnel Retention quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CON",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Retention Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Trade Tradecompliance Custclass systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vlPFC",
+          "dir": "Hypo",
+          "detail": "response-inhibition / stop — disinhibited",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "OSC",
           "dir": "Hyper-active",
           "detail": "Customs Classification Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Customs Classification Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "TRADE_TRADECOMPLIANCE_CUSTCLASS_CAPACITY_OVERLOAD",
       "label": "Trade Tradecompliance Custclass Capacity Overload",
       "summary": "Demand exceeding available Trade Tradecompliance Custclass capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hyper",
+          "detail": "response-inhibition / stop — over-suppress",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OSC",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Customs Classification Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hyper",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "TRADE_TRADECOMPLIANCE_CUSTCLASS_QUALITY_DEGRADATION",
       "label": "Trade Tradecompliance Custclass Quality Degradation",
       "summary": "Progressive decline in Trade Tradecompliance Custclass quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hypo",
+          "detail": "response-inhibition / stop — disinhibited",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OSC",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Customs Classification Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ]
 }

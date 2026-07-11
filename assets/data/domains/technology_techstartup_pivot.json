@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Technology Techstartup Pivot systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "dlPFC",
+          "dir": "Hypo",
+          "detail": "dorsolateral PFC — executive working-memory / cognitive control — executive-lapse, distractible",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "SC",
           "dir": "Hyper-active",
           "detail": "Pivoting Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Pivoting Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dlPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "TECHNOLOGY_TECHSTARTUP_PIVOT_CAPACITY_OVERLOAD",
       "label": "Technology Techstartup Pivot Capacity Overload",
       "summary": "Demand exceeding available Technology Techstartup Pivot capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hyper",
+          "detail": "dorsolateral PFC — executive working-memory / cognitive control — rigidity/rumination-lock",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SC",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Pivoting Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dlPFC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "TECHNOLOGY_TECHSTARTUP_PIVOT_QUALITY_DEGRADATION",
       "label": "Technology Techstartup Pivot Quality Degradation",
       "summary": "Progressive decline in Technology Techstartup Pivot quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SC",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Pivoting Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

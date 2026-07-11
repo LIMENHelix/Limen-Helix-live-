@@ -3717,6 +3717,15 @@
       "summary": "Critical breakdown in Consumer Spending systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "NAcc",
+          "dir": "Hypo",
+          "detail": "incentive/reward drive — avolition",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PBN",
           "dir": "Hypo-active",
           "detail": "Consumer Spending Assessment & Diagnostics capacity falling below operational thresholds, reducing Consumer Spending output and reliability",
@@ -3746,13 +3755,28 @@
           "detail": "Consumer Spending Performance & Optimization function reduced, compromising Consumer Spending system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_CONSUMER_CAPACITY_CRISIS",
       "label": "Consumer Spending Capacity Crisis",
       "summary": "Demand exceeding available Consumer Spending capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
+          "detail": "incentive/reward drive — over-pursuit=bubble",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PPN",
           "dir": "Hyper-active",
@@ -3783,13 +3807,28 @@
           "detail": "Consumer Spending Performance & Optimization operating outside normal parameters, introducing uncertainty into Consumer Spending outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_CONSUMER_GOVERNANCE_GAP",
       "label": "Consumer Spending Governance Gap",
       "summary": "Oversight or regulatory failure in Consumer Spending creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NEOCER",
           "dir": "Hypo-active",
@@ -3820,7 +3859,13 @@
           "detail": "Consumer Spending Coordination & Integration function reduced, compromising Consumer Spending system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

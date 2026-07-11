@@ -1827,6 +1827,15 @@
       "summary": "Systematic failure to reproduce published findings across multiple scientific disciplines, revealing widespread problems with statistical practices, publication incentives, and methodological transparency that undermine confidence in the scientific record.",
       "circuits": [
         {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "HIPP",
           "dir": "Hypo-active",
           "detail": "Replication efforts consistently fail to reproduce original findings, indicating that the scientific memory system is storing unreliable information",
@@ -1862,13 +1871,28 @@
           "detail": "Funding incentives reward novel positive findings over replication studies, systematically defunding the verification mechanism of science",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "FUNDING_COLLAPSE",
       "label": "Research Funding Collapse",
       "summary": "Severe reduction in government and institutional research funding due to economic downturn, political deprioritization, or budget reallocation, causing laboratory closures, talent exodus, and abandonment of long-term research programs.",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hypo",
+          "detail": "incentive/reward drive — avolition",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "vmPFC",
           "dir": "Hypo-active",
@@ -1899,13 +1923,28 @@
           "detail": "Social science research disproportionately loses funding as limited budgets are redirected to perceived higher-priority STEM fields",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "DATA_FRAUD",
       "label": "Systematic Data Fraud",
       "summary": "Discovery of fabricated or falsified data in high-profile publications, potentially spanning years of research output and affecting downstream studies that built upon the fraudulent work, triggering institutional investigations and retraction cascades.",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "outcome valuation / update — confabulation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FPN",
           "dir": "Hyper-active",
@@ -1942,13 +1981,28 @@
           "detail": "Publication systems issue retractions and corrections while journals implement stricter data availability and verification requirements for future submissions",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "PARADIGM_CONFLICT",
       "label": "Paradigm Conflict",
       "summary": "Fundamental disagreement between established and emerging theoretical frameworks within a discipline, dividing the research community and paralyzing progress as competing camps interpret evidence through incompatible conceptual lenses.",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "DMN",
           "dir": "Hyper-active",
@@ -1979,13 +2033,28 @@
           "detail": "Citation patterns fragment into isolated clusters as each paradigm camp preferentially cites its own literature and ignores the other's contributions",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "BRAIN_DRAIN",
       "label": "Scientific Brain Drain",
       "summary": "Exodus of trained scientists from research careers or from specific countries due to poor compensation, limited opportunities, political instability, or industry competition, depleting the human capital required for sustained scientific progress.",
       "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo",
+          "detail": "dorsolateral PFC — executive working-memory / cognitive control — executive-lapse, distractible",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dlPFC",
           "dir": "Hypo-active",
@@ -2022,13 +2091,28 @@
           "detail": "Institutional memory and tacit methodological knowledge are lost as senior researchers retire or emigrate without adequate knowledge transfer to the next generation",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dlPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "PUBLICATION_BIAS",
       "label": "Publication Bias",
       "summary": "Systematic distortion of the scientific record caused by preferential publication of positive and novel results over null, negative, and replication findings, creating a misleading evidence base that inflates effect sizes and suppresses contradictory data.",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BROCA",
           "dir": "Altered",
@@ -2059,7 +2143,13 @@
           "detail": "Statistical inference is corrupted as published effect sizes are systematically inflated by the selective publication of studies that happened to reach significance",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "edges": [

@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Trade Ecommerce Platfreg systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "ANT",
           "dir": "Hyper-active",
           "detail": "Platform Regulation Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Platform Regulation Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "TRADE_ECOMMERCE_PLATFREG_CAPACITY_OVERLOAD",
       "label": "Trade Ecommerce Platfreg Capacity Overload",
       "summary": "Demand exceeding available Trade Ecommerce Platfreg capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ANT",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Platform Regulation Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "TRADE_ECOMMERCE_PLATFREG_QUALITY_DEGRADATION",
       "label": "Trade Ecommerce Platfreg Quality Degradation",
       "summary": "Progressive decline in Trade Ecommerce Platfreg quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ANT",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Platform Regulation Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

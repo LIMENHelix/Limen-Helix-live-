@@ -6408,6 +6408,15 @@
       "summary": "Critical breakdown in Aging Population systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "vlPFC",
           "dir": "Hypo-active",
           "detail": "Aging Population Assessment & Diagnostics capacity falling below operational thresholds, reducing Aging Population output and reliability",
@@ -6437,13 +6446,28 @@
           "detail": "Aging Population Performance & Optimization function reduced, compromising Aging Population system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_AGING_CAPACITY_CRISIS",
       "label": "Aging Population Capacity Crisis",
       "summary": "Demand exceeding available Aging Population capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "GP",
+          "dir": "Hypo",
+          "detail": "basal-ganglia output gate — lock (bradykinetic freeze)",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TPJ",
           "dir": "Hyper-active",
@@ -6474,13 +6498,28 @@
           "detail": "Aging Population Performance & Optimization operating outside normal parameters, introducing uncertainty into Aging Population outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "GP",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_AGING_GOVERNANCE_GAP",
       "label": "Aging Population Governance Gap",
       "summary": "Oversight or regulatory failure in Aging Population creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "RSC",
           "dir": "Hypo-active",
@@ -6511,7 +6550,13 @@
           "detail": "Aging Population Coordination & Integration function reduced, compromising Aging Population system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

@@ -7442,6 +7442,15 @@
       "summary": "Critical breakdown in Communication Datacomm systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "SNS",
           "dir": "Hyper-active",
           "detail": "Datacomm Assessment & Diagnostics function overloaded",
@@ -7471,13 +7480,28 @@
           "detail": "Datacomm Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_DATACOMM_CAPACITY_OVERLOAD",
       "label": "Communication Datacomm Capacity Overload",
       "summary": "Demand exceeding available Communication Datacomm capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SNS",
           "dir": "Hyper-active",
@@ -7502,13 +7526,28 @@
           "detail": "Datacomm Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_DATACOMM_QUALITY_DEGRADATION",
       "label": "Communication Datacomm Quality Degradation",
       "summary": "Progressive decline in Communication Datacomm quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "NEOCER",
+          "dir": "Hyper",
+          "detail": "cognitive forward model — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SNS",
           "dir": "Hypo-active",
@@ -7533,7 +7572,13 @@
           "detail": "Datacomm Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NEOCER",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

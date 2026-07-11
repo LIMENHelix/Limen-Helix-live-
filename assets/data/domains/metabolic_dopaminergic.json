@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Dopaminergic Metabolic Signaling systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "VTA",
+          "dir": "Hyper",
+          "detail": "dopamine reward source — mania/addiction",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "M1",
           "dir": "Hypo-active",
           "detail": "Dopaminergic Metabolic Signaling Assessment & Diagnostics capacity falling below operational thresholds, reducing Dopaminergic Metabolic Signaling output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Dopaminergic Metabolic Signaling Performance & Optimization function reduced, compromising Dopaminergic Metabolic Signaling system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "VTA",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "METABOLIC_DOPAMINERGIC_CAPACITY_CRISIS",
       "label": "Dopaminergic Metabolic Signaling Capacity Crisis",
       "summary": "Demand exceeding available Dopaminergic Metabolic Signaling capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "VTA",
+          "dir": "Hypo",
+          "detail": "dopamine reward source — anhedonia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "S1",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Dopaminergic Metabolic Signaling Performance & Optimization operating outside normal parameters, introducing uncertainty into Dopaminergic Metabolic Signaling outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "VTA",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "METABOLIC_DOPAMINERGIC_GOVERNANCE_GAP",
       "label": "Dopaminergic Metabolic Signaling Governance Gap",
       "summary": "Oversight or regulatory failure in Dopaminergic Metabolic Signaling creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "VTA",
+          "dir": "Hypo",
+          "detail": "dopamine reward source — anhedonia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HIPP",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Dopaminergic Metabolic Signaling Coordination & Integration function reduced, compromising Dopaminergic Metabolic Signaling system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "VTA",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     }
   ]
 }

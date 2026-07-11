@@ -2327,6 +2327,15 @@
       "summary": "Public agricultural research funding declining in real terms while private sector narrows focus to proprietary high-return crops",
       "circuits": [
         {
+          "nodeId": "NAcc",
+          "dir": "Hypo",
+          "detail": "incentive/reward drive — avolition",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "AG",
           "dir": "Hypo-active",
           "detail": "Land grant university research budgets eroded by state funding cuts and federal sequestration",
@@ -2350,13 +2359,28 @@
           "detail": "Public breeding programs for minor crops defunded as private sector focuses on major commodity genetics",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "EXTENSION_DISCONNECT",
       "label": "Extension Disconnect",
       "summary": "Gap between research findings and farm-level practice adoption widening as extension service capacity shrinks",
       "circuits": [
+        {
+          "nodeId": "AG",
+          "dir": "Hypo",
+          "detail": "angular gyrus — semantic/conceptual integration — semantic fragmentation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TPJ",
           "dir": "Hypo-active",
@@ -2381,13 +2405,28 @@
           "detail": "Field trial results not reaching practitioners through effective communication channels",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "AG",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "REPRODUCIBILITY_CRISIS",
       "label": "Reproducibility Crisis",
       "summary": "Agricultural research findings failing to replicate across environments due to insufficient multi-site and multi-year testing",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "M1",
           "dir": "Hypo-active",
@@ -2412,13 +2451,28 @@
           "detail": "Breeding program variety trials conducted at too few locations to predict regional performance",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "TALENT_PIPELINE",
       "label": "Talent Pipeline",
       "summary": "Insufficient graduate students and early-career scientists entering agricultural research disciplines",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "AG",
           "dir": "Hypo-active",
@@ -2443,13 +2497,28 @@
           "detail": "Technology transfer specialists require both research and communication skills rarely trained together",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "IP_BARRIER",
       "label": "IP Barrier",
       "summary": "Intellectual property restrictions preventing public researchers from accessing proprietary germplasm, data, and tools",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NAcc",
           "dir": "Hypo-active",
@@ -2474,7 +2543,13 @@
           "detail": "Precision agriculture research hampered by inability to access proprietary equipment data streams",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     }
   ]
 }

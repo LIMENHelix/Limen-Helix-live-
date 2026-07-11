@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Culture Museums Conservation systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "EC",
+          "dir": "Hypo",
+          "detail": "entorhinal — hippocampal memory gateway — encoding failure",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "THAL",
           "dir": "Hyper-active",
           "detail": "Art Conservation Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Art Conservation Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "EC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "CULTURE_MUSEUMS_CONSERVATION_CAPACITY_OVERLOAD",
       "label": "Culture Museums Conservation Capacity Overload",
       "summary": "Demand exceeding available Culture Museums Conservation capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "EC",
+          "dir": "Hyper",
+          "detail": "entorhinal — hippocampal memory gateway — memory flooding/interference",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "THAL",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Art Conservation Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "EC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "CULTURE_MUSEUMS_CONSERVATION_QUALITY_DEGRADATION",
       "label": "Culture Museums Conservation Quality Degradation",
       "summary": "Progressive decline in Culture Museums Conservation quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "THAL",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Art Conservation Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

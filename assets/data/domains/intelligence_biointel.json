@@ -9783,6 +9783,15 @@
       "summary": "Critical breakdown in Intelligence Biointel systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CAUD",
           "dir": "Hyper-active",
           "detail": "Biointel Assessment & Diagnostics function overloaded",
@@ -9812,13 +9821,28 @@
           "detail": "Biointel Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_BIOINTEL_CAPACITY_OVERLOAD",
       "label": "Intelligence Biointel Capacity Overload",
       "summary": "Demand exceeding available Intelligence Biointel capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CAUD",
           "dir": "Hyper-active",
@@ -9843,13 +9867,28 @@
           "detail": "Biointel Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_BIOINTEL_QUALITY_DEGRADATION",
       "label": "Intelligence Biointel Quality Degradation",
       "summary": "Progressive decline in Intelligence Biointel quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CAUD",
           "dir": "Hypo-active",
@@ -9874,7 +9913,13 @@
           "detail": "Biointel Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

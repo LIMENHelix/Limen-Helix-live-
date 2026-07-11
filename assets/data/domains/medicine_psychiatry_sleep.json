@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Medicine Psychiatry Sleep systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "DV",
+          "dir": "Hyper",
+          "detail": "dorsal motor vagus — parasympathetic output — dorsal-vagal shutdown/collapse",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "DISS",
           "dir": "Hyper-active",
           "detail": "Sleep Disorders Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Sleep Disorders Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "DV",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "MEDICINE_PSYCHIATRY_SLEEP_CAPACITY_OVERLOAD",
       "label": "Medicine Psychiatry Sleep Capacity Overload",
       "summary": "Demand exceeding available Medicine Psychiatry Sleep capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "RF",
+          "dir": "Hyper",
+          "detail": "reticular formation — global arousal broadcast — hyperarousal/agitation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "DISS",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Sleep Disorders Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "RF",
+        "dir": "hyper",
+        "motif": "M2",
+        "source": "override"
+      }
     },
     {
       "id": "MEDICINE_PSYCHIATRY_SLEEP_QUALITY_DEGRADATION",
       "label": "Medicine Psychiatry Sleep Quality Degradation",
       "summary": "Progressive decline in Medicine Psychiatry Sleep quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "SCN",
+          "dir": "Hyper",
+          "detail": "circadian pacemaker — desync",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "DISS",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Sleep Disorders Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "SCN",
+        "dir": "hyper",
+        "motif": "M12",
+        "source": "override"
+      }
     }
   ]
 }

@@ -2278,6 +2278,15 @@
       "summary": "Critical breakdown in Population Mortality Maternal systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "PIT",
+          "dir": "Hypo",
+          "detail": "pituitary — endocrine output (HPA/HPG axis) — hormonal insufficiency",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "EI",
           "dir": "Hyper-active",
           "detail": "Maternal Mortality Assessment & Diagnostics function overloaded",
@@ -2307,13 +2316,28 @@
           "detail": "Maternal Mortality Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PIT",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_MORTALITY_MATERNAL_CAPACITY_OVERLOAD",
       "label": "Population Mortality Maternal Capacity Overload",
       "summary": "Demand exceeding available Population Mortality Maternal capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "EI",
           "dir": "Hyper-active",
@@ -2338,13 +2362,28 @@
           "detail": "Maternal Mortality Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_MORTALITY_MATERNAL_QUALITY_DEGRADATION",
       "label": "Population Mortality Maternal Quality Degradation",
       "summary": "Progressive decline in Population Mortality Maternal quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "EI",
           "dir": "Hypo-active",
@@ -2369,7 +2408,13 @@
           "detail": "Maternal Mortality Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

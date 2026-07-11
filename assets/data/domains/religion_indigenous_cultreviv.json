@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Religion Indigenous Cultreviv systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "EC",
+          "dir": "Hypo",
+          "detail": "entorhinal — hippocampal memory gateway — encoding failure",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "EI",
           "dir": "Hyper-active",
           "detail": "Cultural Revival Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Cultural Revival Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "EC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_INDIGENOUS_CULTREVIV_CAPACITY_OVERLOAD",
       "label": "Religion Indigenous Cultreviv Capacity Overload",
       "summary": "Demand exceeding available Religion Indigenous Cultreviv capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "EC",
+          "dir": "Hyper",
+          "detail": "entorhinal — hippocampal memory gateway — memory flooding/interference",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "EI",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Cultural Revival Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "EC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_INDIGENOUS_CULTREVIV_QUALITY_DEGRADATION",
       "label": "Religion Indigenous Cultreviv Quality Degradation",
       "summary": "Progressive decline in Religion Indigenous Cultreviv quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "HIPP",
+          "dir": "Hyper",
+          "detail": "HPA feedback + memory index — feedback-fail=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "EI",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Cultural Revival Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HIPP",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     }
   ]
 }

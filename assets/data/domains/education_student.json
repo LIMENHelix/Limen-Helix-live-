@@ -3559,6 +3559,15 @@
       "summary": "Critical breakdown in Student Assessment systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PBN",
           "dir": "Hypo-active",
           "detail": "Student Assessment Assessment & Diagnostics capacity falling below operational thresholds, reducing Student Assessment output and reliability",
@@ -3588,13 +3597,28 @@
           "detail": "Student Assessment Performance & Optimization function reduced, compromising Student Assessment system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "EDUCATION_STUDENT_CAPACITY_CRISIS",
       "label": "Student Assessment Capacity Crisis",
       "summary": "Demand exceeding available Student Assessment capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PPN",
           "dir": "Hyper-active",
@@ -3625,13 +3649,28 @@
           "detail": "Student Assessment Performance & Optimization operating outside normal parameters, introducing uncertainty into Student Assessment outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "EDUCATION_STUDENT_GOVERNANCE_GAP",
       "label": "Student Assessment Governance Gap",
       "summary": "Oversight or regulatory failure in Student Assessment creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hypo",
+          "detail": "response-inhibition / stop — disinhibited",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NEOCER",
           "dir": "Hypo-active",
@@ -3662,7 +3701,13 @@
           "detail": "Student Assessment Coordination & Integration function reduced, compromising Student Assessment system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

@@ -2276,6 +2276,15 @@
       "summary": "Critical breakdown in Communication Social Socialads systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "NAcc",
+          "dir": "Hypo",
+          "detail": "incentive/reward drive — avolition",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "OFC",
           "dir": "Hyper-active",
           "detail": "Social Advertising Assessment & Diagnostics function overloaded",
@@ -2305,13 +2314,28 @@
           "detail": "Social Advertising Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_SOCIAL_SOCIALADS_CAPACITY_OVERLOAD",
       "label": "Communication Social Socialads Capacity Overload",
       "summary": "Demand exceeding available Communication Social Socialads capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
+          "detail": "incentive/reward drive — over-pursuit=bubble",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OFC",
           "dir": "Hyper-active",
@@ -2336,13 +2360,28 @@
           "detail": "Social Advertising Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_SOCIAL_SOCIALADS_QUALITY_DEGRADATION",
       "label": "Communication Social Socialads Quality Degradation",
       "summary": "Progressive decline in Communication Social Socialads quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "outcome valuation / update — confabulation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OFC",
           "dir": "Hypo-active",
@@ -2367,7 +2406,13 @@
           "detail": "Social Advertising Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

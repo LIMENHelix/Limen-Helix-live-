@@ -3741,6 +3741,15 @@
       "summary": "Critical breakdown in International Trade systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "vmPFC",
           "dir": "Hypo-active",
           "detail": "International Trade Assessment & Diagnostics capacity falling below operational thresholds, reducing International Trade output and reliability",
@@ -3770,13 +3779,28 @@
           "detail": "International Trade Performance & Optimization function reduced, compromising International Trade system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_INTL_CAPACITY_CRISIS",
       "label": "International Trade Capacity Crisis",
       "summary": "Demand exceeding available International Trade capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "GP",
+          "dir": "Hyper",
+          "detail": "basal-ganglia output gate — flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "VTA",
           "dir": "Hyper-active",
@@ -3807,13 +3831,28 @@
           "detail": "International Trade Performance & Optimization operating outside normal parameters, introducing uncertainty into International Trade outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "GP",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_INTL_GOVERNANCE_GAP",
       "label": "International Trade Governance Gap",
       "summary": "Oversight or regulatory failure in International Trade creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "AI",
           "dir": "Hypo-active",
@@ -3844,7 +3883,13 @@
           "detail": "International Trade Coordination & Integration function reduced, compromising International Trade system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

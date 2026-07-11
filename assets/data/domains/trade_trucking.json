@@ -4403,6 +4403,15 @@
       "summary": "Critical breakdown in Trucking systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "STN",
+          "dir": "Hyper",
+          "detail": "hyperdirect brake / hold — over-brake=paralysis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "HYPO",
           "dir": "Hypo-active",
           "detail": "Trucking Assessment & Diagnostics capacity falling below operational thresholds, reducing Trucking output and reliability",
@@ -4432,13 +4441,28 @@
           "detail": "Trucking Performance & Optimization function reduced, compromising Trucking system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hyper",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "TRADE_TRUCKING_CAPACITY_CRISIS",
       "label": "Trucking Capacity Crisis",
       "summary": "Demand exceeding available Trucking capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "GP",
+          "dir": "Hyper",
+          "detail": "basal-ganglia output gate — flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PIT",
           "dir": "Hyper-active",
@@ -4469,13 +4493,28 @@
           "detail": "Trucking Performance & Optimization operating outside normal parameters, introducing uncertainty into Trucking outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "GP",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "TRADE_TRUCKING_GOVERNANCE_GAP",
       "label": "Trucking Governance Gap",
       "summary": "Oversight or regulatory failure in Trucking creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "LC",
           "dir": "Hypo-active",
@@ -4506,7 +4545,13 @@
           "detail": "Trucking Coordination & Integration function reduced, compromising Trucking system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

@@ -1019,6 +1019,15 @@
       "summary": "Chronic depletion of provider emotional resources leading to depersonalization, cynicism, and reduced clinical effectiveness",
       "circuits": [
         {
+          "nodeId": "BNST",
+          "dir": "Hyper",
+          "detail": "sustained threat monitor — tonic-stuck=burnout",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "HPA",
           "dir": "Hyper-activated",
           "detail": "Provider stress response system chronically elevated — caseload exceeds sustainable capacity",
@@ -1054,13 +1063,28 @@
           "detail": "Team cohesion eroded — interpersonal trust and collaboration replaced by isolation and self-protection",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BNST",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "DIAGNOSTIC_ERROR",
       "label": "Diagnostic Error / Missed Diagnosis",
       "summary": "Failure to correctly identify patient conditions due to cognitive bias, knowledge gaps, or system failures",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dlPFC",
           "dir": "Biased",
@@ -1091,13 +1115,28 @@
           "detail": "Patient narrative incompletely processed — key diagnostic clues in history missed or dismissed",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "CARE_FRAGMENTATION",
       "label": "Care Fragmentation",
       "summary": "Patient care split across disconnected providers with poor coordination, conflicting plans, and lost transitions",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FPN",
           "dir": "Disconnected",
@@ -1134,13 +1173,28 @@
           "detail": "Compliance standards not enforced across network — each provider operating by their own rules",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "CRISIS_OVERFLOW",
       "label": "Crisis System Overflow",
       "summary": "Volume of acute clinical crises exceeds system capacity, leading to delayed response and patient harm",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CeA",
           "dir": "Overwhelmed",
@@ -1171,13 +1225,28 @@
           "detail": "Clinical coordination overwhelmed — unable to track all active crisis cases simultaneously",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "TREATMENT_RESISTANCE",
       "label": "Treatment Resistance",
       "summary": "Standard interventions failing to produce expected outcomes despite appropriate diagnosis and protocol adherence",
       "circuits": [
+        {
+          "nodeId": "sgACC",
+          "dir": "Hyper",
+          "detail": "subgenual ACC — mood / negative-affect hub — depressive lock/anhedonic drive",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dlPFC",
           "dir": "Stalled",
@@ -1208,13 +1277,28 @@
           "detail": "Treatment continuity broken — gains from one provider undermined by gaps or contradictions from another",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "sgACC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_BREAKDOWN",
       "label": "Clinical Communication Breakdown",
       "summary": "Failures in provider-patient or provider-provider communication leading to errors, mistrust, and poor outcomes",
       "circuits": [
+        {
+          "nodeId": "WERN",
+          "dir": "Hypo",
+          "detail": "Wernicke's area — receptive language comprehension — receptive aphasia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BROCA",
           "dir": "Degraded",
@@ -1245,7 +1329,13 @@
           "detail": "Perspective-taking absent — provider failing to adapt communication to patient health literacy and culture",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "WERN",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

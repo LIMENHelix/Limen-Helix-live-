@@ -402,6 +402,15 @@
       "summary": "Critical breakdown in Judicial Temperament / Equity systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "rACC",
+          "dir": "Hypo",
+          "detail": "rostral ACC — affective appraisal & regulation — blunted appraisal",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "LGN",
           "dir": "Hypo-active",
           "detail": "Judicial Temperament / Equity Assessment & Diagnostics capacity falling below operational thresholds, reducing Judicial Temperament / Equity output and reliability",
@@ -431,13 +440,28 @@
           "detail": "Judicial Temperament / Equity Performance & Optimization function reduced, compromising Judicial Temperament / Equity system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "rACC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "LEGAL_TEMPERAMENT_CAPACITY_CRISIS",
       "label": "Judicial Temperament / Equity Capacity Crisis",
       "summary": "Demand exceeding available Judicial Temperament / Equity capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MGN",
           "dir": "Hyper-active",
@@ -468,13 +492,28 @@
           "detail": "Judicial Temperament / Equity Performance & Optimization operating outside normal parameters, introducing uncertainty into Judicial Temperament / Equity outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "LEGAL_TEMPERAMENT_GOVERNANCE_GAP",
       "label": "Judicial Temperament / Equity Governance Gap",
       "summary": "Oversight or regulatory failure in Judicial Temperament / Equity creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "rACC",
+          "dir": "Hyper",
+          "detail": "rostral ACC — affective appraisal & regulation — emotional over-monitoring",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SNIG",
           "dir": "Hypo-active",
@@ -505,7 +544,13 @@
           "detail": "Judicial Temperament / Equity Coordination & Integration function reduced, compromising Judicial Temperament / Equity system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "rACC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Governance Civicpart Townhalls systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "LC",
+          "dir": "Hypo",
+          "detail": "broadcast / alerting — low=missed",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "ADR",
           "dir": "Hyper-active",
           "detail": "Town Halls Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Town Halls Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "LC",
+        "dir": "hypo",
+        "motif": "M2",
+        "source": "override"
+      }
     },
     {
       "id": "GOVERNANCE_CIVICPART_TOWNHALLS_CAPACITY_OVERLOAD",
       "label": "Governance Civicpart Townhalls Capacity Overload",
       "summary": "Demand exceeding available Governance Civicpart Townhalls capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "LC",
+          "dir": "Hyper",
+          "detail": "broadcast / alerting — gain stuck high=thrash",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ADR",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Town Halls Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "LC",
+        "dir": "hyper",
+        "motif": "M2",
+        "source": "override"
+      }
     },
     {
       "id": "GOVERNANCE_CIVICPART_TOWNHALLS_QUALITY_DEGRADATION",
       "label": "Governance Civicpart Townhalls Quality Degradation",
       "summary": "Progressive decline in Governance Civicpart Townhalls quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ADR",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Town Halls Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

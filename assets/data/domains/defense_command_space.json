@@ -2277,6 +2277,15 @@
       "summary": "Critical breakdown in Defense Command Space systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "PULV",
+          "dir": "Hypo",
+          "detail": "attentional gate — neglect",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "OXY",
           "dir": "Hyper-active",
           "detail": "Space Command Assessment & Diagnostics function overloaded",
@@ -2306,13 +2315,28 @@
           "detail": "Space Command Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PULV",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_COMMAND_SPACE_CAPACITY_OVERLOAD",
       "label": "Defense Command Space Capacity Overload",
       "summary": "Demand exceeding available Defense Command Space capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "PULV",
+          "dir": "Hyper",
+          "detail": "attentional gate — overload",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OXY",
           "dir": "Hyper-active",
@@ -2337,13 +2361,28 @@
           "detail": "Space Command Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PULV",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_COMMAND_SPACE_QUALITY_DEGRADATION",
       "label": "Defense Command Space Quality Degradation",
       "summary": "Progressive decline in Defense Command Space quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OXY",
           "dir": "Hypo-active",
@@ -2368,7 +2407,13 @@
           "detail": "Space Command Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

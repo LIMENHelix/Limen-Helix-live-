@@ -2277,6 +2277,15 @@
       "summary": "Critical breakdown in Economy Monetary Banking systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "NAcc",
+          "dir": "Hypo",
+          "detail": "incentive/reward drive — avolition",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "SEPT",
           "dir": "Hyper-active",
           "detail": "Banking System Assessment & Diagnostics function overloaded",
@@ -2306,13 +2315,28 @@
           "detail": "Banking System Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_MONETARY_BANKING_CAPACITY_OVERLOAD",
       "label": "Economy Monetary Banking Capacity Overload",
       "summary": "Demand exceeding available Economy Monetary Banking capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
+          "detail": "incentive/reward drive — over-pursuit=bubble",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SEPT",
           "dir": "Hyper-active",
@@ -2337,13 +2361,28 @@
           "detail": "Banking System Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_MONETARY_BANKING_QUALITY_DEGRADATION",
       "label": "Economy Monetary Banking Quality Degradation",
       "summary": "Progressive decline in Economy Monetary Banking quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SEPT",
           "dir": "Hypo-active",
@@ -2368,7 +2407,13 @@
           "detail": "Banking System Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

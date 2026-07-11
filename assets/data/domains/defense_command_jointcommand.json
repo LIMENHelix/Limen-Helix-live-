@@ -2276,6 +2276,15 @@
       "summary": "Critical breakdown in Defense Command Jointcommand systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "HIPP",
           "dir": "Hyper-active",
           "detail": "Joint Command Assessment & Diagnostics function overloaded",
@@ -2305,13 +2314,28 @@
           "detail": "Joint Command Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_COMMAND_JOINTCOMMAND_CAPACITY_OVERLOAD",
       "label": "Defense Command Jointcommand Capacity Overload",
       "summary": "Demand exceeding available Defense Command Jointcommand capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HIPP",
           "dir": "Hyper-active",
@@ -2336,13 +2360,28 @@
           "detail": "Joint Command Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_COMMAND_JOINTCOMMAND_QUALITY_DEGRADATION",
       "label": "Defense Command Jointcommand Quality Degradation",
       "summary": "Progressive decline in Defense Command Jointcommand quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HIPP",
           "dir": "Hypo-active",
@@ -2367,7 +2406,13 @@
           "detail": "Joint Command Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

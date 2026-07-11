@@ -6932,6 +6932,15 @@
       "summary": "Critical breakdown in Medicine Geriatric systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PIN",
           "dir": "Hyper-active",
           "detail": "Geriatric Assessment & Diagnostics function overloaded",
@@ -6961,13 +6970,28 @@
           "detail": "Geriatric Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "MEDICINE_GERIATRIC_CAPACITY_OVERLOAD",
       "label": "Medicine Geriatric Capacity Overload",
       "summary": "Demand exceeding available Medicine Geriatric capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PIN",
           "dir": "Hyper-active",
@@ -6992,13 +7016,28 @@
           "detail": "Geriatric Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "MEDICINE_GERIATRIC_QUALITY_DEGRADATION",
       "label": "Medicine Geriatric Quality Degradation",
       "summary": "Progressive decline in Medicine Geriatric quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PIN",
           "dir": "Hypo-active",
@@ -7023,7 +7062,13 @@
           "detail": "Geriatric Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

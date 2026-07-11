@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Intelligence Collection Srcdev systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "A1",
           "dir": "Hyper-active",
           "detail": "Source Development Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Source Development Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_COLLECTION_SRCDEV_CAPACITY_OVERLOAD",
       "label": "Intelligence Collection Srcdev Capacity Overload",
       "summary": "Demand exceeding available Intelligence Collection Srcdev capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "A1",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Source Development Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_COLLECTION_SRCDEV_QUALITY_DEGRADATION",
       "label": "Intelligence Collection Srcdev Quality Degradation",
       "summary": "Progressive decline in Intelligence Collection Srcdev quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "A1",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Source Development Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

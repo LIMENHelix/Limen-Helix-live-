@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Conflict Monitoring Hub systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CeA",
           "dir": "Hypo-active",
           "detail": "Conflict Monitoring Hub Assessment & Diagnostics capacity falling below operational thresholds, reducing Conflict Monitoring Hub output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Conflict Monitoring Hub Performance & Optimization function reduced, compromising Conflict Monitoring Hub system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "ADDICTION_CONFLICT_CAPACITY_CRISIS",
       "label": "Conflict Monitoring Hub Capacity Crisis",
       "summary": "Demand exceeding available Conflict Monitoring Hub capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BNST",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Conflict Monitoring Hub Performance & Optimization operating outside normal parameters, introducing uncertainty into Conflict Monitoring Hub outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "ADDICTION_CONFLICT_GOVERNANCE_GAP",
       "label": "Conflict Monitoring Hub Governance Gap",
       "summary": "Oversight or regulatory failure in Conflict Monitoring Hub creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CON",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Conflict Monitoring Hub Coordination & Integration function reduced, compromising Conflict Monitoring Hub system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

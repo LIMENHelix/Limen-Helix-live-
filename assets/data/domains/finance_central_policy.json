@@ -2274,6 +2274,15 @@
       "summary": "Critical breakdown in Finance Central Policy systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "dlPFC",
+          "dir": "Hypo",
+          "detail": "dorsolateral PFC — executive working-memory / cognitive control — executive-lapse, distractible",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "OLF",
           "dir": "Hyper-active",
           "detail": "Monetary Policy Assessment & Diagnostics function overloaded",
@@ -2303,13 +2312,28 @@
           "detail": "Monetary Policy Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dlPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "FINANCE_CENTRAL_POLICY_CAPACITY_OVERLOAD",
       "label": "Finance Central Policy Capacity Overload",
       "summary": "Demand exceeding available Finance Central Policy capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hyper",
+          "detail": "dorsolateral PFC — executive working-memory / cognitive control — rigidity/rumination-lock",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OLF",
           "dir": "Hyper-active",
@@ -2334,13 +2358,28 @@
           "detail": "Monetary Policy Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dlPFC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "FINANCE_CENTRAL_POLICY_QUALITY_DEGRADATION",
       "label": "Finance Central Policy Quality Degradation",
       "summary": "Progressive decline in Finance Central Policy quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "outcome valuation / update — confabulation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OLF",
           "dir": "Hypo-active",
@@ -2365,7 +2404,13 @@
           "detail": "Monetary Policy Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

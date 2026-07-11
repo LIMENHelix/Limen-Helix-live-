@@ -2277,6 +2277,15 @@
       "summary": "Critical breakdown in Science Hypothesis Synthesis systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "AG",
+          "dir": "Hypo",
+          "detail": "angular gyrus — semantic/conceptual integration — semantic fragmentation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "ANT",
           "dir": "Hyper-active",
           "detail": "Research Synthesis Assessment & Diagnostics function overloaded",
@@ -2306,13 +2315,28 @@
           "detail": "Research Synthesis Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "AG",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "SCIENCE_HYPOTHESIS_SYNTHESIS_CAPACITY_OVERLOAD",
       "label": "Science Hypothesis Synthesis Capacity Overload",
       "summary": "Demand exceeding available Science Hypothesis Synthesis capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "AG",
+          "dir": "Hyper",
+          "detail": "angular gyrus — semantic/conceptual integration — over-association",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ANT",
           "dir": "Hyper-active",
@@ -2337,13 +2361,28 @@
           "detail": "Research Synthesis Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "AG",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "SCIENCE_HYPOTHESIS_SYNTHESIS_QUALITY_DEGRADATION",
       "label": "Science Hypothesis Synthesis Quality Degradation",
       "summary": "Progressive decline in Science Hypothesis Synthesis quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ANT",
           "dir": "Hypo-active",
@@ -2368,7 +2407,13 @@
           "detail": "Research Synthesis Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

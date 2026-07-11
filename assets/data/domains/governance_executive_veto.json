@@ -2278,6 +2278,15 @@
       "summary": "Critical breakdown in Governance Executive Veto systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "STN",
+          "dir": "Hypo",
+          "detail": "hyperdirect brake / hold — no-brake=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "rACC",
           "dir": "Hyper-active",
           "detail": "Veto Authority Assessment & Diagnostics function overloaded",
@@ -2307,13 +2316,28 @@
           "detail": "Veto Authority Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "GOVERNANCE_EXECUTIVE_VETO_CAPACITY_OVERLOAD",
       "label": "Governance Executive Veto Capacity Overload",
       "summary": "Demand exceeding available Governance Executive Veto capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "rACC",
           "dir": "Hyper-active",
@@ -2338,13 +2362,28 @@
           "detail": "Veto Authority Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "GOVERNANCE_EXECUTIVE_VETO_QUALITY_DEGRADATION",
       "label": "Governance Executive Veto Quality Degradation",
       "summary": "Progressive decline in Governance Executive Veto quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "rACC",
           "dir": "Hypo-active",
@@ -2369,7 +2408,13 @@
           "detail": "Veto Authority Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

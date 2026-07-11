@@ -4403,6 +4403,15 @@
       "summary": "Critical breakdown in Climate Systems systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "mPFC",
           "dir": "Hypo-active",
           "detail": "Climate Systems Assessment & Diagnostics capacity falling below operational thresholds, reducing Climate Systems output and reliability",
@@ -4432,13 +4441,28 @@
           "detail": "Climate Systems Performance & Optimization function reduced, compromising Climate Systems system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "ENVIRONMENT_CLIMATE_CAPACITY_CRISIS",
       "label": "Climate Systems Capacity Crisis",
       "summary": "Demand exceeding available Climate Systems capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PCC",
           "dir": "Hyper-active",
@@ -4469,13 +4493,28 @@
           "detail": "Climate Systems Performance & Optimization operating outside normal parameters, introducing uncertainty into Climate Systems outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "ENVIRONMENT_CLIMATE_GOVERNANCE_GAP",
       "label": "Climate Systems Governance Gap",
       "summary": "Oversight or regulatory failure in Climate Systems creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "EC",
           "dir": "Hypo-active",
@@ -4506,7 +4545,13 @@
           "detail": "Climate Systems Coordination & Integration function reduced, compromising Climate Systems system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Medicine Neurology Movement systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "GP",
+          "dir": "Hypo",
+          "detail": "basal-ganglia output gate — lock (bradykinetic freeze)",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "EC",
           "dir": "Hyper-active",
           "detail": "Movement Disorders Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Movement Disorders Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "GP",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "MEDICINE_NEUROLOGY_MOVEMENT_CAPACITY_OVERLOAD",
       "label": "Medicine Neurology Movement Capacity Overload",
       "summary": "Demand exceeding available Medicine Neurology Movement capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "M1",
+          "dir": "Hyper",
+          "detail": "primary motor cortex — motor output — hyperkinesia/spasticity",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "EC",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Movement Disorders Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "M1",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "MEDICINE_NEUROLOGY_MOVEMENT_QUALITY_DEGRADATION",
       "label": "Medicine Neurology Movement Quality Degradation",
       "summary": "Progressive decline in Medicine Neurology Movement quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "EC",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Movement Disorders Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

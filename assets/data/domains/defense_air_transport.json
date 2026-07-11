@@ -2276,6 +2276,15 @@
       "summary": "Critical breakdown in Defense Air Transport systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PULV",
           "dir": "Hyper-active",
           "detail": "Air Transport Assessment & Diagnostics function overloaded",
@@ -2305,13 +2314,28 @@
           "detail": "Air Transport Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_AIR_TRANSPORT_CAPACITY_OVERLOAD",
       "label": "Defense Air Transport Capacity Overload",
       "summary": "Demand exceeding available Defense Air Transport capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PULV",
           "dir": "Hyper-active",
@@ -2336,13 +2360,28 @@
           "detail": "Air Transport Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_AIR_TRANSPORT_QUALITY_DEGRADATION",
       "label": "Defense Air Transport Quality Degradation",
       "summary": "Progressive decline in Defense Air Transport quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PULV",
           "dir": "Hypo-active",
@@ -2367,7 +2406,13 @@
           "detail": "Air Transport Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

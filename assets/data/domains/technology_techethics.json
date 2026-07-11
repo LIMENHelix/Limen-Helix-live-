@@ -15265,6 +15265,15 @@
       "summary": "Critical breakdown in Technology Techethics systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "STN",
+          "dir": "Hypo",
+          "detail": "hyperdirect brake / hold — no-brake=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "FPN",
           "dir": "Hyper-active",
           "detail": "Techethics Assessment & Diagnostics function overloaded",
@@ -15294,13 +15303,28 @@
           "detail": "Techethics Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "TECHNOLOGY_TECHETHICS_CAPACITY_OVERLOAD",
       "label": "Technology Techethics Capacity Overload",
       "summary": "Demand exceeding available Technology Techethics capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FPN",
           "dir": "Hyper-active",
@@ -15325,13 +15349,28 @@
           "detail": "Techethics Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "TECHNOLOGY_TECHETHICS_QUALITY_DEGRADATION",
       "label": "Technology Techethics Quality Degradation",
       "summary": "Progressive decline in Technology Techethics quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FPN",
           "dir": "Hypo-active",
@@ -15356,7 +15395,13 @@
           "detail": "Techethics Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

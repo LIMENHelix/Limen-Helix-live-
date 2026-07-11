@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Religion Religious Membership systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "SEPT",
+          "dir": "Hypo",
+          "detail": "septal nuclei — theta rhythm / social reward — blunted bonding",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "THAL",
           "dir": "Hyper-active",
           "detail": "Religious Membership Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Religious Membership Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "SEPT",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_RELIGIOUS_MEMBERSHIP_CAPACITY_OVERLOAD",
       "label": "Religion Religious Membership Capacity Overload",
       "summary": "Demand exceeding available Religion Religious Membership capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "SEPT",
+          "dir": "Hyper",
+          "detail": "septal nuclei — theta rhythm / social reward — over-arousal",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "THAL",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Religious Membership Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "SEPT",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_RELIGIOUS_MEMBERSHIP_QUALITY_DEGRADATION",
       "label": "Religion Religious Membership Quality Degradation",
       "summary": "Progressive decline in Religion Religious Membership quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "THAL",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Religious Membership Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

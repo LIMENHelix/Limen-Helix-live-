@@ -7920,6 +7920,15 @@
       "summary": "Critical breakdown in Rural Decline systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "STN",
+          "dir": "Hypo",
+          "detail": "hyperdirect brake / hold — no-brake=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CC",
           "dir": "Hypo-active",
           "detail": "Rural Decline Assessment & Diagnostics capacity falling below operational thresholds, reducing Rural Decline output and reliability",
@@ -7949,13 +7958,28 @@
           "detail": "Rural Decline Performance & Optimization function reduced, compromising Rural Decline system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_RURAL_CAPACITY_CRISIS",
       "label": "Rural Decline Capacity Crisis",
       "summary": "Demand exceeding available Rural Decline capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "CING",
+          "dir": "Hypo",
+          "detail": "mid-cingulate (MCC) — action-outcome & effort integration — effort-apathy, error-blind",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FORN",
           "dir": "Hyper-active",
@@ -7986,13 +8010,28 @@
           "detail": "Rural Decline Performance & Optimization operating outside normal parameters, introducing uncertainty into Rural Decline outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CING",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_RURAL_GOVERNANCE_GAP",
       "label": "Rural Decline Governance Gap",
       "summary": "Oversight or regulatory failure in Rural Decline creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MAMM",
           "dir": "Hypo-active",
@@ -8023,7 +8062,13 @@
           "detail": "Rural Decline Coordination & Integration function reduced, compromising Rural Decline system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

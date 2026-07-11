@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Education Special Transition systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "rPFC",
+          "dir": "Hypo",
+          "detail": "frontopolar PFC — metacognition & prospective control — no-foresight, myopic",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CBLM",
           "dir": "Hyper-active",
           "detail": "Transition Services Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Transition Services Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "rPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "EDUCATION_SPECIAL_TRANSITION_CAPACITY_OVERLOAD",
       "label": "Education Special Transition Capacity Overload",
       "summary": "Demand exceeding available Education Special Transition capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "rPFC",
+          "dir": "Hyper",
+          "detail": "frontopolar PFC — metacognition & prospective control — overplanning/analysis-paralysis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CBLM",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Transition Services Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "rPFC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "EDUCATION_SPECIAL_TRANSITION_QUALITY_DEGRADATION",
       "label": "Education Special Transition Quality Degradation",
       "summary": "Progressive decline in Education Special Transition quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CBLM",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Transition Services Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

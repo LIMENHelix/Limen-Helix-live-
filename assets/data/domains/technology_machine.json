@@ -4351,6 +4351,15 @@
       "summary": "Critical breakdown in Machine Learning systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PBN",
           "dir": "Hypo-active",
           "detail": "Machine Learning Assessment & Diagnostics capacity falling below operational thresholds, reducing Machine Learning output and reliability",
@@ -4380,13 +4389,28 @@
           "detail": "Machine Learning Performance & Optimization function reduced, compromising Machine Learning system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "TECHNOLOGY_MACHINE_CAPACITY_CRISIS",
       "label": "Machine Learning Capacity Crisis",
       "summary": "Demand exceeding available Machine Learning capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PPN",
           "dir": "Hyper-active",
@@ -4417,13 +4441,28 @@
           "detail": "Machine Learning Performance & Optimization operating outside normal parameters, introducing uncertainty into Machine Learning outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "TECHNOLOGY_MACHINE_GOVERNANCE_GAP",
       "label": "Machine Learning Governance Gap",
       "summary": "Oversight or regulatory failure in Machine Learning creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NEOCER",
           "dir": "Hypo-active",
@@ -4454,7 +4493,13 @@
           "detail": "Machine Learning Coordination & Integration function reduced, compromising Machine Learning system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

@@ -2276,6 +2276,15 @@
       "summary": "Critical breakdown in Communication Journalism Factcheck systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "RF",
           "dir": "Hyper-active",
           "detail": "Fact-Checking Assessment & Diagnostics function overloaded",
@@ -2305,13 +2314,28 @@
           "detail": "Fact-Checking Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_JOURNALISM_FACTCHECK_CAPACITY_OVERLOAD",
       "label": "Communication Journalism Factcheck Capacity Overload",
       "summary": "Demand exceeding available Communication Journalism Factcheck capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "RF",
           "dir": "Hyper-active",
@@ -2336,13 +2360,28 @@
           "detail": "Fact-Checking Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_JOURNALISM_FACTCHECK_QUALITY_DEGRADATION",
       "label": "Communication Journalism Factcheck Quality Degradation",
       "summary": "Progressive decline in Communication Journalism Factcheck quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "outcome valuation / update — confabulation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "RF",
           "dir": "Hypo-active",
@@ -2367,7 +2406,13 @@
           "detail": "Fact-Checking Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

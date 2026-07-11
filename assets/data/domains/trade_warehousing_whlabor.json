@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Trade Warehousing Whlabor systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "STN",
+          "dir": "Hyper",
+          "detail": "hyperdirect brake / hold — over-brake=paralysis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "SC",
           "dir": "Hyper-active",
           "detail": "Warehouse Labor Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Warehouse Labor Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hyper",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "TRADE_WAREHOUSING_WHLABOR_CAPACITY_OVERLOAD",
       "label": "Trade Warehousing Whlabor Capacity Overload",
       "summary": "Demand exceeding available Trade Warehousing Whlabor capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SC",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Warehouse Labor Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "TRADE_WAREHOUSING_WHLABOR_QUALITY_DEGRADATION",
       "label": "Trade Warehousing Whlabor Quality Degradation",
       "summary": "Progressive decline in Trade Warehousing Whlabor quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SC",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Warehouse Labor Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

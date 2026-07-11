@@ -5518,6 +5518,15 @@
       "summary": "Critical breakdown in Legislative Process systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "vmPFC",
           "dir": "Hypo-active",
           "detail": "Legislative Process Assessment & Diagnostics capacity falling below operational thresholds, reducing Legislative Process output and reliability",
@@ -5547,13 +5556,28 @@
           "detail": "Legislative Process Performance & Optimization function reduced, compromising Legislative Process system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "GOVERNANCE_LEGISLATIVE_CAPACITY_CRISIS",
       "label": "Legislative Process Capacity Crisis",
       "summary": "Demand exceeding available Legislative Process capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "VTA",
           "dir": "Hyper-active",
@@ -5584,13 +5608,28 @@
           "detail": "Legislative Process Performance & Optimization operating outside normal parameters, introducing uncertainty into Legislative Process outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "GOVERNANCE_LEGISLATIVE_GOVERNANCE_GAP",
       "label": "Legislative Process Governance Gap",
       "summary": "Oversight or regulatory failure in Legislative Process creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "AI",
           "dir": "Hypo-active",
@@ -5621,7 +5660,13 @@
           "detail": "Legislative Process Coordination & Integration function reduced, compromising Legislative Process system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

@@ -8331,6 +8331,15 @@
       "summary": "Critical breakdown in Trade Tradecompliance systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vlPFC",
+          "dir": "Hypo",
+          "detail": "response-inhibition / stop — disinhibited",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "NBM",
           "dir": "Hyper-active",
           "detail": "Tradecompliance Assessment & Diagnostics function overloaded",
@@ -8360,13 +8369,28 @@
           "detail": "Tradecompliance Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "TRADE_TRADECOMPLIANCE_CAPACITY_OVERLOAD",
       "label": "Trade Tradecompliance Capacity Overload",
       "summary": "Demand exceeding available Trade Tradecompliance capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hyper",
+          "detail": "response-inhibition / stop — over-suppress",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NBM",
           "dir": "Hyper-active",
@@ -8391,13 +8415,28 @@
           "detail": "Tradecompliance Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hyper",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "TRADE_TRADECOMPLIANCE_QUALITY_DEGRADATION",
       "label": "Trade Tradecompliance Quality Degradation",
       "summary": "Progressive decline in Trade Tradecompliance quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hypo",
+          "detail": "response-inhibition / stop — disinhibited",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NBM",
           "dir": "Hypo-active",
@@ -8422,7 +8461,13 @@
           "detail": "Tradecompliance Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

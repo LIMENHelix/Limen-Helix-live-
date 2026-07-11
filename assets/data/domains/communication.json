@@ -1774,6 +1774,15 @@
       "summary": "Systematic spread of false or misleading information through media channels, social platforms, and state actors, undermining public trust and informed decision-making",
       "circuits": [
         {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "NAcc",
           "dir": "Hyper-active",
           "detail": "Social media reward loops amplify sensational falsehoods faster than corrections can propagate",
@@ -1797,13 +1806,28 @@
           "detail": "Journalistic output quality degrades under speed pressure and resource scarcity",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "TELECOM_FAILURE",
       "label": "Telecommunications Failure",
       "summary": "Collapse or severe degradation of telecommunications infrastructure through natural disaster, cyberattack, or systemic neglect, severing critical connections",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CC",
           "dir": "Hypo-active",
@@ -1828,13 +1852,28 @@
           "detail": "Physical delivery networks disrupted as coordination systems go offline",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "CENSORSHIP_OVERREACH",
       "label": "Censorship Overreach",
       "summary": "Excessive governmental or institutional suppression of legitimate speech, press freedom, and information access, stifling democratic discourse",
       "circuits": [
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hyper",
+          "detail": "response-inhibition / stop — over-suppress",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dACC",
           "dir": "Hyper-active",
@@ -1859,13 +1898,28 @@
           "detail": "Excessive message filtering prevents authentic organizational communication",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hyper",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "MEDIA_MONOPOLY",
       "label": "Media Monopoly",
       "summary": "Concentration of media ownership in few hands, reducing diversity of voices, editorial independence, and public accountability in information systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BROCA",
           "dir": "Altered",
@@ -1890,13 +1944,28 @@
           "detail": "Broadcasting channels deliver uniform messaging, reducing signal diversity",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "CYBER_PROPAGANDA",
       "label": "Cyber Propaganda",
       "summary": "Coordinated online influence campaigns using bots, deepfakes, and algorithmic manipulation to shape public opinion and destabilize societies",
       "circuits": [
+        {
+          "nodeId": "TPJ",
+          "dir": "Hypo",
+          "detail": "temporoparietal junction — social attribution & reorienting — mindblindness",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TPJ",
           "dir": "Hypo-active",
@@ -1921,7 +1990,13 @@
           "detail": "Internet infrastructure exploited as delivery mechanism for coordinated inauthentic behavior",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "TPJ",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     }
   ],
   "edges": [
@@ -2367,27 +2442,174 @@
     }
   ],
   "registry": [
-    { "name": "Polygon.io VZ", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/VZ/prev", "feedClass": "telecom_carrier", "ticker": "VZ" },
-    { "name": "Polygon.io T", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/T/prev", "feedClass": "telecom_carrier", "ticker": "T" },
-    { "name": "Polygon.io TMUS", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/TMUS/prev", "feedClass": "telecom_carrier", "ticker": "TMUS" },
-    { "name": "Polygon.io CMCSA", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/CMCSA/prev", "feedClass": "media_distrib", "ticker": "CMCSA" },
-    { "name": "Polygon.io CHTR", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/CHTR/prev", "feedClass": "telecom_carrier", "ticker": "CHTR" },
-    { "name": "Polygon.io AMT", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/AMT/prev", "feedClass": "tower_fiber", "ticker": "AMT" },
-    { "name": "Polygon.io CCI", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/CCI/prev", "feedClass": "tower_fiber", "ticker": "CCI" },
-    { "name": "Polygon.io SBAC", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/SBAC/prev", "feedClass": "tower_fiber", "ticker": "SBAC" },
-    { "name": "Polygon.io PWR", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/PWR/prev", "feedClass": "tower_fiber", "ticker": "PWR" },
-    { "name": "Polygon.io LUMN", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/LUMN/prev", "feedClass": "tower_fiber", "ticker": "LUMN" },
-    { "name": "Polygon.io CSCO", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/CSCO/prev", "feedClass": "internet_backbone", "ticker": "CSCO" },
-    { "name": "Polygon.io QCOM", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/QCOM/prev", "feedClass": "internet_backbone", "ticker": "QCOM" },
-    { "name": "Polygon.io ANET", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/ANET/prev", "feedClass": "internet_backbone", "ticker": "ANET" },
-    { "name": "Polygon.io ERIC", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/ERIC/prev", "feedClass": "internet_backbone", "ticker": "ERIC" },
-    { "name": "Polygon.io NOK", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/NOK/prev", "feedClass": "internet_backbone", "ticker": "NOK" },
-    { "name": "Polygon.io NFLX", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/NFLX/prev", "feedClass": "media_distrib", "ticker": "NFLX" },
-    { "name": "Polygon.io DIS", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/DIS/prev", "feedClass": "media_distrib", "ticker": "DIS" },
-    { "name": "Polygon.io NYT", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/NYT/prev", "feedClass": "news_production", "ticker": "NYT" },
-    { "name": "Polygon.io NWSA", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/NWSA/prev", "feedClass": "news_production", "ticker": "NWSA" },
-    { "name": "Polygon.io META", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/META/prev", "feedClass": "social_platform", "ticker": "META" },
-    { "name": "Polygon.io GOOGL", "apiKey": null, "status": "PUBLIC", "endpoint": "api.polygon.io/v2/aggs/ticker/GOOGL/prev", "feedClass": "social_platform", "ticker": "GOOGL" }
+    {
+      "name": "Polygon.io VZ",
+      "apiKey": null,
+      "status": "PUBLIC",
+      "endpoint": "api.polygon.io/v2/aggs/ticker/VZ/prev",
+      "feedClass": "telecom_carrier",
+      "ticker": "VZ"
+    },
+    {
+      "name": "Polygon.io T",
+      "apiKey": null,
+      "status": "PUBLIC",
+      "endpoint": "api.polygon.io/v2/aggs/ticker/T/prev",
+      "feedClass": "telecom_carrier",
+      "ticker": "T"
+    },
+    {
+      "name": "Polygon.io TMUS",
+      "apiKey": null,
+      "status": "PUBLIC",
+      "endpoint": "api.polygon.io/v2/aggs/ticker/TMUS/prev",
+      "feedClass": "telecom_carrier",
+      "ticker": "TMUS"
+    },
+    {
+      "name": "Polygon.io CMCSA",
+      "apiKey": null,
+      "status": "PUBLIC",
+      "endpoint": "api.polygon.io/v2/aggs/ticker/CMCSA/prev",
+      "feedClass": "media_distrib",
+      "ticker": "CMCSA"
+    },
+    {
+      "name": "Polygon.io CHTR",
+      "apiKey": null,
+      "status": "PUBLIC",
+      "endpoint": "api.polygon.io/v2/aggs/ticker/CHTR/prev",
+      "feedClass": "telecom_carrier",
+      "ticker": "CHTR"
+    },
+    {
+      "name": "Polygon.io AMT",
+      "apiKey": null,
+      "status": "PUBLIC",
+      "endpoint": "api.polygon.io/v2/aggs/ticker/AMT/prev",
+      "feedClass": "tower_fiber",
+      "ticker": "AMT"
+    },
+    {
+      "name": "Polygon.io CCI",
+      "apiKey": null,
+      "status": "PUBLIC",
+      "endpoint": "api.polygon.io/v2/aggs/ticker/CCI/prev",
+      "feedClass": "tower_fiber",
+      "ticker": "CCI"
+    },
+    {
+      "name": "Polygon.io SBAC",
+      "apiKey": null,
+      "status": "PUBLIC",
+      "endpoint": "api.polygon.io/v2/aggs/ticker/SBAC/prev",
+      "feedClass": "tower_fiber",
+      "ticker": "SBAC"
+    },
+    {
+      "name": "Polygon.io PWR",
+      "apiKey": null,
+      "status": "PUBLIC",
+      "endpoint": "api.polygon.io/v2/aggs/ticker/PWR/prev",
+      "feedClass": "tower_fiber",
+      "ticker": "PWR"
+    },
+    {
+      "name": "Polygon.io LUMN",
+      "apiKey": null,
+      "status": "PUBLIC",
+      "endpoint": "api.polygon.io/v2/aggs/ticker/LUMN/prev",
+      "feedClass": "tower_fiber",
+      "ticker": "LUMN"
+    },
+    {
+      "name": "Polygon.io CSCO",
+      "apiKey": null,
+      "status": "PUBLIC",
+      "endpoint": "api.polygon.io/v2/aggs/ticker/CSCO/prev",
+      "feedClass": "internet_backbone",
+      "ticker": "CSCO"
+    },
+    {
+      "name": "Polygon.io QCOM",
+      "apiKey": null,
+      "status": "PUBLIC",
+      "endpoint": "api.polygon.io/v2/aggs/ticker/QCOM/prev",
+      "feedClass": "internet_backbone",
+      "ticker": "QCOM"
+    },
+    {
+      "name": "Polygon.io ANET",
+      "apiKey": null,
+      "status": "PUBLIC",
+      "endpoint": "api.polygon.io/v2/aggs/ticker/ANET/prev",
+      "feedClass": "internet_backbone",
+      "ticker": "ANET"
+    },
+    {
+      "name": "Polygon.io ERIC",
+      "apiKey": null,
+      "status": "PUBLIC",
+      "endpoint": "api.polygon.io/v2/aggs/ticker/ERIC/prev",
+      "feedClass": "internet_backbone",
+      "ticker": "ERIC"
+    },
+    {
+      "name": "Polygon.io NOK",
+      "apiKey": null,
+      "status": "PUBLIC",
+      "endpoint": "api.polygon.io/v2/aggs/ticker/NOK/prev",
+      "feedClass": "internet_backbone",
+      "ticker": "NOK"
+    },
+    {
+      "name": "Polygon.io NFLX",
+      "apiKey": null,
+      "status": "PUBLIC",
+      "endpoint": "api.polygon.io/v2/aggs/ticker/NFLX/prev",
+      "feedClass": "media_distrib",
+      "ticker": "NFLX"
+    },
+    {
+      "name": "Polygon.io DIS",
+      "apiKey": null,
+      "status": "PUBLIC",
+      "endpoint": "api.polygon.io/v2/aggs/ticker/DIS/prev",
+      "feedClass": "media_distrib",
+      "ticker": "DIS"
+    },
+    {
+      "name": "Polygon.io NYT",
+      "apiKey": null,
+      "status": "PUBLIC",
+      "endpoint": "api.polygon.io/v2/aggs/ticker/NYT/prev",
+      "feedClass": "news_production",
+      "ticker": "NYT"
+    },
+    {
+      "name": "Polygon.io NWSA",
+      "apiKey": null,
+      "status": "PUBLIC",
+      "endpoint": "api.polygon.io/v2/aggs/ticker/NWSA/prev",
+      "feedClass": "news_production",
+      "ticker": "NWSA"
+    },
+    {
+      "name": "Polygon.io META",
+      "apiKey": null,
+      "status": "PUBLIC",
+      "endpoint": "api.polygon.io/v2/aggs/ticker/META/prev",
+      "feedClass": "social_platform",
+      "ticker": "META"
+    },
+    {
+      "name": "Polygon.io GOOGL",
+      "apiKey": null,
+      "status": "PUBLIC",
+      "endpoint": "api.polygon.io/v2/aggs/ticker/GOOGL/prev",
+      "feedClass": "social_platform",
+      "ticker": "GOOGL"
+    }
   ],
   "_enrichment": {
     "neuralRoleMigratedAt": "2026-05-13T13:15:14.681Z",

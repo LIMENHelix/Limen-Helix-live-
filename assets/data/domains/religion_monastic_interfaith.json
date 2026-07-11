@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Religion Monastic Interfaith systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "TPJ",
+          "dir": "Hypo",
+          "detail": "temporoparietal junction — social attribution & reorienting — mindblindness",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "IC",
           "dir": "Hyper-active",
           "detail": "Interfaith Monasticism Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Interfaith Monasticism Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "TPJ",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_MONASTIC_INTERFAITH_CAPACITY_OVERLOAD",
       "label": "Religion Monastic Interfaith Capacity Overload",
       "summary": "Demand exceeding available Religion Monastic Interfaith capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "TPJ",
+          "dir": "Hyper",
+          "detail": "temporoparietal junction — social attribution & reorienting — over-attribution/paranoia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "IC",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Interfaith Monasticism Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "TPJ",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_MONASTIC_INTERFAITH_QUALITY_DEGRADATION",
       "label": "Religion Monastic Interfaith Quality Degradation",
       "summary": "Progressive decline in Religion Monastic Interfaith quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "STS",
+          "dir": "Hypo",
+          "detail": "superior temporal sulcus — social perception — social-cue blindness",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "IC",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Interfaith Monasticism Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STS",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

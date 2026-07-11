@@ -2277,6 +2277,15 @@
       "summary": "Critical breakdown in Culture Music Performance systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "M1",
+          "dir": "Hypo",
+          "detail": "primary motor cortex — motor output — weakness, paresis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "FG",
           "dir": "Hyper-active",
           "detail": "Music Performance Assessment & Diagnostics function overloaded",
@@ -2306,13 +2315,28 @@
           "detail": "Music Performance Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "M1",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "CULTURE_MUSIC_PERFORMANCE_CAPACITY_OVERLOAD",
       "label": "Culture Music Performance Capacity Overload",
       "summary": "Demand exceeding available Culture Music Performance capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "M1",
+          "dir": "Hyper",
+          "detail": "primary motor cortex — motor output — hyperkinesia/spasticity",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FG",
           "dir": "Hyper-active",
@@ -2337,13 +2361,28 @@
           "detail": "Music Performance Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "M1",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "CULTURE_MUSIC_PERFORMANCE_QUALITY_DEGRADATION",
       "label": "Culture Music Performance Quality Degradation",
       "summary": "Progressive decline in Culture Music Performance quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FG",
           "dir": "Hypo-active",
@@ -2368,7 +2407,13 @@
           "detail": "Music Performance Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

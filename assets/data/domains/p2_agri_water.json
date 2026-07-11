@@ -3505,6 +3505,15 @@
       "circuits": [
         {
           "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
+          "nodeId": "HYPO",
           "dir": "Hypo-active",
           "detail": "Groundwater levels declining below pump intake depths as withdrawal exceeds recharge",
           "evidence": "Strong"
@@ -3533,13 +3542,28 @@
           "detail": "Conservation measures adopted too late to reverse aquifer decline trajectories",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "IRRIGATION_SYSTEM_FAILURE",
       "label": "Irrigation System Failure",
       "summary": "Mechanical or infrastructure breakdown of irrigation delivery systems during peak crop water demand causing acute yield-limiting stress",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "M1",
           "dir": "Hypo-active",
@@ -3570,13 +3594,28 @@
           "detail": "Drainage systems backing up and waterlogging fields when irrigation control valves fail open",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "WATER_QUALITY_DEGRADATION",
       "label": "Water Quality Degradation",
       "summary": "Contamination of irrigation water by salts, nitrates, heavy metals, or pathogens rendering supply unsuitable for crop production",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "AI",
           "dir": "Hyper-active",
@@ -3607,13 +3646,28 @@
           "detail": "Conservation buffers overwhelmed by contaminated runoff volumes exceeding design capacity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "WATER_RIGHTS_CONFLICT",
       "label": "Water Rights Conflict",
       "summary": "Legal disputes over allocation, priority, and beneficial use of limited water resources pitting agriculture against municipal, industrial, and environmental demands",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dACC",
           "dir": "Hyper-active",
@@ -3644,13 +3698,28 @@
           "detail": "Conservation mandates imposed as condition of maintaining agricultural water access",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "DRAINAGE_CRISIS",
       "label": "Drainage Crisis",
       "summary": "Failing subsurface drainage infrastructure causing persistent waterlogging, delayed planting, root disease, and nutrient loss through denitrification",
       "circuits": [
+        {
+          "nodeId": "GP",
+          "dir": "Hypo",
+          "detail": "basal-ganglia output gate — lock (bradykinetic freeze)",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CBLM",
           "dir": "Hypo-active",
@@ -3681,7 +3750,13 @@
           "detail": "Pump stations cycling excessively trying to manage flows from compromised drainage network",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "GP",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

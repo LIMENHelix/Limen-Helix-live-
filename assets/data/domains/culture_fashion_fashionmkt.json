@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Culture Fashion Fashionmkt systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "LC",
+          "dir": "Hypo",
+          "detail": "broadcast / alerting — low=missed",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CON",
           "dir": "Hyper-active",
           "detail": "Fashion Marketing Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Fashion Marketing Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "LC",
+        "dir": "hypo",
+        "motif": "M2",
+        "source": "override"
+      }
     },
     {
       "id": "CULTURE_FASHION_FASHIONMKT_CAPACITY_OVERLOAD",
       "label": "Culture Fashion Fashionmkt Capacity Overload",
       "summary": "Demand exceeding available Culture Fashion Fashionmkt capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "LC",
+          "dir": "Hyper",
+          "detail": "broadcast / alerting — gain stuck high=thrash",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CON",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Fashion Marketing Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "LC",
+        "dir": "hyper",
+        "motif": "M2",
+        "source": "override"
+      }
     },
     {
       "id": "CULTURE_FASHION_FASHIONMKT_QUALITY_DEGRADATION",
       "label": "Culture Fashion Fashionmkt Quality Degradation",
       "summary": "Progressive decline in Culture Fashion Fashionmkt quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "outcome valuation / update — confabulation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CON",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Fashion Marketing Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

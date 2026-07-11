@@ -5469,6 +5469,15 @@
       "summary": "Critical breakdown in Intelligence & SIGINT systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "LC",
+          "dir": "Hypo",
+          "detail": "broadcast / alerting — low=missed",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PBN",
           "dir": "Hypo-active",
           "detail": "Intelligence & SIGINT Assessment & Diagnostics capacity falling below operational thresholds, reducing Intelligence & SIGINT output and reliability",
@@ -5498,13 +5507,28 @@
           "detail": "Intelligence & SIGINT Performance & Optimization function reduced, compromising Intelligence & SIGINT system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "LC",
+        "dir": "hypo",
+        "motif": "M2",
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_INTELLIGENCE_CAPACITY_CRISIS",
       "label": "Intelligence & SIGINT Capacity Crisis",
       "summary": "Demand exceeding available Intelligence & SIGINT capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "LC",
+          "dir": "Hyper",
+          "detail": "broadcast / alerting — gain stuck high=thrash",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PPN",
           "dir": "Hyper-active",
@@ -5535,13 +5559,28 @@
           "detail": "Intelligence & SIGINT Performance & Optimization operating outside normal parameters, introducing uncertainty into Intelligence & SIGINT outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "LC",
+        "dir": "hyper",
+        "motif": "M2",
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_INTELLIGENCE_GOVERNANCE_GAP",
       "label": "Intelligence & SIGINT Governance Gap",
       "summary": "Oversight or regulatory failure in Intelligence & SIGINT creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NEOCER",
           "dir": "Hypo-active",
@@ -5572,7 +5611,13 @@
           "detail": "Intelligence & SIGINT Coordination & Integration function reduced, compromising Intelligence & SIGINT system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

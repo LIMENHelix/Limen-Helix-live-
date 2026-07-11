@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Globus Pallidus systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "GP",
+          "dir": "Hyper",
+          "detail": "basal-ganglia output gate — flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CeA",
           "dir": "Hypo-active",
           "detail": "Globus Pallidus Assessment & Diagnostics capacity falling below operational thresholds, reducing Globus Pallidus output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Globus Pallidus Performance & Optimization function reduced, compromising Globus Pallidus system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "GP",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "NEUROLOGY_GLOBUS_CAPACITY_CRISIS",
       "label": "Globus Pallidus Capacity Crisis",
       "summary": "Demand exceeding available Globus Pallidus capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "GP",
+          "dir": "Hypo",
+          "detail": "basal-ganglia output gate — lock (bradykinetic freeze)",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BNST",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Globus Pallidus Performance & Optimization operating outside normal parameters, introducing uncertainty into Globus Pallidus outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "GP",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "NEUROLOGY_GLOBUS_GOVERNANCE_GAP",
       "label": "Globus Pallidus Governance Gap",
       "summary": "Oversight or regulatory failure in Globus Pallidus creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "GP",
+          "dir": "Hypo",
+          "detail": "basal-ganglia output gate — lock (bradykinetic freeze)",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CON",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Globus Pallidus Coordination & Integration function reduced, compromising Globus Pallidus system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "GP",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     }
   ]
 }

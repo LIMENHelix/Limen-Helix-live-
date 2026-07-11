@@ -2276,6 +2276,15 @@
       "summary": "Critical breakdown in Defense Ground Armor systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "STN",
+          "dir": "Hyper",
+          "detail": "hyperdirect brake / hold — over-brake=paralysis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PAG",
           "dir": "Hyper-active",
           "detail": "Armored Forces Assessment & Diagnostics function overloaded",
@@ -2305,13 +2314,28 @@
           "detail": "Armored Forces Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hyper",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_GROUND_ARMOR_CAPACITY_OVERLOAD",
       "label": "Defense Ground Armor Capacity Overload",
       "summary": "Demand exceeding available Defense Ground Armor capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PAG",
           "dir": "Hyper-active",
@@ -2336,13 +2360,28 @@
           "detail": "Armored Forces Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_GROUND_ARMOR_QUALITY_DEGRADATION",
       "label": "Defense Ground Armor Quality Degradation",
       "summary": "Progressive decline in Defense Ground Armor quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PAG",
           "dir": "Hypo-active",
@@ -2367,7 +2406,13 @@
           "detail": "Armored Forces Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

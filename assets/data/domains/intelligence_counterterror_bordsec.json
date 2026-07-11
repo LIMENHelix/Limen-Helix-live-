@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Intelligence Counterterror Bordsec systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "PULV",
+          "dir": "Hypo",
+          "detail": "attentional gate — neglect",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PBN",
           "dir": "Hyper-active",
           "detail": "Border Security Intelligence Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Border Security Intelligence Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PULV",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_COUNTERTERROR_BORDSEC_CAPACITY_OVERLOAD",
       "label": "Intelligence Counterterror Bordsec Capacity Overload",
       "summary": "Demand exceeding available Intelligence Counterterror Bordsec capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "PULV",
+          "dir": "Hyper",
+          "detail": "attentional gate — overload",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PBN",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Border Security Intelligence Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PULV",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_COUNTERTERROR_BORDSEC_QUALITY_DEGRADATION",
       "label": "Intelligence Counterterror Bordsec Quality Degradation",
       "summary": "Progressive decline in Intelligence Counterterror Bordsec quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PBN",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Border Security Intelligence Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

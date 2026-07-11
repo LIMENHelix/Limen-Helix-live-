@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Trade Tradedata Hscodes systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "SEPT",
           "dir": "Hyper-active",
           "detail": "Harmonized System Codes Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Harmonized System Codes Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "TRADE_TRADEDATA_HSCODES_CAPACITY_OVERLOAD",
       "label": "Trade Tradedata Hscodes Capacity Overload",
       "summary": "Demand exceeding available Trade Tradedata Hscodes capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SEPT",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Harmonized System Codes Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "TRADE_TRADEDATA_HSCODES_QUALITY_DEGRADATION",
       "label": "Trade Tradedata Hscodes Quality Degradation",
       "summary": "Progressive decline in Trade Tradedata Hscodes quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SEPT",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Harmonized System Codes Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

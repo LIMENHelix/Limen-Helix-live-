@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Population Disability Accessblty systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PRECUNEUS",
           "dir": "Hyper-active",
           "detail": "Accessibility Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Accessibility Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_DISABILITY_ACCESSBLTY_CAPACITY_OVERLOAD",
       "label": "Population Disability Accessblty Capacity Overload",
       "summary": "Demand exceeding available Population Disability Accessblty capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PRECUNEUS",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Accessibility Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_DISABILITY_ACCESSBLTY_QUALITY_DEGRADATION",
       "label": "Population Disability Accessblty Quality Degradation",
       "summary": "Progressive decline in Population Disability Accessblty quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PRECUNEUS",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Accessibility Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     }
   ]
 }

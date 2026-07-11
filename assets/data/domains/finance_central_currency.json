@@ -2276,6 +2276,15 @@
       "summary": "Critical breakdown in Finance Central Currency systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "BLA",
           "dir": "Hyper-active",
           "detail": "Currency Management Assessment & Diagnostics function overloaded",
@@ -2305,13 +2314,28 @@
           "detail": "Currency Management Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "FINANCE_CENTRAL_CURRENCY_CAPACITY_OVERLOAD",
       "label": "Finance Central Currency Capacity Overload",
       "summary": "Demand exceeding available Finance Central Currency capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BLA",
           "dir": "Hyper-active",
@@ -2336,13 +2360,28 @@
           "detail": "Currency Management Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "FINANCE_CENTRAL_CURRENCY_QUALITY_DEGRADATION",
       "label": "Finance Central Currency Quality Degradation",
       "summary": "Progressive decline in Finance Central Currency quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hypo",
+          "detail": "homeostatic set-point — delayed=oscillation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BLA",
           "dir": "Hypo-active",
@@ -2367,7 +2406,13 @@
           "detail": "Currency Management Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hypo",
+        "motif": "M3",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

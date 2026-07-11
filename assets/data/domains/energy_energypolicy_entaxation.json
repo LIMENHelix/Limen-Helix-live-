@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Energy Energypolicy Entaxation systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "NAcc",
+          "dir": "Hypo",
+          "detail": "incentive/reward drive — avolition",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "M1",
           "dir": "Hyper-active",
           "detail": "Energy Taxation Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Energy Taxation Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "ENERGY_ENERGYPOLICY_ENTAXATION_CAPACITY_OVERLOAD",
       "label": "Energy Energypolicy Entaxation Capacity Overload",
       "summary": "Demand exceeding available Energy Energypolicy Entaxation capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
+          "detail": "incentive/reward drive — over-pursuit=bubble",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "M1",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Energy Taxation Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "ENERGY_ENERGYPOLICY_ENTAXATION_QUALITY_DEGRADATION",
       "label": "Energy Energypolicy Entaxation Quality Degradation",
       "summary": "Progressive decline in Energy Energypolicy Entaxation quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hypo",
+          "detail": "incentive/reward drive — avolition",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "M1",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Energy Taxation Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     }
   ]
 }

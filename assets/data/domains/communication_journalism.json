@@ -3873,6 +3873,15 @@
       "summary": "Critical breakdown in Journalism systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "LC",
+          "dir": "Hypo",
+          "detail": "broadcast / alerting — low=missed",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CC",
           "dir": "Hypo-active",
           "detail": "Journalism Assessment & Diagnostics capacity falling below operational thresholds, reducing Journalism output and reliability",
@@ -3902,13 +3911,28 @@
           "detail": "Journalism Performance & Optimization function reduced, compromising Journalism system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "LC",
+        "dir": "hypo",
+        "motif": "M2",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_JOURNALISM_CAPACITY_CRISIS",
       "label": "Journalism Capacity Crisis",
       "summary": "Demand exceeding available Journalism capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FORN",
           "dir": "Hyper-active",
@@ -3939,13 +3963,28 @@
           "detail": "Journalism Performance & Optimization operating outside normal parameters, introducing uncertainty into Journalism outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_JOURNALISM_GOVERNANCE_GAP",
       "label": "Journalism Governance Gap",
       "summary": "Oversight or regulatory failure in Journalism creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MAMM",
           "dir": "Hypo-active",
@@ -3976,7 +4015,13 @@
           "detail": "Journalism Coordination & Integration function reduced, compromising Journalism system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

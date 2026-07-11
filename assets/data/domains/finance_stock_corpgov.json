@@ -2275,6 +2275,15 @@
       "summary": "Critical breakdown in Finance Stock Corpgov systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "dlPFC",
           "dir": "Hyper-active",
           "detail": "Corporate Governance Assessment & Diagnostics function overloaded",
@@ -2304,13 +2313,28 @@
           "detail": "Corporate Governance Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "FINANCE_STOCK_CORPGOV_CAPACITY_OVERLOAD",
       "label": "Finance Stock Corpgov Capacity Overload",
       "summary": "Demand exceeding available Finance Stock Corpgov capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dlPFC",
           "dir": "Hyper-active",
@@ -2335,13 +2359,28 @@
           "detail": "Corporate Governance Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "FINANCE_STOCK_CORPGOV_QUALITY_DEGRADATION",
       "label": "Finance Stock Corpgov Quality Degradation",
       "summary": "Progressive decline in Finance Stock Corpgov quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "outcome valuation / update — confabulation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dlPFC",
           "dir": "Hypo-active",
@@ -2366,7 +2405,13 @@
           "detail": "Corporate Governance Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

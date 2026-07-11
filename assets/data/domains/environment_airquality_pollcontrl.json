@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Environment Airquality Pollcontrl systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "SEPT",
           "dir": "Hyper-active",
           "detail": "Pollution Control Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Pollution Control Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "ENVIRONMENT_AIRQUALITY_POLLCONTRL_CAPACITY_OVERLOAD",
       "label": "Environment Airquality Pollcontrl Capacity Overload",
       "summary": "Demand exceeding available Environment Airquality Pollcontrl capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SEPT",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Pollution Control Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "ENVIRONMENT_AIRQUALITY_POLLCONTRL_QUALITY_DEGRADATION",
       "label": "Environment Airquality Pollcontrl Quality Degradation",
       "summary": "Progressive decline in Environment Airquality Pollcontrl quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hypo",
+          "detail": "homeostatic set-point — delayed=oscillation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SEPT",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Pollution Control Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hypo",
+        "motif": "M3",
+        "source": "override"
+      }
     }
   ]
 }

@@ -402,6 +402,15 @@
       "summary": "Critical breakdown in Legal Advocacy / Argumentation systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "BROCA",
+          "dir": "Hypo",
+          "detail": "Broca's area — expressive language production — expressive block, aphasia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "BDNF",
           "dir": "Hypo-active",
           "detail": "Legal Advocacy / Argumentation Assessment & Diagnostics capacity falling below operational thresholds, reducing Legal Advocacy / Argumentation output and reliability",
@@ -431,13 +440,28 @@
           "detail": "Legal Advocacy / Argumentation Performance & Optimization function reduced, compromising Legal Advocacy / Argumentation system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BROCA",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "LEGAL_ADVOCACY_CAPACITY_CRISIS",
       "label": "Legal Advocacy / Argumentation Capacity Crisis",
       "summary": "Demand exceeding available Legal Advocacy / Argumentation capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "BROCA",
+          "dir": "Hyper",
+          "detail": "Broca's area — expressive language production — pressured/over-production",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TrkB",
           "dir": "Hyper-active",
@@ -468,13 +492,28 @@
           "detail": "Legal Advocacy / Argumentation Performance & Optimization operating outside normal parameters, introducing uncertainty into Legal Advocacy / Argumentation outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BROCA",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "LEGAL_ADVOCACY_GOVERNANCE_GAP",
       "label": "Legal Advocacy / Argumentation Governance Gap",
       "summary": "Oversight or regulatory failure in Legal Advocacy / Argumentation creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "BROCA",
+          "dir": "Hyper",
+          "detail": "Broca's area — expressive language production — pressured/over-production",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "LC",
           "dir": "Hypo-active",
@@ -505,7 +544,13 @@
           "detail": "Legal Advocacy / Argumentation Coordination & Integration function reduced, compromising Legal Advocacy / Argumentation system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BROCA",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

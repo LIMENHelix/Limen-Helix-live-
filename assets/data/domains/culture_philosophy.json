@@ -5323,6 +5323,15 @@
       "summary": "Critical breakdown in Philosophy systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "rPFC",
+          "dir": "Hypo",
+          "detail": "frontopolar PFC — metacognition & prospective control — no-foresight, myopic",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "M1",
           "dir": "Hypo-active",
           "detail": "Philosophy Assessment & Diagnostics capacity falling below operational thresholds, reducing Philosophy output and reliability",
@@ -5352,13 +5361,28 @@
           "detail": "Philosophy Performance & Optimization function reduced, compromising Philosophy system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "rPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "CULTURE_PHILOSOPHY_CAPACITY_CRISIS",
       "label": "Philosophy Capacity Crisis",
       "summary": "Demand exceeding available Philosophy capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "GP",
+          "dir": "Hyper",
+          "detail": "basal-ganglia output gate — flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "S1",
           "dir": "Hyper-active",
@@ -5389,13 +5413,28 @@
           "detail": "Philosophy Performance & Optimization operating outside normal parameters, introducing uncertainty into Philosophy outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "GP",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "CULTURE_PHILOSOPHY_GOVERNANCE_GAP",
       "label": "Philosophy Governance Gap",
       "summary": "Oversight or regulatory failure in Philosophy creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HIPP",
           "dir": "Hypo-active",
@@ -5426,7 +5465,13 @@
           "detail": "Philosophy Coordination & Integration function reduced, compromising Philosophy system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

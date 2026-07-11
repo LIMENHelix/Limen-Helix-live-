@@ -2276,6 +2276,15 @@
       "summary": "Critical breakdown in Religion Mystical Union systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "CLAUST",
+          "dir": "Hypo",
+          "detail": "claustrum — cross-cortical salience binding — fragmented consciousness",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "VAN",
           "dir": "Hyper-active",
           "detail": "Mystical Union Assessment & Diagnostics function overloaded",
@@ -2305,13 +2314,28 @@
           "detail": "Mystical Union Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CLAUST",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_MYSTICAL_UNION_CAPACITY_OVERLOAD",
       "label": "Religion Mystical Union Capacity Overload",
       "summary": "Demand exceeding available Religion Mystical Union capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "CLAUST",
+          "dir": "Hyper",
+          "detail": "claustrum — cross-cortical salience binding — sensory over-binding",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "VAN",
           "dir": "Hyper-active",
@@ -2336,13 +2360,28 @@
           "detail": "Mystical Union Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CLAUST",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_MYSTICAL_UNION_QUALITY_DEGRADATION",
       "label": "Religion Mystical Union Quality Degradation",
       "summary": "Progressive decline in Religion Mystical Union quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "VAN",
           "dir": "Hypo-active",
@@ -2367,7 +2406,13 @@
           "detail": "Mystical Union Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

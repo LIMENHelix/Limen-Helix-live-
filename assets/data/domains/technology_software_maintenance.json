@@ -2274,6 +2274,15 @@
       "summary": "Critical breakdown in Technology Software Maintenance systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "STN",
+          "dir": "Hypo",
+          "detail": "hyperdirect brake / hold — no-brake=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CeA",
           "dir": "Hyper-active",
           "detail": "Software Maintenance Assessment & Diagnostics function overloaded",
@@ -2303,13 +2312,28 @@
           "detail": "Software Maintenance Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "TECHNOLOGY_SOFTWARE_MAINTENANCE_CAPACITY_OVERLOAD",
       "label": "Technology Software Maintenance Capacity Overload",
       "summary": "Demand exceeding available Technology Software Maintenance capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CeA",
           "dir": "Hyper-active",
@@ -2334,13 +2358,28 @@
           "detail": "Software Maintenance Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "TECHNOLOGY_SOFTWARE_MAINTENANCE_QUALITY_DEGRADATION",
       "label": "Technology Software Maintenance Quality Degradation",
       "summary": "Progressive decline in Technology Software Maintenance quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CeA",
           "dir": "Hypo-active",
@@ -2365,7 +2404,13 @@
           "detail": "Software Maintenance Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

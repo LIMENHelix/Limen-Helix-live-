@@ -551,6 +551,15 @@
         {
           "nodeId": "ENS",
           "dir": "Hyper",
+          "detail": "enteric nervous system — gut autonomic regulation — gut hypermotility/IBS",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
+          "nodeId": "ENS",
+          "dir": "Hyper",
           "detail": "Enteric nervous system hypersensitivity",
           "evidence": "A"
         },
@@ -566,13 +575,28 @@
           "detail": "Pain affect processing elevation",
           "evidence": "B"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "ENS",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "dx_medicine_gutbrain_functional_fgid",
       "label": "Functional Dyspepsia",
       "summary": "Clinical presentation and circuit dysfunction pattern for Functional Dyspepsia",
       "circuits": [
+        {
+          "nodeId": "ENS",
+          "dir": "Hypo",
+          "detail": "enteric nervous system — gut autonomic regulation — gut hypomotility, atony",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ENS",
           "dir": "Altered",
@@ -585,7 +609,13 @@
           "detail": "Vagal afferent signaling disruption",
           "evidence": "B"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "ENS",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

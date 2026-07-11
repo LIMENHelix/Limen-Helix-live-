@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Threat Detection & Emotional Reactivity systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "BLA",
+          "dir": "Hypo",
+          "detail": "threat learning/acquisition — fearless",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "HYPO",
           "dir": "Hypo-active",
           "detail": "Threat Detection & Emotional Reactivity Assessment & Diagnostics capacity falling below operational thresholds, reducing Threat Detection & Emotional Reactivity output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Threat Detection & Emotional Reactivity Performance & Optimization function reduced, compromising Threat Detection & Emotional Reactivity system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BLA",
+        "dir": "hypo",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "PEDIATRIC_THREAT_CAPACITY_CRISIS",
       "label": "Threat Detection & Emotional Reactivity Capacity Crisis",
       "summary": "Demand exceeding available Threat Detection & Emotional Reactivity capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "CeA",
+          "dir": "Hyper",
+          "detail": "phasic fear output — hair-trigger=false-alarm",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PIT",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Threat Detection & Emotional Reactivity Performance & Optimization operating outside normal parameters, introducing uncertainty into Threat Detection & Emotional Reactivity outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CeA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "PEDIATRIC_THREAT_GOVERNANCE_GAP",
       "label": "Threat Detection & Emotional Reactivity Governance Gap",
       "summary": "Oversight or regulatory failure in Threat Detection & Emotional Reactivity creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper",
+          "detail": "threat learning/acquisition — over-fear=PTSD",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "LC",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Threat Detection & Emotional Reactivity Coordination & Integration function reduced, compromising Threat Detection & Emotional Reactivity system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BLA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     }
   ]
 }

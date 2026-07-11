@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Medicine Radiology Ultrasound systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "GP",
+          "dir": "Hypo",
+          "detail": "basal-ganglia output gate — lock (bradykinetic freeze)",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "HYPO",
           "dir": "Hyper-active",
           "detail": "Ultrasound Imaging Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Ultrasound Imaging Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "GP",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "MEDICINE_RADIOLOGY_ULTRASOUND_CAPACITY_OVERLOAD",
       "label": "Medicine Radiology Ultrasound Capacity Overload",
       "summary": "Demand exceeding available Medicine Radiology Ultrasound capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "GP",
+          "dir": "Hyper",
+          "detail": "basal-ganglia output gate — flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HYPO",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Ultrasound Imaging Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "GP",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "MEDICINE_RADIOLOGY_ULTRASOUND_QUALITY_DEGRADATION",
       "label": "Medicine Radiology Ultrasound Quality Degradation",
       "summary": "Progressive decline in Medicine Radiology Ultrasound quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "NEOCER",
+          "dir": "Hyper",
+          "detail": "cognitive forward model — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HYPO",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Ultrasound Imaging Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NEOCER",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

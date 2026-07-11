@@ -5798,6 +5798,15 @@
       "summary": "Critical breakdown in Intelligence Analysis systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "dlPFC",
+          "dir": "Hypo",
+          "detail": "dorsolateral PFC — executive working-memory / cognitive control — executive-lapse, distractible",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "MDT",
           "dir": "Hypo-active",
           "detail": "Intelligence Analysis Assessment & Diagnostics capacity falling below operational thresholds, reducing Intelligence Analysis output and reliability",
@@ -5827,13 +5836,28 @@
           "detail": "Intelligence Analysis Performance & Optimization function reduced, compromising Intelligence Analysis system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dlPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "GOVERNANCE_INTELLIGENCE_CAPACITY_CRISIS",
       "label": "Intelligence Analysis Capacity Crisis",
       "summary": "Demand exceeding available Intelligence Analysis capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "WERN",
+          "dir": "Hypo",
+          "detail": "Wernicke's area — receptive language comprehension — receptive aphasia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ANT",
           "dir": "Hyper-active",
@@ -5864,13 +5888,28 @@
           "detail": "Intelligence Analysis Performance & Optimization operating outside normal parameters, introducing uncertainty into Intelligence Analysis outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "WERN",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "GOVERNANCE_INTELLIGENCE_GOVERNANCE_GAP",
       "label": "Intelligence Analysis Governance Gap",
       "summary": "Oversight or regulatory failure in Intelligence Analysis creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "V1",
           "dir": "Hypo-active",
@@ -5901,7 +5940,13 @@
           "detail": "Intelligence Analysis Coordination & Integration function reduced, compromising Intelligence Analysis system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

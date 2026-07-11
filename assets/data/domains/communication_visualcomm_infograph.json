@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Communication Visualcomm Infograph systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "IPS",
+          "dir": "Hypo",
+          "detail": "intraparietal sulcus — spatial attention & magnitude — hemineglect",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "ENDO",
           "dir": "Hyper-active",
           "detail": "Infographics Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Infographics Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "IPS",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_VISUALCOMM_INFOGRAPH_CAPACITY_OVERLOAD",
       "label": "Communication Visualcomm Infograph Capacity Overload",
       "summary": "Demand exceeding available Communication Visualcomm Infograph capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "IPS",
+          "dir": "Hyper",
+          "detail": "intraparietal sulcus — spatial attention & magnitude — over attention-shift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ENDO",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Infographics Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "IPS",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_VISUALCOMM_INFOGRAPH_QUALITY_DEGRADATION",
       "label": "Communication Visualcomm Infograph Quality Degradation",
       "summary": "Progressive decline in Communication Visualcomm Infograph quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ENDO",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Infographics Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

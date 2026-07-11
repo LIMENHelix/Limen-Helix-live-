@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Energy Gridmod Outagemgmt systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "GP",
           "dir": "Hyper-active",
           "detail": "Outage Management Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Outage Management Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "ENERGY_GRIDMOD_OUTAGEMGMT_CAPACITY_OVERLOAD",
       "label": "Energy Gridmod Outagemgmt Capacity Overload",
       "summary": "Demand exceeding available Energy Gridmod Outagemgmt capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "GP",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Outage Management Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "ENERGY_GRIDMOD_OUTAGEMGMT_QUALITY_DEGRADATION",
       "label": "Energy Gridmod Outagemgmt Quality Degradation",
       "summary": "Progressive decline in Energy Gridmod Outagemgmt quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hypo",
+          "detail": "homeostatic set-point — delayed=oscillation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "GP",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Outage Management Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hypo",
+        "motif": "M3",
+        "source": "override"
+      }
     }
   ]
 }

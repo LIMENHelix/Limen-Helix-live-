@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Science Funding Industryfunding systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HAB",
+          "dir": "Hypo",
+          "detail": "anti-reward brake — too-weak=sunk-cost",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "RAPHE",
           "dir": "Hyper-active",
           "detail": "Industry Funding Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Industry Funding Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HAB",
+        "dir": "hypo",
+        "motif": "M8",
+        "source": "override"
+      }
     },
     {
       "id": "SCIENCE_FUNDING_INDUSTRYFUNDING_CAPACITY_OVERLOAD",
       "label": "Science Funding Industryfunding Capacity Overload",
       "summary": "Demand exceeding available Science Funding Industryfunding capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
+          "detail": "incentive/reward drive — over-pursuit=bubble",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "RAPHE",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Industry Funding Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "SCIENCE_FUNDING_INDUSTRYFUNDING_QUALITY_DEGRADATION",
       "label": "Science Funding Industryfunding Quality Degradation",
       "summary": "Progressive decline in Science Funding Industryfunding quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "outcome valuation / update — confabulation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "RAPHE",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Industry Funding Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

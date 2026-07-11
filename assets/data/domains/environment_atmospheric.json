@@ -4351,6 +4351,15 @@
       "summary": "Critical breakdown in Atmospheric Regulation systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "vlPFC",
           "dir": "Hypo-active",
           "detail": "Atmospheric Regulation Assessment & Diagnostics capacity falling below operational thresholds, reducing Atmospheric Regulation output and reliability",
@@ -4380,13 +4389,28 @@
           "detail": "Atmospheric Regulation Performance & Optimization function reduced, compromising Atmospheric Regulation system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "ENVIRONMENT_ATMOSPHERIC_CAPACITY_CRISIS",
       "label": "Atmospheric Regulation Capacity Crisis",
       "summary": "Demand exceeding available Atmospheric Regulation capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TPJ",
           "dir": "Hyper-active",
@@ -4417,13 +4441,28 @@
           "detail": "Atmospheric Regulation Performance & Optimization operating outside normal parameters, introducing uncertainty into Atmospheric Regulation outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "ENVIRONMENT_ATMOSPHERIC_GOVERNANCE_GAP",
       "label": "Atmospheric Regulation Governance Gap",
       "summary": "Oversight or regulatory failure in Atmospheric Regulation creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "RSC",
           "dir": "Hypo-active",
@@ -4454,7 +4493,13 @@
           "detail": "Atmospheric Regulation Coordination & Integration function reduced, compromising Atmospheric Regulation system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

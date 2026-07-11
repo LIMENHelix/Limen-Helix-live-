@@ -5522,6 +5522,15 @@
       "summary": "Critical breakdown in Distance Learning systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "STN",
+          "dir": "Hypo",
+          "detail": "hyperdirect brake / hold — no-brake=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "BDNF",
           "dir": "Hypo-active",
           "detail": "Distance Learning Assessment & Diagnostics capacity falling below operational thresholds, reducing Distance Learning output and reliability",
@@ -5551,13 +5560,28 @@
           "detail": "Distance Learning Performance & Optimization function reduced, compromising Distance Learning system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "EDUCATION_DISTANCE_CAPACITY_CRISIS",
       "label": "Distance Learning Capacity Crisis",
       "summary": "Demand exceeding available Distance Learning capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TrkB",
           "dir": "Hyper-active",
@@ -5588,13 +5612,28 @@
           "detail": "Distance Learning Performance & Optimization operating outside normal parameters, introducing uncertainty into Distance Learning outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "EDUCATION_DISTANCE_GOVERNANCE_GAP",
       "label": "Distance Learning Governance Gap",
       "summary": "Oversight or regulatory failure in Distance Learning creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "LC",
           "dir": "Hypo-active",
@@ -5625,7 +5664,13 @@
           "detail": "Distance Learning Coordination & Integration function reduced, compromising Distance Learning system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

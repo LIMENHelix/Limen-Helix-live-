@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Law Tax Taxlit systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "IC",
           "dir": "Hyper-active",
           "detail": "Tax Litigation Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Tax Litigation Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "LAW_TAX_TAXLIT_CAPACITY_OVERLOAD",
       "label": "Law Tax Taxlit Capacity Overload",
       "summary": "Demand exceeding available Law Tax Taxlit capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "IC",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Tax Litigation Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "LAW_TAX_TAXLIT_QUALITY_DEGRADATION",
       "label": "Law Tax Taxlit Quality Degradation",
       "summary": "Progressive decline in Law Tax Taxlit quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "IC",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Tax Litigation Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

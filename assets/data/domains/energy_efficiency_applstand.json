@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Energy Efficiency Applstand systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PAG",
           "dir": "Hyper-active",
           "detail": "Appliance Standards Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Appliance Standards Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "ENERGY_EFFICIENCY_APPLSTAND_CAPACITY_OVERLOAD",
       "label": "Energy Efficiency Applstand Capacity Overload",
       "summary": "Demand exceeding available Energy Efficiency Applstand capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PAG",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Appliance Standards Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "ENERGY_EFFICIENCY_APPLSTAND_QUALITY_DEGRADATION",
       "label": "Energy Efficiency Applstand Quality Degradation",
       "summary": "Progressive decline in Energy Efficiency Applstand quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PAG",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Appliance Standards Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

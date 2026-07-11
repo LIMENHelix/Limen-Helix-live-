@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Industry Safety Emergencyresp systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "PAG",
+          "dir": "Hypo",
+          "detail": "defensive kill/lockdown — no-stop",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "HYPO",
           "dir": "Hyper-active",
           "detail": "Emergency Response Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Emergency Response Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PAG",
+        "dir": "hypo",
+        "motif": "M8",
+        "source": "override"
+      }
     },
     {
       "id": "INDUSTRY_SAFETY_EMERGENCYRESP_CAPACITY_OVERLOAD",
       "label": "Industry Safety Emergencyresp Capacity Overload",
       "summary": "Demand exceeding available Industry Safety Emergencyresp capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "PAG",
+          "dir": "Hyper",
+          "detail": "defensive kill/lockdown — over-freeze",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HYPO",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Emergency Response Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PAG",
+        "dir": "hyper",
+        "motif": "M8",
+        "source": "override"
+      }
     },
     {
       "id": "INDUSTRY_SAFETY_EMERGENCYRESP_QUALITY_DEGRADATION",
       "label": "Industry Safety Emergencyresp Quality Degradation",
       "summary": "Progressive decline in Industry Safety Emergencyresp quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HYPO",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Emergency Response Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

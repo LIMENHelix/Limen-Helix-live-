@@ -5832,6 +5832,15 @@
       "summary": "Critical breakdown in Diplomatic Relations systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "HYPO",
           "dir": "Hypo-active",
           "detail": "Diplomatic Relations Assessment & Diagnostics capacity falling below operational thresholds, reducing Diplomatic Relations output and reliability",
@@ -5861,13 +5870,28 @@
           "detail": "Diplomatic Relations Performance & Optimization function reduced, compromising Diplomatic Relations system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "GOVERNANCE_DIPLOMATIC_CAPACITY_CRISIS",
       "label": "Diplomatic Relations Capacity Crisis",
       "summary": "Demand exceeding available Diplomatic Relations capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PIT",
           "dir": "Hyper-active",
@@ -5898,13 +5922,28 @@
           "detail": "Diplomatic Relations Performance & Optimization operating outside normal parameters, introducing uncertainty into Diplomatic Relations outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "GOVERNANCE_DIPLOMATIC_GOVERNANCE_GAP",
       "label": "Diplomatic Relations Governance Gap",
       "summary": "Oversight or regulatory failure in Diplomatic Relations creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "BNST",
+          "dir": "Hypo",
+          "detail": "sustained threat monitor — under-vigilant",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "LC",
           "dir": "Hypo-active",
@@ -5935,7 +5974,13 @@
           "detail": "Diplomatic Relations Coordination & Integration function reduced, compromising Diplomatic Relations system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BNST",
+        "dir": "hypo",
+        "motif": "M7",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

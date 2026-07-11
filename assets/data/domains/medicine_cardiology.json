@@ -5372,6 +5372,15 @@
       "summary": "Critical breakdown in Cardiology systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CeA",
           "dir": "Hypo-active",
           "detail": "Cardiology Assessment & Diagnostics capacity falling below operational thresholds, reducing Cardiology output and reliability",
@@ -5401,13 +5410,28 @@
           "detail": "Cardiology Performance & Optimization function reduced, compromising Cardiology system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "MEDICINE_CARDIOLOGY_CAPACITY_CRISIS",
       "label": "Cardiology Capacity Crisis",
       "summary": "Demand exceeding available Cardiology capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BNST",
           "dir": "Hyper-active",
@@ -5438,13 +5462,28 @@
           "detail": "Cardiology Performance & Optimization operating outside normal parameters, introducing uncertainty into Cardiology outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "MEDICINE_CARDIOLOGY_GOVERNANCE_GAP",
       "label": "Cardiology Governance Gap",
       "summary": "Oversight or regulatory failure in Cardiology creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CON",
           "dir": "Hypo-active",
@@ -5475,7 +5514,13 @@
           "detail": "Cardiology Coordination & Integration function reduced, compromising Cardiology system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

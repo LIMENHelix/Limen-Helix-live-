@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Environment Water Groundwater systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "NTS",
           "dir": "Hyper-active",
           "detail": "Groundwater Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Groundwater Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "ENVIRONMENT_WATER_GROUNDWATER_CAPACITY_OVERLOAD",
       "label": "Environment Water Groundwater Capacity Overload",
       "summary": "Demand exceeding available Environment Water Groundwater capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NTS",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Groundwater Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "ENVIRONMENT_WATER_GROUNDWATER_QUALITY_DEGRADATION",
       "label": "Environment Water Groundwater Quality Degradation",
       "summary": "Progressive decline in Environment Water Groundwater quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NTS",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Groundwater Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

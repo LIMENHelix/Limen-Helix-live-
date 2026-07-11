@@ -2278,6 +2278,15 @@
       "summary": "Critical breakdown in Economy Gdp Intlcompare systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "TPJ",
+          "dir": "Hyper",
+          "detail": "temporoparietal junction — social attribution & reorienting — over-attribution/paranoia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "UNC",
           "dir": "Hyper-active",
           "detail": "International Comparison Assessment & Diagnostics function overloaded",
@@ -2307,13 +2316,28 @@
           "detail": "International Comparison Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "TPJ",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_GDP_INTLCOMPARE_CAPACITY_OVERLOAD",
       "label": "Economy Gdp Intlcompare Capacity Overload",
       "summary": "Demand exceeding available Economy Gdp Intlcompare capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "UNC",
           "dir": "Hyper-active",
@@ -2338,13 +2362,28 @@
           "detail": "International Comparison Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_GDP_INTLCOMPARE_QUALITY_DEGRADATION",
       "label": "Economy Gdp Intlcompare Quality Degradation",
       "summary": "Progressive decline in Economy Gdp Intlcompare quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "TPJ",
+          "dir": "Hypo",
+          "detail": "temporoparietal junction — social attribution & reorienting — mindblindness",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "UNC",
           "dir": "Hypo-active",
@@ -2369,7 +2408,13 @@
           "detail": "International Comparison Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "TPJ",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

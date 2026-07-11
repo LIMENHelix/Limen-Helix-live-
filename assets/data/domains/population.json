@@ -2084,6 +2084,15 @@
       "summary": "Climate displacement, conflict, and economic desperation driving unprecedented population movements across borders",
       "circuits": [
         {
+          "nodeId": "CeA",
+          "dir": "Hyper",
+          "detail": "phasic fear output — hair-trigger=false-alarm",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "VEST",
           "dir": "Hyper-active",
           "detail": "Migration flows exceeding institutional processing capacity — millions in transit without legal status",
@@ -2113,13 +2122,28 @@
           "detail": "Income distribution destabilized — wage compression in receiving communities, remittance dependency in sending ones",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CeA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "AGING_CRISIS",
       "label": "Aging Crisis",
       "summary": "Dependency ratios inverting as populations age — healthcare, pension, and caregiving systems approaching insolvency",
       "circuits": [
+        {
+          "nodeId": "GP",
+          "dir": "Hyper",
+          "detail": "basal-ganglia output gate — flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "RAPHE",
           "dir": "Hyper-burdened",
@@ -2156,13 +2180,28 @@
           "detail": "Pension systems underfunded — intergenerational wealth transfer becoming politically contentious",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "GP",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "URBANIZATION_OVERLOAD",
       "label": "Urbanization Overload",
       "summary": "Megacities growing beyond infrastructure capacity — housing crisis, transit collapse, and service gaps accelerating",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dlPFC",
           "dir": "Hyper-stressed",
@@ -2199,13 +2238,28 @@
           "detail": "Housing costs creating extreme inequality — spatial sorting by income concentrating poverty and privilege",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "PANDEMIC_DEMOGRAPHIC_SHOCK",
       "label": "Pandemic Demographic Shock",
       "summary": "Infectious disease outbreaks causing sudden mortality spikes, fertility disruption, and population displacement",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CARD",
           "dir": "Hyper-stressed",
@@ -2242,7 +2296,13 @@
           "detail": "Reproductive health access disrupted — maternal mortality rising as healthcare systems diverted to pandemic response",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     }
   ],
   "demographicDataBindings": {
@@ -2252,10 +2312,28 @@
         "name": "U.S. Census Bureau — American Community Survey",
         "id": "CENSUS_ACS",
         "role": "primary_demographic_custodian",
-        "covers": ["demographics", "household_formation", "migration", "income_distribution", "ethnic_diversity"],
-        "boundNodes": ["AI", "VEST", "SEPT", "TPJ", "ECN"],
+        "covers": [
+          "demographics",
+          "household_formation",
+          "migration",
+          "income_distribution",
+          "ethnic_diversity"
+        ],
+        "boundNodes": [
+          "AI",
+          "VEST",
+          "SEPT",
+          "TPJ",
+          "ECN"
+        ],
         "api_endpoint": "https://api.census.gov/data/2022/acs/acs5",
-        "series_ids": ["B01003_001E", "B25001_001E", "B07001_001E", "B19013_001E", "B11001_001E"],
+        "series_ids": [
+          "B01003_001E",
+          "B25001_001E",
+          "B07001_001E",
+          "B19013_001E",
+          "B11001_001E"
+        ],
         "series_notes": "B01003_001E total population; B25001_001E housing units (household formation); B07001_001E geographic mobility (migration); B19013_001E median household income; B11001_001E household type",
         "access": "free, API key (api.census.gov/data/key_signup.html)",
         "binding_strength": 0.95,
@@ -2265,10 +2343,27 @@
         "name": "U.S. Census Bureau — Decennial Census & Population Estimates (PEP)",
         "id": "CENSUS_PEP",
         "role": "primary_demographic_custodian",
-        "covers": ["demographics", "population_density", "urbanization", "aging", "youth_demographics"],
-        "boundNodes": ["AI", "dlPFC", "RAPHE", "VTA", "RSC"],
+        "covers": [
+          "demographics",
+          "population_density",
+          "urbanization",
+          "aging",
+          "youth_demographics"
+        ],
+        "boundNodes": [
+          "AI",
+          "dlPFC",
+          "RAPHE",
+          "VTA",
+          "RSC"
+        ],
         "api_endpoint": "https://api.census.gov/data/2021/pep/population",
-        "series_ids": ["POP", "DENSITY", "AGEGROUP", "NPOPCHG"],
+        "series_ids": [
+          "POP",
+          "DENSITY",
+          "AGEGROUP",
+          "NPOPCHG"
+        ],
         "access": "free, API key",
         "binding_strength": 0.93,
         "identity_layer": "population_demographics"
@@ -2277,10 +2372,28 @@
         "name": "UN DESA — World Population Prospects (WPP)",
         "id": "UN_WPP",
         "role": "global_demographic_custodian",
-        "covers": ["fertility", "mortality", "aging", "migration", "global_population"],
-        "boundNodes": ["OXY", "CARD", "RAPHE", "VEST", "HYPO"],
+        "covers": [
+          "fertility",
+          "mortality",
+          "aging",
+          "migration",
+          "global_population"
+        ],
+        "boundNodes": [
+          "OXY",
+          "CARD",
+          "RAPHE",
+          "VEST",
+          "HYPO"
+        ],
         "api_endpoint": "https://population.un.org/dataportalapi/api/v1/data/indicators/49/locations/900",
-        "series_ids": ["WPP_TFR", "WPP_LEX", "WPP_CBR", "WPP_CDR", "WPP_NETMIG"],
+        "series_ids": [
+          "WPP_TFR",
+          "WPP_LEX",
+          "WPP_CBR",
+          "WPP_CDR",
+          "WPP_NETMIG"
+        ],
         "series_notes": "TFR total fertility rate; LEX life expectancy; CBR crude birth rate; CDR crude death rate; NETMIG net migration",
         "access": "free, UN Data Portal API",
         "binding_strength": 0.92,
@@ -2290,10 +2403,24 @@
         "name": "CDC — National Center for Health Statistics (NCHS)",
         "id": "CDC_NCHS",
         "role": "vital_statistics_custodian",
-        "covers": ["fertility", "mortality", "life_expectancy", "natality"],
-        "boundNodes": ["OXY", "CARD", "HYPO"],
+        "covers": [
+          "fertility",
+          "mortality",
+          "life_expectancy",
+          "natality"
+        ],
+        "boundNodes": [
+          "OXY",
+          "CARD",
+          "HYPO"
+        ],
         "api_endpoint": "https://data.cdc.gov/resource/76vv-a7x8.json",
-        "series_ids": ["NCHS_BIRTHS", "NCHS_DEATHS", "NCHS_LIFEEXP", "NCHS_TFR"],
+        "series_ids": [
+          "NCHS_BIRTHS",
+          "NCHS_DEATHS",
+          "NCHS_LIFEEXP",
+          "NCHS_TFR"
+        ],
         "access": "free, CDC Socrata Open Data API",
         "binding_strength": 0.9,
         "coupling_note": "mortality/cause-of-death detail is a MEDICINE coupling; population identity uses aggregate vital rates only",
@@ -2303,10 +2430,21 @@
         "name": "U.S. Bureau of Labor Statistics — Labor Force / CPS",
         "id": "BLS_LAUS_CPS",
         "role": "labor_supply_custodian",
-        "covers": ["labor_force", "human_capital_supply", "workforce_participation"],
-        "boundNodes": ["M1", "OFC"],
+        "covers": [
+          "labor_force",
+          "human_capital_supply",
+          "workforce_participation"
+        ],
+        "boundNodes": [
+          "M1",
+          "OFC"
+        ],
         "api_endpoint": "https://api.bls.gov/publicAPI/v2/timeseries/data/",
-        "series_ids": ["LNS11000000", "LNS12000000", "LNS11300000"],
+        "series_ids": [
+          "LNS11000000",
+          "LNS12000000",
+          "LNS11300000"
+        ],
         "series_notes": "LNS11000000 civilian labor force level; LNS12000000 employment level; LNS11300000 labor force participation rate",
         "access": "free, BLS Public Data API (key optional)",
         "binding_strength": 0.88,
@@ -2317,10 +2455,24 @@
         "name": "Pew Research Center — Social & Demographic Trends",
         "id": "PEW_RESEARCH",
         "role": "social_structure_custodian",
-        "covers": ["generational_shifts", "social_structure", "household_formation", "ethnic_diversity"],
-        "boundNodes": ["VTA", "TPJ", "SEPT", "RAPHE"],
+        "covers": [
+          "generational_shifts",
+          "social_structure",
+          "household_formation",
+          "ethnic_diversity"
+        ],
+        "boundNodes": [
+          "VTA",
+          "TPJ",
+          "SEPT",
+          "RAPHE"
+        ],
         "api_endpoint": "https://www.pewresearch.org/social-trends/feed/",
-        "series_ids": ["PEW_GENERATIONS", "PEW_HOUSEHOLDS", "PEW_RACE_ETHNICITY"],
+        "series_ids": [
+          "PEW_GENERATIONS",
+          "PEW_HOUSEHOLDS",
+          "PEW_RACE_ETHNICITY"
+        ],
         "access": "free, published datasets + RSS (no programmatic key)",
         "binding_strength": 0.78,
         "identity_layer": "population_social_structure"
@@ -2329,10 +2481,23 @@
         "name": "DHS Program (USAID) — Demographic and Health Surveys",
         "id": "DHS_PROGRAM",
         "role": "global_fertility_health_custodian",
-        "covers": ["fertility", "reproductive_health", "child_mortality", "gender_demographics"],
-        "boundNodes": ["OXY", "HYPO", "CARD"],
+        "covers": [
+          "fertility",
+          "reproductive_health",
+          "child_mortality",
+          "gender_demographics"
+        ],
+        "boundNodes": [
+          "OXY",
+          "HYPO",
+          "CARD"
+        ],
         "api_endpoint": "https://api.dhsprogram.com/rest/dhs/data",
-        "series_ids": ["FE_FRTR_W_TFR", "CM_ECMR_C_U5M", "FP_CUSA_W_MOD"],
+        "series_ids": [
+          "FE_FRTR_W_TFR",
+          "CM_ECMR_C_U5M",
+          "FP_CUSA_W_MOD"
+        ],
         "series_notes": "FE_FRTR_W_TFR total fertility rate; CM_ECMR_C_U5M under-5 mortality; FP_CUSA_W_MOD modern contraceptive use",
         "access": "free, DHS API (registration for microdata)",
         "binding_strength": 0.82,
@@ -2342,10 +2507,21 @@
         "name": "Guttmacher Institute — Reproductive Health Data",
         "id": "GUTTMACHER",
         "role": "reproductive_health_custodian",
-        "covers": ["fertility", "reproductive_health", "gender_demographics"],
-        "boundNodes": ["OXY", "HYPO"],
+        "covers": [
+          "fertility",
+          "reproductive_health",
+          "gender_demographics"
+        ],
+        "boundNodes": [
+          "OXY",
+          "HYPO"
+        ],
         "api_endpoint": "https://data.guttmacher.org/",
-        "series_ids": ["GUTT_BIRTHRATE", "GUTT_UNINTENDED", "GUTT_CONTRACEPTION"],
+        "series_ids": [
+          "GUTT_BIRTHRATE",
+          "GUTT_UNINTENDED",
+          "GUTT_CONTRACEPTION"
+        ],
         "access": "free, Data Center downloadable datasets",
         "binding_strength": 0.74,
         "identity_layer": "population_demographics"
@@ -2354,10 +2530,22 @@
         "name": "UN-Habitat — Urban Indicators Database",
         "id": "UN_HABITAT",
         "role": "urbanization_custodian",
-        "covers": ["urbanization", "settlement", "population_density"],
-        "boundNodes": ["dlPFC", "AI", "RSC"],
+        "covers": [
+          "urbanization",
+          "settlement",
+          "population_density"
+        ],
+        "boundNodes": [
+          "dlPFC",
+          "AI",
+          "RSC"
+        ],
         "api_endpoint": "https://data.unhabitat.org/api/",
-        "series_ids": ["UH_URBAN_POP_PCT", "UH_SLUM_POP", "UH_URBAN_DENSITY"],
+        "series_ids": [
+          "UH_URBAN_POP_PCT",
+          "UH_SLUM_POP",
+          "UH_URBAN_DENSITY"
+        ],
         "access": "free, UN-Habitat Open Data",
         "binding_strength": 0.76,
         "identity_layer": "population_urbanization"
@@ -2366,10 +2554,22 @@
         "name": "International Organization for Migration — Migration Data Portal / DTM",
         "id": "IOM_DTM",
         "role": "migration_flows_custodian",
-        "covers": ["migration", "immigration", "displacement", "refugee_populations"],
-        "boundNodes": ["VEST", "CeA"],
+        "covers": [
+          "migration",
+          "immigration",
+          "displacement",
+          "refugee_populations"
+        ],
+        "boundNodes": [
+          "VEST",
+          "CeA"
+        ],
         "api_endpoint": "https://dtm.iom.int/data-and-analysis/dtm-api",
-        "series_ids": ["DTM_FLOW_MONITORING", "MDP_NET_MIGRATION", "MDP_BILATERAL_STOCKS"],
+        "series_ids": [
+          "DTM_FLOW_MONITORING",
+          "MDP_NET_MIGRATION",
+          "MDP_BILATERAL_STOCKS"
+        ],
         "series_notes": "DTM flow monitoring (bilateral movement counts); MDP bilateral migrant stocks (origin→destination matrices)",
         "access": "free, IOM DTM API + Migration Data Portal",
         "binding_strength": 0.8,
@@ -2379,10 +2579,27 @@
         "name": "World Bank — Health, Nutrition & Population (HNP) Indicators",
         "id": "WB_HNP",
         "role": "global_population_indicators_custodian",
-        "covers": ["fertility", "mortality", "aging", "population_density", "life_expectancy"],
-        "boundNodes": ["OXY", "CARD", "RAPHE", "AI"],
+        "covers": [
+          "fertility",
+          "mortality",
+          "aging",
+          "population_density",
+          "life_expectancy"
+        ],
+        "boundNodes": [
+          "OXY",
+          "CARD",
+          "RAPHE",
+          "AI"
+        ],
         "api_endpoint": "https://api.worldbank.org/v2/country/all/indicator/SP.DYN.TFRT.IN?format=json",
-        "series_ids": ["SP.DYN.TFRT.IN", "SP.DYN.LE00.IN", "SP.POP.65UP.TO.ZS", "SP.URB.TOTL.IN.ZS", "EN.POP.DNST"],
+        "series_ids": [
+          "SP.DYN.TFRT.IN",
+          "SP.DYN.LE00.IN",
+          "SP.POP.65UP.TO.ZS",
+          "SP.URB.TOTL.IN.ZS",
+          "EN.POP.DNST"
+        ],
         "series_notes": "SP.DYN.TFRT.IN fertility rate; SP.DYN.LE00.IN life expectancy; SP.POP.65UP.TO.ZS pop 65+; SP.URB.TOTL.IN.ZS urban pop %; EN.POP.DNST density",
         "access": "free, World Bank Indicators API (no key)",
         "binding_strength": 0.85,
@@ -2392,10 +2609,22 @@
         "name": "Zillow Research — Housing & Migration Proxy Data",
         "id": "ZILLOW_RESEARCH",
         "role": "household_demand_proxy_custodian",
-        "covers": ["household_formation", "housing_demand", "migration_proxy"],
-        "boundNodes": ["SEPT", "VEST", "dlPFC"],
+        "covers": [
+          "household_formation",
+          "housing_demand",
+          "migration_proxy"
+        ],
+        "boundNodes": [
+          "SEPT",
+          "VEST",
+          "dlPFC"
+        ],
         "api_endpoint": "https://www.zillow.com/research/data/",
-        "series_ids": ["ZHVI", "ZORI", "ZILLOW_NEW_CONSTRUCTION"],
+        "series_ids": [
+          "ZHVI",
+          "ZORI",
+          "ZILLOW_NEW_CONSTRUCTION"
+        ],
         "series_notes": "ZHVI home value index and migration/new-construction series used as a proxy for household-formation and migration-sensitive housing demand",
         "access": "free, Zillow Research downloadable datasets",
         "binding_strength": 0.7,
@@ -2407,19 +2636,26 @@
         "name": "CDC NCHS / WHO mortality detail",
         "couplesTo": "medicine",
         "coupling": "mortality & health (cause-of-death, morbidity) is a MEDICINE coupling, not population identity",
-        "boundNodes": ["CARD"]
+        "boundNodes": [
+          "CARD"
+        ]
       },
       {
         "name": "BLS wages / Census income & poverty",
         "couplesTo": "economy",
         "coupling": "labor market wages, unemployment, and income/poverty dynamics are an ECONOMY coupling; population identity binds only to labor-force SUPPLY and aggregate income distribution",
-        "boundNodes": ["M1", "OFC"]
+        "boundNodes": [
+          "M1",
+          "OFC"
+        ]
       },
       {
         "name": "NCES / UNESCO enrollment",
         "couplesTo": "education",
         "coupling": "school enrollment and educational outcomes are an EDUCATION coupling; population identity binds only to attainment levels as human-capital STOCK",
-        "boundNodes": ["AG"]
+        "boundNodes": [
+          "AG"
+        ]
       }
     ],
     "equityProxies": [
@@ -2428,7 +2664,9 @@
         "ticker_or_id": "WELL",
         "sector": "senior_housing_REIT",
         "proxy_for": "aging population / elder-care demand",
-        "boundNodes": ["RAPHE"],
+        "boundNodes": [
+          "RAPHE"
+        ],
         "functional_reason": "Senior-housing REIT whose occupancy and NOI track the aging-population demand curve — a demographic-exposed proxy for elder-care demand, analogous to how DUK/NEE proxy energy demand",
         "binding_strength": 0.8,
         "identity_layer": "aging"
@@ -2438,7 +2676,10 @@
         "ticker_or_id": "VTR",
         "sector": "senior_living_healthcare_REIT",
         "proxy_for": "aging population / senior-living operations",
-        "boundNodes": ["RAPHE", "CARD"],
+        "boundNodes": [
+          "RAPHE",
+          "CARD"
+        ],
         "functional_reason": "Senior-living and healthcare REIT exposed to dependency-ratio and longevity trends — a real demographic proxy for senior-living operations demand",
         "binding_strength": 0.78,
         "identity_layer": "aging"
@@ -2448,7 +2689,10 @@
         "ticker_or_id": "TOL",
         "sector": "luxury_homebuilder",
         "proxy_for": "young-family household formation / housing demand",
-        "boundNodes": ["SEPT", "dlPFC"],
+        "boundNodes": [
+          "SEPT",
+          "dlPFC"
+        ],
         "functional_reason": "Luxury homebuilder whose order book is sensitive to young-family household formation rates — a demographic-exposed proxy for housing demand",
         "binding_strength": 0.75,
         "identity_layer": "household_formation"
@@ -2458,7 +2702,10 @@
         "ticker_or_id": "PHM",
         "sector": "homebuilder",
         "proxy_for": "migration-sensitive housing demand",
-        "boundNodes": ["VEST", "dlPFC"],
+        "boundNodes": [
+          "VEST",
+          "dlPFC"
+        ],
         "functional_reason": "National homebuilder with Sunbelt exposure whose volumes track interstate migration flows — a migration-sensitive demographic proxy for settlement demand",
         "binding_strength": 0.75,
         "identity_layer": "migration"
@@ -2468,7 +2715,10 @@
         "ticker_or_id": "LEN",
         "sector": "homebuilder",
         "proxy_for": "household formation / migration-driven housing demand",
-        "boundNodes": ["SEPT", "VEST"],
+        "boundNodes": [
+          "SEPT",
+          "VEST"
+        ],
         "functional_reason": "Large-cap homebuilder broadly exposed to household-formation and internal-migration demand — a demographic proxy for new-household housing absorption",
         "binding_strength": 0.73,
         "identity_layer": "household_formation"
@@ -2478,7 +2728,10 @@
         "ticker_or_id": "INVH",
         "sector": "single_family_rental_REIT",
         "proxy_for": "migration-sensitive household/rental demand",
-        "boundNodes": ["VEST", "dlPFC"],
+        "boundNodes": [
+          "VEST",
+          "dlPFC"
+        ],
         "functional_reason": "Single-family rental REIT concentrated in high-migration Sunbelt metros — a demographic proxy for migration-driven household-rental demand",
         "binding_strength": 0.71,
         "identity_layer": "migration"
@@ -2488,7 +2741,9 @@
         "ticker_or_id": "BKD",
         "sector": "senior_living_operator",
         "proxy_for": "elder-care occupancy / aging demand",
-        "boundNodes": ["RAPHE"],
+        "boundNodes": [
+          "RAPHE"
+        ],
         "functional_reason": "Operator of senior-living communities whose occupancy directly tracks the aging cohort — a demographic-exposed proxy for elder-care service demand",
         "binding_strength": 0.7,
         "identity_layer": "aging"

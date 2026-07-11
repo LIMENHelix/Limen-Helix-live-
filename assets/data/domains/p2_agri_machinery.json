@@ -2914,6 +2914,15 @@
       "circuits": [
         {
           "nodeId": "M1",
+          "dir": "Hypo",
+          "detail": "primary motor cortex — motor output — weakness, paresis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
+          "nodeId": "M1",
           "dir": "Hypo-active",
           "detail": "Tractor powertrain failure during peak planting reducing available field hours below minimum threshold",
           "evidence": "Strong"
@@ -2942,13 +2951,28 @@
           "detail": "Material handling equipment failure disrupting grain movement from field to storage",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "M1",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "RIGHT_TO_REPAIR",
       "label": "Right to Repair",
       "summary": "Manufacturer restrictions on diagnostic software and parts access preventing timely field repairs by farm mechanics",
       "circuits": [
+        {
+          "nodeId": "GP",
+          "dir": "Hypo",
+          "detail": "basal-ganglia output gate — lock (bradykinetic freeze)",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dlPFC",
           "dir": "Hypo-active",
@@ -2973,13 +2997,28 @@
           "detail": "Aftermarket implement compatibility blocked by proprietary ISOBUS configurations",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "GP",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "COMPACTION_DAMAGE",
       "label": "Compaction Damage",
       "summary": "Heavy machinery operation on wet soils creating compaction layers that persist for years and reduce productivity",
       "circuits": [
+        {
+          "nodeId": "GP",
+          "dir": "Hypo",
+          "detail": "basal-ganglia output gate — lock (bradykinetic freeze)",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "M1",
           "dir": "Hyper-active",
@@ -3004,13 +3043,28 @@
           "detail": "Planter seed placement compromised by compacted seedbed restricting root establishment",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "GP",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "TECHNOLOGY_OBSOLESCENCE",
       "label": "Technology Obsolescence",
       "summary": "Rapid precision agriculture advancement making recent equipment investments incompatible with current data standards",
       "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hyper",
+          "detail": "dorsolateral PFC — executive working-memory / cognitive control — rigidity/rumination-lock",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dlPFC",
           "dir": "Hypo-active",
@@ -3035,13 +3089,28 @@
           "detail": "Maintenance diagnostic tools unable to communicate with newer electronic systems",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dlPFC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "OPERATOR_SHORTAGE",
       "label": "Operator Shortage",
       "summary": "Insufficient trained equipment operators during peak seasons forcing suboptimal machine utilization and extended hours",
       "circuits": [
+        {
+          "nodeId": "SMA",
+          "dir": "Hypo",
+          "detail": "supplementary motor — self-initiated action sequencing — akinesia, initiation failure",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "M1",
           "dir": "Altered",
@@ -3066,7 +3135,13 @@
           "detail": "Hay harvest delayed past optimal maturity window due to equipment operator constraints",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "SMA",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

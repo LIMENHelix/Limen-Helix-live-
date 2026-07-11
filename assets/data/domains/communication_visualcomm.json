@@ -6272,6 +6272,15 @@
       "summary": "Critical breakdown in Communication Visualcomm systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "CLAUST",
+          "dir": "Hypo",
+          "detail": "claustrum — cross-cortical salience binding — fragmented consciousness",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "GABA_GLU",
           "dir": "Hyper-active",
           "detail": "Visualcomm Assessment & Diagnostics function overloaded",
@@ -6301,13 +6310,28 @@
           "detail": "Visualcomm Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CLAUST",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_VISUALCOMM_CAPACITY_OVERLOAD",
       "label": "Communication Visualcomm Capacity Overload",
       "summary": "Demand exceeding available Communication Visualcomm capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "CLAUST",
+          "dir": "Hyper",
+          "detail": "claustrum — cross-cortical salience binding — sensory over-binding",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "GABA_GLU",
           "dir": "Hyper-active",
@@ -6332,13 +6356,28 @@
           "detail": "Visualcomm Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CLAUST",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_VISUALCOMM_QUALITY_DEGRADATION",
       "label": "Communication Visualcomm Quality Degradation",
       "summary": "Progressive decline in Communication Visualcomm quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "GABA_GLU",
           "dir": "Hypo-active",
@@ -6363,7 +6402,13 @@
           "detail": "Visualcomm Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

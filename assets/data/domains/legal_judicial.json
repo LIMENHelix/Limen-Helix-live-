@@ -402,6 +402,15 @@
       "summary": "Critical breakdown in Judicial Reasoning systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "dlPFC",
+          "dir": "Hypo",
+          "detail": "dorsolateral PFC — executive working-memory / cognitive control — executive-lapse, distractible",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CC",
           "dir": "Hypo-active",
           "detail": "Judicial Reasoning Assessment & Diagnostics capacity falling below operational thresholds, reducing Judicial Reasoning output and reliability",
@@ -431,13 +440,28 @@
           "detail": "Judicial Reasoning Performance & Optimization function reduced, compromising Judicial Reasoning system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dlPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "LEGAL_JUDICIAL_CAPACITY_CRISIS",
       "label": "Judicial Reasoning Capacity Crisis",
       "summary": "Demand exceeding available Judicial Reasoning capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo",
+          "detail": "dorsolateral PFC — executive working-memory / cognitive control — executive-lapse, distractible",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FORN",
           "dir": "Hyper-active",
@@ -468,13 +492,28 @@
           "detail": "Judicial Reasoning Performance & Optimization operating outside normal parameters, introducing uncertainty into Judicial Reasoning outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dlPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "LEGAL_JUDICIAL_GOVERNANCE_GAP",
       "label": "Judicial Reasoning Governance Gap",
       "summary": "Oversight or regulatory failure in Judicial Reasoning creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hyper",
+          "detail": "dorsolateral PFC — executive working-memory / cognitive control — rigidity/rumination-lock",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MAMM",
           "dir": "Hypo-active",
@@ -505,7 +544,13 @@
           "detail": "Judicial Reasoning Coordination & Integration function reduced, compromising Judicial Reasoning system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dlPFC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

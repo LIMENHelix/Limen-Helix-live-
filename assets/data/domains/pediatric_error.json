@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Error Monitoring & Conflict Detection systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "LGN",
           "dir": "Hypo-active",
           "detail": "Error Monitoring & Conflict Detection Assessment & Diagnostics capacity falling below operational thresholds, reducing Error Monitoring & Conflict Detection output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Error Monitoring & Conflict Detection Performance & Optimization function reduced, compromising Error Monitoring & Conflict Detection system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "PEDIATRIC_ERROR_CAPACITY_CRISIS",
       "label": "Error Monitoring & Conflict Detection Capacity Crisis",
       "summary": "Demand exceeding available Error Monitoring & Conflict Detection capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MGN",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Error Monitoring & Conflict Detection Performance & Optimization operating outside normal parameters, introducing uncertainty into Error Monitoring & Conflict Detection outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "PEDIATRIC_ERROR_GOVERNANCE_GAP",
       "label": "Error Monitoring & Conflict Detection Governance Gap",
       "summary": "Oversight or regulatory failure in Error Monitoring & Conflict Detection creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SNIG",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Error Monitoring & Conflict Detection Coordination & Integration function reduced, compromising Error Monitoring & Conflict Detection system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

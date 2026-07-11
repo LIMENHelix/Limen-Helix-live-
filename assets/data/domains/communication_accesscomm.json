@@ -14104,6 +14104,15 @@
       "summary": "Critical breakdown in Communication Accesscomm systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PUT",
           "dir": "Hyper-active",
           "detail": "Accesscomm Assessment & Diagnostics function overloaded",
@@ -14133,13 +14142,28 @@
           "detail": "Accesscomm Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_ACCESSCOMM_CAPACITY_OVERLOAD",
       "label": "Communication Accesscomm Capacity Overload",
       "summary": "Demand exceeding available Communication Accesscomm capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PUT",
           "dir": "Hyper-active",
@@ -14164,13 +14188,28 @@
           "detail": "Accesscomm Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_ACCESSCOMM_QUALITY_DEGRADATION",
       "label": "Communication Accesscomm Quality Degradation",
       "summary": "Progressive decline in Communication Accesscomm quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PUT",
           "dir": "Hypo-active",
@@ -14195,7 +14234,13 @@
           "detail": "Accesscomm Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

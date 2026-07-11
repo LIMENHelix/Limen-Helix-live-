@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Response Inhibition & Emotion Regulation systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vlPFC",
+          "dir": "Hyper",
+          "detail": "response-inhibition / stop — over-suppress",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CC",
           "dir": "Hypo-active",
           "detail": "Response Inhibition & Emotion Regulation Assessment & Diagnostics capacity falling below operational thresholds, reducing Response Inhibition & Emotion Regulation output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Response Inhibition & Emotion Regulation Performance & Optimization function reduced, compromising Response Inhibition & Emotion Regulation system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hyper",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "PEDIATRIC_RESPONSE_CAPACITY_CRISIS",
       "label": "Response Inhibition & Emotion Regulation Capacity Crisis",
       "summary": "Demand exceeding available Response Inhibition & Emotion Regulation capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hypo",
+          "detail": "response-inhibition / stop — disinhibited",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FORN",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Response Inhibition & Emotion Regulation Performance & Optimization operating outside normal parameters, introducing uncertainty into Response Inhibition & Emotion Regulation outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "PEDIATRIC_RESPONSE_GOVERNANCE_GAP",
       "label": "Response Inhibition & Emotion Regulation Governance Gap",
       "summary": "Oversight or regulatory failure in Response Inhibition & Emotion Regulation creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hypo",
+          "detail": "response-inhibition / stop — disinhibited",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MAMM",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Response Inhibition & Emotion Regulation Coordination & Integration function reduced, compromising Response Inhibition & Emotion Regulation system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ]
 }

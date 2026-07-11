@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Economy Productivity Capdeepen systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "NAcc",
+          "dir": "Hypo",
+          "detail": "incentive/reward drive — avolition",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "EMP",
           "dir": "Hyper-active",
           "detail": "Capital Deepening Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Capital Deepening Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_PRODUCTIVITY_CAPDEEPEN_CAPACITY_OVERLOAD",
       "label": "Economy Productivity Capdeepen Capacity Overload",
       "summary": "Demand exceeding available Economy Productivity Capdeepen capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
+          "detail": "incentive/reward drive — over-pursuit=bubble",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "EMP",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Capital Deepening Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_PRODUCTIVITY_CAPDEEPEN_QUALITY_DEGRADATION",
       "label": "Economy Productivity Capdeepen Quality Degradation",
       "summary": "Progressive decline in Economy Productivity Capdeepen quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "EMP",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Capital Deepening Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

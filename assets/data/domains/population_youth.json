@@ -4397,6 +4397,15 @@
       "summary": "Critical breakdown in Youth Demographics systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CeA",
           "dir": "Hypo-active",
           "detail": "Youth Demographics Assessment & Diagnostics capacity falling below operational thresholds, reducing Youth Demographics output and reliability",
@@ -4426,13 +4435,28 @@
           "detail": "Youth Demographics Performance & Optimization function reduced, compromising Youth Demographics system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_YOUTH_CAPACITY_CRISIS",
       "label": "Youth Demographics Capacity Crisis",
       "summary": "Demand exceeding available Youth Demographics capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "GP",
+          "dir": "Hypo",
+          "detail": "basal-ganglia output gate — lock (bradykinetic freeze)",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BNST",
           "dir": "Hyper-active",
@@ -4463,13 +4487,28 @@
           "detail": "Youth Demographics Performance & Optimization operating outside normal parameters, introducing uncertainty into Youth Demographics outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "GP",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_YOUTH_GOVERNANCE_GAP",
       "label": "Youth Demographics Governance Gap",
       "summary": "Oversight or regulatory failure in Youth Demographics creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CON",
           "dir": "Hypo-active",
@@ -4500,7 +4539,13 @@
           "detail": "Youth Demographics Coordination & Integration function reduced, compromising Youth Demographics system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

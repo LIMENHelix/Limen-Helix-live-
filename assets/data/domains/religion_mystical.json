@@ -4283,6 +4283,15 @@
       "summary": "Critical breakdown in Mystical Experience systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "CLAUST",
+          "dir": "Hypo",
+          "detail": "claustrum — cross-cortical salience binding — fragmented consciousness",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PBN",
           "dir": "Hypo-active",
           "detail": "Mystical Experience Assessment & Diagnostics capacity falling below operational thresholds, reducing Mystical Experience output and reliability",
@@ -4312,13 +4321,28 @@
           "detail": "Mystical Experience Performance & Optimization function reduced, compromising Mystical Experience system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CLAUST",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_MYSTICAL_CAPACITY_CRISIS",
       "label": "Mystical Experience Capacity Crisis",
       "summary": "Demand exceeding available Mystical Experience capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "CLAUST",
+          "dir": "Hypo",
+          "detail": "claustrum — cross-cortical salience binding — fragmented consciousness",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PPN",
           "dir": "Hyper-active",
@@ -4349,13 +4373,28 @@
           "detail": "Mystical Experience Performance & Optimization operating outside normal parameters, introducing uncertainty into Mystical Experience outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CLAUST",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_MYSTICAL_GOVERNANCE_GAP",
       "label": "Mystical Experience Governance Gap",
       "summary": "Oversight or regulatory failure in Mystical Experience creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NEOCER",
           "dir": "Hypo-active",
@@ -4386,7 +4425,13 @@
           "detail": "Mystical Experience Coordination & Integration function reduced, compromising Mystical Experience system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

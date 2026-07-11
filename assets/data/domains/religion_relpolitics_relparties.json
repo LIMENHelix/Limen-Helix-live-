@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Religion Relpolitics Relparties systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "NAcc",
+          "dir": "Hypo",
+          "detail": "incentive/reward drive — avolition",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "STS",
           "dir": "Hyper-active",
           "detail": "Religious Parties Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Religious Parties Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_RELPOLITICS_RELPARTIES_CAPACITY_OVERLOAD",
       "label": "Religion Relpolitics Relparties Capacity Overload",
       "summary": "Demand exceeding available Religion Relpolitics Relparties capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
+          "detail": "incentive/reward drive — over-pursuit=bubble",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "STS",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Religious Parties Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_RELPOLITICS_RELPARTIES_QUALITY_DEGRADATION",
       "label": "Religion Relpolitics Relparties Quality Degradation",
       "summary": "Progressive decline in Religion Relpolitics Relparties quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "outcome valuation / update — confabulation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "STS",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Religious Parties Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

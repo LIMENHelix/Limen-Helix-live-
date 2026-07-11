@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Trade Agritrade Trdsub systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "NAcc",
+          "dir": "Hypo",
+          "detail": "incentive/reward drive — avolition",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "UNC",
           "dir": "Hyper-active",
           "detail": "Trade Subsidies Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Trade Subsidies Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "TRADE_AGRITRADE_TRDSUB_CAPACITY_OVERLOAD",
       "label": "Trade Agritrade Trdsub Capacity Overload",
       "summary": "Demand exceeding available Trade Agritrade Trdsub capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
+          "detail": "incentive/reward drive — over-pursuit=bubble",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "UNC",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Trade Subsidies Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "TRADE_AGRITRADE_TRDSUB_QUALITY_DEGRADATION",
       "label": "Trade Agritrade Trdsub Quality Degradation",
       "summary": "Progressive decline in Trade Agritrade Trdsub quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "UNC",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Trade Subsidies Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

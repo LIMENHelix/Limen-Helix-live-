@@ -2276,6 +2276,15 @@
       "summary": "Critical breakdown in Economy Monetary Payment systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PI",
           "dir": "Hyper-active",
           "detail": "Payment Systems Assessment & Diagnostics function overloaded",
@@ -2305,13 +2314,28 @@
           "detail": "Payment Systems Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_MONETARY_PAYMENT_CAPACITY_OVERLOAD",
       "label": "Economy Monetary Payment Capacity Overload",
       "summary": "Demand exceeding available Economy Monetary Payment capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PI",
           "dir": "Hyper-active",
@@ -2336,13 +2360,28 @@
           "detail": "Payment Systems Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_MONETARY_PAYMENT_QUALITY_DEGRADATION",
       "label": "Economy Monetary Payment Quality Degradation",
       "summary": "Progressive decline in Economy Monetary Payment quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PI",
           "dir": "Hypo-active",
@@ -2367,7 +2406,13 @@
           "detail": "Payment Systems Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

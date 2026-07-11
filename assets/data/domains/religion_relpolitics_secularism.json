@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Religion Relpolitics Secularism systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "SNIG",
           "dir": "Hyper-active",
           "detail": "Secularism Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Secularism Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_RELPOLITICS_SECULARISM_CAPACITY_OVERLOAD",
       "label": "Religion Relpolitics Secularism Capacity Overload",
       "summary": "Demand exceeding available Religion Relpolitics Secularism capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SNIG",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Secularism Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_RELPOLITICS_SECULARISM_QUALITY_DEGRADATION",
       "label": "Religion Relpolitics Secularism Quality Degradation",
       "summary": "Progressive decline in Religion Relpolitics Secularism quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hypo",
+          "detail": "homeostatic set-point — delayed=oscillation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SNIG",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Secularism Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hypo",
+        "motif": "M3",
+        "source": "override"
+      }
     }
   ]
 }

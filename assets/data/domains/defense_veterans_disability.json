@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Defense Veterans Disability systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "M1",
+          "dir": "Hypo",
+          "detail": "primary motor cortex — motor output — weakness, paresis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "RSC",
           "dir": "Hyper-active",
           "detail": "Disability Benefits Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Disability Benefits Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "M1",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_VETERANS_DISABILITY_CAPACITY_OVERLOAD",
       "label": "Defense Veterans Disability Capacity Overload",
       "summary": "Demand exceeding available Defense Veterans Disability capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "RSC",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Disability Benefits Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_VETERANS_DISABILITY_QUALITY_DEGRADATION",
       "label": "Defense Veterans Disability Quality Degradation",
       "summary": "Progressive decline in Defense Veterans Disability quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "RSC",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Disability Benefits Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

@@ -2274,6 +2274,15 @@
       "summary": "Critical breakdown in Environment Climate Attribution systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CC",
           "dir": "Hyper-active",
           "detail": "Climate Attribution Assessment & Diagnostics function overloaded",
@@ -2303,13 +2312,28 @@
           "detail": "Climate Attribution Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "ENVIRONMENT_CLIMATE_ATTRIBUTION_CAPACITY_OVERLOAD",
       "label": "Environment Climate Attribution Capacity Overload",
       "summary": "Demand exceeding available Environment Climate Attribution capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CC",
           "dir": "Hyper-active",
@@ -2334,13 +2358,28 @@
           "detail": "Climate Attribution Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "ENVIRONMENT_CLIMATE_ATTRIBUTION_QUALITY_DEGRADATION",
       "label": "Environment Climate Attribution Quality Degradation",
       "summary": "Progressive decline in Environment Climate Attribution quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CC",
           "dir": "Hypo-active",
@@ -2365,7 +2404,13 @@
           "detail": "Climate Attribution Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

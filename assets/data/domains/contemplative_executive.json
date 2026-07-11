@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Executive Attention systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "dlPFC",
+          "dir": "Hyper",
+          "detail": "dorsolateral PFC — executive working-memory / cognitive control — rigidity/rumination-lock",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "M1",
           "dir": "Hypo-active",
           "detail": "Executive Attention Assessment & Diagnostics capacity falling below operational thresholds, reducing Executive Attention output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Executive Attention Performance & Optimization function reduced, compromising Executive Attention system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dlPFC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "CONTEMPLATIVE_EXECUTIVE_CAPACITY_CRISIS",
       "label": "Executive Attention Capacity Crisis",
       "summary": "Demand exceeding available Executive Attention capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo",
+          "detail": "dorsolateral PFC — executive working-memory / cognitive control — executive-lapse, distractible",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "S1",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Executive Attention Performance & Optimization operating outside normal parameters, introducing uncertainty into Executive Attention outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dlPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "CONTEMPLATIVE_EXECUTIVE_GOVERNANCE_GAP",
       "label": "Executive Attention Governance Gap",
       "summary": "Oversight or regulatory failure in Executive Attention creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo",
+          "detail": "dorsolateral PFC — executive working-memory / cognitive control — executive-lapse, distractible",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HIPP",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Executive Attention Coordination & Integration function reduced, compromising Executive Attention system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dlPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

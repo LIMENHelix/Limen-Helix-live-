@@ -2275,6 +2275,15 @@
       "summary": "Critical breakdown in Population Urbanization Planning systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "rPFC",
+          "dir": "Hypo",
+          "detail": "frontopolar PFC — metacognition & prospective control — no-foresight, myopic",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PUT",
           "dir": "Hyper-active",
           "detail": "Urban Planning Assessment & Diagnostics function overloaded",
@@ -2304,13 +2313,28 @@
           "detail": "Urban Planning Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "rPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_URBANIZATION_PLANNING_CAPACITY_OVERLOAD",
       "label": "Population Urbanization Planning Capacity Overload",
       "summary": "Demand exceeding available Population Urbanization Planning capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "rPFC",
+          "dir": "Hyper",
+          "detail": "frontopolar PFC — metacognition & prospective control — overplanning/analysis-paralysis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PUT",
           "dir": "Hyper-active",
@@ -2335,13 +2359,28 @@
           "detail": "Urban Planning Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "rPFC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_URBANIZATION_PLANNING_QUALITY_DEGRADATION",
       "label": "Population Urbanization Planning Quality Degradation",
       "summary": "Progressive decline in Population Urbanization Planning quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PUT",
           "dir": "Hypo-active",
@@ -2366,7 +2405,13 @@
           "detail": "Urban Planning Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

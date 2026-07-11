@@ -2173,6 +2173,15 @@
       "summary": "Fundamental breakdown in adherence to constitutional norms, where branches of government exceed their authority or refuse to recognize the legitimacy of other branches, threatening the foundational legal order",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "DMN",
           "dir": "Hypo-active",
           "detail": "Constitutional identity and foundational self-reference weakened, eroding shared national narrative",
@@ -2202,13 +2211,28 @@
           "detail": "Conflict-monitoring and regulatory oversight mechanisms failing to flag constitutional violations",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "REGIME_INSTABILITY",
       "label": "Regime Instability",
       "summary": "Erosion of political legitimacy leading to frequent government turnover, coups, mass protests, or civil unrest that undermines stable governance and long-term policy continuity",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NAcc",
           "dir": "Altered",
@@ -2239,13 +2263,28 @@
           "detail": "Long-range policy formation abandoned in favor of short-term survival calculations",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "POLICY_FAILURE",
       "label": "Policy Failure",
       "summary": "Systematic inability to formulate, implement, or sustain effective public policy, leading to widening gaps between governance intentions and societal outcomes",
       "circuits": [
+        {
+          "nodeId": "rPFC",
+          "dir": "Hypo",
+          "detail": "frontopolar PFC — metacognition & prospective control — no-foresight, myopic",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "vmPFC",
           "dir": "Hypo-active",
@@ -2282,13 +2321,28 @@
           "detail": "Legislative drafting quality declined, producing ambiguous and unenforceable statutes",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "rPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "CORRUPTION_SCANDAL",
       "label": "Corruption Scandal",
       "summary": "Systemic corruption permeating government institutions, where public office is exploited for private gain, eroding institutional trust and governance effectiveness",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
+          "detail": "incentive/reward drive — over-pursuit=bubble",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OFC",
           "dir": "Altered",
@@ -2319,13 +2373,28 @@
           "detail": "Electoral incentives distorted by dark money and quid-pro-quo arrangements between donors and officials",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "DIPLOMATIC_BREAKDOWN",
       "label": "Diplomatic Breakdown",
       "summary": "Collapse of international diplomatic channels leading to isolation, sanctions, conflict escalation, or failure of multilateral cooperation on shared challenges",
       "circuits": [
+        {
+          "nodeId": "TPJ",
+          "dir": "Hypo",
+          "detail": "temporoparietal junction — social attribution & reorienting — mindblindness",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TPJ",
           "dir": "Hypo-active",
@@ -2362,13 +2431,28 @@
           "detail": "Central banking and financial coordination channels disrupted by sanctions and counter-sanctions",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "TPJ",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "MILITARY_OVERREACH",
       "label": "Military Overreach",
       "summary": "Disproportionate military influence on governance, including excessive defense spending, politicization of the armed forces, or military intervention in civilian affairs",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SMA",
           "dir": "Hyper-active",
@@ -2399,7 +2483,13 @@
           "detail": "Legislative oversight of military operations weakened by secrecy and deference to commanders",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "edges": [

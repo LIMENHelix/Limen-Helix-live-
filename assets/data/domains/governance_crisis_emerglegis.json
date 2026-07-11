@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Governance Crisis Emerglegis systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "SMA",
+          "dir": "Hypo",
+          "detail": "supplementary motor — self-initiated action sequencing — akinesia, initiation failure",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "M1",
           "dir": "Hyper-active",
           "detail": "Emergency Legislation Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Emergency Legislation Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "SMA",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "GOVERNANCE_CRISIS_EMERGLEGIS_CAPACITY_OVERLOAD",
       "label": "Governance Crisis Emerglegis Capacity Overload",
       "summary": "Demand exceeding available Governance Crisis Emerglegis capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "SMA",
+          "dir": "Hyper",
+          "detail": "supplementary motor — self-initiated action sequencing — compulsive sequencing",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "M1",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Emergency Legislation Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "SMA",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "GOVERNANCE_CRISIS_EMERGLEGIS_QUALITY_DEGRADATION",
       "label": "Governance Crisis Emerglegis Quality Degradation",
       "summary": "Progressive decline in Governance Crisis Emerglegis quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "M1",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Emergency Legislation Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

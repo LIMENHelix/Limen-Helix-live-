@@ -5756,6 +5756,15 @@
       "summary": "Critical breakdown in Regulatory Oversight systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "STN",
+          "dir": "Hypo",
+          "detail": "hyperdirect brake / hold — no-brake=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "vlPFC",
           "dir": "Hypo-active",
           "detail": "Regulatory Oversight Assessment & Diagnostics capacity falling below operational thresholds, reducing Regulatory Oversight output and reliability",
@@ -5785,13 +5794,28 @@
           "detail": "Regulatory Oversight Performance & Optimization function reduced, compromising Regulatory Oversight system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "GOVERNANCE_REGULATORY_CAPACITY_CRISIS",
       "label": "Regulatory Oversight Capacity Crisis",
       "summary": "Demand exceeding available Regulatory Oversight capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TPJ",
           "dir": "Hyper-active",
@@ -5822,13 +5846,28 @@
           "detail": "Regulatory Oversight Performance & Optimization operating outside normal parameters, introducing uncertainty into Regulatory Oversight outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "GOVERNANCE_REGULATORY_GOVERNANCE_GAP",
       "label": "Regulatory Oversight Governance Gap",
       "summary": "Oversight or regulatory failure in Regulatory Oversight creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "RSC",
           "dir": "Hypo-active",
@@ -5859,7 +5898,13 @@
           "detail": "Regulatory Oversight Coordination & Integration function reduced, compromising Regulatory Oversight system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

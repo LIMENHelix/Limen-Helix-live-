@@ -2275,6 +2275,15 @@
       "summary": "Critical breakdown in Governance Judicial Sentencing systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "TrkB",
           "dir": "Hyper-active",
           "detail": "Sentencing Assessment & Diagnostics function overloaded",
@@ -2304,13 +2313,28 @@
           "detail": "Sentencing Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "GOVERNANCE_JUDICIAL_SENTENCING_CAPACITY_OVERLOAD",
       "label": "Governance Judicial Sentencing Capacity Overload",
       "summary": "Demand exceeding available Governance Judicial Sentencing capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TrkB",
           "dir": "Hyper-active",
@@ -2335,13 +2359,28 @@
           "detail": "Sentencing Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "GOVERNANCE_JUDICIAL_SENTENCING_QUALITY_DEGRADATION",
       "label": "Governance Judicial Sentencing Quality Degradation",
       "summary": "Progressive decline in Governance Judicial Sentencing quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TrkB",
           "dir": "Hypo-active",
@@ -2366,7 +2405,13 @@
           "detail": "Sentencing Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

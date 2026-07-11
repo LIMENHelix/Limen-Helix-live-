@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Intelligence Biointel Biosurv systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "AI",
+          "dir": "Hyper",
+          "detail": "interoceptive salience — flying-blind",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PI",
           "dir": "Hyper-active",
           "detail": "Biosurveillance Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Biosurveillance Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "AI",
+        "dir": "hyper",
+        "motif": "M10",
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_BIOINTEL_BIOSURV_CAPACITY_OVERLOAD",
       "label": "Intelligence Biointel Biosurv Capacity Overload",
       "summary": "Demand exceeding available Intelligence Biointel Biosurv capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "AI",
+          "dir": "Hypo",
+          "detail": "interoceptive salience — metric-obsession",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PI",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Biosurveillance Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "AI",
+        "dir": "hypo",
+        "motif": "M10",
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_BIOINTEL_BIOSURV_QUALITY_DEGRADATION",
       "label": "Intelligence Biointel Biosurv Quality Degradation",
       "summary": "Progressive decline in Intelligence Biointel Biosurv quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PI",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Biosurveillance Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

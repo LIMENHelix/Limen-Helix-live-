@@ -3528,6 +3528,15 @@
       "summary": "Heavy equipment traffic and wet-field operations creating hardpan layers that restrict root penetration, water infiltration, and biological activity",
       "circuits": [
         {
+          "nodeId": "GP",
+          "dir": "Hypo",
+          "detail": "basal-ganglia output gate — lock (bradykinetic freeze)",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "M1",
           "dir": "Hyper-active",
           "detail": "Excessive tillage passes compacting soil structure below the plow layer",
@@ -3557,13 +3566,28 @@
           "detail": "Soil chemistry distorted by poor aeration and waterlogging in compacted profiles",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "GP",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "NUTRIENT_DEPLETION",
       "label": "Nutrient Depletion",
       "summary": "Chronic extraction of soil nutrients without adequate replacement causing declining fertility, pH imbalance, and reduced crop response to inputs",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NAcc",
           "dir": "Hypo-active",
@@ -3594,13 +3618,28 @@
           "detail": "Soil maps showing expanding zones of low productivity requiring site-specific remediation",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "EROSION_CRISIS",
       "label": "Erosion Crisis",
       "summary": "Accelerated topsoil loss from wind and water erosion exceeding natural regeneration rates, permanently degrading field productivity",
       "circuits": [
+        {
+          "nodeId": "STN",
+          "dir": "Hypo",
+          "detail": "hyperdirect brake / hold — no-brake=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BLA",
           "dir": "Hyper-active",
@@ -3631,13 +3670,28 @@
           "detail": "Soil survey maps rapidly outdated as erosion reshapes field-level productivity zones",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "SALINIZATION",
       "label": "Salinization",
       "summary": "Rising salt concentrations in the root zone from high water tables, poor drainage, or irrigation with saline water sources",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NAcc",
           "dir": "Hyper-active",
@@ -3668,13 +3722,28 @@
           "detail": "Standard soil tests failing to capture spatial variability of salt-affected zones",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "ORGANIC_MATTER_COLLAPSE",
       "label": "Organic Matter Collapse",
       "summary": "Rapid decline in soil organic carbon from intensive cropping without adequate residue return, threatening water-holding capacity and biological function",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HIPP",
           "dir": "Hypo-active",
@@ -3705,7 +3774,13 @@
           "detail": "Erosion accelerating on degraded soils with poor aggregate stability from low organic matter",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Threat Assessment / Conflict Detection systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "BNST",
+          "dir": "Hyper",
+          "detail": "sustained threat monitor — tonic-stuck=burnout",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "mPFC",
           "dir": "Hypo-active",
           "detail": "Threat Assessment / Conflict Detection Assessment & Diagnostics capacity falling below operational thresholds, reducing Threat Assessment / Conflict Detection output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Threat Assessment / Conflict Detection Performance & Optimization function reduced, compromising Threat Assessment / Conflict Detection system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BNST",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "FAMILY_LAW_THREAT_CAPACITY_CRISIS",
       "label": "Threat Assessment / Conflict Detection Capacity Crisis",
       "summary": "Demand exceeding available Threat Assessment / Conflict Detection capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PCC",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Threat Assessment / Conflict Detection Performance & Optimization operating outside normal parameters, introducing uncertainty into Threat Assessment / Conflict Detection outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "FAMILY_LAW_THREAT_GOVERNANCE_GAP",
       "label": "Threat Assessment / Conflict Detection Governance Gap",
       "summary": "Oversight or regulatory failure in Threat Assessment / Conflict Detection creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "BNST",
+          "dir": "Hypo",
+          "detail": "sustained threat monitor — under-vigilant",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "EC",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Threat Assessment / Conflict Detection Coordination & Integration function reduced, compromising Threat Assessment / Conflict Detection system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BNST",
+        "dir": "hypo",
+        "motif": "M7",
+        "source": "override"
+      }
     }
   ]
 }

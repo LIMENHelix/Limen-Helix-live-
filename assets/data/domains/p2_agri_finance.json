@@ -4205,6 +4205,15 @@
       "summary": "Cascading loan defaults as falling commodity prices, rising interest rates, and declining land values erode farm equity and debt service capacity",
       "circuits": [
         {
+          "nodeId": "GP",
+          "dir": "Hypo",
+          "detail": "basal-ganglia output gate — lock (bradykinetic freeze)",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "vmPFC",
           "dir": "Hyper-active",
           "detail": "Farm lending institutions tightening credit as default rates rise above historical norms",
@@ -4234,13 +4243,28 @@
           "detail": "Tax planning strategies exhausted as depreciation shelters and deferrals fully utilized",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "GP",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "INSURANCE_GAP",
       "label": "Crop Insurance Gap",
       "summary": "Coverage limitations, basis risk, or claim processing delays leaving producers exposed to losses not adequately indemnified by federal crop insurance",
       "circuits": [
+        {
+          "nodeId": "BLA",
+          "dir": "Hypo",
+          "detail": "threat learning/acquisition — fearless",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BLA",
           "dir": "Hypo-active",
@@ -4271,13 +4295,28 @@
           "detail": "Futures hedging unable to compensate for basis risk in thin local cash markets",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BLA",
+        "dir": "hypo",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "INTEREST_RATE_SHOCK",
       "label": "Interest Rate Shock",
       "summary": "Rapid interest rate increases sharply raising debt service costs on variable-rate operating loans and equipment financing",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NAcc",
           "dir": "Hyper-active",
@@ -4308,13 +4347,28 @@
           "detail": "Risk management budgets consumed by debt service, reducing hedging and insurance spending",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "SUBSIDY_DISRUPTION",
       "label": "Subsidy & Program Disruption",
       "summary": "Changes to farm bill programs, conservation payments, or disaster assistance creating sudden income gaps for operations dependent on government support",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hypo",
+          "detail": "incentive/reward drive — avolition",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dACC",
           "dir": "Hypo-active",
@@ -4345,13 +4399,28 @@
           "detail": "Operating cash flow projections falling short without expected ARC or PLC payments",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "SUCCESSION_FAILURE",
       "label": "Succession & Transition Failure",
       "summary": "Inability to transfer farm ownership and operations to the next generation due to estate tax burden, inadequate planning, or family conflict",
       "circuits": [
+        {
+          "nodeId": "rPFC",
+          "dir": "Hypo",
+          "detail": "frontopolar PFC — metacognition & prospective control — no-foresight, myopic",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "THAL",
           "dir": "Hyper-active",
@@ -4382,7 +4451,13 @@
           "detail": "Marketing and hedging expertise lost as experienced generation exits without knowledge transfer",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "rPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

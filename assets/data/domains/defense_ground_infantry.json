@@ -2274,6 +2274,15 @@
       "summary": "Critical breakdown in Defense Ground Infantry systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "M1",
+          "dir": "Hypo",
+          "detail": "primary motor cortex — motor output — weakness, paresis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "VEST",
           "dir": "Hyper-active",
           "detail": "Infantry Forces Assessment & Diagnostics function overloaded",
@@ -2303,13 +2312,28 @@
           "detail": "Infantry Forces Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "M1",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_GROUND_INFANTRY_CAPACITY_OVERLOAD",
       "label": "Defense Ground Infantry Capacity Overload",
       "summary": "Demand exceeding available Defense Ground Infantry capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "M1",
+          "dir": "Hyper",
+          "detail": "primary motor cortex — motor output — hyperkinesia/spasticity",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "VEST",
           "dir": "Hyper-active",
@@ -2334,13 +2358,28 @@
           "detail": "Infantry Forces Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "M1",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_GROUND_INFANTRY_QUALITY_DEGRADATION",
       "label": "Defense Ground Infantry Quality Degradation",
       "summary": "Progressive decline in Defense Ground Infantry quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "VEST",
           "dir": "Hypo-active",
@@ -2365,7 +2404,13 @@
           "detail": "Infantry Forces Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

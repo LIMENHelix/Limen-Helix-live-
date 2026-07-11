@@ -2278,6 +2278,15 @@
       "summary": "Critical breakdown in Culture Music Musicprod systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "SMA",
+          "dir": "Hypo",
+          "detail": "supplementary motor — self-initiated action sequencing — akinesia, initiation failure",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "TrkB",
           "dir": "Hyper-active",
           "detail": "Music Production Assessment & Diagnostics function overloaded",
@@ -2307,13 +2316,28 @@
           "detail": "Music Production Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "SMA",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "CULTURE_MUSIC_MUSICPROD_CAPACITY_OVERLOAD",
       "label": "Culture Music Musicprod Capacity Overload",
       "summary": "Demand exceeding available Culture Music Musicprod capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "SMA",
+          "dir": "Hyper",
+          "detail": "supplementary motor — self-initiated action sequencing — compulsive sequencing",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TrkB",
           "dir": "Hyper-active",
@@ -2338,13 +2362,28 @@
           "detail": "Music Production Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "SMA",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "CULTURE_MUSIC_MUSICPROD_QUALITY_DEGRADATION",
       "label": "Culture Music Musicprod Quality Degradation",
       "summary": "Progressive decline in Culture Music Musicprod quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TrkB",
           "dir": "Hypo-active",
@@ -2369,7 +2408,13 @@
           "detail": "Music Production Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

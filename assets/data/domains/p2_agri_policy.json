@@ -2650,6 +2650,15 @@
       "summary": "Failure to reauthorize omnibus agricultural legislation causing program lapses, funding uncertainty, and regulatory gaps across all farm policy domains",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "dACC",
           "dir": "Hypo-active",
           "detail": "Farm Bill reauthorization stalled, suspending commodity support and conservation program enrollment",
@@ -2679,13 +2688,28 @@
           "detail": "Trade promotion authority weakened by domestic policy uncertainty undermining negotiating position",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "REGULATORY_OVERREACH",
       "label": "Regulatory Overreach",
       "summary": "Excessive or poorly calibrated environmental and labor regulations imposing compliance costs that exceed benefits for small and mid-size operations",
       "circuits": [
+        {
+          "nodeId": "STN",
+          "dir": "Hyper",
+          "detail": "hyperdirect brake / hold — over-brake=paralysis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BLA",
           "dir": "Hyper-active",
@@ -2710,13 +2734,28 @@
           "detail": "FDA reporting requirements exceeding practical capacity of small processing operations",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hyper",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "CONSERVATION_FUNDING_GAP",
       "label": "Conservation Funding Gap",
       "summary": "Demand for conservation programs exceeding available funding by three-to-one, leaving critical soil and water protection practices unfunded",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "EC",
           "dir": "Hypo-active",
@@ -2741,13 +2780,28 @@
           "detail": "EPA water quality goals unachievable without adequate conservation practice adoption",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "TRADE_DISRUPTION",
       "label": "Trade Disruption",
       "summary": "Retaliatory tariffs and trade agreement failures closing export markets critical to commodity price support",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TPJ",
           "dir": "Hypo-active",
@@ -2772,13 +2826,28 @@
           "detail": "Agricultural labor supply disrupted by immigration policy changes affecting harvest workforce",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "FOOD_SAFETY_CRISIS",
       "label": "Food Safety Crisis",
       "summary": "Multistate foodborne illness outbreak exposing gaps in federal inspection and traceback systems",
       "circuits": [
+        {
+          "nodeId": "AI",
+          "dir": "Hyper",
+          "detail": "interoceptive salience — flying-blind",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dlPFC",
           "dir": "Hypo-active",
@@ -2803,7 +2872,13 @@
           "detail": "Import food safety standards inconsistent with domestic requirements creating regulatory gaps",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "AI",
+        "dir": "hyper",
+        "motif": "M10",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

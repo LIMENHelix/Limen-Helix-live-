@@ -2278,6 +2278,15 @@
       "summary": "Critical breakdown in Medicine Surgery Cardiac systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "DV",
+          "dir": "Hyper",
+          "detail": "dorsal motor vagus — parasympathetic output — dorsal-vagal shutdown/collapse",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CMZ",
           "dir": "Hyper-active",
           "detail": "Cardiac Surgery Assessment & Diagnostics function overloaded",
@@ -2307,13 +2316,28 @@
           "detail": "Cardiac Surgery Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "DV",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "MEDICINE_SURGERY_CARDIAC_CAPACITY_OVERLOAD",
       "label": "Medicine Surgery Cardiac Capacity Overload",
       "summary": "Demand exceeding available Medicine Surgery Cardiac capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "LC",
+          "dir": "Hyper",
+          "detail": "broadcast / alerting — gain stuck high=thrash",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CMZ",
           "dir": "Hyper-active",
@@ -2338,13 +2362,28 @@
           "detail": "Cardiac Surgery Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "LC",
+        "dir": "hyper",
+        "motif": "M2",
+        "source": "override"
+      }
     },
     {
       "id": "MEDICINE_SURGERY_CARDIAC_QUALITY_DEGRADATION",
       "label": "Medicine Surgery Cardiac Quality Degradation",
       "summary": "Progressive decline in Medicine Surgery Cardiac quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CMZ",
           "dir": "Hypo-active",
@@ -2369,7 +2408,13 @@
           "detail": "Cardiac Surgery Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

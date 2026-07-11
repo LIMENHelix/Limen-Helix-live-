@@ -5411,6 +5411,15 @@
       "summary": "Critical breakdown in Pollution Control systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "STN",
+          "dir": "Hypo",
+          "detail": "hyperdirect brake / hold — no-brake=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PBN",
           "dir": "Hypo-active",
           "detail": "Pollution Control Assessment & Diagnostics capacity falling below operational thresholds, reducing Pollution Control output and reliability",
@@ -5440,13 +5449,28 @@
           "detail": "Pollution Control Performance & Optimization function reduced, compromising Pollution Control system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "ENVIRONMENT_POLLUTION_CAPACITY_CRISIS",
       "label": "Pollution Control Capacity Crisis",
       "summary": "Demand exceeding available Pollution Control capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PPN",
           "dir": "Hyper-active",
@@ -5477,13 +5501,28 @@
           "detail": "Pollution Control Performance & Optimization operating outside normal parameters, introducing uncertainty into Pollution Control outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "ENVIRONMENT_POLLUTION_GOVERNANCE_GAP",
       "label": "Pollution Control Governance Gap",
       "summary": "Oversight or regulatory failure in Pollution Control creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NEOCER",
           "dir": "Hypo-active",
@@ -5514,7 +5553,13 @@
           "detail": "Pollution Control Coordination & Integration function reduced, compromising Pollution Control system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

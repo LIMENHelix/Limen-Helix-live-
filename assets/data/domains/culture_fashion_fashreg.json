@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Culture Fashion Fashreg systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "ENS",
           "dir": "Hyper-active",
           "detail": "Fashion Regulation Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Fashion Regulation Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "CULTURE_FASHION_FASHREG_CAPACITY_OVERLOAD",
       "label": "Culture Fashion Fashreg Capacity Overload",
       "summary": "Demand exceeding available Culture Fashion Fashreg capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ENS",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Fashion Regulation Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "CULTURE_FASHION_FASHREG_QUALITY_DEGRADATION",
       "label": "Culture Fashion Fashreg Quality Degradation",
       "summary": "Progressive decline in Culture Fashion Fashreg quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hyper",
+          "detail": "response-inhibition / stop — over-suppress",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ENS",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Fashion Regulation Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hyper",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ]
 }

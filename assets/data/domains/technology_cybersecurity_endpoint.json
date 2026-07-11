@@ -2275,6 +2275,15 @@
       "summary": "Critical breakdown in Technology Cybersecurity Endpoint systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "STN",
+          "dir": "Hypo",
+          "detail": "hyperdirect brake / hold — no-brake=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "GP",
           "dir": "Hyper-active",
           "detail": "Endpoint Security Assessment & Diagnostics function overloaded",
@@ -2304,13 +2313,28 @@
           "detail": "Endpoint Security Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "TECHNOLOGY_CYBERSECURITY_ENDPOINT_CAPACITY_OVERLOAD",
       "label": "Technology Cybersecurity Endpoint Capacity Overload",
       "summary": "Demand exceeding available Technology Cybersecurity Endpoint capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "GP",
           "dir": "Hyper-active",
@@ -2335,13 +2359,28 @@
           "detail": "Endpoint Security Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "TECHNOLOGY_CYBERSECURITY_ENDPOINT_QUALITY_DEGRADATION",
       "label": "Technology Cybersecurity Endpoint Quality Degradation",
       "summary": "Progressive decline in Technology Cybersecurity Endpoint quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "GP",
           "dir": "Hypo-active",
@@ -2366,7 +2405,13 @@
           "detail": "Endpoint Security Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

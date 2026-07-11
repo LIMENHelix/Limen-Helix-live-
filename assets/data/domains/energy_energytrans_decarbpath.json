@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Energy Energytrans Decarbpath systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "rPFC",
+          "dir": "Hypo",
+          "detail": "frontopolar PFC — metacognition & prospective control — no-foresight, myopic",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "OSC",
           "dir": "Hyper-active",
           "detail": "Decarbonization Pathways Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Decarbonization Pathways Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "rPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "ENERGY_ENERGYTRANS_DECARBPATH_CAPACITY_OVERLOAD",
       "label": "Energy Energytrans Decarbpath Capacity Overload",
       "summary": "Demand exceeding available Energy Energytrans Decarbpath capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "rPFC",
+          "dir": "Hyper",
+          "detail": "frontopolar PFC — metacognition & prospective control — overplanning/analysis-paralysis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OSC",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Decarbonization Pathways Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "rPFC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "ENERGY_ENERGYTRANS_DECARBPATH_QUALITY_DEGRADATION",
       "label": "Energy Energytrans Decarbpath Quality Degradation",
       "summary": "Progressive decline in Energy Energytrans Decarbpath quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "rPFC",
+          "dir": "Hypo",
+          "detail": "frontopolar PFC — metacognition & prospective control — no-foresight, myopic",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OSC",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Decarbonization Pathways Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "rPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

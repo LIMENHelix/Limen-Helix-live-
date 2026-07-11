@@ -6517,6 +6517,15 @@
       "summary": "Critical breakdown in Medicine Medresearch systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "STN",
+          "dir": "Hypo",
+          "detail": "hyperdirect brake / hold — no-brake=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "BROCA",
           "dir": "Hyper-active",
           "detail": "Medresearch Assessment & Diagnostics function overloaded",
@@ -6546,13 +6555,28 @@
           "detail": "Medresearch Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "MEDICINE_MEDRESEARCH_CAPACITY_OVERLOAD",
       "label": "Medicine Medresearch Capacity Overload",
       "summary": "Demand exceeding available Medicine Medresearch capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BROCA",
           "dir": "Hyper-active",
@@ -6577,13 +6601,28 @@
           "detail": "Medresearch Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "MEDICINE_MEDRESEARCH_QUALITY_DEGRADATION",
       "label": "Medicine Medresearch Quality Degradation",
       "summary": "Progressive decline in Medicine Medresearch quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BROCA",
           "dir": "Hypo-active",
@@ -6608,7 +6647,13 @@
           "detail": "Medresearch Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

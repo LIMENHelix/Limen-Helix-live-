@@ -549,6 +549,15 @@
       "summary": "Clinical presentation and circuit dysfunction pattern for Primary Hypothyroidism",
       "circuits": [
         {
+          "nodeId": "PIT",
+          "dir": "Hypo",
+          "detail": "pituitary — endocrine output (HPA/HPG axis) — hormonal insufficiency",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "HYPO",
           "dir": "Hypo",
           "detail": "Hypothalamic-pituitary-thyroid axis suppression",
@@ -560,13 +569,28 @@
           "detail": "Cognitive slowing from reduced T3",
           "evidence": "B"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PIT",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "dx_medicine_metabolic_thyroid_hyperthyroid",
       "label": "Hyperthyroidism",
       "summary": "Clinical presentation and circuit dysfunction pattern for Hyperthyroidism",
       "circuits": [
+        {
+          "nodeId": "PIT",
+          "dir": "Hyper",
+          "detail": "pituitary — endocrine output (HPA/HPG axis) — hormonal overdrive",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HYPO",
           "dir": "Hyper",
@@ -579,7 +603,13 @@
           "detail": "Anxiety from autonomic hyperactivation",
           "evidence": "B"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PIT",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

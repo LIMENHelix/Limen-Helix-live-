@@ -4259,6 +4259,15 @@
       "summary": "Critical breakdown in Networking & Internet systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "STN",
+          "dir": "Hyper",
+          "detail": "hyperdirect brake / hold — over-brake=paralysis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "mPFC",
           "dir": "Hypo-active",
           "detail": "Networking & Internet Assessment & Diagnostics capacity falling below operational thresholds, reducing Networking & Internet output and reliability",
@@ -4288,13 +4297,28 @@
           "detail": "Networking & Internet Performance & Optimization function reduced, compromising Networking & Internet system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hyper",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "TECHNOLOGY_NETWORKING_CAPACITY_CRISIS",
       "label": "Networking & Internet Capacity Crisis",
       "summary": "Demand exceeding available Networking & Internet capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PCC",
           "dir": "Hyper-active",
@@ -4325,13 +4349,28 @@
           "detail": "Networking & Internet Performance & Optimization operating outside normal parameters, introducing uncertainty into Networking & Internet outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "TECHNOLOGY_NETWORKING_GOVERNANCE_GAP",
       "label": "Networking & Internet Governance Gap",
       "summary": "Oversight or regulatory failure in Networking & Internet creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "EC",
           "dir": "Hypo-active",
@@ -4362,7 +4401,13 @@
           "detail": "Networking & Internet Coordination & Integration function reduced, compromising Networking & Internet system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

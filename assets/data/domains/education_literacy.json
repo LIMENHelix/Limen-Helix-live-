@@ -10083,6 +10083,15 @@
       "summary": "Critical breakdown in Education Literacy systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "WERN",
+          "dir": "Hypo",
+          "detail": "Wernicke's area — receptive language comprehension — receptive aphasia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "OLF",
           "dir": "Hyper-active",
           "detail": "Literacy Assessment & Diagnostics function overloaded",
@@ -10112,13 +10121,28 @@
           "detail": "Literacy Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "WERN",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "EDUCATION_LITERACY_CAPACITY_OVERLOAD",
       "label": "Education Literacy Capacity Overload",
       "summary": "Demand exceeding available Education Literacy capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "WERN",
+          "dir": "Hyper",
+          "detail": "Wernicke's area — receptive language comprehension — over-interpretation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OLF",
           "dir": "Hyper-active",
@@ -10143,13 +10167,28 @@
           "detail": "Literacy Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "WERN",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "EDUCATION_LITERACY_QUALITY_DEGRADATION",
       "label": "Education Literacy Quality Degradation",
       "summary": "Progressive decline in Education Literacy quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OLF",
           "dir": "Hypo-active",
@@ -10174,7 +10213,13 @@
           "detail": "Literacy Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

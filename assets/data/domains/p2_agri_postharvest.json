@@ -2929,6 +2929,15 @@
       "summary": "Grain quality degradation from moisture migration, insect infestation, or mold growth during prolonged storage",
       "circuits": [
         {
+          "nodeId": "AI",
+          "dir": "Hyper",
+          "detail": "interoceptive salience — flying-blind",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "THAL",
           "dir": "Hypo-active",
           "detail": "Storage facility aeration systems failing to maintain safe temperature and moisture differentials",
@@ -2952,13 +2961,28 @@
           "detail": "Grading inconsistencies allowing compromised grain to enter storage without proper conditioning",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "AI",
+        "dir": "hyper",
+        "motif": "M10",
+        "source": "override"
+      }
     },
     {
       "id": "DRYING_BOTTLENECK",
       "label": "Drying Bottleneck",
       "summary": "Grain dryer capacity insufficient to handle harvest volume at field moisture, forcing either harvest delay or wet storage risk",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HYPO",
           "dir": "Hypo-active",
@@ -2983,13 +3007,28 @@
           "detail": "Cooling systems unable to reduce grain temperature fast enough after high-temperature drying",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "MYCOTOXIN_CONTAMINATION",
       "label": "Mycotoxin Contamination",
       "summary": "Fungal toxin accumulation in stored grain rendering product unfit for feed or food use",
       "circuits": [
+        {
+          "nodeId": "AI",
+          "dir": "Hyper",
+          "detail": "interoceptive salience — flying-blind",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BLA",
           "dir": "Hyper-active",
@@ -3014,13 +3053,28 @@
           "detail": "Incoming grain grading not screening for pre-harvest mycotoxin levels at receiving",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "AI",
+        "dir": "hyper",
+        "motif": "M10",
+        "source": "override"
+      }
     },
     {
       "id": "COLD_CHAIN_BREAK",
       "label": "Cold Chain Break",
       "summary": "Temperature excursions during handling and transport of perishable commodities causing quality loss and food safety risk",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "S1",
           "dir": "Hypo-active",
@@ -3045,13 +3099,28 @@
           "detail": "Quality inspection not verifying product temperature history at transfer points",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "HANDLING_DAMAGE",
       "label": "Handling Damage",
       "summary": "Mechanical injury during cleaning, sorting, conveying, and packaging reducing product grade and shelf life",
       "circuits": [
+        {
+          "nodeId": "M1",
+          "dir": "Hyper",
+          "detail": "primary motor cortex — motor output — hyperkinesia/spasticity",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "M1",
           "dir": "Hyper-active",
@@ -3076,7 +3145,13 @@
           "detail": "Quality control sampling rate missing intermittent damage events from equipment misadjustment",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "M1",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

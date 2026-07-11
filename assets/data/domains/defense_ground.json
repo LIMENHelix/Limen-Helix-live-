@@ -3949,6 +3949,15 @@
       "summary": "Critical breakdown in Ground Forces systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "STN",
+          "dir": "Hyper",
+          "detail": "hyperdirect brake / hold — over-brake=paralysis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "MDT",
           "dir": "Hypo-active",
           "detail": "Ground Forces Assessment & Diagnostics capacity falling below operational thresholds, reducing Ground Forces output and reliability",
@@ -3978,13 +3987,28 @@
           "detail": "Ground Forces Performance & Optimization function reduced, compromising Ground Forces system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hyper",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_GROUND_CAPACITY_CRISIS",
       "label": "Ground Forces Capacity Crisis",
       "summary": "Demand exceeding available Ground Forces capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "GP",
+          "dir": "Hyper",
+          "detail": "basal-ganglia output gate — flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ANT",
           "dir": "Hyper-active",
@@ -4015,13 +4039,28 @@
           "detail": "Ground Forces Performance & Optimization operating outside normal parameters, introducing uncertainty into Ground Forces outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "GP",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_GROUND_GOVERNANCE_GAP",
       "label": "Ground Forces Governance Gap",
       "summary": "Oversight or regulatory failure in Ground Forces creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "V1",
           "dir": "Hypo-active",
@@ -4052,7 +4091,13 @@
           "detail": "Ground Forces Coordination & Integration function reduced, compromising Ground Forces system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Religion Monastic Contemplative systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "dlPFC",
+          "dir": "Hypo",
+          "detail": "dorsolateral PFC — executive working-memory / cognitive control — executive-lapse, distractible",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "OPIOID",
           "dir": "Hyper-active",
           "detail": "Contemplative Orders Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Contemplative Orders Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dlPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_MONASTIC_CONTEMPLATIVE_CAPACITY_OVERLOAD",
       "label": "Religion Monastic Contemplative Capacity Overload",
       "summary": "Demand exceeding available Religion Monastic Contemplative capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hyper",
+          "detail": "dorsolateral PFC — executive working-memory / cognitive control — rigidity/rumination-lock",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OPIOID",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Contemplative Orders Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dlPFC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_MONASTIC_CONTEMPLATIVE_QUALITY_DEGRADATION",
       "label": "Religion Monastic Contemplative Quality Degradation",
       "summary": "Progressive decline in Religion Monastic Contemplative quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OPIOID",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Contemplative Orders Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

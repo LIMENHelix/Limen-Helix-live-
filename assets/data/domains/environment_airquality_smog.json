@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Environment Airquality Smog systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "ANT",
           "dir": "Hyper-active",
           "detail": "Smog Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Smog Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "ENVIRONMENT_AIRQUALITY_SMOG_CAPACITY_OVERLOAD",
       "label": "Environment Airquality Smog Capacity Overload",
       "summary": "Demand exceeding available Environment Airquality Smog capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ANT",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Smog Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "ENVIRONMENT_AIRQUALITY_SMOG_QUALITY_DEGRADATION",
       "label": "Environment Airquality Smog Quality Degradation",
       "summary": "Progressive decline in Environment Airquality Smog quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hypo",
+          "detail": "homeostatic set-point — delayed=oscillation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ANT",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Smog Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hypo",
+        "motif": "M3",
+        "source": "override"
+      }
     }
   ]
 }

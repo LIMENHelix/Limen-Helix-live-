@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Economy Econforecast Surveyfcst systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "rPFC",
+          "dir": "Hypo",
+          "detail": "frontopolar PFC — metacognition & prospective control — no-foresight, myopic",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CARD",
           "dir": "Hyper-active",
           "detail": "Survey-Based Forecasts Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Survey-Based Forecasts Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "rPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_ECONFORECAST_SURVEYFCST_CAPACITY_OVERLOAD",
       "label": "Economy Econforecast Surveyfcst Capacity Overload",
       "summary": "Demand exceeding available Economy Econforecast Surveyfcst capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "rPFC",
+          "dir": "Hyper",
+          "detail": "frontopolar PFC — metacognition & prospective control — overplanning/analysis-paralysis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CARD",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Survey-Based Forecasts Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "rPFC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_ECONFORECAST_SURVEYFCST_QUALITY_DEGRADATION",
       "label": "Economy Econforecast Surveyfcst Quality Degradation",
       "summary": "Progressive decline in Economy Econforecast Surveyfcst quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CARD",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Survey-Based Forecasts Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

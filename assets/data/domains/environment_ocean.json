@@ -4001,6 +4001,15 @@
       "summary": "Critical breakdown in Ocean Chemistry systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "MDT",
           "dir": "Hypo-active",
           "detail": "Ocean Chemistry Assessment & Diagnostics capacity falling below operational thresholds, reducing Ocean Chemistry output and reliability",
@@ -4030,13 +4039,28 @@
           "detail": "Ocean Chemistry Performance & Optimization function reduced, compromising Ocean Chemistry system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "ENVIRONMENT_OCEAN_CAPACITY_CRISIS",
       "label": "Ocean Chemistry Capacity Crisis",
       "summary": "Demand exceeding available Ocean Chemistry capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ANT",
           "dir": "Hyper-active",
@@ -4067,13 +4091,28 @@
           "detail": "Ocean Chemistry Performance & Optimization operating outside normal parameters, introducing uncertainty into Ocean Chemistry outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "ENVIRONMENT_OCEAN_GOVERNANCE_GAP",
       "label": "Ocean Chemistry Governance Gap",
       "summary": "Oversight or regulatory failure in Ocean Chemistry creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "V1",
           "dir": "Hypo-active",
@@ -4104,7 +4143,13 @@
           "detail": "Ocean Chemistry Coordination & Integration function reduced, compromising Ocean Chemistry system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

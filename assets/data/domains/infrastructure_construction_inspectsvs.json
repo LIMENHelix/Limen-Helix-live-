@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Infrastructure Construction Inspectsvs systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "VTA",
           "dir": "Hyper-active",
           "detail": "Inspection Services Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Inspection Services Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "INFRASTRUCTURE_CONSTRUCTION_INSPECTSVS_CAPACITY_OVERLOAD",
       "label": "Infrastructure Construction Inspectsvs Capacity Overload",
       "summary": "Demand exceeding available Infrastructure Construction Inspectsvs capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "VTA",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Inspection Services Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "INFRASTRUCTURE_CONSTRUCTION_INSPECTSVS_QUALITY_DEGRADATION",
       "label": "Infrastructure Construction Inspectsvs Quality Degradation",
       "summary": "Progressive decline in Infrastructure Construction Inspectsvs quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "VTA",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Inspection Services Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

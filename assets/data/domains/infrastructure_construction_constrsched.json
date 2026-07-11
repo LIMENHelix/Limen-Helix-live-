@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Infrastructure Construction Constrsched systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "dlPFC",
+          "dir": "Hypo",
+          "detail": "dorsolateral PFC — executive working-memory / cognitive control — executive-lapse, distractible",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "MGN",
           "dir": "Hyper-active",
           "detail": "Construction Scheduling Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Construction Scheduling Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dlPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "INFRASTRUCTURE_CONSTRUCTION_CONSTRSCHED_CAPACITY_OVERLOAD",
       "label": "Infrastructure Construction Constrsched Capacity Overload",
       "summary": "Demand exceeding available Infrastructure Construction Constrsched capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hyper",
+          "detail": "dorsolateral PFC — executive working-memory / cognitive control — rigidity/rumination-lock",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MGN",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Construction Scheduling Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dlPFC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "INFRASTRUCTURE_CONSTRUCTION_CONSTRSCHED_QUALITY_DEGRADATION",
       "label": "Infrastructure Construction Constrsched Quality Degradation",
       "summary": "Progressive decline in Infrastructure Construction Constrsched quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MGN",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Construction Scheduling Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

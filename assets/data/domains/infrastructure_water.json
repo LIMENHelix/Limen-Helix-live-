@@ -4001,6 +4001,15 @@
       "summary": "Critical breakdown in Water Treatment systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "M1",
           "dir": "Hypo-active",
           "detail": "Water Treatment Assessment & Diagnostics capacity falling below operational thresholds, reducing Water Treatment output and reliability",
@@ -4030,13 +4039,28 @@
           "detail": "Water Treatment Performance & Optimization function reduced, compromising Water Treatment system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "INFRASTRUCTURE_WATER_CAPACITY_CRISIS",
       "label": "Water Treatment Capacity Crisis",
       "summary": "Demand exceeding available Water Treatment capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "S1",
           "dir": "Hyper-active",
@@ -4067,13 +4091,28 @@
           "detail": "Water Treatment Performance & Optimization operating outside normal parameters, introducing uncertainty into Water Treatment outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "INFRASTRUCTURE_WATER_GOVERNANCE_GAP",
       "label": "Water Treatment Governance Gap",
       "summary": "Oversight or regulatory failure in Water Treatment creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HIPP",
           "dir": "Hypo-active",
@@ -4104,7 +4143,13 @@
           "detail": "Water Treatment Coordination & Integration function reduced, compromising Water Treatment system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

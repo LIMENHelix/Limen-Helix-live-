@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Technology Ux Interact systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "PMC",
+          "dir": "Hypo",
+          "detail": "premotor — motor planning & preparation — inertia, slow initiation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "mPFC",
           "dir": "Hyper-active",
           "detail": "Interaction Design Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Interaction Design Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PMC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "TECHNOLOGY_UX_INTERACT_CAPACITY_OVERLOAD",
       "label": "Technology Ux Interact Capacity Overload",
       "summary": "Demand exceeding available Technology Ux Interact capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "PMC",
+          "dir": "Hyper",
+          "detail": "premotor — motor planning & preparation — over-preparation/jitter",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "mPFC",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Interaction Design Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PMC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "TECHNOLOGY_UX_INTERACT_QUALITY_DEGRADATION",
       "label": "Technology Ux Interact Quality Degradation",
       "summary": "Progressive decline in Technology Ux Interact quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "mPFC",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Interaction Design Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

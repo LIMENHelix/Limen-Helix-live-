@@ -8576,6 +8576,15 @@
       "summary": "Critical breakdown in Surveillance Systems systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "BDNF",
           "dir": "Hypo-active",
           "detail": "Surveillance Systems Assessment & Diagnostics capacity falling below operational thresholds, reducing Surveillance Systems output and reliability",
@@ -8605,13 +8614,28 @@
           "detail": "Surveillance Systems Performance & Optimization function reduced, compromising Surveillance Systems system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_SURVEILLANCE_CAPACITY_CRISIS",
       "label": "Surveillance Systems Capacity Crisis",
       "summary": "Demand exceeding available Surveillance Systems capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "LC",
+          "dir": "Hypo",
+          "detail": "broadcast / alerting — low=missed",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TrkB",
           "dir": "Hyper-active",
@@ -8642,13 +8666,28 @@
           "detail": "Surveillance Systems Performance & Optimization operating outside normal parameters, introducing uncertainty into Surveillance Systems outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "LC",
+        "dir": "hypo",
+        "motif": "M2",
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_SURVEILLANCE_GOVERNANCE_GAP",
       "label": "Surveillance Systems Governance Gap",
       "summary": "Oversight or regulatory failure in Surveillance Systems creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "LC",
           "dir": "Hypo-active",
@@ -8679,7 +8718,13 @@
           "detail": "Surveillance Systems Coordination & Integration function reduced, compromising Surveillance Systems system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

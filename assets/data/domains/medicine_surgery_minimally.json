@@ -2276,6 +2276,15 @@
       "summary": "Critical breakdown in Medicine Surgery Minimally systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CAUD",
           "dir": "Hyper-active",
           "detail": "Minimally Invasive Assessment & Diagnostics function overloaded",
@@ -2305,13 +2314,28 @@
           "detail": "Minimally Invasive Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "MEDICINE_SURGERY_MINIMALLY_CAPACITY_OVERLOAD",
       "label": "Medicine Surgery Minimally Capacity Overload",
       "summary": "Demand exceeding available Medicine Surgery Minimally capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "V1",
+          "dir": "Hyper",
+          "detail": "primary visual processing — visual overload",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CAUD",
           "dir": "Hyper-active",
@@ -2336,13 +2360,28 @@
           "detail": "Minimally Invasive Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "V1",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "MEDICINE_SURGERY_MINIMALLY_QUALITY_DEGRADATION",
       "label": "Medicine Surgery Minimally Quality Degradation",
       "summary": "Progressive decline in Medicine Surgery Minimally quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "FG",
+          "dir": "Hyper",
+          "detail": "fusiform gyrus — face/object recognition — pareidolia/over-recognition",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CAUD",
           "dir": "Hypo-active",
@@ -2367,7 +2406,13 @@
           "detail": "Minimally Invasive Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "FG",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

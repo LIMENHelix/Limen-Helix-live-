@@ -2276,6 +2276,15 @@
       "summary": "Critical breakdown in Religion Moral Envethics systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "SEPT",
           "dir": "Hyper-active",
           "detail": "Environmental Ethics Assessment & Diagnostics function overloaded",
@@ -2305,13 +2314,28 @@
           "detail": "Environmental Ethics Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_MORAL_ENVETHICS_CAPACITY_OVERLOAD",
       "label": "Religion Moral Envethics Capacity Overload",
       "summary": "Demand exceeding available Religion Moral Envethics capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SEPT",
           "dir": "Hyper-active",
@@ -2336,13 +2360,28 @@
           "detail": "Environmental Ethics Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_MORAL_ENVETHICS_QUALITY_DEGRADATION",
       "label": "Religion Moral Envethics Quality Degradation",
       "summary": "Progressive decline in Religion Moral Envethics quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hypo",
+          "detail": "homeostatic set-point — delayed=oscillation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SEPT",
           "dir": "Hypo-active",
@@ -2367,7 +2406,13 @@
           "detail": "Environmental Ethics Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hypo",
+        "motif": "M3",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

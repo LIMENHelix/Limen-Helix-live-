@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Education Special Emotional systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "sgACC",
+          "dir": "Hypo",
+          "detail": "subgenual ACC — mood / negative-affect hub — affective flattening",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "NTS",
           "dir": "Hyper-active",
           "detail": "Emotional-Behavioral Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Emotional-Behavioral Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "sgACC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "EDUCATION_SPECIAL_EMOTIONAL_CAPACITY_OVERLOAD",
       "label": "Education Special Emotional Capacity Overload",
       "summary": "Demand exceeding available Education Special Emotional capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "CeA",
+          "dir": "Hyper",
+          "detail": "phasic fear output — hair-trigger=false-alarm",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NTS",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Emotional-Behavioral Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CeA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "EDUCATION_SPECIAL_EMOTIONAL_QUALITY_DEGRADATION",
       "label": "Education Special Emotional Quality Degradation",
       "summary": "Progressive decline in Education Special Emotional quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NTS",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Emotional-Behavioral Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

@@ -4857,6 +4857,15 @@
       "summary": "Critical breakdown in Scripture & Canon systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HIPP",
+          "dir": "Hyper",
+          "detail": "HPA feedback + memory index — feedback-fail=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "vmPFC",
           "dir": "Hypo-active",
           "detail": "Scripture & Canon Assessment & Diagnostics capacity falling below operational thresholds, reducing Scripture & Canon output and reliability",
@@ -4886,13 +4895,28 @@
           "detail": "Scripture & Canon Performance & Optimization function reduced, compromising Scripture & Canon system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HIPP",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_SCRIPTURE_CAPACITY_CRISIS",
       "label": "Scripture & Canon Capacity Crisis",
       "summary": "Demand exceeding available Scripture & Canon capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "WERN",
+          "dir": "Hyper",
+          "detail": "Wernicke's area — receptive language comprehension — over-interpretation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "VTA",
           "dir": "Hyper-active",
@@ -4923,13 +4947,28 @@
           "detail": "Scripture & Canon Performance & Optimization operating outside normal parameters, introducing uncertainty into Scripture & Canon outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "WERN",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_SCRIPTURE_GOVERNANCE_GAP",
       "label": "Scripture & Canon Governance Gap",
       "summary": "Oversight or regulatory failure in Scripture & Canon creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "AI",
           "dir": "Hypo-active",
@@ -4960,7 +4999,13 @@
           "detail": "Scripture & Canon Coordination & Integration function reduced, compromising Scripture & Canon system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

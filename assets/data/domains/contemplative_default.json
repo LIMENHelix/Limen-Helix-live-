@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Default Mode / Self-Referential Processing systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "mPFC",
+          "dir": "Hyper",
+          "detail": "medial PFC — self-referential value integration (DMN core) — self-focus/rumination",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CeA",
           "dir": "Hypo-active",
           "detail": "Default Mode / Self-Referential Processing Assessment & Diagnostics capacity falling below operational thresholds, reducing Default Mode / Self-Referential Processing output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Default Mode / Self-Referential Processing Performance & Optimization function reduced, compromising Default Mode / Self-Referential Processing system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "mPFC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "CONTEMPLATIVE_DEFAULT_CAPACITY_CRISIS",
       "label": "Default Mode / Self-Referential Processing Capacity Crisis",
       "summary": "Demand exceeding available Default Mode / Self-Referential Processing capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "mPFC",
+          "dir": "Hyper",
+          "detail": "medial PFC — self-referential value integration (DMN core) — self-focus/rumination",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BNST",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Default Mode / Self-Referential Processing Performance & Optimization operating outside normal parameters, introducing uncertainty into Default Mode / Self-Referential Processing outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "mPFC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "CONTEMPLATIVE_DEFAULT_GOVERNANCE_GAP",
       "label": "Default Mode / Self-Referential Processing Governance Gap",
       "summary": "Oversight or regulatory failure in Default Mode / Self-Referential Processing creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "mPFC",
+          "dir": "Hypo",
+          "detail": "medial PFC — self-referential value integration (DMN core) — disengaged, apathetic",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CON",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Default Mode / Self-Referential Processing Coordination & Integration function reduced, compromising Default Mode / Self-Referential Processing system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "mPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

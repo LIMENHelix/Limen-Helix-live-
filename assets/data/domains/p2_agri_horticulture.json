@@ -3458,6 +3458,15 @@
       "circuits": [
         {
           "nodeId": "M1",
+          "dir": "Hypo",
+          "detail": "primary motor cortex — motor output — weakness, paresis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
+          "nodeId": "M1",
           "dir": "Hypo-active",
           "detail": "Fruit tree blossoms killed by late frost eliminating entire season crop potential",
           "evidence": "Strong"
@@ -3480,13 +3489,28 @@
           "detail": "Greenhouse heating systems inadequate for extended cold events beyond design parameters",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "M1",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "LABOR_DEPENDENCY",
       "label": "Labor Dependency",
       "summary": "Horticultural harvest requiring hand labor with insufficient seasonal workforce available at critical picking windows",
       "circuits": [
+        {
+          "nodeId": "M1",
+          "dir": "Hypo",
+          "detail": "primary motor cortex — motor output — weakness, paresis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "M1",
           "dir": "Hypo-active",
@@ -3511,13 +3535,28 @@
           "detail": "Herb harvest requiring gentle hand-picking techniques not achievable with available labor pool",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "M1",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "MARKET_REJECTION",
       "label": "Market Rejection",
       "summary": "Cosmetic grading standards causing rejection of nutritionally sound produce for minor visual defects",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hypo",
+          "detail": "outcome valuation / update — over-react",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FG",
           "dir": "Hyper-active",
@@ -3542,13 +3581,28 @@
           "detail": "Organic certification inspection costs prohibitive for small diversified operations",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "DISEASE_PRESSURE",
       "label": "Disease Pressure",
       "summary": "Fungal and bacterial diseases spreading rapidly through dense horticultural plantings causing crop loss",
       "circuits": [
+        {
+          "nodeId": "BNST",
+          "dir": "Hyper",
+          "detail": "sustained threat monitor — tonic-stuck=burnout",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BLA",
           "dir": "Hyper-active",
@@ -3573,13 +3627,28 @@
           "detail": "Wine grape vineyards losing production to downy mildew in wet vintage years",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BNST",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "WATER_STRESS",
       "label": "Water Stress",
       "summary": "Irrigation water unavailable or restricted during critical crop development stages in horticultural production",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hypo",
+          "detail": "homeostatic set-point — delayed=oscillation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "M1",
           "dir": "Hypo-active",
@@ -3604,7 +3673,13 @@
           "detail": "Greenhouse irrigation water quality declining as source supplies diminish under drought",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hypo",
+        "motif": "M3",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

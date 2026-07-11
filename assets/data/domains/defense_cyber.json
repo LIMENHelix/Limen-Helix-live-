@@ -4189,6 +4189,15 @@
       "summary": "Critical breakdown in Cyber Warfare systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "STN",
+          "dir": "Hypo",
+          "detail": "hyperdirect brake / hold — no-brake=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CeA",
           "dir": "Hypo-active",
           "detail": "Cyber Warfare Assessment & Diagnostics capacity falling below operational thresholds, reducing Cyber Warfare output and reliability",
@@ -4218,13 +4227,28 @@
           "detail": "Cyber Warfare Performance & Optimization function reduced, compromising Cyber Warfare system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_CYBER_CAPACITY_CRISIS",
       "label": "Cyber Warfare Capacity Crisis",
       "summary": "Demand exceeding available Cyber Warfare capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "GP",
+          "dir": "Hyper",
+          "detail": "basal-ganglia output gate — flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BNST",
           "dir": "Hyper-active",
@@ -4255,13 +4279,28 @@
           "detail": "Cyber Warfare Performance & Optimization operating outside normal parameters, introducing uncertainty into Cyber Warfare outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "GP",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_CYBER_GOVERNANCE_GAP",
       "label": "Cyber Warfare Governance Gap",
       "summary": "Oversight or regulatory failure in Cyber Warfare creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hypo",
+          "detail": "response-inhibition / stop — disinhibited",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CON",
           "dir": "Hypo-active",
@@ -4292,7 +4331,13 @@
           "detail": "Cyber Warfare Coordination & Integration function reduced, compromising Cyber Warfare system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

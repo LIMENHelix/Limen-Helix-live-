@@ -3411,6 +3411,15 @@
       "summary": "Critical breakdown in Environment Envhealth systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "BNST",
+          "dir": "Hypo",
+          "detail": "sustained threat monitor — under-vigilant",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "GBA",
           "dir": "Hyper-active",
           "detail": "Envhealth Assessment & Diagnostics function overloaded",
@@ -3440,13 +3449,28 @@
           "detail": "Envhealth Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BNST",
+        "dir": "hypo",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "ENVIRONMENT_ENVHEALTH_CAPACITY_OVERLOAD",
       "label": "Environment Envhealth Capacity Overload",
       "summary": "Demand exceeding available Environment Envhealth capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "BNST",
+          "dir": "Hyper",
+          "detail": "sustained threat monitor — tonic-stuck=burnout",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "GBA",
           "dir": "Hyper-active",
@@ -3471,13 +3495,28 @@
           "detail": "Envhealth Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BNST",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "ENVIRONMENT_ENVHEALTH_QUALITY_DEGRADATION",
       "label": "Environment Envhealth Quality Degradation",
       "summary": "Progressive decline in Environment Envhealth quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CeA",
+          "dir": "Hyper",
+          "detail": "phasic fear output — hair-trigger=false-alarm",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "GBA",
           "dir": "Hypo-active",
@@ -3502,7 +3541,13 @@
           "detail": "Envhealth Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CeA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     }
   ]
 }

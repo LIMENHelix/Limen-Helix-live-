@@ -2071,6 +2071,15 @@
       "summary": "Coordinated cyber assault targeting critical infrastructure, financial systems, or government networks causing widespread disruption and data compromise",
       "circuits": [
         {
+          "nodeId": "LC",
+          "dir": "Hyper",
+          "detail": "broadcast / alerting — gain stuck high=thrash",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CeA",
           "dir": "Hyper-active",
           "detail": "Cybersecurity teams in full incident response mode, triaging active threats across multiple attack vectors",
@@ -2100,13 +2109,28 @@
           "detail": "Blockchain systems leveraged as immutable audit trails to verify which records remain trustworthy",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "LC",
+        "dir": "hyper",
+        "motif": "M2",
+        "source": "override"
+      }
     },
     {
       "id": "AI_ALIGNMENT_FAILURE",
       "label": "AI Alignment Failure",
       "summary": "Advanced AI systems exhibiting behavior misaligned with human values, from subtle bias amplification to autonomous action beyond intended boundaries",
       "circuits": [
+        {
+          "nodeId": "TPJ",
+          "dir": "Hypo",
+          "detail": "temporoparietal junction — social attribution & reorienting — mindblindness",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FPN",
           "dir": "Hyper-active",
@@ -2137,13 +2161,28 @@
           "detail": "Software engineering teams scrambling to implement guardrails on systems already deployed at scale",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "TPJ",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "INFRASTRUCTURE_COLLAPSE",
       "label": "Digital Infrastructure Collapse",
       "summary": "Cascading failure across interconnected technology systems from cloud outages, undersea cable cuts, or power grid failures taking critical services offline",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "THAL",
           "dir": "Hypo-active",
@@ -2174,13 +2213,28 @@
           "detail": "IoT sensor networks disconnected from control systems, leaving physical infrastructure unmonitored",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "DATA_BREACH",
       "label": "Catastrophic Data Breach",
       "summary": "Mass exfiltration of sensitive personal, financial, or classified data exposing millions to identity theft, fraud, and privacy violation",
       "circuits": [
+        {
+          "nodeId": "PAG",
+          "dir": "Hypo",
+          "detail": "defensive kill/lockdown — no-stop",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HIPP",
           "dir": "Hyper-active",
@@ -2205,13 +2259,28 @@
           "detail": "Blockchain audit trails examined to verify which transactions and records may have been tampered with",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PAG",
+        "dir": "hypo",
+        "motif": "M8",
+        "source": "override"
+      }
     },
     {
       "id": "CHIP_SHORTAGE",
       "label": "Global Chip Shortage",
       "summary": "Severe semiconductor supply deficit disrupting manufacturing across automotive, consumer electronics, defense, and computing industries",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "STRI",
           "dir": "Hypo-active",
@@ -2242,13 +2311,28 @@
           "detail": "Data center expansion frozen as server and networking equipment delivery timelines extend to years",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "PLATFORM_MONOPOLY",
       "label": "Platform Monopoly Crisis",
       "summary": "Concentration of digital infrastructure and services under a handful of corporations creating single points of failure, rent-seeking, and innovation suppression",
       "circuits": [
+        {
+          "nodeId": "GP",
+          "dir": "Hyper",
+          "detail": "basal-ganglia output gate — flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "DMN",
           "dir": "Hyper-active",
@@ -2279,7 +2363,13 @@
           "detail": "Independent software development constrained by platform gatekeeping, API restrictions, and app store policies",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "GP",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     }
   ],
   "edges": [

@@ -2276,6 +2276,15 @@
       "summary": "Critical breakdown in Religion Moral Professional systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vlPFC",
+          "dir": "Hypo",
+          "detail": "response-inhibition / stop — disinhibited",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PUT",
           "dir": "Hyper-active",
           "detail": "Professional Ethics Assessment & Diagnostics function overloaded",
@@ -2305,13 +2314,28 @@
           "detail": "Professional Ethics Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_MORAL_PROFESSIONAL_CAPACITY_OVERLOAD",
       "label": "Religion Moral Professional Capacity Overload",
       "summary": "Demand exceeding available Religion Moral Professional capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PUT",
           "dir": "Hyper-active",
@@ -2336,13 +2360,28 @@
           "detail": "Professional Ethics Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_MORAL_PROFESSIONAL_QUALITY_DEGRADATION",
       "label": "Religion Moral Professional Quality Degradation",
       "summary": "Progressive decline in Religion Moral Professional quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hyper",
+          "detail": "response-inhibition / stop — over-suppress",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PUT",
           "dir": "Hypo-active",
@@ -2367,7 +2406,13 @@
           "detail": "Professional Ethics Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hyper",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

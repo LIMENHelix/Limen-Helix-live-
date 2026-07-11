@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Religion Religionlaw Faithorg systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vlPFC",
+          "dir": "Hypo",
+          "detail": "response-inhibition / stop — disinhibited",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "TPJ",
           "dir": "Hyper-active",
           "detail": "Faith-Based Organizations Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Faith-Based Organizations Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_RELIGIONLAW_FAITHORG_CAPACITY_OVERLOAD",
       "label": "Religion Religionlaw Faithorg Capacity Overload",
       "summary": "Demand exceeding available Religion Religionlaw Faithorg capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TPJ",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Faith-Based Organizations Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_RELIGIONLAW_FAITHORG_QUALITY_DEGRADATION",
       "label": "Religion Religionlaw Faithorg Quality Degradation",
       "summary": "Progressive decline in Religion Religionlaw Faithorg quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo",
+          "detail": "dorsolateral PFC — executive working-memory / cognitive control — executive-lapse, distractible",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TPJ",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Faith-Based Organizations Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dlPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

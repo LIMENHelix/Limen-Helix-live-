@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Defense Strategic Stratassess systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "outcome valuation / update — confabulation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "DMN",
           "dir": "Hyper-active",
           "detail": "Strategic Assessment Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Strategic Assessment Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_STRATEGIC_STRATASSESS_CAPACITY_OVERLOAD",
       "label": "Defense Strategic Stratassess Capacity Overload",
       "summary": "Demand exceeding available Defense Strategic Stratassess capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "DMN",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Strategic Assessment Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_STRATEGIC_STRATASSESS_QUALITY_DEGRADATION",
       "label": "Defense Strategic Stratassess Quality Degradation",
       "summary": "Progressive decline in Defense Strategic Stratassess quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "DMN",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Strategic Assessment Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

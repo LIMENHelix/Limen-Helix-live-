@@ -3369,6 +3369,15 @@
       "summary": "Critical breakdown in Energy Hydrogen systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CAUD",
           "dir": "Hyper-active",
           "detail": "Hydrogen Assessment & Diagnostics function overloaded",
@@ -3398,13 +3407,28 @@
           "detail": "Hydrogen Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "ENERGY_HYDROGEN_CAPACITY_OVERLOAD",
       "label": "Energy Hydrogen Capacity Overload",
       "summary": "Demand exceeding available Energy Hydrogen capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CAUD",
           "dir": "Hyper-active",
@@ -3429,13 +3453,28 @@
           "detail": "Hydrogen Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "ENERGY_HYDROGEN_QUALITY_DEGRADATION",
       "label": "Energy Hydrogen Quality Degradation",
       "summary": "Progressive decline in Energy Hydrogen quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CAUD",
           "dir": "Hypo-active",
@@ -3460,7 +3499,13 @@
           "detail": "Hydrogen Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

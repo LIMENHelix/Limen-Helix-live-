@@ -3160,6 +3160,15 @@
       "circuits": [
         {
           "nodeId": "M1",
+          "dir": "Hypo",
+          "detail": "primary motor cortex — motor output — weakness, paresis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
+          "nodeId": "M1",
           "dir": "Hypo-active",
           "detail": "Primary tractor power units offline due to mechanical or hydraulic system failure",
           "evidence": "Strong"
@@ -3188,13 +3197,28 @@
           "detail": "Telematic diagnostic alerts unheeded or misinterpreted before catastrophic failure",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "M1",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "PRECISION_TECH_FAILURE",
       "label": "Precision Technology Failure",
       "summary": "GPS guidance, variable-rate controllers, or telematics systems malfunctioning causing misapplication, overlap, skips, and wasted inputs",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dlPFC",
           "dir": "Hypo-active",
@@ -3225,13 +3249,28 @@
           "detail": "Tractor implement bus communication errors disrupting ISOBUS-controlled operations",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "CAPITAL_OVEREXTENSION",
       "label": "Capital Overextension",
       "summary": "Excessive equipment investment relative to farm revenue creating unsustainable debt loads, deferred maintenance, and financial stress",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "vmPFC",
           "dir": "Hyper-active",
@@ -3262,13 +3301,28 @@
           "detail": "Aging combine fleet retained past economic life due to inability to finance replacements",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "OPERATOR_SHORTAGE",
       "label": "Operator Shortage",
       "summary": "Insufficient skilled equipment operators to run machinery during critical planting and harvest windows, limiting operational capacity",
       "circuits": [
+        {
+          "nodeId": "SMA",
+          "dir": "Hypo",
+          "detail": "supplementary motor — self-initiated action sequencing — akinesia, initiation failure",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "M1",
           "dir": "Hypo-active",
@@ -3299,13 +3353,28 @@
           "detail": "Planting windows missed due to insufficient operators to run all available planter units",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "SMA",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "SUPPLY_CHAIN_DISRUPTION",
       "label": "Parts Supply Chain Disruption",
       "summary": "Disrupted supply chains for equipment parts, components, and new machinery deliveries extending downtime and delaying field operations",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HIPP",
           "dir": "Hypo-active",
@@ -3336,7 +3405,13 @@
           "detail": "Combine header and feederhouse components unavailable during pre-harvest preparation",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

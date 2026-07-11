@@ -4247,6 +4247,15 @@
       "summary": "Critical breakdown in Intelligence Counterterror systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "BLA",
+          "dir": "Hypo",
+          "detail": "threat learning/acquisition — fearless",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "SEPT",
           "dir": "Hyper-active",
           "detail": "Counterterror Assessment & Diagnostics function overloaded",
@@ -4276,13 +4285,28 @@
           "detail": "Counterterror Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BLA",
+        "dir": "hypo",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_COUNTERTERROR_CAPACITY_OVERLOAD",
       "label": "Intelligence Counterterror Capacity Overload",
       "summary": "Demand exceeding available Intelligence Counterterror capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper",
+          "detail": "threat learning/acquisition — over-fear=PTSD",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SEPT",
           "dir": "Hyper-active",
@@ -4307,13 +4331,28 @@
           "detail": "Counterterror Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BLA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_COUNTERTERROR_QUALITY_DEGRADATION",
       "label": "Intelligence Counterterror Quality Degradation",
       "summary": "Progressive decline in Intelligence Counterterror quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CeA",
+          "dir": "Hyper",
+          "detail": "phasic fear output — hair-trigger=false-alarm",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SEPT",
           "dir": "Hypo-active",
@@ -4338,7 +4377,13 @@
           "detail": "Counterterror Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CeA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

@@ -7793,6 +7793,15 @@
       "summary": "Critical breakdown in Science Workforce systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "CAUD",
+          "dir": "Hypo",
+          "detail": "caudate — goal-directed action selection — apathy, bradyphrenia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "MGN",
           "dir": "Hyper-active",
           "detail": "Workforce Assessment & Diagnostics function overloaded",
@@ -7822,13 +7831,28 @@
           "detail": "Workforce Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CAUD",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "SCIENCE_WORKFORCE_CAPACITY_OVERLOAD",
       "label": "Science Workforce Capacity Overload",
       "summary": "Demand exceeding available Science Workforce capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "CAUD",
+          "dir": "Hyper",
+          "detail": "caudate — goal-directed action selection — compulsion/OCD loop",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MGN",
           "dir": "Hyper-active",
@@ -7853,13 +7877,28 @@
           "detail": "Workforce Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CAUD",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "SCIENCE_WORKFORCE_QUALITY_DEGRADATION",
       "label": "Science Workforce Quality Degradation",
       "summary": "Progressive decline in Science Workforce quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MGN",
           "dir": "Hypo-active",
@@ -7884,7 +7923,13 @@
           "detail": "Workforce Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

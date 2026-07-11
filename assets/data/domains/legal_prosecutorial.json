@@ -402,6 +402,15 @@
       "summary": "Critical breakdown in Prosecutorial Oversight systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hyper",
+          "detail": "top-down inhibitory brake — over-grip=flatness",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "vlPFC",
           "dir": "Hypo-active",
           "detail": "Prosecutorial Oversight Assessment & Diagnostics capacity falling below operational thresholds, reducing Prosecutorial Oversight output and reliability",
@@ -431,13 +440,28 @@
           "detail": "Prosecutorial Oversight Performance & Optimization function reduced, compromising Prosecutorial Oversight system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hyper",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "LEGAL_PROSECUTORIAL_CAPACITY_CRISIS",
       "label": "Prosecutorial Oversight Capacity Crisis",
       "summary": "Demand exceeding available Prosecutorial Oversight capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TPJ",
           "dir": "Hyper-active",
@@ -468,13 +492,28 @@
           "detail": "Prosecutorial Oversight Performance & Optimization operating outside normal parameters, introducing uncertainty into Prosecutorial Oversight outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "LEGAL_PROSECUTORIAL_GOVERNANCE_GAP",
       "label": "Prosecutorial Oversight Governance Gap",
       "summary": "Oversight or regulatory failure in Prosecutorial Oversight creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "RSC",
           "dir": "Hypo-active",
@@ -505,7 +544,13 @@
           "detail": "Prosecutorial Oversight Coordination & Integration function reduced, compromising Prosecutorial Oversight system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ]
 }

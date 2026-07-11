@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Trade Origincert Origfraud systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "BLA",
+          "dir": "Hypo",
+          "detail": "threat learning/acquisition — fearless",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "FPN",
           "dir": "Hyper-active",
           "detail": "Origin Fraud Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Origin Fraud Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BLA",
+        "dir": "hypo",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "TRADE_ORIGINCERT_ORIGFRAUD_CAPACITY_OVERLOAD",
       "label": "Trade Origincert Origfraud Capacity Overload",
       "summary": "Demand exceeding available Trade Origincert Origfraud capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "CeA",
+          "dir": "Hyper",
+          "detail": "phasic fear output — hair-trigger=false-alarm",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FPN",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Origin Fraud Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CeA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "TRADE_ORIGINCERT_ORIGFRAUD_QUALITY_DEGRADATION",
       "label": "Trade Origincert Origfraud Quality Degradation",
       "summary": "Progressive decline in Trade Origincert Origfraud quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper",
+          "detail": "threat learning/acquisition — over-fear=PTSD",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FPN",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Origin Fraud Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BLA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     }
   ]
 }

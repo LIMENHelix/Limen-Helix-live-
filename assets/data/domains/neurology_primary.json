@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Primary Motor Cortex systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "M1",
+          "dir": "Hyper",
+          "detail": "primary motor cortex — motor output — hyperkinesia/spasticity",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "mPFC",
           "dir": "Hypo-active",
           "detail": "Primary Motor Cortex Assessment & Diagnostics capacity falling below operational thresholds, reducing Primary Motor Cortex output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Primary Motor Cortex Performance & Optimization function reduced, compromising Primary Motor Cortex system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "M1",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "NEUROLOGY_PRIMARY_CAPACITY_CRISIS",
       "label": "Primary Motor Cortex Capacity Crisis",
       "summary": "Demand exceeding available Primary Motor Cortex capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "M1",
+          "dir": "Hypo",
+          "detail": "primary motor cortex — motor output — weakness, paresis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PCC",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Primary Motor Cortex Performance & Optimization operating outside normal parameters, introducing uncertainty into Primary Motor Cortex outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "M1",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "NEUROLOGY_PRIMARY_GOVERNANCE_GAP",
       "label": "Primary Motor Cortex Governance Gap",
       "summary": "Oversight or regulatory failure in Primary Motor Cortex creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "M1",
+          "dir": "Hypo",
+          "detail": "primary motor cortex — motor output — weakness, paresis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "EC",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Primary Motor Cortex Coordination & Integration function reduced, compromising Primary Motor Cortex system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "M1",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

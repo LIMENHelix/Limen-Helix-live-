@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Economy Debt Debtrestr systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HAB",
+          "dir": "Hypo",
+          "detail": "anti-reward brake — too-weak=sunk-cost",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "dACC",
           "dir": "Hyper-active",
           "detail": "Debt Restructuring Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Debt Restructuring Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HAB",
+        "dir": "hypo",
+        "motif": "M8",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_DEBT_DEBTRESTR_CAPACITY_OVERLOAD",
       "label": "Economy Debt Debtrestr Capacity Overload",
       "summary": "Demand exceeding available Economy Debt Debtrestr capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "HAB",
+          "dir": "Hyper",
+          "detail": "anti-reward brake — too-strong=anhedonia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dACC",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Debt Restructuring Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HAB",
+        "dir": "hyper",
+        "motif": "M8",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_DEBT_DEBTRESTR_QUALITY_DEGRADATION",
       "label": "Economy Debt Debtrestr Quality Degradation",
       "summary": "Progressive decline in Economy Debt Debtrestr quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "HAB",
+          "dir": "Hypo",
+          "detail": "anti-reward brake — too-weak=sunk-cost",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dACC",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Debt Restructuring Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HAB",
+        "dir": "hypo",
+        "motif": "M8",
+        "source": "override"
+      }
     }
   ]
 }

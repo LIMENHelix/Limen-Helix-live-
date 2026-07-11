@@ -15,12 +15,32 @@
       "group": "generation",
       "phase": "P1",
       "weight": 1,
-      "diagnosticTriggers": ["AI compute demand surge", "Grid interconnection backlog", "Cooling water stress", "On-site generation buildout"],
+      "diagnosticTriggers": [
+        "AI compute demand surge",
+        "Grid interconnection backlog",
+        "Cooling water stress",
+        "On-site generation buildout"
+      ],
       "functional_role": "amplifier",
       "companies": [
-        { "name": "NVIDIA", "ticker_or_id": "NVDA", "functional_reason": "Accelerated-compute hardware driving data-center power density and total load.", "binding_strength": 0.95 },
-        { "name": "GE Vernova", "ticker_or_id": "GEV", "functional_reason": "Turbines and grid equipment serving data-center firm power.", "binding_strength": 0.88 },
-        { "name": "Vertiv", "ticker_or_id": "VRT", "functional_reason": "Power and thermal (cooling) systems for high-density data centers.", "binding_strength": 0.86 }
+        {
+          "name": "NVIDIA",
+          "ticker_or_id": "NVDA",
+          "functional_reason": "Accelerated-compute hardware driving data-center power density and total load.",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "GE Vernova",
+          "ticker_or_id": "GEV",
+          "functional_reason": "Turbines and grid equipment serving data-center firm power.",
+          "binding_strength": 0.88
+        },
+        {
+          "name": "Vertiv",
+          "ticker_or_id": "VRT",
+          "functional_reason": "Power and thermal (cooling) systems for high-density data centers.",
+          "binding_strength": 0.86
+        }
       ],
       "treatments": [],
       "childPortal": "energy_datacenter_portal.html"
@@ -1750,6 +1770,15 @@
       "circuits": [
         {
           "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
+          "nodeId": "THAL",
           "dir": "Hypo-active",
           "detail": "Grid distribution routing fails as relay and switching systems lose coordination, preventing orderly load transfer and fault isolation",
           "evidence": "Strong"
@@ -1778,13 +1807,28 @@
           "detail": "Generation output drops as plants trip offline from frequency deviations, removing the primary power production capacity",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "OIL_SHOCK",
       "label": "Oil Supply Shock",
       "summary": "Sudden disruption to global oil supply from geopolitical conflict, embargo, or major production facility damage, causing rapid price spikes and fuel shortages that propagate through transportation, petrochemical, and heating sectors.",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "STRI",
           "dir": "Hypo-active",
@@ -1821,13 +1865,28 @@
           "detail": "Refining operations must rapidly reconfigure to process different crude slates as feedstock composition changes with supply source shifts",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "NUCLEAR_INCIDENT",
       "label": "Nuclear Incident",
       "summary": "A reactor safety event ranging from coolant system malfunction to partial core damage, triggering containment protocols, evacuation procedures, and long-term radiological monitoring with cascading impacts on public trust and nuclear policy.",
       "circuits": [
+        {
+          "nodeId": "PAG",
+          "dir": "Hypo",
+          "detail": "defensive kill/lockdown — no-stop",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PAG",
           "dir": "Hyper-active",
@@ -1858,13 +1917,28 @@
           "detail": "Emissions monitoring shifts to radiological contamination tracking while fossil backup generation increases overall carbon output",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PAG",
+        "dir": "hypo",
+        "motif": "M8",
+        "source": "override"
+      }
     },
     {
       "id": "RENEWABLE_INTERMITTENCY",
       "label": "Renewable Intermittency Crisis",
       "summary": "Extended period of low solar irradiance and wind speeds across a major grid region coinciding with high demand, exhausting storage reserves and exposing the system's dependence on variable generation without adequate firm capacity backup.",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hypo",
+          "detail": "homeostatic set-point — delayed=oscillation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "VTA",
           "dir": "Hypo-active",
@@ -1901,13 +1975,28 @@
           "detail": "Energy spot market prices spike dramatically as scarcity pricing reflects the real-time supply deficit across the grid region",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hypo",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "PIPELINE_DISRUPTION",
       "label": "Pipeline Disruption",
       "summary": "Major pipeline system failure from physical damage, cyberattack on control systems, or regulatory shutdown, cutting off fuel supply to downstream consumers and triggering regional energy shortages and price cascades.",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FORN",
           "dir": "Hypo-active",
@@ -1938,13 +2027,28 @@
           "detail": "Upstream extraction operations are forced to curtail production or seek alternative transport as pipeline takeaway capacity is lost",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "SYSTEMIC_ENERGY_STRESS",
       "label": "Systemic Energy Stress",
       "summary": "Sustained pressure across the energy system from combined high stress, structural strain, and macro shock conditions, creating cumulative load on policy, market, grid, demand, storage, and generation subsystems without a single isolated failure point.",
       "circuits": [
+        {
+          "nodeId": "HIPP",
+          "dir": "Hyper",
+          "detail": "HPA feedback + memory index — feedback-fail=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "vmPFC",
           "dir": "Hyper-active",
@@ -1981,7 +2085,13 @@
           "detail": "Generation and fossil-fuel operating patterns shift under systemic pressure as the domain compensates for stress across adjacent energy subsystems",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HIPP",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     }
   ],
   "edges": [

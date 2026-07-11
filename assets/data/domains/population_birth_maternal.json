@@ -2275,6 +2275,15 @@
       "summary": "Critical breakdown in Population Birth Maternal systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "SEPT",
+          "dir": "Hypo",
+          "detail": "septal nuclei — theta rhythm / social reward — blunted bonding",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "STS",
           "dir": "Hyper-active",
           "detail": "Maternal Health Assessment & Diagnostics function overloaded",
@@ -2304,13 +2313,28 @@
           "detail": "Maternal Health Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "SEPT",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_BIRTH_MATERNAL_CAPACITY_OVERLOAD",
       "label": "Population Birth Maternal Capacity Overload",
       "summary": "Demand exceeding available Population Birth Maternal capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "SEPT",
+          "dir": "Hyper",
+          "detail": "septal nuclei — theta rhythm / social reward — over-arousal",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "STS",
           "dir": "Hyper-active",
@@ -2335,13 +2359,28 @@
           "detail": "Maternal Health Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "SEPT",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_BIRTH_MATERNAL_QUALITY_DEGRADATION",
       "label": "Population Birth Maternal Quality Degradation",
       "summary": "Progressive decline in Population Birth Maternal quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "SEPT",
+          "dir": "Hypo",
+          "detail": "septal nuclei — theta rhythm / social reward — blunted bonding",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "STS",
           "dir": "Hypo-active",
@@ -2366,7 +2405,13 @@
           "detail": "Maternal Health Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "SEPT",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

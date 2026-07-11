@@ -2275,6 +2275,15 @@
       "summary": "Critical breakdown in Economy Monetary Qe systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "NAcc",
+          "dir": "Hypo",
+          "detail": "incentive/reward drive — avolition",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "OPIOID",
           "dir": "Hyper-active",
           "detail": "Quantitative Easing Assessment & Diagnostics function overloaded",
@@ -2304,13 +2313,28 @@
           "detail": "Quantitative Easing Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_MONETARY_QE_CAPACITY_OVERLOAD",
       "label": "Economy Monetary Qe Capacity Overload",
       "summary": "Demand exceeding available Economy Monetary Qe capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
+          "detail": "incentive/reward drive — over-pursuit=bubble",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OPIOID",
           "dir": "Hyper-active",
@@ -2335,13 +2359,28 @@
           "detail": "Quantitative Easing Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_MONETARY_QE_QUALITY_DEGRADATION",
       "label": "Economy Monetary Qe Quality Degradation",
       "summary": "Progressive decline in Economy Monetary Qe quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OPIOID",
           "dir": "Hypo-active",
@@ -2366,7 +2405,13 @@
           "detail": "Quantitative Easing Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Religion Religionlaw Churchstat systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vlPFC",
+          "dir": "Hypo",
+          "detail": "response-inhibition / stop — disinhibited",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "AI",
           "dir": "Hyper-active",
           "detail": "Church-State Separation Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Church-State Separation Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_RELIGIONLAW_CHURCHSTAT_CAPACITY_OVERLOAD",
       "label": "Religion Religionlaw Churchstat Capacity Overload",
       "summary": "Demand exceeding available Religion Religionlaw Churchstat capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "AI",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Church-State Separation Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_RELIGIONLAW_CHURCHSTAT_QUALITY_DEGRADATION",
       "label": "Religion Religionlaw Churchstat Quality Degradation",
       "summary": "Progressive decline in Religion Religionlaw Churchstat quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo",
+          "detail": "dorsolateral PFC — executive working-memory / cognitive control — executive-lapse, distractible",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "AI",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Church-State Separation Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dlPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

@@ -3845,6 +3845,15 @@
       "summary": "Critical breakdown in Logistics & Supply systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "M1",
           "dir": "Hypo-active",
           "detail": "Logistics & Supply Assessment & Diagnostics capacity falling below operational thresholds, reducing Logistics & Supply output and reliability",
@@ -3874,13 +3883,28 @@
           "detail": "Logistics & Supply Performance & Optimization function reduced, compromising Logistics & Supply system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_LOGISTICS_CAPACITY_CRISIS",
       "label": "Logistics & Supply Capacity Crisis",
       "summary": "Demand exceeding available Logistics & Supply capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "S1",
           "dir": "Hyper-active",
@@ -3911,13 +3935,28 @@
           "detail": "Logistics & Supply Performance & Optimization operating outside normal parameters, introducing uncertainty into Logistics & Supply outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_LOGISTICS_GOVERNANCE_GAP",
       "label": "Logistics & Supply Governance Gap",
       "summary": "Oversight or regulatory failure in Logistics & Supply creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HIPP",
           "dir": "Hypo-active",
@@ -3948,7 +3987,13 @@
           "detail": "Logistics & Supply Coordination & Integration function reduced, compromising Logistics & Supply system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

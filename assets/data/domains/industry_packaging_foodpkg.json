@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Industry Packaging Foodpkg systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "STN",
+          "dir": "Hypo",
+          "detail": "hyperdirect brake / hold — no-brake=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "LC",
           "dir": "Hyper-active",
           "detail": "Food Packaging Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Food Packaging Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "INDUSTRY_PACKAGING_FOODPKG_CAPACITY_OVERLOAD",
       "label": "Industry Packaging Foodpkg Capacity Overload",
       "summary": "Demand exceeding available Industry Packaging Foodpkg capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "LC",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Food Packaging Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "INDUSTRY_PACKAGING_FOODPKG_QUALITY_DEGRADATION",
       "label": "Industry Packaging Foodpkg Quality Degradation",
       "summary": "Progressive decline in Industry Packaging Foodpkg quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "LC",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Food Packaging Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

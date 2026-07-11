@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Intelligence Allsource Structanl systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "IPL",
+          "dir": "Hypo",
+          "detail": "inferior parietal — multimodal integration — integration deficit",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "ARC",
           "dir": "Hyper-active",
           "detail": "Structured Analysis Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Structured Analysis Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "IPL",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_ALLSOURCE_STRUCTANL_CAPACITY_OVERLOAD",
       "label": "Intelligence Allsource Structanl Capacity Overload",
       "summary": "Demand exceeding available Intelligence Allsource Structanl capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "IPL",
+          "dir": "Hyper",
+          "detail": "inferior parietal — multimodal integration — sensory over-binding",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ARC",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Structured Analysis Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "IPL",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_ALLSOURCE_STRUCTANL_QUALITY_DEGRADATION",
       "label": "Intelligence Allsource Structanl Quality Degradation",
       "summary": "Progressive decline in Intelligence Allsource Structanl quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ARC",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Structured Analysis Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

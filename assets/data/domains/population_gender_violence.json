@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Population Gender Violence systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "BNST",
+          "dir": "Hyper",
+          "detail": "sustained threat monitor — tonic-stuck=burnout",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "NAcc",
           "dir": "Hyper-active",
           "detail": "Gender-Based Violence Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Gender-Based Violence Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BNST",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_GENDER_VIOLENCE_CAPACITY_OVERLOAD",
       "label": "Population Gender Violence Capacity Overload",
       "summary": "Demand exceeding available Population Gender Violence capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "CeA",
+          "dir": "Hyper",
+          "detail": "phasic fear output — hair-trigger=false-alarm",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NAcc",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Gender-Based Violence Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CeA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_GENDER_VIOLENCE_QUALITY_DEGRADATION",
       "label": "Population Gender Violence Quality Degradation",
       "summary": "Progressive decline in Population Gender Violence quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper",
+          "detail": "threat learning/acquisition — over-fear=PTSD",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NAcc",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Gender-Based Violence Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BLA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     }
   ]
 }

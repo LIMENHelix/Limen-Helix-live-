@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Emotional Valuation systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "outcome valuation / update — confabulation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "vmPFC",
           "dir": "Hypo-active",
           "detail": "Emotional Valuation Assessment & Diagnostics capacity falling below operational thresholds, reducing Emotional Valuation output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Emotional Valuation Performance & Optimization function reduced, compromising Emotional Valuation system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "CONTEMPLATIVE_EMOTIONAL_CAPACITY_CRISIS",
       "label": "Emotional Valuation Capacity Crisis",
       "summary": "Demand exceeding available Emotional Valuation capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "outcome valuation / update — confabulation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "VTA",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Emotional Valuation Performance & Optimization operating outside normal parameters, introducing uncertainty into Emotional Valuation outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "CONTEMPLATIVE_EMOTIONAL_GOVERNANCE_GAP",
       "label": "Emotional Valuation Governance Gap",
       "summary": "Oversight or regulatory failure in Emotional Valuation creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hypo",
+          "detail": "outcome valuation / update — over-react",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "AI",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Emotional Valuation Coordination & Integration function reduced, compromising Emotional Valuation system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

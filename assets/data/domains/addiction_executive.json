@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Executive Inhibition Gateway systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vlPFC",
+          "dir": "Hyper",
+          "detail": "response-inhibition / stop — over-suppress",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "HYPO",
           "dir": "Hypo-active",
           "detail": "Executive Inhibition Gateway Assessment & Diagnostics capacity falling below operational thresholds, reducing Executive Inhibition Gateway output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Executive Inhibition Gateway Performance & Optimization function reduced, compromising Executive Inhibition Gateway system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hyper",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "ADDICTION_EXECUTIVE_CAPACITY_CRISIS",
       "label": "Executive Inhibition Gateway Capacity Crisis",
       "summary": "Demand exceeding available Executive Inhibition Gateway capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "STN",
+          "dir": "Hyper",
+          "detail": "hyperdirect brake / hold — over-brake=paralysis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PIT",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Executive Inhibition Gateway Performance & Optimization operating outside normal parameters, introducing uncertainty into Executive Inhibition Gateway outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hyper",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "ADDICTION_EXECUTIVE_GOVERNANCE_GAP",
       "label": "Executive Inhibition Gateway Governance Gap",
       "summary": "Oversight or regulatory failure in Executive Inhibition Gateway creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hypo",
+          "detail": "response-inhibition / stop — disinhibited",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "LC",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Executive Inhibition Gateway Coordination & Integration function reduced, compromising Executive Inhibition Gateway system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ]
 }

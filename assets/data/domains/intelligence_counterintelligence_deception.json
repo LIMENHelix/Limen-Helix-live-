@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Intelligence Counterintelligence Deception systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "EMP",
           "dir": "Hyper-active",
           "detail": "Counterintelligence Deception Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Counterintelligence Deception Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_COUNTERINTELLIGENCE_DECEPTION_CAPACITY_OVERLOAD",
       "label": "Intelligence Counterintelligence Deception Capacity Overload",
       "summary": "Demand exceeding available Intelligence Counterintelligence Deception capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "EMP",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Counterintelligence Deception Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_COUNTERINTELLIGENCE_DECEPTION_QUALITY_DEGRADATION",
       "label": "Intelligence Counterintelligence Deception Quality Degradation",
       "summary": "Progressive decline in Intelligence Counterintelligence Deception quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "EMP",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Counterintelligence Deception Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

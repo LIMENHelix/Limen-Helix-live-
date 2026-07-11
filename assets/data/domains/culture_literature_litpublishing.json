@@ -2274,6 +2274,15 @@
       "summary": "Critical breakdown in Culture Literature Litpublishing systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "BROCA",
+          "dir": "Hypo",
+          "detail": "Broca's area — expressive language production — expressive block, aphasia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "TPOLE",
           "dir": "Hyper-active",
           "detail": "Literary Publishing Assessment & Diagnostics function overloaded",
@@ -2303,13 +2312,28 @@
           "detail": "Literary Publishing Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BROCA",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "CULTURE_LITERATURE_LITPUBLISHING_CAPACITY_OVERLOAD",
       "label": "Culture Literature Litpublishing Capacity Overload",
       "summary": "Demand exceeding available Culture Literature Litpublishing capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "BROCA",
+          "dir": "Hyper",
+          "detail": "Broca's area — expressive language production — pressured/over-production",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TPOLE",
           "dir": "Hyper-active",
@@ -2334,13 +2358,28 @@
           "detail": "Literary Publishing Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BROCA",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "CULTURE_LITERATURE_LITPUBLISHING_QUALITY_DEGRADATION",
       "label": "Culture Literature Litpublishing Quality Degradation",
       "summary": "Progressive decline in Culture Literature Litpublishing quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "WERN",
+          "dir": "Hyper",
+          "detail": "Wernicke's area — receptive language comprehension — over-interpretation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TPOLE",
           "dir": "Hypo-active",
@@ -2365,7 +2404,13 @@
           "detail": "Literary Publishing Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "WERN",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

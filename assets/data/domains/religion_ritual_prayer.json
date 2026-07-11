@@ -2275,6 +2275,15 @@
       "summary": "Critical breakdown in Religion Ritual Prayer systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "BROCA",
+          "dir": "Hypo",
+          "detail": "Broca's area — expressive language production — expressive block, aphasia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "EC",
           "dir": "Hyper-active",
           "detail": "Prayer Practice Assessment & Diagnostics function overloaded",
@@ -2304,13 +2313,28 @@
           "detail": "Prayer Practice Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BROCA",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_RITUAL_PRAYER_CAPACITY_OVERLOAD",
       "label": "Religion Ritual Prayer Capacity Overload",
       "summary": "Demand exceeding available Religion Ritual Prayer capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "BROCA",
+          "dir": "Hyper",
+          "detail": "Broca's area — expressive language production — pressured/over-production",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "EC",
           "dir": "Hyper-active",
@@ -2335,13 +2359,28 @@
           "detail": "Prayer Practice Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BROCA",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_RITUAL_PRAYER_QUALITY_DEGRADATION",
       "label": "Religion Ritual Prayer Quality Degradation",
       "summary": "Progressive decline in Religion Ritual Prayer quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "BROCA",
+          "dir": "Hypo",
+          "detail": "Broca's area — expressive language production — expressive block, aphasia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "EC",
           "dir": "Hypo-active",
@@ -2366,7 +2405,13 @@
           "detail": "Prayer Practice Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BROCA",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

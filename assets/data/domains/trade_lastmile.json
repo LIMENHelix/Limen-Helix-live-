@@ -4412,6 +4412,15 @@
       "summary": "Critical breakdown in Last-Mile Delivery systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "STN",
+          "dir": "Hypo",
+          "detail": "hyperdirect brake / hold — no-brake=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "BDNF",
           "dir": "Hypo-active",
           "detail": "Last-Mile Delivery Assessment & Diagnostics capacity falling below operational thresholds, reducing Last-Mile Delivery output and reliability",
@@ -4441,13 +4450,28 @@
           "detail": "Last-Mile Delivery Performance & Optimization function reduced, compromising Last-Mile Delivery system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "TRADE_LASTMILE_CAPACITY_CRISIS",
       "label": "Last-Mile Delivery Capacity Crisis",
       "summary": "Demand exceeding available Last-Mile Delivery capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "GP",
+          "dir": "Hyper",
+          "detail": "basal-ganglia output gate — flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TrkB",
           "dir": "Hyper-active",
@@ -4478,13 +4502,28 @@
           "detail": "Last-Mile Delivery Performance & Optimization operating outside normal parameters, introducing uncertainty into Last-Mile Delivery outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "GP",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "TRADE_LASTMILE_GOVERNANCE_GAP",
       "label": "Last-Mile Delivery Governance Gap",
       "summary": "Oversight or regulatory failure in Last-Mile Delivery creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "LC",
           "dir": "Hypo-active",
@@ -4515,7 +4554,13 @@
           "detail": "Last-Mile Delivery Coordination & Integration function reduced, compromising Last-Mile Delivery system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

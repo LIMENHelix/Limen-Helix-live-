@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Industry Biotech Biotechreg systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "dACC",
           "dir": "Hyper-active",
           "detail": "Biotech Regulation Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Biotech Regulation Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "INDUSTRY_BIOTECH_BIOTECHREG_CAPACITY_OVERLOAD",
       "label": "Industry Biotech Biotechreg Capacity Overload",
       "summary": "Demand exceeding available Industry Biotech Biotechreg capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dACC",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Biotech Regulation Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "INDUSTRY_BIOTECH_BIOTECHREG_QUALITY_DEGRADATION",
       "label": "Industry Biotech Biotechreg Quality Degradation",
       "summary": "Progressive decline in Industry Biotech Biotechreg quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "outcome valuation / update — confabulation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dACC",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Biotech Regulation Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

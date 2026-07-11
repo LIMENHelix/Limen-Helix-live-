@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Law Military Cyberwar systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "BNST",
+          "dir": "Hypo",
+          "detail": "sustained threat monitor — under-vigilant",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "S1",
           "dir": "Hyper-active",
           "detail": "Cyber Warfare Law Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Cyber Warfare Law Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BNST",
+        "dir": "hypo",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "LAW_MILITARY_CYBERWAR_CAPACITY_OVERLOAD",
       "label": "Law Military Cyberwar Capacity Overload",
       "summary": "Demand exceeding available Law Military Cyberwar capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "BNST",
+          "dir": "Hyper",
+          "detail": "sustained threat monitor — tonic-stuck=burnout",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "S1",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Cyber Warfare Law Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BNST",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "LAW_MILITARY_CYBERWAR_QUALITY_DEGRADATION",
       "label": "Law Military Cyberwar Quality Degradation",
       "summary": "Progressive decline in Law Military Cyberwar quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "S1",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Cyber Warfare Law Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Industry Safety Ergonomic systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "CING",
+          "dir": "Hypo",
+          "detail": "mid-cingulate (MCC) — action-outcome & effort integration — effort-apathy, error-blind",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "S1",
           "dir": "Hyper-active",
           "detail": "Ergonomic Safety Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Ergonomic Safety Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CING",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "INDUSTRY_SAFETY_ERGONOMIC_CAPACITY_OVERLOAD",
       "label": "Industry Safety Ergonomic Capacity Overload",
       "summary": "Demand exceeding available Industry Safety Ergonomic capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "CING",
+          "dir": "Hyper",
+          "detail": "mid-cingulate (MCC) — action-outcome & effort integration — over-effort/conflict-monitoring",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "S1",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Ergonomic Safety Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CING",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "INDUSTRY_SAFETY_ERGONOMIC_QUALITY_DEGRADATION",
       "label": "Industry Safety Ergonomic Quality Degradation",
       "summary": "Progressive decline in Industry Safety Ergonomic quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "S1",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Ergonomic Safety Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

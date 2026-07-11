@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Religion Indigenous Sacredsit systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "PPA",
+          "dir": "Hypo",
+          "detail": "parahippocampal place area — scene/context recognition — context blindness",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "SN",
           "dir": "Hyper-active",
           "detail": "Sacred Sites Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Sacred Sites Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PPA",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_INDIGENOUS_SACREDSIT_CAPACITY_OVERLOAD",
       "label": "Religion Indigenous Sacredsit Capacity Overload",
       "summary": "Demand exceeding available Religion Indigenous Sacredsit capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "PPA",
+          "dir": "Hyper",
+          "detail": "parahippocampal place area — scene/context recognition — context over-binding",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SN",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Sacred Sites Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PPA",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_INDIGENOUS_SACREDSIT_QUALITY_DEGRADATION",
       "label": "Religion Indigenous Sacredsit Quality Degradation",
       "summary": "Progressive decline in Religion Indigenous Sacredsit quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "RSC",
+          "dir": "Hypo",
+          "detail": "retrosplenial — spatial memory & navigation — topographical disorientation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SN",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Sacred Sites Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "RSC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

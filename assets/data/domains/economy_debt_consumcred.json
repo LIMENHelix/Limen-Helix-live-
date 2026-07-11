@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Economy Debt Consumcred systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "NAcc",
+          "dir": "Hypo",
+          "detail": "incentive/reward drive — avolition",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "SMA",
           "dir": "Hyper-active",
           "detail": "Consumer Credit Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Consumer Credit Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_DEBT_CONSUMCRED_CAPACITY_OVERLOAD",
       "label": "Economy Debt Consumcred Capacity Overload",
       "summary": "Demand exceeding available Economy Debt Consumcred capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
+          "detail": "incentive/reward drive — over-pursuit=bubble",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SMA",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Consumer Credit Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_DEBT_CONSUMCRED_QUALITY_DEGRADATION",
       "label": "Economy Debt Consumcred Quality Degradation",
       "summary": "Progressive decline in Economy Debt Consumcred quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
+          "detail": "incentive/reward drive — over-pursuit=bubble",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SMA",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Consumer Credit Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     }
   ]
 }

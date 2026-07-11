@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Religion Relhistory Missionary systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HAB",
+          "dir": "Hypo",
+          "detail": "anti-reward brake — too-weak=sunk-cost",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "HPA",
           "dir": "Hyper-active",
           "detail": "Missionary History Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Missionary History Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HAB",
+        "dir": "hypo",
+        "motif": "M8",
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_RELHISTORY_MISSIONARY_CAPACITY_OVERLOAD",
       "label": "Religion Relhistory Missionary Capacity Overload",
       "summary": "Demand exceeding available Religion Relhistory Missionary capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
+          "detail": "incentive/reward drive — over-pursuit=bubble",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HPA",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Missionary History Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_RELHISTORY_MISSIONARY_QUALITY_DEGRADATION",
       "label": "Religion Relhistory Missionary Quality Degradation",
       "summary": "Progressive decline in Religion Relhistory Missionary quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "outcome valuation / update — confabulation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HPA",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Missionary History Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

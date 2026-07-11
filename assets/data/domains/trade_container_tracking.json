@@ -2277,6 +2277,15 @@
       "summary": "Critical breakdown in Trade Container Tracking systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "LC",
+          "dir": "Hypo",
+          "detail": "broadcast / alerting — low=missed",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "IPS",
           "dir": "Hyper-active",
           "detail": "Cargo Tracking Assessment & Diagnostics function overloaded",
@@ -2306,13 +2315,28 @@
           "detail": "Cargo Tracking Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "LC",
+        "dir": "hypo",
+        "motif": "M2",
+        "source": "override"
+      }
     },
     {
       "id": "TRADE_CONTAINER_TRACKING_CAPACITY_OVERLOAD",
       "label": "Trade Container Tracking Capacity Overload",
       "summary": "Demand exceeding available Trade Container Tracking capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "LC",
+          "dir": "Hyper",
+          "detail": "broadcast / alerting — gain stuck high=thrash",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "IPS",
           "dir": "Hyper-active",
@@ -2337,13 +2361,28 @@
           "detail": "Cargo Tracking Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "LC",
+        "dir": "hyper",
+        "motif": "M2",
+        "source": "override"
+      }
     },
     {
       "id": "TRADE_CONTAINER_TRACKING_QUALITY_DEGRADATION",
       "label": "Trade Container Tracking Quality Degradation",
       "summary": "Progressive decline in Trade Container Tracking quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "IPS",
           "dir": "Hypo-active",
@@ -2368,7 +2407,13 @@
           "detail": "Cargo Tracking Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

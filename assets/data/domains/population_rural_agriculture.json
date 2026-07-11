@@ -2276,6 +2276,15 @@
       "summary": "Critical breakdown in Population Rural Agriculture systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "A1",
           "dir": "Hyper-active",
           "detail": "Rural Agriculture Assessment & Diagnostics function overloaded",
@@ -2305,13 +2314,28 @@
           "detail": "Rural Agriculture Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_RURAL_AGRICULTURE_CAPACITY_OVERLOAD",
       "label": "Population Rural Agriculture Capacity Overload",
       "summary": "Demand exceeding available Population Rural Agriculture capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "A1",
           "dir": "Hyper-active",
@@ -2336,13 +2360,28 @@
           "detail": "Rural Agriculture Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_RURAL_AGRICULTURE_QUALITY_DEGRADATION",
       "label": "Population Rural Agriculture Quality Degradation",
       "summary": "Progressive decline in Population Rural Agriculture quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hypo",
+          "detail": "homeostatic set-point — delayed=oscillation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "A1",
           "dir": "Hypo-active",
@@ -2367,7 +2406,13 @@
           "detail": "Rural Agriculture Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hypo",
+        "motif": "M3",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Medicine Neurology Dementia systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "EC",
+          "dir": "Hypo",
+          "detail": "entorhinal — hippocampal memory gateway — encoding failure",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "ADR",
           "dir": "Hyper-active",
           "detail": "Dementia Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Dementia Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "EC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "MEDICINE_NEUROLOGY_DEMENTIA_CAPACITY_OVERLOAD",
       "label": "Medicine Neurology Dementia Capacity Overload",
       "summary": "Demand exceeding available Medicine Neurology Dementia capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "EC",
+          "dir": "Hyper",
+          "detail": "entorhinal — hippocampal memory gateway — memory flooding/interference",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ADR",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Dementia Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "EC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "MEDICINE_NEUROLOGY_DEMENTIA_QUALITY_DEGRADATION",
       "label": "Medicine Neurology Dementia Quality Degradation",
       "summary": "Progressive decline in Medicine Neurology Dementia quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo",
+          "detail": "HPA feedback + memory index — intrusive-recall",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ADR",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Dementia Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HIPP",
+        "dir": "hypo",
+        "motif": "M3",
+        "source": "override"
+      }
     }
   ]
 }

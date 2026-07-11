@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in HPA Axis Stress-Metabolism Coupling systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "BNST",
+          "dir": "Hyper",
+          "detail": "sustained threat monitor — tonic-stuck=burnout",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CC",
           "dir": "Hypo-active",
           "detail": "HPA Axis Stress-Metabolism Coupling Assessment & Diagnostics capacity falling below operational thresholds, reducing HPA Axis Stress-Metabolism Coupling output and reliability",
@@ -303,13 +312,28 @@
           "detail": "HPA Axis Stress-Metabolism Coupling Performance & Optimization function reduced, compromising HPA Axis Stress-Metabolism Coupling system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BNST",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "METABOLIC_HPA_CAPACITY_CRISIS",
       "label": "HPA Axis Stress-Metabolism Coupling Capacity Crisis",
       "summary": "Demand exceeding available HPA Axis Stress-Metabolism Coupling capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "PIT",
+          "dir": "Hyper",
+          "detail": "pituitary — endocrine output (HPA/HPG axis) — hormonal overdrive",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FORN",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "HPA Axis Stress-Metabolism Coupling Performance & Optimization operating outside normal parameters, introducing uncertainty into HPA Axis Stress-Metabolism Coupling outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PIT",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "METABOLIC_HPA_GOVERNANCE_GAP",
       "label": "HPA Axis Stress-Metabolism Coupling Governance Gap",
       "summary": "Oversight or regulatory failure in HPA Axis Stress-Metabolism Coupling creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "BNST",
+          "dir": "Hypo",
+          "detail": "sustained threat monitor — under-vigilant",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MAMM",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "HPA Axis Stress-Metabolism Coupling Coordination & Integration function reduced, compromising HPA Axis Stress-Metabolism Coupling system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BNST",
+        "dir": "hypo",
+        "motif": "M7",
+        "source": "override"
+      }
     }
   ]
 }

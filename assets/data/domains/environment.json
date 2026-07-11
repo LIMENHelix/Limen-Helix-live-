@@ -2389,6 +2389,15 @@
       "circuits": [
         {
           "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
+          "nodeId": "HYPO",
           "dir": "Hyper-destabilized",
           "detail": "Global thermoregulation overwhelmed — feedback loops accelerating beyond compensatory capacity",
           "evidence": "Strong"
@@ -2423,13 +2432,28 @@
           "detail": "Atmospheric composition shifting beyond Holocene baseline — novel climate states emerging",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "MASS_EXTINCTION",
       "label": "Mass Extinction Event",
       "summary": "Species loss rates 100-1000x background levels — sixth mass extinction accelerating across taxa",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MICRO",
           "dir": "Hyper-depleted",
@@ -2466,13 +2490,28 @@
           "detail": "Environmental monitoring detecting novel extinction cascades faster than management can respond",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "OCEAN_ACIDIFICATION",
       "label": "Ocean Acidification",
       "summary": "Marine pH declining from CO2 absorption — shell-forming organisms and coral reef systems collapsing",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NTS",
           "dir": "Hyper-acidified",
@@ -2503,13 +2542,28 @@
           "detail": "Polar ocean chemistry changing fastest — cold water absorbs more CO2, Arctic ecosystems most vulnerable",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "DEFORESTATION",
       "label": "Deforestation Crisis",
       "summary": "Global forest loss exceeding regrowth — Amazon, Congo, and Southeast Asian rainforests approaching dieback thresholds",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ENS",
           "dir": "Hyper-degraded",
@@ -2546,13 +2600,28 @@
           "detail": "Land-use policy captured by agricultural and extractive interests — conservation undervalued",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "TOXIC_CONTAMINATION",
       "label": "Toxic Contamination",
       "summary": "Persistent pollutants accumulating in water, soil, and biota — PFAS, heavy metals, microplastics reaching crisis levels",
       "circuits": [
+        {
+          "nodeId": "HAB",
+          "dir": "Hypo",
+          "detail": "anti-reward brake — too-weak=sunk-cost",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dACC",
           "dir": "Hyper-active",
@@ -2589,7 +2658,13 @@
           "detail": "Monitoring networks detecting contamination in previously pristine environments — no uncontaminated baseline remains",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HAB",
+        "dir": "hypo",
+        "motif": "M8",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {
@@ -2600,9 +2675,58 @@
       "validatedAt": "2026-06-23",
       "source": "environment-clarity-operator.js INVEST_TARGETS (env_climate/env_biodiversity/env_ocean/env_forest/env_pollution)",
       "note": "Real environmental-sector tickers added to climate/biodiversity/ocean/forest/pollution/water nodes at energy-parity binding strengths. Environmental identity kept distinct from energy (coupling via emissions/carbon only). 2026-06-23 parity pass: added waste-management & remediation primes (RSG/WCN/CWST) to Pollution Control and carbon-markets / carbon-removal primes (LIN/APD/DAR) to Climate Systems, closing the clarity-operator ↔ brain identity split for the waste and carbon-market environmental categories.",
-      "knownStubTickers": ["CARBON_CLEAN", "TNC_NPO", "NOAA_GOV", "EPA_GOV"],
+      "knownStubTickers": [
+        "CARBON_CLEAN",
+        "TNC_NPO",
+        "NOAA_GOV",
+        "EPA_GOV"
+      ],
       "stubNote": "CARBON_CLEAN is a private (non-public) company; *_GOV and *_NPO are institutional identifiers, not exchange symbols. Real exchange-listed primes were added alongside them, not removed, to preserve prior structure.",
-      "realTickersAdded": ["NEE", "ENPH", "FSLR", "HUBB", "PWR", "ACM", "J", "ICLN", "PBW", "WY", "RYN", "PCH", "PL", "DE", "CE", "IP", "PKG", "UFPI", "BKSY", "XYL", "CWCO", "ERII", "AWK", "WMS", "FMC", "MOWI.OL", "TDW", "CLH", "VLTO", "ECL", "PNR", "AOS", "ROP", "DCI", "PH", "WTRG", "AY", "RSG", "WCN", "CWST", "LIN", "APD", "DAR"]
+      "realTickersAdded": [
+        "NEE",
+        "ENPH",
+        "FSLR",
+        "HUBB",
+        "PWR",
+        "ACM",
+        "J",
+        "ICLN",
+        "PBW",
+        "WY",
+        "RYN",
+        "PCH",
+        "PL",
+        "DE",
+        "CE",
+        "IP",
+        "PKG",
+        "UFPI",
+        "BKSY",
+        "XYL",
+        "CWCO",
+        "ERII",
+        "AWK",
+        "WMS",
+        "FMC",
+        "MOWI.OL",
+        "TDW",
+        "CLH",
+        "VLTO",
+        "ECL",
+        "PNR",
+        "AOS",
+        "ROP",
+        "DCI",
+        "PH",
+        "WTRG",
+        "AY",
+        "RSG",
+        "WCN",
+        "CWST",
+        "LIN",
+        "APD",
+        "DAR"
+      ]
     }
   }
 }

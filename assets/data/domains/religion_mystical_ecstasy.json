@@ -2274,6 +2274,15 @@
       "summary": "Critical breakdown in Religion Mystical Ecstasy systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "VTA",
+          "dir": "Hypo",
+          "detail": "dopamine reward source — anhedonia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PUT",
           "dir": "Hyper-active",
           "detail": "Mystical Ecstasy Assessment & Diagnostics function overloaded",
@@ -2303,13 +2312,28 @@
           "detail": "Mystical Ecstasy Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "VTA",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_MYSTICAL_ECSTASY_CAPACITY_OVERLOAD",
       "label": "Religion Mystical Ecstasy Capacity Overload",
       "summary": "Demand exceeding available Religion Mystical Ecstasy capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "VTA",
+          "dir": "Hyper",
+          "detail": "dopamine reward source — mania/addiction",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PUT",
           "dir": "Hyper-active",
@@ -2334,13 +2358,28 @@
           "detail": "Mystical Ecstasy Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "VTA",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_MYSTICAL_ECSTASY_QUALITY_DEGRADATION",
       "label": "Religion Mystical Ecstasy Quality Degradation",
       "summary": "Progressive decline in Religion Mystical Ecstasy quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
+          "detail": "incentive/reward drive — over-pursuit=bubble",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PUT",
           "dir": "Hypo-active",
@@ -2365,7 +2404,13 @@
           "detail": "Mystical Ecstasy Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

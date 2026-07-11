@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Defense Intelligence Humint systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "TPJ",
+          "dir": "Hypo",
+          "detail": "temporoparietal junction — social attribution & reorienting — mindblindness",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "FORN",
           "dir": "Hyper-active",
           "detail": "HUMINT Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "HUMINT Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "TPJ",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_INTELLIGENCE_HUMINT_CAPACITY_OVERLOAD",
       "label": "Defense Intelligence Humint Capacity Overload",
       "summary": "Demand exceeding available Defense Intelligence Humint capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "STS",
+          "dir": "Hyper",
+          "detail": "superior temporal sulcus — social perception — over-reading social cues",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FORN",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "HUMINT Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STS",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_INTELLIGENCE_HUMINT_QUALITY_DEGRADATION",
       "label": "Defense Intelligence Humint Quality Degradation",
       "summary": "Progressive decline in Defense Intelligence Humint quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "TPJ",
+          "dir": "Hyper",
+          "detail": "temporoparietal junction — social attribution & reorienting — over-attribution/paranoia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FORN",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "HUMINT Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "TPJ",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

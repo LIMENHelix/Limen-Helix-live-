@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Energy Gridmod Gridsensor systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "NTS",
+          "dir": "Hyper",
+          "detail": "visceral afferent hub — no internal-state sense",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "DV",
           "dir": "Hyper-active",
           "detail": "Grid Sensors Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Grid Sensors Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NTS",
+        "dir": "hyper",
+        "motif": "M10",
+        "source": "override"
+      }
     },
     {
       "id": "ENERGY_GRIDMOD_GRIDSENSOR_CAPACITY_OVERLOAD",
       "label": "Energy Gridmod Gridsensor Capacity Overload",
       "summary": "Demand exceeding available Energy Gridmod Gridsensor capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "NTS",
+          "dir": "Hypo",
+          "detail": "visceral afferent hub — hyper-signal",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "DV",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Grid Sensors Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NTS",
+        "dir": "hypo",
+        "motif": "M10",
+        "source": "override"
+      }
     },
     {
       "id": "ENERGY_GRIDMOD_GRIDSENSOR_QUALITY_DEGRADATION",
       "label": "Energy Gridmod Gridsensor Quality Degradation",
       "summary": "Progressive decline in Energy Gridmod Gridsensor quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "PBN",
+          "dir": "Hyper",
+          "detail": "interoceptive/alarm relay — blunted",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "DV",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Grid Sensors Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PBN",
+        "dir": "hyper",
+        "motif": "M10",
+        "source": "override"
+      }
     }
   ]
 }

@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Culture Architecture Landscape systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "STN",
+          "dir": "Hypo",
+          "detail": "hyperdirect brake / hold — no-brake=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PAG",
           "dir": "Hyper-active",
           "detail": "Landscape Architecture Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Landscape Architecture Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "CULTURE_ARCHITECTURE_LANDSCAPE_CAPACITY_OVERLOAD",
       "label": "Culture Architecture Landscape Capacity Overload",
       "summary": "Demand exceeding available Culture Architecture Landscape capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PAG",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Landscape Architecture Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "CULTURE_ARCHITECTURE_LANDSCAPE_QUALITY_DEGRADATION",
       "label": "Culture Architecture Landscape Quality Degradation",
       "summary": "Progressive decline in Culture Architecture Landscape quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PAG",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Landscape Architecture Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

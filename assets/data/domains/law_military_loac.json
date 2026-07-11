@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Law Military Loac systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "STRI",
           "dir": "Hyper-active",
           "detail": "Law of Armed Conflict Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Law of Armed Conflict Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "LAW_MILITARY_LOAC_CAPACITY_OVERLOAD",
       "label": "Law Military Loac Capacity Overload",
       "summary": "Demand exceeding available Law Military Loac capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "STRI",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Law of Armed Conflict Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "LAW_MILITARY_LOAC_QUALITY_DEGRADATION",
       "label": "Law Military Loac Quality Degradation",
       "summary": "Progressive decline in Law Military Loac quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "STRI",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Law of Armed Conflict Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

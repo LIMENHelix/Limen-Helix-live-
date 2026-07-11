@@ -4457,6 +4457,15 @@
       "summary": "Critical breakdown in Infrastructure Maintenance systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "RAPHE",
           "dir": "Hyper-active",
           "detail": "Maintenance Assessment & Diagnostics function overloaded",
@@ -4486,13 +4495,28 @@
           "detail": "Maintenance Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "INFRASTRUCTURE_MAINTENANCE_CAPACITY_OVERLOAD",
       "label": "Infrastructure Maintenance Capacity Overload",
       "summary": "Demand exceeding available Infrastructure Maintenance capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "RAPHE",
           "dir": "Hyper-active",
@@ -4517,13 +4541,28 @@
           "detail": "Maintenance Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "INFRASTRUCTURE_MAINTENANCE_QUALITY_DEGRADATION",
       "label": "Infrastructure Maintenance Quality Degradation",
       "summary": "Progressive decline in Infrastructure Maintenance quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "RAPHE",
           "dir": "Hypo-active",
@@ -4548,7 +4587,13 @@
           "detail": "Maintenance Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

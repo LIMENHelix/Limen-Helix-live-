@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Intelligence Allsource Cogbias systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "STS",
           "dir": "Hyper-active",
           "detail": "Cognitive Bias in Analysis Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Cognitive Bias in Analysis Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_ALLSOURCE_COGBIAS_CAPACITY_OVERLOAD",
       "label": "Intelligence Allsource Cogbias Capacity Overload",
       "summary": "Demand exceeding available Intelligence Allsource Cogbias capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "STS",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Cognitive Bias in Analysis Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_ALLSOURCE_COGBIAS_QUALITY_DEGRADATION",
       "label": "Intelligence Allsource Cogbias Quality Degradation",
       "summary": "Progressive decline in Intelligence Allsource Cogbias quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "STS",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Cognitive Bias in Analysis Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

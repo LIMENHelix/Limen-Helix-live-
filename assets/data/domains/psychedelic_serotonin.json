@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Serotonergic Reset Center systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "RAPHE",
+          "dir": "Hyper",
+          "detail": "serotonin broadcast — gain stuck high=rigid over-damping",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "LGN",
           "dir": "Hypo-active",
           "detail": "Serotonergic Reset Center Assessment & Diagnostics capacity falling below operational thresholds, reducing Serotonergic Reset Center output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Serotonergic Reset Center Performance & Optimization function reduced, compromising Serotonergic Reset Center system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "RAPHE",
+        "dir": "hyper",
+        "motif": "M2",
+        "source": "override"
+      }
     },
     {
       "id": "PSYCHEDELIC_SEROTONIN_CAPACITY_CRISIS",
       "label": "Serotonergic Reset Center Capacity Crisis",
       "summary": "Demand exceeding available Serotonergic Reset Center capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "RAPHE",
+          "dir": "Hyper",
+          "detail": "serotonin broadcast — gain stuck high=rigid over-damping",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MGN",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Serotonergic Reset Center Performance & Optimization operating outside normal parameters, introducing uncertainty into Serotonergic Reset Center outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "RAPHE",
+        "dir": "hyper",
+        "motif": "M2",
+        "source": "override"
+      }
     },
     {
       "id": "PSYCHEDELIC_SEROTONIN_GOVERNANCE_GAP",
       "label": "Serotonergic Reset Center Governance Gap",
       "summary": "Oversight or regulatory failure in Serotonergic Reset Center creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SNIG",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Serotonergic Reset Center Coordination & Integration function reduced, compromising Serotonergic Reset Center system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ]
 }

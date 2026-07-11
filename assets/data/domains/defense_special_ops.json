@@ -14611,6 +14611,15 @@
       "summary": "Critical breakdown in Defense Special Ops systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "PMC",
+          "dir": "Hypo",
+          "detail": "premotor — motor planning & preparation — inertia, slow initiation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PI",
           "dir": "Hyper-active",
           "detail": "Special Ops Assessment & Diagnostics function overloaded",
@@ -14640,13 +14649,28 @@
           "detail": "Special Ops Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PMC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_SPECIAL_OPS_CAPACITY_OVERLOAD",
       "label": "Defense Special Ops Capacity Overload",
       "summary": "Demand exceeding available Defense Special Ops capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PI",
           "dir": "Hyper-active",
@@ -14671,13 +14695,28 @@
           "detail": "Special Ops Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_SPECIAL_OPS_QUALITY_DEGRADATION",
       "label": "Defense Special Ops Quality Degradation",
       "summary": "Progressive decline in Defense Special Ops quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PI",
           "dir": "Hypo-active",
@@ -14702,7 +14741,13 @@
           "detail": "Special Ops Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

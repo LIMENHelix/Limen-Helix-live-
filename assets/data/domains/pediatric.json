@@ -2066,6 +2066,15 @@
       "summary": "Atypical connectivity with long-range underconnectivity and local overconnectivity; social brain network hypoactivation; altered pruning and minicolumn organization in developing brain",
       "circuits": [
         {
+          "nodeId": "TPJ",
+          "dir": "Hypo",
+          "detail": "temporoparietal junction — social attribution & reorienting — mindblindness",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "mPFC",
           "dir": "Hypo-social cognition",
           "detail": "Medial prefrontal cortex reduced activation during self-referential and social cognition",
@@ -2143,7 +2152,13 @@
           "detail": "Excitation/inhibition imbalance — elevated glutamate:GABA ratio in developing ASD brain",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "TPJ",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "ADHD_COMBINED",
@@ -2151,6 +2166,15 @@
       "group": "neurodevelopmental",
       "summary": "Combined prefrontal hypofunction affecting both attention and inhibitory control circuits; dual deficit model with executive function and motivational circuit dysfunction; cortical maturation delay of ~3 years",
       "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo",
+          "detail": "dorsolateral PFC — executive working-memory / cognitive control — executive-lapse, distractible",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dlPFC",
           "dir": "Hypo-attention",
@@ -2199,7 +2223,13 @@
           "detail": "Corpus callosum development delayed — interhemispheric communication deficit",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dlPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "DYSLEXIA",
@@ -2207,6 +2237,15 @@
       "group": "learning",
       "summary": "Left hemisphere reading network disruption; posterior temporo-parietal underactivation impairs phoneme-grapheme mapping; visual word form area fails to develop automatized recognition",
       "circuits": [
+        {
+          "nodeId": "FG",
+          "dir": "Hypo",
+          "detail": "fusiform gyrus — face/object recognition — agnosia, prosopagnosia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "AG",
           "dir": "Hypo-phonological decoding",
@@ -2249,7 +2288,13 @@
           "detail": "Cerebellar automation theory — cerebellar dysfunction impairs skill automatization in reading",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "FG",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "CHILD_DEPRESSION",
@@ -2257,6 +2302,15 @@
       "group": "mood",
       "summary": "Immature prefrontal-limbic regulatory capacity with amygdala hyperreactivity to negative stimuli; reward circuit hypofunction producing anhedonia; HPA axis hyperactivation with potential hippocampal developmental impact",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hypo",
+          "detail": "incentive/reward drive — avolition",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BLA",
           "dir": "Hyper-negative reactivity",
@@ -2305,7 +2359,13 @@
           "detail": "Error and conflict monitoring overactive — excessive self-criticism and negative self-evaluation",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "SEPARATION_ANXIETY",
@@ -2313,6 +2373,15 @@
       "group": "anxiety",
       "summary": "Developmentally inappropriate and excessive anxiety about separation from attachment figures; amygdala-medial PFC circuit dysfunction with hyperactive threat detection specific to separation cues; catastrophic cognitions about harm during separation",
       "circuits": [
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper",
+          "detail": "threat learning/acquisition — over-fear=PTSD",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BLA",
           "dir": "Hyper-separation fear",
@@ -2349,7 +2418,13 @@
           "detail": "Periaqueductal gray panic circuitry activated during actual or threatened separation",
           "evidence": "Emerging"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BLA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "CHILD_PTSD",
@@ -2357,6 +2432,15 @@
       "group": "trauma",
       "summary": "Fear conditioning model with amygdala-hippocampal circuit encoding trauma memory inadequately extinguished by mPFC; children may express re-experiencing through repetitive play rather than flashbacks; HPA axis dysregulation compounds developmental effects",
       "circuits": [
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper",
+          "detail": "threat learning/acquisition — over-fear=PTSD",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BLA",
           "dir": "Hyper-fear conditioning",
@@ -2393,7 +2477,13 @@
           "detail": "Dissociative circuitry activated in severe trauma — emotional numbing, depersonalization, derealization",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BLA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "ODD",
@@ -2401,6 +2491,15 @@
       "group": "behavioral",
       "summary": "Pattern of angry/irritable mood and argumentative/defiant behavior; prefrontal-amygdala emotion regulation failure with reward processing abnormalities; irritable subtype predicts later anxiety/depression while headstrong subtype predicts conduct disorder",
       "circuits": [
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hypo",
+          "detail": "response-inhibition / stop — disinhibited",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BLA",
           "dir": "Hyper-provocation reactivity",
@@ -2437,7 +2536,13 @@
           "detail": "Executive function deficits — difficulty with cognitive flexibility and response inhibition",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "ARFID",
@@ -2445,6 +2550,15 @@
       "group": "eating",
       "summary": "Eating disturbance with persistent failure to meet nutritional needs, NOT driven by body image; three profiles — sensory sensitivity, fear of aversive consequences, and lack of interest in eating; interoceptive and sensory processing abnormalities",
       "circuits": [
+        {
+          "nodeId": "S1",
+          "dir": "Hyper",
+          "detail": "primary somatosensory processing — hypersensitivity/pain-amplification",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "AI",
           "dir": "Hyper-sensory processing",
@@ -2481,7 +2595,13 @@
           "detail": "Vagal afferent signaling to brainstem altered — interoceptive disconnect between body needs and eating behavior",
           "evidence": "Emerging"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "S1",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

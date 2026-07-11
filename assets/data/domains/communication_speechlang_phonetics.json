@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Communication Speechlang Phonetics systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "BROCA",
+          "dir": "Hypo",
+          "detail": "Broca's area — expressive language production — expressive block, aphasia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "SEPT",
           "dir": "Hyper-active",
           "detail": "Phonetics Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Phonetics Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BROCA",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_SPEECHLANG_PHONETICS_CAPACITY_OVERLOAD",
       "label": "Communication Speechlang Phonetics Capacity Overload",
       "summary": "Demand exceeding available Communication Speechlang Phonetics capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "BROCA",
+          "dir": "Hyper",
+          "detail": "Broca's area — expressive language production — pressured/over-production",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SEPT",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Phonetics Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BROCA",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_SPEECHLANG_PHONETICS_QUALITY_DEGRADATION",
       "label": "Communication Speechlang Phonetics Quality Degradation",
       "summary": "Progressive decline in Communication Speechlang Phonetics quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SEPT",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Phonetics Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

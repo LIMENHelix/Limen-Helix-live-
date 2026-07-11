@@ -2279,6 +2279,15 @@
       "summary": "Critical breakdown in Science Experimental Protocols systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "STN",
+          "dir": "Hypo",
+          "detail": "hyperdirect brake / hold — no-brake=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "OLF",
           "dir": "Hyper-active",
           "detail": "Research Protocols Assessment & Diagnostics function overloaded",
@@ -2308,13 +2317,28 @@
           "detail": "Research Protocols Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "SCIENCE_EXPERIMENTAL_PROTOCOLS_CAPACITY_OVERLOAD",
       "label": "Science Experimental Protocols Capacity Overload",
       "summary": "Demand exceeding available Science Experimental Protocols capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OLF",
           "dir": "Hyper-active",
@@ -2339,13 +2363,28 @@
           "detail": "Research Protocols Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "SCIENCE_EXPERIMENTAL_PROTOCOLS_QUALITY_DEGRADATION",
       "label": "Science Experimental Protocols Quality Degradation",
       "summary": "Progressive decline in Science Experimental Protocols quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OLF",
           "dir": "Hypo-active",
@@ -2370,7 +2409,13 @@
           "detail": "Research Protocols Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

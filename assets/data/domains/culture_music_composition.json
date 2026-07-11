@@ -2278,6 +2278,15 @@
       "summary": "Critical breakdown in Culture Music Composition systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "SMA",
+          "dir": "Hypo",
+          "detail": "supplementary motor — self-initiated action sequencing — akinesia, initiation failure",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "OFC",
           "dir": "Hyper-active",
           "detail": "Music Composition Assessment & Diagnostics function overloaded",
@@ -2307,13 +2316,28 @@
           "detail": "Music Composition Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "SMA",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "CULTURE_MUSIC_COMPOSITION_CAPACITY_OVERLOAD",
       "label": "Culture Music Composition Capacity Overload",
       "summary": "Demand exceeding available Culture Music Composition capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "SMA",
+          "dir": "Hyper",
+          "detail": "supplementary motor — self-initiated action sequencing — compulsive sequencing",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OFC",
           "dir": "Hyper-active",
@@ -2338,13 +2362,28 @@
           "detail": "Music Composition Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "SMA",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "CULTURE_MUSIC_COMPOSITION_QUALITY_DEGRADATION",
       "label": "Culture Music Composition Quality Degradation",
       "summary": "Progressive decline in Culture Music Composition quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OFC",
           "dir": "Hypo-active",
@@ -2369,7 +2408,13 @@
           "detail": "Music Composition Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

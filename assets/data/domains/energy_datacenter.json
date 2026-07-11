@@ -16,12 +16,31 @@
       "group": "generation",
       "phase": "P1",
       "weight": 1,
-      "diagnosticTriggers": ["AI compute demand surge", "Load growth outpacing supply", "Regional capacity shortfall"],
+      "diagnosticTriggers": [
+        "AI compute demand surge",
+        "Load growth outpacing supply",
+        "Regional capacity shortfall"
+      ],
       "functional_role": "amplifier",
       "companies": [
-        { "name": "NVIDIA", "ticker_or_id": "NVDA", "functional_reason": "Accelerated-compute hardware that drives per-rack power density and total data-center load.", "binding_strength": 0.95 },
-        { "name": "Microsoft", "ticker_or_id": "MSFT", "functional_reason": "Hyperscale operator; major driver of new data-center electricity demand and power-purchase agreements.", "binding_strength": 0.9 },
-        { "name": "Constellation Energy", "ticker_or_id": "CEG", "functional_reason": "Supplies firm, carbon-free nuclear power to data-center buyers via PPAs.", "binding_strength": 0.88 }
+        {
+          "name": "NVIDIA",
+          "ticker_or_id": "NVDA",
+          "functional_reason": "Accelerated-compute hardware that drives per-rack power density and total data-center load.",
+          "binding_strength": 0.95
+        },
+        {
+          "name": "Microsoft",
+          "ticker_or_id": "MSFT",
+          "functional_reason": "Hyperscale operator; major driver of new data-center electricity demand and power-purchase agreements.",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "Constellation Energy",
+          "ticker_or_id": "CEG",
+          "functional_reason": "Supplies firm, carbon-free nuclear power to data-center buyers via PPAs.",
+          "binding_strength": 0.88
+        }
       ],
       "treatments": [
         {
@@ -31,8 +50,20 @@
           "description": "Incorporate large-load (data-center) interconnection requests into utility resource planning rather than treating them as ordinary load growth; stress-test against speculative duplicate requests.",
           "cite": "IEA (2024). Electricity 2024 — Analysis and forecast to 2026 (data-centre demand section); Lawrence Berkeley National Laboratory (2024). United States Data Center Energy Usage Report.",
           "citation": [
-            { "author": "IEA", "year": 2024, "title": "Electricity 2024: Analysis and forecast to 2026", "journal": "International Energy Agency", "doi": null },
-            { "author": "Shehabi et al. (LBNL)", "year": 2024, "title": "United States Data Center Energy Usage Report", "journal": "Lawrence Berkeley National Laboratory", "doi": null }
+            {
+              "author": "IEA",
+              "year": 2024,
+              "title": "Electricity 2024: Analysis and forecast to 2026",
+              "journal": "International Energy Agency",
+              "doi": null
+            },
+            {
+              "author": "Shehabi et al. (LBNL)",
+              "year": 2024,
+              "title": "United States Data Center Energy Usage Report",
+              "journal": "Lawrence Berkeley National Laboratory",
+              "doi": null
+            }
           ],
           "steps": [
             "Separate confirmed vs speculative large-load interconnection requests (de-duplicate)",
@@ -53,11 +84,25 @@
       "group": "distribution",
       "phase": "P1",
       "weight": 0.9,
-      "diagnosticTriggers": ["Cooling water stress", "Rack density exceeding air-cooling limits", "Local water-permit pushback"],
+      "diagnosticTriggers": [
+        "Cooling water stress",
+        "Rack density exceeding air-cooling limits",
+        "Local water-permit pushback"
+      ],
       "functional_role": "router",
       "companies": [
-        { "name": "Vertiv", "ticker_or_id": "VRT", "functional_reason": "Liquid/air cooling and thermal-management systems for high-density data centers.", "binding_strength": 0.93 },
-        { "name": "Johnson Controls", "ticker_or_id": "JCI", "functional_reason": "Chillers and building/thermal systems used in data-center cooling.", "binding_strength": 0.82 }
+        {
+          "name": "Vertiv",
+          "ticker_or_id": "VRT",
+          "functional_reason": "Liquid/air cooling and thermal-management systems for high-density data centers.",
+          "binding_strength": 0.93
+        },
+        {
+          "name": "Johnson Controls",
+          "ticker_or_id": "JCI",
+          "functional_reason": "Chillers and building/thermal systems used in data-center cooling.",
+          "binding_strength": 0.82
+        }
       ],
       "treatments": [
         {
@@ -67,7 +112,13 @@
           "description": "Adopt direct-to-chip or immersion liquid cooling and closed-loop/air-cooled chillers to reduce evaporative freshwater use and improve cooling efficiency at high rack densities.",
           "cite": "Uptime Institute (2023). Global Data Center Survey; U.S. DOE (2024). Data center energy efficiency resources.",
           "citation": [
-            { "author": "Uptime Institute", "year": 2023, "title": "Global Data Center Survey", "journal": "Uptime Institute", "doi": null }
+            {
+              "author": "Uptime Institute",
+              "year": 2023,
+              "title": "Global Data Center Survey",
+              "journal": "Uptime Institute",
+              "doi": null
+            }
           ],
           "steps": [
             "Audit current PUE and WUE (water usage effectiveness)",
@@ -88,11 +139,25 @@
       "group": "distribution",
       "phase": "P3",
       "weight": 0.9,
-      "diagnosticTriggers": ["Grid interconnection backlog", "Transmission capacity constraint", "Multi-year energization delay"],
+      "diagnosticTriggers": [
+        "Grid interconnection backlog",
+        "Transmission capacity constraint",
+        "Multi-year energization delay"
+      ],
       "functional_role": "gatekeeper",
       "companies": [
-        { "name": "Quanta Services", "ticker_or_id": "PWR", "functional_reason": "Builds the transmission and substation infrastructure that relieves interconnection constraints.", "binding_strength": 0.85 },
-        { "name": "American Electric Power", "ticker_or_id": "AEP", "functional_reason": "Transmission-heavy utility processing large data-center interconnection requests.", "binding_strength": 0.8 }
+        {
+          "name": "Quanta Services",
+          "ticker_or_id": "PWR",
+          "functional_reason": "Builds the transmission and substation infrastructure that relieves interconnection constraints.",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "American Electric Power",
+          "ticker_or_id": "AEP",
+          "functional_reason": "Transmission-heavy utility processing large data-center interconnection requests.",
+          "binding_strength": 0.8
+        }
       ],
       "treatments": [
         {
@@ -102,7 +167,13 @@
           "description": "Use flexible/curtailable interconnection agreements and fast-track transmission upgrades so large loads can energize sooner in exchange for accepting curtailment during peaks.",
           "cite": "FERC Order 2023 (interconnection process reform); NERC (2024). Long-Term Reliability Assessment.",
           "citation": [
-            { "author": "NERC", "year": 2024, "title": "Long-Term Reliability Assessment", "journal": "North American Electric Reliability Corporation", "doi": null }
+            {
+              "author": "NERC",
+              "year": 2024,
+              "title": "Long-Term Reliability Assessment",
+              "journal": "North American Electric Reliability Corporation",
+              "doi": null
+            }
           ],
           "steps": [
             "Offer flexible/curtailable connection agreements for large loads",
@@ -122,12 +193,31 @@
       "group": "generation",
       "phase": "P1",
       "weight": 0.9,
-      "diagnosticTriggers": ["On-site generation buildout", "Firm power shortfall", "Behind-the-meter demand"],
+      "diagnosticTriggers": [
+        "On-site generation buildout",
+        "Firm power shortfall",
+        "Behind-the-meter demand"
+      ],
       "functional_role": "executor",
       "companies": [
-        { "name": "GE Vernova", "ticker_or_id": "GEV", "functional_reason": "Gas turbines and grid equipment for on-site and utility-scale firm power.", "binding_strength": 0.9 },
-        { "name": "Bloom Energy", "ticker_or_id": "BE", "functional_reason": "Solid-oxide fuel cells deployed for on-site data-center power.", "binding_strength": 0.78 },
-        { "name": "Constellation Energy", "ticker_or_id": "CEG", "functional_reason": "Nuclear PPAs and the Three Mile Island restart for data-center firm power.", "binding_strength": 0.86 }
+        {
+          "name": "GE Vernova",
+          "ticker_or_id": "GEV",
+          "functional_reason": "Gas turbines and grid equipment for on-site and utility-scale firm power.",
+          "binding_strength": 0.9
+        },
+        {
+          "name": "Bloom Energy",
+          "ticker_or_id": "BE",
+          "functional_reason": "Solid-oxide fuel cells deployed for on-site data-center power.",
+          "binding_strength": 0.78
+        },
+        {
+          "name": "Constellation Energy",
+          "ticker_or_id": "CEG",
+          "functional_reason": "Nuclear PPAs and the Three Mile Island restart for data-center firm power.",
+          "binding_strength": 0.86
+        }
       ],
       "treatments": [
         {
@@ -137,7 +227,13 @@
           "description": "Secure 24/7 firm power through nuclear power-purchase agreements, reactor restarts, small modular reactors (longer-dated), or on-site fuel cells, rather than relying solely on grid interconnection.",
           "cite": "U.S. DOE (2024). Pathways to Commercial Liftoff: Advanced Nuclear; IEA (2024). Electricity 2024.",
           "citation": [
-            { "author": "U.S. Department of Energy", "year": 2024, "title": "Pathways to Commercial Liftoff: Advanced Nuclear", "journal": "U.S. DOE", "doi": null }
+            {
+              "author": "U.S. Department of Energy",
+              "year": 2024,
+              "title": "Pathways to Commercial Liftoff: Advanced Nuclear",
+              "journal": "U.S. DOE",
+              "doi": null
+            }
           ],
           "steps": [
             "Match load profile to firm-supply options (nuclear PPA vs on-site)",
@@ -157,11 +253,25 @@
       "group": "distribution",
       "phase": "P4",
       "weight": 0.8,
-      "diagnosticTriggers": ["High PUE / overhead", "Conversion losses", "Stranded capacity"],
+      "diagnosticTriggers": [
+        "High PUE / overhead",
+        "Conversion losses",
+        "Stranded capacity"
+      ],
       "functional_role": "allocator",
       "companies": [
-        { "name": "Eaton", "ticker_or_id": "ETN", "functional_reason": "Power distribution and management equipment that reduces conversion/distribution losses.", "binding_strength": 0.85 },
-        { "name": "Vertiv", "ticker_or_id": "VRT", "functional_reason": "Power and thermal systems that drive PUE improvements.", "binding_strength": 0.84 }
+        {
+          "name": "Eaton",
+          "ticker_or_id": "ETN",
+          "functional_reason": "Power distribution and management equipment that reduces conversion/distribution losses.",
+          "binding_strength": 0.85
+        },
+        {
+          "name": "Vertiv",
+          "ticker_or_id": "VRT",
+          "functional_reason": "Power and thermal systems that drive PUE improvements.",
+          "binding_strength": 0.84
+        }
       ],
       "treatments": [
         {
@@ -171,7 +281,13 @@
           "description": "Continuously measure PUE/WUE, raise distribution voltage to cut conversion losses, and optimize airflow/thermal set-points to reduce overhead power.",
           "cite": "The Green Grid (PUE metric); LBNL (2024). United States Data Center Energy Usage Report.",
           "citation": [
-            { "author": "Shehabi et al. (LBNL)", "year": 2024, "title": "United States Data Center Energy Usage Report", "journal": "Lawrence Berkeley National Laboratory", "doi": null }
+            {
+              "author": "Shehabi et al. (LBNL)",
+              "year": 2024,
+              "title": "United States Data Center Energy Usage Report",
+              "journal": "Lawrence Berkeley National Laboratory",
+              "doi": null
+            }
           ],
           "steps": [
             "Instrument PUE and WUE at facility and rack level",
@@ -191,11 +307,25 @@
       "group": "distribution",
       "phase": "P5",
       "weight": 0.75,
-      "diagnosticTriggers": ["Backup capacity gap", "Outage ride-through failure", "Aging UPS/diesel fleet"],
+      "diagnosticTriggers": [
+        "Backup capacity gap",
+        "Outage ride-through failure",
+        "Aging UPS/diesel fleet"
+      ],
       "functional_role": "buffer",
       "companies": [
-        { "name": "Generac", "ticker_or_id": "GNRC", "functional_reason": "Backup generation systems for critical facilities.", "binding_strength": 0.8 },
-        { "name": "Cummins", "ticker_or_id": "CMI", "functional_reason": "Standby power generation and engines for data-center backup.", "binding_strength": 0.78 }
+        {
+          "name": "Generac",
+          "ticker_or_id": "GNRC",
+          "functional_reason": "Backup generation systems for critical facilities.",
+          "binding_strength": 0.8
+        },
+        {
+          "name": "Cummins",
+          "ticker_or_id": "CMI",
+          "functional_reason": "Standby power generation and engines for data-center backup.",
+          "binding_strength": 0.78
+        }
       ],
       "treatments": [
         {
@@ -205,7 +335,13 @@
           "description": "Replace or augment diesel/UPS with battery energy storage that provides ride-through and can offer demand response or frequency services back to the grid.",
           "cite": "Uptime Institute (2023). Global Data Center Survey.",
           "citation": [
-            { "author": "Uptime Institute", "year": 2023, "title": "Global Data Center Survey", "journal": "Uptime Institute", "doi": null }
+            {
+              "author": "Uptime Institute",
+              "year": 2023,
+              "title": "Global Data Center Survey",
+              "journal": "Uptime Institute",
+              "doi": null
+            }
           ],
           "steps": [
             "Assess outage exposure and required ride-through duration",
@@ -225,10 +361,19 @@
       "group": "distribution",
       "phase": "P6",
       "weight": 0.7,
-      "diagnosticTriggers": ["Peak coincidence with grid stress", "Inflexible load profile", "Curtailment opportunity unused"],
+      "diagnosticTriggers": [
+        "Peak coincidence with grid stress",
+        "Inflexible load profile",
+        "Curtailment opportunity unused"
+      ],
       "functional_role": "signal_detector",
       "companies": [
-        { "name": "Vistra", "ticker_or_id": "VST", "functional_reason": "Power supplier with flexibility/storage assets relevant to data-center load shaping.", "binding_strength": 0.74 }
+        {
+          "name": "Vistra",
+          "ticker_or_id": "VST",
+          "functional_reason": "Power supplier with flexibility/storage assets relevant to data-center load shaping.",
+          "binding_strength": 0.74
+        }
       ],
       "treatments": [
         {
@@ -256,11 +401,25 @@
       "group": "generation",
       "phase": "P7",
       "weight": 0.7,
-      "diagnosticTriggers": ["Permitting / moratorium risk", "Community rate-impact pushback", "Land/water/fiber constraint"],
+      "diagnosticTriggers": [
+        "Permitting / moratorium risk",
+        "Community rate-impact pushback",
+        "Land/water/fiber constraint"
+      ],
       "functional_role": "gatekeeper",
       "companies": [
-        { "name": "Digital Realty", "ticker_or_id": "DLR", "functional_reason": "Data-center REIT making large siting and power-procurement decisions.", "binding_strength": 0.76 },
-        { "name": "Equinix", "ticker_or_id": "EQIX", "functional_reason": "Interconnection/colocation operator siting facilities near power and fiber.", "binding_strength": 0.74 }
+        {
+          "name": "Digital Realty",
+          "ticker_or_id": "DLR",
+          "functional_reason": "Data-center REIT making large siting and power-procurement decisions.",
+          "binding_strength": 0.76
+        },
+        {
+          "name": "Equinix",
+          "ticker_or_id": "EQIX",
+          "functional_reason": "Interconnection/colocation operator siting facilities near power and fiber.",
+          "binding_strength": 0.74
+        }
       ],
       "treatments": [
         {
@@ -280,12 +439,36 @@
     }
   ],
   "edges": [
-    { "a": "HYPO", "b": "THAL", "w": 0.6 },
-    { "a": "HYPO", "b": "dlPFC", "w": 0.6 },
-    { "a": "dlPFC", "b": "PAG", "w": 0.7 },
-    { "a": "HYPO", "b": "ECN", "w": 0.5 },
-    { "a": "NAcc", "b": "PAG", "w": 0.5 },
-    { "a": "IPL", "b": "dlPFC", "w": 0.5 }
+    {
+      "a": "HYPO",
+      "b": "THAL",
+      "w": 0.6
+    },
+    {
+      "a": "HYPO",
+      "b": "dlPFC",
+      "w": 0.6
+    },
+    {
+      "a": "dlPFC",
+      "b": "PAG",
+      "w": 0.7
+    },
+    {
+      "a": "HYPO",
+      "b": "ECN",
+      "w": 0.5
+    },
+    {
+      "a": "NAcc",
+      "b": "PAG",
+      "w": 0.5
+    },
+    {
+      "a": "IPL",
+      "b": "dlPFC",
+      "w": 0.5
+    }
   ],
   "issues": [
     {
@@ -293,19 +476,74 @@
       "label": "Data-Center Grid Strain",
       "summary": "Concentrated AI data-center load growing faster than firm supply and transmission can be added, straining regional grids and pushing operators to behind-the-meter generation.",
       "circuits": [
-        { "nodeId": "HYPO", "dir": "Hyper-active", "detail": "AI compute demand rising faster than the grid can serve it.", "evidence": "Strong" },
-        { "nodeId": "dlPFC", "dir": "Hypo-active", "detail": "Interconnection queues and transmission limits delaying energization.", "evidence": "Strong" },
-        { "nodeId": "PAG", "dir": "Hyper-active", "detail": "On-site/firm generation buildout compensating for grid shortfall.", "evidence": "Moderate" }
-      ]
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper-active",
+          "detail": "AI compute demand rising faster than the grid can serve it.",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo-active",
+          "detail": "Interconnection queues and transmission limits delaying energization.",
+          "evidence": "Strong"
+        },
+        {
+          "nodeId": "PAG",
+          "dir": "Hyper-active",
+          "detail": "On-site/firm generation buildout compensating for grid shortfall.",
+          "evidence": "Moderate"
+        }
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "ENERGY_DATACENTER_WATER_STRESS",
       "label": "Data-Center Water & Cooling Stress",
       "summary": "Evaporative cooling water use and high rack densities create local water-permit friction and force a shift to liquid/closed-loop cooling.",
       "circuits": [
-        { "nodeId": "THAL", "dir": "Hyper-active", "detail": "Cooling and water demand rising with rack density.", "evidence": "Moderate" },
-        { "nodeId": "ECN", "dir": "Altered", "detail": "Efficiency (PUE/WUE) becoming the constraint on siting and operation.", "evidence": "Moderate" }
-      ]
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper-active",
+          "detail": "Cooling and water demand rising with rack density.",
+          "evidence": "Moderate"
+        },
+        {
+          "nodeId": "ECN",
+          "dir": "Altered",
+          "detail": "Efficiency (PUE/WUE) becoming the constraint on siting and operation.",
+          "evidence": "Moderate"
+        }
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     }
   ]
 }

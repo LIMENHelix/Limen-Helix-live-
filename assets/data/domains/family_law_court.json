@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Court Compliance Monitoring systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "LGN",
           "dir": "Hypo-active",
           "detail": "Court Compliance Monitoring Assessment & Diagnostics capacity falling below operational thresholds, reducing Court Compliance Monitoring output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Court Compliance Monitoring Performance & Optimization function reduced, compromising Court Compliance Monitoring system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "FAMILY_LAW_COURT_CAPACITY_CRISIS",
       "label": "Court Compliance Monitoring Capacity Crisis",
       "summary": "Demand exceeding available Court Compliance Monitoring capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "PULV",
+          "dir": "Hyper",
+          "detail": "attentional gate — overload",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MGN",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Court Compliance Monitoring Performance & Optimization operating outside normal parameters, introducing uncertainty into Court Compliance Monitoring outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PULV",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "FAMILY_LAW_COURT_GOVERNANCE_GAP",
       "label": "Court Compliance Monitoring Governance Gap",
       "summary": "Oversight or regulatory failure in Court Compliance Monitoring creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hypo",
+          "detail": "response-inhibition / stop — disinhibited",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SNIG",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Court Compliance Monitoring Coordination & Integration function reduced, compromising Court Compliance Monitoring system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ]
 }

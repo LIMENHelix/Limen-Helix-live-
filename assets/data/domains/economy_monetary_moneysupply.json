@@ -2277,6 +2277,15 @@
       "summary": "Critical breakdown in Economy Monetary Moneysupply systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "VAN",
           "dir": "Hyper-active",
           "detail": "Money Supply Assessment & Diagnostics function overloaded",
@@ -2306,13 +2315,28 @@
           "detail": "Money Supply Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_MONETARY_MONEYSUPPLY_CAPACITY_OVERLOAD",
       "label": "Economy Monetary Moneysupply Capacity Overload",
       "summary": "Demand exceeding available Economy Monetary Moneysupply capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "VAN",
           "dir": "Hyper-active",
@@ -2337,13 +2361,28 @@
           "detail": "Money Supply Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_MONETARY_MONEYSUPPLY_QUALITY_DEGRADATION",
       "label": "Economy Monetary Moneysupply Quality Degradation",
       "summary": "Progressive decline in Economy Monetary Moneysupply quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "VAN",
           "dir": "Hypo-active",
@@ -2368,7 +2407,13 @@
           "detail": "Money Supply Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

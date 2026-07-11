@@ -2276,6 +2276,15 @@
       "summary": "Critical breakdown in Technology Software Swsecurity systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "BNST",
+          "dir": "Hypo",
+          "detail": "sustained threat monitor — under-vigilant",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "AG",
           "dir": "Hyper-active",
           "detail": "Software Security Assessment & Diagnostics function overloaded",
@@ -2305,13 +2314,28 @@
           "detail": "Software Security Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BNST",
+        "dir": "hypo",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "TECHNOLOGY_SOFTWARE_SWSECURITY_CAPACITY_OVERLOAD",
       "label": "Technology Software Swsecurity Capacity Overload",
       "summary": "Demand exceeding available Technology Software Swsecurity capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "CeA",
+          "dir": "Hyper",
+          "detail": "phasic fear output — hair-trigger=false-alarm",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "AG",
           "dir": "Hyper-active",
@@ -2336,13 +2360,28 @@
           "detail": "Software Security Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CeA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "TECHNOLOGY_SOFTWARE_SWSECURITY_QUALITY_DEGRADATION",
       "label": "Technology Software Swsecurity Quality Degradation",
       "summary": "Progressive decline in Technology Software Swsecurity quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper",
+          "detail": "threat learning/acquisition — over-fear=PTSD",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "AG",
           "dir": "Hypo-active",
@@ -2367,7 +2406,13 @@
           "detail": "Software Security Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BLA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

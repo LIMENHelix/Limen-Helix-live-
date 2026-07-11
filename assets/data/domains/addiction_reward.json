@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Reward Valuation Hub systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "outcome valuation / update — confabulation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "M1",
           "dir": "Hypo-active",
           "detail": "Reward Valuation Hub Assessment & Diagnostics capacity falling below operational thresholds, reducing Reward Valuation Hub output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Reward Valuation Hub Performance & Optimization function reduced, compromising Reward Valuation Hub system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "ADDICTION_REWARD_CAPACITY_CRISIS",
       "label": "Reward Valuation Hub Capacity Crisis",
       "summary": "Demand exceeding available Reward Valuation Hub capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "outcome valuation / update — confabulation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "S1",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Reward Valuation Hub Performance & Optimization operating outside normal parameters, introducing uncertainty into Reward Valuation Hub outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "ADDICTION_REWARD_GOVERNANCE_GAP",
       "label": "Reward Valuation Hub Governance Gap",
       "summary": "Oversight or regulatory failure in Reward Valuation Hub creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hypo",
+          "detail": "outcome valuation / update — over-react",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HIPP",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Reward Valuation Hub Coordination & Integration function reduced, compromising Reward Valuation Hub system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

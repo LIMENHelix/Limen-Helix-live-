@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Economy Econforecast Scenario systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "rPFC",
+          "dir": "Hypo",
+          "detail": "frontopolar PFC — metacognition & prospective control — no-foresight, myopic",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "RSC",
           "dir": "Hyper-active",
           "detail": "Scenario Analysis Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Scenario Analysis Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "rPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_ECONFORECAST_SCENARIO_CAPACITY_OVERLOAD",
       "label": "Economy Econforecast Scenario Capacity Overload",
       "summary": "Demand exceeding available Economy Econforecast Scenario capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "rPFC",
+          "dir": "Hyper",
+          "detail": "frontopolar PFC — metacognition & prospective control — overplanning/analysis-paralysis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "RSC",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Scenario Analysis Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "rPFC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_ECONFORECAST_SCENARIO_QUALITY_DEGRADATION",
       "label": "Economy Econforecast Scenario Quality Degradation",
       "summary": "Progressive decline in Economy Econforecast Scenario quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "RSC",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Scenario Analysis Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

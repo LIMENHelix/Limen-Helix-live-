@@ -1992,6 +1992,15 @@
       "summary": "Major depression failing 2+ adequate antidepressant trials, with DMN hyperconnectivity resistant to conventional pharmacology",
       "circuits": [
         {
+          "nodeId": "sgACC",
+          "dir": "Hyper",
+          "detail": "subgenual ACC — mood / negative-affect hub — depressive lock/anhedonic drive",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "DMN",
           "dir": "Hyper-connected",
           "detail": "Global DMN hyperconnectivity locked in ruminative self-referential loops resistant to SSRI modulation; psilocybin produces acute DMN dissolution and lasting between-network integration",
@@ -2039,7 +2048,13 @@
           "detail": "Neurotrophic deficit from chronic stress; psilocybin and ketamine both rapidly upregulate BDNF for structural neuroplasticity",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "sgACC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "PTSD_PSYCHEDELIC",
@@ -2096,6 +2111,15 @@
       "summary": "Existential anxiety and depression in terminal illness responsive to psilocybin-induced mystical experience",
       "circuits": [
         {
+          "nodeId": "PCC",
+          "dir": "Hyper",
+          "detail": "posterior cingulate — DMN internal-focus hub — rumination/internal-loop",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "DMN",
           "dir": "Hyper-existential",
           "detail": "DMN locked in death-anxiety rumination and existential dread; psilocybin-induced ego dissolution produces lasting reduction in death anxiety",
@@ -2131,13 +2155,28 @@
           "detail": "Autobiographical narrative locked on mortality; ego dissolution breaks PCC self-narrative enabling acceptance",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PCC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "ALCOHOL_USE_DISORDER",
       "label": "Alcohol Use Disorder",
       "summary": "Alcohol dependence with dysregulated reward circuits responsive to psilocybin-assisted therapy",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
+          "detail": "incentive/reward drive — over-pursuit=bubble",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NAcc",
           "dir": "Hyper-sensitized",
@@ -2174,13 +2213,28 @@
           "detail": "Dopaminergic reward prediction errors driving compulsive seeking; psilocybin recalibrates VTA-NAcc reward signaling",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "OCD_PSYCHEDELIC",
       "label": "Treatment-Resistant OCD",
       "summary": "Obsessive-compulsive disorder with cortico-striato-thalamic loop rigidity responsive to psilocybin disruption",
       "circuits": [
+        {
+          "nodeId": "CAUD",
+          "dir": "Hyper",
+          "detail": "caudate — goal-directed action selection — compulsion/OCD loop",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dACC",
           "dir": "Hyper-monitoring",
@@ -2211,13 +2265,28 @@
           "detail": "DMN rigidity maintaining obsessive self-referential thought patterns; dissolution enables cognitive flexibility",
           "evidence": "Emerging"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CAUD",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "CLUSTER_HEADACHE",
       "label": "Cluster Headache",
       "summary": "Severe episodic cluster headache responsive to sub-hallucinogenic psilocybin and LSD for cycle termination",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "RAPHE",
           "dir": "Altered serotonergic",
@@ -2242,13 +2311,28 @@
           "detail": "Hypothalamic-pituitary circadian rhythm disruption driving cluster periodicity; psilocybin may reset circadian HPA cycling",
           "evidence": "Emerging"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "SOCIAL_ANXIETY_AUTISM",
       "label": "Social Anxiety in Autism",
       "summary": "Social anxiety co-occurring with autism spectrum, responsive to MDMA-enhanced social learning",
       "circuits": [
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper",
+          "detail": "threat learning/acquisition — over-fear=PTSD",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BLA",
           "dir": "Hyper-reactive",
@@ -2279,13 +2363,28 @@
           "detail": "Atypical interoceptive processing of social-emotional signals; MDMA normalizes insular social-emotional integration",
           "evidence": "Emerging"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BLA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "ANOREXIA_PSYCHEDELIC",
       "label": "Anorexia Nervosa",
       "summary": "Restrictive anorexia nervosa with rigid body-image distortion responsive to psilocybin-assisted body reprocessing",
       "circuits": [
+        {
+          "nodeId": "AI",
+          "dir": "Hypo",
+          "detail": "interoceptive salience — metric-obsession",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "AI",
           "dir": "Altered interoceptive",
@@ -2316,7 +2415,13 @@
           "detail": "Malnutrition-driven neurotrophic deficit; psilocybin BDNF upregulation supports cognitive flexibility for recovery",
           "evidence": "Emerging"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "AI",
+        "dir": "hypo",
+        "motif": "M10",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

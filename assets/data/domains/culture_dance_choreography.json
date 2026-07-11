@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Culture Dance Choreography systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "SMA",
+          "dir": "Hypo",
+          "detail": "supplementary motor — self-initiated action sequencing — akinesia, initiation failure",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "RF",
           "dir": "Hyper-active",
           "detail": "Choreography Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Choreography Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "SMA",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "CULTURE_DANCE_CHOREOGRAPHY_CAPACITY_OVERLOAD",
       "label": "Culture Dance Choreography Capacity Overload",
       "summary": "Demand exceeding available Culture Dance Choreography capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "GP",
+          "dir": "Hyper",
+          "detail": "basal-ganglia output gate — flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "RF",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Choreography Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "GP",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "CULTURE_DANCE_CHOREOGRAPHY_QUALITY_DEGRADATION",
       "label": "Culture Dance Choreography Quality Degradation",
       "summary": "Progressive decline in Culture Dance Choreography quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "RF",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Choreography Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

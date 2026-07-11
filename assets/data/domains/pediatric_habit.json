@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Habit Circuits & Repetitive Behavior systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "PUT",
+          "dir": "Hypo",
+          "detail": "putamen — sensorimotor habit selection — bradykinesia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CeA",
           "dir": "Hypo-active",
           "detail": "Habit Circuits & Repetitive Behavior Assessment & Diagnostics capacity falling below operational thresholds, reducing Habit Circuits & Repetitive Behavior output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Habit Circuits & Repetitive Behavior Performance & Optimization function reduced, compromising Habit Circuits & Repetitive Behavior system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PUT",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "PEDIATRIC_HABIT_CAPACITY_CRISIS",
       "label": "Habit Circuits & Repetitive Behavior Capacity Crisis",
       "summary": "Demand exceeding available Habit Circuits & Repetitive Behavior capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "CAUD",
+          "dir": "Hyper",
+          "detail": "caudate — goal-directed action selection — compulsion/OCD loop",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BNST",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Habit Circuits & Repetitive Behavior Performance & Optimization operating outside normal parameters, introducing uncertainty into Habit Circuits & Repetitive Behavior outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CAUD",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "PEDIATRIC_HABIT_GOVERNANCE_GAP",
       "label": "Habit Circuits & Repetitive Behavior Governance Gap",
       "summary": "Oversight or regulatory failure in Habit Circuits & Repetitive Behavior creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "PUT",
+          "dir": "Hyper",
+          "detail": "putamen — sensorimotor habit selection — compulsive habit/dyskinesia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CON",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Habit Circuits & Repetitive Behavior Coordination & Integration function reduced, compromising Habit Circuits & Repetitive Behavior system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PUT",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

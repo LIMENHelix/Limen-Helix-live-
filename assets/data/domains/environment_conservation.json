@@ -5022,6 +5022,15 @@
       "summary": "Critical breakdown in Conservation Policy systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "BDNF",
           "dir": "Hypo-active",
           "detail": "Conservation Policy Assessment & Diagnostics capacity falling below operational thresholds, reducing Conservation Policy output and reliability",
@@ -5051,13 +5060,28 @@
           "detail": "Conservation Policy Performance & Optimization function reduced, compromising Conservation Policy system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "ENVIRONMENT_CONSERVATION_CAPACITY_CRISIS",
       "label": "Conservation Policy Capacity Crisis",
       "summary": "Demand exceeding available Conservation Policy capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TrkB",
           "dir": "Hyper-active",
@@ -5088,13 +5112,28 @@
           "detail": "Conservation Policy Performance & Optimization operating outside normal parameters, introducing uncertainty into Conservation Policy outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "ENVIRONMENT_CONSERVATION_GOVERNANCE_GAP",
       "label": "Conservation Policy Governance Gap",
       "summary": "Oversight or regulatory failure in Conservation Policy creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "LC",
           "dir": "Hypo-active",
@@ -5125,7 +5164,13 @@
           "detail": "Conservation Policy Coordination & Integration function reduced, compromising Conservation Policy system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

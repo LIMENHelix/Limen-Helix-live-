@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Energy Hydrogen Greenh2 systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "NEOCER",
           "dir": "Hyper-active",
           "detail": "Green Hydrogen Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Green Hydrogen Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "ENERGY_HYDROGEN_GREENH2_CAPACITY_OVERLOAD",
       "label": "Energy Hydrogen Greenh2 Capacity Overload",
       "summary": "Demand exceeding available Energy Hydrogen Greenh2 capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NEOCER",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Green Hydrogen Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "ENERGY_HYDROGEN_GREENH2_QUALITY_DEGRADATION",
       "label": "Energy Hydrogen Greenh2 Quality Degradation",
       "summary": "Progressive decline in Energy Hydrogen Greenh2 quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NEOCER",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Green Hydrogen Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

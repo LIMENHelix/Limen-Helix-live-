@@ -2280,6 +2280,15 @@
       "summary": "Critical breakdown in Medicine Surgery General systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "GP",
+          "dir": "Hypo",
+          "detail": "basal-ganglia output gate — lock (bradykinetic freeze)",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "ANT",
           "dir": "Hyper-active",
           "detail": "General Surgery Assessment & Diagnostics function overloaded",
@@ -2309,13 +2318,28 @@
           "detail": "General Surgery Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "GP",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "MEDICINE_SURGERY_GENERAL_CAPACITY_OVERLOAD",
       "label": "Medicine Surgery General Capacity Overload",
       "summary": "Demand exceeding available Medicine Surgery General capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "MDT",
+          "dir": "Hyper",
+          "detail": "PFC relay gate — flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ANT",
           "dir": "Hyper-active",
@@ -2340,13 +2364,28 @@
           "detail": "General Surgery Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "MDT",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "MEDICINE_SURGERY_GENERAL_QUALITY_DEGRADATION",
       "label": "Medicine Surgery General Quality Degradation",
       "summary": "Progressive decline in Medicine Surgery General quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "NEOCER",
+          "dir": "Hyper",
+          "detail": "cognitive forward model — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ANT",
           "dir": "Hypo-active",
@@ -2371,7 +2410,13 @@
           "detail": "General Surgery Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NEOCER",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

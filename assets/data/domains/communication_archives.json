@@ -9919,6 +9919,15 @@
       "summary": "Critical breakdown in Communication Archives systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "EC",
+          "dir": "Hypo",
+          "detail": "entorhinal — hippocampal memory gateway — encoding failure",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "LAR",
           "dir": "Hyper-active",
           "detail": "Archives Assessment & Diagnostics function overloaded",
@@ -9948,13 +9957,28 @@
           "detail": "Archives Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "EC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_ARCHIVES_CAPACITY_OVERLOAD",
       "label": "Communication Archives Capacity Overload",
       "summary": "Demand exceeding available Communication Archives capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "ANT",
+          "dir": "Hyper",
+          "detail": "anterior thalamus — memory relay (Papez) — flood/interference",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "LAR",
           "dir": "Hyper-active",
@@ -9979,13 +10003,28 @@
           "detail": "Archives Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "ANT",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_ARCHIVES_QUALITY_DEGRADATION",
       "label": "Communication Archives Quality Degradation",
       "summary": "Progressive decline in Communication Archives quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "HIPP",
+          "dir": "Hyper",
+          "detail": "HPA feedback + memory index — feedback-fail=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "LAR",
           "dir": "Hypo-active",
@@ -10010,7 +10049,13 @@
           "detail": "Archives Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HIPP",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

@@ -2275,6 +2275,15 @@
       "summary": "Critical breakdown in Communication Journalism Broadcast systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "LC",
+          "dir": "Hypo",
+          "detail": "broadcast / alerting — low=missed",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "HIPP",
           "dir": "Hyper-active",
           "detail": "Broadcast Journalism Assessment & Diagnostics function overloaded",
@@ -2304,13 +2313,28 @@
           "detail": "Broadcast Journalism Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "LC",
+        "dir": "hypo",
+        "motif": "M2",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_JOURNALISM_BROADCAST_CAPACITY_OVERLOAD",
       "label": "Communication Journalism Broadcast Capacity Overload",
       "summary": "Demand exceeding available Communication Journalism Broadcast capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "LC",
+          "dir": "Hyper",
+          "detail": "broadcast / alerting — gain stuck high=thrash",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HIPP",
           "dir": "Hyper-active",
@@ -2335,13 +2359,28 @@
           "detail": "Broadcast Journalism Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "LC",
+        "dir": "hyper",
+        "motif": "M2",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_JOURNALISM_BROADCAST_QUALITY_DEGRADATION",
       "label": "Communication Journalism Broadcast Quality Degradation",
       "summary": "Progressive decline in Communication Journalism Broadcast quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HIPP",
           "dir": "Hypo-active",
@@ -2366,7 +2405,13 @@
           "detail": "Broadcast Journalism Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

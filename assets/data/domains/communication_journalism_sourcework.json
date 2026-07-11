@@ -2276,6 +2276,15 @@
       "summary": "Critical breakdown in Communication Journalism Sourcework systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "EC",
+          "dir": "Hypo",
+          "detail": "entorhinal — hippocampal memory gateway — encoding failure",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "mPFC",
           "dir": "Hyper-active",
           "detail": "Source Management Assessment & Diagnostics function overloaded",
@@ -2305,13 +2314,28 @@
           "detail": "Source Management Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "EC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_JOURNALISM_SOURCEWORK_CAPACITY_OVERLOAD",
       "label": "Communication Journalism Sourcework Capacity Overload",
       "summary": "Demand exceeding available Communication Journalism Sourcework capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "EC",
+          "dir": "Hyper",
+          "detail": "entorhinal — hippocampal memory gateway — memory flooding/interference",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "mPFC",
           "dir": "Hyper-active",
@@ -2336,13 +2360,28 @@
           "detail": "Source Management Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "EC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_JOURNALISM_SOURCEWORK_QUALITY_DEGRADATION",
       "label": "Communication Journalism Sourcework Quality Degradation",
       "summary": "Progressive decline in Communication Journalism Sourcework quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "PRC",
+          "dir": "Hyper",
+          "detail": "perirhinal — object recognition memory — false familiarity",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "mPFC",
           "dir": "Hypo-active",
@@ -2367,7 +2406,13 @@
           "detail": "Source Management Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PRC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

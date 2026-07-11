@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Adrenal Steroidogenesis systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "PIT",
+          "dir": "Hyper",
+          "detail": "pituitary — endocrine output (HPA/HPG axis) — hormonal overdrive",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "vlPFC",
           "dir": "Hypo-active",
           "detail": "Adrenal Steroidogenesis Assessment & Diagnostics capacity falling below operational thresholds, reducing Adrenal Steroidogenesis output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Adrenal Steroidogenesis Performance & Optimization function reduced, compromising Adrenal Steroidogenesis system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PIT",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "METABOLIC_ADRENAL_CAPACITY_CRISIS",
       "label": "Adrenal Steroidogenesis Capacity Crisis",
       "summary": "Demand exceeding available Adrenal Steroidogenesis capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "PIT",
+          "dir": "Hypo",
+          "detail": "pituitary — endocrine output (HPA/HPG axis) — hormonal insufficiency",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TPJ",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Adrenal Steroidogenesis Performance & Optimization operating outside normal parameters, introducing uncertainty into Adrenal Steroidogenesis outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PIT",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "METABOLIC_ADRENAL_GOVERNANCE_GAP",
       "label": "Adrenal Steroidogenesis Governance Gap",
       "summary": "Oversight or regulatory failure in Adrenal Steroidogenesis creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "PIT",
+          "dir": "Hypo",
+          "detail": "pituitary — endocrine output (HPA/HPG axis) — hormonal insufficiency",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "RSC",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Adrenal Steroidogenesis Coordination & Integration function reduced, compromising Adrenal Steroidogenesis system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PIT",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

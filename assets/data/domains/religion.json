@@ -1453,7 +1453,11 @@
       "weight": 0.8,
       "feedClass": "religious_freedom",
       "seriesId": "USCIRF_FREEDOM_1to5",
-      "dataSources": ["USCIRF", "PEW", "ARDA"],
+      "dataSources": [
+        "USCIRF",
+        "PEW",
+        "ARDA"
+      ],
       "diagnosticTriggers": [
         "RELIGIOUS_FREEDOM_VIOLATION",
         "BLASPHEMY_APOSTASY_LAW",
@@ -1536,7 +1540,10 @@
       "weight": 0.8,
       "feedClass": "faith_communication",
       "seriesId": "PEW_RELIGIOUS_MEDIA_USE",
-      "dataSources": ["PEW", "GALLUP"],
+      "dataSources": [
+        "PEW",
+        "GALLUP"
+      ],
       "diagnosticTriggers": [
         "FAITH_MEDIA_REACH_DECLINE",
         "DISINFORMATION_IN_RELIGIOUS_CHANNELS",
@@ -1619,7 +1626,11 @@
       "weight": 0.8,
       "feedClass": "institutional_structure",
       "seriesId": "ARDA_CONGREGATIONS_CENSUS",
-      "dataSources": ["ARDA", "PEW", "GALLUP"],
+      "dataSources": [
+        "ARDA",
+        "PEW",
+        "GALLUP"
+      ],
       "diagnosticTriggers": [
         "CLERGY_SUPPLY_SHORTAGE",
         "CONGREGATION_CLOSURE_WAVE",
@@ -1702,7 +1713,11 @@
       "weight": 0.8,
       "feedClass": "religion_politics",
       "seriesId": "PRRI_RELIGIOUS_VOTING",
-      "dataSources": ["PRRI", "PEW", "WVS"],
+      "dataSources": [
+        "PRRI",
+        "PEW",
+        "WVS"
+      ],
       "diagnosticTriggers": [
         "RELIGIOUS_NATIONALISM_SURGE",
         "FAITH_ADVOCACY_POLARIZATION",
@@ -1785,7 +1800,11 @@
       "weight": 0.85,
       "feedClass": "disaffiliation",
       "seriesId": "PEW_UNAFFILIATED_PCT",
-      "dataSources": ["PEW", "GALLUP", "PRRI"],
+      "dataSources": [
+        "PEW",
+        "GALLUP",
+        "PRRI"
+      ],
       "diagnosticTriggers": [
         "SECULARIZATION_CRISIS",
         "GENERATIONAL_FAITH_CLIFF",
@@ -1868,7 +1887,11 @@
       "weight": 0.9,
       "feedClass": "sectarian_risk",
       "seriesId": "USCIRF_VIOLATIONS",
-      "dataSources": ["USCIRF", "PEW", "PRRI"],
+      "dataSources": [
+        "USCIRF",
+        "PEW",
+        "PRRI"
+      ],
       "diagnosticTriggers": [
         "SECTARIAN_CONFLICT",
         "RADICALIZATION",
@@ -1951,7 +1974,11 @@
       "weight": 0.8,
       "feedClass": "faith_social_action",
       "seriesId": "IRS_RELIGIOUS_GIVING",
-      "dataSources": ["PEW", "GALLUP", "WVS"],
+      "dataSources": [
+        "PEW",
+        "GALLUP",
+        "WVS"
+      ],
       "diagnosticTriggers": [
         "CHARITY_GIVING_DECLINE",
         "FAITH_NGO_CLOSURE",
@@ -2418,6 +2445,15 @@
       "summary": "Religious identity weaponized for political and territorial violence — inter-communal trust collapsing",
       "circuits": [
         {
+          "nodeId": "BNST",
+          "dir": "Hyper",
+          "detail": "sustained threat monitor — tonic-stuck=burnout",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "TPJ",
           "dir": "Hypo-active",
           "detail": "Perspective-taking capacity suppressed — inability to model out-group religious experience as legitimate",
@@ -2447,13 +2483,28 @@
           "detail": "Pilgrimage sites and sacred spaces becoming flashpoints for territorial religious claims",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BNST",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "INSTITUTIONAL_ABUSE",
       "label": "Institutional Abuse",
       "summary": "Religious authority exploited for personal gain, sexual predation, or coercive control — survivor trauma widespread",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dlPFC",
           "dir": "Hyper-concentrated",
@@ -2490,13 +2541,28 @@
           "detail": "Theological narratives distorted to normalize power imbalance and obedience without question",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "RADICALIZATION",
       "label": "Radicalization",
       "summary": "Vulnerable individuals recruited into extremist religious ideologies — violence justified through theological distortion",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PRECUNEUS",
           "dir": "Hyper-active",
@@ -2533,13 +2599,28 @@
           "detail": "Charismatic authority figures bypassing institutional checks to recruit directly",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "SECULARIZATION_CRISIS",
       "label": "Secularization Crisis",
       "summary": "Institutional religion losing adherents, cultural relevance, and transmissive capacity — meaning vacuum expanding",
       "circuits": [
+        {
+          "nodeId": "mPFC",
+          "dir": "Hypo",
+          "detail": "medial PFC — self-referential value integration (DMN core) — disengaged, apathetic",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CBLM",
           "dir": "Hypo-active",
@@ -2576,13 +2657,28 @@
           "detail": "Monastic communities unable to attract new members — contemplative traditions at risk of extinction",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "mPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "THEOLOGICAL_SCHISM",
       "label": "Theological Schism",
       "summary": "Irreconcilable doctrinal disputes fragmenting religious communities — institutional unity collapsing",
       "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hyper",
+          "detail": "dorsolateral PFC — executive working-memory / cognitive control — rigidity/rumination-lock",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "DMN",
           "dir": "Hyper-divergent",
@@ -2619,7 +2715,13 @@
           "detail": "Historical narratives selectively remembered to justify current factional positions",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dlPFC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     }
   ],
   "religiousDataBindings": {
@@ -2629,10 +2731,33 @@
         "name": "Pew Research Center — Religion & Public Life",
         "id": "PEW",
         "role": "primary_religion_research",
-        "covers": ["belief_systems", "affiliation", "disaffiliation", "religious_freedom_restrictions", "religion_politics"],
-        "boundNodes": ["DMN", "RAPHE", "WERN", "TPJ", "nACC", "AMY", "SNS", "VV", "IC", "ACC"],
+        "covers": [
+          "belief_systems",
+          "affiliation",
+          "disaffiliation",
+          "religious_freedom_restrictions",
+          "religion_politics"
+        ],
+        "boundNodes": [
+          "DMN",
+          "RAPHE",
+          "WERN",
+          "TPJ",
+          "nACC",
+          "AMY",
+          "SNS",
+          "VV",
+          "IC",
+          "ACC"
+        ],
         "endpoint": "pewresearch.org/religion (Religious Landscape Study; Global Restrictions on Religion)",
-        "series_ids": ["unaffiliated_pct", "weekly_attendance_pct", "religious_vs_spiritual_pct", "government_restrictions_index", "social_hostilities_index"],
+        "series_ids": [
+          "unaffiliated_pct",
+          "weekly_attendance_pct",
+          "religious_vs_spiritual_pct",
+          "government_restrictions_index",
+          "social_hostilities_index"
+        ],
         "series_notes": "unaffiliated_pct = share of 'nones'; weekly_attendance_pct = self-reported weekly service attendance; government_restrictions_index (GRI) and social_hostilities_index (SHI) score state and societal limits on religion",
         "access": "free, public reports & datasets (no key)",
         "binding_strength": 0.95,
@@ -2642,10 +2767,26 @@
         "name": "Association of Religion Data Archives",
         "id": "ARDA",
         "role": "primary_religion_data_custodian",
-        "covers": ["congregations", "adherence", "denominations", "religion_and_state"],
-        "boundNodes": ["DMN", "OFC", "dlPFC", "SC", "SNS"],
+        "covers": [
+          "congregations",
+          "adherence",
+          "denominations",
+          "religion_and_state"
+        ],
+        "boundNodes": [
+          "DMN",
+          "OFC",
+          "dlPFC",
+          "SC",
+          "SNS"
+        ],
         "endpoint": "thearda.com (US Religion Census; Religion & State data)",
-        "series_ids": ["us_religion_census_adherence", "congregations_count", "religion_state_establishment", "religion_state_regulation"],
+        "series_ids": [
+          "us_religion_census_adherence",
+          "congregations_count",
+          "religion_state_establishment",
+          "religion_state_regulation"
+        ],
         "series_notes": "US Religion Census adherence and congregation counts by tradition and county; Religion-and-State establishment/regulation/discrimination scores",
         "access": "free, downloadable datasets (no key)",
         "binding_strength": 0.9,
@@ -2655,10 +2796,23 @@
         "name": "Gallup",
         "id": "GALLUP",
         "role": "practice_trend_observer",
-        "covers": ["service_attendance", "institutional_confidence", "importance_of_religion"],
-        "boundNodes": ["CBLM", "VV", "nACC", "ACC"],
+        "covers": [
+          "service_attendance",
+          "institutional_confidence",
+          "importance_of_religion"
+        ],
+        "boundNodes": [
+          "CBLM",
+          "VV",
+          "nACC",
+          "ACC"
+        ],
         "endpoint": "news.gallup.com/topic/religion.aspx",
-        "series_ids": ["weekly_service_pct", "confidence_in_church", "religion_important_pct"],
+        "series_ids": [
+          "weekly_service_pct",
+          "confidence_in_church",
+          "religion_important_pct"
+        ],
         "series_notes": "Long-run polling on attendance, confidence in organized religion, and salience of religion in daily life",
         "access": "free, published topline reports (no key)",
         "binding_strength": 0.8,
@@ -2668,10 +2822,26 @@
         "name": "Public Religion Research Institute",
         "id": "PRRI",
         "role": "belief_and_pluralism_researcher",
-        "covers": ["interfaith_attitudes", "leaving_religion", "religious_nationalism", "religious_voting"],
-        "boundNodes": ["TPJ", "vmPFC", "nACC", "AMY", "IC"],
+        "covers": [
+          "interfaith_attitudes",
+          "leaving_religion",
+          "religious_nationalism",
+          "religious_voting"
+        ],
+        "boundNodes": [
+          "TPJ",
+          "vmPFC",
+          "nACC",
+          "AMY",
+          "IC"
+        ],
         "endpoint": "prri.org/research",
-        "series_ids": ["interfaith_favorable_view_pct", "leave_religion_rate", "christian_nationalism_share", "religious_voting_gap"],
+        "series_ids": [
+          "interfaith_favorable_view_pct",
+          "leave_religion_rate",
+          "christian_nationalism_share",
+          "religious_voting_gap"
+        ],
         "series_notes": "Inter-religious favorability, disaffiliation by cohort, religious-nationalism adherence, and faith-group voting patterns",
         "access": "free, public reports (no key)",
         "binding_strength": 0.82,
@@ -2681,10 +2851,26 @@
         "name": "World Values Survey",
         "id": "WVS",
         "role": "cross_national_values_custodian",
-        "covers": ["religiosity", "values", "belief_intensity", "secularization_cross_national"],
-        "boundNodes": ["DMN", "vmPFC", "nACC", "IC", "ACC"],
+        "covers": [
+          "religiosity",
+          "values",
+          "belief_intensity",
+          "secularization_cross_national"
+        ],
+        "boundNodes": [
+          "DMN",
+          "vmPFC",
+          "nACC",
+          "IC",
+          "ACC"
+        ],
         "endpoint": "worldvaluessurvey.org/wvs.jsp",
-        "series_ids": ["importance_of_religion", "belief_in_god", "religious_attendance", "secular_rational_values_index"],
+        "series_ids": [
+          "importance_of_religion",
+          "belief_in_god",
+          "religious_attendance",
+          "secular_rational_values_index"
+        ],
         "series_notes": "Cross-national waves measuring religiosity, belief intensity, and the traditional-vs-secular values dimension (Inglehart-Welzel)",
         "access": "free, registered data download (no commercial key)",
         "binding_strength": 0.78,
@@ -2694,10 +2880,23 @@
         "name": "U.S. Commission on International Religious Freedom",
         "id": "USCIRF",
         "role": "religious_freedom_monitor",
-        "covers": ["religious_freedom", "persecution", "blasphemy_apostasy_law"],
-        "boundNodes": ["SNS", "AMY", "OFC", "TPJ"],
+        "covers": [
+          "religious_freedom",
+          "persecution",
+          "blasphemy_apostasy_law"
+        ],
+        "boundNodes": [
+          "SNS",
+          "AMY",
+          "OFC",
+          "TPJ"
+        ],
         "endpoint": "uscirf.gov (Annual Report; country designations)",
-        "series_ids": ["country_designation_cpc_swl", "religious_freedom_index_1to5", "violations_count"],
+        "series_ids": [
+          "country_designation_cpc_swl",
+          "religious_freedom_index_1to5",
+          "violations_count"
+        ],
         "series_notes": "Country of Particular Concern (CPC) and Special Watch List (SWL) designations; per-country religious-freedom conditions and violation tracking",
         "access": "free, public annual reports (no key)",
         "binding_strength": 0.85,
@@ -2707,46 +2906,342 @@
     "institutions": {
       "_note": "Real faith institutions and research bodies, classified by governance/authority role rather than financial tradability. These are the doctrinal/administrative/custodial authorities behind religious identity. governance_role replaces energy's binding_strength price-discovery model.",
       "authorities": [
-        { "name": "Vatican (Holy See)", "id": "VATICAN", "governance_role": "doctrinal_authority", "tradition": "Catholic Christianity", "boundNodes": ["DMN", "dlPFC", "OFC"] },
-        { "name": "Organisation of Islamic Cooperation", "id": "OIC", "governance_role": "ecumenical_body", "tradition": "Islam (multilateral)", "boundNodes": ["dlPFC", "TPJ"] },
-        { "name": "World Council of Churches", "id": "WCC", "governance_role": "ecumenical_body", "tradition": "Ecumenical Christianity", "boundNodes": ["TPJ", "DMN"] },
-        { "name": "International Association for Religious Freedom", "id": "IARF", "governance_role": "advocacy_body", "tradition": "Interfaith / pluralism", "boundNodes": ["TPJ", "SNS"] },
-        { "name": "Interfaith Youth Core (Interfaith America)", "id": "IFYC", "governance_role": "interfaith_liaison", "tradition": "Interfaith", "boundNodes": ["TPJ"] },
-        { "name": "Association of Theological Schools", "id": "ATS", "governance_role": "research_institution", "tradition": "Theological education", "boundNodes": ["AG", "SC"] },
-        { "name": "John Templeton Foundation", "id": "TEMPLETON", "governance_role": "research_institution", "tradition": "Religion & science scholarship", "boundNodes": ["DMN", "RAPHE"] }
+        {
+          "name": "Vatican (Holy See)",
+          "id": "VATICAN",
+          "governance_role": "doctrinal_authority",
+          "tradition": "Catholic Christianity",
+          "boundNodes": [
+            "DMN",
+            "dlPFC",
+            "OFC"
+          ]
+        },
+        {
+          "name": "Organisation of Islamic Cooperation",
+          "id": "OIC",
+          "governance_role": "ecumenical_body",
+          "tradition": "Islam (multilateral)",
+          "boundNodes": [
+            "dlPFC",
+            "TPJ"
+          ]
+        },
+        {
+          "name": "World Council of Churches",
+          "id": "WCC",
+          "governance_role": "ecumenical_body",
+          "tradition": "Ecumenical Christianity",
+          "boundNodes": [
+            "TPJ",
+            "DMN"
+          ]
+        },
+        {
+          "name": "International Association for Religious Freedom",
+          "id": "IARF",
+          "governance_role": "advocacy_body",
+          "tradition": "Interfaith / pluralism",
+          "boundNodes": [
+            "TPJ",
+            "SNS"
+          ]
+        },
+        {
+          "name": "Interfaith Youth Core (Interfaith America)",
+          "id": "IFYC",
+          "governance_role": "interfaith_liaison",
+          "tradition": "Interfaith",
+          "boundNodes": [
+            "TPJ"
+          ]
+        },
+        {
+          "name": "Association of Theological Schools",
+          "id": "ATS",
+          "governance_role": "research_institution",
+          "tradition": "Theological education",
+          "boundNodes": [
+            "AG",
+            "SC"
+          ]
+        },
+        {
+          "name": "John Templeton Foundation",
+          "id": "TEMPLETON",
+          "governance_role": "research_institution",
+          "tradition": "Religion & science scholarship",
+          "boundNodes": [
+            "DMN",
+            "RAPHE"
+          ]
+        }
       ],
       "data_curators": [
-        { "name": "Pew Research Center", "id": "PEW", "governance_role": "data_curator", "boundNodes": ["DMN", "nACC", "AMY", "IC"] },
-        { "name": "Association of Religion Data Archives", "id": "ARDA", "governance_role": "data_curator", "boundNodes": ["SC", "SNS", "dlPFC"] },
-        { "name": "Gallup", "id": "GALLUP", "governance_role": "data_curator", "boundNodes": ["CBLM", "nACC"] },
-        { "name": "Public Religion Research Institute", "id": "PRRI", "governance_role": "data_curator", "boundNodes": ["TPJ", "IC"] },
-        { "name": "World Values Survey", "id": "WVS", "governance_role": "data_curator", "boundNodes": ["DMN", "IC"] }
+        {
+          "name": "Pew Research Center",
+          "id": "PEW",
+          "governance_role": "data_curator",
+          "boundNodes": [
+            "DMN",
+            "nACC",
+            "AMY",
+            "IC"
+          ]
+        },
+        {
+          "name": "Association of Religion Data Archives",
+          "id": "ARDA",
+          "governance_role": "data_curator",
+          "boundNodes": [
+            "SC",
+            "SNS",
+            "dlPFC"
+          ]
+        },
+        {
+          "name": "Gallup",
+          "id": "GALLUP",
+          "governance_role": "data_curator",
+          "boundNodes": [
+            "CBLM",
+            "nACC"
+          ]
+        },
+        {
+          "name": "Public Religion Research Institute",
+          "id": "PRRI",
+          "governance_role": "data_curator",
+          "boundNodes": [
+            "TPJ",
+            "IC"
+          ]
+        },
+        {
+          "name": "World Values Survey",
+          "id": "WVS",
+          "governance_role": "data_curator",
+          "boundNodes": [
+            "DMN",
+            "IC"
+          ]
+        }
       ],
       "service_delivery": [
-        { "name": "Catholic Relief Services", "id": "CRS", "governance_role": "service_delivery", "boundNodes": ["ACC"] },
-        { "name": "The Salvation Army", "id": "SALVATION_ARMY", "governance_role": "service_delivery", "boundNodes": ["ACC"] }
+        {
+          "name": "Catholic Relief Services",
+          "id": "CRS",
+          "governance_role": "service_delivery",
+          "boundNodes": [
+            "ACC"
+          ]
+        },
+        {
+          "name": "The Salvation Army",
+          "id": "SALVATION_ARMY",
+          "governance_role": "service_delivery",
+          "boundNodes": [
+            "ACC"
+          ]
+        }
       ],
       "communication_channels": [
-        { "name": "Tyndale House Publishers", "id": "TYNDALE", "governance_role": "communication_channel", "coupling": "second_order", "boundNodes": ["VV"] }
+        {
+          "name": "Tyndale House Publishers",
+          "id": "TYNDALE",
+          "governance_role": "communication_channel",
+          "coupling": "second_order",
+          "boundNodes": [
+            "VV"
+          ]
+        }
       ]
     },
     "nodeFeedBindings": [
-      { "brainNodeId": "DMN", "domainLabel": "Theological Doctrine", "feedClass": "belief_systems", "seriesId": "WVS.belief_in_god", "dataSources": ["PEW", "ARDA", "WVS"], "metric": "belief_system_adherence" },
-      { "brainNodeId": "CBLM", "domainLabel": "Ritual Practice", "feedClass": "practice_adherence", "seriesId": "GALLUP.weekly_service_pct", "dataSources": ["GALLUP", "PEW"], "metric": "weekly_attendance_pct" },
-      { "brainNodeId": "vmPFC", "domainLabel": "Moral Reasoning", "feedClass": "moral_values", "seriesId": "WVS.secular_rational_values_index", "dataSources": ["WVS", "PRRI"], "metric": "moral_values_orientation" },
-      { "brainNodeId": "RAPHE", "domainLabel": "Mystical Experience", "feedClass": "spiritual_experience", "seriesId": "PEW.religious_vs_spiritual_pct", "dataSources": ["PEW", "PRRI"], "metric": "spiritual_not_religious_pct" },
-      { "brainNodeId": "WERN", "domainLabel": "Scripture & Canon", "feedClass": "belief_systems", "seriesId": "ARDA.us_religion_census_adherence", "dataSources": ["ARDA", "PEW"], "metric": "scriptural_tradition_adherence" },
-      { "brainNodeId": "OFC", "domainLabel": "Religious Law", "feedClass": "religious_law", "seriesId": "ARDA.religion_state_regulation", "dataSources": ["ARDA", "USCIRF"], "metric": "religious_legal_regulation" },
-      { "brainNodeId": "TPJ", "domainLabel": "Interfaith Dialogue", "feedClass": "pluralism_index", "seriesId": "PRRI.interfaith_favorable_view_pct", "dataSources": ["PRRI", "PEW", "USCIRF"], "metric": "interfaith_favorability_pct" },
-      { "brainNodeId": "AG", "domainLabel": "Religious Education", "feedClass": "formation", "seriesId": "ATS.theological_enrollment", "dataSources": ["ARDA", "PEW"], "metric": "religious_education_participation" },
-      { "brainNodeId": "dlPFC", "domainLabel": "Religious Authority", "feedClass": "institutional_governance", "seriesId": "ARDA.us_religion_census_adherence", "dataSources": ["ARDA", "PEW"], "metric": "denominational_authority_structure" },
-      { "brainNodeId": "SNS", "domainLabel": "Religious Law & Freedom", "feedClass": "religious_freedom", "seriesId": "USCIRF.religious_freedom_index_1to5", "dataSources": ["USCIRF", "PEW", "ARDA"], "metric": "religious_freedom_index" },
-      { "brainNodeId": "VV", "domainLabel": "Religious Media & Communication", "feedClass": "faith_communication", "seriesId": "PEW.religious_media_use", "dataSources": ["PEW", "GALLUP"], "metric": "faith_media_reach" },
-      { "brainNodeId": "SC", "domainLabel": "Religious Organization Structure", "feedClass": "institutional_structure", "seriesId": "ARDA.congregations_count", "dataSources": ["ARDA", "PEW", "GALLUP"], "metric": "congregation_and_clergy_supply" },
-      { "brainNodeId": "IC", "domainLabel": "Religion & Politics", "feedClass": "religion_politics", "seriesId": "PRRI.religious_voting_gap", "dataSources": ["PRRI", "PEW", "WVS"], "metric": "religious_political_alignment" },
-      { "brainNodeId": "nACC", "domainLabel": "Secularization & Disaffiliation", "feedClass": "disaffiliation", "seriesId": "PEW.unaffiliated_pct", "dataSources": ["PEW", "GALLUP", "PRRI"], "metric": "unaffiliated_pct" },
-      { "brainNodeId": "AMY", "domainLabel": "Sectarian Conflict & Fundamentalism", "feedClass": "sectarian_risk", "seriesId": "USCIRF.violations_count", "dataSources": ["USCIRF", "PEW", "PRRI"], "metric": "social_hostilities_index" },
-      { "brainNodeId": "ACC", "domainLabel": "Faith-Based Social Action", "feedClass": "faith_social_action", "seriesId": "PEW.religiously_motivated_giving", "dataSources": ["PEW", "GALLUP", "WVS"], "metric": "faith_based_giving_volunteering" }
+      {
+        "brainNodeId": "DMN",
+        "domainLabel": "Theological Doctrine",
+        "feedClass": "belief_systems",
+        "seriesId": "WVS.belief_in_god",
+        "dataSources": [
+          "PEW",
+          "ARDA",
+          "WVS"
+        ],
+        "metric": "belief_system_adherence"
+      },
+      {
+        "brainNodeId": "CBLM",
+        "domainLabel": "Ritual Practice",
+        "feedClass": "practice_adherence",
+        "seriesId": "GALLUP.weekly_service_pct",
+        "dataSources": [
+          "GALLUP",
+          "PEW"
+        ],
+        "metric": "weekly_attendance_pct"
+      },
+      {
+        "brainNodeId": "vmPFC",
+        "domainLabel": "Moral Reasoning",
+        "feedClass": "moral_values",
+        "seriesId": "WVS.secular_rational_values_index",
+        "dataSources": [
+          "WVS",
+          "PRRI"
+        ],
+        "metric": "moral_values_orientation"
+      },
+      {
+        "brainNodeId": "RAPHE",
+        "domainLabel": "Mystical Experience",
+        "feedClass": "spiritual_experience",
+        "seriesId": "PEW.religious_vs_spiritual_pct",
+        "dataSources": [
+          "PEW",
+          "PRRI"
+        ],
+        "metric": "spiritual_not_religious_pct"
+      },
+      {
+        "brainNodeId": "WERN",
+        "domainLabel": "Scripture & Canon",
+        "feedClass": "belief_systems",
+        "seriesId": "ARDA.us_religion_census_adherence",
+        "dataSources": [
+          "ARDA",
+          "PEW"
+        ],
+        "metric": "scriptural_tradition_adherence"
+      },
+      {
+        "brainNodeId": "OFC",
+        "domainLabel": "Religious Law",
+        "feedClass": "religious_law",
+        "seriesId": "ARDA.religion_state_regulation",
+        "dataSources": [
+          "ARDA",
+          "USCIRF"
+        ],
+        "metric": "religious_legal_regulation"
+      },
+      {
+        "brainNodeId": "TPJ",
+        "domainLabel": "Interfaith Dialogue",
+        "feedClass": "pluralism_index",
+        "seriesId": "PRRI.interfaith_favorable_view_pct",
+        "dataSources": [
+          "PRRI",
+          "PEW",
+          "USCIRF"
+        ],
+        "metric": "interfaith_favorability_pct"
+      },
+      {
+        "brainNodeId": "AG",
+        "domainLabel": "Religious Education",
+        "feedClass": "formation",
+        "seriesId": "ATS.theological_enrollment",
+        "dataSources": [
+          "ARDA",
+          "PEW"
+        ],
+        "metric": "religious_education_participation"
+      },
+      {
+        "brainNodeId": "dlPFC",
+        "domainLabel": "Religious Authority",
+        "feedClass": "institutional_governance",
+        "seriesId": "ARDA.us_religion_census_adherence",
+        "dataSources": [
+          "ARDA",
+          "PEW"
+        ],
+        "metric": "denominational_authority_structure"
+      },
+      {
+        "brainNodeId": "SNS",
+        "domainLabel": "Religious Law & Freedom",
+        "feedClass": "religious_freedom",
+        "seriesId": "USCIRF.religious_freedom_index_1to5",
+        "dataSources": [
+          "USCIRF",
+          "PEW",
+          "ARDA"
+        ],
+        "metric": "religious_freedom_index"
+      },
+      {
+        "brainNodeId": "VV",
+        "domainLabel": "Religious Media & Communication",
+        "feedClass": "faith_communication",
+        "seriesId": "PEW.religious_media_use",
+        "dataSources": [
+          "PEW",
+          "GALLUP"
+        ],
+        "metric": "faith_media_reach"
+      },
+      {
+        "brainNodeId": "SC",
+        "domainLabel": "Religious Organization Structure",
+        "feedClass": "institutional_structure",
+        "seriesId": "ARDA.congregations_count",
+        "dataSources": [
+          "ARDA",
+          "PEW",
+          "GALLUP"
+        ],
+        "metric": "congregation_and_clergy_supply"
+      },
+      {
+        "brainNodeId": "IC",
+        "domainLabel": "Religion & Politics",
+        "feedClass": "religion_politics",
+        "seriesId": "PRRI.religious_voting_gap",
+        "dataSources": [
+          "PRRI",
+          "PEW",
+          "WVS"
+        ],
+        "metric": "religious_political_alignment"
+      },
+      {
+        "brainNodeId": "nACC",
+        "domainLabel": "Secularization & Disaffiliation",
+        "feedClass": "disaffiliation",
+        "seriesId": "PEW.unaffiliated_pct",
+        "dataSources": [
+          "PEW",
+          "GALLUP",
+          "PRRI"
+        ],
+        "metric": "unaffiliated_pct"
+      },
+      {
+        "brainNodeId": "AMY",
+        "domainLabel": "Sectarian Conflict & Fundamentalism",
+        "feedClass": "sectarian_risk",
+        "seriesId": "USCIRF.violations_count",
+        "dataSources": [
+          "USCIRF",
+          "PEW",
+          "PRRI"
+        ],
+        "metric": "social_hostilities_index"
+      },
+      {
+        "brainNodeId": "ACC",
+        "domainLabel": "Faith-Based Social Action",
+        "feedClass": "faith_social_action",
+        "seriesId": "PEW.religiously_motivated_giving",
+        "dataSources": [
+          "PEW",
+          "GALLUP",
+          "WVS"
+        ],
+        "metric": "faith_based_giving_volunteering"
+      }
     ],
     "crossDomainCouplings": {
       "_note": "Religion COUPLES to these domains but they are NOT religion identity. Population owns affiliation demographics; governance owns religious-freedom policy; culture owns secular content/scenes/movements.",

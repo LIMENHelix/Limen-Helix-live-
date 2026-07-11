@@ -5966,6 +5966,15 @@
       "summary": "Critical breakdown in Law Enforcement systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "STN",
+          "dir": "Hypo",
+          "detail": "hyperdirect brake / hold — no-brake=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "LGN",
           "dir": "Hypo-active",
           "detail": "Law Enforcement Assessment & Diagnostics capacity falling below operational thresholds, reducing Law Enforcement output and reliability",
@@ -5995,13 +6004,28 @@
           "detail": "Law Enforcement Performance & Optimization function reduced, compromising Law Enforcement system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "LAW_LAW_CAPACITY_CRISIS",
       "label": "Law Enforcement Capacity Crisis",
       "summary": "Demand exceeding available Law Enforcement capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "GP",
+          "dir": "Hyper",
+          "detail": "basal-ganglia output gate — flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MGN",
           "dir": "Hyper-active",
@@ -6032,13 +6056,28 @@
           "detail": "Law Enforcement Performance & Optimization operating outside normal parameters, introducing uncertainty into Law Enforcement outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "GP",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "LAW_LAW_GOVERNANCE_GAP",
       "label": "Law Enforcement Governance Gap",
       "summary": "Oversight or regulatory failure in Law Enforcement creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SNIG",
           "dir": "Hypo-active",
@@ -6069,7 +6108,13 @@
           "detail": "Law Enforcement Coordination & Integration function reduced, compromising Law Enforcement system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

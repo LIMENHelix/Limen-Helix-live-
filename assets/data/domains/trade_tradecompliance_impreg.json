@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Trade Tradecompliance Impreg systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vlPFC",
+          "dir": "Hypo",
+          "detail": "response-inhibition / stop — disinhibited",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CARD",
           "dir": "Hyper-active",
           "detail": "Import Regulations Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Import Regulations Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "TRADE_TRADECOMPLIANCE_IMPREG_CAPACITY_OVERLOAD",
       "label": "Trade Tradecompliance Impreg Capacity Overload",
       "summary": "Demand exceeding available Trade Tradecompliance Impreg capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hyper",
+          "detail": "response-inhibition / stop — over-suppress",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CARD",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Import Regulations Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hyper",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "TRADE_TRADECOMPLIANCE_IMPREG_QUALITY_DEGRADATION",
       "label": "Trade Tradecompliance Impreg Quality Degradation",
       "summary": "Progressive decline in Trade Tradecompliance Impreg quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hypo",
+          "detail": "response-inhibition / stop — disinhibited",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CARD",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Import Regulations Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ]
 }

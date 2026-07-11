@@ -7487,6 +7487,15 @@
       "summary": "Critical breakdown in Broadcasting systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "LC",
+          "dir": "Hypo",
+          "detail": "broadcast / alerting — low=missed",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "vlPFC",
           "dir": "Hypo-active",
           "detail": "Broadcasting Assessment & Diagnostics capacity falling below operational thresholds, reducing Broadcasting output and reliability",
@@ -7516,13 +7525,28 @@
           "detail": "Broadcasting Performance & Optimization function reduced, compromising Broadcasting system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "LC",
+        "dir": "hypo",
+        "motif": "M2",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_BROADCASTING_CAPACITY_CRISIS",
       "label": "Broadcasting Capacity Crisis",
       "summary": "Demand exceeding available Broadcasting capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "LC",
+          "dir": "Hyper",
+          "detail": "broadcast / alerting — gain stuck high=thrash",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TPJ",
           "dir": "Hyper-active",
@@ -7553,13 +7577,28 @@
           "detail": "Broadcasting Performance & Optimization operating outside normal parameters, introducing uncertainty into Broadcasting outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "LC",
+        "dir": "hyper",
+        "motif": "M2",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_BROADCASTING_GOVERNANCE_GAP",
       "label": "Broadcasting Governance Gap",
       "summary": "Oversight or regulatory failure in Broadcasting creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "RSC",
           "dir": "Hypo-active",
@@ -7590,7 +7629,13 @@
           "detail": "Broadcasting Coordination & Integration function reduced, compromising Broadcasting system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

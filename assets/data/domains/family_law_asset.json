@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Asset Valuation / Financial Analysis systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "outcome valuation / update — confabulation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CC",
           "dir": "Hypo-active",
           "detail": "Asset Valuation / Financial Analysis Assessment & Diagnostics capacity falling below operational thresholds, reducing Asset Valuation / Financial Analysis output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Asset Valuation / Financial Analysis Performance & Optimization function reduced, compromising Asset Valuation / Financial Analysis system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "FAMILY_LAW_ASSET_CAPACITY_CRISIS",
       "label": "Asset Valuation / Financial Analysis Capacity Crisis",
       "summary": "Demand exceeding available Asset Valuation / Financial Analysis capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "outcome valuation / update — confabulation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FORN",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Asset Valuation / Financial Analysis Performance & Optimization operating outside normal parameters, introducing uncertainty into Asset Valuation / Financial Analysis outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "FAMILY_LAW_ASSET_GOVERNANCE_GAP",
       "label": "Asset Valuation / Financial Analysis Governance Gap",
       "summary": "Oversight or regulatory failure in Asset Valuation / Financial Analysis creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hypo",
+          "detail": "outcome valuation / update — over-react",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MAMM",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Asset Valuation / Financial Analysis Coordination & Integration function reduced, compromising Asset Valuation / Financial Analysis system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

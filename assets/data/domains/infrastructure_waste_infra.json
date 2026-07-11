@@ -11825,6 +11825,15 @@
       "summary": "Critical breakdown in Infrastructure Waste Infra systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "LANG",
           "dir": "Hyper-active",
           "detail": "Waste Infra Assessment & Diagnostics function overloaded",
@@ -11854,13 +11863,28 @@
           "detail": "Waste Infra Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "INFRASTRUCTURE_WASTE_INFRA_CAPACITY_OVERLOAD",
       "label": "Infrastructure Waste Infra Capacity Overload",
       "summary": "Demand exceeding available Infrastructure Waste Infra capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "LANG",
           "dir": "Hyper-active",
@@ -11885,13 +11909,28 @@
           "detail": "Waste Infra Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "INFRASTRUCTURE_WASTE_INFRA_QUALITY_DEGRADATION",
       "label": "Infrastructure Waste Infra Quality Degradation",
       "summary": "Progressive decline in Infrastructure Waste Infra quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "LANG",
           "dir": "Hypo-active",
@@ -11916,7 +11955,13 @@
           "detail": "Waste Infra Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

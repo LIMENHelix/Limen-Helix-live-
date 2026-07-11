@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Religion Relpolitics Relnatnlsm systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "BNST",
+          "dir": "Hyper",
+          "detail": "sustained threat monitor — tonic-stuck=burnout",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PIT",
           "dir": "Hyper-active",
           "detail": "Religious Nationalism Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Religious Nationalism Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BNST",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_RELPOLITICS_RELNATNLSM_CAPACITY_OVERLOAD",
       "label": "Religion Relpolitics Relnatnlsm Capacity Overload",
       "summary": "Demand exceeding available Religion Relpolitics Relnatnlsm capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "CeA",
+          "dir": "Hyper",
+          "detail": "phasic fear output — hair-trigger=false-alarm",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PIT",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Religious Nationalism Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CeA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_RELPOLITICS_RELNATNLSM_QUALITY_DEGRADATION",
       "label": "Religion Relpolitics Relnatnlsm Quality Degradation",
       "summary": "Progressive decline in Religion Relpolitics Relnatnlsm quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PIT",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Religious Nationalism Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

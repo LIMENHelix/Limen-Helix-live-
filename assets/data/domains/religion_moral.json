@@ -3817,6 +3817,15 @@
       "summary": "Critical breakdown in Moral Reasoning systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "LGN",
           "dir": "Hypo-active",
           "detail": "Moral Reasoning Assessment & Diagnostics capacity falling below operational thresholds, reducing Moral Reasoning output and reliability",
@@ -3846,13 +3855,28 @@
           "detail": "Moral Reasoning Performance & Optimization function reduced, compromising Moral Reasoning system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_MORAL_CAPACITY_CRISIS",
       "label": "Moral Reasoning Capacity Crisis",
       "summary": "Demand exceeding available Moral Reasoning capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MGN",
           "dir": "Hyper-active",
@@ -3883,13 +3907,28 @@
           "detail": "Moral Reasoning Performance & Optimization operating outside normal parameters, introducing uncertainty into Moral Reasoning outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_MORAL_GOVERNANCE_GAP",
       "label": "Moral Reasoning Governance Gap",
       "summary": "Oversight or regulatory failure in Moral Reasoning creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SNIG",
           "dir": "Hypo-active",
@@ -3920,7 +3959,13 @@
           "detail": "Moral Reasoning Coordination & Integration function reduced, compromising Moral Reasoning system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

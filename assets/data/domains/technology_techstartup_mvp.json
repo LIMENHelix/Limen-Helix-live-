@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Technology Techstartup Mvp systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "SMA",
+          "dir": "Hypo",
+          "detail": "supplementary motor — self-initiated action sequencing — akinesia, initiation failure",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "NAcc",
           "dir": "Hyper-active",
           "detail": "Minimum Viable Product Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Minimum Viable Product Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "SMA",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "TECHNOLOGY_TECHSTARTUP_MVP_CAPACITY_OVERLOAD",
       "label": "Technology Techstartup Mvp Capacity Overload",
       "summary": "Demand exceeding available Technology Techstartup Mvp capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "SMA",
+          "dir": "Hyper",
+          "detail": "supplementary motor — self-initiated action sequencing — compulsive sequencing",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NAcc",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Minimum Viable Product Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "SMA",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "TECHNOLOGY_TECHSTARTUP_MVP_QUALITY_DEGRADATION",
       "label": "Technology Techstartup Mvp Quality Degradation",
       "summary": "Progressive decline in Technology Techstartup Mvp quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NAcc",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Minimum Viable Product Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

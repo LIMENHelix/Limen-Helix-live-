@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Extinction and Safety Signaling systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "CeA",
+          "dir": "Hyper",
+          "detail": "phasic fear output — hair-trigger=false-alarm",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "M1",
           "dir": "Hypo-active",
           "detail": "Extinction and Safety Signaling Assessment & Diagnostics capacity falling below operational thresholds, reducing Extinction and Safety Signaling output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Extinction and Safety Signaling Performance & Optimization function reduced, compromising Extinction and Safety Signaling system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CeA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "PSYCHEDELIC_EXTINCTION_CAPACITY_CRISIS",
       "label": "Extinction and Safety Signaling Capacity Crisis",
       "summary": "Demand exceeding available Extinction and Safety Signaling capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "S1",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Extinction and Safety Signaling Performance & Optimization operating outside normal parameters, introducing uncertainty into Extinction and Safety Signaling outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "PSYCHEDELIC_EXTINCTION_GOVERNANCE_GAP",
       "label": "Extinction and Safety Signaling Governance Gap",
       "summary": "Oversight or regulatory failure in Extinction and Safety Signaling creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HIPP",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Extinction and Safety Signaling Coordination & Integration function reduced, compromising Extinction and Safety Signaling system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ]
 }

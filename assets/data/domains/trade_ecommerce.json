@@ -6963,6 +6963,15 @@
       "summary": "Critical breakdown in Trade Ecommerce systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "STRI",
           "dir": "Hyper-active",
           "detail": "Ecommerce Assessment & Diagnostics function overloaded",
@@ -6992,13 +7001,28 @@
           "detail": "Ecommerce Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "TRADE_ECOMMERCE_CAPACITY_OVERLOAD",
       "label": "Trade Ecommerce Capacity Overload",
       "summary": "Demand exceeding available Trade Ecommerce capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "STRI",
           "dir": "Hyper-active",
@@ -7023,13 +7047,28 @@
           "detail": "Ecommerce Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "TRADE_ECOMMERCE_QUALITY_DEGRADATION",
       "label": "Trade Ecommerce Quality Degradation",
       "summary": "Progressive decline in Trade Ecommerce quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "STRI",
           "dir": "Hypo-active",
@@ -7054,7 +7093,13 @@
           "detail": "Ecommerce Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

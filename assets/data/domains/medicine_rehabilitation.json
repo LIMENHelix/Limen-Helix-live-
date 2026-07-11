@@ -10049,6 +10049,15 @@
       "summary": "Critical breakdown in Medicine Rehabilitation systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "M1",
+          "dir": "Hypo",
+          "detail": "primary motor cortex — motor output — weakness, paresis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "ADR",
           "dir": "Hyper-active",
           "detail": "Rehabilitation Assessment & Diagnostics function overloaded",
@@ -10078,13 +10087,28 @@
           "detail": "Rehabilitation Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "M1",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "MEDICINE_REHABILITATION_CAPACITY_OVERLOAD",
       "label": "Medicine Rehabilitation Capacity Overload",
       "summary": "Demand exceeding available Medicine Rehabilitation capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "M1",
+          "dir": "Hyper",
+          "detail": "primary motor cortex — motor output — hyperkinesia/spasticity",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ADR",
           "dir": "Hyper-active",
@@ -10109,13 +10133,28 @@
           "detail": "Rehabilitation Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "M1",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "MEDICINE_REHABILITATION_QUALITY_DEGRADATION",
       "label": "Medicine Rehabilitation Quality Degradation",
       "summary": "Progressive decline in Medicine Rehabilitation quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hypo",
+          "detail": "forward-model error-correct — over-correct",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ADR",
           "dir": "Hypo-active",
@@ -10140,7 +10179,13 @@
           "detail": "Rehabilitation Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

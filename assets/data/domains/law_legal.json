@@ -4027,6 +4027,15 @@
       "summary": "Critical breakdown in Legal Counsel systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "dlPFC",
+          "dir": "Hypo",
+          "detail": "dorsolateral PFC — executive working-memory / cognitive control — executive-lapse, distractible",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "M1",
           "dir": "Hypo-active",
           "detail": "Legal Counsel Assessment & Diagnostics capacity falling below operational thresholds, reducing Legal Counsel output and reliability",
@@ -4056,13 +4065,28 @@
           "detail": "Legal Counsel Performance & Optimization function reduced, compromising Legal Counsel system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dlPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "LAW_LEGAL_CAPACITY_CRISIS",
       "label": "Legal Counsel Capacity Crisis",
       "summary": "Demand exceeding available Legal Counsel capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "S1",
           "dir": "Hyper-active",
@@ -4093,13 +4117,28 @@
           "detail": "Legal Counsel Performance & Optimization operating outside normal parameters, introducing uncertainty into Legal Counsel outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "LAW_LEGAL_GOVERNANCE_GAP",
       "label": "Legal Counsel Governance Gap",
       "summary": "Oversight or regulatory failure in Legal Counsel creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HIPP",
           "dir": "Hypo-active",
@@ -4130,7 +4169,13 @@
           "detail": "Legal Counsel Coordination & Integration function reduced, compromising Legal Counsel system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

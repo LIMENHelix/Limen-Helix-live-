@@ -2277,6 +2277,15 @@
       "summary": "Critical breakdown in Science Experimental Imaging systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "STN",
+          "dir": "Hypo",
+          "detail": "hyperdirect brake / hold — no-brake=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "OXY",
           "dir": "Hyper-active",
           "detail": "Scientific Imaging Assessment & Diagnostics function overloaded",
@@ -2306,13 +2315,28 @@
           "detail": "Scientific Imaging Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "SCIENCE_EXPERIMENTAL_IMAGING_CAPACITY_OVERLOAD",
       "label": "Science Experimental Imaging Capacity Overload",
       "summary": "Demand exceeding available Science Experimental Imaging capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OXY",
           "dir": "Hyper-active",
@@ -2337,13 +2361,28 @@
           "detail": "Scientific Imaging Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "SCIENCE_EXPERIMENTAL_IMAGING_QUALITY_DEGRADATION",
       "label": "Science Experimental Imaging Quality Degradation",
       "summary": "Progressive decline in Science Experimental Imaging quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OXY",
           "dir": "Hypo-active",
@@ -2368,7 +2407,13 @@
           "detail": "Scientific Imaging Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

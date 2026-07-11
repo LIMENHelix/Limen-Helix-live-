@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Fear Extinction Gateway systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "BLA",
+          "dir": "Hyper",
+          "detail": "threat learning/acquisition — over-fear=PTSD",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PBN",
           "dir": "Hypo-active",
           "detail": "Fear Extinction Gateway Assessment & Diagnostics capacity falling below operational thresholds, reducing Fear Extinction Gateway output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Fear Extinction Gateway Performance & Optimization function reduced, compromising Fear Extinction Gateway system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BLA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "PSYCHEDELIC_FEAR_CAPACITY_CRISIS",
       "label": "Fear Extinction Gateway Capacity Crisis",
       "summary": "Demand exceeding available Fear Extinction Gateway capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PPN",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Fear Extinction Gateway Performance & Optimization operating outside normal parameters, introducing uncertainty into Fear Extinction Gateway outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "PSYCHEDELIC_FEAR_GOVERNANCE_GAP",
       "label": "Fear Extinction Gateway Governance Gap",
       "summary": "Oversight or regulatory failure in Fear Extinction Gateway creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NEOCER",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Fear Extinction Gateway Coordination & Integration function reduced, compromising Fear Extinction Gateway system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ]
 }

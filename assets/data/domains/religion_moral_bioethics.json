@@ -2276,6 +2276,15 @@
       "summary": "Critical breakdown in Religion Moral Bioethics systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "outcome valuation / update — confabulation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "LAR",
           "dir": "Hyper-active",
           "detail": "Bioethics Assessment & Diagnostics function overloaded",
@@ -2305,13 +2314,28 @@
           "detail": "Bioethics Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_MORAL_BIOETHICS_CAPACITY_OVERLOAD",
       "label": "Religion Moral Bioethics Capacity Overload",
       "summary": "Demand exceeding available Religion Moral Bioethics capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "LAR",
           "dir": "Hyper-active",
@@ -2336,13 +2360,28 @@
           "detail": "Bioethics Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_MORAL_BIOETHICS_QUALITY_DEGRADATION",
       "label": "Religion Moral Bioethics Quality Degradation",
       "summary": "Progressive decline in Religion Moral Bioethics quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hypo",
+          "detail": "outcome valuation / update — over-react",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "LAR",
           "dir": "Hypo-active",
@@ -2367,7 +2406,13 @@
           "detail": "Bioethics Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Autobiographical Memory Loop systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HIPP",
+          "dir": "Hypo",
+          "detail": "HPA feedback + memory index — intrusive-recall",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CeA",
           "dir": "Hypo-active",
           "detail": "Autobiographical Memory Loop Assessment & Diagnostics capacity falling below operational thresholds, reducing Autobiographical Memory Loop output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Autobiographical Memory Loop Performance & Optimization function reduced, compromising Autobiographical Memory Loop system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HIPP",
+        "dir": "hypo",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "PSYCHEDELIC_AUTOBIO_CAPACITY_CRISIS",
       "label": "Autobiographical Memory Loop Capacity Crisis",
       "summary": "Demand exceeding available Autobiographical Memory Loop capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo",
+          "detail": "HPA feedback + memory index — intrusive-recall",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BNST",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Autobiographical Memory Loop Performance & Optimization operating outside normal parameters, introducing uncertainty into Autobiographical Memory Loop outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HIPP",
+        "dir": "hypo",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "PSYCHEDELIC_AUTOBIO_GOVERNANCE_GAP",
       "label": "Autobiographical Memory Loop Governance Gap",
       "summary": "Oversight or regulatory failure in Autobiographical Memory Loop creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CON",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Autobiographical Memory Loop Coordination & Integration function reduced, compromising Autobiographical Memory Loop system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ]
 }

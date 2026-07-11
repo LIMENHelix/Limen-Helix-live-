@@ -4440,6 +4440,15 @@
       "summary": "Critical breakdown in Supply Chain systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "vlPFC",
           "dir": "Hypo-active",
           "detail": "Supply Chain Assessment & Diagnostics capacity falling below operational thresholds, reducing Supply Chain output and reliability",
@@ -4469,13 +4478,28 @@
           "detail": "Supply Chain Performance & Optimization function reduced, compromising Supply Chain system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "INDUSTRY_SUPPLY_CAPACITY_CRISIS",
       "label": "Supply Chain Capacity Crisis",
       "summary": "Demand exceeding available Supply Chain capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TPJ",
           "dir": "Hyper-active",
@@ -4506,13 +4530,28 @@
           "detail": "Supply Chain Performance & Optimization operating outside normal parameters, introducing uncertainty into Supply Chain outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "INDUSTRY_SUPPLY_GOVERNANCE_GAP",
       "label": "Supply Chain Governance Gap",
       "summary": "Oversight or regulatory failure in Supply Chain creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "RSC",
           "dir": "Hypo-active",
@@ -4543,7 +4582,13 @@
           "detail": "Supply Chain Coordination & Integration function reduced, compromising Supply Chain system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

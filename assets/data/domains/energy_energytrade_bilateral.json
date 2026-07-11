@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Energy Energytrade Bilateral systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "MGN",
           "dir": "Hyper-active",
           "detail": "Bilateral Contracts Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Bilateral Contracts Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "ENERGY_ENERGYTRADE_BILATERAL_CAPACITY_OVERLOAD",
       "label": "Energy Energytrade Bilateral Capacity Overload",
       "summary": "Demand exceeding available Energy Energytrade Bilateral capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MGN",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Bilateral Contracts Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "ENERGY_ENERGYTRADE_BILATERAL_QUALITY_DEGRADATION",
       "label": "Energy Energytrade Bilateral Quality Degradation",
       "summary": "Progressive decline in Energy Energytrade Bilateral quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MGN",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Bilateral Contracts Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     }
   ]
 }

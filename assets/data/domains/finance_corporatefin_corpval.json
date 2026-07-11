@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Finance Corporatefin Corpval systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "OFC",
+          "dir": "Hypo",
+          "detail": "outcome valuation / update — over-react",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "vlPFC",
           "dir": "Hyper-active",
           "detail": "Corporate Valuation Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Corporate Valuation Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "FINANCE_CORPORATEFIN_CORPVAL_CAPACITY_OVERLOAD",
       "label": "Finance Corporatefin Corpval Capacity Overload",
       "summary": "Demand exceeding available Finance Corporatefin Corpval capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "vlPFC",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Corporate Valuation Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "FINANCE_CORPORATEFIN_CORPVAL_QUALITY_DEGRADATION",
       "label": "Finance Corporatefin Corpval Quality Degradation",
       "summary": "Progressive decline in Finance Corporatefin Corpval quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "outcome valuation / update — confabulation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "vlPFC",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Corporate Valuation Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

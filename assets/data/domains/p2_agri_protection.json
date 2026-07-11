@@ -2865,6 +2865,15 @@
       "summary": "Weed populations evolving resistance to multiple herbicide modes of action threatening chemical weed control viability",
       "circuits": [
         {
+          "nodeId": "PAG",
+          "dir": "Hypo",
+          "detail": "defensive kill/lockdown — no-stop",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "BLA",
           "dir": "Hypo-active",
           "detail": "Glyphosate and ALS-inhibitor herbicides losing effectiveness against resistant weed biotypes",
@@ -2894,13 +2903,28 @@
           "detail": "Application technology unable to deliver site-specific treatments targeting resistant weed patches",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PAG",
+        "dir": "hypo",
+        "motif": "M8",
+        "source": "override"
+      }
     },
     {
       "id": "POLLINATOR_DECLINE",
       "label": "Pollinator Decline",
       "summary": "Insecticide exposure and habitat loss reducing pollinator populations below levels needed for crop pollination services",
       "circuits": [
+        {
+          "nodeId": "SEPT",
+          "dir": "Hypo",
+          "detail": "septal nuclei — theta rhythm / social reward — blunted bonding",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "M1",
           "dir": "Hyper-active",
@@ -2925,13 +2949,28 @@
           "detail": "IPM threshold-based decisions not incorporating pollinator risk into spray timing calculations",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "SEPT",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "PEST_OUTBREAK",
       "label": "Pest Outbreak",
       "summary": "Explosive insect population growth overwhelming normal control measures due to favorable weather or natural enemy disruption",
       "circuits": [
+        {
+          "nodeId": "GP",
+          "dir": "Hyper",
+          "detail": "basal-ganglia output gate — flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "M1",
           "dir": "Hyper-active",
@@ -2956,13 +2995,28 @@
           "detail": "Resistance management compromised as emergency applications use same mode of action repeatedly",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "GP",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "FUNGICIDE_TIMING_FAILURE",
       "label": "Fungicide Timing Failure",
       "summary": "Disease epidemics establishing before protective fungicide applications due to forecasting or scheduling delays",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hypo",
+          "detail": "homeostatic set-point — delayed=oscillation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NAcc",
           "dir": "Hyper-active",
@@ -2987,13 +3041,28 @@
           "detail": "IPM decision models not integrating real-time weather data for disease risk forecasting",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hypo",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "SPRAY_DRIFT",
       "label": "Spray Drift",
       "summary": "Pesticide movement off-target damaging neighboring crops, contaminating water, and triggering regulatory enforcement",
       "circuits": [
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hypo",
+          "detail": "response-inhibition / stop — disinhibited",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "STRI",
           "dir": "Hyper-active",
@@ -3018,7 +3087,13 @@
           "detail": "Pre-application scouting not assessing wind and inversion conditions at time of treatment",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

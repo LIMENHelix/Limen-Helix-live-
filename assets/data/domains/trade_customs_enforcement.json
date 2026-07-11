@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Trade Customs Enforcement systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "BNST",
+          "dir": "Hypo",
+          "detail": "sustained threat monitor — under-vigilant",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "GP",
           "dir": "Hyper-active",
           "detail": "Customs Enforcement Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Customs Enforcement Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BNST",
+        "dir": "hypo",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "TRADE_CUSTOMS_ENFORCEMENT_CAPACITY_OVERLOAD",
       "label": "Trade Customs Enforcement Capacity Overload",
       "summary": "Demand exceeding available Trade Customs Enforcement capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "CeA",
+          "dir": "Hyper",
+          "detail": "phasic fear output — hair-trigger=false-alarm",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "GP",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Customs Enforcement Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CeA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "TRADE_CUSTOMS_ENFORCEMENT_QUALITY_DEGRADATION",
       "label": "Trade Customs Enforcement Quality Degradation",
       "summary": "Progressive decline in Trade Customs Enforcement quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper",
+          "detail": "threat learning/acquisition — over-fear=PTSD",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "GP",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Customs Enforcement Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BLA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     }
   ]
 }

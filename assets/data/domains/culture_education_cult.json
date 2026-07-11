@@ -15337,6 +15337,15 @@
       "summary": "Critical breakdown in Culture Education Cult systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "EC",
+          "dir": "Hypo",
+          "detail": "entorhinal — hippocampal memory gateway — encoding failure",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "FORN",
           "dir": "Hyper-active",
           "detail": "Education Cult Assessment & Diagnostics function overloaded",
@@ -15366,13 +15375,28 @@
           "detail": "Education Cult Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "EC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "CULTURE_EDUCATION_CULT_CAPACITY_OVERLOAD",
       "label": "Culture Education Cult Capacity Overload",
       "summary": "Demand exceeding available Culture Education Cult capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "EC",
+          "dir": "Hyper",
+          "detail": "entorhinal — hippocampal memory gateway — memory flooding/interference",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FORN",
           "dir": "Hyper-active",
@@ -15397,13 +15421,28 @@
           "detail": "Education Cult Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "EC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "CULTURE_EDUCATION_CULT_QUALITY_DEGRADATION",
       "label": "Culture Education Cult Quality Degradation",
       "summary": "Progressive decline in Culture Education Cult quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FORN",
           "dir": "Hypo-active",
@@ -15428,7 +15467,13 @@
           "detail": "Education Cult Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

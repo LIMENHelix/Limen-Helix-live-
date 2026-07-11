@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Population Lifespan Mortineql systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "RSC",
           "dir": "Hyper-active",
           "detail": "Mortality Inequality Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Mortality Inequality Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_LIFESPAN_MORTINEQL_CAPACITY_OVERLOAD",
       "label": "Population Lifespan Mortineql Capacity Overload",
       "summary": "Demand exceeding available Population Lifespan Mortineql capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "RSC",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Mortality Inequality Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_LIFESPAN_MORTINEQL_QUALITY_DEGRADATION",
       "label": "Population Lifespan Mortineql Quality Degradation",
       "summary": "Progressive decline in Population Lifespan Mortineql quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "RSC",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Mortality Inequality Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

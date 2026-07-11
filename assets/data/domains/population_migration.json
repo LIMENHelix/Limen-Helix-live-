@@ -3925,6 +3925,15 @@
       "summary": "Critical breakdown in Migration Patterns systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "HYPO",
           "dir": "Hypo-active",
           "detail": "Migration Patterns Assessment & Diagnostics capacity falling below operational thresholds, reducing Migration Patterns output and reliability",
@@ -3954,13 +3963,28 @@
           "detail": "Migration Patterns Performance & Optimization function reduced, compromising Migration Patterns system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_MIGRATION_CAPACITY_CRISIS",
       "label": "Migration Patterns Capacity Crisis",
       "summary": "Demand exceeding available Migration Patterns capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "GP",
+          "dir": "Hypo",
+          "detail": "basal-ganglia output gate — lock (bradykinetic freeze)",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PIT",
           "dir": "Hyper-active",
@@ -3991,13 +4015,28 @@
           "detail": "Migration Patterns Performance & Optimization operating outside normal parameters, introducing uncertainty into Migration Patterns outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "GP",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_MIGRATION_GOVERNANCE_GAP",
       "label": "Migration Patterns Governance Gap",
       "summary": "Oversight or regulatory failure in Migration Patterns creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "LC",
           "dir": "Hypo-active",
@@ -4028,7 +4067,13 @@
           "detail": "Migration Patterns Coordination & Integration function reduced, compromising Migration Patterns system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Executive Function & Cognitive Control systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "dlPFC",
+          "dir": "Hyper",
+          "detail": "dorsolateral PFC — executive working-memory / cognitive control — rigidity/rumination-lock",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "MDT",
           "dir": "Hypo-active",
           "detail": "Executive Function & Cognitive Control Assessment & Diagnostics capacity falling below operational thresholds, reducing Executive Function & Cognitive Control output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Executive Function & Cognitive Control Performance & Optimization function reduced, compromising Executive Function & Cognitive Control system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dlPFC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "PEDIATRIC_EXECUTIVE_CAPACITY_CRISIS",
       "label": "Executive Function & Cognitive Control Capacity Crisis",
       "summary": "Demand exceeding available Executive Function & Cognitive Control capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo",
+          "detail": "dorsolateral PFC — executive working-memory / cognitive control — executive-lapse, distractible",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ANT",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Executive Function & Cognitive Control Performance & Optimization operating outside normal parameters, introducing uncertainty into Executive Function & Cognitive Control outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dlPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "PEDIATRIC_EXECUTIVE_GOVERNANCE_GAP",
       "label": "Executive Function & Cognitive Control Governance Gap",
       "summary": "Oversight or regulatory failure in Executive Function & Cognitive Control creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo",
+          "detail": "dorsolateral PFC — executive working-memory / cognitive control — executive-lapse, distractible",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "V1",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Executive Function & Cognitive Control Coordination & Integration function reduced, compromising Executive Function & Cognitive Control system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dlPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

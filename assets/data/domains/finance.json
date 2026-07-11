@@ -2001,6 +2001,15 @@
       "summary": "Systemic failure of commercial banking institutions. Loan losses exceed capital buffers, depositor confidence collapses, and the credit intermediation function freezes. Bank failures cascade through interbank lending networks. The real economy loses access to credit, producing recession or depression.",
       "circuits": [
         {
+          "nodeId": "GP",
+          "dir": "Hypo",
+          "detail": "basal-ganglia output gate — lock (bradykinetic freeze)",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "THAL",
           "dir": "Hypo",
           "detail": "Commercial banking relay function collapses as loan losses erode capital, credit intermediation freezes, and the economy loses its primary capital routing mechanism",
@@ -2036,13 +2045,28 @@
           "detail": "Risk management models failed catastrophically, with executives and boards unable to comprehend or control the complex exposures their institutions had accumulated",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "GP",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "MARKET_CRASH",
       "label": "Market Crash",
       "summary": "Rapid and severe decline in asset prices across equity, bond, or commodity markets. Panic selling overwhelms market-making capacity, liquidity evaporates, and price discovery breaks down. Wealth destruction triggers negative feedback loops into consumer confidence and business investment.",
       "circuits": [
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper",
+          "detail": "threat learning/acquisition — over-fear=PTSD",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NAcc",
           "dir": "Altered",
@@ -2073,13 +2097,28 @@
           "detail": "Regulatory alarm triggers emergency interventions â€” trading halts, short-selling bans, and emergency liquidity injections as regulators scramble to contain cascading failure",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BLA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "CURRENCY_COLLAPSE",
       "label": "Currency Collapse",
       "summary": "Rapid devaluation of a national currency destroying purchasing power, savings, and international trade capacity. Capital flight, hyperinflation, and import collapse devastate the real economy. Sovereign debt denominated in foreign currency becomes unpayable.",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FEF",
           "dir": "Hyper",
@@ -2116,13 +2155,28 @@
           "detail": "Commercial banking relay breaks down as banks face currency mismatches on their balance sheets and depositors withdraw savings in panic",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "CREDIT_FREEZE",
       "label": "Credit Freeze",
       "summary": "Systemic seizure of lending activity. Banks refuse to extend credit to businesses and consumers despite adequate capital. Interbank lending markets freeze as institutions distrust each other's solvency. Economic activity dependent on credit â€” which is nearly all of it â€” grinds to a halt.",
       "circuits": [
+        {
+          "nodeId": "GP",
+          "dir": "Hypo",
+          "detail": "basal-ganglia output gate — lock (bradykinetic freeze)",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "STRI",
           "dir": "Hypo",
@@ -2153,13 +2207,28 @@
           "detail": "Mortgage origination freezes as lenders refuse to extend long-term property loans, collapsing housing markets and construction activity",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "GP",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "SYSTEMIC_CONTAGION",
       "label": "Systemic Contagion",
       "summary": "Failure cascading across interconnected financial institutions. One institution's collapse triggers counterparty losses that exceed capital buffers of connected institutions, producing domino-effect failures. Too-big-to-fail and too-connected-to-fail institutions hold the entire system hostage.",
       "circuits": [
+        {
+          "nodeId": "CeA",
+          "dir": "Hyper",
+          "detail": "phasic fear output — hair-trigger=false-alarm",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "THAL",
           "dir": "Altered",
@@ -2196,13 +2265,28 @@
           "detail": "Risk management across the system revealed as correlated â€” all institutions used similar models, held similar positions, and failed simultaneously rather than independently",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CeA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "FRAUD_SCANDAL",
       "label": "Fraud Scandal",
       "summary": "Major financial fraud uncovered, destroying market trust and revealing systemic failures in accounting, auditing, and regulatory oversight. From Enron to FTX, each scandal reveals that the system's integrity depends on trust infrastructure that fraud systematically undermines.",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "outcome valuation / update — confabulation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ECN",
           "dir": "Hypo",
@@ -2233,7 +2317,13 @@
           "detail": "Technology platforms exploited to facilitate fraud at unprecedented scale, with algorithmic systems enabling market manipulation, front-running, or client fund misappropriation",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_marketContext": {
@@ -2247,7 +2337,10 @@
         "instrumentType": "broad_market_proxy",
         "signalClass": "macro_beta",
         "reflects": "Aggregate investor expectation of broad U.S. corporate-earnings growth and equity-market health; a genuine macro/risk-sentiment signal, not the performance of any single firm",
-        "anchorsActivations": ["NAcc", "VTA"],
+        "anchorsActivations": [
+          "NAcc",
+          "VTA"
+        ],
         "binding_strength": 0.9
       },
       {
@@ -2256,7 +2349,9 @@
         "instrumentType": "broad_market_proxy",
         "signalClass": "macro_beta",
         "reflects": "Blue-chip industrial equity breadth; corroborating broad-market read on aggregate large-cap conditions distinct from any individual constituent",
-        "anchorsActivations": ["NAcc"],
+        "anchorsActivations": [
+          "NAcc"
+        ],
         "binding_strength": 0.8
       },
       {
@@ -2265,7 +2360,9 @@
         "instrumentType": "broad_market_proxy",
         "signalClass": "macro_beta",
         "reflects": "Long-rate regime and duration risk; aggregate market judgment on the long end of the curve and growth/inflation expectations, not a single issuer's credit",
-        "anchorsActivations": ["vmPFC"],
+        "anchorsActivations": [
+          "vmPFC"
+        ],
         "binding_strength": 0.85
       },
       {
@@ -2274,14 +2371,33 @@
         "instrumentType": "broad_market_proxy",
         "signalClass": "macro_beta",
         "reflects": "Risk-off / safe-haven sentiment and real-rate / currency-debasement fears; a system-wide sentiment anchor independent of any financial intermediary's profitability",
-        "anchorsActivations": ["FEF", "CeA"],
+        "anchorsActivations": [
+          "FEF",
+          "CeA"
+        ],
         "binding_strength": 0.8
       }
     ],
     "playerNodes": {
       "_comment": "Individual financial intermediaries already bound in 'activations'. Their share prices reflect COMPANY STRATEGY and firm-specific profitability (alpha) and must NOT be read as macro signals. Listed here only to make the macro/company distinction explicit; their bindings live in 'activations' and are unchanged.",
       "signalClass": "company_alpha",
-      "tickers": ["JPM", "BAC", "C", "WFC", "GS", "MS", "BLK", "KKR", "BX", "SCHW", "MA", "V", "PYPL", "SQ", "MSCI"]
+      "tickers": [
+        "JPM",
+        "BAC",
+        "C",
+        "WFC",
+        "GS",
+        "MS",
+        "BLK",
+        "KKR",
+        "BX",
+        "SCHW",
+        "MA",
+        "V",
+        "PYPL",
+        "SQ",
+        "MSCI"
+      ]
     }
   },
   "edges": [

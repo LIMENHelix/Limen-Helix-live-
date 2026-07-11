@@ -16732,6 +16732,15 @@
       "summary": "Critical breakdown in Science Translation systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "SMA",
+          "dir": "Hypo",
+          "detail": "supplementary motor — self-initiated action sequencing — akinesia, initiation failure",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "ECN",
           "dir": "Hyper-active",
           "detail": "Translation Assessment & Diagnostics function overloaded",
@@ -16761,13 +16770,28 @@
           "detail": "Translation Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "SMA",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "SCIENCE_TRANSLATION_CAPACITY_OVERLOAD",
       "label": "Science Translation Capacity Overload",
       "summary": "Demand exceeding available Science Translation capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "SMA",
+          "dir": "Hyper",
+          "detail": "supplementary motor — self-initiated action sequencing — compulsive sequencing",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ECN",
           "dir": "Hyper-active",
@@ -16792,13 +16816,28 @@
           "detail": "Translation Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "SMA",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "SCIENCE_TRANSLATION_QUALITY_DEGRADATION",
       "label": "Science Translation Quality Degradation",
       "summary": "Progressive decline in Science Translation quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ECN",
           "dir": "Hypo-active",
@@ -16823,7 +16862,13 @@
           "detail": "Translation Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

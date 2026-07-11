@@ -402,6 +402,15 @@
       "summary": "Critical breakdown in Precedent / Legal Memory systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HIPP",
+          "dir": "Hyper",
+          "detail": "HPA feedback + memory index — feedback-fail=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "M1",
           "dir": "Hypo-active",
           "detail": "Precedent / Legal Memory Assessment & Diagnostics capacity falling below operational thresholds, reducing Precedent / Legal Memory output and reliability",
@@ -431,13 +440,28 @@
           "detail": "Precedent / Legal Memory Performance & Optimization function reduced, compromising Precedent / Legal Memory system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HIPP",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "LEGAL_PRECEDENT_CAPACITY_CRISIS",
       "label": "Precedent / Legal Memory Capacity Crisis",
       "summary": "Demand exceeding available Precedent / Legal Memory capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "EC",
+          "dir": "Hyper",
+          "detail": "entorhinal — hippocampal memory gateway — memory flooding/interference",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "S1",
           "dir": "Hyper-active",
@@ -468,13 +492,28 @@
           "detail": "Precedent / Legal Memory Performance & Optimization operating outside normal parameters, introducing uncertainty into Precedent / Legal Memory outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "EC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "LEGAL_PRECEDENT_GOVERNANCE_GAP",
       "label": "Precedent / Legal Memory Governance Gap",
       "summary": "Oversight or regulatory failure in Precedent / Legal Memory creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo",
+          "detail": "HPA feedback + memory index — intrusive-recall",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HIPP",
           "dir": "Hypo-active",
@@ -505,7 +544,13 @@
           "detail": "Precedent / Legal Memory Coordination & Integration function reduced, compromising Precedent / Legal Memory system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HIPP",
+        "dir": "hypo",
+        "motif": "M3",
+        "source": "override"
+      }
     }
   ]
 }

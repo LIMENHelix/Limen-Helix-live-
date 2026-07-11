@@ -1970,6 +1970,15 @@
       "circuits": [
         {
           "nodeId": "STN",
+          "dir": "Hypo",
+          "detail": "hyperdirect brake / hold — no-brake=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
+          "nodeId": "STN",
           "dir": "Hyper-active",
           "detail": "Money Laundering Detection Assessment & Diagnostics function overloaded",
           "evidence": "Strong"
@@ -1998,13 +2007,28 @@
           "detail": "Money Laundering Detection Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_FININT_MLDTECT_CAPACITY_OVERLOAD",
       "label": "Intelligence Finint Mldtect Capacity Overload",
       "summary": "Demand exceeding available Intelligence Finint Mldtect capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "STN",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Money Laundering Detection Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_FININT_MLDTECT_QUALITY_DEGRADATION",
       "label": "Intelligence Finint Mldtect Quality Degradation",
       "summary": "Progressive decline in Intelligence Finint Mldtect quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "STN",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Money Laundering Detection Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

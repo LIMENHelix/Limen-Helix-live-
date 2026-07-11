@@ -1853,6 +1853,15 @@
         {
           "nodeId": "ENS",
           "dir": "Hyper",
+          "detail": "enteric nervous system — gut autonomic regulation — gut hypermotility/IBS",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
+          "nodeId": "ENS",
+          "dir": "Hyper",
           "detail": "Enteric nervous system hypersensitivity",
           "evidence": "A"
         },
@@ -1868,13 +1877,28 @@
           "detail": "Pain affect processing elevation",
           "evidence": "B"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "ENS",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "dx_medicine_gutbrain_fgid",
       "label": "Functional Dyspepsia",
       "summary": "Clinical presentation and circuit dysfunction pattern for Functional Dyspepsia",
       "circuits": [
+        {
+          "nodeId": "ENS",
+          "dir": "Hypo",
+          "detail": "enteric nervous system — gut autonomic regulation — gut hypomotility, atony",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ENS",
           "dir": "Altered",
@@ -1887,13 +1911,28 @@
           "detail": "Vagal afferent signaling disruption",
           "evidence": "B"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "ENS",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "dx_medicine_gutbrain_dysbiosis",
       "label": "Gut Microbiome Dysbiosis",
       "summary": "Clinical presentation and circuit dysfunction pattern for Gut Microbiome Dysbiosis",
       "circuits": [
+        {
+          "nodeId": "ENS",
+          "dir": "Hyper",
+          "detail": "enteric nervous system — gut autonomic regulation — gut hypermotility/IBS",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ENS",
           "dir": "Altered",
@@ -1912,13 +1951,28 @@
           "detail": "Microbiome-mediated stress axis activation",
           "evidence": "C"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "ENS",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "dx_medicine_gutbrain_sibo",
       "label": "Small Intestinal Bacterial Overgrowth",
       "summary": "Clinical presentation and circuit dysfunction pattern for Small Intestinal Bacterial Overgrowth",
       "circuits": [
+        {
+          "nodeId": "ENS",
+          "dir": "Hypo",
+          "detail": "enteric nervous system — gut autonomic regulation — gut hypomotility, atony",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ENS",
           "dir": "Hyper",
@@ -1931,13 +1985,28 @@
           "detail": "Bloating-related interoceptive distress",
           "evidence": "C"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "ENS",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "dx_medicine_gutbrain_vagaldys",
       "label": "Vagal Nerve Dysfunction",
       "summary": "Clinical presentation and circuit dysfunction pattern for Vagal Nerve Dysfunction",
       "circuits": [
+        {
+          "nodeId": "DV",
+          "dir": "Hypo",
+          "detail": "dorsal motor vagus — parasympathetic output — sympathetic unopposed",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ENS",
           "dir": "Hypo",
@@ -1956,13 +2025,28 @@
           "detail": "Reduced top-down autonomic regulation",
           "evidence": "C"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "DV",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "dx_medicine_gutbrain_gastroparesis",
       "label": "Gastroparesis",
       "summary": "Clinical presentation and circuit dysfunction pattern for Gastroparesis",
       "circuits": [
+        {
+          "nodeId": "ENS",
+          "dir": "Hypo",
+          "detail": "enteric nervous system — gut autonomic regulation — gut hypomotility, atony",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ENS",
           "dir": "Hypo",
@@ -1975,7 +2059,13 @@
           "detail": "Central nausea circuit activation",
           "evidence": "B"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "ENS",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

@@ -549,6 +549,15 @@
       "summary": "Clinical presentation and circuit dysfunction pattern for Opioid Withdrawal Syndrome",
       "circuits": [
         {
+          "nodeId": "LC",
+          "dir": "Hyper",
+          "detail": "broadcast / alerting — gain stuck high=thrash",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "BLA",
           "dir": "Hyper",
           "detail": "Amygdala hyperactivation driving anxiety/dysphoria",
@@ -566,13 +575,28 @@
           "detail": "Somatic distress amplification",
           "evidence": "B"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "LC",
+        "dir": "hyper",
+        "motif": "M2",
+        "source": "override"
+      }
     },
     {
       "id": "dx_medicine_addiction_withdrawal_alcwd",
       "label": "Alcohol Withdrawal Syndrome",
       "summary": "Clinical presentation and circuit dysfunction pattern for Alcohol Withdrawal Syndrome",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BLA",
           "dir": "Hyper",
@@ -585,7 +609,13 @@
           "detail": "Autonomic hyperarousal signaling",
           "evidence": "B"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ]
 }

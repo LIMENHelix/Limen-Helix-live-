@@ -4455,6 +4455,15 @@
       "summary": "Critical breakdown in Inflation and Deflation systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "BDNF",
           "dir": "Hypo-active",
           "detail": "Inflation and Deflation Assessment & Diagnostics capacity falling below operational thresholds, reducing Inflation and Deflation output and reliability",
@@ -4484,13 +4493,28 @@
           "detail": "Inflation and Deflation Performance & Optimization function reduced, compromising Inflation and Deflation system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_INFLATION_CAPACITY_CRISIS",
       "label": "Inflation and Deflation Capacity Crisis",
       "summary": "Demand exceeding available Inflation and Deflation capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TrkB",
           "dir": "Hyper-active",
@@ -4521,13 +4545,28 @@
           "detail": "Inflation and Deflation Performance & Optimization operating outside normal parameters, introducing uncertainty into Inflation and Deflation outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_INFLATION_GOVERNANCE_GAP",
       "label": "Inflation and Deflation Governance Gap",
       "summary": "Oversight or regulatory failure in Inflation and Deflation creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "LC",
           "dir": "Hypo-active",
@@ -4558,7 +4597,13 @@
           "detail": "Inflation and Deflation Coordination & Integration function reduced, compromising Inflation and Deflation system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

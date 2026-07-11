@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Economy Inequality Socmobil systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "CAUD",
+          "dir": "Hypo",
+          "detail": "caudate — goal-directed action selection — apathy, bradyphrenia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "MAMM",
           "dir": "Hyper-active",
           "detail": "Social Mobility Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Social Mobility Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CAUD",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_INEQUALITY_SOCMOBIL_CAPACITY_OVERLOAD",
       "label": "Economy Inequality Socmobil Capacity Overload",
       "summary": "Demand exceeding available Economy Inequality Socmobil capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "CAUD",
+          "dir": "Hyper",
+          "detail": "caudate — goal-directed action selection — compulsion/OCD loop",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MAMM",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Social Mobility Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CAUD",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_INEQUALITY_SOCMOBIL_QUALITY_DEGRADATION",
       "label": "Economy Inequality Socmobil Quality Degradation",
       "summary": "Progressive decline in Economy Inequality Socmobil quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MAMM",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Social Mobility Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

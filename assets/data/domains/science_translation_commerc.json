@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Science Translation Commerc systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "VTA",
+          "dir": "Hypo",
+          "detail": "dopamine reward source — anhedonia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "IPS",
           "dir": "Hyper-active",
           "detail": "Commercialization Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Commercialization Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "VTA",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "SCIENCE_TRANSLATION_COMMERC_CAPACITY_OVERLOAD",
       "label": "Science Translation Commerc Capacity Overload",
       "summary": "Demand exceeding available Science Translation Commerc capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "VTA",
+          "dir": "Hyper",
+          "detail": "dopamine reward source — mania/addiction",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "IPS",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Commercialization Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "VTA",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "SCIENCE_TRANSLATION_COMMERC_QUALITY_DEGRADATION",
       "label": "Science Translation Commerc Quality Degradation",
       "summary": "Progressive decline in Science Translation Commerc quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "outcome valuation / update — confabulation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "IPS",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Commercialization Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

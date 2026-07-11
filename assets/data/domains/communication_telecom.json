@@ -3845,6 +3845,15 @@
       "summary": "Critical breakdown in Telecommunications systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "LGN",
           "dir": "Hypo-active",
           "detail": "Telecommunications Assessment & Diagnostics capacity falling below operational thresholds, reducing Telecommunications output and reliability",
@@ -3874,13 +3883,28 @@
           "detail": "Telecommunications Performance & Optimization function reduced, compromising Telecommunications system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_TELECOM_CAPACITY_CRISIS",
       "label": "Telecommunications Capacity Crisis",
       "summary": "Demand exceeding available Telecommunications capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MGN",
           "dir": "Hyper-active",
@@ -3911,13 +3935,28 @@
           "detail": "Telecommunications Performance & Optimization operating outside normal parameters, introducing uncertainty into Telecommunications outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_TELECOM_GOVERNANCE_GAP",
       "label": "Telecommunications Governance Gap",
       "summary": "Oversight or regulatory failure in Telecommunications creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SNIG",
           "dir": "Hypo-active",
@@ -3948,7 +3987,13 @@
           "detail": "Telecommunications Coordination & Integration function reduced, compromising Telecommunications system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {
@@ -3978,19 +4023,72 @@
         "access": "public",
         "cadence": "biannual (June/December BDC filing cycles)",
         "metrics": [
-          { "key": "served_pct", "name": "Served locations (% of locations with >=100/20 Mbps)", "unit": "percent", "geography": "census block / county / state" },
-          { "key": "underserved_pct", "name": "Underserved locations (25/3 to 100/20 Mbps)", "unit": "percent", "geography": "census block / county / state" },
-          { "key": "unserved_pct", "name": "Unserved locations (<25/3 Mbps)", "unit": "percent", "geography": "census block / county / state" },
-          { "key": "rural_accessibility_gap", "name": "Rural vs. urban coverage gap", "unit": "percentage-point delta", "geography": "rural/urban split" },
-          { "key": "technology_mix", "name": "Coverage by technology (fiber / cable / FWA / DSL / satellite)", "unit": "percent share", "geography": "census block" }
+          {
+            "key": "served_pct",
+            "name": "Served locations (% of locations with >=100/20 Mbps)",
+            "unit": "percent",
+            "geography": "census block / county / state"
+          },
+          {
+            "key": "underserved_pct",
+            "name": "Underserved locations (25/3 to 100/20 Mbps)",
+            "unit": "percent",
+            "geography": "census block / county / state"
+          },
+          {
+            "key": "unserved_pct",
+            "name": "Unserved locations (<25/3 Mbps)",
+            "unit": "percent",
+            "geography": "census block / county / state"
+          },
+          {
+            "key": "rural_accessibility_gap",
+            "name": "Rural vs. urban coverage gap",
+            "unit": "percentage-point delta",
+            "geography": "rural/urban split"
+          },
+          {
+            "key": "technology_mix",
+            "name": "Coverage by technology (fiber / cable / FWA / DSL / satellite)",
+            "unit": "percent share",
+            "geography": "census block"
+          }
         ],
         "operatorBindings": [
-          { "name": "AT&T", "ticker_or_id": "T", "role": "fiber + fixed wireless coverage reporter", "binding_strength": 0.9 },
-          { "name": "Verizon Communications", "ticker_or_id": "VZ", "role": "Fios fiber + FWA coverage reporter", "binding_strength": 0.88 },
-          { "name": "Comcast", "ticker_or_id": "CMCSA", "role": "cable broadband coverage reporter", "binding_strength": 0.9 },
-          { "name": "Charter Communications", "ticker_or_id": "CHTR", "role": "Spectrum cable broadband coverage reporter", "binding_strength": 0.9 }
+          {
+            "name": "AT&T",
+            "ticker_or_id": "T",
+            "role": "fiber + fixed wireless coverage reporter",
+            "binding_strength": 0.9
+          },
+          {
+            "name": "Verizon Communications",
+            "ticker_or_id": "VZ",
+            "role": "Fios fiber + FWA coverage reporter",
+            "binding_strength": 0.88
+          },
+          {
+            "name": "Comcast",
+            "ticker_or_id": "CMCSA",
+            "role": "cable broadband coverage reporter",
+            "binding_strength": 0.9
+          },
+          {
+            "name": "Charter Communications",
+            "ticker_or_id": "CHTR",
+            "role": "Spectrum cable broadband coverage reporter",
+            "binding_strength": 0.9
+          }
         ],
-        "citation": { "author": "FCC", "year": 2023, "title": "Broadband Deployment Report / National Broadband Map (BDC)", "journal": "Federal Communications Commission", "volume": null, "pages": null, "doi": null }
+        "citation": {
+          "author": "FCC",
+          "year": 2023,
+          "title": "Broadband Deployment Report / National Broadband Map (BDC)",
+          "journal": "Federal Communications Commission",
+          "volume": null,
+          "pages": null,
+          "doi": null
+        }
       },
       {
         "id": "itu_r_spectrum_monitoring",
@@ -4001,17 +4099,60 @@
         "access": "public",
         "cadence": "annual / per study-cycle",
         "metrics": [
-          { "key": "spectrum_occupancy", "name": "Band occupancy / channel utilization", "unit": "percent", "geography": "band x region" },
-          { "key": "interference_incidents", "name": "Reported harmful-interference incidents", "unit": "count", "geography": "region" },
-          { "key": "spectrum_efficiency", "name": "Spectral efficiency (bits/Hz)", "unit": "bps/Hz", "geography": "operator x band" },
-          { "key": "mhz_per_subscriber", "name": "MHz-per-subscriber utilization (capacity / subscriber base)", "unit": "MHz/subscriber", "geography": "carrier" }
+          {
+            "key": "spectrum_occupancy",
+            "name": "Band occupancy / channel utilization",
+            "unit": "percent",
+            "geography": "band x region"
+          },
+          {
+            "key": "interference_incidents",
+            "name": "Reported harmful-interference incidents",
+            "unit": "count",
+            "geography": "region"
+          },
+          {
+            "key": "spectrum_efficiency",
+            "name": "Spectral efficiency (bits/Hz)",
+            "unit": "bps/Hz",
+            "geography": "operator x band"
+          },
+          {
+            "key": "mhz_per_subscriber",
+            "name": "MHz-per-subscriber utilization (capacity / subscriber base)",
+            "unit": "MHz/subscriber",
+            "geography": "carrier"
+          }
         ],
         "operatorBindings": [
-          { "name": "T-Mobile US", "ticker_or_id": "TMUS", "role": "mid-band 5G spectrum holder", "binding_strength": 0.92 },
-          { "name": "AT&T", "ticker_or_id": "T", "role": "low/mid-band spectrum holder", "binding_strength": 0.85 },
-          { "name": "Verizon Communications", "ticker_or_id": "VZ", "role": "C-band spectrum holder", "binding_strength": 0.85 }
+          {
+            "name": "T-Mobile US",
+            "ticker_or_id": "TMUS",
+            "role": "mid-band 5G spectrum holder",
+            "binding_strength": 0.92
+          },
+          {
+            "name": "AT&T",
+            "ticker_or_id": "T",
+            "role": "low/mid-band spectrum holder",
+            "binding_strength": 0.85
+          },
+          {
+            "name": "Verizon Communications",
+            "ticker_or_id": "VZ",
+            "role": "C-band spectrum holder",
+            "binding_strength": 0.85
+          }
         ],
-        "citation": { "author": "ITU", "year": 2023, "title": "ITU-R Spectrum Monitoring (SM-series) and Measuring Digital Development", "journal": "International Telecommunication Union", "volume": null, "pages": null, "doi": null }
+        "citation": {
+          "author": "ITU",
+          "year": 2023,
+          "title": "ITU-R Spectrum Monitoring (SM-series) and Measuring Digital Development",
+          "journal": "International Telecommunication Union",
+          "volume": null,
+          "pages": null,
+          "doi": null
+        }
       },
       {
         "id": "edgar_operator_quarterly",
@@ -4022,19 +4163,72 @@
         "access": "public",
         "cadence": "quarterly",
         "metrics": [
-          { "key": "net_subscriber_adds", "name": "Net subscriber additions (postpaid phone / broadband)", "unit": "count", "geography": "carrier" },
-          { "key": "arpu", "name": "Average revenue per user (ARPU)", "unit": "USD/subscriber/month", "geography": "carrier" },
-          { "key": "churn_rate", "name": "Subscriber churn rate", "unit": "percent/month", "geography": "carrier" },
-          { "key": "capex_intensity", "name": "Network capex as % of revenue", "unit": "percent", "geography": "carrier" }
+          {
+            "key": "net_subscriber_adds",
+            "name": "Net subscriber additions (postpaid phone / broadband)",
+            "unit": "count",
+            "geography": "carrier"
+          },
+          {
+            "key": "arpu",
+            "name": "Average revenue per user (ARPU)",
+            "unit": "USD/subscriber/month",
+            "geography": "carrier"
+          },
+          {
+            "key": "churn_rate",
+            "name": "Subscriber churn rate",
+            "unit": "percent/month",
+            "geography": "carrier"
+          },
+          {
+            "key": "capex_intensity",
+            "name": "Network capex as % of revenue",
+            "unit": "percent",
+            "geography": "carrier"
+          }
         ],
         "operatorBindings": [
-          { "name": "Verizon Communications", "ticker_or_id": "VZ", "role": "wireless + broadband operator", "binding_strength": 0.9 },
-          { "name": "AT&T", "ticker_or_id": "T", "role": "wireless + fiber operator", "binding_strength": 0.9 },
-          { "name": "T-Mobile US", "ticker_or_id": "TMUS", "role": "wireless operator", "binding_strength": 0.9 },
-          { "name": "Comcast", "ticker_or_id": "CMCSA", "role": "cable broadband + media operator", "binding_strength": 0.88 },
-          { "name": "Charter Communications", "ticker_or_id": "CHTR", "role": "cable broadband operator", "binding_strength": 0.88 }
+          {
+            "name": "Verizon Communications",
+            "ticker_or_id": "VZ",
+            "role": "wireless + broadband operator",
+            "binding_strength": 0.9
+          },
+          {
+            "name": "AT&T",
+            "ticker_or_id": "T",
+            "role": "wireless + fiber operator",
+            "binding_strength": 0.9
+          },
+          {
+            "name": "T-Mobile US",
+            "ticker_or_id": "TMUS",
+            "role": "wireless operator",
+            "binding_strength": 0.9
+          },
+          {
+            "name": "Comcast",
+            "ticker_or_id": "CMCSA",
+            "role": "cable broadband + media operator",
+            "binding_strength": 0.88
+          },
+          {
+            "name": "Charter Communications",
+            "ticker_or_id": "CHTR",
+            "role": "cable broadband operator",
+            "binding_strength": 0.88
+          }
         ],
-        "citation": { "author": "U.S. Securities and Exchange Commission", "year": 2024, "title": "EDGAR Company Filings (10-Q / 10-K) and Company Facts API", "journal": "SEC", "volume": null, "pages": null, "doi": null }
+        "citation": {
+          "author": "U.S. Securities and Exchange Commission",
+          "year": 2024,
+          "title": "EDGAR Company Filings (10-Q / 10-K) and Company Facts API",
+          "journal": "SEC",
+          "volume": null,
+          "pages": null,
+          "doi": null
+        }
       },
       {
         "id": "carrier_outage_incidents",
@@ -4045,20 +4239,78 @@
         "access": "public",
         "cadence": "per-incident + quarterly aggregate",
         "metrics": [
-          { "key": "outage_frequency", "name": "Major outage events per period", "unit": "count", "geography": "carrier x region" },
-          { "key": "availability_pct", "name": "Network availability (uptime)", "unit": "percent (nines)", "geography": "carrier" },
-          { "key": "mttr", "name": "Mean time to restore service", "unit": "hours", "geography": "carrier" },
-          { "key": "subscribers_affected", "name": "Subscribers affected per outage", "unit": "count", "geography": "carrier x region" },
-          { "key": "root_cause_mix", "name": "Outage cause distribution (config / fiber-cut / power / cyber / weather)", "unit": "percent share", "geography": "carrier" }
+          {
+            "key": "outage_frequency",
+            "name": "Major outage events per period",
+            "unit": "count",
+            "geography": "carrier x region"
+          },
+          {
+            "key": "availability_pct",
+            "name": "Network availability (uptime)",
+            "unit": "percent (nines)",
+            "geography": "carrier"
+          },
+          {
+            "key": "mttr",
+            "name": "Mean time to restore service",
+            "unit": "hours",
+            "geography": "carrier"
+          },
+          {
+            "key": "subscribers_affected",
+            "name": "Subscribers affected per outage",
+            "unit": "count",
+            "geography": "carrier x region"
+          },
+          {
+            "key": "root_cause_mix",
+            "name": "Outage cause distribution (config / fiber-cut / power / cyber / weather)",
+            "unit": "percent share",
+            "geography": "carrier"
+          }
         ],
         "operatorBindings": [
-          { "name": "AT&T", "ticker_or_id": "T", "role": "wireless/fiber outage reporter", "binding_strength": 0.88 },
-          { "name": "T-Mobile US", "ticker_or_id": "TMUS", "role": "wireless outage reporter", "binding_strength": 0.85 },
-          { "name": "Comcast", "ticker_or_id": "CMCSA", "role": "broadband outage reporter", "binding_strength": 0.85 },
-          { "name": "Cisco Systems", "ticker_or_id": "CSCO", "role": "network equipment / failure-mode reference", "binding_strength": 0.7 },
-          { "name": "Arista Networks", "ticker_or_id": "ANET", "role": "data-center switching / failure-mode reference", "binding_strength": 0.68 }
+          {
+            "name": "AT&T",
+            "ticker_or_id": "T",
+            "role": "wireless/fiber outage reporter",
+            "binding_strength": 0.88
+          },
+          {
+            "name": "T-Mobile US",
+            "ticker_or_id": "TMUS",
+            "role": "wireless outage reporter",
+            "binding_strength": 0.85
+          },
+          {
+            "name": "Comcast",
+            "ticker_or_id": "CMCSA",
+            "role": "broadband outage reporter",
+            "binding_strength": 0.85
+          },
+          {
+            "name": "Cisco Systems",
+            "ticker_or_id": "CSCO",
+            "role": "network equipment / failure-mode reference",
+            "binding_strength": 0.7
+          },
+          {
+            "name": "Arista Networks",
+            "ticker_or_id": "ANET",
+            "role": "data-center switching / failure-mode reference",
+            "binding_strength": 0.68
+          }
         ],
-        "citation": { "author": "FCC", "year": 2023, "title": "Network Outage Reporting System (NORS) and CISA Communications Sector advisories", "journal": "Federal Communications Commission / CISA", "volume": null, "pages": null, "doi": null }
+        "citation": {
+          "author": "FCC",
+          "year": 2023,
+          "title": "Network Outage Reporting System (NORS) and CISA Communications Sector advisories",
+          "journal": "Federal Communications Commission / CISA",
+          "volume": null,
+          "pages": null,
+          "doi": null
+        }
       },
       {
         "id": "latency_throughput_distribution",
@@ -4069,19 +4321,72 @@
         "access": "public",
         "cadence": "monthly / quarterly",
         "metrics": [
-          { "key": "median_downlink", "name": "Median downlink throughput", "unit": "Mbps", "geography": "carrier x region" },
-          { "key": "p95_latency", "name": "95th-percentile latency", "unit": "ms", "geography": "carrier x region" },
-          { "key": "jitter", "name": "Latency jitter", "unit": "ms", "geography": "carrier x region" },
-          { "key": "tower_capacity_utilization", "name": "Tower/site capacity utilization", "unit": "percent", "geography": "tower portfolio" },
-          { "key": "edge_cache_hit_ratio", "name": "CDN edge cache-hit ratio", "unit": "percent", "geography": "edge POP" }
+          {
+            "key": "median_downlink",
+            "name": "Median downlink throughput",
+            "unit": "Mbps",
+            "geography": "carrier x region"
+          },
+          {
+            "key": "p95_latency",
+            "name": "95th-percentile latency",
+            "unit": "ms",
+            "geography": "carrier x region"
+          },
+          {
+            "key": "jitter",
+            "name": "Latency jitter",
+            "unit": "ms",
+            "geography": "carrier x region"
+          },
+          {
+            "key": "tower_capacity_utilization",
+            "name": "Tower/site capacity utilization",
+            "unit": "percent",
+            "geography": "tower portfolio"
+          },
+          {
+            "key": "edge_cache_hit_ratio",
+            "name": "CDN edge cache-hit ratio",
+            "unit": "percent",
+            "geography": "edge POP"
+          }
         ],
         "operatorBindings": [
-          { "name": "American Tower", "ticker_or_id": "AMT", "role": "macro-tower infrastructure capacity", "binding_strength": 0.9 },
-          { "name": "Crown Castle", "ticker_or_id": "CCI", "role": "tower + small-cell + fiber capacity", "binding_strength": 0.9 },
-          { "name": "SBA Communications", "ticker_or_id": "SBAC", "role": "macro-tower infrastructure capacity", "binding_strength": 0.88 },
-          { "name": "Cisco Systems", "ticker_or_id": "CSCO", "role": "transport / routing capacity reference", "binding_strength": 0.7 }
+          {
+            "name": "American Tower",
+            "ticker_or_id": "AMT",
+            "role": "macro-tower infrastructure capacity",
+            "binding_strength": 0.9
+          },
+          {
+            "name": "Crown Castle",
+            "ticker_or_id": "CCI",
+            "role": "tower + small-cell + fiber capacity",
+            "binding_strength": 0.9
+          },
+          {
+            "name": "SBA Communications",
+            "ticker_or_id": "SBAC",
+            "role": "macro-tower infrastructure capacity",
+            "binding_strength": 0.88
+          },
+          {
+            "name": "Cisco Systems",
+            "ticker_or_id": "CSCO",
+            "role": "transport / routing capacity reference",
+            "binding_strength": 0.7
+          }
         ],
-        "citation": { "author": "FCC", "year": 2023, "title": "Measuring Broadband America and tower-infrastructure capacity disclosures", "journal": "Federal Communications Commission", "volume": null, "pages": null, "doi": null }
+        "citation": {
+          "author": "FCC",
+          "year": 2023,
+          "title": "Measuring Broadband America and tower-infrastructure capacity disclosures",
+          "journal": "Federal Communications Commission",
+          "volume": null,
+          "pages": null,
+          "doi": null
+        }
       },
       {
         "id": "media_distribution_flow",
@@ -4092,19 +4397,67 @@
         "access": "public",
         "cadence": "quarterly",
         "metrics": [
-          { "key": "distribution_reach", "name": "Audience / household distribution reach", "unit": "households or MAU", "geography": "national / platform" },
-          { "key": "carriage_footprint", "name": "Carriage / channel-distribution footprint", "unit": "percent of market", "geography": "national" },
-          { "key": "content_delivery_uptime", "name": "Content-delivery / streaming uptime", "unit": "percent", "geography": "platform" }
+          {
+            "key": "distribution_reach",
+            "name": "Audience / household distribution reach",
+            "unit": "households or MAU",
+            "geography": "national / platform"
+          },
+          {
+            "key": "carriage_footprint",
+            "name": "Carriage / channel-distribution footprint",
+            "unit": "percent of market",
+            "geography": "national"
+          },
+          {
+            "key": "content_delivery_uptime",
+            "name": "Content-delivery / streaming uptime",
+            "unit": "percent",
+            "geography": "platform"
+          }
         ],
         "operatorBindings": [
-          { "name": "News Corp (News/Dow Jones)", "ticker_or_id": "NWSA", "role": "news distribution channel operator", "binding_strength": 0.78 },
-          { "name": "The New York Times Company", "ticker_or_id": "NYT", "role": "journalism / news-flow distributor", "binding_strength": 0.78 },
-          { "name": "Meta Platforms", "ticker_or_id": "META", "role": "social-media distribution surface", "binding_strength": 0.8 },
-          { "name": "Alphabet", "ticker_or_id": "GOOGL", "role": "search / video distribution surface", "binding_strength": 0.8 },
-          { "name": "Comcast", "ticker_or_id": "CMCSA", "role": "cable + broadcast carriage operator", "binding_strength": 0.8 }
+          {
+            "name": "News Corp (News/Dow Jones)",
+            "ticker_or_id": "NWSA",
+            "role": "news distribution channel operator",
+            "binding_strength": 0.78
+          },
+          {
+            "name": "The New York Times Company",
+            "ticker_or_id": "NYT",
+            "role": "journalism / news-flow distributor",
+            "binding_strength": 0.78
+          },
+          {
+            "name": "Meta Platforms",
+            "ticker_or_id": "META",
+            "role": "social-media distribution surface",
+            "binding_strength": 0.8
+          },
+          {
+            "name": "Alphabet",
+            "ticker_or_id": "GOOGL",
+            "role": "search / video distribution surface",
+            "binding_strength": 0.8
+          },
+          {
+            "name": "Comcast",
+            "ticker_or_id": "CMCSA",
+            "role": "cable + broadcast carriage operator",
+            "binding_strength": 0.8
+          }
         ],
         "boundary": "Tracks the CHANNELS and reach of information dissemination (distribution infrastructure), NOT the content/scenes/movements themselves (= culture domain) and NOT chips/software internals (= technology coupling) or signals collection (= intelligence coupling).",
-        "citation": { "author": "Reuters Institute", "year": 2023, "title": "Digital News Report (distribution and reach)", "journal": "Oxford University", "volume": null, "pages": null, "doi": null }
+        "citation": {
+          "author": "Reuters Institute",
+          "year": 2023,
+          "title": "Digital News Report (distribution and reach)",
+          "journal": "Oxford University",
+          "volume": null,
+          "pages": null,
+          "doi": null
+        }
       }
     ],
     "couplingBoundaries": {

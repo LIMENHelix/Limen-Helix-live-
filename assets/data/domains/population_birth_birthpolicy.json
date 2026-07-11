@@ -2274,6 +2274,15 @@
       "summary": "Critical breakdown in Population Birth Birthpolicy systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "AI",
           "dir": "Hyper-active",
           "detail": "Birth Policy Assessment & Diagnostics function overloaded",
@@ -2303,13 +2312,28 @@
           "detail": "Birth Policy Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_BIRTH_BIRTHPOLICY_CAPACITY_OVERLOAD",
       "label": "Population Birth Birthpolicy Capacity Overload",
       "summary": "Demand exceeding available Population Birth Birthpolicy capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hyper",
+          "detail": "top-down inhibitory brake — over-grip=flatness",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "AI",
           "dir": "Hyper-active",
@@ -2334,13 +2358,28 @@
           "detail": "Birth Policy Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hyper",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_BIRTH_BIRTHPOLICY_QUALITY_DEGRADATION",
       "label": "Population Birth Birthpolicy Quality Degradation",
       "summary": "Progressive decline in Population Birth Birthpolicy quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "AI",
           "dir": "Hypo-active",
@@ -2365,7 +2404,13 @@
           "detail": "Birth Policy Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

@@ -2276,6 +2276,15 @@
       "summary": "Critical breakdown in Environment Forests Forestbio systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "THAL",
           "dir": "Hyper-active",
           "detail": "Forest Biodiversity Assessment & Diagnostics function overloaded",
@@ -2305,13 +2314,28 @@
           "detail": "Forest Biodiversity Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "ENVIRONMENT_FORESTS_FORESTBIO_CAPACITY_OVERLOAD",
       "label": "Environment Forests Forestbio Capacity Overload",
       "summary": "Demand exceeding available Environment Forests Forestbio capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "THAL",
           "dir": "Hyper-active",
@@ -2336,13 +2360,28 @@
           "detail": "Forest Biodiversity Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "ENVIRONMENT_FORESTS_FORESTBIO_QUALITY_DEGRADATION",
       "label": "Environment Forests Forestbio Quality Degradation",
       "summary": "Progressive decline in Environment Forests Forestbio quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "THAL",
           "dir": "Hypo-active",
@@ -2367,7 +2406,13 @@
           "detail": "Forest Biodiversity Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

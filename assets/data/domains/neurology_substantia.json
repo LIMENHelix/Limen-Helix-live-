@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Substantia Nigra systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "SNIG",
+          "dir": "Hyper",
+          "detail": "substantia nigra — dopamine / motor gating — dyskinesia/impulsivity",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "MDT",
           "dir": "Hypo-active",
           "detail": "Substantia Nigra Assessment & Diagnostics capacity falling below operational thresholds, reducing Substantia Nigra output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Substantia Nigra Performance & Optimization function reduced, compromising Substantia Nigra system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "SNIG",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "NEUROLOGY_SUBSTANTIA_CAPACITY_CRISIS",
       "label": "Substantia Nigra Capacity Crisis",
       "summary": "Demand exceeding available Substantia Nigra capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "SNIG",
+          "dir": "Hypo",
+          "detail": "substantia nigra — dopamine / motor gating — parkinsonian rigidity",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ANT",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Substantia Nigra Performance & Optimization operating outside normal parameters, introducing uncertainty into Substantia Nigra outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "SNIG",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "NEUROLOGY_SUBSTANTIA_GOVERNANCE_GAP",
       "label": "Substantia Nigra Governance Gap",
       "summary": "Oversight or regulatory failure in Substantia Nigra creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "SNIG",
+          "dir": "Hyper",
+          "detail": "substantia nigra — dopamine / motor gating — dyskinesia/impulsivity",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "V1",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Substantia Nigra Coordination & Integration function reduced, compromising Substantia Nigra system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "SNIG",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

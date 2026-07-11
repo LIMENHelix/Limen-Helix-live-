@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Religion Relpolitics Civilrelig systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "mPFC",
+          "dir": "Hypo",
+          "detail": "medial PFC — self-referential value integration (DMN core) — disengaged, apathetic",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CBLM",
           "dir": "Hyper-active",
           "detail": "Civil Religion Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Civil Religion Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "mPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_RELPOLITICS_CIVILRELIG_CAPACITY_OVERLOAD",
       "label": "Religion Relpolitics Civilrelig Capacity Overload",
       "summary": "Demand exceeding available Religion Relpolitics Civilrelig capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "mPFC",
+          "dir": "Hyper",
+          "detail": "medial PFC — self-referential value integration (DMN core) — self-focus/rumination",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CBLM",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Civil Religion Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "mPFC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_RELPOLITICS_CIVILRELIG_QUALITY_DEGRADATION",
       "label": "Religion Relpolitics Civilrelig Quality Degradation",
       "summary": "Progressive decline in Religion Relpolitics Civilrelig quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "outcome valuation / update — confabulation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CBLM",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Civil Religion Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

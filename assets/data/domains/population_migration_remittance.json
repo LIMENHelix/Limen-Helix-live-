@@ -2277,6 +2277,15 @@
       "summary": "Critical breakdown in Population Migration Remittance systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "NAcc",
+          "dir": "Hypo",
+          "detail": "incentive/reward drive — avolition",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "rACC",
           "dir": "Hyper-active",
           "detail": "Remittance Flows Assessment & Diagnostics function overloaded",
@@ -2306,13 +2315,28 @@
           "detail": "Remittance Flows Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_MIGRATION_REMITTANCE_CAPACITY_OVERLOAD",
       "label": "Population Migration Remittance Capacity Overload",
       "summary": "Demand exceeding available Population Migration Remittance capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
+          "detail": "incentive/reward drive — over-pursuit=bubble",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "rACC",
           "dir": "Hyper-active",
@@ -2337,13 +2361,28 @@
           "detail": "Remittance Flows Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_MIGRATION_REMITTANCE_QUALITY_DEGRADATION",
       "label": "Population Migration Remittance Quality Degradation",
       "summary": "Progressive decline in Population Migration Remittance quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "outcome valuation / update — confabulation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "rACC",
           "dir": "Hypo-active",
@@ -2368,7 +2407,13 @@
           "detail": "Remittance Flows Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

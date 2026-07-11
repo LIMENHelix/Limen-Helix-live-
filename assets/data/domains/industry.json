@@ -1670,6 +1670,15 @@
       "circuits": [
         {
           "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
+          "nodeId": "THAL",
           "dir": "Hypo-active",
           "detail": "Supply chain routing and coordination breaks down as material flows from multiple supplier tiers are simultaneously disrupted",
           "evidence": "Strong"
@@ -1698,13 +1707,28 @@
           "detail": "Workforce and production management enters crisis planning mode, scrambling to reallocate resources and identify alternatives",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "AUTOMATION_FAILURE",
       "label": "Automation System Failure",
       "summary": "Widespread failure of robotic and automated production systems due to software bugs, firmware corruption, cyberattack, or control system hardware failure, halting automated production lines and requiring manual fallback operations.",
       "circuits": [
+        {
+          "nodeId": "STN",
+          "dir": "Hypo",
+          "detail": "hyperdirect brake / hold — no-brake=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CBLM",
           "dir": "Hypo-active",
@@ -1741,13 +1765,28 @@
           "detail": "Workforce management urgently redeploys workers to manual stations, extends shifts, and coordinates emergency maintenance teams",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "TOXIC_SPILL",
       "label": "Industrial Toxic Spill",
       "summary": "Uncontrolled release of hazardous chemicals from processing, storage, or transport systems causing environmental contamination, worker exposure, community evacuation, and regulatory enforcement actions.",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HYPO",
           "dir": "Hyper-active",
@@ -1778,13 +1817,28 @@
           "detail": "Production operations halt as the affected area and potentially the entire facility is shut down for emergency response and investigation",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "QUALITY_CRISIS",
       "label": "Systemic Quality Crisis",
       "summary": "Discovery of widespread product defects affecting multiple production lots, triggering mass recalls, customer injury reports, regulatory investigation, and fundamental questioning of quality management system adequacy.",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dACC",
           "dir": "Hypo-active",
@@ -1821,13 +1875,28 @@
           "detail": "Supply chain traceability systems are stressed to identify the exact scope of affected lots, components, and distribution paths",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "WORKFORCE_SHORTAGE",
       "label": "Critical Workforce Shortage",
       "summary": "Severe deficit of skilled industrial workers due to demographic shifts, training pipeline failures, wage competition, or rapid industry expansion, preventing facilities from operating at capacity or maintaining quality standards.",
       "circuits": [
+        {
+          "nodeId": "M1",
+          "dir": "Hypo",
+          "detail": "primary motor cortex — motor output — weakness, paresis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dlPFC",
           "dir": "Hypo-active",
@@ -1858,7 +1927,13 @@
           "detail": "Automation investment accelerates as manufacturers attempt to substitute robotic systems for unavailable human workers in an emergency timeline",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "M1",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     }
   ],
   "edges": [

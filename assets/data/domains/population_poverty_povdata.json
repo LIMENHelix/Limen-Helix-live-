@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Population Poverty Povdata systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "AI",
+          "dir": "Hypo",
+          "detail": "interoceptive salience — metric-obsession",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "S1",
           "dir": "Hyper-active",
           "detail": "Poverty Data Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Poverty Data Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "AI",
+        "dir": "hypo",
+        "motif": "M10",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_POVERTY_POVDATA_CAPACITY_OVERLOAD",
       "label": "Population Poverty Povdata Capacity Overload",
       "summary": "Demand exceeding available Population Poverty Povdata capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "AI",
+          "dir": "Hyper",
+          "detail": "interoceptive salience — flying-blind",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "S1",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Poverty Data Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "AI",
+        "dir": "hyper",
+        "motif": "M10",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_POVERTY_POVDATA_QUALITY_DEGRADATION",
       "label": "Population Poverty Povdata Quality Degradation",
       "summary": "Progressive decline in Population Poverty Povdata quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "S1",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Poverty Data Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

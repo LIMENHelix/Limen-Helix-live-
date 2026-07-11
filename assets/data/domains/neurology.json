@@ -1954,6 +1954,15 @@
         {
           "nodeId": "SNIG",
           "dir": "Hypo",
+          "detail": "substantia nigra — dopamine / motor gating — parkinsonian rigidity",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
+          "nodeId": "SNIG",
+          "dir": "Hypo",
           "detail": "Dopaminergic neuronal loss in SNpc — hallmark pathology; >60% loss before symptom onset",
           "evidence": "Strong"
         },
@@ -2017,13 +2026,28 @@
           "detail": "Noradrenergic cell loss contributing to depression, REM sleep behavior disorder, and orthostatic hypotension",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "SNIG",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "ALZHEIMERS",
       "label": "Alzheimer's Disease",
       "summary": "Amyloid-beta plaques and neurofibrillary tau tangles cause progressive neuronal loss beginning in entorhinal cortex and hippocampus, spreading to association cortices",
       "circuits": [
+        {
+          "nodeId": "EC",
+          "dir": "Hypo",
+          "detail": "entorhinal — hippocampal memory gateway — encoding failure",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HIPP",
           "dir": "Hypo",
@@ -2078,13 +2102,28 @@
           "detail": "Microglial neuroinflammation — activated microglia surround plaques; inflammatory cascade amplifies neuronal damage",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "EC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "MIGRAINE",
       "label": "Migraine",
       "summary": "Cortical spreading depression triggers trigeminovascular activation; CGRP release from trigeminal afferents causes neurogenic inflammation and thalamic sensitization drives photophobia and allodynia",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "THAL",
           "dir": "Hyper",
@@ -2133,13 +2172,28 @@
           "detail": "Insula processes pain and interoceptive signals — activated during migraine attacks",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "MS",
       "label": "Multiple Sclerosis",
       "summary": "Autoimmune demyelination in CNS white matter with axonal damage creating multifocal lesions disseminated in space and time, preferentially affecting optic nerve, periventricular white matter, and spinal cord",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CC",
           "dir": "Altered",
@@ -2188,13 +2242,28 @@
           "detail": "Widespread white matter disconnection disrupts distributed cognitive networks",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "ISCHEMIC_STROKE",
       "label": "Ischemic Stroke",
       "summary": "Acute interruption of cerebral blood flow by thrombus or embolism causes core infarct and salvageable penumbra; time-dependent neural circuit damage depends on vascular territory",
       "circuits": [
+        {
+          "nodeId": "M1",
+          "dir": "Hypo",
+          "detail": "primary motor cortex — motor output — weakness, paresis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "M1",
           "dir": "Hypo",
@@ -2243,13 +2312,28 @@
           "detail": "BDNF Val66Met polymorphism affects post-stroke neuroplasticity and rehabilitation outcomes",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "M1",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "FOCAL_SEIZURE",
       "label": "Focal (Partial) Seizures",
       "summary": "Abnormal hypersynchronous discharge originating in a localized cortical focus; thalamocortical loops amplify and propagate ictal activity while GABAergic inhibition fails locally",
       "circuits": [
+        {
+          "nodeId": "HIPP",
+          "dir": "Hyper",
+          "detail": "HPA feedback + memory index — feedback-fail=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "THAL",
           "dir": "Hyper",
@@ -2298,13 +2382,28 @@
           "detail": "Cerebellar modulation of cortical excitability disrupted; potential seizure suppression role",
           "evidence": "Emerging"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HIPP",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "ALS",
       "label": "Amyotrophic Lateral Sclerosis",
       "summary": "Progressive degeneration of upper and lower motor neurons with TDP-43 proteinopathy; motor cortex UMN loss causes spasticity and anterior horn LMN loss causes weakness, atrophy, and fasciculations",
       "circuits": [
+        {
+          "nodeId": "M1",
+          "dir": "Hypo",
+          "detail": "primary motor cortex — motor output — weakness, paresis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "M1",
           "dir": "Hypo",
@@ -2347,13 +2446,28 @@
           "detail": "Corticospinal tract degeneration visible on DTI; corpus callosum involvement in ALS-FTD",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "M1",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "ESSENTIAL_TREMOR",
       "label": "Essential Tremor",
       "summary": "Cerebello-thalamo-cortical circuit oscillation at 4-12 Hz driven by Purkinje cell loss in cerebellar cortex, with VIM thalamic relay of pathological oscillation to motor cortex",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CBLM",
           "dir": "Altered",
@@ -2390,7 +2504,13 @@
           "detail": "Neocerebellum (lateral hemispheres) shows metabolic hyperactivity during tremor",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

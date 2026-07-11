@@ -4519,6 +4519,15 @@
       "summary": "Critical breakdown in Stock Markets systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "STN",
+          "dir": "Hypo",
+          "detail": "hyperdirect brake / hold — no-brake=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "LGN",
           "dir": "Hypo-active",
           "detail": "Stock Markets Assessment & Diagnostics capacity falling below operational thresholds, reducing Stock Markets output and reliability",
@@ -4548,13 +4557,28 @@
           "detail": "Stock Markets Performance & Optimization function reduced, compromising Stock Markets system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "FINANCE_STOCK_CAPACITY_CRISIS",
       "label": "Stock Markets Capacity Crisis",
       "summary": "Demand exceeding available Stock Markets capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MGN",
           "dir": "Hyper-active",
@@ -4585,13 +4609,28 @@
           "detail": "Stock Markets Performance & Optimization operating outside normal parameters, introducing uncertainty into Stock Markets outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "FINANCE_STOCK_GOVERNANCE_GAP",
       "label": "Stock Markets Governance Gap",
       "summary": "Oversight or regulatory failure in Stock Markets creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SNIG",
           "dir": "Hypo-active",
@@ -4622,7 +4661,13 @@
           "detail": "Stock Markets Coordination & Integration function reduced, compromising Stock Markets system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

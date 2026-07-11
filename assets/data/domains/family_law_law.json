@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Case Law / Precedent Memory systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HIPP",
+          "dir": "Hyper",
+          "detail": "HPA feedback + memory index — feedback-fail=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CeA",
           "dir": "Hypo-active",
           "detail": "Case Law / Precedent Memory Assessment & Diagnostics capacity falling below operational thresholds, reducing Case Law / Precedent Memory output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Case Law / Precedent Memory Performance & Optimization function reduced, compromising Case Law / Precedent Memory system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HIPP",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "FAMILY_LAW_LAW_CAPACITY_CRISIS",
       "label": "Case Law / Precedent Memory Capacity Crisis",
       "summary": "Demand exceeding available Case Law / Precedent Memory capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "EC",
+          "dir": "Hyper",
+          "detail": "entorhinal — hippocampal memory gateway — memory flooding/interference",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BNST",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Case Law / Precedent Memory Performance & Optimization operating outside normal parameters, introducing uncertainty into Case Law / Precedent Memory outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "EC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "FAMILY_LAW_LAW_GOVERNANCE_GAP",
       "label": "Case Law / Precedent Memory Governance Gap",
       "summary": "Oversight or regulatory failure in Case Law / Precedent Memory creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo",
+          "detail": "HPA feedback + memory index — intrusive-recall",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CON",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Case Law / Precedent Memory Coordination & Integration function reduced, compromising Case Law / Precedent Memory system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HIPP",
+        "dir": "hypo",
+        "motif": "M3",
+        "source": "override"
+      }
     }
   ]
 }

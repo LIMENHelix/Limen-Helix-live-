@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Economy Fiscal Taxreform systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "dlPFC",
+          "dir": "Hyper",
+          "detail": "dorsolateral PFC — executive working-memory / cognitive control — rigidity/rumination-lock",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "TPOLE",
           "dir": "Hyper-active",
           "detail": "Tax Reform Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Tax Reform Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dlPFC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_FISCAL_TAXREFORM_CAPACITY_OVERLOAD",
       "label": "Economy Fiscal Taxreform Capacity Overload",
       "summary": "Demand exceeding available Economy Fiscal Taxreform capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TPOLE",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Tax Reform Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_FISCAL_TAXREFORM_QUALITY_DEGRADATION",
       "label": "Economy Fiscal Taxreform Quality Degradation",
       "summary": "Progressive decline in Economy Fiscal Taxreform quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo",
+          "detail": "dorsolateral PFC — executive working-memory / cognitive control — executive-lapse, distractible",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TPOLE",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Tax Reform Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dlPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Defense Intelligence Targeting systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "SC",
+          "dir": "Hypo",
+          "detail": "superior colliculus — orienting & saccades — orienting failure",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "VP",
           "dir": "Hyper-active",
           "detail": "Targeting Intelligence Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Targeting Intelligence Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "SC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_INTELLIGENCE_TARGETING_CAPACITY_OVERLOAD",
       "label": "Defense Intelligence Targeting Capacity Overload",
       "summary": "Demand exceeding available Defense Intelligence Targeting capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "SC",
+          "dir": "Hyper",
+          "detail": "superior colliculus — orienting & saccades — distractible orienting",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "VP",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Targeting Intelligence Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "SC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_INTELLIGENCE_TARGETING_QUALITY_DEGRADATION",
       "label": "Defense Intelligence Targeting Quality Degradation",
       "summary": "Progressive decline in Defense Intelligence Targeting quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "SC",
+          "dir": "Hyper",
+          "detail": "superior colliculus — orienting & saccades — distractible orienting",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "VP",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Targeting Intelligence Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "SC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

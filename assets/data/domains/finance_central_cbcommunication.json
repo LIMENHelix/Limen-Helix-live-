@@ -2276,6 +2276,15 @@
       "summary": "Critical breakdown in Finance Central Cbcommunication systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "BROCA",
+          "dir": "Hypo",
+          "detail": "Broca's area — expressive language production — expressive block, aphasia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "VERM",
           "dir": "Hyper-active",
           "detail": "CB Communication Assessment & Diagnostics function overloaded",
@@ -2305,13 +2314,28 @@
           "detail": "CB Communication Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BROCA",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "FINANCE_CENTRAL_CBCOMMUNICATION_CAPACITY_OVERLOAD",
       "label": "Finance Central Cbcommunication Capacity Overload",
       "summary": "Demand exceeding available Finance Central Cbcommunication capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "BROCA",
+          "dir": "Hyper",
+          "detail": "Broca's area — expressive language production — pressured/over-production",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "VERM",
           "dir": "Hyper-active",
@@ -2336,13 +2360,28 @@
           "detail": "CB Communication Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BROCA",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "FINANCE_CENTRAL_CBCOMMUNICATION_QUALITY_DEGRADATION",
       "label": "Finance Central Cbcommunication Quality Degradation",
       "summary": "Progressive decline in Finance Central Cbcommunication quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "VERM",
           "dir": "Hypo-active",
@@ -2367,7 +2406,13 @@
           "detail": "CB Communication Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

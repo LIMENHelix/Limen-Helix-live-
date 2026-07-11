@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Infrastructure Transit Transitpln systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "rPFC",
+          "dir": "Hypo",
+          "detail": "frontopolar PFC — metacognition & prospective control — no-foresight, myopic",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "MGN",
           "dir": "Hyper-active",
           "detail": "Transit Planning Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Transit Planning Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "rPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "INFRASTRUCTURE_TRANSIT_TRANSITPLN_CAPACITY_OVERLOAD",
       "label": "Infrastructure Transit Transitpln Capacity Overload",
       "summary": "Demand exceeding available Infrastructure Transit Transitpln capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MGN",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Transit Planning Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "INFRASTRUCTURE_TRANSIT_TRANSITPLN_QUALITY_DEGRADATION",
       "label": "Infrastructure Transit Transitpln Quality Degradation",
       "summary": "Progressive decline in Infrastructure Transit Transitpln quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MGN",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Transit Planning Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

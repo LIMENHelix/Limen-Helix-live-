@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Finance Centralbank Cbcomm systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "LC",
+          "dir": "Hypo",
+          "detail": "broadcast / alerting — low=missed",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "VEST",
           "dir": "Hyper-active",
           "detail": "Central Bank Communication Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Central Bank Communication Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "LC",
+        "dir": "hypo",
+        "motif": "M2",
+        "source": "override"
+      }
     },
     {
       "id": "FINANCE_CENTRALBANK_CBCOMM_CAPACITY_OVERLOAD",
       "label": "Finance Centralbank Cbcomm Capacity Overload",
       "summary": "Demand exceeding available Finance Centralbank Cbcomm capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "LC",
+          "dir": "Hyper",
+          "detail": "broadcast / alerting — gain stuck high=thrash",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "VEST",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Central Bank Communication Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "LC",
+        "dir": "hyper",
+        "motif": "M2",
+        "source": "override"
+      }
     },
     {
       "id": "FINANCE_CENTRALBANK_CBCOMM_QUALITY_DEGRADATION",
       "label": "Finance Centralbank Cbcomm Quality Degradation",
       "summary": "Progressive decline in Finance Centralbank Cbcomm quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "BROCA",
+          "dir": "Hypo",
+          "detail": "Broca's area — expressive language production — expressive block, aphasia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "VEST",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Central Bank Communication Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BROCA",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

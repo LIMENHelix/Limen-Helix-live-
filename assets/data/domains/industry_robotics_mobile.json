@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Industry Robotics Mobile systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "VEST",
+          "dir": "Hypo",
+          "detail": "vestibular nuclei — balance & spatial orientation — imbalance, disorientation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "ECN",
           "dir": "Hyper-active",
           "detail": "Mobile Robots Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Mobile Robots Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "VEST",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "INDUSTRY_ROBOTICS_MOBILE_CAPACITY_OVERLOAD",
       "label": "Industry Robotics Mobile Capacity Overload",
       "summary": "Demand exceeding available Industry Robotics Mobile capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "VEST",
+          "dir": "Hyper",
+          "detail": "vestibular nuclei — balance & spatial orientation — vertigo/motion hypersensitivity",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ECN",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Mobile Robots Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "VEST",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "INDUSTRY_ROBOTICS_MOBILE_QUALITY_DEGRADATION",
       "label": "Industry Robotics Mobile Quality Degradation",
       "summary": "Progressive decline in Industry Robotics Mobile quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ECN",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Mobile Robots Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

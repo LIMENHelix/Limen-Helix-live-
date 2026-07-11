@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Self-Referential Processing Hub systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "mPFC",
+          "dir": "Hyper",
+          "detail": "medial PFC — self-referential value integration (DMN core) — self-focus/rumination",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "vlPFC",
           "dir": "Hypo-active",
           "detail": "Self-Referential Processing Hub Assessment & Diagnostics capacity falling below operational thresholds, reducing Self-Referential Processing Hub output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Self-Referential Processing Hub Performance & Optimization function reduced, compromising Self-Referential Processing Hub system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "mPFC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "PSYCHEDELIC_SELFREFERENTIAL_CAPACITY_CRISIS",
       "label": "Self-Referential Processing Hub Capacity Crisis",
       "summary": "Demand exceeding available Self-Referential Processing Hub capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "PRECUNEUS",
+          "dir": "Hyper",
+          "detail": "precuneus — self-imagery / DMN integration — self-referential loop",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TPJ",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Self-Referential Processing Hub Performance & Optimization operating outside normal parameters, introducing uncertainty into Self-Referential Processing Hub outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PRECUNEUS",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "PSYCHEDELIC_SELFREFERENTIAL_GOVERNANCE_GAP",
       "label": "Self-Referential Processing Hub Governance Gap",
       "summary": "Oversight or regulatory failure in Self-Referential Processing Hub creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "mPFC",
+          "dir": "Hypo",
+          "detail": "medial PFC — self-referential value integration (DMN core) — disengaged, apathetic",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "RSC",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Self-Referential Processing Hub Coordination & Integration function reduced, compromising Self-Referential Processing Hub system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "mPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

@@ -6454,6 +6454,15 @@
       "summary": "Critical breakdown in Constitutional Law systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "STN",
+          "dir": "Hypo",
+          "detail": "hyperdirect brake / hold — no-brake=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CC",
           "dir": "Hypo-active",
           "detail": "Constitutional Law Assessment & Diagnostics capacity falling below operational thresholds, reducing Constitutional Law output and reliability",
@@ -6483,13 +6492,28 @@
           "detail": "Constitutional Law Performance & Optimization function reduced, compromising Constitutional Law system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "LAW_CONSTITUTIONAL_CAPACITY_CRISIS",
       "label": "Constitutional Law Capacity Crisis",
       "summary": "Demand exceeding available Constitutional Law capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FORN",
           "dir": "Hyper-active",
@@ -6520,13 +6544,28 @@
           "detail": "Constitutional Law Performance & Optimization operating outside normal parameters, introducing uncertainty into Constitutional Law outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "LAW_CONSTITUTIONAL_GOVERNANCE_GAP",
       "label": "Constitutional Law Governance Gap",
       "summary": "Oversight or regulatory failure in Constitutional Law creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MAMM",
           "dir": "Hypo-active",
@@ -6557,7 +6596,13 @@
           "detail": "Constitutional Law Coordination & Integration function reduced, compromising Constitutional Law system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

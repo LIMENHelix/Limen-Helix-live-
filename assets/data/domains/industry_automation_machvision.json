@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Industry Automation Machvision systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "SC",
           "dir": "Hyper-active",
           "detail": "Machine Vision Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Machine Vision Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "INDUSTRY_AUTOMATION_MACHVISION_CAPACITY_OVERLOAD",
       "label": "Industry Automation Machvision Capacity Overload",
       "summary": "Demand exceeding available Industry Automation Machvision capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SC",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Machine Vision Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "INDUSTRY_AUTOMATION_MACHVISION_QUALITY_DEGRADATION",
       "label": "Industry Automation Machvision Quality Degradation",
       "summary": "Progressive decline in Industry Automation Machvision quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SC",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Machine Vision Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

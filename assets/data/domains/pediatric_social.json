@@ -275,6 +275,15 @@
       "circuits": [
         {
           "nodeId": "mPFC",
+          "dir": "Hyper",
+          "detail": "medial PFC — self-referential value integration (DMN core) — self-focus/rumination",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
+          "nodeId": "mPFC",
           "dir": "Hypo-active",
           "detail": "Social Cognition & Self-Reference Assessment & Diagnostics capacity falling below operational thresholds, reducing Social Cognition & Self-Reference output and reliability",
           "evidence": "Strong"
@@ -303,13 +312,28 @@
           "detail": "Social Cognition & Self-Reference Performance & Optimization function reduced, compromising Social Cognition & Self-Reference system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "mPFC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "PEDIATRIC_SOCIAL_CAPACITY_CRISIS",
       "label": "Social Cognition & Self-Reference Capacity Crisis",
       "summary": "Demand exceeding available Social Cognition & Self-Reference capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "PCC",
+          "dir": "Hyper",
+          "detail": "posterior cingulate — DMN internal-focus hub — rumination/internal-loop",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PCC",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Social Cognition & Self-Reference Performance & Optimization operating outside normal parameters, introducing uncertainty into Social Cognition & Self-Reference outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PCC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "PEDIATRIC_SOCIAL_GOVERNANCE_GAP",
       "label": "Social Cognition & Self-Reference Governance Gap",
       "summary": "Oversight or regulatory failure in Social Cognition & Self-Reference creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "mPFC",
+          "dir": "Hypo",
+          "detail": "medial PFC — self-referential value integration (DMN core) — disengaged, apathetic",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "EC",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Social Cognition & Self-Reference Coordination & Integration function reduced, compromising Social Cognition & Self-Reference system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "mPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

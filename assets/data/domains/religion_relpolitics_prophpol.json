@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Religion Relpolitics Prophpol systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "BLA",
+          "dir": "Hyper",
+          "detail": "threat learning/acquisition — over-fear=PTSD",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "ADR",
           "dir": "Hyper-active",
           "detail": "Prophetic Politics Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Prophetic Politics Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BLA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_RELPOLITICS_PROPHPOL_CAPACITY_OVERLOAD",
       "label": "Religion Relpolitics Prophpol Capacity Overload",
       "summary": "Demand exceeding available Religion Relpolitics Prophpol capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "CeA",
+          "dir": "Hyper",
+          "detail": "phasic fear output — hair-trigger=false-alarm",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ADR",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Prophetic Politics Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CeA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_RELPOLITICS_PROPHPOL_QUALITY_DEGRADATION",
       "label": "Religion Relpolitics Prophpol Quality Degradation",
       "summary": "Progressive decline in Religion Relpolitics Prophpol quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ADR",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Prophetic Politics Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

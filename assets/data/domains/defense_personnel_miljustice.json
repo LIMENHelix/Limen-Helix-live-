@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Defense Personnel Miljustice systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vlPFC",
+          "dir": "Hypo",
+          "detail": "response-inhibition / stop — disinhibited",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CARD",
           "dir": "Hyper-active",
           "detail": "Military Justice Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Military Justice Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_PERSONNEL_MILJUSTICE_CAPACITY_OVERLOAD",
       "label": "Defense Personnel Miljustice Capacity Overload",
       "summary": "Demand exceeding available Defense Personnel Miljustice capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hyper",
+          "detail": "response-inhibition / stop — over-suppress",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CARD",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Military Justice Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hyper",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_PERSONNEL_MILJUSTICE_QUALITY_DEGRADATION",
       "label": "Defense Personnel Miljustice Quality Degradation",
       "summary": "Progressive decline in Defense Personnel Miljustice quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CARD",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Military Justice Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

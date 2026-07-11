@@ -12577,6 +12577,15 @@
       "summary": "Critical breakdown in Science Metrics systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "AI",
+          "dir": "Hyper",
+          "detail": "interoceptive salience — flying-blind",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "LC",
           "dir": "Hyper-active",
           "detail": "Metrics Assessment & Diagnostics function overloaded",
@@ -12606,13 +12615,28 @@
           "detail": "Metrics Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "AI",
+        "dir": "hyper",
+        "motif": "M10",
+        "source": "override"
+      }
     },
     {
       "id": "SCIENCE_METRICS_CAPACITY_OVERLOAD",
       "label": "Science Metrics Capacity Overload",
       "summary": "Demand exceeding available Science Metrics capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "AI",
+          "dir": "Hypo",
+          "detail": "interoceptive salience — metric-obsession",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "LC",
           "dir": "Hyper-active",
@@ -12637,13 +12661,28 @@
           "detail": "Metrics Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "AI",
+        "dir": "hypo",
+        "motif": "M10",
+        "source": "override"
+      }
     },
     {
       "id": "SCIENCE_METRICS_QUALITY_DEGRADATION",
       "label": "Science Metrics Quality Degradation",
       "summary": "Progressive decline in Science Metrics quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "LC",
           "dir": "Hypo-active",
@@ -12668,7 +12707,13 @@
           "detail": "Metrics Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

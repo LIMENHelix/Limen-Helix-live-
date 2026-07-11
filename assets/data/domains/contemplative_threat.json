@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Threat / Fear Processing systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "BLA",
+          "dir": "Hyper",
+          "detail": "threat learning/acquisition — over-fear=PTSD",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "mPFC",
           "dir": "Hypo-active",
           "detail": "Threat / Fear Processing Assessment & Diagnostics capacity falling below operational thresholds, reducing Threat / Fear Processing output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Threat / Fear Processing Performance & Optimization function reduced, compromising Threat / Fear Processing system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BLA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "CONTEMPLATIVE_THREAT_CAPACITY_CRISIS",
       "label": "Threat / Fear Processing Capacity Crisis",
       "summary": "Demand exceeding available Threat / Fear Processing capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper",
+          "detail": "threat learning/acquisition — over-fear=PTSD",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PCC",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Threat / Fear Processing Performance & Optimization operating outside normal parameters, introducing uncertainty into Threat / Fear Processing outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BLA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "CONTEMPLATIVE_THREAT_GOVERNANCE_GAP",
       "label": "Threat / Fear Processing Governance Gap",
       "summary": "Oversight or regulatory failure in Threat / Fear Processing creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "BLA",
+          "dir": "Hypo",
+          "detail": "threat learning/acquisition — fearless",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "EC",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Threat / Fear Processing Coordination & Integration function reduced, compromising Threat / Fear Processing system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BLA",
+        "dir": "hypo",
+        "motif": "M7",
+        "source": "override"
+      }
     }
   ]
 }

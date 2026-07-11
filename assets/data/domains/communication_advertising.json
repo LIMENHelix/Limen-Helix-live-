@@ -3937,6 +3937,15 @@
       "summary": "Critical breakdown in Advertising systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
+          "detail": "incentive/reward drive — over-pursuit=bubble",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "mPFC",
           "dir": "Hypo-active",
           "detail": "Advertising Assessment & Diagnostics capacity falling below operational thresholds, reducing Advertising output and reliability",
@@ -3966,13 +3975,28 @@
           "detail": "Advertising Performance & Optimization function reduced, compromising Advertising system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_ADVERTISING_CAPACITY_CRISIS",
       "label": "Advertising Capacity Crisis",
       "summary": "Demand exceeding available Advertising capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "LC",
+          "dir": "Hyper",
+          "detail": "broadcast / alerting — gain stuck high=thrash",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PCC",
           "dir": "Hyper-active",
@@ -4003,13 +4027,28 @@
           "detail": "Advertising Performance & Optimization operating outside normal parameters, introducing uncertainty into Advertising outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "LC",
+        "dir": "hyper",
+        "motif": "M2",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_ADVERTISING_GOVERNANCE_GAP",
       "label": "Advertising Governance Gap",
       "summary": "Oversight or regulatory failure in Advertising creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hypo",
+          "detail": "incentive/reward drive — avolition",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "EC",
           "dir": "Hypo-active",
@@ -4040,7 +4079,13 @@
           "detail": "Advertising Coordination & Integration function reduced, compromising Advertising system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

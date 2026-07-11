@@ -4029,6 +4029,15 @@
       "summary": "Critical breakdown in Urban Planning systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "rPFC",
+          "dir": "Hypo",
+          "detail": "frontopolar PFC — metacognition & prospective control — no-foresight, myopic",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "BDNF",
           "dir": "Hypo-active",
           "detail": "Urban Planning Assessment & Diagnostics capacity falling below operational thresholds, reducing Urban Planning output and reliability",
@@ -4058,13 +4067,28 @@
           "detail": "Urban Planning Performance & Optimization function reduced, compromising Urban Planning system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "rPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "INFRASTRUCTURE_URBAN_CAPACITY_CRISIS",
       "label": "Urban Planning Capacity Crisis",
       "summary": "Demand exceeding available Urban Planning capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TrkB",
           "dir": "Hyper-active",
@@ -4095,13 +4119,28 @@
           "detail": "Urban Planning Performance & Optimization operating outside normal parameters, introducing uncertainty into Urban Planning outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "INFRASTRUCTURE_URBAN_GOVERNANCE_GAP",
       "label": "Urban Planning Governance Gap",
       "summary": "Oversight or regulatory failure in Urban Planning creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "LC",
           "dir": "Hypo-active",
@@ -4132,7 +4171,13 @@
           "detail": "Urban Planning Coordination & Integration function reduced, compromising Urban Planning system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

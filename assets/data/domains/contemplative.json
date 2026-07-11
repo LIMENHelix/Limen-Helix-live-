@@ -1796,6 +1796,15 @@
       "summary": "Persistent self-referential thought loops that meditation fails to interrupt or paradoxically intensifies",
       "circuits": [
         {
+          "nodeId": "dlPFC",
+          "dir": "Hyper",
+          "detail": "dorsolateral PFC — executive working-memory / cognitive control — rigidity/rumination-lock",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "DMN",
           "dir": "Hyper-active",
           "detail": "Default mode network remains hyperactive during practice — mind-wandering dominates despite effort to focus",
@@ -1831,13 +1840,28 @@
           "detail": "Executive attention exhausted from repeated failed attempts to control thought stream",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dlPFC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "DISSOCIATION_MEDITATION",
       "label": "Meditation-Induced Dissociation",
       "summary": "Practice triggers depersonalization, derealization, or emotional numbing rather than healthy equanimity",
       "circuits": [
+        {
+          "nodeId": "PRECUNEUS",
+          "dir": "Hypo",
+          "detail": "precuneus — self-imagery / DMN integration — dissociation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "THAL",
           "dir": "Hypo-gating",
@@ -1874,13 +1898,28 @@
           "detail": "Salience network fails to switch between internal and external modes appropriately",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PRECUNEUS",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "ATTENTION_INSTABILITY",
       "label": "Attention Instability",
       "summary": "Inability to sustain focused attention or open awareness despite consistent practice effort",
       "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo",
+          "detail": "dorsolateral PFC — executive working-memory / cognitive control — executive-lapse, distractible",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dACC",
           "dir": "Hypo-active",
@@ -1911,13 +1950,28 @@
           "detail": "Arousal oscillates between drowsiness and agitation — cannot find stable alertness for practice",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dlPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "EMOTIONAL_FLOODING",
       "label": "Emotional Flooding in Practice",
       "summary": "Practice surfaces overwhelming emotions — grief, terror, rage — that exceed the practitioner's regulatory capacity",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BLA",
           "dir": "Hyper-reactive",
@@ -1954,13 +2008,28 @@
           "detail": "Self-relevance processing amplifies emotional content — everything feels deeply personally threatening",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "SPIRITUAL_EMERGENCY",
       "label": "Spiritual Emergency",
       "summary": "Rapid ego dissolution, mystical states, or dark-night experiences that destabilize psychological functioning",
       "circuits": [
+        {
+          "nodeId": "PCC",
+          "dir": "Hypo",
+          "detail": "posterior cingulate — DMN internal-focus hub — dissociation from self",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "mPFC",
           "dir": "Collapsed",
@@ -1997,13 +2066,28 @@
           "detail": "Autobiographical continuity disrupted — past self feels unreal or disconnected from present experience",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PCC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "SOMATIC_DISTRESS",
       "label": "Somatic Distress / Kundalini Syndrome",
       "summary": "Intense physical symptoms — energy surges, involuntary movements, heat, pain — arising from practice",
       "circuits": [
+        {
+          "nodeId": "PI",
+          "dir": "Hypo",
+          "detail": "primary interoception — somatic hypervigilance",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "AI",
           "dir": "Hyper-sensitized",
@@ -2040,7 +2124,13 @@
           "detail": "Noradrenergic system in overdrive — persistent hyper-arousal, insomnia, and energy surges between sessions",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PI",
+        "dir": "hypo",
+        "motif": "M10",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

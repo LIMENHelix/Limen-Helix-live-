@@ -2276,6 +2276,15 @@
       "summary": "Critical breakdown in Finance Central Cbindependence systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "FEF",
           "dir": "Hyper-active",
           "detail": "CB Independence Assessment & Diagnostics function overloaded",
@@ -2305,13 +2314,28 @@
           "detail": "CB Independence Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "FINANCE_CENTRAL_CBINDEPENDENCE_CAPACITY_OVERLOAD",
       "label": "Finance Central Cbindependence Capacity Overload",
       "summary": "Demand exceeding available Finance Central Cbindependence capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "BNST",
+          "dir": "Hyper",
+          "detail": "sustained threat monitor — tonic-stuck=burnout",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FEF",
           "dir": "Hyper-active",
@@ -2336,13 +2360,28 @@
           "detail": "CB Independence Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BNST",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "FINANCE_CENTRAL_CBINDEPENDENCE_QUALITY_DEGRADATION",
       "label": "Finance Central Cbindependence Quality Degradation",
       "summary": "Progressive decline in Finance Central Cbindependence quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "outcome valuation / update — confabulation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FEF",
           "dir": "Hypo-active",
@@ -2367,7 +2406,13 @@
           "detail": "CB Independence Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

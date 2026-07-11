@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Medicine Psychiatry Psychotic systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PIN",
           "dir": "Hyper-active",
           "detail": "Psychotic Disorders Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Psychotic Disorders Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "MEDICINE_PSYCHIATRY_PSYCHOTIC_CAPACITY_OVERLOAD",
       "label": "Medicine Psychiatry Psychotic Capacity Overload",
       "summary": "Demand exceeding available Medicine Psychiatry Psychotic capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "PULV",
+          "dir": "Hyper",
+          "detail": "attentional gate — overload",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PIN",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Psychotic Disorders Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PULV",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "MEDICINE_PSYCHIATRY_PSYCHOTIC_QUALITY_DEGRADATION",
       "label": "Medicine Psychiatry Psychotic Quality Degradation",
       "summary": "Progressive decline in Medicine Psychiatry Psychotic quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PIN",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Psychotic Disorders Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

@@ -2643,6 +2643,15 @@
       "circuits": [
         {
           "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
+          "nodeId": "vmPFC",
           "dir": "Hypo-active",
           "detail": "Data analytics platforms retaining farm-level data with unclear ownership and third-party sharing terms",
           "evidence": "Strong"
@@ -2665,13 +2674,28 @@
           "detail": "Drone imagery processed through cloud services with ambiguous data retention policies",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "CONNECTIVITY_GAP",
       "label": "Connectivity Gap",
       "summary": "Inadequate rural broadband and cellular coverage preventing real-time data transfer critical to precision agriculture systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "THAL",
           "dir": "Hypo-active",
@@ -2696,13 +2720,28 @@
           "detail": "Yield monitor data stored locally and lost when equipment changes hands between seasons",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "SYSTEM_INTEGRATION_FAILURE",
       "label": "System Integration Failure",
       "summary": "Incompatible data formats and communication protocols between equipment brands preventing unified precision management",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "STRI",
           "dir": "Hypo-active",
@@ -2727,13 +2766,28 @@
           "detail": "Analytics platforms unable to ingest multi-source data without manual format conversion",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "ROI_UNCERTAINTY",
       "label": "ROI Uncertainty",
       "summary": "Precision agriculture technology adoption costs exceeding demonstrable yield or input savings on many field types",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hypo",
+          "detail": "incentive/reward drive — avolition",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "vmPFC",
           "dir": "Hypo-active",
@@ -2758,13 +2812,28 @@
           "detail": "Autosteer investment payback period exceeding equipment trade cycle on small operations",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "CYBERSECURITY_RISK",
       "label": "Cybersecurity Risk",
       "summary": "Connected farm equipment and cloud platforms vulnerable to ransomware and data breach disrupting operations",
       "circuits": [
+        {
+          "nodeId": "BNST",
+          "dir": "Hypo",
+          "detail": "sustained threat monitor — under-vigilant",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dlPFC",
           "dir": "Hypo-active",
@@ -2789,7 +2858,13 @@
           "detail": "Drone flight control systems using unencrypted communication channels vulnerable to interception",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BNST",
+        "dir": "hypo",
+        "motif": "M7",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

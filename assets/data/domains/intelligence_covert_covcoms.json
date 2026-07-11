@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Intelligence Covert Covcoms systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "BROCA",
+          "dir": "Hypo",
+          "detail": "Broca's area — expressive language production — expressive block, aphasia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "A1",
           "dir": "Hyper-active",
           "detail": "Covert Communications Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Covert Communications Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BROCA",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_COVERT_COVCOMS_CAPACITY_OVERLOAD",
       "label": "Intelligence Covert Covcoms Capacity Overload",
       "summary": "Demand exceeding available Intelligence Covert Covcoms capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "BROCA",
+          "dir": "Hyper",
+          "detail": "Broca's area — expressive language production — pressured/over-production",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "A1",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Covert Communications Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BROCA",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_COVERT_COVCOMS_QUALITY_DEGRADATION",
       "label": "Intelligence Covert Covcoms Quality Degradation",
       "summary": "Progressive decline in Intelligence Covert Covcoms quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "WERN",
+          "dir": "Hyper",
+          "detail": "Wernicke's area — receptive language comprehension — over-interpretation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "A1",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Covert Communications Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "WERN",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

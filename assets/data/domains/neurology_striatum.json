@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Striatum (Caudate/Putamen) systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "CAUD",
+          "dir": "Hyper",
+          "detail": "caudate — goal-directed action selection — compulsion/OCD loop",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CC",
           "dir": "Hypo-active",
           "detail": "Striatum (Caudate/Putamen) Assessment & Diagnostics capacity falling below operational thresholds, reducing Striatum (Caudate/Putamen) output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Striatum (Caudate/Putamen) Performance & Optimization function reduced, compromising Striatum (Caudate/Putamen) system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CAUD",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "NEUROLOGY_STRIATUM_CAPACITY_CRISIS",
       "label": "Striatum (Caudate/Putamen) Capacity Crisis",
       "summary": "Demand exceeding available Striatum (Caudate/Putamen) capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "CAUD",
+          "dir": "Hypo",
+          "detail": "caudate — goal-directed action selection — apathy, bradyphrenia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FORN",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Striatum (Caudate/Putamen) Performance & Optimization operating outside normal parameters, introducing uncertainty into Striatum (Caudate/Putamen) outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CAUD",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "NEUROLOGY_STRIATUM_GOVERNANCE_GAP",
       "label": "Striatum (Caudate/Putamen) Governance Gap",
       "summary": "Oversight or regulatory failure in Striatum (Caudate/Putamen) creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "CAUD",
+          "dir": "Hypo",
+          "detail": "caudate — goal-directed action selection — apathy, bradyphrenia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MAMM",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Striatum (Caudate/Putamen) Coordination & Integration function reduced, compromising Striatum (Caudate/Putamen) system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CAUD",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

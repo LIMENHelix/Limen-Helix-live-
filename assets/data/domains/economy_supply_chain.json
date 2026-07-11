@@ -17897,6 +17897,15 @@
       "summary": "Critical breakdown in Economy Supply Chain systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "VP",
           "dir": "Hyper-active",
           "detail": "Supply Chain Assessment & Diagnostics function overloaded",
@@ -17926,13 +17935,28 @@
           "detail": "Supply Chain Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_SUPPLY_CHAIN_CAPACITY_OVERLOAD",
       "label": "Economy Supply Chain Capacity Overload",
       "summary": "Demand exceeding available Economy Supply Chain capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "VP",
           "dir": "Hyper-active",
@@ -17957,13 +17981,28 @@
           "detail": "Supply Chain Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_SUPPLY_CHAIN_QUALITY_DEGRADATION",
       "label": "Economy Supply Chain Quality Degradation",
       "summary": "Progressive decline in Economy Supply Chain quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "VP",
           "dir": "Hypo-active",
@@ -17988,7 +18027,13 @@
           "detail": "Supply Chain Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

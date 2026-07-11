@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Energy Gridmod Voltopt systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "GABA_GLU",
           "dir": "Hyper-active",
           "detail": "Voltage Optimization Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Voltage Optimization Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "ENERGY_GRIDMOD_VOLTOPT_CAPACITY_OVERLOAD",
       "label": "Energy Gridmod Voltopt Capacity Overload",
       "summary": "Demand exceeding available Energy Gridmod Voltopt capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "GABA_GLU",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Voltage Optimization Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "ENERGY_GRIDMOD_VOLTOPT_QUALITY_DEGRADATION",
       "label": "Energy Gridmod Voltopt Quality Degradation",
       "summary": "Progressive decline in Energy Gridmod Voltopt quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hypo",
+          "detail": "homeostatic set-point — delayed=oscillation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "GABA_GLU",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Voltage Optimization Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hypo",
+        "motif": "M3",
+        "source": "override"
+      }
     }
   ]
 }

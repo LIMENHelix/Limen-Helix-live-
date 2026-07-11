@@ -2275,6 +2275,15 @@
       "summary": "Critical breakdown in Medicine Pharmacy Pharmacokinetics systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "FPN",
           "dir": "Hyper-active",
           "detail": "Pharmacokinetics Assessment & Diagnostics function overloaded",
@@ -2304,13 +2313,28 @@
           "detail": "Pharmacokinetics Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "MEDICINE_PHARMACY_PHARMACOKINETICS_CAPACITY_OVERLOAD",
       "label": "Medicine Pharmacy Pharmacokinetics Capacity Overload",
       "summary": "Demand exceeding available Medicine Pharmacy Pharmacokinetics capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FPN",
           "dir": "Hyper-active",
@@ -2335,13 +2359,28 @@
           "detail": "Pharmacokinetics Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "MEDICINE_PHARMACY_PHARMACOKINETICS_QUALITY_DEGRADATION",
       "label": "Medicine Pharmacy Pharmacokinetics Quality Degradation",
       "summary": "Progressive decline in Medicine Pharmacy Pharmacokinetics quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hypo",
+          "detail": "homeostatic set-point — delayed=oscillation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FPN",
           "dir": "Hypo-active",
@@ -2366,7 +2405,13 @@
           "detail": "Pharmacokinetics Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hypo",
+        "motif": "M3",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

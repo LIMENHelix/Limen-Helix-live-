@@ -10794,6 +10794,15 @@
       "summary": "Critical breakdown in Communication Pr systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "mPFC",
+          "dir": "Hypo",
+          "detail": "medial PFC — self-referential value integration (DMN core) — disengaged, apathetic",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "RAPHE",
           "dir": "Hyper-active",
           "detail": "Pr Assessment & Diagnostics function overloaded",
@@ -10823,13 +10832,28 @@
           "detail": "Pr Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "mPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_PR_CAPACITY_OVERLOAD",
       "label": "Communication Pr Capacity Overload",
       "summary": "Demand exceeding available Communication Pr capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "mPFC",
+          "dir": "Hyper",
+          "detail": "medial PFC — self-referential value integration (DMN core) — self-focus/rumination",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "RAPHE",
           "dir": "Hyper-active",
@@ -10854,13 +10878,28 @@
           "detail": "Pr Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "mPFC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_PR_QUALITY_DEGRADATION",
       "label": "Communication Pr Quality Degradation",
       "summary": "Progressive decline in Communication Pr quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "RAPHE",
           "dir": "Hypo-active",
@@ -10885,7 +10924,13 @@
           "detail": "Pr Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

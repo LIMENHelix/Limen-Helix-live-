@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Defense Intelligence Sigint systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "RF",
+          "dir": "Hypo",
+          "detail": "reticular formation — global arousal broadcast — stupor, coma",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "OSC",
           "dir": "Hyper-active",
           "detail": "SIGINT Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "SIGINT Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "RF",
+        "dir": "hypo",
+        "motif": "M2",
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_INTELLIGENCE_SIGINT_CAPACITY_OVERLOAD",
       "label": "Defense Intelligence Sigint Capacity Overload",
       "summary": "Demand exceeding available Defense Intelligence Sigint capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "RF",
+          "dir": "Hyper",
+          "detail": "reticular formation — global arousal broadcast — hyperarousal/agitation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OSC",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "SIGINT Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "RF",
+        "dir": "hyper",
+        "motif": "M2",
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_INTELLIGENCE_SIGINT_QUALITY_DEGRADATION",
       "label": "Defense Intelligence Sigint Quality Degradation",
       "summary": "Progressive decline in Defense Intelligence Sigint quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "RF",
+          "dir": "Hyper",
+          "detail": "reticular formation — global arousal broadcast — hyperarousal/agitation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OSC",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "SIGINT Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "RF",
+        "dir": "hyper",
+        "motif": "M2",
+        "source": "override"
+      }
     }
   ]
 }

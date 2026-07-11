@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Defense Defreform Defgovern systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "SMA",
           "dir": "Hyper-active",
           "detail": "Defense Governance Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Defense Governance Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_DEFREFORM_DEFGOVERN_CAPACITY_OVERLOAD",
       "label": "Defense Defreform Defgovern Capacity Overload",
       "summary": "Demand exceeding available Defense Defreform Defgovern capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hyper",
+          "detail": "response-inhibition / stop — over-suppress",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SMA",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Defense Governance Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hyper",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_DEFREFORM_DEFGOVERN_QUALITY_DEGRADATION",
       "label": "Defense Defreform Defgovern Quality Degradation",
       "summary": "Progressive decline in Defense Defreform Defgovern quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SMA",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Defense Governance Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

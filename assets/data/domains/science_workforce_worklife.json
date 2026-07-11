@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Science Workforce Worklife systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "BNST",
+          "dir": "Hyper",
+          "detail": "sustained threat monitor — tonic-stuck=burnout",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PRECUNEUS",
           "dir": "Hyper-active",
           "detail": "Work-Life Balance Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Work-Life Balance Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BNST",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "SCIENCE_WORKFORCE_WORKLIFE_CAPACITY_OVERLOAD",
       "label": "Science Workforce Worklife Capacity Overload",
       "summary": "Demand exceeding available Science Workforce Worklife capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PRECUNEUS",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Work-Life Balance Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "SCIENCE_WORKFORCE_WORKLIFE_QUALITY_DEGRADATION",
       "label": "Science Workforce Worklife Quality Degradation",
       "summary": "Progressive decline in Science Workforce Worklife quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PRECUNEUS",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Work-Life Balance Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

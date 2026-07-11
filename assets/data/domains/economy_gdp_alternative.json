@@ -2275,6 +2275,15 @@
       "summary": "Critical breakdown in Economy Gdp Alternative systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "AI",
+          "dir": "Hyper",
+          "detail": "interoceptive salience — flying-blind",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PIT",
           "dir": "Hyper-active",
           "detail": "Alternative Metrics Assessment & Diagnostics function overloaded",
@@ -2304,13 +2313,28 @@
           "detail": "Alternative Metrics Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "AI",
+        "dir": "hyper",
+        "motif": "M10",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_GDP_ALTERNATIVE_CAPACITY_OVERLOAD",
       "label": "Economy Gdp Alternative Capacity Overload",
       "summary": "Demand exceeding available Economy Gdp Alternative capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PIT",
           "dir": "Hyper-active",
@@ -2335,13 +2359,28 @@
           "detail": "Alternative Metrics Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_GDP_ALTERNATIVE_QUALITY_DEGRADATION",
       "label": "Economy Gdp Alternative Quality Degradation",
       "summary": "Progressive decline in Economy Gdp Alternative quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "AI",
+          "dir": "Hypo",
+          "detail": "interoceptive salience — metric-obsession",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PIT",
           "dir": "Hypo-active",
@@ -2366,7 +2405,13 @@
           "detail": "Alternative Metrics Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "AI",
+        "dir": "hypo",
+        "motif": "M10",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

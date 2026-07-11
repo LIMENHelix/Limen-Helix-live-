@@ -14258,6 +14258,15 @@
       "summary": "Critical breakdown in Economy Digital Econ systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "SNS",
           "dir": "Hyper-active",
           "detail": "Digital Econ Assessment & Diagnostics function overloaded",
@@ -14287,13 +14296,28 @@
           "detail": "Digital Econ Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_DIGITAL_ECON_CAPACITY_OVERLOAD",
       "label": "Economy Digital Econ Capacity Overload",
       "summary": "Demand exceeding available Economy Digital Econ capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SNS",
           "dir": "Hyper-active",
@@ -14318,13 +14342,28 @@
           "detail": "Digital Econ Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_DIGITAL_ECON_QUALITY_DEGRADATION",
       "label": "Economy Digital Econ Quality Degradation",
       "summary": "Progressive decline in Economy Digital Econ quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SNS",
           "dir": "Hypo-active",
@@ -14349,7 +14388,13 @@
           "detail": "Digital Econ Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

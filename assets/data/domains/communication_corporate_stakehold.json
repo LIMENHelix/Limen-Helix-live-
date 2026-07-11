@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Communication Corporate Stakehold systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "VAN",
           "dir": "Hyper-active",
           "detail": "Stakeholder Communication Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Stakeholder Communication Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_CORPORATE_STAKEHOLD_CAPACITY_OVERLOAD",
       "label": "Communication Corporate Stakehold Capacity Overload",
       "summary": "Demand exceeding available Communication Corporate Stakehold capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "VAN",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Stakeholder Communication Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_CORPORATE_STAKEHOLD_QUALITY_DEGRADATION",
       "label": "Communication Corporate Stakehold Quality Degradation",
       "summary": "Progressive decline in Communication Corporate Stakehold quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "NEOCER",
+          "dir": "Hyper",
+          "detail": "cognitive forward model — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "VAN",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Stakeholder Communication Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NEOCER",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

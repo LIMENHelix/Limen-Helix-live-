@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Client Emotional State Detection systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "TPJ",
+          "dir": "Hypo",
+          "detail": "temporoparietal junction — social attribution & reorienting — mindblindness",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "vlPFC",
           "dir": "Hypo-active",
           "detail": "Client Emotional State Detection Assessment & Diagnostics capacity falling below operational thresholds, reducing Client Emotional State Detection output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Client Emotional State Detection Performance & Optimization function reduced, compromising Client Emotional State Detection system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "TPJ",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "FAMILY_LAW_CLIENT_CAPACITY_CRISIS",
       "label": "Client Emotional State Detection Capacity Crisis",
       "summary": "Demand exceeding available Client Emotional State Detection capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "TPJ",
+          "dir": "Hypo",
+          "detail": "temporoparietal junction — social attribution & reorienting — mindblindness",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TPJ",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Client Emotional State Detection Performance & Optimization operating outside normal parameters, introducing uncertainty into Client Emotional State Detection outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "TPJ",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "FAMILY_LAW_CLIENT_GOVERNANCE_GAP",
       "label": "Client Emotional State Detection Governance Gap",
       "summary": "Oversight or regulatory failure in Client Emotional State Detection creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "TPJ",
+          "dir": "Hyper",
+          "detail": "temporoparietal junction — social attribution & reorienting — over-attribution/paranoia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "RSC",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Client Emotional State Detection Coordination & Integration function reduced, compromising Client Emotional State Detection system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "TPJ",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

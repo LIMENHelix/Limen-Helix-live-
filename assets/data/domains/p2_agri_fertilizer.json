@@ -2650,6 +2650,15 @@
       "summary": "Excess nitrogen and phosphorus leaving agricultural fields through surface runoff and tile drainage causing downstream water quality impairment",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "M1",
           "dir": "Hyper-active",
           "detail": "Nitrogen application rates exceeding crop uptake capacity with surplus entering waterways",
@@ -2679,13 +2688,28 @@
           "detail": "Variable rate technology not calibrated to field-level nutrient variability",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "FERTILIZER_PRICE_SHOCK",
       "label": "Fertilizer Price Shock",
       "summary": "Global fertilizer price spike from natural gas costs, trade disruption, or supply concentration making optimal application uneconomic",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hypo",
+          "detail": "incentive/reward drive — avolition",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "M1",
           "dir": "Hypo-active",
@@ -2710,13 +2734,28 @@
           "detail": "Organic fertilizer demand surging as farmers seek alternatives, driving manure hauling distances up",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "SOIL_ACIDIFICATION",
       "label": "Soil Acidification",
       "summary": "Chronic nitrogen fertilizer use driving soil pH below optimal range, reducing nutrient availability and crop productivity",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "M1",
           "dir": "Hyper-active",
@@ -2741,13 +2780,28 @@
           "detail": "Lime application timing and rates not coordinated with fertilizer program creating pH oscillation",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "MICRONUTRIENT_DEFICIENCY",
       "label": "Micronutrient Deficiency",
       "summary": "Hidden hunger in high-yield crop systems where macronutrient sufficiency masks critical trace element depletion",
       "circuits": [
+        {
+          "nodeId": "AI",
+          "dir": "Hyper",
+          "detail": "interoceptive salience — flying-blind",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NAcc",
           "dir": "Hypo-active",
@@ -2772,13 +2826,28 @@
           "detail": "Variable rate systems not calibrated for micronutrient spatial variability across fields",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "AI",
+        "dir": "hyper",
+        "motif": "M10",
+        "source": "override"
+      }
     },
     {
       "id": "ORGANIC_NUTRIENT_IMBALANCE",
       "label": "Organic Nutrient Imbalance",
       "summary": "Manure and compost application building excess phosphorus while supplying insufficient nitrogen for crop demand",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "AI",
           "dir": "Hyper-active",
@@ -2803,7 +2872,13 @@
           "detail": "Application scheduling constrained by manure storage capacity and weather windows rather than crop need",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

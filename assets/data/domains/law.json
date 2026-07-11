@@ -1610,6 +1610,15 @@
       "summary": "Court system overwhelmed or compromised. Case backlogs create justice delays equivalent to justice denial. Judicial independence threatened by political appointment manipulation, funding pressure, or public legitimacy erosion. The entire legal system depends on functional courts.",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "OFC",
           "dir": "Hypo",
           "detail": "Judiciary value-based adjudication capacity degraded by overwhelming caseloads, political pressure, or appointment of unqualified judges undermining decision quality",
@@ -1645,13 +1654,28 @@
           "detail": "Evidence standards decline under pressure, with courts admitting lower-quality forensic evidence and reducing scrutiny of investigative methods",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "CONSTITUTIONAL_VIOLATION",
       "label": "Constitutional Violation",
       "summary": "Systematic breach of foundational legal principles. Executive overreach, legislative rights erosion, or judicial abdication undermines the constitutional framework. When constitutional norms are violated without consequence, the legal order loses its foundation.",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "DMN",
           "dir": "Altered",
@@ -1682,13 +1706,28 @@
           "detail": "Judicial decision-making distorted by political pressure, with courts either rubber-stamping unconstitutional action or being ignored when they resist",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "REGULATORY_CAPTURE",
       "label": "Regulatory Capture",
       "summary": "Regulatory agencies co-opted by the industries they are meant to oversee. Revolving-door personnel, industry lobbying, and funding dependence transform watchdogs into lapdogs. The fox guards the henhouse, and public interest is subordinated to private profit.",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dACC",
           "dir": "Hypo",
@@ -1725,13 +1764,28 @@
           "detail": "Contract enforcement becomes asymmetric, with powerful entities able to impose terms while weaker parties lack bargaining power or legal resources to resist",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "MASS_INCARCERATION",
       "label": "Mass Incarceration",
       "summary": "Hypertrophied punitive response producing incarceration rates far beyond what public safety requires. Mandatory minimums, three-strikes laws, and racialized enforcement create a carceral state. The system incarcerates poverty and mental illness while failing to rehabilitate or deter.",
       "circuits": [
+        {
+          "nodeId": "PAG",
+          "dir": "Hyper",
+          "detail": "defensive kill/lockdown — over-freeze",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BLA",
           "dir": "Hyper",
@@ -1768,13 +1822,28 @@
           "detail": "Evidence and forensic standards degraded in high-volume prosecution, with wrongful convictions driven by unreliable eyewitness testimony and discredited forensic methods",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PAG",
+        "dir": "hyper",
+        "motif": "M8",
+        "source": "override"
+      }
     },
     {
       "id": "INTERNATIONAL_LAW_BREAKDOWN",
       "label": "International Law Breakdown",
       "summary": "Collapse of multilateral legal order. Great-power unilateralism, treaty withdrawal, and international court non-compliance undermine the rules-based order. Without enforceable international law, disputes between nations default to economic coercion and military force.",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "AG",
           "dir": "Hypo",
@@ -1805,7 +1874,13 @@
           "detail": "International regulatory monitoring capacity collapses as treaty verification regimes are defunded, withdrawn from, or simply ignored by non-compliant states",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "edges": [

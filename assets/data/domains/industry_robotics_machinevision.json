@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Industry Robotics Machinevision systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "STN",
+          "dir": "Hypo",
+          "detail": "hyperdirect brake / hold — no-brake=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CING",
           "dir": "Hyper-active",
           "detail": "Machine Vision Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Machine Vision Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "INDUSTRY_ROBOTICS_MACHINEVISION_CAPACITY_OVERLOAD",
       "label": "Industry Robotics Machinevision Capacity Overload",
       "summary": "Demand exceeding available Industry Robotics Machinevision capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "PULV",
+          "dir": "Hyper",
+          "detail": "attentional gate — overload",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CING",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Machine Vision Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PULV",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "INDUSTRY_ROBOTICS_MACHINEVISION_QUALITY_DEGRADATION",
       "label": "Industry Robotics Machinevision Quality Degradation",
       "summary": "Progressive decline in Industry Robotics Machinevision quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "FG",
+          "dir": "Hyper",
+          "detail": "fusiform gyrus — face/object recognition — pareidolia/over-recognition",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CING",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Machine Vision Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "FG",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

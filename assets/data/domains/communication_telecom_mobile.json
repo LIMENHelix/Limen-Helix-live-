@@ -2274,6 +2274,15 @@
       "summary": "Critical breakdown in Communication Telecom Mobile systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "PULV",
+          "dir": "Hypo",
+          "detail": "attentional gate — neglect",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "STN",
           "dir": "Hyper-active",
           "detail": "Mobile Communications Assessment & Diagnostics function overloaded",
@@ -2303,13 +2312,28 @@
           "detail": "Mobile Communications Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PULV",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_TELECOM_MOBILE_CAPACITY_OVERLOAD",
       "label": "Communication Telecom Mobile Capacity Overload",
       "summary": "Demand exceeding available Communication Telecom Mobile capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "PULV",
+          "dir": "Hyper",
+          "detail": "attentional gate — overload",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "STN",
           "dir": "Hyper-active",
@@ -2334,13 +2358,28 @@
           "detail": "Mobile Communications Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PULV",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_TELECOM_MOBILE_QUALITY_DEGRADATION",
       "label": "Communication Telecom Mobile Quality Degradation",
       "summary": "Progressive decline in Communication Telecom Mobile quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "STN",
           "dir": "Hypo-active",
@@ -2365,7 +2404,13 @@
           "detail": "Mobile Communications Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

@@ -550,6 +550,15 @@
       "circuits": [
         {
           "nodeId": "mPFC",
+          "dir": "Hypo",
+          "detail": "medial PFC — self-referential value integration (DMN core) — disengaged, apathetic",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
+          "nodeId": "mPFC",
           "dir": "Hyper",
           "detail": "Rapid glutamatergic synaptic potentiation",
           "evidence": "A"
@@ -566,13 +575,28 @@
           "detail": "Transient DMN disruption",
           "evidence": "B"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "mPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "dx_medicine_psychedelic_dissociative_ketsui",
       "label": "Ketamine for Acute Suicidality",
       "summary": "Clinical presentation and circuit dysfunction pattern for Ketamine for Acute Suicidality",
       "circuits": [
+        {
+          "nodeId": "HAB",
+          "dir": "Hyper",
+          "detail": "anti-reward brake — too-strong=anhedonia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "mPFC",
           "dir": "Hyper",
@@ -585,7 +609,13 @@
           "detail": "Anti-anhedonic effect on reward anticipation",
           "evidence": "B"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HAB",
+        "dir": "hyper",
+        "motif": "M8",
+        "source": "override"
+      }
     }
   ]
 }

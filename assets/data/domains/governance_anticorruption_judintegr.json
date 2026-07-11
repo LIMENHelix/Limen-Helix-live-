@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Governance Anticorruption Judintegr systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "TrkB",
           "dir": "Hyper-active",
           "detail": "Judicial Integrity Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Judicial Integrity Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "GOVERNANCE_ANTICORRUPTION_JUDINTEGR_CAPACITY_OVERLOAD",
       "label": "Governance Anticorruption Judintegr Capacity Overload",
       "summary": "Demand exceeding available Governance Anticorruption Judintegr capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TrkB",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Judicial Integrity Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "GOVERNANCE_ANTICORRUPTION_JUDINTEGR_QUALITY_DEGRADATION",
       "label": "Governance Anticorruption Judintegr Quality Degradation",
       "summary": "Progressive decline in Governance Anticorruption Judintegr quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TrkB",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Judicial Integrity Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

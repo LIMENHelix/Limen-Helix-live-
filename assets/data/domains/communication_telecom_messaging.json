@@ -2276,6 +2276,15 @@
       "summary": "Critical breakdown in Communication Telecom Messaging systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "LC",
+          "dir": "Hypo",
+          "detail": "broadcast / alerting — low=missed",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "SMA",
           "dir": "Hyper-active",
           "detail": "Messaging Systems Assessment & Diagnostics function overloaded",
@@ -2305,13 +2314,28 @@
           "detail": "Messaging Systems Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "LC",
+        "dir": "hypo",
+        "motif": "M2",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_TELECOM_MESSAGING_CAPACITY_OVERLOAD",
       "label": "Communication Telecom Messaging Capacity Overload",
       "summary": "Demand exceeding available Communication Telecom Messaging capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "LC",
+          "dir": "Hyper",
+          "detail": "broadcast / alerting — gain stuck high=thrash",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SMA",
           "dir": "Hyper-active",
@@ -2336,13 +2360,28 @@
           "detail": "Messaging Systems Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "LC",
+        "dir": "hyper",
+        "motif": "M2",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_TELECOM_MESSAGING_QUALITY_DEGRADATION",
       "label": "Communication Telecom Messaging Quality Degradation",
       "summary": "Progressive decline in Communication Telecom Messaging quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SMA",
           "dir": "Hypo-active",
@@ -2367,7 +2406,13 @@
           "detail": "Messaging Systems Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

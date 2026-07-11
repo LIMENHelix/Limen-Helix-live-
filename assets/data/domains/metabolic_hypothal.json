@@ -275,6 +275,15 @@
       "circuits": [
         {
           "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
+          "nodeId": "HYPO",
           "dir": "Hypo-active",
           "detail": "Hypothalamic Energy Sensing Assessment & Diagnostics capacity falling below operational thresholds, reducing Hypothalamic Energy Sensing output and reliability",
           "evidence": "Strong"
@@ -303,13 +312,28 @@
           "detail": "Hypothalamic Energy Sensing Performance & Optimization function reduced, compromising Hypothalamic Energy Sensing system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "METABOLIC_HYPOTHAL_CAPACITY_CRISIS",
       "label": "Hypothalamic Energy Sensing Capacity Crisis",
       "summary": "Demand exceeding available Hypothalamic Energy Sensing capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PIT",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Hypothalamic Energy Sensing Performance & Optimization operating outside normal parameters, introducing uncertainty into Hypothalamic Energy Sensing outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "METABOLIC_HYPOTHAL_GOVERNANCE_GAP",
       "label": "Hypothalamic Energy Sensing Governance Gap",
       "summary": "Oversight or regulatory failure in Hypothalamic Energy Sensing creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hypo",
+          "detail": "homeostatic set-point — delayed=oscillation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "LC",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Hypothalamic Energy Sensing Coordination & Integration function reduced, compromising Hypothalamic Energy Sensing system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hypo",
+        "motif": "M3",
+        "source": "override"
+      }
     }
   ]
 }

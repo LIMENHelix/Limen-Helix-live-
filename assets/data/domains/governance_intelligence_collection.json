@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Governance Intelligence Collection systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "MAMM",
           "dir": "Hyper-active",
           "detail": "Intelligence Collection Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Intelligence Collection Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "GOVERNANCE_INTELLIGENCE_COLLECTION_CAPACITY_OVERLOAD",
       "label": "Governance Intelligence Collection Capacity Overload",
       "summary": "Demand exceeding available Governance Intelligence Collection capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MAMM",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Intelligence Collection Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "GOVERNANCE_INTELLIGENCE_COLLECTION_QUALITY_DEGRADATION",
       "label": "Governance Intelligence Collection Quality Degradation",
       "summary": "Progressive decline in Governance Intelligence Collection quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MAMM",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Intelligence Collection Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     }
   ]
 }

@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Infrastructure Dams Damsafety systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "BNST",
+          "dir": "Hypo",
+          "detail": "sustained threat monitor — under-vigilant",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "FPN",
           "dir": "Hyper-active",
           "detail": "Dam Safety Programs Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Dam Safety Programs Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BNST",
+        "dir": "hypo",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "INFRASTRUCTURE_DAMS_DAMSAFETY_CAPACITY_OVERLOAD",
       "label": "Infrastructure Dams Damsafety Capacity Overload",
       "summary": "Demand exceeding available Infrastructure Dams Damsafety capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "CeA",
+          "dir": "Hyper",
+          "detail": "phasic fear output — hair-trigger=false-alarm",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FPN",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Dam Safety Programs Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CeA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "INFRASTRUCTURE_DAMS_DAMSAFETY_QUALITY_DEGRADATION",
       "label": "Infrastructure Dams Damsafety Quality Degradation",
       "summary": "Progressive decline in Infrastructure Dams Damsafety quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FPN",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Dam Safety Programs Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

@@ -3201,6 +3201,15 @@
       "summary": "Critical breakdown in Education Student Serv systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "STS",
           "dir": "Hyper-active",
           "detail": "Student Serv Assessment & Diagnostics function overloaded",
@@ -3230,13 +3239,28 @@
           "detail": "Student Serv Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "EDUCATION_STUDENT_SERV_CAPACITY_OVERLOAD",
       "label": "Education Student Serv Capacity Overload",
       "summary": "Demand exceeding available Education Student Serv capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "STS",
           "dir": "Hyper-active",
@@ -3261,13 +3285,28 @@
           "detail": "Student Serv Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "EDUCATION_STUDENT_SERV_QUALITY_DEGRADATION",
       "label": "Education Student Serv Quality Degradation",
       "summary": "Progressive decline in Education Student Serv quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "STS",
           "dir": "Hypo-active",
@@ -3292,7 +3331,13 @@
           "detail": "Student Serv Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

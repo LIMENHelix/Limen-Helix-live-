@@ -3427,6 +3427,15 @@
       "summary": "Transportation infrastructure failure or capacity shortage preventing agricultural product movement from production to market",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CBLM",
           "dir": "Hypo-active",
           "detail": "Trucking capacity shortage during harvest increasing transit times and spoilage risk for perishables",
@@ -3456,13 +3465,28 @@
           "detail": "Tracking systems unable to provide real-time visibility into shipment location and condition",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "DEMAND_SHOCK",
       "label": "Demand Shock",
       "summary": "Sudden shift in consumer purchasing patterns creating simultaneous surplus and shortage across product categories",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "vmPFC",
           "dir": "Hypo-active",
@@ -3487,13 +3511,28 @@
           "detail": "Procurement contracts locked into pre-shock volumes unable to flex with new demand",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "TRACEABILITY_FAILURE",
       "label": "Traceability Failure",
       "summary": "Inability to trace product from consumer back to farm origin during food safety recall or quality investigation",
       "circuits": [
+        {
+          "nodeId": "EC",
+          "dir": "Hypo",
+          "detail": "entorhinal — hippocampal memory gateway — encoding failure",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dlPFC",
           "dir": "Hypo-active",
@@ -3518,13 +3557,28 @@
           "detail": "Warehouse first-in-first-out compliance failures mixing lot codes within storage locations",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "EC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "IMPORT_DEPENDENCY",
       "label": "Import Dependency",
       "summary": "Domestic supply chain relying on foreign sources for critical inputs or products with geopolitical supply risk",
       "circuits": [
+        {
+          "nodeId": "M1",
+          "dir": "Hypo",
+          "detail": "primary motor cortex — motor output — weakness, paresis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TPJ",
           "dir": "Hypo-active",
@@ -3549,13 +3603,28 @@
           "detail": "Last mile delivery costs spiking when import rerouting adds domestic transportation distance",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "M1",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "FOOD_WASTE",
       "label": "Food Waste",
       "summary": "Supply chain inefficiency causing 30-40 percent of produced food to be lost between farm and consumer",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HYPO",
           "dir": "Hypo-active",
@@ -3580,7 +3649,13 @@
           "detail": "Demand forecast inaccuracy causing over-ordering and expiration at retail level",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

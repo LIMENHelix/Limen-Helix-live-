@@ -2276,6 +2276,15 @@
       "summary": "Critical breakdown in Defense Cyber Cyberintel systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "AI",
+          "dir": "Hypo",
+          "detail": "interoceptive salience — metric-obsession",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "SNIG",
           "dir": "Hyper-active",
           "detail": "Cyber Intelligence Assessment & Diagnostics function overloaded",
@@ -2305,13 +2314,28 @@
           "detail": "Cyber Intelligence Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "AI",
+        "dir": "hypo",
+        "motif": "M10",
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_CYBER_CYBERINTEL_CAPACITY_OVERLOAD",
       "label": "Defense Cyber Cyberintel Capacity Overload",
       "summary": "Demand exceeding available Defense Cyber Cyberintel capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "AI",
+          "dir": "Hyper",
+          "detail": "interoceptive salience — flying-blind",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SNIG",
           "dir": "Hyper-active",
@@ -2336,13 +2360,28 @@
           "detail": "Cyber Intelligence Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "AI",
+        "dir": "hyper",
+        "motif": "M10",
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_CYBER_CYBERINTEL_QUALITY_DEGRADATION",
       "label": "Defense Cyber Cyberintel Quality Degradation",
       "summary": "Progressive decline in Defense Cyber Cyberintel quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SNIG",
           "dir": "Hypo-active",
@@ -2367,7 +2406,13 @@
           "detail": "Cyber Intelligence Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

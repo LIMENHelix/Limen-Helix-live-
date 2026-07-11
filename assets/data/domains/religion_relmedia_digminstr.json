@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Religion Relmedia Digminstr systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "LC",
+          "dir": "Hypo",
+          "detail": "broadcast / alerting — low=missed",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "BROCA",
           "dir": "Hyper-active",
           "detail": "Digital Ministry Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Digital Ministry Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "LC",
+        "dir": "hypo",
+        "motif": "M2",
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_RELMEDIA_DIGMINSTR_CAPACITY_OVERLOAD",
       "label": "Religion Relmedia Digminstr Capacity Overload",
       "summary": "Demand exceeding available Religion Relmedia Digminstr capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "LC",
+          "dir": "Hyper",
+          "detail": "broadcast / alerting — gain stuck high=thrash",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BROCA",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Digital Ministry Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "LC",
+        "dir": "hyper",
+        "motif": "M2",
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_RELMEDIA_DIGMINSTR_QUALITY_DEGRADATION",
       "label": "Religion Relmedia Digminstr Quality Degradation",
       "summary": "Progressive decline in Religion Relmedia Digminstr quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BROCA",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Digital Ministry Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

@@ -4389,6 +4389,15 @@
       "circuits": [
         {
           "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
+          "nodeId": "vmPFC",
           "dir": "Hypo-active",
           "detail": "Publishing Assessment & Diagnostics capacity falling below operational thresholds, reducing Publishing output and reliability",
           "evidence": "Strong"
@@ -4417,13 +4426,28 @@
           "detail": "Publishing Performance & Optimization function reduced, compromising Publishing system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_PUBLISHING_CAPACITY_CRISIS",
       "label": "Publishing Capacity Crisis",
       "summary": "Demand exceeding available Publishing capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "GP",
+          "dir": "Hyper",
+          "detail": "basal-ganglia output gate — flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "VTA",
           "dir": "Hyper-active",
@@ -4454,13 +4478,28 @@
           "detail": "Publishing Performance & Optimization operating outside normal parameters, introducing uncertainty into Publishing outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "GP",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_PUBLISHING_GOVERNANCE_GAP",
       "label": "Publishing Governance Gap",
       "summary": "Oversight or regulatory failure in Publishing creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hypo",
+          "detail": "response-inhibition / stop — disinhibited",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "AI",
           "dir": "Hypo-active",
@@ -4491,7 +4530,13 @@
           "detail": "Publishing Coordination & Integration function reduced, compromising Publishing system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

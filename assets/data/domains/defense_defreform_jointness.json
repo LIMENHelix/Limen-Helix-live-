@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Defense Defreform Jointness systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "CLAUST",
+          "dir": "Hypo",
+          "detail": "claustrum — cross-cortical salience binding — fragmented consciousness",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "STN",
           "dir": "Hyper-active",
           "detail": "Jointness Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Jointness Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CLAUST",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_DEFREFORM_JOINTNESS_CAPACITY_OVERLOAD",
       "label": "Defense Defreform Jointness Capacity Overload",
       "summary": "Demand exceeding available Defense Defreform Jointness capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "CLAUST",
+          "dir": "Hyper",
+          "detail": "claustrum — cross-cortical salience binding — sensory over-binding",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "STN",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Jointness Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CLAUST",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "DEFENSE_DEFREFORM_JOINTNESS_QUALITY_DEGRADATION",
       "label": "Defense Defreform Jointness Quality Degradation",
       "summary": "Progressive decline in Defense Defreform Jointness quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "IPL",
+          "dir": "Hypo",
+          "detail": "inferior parietal — multimodal integration — integration deficit",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "STN",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Jointness Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "IPL",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

@@ -1941,6 +1941,15 @@
       "summary": "Clinical presentation and circuit dysfunction pattern for Treatment-Resistant Depression",
       "circuits": [
         {
+          "nodeId": "sgACC",
+          "dir": "Hyper",
+          "detail": "subgenual ACC — mood / negative-affect hub — depressive lock/anhedonic drive",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "mPFC",
           "dir": "Hypo",
           "detail": "Prefrontal hypoactivation in depression refractory to SSRIs",
@@ -1958,13 +1967,28 @@
           "detail": "Reduced anterior cingulate error signaling",
           "evidence": "B"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "sgACC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "dx_medicine_psychedelic_eola",
       "label": "End-of-Life Anxiety",
       "summary": "Clinical presentation and circuit dysfunction pattern for End-of-Life Anxiety",
       "circuits": [
+        {
+          "nodeId": "BNST",
+          "dir": "Hyper",
+          "detail": "sustained threat monitor — tonic-stuck=burnout",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BLA",
           "dir": "Hyper",
@@ -1983,13 +2007,28 @@
           "detail": "Meaning-making circuit underactivation",
           "evidence": "B"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BNST",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "dx_medicine_psychedelic_cluster",
       "label": "Cluster Headache",
       "summary": "Clinical presentation and circuit dysfunction pattern for Cluster Headache",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HIPP",
           "dir": "Altered",
@@ -2002,7 +2041,13 @@
           "detail": "Pain processing amplification",
           "evidence": "B"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "dx_medicine_psychedelic_ptsd",
@@ -2037,6 +2082,15 @@
         {
           "nodeId": "BLA",
           "dir": "Hyper",
+          "detail": "threat learning/acquisition — over-fear=PTSD",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper",
           "detail": "Social threat hyperdetection",
           "evidence": "B"
         },
@@ -2046,13 +2100,28 @@
           "detail": "Altered social error monitoring",
           "evidence": "C"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BLA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "dx_medicine_psychedelic_ketdep",
       "label": "Ketamine for Acute Depression",
       "summary": "Clinical presentation and circuit dysfunction pattern for Ketamine for Acute Depression",
       "circuits": [
+        {
+          "nodeId": "mPFC",
+          "dir": "Hypo",
+          "detail": "medial PFC — self-referential value integration (DMN core) — disengaged, apathetic",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "mPFC",
           "dir": "Hyper",
@@ -2071,13 +2140,28 @@
           "detail": "Transient DMN disruption",
           "evidence": "B"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "mPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "dx_medicine_psychedelic_ketsui",
       "label": "Ketamine for Acute Suicidality",
       "summary": "Clinical presentation and circuit dysfunction pattern for Ketamine for Acute Suicidality",
       "circuits": [
+        {
+          "nodeId": "HAB",
+          "dir": "Hyper",
+          "detail": "anti-reward brake — too-strong=anhedonia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "mPFC",
           "dir": "Hyper",
@@ -2090,7 +2174,13 @@
           "detail": "Anti-anhedonic effect on reward anticipation",
           "evidence": "B"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HAB",
+        "dir": "hyper",
+        "motif": "M8",
+        "source": "override"
+      }
     }
   ]
 }

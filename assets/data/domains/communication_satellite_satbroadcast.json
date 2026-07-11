@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Communication Satellite Satbroadcast systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "LC",
+          "dir": "Hypo",
+          "detail": "broadcast / alerting — low=missed",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "MDT",
           "dir": "Hyper-active",
           "detail": "Satellite Broadcasting Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Satellite Broadcasting Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "LC",
+        "dir": "hypo",
+        "motif": "M2",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_SATELLITE_SATBROADCAST_CAPACITY_OVERLOAD",
       "label": "Communication Satellite Satbroadcast Capacity Overload",
       "summary": "Demand exceeding available Communication Satellite Satbroadcast capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "LC",
+          "dir": "Hyper",
+          "detail": "broadcast / alerting — gain stuck high=thrash",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MDT",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Satellite Broadcasting Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "LC",
+        "dir": "hyper",
+        "motif": "M2",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_SATELLITE_SATBROADCAST_QUALITY_DEGRADATION",
       "label": "Communication Satellite Satbroadcast Quality Degradation",
       "summary": "Progressive decline in Communication Satellite Satbroadcast quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MDT",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Satellite Broadcasting Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

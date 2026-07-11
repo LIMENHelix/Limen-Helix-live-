@@ -402,6 +402,15 @@
       "summary": "Critical breakdown in Criminal Threat Assessment systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "BLA",
+          "dir": "Hypo",
+          "detail": "threat learning/acquisition — fearless",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "mPFC",
           "dir": "Hypo-active",
           "detail": "Criminal Threat Assessment Assessment & Diagnostics capacity falling below operational thresholds, reducing Criminal Threat Assessment output and reliability",
@@ -431,13 +440,28 @@
           "detail": "Criminal Threat Assessment Performance & Optimization function reduced, compromising Criminal Threat Assessment system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BLA",
+        "dir": "hypo",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "LEGAL_CRIMINAL_CAPACITY_CRISIS",
       "label": "Criminal Threat Assessment Capacity Crisis",
       "summary": "Demand exceeding available Criminal Threat Assessment capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "BNST",
+          "dir": "Hypo",
+          "detail": "sustained threat monitor — under-vigilant",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PCC",
           "dir": "Hyper-active",
@@ -468,13 +492,28 @@
           "detail": "Criminal Threat Assessment Performance & Optimization operating outside normal parameters, introducing uncertainty into Criminal Threat Assessment outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BNST",
+        "dir": "hypo",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "LEGAL_CRIMINAL_GOVERNANCE_GAP",
       "label": "Criminal Threat Assessment Governance Gap",
       "summary": "Oversight or regulatory failure in Criminal Threat Assessment creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper",
+          "detail": "threat learning/acquisition — over-fear=PTSD",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "EC",
           "dir": "Hypo-active",
@@ -505,7 +544,13 @@
           "detail": "Criminal Threat Assessment Coordination & Integration function reduced, compromising Criminal Threat Assessment system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BLA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     }
   ]
 }

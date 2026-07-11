@@ -1970,6 +1970,15 @@
       "circuits": [
         {
           "nodeId": "AI",
+          "dir": "Hyper",
+          "detail": "interoceptive salience — flying-blind",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
+          "nodeId": "AI",
           "dir": "Hyper-active",
           "detail": "Biodiversity Monitoring Assessment & Diagnostics function overloaded",
           "evidence": "Strong"
@@ -1998,13 +2007,28 @@
           "detail": "Biodiversity Monitoring Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "AI",
+        "dir": "hyper",
+        "motif": "M10",
+        "source": "override"
+      }
     },
     {
       "id": "ENVIRONMENT_WILDLIFE_BIOMONITOR_CAPACITY_OVERLOAD",
       "label": "Environment Wildlife Biomonitor Capacity Overload",
       "summary": "Demand exceeding available Environment Wildlife Biomonitor capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "AI",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Biodiversity Monitoring Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "ENVIRONMENT_WILDLIFE_BIOMONITOR_QUALITY_DEGRADATION",
       "label": "Environment Wildlife Biomonitor Quality Degradation",
       "summary": "Progressive decline in Environment Wildlife Biomonitor quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "AI",
+          "dir": "Hypo",
+          "detail": "interoceptive salience — metric-obsession",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "AI",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Biodiversity Monitoring Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "AI",
+        "dir": "hypo",
+        "motif": "M10",
+        "source": "override"
+      }
     }
   ]
 }

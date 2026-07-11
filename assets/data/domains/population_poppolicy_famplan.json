@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Population Poppolicy Famplan systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "PIT",
+          "dir": "Hypo",
+          "detail": "pituitary — endocrine output (HPA/HPG axis) — hormonal insufficiency",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "V1",
           "dir": "Hyper-active",
           "detail": "Family Planning Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Family Planning Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PIT",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_POPPOLICY_FAMPLAN_CAPACITY_OVERLOAD",
       "label": "Population Poppolicy Famplan Capacity Overload",
       "summary": "Demand exceeding available Population Poppolicy Famplan capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "V1",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Family Planning Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_POPPOLICY_FAMPLAN_QUALITY_DEGRADATION",
       "label": "Population Poppolicy Famplan Quality Degradation",
       "summary": "Progressive decline in Population Poppolicy Famplan quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "V1",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Family Planning Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

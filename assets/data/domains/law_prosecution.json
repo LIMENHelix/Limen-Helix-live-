@@ -3833,6 +3833,15 @@
       "summary": "Critical breakdown in Prosecution systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "BDNF",
           "dir": "Hypo-active",
           "detail": "Prosecution Assessment & Diagnostics capacity falling below operational thresholds, reducing Prosecution output and reliability",
@@ -3862,13 +3871,28 @@
           "detail": "Prosecution Performance & Optimization function reduced, compromising Prosecution system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "LAW_PROSECUTION_CAPACITY_CRISIS",
       "label": "Prosecution Capacity Crisis",
       "summary": "Demand exceeding available Prosecution capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "GP",
+          "dir": "Hyper",
+          "detail": "basal-ganglia output gate — flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TrkB",
           "dir": "Hyper-active",
@@ -3899,13 +3923,28 @@
           "detail": "Prosecution Performance & Optimization operating outside normal parameters, introducing uncertainty into Prosecution outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "GP",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "LAW_PROSECUTION_GOVERNANCE_GAP",
       "label": "Prosecution Governance Gap",
       "summary": "Oversight or regulatory failure in Prosecution creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hypo",
+          "detail": "response-inhibition / stop — disinhibited",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "LC",
           "dir": "Hypo-active",
@@ -3936,7 +3975,13 @@
           "detail": "Prosecution Coordination & Integration function reduced, compromising Prosecution system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

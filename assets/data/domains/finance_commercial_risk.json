@@ -2276,6 +2276,15 @@
       "summary": "Critical breakdown in Finance Commercial Risk systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "BNST",
+          "dir": "Hypo",
+          "detail": "sustained threat monitor — under-vigilant",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "SC",
           "dir": "Hyper-active",
           "detail": "Credit Risk Assessment & Diagnostics function overloaded",
@@ -2305,13 +2314,28 @@
           "detail": "Credit Risk Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BNST",
+        "dir": "hypo",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "FINANCE_COMMERCIAL_RISK_CAPACITY_OVERLOAD",
       "label": "Finance Commercial Risk Capacity Overload",
       "summary": "Demand exceeding available Finance Commercial Risk capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "BNST",
+          "dir": "Hyper",
+          "detail": "sustained threat monitor — tonic-stuck=burnout",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SC",
           "dir": "Hyper-active",
@@ -2336,13 +2360,28 @@
           "detail": "Credit Risk Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BNST",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "FINANCE_COMMERCIAL_RISK_QUALITY_DEGRADATION",
       "label": "Finance Commercial Risk Quality Degradation",
       "summary": "Progressive decline in Finance Commercial Risk quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "outcome valuation / update — confabulation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SC",
           "dir": "Hypo-active",
@@ -2367,7 +2406,13 @@
           "detail": "Credit Risk Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

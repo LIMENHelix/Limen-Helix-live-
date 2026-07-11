@@ -1764,6 +1764,15 @@
       "summary": "Chronic underfunding of public education creating resource scarcity, facility deterioration, and inability to attract or retain qualified educators",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "vmPFC",
           "dir": "Hypo-active",
           "detail": "Policy mechanisms failing to generate adequate and equitable funding formulas across districts",
@@ -1793,13 +1802,28 @@
           "detail": "Library systems defunded, collections aging, and digital access contracts cancelled",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "TEACHER_SHORTAGE",
       "label": "Teacher Shortage Emergency",
       "summary": "Critical shortage of qualified teachers driven by low compensation, burnout, and declining enrollment in education preparation programs",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BROCA",
           "dir": "Hypo-active",
@@ -1824,13 +1848,28 @@
           "detail": "Early childhood educator pipeline depleted by poverty-level wages in the childcare sector",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "ACHIEVEMENT_GAP",
       "label": "Achievement Gap Crisis",
       "summary": "Persistent disparities in educational outcomes across racial, socioeconomic, and geographic lines reflecting structural inequity in resource distribution and opportunity access",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "WERN",
           "dir": "Hypo-active",
@@ -1861,13 +1900,28 @@
           "detail": "Digital divide limiting distance learning access for rural and low-income students",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "ACCREDITATION_FAILURE",
       "label": "Accreditation & Quality Failure",
       "summary": "Breakdown of quality assurance mechanisms allowing credential inflation, diploma mills, and programs that fail to produce competent graduates",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "AG",
           "dir": "Hypo-active",
@@ -1892,13 +1946,28 @@
           "detail": "Vocational programs issuing certifications without adequate hands-on competency verification",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "TECHNOLOGY_DISRUPTION",
       "label": "Technology Disruption of Education",
       "summary": "Rapid AI and digital technology advancement destabilizing traditional educational models, assessment integrity, and the definition of essential human skills",
       "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hyper",
+          "detail": "dorsolateral PFC — executive working-memory / cognitive control — rigidity/rumination-lock",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FPN",
           "dir": "Hyper-active",
@@ -1929,7 +1998,13 @@
           "detail": "Teaching methods disrupted as student attention and engagement patterns shift in technology-saturated environments",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dlPFC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     }
   ],
   "edges": [

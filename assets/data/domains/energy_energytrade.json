@@ -5479,6 +5479,15 @@
       "summary": "Critical breakdown in Energy Energytrade systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "NAcc",
+          "dir": "Hypo",
+          "detail": "incentive/reward drive — avolition",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "UNC",
           "dir": "Hyper-active",
           "detail": "Energytrade Assessment & Diagnostics function overloaded",
@@ -5508,13 +5517,28 @@
           "detail": "Energytrade Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "ENERGY_ENERGYTRADE_CAPACITY_OVERLOAD",
       "label": "Energy Energytrade Capacity Overload",
       "summary": "Demand exceeding available Energy Energytrade capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
+          "detail": "incentive/reward drive — over-pursuit=bubble",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "UNC",
           "dir": "Hyper-active",
@@ -5539,13 +5563,28 @@
           "detail": "Energytrade Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "ENERGY_ENERGYTRADE_QUALITY_DEGRADATION",
       "label": "Energy Energytrade Quality Degradation",
       "summary": "Progressive decline in Energy Energytrade quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hypo",
+          "detail": "incentive/reward drive — avolition",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "UNC",
           "dir": "Hypo-active",
@@ -5570,7 +5609,13 @@
           "detail": "Energytrade Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

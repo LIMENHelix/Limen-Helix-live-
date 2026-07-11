@@ -5126,6 +5126,15 @@
       "summary": "Critical breakdown in Population Poppolicy systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PULV",
           "dir": "Hyper-active",
           "detail": "Poppolicy Assessment & Diagnostics function overloaded",
@@ -5155,13 +5164,28 @@
           "detail": "Poppolicy Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_POPPOLICY_CAPACITY_OVERLOAD",
       "label": "Population Poppolicy Capacity Overload",
       "summary": "Demand exceeding available Population Poppolicy capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PULV",
           "dir": "Hyper-active",
@@ -5186,13 +5210,28 @@
           "detail": "Poppolicy Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_POPPOLICY_QUALITY_DEGRADATION",
       "label": "Population Poppolicy Quality Degradation",
       "summary": "Progressive decline in Population Poppolicy quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PULV",
           "dir": "Hypo-active",
@@ -5217,7 +5256,13 @@
           "detail": "Poppolicy Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Law Maritime Piracy systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "CeA",
+          "dir": "Hypo",
+          "detail": "phasic fear output — blunted",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "SMA",
           "dir": "Hyper-active",
           "detail": "Piracy Law Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Piracy Law Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CeA",
+        "dir": "hypo",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "LAW_MARITIME_PIRACY_CAPACITY_OVERLOAD",
       "label": "Law Maritime Piracy Capacity Overload",
       "summary": "Demand exceeding available Law Maritime Piracy capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "CeA",
+          "dir": "Hyper",
+          "detail": "phasic fear output — hair-trigger=false-alarm",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SMA",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Piracy Law Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CeA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "LAW_MARITIME_PIRACY_QUALITY_DEGRADATION",
       "label": "Law Maritime Piracy Quality Degradation",
       "summary": "Progressive decline in Law Maritime Piracy quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SMA",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Piracy Law Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

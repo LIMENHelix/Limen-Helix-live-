@@ -2276,6 +2276,15 @@
       "summary": "Critical breakdown in Medicine Pharmacy Formulation systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "STN",
+          "dir": "Hypo",
+          "detail": "hyperdirect brake / hold — no-brake=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "HPA",
           "dir": "Hyper-active",
           "detail": "Drug Formulation Assessment & Diagnostics function overloaded",
@@ -2305,13 +2314,28 @@
           "detail": "Drug Formulation Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "MEDICINE_PHARMACY_FORMULATION_CAPACITY_OVERLOAD",
       "label": "Medicine Pharmacy Formulation Capacity Overload",
       "summary": "Demand exceeding available Medicine Pharmacy Formulation capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HPA",
           "dir": "Hyper-active",
@@ -2336,13 +2360,28 @@
           "detail": "Drug Formulation Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "MEDICINE_PHARMACY_FORMULATION_QUALITY_DEGRADATION",
       "label": "Medicine Pharmacy Formulation Quality Degradation",
       "summary": "Progressive decline in Medicine Pharmacy Formulation quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HPA",
           "dir": "Hypo-active",
@@ -2367,7 +2406,13 @@
           "detail": "Drug Formulation Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

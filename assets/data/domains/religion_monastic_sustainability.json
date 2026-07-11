@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Religion Monastic Sustainability systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PCC",
           "dir": "Hyper-active",
           "detail": "Monastic Sustainability Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Monastic Sustainability Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_MONASTIC_SUSTAINABILITY_CAPACITY_OVERLOAD",
       "label": "Religion Monastic Sustainability Capacity Overload",
       "summary": "Demand exceeding available Religion Monastic Sustainability capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PCC",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Monastic Sustainability Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_MONASTIC_SUSTAINABILITY_QUALITY_DEGRADATION",
       "label": "Religion Monastic Sustainability Quality Degradation",
       "summary": "Progressive decline in Religion Monastic Sustainability quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hypo",
+          "detail": "homeostatic set-point — delayed=oscillation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PCC",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Monastic Sustainability Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hypo",
+        "motif": "M3",
+        "source": "override"
+      }
     }
   ]
 }

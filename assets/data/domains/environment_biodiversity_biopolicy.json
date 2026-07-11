@@ -2273,6 +2273,15 @@
       "summary": "Critical breakdown in Environment Biodiversity Biopolicy systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "SN",
           "dir": "Hyper-active",
           "detail": "Biodiversity Policy Assessment & Diagnostics function overloaded",
@@ -2302,13 +2311,28 @@
           "detail": "Biodiversity Policy Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "ENVIRONMENT_BIODIVERSITY_BIOPOLICY_CAPACITY_OVERLOAD",
       "label": "Environment Biodiversity Biopolicy Capacity Overload",
       "summary": "Demand exceeding available Environment Biodiversity Biopolicy capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hyper",
+          "detail": "dorsolateral PFC — executive working-memory / cognitive control — rigidity/rumination-lock",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SN",
           "dir": "Hyper-active",
@@ -2333,13 +2357,28 @@
           "detail": "Biodiversity Policy Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dlPFC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "ENVIRONMENT_BIODIVERSITY_BIOPOLICY_QUALITY_DEGRADATION",
       "label": "Environment Biodiversity Biopolicy Quality Degradation",
       "summary": "Progressive decline in Environment Biodiversity Biopolicy quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo",
+          "detail": "dorsolateral PFC — executive working-memory / cognitive control — executive-lapse, distractible",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SN",
           "dir": "Hypo-active",
@@ -2364,7 +2403,13 @@
           "detail": "Biodiversity Policy Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dlPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Education Learning Experiential systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "CBLM",
+          "dir": "Hypo",
+          "detail": "forward-model error-correct — over-correct",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "A1",
           "dir": "Hyper-active",
           "detail": "Experiential Learning Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Experiential Learning Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "EDUCATION_LEARNING_EXPERIENTIAL_CAPACITY_OVERLOAD",
       "label": "Education Learning Experiential Capacity Overload",
       "summary": "Demand exceeding available Education Learning Experiential capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "A1",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Experiential Learning Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "EDUCATION_LEARNING_EXPERIENTIAL_QUALITY_DEGRADATION",
       "label": "Education Learning Experiential Quality Degradation",
       "summary": "Progressive decline in Education Learning Experiential quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "A1",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Experiential Learning Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

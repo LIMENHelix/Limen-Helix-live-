@@ -2274,6 +2274,15 @@
       "summary": "Critical breakdown in Technology Hardware Memory systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "EC",
+          "dir": "Hypo",
+          "detail": "entorhinal — hippocampal memory gateway — encoding failure",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "DAN",
           "dir": "Hyper-active",
           "detail": "Memory Systems Assessment & Diagnostics function overloaded",
@@ -2303,13 +2312,28 @@
           "detail": "Memory Systems Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "EC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "TECHNOLOGY_HARDWARE_MEMORY_CAPACITY_OVERLOAD",
       "label": "Technology Hardware Memory Capacity Overload",
       "summary": "Demand exceeding available Technology Hardware Memory capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "ANT",
+          "dir": "Hyper",
+          "detail": "anterior thalamus — memory relay (Papez) — flood/interference",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "DAN",
           "dir": "Hyper-active",
@@ -2334,13 +2358,28 @@
           "detail": "Memory Systems Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "ANT",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "TECHNOLOGY_HARDWARE_MEMORY_QUALITY_DEGRADATION",
       "label": "Technology Hardware Memory Quality Degradation",
       "summary": "Progressive decline in Technology Hardware Memory quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "PRC",
+          "dir": "Hyper",
+          "detail": "perirhinal — object recognition memory — false familiarity",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "DAN",
           "dir": "Hypo-active",
@@ -2365,7 +2404,13 @@
           "detail": "Memory Systems Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PRC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Finance Sovereign Sovcredit systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "STN",
+          "dir": "Hypo",
+          "detail": "hyperdirect brake / hold — no-brake=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "MGN",
           "dir": "Hyper-active",
           "detail": "Sovereign Credit Rating Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Sovereign Credit Rating Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "FINANCE_SOVEREIGN_SOVCREDIT_CAPACITY_OVERLOAD",
       "label": "Finance Sovereign Sovcredit Capacity Overload",
       "summary": "Demand exceeding available Finance Sovereign Sovcredit capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
+          "detail": "incentive/reward drive — over-pursuit=bubble",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MGN",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Sovereign Credit Rating Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "FINANCE_SOVEREIGN_SOVCREDIT_QUALITY_DEGRADATION",
       "label": "Finance Sovereign Sovcredit Quality Degradation",
       "summary": "Progressive decline in Finance Sovereign Sovcredit quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "outcome valuation / update — confabulation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MGN",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Sovereign Credit Rating Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

@@ -2276,6 +2276,15 @@
       "summary": "Critical breakdown in Communication Journalism Editorial systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "MAMM",
           "dir": "Hyper-active",
           "detail": "Editorial Assessment & Diagnostics function overloaded",
@@ -2305,13 +2314,28 @@
           "detail": "Editorial Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_JOURNALISM_EDITORIAL_CAPACITY_OVERLOAD",
       "label": "Communication Journalism Editorial Capacity Overload",
       "summary": "Demand exceeding available Communication Journalism Editorial capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hyper",
+          "detail": "top-down inhibitory brake — over-grip=flatness",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MAMM",
           "dir": "Hyper-active",
@@ -2336,13 +2360,28 @@
           "detail": "Editorial Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hyper",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_JOURNALISM_EDITORIAL_QUALITY_DEGRADATION",
       "label": "Communication Journalism Editorial Quality Degradation",
       "summary": "Progressive decline in Communication Journalism Editorial quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MAMM",
           "dir": "Hypo-active",
@@ -2367,7 +2406,13 @@
           "detail": "Editorial Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

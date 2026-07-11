@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Finance Accounting Taxacct systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PAG",
           "dir": "Hyper-active",
           "detail": "Tax Accounting Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Tax Accounting Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "FINANCE_ACCOUNTING_TAXACCT_CAPACITY_OVERLOAD",
       "label": "Finance Accounting Taxacct Capacity Overload",
       "summary": "Demand exceeding available Finance Accounting Taxacct capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PAG",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Tax Accounting Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "FINANCE_ACCOUNTING_TAXACCT_QUALITY_DEGRADATION",
       "label": "Finance Accounting Taxacct Quality Degradation",
       "summary": "Progressive decline in Finance Accounting Taxacct quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PAG",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Tax Accounting Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

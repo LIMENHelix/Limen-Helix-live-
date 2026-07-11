@@ -7275,6 +7275,15 @@
       "summary": "Critical breakdown in Communication Speechlang systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "BROCA",
+          "dir": "Hypo",
+          "detail": "Broca's area — expressive language production — expressive block, aphasia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "FG",
           "dir": "Hyper-active",
           "detail": "Speechlang Assessment & Diagnostics function overloaded",
@@ -7304,13 +7313,28 @@
           "detail": "Speechlang Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BROCA",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_SPEECHLANG_CAPACITY_OVERLOAD",
       "label": "Communication Speechlang Capacity Overload",
       "summary": "Demand exceeding available Communication Speechlang capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "BROCA",
+          "dir": "Hyper",
+          "detail": "Broca's area — expressive language production — pressured/over-production",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FG",
           "dir": "Hyper-active",
@@ -7335,13 +7359,28 @@
           "detail": "Speechlang Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BROCA",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_SPEECHLANG_QUALITY_DEGRADATION",
       "label": "Communication Speechlang Quality Degradation",
       "summary": "Progressive decline in Communication Speechlang quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "WERN",
+          "dir": "Hyper",
+          "detail": "Wernicke's area — receptive language comprehension — over-interpretation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FG",
           "dir": "Hypo-active",
@@ -7366,7 +7405,13 @@
           "detail": "Speechlang Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "WERN",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

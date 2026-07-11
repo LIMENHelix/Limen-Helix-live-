@@ -5154,6 +5154,15 @@
       "circuits": [
         {
           "nodeId": "M1",
+          "dir": "Hypo",
+          "detail": "primary motor cortex — motor output — weakness, paresis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
+          "nodeId": "M1",
           "dir": "Hypo-active",
           "detail": "Row crop biomass accumulation stalled during vegetative or reproductive growth phases",
           "evidence": "Strong"
@@ -5182,13 +5191,28 @@
           "detail": "Crop rotation benefits lost as mono-cropping depletes soil and amplifies pest pressure",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "M1",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "PEST_OUTBREAK",
       "label": "Pest & Disease Outbreak",
       "summary": "Epidemic-level insect, fungal, or weed pressure overwhelming integrated pest management and threatening entire crop stands",
       "circuits": [
+        {
+          "nodeId": "PAG",
+          "dir": "Hypo",
+          "detail": "defensive kill/lockdown — no-stop",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "M1",
           "dir": "Hypo-active",
@@ -5219,13 +5243,28 @@
           "detail": "Organic crop production unable to access effective biological controls for emerging pests",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PAG",
+        "dir": "hypo",
+        "motif": "M8",
+        "source": "override"
+      }
     },
     {
       "id": "PLANTING_WINDOW_LOSS",
       "label": "Planting Window Loss",
       "summary": "Wet spring conditions or equipment delays preventing timely planting, forcing prevented-planting claims or late-planted yield penalties",
       "circuits": [
+        {
+          "nodeId": "SMA",
+          "dir": "Hypo",
+          "detail": "supplementary motor — self-initiated action sequencing — akinesia, initiation failure",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "M1",
           "dir": "Hypo-active",
@@ -5256,13 +5295,28 @@
           "detail": "Vertical farming and controlled environments unable to scale for field crop replacement",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "SMA",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "SEED_SUPPLY_DISRUPTION",
       "label": "Seed Supply Disruption",
       "summary": "Shortage of preferred seed varieties, treatments, or traits forcing suboptimal variety selection and reduced yield potential",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HIPP",
           "dir": "Hypo-active",
@@ -5293,13 +5347,28 @@
           "detail": "Organic seed availability constraining certified organic crop production expansion",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "MARKET_REJECTION",
       "label": "Market Rejection",
       "summary": "Harvested crop failing quality specifications for moisture, test weight, mycotoxin, or foreign material, resulting in discounts or outright rejection",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hypo",
+          "detail": "outcome valuation / update — over-react",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "M1",
           "dir": "Altered",
@@ -5330,7 +5399,13 @@
           "detail": "Vertical farm produce failing shelf-life expectations due to environmental control variance",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

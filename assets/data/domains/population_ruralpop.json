@@ -3439,6 +3439,15 @@
       "summary": "Critical breakdown in Population Ruralpop systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "STN",
+          "dir": "Hypo",
+          "detail": "hyperdirect brake / hold — no-brake=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PULV",
           "dir": "Hyper-active",
           "detail": "Ruralpop Assessment & Diagnostics function overloaded",
@@ -3468,13 +3477,28 @@
           "detail": "Ruralpop Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_RURALPOP_CAPACITY_OVERLOAD",
       "label": "Population Ruralpop Capacity Overload",
       "summary": "Demand exceeding available Population Ruralpop capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PULV",
           "dir": "Hyper-active",
@@ -3499,13 +3523,28 @@
           "detail": "Ruralpop Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_RURALPOP_QUALITY_DEGRADATION",
       "label": "Population Ruralpop Quality Degradation",
       "summary": "Progressive decline in Population Ruralpop quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PULV",
           "dir": "Hypo-active",
@@ -3530,7 +3569,13 @@
           "detail": "Ruralpop Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

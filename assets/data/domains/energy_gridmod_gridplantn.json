@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Energy Gridmod Gridplantn systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "STN",
+          "dir": "Hypo",
+          "detail": "hyperdirect brake / hold — no-brake=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PBN",
           "dir": "Hyper-active",
           "detail": "Grid Planning Tools Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Grid Planning Tools Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "ENERGY_GRIDMOD_GRIDPLANTN_CAPACITY_OVERLOAD",
       "label": "Energy Gridmod Gridplantn Capacity Overload",
       "summary": "Demand exceeding available Energy Gridmod Gridplantn capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PBN",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Grid Planning Tools Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "ENERGY_GRIDMOD_GRIDPLANTN_QUALITY_DEGRADATION",
       "label": "Energy Gridmod Gridplantn Quality Degradation",
       "summary": "Progressive decline in Energy Gridmod Gridplantn quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PBN",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Grid Planning Tools Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

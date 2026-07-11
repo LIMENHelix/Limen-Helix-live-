@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Interoception & Sensory Awareness systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "AI",
+          "dir": "Hyper",
+          "detail": "interoceptive salience — flying-blind",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "vlPFC",
           "dir": "Hypo-active",
           "detail": "Interoception & Sensory Awareness Assessment & Diagnostics capacity falling below operational thresholds, reducing Interoception & Sensory Awareness output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Interoception & Sensory Awareness Performance & Optimization function reduced, compromising Interoception & Sensory Awareness system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "AI",
+        "dir": "hyper",
+        "motif": "M10",
+        "source": "override"
+      }
     },
     {
       "id": "PEDIATRIC_INTEROCEPTION_CAPACITY_CRISIS",
       "label": "Interoception & Sensory Awareness Capacity Crisis",
       "summary": "Demand exceeding available Interoception & Sensory Awareness capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "AI",
+          "dir": "Hyper",
+          "detail": "interoceptive salience — flying-blind",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TPJ",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Interoception & Sensory Awareness Performance & Optimization operating outside normal parameters, introducing uncertainty into Interoception & Sensory Awareness outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "AI",
+        "dir": "hyper",
+        "motif": "M10",
+        "source": "override"
+      }
     },
     {
       "id": "PEDIATRIC_INTEROCEPTION_GOVERNANCE_GAP",
       "label": "Interoception & Sensory Awareness Governance Gap",
       "summary": "Oversight or regulatory failure in Interoception & Sensory Awareness creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "AI",
+          "dir": "Hypo",
+          "detail": "interoceptive salience — metric-obsession",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "RSC",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Interoception & Sensory Awareness Coordination & Integration function reduced, compromising Interoception & Sensory Awareness system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "AI",
+        "dir": "hypo",
+        "motif": "M10",
+        "source": "override"
+      }
     }
   ]
 }

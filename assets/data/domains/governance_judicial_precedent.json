@@ -2274,6 +2274,15 @@
       "summary": "Critical breakdown in Governance Judicial Precedent systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HIPP",
+          "dir": "Hyper",
+          "detail": "HPA feedback + memory index — feedback-fail=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "IC",
           "dir": "Hyper-active",
           "detail": "Legal Precedent Assessment & Diagnostics function overloaded",
@@ -2303,13 +2312,28 @@
           "detail": "Legal Precedent Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HIPP",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "GOVERNANCE_JUDICIAL_PRECEDENT_CAPACITY_OVERLOAD",
       "label": "Governance Judicial Precedent Capacity Overload",
       "summary": "Demand exceeding available Governance Judicial Precedent capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "EC",
+          "dir": "Hyper",
+          "detail": "entorhinal — hippocampal memory gateway — memory flooding/interference",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "IC",
           "dir": "Hyper-active",
@@ -2334,13 +2358,28 @@
           "detail": "Legal Precedent Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "EC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "GOVERNANCE_JUDICIAL_PRECEDENT_QUALITY_DEGRADATION",
       "label": "Governance Judicial Precedent Quality Degradation",
       "summary": "Progressive decline in Governance Judicial Precedent quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "PRC",
+          "dir": "Hyper",
+          "detail": "perirhinal — object recognition memory — false familiarity",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "IC",
           "dir": "Hypo-active",
@@ -2365,7 +2404,13 @@
           "detail": "Legal Precedent Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PRC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

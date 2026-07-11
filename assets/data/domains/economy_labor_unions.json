@@ -2276,6 +2276,15 @@
       "summary": "Critical breakdown in Economy Labor Unions systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CLAUST",
           "dir": "Hyper-active",
           "detail": "Labor Relations Assessment & Diagnostics function overloaded",
@@ -2305,13 +2314,28 @@
           "detail": "Labor Relations Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_LABOR_UNIONS_CAPACITY_OVERLOAD",
       "label": "Economy Labor Unions Capacity Overload",
       "summary": "Demand exceeding available Economy Labor Unions capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CLAUST",
           "dir": "Hyper-active",
@@ -2336,13 +2360,28 @@
           "detail": "Labor Relations Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_LABOR_UNIONS_QUALITY_DEGRADATION",
       "label": "Economy Labor Unions Quality Degradation",
       "summary": "Progressive decline in Economy Labor Unions quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CLAUST",
           "dir": "Hypo-active",
@@ -2367,7 +2406,13 @@
           "detail": "Labor Relations Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

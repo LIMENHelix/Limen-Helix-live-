@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Population Gender Workforce systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "NAcc",
+          "dir": "Hypo",
+          "detail": "incentive/reward drive — avolition",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PULV",
           "dir": "Hyper-active",
           "detail": "Gender & Workforce Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Gender & Workforce Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_GENDER_WORKFORCE_CAPACITY_OVERLOAD",
       "label": "Population Gender Workforce Capacity Overload",
       "summary": "Demand exceeding available Population Gender Workforce capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PULV",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Gender & Workforce Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_GENDER_WORKFORCE_QUALITY_DEGRADATION",
       "label": "Population Gender Workforce Quality Degradation",
       "summary": "Progressive decline in Population Gender Workforce quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PULV",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Gender & Workforce Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

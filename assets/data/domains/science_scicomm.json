@@ -13376,6 +13376,15 @@
       "summary": "Critical breakdown in Science Scicomm systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "BROCA",
+          "dir": "Hypo",
+          "detail": "Broca's area — expressive language production — expressive block, aphasia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PRECUNEUS",
           "dir": "Hyper-active",
           "detail": "Scicomm Assessment & Diagnostics function overloaded",
@@ -13405,13 +13414,28 @@
           "detail": "Scicomm Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BROCA",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "SCIENCE_SCICOMM_CAPACITY_OVERLOAD",
       "label": "Science Scicomm Capacity Overload",
       "summary": "Demand exceeding available Science Scicomm capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "BROCA",
+          "dir": "Hyper",
+          "detail": "Broca's area — expressive language production — pressured/over-production",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PRECUNEUS",
           "dir": "Hyper-active",
@@ -13436,13 +13460,28 @@
           "detail": "Scicomm Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BROCA",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "SCIENCE_SCICOMM_QUALITY_DEGRADATION",
       "label": "Science Scicomm Quality Degradation",
       "summary": "Progressive decline in Science Scicomm quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "WERN",
+          "dir": "Hyper",
+          "detail": "Wernicke's area — receptive language comprehension — over-interpretation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PRECUNEUS",
           "dir": "Hypo-active",
@@ -13467,7 +13506,13 @@
           "detail": "Scicomm Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "WERN",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

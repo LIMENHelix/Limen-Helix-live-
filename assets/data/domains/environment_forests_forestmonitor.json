@@ -2278,6 +2278,15 @@
       "summary": "Critical breakdown in Environment Forests Forestmonitor systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "AI",
+          "dir": "Hyper",
+          "detail": "interoceptive salience — flying-blind",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "ADR",
           "dir": "Hyper-active",
           "detail": "Forest Monitoring Assessment & Diagnostics function overloaded",
@@ -2307,13 +2316,28 @@
           "detail": "Forest Monitoring Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "AI",
+        "dir": "hyper",
+        "motif": "M10",
+        "source": "override"
+      }
     },
     {
       "id": "ENVIRONMENT_FORESTS_FORESTMONITOR_CAPACITY_OVERLOAD",
       "label": "Environment Forests Forestmonitor Capacity Overload",
       "summary": "Demand exceeding available Environment Forests Forestmonitor capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ADR",
           "dir": "Hyper-active",
@@ -2338,13 +2362,28 @@
           "detail": "Forest Monitoring Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "ENVIRONMENT_FORESTS_FORESTMONITOR_QUALITY_DEGRADATION",
       "label": "Environment Forests Forestmonitor Quality Degradation",
       "summary": "Progressive decline in Environment Forests Forestmonitor quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ADR",
           "dir": "Hypo-active",
@@ -2369,7 +2408,13 @@
           "detail": "Forest Monitoring Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Population Aging Workforce systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "M1",
+          "dir": "Hypo",
+          "detail": "primary motor cortex — motor output — weakness, paresis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CMZ",
           "dir": "Hyper-active",
           "detail": "Aging Workforce Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Aging Workforce Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "M1",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_AGING_WORKFORCE_CAPACITY_OVERLOAD",
       "label": "Population Aging Workforce Capacity Overload",
       "summary": "Demand exceeding available Population Aging Workforce capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "M1",
+          "dir": "Hyper",
+          "detail": "primary motor cortex — motor output — hyperkinesia/spasticity",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CMZ",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Aging Workforce Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "M1",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_AGING_WORKFORCE_QUALITY_DEGRADATION",
       "label": "Population Aging Workforce Quality Degradation",
       "summary": "Progressive decline in Population Aging Workforce quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CMZ",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Aging Workforce Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Intelligence Counterterror Lonewolf systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "CeA",
+          "dir": "Hypo",
+          "detail": "phasic fear output — blunted",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "RF",
           "dir": "Hyper-active",
           "detail": "Lone Wolf Intelligence Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Lone Wolf Intelligence Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CeA",
+        "dir": "hypo",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_COUNTERTERROR_LONEWOLF_CAPACITY_OVERLOAD",
       "label": "Intelligence Counterterror Lonewolf Capacity Overload",
       "summary": "Demand exceeding available Intelligence Counterterror Lonewolf capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "CeA",
+          "dir": "Hyper",
+          "detail": "phasic fear output — hair-trigger=false-alarm",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "RF",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Lone Wolf Intelligence Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CeA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_COUNTERTERROR_LONEWOLF_QUALITY_DEGRADATION",
       "label": "Intelligence Counterterror Lonewolf Quality Degradation",
       "summary": "Progressive decline in Intelligence Counterterror Lonewolf quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "RF",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Lone Wolf Intelligence Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

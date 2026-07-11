@@ -2598,6 +2598,15 @@
       "summary": "Pathogen or chemical contamination in processing facility requiring product recall and production shutdown",
       "circuits": [
         {
+          "nodeId": "PAG",
+          "dir": "Hyper",
+          "detail": "defensive kill/lockdown — over-freeze",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "BLA",
           "dir": "Hyper-active",
           "detail": "Meat processing line contamination with Salmonella or E. coli from sanitation failure",
@@ -2621,13 +2630,28 @@
           "detail": "Canning process deviation not detected by critical control point monitoring",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PAG",
+        "dir": "hyper",
+        "motif": "M8",
+        "source": "override"
+      }
     },
     {
       "id": "SUPPLY_INTERRUPTION",
       "label": "Supply Interruption",
       "summary": "Raw material shortage or quality inconsistency disrupting continuous processing operations",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "M1",
           "dir": "Hypo-active",
@@ -2652,13 +2676,28 @@
           "detail": "Fermentation processes producing inconsistent results from variable raw material quality",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "ENERGY_COST_SURGE",
       "label": "Energy Cost Surge",
       "summary": "Natural gas and electricity price spikes making energy-intensive processing operations uneconomic",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HYPO",
           "dir": "Hyper-active",
@@ -2683,13 +2722,28 @@
           "detail": "Dairy pasteurization and refrigeration consuming combined 60 percent of facility energy budget",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "LABOR_SHORTAGE",
       "label": "Labor Shortage",
       "summary": "Processing plant unable to staff production lines forcing reduced shifts and throughput during peak season",
       "circuits": [
+        {
+          "nodeId": "M1",
+          "dir": "Hypo",
+          "detail": "primary motor cortex — motor output — weakness, paresis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BLA",
           "dir": "Hypo-active",
@@ -2714,13 +2768,28 @@
           "detail": "Milling operations running overtime with fatigued operators increasing error and injury rates",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "M1",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "WASTE_STREAM_OVERLOAD",
       "label": "Waste Stream Overload",
       "summary": "Processing byproducts and wastewater exceeding treatment and disposal capacity triggering environmental violations",
       "circuits": [
+        {
+          "nodeId": "GP",
+          "dir": "Hyper",
+          "detail": "basal-ganglia output gate — flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BLA",
           "dir": "Hyper-active",
@@ -2745,7 +2814,13 @@
           "detail": "Dairy whey disposal costs rising as land application sites reach nutrient loading limits",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "GP",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

@@ -581,6 +581,15 @@
       "circuits": [
         {
           "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
+          "nodeId": "HYPO",
           "dir": "Altered",
           "detail": "Central metabolic regulation failure",
           "evidence": "B"
@@ -597,7 +606,13 @@
           "detail": "Inflammatory interoceptive signaling",
           "evidence": "B"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     }
   ]
 }

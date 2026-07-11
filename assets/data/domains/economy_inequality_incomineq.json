@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Economy Inequality Incomineq systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "NAcc",
+          "dir": "Hypo",
+          "detail": "incentive/reward drive — avolition",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "BROCA",
           "dir": "Hyper-active",
           "detail": "Income Inequality Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Income Inequality Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_INEQUALITY_INCOMINEQ_CAPACITY_OVERLOAD",
       "label": "Economy Inequality Incomineq Capacity Overload",
       "summary": "Demand exceeding available Economy Inequality Incomineq capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "VTA",
+          "dir": "Hyper",
+          "detail": "dopamine reward source — mania/addiction",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BROCA",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Income Inequality Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "VTA",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_INEQUALITY_INCOMINEQ_QUALITY_DEGRADATION",
       "label": "Economy Inequality Incomineq Quality Degradation",
       "summary": "Progressive decline in Economy Inequality Incomineq quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "outcome valuation / update — confabulation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BROCA",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Income Inequality Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

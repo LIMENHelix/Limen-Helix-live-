@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Population Gender Health systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "dlPFC",
           "dir": "Hyper-active",
           "detail": "Gender & Health Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Gender & Health Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_GENDER_HEALTH_CAPACITY_OVERLOAD",
       "label": "Population Gender Health Capacity Overload",
       "summary": "Demand exceeding available Population Gender Health capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "PIT",
+          "dir": "Hyper",
+          "detail": "pituitary — endocrine output (HPA/HPG axis) — hormonal overdrive",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dlPFC",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Gender & Health Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PIT",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_GENDER_HEALTH_QUALITY_DEGRADATION",
       "label": "Population Gender Health Quality Degradation",
       "summary": "Progressive decline in Population Gender Health quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hypo",
+          "detail": "homeostatic set-point — delayed=oscillation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dlPFC",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Gender & Health Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hypo",
+        "motif": "M3",
+        "source": "override"
+      }
     }
   ]
 }

@@ -4455,6 +4455,15 @@
       "summary": "Critical breakdown in SIGINT / Signals Intelligence systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "vmPFC",
           "dir": "Hypo-active",
           "detail": "SIGINT / Signals Intelligence Assessment & Diagnostics capacity falling below operational thresholds, reducing SIGINT / Signals Intelligence output and reliability",
@@ -4484,13 +4493,28 @@
           "detail": "SIGINT / Signals Intelligence Performance & Optimization function reduced, compromising SIGINT / Signals Intelligence system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_SIGINT_CAPACITY_CRISIS",
       "label": "SIGINT / Signals Intelligence Capacity Crisis",
       "summary": "Demand exceeding available SIGINT / Signals Intelligence capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "NTS",
+          "dir": "Hypo",
+          "detail": "visceral afferent hub — hyper-signal",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "VTA",
           "dir": "Hyper-active",
@@ -4521,13 +4545,28 @@
           "detail": "SIGINT / Signals Intelligence Performance & Optimization operating outside normal parameters, introducing uncertainty into SIGINT / Signals Intelligence outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NTS",
+        "dir": "hypo",
+        "motif": "M10",
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_SIGINT_GOVERNANCE_GAP",
       "label": "SIGINT / Signals Intelligence Governance Gap",
       "summary": "Oversight or regulatory failure in SIGINT / Signals Intelligence creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "AI",
           "dir": "Hypo-active",
@@ -4558,7 +4597,13 @@
           "detail": "SIGINT / Signals Intelligence Coordination & Integration function reduced, compromising SIGINT / Signals Intelligence system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

@@ -1908,6 +1908,15 @@
       "summary": "Revelation that intelligence agencies have exceeded legal authority by conducting bulk surveillance of domestic populations. Public trust collapses when citizens discover their communications, movements, and associations are monitored without individualized suspicion or judicial oversight.",
       "circuits": [
         {
+          "nodeId": "vlPFC",
+          "dir": "Hypo",
+          "detail": "response-inhibition / stop — disinhibited",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "DAN",
           "dir": "Hyper",
           "detail": "Surveillance systems expanded from targeted monitoring of specific threats to bulk collection of entire populations, with technical capability outpacing legal and ethical constraints",
@@ -1937,13 +1946,28 @@
           "detail": "Cryptographic capabilities directed inward â€” agencies exploited or deliberately weakened encryption standards used by domestic companies, undermining cybersecurity for everyone",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "CYBER_ESPIONAGE",
       "label": "Cyber Espionage",
       "summary": "State-sponsored penetration of government, military, or critical infrastructure networks to steal classified data, intellectual property, or establish persistent access for future operations. The SolarWinds hack, OPM breach, and Chinese economic espionage represent escalating patterns.",
       "circuits": [
+        {
+          "nodeId": "BLA",
+          "dir": "Hypo",
+          "detail": "threat learning/acquisition — fearless",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FPN",
           "dir": "Altered",
@@ -1980,13 +2004,28 @@
           "detail": "Geospatial intelligence unable to detect cyber operations that leave no physical signature, revealing collection gap in intelligence architecture designed for observable military capabilities",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BLA",
+        "dir": "hypo",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "WHISTLEBLOWER_CRISIS",
       "label": "Whistleblower Crisis",
       "summary": "Unauthorized disclosure of classified intelligence programs to the press or public. Snowden, Manning, and Reality Winner cases reveal the tension between government secrecy and democratic accountability. Each disclosure forces a reckoning between security and transparency.",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "rACC",
           "dir": "Altered",
@@ -2017,13 +2056,28 @@
           "detail": "Information warfare dimension amplified as adversary intelligence services exploit disclosures for propaganda, and domestic debate over whistleblower motives becomes politically polarized",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "FOREIGN_INTERFERENCE",
       "label": "Foreign Interference",
       "summary": "Systematic foreign government effort to manipulate domestic political processes, public opinion, or institutional decision-making. Russian interference in 2016 US elections, Chinese United Front operations, and Iranian influence campaigns represent an escalating threat to democratic sovereignty.",
       "circuits": [
+        {
+          "nodeId": "BNST",
+          "dir": "Hypo",
+          "detail": "sustained threat monitor — under-vigilant",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "LANG",
           "dir": "Hyper",
@@ -2060,7 +2114,13 @@
           "detail": "National security coordination hampered by political polarization â€” the interference itself becomes a partisan issue, preventing unified strategic response and enabling continued exploitation",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BNST",
+        "dir": "hypo",
+        "motif": "M7",
+        "source": "override"
+      }
     }
   ],
   "edges": [

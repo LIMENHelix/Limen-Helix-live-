@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Trade Ecommerce Consprot systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "LANG",
           "dir": "Hyper-active",
           "detail": "Consumer Protection Online Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Consumer Protection Online Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "TRADE_ECOMMERCE_CONSPROT_CAPACITY_OVERLOAD",
       "label": "Trade Ecommerce Consprot Capacity Overload",
       "summary": "Demand exceeding available Trade Ecommerce Consprot capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "STN",
+          "dir": "Hyper",
+          "detail": "hyperdirect brake / hold — over-brake=paralysis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "LANG",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Consumer Protection Online Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hyper",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "TRADE_ECOMMERCE_CONSPROT_QUALITY_DEGRADATION",
       "label": "Trade Ecommerce Consprot Quality Degradation",
       "summary": "Progressive decline in Trade Ecommerce Consprot quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "LANG",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Consumer Protection Online Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

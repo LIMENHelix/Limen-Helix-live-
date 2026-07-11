@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Reward-Appetite Circuit systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
+          "detail": "incentive/reward drive — over-pursuit=bubble",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PBN",
           "dir": "Hypo-active",
           "detail": "Reward-Appetite Circuit Assessment & Diagnostics capacity falling below operational thresholds, reducing Reward-Appetite Circuit output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Reward-Appetite Circuit Performance & Optimization function reduced, compromising Reward-Appetite Circuit system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "METABOLIC_REWARDAPPETITE_CAPACITY_CRISIS",
       "label": "Reward-Appetite Circuit Capacity Crisis",
       "summary": "Demand exceeding available Reward-Appetite Circuit capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "VTA",
+          "dir": "Hyper",
+          "detail": "dopamine reward source — mania/addiction",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PPN",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Reward-Appetite Circuit Performance & Optimization operating outside normal parameters, introducing uncertainty into Reward-Appetite Circuit outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "VTA",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "METABOLIC_REWARDAPPETITE_GOVERNANCE_GAP",
       "label": "Reward-Appetite Circuit Governance Gap",
       "summary": "Oversight or regulatory failure in Reward-Appetite Circuit creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hypo",
+          "detail": "incentive/reward drive — avolition",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NEOCER",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Reward-Appetite Circuit Coordination & Integration function reduced, compromising Reward-Appetite Circuit system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     }
   ]
 }

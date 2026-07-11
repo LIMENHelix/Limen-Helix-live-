@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Religion Indigenous Totemic systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "TPJ",
+          "dir": "Hypo",
+          "detail": "temporoparietal junction — social attribution & reorienting — mindblindness",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PULV",
           "dir": "Hyper-active",
           "detail": "Totemic Systems Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Totemic Systems Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "TPJ",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_INDIGENOUS_TOTEMIC_CAPACITY_OVERLOAD",
       "label": "Religion Indigenous Totemic Capacity Overload",
       "summary": "Demand exceeding available Religion Indigenous Totemic capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "TPJ",
+          "dir": "Hyper",
+          "detail": "temporoparietal junction — social attribution & reorienting — over-attribution/paranoia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PULV",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Totemic Systems Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "TPJ",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_INDIGENOUS_TOTEMIC_QUALITY_DEGRADATION",
       "label": "Religion Indigenous Totemic Quality Degradation",
       "summary": "Progressive decline in Religion Indigenous Totemic quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "AG",
+          "dir": "Hypo",
+          "detail": "angular gyrus — semantic/conceptual integration — semantic fragmentation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PULV",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Totemic Systems Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "AG",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

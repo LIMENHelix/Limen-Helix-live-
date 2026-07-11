@@ -402,6 +402,15 @@
       "summary": "Critical breakdown in Legal Risk Detection systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "AI",
+          "dir": "Hyper",
+          "detail": "interoceptive salience — flying-blind",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "vmPFC",
           "dir": "Hypo-active",
           "detail": "Legal Risk Detection Assessment & Diagnostics capacity falling below operational thresholds, reducing Legal Risk Detection output and reliability",
@@ -431,13 +440,28 @@
           "detail": "Legal Risk Detection Performance & Optimization function reduced, compromising Legal Risk Detection system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "AI",
+        "dir": "hyper",
+        "motif": "M10",
+        "source": "override"
+      }
     },
     {
       "id": "LEGAL_LEGAL_CAPACITY_CRISIS",
       "label": "Legal Risk Detection Capacity Crisis",
       "summary": "Demand exceeding available Legal Risk Detection capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "AI",
+          "dir": "Hyper",
+          "detail": "interoceptive salience — flying-blind",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "VTA",
           "dir": "Hyper-active",
@@ -468,13 +492,28 @@
           "detail": "Legal Risk Detection Performance & Optimization operating outside normal parameters, introducing uncertainty into Legal Risk Detection outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "AI",
+        "dir": "hyper",
+        "motif": "M10",
+        "source": "override"
+      }
     },
     {
       "id": "LEGAL_LEGAL_GOVERNANCE_GAP",
       "label": "Legal Risk Detection Governance Gap",
       "summary": "Oversight or regulatory failure in Legal Risk Detection creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "AI",
+          "dir": "Hypo",
+          "detail": "interoceptive salience — metric-obsession",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "AI",
           "dir": "Hypo-active",
@@ -505,7 +544,13 @@
           "detail": "Legal Risk Detection Coordination & Integration function reduced, compromising Legal Risk Detection system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "AI",
+        "dir": "hypo",
+        "motif": "M10",
+        "source": "override"
+      }
     }
   ]
 }

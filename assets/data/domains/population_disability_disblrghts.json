@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Population Disability Disblrghts systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "HYPO",
           "dir": "Hyper-active",
           "detail": "Disability Rights Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Disability Rights Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_DISABILITY_DISBLRGHTS_CAPACITY_OVERLOAD",
       "label": "Population Disability Disblrghts Capacity Overload",
       "summary": "Demand exceeding available Population Disability Disblrghts capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hyper",
+          "detail": "top-down inhibitory brake — over-grip=flatness",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HYPO",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Disability Rights Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hyper",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_DISABILITY_DISBLRGHTS_QUALITY_DEGRADATION",
       "label": "Population Disability Disblrghts Quality Degradation",
       "summary": "Progressive decline in Population Disability Disblrghts quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HYPO",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Disability Rights Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

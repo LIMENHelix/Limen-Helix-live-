@@ -2277,6 +2277,15 @@
       "summary": "Critical breakdown in Population Urbanization Resilience systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "BNST",
+          "dir": "Hypo",
+          "detail": "sustained threat monitor — under-vigilant",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "V1",
           "dir": "Hyper-active",
           "detail": "Urban Resilience Assessment & Diagnostics function overloaded",
@@ -2306,13 +2315,28 @@
           "detail": "Urban Resilience Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BNST",
+        "dir": "hypo",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_URBANIZATION_RESILIENCE_CAPACITY_OVERLOAD",
       "label": "Population Urbanization Resilience Capacity Overload",
       "summary": "Demand exceeding available Population Urbanization Resilience capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "BNST",
+          "dir": "Hyper",
+          "detail": "sustained threat monitor — tonic-stuck=burnout",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "V1",
           "dir": "Hyper-active",
@@ -2337,13 +2361,28 @@
           "detail": "Urban Resilience Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BNST",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_URBANIZATION_RESILIENCE_QUALITY_DEGRADATION",
       "label": "Population Urbanization Resilience Quality Degradation",
       "summary": "Progressive decline in Population Urbanization Resilience quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "V1",
           "dir": "Hypo-active",
@@ -2368,7 +2407,13 @@
           "detail": "Urban Resilience Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

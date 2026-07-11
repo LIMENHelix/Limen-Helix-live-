@@ -3282,6 +3282,15 @@
       "summary": "Extended precipitation deficit causing soil moisture depletion, crop water stress, and yield collapse across rain-fed and irrigated systems",
       "circuits": [
         {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "NAcc",
           "dir": "Hypo-active",
           "detail": "Precipitation delivery systems failing to meet crop evapotranspiration demand",
@@ -3311,13 +3320,28 @@
           "detail": "Historical climate records diverging from current patterns, reducing forecast reliability",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "FLOOD_DAMAGE",
       "label": "Flood Damage",
       "summary": "Excessive rainfall events causing field saturation, nutrient runoff, soil erosion, delayed planting, and standing water crop loss",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NAcc",
           "dir": "Hyper-active",
@@ -3348,13 +3372,28 @@
           "detail": "Frost and freeze risk compounded by waterlogged soils delaying replanting windows",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "GROWING_SEASON_SHIFT",
       "label": "Growing Season Shift",
       "summary": "Systematic changes in frost-free days, growing degree accumulation, and seasonal timing disrupting established cropping calendars",
       "circuits": [
+        {
+          "nodeId": "SCN",
+          "dir": "Hyper",
+          "detail": "circadian pacemaker — desync",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HYPO",
           "dir": "Altered",
@@ -3385,13 +3424,28 @@
           "detail": "Adaptation planning under extreme pressure as multiple cropping assumptions simultaneously fail",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "SCN",
+        "dir": "hyper",
+        "motif": "M12",
+        "source": "override"
+      }
     },
     {
       "id": "HAIL_STORM_DESTRUCTION",
       "label": "Hail & Storm Destruction",
       "summary": "Convective storm events producing hail, high winds, and tornadoes that cause catastrophic standing crop destruction and infrastructure damage",
       "circuits": [
+        {
+          "nodeId": "M1",
+          "dir": "Hypo",
+          "detail": "primary motor cortex — motor output — weakness, paresis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BLA",
           "dir": "Hyper-active",
@@ -3422,13 +3476,28 @@
           "detail": "Soil conservation structures damaged by storm runoff and wind erosion",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "M1",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "CLIMATE_VARIABILITY_SPIKE",
       "label": "Climate Variability Spike",
       "summary": "Increased year-to-year and within-season weather volatility making production planning unreliable and risk management inadequate",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hypo",
+          "detail": "homeostatic set-point — delayed=oscillation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HYPO",
           "dir": "Hypo-active",
@@ -3459,7 +3528,13 @@
           "detail": "Frost risk windows becoming irregular and harder to anticipate from calendar-based rules",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hypo",
+        "motif": "M3",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

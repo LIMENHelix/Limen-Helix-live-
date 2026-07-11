@@ -5653,6 +5653,15 @@
       "summary": "Critical breakdown in Learning Science systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "M1",
           "dir": "Hypo-active",
           "detail": "Learning Science Assessment & Diagnostics capacity falling below operational thresholds, reducing Learning Science output and reliability",
@@ -5682,13 +5691,28 @@
           "detail": "Learning Science Performance & Optimization function reduced, compromising Learning Science system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "EDUCATION_LEARNING_CAPACITY_CRISIS",
       "label": "Learning Science Capacity Crisis",
       "summary": "Demand exceeding available Learning Science capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "S1",
           "dir": "Hyper-active",
@@ -5719,13 +5743,28 @@
           "detail": "Learning Science Performance & Optimization operating outside normal parameters, introducing uncertainty into Learning Science outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "EDUCATION_LEARNING_GOVERNANCE_GAP",
       "label": "Learning Science Governance Gap",
       "summary": "Oversight or regulatory failure in Learning Science creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HIPP",
           "dir": "Hypo-active",
@@ -5756,7 +5795,13 @@
           "detail": "Learning Science Coordination & Integration function reduced, compromising Learning Science system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

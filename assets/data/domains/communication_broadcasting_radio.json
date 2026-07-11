@@ -2277,6 +2277,15 @@
       "circuits": [
         {
           "nodeId": "LC",
+          "dir": "Hypo",
+          "detail": "broadcast / alerting — low=missed",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
+          "nodeId": "LC",
           "dir": "Hyper-active",
           "detail": "Radio Broadcasting Assessment & Diagnostics function overloaded",
           "evidence": "Strong"
@@ -2305,13 +2314,28 @@
           "detail": "Radio Broadcasting Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "LC",
+        "dir": "hypo",
+        "motif": "M2",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_BROADCASTING_RADIO_CAPACITY_OVERLOAD",
       "label": "Communication Broadcasting Radio Capacity Overload",
       "summary": "Demand exceeding available Communication Broadcasting Radio capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "LC",
+          "dir": "Hyper",
+          "detail": "broadcast / alerting — gain stuck high=thrash",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "LC",
           "dir": "Hyper-active",
@@ -2336,13 +2360,28 @@
           "detail": "Radio Broadcasting Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "LC",
+        "dir": "hyper",
+        "motif": "M2",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_BROADCASTING_RADIO_QUALITY_DEGRADATION",
       "label": "Communication Broadcasting Radio Quality Degradation",
       "summary": "Progressive decline in Communication Broadcasting Radio quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "LC",
           "dir": "Hypo-active",
@@ -2367,7 +2406,13 @@
           "detail": "Radio Broadcasting Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

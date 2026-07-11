@@ -6917,6 +6917,15 @@
       "summary": "Critical breakdown in Education Libraries systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HIPP",
+          "dir": "Hyper",
+          "detail": "HPA feedback + memory index — feedback-fail=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "rACC",
           "dir": "Hyper-active",
           "detail": "Libraries Assessment & Diagnostics function overloaded",
@@ -6946,13 +6955,28 @@
           "detail": "Libraries Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HIPP",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "EDUCATION_LIBRARIES_CAPACITY_OVERLOAD",
       "label": "Education Libraries Capacity Overload",
       "summary": "Demand exceeding available Education Libraries capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "rACC",
           "dir": "Hyper-active",
@@ -6977,13 +7001,28 @@
           "detail": "Libraries Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "EDUCATION_LIBRARIES_QUALITY_DEGRADATION",
       "label": "Education Libraries Quality Degradation",
       "summary": "Progressive decline in Education Libraries quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo",
+          "detail": "HPA feedback + memory index — intrusive-recall",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "rACC",
           "dir": "Hypo-active",
@@ -7008,7 +7047,13 @@
           "detail": "Libraries Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HIPP",
+        "dir": "hypo",
+        "motif": "M3",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

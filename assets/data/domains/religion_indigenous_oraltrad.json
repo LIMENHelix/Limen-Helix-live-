@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Religion Indigenous Oraltrad systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "BROCA",
+          "dir": "Hypo",
+          "detail": "Broca's area — expressive language production — expressive block, aphasia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "SNS",
           "dir": "Hyper-active",
           "detail": "Oral Traditions Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Oral Traditions Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BROCA",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_INDIGENOUS_ORALTRAD_CAPACITY_OVERLOAD",
       "label": "Religion Indigenous Oraltrad Capacity Overload",
       "summary": "Demand exceeding available Religion Indigenous Oraltrad capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "BROCA",
+          "dir": "Hyper",
+          "detail": "Broca's area — expressive language production — pressured/over-production",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SNS",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Oral Traditions Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BROCA",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_INDIGENOUS_ORALTRAD_QUALITY_DEGRADATION",
       "label": "Religion Indigenous Oraltrad Quality Degradation",
       "summary": "Progressive decline in Religion Indigenous Oraltrad quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "WERN",
+          "dir": "Hyper",
+          "detail": "Wernicke's area — receptive language comprehension — over-interpretation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SNS",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Oral Traditions Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "WERN",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

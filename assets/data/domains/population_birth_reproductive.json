@@ -2278,6 +2278,15 @@
       "summary": "Critical breakdown in Population Birth Reproductive systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "NAcc",
+          "dir": "Hypo",
+          "detail": "incentive/reward drive — avolition",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "STRI",
           "dir": "Hyper-active",
           "detail": "Reproductive Health Assessment & Diagnostics function overloaded",
@@ -2307,13 +2316,28 @@
           "detail": "Reproductive Health Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_BIRTH_REPRODUCTIVE_CAPACITY_OVERLOAD",
       "label": "Population Birth Reproductive Capacity Overload",
       "summary": "Demand exceeding available Population Birth Reproductive capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
+          "detail": "incentive/reward drive — over-pursuit=bubble",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "STRI",
           "dir": "Hyper-active",
@@ -2338,13 +2362,28 @@
           "detail": "Reproductive Health Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_BIRTH_REPRODUCTIVE_QUALITY_DEGRADATION",
       "label": "Population Birth Reproductive Quality Degradation",
       "summary": "Progressive decline in Population Birth Reproductive quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hypo",
+          "detail": "incentive/reward drive — avolition",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "STRI",
           "dir": "Hypo-active",
@@ -2369,7 +2408,13 @@
           "detail": "Reproductive Health Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

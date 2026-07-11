@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Thalamus systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "LGN",
           "dir": "Hypo-active",
           "detail": "Thalamus Assessment & Diagnostics capacity falling below operational thresholds, reducing Thalamus output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Thalamus Performance & Optimization function reduced, compromising Thalamus system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "NEUROLOGY_THALAMUS_CAPACITY_CRISIS",
       "label": "Thalamus Capacity Crisis",
       "summary": "Demand exceeding available Thalamus capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MGN",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Thalamus Performance & Optimization operating outside normal parameters, introducing uncertainty into Thalamus outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "NEUROLOGY_THALAMUS_GOVERNANCE_GAP",
       "label": "Thalamus Governance Gap",
       "summary": "Oversight or regulatory failure in Thalamus creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SNIG",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Thalamus Coordination & Integration function reduced, compromising Thalamus system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     }
   ]
 }

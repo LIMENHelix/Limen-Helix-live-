@@ -3845,6 +3845,15 @@
       "summary": "Critical breakdown in Regulatory Bodies systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "vlPFC",
           "dir": "Hypo-active",
           "detail": "Regulatory Bodies Assessment & Diagnostics capacity falling below operational thresholds, reducing Regulatory Bodies output and reliability",
@@ -3874,13 +3883,28 @@
           "detail": "Regulatory Bodies Performance & Optimization function reduced, compromising Regulatory Bodies system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "LAW_REGULATORY_CAPACITY_CRISIS",
       "label": "Regulatory Bodies Capacity Crisis",
       "summary": "Demand exceeding available Regulatory Bodies capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TPJ",
           "dir": "Hyper-active",
@@ -3911,13 +3935,28 @@
           "detail": "Regulatory Bodies Performance & Optimization operating outside normal parameters, introducing uncertainty into Regulatory Bodies outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "LAW_REGULATORY_GOVERNANCE_GAP",
       "label": "Regulatory Bodies Governance Gap",
       "summary": "Oversight or regulatory failure in Regulatory Bodies creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hypo",
+          "detail": "response-inhibition / stop — disinhibited",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "RSC",
           "dir": "Hypo-active",
@@ -3948,7 +3987,13 @@
           "detail": "Regulatory Bodies Coordination & Integration function reduced, compromising Regulatory Bodies system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

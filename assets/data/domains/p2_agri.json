@@ -9174,6 +9174,15 @@
       "circuits": [
         {
           "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
+          "nodeId": "vmPFC",
           "dir": "Hyper-stressed",
           "detail": "Finance systems overwhelmed by debt service and operating cost pressure",
           "evidence": "Strong"
@@ -9208,13 +9217,28 @@
           "detail": "Land lease decisions forced by cash needs rather than agronomic fit",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "SUPPLY_CHAIN_BREAKDOWN",
       "label": "Supply Chain Breakdown",
       "summary": "Critical input delivery or product distribution disrupted",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CBLM",
           "dir": "Hyper-disrupted",
@@ -9245,13 +9269,28 @@
           "detail": "Livestock feed supply disrupted, forcing emergency sourcing",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "DROUGHT",
       "label": "Drought / Input Shortage",
       "summary": "Water availability critically below crop and livestock requirements",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HYPO",
           "dir": "Hyper-stressed",
@@ -9288,13 +9327,28 @@
           "detail": "Seed variety selections mismatched to drought conditions",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "MARKET_COLLAPSE",
       "label": "Market Price Collapse",
       "summary": "Commodity prices drop below cost of production",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hypo",
+          "detail": "outcome valuation / update — over-react",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OFC",
           "dir": "Hyper-volatile",
@@ -9331,13 +9385,28 @@
           "detail": "Processors reducing purchases as retail demand contracts",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "EQUIPMENT_FAILURE",
       "label": "Equipment Failure",
       "summary": "Critical machinery breakdown during peak operational window",
       "circuits": [
+        {
+          "nodeId": "M1",
+          "dir": "Hypo",
+          "detail": "primary motor cortex — motor output — weakness, paresis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "STRI",
           "dir": "Hyper-stressed",
@@ -9368,13 +9437,28 @@
           "detail": "Drying and handling equipment bottlenecked at harvest",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "M1",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "PEST_OUTBREAK",
       "label": "Pest / Disease Outbreak",
       "summary": "Biological threat exceeds integrated pest management capacity",
       "circuits": [
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper",
+          "detail": "threat learning/acquisition — over-fear=PTSD",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BLA",
           "dir": "Hyper-active",
@@ -9411,7 +9495,13 @@
           "detail": "Emergency research and extension response mobilized",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BLA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

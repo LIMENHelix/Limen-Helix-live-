@@ -2277,6 +2277,15 @@
       "summary": "Critical breakdown in Religion Mystical Comparative systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "AG",
+          "dir": "Hypo",
+          "detail": "angular gyrus — semantic/conceptual integration — semantic fragmentation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "OSC",
           "dir": "Hyper-active",
           "detail": "Comparative Mysticism Assessment & Diagnostics function overloaded",
@@ -2306,13 +2315,28 @@
           "detail": "Comparative Mysticism Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "AG",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_MYSTICAL_COMPARATIVE_CAPACITY_OVERLOAD",
       "label": "Religion Mystical Comparative Capacity Overload",
       "summary": "Demand exceeding available Religion Mystical Comparative capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OSC",
           "dir": "Hyper-active",
@@ -2337,13 +2361,28 @@
           "detail": "Comparative Mysticism Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_MYSTICAL_COMPARATIVE_QUALITY_DEGRADATION",
       "label": "Religion Mystical Comparative Quality Degradation",
       "summary": "Progressive decline in Religion Mystical Comparative quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "AG",
+          "dir": "Hyper",
+          "detail": "angular gyrus — semantic/conceptual integration — over-association",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OSC",
           "dir": "Hypo-active",
@@ -2368,7 +2407,13 @@
           "detail": "Comparative Mysticism Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "AG",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

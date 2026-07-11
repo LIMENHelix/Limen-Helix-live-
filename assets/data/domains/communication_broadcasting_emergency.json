@@ -2274,6 +2274,15 @@
       "summary": "Critical breakdown in Communication Broadcasting Emergency systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "CeA",
+          "dir": "Hypo",
+          "detail": "phasic fear output — blunted",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "GBA",
           "dir": "Hyper-active",
           "detail": "Emergency Broadcasting Assessment & Diagnostics function overloaded",
@@ -2303,13 +2312,28 @@
           "detail": "Emergency Broadcasting Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CeA",
+        "dir": "hypo",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_BROADCASTING_EMERGENCY_CAPACITY_OVERLOAD",
       "label": "Communication Broadcasting Emergency Capacity Overload",
       "summary": "Demand exceeding available Communication Broadcasting Emergency capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "CeA",
+          "dir": "Hyper",
+          "detail": "phasic fear output — hair-trigger=false-alarm",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "GBA",
           "dir": "Hyper-active",
@@ -2334,13 +2358,28 @@
           "detail": "Emergency Broadcasting Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CeA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_BROADCASTING_EMERGENCY_QUALITY_DEGRADATION",
       "label": "Communication Broadcasting Emergency Quality Degradation",
       "summary": "Progressive decline in Communication Broadcasting Emergency quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "BNST",
+          "dir": "Hyper",
+          "detail": "sustained threat monitor — tonic-stuck=burnout",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "GBA",
           "dir": "Hypo-active",
@@ -2365,7 +2404,13 @@
           "detail": "Emergency Broadcasting Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BNST",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

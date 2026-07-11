@@ -5540,6 +5540,15 @@
       "summary": "Critical breakdown in Mortality & Life Expectancy systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "mPFC",
           "dir": "Hypo-active",
           "detail": "Mortality & Life Expectancy Assessment & Diagnostics capacity falling below operational thresholds, reducing Mortality & Life Expectancy output and reliability",
@@ -5569,13 +5578,28 @@
           "detail": "Mortality & Life Expectancy Performance & Optimization function reduced, compromising Mortality & Life Expectancy system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_MORTALITY_CAPACITY_CRISIS",
       "label": "Mortality & Life Expectancy Capacity Crisis",
       "summary": "Demand exceeding available Mortality & Life Expectancy capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PCC",
           "dir": "Hyper-active",
@@ -5606,13 +5630,28 @@
           "detail": "Mortality & Life Expectancy Performance & Optimization operating outside normal parameters, introducing uncertainty into Mortality & Life Expectancy outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_MORTALITY_GOVERNANCE_GAP",
       "label": "Mortality & Life Expectancy Governance Gap",
       "summary": "Oversight or regulatory failure in Mortality & Life Expectancy creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "EC",
           "dir": "Hypo-active",
@@ -5643,7 +5682,13 @@
           "detail": "Mortality & Life Expectancy Coordination & Integration function reduced, compromising Mortality & Life Expectancy system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

@@ -2276,6 +2276,15 @@
       "summary": "Critical breakdown in Trade Container Equipment systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "M1",
+          "dir": "Hypo",
+          "detail": "primary motor cortex — motor output — weakness, paresis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "A1",
           "dir": "Hyper-active",
           "detail": "Container Equipment Assessment & Diagnostics function overloaded",
@@ -2305,13 +2314,28 @@
           "detail": "Container Equipment Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "M1",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "TRADE_CONTAINER_EQUIPMENT_CAPACITY_OVERLOAD",
       "label": "Trade Container Equipment Capacity Overload",
       "summary": "Demand exceeding available Trade Container Equipment capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "M1",
+          "dir": "Hyper",
+          "detail": "primary motor cortex — motor output — hyperkinesia/spasticity",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "A1",
           "dir": "Hyper-active",
@@ -2336,13 +2360,28 @@
           "detail": "Container Equipment Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "M1",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "TRADE_CONTAINER_EQUIPMENT_QUALITY_DEGRADATION",
       "label": "Trade Container Equipment Quality Degradation",
       "summary": "Progressive decline in Trade Container Equipment quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "A1",
           "dir": "Hypo-active",
@@ -2367,7 +2406,13 @@
           "detail": "Container Equipment Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

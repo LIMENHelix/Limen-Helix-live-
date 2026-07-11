@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Industry Safety Ppe systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "S2",
+          "dir": "Hypo",
+          "detail": "secondary somatosensory integration — tactile agnosia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CMZ",
           "dir": "Hyper-active",
           "detail": "Personal Protection Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Personal Protection Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "S2",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "INDUSTRY_SAFETY_PPE_CAPACITY_OVERLOAD",
       "label": "Industry Safety Ppe Capacity Overload",
       "summary": "Demand exceeding available Industry Safety Ppe capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "S2",
+          "dir": "Hyper",
+          "detail": "secondary somatosensory integration — sensory hypervigilance",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CMZ",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Personal Protection Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "S2",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "INDUSTRY_SAFETY_PPE_QUALITY_DEGRADATION",
       "label": "Industry Safety Ppe Quality Degradation",
       "summary": "Progressive decline in Industry Safety Ppe quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CMZ",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Personal Protection Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

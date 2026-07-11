@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Energy Energytrade Enexchange systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "AI",
           "dir": "Hyper-active",
           "detail": "Energy Exchanges Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Energy Exchanges Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "ENERGY_ENERGYTRADE_ENEXCHANGE_CAPACITY_OVERLOAD",
       "label": "Energy Energytrade Enexchange Capacity Overload",
       "summary": "Demand exceeding available Energy Energytrade Enexchange capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "AI",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Energy Exchanges Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "ENERGY_ENERGYTRADE_ENEXCHANGE_QUALITY_DEGRADATION",
       "label": "Energy Energytrade Enexchange Quality Degradation",
       "summary": "Progressive decline in Energy Energytrade Enexchange quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "AI",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Energy Exchanges Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     }
   ]
 }

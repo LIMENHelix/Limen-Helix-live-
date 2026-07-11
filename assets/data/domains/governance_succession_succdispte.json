@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Governance Succession Succdispte systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PRECUNEUS",
           "dir": "Hyper-active",
           "detail": "Succession Disputes Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Succession Disputes Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "GOVERNANCE_SUCCESSION_SUCCDISPTE_CAPACITY_OVERLOAD",
       "label": "Governance Succession Succdispte Capacity Overload",
       "summary": "Demand exceeding available Governance Succession Succdispte capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PRECUNEUS",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Succession Disputes Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "GOVERNANCE_SUCCESSION_SUCCDISPTE_QUALITY_DEGRADATION",
       "label": "Governance Succession Succdispte Quality Degradation",
       "summary": "Progressive decline in Governance Succession Succdispte quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PRECUNEUS",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Succession Disputes Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

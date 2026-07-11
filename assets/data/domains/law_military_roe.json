@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Law Military Roe systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "HAB",
           "dir": "Hyper-active",
           "detail": "Rules of Engagement Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Rules of Engagement Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "LAW_MILITARY_ROE_CAPACITY_OVERLOAD",
       "label": "Law Military Roe Capacity Overload",
       "summary": "Demand exceeding available Law Military Roe capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HAB",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Rules of Engagement Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "LAW_MILITARY_ROE_QUALITY_DEGRADATION",
       "label": "Law Military Roe Quality Degradation",
       "summary": "Progressive decline in Law Military Roe quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "NEOCER",
+          "dir": "Hyper",
+          "detail": "cognitive forward model — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HAB",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Rules of Engagement Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NEOCER",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

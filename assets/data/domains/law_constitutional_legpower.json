@@ -2278,6 +2278,15 @@
       "summary": "Critical breakdown in Law Constitutional Legpower systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "GABA_GLU",
           "dir": "Hyper-active",
           "detail": "Legislative Power Assessment & Diagnostics function overloaded",
@@ -2307,13 +2316,28 @@
           "detail": "Legislative Power Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "LAW_CONSTITUTIONAL_LEGPOWER_CAPACITY_OVERLOAD",
       "label": "Law Constitutional Legpower Capacity Overload",
       "summary": "Demand exceeding available Law Constitutional Legpower capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "GABA_GLU",
           "dir": "Hyper-active",
@@ -2338,13 +2362,28 @@
           "detail": "Legislative Power Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "LAW_CONSTITUTIONAL_LEGPOWER_QUALITY_DEGRADATION",
       "label": "Law Constitutional Legpower Quality Degradation",
       "summary": "Progressive decline in Law Constitutional Legpower quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "GABA_GLU",
           "dir": "Hypo-active",
@@ -2369,7 +2408,13 @@
           "detail": "Legislative Power Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

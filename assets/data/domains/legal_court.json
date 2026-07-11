@@ -402,6 +402,15 @@
       "summary": "Critical breakdown in Court Administration / Case Routing systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PBN",
           "dir": "Hypo-active",
           "detail": "Court Administration / Case Routing Assessment & Diagnostics capacity falling below operational thresholds, reducing Court Administration / Case Routing output and reliability",
@@ -431,13 +440,28 @@
           "detail": "Court Administration / Case Routing Performance & Optimization function reduced, compromising Court Administration / Case Routing system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "LEGAL_COURT_CAPACITY_CRISIS",
       "label": "Court Administration / Case Routing Capacity Crisis",
       "summary": "Demand exceeding available Court Administration / Case Routing capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PPN",
           "dir": "Hyper-active",
@@ -468,13 +492,28 @@
           "detail": "Court Administration / Case Routing Performance & Optimization operating outside normal parameters, introducing uncertainty into Court Administration / Case Routing outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "LEGAL_COURT_GOVERNANCE_GAP",
       "label": "Court Administration / Case Routing Governance Gap",
       "summary": "Oversight or regulatory failure in Court Administration / Case Routing creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NEOCER",
           "dir": "Hypo-active",
@@ -505,7 +544,13 @@
           "detail": "Court Administration / Case Routing Coordination & Integration function reduced, compromising Court Administration / Case Routing system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     }
   ]
 }

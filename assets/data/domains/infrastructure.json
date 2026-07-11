@@ -2656,6 +2656,15 @@
       "circuits": [
         {
           "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
+          "nodeId": "THAL",
           "dir": "Hypo-active",
           "detail": "Electrical grid relay and distribution functions collapsed, severing power delivery to dependent systems",
           "evidence": "Strong"
@@ -2684,13 +2693,28 @@
           "detail": "Emergency systems overwhelmed with cascading failures requiring simultaneous response across multiple infrastructure sectors",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "BRIDGE_COLLAPSE",
       "label": "Bridge Collapse",
       "summary": "Catastrophic structural failure of critical bridge or tunnel infrastructure, severing transportation links, causing casualties, and revealing systemic neglect in infrastructure maintenance and inspection",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "UNC",
           "dir": "Hypo-active",
@@ -2727,13 +2751,28 @@
           "detail": "Emergency response systems activated for rescue operations and public safety cordons around collapse site",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "WATER_CRISIS",
       "label": "Water Crisis",
       "summary": "Failure of water treatment or distribution infrastructure leading to contamination, supply shortages, or public health emergencies affecting large populations dependent on municipal water systems",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hypo",
+          "detail": "homeostatic set-point — delayed=oscillation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HYPO",
           "dir": "Hypo-active",
@@ -2764,13 +2803,28 @@
           "detail": "Water quality monitoring and regulatory oversight found to have missed contamination signals or deferred critical maintenance",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hypo",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "TELECOM_OUTAGE",
       "label": "Telecom Outage",
       "summary": "Major telecommunications infrastructure failure disrupting voice, data, and internet services across wide areas, isolating populations and disabling digital-dependent services including banking, navigation, and emergency communications",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "LANG",
           "dir": "Hypo-active",
@@ -2801,13 +2855,28 @@
           "detail": "Public transit systems losing real-time scheduling, passenger information, and dispatch coordination capabilities",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "TRANSIT_BREAKDOWN",
       "label": "Transit Breakdown",
       "summary": "Systemic failure of public transit systems through mechanical breakdowns, labor strikes, funding crises, or ridership collapse, stranding commuters and exacerbating traffic congestion and social inequality",
       "circuits": [
+        {
+          "nodeId": "M1",
+          "dir": "Hypo",
+          "detail": "primary motor cortex — motor output — weakness, paresis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "STRI",
           "dir": "Hypo-active",
@@ -2844,7 +2913,13 @@
           "detail": "Air transport connections to transit hubs disrupted as passengers cannot reach airports via ground transit",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "M1",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     }
   ],
   "edges": [

@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Attentional Control systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "PULV",
+          "dir": "Hyper",
+          "detail": "attentional gate — overload",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "vlPFC",
           "dir": "Hypo-active",
           "detail": "Attentional Control Assessment & Diagnostics capacity falling below operational thresholds, reducing Attentional Control output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Attentional Control Performance & Optimization function reduced, compromising Attentional Control system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PULV",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "CONTEMPLATIVE_ATTENTIONAL_CAPACITY_CRISIS",
       "label": "Attentional Control Capacity Crisis",
       "summary": "Demand exceeding available Attentional Control capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo",
+          "detail": "dorsolateral PFC — executive working-memory / cognitive control — executive-lapse, distractible",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TPJ",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Attentional Control Performance & Optimization operating outside normal parameters, introducing uncertainty into Attentional Control outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dlPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "CONTEMPLATIVE_ATTENTIONAL_GOVERNANCE_GAP",
       "label": "Attentional Control Governance Gap",
       "summary": "Oversight or regulatory failure in Attentional Control creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "PULV",
+          "dir": "Hypo",
+          "detail": "attentional gate — neglect",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "RSC",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Attentional Control Coordination & Integration function reduced, compromising Attentional Control system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PULV",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     }
   ]
 }

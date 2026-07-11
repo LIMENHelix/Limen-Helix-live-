@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Infrastructure Construction Qualctrl systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PBN",
           "dir": "Hyper-active",
           "detail": "Quality Control Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Quality Control Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "INFRASTRUCTURE_CONSTRUCTION_QUALCTRL_CAPACITY_OVERLOAD",
       "label": "Infrastructure Construction Qualctrl Capacity Overload",
       "summary": "Demand exceeding available Infrastructure Construction Qualctrl capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PBN",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Quality Control Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "INFRASTRUCTURE_CONSTRUCTION_QUALCTRL_QUALITY_DEGRADATION",
       "label": "Infrastructure Construction Qualctrl Quality Degradation",
       "summary": "Progressive decline in Infrastructure Construction Qualctrl quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PBN",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Quality Control Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

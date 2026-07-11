@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Law Military Vetlaw systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "MDT",
           "dir": "Hyper-active",
           "detail": "Veterans Law Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Veterans Law Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "LAW_MILITARY_VETLAW_CAPACITY_OVERLOAD",
       "label": "Law Military Vetlaw Capacity Overload",
       "summary": "Demand exceeding available Law Military Vetlaw capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MDT",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Veterans Law Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "LAW_MILITARY_VETLAW_QUALITY_DEGRADATION",
       "label": "Law Military Vetlaw Quality Degradation",
       "summary": "Progressive decline in Law Military Vetlaw quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MDT",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Veterans Law Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

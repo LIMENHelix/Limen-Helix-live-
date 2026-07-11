@@ -4185,6 +4185,15 @@
       "summary": "Critical breakdown in Hardware Design systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CeA",
           "dir": "Hypo-active",
           "detail": "Hardware Design Assessment & Diagnostics capacity falling below operational thresholds, reducing Hardware Design output and reliability",
@@ -4214,13 +4223,28 @@
           "detail": "Hardware Design Performance & Optimization function reduced, compromising Hardware Design system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "TECHNOLOGY_HARDWARE_CAPACITY_CRISIS",
       "label": "Hardware Design Capacity Crisis",
       "summary": "Demand exceeding available Hardware Design capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "GP",
+          "dir": "Hyper",
+          "detail": "basal-ganglia output gate — flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BNST",
           "dir": "Hyper-active",
@@ -4251,13 +4275,28 @@
           "detail": "Hardware Design Performance & Optimization operating outside normal parameters, introducing uncertainty into Hardware Design outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "GP",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "TECHNOLOGY_HARDWARE_GOVERNANCE_GAP",
       "label": "Hardware Design Governance Gap",
       "summary": "Oversight or regulatory failure in Hardware Design creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CON",
           "dir": "Hypo-active",
@@ -4288,7 +4327,13 @@
           "detail": "Hardware Design Coordination & Integration function reduced, compromising Hardware Design system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

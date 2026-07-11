@@ -5013,6 +5013,15 @@
       "summary": "Critical breakdown in Forests & Carbon Sinks systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CC",
           "dir": "Hypo-active",
           "detail": "Forests & Carbon Sinks Assessment & Diagnostics capacity falling below operational thresholds, reducing Forests & Carbon Sinks output and reliability",
@@ -5042,13 +5051,28 @@
           "detail": "Forests & Carbon Sinks Performance & Optimization function reduced, compromising Forests & Carbon Sinks system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "ENVIRONMENT_FORESTS_CAPACITY_CRISIS",
       "label": "Forests & Carbon Sinks Capacity Crisis",
       "summary": "Demand exceeding available Forests & Carbon Sinks capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FORN",
           "dir": "Hyper-active",
@@ -5079,13 +5103,28 @@
           "detail": "Forests & Carbon Sinks Performance & Optimization operating outside normal parameters, introducing uncertainty into Forests & Carbon Sinks outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "ENVIRONMENT_FORESTS_GOVERNANCE_GAP",
       "label": "Forests & Carbon Sinks Governance Gap",
       "summary": "Oversight or regulatory failure in Forests & Carbon Sinks creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MAMM",
           "dir": "Hypo-active",
@@ -5116,7 +5155,13 @@
           "detail": "Forests & Carbon Sinks Coordination & Integration function reduced, compromising Forests & Carbon Sinks system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

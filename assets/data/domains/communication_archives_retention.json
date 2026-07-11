@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Communication Archives Retention systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "EC",
+          "dir": "Hypo",
+          "detail": "entorhinal — hippocampal memory gateway — encoding failure",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "DMN",
           "dir": "Hyper-active",
           "detail": "Records Retention Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Records Retention Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "EC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_ARCHIVES_RETENTION_CAPACITY_OVERLOAD",
       "label": "Communication Archives Retention Capacity Overload",
       "summary": "Demand exceeding available Communication Archives Retention capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "ANT",
+          "dir": "Hyper",
+          "detail": "anterior thalamus — memory relay (Papez) — flood/interference",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "DMN",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Records Retention Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "ANT",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_ARCHIVES_RETENTION_QUALITY_DEGRADATION",
       "label": "Communication Archives Retention Quality Degradation",
       "summary": "Progressive decline in Communication Archives Retention quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "HIPP",
+          "dir": "Hyper",
+          "detail": "HPA feedback + memory index — feedback-fail=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "DMN",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Records Retention Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HIPP",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     }
   ]
 }

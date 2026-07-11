@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Finance Sovereign Swf systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "EI",
           "dir": "Hyper-active",
           "detail": "Sovereign Wealth Funds Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Sovereign Wealth Funds Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "FINANCE_SOVEREIGN_SWF_CAPACITY_OVERLOAD",
       "label": "Finance Sovereign Swf Capacity Overload",
       "summary": "Demand exceeding available Finance Sovereign Swf capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
+          "detail": "incentive/reward drive — over-pursuit=bubble",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "EI",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Sovereign Wealth Funds Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "FINANCE_SOVEREIGN_SWF_QUALITY_DEGRADATION",
       "label": "Finance Sovereign Swf Quality Degradation",
       "summary": "Progressive decline in Finance Sovereign Swf quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "outcome valuation / update — confabulation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "EI",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Sovereign Wealth Funds Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

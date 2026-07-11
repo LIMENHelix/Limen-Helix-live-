@@ -2275,6 +2275,15 @@
       "summary": "Critical breakdown in Intelligence Humint Recruitment systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "NAcc",
+          "dir": "Hypo",
+          "detail": "incentive/reward drive — avolition",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CLAUST",
           "dir": "Hyper-active",
           "detail": "Agent Recruitment Assessment & Diagnostics function overloaded",
@@ -2304,13 +2313,28 @@
           "detail": "Agent Recruitment Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_HUMINT_RECRUITMENT_CAPACITY_OVERLOAD",
       "label": "Intelligence Humint Recruitment Capacity Overload",
       "summary": "Demand exceeding available Intelligence Humint Recruitment capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
+          "detail": "incentive/reward drive — over-pursuit=bubble",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CLAUST",
           "dir": "Hyper-active",
@@ -2335,13 +2359,28 @@
           "detail": "Agent Recruitment Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_HUMINT_RECRUITMENT_QUALITY_DEGRADATION",
       "label": "Intelligence Humint Recruitment Quality Degradation",
       "summary": "Progressive decline in Intelligence Humint Recruitment quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "outcome valuation / update — confabulation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CLAUST",
           "dir": "Hypo-active",
@@ -2366,7 +2405,13 @@
           "detail": "Agent Recruitment Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

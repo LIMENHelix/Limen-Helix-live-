@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Interoceptive Craving Relay systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "PBN",
+          "dir": "Hyper",
+          "detail": "interoceptive/alarm relay — blunted",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "vlPFC",
           "dir": "Hypo-active",
           "detail": "Interoceptive Craving Relay Assessment & Diagnostics capacity falling below operational thresholds, reducing Interoceptive Craving Relay output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Interoceptive Craving Relay Performance & Optimization function reduced, compromising Interoceptive Craving Relay system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PBN",
+        "dir": "hyper",
+        "motif": "M10",
+        "source": "override"
+      }
     },
     {
       "id": "ADDICTION_INTEROCEPTION_CAPACITY_CRISIS",
       "label": "Interoceptive Craving Relay Capacity Crisis",
       "summary": "Demand exceeding available Interoceptive Craving Relay capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "PBN",
+          "dir": "Hypo",
+          "detail": "interoceptive/alarm relay — over-alarm",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TPJ",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Interoceptive Craving Relay Performance & Optimization operating outside normal parameters, introducing uncertainty into Interoceptive Craving Relay outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PBN",
+        "dir": "hypo",
+        "motif": "M10",
+        "source": "override"
+      }
     },
     {
       "id": "ADDICTION_INTEROCEPTION_GOVERNANCE_GAP",
       "label": "Interoceptive Craving Relay Governance Gap",
       "summary": "Oversight or regulatory failure in Interoceptive Craving Relay creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "PBN",
+          "dir": "Hypo",
+          "detail": "interoceptive/alarm relay — over-alarm",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "RSC",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Interoceptive Craving Relay Coordination & Integration function reduced, compromising Interoceptive Craving Relay system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PBN",
+        "dir": "hypo",
+        "motif": "M10",
+        "source": "override"
+      }
     }
   ]
 }

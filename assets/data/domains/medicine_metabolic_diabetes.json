@@ -551,6 +551,15 @@
       "circuits": [
         {
           "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
+          "nodeId": "HYPO",
           "dir": "Hypo",
           "detail": "Impaired hypothalamic glucose sensing",
           "evidence": "A"
@@ -567,13 +576,28 @@
           "detail": "Interoceptive distortion of hunger/satiety",
           "evidence": "B"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "dx_medicine_metabolic_diabetes_type1dm",
       "label": "Type 1 Diabetes Mellitus",
       "summary": "Clinical presentation and circuit dysfunction pattern for Type 1 Diabetes Mellitus",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HYPO",
           "dir": "Hypo",
@@ -586,7 +610,13 @@
           "detail": "Stress-induced glycemic variability",
           "evidence": "B"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "dx_medicine_metabolic_diabetes_prediab",

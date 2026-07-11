@@ -550,6 +550,15 @@
       "summary": "Clinical presentation and circuit dysfunction pattern for Treatment-Resistant Depression",
       "circuits": [
         {
+          "nodeId": "sgACC",
+          "dir": "Hyper",
+          "detail": "subgenual ACC — mood / negative-affect hub — depressive lock/anhedonic drive",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "mPFC",
           "dir": "Hypo",
           "detail": "Prefrontal hypoactivation in depression refractory to SSRIs",
@@ -567,13 +576,28 @@
           "detail": "Reduced anterior cingulate error signaling",
           "evidence": "B"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "sgACC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "dx_medicine_psychedelic_serotonergic_eola",
       "label": "End-of-Life Anxiety",
       "summary": "Clinical presentation and circuit dysfunction pattern for End-of-Life Anxiety",
       "circuits": [
+        {
+          "nodeId": "BNST",
+          "dir": "Hyper",
+          "detail": "sustained threat monitor — tonic-stuck=burnout",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BLA",
           "dir": "Hyper",
@@ -592,13 +616,28 @@
           "detail": "Meaning-making circuit underactivation",
           "evidence": "B"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BNST",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "dx_medicine_psychedelic_serotonergic_cluster",
       "label": "Cluster Headache",
       "summary": "Clinical presentation and circuit dysfunction pattern for Cluster Headache",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HIPP",
           "dir": "Altered",
@@ -611,7 +650,13 @@
           "detail": "Pain processing amplification",
           "evidence": "B"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     }
   ]
 }

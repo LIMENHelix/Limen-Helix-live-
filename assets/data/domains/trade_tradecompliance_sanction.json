@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Trade Tradecompliance Sanction systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vlPFC",
+          "dir": "Hypo",
+          "detail": "response-inhibition / stop — disinhibited",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "LGN",
           "dir": "Hyper-active",
           "detail": "Sanctions Screening Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Sanctions Screening Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "TRADE_TRADECOMPLIANCE_SANCTION_CAPACITY_OVERLOAD",
       "label": "Trade Tradecompliance Sanction Capacity Overload",
       "summary": "Demand exceeding available Trade Tradecompliance Sanction capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hyper",
+          "detail": "response-inhibition / stop — over-suppress",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "LGN",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Sanctions Screening Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hyper",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "TRADE_TRADECOMPLIANCE_SANCTION_QUALITY_DEGRADATION",
       "label": "Trade Tradecompliance Sanction Quality Degradation",
       "summary": "Progressive decline in Trade Tradecompliance Sanction quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hypo",
+          "detail": "response-inhibition / stop — disinhibited",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "LGN",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Sanctions Screening Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ]
 }

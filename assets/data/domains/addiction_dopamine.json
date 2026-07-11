@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Dopamine Source Nucleus systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "VTA",
+          "dir": "Hyper",
+          "detail": "dopamine reward source — mania/addiction",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "vmPFC",
           "dir": "Hypo-active",
           "detail": "Dopamine Source Nucleus Assessment & Diagnostics capacity falling below operational thresholds, reducing Dopamine Source Nucleus output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Dopamine Source Nucleus Performance & Optimization function reduced, compromising Dopamine Source Nucleus system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "VTA",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "ADDICTION_DOPAMINE_CAPACITY_CRISIS",
       "label": "Dopamine Source Nucleus Capacity Crisis",
       "summary": "Demand exceeding available Dopamine Source Nucleus capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "VTA",
+          "dir": "Hyper",
+          "detail": "dopamine reward source — mania/addiction",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "VTA",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Dopamine Source Nucleus Performance & Optimization operating outside normal parameters, introducing uncertainty into Dopamine Source Nucleus outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "VTA",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "ADDICTION_DOPAMINE_GOVERNANCE_GAP",
       "label": "Dopamine Source Nucleus Governance Gap",
       "summary": "Oversight or regulatory failure in Dopamine Source Nucleus creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "VTA",
+          "dir": "Hypo",
+          "detail": "dopamine reward source — anhedonia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "AI",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Dopamine Source Nucleus Coordination & Integration function reduced, compromising Dopamine Source Nucleus system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "VTA",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     }
   ]
 }

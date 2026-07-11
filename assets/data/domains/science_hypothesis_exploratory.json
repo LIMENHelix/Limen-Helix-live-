@@ -2276,6 +2276,15 @@
       "summary": "Critical breakdown in Science Hypothesis Exploratory systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "rPFC",
+          "dir": "Hypo",
+          "detail": "frontopolar PFC — metacognition & prospective control — no-foresight, myopic",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "GABA_GLU",
           "dir": "Hyper-active",
           "detail": "Exploratory Research Assessment & Diagnostics function overloaded",
@@ -2305,13 +2314,28 @@
           "detail": "Exploratory Research Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "rPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "SCIENCE_HYPOTHESIS_EXPLORATORY_CAPACITY_OVERLOAD",
       "label": "Science Hypothesis Exploratory Capacity Overload",
       "summary": "Demand exceeding available Science Hypothesis Exploratory capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "rPFC",
+          "dir": "Hyper",
+          "detail": "frontopolar PFC — metacognition & prospective control — overplanning/analysis-paralysis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "GABA_GLU",
           "dir": "Hyper-active",
@@ -2336,13 +2360,28 @@
           "detail": "Exploratory Research Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "rPFC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "SCIENCE_HYPOTHESIS_EXPLORATORY_QUALITY_DEGRADATION",
       "label": "Science Hypothesis Exploratory Quality Degradation",
       "summary": "Progressive decline in Science Hypothesis Exploratory quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "GABA_GLU",
           "dir": "Hypo-active",
@@ -2367,7 +2406,13 @@
           "detail": "Exploratory Research Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

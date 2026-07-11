@@ -14139,6 +14139,15 @@
       "summary": "Critical breakdown in Environment Urban Env systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "TPOLE",
           "dir": "Hyper-active",
           "detail": "Urban Env Assessment & Diagnostics function overloaded",
@@ -14168,13 +14177,28 @@
           "detail": "Urban Env Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "ENVIRONMENT_URBAN_ENV_CAPACITY_OVERLOAD",
       "label": "Environment Urban Env Capacity Overload",
       "summary": "Demand exceeding available Environment Urban Env capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TPOLE",
           "dir": "Hyper-active",
@@ -14199,13 +14223,28 @@
           "detail": "Urban Env Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "ENVIRONMENT_URBAN_ENV_QUALITY_DEGRADATION",
       "label": "Environment Urban Env Quality Degradation",
       "summary": "Progressive decline in Environment Urban Env quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TPOLE",
           "dir": "Hypo-active",
@@ -14230,7 +14269,13 @@
           "detail": "Urban Env Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

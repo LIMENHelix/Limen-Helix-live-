@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Science Metrics Altmetrics systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "TPJ",
+          "dir": "Hypo",
+          "detail": "temporoparietal junction — social attribution & reorienting — mindblindness",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "SNS",
           "dir": "Hyper-active",
           "detail": "Altmetrics Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Altmetrics Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "TPJ",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "SCIENCE_METRICS_ALTMETRICS_CAPACITY_OVERLOAD",
       "label": "Science Metrics Altmetrics Capacity Overload",
       "summary": "Demand exceeding available Science Metrics Altmetrics capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "TPJ",
+          "dir": "Hyper",
+          "detail": "temporoparietal junction — social attribution & reorienting — over-attribution/paranoia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SNS",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Altmetrics Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "TPJ",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "SCIENCE_METRICS_ALTMETRICS_QUALITY_DEGRADATION",
       "label": "Science Metrics Altmetrics Quality Degradation",
       "summary": "Progressive decline in Science Metrics Altmetrics quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SNS",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Altmetrics Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Culture Fashion Costumedesn systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "NAcc",
+          "dir": "Hypo",
+          "detail": "incentive/reward drive — avolition",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "OSC",
           "dir": "Hyper-active",
           "detail": "Costume Design Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Costume Design Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "CULTURE_FASHION_COSTUMEDESN_CAPACITY_OVERLOAD",
       "label": "Culture Fashion Costumedesn Capacity Overload",
       "summary": "Demand exceeding available Culture Fashion Costumedesn capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
+          "detail": "incentive/reward drive — over-pursuit=bubble",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OSC",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Costume Design Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "CULTURE_FASHION_COSTUMEDESN_QUALITY_DEGRADATION",
       "label": "Culture Fashion Costumedesn Quality Degradation",
       "summary": "Progressive decline in Culture Fashion Costumedesn quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "outcome valuation / update — confabulation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OSC",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Costume Design Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

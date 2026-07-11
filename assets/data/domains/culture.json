@@ -1671,6 +1671,15 @@
       "summary": "Systematic destruction or suppression of a people's cultural practices, language, and identity through colonization, assimilation policies, or globalization pressures",
       "circuits": [
         {
+          "nodeId": "MAMM",
+          "dir": "Hypo",
+          "detail": "mammillary bodies — memory circuit (Papez) — amnesia, confabulation (Korsakoff)",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "HIPP",
           "dir": "Hypo-active",
           "detail": "Oral traditions and cultural memory encoding disrupted, severing intergenerational knowledge transfer",
@@ -1694,13 +1703,28 @@
           "detail": "Literary traditions in minority languages decline as dominant languages absorb publishing infrastructure",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "MAMM",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "HERITAGE_DESTRUCTION",
       "label": "Heritage Destruction",
       "summary": "Physical destruction of cultural sites, monuments, and artifacts through conflict, neglect, natural disaster, or deliberate iconoclasm",
       "circuits": [
+        {
+          "nodeId": "RSC",
+          "dir": "Hypo",
+          "detail": "retrosplenial — spatial memory & navigation — topographical disorientation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "RSC",
           "dir": "Hypo-active",
@@ -1725,13 +1749,28 @@
           "detail": "Loss of physical sites disrupts the context cues needed for cultural memory consolidation",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "RSC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "CENSORSHIP",
       "label": "Censorship",
       "summary": "Suppression of artistic and intellectual expression by state, religious, or corporate authorities, restricting the cultural freedom essential to identity",
       "circuits": [
+        {
+          "nodeId": "BROCA",
+          "dir": "Hypo",
+          "detail": "Broca's area — expressive language production — expressive block, aphasia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "V1",
           "dir": "Hypo-active",
@@ -1756,13 +1795,28 @@
           "detail": "Creative innovation suppressed as novelty-seeking meets punishment rather than reward",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BROCA",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "IDENTITY_CRISIS",
       "label": "Identity Crisis",
       "summary": "Collective loss of cultural coherence through rapid globalization, migration displacement, or intergenerational value rupture, producing anomie and social fragmentation",
       "circuits": [
+        {
+          "nodeId": "mPFC",
+          "dir": "Hyper",
+          "detail": "medial PFC — self-referential value integration (DMN core) — self-focus/rumination",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "mPFC",
           "dir": "Altered",
@@ -1787,13 +1841,28 @@
           "detail": "Identity-signaling through fashion and design becomes confused as cultural codes fragment",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "mPFC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "CREATIVE_STAGNATION",
       "label": "Creative Stagnation",
       "summary": "Decline of artistic originality and cultural vitality through commercialization, risk aversion, and algorithmic content optimization that rewards sameness over innovation",
       "circuits": [
+        {
+          "nodeId": "SMA",
+          "dir": "Hypo",
+          "detail": "supplementary motor — self-initiated action sequencing — akinesia, initiation failure",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "VTA",
           "dir": "Hypo-active",
@@ -1818,7 +1887,13 @@
           "detail": "Performance arts atrophy as funding shifts to commercially predictable entertainment formats",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "SMA",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     }
   ],
   "edges": [

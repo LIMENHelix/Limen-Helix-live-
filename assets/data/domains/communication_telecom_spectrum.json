@@ -2276,6 +2276,15 @@
       "summary": "Critical breakdown in Communication Telecom Spectrum systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "MDT",
+          "dir": "Hypo",
+          "detail": "PFC relay gate — freeze",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "rACC",
           "dir": "Hyper-active",
           "detail": "Spectrum Management Assessment & Diagnostics function overloaded",
@@ -2305,13 +2314,28 @@
           "detail": "Spectrum Management Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "MDT",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_TELECOM_SPECTRUM_CAPACITY_OVERLOAD",
       "label": "Communication Telecom Spectrum Capacity Overload",
       "summary": "Demand exceeding available Communication Telecom Spectrum capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "MDT",
+          "dir": "Hyper",
+          "detail": "PFC relay gate — flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "rACC",
           "dir": "Hyper-active",
@@ -2336,13 +2360,28 @@
           "detail": "Spectrum Management Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "MDT",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_TELECOM_SPECTRUM_QUALITY_DEGRADATION",
       "label": "Communication Telecom Spectrum Quality Degradation",
       "summary": "Progressive decline in Communication Telecom Spectrum quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "rACC",
           "dir": "Hypo-active",
@@ -2367,7 +2406,13 @@
           "detail": "Spectrum Management Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

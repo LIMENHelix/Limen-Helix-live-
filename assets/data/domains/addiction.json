@@ -2102,6 +2102,15 @@
         {
           "nodeId": "NAcc",
           "dir": "Hyper",
+          "detail": "incentive/reward drive — over-pursuit=bubble",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
           "detail": "Nucleus accumbens reward prediction hijacked by alcohol-associated cues triggering dopamine release, driving compulsive seeking",
           "evidence": "Strong"
         },
@@ -2165,13 +2174,28 @@
           "detail": "Alcohol profoundly disrupts gut microbiome, increasing intestinal permeability and driving systemic neuroinflammation",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "OPIOID_USE",
       "label": "Opioid Use Disorder",
       "summary": "Endogenous opioid system hijacked. Mu-receptor tolerance drives escalating doses. Withdrawal-driven compulsion via locus coeruleus noradrenergic storm. Fentanyl supply contamination makes this the most lethal addiction.",
       "circuits": [
+        {
+          "nodeId": "VTA",
+          "dir": "Hyper",
+          "detail": "dopamine reward source — mania/addiction",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NAcc",
           "dir": "Altered",
@@ -2238,7 +2262,13 @@
           "detail": "Identity narrative dominated by shame and self-concept as addict; DMN maintains this corrosive self-story",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "VTA",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "STIMULANT_USE",
@@ -2313,6 +2343,15 @@
       "summary": "Endocannabinoid system downregulated by chronic exogenous THC exposure. CB1 receptor desensitization reduces natural endocannabinoid tone. Amotivational syndrome reflects prefrontal and reward circuit blunting. Withdrawal is real but non-dangerous.",
       "circuits": [
         {
+          "nodeId": "VTA",
+          "dir": "Hyper",
+          "detail": "dopamine reward source — mania/addiction",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "NAcc",
           "dir": "Hypo",
           "detail": "Reward sensitivity blunted by chronic THC-driven dopamine release; natural rewards feel insufficient",
@@ -2360,13 +2399,28 @@
           "detail": "Motivational salience reduced; chronic use associated with amotivational state and reduced goal-directed behavior",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "VTA",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "NICOTINE_DEPENDENCE",
       "label": "Nicotine Dependence",
       "summary": "Nicotinic acetylcholine receptor upregulation produces the fastest and most reliable addiction cycle. Rapid drug delivery (7-second lung-to-brain) creates tight stimulus-response coupling. Most commonly co-occurring substance use disorder.",
       "circuits": [
+        {
+          "nodeId": "VTA",
+          "dir": "Hyper",
+          "detail": "dopamine reward source — mania/addiction",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NAcc",
           "dir": "Hyper",
@@ -2415,13 +2469,28 @@
           "detail": "Contextual associations with smoking are pervasive — coffee, driving, socializing, stress all trigger hippocampal craving recall",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "VTA",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "GAMBLING_DISORDER",
       "label": "Gambling Disorder",
       "summary": "Pure reward circuit hijacking without exogenous substance. Intermittent reinforcement schedule is maximally addictive. Same NAcc/VTA/OFC circuitry as substance addiction. Proves addiction is a circuit disorder, not a substance problem. Highest suicide rate of any addiction.",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
+          "detail": "incentive/reward drive — over-pursuit=bubble",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NAcc",
           "dir": "Hyper",
@@ -2476,13 +2545,28 @@
           "detail": "Gambler identity maintained by DMN; 'I can win it back' narrative sustains destructive behavior",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "BENZODIAZEPINE_DEPENDENCE",
       "label": "Benzodiazepine Dependence",
       "summary": "GABAergic tolerance produces one of the most dangerous withdrawal syndromes. Compensatory glutamate upregulation creates seizure risk. Iatrogenic dependence common from prescribed use. Protracted withdrawal can persist months to years. Requires slow taper, not abrupt cessation.",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "GABA_GLU",
           "dir": "Altered",
@@ -2531,13 +2615,28 @@
           "detail": "Sleep architecture disrupted; rebound insomnia during withdrawal is severe and persistent",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "POLYSUBSTANCE",
       "label": "Polysubstance Use Disorder",
       "summary": "Multiple substance dependencies creating compound circuit disruption. Each substance damages overlapping but distinct circuits, producing synergistic impairment. Treatment complexity multiplied by drug interactions, multiple withdrawal timelines, and competing pharmacological needs.",
       "circuits": [
+        {
+          "nodeId": "dlPFC",
+          "dir": "Hypo",
+          "detail": "dorsolateral PFC — executive working-memory / cognitive control — executive-lapse, distractible",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NAcc",
           "dir": "Altered",
@@ -2598,7 +2697,13 @@
           "detail": "Inhibitory control severely degraded by cumulative neurotoxic exposure; impulsivity across all domains of functioning",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dlPFC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

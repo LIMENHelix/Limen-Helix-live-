@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Energy Energypolicy Enaccess systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HYPO",
+          "dir": "Hypo",
+          "detail": "homeostatic set-point — delayed=oscillation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "LAR",
           "dir": "Hyper-active",
           "detail": "Energy Access Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Energy Access Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hypo",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "ENERGY_ENERGYPOLICY_ENACCESS_CAPACITY_OVERLOAD",
       "label": "Energy Energypolicy Enaccess Capacity Overload",
       "summary": "Demand exceeding available Energy Energypolicy Enaccess capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "LAR",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Energy Access Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "ENERGY_ENERGYPOLICY_ENACCESS_QUALITY_DEGRADATION",
       "label": "Energy Energypolicy Enaccess Quality Degradation",
       "summary": "Progressive decline in Energy Energypolicy Enaccess quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hypo",
+          "detail": "homeostatic set-point — delayed=oscillation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "LAR",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Energy Access Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hypo",
+        "motif": "M3",
+        "source": "override"
+      }
     }
   ]
 }

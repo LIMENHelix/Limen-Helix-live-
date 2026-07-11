@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Supplementary Motor Area systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "SMA",
+          "dir": "Hypo",
+          "detail": "supplementary motor — self-initiated action sequencing — akinesia, initiation failure",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "HYPO",
           "dir": "Hypo-active",
           "detail": "Supplementary Motor Area Assessment & Diagnostics capacity falling below operational thresholds, reducing Supplementary Motor Area output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Supplementary Motor Area Performance & Optimization function reduced, compromising Supplementary Motor Area system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "SMA",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "NEUROLOGY_SUPPL_CAPACITY_CRISIS",
       "label": "Supplementary Motor Area Capacity Crisis",
       "summary": "Demand exceeding available Supplementary Motor Area capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "SMA",
+          "dir": "Hypo",
+          "detail": "supplementary motor — self-initiated action sequencing — akinesia, initiation failure",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PIT",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Supplementary Motor Area Performance & Optimization operating outside normal parameters, introducing uncertainty into Supplementary Motor Area outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "SMA",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "NEUROLOGY_SUPPL_GOVERNANCE_GAP",
       "label": "Supplementary Motor Area Governance Gap",
       "summary": "Oversight or regulatory failure in Supplementary Motor Area creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "SMA",
+          "dir": "Hyper",
+          "detail": "supplementary motor — self-initiated action sequencing — compulsive sequencing",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "LC",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Supplementary Motor Area Coordination & Integration function reduced, compromising Supplementary Motor Area system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "SMA",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

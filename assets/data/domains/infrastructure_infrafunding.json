@@ -4249,6 +4249,15 @@
       "summary": "Critical breakdown in Infrastructure Infrafunding systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "NAcc",
+          "dir": "Hypo",
+          "detail": "incentive/reward drive — avolition",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "ARC",
           "dir": "Hyper-active",
           "detail": "Infrafunding Assessment & Diagnostics function overloaded",
@@ -4278,13 +4287,28 @@
           "detail": "Infrafunding Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "INFRASTRUCTURE_INFRAFUNDING_CAPACITY_OVERLOAD",
       "label": "Infrastructure Infrafunding Capacity Overload",
       "summary": "Demand exceeding available Infrastructure Infrafunding capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
+          "detail": "incentive/reward drive — over-pursuit=bubble",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ARC",
           "dir": "Hyper-active",
@@ -4309,13 +4333,28 @@
           "detail": "Infrafunding Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "INFRASTRUCTURE_INFRAFUNDING_QUALITY_DEGRADATION",
       "label": "Infrastructure Infrafunding Quality Degradation",
       "summary": "Progressive decline in Infrastructure Infrafunding quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "outcome valuation / update — confabulation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ARC",
           "dir": "Hypo-active",
@@ -4340,7 +4379,13 @@
           "detail": "Infrafunding Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

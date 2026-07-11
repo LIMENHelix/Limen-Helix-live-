@@ -2243,6 +2243,15 @@
       "summary": "Commercial seed supply converging on limited elite germplasm base increasing vulnerability to novel pest and disease threats",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "HIPP",
           "dir": "Hypo-active",
           "detail": "Seed variety diversity declining as breeding programs focus on few high-performing genetic backgrounds",
@@ -2266,13 +2275,28 @@
           "detail": "Plant breeding shifting to molecular marker selection reducing field-based diversity screening",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "SEED_MONOPOLY",
       "label": "Seed Monopoly",
       "summary": "Consolidation of seed industry into few multinational firms restricting farmer choice and increasing input costs",
       "circuits": [
+        {
+          "nodeId": "STN",
+          "dir": "Hyper",
+          "detail": "hyperdirect brake / hold — over-brake=paralysis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dlPFC",
           "dir": "Hyper-active",
@@ -2297,13 +2321,28 @@
           "detail": "Seed treatment packages bundled with proprietary varieties restricting a la carte purchasing",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hyper",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "TRAIT_FAILURE",
       "label": "Trait Failure",
       "summary": "Engineered pest resistance traits losing effectiveness as target organisms evolve counter-adaptations",
       "circuits": [
+        {
+          "nodeId": "PAG",
+          "dir": "Hypo",
+          "detail": "defensive kill/lockdown — no-stop",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dlPFC",
           "dir": "Hypo-active",
@@ -2328,13 +2367,28 @@
           "detail": "New resistance gene discovery lagging behind pest adaptation rate",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PAG",
+        "dir": "hypo",
+        "motif": "M8",
+        "source": "override"
+      }
     },
     {
       "id": "SEED_QUALITY_FAILURE",
       "label": "Seed Quality Failure",
       "summary": "Poor germination, vigor, or seedborne disease causing stand establishment failure after planting window closes",
       "circuits": [
+        {
+          "nodeId": "SMA",
+          "dir": "Hypo",
+          "detail": "supplementary motor — self-initiated action sequencing — akinesia, initiation failure",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BLA",
           "dir": "Hypo-active",
@@ -2359,13 +2413,28 @@
           "detail": "Variety performance data from controlled plots not reflecting on-farm germination conditions",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "SMA",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "SEED_ACCESS_INEQUITY",
       "label": "Seed Access Inequity",
       "summary": "Small and beginning farmers unable to access premium genetics due to minimum order sizes, dealer networks, and pricing",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HIPP",
           "dir": "Hypo-active",
@@ -2390,7 +2459,13 @@
           "detail": "Seed dealer network consolidation reducing local availability and agronomic advice for small buyers",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     }
   ]
 }

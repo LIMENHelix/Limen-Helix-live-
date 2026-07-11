@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Religion Relorg Churchplnt systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "GBA",
           "dir": "Hyper-active",
           "detail": "Church Planting Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Church Planting Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_RELORG_CHURCHPLNT_CAPACITY_OVERLOAD",
       "label": "Religion Relorg Churchplnt Capacity Overload",
       "summary": "Demand exceeding available Religion Relorg Churchplnt capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "GBA",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Church Planting Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_RELORG_CHURCHPLNT_QUALITY_DEGRADATION",
       "label": "Religion Relorg Churchplnt Quality Degradation",
       "summary": "Progressive decline in Religion Relorg Churchplnt quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "GBA",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Church Planting Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

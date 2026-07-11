@@ -4985,6 +4985,15 @@
       "summary": "Critical breakdown in Hypothesis Generation systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "mPFC",
           "dir": "Hypo-active",
           "detail": "Hypothesis Generation Assessment & Diagnostics capacity falling below operational thresholds, reducing Hypothesis Generation output and reliability",
@@ -5014,13 +5023,28 @@
           "detail": "Hypothesis Generation Performance & Optimization function reduced, compromising Hypothesis Generation system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "SCIENCE_HYPOTHESIS_CAPACITY_CRISIS",
       "label": "Hypothesis Generation Capacity Crisis",
       "summary": "Demand exceeding available Hypothesis Generation capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "SMA",
+          "dir": "Hyper",
+          "detail": "supplementary motor — self-initiated action sequencing — compulsive sequencing",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PCC",
           "dir": "Hyper-active",
@@ -5051,13 +5075,28 @@
           "detail": "Hypothesis Generation Performance & Optimization operating outside normal parameters, introducing uncertainty into Hypothesis Generation outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "SMA",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "SCIENCE_HYPOTHESIS_GOVERNANCE_GAP",
       "label": "Hypothesis Generation Governance Gap",
       "summary": "Oversight or regulatory failure in Hypothesis Generation creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hypo",
+          "detail": "response-inhibition / stop — disinhibited",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "EC",
           "dir": "Hypo-active",
@@ -5088,7 +5127,13 @@
           "detail": "Hypothesis Generation Coordination & Integration function reduced, compromising Hypothesis Generation system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Energy Energypolicy Netmeter systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "DISS",
           "dir": "Hyper-active",
           "detail": "Net Metering Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Net Metering Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "ENERGY_ENERGYPOLICY_NETMETER_CAPACITY_OVERLOAD",
       "label": "Energy Energypolicy Netmeter Capacity Overload",
       "summary": "Demand exceeding available Energy Energypolicy Netmeter capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "DISS",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Net Metering Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "ENERGY_ENERGYPOLICY_NETMETER_QUALITY_DEGRADATION",
       "label": "Energy Energypolicy Netmeter Quality Degradation",
       "summary": "Progressive decline in Energy Energypolicy Netmeter quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "DISS",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Net Metering Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     }
   ]
 }

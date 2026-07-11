@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Medicine Anesthesia Regional systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "S1",
+          "dir": "Hyper",
+          "detail": "primary somatosensory processing — hypersensitivity/pain-amplification",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "DMN",
           "dir": "Hyper-active",
           "detail": "Regional Anesthesia Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Regional Anesthesia Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "S1",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "MEDICINE_ANESTHESIA_REGIONAL_CAPACITY_OVERLOAD",
       "label": "Medicine Anesthesia Regional Capacity Overload",
       "summary": "Demand exceeding available Medicine Anesthesia Regional capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "DMN",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Regional Anesthesia Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "MEDICINE_ANESTHESIA_REGIONAL_QUALITY_DEGRADATION",
       "label": "Medicine Anesthesia Regional Quality Degradation",
       "summary": "Progressive decline in Medicine Anesthesia Regional quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "DMN",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Regional Anesthesia Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

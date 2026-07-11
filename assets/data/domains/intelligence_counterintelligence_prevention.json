@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Intelligence Counterintelligence Prevention systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vlPFC",
+          "dir": "Hypo",
+          "detail": "response-inhibition / stop — disinhibited",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PIT",
           "dir": "Hyper-active",
           "detail": "CI Prevention Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "CI Prevention Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_COUNTERINTELLIGENCE_PREVENTION_CAPACITY_OVERLOAD",
       "label": "Intelligence Counterintelligence Prevention Capacity Overload",
       "summary": "Demand exceeding available Intelligence Counterintelligence Prevention capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PIT",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "CI Prevention Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_COUNTERINTELLIGENCE_PREVENTION_QUALITY_DEGRADATION",
       "label": "Intelligence Counterintelligence Prevention Quality Degradation",
       "summary": "Progressive decline in Intelligence Counterintelligence Prevention quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PIT",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "CI Prevention Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

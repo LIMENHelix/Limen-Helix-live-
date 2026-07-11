@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Mediation / Settlement Valuation systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "outcome valuation / update — confabulation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "HYPO",
           "dir": "Hypo-active",
           "detail": "Mediation / Settlement Valuation Assessment & Diagnostics capacity falling below operational thresholds, reducing Mediation / Settlement Valuation output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Mediation / Settlement Valuation Performance & Optimization function reduced, compromising Mediation / Settlement Valuation system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "FAMILY_LAW_MEDIATION_CAPACITY_CRISIS",
       "label": "Mediation / Settlement Valuation Capacity Crisis",
       "summary": "Demand exceeding available Mediation / Settlement Valuation capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hypo",
+          "detail": "outcome valuation / update — over-react",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PIT",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Mediation / Settlement Valuation Performance & Optimization operating outside normal parameters, introducing uncertainty into Mediation / Settlement Valuation outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "FAMILY_LAW_MEDIATION_GOVERNANCE_GAP",
       "label": "Mediation / Settlement Valuation Governance Gap",
       "summary": "Oversight or regulatory failure in Mediation / Settlement Valuation creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hypo",
+          "detail": "outcome valuation / update — over-react",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "LC",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Mediation / Settlement Valuation Coordination & Integration function reduced, compromising Mediation / Settlement Valuation system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

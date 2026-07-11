@@ -4440,6 +4440,15 @@
       "summary": "Critical breakdown in Laboratory Methods systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "vlPFC",
           "dir": "Hypo-active",
           "detail": "Laboratory Methods Assessment & Diagnostics capacity falling below operational thresholds, reducing Laboratory Methods output and reliability",
@@ -4469,13 +4478,28 @@
           "detail": "Laboratory Methods Performance & Optimization function reduced, compromising Laboratory Methods system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "SCIENCE_LABORATORY_CAPACITY_CRISIS",
       "label": "Laboratory Methods Capacity Crisis",
       "summary": "Demand exceeding available Laboratory Methods capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TPJ",
           "dir": "Hyper-active",
@@ -4506,13 +4530,28 @@
           "detail": "Laboratory Methods Performance & Optimization operating outside normal parameters, introducing uncertainty into Laboratory Methods outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "SCIENCE_LABORATORY_GOVERNANCE_GAP",
       "label": "Laboratory Methods Governance Gap",
       "summary": "Oversight or regulatory failure in Laboratory Methods creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "RSC",
           "dir": "Hypo-active",
@@ -4543,7 +4582,13 @@
           "detail": "Laboratory Methods Coordination & Integration function reduced, compromising Laboratory Methods system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

@@ -549,6 +549,15 @@
       "summary": "Clinical presentation and circuit dysfunction pattern for Gambling Disorder",
       "circuits": [
         {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
+          "detail": "incentive/reward drive — over-pursuit=bubble",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "NAc",
           "dir": "Hyper",
           "detail": "Reward anticipation hyperactivation",
@@ -566,13 +575,28 @@
           "detail": "Intermittent reinforcement dopamine patterns",
           "evidence": "B"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "dx_medicine_addiction_behavioral_gaming",
       "label": "Internet Gaming Disorder",
       "summary": "Clinical presentation and circuit dysfunction pattern for Internet Gaming Disorder",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
+          "detail": "incentive/reward drive — over-pursuit=bubble",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NAc",
           "dir": "Hyper",
@@ -585,7 +609,13 @@
           "detail": "Reduced conflict monitoring during play",
           "evidence": "C"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     }
   ]
 }

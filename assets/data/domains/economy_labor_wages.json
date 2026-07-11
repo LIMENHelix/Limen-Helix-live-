@@ -2274,6 +2274,15 @@
       "summary": "Critical breakdown in Economy Labor Wages systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "VTA",
+          "dir": "Hypo",
+          "detail": "dopamine reward source — anhedonia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "dlPFC",
           "dir": "Hyper-active",
           "detail": "Wages & Compensation Assessment & Diagnostics function overloaded",
@@ -2303,13 +2312,28 @@
           "detail": "Wages & Compensation Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "VTA",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_LABOR_WAGES_CAPACITY_OVERLOAD",
       "label": "Economy Labor Wages Capacity Overload",
       "summary": "Demand exceeding available Economy Labor Wages capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "VTA",
+          "dir": "Hyper",
+          "detail": "dopamine reward source — mania/addiction",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dlPFC",
           "dir": "Hyper-active",
@@ -2334,13 +2358,28 @@
           "detail": "Wages & Compensation Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "VTA",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_LABOR_WAGES_QUALITY_DEGRADATION",
       "label": "Economy Labor Wages Quality Degradation",
       "summary": "Progressive decline in Economy Labor Wages quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dlPFC",
           "dir": "Hypo-active",
@@ -2365,7 +2404,13 @@
           "detail": "Wages & Compensation Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

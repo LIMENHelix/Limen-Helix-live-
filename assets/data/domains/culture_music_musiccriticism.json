@@ -2277,6 +2277,15 @@
       "summary": "Critical breakdown in Culture Music Musiccriticism systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "FG",
           "dir": "Hyper-active",
           "detail": "Music Criticism Assessment & Diagnostics function overloaded",
@@ -2306,13 +2315,28 @@
           "detail": "Music Criticism Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "CULTURE_MUSIC_MUSICCRITICISM_CAPACITY_OVERLOAD",
       "label": "Culture Music Musiccriticism Capacity Overload",
       "summary": "Demand exceeding available Culture Music Musiccriticism capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "ACC",
+          "dir": "Hyper",
+          "detail": "anterior cingulate — conflict/effort monitor — hypervigilant conflict",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FG",
           "dir": "Hyper-active",
@@ -2337,13 +2361,28 @@
           "detail": "Music Criticism Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "ACC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "CULTURE_MUSIC_MUSICCRITICISM_QUALITY_DEGRADATION",
       "label": "Culture Music Musiccriticism Quality Degradation",
       "summary": "Progressive decline in Culture Music Musiccriticism quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FG",
           "dir": "Hypo-active",
@@ -2368,7 +2407,13 @@
           "detail": "Music Criticism Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

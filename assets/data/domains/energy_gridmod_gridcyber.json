@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Energy Gridmod Gridcyber systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "BNST",
+          "dir": "Hypo",
+          "detail": "sustained threat monitor — under-vigilant",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "STS",
           "dir": "Hyper-active",
           "detail": "Grid Cybersecurity Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Grid Cybersecurity Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BNST",
+        "dir": "hypo",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "ENERGY_GRIDMOD_GRIDCYBER_CAPACITY_OVERLOAD",
       "label": "Energy Gridmod Gridcyber Capacity Overload",
       "summary": "Demand exceeding available Energy Gridmod Gridcyber capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "BNST",
+          "dir": "Hyper",
+          "detail": "sustained threat monitor — tonic-stuck=burnout",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "STS",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Grid Cybersecurity Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BNST",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "ENERGY_GRIDMOD_GRIDCYBER_QUALITY_DEGRADATION",
       "label": "Energy Gridmod Gridcyber Quality Degradation",
       "summary": "Progressive decline in Energy Gridmod Gridcyber quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CeA",
+          "dir": "Hyper",
+          "detail": "phasic fear output — hair-trigger=false-alarm",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "STS",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Grid Cybersecurity Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CeA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     }
   ]
 }

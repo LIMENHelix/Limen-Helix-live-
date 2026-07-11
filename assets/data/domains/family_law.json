@@ -14,7 +14,7 @@
       "whyThisNode": "dlPFC drives executive planning — family law strategy requires the same complex reasoning across competing financial, custodial, and emotional variables",
       "group": "filing_process",
       "phase": "P3",
-      "weight": 1.0,
+      "weight": 1,
       "diagnosticTriggers": [
         "HIGH_CONFLICT_DIVORCE",
         "CUSTODY_DISPUTE",
@@ -762,6 +762,15 @@
       "summary": "Intensely adversarial dissolution where parties cannot cooperate, litigate every issue, and weaponize the legal process against each other",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "BLA",
           "dir": "Hyper-activated",
           "detail": "Threat assessment in overdrive — each party perceives every action by the other as hostile and threatening",
@@ -797,13 +806,28 @@
           "detail": "Constant compliance violations — each party filing contempt motions against the other in escalating pattern",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "CUSTODY_DISPUTE",
       "label": "Custody Dispute",
       "summary": "Parents unable to agree on custodial arrangement — legal and physical custody, parenting time, and decision-making authority contested",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TPJ",
           "dir": "Contested",
@@ -840,13 +864,28 @@
           "detail": "Case law cited by both parties supports contradictory positions — judicial discretion becomes determinative",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "DOMESTIC_VIOLENCE",
       "label": "Domestic Violence Case",
       "summary": "Family law proceeding complicated by intimate partner violence — safety, credibility, and power imbalance dominate all aspects of the case",
       "circuits": [
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper",
+          "detail": "threat learning/acquisition — over-fear=PTSD",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BLA",
           "dir": "Critical",
@@ -883,13 +922,28 @@
           "detail": "Children's safety and well-being paramount — immediate assessment of exposure to violence and need for therapeutic intervention",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BLA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "PARENTAL_ALIENATION",
       "label": "Parental Alienation",
       "summary": "One parent systematically undermining the child's relationship with the other parent through manipulation, denigration, and interference",
       "circuits": [
+        {
+          "nodeId": "TPJ",
+          "dir": "Hyper",
+          "detail": "temporoparietal junction — social attribution & reorienting — over-attribution/paranoia",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OXY",
           "dir": "Sabotaged",
@@ -920,13 +974,28 @@
           "detail": "Expert opinions sharply divided — alienation claims are among the most contested issues in family law",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "TPJ",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "FINANCIAL_CONCEALMENT",
       "label": "Financial Concealment / Hidden Assets",
       "summary": "One spouse hiding assets, underreporting income, or manipulating financial disclosures to gain unfair advantage in property division",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "outcome valuation / update — confabulation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OFC",
           "dir": "Obscured",
@@ -957,13 +1026,28 @@
           "detail": "Multi-expert coordination required — forensic accountant, business valuator, and vocational expert working in parallel",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "CONTEMPT_ENFORCEMENT",
       "label": "Contempt / Order Enforcement",
       "summary": "One party willfully violating court orders — custody schedule, support payments, property division, or protective order provisions",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dACC",
           "dir": "Pattern-detected",
@@ -1000,7 +1084,13 @@
           "detail": "Ongoing violation creates sustained stress — the case that should be resolved continues generating conflict and cost",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ]
 }

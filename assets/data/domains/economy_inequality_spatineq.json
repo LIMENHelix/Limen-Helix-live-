@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Economy Inequality Spatineq systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "RSC",
+          "dir": "Hypo",
+          "detail": "retrosplenial — spatial memory & navigation — topographical disorientation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "GP",
           "dir": "Hyper-active",
           "detail": "Spatial Inequality Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Spatial Inequality Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "RSC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_INEQUALITY_SPATINEQ_CAPACITY_OVERLOAD",
       "label": "Economy Inequality Spatineq Capacity Overload",
       "summary": "Demand exceeding available Economy Inequality Spatineq capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "PULV",
+          "dir": "Hyper",
+          "detail": "attentional gate — overload",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "GP",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Spatial Inequality Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PULV",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_INEQUALITY_SPATINEQ_QUALITY_DEGRADATION",
       "label": "Economy Inequality Spatineq Quality Degradation",
       "summary": "Progressive decline in Economy Inequality Spatineq quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "PPA",
+          "dir": "Hypo",
+          "detail": "parahippocampal place area — scene/context recognition — context blindness",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "GP",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Spatial Inequality Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PPA",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

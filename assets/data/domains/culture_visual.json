@@ -3989,6 +3989,15 @@
       "summary": "Critical breakdown in Visual Arts systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "STN",
+          "dir": "Hypo",
+          "detail": "hyperdirect brake / hold — no-brake=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "MDT",
           "dir": "Hypo-active",
           "detail": "Visual Arts Assessment & Diagnostics capacity falling below operational thresholds, reducing Visual Arts output and reliability",
@@ -4018,13 +4027,28 @@
           "detail": "Visual Arts Performance & Optimization function reduced, compromising Visual Arts system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "CULTURE_VISUAL_CAPACITY_CRISIS",
       "label": "Visual Arts Capacity Crisis",
       "summary": "Demand exceeding available Visual Arts capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "GP",
+          "dir": "Hyper",
+          "detail": "basal-ganglia output gate — flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ANT",
           "dir": "Hyper-active",
@@ -4055,13 +4079,28 @@
           "detail": "Visual Arts Performance & Optimization operating outside normal parameters, introducing uncertainty into Visual Arts outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "GP",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "CULTURE_VISUAL_GOVERNANCE_GAP",
       "label": "Visual Arts Governance Gap",
       "summary": "Oversight or regulatory failure in Visual Arts creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "V1",
           "dir": "Hypo-active",
@@ -4092,7 +4131,13 @@
           "detail": "Visual Arts Coordination & Integration function reduced, compromising Visual Arts system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

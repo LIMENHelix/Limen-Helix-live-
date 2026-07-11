@@ -1970,6 +1970,15 @@
       "circuits": [
         {
           "nodeId": "AG",
+          "dir": "Hypo",
+          "detail": "angular gyrus — semantic/conceptual integration — semantic fragmentation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
+          "nodeId": "AG",
           "dir": "Hyper-active",
           "detail": "Discourse Analysis Assessment & Diagnostics function overloaded",
           "evidence": "Strong"
@@ -1998,13 +2007,28 @@
           "detail": "Discourse Analysis Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "AG",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_SPEECHLANG_DISCOURSE_CAPACITY_OVERLOAD",
       "label": "Communication Speechlang Discourse Capacity Overload",
       "summary": "Demand exceeding available Communication Speechlang Discourse capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "AG",
+          "dir": "Hyper",
+          "detail": "angular gyrus — semantic/conceptual integration — over-association",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "AG",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Discourse Analysis Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "AG",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_SPEECHLANG_DISCOURSE_QUALITY_DEGRADATION",
       "label": "Communication Speechlang Discourse Quality Degradation",
       "summary": "Progressive decline in Communication Speechlang Discourse quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "AG",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Discourse Analysis Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

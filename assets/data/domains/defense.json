@@ -2055,6 +2055,15 @@
       "summary": "Foreign military incursion into sovereign territory requiring full-spectrum defense mobilization across ground, air, naval, and cyber domains",
       "circuits": [
         {
+          "nodeId": "CeA",
+          "dir": "Hyper",
+          "detail": "phasic fear output — hair-trigger=false-alarm",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "M1",
           "dir": "Hyper-active",
           "detail": "Ground forces fully mobilized for territorial defense and counterattack operations",
@@ -2084,13 +2093,28 @@
           "detail": "Logistics chains operating at maximum throughput to sustain combat operations",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CeA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "CYBER_ATTACK",
       "label": "Cyber Attack",
       "summary": "Coordinated digital assault targeting critical infrastructure, military networks, and government systems, potentially disabling defense capabilities without kinetic action",
       "circuits": [
+        {
+          "nodeId": "PAG",
+          "dir": "Hypo",
+          "detail": "defensive kill/lockdown — no-stop",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FPN",
           "dir": "Altered",
@@ -2115,13 +2139,28 @@
           "detail": "Logistics coordination disrupted as digital supply chain management systems go offline",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PAG",
+        "dir": "hypo",
+        "motif": "M8",
+        "source": "override"
+      }
     },
     {
       "id": "NUCLEAR_THREAT",
       "label": "Nuclear Threat",
       "summary": "Escalation to potential nuclear conflict through brinkmanship, proliferation to unstable actors, or failure of deterrence doctrine",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PAG",
           "dir": "Hyper-active",
@@ -2146,7 +2185,13 @@
           "detail": "Civil defense in maximum alert with nuclear shelter and evacuation protocols activated",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_FAILURE",
@@ -2185,6 +2230,15 @@
       "summary": "Breakdown of military supply chains through disruption, attrition, or overextension, rendering forces unable to sustain combat operations",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CBLM",
           "dir": "Hypo-active",
           "detail": "Supply coordination breaks down with stockpiles depleted and resupply routes severed",
@@ -2208,13 +2262,28 @@
           "detail": "Weapons systems grounded or inoperable due to spare parts and maintenance shortfalls",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "CIVIL_UNREST",
       "label": "Civil Unrest",
       "summary": "Internal instability requiring defense forces to balance civil order maintenance with protection of civil liberties, risking institutional legitimacy",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CeA",
           "dir": "Hyper-active",
@@ -2239,7 +2308,13 @@
           "detail": "Emotional regulation systems strained as military personnel face morally complex domestic operations",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "edges": [

@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Hippocampal Metabolic Vulnerability systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HIPP",
+          "dir": "Hyper",
+          "detail": "HPA feedback + memory index — feedback-fail=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "LGN",
           "dir": "Hypo-active",
           "detail": "Hippocampal Metabolic Vulnerability Assessment & Diagnostics capacity falling below operational thresholds, reducing Hippocampal Metabolic Vulnerability output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Hippocampal Metabolic Vulnerability Performance & Optimization function reduced, compromising Hippocampal Metabolic Vulnerability system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HIPP",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "METABOLIC_HIPPOCAMPAL_CAPACITY_CRISIS",
       "label": "Hippocampal Metabolic Vulnerability Capacity Crisis",
       "summary": "Demand exceeding available Hippocampal Metabolic Vulnerability capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "HIPP",
+          "dir": "Hyper",
+          "detail": "HPA feedback + memory index — feedback-fail=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "MGN",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Hippocampal Metabolic Vulnerability Performance & Optimization operating outside normal parameters, introducing uncertainty into Hippocampal Metabolic Vulnerability outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HIPP",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "METABOLIC_HIPPOCAMPAL_GOVERNANCE_GAP",
       "label": "Hippocampal Metabolic Vulnerability Governance Gap",
       "summary": "Oversight or regulatory failure in Hippocampal Metabolic Vulnerability creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo",
+          "detail": "HPA feedback + memory index — intrusive-recall",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "SNIG",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Hippocampal Metabolic Vulnerability Coordination & Integration function reduced, compromising Hippocampal Metabolic Vulnerability system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HIPP",
+        "dir": "hypo",
+        "motif": "M3",
+        "source": "override"
+      }
     }
   ]
 }

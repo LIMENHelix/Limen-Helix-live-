@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Population Labor Migration systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "RSC",
+          "dir": "Hypo",
+          "detail": "retrosplenial — spatial memory & navigation — topographical disorientation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "VEST",
           "dir": "Hyper-active",
           "detail": "Labor Migration Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Labor Migration Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "RSC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_LABOR_MIGRATION_CAPACITY_OVERLOAD",
       "label": "Population Labor Migration Capacity Overload",
       "summary": "Demand exceeding available Population Labor Migration capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "VEST",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Labor Migration Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_LABOR_MIGRATION_QUALITY_DEGRADATION",
       "label": "Population Labor Migration Quality Degradation",
       "summary": "Progressive decline in Population Labor Migration quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "RSC",
+          "dir": "Hyper",
+          "detail": "retrosplenial — spatial memory & navigation — over-contextualization",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "VEST",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Labor Migration Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "RSC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

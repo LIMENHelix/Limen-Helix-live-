@@ -5307,6 +5307,15 @@
       "summary": "Critical breakdown in Birth Rates systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "NAcc",
+          "dir": "Hypo",
+          "detail": "incentive/reward drive — avolition",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "vmPFC",
           "dir": "Hypo-active",
           "detail": "Birth Rates Assessment & Diagnostics capacity falling below operational thresholds, reducing Birth Rates output and reliability",
@@ -5336,13 +5345,28 @@
           "detail": "Birth Rates Performance & Optimization function reduced, compromising Birth Rates system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_BIRTH_CAPACITY_CRISIS",
       "label": "Birth Rates Capacity Crisis",
       "summary": "Demand exceeding available Birth Rates capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "SEPT",
+          "dir": "Hypo",
+          "detail": "septal nuclei — theta rhythm / social reward — blunted bonding",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "VTA",
           "dir": "Hyper-active",
@@ -5373,13 +5397,28 @@
           "detail": "Birth Rates Performance & Optimization operating outside normal parameters, introducing uncertainty into Birth Rates outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "SEPT",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "POPULATION_BIRTH_GOVERNANCE_GAP",
       "label": "Birth Rates Governance Gap",
       "summary": "Oversight or regulatory failure in Birth Rates creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "AI",
           "dir": "Hypo-active",
@@ -5410,7 +5449,13 @@
           "detail": "Birth Rates Coordination & Integration function reduced, compromising Birth Rates system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

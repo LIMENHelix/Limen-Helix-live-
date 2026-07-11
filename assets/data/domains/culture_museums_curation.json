@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Culture Museums Curation systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "EC",
+          "dir": "Hypo",
+          "detail": "entorhinal — hippocampal memory gateway — encoding failure",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "rACC",
           "dir": "Hyper-active",
           "detail": "Museum Curation Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Museum Curation Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "EC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "CULTURE_MUSEUMS_CURATION_CAPACITY_OVERLOAD",
       "label": "Culture Museums Curation Capacity Overload",
       "summary": "Demand exceeding available Culture Museums Curation capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "EC",
+          "dir": "Hyper",
+          "detail": "entorhinal — hippocampal memory gateway — memory flooding/interference",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "rACC",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Museum Curation Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "EC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "CULTURE_MUSEUMS_CURATION_QUALITY_DEGRADATION",
       "label": "Culture Museums Curation Quality Degradation",
       "summary": "Progressive decline in Culture Museums Curation quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "PRC",
+          "dir": "Hyper",
+          "detail": "perirhinal — object recognition memory — false familiarity",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "rACC",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Museum Curation Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PRC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     }
   ]
 }

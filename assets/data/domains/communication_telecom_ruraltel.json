@@ -2276,6 +2276,15 @@
       "summary": "Critical breakdown in Communication Telecom Ruraltel systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "GP",
+          "dir": "Hypo",
+          "detail": "basal-ganglia output gate — lock (bradykinetic freeze)",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "DAN",
           "dir": "Hyper-active",
           "detail": "Rural Telecommunications Assessment & Diagnostics function overloaded",
@@ -2305,13 +2314,28 @@
           "detail": "Rural Telecommunications Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "GP",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_TELECOM_RURALTEL_CAPACITY_OVERLOAD",
       "label": "Communication Telecom Ruraltel Capacity Overload",
       "summary": "Demand exceeding available Communication Telecom Ruraltel capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "GP",
+          "dir": "Hyper",
+          "detail": "basal-ganglia output gate — flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "DAN",
           "dir": "Hyper-active",
@@ -2336,13 +2360,28 @@
           "detail": "Rural Telecommunications Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "GP",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_TELECOM_RURALTEL_QUALITY_DEGRADATION",
       "label": "Communication Telecom Ruraltel Quality Degradation",
       "summary": "Progressive decline in Communication Telecom Ruraltel quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "DAN",
           "dir": "Hypo-active",
@@ -2367,7 +2406,13 @@
           "detail": "Rural Telecommunications Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

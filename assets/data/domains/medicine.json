@@ -2113,6 +2113,15 @@
       "summary": "Rapid spread of novel infectious disease overwhelming healthcare capacity, supply chains, and public health infrastructure simultaneously",
       "circuits": [
         {
+          "nodeId": "BNST",
+          "dir": "Hyper",
+          "detail": "sustained threat monitor — tonic-stuck=burnout",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CeA",
           "dir": "Hyper-active",
           "detail": "Emergency departments overwhelmed with acute presentations, triage systems at breaking point",
@@ -2142,13 +2151,28 @@
           "detail": "Nursing workforce stretched beyond safe limits with burnout and moral injury",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BNST",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "DRUG_RESISTANCE",
       "label": "Drug Resistance Crisis",
       "summary": "Accelerating antimicrobial resistance rendering standard treatments ineffective, threatening a return to pre-antibiotic mortality rates",
       "circuits": [
+        {
+          "nodeId": "NEOCER",
+          "dir": "Hyper",
+          "detail": "cognitive forward model — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HYPO",
           "dir": "Hypo-active",
@@ -2173,13 +2197,28 @@
           "detail": "Surgical intervention required more frequently when drug therapy fails to resolve infections",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NEOCER",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "HEALTHCARE_COLLAPSE",
       "label": "Healthcare System Collapse",
       "summary": "Systemic failure of healthcare delivery from combined workforce shortages, financial insolvency, and infrastructure degradation",
       "circuits": [
+        {
+          "nodeId": "DV",
+          "dir": "Hyper",
+          "detail": "dorsal motor vagus — parasympathetic output — dorsal-vagal shutdown/collapse",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OXY",
           "dir": "Hypo-active",
@@ -2210,13 +2249,28 @@
           "detail": "Rehabilitation services cut as non-acute care is deprioritized, leading to chronic disability accumulation",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "DV",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "MALPRACTICE_CRISIS",
       "label": "Malpractice & Patient Safety Crisis",
       "summary": "Systemic increase in medical errors, diagnostic failures, and preventable harm eroding public trust in healthcare institutions",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dACC",
           "dir": "Hypo-active",
@@ -2241,13 +2295,28 @@
           "detail": "Ethics and accountability frameworks strained by volume of adverse events requiring review",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     },
     {
       "id": "SUPPLY_SHORTAGE",
       "label": "Medical Supply Shortage",
       "summary": "Critical shortages of medications, devices, blood products, and protective equipment disrupting care delivery across all specialties",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HYPO",
           "dir": "Hypo-active",
@@ -2272,13 +2341,28 @@
           "detail": "Diagnostic imaging hampered by contrast agent shortages and equipment maintenance backlogs",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "MENTAL_HEALTH_CRISIS",
       "label": "Mental Health Crisis",
       "summary": "Escalating prevalence of depression, anxiety, PTSD, and suicidality overwhelming psychiatric capacity and fragmenting behavioral health access",
       "circuits": [
+        {
+          "nodeId": "mPFC",
+          "dir": "Hyper",
+          "detail": "medial PFC — self-referential value integration (DMN core) — self-focus/rumination",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "DMN",
           "dir": "Hyper-active",
@@ -2309,13 +2393,28 @@
           "detail": "Rehabilitation and recovery support programs defunded, stalling functional restoration for chronic mental illness",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "mPFC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "CARE_ACCESS_FAILURE",
       "label": "Care Access Failure",
       "summary": "Treatment access gaps, provider shortage, delayed care, geographic care deserts, and affordability-driven deferral collapsing patient access pathways",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "mPFC",
           "dir": "Hypo-active",
@@ -2346,13 +2445,28 @@
           "detail": "Nursing workforce stretched across expanded care delivery points and extended hours",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "CHRONIC_DISEASE_LOAD",
       "label": "Chronic Disease Load",
       "summary": "Rising metabolic burden, persistent cardiovascular strain, diabetes and obesity escalation creating sustained long-duration treatment demand",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BNST",
           "dir": "Hyper-active",
@@ -2383,13 +2497,28 @@
           "detail": "Epidemiological tracking showing accelerating chronic disease prevalence at population level",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "CLINICAL_COORDINATION_BREAKDOWN",
       "label": "Clinical Coordination Breakdown",
       "summary": "Fragmented care pathways, referral leakage, discharge failure, poor interoperability, and multi-provider coordination gaps disrupting continuity of care",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "mPFC",
           "dir": "Hypo-active",
@@ -2420,13 +2549,28 @@
           "detail": "Diagnostic findings failing to propagate through fragmented clinical information systems",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "THERAPEUTIC_RELIABILITY_RISK",
       "label": "Therapeutic Reliability Risk",
       "summary": "Treatment inconsistency, evidence-to-care translation lag, diagnostic uncertainty, trial-to-practice gap, and quality variation across clinical sites",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "V1",
           "dir": "Hypo-reliable",
@@ -2457,7 +2601,13 @@
           "detail": "Gut-brain axis and complex systems research failing to translate evidence into standardized clinical protocols",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "edges": [

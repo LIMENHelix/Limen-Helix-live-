@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Energy Energytrans Commtrans systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "NAcc",
+          "dir": "Hypo",
+          "detail": "incentive/reward drive — avolition",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "FPN",
           "dir": "Hyper-active",
           "detail": "Community Transitions Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Community Transitions Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "ENERGY_ENERGYTRANS_COMMTRANS_CAPACITY_OVERLOAD",
       "label": "Energy Energytrans Commtrans Capacity Overload",
       "summary": "Demand exceeding available Energy Energytrans Commtrans capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
+          "detail": "incentive/reward drive — over-pursuit=bubble",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FPN",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Community Transitions Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "ENERGY_ENERGYTRANS_COMMTRANS_QUALITY_DEGRADATION",
       "label": "Energy Energytrans Commtrans Quality Degradation",
       "summary": "Progressive decline in Energy Energytrans Commtrans quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "OFC",
+          "dir": "Hyper",
+          "detail": "outcome valuation / update — confabulation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "FPN",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Community Transitions Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "OFC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

@@ -2913,6 +2913,15 @@
       "summary": "Critical breakdown in Counterintelligence systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "vlPFC",
           "dir": "Hypo-active",
           "detail": "Counterintelligence Assessment & Diagnostics capacity falling below operational thresholds, reducing Counterintelligence output and reliability",
@@ -2942,13 +2951,28 @@
           "detail": "Counterintelligence Performance & Optimization function reduced, compromising Counterintelligence system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_COUNTERINTELLIGENCE_CAPACITY_CRISIS",
       "label": "Counterintelligence Capacity Crisis",
       "summary": "Demand exceeding available Counterintelligence capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "PULV",
+          "dir": "Hyper",
+          "detail": "attentional gate — overload",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TPJ",
           "dir": "Hyper-active",
@@ -2979,13 +3003,28 @@
           "detail": "Counterintelligence Performance & Optimization operating outside normal parameters, introducing uncertainty into Counterintelligence outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PULV",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_COUNTERINTELLIGENCE_GOVERNANCE_GAP",
       "label": "Counterintelligence Governance Gap",
       "summary": "Oversight or regulatory failure in Counterintelligence creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hypo",
+          "detail": "response-inhibition / stop — disinhibited",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "RSC",
           "dir": "Hypo-active",
@@ -3016,7 +3055,13 @@
           "detail": "Counterintelligence Coordination & Integration function reduced, compromising Counterintelligence system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ]
 }

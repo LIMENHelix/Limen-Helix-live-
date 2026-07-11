@@ -274,6 +274,15 @@
       "summary": "Critical breakdown in Memory Reconsolidation Engine systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HIPP",
+          "dir": "Hyper",
+          "detail": "HPA feedback + memory index — feedback-fail=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "mPFC",
           "dir": "Hypo-active",
           "detail": "Memory Reconsolidation Engine Assessment & Diagnostics capacity falling below operational thresholds, reducing Memory Reconsolidation Engine output and reliability",
@@ -303,13 +312,28 @@
           "detail": "Memory Reconsolidation Engine Performance & Optimization function reduced, compromising Memory Reconsolidation Engine system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HIPP",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "PSYCHEDELIC_MEMORY_CAPACITY_CRISIS",
       "label": "Memory Reconsolidation Engine Capacity Crisis",
       "summary": "Demand exceeding available Memory Reconsolidation Engine capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo",
+          "detail": "HPA feedback + memory index — intrusive-recall",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PCC",
           "dir": "Hyper-active",
@@ -340,13 +364,28 @@
           "detail": "Memory Reconsolidation Engine Performance & Optimization operating outside normal parameters, introducing uncertainty into Memory Reconsolidation Engine outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HIPP",
+        "dir": "hypo",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "PSYCHEDELIC_MEMORY_GOVERNANCE_GAP",
       "label": "Memory Reconsolidation Engine Governance Gap",
       "summary": "Oversight or regulatory failure in Memory Reconsolidation Engine creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "HIPP",
+          "dir": "Hypo",
+          "detail": "HPA feedback + memory index — intrusive-recall",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "EC",
           "dir": "Hypo-active",
@@ -377,7 +416,13 @@
           "detail": "Memory Reconsolidation Engine Coordination & Integration function reduced, compromising Memory Reconsolidation Engine system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HIPP",
+        "dir": "hypo",
+        "motif": "M3",
+        "source": "override"
+      }
     }
   ]
 }

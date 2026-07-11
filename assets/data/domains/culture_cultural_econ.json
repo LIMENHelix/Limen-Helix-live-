@@ -12123,6 +12123,15 @@
       "summary": "Critical breakdown in Culture Cultural Econ systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "NAcc",
+          "dir": "Hypo",
+          "detail": "incentive/reward drive — avolition",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CMZ",
           "dir": "Hyper-active",
           "detail": "Cultural Econ Assessment & Diagnostics function overloaded",
@@ -12152,13 +12161,28 @@
           "detail": "Cultural Econ Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hypo",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "CULTURE_CULTURAL_ECON_CAPACITY_OVERLOAD",
       "label": "Culture Cultural Econ Capacity Overload",
       "summary": "Demand exceeding available Culture Cultural Econ capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
+          "detail": "incentive/reward drive — over-pursuit=bubble",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CMZ",
           "dir": "Hyper-active",
@@ -12183,13 +12207,28 @@
           "detail": "Cultural Econ Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "CULTURE_CULTURAL_ECON_QUALITY_DEGRADATION",
       "label": "Culture Cultural Econ Quality Degradation",
       "summary": "Progressive decline in Culture Cultural Econ quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "NEOCER",
+          "dir": "Hyper",
+          "detail": "cognitive forward model — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CMZ",
           "dir": "Hypo-active",
@@ -12214,7 +12253,13 @@
           "detail": "Cultural Econ Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NEOCER",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Medicine Psychiatry Anxiety systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "BNST",
+          "dir": "Hyper",
+          "detail": "sustained threat monitor — tonic-stuck=burnout",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "TrkB",
           "dir": "Hyper-active",
           "detail": "Anxiety Disorders Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Anxiety Disorders Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BNST",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "MEDICINE_PSYCHIATRY_ANXIETY_CAPACITY_OVERLOAD",
       "label": "Medicine Psychiatry Anxiety Capacity Overload",
       "summary": "Demand exceeding available Medicine Psychiatry Anxiety capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "BLA",
+          "dir": "Hyper",
+          "detail": "threat learning/acquisition — over-fear=PTSD",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TrkB",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Anxiety Disorders Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BLA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "MEDICINE_PSYCHIATRY_ANXIETY_QUALITY_DEGRADATION",
       "label": "Medicine Psychiatry Anxiety Quality Degradation",
       "summary": "Progressive decline in Medicine Psychiatry Anxiety quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CeA",
+          "dir": "Hyper",
+          "detail": "phasic fear output — hair-trigger=false-alarm",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "TrkB",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Anxiety Disorders Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CeA",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     }
   ]
 }

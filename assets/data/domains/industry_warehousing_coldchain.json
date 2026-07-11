@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Industry Warehousing Coldchain systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CMZ",
           "dir": "Hyper-active",
           "detail": "Cold Chain Warehousing Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Cold Chain Warehousing Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "INDUSTRY_WAREHOUSING_COLDCHAIN_CAPACITY_OVERLOAD",
       "label": "Industry Warehousing Coldchain Capacity Overload",
       "summary": "Demand exceeding available Industry Warehousing Coldchain capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CMZ",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Cold Chain Warehousing Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "INDUSTRY_WAREHOUSING_COLDCHAIN_QUALITY_DEGRADATION",
       "label": "Industry Warehousing Coldchain Quality Degradation",
       "summary": "Progressive decline in Industry Warehousing Coldchain quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hypo",
+          "detail": "homeostatic set-point — delayed=oscillation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CMZ",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Cold Chain Warehousing Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hypo",
+        "motif": "M3",
+        "source": "override"
+      }
     }
   ]
 }

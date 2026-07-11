@@ -2276,6 +2276,15 @@
       "summary": "Critical breakdown in Intelligence Humint Tradecraft systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vlPFC",
+          "dir": "Hypo",
+          "detail": "response-inhibition / stop — disinhibited",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "THAL",
           "dir": "Hyper-active",
           "detail": "Intelligence Tradecraft Assessment & Diagnostics function overloaded",
@@ -2305,13 +2314,28 @@
           "detail": "Intelligence Tradecraft Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_HUMINT_TRADECRAFT_CAPACITY_OVERLOAD",
       "label": "Intelligence Humint Tradecraft Capacity Overload",
       "summary": "Demand exceeding available Intelligence Humint Tradecraft capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hyper",
+          "detail": "response-inhibition / stop — over-suppress",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "THAL",
           "dir": "Hyper-active",
@@ -2336,13 +2360,28 @@
           "detail": "Intelligence Tradecraft Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hyper",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_HUMINT_TRADECRAFT_QUALITY_DEGRADATION",
       "label": "Intelligence Humint Tradecraft Quality Degradation",
       "summary": "Progressive decline in Intelligence Humint Tradecraft quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "THAL",
           "dir": "Hypo-active",
@@ -2367,7 +2406,13 @@
           "detail": "Intelligence Tradecraft Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

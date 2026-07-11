@@ -1969,6 +1969,15 @@
       "summary": "Critical breakdown in Intelligence Biointel Dualuse systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vlPFC",
+          "dir": "Hypo",
+          "detail": "response-inhibition / stop — disinhibited",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "PPN",
           "dir": "Hyper-active",
           "detail": "Dual-Use Biology Assessment & Diagnostics function overloaded",
@@ -1998,13 +2007,28 @@
           "detail": "Dual-Use Biology Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_BIOINTEL_DUALUSE_CAPACITY_OVERLOAD",
       "label": "Intelligence Biointel Dualuse Capacity Overload",
       "summary": "Demand exceeding available Intelligence Biointel Dualuse capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hyper",
+          "detail": "response-inhibition / stop — over-suppress",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PPN",
           "dir": "Hyper-active",
@@ -2029,13 +2053,28 @@
           "detail": "Dual-Use Biology Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hyper",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "INTELLIGENCE_BIOINTEL_DUALUSE_QUALITY_DEGRADATION",
       "label": "Intelligence Biointel Dualuse Quality Degradation",
       "summary": "Progressive decline in Intelligence Biointel Dualuse quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "PPN",
           "dir": "Hypo-active",
@@ -2060,7 +2099,13 @@
           "detail": "Dual-Use Biology Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ]
 }

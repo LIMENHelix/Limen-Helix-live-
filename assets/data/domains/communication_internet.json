@@ -4183,6 +4183,15 @@
       "summary": "Critical breakdown in Internet Infrastructure systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "THAL",
+          "dir": "Hypo",
+          "detail": "gating relay / routing — stuck-closed=starvation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "M1",
           "dir": "Hypo-active",
           "detail": "Internet Infrastructure Assessment & Diagnostics capacity falling below operational thresholds, reducing Internet Infrastructure output and reliability",
@@ -4212,13 +4221,28 @@
           "detail": "Internet Infrastructure Performance & Optimization function reduced, compromising Internet Infrastructure system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_INTERNET_CAPACITY_CRISIS",
       "label": "Internet Infrastructure Capacity Crisis",
       "summary": "Demand exceeding available Internet Infrastructure capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "S1",
           "dir": "Hyper-active",
@@ -4249,13 +4273,28 @@
           "detail": "Internet Infrastructure Performance & Optimization operating outside normal parameters, introducing uncertainty into Internet Infrastructure outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "COMMUNICATION_INTERNET_GOVERNANCE_GAP",
       "label": "Internet Infrastructure Governance Gap",
       "summary": "Oversight or regulatory failure in Internet Infrastructure creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HIPP",
           "dir": "Hypo-active",
@@ -4286,7 +4325,13 @@
           "detail": "Internet Infrastructure Coordination & Integration function reduced, compromising Internet Infrastructure system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

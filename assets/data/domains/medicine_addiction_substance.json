@@ -550,6 +550,15 @@
       "summary": "Clinical presentation and circuit dysfunction pattern for Alcohol Use Disorder",
       "circuits": [
         {
+          "nodeId": "NAcc",
+          "dir": "Hyper",
+          "detail": "incentive/reward drive — over-pursuit=bubble",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "NAc",
           "dir": "Hyper",
           "detail": "Nucleus accumbens sensitization to alcohol reward",
@@ -567,13 +576,28 @@
           "detail": "Dopaminergic drive amplification",
           "evidence": "A"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "NAcc",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "dx_medicine_addiction_substance_oud",
       "label": "Opioid Use Disorder",
       "summary": "Clinical presentation and circuit dysfunction pattern for Opioid Use Disorder",
       "circuits": [
+        {
+          "nodeId": "VTA",
+          "dir": "Hyper",
+          "detail": "dopamine reward source — mania/addiction",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "VTA",
           "dir": "Hyper",
@@ -592,13 +616,28 @@
           "detail": "Error monitoring and conflict detection suppressed",
           "evidence": "B"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "VTA",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     },
     {
       "id": "dx_medicine_addiction_substance_stim",
       "label": "Stimulant Use Disorder",
       "summary": "Clinical presentation and circuit dysfunction pattern for Stimulant Use Disorder",
       "circuits": [
+        {
+          "nodeId": "VTA",
+          "dir": "Hyper",
+          "detail": "dopamine reward source — mania/addiction",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "NAc",
           "dir": "Hyper",
@@ -617,7 +656,13 @@
           "detail": "Craving-related interoceptive signaling",
           "evidence": "B"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "VTA",
+        "dir": "hyper",
+        "motif": "M11",
+        "source": "override"
+      }
     }
   ]
 }

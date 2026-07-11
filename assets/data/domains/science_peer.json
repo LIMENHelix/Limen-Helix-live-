@@ -3921,6 +3921,15 @@
       "summary": "Critical breakdown in Peer Review systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "MDT",
           "dir": "Hypo-active",
           "detail": "Peer Review Assessment & Diagnostics capacity falling below operational thresholds, reducing Peer Review output and reliability",
@@ -3950,13 +3959,28 @@
           "detail": "Peer Review Performance & Optimization function reduced, compromising Peer Review system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "SCIENCE_PEER_CAPACITY_CRISIS",
       "label": "Peer Review Capacity Crisis",
       "summary": "Demand exceeding available Peer Review capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "PULV",
+          "dir": "Hypo",
+          "detail": "attentional gate — neglect",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ANT",
           "dir": "Hyper-active",
@@ -3987,13 +4011,28 @@
           "detail": "Peer Review Performance & Optimization operating outside normal parameters, introducing uncertainty into Peer Review outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PULV",
+        "dir": "hypo",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "SCIENCE_PEER_GOVERNANCE_GAP",
       "label": "Peer Review Governance Gap",
       "summary": "Oversight or regulatory failure in Peer Review creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vlPFC",
+          "dir": "Hypo",
+          "detail": "response-inhibition / stop — disinhibited",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "V1",
           "dir": "Hypo-active",
@@ -4024,7 +4063,13 @@
           "detail": "Peer Review Coordination & Integration function reduced, compromising Peer Review system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vlPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

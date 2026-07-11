@@ -4409,6 +4409,15 @@
       "summary": "Critical breakdown in Monetary Policy systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "CeA",
           "dir": "Hypo-active",
           "detail": "Monetary Policy Assessment & Diagnostics capacity falling below operational thresholds, reducing Monetary Policy output and reliability",
@@ -4438,13 +4447,28 @@
           "detail": "Monetary Policy Performance & Optimization function reduced, compromising Monetary Policy system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_MONETARY_CAPACITY_CRISIS",
       "label": "Monetary Policy Capacity Crisis",
       "summary": "Demand exceeding available Monetary Policy capacity, creating bottlenecks, quality deterioration, and escalating pressure on dependent systems",
       "circuits": [
+        {
+          "nodeId": "STN",
+          "dir": "Hyper",
+          "detail": "hyperdirect brake / hold — over-brake=paralysis",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "BNST",
           "dir": "Hyper-active",
@@ -4475,13 +4499,28 @@
           "detail": "Monetary Policy Performance & Optimization operating outside normal parameters, introducing uncertainty into Monetary Policy outputs",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "STN",
+        "dir": "hyper",
+        "motif": "M1",
+        "source": "override"
+      }
     },
     {
       "id": "ECONOMY_MONETARY_GOVERNANCE_GAP",
       "label": "Monetary Policy Governance Gap",
       "summary": "Oversight or regulatory failure in Monetary Policy creating compliance exposure, quality variance, and erosion of stakeholder trust",
       "circuits": [
+        {
+          "nodeId": "vmPFC",
+          "dir": "Hypo",
+          "detail": "top-down inhibitory brake — brake-fail=rogue",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "CON",
           "dir": "Hypo-active",
@@ -4512,7 +4551,13 @@
           "detail": "Monetary Policy Coordination & Integration function reduced, compromising Monetary Policy system integrity and continuity",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "vmPFC",
+        "dir": "hypo",
+        "motif": "M1",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

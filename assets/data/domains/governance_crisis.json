@@ -5062,6 +5062,15 @@
       "summary": "Critical breakdown in Governance Crisis systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "BNST",
+          "dir": "Hypo",
+          "detail": "sustained threat monitor — under-vigilant",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "ECN",
           "dir": "Hyper-active",
           "detail": "Crisis Assessment & Diagnostics function overloaded",
@@ -5091,13 +5100,28 @@
           "detail": "Crisis Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BNST",
+        "dir": "hypo",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "GOVERNANCE_CRISIS_CAPACITY_OVERLOAD",
       "label": "Governance Crisis Capacity Overload",
       "summary": "Demand exceeding available Governance Crisis capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "BNST",
+          "dir": "Hyper",
+          "detail": "sustained threat monitor — tonic-stuck=burnout",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ECN",
           "dir": "Hyper-active",
@@ -5122,13 +5146,28 @@
           "detail": "Crisis Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "BNST",
+        "dir": "hyper",
+        "motif": "M7",
+        "source": "override"
+      }
     },
     {
       "id": "GOVERNANCE_CRISIS_QUALITY_DEGRADATION",
       "label": "Governance Crisis Quality Degradation",
       "summary": "Progressive decline in Governance Crisis quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hypo",
+          "detail": "conflict/error monitor — noise-chase",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "ECN",
           "dir": "Hypo-active",
@@ -5153,7 +5192,13 @@
           "detail": "Crisis Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hypo",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

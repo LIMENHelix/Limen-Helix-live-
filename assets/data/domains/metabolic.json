@@ -2040,6 +2040,15 @@
       "circuits": [
         {
           "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
+          "nodeId": "HYPO",
           "dir": "Altered insulin sensing",
           "detail": "Hypothalamic insulin receptor desensitization disrupts appetite-satiety signaling and autonomic glucose regulation via arcuate nucleus leptin/insulin resistance",
           "evidence": "Strong"
@@ -2080,13 +2089,28 @@
           "detail": "Gut microbiome dysbiosis alters SCFA production and incretin signaling, driving endotoxemia that worsens central and peripheral insulin resistance",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "HYPOTHYROIDISM",
       "label": "Hypothyroidism",
       "summary": "Thyroid hormone deficiency reduces cerebral metabolic rate, impairs myelination and synaptic plasticity, and slows serotonin/norepinephrine synthesis critical for hippocampal neurogenesis and prefrontal function",
       "circuits": [
+        {
+          "nodeId": "PIT",
+          "dir": "Hypo",
+          "detail": "pituitary — endocrine output (HPA/HPG axis) — hormonal insufficiency",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "dlPFC",
           "dir": "Hypo-metabolic",
@@ -2123,13 +2147,28 @@
           "detail": "Cerebellar Purkinje cell dysfunction in severe hypothyroidism causes ataxia, dysmetria, and balance impairment",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PIT",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "METABOLIC_SYNDROME",
       "label": "Metabolic Syndrome",
       "summary": "Cluster of insulin resistance, visceral adiposity, dyslipidemia, and hypertension driven by hypothalamic energy sensing failure, sympathetic overdrive, and chronic low-grade neuroinflammation",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HYPO",
           "dir": "Altered energy sensing",
@@ -2172,13 +2211,28 @@
           "detail": "Insular cortex amplifies visceral metabolic distress signals, contributing to somatic complaints and interoceptive confusion",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "PCOS",
       "label": "Polycystic Ovary Syndrome",
       "summary": "Neuroendocrine disorder with hypothalamic GnRH pulse frequency acceleration, hyperandrogenism, and insulin resistance affecting prefrontal function, reward circuits, and mood regulation",
       "circuits": [
+        {
+          "nodeId": "PIT",
+          "dir": "Hyper",
+          "detail": "pituitary — endocrine output (HPA/HPG axis) — hormonal overdrive",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HYPO",
           "dir": "Hyper-pulsatile",
@@ -2215,13 +2269,28 @@
           "detail": "Gut microbiome dysbiosis correlates with androgen levels and may amplify metabolic and hormonal dysregulation",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PIT",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "CUSHINGS",
       "label": "Cushing's Syndrome",
       "summary": "Chronic cortisol excess is profoundly neurotoxic causing hippocampal volume loss up to 25%, prefrontal atrophy, and amygdala hyperactivation with depression in 50-80% of patients",
       "circuits": [
+        {
+          "nodeId": "PIT",
+          "dir": "Hyper",
+          "detail": "pituitary — endocrine output (HPA/HPG axis) — hormonal overdrive",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HIPP",
           "dir": "Hypo-atrophied",
@@ -2258,13 +2327,28 @@
           "detail": "Cortisol directly suppresses BDNF gene expression, reducing hippocampal neurogenesis and synaptic plasticity",
           "evidence": "Strong"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PIT",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "ADRENAL_INSUFFICIENCY",
       "label": "Adrenal Insufficiency",
       "summary": "Cortisol and aldosterone deficiency impairs prefrontal executive function, hippocampal memory, and energy homeostasis with fatigue and cognitive complaints persisting despite replacement therapy",
       "circuits": [
+        {
+          "nodeId": "PIT",
+          "dir": "Hypo",
+          "detail": "pituitary — endocrine output (HPA/HPG axis) — hormonal insufficiency",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HPA",
           "dir": "Hypo-cortisol",
@@ -2301,13 +2385,28 @@
           "detail": "Fatigue perception amplified through insular interoceptive processing, contributing to persistent quality-of-life impairment",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "PIT",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "OBESITY_NEUROMETABOLIC",
       "label": "Neurometabolic Obesity",
       "summary": "Hypothalamic leptin/insulin resistance, reward circuit hijacking, and prefrontal inhibitory failure drive pathological weight gain while neuroinflammation from adipose tissue crosses the BBB to impair hippocampal plasticity",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HYPO",
           "dir": "Altered leptin/insulin resistance",
@@ -2350,13 +2449,28 @@
           "detail": "Orbitofrontal cortex hypervalues food reward, assigning disproportionate hedonic weight to calorie-dense stimuli",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "INSULIN_RESISTANCE",
       "label": "Insulin Resistance",
       "summary": "Central insulin resistance impairs hypothalamic energy sensing, prefrontal executive function, and hippocampal plasticity before overt diabetes develops, representing the earliest neurocognitive stage of metabolic disease",
       "circuits": [
+        {
+          "nodeId": "HYPO",
+          "dir": "Hypo",
+          "detail": "homeostatic set-point — delayed=oscillation",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "HYPO",
           "dir": "Altered insulin/leptin resistance",
@@ -2393,7 +2507,13 @@
           "detail": "Gut permeability and endotoxemia drive systemic and neuroinflammation that precedes and accelerates progression to overt diabetes",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hypo",
+        "motif": "M3",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

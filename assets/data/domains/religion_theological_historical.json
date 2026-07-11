@@ -2275,6 +2275,15 @@
       "summary": "Critical breakdown in Religion Theological Historical systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "EC",
+          "dir": "Hypo",
+          "detail": "entorhinal — hippocampal memory gateway — encoding failure",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "VEST",
           "dir": "Hyper-active",
           "detail": "Historical Theology Assessment & Diagnostics function overloaded",
@@ -2304,13 +2313,28 @@
           "detail": "Historical Theology Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "EC",
+        "dir": "hypo",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_THEOLOGICAL_HISTORICAL_CAPACITY_OVERLOAD",
       "label": "Religion Theological Historical Capacity Overload",
       "summary": "Demand exceeding available Religion Theological Historical capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "EC",
+          "dir": "Hyper",
+          "detail": "entorhinal — hippocampal memory gateway — memory flooding/interference",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "VEST",
           "dir": "Hyper-active",
@@ -2335,13 +2359,28 @@
           "detail": "Historical Theology Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "EC",
+        "dir": "hyper",
+        "motif": null,
+        "source": "override"
+      }
     },
     {
       "id": "RELIGION_THEOLOGICAL_HISTORICAL_QUALITY_DEGRADATION",
       "label": "Religion Theological Historical Quality Degradation",
       "summary": "Progressive decline in Religion Theological Historical quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "dACC",
+          "dir": "Hyper",
+          "detail": "conflict/error monitor — priors-too-strong",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "VEST",
           "dir": "Hypo-active",
@@ -2366,7 +2405,13 @@
           "detail": "Historical Theology Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "dACC",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {

@@ -2276,6 +2276,15 @@
       "summary": "Critical breakdown in Industry Industrial Processcontrol systems causing cascading operational disruptions, service degradation, and downstream dependency failures",
       "circuits": [
         {
+          "nodeId": "HYPO",
+          "dir": "Hyper",
+          "detail": "homeostatic set-point — severed=runaway",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
+        {
           "nodeId": "OFC",
           "dir": "Hyper-active",
           "detail": "Process Control Assessment & Diagnostics function overloaded",
@@ -2305,13 +2314,28 @@
           "detail": "Process Control Policy & Governance function underperforming",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "HYPO",
+        "dir": "hyper",
+        "motif": "M3",
+        "source": "override"
+      }
     },
     {
       "id": "INDUSTRY_INDUSTRIAL_PROCESSCONTROL_CAPACITY_OVERLOAD",
       "label": "Industry Industrial Processcontrol Capacity Overload",
       "summary": "Demand exceeding available Industry Industrial Processcontrol capacity, creating bottlenecks, delays, and quality degradation across interconnected systems",
       "circuits": [
+        {
+          "nodeId": "THAL",
+          "dir": "Hyper",
+          "detail": "gating relay / routing — stuck-open=flood",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OFC",
           "dir": "Hyper-active",
@@ -2336,13 +2360,28 @@
           "detail": "Process Control Risk & Resilience systems overwhelmed by demand surge",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "THAL",
+        "dir": "hyper",
+        "motif": "M4",
+        "source": "override"
+      }
     },
     {
       "id": "INDUSTRY_INDUSTRIAL_PROCESSCONTROL_QUALITY_DEGRADATION",
       "label": "Industry Industrial Processcontrol Quality Degradation",
       "summary": "Progressive decline in Industry Industrial Processcontrol quality standards, threatening stakeholder trust and operational effectiveness",
       "circuits": [
+        {
+          "nodeId": "CBLM",
+          "dir": "Hyper",
+          "detail": "forward-model error-correct — model-drift",
+          "evidence": "Unrated",
+          "_canonical": true
+        }
+      ],
+      "_authored": [
         {
           "nodeId": "OFC",
           "dir": "Hypo-active",
@@ -2367,7 +2406,13 @@
           "detail": "Process Control Risk & Resilience quality metrics declining below acceptable thresholds",
           "evidence": "Moderate"
         }
-      ]
+      ],
+      "resolved": {
+        "nodeId": "CBLM",
+        "dir": "hyper",
+        "motif": "M6",
+        "source": "override"
+      }
     }
   ],
   "_enrichment": {
