@@ -30,10 +30,27 @@
   function enrich(entry, id) {
     var rec = NODES[id]; if (!rec || !entry || typeof entry !== 'object') return;
     entry.motif = rec.motif || null;
-    entry.businessFunction = rec.businessFunction || null;
     entry.isomorphismTier = rec.tier || null;
     entry.fractalWeight = !!rec.fractalWeight;
-    entry.mappingClass = rec.fractalWeight ? 'fractal-bearing (M6/M8/M11)' : (rec.motif ? 'T3 control-law (doctrine-neutral)' : 'unvalidated analogy');
+    // Tier B: a no-motif REAL node is a PROCESSING node (real computation, not a
+    // control loop). It is not an 'unvalidated analogy' — it has a real role +
+    // failure modes; its business mapping is a FUNCTIONAL analogy, not one of the
+    // 12 control-loop isomorphisms. Classify + surface its honest role, don't null it.
+    if (rec.motif) {
+      entry.businessFunction = rec.businessFunction || null;
+      entry.mappingClass = rec.fractalWeight ? 'fractal-bearing (M6/M8/M11)' : 'T3 control-law (doctrine-neutral)';
+      entry.nodeKind = 'control';
+    } else if (rec.role) {
+      entry.businessFunction = rec.businessFunction || rec.role;
+      entry.mappingClass = 'processing node — functional analogy (not a control motif)';
+      entry.nodeKind = 'processing';
+      entry.role = rec.role;
+      if (rec.failureModes) entry.failureModes = rec.failureModes;
+    } else {
+      entry.businessFunction = null;
+      entry.mappingClass = 'unvalidated analogy';
+      entry.nodeKind = 'unclassified';
+    }
   }
   // A1: a fabricated confidence float on a node->company GUESS is the forbidden
   // anti-pattern. Keep the number (internal ordering) but relabel it honestly as an

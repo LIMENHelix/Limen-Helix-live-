@@ -704,7 +704,7 @@
       var rec = nodes ? _classifyNode(n.id, nodes) : null;
       var der = (rec && rec.canBindBusiness) ? _deriveFailurePole(rec, stress) : null;
       return { id: n.id, motif: n.motif || (rec && rec.motif) || null, weight: n.count,
-               pole: der ? der.pole : null, reading: der ? der.diagnosis : null };
+               pole: der ? der.pole : null, reading: der ? der.reading : null };
     });
 
     // Hottest deep sub-topics (drill targets) = heaviest surface entries below L1.
