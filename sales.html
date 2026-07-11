@@ -95,6 +95,7 @@
       <div class="funnel" id="funnel"><div class="muted" style="padding:20px">Unlock and run a simulation to bring the machine alive.</div></div>
       <div class="loop" id="loop"></div>
       <div class="kpis" id="kpis"></div>
+      <div class="loop" id="revBreak" style="color:var(--faint)"></div>
       <div class="legend">Click any bucket to open its command page: the FITT × SET × FBA grid, live channel economics, and the plays running there.</div>
     </div>
 
@@ -195,14 +196,23 @@ function renderFunnel(f){
   $('#loop').innerHTML = `↩ <b>Feedback loop:</b>&nbsp; ${fb.referralsProduced||0} referrals re-enter the LEADS bucket — the healthiest, cheapest source. The REFERRALS page drives acquisition (source → leads).`;
   const enroll = sc.enrollments||0;
   const spend = f.spendCents||0;
-  // revenue estimate from config deal values is not in agg; show spend + enroll + implied
+  const revenue = f.revenueCents||0;
+  const profit = f.profitCents!=null?f.profitCents:(revenue-spend);
+  const roas = f.roas!=null?f.roas:(spend>0?revenue/spend:null);
   const kpis = [
+    {k:'Revenue', v:money(revenue), cls: revenue>0?'pos':''},
+    {k:'Spend', v:money(spend), cls:'neg'},
+    {k:'Net profit', v:money(profit), cls: profit>=0?'pos':'neg'},
+    {k:'ROAS', v: roas!=null?(roas.toFixed(2)+'×'):'—', cls: roas!=null&&roas>=1?'pos':(roas!=null?'neg':'')},
     {k:'Enrollments', v:enroll, cls:''},
-    {k:'Total spend', v:money(spend), cls:'neg'},
-    {k:'Cost / enroll', v: enroll?money(spend/enroll):'—', cls:''},
-    {k:'Referrals', v: sc.referrals||0, cls:'pos'}
+    {k:'Cost / enroll', v: enroll?money(spend/enroll):'—', cls:''}
   ];
   $('#kpis').innerHTML = kpis.map(x=>`<div class="kpi ${x.cls}"><div class="v">${typeof x.v==='number'?x.v.toLocaleString():x.v}</div><div class="k">${x.k}</div></div>`).join('');
+  // revenue-by-deal-size breakdown line (stable element — no accumulation)
+  const bd = f.revenueByDeal||{};
+  const parts = Object.keys(bd).filter(function(k){return bd[k].count>0;}).sort()
+    .map(function(k){return `<b>${k}</b> ${bd[k].count}×${money(bd[k].valueCents)} = ${money(bd[k].revenueCents)}`;});
+  $('#revBreak').innerHTML = parts.length?`💵 Revenue by deal size: ${parts.join(' · ')}`:'';
 }
 
 function renderTop(plays){
