@@ -35,6 +35,7 @@ var K = {
   domainStats: 'leadgen:domainstats',   // { domain: {count, costCents} }
   companyStats: 'leadgen:companystats', // { companyId: {count, costCents} }
   companies: 'sales:companies', // editable venture registry
+  companiesSeeded: 'sales:companies_seeded', // default ids already introduced (so deletes stick)
   salesAgg: 'sales:agg',        // shared with the sales funnel
   salesMeta: 'sales:meta'
 };
@@ -45,12 +46,20 @@ var DOMAINS = ['agriculture', 'communication', 'culture', 'defense', 'economy', 
   'energy', 'environment', 'finance', 'governance', 'industry', 'infrastructure', 'intelligence',
   'law', 'medicine', 'population', 'religion', 'science', 'technology', 'trade'];
 
-// L1 ventures seeded on first run. Domains are best-guess and EDITABLE from the
-// page (or via action=company) — the operator owns the real mapping.
+// L1 ventures. Domains are best-guess and EDITABLE from the page (or via
+// action=company) — the operator owns the real mapping. New entries here are
+// merged into the live registry on deploy (introduced once; a later delete
+// sticks — see loadCompanies). The 5 domain "desks" are the P3 instances.
 var DEFAULT_COMPANIES = [
   { id: 'killswitch', name: 'Killswitch', domain: 'technology', level: 'L1', note: 'Web agency — free-site anchor + module upsells.' },
-  { id: 'homestead', name: 'Homestead', domain: 'economy', level: 'L1', note: 'Distressed real-estate desk.' },
-  { id: 'relay', name: 'Relay', domain: 'finance', level: 'L1', note: 'Arbitrage broker (Relay/Spread).' }
+  { id: 'relay', name: 'Relay', domain: 'finance', level: 'L1', note: 'Arbitrage broker (Relay / Spread).' },
+  { id: 'homestead', name: 'Homestead', domain: 'economy', level: 'L1', note: 'Distressed real-estate desk (P3 / RE).' },
+  { id: 'tension', name: 'TENSION', domain: 'medicine', level: 'L1', note: 'Fitness — time-under-tension + meal replacement. (no fitness domain; medicine is closest)' },
+  { id: 'industry-desk', name: 'Industry Desk', domain: 'industry', level: 'L1', note: 'Industrial distress / WARN desk (P3).' },
+  { id: 'finance-desk', name: 'Finance Desk', domain: 'finance', level: 'L1', note: 'Distressed securities / EDGAR desk (P3).' },
+  { id: 'technology-desk', name: 'Technology Desk', domain: 'technology', level: 'L1', note: 'Tech layoffs desk (P3 / layoffs.fyi).' },
+  { id: 'medicine-desk', name: 'Medicine Desk', domain: 'medicine', level: 'L1', note: 'Adverse-event / openFDA desk (P3).' },
+  { id: 'energy-desk', name: 'Energy Desk', domain: 'energy', level: 'L1', note: 'Retiring-generators / EIA desk (P3).' }
 ];
 
 // ── source registry ──────────────────────────────────────────────────────
@@ -127,11 +136,25 @@ function stampContext(leads, domain, company) {
 }
 
 // ── company registry ────────────────────────────────────────────────────────
+// Merge DEFAULT_COMPANIES into the live registry, introducing each default id
+// AT MOST ONCE (tracked in companiesSeeded). So new defaults appear on deploy,
+// operator edits are preserved, and a company the operator deletes stays gone.
 async function loadCompanies() {
-  var c = await db.get(K.companies);
-  if (Array.isArray(c) && c.length) return c;
-  await db.set(K.companies, DEFAULT_COMPANIES);   // seed once
-  return DEFAULT_COMPANIES.slice();
+  var stored = await db.get(K.companies);
+  stored = Array.isArray(stored) ? stored : [];
+  var seeded = await db.get(K.companiesSeeded);
+  seeded = Array.isArray(seeded) ? seeded : [];
+  var have = {}; stored.forEach(function (c) { have[c.id] = 1; });
+  var seen = {}; seeded.forEach(function (id) { seen[id] = 1; });
+  var changed = false;
+  DEFAULT_COMPANIES.forEach(function (d) {
+    if (!seen[d.id]) {                             // never introduced before
+      if (!have[d.id]) { stored.push(Object.assign({}, d)); have[d.id] = 1; }
+      seeded.push(d.id); seen[d.id] = 1; changed = true;
+    }
+  });
+  if (changed) { await db.set(K.companies, stored); await db.set(K.companiesSeeded, seeded); }
+  return stored;
 }
 function slugify(s) { return String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || ('c' + Date.now().toString(36)); }
 
