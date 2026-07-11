@@ -121,7 +121,10 @@ const MAP = {
 };
 const $ = s=>document.querySelector(s);
 const qs = new URLSearchParams(location.search);
-const STAGE = (qs.get('stage')||'leads').toLowerCase();
+// Stage comes from the PATH (/sales-appointments) — a rewrite is internal, so
+// the browser URL keeps the clean path and any ?stage= in the rewrite target is
+// invisible here. Fall back to ?stage= (direct /sales-stage access), then leads.
+const STAGE = ((location.pathname.match(/sales-([a-z]+)/)||[])[1] || qs.get('stage') || 'leads').toLowerCase();
 const M = MAP[STAGE] || MAP.leads;
 let CFG=null;
 function key(){ return localStorage.getItem('salesKey')||''; }
