@@ -32,10 +32,26 @@ var K = {
   lead: 'leadgen:lead:',        // per-lead record
   dedup: 'leadgen:dedup',       // { normKey: leadId }
   stats: 'leadgen:sourcestats', // { source: {count, costCents, scoreSum} }
+  domainStats: 'leadgen:domainstats',   // { domain: {count, costCents} }
+  companyStats: 'leadgen:companystats', // { companyId: {count, costCents} }
+  companies: 'sales:companies', // editable venture registry
   salesAgg: 'sales:agg',        // shared with the sales funnel
   salesMeta: 'sales:meta'
 };
 var INDEX_CAP = 5000;
+
+// The 20 LIMEN domains — the top organizing layer for lead management.
+var DOMAINS = ['agriculture', 'communication', 'culture', 'defense', 'economy', 'education',
+  'energy', 'environment', 'finance', 'governance', 'industry', 'infrastructure', 'intelligence',
+  'law', 'medicine', 'population', 'religion', 'science', 'technology', 'trade'];
+
+// L1 ventures seeded on first run. Domains are best-guess and EDITABLE from the
+// page (or via action=company) — the operator owns the real mapping.
+var DEFAULT_COMPANIES = [
+  { id: 'killswitch', name: 'Killswitch', domain: 'technology', level: 'L1', note: 'Web agency — free-site anchor + module upsells.' },
+  { id: 'homestead', name: 'Homestead', domain: 'economy', level: 'L1', note: 'Distressed real-estate desk.' },
+  { id: 'relay', name: 'Relay', domain: 'finance', level: 'L1', note: 'Arbitrage broker (Relay/Spread).' }
+];
 
 // ── source registry ──────────────────────────────────────────────────────
 var SOURCE_DEFS = [
@@ -95,9 +111,29 @@ function makeLead(raw, source, costCents) {
   lead.costCents = costCents || 0;
   lead.score = scoreLead(lead, source);
   lead.status = 'new';
+  lead.domain = (DOMAINS.indexOf(clip(raw.domain, 40)) !== -1) ? clip(raw.domain, 40) : '';
+  lead.company = clip(raw.company, 80);
   lead.dedup = dedupKey(lead);
   return lead;
 }
+
+// Stamp domain + company context onto a batch (adapters don't know it; the
+// pull/import/capture request does).
+function stampContext(leads, domain, company) {
+  var d = (DOMAINS.indexOf(clip(domain, 40)) !== -1) ? clip(domain, 40) : '';
+  var c = clip(company, 80);
+  leads.forEach(function (l) { if (d) l.domain = d; if (c) l.company = c; });
+  return leads;
+}
+
+// ── company registry ────────────────────────────────────────────────────────
+async function loadCompanies() {
+  var c = await db.get(K.companies);
+  if (Array.isArray(c) && c.length) return c;
+  await db.set(K.companies, DEFAULT_COMPANIES);   // seed once
+  return DEFAULT_COMPANIES.slice();
+}
+function slugify(s) { return String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || ('c' + Date.now().toString(36)); }
 
 async function loadStats() { return (await db.get(K.stats)) || {}; }
 async function loadDedup() { return (await db.get(K.dedup)) || {}; }
@@ -109,6 +145,8 @@ async function loadIndex() { var x = await db.get(K.index); return Array.isArray
 async function persistLeads(newLeads) {
   var dd = await loadDedup();
   var stats = await loadStats();
+  var dstats = (await db.get(K.domainStats)) || {};
+  var cstats = (await db.get(K.companyStats)) || {};
   var agg = (await db.get(K.salesAgg)) || E.emptyAgg();
   var index = await loadIndex();
   var added = [], dupes = 0;
@@ -120,6 +158,14 @@ async function persistLeads(newLeads) {
     index.unshift(lead.id);
     var st = stats[lead.source] || (stats[lead.source] = { count: 0, costCents: 0, scoreSum: 0 });
     st.count += 1; st.costCents += lead.costCents; st.scoreSum += lead.score;
+    var dk = lead.domain || 'unassigned';
+    var ds = dstats[dk] || (dstats[dk] = { count: 0, costCents: 0 });
+    ds.count += 1; ds.costCents += lead.costCents;
+    if (lead.company) {
+      var ck = lead.company;
+      var cs = cstats[ck] || (cstats[ck] = { count: 0, costCents: 0 });
+      cs.count += 1; cs.costCents += lead.costCents;
+    }
     // mirror to sales funnel acquisition (cost + a captured lead = a won source>leads)
     E.applyEvent(agg, {
       transitionId: 'source>leads', from: 'source', to: 'leads', unit: lead.source,
@@ -130,6 +176,8 @@ async function persistLeads(newLeads) {
   if (index.length > INDEX_CAP) index = index.slice(0, INDEX_CAP);
   await db.set(K.dedup, dd);
   await db.set(K.stats, stats);
+  await db.set(K.domainStats, dstats);
+  await db.set(K.companyStats, cstats);
   await db.set(K.salesAgg, agg);
   await db.set(K.index, index);
   // bump sales realEvents so dataMode reflects real captures
@@ -244,6 +292,7 @@ module.exports = async function handler(req, res) {
     return j(res, 200, {
       ok: true, surface: 'leadgen', backend: db.getBackend(),
       keyConfigured: !!(process.env.SALES_ADMIN_KEY || process.env.LEAD_ADMIN_KEY),
+      domains: DOMAINS,
       sources: SOURCE_DEFS.map(function (d) { return { id: d.id, label: d.label, kind: d.kind, status: sourceStatus(d), env: d.env || null, note: d.note }; })
     });
   }
@@ -271,19 +320,70 @@ module.exports = async function handler(req, res) {
     if (method === 'GET' && action === 'leads') {
       var limit = Math.min(parseInt(u.searchParams.get('limit') || '100', 10) || 100, 500);
       var src = u.searchParams.get('source') || '';
+      var fdomain = u.searchParams.get('domain') || '';
+      var fcompany = u.searchParams.get('company') || '';
       var ids = await loadIndex();
       var leads = [];
       for (var i = 0; i < ids.length && leads.length < limit; i++) {
         var l = await db.get(K.lead + ids[i]);
         if (!l) continue;
         if (src && l.source !== src) continue;
+        if (fdomain && (l.domain || '') !== fdomain) continue;
+        if (fcompany && (l.company || '') !== fcompany) continue;
         leads.push(l);
       }
       return j(res, 200, { ok: true, count: leads.length, total: ids.length, leads: leads });
     }
 
+    // Domain board + company registry with lead counts.
+    if (method === 'GET' && action === 'board') {
+      var dstats2 = (await db.get(K.domainStats)) || {};
+      var cstats2 = (await db.get(K.companyStats)) || {};
+      var companies = await loadCompanies();
+      var domains = DOMAINS.map(function (d) {
+        var s = dstats2[d] || { count: 0, costCents: 0 };
+        return { id: d, count: s.count, costCents: s.costCents, companies: companies.filter(function (c) { return c.domain === d; }).map(function (c) { return c.id; }) };
+      });
+      var unassigned = dstats2.unassigned || { count: 0 };
+      var comps = companies.map(function (c) {
+        var s = cstats2[c.id] || cstats2[c.name] || { count: 0, costCents: 0 };
+        return Object.assign({}, c, { count: s.count, costCents: s.costCents });
+      });
+      return j(res, 200, { ok: true, domains: domains, companies: comps, unassigned: unassigned.count });
+    }
+
+    if (method === 'GET' && action === 'companies') {
+      return j(res, 200, { ok: true, companies: await loadCompanies() });
+    }
+
     var raw = '', body = {};
     if (method === 'POST') { raw = await readBody(req); body = raw; if (typeof raw === 'string' && raw) { try { body = JSON.parse(raw); } catch (e) { body = {}; } } if (!body || typeof body !== 'object') body = {}; }
+
+    // Create or update a company (venture). Body: {id?, name, domain, level?, note?}
+    if (method === 'POST' && action === 'company') {
+      if (!body.name && !body.id) return j(res, 400, { ok: false, error: 'company name required' });
+      var companies2 = await loadCompanies();
+      var id = clip(body.id, 40) || slugify(body.name);
+      var domain = (DOMAINS.indexOf(clip(body.domain, 40)) !== -1) ? clip(body.domain, 40) : '';
+      var existing = companies2.filter(function (c) { return c.id === id; })[0];
+      if (existing) {
+        if (body.name) existing.name = clip(body.name, 80);
+        if (body.domain !== undefined) existing.domain = domain;
+        if (body.level) existing.level = clip(body.level, 8);
+        if (body.note !== undefined) existing.note = clip(body.note, 300);
+      } else {
+        companies2.push({ id: id, name: clip(body.name, 80) || id, domain: domain, level: clip(body.level, 8) || 'L1', note: clip(body.note, 300) });
+      }
+      await db.set(K.companies, companies2);
+      return j(res, 200, { ok: true, company: companies2.filter(function (c) { return c.id === id; })[0], count: companies2.length });
+    }
+
+    if (method === 'POST' && action === 'company-delete') {
+      var delId = clip(body.id, 40);
+      var companies3 = (await loadCompanies()).filter(function (c) { return c.id !== delId; });
+      await db.set(K.companies, companies3);
+      return j(res, 200, { ok: true, deleted: delId, count: companies3.length });
+    }
 
     if (method === 'POST' && action === 'capture') {
       var one = body.lead || body;
@@ -291,6 +391,7 @@ module.exports = async function handler(req, res) {
         return j(res, 400, { ok: false, error: 'A lead needs at least an email, phone, or name.' });
       }
       var lead = makeLead(one, clip(one.source, 40) || 'manual', parseInt(one.costCents, 10) || 0);
+      stampContext([lead], one.domain, one.company);
       var pr = await persistLeads([lead]);
       return j(res, 200, { ok: true, added: pr.addedCount, dupes: pr.dupes, lead: pr.added[0] || null });
     }
@@ -305,6 +406,7 @@ module.exports = async function handler(req, res) {
       var costEach = parseInt(body.costPerLeadCents, 10) || 0;
       var leads2 = recs.slice(0, 2000).map(function (r) { return makeLead(r, source, costEach); })
         .filter(function (l) { return validEmail(l.email) || normPhone(l.phone).length >= 10 || l.name; });
+      stampContext(leads2, body.domain, body.company);
       var pr2 = await persistLeads(leads2);
       return j(res, 200, { ok: true, parsed: recs.length, valid: leads2.length, added: pr2.addedCount, dupes: pr2.dupes });
     }
@@ -318,6 +420,7 @@ module.exports = async function handler(req, res) {
       else if (source3 === 'web-scrape') { var w = await pullWebScrape(body.url, limit3); got = w.leads; note = w.note; err = w.error; }
       else { return j(res, 400, { ok: false, error: 'Pull not available for source "' + source3 + '". Live pull: inbound-form, google-places (key), web-scrape.' }); }
       if (err) return j(res, 200, { ok: false, source: source3, error: err, added: 0 });
+      stampContext(got || [], body.domain, body.company);
       var pr3 = await persistLeads(got || []);
       return j(res, 200, { ok: true, source: source3, pulled: (got || []).length, added: pr3.addedCount, dupes: pr3.dupes, note: note });
     }
@@ -326,6 +429,8 @@ module.exports = async function handler(req, res) {
       var ids2 = await loadIndex();
       for (var d = 0; d < ids2.length; d++) await db.del(K.lead + ids2[d]);
       await db.del(K.index); await db.del(K.dedup); await db.del(K.stats);
+      await db.del(K.domainStats); await db.del(K.companyStats);
+      // company registry is intentionally preserved across a lead reset
       return j(res, 200, { ok: true, reset: true, cleared: ids2.length });
     }
 

@@ -62,6 +62,25 @@
   .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--panel);border:1px solid var(--cyan);color:var(--ink);padding:10px 16px;border-radius:8px;font-size:13px;opacity:0;transition:.2s;pointer-events:none;z-index:9;max-width:80vw}
   .toast.show{opacity:1}
   .guard{font-size:11.5px;color:var(--faint);margin-top:10px;border-top:1px dashed var(--line);padding-top:10px}
+  .ctxbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px;font-size:13px;color:var(--dim)}
+  .domboard{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+  .dom{font-size:11.5px;padding:4px 10px;border-radius:8px;border:1px solid var(--line);background:var(--panel2);cursor:pointer;color:var(--dim);display:flex;gap:6px;align-items:center;transition:.12s}
+  .dom:hover{border-color:var(--cyan);color:#fff}
+  .dom.active{border-color:var(--cyan);color:var(--cyan);background:#0f2a26}
+  .dom .c{font-variant-numeric:tabular-nums;font-weight:700;color:var(--ink);min-width:14px;text-align:right}
+  .dom.empty{opacity:.5}
+  .companies{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;margin-bottom:12px}
+  .co{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:11px;cursor:pointer;transition:.12s}
+  .co:hover{border-color:var(--violet)}
+  .co.active{border-color:var(--violet);background:#120a1e}
+  .co .nm{font-weight:600;display:flex;justify-content:space-between;gap:8px;align-items:center}
+  .co .lvl{font-size:9.5px;padding:1px 6px;border-radius:20px;border:1px solid #3a2a5a;color:var(--violet)}
+  .co .meta{font-size:11px;color:var(--faint);margin-top:3px}
+  .co .cc{font-size:12px;color:var(--dim);margin-top:6px;font-variant-numeric:tabular-nums}
+  .co .cc b{color:var(--ink)}
+  .co .edit{font-size:10px;color:var(--blue);margin-top:6px;display:inline-block}
+  .addco{display:flex;gap:6px;flex-wrap:wrap;align-items:center;border-top:1px dashed var(--line);padding-top:10px}
+  .addco input,.addco select{font-size:12px;padding:5px 8px}
 </style>
 </head>
 <body>
@@ -83,7 +102,29 @@
   <div class="kpis" id="kpis"></div>
 
   <div class="panel">
+    <h2>Ventures — 20 domains · L1 companies</h2>
+    <div class="ctxbar">
+      <b style="color:var(--ink)">Working on:</b>
+      <select id="ctxDomain"><option value="">any domain</option></select>
+      <select id="ctxCompany"><option value="">any company</option></select>
+      <button class="sm" onclick="clearCtx()">Clear</button>
+      <span class="muted" id="ctxNote"></span>
+    </div>
+    <div class="domboard" id="domboard"><span class="muted">Unlock to load domains.</span></div>
+    <div class="companies" id="companies"></div>
+    <div class="addco">
+      <span class="muted">+ company:</span>
+      <input id="ncName" placeholder="name" style="width:120px">
+      <select id="ncDomain"></select>
+      <input id="ncNote" placeholder="note (optional)" style="width:150px">
+      <button class="sm primary" onclick="addCompany()">Add</button>
+      <span class="muted" id="ncMsg"></span>
+    </div>
+  </div>
+
+  <div class="panel">
     <h2>Sources — pull, import, and compare cost per lead</h2>
+    <div class="muted" style="margin-bottom:10px">Every pull and import is tagged with the <b>Working on</b> domain + company above, so leads land in the right venture.</div>
     <div class="sources" id="sources"><div class="muted">Unlock to see sources.</div></div>
     <div class="guard" id="guard"></div>
   </div>
@@ -116,14 +157,19 @@
       <span style="flex:1"></span>
       <span class="muted">newest first · PII, key-gated</span>
     </div>
-    <div class="tblwrap"><table><thead><tr><th>Source</th><th>Name / Org</th><th>Email</th><th>Phone</th><th>Location</th><th class="num">Score</th><th>When</th></tr></thead>
-    <tbody id="feed"><tr><td colspan="7" class="muted">—</td></tr></tbody></table></div>
+    <div class="tblwrap"><table><thead><tr><th>Source</th><th>Domain</th><th>Company</th><th>Name / Org</th><th>Email</th><th>Phone</th><th>Location</th><th class="num">Score</th><th>When</th></tr></thead>
+    <tbody id="feed"><tr><td colspan="9" class="muted">—</td></tr></tbody></table></div>
   </div>
 </div>
 <div class="toast" id="toast"></div>
 
 <script>
 const $=s=>document.querySelector(s);
+let DOMAINS=[], COMPANIES=[];
+let ctx={domain:'',company:''};
+try{ ctx=Object.assign(ctx, JSON.parse(localStorage.getItem('leadgenCtx')||'{}')); }catch(e){}
+function saveCtx(){ localStorage.setItem('leadgenCtx', JSON.stringify(ctx)); }
+function companyName(id){ const c=COMPANIES.find(x=>x.id===id); return c?c.name:(id||''); }
 function key(){ return localStorage.getItem('salesKey')||''; }
 function saveKey(){ localStorage.setItem('salesKey',$('#key').value.trim()); loadAll(); }
 function toast(m){ const t=$('#toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2600); }
@@ -141,15 +187,79 @@ async function loadAll(){
   $('#key').value=key();
   const st=await api('leadgen','status');
   $('#keyState').textContent = st.keyConfigured?(key()?'unlocked':'key required'):'server key not configured';
-  if(!key()){ $('#sources').innerHTML='<div class="muted">Enter the admin key to unlock.</div>'; return; }
+  DOMAINS = st.domains||[];
+  fillDomainSelects();
+  if(!key()){ $('#sources').innerHTML='<div class="muted">Enter the admin key to unlock.</div>'; $('#domboard').innerHTML='<span class="muted">Enter the admin key to unlock.</span>'; return; }
+  const board=await api('leadgen','board');
+  COMPANIES = board.companies||[];
+  renderBoard(board); renderCompanies(board); fillCtxCompany();
   const srcRes=await api('leadgen','sources');
   renderSources(srcRes.sources||[]);
-  const leadsRes=await api('leadgen','leads&limit=200');
+  let q='leads&limit=200'+(ctx.domain?('&domain='+encodeURIComponent(ctx.domain)):'')+(ctx.company?('&company='+encodeURIComponent(ctx.company)):'');
+  const leadsRes=await api('leadgen',q);
   renderFeed(leadsRes.leads||[], leadsRes.total||0);
   renderKpis(srcRes.sources||[], leadsRes.total||0);
   const plays=(await api('sales','plays&stage='+encodeURIComponent('leads>appointments'))).plays||[];
   renderCadence(plays);
 }
+
+function fillDomainSelects(){
+  const opt=d=>`<option value="${d}">${d}</option>`;
+  $('#ctxDomain').innerHTML='<option value="">any domain</option>'+DOMAINS.map(opt).join('');
+  $('#ctxDomain').value=ctx.domain||'';
+  $('#ncDomain').innerHTML='<option value="">domain…</option>'+DOMAINS.map(opt).join('');
+}
+function fillCtxCompany(){
+  const inDom=COMPANIES.filter(c=>!ctx.domain||c.domain===ctx.domain);
+  $('#ctxCompany').innerHTML='<option value="">any company</option>'+inDom.map(c=>`<option value="${c.id}">${c.name} (${c.domain||'—'})</option>`).join('');
+  $('#ctxCompany').value=ctx.company||'';
+  $('#ctxNote').textContent = ctx.domain||ctx.company ? ('tagging new leads → '+(ctx.domain||'any domain')+(ctx.company?(' · '+companyName(ctx.company)):'')) : 'no venture selected — pulls land unassigned';
+}
+function renderBoard(board){
+  const el=$('#domboard'); el.innerHTML='';
+  (board.domains||[]).forEach(d=>{
+    const chip=document.createElement('div');
+    chip.className='dom'+(ctx.domain===d.id?' active':'')+(d.count?'':' empty');
+    chip.innerHTML=`${d.id}<span class="c">${d.count||0}</span>`;
+    chip.onclick=()=>setDomain(ctx.domain===d.id?'':d.id);
+    el.appendChild(chip);
+  });
+  if(board.unassigned){ const u=document.createElement('div'); u.className='dom'; u.style.borderStyle='dashed'; u.innerHTML=`unassigned<span class="c">${board.unassigned}</span>`; el.appendChild(u); }
+}
+function renderCompanies(board){
+  const el=$('#companies'); el.innerHTML='';
+  (board.companies||[]).forEach(c=>{
+    const card=document.createElement('div');
+    card.className='co'+(ctx.company===c.id?' active':'');
+    card.innerHTML=`<div class="nm">${esc(c.name)} <span class="lvl">${c.level||'L1'}</span></div>
+      <div class="meta">${c.domain||'unassigned'}${c.note?(' · '+esc(c.note)):''}</div>
+      <div class="cc">leads <b>${c.count||0}</b>${c.costCents?(' · '+money(c.costCents)):''}</div>
+      <a class="edit" onclick="event.stopPropagation();editCompany('${c.id}')">edit ▾</a>`;
+    card.onclick=()=>{ setCompanyAndDomain(ctx.company===c.id?'':c.id, c.domain); };
+    el.appendChild(card);
+  });
+}
+function setDomain(d){ ctx.domain=d; if(d){ const c=COMPANIES.find(x=>x.id===ctx.company); if(c&&c.domain!==d) ctx.company=''; } saveCtx(); loadAll(); }
+function setCompanyAndDomain(cid,dom){ ctx.company=cid; if(cid&&dom) ctx.domain=dom; saveCtx(); loadAll(); }
+function clearCtx(){ ctx={domain:'',company:''}; saveCtx(); loadAll(); }
+async function addCompany(){
+  if(!key())return toast('unlock first');
+  const name=$('#ncName').value.trim(); if(!name)return toast('name required');
+  const r=await api('leadgen','company','POST',{name,domain:$('#ncDomain').value,note:$('#ncNote').value.trim(),level:'L1'});
+  $('#ncMsg').textContent=r.ok?('added '+r.company.id):('err'); if(r.ok){ $('#ncName').value='';$('#ncNote').value=''; loadAll(); }
+}
+async function editCompany(id){
+  const c=COMPANIES.find(x=>x.id===id); if(!c)return;
+  const nd=prompt('Move "'+c.name+'" to which domain?\n('+DOMAINS.join(', ')+')\n\nType a domain, or type DELETE to remove the company.', c.domain||'');
+  if(nd===null)return;
+  if(nd.trim().toUpperCase()==='DELETE'){ if(confirm('Delete company '+c.name+'? Leads keep their tag.')){ await api('leadgen','company-delete','POST',{id}); toast('deleted'); loadAll(); } return; }
+  if(DOMAINS.indexOf(nd.trim())===-1)return toast('not a valid domain');
+  await api('leadgen','company','POST',{id,domain:nd.trim()}); toast('moved to '+nd.trim()); loadAll();
+}
+document.addEventListener('change',e=>{
+  if(e.target.id==='ctxDomain'){ ctx.domain=e.target.value; const c=COMPANIES.find(x=>x.id===ctx.company); if(ctx.domain&&c&&c.domain!==ctx.domain)ctx.company=''; saveCtx(); loadAll(); }
+  if(e.target.id==='ctxCompany'){ ctx.company=e.target.value; const c=COMPANIES.find(x=>x.id===ctx.company); if(c&&c.domain)ctx.domain=c.domain; saveCtx(); loadAll(); }
+});
 
 function renderKpis(sources,total){
   let cost=0,scoreSum=0,scored=0,live=0;
@@ -203,12 +313,14 @@ function renderFeed(leads,total){
   const show=leads.filter(l=>!f||l.source===f).slice(0,200);
   $('#feed').innerHTML = show.length? show.map(l=>`<tr>
     <td><span class="chip">${l.source}</span></td>
+    <td class="muted">${l.domain||'—'}</td>
+    <td>${l.company?('<span class="chip" style="border-color:#3a2a5a;color:var(--violet)">'+esc(companyName(l.company))+'</span>'):'—'}</td>
     <td>${esc(l.name||l.org)||'—'}${l.org&&l.name?('<br><span class="muted">'+esc(l.org)+'</span>'):''}</td>
     <td>${esc(l.email)||'—'}</td><td>${esc(l.phone)||'—'}</td>
     <td class="muted">${esc([l.city,l.state].filter(Boolean).join(', '))||'—'}</td>
     <td class="num"><span class="score" style="${scoreColor(l.score)}">${l.score}</span></td>
     <td class="muted">${l.ts?new Date(l.ts).toLocaleDateString():''}</td></tr>`).join('')
-    : '<tr><td colspan="7" class="muted">No leads yet. Import a list, pull from a source, or import your site\'s inbound leads.</td></tr>';
+    : '<tr><td colspan="9" class="muted">No leads yet. Import a list, pull from a source, or import your site\'s inbound leads.</td></tr>';
 }
 $('#fSource')&&document.addEventListener('change',e=>{ if(e.target.id==='fSource') loadAll(); });
 
@@ -216,14 +328,14 @@ async function doImport(){
   if(!key())return toast('unlock first');
   const csv=$('#csv').value.trim(); if(!csv)return toast('paste some rows first');
   $('#impMsg').textContent='importing…';
-  const r=await api('leadgen','import','POST',{csv,source:$('#impSource').value.trim()||'list-import',costPerLeadCents:+$('#impCost').value||0});
+  const r=await api('leadgen','import','POST',{csv,source:$('#impSource').value.trim()||'list-import',costPerLeadCents:+$('#impCost').value||0,domain:ctx.domain,company:ctx.company});
   $('#impMsg').textContent = r.ok?`+${r.added} added, ${r.dupes} dupes, ${r.parsed-r.valid} skipped`:('error: '+(r.error||''));
   if(r.ok){ $('#csv').value=''; loadAll(); }
 }
 async function pull(source,params){
   if(!key())return toast('unlock first');
   toast('pulling from '+source+'…');
-  const r=await api('leadgen','pull','POST',Object.assign({source},params));
+  const r=await api('leadgen','pull','POST',Object.assign({source,domain:ctx.domain,company:ctx.company},params));
   toast(r.ok?`${source}: +${r.added} (${r.pulled} found${r.dupes?', '+r.dupes+' dupes':''})${r.note?' · '+r.note:''}`:(source+' error: '+(r.error||'')));
   if(r.ok) loadAll();
 }
