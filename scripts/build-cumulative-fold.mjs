@@ -153,8 +153,13 @@ function foldDomain(root) {
 
 // ── run ──────────────────────────────────────────────────────────────────
 if (!fs.existsSync(OUT_DIR)) fs.mkdirSync(OUT_DIR, { recursive: true });
-const roots = onlyArg ? [onlyArg]
-  : fs.readdirSync(SRC).filter(f => f.endsWith('.json') && f.split('_').length === 1).map(f => f.slice(0, -5)).sort();
+// A root = a single-segment top-level portal file. EXCEPTION: agriculture's portal
+// tree is physically named 'p2_agri' (an underscore), so f.split('_').length===1
+// silently excluded it -> agriculture never got a fold (its brain loads
+// p2_agri-fold.json). Include it explicitly when its tree exists.
+const _autoRoots = fs.readdirSync(SRC).filter(f => f.endsWith('.json') && f.split('_').length === 1).map(f => f.slice(0, -5));
+if (fs.existsSync(path.join(SRC, 'p2_agri.json')) && !_autoRoots.includes('p2_agri')) _autoRoots.push('p2_agri');
+const roots = onlyArg ? [onlyArg] : _autoRoots.sort();
 
 console.log('cumulative fold  src=' + SRC);
 console.log('domains: ' + roots.length + (onlyArg ? ' (single: ' + onlyArg + ')' : ''));
