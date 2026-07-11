@@ -18,7 +18,14 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
+const require = createRequire(import.meta.url);
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+// PHASE_FACTOR is THE kernel1 calibration knob (lib/valuation.js): phase -> multiple
+// re-rating. >=1 = LONG (expansion/resurrection = investment-primed); <1 = SHORT
+// (distress). This is the operator-pointed parameter that defines the long side.
+const { PHASE_FACTOR } = require(path.join(ROOT, 'lib', 'valuation.js'));
+const phaseFactor = (p) => PHASE_FACTOR[String(p || '').toLowerCase()];
 const ELIGIBLE = path.join(ROOT, 'assets', 'data', 'command-board-eligible.json');
 const OUT = path.join(ROOT, 'assets', 'data', 'kernel-watchlist.json');
 
@@ -39,8 +46,11 @@ function structurallyExcluded(sic) {
 }
 
 function pick(r) {
+  const ph = String(r.p || r.phase || '').toLowerCase();
+  const pf = phaseFactor(ph);
   return {
     slug: r.slug || r.d || null, name: r.n || r.name, ticker: r.t || r.ticker, cik: r.c || r.cik,
+    phase: ph, phaseFactor: pf != null ? pf : null, side: pf != null ? (pf < 1 ? 'SHORT' : 'LONG') : null,
     path: r.path, composite: Number(r.co || r.composite || 0), trajectory: r.tr || r.trajectory,
     distressScore: Number(r.ds || 0), alert: !!(r.a || r.alert), sector: r.sec, sic: r.sic
   };
@@ -54,12 +64,21 @@ const bankruptcyWatch = inScope
   .map(pick)
   .sort((a, b) => b.composite - a.composite);
 
+// LONG / investment-primed: in-scope operating + kernel phase whose PHASE_FACTOR
+// >= 1 (multiple EXPANSION) — p10 RESURRECTION (1.25, turnaround), p6 EXPANSION
+// (1.20), p0 OPERATING-STABLE (1.05). This is the LONG side of the same param.
+const investmentPrimed = inScope
+  .map(pick)
+  .filter(c => c.phaseFactor != null && c.phaseFactor >= 1 && !c.alert)
+  .sort((a, b) => b.phaseFactor - a.phaseFactor);
+
 const out = {
   generatedAt: new Date().toISOString(),
   directive: 'Only kernel-validated bankruptcy-call candidates + investment-primed names surface. No other companies matter. (operator 2026-07-11)',
   criteria: {
-    short: 'validation_status === validated (in-envelope) AND (kernel alert OR distress trajectory RUPTURE/CASH_DECLINE/UNRECOVERED_P3)',
-    long: 'PENDING operator definition — no investment-primed signal exists yet'
+    envelope: 'validation_status === validated AND NOT Finance/Insurance/Real-Estate (SIC 6000-6799) — kernel invalid on FIRE',
+    short: 'bankruptcy-call: in-scope + kernel alert OR distress trajectory (RUPTURE/CASH_DECLINE/UNRECOVERED_P3)',
+    long: 'investment-primed: in-scope + PHASE_FACTOR(phase) >= 1 (LONG side) — p10 RESURRECTION 1.25 / p6 EXPANSION 1.20 / p0 STABLE 1.05'
   },
   counts: {
     universe: rows.length,
@@ -67,11 +86,12 @@ const out = {
     excludedFinancials: excludedFinancials,
     inScopeOperating: inScope.length,
     bankruptcyWatch: bankruptcyWatch.length,
-    investmentPrimed: 0,
-    suppressed: rows.length - bankruptcyWatch.length
+    investmentPrimed: investmentPrimed.length,
+    surface: bankruptcyWatch.length + investmentPrimed.length,
+    suppressed: rows.length - bankruptcyWatch.length - investmentPrimed.length
   },
   bankruptcyWatch,
-  investmentPrimed: []
+  investmentPrimed
 };
 fs.writeFileSync(OUT, JSON.stringify(out, null, 2));
 console.log('wrote kernel-watchlist.json');
