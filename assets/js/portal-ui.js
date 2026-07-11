@@ -774,12 +774,16 @@ var PortalUI = (function() {
     var redFlags = [];
     var circuitNodes = {};
     circuits.forEach(function(c) { circuitNodes[c.node] = c; });
-    var hasHyper = circuits.some(function(c) { return (c.dir || '').toLowerCase().indexOf('hyper') !== -1; });
-    var hasHypo = circuits.some(function(c) { return (c.dir || '').toLowerCase().indexOf('hypo') !== -1; });
+    // breadth flags describe node INVOLVEMENT, not the single canonical circuit \u2014
+    // read the full authored circuit set (archived to _authored by the source bake)
+    // so these heuristics keep firing as before the bake.
+    var _auth = (dx._issue && dx._issue._authored) || dx._authored; var breadth = (_auth && _auth.length) ? _auth : circuits;
+    var hasHyper = breadth.some(function(c) { return (c.dir || '').toLowerCase().indexOf('hyper') !== -1; });
+    var hasHypo = breadth.some(function(c) { return (c.dir || '').toLowerCase().indexOf('hypo') !== -1; });
     var name = (dx.name || '').toLowerCase();
 
     if (hasHyper && hasHypo) redFlags.push('Mixed hyper/hypo circuit activation \u2014 assess system-wide stress cascade');
-    if (circuits.length >= 5) redFlags.push('High circuit involvement (' + circuits.length + '+ nodes) \u2014 systemic issue requiring coordinated response');
+    if (breadth.length >= 5) redFlags.push('High circuit involvement (' + breadth.length + '+ nodes) \u2014 systemic issue requiring coordinated response');
     if (name.indexOf('drought') !== -1 || name.indexOf('water') !== -1) redFlags.push('Water crisis \u2014 immediate assessment of irrigation and livestock water supply');
     if (name.indexOf('cash') !== -1 || name.indexOf('financial') !== -1) redFlags.push('Financial stress \u2014 assess loan covenant status and operating line availability');
     if (name.indexOf('pest') !== -1 || name.indexOf('disease') !== -1) redFlags.push('Biological threat \u2014 scout all fields immediately, contact extension');
@@ -1267,11 +1271,13 @@ var PortalUI = (function() {
     // Red flags
     t += '\nALERTS:\n';
     var nm = (dx.name || '').toLowerCase();
-    var hasHyper = circuits.some(function(c) { return (c.dir||'').toLowerCase().indexOf('hyper') !== -1; });
-    var hasHypo = circuits.some(function(c) { return (c.dir||'').toLowerCase().indexOf('hypo') !== -1; });
+    // breadth = full authored circuit set (archived to _authored by the source bake)
+    var _auth = (dx._issue && dx._issue._authored) || dx._authored; var breadth = (_auth && _auth.length) ? _auth : circuits;
+    var hasHyper = breadth.some(function(c) { return (c.dir||'').toLowerCase().indexOf('hyper') !== -1; });
+    var hasHypo = breadth.some(function(c) { return (c.dir||'').toLowerCase().indexOf('hypo') !== -1; });
     var flags = [];
     if (hasHyper && hasHypo) flags.push('Mixed hyper/hypo circuit activation - systemic stress cascade');
-    if (circuits.length >= 5) flags.push('High circuit involvement - coordinated response needed');
+    if (breadth.length >= 5) flags.push('High circuit involvement - coordinated response needed');
     if (nm.indexOf('drought') !== -1) flags.push('Water crisis - assess irrigation and livestock supply');
     if (nm.indexOf('cash') !== -1) flags.push('Financial stress - assess loan status and operating line');
     if (nm.indexOf('pest') !== -1) flags.push('Biological threat - scout all fields, contact extension');
