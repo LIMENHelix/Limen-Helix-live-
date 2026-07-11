@@ -16,6 +16,30 @@
   var NODES = null, GENERIC = null, patched = 0, brakedByEngine = {};
   function real(id) { return !!(NODES && NODES[id] && NODES[id].canBindBusiness); }
 
+  // P1: an honest confidence is a function of LIVE feed data-quality, not a
+  // fabricated float. Derive it from the engine's domain in window.LIMENDomains,
+  // degrading to <=0.20 when the feed is dead/fallback (the finance-opportunities
+  // pattern). One value per domain — the per-type ordering keeps the old float as
+  // an unvalidated analogyStrength, never presented as earned confidence.
+  function domainOf(engineName) { return String(engineName || '').replace(/^LIMEN/, '').replace(/BusinessEngine$/, '').toLowerCase(); }
+  function domainQuality(engineName) {
+    var D = (window.LIMENDomains || {})[domainOf(engineName)];
+    if (!D) return 0.15;
+    var status = D.status || 'UNKNOWN';
+    var stress = typeof D.stress === 'number' ? D.stress : 0;
+    if (status === 'FALLBACK' || status === 'UNKNOWN' || stress <= 0.01) return 0.15; // dead feed
+    if (status === 'PARTIAL') return Math.min(0.50, 0.20 + stress * 0.30);
+    return Math.min(0.85, 0.35 + stress * 0.50); // LIVE — scales w/ signal, never near-certainty
+  }
+  function honestConf(c, cap) {
+    if (c && typeof c === 'object' && typeof c.confidence === 'number' && c.analogyStrength === undefined) {
+      c.analogyStrength = c.confidence;              // fabricated float -> internal ordering only
+      c.confidence = cap;                            // displayed value -> live data-quality
+      c.confidenceBasis = 'live feed data-quality (status x stress)';
+      c.unvalidated = true;
+    }
+  }
+
   // A4: a business TYPE recycled across >=2 domain engines cannot be a node-SPECIFIC
   // signal. Stamp nonSpecific so nothing presents a generic category as an earned
   // node->company mapping. (A4's bulk was the phantom non-node clones, braked in A3.)
@@ -52,14 +76,26 @@
       entry.nodeKind = 'unclassified';
     }
   }
-  // A1: a fabricated confidence float on a node->company GUESS is the forbidden
-  // anti-pattern. Keep the number (internal ordering) but relabel it honestly as an
-  // UNVALIDATED analogy strength so nothing presents it as earned confidence.
-  function unvalidate(c) {
-    if (c && typeof c === 'object' && typeof c.confidence === 'number' && c.analogyStrength === undefined) { c.analogyStrength = c.confidence; c.unvalidated = true; }
+  // P3: wire the defensible node->motif->FUNCTION forward into what the review
+  // actually renders. The card shows neuroTranslation.inBusiness + a confidence;
+  // prepend the canonical motif function + class so the product surfaces the docs'
+  // structural layer, not just the private flat-dictionary guess (kept as context).
+  function surfaceCanonical(entry, cap) {
+    if (!entry || typeof entry !== 'object') return;
+    if (entry.businessFunction && entry.motif && entry.neuroTranslation && !entry.neuroTranslation._canon) {
+      var tag = '[' + entry.motif + ' · ' + (entry.mappingClass || '') + '] ';
+      entry.neuroTranslation.inBusiness = tag + entry.businessFunction + ' — ' + (entry.neuroTranslation.inBusiness || '');
+      entry.neuroTranslation._canon = true;
+    }
+    // top-level card confidence (review reads entry.confidence) -> honest data-quality
+    if (typeof entry.confidence === 'number' && entry.analogyStrength === undefined) {
+      entry.analogyStrength = entry.confidence; entry.confidence = cap;
+      entry.confidenceBasis = 'live feed data-quality (status x stress)'; entry.unvalidated = true;
+    }
   }
-  function unvalidateLists(entry) {
-    ['companies', 'expectedTypes', 'types', 'firms'].forEach(function (L) { if (Array.isArray(entry && entry[L])) entry[L].forEach(function (c) { unvalidate(c); markGeneric(c); }); });
+  // A1/P1: relabel + honest-ify the fabricated per-type confidence floats.
+  function unvalidateLists(entry, cap) {
+    ['companies', 'expectedTypes', 'types', 'firms'].forEach(function (L) { if (Array.isArray(entry && entry[L])) entry[L].forEach(function (c) { honestConf(c, cap); markGeneric(c); }); });
   }
 
   function patch(name, eng) {
@@ -68,23 +104,26 @@
     var braked = [];
     // 1) prune non-nodes, then enrich each REAL entry with the defensible motif layer
     //    and flag its node->company guesses as unvalidated.
+    var cap0 = domainQuality(name);
     var dir = eng.NODE_DIRECTORY;
     if (dir && typeof dir === 'object') {
       for (var k in dir) {
         if (!Object.prototype.hasOwnProperty.call(dir, k)) continue;
         if (!real(k)) { braked.push(k); delete dir[k]; continue; }
-        enrich(dir[k], k); unvalidateLists(dir[k]);
+        enrich(dir[k], k); surfaceCanonical(dir[k], cap0); unvalidateLists(dir[k], cap0);
       }
     }
-    // 2) filter runInference output + enrich/flag each surviving result.
+    // 2) filter runInference output + enrich/flag each surviving result. cap is
+    //    recomputed per call so the displayed confidence tracks LIVE feed quality.
     if (typeof eng.runInference === 'function') {
       var orig = eng.runInference.bind(eng);
       eng.runInference = function () {
         var r = orig.apply(null, arguments);
+        var cap = domainQuality(name);
         if (r) ['mapped', 'missing', 'speculative'].forEach(function (key) {
           if (!Array.isArray(r[key])) return;
           r[key] = r[key].filter(function (e) { return real(e && (e.nodeId || e.node || e.brainNodeId || e.id)); });
-          r[key].forEach(function (e) { enrich(e, e && (e.nodeId || e.node || e.brainNodeId || e.id)); unvalidate(e); unvalidateLists(e); });
+          r[key].forEach(function (e) { enrich(e, e && (e.nodeId || e.node || e.brainNodeId || e.id)); surfaceCanonical(e, cap); unvalidateLists(e, cap); });
         });
         return r;
       };
