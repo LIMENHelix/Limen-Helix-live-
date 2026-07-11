@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>LEADS — Lead Generation Machine · LIMEN Helix</title>
+<style>
+  :root{
+    --bg:#0a0e14; --panel:#111823; --panel2:#0d141d; --line:#1e2b3a;
+    --ink:#e6edf3; --dim:#8b9bb0; --faint:#5a6b80;
+    --cyan:#35d0ba; --blue:#4a9eff; --amber:#f5b642; --red:#ff5d5d; --green:#3ddc84; --violet:#a882ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+  a{color:var(--blue);text-decoration:none}
+  .wrap{max-width:1200px;margin:0 auto;padding:22px 18px 90px}
+  .crumbs{font-size:12px;color:var(--faint);margin-bottom:10px}
+  header.top{border-bottom:1px solid var(--line);padding-bottom:14px}
+  h1{font-size:22px;margin:0;letter-spacing:.5px}
+  h1 .m{color:var(--cyan)}
+  .sub{color:var(--dim);font-size:12.5px;margin-top:4px;max-width:760px}
+  .keybar{margin:14px 0;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  input,select,button,textarea{font:inherit}
+  input,select,textarea{background:var(--panel2);border:1px solid var(--line);color:var(--ink);border-radius:7px;padding:7px 10px}
+  textarea{width:100%;min-height:90px;resize:vertical;font-family:ui-monospace,Menlo,monospace;font-size:12px}
+  button{background:var(--panel);border:1px solid var(--line);color:var(--ink);border-radius:7px;padding:7px 12px;cursor:pointer}
+  button:hover{border-color:var(--cyan);color:#fff}
+  button.primary{background:#0f2a26;border-color:#1e5a4f;color:var(--cyan)}
+  button.sm{padding:4px 9px;font-size:12px}
+  button:disabled{opacity:.4;cursor:not-allowed}
+  .muted{color:var(--faint);font-size:12px}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;margin-top:14px}
+  .panel h2{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);margin:0 0 12px}
+  .kpis{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px}
+  .kpi{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 14px;min-width:110px}
+  .kpi .v{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+  .kpi .k{font-size:10.5px;letter-spacing:.5px;color:var(--faint);text-transform:uppercase}
+  .kpi.pos .v{color:var(--green)}
+  .sources{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
+  .src{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:13px;display:flex;flex-direction:column;gap:8px}
+  .src .hd{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .src .nm{font-weight:600}
+  .st{font-size:10px;padding:2px 8px;border-radius:20px;border:1px solid var(--line);white-space:nowrap}
+  .st.live{color:var(--green);border-color:#1a4a2a;background:#08160e}
+  .st.needs-key{color:var(--amber);border-color:#5a4a1a;background:#1a1408}
+  .st.best-effort{color:var(--blue);border-color:#1e3a5a;background:#0a1420}
+  .src .note{font-size:11px;color:var(--faint);min-height:30px}
+  .src .stat{font-size:11.5px;color:var(--dim);display:flex;gap:12px;flex-wrap:wrap}
+  .src .stat b{color:var(--ink);font-variant-numeric:tabular-nums}
+  .src .act{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .src .act input{padding:5px 8px;font-size:12px}
+  table{width:100%;border-collapse:collapse;font-size:12.5px}
+  th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  th{color:var(--faint);font-weight:600;font-size:10.5px;text-transform:uppercase;letter-spacing:.5px}
+  td.num{text-align:right;font-variant-numeric:tabular-nums}
+  .score{display:inline-block;min-width:34px;text-align:center;border-radius:5px;padding:1px 5px;font-variant-numeric:tabular-nums}
+  .chip{font-size:10px;padding:1px 7px;border-radius:20px;border:1px solid var(--line);color:var(--dim)}
+  .row2{display:grid;grid-template-columns:1.3fr 1fr;gap:14px}
+  @media(max-width:860px){.row2{grid-template-columns:1fr}}
+  .tblwrap{overflow-x:auto}
+  .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--panel);border:1px solid var(--cyan);color:var(--ink);padding:10px 16px;border-radius:8px;font-size:13px;opacity:0;transition:.2s;pointer-events:none;z-index:9;max-width:80vw}
+  .toast.show{opacity:1}
+  .guard{font-size:11.5px;color:var(--faint);margin-top:10px;border-top:1px dashed var(--line);padding-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="crumbs"><a href="/sales">← SALES</a> · Leads</div>
+  <header class="top">
+    <h1>LEADS <span class="m">· Lead Generation Machine</span></h1>
+    <div class="sub">One intake for every source: inbound form, referrals, bought/scraped lists, Google business data, and web pages. Deduped, quality-scored, cost-attributed, and fed straight into the funnel. It <b>stores and scores</b> leads — it never contacts anyone.</div>
+  </header>
+
+  <div class="keybar">
+    <input id="key" type="password" placeholder="admin key" style="width:170px">
+    <button onclick="saveKey()">Unlock</button>
+    <span class="muted" id="keyState"></span>
+    <span style="flex:1"></span>
+    <button class="sm" onclick="loadAll()">↻ Refresh</button>
+  </div>
+
+  <div class="kpis" id="kpis"></div>
+
+  <div class="panel">
+    <h2>Sources — pull, import, and compare cost per lead</h2>
+    <div class="sources" id="sources"><div class="muted">Unlock to see sources.</div></div>
+    <div class="guard" id="guard"></div>
+  </div>
+
+  <div class="row2">
+    <div class="panel">
+      <h2>Import a list — paste rows or CSV</h2>
+      <div class="muted" style="margin-bottom:8px">Header row optional. Columns: <code>name, email, phone, org, city, state, website, notes</code>. One lead per line. Deduped on email/phone.</div>
+      <textarea id="csv" placeholder="name,email,phone,org,city,state&#10;Jane Doe,jane@acme.com,816-555-1212,Acme,Kansas City,MO"></textarea>
+      <div style="display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap">
+        <input id="impSource" placeholder="source label" value="list-import" style="width:130px">
+        <label class="muted">cost/lead ¢<input id="impCost" type="number" value="0" style="width:70px"></label>
+        <button class="primary" onclick="doImport()">Import list</button>
+        <span class="muted" id="impMsg"></span>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>Work the leads — cadence to first appointment</h2>
+      <div class="muted" style="margin-bottom:8px">The best-scoring outreach plays that turn these leads into booked appointments (FITT · SET · FBA). Optimized on the SALES engine.</div>
+      <div class="tblwrap"><table><thead><tr><th>Channel</th><th>Composition</th><th class="num">Conv</th><th class="num">Alloc</th></tr></thead>
+      <tbody id="cadence"><tr><td colspan="4" class="muted">—</td></tr></tbody></table></div>
+      <div class="muted" style="margin-top:8px"><a href="/sales-appointments">Appointments page →</a></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Lead feed <span class="muted" id="feedCount"></span></h2>
+    <div style="display:flex;gap:8px;margin-bottom:10px;align-items:center;flex-wrap:wrap">
+      <select id="fSource"><option value="">all sources</option></select>
+      <span style="flex:1"></span>
+      <span class="muted">newest first · PII, key-gated</span>
+    </div>
+    <div class="tblwrap"><table><thead><tr><th>Source</th><th>Name / Org</th><th>Email</th><th>Phone</th><th>Location</th><th class="num">Score</th><th>When</th></tr></thead>
+    <tbody id="feed"><tr><td colspan="7" class="muted">—</td></tr></tbody></table></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $=s=>document.querySelector(s);
+function key(){ return localStorage.getItem('salesKey')||''; }
+function saveKey(){ localStorage.setItem('salesKey',$('#key').value.trim()); loadAll(); }
+function toast(m){ const t=$('#toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2600); }
+function money(c){ if(c==null) return '—'; const d=c/100; return '$'+(d>=1000?(d/1000).toFixed(1)+'k':d.toFixed(2)); }
+function scoreColor(s){ return s>=70?'background:#08160e;color:var(--green)':s>=40?'background:#1a1408;color:var(--amber)':'background:#1a0e0e;color:var(--red)'; }
+function esc(v){ return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+async function api(base, action, method='GET', body){
+  const k=key(); const url='/api/'+base+'?action='+action+(k?('&key='+encodeURIComponent(k)):'');
+  const opt={method}; if(body){opt.headers={'content-type':'application/json'};opt.body=JSON.stringify(body);}
+  return (await fetch(url,opt)).json();
+}
+
+async function loadAll(){
+  $('#key').value=key();
+  const st=await api('leadgen','status');
+  $('#keyState').textContent = st.keyConfigured?(key()?'unlocked':'key required'):'server key not configured';
+  if(!key()){ $('#sources').innerHTML='<div class="muted">Enter the admin key to unlock.</div>'; return; }
+  const srcRes=await api('leadgen','sources');
+  renderSources(srcRes.sources||[]);
+  const leadsRes=await api('leadgen','leads&limit=200');
+  renderFeed(leadsRes.leads||[], leadsRes.total||0);
+  renderKpis(srcRes.sources||[], leadsRes.total||0);
+  const plays=(await api('sales','plays&stage='+encodeURIComponent('leads>appointments'))).plays||[];
+  renderCadence(plays);
+}
+
+function renderKpis(sources,total){
+  let cost=0,scoreSum=0,scored=0,live=0;
+  sources.forEach(s=>{ cost+=s.costCents||0; if(s.avgScore!=null){scoreSum+=s.avgScore*s.count;scored+=s.count;} if(s.status==='live')live++; });
+  const cpl = total?cost/total:0;
+  $('#kpis').innerHTML=[
+    {k:'Total leads',v:total.toLocaleString(),c:total?'pos':''},
+    {k:'Total cost',v:money(cost),c:''},
+    {k:'Cost / lead',v:total?money(cpl):'—',c:''},
+    {k:'Avg quality',v:scored?Math.round(scoreSum/scored):'—',c:''},
+    {k:'Live sources',v:live,c:''}
+  ].map(x=>`<div class="kpi ${x.c}"><div class="v">${x.v}</div><div class="k">${x.k}</div></div>`).join('');
+}
+
+function renderSources(sources){
+  const el=$('#sources'); el.innerHTML='';
+  const opts=['<option value="">all sources</option>'];
+  sources.forEach(s=>{
+    opts.push(`<option value="${s.id}">${s.label}</option>`);
+    const card=document.createElement('div'); card.className='src';
+    let act='';
+    if(s.id==='inbound-form') act=`<button class="sm primary" onclick="pull('inbound-form',{})">Import site leads</button>`;
+    else if(s.id==='google-places') act = s.status==='live'
+      ? `<input id="gpQ" placeholder="e.g. dentists" style="width:110px"><input id="gpL" placeholder="location" style="width:100px"><button class="sm primary" onclick="pullPlaces()">Pull</button>`
+      : `<span class="muted">set GOOGLE_PLACES_API_KEY to enable</span>`;
+    else if(s.id==='web-scrape') act=`<input id="wsU" placeholder="https://page-with-contacts" style="width:150px"><button class="sm primary" onclick="pullScrape()">Scrape</button>`;
+    else if(s.id==='list-import') act=`<button class="sm" onclick="document.getElementById('csv').focus()">Use import box ↓</button>`;
+    else if(s.status==='needs-key') act=`<span class="muted">set ${s.env} to enable</span>`;
+    else act=`<span class="muted">passive intake</span>`;
+    card.innerHTML=`<div class="hd"><span class="nm">${s.label}</span><span class="st ${s.status}">${s.status}</span></div>
+      <div class="note">${s.note}</div>
+      <div class="stat"><span>leads <b>${s.count||0}</b></span><span>cost/lead <b>${s.costPerLeadCents!=null?money(s.costPerLeadCents):'—'}</b></span><span>quality <b>${s.avgScore!=null?s.avgScore:'—'}</b></span></div>
+      <div class="act">${act}</div>`;
+    el.appendChild(card);
+  });
+  $('#fSource').innerHTML=opts.join('');
+  $('#guard').innerHTML='⚖️ Guardrail: this machine stores and scores leads only — it never emails, calls, or texts anyone. Scraping adapters are user-initiated on a target you provide; respect each site\'s ToS and robots. Lead records are PII and key-gated.';
+}
+
+function renderCadence(plays){
+  const top=plays.filter(p=>p.trials>0).slice(0,6);
+  $('#cadence').innerHTML = top.length? top.map(p=>`<tr>
+    <td>${p.unit}</td><td><span class="chip">${p.notation}</span></td>
+    <td class="num">${(p.rate*100).toFixed(1)}%</td><td class="num">${(p.allocation*100).toFixed(0)}%</td></tr>`).join('')
+    : '<tr><td colspan="4" class="muted">No cadence data yet — run a simulation on the SALES hub, or log real outreach.</td></tr>';
+}
+
+function renderFeed(leads,total){
+  $('#feedCount').textContent = total?('· '+total+' total'):'';
+  const f=$('#fSource').value;
+  const show=leads.filter(l=>!f||l.source===f).slice(0,200);
+  $('#feed').innerHTML = show.length? show.map(l=>`<tr>
+    <td><span class="chip">${l.source}</span></td>
+    <td>${esc(l.name||l.org)||'—'}${l.org&&l.name?('<br><span class="muted">'+esc(l.org)+'</span>'):''}</td>
+    <td>${esc(l.email)||'—'}</td><td>${esc(l.phone)||'—'}</td>
+    <td class="muted">${esc([l.city,l.state].filter(Boolean).join(', '))||'—'}</td>
+    <td class="num"><span class="score" style="${scoreColor(l.score)}">${l.score}</span></td>
+    <td class="muted">${l.ts?new Date(l.ts).toLocaleDateString():''}</td></tr>`).join('')
+    : '<tr><td colspan="7" class="muted">No leads yet. Import a list, pull from a source, or import your site\'s inbound leads.</td></tr>';
+}
+$('#fSource')&&document.addEventListener('change',e=>{ if(e.target.id==='fSource') loadAll(); });
+
+async function doImport(){
+  if(!key())return toast('unlock first');
+  const csv=$('#csv').value.trim(); if(!csv)return toast('paste some rows first');
+  $('#impMsg').textContent='importing…';
+  const r=await api('leadgen','import','POST',{csv,source:$('#impSource').value.trim()||'list-import',costPerLeadCents:+$('#impCost').value||0});
+  $('#impMsg').textContent = r.ok?`+${r.added} added, ${r.dupes} dupes, ${r.parsed-r.valid} skipped`:('error: '+(r.error||''));
+  if(r.ok){ $('#csv').value=''; loadAll(); }
+}
+async function pull(source,params){
+  if(!key())return toast('unlock first');
+  toast('pulling from '+source+'…');
+  const r=await api('leadgen','pull','POST',Object.assign({source},params));
+  toast(r.ok?`${source}: +${r.added} (${r.pulled} found${r.dupes?', '+r.dupes+' dupes':''})${r.note?' · '+r.note:''}`:(source+' error: '+(r.error||'')));
+  if(r.ok) loadAll();
+}
+function pullPlaces(){ pull('google-places',{query:$('#gpQ').value,location:$('#gpL').value,limit:20}); }
+function pullScrape(){ const url=$('#wsU').value.trim(); if(!/^https?:\/\//.test(url))return toast('enter a full http(s) URL'); pull('web-scrape',{url,limit:50}); }
+
+loadAll();
+</script>
+</body>
+</html>
