@@ -90,17 +90,24 @@
     p2_agri:      'agriculture'
   };
 
+  // FUNCTIONAL-KEYWORD map (NOT canonical nodes). Each key is a human-readable
+  // keyword substring-matched against indicator text to flavor a program. The keys
+  // are functional-system words, several of them non-nodes (BDNF=plasticity
+  // parameter, DMN=composite, vagal=tract, HPA=axis, limbic/executive/sensory/
+  // motor/memory=systems), so each entry now carries its TRUTHFUL grounding
+  // (real node + motif where one exists, else the non-node kind) — nothing here
+  // presents a molecule or a composite as a node-grounded business function.
   var NODE_MEANINGS = {
-    'BDNF':     { fn:'learning and adaptation', program:'training and skill-building', scenario:'when practitioners need to learn new protocols or adapt to changing conditions' },
-    'DMN':      { fn:'planning and self-assessment', program:'strategic planning and organizational review', scenario:'when organizations need to evaluate their own performance and plan improvements' },
-    'vagal':    { fn:'stress response and stabilization', program:'resilience building and crisis stabilization', scenario:'when individuals or systems are under acute stress and need immediate stabilization' },
-    'HPA':      { fn:'sustained stress management', program:'burnout prevention and workload management', scenario:'when chronic stress is degrading performance and staff retention' },
-    'reward':   { fn:'motivation and incentive', program:'engagement and incentive design', scenario:'when participation rates are low and motivation structures need redesign' },
-    'executive':{ fn:'decision-making and coordination', program:'decision support and workflow coordination', scenario:'when complex decisions require input from multiple stakeholders' },
-    'limbic':   { fn:'emotional regulation and safety', program:'psychological safety and trauma-informed care', scenario:'when populations have experienced trauma or operate in high-stress environments' },
-    'sensory':  { fn:'information intake and monitoring', program:'real-time monitoring and early detection', scenario:'when early warning systems are needed to detect problems before they escalate' },
-    'motor':    { fn:'action execution and delivery', program:'service delivery and implementation', scenario:'when interventions need to be physically delivered to end users' },
-    'memory':   { fn:'institutional knowledge and records', program:'knowledge management and records system', scenario:'when critical institutional knowledge is being lost or is poorly organized' }
+    'BDNF':     { fn:'learning and adaptation', program:'training and skill-building', scenario:'when practitioners need to learn new protocols or adapt to changing conditions', grounding:{ kind:'parameter', motif:'M6', note:'plasticity / learning-rate parameter on an edge, not a node' } },
+    'DMN':      { fn:'planning and self-assessment', program:'strategic planning and organizational review', scenario:'when organizations need to evaluate their own performance and plan improvements', grounding:{ kind:'composite', nodes:['mPFC','PCC','PRECUNEUS'], note:'default-mode composite — a read-only view over its member nodes, not one node' } },
+    'vagal':    { fn:'stress response and stabilization', program:'resilience building and crisis stabilization', scenario:'when individuals or systems are under acute stress and need immediate stabilization', grounding:{ kind:'tract', node:'NTS', motif:'M10', note:'vagal afferent = an edge into the interoceptive relay (NTS/AI)' } },
+    'HPA':      { fn:'sustained stress management', program:'burnout prevention and workload management', scenario:'when chronic stress is degrading performance and staff retention', grounding:{ kind:'axis', node:'HYPO', motif:'M3', note:'HPA axis; its output node is the hypothalamic/pituitary set-point' } },
+    'reward':   { fn:'motivation and incentive', program:'engagement and incentive design', scenario:'when participation rates are low and motivation structures need redesign', grounding:{ kind:'control', node:'NAcc', motif:'M11', note:'reward-drive control motif' } },
+    'executive':{ fn:'decision-making and coordination', program:'decision support and workflow coordination', scenario:'when complex decisions require input from multiple stakeholders', grounding:{ kind:'processing', node:'dlPFC', note:'executive-control cortex (processing region, not a control motif)' } },
+    'limbic':   { fn:'emotional regulation and safety', program:'psychological safety and trauma-informed care', scenario:'when populations have experienced trauma or operate in high-stress environments', grounding:{ kind:'control', node:'CeA', motif:'M7', note:'threat-monitoring control motif' } },
+    'sensory':  { fn:'information intake and monitoring', program:'real-time monitoring and early detection', scenario:'when early warning systems are needed to detect problems before they escalate', grounding:{ kind:'processing', nodes:['S1','V1','A1'], note:'primary sensory cortex (processing regions)' } },
+    'motor':    { fn:'action execution and delivery', program:'service delivery and implementation', scenario:'when interventions need to be physically delivered to end users', grounding:{ kind:'processing', nodes:['M1','SMA'], note:'motor cortex (processing regions)' } },
+    'memory':   { fn:'institutional knowledge and records', program:'knowledge management and records system', scenario:'when critical institutional knowledge is being lost or is poorly organized', grounding:{ kind:'system', node:'HIPP', note:'hippocampal memory system' } }
   };
 
   var SIGNAL_PROGRAMS = {
