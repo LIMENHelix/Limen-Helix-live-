@@ -13,8 +13,15 @@
  */
 (function () {
   'use strict';
-  var NODES = null, patched = 0, brakedByEngine = {};
+  var NODES = null, GENERIC = null, patched = 0, brakedByEngine = {};
   function real(id) { return !!(NODES && NODES[id] && NODES[id].canBindBusiness); }
+
+  // A4: a business TYPE recycled across >=2 domain engines cannot be a node-SPECIFIC
+  // signal. Stamp nonSpecific so nothing presents a generic category as an earned
+  // node->company mapping. (A4's bulk was the phantom non-node clones, braked in A3.)
+  function markGeneric(c) {
+    if (c && typeof c === 'object' && GENERIC && c.type && GENERIC[c.type]) { c.nonSpecific = true; }
+  }
 
   // A2/C1: attach the DEFENSIBLE motif->function layer to a business entry so the
   // engine renders node->motif->function (structural, from the docs) alongside the
@@ -35,7 +42,7 @@
     if (c && typeof c === 'object' && typeof c.confidence === 'number' && c.analogyStrength === undefined) { c.analogyStrength = c.confidence; c.unvalidated = true; }
   }
   function unvalidateLists(entry) {
-    ['companies', 'expectedTypes', 'types', 'firms'].forEach(function (L) { if (Array.isArray(entry && entry[L])) entry[L].forEach(unvalidate); });
+    ['companies', 'expectedTypes', 'types', 'firms'].forEach(function (L) { if (Array.isArray(entry && entry[L])) entry[L].forEach(function (c) { unvalidate(c); markGeneric(c); }); });
   }
 
   function patch(name, eng) {
@@ -77,6 +84,11 @@
       catch (e) { /* cross-origin / getter throw — skip */ }
     }
   }
+
+  fetch('/assets/data/generic-business-types.json')
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (g) { GENERIC = {}; ((g && g.generic) || []).forEach(function (t) { GENERIC[t] = true; }); })
+    .catch(function () { GENERIC = {}; });
 
   fetch('/assets/data/canonical-nodes.json')
     .then(function (r) { return r.ok ? r.json() : null; })
