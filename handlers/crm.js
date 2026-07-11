@@ -47,11 +47,16 @@ var K = {
 
 var CHANNELS = ['call', 'text', 'email', 'mailer', 'social', 'other'];
 var OUTCOMES = ['sent', 'no-answer', 'left-voicemail', 'bad-contact', 'replied', 'callback', 'not-interested', 'booked', 'dead'];
-var STATUSES = ['new', 'working', 'appointment', 'unresponsive', 'dead'];
+var STATUSES = ['new', 'working', 'appointment', 'showed', 'no-show', 'cancelled', 'unresponsive', 'dead'];
+var SHOW_OUTCOMES = ['showed', 'no-show', 'cancelled'];
 
 // per-touch cost (cents) — from the funnel's leads>appointments transition
 var TX = E.TRANSITIONS.filter(function (t) { return t.id === 'leads>appointments'; })[0];
 var CHANNEL_COST = (TX && TX.options) || { call: 45, text: 4, email: 2, mailer: 60, social: 12, other: 20 };
+// confirmation channels + cost — from the appointments>shows transition
+var TX2 = E.TRANSITIONS.filter(function (t) { return t.id === 'appointments>shows'; })[0];
+var CONFIRM_CHANNELS = TX2 ? Object.keys(TX2.options) : ['confirm-email', 'confirm-text', 'confirm-call', 'mailer', 'other'];
+var CONFIRM_COST = (TX2 && TX2.options) || { 'confirm-email': 2, 'confirm-text': 4, 'confirm-call': 45, mailer: 60, other: 15 };
 
 // The LASER outreach cadence: "4 calls in ~10 days" + multi-channel touches.
 var DEFAULT_CADENCE = [
@@ -102,6 +107,19 @@ async function mirrorTouch(channel, won, cost, dealSize, trigger) {
     meta.dataMode = (meta.simEvents > 0) ? 'mixed' : 'real';
     await db.set(K.salesMeta, meta);
   } catch (e) {}
+}
+
+// Mirror one appointment's show outcome into the funnel's appointments>shows
+// transition (one event per appointment; unit = confirmation method used).
+async function mirrorShow(channel, won, cost, dealSize, trigger) {
+  var agg = (await db.get(K.salesAgg)) || E.emptyAgg();
+  E.applyEvent(agg, {
+    transitionId: 'appointments>shows', from: 'appointments', to: 'shows',
+    unit: channel, won: !!won, costCents: cost || 0,
+    dealSize: dealSize || 'medium', trigger: trigger || 'trust'
+  });
+  await db.set(K.salesAgg, agg);
+  try { var meta = (await db.get(K.salesMeta)) || {}; meta.realEvents = (meta.realEvents || 0) + 1; meta.dataMode = (meta.simEvents > 0) ? 'mixed' : 'real'; await db.set(K.salesMeta, meta); } catch (e) {}
 }
 
 function esc(v) { return String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
@@ -177,6 +195,7 @@ module.exports = async function handler(req, res) {
       ok: true, surface: 'crm', backend: db.getBackend(),
       keyConfigured: !!(process.env.SALES_ADMIN_KEY || process.env.LEAD_ADMIN_KEY),
       inWorklist: wl.length, channels: CHANNELS, outcomes: OUTCOMES, statuses: STATUSES,
+      confirmChannels: CONFIRM_CHANNELS, showOutcomes: SHOW_OUTCOMES,
       email: { ready: ec.hasKey && !ec.sandbox, hasKey: ec.hasKey, from: ec.from || null, sandbox: ec.sandbox, replyToSet: !!ec.replyTo, addrSet: !!ec.addr }
     });
   }
@@ -215,6 +234,47 @@ module.exports = async function handler(req, res) {
         }
       }
       return j(res, 200, { ok: true, count: rows.length, total: ids.length, counts: counts, worklist: rows });
+    }
+
+    // Appointments for the Shows page: everything that reached the appointment
+    // stage (booked, showed, no-show, cancelled), sorted by appointment time.
+    if (method === 'GET' && action === 'appointments') {
+      var afc = u.searchParams.get('company') || '';
+      var afw = u.searchParams.get('when') || '';   // upcoming | past | unresolved | ''
+      var nowMs = Date.parse(u.searchParams.get('now') || '') || 0;
+      var ids4 = await loadWorklist();
+      var appts = [], sc = { appointment: 0, showed: 0, 'no-show': 0, cancelled: 0 };
+      for (var a = 0; a < ids4.length; a++) {
+        var stA = await loadState(ids4[a]);
+        if (!stA) continue;
+        var isAppt = stA.status === 'appointment' || SHOW_OUTCOMES.indexOf(stA.status) !== -1 || stA.showOutcome;
+        if (!isAppt) continue;
+        if (stA.status in sc) sc[stA.status]++;
+        if (afc && stA.company !== afc) continue;
+        var apptMs = stA.apptAt ? Date.parse(stA.apptAt) : 0;
+        if (afw === 'unresolved' && stA.status !== 'appointment') continue;
+        if (afw === 'upcoming' && nowMs && apptMs && apptMs < nowMs) continue;
+        if (afw === 'past' && nowMs && apptMs && apptMs >= nowMs) continue;
+        appts.push({
+          leadId: stA.leadId, name: stA.name, phone: stA.phone, email: stA.email,
+          company: stA.company, domain: stA.domain, status: stA.status,
+          apptAt: stA.apptAt || null, apptNote: stA.apptNote || '',
+          confirmations: (stA.confirmations || []).length, lastConfirm: (stA.confirmations || []).slice(-1)[0] || null,
+          showOutcome: stA.showOutcome || null
+        });
+      }
+      appts.sort(function (x, y) { return (Date.parse(x.apptAt || 0) || 0) - (Date.parse(y.apptAt || 0) || 0); });
+      return j(res, 200, { ok: true, count: appts.length, counts: sc, appointments: appts, confirmChannels: CONFIRM_CHANNELS });
+    }
+
+    if (method === 'GET' && action === 'show-metrics') {
+      var funnelS = E.computeFunnel((await db.get(K.salesAgg)) || E.emptyAgg());
+      var a2s = (funnelS.transitions || []).filter(function (t) { return t.id === 'appointments>shows'; })[0] || null;
+      var idsS = await loadWorklist();
+      var scS = { appointment: 0, showed: 0, 'no-show': 0, cancelled: 0 };
+      for (var b = 0; b < idsS.length; b++) { var sB = await loadState(idsS[b]); if (!sB) continue; if (sB.status in scS) scS[sB.status]++; }
+      var resolved = scS.showed + scS['no-show'];
+      return j(res, 200, { ok: true, pipeline: scS, showRate: resolved ? +(scS.showed / resolved).toFixed(3) : null, apptsToShows: a2s });
     }
 
     if (method === 'GET' && action === 'lead') {
@@ -345,6 +405,52 @@ module.exports = async function handler(req, res) {
       }
       await db.set(K.state + aid, st4);
       return j(res, 200, { ok: true, status: 'appointment', apptAt: st4.apptAt });
+    }
+
+    // Log a confirmation touch on an appointment (does NOT mirror; the show
+    // outcome carries the appointments>shows win/loss).
+    if (method === 'POST' && action === 'confirm') {
+      var cfid = clip(body.leadId, 80);
+      var stC = await loadState(cfid);
+      if (!stC) return j(res, 404, { ok: false, error: 'lead not in CRM' });
+      var cch = CONFIRM_CHANNELS.indexOf(body.channel) !== -1 ? body.channel : CONFIRM_CHANNELS[0];
+      var ccost = CONFIRM_COST[cch] || 0;
+      stC.confirmations = stC.confirmations || [];
+      stC.confirmations.push({ ts: new Date().toISOString(), channel: cch, note: clip(body.note, 300), costCents: ccost });
+      stC.confirmCostCents = (stC.confirmCostCents || 0) + ccost;
+      stC.updatedTs = new Date().toISOString();
+      await db.set(K.state + cfid, stC);
+      return j(res, 200, { ok: true, confirmations: stC.confirmations.length });
+    }
+
+    // Resolve an appointment's show outcome. Mirrors ONE appointments>shows
+    // event (unit = confirmation channel used), won = showed.
+    if (method === 'POST' && action === 'show-outcome') {
+      var soid = clip(body.leadId, 80);
+      var stO = await loadState(soid);
+      if (!stO) return j(res, 404, { ok: false, error: 'lead not in CRM' });
+      var outcome = SHOW_OUTCOMES.indexOf(body.outcome) !== -1 ? body.outcome : 'showed';
+      var lastC = (stO.confirmations || []).slice(-1)[0];
+      var unit = CONFIRM_CHANNELS.indexOf(body.channel) !== -1 ? body.channel : ((lastC && lastC.channel) || 'other');
+      stO.showOutcome = outcome; stO.status = outcome; stO.showTs = new Date().toISOString(); stO.updatedTs = stO.showTs;
+      // mirror once (cancelled = neither show nor no-show → don't count against show rate)
+      if (!stO.showMirrored && outcome !== 'cancelled') {
+        await mirrorShow(unit, outcome === 'showed', stO.confirmCostCents || 0, body.dealSize, body.trigger);
+        stO.showMirrored = true;
+      }
+      await db.set(K.state + soid, stO);
+      return j(res, 200, { ok: true, status: stO.status, showOutcome: outcome });
+    }
+
+    // Reschedule: new time, back to appointment, allow a fresh show outcome.
+    if (method === 'POST' && action === 'reschedule') {
+      var rsid = clip(body.leadId, 80);
+      var stR = await loadState(rsid);
+      if (!stR) return j(res, 404, { ok: false, error: 'lead not in CRM' });
+      stR.apptAt = clip(body.apptAt, 40); stR.status = 'appointment'; stR.showOutcome = null; stR.showMirrored = false;
+      stR.updatedTs = new Date().toISOString();
+      await db.set(K.state + rsid, stR);
+      return j(res, 200, { ok: true, status: 'appointment', apptAt: stR.apptAt });
     }
 
     if (method === 'POST' && action === 'status') {
