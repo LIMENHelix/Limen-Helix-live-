@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>AUTOPILOT — Autonomous Sales Machine · LIMEN Helix</title>
+<style>
+  :root{
+    --bg:#0a0e14; --panel:#111823; --panel2:#0d141d; --line:#1e2b3a;
+    --ink:#e6edf3; --dim:#8b9bb0; --faint:#5a6b80;
+    --cyan:#35d0ba; --blue:#4a9eff; --amber:#f5b642; --red:#ff5d5d; --green:#3ddc84; --violet:#a882ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+  a{color:var(--blue);text-decoration:none}
+  .wrap{max-width:1240px;margin:0 auto;padding:22px 18px 90px}
+  .crumbs{font-size:12px;color:var(--faint);margin-bottom:10px}
+  header.top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:14px}
+  h1{font-size:21px;margin:0;letter-spacing:.5px}
+  h1 .m{color:var(--cyan)}
+  .sub{color:var(--dim);font-size:12px;max-width:560px}
+  .state{font-size:12px;padding:3px 12px;border-radius:20px;font-weight:600;border:1px solid var(--line)}
+  .state.armed{color:var(--green);border-color:#1a4a2a;background:#08160e}
+  .state.disarmed{color:var(--faint)}
+  .state.control{color:var(--amber);border-color:#5a4a1a;background:#1a1408}
+  input,select,button{font:inherit}
+  input,select{background:var(--panel2);border:1px solid var(--line);color:var(--ink);border-radius:7px;padding:6px 9px}
+  button{background:var(--panel);border:1px solid var(--line);color:var(--ink);border-radius:7px;padding:6px 11px;cursor:pointer}
+  button:hover{border-color:var(--cyan);color:#fff}
+  button.sm{padding:3px 8px;font-size:12px}
+  button.arm{border-color:#1a4a2a;color:var(--green)} button.kill{border-color:#5a2020;color:var(--red)}
+  button.primary{background:#0f2a26;border-color:#1e5a4f;color:var(--cyan)}
+  .muted{color:var(--faint);font-size:12px}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:14px}
+  .panel h2{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);margin:0 0 12px}
+  .keybar{margin:14px 0;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .flow{display:flex;align-items:stretch;gap:0;overflow-x:auto;padding-bottom:4px}
+  .stg{flex:1 1 0;min-width:120px;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:11px;text-align:center}
+  .stg .nm{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--dim)}
+  .stg .due{font-size:24px;font-weight:700;font-variant-numeric:tabular-nums}
+  .stg .due.z{color:var(--faint)}
+  .stg .lbl{font-size:10px;color:var(--faint)}
+  .arrow{flex:0 0 26px;display:flex;align-items:center;justify-content:center;color:var(--line);font-size:16px}
+  .kpis{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
+  .kpi{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:9px 13px;min-width:92px}
+  .kpi .v{font-size:19px;font-weight:700;font-variant-numeric:tabular-nums}
+  .kpi .k{font-size:10px;letter-spacing:.5px;color:var(--faint);text-transform:uppercase}
+  .kpi.go .v{color:var(--green)} .kpi.q .v{color:var(--amber)}
+  table{width:100%;border-collapse:collapse;font-size:12.5px}
+  th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}
+  th{color:var(--faint);font-weight:600;font-size:10.5px;text-transform:uppercase}
+  .chip{font-size:10px;padding:1px 7px;border-radius:20px;border:1px solid var(--line);color:var(--dim)}
+  .chip.co{border-color:#3a2a5a;color:var(--violet)}
+  .kind{font-size:10px;padding:1px 7px;border-radius:20px}
+  .kind.outreach{color:var(--blue);border:1px solid #1e3a5a} .kind.confirm{color:var(--cyan);border:1px solid #1e5a4f}
+  .kind.close{color:var(--amber);border:1px solid #5a4a1a} .kind.refer{color:var(--violet);border:1px solid #3a2a5a}
+  .kind.stalled{color:var(--red);border:1px solid #5a2020}
+  .auto{font-size:9.5px;color:var(--green)} .man{font-size:9.5px;color:var(--faint)}
+  .tblwrap{overflow-x:auto;max-height:520px;overflow-y:auto}
+  .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--panel);border:1px solid var(--cyan);color:var(--ink);padding:10px 16px;border-radius:8px;font-size:13px;opacity:0;transition:.2s;pointer-events:none;z-index:9;max-width:80vw}
+  .toast.show{opacity:1}
+  .note{font-size:11.5px;color:var(--faint);margin-top:8px;border-top:1px dashed var(--line);padding-top:8px}
+  .warnb{background:#1a1408;border:1px solid #5a4a1a;color:var(--amber);font-size:12px;padding:6px 12px;border-radius:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="crumbs"><a href="/sales">SALES</a> · Autopilot</div>
+  <header class="top">
+    <h1>AUTOPILOT <span class="m">· Autonomous Sales Machine</span></h1>
+    <span id="stateBadge" class="state disarmed">…</span>
+    <div class="sub">Decides the next best action for every lead across the LASER flow, auto-sends the email cadence, and hands you a ranked queue for everything a human does. Lead-gen to referral, running itself.</div>
+    <span style="flex:1"></span>
+    <span id="lastrun" class="muted"></span>
+  </header>
+
+  <div class="keybar">
+    <input id="key" type="password" placeholder="admin key" style="width:150px">
+    <button onclick="saveKey()">Unlock</button>
+    <span class="muted" id="keyState"></span>
+    <span style="flex:1"></span>
+    <button class="sm arm" id="armBtn" onclick="setCfg({armed:true})">ARM</button>
+    <button class="sm kill" id="disarmBtn" onclick="setCfg({armed:false})">DISARM</button>
+    <select id="mode" onchange="setCfg({mode:this.value})"><option value="recommend">recommend (queue only)</option><option value="control">control (auto-send email)</option></select>
+    <button class="sm primary" onclick="runNow()">▶ Run now</button>
+  </div>
+
+  <div id="emailWarn"></div>
+
+  <div class="panel">
+    <h2>The machine · due actions by stage (next tick)</h2>
+    <div class="flow" id="flow"></div>
+    <div class="kpis" id="kpis"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Action queue · what the machine wants done now <span class="muted" id="qCount"></span></h2>
+    <div class="tblwrap"><table><thead><tr><th>Lead</th><th>Venture</th><th>Stage</th><th>Action</th><th>Channel</th><th>Play</th><th></th></tr></thead>
+    <tbody id="queue"><tr><td colspan="7" class="muted">Unlock, then Run now (or wait for the cron) to fill the queue.</td></tr></tbody></table></div>
+    <div class="note" id="guard"></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $=s=>document.querySelector(s);
+const STAGES=['appointments','shows','enrollments','referrals'];
+const STAGELABEL={appointments:'→ Appt',shows:'→ Show',enrollments:'→ Close',referrals:'→ Refer'};
+function key(){ return localStorage.getItem('salesKey')||''; }
+function saveKey(){ localStorage.setItem('salesKey',$('#key').value.trim()); loadAll(); }
+function toast(m){ const t=$('#toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2400); }
+function esc(v){ return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+async function api(action, method='GET', body){
+  const k=key(); const url='/api/autopilot?action='+action+(k?('&key='+encodeURIComponent(k)):'');
+  const opt={method}; if(body){opt.headers={'content-type':'application/json'};opt.body=JSON.stringify(body);}
+  return (await fetch(url,opt)).json();
+}
+
+async function loadAll(){
+  $('#key').value=key();
+  const st=await api('status');
+  $('#keyState').textContent = st.keyConfigured?(key()?'unlocked':'key required'):'server key not configured';
+  if(!key()){ $('#flow').innerHTML='<div class="muted">Enter the admin key.</div>'; return; }
+  const cfg=st.config||{};
+  const armed=cfg.armed, control=cfg.mode==='control';
+  const sb=$('#stateBadge'); sb.className='state '+(armed?(control?'control':'armed'):'disarmed');
+  sb.textContent = armed?(control?'ARMED · CONTROL':'ARMED · RECOMMEND'):'DISARMED';
+  $('#mode').value=cfg.mode||'recommend';
+  $('#armBtn').style.display=armed?'none':''; $('#disarmBtn').style.display=armed?'':'none';
+  const lr=st.lastrun;
+  $('#lastrun').textContent = lr?('last run: '+(lr.disarmed?'disarmed':(lr.executed+' sent · '+lr.queued+' queued · '+lr.scanned+' scanned'))):'';
+  $('#emailWarn').innerHTML = st.emailReady?'':'<div class="warnb">⚠ Email not verified yet (Resend domain + RESEND_FROM_EMAIL). In control mode, email actions QUEUE instead of send until that is live.</div>';
+  const plan=await api('plan');
+  renderFlow(plan.byStage||{}, plan.dueCount||0);
+  const q=await api('queue');
+  renderQueue(q.queue||[]);
+  $('#guard').innerHTML='⚖️ Two-speed autonomy: RECOMMEND queues everything (nothing fires). CONTROL auto-sends only the email cadence (verified domain + suppression + unsubscribe enforced). Calls, texts, mailers, and the close are always queued for a human. DISARM or the cron gate stops it cold. Domain-ready: a pass-through gate is where per-domain signal plugs in later.';
+}
+
+function renderFlow(byStage,due){
+  $('#flow').innerHTML = STAGES.map((s,i)=>{
+    const n=byStage[s]||0;
+    return `<div class="stg"><div class="nm">${s}</div><div class="due ${n?'':'z'}">${n}</div><div class="lbl">${STAGELABEL[s]}</div></div>`
+      + (i<STAGES.length-1?'<div class="arrow">›</div>':'');
+  }).join('');
+  $('#kpis').innerHTML=[
+    {k:'Due now',v:due,c:due?'q':''},
+    {k:'Auto (email)',v:(byStage._auto||0),c:'go'}
+  ].map(x=>`<div class="kpi ${x.c}"><div class="v">${x.v}</div><div class="k">${x.k}</div></div>`).join('');
+}
+
+function renderQueue(q){
+  $('#qCount').textContent = q.length?('· '+q.length):'';
+  $('#queue').innerHTML = q.length? q.map(a=>`<tr>
+    <td>${esc(a.name)||'(no name)'}<div class="muted">${esc(a.email||a.phone||'')}</div></td>
+    <td><span class="chip co">${esc(a.company||'—')}</span></td>
+    <td>${a.stage}</td>
+    <td><span class="kind ${a.kind}">${a.label||a.kind}</span></td>
+    <td>${a.channel||''}</td>
+    <td>${a.play?('<span class="chip">'+esc(a.play.notation||a.play.unit)+'</span>'):'—'}</td>
+    <td>${a.blocked?('<span class="man">blocked: '+esc(a.blocked)+'</span>'):(a.autoExecutable?'<span class="auto">auto</span>':'<span class="man">manual</span>')}</td></tr>`).join('')
+    : '<tr><td colspan="7" class="muted">Queue empty. Load leads into the CRM and Run now.</td></tr>';
+}
+
+async function setCfg(patch){
+  if(!key())return toast('unlock first');
+  if(patch.mode==='control'&&!confirm('Switch to CONTROL? The machine will auto-send the email cadence (only when your Resend domain is verified).'))return loadAll();
+  const r=await api('config','POST',patch);
+  toast(r.ok?'updated':'err'); loadAll();
+}
+async function runNow(){
+  if(!key())return toast('unlock first');
+  toast('running…');
+  const r=await api('run','POST',{});
+  toast(r.ok?(r.ran?(r.result.executed+' sent · '+r.result.queued+' queued'):('not run: '+r.reason)):'err');
+  loadAll();
+}
+loadAll();
+</script>
+</body>
+</html>

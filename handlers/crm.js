@@ -47,8 +47,10 @@ var K = {
 
 var CHANNELS = ['call', 'text', 'email', 'mailer', 'social', 'other'];
 var OUTCOMES = ['sent', 'no-answer', 'left-voicemail', 'bad-contact', 'replied', 'callback', 'not-interested', 'booked', 'dead'];
-var STATUSES = ['new', 'working', 'appointment', 'showed', 'no-show', 'cancelled', 'unresponsive', 'dead'];
+var STATUSES = ['new', 'working', 'appointment', 'showed', 'no-show', 'cancelled', 'enrolled', 'lost', 'referred', 'unresponsive', 'dead'];
 var SHOW_OUTCOMES = ['showed', 'no-show', 'cancelled'];
+var CLOSE_LEVERS = ['closing', 'urgency', 'rapport', 'presentation', 'price-point', 'volume'];
+var DEAL_SIZES = ['small', 'medium', 'large'];
 
 // per-touch cost (cents) — from the funnel's leads>appointments transition
 var TX = E.TRANSITIONS.filter(function (t) { return t.id === 'leads>appointments'; })[0];
@@ -122,53 +124,46 @@ async function mirrorShow(channel, won, cost, dealSize, trigger) {
   try { var meta = (await db.get(K.salesMeta)) || {}; meta.realEvents = (meta.realEvents || 0) + 1; meta.dataMode = (meta.simEvents > 0) ? 'mixed' : 'real'; await db.set(K.salesMeta, meta); } catch (e) {}
 }
 
+// Generic funnel mirror for the later transitions (shows>enrollments,
+// enrollments>referrals). shows>enrollments with won books deal revenue in the
+// engine (applyEvent tracks __enroll by dealSize).
+async function mirrorTx(transitionId, from, to, unit, won, cost, dealSize, trigger) {
+  var agg = (await db.get(K.salesAgg)) || E.emptyAgg();
+  E.applyEvent(agg, { transitionId: transitionId, from: from, to: to, unit: unit, won: !!won, costCents: cost || 0, dealSize: dealSize || 'medium', trigger: trigger || 'trust' });
+  await db.set(K.salesAgg, agg);
+  try { var meta = (await db.get(K.salesMeta)) || {}; meta.realEvents = (meta.realEvents || 0) + 1; meta.dataMode = (meta.simEvents > 0) ? 'mixed' : 'real'; await db.set(K.salesMeta, meta); } catch (e) {}
+}
+
+// Referrals feed back into the LEADS bucket: each given referral becomes a new
+// leadgen lead (source 'referral'), tagged to the same venture. Written to the
+// leadgen keys directly so it surfaces on the Leads page and can be re-worked.
+function refScore(r) { var s = 16; if (/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(r.email || '')) s += 30; if (String(r.phone || '').replace(/\D/g, '').length >= 10) s += 25; if (r.name) s += 15; return Math.min(100, s); }
+async function captureReferralLeads(refs, company, domain) {
+  var idx = await db.get('leadgen:index'); if (!Array.isArray(idx)) idx = [];
+  var stats = (await db.get('leadgen:sourcestats')) || {};
+  var added = 0, ts = new Date().toISOString();
+  for (var i = 0; i < refs.length; i++) {
+    var r = refs[i]; if (!r || (!r.email && !r.phone && !r.name)) continue;
+    var id = 'LGR' + Date.now().toString(36) + Math.floor(Math.random() * 1e6).toString(36);
+    var lead = { id: id, ts: ts, name: clip(r.name, 120), email: clip(r.email, 200), phone: clip(r.phone, 60), org: '', company: company || '', domain: domain || '', source: 'referral', score: refScore(r), status: 'new', notes: 'referral' };
+    await db.set('leadgen:lead:' + id, lead); idx.unshift(id); added++;
+    var st = stats.referral || (stats.referral = { count: 0, costCents: 0, scoreSum: 0 });
+    st.count += 1; st.scoreSum += lead.score;
+  }
+  if (idx.length > 5000) idx = idx.slice(0, 5000);
+  await db.set('leadgen:index', idx); await db.set('leadgen:sourcestats', stats);
+  return added;
+}
+
 function esc(v) { return String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 function validEmail(e) { return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e || ''); }
 
-// Email sending config — reported by status, enforced by send-email.
-function emailConfig() {
-  var apiKey = process.env.RESEND_API_KEY || '';
-  var from = process.env.RESEND_FROM_EMAIL || process.env.CRM_FROM_EMAIL || process.env.LEAD_FROM_EMAIL || '';
-  var replyTo = process.env.CRM_REPLY_TO || process.env.LEAD_NOTIFY_EMAIL || '';
-  var addr = process.env.CRM_SENDER_ADDRESS || '';
-  var sandbox = /resend\.dev/i.test(from) || !from;
-  return { hasKey: !!apiKey, from: from, replyTo: replyTo, addr: addr, sandbox: sandbox, apiKey: apiKey };
-}
-
-async function loadSuppress() { return (await db.get(K.suppress)) || {}; }
-
-// Compliant HTML: the body + sender identity + physical address + unsubscribe.
-function emailHtml(bodyText, toEmail, cfg) {
-  var base = 'https://limenhelix.com/api/crm?action=unsubscribe&e=' + encodeURIComponent(toEmail);
-  var body = esc(bodyText).replace(/\n/g, '<br>');
-  var footerAddr = cfg.addr ? esc(cfg.addr) : '[sender postal address not configured — set CRM_SENDER_ADDRESS]';
-  return '<div style="font-family:sans-serif;font-size:14px;line-height:1.55;color:#111">' + body +
-    '<hr style="border:none;border-top:1px solid #ddd;margin:22px 0 10px">' +
-    '<div style="font-size:11px;color:#888">' + footerAddr +
-    '<br>You received this because we believe it is relevant to you. ' +
-    '<a href="' + base + '" style="color:#888">Unsubscribe</a> or reply STOP to opt out.</div></div>';
-}
-
-async function sendEmailResend(cfg, toEmail, subject, bodyText) {
-  var payload = {
-    from: cfg.from,
-    to: [toEmail],
-    subject: subject,
-    html: emailHtml(bodyText, toEmail, cfg),
-    text: bodyText + '\n\n---\n' + (cfg.addr || '') + '\nUnsubscribe: https://limenhelix.com/api/crm?action=unsubscribe&e=' + encodeURIComponent(toEmail) + '  (or reply STOP)'
-  };
-  if (cfg.replyTo) payload.reply_to = cfg.replyTo;
-  try {
-    var r = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json', authorization: 'Bearer ' + cfg.apiKey },
-      body: JSON.stringify(payload)
-    });
-    var jd = await r.json().catch(function () { return {}; });
-    if (!r.ok) return { ok: false, error: (jd && (jd.message || jd.name)) || ('resend ' + r.status), status: r.status };
-    return { ok: true, id: jd && jd.id };
-  } catch (e) { return { ok: false, error: String(e && e.message || e) }; }
-}
+// Email send/suppression via the SHARED compliant path (lib/crm-send) so the
+// CRM and the autopilot never drift on unsubscribe/footer/reply-to rules.
+var send = require('../lib/crm-send');
+function emailConfig() { return send.emailConfig(); }
+async function loadSuppress() { return send.loadSuppress(); }
+async function sendEmailResend(cfg, toEmail, subject, bodyText) { return send.sendEmailResend(cfg, toEmail, subject, bodyText); }
 
 module.exports = async function handler(req, res) {
   res.setHeader('content-type', 'application/json');
@@ -195,7 +190,7 @@ module.exports = async function handler(req, res) {
       ok: true, surface: 'crm', backend: db.getBackend(),
       keyConfigured: !!(process.env.SALES_ADMIN_KEY || process.env.LEAD_ADMIN_KEY),
       inWorklist: wl.length, channels: CHANNELS, outcomes: OUTCOMES, statuses: STATUSES,
-      confirmChannels: CONFIRM_CHANNELS, showOutcomes: SHOW_OUTCOMES,
+      confirmChannels: CONFIRM_CHANNELS, showOutcomes: SHOW_OUTCOMES, closeLevers: CLOSE_LEVERS, dealSizes: DEAL_SIZES,
       email: { ready: ec.hasKey && !ec.sandbox, hasKey: ec.hasKey, from: ec.from || null, sandbox: ec.sandbox, replyToSet: !!ec.replyTo, addrSet: !!ec.addr }
     });
   }
@@ -451,6 +446,40 @@ module.exports = async function handler(req, res) {
       stR.updatedTs = new Date().toISOString();
       await db.set(K.state + rsid, stR);
       return j(res, 200, { ok: true, status: 'appointment', apptAt: stR.apptAt });
+    }
+
+    // CLOSE: show → enrollment (the money stage). won books the deal + revenue.
+    if (method === 'POST' && action === 'close') {
+      var clid = clip(body.leadId, 80);
+      var stCl = await loadState(clid);
+      if (!stCl) return j(res, 404, { ok: false, error: 'lead not in CRM' });
+      var won = body.won !== false;
+      var dealSize = DEAL_SIZES.indexOf(body.dealSize) !== -1 ? body.dealSize : 'medium';
+      var lever = CLOSE_LEVERS.indexOf(body.lever) !== -1 ? body.lever : 'closing';
+      if (won) { stCl.status = 'enrolled'; stCl.enrolledAt = new Date().toISOString(); stCl.dealSize = dealSize; stCl.revenueCents = parseInt(body.revenueCents, 10) || 0; stCl.closeLever = lever; }
+      else { stCl.status = 'lost'; }
+      stCl.updatedTs = new Date().toISOString();
+      if (!stCl.closeMirrored) { await mirrorTx('shows>enrollments', 'shows', 'enrollments', lever, won, 0, dealSize, body.trigger); stCl.closeMirrored = true; }
+      await db.set(K.state + clid, stCl);
+      return j(res, 200, { ok: true, status: stCl.status, dealSize: won ? dealSize : null, revenueCents: won ? stCl.revenueCents : 0 });
+    }
+
+    // REFER: enrollment → referral. Given referrals feed back into the Leads bucket.
+    if (method === 'POST' && action === 'refer') {
+      var rfid = clip(body.leadId, 80);
+      var stRf = await loadState(rfid);
+      if (!stRf) return j(res, 404, { ok: false, error: 'lead not in CRM' });
+      var rchannel = CHANNELS.indexOf(body.channel) !== -1 ? body.channel : 'text';
+      var refs = Array.isArray(body.referrals) ? body.referrals.slice(0, 20) : [];
+      var wonR = refs.length > 0 || body.won === true;
+      stRf.referrals = (stRf.referrals || []).concat(refs.map(function (r) { return { name: clip(r.name, 120), email: clip(r.email, 200), phone: clip(r.phone, 60), ts: new Date().toISOString() }; }));
+      stRf.referAsked = true;
+      if (wonR) stRf.status = 'referred';
+      stRf.updatedTs = new Date().toISOString();
+      if (!stRf.referMirrored || wonR) { await mirrorTx('enrollments>referrals', 'enrollments', 'referrals', rchannel, wonR, CHANNEL_COST[rchannel] || 0, stRf.dealSize, body.trigger); stRf.referMirrored = true; }
+      var addedRefs = refs.length ? await captureReferralLeads(refs, stRf.company, stRf.domain) : 0;
+      await db.set(K.state + rfid, stRf);
+      return j(res, 200, { ok: true, status: stRf.status, referralsGiven: stRf.referrals.length, referralsAddedToLeads: addedRefs });
     }
 
     if (method === 'POST' && action === 'status') {

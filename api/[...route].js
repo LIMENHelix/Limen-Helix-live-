@@ -30,6 +30,7 @@ const HANDLERS = {
   'leadgen': require('../handlers/leadgen'),
   'crm': require('../handlers/crm'),
   'spine': require('../handlers/spine'),
+  'autopilot': require('../handlers/autopilot'),
   'relay-margin': require('../handlers/relay-margin'),
   'relay-checkout': require('../handlers/relay-checkout'),
   'wave-radar': require('../handlers/wave-radar'),
