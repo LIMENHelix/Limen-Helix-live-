@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>APPOINTMENTS — Outreach CRM · LIMEN Helix</title>
+<style>
+  :root{
+    --bg:#0a0e14; --panel:#111823; --panel2:#0d141d; --line:#1e2b3a;
+    --ink:#e6edf3; --dim:#8b9bb0; --faint:#5a6b80;
+    --cyan:#35d0ba; --blue:#4a9eff; --amber:#f5b642; --red:#ff5d5d; --green:#3ddc84; --violet:#a882ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+  a{color:var(--blue);text-decoration:none}
+  .wrap{max-width:1280px;margin:0 auto;padding:22px 18px 90px}
+  .crumbs{font-size:12px;color:var(--faint);margin-bottom:10px}
+  header.top{border-bottom:1px solid var(--line);padding-bottom:14px}
+  h1{font-size:22px;margin:0;letter-spacing:.5px}
+  h1 .m{color:var(--cyan)}
+  .sub{color:var(--dim);font-size:12.5px;margin-top:4px;max-width:780px}
+  .keybar{margin:14px 0;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  input,select,button,textarea{font:inherit}
+  input,select,textarea{background:var(--panel2);border:1px solid var(--line);color:var(--ink);border-radius:7px;padding:6px 9px}
+  button{background:var(--panel);border:1px solid var(--line);color:var(--ink);border-radius:7px;padding:6px 11px;cursor:pointer}
+  button:hover{border-color:var(--cyan);color:#fff}
+  button.primary{background:#0f2a26;border-color:#1e5a4f;color:var(--cyan)}
+  button.sm{padding:3px 8px;font-size:12px}
+  button.warn{border-color:#5a2020;color:var(--red)}
+  .muted{color:var(--faint);font-size:12px}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:14px}
+  .panel h2{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);margin:0 0 12px}
+  .kpis{display:flex;gap:12px;flex-wrap:wrap}
+  .kpi{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:9px 13px;min-width:96px}
+  .kpi .v{font-size:19px;font-weight:700;font-variant-numeric:tabular-nums}
+  .kpi .k{font-size:10px;letter-spacing:.5px;color:var(--faint);text-transform:uppercase}
+  .kpi.pos .v{color:var(--green)} .kpi.appt .v{color:var(--cyan)} .kpi.dead .v{color:var(--red)}
+  .layout{display:grid;grid-template-columns:1.35fr 1fr;gap:14px;align-items:start}
+  @media(max-width:900px){.layout{grid-template-columns:1fr}}
+  table{width:100%;border-collapse:collapse;font-size:12.5px}
+  th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}
+  th{color:var(--faint);font-weight:600;font-size:10.5px;text-transform:uppercase;letter-spacing:.5px}
+  tr.lead{cursor:pointer}
+  tr.lead:hover td{background:#0d141d}
+  tr.lead.sel td{background:#0f1a18}
+  .st{font-size:10px;padding:1px 7px;border-radius:20px;border:1px solid var(--line);white-space:nowrap}
+  .st.new{color:var(--dim)} .st.working{color:var(--amber);border-color:#5a4a1a}
+  .st.appointment{color:var(--cyan);border-color:#1e5a4f;background:#0f2a26}
+  .st.dead{color:var(--red);border-color:#5a2020} .st.unresponsive{color:var(--faint)}
+  .chip{font-size:10px;padding:1px 7px;border-radius:20px;border:1px solid var(--line);color:var(--dim)}
+  .chip.co{border-color:#3a2a5a;color:var(--violet)}
+  .tblwrap{overflow-x:auto;max-height:560px;overflow-y:auto}
+  /* lead panel */
+  .lp .hd{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+  .lp .nm{font-size:16px;font-weight:700}
+  .lp .contact{font-size:12.5px;color:var(--dim);margin:6px 0}
+  .lp .contact b{color:var(--ink)}
+  .next{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:12.5px;margin:8px 0}
+  .next b{color:var(--cyan)}
+  .touchbar{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:8px 0}
+  .touchbar select,.touchbar input{font-size:12px;padding:5px 7px}
+  .tl{list-style:none;margin:8px 0 0;padding:0;max-height:240px;overflow-y:auto}
+  .tl li{border-left:2px solid var(--line);padding:4px 0 4px 10px;margin-left:4px;font-size:12px;color:var(--dim)}
+  .tl li b{color:var(--ink)}
+  .tl li.booked{border-color:var(--cyan)} .tl li.bad{border-color:var(--red)}
+  .econ td.num{text-align:right;font-variant-numeric:tabular-nums}
+  .flag{font-size:9.5px;padding:1px 5px;border-radius:20px;margin-left:5px;background:#08160e;border:1px solid #1a4a2a;color:var(--green)}
+  .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--panel);border:1px solid var(--cyan);color:var(--ink);padding:10px 16px;border-radius:8px;font-size:13px;opacity:0;transition:.2s;pointer-events:none;z-index:9;max-width:80vw}
+  .toast.show{opacity:1}
+  .guard{font-size:11.5px;color:var(--faint);margin-top:10px;border-top:1px dashed var(--line);padding-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="crumbs"><a href="/sales">← SALES</a> · Appointments</div>
+  <header class="top">
+    <h1>APPOINTMENTS <span class="m">· Outreach CRM</span></h1>
+    <div class="sub">Work your leads into appointments across the LASER cadence — mail, email, text, call. Log every touch and outcome; the machine tracks which channel books appointments for the least cost and feeds it back to the optimizer. It <b>tracks</b> outreach; it does not send it.</div>
+  </header>
+
+  <div class="keybar">
+    <input id="key" type="password" placeholder="admin key" style="width:160px">
+    <button onclick="saveKey()">Unlock</button>
+    <span class="muted" id="keyState"></span>
+    <span style="flex:1"></span>
+    <label class="muted">Load leads:</label>
+    <select id="loadCompany"><option value="">any venture</option></select>
+    <input id="loadN" type="number" value="50" min="1" max="200" style="width:64px">
+    <button class="primary" onclick="loadLeads()">＋ Load into CRM</button>
+  </div>
+
+  <div class="panel">
+    <h2>Pipeline · leads → appointments</h2>
+    <div class="kpis" id="kpis"></div>
+  </div>
+
+  <div class="layout">
+    <div class="panel">
+      <h2>Worklist <span class="muted" id="wlCount"></span></h2>
+      <div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap">
+        <select id="fStatus"><option value="">all statuses</option><option>new</option><option>working</option><option>appointment</option><option>unresponsive</option><option>dead</option></select>
+        <select id="fCompany"><option value="">all ventures</option></select>
+        <button class="sm" onclick="loadAll()">↻</button>
+      </div>
+      <div class="tblwrap"><table><thead><tr><th>Lead</th><th>Venture</th><th>Status</th><th class="num">Touches</th><th>Next</th></tr></thead>
+      <tbody id="wl"><tr><td colspan="5" class="muted">Unlock, then load leads from a venture.</td></tr></tbody></table></div>
+    </div>
+
+    <div class="panel lp" id="leadPanel">
+      <div class="muted">Select a lead from the worklist to work it.</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Channel economics · what books appointments, and for how much</h2>
+    <table class="econ"><thead><tr><th>Channel</th><th class="num">Attempts</th><th class="num">Booked %</th><th class="num">Cost / appt</th></tr></thead>
+    <tbody id="econ"><tr><td colspan="4" class="muted">—</td></tr></tbody></table>
+    <div class="guard" id="guard"></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $=s=>document.querySelector(s);
+let CADENCE=[], CHANNELS=['call','text','email','mailer','social','other'], OUTCOMES=[], SEL=null, COMPANIES=[];
+function key(){ return localStorage.getItem('salesKey')||''; }
+function saveKey(){ localStorage.setItem('salesKey',$('#key').value.trim()); loadAll(); }
+function toast(m){ const t=$('#toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2600); }
+function esc(v){ return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function money(c){ if(c==null) return '—'; const d=c/100; return '$'+(d>=1000?(d/1000).toFixed(1)+'k':d.toFixed(2)); }
+function when(ts){ try{ return new Date(ts).toLocaleString([], {month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}); }catch(e){ return ''; } }
+
+async function api(base, action, method='GET', body){
+  const k=key(); const url='/api/'+base+'?action='+action+(k?('&key='+encodeURIComponent(k)):'');
+  const opt={method}; if(body){opt.headers={'content-type':'application/json'};opt.body=JSON.stringify(body);}
+  return (await fetch(url,opt)).json();
+}
+
+async function loadAll(){
+  $('#key').value=key();
+  const st=await api('crm','status');
+  $('#keyState').textContent = st.keyConfigured?(key()?'unlocked':'key required'):'server key not configured';
+  CHANNELS=st.channels||CHANNELS; OUTCOMES=st.outcomes||[];
+  if(!key()){ $('#wl').innerHTML='<tr><td colspan="5" class="muted">Enter the admin key to unlock.</td></tr>'; return; }
+  // ventures for the loaders
+  const comps=(await api('leadgen','companies')).companies||[]; COMPANIES=comps;
+  const opt=['<option value="">any venture</option>'].concat(comps.map(c=>`<option value="${c.id}">${c.name}</option>`)).join('');
+  $('#loadCompany').innerHTML=opt; $('#fCompany').innerHTML=opt.replace('any venture','all ventures');
+  CADENCE=(await api('crm','cadence')).cadence||[];
+  renderMetrics(await api('crm','metrics'));
+  renderWorklist(await api('crm','worklist&status='+encodeURIComponent($('#fStatus').value)+'&company='+encodeURIComponent($('#fCompany').value)));
+  if(SEL) openLead(SEL);
+  $('#guard').innerHTML='⚖️ This CRM records outreach you performed and tracks outcomes. It does not send mail, email, text, or calls — sending stays a deliberate action. Click-to-send (Twilio / Resend / mail) is the integration layer added when those keys are live.';
+}
+
+function renderMetrics(m){
+  const p=m.pipeline||{};
+  const l2a=m.leadsToAppt;
+  $('#kpis').innerHTML=[
+    {k:'In CRM',v:m.inWorklist||0,c:''},
+    {k:'Working',v:p.working||0,c:''},
+    {k:'Appointments',v:p.appointment||0,c:'appt'},
+    {k:'Dead',v:p.dead||0,c:'dead'},
+    {k:'Lead→Appt',v:l2a?(l2a.conv*100).toFixed(0)+'%':'—',c:'pos'},
+    {k:'Touches/appt',v:m.touchesPerAppt!=null?m.touchesPerAppt:'—',c:''},
+    {k:'Cost/appt',v:l2a&&l2a.costPerWinCents!=null?money(l2a.costPerWinCents):'—',c:''}
+  ].map(x=>`<div class="kpi ${x.c}"><div class="v">${x.v}</div><div class="k">${x.k}</div></div>`).join('');
+  // channel econ
+  if(l2a&&l2a.units&&l2a.units.length){
+    $('#econ').innerHTML=l2a.units.map(u=>`<tr><td>${u.name}${u.name===l2a.bestConverter?'<span class="flag">best</span>':''}</td>
+      <td class="num">${u.attempts}</td><td class="num">${(u.conv*100).toFixed(1)}%</td><td class="num">${money(u.costPerWinCents)}</td></tr>`).join('');
+  } else $('#econ').innerHTML='<tr><td colspan="4" class="muted">No touches logged yet.</td></tr>';
+}
+
+function renderWorklist(w){
+  $('#wlCount').textContent = w.total!=null?('· '+w.total+' in CRM'):'';
+  const rows=w.worklist||[];
+  $('#wl').innerHTML = rows.length? rows.map(r=>`<tr class="lead ${SEL===r.leadId?'sel':''}" onclick="openLead('${r.leadId}')">
+    <td>${esc(r.name)||'(no name)'}<div class="muted">${esc(r.phone||r.email||'')}</div></td>
+    <td><span class="chip co">${esc(r.company||'—')}</span></td>
+    <td><span class="st ${r.status}">${r.status}</span></td>
+    <td class="num">${r.touchCount}</td>
+    <td class="muted">${r.status==='appointment'?('📅 '+(r.apptAt||'set')):(r.nextStep?(r.nextStep.channel+' · '+r.nextStep.label):'done')}</td></tr>`).join('')
+    : '<tr><td colspan="5" class="muted">No leads here. Load some from a venture above.</td></tr>';
+}
+
+async function openLead(id){
+  SEL=id;
+  document.querySelectorAll('tr.lead').forEach(t=>t.classList.toggle('sel', t.getAttribute('onclick').indexOf(id)!==-1));
+  const r=await api('crm','lead&leadId='+encodeURIComponent(id));
+  if(!r.ok){ $('#leadPanel').innerHTML='<div class="muted">Lead not found.</div>'; return; }
+  const s=r.state;
+  const ns=s.nextStep;
+  const chOpt=CHANNELS.map(c=>`<option value="${c}"${ns&&ns.channel===c?' selected':''}>${c}</option>`).join('');
+  const outOpt=OUTCOMES.map(o=>`<option value="${o}">${o}</option>`).join('');
+  const tl=(s.touches||[]).slice().reverse().map(t=>`<li class="${t.outcome==='booked'?'booked':(t.outcome==='dead'||t.outcome==='not-interested'||t.outcome==='bad-contact'?'bad':'')}">
+    <b>${t.channel}</b> · ${t.outcome} ${t.note?('· '+esc(t.note)):''}<div class="muted">${when(t.ts)}${t.costCents?(' · '+money(t.costCents)):''}</div></li>`).join('');
+  $('#leadPanel').innerHTML=`
+    <div class="hd"><div><div class="nm">${esc(s.name)||'(no name)'}</div>
+      <span class="chip co">${esc(s.company||'—')}</span> <span class="chip">${s.domain||'—'}</span> <span class="st ${s.status}">${s.status}</span></div>
+      <button class="sm warn" onclick="removeLead('${s.leadId}')">remove</button></div>
+    <div class="contact">${s.phone?('📞 <b>'+esc(s.phone)+'</b> '):''}${s.email?('✉️ <b>'+esc(s.email)+'</b>'):''}
+      ${s.notes?('<div class="muted" style="margin-top:3px">'+esc(s.notes)+'</div>'):''}</div>
+    ${ns?`<div class="next">Next cadence step: <b>${ns.label}</b> (${ns.channel}, day ${ns.day})</div>`:'<div class="next">Cadence complete — keep working or mark status.</div>'}
+    <div class="touchbar">
+      <b class="muted">Log touch:</b>
+      <select id="tCh">${chOpt}</select>
+      <select id="tOut">${outOpt}</select>
+      <input id="tNote" placeholder="note" style="width:130px">
+      <button class="sm primary" onclick="logTouch('${s.leadId}')">Log</button>
+    </div>
+    <div class="touchbar">
+      <b class="muted">Book appt:</b>
+      <input id="tAppt" type="datetime-local" style="width:180px">
+      <button class="sm primary" onclick="bookAppt('${s.leadId}')">📅 Book</button>
+      <button class="sm" onclick="setStatus('${s.leadId}','unresponsive')">unresponsive</button>
+      <button class="sm warn" onclick="setStatus('${s.leadId}','dead')">dead</button>
+    </div>
+    <h2 style="margin-top:14px">Activity (${(s.touches||[]).length})</h2>
+    <ul class="tl">${tl||'<li class="muted">No touches yet — log the first one above.</li>'}</ul>`;
+}
+
+async function loadLeads(){
+  if(!key())return toast('unlock first');
+  toast('loading…');
+  const r=await api('crm','load','POST',{company:$('#loadCompany').value,limit:+$('#loadN').value||50});
+  toast(r.ok?`+${r.added} into CRM (${r.inWorklist} total)`:('err: '+(r.error||'')));
+  loadAll();
+}
+async function logTouch(id){
+  const r=await api('crm','touch','POST',{leadId:id,channel:$('#tCh').value,outcome:$('#tOut').value,note:$('#tNote').value});
+  toast(r.ok?(r.booked?'📅 booked!':'logged ('+r.status+')'):'err');
+  loadAll();
+}
+async function bookAppt(id){
+  const at=$('#tAppt').value; if(!at)return toast('pick a date/time');
+  const r=await api('crm','appointment','POST',{leadId:id,apptAt:at});
+  toast(r.ok?'📅 appointment set':'err'); loadAll();
+}
+async function setStatus(id,status){
+  const r=await api('crm','status','POST',{leadId:id,status});
+  toast(r.ok?status:'err'); loadAll();
+}
+async function removeLead(id){
+  if(!confirm('Remove from CRM? (the lead stays in the leads page)'))return;
+  await api('crm','remove','POST',{leadId:id}); SEL=null; $('#leadPanel').innerHTML='<div class="muted">Removed.</div>'; loadAll();
+}
+document.addEventListener('change',e=>{ if(e.target.id==='fStatus'||e.target.id==='fCompany') loadAll(); });
+loadAll();
+</script>
+</body>
+</html>
