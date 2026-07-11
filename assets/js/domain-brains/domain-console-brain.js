@@ -1375,7 +1375,12 @@
         for (var wi = 0; wi < watch.length; wi++) h += renderOppCard(watch[wi], false);
       }
 
-      h += '<div style="margin-top:6px"><a href="/' + DOMAIN + '-opportunities" style="font-size:0.3rem;color:rgba(201,169,78,0.4);text-decoration:none;letter-spacing:2px">VIEW ALL OPPORTUNITIES \u2192</a></div>';
+      // Only 15 domains ship a dedicated {domain}-opportunities.html; the other 5
+      // (defense, economy, governance, industry, law) have none -> the link 404'd.
+      // Emit the dedicated page when it exists, else fall back to the global one.
+      var _OPP_PAGES = { agriculture:1, communication:1, culture:1, education:1, energy:1, environment:1, finance:1, infrastructure:1, intelligence:1, medicine:1, population:1, religion:1, science:1, technology:1, trade:1 };
+      var _oppHref = _OPP_PAGES[DOMAIN] ? ('/' + DOMAIN + '-opportunities') : ('/opportunities?domain=' + encodeURIComponent(DOMAIN));
+      h += '<div style="margin-top:6px"><a href="' + _oppHref + '" style="font-size:0.3rem;color:rgba(201,169,78,0.4);text-decoration:none;letter-spacing:2px">VIEW ALL OPPORTUNITIES \u2192</a></div>';
     }
     }
     h += '</div></div>';

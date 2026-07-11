@@ -939,8 +939,8 @@ function _buildWhySurfaced(opp) {
 function render() {
   console.log('[Opportunities] render() called');
 
-  // Energy nav — matches civilization layout exactly
-  var DOMAIN_LABEL = 'Energy';
+  // Domain nav — matches civilization layout exactly
+  var DOMAIN_LABEL = 'Infrastructure';
   if (_DOMAIN_FILTER) {
     DOMAIN_LABEL = _DOMAIN_LABELS[_DOMAIN_FILTER] || _DOMAIN_FILTER.charAt(0).toUpperCase() + _DOMAIN_FILTER.slice(1);
     document.title = 'LIMEN HELIX \u00b7 ' + DOMAIN_LABEL.toUpperCase() + ' OPPORTUNITIES';
@@ -966,22 +966,22 @@ function render() {
 
   var connectomeCount = opps.filter(function(o){ return o.connectome && o.connectome.source === 'CONNECTOME' && o.status === 'active'; }).length;
 
-  // Intelligence summary from shared Energy state
+  // Intelligence summary from shared Infrastructure state
   var F = window.LIMENInfrastructureFresh || {};
-  var ePct = Math.round((F.stress || topS) * 100);
+  var ePct = Math.round((F.stress || 0) * 100);
   var eSev = ePct >= 75 ? 'CRITICAL' : ePct >= 55 ? 'ELEVATED' : ePct >= 35 ? 'MODERATE' : 'CONTAINED';
   var eSevC = eSev === 'CRITICAL' ? '#e85454' : eSev === 'ELEVATED' ? '#C9A94E' : eSev === 'MODERATE' ? '#4a8fd4' : '#5ab5a0';
 
   var summaryText = '';
   if (activeCount > 0) {
-    summaryText = activeCount + ' live opportunit' + (activeCount > 1 ? 'ies' : 'y') + ' generated from Energy intelligence at ' + ePct + '% sector stress. ';
+    summaryText = activeCount + ' live opportunit' + (activeCount > 1 ? 'ies' : 'y') + 'generated from Infrastructure intelligence at ' + ePct + '% sector stress. ';
     if (highCount > 0) summaryText += highCount + ' flagged urgent \u2014 positioning windows may be narrowing. ';
     if (connectomeCount > 0) summaryText += connectomeCount + ' reinforced by connectome cross-validation.';
   } else if (watchCount > 0) {
-    summaryText = 'Pipeline quiet. ' + watchCount + ' opportunities in monitoring state. Energy stress at ' + ePct + '% (' + eSev + ') \u2014 ';
+    summaryText = 'Pipeline quiet. ' + watchCount + ' opportunities in monitoring state. Infrastructure stress at ' + ePct + '% (' + eSev + ') \u2014 ';
     summaryText += ePct < 30 ? 'insufficient pressure to activate positioning logic.' : 'pressure present but trigger conditions not yet met. Monitor for escalation.';
   } else {
-    summaryText = 'No opportunities in pipeline. Energy stress: ' + ePct + '%. Signal confidence: ' + Math.round((F.confidence || 0) * 100) + '%. Feed coverage may be insufficient to generate actionable positions.';
+    summaryText = 'No opportunities in pipeline. Infrastructure stress: ' + ePct + '%. Signal confidence: ' + Math.round((F.confidence || 0) * 100) + '%. Feed coverage may be insufficient to generate actionable positions.';
   }
 
   cmd.innerHTML =
@@ -1455,7 +1455,7 @@ function _doRender() {
 setTimeout(function() { _doRender(); }, 3000);
 
 // Subscribe to shared refresh controller (single source of truth — no independent fetch)
-document.addEventListener('limen:energy-refresh', function() {
+document.addEventListener('limen:infrastructure-refresh', function() {
   render();
   var tsEl = document.getElementById('oppLastUpdated');
   var F = window.LIMENInfrastructureFresh || {};
