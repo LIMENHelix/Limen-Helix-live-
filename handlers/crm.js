@@ -191,7 +191,7 @@ module.exports = async function handler(req, res) {
       keyConfigured: !!(process.env.SALES_ADMIN_KEY || process.env.LEAD_ADMIN_KEY),
       inWorklist: wl.length, channels: CHANNELS, outcomes: OUTCOMES, statuses: STATUSES,
       confirmChannels: CONFIRM_CHANNELS, showOutcomes: SHOW_OUTCOMES, closeLevers: CLOSE_LEVERS, dealSizes: DEAL_SIZES,
-      email: { ready: ec.hasKey && !ec.sandbox, hasKey: ec.hasKey, from: ec.from || null, sandbox: ec.sandbox, replyToSet: !!ec.replyTo, addrSet: !!ec.addr }
+      email: { ready: ec.ready, hasKey: ec.hasKey, from: ec.from || null, sandbox: ec.sandbox, reason: ec.reason || null, replyToSet: !!ec.replyTo, addrSet: !!ec.addr }
     });
   }
 
@@ -366,7 +366,7 @@ module.exports = async function handler(req, res) {
       if (!subject || !text) return j(res, 400, { ok: false, error: 'subject and body required' });
       var cfg = emailConfig();
       if (!cfg.hasKey) return j(res, 503, { ok: false, error: 'Email not configured. Set RESEND_API_KEY in Vercel.' });
-      if (cfg.sandbox) return j(res, 503, { ok: false, error: 'RESEND_FROM_EMAIL is unset or a resend.dev sandbox address, which can only email your own account. Verify a domain in Resend and set RESEND_FROM_EMAIL to an address on it.' });
+      if (cfg.sandbox) return j(res, 503, { ok: false, error: 'Email not sendable: ' + (cfg.reason || 'from-address not on a verified domain') + '.' });
       var sup = await loadSuppress();
       if (sup[este.email.toLowerCase()]) return j(res, 409, { ok: false, error: 'This address has unsubscribed — not sending.', suppressed: true });
       var sr = await sendEmailResend(cfg, este.email, subject, text);
