@@ -80,6 +80,14 @@ jobs:
         with:
           node-version: '22'
 
+      # refresh the spider-web stress propagator snapshot FIRST so the audit below
+      # reflects a fresh network (nothing else refreshed it -> it went 402h stale).
+      # Inputs (lib/, assets/data/companies/, command-board-data.json) are all in
+      # the sparse-checkout. Non-fatal so the pulse commits regardless.
+      - name: refresh spider-web stress network (propagator snapshot)
+        run: node scripts/build-stress-network.mjs
+        continue-on-error: true
+
       - name: audit system (body-wide interoception · 12 organs)
         run: node scripts/audit-system-vitals.mjs
 

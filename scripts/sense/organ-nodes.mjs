@@ -20,6 +20,12 @@ export const order = 20;
 
 // brain-node-domains.json binds to the runtime key 'trade' (the dual-key for supplyChain), not 'supplyChain'
 const CANONICAL_DOMAINS = ['agriculture','communication','culture','defense','economy','education','energy','environment','finance','governance','industry','infrastructure','intelligence','law','medicine','population','religion','science','trade','technology'];
+// Some canonical domains bind under a different CONNECTOME KEY in brain-node-
+// domains.json (like the trade/supplyChain dual-key). Agriculture's connectome
+// key is 'p2' (documented in connectome-resolver.js: "p2 is the real agriculture
+// connectome domain") — an intentional internal key, NOT to be renamed/moved.
+// Accept the alias so agriculture counts as bound without touching the data.
+const DOMAIN_ALIASES = { agriculture: 'p2' };
 const EXPECTED_NODES = 123;
 
 export function sense() {
@@ -40,8 +46,9 @@ export function sense() {
     totalBindings += bindings.length;
     for (const b of bindings) { if (b.domain) { domainsHit.add(b.domain); bindingsByDomain[b.domain] = (bindingsByDomain[b.domain] || 0) + 1; } }
   }
-  const canonicalCovered = CANONICAL_DOMAINS.filter(d => domainsHit.has(d));
-  const canonicalMissing = CANONICAL_DOMAINS.filter(d => !domainsHit.has(d));
+  const isCovered = d => domainsHit.has(d) || (DOMAIN_ALIASES[d] && domainsHit.has(DOMAIN_ALIASES[d]));
+  const canonicalCovered = CANONICAL_DOMAINS.filter(isCovered);
+  const canonicalMissing = CANONICAL_DOMAINS.filter(d => !isCovered(d));
   const nonCanonicalDomains = [...domainsHit].filter(d => !CANONICAL_DOMAINS.includes(d));
 
   const attention = [];
