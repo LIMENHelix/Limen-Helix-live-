@@ -21,6 +21,13 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const SRC = path.join(ROOT, 'assets', 'data', 'brain-node-domains.json');
 const OUT = path.join(ROOT, 'assets', 'data', 'canonical-nodes.json');
 
+// The DEFENSIBLE motif->business-function layer (the docs' spine). Each real node
+// inherits its motif's business function, isomorphism tier, and FRACTAL WEIGHT
+// (true ONLY for M6/M8/M11 per the fractal triage). This is what the business /
+// opportunity / research generators should read instead of guessing node->company.
+const XW = JSON.parse(fs.readFileSync(path.join(ROOT, 'assets', 'data', 'motif-crosswalk.json'), 'utf8')).motifs;
+function motifMeta(m) { const x = m && XW[m]; return { tier: x ? x.tier : null, fractalWeight: !!(x && x.fractalWeight), businessFunction: x ? x.businessFunction : null }; }
+
 // ── NON-NODES (cannot carry a business/efferent as an entity) ─────────────────
 const NON = {
   tract:      { remapTo: 'edge',           note: 'a connection between nodes (white-matter tract); model as an edge / reporting line',
@@ -155,9 +162,9 @@ const out = { _meta: { source: 'brain-node-domains.json + Connectome Node Regula
 let real = 0, control = 0, non = 0, processing = 0, ungrammared = 0;
 for (const id of nodeIds) {
   if (idIndex[id]) { out.nodes[id] = { class: idIndex[id].class, canBindBusiness: false, motif: null, remapTo: idIndex[id].remapTo, remapTarget: idIndex[id].remapTarget, note: idIndex[id].note }; if (COMPOSITE_COMPONENTS[id]) out.nodes[id].components = COMPOSITE_COMPONENTS[id].filter(c => CONTROL[c] || PROCESSING[c]); non++; }
-  else if (CONTROL[id]) { out.nodes[id] = { class: 'real', canBindBusiness: true, motif: CONTROL[id].motif, role: CONTROL[id].role, failureModes: CONTROL[id].fail }; real++; control++; }
-  else if (PROCESSING[id]) { out.nodes[id] = { class: 'real', canBindBusiness: true, motif: null, role: PROCESSING[id].role, failureModes: PROCESSING[id].fail }; real++; processing++; }
-  else { out.nodes[id] = { class: 'real', canBindBusiness: true, motif: null, role: null }; real++; ungrammared++; }
+  else if (CONTROL[id]) { const xw = motifMeta(CONTROL[id].motif); out.nodes[id] = { class: 'real', canBindBusiness: true, motif: CONTROL[id].motif, tier: xw.tier, fractalWeight: xw.fractalWeight, businessFunction: xw.businessFunction, role: CONTROL[id].role, failureModes: CONTROL[id].fail }; real++; control++; }
+  else if (PROCESSING[id]) { out.nodes[id] = { class: 'real', canBindBusiness: true, motif: null, tier: null, fractalWeight: false, businessFunction: null, role: PROCESSING[id].role, failureModes: PROCESSING[id].fail }; real++; processing++; }
+  else { out.nodes[id] = { class: 'real', canBindBusiness: true, motif: null, tier: null, fractalWeight: false, businessFunction: null, role: null }; real++; ungrammared++; }
 }
 fs.writeFileSync(OUT, JSON.stringify(out, null, 2));
 console.log(`wrote ${path.relative(process.cwd(), OUT)}: ${nodeIds.length} nodes  (real ${real} [${control} control-motif + ${processing} processing-grammar + ${ungrammared} still ungrammared], non-node ${non})`);
