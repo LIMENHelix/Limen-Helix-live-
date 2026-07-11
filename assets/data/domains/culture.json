@@ -552,7 +552,7 @@
       ]
     },
     {
-      "brainNodeId": "DMN",
+      "brainNodeId": "mPFC",
       "state": "active",
       "domainLabel": "Philosophy",
       "domainDescription": "Systematic inquiry into existence, knowledge, ethics, mind, and meaning that forms the reflective core of cultural thought",
@@ -639,7 +639,8 @@
           "domain": "psychedelic",
           "role": "Default Mode Network Dissolution"
         }
-      ]
+      ],
+      "_clonePhantom": "DMN"
     },
     {
       "brainNodeId": "STS",
@@ -1977,12 +1978,12 @@
     },
     {
       "source": "PRECUNEUS",
-      "target": "DMN",
+      "target": "mPFC",
       "type": "CONTROLS",
       "weight": 0.8
     },
     {
-      "source": "DMN",
+      "source": "mPFC",
       "target": "AI",
       "type": "CONTROLS",
       "weight": 0.8
@@ -2007,7 +2008,7 @@
     },
     {
       "source": "WERN",
-      "target": "DMN",
+      "target": "mPFC",
       "type": "DEPENDS_ON",
       "weight": 0.6
     },
@@ -2018,7 +2019,7 @@
       "weight": 0.6
     },
     {
-      "source": "DMN",
+      "source": "mPFC",
       "target": "V1",
       "type": "DEPENDS_ON",
       "weight": 0.6
@@ -2055,12 +2056,12 @@
     },
     {
       "source": "HIPP",
-      "target": "DMN",
+      "target": "mPFC",
       "type": "SUPPLIES",
       "weight": 0.6
     },
     {
-      "source": "DMN",
+      "source": "mPFC",
       "target": "M1",
       "type": "SUPPLIES",
       "weight": 0.6
@@ -2079,14 +2080,6 @@
       "type": "inhib",
       "weight": 0.8,
       "label": "Social Identity → Multi-Family Quality & Performance (top-down autonomic dampening)",
-      "_origin": "canonical_anatomical"
-    },
-    {
-      "source": "mPFC",
-      "target": "PVN",
-      "type": "inhib",
-      "weight": 0.7,
-      "label": "Social Identity → [PVN] (top-down HPA inhibition)",
       "_origin": "canonical_anatomical"
     },
     {
@@ -2210,35 +2203,11 @@
       "_origin": "canonical_anatomical"
     },
     {
-      "source": "BLA",
-      "target": "PVN",
-      "type": "excit",
-      "weight": 0.9,
-      "label": "Mixed-Use Quality & Performance → [PVN] (amygdala drives HPA initiator)",
-      "_origin": "canonical_anatomical"
-    },
-    {
-      "source": "PVN",
-      "target": "HYPO",
-      "type": "excit",
-      "weight": 0.95,
-      "label": "[PVN] → Spatial Planning — State Assessment (HPA cascade descending)",
-      "_origin": "canonical_anatomical"
-    },
-    {
-      "source": "HPA",
+      "source": "HYPO",
       "target": "HIPP",
       "type": "modul",
       "weight": 0.7,
       "label": "Affordable Housing Policy & Governance → Folklore & Oral Tradition (cortisol modulates memory)",
-      "_origin": "canonical_anatomical"
-    },
-    {
-      "source": "HIPP",
-      "target": "PVN",
-      "type": "inhib",
-      "weight": 0.8,
-      "label": "Folklore & Oral Tradition → [PVN] (hippocampal feedback inhibition)",
       "_origin": "canonical_anatomical"
     },
     {
@@ -2282,7 +2251,7 @@
       "_origin": "canonical_anatomical"
     },
     {
-      "source": "STRI",
+      "source": "CAUD",
       "target": "GP",
       "type": "inhib",
       "weight": 0.85,
@@ -2314,27 +2283,11 @@
       "_origin": "canonical_anatomical"
     },
     {
-      "source": "FPN",
-      "target": "dlPFC",
-      "type": "excit",
-      "weight": 0.85,
-      "label": "Hospitality Design Policy & Governance → Urban Landscape Risk & Resilience (fronto-parietal → executive)",
-      "_origin": "canonical_anatomical"
-    },
-    {
       "source": "LC",
       "target": "BLA",
       "type": "modul",
       "weight": 0.85,
       "label": "Park Design Assessment & Diagnostics → Mixed-Use Quality & Performance (norepinephrine → threat amplification)",
-      "_origin": "canonical_anatomical"
-    },
-    {
-      "source": "LC",
-      "target": "PVN",
-      "type": "excit",
-      "weight": 0.7,
-      "label": "Park Design Assessment & Diagnostics → [PVN] (sympathetic → HPA crosstalk)",
       "_origin": "canonical_anatomical"
     }
   ],

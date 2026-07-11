@@ -1,5 +1,5 @@
 /**
- * science-node-business-engine.js — Environment Node-to-Business Assignment Engine
+ * environment-node-business-engine.js — Environment Node-to-Business Assignment Engine
  *
  * ENVIRONMENT / RESEARCH DOMAIN ONLY. Full-hierarchy inference layer.
  *
@@ -519,7 +519,7 @@
     callback(result);
   }
 
-  function getScienceState() {
+  function getEnvironmentState() {
     var brains = window.LIMENDomainBrains;
     if (!brains) return null;
     var brain = brains.get('environment');
@@ -527,7 +527,7 @@
   }
 
   function runInference(hierarchyData) {
-    var state = getScienceState();
+    var state = getEnvironmentState();
     if (!state) return { mapped: [], missing: [], speculative: [], error: 'No brain state available' };
 
     var activeDx = (state.diagnoses || []).filter(function (d) { return d.active; });
@@ -604,7 +604,7 @@
         var consequence = '';
         if (!alreadyMapped) {
           if (expected.confidence >= 0.85) {
-            consequence = 'If approved: this business type becomes eligible for opportunity generation and operator queue inclusion for Science. It will appear as a valid target in grants, investments, and patent searches tied to ' + dir.label + '.';
+            consequence = 'If approved: this business type becomes eligible for opportunity generation and operator queue inclusion for Environment. It will appear as a valid target in investment and research opportunities tied to ' + dir.label + '.';
           } else if (expected.confidence >= 0.75) {
             consequence = 'If approved: this business type becomes eligible for future portal path mapping and audit tracking within Science.';
           } else {
@@ -722,8 +722,8 @@
     isGenericTreatment: isGenericTreatment
   };
 
-  loadFullHierarchy(function () { console.log('[ScienceBusinessEngine] Hierarchy loaded'); });
+  loadFullHierarchy(function () { console.log('[EnvironmentBusinessEngine] Hierarchy loaded'); });
 
-  console.log('[ScienceBusinessEngine] Loaded \u2014 103-node full-hierarchy environment business assignment engine');
+  console.log('[EnvironmentBusinessEngine] Loaded \u2014 103-node full-hierarchy environment business assignment engine');
 
 })();

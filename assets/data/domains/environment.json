@@ -805,7 +805,7 @@
       ]
     },
     {
-      "brainNodeId": "GBA",
+      "brainNodeId": "ENS",
       "state": "active",
       "domainLabel": "Soil Ecosystems",
       "domainDescription": "Soil microbiome, nutrient cycling, erosion, and pedogenesis",
@@ -904,7 +904,8 @@
           "domain": "energy",
           "role": "Battery Management Quality & Performance"
         }
-      ]
+      ],
+      "_clonePhantom": "GBA"
     },
     {
       "brainNodeId": "dACC",
@@ -1626,7 +1627,7 @@
       ]
     },
     {
-      "brainNodeId": "DAN",
+      "brainNodeId": "FEF",
       "state": "active",
       "domainLabel": "Environmental Monitoring",
       "domainDescription": "Remote sensing, satellite observation, sensor networks, and ecological surveillance",
@@ -1714,10 +1715,11 @@
           "domain": "energy",
           "role": "Charging Systems — State Assessment"
         }
-      ]
+      ],
+      "_clonePhantom": "DAN"
     },
     {
-      "brainNodeId": "FPN",
+      "brainNodeId": "dlPFC",
       "state": "active",
       "domainLabel": "Ecosystem Modeling",
       "domainDescription": "Computational ecology, climate models, species distribution projections, and scenario planning",
@@ -1804,7 +1806,8 @@
           "domain": "medicine",
           "role": "Gut-Brain Axis"
         }
-      ]
+      ],
+      "_clonePhantom": "FPN"
     },
     {
       "brainNodeId": "GABA_GLU",
@@ -2021,12 +2024,6 @@
       "weight": 0.9
     },
     {
-      "source": "HYPO",
-      "target": "PIN",
-      "type": "REGULATES",
-      "weight": 0.8
-    },
-    {
       "source": "NTS",
       "target": "HYPO",
       "type": "SUPPLIES",
@@ -2034,27 +2031,9 @@
     },
     {
       "source": "ENS",
-      "target": "GBA",
-      "type": "SUPPLIES",
-      "weight": 0.9
-    },
-    {
-      "source": "ENS",
       "target": "HYPO",
       "type": "SUPPLIES",
       "weight": 0.8
-    },
-    {
-      "source": "MICRO",
-      "target": "GBA",
-      "type": "REGULATES",
-      "weight": 0.85
-    },
-    {
-      "source": "MICRO",
-      "target": "BLA",
-      "type": "SUPPLIES",
-      "weight": 0.7
     },
     {
       "source": "dACC",
@@ -2064,7 +2043,7 @@
     },
     {
       "source": "dACC",
-      "target": "DAN",
+      "target": "FEF",
       "type": "CONTROLS",
       "weight": 0.7
     },
@@ -2081,20 +2060,20 @@
       "weight": 0.7
     },
     {
-      "source": "DAN",
-      "target": "FPN",
+      "source": "FEF",
+      "target": "dlPFC",
       "type": "SUPPLIES",
       "weight": 0.9
     },
     {
-      "source": "FPN",
+      "source": "dlPFC",
       "target": "vmPFC",
       "type": "SUPPLIES",
       "weight": 0.8
     },
     {
       "source": "S1",
-      "target": "DAN",
+      "target": "FEF",
       "type": "SUPPLIES",
       "weight": 0.7
     },
@@ -2106,12 +2085,6 @@
     },
     {
       "source": "EC",
-      "target": "NTS",
-      "type": "SUPPLIES",
-      "weight": 0.7
-    },
-    {
-      "source": "PIN",
       "target": "NTS",
       "type": "SUPPLIES",
       "weight": 0.7
@@ -2130,14 +2103,6 @@
       "type": "inhib",
       "weight": 0.8,
       "label": "AQ Forecasting Technology & Innovation → Soilenv (top-down autonomic dampening)",
-      "_origin": "canonical_anatomical"
-    },
-    {
-      "source": "mPFC",
-      "target": "PVN",
-      "type": "inhib",
-      "weight": 0.7,
-      "label": "AQ Forecasting Technology & Innovation → [PVN] (top-down HPA inhibition)",
       "_origin": "canonical_anatomical"
     },
     {
@@ -2253,35 +2218,11 @@
       "_origin": "canonical_anatomical"
     },
     {
-      "source": "BLA",
-      "target": "PVN",
-      "type": "excit",
-      "weight": 0.9,
-      "label": "Wildlife Management → [PVN] (amygdala drives HPA initiator)",
-      "_origin": "canonical_anatomical"
-    },
-    {
-      "source": "PVN",
-      "target": "HYPO",
-      "type": "excit",
-      "weight": 0.95,
-      "label": "[PVN] → Climate Systems (HPA cascade descending)",
-      "_origin": "canonical_anatomical"
-    },
-    {
-      "source": "HPA",
+      "source": "HYPO",
       "target": "HIPP",
       "type": "modul",
       "weight": 0.7,
       "label": "Emissions Monitoring Core Operations → Air Quality Standards Core Operations (cortisol modulates memory)",
-      "_origin": "canonical_anatomical"
-    },
-    {
-      "source": "HIPP",
-      "target": "PVN",
-      "type": "inhib",
-      "weight": 0.8,
-      "label": "Air Quality Standards Core Operations → [PVN] (hippocampal feedback inhibition)",
       "_origin": "canonical_anatomical"
     },
     {
@@ -2325,7 +2266,7 @@
       "_origin": "canonical_anatomical"
     },
     {
-      "source": "STRI",
+      "source": "CAUD",
       "target": "GP",
       "type": "inhib",
       "weight": 0.85,
@@ -2357,27 +2298,11 @@
       "_origin": "canonical_anatomical"
     },
     {
-      "source": "FPN",
-      "target": "dlPFC",
-      "type": "excit",
-      "weight": 0.85,
-      "label": "Ecosystem Modeling → Emission Standards Technology & Innovation (fronto-parietal → executive)",
-      "_origin": "canonical_anatomical"
-    },
-    {
       "source": "LC",
       "target": "BLA",
       "type": "modul",
       "weight": 0.85,
       "label": "AQ Forecasting Core Operations → Wildlife Management (norepinephrine → threat amplification)",
-      "_origin": "canonical_anatomical"
-    },
-    {
-      "source": "LC",
-      "target": "PVN",
-      "type": "excit",
-      "weight": 0.7,
-      "label": "AQ Forecasting Core Operations → [PVN] (sympathetic → HPA crosstalk)",
       "_origin": "canonical_anatomical"
     }
   ],
