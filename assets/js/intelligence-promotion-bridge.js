@@ -165,7 +165,7 @@
       });
     }
 
-    var evRank = { 'Strong': 10, 'A': 10, 'Moderate': 7, 'B': 7, 'Emerging': 4, 'C': 4 };
+    var evRank = { 'Cited': 10, 'Strong': 10, 'A': 10, 'Pathway traced': 7, 'Moderate': 7, 'B': 7, 'Indicative': 4, 'Emerging': 4, 'C': 4 };
     state.treatments.sort(function (a, b) {
       var aIsPromoted = a.source === 'portal_directive_promoted' ? 1 : 0;
       var bIsPromoted = b.source === 'portal_directive_promoted' ? 1 : 0;
