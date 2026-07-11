@@ -89,21 +89,33 @@ export function sense() {
   }
 
   // CIK collisions in manifest (kept from prior detector)
-  let manifestCount = 0, cikCollisions = [];
+  let manifestCount = 0, cikCollisions = [], cikSegments = [];
   if (present.manifest) {
     try {
       const m = JSON.parse(fs.readFileSync(FILES.manifest, 'utf8'));
       const slugList = Array.isArray(m.slugs) ? m.slugs : (Array.isArray(m) ? m : Object.keys(m.index || {}));
       manifestCount = (typeof m.count === 'number') ? m.count : slugList.length;
-      const cikIndex = {};
+      const cikIndex = {}, nameBy = {};
       const index = m.index || {};
       for (const slug of slugList) {
         const row = (typeof index[slug] === 'object') ? index[slug] : null;
         const cik = String((row && (row.cik || row.c)) || '').replace(/^0+/, '');
         if (!cik) continue;
         (cikIndex[cik] = cikIndex[cik] || []).push(slug);
+        nameBy[slug] = String((row && (row.name || row.n)) || slug);
       }
-      for (const cik in cikIndex) if (cikIndex[cik].length > 1) cikCollisions.push({ cik, slugs: cikIndex[cik] });
+      // A shared CIK is INTENTIONAL when an entry is an explicitly-named segment /
+      // division of a filer — a division has no own SEC CIK, so it shares the
+      // parent's (e.g. Abbott + its CGM/Metabolic division, SIC 3842 vs 2834).
+      // That is informational, not a defect. It is an ACCIDENTAL DUP (HIGH) only
+      // when NO colliding entry carries a segment marker (a true duplicate).
+      for (const cik in cikIndex) {
+        if (cikIndex[cik].length <= 1) continue;
+        const slugs = cikIndex[cik];
+        const names = slugs.map(s => nameBy[s]);
+        const isSegment = names.some(n => /\(|division|segment|\bunit\b|\barm\b/i.test(n));
+        (isSegment ? cikSegments : cikCollisions).push({ cik, slugs, names });
+      }
     } catch (e) { /* keep zero */ }
   }
 
@@ -127,7 +139,8 @@ export function sense() {
   // Blind portals — no kernel of any kind. These are the K3 frontier.
   if (blindPortals.length > 0 || (total - anyKernel) > 0) attention.push({ issue: 'Portals with NO kernel reading (K1/K2/K3 all empty) — K3 frontier', severity: 'med', count: total - anyKernel, action: 'these are where K3 needs to land. For now: ensure K2 fires post-relaxation. K3 design pending.', organ: id });
   if (k1Cov === 0 && total > 0) attention.push({ issue: 'K1 (financial kernel) ZERO coverage — expected during migration if all readings are in legacy financialHealth slot', severity: 'low', count: total, action: 'informational — K1 nulls are expected for off-EDGAR portals', organ: id });
-  if (cikCollisions.length > 0) attention.push({ issue: 'CIK collisions in companies-manifest', severity: 'high', count: cikCollisions.length, action: 'inspect — usually intentional segment, else dedup', organ: id });
+  if (cikCollisions.length > 0) attention.push({ issue: 'Accidental CIK duplicates in companies-manifest', severity: 'high', count: cikCollisions.length, action: 'dedup — same-CIK entries with no segment marker (true duplicates)', organ: id });
+  if (cikSegments.length > 0) attention.push({ issue: 'Segment breakouts sharing a parent CIK (intentional)', severity: 'low', count: cikSegments.length, action: 'informational — distinct named divisions of one SEC filer (a division has no own CIK); e.g. ' + (cikSegments[0].names || []).join(' + '), organ: id });
   if (!present.helixApp || !present.phaseEngine) attention.push({ issue: 'Python kernel files missing', severity: 'high', count: Object.values(present).filter(v => !v).length, action: 'restore api/helix_app/', organ: id });
 
   // Score reflects only ACTIVE kernels. K1 is the validated kernel. K2 (Thing 2 polyvagal)
@@ -158,6 +171,7 @@ export function sense() {
       present,
       manifestCount,
       cikCollisions: cikCollisions.slice(0, 15),
+      cikSegments: cikSegments.slice(0, 15),
       note: 'K2 (Thing 2 polyvagal) and K3 (relational-only) are RESERVED interpretive slots — not validated public defaults — so they do not penalize the score; only active kernels (K1 + any reserved slot once populated) are averaged. Rendering surfaces should read kernelReadings.primary to be kernel-agnostic.'
     },
     attention

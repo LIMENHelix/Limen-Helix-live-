@@ -1,6 +1,6 @@
 {
   "schemaVersion": "vitals/2.0",
-  "generatedAt": "2026-07-11T14:02:33.302Z",
+  "generatedAt": "2026-07-11T14:15:34.581Z",
   "overall": {
     "score": 92,
     "status": "HEALTHY",
@@ -271,12 +271,12 @@
       "order": 35,
       "score": 100,
       "status": "HEALTHY",
-      "summary": "3/3 data-flow probes green · 506 companies · 454 live-scored · 12m old",
+      "summary": "3/3 data-flow probes green · 506 companies · 454 live-scored · 10m old",
       "metrics": {
         "totalCompanies": 506,
         "domainsWithCompanies": 20,
         "liveScored": 454,
-        "snapshotAgeSec": 716,
+        "snapshotAgeSec": 593,
         "probes": {
           "console-companies": 100,
           "live-scoring": 100,
@@ -1149,12 +1149,17 @@
           "manifest": true
         },
         "manifestCount": 800,
-        "cikCollisions": [
+        "cikCollisions": [],
+        "cikSegments": [
           {
             "cik": "1800",
             "slugs": [
               "abbott_laboratories",
               "abbott_metabolic"
+            ],
+            "names": [
+              "Abbott Laboratories",
+              "Abbott Laboratories (Metabolic / CGM Division)"
             ]
           }
         ],
@@ -1176,10 +1181,10 @@
           "organ": "kernel"
         },
         {
-          "issue": "CIK collisions in companies-manifest",
-          "severity": "high",
+          "issue": "Segment breakouts sharing a parent CIK (intentional)",
+          "severity": "low",
           "count": 1,
-          "action": "inspect — usually intentional segment, else dedup",
+          "action": "informational — distinct named divisions of one SEC filer (a division has no own CIK); e.g. Abbott Laboratories + Abbott Laboratories (Metabolic / CGM Division)",
           "organ": "kernel"
         }
       ]
@@ -1256,7 +1261,7 @@
       "order": 80,
       "score": 95,
       "status": "HEALTHY",
-      "summary": "6/6 engine lanes · 8/9 markers · inbox 1861/2504 ready (946.2h old)",
+      "summary": "6/6 engine lanes · 8/9 markers · inbox 1861/2504 ready (946.4h old)",
       "metrics": {
         "present": {
           "masterBrain": true,
@@ -1300,7 +1305,7 @@
             "research": 626
           }
         },
-        "inboxAgeHours": 946.2051802777778,
+        "inboxAgeHours": 946.4221738888889,
         "scoreParts": {
           "lanes": 100,
           "structural": 89
@@ -1322,13 +1327,13 @@
       "order": 90,
       "score": 67,
       "status": "IN_PAIN",
-      "summary": "799 nodes · 13037 edges · 354 damped · 11 pathC · 0 alert · snapshot 402.0h old",
+      "summary": "799 nodes · 13037 edges · 354 damped · 11 pathC · 0 alert · snapshot 402.2h old",
       "metrics": {
         "present": {
           "propagator": true,
           "snapshot": true
         },
-        "ageHours": 402.0224262023926,
+        "ageHours": 402.2394198135037,
         "nodeCount": 799,
         "edgeCount": 13037,
         "dampedCount": 354,
@@ -1644,6 +1649,13 @@
       "organ": "portalCorpus"
     },
     {
+      "issue": "Segment breakouts sharing a parent CIK (intentional)",
+      "severity": "low",
+      "count": 1,
+      "action": "informational — distinct named divisions of one SEC filer (a division has no own CIK); e.g. Abbott Laboratories + Abbott Laboratories (Metabolic / CGM Division)",
+      "organ": "kernel"
+    },
+    {
       "issue": "Canonical domains with NO L1 node binding",
       "severity": "high",
       "count": 1,
@@ -1663,13 +1675,6 @@
       "severity": "high",
       "action": "investigate — kernel never scored these (CIK mismatch? API failure during generation?)",
       "organ": "portalCorpus"
-    },
-    {
-      "issue": "CIK collisions in companies-manifest",
-      "severity": "high",
-      "count": 1,
-      "action": "inspect — usually intentional segment, else dedup",
-      "organ": "kernel"
     }
   ],
   "lastHeals": []
