@@ -1017,7 +1017,7 @@
     callback(result);
   }
 
-  function getScienceState() {
+  function getCultureState() {
     var brains = window.LIMENDomainBrains;
     if (!brains) return null;
     var brain = brains.get('culture');
@@ -1025,7 +1025,7 @@
   }
 
   function runInference(hierarchyData) {
-    var state = getScienceState();
+    var state = getCultureState();
     if (!state) return { mapped: [], missing: [], speculative: [], error: 'No brain state available' };
 
     var activeDx = (state.diagnoses || []).filter(function (d) { return d.active; });
@@ -1104,7 +1104,7 @@
           if (expected.confidence >= 0.85) {
             consequence = 'If approved: this business type becomes eligible for opportunity generation and operator queue inclusion for Science. It will appear as a valid target in grants, investments, and patent searches tied to ' + dir.label + '.';
           } else if (expected.confidence >= 0.75) {
-            consequence = 'If approved: this business type becomes eligible for future portal path mapping and audit tracking within Science.';
+            consequence = 'If approved: this business type becomes eligible for future portal path mapping and audit tracking within Culture.';
           } else {
             consequence = 'If approved: this business type is recorded as a valid Culture mapping for audit tracking. Requires further validation.';
           }
@@ -1220,8 +1220,8 @@
     isGenericTreatment: isGenericTreatment
   };
 
-  loadFullHierarchy(function () { console.log('[ScienceBusinessEngine] Hierarchy loaded'); });
+  loadFullHierarchy(function () { console.log('[CultureBusinessEngine] Hierarchy loaded'); });
 
-  console.log('[ScienceBusinessEngine] Loaded \u2014 103-node full-hierarchy culture business assignment engine');
+  console.log('[CultureBusinessEngine] Loaded \u2014 103-node full-hierarchy culture business assignment engine');
 
 })();

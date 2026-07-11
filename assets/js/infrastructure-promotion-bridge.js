@@ -305,7 +305,7 @@
         id: 'ptreat_' + (dir.portalDomainId || 'infrastructure') + '_' + (dir.nodeId || '') + '_' + pi,
         label: dir.treatmentLabel || opp.title,
         type: opp._directive ? (opp.path === 'INVESTABLE' ? 'STRUCTURAL' : opp.path === 'PATENTABLE' ? 'DIAGNOSTIC' : 'STRATEGY') : 'STRUCTURAL',
-        evidence: opp.moneyChain ? 'Strong' : 'Moderate',
+        evidence: (opp._deepIntel && opp._deepIntel.citations && opp._deepIntel.citations.length) ? 'Cited' : (opp.moneyChain ? 'Pathway traced' : 'Indicative'),
         description: opp.explain || opp.title,
         diagnosisId: opp.diagnosisId || null,
         nodeId: dir.nodeId || '',

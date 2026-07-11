@@ -1,5 +1,5 @@
 /**
- * science-node-business-engine.js — Industry Node-to-Business Assignment Engine
+ * industry-node-business-engine.js — Industry Node-to-Business Assignment Engine
  *
  * INDUSTRY / RESEARCH DOMAIN ONLY. Full-hierarchy inference layer.
  *
@@ -516,7 +516,7 @@
     callback(result);
   }
 
-  function getScienceState() {
+  function getIndustryState() {
     var brains = window.LIMENDomainBrains;
     if (!brains) return null;
     var brain = brains.get('industry');
@@ -524,7 +524,7 @@
   }
 
   function runInference(hierarchyData) {
-    var state = getScienceState();
+    var state = getIndustryState();
     if (!state) return { mapped: [], missing: [], speculative: [], error: 'No brain state available' };
 
     var activeDx = (state.diagnoses || []).filter(function (d) { return d.active; });
@@ -603,7 +603,7 @@
           if (expected.confidence >= 0.85) {
             consequence = 'If approved: this business type becomes eligible for opportunity generation and operator queue inclusion for Industry. It will appear as a valid target in investments and research briefs tied to ' + dir.label + '.';
           } else if (expected.confidence >= 0.75) {
-            consequence = 'If approved: this business type becomes eligible for future portal path mapping and audit tracking within Science.';
+            consequence = 'If approved: this business type becomes eligible for future portal path mapping and audit tracking within Industry.';
           } else {
             consequence = 'If approved: this business type is recorded as a valid Industry mapping for audit tracking. Requires further validation.';
           }
@@ -719,8 +719,8 @@
     isGenericTreatment: isGenericTreatment
   };
 
-  loadFullHierarchy(function () { console.log('[ScienceBusinessEngine] Hierarchy loaded'); });
+  loadFullHierarchy(function () { console.log('[IndustryBusinessEngine] Hierarchy loaded'); });
 
-  console.log('[ScienceBusinessEngine] Loaded \u2014 103-node full-hierarchy industry business assignment engine');
+  console.log('[IndustryBusinessEngine] Loaded \u2014 103-node full-hierarchy industry business assignment engine');
 
 })();
