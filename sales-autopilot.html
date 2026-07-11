@@ -95,7 +95,7 @@
   </div>
 
   <div class="panel">
-    <h2>Action queue · what the machine wants done now <span class="muted" id="qCount"></span></h2>
+    <h2>Action queue · live plan — what the machine will do next <span class="muted" id="qCount"></span></h2>
     <div class="tblwrap"><table><thead><tr><th>Lead</th><th>Venture</th><th>Stage</th><th>Action</th><th>Channel</th><th>Play</th><th></th></tr></thead>
     <tbody id="queue"><tr><td colspan="7" class="muted">Unlock, then Run now (or wait for the cron) to fill the queue.</td></tr></tbody></table></div>
     <div class="note" id="guard"></div>
@@ -134,8 +134,9 @@ async function loadAll(){
   $('#emailWarn').innerHTML = st.emailReady?'':'<div class="warnb">⚠ Email not verified yet (Resend domain + RESEND_FROM_EMAIL). In control mode, email actions QUEUE instead of send until that is live.</div>';
   const plan=await api('plan');
   renderFlow(plan.byStage||{}, plan.dueCount||0);
-  const q=await api('queue');
-  renderQueue(q.queue||[]);
+  // The action table shows the LIVE plan (what the machine will do next) — no
+  // arming needed to see it. Executed AUTO rows drop off after a real run.
+  renderQueue(plan.plan||[], plan.dueCount||0, plan.scanned||0);
   $('#guard').innerHTML='⚖️ Two-speed autonomy: RECOMMEND queues everything (nothing fires). CONTROL auto-sends only the email cadence (verified domain + suppression + unsubscribe enforced). Calls, texts, mailers, and the close are always queued for a human. DISARM or the cron gate stops it cold. Domain-ready: a pass-through gate is where per-domain signal plugs in later.';
 }
 
@@ -151,8 +152,8 @@ function renderFlow(byStage,due){
   ].map(x=>`<div class="kpi ${x.c}"><div class="v">${x.v}</div><div class="k">${x.k}</div></div>`).join('');
 }
 
-function renderQueue(q){
-  $('#qCount').textContent = q.length?('· '+q.length):'';
+function renderQueue(q,due,scanned){
+  $('#qCount').textContent = (due!=null?('· '+due+' due of '+scanned+' active'):(q.length?('· '+q.length):''));
   $('#queue').innerHTML = q.length? q.map(a=>`<tr>
     <td>${esc(a.name)||'(no name)'}<div class="muted">${esc(a.email||a.phone||'')}</div></td>
     <td><span class="chip co">${esc(a.company||'—')}</span></td>
@@ -161,7 +162,7 @@ function renderQueue(q){
     <td>${a.channel||''}</td>
     <td>${a.play?('<span class="chip">'+esc(a.play.notation||a.play.unit)+'</span>'):'—'}</td>
     <td>${a.blocked?('<span class="man">blocked: '+esc(a.blocked)+'</span>'):(a.autoExecutable?'<span class="auto">auto</span>':'<span class="man">manual</span>')}</td></tr>`).join('')
-    : '<tr><td colspan="7" class="muted">Queue empty. Load leads into the CRM and Run now.</td></tr>';
+    : '<tr><td colspan="7" class="muted">No due actions. Load leads into the CRM on the Appointments page, or all active leads are waiting on their next cadence step.</td></tr>';
 }
 
 async function setCfg(patch){

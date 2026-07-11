@@ -256,14 +256,22 @@ module.exports = async function handler(req, res) {
     if (method === 'GET' && action === 'plan') {
       var ids = (await db.get(K.worklist)) || [];
       var cadence = await loadCadence(); var plays = (await db.get(K.plays)) || []; var now = nowMs();
-      var plan = [], stages = {};
-      for (var i = 0; i < ids.length && plan.length < 200; i++) {
+      var plan = [], stages = {}, autoCount = 0, scannedP = 0, totalDue = 0;
+      for (var i = 0; i < ids.length; i++) {
         var s = await db.get(K.state + ids[i]); if (!s || TERMINAL[s.status]) continue;
+        scannedP++;
         var a = nextAction(s, cadence, plays, now); if (!a || !a.due) continue;
+        totalDue++;
         stages[a.stage] = (stages[a.stage] || 0) + 1;
-        plan.push({ leadId: s.leadId, name: s.name, company: s.company, status: s.status, stage: a.stage, kind: a.kind, channel: a.channel, label: a.label, autoExecutable: !!a.autoExecutable });
+        if (a.autoExecutable) autoCount++;
+        if (plan.length < 300) plan.push({
+          leadId: s.leadId, name: s.name, email: s.email, phone: s.phone, company: s.company, domain: s.domain,
+          status: s.status, stage: a.stage, kind: a.kind, channel: a.channel, label: a.label,
+          autoExecutable: !!a.autoExecutable, play: a.play ? { unit: a.play.unit, notation: a.play.notation } : null
+        });
       }
-      return j(res, 200, { ok: true, dueCount: plan.length, byStage: stages, plan: plan, emailReady: send.emailConfig().ready });
+      stages._auto = autoCount;
+      return j(res, 200, { ok: true, dueCount: totalDue, scanned: scannedP, byStage: stages, plan: plan, emailReady: send.emailConfig().ready });
     }
 
     var raw = '', body = {};
