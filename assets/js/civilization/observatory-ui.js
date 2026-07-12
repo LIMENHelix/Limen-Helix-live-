@@ -117,6 +117,13 @@
       return path === lane || paths.indexOf(lane) !== -1;
     }
 
+    // RESEARCHABLE — the relaned research path the brains actually emit (the
+    // filter button uses this name; the old 'RESEARCH' heuristic below never
+    // matched it, so the Research lane read empty despite many matches).
+    if (lane === 'RESEARCHABLE') {
+      return path === 'RESEARCHABLE' || paths.indexOf('RESEARCHABLE') !== -1;
+    }
+
     // Derived lanes
     if (lane === 'RESEARCH') {
       // Heuristic: research-eligible grants tend to emerge from science/
@@ -204,9 +211,8 @@
       html += '<button class="obs-deep-btn" data-deep="' + escHtml(p.diagnosisId) + '" data-card="' + escHtml(p.id) + '">' +
               (deepShown ? '&#9660;' : '&#9654;') + ' Deep Proof</button>';
     }
-    html += '<button class="obs-art-btn" data-art="patent" data-card="' + escHtml(p.id) + '">Draft Patent</button>';
-    html += '<button class="obs-art-btn" data-art="grant" data-card="' + escHtml(p.id) + '">Draft Grant</button>';
-    html += '<button class="obs-art-btn" data-art="sba" data-card="' + escHtml(p.id) + '">Draft SBA Packet</button>';
+    // Retired lanes removed (patent/grant/sba). Standing rule: investment + research
+    // ONLY. The brains already relane GRANT->INVESTABLE / PATENT->RESEARCHABLE.
     html += '</div>';
 
     // Coming Next row — visibly demoted. Plain text spans, NOT buttons.

@@ -849,6 +849,11 @@ function _activateOpportunities() {
   for (var i = 0; i < PLAYBOOKS.length; i++) {
     var pb = PLAYBOOKS[i];
 
+    // Standing rule: investment + research ONLY. Skip retired lanes — patent (IP
+    // filing), procure (govt procurement), fund (grant/loan funding). These were
+    // hardcoded playbooks that reintroduced USPTO/SBA/SBIR/grants.gov/NIH as guidance.
+    if (pb.type === 'patent' || pb.type === 'procure' || pb.type === 'fund') continue;
+
     // Apply domain filter
     if (domainFilter && pb.domains) {
       var domainMatch = false;
@@ -2637,16 +2642,8 @@ function _buildExecutionBlock(o) {
     h += '</div>';
   }
 
-  // C. FUND PATH
-  if (paths.fund && paths.fund.length > 0) {
-    h += '<div style="margin-bottom:6px">';
-    h += '<div style="font-size:0.32rem;letter-spacing:1.5px;color:rgba(201,169,78,0.4);margin-bottom:2px">FUND PATH</div>';
-    h += '<div style="font-size:0.28rem;color:rgba(200,195,184,0.2);margin-bottom:2px">POTENTIAL SOURCES \u2014 NOT VERIFIED</div>';
-    for (var f = 0; f < paths.fund.length; f++) {
-      h += '<div style="font-size:0.34rem;color:#888;padding:1px 0">\u2022 ' + paths.fund[f] + '</div>';
-    }
-    h += '</div>';
-  }
+  // C. FUND PATH removed \u2014 the fund arrays listed retired grant/loan sources
+  // (DOE/SBA/SBIR/NIH/grants.gov). Standing rule: investment + research only.
 
   // D. STRUCTURE PATH
   if (paths.structure && paths.structure.length > 0) {

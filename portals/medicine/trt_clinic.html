@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LIMEN HELIX &middot; TRT CLINIC</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=Crimson+Pro:wght@300;400;600&display=swap');
+:root{
+  --bg:#0c0d10;--panel:#131519;--border:rgba(201,169,78,0.12);
+  --gold:#C9A94E;--gold-dim:rgba(201,169,78,0.55);--gold-ghost:rgba(201,169,78,0.08);
+  --text:#dad5c8;--text-dim:rgba(220,215,200,0.82);--text-ghost:rgba(200,195,184,0.4);
+  --hyper:#e85454;--hypo:#4a8fd4;--altered:#d4a84a;
+  --evidence-a:#4aaa6a;--evidence-b:#7a9ad4;--evidence-c:#c4a44a;
+  --pharma:#6aaa9a;--therapy:#aa7aaa;--somatic:#aa8a5a;--nutrition:#6aaa6a;--supplement:#8a9aaa;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:var(--bg);color:var(--text);font-family:'IBM Plex Mono',monospace;height:100%;overflow:hidden}
+
+.app{display:grid;grid-template-columns:320px 1fr 400px;grid-template-rows:48px 28px 1fr 36px;height:100vh;gap:0}
+
+.portal-nav{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:0;padding:0 20px;background:rgba(0,0,0,0.4);border-bottom:1px solid var(--border);font-size:0.45rem;letter-spacing:3px;text-transform:uppercase;font-family:'SF Mono',monospace;height:28px;overflow-x:auto}
+.portal-nav a{color:rgba(201,169,78,0.25);text-decoration:none;padding:0 10px;transition:color .2s;white-space:nowrap}
+.portal-nav a:hover{color:rgba(201,169,78,0.6)}
+.portal-nav a.pn-current{color:rgba(201,169,78,0.8)}
+.portal-nav .pn-sep{color:rgba(201,169,78,0.1);font-size:0.5rem}
+
+.topbar{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid var(--border);background:var(--panel)}
+.topbar-left{display:flex;align-items:center;gap:16px}
+.topbar-brand{font-size:0.65rem;letter-spacing:4px;color:var(--gold-dim);text-transform:uppercase}
+.topbar-brand a{color:inherit;text-decoration:none}.topbar-brand a:hover{color:var(--gold)}
+.topbar-separator{color:var(--gold-ghost)}
+.topbar-title{font-size:0.6rem;letter-spacing:3px;color:var(--gold);text-transform:uppercase}
+.topbar-right{font-size:0.5rem;letter-spacing:2px;color:var(--text-ghost);text-transform:uppercase}
+.topbar-disclaimer{font-size:0.45rem;color:rgba(232,84,84,0.5);letter-spacing:1.5px;text-transform:uppercase}
+.print-btn{border:1px solid rgba(201,169,78,0.15);padding:5px 10px;border-radius:3px;font-size:0.45rem;letter-spacing:2px;text-transform:uppercase;font-family:monospace;background:transparent;color:rgba(201,169,78,0.35);cursor:pointer;transition:all 0.3s;margin-right:10px}
+.print-btn:hover{color:rgba(201,169,78,0.8);border-color:rgba(201,169,78,0.3)}
+
+/* LEFT PANEL */
+.left-panel{background:var(--panel);border-right:1px solid var(--border);overflow-y:auto;padding:16px 0}
+.left-panel::-webkit-scrollbar{width:3px}.left-panel::-webkit-scrollbar-thumb{background:var(--gold-ghost)}
+.panel-section-title{font-size:0.5rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold-dim);padding:8px 16px 6px}
+.dx-item{padding:10px 16px;cursor:pointer;border-bottom:1px solid var(--gold-ghost);transition:background 0.2s;font-size:0.65rem;letter-spacing:1px;color:var(--text-dim)}
+.dx-item:hover{background:var(--gold-ghost)}
+.dx-item.active{background:rgba(201,169,78,0.06);border-left:2px solid var(--gold);color:var(--gold)}
+.dx-nodes{font-size:0.45rem;color:var(--text-ghost);letter-spacing:1px;margin-top:2px}
+
+/* CENTER VIEW */
+.center-view{position:relative;overflow:hidden;background:var(--bg)}
+.center-view canvas{position:absolute;top:0;left:0;width:100%;height:100%}
+.circuit-legend{position:absolute;bottom:12px;left:12px;display:flex;gap:12px;z-index:10}
+.legend-item{display:flex;align-items:center;gap:4px;font-size:0.45rem;color:var(--text-ghost);letter-spacing:1px}
+.legend-dot{width:8px;height:8px;border-radius:50%}
+
+/* RIGHT PANEL */
+.right-panel{background:var(--panel);border-left:1px solid var(--border);overflow-y:auto;padding:0}
+.right-panel::-webkit-scrollbar{width:3px}.right-panel::-webkit-scrollbar-thumb{background:var(--gold-ghost)}
+
+/* WORKFLOW TABS */
+.workflow-tabs{display:flex;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--panel);z-index:10}
+.wf-tab{flex:1;padding:7px 4px 6px;text-align:center;font-size:0.38rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-ghost);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;display:flex;flex-direction:column;align-items:center;gap:2px;line-height:1}
+.wf-tab .wf-icon{font-size:0.7rem}
+.wf-tab:hover{color:var(--text-dim);background:rgba(201,169,78,0.02)}
+.wf-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.wf-panel{display:none}.wf-panel.active{display:block}
+
+/* INT TABS */
+.int-tabs{display:flex;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--panel);z-index:4}
+.int-tab{flex:1;padding:8px 4px;text-align:center;font-size:0.45rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-ghost);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s}
+.int-tab:hover{color:var(--text-dim)}
+.int-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.int-list{padding:8px 0}
+
+/* INT ITEMS */
+.int-item{padding:10px 16px;border-bottom:1px solid var(--gold-ghost);cursor:pointer;transition:background 0.2s}
+.int-item:hover{background:var(--gold-ghost)}
+.int-item.expanded{background:rgba(201,169,78,0.05)}
+.pkt-check{display:inline-flex;align-items:center;cursor:pointer;margin-right:8px;vertical-align:middle}
+.pkt-check input{display:none}
+.pkt-mark{width:14px;height:14px;border:1px solid rgba(106,170,106,0.35);border-radius:2px;display:inline-block;position:relative;transition:all 0.15s;background:rgba(106,170,106,0.03)}
+.pkt-check input:checked + .pkt-mark{background:rgba(106,170,106,0.2);border-color:#6aaa6a}
+.pkt-check input:checked + .pkt-mark::after{content:'\2713';position:absolute;top:-2px;left:1px;font-size:12px;color:#6aaa6a}
+.int-name{font-size:0.75rem;color:var(--text);margin-bottom:2px;display:flex;justify-content:space-between;align-items:center}
+.int-evidence-badge{font-size:0.45rem;letter-spacing:1.5px;padding:2px 6px;border-radius:2px;font-weight:500}
+.ev-A{background:rgba(74,170,106,0.2);color:var(--evidence-a)}
+.ev-B{background:rgba(122,154,212,0.2);color:var(--evidence-b)}
+.int-targets{font-size:0.5rem;color:var(--gold-dim);letter-spacing:1px;margin-bottom:4px}
+.int-detail{display:none;padding-top:8px}
+.int-item.expanded .int-detail{display:block}
+.int-mechanism{font-family:'Crimson Pro',serif;font-size:0.8rem;color:var(--text-dim);line-height:1.5;margin-bottom:6px}
+.int-cite{font-size:0.5rem;color:var(--text-ghost);letter-spacing:0.5px;line-height:1.6}
+
+/* CRITERIA */
+.crit-section{padding:12px 16px;border-bottom:1px solid var(--gold-ghost)}
+.crit-title{font-size:0.55rem;color:var(--gold-dim);letter-spacing:1.5px;margin-bottom:8px}
+.crit-text{font-family:'Crimson Pro',serif;font-size:0.78rem;color:var(--text-dim);line-height:1.5}
+.crit-item{font-family:'Crimson Pro',serif;font-size:0.75rem;color:rgba(200,195,184,0.4);line-height:1.5;padding:2px 0 2px 14px;position:relative}
+.crit-item::before{content:'';position:absolute;left:0;top:9px;width:4px;height:4px;border-radius:50%;background:var(--gold-dim)}
+
+/* SNAPSHOT */
+.snap-card{padding:14px 16px;border-bottom:1px solid var(--gold-ghost)}
+.snap-title{font-size:0.55rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold-dim);margin-bottom:6px}
+.snap-body{font-family:'Crimson Pro',serif;font-size:0.85rem;color:var(--text-dim);line-height:1.6}
+
+/* ACTIONS */
+.action-btn{width:100%;padding:12px 16px;background:rgba(201,169,78,0.06);border:1px solid rgba(201,169,78,0.15);color:var(--gold-dim);font-size:0.45rem;letter-spacing:2.5px;cursor:pointer;text-transform:uppercase;font-family:'IBM Plex Mono',monospace;text-align:left;transition:all 0.15s;margin-bottom:8px}
+.action-btn:hover{border-color:rgba(201,169,78,0.4);background:rgba(201,169,78,0.1)}
+.action-btn .sub{float:right;font-size:0.35rem;color:var(--text-ghost)}
+.timeline-row{display:flex;justify-content:space-between;padding:8px 16px;border-bottom:1px solid var(--gold-ghost);font-size:0.6rem}
+.timeline-when{color:var(--gold-dim);letter-spacing:1px;min-width:90px}
+.timeline-what{color:var(--text-dim);flex:1}
+
+/* PACKET BAR */
+.packet-bar{padding:6px 12px;background:rgba(106,170,106,0.06);border-bottom:1px solid rgba(106,170,106,0.15);display:flex;justify-content:space-between;align-items:center}
+.packet-count{font-size:0.5rem;letter-spacing:1.5px;color:#6aaa6a}
+.packet-btn{background:rgba(106,170,106,0.1);border:1px solid rgba(106,170,106,0.3);color:#6aaa6a;padding:5px 14px;font-size:0.45rem;letter-spacing:2.5px;cursor:pointer;text-transform:uppercase;font-family:'IBM Plex Mono',monospace;transition:all 0.15s}
+.packet-btn:hover{background:rgba(106,170,106,0.2);border-color:#6aaa6a}
+.packet-btn:disabled{opacity:0.4;pointer-events:none}
+
+/* BOTTOM BAR */
+.bottombar{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-top:1px solid var(--border);background:var(--panel);font-size:0.45rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-ghost)}
+
+@media(max-width:1000px){
+  .app{grid-template-columns:1fr;grid-template-rows:48px 28px auto 1fr auto 36px}
+  .left-panel{border-right:none;border-bottom:1px solid var(--border);max-height:200px}
+  .right-panel{border-left:none;border-top:1px solid var(--border);max-height:300px}
+}
+
+/* PRINT */
+@media print{.app,.topbar,.portal-nav,.left-panel,.center-view,.bottombar{display:none!important}
+.right-panel{position:static!important;max-height:none!important;overflow:visible!important;border:none!important;display:block!important}
+}
+</style>
+</head>
+<body>
+<script>
+if(sessionStorage.getItem('limen_access')!=='granted'){window.location.replace('/?return='+encodeURIComponent('/portals/medicine/trt_clinic.html'));}
+</script>
+<div class="app">
+
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-brand"><a href="/fractal-connectome">LIMEN HELIX</a> <span class="topbar-separator">&middot;</span></div>
+      <div class="topbar-title">TRT CLINIC</div>
+    </div>
+    <div class="topbar-right">
+      <a class="print-btn" href="/portals/medicine/reports/trt_patient_report">PATIENT REPORT</a>
+      <span class="topbar-disclaimer">REFERENCE TOOL &middot; NOT MEDICAL ADVICE</span>
+    </div>
+  </div>
+
+  <div class="portal-nav">
+    <a href="/civilization">CIVILIZATION</a><span class="pn-sep">&middot;</span>
+    <a href="/portal?domain=medicine">MEDICINE</a><span class="pn-sep">&middot;</span>
+    <a href="/portals/medicine/mens_health">MEN'S HEALTH</a><span class="pn-sep">&middot;</span>
+    <a href="/portals/medicine/trt_clinic" class="pn-current">TRT CLINIC</a>
+  </div>
+
+  <!-- LEFT PANEL — CONDITIONS -->
+  <div class="left-panel" id="leftPanel">
+    <div class="panel-section-title">CONDITIONS</div>
+    <div id="dxList"></div>
+  </div>
+
+  <!-- CENTER — CONNECTOME -->
+  <div class="center-view" id="centerView">
+    <canvas id="c"></canvas>
+    <div class="circuit-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--hyper)"></div>ACTIVE</div>
+      <div class="legend-item"><div class="legend-dot" style="background:rgba(255,255,255,0.15)"></div>INACTIVE</div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="right-panel" id="rightPanel">
+    <div id="rightEmpty">
+      <div style="font-family:'Crimson Pro',serif;font-size:0.85rem;color:rgba(200,195,184,0.35);line-height:1.7;padding:30px 24px">
+        Men's health optimization protocols mapped to neural circuits. Select a condition from the left panel to view snapshot, criteria, treatment options, and clinical actions.
+      </div>
+      <div style="font-size:0.5rem;color:rgba(201,169,78,0.3);letter-spacing:2px;text-transform:uppercase;padding:0 24px">8 CONDITIONS &middot; 6 NODES &middot; 20 INTERVENTIONS</div>
+    </div>
+    <div id="interventionContent" style="display:none"></div>
+  </div>
+
+  <div class="bottombar">
+    <div>LIMEN HELIX TRANSFORMATIONAL SCIENCES LLC &middot; TRT CLINIC</div>
+    <div id="bottomStats">8 CONDITIONS &middot; 6 NODES</div>
+  </div>
+
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// TRT CLINIC — CONNECTOME + CLINICAL ENGINE
+// Exact clinical.html architecture
+// ═══════════════════════════════════════════════════════
+
+var canvas = document.getElementById('c');
+var ctx = canvas.getContext('2d');
+var W, H, CX, CY;
+var DPR = Math.min(window.devicePixelRatio || 1, 2);
+var t = 0;
+var hoveredNode = null;
+var selectedCondition = null;
+var activeWorkflow = 'snapshot';
+var activeTab = 'pharma';
+var packetSelections = {};
+
+// ═══ NODE MAP ═══
+var TAU = Math.PI * 2;
+var NODES = {};
+var NODE_LIST = [];
+var EDGES = [];
+
+var SYS_COLORS = {
+  reward:    {r:220,g:80,b:80},
+  hpa:       {r:200,g:120,b:40},
+  plasticity:{r:100,g:180,b:120},
+  limbic:    {r:180,g:50,b:50},
+  autonomic: {r:42,g:107,b:90},
+  neuromod:  {r:100,g:140,b:140}
+};
+
+function addNode(id,label,sys,angle,radius,size){
+  var n={id:id,label:label,sys:sys,angle:angle,radius:radius,size:size||4,x:0,y:0,affected:null};
+  NODES[id]=n; NODE_LIST.push(n); return n;
+}
+function addEdge(a,b,w){if(NODES[a]&&NODES[b])EDGES.push({a:a,b:b,w:w||0.3})}
+
+// 6 primary nodes
+addNode('VTA','VTA\n(Node 29)','reward',TAU*0.08,0.25,7);
+addNode('NAc','Nucleus\nAccumbens\n(Node 35)','reward',TAU*0.20,0.28,6);
+addNode('HYPO_PVN','Hypothalamus\nPVN\n(Node 31)','hpa',TAU*0.42,0.22,8);
+addNode('BDNF','BDNF System\n(Node 92)','plasticity',TAU*0.60,0.25,6);
+addNode('mTOR','mTOR Pathway\n(Node 93)','plasticity',TAU*0.75,0.28,5);
+addNode('PAG','PAG\n(Node 59)','limbic',TAU*0.90,0.22,5);
+
+// Edges
+addEdge('VTA','NAc',0.8);
+addEdge('VTA','HYPO_PVN',0.6);
+addEdge('HYPO_PVN','BDNF',0.5);
+addEdge('BDNF','mTOR',0.7);
+addEdge('mTOR','PAG',0.4);
+addEdge('PAG','VTA',0.5);
+addEdge('NAc','HYPO_PVN',0.4);
+addEdge('NAc','PAG',0.3);
+addEdge('BDNF','VTA',0.3);
+addEdge('mTOR','HYPO_PVN',0.3);
+
+// ═══ CONDITIONS ═══
+var CONDITIONS = {
+  TRT: {
+    label: 'Testosterone Replacement Therapy',
+    nodes: ['VTA','HYPO_PVN','NAc'],
+    nodeStates: {VTA:'hyper',HYPO_PVN:'hyper',NAc:'altered'},
+    snapshot: 'Testosterone Cypionate restores physiologic T levels via IM or SubQ injection. Targets the HPG axis (Hypothalamus PVN → Pituitary → Leydig cells). VTA dopaminergic activation drives motivation, libido, and reward anticipation improvements. NAc modulates reward sensitivity and hedonic drive.',
+    profile: 'Male, age 30-65, symptomatic hypogonadism (fatigue, low libido, mood changes, decreased muscle mass). Total T < 300 ng/dL or Free T below reference range on two morning draws.',
+    criteria: {
+      inclusion: ['Total T < 300 ng/dL on 2 morning draws (before 10am)','Symptomatic: fatigue, decreased libido, erectile dysfunction, mood changes, decreased muscle mass','Age 30+','No active prostate or breast cancer','No untreated severe OSA','No erythrocytosis (Hct > 54%)'],
+      exclusion: ['Active prostate cancer','Breast cancer','Desire for fertility in near term (without HCG)','Untreated severe obstructive sleep apnea','Hematocrit > 54%','Unstable CHF'],
+      labs: ['Total Testosterone (AM draw)','Free Testosterone (equilibrium dialysis)','Estradiol — sensitive assay (LC-MS/MS)','PSA','CBC with differential','CMP','LH, FSH','Lipid Panel','SHBG']
+    },
+    interventions: {
+      pharma: [
+        {name:'Testosterone Cypionate 100-200mg/week IM or SubQ',evidence:'A',target:['VTA','NAc','Hypothalamus PVN'],mechanism:'Exogenous testosterone restores physiologic levels. IM produces peak-trough cycling; SubQ provides more stable serum levels. Binds androgen receptors throughout CNS and peripheral tissues.',cite:'Bhasin S et al. (2018) JCEM 103(5):1715-1744. doi:10.1210/jc.2018-00229'},
+        {name:'HCG 500 IU SubQ 2-3x/week',evidence:'B',target:['Hypothalamus PVN','VTA'],mechanism:'LH analog maintains intratesticular testosterone, prevents testicular atrophy, preserves spermatogenesis. Essential for fertility preservation during TRT.',cite:'Bhasin S et al. (2018) JCEM 103(5):1715-1744'}
+      ],
+      therapy: [
+        {name:'Psychosexual Counseling',evidence:'B',target:['mPFC','NAc','VTA'],mechanism:'Addresses psychological component of hypogonadal symptoms. Cognitive restructuring for body image, relationship dynamics, and performance anxiety.',cite:'Rastrelli G, Maggi M (2017) Transl Androl Urol 6(1):79-90'}
+      ],
+      somatic: [
+        {name:'Resistance Training Protocol',evidence:'A',target:['VTA','BDNF','Hypothalamus PVN'],mechanism:'Compound resistance exercise acutely elevates testosterone 15-30%. Chronic training increases androgen receptor density, BDNF release, and HPA axis regulation.',cite:'Vingren JL et al. (2010) Sports Med 40(12):1037-53'},
+        {name:'Zone 2 Cardio (120-140 BPM)',evidence:'A',target:['BDNF','mTOR','HPA Axis'],mechanism:'Low-intensity sustained cardio enhances mitochondrial biogenesis, cerebrovascular health, and BDNF expression without cortisol overshoot that suppresses testosterone.',cite:'Hackney AC (2020) Endocrines 1(1):36-44'}
+      ],
+      nutrition: [
+        {name:'High Protein Diet (1g/lb bodyweight)',evidence:'A',target:['mTOR','BDNF','Hypothalamus'],mechanism:'Leucine-rich protein activates mTOR pathway for muscle protein synthesis. Adequate protein intake supports androgen receptor expression and neurotransmitter precursor availability.',cite:'Phillips SM (2014) Sports Med 44 Suppl 2:S149-53'},
+        {name:'Testosterone-Supporting Fats (saturated/monounsaturated)',evidence:'B',target:['Hypothalamus PVN','VTA','NAc'],mechanism:'Cholesterol is the direct precursor to all steroid hormones. Adequate dietary fat (25-35% of calories) supports testosterone synthesis. Seed oils with high omega-6 may promote inflammatory pathways.',cite:'Volek JS et al. (1997) J Appl Physiol 82(1):49-54'},
+        {name:'Electrolyte Protocol (Na/K/Mg)',evidence:'B',target:['Autonomic','HPA Axis'],mechanism:'TRT increases renal sodium and magnesium excretion. Supplemental electrolytes prevent cramping, arrhythmia risk, and HPA axis dysregulation from mineral depletion.',cite:'Testosterone guideline consensus 2018'}
+      ],
+      supplements: [
+        {name:'Zinc 25-45mg daily',evidence:'B',target:['Hypothalamus PVN','VTA'],mechanism:'Essential cofactor for testosterone synthesis and 5-alpha reductase activity. Zinc deficiency directly suppresses testosterone production via hypothalamic signaling.',cite:'Prasad AS et al. (1996) Nutrition 12(5):344-8'},
+        {name:'Vitamin D3 5000 IU daily',evidence:'B',target:['HPA Axis','VTA'],mechanism:'Vitamin D receptors present in Leydig cells and hypothalamus. Deficiency associated with lower testosterone levels. Supplementation in deficient men increases Total T.',cite:'Pilz S et al. (2011) Horm Metab Res 43(3):223-5'},
+        {name:'Magnesium Glycinate 400mg bedtime',evidence:'B',target:['PAG','GABA System','HPA Axis'],mechanism:'Magnesium enhances GABAergic transmission, reduces cortisol, improves sleep architecture. Glycinate form crosses BBB for central effects. Depleted by TRT.',cite:'Abbasi B et al. (2012) J Res Med Sci 17(12):1161-9'}
+      ]
+    }
+  },
+  ED: {
+    label: 'Erectile Dysfunction Therapy',
+    nodes: ['NAc','PAG','HYPO_PVN'],
+    nodeStates: {NAc:'hypo',PAG:'altered',HYPO_PVN:'altered'},
+    snapshot: 'PDE5 inhibitors enhance nitric oxide-mediated vasodilation. First-line: sildenafil 50-100mg PRN or tadalafil 2.5-5mg daily. Second-line: Trimix intracavernosal injection. Third-line: Intrapulse/PPX regenerative therapy.',
+    profile: 'Male with erectile dysfunction refractory to lifestyle optimization. May be vasculogenic, neurogenic, hormonal, or psychogenic origin. Optimize testosterone first.',
+    criteria: {
+      inclusion: ['Documented erectile dysfunction (IIEF-5 score < 22)','Testosterone optimized (Total T > 400 ng/dL)','No contraindication to PDE5i (nitrate use, unstable CV disease)','Cardiac risk assessment completed'],
+      exclusion: ['Concurrent nitrate therapy','Unstable cardiovascular disease','Priapism history','Peyronie disease with significant deformity (relative)'],
+      labs: ['Total T, Free T (ensure optimized)','Fasting glucose/HbA1c','Lipid panel','PSA','CBC']
+    },
+    interventions: {
+      pharma: [
+        {name:'PDE5 Inhibitors (Sildenafil/Tadalafil)',evidence:'A',target:['NAc','PAG','Hypothalamus'],mechanism:'Sildenafil 25-100mg PRN (onset 30-60min, duration 4-6h). Tadalafil daily 2.5-5mg (continuous PDE5 inhibition, no timing). Enhances NO-mediated vasodilation in corpus cavernosum.',cite:'Rastrelli G, Maggi M (2017) Transl Androl Urol 6(1):79-90. doi:10.21037/tau.2016.09.06'},
+        {name:'Trimix Injection (Papaverine/Phentolamine/Alprostadil)',evidence:'B',target:['PAG','Spinal','Peripheral vascular'],mechanism:'Intracavernosal injection bypasses neural pathways. Papaverine (PDE inhibitor) + Phentolamine (alpha-blocker) + Alprostadil (PGE1). Start 0.05-0.1mL, titrate in office. MAX 3x/week.',cite:'Rastrelli G, Maggi M (2017) Transl Androl Urol 6(1):79-90'}
+      ],
+      therapy: [
+        {name:'Intrapulse / PPX / PRP Therapy',evidence:'B',target:['PAG','BDNF','mTOR'],mechanism:'Platelet-rich plasma (PRP) or stem cell injection into penile tissue promotes angiogenesis and nerve regeneration. Intrapulse uses acoustic wave energy for neovascularization.',cite:'Scott S et al. (2019) Sex Med Rev 7(2):261-270'},
+        {name:'Low Intensity Shockwave Therapy (LiSWT)',evidence:'B',target:['Peripheral','PAG','NAc'],mechanism:'Acoustic waves stimulate angiogenesis, recruit endogenous stem cells, and improve penile hemodynamics. 6-12 sessions, 1-2x/week.',cite:'Clavijo RI et al. (2017) J Urol 197(2):S135-S136'}
+      ],
+      somatic: [
+        {name:'Resistance Training Protocol',evidence:'A',target:['VTA','BDNF','Hypothalamus PVN'],mechanism:'Improves endothelial function, increases nitric oxide bioavailability, enhances testosterone. Compound movements increase systemic blood flow and vascular health.',cite:'La Vignera S et al. (2018) Aging Male 21(2):89-92'},
+        {name:'Zone 2 Cardio (120-140 BPM)',evidence:'A',target:['BDNF','mTOR','HPA Axis'],mechanism:'Cardiovascular fitness is the single strongest predictor of erectile function. Zone 2 improves endothelial NO synthase expression and vascular compliance.',cite:'Gerbild H et al. (2018) Sex Med 6(2):75-89'}
+      ],
+      nutrition: [
+        {name:'High Protein Diet (1g/lb bodyweight)',evidence:'A',target:['mTOR','BDNF','Hypothalamus'],mechanism:'Supports lean mass accretion and vascular health. Arginine-rich proteins (turkey, nuts) serve as nitric oxide precursors.',cite:'Phillips SM (2014) Sports Med 44 Suppl 2:S149-53'}
+      ],
+      supplements: [
+        {name:'L-Citrulline 3-6g daily',evidence:'B',target:['Peripheral','NAc'],mechanism:'Converted to L-arginine, the substrate for nitric oxide synthase. Improves endothelial function and penile blood flow. Better bioavailability than L-arginine supplementation.',cite:'Cormio L et al. (2011) J Sex Med 8(10):2960-7'}
+      ]
+    }
+  },
+  TRIMIX: {
+    label: 'Trimix Injections',
+    nodes: ['PAG','NAc'],
+    nodeStates: {PAG:'hyper',NAc:'altered'},
+    snapshot: 'Compounded intracavernosal injection: Papaverine 30mg/Phentolamine 1mg/Alprostadil 10mcg per mL. Direct smooth muscle relaxation bypassing neural pathways. Office titration required. MAX 3x/week. Priapism protocol mandatory.',
+    profile: 'Male with ED refractory to PDE5 inhibitors OR contraindication to oral therapy. Requires in-office dose titration and priapism education.',
+    criteria: {
+      inclusion: ['PDE5i failure or contraindication','Willing to self-inject','Manual dexterity adequate','Priapism protocol understood'],
+      exclusion: ['Priapism history','Sickle cell disease','Anticoagulation (relative)','Inability to self-inject'],
+      labs: ['CBC','Coagulation panel (if indicated)','PSA']
+    },
+    interventions: {
+      pharma: [
+        {name:'Trimix Injection (Papaverine/Phentolamine/Alprostadil)',evidence:'B',target:['PAG','Spinal','Peripheral vascular'],mechanism:'Standard: Pap 30mg/Phent 1mg/Alp 10mcg per mL. Start 0.05mL, increase by 0.025mL increments in office. Inject lateral shaft, alternate sides. Compress 3 min. Onset 5-15 min, duration 30-60 min.',cite:'Rastrelli G, Maggi M (2017) Transl Androl Urol 6(1):79-90'}
+      ],
+      therapy: [],
+      somatic: [],
+      nutrition: [],
+      supplements: []
+    }
+  },
+  INTRAPULSE: {
+    label: 'Intrapulse / PRP / PPX (Stem Cell)',
+    nodes: ['PAG','BDNF','mTOR'],
+    nodeStates: {PAG:'altered',BDNF:'hyper',mTOR:'hyper'},
+    snapshot: 'Regenerative therapies targeting penile tissue neovascularization and nerve repair. PRP concentrates growth factors from patient blood. PPX uses mesenchymal stem cells. Intrapulse combines acoustic wave with biologics.',
+    profile: 'Male seeking regenerative approach to ED. May be combined with PDE5i or Trimix. Typically 3-6 sessions.',
+    criteria: {
+      inclusion: ['ED documented','No active infection at injection site','Platelet count adequate (PRP)','Informed consent for investigational therapy'],
+      exclusion: ['Active penile infection','Bleeding disorder','Anticoagulation (relative for PRP)','Active malignancy'],
+      labs: ['CBC with platelet count','CMP','PSA']
+    },
+    interventions: {
+      pharma: [],
+      therapy: [
+        {name:'Intrapulse / PPX / PRP Therapy',evidence:'B',target:['PAG','BDNF','mTOR'],mechanism:'PRP: blood draw → centrifuge → concentrated platelets injected into corpora cavernosa. Growth factors (PDGF, VEGF, TGF-beta) stimulate angiogenesis and tissue repair. 3-6 sessions, 4-6 weeks apart.',cite:'Scott S et al. (2019) Sex Med Rev 7(2):261-270'},
+        {name:'Low Intensity Shockwave Therapy (LiSWT)',evidence:'B',target:['Peripheral','PAG','NAc'],mechanism:'Focused acoustic waves at 0.09-0.25 mJ/mm2. Stimulates neovascularization, recruits progenitor cells, improves NO pathway. 6-12 sessions.',cite:'Clavijo RI et al. (2017) J Urol 197(2):S135-S136'}
+      ],
+      somatic: [],
+      nutrition: [],
+      supplements: []
+    }
+  },
+  IPAMORELIN: {
+    label: 'Ipamorelin',
+    nodes: ['HYPO_PVN','VTA','BDNF'],
+    nodeStates: {HYPO_PVN:'hyper',VTA:'altered',BDNF:'hyper'},
+    snapshot: 'Selective ghrelin receptor (GHS-R1a) agonist. Stimulates pulsatile GH release without cortisol/prolactin spikes. Often combined with Sermorelin for synergistic GH amplification. SubQ injection at bedtime.',
+    profile: 'Male age 30+, seeking GH axis optimization for body composition, recovery, and sleep quality. IGF-1 below optimal range for age.',
+    criteria: {
+      inclusion: ['Age 30+','Symptomatic: poor recovery, decreased lean mass, poor sleep','IGF-1 below age-optimal range','No active malignancy'],
+      exclusion: ['Active cancer','Uncontrolled diabetes','Pituitary tumor','Pregnancy'],
+      labs: ['IGF-1 (baseline)','Fasting glucose','HbA1c','CMP']
+    },
+    interventions: {
+      pharma: [
+        {name:'Ipamorelin 200-300mcg SubQ bedtime',evidence:'B',target:['Hypothalamus PVN','VTA','BDNF System'],mechanism:'Selective GHS-R1a agonist. Pulsatile GH release without cortisol/prolactin elevation. Fast 2h before injection. Cycle 12 weeks on / 4 weeks off. Monitor IGF-1 at 3 and 6 months.',cite:'Ionescu M, Frohman LA (2006) JCEM 91(12):4792-7. doi:10.1210/jc.2006-1702'}
+      ],
+      therapy: [],
+      somatic: [
+        {name:'Resistance Training Protocol',evidence:'A',target:['VTA','BDNF','Hypothalamus PVN'],mechanism:'Exercise potentiates GH secretion. Resistance training before bedtime injection maximizes synergistic GH pulse. Compound movements preferred.',cite:'Godfrey RJ et al. (2003) Sports Med 33(8):599-613'}
+      ],
+      nutrition: [
+        {name:'High Protein Diet (1g/lb bodyweight)',evidence:'A',target:['mTOR','BDNF','Hypothalamus'],mechanism:'Protein supports GH-mediated anabolic effects. Leucine activates mTOR independently. Time protein intake away from injection (insulin blunts GH).',cite:'Phillips SM (2014) Sports Med 44 Suppl 2:S149-53'}
+      ],
+      supplements: []
+    }
+  },
+  SERMORELIN: {
+    label: 'Sermorelin',
+    nodes: ['HYPO_PVN','BDNF','mTOR'],
+    nodeStates: {HYPO_PVN:'hyper',BDNF:'hyper',mTOR:'altered'},
+    snapshot: 'GHRH analog (1-29). Restores pulsatile GH secretion while preserving physiologic feedback. Unlike exogenous GH, maintains somatostatin regulation. Targets Hypothalamus PVN. SubQ at bedtime.',
+    profile: 'Male age 30+, seeking GH axis optimization. Can be combined with Ipamorelin for synergistic dual-pathway activation.',
+    criteria: {
+      inclusion: ['Age 30+','Symptomatic GH decline','No active malignancy','No pituitary pathology'],
+      exclusion: ['Active cancer','Pituitary tumor','Uncontrolled diabetes'],
+      labs: ['IGF-1 baseline','Fasting glucose','CMP']
+    },
+    interventions: {
+      pharma: [
+        {name:'Sermorelin 200-500mcg SubQ bedtime',evidence:'B',target:['Hypothalamus PVN','BDNF','mTOR'],mechanism:'GHRH receptor agonist on anterior pituitary somatotrophs. Restores pulsatile GH without supraphysiologic levels. Fast 2h before injection. Cycle 5 days on / 2 off or continuous. Target IGF-1 upper-normal.',cite:'Ionescu M, Frohman LA (2006) JCEM 91(12):4792-7. doi:10.1210/jc.2006-1702'}
+      ],
+      therapy: [],somatic: [],nutrition: [],supplements: []
+    }
+  },
+  BPC157: {
+    label: 'BPC-157 Analog',
+    nodes: ['VTA','BDNF','mTOR'],
+    nodeStates: {VTA:'hyper',BDNF:'hyper',mTOR:'altered'},
+    snapshot: 'Pentadecapeptide from gastric juice. Modulates dopaminergic system via VTA (Node 29). Promotes angiogenesis, tissue repair, and gut-brain signaling. SubQ or IM injection near injury site or abdomen for systemic effect.',
+    profile: 'Male with tissue injury, tendinopathy, or seeking recovery enhancement. Research compound — not FDA-approved.',
+    criteria: {
+      inclusion: ['Tissue injury or chronic tendinopathy','Seeking recovery enhancement','Informed consent for research compound','No active malignancy'],
+      exclusion: ['Active cancer','Pregnancy','Known hypersensitivity'],
+      labs: ['CMP','CBC']
+    },
+    interventions: {
+      pharma: [
+        {name:'BPC-157 Analog 250-500mcg daily SubQ/IM',evidence:'B',target:['PAG','BDNF','mTOR Pathway'],mechanism:'Upregulates dopamine synthesis/turnover at VTA. Promotes angiogenesis via VEGF pathway. Modulates NO system. Inject near injury for local effect or abdomen for systemic. 4-8 week cycles.',cite:'Sikiric P et al. (2016) Curr Neuropharmacol 14(8):857-865. doi:10.2174/1570159x13666160502153022'}
+      ],
+      therapy: [],somatic: [],nutrition: [],supplements: []
+    }
+  },
+  NAD: {
+    label: 'NAD+ Therapy',
+    nodes: ['mTOR','BDNF','HYPO_PVN'],
+    nodeStates: {mTOR:'hyper',BDNF:'hyper',HYPO_PVN:'altered'},
+    snapshot: 'NAD+ is a critical coenzyme declining with age. IV or SubQ protocols restore intracellular levels, activating sirtuins (SIRT1-7) for mitochondrial biogenesis, DNA repair, and neuroplasticity. Targets Nodes 74/75 (Microglia/Astrocytes) mapped here via mTOR/BDNF pathways.',
+    profile: 'Male age 35+, seeking cellular repair, cognitive enhancement, or longevity optimization. Declining energy, poor recovery, cognitive fog.',
+    criteria: {
+      inclusion: ['Age 35+','Symptomatic: fatigue, cognitive decline, poor recovery','No severe renal impairment','No active infection'],
+      exclusion: ['Severe renal impairment (eGFR < 30)','Active systemic infection','Pregnancy'],
+      labs: ['CMP (renal function)','CBC','Fasting glucose']
+    },
+    interventions: {
+      pharma: [
+        {name:'NAD+ 500-1000mg IV or SubQ',evidence:'B',target:['mTOR','BDNF','Mitochondrial axis'],mechanism:'IV: 250-500mg over 2-4h, loading 4 sessions then monthly maintenance. SubQ: 50-100mg daily. Bypasses first-pass metabolism. Sirtuin activation drives mitochondrial biogenesis, DNA repair, neuroplasticity.',cite:'Rajman L et al. (2018) Cell Metab 27(3):529-547. doi:10.1016/j.cmet.2018.02.011'}
+      ],
+      therapy: [],somatic: [],nutrition: [],supplements: []
+    }
+  }
+};
+
+// ═══ LEFT PANEL — BUILD CONDITION LIST ═══
+function buildConditionList(){
+  var html='';
+  var keys=Object.keys(CONDITIONS);
+  for(var i=0;i<keys.length;i++){
+    var k=keys[i],c=CONDITIONS[k];
+    var cls=selectedCondition===k?'dx-item active':'dx-item';
+    html+='<div class="'+cls+'" data-key="'+k+'" onclick="selectCondition(\''+k+'\')">';
+    html+=c.label;
+    html+='<div class="dx-nodes">'+c.nodes.join(' \u00b7 ')+'</div>';
+    html+='</div>';
+  }
+  document.getElementById('dxList').innerHTML=html;
+}
+buildConditionList();
+
+// ═══ CONNECTOME RENDERER ═══
+function resize(){
+  W=canvas.parentElement.clientWidth; H=canvas.parentElement.clientHeight;
+  canvas.width=W*DPR; canvas.height=H*DPR;
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+  CX=W/2; CY=H/2;
+  var R=Math.min(W,H)*0.38;
+  for(var i=0;i<NODE_LIST.length;i++){
+    var n=NODE_LIST[i];
+    n.x=CX+Math.cos(n.angle)*n.radius*R*2.4;
+    n.y=CY+Math.sin(n.angle)*n.radius*R*2.4;
+  }
+}
+resize();
+window.addEventListener('resize',resize);
+
+var actionPotentials=[];
+function fireAP(ei){
+  if(actionPotentials.length>20)return;
+  var e=EDGES[ei];
+  actionPotentials.push({a:e.a,b:e.b,p:0,speed:0.005+Math.random()*0.005});
+}
+
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  t+=0.016;
+
+  // Edges — impulse dots only, no lines
+  for(var i=0;i<EDGES.length;i++){
+    var e=EDGES[i],na=NODES[e.a],nb=NODES[e.b];
+    ctx.beginPath();ctx.moveTo(na.x,na.y);ctx.lineTo(nb.x,nb.y);
+    ctx.strokeStyle='rgba(201,169,78,0.04)';ctx.lineWidth=0.5;ctx.stroke();
+  }
+
+  // Action potentials — impulse dots
+  for(var i=actionPotentials.length-1;i>=0;i--){
+    var ap=actionPotentials[i]; ap.p+=ap.speed;
+    if(ap.p>1){actionPotentials.splice(i,1);continue}
+    var na=NODES[ap.a],nb=NODES[ap.b];
+    var x=na.x+(nb.x-na.x)*ap.p, y=na.y+(nb.y-na.y)*ap.p;
+    var alpha=0.7*(1-ap.p*ap.p);
+    ctx.beginPath();ctx.arc(x,y,2.5,0,TAU);
+    ctx.fillStyle='rgba(201,169,78,'+alpha+')';ctx.fill();
+  }
+  if(Math.floor(t*60)%30===0&&actionPotentials.length<20){
+    fireAP(Math.floor(Math.random()*EDGES.length));
+  }
+
+  // Nodes
+  for(var i=0;i<NODE_LIST.length;i++){
+    var n=NODE_LIST[i];
+    var c=SYS_COLORS[n.sys]||{r:120,g:120,b:120};
+    var pulse=0.5+Math.sin(t*2+i*1.3)*0.15;
+    var baseR=n.size*1.8;
+
+    // Determine active/inactive
+    var isActive=false;
+    var stateColor=null;
+    if(selectedCondition){
+      var cond=CONDITIONS[selectedCondition];
+      if(cond.nodes.indexOf(n.id)>=0) isActive=true;
+      if(cond.nodeStates&&cond.nodeStates[n.id]){
+        var st=cond.nodeStates[n.id];
+        if(st==='hyper') stateColor={r:232,g:84,b:84};
+        else if(st==='hypo') stateColor={r:74,g:143,b:212};
+        else if(st==='altered') stateColor={r:212,g:168,b:74};
+      }
+    }
+    var nodeAlpha=isActive||!selectedCondition?1.0:0.25;
+    var dc=stateColor||c;
+
+    // Glow
+    var grd=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,baseR*3);
+    grd.addColorStop(0,'rgba('+dc.r+','+dc.g+','+dc.b+','+(pulse*0.2*nodeAlpha)+')');
+    grd.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=grd;ctx.beginPath();ctx.arc(n.x,n.y,baseR*3,0,TAU);ctx.fill();
+
+    // Circle
+    ctx.beginPath();ctx.arc(n.x,n.y,baseR,0,TAU);
+    ctx.fillStyle='rgba('+dc.r+','+dc.g+','+dc.b+','+(pulse*0.4*nodeAlpha)+')';ctx.fill();
+    ctx.strokeStyle='rgba('+dc.r+','+dc.g+','+dc.b+','+(pulse*0.3*nodeAlpha)+')';ctx.lineWidth=1;ctx.stroke();
+
+    // Label
+    ctx.textAlign='center';ctx.textBaseline='top';
+    var lines=n.label.split('\n');
+    ctx.font='bold '+Math.max(9,Math.round(W*0.011))+'px "IBM Plex Mono",monospace';
+    ctx.fillStyle='rgba(230,225,210,'+(0.6*nodeAlpha)+')';
+    for(var li=0;li<lines.length;li++){
+      ctx.fillText(lines[li],n.x,n.y+baseR+4+li*12);
+    }
+  }
+
+  requestAnimationFrame(draw);
+}
+draw();
+
+// ═══ CONDITION SELECTION ═══
+function selectCondition(key){
+  selectedCondition=key;
+  activeWorkflow='snapshot';
+  activeTab='pharma';
+  packetSelections={};
+  buildConditionList();
+  renderRightPanel();
+}
+
+function renderRightPanel(){
+  document.getElementById('rightEmpty').style.display='none';
+  var el=document.getElementById('interventionContent');
+  el.style.display='block';
+  var cond=CONDITIONS[selectedCondition];
+  var html='';
+
+  // Workflow tabs
+  html+='<div class="workflow-tabs">';
+  var wfs=[{id:'snapshot',icon:'\ud83d\udcca',label:'SNAPSHOT'},{id:'criteria',icon:'\ud83d\udccb',label:'CRITERIA'},{id:'interventions',icon:'\ud83d\udc8a',label:'TREAT'},{id:'actions',icon:'\u26a1',label:'ACTIONS'}];
+  for(var i=0;i<wfs.length;i++){
+    var w=wfs[i];
+    html+='<div class="wf-tab'+(activeWorkflow===w.id?' active':'')+'" data-wf="'+w.id+'" onclick="switchWorkflow(\''+w.id+'\')">';
+    html+='<span class="wf-icon">'+w.icon+'</span>'+w.label+'</div>';
+  }
+  html+='</div>';
+
+  // SNAPSHOT
+  html+='<div class="wf-panel'+(activeWorkflow==='snapshot'?' active':'')+'" id="wfSnapshot">';
+  html+='<div class="snap-card"><div class="snap-title">MECHANISM &amp; RATIONALE</div><div class="snap-body">'+cond.snapshot+'</div></div>';
+  html+='<div class="snap-card"><div class="snap-title">PATIENT PROFILE</div><div class="snap-body">'+cond.profile+'</div></div>';
+  html+='<div class="snap-card"><div class="snap-title">TARGET NODES</div><div class="snap-body" style="font-family:\'IBM Plex Mono\',monospace;font-size:0.7rem;color:var(--gold-dim)">'+cond.nodes.join(' \u2192 ')+'</div></div>';
+  html+='</div>';
+
+  // CRITERIA
+  html+='<div class="wf-panel'+(activeWorkflow==='criteria'?' active':'')+'" id="wfCriteria">';
+  if(cond.criteria){
+    html+='<div class="crit-section"><div class="crit-title">INCLUSION CRITERIA</div>';
+    for(var i=0;i<cond.criteria.inclusion.length;i++){
+      html+='<div class="crit-item">'+cond.criteria.inclusion[i]+'</div>';
+    }
+    html+='</div>';
+    html+='<div class="crit-section"><div class="crit-title">EXCLUSION CRITERIA</div>';
+    for(var i=0;i<cond.criteria.exclusion.length;i++){
+      html+='<div class="crit-item" style="color:rgba(232,84,84,0.5)">'+cond.criteria.exclusion[i]+'</div>';
+    }
+    html+='</div>';
+    html+='<div class="crit-section"><div class="crit-title">REQUIRED LABS</div>';
+    for(var i=0;i<cond.criteria.labs.length;i++){
+      html+='<div class="crit-item">'+cond.criteria.labs[i]+'</div>';
+    }
+    html+='</div>';
+  }
+  html+='</div>';
+
+  // INTERVENTIONS
+  html+='<div class="wf-panel'+(activeWorkflow==='interventions'?' active':'')+'" id="wfInterventions">';
+  var cats=['pharma','therapy','somatic','nutrition','supplements'];
+  var catLabels={pharma:'PHARMA',therapy:'THERAPY',somatic:'SOMATIC',nutrition:'NUTRITION',supplements:'SUPPL.'};
+  html+='<div class="int-tabs">';
+  for(var ci=0;ci<cats.length;ci++){
+    var cat=cats[ci];
+    var count=cond.interventions[cat]?cond.interventions[cat].length:0;
+    html+='<div class="int-tab'+(activeTab===cat?' active':'')+'" data-cat="'+cat+'" onclick="switchTab(\''+cat+'\')">'+catLabels[cat]+' ('+count+')</div>';
+  }
+  html+='</div>';
+
+  // Packet bar
+  html+='<div class="packet-bar"><span class="packet-count" id="packetCount">0 SELECTED</span>';
+  html+='<button class="packet-btn" id="packetBtn" onclick="buildPatientPacket()" disabled>BUILD PATIENT PACKET</button></div>';
+
+  html+='<div class="int-list" id="intList">';
+  html+=renderInterventionList(cond,activeTab);
+  html+='</div>';
+  html+='</div>';
+
+  // ACTIONS
+  html+='<div class="wf-panel'+(activeWorkflow==='actions'?' active':'')+'" id="wfActions">';
+  html+='<div style="padding:14px 16px"><div style="display:flex;flex-direction:column;gap:8px">';
+  html+='<a href="/portals/medicine/reports/trt_patient_report" class="action-btn" style="text-decoration:none;display:block">PATIENT REPORT<span class="sub">Printable treatment plan</span></a>';
+  html+='<button class="action-btn" onclick="buildPatientPacket()">BUILD PATIENT PACKET<span class="sub" id="actionPacketCount">Select in Treat tab</span></button>';
+  html+='</div>';
+
+  // ADD-ON TIMELINE
+  html+='<div style="margin-top:20px"><div class="snap-title" style="padding:0 0 8px">ADD-ON TIMELINE</div>';
+  html+='<div class="timeline-row"><div class="timeline-when">WEEK 0</div><div class="timeline-what">Begin TRT (Testosterone Cypionate 100-200mg/week)</div></div>';
+  html+='<div class="timeline-row"><div class="timeline-when">WEEK 8</div><div class="timeline-what">Assess \u2014 add ED therapy OR peptide based on response</div></div>';
+  html+='<div class="timeline-row"><div class="timeline-when">MONTH 6</div><div class="timeline-what">Assess \u2014 add NAD+ therapy, comprehensive labs</div></div>';
+  html+='<div class="timeline-row"><div class="timeline-when">MONTH 12</div><div class="timeline-what">Full review and complete panel recheck</div></div>';
+  html+='</div>';
+
+  // Lab schedule
+  html+='<div style="margin-top:20px"><div class="snap-title" style="padding:0 0 8px">MONITORING LABS</div>';
+  html+='<div class="timeline-row"><div class="timeline-when">WEEK 6</div><div class="timeline-what">Total T, Free T, Estradiol, CBC, CMP</div></div>';
+  html+='<div class="timeline-row"><div class="timeline-when">MONTH 3</div><div class="timeline-what">Full panel + PSA + LH/FSH</div></div>';
+  html+='<div class="timeline-row"><div class="timeline-when">MONTH 6</div><div class="timeline-what">Full panel + IGF-1 (if on peptides)</div></div>';
+  html+='<div class="timeline-row"><div class="timeline-when">MONTH 12</div><div class="timeline-what">Comprehensive annual review</div></div>';
+  html+='</div>';
+
+  html+='</div></div>';
+
+  el.innerHTML=html;
+  updatePacketCount();
+}
+
+// ═══ INTERVENTION RENDERER ═══
+function renderInterventionList(cond,cat){
+  var items=cond.interventions[cat]||[];
+  var html='';
+  for(var i=0;i<items.length;i++){
+    var item=items[i];
+    var evClass='ev-'+item.evidence;
+    var targets=item.target?item.target.join(' \u2192 '):'';
+    var pktKey=cat+'_'+i;
+    var pktChecked=packetSelections[pktKey]?' checked':'';
+
+    html+='<div class="int-item" onclick="toggleIntItem(this)">';
+    html+='<div class="int-name"><span>';
+    html+='<label class="pkt-check" onclick="event.stopPropagation()"><input type="checkbox" class="pkt-cb" data-cat="'+cat+'" data-idx="'+i+'"'+pktChecked+' onchange="savePktSelection(this);updatePacketCount()"><span class="pkt-mark"></span></label>';
+    html+=item.name+'</span><span class="int-evidence-badge '+evClass+'">LEVEL '+item.evidence+'</span></div>';
+    if(targets) html+='<div class="int-targets">TARGET: '+targets+'</div>';
+    html+='<div class="int-detail">';
+    html+='<div class="int-mechanism">'+item.mechanism+'</div>';
+    html+='<div class="int-cite">'+item.cite+'</div>';
+    html+='</div>';
+    html+='</div>';
+  }
+  if(items.length===0){
+    html+='<div style="padding:30px 16px;color:var(--text-ghost);font-size:0.55rem;letter-spacing:2px;text-align:center">NO INTERVENTIONS IN THIS CATEGORY</div>';
+  }
+  return html;
+}
+
+function toggleIntItem(el){el.classList.toggle('expanded')}
+
+function switchTab(cat){
+  activeTab=cat;
+  document.querySelectorAll('.int-tab').forEach(function(t){t.classList.toggle('active',t.getAttribute('data-cat')===cat)});
+  var cond=CONDITIONS[selectedCondition];
+  document.getElementById('intList').innerHTML=renderInterventionList(cond,cat);
+  updatePacketCount();
+}
+
+function switchWorkflow(panel){
+  activeWorkflow=panel;
+  document.querySelectorAll('.wf-tab').forEach(function(t){t.classList.toggle('active',t.getAttribute('data-wf')===panel)});
+  document.querySelectorAll('.wf-panel').forEach(function(p){p.classList.remove('active')});
+  var target=document.getElementById('wf'+panel.charAt(0).toUpperCase()+panel.slice(1));
+  if(target) target.classList.add('active');
+}
+
+// ═══ PACKET SELECTION ═══
+function savePktSelection(cb){
+  var key=cb.getAttribute('data-cat')+'_'+cb.getAttribute('data-idx');
+  if(cb.checked) packetSelections[key]=true;
+  else delete packetSelections[key];
+}
+function updatePacketCount(){
+  var count=Object.keys(packetSelections).length;
+  var el=document.getElementById('packetCount');
+  if(el) el.textContent=count+' SELECTED';
+  var btn=document.getElementById('packetBtn');
+  if(btn){btn.disabled=count===0;btn.style.opacity=count>0?'1':'0.4';btn.style.pointerEvents=count>0?'auto':'none'}
+  var abtn=document.getElementById('actionPacketCount');
+  if(abtn) abtn.textContent=count>0?count+' interventions selected':'Select in Treat tab';
+}
+
+function buildPatientPacket(){
+  var count=Object.keys(packetSelections).length;
+  if(count===0) return;
+  // Navigate to patient report
+  window.location.href='/portals/medicine/reports/trt_patient_report';
+}
+</script>
+</body>
+</html>

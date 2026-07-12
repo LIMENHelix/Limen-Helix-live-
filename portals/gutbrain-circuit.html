@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>LIMEN HELIX · GUT-BRAIN AXIS</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#000;color:#e8e3d9;font-family:monospace;overflow:hidden;height:100%;width:100%;-webkit-user-select:none;user-select:none}
+canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0}
+.scanline{position:fixed;top:0;left:0;right:0;bottom:0;z-index:5;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.02) 2px,rgba(0,0,0,0.02) 4px)}
+
+#breadcrumb{position:fixed;top:12px;left:14px;z-index:200;font-size:clamp(0.55rem,1.8vw,0.7rem);letter-spacing:3px;text-transform:uppercase}
+#breadcrumb a{color:rgba(60,160,120,0.3);text-decoration:none;transition:color 0.3s}
+#breadcrumb a:active{color:rgba(60,160,120,0.7)}
+#breadcrumb span{color:rgba(60,160,120,0.6)}
+
+.sub-nav{position:fixed;bottom:10px;left:0;right:0;z-index:200;display:flex;gap:4px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:6px 10px;justify-content:flex-start;scrollbar-width:none}
+.sub-nav::-webkit-scrollbar{display:none}
+.sub-nav button{padding:8px 12px;font-family:monospace;font-size:clamp(0.6rem,2.2vw,0.75rem);letter-spacing:2px;border:1px solid rgba(201,169,78,0.15);background:transparent;color:rgba(201,169,78,0.4);cursor:pointer;text-transform:uppercase;transition:all 0.5s;white-space:nowrap;flex-shrink:0}
+.sub-nav button.act{border-color:rgba(201,169,78,0.6);color:rgba(201,169,78,1);box-shadow:0 0 12px rgba(201,169,78,0.15);background:rgba(201,169,78,0.05)}
+
+.phase-label{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:50;text-align:center;pointer-events:none;transition:opacity 0.8s}
+.phase-num{font-size:clamp(2rem,8vw,5rem);font-weight:100;letter-spacing:clamp(4px,2vw,15px);opacity:0.15;font-family:Georgia,serif;color:rgba(60,160,120,1)}
+.phase-name{font-size:clamp(0.6rem,2vw,0.85rem);letter-spacing:clamp(4px,2vw,12px);text-transform:uppercase;opacity:0.8;margin-top:-4px;color:rgba(60,160,120,0.75)}
+
+.hud-corner{position:fixed;z-index:100;font-size:clamp(0.4rem,1.2vw,0.55rem);letter-spacing:2px;text-transform:uppercase}
+.hud-tl{top:28px;left:14px;color:rgba(60,160,120,0.3)}
+.hud-tr{top:28px;right:14px;color:rgba(60,160,120,0.3);text-align:right}
+.hud-bl{bottom:52px;left:14px;color:rgba(60,160,120,0.2)}
+.hud-br{bottom:52px;right:14px;color:rgba(60,160,120,0.2);text-align:right}
+
+#content-drawer{position:fixed;bottom:0;left:0;right:0;z-index:400;max-height:70vh;background:rgba(0,0,0,0.96);border-top:1px solid rgba(60,160,120,0.2);transform:translateY(100%);transition:transform 0.4s cubic-bezier(0.4,0,0.2,1);overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px 16px 40px}
+#content-drawer.open{transform:translateY(0)}
+#content-drawer .close{position:absolute;top:10px;right:14px;color:rgba(60,160,120,0.4);font-size:1.2rem;cursor:pointer;padding:8px;font-family:monospace}
+.drawer-title{font-family:monospace;font-size:clamp(1.1rem,4vw,1.5rem);letter-spacing:4px;color:rgba(201,169,78,0.8);margin-bottom:8px;text-transform:uppercase}
+.drawer-chapel{font-family:Georgia,serif;font-size:clamp(1rem,3.5vw,1.15rem);color:rgba(255,255,255,0.5);line-height:1.8;margin:12px 0;white-space:pre-wrap}
+.drawer-protocol{font-family:monospace;font-size:clamp(0.85rem,2.8vw,0.95rem);color:rgba(201,169,78,0.45);line-height:1.7;margin:12px 0;white-space:pre-wrap}
+.drawer-study{font-family:Georgia,serif;font-size:clamp(0.9rem,3vw,1rem);color:rgba(120,180,220,0.5);line-height:1.6;margin:12px 0}
+.drawer-divider{height:1px;background:rgba(60,160,120,0.1);margin:16px 0}
+</style>
+</head>
+<body>
+<script>
+if(sessionStorage.getItem('limen_access')!=='granted'){window.location.replace('/?return='+encodeURIComponent('/'+'portals/gutbrain-circuit.html'+location.search));}
+</script>
+<canvas id="c"></canvas>
+<div class="scanline"></div>
+
+<div id="breadcrumb">
+  <a href="../spiral.html?limen=spiral99">HELIX</a> <span>›</span>
+  <a href="../civilization.html">◉ CONNECTOME</a> <span>›</span>
+  <a href="../spiral.html?limen=spiral99">AUTONOMIC SYSTEM</a> <span>›</span>
+  <span>GUT-BRAIN AXIS</span>
+</div>
+
+<div class="hud-corner hud-tl" id="htl"></div>
+<div class="hud-corner hud-tr" id="htr">GUT-BRAIN AXIS · MICROBIOME</div>
+<div class="hud-corner hud-bl" id="hbl"></div>
+<div class="hud-corner hud-br" id="hbr"></div>
+
+<div class="phase-label" id="plabel">
+  <div class="phase-num">◎</div>
+  <div class="phase-name" id="pname">MICROBIOME</div>
+</div>
+
+<div class="sub-nav" id="nav">
+  <button onclick="setSubPhase(0)">MICROBIOME</button>
+  <button onclick="setSubPhase(1)">VAGAL HIGHWAY</button>
+  <button onclick="setSubPhase(2)">SEROTONIN</button>
+  <button onclick="setSubPhase(3)">INFLAMMATION</button>
+  <button onclick="setSubPhase(4)">STATE DEPENDENCE</button>
+</div>
+
+<div id="content-drawer">
+  <span class="close" onclick="closeDrawer()">✕</span>
+  <div id="drawer-content"></div>
+</div>
+
+<script>
+// ═══ GUT-BRAIN AXIS DATA ═══
+var NODES=[
+  {name:'ENS',fn:'Enteric Nervous System',desc:'500 million neurons — the "second brain" in your gut wall. Operates semi-autonomously.',x:0.5,y:0.3},
+  {name:'MICRO',fn:'Microbiome',desc:'Trillions of bacteria producing neurotransmitters. 90% of serotonin. The hidden organ.',x:0.3,y:0.45},
+  {name:'NTS',fn:'Nucleus Tractus Solitarius',desc:'Vagal relay — everything the gut tells the brain passes through here.',x:0.5,y:0.15},
+  {name:'VAGUS',fn:'Vagus Nerve (Afferent)',desc:'80% of vagal fibers are afferent — gut talking UP to brain, not brain talking down.',x:0.4,y:0.22},
+  {name:'IMMUNE',fn:'Gut Immune System',desc:'70% of immune cells live in the gut. Inflammation here changes the brain.',x:0.7,y:0.45},
+  {name:'5HT',fn:'Enterochromaffin Cells',desc:'Serotonin-producing cells in the gut lining. More serotonin here than in the entire brain.',x:0.3,y:0.6},
+  {name:'HPA',fn:'HPA Axis',desc:'Stress hormones alter microbiome composition. Microbiome alters stress response. Bidirectional.',x:0.7,y:0.25},
+  {name:'BBB',fn:'Blood-Brain Barrier',desc:'Microbial metabolites (SCFAs, tryptophan) cross the BBB and directly influence brain function.',x:0.6,y:0.6}
+];
+var CONNECTIONS=[[0,1],[0,3],[3,2],[1,5],[1,4],[4,6],[4,7],[5,7],[2,6],[0,4],[3,1],[6,2],[5,0],[7,2]];
+var SUBPH=[
+  {name:'MICROBIOME',short:'The hidden organ',desc:'Your gut contains 2-3 pounds of bacteria — more cells than your entire body. These organisms produce neurotransmitters, modulate inflammation, and communicate directly with the brain via the vagus nerve. The microbiome is not a passenger. It is a control system.'},
+  {name:'VAGAL HIGHWAY',short:'80% goes up',desc:'The vagus nerve is bidirectional, but 80% of its fibers are afferent — carrying information FROM the gut TO the brain. The gut is not receiving instructions. It is sending them. Vagal afferents relay microbial metabolites, immune signals, and nutritional status directly to the nucleus tractus solitarius.'},
+  {name:'SEROTONIN',short:'90% is made in the gut',desc:'Enterochromaffin cells in the gut lining produce approximately 90% of the body\'s serotonin. This serotonin regulates motility, secretion, and visceral sensation locally. But microbial influence on tryptophan metabolism also affects central serotonin synthesis. Your mood begins in your gut.'},
+  {name:'INFLAMMATION',short:'Gut fire → brain fog',desc:'When gut barrier integrity fails ("leaky gut"), bacterial endotoxins enter systemic circulation. Peripheral inflammation signals cross the blood-brain barrier via multiple pathways: vagal afferents, circumventricular organs, cytokine transport. Neuroinflammation follows gut inflammation. Every time.'},
+  {name:'STATE DEPENDENCE',short:'You are what you digest',desc:'The LIMEN claim: gut-brain axis state is a hidden variable in phase transitions. Metabolic state (fed/fasted/ketotic), microbiome composition, and inflammatory load all modulate DMN activity, vagal tone, and stress reactivity. You cannot fully specify your neural state without specifying your gut state.'}
+];
+var HOTSPOTS={
+0:[{node:1,label:'THE HIDDEN ORGAN',
+   chapel:'The human microbiome contains approximately 39 trillion bacterial cells — slightly more than the 30 trillion human cells in the body. These organisms collectively encode 150 times more genes than the human genome. They produce neurotransmitters including serotonin, GABA, dopamine, and norepinephrine. They synthesize vitamins, metabolize drugs, train the immune system, and maintain the gut barrier. Germ-free mice show altered stress responses, impaired social behavior, and abnormal brain development — all reversible with microbial colonization.',
+   protocol:'MICROBIOME DIVERSITY PROTOCOL:\n1. Fiber diversity: aim for 30+ different plant foods per week\n2. Fermented foods: 1-2 servings daily (kimchi, sauerkraut, kefir)\n3. Avoid: unnecessary antibiotics, artificial sweeteners, emulsifiers\n4. Prebiotic sources: garlic, onion, leek, asparagus, banana\n5. Track: digestive regularity and subjective mental clarity\n\nRef: Cryan JF & Dinan TG (2012) Nat Rev Neurosci',
+   study:'<a href="https://doi.org/10.1038/nrn3346" target="_blank" style="color:rgba(120,180,220,0.7)">Cryan JF & Dinan TG (2012). Mind-altering microorganisms: The impact of the gut microbiota on brain and behaviour. Nat Rev Neurosci 13(10):701-712.</a>'}],
+1:[{node:3,label:'THE ASCENDING HIGHWAY',
+   chapel:'Berthoud and colleagues traced the vagal afferent pathway from gut to brain in extraordinary detail. Vagal afferent neurons have cell bodies in the nodose ganglion. They project to the nucleus tractus solitarius (NTS), which relays to the parabrachial nucleus, then to the hypothalamus, amygdala, and cortex. This pathway transmits information about nutrient content, mechanical distension, bacterial metabolites, and immune signals. The gut does not wait for the brain to ask. It broadcasts continuously.',
+   protocol:'VAGAL TONE OPTIMIZATION:\n1. Slow diaphragmatic breathing: 6 breaths/min (5s in, 5s out)\n2. Cold face immersion: 30s (triggers vagal reflex)\n3. Gargling vigorously: 30s (activates pharyngeal vagal branches)\n4. Singing or humming: sustained vocalization stimulates vagus\n5. Track: HRV as proxy for vagal tone\n\nRef: Porges SW (2011) The Polyvagal Theory',
+   study:'<a href="https://doi.org/10.1152/physrev.00038.2006" target="_blank" style="color:rgba(120,180,220,0.7)">Berthoud HR (2008). Vagal and hormonal gut-brain communication. Physiol Behav 97(5):572-580.</a>'}],
+2:[{node:5,label:'THE SEROTONIN FACTORY',
+   chapel:'Enterochromaffin (EC) cells are specialized epithelial cells in the gut mucosa. They contain 90% of the body\'s total serotonin. EC cells respond to mechanical pressure, nutrients, and microbial metabolites by releasing serotonin, which activates vagal afferent terminals directly. Certain gut bacteria (Clostridium, Enterococcus, Streptococcus) can stimulate serotonin production from EC cells. Indigenous Spore-forming bacteria increase colonic and blood serotonin levels in germ-free mice.',
+   protocol:'SEROTONIN PRECURSOR SUPPORT:\n1. Tryptophan-rich foods: turkey, eggs, nuts, seeds, salmon\n2. Bright morning light: 10 min (serotonin synthesis)\n3. Exercise: 20-30 min aerobic (increases tryptophan transport)\n4. B6 and folate: cofactors for serotonin synthesis\n5. Avoid: excessive alcohol (depletes tryptophan)\n\nRef: Yano JM et al. (2015) Cell',
+   study:'<a href="https://doi.org/10.1016/j.cell.2015.02.047" target="_blank" style="color:rgba(120,180,220,0.7)">Yano JM et al. (2015). Indigenous bacteria from the gut microbiota regulate host serotonin biosynthesis. Cell 161(2):264-276.</a>'}],
+3:[{node:4,label:'THE INFLAMMATORY CASCADE',
+   chapel:'The gut barrier is a single cell layer thick. When barrier integrity is compromised — by stress, alcohol, NSAIDs, dysbiosis — bacterial lipopolysaccharide (LPS) enters systemic circulation. Even low-level endotoxemia activates peripheral immune cells, which release pro-inflammatory cytokines (IL-6, TNF-α, IL-1β). These cytokines signal to the brain via vagal afferents and circumventricular organs. The result: sickness behavior, anhedonia, fatigue, cognitive impairment. This is not "brain fog." It is neuroinflammation with a gut origin.',
+   protocol:'GUT BARRIER SUPPORT:\n1. Remove: alcohol, NSAIDs, processed food (barrier disruptors)\n2. Restore: glutamine 5g/day (enterocyte fuel)\n3. Reinoculate: diverse probiotics (Lactobacillus, Bifidobacterium)\n4. Repair: zinc carnosine, butyrate-producing fiber\n5. Track: digestive symptoms, energy, mental clarity\n\nRef: Mayer EA et al. (2015) J Clin Invest',
+   study:'<a href="https://doi.org/10.1172/JCI76304" target="_blank" style="color:rgba(120,180,220,0.7)">Mayer EA, Tillisch K & Gupta A (2015). Gut/brain axis and the microbiota. J Clin Invest 125(3):926-938.</a>'}],
+4:[{node:7,label:'THE METABOLIC GATE',
+   chapel:'Short-chain fatty acids (SCFAs) — butyrate, propionate, acetate — are produced by bacterial fermentation of dietary fiber. They cross the blood-brain barrier. Butyrate is a histone deacetylase inhibitor — it literally changes gene expression in the brain. Propionate modulates the blood-brain barrier itself. Acetate affects appetite regulation in the hypothalamus. The metabolic products of your gut bacteria are not waste. They are signaling molecules that reprogram your brain.',
+   protocol:'SCFA PRODUCTION PROTOCOL:\n1. Soluble fiber: 25-30g/day minimum (oats, beans, vegetables)\n2. Resistant starch: cooled rice/potatoes, green bananas\n3. Pectin sources: apples, citrus peel\n4. Inulin: chicory, artichoke, garlic\n5. Fasting periods: 12-16h allows SCFA producers to thrive\n\nRef: Dalile B et al. (2019) Nat Rev Gastroenterol Hepatol',
+   study:'<a href="https://doi.org/10.1038/s41575-019-0157-3" target="_blank" style="color:rgba(120,180,220,0.7)">Dalile B et al. (2019). The role of short-chain fatty acids in microbiota-gut-brain communication. Nat Rev Gastroenterol Hepatol 16(8):461-478.</a>'}]
+};
+
+var subPhase=0,t=0,canvas=document.getElementById('c'),ctx=canvas.getContext('2d'),W,H;
+var tappedNode=-1,tapFade=0;
+var mouseX=-1,mouseY=-1,touchActive=false;
+var actionPotentials=[];
+var AP_MAX=12;
+var aR=60,aG=160,aB=120;
+var aRGB=aR+','+aG+','+aB;
+
+function resize(){W=canvas.clientWidth;H=canvas.clientHeight;var DPR=Math.min(window.devicePixelRatio||1,1.5);canvas.width=W*DPR;canvas.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0)}
+window.addEventListener('resize',resize);resize();
+
+function buildNav(){
+  var btns=document.querySelectorAll('#nav button');
+  for(var i=0;i<btns.length;i++){btns[i].className=i===subPhase?'act':''}
+}
+function updateHUD(){
+  document.getElementById('pname').textContent=SUBPH[subPhase].name;
+  document.getElementById('htl').textContent=SUBPH[subPhase].short.toUpperCase();
+  var fc=0;for(var i=0;i<CONNECTIONS.length;i++)fc++;
+  document.getElementById('hbr').textContent='CONNECTIVITY:'+Math.round((fc/15)*100)+'%';
+}
+function setSubPhase(n){if(n===subPhase)return;subPhase=n;buildNav();updateHUD();closeDrawer();tappedNode=-1;tapFade=0}
+buildNav();updateHUD();
+
+function closeDrawer(){document.getElementById('content-drawer').classList.remove('open')}
+function openDrawer(data){
+  var html='<div class="drawer-title">'+data.label+'</div>';
+  html+='<div class="drawer-chapel">'+data.chapel+'</div>';
+  html+='<div class="drawer-divider"></div>';
+  html+='<div class="drawer-title" style="font-size:0.7rem;opacity:0.5">PROTOCOL</div>';
+  html+='<div class="drawer-protocol">'+data.protocol+'</div>';
+  html+='<div class="drawer-divider"></div>';
+  html+='<div class="drawer-study">'+data.study+'</div>';
+  document.getElementById('drawer-content').innerHTML=html;
+  document.getElementById('content-drawer').classList.add('open');
+}
+
+function fireAP(ci){if(actionPotentials.length>=AP_MAX)return;var c=CONNECTIONS[ci];actionPotentials.push({from:c[0],to:c[1],p:0,speed:0.008+Math.random()*0.006})}
+
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  var cx=W/2,cy=H*0.45;
+  
+  for(var ci=0;ci<CONNECTIONS.length;ci++){
+    var c=CONNECTIONS[ci],n1=NODES[c[0]],n2=NODES[c[1]];
+    ctx.beginPath();ctx.moveTo(n1.x*W,n1.y*H);ctx.lineTo(n2.x*W,n2.y*H);
+    ctx.strokeStyle='rgba('+aRGB+',0.08)';ctx.lineWidth=1;ctx.stroke();
+  }
+  
+  for(var ai=actionPotentials.length-1;ai>=0;ai--){
+    var ap=actionPotentials[ai];ap.p+=ap.speed;
+    if(ap.p>1){actionPotentials.splice(ai,1);continue}
+    var n1=NODES[ap.from],n2=NODES[ap.to];
+    var ax=n1.x*W+(n2.x*W-n1.x*W)*ap.p;
+    var ay=n1.y*H+(n2.y*H-n1.y*H)*ap.p;
+    ctx.beginPath();ctx.arc(ax,ay,3,0,Math.PI*2);
+    ctx.fillStyle='rgba('+aRGB+','+(0.6*(1-ap.p))+')';ctx.fill();
+  }
+  if(t%30===0&&actionPotentials.length<AP_MAX){
+    var ri=Math.floor(Math.random()*CONNECTIONS.length);
+    fireAP(ri);
+  }
+  
+  for(var ni=0;ni<NODES.length;ni++){
+    var nd=NODES[ni];
+    var nx=nd.x*W,ny=nd.y*H;
+    var pulse=0.5+Math.sin(t*0.03+ni*1.3)*0.15;
+    var nodeR=Math.min(W,H)*0.025;
+    var grd=ctx.createRadialGradient(nx,ny,0,nx,ny,nodeR*3);
+    grd.addColorStop(0,'rgba('+aRGB+','+(pulse*0.25)+')');
+    grd.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=grd;ctx.beginPath();ctx.arc(nx,ny,nodeR*3,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.arc(nx,ny,nodeR,0,Math.PI*2);
+    ctx.fillStyle='rgba('+aRGB+','+(pulse*0.4)+')';ctx.fill();
+    ctx.strokeStyle='rgba('+aRGB+','+(pulse*0.3)+')';ctx.lineWidth=1;ctx.stroke();
+    ctx.font='bold 11px monospace';ctx.textAlign='center';
+    ctx.shadowColor='rgba('+aRGB+',0.8)';ctx.shadowBlur=8;
+    ctx.fillStyle='rgba(230,225,210,'+(0.6+pulse*0.3)+')';
+    ctx.fillText(nd.name,nx,ny+nodeR+14);
+    ctx.shadowBlur=0;
+    ctx.font='8px monospace';
+    ctx.fillStyle='rgba('+aRGB+','+(0.3+pulse*0.2)+')';
+    ctx.fillText(nd.fn,nx,ny+nodeR+26);
+  }
+  
+  if(tappedNode>=0&&tapFade>0){
+    var tn=NODES[tappedNode];
+    var isMob=W<600;
+    var pw=isMob?W*0.85:350;
+    var px=Math.max(8,Math.min(W-pw-8,tn.x*W-pw/2));
+    var py=tn.y<0.5?tn.y*H+40:Math.max(8,tn.y*H-120);
+    ctx.fillStyle='rgba(0,0,0,0.9)';ctx.strokeStyle='rgba('+aRGB+',0.3)';ctx.lineWidth=1;
+    ctx.beginPath();ctx.rect(px-10,py-10,pw+20,100);ctx.fill();ctx.stroke();
+    ctx.textAlign='left';ctx.font='bold 16px monospace';ctx.fillStyle='rgba('+aRGB+',0.9)';
+    ctx.fillText(tn.name,px,py+16);
+    ctx.font='12px monospace';ctx.fillStyle='rgba(230,225,210,0.75)';
+    ctx.fillText(tn.fn,px,py+34);
+    ctx.font='11px Georgia';ctx.fillStyle='rgba(230,225,210,0.6)';
+    var words=tn.desc.split(' '),line='',ly=py+54;
+    for(var wi=0;wi<words.length;wi++){
+      var test=line+(line?' ':'')+words[wi];
+      if(ctx.measureText(test).width>pw){ctx.fillText(line,px,ly);ly+=14;line=words[wi]}
+      else{line=test}
+    }
+    if(line)ctx.fillText(line,px,ly);
+  }
+  
+  var phaseHotspots=HOTSPOTS[subPhase];
+  if(phaseHotspots){
+    var isMob3=W<600;
+    for(var hi=0;hi<phaseHotspots.length;hi++){
+      var hs=phaseHotspots[hi];
+      var hnd=NODES[hs.node];
+      var hx=hnd.x*W,hy=hnd.y*H;
+      var hPulse=0.4+Math.sin(t*0.04+hi*2.1)*0.15;
+      var ringR=isMob3?32:26;
+      ctx.beginPath();ctx.arc(hx,hy,ringR+Math.sin(t*0.03+hi)*3,0,Math.PI*2);
+      ctx.strokeStyle='rgba(201,169,78,'+hPulse+')';ctx.lineWidth=2;ctx.stroke();
+      ctx.beginPath();ctx.arc(hx,hy,ringR-2,0,Math.PI*2);
+      ctx.fillStyle='rgba(201,169,78,'+(hPulse*0.06)+')';ctx.fill();
+      ctx.font=(isMob3?'11':'10')+'px monospace';ctx.textAlign='center';
+      ctx.fillStyle='rgba(230,220,160,'+(0.5+hPulse*0.4)+')';
+      var labelY=hy+(hnd.y<0.5?ringR+18:-ringR-8);
+      ctx.fillText('◈ '+hs.label,hx,labelY);
+      if(isMob3){ctx.font='8px monospace';ctx.fillStyle='rgba(230,220,160,'+(0.2+hPulse*0.2)+')';ctx.fillText('TAP',hx,labelY+13)}
+    }
+  }
+  
+  if(SUBPH[subPhase].desc){
+    ctx.font=Math.round(Math.min(13,W*0.02))+'px Georgia';ctx.textAlign='center';
+    ctx.fillStyle='rgba(220,215,200,0.45)';
+    var words2=SUBPH[subPhase].desc.split(' '),line2='',ly2=H*0.85;
+    for(var wi2=0;wi2<words2.length;wi2++){
+      var test2=line2+(line2?' ':'')+words2[wi2];
+      if(ctx.measureText(test2).width>W*0.7){ctx.fillText(line2,cx,ly2);ly2+=16;line2=words2[wi2]}
+      else{line2=test2}
+    }
+    if(line2)ctx.fillText(line2,cx,ly2);
+  }
+  
+  ctx.strokeStyle='rgba('+aRGB+',0.12)';ctx.lineWidth=0.8;var bL=30;
+  ctx.beginPath();ctx.moveTo(8,8+bL);ctx.lineTo(8,8);ctx.lineTo(8+bL,8);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(W-8-bL,8);ctx.lineTo(W-8,8);ctx.lineTo(W-8,8+bL);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(8,H-8-bL);ctx.lineTo(8,H-8);ctx.lineTo(8+bL,H-8);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(W-8-bL,H-8);ctx.lineTo(W-8,H-8);ctx.lineTo(W-8,H-8-bL);ctx.stroke();
+  
+  t+=16;requestAnimationFrame(draw);
+}
+draw();
+
+// ═══ INTERACTION ═══
+var lastTapTime=0;
+canvas.addEventListener('click',function(e){
+  if(Date.now()-lastTapTime<300)return;
+  mouseX=e.clientX;mouseY=e.clientY;
+  var phaseHotspots=HOTSPOTS[subPhase];
+  if(phaseHotspots){
+    for(var hi=0;hi<phaseHotspots.length;hi++){
+      var hs=phaseHotspots[hi];
+      var hnd=NODES[hs.node];
+      var dx=mouseX-hnd.x*W,dy=mouseY-hnd.y*H;
+      var d=Math.sqrt(dx*dx+dy*dy);
+      if(d<60){if(d<15){break}openDrawer(hs);return}
+    }
+  }
+  for(var ni=0;ni<NODES.length;ni++){
+    var nd=NODES[ni],dx2=mouseX-nd.x*W,dy2=mouseY-nd.y*H;
+    if(Math.sqrt(dx2*dx2+dy2*dy2)<W*0.06){
+      if(tappedNode===ni){tappedNode=-1;tapFade=0;return}
+      tappedNode=ni;tapFade=1;
+      for(var fc=0;fc<CONNECTIONS.length;fc++){if(CONNECTIONS[fc][0]===ni)fireAP(fc)}
+      return;
+    }
+  }
+  tappedNode=-1;tapFade=0;
+});
+
+canvas.addEventListener('touchend',function(e){
+  lastTapTime=Date.now();
+  var tx=e.changedTouches[0].clientX,ty=e.changedTouches[0].clientY;
+  var phaseHotspots=HOTSPOTS[subPhase];
+  if(phaseHotspots){
+    for(var hi=0;hi<phaseHotspots.length;hi++){
+      var hs=phaseHotspots[hi];
+      var hnd=NODES[hs.node];
+      var dx=tx-hnd.x*W,dy=ty-hnd.y*H;
+      var d=Math.sqrt(dx*dx+dy*dy);
+      if(d<70){if(d<20){break}openDrawer(hs);return}
+    }
+  }
+  for(var ni=0;ni<NODES.length;ni++){
+    var nd=NODES[ni],dx2=tx-nd.x*W,dy2=ty-nd.y*H;
+    if(Math.sqrt(dx2*dx2+dy2*dy2)<W*0.08){
+      if(tappedNode===ni){tappedNode=-1;tapFade=0;return}
+      tappedNode=ni;tapFade=1;
+      for(var fc=0;fc<CONNECTIONS.length;fc++){if(CONNECTIONS[fc][0]===ni)fireAP(fc)}
+      break;
+    }
+  }
+});
+</script>
+</body>
+</html>

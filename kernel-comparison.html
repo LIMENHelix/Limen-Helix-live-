@@ -83,7 +83,9 @@ tr.expandable{cursor:pointer}
 
   <!-- topbar removed: see assets/js/limen-topbar.js -->
 <script>
-if (_CMD_DOMAIN_FILTER) {
+// _CMD_* are declared in kernel-comparison.js (loaded at the bottom), so this
+// inline block ran before they existed and threw a ReferenceError. Guard it.
+if (typeof _CMD_DOMAIN_FILTER !== 'undefined' && _CMD_DOMAIN_FILTER) {
   var _dl = _CMD_LABELS[_CMD_RESOLVED] || _CMD_RESOLVED;
   document.title = 'LIMEN HELIX · ' + _dl.toUpperCase() + ' COMMAND BOARD';
 }
@@ -91,7 +93,7 @@ if (_CMD_DOMAIN_FILTER) {
 
 <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">
 <h1 id="cmdTitle">COMMAND BOARD</h1>
-<script>if(_CMD_DOMAIN_FILTER){document.getElementById('cmdTitle').textContent=(_CMD_LABELS[_CMD_RESOLVED]||_CMD_RESOLVED).toUpperCase()+' COMMAND BOARD';}</script>
+<script>if(typeof _CMD_DOMAIN_FILTER!=='undefined'&&_CMD_DOMAIN_FILTER){document.getElementById('cmdTitle').textContent=(_CMD_LABELS[_CMD_RESOLVED]||_CMD_RESOLVED).toUpperCase()+' COMMAND BOARD';}</script>
 <span style="font-size:0.32rem;color:rgba(200,195,184,0.2);letter-spacing:1px"><span id="lastUpdated"></span></span>
 <button class="filter-btn" onclick="_manualRefresh()" style="margin-left:auto">\u21BB REFRESH</button>
 <label style="font-size:0.3rem;color:rgba(200,195,184,0.25);cursor:pointer"><input type="checkbox" id="autoRefreshToggle" style="margin-right:4px">AUTO 60s</label>

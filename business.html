@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LIMEN HELIX · BUSINESS NEURAL MAP</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=Crimson+Pro:wght@300;400;600&display=swap');
+
+:root {
+  --bg: #0c0d10;
+  --panel: #131519;
+  --border: rgba(201,169,78,0.12);
+  --gold: #C9A94E;
+  --gold-dim: rgba(201,169,78,0.55);
+  --gold-ghost: rgba(201,169,78,0.08);
+  --text: #dad5c8;
+  --text-dim: rgba(220,215,200,0.82);
+  --text-ghost: rgba(200,195,184,0.4);
+  --hyper: #e85454;
+  --hypo: #4a8fd4;
+  --altered: #d4a84a;
+  --evidence-a: #4aaa6a;
+  --evidence-b: #7a9ad4;
+  --evidence-c: #c4a44a;
+  --evidence-d: #8a7a6a;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html,body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'IBM Plex Mono', monospace;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* LAYOUT */
+.app {
+  display: grid;
+  grid-template-columns: 320px 1fr 400px;
+  grid-template-rows: 48px 28px 1fr 36px;
+  height: 100vh;
+  gap: 0;
+}
+
+/* PORTAL NAV */
+.portal-nav{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:0;padding:0 20px;background:rgba(0,0,0,0.4);border-bottom:1px solid var(--border);font-size:0.45rem;letter-spacing:3px;text-transform:uppercase;font-family:'SF Mono',monospace;height:28px;overflow-x:auto}
+.portal-nav a{color:rgba(201,169,78,0.25);text-decoration:none;padding:0 10px;transition:color .2s;white-space:nowrap}
+.portal-nav a:hover{color:rgba(201,169,78,0.6)}
+.portal-nav a.pn-current{color:rgba(201,169,78,0.8)}
+.portal-nav .pn-sep{color:rgba(201,169,78,0.1);font-size:0.5rem}
+
+/* TOP BAR */
+.topbar {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--panel);
+}
+.topbar-left { display: flex; align-items: center; gap: 16px; }
+.topbar-brand {
+  font-size: 0.65rem; letter-spacing: 4px; color: var(--gold-dim); text-transform: uppercase;
+}
+.topbar-brand a { color: inherit; text-decoration: none; }
+.topbar-brand a:hover { color: var(--gold); }
+.topbar-separator { color: var(--gold-ghost); }
+.topbar-title {
+  font-size: 0.6rem; letter-spacing: 3px; color: var(--gold); text-transform: uppercase;
+}
+.topbar-right {
+  font-size: 0.45rem; letter-spacing: 1.5px; color: rgba(232,84,84,0.5); text-transform: uppercase;
+}
+
+/* LEFT PANEL */
+.left-panel {
+  background: var(--panel);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  padding: 16px 0;
+}
+.left-panel::-webkit-scrollbar { width: 3px; }
+.left-panel::-webkit-scrollbar-thumb { background: var(--gold-ghost); }
+
+.panel-section-title {
+  font-size: 0.5rem; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--gold-dim); padding: 8px 16px 6px; margin-top: 8px;
+}
+
+.input-group {
+  padding: 0 16px; margin-bottom: 12px;
+}
+.input-group label {
+  display: block; font-size: 0.45rem; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--text-ghost); margin-bottom: 4px;
+}
+.input-group input, .input-group select {
+  width: 100%;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  padding: 8px 12px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+.input-group input:focus, .input-group select:focus {
+  border-color: var(--gold-dim);
+}
+.input-group input::placeholder {
+  color: var(--text-ghost); font-size: 0.65rem; letter-spacing: 1px;
+}
+
+.btn-fetch {
+  display: block; width: calc(100% - 32px); margin: 0 16px 12px;
+  background: rgba(201,169,78,0.08); border: 1px solid rgba(201,169,78,0.2);
+  color: var(--gold-dim); font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.55rem; letter-spacing: 3px; text-transform: uppercase;
+  padding: 10px; cursor: pointer; transition: all 0.3s;
+}
+.btn-fetch:hover {
+  border-color: var(--gold); color: var(--gold); background: rgba(201,169,78,0.12);
+}
+.btn-fetch:disabled {
+  opacity: 0.4; cursor: not-allowed;
+}
+
+.fetch-status {
+  padding: 0 16px; font-size: 0.45rem; letter-spacing: 1.5px;
+  color: var(--text-ghost); margin-bottom: 8px; min-height: 1.2rem;
+}
+.fetch-status.error { color: rgba(232,84,84,0.7); }
+.fetch-status.success { color: rgba(106,170,106,0.7); }
+
+/* Manual Entry Grid */
+.manual-section {
+  border-top: 1px solid var(--border); margin-top: 8px; padding-top: 8px;
+}
+.manual-toggle {
+  padding: 0 16px; margin-bottom: 8px;
+  font-size: 0.45rem; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--gold-dim); cursor: pointer; transition: color 0.2s;
+}
+.manual-toggle:hover { color: var(--gold); }
+
+.manual-grid {
+  display: none; padding: 0 12px;
+}
+.manual-grid.visible { display: block; }
+
+.manual-grid table {
+  width: 100%; border-collapse: collapse; font-size: 0.5rem;
+}
+.manual-grid th {
+  font-size: 0.38rem; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--text-ghost); padding: 3px 2px; border-bottom: 1px solid var(--border);
+  text-align: center;
+}
+.manual-grid th:first-child { text-align: left; }
+.manual-grid td { padding: 2px 1px; }
+.manual-grid td:first-child {
+  font-size: 0.42rem; letter-spacing: 1px; color: var(--text-ghost);
+  padding-right: 4px;
+}
+.manual-grid input {
+  width: 100%; background: rgba(255,255,255,0.02); border: 1px solid rgba(201,169,78,0.06);
+  color: var(--text-dim); font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.5rem; padding: 3px 4px; text-align: right; outline: none;
+}
+.manual-grid input:focus { border-color: var(--gold-dim); }
+
+.btn-run {
+  display: block; width: calc(100% - 32px); margin: 12px 16px;
+  background: rgba(201,169,78,0.12); border: 1px solid rgba(201,169,78,0.3);
+  color: var(--gold); font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.55rem; letter-spacing: 3px; text-transform: uppercase;
+  padding: 10px; cursor: pointer; transition: all 0.3s;
+}
+.btn-run:hover {
+  background: rgba(201,169,78,0.2); border-color: var(--gold);
+}
+
+/* CENTER */
+.center-view {
+  position: relative; background: var(--bg); overflow: hidden;
+}
+.center-view canvas { width: 100%; height: 100%; }
+
+.dx-overlay {
+  position: absolute; top: 16px; left: 20px; right: 20px; pointer-events: none; z-index: 10;
+}
+.dx-overlay-name {
+  font-family: 'Crimson Pro', serif; font-size: 1.4rem; font-weight: 300;
+  color: var(--gold); letter-spacing: 1px; margin-bottom: 2px;
+}
+.dx-overlay-dsm {
+  font-size: 0.55rem; color: var(--gold-dim); letter-spacing: 2px; margin-bottom: 6px;
+}
+.dx-overlay-prevalence {
+  font-size: 0.55rem; color: var(--text-ghost); letter-spacing: 1px; margin-bottom: 8px;
+}
+
+.circuit-legend {
+  position: absolute; bottom: 16px; left: 20px;
+  display: flex; gap: 16px; z-index: 10; pointer-events: none;
+}
+.legend-item {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 0.5rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-ghost);
+}
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+.node-tooltip {
+  position: absolute; background: rgba(10,11,13,0.95); border: 1px solid var(--border);
+  padding: 8px 12px; pointer-events: none; z-index: 20; display: none; max-width: 280px;
+}
+.node-tooltip .tt-name { font-size: 0.7rem; color: var(--gold); letter-spacing: 1.5px; margin-bottom: 2px; }
+.node-tooltip .tt-dir { font-size: 0.6rem; letter-spacing: 1px; margin-bottom: 4px; font-weight: 500; }
+.node-tooltip .tt-detail { font-family: 'Crimson Pro', serif; font-size: 0.78rem; color: var(--text-dim); line-height: 1.4; }
+
+/* RIGHT PANEL */
+.right-panel {
+  background: var(--panel); border-left: 1px solid var(--border);
+  overflow-y: auto; padding: 0;
+}
+.right-panel::-webkit-scrollbar { width: 3px; }
+.right-panel::-webkit-scrollbar-thumb { background: var(--gold-ghost); }
+
+.right-empty {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  height: 100%; text-align: center; padding: 40px;
+}
+
+.right-tabs {
+  display: flex; border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; background: var(--panel); z-index: 5;
+}
+.right-tab {
+  flex: 1; padding: 10px 8px; font-size: 0.4rem; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--text-ghost); text-align: center;
+  cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s;
+  background: none; border-top: none; border-left: none; border-right: none;
+  font-family: 'IBM Plex Mono', monospace;
+}
+.right-tab:hover { color: var(--text-dim); }
+.right-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+.tab-content { display: none; padding: 14px 16px; }
+.tab-content.active { display: block; }
+
+/* Diagnosis tab */
+.diag-section {
+  margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid rgba(201,169,78,0.06);
+}
+.diag-label {
+  font-size: 0.4rem; letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--text-ghost); margin-bottom: 4px;
+}
+.diag-value {
+  font-size: 0.7rem; color: var(--text); letter-spacing: 0.5px;
+}
+.diag-value.alert { color: var(--hyper); }
+.diag-value.stable { color: var(--evidence-a); }
+.diag-value.warning { color: var(--altered); }
+
+.path-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 4px 0; font-size: 0.55rem;
+}
+.path-label { color: var(--text-dim); }
+.path-score { font-family: 'IBM Plex Mono', monospace; }
+.path-score.triggered { color: var(--hyper); font-weight: 500; }
+.path-score.safe { color: var(--text-ghost); }
+
+/* Signal bars */
+.phase-bar-row {
+  display: flex; align-items: center; gap: 6px; margin: 3px 0; font-size: 0.5rem;
+}
+.phase-bar-label {
+  min-width: 45px; color: var(--text-ghost); letter-spacing: 1px; font-size: 0.4rem;
+  text-transform: uppercase;
+}
+.phase-bar-track {
+  flex: 1; height: 6px; background: rgba(255,255,255,0.03); border-radius: 3px;
+  overflow: hidden;
+}
+.phase-bar-fill {
+  height: 100%; border-radius: 3px; transition: width 0.6s ease;
+}
+.phase-bar-val {
+  min-width: 28px; text-align: right; font-size: 0.42rem; color: var(--text-ghost);
+}
+
+/* Intervention items */
+.int-phase-group {
+  margin-bottom: 14px;
+}
+.int-phase-header {
+  font-size: 0.42rem; letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--gold-dim); padding: 6px 0 4px; border-bottom: 1px solid rgba(201,169,78,0.06);
+  margin-bottom: 6px;
+}
+.int-item {
+  padding: 6px 8px; margin: 3px 0; font-size: 0.55rem; line-height: 1.4;
+  border-left: 2px solid rgba(201,169,78,0.1); background: rgba(201,169,78,0.02);
+}
+.int-item .int-name { color: var(--text); font-weight: 400; }
+.int-item .int-detail { color: var(--text-ghost); font-size: 0.48rem; margin-top: 2px; }
+.int-item.referral { border-left-color: rgba(85,136,187,0.4); background: rgba(85,136,187,0.03); }
+
+/* Report card */
+.report-section { margin-bottom: 12px; }
+.report-heading {
+  font-size: 0.42rem; letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--gold-dim); margin-bottom: 6px; padding-bottom: 3px;
+  border-bottom: 1px solid rgba(201,169,78,0.06);
+}
+.report-line { font-size: 0.55rem; color: var(--text-dim); margin: 3px 0; line-height: 1.5; }
+
+/* Bottom bar */
+.bottombar {
+  grid-column: 1 / -1;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px;
+  font-size: 0.45rem; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--text-ghost); border-top: 1px solid var(--border);
+  background: var(--panel);
+}
+
+/* Print button */
+.print-btn {
+  background: none; border: 1px solid rgba(201,169,78,0.15);
+  color: var(--gold-dim); font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.45rem; letter-spacing: 2px; padding: 4px 10px;
+  cursor: pointer; margin-right: 12px; transition: all 0.2s;
+}
+.print-btn:hover { border-color: var(--gold); color: var(--gold); }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+<div id="limen-topbar"></div>
+<script src="assets/js/limen-topbar.js"></script>
+
+<script>
+(function(){
+  if(localStorage.getItem('limen_gate')==='1') return;
+  document.documentElement.style.overflow='hidden';
+  var ov=document.createElement('div');ov.id='directGate';
+  ov.style.cssText='position:fixed;inset:0;z-index:99999;background:#000;display:flex;align-items:center;justify-content:center;flex-direction:column';
+  ov.innerHTML='<div style="text-align:center;max-width:340px;padding:2rem">'
+    +'<div style="font-size:.55rem;letter-spacing:6px;color:rgba(201,169,78,0.4);text-transform:uppercase;font-family:monospace;margin-bottom:1.5rem;font-weight:bold">Access Required</div>'
+    +'<div style="font-size:.85rem;color:rgba(201,169,78,0.3);font-style:italic;font-family:Georgia,serif;margin-bottom:2rem;line-height:1.8">This gateway is restricted.<br>Enter the access code to proceed.</div>'
+    +'<div id="dg-display" style="font-size:2.2rem;letter-spacing:18px;color:rgba(201,169,78,0.7);font-family:monospace;min-height:3rem;margin-bottom:1.5rem;text-shadow:0 0 20px rgba(201,169,78,0.3)">_ _ _ _</div>'
+    +'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:240px;margin:0 auto 1.5rem">'
+    +[1,2,3,4,5,6,7,8,9].map(function(n){return '<button class="dgk" onclick="dgKey('+n+')">'+n+'</button>'}).join('')
+    +'<button class="dgk" onclick="dgClear()" style="font-size:.6rem;letter-spacing:2px">CLR</button>'
+    +'<button class="dgk" onclick="dgKey(0)">0</button>'
+    +'<button class="dgk" onclick="dgSubmit()" style="font-size:.6rem;letter-spacing:2px;color:rgba(201,169,78,0.6)">↵</button>'
+    +'</div>'
+    +'<div id="dg-msg" style="font-size:.6rem;letter-spacing:3px;color:rgba(255,60,40,0);font-family:monospace;text-transform:uppercase;min-height:1.2rem;transition:color .3s"></div>'
+    +'<a href="connectome.html" style="display:inline-block;background:none;border:1px solid rgba(201,169,78,0.1);color:rgba(201,169,78,0.25);padding:6px 18px;font-size:.55rem;letter-spacing:3px;cursor:pointer;text-transform:uppercase;font-family:monospace;margin-top:1rem;text-decoration:none;transition:all .3s">&larr; Return</a>'
+    +'</div>';
+  var sty=document.createElement('style');
+  sty.textContent='.dgk{background:none;border:1px solid rgba(201,169,78,0.15);color:rgba(201,169,78,0.6);font-size:1.3rem;font-family:monospace;padding:14px;cursor:pointer;transition:all .2s;border-radius:3px}.dgk:hover{border-color:rgba(201,169,78,0.4);background:rgba(201,169,78,0.05);color:rgba(201,169,78,0.9)}.dgk:active{background:rgba(201,169,78,0.12);transform:scale(0.95)}';
+  document.head.appendChild(sty);
+  document.body.appendChild(ov);
+  window._dgInput='';
+  window.dgKey=function(n){if(window._dgInput.length>=4)return;window._dgInput+=String(n);dgUpdate();if(window._dgInput.length===4)setTimeout(dgSubmit,200)};
+  window.dgClear=function(){window._dgInput='';dgUpdate();document.getElementById('dg-msg').style.color='rgba(255,60,40,0)'};
+  window.dgSubmit=function(){
+    if(window._dgInput==='1092'){
+      document.getElementById('dg-msg').textContent='ACCESS GRANTED';
+      document.getElementById('dg-msg').style.color='rgba(201,169,78,0.7)';
+      document.getElementById('dg-display').style.color='rgba(201,169,78,1)';
+      localStorage.setItem('limen_gate','1');
+      setTimeout(function(){ov.style.transition='opacity 0.6s';ov.style.opacity='0';setTimeout(function(){ov.remove()},600)},600);
+    } else {
+      document.getElementById('dg-msg').textContent='INCORRECT CODE';
+      document.getElementById('dg-msg').style.color='rgba(255,60,40,0.7)';
+      document.getElementById('dg-display').style.color='rgba(255,60,40,0.5)';
+      setTimeout(function(){window._dgInput='';dgUpdate();document.getElementById('dg-display').style.color='rgba(201,169,78,0.7)';document.getElementById('dg-msg').style.color='rgba(255,60,40,0)'},1200);
+    }
+  };
+  window.dgUpdate=function(){var d='';for(var i=0;i<4;i++){d+=i<window._dgInput.length?window._dgInput[i]:'_';if(i<3)d+=' ';}document.getElementById('dg-display').textContent=d};
+  document.addEventListener('keydown',function(e){if(!document.getElementById('directGate'))return;if(e.key>='0'&&e.key<='9')dgKey(parseInt(e.key));else if(e.key==='Backspace'){window._dgInput=window._dgInput.slice(0,-1);dgUpdate();}else if(e.key==='Enter')dgSubmit()});
+})();
+</script>
+
+<div class="app">
+  <!-- topbar removed: see assets/js/limen-topbar.js -->
+
+  <!-- LEFT PANEL — COMPANY INPUT -->
+  <div class="left-panel" id="leftPanel">
+    <div class="panel-section-title">Company Lookup</div>
+
+    <div class="input-group">
+      <label>SEC CIK Number</label>
+      <input type="text" id="cikInput" placeholder="e.g. 0000034088 (ExxonMobil)">
+    </div>
+
+    <button class="btn-fetch" id="fetchBtn" onclick="fetchFromSEC()">Fetch SEC EDGAR</button>
+    <div class="fetch-status" id="fetchStatus"></div>
+
+    <div class="manual-section">
+      <div class="manual-toggle" onclick="toggleManual()">&#9660; Manual Entry / Edit</div>
+      <div class="manual-grid" id="manualGrid">
+        <div style="padding:0 4px;margin-bottom:6px;font-size:0.38rem;color:var(--text-ghost);letter-spacing:1px">
+          Enter quarterly data (most recent 8 quarters). Values in USD.
+        </div>
+        <table id="manualTable">
+          <thead>
+            <tr>
+              <th>QTR</th>
+              <th>Revenue</th>
+              <th>OCF</th>
+              <th>Cash</th>
+              <th>Debt</th>
+            </tr>
+          </thead>
+          <tbody id="manualBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <button class="btn-run" id="runBtn" onclick="runAnalysis()">Run Phase Analysis</button>
+
+    <div id="analysisStatus" style="padding:0 16px;font-size:0.45rem;color:var(--text-ghost);letter-spacing:1.5px;min-height:1.2rem"></div>
+  </div>
+
+  <!-- CENTER -->
+  <div class="center-view" id="centerView">
+    <canvas id="c"></canvas>
+    <div class="dx-overlay" id="dxOverlay" style="display:none">
+      <div class="dx-overlay-name" id="overlayName"></div>
+      <div class="dx-overlay-dsm" id="overlayPhase"></div>
+      <div class="dx-overlay-prevalence" id="overlayScore"></div>
+    </div>
+    <div class="node-tooltip" id="tooltip"></div>
+    <div class="circuit-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--hyper)"></div>STRESS</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--hypo)"></div>SUPPRESSED</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--altered)"></div>ALTERED</div>
+      <div class="legend-item"><div class="legend-dot" style="background:rgba(255,255,255,0.15)"></div>NOMINAL</div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="right-panel" id="rightPanel">
+    <div class="right-empty" id="rightEmpty">
+      <div style="font-family:'Crimson Pro',serif;font-size:0.85rem;color:rgba(200,195,184,0.35);line-height:1.7;padding:30px 24px">
+        An 11-phase organizational diagnostics engine porting the validated LIMEN Helix back-test pipeline to real-time analysis. Enter a company CIK or quarterly financials to generate phase scores, trajectory classification, and intervention recommendations.
+      </div>
+      <div style="font-size:0.5rem;color:rgba(201,169,78,0.3);letter-spacing:2px;text-transform:uppercase;padding:0 24px">
+        11 Phases &middot; 3-Path Alert &middot; 111 Nodes
+      </div>
+    </div>
+    <div id="rightContent" style="display:none">
+      <div class="right-tabs">
+        <button class="right-tab active" data-tab="diagnosis" onclick="switchTab('diagnosis')">Diagnosis</button>
+        <button class="right-tab" data-tab="signals" onclick="switchTab('signals')">Signals</button>
+        <button class="right-tab" data-tab="interventions" onclick="switchTab('interventions')">Interventions</button>
+        <button class="right-tab" data-tab="report" onclick="switchTab('report')">Report</button>
+      </div>
+      <div class="tab-content active" id="tab-diagnosis"></div>
+      <div class="tab-content" id="tab-signals"></div>
+      <div class="tab-content" id="tab-interventions"></div>
+      <div class="tab-content" id="tab-report"></div>
+    </div>
+  </div>
+
+  <!-- BOTTOM BAR -->
+  <div class="bottombar">
+    <div>LIMEN HELIX TRANSFORMATIONAL SCIENCES LLC &middot; ORGANIZATIONAL DIAGNOSTICS</div>
+    <div id="bottomStats">11 PHASES &middot; 111 NODES &middot; 3-PATH ALERT</div>
+  </div>
+
+</div>
+
+<script src="business-data.js"></script>
+<script>
+// ═══════════════════════════════════════════════════════════════════
+// BUSINESS NEURAL MAP — Visualization Engine
+// ═══════════════════════════════════════════════════════════════════
+
+var canvas = document.getElementById('c');
+var ctx = canvas.getContext('2d');
+var W, H, CX, CY;
+var DPR = Math.min(window.devicePixelRatio || 1, 2);
+var t = 0;
+var hoveredNode = null;
+var currentResult = null;
+var nodeStates = [];
+
+// ═══ NODE POSITIONS ═══
+var NODES = {};
+var NODE_LIST = [];
+var EDGES = [];
+
+var SYS_COLORS = {
+  dmn:       {r:201,g:169,b:78},
+  salience:  {r:255,g:180,b:60},
+  executive: {r:80,g:140,b:220},
+  limbic:    {r:180,g:50,b:50},
+  autonomic: {r:42,g:107,b:90},
+  hpa:       {r:200,g:120,b:40},
+  plasticity:{r:100,g:180,b:120},
+  gutbrain:  {r:140,g:100,b:160},
+  entrainment:{r:180,g:160,b:60},
+  reward:    {r:220,g:80,b:80},
+  motor:     {r:160,g:80,b:60},
+  thalamic:  {r:160,g:160,b:160},
+  sensory:   {r:120,g:160,b:180},
+  language:  {r:180,g:140,b:100},
+  basal:     {r:140,g:120,b:80},
+  neuromod:  {r:100,g:140,b:140},
+  memory:    {r:160,g:120,b:180},
+  other:     {r:120,g:120,b:120},
+};
+
+function addNode(id, label, sys, angle, radius, size) {
+  var n = {id:id, label:label, sys:sys, angle:angle, radius:radius, size:size||4, x:0, y:0, affected:null};
+  NODES[id] = n;
+  NODE_LIST.push(n);
+  return n;
+}
+
+var TAU = Math.PI * 2;
+function S(system, nodes, startAngle, sweep, rMin, rMax) {
+  var n = nodes.length;
+  for (var i = 0; i < n; i++) {
+    var a = startAngle + (sweep * i / Math.max(n-1, 1));
+    var r = n === 1 ? (rMin+rMax)/2 : rMin + (rMax-rMin) * (i%2 === 0 ? 0.3 : 0.7);
+    addNode(nodes[i][0], nodes[i][1], system, a, r, nodes[i][2]||4);
+  }
+}
+
+// DMN Core
+addNode('DMN', 'DEFAULT MODE\nNETWORK', 'dmn', 0, 0, 12);
+S('dmn', [
+  ['mPFC','mPFC',7], ['PCC','PCC',7], ['PRECUNEUS','Precuneus',5],
+  ['AG','Angular\nGyrus',4], ['TPOLE','Temporal\nPole',4], ['RSC','Retrosplenial',4],
+  ['OFC','OFC',4], ['EC','Entorhinal',3],
+], 0, TAU*0.9, 0.06, 0.12);
+
+S('salience', [
+  ['SN','Salience\nNetwork',6], ['AI','Anterior\nInsula',6], ['dACC','dACC',5],
+  ['TPJ','TPJ',4], ['PI','Posterior\nInsula',3],
+], TAU*0.02, TAU*0.12, 0.22, 0.34);
+
+S('executive', [
+  ['ECN','Executive\nControl',5], ['dlPFC','dlPFC',6], ['vlPFC','vlPFC',4],
+  ['FEF','FEF',3], ['IPS','IPS',3],
+], TAU*0.14, TAU*0.10, 0.22, 0.34);
+
+S('limbic', [
+  ['BLA','BLA',6], ['CeA','CeA',4], ['BNST','BNST',4],
+  ['vmPFC','vmPFC',6], ['PAG','PAG',4], ['EMP','Empathy',3],
+  ['HIPP','Hippocampus',6],
+], TAU*0.26, TAU*0.14, 0.22, 0.38);
+
+S('autonomic', [
+  ['VV','Ventral\nVagal',5], ['DV','Dorsal\nVagal',4], ['NTS','NTS',3],
+  ['SNS','Sympathetic',4], ['CARD','Cardiac',3], ['LAR','Laryngeal',2],
+], TAU*0.42, TAU*0.10, 0.22, 0.36);
+
+S('hpa', [
+  ['HPA','HPA Axis',5], ['HYPO','Hypothalamus',5], ['PIT','Pituitary',3],
+  ['ADR','Adrenal',3],
+], TAU*0.54, TAU*0.08, 0.22, 0.34);
+
+S('reward', [
+  ['NAcc','Nucleus\nAccumbens',6], ['VTA','VTA',5], ['STRI','Striatum',4],
+], TAU*0.63, TAU*0.06, 0.24, 0.34);
+
+S('basal', [
+  ['CAUD','Caudate',4], ['PUT','Putamen',4], ['GP','Globus\nPallidus',3],
+  ['STN','STN',3], ['VP','Ventral\nPallidum',3], ['SNIG','Substantia\nNigra',3],
+], TAU*0.70, TAU*0.08, 0.22, 0.36);
+
+S('thalamic', [
+  ['THAL','Thalamus',5], ['MDT','Mediodorsal',3], ['ANT','Anterior\nThalamus',3],
+  ['PULV','Pulvinar',3], ['LGN','LGN',2], ['MGN','MGN',2],
+], TAU*0.80, TAU*0.08, 0.22, 0.34);
+
+S('neuromod', [
+  ['RAPHE','Raphe\nNuclei',4], ['LC','Locus\nCoeruleus',4],
+  ['ENDO','Endocannabinoid',3], ['OPIOID','Opioid\nSystem',3],
+  ['OXY','Oxytocin',3], ['GABA_GLU','E/I\nBalance',4],
+  ['EI','E/I\nRatio',3],
+], TAU*0.90, TAU*0.18, 0.40, 0.48);
+
+S('sensory', [
+  ['V1','V1',3], ['A1','A1',3], ['S1','S1',3],
+], TAU*0.15, TAU*0.06, 0.40, 0.44);
+
+S('motor', [
+  ['M1','M1',3], ['SMA','SMA',3], ['CMZ','CMZ',2],
+  ['SMN','Somatomotor',3],
+], TAU*0.22, TAU*0.06, 0.40, 0.44);
+
+S('language', [
+  ['BROCA','Broca',3], ['WERN','Wernicke',3], ['LANG','Language\nNetwork',3],
+  ['STS','STS',4], ['FG','Fusiform',4],
+], TAU*0.37, TAU*0.08, 0.40, 0.48);
+
+S('memory', [
+  ['MAMM','Mammillary',2], ['SEPT','Septal',2], ['NBM','Nucleus\nBasalis',2],
+  ['FORN','Fornix',2], ['CING','Cingulum',3],
+], TAU*0.48, TAU*0.06, 0.40, 0.46);
+
+S('plasticity', [['BDNF','BDNF /\nPlasticity',4], ['TrkB','TrkB',2]], TAU*0.58, TAU*0.03, 0.40, 0.44);
+S('gutbrain', [['GBA','Gut-Brain\nAxis',3], ['ENS','Enteric\nNS',2], ['MICRO','Microbiome',2]], TAU*0.62, TAU*0.04, 0.40, 0.46);
+S('entrainment', [['OSC','Oscillatory',3], ['RF','Reticular\nFormation',3]], TAU*0.68, TAU*0.03, 0.40, 0.44);
+
+addNode('PIN', 'Pineal', 'other', TAU*0.73, 0.42, 2);
+addNode('VEST', 'Vestibular', 'other', TAU*0.76, 0.42, 2);
+addNode('CBLM', 'Cerebellum', 'other', TAU*0.85, 0.42, 4);
+addNode('SC', 'Superior\nColliculus', 'other', TAU*0.87, 0.44, 2);
+addNode('IC', 'Inferior\nColliculus', 'other', TAU*0.89, 0.44, 2);
+addNode('PBN', 'Parabrachial', 'other', TAU*0.52, 0.44, 3);
+addNode('PPN', 'PPN', 'other', TAU*0.84, 0.46, 2);
+addNode('HAB', 'Habenula', 'reward', TAU*0.66, 0.36, 3);
+addNode('OLF', 'Olfactory', 'sensory', TAU*0.10, 0.44, 2);
+addNode('rACC', 'rACC', 'dmn', TAU*0.95, 0.10, 3);
+addNode('CLAUST', 'Claustrum', 'other', TAU*0.78, 0.36, 3);
+addNode('DISS', 'Dissolution', 'dmn', TAU*0.97, 0.14, 3);
+addNode('CC', 'Corpus\nCallosum', 'other', TAU*0.50, 0.38, 3);
+addNode('UNC', 'Uncinate', 'other', TAU*0.34, 0.42, 2);
+addNode('ARC', 'Arcuate', 'language', TAU*0.39, 0.46, 2);
+addNode('DAN', 'Dorsal\nAttention', 'sensory', TAU*0.12, 0.36, 3);
+addNode('VAN', 'Ventral\nAttention', 'salience', TAU*0.06, 0.38, 3);
+addNode('FPN', 'Frontoparietal', 'executive', TAU*0.17, 0.36, 3);
+addNode('CON', 'Cingulo-\nOpercular', 'salience', TAU*0.04, 0.32, 2);
+addNode('VERM', 'Vermis', 'other', TAU*0.86, 0.46, 2);
+addNode('NEOCER', 'Neo-\ncerebellum', 'other', TAU*0.88, 0.46, 2);
+
+// ═══ TYPED EDGES ═══
+var EDGE_TYPES = {
+  fast:     {speed:[0.012,0.020], rate:0.025, size:[0.8,1.4]},
+  excit:    {speed:[0.006,0.012], rate:0.030, size:[1.0,1.8]},
+  inhib:    {speed:[0.005,0.009], rate:0.018, size:[0.8,1.3]},
+  modul:    {speed:[0.003,0.006], rate:0.012, size:[1.0,1.6]},
+  auto:     {speed:[0.002,0.005], rate:0.010, size:[0.8,1.2]},
+  hormonal: {speed:[0.001,0.003], rate:0.005, size:[1.2,2.0]},
+  peptide:  {speed:[0.001,0.004], rate:0.006, size:[1.0,1.5]},
+  plastic:  {speed:[0.001,0.002], rate:0.003, size:[0.6,1.0]},
+};
+
+function addTypedEdge(a, b, type) {
+  if (NODES[a] && NODES[b]) EDGES.push({a:a, b:b, w:0.3, type:type||'excit'});
+}
+
+// DMN internal
+addTypedEdge('DMN','mPFC','excit'); addTypedEdge('DMN','PCC','excit');
+addTypedEdge('DMN','PRECUNEUS','excit'); addTypedEdge('DMN','AG','excit');
+addTypedEdge('mPFC','PCC','excit'); addTypedEdge('PCC','PRECUNEUS','excit');
+addTypedEdge('PCC','AG','excit'); addTypedEdge('PCC','HIPP','excit');
+
+// Prefrontal
+addTypedEdge('mPFC','vmPFC','excit'); addTypedEdge('mPFC','dlPFC','excit');
+addTypedEdge('dlPFC','dACC','excit'); addTypedEdge('dlPFC','vlPFC','excit');
+
+// Salience
+addTypedEdge('AI','dACC','fast'); addTypedEdge('AI','BLA','fast'); addTypedEdge('AI','vmPFC','excit');
+
+// Amygdala
+addTypedEdge('BLA','CeA','fast'); addTypedEdge('BLA','HIPP','fast');
+addTypedEdge('BLA','BNST','excit'); addTypedEdge('vmPFC','BLA','inhib');
+addTypedEdge('vmPFC','NAcc','excit'); addTypedEdge('PAG','CeA','fast'); addTypedEdge('PAG','DV','fast');
+
+// Thalamic relay
+addTypedEdge('THAL','dlPFC','fast'); addTypedEdge('THAL','BLA','fast'); addTypedEdge('THAL','V1','fast');
+
+// Locus coeruleus
+addTypedEdge('LC','dlPFC','fast'); addTypedEdge('LC','BLA','fast'); addTypedEdge('LC','dACC','fast');
+
+// Raphe
+addTypedEdge('RAPHE','mPFC','modul'); addTypedEdge('RAPHE','BLA','modul'); addTypedEdge('RAPHE','NAcc','modul');
+
+// Dopamine
+addTypedEdge('VTA','NAcc','modul'); addTypedEdge('NAcc','STRI','excit');
+addTypedEdge('HAB','VTA','inhib'); addTypedEdge('HAB','RAPHE','inhib');
+
+// Basal ganglia
+addTypedEdge('STRI','CAUD','excit'); addTypedEdge('STRI','PUT','excit');
+addTypedEdge('CAUD','GP','inhib'); addTypedEdge('PUT','GP','inhib');
+addTypedEdge('GP','THAL','inhib'); addTypedEdge('STN','GP','excit');
+
+// Autonomic/vagal
+addTypedEdge('VV','NTS','auto'); addTypedEdge('DV','NTS','auto'); addTypedEdge('NTS','BLA','auto');
+
+// HPA axis
+addTypedEdge('HYPO','PIT','hormonal'); addTypedEdge('PIT','ADR','hormonal'); addTypedEdge('HYPO','PAG','fast');
+
+// Hippocampal
+addTypedEdge('HIPP','FORN','excit'); addTypedEdge('FORN','MAMM','excit'); addTypedEdge('MAMM','ANT','excit');
+
+// Language
+addTypedEdge('BROCA','WERN','excit'); addTypedEdge('STS','FG','excit'); addTypedEdge('STS','TPJ','excit');
+
+// Peptide
+addTypedEdge('OXY','VV','peptide'); addTypedEdge('OXY','BLA','peptide');
+addTypedEdge('ENDO','BLA','peptide'); addTypedEdge('OPIOID','PAG','peptide');
+
+// Plasticity
+addTypedEdge('BDNF','HIPP','plastic'); addTypedEdge('BDNF','dlPFC','plastic');
+
+// Gut-brain
+addTypedEdge('GBA','VV','auto'); addTypedEdge('GBA','ENS','auto');
+
+// Pineal
+addTypedEdge('PIN','HYPO','hormonal');
+
+// Cerebellar
+addTypedEdge('CBLM','THAL','fast');
+
+// Brainstem
+addTypedEdge('PBN','NTS','fast'); addTypedEdge('PBN','BLA','fast');
+
+// ═══ NEURAL PULSE PARTICLES ═══
+var PULSES = [];
+var MAX_PULSES = 150;
+
+function spawnPulses() {
+  EDGES.forEach(function(e) {
+    if (PULSES.length >= MAX_PULSES) return;
+    var a = NODES[e.a], b = NODES[e.b];
+    if (!a || !b) return;
+    var et = EDGE_TYPES[e.type] || EDGE_TYPES.excit;
+    var rate = et.rate;
+    if (nodeStates.length > 0) {
+      if (a.affected && b.affected) rate *= 1.8;
+      else if (a.affected || b.affected) rate *= 0.4;
+      else rate *= 0.15;
+    }
+    if (Math.random() < rate) {
+      var dir = Math.random() > 0.5 ? 1 : -1;
+      PULSES.push({
+        a: e.a, b: e.b, type: e.type,
+        progress: dir > 0 ? 0 : 1,
+        speed: (et.speed[0] + Math.random() * (et.speed[1] - et.speed[0])) * dir,
+        size: et.size[0] + Math.random() * (et.size[1] - et.size[0]),
+        life: 1
+      });
+    }
+  });
+}
+
+function drawPulses() {
+  for (var i = PULSES.length - 1; i >= 0; i--) {
+    var p = PULSES[i];
+    p.progress += p.speed;
+    if (p.progress > 1 || p.progress < 0) { PULSES.splice(i, 1); continue; }
+    var na = NODES[p.a], nb = NODES[p.b];
+    if (!na || !nb) { PULSES.splice(i, 1); continue; }
+    var px = na.x + (nb.x - na.x) * p.progress;
+    var py = na.y + (nb.y - na.y) * p.progress;
+    var c;
+    if (nodeStates.length > 0 && na.affected && nb.affected) {
+      var ca = getNodeColor(na), cb = getNodeColor(nb);
+      c = {r: Math.round((ca.r+cb.r)/2), g: Math.round((ca.g+cb.g)/2), b: Math.round((ca.b+cb.b)/2)};
+    } else if (nodeStates.length > 0 && (na.affected || nb.affected)) {
+      c = getNodeColor(na.affected ? na : nb);
+    } else {
+      var sca = SYS_COLORS[na.sys] || SYS_COLORS.other;
+      var scb = SYS_COLORS[nb.sys] || SYS_COLORS.other;
+      c = {r: Math.round((sca.r+scb.r)/2), g: Math.round((sca.g+scb.g)/2), b: Math.round((sca.b+scb.b)/2)};
+    }
+    var alpha = nodeStates.length > 0 ? (na.affected && nb.affected ? 0.7 : 0.15) : 0.3;
+    var edgeFade = Math.min(p.progress * 5, (1 - p.progress) * 5, 1);
+    alpha *= edgeFade;
+    ctx.beginPath();
+    ctx.arc(px, py, p.size, 0, TAU);
+    ctx.fillStyle = 'rgba(' + c.r + ',' + c.g + ',' + c.b + ',' + alpha + ')';
+    ctx.fill();
+  }
+}
+
+function layoutNodes() {
+  var vw = canvas.parentElement.clientWidth;
+  var vh = canvas.parentElement.clientHeight;
+  W = vw; H = vh;
+  canvas.width = vw * DPR;
+  canvas.height = vh * DPR;
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  CX = vw / 2; CY = vh / 2;
+}
+
+function getNodeColor(n) {
+  if (nodeStates.length === 0) {
+    var c = SYS_COLORS[n.sys] || SYS_COLORS.other;
+    return {r:c.r, g:c.g, b:c.b, a:0.5};
+  }
+  if (!n.affected) return {r:80, g:80, b:80, a:0.12};
+  var dir = n.affected.dir.toLowerCase();
+  if (dir === 'hyper') return {r:232, g:84, b:84, a:0.9};
+  if (dir === 'hypo') return {r:74, g:143, b:212, a:0.9};
+  return {r:212, g:168, b:74, a:0.9};
+}
+
+var galaxyAngle = 0;
+var galaxySpeed = 0.0003;
+
+function draw() {
+  t += 0.016;
+  galaxyAngle += galaxySpeed;
+  ctx.clearRect(0, 0, W, H);
+  var R = Math.min(W, H) * 0.45;
+  NODE_LIST.forEach(function(n) {
+    var a = n.angle + galaxyAngle;
+    n.x = CX + Math.cos(a) * n.radius * R * 2;
+    n.y = CY + Math.sin(a) * n.radius * R * 2;
+  });
+  // Edges
+  EDGES.forEach(function(e) {
+    var a = NODES[e.a], b = NODES[e.b];
+    if (!a || !b) return;
+    var alpha = 0.06;
+    if (nodeStates.length > 0) {
+      if (a.affected && b.affected) alpha = 0.2;
+      else if (a.affected || b.affected) alpha = 0.06;
+      else alpha = 0.02;
+    }
+    var ca = getNodeColor(a), cb = getNodeColor(b);
+    ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
+    ctx.strokeStyle = 'rgba(' + Math.round((ca.r+cb.r)/2) + ',' + Math.round((ca.g+cb.g)/2) + ',' + Math.round((ca.b+cb.b)/2) + ',' + alpha + ')';
+    ctx.lineWidth = nodeStates.length > 0 && a.affected && b.affected ? 1.5 : 0.5;
+    ctx.stroke();
+  });
+  spawnPulses();
+  drawPulses();
+  // Nodes
+  NODE_LIST.forEach(function(n) {
+    var c = getNodeColor(n);
+    var sz = n.size;
+    var isHovered = (hoveredNode === n);
+    if (nodeStates.length > 0 && n.affected) {
+      var pulse = 1 + Math.sin(t * 2 + n.angle * 5) * 0.15;
+      sz *= pulse * 1.3;
+      var grad = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, sz * 4);
+      grad.addColorStop(0, 'rgba(' + c.r + ',' + c.g + ',' + c.b + ',0.2)');
+      grad.addColorStop(1, 'rgba(' + c.r + ',' + c.g + ',' + c.b + ',0)');
+      ctx.beginPath(); ctx.arc(n.x, n.y, sz * 4, 0, TAU); ctx.fillStyle = grad; ctx.fill();
+    }
+    if (isHovered) sz *= 1.5;
+    ctx.beginPath(); ctx.arc(n.x, n.y, sz, 0, TAU);
+    ctx.fillStyle = 'rgba(' + c.r + ',' + c.g + ',' + c.b + ',' + c.a + ')';
+    ctx.fill();
+    if (isHovered || (nodeStates.length > 0 && n.affected)) {
+      ctx.strokeStyle = 'rgba(' + c.r + ',' + c.g + ',' + c.b + ',' + Math.min(c.a + 0.3, 1) + ')';
+      ctx.lineWidth = 1; ctx.stroke();
+    }
+    if (sz > 2.5 || isHovered || (nodeStates.length > 0 && n.affected)) {
+      var labelAlpha = nodeStates.length > 0 ? (n.affected ? 0.8 : 0.1) : 0.35;
+      if (isHovered) labelAlpha = 1;
+      ctx.fillStyle = 'rgba(' + c.r + ',' + c.g + ',' + c.b + ',' + labelAlpha + ')';
+      var fontSize = Math.max(7, Math.min(sz * 1.3, 13));
+      ctx.font = (sz > 5 ? '500 ' : '') + fontSize + 'px IBM Plex Mono';
+      ctx.textAlign = 'center';
+      var labelOffset = sz > 8 ? sz + 18 : sz + 10;
+      n.label.split('\n').forEach(function(line, i) {
+        ctx.fillText(line, n.x, n.y + labelOffset + i * (fontSize + 2));
+      });
+    }
+  });
+  requestAnimationFrame(draw);
+}
+
+// ═══ MOUSE ═══
+function getMouseNode(mx, my) {
+  var best = null, bestD = 20;
+  NODE_LIST.forEach(function(n) {
+    var dx = mx - n.x, dy = my - n.y;
+    var d = Math.sqrt(dx*dx + dy*dy);
+    var hitR = Math.max(n.size * 2, 12);
+    if (d < hitR && d < bestD) { best = n; bestD = d; }
+  });
+  return best;
+}
+
+canvas.addEventListener('mousemove', function(e) {
+  var rect = canvas.getBoundingClientRect();
+  hoveredNode = getMouseNode(e.clientX - rect.left, e.clientY - rect.top);
+  canvas.style.cursor = hoveredNode ? 'pointer' : 'default';
+});
+
+canvas.addEventListener('click', function(e) {
+  var rect = canvas.getBoundingClientRect();
+  var mx = e.clientX - rect.left, my = e.clientY - rect.top;
+  var n = getMouseNode(mx, my);
+  var tt = document.getElementById('tooltip');
+  if (n) {
+    var desc = n.label.replace(/\n/g,' ');
+    if (n.affected) {
+      var dirColor = n.affected.dir === 'hyper' ? 'var(--hyper)' : n.affected.dir === 'hypo' ? 'var(--hypo)' : 'var(--altered)';
+      tt.innerHTML = '<div class="tt-name">' + n.id + '</div>' +
+        '<div class="tt-dir" style="color:' + dirColor + '">' + n.affected.dir.toUpperCase() + '</div>' +
+        '<div class="tt-detail">System: ' + n.sys + '</div>';
+    } else {
+      tt.innerHTML = '<div class="tt-name">' + n.id + '</div>' +
+        '<div class="tt-detail" style="color:var(--text-dim)">' + desc + '</div>';
+    }
+    tt.style.display = 'block';
+    var px = mx + 14, py = my - 10;
+    if (px + 260 > rect.width - 10) px = mx - 260 - 14;
+    if (px < 10) px = 10;
+    if (py + 80 > rect.height - 10) py = rect.height - 90;
+    tt.style.left = px + 'px'; tt.style.top = py + 'px';
+  } else {
+    tt.style.display = 'none';
+  }
+});
+
+canvas.addEventListener('mouseleave', function() {
+  hoveredNode = null;
+  document.getElementById('tooltip').style.display = 'none';
+});
+
+// ═══ MANUAL ENTRY TABLE ═══
+function buildManualTable() {
+  var body = document.getElementById('manualBody');
+  var now = new Date();
+  var y = now.getFullYear(), q = Math.floor(now.getMonth() / 3) + 1;
+  var html = '';
+  for (var i = 0; i < 8; i++) {
+    var qy = q - i;
+    var yr = y;
+    while (qy <= 0) { qy += 4; yr--; }
+    var label = yr + 'Q' + qy;
+    html += '<tr><td>' + label + '</td>';
+    html += '<td><input type="number" id="m_rev_' + i + '" data-q="' + label + '" data-metric="Revenue"></td>';
+    html += '<td><input type="number" id="m_ocf_' + i + '" data-q="' + label + '" data-metric="OCF"></td>';
+    html += '<td><input type="number" id="m_cash_' + i + '" data-q="' + label + '" data-metric="Cash"></td>';
+    html += '<td><input type="number" id="m_debt_' + i + '" data-q="' + label + '" data-metric="Debt"></td>';
+    html += '</tr>';
+  }
+  body.innerHTML = html;
+}
+
+function toggleManual() {
+  var grid = document.getElementById('manualGrid');
+  grid.classList.toggle('visible');
+}
+
+function getManualData() {
+  var data = { Revenue: {}, OCF: {}, Cash: {}, Debt: {} };
+  var inputs = document.querySelectorAll('#manualGrid input[type="number"]');
+  inputs.forEach(function(inp) {
+    var val = parseFloat(inp.value);
+    if (!isNaN(val) && val !== 0) {
+      data[inp.dataset.metric][inp.dataset.q] = val;
+    }
+  });
+  return data;
+}
+
+function populateManualFromSEC(companyData) {
+  var metrics = ['Revenue', 'OCF', 'Cash', 'Debt'];
+  var inputs = document.querySelectorAll('#manualGrid input[type="number"]');
+  inputs.forEach(function(inp) {
+    var q = inp.dataset.q;
+    var m = inp.dataset.metric;
+    if (companyData[m] && companyData[m][q] !== undefined) {
+      inp.value = companyData[m][q];
+    }
+  });
+}
+
+// ═══ SEC FETCH ═══
+var _companyData = null;
+var _fredDelta = null;
+
+function fetchFromSEC() {
+  // Browser-side SEC + FRED extraction is removed. The kernel runs server-side
+  // via POST /api/helix/helix-report/score which fetches SEC + SIC internally. This
+  // button now just routes to runAnalysis() so the user gets a single primary
+  // action.
+  setStatus('fetchStatus', 'Manual SEC fetch disabled — use Run Phase Analysis (CIK only is sent server-side).', 'error');
+}
+
+function setStatus(id, msg, cls) {
+  var el = document.getElementById(id);
+  el.textContent = msg;
+  el.className = 'fetch-status' + (cls ? ' ' + cls : '');
+}
+
+// ═══ RUN ANALYSIS ═══
+// Calls the protected report endpoint. CIK + safe context only.
+// The browser receives a labels-and-bands packet; no formula, weights,
+// thresholds, raw rows, or kernel internals.
+
+var PHASE_STATE_LABELS = {
+  p0: 'p0 baseline state', p1: 'p1 rupture state', p2: 'p2 rhythm state',
+  p3: 'p3 elevated-variance state', p4: 'p4 stabilization state',
+  p5: 'p5 endurance state', p6: 'p6 ordered state',
+  p7: 'p7 structural-divergence state', p7a: 'p7a structural-divergence state',
+  p7b: 'p7b structural-divergence state', p8: 'p8 pivot state',
+  p9: 'p9 threshold state', p10: 'p10 post-event state',
+};
+
+// Validated brand renders ONLY when server says Thing 1 ran AND kernel is real Thing 1.
+function _isValidatedThing1(t1) {
+  return t1 && t1.validation_status === 'validated' && t1.kernel_id === 'limen_backtest.py';
+}
+function _alertActive(t1) {
+  return t1 && t1.alert === true && _isValidatedThing1(t1);
+}
+function _clinicalNarrativeAllowed(data) {
+  return _alertActive(data.t1) && data.reconciliation && data.reconciliation.action_authority === 'thing1';
+}
+
+// Adapt the sectioned safe packet to a legacy-compatible shape that the
+// existing renderApi* functions can still consume. Adds explicit t1, t2,
+// reconciliation references for the gates above.
+function _adaptSafePacket(packet) {
+  packet = packet || {};
+  var t1 = packet.validated_signal || {};
+  var t2 = packet.phase_tracker_signal || {};
+  var rec = packet.reconciliation || {};
+  var phaseIds = ['p0','p1','p2','p3','p4','p5','p6','p7','p7a','p7b','p8','p9','p10'];
+  var pscores = t2.phase_scores || {};
+  var dom = t2.dominant_phase || null;
+  var phases = phaseIds.map(function(pid) {
+    var meta = (typeof PHASE_META !== 'undefined' && PHASE_META[pid]) ? PHASE_META[pid] : { name: pid, label: pid.toUpperCase() };
+    var score = (typeof pscores[pid] === 'number') ? pscores[pid] : 0;
+    return {
+      id: pid,
+      name: meta.name || pid,
+      label: meta.label || pid.toUpperCase(),
+      neutralLabel: PHASE_STATE_LABELS[pid] || pid,
+      score: score,
+      active: pid === dom,
+      providers: [],   // legacy field unused under sectioned packet
+      context: '',
+    };
+  });
+  return {
+    cik: packet.cik || '',
+    entity_name: packet.entity_name || '',
+    // Legacy fields the older renderApi* code still touches —
+    // map to neutral / no-alert defaults so those functions cannot
+    // accidentally render terminal language for a non-validated report.
+    dominant_phase: dom,
+    trajectory: 'long-arc tracker (interpretive)',
+    alert: false,                         // legacy alert field forced false; only t1.alert governs ALERT FIRED
+    phases: phases,
+    composite: 0,                         // legacy numeric — unused for any decision
+    composite_band: 'long-arc only',      // legacy field aliased
+    state_summary: t2.state_summary || {},
+    input_presence: packet.input_presence || {},
+    is_financial: !!packet.is_financial,
+    sic_code: packet.sic_code || 0,
+    latest_quarter: packet.latest_quarter || null,
+    history_quarters: packet.history_quarters || 0,
+    history_sufficiency: packet.history_sufficiency || 'insufficient',
+    confidence_status: packet.confidence_status || 'unsupported',
+    formula_visibility: packet.formula_visibility || 'server_only',
+    warnings: packet.warnings || [],
+
+    // Sectioned references for the new gates
+    t1: {
+      available: !!t1.available,
+      alert: t1.alert === true,
+      first_alert_quarter: t1.first_alert_quarter || null,
+      distress_band: t1.distress_band || null,
+      kernel_id: t1.kernel_id || null,
+      validation_status: t1.validation_status || 'unsupported',
+      narrative_safe: t1.narrative_safe || [],
+      unsupported_reasons: t1.unsupported_reasons || [],
+    },
+    t2: {
+      available: !!t2.available,
+      phase_state_label: t2.phase_state_label || null,
+      dominant_phase: dom,
+      kernel_id: t2.kernel_id || null,
+      validation_status: t2.validation_status || 'unsupported',
+      narrative_safe: t2.narrative_safe || [],
+    },
+    reconciliation: {
+      primacy: 'thing1',
+      agree: rec.agree,
+      summary: rec.summary || '',
+      action_authority: rec.action_authority || 'none',
+    },
+    // Backward-compat keys some legacy code reads
+    validation_status: t1.validation_status || 'unsupported',
+    kernel_id: t1.kernel_id || null,
+    kernel_version: t1.kernel_id ? t1.kernel_id : null,
+    report_status: t1.validation_status === 'unavailable' ? 'thing1_unavailable'
+                 : t1.validation_status === 'bank_adapter_required' ? 'bank_adapter_required'
+                 : 'ok',
+    narrative_safe: (t1.narrative_safe || []).concat(t2.narrative_safe || []),
+    unsupported_reasons: (t1.unsupported_reasons || []),
+  };
+}
+
+function runAnalysis() {
+  var cik = document.getElementById('cikInput').value.trim();
+  if (!cik) {
+    setStatus('analysisStatus', 'Enter a CIK number', 'error');
+    return;
+  }
+  if (!/^\d{1,10}$/.test(cik)) {
+    setStatus('analysisStatus', 'CIK must be 1-10 digits', 'error');
+    return;
+  }
+
+  var btn = document.getElementById('runBtn');
+  btn.disabled = true;
+  setStatus('analysisStatus', 'Running protected server kernel...');
+
+  fetch('/api/helix/helix-report/score', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      cik: String(cik),
+      requested_report_type: 'partial_phase_snapshot',
+      source_surface: 'business',
+      timestamp: Math.floor(Date.now() / 1000),
+    }),
+  })
+    .then(function(r) { if (!r.ok) throw new Error('API HTTP ' + r.status); return r.json(); })
+    .then(function(packet) {
+      var data = _adaptSafePacket(packet);
+      currentResult = data;
+      applyApiResults(data);
+      var statusMsg = (data.entity_name || 'Company')
+        + ' — ' + ((data.dominant_phase || 'no-phase').toUpperCase())
+        + ' · kernel: ' + data.kernel_id
+        + ' · validation: ' + data.validation_status
+        + (data.report_status !== 'ok' ? ' · ' + data.report_status.toUpperCase().replace(/_/g, ' ') : '');
+      setStatus('analysisStatus', statusMsg, data.report_status === 'ok' ? 'success' : 'error');
+      btn.disabled = false;
+    })
+    .catch(function(err) {
+      setStatus('analysisStatus', 'Server error: ' + err.message, 'error');
+      btn.disabled = false;
+    });
+}
+
+// ═══ APPLY API RESULTS TO UI ═══
+function applyApiResults(data) {
+  var dom = data.dominant_phase || 'p0';
+
+  // Build scores map from API phases array
+  var scores = {};
+  data.phases.forEach(function(p) { scores[p.id] = p.score; });
+
+  // Resolve node states from dominant phase
+  var states = resolveNodeStates(dom, scores);
+  nodeStates = states;
+  NODE_LIST.forEach(function(n) { n.affected = null; });
+  states.forEach(function(s) {
+    NODE_LIST.forEach(function(n) {
+      if (n.sys === s.sys) {
+        n.affected = { dir: s.dir, detail: 'Phase-driven: ' + s.dir };
+      }
+    });
+  });
+
+  // Center overlay
+  var overlay = document.getElementById('dxOverlay');
+  overlay.style.display = 'block';
+  var activeMeta = data.phases.find(function(p) { return p.active; }) || {};
+  document.getElementById('overlayName').textContent = data.entity_name || '';
+  document.getElementById('overlayPhase').textContent = (data.dominant_phase ? (activeMeta.label || dom.toUpperCase()) : 'NO PHASE') + (data.alert ? ' — ALERT' : '');
+  document.getElementById('overlayScore').textContent = data.trajectory + ' · composite: ' + (data.composite_band || 'unknown') + ' · ' + (data.kernel_id || 'unknown') + ':' + (data.validation_status || 'unsupported');
+
+  // Show right panel
+  document.getElementById('rightEmpty').style.display = 'none';
+  document.getElementById('rightContent').style.display = 'block';
+
+  // Render all tabs from API data
+  renderApiDiagnosis(data);
+  renderApiSignals(data);
+  renderApiInterventions(data);
+  renderApiReport(data);
+}
+
+function switchTab(tabName) {
+  document.querySelectorAll('.right-tab').forEach(function(t) { t.classList.remove('active'); });
+  document.querySelectorAll('.tab-content').forEach(function(t) { t.classList.remove('active'); });
+  document.querySelector('[data-tab="' + tabName + '"]').classList.add('active');
+  document.getElementById('tab-' + tabName).classList.add('active');
+}
+
+// ═══ API-DRIVEN TAB RENDERERS ═══
+var PHASE_COLORS = {
+  p0: '#6aaa6a', p1: '#aa6a4a', p2: '#4a8aaa', p3: '#e85454',
+  p4: '#6a9a6a', p5: '#7a8a6a', p6: '#4a8fd4', p7: '#d4a84a',
+  p7a: '#d4644a', p7b: '#6ab4d4', p8: '#8a7aaa', p9: '#e85454', p10: '#4aaa6a'
+};
+var TARGET_PHASES = ['p3', 'p7a', 'p9'];
+
+function findPhaseScore(data, phaseId) {
+  var phase = data.phases.find(function(p) { return p.id === phaseId; });
+  return phase ? phase.score : 0;
+}
+
+// ── Diagnosis Tab ──
+function renderApiDiagnosis(data) {
+  var alertClass = data.alert ? 'alert' : 'stable';
+  var h = '';
+
+  // Entity
+  h += '<div class="diag-section">';
+  h += '<div class="diag-label">ENTITY</div>';
+  h += '<div class="diag-value">' + (data.entity_name || 'Unknown') + '</div>';
+  h += '<div style="font-size:0.42rem;color:var(--text-ghost);margin-top:2px">CIK: ' + data.cik + '</div>';
+  h += '</div>';
+
+  // Dominant Phase
+  var activeMeta = data.phases.find(function(p) { return p.active; }) || {};
+  h += '<div class="diag-section">';
+  h += '<div class="diag-label">DOMINANT PHASE</div>';
+  h += '<div class="diag-value" style="color:' + (PHASE_COLORS[data.dominant_phase] || 'var(--text)') + '">' + (activeMeta.label || data.dominant_phase) + '</div>';
+  var phaseMeta = PHASE_META[data.dominant_phase] || {};
+  if (phaseMeta.summary) {
+    h += '<div style="font-size:0.42rem;color:var(--text-ghost);margin-top:4px;font-style:italic">' + phaseMeta.summary + '</div>';
+  }
+  h += '</div>';
+
+  // Trajectory
+  h += '<div class="diag-section">';
+  h += '<div class="diag-label">TRAJECTORY</div>';
+  // ALERT FIRED only when Thing 1 alert is active. data.alert is hard-coded
+  // false in the adapter; checking _alertActive(data.t1) is defense in depth.
+  h += '<div class="diag-value ' + alertClass + '">' + data.trajectory + (_alertActive(data.t1) ? ' \u2014 ALERT FIRED' : '') + '</div>';
+  h += '</div>';
+
+  // Composite
+  h += '<div class="diag-section">';
+  h += '<div class="diag-label">COMPOSITE SCORE</div>';
+  h += '<div class="diag-value">' + (data.composite_band || 'unknown') + '</div>';
+  h += '</div>';
+
+  // Target Phase Scores (P3/P7a/P9)
+  h += '<div class="diag-section">';
+  h += '<div class="diag-label">TARGET PHASE SCORES</div>';
+  TARGET_PHASES.forEach(function(pid) {
+    var score = findPhaseScore(data, pid);
+    var meta = PHASE_META[pid] || {};
+    var pct = Math.round(score * 100);
+    var hot = score > 0.45;
+    h += '<div style="display:flex;align-items:center;gap:8px;margin:4px 0">';
+    h += '<div style="min-width:80px;font-size:0.42rem;letter-spacing:1.5px;color:' + (hot ? PHASE_COLORS[pid] : 'var(--text-ghost)') + '">' + (meta.label || pid) + '</div>';
+    h += '<div class="phase-bar-track" style="flex:1"><div class="phase-bar-fill" style="width:' + pct + '%;background:' + (PHASE_COLORS[pid] || '#888') + '"></div></div>';
+    h += '<div style="min-width:28px;text-align:right;font-size:0.42rem;color:' + (hot ? PHASE_COLORS[pid] : 'var(--text-ghost)') + '">' + score.toFixed(2) + '</div>';
+    h += '</div>';
+  });
+  h += '</div>';
+
+  // Structural Divergence Split
+  var p7a = data.phases.find(function(p) { return p.id === 'p7a'; });
+  var p7b = data.phases.find(function(p) { return p.id === 'p7b'; });
+  if (p7a && p7b && (p7a.score > 0.1 || p7b.score > 0.1)) {
+    var termColor = p7a.score >= p7b.score ? 'var(--gold)' : 'var(--text-dim)';
+    var sepColor = p7b.score > p7a.score ? 'var(--gold)' : 'var(--text-dim)';
+    h += '<div class="diag-section">';
+    h += '<div class="diag-label">STRUCTURAL DIVERGENCE SPLIT</div>';
+    h += '<div style="display:flex;gap:12px;margin-top:4px">';
+    h += '<div style="flex:1;border:1px solid rgba(201,169,78,0.15);border-radius:4px;padding:8px">';
+    h += '<div style="font-size:0.45rem;letter-spacing:2px;color:' + termColor + ';font-weight:bold;margin-bottom:4px">P7a TERMINAL</div>';
+    h += '<div style="font-size:0.75rem;color:' + termColor + ';font-family:monospace">' + p7a.score.toFixed(3) + '</div>';
+    h += '<div style="font-size:0.38rem;color:var(--text-ghost);margin-top:3px">\u2192 P9 Collapse</div>';
+    h += '</div>';
+    h += '<div style="flex:1;border:1px solid rgba(201,169,78,0.15);border-radius:4px;padding:8px">';
+    h += '<div style="font-size:0.45rem;letter-spacing:2px;color:' + sepColor + ';font-weight:bold;margin-bottom:4px">P7b SEPARATION</div>';
+    h += '<div style="font-size:0.75rem;color:' + sepColor + ';font-family:monospace">' + p7b.score.toFixed(3) + '</div>';
+    h += '<div style="font-size:0.38rem;color:var(--text-ghost);margin-top:3px">\u2192 P10 New Baseline</div>';
+    h += '</div>';
+    h += '</div></div>';
+  }
+
+  document.getElementById('tab-diagnosis').innerHTML = h;
+}
+
+// ── Signals Tab ──
+function renderApiSignals(data) {
+  var h = '<div class="diag-label" style="margin-bottom:10px">ALL PHASE SCORES</div>';
+  data.phases.forEach(function(p) {
+    var pct = Math.round(p.score * 100);
+    var hot = p.score > 0.45;
+    var isTarget = TARGET_PHASES.indexOf(p.id) !== -1;
+    var color = PHASE_COLORS[p.id] || '#888';
+    var rowStyle = isTarget ? 'background:rgba(232,84,84,0.04);border-left:3px solid ' + color + ';padding-left:4px' : '';
+    h += '<div class="phase-bar-row" style="' + rowStyle + '">';
+    h += '<div class="phase-bar-label">' + p.id.toUpperCase() + '</div>';
+    h += '<div class="phase-bar-track"><div class="phase-bar-fill" style="width:' + pct + '%;background:' + color + '"></div></div>';
+    h += '<div class="phase-bar-val">' + p.score.toFixed(2) + '</div>';
+    h += '</div>';
+  });
+
+  h += '<div style="margin-top:14px;padding-top:10px;border-top:1px solid rgba(201,169,78,0.06)">';
+  h += '<div class="diag-label">ALERT STATUS</div>';
+  h += '<div class="diag-value ' + (data.alert ? 'alert' : 'stable') + '">' + (data.alert ? 'ALERT ACTIVE' : 'NO ALERT') + '</div>';
+  h += '</div>';
+
+  // Engine meta
+  h += '<div style="margin-top:14px;padding-top:8px;border-top:1px solid var(--border);font-size:0.38rem;color:var(--text-ghost);letter-spacing:1px">';
+  h += 'SIC: ' + (data.engine_meta.sic_code || '\u2014') + ' \u00b7 ' + (data.engine_meta.metric_set || '') + '<br>';
+  h += 'P3 bias: ' + data.engine_meta.p3_bias + ' \u00b7 Recency HL: ' + data.engine_meta.recency_half_life + ' \u00b7 Baseline: ' + data.engine_meta.baseline_window + 'Q';
+  h += '</div>';
+
+  document.getElementById('tab-signals').innerHTML = h;
+}
+
+// ── Interventions Tab ──
+function renderApiInterventions(data) {
+  var h = '';
+
+  // Bank / partial / unsupported reports: do NOT render PHASE_INTERVENTIONS
+  // (which include "M&A advisor", "Bankruptcy / restructuring attorney"
+  // referrals). Render only the server-supplied narrative_safe[].
+  if (!!_clinicalNarrativeAllowed(currentResult)) {
+    h += '<div class="diag-section" style="border:1px solid var(--gold-dim);padding:8px 10px;background:rgba(0,0,0,0.2)">';
+    h += '<div class="diag-label">CLINICAL INTERVENTIONS</div>';
+    h += '<div class="diag-value" style="color:var(--gold-dim)">gated \u00b7 ' + (data.validation_status || 'unsupported') + '</div>';
+    h += '<div style="font-size:0.42rem;color:var(--text-ghost);margin-top:6px;line-height:1.5">'
+       + 'Phase-specific clinical and referral templates are gated on a validated kernel response. '
+       + 'This report is <b>' + (data.validation_status || 'unsupported') + '</b>; no clinical or referral guidance is rendered.'
+       + '</div>';
+    (data.narrative_safe || []).forEach(function(s) {
+      h += '<div style="font-size:0.46rem;color:var(--text-dim);margin-top:6px;line-height:1.55;font-style:italic">' + s + '</div>';
+    });
+    h += '</div>';
+    document.getElementById('tab-interventions').innerHTML = h;
+    return;
+  }
+
+  var dom = data.dominant_phase || 'p0';
+
+  // Recommended Providers from API (only when validated)
+  var activePhase = data.phases.find(function(p) { return p.active; });
+  if (activePhase && activePhase.providers && activePhase.providers.length) {
+    h += '<div class="diag-section">';
+    h += '<div class="diag-label">RECOMMENDED PROVIDERS \u2014 ' + (activePhase.label || dom.toUpperCase()) + '</div>';
+    h += '<div style="font-size:0.42rem;color:var(--text-ghost);margin-bottom:6px">' + (activePhase.context || '') + '</div>';
+    activePhase.providers.forEach(function(prov) {
+      h += '<div style="font-size:0.48rem;color:var(--text-dim);padding:3px 0">\u2022 ' + prov + '</div>';
+    });
+    h += '</div>';
+  }
+
+  var active = data.phases.filter(function(p) { return p.score > 0.45; })
+    .sort(function(a, b) { return b.score - a.score; });
+  if (active.length > 0) {
+    h += '<div class="diag-label" style="margin-bottom:10px">ACTIVE PHASE INTERVENTIONS</div>';
+    active.forEach(function(p) {
+      h += renderPhaseInterventions(p.id, p.score);
+    });
+  }
+
+  var inactive = data.phases.filter(function(p) { return p.score <= 0.45; });
+  if (inactive.length > 0) {
+    h += '<div class="diag-label" style="margin-top:14px;margin-bottom:10px">LATENT PHASE INTERVENTIONS</div>';
+    inactive.forEach(function(p) {
+      h += renderPhaseInterventions(p.id, p.score);
+    });
+  }
+
+  document.getElementById('tab-interventions').innerHTML = h;
+}
+
+function renderPhaseInterventions(phase, score) {
+  var meta = PHASE_META[phase] || { label: phase };
+  var ints = PHASE_INTERVENTIONS[phase];
+  if (!ints) return '';
+  var h = '<div class="int-phase-group">';
+  h += '<div class="int-phase-header">' + meta.label + ' \u2014 ' + score.toFixed(2) + '</div>';
+  (ints.operational || []).forEach(function(item) {
+    h += '<div class="int-item"><div class="int-name">' + item.name + '</div><div class="int-detail">' + item.detail + '</div></div>';
+  });
+  (ints.strategic || []).forEach(function(item) {
+    h += '<div class="int-item"><div class="int-name">' + item.name + '</div><div class="int-detail">' + item.detail + '</div></div>';
+  });
+  (ints.referral || []).forEach(function(item) {
+    h += '<div class="int-item referral"><div class="int-name">REFERRAL: ' + item.name + '</div><div class="int-detail">' + item.detail + '</div></div>';
+  });
+  h += '</div>';
+  return h;
+}
+
+// ── Report Tab ──
+function renderApiReport(data) {
+  var date = new Date().toLocaleDateString();
+  var dom = data.dominant_phase || 'p0';
+  var phaseMeta = PHASE_META[dom] || { label: dom, summary: '' };
+  var h = '';
+
+  h += '<div class="report-section">';
+  h += '<div class="report-heading">ORGANIZATIONAL PHASE DIAGNOSTIC REPORT</div>';
+  h += '<div class="report-line">Date: ' + date + '</div>';
+  h += '<div class="report-line">Entity: ' + (data.entity_name || 'Unknown') + '</div>';
+  h += '<div class="report-line">CIK: ' + data.cik + '</div>';
+  h += '</div>';
+
+  h += '<div class="report-section">';
+  h += '<div class="report-heading">CLASSIFICATION</div>';
+  h += '<div class="report-line">Trajectory: ' + data.trajectory + '</div>';
+  // ALERT FIRED is allowed only when Thing 1 (validated distress scorer) reports
+  // alert === true. Thing 1 unavailable / experimental / partial → No validated alert.
+  h += '<div class="report-line">Alert Status: ' + (_alertActive(data.t1) ? 'ALERT FIRED' : 'No validated alert') + '</div>';
+  h += '<div class="report-line">Dominant Phase: ' + phaseMeta.label + '</div>';
+  h += '<div class="report-line" style="font-size:0.48rem;color:var(--text-ghost)">' + (phaseMeta.summary || '') + '</div>';
+  h += '</div>';
+
+  h += '<div class="report-section">';
+  h += '<div class="report-heading">SCORES</div>';
+  h += '<div class="report-line">Composite: ' + (data.composite_band || 'unknown') + '</div>';
+  data.phases.forEach(function(p) {
+    h += '<div class="report-line">' + p.id.toUpperCase() + ' (' + (p.name || p.id) + '): ' + p.score.toFixed(3) + '</div>';
+  });
+  h += '</div>';
+
+  // Providers
+  var activePhase = data.phases.find(function(p) { return p.active; });
+  if (activePhase && activePhase.providers && activePhase.providers.length) {
+    h += '<div class="report-section">';
+    h += '<div class="report-heading">RECOMMENDED PROVIDERS</div>';
+    h += '<div class="report-line" style="color:var(--text-ghost)">' + (activePhase.context || '') + '</div>';
+    activePhase.providers.forEach(function(prov) {
+      h += '<div class="report-line">\u2022 ' + prov + '</div>';
+    });
+    h += '</div>';
+  }
+
+  // Phase-keyed referral templates (restructuring attorney, M&A advisor,
+  // bankruptcy counsel, board emergency session) used to render here.
+  // They are removed from this static template because:
+  //   1) The numeric thresholds (e.g., 0.59, 0.3) were validated-kernel
+  //      constants and must not appear in browser-visible code.
+  //   2) The phrases "M&A advisor", "bankruptcy counsel", "Phase 9 active"
+  //      cannot be authorized by a Thing 2 phase posture alone \u2014 only by
+  //      a Thing 1 validated alert plus reconciliation.action_authority === "thing1".
+  // Once Phase 4 imports limen_backtest.py and Thing 1 emits real alerts,
+  // these referrals can be re-rendered through the server's curated
+  // narrative_safe[] field, not from a client-side phase-score check.
+
+  h += '<div style="margin-top:14px;padding:8px;border-top:1px solid var(--border);font-size:0.38rem;color:var(--text-ghost);letter-spacing:1.5px">';
+  h += 'LIMEN HELIX TRANSFORMATIONAL SCIENCES LLC<br>';
+  h += 'Organizational Phase Diagnostics \u2014 Not Financial Advice<br>';
+  h += 'SIC: ' + (data.engine_meta.sic_code || '\u2014') + ' \u00b7 ' + (data.engine_meta.metric_set || '') + '<br>';
+  h += date;
+  h += '</div>';
+
+  document.getElementById('tab-report').innerHTML = h;
+}
+
+// ═══ PRINT ═══
+function printReport() {
+  if (!currentResult) return;
+  var data = currentResult;
+  var dom = data.dominant_phase || null;
+  var phaseMeta = dom ? (PHASE_META[dom] || { label: dom, summary: '' }) : null;
+  var date = new Date().toLocaleDateString();
+  var allowClinical = _clinicalNarrativeAllowed(data);
+
+  var h = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Business Neural Map Report</title>';
+  h += '<style>';
+  h += 'body{font-family:"Courier New",monospace;max-width:700px;margin:40px auto;padding:20px;color:#222;line-height:1.6;font-size:13px}';
+  h += 'h1{font-size:18px;border-bottom:2px solid #c9a94e;padding-bottom:6px;margin-bottom:4px}';
+  h += 'h2{font-size:13px;color:#333;margin-top:20px;margin-bottom:6px;text-transform:uppercase;letter-spacing:2px;border-bottom:1px solid #999;padding-bottom:3px}';
+  h += '.field{margin:2px 0} .alert{color:#c00;font-weight:bold}';
+  h += '.banner{padding:10px 12px;border:1px solid #c80;background:#fff8e0;margin:8px 0}';
+  h += '.banner.err{border-color:#c00;background:#ffefef}';
+  h += '.disclaimer{margin-top:30px;padding-top:12px;border-top:2px solid #c9a94e;font-size:9px;color:#999}';
+  h += '@media print{body{margin:20px}}';
+  h += '</style></head><body>';
+  h += '<h1>LIMEN Helix \u2014 Organizational Phase Diagnostic Report</h1>';
+  h += '<div class="field">Date: ' + date + '</div>';
+  h += '<div class="field">Entity: ' + (data.entity_name || 'Unknown') + '</div>';
+  h += '<div class="field">CIK: ' + data.cik + '</div>';
+
+  if (data.report_status && data.report_status !== 'ok') {
+    var cls = data.report_status === 'extraction_error' ? 'banner err' : 'banner';
+    h += '<div class="' + cls + '"><b>' + data.report_status.toUpperCase().replace(/_/g, ' ') + '</b><br>';
+    (data.unsupported_reasons || []).forEach(function(r) { h += '\u00b7 ' + r + '<br>'; });
+    (data.narrative_safe || []).forEach(function(s) { h += '<i>' + s + '</i><br>'; });
+    h += '</div>';
+  }
+
+  h += '<h2>Classification</h2>';
+  h += '<div class="field">Trajectory: ' + (data.alert ? '<span class="alert">' : '') + data.trajectory + (data.alert ? ' \u2014 ALERT</span>' : '') + '</div>';
+  h += '<div class="field">Dominant Phase: ' + (phaseMeta ? phaseMeta.label : '\u2014 no phase asserted \u2014') + '</div>';
+  if (phaseMeta && phaseMeta.summary) {
+    h += '<div class="field" style="font-size:11px;color:#666">' + phaseMeta.summary + '</div>';
+  }
+  h += '<div class="field">Composite: ' + (data.composite_band || 'unknown') + '</div>';
+
+  h += '<h2>Phase Scores</h2>';
+  data.phases.forEach(function(p) {
+    h += '<div class="field">' + p.id.toUpperCase() + ' (' + (p.name || p.id) + '): ' + p.score.toFixed(3) + '</div>';
+  });
+
+  // Providers \u2014 gated on validated kernel only
+  if (allowClinical) {
+    var activePhase = data.phases.find(function(p) { return p.active; });
+    if (activePhase && activePhase.providers && activePhase.providers.length) {
+      h += '<h2>Recommended Providers</h2>';
+      h += '<div class="field" style="color:#666">' + (activePhase.context || '') + '</div>';
+      activePhase.providers.forEach(function(prov) {
+        h += '<div class="field">\u2022 ' + prov + '</div>';
+      });
+    }
+  }
+
+  if ((data.warnings || []).length > 0) {
+    h += '<h2>Warnings</h2>';
+    data.warnings.forEach(function(w) { h += '<div class="field" style="color:#a55;font-size:11px">\u26a0 ' + w + '</div>'; });
+  }
+
+  h += '<div class="disclaimer">';
+  h += 'Generated by LIMEN Helix Business Neural Map<br>';
+  h += 'kernel: ' + (data.kernel_id || 'unknown') + ' \u00b7 validation: ' + (data.validation_status || 'unsupported') + '<br>';
+  h += 'This report is for informational purposes only. Not financial, legal, or investment advice.<br>';
+  h += 'LIMEN HELIX TRANSFORMATIONAL SCIENCES LLC \u00b7 ' + date;
+  h += '</div></body></html>';
+
+  var w = window.open('', '_blank');
+  w.document.write(h);
+  w.document.close();
+  w.focus();
+  setTimeout(function() { w.print(); }, 600);
+}
+
+// ═══ INIT ═══
+window.addEventListener('resize', layoutNodes);
+buildManualTable();
+layoutNodes();
+draw();
+
+</script>
+</body>
+</html>
