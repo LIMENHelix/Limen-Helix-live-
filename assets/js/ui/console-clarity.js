@@ -1,16 +1,16 @@
 /**
  * console-clarity.js
- * LIMEN HELIX — Cognitive Clarity Layer
+ * LIMEN HELIX - Cognitive Clarity Layer
  *
  * Replaces the default simultaneous-panel dump with a focused, prioritized view.
  * The user should understand system state in under 5 seconds.
  *
  * Default view (Clarity Mode):
- *   1. HERO — global state, confidence, primary driver, Philemon narration
- *   2. DOMAIN HEALTH — stress bars for all 7 domains
- *   3. TOP EVENTS — 3 highest priority escalation items
- *   4. RECOMMENDED ACTIONS — prioritized treatments from registry
- *   5. TABS — deeper analysis on demand (hidden until selected)
+ *   1. HERO - global state, confidence, primary driver, Philemon narration
+ *   2. DOMAIN HEALTH - stress bars for all 7 domains
+ *   3. TOP EVENTS - 3 highest priority escalation items
+ *   4. RECOMMENDED ACTIONS - prioritized treatments from registry
+ *   5. TABS - deeper analysis on demand (hidden until selected)
  *
  * Analyst Mode reveals the full 3-column panel grid, export/debug tools.
  *
@@ -42,7 +42,7 @@
     escalating: '#e85454', adaptive: '#4a8fd4', recovering: '#5ab5a0'
   };
 
-  // Philemon removed — hero status lines kept as system status
+  // Philemon removed - hero status lines kept as system status
   var SYSTEM_STATUS = {
     stable: 'All domains within baseline. No elevated stress detected.',
     pressured: 'Multiple domains above baseline. Monitor for sustained elevation.',
@@ -59,7 +59,7 @@
     { id: 'patent',          label: 'Capital Conversion' }
   ];
 
-  // Brain diagnosis hold-last-nonempty cache — prevents section flap on transient inactive cycles
+  // Brain diagnosis hold-last-nonempty cache - prevents section flap on transient inactive cycles
   var _BD_CACHE_TTL = 90000; // 90 seconds
   var _brainDxCache = {}; // { domainKey: { activeDx: [...], capturedAt: number } }
 
@@ -67,8 +67,8 @@
   var _brainSectionExpanded = {}; // { domainKey: boolean }
   var _brainSectionDelegated = false; // one-time event delegation flag
 
-  // Domain Health per-tile drilldown state (Phase 2 step 1 — Domain Panel merge)
-  var _domainHealthExpanded = {}; // { domainKey: boolean } — session-only, default collapsed
+  // Domain Health per-tile drilldown state (Phase 2 step 1 - Domain Panel merge)
+  var _domainHealthExpanded = {}; // { domainKey: boolean } - session-only, default collapsed
   var _domainHealthDelegated = false; // one-time click delegation on _domainsEl
 
   var EMPTY_STATUS = {
@@ -97,45 +97,29 @@
   var _tabBarEl = null;
   var _tabContentEl = null;
 
-  // Master Brain Handoff Queue — per-lane expand state and one-time
+  // Master Brain Handoff Queue - per-lane expand state and one-time
   // event-listener guard. Reads window.LIMENMainBrainHandoff which is
   // populated by assets/js/civilization/handoff-contract.js (Step 1).
   var _handoffExpandedLanes = {};    // { lane: boolean }
   var _handoffEventBound = false;    // ensure addEventListener fires once
+  // Investment + research ONLY (retired lanes removed 2026-07-11). Unknown lanes
+  // fall back to the raw name via _handoffLaneLabel.
   var HANDOFF_LANE_LABELS = {
-    'patents':         'Patents',
-    'copyrights':      'Copyrights',
-    'business-grants': 'Business Grants',
-    'research-grants': 'Research Grants',
-    'sba-loans':       'SBA Loans',
-    'franchise':       'Franchise',
     'investments':     'Investments',
     'research-papers': 'Research Papers'
   };
 
   // Singular form for manager-readable packet titles like
-  // "Patent candidate — Education + Energy". Plural form above is used
+  // "Investment candidate - Education + Energy". Plural form above is used
   // for lane chip headers.
   var HANDOFF_LANE_LABELS_SINGULAR = {
-    'patents':         'Patent',
-    'copyrights':      'Copyright',
-    'business-grants': 'Business Grant',
-    'research-grants': 'Research Grant',
-    'sba-loans':       'SBA Loan',
-    'franchise':       'Franchise',
     'investments':     'Investment',
     'research-papers': 'Research Paper'
   };
 
   // Lane purpose explanations shown only when a lane is expanded.
-  // Static text — does not invent meaning beyond what the lane name implies.
+  // Static text - does not invent meaning beyond what the lane name implies.
   var HANDOFF_LANE_DESCRIPTIONS = {
-    'patents':         'Potential invention/IP filings from cross-domain patterns.',
-    'copyrights':      'Protectable content, frameworks, training material, or authored assets.',
-    'business-grants': 'Commercial or public-private funding packets.',
-    'research-grants': 'Research funding packets tied to evidence, science, or policy questions.',
-    'sba-loans':       'Small-business financing candidates; requires business/operator packet.',
-    'franchise':       'Replicable business-model candidates.',
     'investments':     'Investment memo candidates; requires risk and source validation.',
     'research-papers': 'Paper/article candidates from evidence-backed cross-domain findings.'
   };
@@ -152,7 +136,7 @@
       '#clarity-view { padding:12px 24px 60px; overflow-y:auto; min-height:0; font-family:"IBM Plex Mono",monospace; color:#d0cec8; }',
       '@media(max-width:600px) { #clarity-view { padding:8px 12px 60px; } }',
 
-      /* Executive strip (Zone A) — compact state summary */
+      /* Executive strip (Zone A) - compact state summary */
       '.clr-exec-strip { display:flex; align-items:center; gap:16px; flex-wrap:wrap;',
       '  padding:8px 16px; margin-bottom:10px; border-bottom:1px solid rgba(201,169,78,0.08);',
       '  font-size:0.5rem; letter-spacing:1.2px; }',
@@ -164,7 +148,7 @@
       /* Command center zone (Zone B) */
       '.clr-command-zone { margin-bottom:16px; }',
 
-      /* Evidence workspace zone (Zone C) — visually secondary */
+      /* Evidence workspace zone (Zone C) - visually secondary */
       '.clr-evidence-zone { opacity:0.75; border-top:1px solid rgba(201,169,78,0.06);',
       '  padding-top:12px; margin-top:4px; }',
       '.clr-evidence-zone:hover { opacity:0.92; }',
@@ -204,7 +188,7 @@
       '.clr-tier-immediate { background:rgba(232,84,84,0.15); color:#e85454; }',
       '.clr-tier-developing { background:rgba(255,152,0,0.12); color:#FF9800; }',
       '.clr-tier-watch { background:rgba(90,181,160,0.1); color:#5ab5a0; }',
-      /* Gate B #9C.1 — Civilization tab confidence authority badge */
+      /* Gate B #9C.1 - Civilization tab confidence authority badge */
       '.clr-civ-conf-badge { display:block; font-size:0.5rem; letter-spacing:1.5px;',
       '  text-transform:uppercase; padding:5px 9px; border-radius:2px;',
       '  margin:0 0 8px; font-weight:600; }',
@@ -217,7 +201,7 @@
       '.clr-civ-conf-badge-reason { display:block; font-size:0.4rem;',
       '  color:rgba(200,195,184,0.55); letter-spacing:0.5px;',
       '  text-transform:none; font-weight:normal; margin-top:2px; }',
-      /* Gate B #9C.2 — Regulation TOP 3 ACTIONS NOW per-action confidence badge */
+      /* Gate B #9C.2 - Regulation TOP 3 ACTIONS NOW per-action confidence badge */
       '.clr-action-conf-badge { display:inline-block; font-size:0.36rem;',
       '  letter-spacing:1px; text-transform:uppercase; padding:2px 6px;',
       '  border-radius:2px; margin:0 0 4px; font-weight:600; }',
@@ -227,7 +211,7 @@
       '  border:1px solid rgba(255,152,0,0.30); }',
       '.clr-action-conf-badge.unknown { color:#888; background:rgba(255,255,255,0.03);',
       '  border:1px solid rgba(200,195,184,0.20); }',
-      /* Gate B #9C.3 — Executive Strip + Domain Health authority */
+      /* Gate B #9C.3 - Executive Strip + Domain Health authority */
       '.clr-exec-conf-badge { display:block; font-size:0.4rem; letter-spacing:1.5px;',
       '  text-transform:uppercase; padding:3px 8px; border-radius:2px;',
       '  margin:4px 0 0; font-weight:600; }',
@@ -258,7 +242,7 @@
       '  letter-spacing:1.5px; color:#e85454; text-transform:uppercase; }',
       '.clr-dh-absent-reason { display:block; margin-top:1px; font-size:0.32rem;',
       '  color:rgba(200,195,184,0.45); }',
-      /* Gate B #9C.4 Phase 1 — Capital Conversion action-verb demotion.
+      /* Gate B #9C.4 Phase 1 - Capital Conversion action-verb demotion.
          Replaces the "DO NOW: {action}" headline with a hedged label and
          moves the original action text into a collapsed audit drawer.
          Mirrors the kernel-comparison #47 suppressed-classifier-output
@@ -322,7 +306,7 @@
       '.clr-empty-msg { font-size:0.6rem; color:#666; margin-bottom:10px; }',
       '.clr-empty-philemon { font-size:0.5rem; color:rgba(201,169,78,0.45); font-style:italic; }',
 
-      /* (Analyst toggle CSS removed — the toggle button + 3-column grid were deleted.) */
+      /* (Analyst toggle CSS removed - the toggle button + 3-column grid were deleted.) */
 
       /* Refresh button */
       '.clr-refresh-btn { font-family:monospace; font-size:0.38rem; letter-spacing:1.5px;',
@@ -345,7 +329,7 @@
       '.clr-row-value.low { color:#5ab5a0; }',
       '.clr-list-item { padding:3px 0 3px 10px; font-size:0.5rem; color:#bbb;',
       '  border-left:2px solid rgba(201,169,78,0.1); margin-bottom:2px; }',
-      /* Detected Diagnoses & Treatments — stacked readable layout (not flex space-between). */
+      /* Detected Diagnoses & Treatments - stacked readable layout (not flex space-between). */
       '.clr-dx-row { padding:6px 0 4px; border-bottom:1px solid rgba(201,169,78,0.04); }',
       '.clr-dx-row:last-child { border-bottom:none; }',
       '.clr-dx-label { font-size:0.58rem; letter-spacing:1px; color:#d6c89a;',
@@ -401,7 +385,7 @@
       '.clr-handoff-stamp { font-size:0.38rem; color:#555; letter-spacing:0.5px;',
       '  margin-top:6px; padding-top:4px; border-top:1px solid rgba(90,181,160,0.06); }',
 
-      /* Patch B1 — manager-readable additions */
+      /* Patch B1 - manager-readable additions */
       '.clr-handoff-explainer { font-size:0.4rem; color:#888; line-height:1.5;',
       '  letter-spacing:0.3px; margin:0 0 8px; }',
       '.clr-handoff-lane-desc { font-size:0.42rem; color:#a89c7a; line-height:1.5;',
@@ -424,28 +408,28 @@
       '.clr-handoff-packet-why { color:#a89c7a; font-size:0.42rem; padding:3px 0;',
       '  letter-spacing:0.3px; line-height:1.5; font-style:italic; }',
 
-      /* Gate B #9C.5 Phase 1 — handoff queue source-state authority badge */
+      /* Gate B #9C.5 Phase 1 - handoff queue source-state authority badge */
       '.clr-handoff-source-badge { display:block; letter-spacing:1.5px;',
       '  text-transform:uppercase; padding:5px 9px; border-radius:2px;',
       '  margin:0 0 8px; font-weight:600; font-size:0.45rem; }',
-      /* FRESH: small, low-key — operator does not need to act on this */
+      /* FRESH: small, low-key - operator does not need to act on this */
       '.clr-handoff-source-badge.fresh { color:#5ab5a0; font-size:0.4rem;',
       '  letter-spacing:1px; font-weight:normal;',
       '  background:rgba(90,181,160,0.04);',
       '  border:1px solid rgba(90,181,160,0.20); }',
-      /* STALE: amber — operator should know the queue may be out-of-date */
+      /* STALE: amber - operator should know the queue may be out-of-date */
       '.clr-handoff-source-badge.stale { color:#FF9800;',
       '  background:rgba(255,152,0,0.05);',
       '  border:1px solid rgba(255,152,0,0.30); }',
-      /* VERY_STALE: red — operator should not trust queue contents */
+      /* VERY_STALE: red - operator should not trust queue contents */
       '.clr-handoff-source-badge.very-stale { color:#e85454;',
       '  background:rgba(232,84,84,0.06);',
       '  border:1px solid rgba(232,84,84,0.30); }',
-      /* NO_TIMESTAMP: gray — freshness unknown, distinct from stale */
+      /* NO_TIMESTAMP: gray - freshness unknown, distinct from stale */
       '.clr-handoff-source-badge.no-timestamp { color:#888;',
       '  background:rgba(255,255,255,0.02);',
       '  border:1px solid rgba(200,195,184,0.18); }',
-      /* NO_SOURCE / NO_PIPELINE: red — pipeline itself is broken */
+      /* NO_SOURCE / NO_PIPELINE: red - pipeline itself is broken */
       '.clr-handoff-source-badge.no-source,',
       '.clr-handoff-source-badge.no-pipeline { color:#e85454;',
       '  background:rgba(232,84,84,0.06);',
@@ -469,7 +453,7 @@
     _refreshExecStrip();
     _container.appendChild(_execStripEl);
 
-    // Legacy hero removed (Phase 1 cleanup — was CSS-hidden, no UX effect)
+    // Legacy hero removed (Phase 1 cleanup - was CSS-hidden, no UX effect)
 
     // ── Zone B: Command Center ──
     var commandZone = document.createElement('div');
@@ -493,7 +477,7 @@
     focusRow.appendChild(_actionsEl);
     commandZone.appendChild(focusRow);
 
-    // Master Brain Handoff Queue (Patch B) — sits between RECOMMENDED
+    // Master Brain Handoff Queue (Patch B) - sits between RECOMMENDED
     // ACTIONS and the Evidence Workspace, scoped inside commandZone so it
     // reads as part of Zone B / Command Center.
     _handoffEl = document.createElement('div');
@@ -538,19 +522,19 @@
   // Executive Strip
   // ═══════════════════════════════════════════════════════════════════════════
 
-  // Gate B #9C.3 — Executive Strip authority classifier.
+  // Gate B #9C.3 - Executive Strip authority classifier.
   //
   // Doctrine (operator 2026-06-02):
   //   Falsy fallback is not authority logic.
   //   Measured zero is a signal; missing data is a different state.
   //
-  // NO_SOURCE replaces the entire strip with a banner — the existing
+  // NO_SOURCE replaces the entire strip with a banner - the existing
   // `mode || 'stable'` fallback would otherwise paint a fake "STABLE"
   // state when the pipeline is genuinely missing, which is dishonest.
   // UNKNOWN keeps the strip visible but adds a badge below it because
   // some signal might exist (mode/drivers) even when confidence is
   // absent. LOW / MODERATE add a structural badge below the strip
-  // without suppressing content — the existing "CONF N%" inline
+  // without suppressing content - the existing "CONF N%" inline
   // display stays in the meta row.
   //
   // The `_confidenceKnown` pattern from #9C.2 is reused via the
@@ -594,7 +578,7 @@
   function _refreshExecStrip() {
     if (!_execStripEl) return;
 
-    // Gate B #9C.3 — classify before painting. NO_SOURCE replaces the
+    // Gate B #9C.3 - classify before painting. NO_SOURCE replaces the
     // entire strip with a banner; UNKNOWN / LOW / MODERATE add a badge
     // below the existing strip content; FULL renders as before.
     var __gsRaw = window.LIMENGlobalState;
@@ -630,7 +614,7 @@
     }
     html += '<span class="clr-exec-meta">' + metaParts.join(' \u00b7 ') + '</span>';
 
-    // Primary signal — source-attributed from top stressed domain
+    // Primary signal - source-attributed from top stressed domain
     var doms = window.LIMENDomains || {};
     var topDom = null; var topStress = 0;
     for (var dk in doms) {
@@ -764,7 +748,7 @@
   // ═══════════════════════════════════════════════════════════════════════════
 
   // Freshness helper for Domain Health drilldown.
-  // Mirrors the shape used in domain-signal-engine.js _freshness — inlined to
+  // Mirrors the shape used in domain-signal-engine.js _freshness - inlined to
   // keep this patch single-file (no engine changes).
   function _dhFreshness(ts) {
     if (!ts) return 'unknown';
@@ -803,7 +787,7 @@
     html += '<div class="clr-dh-sect-label">Data type</div>';
     html += '<div class="clr-dh-sect-row" style="color:' + dtColor + '">' + dataType + '</div>';
 
-    // Balance — row labels fixed as destabilizing / stabilizing / net.
+    // Balance - row labels fixed as destabilizing / stabilizing / net.
     // State parenthetical on the net line: internal 'improving' maps to
     // displayed 'stabilizing'; 'destabilizing' stays 'destabilizing';
     // anything else displays as 'neutral'.
@@ -835,7 +819,7 @@
       }
     }
 
-    // Long-term regime (Phase 2 step 3 — Domain Repair detail merge).
+    // Long-term regime (Phase 2 step 3 - Domain Repair detail merge).
     // Pure projection of window.LIMENLongMemory.getRegime. Only renders
     // EXTREME / ELEVATED regimes; other / null values omitted.
     var _lm = window.LIMENLongMemory;
@@ -848,7 +832,7 @@
       }
     }
 
-    // Registry diagnoses (Phase 2 step 3 — Domain Repair detail merge).
+    // Registry diagnoses (Phase 2 step 3 - Domain Repair detail merge).
     // Pure projection of window.LIMENRemedyRegistryManager.getDiagnosesForDomain.
     // Tagged [registry] to distinguish from brain diagnoses (rendered separately
     // below the grid). Up to 2 entries. Section omitted if list empty.
@@ -872,12 +856,12 @@
     return html;
   }
 
-  // Public _refreshDomains — wipe-protected wrapper.
+  // Public _refreshDomains - wipe-protected wrapper.
   // The legacy implementation cleared _domainsEl.innerHTML BEFORE building
   // new content. Any exception inside the build (e.g. cs.provenance.financial_kernel
   // when a convergence signal lacks provenance, sources[si].live when an entry
   // is null, signals[0].label when signal[0] is undefined) left _domainsEl
-  // blank and the 10s setInterval re-blanked it on every cycle — visible as
+  // blank and the 10s setInterval re-blanked it on every cycle - visible as
   // "page goes blank after load". Wrapper preserves prior DOM if the inner
   // build throws OR produces empty content.
   function _refreshDomains() {
@@ -899,7 +883,7 @@
     }
   }
 
-  // Gate B #9C.3 — Domain Health per-tile authority classifier.
+  // Gate B #9C.3 - Domain Health per-tile authority classifier.
   //
   // Doctrine carried:
   //   Zero-defaults are not neutral.
@@ -910,15 +894,15 @@
   // and then displayed 0% bars + "→" stable trend regardless of whether
   // the domain entry was absent or genuinely all-zero. The classifier
   // distinguishes:
-  //   ABSENT             — no measurement at all (replaces fake-zero tile)
-  //   FALLBACK           — domain present + has sources but all .live === false
-  //   UNKNOWN            — measured but confidence not a finite number
-  //   LOW / MODERATE     — measured + confidence below FULL threshold
-  //   FULL               — measured + confidence >= 0.65
+  //   ABSENT             - no measurement at all (replaces fake-zero tile)
+  //   FALLBACK           - domain present + has sources but all .live === false
+  //   UNKNOWN            - measured but confidence not a finite number
+  //   LOW / MODERATE     - measured + confidence below FULL threshold
+  //   FULL               - measured + confidence >= 0.65
   //
   // _hasDomainMeasurement mirrors #9a's domain-repair-map predicate but
   // is local to console-clarity (different runtime, slightly different
-  // signal set — includes brainTreatments, maturity, trend).
+  // signal set - includes brainTreatments, maturity, trend).
 
   function _hasDomainMeasurement(d) {
     if (!d) return false;
@@ -939,12 +923,12 @@
       return {
         level: 'ABSENT',
         badge: null,
-        bannerLabel: 'ABSENT — no measurement',
+        bannerLabel: 'ABSENT - no measurement',
         reason: 'No measurement available for ' + (DOMAIN_LABELS[dk] || dk) + '.',
         suppressBody: true
       };
     }
-    // FALLBACK — domain present, has sources, but no source is live
+    // FALLBACK - domain present, has sources, but no source is live
     var sources = Array.isArray(d.sources) ? d.sources : [];
     if (sources.length > 0) {
       var liveCount = 0, fallbackCount = 0;
@@ -1015,7 +999,7 @@
     for (var i = 0; i < DOMAIN_ORDER.length; i++) {
       var dk = DOMAIN_ORDER[i];
 
-      // Gate B #9C.3 — explicit-ABSENT classification BEFORE zero-default
+      // Gate B #9C.3 - explicit-ABSENT classification BEFORE zero-default
       // fallback. Earlier behavior: `domains[dk] || { stress: 0, trend: 0 }`
       // painted fake-zero bars on absent domains. New behavior: ABSENT
       // tile renders a minimal explanatory cell instead.
@@ -1023,7 +1007,7 @@
       var __tileAuth = _classifyDomainTileAuthority(__rawD, dk);
 
       if (__tileAuth.suppressBody) {
-        // ABSENT tile — header (label) + banner + reason. No bars, no
+        // ABSENT tile - header (label) + banner + reason. No bars, no
         // trend arrow, no fake zero values.
         var __absentCell = document.createElement('div');
         __absentCell.className = 'clr-dh-absent';
@@ -1054,10 +1038,10 @@
       // Wrap row + feed hint in a container
       var cell = document.createElement('div');
 
-      // Gate B #9C.3 — per-tile authority badge above the row.
+      // Gate B #9C.3 - per-tile authority badge above the row.
       // FULL renders nothing. UNKNOWN / LOW / MODERATE / FALLBACK
       // render a small badge ABOVE the row. Body stays visible at
-      // all levels — visual downgrade only.
+      // all levels - visual downgrade only.
       if (__tileAuth.badge) {
         var __tileBadgeCls = __tileAuth.level === 'LOW_CONFIDENCE' ? 'low'
                            : __tileAuth.level === 'MODERATE_CONFIDENCE' ? 'moderate'
@@ -1081,7 +1065,7 @@
       var label = document.createElement('span');
       label.className = 'clr-domain-label';
       label.textContent = DOMAIN_LABELS[dk] || dk;
-      // (appended after the globe, below — globe first, then name)
+      // (appended after the globe, below - globe first, then name)
 
       // Rotating phase globe (color matches the connectome's per-domain phase)
       if (!document.getElementById('clr-globe-style')) {
@@ -1153,7 +1137,7 @@
         meta.appendChild(actEl);
       }
 
-      // Phase badge — prefer real brain phase (from adapter); fall back to
+      // Phase badge - prefer real brain phase (from adapter); fall back to
       // Civilization-side Phase 24X provisional annotation ONLY when no
       // brain phase is available. Visually distinguish the two.
       var _brainPhase = d.brainPhase;
@@ -1177,7 +1161,7 @@
           phaseBadge.style.cssText = 'font-size:0.26rem;letter-spacing:0.8px;padding:1px 5px;border-radius:2px;' +
             'background:' + phaseAnn.color + '22;color:' + phaseAnn.color + supportAlpha;
           phaseBadge.textContent = phaseAnn.phase.toUpperCase() + ' ' + phaseAnn.label + ' (PROV)';
-          phaseBadge.title = 'Provisional phase estimate — no brain phase available (support: ' + phaseAnn.phaseSupport + ')';
+          phaseBadge.title = 'Provisional phase estimate - no brain phase available (support: ' + phaseAnn.phaseSupport + ')';
           meta.appendChild(phaseBadge);
           var provPhaseSrc = document.createElement('span');
           provPhaseSrc.className = 'clr-domain-phase-src clr-domain-phase-src-prov';
@@ -1189,7 +1173,7 @@
       if (meta.childNodes.length > 0) cell.appendChild(meta);
 
       // Feed hint: source name + top signal (from sources[]).
-      // Defensive nullable access — sources / signals may contain undefined
+      // Defensive nullable access - sources / signals may contain undefined
       // entries depending on upstream signal-engine state.
       var sources = Array.isArray(d.sources) ? d.sources : [];
       var signals = Array.isArray(d.signals) ? d.signals : [];
@@ -1223,7 +1207,7 @@
         cell.appendChild(hint);
       }
 
-      // Per-tile drilldown (Phase 2 step 1 — Domain Panel merge)
+      // Per-tile drilldown (Phase 2 step 1 - Domain Panel merge)
       if (_domainHealthExpanded[dk]) {
         var drill = document.createElement('div');
         drill.className = 'clr-dh-drill';
@@ -1252,7 +1236,7 @@
       for (var csi = 0; csi < convKeys.length; csi++) {
         var cs = convSignals[convKeys[csi]];
         if (!cs) continue;
-        // Defensive defaults — convergence signal payload shape is upstream
+        // Defensive defaults - convergence signal payload shape is upstream
         // and may omit fields. Missing data must NOT throw and wipe the page.
         var primary       = (typeof cs.primary_signal === 'string') ? cs.primary_signal : 'UNKNOWN';
         var domainIdU     = (typeof cs.domain_id === 'string') ? cs.domain_id.toUpperCase() : '';
@@ -1285,7 +1269,7 @@
         csHeader += '</div>';
 
         csHeader += '<div style="font-size:0.24rem;color:rgba(200,195,184,0.2);margin-top:1px;letter-spacing:0.5px">';
-        csHeader += prov.financial_kernel ? 'Phase tracker (Thing 2 — interpretive)' : 'Domain Model Only';
+        csHeader += prov.financial_kernel ? 'Phase tracker (Thing 2 - interpretive)' : 'Domain Model Only';
         if (secondary.length > 0) {
           csHeader += ' + ' + secondary.map(function (s) { return typeof s === 'string' ? s : ''; })
                                        .filter(function (s) { return s; })
@@ -1392,7 +1376,7 @@
           // Stress-aware disambiguation. When the brain has diagnoses in
           // state but none matched conditions, surface elevated stress
           // as a distinct badge so a stressed-but-unmapped domain stops
-          // looking calm. Reads existing brain state only — no new field.
+          // looking calm. Reads existing brain state only - no new field.
           var _domStress = (typeof _domData.brainStress === 'number') ? _domData.brainStress
                          : (typeof _domData.stress === 'number') ? _domData.stress : 0;
           if (_domStress >= 0.55) {
@@ -1419,7 +1403,7 @@
         _domHeader.innerHTML = _headerHtml;
         _domSection.appendChild(_domHeader);
 
-        // Sub-summary line (always visible) — real brain fields only
+        // Sub-summary line (always visible) - real brain fields only
         var _subSummary = document.createElement('div');
         _subSummary.style.cssText = 'padding:0 6px 4px 22px;font-size:0.26rem;color:rgba(210,205,195,0.6);letter-spacing:0.5px';
         var _summaryParts = [];
@@ -1479,7 +1463,7 @@
             for (var _indxi = 0; _indxi < Math.min(_domInactive.length, 5); _indxi++) _addDx(_domInactive[_indxi], 'inactive');
           }
 
-          // 3. Treatments (up to 5) — active treatments get brighter label
+          // 3. Treatments (up to 5) - active treatments get brighter label
           if (_domTx.length > 0) {
             _addLabel('TREATMENTS');
             for (var _txi = 0; _txi < Math.min(_domTx.length, 5); _txi++) {
@@ -1495,7 +1479,7 @@
             }
           }
 
-          // 4. Opportunities (up to 5) — active opportunities get brighter label
+          // 4. Opportunities (up to 5) - active opportunities get brighter label
           if (_domOpps.length > 0) {
             _addLabel('OPPORTUNITIES');
             for (var _opi = 0; _opi < Math.min(_domOpps.length, 5); _opi++) {
@@ -1557,7 +1541,7 @@
         _bdContainer.appendChild(_domSection);
       }
 
-      // Delegate click handler once — toggles expanded state and re-renders
+      // Delegate click handler once - toggles expanded state and re-renders
       if (!_brainSectionDelegated) {
         _brainSectionDelegated = true;
         document.addEventListener('click', function (e) {
@@ -1647,7 +1631,7 @@
         _eventsEl.appendChild(evCtxEl);
       }
 
-      // Narrator observation merge (Phase 2 step 2 — Narrator Panel → Event Rail rows).
+      // Narrator observation merge (Phase 2 step 2 - Narrator Panel → Event Rail rows).
       // Pure projection of window.LIMENEventNarrator.getObservationFor(domain).
       // Omits the subordinate line when no matching narration is defined.
       var _narrator = window.LIMENEventNarrator;
@@ -1849,13 +1833,13 @@
     var sourceDomains = Array.isArray(p.sourceDomains) ? p.sourceDomains : [];
     if (sourceDomains.length > 0) {
       var joined = _handoffJoinDomains(sourceDomains);
-      if (joined) return laneSing + ' candidate — ' + joined;
+      if (joined) return laneSing + ' candidate - ' + joined;
     }
     var sourceDx = Array.isArray(p.sourceDiagnoses) ? p.sourceDiagnoses : [];
     if (sourceDx.length > 0) {
       var first = sourceDx[0];
       var firstLabel = (first && (first.label || first.id)) || '';
-      if (firstLabel) return laneSing + ' candidate — ' + firstLabel;
+      if (firstLabel) return laneSing + ' candidate - ' + firstLabel;
     }
     return 'Handoff packet candidate';
   }
@@ -1912,7 +1896,7 @@
       html += '<div class="clr-handoff-packet-row"><b>Confidence:</b> ' + conf + '</div>';
     }
 
-    // Status row — explicit, manager-readable.
+    // Status row - explicit, manager-readable.
     if (p.readyForGeneration) {
       html += '<div class="clr-handoff-packet-status-ready"><b>Status:</b> Ready for draft review</div>';
     } else {
@@ -1923,7 +1907,7 @@
       html += '<div class="clr-handoff-packet-rationale"><b>Rationale:</b> ' + _escHandoff(rationale) + '</div>';
     }
 
-    // "Why this exists" — only when conditions are met. No invented reasons.
+    // "Why this exists" - only when conditions are met. No invented reasons.
     if (sourceDomains.length >= 2 && nodeCount >= 1) {
       html += '<div class="clr-handoff-packet-why">Why this exists: Multiple domains are active at the same neurological node, creating a cross-system opportunity.</div>';
     }
@@ -1932,11 +1916,11 @@
     return html;
   }
 
-  // ─── Gate B #9C.5 Phase 1 — handoff source-state classifier ──────────
+  // ─── Gate B #9C.5 Phase 1 - handoff source-state classifier ──────────
   // Returns a card-level authority classification for the MASTER BRAIN
   // HANDOFF QUEUE based on producer presence, summary() shape, and
   // LIMENMainBrainHandoffState.timestamp age. Visual authority downgrade
-  // only — never suppresses body, never invents packet counts.
+  // only - never suppresses body, never invents packet counts.
   //
   // Thresholds are deliberately forgiving (queue is a review surface,
   // not a market-tick surface): FRESH <= 15 min, STALE <= 60 min,
@@ -1949,7 +1933,7 @@
   var HANDOFF_STALE_MS      = 60 * 60 * 1000;   // 60 minutes
 
   function _classifyHandoffSourceState(api, state, summaryResult) {
-    // 1. NO_SOURCE — producer module not loaded at all.
+    // 1. NO_SOURCE - producer module not loaded at all.
     if (!api || typeof api.summary !== 'function') {
       return {
         level:  'NO_SOURCE',
@@ -1957,7 +1941,7 @@
         reason: 'Handoff producer not loaded.'
       };
     }
-    // 2. NO_PIPELINE — summary() threw (caller passes undefined) or
+    // 2. NO_PIPELINE - summary() threw (caller passes undefined) or
     // returned a shape we cannot use. Distinguished from NO_SOURCE so
     // operator knows the producer loaded but failed.
     if (summaryResult === undefined) {
@@ -1976,7 +1960,7 @@
         reason: 'summary() returned invalid lane shape.'
       };
     }
-    // 3. NO_TIMESTAMP — pipeline works but freshness is unknown.
+    // 3. NO_TIMESTAMP - pipeline works but freshness is unknown.
     // Distinct from STALE because we cannot say it's old, only that we
     // cannot tell. Operator should not treat as either FRESH or STALE.
     var ts = state && state.timestamp;
@@ -2006,7 +1990,7 @@
         ageMinutes: ageMin
       };
     }
-    // VERY_STALE — render hours rather than minutes so the visual
+    // VERY_STALE - render hours rather than minutes so the visual
     // weight matches the magnitude of the gap.
     var ageHours = Math.floor(ageMs / 3600000);
     return {
@@ -2022,7 +2006,7 @@
     _handoffEl.innerHTML = '';
     _handoffEl.style.display = 'none'; // hidden until the queue actually has packets (auto-shows below)
 
-    // Header (title + refresh button) — built unconditionally so the
+    // Header (title + refresh button) - built unconditionally so the
     // card always reads as a real surface even when the pipeline is
     // missing or empty.
     var head = document.createElement('div');
@@ -2051,7 +2035,7 @@
     subtitle.textContent = 'Civilization packets ready for executive review. Shows lane counts only; drafting and submission remain separate steps.';
     _handoffEl.appendChild(subtitle);
 
-    // Ready/Pending explainer — added in Patch B1 so manager understands
+    // Ready/Pending explainer - added in Patch B1 so manager understands
     // what the chip counts mean. No claim of automatic filing or execution.
     var explainer = document.createElement('div');
     explainer.className = 'clr-handoff-explainer';
@@ -2077,12 +2061,12 @@
       }
     }
 
-    // Gate B #9C.5 Phase 1 — source-state authority badge.
+    // Gate B #9C.5 Phase 1 - source-state authority badge.
     // Sits between explainer and lane list. Always renders one badge.
-    // Visual authority downgrade only — body, lane chips, packet cards
+    // Visual authority downgrade only - body, lane chips, packet cards
     // remain visible for STALE / VERY_STALE / NO_TIMESTAMP. Pipeline
     // failure cases (NO_SOURCE / NO_PIPELINE) get a red badge above the
-    // existing honest missing-pipeline text below — both layers stay.
+    // existing honest missing-pipeline text below - both layers stay.
     var sourceAuth = _classifyHandoffSourceState(
       api, state, summaryThrew ? undefined : summary
     );
@@ -2092,7 +2076,7 @@
     srcBadgeEl.textContent = sourceAuth.badge;
     _handoffEl.appendChild(srcBadgeEl);
 
-    // Existing missing-pipeline messages — preserved verbatim, but now
+    // Existing missing-pipeline messages - preserved verbatim, but now
     // read the pre-probed api/summary/summaryThrew values (no second
     // api.summary() call). Behavior unchanged for the operator.
     if (!api || typeof api.summary !== 'function') {
@@ -2129,13 +2113,13 @@
     }
 
     if (totalAcross === 0) {
-      // Queue empty (Master Brain write not wired in this MVP) — hide the whole
+      // Queue empty (Master Brain write not wired in this MVP) - hide the whole
       // card instead of showing a dead surface. Auto-returns when packets exist.
       _handoffEl.style.display = 'none';
       return;
     }
 
-    // Has packets — ensure the card is visible.
+    // Has packets - ensure the card is visible.
     _handoffEl.style.display = '';
 
     // Build lane chips. Always render every lane the summary reports
@@ -2181,7 +2165,7 @@
         var detail = document.createElement('div');
         detail.className = 'clr-handoff-detail';
 
-        // Lane purpose description — static text from HANDOFF_LANE_DESCRIPTIONS.
+        // Lane purpose description - static text from HANDOFF_LANE_DESCRIPTIONS.
         var laneDescText = _handoffLaneDescription(lane);
         if (laneDescText) {
           var laneDescEl = document.createElement('div');
@@ -2203,7 +2187,7 @@
           emptyTotal.textContent = 'No packets produced for this lane in the current cycle.';
           detail.appendChild(emptyTotal);
         } else {
-          // total > 0 — fetch packets defensively.
+          // total > 0 - fetch packets defensively.
           var packets = [];
           try { packets = api.byLane(lane) || []; }
           catch (e2) { packets = []; }
@@ -2245,7 +2229,7 @@
 
     _handoffEl.appendChild(lanesEl);
 
-    // Last-updated stamp — read from LIMENMainBrainHandoffState if present.
+    // Last-updated stamp - read from LIMENMainBrainHandoffState if present.
     var state = window.LIMENMainBrainHandoffState;
     if (state && typeof state.timestamp === 'number') {
       var stamp = document.createElement('div');
@@ -2332,7 +2316,7 @@
     if (!_tabContentEl || !_activeTab) return;
     _tabContentEl.innerHTML = '';
 
-    // Detach domain repair map when switching away — prevents it from
+    // Detach domain repair map when switching away - prevents it from
     // re-rendering over other tabs on limen:domain-update events
     if (_activeTab !== 'domain-repair' && window.LIMENDomainRepairMap && typeof window.LIMENDomainRepairMap.detach === 'function') {
       window.LIMENDomainRepairMap.detach();
@@ -2345,7 +2329,7 @@
     }
   }
 
-  // (Civilization Evidence-Workspace tab removed — operator call. Render code
+  // (Civilization Evidence-Workspace tab removed - operator call. Render code
   //  + confidence-badge/authority helpers deleted. The civilization REPORT is
   //  still generated; it simply has no dedicated tab now.)
 
@@ -2372,16 +2356,16 @@
   };
 
   // ═══════════════════════════════════════════════════════════════════════
-  // EXECUTION ENGINE — thin wrappers
+  // EXECUTION ENGINE - thin wrappers
   // The generator templates, real-world translation tables, modal,
   // copy/print export, and LIMENExecGenerator public API now live in
   // assets/js/executive/limen-exec-generator.js (loaded before this file
   // by both civilization.html and civilization-opportunities.html).
   //
   // What remains here:
-  //   _canGenerateGrant(opp)           — thin wrapper used by Capital
+  //   _canGenerateGrant(opp)           - thin wrapper used by Capital
   //                                      Conversion priority/gating logic
-  //   window._execGenerate(oppId, type) — thin wrapper that looks up the
+  //   window._execGenerate(oppId, type) - thin wrapper that looks up the
   //                                      opportunity in the private
   //                                      _capOpportunities cache and
   //                                      delegates to LIMENExecGenerator
@@ -2408,8 +2392,8 @@
   };
 
   // ═══════════════════════════════════════════════════════════════════════
-  // PHASE 5 — OUTCOME LOOP + REGULATION VALIDATION
-  // Behavior layer only — no connectome or propagation changes
+  // PHASE 5 - OUTCOME LOOP + REGULATION VALIDATION
+  // Behavior layer only - no connectome or propagation changes
   // ═══════════════════════════════════════════════════════════════════════
 
   // ── PART 1: REGULATION TRACEABILITY ──
@@ -2520,10 +2504,10 @@
   // Max-anchor blend with hub-specificity penalty and direct/transfer split.
   // Direct pathway: node trained by THIS domain → full factor
   // Transfer pathway: node trained by OTHER domains → deviation scaled by 1/sqrt(hubFreq)
-  // Ungrounded (fallback) pathways return basePriority unchanged — no contamination
+  // Ungrounded (fallback) pathways return basePriority unchanged - no contamination
 
   // Hub frequency: how many mapped domain pathways (top 3) each node appears in
-  // Pre-computed from DOMAIN_PATHWAYS — static topology, not outcome-dependent
+  // Pre-computed from DOMAIN_PATHWAYS - static topology, not outcome-dependent
   var _NODE_HUB_FREQ = (function() {
     var freq = {};
     var DP = {
@@ -2669,7 +2653,7 @@
 
   // ══════════════════════════════════════════════════════════════════════
   // PART 5: RECOVERY / VAGAL PATHWAY LOGIC
-  // Models parasympathetic recovery. Recovery isn't just "stress dropped" —
+  // Models parasympathetic recovery. Recovery isn't just "stress dropped" -
   // it's a regulated return to baseline via specific pathway activation.
   // Vagal tone = system's capacity to recover. High vagal tone = fast
   // recovery. Low vagal tone = slow or incomplete recovery.
@@ -2706,7 +2690,7 @@
         var qualityLabel = quality > 0.7 ? 'FULL' : (quality > 0.4 ? 'PARTIAL' : 'INCOMPLETE');
 
         // LONG-TERM lens (second classification, does not override short-term)
-        // Relative to 30-day baseline regime — distinguishes true recovery vs temporary drop
+        // Relative to 30-day baseline regime - distinguishes true recovery vs temporary drop
         var longTermLens = 'UNKNOWN';
         var longBl = _longGetBaseline(dk, 30);
         if (longBl && longBl.count >= _LONG_MIN_DAYS_FOR_REGIME) {
@@ -3110,8 +3094,8 @@
   // PART 7: LONG-TERM MEMORY LAYER
   // Raw daily snapshots are the canonical source of truth (max 365).
   // Baselines (mean+std) are computed on read from the daily[] series,
-  // windowed to 30/90/365 days — never stored as authoritative aggregates.
-  // Complements short-term (5-min/24h) — does NOT replace it.
+  // windowed to 30/90/365 days - never stored as authoritative aggregates.
+  // Complements short-term (5-min/24h) - does NOT replace it.
   // ══════════════════════════════════════════════════════════════════════
 
   var _LONG_MEMORY_KEY = 'limen_stress_history_long';
@@ -3132,8 +3116,8 @@
     return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
   }
 
-  // Write daily snapshot — called on domain-update, skips if today already recorded.
-  // Storage is raw daily[] only. No pre-computed aggregates — baselines derived on read.
+  // Write daily snapshot - called on domain-update, skips if today already recorded.
+  // Storage is raw daily[] only. No pre-computed aggregates - baselines derived on read.
   function _writeDailySnapshot() {
     var today = _todayStr();
     var mem = _getLongMemory();
@@ -3336,7 +3320,7 @@
   };
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // Gate B #9C.4 Phase 1 — Capital Conversion authority classifier.
+  // Gate B #9C.4 Phase 1 - Capital Conversion authority classifier.
   //
   // Doctrine carried (operator 2026-06-02):
   //   A candidate capital signal is not a filing, grant, loan, or
@@ -3351,7 +3335,7 @@
   // Operator-facing verbs like "File provisional...", "Apply to SBIR...",
   // "Position in strongest..." are directly action-triggering. A badge
   // above them would still leave the operator processing the verb.
-  // The fix: the verb itself changes shape — replaced by a hedged
+  // The fix: the verb itself changes shape - replaced by a hedged
   // label, and the original action text moves into a collapsed audit
   // drawer.
   //
@@ -3389,13 +3373,13 @@
   }
 
   function _hedgedLabelForPath(path) {
-    if (path === 'INVESTABLE')   return 'CANDIDATE INVESTABLE — not a position recommendation';
-    if (path === 'RESEARCHABLE') return 'CANDIDATE RESEARCHABLE — not a validated finding';
-    return 'CAPITAL SIGNAL — AUTHORITY UNKNOWN';
+    if (path === 'INVESTABLE')   return 'CANDIDATE INVESTABLE - not a position recommendation';
+    if (path === 'RESEARCHABLE') return 'CANDIDATE RESEARCHABLE - not a validated finding';
+    return 'CAPITAL SIGNAL - AUTHORITY UNKNOWN';
   }
 
   function _classifyCapitalOpportunityAuthority(opp) {
-    // FULL_ACTION_AUTHORITY branch — currently unreachable. Documented
+    // FULL_ACTION_AUTHORITY branch - currently unreachable. Documented
     // here so a future upstream change (verified_filing /
     // executed_position / etc.) can flip the predicate without
     // restructuring the classifier shape. The predicate is
@@ -3410,14 +3394,14 @@
       };
     }
 
-    // UNSUPPORTED_OR_INCOMPLETE — malformed opp, missing/unrecognized
+    // UNSUPPORTED_OR_INCOMPLETE - malformed opp, missing/unrecognized
     // sourceType, missing/unrecognized path. Any of these means
     // authority cannot be determined, so the action verb must be
     // suppressed and the label demoted to authority-unknown.
     if (!opp || typeof opp !== 'object') {
       return {
         level: 'UNSUPPORTED_OR_INCOMPLETE',
-        hedgedLabel: 'CAPITAL SIGNAL — AUTHORITY UNKNOWN',
+        hedgedLabel: 'CAPITAL SIGNAL - AUTHORITY UNKNOWN',
         suppressActionText: true,
         reason: 'Opportunity object is missing or malformed.'
       };
@@ -3446,14 +3430,14 @@
       }
       return {
         level: 'UNSUPPORTED_OR_INCOMPLETE',
-        hedgedLabel: 'CAPITAL SIGNAL — AUTHORITY UNKNOWN',
+        hedgedLabel: 'CAPITAL SIGNAL - AUTHORITY UNKNOWN',
         suppressActionText: true,
         reason: 'Authority cannot be determined: ' +
                 __unsupReasonParts.join('; ') + '.'
       };
     }
 
-    // CANDIDATE_CAPITAL_SIGNAL — recognized source AND recognized path.
+    // CANDIDATE_CAPITAL_SIGNAL - recognized source AND recognized path.
     // Engine-derived signal exists; action text suppressed because no
     // field proves the underlying action is verified or has been
     // executed.
@@ -3529,7 +3513,7 @@
     return [];
   }
 
-  // Live current-signal line for a domain — the conditions the feeds are
+  // Live current-signal line for a domain - the conditions the feeds are
   // currently firing (real-time, feed-derived). Falls back to the top feed
   // name/value. This is what drives stress, hence the ranking, in real time.
   function _capLiveSignal(domain) {
@@ -3546,7 +3530,7 @@
       f = f || feeds[0];
       if (f && f.name) {
         var v = f.value;
-        // Suppress ID-like / cumulative raw values (e.g. openFDA event ids) —
+        // Suppress ID-like / cumulative raw values (e.g. openFDA event ids) -
         // they read as misleading "counts". Show the feed name alone instead.
         var showVal = (typeof v === 'number') && v >= 0 && v < 100000;
         return String(f.name) + (showVal ? (': ' + v) : '');
@@ -3580,7 +3564,7 @@
 
   // Cross-domain Top-10 of the highest-urgency INVESTABLE opportunities, each
   // with concrete target tickers + a live signal line. A live leaderboard: it
-  // ranks by SCORE top-to-bottom and re-orders freely as the feeds move —
+  // ranks by SCORE top-to-bottom and re-orders freely as the feeds move -
   // entries shuffle up/down (▲/▼), new ones enter (NEW), and ones that fall out
   // of the top-10 drop off. The timestamp shows how long the order has actually
   // held when nothing is moving. Advisory only.
@@ -3646,7 +3630,7 @@
       if (nNew) parts.push(nNew + ' new');
       if (nMoved) parts.push(nMoved + ' moved');
       if (dropped.length) parts.push(dropped.length + ' dropped');
-      markText = '◉ LIVE · re-ranked ' + _fmtT(now) + ' — ' + parts.join(' · ');
+      markText = '◉ LIVE · re-ranked ' + _fmtT(now) + ' - ' + parts.join(' · ');
     } else {
       markText = '◉ LIVE · holding steady · last change ' + _fmtT(lastChangedAt) + ' (held ' + heldMin + 'm)';
     }
@@ -3656,7 +3640,7 @@
     // How it's measured (transparency).
     var legend = document.createElement('div');
     legend.style.cssText = 'font-size:0.3rem;color:rgba(200,195,184,0.35);padding:0 8px 6px;letter-spacing:0.3px;line-height:1.4';
-    legend.textContent = 'How it’s measured — SCORE = urgency(0–30) + priority(0–25) + stress(0–30) + confidence(0–15). Ranked by score top-to-bottom; ▲/▼ = rank moves since last update, NEW = just entered. The live signal under each row feeds stress in real time.';
+    legend.textContent = 'How it’s measured - SCORE = urgency(0–30) + priority(0–25) + stress(0–30) + confidence(0–15). Ranked by score top-to-bottom; ▲/▼ = rank moves since last update, NEW = just entered. The live signal under each row feeds stress in real time.';
     card.appendChild(legend);
 
     function _dedupTickers(list, n) {
@@ -3923,7 +3907,7 @@
             icon: '\u25B6',
             domain: mDom,
             indication: msig.eventType.replace(/_/g, ' ') + ' \u2192 ' + mDom.toUpperCase() + ' impact (' + msig.articleCount + ' signals)',
-            title: msig.eventType.replace(/_/g, ' ').toLowerCase() + ' response — ' + mDom,
+            title: msig.eventType.replace(/_/g, ' ').toLowerCase() + ' response - ' + mDom,
             stress: msig.magnitude,
             action: msig.articleCount + ' news articles confirm ' + msig.eventType.replace(/_/g, ' ').toLowerCase() + '. ' + mDom.toUpperCase() + ' sector exposed. Position for demand or resilience.',
             implementations: [],
@@ -4108,7 +4092,7 @@
           oh += '<div style="font-size:0.4rem;color:rgba(210,205,194,0.65)">' + opp.domain.toUpperCase() + ' stress: ' + Math.round(opp.stress * 100) + '%</div>';
         }
 
-        // Gate B #9C.4 Phase 1 — capital opportunity authority.
+        // Gate B #9C.4 Phase 1 - capital opportunity authority.
         // Replaces the "DO NOW: {opp.action}" headline with a hedged
         // label. Original action text moves into a collapsed audit
         // drawer below. FULL_ACTION_AUTHORITY branch retains the
@@ -4134,7 +4118,7 @@
                 _capEscapeText(__capAuth.hedgedLabel) +
                 '</div>';
 
-          // Audit drawer — collapsed by default. Holds the original
+          // Audit drawer - collapsed by default. Holds the original
           // action text + suppression reason. Honest about what the
           // engine produced; explicit that it is NOT a recommendation.
           if (opp.action) {
@@ -4240,10 +4224,10 @@
         var statuses = _getCapOppStatuses();
         var curStatus = statuses[oppId] || 'NEW';
         var statusColors = { NEW: '#C9A94E', IN_PROGRESS: '#4a8fd4', APPLIED: '#5ab5a0' };
-        // Gate B #9C.4.1 — rename status display "APPLIED" → "PURSUED".
+        // Gate B #9C.4.1 - rename status display "APPLIED" → "PURSUED".
         // Internal status key stays 'APPLIED' so existing localStorage
         // state (set by prior versions) keeps working without migration.
-        // Only the operator-facing label changes — "PURSUED" is honest
+        // Only the operator-facing label changes - "PURSUED" is honest
         // about what the button records (the operator chose to follow
         // up on this opportunity locally), while "APPLIED" wrongly
         // implied an external filing/application had been submitted.
@@ -4310,7 +4294,7 @@
 
     var card = _subCard('DATA SOURCE AUDIT');
 
-    // Feed quality — show live vs fallback
+    // Feed quality - show live vs fallback
     var feeds = sourceChain.feeds || [];
     var liveDoms = window.LIMENDomains || {};
     var liveCount = 0, fallbackCount = 0;
@@ -4328,25 +4312,25 @@
     }
     _addRow(card, 'Feed Sources', feedSummary);
 
-    // Seeds — explain what this means
+    // Seeds - explain what this means
     var seedKeys = sourceChain.seedNodes ? Object.keys(sourceChain.seedNodes) : [];
     _addRow(card, 'Active Domains', seedKeys.length + ' domains with elevated stress (>30%)');
 
-    // Propagation — explain
+    // Propagation - explain
     var propDetail = (sourceChain.propagationSteps || 0) + ' cross-domain influence steps';
     if (sourceChain.convergenceStep != null) propDetail += ', converged at step ' + sourceChain.convergenceStep;
     _addRow(card, 'Propagation', propDetail);
 
     _addRow(card, 'Remedy Lookups', (sourceChain.remedyLookups || 0) + ' treatment matches queried');
 
-    // Report count — only show non-empty
+    // Report count - only show non-empty
     var reportKeys = Object.keys(reports);
     var nonEmpty = reportKeys.filter(function(k) { return reports[k] && reports[k].summary; });
     _addRow(card, 'Reports Generated', nonEmpty.length + ' of ' + reportKeys.length + ' (' + nonEmpty.join(', ') + ')');
 
     _tabContentEl.appendChild(card);
 
-    // Per-source citation chain — enumerate every source already in memory,
+    // Per-source citation chain - enumerate every source already in memory,
     // grouped by domain. Offline rows are kept visible; failReason appears
     // only when present. No synthesis, no caps, no filtering.
     function _chainAgeLabel(ts) {
@@ -4395,7 +4379,7 @@
     }
     if (chainRendered > 0) _tabContentEl.appendChild(chainCard);
 
-    // Seed domain roots — enumerate every entry in sourceChain.seedNodes so
+    // Seed domain roots - enumerate every entry in sourceChain.seedNodes so
     // roots are readable instead of count-only. Domain-keyed seeds render
     // first in canonical DOMAIN_ORDER; any non-domain (opaque nodeId) seeds
     // follow in sorted order. Numeric value is surfaced as a raw magnitude
@@ -4452,7 +4436,7 @@
   // ─── Regulation ──────────────────────────────────────────────────────────
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // Gate B #9C.2 — Regulation TOP 3 ACTIONS NOW per-action authority.
+  // Gate B #9C.2 - Regulation TOP 3 ACTIONS NOW per-action authority.
   //
   // Doctrine (operator 2026-06-01):
   //   A confidence number beside a claim is not an authority gate
@@ -4466,7 +4450,7 @@
   //
   // UNKNOWN handling: the existing `confidence: topTx.confidence ||
   // reg.confidence || 0` falls back to 0 when neither source has a
-  // value — but 0 looks identical to a real measured-zero. To preserve
+  // value - but 0 looks identical to a real measured-zero. To preserve
   // the UNKNOWN signal, the action push now also carries a
   // _confidenceKnown flag that is true iff topTx.confidence or
   // reg.confidence is a finite number. The classifier reads that flag
@@ -4500,7 +4484,7 @@
 
     // Render the main regulation content FIRST. renderRegulationTab() calls
     // innerHTML='' on the container, which previously wiped the TOP-3 card built
-    // below — so the "TOP 3 ACTIONS NOW" summary never showed. Build it after,
+    // below - so the "TOP 3 ACTIONS NOW" summary never showed. Build it after,
     // then insert it at the top.
     renderer.renderRegulationTab(_tabContentEl);
 
@@ -4512,14 +4496,14 @@
         var reg = regOut[rk];
         if (!reg || !reg.treatments || reg.treatments.length === 0) continue;
         var topTx = reg.treatments[0];
-        // Gate B #9C.2 — preserve raw-source-known flag so the classifier
+        // Gate B #9C.2 - preserve raw-source-known flag so the classifier
         // can distinguish "0 from measurement" vs "0 from || fallback".
         var __hasTopTxConf = typeof topTx.confidence === 'number' && isFinite(topTx.confidence);
         var __hasRegConf = typeof reg.confidence === 'number' && isFinite(reg.confidence);
         actions.push({
           domain: rk,
           action: topTx.title || topTx.label || 'intervention',
-          // Gate B #9C.2.1 — preference fix. The earlier expression
+          // Gate B #9C.2.1 - preference fix. The earlier expression
           //   topTx.confidence || reg.confidence || 0
           // collapsed topTx.confidence === 0 (a real measured zero on
           // the displayed top treatment) into a fall-through to reg's
@@ -4609,7 +4593,7 @@
       : document.getElementById('ltb-actions');
 
     if (!slot) {
-      // Top bar may not be mounted yet — retry shortly.
+      // Top bar may not be mounted yet - retry shortly.
       setTimeout(_addHeaderControls, 150);
       return;
     }
@@ -4617,7 +4601,7 @@
     // Analyst/grid toggle REMOVED (operator 2026-07-11): the 3-column panel grid
     // was deleted; this is now the only console view, so there is nothing to toggle.
 
-    // Generate Reports button — REMOVED per operator request (2026-06-13).
+    // Generate Reports button - REMOVED per operator request (2026-06-13).
     // (Was a topbar actions-slot button; _triggerReportGeneration still exists if
     // ever re-wired elsewhere.)
 
@@ -4660,7 +4644,7 @@
     _refreshAll();
   }
 
-  // _enterAnalystMode() removed — the 3-column grid it revealed was deleted, and
+  // _enterAnalystMode() removed - the 3-column grid it revealed was deleted, and
   // its only caller (stop) no longer calls it. _setColsVisible is kept only because
   // start() still calls it to guarantee the (now CSS-hidden) columns stay hidden.
 
@@ -4673,11 +4657,11 @@
   }
 
   function _setOverlaysVisible(visible) {
-    // Stress strip (market-stress-triage.js) — redundant with exec strip in Clarity
+    // Stress strip (market-stress-triage.js) - redundant with exec strip in Clarity
     var strip = document.getElementById('limen-stress-strip');
     if (strip) strip.style.display = visible ? '' : 'none';
 
-    // Mode bar (ui-mode-manager.js) — Analyst-mode tooling
+    // Mode bar (ui-mode-manager.js) - Analyst-mode tooling
     var modeBar = document.getElementById('limen-mode-bar');
     if (modeBar) modeBar.style.display = visible ? '' : 'none';
   }
@@ -4841,7 +4825,7 @@
     window.removeEventListener('limen:escalation-update', _onEscalationUpdate);
     window.removeEventListener('limen:report-update', _onReportUpdate);
     if (_refreshTimer) clearInterval(_refreshTimer);
-    // (removed: _enterAnalystMode() — with the 3-column grid deleted that call
+    // (removed: _enterAnalystMode() - with the 3-column grid deleted that call
     // would blank the console. stop() now just tears down listeners + timer.)
   }
 
