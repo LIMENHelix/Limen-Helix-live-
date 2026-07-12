@@ -589,6 +589,11 @@
     var unmappedConditions = [];
     for (var aci = 0; aci < _activeConditions.length; aci++) {
       var cond = _activeConditions[aci];
+      // '_'-prefixed conditions (e.g. _stress_cash_flag) are DELIBERATELY unmapped:
+      // stress-derived reporting flags, prefixed so they can't satisfy diagnosis
+      // evidence-family requirements (see agriculture-brain.js). They are not
+      // ontology gaps, so they must not be surfaced as DRAFT DIAGNOSES.
+      if (cond.charAt(0) === '_') continue;
       if (!coveredConditions[cond]) {
         unmappedConditions.push(cond);
       }
