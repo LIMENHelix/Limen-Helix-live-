@@ -52,6 +52,22 @@
     var conditions = bs._activeConditions || [];
     var activeTriggers = Array.from(new Set([].concat(conditions, activeDx)));
 
+    // --- expand activeTriggers via the grounded alias table so extinction matches the
+    //     activations' free-text diagnosticTriggers instead of retiring everything ---
+    var al = inp.aliases;
+    if (al) {
+      var expanded = new Set(activeTriggers);
+      conditions.forEach(function (c) {
+        var e = al.conditionCodes && al.conditionCodes[c];
+        if (e && e.diagnosticTriggers) e.diagnosticTriggers.forEach(function (t) { expanded.add(t); });
+      });
+      activeDx.forEach(function (id) {
+        var e = al.diagnoses && al.diagnoses[id];
+        if (e && e.diagnosticTriggers) e.diagnosticTriggers.forEach(function (t) { expanded.add(t); });
+      });
+      activeTriggers = Array.from(expanded);
+    }
+
     // --- issue.lastFiredAt: active diagnosis fired now; others carried forward ---
     var issuesOverlay = {};
     (energy.issues || []).forEach(function (is) {
@@ -61,21 +77,26 @@
     });
 
     // --- node.lastActiveAt/lastFiredAt: nodes in the circuit of an active diagnosis are active now ---
-    var activeNodes = new Set();
+    // count how many ACTIVE diagnoses each node participates in (its circuit-participation load proxy)
+    var participation = {};
     (energy.issues || []).forEach(function (is) {
       if (activeDx.indexOf(is.id) === -1) return;
       var circ = (is._authored || is.circuits || []);
-      circ.forEach(function (c) { if (c && c.nodeId) activeNodes.add(c.nodeId); });
+      circ.forEach(function (c) { if (c && c.nodeId) participation[c.nodeId] = (participation[c.nodeId] || 0) + 1; });
     });
     var actsOverlay = {};
     (energy.activations || []).forEach(function (a) {
       var p = prior.activations[a.brainNodeId] || {};
-      var activeNow = activeNodes.has(a.brainNodeId);
+      var count = participation[a.brainNodeId] || 0;
+      var activeNow = count > 0;
       actsOverlay[a.brainNodeId] = {
         lastFiredAt: activeNow ? now : (p.lastFiredAt || null),
         lastActiveAt: activeNow ? now : (p.lastActiveAt || null),
-        load: (p.load != null ? p.load : null),        // NO pulse source for load -> null (flagged)
-        capacity: (p.capacity != null ? p.capacity : null)
+        // load PROXY: # of simultaneously-active diagnoses whose circuit includes this node.
+        // capacity 1 => a node stressed by 2+ concurrent failures reads as overloaded (load>capacity),
+        // which is what the retrograde throttle acts on. A proxy (no direct pulse load field), labeled.
+        load: count,
+        capacity: 1
       };
     });
 
@@ -118,19 +139,22 @@
   /* Self-contained live wiring: the adapter loads (and caches) its OWN energy definition, so the
    * in-loop call needs only the live brainState. Returns a Promise<overlay|null>. This is the
    * one call the domain brain makes each cycle; it depends on nothing in the brain's data model. */
-  var _energyCache = null;
-  function _loadEnergy() {
-    if (_energyCache) return Promise.resolve(_energyCache);
+  var _cache = {};
+  function _load(url, key) {
+    if (_cache[key]) return Promise.resolve(_cache[key]);
     if (typeof window === 'undefined' && typeof require === 'function') {
-      try { var path = require('path'), fs = require('fs'); _energyCache = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'assets/data/domains/energy.json'), 'utf8')); return Promise.resolve(_energyCache); } catch (e) { return Promise.reject(e); }
+      try { var path = require('path'), fs = require('fs'); _cache[key] = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), url.replace(/^\//, '')), 'utf8')); return Promise.resolve(_cache[key]); } catch (e) { return Promise.reject(e); }
     }
-    return fetch('/assets/data/domains/energy.json').then(function (r) { return r.json(); }).then(function (e) { _energyCache = e; return e; });
+    return fetch(url).then(function (r) { return r.json(); }).then(function (v) { _cache[key] = v; return v; });
   }
   function fromLiveCached(brainState, priorOverlay) {
     var P = (typeof window !== 'undefined' && window.LIMENEnergyPulse) ? window.LIMENEnergyPulse : null;
     if (!P) return Promise.resolve(null);
-    return _loadEnergy().then(function (energy) {
-      return fromPulse({ energy: energy, brainState: brainState, pulseState: P.getPulse(), history: (typeof P.getHistory === 'function') ? P.getHistory() : [], priorOverlay: priorOverlay });
+    return Promise.all([
+      _load('/assets/data/domains/energy.json', 'energy'),
+      _load('/assets/data/energy-condition-trigger-aliases.json', 'aliases').catch(function () { return null; }) // best-effort
+    ]).then(function (res) {
+      return fromPulse({ energy: res[0], aliases: res[1], brainState: brainState, pulseState: P.getPulse(), history: (typeof P.getHistory === 'function') ? P.getHistory() : [], priorOverlay: priorOverlay });
     });
   }
 

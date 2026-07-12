@@ -533,6 +533,18 @@ if (!window.__isDomainPage) {
 <script src="assets/js/domain-brains/domain-change-log.js"></script>
 <script src="assets/js/domain-brain-adapter.js"></script>
 <script src="assets/js/domain-registry.js"></script>
+<!-- Energy neuro-substrate stack: adapter activates the energy-brain live hook (window.EnergyTelemetryAdapter);
+     it reads window.LIMENEnergyPulse (energy-pulse-engine.js, dynamically loaded by energy-brain's auto-loader)
+     at call time, so load order here is safe. Mechanism modules load after the adapter. Additive only. -->
+<script src="assets/js/energy-telemetry-adapter.js"></script>
+<script src="assets/js/energy-metaplasticity.js"></script>
+<script src="assets/js/energy-offline-maintenance.js"></script>
+<script src="assets/js/energy-refractory-limiter.js"></script>
+<script src="assets/js/energy-prediction-error-compressor.js"></script>
+<script src="assets/js/energy-connectivity-audit.js"></script>
+<script src="assets/js/energy-retrograde-throttle.js"></script>
+<script src="assets/js/energy-extinction.js"></script>
+<script src="assets/js/energy-neuro-substrate.js"></script>
 <script src="assets/js/analyst-report-builder.js" defer></script>
 <script src="assets/js/limen-bootstrap.js"></script>
 <script>

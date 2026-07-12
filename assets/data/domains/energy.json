@@ -2678,6 +2678,139 @@
       "weight": 0.7,
       "label": "EV Batteries Risk & Resilience → [PVN] (sympathetic → HPA crosstalk)",
       "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "THAL",
+      "target": "M1",
+      "type": "excit",
+      "weight": 0.85,
+      "_prov": "feedback-rec"
+    },
+    {
+      "source": "S1",
+      "target": "THAL",
+      "type": "modul",
+      "weight": 0.6,
+      "_prov": "feedback-rec"
+    },
+    {
+      "source": "V1",
+      "target": "THAL",
+      "type": "modul",
+      "weight": 0.6,
+      "_prov": "feedback-rec"
+    },
+    {
+      "source": "A1",
+      "target": "THAL",
+      "type": "modul",
+      "weight": 0.6,
+      "_prov": "feedback-rec"
+    },
+    {
+      "source": "S1",
+      "target": "M1",
+      "type": "excit",
+      "weight": 0.7,
+      "_prov": "feedback-rec"
+    },
+    {
+      "source": "dACC",
+      "target": "dlPFC",
+      "type": "excit",
+      "weight": 0.8,
+      "_prov": "feedback-rec"
+    },
+    {
+      "source": "OFC",
+      "target": "dACC",
+      "type": "modul",
+      "weight": 0.6,
+      "_prov": "feedback-rec"
+    },
+    {
+      "source": "vmPFC",
+      "target": "OFC",
+      "type": "excit",
+      "weight": 0.7,
+      "_prov": "feedback-rec"
+    },
+    {
+      "source": "dACC",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.85,
+      "_prov": "feedback-rec"
+    },
+    {
+      "source": "VP",
+      "target": "VTA",
+      "type": "inhib",
+      "weight": 0.75,
+      "_prov": "feedback-rec"
+    },
+    {
+      "source": "CeA",
+      "target": "PAG",
+      "type": "excit",
+      "weight": 0.8,
+      "_prov": "feedback-rec"
+    },
+    {
+      "source": "SMA",
+      "target": "STRI",
+      "type": "excit",
+      "weight": 0.7,
+      "_prov": "redundancy-rec"
+    },
+    {
+      "source": "FEF",
+      "target": "dlPFC",
+      "type": "excit",
+      "weight": 0.7,
+      "_prov": "redundancy-rec"
+    },
+    {
+      "source": "A1",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.6,
+      "_prov": "redundancy-rec"
+    },
+    {
+      "source": "FPN",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.7,
+      "_prov": "redundancy-rec"
+    },
+    {
+      "source": "HPA",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.6,
+      "_prov": "redundancy-rec"
+    },
+    {
+      "source": "rACC",
+      "target": "vmPFC",
+      "type": "excit",
+      "weight": 0.7,
+      "_prov": "redundancy-rec"
+    },
+    {
+      "source": "HYPO",
+      "target": "PAG",
+      "type": "excit",
+      "weight": 0.7,
+      "_prov": "redundancy-rec"
+    },
+    {
+      "source": "PI",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.6,
+      "_prov": "redundancy-rec"
     }
   ],
   "_enrichment": {
@@ -2692,16 +2825,16 @@
     "activeTriggers": null,
     "lastMaintenanceAt": null,
     "params": {
-      "offlineDownscaleFactor": 1,
-      "offlineConsolidateTopK": null,
+      "offlineDownscaleFactor": 0.95,
+      "offlineConsolidateTopK": 8,
       "offlinePruneThreshold": 0,
-      "refractoryAbsoluteWindow": 0,
-      "refractoryRelativeWindow": 0,
-      "refractoryOverrideThreshold": null,
-      "predictionErrorThreshold": 0,
-      "retrogradeThrottleGain": 0,
-      "metaplasticityGain": 0,
-      "_note": "Operator-set knobs; defaults = no-op. NOT from the source documents."
+      "refractoryAbsoluteWindow": 900000,
+      "refractoryRelativeWindow": 3600000,
+      "refractoryOverrideThreshold": 0.8,
+      "predictionErrorThreshold": 0.1,
+      "retrogradeThrottleGain": 0.3,
+      "metaplasticityGain": 0.3,
+      "_note": "Conservative starting values for a functional baseline (2026-07-12). SAFE/gentle; tune per the two-lesion guardrails in the proposal docs. windows in ms (match Date.now timestamps)."
     },
     "fieldProvenance": {
       "volatility": "metaplasticity (neuro ref XIII.6); 0=calm=no-op",

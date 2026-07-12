@@ -1,0 +1,856 @@
+{
+  "_provenance": {
+    "purpose": "Grounded alias table so the extinction mechanism (energy-extinction.js) does not falsely retire activations. Extinction retires an activation when NONE of its free-text diagnosticTriggers appear in the live activeTriggers set; but activeTriggers is built from pulse condition-codes (e.g. grid_stress) + active diagnosis ids (e.g. GRID_COLLAPSE) (energy-telemetry-adapter.js L48-53), whose vocabulary never textually equals a diagnosticTrigger like \"AI compute demand surge\". This table maps each condition-code and diagnosis id to the activation brainNodeIds / diagnosticTriggers that should count as still-active when it fires.",
+    "derivationChain": "condition-code --(pulse-engine classify, L181-211)--> evidence family --(EVIDENCE_CONTRACTS requiredFamilies / primaryIndicators, L47-117)--> diagnosis id --(energy.json issues[]._authored circuit; the adapter itself uses is._authored||is.circuits, L64-69)--> circuit nodeIds --(brainNodeId match)--> activation.diagnosticTriggers. The diagnoses section is the strongest link (pure data, no inference); condition-codes add the two pulse-engine hops.",
+    "foldRule": "A diagnosis is FOLDED into a condition-code (its nodes counted) only when the code's evidence family satisfies the diagnosis requiredFamilies, OR the code is a named primaryIndicator, OR (for stress catch-all codes) the code is a contract indicator of SYSTEMIC_ENERGY_STRESS whose catchAllBlocked is false. Codes that appear only as another diagnosis's secondaryConfirmation are listed under secondaryDiagnoses but NOT folded (bias toward not over-marking, except where folding is the only grounded link).",
+    "discipline": "No link is invented. Condition-codes and diagnoses with no defensible chain are reported in \"unmapped\". Trigger strings are copied verbatim from energy.json; extinction matching is case-insensitive (energy-extinction.js L22,L29).",
+    "sources": [
+      "assets/js/energy-pulse-engine.js (condition->evidence-family classify L181-211; EVIDENCE_CONTRACTS L47-117)",
+      "assets/data/domains/energy.json (activations[].diagnosticTriggers; issues[]._authored / .circuits)",
+      "assets/js/energy-telemetry-adapter.js (activeTriggers build L48-53; node-active-from-circuit L64-69)",
+      "assets/js/energy-extinction.js (match semantics L20-42)"
+    ],
+    "generatedAt": "2026-07-12T18:04:54.105Z",
+    "note": "Generated deterministically from the above sources. Read-only reference data; nothing here writes energy.json or fires extinction."
+  },
+  "conditionCodes": {
+    "crude_above_90": {
+      "evidenceFamilies": [
+        "oil_price"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "OIL_SHOCK",
+          "link": "primaryIndicator"
+        },
+        {
+          "id": "SYSTEMIC_ENERGY_STRESS",
+          "link": "requiredFamily:oil_price"
+        }
+      ],
+      "activations": [
+        "STRI",
+        "FORN",
+        "OFC",
+        "S1",
+        "vmPFC",
+        "CBLM",
+        "dlPFC",
+        "dACC",
+        "HIPP"
+      ],
+      "diagnosticTriggers": [
+        "Supply disruption",
+        "Price volatility",
+        "Emissions overshoot",
+        "Leak detection alert",
+        "Pressure anomaly",
+        "Corrosion progression",
+        "Price manipulation signal",
+        "Market illiquidity",
+        "Counterparty default risk",
+        "Reserve depletion signal",
+        "Environmental compliance breach",
+        "Worker safety incident",
+        "Regulatory uncertainty",
+        "Subsidy distortion",
+        "Stranded asset creation",
+        "Catalyst deactivation",
+        "Distillation upset",
+        "Feedstock quality shift",
+        "Frequency deviation",
+        "Reserve margin erosion",
+        "Cascading trip sequence",
+        "Peak demand overshoot",
+        "Price signal failure",
+        "Participation dropout",
+        "Capacity degradation",
+        "Thermal runaway risk",
+        "Cycle life depletion"
+      ],
+      "basis": "pulse-engine classifies 'crude_above_90' -> evidence family [oil_price] (energy-pulse-engine.js L181-211); that family satisfies the requiredFamilies / primaryIndicators of the linked diagnoses (EVIDENCE_CONTRACTS L47-117); each diagnosis expands to its {_authored} circuit nodeIds (energy.json issues[]._authored) and those activations' diagnosticTriggers."
+    },
+    "crude_above_100": {
+      "evidenceFamilies": [
+        "oil_price"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "OIL_SHOCK",
+          "link": "primaryIndicator"
+        },
+        {
+          "id": "SYSTEMIC_ENERGY_STRESS",
+          "link": "requiredFamily:oil_price"
+        }
+      ],
+      "activations": [
+        "STRI",
+        "FORN",
+        "OFC",
+        "S1",
+        "vmPFC",
+        "CBLM",
+        "dlPFC",
+        "dACC",
+        "HIPP"
+      ],
+      "diagnosticTriggers": [
+        "Supply disruption",
+        "Price volatility",
+        "Emissions overshoot",
+        "Leak detection alert",
+        "Pressure anomaly",
+        "Corrosion progression",
+        "Price manipulation signal",
+        "Market illiquidity",
+        "Counterparty default risk",
+        "Reserve depletion signal",
+        "Environmental compliance breach",
+        "Worker safety incident",
+        "Regulatory uncertainty",
+        "Subsidy distortion",
+        "Stranded asset creation",
+        "Catalyst deactivation",
+        "Distillation upset",
+        "Feedstock quality shift",
+        "Frequency deviation",
+        "Reserve margin erosion",
+        "Cascading trip sequence",
+        "Peak demand overshoot",
+        "Price signal failure",
+        "Participation dropout",
+        "Capacity degradation",
+        "Thermal runaway risk",
+        "Cycle life depletion"
+      ],
+      "basis": "pulse-engine classifies 'crude_above_100' -> evidence family [oil_price] (energy-pulse-engine.js L181-211); that family satisfies the requiredFamilies / primaryIndicators of the linked diagnoses (EVIDENCE_CONTRACTS L47-117); each diagnosis expands to its {_authored} circuit nodeIds (energy.json issues[]._authored) and those activations' diagnosticTriggers."
+    },
+    "STRAIT_DISRUPTION": {
+      "evidenceFamilies": [
+        "pipeline_event",
+        "shipping_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "PIPELINE_DISRUPTION",
+          "link": "primaryIndicator"
+        }
+      ],
+      "activations": [
+        "FORN",
+        "CBLM",
+        "OFC",
+        "THAL",
+        "S1"
+      ],
+      "diagnosticTriggers": [
+        "Leak detection alert",
+        "Pressure anomaly",
+        "Corrosion progression",
+        "Catalyst deactivation",
+        "Distillation upset",
+        "Feedstock quality shift",
+        "Price manipulation signal",
+        "Market illiquidity",
+        "Counterparty default risk",
+        "Transmission congestion",
+        "Voltage instability",
+        "Line overload",
+        "Reserve depletion signal",
+        "Environmental compliance breach",
+        "Worker safety incident"
+      ],
+      "basis": "pulse-engine classifies 'STRAIT_DISRUPTION' -> evidence family [pipeline_event, shipping_event] (energy-pulse-engine.js L181-211); that family satisfies the requiredFamilies / primaryIndicators of the linked diagnoses (EVIDENCE_CONTRACTS L47-117); each diagnosis expands to its {_authored} circuit nodeIds (energy.json issues[]._authored) and those activations' diagnosticTriggers.",
+      "secondaryDiagnoses": [
+        {
+          "id": "OIL_SHOCK",
+          "link": "secondaryConfirmation(not folded; catch-all blocked and does not satisfy required family)"
+        }
+      ]
+    },
+    "PORT_DISRUPTION": {
+      "evidenceFamilies": [
+        "pipeline_event",
+        "shipping_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "PIPELINE_DISRUPTION",
+          "link": "primaryIndicator"
+        }
+      ],
+      "activations": [
+        "FORN",
+        "CBLM",
+        "OFC",
+        "THAL",
+        "S1"
+      ],
+      "diagnosticTriggers": [
+        "Leak detection alert",
+        "Pressure anomaly",
+        "Corrosion progression",
+        "Catalyst deactivation",
+        "Distillation upset",
+        "Feedstock quality shift",
+        "Price manipulation signal",
+        "Market illiquidity",
+        "Counterparty default risk",
+        "Transmission congestion",
+        "Voltage instability",
+        "Line overload",
+        "Reserve depletion signal",
+        "Environmental compliance breach",
+        "Worker safety incident"
+      ],
+      "basis": "pulse-engine classifies 'PORT_DISRUPTION' -> evidence family [pipeline_event, shipping_event] (energy-pulse-engine.js L181-211); that family satisfies the requiredFamilies / primaryIndicators of the linked diagnoses (EVIDENCE_CONTRACTS L47-117); each diagnosis expands to its {_authored} circuit nodeIds (energy.json issues[]._authored) and those activations' diagnosticTriggers."
+    },
+    "TANKER_THREAT": {
+      "evidenceFamilies": [
+        "pipeline_event",
+        "shipping_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "PIPELINE_DISRUPTION",
+          "link": "primaryIndicator"
+        }
+      ],
+      "activations": [
+        "FORN",
+        "CBLM",
+        "OFC",
+        "THAL",
+        "S1"
+      ],
+      "diagnosticTriggers": [
+        "Leak detection alert",
+        "Pressure anomaly",
+        "Corrosion progression",
+        "Catalyst deactivation",
+        "Distillation upset",
+        "Feedstock quality shift",
+        "Price manipulation signal",
+        "Market illiquidity",
+        "Counterparty default risk",
+        "Transmission congestion",
+        "Voltage instability",
+        "Line overload",
+        "Reserve depletion signal",
+        "Environmental compliance breach",
+        "Worker safety incident"
+      ],
+      "basis": "pulse-engine classifies 'TANKER_THREAT' -> evidence family [pipeline_event, shipping_event] (energy-pulse-engine.js L181-211); that family satisfies the requiredFamilies / primaryIndicators of the linked diagnoses (EVIDENCE_CONTRACTS L47-117); each diagnosis expands to its {_authored} circuit nodeIds (energy.json issues[]._authored) and those activations' diagnosticTriggers."
+    },
+    "chokepoint": {
+      "evidenceFamilies": [
+        "pipeline_event",
+        "shipping_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "PIPELINE_DISRUPTION",
+          "link": "requiredFamily:pipeline_event+shipping_event"
+        }
+      ],
+      "activations": [
+        "FORN",
+        "CBLM",
+        "OFC",
+        "THAL",
+        "S1"
+      ],
+      "diagnosticTriggers": [
+        "Leak detection alert",
+        "Pressure anomaly",
+        "Corrosion progression",
+        "Catalyst deactivation",
+        "Distillation upset",
+        "Feedstock quality shift",
+        "Price manipulation signal",
+        "Market illiquidity",
+        "Counterparty default risk",
+        "Transmission congestion",
+        "Voltage instability",
+        "Line overload",
+        "Reserve depletion signal",
+        "Environmental compliance breach",
+        "Worker safety incident"
+      ],
+      "basis": "pulse-engine classifies 'chokepoint' -> evidence family [pipeline_event, shipping_event] (energy-pulse-engine.js L181-211); that family satisfies the requiredFamilies / primaryIndicators of the linked diagnoses (EVIDENCE_CONTRACTS L47-117); each diagnosis expands to its {_authored} circuit nodeIds (energy.json issues[]._authored) and those activations' diagnosticTriggers."
+    },
+    "grid_stress": {
+      "evidenceFamilies": [
+        "grid_event",
+        "infrastructure_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "GRID_COLLAPSE",
+          "link": "primaryIndicator"
+        }
+      ],
+      "activations": [
+        "THAL",
+        "dlPFC",
+        "dACC",
+        "CC",
+        "M1"
+      ],
+      "diagnosticTriggers": [
+        "Transmission congestion",
+        "Voltage instability",
+        "Line overload",
+        "Frequency deviation",
+        "Reserve margin erosion",
+        "Cascading trip sequence",
+        "Peak demand overshoot",
+        "Price signal failure",
+        "Participation dropout",
+        "Line sag thermal limit",
+        "Right-of-way conflict",
+        "Ice loading",
+        "Capacity shortfall",
+        "Generator failure"
+      ],
+      "basis": "pulse-engine classifies 'grid_stress' -> evidence family [grid_event, infrastructure_event] (energy-pulse-engine.js L181-211); that family satisfies the requiredFamilies / primaryIndicators of the linked diagnoses (EVIDENCE_CONTRACTS L47-117); each diagnosis expands to its {_authored} circuit nodeIds (energy.json issues[]._authored) and those activations' diagnosticTriggers."
+    },
+    "infrastructure_cross": {
+      "evidenceFamilies": [
+        "grid_event",
+        "infrastructure_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "GRID_COLLAPSE",
+          "link": "requiredFamily:grid_event+infrastructure_event"
+        }
+      ],
+      "activations": [
+        "THAL",
+        "dlPFC",
+        "dACC",
+        "CC",
+        "M1"
+      ],
+      "diagnosticTriggers": [
+        "Transmission congestion",
+        "Voltage instability",
+        "Line overload",
+        "Frequency deviation",
+        "Reserve margin erosion",
+        "Cascading trip sequence",
+        "Peak demand overshoot",
+        "Price signal failure",
+        "Participation dropout",
+        "Line sag thermal limit",
+        "Right-of-way conflict",
+        "Ice loading",
+        "Capacity shortfall",
+        "Generator failure"
+      ],
+      "basis": "pulse-engine classifies 'infrastructure_cross' -> evidence family [grid_event, infrastructure_event] (energy-pulse-engine.js L181-211); that family satisfies the requiredFamilies / primaryIndicators of the linked diagnoses (EVIDENCE_CONTRACTS L47-117); each diagnosis expands to its {_authored} circuit nodeIds (energy.json issues[]._authored) and those activations' diagnosticTriggers."
+    },
+    "CYBER_ATTACK": {
+      "evidenceFamilies": [
+        "grid_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "GRID_COLLAPSE",
+          "link": "primaryIndicator"
+        }
+      ],
+      "activations": [
+        "THAL",
+        "dlPFC",
+        "dACC",
+        "CC",
+        "M1"
+      ],
+      "diagnosticTriggers": [
+        "Transmission congestion",
+        "Voltage instability",
+        "Line overload",
+        "Frequency deviation",
+        "Reserve margin erosion",
+        "Cascading trip sequence",
+        "Peak demand overshoot",
+        "Price signal failure",
+        "Participation dropout",
+        "Line sag thermal limit",
+        "Right-of-way conflict",
+        "Ice loading",
+        "Capacity shortfall",
+        "Generator failure"
+      ],
+      "basis": "pulse-engine classifies 'CYBER_ATTACK' -> evidence family [grid_event] (energy-pulse-engine.js L181-211); that family satisfies the requiredFamilies / primaryIndicators of the linked diagnoses (EVIDENCE_CONTRACTS L47-117); each diagnosis expands to its {_authored} circuit nodeIds (energy.json issues[]._authored) and those activations' diagnosticTriggers."
+    },
+    "weather_extreme": {
+      "evidenceFamilies": [
+        "weather_event",
+        "renewable_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "RENEWABLE_INTERMITTENCY",
+          "link": "primaryIndicator"
+        }
+      ],
+      "activations": [
+        "VTA",
+        "HIPP",
+        "dACC",
+        "STRI",
+        "NTS",
+        "OFC"
+      ],
+      "diagnosticTriggers": [
+        "Intermittency spike",
+        "Curtailment excess",
+        "Forecast error",
+        "Capacity degradation",
+        "Thermal runaway risk",
+        "Cycle life depletion",
+        "Peak demand overshoot",
+        "Price signal failure",
+        "Participation dropout",
+        "Supply disruption",
+        "Price volatility",
+        "Emissions overshoot",
+        "Drought conditions",
+        "Dam structural concern",
+        "Sedimentation buildup",
+        "Price manipulation signal",
+        "Market illiquidity",
+        "Counterparty default risk"
+      ],
+      "basis": "pulse-engine classifies 'weather_extreme' -> evidence family [weather_event, renewable_event] (energy-pulse-engine.js L181-211); that family satisfies the requiredFamilies / primaryIndicators of the linked diagnoses (EVIDENCE_CONTRACTS L47-117); each diagnosis expands to its {_authored} circuit nodeIds (energy.json issues[]._authored) and those activations' diagnosticTriggers.",
+      "secondaryDiagnoses": [
+        {
+          "id": "GRID_COLLAPSE",
+          "link": "secondaryConfirmation(not folded; catch-all blocked and does not satisfy required family)"
+        }
+      ]
+    },
+    "NUCLEAR_THREAT": {
+      "evidenceFamilies": [
+        "nuclear_event",
+        "military_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "NUCLEAR_INCIDENT",
+          "link": "primaryIndicator"
+        }
+      ],
+      "activations": [
+        "PAG",
+        "vmPFC",
+        "M1",
+        "dlPFC",
+        "ENS"
+      ],
+      "diagnosticTriggers": [
+        "Coolant anomaly",
+        "Containment breach risk",
+        "Fuel rod degradation",
+        "Regulatory uncertainty",
+        "Subsidy distortion",
+        "Stranded asset creation",
+        "Capacity shortfall",
+        "Generator failure",
+        "Frequency deviation",
+        "Reserve margin erosion",
+        "Cascading trip sequence",
+        "Emissions cap exceedance",
+        "MRV data gap",
+        "Carbon price collapse"
+      ],
+      "basis": "pulse-engine classifies 'NUCLEAR_THREAT' -> evidence family [nuclear_event, military_event] (energy-pulse-engine.js L181-211); that family satisfies the requiredFamilies / primaryIndicators of the linked diagnoses (EVIDENCE_CONTRACTS L47-117); each diagnosis expands to its {_authored} circuit nodeIds (energy.json issues[]._authored) and those activations' diagnosticTriggers."
+    },
+    "MILITARY_ESCALATION": {
+      "evidenceFamilies": [
+        "nuclear_event",
+        "military_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "NUCLEAR_INCIDENT",
+          "link": "primaryIndicator"
+        }
+      ],
+      "activations": [
+        "PAG",
+        "vmPFC",
+        "M1",
+        "dlPFC",
+        "ENS"
+      ],
+      "diagnosticTriggers": [
+        "Coolant anomaly",
+        "Containment breach risk",
+        "Fuel rod degradation",
+        "Regulatory uncertainty",
+        "Subsidy distortion",
+        "Stranded asset creation",
+        "Capacity shortfall",
+        "Generator failure",
+        "Frequency deviation",
+        "Reserve margin erosion",
+        "Cascading trip sequence",
+        "Emissions cap exceedance",
+        "MRV data gap",
+        "Carbon price collapse"
+      ],
+      "basis": "pulse-engine classifies 'MILITARY_ESCALATION' -> evidence family [nuclear_event, military_event] (energy-pulse-engine.js L181-211); that family satisfies the requiredFamilies / primaryIndicators of the linked diagnoses (EVIDENCE_CONTRACTS L47-117); each diagnosis expands to its {_authored} circuit nodeIds (energy.json issues[]._authored) and those activations' diagnosticTriggers."
+    },
+    "macro_shock": {
+      "evidenceFamilies": [
+        "macro_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "SYSTEMIC_ENERGY_STRESS",
+          "link": "primaryIndicator"
+        }
+      ],
+      "activations": [
+        "vmPFC",
+        "OFC",
+        "dlPFC",
+        "dACC",
+        "HIPP",
+        "STRI"
+      ],
+      "diagnosticTriggers": [
+        "Regulatory uncertainty",
+        "Subsidy distortion",
+        "Stranded asset creation",
+        "Price manipulation signal",
+        "Market illiquidity",
+        "Counterparty default risk",
+        "Frequency deviation",
+        "Reserve margin erosion",
+        "Cascading trip sequence",
+        "Peak demand overshoot",
+        "Price signal failure",
+        "Participation dropout",
+        "Capacity degradation",
+        "Thermal runaway risk",
+        "Cycle life depletion",
+        "Supply disruption",
+        "Price volatility",
+        "Emissions overshoot"
+      ],
+      "basis": "pulse-engine classifies 'macro_shock' -> evidence family [macro_event] (energy-pulse-engine.js L181-211); that family satisfies the requiredFamilies / primaryIndicators of the linked diagnoses (EVIDENCE_CONTRACTS L47-117); each diagnosis expands to its {_authored} circuit nodeIds (energy.json issues[]._authored) and those activations' diagnosticTriggers."
+    },
+    "energy_high_stress": {
+      "evidenceFamilies": [],
+      "linkedDiagnoses": [
+        {
+          "id": "SYSTEMIC_ENERGY_STRESS",
+          "link": "primaryIndicator"
+        }
+      ],
+      "activations": [
+        "vmPFC",
+        "OFC",
+        "dlPFC",
+        "dACC",
+        "HIPP",
+        "STRI"
+      ],
+      "diagnosticTriggers": [
+        "Regulatory uncertainty",
+        "Subsidy distortion",
+        "Stranded asset creation",
+        "Price manipulation signal",
+        "Market illiquidity",
+        "Counterparty default risk",
+        "Frequency deviation",
+        "Reserve margin erosion",
+        "Cascading trip sequence",
+        "Peak demand overshoot",
+        "Price signal failure",
+        "Participation dropout",
+        "Capacity degradation",
+        "Thermal runaway risk",
+        "Cycle life depletion",
+        "Supply disruption",
+        "Price volatility",
+        "Emissions overshoot"
+      ],
+      "basis": "'energy_high_stress' is stress-derived: the pulse engine explicitly adds NO evidence family for it (energy-pulse-engine.js L208-210). Its only defensible link is via EVIDENCE_CONTRACTS, where it is named for SYSTEMIC_ENERGY_STRESS (the one diagnosis with catchAllBlocked:false). Expanded to that diagnosis's _authored circuit nodes."
+    },
+    "structural_stress": {
+      "evidenceFamilies": [],
+      "linkedDiagnoses": [
+        {
+          "id": "SYSTEMIC_ENERGY_STRESS",
+          "link": "secondaryConfirmation(catch-all permitted)"
+        }
+      ],
+      "activations": [
+        "vmPFC",
+        "OFC",
+        "dlPFC",
+        "dACC",
+        "HIPP",
+        "STRI"
+      ],
+      "diagnosticTriggers": [
+        "Regulatory uncertainty",
+        "Subsidy distortion",
+        "Stranded asset creation",
+        "Price manipulation signal",
+        "Market illiquidity",
+        "Counterparty default risk",
+        "Frequency deviation",
+        "Reserve margin erosion",
+        "Cascading trip sequence",
+        "Peak demand overshoot",
+        "Price signal failure",
+        "Participation dropout",
+        "Capacity degradation",
+        "Thermal runaway risk",
+        "Cycle life depletion",
+        "Supply disruption",
+        "Price volatility",
+        "Emissions overshoot"
+      ],
+      "basis": "'structural_stress' is stress-derived: the pulse engine explicitly adds NO evidence family for it (energy-pulse-engine.js L208-210). Its only defensible link is via EVIDENCE_CONTRACTS, where it is named for SYSTEMIC_ENERGY_STRESS (the one diagnosis with catchAllBlocked:false). Expanded to that diagnosis's _authored circuit nodes."
+    }
+  },
+  "diagnoses": {
+    "GRID_COLLAPSE": {
+      "circuitSource": "_authored",
+      "activations": [
+        "THAL",
+        "dlPFC",
+        "dACC",
+        "CC",
+        "M1"
+      ],
+      "diagnosticTriggers": [
+        "Transmission congestion",
+        "Voltage instability",
+        "Line overload",
+        "Frequency deviation",
+        "Reserve margin erosion",
+        "Cascading trip sequence",
+        "Peak demand overshoot",
+        "Price signal failure",
+        "Participation dropout",
+        "Line sag thermal limit",
+        "Right-of-way conflict",
+        "Ice loading",
+        "Capacity shortfall",
+        "Generator failure"
+      ],
+      "basis": "diagnosis id === Energy issue id; when active, adapter marks its circuit nodes active from issues[GRID_COLLAPSE]._authored (energy-telemetry-adapter.js L64-69). This alias lists exactly those brainNodeIds and their activations' diagnosticTriggers. Direct data link, no inference."
+    },
+    "OIL_SHOCK": {
+      "circuitSource": "_authored",
+      "activations": [
+        "STRI",
+        "FORN",
+        "OFC",
+        "S1",
+        "vmPFC",
+        "CBLM"
+      ],
+      "diagnosticTriggers": [
+        "Supply disruption",
+        "Price volatility",
+        "Emissions overshoot",
+        "Leak detection alert",
+        "Pressure anomaly",
+        "Corrosion progression",
+        "Price manipulation signal",
+        "Market illiquidity",
+        "Counterparty default risk",
+        "Reserve depletion signal",
+        "Environmental compliance breach",
+        "Worker safety incident",
+        "Regulatory uncertainty",
+        "Subsidy distortion",
+        "Stranded asset creation",
+        "Catalyst deactivation",
+        "Distillation upset",
+        "Feedstock quality shift"
+      ],
+      "basis": "diagnosis id === Energy issue id; when active, adapter marks its circuit nodes active from issues[OIL_SHOCK]._authored (energy-telemetry-adapter.js L64-69). This alias lists exactly those brainNodeIds and their activations' diagnosticTriggers. Direct data link, no inference."
+    },
+    "NUCLEAR_INCIDENT": {
+      "circuitSource": "_authored",
+      "activations": [
+        "PAG",
+        "vmPFC",
+        "M1",
+        "dlPFC",
+        "ENS"
+      ],
+      "diagnosticTriggers": [
+        "Coolant anomaly",
+        "Containment breach risk",
+        "Fuel rod degradation",
+        "Regulatory uncertainty",
+        "Subsidy distortion",
+        "Stranded asset creation",
+        "Capacity shortfall",
+        "Generator failure",
+        "Frequency deviation",
+        "Reserve margin erosion",
+        "Cascading trip sequence",
+        "Emissions cap exceedance",
+        "MRV data gap",
+        "Carbon price collapse"
+      ],
+      "basis": "diagnosis id === Energy issue id; when active, adapter marks its circuit nodes active from issues[NUCLEAR_INCIDENT]._authored (energy-telemetry-adapter.js L64-69). This alias lists exactly those brainNodeIds and their activations' diagnosticTriggers. Direct data link, no inference."
+    },
+    "RENEWABLE_INTERMITTENCY": {
+      "circuitSource": "_authored",
+      "activations": [
+        "VTA",
+        "HIPP",
+        "dACC",
+        "STRI",
+        "NTS",
+        "OFC"
+      ],
+      "diagnosticTriggers": [
+        "Intermittency spike",
+        "Curtailment excess",
+        "Forecast error",
+        "Capacity degradation",
+        "Thermal runaway risk",
+        "Cycle life depletion",
+        "Peak demand overshoot",
+        "Price signal failure",
+        "Participation dropout",
+        "Supply disruption",
+        "Price volatility",
+        "Emissions overshoot",
+        "Drought conditions",
+        "Dam structural concern",
+        "Sedimentation buildup",
+        "Price manipulation signal",
+        "Market illiquidity",
+        "Counterparty default risk"
+      ],
+      "basis": "diagnosis id === Energy issue id; when active, adapter marks its circuit nodes active from issues[RENEWABLE_INTERMITTENCY]._authored (energy-telemetry-adapter.js L64-69). This alias lists exactly those brainNodeIds and their activations' diagnosticTriggers. Direct data link, no inference."
+    },
+    "PIPELINE_DISRUPTION": {
+      "circuitSource": "_authored",
+      "activations": [
+        "FORN",
+        "CBLM",
+        "OFC",
+        "THAL",
+        "S1"
+      ],
+      "diagnosticTriggers": [
+        "Leak detection alert",
+        "Pressure anomaly",
+        "Corrosion progression",
+        "Catalyst deactivation",
+        "Distillation upset",
+        "Feedstock quality shift",
+        "Price manipulation signal",
+        "Market illiquidity",
+        "Counterparty default risk",
+        "Transmission congestion",
+        "Voltage instability",
+        "Line overload",
+        "Reserve depletion signal",
+        "Environmental compliance breach",
+        "Worker safety incident"
+      ],
+      "basis": "diagnosis id === Energy issue id; when active, adapter marks its circuit nodes active from issues[PIPELINE_DISRUPTION]._authored (energy-telemetry-adapter.js L64-69). This alias lists exactly those brainNodeIds and their activations' diagnosticTriggers. Direct data link, no inference."
+    },
+    "SYSTEMIC_ENERGY_STRESS": {
+      "circuitSource": "_authored",
+      "activations": [
+        "vmPFC",
+        "OFC",
+        "dlPFC",
+        "dACC",
+        "HIPP",
+        "STRI"
+      ],
+      "diagnosticTriggers": [
+        "Regulatory uncertainty",
+        "Subsidy distortion",
+        "Stranded asset creation",
+        "Price manipulation signal",
+        "Market illiquidity",
+        "Counterparty default risk",
+        "Frequency deviation",
+        "Reserve margin erosion",
+        "Cascading trip sequence",
+        "Peak demand overshoot",
+        "Price signal failure",
+        "Participation dropout",
+        "Capacity degradation",
+        "Thermal runaway risk",
+        "Cycle life depletion",
+        "Supply disruption",
+        "Price volatility",
+        "Emissions overshoot"
+      ],
+      "basis": "diagnosis id === Energy issue id; when active, adapter marks its circuit nodes active from issues[SYSTEMIC_ENERGY_STRESS]._authored (energy-telemetry-adapter.js L64-69). This alias lists exactly those brainNodeIds and their activations' diagnosticTriggers. Direct data link, no inference."
+    }
+  },
+  "unmapped": {
+    "conditionCodes": [],
+    "diagnoses": [],
+    "activationsWithTriggersButNoTriggerSource": [
+      {
+        "brainNodeId": "HYPO",
+        "domainLabel": "Data Centers",
+        "diagnosticTriggers": [
+          "AI compute demand surge",
+          "Grid interconnection backlog",
+          "Cooling water stress",
+          "On-site generation buildout"
+        ],
+        "reason": "This activation has diagnosticTriggers but its brainNodeId appears in NO diagnosis _authored circuit and no condition-code chain reaches it. Under current wiring nothing ever marks it active, so extinction would ALWAYS list it for retirement. No grounded alias exists; NOT fabricated. Needs an authored condition/diagnosis link before extinction should touch it."
+      }
+    ],
+    "activationsUnreachableButExemptFromExtinction": [
+      {
+        "brainNodeId": "CAUD",
+        "domainLabel": "Hydrogen",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any diagnosis circuit, but has empty diagnosticTriggers, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed."
+      },
+      {
+        "brainNodeId": "FEF",
+        "domainLabel": "Offgrid",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any diagnosis circuit, but has empty diagnosticTriggers, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed."
+      },
+      {
+        "brainNodeId": "BNST",
+        "domainLabel": "Storage",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any diagnosis circuit, but has empty diagnosticTriggers, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed."
+      },
+      {
+        "brainNodeId": "EMP",
+        "domainLabel": "Carbon Cap",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any diagnosis circuit, but has empty diagnosticTriggers, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed."
+      }
+    ]
+  },
+  "contractOnlyTokensNotClassified": {
+    "tokens": [
+      "REFINERY_ATTACK",
+      "SANCTIONS"
+    ],
+    "reason": "Appear only inside EVIDENCE_CONTRACTS.OIL_SHOCK.secondaryConfirmation. The pulse engine does not classify them into any evidence family (not in the L181-211 switch), so they are not part of the emitted condition-code vocabulary and get no evidence-family->circuit chain. Documented, not mapped, not invented."
+  }
+}
