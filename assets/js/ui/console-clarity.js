@@ -6097,18 +6097,8 @@
       return;
     }
 
-    if (slot.querySelector('#clarity-analyst-toggle')) return;
-
-    // Analyst mode button
-    var btn = document.createElement('button');
-    btn.className = 'clr-analyst-btn';
-    btn.id = 'clarity-analyst-toggle';
-    btn.textContent = 'ANALYST';
-    btn.title = 'Toggle full panel grid and debug tools';
-    btn.addEventListener('click', function () {
-      _toggleMode();
-    });
-    slot.appendChild(btn);
+    // Analyst/grid toggle REMOVED (operator 2026-07-11): the 3-column panel grid
+    // was deleted; this is now the only console view, so there is nothing to toggle.
 
     // Generate Reports button — REMOVED per operator request (2026-06-13).
     // (Was a topbar actions-slot button; _triggerReportGeneration still exists if
@@ -6122,12 +6112,9 @@
   }
 
   function _toggleMode() {
-    _isAnalystMode = !_isAnalystMode;
-    if (_isAnalystMode) {
-      _enterAnalystMode();
-    } else {
-      _enterClarityMode();
-    }
+    // 3-column grid deleted (operator 2026-07-11): never switch away from the
+    // default view; force it if anything still calls this.
+    _enterClarityMode();
   }
 
   function _enterClarityMode() {

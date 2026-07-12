@@ -111,9 +111,10 @@ html,body{background:#050810;color:#e8e3d9;font-family:'IBM Plex Mono','SF Mono'
 .console-col::-webkit-scrollbar{width:3px}
 .console-col::-webkit-scrollbar-thumb{background:rgba(201,169,78,0.1);border-radius:2px}
 
-#col-left{grid-area:left;border-right:1px solid rgba(201,169,78,0.04)}
-#col-center{grid-area:center}
-#col-right{grid-area:right;border-left:1px solid rgba(201,169,78,0.04)}
+/* 3-column grid DELETED (operator 2026-07-11) — the clarity-view is the only
+   console view now. Columns force-hidden; panels relocate into hidden containers
+   so nothing floats, and the data layer that feeds the view keeps running. */
+#col-left,#col-center,#col-right{display:none !important}
 
 /* ─── Column labels ───────────────────────────────────────────── */
 .col-label{
