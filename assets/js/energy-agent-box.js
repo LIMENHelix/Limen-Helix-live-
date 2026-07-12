@@ -106,7 +106,7 @@
       '#eab .eab-h{padding:10px 12px;border-bottom:1px solid rgba(120,140,220,.2);color:#aeb6d8;font:600 13px system-ui;display:flex;justify-content:space-between;align-items:center}' +
       '#eab .eab-h b{color:#e0e4f5}' +
       '#eab .eab-x{cursor:pointer;color:#6a7290;font-size:16px}' +
-      '#eab .eab-log{flex:1;overflow-y:auto;padding:10px 12px;font:13px/1.5 system-ui;color:#cdd3ec}' +
+      '#eab .eab-log{flex:1;overflow-y:auto;padding:10px 12px;font:13px/1.5 system-ui;color:#cdd3ec;-webkit-user-select:text;user-select:text;cursor:auto}' +
       '#eab .eab-msg{margin-bottom:12px}' +
       '#eab .eab-you{color:#8fa0d8}' +
       '#eab .eab-ai{color:#d8d2c5;white-space:pre-wrap}' +
