@@ -58,22 +58,43 @@
       .catch(function () { _nodeMap = {}; return _nodeMap; });
   }
 
-  // canonical-nodes.json is the canBindBusiness authority. Only real business nodes
-  // (canBindBusiness===true) may emit opportunities; the 42 non-nodes (composites/
-  // tracts/molecules/glia, canBindBusiness:false) are read-only views and must never
-  // generate a business opportunity. Cached; null = load failed -> no filtering.
-  var _canonBindable = undefined;
+  // canonical-nodes.json class authority. EVERY part of the brain maps to a business
+  // (one-brain-treat-dont-amputate): the 42 non-control parts are NOT excluded — they
+  // are kept and marked with their class + the business FAMILY they map to. A tract is
+  // a network business, glia is infrastructure, a composite is an aggregator, etc.
+  // (canBindBusiness===true = a control ORGAN; false = a structural/support part that
+  // maps to a different KIND of business, not "no business").
+  var _canonMeta = undefined;   // { name: {bindable, class, remapTo} }; null = load failed
+  // remapTo (structural role) -> real business family the part corresponds to.
+  var _SECTOR_FAMILY = {
+    view:           'aggregators / holding-cos / indices / platforms',
+    edge:           'networks / rails / logistics / payment-APIs',
+    parameter:      'capital / incentive / trust / signal layers',
+    infrastructure: 'infrastructure / cloud / security / maintenance',
+    state:          'volatility / risk / sentiment monitors',
+    effector:       'execution / operations / delivery'
+  };
   function _loadCanon() {
-    if (_canonBindable !== undefined || typeof fetch !== 'function') return Promise.resolve(_canonBindable === undefined ? null : _canonBindable);
+    if (_canonMeta !== undefined || typeof fetch !== 'function') return Promise.resolve(_canonMeta === undefined ? null : _canonMeta);
     return fetch('assets/data/canonical-nodes.json', { cache: 'no-store' })
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (j) {
-        if (!j) { _canonBindable = null; return _canonBindable; }
-        var NODES = j.nodes || j; var set = {};
-        for (var k in NODES) { if (NODES[k] && NODES[k].canBindBusiness === true) set[k] = true; }
-        _canonBindable = set; return _canonBindable;
+        if (!j) { _canonMeta = null; return _canonMeta; }
+        var NODES = j.nodes || j; var meta = {};
+        for (var k in NODES) {
+          var r = NODES[k] || {};
+          meta[k] = { bindable: r.canBindBusiness === true, cls: r.class || r.kind || r.nodeType || 'ambiguous', remapTo: r.remapTo || null };
+        }
+        _canonMeta = meta; return _canonMeta;
       })
-      .catch(function () { _canonBindable = null; return _canonBindable; });
+      .catch(function () { _canonMeta = null; return _canonMeta; });
+  }
+  // The asterisk: what a structural (non-organ) part IS, and the business family it
+  // corresponds to. Attached to its opportunities so nothing is hidden or mislabeled.
+  function _structuralNote(m) {
+    if (!m) return null;
+    var fam = _SECTOR_FAMILY[m.remapTo] || _SECTOR_FAMILY[m.cls] || 'structural / support business';
+    return { structural: true, nodeClass: m.cls, remapTo: m.remapTo, sectorFamily: fam };
   }
 
   // Collapse the amplified opportunity types: many nodes emit the same domain
@@ -797,7 +818,7 @@
   // ─── Recompute ──────────────────────────────────────────────────────────
   function recompute() {
     return Promise.all([_loadNodeMap(), _loadCanon()]).then(function (res) {
-      var map = res[0] || {}, bindable = res[1];
+      var map = res[0] || {}, meta = res[1];
       var packets = _packets();
       _idCounter = 0;
       var all = [];
@@ -805,11 +826,21 @@
       for (var i = 0; i < nodeNames.length; i++) {
         var name = nodeNames[i];
         if (name.charAt(0) === '_') continue; // skip schema markers
-        // NON-NODE GUARD: only canBindBusiness===true nodes may emit opportunities;
-        // skip the 42 non-nodes (composites/tracts/molecules/glia). If canonical
-        // failed to load (bindable === null) we don't filter, to degrade safely.
-        if (bindable && !bindable[name]) continue;
-        all = all.concat(_opportunitiesAtNode(name, map[name], packets));
+        var opps = _opportunitiesAtNode(name, map[name], packets);
+        // EVERY part of the brain maps to a business — nothing is amputated. A
+        // structural (non-organ) part is KEPT and ASTERISKED with its class + the
+        // business family it corresponds to (tract->networks, glia->infrastructure,
+        // composite->aggregators, molecule->signal/capital, construct->state-monitors,
+        // effector->execution). It's a different KIND of business, not "no business".
+        var nm = meta && meta[name];
+        if (nm && nm.bindable === false) {
+          var note = _structuralNote(nm);
+          if (note) for (var oi = 0; oi < opps.length; oi++) {
+            opps[oi].structural = true; opps[oi].nodeClass = note.nodeClass;
+            opps[oi].remapTo = note.remapTo; opps[oi].sectorFamily = note.sectorFamily;
+          }
+        }
+        all = all.concat(opps);
       }
       // kill the one-wave-N-duplicates amplification (cross-domain + white-space)
       all = _dedupeByDomainCombo(all);
